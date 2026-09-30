@@ -1,307 +1,158 @@
 <!-- The images under docs/assets/readme/ are generated from real engine runs by
      tools/gen_readme_assets.py (light and dark variants); regenerate them with
-     `python3 tools/gen_readme_assets.py --kshana <path to kshana>` and check with `--check`. -->
+     `python3 tools/gen_readme_assets.py --kshana <path to kshana>` and check with `--check`.
+     The Kshana Studio screenshots under docs/assets/readme/studio/ are taken from the
+     running Studio by tools/capture_studio_shots.mjs and recorded in studio/SHOTS.json. -->
 
 <p align="center">
   <picture>
     <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/kshana-logo-dark.svg">
     <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/kshana-logo-light.svg">
-    <img src="docs/assets/readme/kshana-logo-light.svg" alt="Kshana: the mark, a compass reticle marking the precise instant, beside the wordmark kshana" width="340">
+    <img src="docs/assets/readme/kshana-logo-light.svg" alt="Kshana: the mark, a compass reticle marking the precise instant, beside the wordmark kshana" width="300">
   </picture>
 </p>
 
 <p align="center">
-  <strong>क्षण</strong> — Sanskrit for <em>the precise instant</em>, the smallest measure of time.<br>
-  Open-source PNT (positioning, navigation and timing) resilience simulator. Every result says whether it was checked against an independent reference.
+  <strong>क्षण</strong>, Sanskrit for <em>the precise instant</em>.<br>
+  An open-source simulator for PNT (positioning, navigation and timing) resilience.
 </p>
 
 <p align="center">
-  <a href="https://kshana.dev"><img src="https://img.shields.io/badge/Kshana%20Studio-try%20in%20browser-066A86" alt="Kshana Studio — run the engine in your browser, no install"></a>
-  <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-377D0C" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-83%20external%20oracles-377D0C" alt="83 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 136 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C" alt="~96% line coverage on src/ excluding the generated data tables and the CLI entrypoint (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
-  <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud Quality Gate status"></a>
   <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.0-066A86" alt="Release v0.29.0"></a>
-  <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86" alt="Kshana on the JetBrains Marketplace"></a>
-  <a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama — MCP server quality score"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-3F4B67.svg" alt="License: AGPL-3.0-only"></a>
-  <a href="LICENSING.md"><img src="https://img.shields.io/badge/commercial_licence-available-3F4B67" alt="Commercial licence available from Ashforde OÜ"></a>
-  <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67.svg" alt="Rust 1.85+"></a>
-  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-3F4B67.svg" alt="DOI 10.5281/zenodo.20528627"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
+  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-3F4B67" alt="DOI 10.5281/zenodo.20528627"></a>
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="Continuous integration status"></a>
+</p>
+
+<p align="center">
+  <a href="https://kshana.dev">Open Kshana Studio</a> ·
+  <a href="#install">Install</a> ·
+  <a href="#capabilities">Capabilities</a> ·
+  <a href="#evidence">Evidence</a> ·
+  <a href="#research">Research</a> ·
+  <a href="docs/CONCEPTS.md">Documentation</a> ·
+  <a href="#cite">Cite</a>
 </p>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.29.0: the chained campaign campaign-jam-spoof-holdover-integrity (6 phases, 18 member runs, seed 20260928) over the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage. Clock time error peaks at 62.7 ns against a 50 ns guard, effective carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.3 m against a 50 m alert limit." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.29.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.3 m against a 50 m alert limit." width="100%">
 </picture>
 
-## Rehearse the minute GNSS goes dark.
+## Rehearse the minute GNSS goes dark
 
-**Kshana** (क्षण, Sanskrit: *"the precise instant"*) is an open-source simulator for PNT
-resilience. Replay jamming, spoofing and clock holdover when GNSS (Global Navigation
-Satellite System) signals fail, in one Rust engine that runs from a terminal, a notebook,
-an IDE (integrated development environment), an AI (artificial intelligence) assistant or
-right in your browser, and see exactly which results were checked against independent
-references. It answers one question in numbers you can defend: *when GNSS is jammed,
-spoofed or lost, how long does a system keep time and position inside its budget, and
-which clock or sensor buys the most margin?*
+Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite
+System) signals fail, and tells you how long a system keeps time and position inside its
+budget, and which clock or sensor buys the most margin. It is one Rust engine. It runs in a
+terminal, a notebook, an IDE (integrated development environment), an AI (artificial
+intelligence) assistant, or in your browser.
 
-Every run is reproducible bit for bit from `scenario + seed + engine version`, every
-sensor parameter is traced to a published source in [`docs/PROVENANCE.md`](docs/PROVENANCE.md),
-and every capability carries one of three labels in a machine-checked matrix:
-**VALIDATED** (an independent external oracle agrees), **MODELLED** (internally consistent,
-said out loud) or **PARTNER** (a hardware partner owns it). Continuous integration (CI) makes
-it impossible to call a capability VALIDATED without an independent external oracle behind it.
+Every run is reproducible bit for bit from the scenario, the seed and the engine version.
+Every capability carries one of three labels in a machine-checked ledger: **VALIDATED** (an
+independent external oracle agrees), **MODELLED** (internally consistent, and said out loud)
+or **PARTNER** (a hardware partner owns it).
 
-> **Status: v0.29.0 · a validated, reproducible simulation substrate for PNT resilience.**
-> Timing and holdover for critical infrastructure come first, because that is the
-> best-validated domain; the quantum-versus-classical sensor trade is a neutral method
-> whose results are labelled MODELLED; lunar, cislunar and deep-space navigation, orbit
-> propagation and integrity monitoring are maintained capabilities of the same engine.
-> Kshana is not a radio-frequency (RF) signal simulator, not a GNSS receiver and not a
-> flight product. New to the field? Start with the [plain-language primer](docs/CONCEPTS.md)
-> and the [glossary](docs/GLOSSARY.md).
+> **Status: v0.29.0.** A validated, reproducible simulation substrate for PNT resilience.
+> Timing and holdover come first, because that domain is the best validated. Kshana is a
+> study and trade-off instrument: not a radio-frequency (RF) signal simulator, not a GNSS
+> receiver and not a flight product. New to the field? Start with the
+> [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
-## Install
+## Kshana Studio
 
-One line: **`cargo install kshana`**, or pick your channel. Every channel ships v0.29.0
-from the same tagged commit.
+Open [kshana.dev](https://kshana.dev) and the whole engine runs in your browser, compiled to
+WebAssembly. Nothing to install, and nothing is uploaded. Pick a bundled scenario, run it,
+scrub the replay, and download the result, the report and the exports it wrote.
 
-| Channel | Install | Then check it | Links |
-|---|---|---|---|
-| **Browser**<br><sub>anyone, nothing to install</sub> | open [kshana.dev](https://kshana.dev) | the engine runs locally as WebAssembly; nothing is uploaded | [Studio](https://kshana.dev) · [Docs](web/README.md) |
-| **Command line (Rust)**<br><sub>engineers who want the `kshana` command</sub> | `cargo install kshana` | `kshana --version` | [Registry](https://crates.io/crates/kshana) · [Docs](docs/SCENARIOS.md) |
-| **Rust library**<br><sub>Rust developers embedding the engine</sub> | `cargo add kshana` | `cargo tree --depth 1 \| grep kshana` | [Registry](https://crates.io/crates/kshana) · [Docs](https://docs.rs/kshana) |
-| **Python**<br><sub>analysts and notebooks</sub> | `pip install kshana` | `python -c "import kshana; print(kshana.version())"` | [Registry](https://pypi.org/project/kshana/) · [Docs](docs/PYTHON_API.md) |
-| **JavaScript and WebAssembly**<br><sub>web and Node.js developers</sub> | `npm install kshana` | `npm ls kshana` | [Registry](https://www.npmjs.com/package/kshana) · [Docs](README.npm.md) |
-| **AI assistant (MCP server)**<br><sub>anyone with an MCP-capable assistant</sub> | `cargo install kshana-mcp` | `cargo install --list \| grep kshana-mcp` | [Registry](https://crates.io/crates/kshana-mcp) · [Docs](mcp/kshana-mcp/README.md) |
-| **Docker image**<br><sub>the MCP server without a Rust toolchain</sub> | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | `docker image inspect ghcr.io/ashfordeou/kshana-mcp:0.29.0` | [Registry](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) · [Docs](mcp/kshana-mcp/README.md) |
-| **JetBrains IDE plugin**<br><sub>IntelliJ, PyCharm and CLion users</sub> | Settings → Plugins → Marketplace → search "Kshana" | right-click a scenario `.toml` → *Run Kshana Scenario* | [Registry](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) · [Docs](ide/jetbrains/README.md) |
-
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.0`,
-`pip install kshana==0.29.0` or `npm install kshana@0.29.0`. To build from source, see
-[Install & build](#install--build).
-
-## Try it
-
-Write a bundled scenario to a file and run it. This one runs 2 h: 10 min of GNSS, then
-about 1.8 h with GNSS denied, and asks how long a strontium optical lattice clock and a
-chip-scale atomic clock (CSAC) each hold time to within 20 ns.
-
-```bash
-kshana example clock-holdover > clock-holdover.toml
-kshana clock-holdover.toml
-```
-
-```text
-scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)
-wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.report.html, and clock-holdover.report.json
-```
-
-The optical clock holds the 20 ns budget for the whole 6600 s outage; the CSAC holds it
-for 2610 s, and is inside the budget for 95.6% of the run against 100% for the optical
-clock. The same run writes its full result as JSON (JavaScript Object Notation), a chart
-as SVG (Scalable Vector Graphics) and a printable report. `kshana example` lists every
-bundled scenario; `kshana kinds` lists the 75 scenario kinds.
-
-A chained mission is one scenario too: six phases, from nominal through jamming,
-spoofing, holdover and an integrity alarm to recovery, each phase built from existing kinds.
-
-```bash
-kshana example campaign-jam-spoof-holdover-integrity > campaign.toml
-kshana campaign.toml
-```
-
-```text
-campaign f87a4a0e0bab | Jamming, spoofing, holdover and integrity: a chained mission | chain: 6 phases over 4570 s, 2 events, alarm raised on 2770 s of the grid | 18 member runs (MODELLED)
-wrote campaign.result.json, campaign.chart.svg, campaign.report.html, and campaign.report.json
-```
-
-<p align="center">
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (Tom's Obvious Minimal Language: a kind, a seed and its parameters) goes into the engine, kshana 0.29.0, through api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through kshana-mcp, and continuous integration." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-lband-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-lband-light.jpg">
+  <img src="docs/assets/readme/studio/studio-lband-light.jpg" alt="Kshana Studio, Spectrum tab, on the bundled scenario l-band-waterfall-jamming: a waterfall of the GNSS L band, frequency from 1200 to beyond 1500 MHz across and time from 0 to 60 s down, coloured from the -201.98 dBW/Hz noise floor up to -161.3 dBW/Hz. A jammer lights up the GPS L1 C/A band from 10 s. At t = 31 s the receiver has lost GPS L1 C/A (3.23 dB-Hz) and Galileo E1 (4.69 dB-Hz) and still tracks GPS L2C (41.98), GPS L5 (44.08) and Galileo E5a (46.98 dB-Hz) against a 25 dB-Hz tracking threshold." width="100%">
 </picture>
-</p>
 
-### Python
+<details>
+<summary>Two more Studio views: a constellation coverage run and the low-Earth-orbit chain</summary>
 
-```python
-import json, kshana
+<br>
 
-toml = open("clock-holdover.toml").read()
-result = json.loads(kshana.run(toml))
-print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.29.0 6600.0 2610.0
-```
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-coverage-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-coverage-light.jpg">
+  <img src="docs/assets/readme/studio/studio-coverage-light.jpg" alt="Kshana Studio, Coverage tab, on constellation-multi-gnss-coverage: a world map of the mean position dilution of precision (PDOP) on a 10-degree grid, from 0.831 to 1.0853, with all 102 GPS, Galileo, BeiDou and GLONASS satellites drawn on their ground tracks at t = 11.97 h." width="100%">
+</picture>
 
-Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
-`run_typed`, `validate_toml`, `list_kinds` / `scenario_kinds` and `error_kind`; see
-[`docs/PYTHON_API.md`](docs/PYTHON_API.md).
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-leo-chain-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-leo-chain-light.jpg">
+  <img src="docs/assets/readme/studio/studio-leo-chain-light.jpg" alt="Kshana Studio, End-to-end chain tab, on leo-pnt-end-to-end: five stages, each handing values to the next. Signal design generic-l at 1.191795 GHz with 20.46 MHz bandwidth; pass and link with a peak tracked carrier-to-noise density of 58.168 dB-Hz, 75 degrees maximum elevation and 845 s above the mask; navigation message kepler-rac with a signal-in-space range error of 0.25 m RMS over a 300 s fit; fused positioning at 1.602 m 3-D RMS with GNSS only and 0.4349 m fused; precise point positioning converging in a median 11.5 min with GNSS only and 7.5 min with low-Earth-orbit satellites." width="100%">
+</picture>
 
-### WebAssembly
+</details>
 
-The npm package is the whole engine compiled to WebAssembly. In Node.js, hand the binary
-to `initSync`; in a browser, `await init()` fetches it (see [`README.npm.md`](README.npm.md)).
-
-```js
-import { readFileSync } from "node:fs";
-import { createRequire } from "node:module";
-import { initSync, run, summary, version } from "kshana";
-
-const wasm = createRequire(import.meta.url).resolve("kshana/kshana_bg.wasm");
-initSync({ module: readFileSync(wasm) });
-
-const toml = readFileSync("clock-holdover.toml", "utf8");
-const result = JSON.parse(run(toml));
-console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.29.0 6600 2610
-console.log(summary(toml));
-```
+The Studio's source and its build notes are in [`web/README.md`](web/README.md).
 
 ## Capabilities
 
-**One engine for the whole failure chain.** From the first jammed satellite to the last
-nanosecond of clock holdover: signals, sensors, clocks, orbits and integrity in one
-simulator. Every picture in this section is a real run of the engine, and says which.
+One engine covers the whole failure chain, from the first jammed satellite to the last
+nanosecond of clock holdover. The engine has 75 scenario kinds; `kshana kinds` lists
+them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 
-<p align="center">
+| Capability | What it answers | Read more |
+|---|---|---|
+| Spectrum | how a jammer takes the GNSS L band, band by band, second by second | [`docs/SPECTRUM.md`](docs/SPECTRUM.md) |
+| Clocks and timing | how long each clock holds time after GNSS is lost | [`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md) |
+| Constellations around any body | coverage, dilution of precision and availability around the Earth, the Moon or Mars | [`docs/CONSTELLATION-DESIGN.md`](docs/CONSTELLATION-DESIGN.md) |
+| Solar system | where every planet is, and the light time of any link | [`docs/SOLAR-SYSTEM.md`](docs/SOLAR-SYSTEM.md) |
+| Low-Earth-orbit navigation | a pass, a link, a navigation message and a fused fix, stage by stage | [`docs/LEO-PNT.md`](docs/LEO-PNT.md) |
+| Campaigns | a chained mission, a sweep or a Monte Carlo ensemble in one scenario | [`docs/CAMPAIGNS.md`](docs/CAMPAIGNS.md) |
+| Animation | a run's time series as an animated drawing, a player or frames | [`docs/ANIMATION.md`](docs/ANIMATION.md) |
+| Reports | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) | [`docs/REPORTS.md`](docs/REPORTS.md) |
+| Interoperability exports | orbits and geometry for other tools: SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF | [`docs/INTEROP.md`](docs/INTEROP.md) |
+
+The export formats in full: SP3 is Standard Product 3; CCSDS OMM and OEM are the Orbit
+Mean-elements and Orbit Ephemeris Messages of the Consultative Committee for Space Data
+Systems; CZML and KML are the Cesium and Keyhole Markup Languages; STK is Systems Tool Kit;
+SigMF is the Signal Metadata Format.
+
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/campaign-timeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/campaign-timeline-light.svg">
-  <img src="docs/assets/readme/campaign-timeline-light.svg" alt="Campaign timeline from a real run of campaign-jam-spoof-holdover-integrity (seed 20260928): 6 phases, Nominal, Jamming, Spoofing, Holdover, Integrity alarm and Recovery, and 18 member runs on a 10 s grid over T+01:16:10. Three lanes: clock time error against a 50 ns guard (peak 62.7 ns), effective carrier-to-noise density against a 25 dB-Hz floor (minimum -12.2 dB-Hz) and vertical protection level against a 50 m alert limit (peak 135.3 m), with the RF spoofing detector alarm at T+00:20:00 and the clock-aided spoofing monitor alarm at T+00:26:10." width="100%">
+  <img src="docs/assets/readme/campaign-timeline-light.svg" alt="The chained campaign campaign-jam-spoof-holdover-integrity, one real run of engine (seed 20260928): 6 phases (Nominal → Jamming → Spoofing → Holdover → Integrity alarm → Recovery) and 18 member runs on a 10 s grid over T+01:16:10. Three lanes: clock time error against a 50 ns guard (peak 62.7 ns), effective carrier-to-noise density against a 25 dB-Hz floor (minimum -12.2 dB-Hz), and vertical protection level against a 50 m alert limit (peak 135.3 m), with the run's alarm events: T+00:20:00 RF spoofing detector alarms (fused consistency, power and signal-quality monitors); T+00:26:10 clock-aided spoofing monitor alarms." width="100%">
 </picture>
-</p>
 
-| Domain | What it answers | Scenario | One real run (engine v0.29.0) |
-|---|---|---|---|
-| **Interference** | How far a jammer reaches, and when tracking is lost | `maritime-strait-jamming` | availability under jamming 0.00 (nominal 1.00), mean J/S (jammer-to-signal ratio) 48.0 dB |
-| **Deception** | When a time spoof is caught, and by which clock | `spoof-attack` | a 0.1 ns/s ramp: the quantum clock detects it at 70 s, the classical one at 430 s |
-| **Clocks** | How long each oscillator class holds time after GNSS is lost | `clock-ensemble` | 200 runs: quantum holdover 6600 s; classical 844 s (range 220 to 2130 s) |
-| **Dead reckoning** | How fast an inertial navigation system (INS) drifts without GNSS | `small-uas-jammed-nav` | outage root mean square (RMS): quantum fused 1.9 m, classical fused 114.3 m |
-| **Timing** | How long a clock stays inside a slot's guard after the last fix | `slot-timing-ocxo-leo` | a 100 ns guard at k = 3 breaks 650.8 s after a fix |
-| **Integrity** | Whether receiver autonomous integrity monitoring (RAIM) can protect the fix | `integrity-raim` | 344 of 361 epochs available (95.3%), 0 integrity events |
-| **Telecom** | Whether a network clock stays inside the masks of the International Telecommunication Union's standardization sector (ITU-T) | `telecom-prtc-holdover-24h` | maximum time error 603.2 ns over 90000 s; the 100 ns budget is exceeded after 8206 s |
-| **Astrodynamics** | Where the satellites are: SGP4 (Simplified General Perturbations 4) and numerical orbits | `ephemeris` | 559 samples, altitude 419 to 434 km, peak Doppler 34.3 kHz |
-| **Cislunar** | Whether lunar navigation can be protected at the south pole | `lunanet-araim` | 0 of 24 epochs available, horizontal protection level 263 to 452 m against a 50 m alert limit |
-| **Emerging sensors** | What a quantum clock buys over a classical one, before anyone buys hardware | `sweep-clock-stability` | quantum 6600 s held; classical 2610 s falling to 250 s across a 25-point noise sweep |
+<details>
+<summary>Each capability, drawn from a real run: the L-band waterfall, the coverage map, the solar system and a low-Earth-orbit pass</summary>
 
-Run any row with `kshana example <scenario> > s.toml && kshana s.toml`. The protection
-level terms and the advanced form of RAIM (ARAIM) are explained in [`docs/INTEGRITY.md`](docs/INTEGRITY.md);
-the full list of kinds and fields is [`docs/SCENARIOS.md`](docs/SCENARIOS.md).
+<br>
 
-### Interference: watch a jammer take the band
-
-The `spectrum` kind builds the GNSS L band as one power spectral density (PSD): frequency
-across, time down, colour for power above the noise floor. Three jammers switch on and off;
-each band's effective carrier-to-noise density (C/N0) and J/S follow. See [`docs/SPECTRUM.md`](docs/SPECTRUM.md).
-
-<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="L-band waterfall from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7): frequency across, time down over 60 s, colour for power above the -202.0 dBW/Hz noise floor. A chirp privacy device switches on at 10 s and off at 40 s, a continuous-wave (CW) tone on L1 comes on at 30 s and narrowband noise on L2 at 45 s. The worst band, GPS L1 C/A, reaches a minimum effective C/N0 of 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor; Galileo E1 falls to 4.7 dB-Hz, GPS L2C to 36.9, while GPS L5 (44.1) and Galileo E5a (47.0) keep tracking." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.29.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
-</p>
 
-### Orbits and constellations: any constellation, around any body
-
-The `constellation-design` kind puts four GNSS constellations in one sky and maps the
-satellites in view, the dilution of precision (DOP) and the availability over the whole
-Earth for a day. See [`docs/CONSTELLATION-DESIGN.md`](docs/CONSTELLATION-DESIGN.md).
-
-<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/coverage-map-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/coverage-map-light.svg">
-  <img src="docs/assets/readme/coverage-map-light.svg" alt="Coverage map from a real run of constellation-multi-gnss-coverage.toml: 102 satellites (GPS 24, Galileo 24, BeiDou 30, GLONASS 24). Each 10-degree cell is shaded by the mean number of satellites above the 10-degree mask; the dots are the engine's ground-track samples, one per hour per satellite. Global availability 100.00% at a position dilution of precision (PDOP) of 6 or better, median PDOP 0.95, mean 31.0 and minimum 22 satellites in view." width="100%">
+  <img src="docs/assets/readme/coverage-map-light.svg" alt="Satellites in view over the whole Earth for one day, from a real run of constellation-design (constellation-multi-gnss-coverage.toml, engine run by this generator): 102 satellites (GPS 24, Galileo 24, BeiDou 30, GLONASS 24). Each 10-degree cell is shaded by the mean number of satellites above the 10-degree mask (27.2 to 36.5); the dots are the engine's ground-track samples, one per hour per satellite. Global availability 100.00 % at PDOP at or below 6, median PDOP 0.95, mean 31.0 and minimum 22 satellites in view." width="100%">
 </picture>
-</p>
 
-### LEO PNT: a pass, and the chain from signal to fix
-
-Low Earth orbit (LEO) satellites pass fast and loud. The `leo-pass` kind computes a pass's
-geometry and link budget against the GNSS sky; the `leo-pnt-chain` kind hands each stage's
-output to the next, from the signal to a fused position, velocity and time (PVT) fix and
-precise point positioning (PPP). See [`docs/LEO-PASS.md`](docs/LEO-PASS.md) and [`docs/LEO-PNT.md`](docs/LEO-PNT.md).
-
-<p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/leo-pass-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/leo-pass-light.svg">
-  <img src="docs/assets/readme/leo-pass-light.svg" alt="A LEO pass from a real run of leo-pass-iridium.toml: Iridium-pass at 781 km, STL band at 1621 MHz, seen by an air user at 50 N 30 W. Above the 5-degree mask for 750 s, maximum elevation 65.0 degrees at 444 s. C/N0 peaks at 80.5 dB-Hz (median 71.3), 34.3 dB above the GNSS median of 46.2 dB-Hz from 8 GPS satellites in view (38.2 to 51.1 dB-Hz); Doppler reaches 35.4 kHz." width="100%">
-</picture>
-</p>
-
-<p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-leo-chain-dark.svg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-leo-chain-light.svg">
-  <img src="docs/assets/readme/flow-leo-chain-light.svg" alt="The LEO chain from a real run of leo-pnt-end-to-end.toml: the signal stage (generic-l at 1191.795 MHz, pilot tracked at 10.23 Mchip/s) hands to the pass stage (1080 km, tracked C/N0 peak 58.2 dB-Hz), which hands to the navigation message (kepler-rac, 300 s fit, representation signal-in-space range error (SISRE) 0.83 mm RMS, 0.250 m with orbit determination), which feeds the fused fix (GNSS only 1.60 m RMS 3D, GNSS plus LEO 0.43 m) and PPP (convergence 11.5 min GNSS only, 7.5 min with 240 LEO satellites). 11 values are handed between stages." width="100%">
-</picture>
-</p>
-
-### Deep space: every light-minute, accounted for
-
-The `solar-system` kind places every planet from the Jet Propulsion Laboratory (JPL)
-Standish elements, with the light time and Shapiro delay of any link. Planet positions from
-Mercury to Saturn are VALIDATED against JPL Horizons; the outer bodies and the moons are MODELLED.
-
-<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/solar-system-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/solar-system-light.svg">
-  <img src="docs/assets/readme/solar-system-light.svg" alt="The solar system from a real run of solar-system-tour.toml at epoch 2026-09-28: the Sun, the planets and Pluto from above the ecliptic, distances on a log scale, with one-way light times from the Earth (Mars 14.0 min, Jupiter 49.5 min, Saturn 1.17 h, Neptune 4.00 h) and the Mars to Jupiter (36.6 min) and Saturn to Earth (70.2 min) links. Mercury to Saturn are VALIDATED against JPL Horizons; Uranus, Neptune and Pluto are MODELLED." width="100%">
+  <img src="docs/assets/readme/solar-system-light.svg" alt="The solar system at the scenario's epoch 2026-09-28T00:00:00, from a real run of the solar-system kind (solar-system-tour.toml): the Sun, 9 planets and dwarf planet Pluto seen from above the ecliptic, distances compressed logarithmically for display, with each body's one-way light time from the Earth. Mercury 0.47 au, 10.1 light-minutes, VALIDATED; Venus 0.73 au, 3.0 light-minutes, VALIDATED; Mars 1.55 au, 14.0 light-minutes, VALIDATED; Jupiter 5.30 au, 49.5 light-minutes, VALIDATED; Saturn 9.44 au, 70.2 light-minutes, VALIDATED; Uranus 19.44 au, 157.4 light-minutes, MODELLED; Neptune 29.88 au, 240.2 light-minutes, MODELLED; Pluto 35.61 au, 292.2 light-minutes, MODELLED. Links: Mars to Jupiter one-way 2193.5 s; Saturn to Earth one-way 4212.2 s; Europa to Jupiter one-way 2.2 s." width="100%">
 </picture>
-</p>
 
-### Scope, stated plainly
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/leo-pass-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/leo-pass-light.svg">
+  <img src="docs/assets/readme/leo-pass-light.svg" alt="One low-Earth-orbit (LEO) pass from a real run of the leo-pass kind (leo-pass-iridium.toml, engine run by this generator): Iridium-pass at 781 km, STL band at 1621 MHz, seen by an air user at 50° N 30° W. Above the 5° mask for 750 s, maximum elevation 65.0° at 444 s. Carrier-to-noise density peaks at 80.5 dB-Hz (median 71.3), 34.3 dB above the GNSS median of 46.2 dB-Hz from 8 GPS satellites in view (38.2 to 51.1 dB-Hz); Doppler reaches 35.4 kHz." width="100%">
+</picture>
 
-Knowing the edges matters as much as the features. Kshana does not generate RF
-waveforms, does not track real signals, and is not a flight product: it is a study and
-trade-off instrument, every answer labelled VALIDATED or MODELLED. It does not replace
-MATLAB/Simulink, STK (Systems Tool Kit) or Orekit; it reads and writes their exchange
-formats, and its force model is cross-checked against Orekit.
-
-<details>
-<summary><b>What it is / is not, in full</b></summary>
-
-### What it is / is not
-
-**It is:** a deterministic, dependency-light engine spanning the PNT stack — orbit
-geometry, inertial navigation, GNSS/INS fusion, integrity, clocks, and timing. It
-runs a scenario (often a GNSS outage), evolves calibrated sensor error models
-through the appropriate estimator, and scores the result against the operational
-figures of merit — emitting a reproducible JSON (JavaScript Object Notation) result and an SVG chart, from a
-Rust library, a command-line interface (CLI), a Python extension, an in-browser WebAssembly module, a
-**Model Context Protocol (MCP) server** for AI agents, or a **JetBrains IDE (integrated
-development environment) plugin**.
-
-**It is not:** flight hardware, a quantum-payload design, a full GNSS signal
-receiver, a radio-frequency (RF) signal simulator or hardware-in-the-loop rig, or a
-certified avionics product — and it does not replace MATLAB/Simulink, STK (Systems Tool
-Kit) or Orekit; it sits next to them and exchanges files with them. Quantum-hardware fidelity comes from
-published error models, not from this tool. The granular maturity of each
-capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
-
-**It is not (yet):** a *full* atom-interferometry physics engine (most quantum sensors
-consume published Allan/noise-budget coefficients; the CAI (cold-atom interferometer) accelerometer has a
-first-principles layer — Mach–Zehnder phase, projection noise, contrast decay, and
-vibration coupling, plus Coriolis and light-shift systematics — but wavefront systematics and
-fringe-ambiguity resolution remain a **P2** (roadmap phase 2, the quantum physics layer)
-roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
-a full GNSS *signal-acquisition* receiver (it now solves a single-point **PVT** (position, velocity and time) position
-fix from real RINEX (Receiver Independent Exchange Format) code observations — validated
-on real IGS (International GNSS Service) data — but does **not**
-acquire or track raw signal); or a full mission-design suite (it has Lambert / porkchop /
-maneuver / orbit-determination building blocks, but is the performance-simulation layer
-*above* GMAT (General Mission Analysis Tool)/Orekit, not a replacement). Owning this scope is deliberate. If you need first-principles cold-atom
-interferometer error budgets (e.g. CARIOQA-PMP-grade — Cold Atom Rubidium Interferometry
-in Orbit for Quantum Accelerometry, Pathfinder Mission Preparation — or X-37B-style validation), see
-the P2 roadmap and [get in touch](#support--professional-services) to collaborate.
+Run any of them with `kshana example <scenario> > s.toml && kshana s.toml`: the scenarios
+are `l-band-waterfall-jamming`, `constellation-multi-gnss-coverage`, `solar-system-tour`
+and `leo-pass-iridium`.
 
 </details>
 
@@ -326,10 +177,10 @@ The full domain-by-domain detail follows; for a per-capability maturity ledger s
 | **Lunar PNT suite** | A modelled lunar/cislunar navigation suite layered on the CR3BP core, each a runnable `kind`: **Lunar Coordinate Time** (`lunar-time-offset`, `src/lunar_time.rs` — the secular LTC/TCL − TT rate (LTC = Lunar Coordinate Time; TCL = its French form, Temps-Coordonnée Lunaire) from the self-potential difference + kinetic term, reported with the published 56–59 µs/day band); a geodetic **lunar VLBI** (very-long-baseline interferometry) delay observable (`lunar-vlbi`, `src/lunar_vlbi.rs` — an Earth-baseline near-field two-range-difference delay + rate, cross-checked against the same-codebase plane-wave Δ-DOR (delta differential one-way ranging) in the far-field limit, partials finite-difference-verified); a **joint multi-technique OD + clock** batch estimator (`lunar-joint-od-clock`, `src/lunar_combination.rs` — a Gauss–Newton fit fusing VLBI + lunar-local ranges + inter-satellite ranges) carrying a **Fisher-information observability** result: internal ranging alone leaves a six-degree-of-freedom rigid-body **datum defect**, so a surface station's *absolute* position is unobservable until an Earth-frame tie is added — an Earth-baseline **VLBI** delay *restores* observability for a sparse constellation and *sharpens* the Cramér–Rao bound for a rich one, the absolute datum closing at **three** non-collinear Earth stations (the observability result written up in [arXiv:2607.02566](https://arxiv.org/abs/2607.02566)); **reference-frame realisation** (`lunar-frame-realisation`, `src/lunar_frame_realise.rs` — a 7-parameter Helmert datum fit + IAU 2015 WGCCRE orientation tie — WGCCRE = the IAU Working Group on Cartographic Coordinates and Rotational Elements); a **Moonlight/LCNS-class service-volume** analysis (LCNS = Lunar Communications and Navigation Services; `moonlight-service-volume`, `src/lunar_service.rs` — DOP / coverage / availability + a generalised lunar ARAIM HPL/VPL (horizontal/vertical protection level) envelope, reusing the gnss_lib_py-validated DOP kernel and the LunaNet σ_URE≈30 m machinery); **lunar differential PNT** (`lunar-differential-pnt`, `src/lunar_dpnt.rs` — a lunar differential-GNSS / satellite-based-augmentation-system (SBAS) analogue: exact common-mode clock cancellation + first-order spatial decorrelation vs baseline, reusing the DO-229E SBAS protection level — DO-229E being the RTCA (formerly the Radio Technical Commission for Aeronautics) minimum operational performance standard for SBAS receivers); and a **LunaNet/IOAG-aligned interoperability export** (IOAG = Interagency Operations Advisory Group; `lunar-interop-export`, `src/lunar_interop.rs` — CCSDS-OEM (Orbit Ephemeris Message) + lunar-time-scale round-trip in the IAU 2015 lunar body frame, wrapped in the KIF envelope). All **MODELLED** against internal consistency / reference implementations from **illustrative public-source parameters** — **not** validated against real VLBI/Gateway tracking, **not** affiliated with or endorsed by any agency, no TRL (technology readiness level) / heritage claim. |
 | **Deep-space & Mars PNT** | An open **radiometric navigation engine**: iterative light-time + **Shapiro** relativistic delay, two-/one-/three-way **Doppler & range** (Moyer two-leg), coherent transponder turnaround ratios, regenerative/PN (pseudo-noise) ranging (CCSDS 414, the pseudo-noise ranging standard), and **Δ-DOR** plane-of-sky (CCSDS 506, the Delta-DOR standard), with solar-plasma/tropo/iono media; **CCSDS-TDM (503)** tracking-data-message parse + emit; a **reduced-dynamic Square-Root Information Filter** (RTN — radial, transverse, normal — empirical accelerations + a 3-state onboard clock + Mars atmospheric drag) that does **Mars-LMO orbit determination to ≈ 0.2 m** in a synthetic closed loop; a joint **one-way + two-way fusion** estimator; a multi-body dynamics core (`Body{μ, re, zonals, gravity, IAU-pole}`, Mars GMM-3 (Goddard Mars Model 3) gravity, an IAU body-fixed Mars frame, a pluggable `EphemerisProvider` seam, two-part Julian dates + TT↔TDB (Barycentric Dynamical Time)); and the **`mars-pnt`** relay-PNT scenario (a MARCONI areostationary relay constellation) with an end-to-end **GSE performance simulator** (GSE = ground-support equipment) (geometry → link budget → observables → SRIF → covariance). **Simulation-validated** (covariance / closed-loop figures of merit); the Sun-central Mars dynamics are cross-checked against JPL **DE440** (137 m @ 1-day arc, `xval/anise-mars-od`). Real DSN/ESTRACK tracking-data validation is on the roadmap. |
 | **Solar system & any-body PNT** | A kernel-free **whole-solar-system ephemeris** (`src/ephem.rs`, `src/ephem_provider.rs`): every planet from the JPL **Standish Keplerian elements** (Table 1, 1800–2050 AD; Tables 2a/2b, 3000 BC–3000 AD) with each planet's published nominal error, the Earth and Moon split by the lunar series, and Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan from JPL mean elements and the IAU (International Astronomical Union) rotation model; **any body relative to any other** in the ICRF (International Celestial Reference Frame). `Body` now carries **GM (gravitational parameter), radii, J2 (the second zonal harmonic) where published and the IAU pole and prime meridian for eighteen bodies**. The **`solar-system`** kind reports positions, velocities, constants, **light time and one-/two-way range** between any two bodies (the existing radiometric light-time solver, with the solar Shapiro delay) and an orbit track per body — enough to draw an interactive solar system; the **`body-pnt`** kind positions an orbiter or a lander **around any body** (`scenarios/mars-orbit-pnt.toml`, `scenarios/europa-surface-pnt.toml`) with a local Walker constellation, the dilution-of-precision and Gauss–Newton machinery, and a deep-space range from Earth. **Validated** against JPL Horizons (DE441, JPL Development Ephemeris 441): Mercury–Saturn and the Earth from Table 1 within twice the nominal error (worst 1.87×), all eight planets from Tables 2a/2b (worst 1.71×), and the Earth–Mars/Jupiter light time. **Modelled**: Uranus and Neptune from Table 1 (2.0× and 5.2× the stated error against DE441), Pluto, the moons, and the `body-pnt` navigation results. |
-| **Fused MEO + LEO PNT** | `src/leo_fusion/`: system-agnostic LEO positioning, navigation and timing over any constellation (Walker shells, element sets, GNSS presets) and any signal (carrier, chip rate, C/N0 envelope, signal-in-space range error), with optional one-file presets carrying their sources (Xona Pulsar X1/X5, Iridium STL, Starlink signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock ephemeris model). **`leo-pvt`**: batch **Doppler positioning** from range rate (single- and multi-satellite, clock-drift and velocity states, single-pass along/cross-track geometry and the mirror solution), **joint GNSS + LEO weighted least squares** with per-system inter-system biases and caller-supplied per-signal sigmas, the DOP against the number of LEO satellites, **polar and Arctic** coverage, and **LEO time transfer to UTC** against C/N0 and the oscillator. **`leo-ppp`**: a float PPP (precise point positioning) EKF (extended Kalman filter) with GNSS only and with LEO, its convergence time and a chi-square NEES consistency test. **`ntn-positioning`**: 5G non-terrestrial-network positioning from the Cramér-Rao bound of the bandwidth. **Validated**: the LEO Doppler envelope against the published Iridium and Xona figures. **Modelled**: the rest, with the PPP trend compared against Li et al. (2019) — see [`docs/LEO-PNT-FUSION.md`](docs/LEO-PNT-FUSION.md). |
+| **Fused MEO + LEO PNT** | `src/leo_fusion/`: system-agnostic LEO positioning, navigation and timing over any constellation (Walker shells, element sets, GNSS presets) and any signal (carrier, chip rate, C/N0 envelope, signal-in-space range error), with optional one-file presets carrying their sources (Xona Pulsar X1/X5, Iridium STL, Starlink signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock ephemeris model). **`leo-pvt`**: batch **Doppler positioning** from range rate (single- and multi-satellite, clock-drift and velocity states, single-pass along/cross-track geometry and the mirror solution), **joint GNSS + LEO weighted least squares** with per-system inter-system biases and caller-supplied per-signal sigmas, the DOP against the number of LEO satellites, **polar and Arctic** coverage, and **LEO time transfer to UTC** against C/N0 and the oscillator. **`leo-ppp`**: a float 4 (precise point positioning) EKF (extended Kalman filter) with GNSS only and with LEO, its convergence time and a chi-square NEES consistency test. **`ntn-positioning`**: 5G non-terrestrial-network positioning from the Cramér-Rao bound of the bandwidth. **Validated**: the LEO Doppler envelope against the published Iridium and Xona figures. **Modelled**: the rest, with the 4 trend compared against Li et al. (2019) — see [`docs/LEO-PNT-FUSION.md`](docs/LEO-PNT-FUSION.md). |
 | **Integrity** | Snapshot and solution-separation (ARAIM-style) RAIM — receiver autonomous integrity monitoring — with horizontal/vertical protection levels (HPL/VPL), fault detection & exclusion, and Stanford integrity diagrams; an explicit integrity-risk-budget **multiple-hypothesis solution separation (MHSS)** protection level, including the **dual-/multi-constellation constellation-wide fault mode** (EU (European Union) ARAIM / DO-316, the RTCA performance standard for GPS airborne equipment with aircraft-based augmentation), exercised on a real GPS + Galileo snapshot (`scenarios/araim-gps-galileo.toml`). The protection level applies the one-sided **nominal-bias** projection `b_k = Σ_i|s_i|·b_nom` per fault mode and the **integrity** sigma σ_URA (user range accuracy; distinct from the accuracy σ_URE, user range error) from the Integrity Support Message — see [`docs/ARAIM_REFERENCE.md`](docs/ARAIM_REFERENCE.md). The detection kernel (the χ²/non-central-χ²/normal thresholds and K-multipliers) is **externally validated against SciPy** across 171 cases (`tests/raim_reference.rs`); the geometry reuses the gnss_lib_py-validated DOP kernel. The ARAIM MHSS integrity-risk *budget allocation* itself has no published numeric oracle and stays honestly Modelled. |
 | **Augmentation (SBAS)** | **SBAS / WAAS protection levels** (WAAS = the Wide Area Augmentation System) in the DO-229E weighted-least-squares form (precision-approach and en-route K-factors) and the **L1/L5 dual-frequency ionosphere-free** combination (L1 and L5 being two GPS civil signal bands; IS-GPS-705, the GPS interface specification for the L5 signal, γ₁₅ ≈ 1.793) that underpins DO-316 — `src/sbas.rs`. The protection-level algorithm is **externally validated against the RTKLIB SBAS-PL fork** (RTKLIB = the open real-time-kinematic positioning library; PL = protection level) (`zsiki/rtklib_ws` `waasprotlevels()`, Siki & Takács 2017, DO-229D — the previous revision of DO-229 — App. J) run on **real EGNOS data** (European Geostationary Navigation Overlay Service), reproducing its HPL to < 2e-3 m (`tests/sbas_reference.rs`); gLAB (the GNSS Laboratory tool suite) v6.0.0 confirmed the identical convention. |
-| **Clock & timing** | Two-state Kalman holdover (Joseph-form covariance, NIS/NEES — normalised innovation squared / normalised estimation error squared — consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV / MTIE — Allan, modified Allan, time and Hadamard deviation, and maximum time interval error) with noise-type-specific confidence intervals and a full **IEEE-1139 five-coefficient power-law fit** (IEEE Std 1139, the Institute of Electrical and Electronics Engineers frequency-and-time metrology definitions) — the estimators are validated on real hardware against **Stable32**: a **real 5071A caesium primary standard vs a hydrogen maser** (556,990 phase samples, 16 averaging factors, OADEV/OHDEV — overlapping Allan/Hadamard deviation — to 1e-3; `tests/cs5071a_reference.rs`) and the **canonical Stable32 PHASE.DAT** regression series (139 averaging factors, OADEV/MDEV/TDEV to 1e-3; `tests/phasedat_reference.rs`); the ADEV/MDEV/TDEV estimators and the telecom **MTIE** wander metric are additionally cross-checked against the **independent allantools 2024.06** library to **< 1e-9** on the NIST SP 1065 series (`tests/mtie_reference.rs`, `tests/mdev_tdev_reference.rs`); geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — **TWSTFT** (two-way satellite time and frequency transfer) with the BIPM (International Bureau of Weights and Measures) Sagnac closed form, **GNSS common-view**, **PPP** (precise point positioning) ionosphere-free time transfer, a free-space **optical** link with turbulence scintillation, and an inverse-variance **clock-ensemble (paper) timescale** below the best contributing clock. A **GNSS-denied clock-holdover calculator** (`src/holdover.rs`) exposes the closed-form van-Loan coast-error growth as a *holdover-to-threshold* inversion — how long a clock free-runs before its timing error exceeds budget — across representative classical and quantum-clock classes; **modelled** (cross-checked against the multi-step `clock_state` covariance recursion), and honest that for a very stable clock the holdover to a tight threshold is set by the *assumed* long-tau noise floor, not the cited ADEV. A **conditional Timing Protection Level** (`src/tpl.rs`) extends holdover to spoofing: a bound on the *undetected* time error, given an independent cross-check, that composes a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM (cumulative-sum) time-to-alarm. Calibrated on a real recorded spoof (JammerTest 2024) and reproducible via `cargo run --example tpl_jammertest`; **MODELLED** composition (no integrity-risk-per-hour budget), conditional on detection — there is no finite *unconditional* bound. |
+| **Clock & timing** | Two-state Kalman holdover (Joseph-form covariance, NIS/NEES — normalised innovation squared / normalised estimation error squared — consistency health); Allan-family stability (ADEV / MDEV / TDEV / HDEV / MTIE — Allan, modified Allan, time and Hadamard deviation, and maximum time interval error) with noise-type-specific confidence intervals and a full **IEEE-1139 five-coefficient power-law fit** (IEEE Std 1139, the Institute of Electrical and Electronics Engineers frequency-and-time metrology definitions) — the estimators are validated on real hardware against **Stable32**: a **real 5071A caesium primary standard vs a hydrogen maser** (556,990 phase samples, 16 averaging factors, OADEV/OHDEV — overlapping Allan/Hadamard deviation — to 1e-3; `tests/cs5071a_reference.rs`) and the **canonical Stable32 PHASE.DAT** regression series (139 averaging factors, OADEV/MDEV/TDEV to 1e-3; `tests/phasedat_reference.rs`); the ADEV/MDEV/TDEV estimators and the telecom **MTIE** wander metric are additionally cross-checked against the **independent allantools 2024.06** library to **< 1e-9** on the NIST SP 1065 series (`tests/mtie_reference.rs`, `tests/mdev_tdev_reference.rs`); geometric corrections (Sagnac, GNSS common-view); and the operational transfer methods — **TWSTFT** (two-way satellite time and frequency transfer) with the BIPM (International Bureau of Weights and Measures) Sagnac closed form, **GNSS common-view**, **4** (precise point positioning) ionosphere-free time transfer, a free-space **optical** link with turbulence scintillation, and an inverse-variance **clock-ensemble (paper) timescale** below the best contributing clock. A **GNSS-denied clock-holdover calculator** (`src/holdover.rs`) exposes the closed-form van-Loan coast-error growth as a *holdover-to-threshold* inversion — how long a clock free-runs before its timing error exceeds budget — across representative classical and quantum-clock classes; **modelled** (cross-checked against the multi-step `clock_state` covariance recursion), and honest that for a very stable clock the holdover to a tight threshold is set by the *assumed* long-tau noise floor, not the cited ADEV. A **conditional Timing Protection Level** (`src/tpl.rs`) extends holdover to spoofing: a bound on the *undetected* time error, given an independent cross-check, that composes a k-sigma monitor floor, the van-Loan coast variance over the detection latency, and a CUSUM (cumulative-sum) time-to-alarm. Calibrated on a real recorded spoof (JammerTest 2024) and reproducible via `cargo run --example tpl_jammertest`; **MODELLED** composition (no integrity-risk-per-hour budget), conditional on detection — there is no finite *unconditional* bound. |
 | **GNSS measurement domain** | Forward pseudorange / Doppler synthesis with **Klobuchar** (broadcast) and **IONEX / TEC-grid** (IONosphere map EXchange format / total electron content; measured) ionosphere — including an IONEX file parser, time interpolation between maps, and the thin-shell slant-obliquity mapping — **Saastamoinen + Niell** troposphere, and snapshot RAIM (HPL/VPL). |
 | **Resilience** | Link-budget **jamming** (J/S → effective C/N₀ → loss of lock — jammer-to-signal ratio, carrier-to-noise-density ratio — with the anti-jam spectral-separation factor `Q` now **derived from the actual signal and jammer power spectra** via `src/navsignal.rs` — `Q = 1/(R_c·κ)`, cross-checked in CI against the previous representative constant); a stochastic **time-spoof detector** (Neyman–Pearson / χ²₁ energy test with closed-form and Monte-Carlo P_fa/P_md and a Security figure of merit (FoM) of 1 − P_md); and a **multi-layer spoof detector** fusing a RAIM-consistency parity test (with the common-mode blind spot modelled honestly), an RF AGC-power (automatic gain control) monitor, and a signal-quality (SQM — signal-quality monitoring, early-minus-late) monitor; and a **quantum-inertial dead-reckoning error budget** (`QuantumNavBudget`, `src/inertial/quantum_imu.rs`) composing the cold-atom-interferometer white-noise velocity-random-walk with residual bias (cross-checked against the independent `AccelModel` integrator) and scale-factor error into a position-drift-over-holdover figure — the inertial twin of the clock holdover. A **framework-aligned resilience-scoring engine** (`src/resilience/`) maps an architecture's simulated behaviour to per-dimension sub-scores across the DHS RPCF categories (the US Department of Homeland Security Resilient PNT Conformance Framework), then studies the **decision-stability** of any single composite score or maturity Level under a Dirichlet weighting simplex and a five-threat ensemble — Kendall-τ rank instability, top-1 winner flip rate, and common-mode **diversity collapse** (Hill-N2), with an integrity-hashed assurance report (35 hand-derived oracle tests). Reproducible via `cargo run --example resilience_report`; **MODELLED** synthetic architectures, a self-assessment aligned to RPCF v2.0, **not** a certification. See [`docs/RESILIENCE-CROSSWALK.md`](docs/RESILIENCE-CROSSWALK.md). |
 | **Passive RF geolocation** | **TDOA/FDOA emitter geolocation** (time-/frequency-difference of arrival; `src/geolocation.rs`) — locate a jammer or spoofer (or an opportunistic source for reverse-PNT) from **time-difference-of-arrival** hyperboloids across a receiver network, solved by Gauss–Newton least squares; adding **frequency-difference-of-arrival** with moving receivers jointly recovers the emitter's position *and* velocity, with the **Cramér–Rao** bound on the position covariance derived from the network geometry. **MODELLED** (internal-consistency oracles: forward→inverse round-trips, the J·CRLB = I identity, GDOP monotonicity, and the estimator attaining its own CRLB under Monte-Carlo) — a point-source line-of-sight model, no multipath / NLOS (non-line-of-sight), receiver-clock-bias, or refraction terms. |
@@ -435,10 +286,110 @@ propagated by the IS-GPS-200 user algorithm and fed through the same geometry
 
 </details>
 
+<details>
+<summary><b>What it is / is not, in full</b></summary>
 
-## Missions and sectors
+### What it is / is not
 
-**Ten sectors, one engine.** Each sector's question, and the bundled scenarios that answer it.
+**It is:** a deterministic, dependency-light engine spanning the PNT stack — orbit
+geometry, inertial navigation, GNSS/INS fusion, integrity, clocks, and timing. It
+runs a scenario (often a GNSS outage), evolves calibrated sensor error models
+through the appropriate estimator, and scores the result against the operational
+figures of merit — emitting a reproducible JSON (JavaScript Object Notation) result and an SVG chart, from a
+Rust library, a command-line interface (CLI), a Python extension, an in-browser WebAssembly module, a
+**Model Context Protocol (MCP) server** for AI agents, or a **JetBrains IDE (integrated
+development environment) plugin**.
+
+**It is not:** flight hardware, a quantum-payload design, a full GNSS signal
+receiver, a radio-frequency (RF) signal simulator or hardware-in-the-loop rig, or a
+certified avionics product — and it does not replace MATLAB/Simulink, STK (Systems Tool
+Kit) or Orekit; it sits next to them and exchanges files with them. Quantum-hardware fidelity comes from
+published error models, not from this tool. The granular maturity of each
+capability is documented in [`docs/CAPABILITY.md`](docs/CAPABILITY.md).
+
+**It is not (yet):** a *full* atom-interferometry physics engine (most quantum sensors
+consume published Allan/noise-budget coefficients; the CAI (cold-atom interferometer) accelerometer has a
+first-principles layer — Mach–Zehnder phase, projection noise, contrast decay, and
+vibration coupling, plus Coriolis and light-shift systematics — but wavefront systematics and
+fringe-ambiguity resolution remain a **P2** (roadmap phase 2, the quantum physics layer)
+roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
+a full GNSS *signal-acquisition* receiver (it now solves a single-point **PVT** (position, velocity and time) position
+fix from real RINEX (Receiver Independent Exchange Format) code observations — validated
+on real IGS (International GNSS Service) data — but does **not**
+acquire or track raw signal); or a full mission-design suite (it has Lambert / porkchop /
+maneuver / orbit-determination building blocks, but is the performance-simulation layer
+*above* GMAT (General Mission Analysis Tool)/Orekit, not a replacement). Owning this scope is deliberate. If you need first-principles cold-atom
+interferometer error budgets (e.g. CARIOQA-PMP-grade — Cold Atom Rubidium Interferometry
+in Orbit for Quantum Accelerometry, Pathfinder Mission Preparation — or X-37B-style validation), see
+the P2 roadmap and [get in touch](#support--professional-services) to collaborate.
+
+</details>
+
+### Low-Earth-orbit navigation
+
+Low-Earth-orbit (LEO) satellites pass fast and loud. The `leo-pnt-chain` kind follows one
+system through every stage: the signal, the pass and its link, the navigation message, and
+the fused position, velocity and time (PVT) fix and precise point positioning (4). Each
+stage hands its numbers to the next. See [`docs/LEO-PNT.md`](docs/LEO-PNT.md).
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-leo-chain-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-leo-chain-light.svg">
+  <img src="docs/assets/readme/flow-leo-chain-light.svg" alt="The LEO PNT chain from a real run of leo-pnt-chain (leo-pnt-end-to-end.toml): the signal stage (generic-l at 1191.795 MHz, pilot tracked at 10.23 Mchip/s) hands to the pass stage (1080 km, tracked C/N0 peak 58.2 dB-Hz), which hands to the navigation message (kepler-rac, 300 s fit, representation SISRE 0.91 mm RMS, 0.250 m with orbit determination), which feeds the fused fix (GNSS only 1.60 m RMS 3D, GNSS plus LEO 0.43 m) and precise point positioning (convergence 11.5 min GNSS only, 7.5 min with 240 LEO satellites). 11 values are handed between stages." width="100%">
+</picture>
+
+## How a run works
+
+A scenario is a TOML (Tom's Obvious, Minimal Language) file: a kind, a seed and the
+parameters. The engine runs it and writes the result, a chart and a report beside it, and
+the exports you ask for.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.29.0, through the api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
+</picture>
+
+This bundled scenario runs 2 h: 10 min of GNSS, then about 1.8 h with GNSS denied. It asks
+how long a strontium optical lattice clock and a chip-scale atomic clock (CSAC) each hold
+time to within 20 ns.
+
+```bash
+kshana example clock-holdover > clock-holdover.toml
+kshana clock-holdover.toml
+```
+
+```text
+scenario 5ba83a232b94 | quantum holdover 6600s p95 1.20e-4ns integrity 1.000 security n/a (no attack) | classical holdover 2610s p95 19.7ns integrity 1.000 security n/a (no attack)
+wrote clock-holdover.result.json, clock-holdover.chart.svg, clock-holdover.report.html, and clock-holdover.report.json
+```
+
+The optical clock holds the 20 ns budget for the whole 6600 s outage; the CSAC holds it for
+2610 s, and is inside the budget for 95.6% of the run against 100% for the optical clock.
+`kshana example` lists every bundled scenario.
+
+## Missions
+
+Ten sectors ask ten different questions of the same engine. Each has bundled scenarios to
+start from.
+
+| Sector | Start with |
+|---|---|
+| Defence and security | `campaign-jam-spoof-holdover-integrity`, `spoof-meaconing` |
+| Space, Earth orbit | `orbit-gnss-challenged`, `leo-pnt-end-to-end` |
+| Moon, Mars and deep space | `lunar-relay-constellation`, `mars-orbit-pnt` |
+| Aviation and drones | `small-uas-jammed-nav`, `araim-gps-galileo` |
+| Maritime | `maritime-strait-jamming`, `maritime-port-approach-coast` |
+| Road | `automotive-urban-canyon` |
+| Rail | `rail-tunnel-coast` |
+| Critical infrastructure and timing | `clock-holdover`, `clock-ensemble` |
+| Telecom and 5G (the fifth generation of mobile networks) | `telecom-prtc-holdover-24h`, `leo-vertical-5g-network-timing` |
+| Science and research | `sweep-clock-stability`, `quantum-pnt-demonstrator.suite` |
+
+<details>
+<summary>The question each sector asks</summary>
+
+<br>
 
 | Sector | The question it asks | Start with |
 |---|---|---|
@@ -453,36 +404,38 @@ propagated by the IS-GPS-200 user algorithm and fed through the same geometry
 | **Telecom and 5G** | If the GNSS time reference is lost, does my network clock stay inside the ITU-T masks, and for how long? | `telecom-prtc-holdover-24h`, `leo-vertical-5g-network-timing` |
 | **Science and research** | Can I reproduce, extend and cite a PNT result, down to the seed? | `sweep-clock-stability`, `quantum-pnt-demonstrator.suite` |
 
-5G is the fifth generation of mobile networks. Telecom timing against the ITU-T masks is
-described in [`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md); chained missions,
-sweeps and Monte Carlo ensembles in [`docs/CAMPAIGNS.md`](docs/CAMPAIGNS.md).
+</details>
 
 ## Evidence
 
-**Validated, not asserted.** Each row of the verification matrix names a capability, the
-oracle it is checked against, the test that runs the check, and the label that follows.
 <strong>83 of 223</strong> capabilities validated against independent external oracles; 136 honestly labelled Modelled.
+Each row of the verification matrix names a capability, the oracle it is checked against,
+the test that runs the check, and the label that follows. Continuous integration (CI) makes
+it impossible to call a capability VALIDATED without an independent external oracle.
 
-<p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, then oracle, then test, then ledger label. Example: SGP4/SDP4 propagation (src/sgp4.rs), checked against the AIAA 2006-6753 vectors by tests/sgp4_verification.rs (666 vectors, worst 4.12 mm), labelled VALIDATED. A row may be VALIDATED only with an independent external oracle. Live counts: 83 Validated, 136 Modelled, 4 Partner, 223 total." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label. Each row of the verification matrix names a capability, the oracle it is checked against, the test that runs the check in continuous integration, and the label that follows. A row may be VALIDATED only with an independent external oracle; otherwise it is MODELLED, or PARTNER when a hardware partner owns it. Example: SGP4/SDP4, Cowell 6-DOF + perturbations, batch/sequential OD, oracle AIAA 2006-6753 SGP4 verification vectors, test tests/sgp4_verification.rs, label VALIDATED. Live counts: 83 VALIDATED, 136 MODELLED, 4 PARTNER of 223 rows. In all, 83 capabilities validated against independent external oracles; 136 more are honestly labelled MODELLED and 4 are PARTNER-owned." width="100%">
 </picture>
-</p>
 
 | Label | Rows | Meaning |
 |---|---|---|
-| **VALIDATED** | 83 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
-| **MODELLED** | 136 | checked against analytic truth or simulation self-consistency, and said out loud |
-| **PARTNER** | 4 | owned by a hardware partner; Kshana holds no oracle for it |
+| VALIDATED | 83 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
+| MODELLED | 136 | checked against analytic truth or simulation self-consistency, and said out loud |
+| PARTNER | 4 | owned by a hardware partner; Kshana holds no oracle for it |
 
-The ledger: [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generated from
-`src/verification.rs`; why each Modelled row has no external oracle:
-[`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md); the overclaim closure ledger:
-[`docs/CLAIMS-VS-REALITY.md`](docs/CLAIMS-VS-REALITY.md). [Full 223-row matrix →](docs/VERIFICATION-MATRIX.md)
+A few of the checks: all 666 AIAA (American Institute of Aeronautics and Astronautics)
+2006-6753 SGP4 (Simplified General Perturbations 4) vectors to 4.12 mm; the Cowell force
+model to 0.08 m against Orekit 12.2; Galileo to 0.61 m and Swarm-A to 0.10 m against real
+precise ephemerides of the European Space Agency (ESA). Tests hold near 96 % line coverage of
+`src/`, gated at 85 % in CI. The ledger is
+[`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generated from
+`src/verification.rs`: the [full 223-row matrix](docs/VERIFICATION-MATRIX.md), and why each
+Modelled row has no external oracle in [`docs/MODELLED-RATIONALE.md`](docs/MODELLED-RATIONALE.md).
 
-<p align="center"><em>666/666 AIAA (American Institute of Aeronautics and Astronautics) SGP4 vectors to <strong>4.12&nbsp;mm</strong> · Cowell force model <strong>0.08&nbsp;m</strong> vs Orekit&nbsp;12.2 · Galileo <strong>0.61&nbsp;m</strong> / Swarm-A <strong>0.10&nbsp;m</strong> vs real ESA (European Space Agency) precise ephemerides · GCRS→ITRS (Geocentric Celestial Reference System to International Terrestrial Reference System) bit-for-bit vs SOFA/ERFA (Standards of Fundamental Astronomy; Essential Routines for Fundamental Astronomy) · ML (machine learning) metrics exact vs scikit-learn.</em></p>
+<details>
+<summary>How validation works, the curated highlight table and the evidence figures</summary>
 
 ### Validation, reproducibility & honesty
 
@@ -506,9 +459,6 @@ validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
 artifact (generated by `cargo run --bin validation_report`, SLSA-attested — Supply-chain
 Levels for Software Artifacts).
-
-<details>
-<summary><b>The curated highlight table: what each validation agrees with, and how closely</b></summary>
 
 The **Status** column states the *kind* of evidence, matching the validation ladder above: **VALIDATED** = checked against an independent external oracle (real data, an independent library, or published reference vectors); **MODELLED** = checked against analytic truth or simulation self-consistency (no independent external dataset). VALIDATED describes the *method* of checking, not a pass/fail — an honest miss against real data (the LRO — Lunar Reconnaissance Orbiter — row) is still VALIDATED. `CI` rows are process guards, not figures of merit. A few real-data islands (the measured caesium clock, Stable32 PHASE.DAT, and the OPS-SAT/ICGEM checks where the raw inputs carry no redistribution licence) are **data-gated**: the test prints a skip notice and stays green when the input is absent, and the public reference numbers are committed under `tests/fixtures/`. Reproduce the raw inputs with the matching `scripts/fetch_*.sh`.
 
@@ -547,18 +497,12 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 | **VALIDATED** | MTIE / MDEV / TDEV telecom wander metrics (ITU-T G.810/G.823/G.8261/G.811 — the International Telecommunication Union's Telecommunication Standardization Sector recommendations) | MTIE (9 averaging factors, bit-exact) and MDEV + TDEV (8 factors, **< 1e-9** relative) on the NIST SP 1065 LCG (linear congruential generator) series | allantools 2024.06 `mtie` / `mdev` / `tdev` — independent library (`tests/mtie_reference.rs`, `tests/mdev_tdev_reference.rs`) |
 | **VALIDATED** | MCDA trade-study methods — all four decision families, nine externally-validated aggregators (WSM · WPM · WASPAS · MOORA · COPRAS · TOPSIS · VIKOR · PROMETHEE II · ELECTRE I) plus **AHP** pairwise-comparison priority weighting | scores / rankings / concordance matrices reproduced to **< 1e-9** | pymcdm + pyDecision (independent third-party MCDA libraries) + Saaty RI (Random Index) / SciPy-LAPACK eig (`tests/mcda_*_reference.rs`) |
 | **VALIDATED** | LEO Doppler envelope from the orbit and carrier | Iridium maximum within **5 %** of the published ±36 kHz; Xona Pulsar X1 inside the published **32–34 kHz** | RNTF LEO PNT test results; Leclère, Marathe & Reid, arXiv:2509.19551 (`tests/leo_doppler_reference.rs`) |
-| **MODELLED** | PPP convergence with LEO augmentation | 7.4 → 4.8 / 3.2 / 2.7 / 2.3 min with 60 / 96 / 192 / 288 LEO satellites, monotone; filter NEES inside the χ² band | trend compared with Li et al., J. Geod. 93:749 (2019) (9.6 → 7.0 / 3.2 / 2.1 / 1.3 min); constellations and noise not reproduced |
+| **MODELLED** | 4 convergence with LEO augmentation | 7.4 → 4.8 / 3.2 / 2.7 / 2.3 min with 60 / 96 / 192 / 288 LEO satellites, monotone; filter NEES inside the χ² band | trend compared with Li et al., J. Geod. 93:749 (2019) (9.6 → 7.0 / 3.2 / 2.1 / 1.3 min); constellations and noise not reproduced |
 | **MODELLED** | Conditional Timing Protection Level (holdover-limited undetected time error under spoofing) | composition reproduces the multi-step `clock_state` covariance recursion; calibrated on a real recorded spoof | JammerTest 2024 (Zenodo 15911589) scalars + van-Loan / CUSUM closed forms (`examples/tpl_jammertest`) |
 | **MODELLED** | PNT-resilience scoring + decision-instability | 35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed) | DHS RPCF v2.0 mapping + Dirichlet / Kendall-τ / Hill-N2 closed forms — synthetic architectures, not a certification |
 | **MODELLED** | RF-impairment optimism-gap study (scaling laws + leave-one-out predictor) | permutation-null significance; byte-deterministic artifact (5 seeds) | synthetic parameter-grounded corpus — the eval *metrics* are VALIDATED vs scikit-learn (above); the study is MODELLED |
 | CI | Cross-platform reproducibility | bit-identical input + shape goldens on 3 OSes (operating systems) | Linux / macOS / Windows CI matrix, SHA-256 goldens |
 | CI | Test coverage | **~96 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
-
-</details>
-
-
-<details>
-<summary><b>Evidence figures: the provenance diagram, oracle kinds, SGP4 by regime and the status breakdown</b></summary>
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 83 Validated, 136 Modelled, 4 Partner, 223 total" width="900">
@@ -579,178 +523,79 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 
 </details>
 
+## Install
 
-## AI assistant
+One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
+v0.29.0 from the same tagged commit.
 
-**Ask your AI assistant. The engine answers.** [`kshana-mcp`](mcp/kshana-mcp/) is an MCP
-server: your assistant runs the actual engine and reads back its JSON, instead of guessing
-the math. Each of its fourteen tools is a thin wrapper over a public function of the
-`kshana` library, so no simulation logic lives in the server. Every scenario kind runs
-through `run_scenario`.
+| Channel | Install | Guide |
+|---|---|---|
+| Browser | open [kshana.dev](https://kshana.dev) | [Kshana Studio](web/README.md) |
+| Command line | `cargo install kshana` | [Scenarios](docs/SCENARIOS.md) |
+| Rust library | `cargo add kshana` | [API reference](https://docs.rs/kshana) |
+| Python | `pip install kshana` | [Python API](docs/PYTHON_API.md) |
+| JavaScript and WebAssembly | `npm install kshana` | [npm guide](README.npm.md) |
+| AI assistant (MCP server) | `cargo install kshana-mcp` | [MCP server](mcp/kshana-mcp/README.md) |
+| Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server](mcp/kshana-mcp/README.md) |
+| JetBrains IDE plugin | Settings → Plugins → Marketplace → "Kshana" | [JetBrains plugin](ide/jetbrains/README.md) |
 
-```bash
-cargo install kshana-mcp                          # crates.io
-docker run --rm -i ghcr.io/ashfordeou/kshana-mcp  # or the container image, no Rust toolchain
-```
-
-Then register it in your assistant's MCP client configuration:
-
-```json
-{
-  "mcpServers": {
-    "kshana": {
-      "command": "/Users/you/.cargo/bin/kshana-mcp",
-      "args": [],
-      "env": {}
-    }
-  }
-}
-```
-
-| Tool | What it does |
-|---|---|
-| `run_scenario` | run a scenario from its TOML; returns the summary and the full result JSON, and the chart on request |
-| `list_scenario_kinds` | the 75 built-in scenario kinds, with their required and optional fields |
-| `validate_scenario` | parse a TOML and detect its kind, without running |
-| `list_example_scenarios` · `get_example_scenario` | the bundled reference scenarios with what each shows, and the TOML of one, so an assistant starts from a scenario that runs |
-| `report_scenario` | a run's report: every figure with its unit and its VALIDATED or MODELLED label, the events and a reproducibility record, as JSON or a printable HTML (HyperText Markup Language) page |
-| `animate_scenario` | a run's time series as an animated SVG (Scalable Vector Graphics) drawing, an HTML player or numbered frames |
-| `list_export_formats` · `export_interop` | which interoperability formats apply to a scenario, and the export as CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, an STK (Systems Tool Kit) ephemeris or SigMF (Signal Metadata Format) |
-| `import_route` | a GeoJSON route written into a scenario that flies a waypoint track |
-| `export_sp3` · `export_omm` · `export_oem` | an orbit scenario as SP3-c (Standard Product 3), a CCSDS (Consultative Committee for Space Data Systems) Orbit Mean-elements Message, or an Orbit Ephemeris Message |
-| `export_table_csv` | a run's reproducibility table as CSV (comma-separated values), for the kinds that define one |
-
-Per-client configuration is in [`docs/integrations.md`](docs/integrations.md) and
-[`mcp/kshana-mcp/README.md`](mcp/kshana-mcp/README.md). The server is also listed in the
-official MCP registry as `io.github.ashfordeOU/kshana-mcp`. In a JetBrains IDE, the
-[Kshana — PNT simulator](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator)
-plugin runs a scenario from a right-click; see [`ide/jetbrains/`](ide/jetbrains/).
-
-## Editions
-
-**Free for everyone. Pro when the answer has to stand up in a review.** Kshana Pro is a
-proprietary overlay that depends on the open core and never forks it, available under
-contract. No prices here: every paid route starts with a message to
-**[contact@ashforde.org](mailto:contact@ashforde.org)**.
-
-| | Open core | Kshana Pro | Custom study |
-|---|---|---|---|
-| **What it is** | the whole engine, free, under the AGPL-3.0 (GNU Affero General Public License, version 3), or a commercial licence for closed integration | a proprietary overlay on the open core, under contract | the answer, not the tool: a MODELLED PNT-resilience study of your system, done for you |
-| **What you get** | all 75 scenario kinds with no feature gate, deterministic from scenario, seed and engine version | the programme answers over the same engine: the Pareto front of a design space, with every front design as a scenario the free engine re-runs; uncertainty and sensitivity over thousands of runs; a one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file; audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling over the engine's published outputs | sensor and resilience models calibrated to your hardware; export-controlled work under the appropriate clearance and a non-disclosure agreement; integration, training and consulting |
-| **How to start** | [install](#install) or open [kshana.dev](https://kshana.dev) | [request a Pro evaluation](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [request a study](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
-
-**Same engine, amplified.** Open Kshana runs one scenario and shows the result. Kshana Pro
-is a strict superset that answers the programme's next questions over the same engine and
-the same scenario files, and adds no physical model of its own. Every capability, the
-question it answers, what it produces and what it does not do are in
-[`docs/PRO.md`](docs/PRO.md):
-
-| The programme's question | Kshana Pro |
-|---|---|
-| Which design should we fly? | a **design optimiser**: the Pareto front of a design space over any open scenario kind (a constellation around the Earth, the Moon or Mars, or a link budget), its knee, and each front design written out as a plain scenario file |
-| How sure are we, and what drives the result? | **uncertainty and sensitivity**: stated input uncertainties give confidence bands, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed |
-| Does the mission meet its requirements, and can we hand that over? | a **mission dossier** in one command: every requirement checked against real runs, a verification matrix with its open items, and a PDF, HTML (HyperText Markup Language) and JSON dossier in which every number can be re-derived with the free engine |
-
-**What Kshana Pro builds on.** Every part of Pro works from the open engine and leaves
-it unchanged:
-
-- **The design optimiser, the uncertainty study and the mission dossier** run open-engine
-  scenarios through the engine's public interface and compute every number from the runs'
-  results. Each output keeps the VALIDATED, MODELLED or PARTNER tier the open engine gave
-  each figure, never a higher one.
-- **Clock digital twins** use the open engine's clock model and its Allan-deviation
-  estimator: a twin is calibrated to the device's published Allan budget, then checked by
-  estimating the twin's Allan deviation with the open estimator.
-- **Trade studies** run every architecture option as an open-engine scenario, unchanged,
-  and rank the options on a figure of merit read from each run's result.
-- **Evidence packs** record, for each run, the scenario hash the open engine stamps on
-  its result, so a figure in a pack can be reproduced by re-running its scenario.
-- **Systems-engineering and programme tooling.** Kshana Pro's model-based
-  systems-engineering (MBSE) and programme tooling checks a programme's requirements
-  against runs of the open engine: it imports requirements as comma-separated values
-  (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of
-  Systems Modeling Language version 2 (SysML v2) text, evaluates each acceptance
-  criterion, with its unit, against the values a run wrote, and produces a verification
-  cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline
-  evidence pack. It re-runs and recomputes nothing, and reads only what the open engine
-  publishes: each run's `result.json` (the fields a criterion names, their units, the
-  reproducibility stamp of scenario hash, seed, engine version and schema version, and
-  the run's label and figure tiers), its `report.json` (kind, reproducibility record and
-  capability labels), the scenario file (its hash, kind, seed and parameters), the
-  field-units schema (each field's unit, provenance and evidence tier) and the
-  verification matrix (each capability's VALIDATED, MODELLED or PARTNER label).
-
-A custom study is not a certification.
-
-### Support & professional services
-
-Kshana is free and open source under the AGPL-3.0 and **professionally developed and
-maintained by Ashforde OÜ** (Estonia). The open engine is complete and usable on its
-own. For organisations that need more, Ashforde OÜ offers:
-
-- **Commercial support & integration** — embedding Kshana in your toolchain, custom
-  scenarios, and priority fixes.
-- **Custom sensor models** — calibrated to your hardware, including export-sensitive
-  resilience models maintained in a private overlay.
-- **Kshana Pro** — proprietary model-based systems-engineering (MBSE) and programme
-  tooling that checks a programme's requirements against runs of the open engine and
-  produces a verification cross-reference matrix (VCRM), a Systems Modeling Language
-  version 2 (SysML v2) model, a change-impact report and an offline evidence pack. It
-  re-runs nothing and reads only the engine's published outputs: each run's `result.json`
-  and `report.json`, the scenario file, the field-units schema and the verification
-  matrix's labels (the full list is under [Editions](#editions)).
-- **Kshana Pro design, uncertainty and mission tooling** — the Pareto front of a design
-  space, uncertainty and sensitivity over thousands of runs, and a one-command mission
-  dossier with a verification matrix and a PDF; see [`docs/PRO.md`](docs/PRO.md).
-- **Training & consulting** on quantum/classical PNT performance analysis.
-
-This is the open-core model: the engine is, and stays, openly licensed; the sustaining
-business is expertise, support, and the proprietary extensions — not license fees.
-Contact **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
-
-## Documentation
-
-| Document | For whom | What's in it |
-|----------|----------|--------------|
-| [Concepts primer](docs/CONCEPTS.md) | everyone, start here | what Kshana does and why, from zero to the physics |
-| [Kshana Studio](web/README.md) | everyone | run the engine in your browser (WebAssembly); build &amp; deploy notes |
-| [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
-| [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
-| [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
-| [Verification matrix](docs/VERIFICATION-MATRIX.md) | reviewers / citers | the machine-checked evidence ledger — every capability row with its status, module, test and external oracle, generated from `src/verification.rs` |
-| [Modelled rationale](docs/MODELLED-RATIONALE.md) | reviewers | why each **Modelled** row has no external oracle, stated row by row |
-| [Provenance](docs/PROVENANCE.md) | reviewers / citers | every sensor parameter, model, and dataset traced to its published source, in one citable table |
-| [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM (software bill of materials), build provenance |
-| [Wheel platform tags](docs/WHEEL_TAGS.md) | packagers | the abi3 Python wheel matrix — which platform tag `pip install kshana` resolves |
-| [Positioning](docs/POSITIONING.md) | evaluators | where Kshana sits vs RTKLIB/gLAB (complementary), and the zero-install browser tier |
-| [Kshana Pro](docs/PRO.md) | evaluators / programme managers | what the proprietary Pro overlay adds over the same engine: design optimiser, uncertainty and sensitivity, mission dossier, requirements traceability; what each produces and what it does not do |
-| [Technical report](paper/kshana-technical-report.md) · [JOSS paper](paper/paper.md) | reviewers / citers / evaluators | the full extended research paper — architecture, per-domain models, validation, case studies, and limitations — plus the concise JOSS (Journal of Open Source Software) submission |
-| [SGP4 validation](docs/SGP4-VALIDATION.md) | reviewers / citers | agreement with the AIAA 2006-6753 reference (666 states, ~4 mm) **and** a head-to-head against the independent `sgp4` crate (agree to sub-micron / 4.12 mm) |
-| [Force-model validation](docs/AGENCY-ORBIT-VALIDATION.md) | reviewers / citers | the full-force engine (`src/precise_od.rs`) fit to agency ephemerides — methodology and validated residuals |
-| [Real TLE guide](docs/REAL_TLE_GUIDE.md) | users | driving scenarios from real Celestrak / Space-Track constellation TLEs (vs the bundled synthetic Walker set) |
-| [Integrity FoM](docs/INTEGRITY.md) | evaluators | what the `integrity` / `security` figures mean — and what they are **not** vs aviation HPL/VPL |
-| [ARAIM reference](docs/ARAIM_REFERENCE.md) | reviewers / integrators | the open MHSS ARAIM protection-level implementation — the `b_k` nominal-bias projection, σ_URA vs σ_URE, and the fault-mode priors |
-| [Quantum models](docs/QUANTUM.md) · [details](docs/QUANTUM-MODELS.md) | reviewers | the cold-atom-interferometer physics layer, and where coefficients are still looked up |
-| [Compliance](docs/COMPLIANCE.md) | evaluators | DO-229E / DO-316 algorithm scope, and what is **not** a conformance claim |
-| [Standards &amp; interoperability](docs/STANDARDS.md) | integrators | the GNSS / flight-dynamics / agency interchange formats Kshana reads and writes (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …) |
-| [LEO PNT fusion](docs/LEO-PNT-FUSION.md) | users / evaluators | fused MEO + LEO positioning, navigation and timing: Doppler, joint pseudorange, PPP convergence, 5G NTN, polar coverage and LEO time transfer over any constellation; the optional presets and their public sources |
-| [Campaigns](docs/CAMPAIGNS.md) | users / evaluators | composing scenarios: chained mission timelines, parameter sweeps, Monte Carlo ensembles and shared-condition runs, with the composition identities the tests pin |
-| [Scenario catalogue](docs/SCENARIOS.md) | users / integrators | every dispatchable kind with its required and optional TOML fields — generated from `api::list_scenario_kinds()` |
-| [Result schema](docs/SCHEMA.md) | integrators | every field of the result JSON, with units and a source pointer |
-| [Python API](docs/PYTHON_API.md) | Python users | the PyO3 binding surface — calling the engine, the scenario/result types, and examples |
-| [Claims vs reality](docs/CLAIMS-VS-REALITY.md) | reviewers | the overclaim-closure ledger + the CI guard (`tests/no_overclaims.rs`) that keeps it resolved |
-| [Roadmap](ROADMAP.md) | everyone | the phased roadmap — what has shipped and what is next |
-| [MCP server](mcp/kshana-mcp/README.md) · [JetBrains plugin](ide/jetbrains/README.md) | agents / IDE users | run Kshana from an AI assistant or a JetBrains IDE |
-| [Changelog](CHANGELOG.md) | everyone | released history (Keep a Changelog + SemVer, Semantic Versioning) |
-| [Contributing](CONTRIBUTING.md) | contributors | build, guards, test/citation discipline, DCO (Developer Certificate of Origin) |
-| [Governance](GOVERNANCE.md) | contributors / community | how Kshana is governed — who decides, how, and the open/closed boundary |
-| [Code of Conduct](CODE_OF_CONDUCT.md) | community | expected conduct (Contributor Covenant) |
-| [Security policy](SECURITY.md) | reporters | how to report a vulnerability; dual-use note |
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.0`,
+`pip install kshana==0.29.0` or `npm install kshana@0.29.0`. To build from source, see
+[Install and build](#install--build) under Reference.
 
 <details>
-<summary><b>Architecture</b></summary>
+<summary>Run a scenario from Python and from WebAssembly</summary>
 
-### Architecture
+<br>
+
+```python
+import json, kshana
+
+toml = open("clock-holdover.toml").read()
+result = json.loads(kshana.run(toml))
+print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
+# 0.29.0 6600.0 2610.0
+```
+
+Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
+`run_typed`, `validate_toml`, `list_kinds` / `scenario_kinds` and `error_kind`; see
+[`docs/PYTHON_API.md`](docs/PYTHON_API.md).
+
+The npm package is the whole engine compiled to WebAssembly. In Node.js, hand the binary to
+`initSync`; in a browser, `await init()` fetches it (see [`README.npm.md`](README.npm.md)).
+
+```js
+import { readFileSync } from "node:fs";
+import { createRequire } from "node:module";
+import { initSync, run, summary, version } from "kshana";
+
+const wasm = createRequire(import.meta.url).resolve("kshana/kshana_bg.wasm");
+initSync({ module: readFileSync(wasm) });
+
+const toml = readFileSync("clock-holdover.toml", "utf8");
+const result = JSON.parse(run(toml));
+console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
+// 0.29.0 6600 2610
+console.log(summary(toml));
+```
+
+</details>
+
+## Architecture
+
+One open engine sits at the centre, and every surface runs it: the command line, the Rust
+library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the
+JetBrains plugin. The same scenario file gives the same bytes on each. Kshana Pro sits on
+top as a separate overlay that depends on the engine and never forks it.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.29.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 75 kinds, and the verification ledger of 223 capabilities (83 VALIDATED, 136 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+</picture>
+
+<details>
+<summary>Inside the engine: the domain layers and the verification ledger</summary>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-architecture-dark.svg">
@@ -787,7 +632,206 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 
 </details>
 
+## AI assistant
+
+[`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
+reads back its JSON, instead of guessing the maths. Each of its fourteen tools is a thin wrapper
+over a public function of the `kshana` library, so no simulation logic lives in the server.
+
+```bash
+cargo install kshana-mcp                          # from crates.io
+docker run --rm -i ghcr.io/ashfordeou/kshana-mcp  # or the container image, no Rust toolchain
+```
+
+Then register it in your assistant's MCP client configuration:
+
+```json
+{
+  "mcpServers": {
+    "kshana": {
+      "command": "/Users/you/.cargo/bin/kshana-mcp",
+      "args": [],
+      "env": {}
+    }
+  }
+}
+```
+
+Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The server is listed
+in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
+
+<details>
+<summary>The fourteen tools</summary>
+
+<br>
+
+| Tool | What it does |
+|---|---|
+| `run_scenario` | run a scenario from its TOML; returns the summary and the full result JSON, and the chart on request |
+| `list_scenario_kinds` | the 75 built-in scenario kinds, with their required and optional fields |
+| `validate_scenario` | parse a TOML and detect its kind, without running |
+| `list_example_scenarios` · `get_example_scenario` | the bundled reference scenarios with what each shows, and the TOML of one, so an assistant starts from a scenario that runs |
+| `report_scenario` | a run's report: every figure with its unit and its VALIDATED or MODELLED label, the events and a reproducibility record, as JSON or a printable HTML (HyperText Markup Language) page |
+| `animate_scenario` | a run's time series as an animated SVG (Scalable Vector Graphics) drawing, an HTML player or numbered frames |
+| `list_export_formats` · `export_interop` | which interoperability formats apply to a scenario, and the export as CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, an STK (Systems Tool Kit) ephemeris or SigMF (Signal Metadata Format) |
+| `import_route` | a GeoJSON route written into a scenario that flies a waypoint track |
+| `export_sp3` · `export_omm` · `export_oem` | an orbit scenario as SP3-c (Standard Product 3), a CCSDS (Consultative Committee for Space Data Systems) Orbit Mean-elements Message, or an Orbit Ephemeris Message |
+| `export_table_csv` | a run's reproducibility table as CSV (comma-separated values), for the kinds that define one |
+
+</details>
+
+## Editions
+
+The whole engine is free. Kshana Pro and custom studies are for programmes that need more,
+and every paid route starts with a message: there are no prices here.
+
+| | Free | Kshana Pro | Custom study |
+|---|---|---|---|
+| What it is | the whole open engine, all 75 scenario kinds, no feature gate | a proprietary overlay on the same engine, under contract | a MODELLED PNT-resilience study of your system, done for you |
+| Licence | AGPL-3.0 (GNU Affero General Public License, version 3), or a commercial licence | proprietary | contract |
+| How to start | [install](#install) or open [kshana.dev](https://kshana.dev) | [request a Pro evaluation](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [request a study](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+
+What Pro is, in the words of [`docs/PRO.md`](docs/PRO.md):
+
+> **A strict superset of open Kshana.** Pro depends on the open engine as a library and
+> never forks it. Every open scenario kind runs in Pro unchanged, and an open scenario runs
+> in Pro with no licence at all.
+>
+> **No new physics.** Pro adds no physical model and changes none. Every Pro number comes
+> from runs of the open engine, so a Pro figure is as trustworthy as the open scenario kind
+> it came from, and never more.
+
+Pro answers a programme's next questions: which design to fly (a design optimiser and its
+Pareto front), how sure the answer is (uncertainty and sensitivity), and whether the mission
+meets its requirements (a mission dossier, requirements traceability, trade studies, a
+scenario regression check, clock digital twins, a study dossier and an on-premises
+service). Each is described, with what it produces and what it does not do, in
+[`docs/PRO.md`](docs/PRO.md). Nothing Pro produces is a certification, and a custom study is
+not a certification either.
+
+<details>
+<summary>What Kshana Pro reads from the open engine, and support from Ashforde OÜ</summary>
+
+<br>
+
+**What Kshana Pro builds on.** Every part of Pro works from the open engine and leaves
+it unchanged:
+
+- **The design optimiser, the uncertainty study and the mission dossier** run open-engine
+  scenarios through the engine's public interface and compute every number from the runs'
+  results. Each output keeps the VALIDATED, MODELLED or PARTNER tier the open engine gave
+  each figure, never a higher one.
+- **Clock digital twins** use the open engine's clock model and its Allan-deviation
+  estimator: a twin is calibrated to the device's published Allan budget, then checked by
+  estimating the twin's Allan deviation with the open estimator.
+- **Trade studies** run every architecture option as an open-engine scenario, unchanged,
+  and rank the options on a figure of merit read from each run's result.
+- **Evidence packs** record, for each run, the scenario hash the open engine stamps on
+  its result, so a figure in a pack can be reproduced by re-running its scenario.
+- **Systems-engineering and programme tooling.** Kshana Pro's model-based
+  systems-engineering (MBSE) and programme tooling checks a programme's requirements
+  against runs of the open engine: it imports requirements as comma-separated values
+  (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of
+  Systems Modeling Language version 2 (SysML v2) text, evaluates each acceptance
+  criterion, with its unit, against the values a run wrote, and produces a verification
+  cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline
+  evidence pack. It re-runs and recomputes nothing, and reads only what the open engine
+  publishes: each run's `result.json` (the fields a criterion names, their units, the
+  reproducibility stamp of scenario hash, seed, engine version and schema version, and
+  the run's label and figure tiers), its `report.json` (kind, reproducibility record and
+  capability labels), the scenario file (its hash, kind, seed and parameters), the
+  field-units schema (each field's unit, provenance and evidence tier) and the
+  verification matrix (each capability's VALIDATED, MODELLED or PARTNER label).
+
+### Support & professional services
+
+Kshana is free and open source under the AGPL-3.0 and **professionally developed and
+maintained by Ashforde OÜ** (Estonia). The open engine is complete and usable on its
+own. For organisations that need more, Ashforde OÜ offers:
+
+- **Commercial support & integration** — embedding Kshana in your toolchain, custom
+  scenarios, and priority fixes.
+- **Custom sensor models** — calibrated to your hardware, including export-sensitive
+  resilience models maintained in a private overlay.
+- **Kshana Pro** — proprietary model-based systems-engineering (MBSE) and programme
+  tooling that checks a programme's requirements against runs of the open engine and
+  produces a verification cross-reference matrix (VCRM), a Systems Modeling Language
+  version 2 (SysML v2) model, a change-impact report and an offline evidence pack. It
+  re-runs nothing and reads only the engine's published outputs: each run's `result.json`
+  and `report.json`, the scenario file, the field-units schema and the verification
+  matrix's labels (the full list is under [Editions](#editions)).
+- **Kshana Pro design, uncertainty and mission tooling** — the Pareto front of a design
+  space, uncertainty and sensitivity over thousands of runs, and a one-command mission
+  dossier with a verification matrix and a PDF; see [`docs/PRO.md`](docs/PRO.md).
+- **Training & consulting** on quantum/classical PNT performance analysis.
+
+This is the open-core model: the engine is, and stays, openly licensed; the sustaining
+business is expertise, support, and the proprietary extensions — not license fees.
+Contact **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
+
+</details>
+
+## Research
+
+Studies built on the open engine are published on arXiv. Each names the engine command
+behind it, so its numbers can be regenerated from a committed scenario or study example.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/research-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/research-light.svg">
+  <img src="docs/assets/readme/research-light.svg" alt="RESEKshana's architecture: one open engine at the centre, kshana 0.29.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 75 kinds, and the verification ledger of 223 capabilities (83 VALIDATED, 136 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+</picture>
+
+| Paper | What it shows | Engine command |
+|---|---|---|
+| [*Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics*](https://arxiv.org/abs/2606.22054)<br><sub>arXiv:2606.22054 · [doi:10.48550/arXiv.2606.22054](https://doi.org/10.48550/arXiv.2606.22054)</sub> | The drop in a GNSS interference detector's score once conditions shift can be predicted from in-distribution statistics alone, on an open synthetic testbed and then on open field recordings. | `cargo run --release --example optimism_study -- paper-artifacts/optimism-study.json` |
+| [*A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing*](https://arxiv.org/abs/2606.24210)<br><sub>arXiv:2606.24210 · [doi:10.48550/arXiv.2606.24210](https://doi.org/10.48550/arXiv.2606.24210)</sub> | A GNSS timing receiver under spoofing has no finite unconditional bound on undetected time error, so the paper gives a conditional one, calibrated on a recorded over-the-air spoof from the public JammerTest 2024 campaign. | `cargo run --release --example tpl_jammertest` |
+| [*How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting*](https://arxiv.org/abs/2607.05415)<br><sub>arXiv:2607.05415 · [doi:10.48550/arXiv.2607.05415](https://doi.org/10.48550/arXiv.2607.05415)</sub> | A single composite resilience score is a stable basis for a decision only where one design dominates; where designs contend, re-weighting alone can change the winner. | `cargo run --release --example resilience_report -- paper-artifacts/resilience-study.json` |
+| [*Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination*](https://arxiv.org/abs/2607.02566)<br><sub>arXiv:2607.02566 · [doi:10.48550/arXiv.2607.02566](https://doi.org/10.48550/arXiv.2607.02566)</sub> | Ranging inside a lunar constellation leaves a surface station's absolute position unobservable; a very-long-baseline interferometry (VLBI) delay from Earth restores it when the constellation is sparse, and sharpens it when it is rich. | the `lunar-joint-od-clock` kind: `kshana example lunar-joint-od-clock > s.toml && kshana s.toml` |
+| [*The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis*](https://arxiv.org/abs/2607.06212)<br><sub>arXiv:2607.06212 · [doi:10.48550/arXiv.2607.06212](https://doi.org/10.48550/arXiv.2607.06212)</sub> | Planned constellations of four to six satellites give poor geometry at the lunar south pole, and a few surface ranging beacons fix it far more cheaply than more satellites. | the `lunar-beacon` kind: `kshana example lunar-beacon > s.toml && kshana s.toml` |
+
+The three study examples write byte-deterministic artifacts (fixed seeds) that record their
+engine version, seeds and a configuration hash. The two lunar papers are built on the
+MODELLED lunar suite; their geometry and dilution-of-precision claims are also cross-checked
+against separate oracles in `tests/validate_p*.rs`. More in
+[Reproducible study artifacts](#reproducible-study-artifacts) under Reference.
+
+## Cite
+
+If you use Kshana in academic or technical work, please cite the version you used, with the
+scenario and seed. [`CITATION.cff`](CITATION.cff) holds the machine-readable metadata, and
+GitHub shows a "Cite this repository" button from it. Every release is archived on Zenodo;
+the concept DOI (Digital Object Identifier)
+[10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627) always resolves to the
+latest version.
+
+> Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. [Ashforde OÜ](https://ashforde.org). https://doi.org/10.5281/zenodo.20528627
+
+The papers above:
+
+> Baweja, C. (2026). *Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics*. arXiv:2606.22054. https://doi.org/10.48550/arXiv.2606.22054
+>
+> Baweja, C. (2026). *A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing*. arXiv:2606.24210. https://doi.org/10.48550/arXiv.2606.24210
+>
+> Baweja, C. (2026). *How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting*. arXiv:2607.05415. https://doi.org/10.48550/arXiv.2607.05415
+>
+> Baweja, C. (2026). *Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination*. arXiv:2607.02566. https://doi.org/10.48550/arXiv.2607.02566
+>
+> Baweja, C. (2026). *The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis*. arXiv:2607.06212. https://doi.org/10.48550/arXiv.2607.06212
+
+## Licence
+
+Kshana is dual-licensed: the GNU **AGPL-3.0-only** ([`LICENSE`](LICENSE)), or a
+**commercial licence** from Ashforde OÜ for closed integration that the AGPL does not suit.
+[`LICENSING.md`](LICENSING.md) explains which applies. Contributions are licensed inbound
+under the AGPL and also grant Ashforde OÜ the right to include them in the commercial
+edition; sign off each commit with `git commit -s` (see [`CONTRIBUTING.md`](CONTRIBUTING.md)).
+"Kshana" and its marks are trademarks of Ashforde OÜ: the licence covers the code, not the
+name, so please rename forks.
+
 ## Reference
+
+The long material, collapsed. Every document is listed in [Documentation](#documentation).
 
 <details>
 <summary><b>Install & build from source</b></summary>
@@ -1295,7 +1339,7 @@ kshana/
 │   ├── filter_health.rs · fom.rs · fom_label.rs · report.rs · chart.rs · run.rs  # health · FoM scoring + labelling · output
 │   ├── suite.rs · study.rs                     # scenario suites + aggregated multi-scenario study artifacts (`--study`)
 │   ├── inertial/                              # Pack 2 — strapdown INS (attitude · mechanization · imu_errors · quantum_imu)
-│   ├── timetransfer.rs · timetransfer_adv.rs · timegeo.rs  # Pack 3 — TWSTFT/CV/PPP/optical, Sagnac
+│   ├── timetransfer.rs · timetransfer_adv.rs · timegeo.rs  # Pack 3 — TWSTFT/CV/4/optical, Sagnac
 │   ├── hybrid.rs · ensemble.rs · sweep.rs     # Pack 4 — fused PNT, Monte-Carlo, trade sweeps
 │   │
 │   ├── timescales.rs · jd2.rs · ephem.rs      # time systems, two-part JD, Sun/Moon ephemeris
@@ -1498,43 +1542,49 @@ entry for every user-visible change. Participation is governed by our
 
 </details>
 
-## Citing
+<details>
+<summary><b>Documentation: every document, and who it is for</b></summary>
 
-If you use Kshana in academic or technical work, please cite it. Machine-readable
-metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.29.0`) together with the
-scenario and seed for full reproducibility. Every release is archived on Zenodo with
-a citable DOI (Digital Object Identifier) — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
-always resolves to the latest version.
+### Documentation
 
-> Baweja, C. (2026). *Kshana — a PNT-resilience simulator with quantum-sensor performance models*. [Ashforde OÜ](https://ashforde.org). https://doi.org/10.5281/zenodo.20528627
+| Document | For whom | What's in it |
+|----------|----------|--------------|
+| [Concepts primer](docs/CONCEPTS.md) | everyone, start here | what Kshana does and why, from zero to the physics |
+| [Kshana Studio](web/README.md) | everyone | run the engine in your browser (WebAssembly); build &amp; deploy notes |
+| [Glossary](docs/GLOSSARY.md) | everyone | plain-language definitions of every term |
+| [Architecture](docs/ARCHITECTURE.md) | developers / reviewers | module map, engine pipeline, dispatch, and diagrams |
+| [Validation status](docs/VALIDATION.md) | reviewers / citers | what is `validated` vs `not modeled`, with evidence |
+| [Verification matrix](docs/VERIFICATION-MATRIX.md) | reviewers / citers | the machine-checked evidence ledger — every capability row with its status, module, test and external oracle, generated from `src/verification.rs` |
+| [Modelled rationale](docs/MODELLED-RATIONALE.md) | reviewers | why each **Modelled** row has no external oracle, stated row by row |
+| [Provenance](docs/PROVENANCE.md) | reviewers / citers | every sensor parameter, model, and dataset traced to its published source, in one citable table |
+| [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM (software bill of materials), build provenance |
+| [Wheel platform tags](docs/WHEEL_TAGS.md) | packagers | the abi3 Python wheel matrix — which platform tag `pip install kshana` resolves |
+| [Positioning](docs/POSITIONING.md) | evaluators | where Kshana sits vs RTKLIB/gLAB (complementary), and the zero-install browser tier |
+| [Kshana Pro](docs/PRO.md) | evaluators / programme managers | what the proprietary Pro overlay adds over the same engine: design optimiser, uncertainty and sensitivity, mission dossier, requirements traceability; what each produces and what it does not do |
+| [Technical report](paper/kshana-technical-report.md) · [JOSS paper](paper/paper.md) | reviewers / citers / evaluators | the full extended research paper — architecture, per-domain models, validation, case studies, and limitations — plus the concise JOSS (Journal of Open Source Software) submission |
+| [SGP4 validation](docs/SGP4-VALIDATION.md) | reviewers / citers | agreement with the AIAA 2006-6753 reference (666 states, ~4 mm) **and** a head-to-head against the independent `sgp4` crate (agree to sub-micron / 4.12 mm) |
+| [Force-model validation](docs/AGENCY-ORBIT-VALIDATION.md) | reviewers / citers | the full-force engine (`src/precise_od.rs`) fit to agency ephemerides — methodology and validated residuals |
+| [Real TLE guide](docs/REAL_TLE_GUIDE.md) | users | driving scenarios from real Celestrak / Space-Track constellation TLEs (vs the bundled synthetic Walker set) |
+| [Integrity FoM](docs/INTEGRITY.md) | evaluators | what the `integrity` / `security` figures mean — and what they are **not** vs aviation HPL/VPL |
+| [ARAIM reference](docs/ARAIM_REFERENCE.md) | reviewers / integrators | the open MHSS ARAIM protection-level implementation — the `b_k` nominal-bias projection, σ_URA vs σ_URE, and the fault-mode priors |
+| [Quantum models](docs/QUANTUM.md) · [details](docs/QUANTUM-MODELS.md) | reviewers | the cold-atom-interferometer physics layer, and where coefficients are still looked up |
+| [Compliance](docs/COMPLIANCE.md) | evaluators | DO-229E / DO-316 algorithm scope, and what is **not** a conformance claim |
+| [Standards &amp; interoperability](docs/STANDARDS.md) | integrators | the GNSS / flight-dynamics / agency interchange formats Kshana reads and writes (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …) |
+| [LEO PNT fusion](docs/LEO-PNT-FUSION.md) | users / evaluators | fused MEO + LEO positioning, navigation and timing: Doppler, joint pseudorange, 4 convergence, 5G NTN, polar coverage and LEO time transfer over any constellation; the optional presets and their public sources |
+| [Campaigns](docs/CAMPAIGNS.md) | users / evaluators | composing scenarios: chained mission timelines, parameter sweeps, Monte Carlo ensembles and shared-condition runs, with the composition identities the tests pin |
+| [Scenario catalogue](docs/SCENARIOS.md) | users / integrators | every dispatchable kind with its required and optional TOML fields — generated from `api::list_scenario_kinds()` |
+| [Result schema](docs/SCHEMA.md) | integrators | every field of the result JSON, with units and a source pointer |
+| [Python API](docs/PYTHON_API.md) | Python users | the PyO3 binding surface — calling the engine, the scenario/result types, and examples |
+| [Claims vs reality](docs/CLAIMS-VS-REALITY.md) | reviewers | the overclaim-closure ledger + the CI guard (`tests/no_overclaims.rs`) that keeps it resolved |
+| [Roadmap](ROADMAP.md) | everyone | the phased roadmap — what has shipped and what is next |
+| [MCP server](mcp/kshana-mcp/README.md) · [JetBrains plugin](ide/jetbrains/README.md) | agents / IDE users | run Kshana from an AI assistant or a JetBrains IDE |
+| [Changelog](CHANGELOG.md) | everyone | released history (Keep a Changelog + SemVer, Semantic Versioning) |
+| [Contributing](CONTRIBUTING.md) | contributors | build, guards, test/citation discipline, DCO (Developer Certificate of Origin) |
+| [Governance](GOVERNANCE.md) | contributors / community | how Kshana is governed — who decides, how, and the open/closed boundary |
+| [Code of Conduct](CODE_OF_CONDUCT.md) | community | expected conduct (Contributor Covenant) |
+| [Security policy](SECURITY.md) | reporters | how to report a vulnerability; dual-use note |
 
-**Related publications.** Studies built on the open engine are written up separately; their
-numbers regenerate from a committed scenario + seed or the
-[reproducible study artifacts](#reproducible-study-artifacts) above.
-
-> Baweja, C. (2026). *The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis*. arXiv:2607.06212. https://doi.org/10.48550/arXiv.2607.06212
->
-> Baweja, C. (2026). *Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination*. arXiv:2607.02566. https://doi.org/10.48550/arXiv.2607.02566
->
-> Baweja, C. (2026). *A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing*. arXiv:2606.24210. https://doi.org/10.48550/arXiv.2606.24210
->
-> Baweja, C. (2026). *Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics*. arXiv:2606.22054. https://doi.org/10.48550/arXiv.2606.22054
-
-## Licence
-
-**Dual-licensed.** Use Kshana under **either** the GNU **AGPL-3.0-only** (see
-[`LICENSE`](LICENSE)) **or** a **commercial licence** from Ashforde OÜ for
-proprietary/closed integration that the AGPL does not suit. Which one applies, and
-why it is set up this way, is explained in [`LICENSING.md`](LICENSING.md).
-
-Contributions are licensed inbound under the AGPL **and** grant Ashforde OÜ the right
-to include them in the commercially-licensed edition (so the dual-licence keeps
-working) — see [`CONTRIBUTING.md`](CONTRIBUTING.md). Sign off each commit per the
-Developer Certificate of Origin with `git commit -s`.
-
-**Trademark.** "Kshana" and its marks are trademarks of Ashforde OÜ. The licence
-covers the code, not the name — please rename forks and derivative distributions.
+</details>
 
 <details>
 <summary><b>Key references</b></summary>

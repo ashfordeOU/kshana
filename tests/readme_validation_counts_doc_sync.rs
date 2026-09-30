@@ -32,13 +32,22 @@ fn readme_validation_counts_match_the_matrix() {
     let total = m.len();
     let readme = include_str!("../README.md");
 
-    let badge = format!("validated-{validated}%20external%20oracles");
+    // The README's badge row is version, licence, DOI and CI only; the VALIDATED count moved
+    // from a shield into the Evidence section's label table, so that row is what is pinned.
+    let row = format!("| VALIDATED | {validated} |");
     assert!(
-        readme.contains(&badge),
-        "README badge validated count is out of sync with verification_matrix() \
-         (= {validated} VALIDATED rows); expected the substring {badge:?}. \
-         Update the `validated-N external oracles` shield in README.md."
+        readme.contains(&row),
+        "README Evidence label table VALIDATED count is out of sync with verification_matrix() \
+         (= {validated} VALIDATED rows); expected the substring {row:?}. \
+         Update the VALIDATED row of the label table in README.md's Evidence section."
     );
+    for (label, n) in [("MODELLED", modelled), ("PARTNER", partner)] {
+        let row = format!("| {label} | {n} |");
+        assert!(
+            readme.contains(&row),
+            "README Evidence label table {label} count is out of sync; expected {row:?}."
+        );
+    }
 
     let alt = format!("{validated} capabilities validated against independent external oracles");
     assert!(
