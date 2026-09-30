@@ -482,6 +482,53 @@ async fn example_tools_serve_every_bundled_scenario_byte_for_byte() {
     client.cancel().await.ok();
 }
 
+/// Every listed example says what it shows: `about` is a whole sentence of the file's own
+/// header, never empty and never cut at the full stop of an abbreviation.
+#[tokio::test]
+async fn every_listed_example_carries_a_whole_sentence_about_it() {
+    let client = connect().await;
+    let listing = client
+        .call_tool(call("list_example_scenarios", serde_json::json!({})))
+        .await
+        .expect("call list_example_scenarios");
+    let listing = json_at(&listing, 0);
+    let scenarios = listing["scenarios"].as_array().expect("scenarios array");
+    assert!(scenarios.len() >= 100, "only {} listed", scenarios.len());
+    let about = |name: &str| -> String {
+        scenarios
+            .iter()
+            .find(|s| s["name"] == name)
+            .unwrap_or_else(|| panic!("{name} is not listed"))["about"]
+            .as_str()
+            .expect("about")
+            .to_string()
+    };
+    for s in scenarios {
+        let name = s["name"].as_str().expect("name");
+        let text = about(name);
+        assert!(!text.trim().is_empty(), "{name} has an empty `about`");
+        for cut in ["et al.", "e.g.", "i.e.", " vs.", " cf."] {
+            assert!(
+                !text.ends_with(cut),
+                "{name}: `about` is cut at an abbreviation: {text}"
+            );
+        }
+    }
+    // The one file whose header sits below its `kind` line.
+    assert!(
+        about("ephemeris").starts_with("Ephemeris & ground track"),
+        "{}",
+        about("ephemeris")
+    );
+    // The one header whose first sentence cites a paper with "et al.".
+    assert_eq!(
+        about("leo-navmsg-model-comparison"),
+        "LEO navigation message: four ephemeris models on one orbit, and the Liu et al. 2025 \
+         SISRE-versus-altitude table."
+    );
+    client.cancel().await.ok();
+}
+
 /// The listing's `kind` is the kind the engine detects, the filter returns that kind's
 /// examples only, and every kind an agent can discover has an example to start from.
 #[tokio::test]
