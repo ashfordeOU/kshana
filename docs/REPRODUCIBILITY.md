@@ -20,6 +20,7 @@ stream keyed by the scenario `seed`, drawn in a fixed order. Consequences:
 | Input fingerprint + output **shape** identical across OS (operating system) | **Yes** | `tests/cross_platform_golden.rs` pins an exact SHA-256 per scenario in `tests/golden/`, checked on the 3-OS CI (continuous integration) matrix |
 | Output **values** agree across OS (ubuntu/macOS/Windows) | **Yes, to 1e-6** | the `reproducibility-matrix` CI job runs `golden.rs` (1e-6), `sgp4_verification.rs` (2e-5 km), and `determinism.rs` on all three OS |
 | A low Earth orbit (LEO) navigation-message frame is the same bytes on every platform, the WebAssembly (WASM) build included | **Yes** | `src/portable_math.rs` (every transcendental of the `leo-navmsg` kind goes through the pure-Rust `libm` crate); `leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform` pins a whole frame with no platform gate |
+| Seeded index draws (bootstrap resampling, shuffles) are the same on 32-bit and 64-bit targets | **Yes** | `portable_math::uniform_index` always samples as `u64`; pinned in `portable_math::tests` |
 | Same toolchain everywhere | **Yes** | `rust-toolchain.toml` pins the channel; `scripts/check-toolchain.sh` fails the build on drift; CI and release pin the same version |
 | Same dependency set | **Yes** | `Cargo.lock` is committed and `cargo metadata --locked` is used for the SBOM (software bill of materials) |
 
