@@ -184,6 +184,12 @@ documentation.
   for `leo-navmsg-fit-interval-trade` showed a worst range error of 1.6 mm with a 60 s fit
   and 40.3 mm with a 900 s fit; the site is now built from this release's engine and shows
   1.8 mm and 46.6 mm.
+- **The jamming footprint map on kshana.dev (Missions).** Each of its 875 cells is one run of
+  `maritime-strait-jamming` with only the receiver's position changed. The cells are now
+  computed from the same three-decimal coordinates that the cell's "open this run" link
+  gives Kshana Studio, so a cell shows exactly what its link reproduces. 30 cells' mean
+  jammer-to-signal ratio (J/S) moves by 0.1 dB, up or down; no cell's tracking availability
+  changes. The engine gives identical results for every cell in 0.28.0 and 0.29.0.
 - **Seeded resampling in the WebAssembly (WASM) package.** The browser build drew other
   bootstrap and shuffle indices than the native build from the same seed (under Fixed).
   The `quantum-anomaly-detect` interval of the area under the curve in the browser was
