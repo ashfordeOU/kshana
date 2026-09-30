@@ -169,10 +169,11 @@ dependencies = [
 
 [[package]]
 name = "kshana"
-version = "0.28.0"
+version = "0.29.0"
 dependencies = [
  "getrandom",
  "hex",
+ "libm",
  "pyo3",
  "rand",
  "rand_chacha",

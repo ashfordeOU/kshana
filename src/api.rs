@@ -3554,18 +3554,30 @@ mod tests {
         );
 
         let phrase = format!("vs the {n} figures of merit");
-        for (name, body) in [
-            (
-                "docs/diagrams/engine-flow.mmd",
-                include_str!("../docs/diagrams/engine-flow.mmd"),
-            ),
-            ("README.md", include_str!("../README.md")),
-        ] {
-            assert!(
-                body.contains(&phrase),
-                "{name} does not say {phrase:?}; the engine scores {n} figures of merit                  (FOM_LABELS). Fix the .mmd AND the README's inline mermaid block AND the                  committed SVG, then re-render the PNG with tools/render-diagram.sh — the                  README embeds the PNG, not the source."
-            );
+        let mmd = include_str!("../docs/diagrams/engine-flow.mmd");
+        assert!(
+            mmd.contains(&phrase),
+            "docs/diagrams/engine-flow.mmd does not say {phrase:?}; the engine scores {n} \
+             figures of merit (FOM_LABELS). Fix the .mmd AND the committed SVG, then \
+             re-render the PNG with tools/render-diagram.sh."
+        );
+
+        // The README used to carry an inline copy of the diagram and had to repeat the
+        // phrase. The redesigned README no longer carries the diagram, so there may be no
+        // copy left to drift. What must still hold is that the README never states a
+        // DIFFERENT count: every "<number> figures of merit" in it is the live one.
+        let readme = include_str!("../README.md");
+        let mut stated = Vec::new();
+        for (at, _) in readme.match_indices(" figures of merit") {
+            let word = readme[..at].rsplit(|c: char| !c.is_ascii_digit()).next();
+            if let Some(Ok(k)) = word.filter(|w| !w.is_empty()).map(str::parse::<usize>) {
+                stated.push(k);
+            }
         }
+        assert!(
+            stated.iter().all(|k| *k == n),
+            "README.md states {stated:?} figures of merit; the engine scores {n} (FOM_LABELS)"
+        );
 
         // The rendered SVG: mermaid emits the number as its own tspan, so look for the
         // digit as a standalone text node rather than inside the sentence.

@@ -29,11 +29,16 @@ fn every_coverage_surface_states_the_recorded_measurement() {
     );
     let n = pct.round() as u32;
     let badge = format!("badge/coverage-~{n}%25%20line");
-    let surfaces: [(&str, &str, String); 6] = [
+    let surfaces: [(&str, &str, String); 7] = [
         (
             "README.md badge",
             include_str!("../README.md"),
             badge.clone(),
+        ),
+        (
+            "README.md Evidence section",
+            include_str!("../README.md"),
+            format!("near {n} % line coverage"),
         ),
         (
             "README.md CI table",

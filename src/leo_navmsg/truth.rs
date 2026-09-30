@@ -26,9 +26,9 @@
 
 use super::elements::{cross3, dot, RacFrame, SysTime, C_LIGHT, OMEGA_E};
 use crate::gravity_sh::SphericalHarmonicField;
+use crate::portable_math::{standard_normal, PortableFloat};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
-use rand_distr::{Distribution, Normal};
 
 /// Orbit set-up for the truth propagation.
 #[derive(Clone, Debug)]
@@ -91,26 +91,26 @@ pub fn elements_to_state(
     let mu = super::elements::MU;
     let mut ea = m;
     for _ in 0..50 {
-        let d = (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+        let d = (ea - e * ea.psin() - m) / (1.0 - e * ea.pcos());
         ea -= d;
         if d.abs() < 1e-15 {
             break;
         }
     }
-    let nu = ((1.0 - e * e).sqrt() * ea.sin()).atan2(ea.cos() - e);
+    let nu = ((1.0 - e * e).sqrt() * ea.psin()).patan2(ea.pcos() - e);
     let p = a * (1.0 - e * e);
-    let r = p / (1.0 + e * nu.cos());
+    let r = p / (1.0 + e * nu.pcos());
     let (rp, vp) = (
-        [r * nu.cos(), r * nu.sin(), 0.0],
+        [r * nu.pcos(), r * nu.psin(), 0.0],
         [
-            -(mu / p).sqrt() * nu.sin(),
-            (mu / p).sqrt() * (e + nu.cos()),
+            -(mu / p).sqrt() * nu.psin(),
+            (mu / p).sqrt() * (e + nu.pcos()),
             0.0,
         ],
     );
-    let (so, co) = raan.sin_cos();
-    let (si, ci) = i.sin_cos();
-    let (sw, cw) = argp.sin_cos();
+    let (so, co) = raan.psin_cos();
+    let (si, ci) = i.psin_cos();
+    let (sw, cw) = argp.psin_cos();
     let rot = [
         [co * cw - so * sw * ci, -co * sw - so * cw * ci, so * si],
         [so * cw + co * sw * ci, -so * sw + co * cw * ci, -co * si],
@@ -141,17 +141,17 @@ pub fn state_to_elements(r: [f64; 3], v: [f64; 3]) -> (f64, f64, f64, f64, f64, 
         ((v2 - mu / rn) * r[2] - rv * v[2]) / mu,
     ];
     let e = dot(evec, evec).sqrt();
-    let i = (h[2] / hn).acos();
-    let raan = h[0].atan2(-h[1]);
+    let i = (h[2] / hn).pacos();
+    let raan = h[0].patan2(-h[1]);
     // Argument of latitude.
-    let nvec = [raan.cos(), raan.sin(), 0.0];
+    let nvec = [raan.pcos(), raan.psin(), 0.0];
     let wv = cross3(h, nvec);
-    let u = (dot(r, wv) / hn).atan2(dot(r, nvec));
+    let u = (dot(r, wv) / hn).patan2(dot(r, nvec));
     let (argp, m) = if e > 1e-12 {
-        let argp = (dot(evec, wv) / hn).atan2(dot(evec, nvec));
+        let argp = (dot(evec, wv) / hn).patan2(dot(evec, nvec));
         let nu = u - argp;
-        let ea = ((1.0 - e * e).sqrt() * nu.sin()).atan2(e + nu.cos());
-        (argp, ea - e * ea.sin())
+        let ea = ((1.0 - e * e).sqrt() * nu.psin()).patan2(e + nu.pcos());
+        (argp, ea - e * ea.psin())
     } else {
         (0.0, u)
     };
@@ -160,7 +160,7 @@ pub fn state_to_elements(r: [f64; 3], v: [f64; 3]) -> (f64, f64, f64, f64, f64, 
 
 fn rot_z(a: [f64; 3], th: f64) -> [f64; 3] {
     // Frame rotation (inertial to Earth-fixed) by angle th about z.
-    let (s, c) = th.sin_cos();
+    let (s, c) = th.psin_cos();
     [c * a[0] + s * a[1], -s * a[0] + c * a[1], a[2]]
 }
 
@@ -221,18 +221,18 @@ impl TruthOrbit {
                     if jn.is_empty() {
                         tb
                     } else {
-                        let z = crate::forces::zonal_accel(r, jn);
+                        let z = crate::forces::zonal_accel_portable(r, jn);
                         [tb[0] + z[0], tb[1] + z[1], tb[2] + z[2]]
                     }
                 }
                 Gravity::Sh(f) => {
                     let th = th0 + OMEGA_E * t;
-                    let ae = f.acceleration(rot_z(r, th));
+                    let ae = f.acceleration_portable(rot_z(r, th));
                     rot_z(ae, -th)
                 }
             };
             if cd > 0.0 {
-                let d = crate::forces::drag_accel(r, v, cd);
+                let d = crate::forces::drag_accel_portable(r, v, cd);
                 acc = [acc[0] + d[0], acc[1] + d[1], acc[2] + d[2]];
             }
             acc
@@ -295,10 +295,10 @@ impl TruthOrbit {
         let s = x - i as f64;
         let (p0, p1, m0, m1) = (self.r[i], self.r[i + 1], self.v[i], self.v[i + 1]);
         let (h00, h10, h01, h11) = (
-            2.0 * s.powi(3) - 3.0 * s * s + 1.0,
-            s.powi(3) - 2.0 * s * s + s,
-            -2.0 * s.powi(3) + 3.0 * s * s,
-            s.powi(3) - s * s,
+            2.0 * s.ppowi(3) - 3.0 * s * s + 1.0,
+            s.ppowi(3) - 2.0 * s * s + s,
+            -2.0 * s.ppowi(3) + 3.0 * s * s,
+            s.ppowi(3) - s * s,
         );
         let (d00, d10, d01, d11) = (
             6.0 * s * s - 6.0 * s,
@@ -395,9 +395,8 @@ impl TruthClock {
                 let mut x = 0.0;
                 walk.push(0.0);
                 if adev_1s > 0.0 {
-                    let nd = Normal::new(0.0, adev_1s).map_err(|e| e.to_string())?;
                     for _ in 1..n {
-                        x += nd.sample(&mut rng);
+                        x += adev_1s * standard_normal(&mut rng);
                         walk.push(x);
                     }
                 } else {
@@ -415,13 +414,12 @@ impl TruthClock {
                     ));
                 }
                 let mut rng = ChaCha8Rng::seed_from_u64(seed);
-                let phi = (-1.0 / tau_s).exp();
+                let phi = (-1.0 / tau_s).pexp();
                 let q = sigma_s * (1.0 - phi * phi).sqrt();
-                let nd = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
-                let mut x = sigma_s * nd.sample(&mut rng);
+                let mut x = sigma_s * standard_normal(&mut rng);
                 for _ in 0..n {
                     walk.push(x);
-                    x = phi * x + q * nd.sample(&mut rng);
+                    x = phi * x + q * standard_normal(&mut rng);
                 }
             }
         }

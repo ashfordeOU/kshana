@@ -79,6 +79,9 @@ pub mod benchmark;
 pub mod body;
 pub mod body_pnt;
 pub mod bplane;
+/// The bundled reference scenarios, present only with the `bundled-scenarios` feature.
+#[cfg(feature = "bundled-scenarios")]
+pub mod bundled_scenarios;
 pub mod campaign;
 pub mod ccsds_tdm;
 /// The optional Celeste IOD preset: compiled in only when `src/celeste_iod.rs` exists.
@@ -214,6 +217,9 @@ pub mod orbital_timing;
 pub mod particle_filter;
 pub mod passes;
 pub mod permalink;
+// Transcendental functions that return the same bits on every platform, for the
+// modules whose output is discrete (an encoded frame) and must not depend on the host.
+mod portable_math;
 pub mod powerlaw;
 pub mod precession;
 pub mod precise_od;

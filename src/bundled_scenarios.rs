@@ -7,7 +7,9 @@
 //! repository has, and failed in the first minute. Each entry here is the file under
 //! `scenarios/`, byte for byte, embedded at compile time (the scenario tree ships in the
 //! published crate, so this also builds from the registry). The table lives in the CLI
-//! binary, not the library, so the Python wheel and the WebAssembly module do not carry it.
+//! binary, and in the library only behind the off-by-default `bundled-scenarios` feature,
+//! so the Python wheel and the WebAssembly module do not carry it. The Model Context
+//! Protocol (MCP) server turns that feature on and serves the same table to an agent.
 //!
 //! `tests/cli_first_run.rs` holds the table to the directory in both directions: every
 //! scenario file is bundled (or named in [`REPO_ONLY`] with its reason) and every bundled
