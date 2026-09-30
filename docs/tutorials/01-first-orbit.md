@@ -10,21 +10,27 @@
 
 ## What this scenario is
 
-GPS-style satellites tell a user *where it is* and *what time it is*. Before any of
+GPS (Global Positioning System) satellites tell a user *where it is* and *what time
+it is*. Before any of
 that, you need to know **where the satellites are** and **how many of them a user can
 see**. That is geometry, and geometry sets the floor on how accurately you can be
-positioned (the dilution-of-precision, or DOP). This tutorial:
+positioned (the dilution of precision, or DOP). This tutorial:
 
 1. takes a genuine Celestrak `gps-ops` snapshot of the GPS constellation
-   (2021-07-28, 30 satellites, real two-line elements),
-2. propagates every satellite with the validated SGP4/SDP4 model,
+   (2021-07-28, 30 satellites, real two-line elements, TLEs),
+2. propagates every satellite with the validated SGP4/SDP4 model (Simplified General
+   Perturbations 4 / Simplified Deep-space Perturbations 4),
 3. at each time step works out which satellites a low-Earth-orbit user can see
    (line of sight, Earth occultation, and a 5° elevation mask),
-4. turns that geometry into a **PDOP** and a **position accuracy**, and
-5. exports the satellites’ actual Earth-fixed (ECEF) positions to an SP3 file.
+4. turns that geometry into a **PDOP** (position dilution of precision) and a
+   **position accuracy**, and
+5. exports the satellites’ actual Earth-centred, Earth-fixed (ECEF) positions to an
+   SP3 file (Standard Product 3, the precise-orbit format of the International GNSS
+   Service, IGS; GNSS is Global Navigation Satellite System).
 
 The spine is: **TLE → SGP4 propagation → ECEF per epoch → visibility → visible-sat
-count → PDOP → position-sigma = PDOP · σ_UERE.**
+count → PDOP → position-sigma = PDOP · σ_UERE**, where σ_UERE is the user
+equivalent range error (the 1-σ ranging error per satellite).
 
 ## Run it
 
@@ -40,7 +46,7 @@ result = json.loads(kshana.run(open("scenarios/orbit-sgp4-gps.toml").read()))
 print(result["geometry"]["best_pdop"], result["geometry"]["best_position_sigma_m"])
 ```
 
-Or open the [browser playground](https://ashfordeou.github.io/kshana/) and pick the
+Or open the [browser playground](https://kshana.dev/#playground) and pick the
 orbit scenario.
 
 ## Read the one-line summary
@@ -53,12 +59,13 @@ scenario 4c51512369a6 | 345/361 samples GNSS-nominal | best PDOP 1.07 pos 1.07m 
 
 Field by field:
 
-- **`scenario 4c51512369a6`** — the 12-char scenario hash. It fingerprints the exact
+- **`scenario 4c51512369a6`** — the 12-character scenario hash. It fingerprints the exact
   inputs (seed, thresholds, model parameters, the TLE block). Change any input and
   this changes; keep them the same and you reproduce the run bit-for-bit. The same
-  hash is stamped in the chart’s footer and in the result JSON.
+  hash is stamped in the chart’s footer and in the result JSON (JavaScript Object
+  Notation) file.
 - **`345/361 samples GNSS-nominal`** — of the 361 time steps, the user has a usable
-  fix at 345 of them (95.6 %). The run is a ~12 h pass (43,200 s) at a 120 s step.
+  fix at 345 of them (95.6 %). The run is a 12 h pass (43,200 s) at a 120 s step.
 - **`best PDOP 1.07`** — the best (lowest) position dilution of precision over the
   pass. PDOP near 1 is excellent geometry; the lower the better.
 - **`pos 1.07m`** — the best position accuracy: **position-sigma = PDOP · σ_UERE**. In
@@ -75,10 +82,12 @@ The geometry block in the JSON has the underlying numbers:
 ```json
 "geometry": {
   "samples_total": 361,
-  "best_pdop": 1.0714,
-  "median_pdop": 2.3184,
-  "best_position_sigma_m": 1.0714,
-  "sigma_uere_m": 1.0
+  "samples_with_fix": 345,
+  "sigma_uere_m": 1.0,
+  "best_pdop": 1.0713624151805556,
+  "median_pdop": 2.318376881311817,
+  "best_position_sigma_m": 1.0713624151805556,
+  "median_position_sigma_m": 2.318376881311817
 }
 ```
 
@@ -91,18 +100,19 @@ export their Earth-fixed positions:
 cargo run -- scenarios/orbit-sgp4-gps.toml --export-sp3 gps.sp3
 ```
 
-The first three satellites at the first sample step, ECEF in km:
+The first three satellites at the first sample step, ECEF in km (the SP3 file
+carries a fourth, clock column, written as the 999999.999999 “no value” marker):
 
 ```
-PG01   9771.576  24612.129      0.004
-PG02  20449.644 -11875.958 -12379.457
-PG03  26467.367     45.510   4010.412
+PG01   9771.575585  24612.128830      0.003744 999999.999999
+PG02  20449.643959 -11875.958365 -12379.457079 999999.999999
+PG03  26467.367408     45.510223   4010.411755 999999.999999
 ```
 
 Take PG01’s geocentric radius:
 
 ```
-|r(PG01)| = sqrt(9771.576^2 + 24612.129^2 + 0.004^2) = 26480.9 km
+|r(PG01)| = sqrt(9771.575585^2 + 24612.128830^2 + 0.003744^2) = 26480.9 km
 ```
 
 ## The non-circular oracle: is this really a GPS orbit?
@@ -110,9 +120,10 @@ Take PG01’s geocentric radius:
 A tutorial that checks the engine against itself proves nothing. Here is the
 external, *non-circular* anchor for every claim above.
 
-**1. The satellites sit on the real GPS MEO shell.** The GPS nominal semi-major axis
+**1. The satellites sit on the real GPS medium-Earth-orbit (MEO) shell.** The GPS nominal semi-major axis
 is **a = 26,560 km**, altitude ≈ 20,180 km above the mean Earth radius of 6,378 km
-(IS-GPS-200; the GPS SPS Performance Standard, US DoD; Misra & Enge, *Global
+(IS-GPS-200, the GPS interface specification; the GPS Standard Positioning Service
+(SPS) Performance Standard, US Department of Defense (DoD); Misra & Enge, *Global
 Positioning System*, 2nd ed.). PG01’s instantaneous radius of **26,480.9 km** lies
 within a few hundred km of `a` — exactly what real GPS eccentricity (~0.005–0.02)
 produces. The test
@@ -121,14 +132,15 @@ produces. The test
 Kshana**.
 
 **2. The pass length is one GPS revolution.** Kepler’s third law gives the period
-`T = 2π√(a³/μ)` with `a = 26,560 km` and `μ = 398,600.4418 km³/s²` (WGS-84/EGM,
-NIMA TR8350.2): `T = 43,078 s = 11.967 h` — half a sidereal day. The scenario
+`T = 2π√(a³/μ)` with `a = 26,560 km` and `μ = 398,600.4418 km³/s²` (World Geodetic
+System 1984, WGS-84; National Imagery and Mapping Agency technical report NIMA
+TR8350.2): `T = 43,078 s = 11.967 h`, half a sidereal day. The scenario
 duration of 43,200 s (“~one GPS revolution”) matches that to under 0.3 %, and the GPS
 ground track repeats every sidereal day (two revs), per IS-GPS-200.
 
 **3. The propagated positions are validated, not self-consistent.** The SGP4/SDP4
-propagator that produced this ECEF table agrees with **all 666 AIAA 2006-6753
-verification vectors to a worst case of 4.12 mm** (`tests/sgp4_verification.rs`,
+propagator that produced this ECEF table agrees with **all 666 AIAA (American Institute of Aeronautics and Astronautics)
+2006-6753 verification vectors to a worst case of 4.12 mm** (`tests/sgp4_verification.rs`,
 [`docs/SGP4-VALIDATION.md`](../SGP4-VALIDATION.md)) and matches the independent
 `sgp4` crate to sub-micron. So the table you exported is checked against an external
 reference implementation, not against Kshana’s own arithmetic.
