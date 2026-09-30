@@ -3,8 +3,9 @@
 //! single-frequency users and the system-time-to-UTC offset.
 //!
 //! * **Klobuchar-style broadcast set** (IS-GPS-200 §20.3.3.5.2.5): the delay is the
-//!   engine's existing L1 model ([`crate::gnss_sim::klobuchar_delay_m_portable`], checked against
-//!   RTKLIB), scaled to the signal's carrier by the first-order `(f_L1 / f)²` law.
+//!   engine's existing L1 model ([`crate::gnss_sim::klobuchar_delay_m`], checked against
+//!   RTKLIB), evaluated with the platform-independent mathematics library and scaled to
+//!   the signal's carrier by the first-order `(f_L1 / f)²` law.
 //! * **NeQuick-G coefficients** (Galileo OS SIS ICD §5.1.6; European Commission, "Ionospheric
 //!   Correction Algorithm for Galileo Single Frequency Users", issue 1.2, 2016): the
 //!   message carries `ai0, ai1, ai2` and the five storm flags, and
