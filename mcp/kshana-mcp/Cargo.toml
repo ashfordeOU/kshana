@@ -42,7 +42,11 @@ path = "src/main.rs"
 # Path for local development; the version requirement is what `cargo publish` records,
 # resolving to the published `kshana` crate on crates.io (so `cargo install kshana-mcp`
 # works without this repo checked out).
-kshana = { path = "../..", version = "0.28" }
+#
+# `bundled-scenarios` compiles the reference scenarios into the library, so
+# `list_example_scenarios` / `get_example_scenario` can hand an agent a runnable scenario
+# of a kind: a registry or image install has no `scenarios/` directory to read.
+kshana = { path = "../..", version = "0.28", features = ["bundled-scenarios"] }
 rmcp = { version = "2.1", features = ["server", "macros", "transport-io"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
 serde = { version = "1", features = ["derive"] }

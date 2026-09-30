@@ -584,8 +584,9 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 
 **Ask your AI assistant. The engine answers.** [`kshana-mcp`](mcp/kshana-mcp/) is an MCP
 server: your assistant runs the actual engine and reads back its JSON, instead of guessing
-the math. Each tool is a thin wrapper over a public `kshana::api` function, so no
-simulation logic lives in the server.
+the math. Each of its fourteen tools is a thin wrapper over a public function of the
+`kshana` library, so no simulation logic lives in the server. Every scenario kind runs
+through `run_scenario`.
 
 ```bash
 cargo install kshana-mcp                          # crates.io
@@ -611,6 +612,11 @@ Then register it in your assistant's MCP client configuration:
 | `run_scenario` | run a scenario from its TOML; returns the summary and the full result JSON, and the chart on request |
 | `list_scenario_kinds` | the 75 built-in scenario kinds, with their required and optional fields |
 | `validate_scenario` | parse a TOML and detect its kind, without running |
+| `list_example_scenarios` · `get_example_scenario` | the bundled reference scenarios with what each shows, and the TOML of one, so an assistant starts from a scenario that runs |
+| `report_scenario` | a run's report: every figure with its unit and its VALIDATED or MODELLED label, the events and a reproducibility record, as JSON or a printable HTML (HyperText Markup Language) page |
+| `animate_scenario` | a run's time series as an animated SVG (Scalable Vector Graphics) drawing, an HTML player or numbered frames |
+| `list_export_formats` · `export_interop` | which interoperability formats apply to a scenario, and the export as CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, an STK (Systems Tool Kit) ephemeris or SigMF (Signal Metadata Format) |
+| `import_route` | a GeoJSON route written into a scenario that flies a waypoint track |
 | `export_sp3` · `export_omm` · `export_oem` | an orbit scenario as SP3-c (Standard Product 3), a CCSDS (Consultative Committee for Space Data Systems) Orbit Mean-elements Message, or an Orbit Ephemeris Message |
 | `export_table_csv` | a run's reproducibility table as CSV (comma-separated values), for the kinds that define one |
 
