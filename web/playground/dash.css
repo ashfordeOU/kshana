@@ -16,7 +16,7 @@
 
 /* ---------- header bar ---------- */
 .crumbs{display:flex;align-items:center;gap:2px;min-width:0;flex:1 1 auto;overflow:hidden;font-size:13px}
-.crumbs .cr{display:inline-flex;align-items:center;padding:5px 7px;border-radius:8px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;min-width:0}
+.crumbs .cr{display:block;line-height:20px;padding:5px 7px;border-radius:8px;color:var(--ink-2);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:260px;min-width:0}
 .crumbs button.cr:hover{background:var(--line);color:var(--ink)}
 .crumbs .cr[aria-current]{color:var(--ink);font-weight:600}
 .crumbs .sep{color:var(--ink-3);flex:none}
@@ -24,7 +24,7 @@
 .t-btn{position:relative;display:inline-flex;align-items:center;gap:6px;height:32px;padding:0 11px;border-radius:999px;border:1px solid var(--line-2);font-size:13px;font-weight:550;color:var(--ink-2);white-space:nowrap}
 .t-btn:hover{background:var(--line);color:var(--ink)}
 .t-btn svg{width:15px;height:15px;flex:none}
-.t-btn .count,.btn-quiet .count{min-width:17px;height:17px;border-radius:999px;background:var(--tim);color:#fff;font:600 10px/17px var(--f-mono);text-align:center;padding:0 4px}
+.t-btn .count,.btn-quiet .count{min-width:17px;height:17px;border-radius:999px;background:var(--tim);color:var(--bg);font:600 10px/17px var(--f-mono);text-align:center;padding:0 4px}
 .k-btn .lbl{white-space:nowrap}
 .pill{white-space:nowrap}
 @media (max-width:1599px){#btn-tour{display:none}}
@@ -75,7 +75,7 @@
 .steps button{display:inline-flex;align-items:center;gap:8px;height:34px;padding:0 13px 0 6px;border-radius:999px;border:1px solid var(--line-2);background:var(--surface);font-size:13px;font-weight:550;color:var(--ink-2)}
 .steps button:hover{color:var(--ink);border-color:var(--ink-3)}
 .steps button b{display:inline-grid;place-items:center;width:22px;height:22px;border-radius:50%;background:var(--bg-2);font:600 11px/1 var(--f-mono);color:var(--ink-2)}
-.steps button[data-state="done"] b{background:color-mix(in srgb,var(--itg) 85%,transparent);color:#fff}
+.steps button[data-state="done"] b{background:var(--itg);color:var(--bg)}
 .steps button[data-state="current"]{border-color:var(--ink);color:var(--ink);font-weight:650;box-shadow:inset 0 0 0 1px var(--ink)}
 .steps button[data-state="current"] b{background:var(--ink);color:var(--bg)}
 .steps button[data-state="next"]{border-style:dashed;border-color:var(--tim);color:var(--tim)}
@@ -353,3 +353,6 @@ body.embed .app,body.embed .app[data-drawer="open"]{display:block;height:auto}
   .tab,.btn-quiet,.dh-act .btn-quiet,.steps button,.subtabs button,.t-btn,.k-btn,.btn-run,.pan-max,.start-hit,.start-tile,.lib-item,.crumbs .cr,.seg button,.btn-mini{min-height:44px}
   .icon-btn{width:44px;height:44px}
 }
+.res-foot{color:var(--ink-2)}
+.crumbs .cr{flex-shrink:4}
+.crumbs .cr:last-child{flex-shrink:1}
