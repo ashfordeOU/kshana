@@ -44,8 +44,7 @@
 //!
 //! What is already portable and therefore not wrapped: `sqrt`, `abs`, `floor`, `ceil`,
 //! `round`, `trunc`, `%`, `rem_euclid`, `min`, `max`, `clamp`, `mul_add`, `to_radians`
-//! and `to_degrees` (exact or correctly rounded by definition), and the seeded normal
-//! draws of `rand_distr`, which already route through `libm` on every target.
+//! and `to_degrees` (exact or correctly rounded by definition).
 //!
 //! ## Random indices
 //!
@@ -54,6 +53,27 @@
 //! 32 bits on a 32-bit one (WebAssembly), so the same seed gives a different index and
 //! leaves the stream at a different place. [`uniform_index`] always draws through `u64`,
 //! which is exactly what a 64-bit host did before, so no native number moves.
+//!
+//! ## Normal deviates
+//!
+//! `rand_distr`'s normal sampler is a ziggurat. Its common path is a table lookup and a
+//! multiplication, the same everywhere, but its two rare branches call the host's `exp`
+//! (the wedge test) and `ln` (the tail). Measured over four million seeded draws, three
+//! came back different in the last bit between the native build and the WASM build: a
+//! draw in about a million. A Monte Carlo kind takes that many often enough to matter,
+//! so a kind that must be bit-reproducible takes its deviates from
+//! [`standard_normal`], the Marsaglia polar method on the generator's raw 64-bit
+//! output with the pure-Rust logarithm.
+//!
+//! ## Build profile
+//!
+//! The host library is not even one function of the build. An optimised build on macOS
+//! merges a sine and a cosine of the same argument into one call to the system's
+//! combined routine, whose sine differs from the lone `sin` in the last bit for 379 of
+//! 200 000 arguments; an unoptimised build makes the two separate calls. So a debug and
+//! a release build of one source on one host disagreed as well (LEO navigation-message
+//! check value `0x898BD8` against `0x110315`). Nothing here is a library call the
+//! optimiser knows, so a kind computed through this module is the same in both.
 //!
 //! `src/leo_navmsg/tests.rs` pins a whole encoded frame, byte for byte, on every
 //! platform, and scans the module's sources for an inherent transcendental call. If
@@ -166,6 +186,23 @@ pub(crate) fn uniform_index<R: rand::Rng + ?Sized>(rng: &mut R, n: usize) -> usi
     rng.gen_range(0..n as u64) as usize
 }
 
+/// A standard normal deviate, the same bits on every platform for the same generator
+/// state: the Marsaglia polar method. Two uniforms on `(−1, 1)` are drawn from the raw
+/// 64-bit output (53 bits each, centred so neither end is reached) until they fall inside
+/// the unit circle, and the first of the pair of deviates is returned. About 1.27 pairs
+/// of uniforms are drawn per deviate.
+pub(crate) fn standard_normal<R: rand::RngCore + ?Sized>(rng: &mut R) -> f64 {
+    const TWO_POW_MINUS_53: f64 = 1.0 / (1u64 << 53) as f64;
+    loop {
+        let u = 2.0 * (((rng.next_u64() >> 11) as f64 + 0.5) * TWO_POW_MINUS_53) - 1.0;
+        let v = 2.0 * (((rng.next_u64() >> 11) as f64 + 0.5) * TWO_POW_MINUS_53) - 1.0;
+        let s = u * u + v * v;
+        if s > 0.0 && s < 1.0 {
+            return u * (-2.0 * libm::log(s) / s).sqrt();
+        }
+    }
+}
+
 /// Platform-independent counterparts of the inherent `f64` transcendentals. Each method
 /// is the inherent one's name with a `p` in front.
 pub(crate) trait PortableFloat: Sized {
@@ -250,6 +287,14 @@ impl PortableFloat for f64 {
 mod tests {
     use super::*;
 
+    const STANDARD_NORMAL_PIN: [u64; 6] = [
+        0xbfd406ad70868c73,
+        0x3fee194e88b73279,
+        0x3ff33f40424ea487,
+        0xbff3d9b5b899a5d3,
+        0x3fc2ef1dad5f2738,
+        0xc00481e1bd1cb339,
+    ];
     const UNIFORM_INDEX_PIN: [usize; 12] =
         [157, 704, 726, 601, 359, 83, 849, 364, 989, 200, 384, 521];
 
@@ -289,6 +334,37 @@ mod tests {
         for n in 1..500usize {
             assert_eq!(uniform_index(&mut a, n), b.gen_range(0..n as u64) as usize);
         }
+    }
+
+    /// The first deviates for one seed, as bit patterns, and the moments of a long run.
+    #[test]
+    fn standard_normal_is_pinned_and_has_the_moments_of_a_normal() {
+        use rand::SeedableRng;
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(7);
+        let got: Vec<u64> = (0..6)
+            .map(|_| standard_normal(&mut rng).to_bits())
+            .collect();
+        assert_eq!(got, STANDARD_NORMAL_PIN, "{got:#018x?}");
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(11);
+        let n = 400_000;
+        let (mut m1, mut m2, mut m4, mut beyond3) = (0.0, 0.0, 0.0, 0u32);
+        for _ in 0..n {
+            let x = standard_normal(&mut rng);
+            m1 += x;
+            m2 += x * x;
+            m4 += x * x * x * x;
+            beyond3 += (x.abs() > 3.0) as u32;
+        }
+        let (m1, m2, m4) = (m1 / n as f64, m2 / n as f64, m4 / n as f64);
+        // Standard errors at n = 400 000: mean 0.0016, variance 0.0022, fourth moment 0.015.
+        assert!(m1.abs() < 0.008, "mean {m1}");
+        assert!((m2 - 1.0).abs() < 0.011, "variance {m2}");
+        assert!((m4 - 3.0).abs() < 0.08, "fourth moment {m4}");
+        // P(|x| > 3) = 0.0026998: 1 080 expected, standard deviation 33.
+        assert!(
+            (915..=1245).contains(&beyond3),
+            "beyond three sigma: {beyond3}"
+        );
     }
 
     #[test]
