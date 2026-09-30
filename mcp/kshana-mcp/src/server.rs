@@ -149,19 +149,38 @@ fn base64(bytes: &[u8]) -> String {
     out
 }
 
-/// The first sentence of a scenario file's leading comment: what the example shows.
+/// Abbreviations whose full stop does not end a sentence in a scenario header.
+const ABBREVIATIONS: [&str; 5] = ["et al", "e.g", "i.e", "vs", "cf"];
+
+/// The first sentence of a scenario file's header comment: what the example shows.
+///
+/// The header is the first block of `#` lines in the file, which one bundled scenario
+/// carries below its `kind` line rather than above it. A full stop that closes one of the
+/// [`ABBREVIATIONS`] does not end the sentence, so "Liu et al. 2025" stays whole.
 fn first_comment_sentence(toml: &str) -> String {
     let paragraph = toml
         .lines()
+        .skip_while(|l| !l.starts_with('#'))
         .map_while(|l| l.strip_prefix('#'))
         .map(str::trim)
         .take_while(|l| !l.is_empty())
         .collect::<Vec<_>>()
         .join(" ");
-    match paragraph.find(". ") {
-        Some(i) => paragraph[..=i].to_string(),
-        None => paragraph,
+    let mut from = 0;
+    while let Some(i) = paragraph[from..].find(". ") {
+        let stop = from + i;
+        let before = &paragraph[..stop];
+        let abbreviated = ABBREVIATIONS.iter().any(|a| {
+            before
+                .strip_suffix(a)
+                .is_some_and(|head| !head.ends_with(|c: char| c.is_alphanumeric()))
+        });
+        if !abbreviated {
+            return paragraph[..=stop].to_string();
+        }
+        from = stop + 2;
     }
+    paragraph
 }
 
 /// The detected kind of a scenario, as the name `list_scenario_kinds` uses.
@@ -648,5 +667,25 @@ mod tests {
             "A chained mission: nominal, jamming and recovery."
         );
         assert_eq!(first_comment_sentence("kind = \"ephemeris\"\n"), "");
+    }
+
+    /// A header below the `kind` line is still the header, and the full stop of an
+    /// abbreviation does not cut the sentence short.
+    #[test]
+    fn the_first_comment_sentence_finds_a_late_header_and_keeps_abbreviations_whole() {
+        let late =
+            "kind = \"ephemeris\"\n\n# Ephemeris and ground track. More detail.\nstep_s = 30\n";
+        assert_eq!(first_comment_sentence(late), "Ephemeris and ground track.");
+        let cited = "# Four models, and the Liu et al. 2025\n# table. More detail.\n";
+        assert_eq!(
+            first_comment_sentence(cited),
+            "Four models, and the Liu et al. 2025 table."
+        );
+        // Only a whole abbreviation is skipped: a word that merely ends in one is not.
+        assert_eq!(
+            first_comment_sentence("# Two receivers vs. one jammer. More.\n"),
+            "Two receivers vs. one jammer."
+        );
+        assert_eq!(first_comment_sentence("# It revs. More.\n"), "It revs.");
     }
 }
