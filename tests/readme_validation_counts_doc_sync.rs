@@ -32,8 +32,14 @@ fn readme_validation_counts_match_the_matrix() {
     let total = m.len();
     let readme = include_str!("../README.md");
 
-    // The README's badge row is version, licence, DOI and CI only; the VALIDATED count moved
-    // from a shield into the Evidence section's label table, so that row is what is pinned.
+    // The "trust" badge row states VALIDATED of total ("83 of 223 validated"); pin the shield,
+    // and the Evidence section's label table beside it.
+    let badge = format!("badge/validated-{validated}%20of%20{total}-");
+    assert!(
+        readme.contains(&badge),
+        "README validated badge is out of sync with verification_matrix() \
+         ({validated} VALIDATED of {total}); expected the substring {badge:?}."
+    );
     let row = format!("| VALIDATED | {validated} |");
     assert!(
         readme.contains(&row),
