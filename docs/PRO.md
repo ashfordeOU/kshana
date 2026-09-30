@@ -81,8 +81,8 @@ Abbreviations used on this page, in full:
 
 The numbers below come from real runs of the worked examples that ship with Pro. Each one
 is a modelled result of an illustrative study, not a statement about any real mission. The
-design, uncertainty and mission-dossier examples were run with Pro 0.1.0, a development
-build, on open engine 0.28.0, and so were the campaign-watch, spectrum-coexistence and
+design, uncertainty and mission-dossier examples were run with Pro 0.2.0, a development
+build, on open engine 0.29.0, and so were the campaign-watch, spectrum-coexistence and
 job-service examples. Each design and uncertainty result records a digest of its
 runs: the SHA-256 over the SHA-256 of every run's result document, in order.
 
@@ -90,8 +90,8 @@ runs: the SHA-256 over the SHA-256 of every run's result document, in order.
 |---|---|---|
 | Design optimiser, whole Moon | 609 | `df81aad45cce5bc7cfa93485bdebfb947ecd746a858afe32956c4b757f0b0d3f` |
 | Design optimiser, south polar cap | 609 | `53dcc9c44290f737453ca6af04968e8f54bce291783fa788e3bd569ee5fb9c39` |
-| Uncertainty, clock holdover | 2,000 | `159d2e1d37b4443bcb58bc8f068643478cac2c0fb9dc39e02d8ba8b1294d4138` |
-| Sensitivity, low-Earth-orbit positioning chain | 6,144 | `2f2c4572d8dc085df3eca2f552fdca71a77e947cd41fc79278a36925ba417b24` |
+| Uncertainty, clock holdover | 2,000 | `abab765e36ce4b78865b1d9f91aa8240b683f22892abc5fbe9c58267af87ffbb` |
+| Sensitivity, low-Earth-orbit positioning chain | 6,144 | `fb54eac6f964fe134457ffe6fcc6a8294ec2ff0fa06af620fac2df71959aabb0` |
 
 ## Design optimiser
 
@@ -127,7 +127,7 @@ and 91.6739 % (2 planes at 8,000 km and 75° inclination, phasing 0); the four p
 8 satellites at 24.5261 %, 12 at 69.5825 %, 14 at 91.6739 % and 16 at 100 %. There the bundled
 design reaches 96.7241 % with 14 satellites: no front design dominates it, because it lies
 outside the stated design space. Each study made 609 open-engine runs (the 608 designs and
-the reference). Every front design was re-run in the free engine (open Kshana 0.28.0),
+the reference). Every front design was re-run in the free engine (open Kshana 0.29.0),
 and 12 of 12 and 9 of 9 gave a result whose SHA-256 equals the one in the index. For the
 whole-Moon knee design that SHA-256 is
 `89882372b381f75bd091e6acaed01e17a979a14723294c10e4a55fca4936a61f`.
@@ -211,8 +211,8 @@ spoofing and holdover campaign, and a Mars orbiter) and one trade study: 7 met, 
 MODELLED or PARTNER basis, 4 not met, 1 not verified, 15 open items, in a 21-page PDF. The
 re-check repeated the five runs and the trade study and got the same result bytes. The
 dossier's SHA-256 is
-`c37799f792d6e47fe78ad57d2a7b91164272c8603b09f443b73206256c4eea03` (Pro 0.1.0, a
-development build, on open engine 0.28.0, with the issue time fixed on the command line).
+`49df1e0e78e07cc53649ff7d2ded07a53c02da1af508fce46660cb5da599eac9` (Pro 0.2.0, a
+development build, on open engine 0.29.0, with the issue time fixed on the command line).
 The verification matrix, as the dossier checked it (values rounded to four decimals; a
 field written without a unit has the unit 1):
 
@@ -281,7 +281,7 @@ exited 1. Withdrawing that revision passed again, and a faster spoofer was detec
 310 s instead of 370 s and reported as an improvement, as was the smaller share of the
 mission under alarm, while two time-error figures moved within their tolerances. The
 history of the six runs checked intact; its last record's hash is
-`71397c3eee5b8822cf4b2109e135576fda9fef44c63201d049835d48dac67c2c`.
+`bb2f10ebaec45beb1ed95c4a54c652d351a2d9eda3c24d421860b30c2700dc4c`.
 
 **What it does not do.** A watch proves that a MODELLED figure stayed stable or moved; it
 does not prove the figure is true. The statistical gate uses the ensemble's mean, standard
@@ -360,8 +360,9 @@ the bytes differ). Submitting the same request again returned the same job, alre
 finished. The ledger check verified 3 records and 1 delivered job with no mismatch, the
 OpenAPI document listed 13 paths, and the job board page loaded nothing from outside.
 After a restart the finished job still showed one attempt. In a second test three jobs were
-queued on one worker and the service was killed while the third was running; after the
-restart that job ran again and succeeded, the two finished jobs were not run again, and the
+queued on one worker and the service was killed while the second was running, with one
+finished and one still queued; after the restart that job ran again and succeeded (its
+second attempt), the finished job was not run again, the queued one ran once, and the
 ledger verified 9 records and 3 delivered jobs. Without a licence, a job for a Pro scenario
 was refused on submission (status 403) and nothing was queued, while an open scenario was
 accepted (status 202). The status, result, repeated submission, ledger check, OpenAPI
