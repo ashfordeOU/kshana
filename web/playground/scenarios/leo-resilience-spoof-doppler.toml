@@ -1,0 +1,67 @@
+# LEO-PNT resilience against spoofing: Doppler and pass-geometry consistency.
+#
+# A timing receiver at a surveyed site (Frankfurt, position known to 1 m, velocity known
+# to be zero within 2 mm/s) tracks Galileo E1 and a generic low Earth orbit (LEO)
+# positioning, navigation and timing (PNT) layer (240 satellites at 1080 km, 53 deg; the
+# 16 highest passes of the half hour). At 300 s a spoofer captures every channel and
+# presents a position 30 m east of the true one, self-consistently in range and range
+# rate: the counterfeit signals are what a receiver 30 m away would see, the ionospheric
+# delay included (so the cross-band monitor has nothing to see; `leo-resilience-spoof-
+# monitors` shows the spoofers it does catch).
+#
+# The receiver predicts each satellite's range rate from the broadcast orbit and its
+# surveyed position and tests the measured range rates (chi-square, false-alarm
+# probability 1e-5 per epoch, detection declared at 99.9 % probability). A 30 m error
+# changes a MEO GNSS range rate by about 4 mm/s, inside the frequency-lock-loop noise;
+# it changes a LEO range rate by about 10 cm/s, because a LEO satellite's transverse
+# velocity over its range is about 25 times larger. The GNSS-only test never sees the
+# spoofer; the test on every channel (GNSS and LEO, sharing one receiver clock drift, which
+# the GNSS channels pin) detects it once enough LEO satellites are in view, 105 s after
+# the onset.
+#
+# MODELLED: the monitor's statistics are exact for the stated Gaussian noise; the spoofer
+# is an idealised position jump (its power, angle of arrival and correlation-peak
+# signatures are not modelled), and the prior is independent of the spoofed fixes.
+kind = "leo-pass"
+name = "Spoofing detection by LEO Doppler consistency"
+epoch = "2026-09-28T08:00:00"
+duration_s = 1800.0
+step_s = 5.0
+
+[user]
+environment = "ground"
+lat_deg = 50.11
+lon_deg = 8.68
+height_m = 110.0
+mask_deg = 10.0
+
+[[leo_constellation]]
+system = "generic-leo"
+bands = ["L", "C"]
+max_satellites = 16
+
+[leo_constellation.design]
+name = "Generic 1080 km"
+
+[[leo_constellation.design.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[gnss]
+constellation = "galileo"
+band = "E1"
+max_satellites = 8
+
+[spoofer]
+onset_s = 300.0
+offset_m = 30.0
+push_rate_m_s = 0.0
+push_azimuth_deg = 90.0
+simulate_iono = true
+prior_sigma_m = 1.0
+prior_velocity_sigma_m_s = 0.002
+p_fa = 1.0e-5
+p_md = 1.0e-3

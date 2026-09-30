@@ -1,0 +1,160 @@
+# LEO-PNT vertical: asset tracking and the Internet of Things (IoT), energy per fix.
+#
+# A battery-powered tag on a shipping container reports its position once an hour along
+# a journey in three phases, each a pass of a generic low Earth orbit (LEO) satellite
+# (550 km, sun-synchronous) in its UHF (465 MHz) and L bands, with the `leo-pass` kind's
+# `[iot]` section (20 mW active, 5 microwatt asleep, 2000 mWh battery, 16 dB detection
+# threshold, parallel code search; every assumption a stated input):
+#
+#   port-hamburg      on the quay, open sky;
+#   north-sea         on deck at sea (maritime user, 8 m/s);
+#   inland-warehouse  inside a traditional building (ITU-R P.2109 median building entry
+#                     loss), where the tag still fixes from the UHF band.
+#
+# Channels: the UHF and L-band carrier-to-noise densities (C/N0) over the pass, and the
+# hot-start energy per UHF fix and battery life at one fix per hour that the pass's
+# median C/N0 gives (constant within a phase). Indoors the lower C/N0 lengthens the
+# acquisition and the energy per fix grows.
+#
+# MODELLED: acquisition, time to first fix and energy from stated receiver assumptions;
+# representative EIRPs; not a measured tag.
+kind = "campaign"
+title = "Container tracking with LEO UHF: energy per fix along a journey"
+seed = 20260929
+
+[timeline]
+step_s = 10.0
+
+[[phases]]
+name = "port-hamburg"
+duration_s = 480.0
+
+[[phases.runs]]
+series = [
+  { channel = "uhf_cn0_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[0].cn0_dbhz" },
+  { channel = "l_cn0_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[1].cn0_dbhz" },
+  { channel = "uhf_hot_energy_per_fix_mj", unit = "mJ", t = "satellites[0].series[].t_s", y = "iot.rows[0].hot.energy_per_fix_mj" },
+  { channel = "uhf_battery_life_hourly_days", unit = "day", t = "satellites[0].series[].t_s", y = "iot.rows[0].duty_cycle_hot[4].battery_life_days" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Container tag, port-hamburg"
+epoch = "2026-09-28T06:00:00"
+duration_s = 480.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 53.54
+lon_deg = 9.97
+height_m = 5.0
+speed_m_s = 0.0
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L"]
+max_elevation_deg = 60.0
+tca_s = 240.0
+[phases.runs.scenario.gnss]
+constellation = "gps-baseline"
+band = "L1"
+[phases.runs.scenario.iot]
+active_power_mw = 20.0
+sleep_power_uw = 5.0
+battery_mwh = 2000.0
+detection_snr_db = 16.0
+max_coherent_ms = 20.0
+parallel_code_search = true
+aided_doppler_uncertainty_hz = 500.0
+fix_intervals_s = [1.0, 10.0, 60.0, 600.0, 3600.0, 86400.0]
+cn0_from = "median"
+
+[[phases]]
+name = "north-sea"
+duration_s = 480.0
+
+[[phases.runs]]
+series = [
+  { channel = "uhf_cn0_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[0].cn0_dbhz" },
+  { channel = "l_cn0_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[1].cn0_dbhz" },
+  { channel = "uhf_hot_energy_per_fix_mj", unit = "mJ", t = "satellites[0].series[].t_s", y = "iot.rows[0].hot.energy_per_fix_mj" },
+  { channel = "uhf_battery_life_hourly_days", unit = "day", t = "satellites[0].series[].t_s", y = "iot.rows[0].duty_cycle_hot[4].battery_life_days" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Container tag, north-sea"
+epoch = "2026-09-28T06:00:00"
+duration_s = 480.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "maritime"
+lat_deg = 54.5
+lon_deg = 6.5
+height_m = 15.0
+speed_m_s = 8.0
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L"]
+max_elevation_deg = 60.0
+tca_s = 240.0
+[phases.runs.scenario.gnss]
+constellation = "gps-baseline"
+band = "L1"
+[phases.runs.scenario.iot]
+active_power_mw = 20.0
+sleep_power_uw = 5.0
+battery_mwh = 2000.0
+detection_snr_db = 16.0
+max_coherent_ms = 20.0
+parallel_code_search = true
+aided_doppler_uncertainty_hz = 500.0
+fix_intervals_s = [1.0, 10.0, 60.0, 600.0, 3600.0, 86400.0]
+cn0_from = "median"
+
+[[phases]]
+name = "inland-warehouse"
+duration_s = 480.0
+
+[[phases.runs]]
+series = [
+  { channel = "uhf_cn0_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[0].cn0_dbhz" },
+  { channel = "l_cn0_dbhz", unit = "dB-Hz", t = "satellites[0].series[].t_s", y = "satellites[0].series[].bands[1].cn0_dbhz" },
+  { channel = "uhf_hot_energy_per_fix_mj", unit = "mJ", t = "satellites[0].series[].t_s", y = "iot.rows[0].hot.energy_per_fix_mj" },
+  { channel = "uhf_battery_life_hourly_days", unit = "day", t = "satellites[0].series[].t_s", y = "iot.rows[0].duty_cycle_hot[4].battery_life_days" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Container tag, inland-warehouse"
+epoch = "2026-09-28T06:00:00"
+duration_s = 480.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "indoor"
+lat_deg = 52.37
+lon_deg = 9.73
+height_m = 60.0
+speed_m_s = 0.0
+building = "traditional"
+building_probability = 0.5
+antenna = "hemispherical"
+gain_dbi = 0.0
+polarisation = "linear"
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["UHF", "L"]
+max_elevation_deg = 60.0
+tca_s = 240.0
+[phases.runs.scenario.gnss]
+constellation = "gps-baseline"
+band = "L1"
+[phases.runs.scenario.iot]
+active_power_mw = 20.0
+sleep_power_uw = 5.0
+battery_mwh = 2000.0
+detection_snr_db = 16.0
+max_coherent_ms = 20.0
+parallel_code_search = true
+aided_doppler_uncertainty_hz = 500.0
+fix_intervals_s = [1.0, 10.0, 60.0, 600.0, 3600.0, 86400.0]
+cn0_from = "median"

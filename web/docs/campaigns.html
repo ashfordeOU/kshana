@@ -1,0 +1,471 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Campaigns · Kshana docs</title>
+<meta name="description" content="Campaigns. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/campaigns.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/campaigns.html">
+<meta property="og:title" content="Campaigns · Kshana docs">
+<meta property="og:description" content="Campaigns. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Campaigns · Kshana docs">
+<meta name="twitter:description" content="Campaigns. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html" aria-current="page">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Scenarios</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/CAMPAIGNS.md</code></span></div>
+    <div class="prose"><h1 id="campaigns">Campaigns</h1>
+<p>A single scenario answers one question about one situation. A mission is a sequence of
+situations, and a design study is a family of them. The <code>campaign</code> scenario kind composes
+the existing kinds into one run without re-implementing any of them: every member is an
+ordinary scenario table carrying its own <code>kind</code>, dispatched through <code>api::run_toml</code>
+exactly as <code>kshana &lt;file&gt;.toml</code> would run it, and the campaign only reads numbers back out
+of the result documents.</p>
+<p>A campaign is <strong>MODELLED</strong>. Its composition identities are tested (below), but chaining
+phases is a modelling choice, and each phase is only as good as the kind that ran it.</p>
+<p>Run one like any other scenario:</p>
+<pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/campaign-jam-spoof-holdover-integrity.toml
+<span class="hljs-comment"># writes .result.json, .chart.svg, .report.html and .report.json next to the file</span></code></pre>
+<p>A campaign may contain any combination of four sections; one with none runs and its
+summary says it composed nothing.</p>
+<h2 id="phases-a-chained-mission-on-one-timeline"><code>[[phases]]</code>: a chained mission on one timeline<a class="anchor" href="#phases-a-chained-mission-on-one-timeline" aria-label="Link to this section">#</a></h2>
+<p>Each phase runs one or more scenarios over a window of a shared mission timeline, for
+example a clock in holdover and an inertial navigation system (INS) coasting at the same
+time. The outputs of each run are read into named <strong>channels</strong>, placed at the phase&#39;s
+start time, and resampled onto a common grid (<code>[timeline] step_s</code>) by zero-order hold: a
+grid time takes the latest sample of the owning phase&#39;s run at or before it, and is null
+where no run of that phase provides the channel.</p>
+<div class="tbl"><table><thead><tr>
+<th>Channel</th>
+<th>Unit</th>
+<th>What it is</th>
+<th>Preset source</th>
+</tr>
+</thead><tbody><tr>
+<td><code>time_error_ns</code></td>
+<td>ns</td>
+<td>clock time error</td>
+<td><code>clock</code>: <code>&lt;side&gt;.series[].error_ns</code>; <code>spoof</code>: <code>&lt;side&gt;.series[].offset_ns</code></td>
+</tr>
+<tr>
+<td><code>guard_ns</code></td>
+<td>ns</td>
+<td>time-error guard</td>
+<td>the run&#39;s own <code>threshold_ns</code></td>
+</tr>
+<tr>
+<td><code>cn0_dbhz</code></td>
+<td>dB-Hz</td>
+<td>mean effective carrier-to-noise density ratio (C/N0) over the visible satellites</td>
+<td><code>jamming</code>: mean of <code>epochs[].sats[].cn0_effective_dbhz</code></td>
+</tr>
+<tr>
+<td><code>cn0_floor_dbhz</code></td>
+<td>dB-Hz</td>
+<td>tracking-loss floor</td>
+<td><code>jamming</code>: the scenario&#39;s <code>tracking_threshold_dbhz</code>, when it states one</td>
+</tr>
+<tr>
+<td><code>tracking</code></td>
+<td>count</td>
+<td>satellites still tracking</td>
+<td><code>jamming</code>: <code>epochs[].tracking</code></td>
+</tr>
+<tr>
+<td><code>protection_level_m</code></td>
+<td>m</td>
+<td>vertical protection level</td>
+<td><code>integrity</code>: <code>epochs[].vpl_m</code></td>
+</tr>
+<tr>
+<td><code>alert_limit_m</code></td>
+<td>m</td>
+<td>vertical alert limit</td>
+<td><code>integrity</code>: <code>al_v_m</code></td>
+</tr>
+<tr>
+<td><code>position_error_m</code></td>
+<td>m</td>
+<td>position error</td>
+<td><code>gnss-ins</code>: <code>&lt;side&gt;.series[].error_m</code></td>
+</tr>
+<tr>
+<td><code>position_threshold_m</code></td>
+<td>m</td>
+<td>position-error threshold</td>
+<td><code>gnss-ins</code>: <code>threshold_m</code></td>
+</tr>
+<tr>
+<td><code>alarm</code></td>
+<td>1</td>
+<td>1 while any monitor of the phase alarms</td>
+<td>see below</td>
+</tr>
+</tbody></table></div>
+<p><code>&lt;side&gt;</code> is <code>classical</code> unless the run sets <code>side = &quot;quantum&quot;</code>. Any other quantity is read
+with an explicit <code>[[phases.runs.series]]</code> entry: a time path with one <code>[]</code> naming the rows
+(<code>epochs[].t</code>), a value path sharing those rows or a scalar broadcast to every row (prefix
+<code>input:</code> reads the run&#39;s scenario instead of its result), an optional reduction (<code>mean</code>,
+<code>min</code>, <code>max</code>, <code>count</code>) for several values under one row, a scale, and a unit for a channel
+the campaign does not know.</p>
+<p><strong>Alarms</strong> come from three places, combined by logical OR within a phase:</p>
+<ul>
+<li>preset flags read from the run: <code>jamming</code> alarms while fewer than four satellites track
+(its own availability definition); <code>integrity</code> alarms at epochs it marks unavailable;</li>
+<li>preset rules on the phase&#39;s channels, evaluated <strong>after</strong> <code>carry</code>: <code>clock</code> alarms while
+the absolute time error exceeds <code>guard_ns</code>; <code>gnss-ins</code> while the position error exceeds
+<code>position_threshold_m</code>; explicit rules go in <code>[[phases.runs.alarms]]</code>;</li>
+<li>alarming events: <code>spoof</code> raises one at its clock-aided monitor&#39;s <code>detect_time_s</code>;
+<code>spoof-detect</code> raises one at phase start when its fused decision alerts.</li>
+</ul>
+<p><strong>State is handed on</strong> between phases in three explicit ways:</p>
+<ul>
+<li><code>carry = [&quot;time_error_ns&quot;]</code> adds the channel&#39;s value at the end of the previous phase to
+this phase&#39;s values of it. The clock phase a spoofer pulled is where the holdover starts
+from. Adding the offset is exact for clock phase, which integrates frequency; for a
+position error it assumes the two errors are collinear, the pessimistic case.</li>
+<li><code>[[phases.handoff]]</code> writes a number from the previous phase (<code>channel:&lt;name&gt;</code> for a
+channel&#39;s end value, or any result path of a previous run) into a dotted key of this
+phase&#39;s scenario before it runs, with an optional scale and offset.</li>
+<li><code>end_at = &quot;&lt;result path&gt;&quot;</code> ends the phase at a time a run computed, capped at
+<code>duration_s</code>. The bundled mission ends its spoofing phase at
+<code>classical.detect_time_s</code>.</li>
+</ul>
+<p><code>skip_s</code> drops the first seconds of a run&#39;s own timeline (a warm-up) before phase time zero.</p>
+<h3 id="the-bundled-mission">The bundled mission<a class="anchor" href="#the-bundled-mission" aria-label="Link to this section">#</a></h3>
+<p><code>scenarios/campaign-jam-spoof-holdover-integrity.toml</code> runs 18 member scenarios over six
+phases on a 10 s grid:</p>
+<div class="tbl"><table><thead><tr>
+<th>Phase</th>
+<th>Runs</th>
+<th>What the timeline shows</th>
+</tr>
+</thead><tbody><tr>
+<td>nominal, 600 s</td>
+<td><code>clock</code>, <code>jamming</code> (no jammer), <code>integrity</code></td>
+<td>time error 0 ns; C/N0 43.0 dB-Hz against a 25 dB-Hz floor; vertical protection level 9.1 to 21.6 m against a 50 m alert limit</td>
+</tr>
+<tr>
+<td>jamming, 600 s</td>
+<td>the same, jammer at -30 dBW, 1 km</td>
+<td>C/N0 falls to 27.7 dB-Hz, all 8 satellites still tracking</td>
+</tr>
+<tr>
+<td>spoofing, ended at 370 s by <code>end_at</code></td>
+<td><code>spoof</code> (0.1 ns/s time ramp), <code>spoof-detect</code>, <code>jamming</code></td>
+<td>time error ramps to 36 ns; the radio-frequency detector alarms at phase start, the clock-aided monitor at 370 s</td>
+</tr>
+<tr>
+<td>holdover, 1800 s</td>
+<td><code>clock</code> (denied, carries 37.0 ns), <code>gnss-ins</code> (tactical unit coasting), <code>jamming</code> at 10 dBW</td>
+<td>every satellite lost (C/N0 about -12 dB-Hz); time error 36.4 to 62.7 ns against the 50 ns guard; position error to 24 km</td>
+</tr>
+<tr>
+<td>integrity-alarm, 600 s</td>
+<td><code>clock</code> (carries 59.6 ns), <code>jamming</code> and <code>integrity</code> with a 25 deg mask</td>
+<td>5 satellites tracking; protection level 19 to 135 m, missing at 18 of 60 grid times; the carried time error, 52.1 to 61.7 ns, stays above the 50 ns guard, so the alarm is up for the whole phase</td>
+</tr>
+<tr>
+<td>recovery, 600 s</td>
+<td><code>clock</code>, <code>jamming</code> (no jammer), <code>integrity</code></td>
+<td>time error back to 0 ns; alarm quiet</td>
+</tr>
+</tbody></table></div>
+<p>The integrity runs use the <code>integrity</code> example&#39;s own user track (a 0.4 km-altitude
+circular track), not the jamming receiver&#39;s fixed site, and the 25 deg mask stands in for
+the partial sky of a reacquiring receiver. Those are scenario choices, stated in the file.</p>
+<h3 id="a-mission-driven-by-the-l-band-spectrum">A mission driven by the L-band spectrum<a class="anchor" href="#a-mission-driven-by-the-l-band-spectrum" aria-label="Link to this section">#</a></h3>
+<p><code>scenarios/campaign-spectrum-holdover-integrity.toml</code> runs 8 member scenarios over three
+phases on a 1 s grid, with the C/N0 of GPS L1 C/A and Galileo E1 read from the <code>spectrum</code>
+kind (see <a href="spectrum.html">SPECTRUM.md</a>) rather than from the <code>jamming</code> kind&#39;s per-satellite
+table. The jammers are the ones in <code>scenarios/l-band-waterfall-jamming.toml</code>.</p>
+<div class="tbl"><table><thead><tr>
+<th>Phase</th>
+<th>Runs</th>
+<th>What the timeline shows</th>
+</tr>
+</thead><tbody><tr>
+<td>onset, ended at 10 s by <code>end_at</code></td>
+<td><code>clock</code>, <code>spectrum</code> (chirp from 10 s), <code>integrity</code></td>
+<td>L1 C/A 43.48 and E1 44.98 dB-Hz; the phase ends at the spectrum run&#39;s own first loss of L1 C/A (<code>timeline.bands[0].first_loss_t_s</code>); protection level 21.6 m against 50 m</td>
+</tr>
+<tr>
+<td>holdover, 600 s</td>
+<td><code>clock</code> (denied, carries the onset error, 0 ns here), <code>spectrum</code> (chirp on)</td>
+<td>L1 C/A 3.38 and E1 4.69 dB-Hz, both below the 25 dB-Hz floor; time error -0.07 to 5.06 ns against the 50 ns guard; alarm up</td>
+</tr>
+<tr>
+<td>galileo-fallback, 300 s</td>
+<td><code>clock</code> (re-synchronised), <code>spectrum</code> (CW tone on the L1 carrier), <code>integrity</code> on a Galileo-like Walker 24/3/1</td>
+<td>L1 C/A held at 17.98 dB-Hz, E1 back to 44.98 dB-Hz; protection level 6.1 to 17.7 m; alarm quiet</td>
+</tr>
+</tbody></table></div>
+<p>E1 recovering under the CW tone rests on the spectrum kind&#39;s continuous-spectrum
+treatment: the tone sits in the null of the MBOC spectrum and couples nothing. A real tone
+would couple through the code&#39;s spectral lines; that is stated in the file and in
+SPECTRUM.md.</p>
+<h2 id="sweep-a-parameter-grid-over-any-kind"><code>[sweep]</code>: a parameter grid over any kind<a class="anchor" href="#sweep-a-parameter-grid-over-any-kind" aria-label="Link to this section">#</a></h2>
+<p>One to three dotted scenario keys, each over a linear or logarithmic range, on the same
+axis values the <code>sweep-nd</code> kind uses. Every axis has a name and a unit; every metric has a
+name and a result path, and its unit is read from the swept kind&#39;s own units block unless
+the campaign declares one. With <code>runs &gt; 1</code> every node is a seeded Monte Carlo ensemble
+(realisation <code>k</code> at the node&#39;s seed plus <code>k</code>), reported with the statistics below.
+<code>scenarios/campaign-sweep-jammer-power.toml</code> sweeps a jammer 1 km from the receiver from
+-50 to +10 dBW: the mean jammer-to-signal ratio moves exactly 1 dB per dB (12.2 to
+72.2 dB), and availability falls from 1 to 0 between -30 and -25 dBW.</p>
+<p>A dotted key may index an array of tables by position: <code>system.2.sisre_m</code> is the
+<code>sisre_m</code> of the third <code>[[system]]</code> table, and
+<code>case.0.system.0.shell.0.altitude_km</code> reaches three levels down.</p>
+<h2 id="monte_carlo-a-seeded-ensemble"><code>[monte_carlo]</code>: a seeded ensemble<a class="anchor" href="#monte_carlo-a-seeded-ensemble" aria-label="Link to this section">#</a></h2>
+<p>Realisation <code>k</code> runs the scenario with its seed key set to <code>base_seed + k</code>, the convention
+the clock ensemble already uses, so the ensemble reproduces exactly. Each metric reports
+the mean, the population standard deviation, the nearest-rank 5th, 50th and 95th
+percentiles, a fixed-seed percentile-bootstrap 95% confidence interval on the mean (2000
+resamples), and, by default, every sample in seed order. Result paths may index arrays:
+<code>classical.series[-1].error_ns</code> is the last sample.</p>
+<h2 id="compose-several-scenarios-under-shared-conditions"><code>[compose]</code>: several scenarios under shared conditions<a class="anchor" href="#compose-several-scenarios-under-shared-conditions" aria-label="Link to this section">#</a></h2>
+<p>Named shared values (a number or an array of numbers, with a unit) are written into each
+member at the keys it binds them to, so the members cannot disagree about the shared
+condition. Every member runs, and for each metric the combined summary gives the smallest,
+largest and mean value across the members, naming the best and worst.
+<code>scenarios/campaign-shared-jammer-sea-road.toml</code> puts one 8 dBW jammer between a ship in
+the Gulf of Finland (about 30 km away) and a car on a Helsinki coast road (about 50 km):
+the ship loses every satellite (mean jammer-to-signal ratio 39.0 dB) while the car keeps
+at least four (34.6 dB).</p>
+<h2 id="reproducibility">Reproducibility<a class="anchor" href="#reproducibility" aria-label="Link to this section">#</a></h2>
+<p>Every campaign result carries <code>scenario_hash</code>, the SHA-256 (Secure Hash Algorithm 2,
+256-bit digest) of the canonical JavaScript Object Notation (JSON) form of the campaign
+document (key order and formatting do not change it), and a
+<code>reproducibility</code> block with the number of member runs and <code>run_digest</code>, a SHA-256 over
+every member result&#39;s digest in dispatch order. Two runs with the same digest produced
+byte-identical member results. Each phase run also records its kind, its own
+<code>scenario_hash</code> where the kind has one, and the SHA-256 of its result document. Every
+number in the document has a units entry.</p>
+<p>The core is sequential and reads no files, so a campaign runs unchanged in the
+WebAssembly build. Campaigns may not contain campaigns.</p>
+<h2 id="exports">Exports<a class="anchor" href="#exports" aria-label="Link to this section">#</a></h2>
+<p><code>--export</code> on a campaign writes each member scenario that has geometry as its own file
+set, the member&#39;s label inserted before the format suffix: every phase run (<code>&lt;phase&gt;</code>, or
+<code>&lt;phase&gt;-&lt;k&gt;</code> when the phase has several runs), the sweep&#39;s base scenario (<code>sweep</code>), the
+Monte Carlo scenario (<code>monte-carlo</code>) and each composed member (its own label, with the
+shared values it binds written in). A member identical to an earlier one is written once;
+hand-offs and sweep or seed values applied at run time are not in the exported scenarios.</p>
+<pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/campaign-shared-jammer-sea-road.toml --<span class="hljs-built_in">export</span> kml
+<span class="hljs-comment"># after the usual result, chart and report files:</span>
+<span class="hljs-comment"># wrote scenarios/campaign-shared-jammer-sea-road.ship-strait.kml</span>
+<span class="hljs-comment"># wrote scenarios/campaign-shared-jammer-sea-road.car-coast-road.kml</span></code></pre>
+<p>A format none of the members can describe is refused with that reason. The per-scenario
+table is in <a href="interop.html">INTEROP.md</a>.</p>
+<h2 id="leo-pnt-campaigns">LEO-PNT campaigns<a class="anchor" href="#leo-pnt-campaigns" aria-label="Link to this section">#</a></h2>
+<p>Fifteen bundled campaigns frame low Earth orbit (LEO) positioning, navigation and timing
+(PNT) questions; <a href="leo-pnt.html">LEO-PNT.md</a> describes what each one shows. What each runs,
+as the command line summarises it:</p>
+<div class="tbl"><table><thead><tr>
+<th>Scenario</th>
+<th>Mode</th>
+<th>Question</th>
+</tr>
+</thead><tbody><tr>
+<td><code>leo-focus-data-services.toml</code></td>
+<td>compose, 4 members</td>
+<td>navigation-message service data against frame length</td>
+</tr>
+<tr>
+<td><code>leo-focus-fused-pnt-sisre.toml</code></td>
+<td>sweep of <code>leo-pvt</code>, 7 nodes</td>
+<td>fused MEO and LEO positioning against the LEO signal-in-space range error (SISRE)</td>
+</tr>
+<tr>
+<td><code>leo-focus-indoor-uhf.toml</code></td>
+<td>compose, 2 members</td>
+<td>indoor LEO-PNT by band and building class</td>
+</tr>
+<tr>
+<td><code>leo-focus-iot-eirp.toml</code></td>
+<td>sweep of <code>leo-pass</code>, 9 nodes</td>
+<td>Internet of Things (IoT) energy per fix against the LEO UHF transmit power</td>
+</tr>
+<tr>
+<td><code>leo-focus-ntn-bandwidth.toml</code></td>
+<td>sweep of <code>ntn-positioning</code>, 9 nodes</td>
+<td>non-terrestrial-network (NTN) positioning against reference-signal bandwidth</td>
+</tr>
+<tr>
+<td><code>leo-focus-ppp-altitude.toml</code></td>
+<td>sweep of <code>leo-ppp</code>, 3 nodes</td>
+<td>precise point positioning (PPP) convergence against the altitude of a 192-satellite LEO layer</td>
+</tr>
+<tr>
+<td><code>leo-resilience-gnss-jammed-leo-carries.toml</code></td>
+<td>chain, 3 phases over 2100 s</td>
+<td>Global Navigation Satellite System (GNSS) jammed, the LEO layer carries the user, integrity maintained</td>
+</tr>
+<tr>
+<td><code>leo-resilience-multiband-diversity.toml</code></td>
+<td>sweep of <code>spectrum</code>, 13 nodes</td>
+<td>LEO band diversity against an L-band barrage jammer</td>
+</tr>
+<tr>
+<td><code>leo-resilience-spoof-monitors.toml</code></td>
+<td>compose, 4 members</td>
+<td>the spoofing monitors against four spoofers</td>
+</tr>
+<tr>
+<td><code>leo-vertical-5g-network-timing.toml</code></td>
+<td>chain, 1 phase over 86 400 s</td>
+<td>5G base-station timing: holdover and LEO time</td>
+</tr>
+<tr>
+<td><code>leo-vertical-asset-tracking-iot.toml</code></td>
+<td>chain, 3 phases over 1440 s</td>
+<td>container tracking with LEO UHF: energy per fix along a journey</td>
+</tr>
+<tr>
+<td><code>leo-vertical-autonomous-vehicle.toml</code></td>
+<td>chain, 2 phases over 1500 s</td>
+<td>an autonomous vehicle in an urban canyon with a LEO layer</td>
+</tr>
+<tr>
+<td><code>leo-vertical-critical-infrastructure-timing.toml</code></td>
+<td>chain, 2 phases over 87 000 s</td>
+<td>critical-infrastructure timing: holdover with LEO time</td>
+</tr>
+<tr>
+<td><code>leo-vertical-polar-arctic.toml</code></td>
+<td>chain, 3 phases over 10 800 s</td>
+<td>polar and Arctic users with a polar LEO layer</td>
+</tr>
+<tr>
+<td><code>leo-vertical-rail-maritime.toml</code></td>
+<td>chain, 3 phases over 2520 s</td>
+<td>railway and maritime users with a LEO layer</td>
+</tr>
+</tbody></table></div>
+<p>MEO is medium Earth orbit, UHF ultra-high frequency and 5G the fifth generation of mobile
+networks.</p>
+<h2 id="what-is-checked">What is checked<a class="anchor" href="#what-is-checked" aria-label="Link to this section">#</a></h2>
+<p><code>tests/campaign_composition_reference.rs</code> pins the composition identities:</p>
+<ul>
+<li><strong>A one-phase campaign reproduces the stand-alone run bit for bit.</strong> For <code>clock</code>,
+<code>integrity</code> and <code>jamming</code>, the member&#39;s result document is byte-identical to <code>run_toml</code>
+on the scenario file, its digest is the one the campaign reports, and with the grid at
+the run&#39;s own step every aligned value equals the stand-alone series value (the jamming
+C/N0 equals the mean computed independently from the stand-alone document).</li>
+<li><strong>A one-node sweep and a one-member composition</strong> read exactly the stand-alone number.</li>
+<li><strong>A fixed-seed ensemble is byte-stable</strong>, and realisation <code>k</code> is exactly the stand-alone
+run at <code>seed + k</code>; the campaign hash ignores key order.</li>
+<li><strong>An analytic case.</strong> <code>scenarios/campaign-monte-carlo-clock-holdover.toml</code> runs 200 seeds
+of a chip-scale atomic clock with only white frequency noise (q_wf = 9e-20 s^2/s,
+Microchip SA.45s sigma_y(1 s) = 3e-10), synchronised to 590 s and coasting to 3600 s. The
+final time error is Gaussian with mean 0 and standard deviation sqrt(q_wf * 3010 s) =
+16.459 ns (the random walk of phase under white frequency noise, National Institute of Standards
+and Technology (NIST) Technical Note 1337). The reported interval, [-2.52, 1.59] ns, contains the true mean 0; the sample
+standard deviation, 14.93 ns, gives a chi-square statistic of 164.5 on 199 degrees of
+freedom, inside the two-sided 99% interval [151.37, 254.14]. At 3000 seeds the same
+scenario gives 16.31 ns.</li>
+<li><strong>The spectrum-driven chain</strong> reads the stand-alone numbers: the onset phase lasts
+exactly the spectrum run&#39;s first-loss time, and every L1 C/A and E1 value on the
+timeline equals, to 1e-9 dB, the stand-alone waterfall example&#39;s row for the same
+jammer state (nominal, chirp alone, CW tone alone).</li>
+<li><strong>The chain</strong> hands state on as documented: the spoofing phase lasts exactly the spoof
+run&#39;s detection time, the holdover carries exactly the spoof run&#39;s offset at detection,
+recovery carries nothing, and the alarm is up wherever the protection level is missing or
+exceeds the alert limit.</li>
+</ul>
+<p>These check that composing changes nothing it should not. They do not validate a chained
+mission against a measured one, which is why the three campaign rows in
+<a href="verification-matrix.html">VERIFICATION-MATRIX.md</a> are MODELLED.</p>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="real-tle-guide.html"><small>Previous</small>Using real TLEs</a><a class="next" href="reports.html"><small>Next</small>Run reports</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#phases-a-chained-mission-on-one-timeline">[[phases]]: a chained mission on one timeline</a><a class="l3" href="#the-bundled-mission">The bundled mission</a><a class="l3" href="#a-mission-driven-by-the-l-band-spectrum">A mission driven by the L-band spectrum</a><a class="l2" href="#sweep-a-parameter-grid-over-any-kind">[sweep]: a parameter grid over any kind</a><a class="l2" href="#monte_carlo-a-seeded-ensemble">[monte_carlo]: a seeded ensemble</a><a class="l2" href="#compose-several-scenarios-under-shared-conditions">[compose]: several scenarios under shared conditions</a><a class="l2" href="#reproducibility">Reproducibility</a><a class="l2" href="#exports">Exports</a><a class="l2" href="#leo-pnt-campaigns">LEO-PNT campaigns</a><a class="l2" href="#what-is-checked">What is checked</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

@@ -1,0 +1,84 @@
+# Tracking-loop loss of lock: C/N0 -> lock/unlock with hysteresis, the time it takes to
+# lose lock, and the spoof pull-in limits set by code and carrier offset RATE.
+#
+# The engine's existing denial and capture criteria are ratios on received power: a jammer
+# denies at J/S = 30 dB and a spoofer captures at J/S = 3 dB. Real loss of lock is not a
+# power ratio. A channel gives up when its loops can no longer hold the signal, and that
+# depends on the loop noise bandwidth, the predetection integration time, the correlator
+# spacing and the dynamics the loop is being asked to follow.
+#
+# This scenario computes that, and reports the denial radius it implies ALONGSIDE the
+# power-ratio radius, with the difference named (denial.denial_radius_delta_km). Neither
+# number replaces the other.
+#
+# Rules applied, both stated in the report rather than buried:
+#   carrier: 3*sigma_PLL + theta_e <= 45 deg  (the 15-degree Costas rule, three-sigma form)
+#   code:    3*sigma_DLL + ramp lag <= d/2 chips (the discriminator's linear half-range)
+#
+# Hysteresis is DERIVED, not asserted: re-lock is the same rule evaluated with the wider
+# bandwidth a receiver re-pulls-in at, so the width must fall between 5*log10(ratio) and
+# 10*log10(ratio) dB. The ratio itself is a modelled design choice.
+#
+# Every loop parameter below is a MODELLED representative band figure, not a datasheet.
+kind = "tracking-loop"
+
+# --- loop geometry -----------------------------------------------------------------
+# A 10 Hz Costas carrier loop and a 1 Hz carrier-aided code loop, 1 ms coherent
+# integration (one C/A code period, so no data-bit synchronisation is assumed), narrow
+# 0.5 chip correlator.
+pll_bandwidth_hz = 10.0
+dll_bandwidth_hz = 1.0
+predetection_integration_s = 0.001
+correlator_spacing_chips = 0.5
+carrier_allowance_deg = 45.0
+# code_allowance_chips defaults to half the correlator spacing.
+
+# Re-pull-in runs at twice the tracking bandwidth. This is the design choice that sets the
+# hysteresis width; no physics fixes it, so it is an explicit input.
+pullin_bandwidth_ratio = 2.0
+
+# Lock-detector confirmation dwells, in epochs (1 ms each here): 50 ms to declare loss,
+# 200 ms of clean signal to declare recovery.
+drop_confirm_epochs = 50
+relock_confirm_epochs = 200
+
+# Dynamics the loop must follow while tracking. Zero here: a static user, so the whole
+# carrier budget is available to thermal jitter and the spoofer.
+doppler_rate_hz_per_s = 0.0
+code_slew_chips_per_s = 0.0
+
+# --- the C/N0 profile the lock detector is driven over ------------------------------
+# A linear ramp from 45 dB-Hz down to 15 dB-Hz over 60 s, then back up over 60 s. The
+# down leg gives the time to lose lock; the up leg shows the hysteresis as a recovery
+# that happens later and at a higher C/N0 than the drop.
+cn0_high_dbhz = 45.0
+cn0_low_dbhz = 15.0
+ramp_duration_s = 60.0
+
+# C/N0 values the jitter / cycle-slip table is tabulated at.
+jitter_table_cn0_dbhz = [45.0, 40.0, 35.0, 30.0, 27.5, 25.0, 22.5, 20.0]
+
+# --- the jammer link both denial radii are evaluated on -----------------------------
+# A 10 W broadband jammer against a zenith GPS L1 C/A signal at the IS-GPS-200 minimum
+# received power, 290 K system noise temperature, 0 dBi everywhere. The same radiometry
+# the `jamming` kind uses; this scenario only inverts it for a radius.
+jammer_power_dbw = 10.0
+jammer_gain_dbi = 0.0
+rx_gain_toward_jammer_db = 0.0
+rx_gain_toward_sat_db = 0.0
+signal_power_dbw = -158.5
+temp_k = 290.0
+freq_hz = 1575420000.0
+chip_rate_hz = 1023000.0
+jammer_type = "broadband"
+
+# The EXISTING power-ratio criteria, reported unchanged next to the loop-dynamics answer.
+denial_js_threshold_db = 30.0
+capture_js_threshold_db = 3.0
+
+# --- the spoof pull-in map ------------------------------------------------------------
+# A spoofer captures by slewing the victim's code and carrier away from truth. Too slow
+# and it never moves the victim anywhere useful; too fast and it outruns the victim's
+# loops, which is what makes this a RATE condition and not a power ratio.
+spoof_code_slew_chips_per_s = [0.1, 0.5, 1.0, 2.0, 5.0]
+spoof_doppler_rate_hz_per_s = [1.0, 10.0, 40.0, 100.0, 500.0]

@@ -1,0 +1,117 @@
+# Celeste IOD end to end (optional preset): the E5 configuration #1 signal -> a Celeste IOD
+# pass -> the Celeste-style navigation message -> GPS + Galileo + Celeste IOD fused fix.
+#
+# This file uses the Celeste IOD preset (src/celeste_iod.rs), whose signal parameters and
+# message content were presented at the ESA NAVISP (Navigation Innovation and Support
+# Programme) LEO-PNT workshop, 2026. It is one of the scenarios withheld with that file; the
+# same chain runs without any Celeste data in leo-pnt-end-to-end.toml and
+# xona-pulsar-end-to-end.toml.
+#
+# - Signal: E5#1 "Classical Pilot" with data option PfA (pilot BPSK(10), data BPSK(1), 51.15 MHz
+#   transmit bandwidth; presented at the ESA NAVISP LEO-PNT workshop, 2026). The 50/50 power
+#   split and the code lengths are assumptions.
+# - Pass: a user at ESTEC (Noordwijk) watches a Celeste IOD satellite (510 km sun-synchronous,
+#   public orbit) peak at 75 deg; the E5 band of the Celeste link preset carries the design.
+# - Navigation message: the Celeste IOD message preset (Galileo Keplerian set with
+#   along-track, cross-track and radial corrections, 300 s fit), fitted at the pass
+#   satellite's orbit; 0.25 m of orbit-determination and clock error is added as a
+#   representative decimetre-level figure (no Celeste figure is public).
+# - Positioning: GPS and Galileo with the two IOD satellites, which add geometry only while
+#   in view.
+#
+# MODELLED: every stage keeps its own label.
+#
+# calibrated_peak_cn0_dbhz = 57.5  (the peak of the pass shown at the workshop; read by
+# tests/leo_pnt_chain.rs so that no withholdable number lives outside the preset files)
+kind = "leo-pnt-chain"
+name = "Celeste IOD end to end"
+seed = 4
+signal_design = "celeste-iod-e5-1-pfa"
+od_sisre_m = 0.25
+
+[[signal.signals]]
+name = "celeste-iod-e5-1-pfa"
+system = "Celeste IOD"
+source = "WORKSHOP"
+source_ref = "presented at the ESA NAVISP LEO-PNT workshop, 2026"
+centre_mhz = 1191.795
+tx_bandwidth_mhz = 51.15
+allocation = "rnss"
+orbit_altitude_km = 510.0
+notes = "E5#1 Classical Pilot, data option PfA."
+
+[[signal.signals.components]]
+role = "pilot"
+modulation = "BPSK(10)"
+power_fraction = 0.5
+code_length_chips = 10230
+note = "power split and code length assumed"
+
+[[signal.signals.components]]
+role = "data"
+modulation = "BPSK(1)"
+power_fraction = 0.5
+code_length_chips = 1023
+note = "PfA; power split and code length assumed"
+
+[pass]
+epoch = "2026-09-28T08:00:00"
+duration_s = 600.0
+step_s = 2.0
+
+[pass.user]
+environment = "ground"
+lat_deg = 52.218
+lon_deg = 4.420
+height_m = 5.0
+
+[[pass.satellite]]
+id = "Celeste-IOD"
+system = "celeste-iod"
+bands = ["E5"]
+max_elevation_deg = 75.0
+tca_s = 300.0
+
+[[pass.satellite.band]]
+name = "E5"
+signal = "celeste-iod-e5-1-pfa"
+
+[pass.gnss]
+constellation = "galileo"
+band = "E1"
+
+[navmsg]
+preset = "celeste-iod"
+
+[navmsg.trade]
+span_s = 1200.0
+
+[fusion]
+mode = "joint"
+duration_s = 5700.0
+step_s = 30.0
+
+[fusion.user]
+lat_deg = 52.22
+lon_deg = 4.42
+height_m = 5.0
+
+[fusion.joint]
+max_leo_sweep = 2
+
+[[fusion.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [38.0, 48.0]
+
+[[fusion.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [38.0, 48.0]
+isb_ns = 12.0
+
+[[fusion.system]]
+name = "Celeste IOD"
+leo_preset = "celeste-iod"
+signal = "E5"
+clock = "known"

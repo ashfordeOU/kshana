@@ -34,10 +34,12 @@ __pycache__/
 # WebAssembly package (wasm-pack output)
 /pkg
 
-# Playground build outputs (generated/copied by web/build.sh and the Pages workflow)
+# Site build outputs (generated/copied by web/build.sh and the Pages workflow): the
+# WebAssembly package, its copy next to the Studio, and the scenarios staged at the old
+# single-page site's URL. web/assets/ is site content and is tracked.
 /web/pkg
 /web/scenarios
-/web/assets
+/web/playground/pkg
 
 # ANISE frame cross-validation crate: its build dir, downloaded SPICE kernels, and
 # generated reports. The crate's source + Cargo.lock ARE committed; these are not.

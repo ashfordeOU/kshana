@@ -1,0 +1,148 @@
+# LEO-PNT vertical: critical infrastructure timing, holdover with LEO time.
+#
+# A grid-edge time server at a substation in Boulder, Colorado must hold the 1 microsecond
+# synchronisation that power-system protection and phasor measurement need (the IEC/IEEE
+# 61850-9-3 power profile). Its oscillator is a temperature-compensated crystal (TCXO)
+# class part, disciplined to GNSS. When GNSS is lost:
+#
+#   gnss-locked  (10 min) the `clock` kind's TCXO tracks GNSS: time error near zero.
+#   gnss-denied  (24 h) the same TCXO coasts on its own: its random-walk frequency noise
+#                makes the time error grow as t^1.5, through the 1000 ns guard a little
+#                over an hour after the loss and to about 29 microseconds by the end of
+#                the day. Beside it, a `leo-pvt` timing run disciplines the same TCXO class
+#                to the Iridium constellation (the public `iridium-stl` preset: 66
+#                satellites at 780 km, L-band bursts 25 to 34 dB above GPS), holding
+#                between passes, and converts system time to UTC (Coordinated Universal
+#                Time) with the broadcast offset. A `leo-pass` run of one Iridium pass over
+#                the site carries the geometry the campaign exports.
+#
+# The alarm is raised on the LEO-disciplined time error against the 1000 ns guard; it
+# stays down. The free-running error is shown for comparison and is not alarmed. Both
+# runs use the same oscillator noise (the engine's TCXO class); the deterministic
+# frequency offset and ageing are taken as calibrated at the loss of GNSS.
+#
+# NIST measured Iridium PNT timing receivers with a miniature atomic clock within 40 ns of
+# UTC(NIST) over 40 days (https://www.nist.gov/publications/validating-timing-performance-improvement-ionospheric-corrections-iridium-pnt-receivers);
+# the modelled figures are a consistency comparison with that, not a reproduction.
+# MODELLED.
+kind = "campaign"
+title = "Critical infrastructure timing: holdover with LEO time"
+seed = 20260929
+
+[timeline]
+step_s = 300.0
+
+[[phases]]
+name = "gnss-locked"
+duration_s = 600.0
+
+[[phases.runs]]
+alarms = []
+[phases.runs.scenario]
+seed = 42
+threshold_ns = 1000.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 600.0
+[phases.runs.scenario.gnss]
+windows = [{ t0 = 0.0, t1 = 600.0, state = "nominal" }]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown. Not read by this campaign."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "tcxo-class"
+provenance = "The engine's TCXO class (EndRun Technologies disciplined-oscillator data sheet, basic TCXO, Allan deviation 2.0e-10 at 1 s): q_wf = (2e-10)^2, q_rw = 3*(2e-12)^2, the same PSDs the leo-pvt timing run uses for class tcxo"
+y0 = 0.0
+q_wf = 4.0e-20
+q_rw = 1.2e-23
+
+[[phases]]
+name = "gnss-denied"
+duration_s = 86400.0
+
+[[phases.runs]]
+alarms = []
+[phases.runs.scenario]
+seed = 43
+threshold_ns = 1000.0
+[phases.runs.scenario.time]
+step_s = 300.0
+duration_s = 86400.0
+[phases.runs.scenario.gnss]
+windows = [
+  { t0 = 0.0, t1 = 300.0, state = "nominal" },
+  { t0 = 300.0, t1 = 86400.0, state = "denied" },
+]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown. Not read by this campaign."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "tcxo-class"
+provenance = "The engine's TCXO class (EndRun Technologies disciplined-oscillator data sheet, basic TCXO, Allan deviation 2.0e-10 at 1 s): q_wf = (2e-10)^2, q_rw = 3*(2e-12)^2, the same PSDs the leo-pvt timing run uses for class tcxo"
+y0 = 0.0
+q_wf = 4.0e-20
+q_rw = 1.2e-23
+
+[[phases.runs]]
+series = [
+  { channel = "leo_time_error_ns", unit = "ns", t = "timing.rows[0].series[].t_s", y = "timing.rows[0].series[].error_ns" },
+  { channel = "leo_time_sigma_ns", unit = "ns", t = "timing.rows[0].series[].t_s", y = "timing.rows[0].series[].sigma_ns" },
+]
+alarms = [{ channel = "leo_time_error_ns", compare = "abs_above", threshold = 1000.0 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "timing"
+seed = 9
+duration_s = 86400.0
+step_s = 30.0
+[phases.runs.scenario.user]
+lat_deg = 39.99
+lon_deg = -105.26
+height_m = 1655.0
+[phases.runs.scenario.timing]
+clocks = ["tcxo"]
+cn0_offsets_db = [0.0]
+week = 2436
+tow0_s = 172800.0
+trace = true
+[phases.runs.scenario.timing.utc]
+a0_s = 4.0e-9
+a1_s_per_s = 1.0e-14
+t_ot_s = 147456.0
+wn_t = 2436
+delta_t_ls_s = 18.0
+sigma_s = 5.0e-9
+[[phases.runs.scenario.system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+mask_deg = 15.0
+
+[[phases.runs]]
+series = [
+  { channel = "iridium_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+name = "Iridium pass over the substation"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 39.99
+lon_deg = -105.26
+height_m = 1655.0
+mask_deg = 15.0
+[[phases.runs.scenario.satellite]]
+id = "Iridium-pass"
+system = "iridium-stl"
+max_elevation_deg = 70.0
+tca_s = 450.0
+[phases.runs.scenario.gnss]
+enabled = false

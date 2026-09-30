@@ -1,0 +1,55 @@
+# Xona Pulsar X1 and X5 over one pass, with the Pulsar constellation's highest passes.
+#
+# A maritime user in the Bay of Biscay (moving at 8 m/s, heading east) sees a designed pass of a
+# Pulsar satellite at the full-constellation altitude of 1080 km and 53 deg inclination
+# peaking at 70 deg, and the four highest passes of the inclined Pulsar shell (192 satellites,
+# 12 planes, Walker phasing 1) built by the constellation-design code, next to GPS L1 C/A.
+#
+# Every Pulsar signal number is public: Leclere, Marathe and Reid, ION GNSS+ 2025,
+# https://arxiv.org/abs/2509.19551, Tables 1 and 2 (X1 at 1593.3225 MHz, 1.023 Mchip/s; X5 at
+# 1190.51625 MHz, 10.23 Mchip/s; received power -148.2 to -139.1 dBW on X1 and -144.9 to
+# -136.2 dBW on X5). The paper gives received powers, not an EIRP or a pattern: the preset
+# takes a flat pattern and the EIRP that delivers the published minimum at 10 deg elevation.
+# The maximum carrier Doppler a static user can see from each orbit (33.6 kHz on X1 for the
+# polar shell, 31.8 kHz for the inclined one) is validated against the paper's Table 1.
+#
+# MODELLED as a whole: the pattern and EIRP are inferred from the published powers.
+kind = "leo-pass"
+name = "Xona Pulsar pass"
+epoch = "2026-09-28T10:00:00"
+duration_s = 1200.0
+step_s = 5.0
+
+[user]
+environment = "maritime"
+lat_deg = 45.5
+lon_deg = -5.0
+height_m = 10.0
+speed_m_s = 8.0
+heading_deg = 90.0
+
+[[satellite]]
+id = "Pulsar-pass"
+system = "xona-pulsar"
+altitude_km = 1080.0
+inclination_deg = 53.0
+max_elevation_deg = 70.0
+tca_s = 600.0
+
+[[leo_constellation]]
+system = "xona-pulsar"
+max_satellites = 4
+
+[leo_constellation.design]
+name = "Pulsar inclined"
+
+[[leo_constellation.design.shell]]
+total = 192
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[gnss]
+constellation = "gps-baseline"
+band = "L1"

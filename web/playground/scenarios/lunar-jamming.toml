@@ -1,0 +1,77 @@
+# Lunar-native RF jamming: per-satellite J/S for a lunar surface user.
+#
+# The `jamming` kind is Earth-shaped — it takes a Walker/SGP4 shell and a WGS-84
+# geodetic receiver, so a lunar case could only be assembled outside the engine by
+# running `link-budget` twice (once for the jammer leg, once for the satellite leg)
+# and subtracting the two received powers by hand. This kind runs that subtraction
+# inside the engine, per satellite, per epoch.
+#
+# It composes, and re-derives nothing:
+#   * jamming::j_over_s_db, effective_cn0_dbhz, rx_antenna_gain_db, lock_status,
+#     q_factor, nominal_cn0_dbhz, free_space_path_loss_db  (the interference chain),
+#   * lunar_service::LunarConstellation + topocentric, lunar::selenographic_to_mcmf
+#     (the lunar sky geometry: MCI -> MCMF, then az / el / slant range from a
+#     selenographic surface user).
+#
+# Unlike the Earth kind, the signal leg is not a fixed received power: each
+# satellite's isotropic received power is its own link budget,
+# `sat_eirp_dbw - FSPL(slant range, carrier)`, so the J/S moves satellite by
+# satellite with lunar range and elevation. The result is a TABLE — one row per
+# visible (epoch, satellite) link — published as JSON and as `*.table.csv`. The
+# aggregate figures of merit sit beside that table, never in place of it.
+#
+# Every field below is optional; the values shown are the defaults except for the
+# jammer block. Run it with:  kshana scenarios/lunar-jamming.toml
+#
+# MODELLED. The constellation is the illustrative, public-source Moonlight/LCNS-class
+# geometry (not the real ephemeris; no affiliation or endorsement implied), and the
+# interference model is a link budget: no terrain shadowing of the jammer (a
+# first-order effect in south-polar terrain), no multipath, no AGC near/far dynamics,
+# no adaptive nulling, no acquisition-vs-tracking hysteresis.
+
+kind = "lunar-jamming"
+
+# --- constellation (illustrative LCNS-class; apolune over the south) ------------
+n_sats = 4
+sma_km = 9737.4          # R_moon + 8000 km
+eccentricity = 0.6
+inc_deg = 57.7
+argp_deg = 90.0
+
+# --- surface user (selenographic) ----------------------------------------------
+site_lat_deg = -89.67    # Shackleton crater rim
+site_lon_deg = 129.78
+site_alt_m = 0.0
+
+# --- epoch grid ------------------------------------------------------------------
+horizon_hours = 12.0
+step_min = 60.0
+elev_mask_deg = 5.0
+
+# --- signal leg (link-budget leg 2, evaluated per satellite) ---------------------
+sat_eirp_dbw = 26.0            # representative lunar AFS EIRP
+carrier_hz = 2.4e9             # S-band AFS carrier
+chip_rate_hz = 1.023e6         # despreading processing gain
+user_boresight_gain_dbi = 3.0  # J/S is invariant to this; it moves C/N0 only
+
+# --- receiver ---------------------------------------------------------------------
+temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+degraded_margin_db = 6.0
+
+# --- jammer (link-budget leg 1). Omit this whole block for a clean-sky baseline. --
+# Placed directly by standoff here. Give `lat_deg` and `lon_deg` instead to place it
+# selenographically, and its range and elevation come from the same lunar geometry
+# the satellites use (on an airless body a distant surface jammer then lands below
+# the local horizon, and the antenna pattern hands it the horizon gain).
+#
+# 25 km is chosen because it splits the table: part of the visible set holds on and
+# part does not. A single median J/S over these rows classifies the whole set as
+# lost, which is exactly the collapse this kind exists to avoid.
+[jammer]
+power_dbw = 10.0        # 10 W
+gain_dbi = 0.0
+range_m = 25000.0
+el_deg = 0.0            # a surface jammer on the user's local horizon
+jammer_type = "broadband"
+bandwidth_mhz = 20.0

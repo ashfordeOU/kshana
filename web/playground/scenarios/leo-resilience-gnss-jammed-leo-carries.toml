@@ -1,0 +1,297 @@
+# LEO-PNT resilience mission: GNSS jammed, LEO-PNT carries the user, integrity maintained.
+#
+# Three phases on one 30 s timeline, each running a `spectrum` receiver (what it can still
+# track) and an `integrity` run (receiver autonomous integrity monitoring, RAIM, against a
+# 40 m horizontal and 50 m vertical alert limit):
+#
+#   nominal   GPS L1 C/A, Galileo E5a and a generic low Earth orbit (LEO) positioning,
+#             navigation and timing (PNT) layer in the S and C bands all track; integrity
+#             uses the GNSS layer (24 satellites at 20 200 km) and the LEO layer (240 at
+#             1080 km, 53 deg, and 72 at 1080 km, 97 deg) together.
+#   jammed    two barrage jammers, one over L1 and one over L5/E5, at -95 dBW received:
+#             both GNSS signals fall below the 25 dB-Hz tracking floor; the S- and C-band
+#             LEO signals are untouched. Integrity runs on the LEO layer alone.
+#   recovery  the jammers stop; both layers again.
+#
+# The alarm channel is the integrity kind's own: raised at epochs where the protection
+# level cannot be formed or exceeds the alert limit. With GNSS jammed the LEO layer alone
+# still forms a protection level at every epoch; it is under the 50 m alert limit at 28
+# of the 30 grid times and the alarm is raised at the other two. That is integrity
+# working: the user is warned whenever the bound is too large, and availability, not
+# integrity, is what the jamming costs.
+#
+# The integrity runs use that kind's own user track (a circular track 0.4 km up, the
+# convention of the other bundled integrity runs), not the spectrum receiver's site, and
+# a 1 m user-equivalent range error for both layers; those are scenario choices, stated
+# here. The integrity kind does not see the jammer: the jammed phase's LEO-only
+# constellation is the campaign's statement of what the spectrum run says is left.
+# MODELLED.
+kind = "campaign"
+title = "GNSS jammed, LEO-PNT carries the user, integrity maintained"
+seed = 20260929
+
+[timeline]
+step_s = 30.0
+
+[[phases]]
+name = "nominal"
+duration_s = 600.0
+
+[[phases.runs]]
+series = [
+  { channel = "cn0_gps_l1ca_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]" },
+  { channel = "cn0_galileo_e5a_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]" },
+  { channel = "cn0_leo_s_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[2].cn0_effective_dbhz[]" },
+  { channel = "cn0_leo_c_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[3].cn0_effective_dbhz[]" },
+  { channel = "cn0_floor_dbhz", t = "timeline.t_s[]", y = "receiver.tracking_threshold_dbhz" },
+]
+[phases.runs.scenario]
+kind = "spectrum"
+seed = 7
+duration_s = 600.0
+step_s = 30.0
+[phases.runs.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.grid]
+f_min_mhz = 1150.0
+f_max_mhz = 1600.0
+n_freq = 90
+[[phases.runs.scenario.panels]]
+name = "S band"
+f_min_mhz = 2482.0
+f_max_mhz = 2502.0
+n_freq = 40
+[[phases.runs.scenario.panels]]
+name = "C band"
+f_min_mhz = 5005.0
+f_max_mhz = 5035.0
+n_freq = 40
+[[phases.runs.scenario.bands]]
+name = "gps-l1ca"
+[[phases.runs.scenario.bands]]
+name = "galileo-e5a"
+[[phases.runs.scenario.bands]]
+name = "generic-s"
+signal = "generic-s"
+signal_power_dbw = -150.0
+[[phases.runs.scenario.bands]]
+name = "generic-c"
+signal = "generic-c"
+signal_power_dbw = -152.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 10.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[[phases.runs.scenario.constellations]]
+altitude_km = 1080.0
+inclination_deg = 53.0
+planes = 12
+sats_per_plane = 20
+phasing_f = 1.0
+[[phases.runs.scenario.constellations]]
+altitude_km = 1080.0
+inclination_deg = 97.0
+planes = 6
+sats_per_plane = 12
+phasing_f = 1.0
+
+[[phases]]
+name = "jammed"
+duration_s = 900.0
+
+[[phases.runs]]
+series = [
+  { channel = "cn0_gps_l1ca_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]" },
+  { channel = "cn0_galileo_e5a_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]" },
+  { channel = "cn0_leo_s_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[2].cn0_effective_dbhz[]" },
+  { channel = "cn0_leo_c_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[3].cn0_effective_dbhz[]" },
+  { channel = "cn0_floor_dbhz", t = "timeline.t_s[]", y = "receiver.tracking_threshold_dbhz" },
+]
+[phases.runs.scenario]
+kind = "spectrum"
+seed = 7
+duration_s = 900.0
+step_s = 30.0
+[phases.runs.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.grid]
+f_min_mhz = 1150.0
+f_max_mhz = 1600.0
+n_freq = 90
+[[phases.runs.scenario.panels]]
+name = "S band"
+f_min_mhz = 2482.0
+f_max_mhz = 2502.0
+n_freq = 40
+[[phases.runs.scenario.panels]]
+name = "C band"
+f_min_mhz = 5005.0
+f_max_mhz = 5035.0
+n_freq = 40
+[[phases.runs.scenario.bands]]
+name = "gps-l1ca"
+[[phases.runs.scenario.bands]]
+name = "galileo-e5a"
+[[phases.runs.scenario.bands]]
+name = "generic-s"
+signal = "generic-s"
+signal_power_dbw = -150.0
+[[phases.runs.scenario.bands]]
+name = "generic-c"
+signal = "generic-c"
+signal_power_dbw = -152.0
+[[phases.runs.scenario.jammers]]
+name = "L1 barrage"
+waveform = "wideband"
+centre_mhz = 1575.42
+bandwidth_mhz = 20.0
+received_power_dbw = -95.0
+on_s = 0.0
+[[phases.runs.scenario.jammers]]
+name = "L5/E5 barrage"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 50.0
+received_power_dbw = -95.0
+on_s = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 10.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 900.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 1080.0
+inclination_deg = 53.0
+planes = 12
+sats_per_plane = 20
+phasing_f = 1.0
+[[phases.runs.scenario.constellations]]
+altitude_km = 1080.0
+inclination_deg = 97.0
+planes = 6
+sats_per_plane = 12
+phasing_f = 1.0
+
+[[phases]]
+name = "recovery"
+duration_s = 600.0
+
+[[phases.runs]]
+series = [
+  { channel = "cn0_gps_l1ca_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[0].cn0_effective_dbhz[]" },
+  { channel = "cn0_galileo_e5a_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[1].cn0_effective_dbhz[]" },
+  { channel = "cn0_leo_s_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[2].cn0_effective_dbhz[]" },
+  { channel = "cn0_leo_c_dbhz", unit = "dB-Hz", t = "timeline.t_s[]", y = "timeline.bands[3].cn0_effective_dbhz[]" },
+  { channel = "cn0_floor_dbhz", t = "timeline.t_s[]", y = "receiver.tracking_threshold_dbhz" },
+]
+[phases.runs.scenario]
+kind = "spectrum"
+seed = 7
+duration_s = 600.0
+step_s = 30.0
+[phases.runs.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.grid]
+f_min_mhz = 1150.0
+f_max_mhz = 1600.0
+n_freq = 90
+[[phases.runs.scenario.panels]]
+name = "S band"
+f_min_mhz = 2482.0
+f_max_mhz = 2502.0
+n_freq = 40
+[[phases.runs.scenario.panels]]
+name = "C band"
+f_min_mhz = 5005.0
+f_max_mhz = 5035.0
+n_freq = 40
+[[phases.runs.scenario.bands]]
+name = "gps-l1ca"
+[[phases.runs.scenario.bands]]
+name = "galileo-e5a"
+[[phases.runs.scenario.bands]]
+name = "generic-s"
+signal = "generic-s"
+signal_power_dbw = -150.0
+[[phases.runs.scenario.bands]]
+name = "generic-c"
+signal = "generic-c"
+signal_power_dbw = -152.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 10.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[[phases.runs.scenario.constellations]]
+altitude_km = 1080.0
+inclination_deg = 53.0
+planes = 12
+sats_per_plane = 20
+phasing_f = 1.0
+[[phases.runs.scenario.constellations]]
+altitude_km = 1080.0
+inclination_deg = 97.0
+planes = 6
+sats_per_plane = 12
+phasing_f = 1.0

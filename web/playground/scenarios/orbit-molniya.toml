@@ -1,0 +1,59 @@
+# GNSS availability for a highly-eccentric (Molniya) user, from orbital geometry.
+#
+# A Molniya orbit is a 12-hour, highly-eccentric, critically-inclined orbit
+# (a ~ 26,600 km, e ~ 0.74, i = 63.4 deg, argument of perigee 270 deg) that
+# loiters near apogee over the northern hemisphere. The user spends most of the
+# revolution far above the GNSS shell (looking "down" at the constellation, with
+# Earth often occulting the far side) and races through perigee below it. The
+# visible-satellite count therefore swings widely over the orbit, and during the
+# long high-apogee dwell the onboard clock must hold time across the gaps.
+#
+# The critical inclination (63.4 deg) freezes the argument of perigee under J2;
+# `j2 = true` additionally applies the secular nodal regression. Vendor-neutral;
+# orbit and clock parameters are public/cited.
+
+kind = "orbit"
+seed = 11
+threshold_ns = 5.0
+mask_deg = 5.0
+sigma_uere_m = 1.0
+
+[time]
+step_s = 120.0
+duration_s = 43200.0   # one ~12 h Molniya revolution
+
+# User on a Molniya orbit. altitude_km sets the semi-major-axis altitude
+# (a = 6371 km + 20229 km = 26,600 km); with e = 0.74 the perigee is ~540 km and
+# the apogee ~38,900 km. u0_deg = 0 starts the revolution at perigee.
+[user]
+altitude_km = 20229.0
+inclination_deg = 63.4
+argp_deg = 270.0
+eccentricity = 0.74
+u0_deg = 0.0
+j2 = true
+
+# GPS-like Walker-delta constellation: 24 satellites, 6 planes, 55 deg inclination,
+# ~20,180 km altitude (GPS public constellation parameters; IS-GPS-200 / USCG NAVCEN).
+[constellation]
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Quantum: strontium optical lattice clock (space-oriented goal on ground hardware).
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented stability goal sigma_y(1s)=1e-15 (arXiv:1503.08457); lab Sr reaches 4.8e-17 (Oelker et al., Nature Photonics 2019). Not flown."
+y0 = 1.0e-15
+q_wf = 1.0e-30
+q_rw = 1.0e-40
+
+# Classical: chip-scale atomic clock (deployed commercial part).
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)=3.0e-10 (datasheet); deployed commercial part."
+y0 = 1.0e-11
+q_wf = 9.0e-20
+q_rw = 1.0e-28

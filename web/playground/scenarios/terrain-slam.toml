@@ -1,0 +1,52 @@
+# Sequential (recursive) terrain-referenced navigation — GPS-denied alt-PNT.
+#
+# The recursive counterpart to `terrain-nav`. There, a batch coarse-to-fine matcher recovers
+# a single CONSTANT inertial drift offset over the whole pass. That model breaks when the INS
+# error is not constant but GROWS with time (the realistic case for an unaided strapdown unit
+# during a GNSS outage). Here a particle filter runs the same altimeter-vs-DEM measurement
+# model EPOCH BY EPOCH: at each waypoint the cloud is propagated by the INS-reported increment
+# (itself corrupted by the per-step drift growth), reweighted by the terrain match, and
+# resampled when it degenerates — Sandia inertial terrain-aided navigation (SITAN) as a
+# running estimator, i.e. Monte-Carlo localization against a digital elevation model.
+#
+# Consumed by `kshana::altpnt::sequential::run_sequential_trn` (and its unit tests), and
+# dispatched by the scenario engine as `kind = "terrain-slam"`. The DEM is the self-contained
+# synthetic fixture (`DemGrid::synthetic_fixture`) — a 0.5°×0.5° multi-Gaussian + tilted-ridge
+# relief patch over [12.0–12.5, 20.0–20.5]; the track and the particle cloud stay inside it.
+#
+# Scope (honest): the map is KNOWN and FIXED — this is recursive localization against a stored
+# DEM, not joint map estimation (full SLAM). The injected drift ramp is the independent ground
+# truth and every reported error is measured against it, never the DEM's own value
+# (non-circular). A real SRTM tile and a real crustal map remain documented follow-ons
+# (docs/CAPABILITY.md).
+kind = "terrain-slam"
+
+# Synthetic-DEM seed (jitters the feature placement deterministically).
+dem_seed = 1
+
+# Track flown GPS-denied: 60 waypoints over an oblique leg (observable north and east),
+# entirely inside the DEM patch (12.08→12.316 lat, 20.08→20.257 lon).
+start_lat_deg = 12.08
+start_lon_deg = 20.08
+step_lat_deg = 0.004
+step_lon_deg = 0.003
+waypoints = 60
+
+# True INS drift RATE (deg/waypoint): a linear ramp, zero at the first fix, reaching ≈ 5 km of
+# free-inertial error by the last waypoint — the moving error the recursive filter tracks.
+drift_rate_lat_deg = 0.0006
+drift_rate_lon_deg = -0.0005
+
+# Radar/baro altimeter 1σ noise (m) and the DEM representation error (m); combined into the
+# matching σ = hypot(altimeter_sigma_m, map_sigma_m).
+altimeter_sigma_m = 8.0
+map_sigma_m = 15.0
+
+# Particle filter: cloud size, initial spread around the first INS fix, per-step process noise
+# (must span the per-step drift growth), and the resample-on-degeneracy threshold (fraction of
+# n_particles). Seed drives the deterministic filter / measurement-noise stream.
+n_particles = 4000
+init_pos_sigma_deg = 0.006
+process_sigma_deg = 0.0025
+resample_ess_frac = 0.5
+seed = 1

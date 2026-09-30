@@ -1,0 +1,12 @@
+{
+ "note": "Optional group. These five scenarios use the engine's Celeste in-orbit demonstration preset, whose signal and message parameters were presented at a workshop and have no public source yet. Delete this folder to ship the Studio without them: nothing else refers to it.",
+ "dir": "celeste/",
+ "domain": { "id": "celeste", "label": "Celeste in-orbit demonstration (optional preset)", "color": "var(--tim)" },
+ "scenarios": [
+  ["celeste-iod-classical-pilot-signals.toml", "Celeste demonstration signal designs", "How do the demonstration mission's bands and its first signal configuration range and acquire? (workshop parameters, no public source yet)"],
+  ["leo-pass-celeste-iod-multiband.toml", "Celeste demonstration pass, all bands", "What do the demonstration satellite's bands look like over one pass? (workshop parameters, no public source yet)"],
+  ["leo-navmsg-celeste-iod.toml", "Celeste demonstration navigation message", "What orbit error does the demonstration-style broadcast message add? (workshop parameters, no public source yet)"],
+  ["celeste-iod-fused-pvt.toml", "GNSS with the two demonstration satellites", "What do two demonstration satellites add to a GPS and Galileo fix? (workshop parameters, no public source yet)"],
+  ["celeste-iod-end-to-end.toml", "End to end, Celeste demonstration", "The end-to-end chain on the demonstration preset: signal, pass, message and fused fix. (workshop parameters, no public source yet)"]
+ ]
+}

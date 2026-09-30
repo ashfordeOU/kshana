@@ -1,0 +1,55 @@
+# Multi-GNSS availability from orbital geometry: GPS + Galileo combined.
+#
+# The same geometry-derived availability as orbit-gnss-challenged.toml, but the
+# user now sees two constellations at once. Combining GPS and Galileo roughly
+# doubles the visible-satellite count, lifting availability and tightening the
+# dilution of precision for the same challenging user orbit. Add further
+# `[[constellations]]` blocks (GLONASS, BeiDou) to model full multi-GNSS.
+# Vendor-neutral; constellation parameters are public/cited.
+
+kind = "orbit"
+seed = 7
+threshold_ns = 5.0
+mask_deg = 10.0
+sigma_uere_m = 1.0
+
+[time]
+step_s = 60.0
+duration_s = 86400.0   # one day
+
+# User spacecraft at ~8,000 km altitude, inside the GNSS shell.
+[user]
+altitude_km = 8000.0
+inclination_deg = 0.0
+
+# Primary constellation: GPS-like Walker-delta (24 sats, 6 planes, 55 deg,
+# ~20,180 km; IS-GPS-200 / USCG NAVCEN).
+[constellation]
+altitude_km = 20180.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Additional constellation: Galileo-like Walker (24 sats, 3 planes, 56 deg,
+# ~23,222 km; European GNSS Service Centre / Galileo OS SIS ICD).
+[[constellations]]
+altitude_km = 23222.0
+inclination_deg = 56.0
+planes = 3
+sats_per_plane = 8
+phasing_f = 1.0
+
+[clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 1.0e-15
+q_wf = 1.0e-30
+q_rw = 1.0e-40
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA.45s / SA65 chip-scale atomic clock, sigma_y(1s)=3.0e-10 (datasheet); deployed commercial part."
+y0 = 1.0e-11
+q_wf = 9.0e-20
+q_rw = 1.0e-28
