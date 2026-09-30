@@ -72,7 +72,7 @@
     }
   ],
   "duration_s": 60.0,
-  "engine_version": "0.28.0",
+  "engine_version": "0.29.0",
   "iq": {
     "centre_hz": 1575420000.0,
     "comparison": {
@@ -619,7 +619,7 @@
         "global": {
           "core:datatype": "cf32_le",
           "core:description": "kshana spectrum model snapshot (synthetic)",
-          "core:recorder": "kshana 0.28.0",
+          "core:recorder": "kshana 0.29.0",
           "core:sample_rate": 20480000.0,
           "core:version": "1.0.0"
         }

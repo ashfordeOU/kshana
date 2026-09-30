@@ -21,12 +21,14 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, registerGroup, dirOf } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, registerGroup, dirOf } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
 import * as G from "./lib/stages.mjs";
 import { createPackReader } from "./lib/packs.mjs";
+import { kpis as kpiCards, honesty, kpiDelta, kpiKey } from "./lib/kpi.mjs";
+import { fieldIndex, findFields, scenarioCount, filterControls } from "./lib/finder.mjs";
 
 // Recorded runs and native recordings, from one file per scenario or from packs.
 const PACKS = createPackReader();
@@ -165,6 +167,8 @@ function paintBusy() {
   setStatus(busyLabel(job.verb, 0), "busy");
   $("run-cancel").hidden = !S.engine.canCancel;
   job.tickTimer = setInterval(() => setStatus(busyLabel(job.verb, performance.now() - job.startedAt), "busy"), 250);
+  document.body.classList.add("is-busy");
+  updateSteps();
 }
 function endJob(gen) {
   if (gen !== job.gen) return false;
@@ -175,6 +179,8 @@ function endJob(gen) {
   $("progress").hidden = true;
   $("results").removeAttribute("aria-busy");
   $("run-cancel").hidden = true;
+  document.body.classList.remove("is-busy");
+  updateSteps();
   return true;
 }
 function cancelJob() {
@@ -311,10 +317,12 @@ function renderRun(run) {
   if (typeof r.seed === "number") add("seed", String(r.seed));
   add("file", run.file || "shared link");
   if (run.mode === "live") add("time", `${Math.max(1, Math.round(run.ms))} ms`);
-  renderFigures(r, run.toml);
+  renderKpis(run);
+  paintHonesty(r);
   renderOverview(r);
   buildTabs();
   $("json").replaceChildren(...jsonNodes(r));
+  updateSteps();
 }
 
 function tierCounts(r) {
@@ -326,6 +334,38 @@ function tierPill(tier) {
   if (!tier) return null;
   const t = tier.toUpperCase() === "VALIDATED" ? "validated" : "modelled";
   return h("span", { class: `tier ${t}`, text: t });
+}
+
+// The key-figure strip (lib/kpi.mjs): 4 to 6 headline readouts, each with the change against
+// the reader's previous run of the same scenario and, where the kind defines one, a pass or fail
+// against a threshold the result states.
+function renderKpis(run) {
+  const host = $("figs");
+  host.replaceChildren();
+  const r = run.result;
+  const cards = kpiCards(r, run.toml, 6);
+  const prev = S.history.find((x) => x !== run && x.file === run.file && x.id < run.id);
+  const prevCards = prev ? kpiCards(prev.result, prev.toml, 6) : null;
+  for (const c of cards) {
+    const d = kpiDelta(c, prevCards);
+    host.append(h("div", { class: `fig kpi${c.state ? " st-" + c.state : ""}`, role: "listitem", title: c.title || null },
+      h("div", { class: "k" }, h("span", { text: c.unit ? c.k.replace(/\s*\([^)]*\)$/, "") : c.k }), tierPill(c.tier)),
+      c.sub ? h("div", { class: "s", text: c.sub }) : null,
+      h("div", { class: "v", title: String(c.v), "data-path": c.path || null, "data-raw": c.path ? JSON.stringify(c.v) : null }, c.text !== undefined ? c.text : V.fmt(c.v), c.unit ? h("small", { text: c.unit }) : null),
+      c.state ? h("div", { class: `w ${c.state}` }, h("b", { text: c.state === "pass" ? "Pass" : c.state === "fail" ? "Fail" : "Check" }), ` ${c.why}`) : null,
+      h("div", { class: `d ${d ? d.dir : "none"}` }, d ? `${d.dir === "up" ? "▲" : d.dir === "down" ? "▼" : "="} ${d.text} since run ${prev.id}` : prev ? "not in your previous run" : "first run")));
+  }
+  host.style.setProperty("--n", String(Math.max(1, cards.length)));
+  host.dataset.n = String(cards.length);
+  $("kpis-wrap").hidden = !cards.length;
+}
+function paintHonesty(r) {
+  const hn = honesty(r), el = $("sc-honesty");
+  el.hidden = !hn;
+  if (!hn) return;
+  el.textContent = hn.tier;
+  el.dataset.tier = hn.tier.toLowerCase();
+  el.title = hn.tier === "VALIDATED" ? "Checked against an independent external oracle. " + hn.text : hn.tier === "PARTNER" ? "Figures owned by a partner. " + hn.text : "First-principles physics with tests, not yet checked against an external oracle. " + hn.text;
 }
 
 // Key figure cards: the clock-style figures of merit when the result has them, else the
@@ -466,10 +506,12 @@ function buildTabs() {
     const d = TAB_DEFS.find((t) => t.id === id);
     const b = h("button", { class: "tab", role: "tab", id: `tab-${id}`, "aria-controls": VIEW_ID[id], "data-tab": id, style: `--c:${d.c}` }, h("i"), d.label);
     if (id === "compare") b.append(h("span", { class: "n", text: String(S.pins.length) }));
-    b.addEventListener("click", () => selectTab(id));
+    b.addEventListener("click", () => selectTab(id, { scroll: true }));
     row.append(b);
   }
   $("tabs-wrap").hidden = false;
+  $("pin-count").hidden = !S.pins.length;
+  $("pin-count").textContent = String(S.pins.length);
   // Keep the reader's view across runs of the same scenario family; otherwise open the
   // most telling view for this kind of result.
   const sameFamily = prevAvail.filter((x) => x !== "compare").join() === available.filter((x) => x !== "compare").join();
@@ -483,23 +525,52 @@ function buildTabs() {
   selectTab(S.activeTab);
 }
 
-function selectTab(id) {
+// The dashboard: every primary panel of the run is on screen at once; a secondary one (sweep,
+// compare, the engine's animation and report, exports, JSON, the 3-D orbit) opens on top when
+// its tab is chosen. On a phone one panel shows at a time. The tab row names the panel in focus.
+const SECONDARY = new Set(["sweep", "compare", "animation", "report", "exports", "json", "orbit"]);
+const PHONE_MQ = window.matchMedia ? window.matchMedia("(max-width: 760px)") : { matches: false, addEventListener() {} };
+const WIDTH = { timeseries: 6, holdover: 6, stability: 6, ground: 6, signal: 12, masks: 12, overview: 12 };
+function primaryViews() {
+  const hasCap = available.some((id) => VIEW_ID[id] === "v-cap");
+  return available.filter((id) => !SECONDARY.has(id) && !(id === "overview" && hasCap));
+}
+function selectTab(id, { scroll = false } = {}) {
   if (!available.includes(id)) id = available[0];
   S.activeTab = id;
-  for (const vid of new Set(Object.values(VIEW_ID))) $(vid).hidden = vid !== VIEW_ID[id];
+  const phone = PHONE_MQ.matches;
+  const prim = primaryViews();
+  const shown = new Set(phone ? [VIEW_ID[id]] : [...prim.map((x) => VIEW_ID[x]), VIEW_ID[id]]);
+  // Half-width panels pair up; an unpaired one takes the whole row.
+  const halves = prim.filter((x) => WIDTH[x] === 6);
+  for (const vid of new Set(Object.values(VIEW_ID))) {
+    const el = $(vid);
+    el.hidden = !shown.has(vid);
+    el.classList.toggle("is-sel", vid === VIEW_ID[id]);
+    el.classList.toggle("is-sec", vid === VIEW_ID[id] && SECONDARY.has(id));
+    const tab = Object.keys(VIEW_ID).find((k) => VIEW_ID[k] === vid && available.includes(k));
+    el.dataset.w = String(vid === "v-cap" ? 12 : WIDTH[tab] === 6 && (halves.length % 2 === 0 || halves.indexOf(tab) < halves.length - 1) ? 6 : 12);
+  }
   for (const b of $("tabs").children) {
     const sel = b.dataset.tab === id;
     b.setAttribute("aria-selected", sel ? "true" : "false");
     b.tabIndex = sel ? 0 : -1;
   }
   const btn = $(`tab-${id}`);
-  if (btn && btn.scrollIntoView) btn.scrollIntoView({ block: "nearest", inline: "nearest" });
-  if (id === "orbit" && S.orbitDirty) renderOrbit();
-  if (VIEW_ID[id] === "v-cap" && S.capDirty) renderCapability();
-  if (VIEW_ID[id] !== "v-cap") for (const p of players) p.stop();
+  // Bring the chosen tab into the row's view without scrolling the page.
+  if (btn) { const row = $("tabs"), l = btn.offsetLeft - row.offsetLeft; if (l < row.scrollLeft || l + btn.offsetWidth > row.scrollLeft + row.clientWidth) row.scrollLeft = Math.max(0, l - 16); }
+  if (shown.has("v-orbit") && S.orbitDirty) renderOrbit();
+  if (shown.has("v-cap") && S.capDirty) renderCapability();
+  if (!shown.has("v-cap")) for (const p of players) p.stop();
   if (id === "animation") renderAnimation();
   if (id === "report") renderEngineReport();
   if (id === "exports") renderExports();
+  if (scroll) {
+    const el = $(VIEW_ID[id]);
+    if (el && el.scrollIntoView) el.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
+  }
+  updateCrumbs();
+  updateSteps();
 }
 
 function cycleTab(dir) {
@@ -1026,11 +1097,12 @@ function pinRun(run = S.run) {
   if (S.pins.some((p) => p.id === run.id)) { toast("That run is already pinned."); return; }
   if (S.pins.length >= MAX_PINS) S.pins.shift();
   S.pins.push(run);
-  toast(S.pins.length < 2 ? "Pinned. Change something and run again, then pin that run too." : `${S.pins.length} runs pinned. Opening Compare.`);
+  toast(S.pins.length < 2 ? `Run ${run.id} pinned. Change a parameter, run again, then pin that run too.` : `${S.pins.length} runs pinned. Opening Compare.`);
   buildTabs();
-  if (S.pins.length >= 2) selectTab("compare");
+  if (S.pins.length >= 2) selectTab("compare", { scroll: true });
 }
-function renderCompare() {
+function renderCompare() { renderCompareBase(); renderCompareExtras(); }
+function renderCompareBase() {
   const host = $("pins");
   host.replaceChildren();
   S.pins.forEach((p, i) => host.append(h("span", { class: "pin" }, h("i", { style: `background:${PALETTE[i]}` }), `${String.fromCharCode(65 + i)} · ${p.title} · run ${p.id}`,
@@ -1204,7 +1276,7 @@ function panelNode(p, r) {
     setSvg(box, chart.svg);
     bindHover(box, chart.hover);
     mountTools(tools, () => exportSvg(chart.svg, p.title), slug(p.title));
-    return h("div", { class: "card scope span-2", "data-panel": "line", "data-src": (p.src || []).map((x) => x.path).join(" ") }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, p.note ? h("p", { class: "card-note on-space", text: p.note }) : null, tools);
+    return h("div", { class: "card scope span-2", "data-w": "6", "data-panel": "line", "data-src": (p.src || []).map((x) => x.path).join(" ") }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, p.note ? h("p", { class: "card-note on-space", text: p.note }) : null, tools);
   }
   if (p.type === "hist") {
     const hs = G.histogramSvg(K.resolve(r, p.path), { unit: p.unit, title: p.title, xLabel: p.unit && p.unit !== "1" ? p.unit : "value", marks: (p.marks || []).map((m) => ({ label: m.label, value: K.resolve(r, m.path) })) });
@@ -1213,9 +1285,10 @@ function panelNode(p, r) {
     setSvg(box, hs.svg);
     mountTools(tools, () => exportSvg(hs.svg, p.title), slug(p.title));
     const marks = h("p", { class: "card-note on-space" }, `${(K.resolve(r, p.path) || []).length} runs. `, ...(p.marks || []).flatMap((m) => [`${m.label} `, bound("b", r, m.path, { unit: p.unit }), "  "]));
-    return h("div", { class: "card scope span-2", "data-panel": "hist", "data-src": p.path }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, marks, tools);
+    return h("div", { class: "card scope span-2", "data-w": "6", "data-panel": "hist", "data-src": p.path }, h("div", { class: "card-head" }, h("h3", { text: p.title })), box, marks, tools);
   }
-  const card = h("div", { class: `card${p.wide ? " span-2" : ""}`, "data-panel": p.type }, h("div", { class: "card-head" }, h("h3", { text: p.title }), p.note ? h("p", { class: "card-note", text: p.note }) : null));
+  const tw = p.type === "table" ? (p.wide || (p.cols || []).length > 4 ? 12 : 6) : p.type === "kv" || p.type === "list" ? (p.wide ? 8 : 4) : p.type === "chips" ? 6 : 12;
+  const card = h("div", { class: `card${p.wide ? " span-2" : ""}`, "data-w": String(tw), "data-panel": p.type }, h("div", { class: "card-head" }, h("h3", { text: p.title }), p.note ? h("p", { class: "card-note", text: p.note }) : null));
   if (p.type === "table") {
     const pathOf = (c, row, i) => (c.path ? c.path(row, i) : `${row.path}.${c.key}`);
     // A column with no value in any row is left out.
@@ -1240,6 +1313,8 @@ function panelNode(p, r) {
     const dl = h("dl", { class: "kv" });
     for (const it of p.items) { const u = K.unitOf(r, it.path); dl.append(h("dt", { text: it.label, title: (u && u.note) || null }), bound("dd", r, it.path, { hash: p.hash })); }
     card.append(dl);
+    // A long text value needs a wider tile.
+    if ([...dl.querySelectorAll("dd")].some((d) => d.textContent.length > 60)) card.dataset.w = "12";
   } else if (p.type === "list") {
     card.append(h("ul", { class: "plain" }, p.items.map((it) => bound("li", r, it.path))));
   } else if (p.type === "note") {
@@ -1261,13 +1336,39 @@ function renderCapability() {
   if (!cap) return;
   $("v-cap").setAttribute("aria-label", cap.label);
   const r = run.result;
-  if (cap.stage === "spectrum") stageSpectrum(stage, r);
-  else if (cap.stage === "solar") stageSolar(stage, r);
-  else if (cap.stage === "coverage") stageCoverage(stage, r);
-  else if (cap.stage === "timeline") stageTimeline(stage, r);
-  else if (cap.stage === "chain") stageChain(stage, r);
+  // The stage's cards sit in one wrapper that names the stage; the wrapper and both hosts are
+  // display: contents, so every card is a tile of the dashboard grid.
+  const wrap = cap.stage ? h("div", { class: "stage", "data-stage": cap.stage }) : null;
+  if (cap.stage === "spectrum") stageSpectrum(wrap, r);
+  else if (cap.stage === "solar") stageSolar(wrap, r);
+  else if (cap.stage === "coverage") stageCoverage(wrap, r);
+  else if (cap.stage === "timeline") stageTimeline(wrap, r);
+  else if (cap.stage === "chain") stageChain(wrap, r);
+  if (wrap && wrap.children.length) stage.append(wrap);
   stage.hidden = !stage.children.length;
   for (const p of cap.panels) { const n = panelNode(p, r); if (n) grid.append(n); }
+  paintPhoneSubtabs();
+}
+
+// The replay control that drives every panel of a stage: one scrubber, on its own tile.
+function transportCard(playerHost, extra = []) {
+  return h("div", { class: "card scope transport", "data-w": "12", "aria-label": "Replay: one scrubber drives every panel of this run" },
+    h("div", { class: "card-head row" }, h("h3", {}, "Replay ", h("small", { text: "one scrubber drives every panel of this run" }))),
+    h("div", { class: "tp-row" }, h("span", { class: "tp-lbl", text: "Replay" }), playerHost), ...extra);
+}
+
+// On a phone the capability view shows one of its tiles at a time, picked here.
+function paintPhoneSubtabs() {
+  const host = $("v-cap");
+  let bar = host.querySelector(":scope > .subtabs");
+  if (bar) bar.remove();
+  const tiles = [...host.querySelectorAll(".card")].filter((c) => !c.classList.contains("transport") && c.querySelector("h3"));
+  if (tiles.length < 2) { for (const t of tiles) t.classList.add("is-sub"); return; }
+  bar = h("div", { class: "subtabs", role: "group", "aria-label": "Tiles of this view (phone)" });
+  const pick = (i) => { tiles.forEach((t, j) => t.classList.toggle("is-sub", j === i)); for (const [j, b] of [...bar.children].entries()) b.setAttribute("aria-pressed", j === i ? "true" : "false"); };
+  tiles.forEach((t, i) => { const title = (t.querySelector("h3").firstChild || {}).textContent || t.querySelector("h3").textContent; bar.append(h("button", { type: "button", text: String(title).trim().slice(0, 34), onclick: () => pick(i) })); });
+  host.prepend(bar);
+  pick(0);
 }
 
 // Spectrum: the waterfall with a replay, the receiver's bands at the replay time, and the
@@ -1282,12 +1383,13 @@ function stageSpectrum(host, r) {
   const seg = frames.length > 1 ? h("div", { class: "seg dark wrap", role: "group", "aria-label": "Which part of the spectrum" }, frames.map((f, i) => h("button", { type: "button", "data-frame": f.id, text: f.name, onclick: () => { fi = i; draw(); } }))) : null;
   const sliceBox = h("div", { class: "chart-box" }), sliceTools = h("div", { class: "chart-tools" }), sliceTitle = h("h3", { text: "Spectrum along the row on show" });
   host.append(
-    h("div", { class: "card scope", "data-stage": "spectrum" },
+    transportCard(playerHost),
+    h("div", { class: "card scope", "data-w": "8", "data-stage": "spectrum" },
       h("div", { class: "card-head row" }, h("h3", {}, "Waterfall ", h("small", { text: "power spectral density: frequency across, time down" })), seg, legend),
-      h("div", { class: "wf-grid" }, box, side), playerHost,
+      h("div", { class: "wf-grid" }, box, side),
       h("p", { class: "card-note on-space", text: "Colour is power above the receiver's noise floor. The navigation signals sit under that floor, so what lights up is the jammers. Play the replay or drag it, and the bands on the right show what the receiver still tracks at that moment." }),
       tools),
-    h("div", { class: "card scope" }, h("div", { class: "card-head" }, sliceTitle), sliceBox, sliceTools));
+    h("div", { class: "card scope", "data-w": "4" }, h("div", { class: "card-head" }, sliceTitle), sliceBox, h("p", { class: "card-note on-space", text: "The spectrum along the waterfall row the replay is on." }), sliceTools));
   const tl = r.timeline, thr = K.resolve(r, "receiver.tracking_threshold_dbhz");
   const top = Math.max(...(r.bands || []).map((b) => b.nominal_cn0_dbhz).filter(Number.isFinite), Number.isFinite(thr) ? thr : 0, 1);
   let frame, geo, player;
@@ -1317,7 +1419,7 @@ function stageSpectrum(host, r) {
       if (Number.isFinite(thr)) side.append(h("p", { class: "wf-k" }, "Tracking threshold ", bound("b", r, "receiver.tracking_threshold_dbhz")));
     }
     const sm = G.spectrumSlice(frame, k);
-    const chart = V.lineChartSvg(sm, { h: 250 });
+    const chart = V.lineChartSvg(sm, { h: 300, w: 470 });
     sliceTitle.textContent = sm.title;
     sliceBox.dataset.src = `${frame.path}.psd_dbw_per_hz[${k}]`;
     setSvg(sliceBox, chart.svg);
@@ -1364,7 +1466,7 @@ function stageSolar(host, r) {
   let view = views.some((v) => v.id === S.link.view) ? S.link.view : views[0].id;
   const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" }), table = h("table", { class: "tbl on-space" });
   const seg = h("div", { class: "seg dark wrap", role: "group", "aria-label": "Which bodies to draw" }, views.map((v) => h("button", { type: "button", "data-view": v.id, title: v.label, text: v.id.startsWith("moons:") ? v.id.slice(6) : v.label, onclick: () => { view = v.id; draw(); } })));
-  host.append(h("div", { class: "card scope", "data-stage": "solar" },
+  host.append(h("div", { class: "card scope", "data-w": "8", "data-stage": "solar" },
     h("div", { class: "card-head row" }, h("h3", {}, "Plan view ", h("small", {}, "at ", bound("span", r, "epoch.input"))), seg),
     box, h("div", { class: "table-scroll" }, table),
     h("p", { class: "card-note on-space", text: "Each dot is a body at the run's epoch and each curve is the orbit track the engine computed for it. A dashed line is a link the scenario asks for. Pick a planet to see its moons about it." }),
@@ -1393,9 +1495,10 @@ function stageCoverage(host, r) {
   const body = (r.body && r.body.name) || "the body";
   const tr = r.tracks && Array.isArray(r.tracks.times_s) && r.tracks.times_s.length ? r.tracks : null;
   const names = G.coverageLegend(r);
-  host.append(h("div", { class: "card scope", "data-stage": "coverage" },
+  if (tr) host.append(transportCard(playerHost));
+  host.append(h("div", { class: "card scope", "data-w": "8", "data-stage": "coverage" },
     h("div", { class: "card-head row" }, h("h3", {}, "Coverage map ", h("small", {}, "over ", bound("span", r, "body.name"))), h("label", { class: "sel-lbl" }, "Map ", sel), legend),
-    box, playerHost,
+    box,
     names.length ? h("div", { class: "cov-legend" }, names.map((n) => h("span", { style: `--c:${n.color}` }, h("i"), n.name))) : null,
     h("p", { class: "card-note on-space" }, `Each cell is one grid point on ${body}, scored over every epoch of the run. `, tr ? h("span", {}, "The dots are ", bound("b", r, "tracks.shown"), " of ", bound("b", r, "tracks.total"), " satellites, flown along their ground tracks; play the replay to move them.") : null),
     tools));
@@ -1430,12 +1533,11 @@ function stageTimeline(host, r) {
     const cur = svg ? svg.appendChild(svgEl("line", { class: "play-cursor", y1: chart.hover.mt, y2: chart.hover.H - chart.hover.mb, x1: 0, x2: 0 })) : null;
     return { c, box, chart, cur };
   });
-  host.append(h("div", { class: "card scope", "data-stage": "timeline" },
+  host.append(h("div", { class: "card scope transport", "data-w": "12", "data-stage": "timeline" },
     h("div", { class: "card-head row" }, h("h3", {}, "Mission timeline ", h("small", {}, bound("span", r, "timeline.duration_s"), " on one clock")), h("p", { class: "tl-now" }, "Phase: ", phase)),
-    playerHost, readout,
-    ...boxes.flatMap((b) => [h("h4", { class: "tl-h", text: b.c.title }), b.box]),
-    eventLine,
-    h("p", { class: "card-note on-space", text: "Every phase runs ordinary scenarios; the campaign reads their outputs onto one time grid. Shaded bands are the phases, vertical rules the events. Play or drag the replay: the values above are the campaign's channels at that instant." })));
+    playerHost, readout, eventLine,
+    h("p", { class: "card-note on-space", text: "One scrubber drives every chart below. Every phase runs ordinary scenarios; the campaign reads their outputs onto one time grid. Shaded bands are the phases, vertical rules the events. The values above are the campaign's channels at the replay time." })),
+    ...boxes.map((b) => h("div", { class: "card scope", "data-w": boxes.length > 1 ? "6" : "12" }, h("div", { class: "card-head" }, h("h3", { text: b.c.title })), b.box)));
   const paint = (k) => {
     const t = tl.t_s[k];
     for (const b of boxes) if (b.cur) { const x = b.chart.hover.xOf(t).toFixed(1); b.cur.setAttribute("x1", x); b.cur.setAttribute("x2", x); }
@@ -1465,7 +1567,7 @@ function stageChain(host, r) {
     row.append(h("div", { class: "chain-stage", "data-kind": st.kind }, h("p", { class: "chain-n", text: `Stage ${i + 1}` }), h("h4", { text: st.name }), h("code", { text: st.kind }), dl));
     if (i < m.length - 1) row.append(h("div", { class: "chain-arrow", "aria-hidden": "true" }, icon("i-arrow"), h("span", { text: `${st.out} value${st.out === 1 ? "" : "s"} handed on` })));
   });
-  host.append(h("div", { class: "card", "data-stage": "chain" }, h("div", { class: "card-head" }, h("h3", {}, "The chain ", h("small", { text: "each stage's output feeds the next" })), h("p", { class: "card-note", text: "One system followed through every stage of the engine. The table below lists each number a stage computed and the next stage used." })), row));
+  host.append(h("div", { class: "card", "data-w": "12", "data-stage": "chain" }, h("div", { class: "card-head" }, h("h3", {}, "The chain ", h("small", { text: "each stage's output feeds the next" })), h("p", { class: "card-note", text: "One system followed through every stage of the engine. The table below lists each number a stage computed and the next stage used." })), row));
 }
 
 // Every chart of the capability view as SVG, for the downloadable report.
@@ -1637,6 +1739,7 @@ function refreshEditor() {
   syncScroll();
   const edited = tomlEl.value !== S.baseToml;
   $("src-reset").disabled = !edited;
+  updateSteps();
   if (S.mode === "recorded") showNotice(edited ? recordedEditNotice() : recordedIntro());
 }
 function syncScroll() { const hl = $("code-hl"); hl.scrollTop = tomlEl.scrollTop; hl.scrollLeft = tomlEl.scrollLeft; }
@@ -1665,7 +1768,7 @@ function buildParams() {
       buildFields();
       runScenario();
     });
-    kh.append(h("div", { class: "knob" }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
+    kh.append(h("div", { class: "knob", "data-field-id": `${k.section || ""}::${k.key}`, "data-key": k.key, "data-label": k.label }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
   }
   // A newer kind has its own guided sliders (lib/kinds.mjs), each bound to one field of the scenario.
   const kind = (toml.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
@@ -1690,13 +1793,14 @@ function buildParams() {
       buildFields();
       runScenario();
     });
-    kh.append(h("div", { class: "knob" }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
+    kh.append(h("div", { class: "knob", "data-field-id": k.id, "data-key": k.field.key, "data-label": k.label }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
   }
   const anyKnob = K.hasCapability(kind) ? capKnobs.length : knobs.length;
   if (!anyKnob) kh.append(h("p", { class: "hint", text: "This scenario has none of the guided controls. Use All fields, or edit the source." }));
   buildFields();
   // A kind with no guided sliders opens on its full field list (unless the reader chose a view).
   if (!S.pviewChosen) setPview(anyKnob ? "guided" : "all");
+  applyFieldFind();
 }
 function buildFields() {
   const fields = numericFields(tomlEl.value);
@@ -1719,7 +1823,7 @@ function buildFields() {
     const step = (dir) => { const cur = current() || f; commit(stepValue(cur, dir)); };
     input.addEventListener("change", () => commit(parseFloat(input.value)));
     input.addEventListener("keydown", (e) => { if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); step(e.key === "ArrowUp" ? 1 : -1); } });
-    host.append(h("div", { class: "field" },
+    host.append(h("div", { class: "field", "data-field-id": f.id, "data-key": f.key, "data-label": `${f.section ? f.section + "." : ""}${f.key} ${f.comment || ""}` },
       h("label", { title: f.comment || f.key }, f.key, f.comment ? h("small", { text: f.comment }) : null),
       h("span", { class: "stepper" },
         h("button", { type: "button", "aria-label": `Decrease ${f.key}`, text: isLogScale(f) ? "÷" : "−", onclick: () => step(-1) }),
@@ -1727,6 +1831,7 @@ function buildFields() {
         h("button", { type: "button", "aria-label": `Increase ${f.key}`, text: isLogScale(f) ? "×" : "+", onclick: () => step(1) }))));
   }
   if (!fields.length) host.append(h("p", { class: "hint", text: "No single numeric fields to tune here. Edit the source directly." }));
+  applyFieldFind();
 }
 let paramsTimer = 0;
 function buildParamsSoon() { clearTimeout(paramsTimer); paramsTimer = setTimeout(buildParams, 250); }
@@ -1780,15 +1885,17 @@ function paintScenarioHeader(entry) {
   $("sc-file").textContent = entry ? `${dirOf(entry.file) ? "optional preset: " : ""}scenarios/${entry.file}` : "from the link";
   const kind = (tomlEl.value.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
   $("sc-kind").textContent = kind ? `kind: ${kind}` : "kind: clock holdover (the default)";
-  $("crumb-title").textContent = entry ? entry.title : "Shared scenario";
-  $("crumb-dot").style.setProperty("--c", dom ? dom.color : "var(--ink-3)");
+  updateCrumbs();
   document.title = `${entry ? entry.title : "Shared scenario"} · ${STUDIO_NAME}`;
 }
 
 // ------------------------------------------------------------------ library
 function renderLibrary() {
   const q = $("lib-search").value;
-  const groups = groupedLibrary(q);
+  const dsel = $("lib-domain");
+  let groups = groupedLibrary(q);
+  const all = groups;
+  if (dsel && dsel.value) groups = groups.filter((g) => g.domain.id === dsel.value);
   const host = $("lib-list");
   host.replaceChildren();
   let n = 0;
@@ -1797,13 +1904,37 @@ function renderLibrary() {
     for (const e of g.items) {
       n++;
       const na = NOT_IN_BROWSER[e.file];
-      sec.append(h("button", { class: `lib-item${na ? " na" : ""}`, type: "button", style: `--c:${g.domain.color}`, "aria-current": e.file === S.file && !S.shared ? "true" : "false", onclick: () => { closeLibDrawer(); setPane("results"); loadScenario(e.file); } },
+      sec.append(h("button", { class: `lib-item${na ? " na" : ""}`, type: "button", style: `--c:${g.domain.color}`, title: e.question, "aria-current": e.file === S.file && !S.shared ? "true" : "false", "data-file": e.file, onclick: () => { closeLibDrawer(); closeStart(); loadScenario(e.file); } },
         h("b", { text: e.title }), h("span", { text: e.question }), na ? h("span", { class: "tag", text: RECORDED_NATIVELY.includes(e.file) ? "recorded run, native engine" : "command line only" }) : null));
     }
     host.append(sec);
   }
-  if (!n) host.append(h("p", { class: "hint", style: "padding:12px", text: "No scenario matches. Try a word like jamming, clock, lunar or orbit." }));
-  $("lib-count").textContent = q ? `${n} of ${SCENARIOS.length} scenarios` : `${SCENARIOS.length} scenarios · ${groups.length} domains`;
+  // Fields: which scenarios have a field named like the query, and a jump straight to it.
+  if (q.trim().length >= 3) {
+    if (!S.fieldIdx) ensureFieldIndex().then(() => { if ($("lib-search").value === q) renderLibrary(); });
+    else {
+      const hits = findFields(S.fieldIdx, q, 400).filter((x) => !dsel || !dsel.value || (entryFor(x.file) && entryFor(x.file).domain === dsel.value));
+      if (hits.length) {
+        const sec = h("div", { class: "lib-group fields" }, h("h3", {}, h("i", { class: "dot", style: "--c:var(--ink-3)" }), `Fields matching “${q.trim()}”`, h("span", { class: "n", text: `${scenarioCount(hits)} scenarios` })));
+        for (const x of hits.slice(0, 10)) {
+          const e = entryFor(x.file);
+          sec.append(h("button", { class: "lib-item field-hit", type: "button", "data-file": x.file, "data-field": x.id, onclick: () => { closeLibDrawer(); jumpToField(x.file, x.id); } }, h("b", { text: x.label }), h("span", { text: `in ${e ? e.title : x.file}` }), h("span", { class: "tag", text: "open at this field" })));
+        }
+        if (hits.length > 10) sec.append(h("p", { class: "hint lib-more", text: `${hits.length - 10} more: refine the words, or search on the start screen.` }));
+        host.prepend(sec);
+      }
+    }
+  }
+  if (!n && !host.children.length) host.append(h("p", { class: "hint", style: "padding:12px", text: "No scenario or field matches. Try a word like jamming, clock, lunar, orbit, mask or PDOP." }));
+  $("lib-count").textContent = q || (dsel && dsel.value) ? `${n} of ${SCENARIOS.length} scenarios` : `${SCENARIOS.length} scenarios · ${all.length} domains`;
+}
+function paintDomainFilter() {
+  const host = $("lib-domains");
+  const prev = $("lib-domain") ? $("lib-domain").value : "";
+  const sel = h("select", { id: "lib-domain", class: "sel", "aria-label": "Show one domain" }, h("option", { value: "", text: "All domains" }), ...DOMAINS.filter((d) => SCENARIOS.some((s) => s[1] === d.id)).map((d) => h("option", { value: d.id, text: d.label })));
+  sel.value = prev;
+  sel.addEventListener("change", () => { renderLibrary(); updateCrumbs(); });
+  host.replaceChildren(h("label", { class: "sel-lbl", for: "lib-domain" }, "Domain"), sel);
 }
 
 // ------------------------------------------------------------------ history
@@ -1874,10 +2005,15 @@ const COMMANDS = [
   { t: "Start the guided tour", run: () => startTour() },
   { t: "Toggle light or dark theme", run: () => toggleTheme() },
   { t: "Reset the scenario text", run: () => resetSource() },
-  { t: "Show every numeric field", run: () => { setPane("editor"); setPview("all"); } },
+  { t: "Show every numeric field", run: () => { setDrawer(true); S.pviewChosen = true; setPview("all"); } },
+  { t: "Open the parameters", run: () => setDrawer(true) },
+  { t: "Download the results (exports)", run: () => { closeStart(); selectTab("exports", { scroll: true }); } },
+  { t: "Compare the pinned runs", run: () => openCompare() },
+  { t: "Go to the start screen", run: () => openStart() },
 ];
 let palItems = [], palSel = 0;
 function openPalette() {
+  ensureFieldIndex().then(() => { if (!$("palette").hidden) renderPalette(); });
   $("palette").hidden = false;
   const inp = $("pal-input");
   inp.value = "";
@@ -1905,11 +2041,15 @@ function renderPalette() {
   const score = (s) => words.reduce((n, w) => n + (s[2].toLowerCase().includes(w) ? 4 : s[0].includes(w) ? 2 : 1), 0);
   const scen = SCENARIOS.filter((s) => match(`${s[2]} ${s[3]} ${s[0]} ${domainOf(s[1]).label}`))
     .map((s, i) => ({ s, i, sc: score(s) })).sort((a, b) => b.sc - a.sc || a.i - b.i).map((x) => x.s).slice(0, q ? 12 : 6)
-    .map((s) => ({ t: s[2], k: domainOf(s[1]).label, c: domainOf(s[1]).color, run: () => { setPane("results"); loadScenario(s[0]); } }));
-  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: `View: ${d.label}`, c: d.c, run: () => { setPane("results"); selectTab(id); } }; });
+    .map((s) => ({ t: s[2], k: domainOf(s[1]).label, c: domainOf(s[1]).color, run: () => { closeStart(); loadScenario(s[0]); } }));
+  const doms = q ? DOMAINS.filter((d) => match(`${d.label} domain`) && SCENARIOS.some((s) => s[1] === d.id)).slice(0, 5).map((d) => ({ t: `Domain: ${d.label}`, k: `${SCENARIOS.filter((s) => s[1] === d.id).length} scenarios`, c: d.color, run: () => openStart({ domain: d.id }) })) : [];
+  const fields = q.length >= 3 && S.fieldIdx ? findFields(S.fieldIdx, q, 8).map((f) => ({ t: `Field: ${f.label}`, k: (entryFor(f.file) || { title: f.file }).title, c: "var(--ink-2)", run: () => jumpToField(f.file, f.id) })) : [];
+  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab panel")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: `Panel: ${d.label}`, c: d.c, run: () => { closeStart(); selectTab(id, { scroll: true }); } }; });
   const cmds = COMMANDS.filter((c) => match(c.t)).map((c) => ({ ...c, c: "var(--ink-3)" }));
   section("Scenarios", scen);
-  section("Views", views);
+  section("Domains", doms);
+  section("Fields", fields);
+  section("Panels", views);
   section("Commands", cmds);
   if (!palItems.length) list.append(h("p", { class: "pal-sec", text: "Nothing matches" }));
   selPal(0);
@@ -1930,7 +2070,7 @@ const TOUR = [
   { target: "#headline", title: "Read the answer", body: "The one-line summary, the engine version and the scenario fingerprint, and whether each figure is validated or modelled.", side: "bottom" },
   { target: "#tabs", title: "Every view of the run", body: "Views appear when the result supports them: signal and band for jamming, the waterfall for spectrum, the mission timeline for campaigns, coverage maps for constellations, holdover for clocks, masks for telecom timing, 3-D orbits, ground tracks, sweeps, and the engine's own animation and report.", side: "bottom" },
   { target: "#pin", title: "Compare runs", body: "Pin up to four runs and see them side by side, with deltas and a difference trace.", side: "bottom" },
-  { target: "#btn-share", title: "Share or embed", body: "A link that carries the exact scenario, or an iframe for a course page or wiki.", side: "bottom" },
+  { target: "#btn-share", title: "Share or export", body: "Download the report, the result, the scenario and the engine's exports, or copy a link that carries the exact scenario, or an iframe for a course page or wiki.", side: "bottom" },
   { target: "#cmdk-btn", title: "Everything from the keyboard", body: "⌘K finds any scenario, view or command. [ and ] move between views.", side: "bottom" },
 ];
 const tour = { on: false, i: 0, steps: [], el: null, opener: null, refs: null };
@@ -1997,11 +2137,14 @@ let toastTimer = 0;
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 2600); }
 function openHistory() { $("history").hidden = false; $("history-close").focus(); }
 function closeHistory() { $("history").hidden = true; }
-function setPane(p) {
-  $("app").dataset.pane = p;
-  for (const b of $("mob").children) b.setAttribute("aria-pressed", b.dataset.pane === p ? "true" : "false");
+function closeLibDrawer() { delete $("app").dataset.lib; syncScrim(); }
+function openLibDrawer() { $("app").dataset.lib = "open"; syncScrim(); $("lib-search").focus(); }
+const RAIL_MQ = window.matchMedia ? window.matchMedia("(max-width: 1279px)") : { matches: false, addEventListener() {} };
+function syncScrim() {
+  const lib = $("app").dataset.lib === "open" && RAIL_MQ.matches;
+  const drawer = $("app").dataset.drawer === "open" && RAIL_MQ.matches;
+  $("scrim").hidden = !(lib || drawer);
 }
-function closeLibDrawer() { delete $("app").dataset.lib; }
 function resetSource() {
   tomlEl.value = S.baseToml;
   refreshEditor();
@@ -2057,7 +2200,7 @@ function bindUi() {
   $("sweep-run").addEventListener("click", runSweep);
   $("sweep-knob").addEventListener("change", () => seedSweepRange(true));
   $("sweep-knob2").addEventListener("change", () => seedSweepRange(true));
-  $("compare-clear").addEventListener("click", () => { S.pins = []; buildTabs(); selectTab("overview"); });
+  $("compare-clear").addEventListener("click", () => { S.pins = []; buildTabs(); selectTab(preferredTab(S.run)); });
   $("json-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(JSON.stringify(S.run.result, null, 2)); toast("JSON copied."); } catch { toast("Copy is blocked here."); } });
   $("json-download").addEventListener("click", () => { const meta = fileMeta(S.run.result, S.version, S.run.toml); triggerDownload(new Blob([JSON.stringify(S.run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json")); });
   $("cmdk-btn").addEventListener("click", openPalette);
@@ -2082,10 +2225,10 @@ function bindUi() {
     if (b.dataset.act === "share-link") copyShareLink();
     else if (b.dataset.act === "embed-code") copyEmbedCode();
     else if (b.dataset.act === "embed-open") window.open(embedUrl(), "_blank", "noopener");
+    else if (b.dataset.act === "exports") { closeStart(); selectTab("exports", { scroll: true }); }
   });
   document.addEventListener("click", (e) => { if (!menu.hidden && !e.target.closest(".menu-wrap")) setMenu(false); });
-  $("crumb").addEventListener("click", () => { if (innerWidth <= 1180 && innerWidth > 860) { if ($("app").dataset.lib === "open") closeLibDrawer(); else $("app").dataset.lib = "open"; } });
-  for (const b of $("mob").children) b.addEventListener("click", () => setPane(b.dataset.pane));
+  bindDash();
   $("tabs").addEventListener("keydown", (e) => {
     if (e.key === "ArrowRight") { e.preventDefault(); cycleTab(1); }
     else if (e.key === "ArrowLeft") { e.preventDefault(); cycleTab(-1); }
@@ -2102,9 +2245,9 @@ function bindUi() {
     }
     if (mod && e.key.toLowerCase() === "k") { e.preventDefault(); if ($("palette").hidden) openPalette(); else closePalette(); return; }
     if (mod && e.key === "Enter") { e.preventDefault(); closePalette(); runScenario(); return; }
-    if (e.key === "Escape") { if (!$("palette").hidden) closePalette(); else if (!$("history").hidden) closeHistory(); else if (!menu.hidden) setMenu(false); else closeLibDrawer(); return; }
+    if (e.key === "Escape") { const mx = document.querySelector(".is-max"); if (!$("palette").hidden) closePalette(); else if (mx) toggleMax(mx); else if (!$("history").hidden) closeHistory(); else if (!menu.hidden) setMenu(false); else if ($("app").dataset.lib === "open") closeLibDrawer(); else if ($("app").dataset.drawer === "open" && RAIL_MQ.matches) setDrawer(false); return; }
     if (typing) return;
-    if (e.key === "/") { e.preventDefault(); if (innerWidth <= 860) setPane("library"); else if (innerWidth <= 1180) $("app").dataset.lib = "open"; $("lib-search").focus(); }
+    if (e.key === "/") { e.preventDefault(); if (!$("start").hidden) $("start-search").focus(); else if (RAIL_MQ.matches) openLibDrawer(); else $("lib-search").focus(); }
     else if (e.key === "]") cycleTab(1);
     else if (e.key === "[") cycleTab(-1);
   });
@@ -2122,6 +2265,316 @@ async function paintChannels() {
   } catch { box.hidden = true; }
 }
 
+
+// ------------------------------------------------------------------ the dashboard: steps, where you are, drawers
+// One flow on every scenario, shown as steps: 1 Choose, 2 Set, 3 Run, 4 Read results, 5 Share
+// or export. The current step is marked and the next action is the most prominent control.
+const STEP_ORDER = ["choose", "set", "run", "read", "share"];
+function currentStep() {
+  if (!$("start").hidden) return "choose";
+  if (job.active) return "run";
+  const stale = !S.run || S.run.file !== S.file || S.run.toml !== tomlEl.value;
+  if (stale) return $("app").dataset.drawer === "open" ? "set" : "run";
+  return "read";
+}
+function updateSteps() {
+  if (!$("steps")) return;
+  const cur = currentStep(), ci = STEP_ORDER.indexOf(cur);
+  for (const b of $("steps").querySelectorAll("button")) {
+    const i = STEP_ORDER.indexOf(b.dataset.step);
+    b.dataset.state = i < ci ? "done" : i === ci ? "current" : i === ci + 1 ? "next" : "";
+    if (i === ci) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+  }
+  // After an edit the next action is Run; after a run it is reading, then sharing.
+  $("run").classList.toggle("is-next", cur === "run" || cur === "set");
+  $("btn-share").classList.toggle("is-next", cur === "read");
+  const phoneStep = cur === "choose" ? "choose" : $("app").dataset.drawer === "open" && PHONE_MQ.matches ? "set" : "results";
+  for (const b of $("mob").children) b.setAttribute("aria-pressed", b.dataset.mstep === phoneStep ? "true" : "false");
+}
+function goStep(step) {
+  if (step === "choose") { if (RAIL_MQ.matches || !$("start").hidden) openStart(); else { $("lib-search").focus(); openStart(); } }
+  else if (step === "set") { closeStart(); setDrawer(true); }
+  else if (step === "run") { closeStart(); runScenario(); }
+  else if (step === "read") { closeStart(); if (PHONE_MQ.matches) setDrawer(false); const k = $("kpis-wrap"); (k.hidden ? $("results") : k).scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" }); }
+  else if (step === "share") { closeStart(); selectTab("exports", { scroll: true }); }
+}
+
+// Breadcrumbs: Studio › Domain › Scenario › Panel. Each part but the last is a way back.
+function updateCrumbs() {
+  const host = $("crumbs");
+  if (!host) return;
+  const parts = [];
+  const sep = () => h("span", { class: "sep", "aria-hidden": "true", text: "›" });
+  const entry = S.shared ? null : entryFor(S.file);
+  const startOpen = !$("start").hidden;
+  const dom = startOpen ? (S.startDomain ? domainOf(S.startDomain) : null) : entry ? domainOf(entry.domain) : null;
+  parts.push(h("button", { type: "button", class: "cr", text: "Studio", title: "The start screen: every domain", onclick: () => openStart() }));
+  if (dom) parts.push(sep(), h("button", { type: "button", class: "cr", style: `--c:${dom.color}`, onclick: () => openStart({ domain: dom.id }) }, h("i", { class: "dot" }), dom.label));
+  if (!startOpen && (entry || S.shared)) {
+    parts.push(sep(), h("button", { type: "button", class: "cr", text: entry ? entry.title : "Shared scenario", onclick: () => $("results").scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" }) }));
+    const d = TAB_DEFS.find((t) => t.id === S.activeTab);
+    if (d && S.run) parts.push(sep(), h("span", { class: "cr here", "aria-current": "page", text: d.label }));
+  }
+  const last = parts[parts.length - 1];
+  if (last && last.tagName === "BUTTON" && !last.classList.contains("here")) last.setAttribute("aria-current", "page");
+  host.replaceChildren(...parts);
+}
+
+// 2 Set: the parameters drawer (a side column on wide screens, an overlay on tablets, a sheet on phones).
+function setDrawer(open, { focus = true } = {}) {
+  $("app").dataset.drawer = open ? "open" : "closed";
+  $("btn-params").setAttribute("aria-expanded", open ? "true" : "false");
+  try { if (!PHONE_MQ.matches) localStorage.setItem("kshana-studio-drawer", open ? "1" : "0"); } catch { /* storage blocked */ }
+  syncScrim();
+  updateSteps();
+  if (open && focus && RAIL_MQ.matches) setTimeout(() => $("params-close").focus(), 30);
+}
+
+// Find a field of this scenario: filter the controls, guided and all.
+function applyFieldFind() {
+  const inp = $("field-find");
+  if (!inp) return;
+  const q = inp.value.trim();
+  const note = $("field-find-note");
+  const knobs = [...$("knobs").querySelectorAll(".knob")], fields = [...$("fields").querySelectorAll(".field")];
+  const ctl = (el) => ({ id: el.dataset.fieldId, label: el.dataset.label || "", key: el.dataset.key || "" });
+  const okK = new Set(filterControls(knobs.map(ctl), q)), okF = new Set(filterControls(fields.map(ctl), q));
+  for (const el of knobs) el.hidden = !!q && !okK.has(el.dataset.fieldId);
+  for (const el of fields) el.hidden = !!q && !okF.has(el.dataset.fieldId);
+  for (const sec of $("fields").querySelectorAll(".fsec")) { let n = sec.nextElementSibling, any = false; while (n && !n.classList.contains("fsec")) { if (n.classList.contains("field") && !n.hidden) any = true; n = n.nextElementSibling; } sec.hidden = !!q && !any; }
+  if (!q) { note.hidden = true; return; }
+  if (!okK.size && okF.size && S.pview === "guided") setPview("all");
+  note.hidden = false;
+  note.textContent = okK.size + okF.size ? `${okK.size} guided control${okK.size === 1 ? "" : "s"} and ${okF.size} of ${fields.length} fields match “${q}”.` : `No field of this scenario matches “${q}”. Search every scenario with the library search.`;
+}
+
+// The field index over every bundled scenario (lib/finder.mjs), built once.
+let fieldIdxPromise = null;
+function ensureFieldIndex() {
+  if (!fieldIdxPromise) fieldIdxPromise = scenarioBundle().then((b) => { S.fieldIdx = fieldIndex(b || {}); return S.fieldIdx; });
+  return fieldIdxPromise;
+}
+// Open a scenario at one of its fields: the drawer opens and the control is highlighted and focused.
+async function jumpToField(file, id) {
+  closeStart();
+  if (S.file !== file || S.shared) await loadScenario(file);
+  $("field-find").value = "";
+  applyFieldFind();
+  setDrawer(true, { focus: false });
+  const esc = (x) => (window.CSS && CSS.escape ? CSS.escape(x) : x.replace(/["\\]/g, "\\$&"));
+  let el = $("knobs").querySelector(`.knob[data-field-id="${esc(id)}"]`);
+  if (el) setPview("guided");
+  else { S.pviewChosen = true; setPview("all"); el = $("fields").querySelector(`.field[data-field-id="${esc(id)}"]`); }
+  for (const x of document.querySelectorAll(".knob.hit, .field.hit")) x.classList.remove("hit");
+  if (!el) { toast("That field is not a single number in this scenario: edit it in the source."); return; }
+  el.classList.add("hit");
+  el.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" });
+  const inp = el.querySelector("input");
+  if (inp) inp.focus({ preventScroll: true });
+  toast(`Opened at ${el.dataset.label || id}. Change it and the scenario re-runs.`);
+}
+
+// ------------------------------------------------------------------ the start screen
+const DOMAIN_LINE = {
+  interference: "Jammers against GNSS receivers: what is lost, and when.",
+  spectrum: "Waterfalls of the radio band: jammers, signals and what the receiver tracks.",
+  spoofing: "False signals and meaconing, and the monitors that catch them.",
+  timing: "Clocks without GNSS: holdover, stability, telecom masks, time transfer.",
+  navigation: "Inertial, terrain, gravity and other navigation without GNSS.",
+  integrity: "Position fixes and whether they can be trusted: RAIM (receiver autonomous integrity monitoring) and its advanced form, ARAIM.",
+  orbits: "Orbit propagation, ephemerides and GNSS geometry.",
+  constellations: "Design a constellation and map its coverage and PDOP (position dilution of precision).",
+  leo: "Low Earth orbit navigation signals, passes, messages and fixes.",
+  "leo-missions": "Studies and services built on a low Earth orbit layer.",
+  campaigns: "Chained missions, sweeps and Monte Carlo runs on one clock.",
+  spaceops: "Passes, launch windows, re-entry, link and attitude budgets.",
+  deepspace: "Navigation and time at the Moon, in cislunar space and at Mars.",
+  solar: "Every planet and moon at one epoch, with light times.",
+  studies: "Quantum sensors, trade studies and interoperability formats.",
+};
+const SUGGEST = [
+  ["l-band-waterfall-jamming.toml", "Watch a jammer on the L-band waterfall"],
+  ["constellation-multi-gnss-coverage.toml", "Map the coverage of four GNSS (global navigation satellite system) constellations"],
+  ["campaign-jam-spoof-holdover-integrity.toml", "Replay a jam, spoof and holdover mission"],
+  ["clock-holdover.toml", "Hold time when GNSS is lost"],
+];
+const domIcon = (id) => icon(`d-${["interference", "spectrum", "spoofing", "timing", "navigation", "integrity", "orbits", "constellations", "leo", "leo-missions", "campaigns", "spaceops", "deepspace", "solar", "studies"].includes(id) ? id : "optional"}`);
+function renderStart() {
+  const tiles = $("start-tiles");
+  tiles.replaceChildren();
+  for (const d of DOMAINS) {
+    const n = SCENARIOS.filter((s) => s[1] === d.id).length;
+    if (!n) continue;
+    tiles.append(h("button", { class: "start-tile", type: "button", "data-domain": d.id, style: `--c:${d.color}`, onclick: () => showDomain(d.id) },
+      h("span", { class: "ic" }, domIcon(d.id)), h("b", { text: d.label }), h("span", { class: "ln", text: DOMAIN_LINE[d.id] || "An optional group of scenarios." }), h("span", { class: "n", text: `${n} scenario${n === 1 ? "" : "s"}` })));
+  }
+  const sug = $("start-suggest");
+  sug.replaceChildren(...SUGGEST.filter(([f]) => entryFor(f)).map(([f, why]) => { const e = entryFor(f), d = domainOf(e.domain); return h("button", { type: "button", "data-file": f, style: `--c:${d.color}`, onclick: () => { closeStart(); loadScenario(f); } }, h("span", { class: "ic" }, domIcon(e.domain)), h("b", { text: why }), h("span", { text: `${e.title} · ${d.label}` }), h("span", { class: "go" }, "Open and run ", icon("i-arrow"))); }));
+}
+function hitButton(e, extra = null) {
+  const d = domainOf(e.domain);
+  return h("button", { class: "start-hit", type: "button", "data-file": e.file, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => { closeStart(); loadScenario(e.file); } },
+    h("b", { text: e.title }), h("span", { text: e.question }), h("span", { class: "meta" }, d ? d.label : "", NOT_IN_BROWSER[e.file] ? " · recorded run, native engine" : ""), extra);
+}
+function showDomain(id) {
+  S.startDomain = id;
+  $("start-search").value = "";
+  const d = domainOf(id);
+  const items = SCENARIOS.filter((s) => s[1] === id).map((s) => entryFor(s[0])).filter(Boolean);
+  $("start-results").replaceChildren(h("div", { class: "start-res-head" }, h("h2", {}, h("span", { class: "ic", style: `--c:${d.color}` }, domIcon(id)), `${d.label}: ${items.length} scenario${items.length === 1 ? "" : "s"}`), h("button", { type: "button", class: "btn-mini", text: "All domains", onclick: () => { S.startDomain = null; $("start-results").replaceChildren(); updateCrumbs(); } })), h("p", { class: "hint", text: "Pick one: it opens and runs in your browser. You can change its parameters next." }), h("div", { class: "start-hits" }, items.map((e) => hitButton(e))));
+  updateCrumbs();
+  const first = $("start-results").querySelector(".start-hit");
+  $("start-results").scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
+  if (first) first.focus({ preventScroll: true });
+}
+async function startSearch() {
+  const q = $("start-search").value.trim();
+  const host = $("start-results");
+  S.startDomain = null;
+  if (!q) { host.replaceChildren(); updateCrumbs(); return; }
+  await ensureFieldIndex();
+  if ($("start-search").value.trim() !== q) return;
+  const words = q.toLowerCase().split(/\s+/);
+  const doms = DOMAINS.filter((d) => SCENARIOS.some((s) => s[1] === d.id) && words.every((w) => `${d.label} ${DOMAIN_LINE[d.id] || ""}`.toLowerCase().includes(w)));
+  const scen = groupedLibrary(q).flatMap((g) => g.items);
+  const fields = findFields(S.fieldIdx, q, 400);
+  const out = [];
+  if (doms.length) out.push(h("h3", { text: "Domains" }), h("div", { class: "start-doms" }, doms.map((d) => h("button", { type: "button", class: "start-dom", style: `--c:${d.color}`, onclick: () => showDomain(d.id) }, h("span", { class: "ic" }, domIcon(d.id)), d.label))));
+  if (scen.length) out.push(h("h3", { text: `Scenarios (${scen.length})` }), h("div", { class: "start-hits" }, scen.slice(0, 12).map((e) => hitButton(e))));
+  if (fields.length) {
+    out.push(h("h3", { text: `Fields named like “${q}”: in ${scenarioCount(fields)} scenario${scenarioCount(fields) === 1 ? "" : "s"}` }), h("p", { class: "hint", text: "Each opens the scenario with that control highlighted, ready to change." }));
+    out.push(h("div", { class: "start-hits" }, fields.slice(0, 24).map((x) => { const e = entryFor(x.file); const d = e ? domainOf(e.domain) : null; return h("button", { class: "start-hit field", type: "button", "data-file": x.file, "data-field": x.id, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => jumpToField(x.file, x.id) }, h("b", { text: x.label }), h("span", { text: `in ${e ? e.title : x.file}` }), h("span", { class: "meta", text: `${d ? d.label : ""} · field ${x.section ? x.section + "." : ""}${x.key}` })); })));
+    if (fields.length > 24) out.push(h("p", { class: "hint", text: `${fields.length - 24} more matches: add a word to narrow them.` }));
+  }
+  if (!out.length) out.push(h("p", { class: "hint", text: `Nothing matches “${q}”. Try a word like jamming, clock, lunar, orbit, mask or PDOP.` }));
+  host.replaceChildren(...out);
+  updateCrumbs();
+}
+function openStart({ domain = null } = {}) {
+  closeLibDrawer();
+  if (PHONE_MQ.matches || RAIL_MQ.matches) setDrawer(false);
+  $("start").hidden = false;
+  $("dash").hidden = true;
+  $("results").scrollTo({ top: 0 });
+  if (domain) showDomain(domain);
+  else { S.startDomain = null; if (!$("start-search").value) $("start-results").replaceChildren(); }
+  updateCrumbs();
+  updateSteps();
+  if (!domain && !PHONE_MQ.matches) $("start-search").focus({ preventScroll: true });
+}
+function closeStart() {
+  if ($("start").hidden) return;
+  $("start").hidden = true;
+  $("dash").hidden = false;
+  updateCrumbs();
+  updateSteps();
+}
+
+// ------------------------------------------------------------------ compare: key figures and overlays
+function openCompare() {
+  closeStart();
+  if (!S.pins.length) { pinRun(); return; }
+  if (S.pins.length === 1 && !S.pins.includes(S.run)) { pinRun(); return; }
+  if (!available.includes("compare")) buildTabs();
+  selectTab("compare", { scroll: true });
+  if (S.pins.length < 2) toast("One run is pinned. Change a parameter, run again, and pin that run to compare the two.");
+}
+function renderCompareExtras() {
+  const card = $("compare-kpi-card"), t = $("compare-kpi"), ov = $("compare-overlays");
+  card.hidden = true; t.replaceChildren(); ov.replaceChildren();
+  if (S.pins.length < 2) return;
+  const sets = S.pins.map((p) => kpiCards(p.result, p.toml, 6));
+  const keys = [];
+  for (const cs of sets) for (const c of cs) if (!keys.some((k) => kpiKey(k) === kpiKey(c))) keys.push(c);
+  if (keys.length) {
+    t.append(h("thead", {}, h("tr", {}, h("th", { text: "Key figure" }), ...S.pins.map((p, i) => h("th", {}, h("span", { class: "sw", style: `background:${PALETTE[i]}` }), `${String.fromCharCode(65 + i)} · run ${p.id}`)))));
+    const tb = h("tbody");
+    for (const k of keys) {
+      const tr = h("tr", {}, h("td", { text: `${k.k}${k.sub ? `, ${k.sub}` : ""}${k.unit ? ` (${k.unit})` : ""}` }));
+      sets.forEach((cs, i) => {
+        const c = cs.find((x) => kpiKey(x) === kpiKey(k));
+        const td = h("td", { class: "num", text: c ? (c.text !== undefined ? c.text : V.fmt(c.v)) : "—" });
+        if (i > 0 && c) { const d = kpiDelta(c, sets[0]); if (d && d.dir !== "flat") td.append(h("span", { class: `delta ${d.dir === "up" ? "up" : "down"} neutral`, text: d.text })); }
+        tr.append(td);
+      });
+      tb.append(tr);
+    }
+    t.append(tb);
+    card.hidden = false;
+  }
+  // Overlaid charts: the same line panel of runs A and B on one pair of axes (B dashed).
+  const [a, b] = S.pins;
+  const ca = K.capabilityView(a.result, a.toml), cb = K.capabilityView(b.result, b.toml);
+  if (!ca || !cb || ca.kind !== cb.kind) return;
+  const lb = cb.panels.filter((p) => p.type === "line");
+  let n = 0;
+  for (const pa of ca.panels.filter((p) => p.type === "line")) {
+    const pb = lb.find((x) => x.title === pa.title);
+    if (!pb || n >= 3) continue;
+    const series = [...pa.model.series.map((x) => ({ ...x, label: `A · ${x.label}` })), ...pb.model.series.map((x) => ({ ...x, label: `B · ${x.label}`, dash: true }))];
+    const title = `${pa.title}: run ${a.id} (A) against run ${b.id} (B)`;
+    const chart = V.lineChartSvg({ ...pa.model, series }, pa.opts || {});
+    if (!chart.svg) continue;
+    const box = h("div", { class: "chart-box" }), tools = h("div", { class: "chart-tools" });
+    setSvg(box, chart.svg); bindHover(box, chart.hover); mountTools(tools, () => exportSvg(chart.svg, title), "compare-overlay");
+    ov.append(h("div", { class: "card scope" }, h("div", { class: "card-head" }, h("h3", { text: title }), h("p", { class: "card-note on-space", text: "Solid lines are run A, dashed lines run B, on the same axes." })), box, tools));
+    n++;
+  }
+}
+
+// ------------------------------------------------------------------ panels: full screen
+function toggleMax(card, btn = card.querySelector(".pan-max")) {
+  const on = !card.classList.contains("is-max");
+  for (const c of document.querySelectorAll(".is-max")) if (c !== card) toggleMax(c);
+  card.classList.toggle("is-max", on);
+  document.body.classList.toggle("has-max", on);
+  if (btn) { btn.replaceChildren(icon(on ? "i-min" : "i-max"), h("span", { class: "lbl", text: on ? "Close" : "Expand" })); btn.setAttribute("aria-label", on ? "Close full screen" : "Expand this panel to full screen"); btn.setAttribute("aria-expanded", on ? "true" : "false"); btn.focus(); }
+  window.dispatchEvent(new Event("resize"));
+}
+let decoTimer = 0;
+function decoratePanels() {
+  decoTimer = 0;
+  for (const card of $("views").querySelectorAll(".card")) {
+    const head = card.querySelector(":scope > .card-head");
+    if (!head || card.querySelector(":scope > .pan-max")) continue;
+    const b = h("button", { type: "button", class: "pan-max", "aria-label": "Expand this panel to full screen", "aria-expanded": "false", title: "Show this panel full screen (Escape closes it)" }, icon("i-max"), h("span", { class: "lbl", text: "Expand" }));
+    b.addEventListener("click", () => toggleMax(card, b));
+    card.classList.add("has-max-btn");
+    card.append(b);
+  }
+}
+
+// ------------------------------------------------------------------ bindings of the dashboard chrome
+function bindDash() {
+  for (const b of $("steps").querySelectorAll("button")) b.addEventListener("click", () => goStep(b.dataset.step));
+  $("btn-params").addEventListener("click", () => setDrawer($("app").dataset.drawer !== "open"));
+  $("params-close").addEventListener("click", () => { setDrawer(false); $("btn-params").focus(); });
+  $("btn-lib").addEventListener("click", () => (RAIL_MQ.matches ? openLibDrawer() : openStart()));
+  $("lib-close").addEventListener("click", closeLibDrawer);
+  $("btn-start").addEventListener("click", () => openStart());
+  $("btn-compare").addEventListener("click", openCompare);
+  $("scrim").addEventListener("click", () => { closeLibDrawer(); if (RAIL_MQ.matches) setDrawer(false); });
+  $("field-find").addEventListener("input", applyFieldFind);
+  $("kf-find").addEventListener("input", () => { const q = $("kf-find").value.trim().toLowerCase(); for (const tr of $("kf-table").querySelectorAll("tbody tr")) tr.hidden = !!q && !q.split(/\s+/).every((w) => tr.textContent.toLowerCase().includes(w)); });
+  let st = 0;
+  $("start-search").addEventListener("input", () => { clearTimeout(st); st = setTimeout(startSearch, 120); });
+  $("start-search").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); const f = $("start-results").querySelector(".start-hit, .start-dom"); if (f) f.click(); } });
+  for (const b of $("mob").children) b.addEventListener("click", () => {
+    const m = b.dataset.mstep;
+    if (m === "choose") openStart();
+    else if (m === "set") { closeStart(); setDrawer($("app").dataset.drawer !== "open" || !PHONE_MQ.matches); }
+    else if (m === "run") { closeStart(); setDrawer(false); runScenario(); $("results").scrollTo({ top: 0 }); window.scrollTo({ top: 0 }); }
+    else { closeStart(); setDrawer(false); }
+    updateSteps();
+  });
+  $("first-hint-close").addEventListener("click", () => { $("first-hint").hidden = true; try { localStorage.setItem("kshana-studio-hint", "done"); } catch { /* storage blocked */ } });
+  const relayout = () => { if (S.run) { selectTab(S.activeTab); } syncScrim(); updateSteps(); };
+  PHONE_MQ.addEventListener("change", relayout);
+  RAIL_MQ.addEventListener("change", relayout);
+  new MutationObserver(() => { if (!decoTimer) decoTimer = requestAnimationFrame(decoratePanels); }).observe($("views"), { childList: true, subtree: true });
+  decoratePanels();
+}
+
 // ------------------------------------------------------------------ start
 async function main() {
   bindUi();
@@ -2129,6 +2582,7 @@ async function main() {
   fetch("data/land.json").then((r) => (r.ok ? r.json() : [])).then((l) => { S.land = l; if (S.run && V.groundTrack(S.run.result)) renderGround(); }).catch(() => { S.land = []; });
   paintChannels();
   setPview("guided");
+  paintDomainFilter();
   renderLibrary();
   loadCounts();
   const params = new URLSearchParams(location.search);
@@ -2141,7 +2595,8 @@ async function main() {
     const group = await getJson(`${dir}index.json`);
     if (group && registerGroup({ ...group, dir })) dirs.push(dir);
   }
-  if (dirs.length > 1) renderLibrary();
+  if (dirs.length > 1) { paintDomainFilter(); renderLibrary(); }
+  renderStart();
   for (const dir of dirs) {
     const idx = await fetch(`${dir}native/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     if (idx) S.nat.set(dir, idx);
@@ -2149,6 +2604,10 @@ async function main() {
   S.embed = isEmbed(location.search);
   const cfg = S.embed ? embedConfig(location.search) : null;
   if (S.embed) for (const c of embedClassList(cfg)) document.body.classList.add(c);
+  // With no scenario named (or ?start=1) the Studio opens on its start screen; the default
+  // scenario still loads and runs behind it, so the engine is warm when the reader picks.
+  const early = (cfg && cfg.scenario) || params.get("scenario");
+  if (!S.embed && !decodeFragment(location.hash) && (params.get("start") === "1" || !early)) openStart();
   try {
     await bootEngine();
   } catch (e) {
@@ -2166,6 +2625,17 @@ async function main() {
   const requestedRaw = (cfg && cfg.scenario) || params.get("scenario");
   const requested = requestedRaw && !/\.toml$/.test(requestedRaw) ? `${requestedRaw}.toml` : requestedRaw;
   S.tabRequest = (cfg && cfg.tab) || params.get("tab");
+  // Old names of views still open the matching panel.
+  const ALIAS = { fom: "overview", figures: "overview", chart: "timeseries", "engine-chart": "timeseries", export: "exports", animations: "animation" };
+  if (S.tabRequest && ALIAS[S.tabRequest]) S.tabRequest = ALIAS[S.tabRequest];
+  // The parameters drawer starts open on wide screens (or as the reader last left it); never on phones.
+  let drawer = innerWidth >= 1680;
+  try { const v = localStorage.getItem("kshana-studio-drawer"); if (v === "1" || v === "0") drawer = v === "1" && !RAIL_MQ.matches; } catch { /* storage blocked */ }
+  if (!S.embed) setDrawer(drawer && !PHONE_MQ.matches);
+  // With no scenario named (or ?start=1) the Studio opens on its start screen; the default
+  // scenario still loads and runs behind it, so the engine is warm when the reader picks.
+  // The first-run hint shows to a reader who arrives without a scenario (a site link names one).
+  try { if (!S.embed && !requestedRaw && localStorage.getItem("kshana-studio-hint") !== "done") $("first-hint").hidden = false; } catch { /* storage blocked: no hint */ }
   if (shared && !S.embed) {
     S.file = null; S.shared = true; S.baseToml = shared;
     tomlEl.value = shared;

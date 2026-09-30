@@ -47,7 +47,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="../missions.html">Missions</a>
       <a href="../capabilities.html">Capabilities</a>
@@ -114,6 +114,16 @@ stream keyed by the scenario <code>seed</code>, drawn in a fixed order. Conseque
 <td>the <code>reproducibility-matrix</code> CI job runs <code>golden.rs</code> (1e-6), <code>sgp4_verification.rs</code> (2e-5 km), and <code>determinism.rs</code> on all three OS</td>
 </tr>
 <tr>
+<td>A low Earth orbit (LEO) navigation-message frame is the same bytes on every platform and in every build profile, the WebAssembly (WASM) build included</td>
+<td><strong>Yes</strong></td>
+<td><code>src/portable_math.rs</code> (every transcendental and every normal deviate of the <code>leo-navmsg</code> kind goes through the pure-Rust <code>libm</code> crate); <code>leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform</code> pins a whole frame with no platform gate</td>
+</tr>
+<tr>
+<td>Seeded index draws (bootstrap resampling, shuffles) are the same on 32-bit and 64-bit targets</td>
+<td><strong>Yes</strong></td>
+<td><code>portable_math::uniform_index</code> always samples as <code>u64</code>; pinned in <code>portable_math::tests</code></td>
+</tr>
+<tr>
 <td>Same toolchain everywhere</td>
 <td><strong>Yes</strong></td>
 <td><code>rust-toolchain.toml</code> pins the channel; <code>scripts/check-toolchain.sh</code> fails the build on drift; CI and release pin the same version</td>
@@ -138,6 +148,31 @@ is the platform math library: <code>sqrt</code>, <code>ln</code>, <code>exp</cod
 by IEEE-754 (IEEE: Institute of Electrical and Electronics Engineers) to be correctly rounded, so Linux (glibc, the GNU C library), macOS, and Windows can
 each return a different last bit. Over a long run these ~1e-16 differences
 accumulate to perhaps ~1e-12 relative.</p>
+<p>Two things make that last-place difference larger than it starts, and both are
+measured rather than assumed. An <strong>adaptive integrator</strong> chooses its next step from the
+error estimate through a fifth root, so one unit in the last place changes the step
+sequence and the two platforms then agree only to the integration tolerance. An
+<strong>iterative estimator</strong> (a least-squares fit, an orbit-determination filter) can take a
+different path to convergence. Kinds built on either can differ between platforms by
+more than 1e-6 in individual fields; <code>src/test_support.rs</code> records the same regime for
+the unit tests.</p>
+<p>The <strong>build profile</strong> matters in the same way, on one machine. An optimised build on
+macOS merges a sine and a cosine of one argument into a single call to the system&#39;s
+combined routine, whose sine differs from the lone <code>sin</code> in the last bit for 379 of
+200 000 arguments; an unoptimised build makes the two calls. Measured on aarch64 macOS
+over the 138 scenario files, a debug and a release build of one source give
+byte-identical result documents for 102. The other 36 differ in the last places: 28
+within 1e-6, one (<code>leo-ppp-convergence</code>) by 2.8e-6, and seven campaigns only in the
+digests of their member runs; none differs in a label, a count or a verdict. The
+byte-identity guarantee above is therefore for one build: the same binary twice.</p>
+<p>The seeded <strong>normal draws</strong> are a third, much rarer source: the sampler calls the host
+exponential and logarithm in its rare branches, and about one draw in a million differs
+in the last bit between the native and the WASM build.</p>
+<p>Where an output is <strong>discrete</strong>, a last-place difference is not acceptable at all, and
+the kind is computed with <code>src/portable_math.rs</code> instead of the host library. The
+<code>leo-navmsg</code> kind is the first: its binary frame is transmitted integers, and the same
+scenario once encoded to three different frames: in a release build, in a debug build
+of the same source, and in the browser. It is now the same bytes in all three.</p>
 <p>Because of this, the golden tests do <strong>not</strong> pin a single cross-platform hash of
 the floating-point output — that would be fragile and would fail honestly-correct
 builds on a different OS. Instead:</p>
@@ -216,8 +251,8 @@ gh attestation verify kshana-sbom.cdx.json --repo AshfordeOU/kshana</code></pre>
       <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -230,7 +265,7 @@ gh attestation verify kshana-sbom.cdx.json --repo AshfordeOU/kshana</code></pre>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

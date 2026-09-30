@@ -47,7 +47,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="../missions.html">Missions</a>
       <a href="../capabilities.html">Capabilities</a>
@@ -79,25 +79,989 @@
 and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semantic Versioning</a>.
 While the project is pre-1.0, the public scenario/result schema may still change;
 breaking changes are called out explicitly.</p>
-<h2 id="unreleased"><a href="https://github.com/AshfordeOU/kshana/compare/v0.28.0...HEAD">Unreleased</a><a class="anchor" href="#unreleased" aria-label="Link to this section">#</a></h2>
+<h2 id="unreleased"><a href="https://github.com/AshfordeOU/kshana/compare/v0.29.0...HEAD">Unreleased</a><a class="anchor" href="#unreleased" aria-label="Link to this section">#</a></h2>
+<h2 id="0290---2026-10-01"><a href="https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0">0.29.0</a> - 2026-10-01<a class="anchor" href="#0290---2026-10-01" aria-label="Link to this section">#</a></h2>
+<p>Twelve new scenario kinds and three new ways to read a run. The engine now covers the
+radio spectrum, the whole solar system, constellations around any body, campaigns that
+chain scenarios into one mission, and positioning, navigation and timing (PNT) from low
+Earth orbit (LEO) from the signal to the fix. Every run can also be written as an
+animation, a full report and a set of interoperability files for other tools.</p>
+<p>Around the engine: a redesigned kshana.dev (a multi-page site, and a new Kshana Studio
+dashboard that runs every capability in the browser), a rewritten README, fourteen tools
+on the Model Context Protocol (MCP) server, a browser build that gives the same numbers as
+the native one, and a public page for Kshana Pro.</p>
+<div class="tbl"><table><thead><tr>
+<th></th>
+<th>0.28.0</th>
+<th>0.29.0</th>
+</tr>
+</thead><tbody><tr>
+<td>Scenario kinds</td>
+<td>63</td>
+<td>75</td>
+</tr>
+<tr>
+<td>Scenario files (plus one suite manifest)</td>
+<td>77</td>
+<td>138, of which 132 are bundled for <code>kshana example</code></td>
+</tr>
+<tr>
+<td>Verification-matrix rows</td>
+<td>174</td>
+<td>223</td>
+</tr>
+<tr>
+<td>of which VALIDATED against an external oracle</td>
+<td>66</td>
+<td>83</td>
+</tr>
+<tr>
+<td>of which MODELLED (stated model, checked for internal consistency)</td>
+<td>104</td>
+<td>136</td>
+</tr>
+<tr>
+<td>of which PARTNER (needs a partner&#39;s hardware or data)</td>
+<td>4</td>
+<td>4</td>
+</tr>
+</tbody></table></div>
+<p>Where the growth comes from:</p>
+<div class="tbl"><table><thead><tr>
+<th>Area</th>
+<th>Kinds</th>
+<th>Scenario files</th>
+<th>Matrix rows (validated + modelled)</th>
+</tr>
+</thead><tbody><tr>
+<td>Spectrum</td>
+<td>1</td>
+<td>1</td>
+<td>3 (1 + 2)</td>
+</tr>
+<tr>
+<td>Solar system and positioning around any body</td>
+<td>2</td>
+<td>3</td>
+<td>6 (2 + 4)</td>
+</tr>
+<tr>
+<td>Constellation design</td>
+<td>1</td>
+<td>3</td>
+<td>3 (2 + 1)</td>
+</tr>
+<tr>
+<td>Campaigns</td>
+<td>1</td>
+<td>5</td>
+<td>3 (0 + 3)</td>
+</tr>
+<tr>
+<td>Maritime, road and rail scenarios</td>
+<td>0</td>
+<td>5</td>
+<td>0</td>
+</tr>
+<tr>
+<td>Animation, reports, interoperability exports</td>
+<td>0</td>
+<td>0</td>
+<td>0</td>
+</tr>
+<tr>
+<td>LEO signal designs and the multi-band spectrum</td>
+<td>1</td>
+<td>4</td>
+<td>4 (2 + 2)</td>
+</tr>
+<tr>
+<td>LEO pass and link budget</td>
+<td>1</td>
+<td>6</td>
+<td>9 (6 + 3)</td>
+</tr>
+<tr>
+<td>LEO navigation message</td>
+<td>1</td>
+<td>5</td>
+<td>9 (3 + 6)</td>
+</tr>
+<tr>
+<td>LEO positioning, timing and fusion</td>
+<td>3</td>
+<td>8</td>
+<td>8 (1 + 7)</td>
+</tr>
+<tr>
+<td>LEO end-to-end chain</td>
+<td>1</td>
+<td>3</td>
+<td>1 (0 + 1)</td>
+</tr>
+<tr>
+<td>LEO resilience, focus-area and end-user scenarios</td>
+<td>0</td>
+<td>18</td>
+<td>3 (0 + 3)</td>
+</tr>
+<tr>
+<td><strong>Total added</strong></td>
+<td><strong>12</strong></td>
+<td><strong>61</strong></td>
+<td><strong>49 (17 + 32)</strong></td>
+</tr>
+</tbody></table></div>
+<p>The LEO capability is system-agnostic: it runs on generic, stated parameters and needs no
+named system. Named systems are optional presets, each in its own file with its public
+source. One preset, Celeste IOD (in-orbit demonstration), uses figures presented at the ESA
+NAVISP LEO-PNT workshop, 2026 (ESA is the European Space Agency; NAVISP is its Navigation
+Innovation and Support Programme); it lives in one file, <code>src/celeste_iod.rs</code>, with its five
+repository-only scenarios, so it can be withheld without a source edit, and none of its
+workshop figures is repeated in this changelog.</p>
+<p><strong>Read &quot;Revisions to published numbers&quot; before upgrading.</strong> One engine output changes (the
+<code>ephemeris</code> kind&#39;s inertial-frame columns, after a sign fix in the nutation matrix), and
+the documentation audit corrected figures that earlier documents had printed.</p>
+<details>
+<summary><b>Abbreviations used in this entry</b></summary>
+
+<p>Statuses: <strong>VALIDATED</strong> means checked against an independent external oracle (a published
+table, another group&#39;s software, or measured data); <strong>MODELLED</strong> means a stated model
+checked for internal consistency only; <strong>PARTNER</strong> means the check needs a partner&#39;s
+hardware or data.</p>
+<div class="tbl"><table><thead><tr>
+<th>Abbreviation</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td>3GPP, 5G, NTN</td>
+<td>3rd Generation Partnership Project; fifth-generation mobile network; non-terrestrial network</td>
+</tr>
+<tr>
+<td>AD, BC</td>
+<td>calendar eras (anno Domini, before Christ)</td>
+</tr>
+<tr>
+<td>AIAA</td>
+<td>American Institute of Aeronautics and Astronautics</td>
+</tr>
+<tr>
+<td>AltBOC, BOC, BPSK, MBOC</td>
+<td>alternative binary offset carrier; binary offset carrier; binary phase-shift keying; multiplexed binary offset carrier (signal modulations)</td>
+</tr>
+<tr>
+<td>ATOMIC</td>
+<td>Autonomous Time and Orbit Determination for Microsatellite Constellations (a published LEO ephemeris model)</td>
+</tr>
+<tr>
+<td>C/A, L1, L2, L2C, L5</td>
+<td>coarse/acquisition code and the carrier and civil-signal names of the Global Positioning System</td>
+</tr>
+<tr>
+<td>C/N0</td>
+<td>carrier-to-noise density ratio</td>
+</tr>
+<tr>
+<td>CIO</td>
+<td>Celestial Intermediate Origin</td>
+</tr>
+<tr>
+<td>CLI</td>
+<td>command-line interface</td>
+</tr>
+<tr>
+<td>CRC-24Q</td>
+<td>24-bit cyclic redundancy check (Qualcomm polynomial)</td>
+</tr>
+<tr>
+<td>CSAC</td>
+<td>chip-scale atomic clock</td>
+</tr>
+<tr>
+<td>CSS, HTML, SVG, XML</td>
+<td>Cascading Style Sheets; HyperText Markup Language; Scalable Vector Graphics; Extensible Markup Language</td>
+</tr>
+<tr>
+<td>CSV, JSON, PDF, TOML, URL</td>
+<td>comma-separated values; JavaScript Object Notation; Portable Document Format; Tom&#39;s Obvious Minimal Language; uniform resource locator</td>
+</tr>
+<tr>
+<td>CW</td>
+<td>continuous wave</td>
+</tr>
+<tr>
+<td>CZML, KML, GeoJSON</td>
+<td>Cesium Language; Keyhole Markup Language; Geographic JSON (map and globe formats)</td>
+</tr>
+<tr>
+<td>DE441</td>
+<td>Development Ephemeris 441 of the Jet Propulsion Laboratory</td>
+</tr>
+<tr>
+<td>DOI</td>
+<td>digital object identifier</td>
+</tr>
+<tr>
+<td>DOP, GDOP, PDOP, HDOP, VDOP</td>
+<td>dilution of precision: geometric, position, horizontal, vertical</td>
+</tr>
+<tr>
+<td>E1, E5, E5a, E5b</td>
+<td>Galileo signal names</td>
+</tr>
+<tr>
+<td>E3F</td>
+<td>a slot name in the Global Positioning System constellation table</td>
+</tr>
+<tr>
+<td>ECEF</td>
+<td>Earth-centred, Earth-fixed</td>
+</tr>
+<tr>
+<td>EE</td>
+<td>equation of the equinoxes</td>
+</tr>
+<tr>
+<td>EGM2008</td>
+<td>Earth Gravitational Model 2008</td>
+</tr>
+<tr>
+<td>EIRP</td>
+<td>equivalent isotropically radiated power</td>
+</tr>
+<tr>
+<td>ERFA, SOFA</td>
+<td>Essential Routines for Fundamental Astronomy; Standards of Fundamental Astronomy (reference astronomy libraries)</td>
+</tr>
+<tr>
+<td>ESA, NAVISP</td>
+<td>European Space Agency; its Navigation Innovation and Support Programme</td>
+</tr>
+<tr>
+<td>FDMA</td>
+<td>frequency-division multiple access</td>
+</tr>
+<tr>
+<td>GCRF, GCRS</td>
+<td>Geocentric Celestial Reference Frame; Geocentric Celestial Reference System</td>
+</tr>
+<tr>
+<td>GLONASS</td>
+<td>Russia&#39;s Global Navigation Satellite System</td>
+</tr>
+<tr>
+<td>GNSS, GPS</td>
+<td>global navigation satellite system; Global Positioning System</td>
+</tr>
+<tr>
+<td>IAU</td>
+<td>International Astronomical Union</td>
+</tr>
+<tr>
+<td>ICD, OS SIS ICD, OS SDD</td>
+<td>interface control document; Galileo Open Service Signal-In-Space Interface Control Document; Galileo Open Service Service Definition Document</td>
+</tr>
+<tr>
+<td>ICRF</td>
+<td>International Celestial Reference Frame</td>
+</tr>
+<tr>
+<td>IMO</td>
+<td>International Maritime Organization</td>
+</tr>
+<tr>
+<td>INS, MEMS</td>
+<td>inertial navigation system; micro-electro-mechanical system</td>
+</tr>
+<tr>
+<td>IOD</td>
+<td>in-orbit demonstration</td>
+</tr>
+<tr>
+<td>IQ</td>
+<td>in-phase and quadrature</td>
+</tr>
+<tr>
+<td>IS-GPS-200</td>
+<td>the interface specification of the Global Positioning System</td>
+</tr>
+<tr>
+<td>ISS</td>
+<td>International Space Station</td>
+</tr>
+<tr>
+<td>ITRF, ITRS, PEF, TEME</td>
+<td>International Terrestrial Reference Frame; International Terrestrial Reference System; pseudo-Earth-fixed; true equator, mean equinox (reference frames)</td>
+</tr>
+<tr>
+<td>ITU, ITU-R</td>
+<td>International Telecommunication Union; its Radiocommunication Sector</td>
+</tr>
+<tr>
+<td>J/S</td>
+<td>jammer-to-signal ratio</td>
+</tr>
+<tr>
+<td>J2 to J6, J2000</td>
+<td>zonal harmonics of the gravity field; the epoch 2000-01-01 12:00</td>
+</tr>
+<tr>
+<td>JPL</td>
+<td>Jet Propulsion Laboratory</td>
+</tr>
+<tr>
+<td>LEO, MEO</td>
+<td>low Earth orbit; medium Earth orbit</td>
+</tr>
+<tr>
+<td>MBSE</td>
+<td>model-based systems engineering</td>
+</tr>
+<tr>
+<td>NEES</td>
+<td>normalised estimation error squared</td>
+</tr>
+<tr>
+<td>NeQuick-G</td>
+<td>the Galileo ionosphere model</td>
+</tr>
+<tr>
+<td>OEM, SP3, TLE</td>
+<td>Orbit Ephemeris Message; Standard Product 3 (precise orbits); two-line element set</td>
+</tr>
+<tr>
+<td>PNT, PPP</td>
+<td>positioning, navigation and timing; precise point positioning</td>
+</tr>
+<tr>
+<td>PSD, SSC</td>
+<td>power spectral density; spectral separation coefficient</td>
+</tr>
+<tr>
+<td>RAIM, SQM</td>
+<td>receiver autonomous integrity monitoring; signal quality monitoring</td>
+</tr>
+<tr>
+<td>RINEX, RTCM</td>
+<td>Receiver Independent Exchange Format; Radio Technical Commission for Maritime Services</td>
+</tr>
+<tr>
+<td>RMS</td>
+<td>root mean square</td>
+</tr>
+<tr>
+<td>RTKLIB</td>
+<td>an open-source GNSS positioning library, used here as an oracle</td>
+</tr>
+<tr>
+<td>SGP4</td>
+<td>Simplified General Perturbations 4 (the orbit model of two-line element sets)</td>
+</tr>
+<tr>
+<td>SHA-256</td>
+<td>Secure Hash Algorithm, 256-bit</td>
+</tr>
+<tr>
+<td>SigMF</td>
+<td>Signal Metadata Format</td>
+</tr>
+<tr>
+<td>SISRE</td>
+<td>signal-in-space range error</td>
+</tr>
+<tr>
+<td>SPS PS</td>
+<td>Standard Positioning Service Performance Standard</td>
+</tr>
+<tr>
+<td>SRTM</td>
+<td>Shuttle Radar Topography Mission</td>
+</tr>
+<tr>
+<td>STK</td>
+<td>Systems Tool Kit (its <code>.e</code> ephemeris file format)</td>
+</tr>
+<tr>
+<td>STL</td>
+<td>Satellite Time and Location</td>
+</tr>
+<tr>
+<td>SVID</td>
+<td>space vehicle identifier</td>
+</tr>
+<tr>
+<td>T/P/F</td>
+<td>a Walker constellation&#39;s total satellites, planes and phasing</td>
+</tr>
+<tr>
+<td>TEC</td>
+<td>total electron content</td>
+</tr>
+<tr>
+<td>UHF</td>
+<td>ultra high frequency</td>
+</tr>
+<tr>
+<td>UTC</td>
+<td>Coordinated Universal Time</td>
+</tr>
+<tr>
+<td>WGS 84</td>
+<td>World Geodetic System 1984</td>
+</tr>
+<tr>
+<td>X1, X5</td>
+<td>signal names of the Xona Pulsar system</td>
+</tr>
+</tbody></table></div>
+</details>
+
+<h3 id="revisions-to-published-numbers">Revisions to published numbers<a class="anchor" href="#revisions-to-published-numbers" aria-label="Link to this section">#</a></h3>
+<p>A changed published number is a revision and is recorded, never corrected silently. This
+release carries one revision to engine output and several to figures printed in the
+documentation.</p>
+<h4 id="engine-output">Engine output</h4>
+<ul>
+<li><strong>The TEME→GCRS reduction turned by 2·Δψ: the nutation matrix had the sign of Δψ
+reversed.</strong> <code>nutation::numat</code> built <code>Rx(−(ε̄+Δε))·Rz(Δψ)·Rx(ε̄)</code> where SOFA&#39;s <code>iauNumat</code>
+builds <code>Rx(−(ε̄+Δε))·Rz(−Δψ)·Rx(ε̄)</code>, so <code>nutation_matrix</code>, <code>nutation_matrix_2000a</code>,
+<code>teme_to_gcrs</code> and <code>gcrs_to_teme</code> rotated by twice the nutation in longitude, about
+25 arcseconds. Every check on the chain was a property test (proper rotation, round
+trip, a non-zero nutation contribution) that a sign slip passes; the end-to-end
+Vallado test covered TEME→PEF, TEME→ITRF and GCRS→ITRS but not TEME→GCRS. On the
+Vallado example (AIAA 2006-6753, 2004-04-06) the chain missed the published GCRF by
+1 145 m; it now lands 0.11 m from it, and the matrix equals ERFA&#39;s <code>numat</code> to 1e-14.
+<code>tests/frame_reference_vectors.rs::teme_to_gcrs_matches_vallado_gcrf</code> and
+<code>nutation::tests::nutation_matrix_matches_erfa_numat</code> both fail on the old sign. The
+CIO (Celestial Intermediate Origin) consistency test in <code>src/cio.rs</code> had put the
+resulting ~130 m disagreement down to &quot;≈ 2·EE&quot;; the residual is now 5 cm and its bound
+is tightened from 250 m to 1 m.
+<strong>This moves published numbers, recorded here as a revision:</strong> the <code>ephemeris</code> kind&#39;s
+<code>gcrs_r_m</code> and <code>gcrs_v_m_s</code> columns (about 0.8–1.0 km for the bundled ISS (International
+Space Station) scenario; its TEME, Earth-fixed, ground-track, look-angle and Doppler
+columns do not change), and <code>Propagator::position_in_frame</code> / <code>state_gcrs</code> for the GCRS
+and ITRS frames. No bundled scenario&#39;s summary line, chart or golden hash reads these
+columns. The new interoperability exports use the corrected chain: the first
+<code>orbit-sgp4-gps</code> satellite&#39;s CZML position agrees with an ERFA reduction of the same TLE
+(propagated by the <code>sgp4</code> Python package) to 2.3 cm.</li>
+<li><strong>The <code>leo-navmsg</code> kind, natively and in the browser build.</strong> The kind now computes
+every transcendental through one portable mathematics library, so its frame is the same
+bytes on every platform and in every build (under Fixed). Every <code>leo-navmsg</code> figure moves
+with it, and the <code>navmsg</code> stage of <code>leo-pnt-chain</code>. The kind is new in this release, so
+nothing from an earlier release moves, but figures printed before the fix do:
+<code>docs/LEO-NAVMSG.md</code>&#39;s check value for the encode-and-decode scenario was <code>0x110315</code> and
+is <code>0x19105F</code>, and its decoded-message SISRE is 0.129 cm. On kshana.dev, the Missions card
+for <code>leo-navmsg-fit-interval-trade</code> showed a worst range error of 1.6 mm with a 60 s fit
+and 40.3 mm with a 900 s fit; the site is now built from this release&#39;s engine and shows
+1.8 mm and 46.6 mm.</li>
+<li><strong>The jamming footprint map on kshana.dev (Missions).</strong> Each of its 875 cells is one run of
+<code>maritime-strait-jamming</code> with only the receiver&#39;s position changed. The cells are now
+computed from the same three-decimal coordinates that the cell&#39;s &quot;open this run&quot; link
+gives Kshana Studio, so a cell shows exactly what its link reproduces. 30 cells&#39; mean
+jammer-to-signal ratio (J/S) moves by 0.1 dB, up or down; no cell&#39;s tracking availability
+changes. The engine gives identical results for every cell in 0.28.0 and 0.29.0.</li>
+<li><strong>Seeded resampling in the WebAssembly (WASM) package.</strong> The browser build drew other
+bootstrap and shuffle indices than the native build from the same seed (under Fixed).
+The <code>quantum-anomaly-detect</code> interval of the area under the curve in the browser was
+<code>[0.9901265, 0.9938305]</code> and is now the native <code>[0.99035875, 0.993861]</code>. No native
+number moves.</li>
+</ul>
+<h4 id="figures-printed-in-the-documentation">Figures printed in the documentation</h4>
+<p>The documentation was audited word by word against runs of this release&#39;s engine. Where a
+printed figure did not match the run, the document was corrected, and each correction is
+listed here, old → new. In every case below the engine output did not change; the document
+had misread, mis-rounded or outlived it.</p>
+<ul>
+<li><strong>Documentation audit of the spectrum, constellation, campaign, animation, report and
+interoperability pages, and a new <code>docs/SOLAR-SYSTEM.md</code>.</strong> Every figure was re-run with
+this engine. Two published numbers move:
+<code>docs/CONSTELLATION-DESIGN.md</code> gave the 5 000-satellite coverage test as &quot;about 0.13 s in
+a debug build&quot;; that did not reproduce (1.24 s on a loaded laptop), so the page now gives
+the prefilter share the test prints (9.9 % of 19 440 000 pair tests) and the release
+binary&#39;s 0.14 s for the bundled <code>leo-pnt-mega-shell</code>. The same page gave E3F&#39;s crossing
+as &quot;off by 0.050 deg&quot;; no test prints that figure, so the page now states only the
+0.06 deg bar the test enforces and the 7.30 against 7.36 deg derivation behind it. No
+engine output changes.</li>
+<li><strong>LEO-PNT documents: revised published figures (re-run on this release&#39;s engine).</strong>
+<code>docs/LEO-SIGNAL.md</code> band trade: the first-order ionospheric delay of <code>generic-s</code> is
+3.24 m (was printed 3.25 m) and of <code>generic-c-wide</code> 0.77 m (was 0.78 m).
+<code>docs/LEO-NAVMSG.md</code> encode and decode: the decoded message&#39;s SISRE was printed
+0.119 cm where the run gave 0.122 cm; the page now prints 0.129 cm, the figure after the
+platform-independence fix under Fixed below. <code>docs/LEO-PASS.md</code> LEO-versus-GNSS pass:
+32 dB less free-space loss at the pass peak (was &quot;26 to 32 dB&quot;). For the signal and pass
+figures the engine output did not change; the documents had misread or mis-rounded it.</li>
+<li><strong>Tutorials, the worked pipeline example and the <code>/kshana-run</code> command, audited
+against this release&#39;s engine.</strong> Revisions to published figures, old → new: the kinds that
+write <code>&lt;scenario&gt;.table.csv</code> are six, not four (<code>leo-navmsg</code> and <code>telecom-timing</code>
+were missing; <code>docs/tutorials/README.md</code>, <code>commands/kshana-run.md</code>); the cold-atom
+½bT² crossing in Tutorial 3 is 18,443 s, not 18,440 s; the <code>oem-interop</code> round-trip
+error in <code>docs/examples/multi-tool-pipeline.md</code> is the measured 4.88e-7 km, not
+&quot;~1e-7 km&quot;; the Tutorial 2 CSAC holdover band is the 2000–3200 s the test asserts,
+not &quot;~2600–4400 s&quot;; Tutorial 1 quotes the SP3 rows and geometry block at the
+precision the engine writes them. No engine output changed.</li>
+<li><strong>Validation, quantum, SGP4, animation, claims and integrity pages.</strong>
+<code>docs/VALIDATION.md</code>: the enforced gate on the simulated one-second Allan deviation of a
+white-frequency-noise clock is 20 % (was printed 25 %; the 25 % gate is the one on the
+curve at 1, 10 and 100 s); the velocity-random-walk row now states its enforced 20 % gate
+beside the about 12 % observed; and the chip-scale atomic clock&#39;s availability in
+<code>orbit-gnss-challenged</code> is about 0.73 (was printed about 0.83).
+<code>docs/QUANTUM.md</code>: the vibration-limited per-shot noise in the page&#39;s worked cold-atom
+example is about 46 times its shot-noise floor (was &quot;~45×&quot;; 46.49 recomputed), and the range
+&quot;1–50 µg/√Hz&quot; for fielded devices, which contradicted a device the page itself cites,
+is replaced by the two cited devices&#39; published figures.
+<code>docs/SGP4-VALIDATION.md</code>: the worst position difference is 4.12 mm (was &quot;≈ 4 mm&quot;), with
+the satellite named.
+<code>docs/ANIMATION.md</code>: the video-encoder example read the 24 frames-per-second frames at 12;
+it now uses 24, the rate the frame manifest states.
+<code>docs/CLAIMS-VS-REALITY.md</code>: the jamming model has 10 tests (was 8), and the coupled
+filter&#39;s &quot;2.97 m against 48.8 m&quot; is replaced by what its test asserts (the coupled
+position error below 0.6 times the decoupled one, winning at least 90 of 100 trials).
+<code>docs/INTEGRITY.md</code>: the &quot;Today&quot; stamp read v0.22.0; it now names this release, and two
+capabilities built since (the constellation-wide fault mode and the integrity support
+message) leave its gap list.</li>
+</ul>
 <h3 id="added">Added<a class="anchor" href="#added" aria-label="Link to this section">#</a></h3>
+<h4 id="spectrum">Spectrum</h4>
 <ul>
-<li><p><strong>Batch B and batch C in one release: animation, advanced reports, interoperability
-exports and a complete LEO-PNT capability.</strong> Across the release the kind count moves from
-68 to 75, the scenario-file count from 94 to 138 (132 bundled for <code>kshana example</code>, plus
-one suite manifest), and the verification matrix from 189 to
-<strong>223 rows — 83 VALIDATED, 136 MODELLED, 4 PARTNER</strong>. Per area: animation, reports and
-exports add no kind and no row; <code>leo-signal</code> +1 kind, +4 files, +4 rows (2 validated,
-2 modelled); <code>leo-pass</code> +1 kind, +6 files, +9 rows (6 validated, 3 modelled);
-<code>leo-navmsg</code> +1 kind, +5 files, +9 rows (3 validated, 6 modelled); <code>leo-pvt</code>, <code>leo-ppp</code>
-and <code>ntn-positioning</code> +3 kinds, +8 files, +8 rows (1 validated, 7 modelled);
-<code>leo-pnt-chain</code> +1 kind, +3 files, +1 row (modelled); LEO-PNT resilience, focus areas
-and verticals no kind, +18 files, +3 rows (modelled). Each area is described below.</p>
+<li><strong><code>spectrum</code> scenario kind: an L-band spectrum model and waterfall</strong>
+(<code>src/spectrum.rs</code>, <code>src/sigmf.rs</code>, <code>docs/SPECTRUM.md</code>). The whole GNSS L band as one
+power spectral density (PSD): GPS L1 coarse/acquisition (C/A) and L2 civil (L2C)
+(BPSK(1)), Galileo E1 (multiplexed binary offset carrier, MBOC(6,1,1/11), or BOC(1,1)),
+GPS L5 and Galileo E5a (BPSK(10)), a kT noise floor with a receiver noise figure, and
+continuous-wave (CW), narrowband, chirp and matched-noise jammers on a scripted
+timeline. Each jammer is scored per band by its spectral separation coefficient (SSC),
+giving the jammer-to-signal ratio (J/S) and effective carrier-to-noise density (C/N0)
+per band per row. The chart is an SVG waterfall with C/N0 bars; result.json carries the
+grid block-averaged in power. Optional <code>[iq]</code> draws the model as IQ samples, writes and
+reads a Signal Metadata Format (SigMF) recording (<code>cf32_le</code>, <code>ci16_le</code>) and compares a
+Welch estimate with the model; optional <code>[recording]</code> estimates a real SigMF file.
+Bundled example <code>scenarios/l-band-waterfall-jamming.toml</code>: a chirp takes L1 C/A and E1
+at 10 s, a CW tone on the L1 carrier holds C/A at 17.98 dB-Hz after the chirp stops
+while E1, whose spectrum has a null there, recovers; L5 and E5a are untouched.<ul>
+<li>New VALIDATED row: the signal PSDs and SSCs, against the BPSK(n) main lobe of
+2n x 1.023 MHz, the BOC(1,1) lobes centred at +/-1.023 MHz, the Parseval closed forms
+behind the published -61.8 / -64.8 / -67.8 dB/Hz SSCs, and the textbook Q = 1 (CW)
+and 1.5 (matched). The BOC(1,1) PSD maximum is at +/-0.759 MHz, not at the lobe
+centre; the test pins both.</li>
+<li>Two new MODELLED rows: the waterfall and C/N0 timeline, which reduce exactly to the
+<code>jamming</code> kind&#39;s chain (cross-checked in every report), and the SigMF codec and Welch
+estimator. No third-party recording is in the repository.</li>
+<li><code>navsignal</code>: an MBOC variant and <code>spectral_separation_coeff_offset</code>.</li>
+<li>The report prints the C/N0 the <code>jamming</code> kind&#39;s representative Q table would give
+beside the spectrum-derived one; for a CW tone on the C/A carrier they differ by
+1.8 dB.
+Three new matrix rows: one validated (signal spectra and spectral separation
+coefficients) and two modelled.</li>
+</ul>
 </li>
-<li><p><strong>LEO-PNT resilience, one scenario per experiment focus area and one per end-user
-vertical, and <code>docs/LEO-PNT.md</code> as the overview of every LEO kind and scenario.</strong> Every
-scenario runs without any Celeste data and is bundled.</p>
+</ul>
+<h4 id="solar-system">Solar system</h4>
 <ul>
+<li><strong>Solar-system ephemeris and positioning around any body.</strong> Two new scenario kinds.<ul>
+<li><code>solar-system</code>: the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa,
+Ganymede, Callisto and Titan at one epoch: heliocentric position and velocity in the
+International Celestial Reference Frame (ICRF), gravitational parameter, radii, J2 (the
+second zonal harmonic) where published, sidereal rotation, the International Astronomical Union (IAU) pole and prime
+meridian, an orbit track over one revolution, and the light time, one-way and two-way
+range, solar Shapiro delay and Sun separation from an observer body and for any extra
+link. Planets come from the Jet Propulsion Laboratory (JPL) Keplerian elements of Standish and Williams (Table 1,
+1800 AD to 2050 AD; Tables 2a/2b, 3000 BC to 3000 AD); the moons from JPL mean elements
+with the IAU synchronous rotation rate, and Titan from the IAU rotation model.
+Example: <code>scenarios/solar-system-tour.toml</code>.</li>
+<li><code>body-pnt</code>: an orbiter or a surface lander around any of those bodies, navigating with
+pseudoranges from a Walker constellation around the body and a clock-free two-way range
+from Earth; dilution of precision, formal uncertainty and seeded least-squares fixes with
+and without the Earth link. Examples: <code>scenarios/mars-orbit-pnt.toml</code>,
+<code>scenarios/europa-surface-pnt.toml</code>.</li>
+<li><code>Body</code> gains Mercury, Venus, Jupiter, Saturn, Uranus, Neptune, Pluto and the seven moons,
+a name lookup and a physical record; <code>AnalyticSolarSystem</code> gives any body relative to any
+other through the existing <code>EphemerisProvider</code> seam.</li>
+<li>VALIDATED against JPL Horizons (Development Ephemeris DE441; fixtures and queries in
+<code>tests/fixtures/solar_system/</code>): Mercury to Saturn and the Earth from Table 1 within twice
+the stated nominal error (worst 1.87 times), all eight planets from Tables 2a/2b (worst
+1.71 times), and the Earth to Mars and Jupiter light time. MODELLED: Uranus and Neptune
+from Table 1, which exceed the stated error against DE441 (2.0 and 5.2 times), Pluto, the
+moons, the body constants and the <code>body-pnt</code> results.</li>
+<li>Finding: the Montenbruck &amp; Gill lunar series in <code>src/ephem.rs</code> is already referred to the
+J2000 equinox by its own precession term (0.05 degrees from Horizons), so it is used
+without a further precession rotation.
+Six new matrix rows: two validated (planet positions, light time) and four modelled.</li>
+</ul>
+</li>
+</ul>
+<h4 id="constellations-around-any-body">Constellations around any body</h4>
+<ul>
+<li><strong>Constellation design at scale (<code>constellation-design</code> kind, <code>src/constellation.rs</code>).</strong>
+Walker delta and Walker star patterns (T/P/F), explicit element lists and multi-shell
+designs, several constellations per run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon
+from the body constants the <code>solar-system</code> kind added. Presets from published nominal elements: the Global Positioning System
+(GPS) baseline and expandable 24-slot constellation (Standard Positioning Service
+Performance Standard, SPS PS, 2020), Galileo Walker 24/3/1 (Open Service Service
+Definition Document issue 1.1), BeiDou medium Earth orbit Walker 24/3/1 plus
+geostationary and inclined geosynchronous satellites (Open Service Performance Standard
+3.0) and GLONASS 24/3/1 (Interface Control Document 5.1). Coverage and dilution of
+precision (DOP) over a latitude/longitude grid: satellites in view, GDOP, PDOP, HDOP and
+VDOP (geometric, position, horizontal, vertical) and availability per cell, globally and
+at the worst site, with one receiver clock per constellation. A visibility prefilter
+(coverage half-angle plus a sub-satellite latitude band, exact on a spherical body) runs
+5 000 satellites on a 10 deg grid in about 0.13 s in a debug build.<ul>
+<li>VALIDATED: the Walker generator reproduces Galileo OS SDD Table 23 and the GLONASS ICD
+slot formula; the GPS preset reproduces the SPS PS equatorial-crossing column (35 of
+36 locations within 0.0108 deg; E3F within 0.06 deg, the table&#39;s own row being
+inconsistent); the GPS baseline global HDOP distribution matches SPS PS Appendix B
+(median 0.940 against 0.94, 95 % 1.255 against 1.25, mean 0.965 against 0.96; bar 0.03).</li>
+<li>MODELLED: arbitrary designs, other bodies, the BeiDou phase and inclined-geosynchronous
+nodes, two-body orbits with optional J2, geometry only.</li>
+<li>Scenarios: <code>constellation-multi-gnss-coverage</code> (102 satellites, availability 100 %,
+median PDOP 0.95, 31.0 in view above 10 deg), <code>leo-pnt-mega-shell</code> (5 000 satellites,
+availability 99.22 % at PDOP 3 or less above 20 deg, 0 % at the polar caps, prefilter
+keeps 11.5 % of the pair tests), <code>lunar-relay-constellation</code> (14 satellites around the
+Moon, availability 21.33 % overall and highest over the south polar region). All three
+are bundled for <code>kshana example</code>. Notes: <code>docs/CONSTELLATION-DESIGN.md</code>.
+Three new matrix rows: two validated (Walker generator and GNSS presets, GPS global
+DOP) and one modelled.</li>
+</ul>
+</li>
+<li><strong>A campaign driven by the spectrum model, and constellations around any body.</strong>
+<code>scenarios/campaign-spectrum-holdover-integrity.toml</code> chains the
+<code>spectrum</code> kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
+and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
+a Galileo-only sky), pinned against the stand-alone waterfall example in
+<code>tests/campaign_composition_reference.rs</code>. <code>constellation-design</code> now resolves its
+central body through <code>Body::by_name</code>, so a constellation can be laid around any planet,
+Pluto or major moon with the constants the <code>solar-system</code> kind uses.</li>
+</ul>
+<h4 id="campaigns">Campaigns</h4>
+<ul>
+<li><strong>Campaigns: many scenarios composed into one run.</strong> A new <code>campaign</code> kind
+(<code>src/campaign.rs</code>, documented in <code>docs/CAMPAIGNS.md</code>) runs members of existing kinds
+through the same dispatch as the command line and reads numbers back out of their
+results. Four sections, in any combination:<ul>
+<li><code>[[phases]]</code>: a chained mission on one timeline. Per-kind presets read clock time
+error against its guard, the mean effective carrier-to-noise density ratio (C/N0)
+against the tracking floor, the vertical protection level against the alert limit,
+position error, satellites tracking and alarm flags, held onto a common grid with phase
+boundaries and events. State is handed on by <code>carry</code>, <code>handoff</code> and <code>end_at</code>.</li>
+<li><code>[sweep]</code>: one to three dotted keys of any kind, optionally with a seeded ensemble at
+every node.</li>
+<li><code>[monte_carlo]</code>: realisation k at base seed + k, with mean, spread, percentiles and a
+fixed-seed bootstrap 95% confidence interval.</li>
+<li><code>[compose]</code>: shared values bound into several members, with a combined best and worst
+summary.
+Every result carries a campaign hash and a digest over every member result. Four bundled
+scenarios: <code>campaign-jam-spoof-holdover-integrity</code> (nominal, jamming, spoofing ended at
+the clock monitor&#39;s 370 s detection, holdover carrying the 37.0 ns spoofed offset with
+an inertial unit coasting, an integrity alarm, recovery), <code>campaign-sweep-jammer-power</code>,
+<code>campaign-shared-jammer-sea-road</code> and <code>campaign-monte-carlo-clock-holdover</code>.
+<code>tests/campaign_composition_reference.rs</code> pins the composition identities: a one-phase
+campaign reproduces the stand-alone run bit for bit on three kinds, a fixed-seed
+ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean lies
+inside the reported interval with the spread inside the chi-square interval of
+sqrt(q_wf * tau) = 16.459 ns. Three new modelled matrix rows.</li>
+</ul>
+</li>
+</ul>
+<h4 id="animation">Animation</h4>
+<ul>
+<li><strong>Animation export (<code>--animate svg|html|frames|all</code>, <code>src/animation.rs</code>,
+<a href="animation.html"><code>docs/ANIMATION.md</code></a>).</strong> Any run whose result carries a time series
+can now be written as an animated Scalable Vector Graphics (SVG) file (Cascading Style
+Sheets keyframes, no script: the traces draw in behind a moving time cursor), a single
+self-contained HyperText Markup Language (HTML) player (play and pause, scrub, speed,
+every panel on one synced cursor, event markers that seek on click; no external asset),
+or a numbered SVG frame sequence with a <code>manifest.json</code> stating frames per second,
+duration and frame times for a video encoder. A campaign plays as its phases with its
+alarms marked; a spectrum run animates its waterfall row by row. The player follows
+<code>prefers-color-scheme</code>, and under <code>prefers-reduced-motion</code> both the SVG and the player
+show the finished picture instead of moving. <code>--animate-fps</code> and <code>--animate-duration</code>
+set the playback; <code>kshana::api::animate_toml</code> and <code>kshana::animation::animate_result</code>
+are the library entry points, and <code>result.json</code> gains an <code>animation</code> block only when
+<code>--animate</code> runs. Output is a pure function of the result and the options, byte-identical
+on a re-run, with no timestamp. A kind with no sampled time axis is refused with
+&quot;no time series to animate&quot; and nothing is written. The exporter draws the run&#39;s own
+samples and adds no number, so it is MODELLED (internal consistency) and carries no
+verification-matrix row; no published number changes. Tests: <code>tests/animation.rs</code>
+(determinism, frame count, no external address, well-formed XML, the reduced-motion
+path, and every bundled scenario with a time series animating).</li>
+</ul>
+<h4 id="reports">Reports</h4>
+<ul>
+<li><strong>Advanced run reports (<code>src/advanced_report.rs</code>, <a href="reports.html">docs/REPORTS.md</a>).</strong>
+Every command-line interface (CLI) run now writes <code>&lt;scenario&gt;.report.html</code>, a printable
+HyperText Markup Language (HTML) report, and <code>&lt;scenario&gt;.report.json</code>, the same content
+as a machine-readable JavaScript Object Notation (JSON) document. Sections: an executive
+summary; every scenario input with its unit, read from the field-units schema (the
+result&#39;s <code>units</code> block), else the field-name suffix, else stated as not stated; the
+results with the run&#39;s chart, every scalar and a summary of every numeric column; for a
+campaign, the sweep node table, the Monte Carlo mean, standard deviation, 5th / 50th /
+95th percentiles and bootstrap confidence interval with a histogram per metric, the
+chain phase table, or the composition&#39;s members and combined summary (and the grid of a
+<code>sweep</code> or <code>sweep-nd</code> run); an events timeline; the VALIDATED / MODELLED / PARTNER label,
+oracle and test evidence of every verification-matrix row the run&#39;s kinds exercise, read
+from the matrix through a kind-to-row crosswalk (a row that grades one input path, such
+as the Simplified General Perturbations 4 (SGP4) path of <code>orbit</code> or the measured-record
+path of <code>slot-timing</code>, is listed only when the run took that path, and the Shuttle
+Radar Topography Mission (SRTM) reader row is listed for no kind, since no scenario
+field reads an SRTM tile); the not-modelled statements and
+assumptions, each quoted with its source; and a reproducibility record (engine version,
+the source commit when the build sets <code>KSHANA_GIT_COMMIT</code>, Secure Hash Algorithm 256-bit
+(SHA-256) digests of the scenario file and the result document, seed, platform and the
+exact command). The report reads no clock: same scenario, seed and engine build give a
+byte-identical report, and the only timestamp it can show is the one <code>--study-name</code>
+already writes. A print stylesheet fits A4 and US Letter, repeats table headers and keeps
+rows and figures whole across pages; a Portable Document Format (PDF) file is made with
+the browser&#39;s &quot;Save as PDF&quot;. There is no <code>--report pdf</code> option, because rendering the
+charts into a PDF would need a new, heavy dependency. Tests: <code>tests/advanced_report.rs</code>
+reports every bundled scenario (no empty section, no placeholder text, labels equal to
+the matrix, the scenario digest equal to the file&#39;s, byte-identical on a re-run) and
+<code>tests/advanced_report_cli.rs</code> re-runs the recorded command in a fresh directory and
+requires a byte-identical <code>result.json</code>. No published number changes, and the kind,
+scenario-file and matrix-row counts are unchanged.</li>
+<li><strong>The report, the animation and the exports work together.</strong> The advanced report gains an
+&quot;Animation and exports&quot; section: the run&#39;s animated drawing embedded as an inert image (or
+the reason there is none), links to the animation and export files written beside it,
+and every interoperability format with whether it applies, why not, and its
+specification; <code>report.json</code> carries the same <code>companions</code> block. The HTML animation
+player lists the export files written beside it. The command-line interface (CLI) now
+renders the exports before it writes the report, so both can name the files.</li>
+</ul>
+<h4 id="interoperability-exports">Interoperability exports</h4>
+<ul>
+<li><strong>Interoperability exports and imports (<code>--export</code>, <code>src/interop/</code>, docs/INTEROP.md).</strong>
+<code>kshana &lt;scenario.toml&gt; --export &lt;format&gt;</code> writes the scenario&#39;s geometry as CZML (the
+Cesium Language), KML (Keyhole Markup Language 2.2, an Open Geospatial Consortium
+standard, with <code>gx:Track</code> time-tagged tracks), GeoJSON (Internet Engineering Task Force
+Request for Comments 7946) and Ansys STK (Systems Tool Kit) <code>.e</code> ephemerides
+(<code>EphemerisTimePosVel</code>, metres, one file per moving object), and the <code>spectrum</code> kind&#39;s
+synthesised IQ (in-phase and quadrature) snapshot as a SigMF (Signal Metadata Format)
+pair through the existing <code>src/sigmf.rs</code>. <code>--export all</code> writes every format that
+applies and prints why the others do not; <code>--export list</code> reports without running.
+Moving objects are written in the Geocentric Celestial Reference System (CZML
+<code>INERTIAL</code>, STK <code>ICRF</code>) and Earth-fixed WGS 84 (World Geodetic System 1984) longitude,
+latitude and height (KML, GeoJSON); fixed sites in CZML are <code>FIXED</code>. The <code>jamming</code> kind
+adds two jammer footprints from its own link equations. <code>--import-route &lt;file.geojson&gt;</code>
+writes a GeoJSON <code>LineString</code> into the track inputs of <code>terrain-nav</code>, <code>terrain-slam</code>,
+<code>gravity-map</code> and <code>combined-altpnt</code>. Exports are byte-deterministic and carry no
+timestamp. <code>tests/interop_formats.rs</code> validates every export against its published
+specification, compares exported satellite states with the engine&#39;s own to 1 mm, and
+runs every bundled scenario through every format, each either exporting or stating why
+not (the table in docs/INTEROP.md). No published number changes: the <code>spectrum</code> kind&#39;s
+IQ synthesis moved into one shared function and its result document is byte-identical,
+and <code>PassesScenario</code> gains <code>propagator()</code> and <code>epoch_calendar()</code> used by its own run.
+Kind, scenario-file and verification-matrix counts are unchanged.
+An orbit or integrity scenario with no <code>epoch</code> is dated by its satellites&#39; own data:
+<code>t = 0</code> is the earliest TLE (two-line element set), broadcast-ephemeris or SP3
+(Standard Product 3) epoch, and each such satellite is rotated into the GCRS and
+Earth-fixed frames at its own instant; 2000-01-01T00:00:00Z is used only when no
+satellite carries an epoch. The SP3 and OEM (Orbit Ephemeris Message) exports keep
+their 2000-01-01 label. To support this, <code>Sgp4::epoch_jd_utc</code>,
+<code>Sp3Interpolator::jd_ut1</code> and <code>Propagator::own_jd_utc</code> are added; nothing that existed
+reads them.</li>
+</ul>
+<h4 id="low-earth-orbit-navigation-signal">Low-Earth-orbit navigation: signal</h4>
+<ul>
+<li><strong>LEO-PNT signal designs and a multi-band spectrum.</strong> A new <code>leo-signal</code> kind and a
+<code>spectrum</code> kind that reaches beyond the L band: one kind, four scenario files (three
+bundled; the Celeste IOD file is repository-only) and four matrix rows (two VALIDATED,
+two MODELLED).<ul>
+<li><code>leo-signal</code>: parameterised low Earth orbit (LEO) positioning, navigation and timing
+(PNT) signal designs for any system (band, transmit bandwidth, ITU allocation;
+acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra,
+power shares, FDMA sub-carriers, code lengths and data rates), from compiled-in public
+preset files under <code>data/leo-signals/</code> (Xona Pulsar X1/X5, Iridium STL, a Starlink
+signal of opportunity, CentiSpace, a representative C-band design and representative
+UHF/L/S/C/wide-C designs, each citing its source URL) or written inline. Per signal:
+the band-limited PSD and in-band power fractions, Gabor bandwidth, band-limited
+early-late code-tracking jitter against C/N0 and spacing (Betz &amp; Kolodziejski 2009)
+and the ranging accuracy, the acquisition search space, detection probability and
+mean serial and code-parallel acquisition time, the SSC into and from GPS L1 C/A,
+Galileo E1, GPS L5, Galileo E5a, E5b and AltBOC with the C/N0 loss, CW, wideband and
+matched J/S tolerance from the spectrum kind&#39;s SSC code, a band trade (ionospheric
+delay, free-space loss, ranging at equal C/N0 and equal EIRP, jammer tolerance), and
+optional shape checks against a described measurement. Examples:
+<code>scenarios/leo-band-trade.toml</code>, <code>scenarios/xona-pulsar-signals.toml</code>,
+<code>scenarios/celeste-iod-classical-pilot-signals.toml</code> (the Celeste IOD bands and
+signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026; withheld with
+the Celeste IOD preset, see &quot;LEO-PNT end to end&quot; below). Notes in <code>docs/LEO-SIGNAL.md</code>.</li>
+<li><code>spectrum</code>: bands may now be a preset signal design (every component drawn,
+band-limited, C/N0 and J/S referred to the tracked component) or a custom carrier and
+modulation; <code>[[panels]]</code> add waterfalls over other frequency ranges on one timeline; a
+<code>wideband</code> (barrage) jammer joins the four waveforms. The report adds
+<code>bands[].tracked_power_dbw</code>, <code>bands[].design</code> and <code>panels</code>, and one <code>not_modelled</code>
+entry. Plain bands give the same numbers as before. Example:
+<code>scenarios/multi-band-jamming-waterfall.toml</code>.</li>
+<li><code>navsignal</code> gains the sine integral, the BPSK power-in-band and band-limited Gabor
+bandwidth closed forms, the band-limited early-late jitter for any spectrum and its
+Gabor bound, the offset BPSK SSC closed form, the Galileo E5 AltBOC(15,10) spectrum
+and a modulation-label parser; <code>Modulation::label</code> prints BPSK(1/3) as a fraction.</li>
+<li>Four matrix rows: VALIDATED band-limited closed forms (90.3 % of BPSK power in the
+main lobe, the jitter reducing to Kaplan &amp; Hegarty&#39;s coherent form, 0.0039564 chips at
+45 dB-Hz, B_L 1 Hz, d 1 chip, T 20 ms, and to its Gabor bound, and the BPSK self-SSC
+2/(3 R_c); the Gabor closed form and the offset SSC against its Parseval form are
+stated as internal cross-checks); VALIDATED maximum LEO Doppler (Xona X1 33.2 kHz
+inside the published 32 to 34 kHz, Iridium within 0.5 kHz of 36 kHz); MODELLED
+<code>leo-signal</code>; MODELLED multi-band spectrum.</li>
+</ul>
+</li>
+</ul>
+<h4 id="low-earth-orbit-navigation-link">Low-Earth-orbit navigation: link</h4>
+<ul>
+<li><strong>LEO-PNT pass and per-band link budget: the <code>leo-pass</code> kind.</strong> LEO-PNT is positioning,
+navigation and timing from satellites in low Earth orbit (LEO). A user (ground, maritime,
+air or indoor, static or moving) and one or more LEO satellites from a designed pass,
+explicit elements, a two-line element set (TLE) through SGP4, or a Walker constellation
+from the <code>constellation-design</code> code. Per satellite, band and epoch: look angles, range,
+closed-form range rate and range acceleration (checked every run against central
+differences), Doppler and Doppler rate, free-space loss, EIRP (equivalent isotropically
+radiated power) with an isoflux, Gaussian-beam or flat satellite pattern, a patch user
+antenna, ITU-R P.676 gaseous attenuation, ITU-R P.838/P.618 rain attenuation, P.618
+tropospheric scintillation, ITU-R P.2109 building entry loss for an indoor user,
+polarisation mismatch, system noise temperature and C/N0 (carrier-to-noise density); the
+first-order ionospheric delay per band from a Klobuchar or vertical-TEC (total electron
+content) slant TEC below the satellite, and ionosphere-free band pairs with their noise
+amplification. Galileo or GPS satellites are evaluated with the same receiver from their
+interface-document received powers, so the bell-shaped LEO pass and the flat MEO (medium
+Earth orbit) carriers share one plot. An <code>[iot]</code> section gives time to first fix, energy
+per fix and battery life against duty cycle (MODELLED).<ul>
+<li>System-agnostic: the engine needs no preset. Optional presets, each in its own file and
+marked PUBLIC (with URL), REPRESENTATIVE or WORKSHOP: generic multi-band (UHF, L, S, C),
+generic C band, Xona Pulsar X1/X5 (arXiv 2509.19551), Iridium STL, Starlink as a
+Doppler-only signal of opportunity, CentiSpace, and Celeste IOD (in-orbit
+demonstration), whose signal parameters were presented at the ESA NAVISP LEO-PNT
+workshop, 2026, and live in <code>src/celeste_iod.rs</code> so they can be withheld (see &quot;LEO-PNT
+end to end&quot; below).</li>
+<li>Public building blocks in <code>src/leo_link/</code> (geometry, antenna, itu, iono, energy,
+presets) for other modules to call.</li>
+<li>Scenarios: <code>leo-pass-vs-gnss-cn0</code>, <code>leo-indoor-uhf</code>, <code>leo-iot-energy</code>,
+<code>leo-pass-xona-pulsar</code>, <code>leo-pass-iridium</code>, <code>leo-pass-celeste-iod-multiband</code>.</li>
+<li>Nine matrix rows. VALIDATED (6): ITU-R P.838-3 coefficients against its Table 5; P.618-14
+rain attenuation and scintillation against the ITU-R Study Group 3 validation examples;
+P.2109 building entry loss against the Study Group 3 workbook; first-order ionospheric
+scaling against the IS-GPS-200 group-delay ratio, with the free-space loss; the static-user
+maximum Doppler of a circular orbit against arXiv 2509.19551 Table 1. MODELLED (3): the
+pass and link budget, the presets, and the low-energy fix budget. One kind and six
+scenario files. Notes in <code>docs/LEO-PASS.md</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="low-earth-orbit-navigation-navigation-message">Low-Earth-orbit navigation: navigation message</h4>
+<ul>
+<li><strong>LEO navigation message (<code>leo-navmsg</code> kind, <code>src/leo_navmsg/</code>).</strong> The broadcast
+ephemeris and clock message of a low Earth orbit (LEO) positioning, navigation and
+timing (PNT) satellite, for any orbit, carrier and model; named presets are optional
+data and every capability runs without them. One kind, five scenario files and
+nine matrix rows (three VALIDATED, six MODELLED). See <code>docs/LEO-NAVMSG.md</code>.<ul>
+<li>Message content: SVID, issue of data, band and signal health; week, time of week and
+a second-order clock polynomial; the ephemeris in one of four models — the Galileo
+OS SIS ICD 16-parameter Keplerian set, that set plus along-track, cross-track and
+radial correction polynomials, the Liu et al. 2025 22-parameter model
+(doi 10.3390/rs17162894), or the ATOMIC zero-clock ECEF polynomial — and a Klobuchar
+set, NeQuick-G coefficients with the effective ionisation level, and
+system-time-to-UTC parameters with the ICD leap-second cases.</li>
+<li>Fitter: a truth orbit integrated with zonal J2–J6 or EGM2008 gravity and drag, a
+seeded free or steered clock, a Levenberg–Marquardt fit on non-singular elements, then
+linear least-squares correction polynomials and a clock fitted net of the user&#39;s
+relativistic term.</li>
+<li>Four analyses and scenarios: <code>leo-navmsg-fit-interval-trade</code> (signal-in-space range
+error (SISRE) versus fit interval and update period), <code>leo-navmsg-model-comparison</code>
+(four models, bits, and Kshana&#39;s 22-parameter fit at the Liu et al. altitudes beside
+the published figures, MODELLED), <code>leo-navmsg-midpass-update</code> (continuity at each
+message switch in a pass) and <code>leo-navmsg-encode-decode</code> (Kshana&#39;s own documented
+binary frame with CRC-24Q and a quantisation budget, a RINEX-4-style block labelled a
+Kshana extension, and a CSV table).</li>
+<li>VALIDATED: the global-average SISRE weights against the published medium-orbit and
+geostationary table of Montenbruck et al. 2018; the Galileo user algorithm against
+RTKLIB on four real Galileo broadcast ephemerides (<code>tests/leo_navmsg_reference.rs</code>);
+CRC-24Q against the catalogue check value and the RTCM 10403 1005 example frame.</li>
+<li>Presets, one file each with sources: Xona Pulsar and Pulsar-0, Iridium, Starlink,
+CentiSpace, a representative C-band system, ATOMIC, and Celeste IOD (the only preset
+using material presented at the ESA NAVISP LEO-PNT workshop, 2026, kept in
+<code>src/celeste_iod.rs</code> with its scenarios so it can be withheld).</li>
+</ul>
+</li>
+</ul>
+<h4 id="low-earth-orbit-navigation-fusion">Low-Earth-orbit navigation: fusion</h4>
+<ul>
+<li><strong>Fused MEO + LEO positioning, navigation and timing: <code>leo-pvt</code>, <code>leo-ppp</code> and
+<code>ntn-positioning</code>.</strong> Three new scenario kinds in <code>src/leo_fusion/</code>, system-agnostic: every
+constellation is Walker shells, element sets or a GNSS preset, every signal a carrier, a
+chip rate and a carrier-to-noise density (C/N0) envelope, every error budget an explicit
+one-sigma, and named low-Earth-orbit (LEO) systems are optional presets, one file each with
+their sources marked public, workshop or derived (Xona Pulsar X1/X5, Iridium Satellite Time and Location (STL), Starlink
+signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock
+ephemeris model, and one ESA Celeste in-orbit-demonstration preset whose workshop-derived
+parameters live in <code>src/celeste_iod.rs</code> so they can be withheld).<ul>
+<li><code>leo-pvt</code> has four modes: Doppler positioning (batch least squares on range rate with
+clock-drift and velocity states, a Doppler-only signals-of-opportunity mode, the
+single-pass along-track and cross-track accuracy, and the Doppler, Doppler-rate and jerk
+envelope); joint GNSS + LEO weighted least squares with one clock per system (the
+inter-system bias) or a known offset, per-measurement sigmas as inputs, and the DOP
+against the number of LEO satellites; polar and Arctic coverage against latitude; and LEO
+time transfer to Coordinated Universal Time (UTC) against C/N0 and the receiver
+oscillator with the IS-GPS-200 system-time-to-UTC expression.</li>
+<li><code>leo-ppp</code>: a float precise point positioning (PPP) extended Kalman filter on
+ionosphere-free code and phase, GNSS only and with LEO augmentation, with its
+convergence time and a Monte Carlo NEES (normalised estimation error squared)
+consistency test. The bundled scenario gives 7.4 min with four MEO systems and 4.8, 3.2,
+2.7 and 2.3 min with 60, 96, 192 and 288 LEO satellites, beside the 9.6, 7.0, 3.2, 2.1 and
+1.3 min of Li et al. (J. Geod. 93:749, 2019) as a MODELLED comparison of the trend.</li>
+<li><code>ntn-positioning</code>: 5G non-terrestrial network (NTN) positioning in the 3GPP n256
+mobile-satellite S band from the Cramér-Rao bound on time of arrival and Doppler.</li>
+<li>Scenarios: <code>leo-doppler-positioning</code>, <code>starlink-sop-doppler-positioning</code>,
+<code>meo-leo-fused-pvt</code>, <code>leo-ppp-convergence</code>, <code>ntn-5g-positioning</code>,
+<code>polar-arctic-leo-coverage</code>, <code>leo-timing-utc</code> (bundled) and <code>celeste-iod-fused-pvt</code>
+(repository-only, withheld with the Celeste IOD preset).</li>
+<li>Eight matrix rows: the LEO Doppler envelope VALIDATED against the published Iridium
+(±36 kHz: 35.9 kHz, within 5%) and Xona Pulsar X1 (32 to 34 kHz: 33.6 kHz from the
+97 deg shell, with no widening) figures
+(<code>tests/leo_doppler_reference.rs</code>); Doppler positioning, joint pseudorange positioning,
+PPP convergence, NTN bounds, LEO timing, polar coverage and the presets MODELLED. Three
+kinds and eight scenario files. Documentation: <code>docs/LEO-PNT-FUSION.md</code>.</li>
+</ul>
+</li>
+<li><strong>LEO-PNT end to end: the <code>leo-pnt-chain</code> kind, and the LEO stages wired together.</strong>
+One low Earth orbit (LEO) positioning, navigation and timing (PNT) system followed from
+its signal design to the user&#39;s position, each stage the engine&#39;s own kind on its own
+scenario table, with values handed on in code
+(<a href="leo-pnt.html#end-to-end-leo-pnt-chain"><code>docs/LEO-PNT.md</code></a>):<ul>
+<li><code>leo-pass</code> bands may name a <code>leo-signal</code> design (<code>signal = &quot;xona-x5&quot;</code>): the band takes
+the design&#39;s centre, transmit bandwidth and tracked-component chip rate, splits its
+EIRP (equivalent isotropically radiated power) across the design&#39;s components, and
+reports every epoch&#39;s tracked-component C/N0 (carrier-to-noise density) and
+band-limited code-tracking jitter (the ranging error; the <code>iono_free</code> pair noise uses
+it too). A band without a design gives the same output as before.</li>
+<li><code>leo-pnt-chain</code> runs signal -&gt; pass -&gt; navigation message -&gt; fused <code>leo-pvt</code> joint fix
+-&gt; optional <code>leo-ppp</code>. Every LEO system of the positioning stage that leaves them unset
+takes a C/N0 line in sin(elevation) fitted to the pass, the message&#39;s signal-in-space
+range error (SISRE: its representation error at the pass satellite&#39;s orbit, with a
+stated <code>od_sisre_m</code> orbit-determination term in root-sum-square), and the design&#39;s
+carrier and chip rate; the precise point positioning (PPP) cases take the SISRE. Every
+hand-off is listed with its value and unit, and <code>tests/leo_pnt_chain.rs</code> checks that
+each equals the upstream output and that upstream changes move the downstream figures.
+<code>LeoNavmsgScenario::broadcast_sisre</code> is the new message entry point.</li>
+<li>Scenarios: <code>leo-pnt-end-to-end</code> (a generic 1080 km constellation and the representative
+<code>generic-l</code> signal), <code>xona-pulsar-end-to-end</code> (the public X5 signal), both bundled, and
+the optional, repository-only <code>celeste-iod-end-to-end</code>.</li>
+<li>The Celeste IOD (in-orbit demonstration) presets of the pass, message and fused
+positioning areas now live in one file, <code>src/celeste_iod.rs</code>, which <code>build.rs</code> compiles
+in only when it exists (the <code>kshana_celeste</code> configuration flag). Its five scenarios
+(<code>scenarios/*celeste-iod*.toml</code>) are repository-only, so deleting that file and those
+scenarios withholds every number presented at the ESA NAVISP LEO-PNT workshop, 2026,
+with no source edit; <code>tests/workshop_preset_isolation.rs</code> checks which files may name
+the preset or carry its band-plan numbers.</li>
+<li>Every LEO kind in the advanced report&#39;s crosswalk, with its path-specific rows listed
+only when the run took that path (a rain rate, a building, an analysis or mode that ran).
+<code>leo-pvt</code> Doppler windows gain <code>t_s</code> and <code>leo-ppp</code> cases gain <code>t_min</code>, so both animate;
+<code>leo-pass</code> and <code>leo-pnt-chain</code> export CZML, KML, GeoJSON and STK ephemerides, and the
+other LEO kinds state why a format does not apply.</li>
+</ul>
+</li>
+</ul>
+<h4 id="low-earth-orbit-navigation-resilience-focus-areas-and-end-user-scenarios">Low-Earth-orbit navigation: resilience, focus areas and end-user scenarios</h4>
+<ul>
+<li><strong>LEO-PNT resilience, one scenario per experiment focus area and one per end-user
+vertical, and <code>docs/LEO-PNT.md</code> as the overview of every LEO kind and scenario.</strong> Every
+scenario runs without any Celeste data and is bundled.<ul>
 <li><code>leo-pass</code> gains a <code>[spoofer]</code> section: a spoofer counterfeits, self-consistently in
 range and range rate, the signals of a claimed position that jumps and/or is pushed
 from the true one after an onset (per LEO band, and the MEO GNSS signal), with or
@@ -149,401 +1113,12 @@ campaign&#39;s export equals each member&#39;s own.</li>
 <li>The <code>leo-pass</code> page moves to <code>docs/LEO-PASS.md</code>; <code>docs/LEO-PNT.md</code> is the overview.</li>
 </ul>
 </li>
-<li><p><strong>LEO-PNT end to end: the <code>leo-pnt-chain</code> kind, and the LEO stages wired together.</strong>
-One low Earth orbit (LEO) positioning, navigation and timing (PNT) system followed from
-its signal design to the user&#39;s position, each stage the engine&#39;s own kind on its own
-scenario table, with values handed on in code
-(<a href="leo-pnt.html#end-to-end-leo-pnt-chain"><code>docs/LEO-PNT.md</code></a>):</p>
-<ul>
-<li><code>leo-pass</code> bands may name a <code>leo-signal</code> design (<code>signal = &quot;xona-x5&quot;</code>): the band takes
-the design&#39;s centre, transmit bandwidth and tracked-component chip rate, splits its
-EIRP (equivalent isotropically radiated power) across the design&#39;s components, and
-reports every epoch&#39;s tracked-component C/N0 (carrier-to-noise density) and
-band-limited code-tracking jitter (the ranging error; the <code>iono_free</code> pair noise uses
-it too). A band without a design gives the same output as before.</li>
-<li><code>leo-pnt-chain</code> runs signal -&gt; pass -&gt; navigation message -&gt; fused <code>leo-pvt</code> joint fix
--&gt; optional <code>leo-ppp</code>. Every LEO system of the positioning stage that leaves them unset
-takes a C/N0 line in sin(elevation) fitted to the pass, the message&#39;s signal-in-space
-range error (SISRE: its representation error at the pass satellite&#39;s orbit, with a
-stated <code>od_sisre_m</code> orbit-determination term in root-sum-square), and the design&#39;s
-carrier and chip rate; the precise point positioning (PPP) cases take the SISRE. Every
-hand-off is listed with its value and unit, and <code>tests/leo_pnt_chain.rs</code> checks that
-each equals the upstream output and that upstream changes move the downstream figures.
-<code>LeoNavmsgScenario::broadcast_sisre</code> is the new message entry point.</li>
-<li>Scenarios: <code>leo-pnt-end-to-end</code> (a generic 1080 km constellation and the representative
-<code>generic-l</code> signal), <code>xona-pulsar-end-to-end</code> (the public X5 signal), both bundled, and
-the optional, repository-only <code>celeste-iod-end-to-end</code>.</li>
-<li>The Celeste IOD (in-orbit demonstration) presets of the pass, message and fused
-positioning areas now live in one file, <code>src/celeste_iod.rs</code>, which <code>build.rs</code> compiles
-in only when it exists (the <code>kshana_celeste</code> configuration flag). Its five scenarios
-(<code>scenarios/*celeste-iod*.toml</code>) are repository-only, so deleting that file and those
-scenarios withholds every number presented at the ESA NAVISP LEO-PNT workshop, 2026,
-with no source edit; <code>tests/workshop_preset_isolation.rs</code> checks which files may name
-the preset or carry its band-plan numbers.</li>
-<li>Every LEO kind in the advanced report&#39;s crosswalk, with its path-specific rows listed
-only when the run took that path (a rain rate, a building, an analysis or mode that ran).
-<code>leo-pvt</code> Doppler windows gain <code>t_s</code> and <code>leo-ppp</code> cases gain <code>t_min</code>, so both animate;
-<code>leo-pass</code> and <code>leo-pnt-chain</code> export CZML, KML, GeoJSON and STK ephemerides, and the
-other LEO kinds state why a format does not apply.</li>
 </ul>
-</li>
-<li><p><strong>The report, the animation and the exports work together.</strong> The advanced report gains an
-&quot;Animation and exports&quot; section: the run&#39;s animated drawing embedded as an inert image (or
-the reason there is none), links to the animation and export files written beside it,
-and every interoperability format with whether it applies, why not, and its
-specification; <code>report.json</code> carries the same <code>companions</code> block. The HTML animation
-player lists the export files written beside it. The command-line interface (CLI) now
-renders the exports before it writes the report, so both can name the files.</p>
-</li>
-<li><p><strong>Animation export (<code>--animate svg|html|frames|all</code>, <code>src/animation.rs</code>,
-<a href="animation.html"><code>docs/ANIMATION.md</code></a>).</strong> Any run whose result carries a time series
-can now be written as an animated Scalable Vector Graphics (SVG) file (Cascading Style
-Sheets keyframes, no script: the traces draw in behind a moving time cursor), a single
-self-contained HyperText Markup Language (HTML) player (play and pause, scrub, speed,
-every panel on one synced cursor, event markers that seek on click; no external asset),
-or a numbered SVG frame sequence with a <code>manifest.json</code> stating frames per second,
-duration and frame times for a video encoder. A campaign plays as its phases with its
-alarms marked; a spectrum run animates its waterfall row by row. The player follows
-<code>prefers-color-scheme</code>, and under <code>prefers-reduced-motion</code> both the SVG and the player
-show the finished picture instead of moving. <code>--animate-fps</code> and <code>--animate-duration</code>
-set the playback; <code>kshana::api::animate_toml</code> and <code>kshana::animation::animate_result</code>
-are the library entry points, and <code>result.json</code> gains an <code>animation</code> block only when
-<code>--animate</code> runs. Output is a pure function of the result and the options, byte-identical
-on a re-run, with no timestamp. A kind with no sampled time axis is refused with
-&quot;no time series to animate&quot; and nothing is written. The exporter draws the run&#39;s own
-samples and adds no number, so it is MODELLED (internal consistency) and carries no
-verification-matrix row; no published number changes. Tests: <code>tests/animation.rs</code>
-(determinism, frame count, no external address, well-formed XML, the reduced-motion
-path, and every bundled scenario with a time series animating).</p>
-</li>
-<li><p><strong>Advanced run reports (<code>src/advanced_report.rs</code>, <a href="reports.html">docs/REPORTS.md</a>).</strong>
-Every command-line interface (CLI) run now writes <code>&lt;scenario&gt;.report.html</code>, a printable
-HyperText Markup Language (HTML) report, and <code>&lt;scenario&gt;.report.json</code>, the same content
-as a machine-readable JavaScript Object Notation (JSON) document. Sections: an executive
-summary; every scenario input with its unit, read from the field-units schema (the
-result&#39;s <code>units</code> block), else the field-name suffix, else stated as not stated; the
-results with the run&#39;s chart, every scalar and a summary of every numeric column; for a
-campaign, the sweep node table, the Monte Carlo mean, standard deviation, 5th / 50th /
-95th percentiles and bootstrap confidence interval with a histogram per metric, the
-chain phase table, or the composition&#39;s members and combined summary (and the grid of a
-<code>sweep</code> or <code>sweep-nd</code> run); an events timeline; the VALIDATED / MODELLED / PARTNER label,
-oracle and test evidence of every verification-matrix row the run&#39;s kinds exercise, read
-from the matrix through a kind-to-row crosswalk (a row that grades one input path, such
-as the Simplified General Perturbations 4 (SGP4) path of <code>orbit</code> or the measured-record
-path of <code>slot-timing</code>, is listed only when the run took that path, and the Shuttle
-Radar Topography Mission (SRTM) reader row is listed for no kind, since no scenario
-field reads an SRTM tile); the not-modelled statements and
-assumptions, each quoted with its source; and a reproducibility record (engine version,
-the source commit when the build sets <code>KSHANA_GIT_COMMIT</code>, Secure Hash Algorithm 256-bit
-(SHA-256) digests of the scenario file and the result document, seed, platform and the
-exact command). The report reads no clock: same scenario, seed and engine build give a
-byte-identical report, and the only timestamp it can show is the one <code>--study-name</code>
-already writes. A print stylesheet fits A4 and US Letter, repeats table headers and keeps
-rows and figures whole across pages; a Portable Document Format (PDF) file is made with
-the browser&#39;s &quot;Save as PDF&quot;. There is no <code>--report pdf</code> option, because rendering the
-charts into a PDF would need a new, heavy dependency. Tests: <code>tests/advanced_report.rs</code>
-reports every bundled scenario (no empty section, no placeholder text, labels equal to
-the matrix, the scenario digest equal to the file&#39;s, byte-identical on a re-run) and
-<code>tests/advanced_report_cli.rs</code> re-runs the recorded command in a fresh directory and
-requires a byte-identical <code>result.json</code>. No published number changes, and the kind,
-scenario-file and matrix-row counts are unchanged.</p>
-</li>
-<li><p><strong>Interoperability exports and imports (<code>--export</code>, <code>src/interop/</code>, docs/INTEROP.md).</strong>
-<code>kshana &lt;scenario.toml&gt; --export &lt;format&gt;</code> writes the scenario&#39;s geometry as CZML (the
-Cesium Language), KML (Keyhole Markup Language 2.2, an Open Geospatial Consortium
-standard, with <code>gx:Track</code> time-tagged tracks), GeoJSON (Internet Engineering Task Force
-Request for Comments 7946) and Ansys STK (Systems Tool Kit) <code>.e</code> ephemerides
-(<code>EphemerisTimePosVel</code>, metres, one file per moving object), and the <code>spectrum</code> kind&#39;s
-synthesised IQ (in-phase and quadrature) snapshot as a SigMF (Signal Metadata Format)
-pair through the existing <code>src/sigmf.rs</code>. <code>--export all</code> writes every format that
-applies and prints why the others do not; <code>--export list</code> reports without running.
-Moving objects are written in the Geocentric Celestial Reference System (CZML
-<code>INERTIAL</code>, STK <code>ICRF</code>) and Earth-fixed WGS 84 (World Geodetic System 1984) longitude,
-latitude and height (KML, GeoJSON); fixed sites in CZML are <code>FIXED</code>. The <code>jamming</code> kind
-adds two jammer footprints from its own link equations. <code>--import-route &lt;file.geojson&gt;</code>
-writes a GeoJSON <code>LineString</code> into the track inputs of <code>terrain-nav</code>, <code>terrain-slam</code>,
-<code>gravity-map</code> and <code>combined-altpnt</code>. Exports are byte-deterministic and carry no
-timestamp. <code>tests/interop_formats.rs</code> validates every export against its published
-specification, compares exported satellite states with the engine&#39;s own to 1 mm, and
-runs every bundled scenario through every format, each either exporting or stating why
-not (the table in docs/INTEROP.md). No published number changes: the <code>spectrum</code> kind&#39;s
-IQ synthesis moved into one shared function and its result document is byte-identical,
-and <code>PassesScenario</code> gains <code>propagator()</code> and <code>epoch_calendar()</code> used by its own run.
-Kind, scenario-file and verification-matrix counts are unchanged.
-An orbit or integrity scenario with no <code>epoch</code> is dated by its satellites&#39; own data:
-<code>t = 0</code> is the earliest TLE (two-line element set), broadcast-ephemeris or SP3
-(Standard Product 3) epoch, and each such satellite is rotated into the GCRS and
-Earth-fixed frames at its own instant; 2000-01-01T00:00:00Z is used only when no
-satellite carries an epoch. The SP3 and OEM (Orbit Ephemeris Message) exports keep
-their 2000-01-01 label. To support this, <code>Sgp4::epoch_jd_utc</code>,
-<code>Sp3Interpolator::jd_ut1</code> and <code>Propagator::own_jd_utc</code> are added; nothing that existed
-reads them.</p>
-</li>
-<li><p><strong>LEO-PNT signal designs and a multi-band spectrum.</strong> A new <code>leo-signal</code> kind and a
-<code>spectrum</code> kind that reaches beyond the L band: one kind, four scenario files (three
-bundled; the Celeste IOD file is repository-only) and four matrix rows (two VALIDATED,
-two MODELLED).</p>
+<h4 id="maritime-road-and-rail-scenarios">Maritime, road and rail scenarios</h4>
 <ul>
-<li><code>leo-signal</code>: parameterised low Earth orbit (LEO) positioning, navigation and timing
-(PNT) signal designs for any system (band, transmit bandwidth, ITU allocation;
-acquisition, data and pilot components with BPSK(n), BOC(m,n), MBOC or flat spectra,
-power shares, FDMA sub-carriers, code lengths and data rates), from compiled-in public
-preset files under <code>data/leo-signals/</code> (Xona Pulsar X1/X5, Iridium STL, a Starlink
-signal of opportunity, CentiSpace, a representative C-band design and representative
-UHF/L/S/C/wide-C designs, each citing its source URL) or written inline. Per signal:
-the band-limited PSD and in-band power fractions, Gabor bandwidth, band-limited
-early-late code-tracking jitter against C/N0 and spacing (Betz &amp; Kolodziejski 2009)
-and the ranging accuracy, the acquisition search space, detection probability and
-mean serial and code-parallel acquisition time, the SSC into and from GPS L1 C/A,
-Galileo E1, GPS L5, Galileo E5a, E5b and AltBOC with the C/N0 loss, CW, wideband and
-matched J/S tolerance from the spectrum kind&#39;s SSC code, a band trade (ionospheric
-delay, free-space loss, ranging at equal C/N0 and equal EIRP, jammer tolerance), and
-optional shape checks against a described measurement. Examples:
-<code>scenarios/leo-band-trade.toml</code>, <code>scenarios/xona-pulsar-signals.toml</code>,
-<code>scenarios/celeste-iod-classical-pilot-signals.toml</code> (the Celeste IOD bands and
-signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026; withheld with
-the Celeste IOD preset, see &quot;LEO-PNT end to end&quot; above). Notes in <code>docs/LEO-SIGNAL.md</code>.</li>
-<li><code>spectrum</code>: bands may now be a preset signal design (every component drawn,
-band-limited, C/N0 and J/S referred to the tracked component) or a custom carrier and
-modulation; <code>[[panels]]</code> add waterfalls over other frequency ranges on one timeline; a
-<code>wideband</code> (barrage) jammer joins the four waveforms. The report adds
-<code>bands[].tracked_power_dbw</code>, <code>bands[].design</code> and <code>panels</code>, and one <code>not_modelled</code>
-entry. Plain bands give the same numbers as before. Example:
-<code>scenarios/multi-band-jamming-waterfall.toml</code>.</li>
-<li><code>navsignal</code> gains the sine integral, the BPSK power-in-band and band-limited Gabor
-bandwidth closed forms, the band-limited early-late jitter for any spectrum and its
-Gabor bound, the offset BPSK SSC closed form, the Galileo E5 AltBOC(15,10) spectrum
-and a modulation-label parser; <code>Modulation::label</code> prints BPSK(1/3) as a fraction.</li>
-<li>Four matrix rows: VALIDATED band-limited closed forms (90.3 % of BPSK power in the
-main lobe, the jitter reducing to Kaplan &amp; Hegarty&#39;s coherent form, 0.0039564 chips at
-45 dB-Hz, B_L 1 Hz, d 1 chip, T 20 ms, and to its Gabor bound, and the BPSK self-SSC
-2/(3 R_c); the Gabor closed form and the offset SSC against its Parseval form are
-stated as internal cross-checks); VALIDATED maximum LEO Doppler (Xona X1 33.2 kHz
-inside the published 32 to 34 kHz, Iridium within 0.5 kHz of 36 kHz); MODELLED
-<code>leo-signal</code>; MODELLED multi-band spectrum.</li>
-</ul>
-</li>
-<li><p><strong>LEO-PNT pass and per-band link budget: the <code>leo-pass</code> kind.</strong> LEO-PNT is positioning,
-navigation and timing from satellites in low Earth orbit (LEO). A user (ground, maritime,
-air or indoor, static or moving) and one or more LEO satellites from a designed pass,
-explicit elements, a two-line element set (TLE) through SGP4, or a Walker constellation
-from the <code>constellation-design</code> code. Per satellite, band and epoch: look angles, range,
-closed-form range rate and range acceleration (checked every run against central
-differences), Doppler and Doppler rate, free-space loss, EIRP (equivalent isotropically
-radiated power) with an isoflux, Gaussian-beam or flat satellite pattern, a patch user
-antenna, ITU-R P.676 gaseous attenuation, ITU-R P.838/P.618 rain attenuation, P.618
-tropospheric scintillation, ITU-R P.2109 building entry loss for an indoor user,
-polarisation mismatch, system noise temperature and C/N0 (carrier-to-noise density); the
-first-order ionospheric delay per band from a Klobuchar or vertical-TEC (total electron
-content) slant TEC below the satellite, and ionosphere-free band pairs with their noise
-amplification. Galileo or GPS satellites are evaluated with the same receiver from their
-interface-document received powers, so the bell-shaped LEO pass and the flat MEO (medium
-Earth orbit) carriers share one plot. An <code>[iot]</code> section gives time to first fix, energy
-per fix and battery life against duty cycle (MODELLED).</p>
-<ul>
-<li>System-agnostic: the engine needs no preset. Optional presets, each in its own file and
-marked PUBLIC (with URL), REPRESENTATIVE or WORKSHOP: generic multi-band (UHF, L, S, C),
-generic C band, Xona Pulsar X1/X5 (arXiv 2509.19551), Iridium STL, Starlink as a
-Doppler-only signal of opportunity, CentiSpace, and Celeste IOD (in-orbit
-demonstration), whose signal parameters were presented at the ESA NAVISP LEO-PNT
-workshop, 2026, and live in <code>src/celeste_iod.rs</code> so they can be withheld (see &quot;LEO-PNT
-end to end&quot; above).</li>
-<li>Public building blocks in <code>src/leo_link/</code> (geometry, antenna, itu, iono, energy,
-presets) for other modules to call.</li>
-<li>Scenarios: <code>leo-pass-vs-gnss-cn0</code>, <code>leo-indoor-uhf</code>, <code>leo-iot-energy</code>,
-<code>leo-pass-xona-pulsar</code>, <code>leo-pass-iridium</code>, <code>leo-pass-celeste-iod-multiband</code>.</li>
-<li>Nine matrix rows. VALIDATED (6): ITU-R P.838-3 coefficients against its Table 5; P.618-14
-rain attenuation and scintillation against the ITU-R Study Group 3 validation examples;
-P.2109 building entry loss against the Study Group 3 workbook; first-order ionospheric
-scaling against the IS-GPS-200 group-delay ratio, with the free-space loss; the static-user
-maximum Doppler of a circular orbit against arXiv 2509.19551 Table 1. MODELLED (3): the
-pass and link budget, the presets, and the low-energy fix budget. One kind and six
-scenario files. Notes in <code>docs/LEO-PASS.md</code>.</li>
-</ul>
-</li>
-<li><p><strong>LEO navigation message (<code>leo-navmsg</code> kind, <code>src/leo_navmsg/</code>).</strong> The broadcast
-ephemeris and clock message of a low Earth orbit (LEO) positioning, navigation and
-timing (PNT) satellite, for any orbit, carrier and model; named presets are optional
-data and every capability runs without them. One kind, five scenario files and
-nine matrix rows (three VALIDATED, six MODELLED). See <code>docs/LEO-NAVMSG.md</code>.</p>
-<ul>
-<li>Message content: SVID, issue of data, band and signal health; week, time of week and
-a second-order clock polynomial; the ephemeris in one of four models — the Galileo
-OS SIS ICD 16-parameter Keplerian set, that set plus along-track, cross-track and
-radial correction polynomials, the Liu et al. 2025 22-parameter model
-(doi 10.3390/rs17162894), or the ATOMIC zero-clock ECEF polynomial — and a Klobuchar
-set, NeQuick-G coefficients with the effective ionisation level, and
-system-time-to-UTC parameters with the ICD leap-second cases.</li>
-<li>Fitter: a truth orbit integrated with zonal J2–J6 or EGM2008 gravity and drag, a
-seeded free or steered clock, a Levenberg–Marquardt fit on non-singular elements, then
-linear least-squares correction polynomials and a clock fitted net of the user&#39;s
-relativistic term.</li>
-<li>Four analyses and scenarios: <code>leo-navmsg-fit-interval-trade</code> (signal-in-space range
-error (SISRE) versus fit interval and update period), <code>leo-navmsg-model-comparison</code>
-(four models, bits, and Kshana&#39;s 22-parameter fit at the Liu et al. altitudes beside
-the published figures, MODELLED), <code>leo-navmsg-midpass-update</code> (continuity at each
-message switch in a pass) and <code>leo-navmsg-encode-decode</code> (Kshana&#39;s own documented
-binary frame with CRC-24Q and a quantisation budget, a RINEX-4-style block labelled a
-Kshana extension, and a CSV table).</li>
-<li>VALIDATED: the global-average SISRE weights against the published medium-orbit and
-geostationary table of Montenbruck et al. 2018; the Galileo user algorithm against
-RTKLIB on four real Galileo broadcast ephemerides (<code>tests/leo_navmsg_reference.rs</code>);
-CRC-24Q against the catalogue check value and the RTCM 10403 1005 example frame.</li>
-<li>Presets, one file each with sources: Xona Pulsar and Pulsar-0, Iridium, Starlink,
-CentiSpace, a representative C-band system, ATOMIC, and Celeste IOD (the only preset
-using material presented at the ESA NAVISP LEO-PNT workshop, 2026, kept in
-<code>src/celeste_iod.rs</code> with its scenarios so it can be withheld).</li>
-</ul>
-</li>
-<li><p><strong>Fused MEO + LEO positioning, navigation and timing: <code>leo-pvt</code>, <code>leo-ppp</code> and
-<code>ntn-positioning</code>.</strong> Three new scenario kinds in <code>src/leo_fusion/</code>, system-agnostic: every
-constellation is Walker shells, element sets or a GNSS preset, every signal a carrier, a
-chip rate and a carrier-to-noise density (C/N0) envelope, every error budget an explicit
-one-sigma, and named low-Earth-orbit (LEO) systems are optional presets, one file each with
-their sources marked public, workshop or derived (Xona Pulsar X1/X5, Iridium Satellite Time and Location (STL), Starlink
-signals of opportunity, CentiSpace, a representative C-band system, the ATOMIC zero-clock
-ephemeris model, and one ESA Celeste in-orbit-demonstration preset whose workshop-derived
-parameters live in <code>src/celeste_iod.rs</code> so they can be withheld).</p>
-<ul>
-<li><code>leo-pvt</code> has four modes: Doppler positioning (batch least squares on range rate with
-clock-drift and velocity states, a Doppler-only signals-of-opportunity mode, the
-single-pass along-track and cross-track accuracy, and the Doppler, Doppler-rate and jerk
-envelope); joint GNSS + LEO weighted least squares with one clock per system (the
-inter-system bias) or a known offset, per-measurement sigmas as inputs, and the DOP
-against the number of LEO satellites; polar and Arctic coverage against latitude; and LEO
-time transfer to Coordinated Universal Time (UTC) against C/N0 and the receiver
-oscillator with the IS-GPS-200 system-time-to-UTC expression.</li>
-<li><code>leo-ppp</code>: a float precise point positioning (PPP) extended Kalman filter on
-ionosphere-free code and phase, GNSS only and with LEO augmentation, with its
-convergence time and a Monte Carlo NEES (normalised estimation error squared)
-consistency test. The bundled scenario gives 7.4 min with four MEO systems and 4.8, 3.2,
-2.7 and 2.3 min with 60, 96, 192 and 288 LEO satellites, beside the 9.6, 7.0, 3.2, 2.1 and
-1.3 min of Li et al. (J. Geod. 93:749, 2019) as a MODELLED comparison of the trend.</li>
-<li><code>ntn-positioning</code>: 5G non-terrestrial network (NTN) positioning in the 3GPP n256
-mobile-satellite S band from the Cramér-Rao bound on time of arrival and Doppler.</li>
-<li>Scenarios: <code>leo-doppler-positioning</code>, <code>starlink-sop-doppler-positioning</code>,
-<code>meo-leo-fused-pvt</code>, <code>leo-ppp-convergence</code>, <code>ntn-5g-positioning</code>,
-<code>polar-arctic-leo-coverage</code>, <code>leo-timing-utc</code> (bundled) and <code>celeste-iod-fused-pvt</code>
-(repository-only, withheld with the Celeste IOD preset).</li>
-<li>Eight matrix rows: the LEO Doppler envelope VALIDATED against the published Iridium
-(±36 kHz: 35.9 kHz, within 5%) and Xona Pulsar X1 (32 to 34 kHz: 33.6 kHz from the
-97 deg shell, with no widening) figures
-(<code>tests/leo_doppler_reference.rs</code>); Doppler positioning, joint pseudorange positioning,
-PPP convergence, NTN bounds, LEO timing, polar coverage and the presets MODELLED. Three
-kinds and eight scenario files. Documentation: <code>docs/LEO-PNT-FUSION.md</code>.</li>
-</ul>
-</li>
-<li><p><strong>Four new engine areas in one release: <code>spectrum</code>, <code>solar-system</code> and <code>body-pnt</code>,
-<code>constellation-design</code>, and <code>campaign</code>.</strong> The kind count moves from 63 to 68, the
-scenario-file count from 82 to 94, and the verification matrix from 174 to 189 rows
-(71 validated, 114 modelled, 4 partner at that step; the combined statement at the top
-of this section gives the release totals). Each area is described below.</p>
-<ul>
-<li>Across the areas: <code>scenarios/campaign-spectrum-holdover-integrity.toml</code> chains the
-<code>spectrum</code> kind with a clock holdover and an integrity monitor (a chirp takes L1 C/A
-and E1; a CW tone then keeps C/A down while E1 recovers and the receiver falls back to
-a Galileo-only sky), pinned against the stand-alone waterfall example in
-<code>tests/campaign_composition_reference.rs</code>. <code>constellation-design</code> now resolves its
-central body through <code>Body::by_name</code>, so a constellation can be laid around any planet,
-Pluto or major moon with the constants the <code>solar-system</code> kind uses.</li>
-</ul>
-</li>
-<li><p><strong>Solar-system ephemeris and positioning around any body.</strong> Two new scenario kinds.</p>
-<ul>
-<li><code>solar-system</code>: the Sun, the eight planets, Pluto, the Moon, Phobos, Deimos, Io, Europa,
-Ganymede, Callisto and Titan at one epoch: heliocentric position and velocity in the
-International Celestial Reference Frame (ICRF), gravitational parameter, radii, J2 (the
-second zonal harmonic) where published, sidereal rotation, the International Astronomical Union (IAU) pole and prime
-meridian, an orbit track over one revolution, and the light time, one-way and two-way
-range, solar Shapiro delay and Sun separation from an observer body and for any extra
-link. Planets come from the Jet Propulsion Laboratory (JPL) Keplerian elements of Standish and Williams (Table 1,
-1800 AD to 2050 AD; Tables 2a/2b, 3000 BC to 3000 AD); the moons from JPL mean elements
-with the IAU synchronous rotation rate, and Titan from the IAU rotation model.
-Example: <code>scenarios/solar-system-tour.toml</code>.</li>
-<li><code>body-pnt</code>: an orbiter or a surface lander around any of those bodies, navigating with
-pseudoranges from a Walker constellation around the body and a clock-free two-way range
-from Earth; dilution of precision, formal uncertainty and seeded least-squares fixes with
-and without the Earth link. Examples: <code>scenarios/mars-orbit-pnt.toml</code>,
-<code>scenarios/europa-surface-pnt.toml</code>.</li>
-<li><code>Body</code> gains Mercury, Venus, Jupiter, Saturn, Uranus, Neptune, Pluto and the seven moons,
-a name lookup and a physical record; <code>AnalyticSolarSystem</code> gives any body relative to any
-other through the existing <code>EphemerisProvider</code> seam.</li>
-<li>VALIDATED against JPL Horizons (Development Ephemeris DE441; fixtures and queries in
-<code>tests/fixtures/solar_system/</code>): Mercury to Saturn and the Earth from Table 1 within twice
-the stated nominal error (worst 1.87 times), all eight planets from Tables 2a/2b (worst
-1.71 times), and the Earth to Mars and Jupiter light time. MODELLED: Uranus and Neptune
-from Table 1, which exceed the stated error against DE441 (2.0 and 5.2 times), Pluto, the
-moons, the body constants and the <code>body-pnt</code> results.</li>
-<li>Finding: the Montenbruck &amp; Gill lunar series in <code>src/ephem.rs</code> is already referred to the
-J2000 equinox by its own precession term (0.05 degrees from Horizons), so it is used
-without a further precession rotation.
-Six new matrix rows: two validated (planet positions, light time) and four modelled.</li>
-</ul>
-</li>
-<li><p><strong>Constellation design at scale (<code>constellation-design</code> kind, <code>src/constellation.rs</code>).</strong>
-Walker delta and Walker star patterns (T/P/F), explicit element lists and multi-shell
-designs, several constellations per run, around the Earth, the Moon, Mars or any other planet, Pluto or major moon
-from the body constants the <code>solar-system</code> kind added. Presets from published nominal elements: the Global Positioning System
-(GPS) baseline and expandable 24-slot constellation (Standard Positioning Service
-Performance Standard, SPS PS, 2020), Galileo Walker 24/3/1 (Open Service Service
-Definition Document issue 1.1), BeiDou medium Earth orbit Walker 24/3/1 plus
-geostationary and inclined geosynchronous satellites (Open Service Performance Standard
-3.0) and GLONASS 24/3/1 (Interface Control Document 5.1). Coverage and dilution of
-precision (DOP) over a latitude/longitude grid: satellites in view, GDOP, PDOP, HDOP and
-VDOP (geometric, position, horizontal, vertical) and availability per cell, globally and
-at the worst site, with one receiver clock per constellation. A visibility prefilter
-(coverage half-angle plus a sub-satellite latitude band, exact on a spherical body) runs
-5 000 satellites on a 10 deg grid in about 0.13 s in a debug build.</p>
-<ul>
-<li>VALIDATED: the Walker generator reproduces Galileo OS SDD Table 23 and the GLONASS ICD
-slot formula; the GPS preset reproduces the SPS PS equatorial-crossing column (35 of
-36 locations within 0.0108 deg; E3F within 0.06 deg, the table&#39;s own row being
-inconsistent); the GPS baseline global HDOP distribution matches SPS PS Appendix B
-(median 0.940 against 0.94, 95 % 1.255 against 1.25, mean 0.965 against 0.96; bar 0.03).</li>
-<li>MODELLED: arbitrary designs, other bodies, the BeiDou phase and inclined-geosynchronous
-nodes, two-body orbits with optional J2, geometry only.</li>
-<li>Scenarios: <code>constellation-multi-gnss-coverage</code> (102 satellites, availability 100 %,
-median PDOP 0.95, 31.0 in view above 10 deg), <code>leo-pnt-mega-shell</code> (5 000 satellites,
-availability 99.22 % at PDOP 3 or less above 20 deg, 0 % at the polar caps, prefilter
-keeps 11.5 % of the pair tests), <code>lunar-relay-constellation</code> (14 satellites around the
-Moon, availability 21.33 % overall and highest over the south polar region). All three
-are bundled for <code>kshana example</code>. Notes: <code>docs/CONSTELLATION-DESIGN.md</code>.
-Three new matrix rows: two validated (Walker generator and GNSS presets, GPS global
-DOP) and one modelled.</li>
-</ul>
-</li>
-<li><p><strong>Campaigns: many scenarios composed into one run.</strong> A new <code>campaign</code> kind
-(<code>src/campaign.rs</code>, documented in <code>docs/CAMPAIGNS.md</code>) runs members of existing kinds
-through the same dispatch as the command line and reads numbers back out of their
-results. Four sections, in any combination:</p>
-<ul>
-<li><code>[[phases]]</code>: a chained mission on one timeline. Per-kind presets read clock time
-error against its guard, the mean effective carrier-to-noise density ratio (C/N0)
-against the tracking floor, the vertical protection level against the alert limit,
-position error, satellites tracking and alarm flags, held onto a common grid with phase
-boundaries and events. State is handed on by <code>carry</code>, <code>handoff</code> and <code>end_at</code>.</li>
-<li><code>[sweep]</code>: one to three dotted keys of any kind, optionally with a seeded ensemble at
-every node.</li>
-<li><code>[monte_carlo]</code>: realisation k at base seed + k, with mean, spread, percentiles and a
-fixed-seed bootstrap 95% confidence interval.</li>
-<li><code>[compose]</code>: shared values bound into several members, with a combined best and worst
-summary.
-Every result carries a campaign hash and a digest over every member result. Four bundled
-scenarios: <code>campaign-jam-spoof-holdover-integrity</code> (nominal, jamming, spoofing ended at
-the clock monitor&#39;s 370 s detection, holdover carrying the 37.0 ns spoofed offset with
-an inertial unit coasting, an integrity alarm, recovery), <code>campaign-sweep-jammer-power</code>,
-<code>campaign-shared-jammer-sea-road</code> and <code>campaign-monte-carlo-clock-holdover</code>.
-<code>tests/campaign_composition_reference.rs</code> pins the composition identities: a one-phase
-campaign reproduces the stand-alone run bit for bit on three kinds, a fixed-seed
-ensemble is byte-stable, and on a white-frequency-noise clock the ensemble mean lies
-inside the reported interval with the spread inside the chi-square interval of
-sqrt(q_wf * tau) = 16.459 ns. Three new modelled matrix rows.</li>
-</ul>
-</li>
-<li><p><strong>Maritime, road and rail scenarios.</strong> Five bundled examples on existing kinds, so
+<li><strong>Maritime, road and rail scenarios.</strong> Five bundled examples on existing kinds, so
 ships, road vehicles and trains each have a worked case. Every figure is MODELLED; none
-is validated against measured data.</p>
-<ul>
+is validated against measured data.<ul>
 <li><code>scenarios/maritime-strait-jamming.toml</code> (<code>jamming</code>): a 50 W broadband jammer on a
 30 m mast, 30 km across open water from a ship. Mean jammer-to-signal ratio (J/S)
 about 48 dB, and availability falls from 1.00 to 0.00.</li>
@@ -570,38 +1145,84 @@ The README scenario-file count moves from 77 to 82. All five are bundled for
 <code>kshana example</code> and listed in the browser playground.</li>
 </ul>
 </li>
-<li><p><strong><code>spectrum</code> scenario kind: an L-band spectrum model and waterfall</strong>
-(<code>src/spectrum.rs</code>, <code>src/sigmf.rs</code>, <code>docs/SPECTRUM.md</code>). The whole GNSS L band as one
-power spectral density (PSD): GPS L1 coarse/acquisition (C/A) and L2 civil (L2C)
-(BPSK(1)), Galileo E1 (multiplexed binary offset carrier, MBOC(6,1,1/11), or BOC(1,1)),
-GPS L5 and Galileo E5a (BPSK(10)), a kT noise floor with a receiver noise figure, and
-continuous-wave (CW), narrowband, chirp and matched-noise jammers on a scripted
-timeline. Each jammer is scored per band by its spectral separation coefficient (SSC),
-giving the jammer-to-signal ratio (J/S) and effective carrier-to-noise density (C/N0)
-per band per row. The chart is an SVG waterfall with C/N0 bars; result.json carries the
-grid block-averaged in power. Optional <code>[iq]</code> draws the model as IQ samples, writes and
-reads a Signal Metadata Format (SigMF) recording (<code>cf32_le</code>, <code>ci16_le</code>) and compares a
-Welch estimate with the model; optional <code>[recording]</code> estimates a real SigMF file.
-Bundled example <code>scenarios/l-band-waterfall-jamming.toml</code>: a chirp takes L1 C/A and E1
-at 10 s, a CW tone on the L1 carrier holds C/A at 17.98 dB-Hz after the chirp stops
-while E1, whose spectrum has a null there, recovers; L5 and E5a are untouched.</p>
-<ul>
-<li>New VALIDATED row: the signal PSDs and SSCs, against the BPSK(n) main lobe of
-2n x 1.023 MHz, the BOC(1,1) lobes centred at +/-1.023 MHz, the Parseval closed forms
-behind the published -61.8 / -64.8 / -67.8 dB/Hz SSCs, and the textbook Q = 1 (CW)
-and 1.5 (matched). The BOC(1,1) PSD maximum is at +/-0.759 MHz, not at the lobe
-centre; the test pins both.</li>
-<li>Two new MODELLED rows: the waterfall and C/N0 timeline, which reduce exactly to the
-<code>jamming</code> kind&#39;s chain (cross-checked in every report), and the SigMF codec and Welch
-estimator. No third-party recording is in the repository.</li>
-<li><code>navsignal</code>: an MBOC variant and <code>spectral_separation_coeff_offset</code>.</li>
-<li>The report prints the C/N0 the <code>jamming</code> kind&#39;s representative Q table would give
-beside the spectrum-derived one; for a CW tone on the C/A carrier they differ by
-1.8 dB.
-Three new matrix rows: one validated (signal spectra and spectral separation
-coefficients) and two modelled.</li>
 </ul>
+<h4 id="model-context-protocol-server">Model Context Protocol server</h4>
+<ul>
+<li><p><strong>The Model Context Protocol (MCP) server reaches every kind and every view of a run:
+seven new tools, fourteen in all.</strong> <code>run_scenario</code> already dispatched every kind; what an
+agent lacked was a way to a valid scenario of a kind, and the three outputs the command
+line writes beside a result. New tools:</p>
+<ul>
+<li><code>list_example_scenarios</code> and <code>get_example_scenario</code> serve the bundled reference
+scenarios (the <code>kshana example</code> table), each with its kind and the first sentence of its
+own header, byte for byte the file under <code>scenarios/</code>. A scenario that is in the
+repository but not bundled is refused with the reason. Every kind but <code>lunar-llr-datum</code>
+(whose data slice ships with the repository only) has at least one example.</li>
+<li><code>report_scenario</code> returns the run&#39;s report as JSON (JavaScript Object Notation) or as
+the printable HTML (HyperText Markup Language) page (<code>docs/REPORTS.md</code>).</li>
+<li><code>animate_scenario</code> returns the run&#39;s time series as an animated SVG (Scalable Vector
+Graphics) drawing, an HTML player or numbered frames, after a JSON summary of what was
+drawn (<code>docs/ANIMATION.md</code>). A reply carries at most 120 frames; the command line
+writes any length.</li>
+<li><code>list_export_formats</code>, <code>export_interop</code> and <code>import_route</code> serve the interoperability
+exports and the GeoJSON route import (<code>docs/INTEROP.md</code>): CZML (Cesium Language), KML
+(Keyhole Markup Language), GeoJSON, the STK (Systems Tool Kit) ephemeris <code>.e</code> and
+SigMF (Signal Metadata Format), with a JSON index of the files (suffix, size, and
+SHA-256, the 256-bit Secure Hash Algorithm digest) and the binary SigMF sample file as
+base64.</li>
+</ul>
+<p>The library gains an off-by-default <code>bundled-scenarios</code> feature that exposes the
+reference-scenario table as <code>kshana::bundled_scenarios</code>; only the MCP server turns it on,
+so the Python wheel and the WebAssembly module still do not carry the scenario text.
+Study suites (<code>--study</code>) stay command-line only, because a suite names files on disk and
+the server reads none. The round-trip tests run each new tool against bundled scenarios
+and check the engine&#39;s numbers: spectrum, the solar system, constellations around the
+Moon and Europa, a campaign sweep, and the low Earth orbit (LEO) signal, pass,
+navigation-message, fused positioning, precise point positioning,
+non-terrestrial-network and end-to-end kinds.
+Every surface that states the MCP tool count or lists the tools now says fourteen,
+except the playground page under <code>web/</code>, which is replaced with the site.</p>
 </li>
+</ul>
+<h4 id="kshanadev-kshana-studio-and-the-readme">kshana.dev, Kshana Studio and the README</h4>
+<ul>
+<li><strong>A redesigned kshana.dev.</strong> The single playground page is replaced by a multi-page
+site: Home, Missions, Capabilities, Evidence, Developers, Editions and Docs, with Kshana
+Studio one click away. Every chart, map and number on it is a recorded run of this
+release&#39;s engine, with the scenario and a link that reopens the same run in the Studio;
+the site build refuses a recording made by another engine commit. The documentation
+pages are generated from the repository&#39;s <code>docs/</code>, and the install options from its
+channels. Fonts and script libraries are served from kshana.dev itself, so no page
+requests anything from a third-party host. Old addresses (<code>/#playground</code>, <code>/#ledger</code>,
+<code>/#s=&lt;scenario&gt;</code> share links, <code>/?embed=1&amp;…</code> embed links and the rest) redirect to their
+new place, and an unknown address gets a 404 page.</li>
+<li><strong>Kshana Studio, a dashboard for every capability.</strong> The Studio opens on a start screen
+with domain tiles and good first runs, then takes a run through five numbered steps:
+Choose a scenario, Set its parameters, Run the engine locally in the browser, Read the
+results (key figures first, each with a PASS or FAIL chip where the run states a
+threshold, then the panels) and Share or export. One search box finds scenarios, domains
+and the fields inside them and jumps to the control; runs can be pinned and compared;
+a breadcrumb says where you are; on a phone the steps become a step bar. Every scenario
+kind has its view, including the spectrum waterfall, the solar system, constellation
+coverage, campaigns, the animation, the run report, the interoperability exports and the
+low Earth orbit chain. A deep link (<code>?scenario=…&amp;tab=…</code>) opens the same run on the named
+panel.</li>
+<li><strong>Research and citation.</strong> The Evidence page lists the five Kshana papers on arXiv
+(2606.22054, 2606.24210, 2607.02566, 2607.05415 and 2607.06212), each with a summary,
+a figure computed by this engine, the command that reproduces it, a Studio link and
+BibTeX, beside how to cite the software. The README gains the same Research section.</li>
+<li><strong>A public page for Kshana Pro.</strong> <code>docs/PRO.md</code> and the site&#39;s Editions page say what
+the proprietary Pro overlay adds over the same engine (design optimiser, uncertainty and
+sensitivity, mission dossier, campaign watch, spectrum coexistence, on-premises job
+service, requirements traceability), what each produces and what it does not do. Every
+Pro figure the site shows is stated in that public page. Pro adds no physical model, and
+the open engine stays whole and free.</li>
+<li><strong>A rewritten README.</strong> Short sections, one image per section, the Kshana mark, two
+badge rows, generated architecture, scenario-flow, low-Earth-orbit-chain and
+verification images (<code>tools/gen_readme_assets.py</code>, which fails on a stale image), and
+Studio screenshots taken from the running Studio by <code>tools/capture_studio_shots.mjs</code>.
+The crates.io, PyPI, npm and MCP server READMEs follow the same design. Long reference
+material is folded or moved to <code>docs/</code>.</li>
 </ul>
 <h3 id="changed">Changed<a class="anchor" href="#changed" aria-label="Link to this section">#</a></h3>
 <ul>
@@ -610,16 +1231,6 @@ the CLI&#39;s <code>wrote …</code> line names <code>&lt;scenario&gt;.report.js
 it replaced is unchanged as <code>RunOutput::html_report()</code>, which the Python and WebAssembly
 bindings still return. <code>OracleKind::modelled_reason()</code> exposes the sentence
 <code>docs/MODELLED-RATIONALE.md</code> prints for each MODELLED row; that document is unchanged.</li>
-<li><strong>Documentation audit of the spectrum, constellation, campaign, animation, report and
-interoperability pages, and a new <code>docs/SOLAR-SYSTEM.md</code>.</strong> Every figure was re-run with
-this engine. Two published numbers move, recorded here as a revision:
-<code>docs/CONSTELLATION-DESIGN.md</code> gave the 5 000-satellite coverage test as &quot;about 0.13 s in
-a debug build&quot;; that did not reproduce (1.24 s on a loaded laptop), so the page now gives
-the prefilter share the test prints (9.9 % of 19 440 000 pair tests) and the release
-binary&#39;s 0.14 s for the bundled <code>leo-pnt-mega-shell</code>. The same page gave E3F&#39;s crossing
-as &quot;off by 0.050 deg&quot;; no test prints that figure, so the page now states only the
-0.06 deg bar the test enforces and the 7.30 against 7.36 deg derivation behind it. No
-engine output changes.</li>
 <li><strong>The README says what Kshana Pro builds on.</strong> The Editions section and the Kshana Pro
 line under &quot;Support &amp; professional services&quot; now state what Pro&#39;s model-based
 systems-engineering (MBSE) and programme tooling does and which of the open engine&#39;s
@@ -627,50 +1238,95 @@ published outputs it reads (each run&#39;s <code>result.json</code> and <code>re
 file, the field-units schema and the verification matrix&#39;s labels), and what the clock
 digital twins, trade studies and evidence packs rest on in the open engine. Wording
 only: no engine output and no published number changes.</li>
+<li><strong>Compatibility.</strong> The public enum <code>navsignal::Modulation</code> gains an <code>Mboc</code> variant,
+which is a breaking change for a caller that matches it exhaustively. The
+<code>ephemeris</code> kind&#39;s <code>gcrs_r_m</code> and <code>gcrs_v_m_s</code> columns change (see &quot;Revisions to
+published numbers&quot;). A run is still reproduced by the engine version that made it.</li>
 </ul>
 <h3 id="fixed">Fixed<a class="anchor" href="#fixed" aria-label="Link to this section">#</a></h3>
 <ul>
-<li><strong>LEO-PNT documents: revised published figures (re-run on engine 0.28.0).</strong>
-<code>docs/LEO-SIGNAL.md</code> band trade: the first-order ionospheric delay of <code>generic-s</code> is
-3.24 m (was printed 3.25 m) and of <code>generic-c-wide</code> 0.77 m (was 0.78 m).
-<code>docs/LEO-NAVMSG.md</code> encode and decode: the decoded message&#39;s SISRE is 0.122 cm (was
-printed 0.119 cm). <code>docs/LEO-PASS.md</code> LEO-versus-GNSS pass: 32 dB less free-space loss at
-the pass peak (was &quot;26 to 32 dB&quot;). The engine output did not change; the documents had
-misread or mis-rounded it.</li>
-<li><strong>Tutorials, the worked pipeline example and the <code>/kshana-run</code> command, audited
-against kshana 0.28.0.</strong> Revisions to published figures, old → new: the kinds that
-write <code>&lt;scenario&gt;.table.csv</code> are six, not four (<code>leo-navmsg</code> and <code>telecom-timing</code>
-were missing; <code>docs/tutorials/README.md</code>, <code>commands/kshana-run.md</code>); the cold-atom
-½bT² crossing in Tutorial 3 is 18,443 s, not 18,440 s; the <code>oem-interop</code> round-trip
-error in <code>docs/examples/multi-tool-pipeline.md</code> is the measured 4.88e-7 km, not
-&quot;~1e-7 km&quot;; the Tutorial 2 CSAC holdover band is the 2000–3200 s the test asserts,
-not &quot;~2600–4400 s&quot;; Tutorial 1 quotes the SP3 rows and geometry block at the
-precision the engine writes them. No engine output changed.</li>
-<li><strong>STK ephemeris file names from mover ids.</strong> A mover id holding a <code>/</code> or a space (a
+<li><p><strong><code>export_table_csv</code> on the MCP server named four kinds as the only ones with a CSV
+(comma-separated values) table; six publish one.</strong> The tool always returned the table for <code>telecom-timing</code> and for
+<code>leo-navmsg</code> (its <code>encode-decode</code> analysis on a <code>kepler16</code> or <code>kepler-rac</code> message model),
+but its description, its refusal message and the documents that list the kinds left both
+out, so an agent was told not to ask. They are named now, and a round-trip test fetches
+both tables.</p>
+</li>
+<li><p><strong>The low Earth orbit (LEO) navigation-message frame was not the same bytes on every
+platform, nor in every build of one platform.</strong> <code>scenarios/leo-navmsg-encode-decode.toml</code>
+encoded a frame with cyclic redundancy check <code>0x110315</code> in the release build on aarch64
+macOS, <code>0x898BD8</code> in a debug build of the same source on the same machine, and
+<code>0x6A82D9</code> in the WebAssembly (WASM) build; <code>leo-navmsg-celeste-iod.toml</code> gave
+<code>0x6EDB2D</code> natively against <code>0xC6E4F0</code> in the browser. Three causes, each traced to
+the first diverging value:</p>
+<ul>
+<li><em>Between platforms.</em> The truth orbit was bit-identical on both; the fit&#39;s starting
+point was not. <code>truth::state_to_elements</code> takes the osculating inclination from an
+<code>acos</code> and the argument of perigee from an <code>atan2</code>, and the two mathematics libraries
+round those differently in the last place (over 20 000 arguments they disagree for
+781 sines, 858 cosines, 1 931 exponentials and 1 899 two-argument arctangents).</li>
+<li><em>Between build profiles.</em> An optimised build on macOS merges a sine and a cosine of
+one argument into a single call to the system&#39;s combined routine, and its sine is
+not the lone <code>sin</code>&#39;s for 379 of 200 000 arguments; an unoptimised build makes the
+two calls. The kind takes a sine and a cosine together in thirteen places.</li>
+<li><em>In the clock.</em> The normal sampler of <code>rand_distr</code> calls the host <code>exp</code> and <code>ln</code> in
+its two rare branches: of four million seeded draws, three differed in the last bit
+between the native and the WASM build.</li>
+</ul>
+<p>The Levenberg–Marquardt fit, which on this arc stops at its 80-iteration limit and not
+at a minimum, carries one unit in the last place into different quantised fields. The
+kind now computes every transcendental through the new <code>src/portable_math.rs</code>, which
+calls the pure-Rust <code>libm</code> crate (already in the dependency tree, now named in
+<code>Cargo.toml</code>), compiled from one source for every target and not a library call the
+optimiser rewrites: <code>leo_navmsg::{truth, fit, elements, codec, sisre, services}</code> and
+the scenario code. Integer powers on that path are spelt out as square-and-multiply,
+because <code>f64::powi</code> has unspecified precision, and the truth clock draws its normal
+deviates from <code>portable_math::standard_normal</code> (Marsaglia&#39;s polar method on the
+generator&#39;s raw output). The shared routines the truth orbit integrates through are
+written once, generic over the mathematics library, with a crate-internal <code>_portable</code>
+entry point beside the existing one: the spherical-harmonic acceleration, the zonal and
+drag accelerations, the J2 secular rates and the Klobuchar delay. The existing entry
+points are unchanged to the last bit, so no other kind&#39;s number moves.
+<code>leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform</code> pins the
+whole 171-byte frame and one check value per ephemeris model, in the ordinary
+(unoptimised) test profile, on every platform and with no baseline-host gate;
+<code>the_kind_never_calls_the_host_mathematics_library</code> reads the kind&#39;s sources from disk
+and fails on an inherent transcendental call, on a <code>rand_distr</code> sampler, or on a call
+into a module that has not been reviewed. After the change a debug build, a release
+build and the WASM build produce byte-identical result documents for all five
+<code>leo-navmsg</code> scenarios.
+<strong>This moves numbers, recorded here as a revision.</strong> The <code>leo-navmsg</code> kind is new in
+this release, so nothing published in an earlier release moves, but every <code>leo-navmsg</code>
+figure does, natively and in the WASM build, and the <code>navmsg</code> stage of <code>leo-pnt-chain</code>
+with it: the orbit figures because the fit now starts from the portable elements, the
+clock figures because the truth clock is a different realisation of the same process.
+<code>docs/LEO-NAVMSG.md</code> is regenerated from the new results; its published check value
+for the encode-and-decode scenario was <code>0x110315</code> and is <code>0x19105F</code> (position within
+1.126 mm of the exact message where it was 0.665 mm, clock within 0.185 mm where it
+was 0.451 mm).
+The size of the changes in the sub-millimetre figures is the fit&#39;s sensitivity, not an
+error in either set: the fit is unchanged and still stops at its iteration limit.</p>
+</li>
+<li><p><strong>Seeded resampling drew different indices on a 32-bit target.</strong> <code>Rng::gen_range</code> over
+<code>usize</code> takes 64 bits from the generator on a 64-bit host and 32 bits on a 32-bit one,
+so the same seed gave other indices, and left the stream elsewhere, in the WASM build.
+Three places drew that way: the percentile bootstraps in <code>eval_stats</code> (<code>bootstrap_ci</code>,
+<code>bootstrap_auc_ci</code>), the shuffle before each training pass in <code>impairment_ml</code>, and the
+permutation test in <code>impairment_study</code>. They now draw through
+<code>portable_math::uniform_index</code>, which always samples as <code>u64</code>: exactly what a 64-bit
+host did, so no native number moves.
+<strong>This moves published numbers of the WASM package, recorded here as a revision:</strong> the
+<code>quantum-anomaly-detect</code> bootstrap interval of the area under the curve
+(<code>quantum_auc_ci</code>, <code>trade.foms[0].ci95</code>) was <code>[0.9901265, 0.9938305]</code> in the browser
+and is now the native <code>[0.99035875, 0.993861]</code>.</p>
+</li>
+<li><p><strong>STK ephemeris file names from mover ids.</strong> A mover id holding a <code>/</code> or a space (a
 constellation shell and a satellite, <code>Pulsar inclined/S1-0163</code>) made the CLI panic on
-<code>--export stk</code>; each id now passes through a safe file part (letters, digits, <code>-</code>, <code>_</code>).</li>
-<li><strong>The TEME→GCRS reduction turned by 2·Δψ: the nutation matrix had the sign of Δψ
-reversed.</strong> <code>nutation::numat</code> built <code>Rx(−(ε̄+Δε))·Rz(Δψ)·Rx(ε̄)</code> where SOFA&#39;s <code>iauNumat</code>
-builds <code>Rx(−(ε̄+Δε))·Rz(−Δψ)·Rx(ε̄)</code>, so <code>nutation_matrix</code>, <code>nutation_matrix_2000a</code>,
-<code>teme_to_gcrs</code> and <code>gcrs_to_teme</code> rotated by twice the nutation in longitude, about
-25 arcseconds. Every check on the chain was a property test (proper rotation, round
-trip, a non-zero nutation contribution) that a sign slip passes; the end-to-end
-Vallado test covered TEME→PEF, TEME→ITRF and GCRS→ITRS but not TEME→GCRS. On the
-Vallado example (AIAA 2006-6753, 2004-04-06) the chain missed the published GCRF by
-1 145 m; it now lands 0.11 m from it, and the matrix equals ERFA&#39;s <code>numat</code> to 1e-14.
-<code>tests/frame_reference_vectors.rs::teme_to_gcrs_matches_vallado_gcrf</code> and
-<code>nutation::tests::nutation_matrix_matches_erfa_numat</code> both fail on the old sign. The
-CIO (Celestial Intermediate Origin) consistency test in <code>src/cio.rs</code> had put the
-resulting ~130 m disagreement down to &quot;≈ 2·EE&quot;; the residual is now 5 cm and its bound
-is tightened from 250 m to 1 m.
-<strong>This moves published numbers, recorded here as a revision:</strong> the <code>ephemeris</code> kind&#39;s
-<code>gcrs_r_m</code> and <code>gcrs_v_m_s</code> columns (about 0.8–1.0 km for the bundled ISS (International
-Space Station) scenario; its TEME, Earth-fixed, ground-track, look-angle and Doppler
-columns do not change), and <code>Propagator::position_in_frame</code> / <code>state_gcrs</code> for the GCRS
-and ITRS frames. No bundled scenario&#39;s summary line, chart or golden hash reads these
-columns. The new interoperability exports use the corrected chain: the first
-<code>orbit-sgp4-gps</code> satellite&#39;s CZML position agrees with an ERFA reduction of the same TLE
-(propagated by the <code>sgp4</code> Python package) to 2.3 cm.</li>
+<code>--export stk</code>; each id now passes through a safe file part (letters, digits, <code>-</code>, <code>_</code>).</p>
+</li>
+<li><p><strong>The TEME→GCRS nutation sign</strong>, described under &quot;Revisions to published numbers&quot;
+above because it moves published output.</p>
+</li>
 </ul>
 <h2 id="0280---2026-09-26"><a href="https://github.com/AshfordeOU/kshana/compare/v0.27.4...v0.28.0">0.28.0</a> - 2026-09-26<a class="anchor" href="#0280---2026-09-26" aria-label="Link to this section">#</a></h2>
 <h3 id="added-1">Added<a class="anchor" href="#added-1" aria-label="Link to this section">#</a></h3>
@@ -4371,7 +5027,7 @@ services, not license fees.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="glossary.html"><small>Previous</small>Glossary</a><a class="next" href="roadmap.html"><small>Next</small>Roadmap</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l3" href="#added">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed">Fixed</a><a class="l2" href="#0280---2026-09-26">0.28.0 - 2026-09-26</a><a class="l3" href="#added-1">Added</a><a class="l2" href="#0274---2026-09-26">0.27.4 - 2026-09-26</a><a class="l3" href="#fixed-1">Fixed</a><a class="l3" href="#changed-1">Changed</a><a class="l2" href="#0273---2026-09-25">0.27.3 - 2026-09-25</a><a class="l3" href="#added-2">Added</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#security">Security</a><a class="l2" href="#0272---2026-09-22">0.27.2 - 2026-09-22</a><a class="l3" href="#added-3">Added</a><a class="l3" href="#fixed-3">Fixed</a><a class="l3" href="#changed-3">Changed</a><a class="l2" href="#0271---2026-09-22">0.27.1 - 2026-09-22</a><a class="l3" href="#fixed-4">Fixed</a><a class="l3" href="#changed-4">Changed</a><a class="l2" href="#0270---2026-09-22">0.27.0 - 2026-09-22</a><a class="l3" href="#added-4">Added</a><a class="l3" href="#changed-5">Changed</a><a class="l3" href="#fixed-5">Fixed</a><a class="l2" href="#0260---2026-09-18">0.26.0 - 2026-09-18</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#changed-6">Changed</a><a class="l3" href="#fixed-6">Fixed</a><a class="l2" href="#0250---2026-07-15">0.25.0 - 2026-07-15</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-7">Changed</a><a class="l3" href="#fixed-7">Fixed</a><a class="l2" href="#0240---2026-07-09">0.24.0 - 2026-07-09</a><a class="l3" href="#added-7">Added</a><a class="l3" href="#changed-8">Changed</a><a class="l3" href="#fixed-8">Fixed</a><a class="l2" href="#0230---2026-06-29">0.23.0 - 2026-06-29</a><a class="l3" href="#added-8">Added</a><a class="l3" href="#changed-9">Changed</a><a class="l2" href="#0221---2026-06-29">0.22.1 - 2026-06-29</a><a class="l3" href="#fixed-9">Fixed</a><a class="l3" href="#changed-10">Changed</a><a class="l2" href="#0220---2026-06-29">0.22.0 - 2026-06-29</a><a class="l3" href="#added-9">Added</a><a class="l3" href="#changed-11">Changed</a><a class="l3" href="#fixed-10">Fixed</a><a class="l3" href="#tests">Tests</a><a class="l2" href="#0210---2026-06-26">0.21.0 - 2026-06-26</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#changed-12">Changed</a><a class="l2" href="#0200---2026-06-22">0.20.0 - 2026-06-22</a><a class="l3" href="#added-11">Added</a><a class="l3" href="#changed-13">Changed</a><a class="l2" href="#0190---2026-06-18">0.19.0 - 2026-06-18</a><a class="l3" href="#changed-14">Changed</a><a class="l3" href="#security-1">Security</a><a class="l2" href="#0180---2026-06-17">0.18.0 - 2026-06-17</a><a class="l3" href="#added-12">Added</a><a class="l3" href="#fixed-11">Fixed</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l2" href="#0290---2026-10-01">0.29.0 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers">Revisions to published numbers</a><a class="l3" href="#added">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed">Fixed</a><a class="l2" href="#0280---2026-09-26">0.28.0 - 2026-09-26</a><a class="l3" href="#added-1">Added</a><a class="l2" href="#0274---2026-09-26">0.27.4 - 2026-09-26</a><a class="l3" href="#fixed-1">Fixed</a><a class="l3" href="#changed-1">Changed</a><a class="l2" href="#0273---2026-09-25">0.27.3 - 2026-09-25</a><a class="l3" href="#added-2">Added</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#security">Security</a><a class="l2" href="#0272---2026-09-22">0.27.2 - 2026-09-22</a><a class="l3" href="#added-3">Added</a><a class="l3" href="#fixed-3">Fixed</a><a class="l3" href="#changed-3">Changed</a><a class="l2" href="#0271---2026-09-22">0.27.1 - 2026-09-22</a><a class="l3" href="#fixed-4">Fixed</a><a class="l3" href="#changed-4">Changed</a><a class="l2" href="#0270---2026-09-22">0.27.0 - 2026-09-22</a><a class="l3" href="#added-4">Added</a><a class="l3" href="#changed-5">Changed</a><a class="l3" href="#fixed-5">Fixed</a><a class="l2" href="#0260---2026-09-18">0.26.0 - 2026-09-18</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#changed-6">Changed</a><a class="l3" href="#fixed-6">Fixed</a><a class="l2" href="#0250---2026-07-15">0.25.0 - 2026-07-15</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-7">Changed</a><a class="l3" href="#fixed-7">Fixed</a><a class="l2" href="#0240---2026-07-09">0.24.0 - 2026-07-09</a><a class="l3" href="#added-7">Added</a><a class="l3" href="#changed-8">Changed</a><a class="l3" href="#fixed-8">Fixed</a><a class="l2" href="#0230---2026-06-29">0.23.0 - 2026-06-29</a><a class="l3" href="#added-8">Added</a><a class="l3" href="#changed-9">Changed</a><a class="l2" href="#0221---2026-06-29">0.22.1 - 2026-06-29</a><a class="l3" href="#fixed-9">Fixed</a><a class="l3" href="#changed-10">Changed</a><a class="l2" href="#0220---2026-06-29">0.22.0 - 2026-06-29</a><a class="l3" href="#added-9">Added</a><a class="l3" href="#changed-11">Changed</a><a class="l3" href="#fixed-10">Fixed</a><a class="l3" href="#tests">Tests</a><a class="l2" href="#0210---2026-06-26">0.21.0 - 2026-06-26</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#changed-12">Changed</a><a class="l2" href="#0200---2026-06-22">0.20.0 - 2026-06-22</a><a class="l3" href="#added-11">Added</a><a class="l3" href="#changed-13">Changed</a><a class="l2" href="#0190---2026-06-18">0.19.0 - 2026-06-18</a><a class="l3" href="#changed-14">Changed</a><a class="l3" href="#security-1">Security</a><a class="l2" href="#0180---2026-06-17">0.18.0 - 2026-06-17</a></nav>
 </div>
 </main>
 
@@ -4384,8 +5040,8 @@ services, not license fees.</li>
       <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -4398,7 +5054,7 @@ services, not license fees.</li>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

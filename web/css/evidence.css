@@ -253,8 +253,90 @@ section.block.ev-res{padding-top:clamp(40px,4vw,56px)}
 .cite{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:clamp(24px,4vw,56px)}
 @media (max-width:900px){.cite{grid-template-columns:minmax(0,1fr)}}
 .cite .h2{margin-top:12px}
-.cite .lede{margin:14px 0 26px}
-.pubs{margin:12px 0 0;padding-left:18px;display:grid;gap:10px;font-size:14.5px;color:var(--ink-2)}
+.cite .lede{margin:10px 0 18px}
+/* 06 research: one card per paper (build.py pubs). Two columns; when the count is odd the newest
+   paper spans the row as a featured card, so every row is full whatever the count. Each research
+   area has a line icon and an accent from the theme tokens: --acc (text, rule, chip) and --acc-s
+   (the chart line on the dark chart panel, as on every site chart). */
+.pub-lunar{--acc:var(--orb);--acc-s:var(--s-orb)}
+.pub-timing{--acc:var(--tim);--acc-s:var(--s-tim)}
+.pub-resilience{--acc:var(--itg);--acc-s:var(--s-itg)}
+.pub-rf{--acc:var(--spf);--acc-s:var(--s-spf)}
+.pubs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-bottom:10px;interpolate-size:allow-keywords}
+.pub{padding:13px 18px 8px;display:grid;grid-template-columns:minmax(0,1fr);grid-template-areas:"a" "x";gap:8px 18px;align-content:start;min-width:0;overflow:hidden}
+.pub::after{content:"";position:absolute;left:0;right:0;top:0;height:3px;background:var(--acc);opacity:.9}
+.js .pub.rv.in{transition:opacity .9s var(--obs-ease),transform .25s ease,box-shadow .25s ease}
+.js .pub.rv.in:hover{transform:translateY(-2px);box-shadow:var(--shadow),0 10px 28px -14px color-mix(in srgb,var(--acc) 45%,transparent)}
+.pub-a{grid-area:a;display:flex;flex-direction:column;gap:6px;min-width:0}
+.pub-fig{grid-area:f;margin:0;padding:0;display:flex;flex-direction:column;gap:5px;min-width:0}
+.pub-foot{grid-area:x}
+.pubs>.pub:first-child:nth-last-child(odd){grid-column:1/-1;grid-template-columns:minmax(0,1fr) minmax(0,1.05fr);grid-template-areas:"a f" "x f";grid-template-rows:auto 1fr}
+.pubs>.pub:first-child:nth-last-child(odd) .pub-foot{align-self:end}
+.pub-meta{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:4px 10px;font:500 12px/1.3 var(--mono);color:var(--ink-3)}
+.pub-area{display:inline-flex;align-items:center;gap:6px;padding:2px 8px 2px 5px;border-radius:999px;color:var(--acc);background:color-mix(in srgb,var(--acc) 9%,transparent);font-weight:600}
+.pub-ic{width:16px;height:16px;fill:none;stroke:currentColor;stroke-width:1.6;stroke-linecap:round;stroke-linejoin:round;flex:none}
+.pub-t{margin:0;overflow-wrap:break-word;font-size:clamp(16px,1.3vw,18px)}
+.pub-sum{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.pub .pub-ab{display:inline;margin-left:4px}
+.pub-links{margin:0;display:flex;flex-wrap:wrap;align-items:center;gap:6px 10px}
+.pub-links .tbtn svg{width:12px;height:12px}
+.pub-doi{font:500 12px/1.3 var(--mono);color:var(--ink-2);overflow-wrap:anywhere}
+.pub-plot{border-radius:12px;overflow:hidden;background:var(--space);box-shadow:0 0 0 1px var(--space-line)}
+.pub-svg{display:block;width:100%;height:auto}
+@media (max-width:600px){.pub-plot{overflow-x:auto}.pub-svg{min-width:440px}}
+.pub-svg .c-axis{font-size:10.5px}
+.pub-svg .pb{fill:var(--acc-s)}
+.pub-svg .c-line{stroke:var(--acc-s);stroke-width:2}
+.pub-svg .pp{fill:var(--acc-s)}
+.pub-svg g.pp{fill-opacity:.62}
+.pub-svg .pv{fill:var(--space-ink);font-size:10.5px;font-weight:600;paint-order:stroke;stroke:var(--space);stroke-width:3px;stroke-linejoin:round}
+.pub-svg .pv-in{fill:var(--space);stroke:none}
+.pub-svg .pref{stroke:var(--space-ink-2);stroke-dasharray:3 3;stroke-width:1}
+.pub-svg .pref-t{fill:var(--space-ink-2);font-size:10px;paint-order:stroke;stroke:var(--space);stroke-width:3px;stroke-linejoin:round}
+.pub-prov{gap:4px 10px;font-size:11px}
+.pub-prov .prov-open{min-height:22px}
+/* draw-in: the resting state is the finished chart; the animation runs only once the figure is in
+   view (site.js adds .anim-in to [data-anim]) and never under reduced motion */
+.pub-svg .pd{stroke-dasharray:1;stroke-dashoffset:0}
+.pub-fig.anim-in .pd{animation:pub-draw 1.2s var(--obs-ease)}
+.pub-fig.anim-in .pb{transform-box:fill-box;transform-origin:left center;animation:pub-grow .9s var(--obs-ease)}
+.pub-fig.anim-in .pp{animation:pub-pop .8s ease}
+@keyframes pub-draw{from{stroke-dashoffset:1}}
+@keyframes pub-grow{from{transform:scaleX(0)}}
+@keyframes pub-pop{from{opacity:0}}
+.pub-foot{margin-top:auto;display:flex;flex-wrap:wrap;align-items:flex-start;gap:0 14px;border-top:1px solid var(--line);padding-top:6px;min-width:0}
+.pub-more{min-width:0}
+.pub-more[open]{flex:1 1 100%;order:9}
+.pub-more summary{cursor:pointer;font:500 12px/1.6 var(--mono);color:var(--ink-2);min-height:28px;display:flex;align-items:center;gap:7px;list-style:none;border-radius:6px}
+.pub-more summary::-webkit-details-marker{display:none}
+.pub-more summary::before{content:"";width:6px;height:6px;border-right:1.5px solid var(--acc,currentColor);border-bottom:1.5px solid var(--acc,currentColor);transform:rotate(-45deg);transition:transform .25s ease;flex:none}
+.pub-more[open] summary::before{transform:rotate(45deg)}
+.pub-more summary:hover{color:var(--ink)}
+.pub-more summary:focus-visible{outline:2px solid var(--acc,var(--cyan));outline-offset:2px}
+.pub-more::details-content{block-size:0;overflow:clip;transition:block-size .3s ease,content-visibility .3s allow-discrete}
+.pub-more[open]::details-content{block-size:auto}
+.pub-figd .pub-fig{padding:6px 0 8px}
+.pub-find{margin:4px 0 8px;padding-left:18px;display:grid;gap:5px;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.pub-find li::marker{color:var(--acc)}
+.pub-how{margin:4px 0 6px;font-size:13.5px;line-height:1.55;color:var(--ink-2)}
+.pub-rp{padding:4px 0 8px;display:flex;flex-direction:column;align-items:flex-start;gap:8px;min-width:0}
+.pub-rp-h{margin:0;font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.pub-rp-h code{overflow-wrap:anywhere}
+.pub-cmd{min-height:40px;font-size:12.5px;padding:4px 4px 4px 12px}
+.pub-cmd .cp{height:30px;width:30px}
+.pub-bib{padding-bottom:8px}
+.pub-more .bib-h{padding:8px 0;border-bottom:0;gap:8px}
+.pub-more pre{margin:0;padding:12px;border-radius:10px;background:var(--bg-2);overflow-x:auto;font-size:12px;line-height:1.55;color:var(--ink)}
+.pub-more .k{color:var(--cyan)}.pub-more .v{color:var(--lime)}
+.cite-eng{padding:12px 18px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:8px clamp(20px,3vw,40px);align-items:start}
+.cite-eng .card-h{margin:0;font-size:clamp(16px,1.3vw,18px)}
+.ce-a{display:flex;flex-direction:column;gap:6px;min-width:0}
+.ce-l{margin:0;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.cite-eng .apa{margin:0;font-size:13px}
+.ce-b{margin-top:0}
+@media (max-width:1180px){.pubs>.pub:first-child:nth-last-child(odd){grid-template-columns:minmax(0,1fr);grid-template-areas:"a" "f" "x"}}
+@media (max-width:900px){.pubs,.pubs>.pub:first-child:nth-last-child(odd),.cite-eng{grid-template-columns:minmax(0,1fr)}}
+@media (prefers-reduced-motion:reduce){.pub-fig .pd,.pub-fig .pb,.pub-fig .pp{animation:none!important}.pub-more::details-content,.pub-more summary::before{transition:none}.js .pub.rv.in:hover{transform:none}}
 .bib{border-radius:var(--r);overflow:hidden}
 .bib-h{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;border-bottom:1px solid var(--line);font:500 12px/1 var(--mono);color:var(--ink-3)}
 .bib pre{margin:0;padding:16px;overflow-x:auto;font-size:13px;line-height:1.55;color:var(--ink)}
@@ -314,3 +396,8 @@ section.block.ev-res{padding-top:clamp(40px,4vw,56px)}
 @media (max-width:560px){.eh-grid{grid-template-columns:repeat(15,minmax(0,1fr));gap:4px;padding:12px}.eh-count{grid-template-columns:repeat(2,minmax(0,1fr))}.eh-read{min-height:18em}}
 @media (prefers-reduced-motion:reduce){.eh-c{transition:none}}
 @media (forced-colors:active){.eh-s.v,.eh-c.v,.eh-s.p,.eh-c.p::before{background:CanvasText}.eh-s.m,.eh-c.m{box-shadow:inset 0 0 0 2px CanvasText}.eh-c.on{box-shadow:0 0 0 3px Highlight}}
+
+/* "With Pro" line: the same quiet note as on Capabilities (capabilities.css), linking the matching Editions section */
+.pro-note{margin-top:14px;padding:11px 14px;border-radius:12px;border:1px solid color-mix(in oklab,var(--magenta) 32%,transparent);background:var(--magenta-soft);font-size:14px;line-height:1.5;color:var(--ink-2)}
+.pro-note b{color:var(--ink)}
+.pro-note a{color:var(--ink);font-weight:600;text-decoration:underline;text-underline-offset:2px}

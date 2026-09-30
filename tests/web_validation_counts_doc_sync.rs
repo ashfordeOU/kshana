@@ -92,10 +92,11 @@ fn website_validation_counts_match_the_matrix() {
     let full = format!("{pair} capabilities validated");
 
     // (page, how many times the claim must appear at least). The home page states it in
-    // its evidence card and in both social-card alt texts; every other page at least in
-    // the social-card alt texts the port writes.
+    // both social-card alt texts (its evidence card phrases it as "N of M capabilities
+    // agree with independent external oracles", pinned below); every other page at least
+    // in the social-card alt texts the port writes.
     let pages: [(&str, &str, usize); 3] = [
-        ("web/index.html", include_str!("../web/index.html"), 3),
+        ("web/index.html", include_str!("../web/index.html"), 2),
         ("web/evidence.html", include_str!("../web/evidence.html"), 2),
         ("web/editions.html", include_str!("../web/editions.html"), 3),
     ];
@@ -133,6 +134,14 @@ fn website_validation_counts_match_the_matrix() {
     assert!(
         home.contains(&strip),
         "web/index.html's stat strip should read {strip:?}"
+    );
+    let card = format!(
+        "{} of {} capabilities agree with independent external oracles",
+        s.validated, s.total
+    );
+    assert!(
+        home.contains(&card),
+        "web/index.html's evidence card should read {card:?}"
     );
     let ev = visible_text(include_str!("../web/evidence.html"));
     for want in [
