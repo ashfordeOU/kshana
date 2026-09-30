@@ -287,6 +287,8 @@ impl PortableFloat for f64 {
 mod tests {
     use super::*;
 
+    // PIN-SCOPE:    six seeded draws of the portable standard-normal sampler, as f64 bit patterns
+    // PIN-EXCLUDES: nothing: each value is pinned whole, deliberately
     const STANDARD_NORMAL_PIN: [u64; 6] = [
         0xbfd406ad70868c73,
         0x3fee194e88b73279,
@@ -303,6 +305,8 @@ mod tests {
     /// nothing; the pins are what a different host is held to.
     #[test]
     fn the_portable_functions_return_the_pinned_bits_on_every_platform() {
+        // PIN-SCOPE:    the bits the portable sin, cos, exp and atan2 return for these ten arguments
+        // PIN-EXCLUDES: every other function and argument; the host library's own results
         let cases: [(&str, f64, u64); 10] = [
             ("sin", 1.7034438_f64.psin(), 0x3fefb808f91de1e0),
             ("cos", 1.7034438_f64.pcos(), 0xbfc0eddb62a69656),
