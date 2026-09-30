@@ -140,11 +140,11 @@ interval:
 
 | Model | Fit interval | SISRE orbit RMS | SISRE orbit max | SISRE with clock RMS | radial / along / cross RMS |
 |---|---|---|---|---|---|
-| `kepler16` | 60 s | 0.039 cm | 0.215 cm | 0.060 cm | 0.08 / 0.01 / 0.00 cm |
-| `kepler16` | 120 s | 0.031 cm | 0.151 cm | 0.080 cm | 0.06 / 0.01 / 0.01 cm |
-| `kepler16` | 180 s | 0.094 cm | 0.541 cm | 0.136 cm | 0.18 / 0.06 / 0.01 cm |
+| `kepler16` | 60 s | 0.041 cm | 0.179 cm | 0.062 cm | 0.09 / 0.01 / 0.00 cm |
+| `kepler16` | 120 s | 0.032 cm | 0.160 cm | 0.080 cm | 0.06 / 0.01 / 0.01 cm |
+| `kepler16` | 180 s | 0.093 cm | 0.540 cm | 0.134 cm | 0.18 / 0.06 / 0.00 cm |
 | `kepler16` | 300 s | 0.310 cm | 1.033 cm | 0.335 cm | 0.09 / 0.49 / 0.02 cm |
-| `kepler16` | 450 s | 1.690 cm | 7.536 cm | 1.694 cm | 0.72 / 2.65 / 0.04 cm |
+| `kepler16` | 450 s | 1.690 cm | 7.542 cm | 1.694 cm | 0.72 / 2.65 / 0.04 cm |
 | `kepler16` | 600 s | 2.875 cm | 10.219 cm | 2.889 cm | 1.72 / 4.42 / 0.26 cm |
 | `kepler16` | 900 s | 9.345 cm | 34.032 cm | 9.340 cm | 6.46 / 14.14 / 0.91 cm |
 | `kepler-rac` | 60 s | 0.000 cm | 0.000 cm | 0.046 cm | 0.00 / 0.00 / 0.00 cm |
@@ -178,15 +178,15 @@ Kshana's encoding:
 
 | Model | Fit interval | Parameters | Ephemeris + clock bits | SISRE orbit RMS | SISRE with clock RMS |
 |---|---|---|---|---|---|
-| `kepler16` | 60 s | 16 | 570 | 0.023 cm | 0.063 cm |
+| `kepler16` | 60 s | 16 | 570 | 0.022 cm | 0.060 cm |
 | `kepler16` | 300 s | 16 | 570 | 0.230 cm | 0.253 cm |
 | `kepler16` | 600 s | 16 | 570 | 3.061 cm | 3.052 cm |
 | `kepler-rac` | 60 s | 37 | 1045 | 0.000 cm | 0.052 cm |
 | `kepler-rac` | 300 s | 37 | 1045 | 0.005 cm | 0.113 cm |
 | `kepler-rac` | 600 s | 37 | 1045 | 0.160 cm | 0.218 cm |
-| `liu22` | 60 s | 22 | 730 | 0.012 cm | 0.052 cm |
-| `liu22` | 300 s | 22 | 730 | 0.070 cm | 0.132 cm |
-| `liu22` | 600 s | 22 | 730 | 0.270 cm | 0.303 cm |
+| `liu22` | 60 s | 22 | 730 | 0.011 cm | 0.052 cm |
+| `liu22` | 300 s | 22 | 730 | 0.068 cm | 0.131 cm |
+| `liu22` | 600 s | 22 | 730 | 0.269 cm | 0.302 cm |
 | `ecef-poly` (zero clock) | 60 s | 22 | 750 | 0.000 cm | 25.119 cm |
 | `ecef-poly` (zero clock) | 300 s | 22 | 750 | 0.005 cm | 25.119 cm |
 | `ecef-poly` (zero clock) | 600 s | 22 | 750 | 0.561 cm | 25.113 cm |
@@ -200,11 +200,11 @@ satellite's inclination:
 
 | Satellite | Altitude | Inclination | Liu et al. 2025 | Kshana (orbit-only RMS) | ratio |
 |---|---|---|---|---|---|
-| GRACE-A | 320 km | 89.00° | 8.88 cm | 5.39 cm | 0.61 |
-| GRACE-C | 475 km | 89.00° | 6.21 cm | 4.11 cm | 0.66 |
+| GRACE-A | 320 km | 89.00° | 8.88 cm | 5.40 cm | 0.61 |
+| GRACE-C | 475 km | 89.00° | 6.21 cm | 4.12 cm | 0.66 |
 | Sentinel-2A | 786 km | 98.57° | 2.87 cm | 2.95 cm | 1.03 |
 | HY-2A | 966 km | 99.34° | 2.11 cm | 2.38 cm | 1.13 |
-| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.71 cm | 0.94 |
+| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.70 cm | 0.94 |
 
 This is **not** a validation. The paper fitted real precise science orbits of the named
 satellites (with their full gravity, drag and non-gravitational history); Kshana fits its
@@ -237,11 +237,26 @@ it, checks the CRC and rejects a corrupted copy, prints the quantisation budget,
 writes and reads back the RINEX-style block and the CSV table:
 
 - frame: 171 bytes (1310 payload bits, of which 1045 are ephemeris and clock), 24-bit cyclic
-  redundancy check (CRC-24Q) `0x110315`;
+  redundancy check (CRC-24Q) `0x6A82D9`;
 - largest half-step effect of any single field: `af0`, 0.545 mm;
-- whole message after quantisation: position within 0.662 mm and clock within 0.451 mm of the exact message; SISRE 0.107 cm exact, 0.122 cm decoded;
+- whole message after quantisation: position within 1.126 mm and clock within 0.459 mm of the exact message; SISRE 0.107 cm exact, 0.128 cm decoded;
 - a frame with one flipped bit is rejected: true;
-- RINEX-style round trip within 6.6e-06 m, CSV round trip within 0.0e+00 m.
+- RINEX-style round trip within 5.0e-06 m, CSV round trip within 0.0e+00 m.
+
+## Platform independence
+
+A frame is transmitted integers, so it has to be the same integers wherever the scenario
+runs: the native binary on any operating system and the WebAssembly (WASM) build in a
+browser. The sine, cosine, arctangent and exponential of a host's mathematics library
+are not required to be correctly rounded and differ between hosts in the last place;
+the fit turns a difference that small into different quantised fields. The whole kind
+(truth orbit, fit, user algorithm, signal-in-space range error (SISRE), codec) therefore
+computes every such function with the pure-Rust `libm` crate through
+`src/portable_math.rs`, and integer powers as explicit products.
+`leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform` pins the
+171-byte frame of the encode-and-decode scenario below and one check value per ephemeris
+model; the native build and the WASM build give byte-identical result documents for
+all five bundled `leo-navmsg` scenarios.
 
 ## Binary format
 

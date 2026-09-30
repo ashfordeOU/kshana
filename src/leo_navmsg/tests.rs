@@ -475,3 +475,201 @@ fn the_binary_frame_carries_equatorial_and_twenty_minute_fits() {
         assert!(q < 3e-3, "{alt} km {inc} deg {model}: quantised {q} m");
     }
 }
+
+// ── Platform independence ─────────────────────────────────────────────────────────────
+//
+// A frame is transmitted integers. It has to be the same integers on every machine that
+// runs the scenario: the native binary on any operating system and the WebAssembly build
+// in a browser. It once was not (`0x110315` native on aarch64 macOS, `0x6A82D9` in the
+// browser, for the scenario below), because the fit started from an `acos` and an `atan2`
+// that the two platforms round differently in the last place, and eighty
+// Levenberg–Marquardt iterations turned that into different quantised fields. The kind now
+// computes every transcendental with `crate::portable_math`. These two tests keep it so.
+
+/// The whole encoded frame of `scenarios/leo-navmsg-encode-decode.toml`, as hexadecimal.
+/// Deliberately asserted on every platform, with no baseline-host gate: the claim is that
+/// the host does not matter. The same bytes were read back from the WebAssembly build.
+const ENCODE_DECODE_FRAME_HEX: &str = "\
+     A7120A400400004C30A91A78A965000A7CC08000513A00CDA2A5941CBAF3B4402DFE200A4ACFABF8\
+     01687EA568ACF15210809D49AD9FF116E3003E1307F5167FEE07303C6DAA0BF9C17FDEC9C0065318\
+     02CA85EE8FFFE040009200378FFF819FF3F80016C5002077FF811FFFFFFFFFFFFFFFFC0000700000\
+     FFFFEE000074000CAFFFBD7FF693001A9401688FFD4D833FFFC08E7CBF840F285A06E40000000040\
+     0000424310D35C486A82D9";
+
+#[test]
+fn the_encoded_frame_is_the_same_bytes_on_every_platform() {
+    let scn: LeoNavmsgScenario = toml::from_str(include_str!(
+        "../../scenarios/leo-navmsg-encode-decode.toml"
+    ))
+    .unwrap();
+    let (doc, _, _, _) = scn.compute().unwrap();
+    let ed = &doc["encode_decode"];
+    assert_eq!(ed["frame_hex"], ENCODE_DECODE_FRAME_HEX);
+    assert_eq!(ed["crc24q"], "0x6A82D9");
+    assert_eq!(ed["frame_bytes"], 171);
+
+    // One frame per ephemeris model on the same orbit, by its check value.
+    for (model, extra, crc) in [
+        ("kepler16", "", "0x3A936F"),
+        ("kepler-rac", "rac_degrees = [7, 5, 6]\n", "0x6A82D9"),
+        ("liu22", "", "0x4BF9EC"),
+        (
+            "ecef-poly",
+            "poly_degree = 6\nfit_interval_s = 60\nupdate_period_s = 60\n",
+            "0x4FDFC9",
+        ),
+    ] {
+        let src = format!(
+            "kind = \"leo-navmsg\"\nseed = 14\nanalysis = [\"encode-decode\"]\n[orbit]\n\
+             altitude_km = 550.0\ninclination_deg = 97.6\ngravity_degree = 20\n[message]\n\
+             model = \"{model}\"\n{extra}"
+        );
+        let scn: LeoNavmsgScenario = toml::from_str(&src).unwrap();
+        let (doc, _, _, _) = scn.compute().unwrap();
+        assert_eq!(doc["encode_decode"]["crc24q"], crc, "model {model}");
+    }
+}
+
+/// Every source file of the kind, read from disk so a new file is scanned without being
+/// listed here. `tests.rs` is left out: a test may compare against the host library.
+fn kind_sources() -> Vec<(String, String)> {
+    fn walk(dir: &std::path::Path, out: &mut Vec<(String, String)>) {
+        let mut entries: Vec<_> = std::fs::read_dir(dir)
+            .unwrap_or_else(|e| panic!("cannot list {}: {e}", dir.display()))
+            .map(|e| e.unwrap().path())
+            .collect();
+        entries.sort();
+        for p in entries {
+            if p.is_dir() {
+                walk(&p, out);
+            } else if p.extension().is_some_and(|x| x == "rs")
+                && p.file_name().is_some_and(|n| n != "tests.rs")
+            {
+                let text = std::fs::read_to_string(&p).unwrap();
+                out.push((p.display().to_string(), text));
+            }
+        }
+    }
+    let mut out = Vec::new();
+    let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("src/leo_navmsg");
+    walk(&root, &mut out);
+    out
+}
+
+/// The inherent `f64` methods whose result depends on the host's mathematics library.
+const PLATFORM_METHODS: [&str; 27] = [
+    "sin", "cos", "tan", "asin", "acos", "atan", "atan2", "sin_cos", "sinh", "cosh", "tanh",
+    "asinh", "acosh", "atanh", "exp", "exp2", "exp_m1", "ln", "ln_1p", "log", "log2", "log10",
+    "powf", "powi", "hypot", "cbrt", "gamma",
+];
+
+/// Every other module of the crate this kind reaches, each one read and found to be either
+/// free of host-dependent mathematics on the path taken or a `_portable` entry point. A new
+/// name fails the scan until it has been read the same way and added.
+const REVIEWED_CRATE_PATHS: [&str; 15] = [
+    "crate::portable_math::PortableFloat",
+    "crate::gravity_sh::SphericalHarmonicField",
+    "crate::egm2008_data::EGM2008_NMAX",
+    "crate::forces::EARTH_ZONALS_J2_J6",
+    "crate::forces::two_body_accel",
+    "crate::forces::zonal_accel_portable",
+    "crate::forces::drag_accel_portable",
+    "crate::forces::j2_secular_rates_portable",
+    "crate::gnss_sim::KlobucharCoeffs",
+    "crate::gnss_sim::klobuchar_delay_m_portable",
+    "crate::rinex::parse_d",
+    "crate::solar_system::units_block_from",
+    "crate::chart::frame_open",
+    "crate::chart::panel_axes",
+    "crate::celeste_iod::navmsg",
+];
+
+/// The host-dependent calls in one source text, as `line: what`.
+fn platform_calls(text: &str) -> Vec<String> {
+    let is_ident = |c: char| c.is_ascii_alphanumeric() || c == '_';
+    let mut found = Vec::new();
+    for (n, line) in text.lines().enumerate() {
+        let code = line.trim_start();
+        if code.starts_with("//") {
+            continue;
+        }
+        for m in PLATFORM_METHODS {
+            for call in [format!(".{m}("), format!("f64::{m}(")] {
+                if code.contains(&call) {
+                    found.push(format!("{}: `{call}` is the host library's", n + 1));
+                }
+            }
+        }
+        if code.contains(".acceleration(") {
+            found.push(format!(
+                "{}: `.acceleration(` is the host-library gravity field; use `.acceleration_portable(`",
+                n + 1
+            ));
+        }
+        let mut rest = code;
+        while let Some(at) = rest.find("crate::") {
+            let tail = &rest[at..];
+            let end = tail
+                .char_indices()
+                .find(|&(_, c)| !(is_ident(c) || c == ':'))
+                .map_or(tail.len(), |(i, _)| i);
+            let path = tail[..end].trim_end_matches(':');
+            let own = path.starts_with("crate::leo_navmsg");
+            if !own && !REVIEWED_CRATE_PATHS.contains(&path) {
+                found.push(format!("{}: `{path}` has not been reviewed", n + 1));
+            }
+            rest = &tail[end..];
+        }
+    }
+    found
+}
+
+#[test]
+fn the_kind_never_calls_the_host_mathematics_library() {
+    let sources = kind_sources();
+    // The scan must see the files that do the work, or a clean result means nothing.
+    for must in [
+        "truth.rs",
+        "fit.rs",
+        "elements.rs",
+        "codec.rs",
+        "mod.rs",
+        "sisre.rs",
+    ] {
+        assert!(
+            sources.iter().any(|(p, _)| p.ends_with(must)),
+            "the scan did not find {must}"
+        );
+    }
+    let mut all = Vec::new();
+    for (path, text) in &sources {
+        for f in platform_calls(text) {
+            all.push(format!("{path}:{f}"));
+        }
+    }
+    assert!(
+        all.is_empty(),
+        "host-dependent mathematics in the navigation-message kind:\n{}",
+        all.join("\n")
+    );
+}
+
+#[test]
+fn the_scan_for_host_mathematics_sees_what_it_is_meant_to() {
+    // A scan that matches nothing reads as clean, so it is shown the things it must catch.
+    let bad = "let a = x.sin();\nlet b = (y / z).atan2(w);\nlet c = f64::exp(q);\n\
+               let g = field.acceleration(r);\nlet d = crate::forces::zonal_accel(r, jn);\n\
+               let e = crate::frames::gmst(t);\n// a comment may say x.cos() freely\n";
+    let found = platform_calls(bad);
+    assert_eq!(found.len(), 6, "{found:?}");
+    // And it does not mistake the portable spellings for the host ones.
+    let good = "let a = x.psin();\nlet b = y.patan2(w);\nlet c = q.pexp().plog10();\n\
+                let g = field.acceleration_portable(r);\nlet s = v.sqrt().abs().round();\n\
+                let d = crate::forces::zonal_accel_portable(r, jn);\n\
+                let t = crate::leo_navmsg::text::calendar(w, s);\n";
+    assert!(
+        platform_calls(good).is_empty(),
+        "{:?}",
+        platform_calls(good)
+    );
+}

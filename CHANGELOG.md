@@ -792,6 +792,54 @@ had misread, mis-rounded or outlived it.
   but its description, its refusal message and the documents that list the kinds left both
   out, so an agent was told not to ask. They are named now, and a round-trip test fetches
   both tables.
+- **The low Earth orbit (LEO) navigation-message frame was not the same bytes on every
+  platform.** `scenarios/leo-navmsg-encode-decode.toml` encoded a frame with cyclic
+  redundancy check `0x110315` in the native build on aarch64 macOS and `0x6A82D9` in the
+  WebAssembly (WASM) build; `leo-navmsg-celeste-iod.toml` gave `0x6EDB2D` against
+  `0xC6E4F0`. Traced to the first diverging value: the truth orbit was bit-identical on
+  both, and the fit's starting point was not. `truth::state_to_elements` takes the
+  osculating inclination from an `acos` and the argument of perigee from an `atan2`, the
+  two platforms' mathematics libraries round those differently in the last place (over
+  20 000 arguments they disagree for 781 sines, 858 cosines, 1 931 exponentials and
+  1 899 two-argument arctangents), and the Levenberg–Marquardt fit, which on this arc
+  stops at its 80-iteration limit and not at a minimum, carried that one unit in the last
+  place into different quantised fields. The kind now computes every transcendental
+  through the new `src/portable_math.rs`, which calls the pure-Rust `libm` crate (already
+  in the dependency tree, now named in `Cargo.toml`), compiled from one source for every
+  target: `leo_navmsg::{truth, fit, elements, codec, sisre, services}` and the scenario
+  code. The shared routines the truth orbit integrates through are written once, generic
+  over the mathematics library, with a `_portable` entry point beside the existing one:
+  `gravity_sh::SphericalHarmonicField::acceleration_portable`,
+  `forces::{zonal_accel_portable, drag_accel_portable, j2_secular_rates_portable}` and
+  `gnss_sim::klobuchar_delay_m_portable`. The existing entry points are unchanged to the
+  last bit, so no other kind's number moves. Integer powers on that path are spelt out as
+  square-and-multiply, because `f64::powi` has unspecified precision.
+  `leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform` pins the
+  whole 171-byte frame and one check value per ephemeris model, on every platform and
+  with no baseline-host gate; `the_kind_never_calls_the_host_mathematics_library` reads
+  the kind's sources from disk and fails on an inherent transcendental call or on a call
+  into a module that has not been reviewed. After the change the native build and the
+  WASM build produce byte-identical result documents for all five `leo-navmsg` scenarios.
+  **This moves native numbers, recorded here as a revision.** The `leo-navmsg` kind is new
+  in this release, so nothing published moves, but every native `leo-navmsg` figure
+  quoted during development does, and the `navmsg` stage of `leo-pnt-chain` with it: the
+  native values are now the ones the WASM build already gave. `docs/LEO-NAVMSG.md` is
+  regenerated from the new results (for the encode-decode scenario: check value
+  `0x6A82D9`, position within 1.126 mm of the exact message where it was 0.665 mm).
+  The size of that last change is the fit's sensitivity, not an error in either figure:
+  the fit is unchanged and still stops at its iteration limit.
+- **Seeded resampling drew different indices on a 32-bit target.** `Rng::gen_range` over
+  `usize` takes 64 bits from the generator on a 64-bit host and 32 bits on a 32-bit one,
+  so the same seed gave other indices, and left the stream elsewhere, in the WASM build.
+  Three places drew that way: the percentile bootstraps in `eval_stats` (`bootstrap_ci`,
+  `bootstrap_auc_ci`), the shuffle before each training pass in `impairment_ml`, and the
+  permutation test in `impairment_study`. They now draw through
+  `portable_math::uniform_index`, which always samples as `u64`: exactly what a 64-bit
+  host did, so no native number moves.
+  **This moves published numbers of the WASM package, recorded here as a revision:** the
+  `quantum-anomaly-detect` bootstrap interval of the area under the curve
+  (`quantum_auc_ci`, `trade.foms[0].ci95`) was `[0.9901265, 0.9938305]` in the browser
+  and is now the native `[0.99035875, 0.993861]`.
 - **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
   constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on
   `--export stk`; each id now passes through a safe file part (letters, digits, `-`, `_`).
