@@ -579,8 +579,11 @@ const PLATFORM_METHODS: [&str; 27] = [
 
 /// Every other module of the crate this kind reaches, each one read and found to be either
 /// free of host-dependent mathematics on the path taken or a `_portable` entry point. A new
-/// name fails the scan until it has been read the same way and added.
-const REVIEWED_CRATE_PATHS: [&str; 16] = [
+/// name fails the scan until it has been read the same way and added. The one path not
+/// listed is the optional workshop preset's, registered behind [`PRESET_GATE`]: it is a
+/// table of message defaults (read, no mathematics), it is absent from a release that
+/// withholds the preset, and naming it here would break that withholding.
+const REVIEWED_CRATE_PATHS: [&str; 15] = [
     "crate::portable_math::PortableFloat",
     "crate::portable_math",
     "crate::gravity_sh::SphericalHarmonicField",
@@ -596,18 +599,22 @@ const REVIEWED_CRATE_PATHS: [&str; 16] = [
     "crate::solar_system::units_block_from",
     "crate::chart::frame_open",
     "crate::chart::panel_axes",
-    "crate::celeste_iod::navmsg",
 ];
+
+/// The attribute that compiles the optional workshop preset in.
+const PRESET_GATE: &str = "#[cfg(kshana_celeste)]";
 
 /// The host-dependent calls in one source text, as `line: what`.
 fn platform_calls(text: &str) -> Vec<String> {
     let is_ident = |c: char| c.is_ascii_alphanumeric() || c == '_';
     let mut found = Vec::new();
+    let mut gated = false;
     for (n, line) in text.lines().enumerate() {
         let code = line.trim_start();
-        if code.starts_with("//") {
+        if code.starts_with("//") || code.is_empty() {
             continue;
         }
+        let behind_gate = std::mem::replace(&mut gated, code == PRESET_GATE);
         for m in PLATFORM_METHODS {
             for call in [format!(".{m}("), format!("f64::{m}(")] {
                 if code.contains(&call) {
@@ -637,7 +644,7 @@ fn platform_calls(text: &str) -> Vec<String> {
                 .map_or(tail.len(), |(i, _)| i);
             let path = tail[..end].trim_end_matches(':');
             let own = path.starts_with("crate::leo_navmsg");
-            if !own && !REVIEWED_CRATE_PATHS.contains(&path) {
+            if !own && !behind_gate && !REVIEWED_CRATE_PATHS.contains(&path) {
                 found.push(format!("{}: `{path}` has not been reviewed", n + 1));
             }
             rest = &tail[end..];
@@ -685,6 +692,18 @@ fn the_scan_for_host_mathematics_sees_what_it_is_meant_to() {
                use rand_distr::{Distribution, Normal};\n";
     let found = platform_calls(bad);
     assert_eq!(found.len(), 7, "{found:?}");
+    // The preset's registration is exempt from the path review only behind its gate.
+    let gate = format!("{PRESET_GATE}\nuse crate::some_preset::table;\n");
+    assert!(
+        platform_calls(&gate).is_empty(),
+        "{:?}",
+        platform_calls(&gate)
+    );
+    let ungated = "use crate::some_preset::table;\n";
+    assert_eq!(platform_calls(ungated).len(), 1);
+    let gate_then_next =
+        format!("{PRESET_GATE}\nuse crate::some_preset::table;\nuse crate::other::x;\n");
+    assert_eq!(platform_calls(&gate_then_next).len(), 1);
     // And it does not mistake the portable spellings for the host ones.
     let good = "let a = x.psin();\nlet b = y.patan2(w);\nlet c = q.pexp().plog10();\n\
                 let g = field.acceleration_portable(r);\nlet s = v.sqrt().abs().round();\n\
