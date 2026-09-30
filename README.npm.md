@@ -5,7 +5,17 @@
      release tag at publish time, replace `/main/` with `/vX.Y.Z/` across this file. -->
 
 <p align="center">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/kshana-wordmark.png" alt="Kshana" width="300">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/kshana-logo-dark.svg">
+    <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/kshana-logo-light.svg" alt="Kshana: the mark, a compass reticle marking the precise instant, beside the wordmark kshana" width="300">
+  </picture>
+</p>
+
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/hero-dark.svg">
+    <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark: Kshana's mission console, drawn from a real run of the engine: a chained jamming, spoofing, holdover and integrity campaign over the 102 satellites of GPS, Galileo, BeiDou and GLONASS" width="100%">
+  </picture>
 </p>
 
 <p align="center">
