@@ -40,6 +40,9 @@ __pycache__/
 /web/pkg
 /web/scenarios
 /web/playground/pkg
+# The site's own copies of engine run reports (the Missions page links them) are site
+# content, not engine output: keep them despite the *.report.html rule above.
+!/web/assets/**/*.report.html
 
 # ANISE frame cross-validation crate: its build dir, downloaded SPICE kernels, and
 # generated reports. The crate's source + Cargo.lock ARE committed; these are not.
