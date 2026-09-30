@@ -742,7 +742,7 @@ fn permutation_samples(
     n_perms: usize,
     seed: u64,
 ) -> f64 {
-    use rand::{Rng, SeedableRng};
+    use rand::SeedableRng;
     use rand_chacha::ChaCha8Rng;
     let observed = loocv_samples(samples, lambda, by_detector).r2;
     let gaps: Vec<f64> = samples.iter().map(|s| s.gap).collect();
@@ -751,7 +751,7 @@ fn permutation_samples(
     for _ in 0..n_perms.max(1) {
         let mut g = gaps.clone();
         for i in (1..g.len()).rev() {
-            g.swap(i, rng.gen_range(0..=i));
+            g.swap(i, crate::portable_math::uniform_index(&mut rng, i + 1));
         }
         let permuted: Vec<GapSample> = samples
             .iter()
