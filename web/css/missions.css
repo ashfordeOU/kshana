@@ -189,6 +189,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .ow-list button:hover{background:var(--panel-2);color:var(--ink)}
 .ow-list button[aria-selected="true"]{background:color-mix(in oklab,var(--c) 13%,transparent);color:var(--ink)}
 .ow-list button[aria-selected="true"] i{background:var(--c)}
+.ow-list button[aria-selected="true"] small{color:var(--ink-2)}
 .ow-side .more{margin-top:auto;padding:12px 8px 2px;font:400 11px/1.5 var(--mono);color:var(--ink-3);border-top:1px solid var(--line)}
 .ow-main{padding:16px 18px 16px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,.92fr);grid-template-rows:auto 1fr auto;gap:14px 16px;min-width:0}
 .ow-params{grid-column:1/-1;display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,1.4fr) auto;gap:18px;align-items:end;padding-bottom:14px;border-bottom:1px solid var(--line)}
