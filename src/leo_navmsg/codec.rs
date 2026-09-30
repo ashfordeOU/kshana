@@ -38,6 +38,7 @@ use super::elements::{
     ClockPoly, EcefPoly, EphemerisModel, Keplerian, KlobucharSet, LeoNavMessage, Liu22Extra,
     NequickSet, RacPoly, Services, UtcOffset,
 };
+use crate::portable_math::PortableFloat;
 use serde::Serialize;
 use std::f64::consts::PI;
 
@@ -90,9 +91,9 @@ impl FieldSpec {
     /// The largest magnitude the field can carry, in its unit.
     pub fn range(&self) -> f64 {
         if self.signed {
-            (2f64.powi(self.bits as i32 - 1) - 1.0) * self.lsb
+            (2f64.ppowi(self.bits as i32 - 1) - 1.0) * self.lsb
         } else {
-            (2f64.powi(self.bits as i32) - 1.0) * self.lsb
+            (2f64.ppowi(self.bits as i32) - 1.0) * self.lsb
         }
     }
 }
@@ -331,11 +332,11 @@ pub fn quantise(spec: &FieldSpec, value: f64) -> Result<i64, String> {
     let q = (value / spec.lsb).round();
     let (lo, hi) = if spec.signed {
         (
-            -(2f64.powi(spec.bits as i32 - 1)),
-            2f64.powi(spec.bits as i32 - 1) - 1.0,
+            -(2f64.ppowi(spec.bits as i32 - 1)),
+            2f64.ppowi(spec.bits as i32 - 1) - 1.0,
         )
     } else {
-        (0.0, 2f64.powi(spec.bits as i32) - 1.0)
+        (0.0, 2f64.ppowi(spec.bits as i32) - 1.0)
     };
     if q < lo || q > hi {
         return Err(format!(
@@ -512,7 +513,7 @@ pub fn write_payload<S: Sink>(s: &mut S, msg: &LeoNavMessage) -> Result<(), Stri
                 }
                 s.put(spec, (list.len() - 1) as f64)?;
             }
-            let e = rac.tau_s.log2();
+            let e = rac.tau_s.plog2();
             if !(0.0..=15.0).contains(&e) || e.fract() != 0.0 {
                 return Err(format!(
                     "correction time scale must be a power of two from 1 s to 32768 s; got {}",
@@ -624,7 +625,7 @@ pub fn read_payload<S: Source>(s: &mut S, model: u8) -> Result<LeoNavMessage, St
             let nc = s.take(F_DEG_C)? as usize + 1;
             let nr = s.take(F_DEG_R)? as usize + 1;
             let mut rac = RacPoly {
-                tau_s: 2f64.powi(s.take(F_RAC_TAU)? as i32),
+                tau_s: 2f64.ppowi(s.take(F_RAC_TAU)? as i32),
                 ..RacPoly::default()
             };
             for name in NAMES_A.iter().take(na) {
