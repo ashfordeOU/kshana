@@ -215,7 +215,7 @@
   "playground/lib/tour.mjs": "75f894d11a334a2065ca90e8fb5806b6809189c403511d3a5e6de5f74bb9eaf0",
   "playground/lib/tour.test.mjs": "e36072f2ab6ba6f2e5df312b880955a5d8f62111d942ecee4ff2be4fef5a55ea",
   "playground/lib/views.mjs": "aca99384c32821f8f3a62daec7daa01c9b6110e282828f7be07e2218ed59f7df",
-  "playground/lib/views.test.mjs": "807ee6164106158541661e8692f9f3668edb0a250cfccf408787fa44db0ff435",
+  "playground/lib/views.test.mjs": "74d5f1921dc1fa549fafff75e06f05f324504ef1b84ecab3e422ef9e7721e262",
   "playground/native/aperture-duty-cycle.json.gz": "94a7cf8a2aca385bda039027f17feff651dd961e1b5fca37fc0ca6b0075eca81",
   "playground/native/araim-gps-galileo.json.gz": "ed05d7b4a5e49ba43e0bcc0a47515f65724e76a7cbb8eade7c29cd6773ff3231",
   "playground/native/araim-reference-check.json.gz": "bb008bc516d643ec8f070ed71d2e657e4478088eaa8ac086c4957bb479085ee9",
