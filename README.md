@@ -630,8 +630,33 @@ contract. No prices here: every paid route starts with a message to
 | | Open core | Kshana Pro | Custom study |
 |---|---|---|---|
 | **What it is** | the whole engine, free, under the AGPL-3.0 (GNU Affero General Public License, version 3), or a commercial licence for closed integration | a proprietary overlay on the open core, under contract | the answer, not the tool: a MODELLED PNT-resilience study of your system, done for you |
-| **What you get** | all 75 scenario kinds with no feature gate, deterministic from scenario, seed and engine version | audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit | sensor and resilience models calibrated to your hardware; export-controlled work under the appropriate clearance and a non-disclosure agreement; integration, training and consulting |
+| **What you get** | all 75 scenario kinds with no feature gate, deterministic from scenario, seed and engine version | audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling over the engine's published outputs | sensor and resilience models calibrated to your hardware; export-controlled work under the appropriate clearance and a non-disclosure agreement; integration, training and consulting |
 | **How to start** | [install](#install) or open [kshana.dev](https://kshana.dev) | [request a Pro evaluation](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [request a study](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+
+**What Kshana Pro builds on.** Every part of Pro works from the open engine and leaves
+it unchanged:
+
+- **Clock digital twins** use the open engine's clock model and its Allan-deviation
+  estimator: a twin is calibrated to the device's published Allan budget, then checked by
+  estimating the twin's Allan deviation with the open estimator.
+- **Trade studies** run every architecture option as an open-engine scenario, unchanged,
+  and rank the options on a figure of merit read from each run's result.
+- **Evidence packs** record, for each run, the scenario hash the open engine stamps on
+  its result, so a figure in a pack can be reproduced by re-running its scenario.
+- **Systems-engineering and programme tooling.** Kshana Pro's model-based
+  systems-engineering (MBSE) and programme tooling checks a programme's requirements
+  against runs of the open engine: it imports requirements as comma-separated values
+  (CSV), or as a documented subset of the Requirements Interchange Format (ReqIF) or of
+  Systems Modeling Language version 2 (SysML v2) text, evaluates each acceptance
+  criterion, with its unit, against the values a run wrote, and produces a verification
+  cross-reference matrix (VCRM), a SysML v2 model, a change-impact report and an offline
+  evidence pack. It re-runs and recomputes nothing, and reads only what the open engine
+  publishes: each run's `result.json` (the fields a criterion names, their units, the
+  reproducibility stamp of scenario hash, seed, engine version and schema version, and
+  the run's label and figure tiers), its `report.json` (kind, reproducibility record and
+  capability labels), the scenario file (its hash, kind, seed and parameters), the
+  field-units schema (each field's unit, provenance and evidence tier) and the
+  verification matrix (each capability's VALIDATED, MODELLED or PARTNER label).
 
 A custom study is not a certification.
 
@@ -645,8 +670,13 @@ own. For organisations that need more, Ashforde OÜ offers:
   scenarios, and priority fixes.
 - **Custom sensor models** — calibrated to your hardware, including export-sensitive
   resilience models maintained in a private overlay.
-- **Kshana Pro** — proprietary model-based systems-engineering and programme tooling
-  that plugs into the open engine to complete the workflow.
+- **Kshana Pro** — proprietary model-based systems-engineering (MBSE) and programme
+  tooling that checks a programme's requirements against runs of the open engine and
+  produces a verification cross-reference matrix (VCRM), a Systems Modeling Language
+  version 2 (SysML v2) model, a change-impact report and an offline evidence pack. It
+  re-runs nothing and reads only the engine's published outputs: each run's `result.json`
+  and `report.json`, the scenario file, the field-units schema and the verification
+  matrix's labels (the full list is under [Editions](#editions)).
 - **Training & consulting** on quantum/classical PNT performance analysis.
 
 This is the open-core model: the engine is, and stays, openly licensed; the sustaining
