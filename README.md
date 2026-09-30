@@ -630,12 +630,28 @@ contract. No prices here: every paid route starts with a message to
 | | Open core | Kshana Pro | Custom study |
 |---|---|---|---|
 | **What it is** | the whole engine, free, under the AGPL-3.0 (GNU Affero General Public License, version 3), or a commercial licence for closed integration | a proprietary overlay on the open core, under contract | the answer, not the tool: a MODELLED PNT-resilience study of your system, done for you |
-| **What you get** | all 75 scenario kinds with no feature gate, deterministic from scenario, seed and engine version | audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling over the engine's published outputs | sensor and resilience models calibrated to your hardware; export-controlled work under the appropriate clearance and a non-disclosure agreement; integration, training and consulting |
+| **What you get** | all 75 scenario kinds with no feature gate, deterministic from scenario, seed and engine version | the programme answers over the same engine: the Pareto front of a design space, with every front design as a scenario the free engine re-runs; uncertainty and sensitivity over thousands of runs; a one-command mission dossier with a verification matrix and a PDF (Portable Document Format) file; audit-grade, reproducible evidence packs; clock digital twins calibrated to your device's published Allan budget; architecture trade studies ranked on a figure of merit; model-based systems-engineering (MBSE) and programme tooling over the engine's published outputs | sensor and resilience models calibrated to your hardware; export-controlled work under the appropriate clearance and a non-disclosure agreement; integration, training and consulting |
 | **How to start** | [install](#install) or open [kshana.dev](https://kshana.dev) | [request a Pro evaluation](mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation) | [request a study](mailto:contact@ashforde.org?subject=Kshana%20custom%20study) |
+
+**Same engine, amplified.** Open Kshana runs one scenario and shows the result. Kshana Pro
+is a strict superset that answers the programme's next questions over the same engine and
+the same scenario files, and adds no physical model of its own. Every capability, the
+question it answers, what it produces and what it does not do are in
+[`docs/PRO.md`](docs/PRO.md):
+
+| The programme's question | Kshana Pro |
+|---|---|
+| Which design should we fly? | a **design optimiser**: the Pareto front of a design space over any open scenario kind (a constellation around the Earth, the Moon or Mars, or a link budget), its knee, and each front design written out as a plain scenario file |
+| How sure are we, and what drives the result? | **uncertainty and sensitivity**: stated input uncertainties give confidence bands, the probability of meeting a limit and a ranking of the inputs that drive the result, over thousands of runs that can be stopped and resumed |
+| Does the mission meet its requirements, and can we hand that over? | a **mission dossier** in one command: every requirement checked against real runs, a verification matrix with its open items, and a PDF, HTML (HyperText Markup Language) and JSON dossier in which every number can be re-derived with the free engine |
 
 **What Kshana Pro builds on.** Every part of Pro works from the open engine and leaves
 it unchanged:
 
+- **The design optimiser, the uncertainty study and the mission dossier** run open-engine
+  scenarios through the engine's public interface and compute every number from the runs'
+  results. Each output keeps the VALIDATED, MODELLED or PARTNER tier the open engine gave
+  each figure, never a higher one.
 - **Clock digital twins** use the open engine's clock model and its Allan-deviation
   estimator: a twin is calibrated to the device's published Allan budget, then checked by
   estimating the twin's Allan deviation with the open estimator.
@@ -677,6 +693,9 @@ own. For organisations that need more, Ashforde OÜ offers:
   re-runs nothing and reads only the engine's published outputs: each run's `result.json`
   and `report.json`, the scenario file, the field-units schema and the verification
   matrix's labels (the full list is under [Editions](#editions)).
+- **Kshana Pro design, uncertainty and mission tooling** — the Pareto front of a design
+  space, uncertainty and sensitivity over thousands of runs, and a one-command mission
+  dossier with a verification matrix and a PDF; see [`docs/PRO.md`](docs/PRO.md).
 - **Training & consulting** on quantum/classical PNT performance analysis.
 
 This is the open-core model: the engine is, and stays, openly licensed; the sustaining
@@ -698,6 +717,7 @@ Contact **contact@ashforde.org** · [ashforde.org](https://ashforde.org).
 | [Reproducibility &amp; provenance](docs/REPRODUCIBILITY.md) | reviewers / packagers | determinism guarantees, golden-pinning, SBOM (software bill of materials), build provenance |
 | [Wheel platform tags](docs/WHEEL_TAGS.md) | packagers | the abi3 Python wheel matrix — which platform tag `pip install kshana` resolves |
 | [Positioning](docs/POSITIONING.md) | evaluators | where Kshana sits vs RTKLIB/gLAB (complementary), and the zero-install browser tier |
+| [Kshana Pro](docs/PRO.md) | evaluators / programme managers | what the proprietary Pro overlay adds over the same engine: design optimiser, uncertainty and sensitivity, mission dossier, requirements traceability; what each produces and what it does not do |
 | [Technical report](paper/kshana-technical-report.md) · [JOSS paper](paper/paper.md) | reviewers / citers / evaluators | the full extended research paper — architecture, per-domain models, validation, case studies, and limitations — plus the concise JOSS (Journal of Open Source Software) submission |
 | [SGP4 validation](docs/SGP4-VALIDATION.md) | reviewers / citers | agreement with the AIAA 2006-6753 reference (666 states, ~4 mm) **and** a head-to-head against the independent `sgp4` crate (agree to sub-micron / 4.12 mm) |
 | [Force-model validation](docs/AGENCY-ORBIT-VALIDATION.md) | reviewers / citers | the full-force engine (`src/precise_od.rs`) fit to agency ephemerides — methodology and validated residuals |
