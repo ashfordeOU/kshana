@@ -1,18 +1,23 @@
 <!-- SPDX-License-Identifier: AGPL-3.0-only -->
 # Python API
 
-Kshana ships first-class Python bindings (built with [PyO3](https://pyo3.rs) and
-[maturin](https://www.maturin.rs)), with `abi3` wheels that work across CPython
-≥ 3.9. A bundled type stub (`kshana.pyi` + `py.typed`) gives editors and
-`mypy`/`pyright` full type information.
+Kshana ships a first-class Python application programming interface (API), built with
+[PyO3](https://pyo3.rs) and [maturin](https://www.maturin.rs). Its `abi3` wheels are
+built against the stable Python application binary interface (ABI), so one wheel per
+platform works across CPython ≥ 3.9; wheels cover Linux, macOS and Windows, each on
+x86-64 and 64-bit ARM (see [WHEEL_TAGS.md](WHEEL_TAGS.md)). A bundled type stub
+(`kshana.pyi` + `py.typed`) gives editors and `mypy`/`pyright` full type information.
 
 ```bash
-pip install kshana            # from PyPI (release wheels)
+pip install kshana            # from the Python Package Index, PyPI (release wheels)
 # or, from a checkout:
 pip install maturin && maturin develop --features python
 ```
 
 ## Quickstart
+
+Run these snippets from the root of a repository checkout: they read scenario files
+under `scenarios/`. The NumPy line needs `pip install numpy`.
 
 ```python
 import kshana
@@ -43,7 +48,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `scenario_kinds` | `() -> list[dict]` | available scenario kinds + metadata (parsed) |
 | `list_kinds` | `() -> str` | the same metadata as ONE JSON-array string, not a list (kept for existing callers; use `scenario_kinds` for the parsed list) |
 | `validate_toml` | `(toml: str) -> list[str]` | error messages (empty if valid) |
-| `error_kind` | `(toml: str) -> str \| None` | failure-category tag, or `None` on success |
+| `error_kind` | `(toml: str) -> str \| None` | failure-category tag (`invalid_input`, `non_convergence`, `unsupported` or `io_error`), or `None` on success |
 | `version` / `__version__` | `() -> str` / `str` | engine version |
 
 ### `RunOutput`
@@ -59,13 +64,15 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 
 ### The reproducibility table
 
-`realtime-frame-eop`, `lunar-time-budget` and `lunar-jamming` always publish a table;
-`moonlight-service-volume` publishes one when an export site (`export_site_lat_deg` +
-`export_site_lon_deg`) is configured. Every other kind returns `csv = None`. The text is
+`realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, `telecom-timing` and
+`leo-navmsg` always publish a table; `moonlight-service-volume` publishes one when an
+export site (`export_site_lat_deg` + `export_site_lon_deg`) is configured. Every other kind returns `csv = None`. The text is
 the same bytes the CLI (command-line interface) writes as `<scenario>.table.csv`, so a reviewer reproducing a
 published table from the wheel never has to drop to the command line:
 
 ```python
+import kshana
+
 out = kshana.run_typed(open("scenarios/realtime-frame-eop.toml").read())
 if out.csv is not None:
     print(out.write_csv("table.csv"), "bytes written")
@@ -77,9 +84,9 @@ The figures of merit and the time series live **per run side**, not at the top l
 For a clock run the document is:
 
 ```text
-schema_version  engine_version  scenario_hash  seed  threshold_ns  units
-quantum   → fom · series · adev_curve · filter_health · spec
-classical → fom · series · adev_curve · filter_health · spec
+schema_version  engine_version  scenario_hash  seed  threshold_ns  units  figure_tiers
+quantum   → spec · series · fom · adev_curve · filter_health
+classical → spec · series · fom · adev_curve · filter_health
 ```
 
 so the figures of merit are `data["quantum"]["fom"]`, never `data["figures_of_merit"]`.
@@ -93,8 +100,8 @@ guide is [`SCHEMA.md`](SCHEMA.md).
   parse, configuration, *and* runtime errors. They never raise.
 - `run` / `run_typed` raise `ValueError` on an invalid scenario.
 - Results are reproducible: a scenario carries its `seed` and the engine records a
-  `scenario_hash`, so the same input yields byte-identical output (see
-  [`VALIDATION.md`](VALIDATION.md)).
+  `scenario_hash`, so the same input yields byte-identical output on the same platform
+  (see [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)).
 - A first-class NumPy return type (`RunOutput` exposing `np.ndarray` time series
   directly, rather than via `np.asarray(out.data()[...])`) and a published Colab
   notebook are planned follow-ons.

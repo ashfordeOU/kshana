@@ -1,8 +1,8 @@
 # Scenario kinds
 
-The 75 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML fields.
+The 75 built-in scenario kinds that `kshana::api::run_toml` dispatches over, each with its one-line description and its required / optional TOML (Tom's Obvious, Minimal Language) fields.
 
-This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP server's `list_scenario_kinds` tool, and the WASM playground) exposes this same catalogue, so what is listed here is exactly what every surface can run.
+This file is **generated** from `api::list_scenario_kinds()` — the single source of truth — by `cargo run --bin gen_validation_artifacts`; edit the source, not this file. Every binding (the Python package, the MCP (Model Context Protocol) server's `list_scenario_kinds` tool, and the WebAssembly (WASM) playground) exposes this same catalogue, so what is listed here is exactly what every surface can run. The descriptions are terse and do not always expand their abbreviations; every one is spelled out in [GLOSSARY.md](GLOSSARY.md).
 
 Every scenario except `clock` must also set `kind = "<name>"` at the top level: a document without `kind` runs as `clock`, which is why `kind` is not repeated in any kind's required fields below. A required entry may name alternatives: `|` separates forms of which at least one must be present and `+` joins fields that must appear together, so `tle|orbit+epoch` reads "a `tle`, or an `orbit` with an `epoch`".
 

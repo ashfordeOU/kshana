@@ -18,8 +18,8 @@ For each satellite *i* with elevation `Elᵢ` and azimuth `Azᵢ` at the user, t
 Gᵢ = [ −cos Elᵢ·sin Azᵢ,  −cos Elᵢ·cos Azᵢ,  −sin Elᵢ,  1 ]
 ```
 
-with weight `wᵢ = 1/σᵢ²`, `σᵢ² = σ_flt² + σ_uire² + σ_air² + σ_tropo²` (the UDRE/GIVE/airborne/ (UDRE: user differential range error; GIVE: grid ionospheric vertical error)
-tropo budget). The position covariance is `D = (GᵀWG)⁻¹`; its ENU block gives
+with weight `wᵢ = 1/σᵢ²`, `σᵢ² = σ_flt² + σ_uire² + σ_air² + σ_tropo²` (the UDRE (user differential range error) /
+GIVE (grid ionospheric vertical error) / airborne / troposphere budget). The position covariance is `D = (GᵀWG)⁻¹`; its ENU block gives the horizontal and vertical protection levels (HPL, VPL):
 
 ```
 d_major = √( (d_E² + d_N²)/2 + √( ((d_E² − d_N²)/2)² + d_EN² ) )
@@ -36,7 +36,7 @@ reference geometry.
 
 | Mode | K_H | K_V | Source |
 |---|---|---|---|
-| En-route → NPA (horizontal only) | 6.18 | — | Rayleigh `√(−2·ln 5e-9)` = 6.1829 |
+| En-route → NPA (non-precision approach; horizontal only) | 6.18 | — | Rayleigh `√(−2·ln 5e-9)` = 6.1829 |
 | Precision Approach | **6.0** | 5.33 | DO-229E MOPS |
 
 Honesty note: the MOPS uses the rounded horizontal constant **6.0**; the exact two-sided normal
@@ -60,10 +60,22 @@ amplification for equal-variance inputs is `√(c₁² + c₅²) = 2.588`.
 ## Validation status
 
 - **In-repo, automated** (every commit): the K-factors against their distributional definitions,
-  `γ₁₅` and the IF coefficients against the IS-GPS-705 (IS: Interface Specification) frequencies, first-order iono cancellation
-  against the independent delay physics, and the WLS protection levels against a numpy `inv(GᵀG)`
-  reference geometry.
-- **Founder-gated, external**: reproducing a *published* WAAS/EGNOS (WAAS: Wide Area Augmentation System; EGNOS: European Geostationary Navigation Overlay Service) protection level from a real
-  RINEX-OBS (RINEX: Receiver Independent Exchange Format) + augmentation-message epoch (as RTKLIB (an open-source real-time kinematic positioning library) `rtkpos` / ESA (European Space Agency) gLAB do) requires
-  Earthdata-authenticated CDDIS (Crustal Dynamics Data Information System) data and is tracked as a roadmap item. DO-229E/DO-316 themselves
-  are RTCA-paywalled; the open derivation source is ESA Navipedia's ICAO/EGNOS (ICAO: International Civil Aviation Organization) SBAS pages.
+  `γ₁₅` and the ionosphere-free (IF) coefficients against the IS-GPS-705 (IS: Interface
+  Specification) frequencies, first-order iono cancellation against the independent delay
+  physics, and the weighted-least-squares (WLS) protection levels against a numpy
+  `inv(GᵀG)` reference geometry (`sbas::tests::wls_pl_matches_numpy_on_five_satellite_geometry`).
+- **External oracle, automated** (`tests/sbas_reference.rs`): given each satellite's
+  elevation, azimuth and total 1-σ, `sbas_protection_level` reproduces the HPL of an
+  independent implementation, `waasprotlevels()` in the RTKLIB (an open-source real-time
+  kinematic positioning library) SBAS protection-level fork `zsiki/rtklib_ws` (Siki &
+  Takács 2017), on six epochs that tool computed from **real EGNOS (European Geostationary
+  Navigation Overlay Service)** broadcast messages (geostationary PRN (pseudo-random noise
+  code number) 120) and real RINEX (Receiver Independent Exchange Format) observations
+  from the BUTE station in Budapest (2017-02-19), to **< 2e-3 m**. The oracle rounds
+  K_V to 5.33, so the vertical is compared K-factor-free, as `d_U` against its VPL / 5.33.
+  ESA (European Space Agency) gLAB v6.0.0 (`core/filter.c`) uses the same formula.
+- **Not done**: the per-satellite σ is the oracle's own; modelling σ from raw UDRE/GIVE
+  messages is out of scope, and no official published WAAS (Wide Area Augmentation
+  System) or EGNOS protection-level product has been reproduced end to end. DO-229E/DO-316
+  themselves are RTCA-paywalled; the open derivation source is ESA Navipedia's ICAO/EGNOS
+  (ICAO: International Civil Aviation Organization) SBAS pages.

@@ -1,7 +1,9 @@
 # Glossary
 
 Plain-language definitions of the terms used in Kshana. Each entry starts with a
-one-line "in plain terms" and then adds the precise meaning where it helps.
+one-line "in plain terms" and then adds the precise meaning where it helps. Abbreviations
+not defined in a section are in the A-to-Z table near the end,
+[Every other abbreviation, A to Z](#every-other-abbreviation-a-to-z).
 
 ## Navigation & timing
 
@@ -138,7 +140,8 @@ uncertainty; the Integrity figure of merit counts how often the true error stays
 
 **CEP / 2DRMS — circular error probable / twice the distance root mean square.** Two
 standard ways of stating 2-D horizontal accuracy: CEP is the radius holding 50 % of fixes;
-2DRMS is twice the root-mean-square horizontal error. Kshana does not report either yet.
+2DRMS is twice the root-mean-square horizontal error. The library can compute both from
+a position covariance (`src/fom.rs`), but no scenario kind reports them yet.
 
 ## Reading a result: the terms in the output
 
@@ -165,8 +168,9 @@ augmentation" below and [`INTEGRITY.md`](INTEGRITY.md).
 **Security score (`security`).** In plain terms: *how likely a spoofing attack is to be
 caught.* It is the probability that the configured attack is detected — one minus the
 missed-detection probability `P_md` — derived from the clock's stability. It only means something when the scenario configures a spoofing
-attack; with no attack, read any value shown as "not applicable", not as "zero
-security".
+attack. With no attack configured, the one-line summary prints `security n/a (no attack)`
+and the result marks the figure `applicable: false` in its `figure_tiers` block; the value
+stays in the document and means "not applicable", not "zero security".
 
 **PDOP — position dilution of precision (keys such as `pdop_min`).** In plain terms: *how much the
 satellite geometry magnifies ranging error into position error.* Position error is
@@ -528,6 +532,433 @@ use in those pages.
   agent server speaks. **IDE — integrated development environment.**
 - **SBOM — software bill of materials.** **SLSA — Supply-chain Levels for Software
   Artifacts**, the build-provenance framework Kshana's releases are attested under.
+
+## Every other abbreviation, A to Z
+
+Every abbreviation used in the repository documentation (`docs/` and the four READMEs)
+that no section above defines, plus a few that one does, repeated for lookup. Each page
+also spells its abbreviations out at first use; this table is the one place to look them
+all up. A few entries are identifiers or names rather than abbreviations, and say so.
+
+| Abbreviation | Stands for | Where it comes up |
+|---|---|---|
+| 3GPP | Third Generation Partnership Project | the body that writes the 5G standards, including non-terrestrial networks |
+| 5G | fifth-generation mobile network | including its non-terrestrial-network (NTN) positioning |
+| ABI | application binary interface | Python wheel tags |
+| ABMF | the IGS station at Le Moule, Guadeloupe | a four-character station identifier |
+| AC | alternating current | as in the AC-Stark (light-shift) effect |
+| ADD | Algorithm Description Document | the WG-C ARAIM reference airborne algorithm |
+| ADEV / OADEV | Allan deviation / overlapping Allan deviation | see Allan deviation above |
+| ADIS16460 / ADIS16465 / ADIS16488, STIM300, 3DM-GX3 (GX3) | inertial-sensor part numbers (Analog Devices; Safran Sensonor; MicroStrain) | identifiers, not abbreviations |
+| AEM | Attitude Ephemeris Message | a CCSDS message |
+| AESS | Aerospace and Electronic Systems Society | of the IEEE |
+| AF | averaging factor | the integer multiple of the sample interval in an Allan-type estimator |
+| AFS | Augmented Forward Signal | the LunaNet lunar navigation signal |
+| AGC | automatic gain control | a jamming indicator in a receiver front end |
+| AHP | Analytic Hierarchy Process | a multi-criteria weighting method (Saaty) |
+| AI / ML | artificial intelligence / machine learning |  |
+| AL / HAL / VAL | alert limit / horizontal alert limit / vertical alert limit | the error an integrity monitor must bound |
+| AltBOC | alternative binary offset carrier | the Galileo E5 modulation |
+| AM-HM | arithmetic mean–harmonic mean (inequality) |  |
+| AOCS | attitude and orbit control system |  |
+| AOS / TCA / LOS | acquisition of signal / time of closest approach / loss of signal | the events of a ground-station pass (LOS also means line of sight; the context says which) |
+| API | application programming interface |  |
+| APID | application process identifier | the CCSDS Space Packet header field |
+| APS | American Physical Society |  |
+| APV | approach with vertical guidance | APV-I: 40 m horizontal, 50 m vertical alert limits |
+| ARL | average run length | the mean time a change detector takes to alarm |
+| ARM / ARM64 | the Arm processor architecture / its 64-bit form |  |
+| ASD | amplitude spectral density | the square root of a power spectral density |
+| AU | astronomical unit | 149 597 870.7 km |
+| AUC / ROC | area under the curve / receiver operating characteristic | detector evaluation |
+| AWS | Amazon Web Services | hosts an open mirror of the SRTM elevation tiles |
+| BEL | building entry loss | ITU-R P.2109 |
+| BI | bias instability | the flat minimum of an inertial sensor's Allan deviation |
+| BIPM | Bureau International des Poids et Mesures (International Bureau of Weights and Measures) | publishes Circular T |
+| BKG | Bundesamt für Kartographie und Geodäsie (German Federal Agency for Cartography and Geodesy) | runs an IGS data mirror |
+| BSD | Berkeley Software Distribution | as in the BSD licences |
+| BSP | binary SPK | a binary SPICE ephemeris kernel file |
+| BSTAR | the drag term of a two-line element set |  |
+| CAI | cold-atom interferometer | see QUANTUM.md |
+| CARIOQA-PMP | Cold Atom Rubidium Interferometer in Orbit for Quantum Accelerometry – Pathfinder Mission Preparation |  |
+| CC / CC BY | Creative Commons / Creative Commons Attribution | a data or text licence |
+| CDDIS | Crustal Dynamics Data Information System | NASA's space-geodesy archive |
+| CDF | cumulative distribution function |  |
+| CFAR | constant false-alarm rate | an acquisition-detector threshold rule |
+| CGCS2000 | China Geodetic Coordinate System 2000 | the BeiDou datum |
+| CIP | Celestial Intermediate Pole |  |
+| CIRS | Celestial Intermediate Reference System |  |
+| CISA | Cybersecurity and Infrastructure Security Agency | of the US DHS |
+| CM / CL | civil moderate / civil long | the two time-multiplexed GPS L2C codes |
+| CMPL | common-mode protection level | the bound on errors a residual test cannot see |
+| CN | converged Newtonian | the SPICE light-time aberration correction |
+| C/N0 (C/N₀) | carrier-to-noise density ratio | in dB-Hz |
+| COPRAS | COmplex PRoportional ASsessment | a multi-criteria ranking method |
+| COSPAR | Committee on Space Research | issues international satellite designators |
+| CPR | cycle per revolution | an empirical orbit acceleration at the orbital frequency |
+| CPU / GPU / NPU | central / graphics / neural processing unit |  |
+| CRB / CRLB | Cramér–Rao bound / Cramér–Rao lower bound | the smallest variance an unbiased estimator can reach |
+| CRD | Consolidated laser Ranging Data format | ILRS normal-point files |
+| CRPA | controlled-reception-pattern antenna | an anti-jam antenna array |
+| CR / RI | consistency ratio / random index | the AHP consistency check (accept CR < 0.10) |
+| CS GROUP | the French company that maintains Orekit | a company name, not an abbreviation to expand |
+| CSK | code shift keying |  |
+| CSS | Cascading Style Sheets |  |
+| CSV | comma-separated values |  |
+| CUSUM | cumulative sum | a sequential change detector |
+| CV | cross-validation | (common view in time transfer; the context says which) |
+| CZML | Cesium Language | the JSON scene format of CesiumJS |
+| dB / dBW / dB-Hz | decibel / decibel-watt / decibel-hertz | power ratio, absolute power, and a C/N0 unit |
+| DC | direct current | the zero-frequency limit |
+| DCM | direction cosine matrix | a rotation matrix |
+| DCO | Developer Certificate of Origin |  |
+| DCT | design control table | a link-budget table (the JPL DESCANSO Galileo X-band example) |
+| DE / DE421 / DE430 / DE440 / DE441 | JPL Development Ephemeris (versions 421, 430, 440, 441) | planetary and lunar ephemerides; "DE-grade" means accuracy of that class |
+| DEM | digital elevation model |  |
+| DESCANSO | Deep Space Communications and Navigation Systems Center of Excellence | JPL monograph series |
+| DGFI-TUM | Deutsches Geodätisches Forschungsinstitut der Technischen Universität München (German Geodetic Research Institute at the Technical University of Munich) | hosts the EUROLAS Data Center |
+| DGNSS | differential GNSS |  |
+| DHS | Department of Homeland Security | US |
+| DoD | Department of Defense | US |
+| DOF / DoF | degree of freedom | see 1-DOF above |
+| DOI | digital object identifier |  |
+| DOR / Δ-DOR | differential one-way ranging / delta differential one-way ranging | deep-space angular tracking |
+| DP5 / RK4 / RK5 / DOP853 | Dormand–Prince 5(4) / Runge–Kutta 4 / Runge–Kutta 5 / Dormand–Prince 8(5,3) | numerical integrators |
+| DRMS | distance root mean square | see 2DRMS |
+| DS00002980D / DS00002985D / DS00003047A | Microchip datasheet document numbers | identifiers, not abbreviations |
+| DSAC | Deep Space Atomic Clock | the NASA trapped-mercury-ion clock |
+| DUT1 | UT1 minus UTC | the Earth-rotation correction |
+| Eb/N0 | energy per bit over noise density |  |
+| ECI0 | the inertial frame aligned with the Earth-fixed frame at the start of a run | used by the leo-pass interop exports |
+| ECMAScript / ES | the standard behind JavaScript / an ES module |  |
+| ECOM2 | Empirical CODE Orbit Model 2 | a GNSS solar-pressure model (CODE: Center for Orbit Determination in Europe) |
+| ECSS | European Cooperation for Space Standardization | ECSS-E-ST-10-02 is its verification standard |
+| ED | EUROCAE document | as in ED-259A |
+| EDL | entry, descent and landing |  |
+| EEE | electrical, electronic and electromechanical (parts) | space product assurance |
+| EGM / EGM2008 | Earth Gravitational Model (the 2008 release) | NGA |
+| EIGEN | European Improved Gravity model of the Earth by New techniques |  |
+| ELECTRE | ELimination Et Choix Traduisant la REalité (elimination and choice expressing reality) | an outranking multi-criteria method |
+| ELP/MPP02 | Éphéméride Lunaire Parisienne, the MPP02 version (Chapront) | an analytic lunar theory |
+| EME2000 | Earth mean equator and equinox of J2000 | an inertial frame |
+| EML | early-minus-late | a code discriminator |
+| EMT | effective monitor threshold | an ARAIM output |
+| ENU / NED | east-north-up / north-east-down | local-level frames |
+| EO | Earth observation |  |
+| EPM / EPM2021 | Ephemerides of Planets and the Moon (the 2021 release) | IAA RAS ephemeris |
+| ERA | Earth rotation angle |  |
+| ESKF | error-state Kalman filter |  |
+| ESS | effective sample size | of a particle filter |
+| ESSR | European Space Software Repository | ESA |
+| ET | ephemeris time | SPICE's name for TDB |
+| EUROCAE | European Organisation for Civil Aviation Equipment |  |
+| EUROLAS | European Laser Network | satellite and lunar laser ranging |
+| FAQ | frequently asked questions |  |
+| FCC | Federal Communications Commission | US |
+| FCNN | fully connected neural network |  |
+| FD | finite difference |  |
+| FDE | fault detection and exclusion |  |
+| FES / FES2004 | Finite Element Solution (the 2004 release) | an ocean-tide model |
+| FIM | Fisher information matrix |  |
+| FNV-1a | Fowler–Noll–Vo hash, variant 1a | used to pin golden outputs |
+| FOC / IOV | full operational capability / in-orbit validation | satellite generations (Galileo, Xona Pulsar) |
+| FOV / IFOV | field of view / instantaneous field of view |  |
+| FPGA / MCU / RTOS | field-programmable gate array / microcontroller unit / real-time operating system |  |
+| FSL / FSPL | free-space loss / free-space path loss | ITU-R P.525 |
+| GB / KB / MB | gigabyte / kilobyte / megabyte |  |
+| GCRF | Geocentric Celestial Reference Frame |  |
+| GDAL | Geospatial Data Abstraction Library |  |
+| GEO | geostationary orbit |  |
+| GeoJSON | Geographic JavaScript Object Notation | IETF RFC 7946 |
+| GG | gravity gradient | as in gravity-gradient torque |
+| GHz / kHz | gigahertz / kilohertz |  |
+| GIM | global ionosphere map |  |
+| GINS / KF-GINS | GNSS/INS integration / the Wuhan University Kalman-filter GNSS/INS data set and code |  |
+| GIS | geographic information system |  |
+| GIVE | grid ionospheric vertical error | an SBAS message term |
+| gLAB | GNSS-Lab Tool | a GNSS data-processing suite distributed by ESA |
+| GLIBC | the GNU C library |  |
+| GLONASS | Russia's Global Navigation Satellite System (Globalnaya Navigatsionnaya Sputnikovaya Sistema) |  |
+| GLS | generalised least squares |  |
+| GM | gravitational parameter | the gravitational constant times a body's mass |
+| GMAT | General Mission Analysis Tool | NASA |
+| GMM-3 | Goddard Mars Model 3 | a Mars gravity field |
+| GMST | Greenwich mean sidereal time |  |
+| GNC | guidance, navigation and control |  |
+| GPOD | Grid Processing On Demand | ESA |
+| GR | general relativity |  |
+| GRGM / GRGM660PRIM | the GRAIL lunar gravity models from NASA Goddard (GRAIL: Gravity Recovery and Interior Laboratory) |  |
+| GRS80 | Geodetic Reference System 1980 |  |
+| GSD | ground sample distance |  |
+| GSE | ground support equipment |  |
+| GSFC | Goddard Space Flight Center | NASA |
+| HDEV / OHDEV | Hadamard deviation / overlapping Hadamard deviation | a drift-insensitive stability measure |
+| HIL | hardware in the loop |  |
+| HMI / MI | hazardously misleading information / misleading information | Stanford-diagram regions |
+| HP | Hewlett-Packard |  |
+| HTML | HyperText Markup Language |  |
+| IAA RAS | Institute of Applied Astronomy of the Russian Academy of Sciences |  |
+| IAG | International Association of Geodesy |  |
+| IAGA / V-MOD (VMOD) | International Association of Geomagnetism and Aeronomy / its Working Group V-MOD (geomagnetic field modelling) | maintains the IGRF |
+| IC | initial condition |  |
+| ICAO | International Civil Aviation Organization |  |
+| ICD | interface control document | as in the Galileo OS SIS ICD |
+| ICGEM | International Centre for Global Earth Models |  |
+| ICRF | International Celestial Reference Frame |  |
+| ID | identifier (or identification, as in noise-type ID) |  |
+| IEEE | Institute of Electrical and Electronics Engineers |  |
+| IETF / RFC | Internet Engineering Task Force / Request for Comments |  |
+| IF | intermediate frequency | receiver samples |
+| IGb14 | the IGS realisation of ITRF2014 |  |
+| IGRF / IGRF14 | International Geomagnetic Reference Field | IGRF-14 (file IGRF14.shc) is the 14th generation |
+| IGSO | inclined geosynchronous orbit |  |
+| IIF | GPS Block II Follow-on | a GPS satellite generation |
+| ILRS | International Laser Ranging Service |  |
+| ILS | integer least squares | ambiguity resolution |
+| IMCCE | Institut de mécanique céleste et de calcul des éphémérides | Paris Observatory; publishes INPOP |
+| INPOP21a | Intégration Numérique Planétaire de l'Observatoire de Paris, version 21a | a planetary ephemeris |
+| IOAG | Interagency Operations Advisory Group |  |
+| ION / ITM | Institute of Navigation / its International Technical Meeting |  |
+| IoT | Internet of Things |  |
+| IR | integrity risk | the probability of hazardously misleading information |
+| IRE | Institute of Radio Engineers | a predecessor of the IEEE |
+| ISB | inter-system bias | the clock offset between two GNSS |
+| ISL | inter-satellite link |  |
+| ISM | integrity support message | ARAIM |
+| ISO | International Organization for Standardization | ISO 8601 is its date-time format |
+| ISS | International Space Station |  |
+| ITRF93 / ITRF2020 | International Terrestrial Reference Frame 1993 / 2020 |  |
+| ITU-R | International Telecommunication Union Radiocommunication Sector | its P-series Recommendations model propagation |
+| IVS | International VLBI Service for Geodesy and Astrometry |  |
+| JD / MJD | Julian date / modified Julian date |  |
+| JMLR | Journal of Machine Learning Research |  |
+| JOSA | Journal of the Optical Society of America |  |
+| JRC / JRC122785 | Joint Research Centre of the European Commission / one of its report numbers |  |
+| JS | JavaScript |  |
+| JSON | JavaScript Object Notation |  |
+| JSTSP | IEEE Journal of Selected Topics in Signal Processing |  |
+| KF | Kalman filter |  |
+| KML | Keyhole Markup Language | an OGC standard read by Google Earth |
+| KP16 / KRAC / LU22 / APOL | record-type labels of Kshana's own LEO navigation-message text format | a Kshana extension, not a standard |
+| KPI | key performance indicator |  |
+| KSC | Kennedy Space Center |  |
+| KVN | Keyword = Value Notation | the text form of CCSDS messages |
+| LANS | Lunar Augmented Navigation Service | NASA |
+| LAPACK | Linear Algebra PACKage |  |
+| LCG | linear congruential generator | the NIST SP 1065 test-series generator |
+| LCNS | Lunar Communications and Navigation Services | the ESA Moonlight service |
+| LCRNS | Lunar Communications Relay and Navigation Systems | NASA |
+| LFSR | linear-feedback shift register | spreading-code generation |
+| LGPL | GNU Lesser General Public License |  |
+| LIL | law of the iterated logarithm |  |
+| LLI / SSI | loss-of-lock indicator / signal-strength indicator | RINEX observation flags |
+| LLR | lunar laser ranging |  |
+| LLVM | the LLVM compiler infrastructure (originally Low Level Virtual Machine) |  |
+| LNAV | legacy navigation message | GPS |
+| LNCSS | lunar navigation and communication satellite system | the constellation case studies in NAVIGATION 70(4), navi.613 |
+| LNIS | LunaNet Interoperability Specification |  |
+| LNSS | Lunar Navigation Satellite System | a proposed lunar constellation |
+| LPV / LPV-200 | localiser performance with vertical guidance / its 200 ft decision-height category | aviation approach |
+| LRO | Lunar Reconnaissance Orbiter | NASA |
+| LS | leap seconds | as in Δt_LS |
+| LT | light time |  |
+| LTE | Long-Term Evolution | the 4G cellular standard |
+| LU | lower–upper (decomposition) |  |
+| LuGRE | Lunar GNSS Receiver Experiment | flew to the Moon in 2025 |
+| LuPNT | Stanford's lunar PNT library | a name |
+| MAAST | MATLAB Algorithm Availability Simulation Tool | Stanford |
+| MAIT | manufacturing, assembly, integration and test |  |
+| MAR099 / JUP365 / SAT441 | JPL satellite-ephemeris solutions for the moons of Mars, Jupiter and Saturn | identifiers |
+| MASPS | minimum aviation system performance standards |  |
+| MATLAB | MATrix LABoratory | a numerical computing product |
+| MAUT | multi-attribute utility theory |  |
+| MC | Monte Carlo |  |
+| MCD | Mars Climate Database |  |
+| MCDA | multi-criteria decision analysis |  |
+| MCI / MCMF | Moon-centred inertial / Moon-centred, Moon-fixed |  |
+| MDB | minimal detectable bias |  |
+| MDEV | modified Allan deviation |  |
+| MEMS | micro-electro-mechanical systems |  |
+| MeO / MLRO | MéO (Métrologie Optique), the Grasse laser station / Matera Laser Ranging Observatory | lunar laser-ranging stations |
+| ME / PA | mean Earth / principal axes | the two lunar body-fixed frames (MOON_ME, MOON_PA) |
+| MGEX | Multi-GNSS Experiment | IGS |
+| MIT | Massachusetts Institute of Technology | as in the MIT licence |
+| MLP | multilayer perceptron | a small neural network |
+| MOD / TOD | mean of date / true of date | equator-and-equinox frames |
+| MOORA | Multi-Objective Optimisation on the basis of Ratio Analysis |  |
+| MOPS | minimum operational performance standards |  |
+| MPL | Mozilla Public License |  |
+| MRO110 / MRO110B2 | Mars Reconnaissance Orbiter gravity models 110 and 110B2 |  |
+| MSRV | minimum supported Rust version |  |
+| MTF | modulation transfer function | optical imaging |
+| MVDR | minimum-variance distortionless response | adaptive beamforming |
+| MWL | microwave link | the ACES time-transfer link |
+| NaN | not a number |  |
+| NavIC | Navigation with Indian Constellation |  |
+| NAVISP | Navigation Innovation and Support Programme | ESA |
+| NAV / OBS | navigation (message) / observation | the two RINEX file types; the Stanford NAV Lab is the Navigation and Autonomous Vehicles Laboratory |
+| NBS / NBS14 | the former US National Bureau of Standards / the NBS14 frequency-stability reference data set | used to check Allan estimators |
+| NEES / NIS | normalised estimation error squared / normalised innovation squared | filter consistency tests |
+| NGA | National Geospatial-Intelligence Agency | US |
+| NGS / NOAA | National Geodetic Survey / National Oceanic and Atmospheric Administration | US |
+| NIMA / TR8350 | National Imagery and Mapping Agency / its technical report TR8350.2 (the WGS 84 definition) | NIMA is the former name of the NGA |
+| NLOS | non-line-of-sight | a reflected-only signal |
+| NNLS | non-negative least squares |  |
+| NORAD | North American Aerospace Defense Command | keeps the public satellite catalogue |
+| NP | Neyman–Pearson | detection theory |
+| NPA | non-precision approach | aviation |
+| NPB | nutation–precession–bias | the IAU 2006/2000A matrix |
+| NRL / NRLMSISE-00 | Naval Research Laboratory / its Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model, 2000 |  |
+| NTN | non-terrestrial network | 5G from satellites |
+| NTRS | NASA Technical Reports Server |  |
+| OC-0 … OC-13 | overclaim identifiers | rows of CLAIMS-VS-REALITY.md |
+| OCI | Open Container Initiative | container image format |
+| ODE / SDE | ordinary / stochastic differential equation |  |
+| ODM | orbit data messages | the CCSDS family that includes OEM and OMM |
+| OGC | Open Geospatial Consortium |  |
+| OLS / WLS | ordinary / weighted least squares |  |
+| OPS-SAT / OPSSAT-AD | ESA's in-orbit software laboratory satellite / its anomaly-detection data set |  |
+| OSIP | Open Space Innovation Platform | ESA |
+| OSNMA / TESLA | Open Service Navigation Message Authentication / Timed Efficient Stream Loss-tolerant Authentication | Galileo signal authentication |
+| OS / OSes | Open Service (Galileo, BeiDou), or operating system(s) | the context says which |
+| OU | Ornstein–Uhlenbeck | a mean-reverting noise process |
+| PA | product assurance (also precision approach, as in K_H,PA) | the context says which |
+| PCK | planetary constants kernel | SPICE |
+| PDF | Portable Document Format |  |
+| Pd / Pfa | probability of detection / probability of false alarm |  |
+| PEF | pseudo-Earth-fixed | the frame between TEME and ITRF |
+| PG01 / PRN120 / GSAT0101 | satellite identifiers: an SP3 GPS satellite label, an SBAS pseudorandom-noise number, a Galileo satellite name | identifiers, not abbreviations |
+| PHARAO | Projet d'Horloge Atomique par Refroidissement d'Atomes en Orbite | the ACES caesium clock |
+| PL | protection level |  |
+| PLL | phase-locked loop |  |
+| PMC / PMC10301026 | PubMed Central / one of its article identifiers |  |
+| PM / FM | phase modulation / frequency modulation | noise on a clock's phase or on its frequency |
+| PN | pseudo-noise | as in PN ranging |
+| PNG | Portable Network Graphics |  |
+| POD | precise orbit determination |  |
+| PPN | parametrised post-Newtonian |  |
+| PPP / RTK / SPP | precise point positioning / real-time kinematic / single-point positioning |  |
+| PPS | pulse per second |  |
+| PR | pull request |  |
+| PRN | pseudorandom noise (code number) | how GNSS satellites are named in signals |
+| PROMETHEE | Preference Ranking Organization METHod for Enrichment of Evaluations |  |
+| PRX | Physical Review X | a journal |
+| PSD | power spectral density | see above |
+| PS / SPS | Performance Standard / Standard Positioning Service | the GPS SPS PS |
+| PTB | Physikalisch-Technische Bundesanstalt | Germany's national metrology institute |
+| PTP | Precision Time Protocol | IEEE 1588 |
+| PVT | position, velocity and time |  |
+| PyO3 / PyPA / PyPI | the Rust–Python binding library / Python Packaging Authority / Python Package Index |  |
+| PZ-90 | Parametry Zemli 1990 | the GLONASS geodetic datum |
+| QA | quality assurance |  |
+| QEMU | Quick Emulator |  |
+| QPN | quantum projection noise |  |
+| QPSK | quadrature phase-shift keying |  |
+| QZSS | Quasi-Zenith Satellite System | Japan |
+| RAAN | right ascension of the ascending node |  |
+| RAFS | rubidium atomic frequency standard |  |
+| RDRR | Resist–Detect–Respond–Recover | the RethinkPNT/Firesmith resilience model |
+| RF | radio frequency |  |
+| RHEL | Red Hat Enterprise Linux |  |
+| RHS | right-hand side |  |
+| RMS / RSS | root mean square / root sum square |  |
+| RNG | random-number generator |  |
+| RNTF | Resilient Navigation and Timing Foundation |  |
+| ROI | return on investment |  |
+| RPCF | Resilient PNT Conformance Framework | US DHS |
+| RTCM | Radio Technical Commission for Maritime Services | its message standard carries CRC-24Q |
+| RTKLIB | an open-source GNSS positioning library (real-time kinematic library) |  |
+| RTN | radial, transverse, normal | an orbit-fixed frame |
+| RW | random walk | as in bias random walk |
+| RWFM / WFM / FFM / WPM / FPM | random-walk, white and flicker frequency modulation / white and flicker phase modulation | the power-law clock noise types |
+| SA.45s / SA65, OX-208 | Microchip product names (two chip-scale atomic clocks, an oven-controlled crystal oscillator) | names, not abbreviations |
+| SD | standard deviation |  |
+| SDD | Service Definition Document | as in the Galileo OS SDD |
+| SDK | software development kit |  |
+| SDR | software-defined radio |  |
+| SDS | Space Defense Squadron | the 18th SDS keeps the US satellite catalogue |
+| SEP | Sun–Earth–probe angle (also spherical error probable) | the context says which |
+| SGD | stochastic gradient descent |  |
+| SHA-256 | Secure Hash Algorithm, 256-bit |  |
+| SHM | simple harmonic motion |  |
+| SI | International System of Units |  |
+| SIB | Safety Information Bulletin | EASA; EASA is the European Union Aviation Safety Agency |
+| SINEX | Solution INdependent EXchange format | geodetic solutions |
+| SIR | sampling importance resampling | a particle filter |
+| SIS / SISA | signal in space / signal-in-space accuracy |  |
+| SITAN | Sandia Inertial Terrain-Aided Navigation |  |
+| SLR | satellite laser ranging |  |
+| SMAD | Space Mission Analysis and Design | the textbook |
+| SNR | signal-to-noise ratio |  |
+| SOS / SSE | sum of squares / sum of squared residuals |  |
+| SOTA | state of the art |  |
+| SP1065 | NIST Special Publication 1065 | the same document as NIST SP 1065 |
+| SPD / PD | symmetric positive definite / positive definite |  |
+| SPDX | Software Package Data Exchange | the licence identifiers in file headers |
+| SPK | SPICE kernel for spacecraft and planet ephemerides |  |
+| SPOF | single point of failure |  |
+| SQM | signal quality monitoring | correlator-shape spoofing checks |
+| SRIF | square-root information filter |  |
+| SRP | solar radiation pressure |  |
+| SRTM / SRTMHGT | Shuttle Radar Topography Mission / its height-file format | tiles are named by their south-west corner, for example N36W117 |
+| SSD | Solar System Dynamics | the JPL group |
+| STEC | slant total electron content |  |
+| STK | Systems Tool Kit | a mission-analysis product |
+| STL | Satellite Time and Location | Iridium's positioning and timing service |
+| STM | state transition matrix |  |
+| SV | space vehicle (a satellite) |  |
+| SVD | singular value decomposition |  |
+| SVG | Scalable Vector Graphics |  |
+| TAES | IEEE Transactions on Aerospace and Electronic Systems |  |
+| TC / TM | telecommand / telemetry |  |
+| TCXO | temperature-compensated crystal oscillator |  |
+| TDD | test-driven development |  |
+| TDOA / FDOA | time / frequency difference of arrival | passive emitter location |
+| TERCOM | terrain contour matching |  |
+| TEXBAT | Texas Spoofing Test Battery | recorded GNSS spoofing data (OAKBAT is a data set of the same class) |
+| TIE | time interval error |  |
+| TIES | Telecommunication Information Exchange Service | ITU member accounts |
+| ToA | time of arrival |  |
+| TOL | tolerance |  |
+| TOPSIS | Technique for Order of Preference by Similarity to Ideal Solution |  |
+| TOTDEV / TOTVAR | total deviation / total variance | extended-range stability estimators |
+| TPAMI | IEEE Transactions on Pattern Analysis and Machine Intelligence |  |
+| TPL | timing protection level | see SLOT-TIMING.md |
+| TPS | thermal protection system |  |
+| TRN | terrain-referenced navigation |  |
+| TR / TN | technical report / technical note |  |
+| TU Delft | Delft University of Technology |  |
+| TWSTFT / TWTFT | two-way satellite time and frequency transfer / two-way time and frequency transfer |  |
+| UBX | the u-blox binary receiver protocol |  |
+| UDRE | user differential range error | SBAS |
+| UERE | user-equivalent range error |  |
+| UFFC | Ultrasonics, Ferroelectrics, and Frequency Control | an IEEE Transactions |
+| UHF | ultra high frequency | 300 MHz to 3 GHz |
+| UI / UX | user interface / user experience |  |
+| ULA | uniform linear array |  |
+| ULP | unit in the last place | floating-point precision |
+| URA / URE | user range accuracy / user range error | URA bounds for integrity, URE is the accuracy RMS |
+| URL | uniform resource locator |  |
+| USGS | United States Geological Survey |  |
+| USNO | United States Naval Observatory |  |
+| USO | ultra-stable oscillator |  |
+| USSA76 | US Standard Atmosphere 1976 |  |
+| VIKOR | VIseKriterijumska Optimizacija I Kompromisno Resenje (multi-criteria optimisation and compromise solution) |  |
+| VLBI | very long baseline interferometry |  |
+| WAAS / EGNOS | Wide Area Augmentation System / European Geostationary Navigation Overlay Service | SBAS; see above |
+| WASM | WebAssembly |  |
+| WASPAS | Weighted Aggregated Sum Product ASSessment |  |
+| WG-C | Working Group C of the European Union–United States cooperation on satellite navigation | publishes the ARAIM reference documents |
+| WGCCRE | Working Group on Cartographic Coordinates and Rotational Elements | IAU |
+| WGN | white Gaussian noise |  |
+| WGS72 / WGS84 | World Geodetic System 1972 / 1984 | SGP4 uses WGS72 constants |
+| WHU | Wuhan University |  |
+| WSM / WPM | weighted sum model / weighted product model | multi-criteria aggregation (WPM also means white phase modulation; the context says which) |
+| XML | Extensible Markup Language |  |
+| XOR | exclusive or |  |
+| X / Y / Z / F (XYZF), D / I | the geomagnetic field components: north, east, down, total intensity; declination, inclination |  |
+| YAGNI | you aren't gonna need it | a design principle |
+| ZHD | zenith hydrostatic delay |  |
 
 ## Reproducibility & licensing
 
