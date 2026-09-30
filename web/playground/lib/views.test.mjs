@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-// Checked against REAL recorded engine outputs (recorded/*.json, engine v0.28.0).
+// Checked against REAL recorded engine outputs (recorded/*.json, made by the engine version in pkg/; selfcheck.mjs fails if they differ).
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
 import { seriesModel, holdoverModel, signalModel, masksModel, adevCurves, groundTrack, orbitTrackKm, keyFigures,
