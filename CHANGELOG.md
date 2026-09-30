@@ -479,7 +479,7 @@ had misread, mis-rounded or outlived it.
     `scenarios/leo-band-trade.toml`, `scenarios/xona-pulsar-signals.toml`,
     `scenarios/celeste-iod-classical-pilot-signals.toml` (the Celeste IOD bands and
     signal configuration presented at the ESA NAVISP LEO-PNT workshop, 2026; withheld with
-    the Celeste IOD preset, see "LEO-PNT end to end" above). Notes in `docs/LEO-SIGNAL.md`.
+    the Celeste IOD preset, see "LEO-PNT end to end" below). Notes in `docs/LEO-SIGNAL.md`.
   - `spectrum`: bands may now be a preset signal design (every component drawn,
     band-limited, C/N0 and J/S referred to the tracked component) or a custom carrier and
     modulation; `[[panels]]` add waterfalls over other frequency ranges on one timeline; a
@@ -524,7 +524,7 @@ had misread, mis-rounded or outlived it.
     Doppler-only signal of opportunity, CentiSpace, and Celeste IOD (in-orbit
     demonstration), whose signal parameters were presented at the ESA NAVISP LEO-PNT
     workshop, 2026, and live in `src/celeste_iod.rs` so they can be withheld (see "LEO-PNT
-    end to end" above).
+    end to end" below).
   - Public building blocks in `src/leo_link/` (geometry, antenna, itu, iono, energy,
     presets) for other modules to call.
   - Scenarios: `leo-pass-vs-gnss-cn0`, `leo-indoor-uhf`, `leo-iot-energy`,
