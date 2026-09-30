@@ -1,0 +1,140 @@
+{
+ "note": "Written by web/tools/fetch_third_party.py. Each stylesheet stands in for the Google Fonts address beside it; web/tools/port_site.py rewrites the pages to load it.",
+ "stylesheets": {
+  "https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&display=swap": {
+   "css": "bricolage-grotesque-geist-geist-mono.css",
+   "families": [
+    "Bricolage Grotesque",
+    "Geist",
+    "Geist Mono"
+   ]
+  },
+  "https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap": {
+   "css": "geist-geist-mono-unbounded.css",
+   "families": [
+    "Geist",
+    "Geist Mono",
+    "Unbounded"
+   ]
+  }
+ },
+ "files": {
+  "bricolagegrotesque-3y996as8bTXq_nANBjzKo3IeZx8z6up5L-aNGfyOPPtQPw.woff2": {
+   "sha256": "104b93499342ede4da68d37234be0e5229345f0be0b9509328f3071f5fb9e8c8",
+   "bytes": 53648,
+   "from": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y996as8bTXq_nANBjzKo3IeZx8z6up5L-aNGfyOPPtQPw.woff2"
+  },
+  "bricolagegrotesque-3y996as8bTXq_nANBjzKo3IeZx8z6up5L-eNGfyOPPtQPw.woff2": {
+   "sha256": "e1ad6fe7e770fe1587aa9911742429d456cb3e9c83969fbd9d92315667c3c5b7",
+   "bytes": 22136,
+   "from": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y996as8bTXq_nANBjzKo3IeZx8z6up5L-eNGfyOPPtQPw.woff2"
+  },
+  "bricolagegrotesque-3y996as8bTXq_nANBjzKo3IeZx8z6up5L-iNGfyOPPs.woff2": {
+   "sha256": "9fee080fcc2d2e0ea8c7ce2a58abaa8ba1f40c6e603643327cd5eb6f07db06a8",
+   "bytes": 131312,
+   "from": "https://fonts.gstatic.com/s/bricolagegrotesque/v9/3y996as8bTXq_nANBjzKo3IeZx8z6up5L-iNGfyOPPs.woff2"
+  },
+  "geist-gyByhwUxId8gMEwRGFWNOITddY4.woff2": {
+   "sha256": "b7a545bbb08256bd809f11cfe66d88da3e22d169ea4407737b1ef0ec1ed3d791",
+   "bytes": 7252,
+   "from": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwRGFWNOITddY4.woff2"
+  },
+  "geist-gyByhwUxId8gMEwSGFWNOITddY4.woff2": {
+   "sha256": "58a6b173d5ca1dec92166ea3c6cb1a84a4144556d10928ac14e8e6b40e4787bd",
+   "bytes": 16540,
+   "from": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwSGFWNOITddY4.woff2"
+  },
+  "geist-gyByhwUxId8gMEwTGFWNOITddY4.woff2": {
+   "sha256": "f689f638f29fff460a2d5749edb5d5c38d7bef0389f32032d871f23fc6ebb008",
+   "bytes": 7968,
+   "from": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwTGFWNOITddY4.woff2"
+  },
+  "geist-gyByhwUxId8gMEwYGFWNOITddY4.woff2": {
+   "sha256": "6129fc8571c3e0cb0a4c41f5160c974a843b055009dc4ad8858bd808e18a2d86",
+   "bytes": 14900,
+   "from": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwYGFWNOITddY4.woff2"
+  },
+  "geist-gyByhwUxId8gMEwcGFWNOITd.woff2": {
+   "sha256": "9b6f5ff45b278c744b5f379a2c4ecbaf858a842b8eaf82ac8d21b699ca16c608",
+   "bytes": 29288,
+   "from": "https://fonts.gstatic.com/s/geist/v5/gyByhwUxId8gMEwcGFWNOITd.woff2"
+  },
+  "geistmono-or3nQ6H-1_WfwkMZI_qYFg08vz7MhEIVVeA.woff2": {
+   "sha256": "d67e4a94ba498635f764ddca7d1ec4271f5642f032eb24b426764480f66f8497",
+   "bytes": 5892,
+   "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFg08vz7MhEIVVeA.woff2"
+  },
+  "geistmono-or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2": {
+   "sha256": "75b3bedbebc35f347c0ae3b416aa871941555357e7b0f83767eb5987875589ed",
+   "bytes": 12872,
+   "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrMdmhHkjkotbA.woff2"
+  },
+  "geistmono-or3nQ6H-1_WfwkMZI_qYFrcdmhHkjko.woff2": {
+   "sha256": "5f3d6ad60f29d6cb708414ec6887163d63bf197377ef5417d2483ff31ace6c3b",
+   "bytes": 23108,
+   "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrcdmhHkjko.woff2"
+  },
+  "geistmono-or3nQ6H-1_WfwkMZI_qYFrgdmhHkjkotbA.woff2": {
+   "sha256": "16e1d48b6dd29eb240aec5db36184eb182933c082cd43de7f35af686d58087d2",
+   "bytes": 7728,
+   "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrgdmhHkjkotbA.woff2"
+  },
+  "geistmono-or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2": {
+   "sha256": "745994b5cd950ec201b66526375f057d540847cccfc70f4f24f5f571d26d3923",
+   "bytes": 14712,
+   "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrkdmhHkjkotbA.woff2"
+  },
+  "geistmono-or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2": {
+   "sha256": "e27f657e38d52887baa3b6b2f812bef93dfdd356f0810e40edd4ee284cc7e9f6",
+   "bytes": 6204,
+   "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2"
+  },
+  "unbounded-Yq6W-LOTXCb04q32xlpwtMZfvRIkSYZH.woff2": {
+   "sha256": "54a956ea5b2cfddfea2d336dd36bfcba64f40fa8b2d41685d9d4edf4a2910ab8",
+   "bytes": 13856,
+   "from": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtMZfvRIkSYZH.woff2"
+  },
+  "unbounded-Yq6W-LOTXCb04q32xlpwtcZfvRIkSYZH.woff2": {
+   "sha256": "ed84482df7b95e6a56a113de1ba2a8d54337f499ba19d54ca697a7e15427ff5f",
+   "bytes": 117648,
+   "from": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtcZfvRIkSYZH.woff2"
+  },
+  "unbounded-Yq6W-LOTXCb04q32xlpwtsZfvRIkSYZH.woff2": {
+   "sha256": "5501f713602e4960a52d096d6a4afb72b5d163c5bf27173e93da41a6837e3a2d",
+   "bytes": 1816,
+   "from": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwtsZfvRIkSYZH.woff2"
+  },
+  "unbounded-Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2": {
+   "sha256": "d7f07f8a308ce0a7287d79a65a85cfbc0f4741ef426bf1a3902d24392cc71723",
+   "bytes": 50892,
+   "from": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwu8ZfvRIkSQ.woff2"
+  },
+  "unbounded-Yq6W-LOTXCb04q32xlpwv8ZfvRIkSYZH.woff2": {
+   "sha256": "c3880f0c5afb7890a102bc4b9c8257703664388f708b4be880ec5f5f68e8ea9d",
+   "bytes": 31460,
+   "from": "https://fonts.gstatic.com/s/unbounded/v12/Yq6W-LOTXCb04q32xlpwv8ZfvRIkSYZH.woff2"
+  }
+ },
+ "licences": {
+  "Bricolage Grotesque": {
+   "file": "OFL-bricolage-grotesque.txt",
+   "from": "https://raw.githubusercontent.com/google/fonts/main/ofl/bricolagegrotesque/OFL.txt",
+   "sha256": "4b5a7d8f37f5602621c8a8d7358a6a2e71317e6c231c661e15aef0275d3e07ba"
+  },
+  "Geist": {
+   "file": "OFL-geist.txt",
+   "from": "https://raw.githubusercontent.com/google/fonts/main/ofl/geist/OFL.txt",
+   "sha256": "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+  },
+  "Geist Mono": {
+   "file": "OFL-geist-mono.txt",
+   "from": "https://raw.githubusercontent.com/google/fonts/main/ofl/geistmono/OFL.txt",
+   "sha256": "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+  },
+  "Unbounded": {
+   "file": "OFL-unbounded.txt",
+   "from": "https://raw.githubusercontent.com/google/fonts/main/ofl/unbounded/OFL.txt",
+   "sha256": "31e5d4e83955e7103c34570dd49b0570ef490800bd65b42923c0dd02445263b3"
+  }
+ }
+}

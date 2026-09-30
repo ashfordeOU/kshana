@@ -6,6 +6,10 @@
 (function (g) {
   var RULES = {
   "embed": "playground/index.html",
+  "embedTabs": {
+    "fom": "overview",
+    "orbit3d": "orbit"
+  },
   "hash": {
     "ashforde": "editions.html#contact",
     "cite": "evidence.html#cite",
@@ -25,7 +29,13 @@
   function legacyTarget(search, hash) {
     var q = search || "";
     var h = (hash || "").replace(/^#/, "");
-    if (/(^\?|&)embed=1(&|$)/.test(q)) return RULES.embed + q + (h ? "#" + h : "");
+    if (/(^\?|&)embed=1(&|$)/.test(q)) {
+      // A tab the single-page site had and the Studio renamed opens its nearest current tab.
+      q = q.replace(/([?&]tab=)([^&]*)/, function (all, key, tab) {
+        return key + (Object.prototype.hasOwnProperty.call(RULES.embedTabs, tab) ? RULES.embedTabs[tab] : tab);
+      });
+      return RULES.embed + q + (h ? "#" + h : "");
+    }
     if (!h) return null;
     for (var p in RULES.hashPrefix) {
       if (Object.prototype.hasOwnProperty.call(RULES.hashPrefix, p) && h.indexOf(p) === 0) {
