@@ -2168,6 +2168,643 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
     ]
 }
 
+// ── Oracle basis of every VALIDATED row (the promotion rule, applied both ways) ──
+//
+// `docs/VALIDATION.md` ("The promotion rule") names the oracle kinds a VALIDATED row may
+// rest on. `OracleKind::ExternalDataset` says only that the oracle is external; the table
+// below says WHICH accepted kind it is, and names the one test that carries the
+// comparison. The unit tests in this file require every VALIDATED row to be declared
+// exactly once, the declared source to be the one the row's own oracle text names, and
+// the declared test to be one the row cites; `tests/verification_rows_declare_an_oracle_basis.rs`
+// requires that test to exist on disk as a real, non-ignored `#[test]`.
+
+/// Which accepted oracle kind backs a VALIDATED row (`docs/VALIDATION.md`, "The promotion
+/// rule"). The kinds are disjoint by what supplies the comparand, not by how strong it is.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
+pub enum OracleBasis {
+    /// Measured data: the truth is an observation of the physical world (a clock record,
+    /// telemetry with ground-truth labels, a terrain survey, laser ranging, UTC(k)).
+    Measured,
+    /// An independent third-party library or tool computes the same uniquely defined
+    /// quantity on the same inputs, and implements the domain computation itself.
+    Library,
+    /// Published reference vectors, tables or verification examples: numbers a standard,
+    /// agency or reference text prints so implementations can be checked against them.
+    Reference,
+    /// Policy P1: a published worked value computed from the same closed form the row
+    /// implements, in a publication independent of Kshana, compared at a stated tolerance.
+    P1WorkedValue,
+    /// Policy P2: an independent numerical library (numpy, SciPy, LAPACK, or an equivalent
+    /// third-party numerical core) recomputes a uniquely defined linear-algebra quantity on
+    /// stated inputs by a different algorithm than Kshana's.
+    P2NumericalLibrary,
+}
+
+/// The declared oracle basis of one VALIDATED row.
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct OracleBasisEntry {
+    /// The row's `requirement` (unique in the matrix), which keys the declaration.
+    pub requirement: &'static str,
+    /// The accepted oracle kind the row rests on.
+    pub basis: OracleBasis,
+    /// The test that carries the comparison: `tests/x.rs`, `tests/x.rs::test_fn` or
+    /// `src/m.rs::test_fn`. It must be one the row cites and a real `#[test]`.
+    pub oracle_test: &'static str,
+    /// The independent source, quoted verbatim from the row's own oracle text.
+    pub source: &'static str,
+    /// Empty when the row satisfies the written rule. Otherwise the reason it does not,
+    /// recorded rather than hidden; flagged rows are listed in `docs/VALIDATION.md`.
+    pub flag: &'static str,
+}
+
+/// The oracle basis of every VALIDATED row of [`verification_matrix`], one entry per row.
+pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
+    use OracleBasis::*;
+    vec![
+        OracleBasisEntry {
+            requirement: "Frequency stability characterisation",
+            basis: Reference,
+            oracle_test: "tests/allan_reference.rs",
+            source: "NIST SP 1065",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Frequency stability on a real measured clock",
+            basis: Library,
+            oracle_test: "tests/cs5071a_reference.rs",
+            source: "Stable32",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Allan estimator parity on the canonical Stable32 reference series",
+            basis: Library,
+            oracle_test: "tests/phasedat_reference.rs",
+            source: "Stable32",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Extended-range frequency stability (Theo1 / TOTDEV)",
+            basis: Library,
+            oracle_test: "tests/theo1_totvar_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maximum Time Interval Error (MTIE) — telecom wander metric",
+            basis: Library,
+            oracle_test: "tests/mtie_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Modified Allan / Time deviation (MDEV / TDEV)",
+            basis: Library,
+            oracle_test: "tests/mdev_tdev_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Optical-clock frequency stability on a real measured curve",
+            basis: Measured,
+            oracle_test: "tests/optical_clock_adev_reference.rs",
+            source: "Norcia",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Integrity (RAIM/ARAIM/SBAS)",
+            basis: Reference,
+            oracle_test: "tests/igs_real_data.rs::real_sp3_geometry_araim_meets_the_integrity_budget",
+            source: "DO-229E/DO-316 K-factors",
+            flag: "The cited tests check plausibility ranges (metre-level HPL/VPL, VPL > HPL, APV-I availability) on real IGS geometry; no external value is compared to a stated tolerance. The K-factors are transcribed constants and the real geometry is an input, neither is an oracle. The kernel and the protection-level values are validated in their own rows (RAIM/ARAIM statistical kernel vs SciPy, SBAS PL vs RTKLIB, ARAIM MHSS vs the WG-C worked example). Re-point this row at those tests or demote it",
+        },
+        OracleBasisEntry {
+            requirement: "Orbit propagation & determination",
+            basis: Reference,
+            oracle_test: "tests/sgp4_verification.rs",
+            source: "AIAA 2006-6753",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Numerical Cowell propagator & force model",
+            basis: Library,
+            oracle_test: "tests/numerical_cowell_propagator_reference.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Batch & sequential orbit determination",
+            basis: Library,
+            oracle_test: "tests/batch_sequential_orbit_determination_reference.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Deep-space radiometric light-time solver",
+            basis: Library,
+            oracle_test: "tests/deep_space_mars_radiometric_reference.rs",
+            source: "ANISE 0.10",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
+            basis: Library,
+            oracle_test: "tests/rinex_sp3_interop_reference.rs",
+            source: "RTKLIB v2.4.2-p13",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SP3 precise-ephemeris interpolation",
+            basis: Library,
+            oracle_test: "tests/sp3_interp_reference.rs",
+            source: "RTKLIB peph2pos",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Strapdown INS mechanization",
+            basis: Library,
+            oracle_test: "tests/classical_strapdown_ins_reference.rs",
+            source: "NaveGo v1.4",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Gravity-field functional synthesis (gravity-aided / GNSS-free nav map)",
+            basis: Reference,
+            oracle_test: "tests/icgem_gravity_reference.rs",
+            source: "GRS80",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lambert two-body transfer solver",
+            basis: Library,
+            oracle_test: "tests/lambert_reference.rs",
+            source: "lamberthub 1.0.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Reference frames & timescales",
+            basis: Reference,
+            oracle_test: "tests/frame_reference_vectors.rs",
+            source: "SOFA / ERFA reference vectors",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Ranging-code design trade",
+            basis: P1WorkedValue,
+            oracle_test: "src/navsignal.rs::gps_ca_gold_crosscorr_matches_textbook",
+            source: "Published GPS C/A Gold cross-correlation",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS geometry / dilution of precision (DOP)",
+            basis: Library,
+            oracle_test: "tests/dop_reference.rs",
+            source: "gnss_lib_py 1.0.4",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Broadcast ionosphere model (Klobuchar, IS-GPS-200)",
+            basis: Library,
+            oracle_test: "tests/klobuchar_reference.rs",
+            source: "RTKLIB ionmodel",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
+            basis: Library,
+            oracle_test: "tests/raim_reference.rs",
+            source: "SciPy 1.17.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SBAS protection level (DO-229E weighted-LS HPL/VPL)",
+            basis: Library,
+            oracle_test: "tests/sbas_reference.rs",
+            source: "RTKLIB SBAS-PL fork",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
+            basis: Library,
+            oracle_test: "tests/eval_metrics_reference.rs",
+            source: "scikit-learn 1.9.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Anomaly-detection scoring on real spacecraft telemetry",
+            basis: Library,
+            oracle_test: "tests/opssat_ad_reference.rs",
+            source: "scikit-learn roc_auc_score",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)",
+            basis: Library,
+            oracle_test: "tests/scipy_reference.rs",
+            source: "scipy 1.17.1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Geomagnetic reference field (IGRF-14 synthesis)",
+            basis: Library,
+            oracle_test: "tests/alternative_complementary_pnt_reference.rs",
+            source: "ppigrf 2.1.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Detection statistics — Gaussian AUC & minimum detectable fault",
+            basis: Library,
+            oracle_test: "tests/quantum_faults_reference.rs",
+            source: "scikit-learn roc_auc_score",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Rank-order statistics kernel (Kendall-τ / Dirichlet / percentile)",
+            basis: Library,
+            oracle_test: "tests/resilience_score_decision_instability_reference.rs",
+            source: "stats.kendalltau",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA priority-derivation kernel (AHP eigenvector / consistency ratio)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/mcda_ahp_reference.rs",
+            source: "scipy.linalg.eig",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA weighted-aggregation kernels (WSM / WPM)",
+            basis: Library,
+            oracle_test: "tests/mcda_wsm_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA distance-to-ideal ranking (TOPSIS)",
+            basis: Library,
+            oracle_test: "tests/mcda_topsis_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA compromise ranking (VIKOR)",
+            basis: Library,
+            oracle_test: "tests/mcda_vikor_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA outranking net-flow ranking (PROMETHEE II)",
+            basis: Library,
+            oracle_test: "tests/mcda_promethee_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA outranking choice kernel (ELECTRE I)",
+            basis: Library,
+            oracle_test: "tests/mcda_electre_reference.rs",
+            source: "pyDecision",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA aggregation kernels (WASPAS / MOORA)",
+            basis: Library,
+            oracle_test: "tests/mcda_waspas_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA proportional ranking (COPRAS)",
+            basis: Library,
+            oracle_test: "tests/mcda_copras_reference.rs",
+            source: "pyDecision",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CUSUM change-detection latency & ARL",
+            basis: Reference,
+            oracle_test: "tests/timing_protection_level_under_spoofing_reference.rs::cusum_arl1_matches_siegmund_and_montgomery",
+            source: "Montgomery",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Clock-holdover coast-variance & threshold inversion",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/gnss_denied_clock_holdover_reference.rs",
+            source: "scipy 1.18 (BSD-3-Clause): linalg.expm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Inverse-Simpson diversity kernel",
+            basis: Library,
+            oracle_test: "tests/resilience_diversity_reference.rs",
+            source: "scikit-bio 0.7.3",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GPS L1 C/A spreading-code generation",
+            basis: Reference,
+            oracle_test: "src/sdr.rs::ca_first_ten_chips_match_is_gps_200_octal",
+            source: "IS-GPS-200 Table 3-Ia",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Cislunar mission analysis",
+            basis: Reference,
+            oracle_test: "tests/cislunar_mission_analysis_reference.rs",
+            source: "Three-Body Periodic Orbit Database",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SRTM digital-elevation reader on real terrain",
+            basis: Measured,
+            oracle_test: "tests/terrain_nav_validation.rs::real_srtm_committed_badwater_tile_reads_real_relief",
+            source: "SRTM v3",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
+            basis: Library,
+            oracle_test: "tests/ccsds_oem_interop_reference.rs",
+            source: "B. Sease",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CCSDS Space Packet (133.0) TM/TC framing",
+            basis: Library,
+            oracle_test: "tests/ccsds_space_packet_reference.rs",
+            source: "spacepackets 0.32.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Ground-station pass prediction (ground segment)",
+            basis: Library,
+            oracle_test: "tests/ground_station_pass_prediction_reference.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "One-way link budget (comms / link design)",
+            basis: P1WorkedValue,
+            oracle_test: "tests/one_way_link_budget_reference.rs",
+            source: "JPL Pub 82-76",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar coordinate time",
+            basis: P1WorkedValue,
+            oracle_test: "tests/lunar_coordinate_time_reference.rs",
+            source: "Ashby & Patla 2024",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Fisher information & Cramér–Rao observability",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/fim_observability_reference.rs",
+            source: "numpy.linalg.eigh",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar reference-frame realisation",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_reference_frame_realisation_reference.rs",
+            source: "numpy/scipy SVD",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar navigation service volume",
+            basis: Library,
+            oracle_test: "tests/lunar_navigation_service_volume_reference.rs",
+            source: "ANISE 0.10.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Wahba/TRIAD/QUEST attitude determination",
+            basis: Library,
+            oracle_test: "tests/wahba_reference.rs",
+            source: "Rotation.align_vectors",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS square-law acquisition detection statistics",
+            basis: Library,
+            oracle_test: "tests/acquisition_reference.rs",
+            source: "scipy.stats.ncx2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CRPA anti-jam array beamforming",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/crpa_reference.rs",
+            source: "numpy.linalg",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "IEEE-1139 power-law clock noise + flicker-FM floor",
+            basis: Library,
+            oracle_test: "tests/powerlaw_oadev_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CCSDS OEM covariance-block interchange",
+            basis: Library,
+            oracle_test: "tests/ccsds_oem_covariance_reference.rs",
+            source: "oem 0.4.5",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar ARAIM protection-level kernel",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_protection_level_reference.rs",
+            source: "RTKLIB 2.4.2-p13",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "ARAIM MHSS protection levels against published reference vectors",
+            basis: Reference,
+            oracle_test: "tests/araim_reference_vectors.rs",
+            source: "Working Group C",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Built-in analytic lunar ephemeris — its STATED ACCURACY BOUND checked against real data",
+            basis: Measured,
+            oracle_test: "tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount",
+            source: "lunar laser-ranging normal points",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Composed timing PL — holdover envelope coverage, multi-year regime (tau>=90d)",
+            basis: Measured,
+            oracle_test: "tests/cti_holdover_coverage_reference.rs",
+            source: "BIPM Circular-T",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar datum identifiability - decomposition linear algebra",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference",
+            source: "SciPy/NumPy",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Coupled lunar frame and timescale gauge: the joint spatial-datum, clock-offset and clock-rate null space",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows",
+            source: "numpy/LAPACK",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Cross-provider lunar frame/dynamics consistency (real inter-ephemeris)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_interop_budget_reference.rs",
+            source: "numpy SVD least-squares",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Autonomous free-network fault-observability linear-algebra pipeline (parity projector, detectability, MDB non-centrality, Byzantine block-spark)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_faultobs_reference.rs::faultobs_matches_numpy_scipy_on_real_de440_rows",
+            source: "numpy/scipy",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Telecom-timing MTIE and TDEV on a holdover time-error series",
+            basis: Library,
+            oracle_test: "tests/telecom_timing_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Holdover prediction from a measured clock record, checked on held-out data",
+            basis: Measured,
+            oracle_test: "tests/slot_timing_cs5071a_holdout.rs::holdover_inversion_predicts_the_held_out_caesium_record",
+            source: "5071A caesium",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Closed-form L-band signal power spectral densities and spectral separation coefficients",
+            basis: P1WorkedValue,
+            oracle_test: "src/spectrum.rs::q_values_match_kaplan_hegarty",
+            source: "Kaplan & Hegarty",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Planet positions across the solar system from the JPL Standish Keplerian elements",
+            basis: Reference,
+            oracle_test: "tests/solar_system_horizons_reference.rs::standish_table1_mercury_to_saturn_within_twice_the_nominal_error",
+            source: "JPL Horizons",
+            flag: "The oracle is external (JPL Horizons, DE441) but the bar, twice the nominal error the JPL page states, was set after the first comparison. The promotion rule requires the tolerance to be stated before the comparison is run. Re-derive the bar from a published figure fixed in advance, or record the post-hoc bar as a limitation and decide whether the row keeps its status",
+        },
+        OracleBasisEntry {
+            requirement: "Light time between solar-system bodies",
+            basis: Reference,
+            oracle_test: "tests/solar_system_horizons_reference.rs::light_time_matches_horizons_within_the_position_bound",
+            source: "JPL Horizons",
+            flag: "The light-time bar is derived from the post-hoc twice-nominal Standish position bar of the planet-position row, so it inherits the same defect: the tolerance was not fixed before the first comparison",
+        },
+        OracleBasisEntry {
+            requirement: "Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS",
+            basis: Reference,
+            oracle_test: "src/constellation.rs::walker_24_3_1_reproduces_galileo_os_sdd_table_23",
+            source: "Galileo Open Service Service Definition Document",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Global dilution of precision of the GPS baseline constellation",
+            basis: Reference,
+            oracle_test: "src/constellation.rs::gps_baseline_global_dop_matches_the_sps_performance_standard",
+            source: "GPS SPS PS 5th edition",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked",
+            basis: P1WorkedValue,
+            oracle_test: "src/navsignal.rs::bpsk_power_in_band_closed_form_matches_textbook_and_numeric",
+            source: "90.3 per cent main-lobe power",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maximum Doppler of a low Earth orbit navigation satellite, which sizes the acquisition search",
+            basis: P1WorkedValue,
+            oracle_test: "src/leo_signal.rs::max_doppler_matches_published_xona_and_iridium_figures",
+            source: "Xona Pulsar X1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Rain specific-attenuation coefficients for any band a LEO-PNT link uses",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p838_coefficients_reproduce_table5_to_its_printed_digits",
+            source: "ITU-R P.838-3",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Long-term slant-path rain attenuation on an Earth-space link",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p618_rain_attenuation_matches_the_itu_validation_examples",
+            source: "validation examples",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Tropospheric amplitude scintillation on an Earth-space link",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p618_scintillation_matches_the_itu_validation_examples",
+            source: "validation examples",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Building entry loss for an indoor LEO-PNT user",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p2109_building_entry_loss_matches_the_itu_workbook",
+            source: "validation workbook",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "First-order ionospheric delay per band, the ionosphere-free combination and free-space loss",
+            basis: P1WorkedValue,
+            oracle_test: "tests/leo_link_reference.rs::first_order_iono_reproduces_the_is_gps_200_group_delay_ratio",
+            source: "IS-GPS-200",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maximum Doppler a static user sees from a LEO or MEO orbit",
+            basis: P1WorkedValue,
+            oracle_test: "tests/leo_link_reference.rs::doppler_envelope_reproduces_the_pulsar_paper_table_1",
+            source: "Table 1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Global-average signal-in-space range error weights for any orbit altitude",
+            basis: P1WorkedValue,
+            oracle_test: "src/leo_navmsg/sisre.rs::weights_reproduce_the_published_meo_and_geo_table",
+            source: "Montenbruck, Steigenberger and Hauschild (2018)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Galileo ICD broadcast-ephemeris user algorithm as the base of a LEO navigation message",
+            basis: Library,
+            oracle_test: "tests/leo_navmsg_reference.rs::the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre",
+            source: "RTKLIB 2.4.2-p13 eph2pos",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CRC-24Q frame check for the LEO navigation message",
+            basis: Reference,
+            oracle_test: "src/leo_navmsg/codec.rs::crc24q_matches_the_catalogue_check_value",
+            source: "CRC catalogue check value",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Doppler a ground receiver must handle from a LEO navigation satellite",
+            basis: P1WorkedValue,
+            oracle_test: "tests/leo_doppler_reference.rs::iridium_doppler_reaches_the_published_36_khz",
+            source: "Iridium Doppler",
+            flag: "",
+        },
+    ]
+}
+
 /// Count of rows by status.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
 pub struct MatrixSummary {
@@ -2637,6 +3274,125 @@ mod tests {
         assert!(
             s.validated >= 4,
             "expected a real externally-validated core"
+        );
+    }
+
+    // ── The promotion rule, applied both ways: every VALIDATED row declares which
+    // accepted oracle kind backs it, and nothing else may declare one ────────────
+    #[test]
+    fn every_validated_row_declares_exactly_one_oracle_basis() {
+        let m = verification_matrix();
+        let basis = validated_oracle_basis();
+        for it in m
+            .iter()
+            .filter(|i| i.status == VerificationStatus::Validated)
+        {
+            let n = basis
+                .iter()
+                .filter(|b| b.requirement == it.requirement)
+                .count();
+            assert_eq!(
+                n, 1,
+                "Validated row '{}' must declare exactly one oracle basis (found {n})",
+                it.requirement
+            );
+        }
+        for b in &basis {
+            let row = m.iter().find(|i| i.requirement == b.requirement);
+            assert!(
+                matches!(row, Some(r) if r.status == VerificationStatus::Validated),
+                "oracle basis declared for '{}', which is not a Validated row",
+                b.requirement
+            );
+        }
+    }
+
+    /// The row a declaration is keyed to.
+    fn row_of(b: &OracleBasisEntry) -> VerificationItem {
+        verification_matrix()
+            .into_iter()
+            .find(|i| i.requirement == b.requirement)
+            .expect("declaration keyed to a matrix row (checked above)")
+    }
+
+    #[test]
+    fn a_declared_basis_quotes_the_rows_own_source_and_test() {
+        for b in validated_oracle_basis() {
+            let row = row_of(&b);
+            assert!(
+                !b.source.trim().is_empty()
+                    && row.oracle.to_lowercase().contains(&b.source.to_lowercase()),
+                "row '{}': declared source '{}' is not named in the row's oracle text",
+                b.requirement,
+                b.source
+            );
+            // Our own second implementation, or our own earlier output, is never the oracle.
+            assert!(
+                !b.source.to_lowercase().contains("kshana"),
+                "row '{}': the declared source is Kshana itself",
+                b.requirement
+            );
+            let path = b.oracle_test.split("::").next().unwrap_or("");
+            assert!(
+                path.ends_with(".rs") && (path.starts_with("tests/") || path.starts_with("src/")),
+                "row '{}': oracle test '{}' must be tests/*.rs or src/*.rs, optionally ::test_fn",
+                b.requirement,
+                b.oracle_test
+            );
+            let module = path.strip_prefix("src/").map(|p| {
+                p.trim_end_matches(".rs")
+                    .trim_end_matches("/mod")
+                    .replace('/', "::")
+            });
+            let cited = row.tests.contains(path)
+                || module
+                    .as_deref()
+                    .is_some_and(|m| row.tests.contains(&format!("{m}::")));
+            assert!(
+                cited,
+                "row '{}': oracle test '{}' is not one the row cites in its tests field",
+                b.requirement, b.oracle_test
+            );
+        }
+    }
+
+    #[test]
+    fn p2_rows_name_an_independent_numerical_library() {
+        const NUMERICAL: [&str; 4] = ["numpy", "scipy", "lapack", "rtklib"];
+        for b in validated_oracle_basis()
+            .into_iter()
+            .filter(|b| b.basis == OracleBasis::P2NumericalLibrary)
+        {
+            let s = b.source.to_lowercase();
+            assert!(
+                NUMERICAL.iter().any(|n| s.contains(n)),
+                "P2 row '{}': source '{}' is not an independent numerical library",
+                b.requirement,
+                b.source
+            );
+        }
+    }
+
+    // Rows the written rule does not support are flagged, never silently kept; the list is
+    // pinned here and printed in docs/VALIDATION.md ("Existing VALIDATED rows re-examined").
+    #[test]
+    fn flagged_rows_are_exactly_the_documented_ones() {
+        const FLAGGED: [&str; 3] = [
+            "Integrity (RAIM/ARAIM/SBAS)",
+            "Planet positions across the solar system from the JPL Standish Keplerian elements",
+            "Light time between solar-system bodies",
+        ];
+        let mut got: Vec<&str> = validated_oracle_basis()
+            .into_iter()
+            .filter(|b| !b.flag.is_empty())
+            .map(|b| b.requirement)
+            .collect();
+        got.sort_unstable();
+        let mut want = FLAGGED.to_vec();
+        want.sort_unstable();
+        assert_eq!(
+            got, want,
+            "flagged rows changed: update docs/VALIDATION.md too"
         );
     }
 

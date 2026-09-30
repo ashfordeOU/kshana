@@ -7,6 +7,140 @@
 > the gate, not the median. Where a number like "~2%" appears it is a typical observation,
 > not the enforced tolerance. See [Claims vs. reality](#claims-vs-reality--quick-reference).
 
+## The promotion rule
+
+A row of the machine-checked verification matrix (`src/verification.rs`) is VALIDATED
+only when an oracle **independent of Kshana** agrees with the implementation **within a
+tolerance stated before the comparison is run**, in a test that runs in the gate. This
+section is the one place the rule is written down; the matrix, the per-row prose and the
+release notes defer to it.
+
+### The accepted oracle kinds
+
+| Kind | What counts | Examples already in the matrix |
+|---|---|---|
+| **Measured** | Real measured data of the quantity the row claims: an observation of the physical world, not a model output. | The held-out two thirds of a real caesium clock record; archived lunar laser-ranging normal points; the BIPM (International Bureau of Weights and Measures) Circular T UTC(k) series; the SRTM (Shuttle Radar Topography Mission) terrain tile. |
+| **Library** | An independent third-party library or tool computing a **uniquely defined** quantity on the same inputs, where the library implements the domain computation itself. Library-versus-library agreement is a genuine check only because the quantity has one right answer. | allantools, Orekit, ANISE, RTKLIB, gnss_lib_py, lamberthub, pymcdm, scikit-learn, SciPy's statistical distributions. |
+| **Reference** | Published reference vectors, tables or verification examples: numbers a standard, an agency or a reference text prints so that implementations can be checked against them. | SOFA/ERFA (Standards of Fundamental Astronomy) vectors, the AIAA (American Institute of Aeronautics and Astronautics) SGP4 verification vectors, the ITU-R (International Telecommunication Union, Radiocommunication Sector) validation examples, the Working Group C ARAIM worked example, JPL (Jet Propulsion Laboratory) Horizons. |
+
+Two further standards decide the borderline cases. Both are adopted for release 0.30.
+
+- **P1, a published worked value.** A published worked value computed from the same
+  closed form the row implements counts as a published reference vector, when the
+  publication is independent of Kshana and the comparison pins a stated tolerance. The
+  value must be printed as a number in the publication (a value read off a plot counts
+  only if the reading uncertainty is inside the stated tolerance), and the test must make
+  Kshana compute it from the publication's inputs; comparing a constant with the document
+  it was copied from is a transcription check, not P1.
+- **P2, an independent numerical library.** An independent numerical library such as
+  numpy or LAPACK (the Linear Algebra PACKage) recomputing a uniquely defined
+  linear-algebra quantity on stated inputs counts as an independent library. The library
+  must perform the decomposition, inverse, solve or least-squares step by its own
+  algorithm, on inputs committed with the fixture; the validated claim is then the linear
+  algebra on those inputs, not the physical magnitudes of a representative scenario. A
+  script that re-evaluates a scalar closed form with numpy arithmetic is a second
+  implementation of our own, not P2.
+
+Conditions that apply to every kind: the oracle is not written, run or published by this
+project (this repository's own paper series is therefore not independent of it); the
+tolerance is in the test and was fixed before the first comparison; a data-gated test that
+skips when its public data is absent says so when it skips.
+
+### What does not count
+
+- **Our own second implementation**: a second code path in this crate (`ReferenceImpl`),
+  or a script in this repository that re-evaluates the same closed form.
+- **Agreement with our own earlier output**: goldens, regression pins, snapshots, or a
+  table from this project's own papers.
+- **A transcription of a citation's constants**: checking a coefficient, preset,
+  datasheet figure or parameter sheet against the document it was copied from.
+- **A design choice**: an allocation, weighting, threshold, alert limit or representative
+  scenario. There is no external truth for a choice.
+- **An internal identity**: a numeric integral against its own analytic form, a round
+  trip, an inversion, a property or monotonicity test.
+- **Plausibility on real inputs**: real data used only as an input, with assertions of
+  scale rather than a comparison against an external value.
+- **A tolerance chosen after seeing the comparison.**
+
+### How the rule is enforced
+
+Every VALIDATED row declares, in `validated_oracle_basis()` in `src/verification.rs`,
+which kind it rests on (Measured, Library, Reference, P1 or P2), the independent source
+(quoted from the row's own oracle text) and the one test that carries the comparison. The
+unit tests beside the table fail when a VALIDATED row is undeclared or declared twice,
+when a declaration names a row that is not VALIDATED, when the declared source is not the
+one the row's oracle text names or is Kshana itself, when the declared test is not one the
+row cites, or when a P2 row names no independent numerical library.
+`tests/verification_rows_declare_an_oracle_basis.rs` then requires the declared test to
+exist on disk as a real `#[test]` that is not ignored. What the machine cannot check is
+whether the named test compares against the declared source; that remains a human read.
+Per-kind counts are not typed here: the table is the source.
+
+### Existing VALIDATED rows re-examined under the rule
+
+The rule was applied to the existing rows as well as to future promotions.
+
+- **P1 rows named by the 0.30 validation study, each supported:** One-way link budget
+  (the JPL Pub 82-76 Galileo X-band design-control table, reassembled from its line items
+  to 4.6e-3 dB free-space loss); Band-limited closed forms for any ranging signal (90.3 per
+  cent main-lobe power and the published coherent early-late jitter); Maximum Doppler of a
+  low Earth orbit navigation satellite (the published Xona Pulsar X1 and Iridium figures);
+  Maximum Doppler a static user sees from a LEO or MEO orbit (Table 1 of the Pulsar paper,
+  20 values); Doppler a ground receiver must handle from a LEO navigation satellite (the
+  same published figures from a flown orbit). Each publication is independent of Kshana,
+  prints its numbers, and the test states its tolerance.
+- **Further rows that rest on P1, found in the re-examination, each supported:** Ranging-code
+  design trade (the published −23.9 dB Gold cross-correlation); Lunar coordinate time
+  (Ashby and Patla 2024, whose Moon-speed cross-check against DE440 is a Library check);
+  Closed-form L-band signal power spectral densities (Kaplan and Hegarty Q values);
+  First-order ionospheric delay per band (the IS-GPS-200 group-delay ratio); Global-average
+  signal-in-space range error weights (the Montenbruck, Steigenberger and Hauschild 2018
+  table).
+- **P2 rows named by the study, each supported:** Fisher information and Cramér–Rao
+  observability (numpy `eigh`/`inv`); Lunar datum identifiability; Coupled lunar frame and
+  timescale gauge; Autonomous free-network fault-observability pipeline (numpy/SciPy SVD,
+  singular value decomposition). Each recomputes a uniquely defined linear-algebra quantity
+  on committed inputs by a different algorithm than Kshana's Jacobi eigensolver.
+- **Further rows that rest on P2, found in the re-examination, each supported:** MCDA
+  (multi-criteria decision analysis) priority derivation (the AHP, analytic hierarchy
+  process, eigenvector by SciPy/LAPACK; the Random Index table it also reproduces is a
+  transcription and is not counted); Clock-holdover coast variance (SciPy `expm` of the
+  Van Loan augmented matrix); Lunar reference-frame realisation (a numpy SVD Umeyama
+  solve); CRPA (controlled reception pattern antenna) beamforming (LAPACK complex solve);
+  Lunar ARAIM protection-level kernel (RTKLIB's LU inverse with SciPy quantiles);
+  Cross-provider lunar frame/dynamics consistency (a numpy SVD least-squares fit of three
+  published ephemerides).
+- **Flagged: not supported by the written rule as the rows stand.** Their status is left
+  unchanged in this commit and the decision is recorded for the owner; the flag text is in
+  `validated_oracle_basis()` and a unit test pins this list.
+  - **Integrity (RAIM/ARAIM/SBAS).** The cited tests assert plausibility on real IGS
+    (International GNSS Service) geometry (metre-level protection levels, vertical above
+    horizontal, APV-I available); no external value is compared to a stated tolerance.
+    The K-factors are transcribed constants and the geometry is an input. The kernel and
+    the protection-level values are validated in their own rows (SciPy, RTKLIB SBAS,
+    the Working Group C example); re-point this row at those tests or demote it.
+  - **Planet positions across the solar system from the JPL Standish Keplerian elements.**
+    The oracle (JPL Horizons, DE441) is external, but the bar of twice the nominal error was
+    set after the first comparison.
+  - **Light time between solar-system bodies.** Its bar is derived from the same post-hoc
+    position bar, so it inherits the defect.
+- **MODELLED rows the two policies make promotable** (only through the row-by-row 0.30
+  run, never by this text): under P1 the TDOA/FDOA (time and frequency difference of
+  arrival) emitter geolocation bound, the relativistic clock-rate to frame coupling, the
+  ITU-T (Telecommunication Standardization Sector) synchronisation masks (only for mask
+  values the Recommendations print as numbers; the transcribed breakpoints checked against
+  themselves do not count) and the 5G non-terrestrial-network positioning bound (only if a
+  published worked figure is found); under P2 common-mode integrity blindness, the scalar
+  MHSS (multiple-hypothesis solution separation) timing protection level and the GLS
+  (generalised least squares) whitening. The two timing-integrity benchmark rows (the
+  Stanford integrity-diagram classifier and the integrity-coverage scorer) are rule-based
+  classification, not linear algebra, so P2 does not reach them; they need an independent
+  tool, and the only one found (gLAB) carries a non-commercial licence.
+- **Consistency with earlier refusals.** The launch-window row's Vallado check would now
+  qualify under P1 if its test computes the printed worked example; the 0.30 plan promotes
+  it through Orekit instead. The per-clock-class lunar time crossover table stays MODELLED:
+  the table it reproduces comes from this project's own paper, which is not independent.
+
 | Noise term | Status | Evidence |
 |------------|--------|----------|
 | Allan estimator parity (ADEV/MDEV/TDEV/OHDEV (ADEV: Allan deviation; MDEV: modified Allan deviation; OHDEV: overlapping Hadamard deviation)) | `validated` | Two primary-source checks against **NIST (National Institute of Standards and Technology) SP (Special Publication) 1065** (Riley, *Handbook of Frequency Stability Analysis*, 2008), both to a **1e-4** relative tolerance. (1) `tests/allan_reference.rs`: the overlapping ADEV, modified ADEV, time deviation, and overlapping Hadamard estimators reproduce the deviations for the canonical 10-point **NBS14** data set (**SP 1065 Table 29/30, p. 107**) at tau = 1, 2 — agreement is actually ~1e-6 (e.g. overlapping ADEV (OADEV) at τ = 2: 85.952868 vs 85.95287). (2) `tests/allan_nist_sp1065_1000point.rs`: the same four estimators reproduce the **SP 1065 §12.4 1000-point data set** (**Table 31, p. 108**) at averaging factors 1 / 10 / 100, where the data set is regenerated in code from the SP 1065 LCG (Eq. 73) — hermetic, no fixture. The same data and Table-31 numbers are the regression target in aewallin/allantools (`tests/nbs14`), reproduced here with no third-party code. This pins the *estimator maths* against the reference, distinct from the noise-*calibration* rows below. |
