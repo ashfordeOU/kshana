@@ -1082,7 +1082,7 @@ def campaign_timeline(t: dict, camp: dict) -> Svg:
             + "; ".join(f"{mission_time(e['t_s'])} {e['label']}" for e in tl["events"]) + ".")
     s = Svg(W, H, "Campaign timeline: jam, spoof, holdover, integrity", desc)
     card(s, t)
-    eyebrow(s, t, 40, 50, "Mission timeline · one chained run", idx="01")
+    eyebrow(s, t, 40, 50, "Mission timeline · one chained run")
     s.text("Jam, spoof, hold over, raise the alarm.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
     s.text(f"{len(phases)} phases · {camp['reproducibility']['runs_total']} member runs · "
            f"{tl['step_s']:.0f} s grid · {mission_time(T1)}", W - 40, 50, 12.5, t["ink3"], "mono", anchor="end")
@@ -1731,7 +1731,7 @@ def flow_pipeline(t: dict, n_kinds: int, version: str) -> Svg:
             "Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration.")
     s = Svg(W, H, "How a run flows: scenario, engine, outputs, consumers", desc)
     card(s, t)
-    eyebrow(s, t, 40, 50, "How a run flows", idx="02")
+    eyebrow(s, t, 40, 50, "How a run flows")
     s.text("One scenario in. Evidence out.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
     y0 = 136
     # front doors
@@ -1807,7 +1807,7 @@ def flow_architecture(t: dict, n_kinds: int, summary: dict) -> Svg:
             f"MODELLED or PARTNER label.")
     s = Svg(W, H, "Architecture: front doors, one dispatch, eight layers, one ledger", desc)
     card(s, t)
-    eyebrow(s, t, 40, 50, "Architecture", idx="03")
+    eyebrow(s, t, 40, 50, "Architecture")
     s.text("One engine, many front doors.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
     x0, x1 = 40, W - 40 - 250
     y = 130
@@ -1955,7 +1955,7 @@ def flow_verification(t: dict, matrix: dict) -> Svg:
             f"{sm['validated']} VALIDATED, {sm['modelled']} MODELLED, {sm['partner_owned']} PARTNER of {sm['total']} rows.")
     s = Svg(W, H, "The verification flow: capability, oracle, test, ledger label", desc)
     card(s, t)
-    eyebrow(s, t, 40, 50, "Evidence · the verification matrix", idx="04")
+    eyebrow(s, t, 40, 50, "Evidence · the verification matrix")
     s.text("Validated, not asserted.", 40, 92, 32, t["ink"], "sans", 600, ls=-0.03)
     s.text(f"{sm['total']} rows · generated from src/verification.rs", W - 40, 50, 12.5, t["ink3"], "mono", anchor="end")
     stages = [
