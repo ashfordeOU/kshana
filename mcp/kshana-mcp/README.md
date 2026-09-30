@@ -1,18 +1,34 @@
-# `kshana-mcp` — Kshana as a Model Context Protocol server for AI agents
+<!-- Published on crates.io with the kshana-mcp crate. Images and links are ABSOLUTE
+     (pinned to /main) because crates.io does not rewrite relative paths. -->
 
-A [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server that exposes the
-**Kshana** PNT (positioning, navigation and timing) resilience simulator to AI (artificial
-intelligence) agents and assistants — **Cursor, JetBrains AI Assistant / Junie, and any
-MCP-compatible client** — over stdio (standard input and output).
+<p align="center">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/kshana-logo-dark.svg">
+    <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/kshana-logo-light.svg" alt="Kshana: the mark, a compass reticle marking the precise instant, beside the wordmark kshana" width="260">
+  </picture>
+</p>
 
-Large language models are unreliable at the math Kshana is *validated* for: SGP4/SDP4
-(Simplified General Perturbations 4 and its deep-space variant) orbit propagation, IAU
-(International Astronomical Union) reference frames, Allan deviations, GNSS (global
-navigation satellite system) availability and DOP (dilution of precision), ARAIM
-(advanced receiver autonomous integrity monitoring) protection levels, GNSS/INS
-(inertial navigation system) fusion and quantum-sensor models. This server lets an agent call the validated engine
-instead of guessing: ask a question, the agent runs a real scenario and gets figures of
-merit with provenance.
+# kshana-mcp: ask your AI assistant, and the engine answers
+
+`kshana-mcp` is a [Model Context Protocol](https://modelcontextprotocol.io) (MCP) server for
+**Kshana**, the open-source simulator for PNT (positioning, navigation and timing)
+resilience. It lets an AI (artificial intelligence) assistant run the real engine and read
+back its JSON (JavaScript Object Notation), instead of guessing the maths. It speaks over
+stdio (standard input and output) to any MCP-compatible client, including Cursor and
+JetBrains AI Assistant / Junie.
+
+The maths Kshana is validated for is exactly where a language model guesses badly: SGP4
+(Simplified General Perturbations 4) orbit propagation, reference frames of the IAU
+(International Astronomical Union), Allan deviations, GNSS (Global Navigation Satellite
+System) availability and DOP (dilution of precision), ARAIM (advanced receiver autonomous
+integrity monitoring) protection levels, GNSS and INS (inertial navigation system) fusion,
+and quantum-sensor models. Ask a question; the assistant runs a real scenario and gets
+figures of merit with their provenance and their VALIDATED or MODELLED label.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, with the MCP server as one of its surfaces beside the command line, the Rust library, Python, WebAssembly and Kshana Studio, the Docker image and the JetBrains plugin; every surface runs the same engine, and Kshana Pro depends on it without forking it" width="100%">
+</picture>
 
 ## Tools
 
