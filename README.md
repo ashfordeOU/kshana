@@ -22,7 +22,7 @@
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C" alt="~96% line coverage on src/ excluding the generated data tables and the CLI entrypoint (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud Quality Gate status"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.28.0-066A86" alt="Release v0.28.0"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.0-066A86" alt="Release v0.29.0"></a>
   <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86" alt="Kshana on the JetBrains Marketplace"></a>
   <a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama — MCP server quality score"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/License-AGPL_v3-3F4B67.svg" alt="License: AGPL-3.0-only"></a>
@@ -34,7 +34,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.28.0: the chained campaign campaign-jam-spoof-holdover-integrity (6 phases, 18 member runs, seed 20260928) over the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage. Clock time error peaks at 62.7 ns against a 50 ns guard, effective carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.3 m against a 50 m alert limit." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.29.0: the chained campaign campaign-jam-spoof-holdover-integrity (6 phases, 18 member runs, seed 20260928) over the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage. Clock time error peaks at 62.7 ns against a 50 ns guard, effective carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.3 m against a 50 m alert limit." width="100%">
 </picture>
 
 ## Rehearse the minute GNSS goes dark.
@@ -55,7 +55,7 @@ and every capability carries one of three labels in a machine-checked matrix:
 said out loud) or **PARTNER** (a hardware partner owns it). Continuous integration (CI) makes
 it impossible to call a capability VALIDATED without an independent external oracle behind it.
 
-> **Status: v0.28.0 · a validated, reproducible simulation substrate for PNT resilience.**
+> **Status: v0.29.0 · a validated, reproducible simulation substrate for PNT resilience.**
 > Timing and holdover for critical infrastructure come first, because that is the
 > best-validated domain; the quantum-versus-classical sensor trade is a neutral method
 > whose results are labelled MODELLED; lunar, cislunar and deep-space navigation, orbit
@@ -66,7 +66,7 @@ it impossible to call a capability VALIDATED without an independent external ora
 
 ## Install
 
-One line: **`cargo install kshana`**, or pick your channel. Every channel ships v0.28.0
+One line: **`cargo install kshana`**, or pick your channel. Every channel ships v0.29.0
 from the same tagged commit.
 
 | Channel | Install | Then check it | Links |
@@ -77,11 +77,11 @@ from the same tagged commit.
 | **Python**<br><sub>analysts and notebooks</sub> | `pip install kshana` | `python -c "import kshana; print(kshana.version())"` | [Registry](https://pypi.org/project/kshana/) · [Docs](docs/PYTHON_API.md) |
 | **JavaScript and WebAssembly**<br><sub>web and Node.js developers</sub> | `npm install kshana` | `npm ls kshana` | [Registry](https://www.npmjs.com/package/kshana) · [Docs](README.npm.md) |
 | **AI assistant (MCP server)**<br><sub>anyone with an MCP-capable assistant</sub> | `cargo install kshana-mcp` | `cargo install --list \| grep kshana-mcp` | [Registry](https://crates.io/crates/kshana-mcp) · [Docs](mcp/kshana-mcp/README.md) |
-| **Docker image**<br><sub>the MCP server without a Rust toolchain</sub> | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | `docker image inspect ghcr.io/ashfordeou/kshana-mcp:0.28.0` | [Registry](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) · [Docs](mcp/kshana-mcp/README.md) |
+| **Docker image**<br><sub>the MCP server without a Rust toolchain</sub> | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | `docker image inspect ghcr.io/ashfordeou/kshana-mcp:0.29.0` | [Registry](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) · [Docs](mcp/kshana-mcp/README.md) |
 | **JetBrains IDE plugin**<br><sub>IntelliJ, PyCharm and CLion users</sub> | Settings → Plugins → Marketplace → search "Kshana" | right-click a scenario `.toml` → *Run Kshana Scenario* | [Registry](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) · [Docs](ide/jetbrains/README.md) |
 
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.28.0`,
-`pip install kshana==0.28.0` or `npm install kshana@0.28.0`. To build from source, see
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.0`,
+`pip install kshana==0.29.0` or `npm install kshana@0.29.0`. To build from source, see
 [Install & build](#install--build).
 
 ## Try it
@@ -123,7 +123,7 @@ wrote campaign.result.json, campaign.chart.svg, campaign.report.html, and campai
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (Tom's Obvious Minimal Language: a kind, a seed and its parameters) goes into the engine, kshana 0.28.0, through api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through kshana-mcp, and continuous integration." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (Tom's Obvious Minimal Language: a kind, a seed and its parameters) goes into the engine, kshana 0.29.0, through api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through kshana-mcp, and continuous integration." width="100%">
 </picture>
 </p>
 
@@ -135,7 +135,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.28.0 6600.0 2610.0
+# 0.29.0 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -158,7 +158,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.28.0 6600 2610
+// 0.29.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -176,7 +176,7 @@ simulator. Every picture in this section is a real run of the engine, and says w
 </picture>
 </p>
 
-| Domain | What it answers | Scenario | One real run (engine v0.28.0) |
+| Domain | What it answers | Scenario | One real run (engine v0.29.0) |
 |---|---|---|---|
 | **Interference** | How far a jammer reaches, and when tracking is lost | `maritime-strait-jamming` | availability under jamming 0.00 (nominal 1.00), mean J/S (jammer-to-signal ratio) 48.0 dB |
 | **Deception** | When a time spoof is caught, and by which clock | `spoof-attack` | a 0.1 ns/s ramp: the quantum clock detects it at 70 s, the classical one at 430 s |
@@ -1476,7 +1476,7 @@ entry for every user-visible change. Participation is governed by our
 
 If you use Kshana in academic or technical work, please cite it. Machine-readable
 metadata is in [`CITATION.cff`](CITATION.cff) (GitHub renders a "Cite this repository"
-button from it); cite the version you used (e.g. `v0.28.0`) together with the
+button from it); cite the version you used (e.g. `v0.29.0`) together with the
 scenario and seed for full reproducibility. Every release is archived on Zenodo with
 a citable DOI (Digital Object Identifier) — the concept DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
 always resolves to the latest version.
