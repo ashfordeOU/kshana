@@ -1,0 +1,178 @@
+{
+  "generator": "tools/gen_readme_assets.py",
+  "engine_version": "0.28.0",
+  "scenario_kinds": 75,
+  "matrix": {
+    "validated": 83,
+    "modelled": 136,
+    "partner_owned": 4,
+    "total": 223
+  },
+  "assets": {
+    "kshana-mark": {
+      "files": [
+        "kshana-mark-light.png",
+        "kshana-mark-dark.png"
+      ],
+      "drawn_from": [
+        {
+          "source": "tools/readme-src/kshana-mark-mask.png"
+        }
+      ]
+    },
+    "kshana-logo": {
+      "files": [
+        "kshana-logo-light.svg",
+        "kshana-logo-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "tools/readme-src/kshana-mark-mask.png"
+        },
+        {
+          "source": "tools/readme-fonts/Unbounded-wght.ttf"
+        }
+      ]
+    },
+    "hero": {
+      "files": [
+        "hero-light.svg",
+        "hero-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/campaign-jam-spoof-holdover-integrity.toml",
+          "kind": "campaign",
+          "scenario_hash": "f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1",
+          "seed": 20260928
+        },
+        {
+          "scenario": "scenarios/constellation-multi-gnss-coverage.toml",
+          "kind": "constellation-design",
+          "scenario_hash": null,
+          "seed": null
+        }
+      ]
+    },
+    "campaign-timeline": {
+      "files": [
+        "campaign-timeline-light.svg",
+        "campaign-timeline-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/campaign-jam-spoof-holdover-integrity.toml",
+          "kind": "campaign",
+          "scenario_hash": "f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1",
+          "seed": 20260928
+        }
+      ]
+    },
+    "lband-waterfall": {
+      "files": [
+        "lband-waterfall-light.svg",
+        "lband-waterfall-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/l-band-waterfall-jamming.toml",
+          "kind": "spectrum",
+          "scenario_hash": "5b6d91fbe8900aef98e62df8e7b51704462854a7f3522535e7942c37d59d4184",
+          "seed": 7
+        }
+      ]
+    },
+    "coverage-map": {
+      "files": [
+        "coverage-map-light.svg",
+        "coverage-map-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/constellation-multi-gnss-coverage.toml",
+          "kind": "constellation-design",
+          "scenario_hash": null,
+          "seed": null
+        }
+      ]
+    },
+    "solar-system": {
+      "files": [
+        "solar-system-light.svg",
+        "solar-system-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/solar-system-tour.toml",
+          "kind": null,
+          "scenario_hash": null,
+          "seed": null
+        }
+      ]
+    },
+    "leo-pass": {
+      "files": [
+        "leo-pass-light.svg",
+        "leo-pass-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/leo-pass-iridium.toml",
+          "kind": null,
+          "scenario_hash": null,
+          "seed": null
+        }
+      ]
+    },
+    "flow-pipeline": {
+      "files": [
+        "flow-pipeline-light.svg",
+        "flow-pipeline-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "kshana kinds --json"
+        }
+      ]
+    },
+    "flow-architecture": {
+      "files": [
+        "flow-architecture-light.svg",
+        "flow-architecture-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "kshana kinds --json"
+        },
+        {
+          "source": "web/data/verification-matrix.json"
+        }
+      ]
+    },
+    "flow-leo-chain": {
+      "files": [
+        "flow-leo-chain-light.svg",
+        "flow-leo-chain-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "scenario": "scenarios/leo-pnt-end-to-end.toml",
+          "kind": "leo-pnt-chain",
+          "scenario_hash": null,
+          "seed": null
+        }
+      ]
+    },
+    "flow-verification": {
+      "files": [
+        "flow-verification-light.svg",
+        "flow-verification-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "web/data/verification-matrix.json"
+        }
+      ]
+    }
+  }
+}
