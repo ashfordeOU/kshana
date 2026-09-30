@@ -73,6 +73,38 @@ independent reference implementation, or published reference vectors) and re-che
   <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/figures/validation-breakdown.png" alt="Verification status across all 223 capabilities: 83 Validated, 136 Modelled, 4 Partner-owned" width="780">
 </p>
 
+## What it simulates
+
+Each run is one scenario *kind*; `kshana kinds` lists every kind with its fields. Between
+them they cover:
+
+- **Timing** — clock holdover against a threshold, optical and radio time transfer, telecom
+  holdover checked against ITU-T (the Telecommunication Standardization Sector of the
+  International Telecommunication Union) masks for MTIE (maximum time interval error) and
+  TDEV (time deviation), and slot timing for time-indexed schedules.
+- **Orbits and geometry** — SGP4 and numerical propagation, ground tracks and station
+  passes, Walker and multi-shell constellation design around the Earth, the Moon or another
+  body, and the positions of the solar-system bodies at one epoch.
+- **GNSS and integrity** — availability and DOP, a measurement-domain simulator,
+  single-point positioning from real observation files, and RAIM (receiver autonomous
+  integrity monitoring), ARAIM (advanced RAIM) and SBAS (satellite-based augmentation
+  system) protection levels.
+- **Resilience** — jamming, spoofing and spoof detection, tracking-loop loss of lock, an
+  L-band spectrum waterfall, and campaigns that chain, sweep or share one timeline across
+  other kinds.
+- **Alternative PNT** — inertial dead-reckoning, GNSS/INS (inertial navigation system)
+  fusion, gravity- and terrain-map matching, and quantum-sensor trades.
+- **LEO PNT** — positioning, navigation and timing from low Earth orbit (LEO): signal
+  design, pass and link budget, the broadcast navigation message, fused medium- and
+  low-Earth-orbit positioning, precise point positioning convergence, 5G non-terrestrial
+  network positioning, and one system end to end.
+- **Lunar, cislunar and Mars** — lunar time and reference frames, lunar service volumes,
+  cislunar orbit determination, and relay-based Mars navigation.
+
+The [verification matrix](https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md)
+states, capability by capability, which figures are VALIDATED against an independent
+external oracle and which are MODELLED.
+
 ## Install
 
 ```bash
@@ -136,8 +168,10 @@ that table as CSV (comma-separated values).
 
 ## Usage — CLI
 
-A registry install has no `scenarios/` directory, so the CLI carries every reference
-scenario that runs on its own; `kshana example` lists them.
+A registry install has no `scenarios/` directory, so the CLI carries the reference
+scenarios with it; `kshana example` lists them, and names the few it leaves out with the
+reason (each reads data shipped with the repository only, or follows a preset a release
+may withhold).
 
 ```bash
 kshana example clock-holdover > clock-holdover.toml   # write a bundled scenario to a file
@@ -145,19 +179,34 @@ kshana clock-holdover.toml                            # run it
 kshana --validate clock-holdover.toml                 # lint it without running
 kshana example                                        # list every bundled scenario
 kshana kinds                                          # list every scenario kind
+
+kshana example orbit-sgp4-gps > orbit-sgp4-gps.toml   # the GPS constellation, real orbital elements
+kshana orbit-sgp4-gps.toml --export list              # which exchange formats apply
+kshana orbit-sgp4-gps.toml --export all               # every exchange file that applies
+kshana orbit-sgp4-gps.toml --animate html             # a self-contained animation page
 ```
 
 A run dispatches on the scenario's `kind` and writes `<scenario>.result.json`,
-`.chart.svg` and `.report.html` (a report page in HTML, HyperText Markup Language) (plus `.table.csv` for the kinds that publish a table)
-next to the scenario file. From a clone of the repository the same commands take the files
-under `scenarios/` directly, including the multi-scenario studies
+`.chart.svg`, `.report.html` (a printable report page in HTML, HyperText Markup Language)
+and `.report.json` (the same report, machine-readable), plus `.table.csv` for the kinds
+that publish a table, next to the scenario file. `--export` adds exchange files: CZML
+(the Cesium Language) and KML (Keyhole Markup Language) for globe viewers, GeoJSON for
+maps, STK (Systems Tool Kit) ephemeris files, and SigMF (Signal Metadata Format)
+recordings for the `spectrum` kind. `--animate` adds an SVG, HTML or frame-by-frame
+animation.
+
+From a clone of the repository the same commands take the files under `scenarios/`
+directly, including the multi-scenario study
 (`kshana --study scenarios/quantum-pnt-demonstrator.suite.toml`) and `lunar-llr-datum`,
 the one scenario that reads real laser-ranging data shipped with the repository only.
 
-Every figure of merit is labelled **validated** or **modelled**; optical-clock figures
+Every capability in the verification matrix is labelled **validated** (checked against
+an independent external oracle), **modelled** or **partner-owned**; optical-clock figures
 are space goals on ground hardware (no strontium optical clock has flown). Maturity is
-*not* uniform across domains — Earth PNT is real-data validated; deep-space / Mars
-navigation is simulation-validated; real-mission deep-space OD (orbit determination) is on the roadmap.
+*not* uniform across domains — Earth PNT is validated against real data; deep-space and
+Mars navigation is modelled, with only its building blocks (light time, planet positions)
+validated against external oracles; real-mission deep-space OD (orbit determination) is
+on the roadmap.
 
 ## Learn more
 
