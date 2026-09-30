@@ -556,9 +556,12 @@ together), `chart_svg`, `summary`, `table_csv`, `list_kinds`, `error_kind`, `ver
 `encode_permalink` / `decode_permalink` shareable-URL (URL: web address) codec, and the three exporters
 `export_sp3` / `export_omm` / `export_oem` that back the playground's export menu.
 Two further front doors reach the same `api`: the **MCP (Model Context Protocol) server** (`mcp/kshana-mcp`, a
-workspace-excluded `rmcp` crate exposing seven tools — `run_scenario`,
-`list_scenario_kinds`, `validate_scenario`, `export_sp3`, `export_omm`, `export_oem`,
-`export_table_csv`)
+workspace-excluded `rmcp` crate exposing fourteen tools — `run_scenario`,
+`list_scenario_kinds`, `validate_scenario`, `list_example_scenarios`,
+`get_example_scenario`, `report_scenario`, `animate_scenario`, `list_export_formats`,
+`export_interop`, `import_route`, `export_sp3`, `export_omm`, `export_oem`,
+`export_table_csv`; the two example tools read the bundled scenarios through the library's
+off-by-default `bundled-scenarios` feature, which only this server turns on)
 and the **JetBrains IDE (integrated development environment) plugin** (`ide/jetbrains`, a Kotlin project that shells out to
 the `kshana` CLI rather than linking the library).
 
@@ -567,12 +570,13 @@ flowchart LR
     cli["CLI · main.rs<br/>native binary"] --> api
     py["Python · python.rs (PyO3 abi3)<br/>RunOutput class + run · run_full · run_typed · scenario_kinds · list_kinds · validate_toml · error_kind · version"] --> api
     wasm["WebAssembly · wasm.rs (wasm-bindgen)<br/>run · run_all · chart_svg · summary · table_csv · list_kinds · error_kind · version · encode/decode_permalink<br/>export_sp3 · export_omm · export_oem"] --> api
-    mcp["MCP server · mcp/kshana-mcp (rmcp)<br/>tools: run_scenario · list_scenario_kinds · validate_scenario<br/>export_sp3 · export_omm · export_oem · export_table_csv"] --> api
+    mcp["MCP server · mcp/kshana-mcp (rmcp)<br/>tools: run_scenario · list_scenario_kinds · validate_scenario<br/>list_example_scenarios · get_example_scenario<br/>report_scenario · animate_scenario<br/>list_export_formats · export_interop · import_route<br/>export_sp3 · export_omm · export_oem · export_table_csv"] --> api
     ide["JetBrains plugin · ide/jetbrains (Kotlin)"] -- spawns process --> cli
     api["api::run_toml / run_scenario / list_scenario_kinds"] --> out["identical { json, svg, summary } on every surface"]
 ```
 
-Feature-gating: Python and WASM are `--features python` / `--features wasm`; the MCP
+Feature-gating: Python and WASM are `--features python` / `--features wasm`; the bundled
+scenario table is `--features bundled-scenarios` (the MCP server's only use of it); the MCP
 server and the `xval/*` cross-checks are workspace-EXCLUDED crates; the IDE plugin links
 nothing — it runs the CLI.
 

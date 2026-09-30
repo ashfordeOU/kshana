@@ -11,6 +11,40 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **The Model Context Protocol (MCP) server reaches every kind and every view of a run:
+  seven new tools, fourteen in all.** `run_scenario` already dispatched every kind; what an
+  agent lacked was a way to a valid scenario of a kind, and the three outputs the command
+  line writes beside a result. New tools:
+  - `list_example_scenarios` and `get_example_scenario` serve the bundled reference
+    scenarios (the `kshana example` table), each with its kind and the first sentence of its
+    own header, byte for byte the file under `scenarios/`. A scenario that is in the
+    repository but not bundled is refused with the reason. Every kind but `lunar-llr-datum`
+    (whose data slice ships with the repository only) has at least one example.
+  - `report_scenario` returns the run's report as JSON (JavaScript Object Notation) or as
+    the printable HTML (HyperText Markup Language) page (`docs/REPORTS.md`).
+  - `animate_scenario` returns the run's time series as an animated SVG (Scalable Vector
+    Graphics) drawing, an HTML player or numbered frames, after a JSON summary of what was
+    drawn (`docs/ANIMATION.md`). A reply carries at most 120 frames; the command line
+    writes any length.
+  - `list_export_formats`, `export_interop` and `import_route` serve the interoperability
+    exports and the GeoJSON route import (`docs/INTEROP.md`): CZML (Cesium Language), KML
+    (Keyhole Markup Language), GeoJSON, the STK (Systems Tool Kit) ephemeris `.e` and
+    SigMF (Signal Metadata Format), with a JSON index of the files (suffix, size, and
+    SHA-256, the 256-bit Secure Hash Algorithm digest) and the binary SigMF sample file as
+    base64.
+
+  The library gains an off-by-default `bundled-scenarios` feature that exposes the
+  reference-scenario table as `kshana::bundled_scenarios`; only the MCP server turns it on,
+  so the Python wheel and the WebAssembly module still do not carry the scenario text.
+  Study suites (`--study`) stay command-line only, because a suite names files on disk and
+  the server reads none. The round-trip tests run each new tool against bundled scenarios
+  and check the engine's numbers: spectrum, the solar system, constellations around the
+  Moon and Europa, a campaign sweep, and the low Earth orbit (LEO) signal, pass,
+  navigation-message, fused positioning, precise point positioning,
+  non-terrestrial-network and end-to-end kinds.
+  Every surface that states the MCP tool count or lists the tools now says fourteen,
+  except the playground page under `web/`, which is replaced with the site.
+
 - **Batch B and batch C in one release: animation, advanced reports, interoperability
   exports and a complete LEO-PNT capability.** Across the release the kind count moves from
   68 to 75, the scenario-file count from 94 to 138 (132 bundled for `kshana example`, plus
@@ -503,6 +537,13 @@ breaking changes are called out explicitly.
   `docs/MODELLED-RATIONALE.md` prints for each MODELLED row; that document is unchanged.
 
 ### Fixed
+
+- **`export_table_csv` on the MCP server named four kinds as the only ones with a CSV
+  (comma-separated values) table; six publish one.** The tool always returned the table for `telecom-timing` and for
+  `leo-navmsg` (its `encode-decode` analysis on a `kepler16` or `kepler-rac` message model),
+  but its description, its refusal message and the documents that list the kinds left both
+  out, so an agent was told not to ask. They are named now, and a round-trip test fetches
+  both tables.
 
 - **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
   constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on

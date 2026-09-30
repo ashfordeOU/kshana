@@ -79,6 +79,9 @@ pub mod benchmark;
 pub mod body;
 pub mod body_pnt;
 pub mod bplane;
+/// The bundled reference scenarios, present only with the `bundled-scenarios` feature.
+#[cfg(feature = "bundled-scenarios")]
+pub mod bundled_scenarios;
 pub mod campaign;
 pub mod ccsds_tdm;
 /// The optional Celeste IOD preset: compiled in only when `src/celeste_iod.rs` exists.

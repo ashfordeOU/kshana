@@ -25,7 +25,9 @@ A format named explicitly that does not apply to the scenario is an error that p
 reason; under `all` the reason is printed and the format skipped. The library entry
 points are `kshana::interop::export(src, format)`, `kshana::interop::plan(src)` and
 `kshana::interop::geojson::apply_route(src, geojson)`; they take the scenario text and
-return bytes, touching no file, so they run in the WebAssembly build too.
+return bytes, touching no file, so they run in the WebAssembly build too. The Model
+Context Protocol (MCP) server serves the same three as the tools `export_interop`,
+`list_export_formats` and `import_route` (see `mcp/kshana-mcp/README.md`).
 
 Code: `src/interop/` (`scene.rs` builds one geometric description of the scenario,
 `czml.rs`, `kml.rs`, `geojson.rs` and `stk.rs` write it), `src/sigmf.rs` and
