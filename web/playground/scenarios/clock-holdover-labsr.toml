@@ -1,0 +1,30 @@
+# Variant: laboratory-grade strontium optical clock vs CSAC.
+# Lab Sr clocks reach sigma_y(1 s) = 4.8e-17 (Oelker et al. 2019, Nature Photonics).
+seed = 42
+threshold_ns = 20.0
+
+[time]
+step_s = 10.0
+duration_s = 7200.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,    t1 = 600.0,  state = "nominal" },
+  { t0 = 600.0,  t1 = 7200.0, state = "denied" },
+]
+
+[clock_quantum]
+id = "optical-lab-sr"
+provenance = "Laboratory Sr optical lattice clock, sigma_y(1s)=4.8e-17 (Oelker et al. 2019, Nature Photonics); q_wf=sigma_y(1s)^2; laboratory maturity, not flown; flicker/aging not modeled"
+y0   = 2.0e-18
+q_wf = 2.304e-33
+q_rw = 0.0
+drift = 0.0
+
+[clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2; flicker/aging not modeled"
+y0   = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+drift = 0.0

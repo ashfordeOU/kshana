@@ -21,6 +21,26 @@ const SURFACES: &[(&str, &str)] = &[
         include_str!("../web/capabilities.json"),
     ),
     ("web/index.html", include_str!("../web/index.html")),
+    // The redesigned site is several pages and the Studio; each is a public surface.
+    ("web/missions.html", include_str!("../web/missions.html")),
+    (
+        "web/capabilities.html",
+        include_str!("../web/capabilities.html"),
+    ),
+    ("web/evidence.html", include_str!("../web/evidence.html")),
+    (
+        "web/developers.html",
+        include_str!("../web/developers.html"),
+    ),
+    ("web/editions.html", include_str!("../web/editions.html")),
+    (
+        "web/playground/index.html",
+        include_str!("../web/playground/index.html"),
+    ),
+    (
+        "web/playground/lib/catalog.mjs",
+        include_str!("../web/playground/lib/catalog.mjs"),
+    ),
     // The web README and the three registry front pages are public too, and web/README.md
     // drifted precisely because it was the one web surface no gate read.
     ("web/README.md", include_str!("../web/README.md")),

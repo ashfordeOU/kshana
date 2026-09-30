@@ -1,0 +1,512 @@
+# A chained mission: nominal, jamming, spoofing, GNSS loss with clock holdover and
+# inertial coasting, an integrity alarm, and recovery, on one shared timeline.
+#
+# Every phase runs ordinary scenarios of existing kinds, each dispatched exactly as
+# `kshana <file>.toml` would run it. The campaign reads their outputs into channels
+# on one mission timeline (a 10 s grid, zero-order hold) and draws them as synced
+# panels: clock time error against its guard, the carrier-to-noise density ratio
+# (C/N0) against the tracking floor, the vertical protection level against the
+# alert limit, the inertial position error, and the alarm flags.
+#
+# State is handed on between phases in two ways here:
+# - `end_at`: the spoofing phase ends when the clock-aided spoofing monitor of the
+#   `spoof` run detects the ramp (its `classical.detect_time_s`), not at a fixed time.
+# - `carry`: the holdover and integrity-alarm phases continue the clock time error
+#   from where the previous phase left it, so the offset the spoofer pulled in before
+#   detection is where the free-running clock starts. Recovery re-synchronises to
+#   GNSS, so it carries nothing.
+#
+# The receiver is the jamming example's (52 N, 4 E) under a GPS-like 24-satellite
+# Walker shell; the jammer is 1 km away and its power sets the phase: off, -30 dBW
+# (links degraded but still tracking), 10 dBW (every satellite lost). The clock is a
+# chip-scale atomic clock (Microchip SA.45s datasheet sigma_y(1 s) = 3e-10), the
+# inertial unit the gnss-ins example's tactical class, and the integrity monitor the
+# integrity example's snapshot receiver autonomous integrity monitoring (RAIM) with
+# the approach-with-vertical-guidance (APV-I) alert limits, run on that example's
+# own user track (a 0.4 km-altitude circular track, not the jamming receiver's
+# fixed site). The integrity alarm is produced by a 25 deg elevation mask, standing
+# in for the partial sky a receiver has while reacquiring; recovery returns to 5 deg.
+#
+# MODELLED: the chaining is a modelling choice (additive carry, zero-order hold), and
+# each phase is as good as the kind that ran it.
+kind = "campaign"
+title = "Jamming, spoofing, holdover and integrity: a chained mission"
+seed = 20260928
+
+[timeline]
+step_s = 10.0
+
+# ---------------------------------------------------------------- nominal
+[[phases]]
+name = "nominal"
+duration_s = 600.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 42
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 600.0
+[phases.runs.scenario.gnss]
+windows = [{ t0 = 0.0, t1 = 600.0, state = "nominal" }]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 5.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# ---------------------------------------------------------------- jamming
+[[phases]]
+name = "jamming"
+duration_s = 600.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 43
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 600.0
+[phases.runs.scenario.gnss]
+windows = [{ t0 = 0.0, t1 = 600.0, state = "nominal" }]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[phases.runs.scenario.jammer]
+position_ecef_m = [3926375.101, 274488.966, 5002803.345]
+power_dbw = -30.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 5.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# ---------------------------------------------------------------- spoofing
+# A time-push spoofer ramps the receiver clock at 0.1 ns/s from the start of the
+# phase. The phase ends when the clock-aided monitor detects it (end_at), capped at
+# 900 s. The RF detector (spoof-detect) sees a +1.5 dB, three-satellite position push
+# and alarms at phase start.
+[[phases]]
+name = "spoofing"
+duration_s = 900.0
+end_at = "classical.detect_time_s"
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "spoof"
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 900.0
+[phases.runs.scenario.attack]
+start_s = 0.0
+rate_ns_per_s = 0.1
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "spoof-detect"
+[phases.runs.scenario.attack]
+power_advantage_db = 1.5
+carrier_aligned = false
+push = "position"
+push_magnitude_m = 75.0
+num_biased = 3
+el_imbalance = 0.12
+[phases.runs.scenario.detector]
+sat_power_dbm = -130.0
+agc_margin_db = 3.0
+sqm_tolerance = 0.10
+raim_p_fa = 1.0e-3
+sigma_m = 5.0
+fusion_threshold = 0.5
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 900.0
+[phases.runs.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[phases.runs.scenario.jammer]
+position_ecef_m = [3926375.101, 274488.966, 5002803.345]
+power_dbw = -30.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+# ---------------------------------------------------------------- holdover
+# The jammer goes to 10 dBW: every satellite is lost. The clock free-runs from its
+# last synchronisation, continuing the spoofed offset (carry), and the tactical
+# inertial unit coasts (the gnss-ins run is warmed up on GNSS for 100 s, skipped).
+[[phases]]
+name = "holdover"
+duration_s = 1800.0
+carry = ["time_error_ns"]
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 44
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 1800.0
+[phases.runs.scenario.gnss]
+windows = [
+  { t0 = 0.0, t1 = 1.0, state = "nominal" },
+  { t0 = 1.0, t1 = 1800.0, state = "denied" },
+]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+skip_s = 100.0
+[phases.runs.scenario]
+kind = "gnss-ins"
+seed = 7
+threshold_m = 50.0
+fix_interval_s = 1.0
+sigma_pos_m = 1.0
+sigma_vel_mps = 0.05
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.time]
+step_s = 0.5
+duration_s = 1900.0
+[phases.runs.scenario.gnss]
+windows = [
+  { t0 = 0.0, t1 = 100.0, state = "nominal" },
+  { t0 = 100.0, t1 = 1900.0, state = "denied" },
+]
+[phases.runs.scenario.imu_quantum]
+id = "cold-atom-imu"
+provenance = "Quantum-grade inertial unit: low residual accelerometer/gyro bias (cold-atom-class)"
+accel_bias = [0.015, 0.0, 0.0]
+gyro_bias = [0.0, 0.0, 5.0e-5]
+[phases.runs.scenario.imu_classical]
+id = "tactical-imu"
+provenance = "Tactical-grade MEMS/quartz inertial unit: larger residual bias"
+accel_bias = [0.03, -0.02, 0.0]
+gyro_bias = [0.0, 0.0, 1.0e-4]
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 1800.0
+[phases.runs.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[phases.runs.scenario.jammer]
+position_ecef_m = [3926375.101, 274488.966, 5002803.345]
+power_dbw = 10.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+# ---------------------------------------------------------------- integrity alarm
+# The jammer drops back to -30 dBW and satellites are reacquired, but only above a
+# 25 deg mask: at most epochs the vertical protection level exceeds the 50 m alert
+# limit, or too few satellites remain to form one, so the monitor alarms and the clock stays in holdover (carry) rather than trusting GNSS.
+[[phases]]
+name = "integrity-alarm"
+duration_s = 600.0
+carry = ["time_error_ns"]
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 45
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 600.0
+[phases.runs.scenario.gnss]
+windows = [
+  { t0 = 0.0, t1 = 1.0, state = "nominal" },
+  { t0 = 1.0, t1 = 600.0, state = "denied" },
+]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 25.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+[phases.runs.scenario.jammer]
+position_ecef_m = [3926375.101, 274488.966, 5002803.345]
+power_dbw = -30.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 25.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# ---------------------------------------------------------------- recovery
+[[phases]]
+name = "recovery"
+duration_s = 600.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+seed = 46
+threshold_ns = 50.0
+[phases.runs.scenario.time]
+step_s = 10.0
+duration_s = 600.0
+[phases.runs.scenario.gnss]
+windows = [{ t0 = 0.0, t1 = 600.0, state = "nominal" }]
+[phases.runs.scenario.clock_quantum]
+id = "optical-sr-lattice"
+provenance = "Strontium optical lattice clock, space-oriented goal sigma_y(1s)=1e-15 (arXiv:1503.08457); not flown."
+y0 = 5.0e-17
+q_wf = 1.0e-30
+q_rw = 0.0
+[phases.runs.scenario.clock_classical]
+id = "csac-sa45s"
+provenance = "Microchip SA65 / SA.45s CSAC datasheet sigma_y(1s)=3e-10; q_wf=sigma_y(1s)^2."
+y0 = 5.0e-10
+q_wf = 9.0e-20
+q_rw = 0.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+[[phases.runs]]
+[phases.runs.scenario]
+kind = "integrity"
+seed = 7
+mask_deg = 5.0
+sigma_uere_m = 1.0
+p_fa = 1.0e-5
+p_md = 1.0e-3
+al_h_m = 40.0
+al_v_m = 50.0
+[phases.runs.scenario.time]
+step_s = 30.0
+duration_s = 600.0
+[phases.runs.scenario.user]
+altitude_km = 0.4
+inclination_deg = 45.0
+raan_deg = 10.0
+u0_deg = 0.0
+[phases.runs.scenario.constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0

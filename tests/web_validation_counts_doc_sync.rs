@@ -1,73 +1,162 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Regression guard: the website's validated-capability counts must track the matrix.
 //!
-//! `web/index.html` states the validated/total counts in its meta description and its
-//! social-card description — the two strings a search result and a shared link show,
-//! which is to say the first numbers most people ever see from this project.
+//! The site states the validated/total counts on its home page, its evidence page and its
+//! editions page, and in the social-card text of every page — the first numbers most
+//! people ever see from this project.
 //!
-//! Neither was covered by any gate. The READMEs have had
+//! None of it was covered by any gate. The READMEs have had
 //! `readme_validation_counts_doc_sync` since the last drift; the website did not, and it
 //! drifted to "56 of 103" while the ledger stood at 122 rows with 58 validated — stale by
 //! nineteen rows, with nothing to catch it. The failure mode is the one this repository
 //! keeps rediscovering: a gate only grades the surfaces it lists, and a surface nobody
 //! listed is a surface nobody checked.
+//!
+//! The pages under `web/` are written by the site build and ported in by
+//! `web/tools/port_site.py`; they are static text, so what is committed is what a visitor
+//! reads. A failure here means the site was built from an older ledger: rebuild it from
+//! this checkout and rerun the port. Do not edit the pages by hand.
 
 use kshana::verification::{summarize, verification_matrix};
 
+/// What a reader sees of a page: the text with scripts, styles, inline drawings and tags
+/// removed and whitespace collapsed. A tag boundary becomes a space, so
+/// `<b>83</b><span>of 223` reads "83 of 223".
+fn visible_text(html: &str) -> String {
+    let mut s = html.to_string();
+    for tag in ["script", "style", "svg"] {
+        let (open, close) = (format!("<{tag}"), format!("</{tag}>"));
+        while let Some(a) = s.find(&open) {
+            match s[a..].find(&close) {
+                Some(b) => s.replace_range(a..a + b + close.len(), " "),
+                None => break,
+            }
+        }
+    }
+    let mut out = String::with_capacity(s.len());
+    let mut in_tag = false;
+    for c in s.chars() {
+        match c {
+            '<' => {
+                in_tag = true;
+                out.push(' ');
+            }
+            '>' => in_tag = false,
+            _ if !in_tag => out.push(c),
+            _ => {}
+        }
+    }
+    out.split_whitespace().collect::<Vec<_>>().join(" ")
+}
+
+/// Every `content="…"` attribute value of a page: the descriptions and image alt texts a
+/// search result or a link preview shows.
+fn meta_contents(html: &str) -> String {
+    html.split("content=\"")
+        .skip(1)
+        .filter_map(|r| r.split('"').next())
+        .collect::<Vec<_>>()
+        .join(" . ")
+}
+
 /// The ledger section's own total, which no gate listed either.
 ///
-/// It read `102` while the matrix stood at 133 rows — stale by thirty-one, and static: no
-/// script sets it at runtime, so what the page says is what is committed. It drifted for
-/// exactly the reason the module docs above give, one surface further along. Finding it
-/// took reading the file rather than trusting the guard that was already green, which is
-/// the actual lesson: a passing gate is evidence about the surfaces it lists and about
-/// nothing else.
+/// On the single-page site it read `102` while the matrix stood at 133 rows — stale by
+/// thirty-one, and static: no script sets it at runtime, so what the page says is what is
+/// committed. Finding it took reading the file rather than trusting the guard that was
+/// already green, which is the actual lesson: a passing gate is evidence about the
+/// surfaces it lists and about nothing else. The redesigned site states it in the ledger
+/// section's heading on the evidence page, static in the same way.
 #[test]
 fn the_ledger_sections_own_total_matches_the_matrix() {
     let s = summarize(&verification_matrix());
-    let html = include_str!("../web/index.html");
-    let want = format!("<span id=\"ldg-total\">{}</span>", s.total);
+    let text = visible_text(include_str!("../web/evidence.html"));
+    let want = format!("All {} rows, one line each.", s.total);
     assert!(
-        html.contains(want.as_str()),
-        "web/index.html's ledger section must state the matrix total as {want:?}. The \
-         matrix is {} rows. This element is static — nothing sets it at runtime — so a \
+        text.contains(want.as_str()),
+        "web/evidence.html's ledger section must state the matrix total as {want:?}. The \
+         matrix is {} rows. The heading is static — nothing sets it at runtime — so a \
          stale value here is what a visitor reads.",
         s.total
     );
-    // The id must be unique, or the assertion above could be satisfied by one occurrence
-    // while a second, stale one renders instead.
-    let n = html.matches("id=\"ldg-total\"").count();
-    assert_eq!(n, 1, "expected exactly one ldg-total element, found {n}");
+    // The heading must be unique, or the assertion above could be satisfied by one
+    // occurrence while a second, stale one renders instead.
+    let n = text.matches(" rows, one line each.").count();
+    assert_eq!(n, 1, "expected exactly one ledger heading, found {n}");
 }
 
 #[test]
 fn website_validation_counts_match_the_matrix() {
     let s = summarize(&verification_matrix());
-    let html = include_str!("../web/index.html");
     let pair = format!("{} of {}", s.validated, s.total);
+    let full = format!("{pair} capabilities validated");
 
-    // Both descriptions must carry the claim.
-    let full = format!("{pair} capabilities validated against external oracles");
-    let hits = html.matches(full.as_str()).count();
+    // (page, how many times the claim must appear at least). The home page states it in
+    // its evidence card and in both social-card alt texts; every other page at least in
+    // the social-card alt texts the port writes.
+    let pages: [(&str, &str, usize); 3] = [
+        ("web/index.html", include_str!("../web/index.html"), 3),
+        ("web/evidence.html", include_str!("../web/evidence.html"), 2),
+        ("web/editions.html", include_str!("../web/editions.html"), 3),
+    ];
+    for (name, html, at_least) in pages {
+        let text = format!("{} . {}", visible_text(html), meta_contents(html));
+        let hits = text.matches(full.as_str()).count();
+        assert!(
+            hits >= at_least,
+            "{name} should state {full:?} at least {at_least} time(s), but that string \
+             appears {hits} time(s). The matrix is {} rows with {} validated.",
+            s.total,
+            s.validated
+        );
+
+        // And no OTHER such claim may survive beside them: a stale count left in place is
+        // a wrong count, not merely a redundant one. Every "… capabilities validated" on
+        // the page must be preceded by the current pair.
+        for (idx, _) in text.match_indices(" capabilities validated") {
+            let head = &text[..idx];
+            let words: Vec<&str> = head.split(' ').rev().take(3).collect();
+            let claim = words.into_iter().rev().collect::<Vec<_>>().join(" ");
+            assert_eq!(
+                claim, pair,
+                "{name} carries a validated-capability claim of {claim:?}; the matrix is \
+                 {pair:?}. Every such claim on the page must state the current pair."
+            );
+        }
+    }
+
+    // The two headline figures that are not phrased "N of M capabilities validated": the
+    // home page's stat strip ("83 /223 validated against …") and the evidence page's
+    // opening line and graded total.
+    let home = visible_text(include_str!("../web/index.html"));
+    let strip = format!("{} /{} validated against", s.validated, s.total);
     assert!(
-        hits >= 2,
-        "web/index.html should state {full:?} in both its meta description and its \
-         social-card description, but that string appears {hits} time(s). The matrix is \
-         {} rows with {} validated.",
-        s.total,
-        s.validated
+        home.contains(&strip),
+        "web/index.html's stat strip should read {strip:?}"
     );
-
-    // And no OTHER such claim may survive beside them: a stale count left in place is a
-    // wrong count, not merely a redundant one.
-    for (idx, _) in html.match_indices(" capabilities validated") {
-        let head = &html[..idx];
-        let start = head.rfind(". ").map(|i| i + 2).unwrap_or(0);
-        let claim = head[start..].trim();
-        assert_eq!(
-            claim, pair,
-            "web/index.html carries a validated-capability claim of {claim:?}; the matrix \
-             is {pair:?}. Every such claim on the page must state the current pair."
+    let ev = visible_text(include_str!("../web/evidence.html"));
+    for want in [
+        format!(
+            "{} capabilities, each graded. {} validated against",
+            s.total, s.validated
+        ),
+        format!(
+            "Capabilities graded {} of {} validated",
+            s.validated, s.total
+        ),
+        format!(
+            "{} honestly labelled Modelled. {} partner-owned.",
+            s.modelled, s.partner_owned
+        ),
+    ] {
+        assert!(
+            ev.contains(&want),
+            "web/evidence.html should state {want:?}; the matrix is {} rows: {} validated, \
+             {} modelled, {} partner-owned.",
+            s.total,
+            s.validated,
+            s.modelled,
+            s.partner_owned
         );
     }
 }
@@ -136,38 +225,47 @@ fn the_social_card_image_states_the_matrixs_counts() {
     );
 }
 
-/// The capability explorer's headline tally — the count a visitor reads first in the
-/// Capabilities section.
+/// The Studio's headline tally — the counts its evidence panel leads with.
 ///
-/// It used to be built in `web/app.js` from the curated card list alone: "46 capability
-/// cards … 17 backed by an external oracle", beside READMEs that say 64 of 168. Both
-/// were true of their own population, and together they read as the project giving two
-/// answers to one question. The tally now comes from `web/counts.mjs` over
-/// `web/data/verification-matrix.json` — generated from the matrix and pinned to it by
-/// `verification_artifacts_doc_sync.rs`, the same matrix the README counts are pinned to
-/// — with the cards named after it as the summary layer they are.
+/// On the single-page site the capability explorer's tally was once built in `web/app.js`
+/// from the curated card list alone: "46 capability cards … 17 backed by an external
+/// oracle", beside READMEs that say 64 of 168. Both were true of their own population,
+/// and together they read as the project giving two answers to one question. The tally
+/// now comes from `counts.mjs` over the generated ledger — the same matrix the README
+/// counts are pinned to. In the redesigned site that module lives with the Studio
+/// (`web/playground/lib/counts.mjs`), and the Studio's copy of the ledger is the one in
+/// `web/data/`, byte for byte (`web/site.test.mjs` pins that).
 ///
-/// This test pins the wiring from the Rust side; `web/counts.test.mjs` (its own CI step)
-/// pins the arithmetic and cross-checks the README and the page descriptions.
+/// This test pins the wiring from the Rust side; `web/playground/lib/counts.test.mjs`
+/// and `web/site.test.mjs` (each its own CI step) pin the arithmetic and cross-check the
+/// README and the pages.
 #[test]
 fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
     let s = summarize(&verification_matrix());
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
-    let app = std::fs::read_to_string(root.join("web/app.js")).expect("web/app.js");
+    let app =
+        std::fs::read_to_string(root.join("web/playground/app.js")).expect("web/playground/app.js");
     for needle in [
-        "from \"./counts.mjs\"",
-        "explorerTally(matrix, cardCounts)",
-        "buildExplorer(data.capabilities, ledger)",
+        "from \"./lib/counts.mjs\"",
+        "matrixCounts(ledger)",
+        "fetch(\"data/verification-matrix.json\")",
     ] {
         assert!(
             app.contains(needle),
-            "web/app.js must build the explorer tally from the ledger through counts.mjs; \
+            "web/playground/app.js must take its counts from the ledger through counts.mjs; \
              missing {needle:?}"
         );
     }
     assert!(
         !app.contains("backed by an external oracle`"),
-        "web/app.js still carries a card-only 'backed by an external oracle' headline"
+        "web/playground/app.js carries a card-only 'backed by an external oracle' headline"
+    );
+    assert_eq!(
+        std::fs::read(root.join("web/playground/data/verification-matrix.json"))
+            .expect("web/playground/data/verification-matrix.json"),
+        std::fs::read(root.join("web/data/verification-matrix.json"))
+            .expect("web/data/verification-matrix.json"),
+        "the Studio's copy of the ledger is not the generated one; rerun web/tools/port_site.py"
     );
 
     let ledger: serde_json::Value = serde_json::from_str(
@@ -180,7 +278,8 @@ fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
 
     let ci = std::fs::read_to_string(root.join(".github/workflows/ci.yml")).expect("ci.yml");
     assert!(
-        ci.contains("run: node web/counts.test.mjs"),
-        "web/counts.test.mjs must have its own CI step"
+        ci.contains("run: node web/playground/lib/counts.test.mjs")
+            && ci.contains("run: node web/site.test.mjs"),
+        "web/playground/lib/counts.test.mjs and web/site.test.mjs must each have a CI step"
     );
 }

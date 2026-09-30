@@ -1,0 +1,137 @@
+# Lunar navigation SERVICE-VOLUME analysis — Moonlight / LCNS-class constellation.
+#
+# Where src/lunar.rs runs a single south-pole protection-level PASS, src/lunar_service.rs
+# analyses a whole SERVICE VOLUME: it sweeps a selenographic latitude/longitude grid over a
+# time horizon and reports, for an ILLUSTRATIVE Moonlight / LCNS-class lunar-orbit
+# constellation:
+#
+#   * DOP / coverage / availability — the fraction of (grid point, epoch) samples with
+#     >= 4 visible satellites AND PDOP < threshold, plus the PDOP and visible-count
+#     envelopes. The DOP geometry REUSES the gnss_lib_py-VALIDATED kernel
+#     (crate::orbit::dop) exactly — service_dop is a thin filter + that kernel.
+#
+#   * Generalised lunar ARAIM protection levels (HPL/VPL) over the volume — the SAME
+#     LunaNet LNIS lunar ARAIM machinery the south-pole pass uses (crate::lunar::lunar_araim,
+#     sigma_URE ~ 30 m, P_sat ~ 1e-4), generalised from the south pole to an arbitrary
+#     surface point. At the south pole with the same geometry/budget it reduces to the
+#     existing south-pole protection level.
+#
+# CONSTELLATION (ILLUSTRATIVE; PUBLIC-SOURCE; NOT AFFILIATED WITH ESA): public ESA material
+# describes LCNS / Moonlight as a small constellation (~4 satellites, first phase) on
+# elliptical lunar frozen orbits favouring south-pole coverage (apolune over the south).
+# The defaults below APPROXIMATE that public description (4 sats, eccentric inclined orbit,
+# argument of perilune 90 deg so apolune sits over the southern hemisphere). These are
+# illustrative parameters for exercising the method, NOT the real Moonlight/LCNS ephemeris,
+# and imply no affiliation, endorsement, heritage, certification or TRL.
+#
+# HONESTY: MODELLED composition. The DOP geometry is validated BY REUSE of the validated
+# kernel; the coverage / availability / integrity composition is MODELLED — a circular-/
+# elliptical-Keplerian relay set (not a differential-corrected LCNS / 9:2 NRHO ephemeris),
+# a mean-rotation Moon (no physical libration / precessing pole), and published LunaNet LNIS
+# integrity parameters. This demonstrates the lunar service-volume METHOD, not an
+# operational Moonlight availability number. Deterministic (pure geometry; no randomness).
+kind = "moonlight-service-volume"
+
+# Illustrative LCNS-class constellation (public-source approximation; not affiliated).
+# The public first-phase description is ~4 satellites; the generalised lunar ARAIM
+# protection level needs >= 6 satellites IN VIEW (the single-fault hypothesis set needs
+# n-1 >= 5 redundancy), so this default uses a fuller (illustrative, expanded) set so the
+# PL envelope is exercised alongside the DOP / coverage headline. Set n_sats = 4 to model
+# the first-phase constellation (DOP/coverage only; the PL envelope is then empty).
+n_sats = 8
+sma_km = 9737.4        # ~8000 km perilune altitude above the mean lunar radius
+eccentricity = 0.6
+inc_deg = 57.7
+argp_deg = 90.0        # apolune over the southern hemisphere (south-pole favouring)
+
+# Service-volume grid (south-polar region by default — the Artemis target).
+lat_min_deg = -90.0
+lat_max_deg = -60.0
+lat_step_deg = 10.0
+lon_min_deg = -180.0
+lon_max_deg = 180.0
+lon_step_deg = 60.0
+
+# Time horizon and sampling.
+horizon_hours = 12.0
+step_min = 60.0
+
+# Geometry / availability thresholds.
+elev_mask_deg = 5.0
+pdop_threshold = 6.0
+
+# Integrity (LunaNet LNIS): surface-ops alert limit and integrity-risk budget.
+alert_limit_m = 50.0
+p_hmi = 1e-4
+
+# OPTIONAL per-satellite geometry export for ONE named selenographic site. Off unless
+# BOTH coordinates are given; the aggregate coverage / DOP summary above collapses
+# per-satellite geometry, but slant range and look angles are what a link budget consumes.
+#   export_site_lat_deg = -89.9
+#   export_site_lon_deg = 0.0
+#
+# OPTIONAL transmit antenna for that export. Read only when the export site is also set.
+# Each exported row then also carries the off-boresight angle AT THE SATELLITE and the
+# transmit gain toward the site from the REAL Airy aperture pattern
+# (antenna::pattern_gain_dbi), and the report gains an `antenna_pattern` block reporting
+# the in-beam count under that pattern BESIDE the in-beam count under the symmetric
+# gain-to-beamwidth approximation (theta_3dB[deg] = sqrt(31000/G_lin)), plus the
+# correction between them. Both are emitted; neither replaces the other. The defaults
+# below are the engine's own representative lunar transmit aperture, the same 1 m dish at
+# 2.4 GHz that scenarios/lunar-attack-surface.toml runs.
+#   [export_antenna]
+#   diameter_m = 1.0       # required: the pattern is a statement about one aperture
+#   carrier_hz = 2.4e9     # default 2.4e9 (S-band lunar AFS)
+#   efficiency = 0.60      # default 0.60 (antenna::DEFAULT_APERTURE_EFFICIENCY)
+#
+# With an export site set, a plain run ALSO emits <scenario>.table.csv: the per-satellite
+# geometry in long form, one row per (epoch, satellite), with the row count on the header
+# line. This is the largest array the crate publishes — 2304 rows in the released joint
+# communications-and-navigation table — and inside JSON it is the shape a naive consumer
+# truncates without anything objecting. The four antenna columns are present only when
+# export_antenna is configured, and the header says which case the file is. No export
+# site, no array, no file.
+#
+# OPTIONAL real, retrieved geometry in place of the illustrative constellation above.
+# UNSET BY DEFAULT, and unset changes nothing: the report is byte-identical to what it is
+# without this line. Point it at a file and that file's geometry drives the headline
+# coverage / DOP / protection-level figures, the report gains an `ephemeris` provenance
+# block (path, SHA-256 of the exact bytes, upstream document, URL, retrieval date), and an
+# `ephemeris_comparison` block carries the sigma_URE RANGING REQUIREMENT under that
+# geometry BESIDE the unchanged Keplerian and perturbed results, with the difference and
+# the ratio emitted as their own named quantities. Nothing is replaced; nothing is tuned to
+# bring the geometries together.
+#
+# Two file formats, two distinct provenance classes (see src/lunar_ephemeris.rs and
+# tests/fixtures/lunar_ephemeris/NOTICE.md):
+#   * `# format: elements` -> a PUBLISHED CONSTELLATION DEFINITION, propagated by the same
+#     Kepler solver the illustrative set uses, so the only difference between the two runs
+#     is the constellation design. Provenance class `published-elements`.
+#   * `# format: states`   -> a TABULATED MOON-CENTRED STATE EPHEMERIS (what an SPK/BSP
+#     kernel evaluates to), Lagrange-interpolated and reduced to MCMF by the IAU 2015 /
+#     WGCCRE lunar orientation. Provenance class `published-ephemeris`. A horizon past the
+#     end of the table is REFUSED rather than extrapolated.
+#
+# An `elements` file states its own frame (`# elements_frame: icrf` or `mci`, default
+# `mci`) and may give the phase as either a mean or a TRUE anomaly, so a fixture can carry
+# exactly the numbers its source printed. An ICRF-stated set is propagated in ICRF and
+# reduced by the IAU 2015 / WGCCRE lunar orientation, with no frame approximation; an
+# OP-frame set (the Ely / Ely and Lieb convention) is read as MCI, and the report emits the
+# COMPUTED tilt that introduces as `ephemeris.published_frame_tie_angle_deg`.
+#
+# The committed candidates (all regenerable from their recorded sources):
+#   ephemeris_path = "tests/fixtures/lunar_ephemeris/lans_demo_ntrs20250009447.csv"
+#     the 5-satellite joint ESA/NASA/JAXA LANS interoperability-demonstration reference
+#     constellation, Table 3 of Melman et al., ION GNSS+ 2025 / NASA NTRS 20250009447.
+#     Elements in ICRF at a stated epoch; the source calls the orbits NOTIONAL and that
+#     caveat is emitted with them. Five satellites can never put the six in view ARAIM
+#     needs, so this yields coverage and DOP but NO protection level and NO sigma
+#     requirement - reported absent, not manufactured.
+#   ephemeris_path = "tests/fixtures/lunar_ephemeris/lncss_case_a_navi613.csv"
+#     8-satellite LNCSS case study A, Table 1 of Bhamidipati, Mina, Sanchez and Gao,
+#     NAVIGATION 70(4) navi.613, 2023 (open access, CC BY). Cases B (12 sats) and C (16)
+#     are committed beside it.
+#   ephemeris_path = "tests/fixtures/lunar_ephemeris/horizons_lunar_orbiters_2023001_12h.csv"
+#     the four spacecraft really in lunar orbit on 2023-01-01, from JPL Horizons. NOT a
+#     navigation constellation: 1-2 in view over the south pole, no protection level, so
+#     the sigma requirement comes back ABSENT rather than invented.

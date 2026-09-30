@@ -1,0 +1,77 @@
+# Road vehicle through an urban canyon: GNSS/INS dead-reckoning across an underpass and
+# a roadside jammer, against a lane-level budget.
+#
+# The mission question a driver-assistance or automated-driving team asks: a car's
+# Global Navigation Satellite System (GNSS) receiver loses the sky under an overpass and
+# then again near a roadside jammer (a low-power in-vehicle "privacy" jammer on a
+# neighbouring vehicle is the common case). How long does the fused GNSS/inertial
+# navigation system (INS) solution stay inside half a lane? The 1.5 m threshold is half
+# a 3.5 m lane less a margin, a budget chosen here, not a standard's figure.
+#
+# The pack is `gnss-ins`: a three-axis strapdown navigator disciplined by a 15-state
+# error-state extended Kalman filter (EKF), then coasting through the outages. The
+# GNSS timeline: open sky for 60 s, a 15 s underpass, 45 s of open sky, then 60 s
+# near the jammer.
+#
+# The pack has two fixed slots named `imu_quantum` and `imu_classical`. Here
+# `imu_quantum` carries the BETTER unit, a tactical-grade comparator, and
+# `imu_classical` carries an automotive MEMS (micro-electro-mechanical system) unit.
+# Nothing quantum is modelled in this file. Both use the representative class
+# coefficients from the engine's grade table (Groves 2013, Table 4.1 band; the same
+# figures as `imu_grade` in `ins-trn-coast`), NOT a datasheet for any part:
+#   - tactical: accelerometer bias 300 ug = 2.94e-3 m/s^2, gyro bias 1 deg/h =
+#     4.848e-6 rad/s;
+#   - industrial (automotive MEMS sits in this band): accelerometer bias 3000 ug =
+#     2.94e-2 m/s^2, gyro bias 20 deg/h = 9.696e-5 rad/s, accelerometer scale factor
+#     2000 ppm.
+#
+# Honest scope (inherited from the `gnss-ins` pack): loosely coupled, the pack's single
+# deterministic driving profile (a forward-acceleration and yaw square wave), not a
+# recorded drive; no odometer or wheel-speed aiding (the engine has none), no
+# multipath model, and constant biases, which the filter can learn while GNSS is up,
+# so the coast is a best case for these classes. MODELLED: every figure is modelled.
+kind = "gnss-ins"
+seed = 7
+threshold_m = 1.5
+fix_interval_s = 1.0
+sigma_pos_m = 1.0
+sigma_vel_mps = 0.05
+lat_deg = 48.137
+lon_deg = 11.575
+alt_m = 520.0
+
+[time]
+step_s = 0.1
+duration_s = 180.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 60.0,  state = "nominal" },
+  { t0 = 60.0,  t1 = 75.0,  state = "denied" },
+  { t0 = 75.0,  t1 = 120.0, state = "nominal" },
+  { t0 = 120.0, t1 = 180.0, state = "denied" },
+]
+
+[imu_quantum]
+id = "tactical-imu"
+provenance = "Tactical-grade class (Groves 2013 Table 4.1 band, engine grade table): accel bias 300 ug = 2.94e-3 m/s^2, gyro bias 1 deg/h = 4.848e-6 rad/s; signs chosen"
+accel_bias = [2.94e-3, -2.94e-3, 0.0]
+gyro_bias = [0.0, 0.0, 4.848e-6]
+
+[imu_quantum.filter_prior]
+sigma_accel_bias = 2.94e-3
+sigma_gyro_bias = 4.848e-6
+
+[imu_classical]
+id = "automotive-mems"
+provenance = "Industrial-grade class, where automotive MEMS units sit (Groves 2013 Table 4.1 band, engine grade table): accel bias 3000 ug = 2.94e-2 m/s^2, gyro bias 20 deg/h = 9.696e-5 rad/s; signs chosen"
+accel_bias = [2.94e-2, -2.94e-2, 0.0]
+gyro_bias = [9.696e-5, -9.696e-5, 9.696e-5]
+
+[imu_classical.filter_prior]
+sigma_accel_bias = 2.94e-2
+sigma_gyro_bias = 9.696e-5
+
+# The class's accelerometer scale-factor error (2000 ppm) layered on the constant bias.
+[imu_classical.error_model]
+scale_accel_ppm = [2000.0, 2000.0, 2000.0]

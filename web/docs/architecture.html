@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Kshana — Architecture · Kshana docs</title>
+<meta name="description" content="Kshana — Architecture. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/architecture.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/architecture.html">
+<meta property="og:title" content="Kshana — Architecture · Kshana docs">
+<meta property="og:description" content="Kshana — Architecture. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kshana — Architecture · Kshana docs">
+<meta name="twitter:description" content="Kshana — Architecture. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html" aria-current="page">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>APIs and integrations</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/ARCHITECTURE.md">Edit on GitHub</a><span>Source: <code>docs/ARCHITECTURE.md</code></span></div>
+    <div class="prose"><h1 id="kshana--architecture">Kshana — Architecture</h1>
+<p>Kshana is <strong>one engine</strong> organised in layers over a shared core: the <strong>sensor packs</strong>
+(clock, inertial, time-transfer, hybrid); an <strong>astrodynamics / numerical</strong> layer (analytic
+SGP4/SDP4 (SGP4: Simplified General Perturbations 4; SDP4: Simplified Deep-space Perturbations 4), a numerical Cowell propagator with its seven-perturbation force model, maneuver
+design, orbit determination from ground-station ranges, and the force-model fit against
+agency precise ephemerides); a <strong>time &amp; reference-frame</strong> layer (IERS (International Earth Rotation and Reference Systems Service) time scales, IAU (International Astronomical Union)
+2006/2000A precession–nutation, and the CIO (Celestial Intermediate Origin) GCRS↔ITRS (GCRS: Geocentric Celestial Reference System; ITRS: International Terrestrial Reference System) reduction); a <strong>fusion</strong> layer (the
+GNSS/INS (GNSS: global navigation satellite system; INS: inertial navigation system) estimators); and the <strong>integrity, resilience, alt-PNT (PNT: positioning, navigation and timing) and lunar</strong> layers
+(RAIM/ARAIM/SBAS (RAIM: receiver autonomous integrity monitoring; ARAIM: advanced receiver autonomous integrity monitoring; SBAS: satellite-based augmentation system), jamming and multi-layer spoof detection, gravity/terrain/magnetic
+map-matching, and cislunar PNT); and the newer <strong>LEO-PNT</strong> (low Earth orbit PNT),
+<strong>spectrum</strong>, <strong>solar-system and constellation-design</strong>, <strong>network-timing</strong> and
+<strong>campaign</strong> layers, with the report, animation and interoperability writers that every
+run can use (§1d). Across all of them the engine knows nothing about
+&quot;quantum&quot; vs &quot;classical&quot;: it drives
+sensor <em>error models</em> through a GNSS-outage scenario, runs an estimator, and scores the
+outcome. A quantum and a classical device are therefore compared on the same scenario,
+differing only in their (published, cited) error parameters and their independent noise
+seeds.</p>
+<p>This document collects the structural and behavioural diagrams. §1 is the sensor-pack
+core; §1a maps the astrodynamics, fusion, and alt-PNT layers added since; §1b–§1d the
+study, domain and output layers. For usage see
+the <a href="overview.html">README</a>; for what is and isn&#39;t validated see
+<a href="validation.html">VALIDATION</a>; for the per-capability maturity table see
+<a href="capability-map.html">CAPABILITY</a>.</p>
+<p>Abbreviations used in the diagrams and not spelled out where they appear: ADEV, Allan
+deviation; BW, bandwidth; CAI,
+cold-atom interferometer; CZML, the Cesium Language; Δ-DOR, delta differential one-way
+ranging; DO-229E, the RTCA (Radio Technical Commission for Aeronautics) SBAS receiver
+standard; EKF, extended Kalman filter; FM, frequency modulation; GSE, ground support
+equipment; HPL/VPL, horizontal/vertical protection level; IMU, inertial measurement unit;
+IOAG, Interagency Operations Advisory Group; IQ, in-phase/quadrature samples; ISL,
+inter-satellite link; ITU-T, the Telecommunication Standardization Sector of the
+International Telecommunication Union; J2–J6, the Earth&#39;s zonal gravity harmonics of
+degree 2 to 6; KIF, the Kshana Interchange Format; KML, Keyhole Markup Language; KPI, key
+performance indicator; L1/L5, GNSS carrier bands (the L2 of the CR3BP halo orbits is
+instead the Earth–Moon Lagrange point 2); LEO, low Earth orbit; LOO, leave-one-out; LTC,
+Coordinated Lunar Time; MEO, medium Earth orbit; MTIE, maximum time interval error; N2,
+the order-2 Hill diversity number; NED, north-east-down; NTN, non-terrestrial network;
+OD, orbit determination; OPS-SAT, the European Space Agency&#39;s in-orbit software
+laboratory satellite; PPP, precise point positioning; PSD, power spectral density; PVT,
+position, velocity and time; RINEX, Receiver Independent Exchange Format; RK4 / RK5(4),
+fourth-order and embedded fifth(fourth)-order Runge–Kutta integrators; SH, spherical
+harmonic; SigMF, Signal Metadata Format; SIR, sampling importance resampling; SRIF,
+square-root information filter; SRP, solar radiation pressure; SSC, spectral separation
+coefficient; STK, Systems Tool Kit; SVG, Scalable Vector Graphics; TDEV, time deviation;
+TDM, the CCSDS (Consultative Committee for Space Data Systems) Tracking Data Message; TLE,
+two-line element set; TPL, Timing Protection Level; UBX, the u-blox binary protocol; UHF,
+ultra high frequency; VLBI, very-long-baseline interferometry; VRW / ARW, velocity /
+angle random walk; WASM, WebAssembly.</p>
+<hr>
+<h2 id="1-module-structure">1. Module structure<a class="anchor" href="#1-module-structure" aria-label="Link to this section">#</a></h2>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    main[&quot;main.rs&lt;br/&gt;CLI (thin wrapper)&quot;]
+    py[&quot;python.rs&lt;br/&gt;PyO3 (feature)&quot;]
+    wasm[&quot;wasm.rs&lt;br/&gt;wasm-bindgen (feature)&quot;]
+    api[&quot;api.rs&lt;br/&gt;run_toml: parse · dispatch by kind · json+svg+summary&quot;]
+
+    subgraph shared[&quot;Shared core&quot;]
+      types[&quot;types.rs&lt;br/&gt;Seconds · TimeGrid · ModelSpec&quot;]
+      scenario[&quot;scenario.rs&lt;br/&gt;GnssState · GnssTimeline · ClockCfg · Scenario&quot;]
+      allan[&quot;allan.rs&lt;br/&gt;overlapping Allan deviation&quot;]
+    end
+
+    subgraph pack1[&quot;Pack 1 · Clock holdover&quot;]
+      models[&quot;models.rs&lt;br/&gt;ErrorModel · ClockModel (incl. flicker FM)&quot;]
+      estimator[&quot;estimator.rs&lt;br/&gt;HoldoverEstimator&quot;]
+      kalman[&quot;kalman.rs&lt;br/&gt;KalmanClock → Integrity bound&quot;]
+      security[&quot;security.rs&lt;br/&gt;clock-aided spoof detection → Security&quot;]
+      fom[&quot;fom.rs&lt;br/&gt;Sample · FoMScores · score · worst_case_holdover&quot;]
+      report[&quot;report.rs&lt;br/&gt;RunResult · hash · to_svg&quot;]
+      run[&quot;run.rs&lt;br/&gt;run / run_clock / run_orbit_clock&quot;]
+    end
+
+    inertial[&quot;inertial/&lt;br/&gt;Pack 2 · AccelModel (accel + gyro + bias instability/RW) · run_inertial · quantum_imu CAI + QuantumNavBudget dead-reckoning-over-holdover&quot;]
+    timetransfer[&quot;timetransfer.rs&lt;br/&gt;Pack 3 · TimeTransferLink · run_timetransfer&quot;]
+    hybrid[&quot;hybrid.rs&lt;br/&gt;Pack 4 · run_suite · score_hybrid · run_hybrid (+ integrity/security)&quot;]
+    fusion[&quot;fusion/&lt;br/&gt;joint Kalman PNT estimator · run_fusion&quot;]
+    orbit[&quot;orbit.rs&lt;br/&gt;Propagator (Kepler | SGP4) · Walker / TLE / multi-constellation · visibility · DOP&quot;]
+    tle[&quot;tle.rs&lt;br/&gt;two-line element parsing (line 2 → Kepler, full TLE → SGP4)&quot;]
+    sgp4mod[&quot;sgp4.rs&lt;br/&gt;SGP4 / SDP4 propagator (deep-space + resonance)&quot;]
+    ensemble[&quot;ensemble.rs&lt;br/&gt;Monte Carlo confidence bands&quot;]
+    sweep[&quot;sweep.rs&lt;br/&gt;trade-study parameter sweeps&quot;]
+    spoof[&quot;spoof.rs&lt;br/&gt;active spoofing-attack demonstrator&quot;]
+    jamming[&quot;jamming.rs&lt;br/&gt;link-budget anti-jam C/N₀ (J/S · processing gain · Q)&quot;]
+    navsignal[&quot;navsignal.rs&lt;br/&gt;signal level: BPSK-R / BOC PSD · SSC κ · Gabor BW · DLL jitter · multipath · ranging-code (m-seq/Gold) design-trade&quot;]
+    holdover[&quot;holdover.rs&lt;br/&gt;GNSS-denied clock holdover: van-Loan coast → holdover-to-threshold · quantum-clock classes&quot;]
+    verification[&quot;verification.rs&lt;br/&gt;machine-checked requirement→module→test→oracle→status matrix&quot;]
+
+    main --&gt; api
+    py --&gt; api
+    wasm --&gt; api
+    api --&gt; run
+    api --&gt; inertial
+    api --&gt; timetransfer
+    api --&gt; hybrid
+    api --&gt; ensemble
+    api --&gt; sweep
+    api --&gt; fusion
+    api --&gt; spoof
+    spoof --&gt; security
+    api --&gt; jamming
+    api --&gt; holdover
+    api --&gt; verification
+    navsignal -. derives anti-jam Q (κ → Q=1/(R_c·κ)) .-&gt; jamming
+    jamming -. uses PSD / SSC .-&gt; navsignal
+    holdover -. coast-variance vs van-Loan recursion .-&gt; kalman
+    ensemble --&gt; run
+    sweep --&gt; run
+    orbit --&gt; tle
+    tle --&gt; sgp4mod
+    orbit -. SGP4 propagator .-&gt; sgp4mod
+    fusion -. composes .-&gt; models
+    fusion -. composes .-&gt; inertial
+    fusion --&gt; kalman
+
+    run --&gt; models
+    run --&gt; estimator
+    run --&gt; kalman
+    run --&gt; security
+    run --&gt; fom
+    run --&gt; report
+    run --&gt; orbit
+    models --&gt; types
+    scenario --&gt; types
+    inertial --&gt; scenario
+    timetransfer --&gt; types
+    orbit --&gt; scenario
+    hybrid -. composes .-&gt; models
+    hybrid -. composes .-&gt; estimator
+    hybrid -. composes .-&gt; inertial
+    hybrid -. composes .-&gt; timetransfer
+    pack1 --&gt; shared
+    inertial --&gt; allan</code></pre>
+<p>The CLI (command-line interface) and both bindings funnel through one <code>api::run_toml</code> entry point, so they
+never drift. The packs reuse the shared core (<code>types</code>, <code>scenario</code>, <code>allan</code>); Pack 4
+(<code>hybrid</code>) composes the models and estimators of Packs 1–3 rather than reimplementing
+them; <code>orbit</code> derives a GNSS timeline from geometry that then feeds the Pack 1 run. The
+<code>navsignal</code> module sits at the signal level between the link budget and the measurement
+domain: it derives the spectral-separation coefficient <code>κ</code> from the actual signal and
+jammer power spectra, from which <code>jamming</code> now computes its anti-jam <code>Q = 1/(R_c·κ)</code>
+rather than taking a representative constant (cross-checked in CI (continuous integration)); it also carries the
+ranging-code (m-sequence/Gold) design-trade.</p>
+<p>Three further modules form the <strong>GNSS-denied resilience</strong> spine. <code>holdover</code> answers the
+operational question directly — <em>how long can this clock free-run before its timing error
+exceeds budget?</em> — by exposing the van-Loan coast-error closed form as a holdover-to-
+threshold inversion, cross-checked against the multi-step <code>clock_state</code> covariance
+recursion. Its inertial twin lives in <code>inertial::quantum_imu</code> (<code>QuantumNavBudget</code>), which
+composes the cold-atom-interferometer white-noise drift with bias and scale-factor error
+into a position-drift-over-holdover budget (the bias term cross-checked against the
+independent <code>AccelModel</code> integrator). <code>verification</code> renders the whole engine&#39;s
+requirement to module to test to oracle to status matrix, with unit-tested invariants that
+forbid a <em>validated</em> label without an independent external oracle — so the assurance claim
+cannot drift from the code.</p>
+<h2 id="1a-astrodynamics-fusion--alt-pnt-layers">1a. Astrodynamics, fusion &amp; alt-PNT layers<a class="anchor" href="#1a-astrodynamics-fusion--alt-pnt-layers" aria-label="Link to this section">#</a></h2>
+<p>Beyond the sensor-pack core, three subsystems share the same shared core and feed (or
+are fed by) <code>orbit</code>. The <strong>astrodynamics / numerical</strong> layer adds a non-analytic Cowell
+propagator alongside the analytic SGP4/SDP4 path; the <strong>fusion</strong> layer carries the
+GNSS/INS estimators; and the <strong>alt-PNT</strong> layer is GPS-denied (GPS: Global Positioning System) gravity-map matching. These
+are library/scenario capabilities (see <a href="capability-map.html">CAPABILITY</a> for which are wired to
+a scenario <code>kind</code> vs reachable as a Rust API (application programming interface)).</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    subgraph astro[&quot;Astrodynamics &amp; numerical&quot;]
+      orbit2[&quot;orbit · sgp4 · tle · walker&lt;br/&gt;analytic SGP4/SDP4 · Walker design&quot;]
+      prop[&quot;propagator&lt;br/&gt;Cowell driver (accel_at / accel_rv)&quot;]
+      forces[&quot;forces&lt;br/&gt;two-body · J2–J6 · EGM2008 d/o-70 · 3rd-body · SRP · drag · Schwarzschild + Lense–Thirring · tides&quot;]
+      integ[&quot;integrator&lt;br/&gt;RK4 step-doubling · Dormand–Prince RK5(4)&quot;]
+      ephem[&quot;ephem&lt;br/&gt;low-precision Sun &amp; Moon&quot;]
+      man[&quot;maneuver&lt;br/&gt;impulsive/finite burns · Izzo Lambert · porkchop&quot;]
+      od[&quot;orbit_determination&lt;br/&gt;Gauss–Newton batch (batch_ls) · sequential UKF&quot;]
+    end
+    subgraph fusion[&quot;Fusion (GNSS/INS)&quot;]
+      ekf[&quot;fusion/gnss_ins_ekf · closed_loop · pack&lt;br/&gt;15-state loosely-coupled EKF&quot;]
+      tc[&quot;fusion/tightly_coupled (8-state)&lt;br/&gt;fusion/tightly_coupled17 (17-state, quantum-CAI)&quot;]
+      ukf[&quot;fusion/ukf — sigma-point core&quot;]
+      coup[&quot;fusion/coupled — clock+position cross-covariance&quot;]
+    end
+    subgraph alt[&quot;Alt-PNT (GPS-denied)&quot;]
+      grav[&quot;gravimeter&lt;br/&gt;cold-atom model + SH anomaly field + mascons&quot;]
+      pf[&quot;particle_filter — SIR&quot;]
+      mm[&quot;mapmatch — field-match likelihood&quot;]
+    end
+    prop --&gt; forces
+    prop --&gt; integ
+    forces --&gt; ephem
+    man --&gt; integ
+    od --&gt; forces
+    od --&gt; integ
+    od --&gt; ukf
+    tc --&gt; ukf
+    tc -. coasts on .-&gt; forces
+    grav --&gt; pf
+    mm --&gt; pf
+    grav --&gt; mm
+    ekf -. drives .-&gt; strap[&quot;inertial/ strapdown (quaternion · NED · IMU errors)&quot;]
+    tc -. drives .-&gt; strap
+    grav -. CAI floor .-&gt; strap</code></pre>
+<p>The numerical propagator&#39;s force terms are off by default, so enabling them never
+perturbs the released goldens. The 17-state tightly-coupled UKF (unscented Kalman filter) coasts a GNSS outage on
+the quantum-CAI accelerometer&#39;s derived velocity-random-walk; orbit determination reuses
+the same <code>forces</code>/<code>integrator</code> to propagate a candidate state across the tracking arc.</p>
+<p>The same shared core also carries four further subsystems not drawn above (their packs
+appear in the dispatch of §4): a <strong>time &amp; reference-frame</strong> layer (<code>timescales</code>, <code>jd2</code>,
+<code>precession</code>, <code>nutation</code>, <code>cio</code>, <code>frames</code>, <code>eop</code>) reducing TEME↔GCRS↔ITRS (TEME: true equator, mean equinox) and feeding the
+<code>ephemeris</code>/ground-track pack; an <strong>integrity</strong> layer (<code>raim</code>, <code>sbas</code>) for RAIM/ARAIM/SBAS;
+a <strong>resilience</strong> layer (<code>jamming</code>, <code>spoof</code>, <code>spoof_detect</code>, <code>spoof_monitors</code>, <code>detection</code>)
+for jamming and multi-layer spoof detection, with a <strong>nav-signal</strong> layer (<code>navsignal</code>) at
+the signal level — BPSK-R (BPSK: binary phase-shift keying) / sine-BOC (BOC: binary offset carrier) power spectral densities, the spectral-separation
+coefficient <code>κ</code> that now derives <code>jamming</code>&#39;s anti-jam <code>Q</code>, the RMS (Gabor) ranging
+bandwidth, the coherent early–late DLL (delay-locked loop) code-tracking jitter, and the multipath error
+envelope (signal-performance analysis, <strong>not</strong> RF-payload (RF: radio-frequency) / antenna hardware design — a
+payload partner&#39;s role); and a <strong>lunar / cislunar</strong> layer (<code>lunar</code>,
+<code>lunar_frame</code>, <code>lunar_od</code>, <code>cr3bp</code>) for CR3BP (circular restricted three-body problem) dynamics — including the 6×6
+state-transition matrix and a single-shooting differential corrector (<code>cr3bp_jacobian</code>,
+<code>propagate_state_stm</code>, <code>differential_correct_halo</code>) that produces genuinely periodic
+halo/NRHO (NRHO: near-rectilinear halo orbit) orbits, reproducing the published L2 southern 9:2 NRHO (the Gateway orbit) at
+period ≈ 6.57 d / perilune ≈ 3,250 km (published ≈ 6.56 d / ≈ 3,370 km); the selenocentric
+MCI/MCMF (MCI: Moon-centred inertial; MCMF: Moon-centred, Moon-fixed) transform of a corrected orbit and family-continuation remain follow-ons, and the
+NRHO is a CR3BP (circular, Sun-free) solution, not validated against a real LANS/Gateway (LANS: Lunar Augmented Navigation Service)
+ephemeris — and LunaNet integrity. The
+agency-ephemeris force-model fit (<code>precise_od</code>, <code>lunar_od</code>, <code>tides</code>, <code>gravity_sh</code>) and the
+full alt-PNT field set (<code>igrf</code>, <code>altpnt/terrain</code>, <code>gravimeter</code>) round out the module list;
+see <a href="capability-map.html">CAPABILITY</a> for the per-module maturity.</p>
+<h2 id="1b-resilience-studies-machine-learning-evaluation--reproducible-artifacts">1b. Resilience studies, machine-learning evaluation &amp; reproducible artifacts<a class="anchor" href="#1b-resilience-studies-machine-learning-evaluation--reproducible-artifacts" aria-label="Link to this section">#</a></h2>
+<p>Five further module groups form the <strong>open, reproducible-study</strong> layer behind the
+project&#39;s research papers. Unlike the scenario <code>kind</code>s, these are reached as
+<code>cargo run --example</code> / <code>--bin</code> generators that write <strong>byte-deterministic</strong> artifacts
+(fixed seeds, recorded engine version + config hash). All are <strong>MODELLED</strong> (synthetic or
+public-dataset calibration) and carry honest validation labels — none is a certification.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    gen[&quot;study generators&lt;br/&gt;examples/ · bin/ (cargo run) → byte-deterministic artifacts&quot;]
+
+    subgraph timing[&quot;Timing integrity&quot;]
+      tplm[&quot;tpl&lt;br/&gt;conditional Timing Protection Level: k-σ floor · van-Loan coast · CUSUM&quot;]
+    end
+    subgraph resilm[&quot;Resilience scoring &amp; decision-instability&quot;]
+      arch[&quot;resilience/arch · score&lt;br/&gt;architecture model + RPCF-aligned scoring&quot;]
+      stats[&quot;resilience/stats&lt;br/&gt;Dirichlet · Kendall-τ · flip-rate · bootstrap&quot;]
+      div[&quot;resilience/diversity · timeline&lt;br/&gt;Hill-N2 common-mode collapse · KPIs&quot;]
+      study[&quot;resilience/study · report · panel&lt;br/&gt;instability study + integrity-hashed assurance report&quot;]
+    end
+    subgraph aiml[&quot;RF-impairment optimism-gap (Machine learning)&quot;]
+      ie[&quot;impairment_eval&lt;br/&gt;labelled synthetic corpus · ROC/AUC harness&quot;]
+      is[&quot;impairment_study&lt;br/&gt;13-detector panel · scaling laws · LOO predictor&quot;]
+      ml[&quot;impairment_ml&lt;br/&gt;logistic-regression + one-hidden-layer MLP&quot;]
+      es[&quot;eval_stats&lt;br/&gt;bootstrap CI · DeLong · Spearman · ridge&quot;]
+      sdrm[&quot;sdr · realdata&lt;br/&gt;IQ/IF → E/P/L taps → SQM + ingest adapters&quot;]
+    end
+    subgraph trade[&quot;Quantum-vs-classical&quot;]
+      cross[&quot;crossover&lt;br/&gt;resilience crossover map under parameter uncertainty&quot;]
+      qt[&quot;quantum_trade&lt;br/&gt;measured-ADEV holdover benefit vs classical&quot;]
+    end
+
+    gen --&gt; timing
+    gen --&gt; resilm
+    gen --&gt; aiml
+    gen --&gt; trade
+    tplm -. cross-checked vs .-&gt; recursion[&quot;holdover · clock_state · allan&quot;]
+    is --&gt; ie
+    is --&gt; ml
+    is --&gt; es
+    ie -. real recordings via .-&gt; sdrm
+    cross -. composes .-&gt; packs2[&quot;clock · inertial packs&quot;]</code></pre>
+<ul>
+<li><strong><code>tpl</code></strong> — the conditional Timing Protection Level: a holdover-limited bound on the
+<em>undetected</em> time error under spoofing, composing a k-σ monitor floor, the van-Loan
+coast variance over the detection latency, and a CUSUM (cumulative sum) time-to-alarm; calibrated on a
+real recorded spoof (JammerTest 2024). There is no finite <em>unconditional</em> bound — the
+TPL is conditional on an independent cross-check detecting the attack.</li>
+<li><strong><code>resilience/</code></strong> — a framework-aligned PNT-resilience scoring engine (DHS (Department of Homeland Security) RPCF (Resilient PNT Conformance Framework)
+categories) plus a decision-instability study: a Dirichlet weighting simplex, Kendall-τ
+rank instability, top-1 winner flip rate, and common-mode <strong>diversity collapse</strong>
+(Hill-N2), with an integrity-hashed assurance report and 35 hand-derived oracle tests.
+See <a href="resilience-crosswalk.html">RESILIENCE-CROSSWALK</a>. Synthetic architectures aligned to
+RPCF v2.0 — a self-assessment, not a certification.</li>
+<li><strong><code>impairment_eval</code> / <code>impairment_study</code> / <code>impairment_ml</code> / <code>eval_stats</code></strong> — the
+RF-impairment optimism-gap study: a labelled synthetic corpus and detector-agnostic
+ROC/AUC (ROC: receiver operating characteristic; AUC: area under the curve) harness, a 13-detector panel (energy/AGC/SQM/parity (AGC: automatic gain control; SQM: signal-quality monitoring) plus seeded
+logistic-regression and one-hidden-layer-MLP (MLP: multi-layer perceptron) detectors), in- vs out-of-distribution
+scaling laws with a permutation null, and a leave-one-out predictor of out-of-distribution
+degradation. The eval metrics are validated bit-for-bit against scikit-learn.</li>
+<li><strong><code>sdr</code> / <code>realdata</code></strong> — a software-defined-receiver front end (raw IQ/IF (IQ: in-phase/quadrature; IF: intermediate frequency) → correlator
+early/prompt/late taps → SQM) and ingest adapters (RINEX, u-blox UBX, GnssLogger,
+JammerTest, Yunnan, SatGrid) that let the same detectors run over recordings supplied
+locally; no datasets are committed to the repo.</li>
+<li><strong><code>crossover</code> / <code>quantum_trade</code></strong> — the quantum-vs-classical resilience crossover map
+under parameter uncertainty, and the measured-ADEV holdover-benefit trade; the trade
+numerical kernels are validated against scipy.</li>
+</ul>
+<h2 id="1c-integrity-gnss-deep-space-lunar--mission-layers">1c. Integrity, GNSS, deep-space, lunar &amp; mission layers<a class="anchor" href="#1c-integrity-gnss-deep-space-lunar--mission-layers" aria-label="Link to this section">#</a></h2>
+<p>The remaining domains plug into the same <code>api</code> dispatch and reuse the shared core,
+frames and geometry. Everything here is <strong>MODELLED</strong> unless a <code>verification</code>-matrix row
+cites an external oracle (RAIM kernel vs SciPy, SBAS vs the RTKLIB (an open-source real-time kinematic positioning library) fork, the gnss_lib_py
+DOP (dilution of precision) kernel, the OPS-SAT eval, the lunar ARAIM protection-level
+kernel, the cross-provider lunar ephemeris consistency) — the rest of the lunar suite and
+the quantum demonstrator are modelled, illustrative, public-source, and carry no TRL
+(technology readiness level) / heritage / agency-endorsement claim.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    api[&quot;api.rs — run_toml / run_scenario · 75 kinds&quot;]
+
+    subgraph gnss[&quot;Integrity &amp; GNSS measurement&quot;]
+      raim[&quot;raim — RAIM/ARAIM · HPL/VPL (kernel vs SciPy)&quot;]
+      sbas[&quot;sbas — DO-229E PL · L1/L5 (vs RTKLIB fork)&quot;]
+      meas[&quot;gnss_sim · ionex · pvt · glonass — pseudorange · iono maps · single-point PVT&quot;]
+      imp[&quot;integrity_impact · frugal — miss→integrity · cost-per-coverage&quot;]
+    end
+
+    subgraph deep[&quot;Deep-space &amp; Mars&quot;]
+      core2[&quot;body · ephem_provider · clock_state — multi-body · ephemeris seam · onboard clock&quot;]
+      radio[&quot;radiometric · ccsds_tdm — light-time · Doppler/range · Δ-DOR · TDM&quot;]
+      mars[&quot;deepspace_od · mars_frame · mars_atmos · mars_pnt · linkbudget · gse_sim — SRIF OD · Mars frame · relay-PNT · GSE sim&quot;]
+    end
+
+    subgraph lunar[&quot;Lunar PNT suite (MODELLED · illustrative public-source)&quot;]
+      cis[&quot;cr3bp · lunar · lunar_frame · lunar_od — CR3BP · halo/NRHO · cislunar ARAIM · MCI↔MCMF&quot;]
+      suite[&quot;lunar_time · lunar_vlbi · lunar_combination · lunar_frame_realise — LTC time · VLBI · joint OD+clock · frame realisation&quot;]
+      suite2[&quot;lunar_service · lunar_dpnt · lunar_interop — Moonlight service-volume · differential PNT · LunaNet/IOAG interop&quot;]
+    end
+
+    subgraph quantum[&quot;Quantum-Enabled PNT demonstrator (MODELLED)&quot;]
+      qd[&quot;quantum_devices · quantum_faults · quantum_nav_od — device error models · fault catalogue · GNSS-free OD&quot;]
+      qt[&quot;qtrade · timetransfer_chain · representativeness — unified trade · time-transfer chain · gaps-to-flight ledger&quot;]
+    end
+
+    subgraph mission[&quot;Mission analysis, environment &amp; interop&quot;]
+      ma[&quot;launch · reentry · eo_payload · attitude_budget · passes · linkbudget — first-order budgets&quot;]
+      env[&quot;space_weather — Jacchia-71 density&quot;]
+      iop[&quot;rinex · rinex_obs · sp3 · oem · omm · ccsds_tdm · space_packet · interchange · permalink — interop formats + KIF&quot;]
+      ver[&quot;verification — requirement→module→test→oracle→status matrix&quot;]
+    end
+
+    api --&gt; gnss &amp; deep &amp; lunar &amp; quantum &amp; mission
+    raim -. reuses .-&gt; meas
+    suite -. reuses validated DOP / SBAS kernels .-&gt; gnss
+    qt -. rides validated kernels (scipy / sklearn) .-&gt; quantum</code></pre>
+<h2 id="1d-leo-pnt-spectrum-solar-system-network-timing-campaigns--outputs">1d. LEO PNT, spectrum, solar system, network timing, campaigns &amp; outputs<a class="anchor" href="#1d-leo-pnt-spectrum-solar-system-network-timing-campaigns--outputs" aria-label="Link to this section">#</a></h2>
+<p>The newest layers follow the same pattern: each is one or more scenario <code>kind</code>s
+dispatched from <code>api</code>, built on the shared core, and MODELLED unless a matrix row names
+an external oracle.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    api[&quot;api.rs — run_toml / run_scenario&quot;]
+
+    subgraph leo[&quot;LEO PNT (low Earth orbit positioning, navigation and timing)&quot;]
+      lsig[&quot;leo_signal — signal design: acquisition, code tracking, GNSS compatibility, band trade&quot;]
+      lpass[&quot;leo_pass · leo_link (geometry · antenna · itu · iono · energy · spoof · presets) — pass and per-band link budget&quot;]
+      lnav[&quot;leo_navmsg (elements · fit · codec · sisre · services · text) — broadcast ephemeris and clock message&quot;]
+      lfus[&quot;leo_fusion (doppler · joint_pvt · ppp · ntn · timing · polar · presets) — fused MEO+LEO PVT · PPP · 5G NTN&quot;]
+      lchain[&quot;leo_pnt_chain — one system end to end, each stage handing its output to the next&quot;]
+    end
+
+    subgraph rf[&quot;Spectrum&quot;]
+      spec[&quot;spectrum · navsignal — L-band (and UHF/S/C) PSD waterfall under a jammer timeline&quot;]
+      sig[&quot;sigmf — SigMF recording read/write · Welch PSD of complex IQ&quot;]
+    end
+
+    subgraph sky[&quot;Solar system &amp; constellations&quot;]
+      ss[&quot;solar_system · body · ephem · ephem_provider — bodies, constants, light time at one epoch&quot;]
+      bp[&quot;body_pnt — positioning around any body with a local constellation&quot;]
+      cd[&quot;constellation · walker — Walker delta/star, multi-shell, published GNSS slots, coverage/DOP maps&quot;]
+    end
+
+    subgraph net[&quot;Network timing&quot;]
+      tel[&quot;telecom_timing — time error, MTIE, TDEV vs ITU-T masks&quot;]
+      slot[&quot;slot_timing — seconds until a free-running clock leaves a slot guard&quot;]
+    end
+
+    subgraph comp[&quot;Composition &amp; outputs&quot;]
+      camp[&quot;campaign · study · suite — chained phases, sweeps, Monte Carlo, shared conditions&quot;]
+      rep[&quot;advanced_report — report.html + report.json with a reproducibility record&quot;]
+      anim[&quot;animation — SVG / HTML / frame animations&quot;]
+      iop[&quot;interop (czml · kml · geojson · stk) · sigmf — exchange files for --export&quot;]
+    end
+
+    api --&gt; leo &amp; rf &amp; sky &amp; net &amp; comp
+    lchain -. composes .-&gt; lsig &amp; lpass &amp; lnav &amp; lfus
+    lsig -. SSC chain .-&gt; spec
+    lfus -. GNSS presets .-&gt; cd
+    bp -. reuses .-&gt; ss
+    camp -. runs other kinds through .-&gt; api</code></pre>
+<p>The per-kind detail is in <a href="leo-pnt.html">LEO-PNT</a>, <a href="leo-signal.html">LEO-SIGNAL</a>,
+<a href="leo-pass.html">LEO-PASS</a>, <a href="leo-navmsg.html">LEO-NAVMSG</a>, <a href="leo-pnt-fusion.html">LEO-PNT-FUSION</a>,
+<a href="spectrum.html">SPECTRUM</a>, <a href="constellation-design.html">CONSTELLATION-DESIGN</a>,
+<a href="telecom-timing.html">TELECOM-TIMING</a>, <a href="slot-timing.html">SLOT-TIMING</a>,
+<a href="campaigns.html">CAMPAIGNS</a>, <a href="reports.html">REPORTS</a>, <a href="animation.html">ANIMATION</a> and
+<a href="interop.html">INTEROP</a>.</p>
+<h2 id="2-engine-pipeline-per-run">2. Engine pipeline (per run)<a class="anchor" href="#2-engine-pipeline-per-run" aria-label="Link to this section">#</a></h2>
+<p>Each run steps a single sensor model through the time grid, disciplining it whenever
+GNSS is nominal and letting it free-run (holdover / dead-reckoning) during the outage.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    A[&quot;for each time step t&quot;] --&gt; B{&quot;i &amp;gt; 0 ?&quot;}
+    B -- yes --&gt; C[&quot;model.step(dt, rng)&lt;br/&gt;evolve noise state&quot;]
+    B -- no --&gt; D
+    C --&gt; D{&quot;GNSS state at t ?&quot;}
+    D -- &quot;Nominal&quot; --&gt; E[&quot;discipline to truth&lt;br/&gt;(estimator sync / dead-reckoning reset)&lt;br/&gt;error = 0&quot;]
+    D -- &quot;Denied/Degraded&quot; --&gt; F[&quot;estimator predicts;&lt;br/&gt;error = truth − prediction&quot;]
+    E --&gt; G[&quot;record Sample(t, error, gnss)&quot;]
+    F --&gt; G
+    G --&gt; A
+    A -. after loop .-&gt; H[&quot;score(series, spec)&lt;br/&gt;→ figures of merit&quot;]
+    H --&gt; I[&quot;assemble Result&lt;br/&gt;(specs · series · FoM · scenario hash)&quot;]</code></pre>
+<p>A scenario runs this pipeline twice — once for the quantum sensor, once for the
+classical sensor — with <strong>independent seeds</strong> (<code>classical_seed = seed + 0x9e3779b97f4a7c15</code>) so the two noise realizations are uncorrelated.</p>
+<h2 id="3-the-error-model-interface-the-extension-point">3. The error-model interface (the extension point)<a class="anchor" href="#3-the-error-model-interface-the-extension-point" aria-label="Link to this section">#</a></h2>
+<p>Every sensor implements the same idea: a stateful object whose <code>step()</code> advances its
+internal stochastic error and whose accumulated state is read out each tick. Clocks
+expose accumulated phase; accelerometers expose doubly-integrated position; links
+expose per-measurement jitter.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">classDiagram
+    class ErrorModel {
+      &lt;&lt;trait&gt;&gt;
+      +step(dt, rng)
+      +spec() ModelSpec
+    }
+    class ClockModel {
+      +y0, q_wf, q_rw, drift, flicker
+      +phase() s
+      +det_freq()  +drift_rate()
+    }
+    class AccelModel {
+      +bias, q_va, gyro_bias, q_arw
+      +pos() m  +theta() rad
+      +reset()
+    }
+    class TimeTransferLink {
+      +sigma_j
+      +sample(rng) s
+    }
+    ErrorModel &lt;|.. ClockModel
+    ClockModel : white FM + random-walk FM + flicker FM + aging
+    AccelModel : accel bias + VRW + gyro bias + ARW (gravity-tilt)
+    TimeTransferLink : white timing jitter</code></pre>
+<p><code>ModelSpec { id, kind, provenance, params }</code> travels into the result so every figure
+in the output is traceable to the published source named in <code>provenance</code>.</p>
+<p>Alongside the analytic <code>HoldoverEstimator</code>, the clock pack runs a two-state
+(phase, frequency) Kalman filter (<code>KalmanClock</code>) whose process noise matches the
+truth model. Coasting through an outage, its phase-error variance grows to exactly
+<code>q_wf·T + q_rw·T³/3</code> — the analytic holdover relation — and its online 1-σ bound is
+used to populate the <strong>Integrity</strong> figure of merit (fraction of outage samples whose
+error stays inside the k-σ bound).</p>
+<h2 id="4-dispatch-cli-and-bindings">4. Dispatch (CLI and bindings)<a class="anchor" href="#4-dispatch-cli-and-bindings" aria-label="Link to this section">#</a></h2>
+<p><code>api::run_toml(src)</code> is the single entry point: it peeks the top-level <code>kind</code>,
+deserializes the matching scenario, runs the pack, and returns <code>{ json, svg, summary, csv }</code> (<code>csv</code> is present only for the kinds that publish a reproducibility
+table). The CLI writes those to files, plus the report (<code>report.html</code>, <code>report.json</code>)
+and any <code>--export</code> / <code>--animate</code> output; the Python and WebAssembly bindings return them
+to the host. One dispatch, no drift.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
+    F[&quot;api::run_toml(src) · run_scenario(src)&quot;] --&gt; K{&quot;ScenarioKind::classify&lt;br/&gt;typed · exhaustive · 75 kinds&lt;br/&gt;(absent kind → clock; unknown kind → InvalidInput)&quot;}
+    K --&gt; G1[&quot;Timing&lt;br/&gt;clock · timetransfer · quantum-time-transfer · telecom-timing · slot-timing&quot;]
+    K --&gt; G2[&quot;Inertial &amp; fusion&lt;br/&gt;inertial · hybrid · hybrid-ukf · fusion · gnss-ins · quantum-gnss-free-nav · ins-trn-coast · hybrid-optical-rf&quot;]
+    K --&gt; G3[&quot;Orbit, geometry &amp; positioning&lt;br/&gt;orbit · ephemeris · constellation-design · gnss-sim · pvt&quot;]
+    K --&gt; G4[&quot;Integrity&lt;br/&gt;integrity · lunar-integrity · araim-reference-check&quot;]
+    K --&gt; G5[&quot;Resilience &amp; spectrum&lt;br/&gt;jamming · spoof · spoof-detect · quantum-anomaly-detect · tracking-loop · spectrum · conflict-resilience&quot;]
+    K --&gt; G6[&quot;Alt-PNT (GPS-denied)&lt;br/&gt;gravity-map · terrain-nav · terrain-slam · combined-altpnt&quot;]
+    K --&gt; G7[&quot;LEO PNT&lt;br/&gt;leo-signal · leo-pass · leo-navmsg · leo-pvt · leo-ppp · ntn-positioning · leo-pnt-chain&quot;]
+    K --&gt; G8[&quot;Lunar / cislunar suite (MODELLED)&lt;br/&gt;lunar-time-offset · lunar-time-budget · lunar-vlbi · lunar-vlbi-fim · lunar-joint-od-clock&lt;br/&gt;lunar-frame-realisation · lunar-frame-campaign · lunar-llr-datum · realtime-frame-eop&lt;br/&gt;moonlight-service-volume · lunar-differential-pnt · lunar-interop-export · lunar-beacon&lt;br/&gt;lunar-jamming · lunar-attack-surface · earth-gnss-lunar · cislunar-observability · cislunar-arc-recovery&quot;]
+    K --&gt; G9[&quot;Deep space &amp; solar system&lt;br/&gt;mars-pnt · solar-system · body-pnt&quot;]
+    K --&gt; G10[&quot;Machine learning &amp; trade&lt;br/&gt;impairment-eval · quantum-trade&quot;]
+    K --&gt; G11[&quot;Mission analysis &amp; environment&lt;br/&gt;launch-window · reentry · eo-coverage · attitude-budget · aperture-duty-cycle&lt;br/&gt;passes · link-budget · space-packet · space-weather&quot;]
+    K --&gt; G12[&quot;Trade studies, campaigns &amp; interop&lt;br/&gt;sweep · sweep-nd · campaign · oem-interop&quot;]
+    G1 &amp; G2 &amp; G3 &amp; G4 &amp; G5 &amp; G6 &amp; G7 &amp; G8 &amp; G9 &amp; G10 &amp; G11 &amp; G12 --&gt; W[&quot;RunOutput { json, svg, summary, csv }&lt;br/&gt;+ SHA-256 scenario_hash&quot;]</code></pre>
+<p>Dispatch is on a typed <code>ScenarioKind</code> enum, matched exhaustively (see the next
+subsection), so adding a pack is a compile-checked change. An absent <code>kind</code> falls
+back to the <code>clock</code> pack, so existing single-kind scenarios deserialize unchanged
+(<code>serde</code> ignores the <code>kind</code> field on each scenario struct). An unrecognised <code>kind</code> is
+refused with <code>KshanaError::InvalidInput</code>, which names the nearest built-in kind when
+the name looks like a typo.</p>
+<h3 id="typed-dispatch-and-the-structured-api">Typed dispatch and the structured API<a class="anchor" href="#typed-dispatch-and-the-structured-api" aria-label="Link to this section">#</a></h3>
+<p>Dispatch is on a typed <code>ScenarioKind</code> enum, not a raw string match:
+<code>ScenarioKind::classify(src)</code> resolves the <code>kind</code> field to a variant, and the
+dispatcher matches on it exhaustively — adding a pack is a compile-checked change,
+not a string typo. Two typed surfaces sit alongside the string-returning
+<code>run_toml</code> (kept for the CLI and existing bindings):</p>
+<ul>
+<li><strong><code>run_scenario(src) -&gt; Result&lt;RunOutput, KshanaError&gt;</code></strong> — the typed entry, with
+a structured error taxonomy (<code>InvalidInput</code>, <code>NonConvergence</code>, <code>Unsupported</code>,
+<code>IoError</code>). Each error carries a stable <code>kind_tag()</code> so a caller can branch on the
+failure category instead of parsing the message. The bindings expose this as
+<code>error_kind(toml)</code>.</li>
+<li><strong><code>list_scenario_kinds() -&gt; Vec&lt;ScenarioMeta&gt;</code></strong> (and <code>list_scenario_kinds_json()</code>,
+exposed in the bindings as <code>list_kinds()</code>) — programmatic introspection: each
+kind&#39;s name, description, and required/optional fields, for UI (user interface) and notebook
+auto-complete.</li>
+</ul>
+<h3 id="extending-kshana-with-an-external-pack">Extending Kshana with an external pack<a class="anchor" href="#extending-kshana-with-an-external-pack" aria-label="Link to this section">#</a></h3>
+<p>A third-party pack implements two small, semver-stable traits from <code>api</code>:</p>
+<pre data-lang="rust"><code class="hljs language-rust"><span class="hljs-keyword">use</span> kshana::api::{ExternalPack, KshanaError, RunOutput, Scenario, ScenarioMeta};
+
+<span class="hljs-keyword">struct</span> <span class="hljs-title class_">MyPack</span> {
+    threshold: <span class="hljs-type">f64</span>, <span class="hljs-comment">// the deserialized scenario fields</span>
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">Scenario</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">MyPack</span> {
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">run</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> <span class="hljs-type">Result</span>&lt;RunOutput, KshanaError&gt; {
+        <span class="hljs-comment">// Run the model, then build the unified output envelope.</span>
+        <span class="hljs-title function_ invoke__">Ok</span>(RunOutput {
+            json: <span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;{{\&quot;threshold\&quot;: {}}}&quot;</span>, <span class="hljs-keyword">self</span>.threshold),
+            svg: <span class="hljs-type">String</span>::<span class="hljs-title function_ invoke__">from</span>(<span class="hljs-string">&quot;&lt;svg xmlns=\&quot;http://www.w3.org/2000/svg\&quot;/&gt;&quot;</span>),
+            summary: <span class="hljs-built_in">format!</span>(<span class="hljs-string">&quot;my-pack | threshold {}&quot;</span>, <span class="hljs-keyword">self</span>.threshold),
+            csv: <span class="hljs-literal">None</span>,
+        })
+    }
+}
+
+<span class="hljs-keyword">impl</span> <span class="hljs-title class_">ExternalPack</span> <span class="hljs-keyword">for</span> <span class="hljs-title class_">MyPack</span> {
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">kind_name</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> &amp;<span class="hljs-symbol">&#x27;static</span> <span class="hljs-type">str</span> {
+        <span class="hljs-string">&quot;my-pack&quot;</span>
+    }
+    <span class="hljs-keyword">fn</span> <span class="hljs-title function_">meta</span>(&amp;<span class="hljs-keyword">self</span>) <span class="hljs-punctuation">-&gt;</span> ScenarioMeta {
+        ScenarioMeta {
+            name: <span class="hljs-string">&quot;my-pack&quot;</span>,
+            description: <span class="hljs-string">&quot;An out-of-tree example pack.&quot;</span>,
+            required_fields: &amp;[<span class="hljs-string">&quot;threshold&quot;</span>],
+            optional_fields: &amp;[],
+        }
+    }
+}</code></pre>
+<p><code>ExternalPack</code> also has a default <code>register_into(&amp;mut PackRegistry)</code> method, a no-op
+unless a pack opts into the registry dispatch seam in <code>src/registry.rs</code>. The built-in
+<code>jamming</code> pack is wired through <code>Scenario</code> as the worked example;
+out-of-tree packs follow the same contract without forking core (mirroring the
+<code>ErrorModel</code> extension point in §3, which the private resilience overlay uses).</p>
+<p>Kshana therefore has <strong>two stable extension seams</strong> — add a <em>sensor</em> by implementing
+<code>ErrorModel</code> (§3), or add a whole <em>scenario kind</em> by implementing <code>Scenario</code> +
+<code>ExternalPack</code> — both semver-stable, neither requiring a core fork:</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">classDiagram
+    class ErrorModel {
+      &lt;&lt;trait — sensor seam&gt;&gt;
+      +step(dt, rng)
+      +spec() ModelSpec
+    }
+    class Scenario {
+      &lt;&lt;trait — pack seam&gt;&gt;
+      +run() RunOutput
+    }
+    class ExternalPack {
+      &lt;&lt;trait : Scenario&gt;&gt;
+      +kind_name() str
+      +meta() ScenarioMeta
+    }
+    ErrorModel &lt;|.. ClockModel
+    ErrorModel &lt;|.. AccelModel
+    ErrorModel &lt;|.. TimeTransferLink
+    Scenario &lt;|.. ExternalPack
+    Scenario &lt;|.. JammingPack : worked example
+    ExternalPack &lt;|.. ThirdPartyPack : out-of-tree, no core fork</code></pre>
+<h2 id="5-the-hybrid-capstone">5. The hybrid capstone<a class="anchor" href="#5-the-hybrid-capstone" aria-label="Link to this section">#</a></h2>
+<p>The hybrid pack runs a <em>suite</em> (one clock + one inertial sensor) and requires <strong>both</strong>
+timing and position to stay in spec; <code>pnt_holdover</code> is the time until either breaches.
+Optionally an optical inter-satellite link re-syncs the <strong>clock</strong> during the outage —
+time aiding only; position is not re-synced, because time transfer gives time, not
+position. This is what isolates the inertial sensor as the limiting factor.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart LR
+    subgraph suite[&quot;PNT suite (per technology)&quot;]
+      clk[&quot;clock → timing error&quot;]
+      acc[&quot;inertial sensor → position error&quot;]
+      isl[&quot;optical ISL&lt;br/&gt;re-sync clock at interval&quot;] -. aids .-&gt; clk
+    end
+    clk --&gt; J[&quot;both within spec ?&quot;]
+    acc --&gt; J
+    J --&gt; P[&quot;pnt_holdover = first breach&lt;br/&gt;(timing OR position)&quot;]</code></pre>
+<h2 id="6-geometry-derived-gnss-availability">6. Geometry-derived GNSS availability<a class="anchor" href="#6-geometry-derived-gnss-availability" aria-label="Link to this section">#</a></h2>
+<p><code>orbit.rs</code> is a deterministic, dependency-free geometry layer. A <code>Propagator</code> is
+either the analytic Keplerian <code>Orbit</code> (two-body, optionally secular J2) or a full
+<code>Sgp4</code> propagator built from a complete two-line element set; a Walker-delta
+generator produces synthetic constellations, and line-of-sight visibility = Earth
+occultation + elevation mask. The visible-satellite count maps to a GNSS state
+(≥4 = nominal, 1–3 = degraded, 0 = denied), and <code>build_timeline</code> turns that into the
+availability timeline that drives the standard clock-holdover run. Availability is
+therefore <em>derived from geometry</em> rather than hand-authored, while the run, estimator,
+and scoring stay unchanged.</p>
+<p>A constellation supplied as full TLEs is propagated with the SGP4/SDP4 model in
+<code>sgp4.rs</code> (validated against the AIAA (American Institute of Aeronautics and Astronautics) 2006-6753 vectors); line-2-only elements keep
+the analytic two-body path. The two can be mixed within one constellation block.</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart LR
+    U[&quot;user orbit&quot;] --&gt; V
+    C[&quot;Walker constellation&quot;] --&gt; V[&quot;visible_count(t)&lt;br/&gt;occultation + mask&quot;]
+    V --&gt; S[&quot;gnss_state: ≥4 / 1–3 / 0&quot;]
+    S --&gt; T[&quot;build_timeline → GnssTimeline&quot;]
+    T --&gt; R[&quot;run_orbit_clock → clock holdover&quot;]</code></pre>
+<h2 id="7-bindings">7. Bindings<a class="anchor" href="#7-bindings" aria-label="Link to this section">#</a></h2>
+<p>The core compiles unchanged to native, to a Python extension, and to WebAssembly.
+The Python (<code>python.rs</code>, PyO3 abi3) and WebAssembly (<code>wasm.rs</code>, wasm-bindgen) modules
+are optional, feature-gated dependencies (<code>--features python</code> / <code>--features wasm</code>):
+the default build and the test suite never compile them, while the dependency-audit
+gate (<code>cargo deny --all-features</code>) does inspect their dependency trees, because those
+crates ship inside the wheel and the npm package. Both call <code>api::run_toml</code>, so every surface returns identical results. The
+WebAssembly module backs the browser playground in <code>web/</code> and exports thirteen
+functions: <code>run</code>, <code>run_all</code> (one engine run returning result, chart, summary and table
+together), <code>chart_svg</code>, <code>summary</code>, <code>table_csv</code>, <code>list_kinds</code>, <code>error_kind</code>, <code>version</code>, the
+<code>encode_permalink</code> / <code>decode_permalink</code> shareable-URL (URL: web address) codec, and the three exporters
+<code>export_sp3</code> / <code>export_omm</code> / <code>export_oem</code> that back the playground&#39;s export menu.
+Two further front doors reach the same <code>api</code>: the <strong>MCP (Model Context Protocol) server</strong> (<code>mcp/kshana-mcp</code>, a
+workspace-excluded <code>rmcp</code> crate exposing seven tools — <code>run_scenario</code>,
+<code>list_scenario_kinds</code>, <code>validate_scenario</code>, <code>export_sp3</code>, <code>export_omm</code>, <code>export_oem</code>,
+<code>export_table_csv</code>)
+and the <strong>JetBrains IDE (integrated development environment) plugin</strong> (<code>ide/jetbrains</code>, a Kotlin project that shells out to
+the <code>kshana</code> CLI rather than linking the library).</p>
+<pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart LR
+    cli[&quot;CLI · main.rs&lt;br/&gt;native binary&quot;] --&gt; api
+    py[&quot;Python · python.rs (PyO3 abi3)&lt;br/&gt;RunOutput class + run · run_full · run_typed · scenario_kinds · list_kinds · validate_toml · error_kind · version&quot;] --&gt; api
+    wasm[&quot;WebAssembly · wasm.rs (wasm-bindgen)&lt;br/&gt;run · run_all · chart_svg · summary · table_csv · list_kinds · error_kind · version · encode/decode_permalink&lt;br/&gt;export_sp3 · export_omm · export_oem&quot;] --&gt; api
+    mcp[&quot;MCP server · mcp/kshana-mcp (rmcp)&lt;br/&gt;tools: run_scenario · list_scenario_kinds · validate_scenario&lt;br/&gt;export_sp3 · export_omm · export_oem · export_table_csv&quot;] --&gt; api
+    ide[&quot;JetBrains plugin · ide/jetbrains (Kotlin)&quot;] -- spawns process --&gt; cli
+    api[&quot;api::run_toml / run_scenario / list_scenario_kinds&quot;] --&gt; out[&quot;identical { json, svg, summary } on every surface&quot;]</code></pre>
+<p>Feature-gating: Python and WASM are <code>--features python</code> / <code>--features wasm</code>; the MCP
+server and the <code>xval/*</code> cross-checks are workspace-EXCLUDED crates; the IDE plugin links
+nothing — it runs the CLI.</p>
+<h2 id="8-determinism--reproducibility">8. Determinism &amp; reproducibility<a class="anchor" href="#8-determinism--reproducibility" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>All randomness flows through a single seeded <code>ChaCha8Rng</code> per run; the step order is
+fixed, so <code>(scenario, seed, engine version) → identical bits</code>.</li>
+<li>The result carries a SHA-256 (SHA: Secure Hash Algorithm) <code>scenario_hash</code>; <code>scripts/check-reproducible.sh</code> runs a
+reference scenario twice and asserts byte-identical output.</li>
+<li>The same engine compiles to native, to a Python extension, and to
+<code>wasm32-unknown-unknown</code> for in-browser runs producing the same numbers.</li>
+</ul>
+<h2 id="9-deferred--future-structure">9. Deferred / future structure<a class="anchor" href="#9-deferred--future-structure" aria-label="Link to this section">#</a></h2>
+<p>The astrodynamics, fusion, and alt-PNT layers in §1a — the full SGP4/SDP4 propagator,
+the numerical Cowell propagator with its seven-perturbation force model and two adaptive
+integrators, maneuver/trajectory design, orbit determination, the 15-/8-/17-state
+GNSS/INS estimators, the coupled clock+position filter, and gravity-map matching — have
+all shipped, alongside the Security FoM with an active spoof demonstrator, real
+TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the printable
+HTML (HyperText Markup Language) report with its machine-readable twin, and the
+release/publish/wheels/pages workflows.</p>
+<p>Several capabilities once listed here as future work have since <strong>shipped</strong> and are
+covered above or in <a href="validation.html">VALIDATION</a>: the full IAU 2000A nutation and the
+equinox-free CIO GCRS↔ITRS / ITRF (International Terrestrial Reference Frame) reduction (validated bit-for-bit against SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy)),
+the EGM2008 (Earth Gravitational Model 2008) geopotential to degree/order 70, the <strong>Lense–Thirring</strong> frame-dragging term,
+solid/ocean/atmospheric tides, a DE-grade (DE440/ANISE (DE440: Development Ephemeris 440; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit)) ephemeris cross-validation,
+the external Orekit 12.2 cross-validation of the numerical Cowell propagator (0.08 m
+over 24 h) and of batch and sequential orbit determination, and the 17-state
+tightly-coupled navigator surfaced as the <code>hybrid-ukf</code> scenario kind.</p>
+<p>The remaining follow-ons are tracked in <a href="changelog.html">CHANGELOG</a> <code>[Unreleased]</code> and the
+per-capability roadmap in <a href="capability-map.html">CAPABILITY</a>: a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
+<strong>tesseral</strong> field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
+thermospheric density (the propagator&#39;s drag uses a static exponential density, and the
+<code>space-weather</code> kind&#39;s Jacchia-71 density is characterised against NRLMSISE-00 but not
+replaced by it), solar limb darkening / the oblate-Earth shadow, carrier-phase GNSS/INS
+tight coupling, and a real EGM2008/EIGEN (EIGEN: European Improved Gravity model of the
+Earth by New techniques) gravity map for the alt-PNT matcher.</p>
+<p>A private overlay repo holds export-sensitive resilience depth; it plugs in via the
+same <code>ErrorModel</code> interface (and the <code>ExternalPack</code> contract in §4) without changing
+the public engine.</p>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="deployment-targets.html"><small>Previous</small>Where Kshana runs</a><a class="next" href="positioning.html"><small>Next</small>Where Kshana sits</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#1-module-structure">1. Module structure</a><a class="l2" href="#1a-astrodynamics-fusion--alt-pnt-layers">1a. Astrodynamics, fusion &amp; alt-PNT layers</a><a class="l2" href="#1b-resilience-studies-machine-learning-evaluation--reproducible-artifacts">1b. Resilience studies, machine-learning evaluation &amp; reproducible artifacts</a><a class="l2" href="#1c-integrity-gnss-deep-space-lunar--mission-layers">1c. Integrity, GNSS, deep-space, lunar &amp; mission layers</a><a class="l2" href="#1d-leo-pnt-spectrum-solar-system-network-timing-campaigns--outputs">1d. LEO PNT, spectrum, solar system, network timing, campaigns &amp; outputs</a><a class="l2" href="#2-engine-pipeline-per-run">2. Engine pipeline (per run)</a><a class="l2" href="#3-the-error-model-interface-the-extension-point">3. The error-model interface (the extension point)</a><a class="l2" href="#4-dispatch-cli-and-bindings">4. Dispatch (CLI and bindings)</a><a class="l3" href="#typed-dispatch-and-the-structured-api">Typed dispatch and the structured API</a><a class="l3" href="#extending-kshana-with-an-external-pack">Extending Kshana with an external pack</a><a class="l2" href="#5-the-hybrid-capstone">5. The hybrid capstone</a><a class="l2" href="#6-geometry-derived-gnss-availability">6. Geometry-derived GNSS availability</a><a class="l2" href="#7-bindings">7. Bindings</a><a class="l2" href="#8-determinism--reproducibility">8. Determinism &amp; reproducibility</a><a class="l2" href="#9-deferred--future-structure">9. Deferred / future structure</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

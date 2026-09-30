@@ -1,0 +1,168 @@
+/* developers page only (R4, Observatory system). Shared shell, components and charts live in
+   site.css; tokens in theme.css. The kshana-mcp player (.mp) is shared with Home: site.css and
+   js/mcp-player.mjs, so the two pages read as one component. */
+
+.block .sec-head{margin-bottom:clamp(22px,2.4vw,32px)}
+.block .sec-head .h2{margin-top:12px}
+.block .sec-head>.lede{font-size:clamp(15px,1.1vw,16.5px);max-width:58ch}
+.dx-hero{padding-bottom:clamp(8px,1.5vw,16px)}
+.dx-hero .lede{max-width:78ch}
+section.block.dx-start{padding:clamp(44px,4vw,60px) 0}
+
+/* ---------------- hero status strip (the Observatory console bar, as a release line) */
+.dx-bar{display:flex;flex-wrap:wrap;align-items:center;gap:10px 16px;margin-top:24px;padding:11px 0;border-top:1px solid var(--line);border-bottom:1px solid var(--line);font:500 11.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;color:var(--ink-3);min-width:0}
+.dx-bar b{color:var(--ink);font-weight:500;text-transform:none}
+.dx-bar .live{display:flex;align-items:center;gap:8px;color:var(--ink-2)}
+.dx-bar .live i{width:7px;height:7px;border-radius:50%;background:var(--lime);box-shadow:0 0 0 4px var(--lime-soft);animation:dx-pulse 2s infinite}
+.dx-bar .sep{width:1px;height:12px;background:var(--line-2);flex:none}
+.dx-bar .right{margin-left:auto;display:flex}
+@keyframes dx-pulse{50%{box-shadow:0 0 0 7px transparent}}
+@media (max-width:760px){.dx-bar{gap:10px;font-size:10.5px}.dx-bar .hide-s,.dx-bar .right{display:none}}
+@media (prefers-reduced-motion:reduce){.dx-bar .live i{animation:none}}
+
+/* ---------------- 01 install console beside the recorded kshana-mcp player */
+.dx-grid-start{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.3fr);grid-template-areas:"inst mp" "tools tools";gap:16px 18px;align-items:stretch}
+.dx-inst{grid-area:inst}.dx-grid-start .mp{grid-area:mp}.dx-tools{grid-area:tools}
+@media (max-width:979px){.dx-grid-start{grid-template-columns:minmax(0,1fr);grid-template-rows:auto;grid-template-areas:"inst" "mp" "tools"}}
+.code-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 16px;border-bottom:1px solid var(--line);min-height:44px}
+.code-h{font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.code-h>span:first-child{min-width:0;overflow-wrap:anywhere}
+.code-h code{text-transform:none;letter-spacing:0;color:var(--ink-2)}
+.dx-inst{overflow:hidden;display:flex;flex-direction:column;min-width:0}
+.dx-inst .installer{background:none;border:0;border-radius:0;padding:14px 16px 16px;gap:12px;align-content:start}
+.dx-inst .inst-top{gap:8px}
+.dx-inst .inst-tabs{gap:4px}
+.dx-inst .inst-tabs button{font:500 12.5px/1 var(--mono);min-height:30px;padding:7px 10px;border-radius:8px;border:0;color:var(--ink-3);background:none}
+.dx-inst .inst-tabs button:hover{color:var(--ink)}
+.dx-inst .inst-tabs button[aria-selected="true"]{color:var(--ink);background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line-2)}
+.dx-inst .pin-toggle{background:var(--panel-2)}
+.dx-inst .pin-toggle button{min-height:26px}
+.dx-inst .pin-toggle button[aria-pressed="true"]{background:var(--panel-solid)}
+.dx-inst .ip{gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.dx-inst .ip-aud{font-size:13.5px}
+.dx-inst .ip-cmd .cmd{width:100%;font-size:13px}
+.dx-inst .ip-verify{font-size:12.5px}
+.dx-inst .ip-verify code{background:var(--panel-2);overflow-wrap:anywhere}
+.dx-inst .ip-note{font-size:13px}
+.dx-inst .ip-links{font-size:13px}
+.dx-inst .ip-links a{display:inline-flex;align-items:center;min-height:24px}
+.dx-inst .code-foot{margin-top:auto;display:flex;flex-wrap:wrap;gap:6px 16px;border-top:1px solid var(--line);padding:11px 16px;font:400 11.5px/1.5 var(--mono);color:var(--ink-3)}
+.dx-inst .code-foot b{color:var(--ink-2);font-weight:500}
+.dx-inst .ip-configs{grid-template-columns:minmax(0,1fr);gap:8px}
+/* code blocks on the Observatory panel, in both themes */
+.dx-start .cfg,.bx .cfg{background:var(--panel-solid);color:var(--ink);border:1px solid var(--line)}
+.dx-start .cfg-h,.bx .cfg-h{color:var(--ink-3);border-bottom-color:var(--line);font-family:var(--mono)}
+.dx-start .cfg pre{font-size:12px;max-height:190px}
+
+/* the kshana-mcp player (.mp) is shared: site.css + js/mcp-player.mjs */
+@media (max-width:360px){.dx-start .code-h .tag{white-space:normal;text-align:left;line-height:1.3}}
+
+/* kshana-mcp tools: names as chips, the description on the chip's own line (no hover-only text) */
+.dx-tools{padding:14px 16px;display:grid;gap:10px;min-width:0}
+@media (min-width:980px){.dx-tools{grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:12px 28px;align-items:center}.dx-tools .tools{justify-content:flex-end}}
+.dx-tools-h{font-size:13px;line-height:1.55;color:var(--ink-2)}
+.dx-tools-h b{color:var(--ink);font-weight:560}
+.dx-tools-h code{font-size:12px;overflow-wrap:anywhere}
+.dx-tools-h a{color:var(--cyan)}
+.tools{display:flex;flex-wrap:wrap;gap:6px}
+.tool{display:inline-flex;min-width:0}
+.tool code{display:inline-block;font:500 11.5px/1.2 var(--mono);padding:6px 9px;border-radius:8px;border:1px solid var(--line-2);background:var(--panel-2);color:var(--ink)}
+.tool p{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+
+/* ---------------- 02 ways to use it: grouped selector on the left, one glass panel on the right */
+.dx-ways .wy{margin-bottom:0;grid-template-columns:minmax(0,1fr) minmax(0,1.2fr);gap:18px;align-items:stretch}
+.dx-ways .wy-tabs{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px 16px;align-content:start;padding:14px 16px;border:1px solid var(--line);border-radius:var(--r);background:var(--panel)}
+.dx-ways .wy-gl{font:500 10.5px/1 var(--mono);letter-spacing:.1em;color:var(--ink-3)}
+.dx-ways .wy-g{gap:4px}
+.dx-ways .wy-g button{font:500 12.5px/1.1 var(--mono);min-height:32px;padding:7px 10px;border-radius:8px;border:1px solid transparent;background:none;color:var(--ink-2)}
+.dx-ways .wy-g button:hover{color:var(--ink);border-color:var(--line-2)}
+.dx-ways .wy-g button[aria-selected="true"]{color:var(--ink);background:var(--panel-2);border-color:var(--line-2);box-shadow:inset 0 0 0 1px var(--line-2)}
+.dx-ways .wy-g button i{background:var(--c)}
+.dx-ways .wy-p{background:var(--panel);border:1px solid var(--line);border-radius:var(--r);box-shadow:var(--shadow);padding:18px 20px;align-content:start;gap:10px}
+.dx-ways .wy-p>p{font-size:14.5px}
+@media (max-width:900px){.dx-ways .wy{grid-template-columns:minmax(0,1fr)}}
+@media (max-width:420px){.dx-ways .wy-tabs{grid-template-columns:minmax(0,1fr)}}
+
+/* the second half of #ways starts a new block */
+.dx-build{margin-top:clamp(56px,6vw,88px)}
+/* ---------------- 03 command line, libraries, formats, plugin: one grid of glass cards */
+.bx{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:16px;align-items:stretch}
+.bx-card{display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.bx-in{display:grid;gap:12px;padding:14px 16px 16px;align-content:start;min-width:0}
+.bx-cli{grid-column:span 7}.bx-out{grid-column:span 5}
+.bx-api{grid-column:span 7}.bx-io{grid-column:span 5}
+.bx-jb{grid-column:span 7}.bx-ed{grid-column:span 5}
+@media (max-width:1099.98px){.bx-cli,.bx-api,.bx-io{grid-column:span 12}.bx-out,.bx-jb,.bx-ed{grid-column:span 6}.bx-out{grid-row:auto}}
+@media (max-width:700px){.bx-out,.bx-jb,.bx-ed{grid-column:span 12}}
+.src-note{font-size:13.5px;color:var(--ink-2)}
+.src-note a,.study-note a,.api-n a,.bx-in p a{color:var(--cyan)}
+.study-note{font-size:13.5px;color:var(--ink-2)}
+/* the generated CLI reference: its own card title is the card header here */
+.bx-cli .cli{display:grid;gap:10px;padding:0;background:none;border:0;min-width:0}
+.bx-cli .cli>.card-h{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+.cli-pre{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;padding:12px 14px;border-radius:10px;background:var(--panel-solid);border:1px solid var(--line);color:var(--ink);overflow-x:auto;font:400 12.5px/1.65 var(--mono)}
+.bx-facts{list-style:none;margin:0;padding:14px 16px 16px;display:grid;gap:10px}
+.bx-facts li{padding:11px 13px;border-radius:10px;border:1px solid var(--line);border-left:3px solid var(--c);background:var(--panel-2);font-size:13.5px;line-height:1.5;color:var(--ink-2)}
+.bx-facts b{color:var(--ink);font-weight:560}
+.bx-facts a{color:var(--cyan)}
+/* library tabs */
+.api{display:grid;gap:10px;min-width:0}
+.api-tabs{display:flex;flex-wrap:wrap;gap:4px}
+.api-tabs [role="tab"]{font:500 12.5px/1 var(--mono);min-height:32px;padding:7px 10px;border-radius:8px;border:0;background:none;color:var(--ink-3);cursor:pointer}
+.api-tabs [role="tab"]:hover{color:var(--ink)}
+.api-tabs [role="tab"][aria-selected="true"]{color:var(--ink);background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line-2)}
+.api-p{display:grid;gap:8px;min-width:0}
+.api-p[hidden]{display:none}
+.api .cfg pre{font:400 12px/1.6 var(--mono);tab-size:4;color:var(--ink-2)}
+.api .cfg-h span{min-width:0;overflow-wrap:anywhere}
+.api-n{font-size:13.5px;color:var(--ink-2)}
+.api-open .btn{min-height:40px;font-size:14px}
+/* interoperability: one row per format, open for how and what it was checked against */
+.io-list{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:12px;overflow:hidden}
+.io-list li+li{border-top:1px solid var(--line)}
+.io-list summary{display:flex;align-items:center;gap:10px;min-height:44px;padding:7px 12px;cursor:pointer;list-style:none}
+.io-list summary::-webkit-details-marker{display:none}
+.io-list summary::before{content:"";flex:none;width:0;height:0;border:4px solid transparent;border-left:6px solid var(--ink-3);transition:transform .2s}
+.io-list details[open] summary::before{transform:rotate(90deg) translateX(2px)}
+.io-list summary:hover{background:var(--panel-2)}
+.io-n{flex:1;min-width:0;display:grid;gap:1px;font:600 13.5px/1.3 var(--sans);color:var(--ink)}
+.io-n small{font:400 12px/1.35 var(--sans);color:var(--ink-3)}
+.io-d{flex:none;font:500 10.5px/1 var(--mono);letter-spacing:.04em;text-transform:uppercase;padding:5px 7px;border-radius:6px;border:1px solid var(--line-2);color:var(--ink-2)}
+.io-d.rw{color:var(--lime);border-color:color-mix(in oklab,var(--lime) 40%,var(--line))}
+.io-d.w{color:var(--cyan);border-color:color-mix(in oklab,var(--cyan) 40%,var(--line))}
+.io-list dl{margin:0;padding:2px 12px 12px 28px;display:grid;grid-template-columns:auto minmax(0,1fr);gap:4px 12px;font-size:13px;color:var(--ink-2)}
+.io-list dt{font:500 10.5px/1.6 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-3)}
+.io-list dd{margin:0;min-width:0;overflow-wrap:anywhere}
+/* plugin + editions */
+.bx-jb .bx-in p{font-size:14px;color:var(--ink-2)}
+.bx-jb .ctas{display:flex;flex-wrap:wrap;gap:10px}
+.bx-ed{background:linear-gradient(180deg,var(--cyan-soft),transparent 70%),var(--panel)}
+.bx-ed .bx-in{padding:18px}
+.bx-ed-k{display:inline-flex;align-items:center;gap:8px;font:500 11px/1 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.bx-ed-k i{width:7px;height:7px;border-radius:2px;background:var(--lime)}
+.bx-ed .bx-in p{font-size:14px;color:var(--ink-2)}
+.bx-ed-mail a{font:500 13px/1 var(--mono)}
+
+.dx-start .tag,.bx .tag{color:var(--ink-2)}
+
+/* ------------------------------------------------------------------ R5 (2026-09-29): hero instrument, the recorded terminal */
+.dx-hero .hx+.dx-bar{margin-top:28px}
+.dt-term{margin:0;height:clamp(300px,30vw,380px);overflow:auto;padding:14px 16px;background:transparent;font:500 12.5px/1.6 var(--mono);color:var(--space-ink-2);white-space:pre-wrap;overflow-wrap:anywhere;scrollbar-width:thin;scrollbar-color:rgba(255,255,255,.18) transparent;outline:none}
+.dt-term:focus-visible{outline:2px solid #3DDCF7;outline-offset:-3px;border-radius:4px}
+.dt-term code{font:inherit;color:inherit;background:none;padding:0}
+.dt-ps{color:#A8EE5E}
+.dt-cmd{color:var(--space-ink);font-weight:600}
+.dt-out{color:var(--space-ink-2)}
+.dt-dim{color:var(--space-ink-3)}
+.dt-caret{display:inline-block;width:.6em;background:#3DDCF7;animation:dtBlink 1s steps(1) infinite}
+@keyframes dtBlink{50%{opacity:0}}
+.dt-foot{padding:10px 16px;border-top:1px solid var(--space-line);font:500 11px/1.5 var(--mono);color:var(--space-ink-3)}
+.dt-chs{list-style:none;margin:14px 0 0;padding:0;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:8px}
+.dt-chip{display:flex;align-items:center;gap:9px;min-height:44px;padding:8px 10px;border-radius:10px;border:1px solid var(--line-2);background:var(--panel);color:var(--ink-2);text-decoration:none;min-width:0}
+.dt-chip svg{flex:none;color:var(--cyan)}
+.dt-chip span{display:grid;gap:2px;min-width:0}
+.dt-chip b{font:600 13px/1.2 var(--sans);color:var(--ink);overflow-wrap:anywhere}
+.dt-chip small{font:500 10.5px/1.25 var(--mono);color:var(--ink-3);overflow-wrap:anywhere}
+.dt-chip:hover{border-color:var(--line-3)}
+@media (max-width:560px){.dt-chs{grid-template-columns:repeat(2,minmax(0,1fr))}.dt-term{font-size:11.5px;padding:12px}}
+@media (prefers-reduced-motion:reduce){.dt-caret{animation:none}}

@@ -170,5 +170,5 @@ a missing value is `null` in `value` and "no value" in `display`.
   `<suite>.study.html`; it does not write this report.
 - **Bindings.** The Python and WebAssembly bindings keep `RunOutput::html_report()`, the
   one-page scorecard; the playground's downloadable report is its own page
-  (`web/report.mjs`). This report is written by the CLI, and Rust callers can build it
+  (`web/playground/lib/report.mjs`). This report is written by the CLI, and Rust callers can build it
   with `kshana::advanced_report::build`.

@@ -1,0 +1,334 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Kshana Studio</title>
+<meta name="description" content="Run Kshana, the open-source PNT (positioning, navigation and timing) resilience simulator, in your browser. The Rust engine runs locally as WebAssembly: pick a scenario, tune it, compare runs, sweep a parameter and download a reproducible report. Nothing is uploaded.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="app.css">
+<script type="importmap">
+{ "imports": {
+  "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js",
+  "three/addons/": "https://cdn.jsdelivr.net/npm/three@0.160.0/examples/jsm/"
+} }
+</script>
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const t = localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+<link rel="canonical" href="https://kshana.dev/playground/">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/playground/">
+<meta property="og:title" content="Kshana Studio">
+<meta property="og:description" content="Run Kshana, the open-source PNT (positioning, navigation and timing) resilience simulator, in your browser. The Rust engine runs locally as WebAssembly: pick a scenario, tune it, compare runs, sweep a parameter and download a reproducible report. Nothing is uploaded.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Kshana Studio">
+<meta name="twitter:description" content="Run Kshana, the open-source PNT (positioning, navigation and timing) resilience simulator, in your browser. The Rust engine runs locally as WebAssembly: pick a scenario, tune it, compare runs, sweep a parameter and download a reproducible report. Nothing is uploaded.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-mark" viewBox="236 140 452 480">
+  <path d="M410 184 V592" stroke="currentColor" stroke-width="30" stroke-linecap="round" fill="none"/>
+  <path d="M436 224 A163 163 0 0 1 530 470" stroke="currentColor" stroke-width="26" stroke-linecap="round" fill="none" opacity=".55"/>
+  <path d="M424 408 L628 196 L394 362 Z" fill="currentColor"/>
+  <path d="M390 404 L640 600 L428 362 Z" fill="currentColor"/>
+  <circle cx="545" cy="492" r="30" fill="var(--lime,#5FA82A)"/>
+  <circle cx="410" cy="385" r="44" fill="var(--cyan,#0795BA)"/>
+  <path d="M624 150 L634 192 L676 202 L634 212 L624 254 L614 212 L572 202 L614 192 Z" fill="var(--cyan,#0795BA)"/>
+</symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3v5h5M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-share" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 17v5M5 17h14l-2-4V5h1V3H6v2h1v8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
+  <symbol id="i-down" viewBox="0 0 24 24"><path d="M12 4v11m0 0 4.5-4.5M12 15l-4.5-4.5M5 20h14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-copy" viewBox="0 0 24 24"><rect x="8" y="8" width="12" height="12" rx="2.5" fill="none" stroke="currentColor" stroke-width="2"/><path d="M16 8V6a2 2 0 0 0-2-2H6a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h2" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+  <symbol id="i-x" viewBox="0 0 24 24"><path d="M6 6l12 12M18 6 6 18" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
+  <symbol id="i-reset" viewBox="0 0 24 24"><path d="M4 12a8 8 0 1 0 2.3-5.7M4 4v4h4" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-tour" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="currentColor" stroke-width="2"/><path d="m15.5 8.5-2 5-5 2 2-5z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+
+<a class="skip" href="#results">Skip to results</a>
+
+<header class="bar" id="bar">
+  <a class="brand" href="../index.html" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(../assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(../assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag" data-studio-short>Studio</span></a>
+  <nav class="site-links" aria-label="Site"><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a><a href="../developers.html">Developers</a><a href="../docs/index.html">Docs</a><a href="../editions.html">Editions</a></nav>
+  <div class="crumb" id="crumb" aria-live="polite"><i class="dot" id="crumb-dot"></i><span id="crumb-title">Loading…</span></div>
+  <div class="bar-right">
+    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running"><i></i><span id="engine-label">Loading engine…</span></span>
+    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search &amp; commands</span><kbd class="kmod">⌘K</kbd></button>
+    <button class="icon-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="Run history (this session)" aria-label="Run history"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="count" id="history-count" hidden>0</span></button>
+    <button class="icon-btn" id="btn-tour" title="Guided tour" aria-label="Start the guided tour"><svg aria-hidden="true"><use href="#i-tour"/></svg></button>
+    <div class="menu-wrap">
+      <button class="icon-btn" id="btn-share" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu" title="Share this run" aria-label="Share"><svg aria-hidden="true"><use href="#i-share"/></svg></button>
+      <div class="menu" id="share-menu" role="menu" hidden>
+        <button role="menuitem" data-act="share-link">Copy share link <small>the exact scenario, in the link</small></button>
+        <button role="menuitem" data-act="embed-code">Copy embed code <small>an iframe for a course page or wiki</small></button>
+        <button role="menuitem" data-act="embed-open">Preview embed mode <small>opens in a new tab</small></button>
+      </div>
+    </div>
+    <button class="icon-btn" id="btn-theme" aria-label="Toggle colour theme" title="Toggle colour theme"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+    <a class="pill" href="../editions.html#pro">Kshana Pro</a>
+  </div>
+</header>
+
+<div class="app" id="app" data-pane="results">
+  <!-- ============ LIBRARY ============ -->
+  <aside class="lib" id="library" aria-label="Scenario library">
+    <div class="lib-head">
+      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="lib-search" type="search" placeholder="Search scenarios" aria-label="Search scenarios" autocomplete="off"><kbd>/</kbd></label>
+      <p class="lib-count" id="lib-count"></p>
+    </div>
+    <nav class="lib-list" id="lib-list" aria-label="Scenarios by mission domain"></nav>
+    <div class="lib-foot">
+      <p id="matrix-line" class="matrix-line"></p>
+      <a href="../evidence.html#ledger">Open the validation ledger <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </div>
+  </aside>
+
+  <!-- ============ EDITOR ============ -->
+  <section class="edit" id="editor-pane" aria-label="Scenario and parameters">
+    <div class="edit-head">
+      <p class="eyebrow" id="sc-domain"><i></i><span></span></p>
+      <h1 id="sc-title">Scenario</h1>
+      <p class="question" id="sc-question"></p>
+      <p class="sc-file"><code id="sc-file"></code><span id="sc-kind"></span></p>
+    </div>
+
+    <div class="runbar" id="runbar">
+      <button class="btn-run" id="run" disabled><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span><kbd>⌘↵</kbd></button>
+      <button class="btn-quiet" id="run-cancel" hidden>Cancel</button>
+      <button class="btn-quiet" id="pin" title="Pin this run to compare with others (up to 4)"><svg aria-hidden="true"><use href="#i-pin"/></svg>Pin</button>
+      <p class="status" id="status" role="status" aria-live="polite">Loading engine…</p>
+    </div>
+    <p class="notice" id="notice" hidden></p>
+
+    <div class="panel" id="params">
+      <div class="panel-head">
+        <h2>Parameters</h2>
+        <div class="seg" role="tablist" aria-label="Parameter view">
+          <button role="tab" aria-selected="true" data-pview="guided" id="pv-guided">Guided</button>
+          <button role="tab" aria-selected="false" data-pview="all" id="pv-all">All fields <span id="field-count"></span></button>
+        </div>
+      </div>
+      <p class="hint" id="params-hint">Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.</p>
+      <div class="knobs" id="knobs"></div>
+      <div class="fields" id="fields" hidden></div>
+    </div>
+
+    <details class="panel src" id="source" open>
+      <summary><h2>Scenario source <small>TOML (Tom's Obvious, Minimal Language)</small></h2>
+        <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
+      </summary>
+      <div class="code" id="code">
+        <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
+        <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
+      </div>
+      <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.</p>
+    </details>
+  </section>
+
+  <!-- ============ RESULTS ============ -->
+  <main class="res" id="results" aria-label="Results" tabindex="-1">
+    <div class="progress" id="progress" hidden><i></i></div>
+    <div class="error" id="error" role="alert" hidden></div>
+
+    <section class="headline" id="headline" hidden>
+      <div class="hl-top">
+        <p class="eyebrow"><i style="--c:var(--itg)"></i><span id="hl-eyebrow">Result</span></p>
+        <div class="hl-badges" id="hl-badges"></div>
+      </div>
+      <p class="summary" id="summary"></p>
+      <dl class="meta" id="run-meta"></dl>
+    </section>
+
+    <section class="figs" id="figs" aria-label="Key figures" hidden></section>
+
+    <div class="tabs-wrap" id="tabs-wrap" hidden>
+      <div class="tabs" id="tabs" role="tablist" aria-label="Result views"></div>
+    </div>
+
+    <div class="views" id="views">
+      <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden>
+        <div class="card" id="fom-card" hidden>
+          <div class="card-head"><h3>Figures of merit</h3><p class="card-note">The tier is each figure's validation status, read from the engine's own <code>figure_tiers</code> block: <b>validated</b> means checked against an independent external oracle; <b>modelled</b> means first-principles physics with tests, not yet oracle-checked.</p></div>
+          <div class="table-scroll"><table class="tbl" id="fom-table"></table></div>
+        </div>
+        <div class="card" id="kf-card" hidden>
+          <div class="card-head"><h3>Every published figure</h3><p class="card-note">Read from the result document with the unit, note and provenance the engine records for each one.</p></div>
+          <div class="table-scroll"><table class="tbl" id="kf-table"></table></div>
+        </div>
+        <div class="card" id="health-card" hidden>
+          <div class="card-head"><h3>Filter health <small>Kalman self-consistency</small></h3><p class="card-note">A consistent filter's reported uncertainty matches its actual errors. NIS (normalised innovation squared) should sit near 1 and NEES (normalised estimation error squared) near 2, each inside its 95% χ² band.</p></div>
+          <div class="health" id="health"></div>
+        </div>
+        <div class="card" id="label-card" hidden><p id="label-text" class="label-text"></p></div>
+      </section>
+
+      <section class="view" id="v-timeseries" role="tabpanel" aria-label="Time series" hidden>
+        <div class="card scope">
+          <div class="card-head row"><h3 id="ts-title">Time series</h3>
+            <div class="seg dark" role="tablist" aria-label="Chart source"><button role="tab" data-ts="live" aria-selected="true" id="ts-live-btn">Interactive</button><button role="tab" data-ts="engine" aria-selected="false" id="ts-engine-btn">Engine chart</button></div>
+          </div>
+          <div class="chart-box" id="ts-live"></div>
+          <div class="chart-box img" id="ts-engine" hidden></div>
+          <div class="chart-tools" id="ts-tools"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-signal" role="tabpanel" aria-label="Signal and band" hidden>
+        <div class="grid-2">
+          <div class="card scope span-2">
+            <div class="card-head row"><h3>C/N0 by satellite <small>carrier-to-noise density, dB-Hz</small></h3><div class="seg dark" role="group" aria-label="Signal field" id="sig-field"><button type="button" data-field="cn0_effective_dbhz" aria-pressed="true">With the jammer</button><button type="button" data-field="cn0_nominal_dbhz" aria-pressed="false">Without it</button></div><div class="legend-heat" id="heat-legend"></div></div>
+            <div class="chart-box" id="sig-heat"></div>
+            <p class="card-note on-space">Each cell is one satellite at one epoch from this run. Hatched cells are below the receiver's tracking threshold: that satellite is lost.</p>
+            <div class="chart-tools" id="sig-tools"></div>
+          </div>
+          <div class="card" id="band-card"><div class="card-head"><h3>Band</h3></div><dl class="kv" id="band-kv"></dl><div id="band-strip"></div></div>
+          <div class="card" id="sig-fom-card"><div class="card-head"><h3>Interference outcome</h3></div><dl class="kv" id="sig-kv"></dl></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-holdover" role="tabpanel" aria-label="Clock holdover" hidden>
+        <div class="card scope">
+          <div class="card-head row"><h3>Holdover <small id="ho-sub">error since GNSS was lost</small></h3></div>
+          <div class="ho-ctl">
+            <label for="ho-thr">Budget <output id="ho-thr-out"></output></label>
+            <input type="range" id="ho-thr" min="0" max="100" step="1">
+            <button class="btn-mini dark" id="ho-thr-reset">Scenario budget</button>
+          </div>
+          <div class="chart-box" id="ho-chart"></div>
+          <div class="ho-cards" id="ho-cards"></div>
+          <p class="card-note on-space">Move the budget and the time-to-breach is read off this run's own error record. The engine's holdover figure, computed at the scenario's budget, is shown alongside and is the authoritative number. Change the clock or the outage in the parameters to re-run the physics.</p>
+          <div class="chart-tools" id="ho-tools"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-masks" role="tabpanel" aria-label="Telecom timing masks" hidden>
+        <div class="mask-verdicts" id="mask-verdicts"></div>
+        <div class="grid-2">
+          <div class="card scope"><div class="card-head"><h3>MTIE <small>maximum time interval error</small></h3></div><div class="chart-box" id="mtie-chart"></div><div class="chart-tools" id="mtie-tools"></div></div>
+          <div class="card scope"><div class="card-head"><h3>TDEV <small>time deviation</small></h3></div><div class="chart-box" id="tdev-chart"></div><div class="chart-tools" id="tdev-tools"></div></div>
+        </div>
+        <div class="card"><div class="card-head"><h3>Mask checks and holdover budgets</h3><p class="card-note">Each check's limit is plotted as a ring at the averaging time where the margin was worst. Masks are transcribed from the ITU-T (International Telecommunication Union Telecommunication Standardization Sector) Recommendations named in each row.</p></div><div class="table-scroll"><table class="tbl" id="mask-table"></table></div></div>
+      </section>
+
+      <section class="view" id="v-stability" role="tabpanel" aria-label="Clock stability" hidden>
+        <div class="card scope">
+          <div class="card-head"><h3>Clock stability <small>overlapping Allan deviation σ<sub>y</sub>(τ)</small></h3></div>
+          <div class="chart-box" id="adev-chart"></div>
+          <p class="card-note on-space">Lower is better. Fractional-frequency stability against averaging time τ, on log axes.</p>
+          <div class="chart-tools" id="adev-tools"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-orbit" role="tabpanel" aria-label="3-D orbit" hidden>
+        <div class="card scope">
+          <div class="card-head row"><h3>Orbit <small>Earth-centred inertial frame</small></h3><p class="card-note on-space" id="orbit-note">Drag to rotate, scroll to zoom.</p></div>
+          <div class="orbit-box" id="orbit-box"><canvas id="orbit-canvas" aria-label="Interactive 3-D view of the propagated track"></canvas></div>
+          <div class="chart-tools" id="orbit-tools"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-ground" role="tabpanel" aria-label="Ground track" hidden>
+        <div class="card scope">
+          <div class="card-head row"><h3>Ground track</h3><p class="card-note on-space" id="gt-note"></p></div>
+          <div class="chart-box" id="gt-chart"></div>
+          <div class="chart-tools" id="gt-tools"></div>
+        </div>
+      </section>
+
+      <section class="view" id="v-sweep" role="tabpanel" aria-label="Parameter sweep" hidden>
+        <div class="card">
+          <div class="card-head"><h3>Parameter sweep</h3><p class="card-note">Run the engine once per value and plot one figure of merit. Add a second parameter for a heat map. Every point is a real engine run, up to 60.</p></div>
+          <div class="sweep-form" id="sweep-form">
+            <label>Parameter <select id="sweep-knob"></select></label>
+            <label>From <input id="sweep-min" type="number" step="any"></label>
+            <label>To <input id="sweep-max" type="number" step="any"></label>
+            <label>Steps <input id="sweep-steps" type="number" min="2" max="60" value="8"></label>
+            <label>Plot <select id="sweep-metric"></select></label>
+            <label class="sweep-2d">Second parameter <select id="sweep-knob2"><option value="">None (line chart)</option></select></label>
+            <label class="sweep-2d-range" hidden>From <input id="sweep-min2" type="number" step="any"></label>
+            <label class="sweep-2d-range" hidden>To <input id="sweep-max2" type="number" step="any"></label>
+            <button class="btn-run small" id="sweep-run"><svg aria-hidden="true"><use href="#i-play"/></svg>Sweep</button>
+          </div>
+          <p class="status" id="sweep-status"></p>
+        </div>
+        <div class="card scope" id="sweep-out" hidden><div class="chart-box" id="sweep-chart"></div><div class="chart-tools" id="sweep-tools"></div></div>
+      </section>
+
+      <section class="view" id="v-compare" role="tabpanel" aria-label="Compare runs" hidden>
+        <div class="card">
+          <div class="card-head row"><h3>Compare runs</h3><button class="btn-mini" id="compare-clear">Clear pins</button></div>
+          <div class="pins" id="pins"></div>
+          <p class="card-note" id="compare-note"></p>
+          <div class="table-scroll"><table class="tbl" id="compare-table"></table></div>
+        </div>
+        <div class="card scope" id="compare-chart-card" hidden><div class="card-head"><h3 id="compare-chart-title">Overlay</h3></div><div class="chart-box" id="compare-chart"></div><div class="chart-tools" id="compare-tools"></div></div>
+      </section>
+
+      <section class="view" id="v-exports" role="tabpanel" aria-label="Exports and report" hidden>
+        <div class="export-grid" id="export-grid"></div>
+      </section>
+
+      <section class="view" id="v-json" role="tabpanel" aria-label="Full result document" hidden>
+        <div class="card">
+          <div class="card-head row"><h3>Full result <small>JSON</small></h3><span><button class="btn-mini" id="json-copy"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button> <button class="btn-mini" id="json-download"><svg aria-hidden="true"><use href="#i-down"/></svg>Download</button></span></div>
+          <pre class="json" id="json" tabindex="0"></pre>
+        </div>
+      </section>
+    </div>
+
+    <footer class="res-foot" id="res-foot">
+      <p>Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde. Every figure is labelled with its evidence tier; the <span data-studio-name>Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated.</p>
+      <p class="pro-line">Need a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration? That is Kshana Pro, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request">Request a study</a></p>
+      <div class="install-line" id="install-line" aria-label="Install the engine"></div>
+      <p class="credit">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run.</p>
+      <p class="embed-only"><a href="index.html" target="_blank" rel="noopener">Open in <span data-studio-name>Kshana Studio</span></a></p>
+    </footer>
+  </main>
+</div>
+
+<nav class="mob" id="mob" aria-label="Studio panes">
+  <button data-pane="library" aria-pressed="false">Library</button>
+  <button data-pane="editor" aria-pressed="false">Scenario</button>
+  <button data-pane="results" aria-pressed="true">Results</button>
+</nav>
+
+<!-- Command palette -->
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Search scenarios, views and commands" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
+    <div class="pal-list" id="pal-list" role="listbox"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>⌘↵</kbd> run</span></div>
+  </div>
+</div>
+
+<!-- History drawer -->
+<aside class="drawer" id="history" role="dialog" aria-modal="false" aria-label="Run history" hidden>
+  <div class="drawer-head"><h2>Run history <small>this session</small></h2><button class="icon-btn" id="history-close" aria-label="Close history"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
+  <ol class="hist" id="hist-list"></ol>
+  <p class="hint" id="hist-empty">Runs you make appear here. Select one to bring back its scenario and result, or pin it to compare.</p>
+</aside>
+
+<div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
+
+<script type="module" src="app.js"></script>
+</body>
+</html>
