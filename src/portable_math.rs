@@ -47,6 +47,14 @@
 //! and `to_degrees` (exact or correctly rounded by definition), and the seeded normal
 //! draws of `rand_distr`, which already route through `libm` on every target.
 //!
+//! ## Random indices
+//!
+//! One more platform dependence lives here because it has the same effect.
+//! `Rng::gen_range` over `usize` draws 64 bits from the generator on a 64-bit target and
+//! 32 bits on a 32-bit one (WebAssembly), so the same seed gives a different index and
+//! leaves the stream at a different place. [`uniform_index`] always draws through `u64`,
+//! which is exactly what a 64-bit host did before, so no native number moves.
+//!
 //! `src/leo_navmsg/tests.rs` pins a whole encoded frame, byte for byte, on every
 //! platform, and scans the module's sources for an inherent transcendental call. If
 //! `libm` ever changes a result, or someone writes `.sin()` there, that test says so.
@@ -152,6 +160,12 @@ pub(crate) fn powi(x: f64, n: i32) -> f64 {
     }
 }
 
+/// A uniform index in `0..n`, drawn the same way on every platform (see the module
+/// documentation). `n` must be positive.
+pub(crate) fn uniform_index<R: rand::Rng + ?Sized>(rng: &mut R, n: usize) -> usize {
+    rng.gen_range(0..n as u64) as usize
+}
+
 /// Platform-independent counterparts of the inherent `f64` transcendentals. Each method
 /// is the inherent one's name with a `p` in front.
 pub(crate) trait PortableFloat: Sized {
@@ -236,6 +250,9 @@ impl PortableFloat for f64 {
 mod tests {
     use super::*;
 
+    const UNIFORM_INDEX_PIN: [usize; 12] =
+        [157, 704, 726, 601, 359, 83, 849, 364, 989, 200, 384, 521];
+
     /// The values are the library's, pinned as bit patterns: this is the statement that
     /// they do not depend on the host. A host whose own library happens to agree proves
     /// nothing; the pins are what a different host is held to.
@@ -255,6 +272,22 @@ mod tests {
         ];
         for (name, got, want) in cases {
             assert_eq!(got.to_bits(), want, "{name}: {got:e}");
+        }
+    }
+
+    /// The indices a 64-bit host always drew for this seed. A 32-bit target that drew
+    /// through `usize` would give other values; through `u64` it gives these.
+    #[test]
+    fn uniform_index_is_the_sixty_four_bit_draw_on_every_platform() {
+        use rand::{Rng, SeedableRng};
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(7);
+        let got: Vec<usize> = (0..12).map(|_| uniform_index(&mut rng, 1000)).collect();
+        assert_eq!(got, UNIFORM_INDEX_PIN);
+        // And it is the same draw as the explicit 64-bit range.
+        let mut a = rand_chacha::ChaCha8Rng::seed_from_u64(99);
+        let mut b = rand_chacha::ChaCha8Rng::seed_from_u64(99);
+        for n in 1..500usize {
+            assert_eq!(uniform_index(&mut a, n), b.gen_range(0..n as u64) as usize);
         }
     }
 

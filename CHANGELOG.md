@@ -540,6 +540,19 @@ breaking changes are called out explicitly.
   `0x6A82D9`, position within 1.126 mm of the exact message where it was 0.665 mm).
   The size of that last change is the fit's sensitivity, not an error in either figure:
   the fit is unchanged and still stops at its iteration limit.
+- **Seeded resampling drew different indices on a 32-bit target.** `Rng::gen_range` over
+  `usize` takes 64 bits from the generator on a 64-bit host and 32 bits on a 32-bit one,
+  so the same seed gave other indices, and left the stream elsewhere, in the WASM build.
+  Three places drew that way: the percentile bootstraps in `eval_stats` (`bootstrap_ci`,
+  `bootstrap_auc_ci`), the shuffle before each training pass in `impairment_ml`, and the
+  permutation test in `impairment_study`. They now draw through
+  `portable_math::uniform_index`, which always samples as `u64`: exactly what a 64-bit
+  host did, so no native number moves.
+  **This moves published numbers of the WASM package, recorded here as a revision:** the
+  `quantum-anomaly-detect` bootstrap interval of the area under the curve
+  (`quantum_auc_ci`, `trade.foms[0].ci95`) was `[0.9901265, 0.9938305]` in the browser
+  and is now the native `[0.99035875, 0.993861]`.
+
 - **STK ephemeris file names from mover ids.** A mover id holding a `/` or a space (a
   constellation shell and a satellite, `Pulsar inclined/S1-0163`) made the CLI panic on
   `--export stk`; each id now passes through a safe file part (letters, digits, `-`, `_`).
