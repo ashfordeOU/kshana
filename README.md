@@ -72,30 +72,57 @@ or **PARTNER** (a hardware partner owns it).
 ## Kshana Studio
 
 Open [kshana.dev](https://kshana.dev) and the whole engine runs in your browser, compiled to
-WebAssembly. Nothing to install, and nothing is uploaded. Pick a bundled scenario, run it,
-scrub the replay, and download the result, the report and the exports it wrote.
+WebAssembly. Nothing to install, and nothing is uploaded. The Studio opens on a start screen:
+pick a domain tile or a good first run, or search. Five numbered steps then take you from a
+question to a result you can hand on:
+
+1. **Choose** a scenario, by domain or from the library.
+2. **Set** its parameters in the parameters drawer, or edit the scenario source.
+3. **Run** the engine, locally, in the browser.
+4. **Read results**: the key figures first, each with a PASS or FAIL chip where the run
+   states a threshold and the change since your previous run, then the panels (overview,
+   charts, maps, replay, the engine's report and exports).
+5. **Share or export**: a link that reopens the same run, or the result, the report and the
+   exports it wrote.
+
+**Find any field.** One search box reaches scenarios, domains and the fields inside them:
+type "elevation mask" and it lists every scenario with that field and jumps to the control.
+**Compare**: pin up to four runs and read them side by side. A breadcrumb always says where
+you are, and on a phone the steps become a step bar.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-lband-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-lband-light.jpg">
-  <img src="docs/assets/readme/studio/studio-lband-light.jpg" alt="Kshana Studio, Spectrum tab, on the bundled scenario l-band-waterfall-jamming: a waterfall of the GNSS L band, frequency from 1200 to beyond 1500 MHz across and time from 0 to 60 s down, coloured from the -201.98 dBW/Hz noise floor up to -161.3 dBW/Hz. A jammer lights up the GPS L1 C/A band from 10 s. At t = 31 s the receiver has lost GPS L1 C/A (3.23 dB-Hz) and Galileo E1 (4.69 dB-Hz) and still tracks GPS L2C (41.98), GPS L5 (44.08) and Galileo E5a (46.98 dB-Hz) against a 25 dB-Hz tracking threshold." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-dashboard-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-dashboard-light.jpg">
+  <img src="docs/assets/readme/studio/studio-dashboard-light.jpg" alt="Kshana Studio after a run of the bundled scenario l-band-waterfall-jamming, engine v0.29.0 running locally. The breadcrumb reads Studio, Spectrum, L-band waterfall under jamming, Spectrum. The five steps Choose, Set, Run, Read results and Share or export sit under the scenario title, with step 4 current. Key figures: tracking threshold 25 dB-Hz, noise floor -201.98 dBW/Hz, lowest carrier-to-noise density 3.2329 dB-Hz on GPS L1 C/A and 4.6939 dB-Hz on Galileo E1, both FAIL (lock lost under the 25 dB-Hz threshold), and 36.857 dB-Hz on GPS L2C and 44.075 dB-Hz on GPS L5, both PASS. Below, the panel row and the replay bar." width="100%">
 </picture>
 
 <details>
-<summary>Two more Studio views: a constellation coverage run and the low-Earth-orbit chain</summary>
+<summary>The start screen, and three result panels: the L-band waterfall, a constellation coverage map and the low-Earth-orbit chain</summary>
 
 <br>
 
 <picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-start-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-start-light.jpg">
+  <img src="docs/assets/readme/studio/studio-start-light.jpg" alt="Kshana Studio start screen, titled What do you want to do?: the five steps, a search box for scenarios, domains or fields (for example elevation mask), four good first runs (a jammer on the L-band waterfall, the coverage of four GNSS constellations, a jam, spoof and holdover mission, holding time when GNSS is lost) and tiles for each domain, from Jamming and interference to Mission analysis and space operations. The library on the left lists 139 scenarios in 16 domains." width="100%">
+</picture>
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-lband-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-lband-light.jpg">
+  <img src="docs/assets/readme/studio/studio-lband-light.jpg" alt="Kshana Studio, Spectrum panel, on the bundled scenario l-band-waterfall-jamming: a waterfall of the GNSS L band, frequency from 1200 to beyond 1500 MHz across and time from 0 to 60 s down, coloured from the -201.98 dBW/Hz noise floor up to -161.3 dBW/Hz. A jammer lights up the GPS L1 C/A band from 10 s. At t = 31 s the receiver has lost GPS L1 C/A (3.23 dB-Hz) and Galileo E1 (4.69 dB-Hz) and still tracks GPS L2C (41.98), GPS L5 (44.08) and Galileo E5a (46.98 dB-Hz) against a 25 dB-Hz tracking threshold." width="100%">
+</picture>
+
+<picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-coverage-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-coverage-light.jpg">
-  <img src="docs/assets/readme/studio/studio-coverage-light.jpg" alt="Kshana Studio, Coverage tab, on constellation-multi-gnss-coverage: a world map of the mean position dilution of precision (PDOP) on a 10-degree grid, from 0.831 to 1.0853, with all 102 GPS, Galileo, BeiDou and GLONASS satellites drawn on their ground tracks at t = 11.97 h." width="100%">
+  <img src="docs/assets/readme/studio/studio-coverage-light.jpg" alt="Kshana Studio, Coverage panel, on constellation-multi-gnss-coverage: a world map of the mean position dilution of precision (PDOP) on a 10-degree grid, from 0.831 to 1.0853, with all 102 GPS, Galileo, BeiDou and GLONASS satellites drawn on their ground tracks at t = 11.97 h, beside the global coverage figures (availability 100 %, mean visible 31.03, minimum visible 22)." width="100%">
 </picture>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-leo-chain-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-leo-chain-light.jpg">
-  <img src="docs/assets/readme/studio/studio-leo-chain-light.jpg" alt="Kshana Studio, End-to-end chain tab, on leo-pnt-end-to-end: five stages, each handing values to the next. Signal design generic-l at 1.191795 GHz with 20.46 MHz bandwidth; pass and link with a peak tracked carrier-to-noise density of 58.168 dB-Hz, 75 degrees maximum elevation and 845 s above the mask; navigation message kepler-rac with a signal-in-space range error of 0.25 m RMS over a 300 s fit; fused positioning at 1.602 m 3-D RMS with GNSS only and 0.4349 m fused; precise point positioning converging in a median 11.5 min with GNSS only and 7.5 min with low-Earth-orbit satellites." width="100%">
+  <img src="docs/assets/readme/studio/studio-leo-chain-light.jpg" alt="Kshana Studio, End-to-end chain panel, on leo-pnt-end-to-end: five stages, each handing values to the next. Signal design generic-l at 1.191795 GHz with 20.46 MHz bandwidth; pass and link with a peak tracked carrier-to-noise density of 58.168 dB-Hz, 75 degrees maximum elevation and 845 s above the mask; navigation message kepler-rac with a signal-in-space range error of 0.25 m RMS over a 300 s fit; fused positioning at 1.602 m 3-D RMS with GNSS only and 0.4349 m fused; precise point positioning converging in a median 11.5 min with GNSS only and 7.5 min with low-Earth-orbit satellites." width="100%">
 </picture>
 
 </details>

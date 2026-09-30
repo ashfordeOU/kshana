@@ -226,12 +226,16 @@
     "captured_by": "tools/capture_studio_shots.mjs",
     "record": "studio/SHOTS.json",
     "files": {
-      "studio-coverage-dark.jpg": "5bd05a2052e2df0fea1d15e942c710d4e89f197d707fc5c2c110a3b9ddbdd3f7",
-      "studio-coverage-light.jpg": "eb67c2ba0983a08906fac995c34f9ebd3ccb33acc8cdde338b249a4cf799380d",
-      "studio-lband-dark.jpg": "4ccf2f03287644c082b0dedef889f28169140f44fdc66e2ff9f9de634f1daddd",
-      "studio-lband-light.jpg": "633f6debe1324211712cae65b5cd2d67e5c644cb8dede01b7ea7d553284ac2fc",
-      "studio-leo-chain-dark.jpg": "85da7f607bd1b14bf5a2dabb5325446dd973d24b86be160d36daa41f52f38fde",
-      "studio-leo-chain-light.jpg": "0ccbf55bbba8c5adec513f47167c7f4ec9edb363bccf6d6fad1c8452dab1e322"
+      "studio-coverage-dark.jpg": "b3fa95f6ab60714fdf17636af688cf72c70e4972dc915fe806a430e58b648bf8",
+      "studio-coverage-light.jpg": "d5aaf6cfd8836b87de1a60a2e1cc9fd66202ae0e3229bdebff29124721831c1f",
+      "studio-dashboard-dark.jpg": "82aba00b19641b36122b8d2701ac811c36d760f4cde2b5fee0fa20fbef07eb40",
+      "studio-dashboard-light.jpg": "1fd90ffb9ea1c40b14b7537b5c771e42f07a1cee26d3ebe572f5156265196983",
+      "studio-lband-dark.jpg": "2dfb28a3df8acd2a33e392a90c422f66f9af65fe85a580883791e6a158db2f83",
+      "studio-lband-light.jpg": "166185f10975aaaf4b220827f8dbd2cb6da1deefabbdcf1ad1b1ac48a1ba5466",
+      "studio-leo-chain-dark.jpg": "203462048031d06d6e710405dacafc66fc63ebd68e0052f67512cc0da78b75c6",
+      "studio-leo-chain-light.jpg": "d19def7214380d10ad186742a8e159cc0302f2d58943d59021c5dad5de6ab3e8",
+      "studio-start-dark.jpg": "da5aef042888bb022788575ddd5b5b9638b1a04898601ca5557570795dc4d4e4",
+      "studio-start-light.jpg": "0de6afc64e587b81a18ad05e3d90d3fb2adb681f02c41c13f7a6356d2b3d1026"
     }
   }
 }
