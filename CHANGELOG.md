@@ -47,7 +47,8 @@ Where the growth comes from:
 The LEO capability is system-agnostic: it runs on generic, stated parameters and needs no
 named system. Named systems are optional presets, each in its own file with its public
 source. One preset, Celeste IOD (in-orbit demonstration), uses figures presented at the ESA
-NAVISP LEO-PNT workshop, 2026; it lives in one file, `src/celeste_iod.rs`, with its five
+NAVISP LEO-PNT workshop, 2026 (ESA is the European Space Agency; NAVISP is its Navigation
+Innovation and Support Programme); it lives in one file, `src/celeste_iod.rs`, with its five
 repository-only scenarios, so it can be withheld without a source edit, and none of its
 workshop figures is repeated in this changelog.
 
