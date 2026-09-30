@@ -3,7 +3,7 @@
    root and to the playground, so the two stay byte-identical. Edit here, then run build.py.
    Text colours are chosen for WCAG AA (4.5:1) on the ground they sit on, in both themes.
    Fonts (Google Fonts), add to <head>:
-   <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wdth,wght@12..96,75..100,400..800&family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+   <link href="fonts/bricolage-grotesque-geist-geist-mono.css" rel="stylesheet">
    Theme: bare :root = light; prefers-color-scheme dark applies unless data-theme="light";
    data-theme="dark" | "light" on <html> forces a theme. "space" tokens stay dark in both themes.
    Type scale (used by the landing page):

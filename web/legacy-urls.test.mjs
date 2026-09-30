@@ -79,6 +79,26 @@ assert.equal(target("", "#s=abc_DEF-123"), "playground/index.html#s=abc_DEF-123"
 assert.equal(target("?embed=1&scenario=clock-holdover.toml", "#s=abc"), "playground/index.html?embed=1&scenario=clock-holdover.toml#s=abc");
 assert.equal(target("?scenario=x&embed=1", ""), "playground/index.html?scenario=x&embed=1");
 assert.equal(target("?embed=10", ""), null, "only embed=1 is an embed link");
+// Old embed links name result tabs by the single-page site's ids (its tabs.mjs: fom,
+// timeseries, stability, orbit3d, sweep). Each is either still a Studio tab or is mapped to
+// the nearest one, so no old embed link falls back to a default view.
+const tabDefs = text("playground/app.js").match(/const TAB_DEFS = \[([\s\S]*?)\n\];/);
+assert.ok(tabDefs, "the Studio's tab list (const TAB_DEFS) was found");
+const studioTabs = new Set([...tabDefs[1].matchAll(/\{ id: "([a-z0-9-]+)"/g)].map((m) => m[1]));
+assert.ok(studioTabs.size >= 8, `only ${studioTabs.size} Studio tabs parsed`);
+for (const old of ["fom", "timeseries", "stability", "orbit3d", "sweep"]) {
+  const got = new URLSearchParams(target(`?embed=1&tab=${old}`, "").split("?")[1]).get("tab");
+  assert.ok(studioTabs.has(got), `old embed tab ${old} opens ${got}, which is not a Studio tab`);
+  if (studioTabs.has(old)) assert.equal(got, old, `tab ${old} still exists and must not be renamed`);
+}
+for (const [old, now] of Object.entries(legacy.redirects.embedTabs)) {
+  assert.ok(!studioTabs.has(old), `${old} is a Studio tab again: remove its mapping`);
+  assert.ok(studioTabs.has(now), `${old} maps to ${now}, which is not a Studio tab`);
+}
+assert.equal(target("?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", ""), "playground/index.html?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview");
+assert.equal(target("?embed=1&tab=orbit3d&seed=3", ""), "playground/index.html?embed=1&tab=orbit&seed=3");
+assert.equal(target("?embed=1&tab=json", ""), "playground/index.html?embed=1&tab=json", "a current tab name passes through");
+assert.equal(target("?embed=1&scenario=fom.toml", ""), "playground/index.html?embed=1&scenario=fom.toml", "only the tab parameter is rewritten");
 // An address the new home page owns is never hijacked.
 for (const id of ids("index.html")) assert.equal(target("", `#${id}`), null, `#${id} is a live anchor on the home page and must not redirect`);
 for (const a of legacy.keptAnchors) assert.ok(ids("index.html").has(a), `kept anchor #${a} is on the home page`);
