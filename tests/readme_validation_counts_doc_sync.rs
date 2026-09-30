@@ -32,13 +32,28 @@ fn readme_validation_counts_match_the_matrix() {
     let total = m.len();
     let readme = include_str!("../README.md");
 
-    let badge = format!("validated-{validated}%20external%20oracles");
+    // The "trust" badge row states VALIDATED of total ("83 of 223 validated"); pin the shield,
+    // and the Evidence section's label table beside it.
+    let badge = format!("badge/validated-{validated}%20of%20{total}-");
     assert!(
         readme.contains(&badge),
-        "README badge validated count is out of sync with verification_matrix() \
-         (= {validated} VALIDATED rows); expected the substring {badge:?}. \
-         Update the `validated-N external oracles` shield in README.md."
+        "README validated badge is out of sync with verification_matrix() \
+         ({validated} VALIDATED of {total}); expected the substring {badge:?}."
     );
+    let row = format!("| VALIDATED | {validated} |");
+    assert!(
+        readme.contains(&row),
+        "README Evidence label table VALIDATED count is out of sync with verification_matrix() \
+         (= {validated} VALIDATED rows); expected the substring {row:?}. \
+         Update the VALIDATED row of the label table in README.md's Evidence section."
+    );
+    for (label, n) in [("MODELLED", modelled), ("PARTNER", partner)] {
+        let row = format!("| {label} | {n} |");
+        assert!(
+            readme.contains(&row),
+            "README Evidence label table {label} count is out of sync; expected {row:?}."
+        );
+    }
 
     let alt = format!("{validated} capabilities validated against independent external oracles");
     assert!(
