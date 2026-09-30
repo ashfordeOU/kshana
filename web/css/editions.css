@@ -1,0 +1,176 @@
+/* editions page only (R4, Observatory system). Shared shell, components and charts live in
+   site.css; tokens in theme.css. */
+.block .sec-head{margin-bottom:clamp(22px,2.4vw,32px)}
+.block .sec-head .h2{margin-top:12px}
+.block .sec-head>.lede{font-size:clamp(15px,1.1vw,16.5px);max-width:58ch}
+.ed-hero{padding-bottom:clamp(4px,1vw,12px)}
+.ed-hero .ctas{display:flex;flex-wrap:wrap;gap:10px;margin-top:24px}
+.ed-hero .subnav{margin-top:20px}
+
+/* ---------------- 01 three symmetric editions (#29)
+   From 1100 px: a label rail plus three cards on one shared row grid (subgrid), so every row
+   (top, why, who, included, terms, start) lines up; the rail names the rows once, so the cards
+   drop their repeated row labels (kept for screen readers). Below 1100 px each card carries its
+   own labels. */
+.eds{display:grid;grid-template-columns:minmax(0,1fr);gap:14px}
+.ed-rail{display:none}
+.ed{display:grid;gap:14px;padding:18px 20px;border-radius:var(--r);border-top:3px solid var(--c);min-width:0;align-content:start}
+.ed-top{display:grid;gap:8px;align-content:start}
+.ed .lic,.lic-free .lic{display:inline-flex;align-items:center;gap:8px;font:500 10.5px/1.3 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3)}
+.ed .lic i,.lic-free .lic i{width:7px;height:7px;border-radius:2px;background:var(--c);flex:none}
+.ed h3{font:600 clamp(24px,2.2vw,30px)/1.1 var(--sans);letter-spacing:-.03em}
+.ed p,.ed li{font-size:14px;line-height:1.5;color:var(--ink-2);overflow-wrap:break-word;hyphens:manual}
+.ed-l{display:block;margin-bottom:6px;font:500 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ed-why{padding:12px 14px;border-radius:10px;border:1px solid color-mix(in oklab,var(--c) 35%,var(--line));background:color-mix(in oklab,var(--c) 9%,transparent)}
+.ed-why .ed-l{color:color-mix(in oklab,var(--c) 78%,var(--ink))}
+.ed-why p{color:var(--ink)}
+.ed-row{border-top:1px solid var(--line);padding-top:12px}
+.ed ul{margin:0;padding:0;list-style:none;display:grid;gap:6px}
+.ed li{position:relative;padding-left:15px}
+.ed li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--c)}
+.ed code{font-size:.92em}
+.ed a:not(.btn){color:var(--cyan)}
+.go{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;align-self:end;padding-top:4px}
+.go .btn{min-height:42px;font-size:14px}
+.ed .ed-more{font-size:13.5px;color:var(--ink-2);text-decoration:underline;text-underline-offset:3px}
+
+/* Kshana Pro, highlighted: a magenta-lit glass card in light, the deep violet console in dark */
+.ed-pro{--pk:var(--magenta);background:linear-gradient(180deg,var(--magenta-soft),transparent 55%),var(--panel-solid);border:1px solid color-mix(in oklab,var(--magenta) 40%,var(--line));border-top:3px solid var(--magenta);box-shadow:var(--shadow-lg),0 0 0 4px var(--magenta-soft)}
+.ed-pro .lic i,.ed-pro li::before{background:var(--magenta)}
+.ed-pro .ed-why{border-color:color-mix(in oklab,var(--magenta) 40%,var(--line));background:var(--magenta-soft)}
+.ed-pro .ed-why .ed-l{color:color-mix(in oklab,var(--magenta) 72%,var(--ink))}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ed-pro{background:radial-gradient(120% 70% at 20% 0%,#1E1446 0%,var(--space) 70%);border-color:rgba(244,92,203,.35)}}
+:root[data-theme="dark"] .ed-pro{background:radial-gradient(120% 70% at 20% 0%,#1E1446 0%,var(--space) 70%);border-color:rgba(244,92,203,.35)}
+.ed-pro .btn-white{background:var(--btn-bg);color:var(--btn-ink)}
+
+@media (min-width:700px) and (max-width:1099.98px){
+  .ed{grid-template-columns:repeat(2,minmax(0,1fr));column-gap:24px;grid-template-areas:"top why" "who inc" "terms go"}
+  .ed-top{grid-area:top}.ed-why{grid-area:why}.ed .go{grid-area:go;align-self:end}
+  .ed-why+.ed-row{grid-area:who}.ed-why+.ed-row+.ed-row{grid-area:inc}.ed-why+.ed-row+.ed-row+.ed-row{grid-area:terms}
+}
+@media (min-width:1100px){
+  .eds{grid-template-columns:minmax(96px,.42fr) repeat(3,minmax(0,1fr));grid-template-rows:repeat(6,auto);column-gap:14px;row-gap:0}
+  .ed-rail{display:grid;grid-row:span 6;grid-template-rows:subgrid;row-gap:14px;padding:21px 0 19px}
+  .ed-rail span{font:500 10.5px/1.35 var(--mono);letter-spacing:.1em;text-transform:uppercase;color:var(--ink-3);padding-top:13px;border-top:1px solid var(--line-2)}
+  .ed-rail span:first-child{border-top:0}
+  .ed-rail span:nth-child(2){padding-top:13px}
+  .ed{grid-row:span 6;grid-template-rows:subgrid;row-gap:14px}
+  /* the rail names these rows; keep the per-card label for screen readers only */
+  .ed-row .ed-l{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
+}
+
+/* ---------------- the open core's dual licence, directly under the editions */
+.lic-free{display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.15fr);gap:14px 22px;margin-top:14px;padding:18px 20px;border-left:3px solid var(--c)}
+.lic-h{display:grid;gap:8px;align-content:start}
+.lic-h h3{font:600 clamp(20px,1.8vw,24px)/1.15 var(--sans);letter-spacing:-.02em}
+.lic-h p,.lic-opt p,.lic-opt li{font-size:14px;line-height:1.5;color:var(--ink-2)}
+.lic-links{display:flex;flex-wrap:wrap;gap:6px 16px}
+.lic-links a,.lic-note a{color:var(--cyan)}
+.lic-opt{min-width:0;display:grid;gap:8px;align-content:start;padding:12px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2)}
+.lic-opt-b{border-color:color-mix(in oklab,var(--lime) 35%,var(--line))}
+.lic-k{font:500 10.5px/1.3 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--c)}
+.lic-opt h4{font:600 16px/1.2 var(--sans);letter-spacing:-.01em;color:var(--ink)}
+.lic-opt ul{margin:0;padding:0;list-style:none;display:grid;gap:5px}
+.lic-opt li{position:relative;padding-left:15px}
+.lic-opt li::before{content:"";position:absolute;left:0;top:.6em;width:6px;height:6px;border-radius:2px;background:var(--c)}
+.lic-fit{color:var(--ink-3)!important;font-size:13px!important}
+.lic-go .btn{min-height:40px;font-size:13.5px;white-space:normal;max-width:100%}
+.lic-note{grid-column:1/-1;padding-top:10px;border-top:1px solid var(--line);font-size:13px;color:var(--ink-3)}
+@media (max-width:1099.98px){.lic-free{grid-template-columns:repeat(2,minmax(0,1fr))}.lic-h{grid-column:1/-1}}
+@media (max-width:700px){.lic-free{grid-template-columns:minmax(0,1fr)}}
+
+/* ---------------- the shared Pro band, tighter here: the four deliverables in one row */
+#pro.pro-band{padding:clamp(56px,6vw,88px) 0}
+#pro .pro-head{margin-bottom:clamp(20px,2.4vw,32px);gap:12px}
+#pro .pro-head .h2{font-size:clamp(28px,3.2vw,44px)}
+#pro .deliv{gap:14px}
+#pro .dv{padding:16px;border-radius:var(--r);gap:8px}
+#pro .dv h3{font:600 clamp(17px,1.4vw,20px)/1.2 var(--sans);letter-spacing:-.015em;font-variation-settings:normal}
+#pro .dv>p{font-size:13.5px;line-height:1.5}
+#pro .evi-n b{font-size:44px}
+@media (min-width:1200px){#pro .deliv{grid-template-columns:repeat(4,minmax(0,1fr))}}
+@media (min-width:861px) and (max-width:1199.98px){#pro .deliv{grid-template-columns:repeat(2,minmax(0,1fr))}}
+
+/* ---------------- 02 how a custom study runs */
+.steps{list-style:none;margin:0;padding:0;counter-reset:st;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+@media (max-width:1099.98px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:640px){.steps{grid-template-columns:minmax(0,1fr)}}
+.steps li{counter-increment:st;display:block;padding:16px 16px 16px 54px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.steps li::after{content:counter(st);position:absolute;left:16px;top:15px;display:grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--cyan-soft);color:var(--cyan);font:600 12px/1 var(--mono)}
+.steps b{display:block;margin-bottom:4px;color:var(--ink)}
+.steps a{color:var(--cyan);overflow-wrap:anywhere}
+.free-vs-paid{margin-top:14px;padding:11px 14px;border-radius:10px;border:1px solid var(--line);background:var(--panel-2);font-size:14px;color:var(--ink-2)}
+.free-vs-paid a{color:var(--cyan)}
+
+/* ---------------- 03 install + contact routes, side by side */
+.ed-last{padding-top:0!important}
+.ed-end{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;align-items:stretch}
+@media (max-width:979px){.ed-end{grid-template-columns:minmax(0,1fr)}}
+.ed-inst,.ed-contact{display:flex;flex-direction:column;overflow:hidden;min-width:0}
+.ed-card-h{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:11px 16px;min-height:48px;border-bottom:1px solid var(--line);font:500 12px/1.2 var(--mono);letter-spacing:.08em;text-transform:uppercase;color:var(--ink-3)}
+.ed-inst .installer{background:none;border:0;border-radius:0;padding:14px 16px 16px;gap:12px}
+.ed-inst .inst-tabs{gap:4px}
+.ed-inst .inst-tabs button{font:500 12.5px/1 var(--mono);min-height:30px;padding:7px 10px;border-radius:8px;border:0;color:var(--ink-3);background:none}
+.ed-inst .inst-tabs button:hover{color:var(--ink)}
+.ed-inst .inst-tabs button[aria-selected="true"]{color:var(--ink);background:var(--panel-2);box-shadow:inset 0 0 0 1px var(--line-2)}
+.ed-inst .pin-toggle{background:var(--panel-2)}
+.ed-inst .pin-toggle button{min-height:26px}
+.ed-inst .pin-toggle button[aria-pressed="true"]{background:var(--panel-solid)}
+.ed-inst .ip{gap:10px;padding-top:12px;border-top:1px solid var(--line)}
+.ed-inst .ip-aud,.ed-inst .ip-note,.ed-inst .ip-links{font-size:13px}
+.ed-inst .ip-cmd .cmd{width:100%;font-size:13px}
+.ed-inst .ip-verify{font-size:12.5px}
+.ed-inst .ip-verify code{background:var(--panel-2);overflow-wrap:anywhere}
+.ed-inst .ip-links a{color:var(--cyan);display:inline-flex;align-items:center;min-height:24px}
+.ct{list-style:none;margin:0;padding:6px 8px;display:grid}
+.ct li+li{border-top:1px solid var(--line)}
+.ct a{display:grid;grid-template-columns:minmax(0,1fr) auto;grid-template-rows:auto auto;column-gap:12px;align-items:center;padding:11px 10px;border-radius:10px;text-decoration:none;color:var(--ink)}
+.ct a:hover{background:var(--panel-2)}
+.ct b{font:560 14.5px/1.3 var(--sans)}
+.ct span{grid-row:2;font-size:13px;color:var(--ink-3);overflow-wrap:anywhere}
+.ct svg{grid-row:1/3;grid-column:2;width:15px;height:15px;color:var(--ink-3);transition:transform .25s var(--obs-ease)}
+.ct a:hover svg{transform:translateX(3px);color:var(--ink)}
+.ed-foot{margin-top:auto;padding:11px 18px;border-top:1px solid var(--line);font:400 12px/1.5 var(--mono);color:var(--ink-3)}
+.ed-foot a{color:var(--cyan)}
+
+
+/* ------------------------------------------------------------------ R5 (2026-09-29): hero instrument, three editions on one engine */
+.ed-hero .hx .ctas{margin-top:22px}
+.ed-hero .hx+.subnav{margin-top:28px}
+.eo-stage{padding:6px 10px 0}
+.eo-svg{display:block;width:100%;height:auto;max-height:420px}
+.eo-rp{fill:none;stroke:var(--magenta);stroke-width:9;stroke-opacity:.2}
+.eo-rc{fill:none;stroke:var(--cyan);stroke-width:1.6;stroke-dasharray:5 5}
+.eo-core{fill:color-mix(in oklab,var(--lime) 12%,var(--panel-solid));stroke:var(--lime);stroke-width:1.6}
+.eo-c1{font:600 15px var(--sans);fill:var(--ink)}
+.eo-c2{font:600 22px var(--sans);fill:var(--ink);letter-spacing:-.02em}
+.eo-c3{font:500 10.5px var(--mono);fill:var(--ink-2)}
+.eo-lt{font:600 12px var(--mono);letter-spacing:.06em;text-transform:uppercase}
+.eo-lt.p{fill:var(--magenta)}.eo-lt.c{fill:var(--cyan)}
+.eo-mk{forced-color-adjust:none}
+.eo-mk.v{fill:var(--ev-v,var(--lime))}
+.eo-mk.m{fill:none;stroke:var(--ink-2);stroke-width:1.8}
+.eo-mk.u{stroke:var(--ink-3);stroke-width:2.4;stroke-linecap:round}
+.eo-mk.on{stroke:var(--cyan);stroke-width:2}
+.eo-svg *{forced-color-adjust:none}
+.eo-ln{stroke-width:2}
+.eo-ln.p{stroke:var(--magenta)}.eo-ln.c{stroke:var(--cyan)}
+.eo-ln.on{stroke-width:2.4;stroke-opacity:1;stroke-dasharray:4 4;animation:eoFlow .8s linear infinite}
+.eo-end.p{fill:var(--magenta)}.eo-end.c{fill:var(--cyan)}
+.eo-cur{fill:none;stroke:var(--cyan);stroke-width:1.8}
+@keyframes eoFlow{to{stroke-dashoffset:-8}}
+:root{--ev-v:var(--lime)}
+.eo-read{display:flex;flex-wrap:wrap;align-content:flex-start;align-items:center;gap:4px 10px;min-height:6.2em;padding:10px 16px;border-top:1px solid var(--line);font:500 11.5px/1.45 var(--mono);color:var(--ink-2)}
+.eo-read code{font:600 13px/1.2 var(--mono);color:var(--ink)}
+.eo-g{color:var(--ink-3)}
+.eo-st.v{color:color-mix(in oklab,var(--lime) 80%,var(--ink))}
+.eo-by{flex-basis:100%;color:var(--ink)}
+.eo-eds{list-style:none;margin:0;padding:10px 12px;display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:8px;border-top:1px solid var(--line)}
+.eo-eds li{display:grid;gap:6px;padding:9px 11px;border-radius:10px;border:1px solid var(--line);border-top:2px solid var(--c);background:var(--panel-2);min-width:0}
+.eo-k{display:inline-flex;align-items:center;gap:7px;font:500 10.5px/1.2 var(--mono);letter-spacing:.07em;text-transform:uppercase;color:var(--ink-3)}
+.eo-k i{width:7px;height:7px;border-radius:2px;background:var(--c);flex:none}
+.eo-eds a{font:600 13px/1.3 var(--sans);color:var(--ink);text-decoration:underline;text-decoration-color:color-mix(in oklab,var(--c) 70%,transparent);text-underline-offset:3px;overflow-wrap:anywhere;min-height:24px;display:inline-flex;align-items:center}
+.eo-foot{padding:10px 16px;border-top:1px solid var(--line);font:500 11px/1.5 var(--mono);color:var(--ink-3)}
+@media (max-width:560px){.eo-stage{padding:4px 2px 0}}
+@media (prefers-reduced-motion:reduce){.eo-ln.on{animation:none}}
+@media (forced-colors:active){.eo-mk.v,.eo-end.p,.eo-end.c{fill:CanvasText}.eo-mk.m,.eo-mk.u,.eo-ln.p,.eo-ln.c,.eo-cur,.eo-rp,.eo-rc,.eo-core{stroke:CanvasText}.eo-c1,.eo-c2,.eo-c3,.eo-lt.p,.eo-lt.c{fill:CanvasText}}

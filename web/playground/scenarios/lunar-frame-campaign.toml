@@ -1,0 +1,32 @@
+# Seven-parameter Helmert lunar frame datum driven by a SIMULATED OBSERVING CAMPAIGN (G9).
+#
+# The lunar-frame-realisation scenario injects a known similarity transform and recovers
+# it — a solver unit test wearing the clothes of a result. This kind removes the planted
+# answer: a network of Earth stations observes a catalogue of lunar-surface beacons over an
+# explicit schedule, the lunar-VLBI delay partials are accumulated over that schedule into
+# a beacon-coordinate Fisher information matrix exactly as lunar-vlbi-fim does, and that
+# information is propagated through the Helmert design A = [I3 | [p]_x | p] at the
+# catalogue points into the datum covariance H = A^T M_b A.
+#
+# Nothing is recovered from a planted transform, so the reported datum accuracy derives
+# from the observing programme: halving the delay sigma halves it exactly, and lengthening
+# the arc improves it because the libration the report MEASURES
+# (sub_earth_direction_sweep_deg) is what separates the line-of-sight beacon coordinate
+# from the plane-of-sky ones.
+#
+# Beacon-error correlation is MEASURED, not assumed. With the stations held fixed no
+# observation touches two beacons, so the information matrix is exactly block-diagonal
+# (offblock_fraction 0); with the stations estimated the Schur-marginalised block is
+# coupled, the induced correlation is printed, and the whole propagation is re-run with it
+# discarded so the price of an independence assumption is a number rather than a claim.
+#
+# The same propagation under an isotropic per-coordinate sigma, and the recovery error the
+# lunar-frame-realisation scenario reports, are both run here and printed beside the
+# campaign value with their ratios.
+#
+# MODELLED: the beacon catalogue is sourced but the CAMPAIGN is simulated — the station
+# network and the delay sigma are illustrative inputs, individual delay observations are
+# treated as independent, and the Moon-centre ephemeris, station clocks, troposphere and
+# Earth-orientation parameters are held FIXED. Not a geodetic product.
+
+kind = "lunar-frame-campaign"

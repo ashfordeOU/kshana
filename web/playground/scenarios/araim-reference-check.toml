@@ -1,0 +1,44 @@
+# The engine's ARAIM protection levels against the WG-C subgroup's OWN worked examples.
+#
+# This is an EXTERNAL check, not a self-test: two published certification reference vectors
+# are committed as fixtures, each carrying its retrieval URL, retrieval date, source-file
+# SHA-256 and page number, and the engine's numbers are run against them at the tolerance
+# (TOL_PL = 5e-2 m) those documents themselves state.
+#
+#   * Reference Airborne Algorithm Description Document v3.1 (2019), Appendix D — internally
+#     self-consistent, and the acceptance vector.
+#   * Milestone 3 Report (2016), Annex A section A.IX — the statement the research
+#     bibliographies cite.
+#
+# Every published input (the 10-satellite 2-constellation geometry matrix, the C_int and
+# C_acc variance diagonals, b_nom, P_sat, P_const and the LPV-200 constant set) and every
+# published output (VPL, HPL, EMT, sigma_v_acc, K_fa_3, and each constellation-fault mode's
+# sigma_3, sigma_ss_3 and b_3) is reported beside the engine's own number and their absolute
+# difference. A transcribed figure is labelled `published` so it can never be mistaken for a
+# computed one.
+#
+# The protection-level equation is NOT re-solved here. The reference's mode list is handed
+# to the engine's existing raim::araim_protection_level / araim_integrity_risk, so the
+# bisection and the Gaussian-tail algebra under test are the engine's own; only the geometry,
+# the sub-solutions, the detection thresholds and the published budget split are built for it.
+#
+# RESULT against the 2019 vector: VPL 18.2926 m vs 18.3 m published, HPL 13.4063 m vs
+# 13.45 m, EMT 7.2997 m vs 7.2998 m, sigma_v_acc 1.3694 m vs 1.3694 m, and all six published
+# intermediates to within half a unit in their last printed decimal.
+#
+# The 2016 vector carries two internal defects the report STATES rather than hides — a sign
+# typo in row 3 of G, and a K_fa_3 evaluated at 57 fault modes while the document states
+# N_fault_max = 1 (12 modes). Its geometry intermediates reproduce exactly; its protection
+# levels are reported as measured discrepancies and excluded from the acceptance figure.
+# The tolerance is never widened to absorb them.
+#
+# SCOPE: only N_fault_max = 1 (single-satellite and single-constellation fault modes) is
+# implemented, and a case whose priors require simultaneous multi-event fault subsets is
+# REFUSED rather than silently truncated. Fault detection, exclusion, the chi-square
+# consistency check and the double-counting re-allocation step are out of scope. This
+# reproduces a published reference algorithm's worked example — it is not a certification,
+# an airworthiness artefact, or an approval.
+#
+# Omit `vector` to run both; set it to select one.
+
+kind = "araim-reference-check"

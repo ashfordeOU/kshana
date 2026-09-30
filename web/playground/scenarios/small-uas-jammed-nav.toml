@@ -1,0 +1,91 @@
+# Small uncrewed aircraft under GNSS jamming: how far a flight-controller-class
+# MEMS inertial unit drifts once the receiver loses lock, against a tactical-grade
+# unit, on the same closed-loop GNSS/INS filter as `gnss-ins.toml`.
+#
+# The question a small-UAS (uncrewed aircraft system) builder asks: after a jammer
+# takes the Global Navigation Satellite System (GNSS) away, how many seconds does the
+# inertial solution stay inside a position budget? `jamming-demo.toml` shows why the
+# outage happens (a 10 W broadband jammer 1 km away puts the jammer-to-signal ratio
+# near 72 dB, far past what a C/A tracking loop tolerates); this scenario takes that
+# denial as given (GNSS nominal for 100 s, then denied for 60 s) and asks what the
+# inertial navigation system (INS) does next.
+#
+# The flight-controller unit is a Bosch BMI088, a common 6-axis MEMS (micro-electro-
+# mechanical system) inertial unit on small-UAS flight controllers. Its biases are the
+# RESIDUALS left after the usual start-up calibration, not the raw datasheet offsets:
+#   - gyro: the zero-rate offset (±1 °/s, raw) is estimated at rest before take-off,
+#     so the residual is its temperature drift, ±0.015 °/s per K (Bosch BST-BMI088-
+#     DS000-19, rev 1.9, gyroscope table), over an assumed 10 K warm-up after
+#     calibration: 0.15 °/s = 2.618e-3 rad/s per axis;
+#   - accelerometer: the zero-g offset (20 mg typical, raw) is removed by a one-off
+#     calibration, so the residual is its temperature drift, < 0.2 mg per K (same
+#     datasheet, accelerometer table), over the same 10 K: 2 mg = 0.0196 m/s² per axis.
+# In flight the unit keeps warming (motor and speed-controller heat, sun, altitude), so
+# the bias keeps moving after the filter has learned it. That drift is what the
+# filter cannot learn in advance, and it is what ends the coast: the same two
+# temperature coefficients times an ASSUMED in-flight warming rate of 1 K per minute,
+# entered as linear rate-ramps in `[imu_classical.error_model]` below:
+#   - gyro: 0.015 °/s per K x 1 K/min = 4.363e-6 rad/s per s;
+#   - accelerometer: 0.2 mg per K x 1 K/min = 3.269e-5 m/s² per s.
+# The signs are chosen, not measured. The 10 K warm-up and the 1 K/min rate are
+# assumptions, and they are the numbers to change first: a slower warming rate
+# lengthens the in-spec coast and a faster one shortens it (scale both rate_ramp
+# lines together and rerun, rather than trusting a figure typed here). White noise,
+# scale-factor and misalignment are not layered on. The tactical-grade comparator is taken as
+# temperature-compensated and carries no ramp.
+#
+# The pack has two fixed slots named `imu_quantum` and `imu_classical`. Here the
+# `imu_quantum` slot carries the BETTER unit, the tactical-grade comparator with the
+# same biases as `gnss-ins.toml`, and `imu_classical` carries the flight-controller
+# MEMS unit. Nothing quantum is modelled in this file.
+#
+# Honest scope (inherited from the `gnss-ins` pack): loosely coupled, a single
+# deterministic manoeuvring profile (a forward-acceleration and yaw square wave), not a
+# recorded drone flight; flat-Earth tangent-plane comparison. Every figure this file
+# produces is MODELLED. Validating it needs flight logs from a jammed environment.
+kind = "gnss-ins"
+seed = 7
+threshold_m = 50.0
+fix_interval_s = 1.0
+sigma_pos_m = 1.0
+sigma_vel_mps = 0.05
+lat_deg = 59.437
+lon_deg = 24.745
+alt_m = 120.0
+
+[time]
+step_s = 0.1
+duration_s = 160.0
+
+[gnss]
+windows = [
+  { t0 = 0.0,   t1 = 100.0, state = "nominal" },
+  { t0 = 100.0, t1 = 160.0, state = "denied" },
+]
+
+[imu_quantum]
+id = "tactical-imu"
+provenance = "Tactical-grade MEMS/quartz inertial unit, the comparator: the same residual biases as scenarios/gnss-ins.toml"
+accel_bias = [0.03, -0.02, 0.0]
+gyro_bias = [0.0, 0.0, 1.0e-4]
+
+[imu_classical]
+id = "bmi088-flight-controller"
+provenance = "Bosch BMI088 MEMS IMU (BST-BMI088-DS000-19 rev 1.9): residual bias after start-up calibration = temperature drift over an assumed 10 K warm-up; gyro 0.015 deg/s/K x 10 K = 2.618e-3 rad/s, accel 0.2 mg/K x 10 K = 0.0196 m/s^2 per axis; signs chosen"
+accel_bias = [0.0196, -0.0196, 0.0196]
+gyro_bias = [2.618e-3, -2.618e-3, 2.618e-3]
+
+# The filter's prior on this unit's biases: the same datasheet-derived residual bounds
+# as above, taken as 1-sigma. Without it the filter keeps the pack default prior (a
+# gyro bias of 1e-4 rad/s, 1-sigma), which puts this unit's 2.618e-3 rad/s residual
+# 26 sigma out: the filter then never learns the bias, and the coast measures that
+# mis-tuning rather than the sensor.
+[imu_classical.filter_prior]
+sigma_accel_bias = 0.0196
+sigma_gyro_bias = 2.618e-3
+
+# Continued in-flight warming, 1 K/min (assumed), through the datasheet temperature
+# coefficients above: the bias drift the filter has not seen when GNSS is lost.
+[imu_classical.error_model]
+rate_ramp_gyro = [4.363e-6, -4.363e-6, 4.363e-6]
+rate_ramp_accel = [3.269e-5, -3.269e-5, 3.269e-5]

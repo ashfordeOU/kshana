@@ -1,0 +1,29 @@
+# Coordinated Lunar Time (LTC) end-to-end time-error budget over a tau grid.
+#
+# A single averaging-time (tau) error table invites the objection "you picked the tau that
+# flatters your clock." This scenario answers it: the seven LTC error terms are assembled as
+# time-error curves x_i(tau) (seconds) across a whole grid of averaging times, root-summed into
+# x_Sigma(tau), and the clock-vs-frame CROSSOVER tau is located — the tau at which the growing
+# clock term overtakes the constant real-time frame-realisation term. Below the crossover the
+# budget is frame-limited (the reference-frame realisation dominates, not the clock); above it the
+# clock dominates. Where the crossover falls depends entirely on the clock class — for the default
+# passive H-maser it is far out in tau, for a coarse mini-RAFS it is seconds — which is exactly why
+# a single-tau number is misleading. (src/lunar_time_budget.rs)
+#
+# Honesty: MODELLED. The tau-slopes are closed-form and analytically checkable (clock tau^{+1/2}
+# or tau^{+1}, floors tau^0, measurement tau^{-1/2}) and the clock rows reproduce the published
+# one-day clock specs; but the RF/optical-link, frame-realisation, relativistic-residual and
+# ephemeris floor MAGNITUDES are Modelled budget allocations (documented defaults, caller-
+# overridable), not measurements. The contribution is the reproducible crossover tau, not a
+# certified per-term number. Nothing here is certified for operational timekeeping.
+kind = "lunar-time-budget"
+
+# On-board clock class driving the (growing) clock term. One of:
+#   optical-master | passive-h-maser | rafs | mini-rafs
+clock = "passive-h-maser"
+
+# The averaging-time (tau) grid is the default 1 s ... 1e7 s log-spaced grid (8 points/decade).
+# Uncomment to override:
+# tau_min_s = 1.0
+# tau_max_s = 1.0e7
+# points_per_decade = 8

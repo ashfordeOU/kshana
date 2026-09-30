@@ -1,0 +1,72 @@
+/* Kshana site theme: the Observatory system (founder's choice, 2026-09-28), site pages only.
+   Loaded after tokens.css (which the Studio shares and keeps unchanged) and before site.css.
+   It sets the Observatory colour, type and surface tokens, and re-points the shared token names
+   (--bg, --ink, --line, --surface, --f-display ...) so pages not yet rebuilt follow the same base.
+   Three theme states: no data-theme follows the system; data-theme="light" | "dark" forces one.
+   Text colours keep WCAG AA (4.5:1) on the ground they sit on, in both themes. */
+:root{
+  color-scheme:light;
+  --bg:#F2F5FB; --bg-2:#E8EDF7; --bg-3:#DDE4F2;
+  --panel:rgba(255,255,255,.74); --panel-2:rgba(255,255,255,.6); --panel-solid:#FFFFFF;
+  --line:rgba(18,34,80,.09); --line-2:rgba(18,34,80,.16); --line-3:rgba(18,34,80,.28);
+  --ink:#0A1226; --ink-2:#3F4B67; --ink-3:#5A6680; --ink-4:#8C96AD;
+  --cyan:#066A86; --magenta:#B8288F; --lime:#377D0C; --amber:#7E4B00; --coral:#C9321F;
+  --cyan-soft:rgba(7,130,163,.1); --lime-soft:rgba(55,125,12,.1); --amber-soft:rgba(158,95,0,.1); --coral-soft:rgba(201,50,31,.1); --magenta-soft:rgba(184,40,143,.1);
+  --modelled:#7F96CC;
+  --nav-glass:90%; /* scrolled nav opacity: high enough in light that links keep 4.5:1 over a dark instrument */
+  --btn-bg:#0A1226; --btn-ink:#FFFFFF;
+  --shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 24px 50px -30px rgba(20,40,90,.35), 0 2px 6px -2px rgba(20,40,90,.12);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.9) inset, 0 50px 100px -50px rgba(20,40,90,.45), 0 8px 24px -12px rgba(20,40,90,.2);
+  --dot:rgba(18,34,80,.07);
+  --scrim:rgba(242,245,251,.82);
+  --gloss:linear-gradient(180deg, rgba(255,255,255,.7), transparent 50%);
+  --sans:"Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display:"Unbounded", "Geist", sans-serif;
+  --r:14px;
+  --obs-ease:cubic-bezier(.22,.9,.24,1);
+  /* shared names used by pages that are not rebuilt yet */
+  --surface:#FFFFFF; --surface-2:#F6F8FC;
+  --f-display:var(--sans); --f-text:var(--sans); --f-mono:var(--mono);
+  --max:1360px; --gut:clamp(16px,3vw,40px);
+  --tim:#1F55F0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#060A14; --bg-2:#0A1122; --bg-3:#0E1730;
+    --panel:rgba(16,24,44,.62); --panel-2:rgba(22,33,60,.55); --panel-solid:#0D1528;
+    --line:rgba(150,175,230,.11); --line-2:rgba(150,175,230,.2); --line-3:rgba(150,175,230,.32);
+    --ink:#EAF0FF; --ink-2:#A7B4D2; --ink-3:#8190B0; --ink-4:#56637F;
+    --cyan:#3DDCF7; --magenta:#F45CCB; --lime:#A8EE5E; --amber:#FFB547; --coral:#FF6A5C;
+    --cyan-soft:rgba(61,220,247,.14); --lime-soft:rgba(168,238,94,.14); --amber-soft:rgba(255,181,71,.14); --coral-soft:rgba(255,106,92,.14); --magenta-soft:rgba(244,92,203,.14);
+    --modelled:#4F6FB0; --nav-glass:72%;
+    --btn-bg:#EAF0FF; --btn-ink:#070B16;
+    --shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -28px rgba(0,0,0,.75), 0 2px 8px -2px rgba(0,0,0,.35);
+    --shadow-lg:0 1px 0 rgba(255,255,255,.06) inset, 0 50px 120px -40px rgba(0,0,0,.85), 0 8px 30px -10px rgba(0,0,0,.5);
+    --dot:rgba(150,175,230,.075);
+    --scrim:rgba(6,10,20,.78);
+    --gloss:linear-gradient(180deg, rgba(255,255,255,.045), transparent 40%);
+    --surface:#0D1528; --surface-2:#111B33;
+    --tim:#6A98FF;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#060A14; --bg-2:#0A1122; --bg-3:#0E1730;
+  --panel:rgba(16,24,44,.62); --panel-2:rgba(22,33,60,.55); --panel-solid:#0D1528;
+  --line:rgba(150,175,230,.11); --line-2:rgba(150,175,230,.2); --line-3:rgba(150,175,230,.32);
+  --ink:#EAF0FF; --ink-2:#A7B4D2; --ink-3:#8190B0; --ink-4:#56637F;
+  --cyan:#3DDCF7; --magenta:#F45CCB; --lime:#A8EE5E; --amber:#FFB547; --coral:#FF6A5C;
+  --cyan-soft:rgba(61,220,247,.14); --lime-soft:rgba(168,238,94,.14); --amber-soft:rgba(255,181,71,.14); --coral-soft:rgba(255,106,92,.14); --magenta-soft:rgba(244,92,203,.14);
+  --modelled:#4F6FB0; --nav-glass:72%;
+  --btn-bg:#EAF0FF; --btn-ink:#070B16;
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -28px rgba(0,0,0,.75), 0 2px 8px -2px rgba(0,0,0,.35);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.06) inset, 0 50px 120px -40px rgba(0,0,0,.85), 0 8px 30px -10px rgba(0,0,0,.5);
+  --dot:rgba(150,175,230,.075);
+  --scrim:rgba(6,10,20,.78);
+  --gloss:linear-gradient(180deg, rgba(255,255,255,.045), transparent 40%);
+  --surface:#0D1528; --surface-2:#111B33;
+  --tim:#6A98FF;
+}
+:root[data-theme="light"]{color-scheme:light}

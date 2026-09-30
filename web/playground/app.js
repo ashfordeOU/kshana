@@ -1,0 +1,1656 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+// Kshana Studio (formerly the playground; redesign 2026-09-27): the DOM layer. The engine, share, guided,
+// sweep, overlay, report, chart-download, orbit, tour, embed and count logic are the
+// live playground's pure modules, reused unchanged from web/ in the kshana repository; the library,
+// parameter and view models are new pure modules (lib/catalog.mjs, lib/params.mjs,
+// lib/views.mjs), each with a node test. Every scenario-derived string reaches the page
+// through textContent, or through an escaping SVG builder whose markup is parsed as XML
+// (never assigned as HTML).
+import { encodeFragment, decodeFragment, patchScalar } from "./lib/share.mjs";
+import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./lib/chartdl.mjs";
+import { attachChartHover, parsePolylineXs } from "./lib/hover.mjs";
+import { knobsForToml, readKnob, patchSectionScalar } from "./lib/guided.mjs";
+import { orbit3dSvg } from "./lib/orbit3d.mjs";
+import { buildFomRows, figureTier } from "./lib/tabs.mjs";
+import { sweepValues, sweepToml, sweepMetrics, MAX_SWEEP } from "./lib/sweep.mjs";
+import { overlayRows } from "./lib/overlay.mjs";
+import { isEmbed, embedConfig, embedClassList } from "./lib/embed.mjs";
+import { buildReportHtml, reportFilename, fomTier, NOT_APPLICABLE } from "./lib/report.mjs";
+// The app's name comes from the page <title>, which the site build writes from src/data/brand.json.
+const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
+import { clampStep, placeTooltip } from "./lib/tour.mjs";
+import { matrixCounts } from "./lib/counts.mjs";
+import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
+import { SCENARIOS, NOT_IN_BROWSER, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary } from "./lib/catalog.mjs";
+import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
+import * as V from "./lib/views.mjs";
+
+const $ = (id) => document.getElementById(id);
+const h = (tag, props = {}, ...kids) => {
+  const n = document.createElement(tag);
+  for (const [k, v] of Object.entries(props)) {
+    if (v === undefined || v === null || v === false) continue;
+    if (k === "class") n.className = v;
+    else if (k === "text") n.textContent = v;
+    else if (k === "style") n.style.cssText = v;
+    else if (k.startsWith("on")) n.addEventListener(k.slice(2), v);
+    else n.setAttribute(k, v === true ? "" : v);
+  }
+  for (const c of kids.flat()) if (c !== null && c !== undefined && c !== false) n.append(c.nodeType ? c : document.createTextNode(String(c)));
+  return n;
+};
+const icon = (id) => {
+  const s = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+  s.setAttribute("aria-hidden", "true");
+  const u = document.createElementNS("http://www.w3.org/2000/svg", "use");
+  u.setAttribute("href", `#${id}`);
+  s.append(u);
+  return s;
+};
+// Parse builder-made SVG markup as XML and adopt the element. XML parsing runs no
+// script and the builders escape every string they embed.
+function svgNode(markup) {
+  const doc = new DOMParser().parseFromString(markup, "image/svg+xml");
+  const root = doc.documentElement;
+  if (!root || root.nodeName !== "svg") return h("p", { class: "card-note", text: "This chart could not be drawn." });
+  return document.importNode(root, true);
+}
+function setSvg(box, markup) { box.replaceChildren(svgNode(markup)); }
+const reducedMotion = () => !!(window.matchMedia && window.matchMedia("(prefers-reduced-motion: reduce)").matches);
+const PALETTE = ["var(--s-tim)", "var(--s-nav)", "var(--s-orb)", "var(--s-spf)"];
+
+// ------------------------------------------------------------------ state
+const S = {
+  mode: "loading", version: "", engine: null, recIndex: null, recCache: new Map(), liveError: "",
+  file: null, baseToml: "", shared: false,
+  run: null,          // the run on screen: {id, file, title, toml, result, svg, summary, csv, ms, at, mode}
+  pins: [], history: [], runCount: 0,
+  activeTab: null, tabRequest: null, pview: "guided", exportsCache: new Map(), sweepSvg: null, tsMode: "live",
+  embed: false, ho: null, orbitDirty: true,
+};
+const tomlEl = $("toml");
+
+// ------------------------------------------------------------------ engine
+async function bootEngine() {
+  const force = new URLSearchParams(location.search).get("engine");
+  if (force !== "recorded") {
+    try {
+      const mod = await import("./pkg/kshana.js");
+      await mod.default(); // compiles the WebAssembly module: fails here if the host blocks it
+      S.version = mod.version();
+      const local = { run: mod.run, run_all: mod.run_all, summary: mod.summary, chart_svg: mod.chart_svg, table_csv: mod.table_csv, export_sp3: mod.export_sp3, export_omm: mod.export_omm, export_oem: mod.export_oem };
+      S.engine = createEngineClient({
+        spawn: typeof Worker === "function" ? () => new Worker(new URL("./lib/engine-worker.mjs", import.meta.url), { type: "module" }) : null,
+        local,
+        defer: (fn) => setTimeout(fn, 20),
+      });
+      S.mode = "live";
+      return;
+    } catch (e) {
+      S.liveError = errorMessage(e);
+    }
+  }
+  const res = await fetch("recorded/index.json");
+  if (!res.ok) throw new Error(`the engine could not load (${S.liveError || "WebAssembly unavailable"}) and no recorded runs were found`);
+  S.recIndex = await res.json();
+  S.version = S.recIndex.engine_version;
+  S.mode = "recorded";
+  S.engine = recordedEngine();
+}
+
+async function loadRecorded(file) {
+  if (S.recCache.has(file)) return S.recCache.get(file);
+  const entry = S.recIndex && S.recIndex.runs[file];
+  if (!entry || entry.error) return null;
+  const res = await fetch(`recorded/${entry.file}`);
+  if (!res.ok) return null;
+  const rec = await res.json();
+  S.recCache.set(file, rec);
+  return rec;
+}
+
+// The recorded-run stand-in for the engine client: it answers only for the unedited
+// bundled scenario it has a real recording of, and says so otherwise.
+function recordedEngine() {
+  return {
+    mode: "recorded",
+    canCancel: false,
+    cancel: () => false,
+    async call(fn, toml) {
+      const rec = S.file ? await loadRecorded(S.file) : null;
+      if (!rec) throw new Error("There is no recorded run for this scenario. It needs the live engine.");
+      if (toml !== rec.toml) throw new Error("EDITED");
+      if (fn === "run_all") return JSON.stringify({ json: rec.json, svg: rec.svg, summary: rec.summary, csv: rec.csv });
+      if (fn === "run") return rec.json;
+      if (fn === "table_csv") return rec.csv;
+      if (fn.startsWith("export_")) {
+        const t = rec.exports[fn.slice(7)];
+        if (t === null) throw new Error("This export is large, so it was not recorded. It needs the live engine.");
+        if (!t) throw new Error("none");
+        return t;
+      }
+      throw new Error("This needs the live engine.");
+    },
+  };
+}
+
+// ------------------------------------------------------------------ jobs
+const BUSY_PAINT_MS = 150, SUPERSEDE_MS = 300;
+const job = { gen: 0, active: false, startedAt: 0, verb: "", rerun: false, paintTimer: 0, tickTimer: 0 };
+function beginJob(verb) {
+  job.gen += 1; job.active = true; job.startedAt = performance.now(); job.verb = verb; job.rerun = false;
+  clearTimeout(job.paintTimer); clearInterval(job.tickTimer);
+  if (S.engine.canCancel) job.paintTimer = setTimeout(paintBusy, BUSY_PAINT_MS); else paintBusy();
+  return job.gen;
+}
+function paintBusy() {
+  $("run").disabled = true;
+  $("sweep-run").disabled = true;
+  $("progress").hidden = false;
+  $("results").setAttribute("aria-busy", "true");
+  setStatus(busyLabel(job.verb, 0), "busy");
+  $("run-cancel").hidden = !S.engine.canCancel;
+  job.tickTimer = setInterval(() => setStatus(busyLabel(job.verb, performance.now() - job.startedAt), "busy"), 250);
+}
+function endJob(gen) {
+  if (gen !== job.gen) return false;
+  job.active = false;
+  clearTimeout(job.paintTimer); clearInterval(job.tickTimer);
+  $("run").disabled = false;
+  $("sweep-run").disabled = S.mode !== "live";
+  $("progress").hidden = true;
+  $("results").removeAttribute("aria-busy");
+  $("run-cancel").hidden = true;
+  return true;
+}
+function cancelJob() {
+  if (!job.active) return;
+  job.rerun = false;
+  S.engine.cancel();
+}
+function setStatus(text, cls = "") {
+  const s = $("status");
+  s.textContent = text;
+  s.className = "status" + (cls ? " " + cls : "");
+}
+
+// ------------------------------------------------------------------ run
+async function runScenario() {
+  if (!S.engine) return;
+  if (NOT_IN_BROWSER[S.file] && !S.shared) {
+    showError(NOT_IN_BROWSER[S.file]);
+    setStatus("This scenario does not run in the browser.");
+    return;
+  }
+  if (job.active) {
+    if (S.engine.canCancel && performance.now() - job.startedAt > SUPERSEDE_MS) S.engine.cancel();
+    else { job.rerun = true; return; }
+  }
+  const gen = beginJob("Running");
+  clearError();
+  const src = tomlEl.value;
+  let all;
+  try {
+    all = JSON.parse(await S.engine.call("run_all", src));
+  } catch (e) {
+    if (gen !== job.gen) return;
+    const rerun = job.rerun;
+    endJob(gen);
+    if (isCancelled(e)) setStatus(S.run ? "Run cancelled. The previous result is still shown." : "Run cancelled.");
+    else if (e.message === "EDITED") {
+      setStatus("Edited scenarios need the live engine.");
+      showNotice(recordedEditNotice());
+    } else { showError(errorMessage(e)); setStatus("Run failed. See the message in the results."); }
+    if (rerun) runScenario();
+    return;
+  }
+  if (gen !== job.gen) return;
+  const ms = performance.now() - job.startedAt;
+  const rerun = job.rerun;
+  endJob(gen);
+  if (rerun) { runScenario(); return; }
+  let result;
+  try { result = JSON.parse(all.json); } catch (e) { showError(errorMessage(e)); return; }
+  S.runCount += 1;
+  const entry = entryFor(S.file);
+  const run = {
+    id: S.runCount, file: S.file, title: S.shared ? "Shared scenario" : entry ? entry.title : S.file,
+    toml: src, result, svg: all.svg || "", summary: all.summary || "", csv: all.csv || null, ms, at: new Date(), mode: S.mode,
+  };
+  S.history.unshift(run);
+  if (S.history.length > 25) S.history.pop();
+  renderRun(run);
+  renderHistory();
+  setStatus(`${S.mode === "live" ? "Ran locally" : "Recorded run shown"} at ${run.at.toLocaleTimeString()}, run ${S.runCount}${ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : ""}.`, "ran");
+  const sum = $("summary");
+  sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
+}
+
+function showError(msg) {
+  const e = $("error");
+  e.textContent = msg;
+  e.hidden = false;
+}
+function clearError() { $("error").hidden = true; $("error").textContent = ""; }
+function showNotice(msg) { const n = $("notice"); n.textContent = msg; n.hidden = !msg; }
+function recordedEditNotice() {
+  return `WebAssembly is blocked on this page, so this page is showing real runs of the bundled scenarios recorded with engine v${S.version}. Edited scenarios, sweeps and new exports need the live engine: open kshana.dev, or serve this folder locally. Reset restores the recorded scenario.`;
+}
+function recordedIntro() {
+  return `WebAssembly is blocked on this page, so this page shows real runs of the bundled scenarios, recorded with engine v${S.version}. Editing, sweeps and new exports need the live engine at kshana.dev.`;
+}
+
+// ------------------------------------------------------------------ render a run
+function renderRun(run) {
+  S.run = run;
+  S.exportsCache.delete(run.id);
+  S.sweepSvg = null;
+  $("sweep-out").hidden = true;
+  const r = run.result;
+  const entry = entryFor(run.file);
+  const dom = entry ? domainOf(entry.domain) : null;
+  $("headline").hidden = false;
+  $("hl-eyebrow").textContent = dom ? dom.label : "Result";
+  $("summary").textContent = run.summary || "(this scenario publishes no one-line summary)";
+  const b = $("hl-badges");
+  b.replaceChildren();
+  b.append(h("span", { class: `badge ${run.mode === "live" ? "live" : "recorded"}`, text: run.mode === "live" ? "Live engine" : `Recorded run, engine v${r.engine_version || S.version}` }));
+  const lab = V.resultLabel(r);
+  const tiers = tierCounts(r);
+  if (tiers.validated) b.append(h("span", { class: "badge validated", text: `${tiers.validated} validated` }));
+  if (tiers.modelled) b.append(h("span", { class: "badge modelled", text: `${tiers.modelled} modelled` }));
+  if (lab && !tiers.validated && !tiers.modelled) b.append(h("span", { class: `badge ${lab.tier.toLowerCase()}`, text: lab.tier.toLowerCase() }));
+  const meta = fileMeta(r, S.version, run.toml);
+  const m = $("run-meta");
+  m.replaceChildren();
+  const add = (k, v) => m.append(h("div", {}, h("dt", { text: k }), h("dd", { text: v })));
+  add("engine", `v${meta.ver}`);
+  if (meta.hash) add("scenario", String(meta.hash).slice(0, 12));
+  if (typeof r.seed === "number") add("seed", String(r.seed));
+  add("file", run.file || "shared link");
+  if (run.mode === "live") add("time", `${Math.max(1, Math.round(run.ms))} ms`);
+  renderFigures(r);
+  renderOverview(r);
+  buildTabs();
+  $("json").replaceChildren(...jsonNodes(r));
+}
+
+function tierCounts(r) {
+  const figs = r && r.figure_tiers && Array.isArray(r.figure_tiers.figures) ? r.figure_tiers.figures : [];
+  return { validated: figs.filter((f) => f.tier === "VALIDATED").length, modelled: figs.filter((f) => f.tier === "MODELLED").length };
+}
+
+function tierPill(tier) {
+  if (!tier) return null;
+  const t = tier.toUpperCase() === "VALIDATED" ? "validated" : "modelled";
+  return h("span", { class: `tier ${t}`, text: t });
+}
+
+// Key figure cards: the clock-style figures of merit when the result has them, else the
+// numeric figures the engine documents in `units`.
+function renderFigures(r) {
+  const host = $("figs");
+  host.replaceChildren();
+  const rows = buildFomRows(r);
+  let cards;
+  if (rows.length) {
+    cards = rows.filter((x) => x.applicable !== false).slice(0, 8).map((x) => ({ k: x.label, sub: x.clockLabel, v: x.value, unit: x.unit, tier: x.tier || fomTier(x.metric), note: "" }));
+  } else {
+    cards = V.keyFigures(r, 8).map((x) => {
+      const ft = figureTier(r, x.path);
+      return { k: x.label, v: x.value, unit: x.unit, tier: ft ? ft.tier : "", note: x.note };
+    });
+  }
+  for (const c of cards) {
+    host.append(h("div", { class: "fig" },
+      h("div", { class: "k" }, h("span", { text: c.unit ? c.k.replace(/\s*\([^)]*\)$/, "") : c.k }), tierPill(c.tier)),
+      c.sub ? h("div", { class: "s", text: c.sub }) : null,
+      h("div", { class: "v", title: String(c.v) }, V.fmt(c.v), c.unit ? h("small", { text: c.unit }) : null),
+      c.note ? h("div", { class: "c", text: c.note.length > 96 ? c.note.slice(0, 94) + "…" : c.note }) : null));
+  }
+  host.hidden = cards.length === 0;
+}
+
+function renderOverview(r) {
+  const rows = buildFomRows(r);
+  const t = $("fom-table");
+  t.replaceChildren();
+  if (rows.length) {
+    t.append(h("thead", {}, h("tr", {}, ["Clock", "Metric", "Value", "Tier"].map((x) => h("th", { text: x })))));
+    const tb = h("tbody");
+    for (const x of rows) {
+      tb.append(h("tr", {},
+        h("td", { text: x.clockLabel }),
+        h("td", { text: x.unit ? `${x.label} (${x.unit})` : x.label }),
+        h("td", { class: "num", text: x.applicable === false ? NOT_APPLICABLE : V.fmt(x.value) }),
+        h("td", {}, tierPill(x.tier || fomTier(x.metric)))));
+    }
+    t.append(tb);
+  }
+  $("fom-card").hidden = !rows.length;
+  let kf = V.keyFigures(r, 40);
+  // A result with no numeric figure block (a sweep, for example): list its top-level fields,
+  // with arrays shown as their length, so the overview is never empty.
+  if (!kf.length && r && typeof r === "object") {
+    const units = r.units || {};
+    kf = Object.entries(r).filter(([k, v]) => k !== "units" && (typeof v !== "object" || Array.isArray(v)))
+      .map(([k, v]) => ({ path: k, value: Array.isArray(v) ? `${v.length} entries` : v, unit: (units[k] && units[k].unit !== "1" && units[k].unit) || "", provenance: (units[k] && units[k].provenance) || "", note: (units[k] && units[k].note) || "" }));
+  }
+  const k = $("kf-table");
+  k.replaceChildren();
+  if (kf.length) {
+    k.append(h("thead", {}, h("tr", {}, ["Figure", "Value", "Unit", "Provenance", "What it is"].map((x) => h("th", { text: x })))));
+    const tb = h("tbody");
+    for (const x of kf) {
+      const ft = figureTier(r, x.path);
+      tb.append(h("tr", {},
+        h("td", {}, h("code", { text: x.path }), " ", tierPill(ft && ft.tier)),
+        h("td", { class: "num", text: typeof x.value === "number" ? V.fmt(x.value) : String(x.value) }),
+        h("td", { text: x.unit || "—" }),
+        h("td", { text: x.provenance || "—" }),
+        h("td", { class: "note", text: x.note || "" })));
+    }
+    k.append(tb);
+  }
+  $("kf-card").hidden = !kf.length;
+  const hh = $("health");
+  hh.replaceChildren();
+  let anyH = false;
+  for (const key of ["quantum", "classical"]) {
+    const c = r[key];
+    if (!c || !c.filter_health) continue;
+    anyH = true;
+    const fh = c.filter_health;
+    const f3 = (x) => (typeof x === "number" ? x.toFixed(3) : "—");
+    hh.append(h("div", { class: `hcard ${fh.consistent ? "ok" : "warn"}` },
+      h("div", { class: "h" }, h("span", { text: c.spec && c.spec.id ? c.spec.id : key }), h("span", { text: fh.consistent ? "consistent" : "check tuning" })),
+      h("p", { text: `NIS ${f3(fh.nis_mean)} (95% band ${f3(fh.nis_chi2_lower_95)}–${f3(fh.nis_chi2_upper_95)}, target 1.0)` }),
+      h("p", { text: `NEES ${f3(fh.nees_mean)} (95% band ${f3(fh.nees_chi2_lower_95)}–${f3(fh.nees_chi2_upper_95)}, target 2.0)` })));
+  }
+  $("health-card").hidden = !anyH;
+  const lab = V.resultLabel(r);
+  $("label-card").hidden = !lab;
+  if (lab) $("label-text").textContent = lab.text;
+}
+
+// ------------------------------------------------------------------ tabs
+const TAB_DEFS = [
+  { id: "overview", label: "Overview", c: "var(--itg)" },
+  { id: "timeseries", label: "Time series", c: "var(--tim)" },
+  { id: "signal", label: "Signal & band", c: "var(--int)" },
+  { id: "holdover", label: "Holdover", c: "var(--tim)" },
+  { id: "masks", label: "Timing masks", c: "var(--tim)" },
+  { id: "stability", label: "Stability", c: "var(--spf)" },
+  { id: "orbit", label: "3-D orbit", c: "var(--orb)" },
+  { id: "ground", label: "Ground track", c: "var(--orb)" },
+  { id: "sweep", label: "Sweep", c: "var(--nav)" },
+  { id: "compare", label: "Compare", c: "var(--spf)" },
+  { id: "exports", label: "Exports & report", c: "var(--ink-2)" },
+  { id: "json", label: "JSON", c: "var(--ink-3)" },
+];
+const VIEW_ID = { overview: "v-overview", timeseries: "v-timeseries", signal: "v-signal", holdover: "v-holdover", masks: "v-masks", stability: "v-stability", orbit: "v-orbit", ground: "v-ground", sweep: "v-sweep", compare: "v-compare", exports: "v-exports", json: "v-json" };
+let available = [];
+
+function availableTabs(run) {
+  const r = run.result;
+  const out = ["overview"];
+  if (V.seriesModel(r, run.toml) || (run.svg && run.svg.length > 200)) out.push("timeseries");
+  if (V.signalModel(r, run.toml)) out.push("signal");
+  if (V.holdoverModel(r)) out.push("holdover");
+  if (V.masksModel(r)) out.push("masks");
+  if (V.adevCurves(r).length) out.push("stability");
+  if (V.orbitTrackKm(r)) out.push("orbit");
+  if (V.groundTrack(r)) out.push("ground");
+  if (S.mode === "live" && sweepKnobs(run.toml).length && sweepMetricList(r).length) out.push("sweep");
+  if (S.pins.length) out.push("compare");
+  out.push("exports", "json");
+  return out;
+}
+
+// The most telling first view for a kind of result.
+function preferredTab(run) {
+  const r = run.result;
+  if (V.signalModel(r, run.toml)) return "signal";
+  if (V.masksModel(r)) return "masks";
+  if (V.holdoverModel(r)) return "holdover";
+  if (V.seriesModel(r, run.toml)) return "timeseries";
+  if (V.groundTrack(r)) return "ground";
+  return "overview";
+}
+
+function buildTabs() {
+  const run = S.run;
+  if (!run) return;
+  const prevAvail = available;
+  available = availableTabs(run);
+  const row = $("tabs");
+  row.replaceChildren();
+  for (const id of available) {
+    const d = TAB_DEFS.find((t) => t.id === id);
+    const b = h("button", { class: "tab", role: "tab", id: `tab-${id}`, "aria-controls": VIEW_ID[id], "data-tab": id, style: `--c:${d.c}` }, h("i"), d.label);
+    if (id === "compare") b.append(h("span", { class: "n", text: String(S.pins.length) }));
+    b.addEventListener("click", () => selectTab(id));
+    row.append(b);
+  }
+  $("tabs-wrap").hidden = false;
+  // Keep the reader's view across runs of the same scenario family; otherwise open the
+  // most telling view for this kind of result.
+  const sameFamily = prevAvail.filter((x) => x !== "compare").join() === available.filter((x) => x !== "compare").join();
+  if (S.tabRequest && available.includes(S.tabRequest)) S.activeTab = S.tabRequest;
+  else if (!sameFamily || !S.activeTab || !available.includes(S.activeTab)) S.activeTab = preferredTab(run);
+  S.tabRequest = null;
+  renderTimeseries(); renderSignal(); renderHoldover(); renderMasks(); renderStability(); renderGround(); syncSweepControls(); renderCompare();
+  S.orbitDirty = true;
+  selectTab(S.activeTab);
+}
+
+function selectTab(id) {
+  if (!available.includes(id)) id = available[0];
+  S.activeTab = id;
+  for (const [tid, vid] of Object.entries(VIEW_ID)) $(vid).hidden = tid !== id;
+  for (const b of $("tabs").children) {
+    const sel = b.dataset.tab === id;
+    b.setAttribute("aria-selected", sel ? "true" : "false");
+    b.tabIndex = sel ? 0 : -1;
+  }
+  const btn = $(`tab-${id}`);
+  if (btn && btn.scrollIntoView) btn.scrollIntoView({ block: "nearest", inline: "nearest" });
+  if (id === "orbit" && S.orbitDirty) renderOrbit();
+  if (id === "exports") renderExports();
+}
+
+function cycleTab(dir) {
+  if (!available.length) return;
+  const i = available.indexOf(S.activeTab);
+  selectTab(available[(i + dir + available.length) % available.length]);
+  const b = $(`tab-${S.activeTab}`);
+  if (b) b.focus();
+}
+
+// ------------------------------------------------------------------ inline charts
+function mountChart(boxId, chart, toolsId, base, title) {
+  const box = $(boxId);
+  setSvg(box, chart.svg);
+  bindHover(box, chart.hover);
+  if (toolsId) mountTools(toolsId, () => exportSvg(chart.svg, title), base);
+}
+
+function bindHover(box, hover) {
+  box._hover = hover;
+  let line = box.querySelector(".hover-line"), tip = box.querySelector(".hover-tip");
+  if (!line) {
+    line = h("div", { class: "hover-line", hidden: true });
+    tip = h("div", { class: "hover-tip", hidden: true });
+    box.append(line, tip);
+  }
+  if (box.dataset.hb) return;
+  box.dataset.hb = "1";
+  const hide = () => { const l = box.querySelector(".hover-line"), t = box.querySelector(".hover-tip"); if (l) l.hidden = true; if (t) t.hidden = true; };
+  box.addEventListener("pointermove", (e) => {
+    const hv = box._hover;
+    const svg = box.querySelector("svg.chart");
+    const l = box.querySelector(".hover-line"), t = box.querySelector(".hover-tip");
+    if (!hv || !svg || !l) return hide();
+    const rect = svg.getBoundingClientRect(), br = box.getBoundingClientRect();
+    const scale = rect.width / hv.W;
+    const x = (e.clientX - rect.left) / scale;
+    if (x < hv.ml - 10 || x > hv.W - hv.mr + 10) return hide();
+    let lo = 0, hi = hv.samples.length - 1;
+    while (hi - lo > 1) { const mid = (lo + hi) >> 1; if (hv.samples[mid] < x) lo = mid; else hi = mid; }
+    const i = Math.abs(hv.samples[lo] - x) <= Math.abs(hv.samples[hi] - x) ? lo : hi;
+    const px = rect.left - br.left + box.scrollLeft + hv.samples[i] * scale;
+    l.style.left = `${px}px`; l.style.top = `${rect.top - br.top}px`; l.style.height = `${rect.height}px`;
+    l.hidden = false;
+    t.textContent = hv.label(i);
+    t.hidden = false;
+    const flip = px + 14 + t.offsetWidth > br.width + box.scrollLeft;
+    t.style.left = `${flip ? px - t.offsetWidth - 12 : px + 12}px`;
+    t.style.top = `${Math.max(6, Math.min(e.clientY - br.top + 12, rect.height - t.offsetHeight - 6))}px`;
+  });
+  box.addEventListener("pointerleave", hide);
+}
+
+// A downloadable, self-contained copy of an inline chart: theme colours resolved,
+// styles embedded, a title band and the provenance line added.
+const CHART_CSS = `svg{font-family:ui-monospace,Menlo,monospace;font-size:10.5px}.c-bg{fill:var(--space)}.c-grid{stroke:rgba(255,255,255,.08)}.c-eq{stroke:rgba(255,255,255,.18);stroke-dasharray:4 4}.c-tick{fill:var(--space-ink-3)}.c-axis{fill:var(--space-ink-2);font-size:11px}.c-note{fill:var(--space-ink-3);font-size:10px}.c-outage{fill:rgba(255,91,84,.08)}.c-line{fill:none;stroke-width:1.8}.c-legend text{fill:var(--space-ink-2);font-size:11px}.c-thr{stroke:var(--s-int);stroke-dasharray:6 4}.c-thr-bg{fill:var(--space);fill-opacity:.88}.c-thr-t{fill:var(--s-int);paint-order:stroke;stroke:var(--space);stroke-width:3.5px;stroke-linejoin:round}.c-mark{fill:none;stroke-width:1.6}.c-mark-t{fill:var(--space-ink-2);font-size:10px}.c-lost{stroke:rgba(0,0,0,.55);stroke-dasharray:2 2}.c-land{fill:rgba(106,152,255,.10);stroke:rgba(163,170,194,.72);stroke-width:.7}.c-track{fill:none;stroke:var(--s-orb);stroke-width:1.6}.c-track-vis{fill:none;stroke:var(--s-nav);stroke-width:3}`;
+function tokenValue(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
+function exportSvg(svg, title) {
+  const vb = (svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/) || []).slice(1).map(Number);
+  const [W, H] = vb.length === 2 ? vb : [760, 340];
+  const meta = S.run ? fileMeta(S.run.result, S.version, S.run.toml) : { ver: S.version, hash: "" };
+  const prov = `Kshana v${meta.ver}${meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · kshana.dev`;
+  const inner = svg.replace(/^<svg[^>]*>/, `<svg x="0" y="34" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`);
+  const out = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H + 58}" viewBox="0 0 ${W} ${H + 58}"><style>${CHART_CSS}</style><rect width="${W}" height="${H + 58}" fill="var(--space)"/><text x="16" y="22" font-size="14" font-weight="700" fill="var(--space-ink)" font-family="system-ui,sans-serif">${V.esc(title || "Kshana chart")}</text>${inner}<text x="${W - 12}" y="${H + 50}" text-anchor="end" font-size="10" fill="var(--space-ink-3)">${V.esc(prov)}</text></svg>`;
+  return V.resolveVars(out, tokenValue);
+}
+
+function mountTools(toolsId, getSvg, base) {
+  const host = $(toolsId);
+  if (!host) return;
+  host.replaceChildren(h("span", { class: "lbl", text: "Download" }));
+  const meta = () => (S.run ? fileMeta(S.run.result, S.version, S.run.toml) : null);
+  host.append(h("button", { type: "button", title: "Vector chart with title and provenance", onclick: () => triggerDownload(svgBlob(getSvg()), chartFilename(base, meta(), "svg")), text: "SVG" }));
+  const png = h("button", { type: "button", title: "High-resolution bitmap for slides and documents", text: "PNG" });
+  png.addEventListener("click", async () => {
+    png.disabled = true;
+    try { const s = getSvg(); const { w, h: hh } = svgSize(s); triggerDownload(await svgToPngBlob(s, w, hh, 2), chartFilename(base, meta(), "png")); }
+    catch (e) { toast("PNG export failed: " + errorMessage(e)); }
+    finally { png.disabled = false; }
+  });
+  host.append(png);
+}
+
+// ------------------------------------------------------------------ views
+let engineImgUrl = null;
+function renderTimeseries() {
+  const run = S.run, r = run.result;
+  const sm = V.seriesModel(r, run.toml);
+  const hasEngine = !!(run.svg && run.svg.length > 200);
+  $("ts-title").textContent = sm ? sm.title : "Engine chart";
+  $("ts-live-btn").parentElement.hidden = !(sm && hasEngine);
+  if (sm) mountChart("ts-live", V.lineChartSvg(sm), null);
+  // Engine chart: the engine's own self-describing SVG, shown through an <img> so it
+  // cannot run script.
+  if (hasEngine) {
+    if (engineImgUrl) URL.revokeObjectURL(engineImgUrl);
+    engineImgUrl = URL.createObjectURL(svgBlob(run.svg));
+    const box = $("ts-engine");
+    box.replaceChildren(h("img", { alt: "Engine chart for this run", src: engineImgUrl }));
+    attachChartHover("ts-engine", engineHoverModel(run.svg, r));
+  }
+  setTsMode(sm ? S.tsMode : "engine");
+}
+function setTsMode(mode) {
+  const run = S.run;
+  const sm = V.seriesModel(run.result, run.toml);
+  const hasEngine = !!(run.svg && run.svg.length > 200);
+  if (mode === "live" && !sm) mode = "engine";
+  if (mode === "engine" && !hasEngine) mode = "live";
+  $("ts-live").hidden = mode !== "live";
+  $("ts-engine").hidden = mode !== "engine";
+  for (const b of document.querySelectorAll("[data-ts]")) b.setAttribute("aria-selected", b.dataset.ts === mode ? "true" : "false");
+  if (mode === "live") mountTools("ts-tools", () => exportSvg(V.lineChartSvg(sm).svg, sm.title), "timeseries");
+  else mountTools("ts-tools", () => S.run.svg, "engine-chart");
+}
+function engineHoverModel(svgText, result) {
+  const q = result && result.quantum && result.quantum.series;
+  const c = result && result.classical && result.classical.series;
+  if (!Array.isArray(q) || !Array.isArray(c) || q.length < 2) return null;
+  const xs = parsePolylineXs(svgText);
+  if (xs.length < 2) return null;
+  const w = parseFloat((svgText.match(/width="(\d+(?:\.\d+)?)"/) || [])[1]) || 820;
+  const n = Math.min(xs.length, q.length, c.length);
+  const val = (s) => {
+    if (!s) return null;
+    if ("error_ns" in s) return `${V.fmt(s.error_ns)} ns`;
+    if ("error_m" in s) return `${V.fmt(s.error_m)} m`;
+    if ("sync_error_s" in s) return `${V.fmt(s.sync_error_s * 1e12)} ps`;
+    if ("timing_ns" in s && "position_m" in s) return `${V.fmt(s.timing_ns)} ns / ${V.fmt(s.position_m)} m`;
+    return null;
+  };
+  if (!val(q[0]) && !val(c[0])) return null;
+  const ql = result.quantum.spec ? result.quantum.spec.id : "quantum", cl = result.classical.spec ? result.classical.spec.id : "classical";
+  return { wIntrinsic: w, xs: xs.slice(0, n), label: (i) => `t=${Math.round((c[i] && c[i].t) ?? (q[i] && q[i].t) ?? 0)} s · ${ql} ${val(q[i]) ?? "—"} · ${cl} ${val(c[i]) ?? "—"}` };
+}
+
+function renderSignal() {
+  const run = S.run;
+  const sig = V.signalModel(run.result, run.toml);
+  if (!sig) return;
+  // With the jammer (effective C/N0) or without it (nominal), when the run publishes both.
+  const fieldBox = $("sig-field");
+  fieldBox.hidden = !sig.hasNominal;
+  if (!sig.hasNominal) S.sigField = "cn0_effective_dbhz";
+  for (const b of fieldBox.querySelectorAll("button")) b.setAttribute("aria-pressed", b.dataset.field === (S.sigField || "cn0_effective_dbhz") ? "true" : "false");
+  const svg = V.signalHeatmapSvg(sig, { field: S.sigField || "cn0_effective_dbhz" });
+  setSvg($("sig-heat"), svg);
+  mountTools("sig-tools", () => exportSvg(svg, "Effective C/N0 by satellite"), "signal");
+  $("heat-legend").replaceChildren(h("span", { text: `${V.fmt(sig.cn0Range[0])}` }), h("i", { style: `background:linear-gradient(90deg,${[0, .25, .5, .75, 1].map(V.heat).join(",")})` }), h("span", { text: `${V.fmt(sig.cn0Range[1])} dB-Hz` }));
+  const kv = $("band-kv");
+  kv.replaceChildren();
+  const row = (k, v) => kv.append(h("dt", { text: k }), h("dd", { text: v }));
+  const b = sig.band;
+  row("Carrier", b.carrier_hz ? `${V.fmt(b.carrier_hz / 1e6)} MHz` : "not set in this scenario");
+  if (b.chip_rate_hz) row("Chip rate", `${V.fmt(b.chip_rate_hz / 1e6)} Mchip/s`);
+  if (b.jammer_type) row("Jammer type", b.jammer_type);
+  if (b.jammer_bandwidth_mhz) row("Jammer bandwidth", `${V.fmt(b.jammer_bandwidth_mhz)} MHz`);
+  if (b.jammer_power_dbw !== null && b.jammer_power_dbw !== undefined) row("Jammer power", `${V.fmt(b.jammer_power_dbw)} dBW`);
+  if (Number.isFinite(sig.threshold)) row("Tracking threshold", `${V.fmt(sig.threshold)} dB-Hz`);
+  row("Satellites", String(sig.prns.length));
+  // Band strip: only when the scenario states the carrier, so nothing is assumed.
+  const strip = $("band-strip");
+  strip.replaceChildren();
+  if (b.carrier_hz && (b.chip_rate_hz || b.jammer_bandwidth_mhz)) setSvg(strip, bandStripSvg(b));
+  else if (!b.carrier_hz) strip.append(h("p", { class: "card-note", text: "The engine computes the jammer-to-signal ratio from the link budget. This scenario does not name a carrier frequency, so no spectrum is drawn." }));
+  const sk = $("sig-kv");
+  sk.replaceChildren();
+  const units = run.result.units || {};
+  for (const [k, v] of Object.entries(sig.fom || {})) {
+    if (typeof v !== "number") continue;
+    const u = units[`fom.${k}`] || {};
+    sk.append(h("dt", { text: V.humanKey(k), title: u.note || "" }), h("dd", { text: `${V.fmt(v)}${u.unit && u.unit !== "1" ? " " + u.unit : ""}` }));
+  }
+  if (sig.jsRange) sk.append(h("dt", { text: "J/S range" }), h("dd", { text: `${V.fmt(sig.jsRange[0])} to ${V.fmt(sig.jsRange[1])} dB` }));
+  $("sig-fom-card").hidden = !sk.children.length;
+}
+
+// Signal main lobe (null to null, two chip rates wide) and the jammer band, to scale,
+// around the scenario's own carrier. Schematic in shape, exact in width.
+function bandStripSvg(b) {
+  const W = 360, H = 120, c = 180;
+  const lobe = b.chip_rate_hz ? b.chip_rate_hz / 1e6 : 0;
+  const jam = b.jammer_bandwidth_mhz || 0;
+  const span = Math.max(lobe * 2.6, jam * 1.3, 2);
+  const px = (mhz) => c + (mhz / span) * W;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" class="band-svg" viewBox="0 0 ${W} ${H}" role="img" aria-label="Signal and jammer bands around the carrier">`;
+  s += `<line x1="0" y1="${H - 24}" x2="${W}" y2="${H - 24}" style="stroke:var(--line-2)"/>`;
+  if (jam) s += `<rect x="${px(-jam / 2)}" y="30" width="${px(jam / 2) - px(-jam / 2)}" height="${H - 54}" style="fill:color-mix(in srgb,var(--int) 22%,transparent);stroke:var(--int);stroke-dasharray:3 3"/><text x="${px(jam / 2) - 4}" y="44" text-anchor="end" style="fill:var(--int)">jammer ${V.esc(V.fmt(jam))} MHz</text>`;
+  if (lobe) {
+    let d = `M ${px(-lobe)} ${H - 24}`;
+    for (let i = -40; i <= 40; i++) { const f = (i / 40) * lobe; const x = Math.PI * f / lobe; const v = i === 0 ? 1 : (Math.sin(x) / x) ** 2; d += ` L ${px(f).toFixed(1)} ${(H - 24 - v * (H - 64)).toFixed(1)}`; }
+    s += `<path d="${d}" style="fill:color-mix(in srgb,var(--tim) 30%,transparent);stroke:var(--tim)"/><text x="${px(lobe) + 4}" y="${H - 30}">signal main lobe</text>`;
+  }
+  s += `<line x1="${c}" y1="16" x2="${c}" y2="${H - 20}" style="stroke:var(--ink-3);stroke-dasharray:2 3"/><text x="${c}" y="12" text-anchor="middle">${V.esc(V.fmt(b.carrier_hz / 1e6))} MHz</text>`;
+  s += `<text x="2" y="${H - 8}">−${V.esc(V.fmt(span / 2))} MHz</text><text x="${W - 2}" y="${H - 8}" text-anchor="end">+${V.esc(V.fmt(span / 2))} MHz</text></svg>`;
+  return s;
+}
+
+function renderHoldover() {
+  const hm = V.holdoverModel(S.run.result);
+  S.ho = hm;
+  if (!hm) return;
+  const after = hm.series.flatMap((s) => s.points.filter((p) => p[0] >= hm.loss).map((p) => Math.abs(p[1])));
+  const maxE = Math.max(...after, hm.threshold || 0) || 1;
+  const sl = $("ho-thr");
+  sl.min = "0"; sl.max = String(maxE); sl.step = String(maxE / 400);
+  sl.value = String(Number.isFinite(hm.threshold) ? hm.threshold : maxE / 2);
+  $("ho-sub").textContent = hm.loss > 0 ? `error after GNSS was lost at t = ${V.fmt(hm.loss)} s` : "error since the last fix";
+  $("ho-thr-reset").hidden = !Number.isFinite(hm.threshold);
+  drawHoldover();
+}
+function drawHoldover() {
+  const hm = S.ho;
+  if (!hm) return;
+  const sl = $("ho-thr");
+  const thr = parseFloat(sl.value);
+  sl.style.setProperty("--p", `${(thr / parseFloat(sl.max)) * 100}%`);
+  $("ho-thr-out").textContent = `${V.fmt(thr)} ${hm.unit}`;
+  const marks = [];
+  const cards = $("ho-cards");
+  cards.replaceChildren();
+  hm.series.forEach((s) => {
+    const tt = V.timeToThreshold(s.points, thr, hm.loss);
+    if (tt && tt.crossed) {
+      const p = V.nearestByX(s.points, hm.loss + tt.t);
+      marks.push({ x: p[0], y: Math.abs(p[1]), color: s.color, label: V.fmtDuration(tt.t) });
+    }
+    const eng = hm.engineFigure.find((e) => e.label === s.label) || (hm.engineFigure.length === 1 ? hm.engineFigure[0] : null);
+    cards.append(h("div", { class: "ho-card", style: `--c:${s.color}` },
+      h("div", { class: "k" }, h("i"), s.label),
+      h("div", { class: "v", text: tt ? (tt.crossed ? V.fmtDuration(tt.t) : `> ${V.fmtDuration(tt.t)}`) : "—" }),
+      h("div", { class: "e", text: tt && !tt.crossed ? "stays inside this budget for the whole record" : "until the budget is breached" }),
+      eng ? h("div", { class: "e", text: `Engine holdover at the scenario budget${Number.isFinite(hm.threshold) ? ` (${V.fmt(hm.threshold)} ${hm.unit})` : ""}: ${V.fmtDuration(eng.holdover_s)}` }) : null));
+  });
+  const model = { ...hm, threshold: thr, thresholdLabel: "budget", series: hm.series.map((s) => ({ ...s, points: s.points.map((p) => [p[0], Math.abs(p[1])]) })), yLabel: `|${hm.yLabel}|` };
+  mountChart("ho-chart", V.lineChartSvg(model, { marks }), "ho-tools", "holdover", "Holdover against a timing budget");
+}
+
+function renderMasks() {
+  const mm = V.masksModel(S.run.result);
+  if (!mm) return;
+  const vs = $("mask-verdicts");
+  vs.replaceChildren();
+  for (const m of mm.masks) vs.append(h("div", { class: `verdict ${m.verdict === "PASS" ? "pass" : "fail"}` }, h("b", { text: m.verdict }), h("span", { text: m.title || m.id })));
+  if (mm.envelope && mm.envelope.verdict) vs.append(h("div", { class: `verdict ${mm.envelope.verdict === "PASS" ? "pass" : "fail"}` }, h("b", { text: mm.envelope.verdict }), h("span", { text: `Holdover time-error envelope (${mm.envelope.source || ""})` })));
+  const marksFor = (metric) => mm.masks.flatMap((m) => m.checks.filter((c) => c.metric === metric && Number.isFinite(c.limit_ns) && Number.isFinite(c.worst_tau_s)).map((c) => ({ x: c.worst_tau_s, y: c.limit_ns, color: c.verdict === "PASS" ? "var(--s-itg)" : "var(--s-int)", label: `limit ${V.fmt(c.limit_ns)} ns` })));
+  const mt = V.lineChartSvg({ title: "MTIE", series: [{ label: "MTIE (ns)", color: "var(--s-tim)", points: mm.mtie }], xLabel: "observation interval τ (s)", yLabel: "MTIE (ns)", unit: "ns" }, { logX: true, logY: true, marks: marksFor("mtie"), h: 300 });
+  mountChart("mtie-chart", mt, "mtie-tools", "mtie", "MTIE (maximum time interval error)");
+  if (mm.tdev.length) {
+    const td = V.lineChartSvg({ title: "TDEV", series: [{ label: "TDEV (ns)", color: "var(--s-spf)", points: mm.tdev }], xLabel: "observation interval τ (s)", yLabel: "TDEV (ns)", unit: "ns" }, { logX: true, logY: true, marks: marksFor("tdev"), h: 300 });
+    mountChart("tdev-chart", td, "tdev-tools", "tdev", "TDEV (time deviation)");
+  }
+  const t = $("mask-table");
+  t.replaceChildren(h("thead", {}, h("tr", {}, ["Mask or budget", "Metric", "Value", "Limit", "Margin", "At τ or time", "Verdict", "Source"].map((x) => h("th", { text: x })))));
+  const tb = h("tbody");
+  for (const m of mm.masks) for (const c of m.checks) {
+    tb.append(h("tr", {}, h("td", { text: m.title || m.id }), h("td", { text: c.metric }), h("td", { class: "num", text: V.fmt(c.value_ns) }), h("td", { class: "num", text: V.fmt(c.limit_ns) }), h("td", { class: "num", text: V.fmt(c.margin_ns) }), h("td", { class: "num", text: Number.isFinite(c.worst_tau_s) ? `${V.fmt(c.worst_tau_s)} s` : "—" }), h("td", {}, h("b", { class: c.verdict === "PASS" ? "better" : "", text: c.verdict })), h("td", { class: "note", text: c.source || m.recommendation || "" })));
+  }
+  for (const b of mm.budgets) {
+    tb.append(h("tr", {}, h("td", { text: b.name }), h("td", { text: "max |TE|" }), h("td", { class: "num", text: "—" }), h("td", { class: "num", text: V.fmt(b.max_abs_te_ns) }), h("td", { class: "num", text: "—" }), h("td", { class: "num", text: Number.isFinite(b.time_to_exceed_s) ? `exceeded after ${V.fmtDuration(b.time_to_exceed_s)}` : "not exceeded" }), h("td", {}, h("b", { text: b.exceeded ? "EXCEEDED" : "HELD" })), h("td", { class: "note", text: b.source || "" })));
+  }
+  t.append(tb);
+}
+
+function renderStability() {
+  const curves = V.adevCurves(S.run.result);
+  if (!curves.length) return;
+  const chart = V.lineChartSvg({ title: "Allan deviation", series: curves, xLabel: "averaging time τ (s)", yLabel: "σy(τ)", unit: "" }, { logX: true, logY: true });
+  mountChart("adev-chart", chart, "adev-tools", "allan", "Clock stability (overlapping Allan deviation)");
+}
+
+function renderGround() {
+  const gt = V.groundTrack(S.run.result);
+  if (!gt) return;
+  const svg = V.groundTrackSvg(gt, { land: S.land || [] });
+  setSvg($("gt-chart"), svg);
+  $("gt-note").textContent = `Highlighted: satellite visible from the station.${Number.isFinite(gt.maxElevation) ? ` Peak elevation ${V.fmt(gt.maxElevation)}°.` : ""}${Number.isFinite(gt.peakDoppler) ? ` Peak Doppler ${V.fmt(gt.peakDoppler)} Hz.` : ""}`;
+  mountTools("gt-tools", () => exportSvg(svg, "Ground track"), "ground-track");
+}
+
+// 3-D orbit: Three.js when it loads (drag to rotate), else the dependency-free SVG view.
+let three = null;
+// Greenwich mean sidereal time (IAU 1982 expression), radians.
+function gmstRad(jd) {
+  const T = (jd - 2451545.0) / 36525;
+  const g = 280.46061837 + 360.98564736629 * (jd - 2451545.0) + 0.000387933 * T * T - (T * T * T) / 38710000;
+  return ((((g % 360) + 360) % 360) * Math.PI) / 180;
+}
+async function renderOrbit() {
+  S.orbitDirty = false;
+  const track = V.orbitTrackKm(S.run.result);
+  if (!track) return;
+  const meta = fileMeta(S.run.result, S.version, S.run.toml);
+  const svgFallback = () => orbit3dSvg({ trackKm: track, satsKm: [], view: { az_deg: 35, el_deg: 22 } }, meta);
+  mountTools("orbit-tools", svgFallback, "orbit3d");
+  const box = $("orbit-box");
+  try {
+    if (!three) {
+      const T = await import("three");
+      const { OrbitControls } = await import("three/addons/controls/OrbitControls.js");
+      three = { T, OrbitControls };
+    }
+    drawThree(box, track);
+    $("orbit-note").textContent = `Drag to rotate, scroll or pinch to zoom. Earth to scale, NASA Blue Marble imagery.${box.dataset.epoch === "set" ? " Turned to the run's epoch." : " This run does not state an epoch, so Earth's rotation angle is not meaningful here."}`;
+  } catch (e) {
+    const url = URL.createObjectURL(svgBlob(svgFallback()));
+    box.replaceChildren(h("img", { alt: "Orthographic view of the propagated track", src: url }));
+    $("orbit-note").textContent = "Static view (the 3-D library could not load here).";
+  }
+}
+function drawThree(box, track) {
+  const { T, OrbitControls } = three;
+  if (box._stop) box._stop();
+  let canvas = box.querySelector("canvas");
+  if (!canvas) { canvas = h("canvas", { "aria-label": "Interactive 3-D view of the propagated track" }); box.replaceChildren(canvas); }
+  const renderer = new T.WebGLRenderer({ canvas, antialias: true, alpha: true });
+  renderer.setPixelRatio(Math.min(2, window.devicePixelRatio || 1));
+  const scene = new T.Scene();
+  const k = 1 / 1000; // 1 unit = 1000 km
+  const R = 6378.137 * k;
+  const maxR = Math.max(...track.map((p) => Math.hypot(p[0], p[1], p[2]))) * k;
+  const camera = new T.PerspectiveCamera(40, 1, 0.01, 50000);
+  camera.position.set(maxR * 2.2, maxR * 1.2, maxR * 2.2);
+  const controls = new OrbitControls(camera, canvas);
+  controls.enableDamping = true;
+  controls.autoRotate = !reducedMotion();
+  controls.autoRotateSpeed = 0.6;
+  scene.add(new T.AmbientLight(0xffffff, 0.55));
+  const sun = new T.DirectionalLight(0xffffff, 1.1); sun.position.set(5, 3, 4); scene.add(sun);
+  // Earth: NASA Blue Marble imagery on a sphere of the WGS-84 equatorial radius. When the run
+  // states its epoch (jd_utc0), the globe is turned to that moment's Greenwich sidereal time;
+  // otherwise its orientation is not set by the run and the note says so.
+  const earthMat = new T.MeshStandardMaterial({ roughness: 0.9, metalness: 0 });
+  const earth = new T.Mesh(new T.SphereGeometry(R, 96, 64), earthMat);
+  const loader = new T.TextureLoader();
+  const lo = loader.load("assets/planets/earth-day-256.jpg", () => {
+    loader.load("assets/planets/earth-day-2048.jpg", (hi) => { hi.colorSpace = T.SRGBColorSpace; earthMat.map = hi; earthMat.needsUpdate = true; lo.dispose(); });
+  });
+  lo.colorSpace = T.SRGBColorSpace;
+  earthMat.map = lo;
+  const jd0 = S.run.result && typeof S.run.result.jd_utc0 === "number" ? S.run.result.jd_utc0 : null;
+  if (jd0 !== null) earth.rotation.y = gmstRad(jd0);
+  scene.add(earth);
+  box.dataset.epoch = jd0 !== null ? "set" : "unset";
+  // ECI z is the rotation axis; three's y is up.
+  const pts = track.map((p) => new T.Vector3(p[0] * k, p[2] * k, -p[1] * k));
+  scene.add(new T.Line(new T.BufferGeometry().setFromPoints(pts), new T.LineBasicMaterial({ color: 0x2cd0de })));
+  const sat = new T.Mesh(new T.SphereGeometry(Math.max(0.12, maxR * 0.018), 16, 12), new T.MeshBasicMaterial({ color: 0xffb224 }));
+  scene.add(sat);
+  scene.add(new T.Line(new T.BufferGeometry().setFromPoints([new T.Vector3(0, -R * 1.4, 0), new T.Vector3(0, R * 1.4, 0)]), new T.LineBasicMaterial({ color: 0xa3aac2, transparent: true, opacity: 0.4 })));
+  let raf = 0, i = 0, alive = true;
+  // Sized from the box, or from the canvas itself while it is the full-screen element.
+  const size = () => { const el = document.fullscreenElement === canvas ? canvas : box; const w = el.clientWidth, hh = el.clientHeight; renderer.setSize(w, hh, false); camera.aspect = w / Math.max(1, hh); camera.updateProjectionMatrix(); };
+  const ro = new ResizeObserver(size); ro.observe(box); ro.observe(canvas); size();
+  document.addEventListener("fullscreenchange", size);
+  const tick = () => {
+    if (!alive) return;
+    if (!reducedMotion()) i = (i + 0.35) % pts.length;
+    sat.position.copy(pts[Math.floor(i)]);
+    controls.update();
+    renderer.render(scene, camera);
+    raf = requestAnimationFrame(tick);
+  };
+  tick();
+  box._stop = () => { alive = false; cancelAnimationFrame(raf); ro.disconnect(); document.removeEventListener("fullscreenchange", size); controls.dispose(); renderer.dispose(); };
+}
+
+// ------------------------------------------------------------------ sweep
+function sweepKnobs(toml) {
+  const fields = numericFields(toml);
+  const guided = knobsForToml(toml);
+  const out = [];
+  for (const k of guided) {
+    const f = fields.find((x) => x.section === (k.section || "") && x.key === k.key);
+    out.push({ id: `${k.section || ""}::${k.key}`, label: k.label, knob: k, field: f || null, integer: !!k.integer || !!(f && f.integer) });
+  }
+  for (const f of fields) if (!out.some((o) => o.id === f.id)) out.push({ id: f.id, label: `${f.section ? f.section + "." : ""}${f.key}`, knob: null, field: f, integer: f.integer });
+  return out;
+}
+function sweepMetricList(result) {
+  const out = sweepMetrics(result).map((m) => ({ id: m.id, label: m.label, get: m.get }));
+  if (!out.length) {
+    for (const kf of V.keyFigures(result, 20)) {
+      const path = kf.path.split(".");
+      out.push({ id: `path::${kf.path}`, label: `${kf.label}${kf.unit ? ` (${kf.unit})` : ""}`, get: (r) => { let v = r; for (const p of path) v = v && v[p]; return typeof v === "number" && Number.isFinite(v) ? v : null; } });
+    }
+  }
+  return out;
+}
+function syncSweepControls() {
+  const run = S.run;
+  const knobs = sweepKnobs(run.toml);
+  const fill = (sel, items, blankLabel) => {
+    const prev = sel.value;
+    sel.replaceChildren(...(blankLabel ? [h("option", { value: "", text: blankLabel })] : []), ...items.map((k) => h("option", { value: k.id, text: k.label })));
+    if ([...sel.options].some((o) => o.value === prev)) sel.value = prev;
+  };
+  fill($("sweep-knob"), knobs);
+  fill($("sweep-knob2"), knobs, "None (line chart)");
+  fill($("sweep-metric"), sweepMetricList(run.result));
+  seedSweepRange(false);
+  $("sweep-run").disabled = S.mode !== "live";
+  if (S.mode !== "live") $("sweep-status").textContent = "A sweep runs the engine many times, so it needs the live engine.";
+}
+function seedSweepRange(force) {
+  const knobs = sweepKnobs(tomlEl.value);
+  for (const [sel, a, b] of [["sweep-knob", "sweep-min", "sweep-max"], ["sweep-knob2", "sweep-min2", "sweep-max2"]]) {
+    const k = knobs.find((x) => x.id === $(sel).value);
+    if (!k) continue;
+    if (!force && $(a).dataset.for === k.id) continue;
+    $(a).dataset.for = k.id;
+    const v = k.field ? k.field.value : parseFloat(readKnob(tomlEl.value, k.knob));
+    if (k.knob) { $(a).value = String(k.knob.min); $(b).value = String(Number.isFinite(v) ? Math.max(v, k.knob.max) : k.knob.max); }
+    else if (k.field && isLogScale(k.field)) { $(a).value = String(v / 10); $(b).value = String(v * 10); }
+    else if (k.integer) { $(a).value = String(Math.max(0, Math.round(v / 2))); $(b).value = String(Math.round(v * 2) || 10); }
+    else { $(a).value = String(v === 0 ? 0 : v / 2); $(b).value = String(v === 0 ? 1 : v * 2); }
+  }
+  const two = !!$("sweep-knob2").value;
+  for (const el of document.querySelectorAll(".sweep-2d-range")) el.hidden = !two;
+}
+function valuesFor(k, min, max, steps) {
+  if (k.field && isLogScale(k.field) && min > 0 && max > 0) {
+    const n = Math.max(2, Math.min(MAX_SWEEP, Math.round(steps)));
+    return Array.from({ length: n }, (_, i) => min * (max / min) ** (i / (n - 1)));
+  }
+  return sweepValues(min, max, steps, !!k.integer);
+}
+function patchKnob(toml, k, v) {
+  if (k.field) {
+    const f = numericFields(toml).find((x) => x.id === k.field.id);
+    if (f) return patchField(toml, f, v);
+  }
+  return sweepToml(toml, { key: k.knob.key, section: k.knob.section || "" }, v);
+}
+async function runSweep() {
+  const status = $("sweep-status");
+  if (S.mode !== "live") return;
+  if (job.active) { status.textContent = "Wait for the current run to finish, then sweep."; return; }
+  const knobs = sweepKnobs(tomlEl.value);
+  const k1 = knobs.find((x) => x.id === $("sweep-knob").value);
+  const k2 = knobs.find((x) => x.id === $("sweep-knob2").value) || null;
+  const metric = sweepMetricList(S.run.result).find((m) => m.id === $("sweep-metric").value);
+  if (!k1 || !metric) { status.textContent = "Nothing to sweep for this scenario."; return; }
+  const min = parseFloat($("sweep-min").value), max = parseFloat($("sweep-max").value);
+  let steps = parseInt($("sweep-steps").value, 10) || 8;
+  if (!Number.isFinite(min) || !Number.isFinite(max)) { status.textContent = "Enter a numeric range."; return; }
+  let v2 = [null];
+  if (k2 && k2.id !== k1.id) {
+    const a = parseFloat($("sweep-min2").value), b = parseFloat($("sweep-max2").value);
+    if (!Number.isFinite(a) || !Number.isFinite(b)) { status.textContent = "Enter a numeric range for the second parameter."; return; }
+    steps = Math.min(steps, Math.floor(Math.sqrt(MAX_SWEEP)));
+    v2 = valuesFor(k2, a, b, steps);
+  }
+  const v1 = valuesFor(k1, min, max, steps);
+  const total = v1.length * v2.length;
+  const base = tomlEl.value;
+  const gen = beginJob("Sweeping");
+  const grid = [];
+  try {
+    let n = 0;
+    for (const b of v2) {
+      const rowVals = [];
+      for (const a of v1) {
+        n += 1;
+        status.textContent = `Sweeping run ${n} of ${total}…`;
+        let t = patchKnob(base, k1, a);
+        if (b !== null) t = patchKnob(t, k2, b);
+        const res = JSON.parse(await S.engine.call("run", t));
+        rowVals.push(metric.get(res));
+      }
+      grid.push(rowVals);
+    }
+  } catch (e) {
+    if (gen !== job.gen) { status.textContent = "Sweep interrupted by a new run."; return; }
+    endJob(gen);
+    status.textContent = isCancelled(e) ? "Sweep cancelled." : `Sweep failed: ${errorMessage(e)}`;
+    return;
+  }
+  if (gen !== job.gen) return;
+  const ms = performance.now() - job.startedAt;
+  endJob(gen);
+  $("sweep-out").hidden = false;
+  let svg, title;
+  if (v2[0] === null) {
+    const pts = v1.map((x, i) => [x, grid[0][i]]).filter((p) => p[1] !== null);
+    title = `${metric.label} against ${k1.label}`;
+    const chart = V.lineChartSvg({ title, series: [{ label: metric.label, color: "var(--s-nav)", points: pts }], xLabel: k1.label, yLabel: metric.label, unit: "" }, { logX: !!(k1.field && isLogScale(k1.field)), marks: pts.map((p) => ({ x: p[0], y: p[1], color: "var(--s-nav)" })) });
+    mountChart("sweep-chart", chart, null);
+    svg = chart.svg;
+    status.textContent = `Swept ${pts.length} of ${total} runs locally in ${ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${Math.max(1, Math.round(ms))} ms`}.`;
+  } else {
+    title = `${metric.label} over ${k1.label} and ${k2.label}`;
+    svg = heatGridSvg(v1, v2, grid, k1.label, k2.label, metric.label);
+    setSvg($("sweep-chart"), svg);
+    status.textContent = `Swept ${total} runs (${v1.length} × ${v2.length}) locally in ${ms >= 1000 ? `${(ms / 1000).toFixed(1)} s` : `${Math.max(1, Math.round(ms))} ms`}.`;
+  }
+  S.sweepSvg = { svg, title };
+  mountTools("sweep-tools", () => exportSvg(svg, title), "sweep");
+  setStatus(`Swept ${total} runs at ${new Date().toLocaleTimeString()}.`, "ran");
+}
+function heatGridSvg(xs, ys, grid, xl, yl, ml) {
+  const W = 760, H = 380, L = 92, Rm = 20, T = 20, B = 52;
+  const vals = grid.flat().filter((v) => v !== null && Number.isFinite(v));
+  const lo = Math.min(...vals), hi = Math.max(...vals);
+  const cw = (W - L - Rm) / xs.length, ch = (H - T - B) / ys.length;
+  let s = `<svg xmlns="http://www.w3.org/2000/svg" class="chart" viewBox="0 0 ${W} ${H}" width="${W}" height="${H}" role="img" aria-label="${V.esc(ml)} heat map"><rect class="c-bg" width="${W}" height="${H}"/>`;
+  ys.forEach((y, j) => xs.forEach((x, i) => {
+    const v = grid[j][i];
+    const t = v === null ? 0 : hi > lo ? (v - lo) / (hi - lo) : 1;
+    const X = L + i * cw, Y = T + (ys.length - 1 - j) * ch;
+    s += `<rect x="${X.toFixed(1)}" y="${Y.toFixed(1)}" width="${(cw - 2).toFixed(1)}" height="${(ch - 2).toFixed(1)}" rx="4" style="fill:${v === null ? "#222" : V.heat(t)}"><title>${V.esc(xl)} ${V.esc(V.fmt(x))} · ${V.esc(yl)} ${V.esc(V.fmt(y))} · ${V.esc(ml)} ${V.esc(V.fmt(v))}</title></rect>`;
+    if (cw > 58) s += `<text x="${(X + cw / 2 - 1).toFixed(1)}" y="${(Y + ch / 2 + 4).toFixed(1)}" text-anchor="middle" style="fill:#05060c;font-size:10px">${V.esc(V.fmt(v))}</text>`;
+  }));
+  xs.forEach((x, i) => { s += `<text class="c-tick" x="${(L + i * cw + cw / 2).toFixed(1)}" y="${H - B + 16}" text-anchor="middle">${V.esc(V.fmt(x))}</text>`; });
+  ys.forEach((y, j) => { s += `<text class="c-tick" x="${L - 8}" y="${(T + (ys.length - 1 - j) * ch + ch / 2 + 4).toFixed(1)}" text-anchor="end">${V.esc(V.fmt(y))}</text>`; });
+  s += `<text class="c-axis" x="${L + (W - L - Rm) / 2}" y="${H - 10}" text-anchor="middle">${V.esc(xl)}</text><text class="c-axis" x="14" y="${T + (H - T - B) / 2}" text-anchor="middle" transform="rotate(-90 14 ${T + (H - T - B) / 2})">${V.esc(yl)}</text></svg>`;
+  return s;
+}
+
+// ------------------------------------------------------------------ compare
+const MAX_PINS = 4;
+function pinRun(run = S.run) {
+  if (!run) return;
+  if (S.pins.some((p) => p.id === run.id)) { toast("That run is already pinned."); return; }
+  if (S.pins.length >= MAX_PINS) S.pins.shift();
+  S.pins.push(run);
+  toast(S.pins.length < 2 ? "Pinned. Change something and run again, then pin that run too." : `${S.pins.length} runs pinned. Opening Compare.`);
+  buildTabs();
+  if (S.pins.length >= 2) selectTab("compare");
+}
+function renderCompare() {
+  const host = $("pins");
+  host.replaceChildren();
+  S.pins.forEach((p, i) => host.append(h("span", { class: "pin" }, h("i", { style: `background:${PALETTE[i]}` }), `${String.fromCharCode(65 + i)} · ${p.title} · run ${p.id}`,
+    h("button", { type: "button", "aria-label": `Unpin run ${p.id}`, onclick: () => { S.pins.splice(i, 1); buildTabs(); } }, icon("i-x")))));
+  const t = $("compare-table");
+  t.replaceChildren();
+  const note = $("compare-note");
+  $("compare-chart-card").hidden = true;
+  if (S.pins.length < 2) { note.textContent = "Pin at least two runs to compare them side by side. Pin a run, change a parameter or pick another scenario of the same family, run it, and pin again."; return; }
+  const runs = S.pins.map((p, i) => ({ label: String.fromCharCode(65 + i), result: p.result }));
+  const rows = overlayRows(runs);
+  if (!rows.length) { note.textContent = "These runs share no comparable figures of merit. Pin runs of the same scenario family to see numbers and deltas."; return; }
+  note.textContent = "Deltas are against run A. Green marks the better value for each figure.";
+  const hasClock = rows.some((r) => r.clockLabel);
+  const heads = [...(hasClock ? ["Clock"] : []), "Figure"].map((x) => h("th", { text: x }));
+  runs.forEach((r, i) => heads.push(h("th", {}, h("span", { class: "sw", style: `background:${PALETTE[i]}` }), r.label)));
+  t.append(h("thead", {}, h("tr", {}, heads)));
+  const tb = h("tbody");
+  for (const r of rows) {
+    const tr = h("tr", {}, ...(hasClock ? [h("td", { text: r.clockLabel })] : []), h("td", { text: r.unit ? `${r.label} (${r.unit})` : r.label }));
+    r.values.forEach((v, i) => {
+      const td = h("td", { class: "num" + (i === r.best ? " better" : ""), text: V.fmt(v) });
+      if (i > 0 && typeof v === "number" && typeof r.values[0] === "number") {
+        const d = v - r.values[0];
+        const pct = r.values[0] !== 0 ? ` (${d >= 0 ? "+" : "−"}${Math.abs((d / Math.abs(r.values[0])) * 100).toFixed(1)}%)` : "";
+        const good = r.lowerBetter ? d < 0 : d > 0;
+        td.append(h("span", { class: `delta ${d === 0 ? "" : good ? "up" : "down"}`, text: `${d > 0 ? "+" : d < 0 ? "−" : "±"}${V.fmt(Math.abs(d))}${pct}` }));
+      }
+      tr.append(td);
+    });
+    tb.append(tr);
+  }
+  t.append(tb);
+  // Overlay chart: each run's last series on shared axes, plus B − A when there are two.
+  const models = S.pins.map((p) => V.seriesModel(p.result, p.toml));
+  if (models.every((m) => m && m.unit === models[0].unit)) {
+    const series = models.map((m, i) => ({ label: `${String.fromCharCode(65 + i)} · ${m.series[m.series.length - 1].label}`, color: PALETTE[i], points: m.series[m.series.length - 1].points }));
+    if (series.length === 2) {
+      const [a, b] = series;
+      series.push({ label: "B − A", color: "var(--s-int)", points: b.points.map((p) => { const q = V.nearestByX(a.points, p[0]); return [p[0], p[1] - q[1]]; }) });
+    }
+    const title = series.length === 3 ? "Overlay with the difference B − A" : "Overlay of pinned runs";
+    $("compare-chart-title").textContent = title;
+    mountChart("compare-chart", V.lineChartSvg({ title, series, xLabel: models[0].xLabel, yLabel: models[0].yLabel, unit: models[0].unit, outages: models[0].outages }), "compare-tools", "compare", title);
+    $("compare-chart-card").hidden = false;
+  }
+}
+
+// ------------------------------------------------------------------ exports + report
+const EXPORTERS = [
+  ["SP3", "export_sp3", "sp3", "SP3-c precise ephemeris of this constellation", "text/plain", "var(--orb)"],
+  ["OMM", "export_omm", "omm", "CCSDS OMM (Orbit Mean-elements Message) catalogue", "text/plain", "var(--orb)"],
+  ["OEM", "export_oem", "oem", "CCSDS OEM 2.0 (Orbit Ephemeris Message) for GMAT, Orekit or STK", "text/plain", "var(--orb)"],
+];
+async function renderExports() {
+  const run = S.run;
+  const grid = $("export-grid");
+  const meta = fileMeta(run.result, S.version, run.toml);
+  const card = (fmtLabel, title, desc, c, onClick, disabled) => h("button", { class: "exp", type: "button", style: `--c:${c}`, disabled: disabled || null, onclick: onClick }, h("span", { class: "f", text: fmtLabel }), h("b", { text: title }), h("span", { text: desc }));
+  const items = [
+    card("HTML", "Reproducible report", "One offline file: summary, figures with their tiers, every chart and the exact scenario text, stamped with engine version and scenario hash.", "var(--ink)", downloadReport),
+    card("JSON", "Full result document", "The engine's complete output for this run, units and provenance included.", "var(--spf)", () => triggerDownload(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json"))),
+    card("TOML", "Scenario file", "The exact input of this run. Run it again anywhere with the command-line tool or the Python and npm packages.", "var(--tim)", () => triggerDownload(new Blob([run.toml], { type: "text/plain" }), chartFilename("scenario", meta, "toml"))),
+  ];
+  if (run.csv) items.push(card("CSV", "Reproducibility table", "The same bytes the command-line tool writes as <scenario>.table.csv.", "var(--itg)", () => triggerDownload(new Blob([run.csv], { type: "text/csv" }), chartFilename("table", meta, "csv"))));
+  grid.replaceChildren(...items);
+  // Standards-track ephemeris exports: asked of the engine once per run, when this tab opens.
+  if (!(run.result && Array.isArray(run.result.eci_track))) return;
+  let ex = S.exportsCache.get(run.id);
+  if (!ex) {
+    const pending = h("p", { class: "card-note", text: "Checking which ephemeris formats this run can export…" });
+    grid.append(pending);
+    ex = [];
+    for (const [label, fn, ext, desc, mime, c] of EXPORTERS) {
+      try { const text = await S.engine.call(fn, run.toml); if (text && text.trim()) ex.push({ label, ext, desc, mime, c, text }); }
+      catch (e) { if (/large/.test(errorMessage(e))) ex.push({ label, ext, desc: `${desc}. Too large to record: needs the live engine.`, mime, c, text: null }); }
+    }
+    S.exportsCache.set(run.id, ex);
+    pending.remove();
+    if (S.run !== run || S.activeTab !== "exports") return;
+  }
+  for (const x of ex) grid.append(card(x.label, `${x.label} export`, x.desc, x.c, () => triggerDownload(new Blob([x.text], { type: x.mime }), chartFilename(x.ext, meta, x.ext)), !x.text));
+}
+function downloadReport() {
+  const run = S.run;
+  if (!run) return;
+  const r = run.result;
+  const svgs = [];
+  if (run.svg) svgs.push({ title: "Engine chart", svg: run.svg });
+  const sm = V.seriesModel(r, run.toml);
+  if (sm) svgs.push({ title: sm.title, svg: exportSvg(V.lineChartSvg(sm).svg, sm.title) });
+  const curves = V.adevCurves(r);
+  if (curves.length) svgs.push({ title: "Clock stability (Allan deviation)", svg: exportSvg(V.lineChartSvg({ series: curves, xLabel: "τ (s)", yLabel: "σy(τ)" }, { logX: true, logY: true }).svg, "Clock stability") });
+  const sig = V.signalModel(r, run.toml);
+  if (sig) svgs.push({ title: "Effective C/N0 by satellite", svg: exportSvg(V.signalHeatmapSvg(sig), "Effective C/N0 by satellite") });
+  const track = V.orbitTrackKm(r);
+  if (track) svgs.push({ title: "Orbit (Earth-centred inertial, orthographic)", svg: orbit3dSvg({ trackKm: track, satsKm: [], view: { az_deg: 35, el_deg: 22 } }, fileMeta(r, S.version, run.toml)) });
+  const mm = V.masksModel(r);
+  if (mm) {
+    svgs.push({ title: "MTIE (maximum time interval error)", svg: exportSvg(V.lineChartSvg({ series: [{ label: "MTIE (ns)", color: "var(--s-tim)", points: mm.mtie }], xLabel: "τ (s)", yLabel: "MTIE (ns)" }, { logX: true, logY: true }).svg, "MTIE") });
+    if (mm.tdev.length) svgs.push({ title: "TDEV (time deviation)", svg: exportSvg(V.lineChartSvg({ series: [{ label: "TDEV (ns)", color: "var(--s-spf)", points: mm.tdev }], xLabel: "τ (s)", yLabel: "TDEV (ns)" }, { logX: true, logY: true }).svg, "TDEV") });
+  }
+  const gt = V.groundTrack(r);
+  if (gt) svgs.push({ title: "Ground track", svg: exportSvg(V.groundTrackSvg(gt), "Ground track") });
+  if (S.sweepSvg) svgs.push({ title: S.sweepSvg.title, svg: exportSvg(S.sweepSvg.svg, S.sweepSvg.title) });
+  let fomRows = buildFomRows(r);
+  if (!fomRows.length) fomRows = V.keyFigures(r, 24).map((k) => { const ft = figureTier(r, k.path); return { clockLabel: "", label: k.label, unit: k.unit, value: k.value, tier: ft ? ft.tier : "", metric: k.path }; });
+  const meta = fileMeta(r, S.version, run.toml);
+  const html = buildReportHtml({ engineVersion: meta.ver, scenarioHash: meta.hash, toml: run.toml, summaryText: run.summary, fomRows, svgs, generatedIso: new Date().toISOString() });
+  triggerDownload(new Blob([html], { type: "text/html" }), reportFilename(meta));
+  toast("Report downloaded.");
+}
+
+// ------------------------------------------------------------------ JSON view
+const JSON_TOKEN = /("(?:\\.|[^"\\])*")(\s*:)?|\b(true|false|null)\b|(-?\d+(?:\.\d+)?(?:[eE][+-]?\d+)?)/g;
+function jsonNodes(obj) {
+  const text = JSON.stringify(obj, null, 2);
+  if (text.length > 400000) return [document.createTextNode(text)];
+  const out = [];
+  let last = 0;
+  for (const m of text.matchAll(JSON_TOKEN)) {
+    if (m.index > last) out.push(document.createTextNode(text.slice(last, m.index)));
+    if (m[1]) { out.push(h("span", { class: m[2] ? "j-k" : "j-s", text: m[1] })); if (m[2]) out.push(document.createTextNode(m[2])); }
+    else if (m[3]) out.push(h("span", { class: "j-b", text: m[3] }));
+    else out.push(h("span", { class: "j-n", text: m[4] }));
+    last = m.index + m[0].length;
+  }
+  out.push(document.createTextNode(text.slice(last)));
+  return out;
+}
+
+// ------------------------------------------------------------------ editor
+const TOML_TOKEN = /(#.*$)|("(?:\\.|[^"\\])*")|\b(true|false)\b|(-?\d[\d_]*(?:\.\d+)?(?:[eE][+-]?\d+)?)/g;
+function highlightToml(text) {
+  const frag = document.createDocumentFragment();
+  for (const line of text.split("\n")) {
+    const m = line.match(/^(\s*)(\[\[?[^\]]*\]\]?)(.*)$/);
+    if (m) { frag.append(m[1], h("span", { class: "hl-h", text: m[2] })); pushRest(frag, m[3]); }
+    else {
+      const kv = line.match(/^(\s*)([A-Za-z0-9_-]+)(\s*=)(.*)$/);
+      if (kv) { frag.append(kv[1], h("span", { class: "hl-k", text: kv[2] }), kv[3]); pushRest(frag, kv[4]); }
+      else pushRest(frag, line);
+    }
+    frag.append("\n");
+  }
+  return frag;
+}
+function pushRest(frag, s) {
+  let last = 0;
+  for (const m of s.matchAll(TOML_TOKEN)) {
+    if (m.index > last) frag.append(s.slice(last, m.index));
+    frag.append(h("span", { class: m[1] ? "hl-c" : m[2] ? "hl-s" : m[3] ? "hl-b" : "hl-n", text: m[0] }));
+    last = m.index + m[0].length;
+    if (m[1]) break;
+  }
+  if (last < s.length) frag.append(s.slice(last));
+}
+function refreshEditor() {
+  $("code-hl").replaceChildren(highlightToml(tomlEl.value));
+  syncScroll();
+  const edited = tomlEl.value !== S.baseToml;
+  $("src-reset").disabled = !edited;
+  if (S.mode === "recorded") showNotice(edited ? recordedEditNotice() : recordedIntro());
+}
+function syncScroll() { const hl = $("code-hl"); hl.scrollTop = tomlEl.scrollTop; hl.scrollLeft = tomlEl.scrollLeft; }
+
+// Guided sliders (the live playground's knob set) and every-field steppers.
+function buildParams() {
+  const toml = tomlEl.value;
+  const knobs = knobsForToml(toml);
+  const kh = $("knobs");
+  kh.replaceChildren();
+  for (const k of knobs) {
+    const id = `k-${k.section || "top"}-${k.key}`;
+    const raw = readKnob(toml, k);
+    const v = k.parse(raw);
+    const input = h("input", { type: "range", id, min: String(k.min), max: String(k.max), step: String(k.step) });
+    input.value = String(Math.min(k.max, Math.max(k.min, v)));
+    const out = h("output", { for: id, id: `${id}-out`, text: raw });
+    const paint = () => input.style.setProperty("--p", `${((parseFloat(input.value) - k.min) / (k.max - k.min)) * 100}%`);
+    paint();
+    input.addEventListener("input", () => {
+      const val = k.parse(input.value);
+      out.textContent = String(val);
+      paint();
+      tomlEl.value = k.section ? patchSectionScalar(tomlEl.value, k.section, k.key, val) : patchScalar(tomlEl.value, k.key, val);
+      refreshEditor();
+      buildFields();
+      runScenario();
+    });
+    kh.append(h("div", { class: "knob" }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
+  }
+  if (!knobs.length) kh.append(h("p", { class: "hint", text: "This scenario has none of the guided controls. Use All fields, or edit the source." }));
+  buildFields();
+}
+function buildFields() {
+  const fields = numericFields(tomlEl.value);
+  $("field-count").textContent = String(fields.length);
+  const host = $("fields");
+  host.replaceChildren();
+  let sec = null;
+  for (const f of fields) {
+    if (f.section !== sec) { sec = f.section; host.append(h("p", { class: "fsec", text: sec ? `[${sec}]` : "top level" })); }
+    const input = h("input", { type: "text", inputmode: "decimal", value: f.raw, "aria-label": `${f.section ? f.section + "." : ""}${f.key}` });
+    const current = () => numericFields(tomlEl.value).find((x) => x.id === f.id);
+    const commit = (v) => {
+      const cur = current();
+      if (!Number.isFinite(v) || !cur) { input.value = cur ? cur.raw : f.raw; return; }
+      tomlEl.value = patchField(tomlEl.value, cur, v);
+      refreshEditor();
+      buildParamsSoon();
+      runScenario();
+    };
+    const step = (dir) => { const cur = current() || f; commit(stepValue(cur, dir)); };
+    input.addEventListener("change", () => commit(parseFloat(input.value)));
+    input.addEventListener("keydown", (e) => { if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); step(e.key === "ArrowUp" ? 1 : -1); } });
+    host.append(h("div", { class: "field" },
+      h("label", { title: f.comment || f.key }, f.key, f.comment ? h("small", { text: f.comment }) : null),
+      h("span", { class: "stepper" },
+        h("button", { type: "button", "aria-label": `Decrease ${f.key}`, text: isLogScale(f) ? "÷" : "−", onclick: () => step(-1) }),
+        input,
+        h("button", { type: "button", "aria-label": `Increase ${f.key}`, text: isLogScale(f) ? "×" : "+", onclick: () => step(1) }))));
+  }
+  if (!fields.length) host.append(h("p", { class: "hint", text: "No single numeric fields to tune here. Edit the source directly." }));
+}
+let paramsTimer = 0;
+function buildParamsSoon() { clearTimeout(paramsTimer); paramsTimer = setTimeout(buildParams, 250); }
+function setPview(v) {
+  S.pview = v;
+  for (const b of document.querySelectorAll("[data-pview]")) b.setAttribute("aria-selected", b.dataset.pview === v ? "true" : "false");
+  $("knobs").hidden = v !== "guided";
+  $("fields").hidden = v !== "all";
+  $("params-hint").textContent = v === "guided" ? "Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below." : "Every single number in the scenario. Step it, type it, or use the arrow keys; the scenario re-runs.";
+}
+
+// ------------------------------------------------------------------ scenario loading
+// All bundled scenario files in one JSON (scenarios/index.json), so a host serves one file
+// instead of one per scenario; the individual .toml files stay the fallback.
+let bundlePromise = null;
+function scenarioBundle() {
+  if (!bundlePromise) bundlePromise = fetch("scenarios/index.json").then((r) => (r.ok ? r.json() : null)).catch(() => null);
+  return bundlePromise;
+}
+async function loadScenario(file, { run = true } = {}) {
+  const entry = entryFor(file);
+  if (!entry) return;
+  S.file = file;
+  S.shared = false;
+  let text = null;
+  const bundle = await scenarioBundle();
+  if (bundle && typeof bundle[file] === "string") text = bundle[file];
+  if (text === null) try { const res = await fetch(`scenarios/${file}`, { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
+  if (text === null && S.recIndex) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
+  if (text === null) { showError(`Could not load ${file}.`); return; }
+  S.baseToml = text;
+  tomlEl.value = text;
+  paintScenarioHeader(entry);
+  refreshEditor();
+  buildParams();
+  renderLibrary();
+  seedSweepRange(true);
+  clearError();
+  if (NOT_IN_BROWSER[file]) showNotice(NOT_IN_BROWSER[file]);
+  else if (S.mode !== "recorded") showNotice("");
+  if (run && !NOT_IN_BROWSER[file]) runScenario();
+}
+function paintScenarioHeader(entry) {
+  const dom = entry ? domainOf(entry.domain) : null;
+  const eb = $("sc-domain");
+  eb.style.setProperty("--c", dom ? dom.color : "var(--ink-3)");
+  eb.querySelector("span").textContent = dom ? dom.label : "Shared scenario";
+  $("sc-title").textContent = entry ? entry.title : "Shared scenario";
+  $("sc-question").textContent = entry ? entry.question : "A scenario opened from a share link. It runs exactly as it was shared.";
+  $("sc-file").textContent = entry ? `scenarios/${entry.file}` : "from the link";
+  const kind = (tomlEl.value.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
+  $("sc-kind").textContent = kind ? `kind: ${kind}` : "kind: clock holdover (the default)";
+  $("crumb-title").textContent = entry ? entry.title : "Shared scenario";
+  $("crumb-dot").style.setProperty("--c", dom ? dom.color : "var(--ink-3)");
+  document.title = `${entry ? entry.title : "Shared scenario"} · ${STUDIO_NAME}`;
+}
+
+// ------------------------------------------------------------------ library
+function renderLibrary() {
+  const q = $("lib-search").value;
+  const groups = groupedLibrary(q);
+  const host = $("lib-list");
+  host.replaceChildren();
+  let n = 0;
+  for (const g of groups) {
+    const sec = h("div", { class: "lib-group" }, h("h3", {}, h("i", { class: "dot", style: `--c:${g.domain.color}` }), g.domain.label, h("span", { class: "n", text: String(g.items.length) })));
+    for (const e of g.items) {
+      n++;
+      const na = NOT_IN_BROWSER[e.file];
+      sec.append(h("button", { class: `lib-item${na ? " na" : ""}`, type: "button", style: `--c:${g.domain.color}`, "aria-current": e.file === S.file && !S.shared ? "true" : "false", onclick: () => { closeLibDrawer(); setPane("results"); loadScenario(e.file); } },
+        h("b", { text: e.title }), h("span", { text: e.question }), na ? h("span", { class: "tag", text: "command line only" }) : null));
+    }
+    host.append(sec);
+  }
+  if (!n) host.append(h("p", { class: "hint", style: "padding:12px", text: "No scenario matches. Try a word like jamming, clock, lunar or orbit." }));
+  $("lib-count").textContent = q ? `${n} of ${SCENARIOS.length} scenarios` : `${SCENARIOS.length} scenarios · ${groups.length} domains`;
+}
+
+// ------------------------------------------------------------------ history
+function renderHistory() {
+  const list = $("hist-list");
+  list.replaceChildren();
+  for (const run of S.history) {
+    list.append(h("li", { class: S.run && S.run.id === run.id ? "cur" : "" },
+      h("div", { class: "h1" }, h("b", { text: run.title }), h("span", { text: `run ${run.id} · ${run.at.toLocaleTimeString()}` })),
+      h("p", { text: run.summary }),
+      h("div", { class: "acts" },
+        h("button", { class: "btn-mini", type: "button", text: "Restore", onclick: () => restoreRun(run) }),
+        h("button", { class: "btn-mini", type: "button", onclick: () => pinRun(run) }, icon("i-pin"), "Pin"))));
+  }
+  $("hist-empty").hidden = S.history.length > 0;
+  const c = $("history-count");
+  c.hidden = !S.history.length;
+  c.textContent = String(S.history.length);
+}
+async function restoreRun(run) {
+  S.file = run.file;
+  S.shared = !run.file;
+  tomlEl.value = run.toml;
+  if (run.file) {
+    const bundle = await scenarioBundle();
+    if (bundle && typeof bundle[run.file] === "string") S.baseToml = bundle[run.file];
+    else try { const res = await fetch(`scenarios/${run.file}`); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
+    const rec = S.recCache.get(run.file);
+    if (rec) S.baseToml = rec.toml;
+  }
+  paintScenarioHeader(entryFor(run.file));
+  refreshEditor();
+  buildParams();
+  renderLibrary();
+  renderRun(run);
+  renderHistory();
+  setStatus(`Restored run ${run.id}.`, "ran");
+}
+
+// ------------------------------------------------------------------ share / embed
+async function copyShareLink() {
+  const url = location.origin + location.pathname + encodeFragment(tomlEl.value);
+  history.replaceState(null, "", url);
+  try { await navigator.clipboard.writeText(url); toast("Share link copied. It carries the exact scenario."); }
+  catch { toast("Link placed in the address bar."); }
+}
+function embedUrl() {
+  const u = new URL(location.origin + location.pathname);
+  u.searchParams.set("embed", "1");
+  if (S.file) u.searchParams.set("scenario", S.file);
+  if (S.activeTab) u.searchParams.set("tab", S.activeTab);
+  return u.toString();
+}
+async function copyEmbedCode() {
+  const code = `<iframe src="${embedUrl()}" width="100%" height="720" style="border:0;border-radius:16px" title="Kshana scenario" loading="lazy"></iframe>`;
+  try { await navigator.clipboard.writeText(code); toast("Embed code copied."); } catch { toast(code); }
+}
+
+// ------------------------------------------------------------------ palette
+const COMMANDS = [
+  { t: "Run the scenario", k: "⌘↵", run: () => runScenario() },
+  { t: "Pin this run to compare", run: () => pinRun() },
+  { t: "Copy share link", run: () => copyShareLink() },
+  { t: "Copy embed code", run: () => copyEmbedCode() },
+  { t: "Download the report", run: () => downloadReport() },
+  { t: "Open run history", run: () => openHistory() },
+  { t: "Start the guided tour", run: () => startTour() },
+  { t: "Toggle light or dark theme", run: () => toggleTheme() },
+  { t: "Reset the scenario text", run: () => resetSource() },
+  { t: "Show every numeric field", run: () => { setPane("editor"); setPview("all"); } },
+];
+let palItems = [], palSel = 0;
+function openPalette() {
+  $("palette").hidden = false;
+  const inp = $("pal-input");
+  inp.value = "";
+  renderPalette();
+  inp.focus();
+}
+function closePalette() { $("palette").hidden = true; }
+function renderPalette() {
+  const q = $("pal-input").value.trim().toLowerCase();
+  const match = (s) => !q || q.split(/\s+/).every((w) => s.toLowerCase().includes(w));
+  const list = $("pal-list");
+  list.replaceChildren();
+  palItems = [];
+  const section = (title, items) => {
+    if (!items.length) return;
+    list.append(h("p", { class: "pal-sec", text: title }));
+    for (const it of items) {
+      const idx = palItems.length;
+      palItems.push(it);
+      list.append(h("button", { class: "pal-item", type: "button", role: "option", id: `pal-${idx}`, style: it.c ? `--c:${it.c}` : "", onclick: () => { closePalette(); it.run(); }, onmousemove: () => selPal(idx) }, h("i"), h("b", { text: it.t }), it.k ? h("span", { text: it.k }) : null));
+    }
+  };
+  // Every word must match somewhere; a word in the title counts most, then the file name.
+  const words = q ? q.split(/\s+/) : [];
+  const score = (s) => words.reduce((n, w) => n + (s[2].toLowerCase().includes(w) ? 4 : s[0].includes(w) ? 2 : 1), 0);
+  const scen = SCENARIOS.filter((s) => match(`${s[2]} ${s[3]} ${s[0]} ${domainOf(s[1]).label}`))
+    .map((s, i) => ({ s, i, sc: score(s) })).sort((a, b) => b.sc - a.sc || a.i - b.i).map((x) => x.s).slice(0, q ? 12 : 6)
+    .map((s) => ({ t: s[2], k: domainOf(s[1]).label, c: domainOf(s[1]).color, run: () => { setPane("results"); loadScenario(s[0]); } }));
+  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: `View: ${d.label}`, c: d.c, run: () => { setPane("results"); selectTab(id); } }; });
+  const cmds = COMMANDS.filter((c) => match(c.t)).map((c) => ({ ...c, c: "var(--ink-3)" }));
+  section("Scenarios", scen);
+  section("Views", views);
+  section("Commands", cmds);
+  if (!palItems.length) list.append(h("p", { class: "pal-sec", text: "Nothing matches" }));
+  selPal(0);
+}
+function selPal(i) {
+  palSel = Math.max(0, Math.min(palItems.length - 1, i));
+  for (const b of $("pal-list").querySelectorAll(".pal-item")) b.setAttribute("aria-selected", b.id === `pal-${palSel}` ? "true" : "false");
+  const cur = $(`pal-${palSel}`);
+  if (cur) { cur.scrollIntoView({ block: "nearest" }); $("pal-input").setAttribute("aria-activedescendant", cur.id); }
+}
+
+// ------------------------------------------------------------------ tour
+const TOUR = [
+  { target: "#library", title: "Pick a mission", body: "Every bundled scenario, grouped by mission domain: jamming, spoofing, clocks, navigation, integrity, orbits, the Moon and Mars. Search with /.", side: "right" },
+  { target: "#run", title: "Run it, locally", body: "The Rust engine runs in your browser as WebAssembly. Nothing is uploaded. ⌘↵ runs from anywhere.", side: "bottom" },
+  { target: "#params", title: "Tune it", body: "Guided sliders for the common knobs, or every numeric field in the scenario. Each change re-runs.", side: "right" },
+  { target: "#source", title: "Or edit anything", body: "The full scenario in TOML. What you run is exactly what you can share and reproduce.", side: "right" },
+  { target: "#headline", title: "Read the answer", body: "The one-line summary, the engine version and the scenario fingerprint, and whether each figure is validated or modelled.", side: "bottom" },
+  { target: "#tabs", title: "Every view of the run", body: "Views appear when the result supports them: signal and band for jamming, holdover for clocks, masks for telecom timing, 3-D orbits, ground tracks, sweeps.", side: "bottom" },
+  { target: "#pin", title: "Compare runs", body: "Pin up to four runs and see them side by side, with deltas and a difference trace.", side: "bottom" },
+  { target: "#btn-share", title: "Share or embed", body: "A link that carries the exact scenario, or an iframe for a course page or wiki.", side: "bottom" },
+  { target: "#cmdk-btn", title: "Everything from the keyboard", body: "⌘K finds any scenario, view or command. [ and ] move between views.", side: "bottom" },
+];
+const tour = { on: false, i: 0, steps: [], el: null, opener: null, refs: null };
+function startTour() {
+  if (tour.on) return;
+  tour.steps = TOUR.filter((s) => { const t = document.querySelector(s.target); return t && t.getClientRects().length; });
+  if (!tour.steps.length) return;
+  tour.opener = document.activeElement;
+  if (!tour.el) {
+    const spot = h("div", { class: "tour-spot" });
+    const title = h("h3", { id: "tour-title" }), body = h("p"), prog = h("span");
+    const back = h("button", { type: "button", text: "Back", onclick: () => tourGo(tour.i - 1) });
+    const next = h("button", { type: "button", class: "primary", text: "Next", onclick: () => (tour.i >= tour.steps.length - 1 ? endTour() : tourGo(tour.i + 1)) });
+    const skip = h("button", { type: "button", text: "Skip", onclick: endTour });
+    const tip = h("div", { class: "tour-tip" }, h("p", { class: "eyebrow", text: "Guided tour" }), title, body, h("div", { class: "tour-foot" }, prog, h("div", {}, skip, back, next)));
+    tour.el = h("div", { class: "tour", role: "dialog", "aria-modal": "true", "aria-labelledby": "tour-title", tabindex: "-1" }, spot, tip);
+    tour.refs = { spot, tip, title, body, prog, back, next };
+    document.body.append(tour.el);
+  }
+  tour.el.hidden = false;
+  tour.on = true;
+  window.addEventListener("resize", tourPlace);
+  tourGo(0);
+  tour.refs.next.focus();
+}
+function tourGo(n) {
+  tour.i = clampStep(n, tour.steps.length);
+  const t = document.querySelector(tour.steps[tour.i].target);
+  if (t) t.scrollIntoView({ behavior: reducedMotion() ? "auto" : "smooth", block: "nearest" });
+  setTimeout(tourPlace, reducedMotion() ? 0 : 300);
+}
+function tourPlace() {
+  if (!tour.on) return;
+  const st = tour.steps[tour.i];
+  const t = document.querySelector(st.target);
+  if (!t) return;
+  const r = t.getBoundingClientRect();
+  const { spot, tip, title, body, prog, back, next } = tour.refs;
+  const hgt = Math.min(r.height, innerHeight - Math.max(0, r.top));
+  Object.assign(spot.style, { top: `${r.top - 6}px`, left: `${r.left - 6}px`, width: `${r.width + 12}px`, height: `${hgt + 12}px` });
+  title.textContent = st.title; body.textContent = st.body;
+  prog.textContent = `${tour.i + 1} / ${tour.steps.length}`;
+  back.disabled = tour.i === 0;
+  next.textContent = tour.i >= tour.steps.length - 1 ? "Done" : "Next";
+  const ts = tip.getBoundingClientRect();
+  const pos = placeTooltip({ top: r.top, left: r.left, width: r.width, height: hgt }, { width: ts.width, height: ts.height }, { width: innerWidth, height: innerHeight }, st.side);
+  tip.style.top = `${pos.top}px`; tip.style.left = `${pos.left}px`;
+}
+function endTour() {
+  tour.on = false;
+  if (tour.el) tour.el.hidden = true;
+  window.removeEventListener("resize", tourPlace);
+  if (tour.opener && tour.opener.focus) tour.opener.focus();
+}
+
+// ------------------------------------------------------------------ chrome
+function toggleTheme() {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+  try { localStorage.setItem("kshana-theme", root.dataset.theme); } catch { /* storage blocked */ }
+}
+let toastTimer = 0;
+function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 2600); }
+function openHistory() { $("history").hidden = false; $("history-close").focus(); }
+function closeHistory() { $("history").hidden = true; }
+function setPane(p) {
+  $("app").dataset.pane = p;
+  for (const b of $("mob").children) b.setAttribute("aria-pressed", b.dataset.pane === p ? "true" : "false");
+}
+function closeLibDrawer() { delete $("app").dataset.lib; }
+function resetSource() {
+  tomlEl.value = S.baseToml;
+  refreshEditor();
+  buildParams();
+  runScenario();
+}
+function engineChip() {
+  const chip = $("engine-chip");
+  chip.dataset.mode = S.mode;
+  $("engine-label").textContent = S.mode === "live" ? `Live engine · v${S.version}` : S.mode === "recorded" ? `Recorded runs · v${S.version}` : "Engine unavailable";
+  chip.title = S.mode === "live" ? "The Kshana engine is running in this browser as WebAssembly" : `WebAssembly could not start here${S.liveError ? ` (${S.liveError})` : ""}. Showing real recorded runs of the bundled scenarios.`;
+}
+
+async function loadCounts() {
+  try {
+    const ledger = await (await fetch("data/verification-matrix.json")).json();
+    const m = matrixCounts(ledger);
+    $("matrix-line").replaceChildren(h("b", { text: `${m.validated} of ${m.total}` }), ` capabilities validated against independent external oracles · ${m.modelled} modelled · ${m.partner} partner-owned`);
+  } catch { /* the ledger is optional context */ }
+}
+
+function insertSpaces() {
+  const s = tomlEl.selectionStart, e = tomlEl.selectionEnd;
+  tomlEl.setRangeText("  ", s, e, "end");
+  refreshEditor();
+  buildParamsSoon();
+}
+
+function bindUi() {
+  const sf = $("sig-field");
+  if (sf) sf.addEventListener("click", (e) => { const b = e.target.closest("button[data-field]"); if (!b) return; S.sigField = b.dataset.field; renderSignal(); });
+  $("run").addEventListener("click", runScenario);
+  $("run-cancel").addEventListener("click", cancelJob);
+  $("pin").addEventListener("click", () => pinRun());
+  $("lib-search").addEventListener("input", renderLibrary);
+  tomlEl.addEventListener("input", () => { refreshEditor(); buildParamsSoon(); });
+  tomlEl.addEventListener("scroll", syncScroll);
+  tomlEl.addEventListener("keydown", (e) => {
+    // Tab inserts two spaces, like the scenario files; Escape then Tab moves focus on.
+    if (e.key === "Tab" && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      if (tomlEl.dataset.esc === "1") { tomlEl.dataset.esc = ""; return; }
+      e.preventDefault();
+      insertSpaces();
+    } else if (e.key === "Escape") tomlEl.dataset.esc = "1";
+    else tomlEl.dataset.esc = "";
+  });
+  $("src-reset").addEventListener("click", resetSource);
+  $("src-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(tomlEl.value); toast("Scenario copied."); } catch { toast("Copy is blocked here."); } });
+  for (const b of document.querySelectorAll("[data-pview]")) b.addEventListener("click", () => setPview(b.dataset.pview));
+  for (const b of document.querySelectorAll("[data-ts]")) b.addEventListener("click", () => { S.tsMode = b.dataset.ts; setTsMode(b.dataset.ts); });
+  $("ho-thr").addEventListener("input", drawHoldover);
+  $("ho-thr-reset").addEventListener("click", () => { if (S.ho && Number.isFinite(S.ho.threshold)) { $("ho-thr").value = String(S.ho.threshold); drawHoldover(); } });
+  $("sweep-run").addEventListener("click", runSweep);
+  $("sweep-knob").addEventListener("change", () => seedSweepRange(true));
+  $("sweep-knob2").addEventListener("change", () => seedSweepRange(true));
+  $("compare-clear").addEventListener("click", () => { S.pins = []; buildTabs(); selectTab("overview"); });
+  $("json-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(JSON.stringify(S.run.result, null, 2)); toast("JSON copied."); } catch { toast("Copy is blocked here."); } });
+  $("json-download").addEventListener("click", () => { const meta = fileMeta(S.run.result, S.version, S.run.toml); triggerDownload(new Blob([JSON.stringify(S.run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json")); });
+  $("cmdk-btn").addEventListener("click", openPalette);
+  $("pal-input").addEventListener("input", renderPalette);
+  $("pal-input").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); selPal(palSel + 1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); selPal(palSel - 1); }
+    else if (e.key === "Enter" && !(e.metaKey || e.ctrlKey)) { e.preventDefault(); const it = palItems[palSel]; if (it) { closePalette(); it.run(); } }
+  });
+  $("palette").addEventListener("mousedown", (e) => { if (e.target.id === "palette") closePalette(); });
+  $("btn-history").addEventListener("click", () => ($("history").hidden ? openHistory() : closeHistory()));
+  $("history-close").addEventListener("click", closeHistory);
+  $("btn-tour").addEventListener("click", startTour);
+  $("btn-theme").addEventListener("click", toggleTheme);
+  const shareBtn = $("btn-share"), menu = $("share-menu");
+  const setMenu = (open) => { menu.hidden = !open; shareBtn.setAttribute("aria-expanded", open ? "true" : "false"); if (open) menu.querySelector("button").focus(); };
+  shareBtn.addEventListener("click", () => setMenu(menu.hidden));
+  menu.addEventListener("click", (e) => {
+    const b = e.target.closest("button");
+    if (!b) return;
+    setMenu(false);
+    if (b.dataset.act === "share-link") copyShareLink();
+    else if (b.dataset.act === "embed-code") copyEmbedCode();
+    else if (b.dataset.act === "embed-open") window.open(embedUrl(), "_blank", "noopener");
+  });
+  document.addEventListener("click", (e) => { if (!menu.hidden && !e.target.closest(".menu-wrap")) setMenu(false); });
+  $("crumb").addEventListener("click", () => { if (innerWidth <= 1180 && innerWidth > 860) { if ($("app").dataset.lib === "open") closeLibDrawer(); else $("app").dataset.lib = "open"; } });
+  for (const b of $("mob").children) b.addEventListener("click", () => setPane(b.dataset.pane));
+  $("tabs").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); cycleTab(1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); cycleTab(-1); }
+  });
+  document.addEventListener("keydown", (e) => {
+    const mod = e.metaKey || e.ctrlKey;
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || "");
+    if (tour.on) {
+      if (e.key === "Escape") endTour();
+      else if (e.key === "ArrowRight") tour.refs.next.click();
+      else if (e.key === "ArrowLeft" && tour.i > 0) tour.refs.back.click();
+      else if (e.key === "Tab") { const f = [...tour.el.querySelectorAll("button:not(:disabled)")]; const i = f.indexOf(document.activeElement); e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus(); }
+      return;
+    }
+    if (mod && e.key.toLowerCase() === "k") { e.preventDefault(); if ($("palette").hidden) openPalette(); else closePalette(); return; }
+    if (mod && e.key === "Enter") { e.preventDefault(); closePalette(); runScenario(); return; }
+    if (e.key === "Escape") { if (!$("palette").hidden) closePalette(); else if (!$("history").hidden) closeHistory(); else if (!menu.hidden) setMenu(false); else closeLibDrawer(); return; }
+    if (typing) return;
+    if (e.key === "/") { e.preventDefault(); if (innerWidth <= 860) setPane("library"); else if (innerWidth <= 1180) $("app").dataset.lib = "open"; $("lib-search").focus(); }
+    else if (e.key === "]") cycleTab(1);
+    else if (e.key === "[") cycleTab(-1);
+  });
+}
+
+// Install commands, from the site's channels.json (generated from the repository at build time).
+async function paintChannels() {
+  const box = $("install-line");
+  if (!box) return;
+  try {
+    const d = await (await fetch("channels.json")).json();
+    const pick = ["cli", "python", "npm", "mcp"].map((id) => d.channels.find((c) => c.id === id)).filter(Boolean);
+    box.replaceChildren(h("span", { class: "lbl", text: `Install v${d.version}` }), ...pick.map((c) => h("button", { class: "cmd-chip", type: "button", title: `Copy: ${c.command}`, "data-cmd": c.command, text: c.command })));
+    for (const b of box.querySelectorAll("button")) b.addEventListener("click", () => { navigator.clipboard && navigator.clipboard.writeText(b.dataset.cmd); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); });
+  } catch { box.hidden = true; }
+}
+
+// ------------------------------------------------------------------ start
+async function main() {
+  bindUi();
+  // Real coastlines for the ground track (Natural Earth 1:110m land, public domain).
+  fetch("data/land.json").then((r) => (r.ok ? r.json() : [])).then((l) => { S.land = l; if (S.run && V.groundTrack(S.run.result)) renderGround(); }).catch(() => { S.land = []; });
+  paintChannels();
+  setPview("guided");
+  renderLibrary();
+  loadCounts();
+  const params = new URLSearchParams(location.search);
+  S.embed = isEmbed(location.search);
+  const cfg = S.embed ? embedConfig(location.search) : null;
+  if (S.embed) for (const c of embedClassList(cfg)) document.body.classList.add(c);
+  try {
+    await bootEngine();
+  } catch (e) {
+    S.mode = "none";
+    engineChip();
+    setStatus("");
+    showError(`The engine could not start: ${errorMessage(e)}. Serve this folder over HTTP (for example python3 -m http.server) rather than opening the file directly.`);
+    return;
+  }
+  engineChip();
+  $("run").disabled = false;
+  setStatus(S.mode === "live" ? "Ready. Runs locally in your browser." : "Ready. Showing recorded runs.");
+  const shared = decodeFragment(location.hash);
+  // Accept a scenario named with or without its .toml extension (site links omit it).
+  const requestedRaw = (cfg && cfg.scenario) || params.get("scenario");
+  const requested = requestedRaw && !/\.toml$/.test(requestedRaw) ? `${requestedRaw}.toml` : requestedRaw;
+  S.tabRequest = (cfg && cfg.tab) || params.get("tab");
+  if (shared && !S.embed) {
+    S.file = null; S.shared = true; S.baseToml = shared;
+    tomlEl.value = shared;
+    paintScenarioHeader(null);
+    refreshEditor(); buildParams(); renderLibrary();
+    $("source").open = true;
+    setStatus("Loaded a shared scenario from the link.");
+    if (S.mode === "live") runScenario();
+    else showNotice("This link carries its own scenario, which needs the live engine. Open it on kshana.dev.");
+    return;
+  }
+  const file = requested && entryFor(requested) ? requested : DEFAULT_SCENARIO;
+  await loadScenario(file, { run: false });
+  if (cfg) for (const [key, val] of Object.entries(cfg.knobs || {})) tomlEl.value = patchScalar(tomlEl.value, key, val);
+  if (cfg && Object.keys(cfg.knobs || {}).length) { refreshEditor(); buildParams(); }
+  await runScenario();
+}
+
+main();

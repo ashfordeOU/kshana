@@ -67,19 +67,25 @@ if [ "$jb_ver" != "$ver" ]; then
   fail=1
 fi
 
-# 5. Web landing page (kshana.dev, web/index.html) — hand-authored HTML, not derived
-#    from Cargo.toml, so its version strings drift silently every release unless checked
-#    here. Enforce the JSON-LD softwareVersion (what crawlers read), the visible version
-#    chip fallback (what a no-JS visitor sees), and the asset cache-busters in lockstep.
+# 5. The site (kshana.dev, web/) is ported in from a site build by web/tools/port_site.py,
+#    not derived from Cargo.toml at release time, so its version strings drift silently
+#    every release unless checked here. Enforce the home page's JSON-LD softwareVersion
+#    (what crawlers read) and its visible version chip (what a visitor sees), the version
+#    the Studio's install panel states (playground/channels.json), and the version the
+#    port recorded in its manifest. A mismatch means: rebuild the site from this checkout
+#    and rerun the port.
 web="web/index.html"
 for needle in \
   "\"softwareVersion\": \"${ver}\"" \
-  ">v${ver}<" \
-  "favicon.svg?v=${ver}" \
-  "style.css?v=${ver}" \
-  "app.js?v=${ver}"; do
+  ">v${ver}<"; do
   if ! grep -qF -- "$needle" "$web"; then
     echo "FAIL: $web is missing the v${ver} string: ${needle}" >&2
+    fail=1
+  fi
+done
+for f in web/playground/channels.json web/PORT-MANIFEST.json; do
+  if ! grep -qE "^ *\"version\": \"${ver}\"" "$f"; then
+    echo "FAIL: $f does not state version ${ver}; rebuild the site and rerun web/tools/port_site.py." >&2
     fail=1
   fi
 done
@@ -176,7 +182,7 @@ echo "OK: every surface this script checks is at v${ver} — root README \"Statu
 and release badge; README.crates.md / README.npm.md / README.pypi.md release badges; \
 mcp/kshana-mcp version and its kshana dependency requirement; JetBrains pluginVersion \
 and the newest Marketplace change-notes entry; \
-web/index.html JSON-LD, version chip and 3 cache-busters; ${tag_checked}."
+web/index.html JSON-LD and version chip, the Studio's channels.json and the port manifest; ${tag_checked}."
 echo "    Not checked here, and not drifting: crates.io / PyPI / npm read the version out \
 of Cargo.toml at build time; CITATION.cff, codemeta.json and .zenodo.json are pinned to \
 the manifest by tests/citation_metadata_doc_sync.rs."

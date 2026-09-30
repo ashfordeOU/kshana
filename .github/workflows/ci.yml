@@ -316,46 +316,65 @@ jobs:
       - name: Assert every web test file has a step
         # The test steps below are written out one per file so the Actions UI names which
         # module failed. Nothing used to assert that the list was complete, so adding a
-        # new web/*.test.mjs without adding a step here would leave it untested with CI
-        # green. This compares the two sets in both directions instead: a file on disk
-        # with no step, or a step naming a file that no longer exists, fails here.
+        # new test file under web/ without adding a step here would leave it untested with
+        # CI green. This compares the two sets in both directions instead: a file on disk
+        # with no step, or a step naming a file that no longer exists, fails here. The
+        # Studio's module tests live beside the modules in web/playground/lib/, so the
+        # search covers the whole of web/ except the build output.
         run: |
           set -euo pipefail
-          diff <(find web -maxdepth 1 -name '*.test.mjs' | sort) \
-               <(grep -oE '^ +run: node web/[A-Za-z0-9_.-]+\.test\.mjs$' .github/workflows/ci.yml \
+          diff <(find web -name '*.test.mjs' -not -path 'web/pkg/*' -not -path 'web/playground/pkg/*' | sort) \
+               <(grep -oE '^ +run: node web/[A-Za-z0-9_./-]+\.test\.mjs$' .github/workflows/ci.yml \
                  | awk '{print $3}' | sort -u) \
-            || { echo "::error::web/*.test.mjs and the steps in ci.yml disagree (< on disk, > enumerated)"; exit 1; }
-          echo "OK: every web/*.test.mjs has its own step in ci.yml"
+            || { echo "::error::the test files under web/ and the steps in ci.yml disagree (< on disk, > enumerated)"; exit 1; }
+          echo "OK: every test file under web/ has its own step in ci.yml"
+      - name: Stage the package next to the Studio
+        # web/build.sh does this for the deployed site; this job builds with wasm-pack
+        # directly (--no-opt), so it stages the copy the Studio's own modules import.
+        run: |
+          set -euo pipefail
+          mkdir -p web/playground/pkg
+          cp web/pkg/kshana.js web/pkg/kshana_bg.wasm web/pkg/package.json web/playground/pkg/
       - name: Run wasm smoke test
         run: node web/smoke.mjs
+      - name: Test the ported site against the ledger, the READMEs and its own manifest
+        run: node web/site.test.mjs
+      - name: Test that every old kshana.dev address still resolves
+        run: node web/legacy-urls.test.mjs
       - name: Test the share-link codec
-        run: node web/share.test.mjs
+        run: node web/playground/lib/share.test.mjs
       - name: Test the chart-download helpers
-        run: node web/chartdl.test.mjs
+        run: node web/playground/lib/chartdl.test.mjs
       - name: Test the off-main-thread engine client
-        run: node web/engine.test.mjs
+        run: node web/playground/lib/engine.test.mjs
       - name: Test the A/B compare logic
-        run: node web/compare.test.mjs
+        run: node web/playground/lib/compare.test.mjs
       - name: Test the chart-hover logic
-        run: node web/hover.test.mjs
+        run: node web/playground/lib/hover.test.mjs
       - name: Test the 3D orbit renderer math
-        run: node web/orbit3d.test.mjs
+        run: node web/playground/lib/orbit3d.test.mjs
       - name: Test the parameter-sweep helpers
-        run: node web/sweep.test.mjs
+        run: node web/playground/lib/sweep.test.mjs
       - name: Test the guided-knob helpers
-        run: node web/guided.test.mjs
+        run: node web/playground/lib/guided.test.mjs
       - name: Test the multi-run overlay logic
-        run: node web/overlay.test.mjs
+        run: node web/playground/lib/overlay.test.mjs
       - name: Test the tabbed-output model
-        run: node web/tabs.test.mjs
+        run: node web/playground/lib/tabs.test.mjs
       - name: Test the embed-mode helpers
-        run: node web/embed.test.mjs
+        run: node web/playground/lib/embed.test.mjs
       - name: Test the HTML-report builder
-        run: node web/report.test.mjs
+        run: node web/playground/lib/report.test.mjs
       - name: Test the guided-tour core
-        run: node web/tour.test.mjs
-      - name: Test that the site's validation counts match the ledger and the READMEs
-        run: node web/counts.test.mjs
+        run: node web/playground/lib/tour.test.mjs
+      - name: Test that the Studio's validation counts come from the ledger
+        run: node web/playground/lib/counts.test.mjs
+      - name: Test that the Studio's scenario catalogue matches its bundled files and recordings
+        run: node web/playground/lib/catalog.test.mjs
+      - name: Test the scenario-parameter reader over every bundled scenario
+        run: node web/playground/lib/params.test.mjs
+      - name: Test the result views over recorded runs
+        run: node web/playground/lib/views.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #

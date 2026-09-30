@@ -1,0 +1,47 @@
+# Maritime port approach with GNSS jammed: how long an inertial navigation system
+# (INS) keeps a ship inside the harbour-approach accuracy budget once the Global
+# Navigation Satellite System (GNSS) is lost.
+#
+# The mission question: a vessel fitted with an INS enters a harbour approach at
+# 12 knots (6.17 m/s) when GNSS is jammed (see `maritime-strait-jamming.toml` for why).
+# How many seconds of free-inertial coast does it have before its position error passes
+# 10 m, and before it passes 100 m? Those are the two accuracy figures that
+# International Maritime Organization (IMO) Resolution A.1046(27), on the World-Wide
+# Radionavigation System, gives for harbour entrances and approaches (10 m, 95 %) and
+# for ocean waters (100 m, 95 %). They are used here as budgets, not as a claim of
+# compliance.
+#
+# The model is `ins-trn-coast`: five growth terms (accelerometer bias, gyro-bias tilt
+# through gravity, velocity random walk, angle random walk and scale factor times the
+# distance run), combined root-sum-square and searched for the crossing times. The IMU
+# (inertial measurement unit) is the representative navigation-grade class from the
+# engine's grade table (Groves 2013, Table 4.1 band), the class of INS fitted to naval
+# and high-end offshore vessels. It is NOT a datasheet for any product. Change
+# `imu_grade` to "tactical" or "industrial" to see how a cheaper unit shortens the coast.
+#
+# Honest scope: most merchant ships carry no INS; they dead-reckon on a gyrocompass and
+# a speed log, which this engine does not model. No terrain or radar aiding is applied
+# (`trn_fix_mode = "none"`), so this is the unaided coast. MODELLED: every figure is
+# modelled from class coefficients, not measured on a vessel.
+kind = "ins-trn-coast"
+
+imu_grade = "navigation"
+
+# 12 knots, a typical harbour-approach speed. The scale-factor term grows with the
+# distance run, so speed is part of the error model.
+speed_m_s = 6.17
+ref_accel_m_s2 = 0.0
+
+combination = "rss"
+
+# IMO A.1046(27) harbour-approach and ocean-waters figures, used as budgets (m).
+crossing_thresholds_m = [10.0, 100.0]
+
+drift_band_lo_m_per_s = 0.001
+drift_band_hi_m_per_s = 0.050
+
+# No aiding: the free-inertial coast over the whole approach.
+trn_fix_mode = "none"
+
+# A one-hour approach and berthing window.
+mission_duration_s = 3600.0

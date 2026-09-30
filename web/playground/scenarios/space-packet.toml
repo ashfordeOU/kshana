@@ -1,0 +1,17 @@
+# CCSDS 133.0-B Space Packet framing demonstrator (TM/TC interop).
+#
+# Frames a synthetic telemetry/telecommand packet stream (6-octet primary header +
+# data field) and reports the per-packet primary-header decode, total stream bytes,
+# and that the encode<->decode round trip is exact -- the agency packet-format
+# bridge that lets any Kshana scenario output be wrapped as a conformant stream.
+#
+# HONEST SCOPE: exact, deterministic CCSDS-133.0 *framing* (primary-header bit
+# layout + round-trip). NOT a conformance certification; no secondary header / CRC /
+# segmentation logic beyond the sequence flags.
+# Run:  kshana scenarios/space-packet.toml
+kind = "space-packet"
+
+apid = 100              # Application Process Identifier (0..=2047)
+telecommand = false     # false = TM (telemetry), true = TC (telecommand)
+packet_count = 4        # frame a short sequence (first/continuation/last flags)
+data_len = 32           # user-data-field octets per packet

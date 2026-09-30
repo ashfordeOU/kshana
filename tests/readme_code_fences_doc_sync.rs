@@ -118,16 +118,16 @@ fn every_js_import_from_kshana_is_a_real_wasm_export() {
 
 #[test]
 fn every_site_import_from_the_wasm_package_is_a_real_export() {
-    // The playground and its smoke test import from the generated `./pkg/kshana.js`. An
+    // The Studio's engine worker and the smoke test import from the generated package
+    // (`./pkg/kshana.js` beside the smoke test, `../pkg/kshana.js` from the Studio's lib/). An
     // ES module that imports a name the package does not export fails to LINK, so one
     // stale name blanks the whole page — not just the feature that used it.
     let exports = wasm_exports();
     let files = [
-        ("web/app.js", include_str!("../web/app.js")),
         ("web/smoke.mjs", include_str!("../web/smoke.mjs")),
         (
-            "web/engine-worker.mjs",
-            include_str!("../web/engine-worker.mjs"),
+            "web/playground/lib/engine-worker.mjs",
+            include_str!("../web/playground/lib/engine-worker.mjs"),
         ),
     ];
     let mut checked = 0;
@@ -142,12 +142,8 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
                 break;
             };
             let (clause, after) = rest.split_at(from);
-            if !after[" from ".len()..]
-                .trim_start()
-                .get(1..)
-                .unwrap_or("")
-                .starts_with("./pkg/kshana.js")
-            {
+            let module = after[" from ".len()..].trim_start().get(1..).unwrap_or("");
+            if !module.starts_with("./pkg/kshana.js") && !module.starts_with("../pkg/kshana.js") {
                 continue;
             }
             let (Some(a), Some(b)) = (clause.find('{'), clause.find('}')) else {
@@ -172,7 +168,39 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
     }
     assert!(
         checked >= 3,
-        "found only {checked} imported names from ./pkg/kshana.js — the scan is broken"
+        "found only {checked} imported names from the generated package — the scan is broken"
+    );
+
+    // The Studio's main script loads the package with a dynamic import and then reads the
+    // functions off the module object (`mod.run`, `mod.chart_svg`, …). A name the package
+    // does not export is `undefined` there, and the call fails only when a visitor uses
+    // that feature. Check those names against the same export list.
+    let app = include_str!("../web/playground/app.js");
+    let at = app
+        .find("import(\"./pkg/kshana.js\")")
+        .expect("web/playground/app.js no longer loads ./pkg/kshana.js with a dynamic import");
+    let window: String = app[at..].chars().take(1500).collect();
+    let mut used = 0;
+    let mut rest = window.as_str();
+    while let Some(i) = rest.find("mod.") {
+        rest = &rest[i + "mod.".len()..];
+        let name: String = rest
+            .chars()
+            .take_while(|c| c.is_ascii_alphanumeric() || *c == '_')
+            .collect();
+        if name.is_empty() || name == "default" {
+            continue;
+        }
+        used += 1;
+        if !exports.contains(name.as_str()) {
+            bad.push(format!(
+                "web/playground/app.js: uses `mod.{name}`, which src/wasm.rs does not export"
+            ));
+        }
+    }
+    assert!(
+        used >= 3,
+        "found only {used} package functions used by web/playground/app.js — the scan is broken"
     );
     assert!(bad.is_empty(), "{}", bad.join("\n"));
 }

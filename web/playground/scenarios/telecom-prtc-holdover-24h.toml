@@ -1,0 +1,60 @@
+# Telecom timing reference: a rubidium clock that loses its Global Navigation Satellite
+# System (GNSS) reference and holds over for 24 hours, checked against the masks of the
+# International Telecommunication Union Telecommunication Standardization Sector (ITU-T).
+#
+# The record is 25 hours at one sample per second. For the first hour the clock is
+# disciplined, and its time error is 1 ns of white phase noise. At 3 600 s the GNSS
+# reference is lost and the clock free-runs for 24 hours with:
+#   - white, flicker and (where the fit needs it) random-walk frequency noise, fitted to
+#     the datasheet's Allan-deviation maxima and scaled to lie at or above every one;
+#   - linear frequency aging at the datasheet's monthly figure;
+#   - a daily temperature cycle of +/-2 K (an illustrative indoor swing) through the
+#     datasheet's temperature bound, read linearly as a worst case.
+# The oscillator figures come from the Microchip 8040C Rubidium Frequency Standard
+# datasheet (DS00003047A). How they become a noise model is MODELLED: see the report's
+# `oscillator` block and docs/TELECOM-TIMING.md.
+#
+# What the run answers: how long this clock stays inside each time-error budget, and
+# whether the record meets the ePRTC-A holdover requirement of ITU-T G.8272.1 (a time
+# error that may rise from 30 ns to 100 ns over the holdover period). A rubidium clock is
+# not the caesium-class reference that requirement assumes, so a FAIL there is the
+# expected, informative answer. PRTC-A (ITU-T G.8272) is a LOCKED-mode requirement; it is
+# applied here as a comparison only, and the report states that condition beside it.
+#
+# Not a conformance test and not a measurement of any unit.
+kind = "telecom-timing"
+seed = 20260925
+masks = ["eprtc-a-holdover", "prtc-a"]
+
+[holdover]
+oscillator = "rubidium"
+gnss_loss_s = 3600.0
+duration_s = 90000.0
+sample_interval_s = 1.0
+locked_te_sigma_ns = 1.0
+initial_frequency_offset = 0.0
+temperature_amplitude_k = 2.0
+temperature_period_s = 86400.0
+# ITU-T G.8272.1 Table 3: under 6 days locked, the holdover period H is 70 000 s.
+locked_duration_days = 5.0
+
+# Budgets: each is a figure an ITU-T Recommendation states.
+[[budgets]]
+name = "ePRTC default max|TE_HO|"
+max_abs_te_ns = 100.0
+source = "ITU-T G.8272.1 (2024) Amd. 1 (07/2025) clause 8.3.1"
+
+[[budgets]]
+name = "network holdover allocation, short GNSS interruption"
+max_abs_te_ns = 400.0
+source = "ITU-T G.8271.1 (2022) Amd. 3 (05/2025) Table V.1, failure scenario (b) (an example allocation)"
+
+[[budgets]]
+name = "network limit at reference point C"
+max_abs_te_ns = 1100.0
+source = "ITU-T G.8271.1 (2022) Amd. 3 (05/2025) clause 7.3.1 (max|TE_L|, compared unfiltered)"
+
+[[budgets]]
+name = "end application, accuracy class 4"
+max_abs_te_ns = 1500.0
+source = "ITU-T G.8271 (03/2020) Amd. 1 (08/2024) Table 1, class 4"

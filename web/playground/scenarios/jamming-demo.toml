@@ -1,0 +1,46 @@
+# RF jamming: a ground-based broadband jammer denying GNSS to a nearby receiver.
+#
+# The chain (Kaplan & Hegarty, Understanding GPS/GNSS, 3rd ed. §9.4): the jammer's
+# received power (transmit power + gains − free-space path loss) sets the
+# jammer-to-signal ratio J/S at the receiver; the despreading processing gain
+# (C/A chip rate) and the spectral-separation factor Q convert that into an
+# effective C/N0 per satellite; a satellite loses lock when its effective C/N0
+# falls below the tracking threshold (25 dB-Hz here).
+#
+# A 10 W (10 dBW) broadband jammer 1 km from the receiver produces J/S ≈ 72 dB —
+# far beyond the ~35 dB a C/A loop can tolerate — so every visible satellite drops
+# below the tracking threshold and the receiver is denied (availability → 0) while
+# the satellites remain geometrically visible. Move the jammer out or cut its
+# power and J/S falls ~40 dB per decade of range: the same jammer at 100 km only
+# degrades the links (J/S ≈ 32 dB, effective C/N0 ≈ 28 dB-Hz) without losing lock.
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+
+[time]
+step_s = 30.0
+duration_s = 1800.0
+
+[receiver]
+lat_deg = 52.0
+lon_deg = 4.0
+alt_m = 0.0
+
+# A GPS-like 24-satellite Walker shell (6 planes × 4), propagated through the
+# 4.12 mm-validated SGP4 core.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# 10 W broadband jammer 1 km East of the receiver (ECEF; J/S depends only on
+# range, so the exact direction is immaterial).
+[jammer]
+position_ecef_m = [3926375.101, 274488.966, 5002803.345]
+power_dbw = 10.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0

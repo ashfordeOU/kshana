@@ -1,0 +1,1645 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Interoperability exports and imports · Kshana docs</title>
+<meta name="description" content="Interoperability exports and imports. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Geist:wght@300..700&family=Geist+Mono:wght@400;500;600&family=Unbounded:wght@400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/interop.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/interop.html">
+<meta property="og:title" content="Interoperability exports and imports · Kshana docs">
+<meta property="og:description" content="Interoperability exports and imports. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interoperability exports and imports · Kshana docs">
+<meta name="twitter:description" content="Interoperability exports and imports. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html" aria-current="page">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Outputs and exports</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/INTEROP.md</code></span></div>
+    <div class="prose"><h1 id="interoperability-exports-and-imports">Interoperability exports and imports</h1>
+<p>A run writes a result document, a chart and a report. <code>--export</code> also writes the
+scenario&#39;s geometry, or its synthesised signal, in the formats other tools already read:
+a globe viewer, a desktop map, a geographic information system (GIS), a mission-analysis
+package or a software-defined-radio (SDR) tool. Nothing here reads a clock or the
+network, and no export carries a generation timestamp, so the same scenario gives
+byte-identical files on every run.</p>
+<pre data-lang="shell"><code class="hljs language-bash">kshana scenarios/jamming-demo.toml --<span class="hljs-built_in">export</span> czml            <span class="hljs-comment"># one format</span>
+kshana scenarios/jamming-demo.toml --<span class="hljs-built_in">export</span> kml --<span class="hljs-built_in">export</span> geojson
+kshana scenarios/jamming-demo.toml --<span class="hljs-built_in">export</span> all             <span class="hljs-comment"># every format that applies</span>
+kshana scenarios/jamming-demo.toml --<span class="hljs-built_in">export</span> list            <span class="hljs-comment"># which apply, and why not, without running</span>
+kshana scenarios/terrain-nav.toml --import-route route.geojson --<span class="hljs-built_in">export</span> geojson</code></pre>
+<p>Files are written next to the scenario, named like the result document:
+<code>jamming-demo.czml</code>, <code>jamming-demo.kml</code>, <code>jamming-demo.geojson</code>, one
+<code>jamming-demo.&lt;object&gt;.e</code> per moving object (or <code>jamming-demo.e</code> when there is one), and
+the pair <code>l-band-waterfall-jamming.sigmf-meta</code> / <code>.sigmf-data</code>. With <code>--study-name</code> they
+take the study&#39;s name instead, as the other outputs do.</p>
+<p>A format named explicitly that does not apply to the scenario is an error that prints the
+reason; under <code>all</code> the reason is printed and the format skipped. The library entry
+points are <code>kshana::interop::export(src, format)</code>, <code>kshana::interop::plan(src)</code> and
+<code>kshana::interop::geojson::apply_route(src, geojson)</code>; they take the scenario text and
+return bytes, touching no file, so they run in the WebAssembly build too.</p>
+<p>Code: <code>src/interop/</code> (<code>scene.rs</code> builds one geometric description of the scenario,
+<code>czml.rs</code>, <code>kml.rs</code>, <code>geojson.rs</code> and <code>stk.rs</code> write it), <code>src/sigmf.rs</code> and
+<code>src/spectrum.rs</code> for the signal. Tests: <code>tests/interop_formats.rs</code>.</p>
+<h2 id="formats">Formats<a class="anchor" href="#formats" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Format</th>
+<th>What it is</th>
+<th>Specification followed</th>
+</tr>
+</thead><tbody><tr>
+<td>CZML</td>
+<td>Cesium Language: a JSON (JavaScript Object Notation) array of time-tagged packets, read by CesiumJS</td>
+<td><a href="https://github.com/AnalyticalGraphicsInc/czml-writer/wiki/CZML-Structure">https://github.com/AnalyticalGraphicsInc/czml-writer/wiki/CZML-Structure</a></td>
+</tr>
+<tr>
+<td>KML</td>
+<td>Keyhole Markup Language 2.2, an Open Geospatial Consortium (OGC) standard, read by Google Earth and most GIS tools; time-tagged tracks use the Google extension <code>gx:Track</code></td>
+<td><a href="https://www.ogc.org/standards/kml/">https://www.ogc.org/standards/kml/</a> (schema namespace <code>http://www.opengis.net/kml/2.2</code>; extension namespace <code>http://www.google.com/kml/ext/2.2</code>)</td>
+</tr>
+<tr>
+<td>GeoJSON</td>
+<td>geographic JSON, Internet Engineering Task Force (IETF) Request for Comments (RFC) 7946</td>
+<td><a href="https://www.rfc-editor.org/rfc/rfc7946.html">https://www.rfc-editor.org/rfc/rfc7946.html</a></td>
+</tr>
+<tr>
+<td>STK <code>.e</code></td>
+<td>the ephemeris file of Ansys Systems Tool Kit (STK), time-position-velocity form <code>EphemerisTimePosVel</code></td>
+<td><a href="https://help.agi.com/stk/Content/stk/importfiles-02.htm">https://help.agi.com/stk/Content/stk/importfiles-02.htm</a></td>
+</tr>
+<tr>
+<td>SigMF</td>
+<td>Signal Metadata Format: a JSON metadata file and a raw file of complex in-phase and quadrature (IQ) samples</td>
+<td><a href="https://sigmf.org/">https://sigmf.org/</a></td>
+</tr>
+</tbody></table></div>
+<h2 id="what-each-file-holds">What each file holds<a class="anchor" href="#what-each-file-holds" aria-label="Link to this section">#</a></h2>
+<p>Every geospatial format is written from the same scene, so they cannot disagree about
+where anything is. A scene has up to four kinds of object:</p>
+<ul>
+<li><strong>Moving objects</strong> — satellites, and a user platform when it moves — sampled on the
+scenario&#39;s own time grid with the propagators the kind&#39;s run uses.</li>
+<li><strong>Fixed sites</strong> — a receiver, a ground station, a jammer, or the origin of a local
+navigation frame.</li>
+<li><strong>Untimed tracks</strong> — the waypoints a terrain, gravity or combined alternative
+positioning, navigation and timing (PNT) kind flies. These kinds have no time axis, so
+the tracks carry none.</li>
+<li><strong>Jammer footprints</strong> — for the <code>jamming</code> kind, two circles about the jammer: the
+ground range inside which a satellite at the zenith (the strongest) falls below the
+tracking threshold, so every satellite is lost, and the range inside which a satellite
+at the elevation mask (the weakest) does, so tracking starts to fail. Both come from
+the kind&#39;s own link equations (Kaplan and Hegarty, <em>Understanding GPS/GNSS</em> (Global Positioning System / Global
+Navigation Satellite Systems), 3rd ed.,
+§9.4) with the jammer at the receiver&#39;s horizon and free-space loss, and the test
+suite checks that the effective carrier-to-noise density ratio at each radius equals
+the threshold to 1e-6 dB. The circle is drawn on a sphere of the Earth&#39;s mean radius.</li>
+</ul>
+<h3 id="czml">CZML<a class="anchor" href="#czml" aria-label="Link to this section">#</a></h3>
+<p>The first packet is the document packet (<code>&quot;id&quot;: &quot;document&quot;</code>, <code>&quot;version&quot;: &quot;1.0&quot;</code>) with a
+clock spanning the time grid. Each moving object is a packet whose <code>position</code> has an
+ISO 8601 (International Organization for Standardization date and time format) UTC
+(Coordinated Universal Time) <code>epoch</code>, <code>referenceFrame</code> <code>&quot;INERTIAL&quot;</code>, and <code>cartesian</code>
+samples <code>[t, x, y, z, ...]</code>: seconds after the epoch, metres in the Geocentric Celestial
+Reference System (GCRS). CesiumJS takes <code>INERTIAL</code> as the International Celestial
+Reference Frame (ICRF), whose axes the GCRS shares. Fixed sites and footprint centres are
+constant Earth-fixed <code>cartesian</code> positions with <code>referenceFrame</code> <code>&quot;FIXED&quot;</code>. A footprint is
+an <code>ellipse</code> with both semi-axes equal to its radius; an untimed track a ground-clamped
+<code>polyline</code>. Each packet&#39;s <code>description</code> states the frame again in words.</p>
+<h3 id="kml">KML<a class="anchor" href="#kml" aria-label="Link to this section">#</a></h3>
+<p>One <code>&lt;Document&gt;</code> with a <code>&lt;Folder&gt;</code> per object class. A moving object is a <code>&lt;Placemark&gt;</code>
+holding a <code>&lt;gx:Track&gt;</code>: one <code>&lt;when&gt;</code> per sample (ISO 8601 UTC), then one <code>&lt;gx:coord&gt;</code> per
+sample (longitude, latitude, height). Sites are <code>&lt;Point&gt;</code>s, footprints <code>&lt;Polygon&gt;</code>s whose
+ring is closed and counter-clockwise, untimed tracks <code>&lt;LineString&gt;</code>s. Coordinates are
+World Geodetic System 1984 (WGS 84) longitude and latitude in decimal degrees and height
+in metres above the WGS 84 ellipsoid, written with <code>altitudeMode</code> <code>absolute</code>. KML reads
+<code>absolute</code> as height above mean sea level; the difference, the geoid undulation, is
+within about ±110 m and is not applied. The document&#39;s description says so.</p>
+<h3 id="geojson">GeoJSON<a class="anchor" href="#geojson" aria-label="Link to this section">#</a></h3>
+<p>One <code>FeatureCollection</code>. Positions are <code>[longitude, latitude]</code> or
+<code>[longitude, latitude, height]</code> — longitude first, as RFC 7946 requires — in WGS 84
+degrees, with height in metres above the ellipsoid. A moving object is a <code>LineString</code>
+with a <code>times_utc</code> property holding one ISO 8601 time per position; a track that crosses
+the 180° meridian is written as a <code>MultiLineString</code> cut there, as RFC 7946 §3.1.9 asks
+(the crossing point is interpolated, and <code>times_utc</code> then lists the original samples
+only). Sites are <code>Point</code>s, footprints <code>Polygon</code>s with a closed counter-clockwise
+exterior ring (§3.1.6), untimed tracks <code>LineString</code>s. Every feature has a <code>units</code>
+property naming the unit of each numeric member.</p>
+<h3 id="stk-e">STK <code>.e</code><a class="anchor" href="#stk-e" aria-label="Link to this section">#</a></h3>
+<p>One file per moving object, since an STK ephemeris describes one vehicle. The header
+gives <code>NumberOfEphemerisPoints</code> (equal to the number of data rows), <code>ScenarioEpoch</code> (UTC,
+<code>d Mon yyyy hh:mm:ss.ssssss</code>), <code>InterpolationMethod Lagrange</code> with
+<code>InterpolationSamplesM1 5</code>, <code>CentralBody Earth</code>, <code>CoordinateSystem ICRF</code> and
+<code>DistanceUnit Meters</code>; the rows under <code>EphemerisTimePosVel</code> are seconds after the epoch,
+position in metres and velocity in metres per second, in the GCRS. A scene with only fixed
+sites or untimed tracks writes no <code>.e</code> file: a fixed point is an STK Facility, not an
+ephemeris. An id that is not a plain file-name part (a constellation shell and a satellite,
+<code>Pulsar inclined/S1-0163</code>) is written with every other character as <code>-</code>, numbered if two
+ids then coincide.</p>
+<p>The <code>leo-pass</code> kind and the <code>leo-pnt-chain</code> kind (through its <code>[pass]</code> stage) export every
+low Earth orbit (LEO) satellite and the user from the kind&#39;s own propagators and time grid.
+The kind works in ECI0, the Earth-centred inertial frame aligned with the Earth-fixed frame
+at the epoch; each sample is turned into the Earth-fixed frame at its own time by the kind&#39;s
+Earth rotation and from there into the GCRS through the true equator, mean equinox (TEME)
+frame that the Simplified General Perturbations 4 (SGP4) propagator outputs in, at that
+instant, with UT1 (Universal Time, the Earth-rotation angle) taken equal to UTC and polar
+motion neglected, as for the other exports. The other LEO
+kinds state why a format does not apply (the table below).</p>
+<h3 id="campaigns">Campaigns<a class="anchor" href="#campaigns" aria-label="Link to this section">#</a></h3>
+<p>A <code>campaign</code> exports each member scenario that has geometry as its own file set, the
+member&#39;s label inserted before the format suffix: every phase run (<code>&lt;phase&gt;</code>, or
+<code>&lt;phase&gt;-&lt;k&gt;</code> when the phase has several runs), the sweep&#39;s base scenario (<code>sweep</code>), the
+Monte Carlo scenario (<code>monte-carlo</code>) and each composed member (its label, with the shared
+values it binds written in). <code>campaign-shared-jammer-sea-road.toml --export kml</code> writes
+<code>campaign-shared-jammer-sea-road.ship-strait.kml</code> and
+<code>campaign-shared-jammer-sea-road.car-coast-road.kml</code>. A member identical to an earlier one
+is written once, and values a campaign applies at run time (hand-offs, sweep values, seeds)
+are not in the exported member. A format applies to a campaign when it applies to any
+member; otherwise the reason is note 4 of the table below. See
+<a href="campaigns.html#exports">CAMPAIGNS.md</a>.</p>
+<h3 id="sigmf">SigMF<a class="anchor" href="#sigmf" aria-label="Link to this section">#</a></h3>
+<p>The <code>spectrum</code> kind&#39;s <code>[iq]</code> snapshot — the modelled L band drawn as complex samples at
+one instant — as a <code>.sigmf-meta</code> / <code>.sigmf-data</code> pair, in the data type <code>[iq]</code> names
+(<code>cf32_le</code> or <code>ci16_le</code>). It is the same recording the run writes and reads back for its
+own consistency check: the exported metadata equals the <code>iq.sigmf.meta</code> block of the
+result document, and the data file has the <code>iq.sigmf.data_bytes</code> length. The writer is
+<code>src/sigmf.rs</code>, the module the <code>spectrum</code> kind already used; nothing is duplicated.</p>
+<h2 id="frames-and-time">Frames and time<a class="anchor" href="#frames-and-time" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The engine propagates in TEME (true equator, mean equinox of date), its native frame.
+Moving objects are rotated to the GCRS by the <code>nutation::teme_to_gcrs</code> reduction
+(IAU 2006 precession and IAU 2000B nutation, where IAU is the International
+Astronomical Union), which reproduces Vallado&#39;s published TEME-to-GCRF (Geocentric
+Celestial Reference Frame) example to 0.11 m, for CZML and STK, and to the Earth-fixed
+frame by <code>frames::teme_to_ecef</code> for KML and GeoJSON. The Earth-fixed rotation is the
+Greenwich mean sidereal angle with UT1 taken equal to UTC and polar motion not applied —
+the same reduction the SP3 (Standard Product 3) export uses. At a GPS orbit radius the
+neglected UT1−UTC of up to 0.9 s moves a satellite&#39;s longitude by up to about 1.7 km;
+ground sites are unaffected, since they are given in latitude and longitude.</li>
+<li>The <code>ephemeris</code> kind is the exception: its engine output already carries GCRS and
+Earth-fixed positions (with the scenario&#39;s UT1−UTC and polar motion, or a real
+International Earth Rotation and Reference Systems Service (IERS) series), and those
+are written unchanged.</li>
+<li>Every time is UTC. Leap seconds are not modelled: an offset across a leap second is
+counted as if every day had 86 400 s, as the engine&#39;s time grids count.</li>
+<li>The epoch of <code>t = 0</code> is the one the kind&#39;s run uses, and each file names it:
+the <code>orbit</code> kind&#39;s <code>epoch</code>; when it is absent, the earliest epoch the satellites&#39; own
+data carry (a two-line element set (TLE) epoch, a broadcast ephemeris&#39;s reference time, an SP3 file&#39;s start),
+and 2000-01-01T00:00:00Z only when no satellite carries one (Keplerian elements). The
+SP3 and OEM (Orbit Ephemeris Message) exports keep 2000-01-01T00:00:00Z for a scenario
+without an <code>epoch</code>, so for such a scenario their dates differ from these files&#39;. With
+no scenario <code>epoch</code>, each satellite that carries its own epoch is rotated into the GCRS
+and Earth-fixed frames at its own instant (its epoch plus <code>t</code>), since that is the date
+its TEME position belongs to; where the satellites&#39; epochs differ, the shared time tags
+follow the engine&#39;s premise that every satellite starts at <code>t = 0</code>, and the file says
+by how many hours they differ. The SGP4
+element epoch of the <code>jamming</code> and <code>gnss-sim</code> kinds&#39; Walker constellations
+(2018-06-12T00:00:00Z), which their runs also use for the Earth rotation; the
+<code>passes</code> kind&#39;s <code>epoch</code>; the <code>ephemeris</code> kind&#39;s <code>epoch</code> or TLE
+epoch. The <code>integrity</code> kind has no calendar epoch; its export dates <code>t = 0</code> as for an
+orbit scenario without one.</li>
+<li>Satellites keep the positional identifiers <code>G01</code>, <code>G02</code>, ... the SP3 and OEM exports
+give them, because the propagators do not carry the TLE name lines.</li>
+</ul>
+<h2 id="imports">Imports<a class="anchor" href="#imports" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><strong>GeoJSON route.</strong> <code>--import-route &lt;file&gt;</code> (library: <code>interop::geojson::apply_route</code>)
+reads the first <code>LineString</code> of a GeoJSON document — a bare geometry, a <code>Feature</code>, or a
+<code>FeatureCollection</code> — and writes it into the track inputs of <code>terrain-nav</code>,
+<code>terrain-slam</code>, <code>gravity-map</code> and <code>combined-altpnt</code> (<code>start_lat_deg</code>, <code>start_lon_deg</code>,
+<code>step_lat_deg</code>, <code>step_lon_deg</code>, <code>waypoints</code>) before the run. Those kinds fly
+<code>start + i·step</code>, so a route is accepted when it is exactly that: its two ends (the
+scenario&#39;s <code>waypoints</code> count is kept), or three or more positions evenly spaced on a
+straight line in latitude and longitude, to within 1e-7 degree (about 1 cm). Any other
+route is refused and the error names the position furthest off the line. A route for a
+kind with no trajectory input is refused with that reason. Longitude and latitude are
+range-checked, which catches a latitude-first file.</li>
+<li><strong>SigMF recording.</strong> The <code>spectrum</code> kind&#39;s <code>[recording]</code> block reads a <code>.sigmf-meta</code> /
+<code>.sigmf-data</code> pair through <code>src/sigmf.rs</code> and plots its Welch estimate beside the model
+(see <a href="spectrum.html">SPECTRUM.md</a>). Reading files is a native-build feature; the
+WebAssembly build takes the bytes through <code>kshana::sigmf::read</code>.</li>
+</ul>
+<h2 id="how-the-exports-are-checked">How the exports are checked<a class="anchor" href="#how-the-exports-are-checked" aria-label="Link to this section">#</a></h2>
+<p><code>tests/interop_formats.rs</code> parses every export with a validator written from the
+format&#39;s specification, not with the writer&#39;s own code:</p>
+<ul>
+<li>CZML: a JSON array whose first packet is the document packet with a <code>version</code>; unique
+packet identifiers; every position states <code>referenceFrame</code> <code>FIXED</code> or <code>INERTIAL</code>;
+sampled positions are <code>[t, x, y, z, ...]</code> with an ISO 8601 epoch and increasing times.</li>
+<li>KML: a well-formed XML (Extensible Markup Language) document in the OGC KML 2.2
+namespace with one root feature; the schema&#39;s element order inside a Placemark; at most
+one geometry per Placemark; closed linear rings of four or more positions;
+<code>lon,lat[,alt]</code> tuples in range; valid <code>altitudeMode</code> values; <code>styleUrl</code>s that resolve;
+a <code>gx:Track</code> with as many <code>&lt;when&gt;</code> as <code>&lt;gx:coord&gt;</code>, and the extension namespace declared.</li>
+<li>GeoJSON: longitude first and in range, latitude in range, two or three numbers per
+position, line strings of two or more positions, closed counter-clockwise exterior
+rings, no segment across the 180° meridian, no <code>crs</code> member, a <code>units</code> property on
+every feature.</li>
+<li>STK: the <code>stk.v.</code> version line, a <code>BEGIN Ephemeris</code> / <code>END Ephemeris</code> block with the
+required keywords, <code>DistanceUnit Meters</code>, <code>NumberOfEphemerisPoints</code> equal to the number
+of data rows, seven numbers per row, increasing times.</li>
+<li>SigMF: <code>core:datatype</code> and <code>core:version</code> in <code>global</code>, <code>captures</code> and <code>annotations</code>
+arrays, <code>core:sample_start</code> on every capture, and a data file of whole samples.</li>
+</ul>
+<p>Beyond structure, a satellite exported to CZML and to STK is compared with the engine&#39;s
+own state after the same frame reduction, and agrees to 1 mm in position (the files carry
+0.1 mm): against the <code>ephemeris</code> kind&#39;s own GCRS output, and against an independent
+TEME-to-GCRS propagation of the <code>orbit-sgp4-gps</code> constellation, each satellite dated by
+its own TLE epoch read from the scenario text. Two checks go outside the engine: the first
+<code>orbit-sgp4-gps</code> satellite&#39;s CZML positions agree to 0.1 m (measured 2.3 cm) with the same
+TLE propagated by the <code>sgp4</code> Python package and reduced to the GCRS by ERFA (Essential
+Routines for Fundamental Astronomy, the open implementation of the IAU&#39;s SOFA library),
+and the <code>orbit-rinex</code> satellites&#39; Earth-fixed positions equal the broadcast-ephemeris
+positions of the Global Positioning System interface specification to 1 mm. The <code>jamming</code> export&#39;s
+Earth-fixed positions are compared with the positions the jamming run scores, to 5 mm.
+The GeoJSON route round-trips through a track scenario, the SigMF pair reads back to the
+same bytes, and every export is byte-deterministic.</p>
+<p>These are checks against the published specifications and against the engine itself.
+The files have not been loaded into CesiumJS, Google Earth, Ansys STK or an SDR tool as
+part of the test suite, so acceptance by a particular version of those tools is not
+tested here.</p>
+<h2 id="limitations">Limitations<a class="anchor" href="#limitations" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>Only the kinds in the table below export geometry. Kinds whose geometry is centred on
+the Moon, Mars or another body are not exported: CZML, KML and GeoJSON describe
+positions about the Earth, and this release writes STK files with <code>CentralBody Earth</code>
+only, although the STK format itself allows other central bodies.</li>
+<li><code>constellation-design</code>, <code>earth-gnss-lunar</code> and <code>oem-interop</code> have Earth-referenced
+geometry that this release does not export; the table gives the reason for each.</li>
+<li>The <code>gnss-ins</code> kind flies its trajectory in a flat local tangent plane, so only the
+plane&#39;s origin is exported, not the trajectory.</li>
+<li>Earth-fixed satellite positions neglect UT1−UTC and polar motion (see Frames and time);
+KML heights are ellipsoidal, not above mean sea level.</li>
+<li>Footprints assume free-space propagation, a jammer at the receiver&#39;s horizon and a
+spherical Earth for the circle.</li>
+</ul>
+<h2 id="every-scenario-file">Every scenario file<a class="anchor" href="#every-scenario-file" aria-label="Link to this section">#</a></h2>
+<p>What <code>kshana &lt;scenario&gt; --export &lt;format&gt;</code> does for each file in <code>scenarios/</code> (the suite
+manifest is not a scenario and is left out). &quot;yes&quot; means the format is written and
+passes its validator; otherwise the number points to the reason. Generated by
+<code>cargo run --bin gen_validation_artifacts</code>; <code>tests/interop_formats.rs</code> fails when it is
+stale.</p>
+<!-- interop-table:start -->
+<div class="tbl"><table><thead><tr>
+<th>Scenario</th>
+<th>Kind</th>
+<th>CZML</th>
+<th>KML</th>
+<th>GeoJSON</th>
+<th>STK <code>.e</code></th>
+<th>SigMF</th>
+</tr>
+</thead><tbody><tr>
+<td><code>aperture-duty-cycle.toml</code></td>
+<td><code>aperture-duty-cycle</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>araim-gps-galileo.toml</code></td>
+<td><code>integrity</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>araim-reference-check.toml</code></td>
+<td><code>araim-reference-check</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>attitude-budget.toml</code></td>
+<td><code>attitude-budget</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>automotive-urban-canyon.toml</code></td>
+<td><code>gnss-ins</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>campaign-jam-spoof-holdover-integrity.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>campaign-monte-carlo-clock-holdover.toml</code></td>
+<td><code>campaign</code></td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>campaign-shared-jammer-sea-road.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>campaign-spectrum-holdover-integrity.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>campaign-sweep-jammer-power.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>celeste-iod-classical-pilot-signals.toml</code></td>
+<td><code>leo-signal</code></td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>celeste-iod-end-to-end.toml</code></td>
+<td><code>leo-pnt-chain</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>celeste-iod-fused-pvt.toml</code></td>
+<td><code>leo-pvt</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>cislunar-arc-recovery.toml</code></td>
+<td><code>cislunar-arc-recovery</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>cislunar-observability.toml</code></td>
+<td><code>cislunar-observability</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>clock-ensemble.toml</code></td>
+<td><code>clock</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>clock-holdover-labsr.toml</code></td>
+<td><code>clock</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>clock-holdover.toml</code></td>
+<td><code>clock</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>combined-altpnt.toml</code></td>
+<td><code>combined-altpnt</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>conflict-resilience.toml</code></td>
+<td><code>conflict-resilience</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>constellation-multi-gnss-coverage.toml</code></td>
+<td><code>constellation-design</code></td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>earth-gnss-lunar.toml</code></td>
+<td><code>earth-gnss-lunar</code></td>
+<td>no [9]</td>
+<td>no [9]</td>
+<td>no [9]</td>
+<td>no [9]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>eo-coverage.toml</code></td>
+<td><code>eo-coverage</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>ephemeris.toml</code></td>
+<td><code>ephemeris</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>europa-surface-pnt.toml</code></td>
+<td><code>body-pnt</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>fusion-pnt.toml</code></td>
+<td><code>fusion</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>gnss-ins.toml</code></td>
+<td><code>gnss-ins</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>gnss-sim-raim.toml</code></td>
+<td><code>gnss-sim</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>gps-denied-gravity-nav.toml</code></td>
+<td><code>gravity-map</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>gravity-map-nav.toml</code></td>
+<td><code>gravity-map</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>hybrid-optical-rf.toml</code></td>
+<td><code>hybrid-optical-rf</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>hybrid-pnt.toml</code></td>
+<td><code>hybrid</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>hybrid-ukf.toml</code></td>
+<td><code>hybrid-ukf</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>impairment-eval.toml</code></td>
+<td><code>impairment-eval</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>imu-deadreckoning.toml</code></td>
+<td><code>inertial</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>ins-trn-coast.toml</code></td>
+<td><code>ins-trn-coast</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>integrity-raim.toml</code></td>
+<td><code>integrity</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>jamming-demo.toml</code></td>
+<td><code>jamming</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>l-band-waterfall-jamming.toml</code></td>
+<td><code>spectrum</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>yes</td>
+</tr>
+<tr>
+<td><code>launch-window.toml</code></td>
+<td><code>launch-window</code></td>
+<td>no [10]</td>
+<td>no [10]</td>
+<td>no [10]</td>
+<td>no [10]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-band-trade.toml</code></td>
+<td><code>leo-signal</code></td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-doppler-positioning.toml</code></td>
+<td><code>leo-pvt</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-focus-data-services.toml</code></td>
+<td><code>campaign</code></td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-focus-fused-pnt-sisre.toml</code></td>
+<td><code>campaign</code></td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-focus-indoor-uhf.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-focus-iot-eirp.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-focus-ntn-bandwidth.toml</code></td>
+<td><code>campaign</code></td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-focus-ppp-altitude.toml</code></td>
+<td><code>campaign</code></td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-focus-science-iono-sounding.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-indoor-uhf.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-iot-energy.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-navmsg-celeste-iod.toml</code></td>
+<td><code>leo-navmsg</code></td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-navmsg-encode-decode.toml</code></td>
+<td><code>leo-navmsg</code></td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-navmsg-fit-interval-trade.toml</code></td>
+<td><code>leo-navmsg</code></td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-navmsg-midpass-update.toml</code></td>
+<td><code>leo-navmsg</code></td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-navmsg-model-comparison.toml</code></td>
+<td><code>leo-navmsg</code></td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [11]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-pass-celeste-iod-multiband.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-pass-iridium.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-pass-vs-gnss-cn0.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-pass-xona-pulsar.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-pnt-end-to-end.toml</code></td>
+<td><code>leo-pnt-chain</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-pnt-mega-shell.toml</code></td>
+<td><code>constellation-design</code></td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-ppp-convergence.toml</code></td>
+<td><code>leo-ppp</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-resilience-gnss-jammed-leo-carries.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-resilience-js-margin.toml</code></td>
+<td><code>spectrum</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [12]</td>
+</tr>
+<tr>
+<td><code>leo-resilience-multiband-diversity.toml</code></td>
+<td><code>campaign</code></td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-resilience-spoof-doppler.toml</code></td>
+<td><code>leo-pass</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-resilience-spoof-monitors.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-timing-utc.toml</code></td>
+<td><code>leo-pvt</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>leo-vertical-5g-network-timing.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-vertical-asset-tracking-iot.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-vertical-autonomous-vehicle.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-vertical-critical-infrastructure-timing.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-vertical-polar-arctic.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>leo-vertical-rail-maritime.toml</code></td>
+<td><code>campaign</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [4]</td>
+</tr>
+<tr>
+<td><code>link-budget.toml</code></td>
+<td><code>link-budget</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunanet-araim.toml</code></td>
+<td><code>lunar-integrity</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-attack-surface.toml</code></td>
+<td><code>lunar-attack-surface</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-beacon.toml</code></td>
+<td><code>lunar-beacon</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-differential-pnt.toml</code></td>
+<td><code>lunar-differential-pnt</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-frame-campaign.toml</code></td>
+<td><code>lunar-frame-campaign</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-frame-realisation.toml</code></td>
+<td><code>lunar-frame-realisation</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-interop-export.toml</code></td>
+<td><code>lunar-interop-export</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-jamming.toml</code></td>
+<td><code>lunar-jamming</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-joint-od-clock.toml</code></td>
+<td><code>lunar-joint-od-clock</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-llr-datum.toml</code></td>
+<td><code>lunar-llr-datum</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-relay-constellation.toml</code></td>
+<td><code>constellation-design</code></td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [8]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-time-budget.toml</code></td>
+<td><code>lunar-time-budget</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-time-offset.toml</code></td>
+<td><code>lunar-time-offset</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-vlbi-fim.toml</code></td>
+<td><code>lunar-vlbi-fim</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>lunar-vlbi.toml</code></td>
+<td><code>lunar-vlbi</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>maritime-port-approach-coast.toml</code></td>
+<td><code>ins-trn-coast</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>maritime-spoof-position-push.toml</code></td>
+<td><code>spoof-detect</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>maritime-strait-jamming.toml</code></td>
+<td><code>jamming</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>mars-orbit-pnt.toml</code></td>
+<td><code>body-pnt</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>mars-pnt-lmo.toml</code></td>
+<td><code>mars-pnt</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>mars-pnt-surface.toml</code></td>
+<td><code>mars-pnt</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>mars-pnt-transfer.toml</code></td>
+<td><code>mars-pnt</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>meo-leo-fused-pvt.toml</code></td>
+<td><code>leo-pvt</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>moonlight-service-volume.toml</code></td>
+<td><code>moonlight-service-volume</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>multi-band-jamming-waterfall.toml</code></td>
+<td><code>spectrum</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [12]</td>
+</tr>
+<tr>
+<td><code>ntn-5g-positioning.toml</code></td>
+<td><code>ntn-positioning</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>oem-interop.toml</code></td>
+<td><code>oem-interop</code></td>
+<td>no [13]</td>
+<td>no [13]</td>
+<td>no [13]</td>
+<td>no [13]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>orbit-gnss-challenged.toml</code></td>
+<td><code>orbit</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>orbit-molniya.toml</code></td>
+<td><code>orbit</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>orbit-multignss.toml</code></td>
+<td><code>orbit</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>orbit-real-tle.toml</code></td>
+<td><code>orbit</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>orbit-rinex.toml</code></td>
+<td><code>orbit</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>orbit-sgp4-gps.toml</code></td>
+<td><code>orbit</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>passes.toml</code></td>
+<td><code>passes</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>polar-arctic-leo-coverage.toml</code></td>
+<td><code>leo-pvt</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>pvt-abmf.toml</code></td>
+<td><code>pvt</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>quantum-anomaly-detect.toml</code></td>
+<td><code>quantum-anomaly-detect</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>quantum-gnss-free-nav.toml</code></td>
+<td><code>quantum-gnss-free-nav</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>quantum-time-transfer.toml</code></td>
+<td><code>quantum-time-transfer</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>quantum-trade.toml</code></td>
+<td><code>quantum-trade</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>rail-tunnel-coast.toml</code></td>
+<td><code>ins-trn-coast</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>realtime-frame-eop.toml</code></td>
+<td><code>realtime-frame-eop</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>reentry.toml</code></td>
+<td><code>reentry</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>slot-timing-ocxo-leo.toml</code></td>
+<td><code>slot-timing</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>small-uas-jammed-nav.toml</code></td>
+<td><code>gnss-ins</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>solar-system-tour.toml</code></td>
+<td><code>solar-system</code></td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [7]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>space-packet.toml</code></td>
+<td><code>space-packet</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>space-weather.toml</code></td>
+<td><code>space-weather</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>spoof-attack.toml</code></td>
+<td><code>spoof</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>spoof-detect.toml</code></td>
+<td><code>spoof-detect</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>spoof-meaconing.toml</code></td>
+<td><code>spoof</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>starlink-sop-doppler-positioning.toml</code></td>
+<td><code>leo-pvt</code></td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [6]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>sweep-clock-stability.toml</code></td>
+<td><code>sweep</code></td>
+<td>no [14]</td>
+<td>no [14]</td>
+<td>no [14]</td>
+<td>no [14]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>sweep-nd-inertial.toml</code></td>
+<td><code>sweep-nd</code></td>
+<td>no [14]</td>
+<td>no [14]</td>
+<td>no [14]</td>
+<td>no [14]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>telecom-prtc-holdover-24h.toml</code></td>
+<td><code>telecom-timing</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>telecom-tie-ingest.toml</code></td>
+<td><code>telecom-timing</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>terrain-nav.toml</code></td>
+<td><code>terrain-nav</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>terrain-slam.toml</code></td>
+<td><code>terrain-slam</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [3]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>timetransfer.toml</code></td>
+<td><code>timetransfer</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>tracking-loop.toml</code></td>
+<td><code>tracking-loop</code></td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [1]</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>xona-pulsar-end-to-end.toml</code></td>
+<td><code>leo-pnt-chain</code></td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>yes</td>
+<td>no [2]</td>
+</tr>
+<tr>
+<td><code>xona-pulsar-signals.toml</code></td>
+<td><code>leo-signal</code></td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [5]</td>
+<td>no [2]</td>
+</tr>
+</tbody></table></div>
+<p>Why a format does not apply:</p>
+<ol>
+<li>the scenario input carries no horizontal position (no latitude and longitude, no Earth-centred coordinates, no orbital elements beyond at most an altitude), so there is nothing to place on the Earth</li>
+<li>SigMF holds complex baseband samples, which only the <code>spectrum</code> kind synthesises</li>
+<li>an STK ephemeris describes a vehicle&#39;s position and velocity against time; this scene has only fixed points or untimed tracks (a fixed point is an STK Facility, not an ephemeris)</li>
+<li>no member scenario of the campaign has anything this format describes; export a member on its own to see its reason</li>
+<li>the <code>leo-signal</code> kind analyses signal designs (spectra, tracking, acquisition, compatibility) with no satellite or user position; export the <code>leo-pass</code> or <code>leo-pnt-chain</code> scenario that flies the design</li>
+<li>not exported in this release: the fused positioning kinds place their satellites in an Earth-fixed frame relative to an epoch they never name, so a time-tagged export would have to invent the calendar date (export the <code>leo-pass</code> or <code>leo-pnt-chain</code> scenario instead)</li>
+<li>the kind&#39;s geometry is centred on the Moon, Mars or another solar-system body; CZML, KML and GeoJSON describe positions on or about the Earth, and this release writes STK ephemerides with CentralBody Earth only</li>
+<li>not exported in this release: <code>constellation-design</code> places its satellites in a body-fixed frame relative to an epoch it never names, so a time-tagged export would have to invent the calendar date</li>
+<li>not exported in this release: the Earth Global Navigation Satellite System (GNSS) constellation of <code>earth-gnss-lunar</code> is seen from a receiver at lunar distance, whose trajectory the kind does not expose as a time series</li>
+<li>the <code>launch-window</code> scenario gives the launch site&#39;s latitude but no
+     longitude, so the site cannot be placed</li>
+<li>not exported in this release: the <code>leo-navmsg</code> truth orbit is a fitting reference whose Earth rotation angle at the epoch is an input (<code>theta0_deg</code>, default 0), not derived from the calendar date, so its Earth-fixed positions are not tied to a date</li>
+<li>this spectrum scenario has no [iq] block, so no samples are synthesised to record</li>
+<li>not exported in this release: <code>oem-interop</code> reads and writes a CCSDS (Consultative Committee for Space Data Systems) Orbit Ephemeris Message, which is itself the ephemeris interchange file</li>
+<li>the scenario sweeps another scenario over a grid; export the swept scenario on its own<!-- interop-table:end --></li>
+</ol>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="animation.html"><small>Previous</small>Animation export</a><a class="next" href="validation.html"><small>Next</small>Validation status</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#formats">Formats</a><a class="l2" href="#what-each-file-holds">What each file holds</a><a class="l3" href="#czml">CZML</a><a class="l3" href="#kml">KML</a><a class="l3" href="#geojson">GeoJSON</a><a class="l3" href="#stk-e">STK .e</a><a class="l3" href="#campaigns">Campaigns</a><a class="l3" href="#sigmf">SigMF</a><a class="l2" href="#frames-and-time">Frames and time</a><a class="l2" href="#imports">Imports</a><a class="l2" href="#how-the-exports-are-checked">How the exports are checked</a><a class="l2" href="#limitations">Limitations</a><a class="l2" href="#every-scenario-file">Every scenario file</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>
