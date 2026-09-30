@@ -9,13 +9,18 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-## [0.29.0] - 2026-09-30
+## [0.29.0] - 2026-10-01
 
 Twelve new scenario kinds and three new ways to read a run. The engine now covers the
 radio spectrum, the whole solar system, constellations around any body, campaigns that
 chain scenarios into one mission, and positioning, navigation and timing (PNT) from low
 Earth orbit (LEO) from the signal to the fix. Every run can also be written as an
 animation, a full report and a set of interoperability files for other tools.
+
+Around the engine: a redesigned kshana.dev (a multi-page site, and a new Kshana Studio
+dashboard that runs every capability in the browser), a rewritten README, fourteen tools
+on the Model Context Protocol (MCP) server, a browser build that gives the same numbers as
+the native one, and a public page for Kshana Pro.
 
 | | 0.28.0 | 0.29.0 |
 | --- | --- | --- |
@@ -169,6 +174,21 @@ documentation.
   columns. The new interoperability exports use the corrected chain: the first
   `orbit-sgp4-gps` satellite's CZML position agrees with an ERFA reduction of the same TLE
   (propagated by the `sgp4` Python package) to 2.3 cm.
+- **The `leo-navmsg` kind, natively and in the browser build.** The kind now computes
+  every transcendental through one portable mathematics library, so its frame is the same
+  bytes on every platform and in every build (under Fixed). Every `leo-navmsg` figure moves
+  with it, and the `navmsg` stage of `leo-pnt-chain`. The kind is new in this release, so
+  nothing from an earlier release moves, but figures printed before the fix do:
+  `docs/LEO-NAVMSG.md`'s check value for the encode-and-decode scenario was `0x110315` and
+  is `0x19105F`, and its decoded-message SISRE is 0.129 cm. On kshana.dev, the Missions card
+  for `leo-navmsg-fit-interval-trade` showed a worst range error of 1.6 mm with a 60 s fit
+  and 40.3 mm with a 900 s fit; the site is now built from this release's engine and shows
+  1.8 mm and 46.6 mm.
+- **Seeded resampling in the WebAssembly (WASM) package.** The browser build drew other
+  bootstrap and shuffle indices than the native build from the same seed (under Fixed).
+  The `quantum-anomaly-detect` interval of the area under the curve in the browser was
+  `[0.9901265, 0.9938305]` and is now the native `[0.99035875, 0.993861]`. No native
+  number moves.
 
 #### Figures printed in the documentation
 
@@ -765,6 +785,46 @@ had misread, mis-rounded or outlived it.
   non-terrestrial-network and end-to-end kinds.
   Every surface that states the MCP tool count or lists the tools now says fourteen,
   except the playground page under `web/`, which is replaced with the site.
+
+#### kshana.dev, Kshana Studio and the README
+
+- **A redesigned kshana.dev.** The single playground page is replaced by a multi-page
+  site: Home, Missions, Capabilities, Evidence, Developers, Editions and Docs, with Kshana
+  Studio one click away. Every chart, map and number on it is a recorded run of this
+  release's engine, with the scenario and a link that reopens the same run in the Studio;
+  the site build refuses a recording made by another engine commit. The documentation
+  pages are generated from the repository's `docs/`, and the install options from its
+  channels. Fonts and script libraries are served from kshana.dev itself, so no page
+  requests anything from a third-party host. Old addresses (`/#playground`, `/#ledger`,
+  `/#s=<scenario>` share links, `/?embed=1&…` embed links and the rest) redirect to their
+  new place, and an unknown address gets a 404 page.
+- **Kshana Studio, a dashboard for every capability.** The Studio opens on a start screen
+  with domain tiles and good first runs, then takes a run through five numbered steps:
+  Choose a scenario, Set its parameters, Run the engine locally in the browser, Read the
+  results (key figures first, each with a PASS or FAIL chip where the run states a
+  threshold, then the panels) and Share or export. One search box finds scenarios, domains
+  and the fields inside them and jumps to the control; runs can be pinned and compared;
+  a breadcrumb says where you are; on a phone the steps become a step bar. Every scenario
+  kind has its view, including the spectrum waterfall, the solar system, constellation
+  coverage, campaigns, the animation, the run report, the interoperability exports and the
+  low Earth orbit chain. A deep link (`?scenario=…&tab=…`) opens the same run on the named
+  panel.
+- **Research and citation.** The Evidence page lists the five Kshana papers on arXiv
+  (2606.22054, 2606.24210, 2607.02566, 2607.05415 and 2607.06212), each with a summary,
+  a figure computed by this engine, the command that reproduces it, a Studio link and
+  BibTeX, beside how to cite the software. The README gains the same Research section.
+- **A public page for Kshana Pro.** `docs/PRO.md` and the site's Editions page say what
+  the proprietary Pro overlay adds over the same engine (design optimiser, uncertainty and
+  sensitivity, mission dossier, campaign watch, spectrum coexistence, on-premises job
+  service, requirements traceability), what each produces and what it does not do. Every
+  Pro figure the site shows is stated in that public page. Pro adds no physical model, and
+  the open engine stays whole and free.
+- **A rewritten README.** Short sections, one image per section, the Kshana mark, two
+  badge rows, generated architecture, scenario-flow, low-Earth-orbit-chain and
+  verification images (`tools/gen_readme_assets.py`, which fails on a stale image), and
+  Studio screenshots taken from the running Studio by `tools/capture_studio_shots.mjs`.
+  The crates.io, PyPI, npm and MCP server READMEs follow the same design. Long reference
+  material is folded or moved to `docs/`.
 
 ### Changed
 
