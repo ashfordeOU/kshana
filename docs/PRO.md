@@ -26,8 +26,11 @@ Abbreviations used on this page, in full:
 | HTML | HyperText Markup Language |
 | HTTP | Hypertext Transfer Protocol |
 | JSON | JavaScript Object Notation |
+| km | kilometre |
+| min | minute |
 | MBSE | model-based systems engineering |
 | NSGA-II | non-dominated sorting genetic algorithm II |
+| ns | nanosecond |
 | PDF | Portable Document Format |
 | PNT | positioning, navigation and timing |
 | ReqIF | Requirements Interchange Format |
@@ -50,10 +53,14 @@ Abbreviations used on this page, in full:
 - **Reproducible in the free engine.** The design optimiser, the mission dossier and the
   study dossier write out the scenario files they ran, with their hashes. Anyone with open
   Kshana can re-run one and get the same figure.
-- **Honest labels carried through.** Every Pro output is labelled MODELLED, and every
-  figure keeps the tier the open engine gave it (VALIDATED, MODELLED or PARTNER, see the
-  [verification matrix](VERIFICATION-MATRIX.md)), never a higher one. An input whose
-  uncertainty is assumed rather than sourced is printed as ASSUMED on every output.
+- **Honest labels carried through.** Every Pro result is labelled MODELLED: the result
+  document of each Pro scenario kind, and of each command on this page, carries a label
+  that starts with MODELLED. Files that hold no computed figure carry no label: imported
+  requirement lists, the SysML v2 model text, manifests, ledgers, checkpoints and job
+  lists. Every figure keeps the tier the open engine gave it (VALIDATED, MODELLED or
+  PARTNER, see the [verification matrix](VERIFICATION-MATRIX.md)), never a higher one. An
+  input whose uncertainty is assumed rather than sourced is printed as ASSUMED on the
+  uncertainty study's result, charts and report.
 
 ## What Pro answers
 
@@ -73,7 +80,17 @@ Abbreviations used on this page, in full:
 | Can the team run it on its own network? | [On-premises service](#on-premises-service) | a small HTTP service in front of the engine and the Pro features |
 
 The numbers below come from real runs of the worked examples that ship with Pro. Each one
-is a modelled result of an illustrative study, not a statement about any real mission.
+is a modelled result of an illustrative study, not a statement about any real mission. The
+design, uncertainty and mission-dossier examples were run with Pro 0.1.0, a development
+build, on open engine 0.28.0. Each design and uncertainty result records a digest of its
+runs: the SHA-256 over the SHA-256 of every run's result document, in order.
+
+| Worked example | Open-engine runs | Run digest (SHA-256) |
+|---|---|---|
+| Design optimiser, whole Moon | 609 | `df81aad45cce5bc7cfa93485bdebfb947ecd746a858afe32956c4b757f0b0d3f` |
+| Design optimiser, south polar cap | 609 | `53dcc9c44290f737453ca6af04968e8f54bce291783fa788e3bd569ee5fb9c39` |
+| Uncertainty, clock holdover | 2,000 | `159d2e1d37b4443bcb58bc8f068643478cac2c0fb9dc39e02d8ba8b1294d4138` |
+| Sensitivity, low-Earth-orbit positioning chain | 6,144 | `2f2c4572d8dc085df3eca2f552fdca71a77e947cd41fc79278a36925ba417b24` |
 
 ## Design optimiser
 
@@ -94,11 +111,20 @@ where a reference design sits; a chart of the front; a self-contained HTML repor
 each front design as a plain open scenario file, with an index that lists the SHA-256 of
 the result the free engine gives for it.
 
-**Worked example.** A lunar navigation constellation, fewest satellites against
+**Worked examples.** A lunar navigation constellation, fewest satellites against
 availability over the whole Moon: 608 designs, all run, give a front of 12 designs at six
 points, from 8 satellites at 19.5446 % availability to 24 satellites at 100 %, with the
-knee at 16 satellites and 85.0404 %. Re-running front designs in the free engine gave
-results whose SHA-256 equals the one in the index.
+knee at 16 satellites and 85.0404 %. The knee design is 16 satellites in 2 orbital planes
+at 8,000 km altitude and 45° inclination, with phasing 1. The bundled lunar relay design
+(8 + 6 satellites), scored as the reference, reaches 21.3286 % with 14 satellites, and 2
+front designs are at least as good on both objectives and better on one. Scored over the
+south polar cap instead, the same 608 designs give a front of 9 designs at four points,
+from 8 satellites at 24.5261 % to 16 satellites at 100 %, with the knee at 14 satellites
+and 91.6739 % (2 planes at 8,000 km and 75° inclination, phasing 0). There the bundled
+design reaches 96.7241 % with 14 satellites: no front design dominates it, because it lies
+outside the stated design space. Each study made 609 open-engine runs (the 608 designs and
+the reference). Every front design was re-run in the free engine (open Kshana 0.28.0),
+and 12 of 12 and 9 of 9 gave a result whose SHA-256 equals the one in the index.
 
 **What it does not do.** It has no cost model, so a variable no objective penalises drifts
 to the edge of its range. Constellation studies score geometry only: no signal power,
@@ -126,9 +152,27 @@ chart, a self-contained HTML report, and a checkpoint file with one line per fin
 **Worked examples.** An X-band link margin with three assumed input uncertainties: 40,960
 runs give a mean margin of 92.12 dB with a 5th to 95th percentile range of 90.12 to
 94.12 dB, a probability of 0.8198 (95 % interval 0.8114 to 0.8280) that the margin is at
-least 91 dB, and the transmitter's EIRP as the main driver (total Sobol' index 0.669). A
-clock-holdover study stopped after 700 of its 2,000 runs and resumed ended with the same
-six files, byte for byte, as the same study run without a stop.
+least 91 dB, and the transmitter's EIRP as the main driver (total Sobol' index 0.669).
+
+A clock-holdover study (the member scenario of the open campaign
+`campaign-monte-carlo-clock-holdover`) with one assumed input, the clock's
+white-frequency-noise level (`q_wf`), uniform from 4.5e-20 to 2.7e-19 (half to three times
+the datasheet value): at the end of the 60-minute run, 1,366 of 2,000 runs stayed within
+±20 ns, a probability of 0.683 (95 % interval 0.6623 to 0.703). With one input, the
+ranking of inputs is flagged as not reliable. The same study stopped after 700 of its
+2,000 runs and resumed ended with the same six files, byte for byte, as the study run
+without a stop.
+
+A low-Earth-orbit positioning chain (the open `leo-pnt-chain` kind) with four assumed
+input uncertainties, ranked by Sobol' indices: 6,144 runs (1,024 × (4 + 2)). With the
+low-Earth-orbit layer, the fused position error has a mean of 0.4312 m (5th to 95th
+percentile 0.2465 to 0.6041 m), and the orbit and clock error of the low-Earth-orbit
+satellites drives it (total Sobol' index 0.99). With GNSS alone, the position error has a
+mean of 1.6041 m (1.5389 to 1.6739 m), driven by the GPS signal-in-space range error
+(0.68) and the Galileo one (0.32). The peak C/N0 of the pass has a mean of 60.7336 dB-Hz
+(59.0898 to 62.3719 dB-Hz), driven by the transmit power (1.01: a total index is an
+estimate, and its 95 % interval, 0.9467 to 1.0659, contains 1). Every other input's total
+index is below 0.01.
 
 **What it does not do.** Inputs are treated as independent. The result holds only for the
 stated input distributions, which the tool cannot check. More runs narrow the sampling
@@ -159,7 +203,32 @@ SHA-256.
 positioning chain, a lunar relay constellation, the L band under jamming, a jamming,
 spoofing and holdover campaign, and a Mars orbiter) and one trade study: 7 met, all on a
 MODELLED or PARTNER basis, 4 not met, 1 not verified, 15 open items, in a 21-page PDF. The
-re-check repeated the five runs and the trade study and got the same result bytes.
+re-check repeated the five runs and the trade study and got the same result bytes. The
+dossier's SHA-256 is
+`c37799f792d6e47fe78ad57d2a7b91164272c8603b09f443b73206256c4eea03` (Pro 0.1.0, a
+development build, on open engine 0.28.0, with the issue time fixed on the command line).
+The verification matrix, as the dossier checked it (values rounded to four decimals; a
+field written without a unit has the unit 1):
+
+| Requirement | Method | Criterion checked | Value the run wrote | Verdict | Basis |
+|---|---|---|---|---|---|
+| LEO-001 | analysis | `ppp.cases[1].median_convergence_min <= 10 min` | 7.5 min | met | MODELLED |
+| LEO-002 | analysis | `ppp.cases[0].median_convergence_min <= 10 min` | 11.5 min | not met | MODELLED |
+| LEO-003 | test | `fusion.fused.rms_error_3d_m <= 0.5 m` | 0.4349 m | met (stays open: test) | MODELLED |
+| LUN-001 | analysis | `global.availability_pct >= 95 %` | 21.3286 % | not met | MODELLED |
+| LUN-002 | analysis | `global.pdop.median <= 6` | 5.22 | met | MODELLED |
+| SPC-001 | analysis | `timeline.bands[3].min_cn0_dbhz >= 25 dB-Hz` | 44.0752 dB-Hz | met | PARTNER |
+| SPC-002 | analysis | `timeline.bands[0].min_cn0_dbhz >= 25 dB-Hz` | 3.2329 dB-Hz | not met | PARTNER |
+| CMP-001 | analysis | time error at or below the guard at every step | 51.7825 ns against a 50 ns guard at element 214 of the series; 275 of 458 elements within | not met | PARTNER |
+| CMP-002 | demonstration | first campaign event within 30 min | 1,200 s | met (stays open: demonstration) | PARTNER |
+| MARS-001 | analysis | `fom.rms_error_relays_m <= 5 m` | 1.8827 m | met | MODELLED |
+| MARS-002 | analysis | `fom.availability_relays >= 99 %` | 1 (100 %) | met | MODELLED |
+| OPS-001 | inspection | none: verified by hand | no run traced | not verified | none |
+
+The field names are the open engine's own result fields (`ppp` is precise point
+positioning, `rms` root mean square, `pdop` position dilution of precision and `fom`
+figure of merit). The requirement identifiers name what they cover: LEO low Earth orbit,
+LUN lunar, SPC spectrum, CMP campaign, MARS the Mars orbiter and OPS operations.
 
 **What it does not do.** The dossier's hashes prove that its files agree with each other;
 they are not a signature and do not prove who issued it. Simulation evidence counts as
@@ -349,4 +418,4 @@ serves the open engine only and refuses every Pro feature.
 - **Pro is not open source.** It is not part of this repository and is not offered under
   the AGPL-3.0 (GNU Affero General Public License, version 3). See
   [LICENSING.md](../LICENSING.md).
-- **Nothing Pro produces is a certification.** Every output is modelled, and says so.
+- **Nothing Pro produces is a certification.** Every result is modelled, and says so.
