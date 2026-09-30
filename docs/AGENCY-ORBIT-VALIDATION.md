@@ -96,7 +96,7 @@ the noted upgrade that would tighten the *dynamic* tier further.
 
 ### LRO lunar — validated, **above** the 5 m bar (honest) (P4 W4b)
 
-- **Dataset:** the real NASA/JPL (NASA: National Aeronautics and Space Administration; JPL: Jet Propulsion Laboratory) **Lunar Reconnaissance Orbiter** (NAIF (Navigation and Ancillary Information Facility) −85) reconstructed
+- **Dataset:** the real NASA/JPL (NASA: National Aeronautics and Space Administration; JPL: Jet Propulsion Laboratory) **Lunar Reconnaissance Orbiter** (LRO; NAIF (Navigation and Ancillary Information Facility) −85) reconstructed
   trajectory from JPL Horizons, geometric Moon-centred state vectors in the ICRF (International Celestial Reference Frame), 2022-01-01,
   ~98 km altitude, 1-minute sampling (241 epochs, 4 h, ~2 revolutions). Using Horizons text
   vectors needs **no SPK/SPICE (SPK: planetary ephemeris kernel; SPICE: Spacecraft, Planet, Instrument, C-matrix, Events) reader**.

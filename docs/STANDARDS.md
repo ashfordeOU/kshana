@@ -28,7 +28,7 @@ row in [`VERIFICATION-MATRIX.md`](VERIFICATION-MATRIX.md) instead.
 | **IERS (International Earth Rotation and Reference Systems Service) `finals2000A` / Bulletin B** (Earth orientation) | read | [`src/eop.rs`](../src/eop.rs), [`src/frame_eop.rs`](../src/frame_eop.rs) | IERS Conventions; IERS EOP (Earth orientation parameters) 14 C04 / `finals2000A.all` | UT1 (Universal Time 1, Earth-rotation time)−UTC (Coordinated Universal Time) and polar motion from the official product, including the **predicted** rows, so the frame reduction can be run in real time and its prediction-error growth budgeted ([`tests/operational_eop_predictor_reference.rs`](../tests/operational_eop_predictor_reference.rs)). |
 | **KIF** (Kshana Interchange Format) | read **and** write | [`src/interchange.rs`](../src/interchange.rs) | this repository — see [`SCHEMA.md`](SCHEMA.md) | The neutral, versioned envelope every artifact can be wrapped in: `format` / `schema_version` / `kind` / `engine_version` / `payload`, with an explicit major-minor compatibility verdict for a consumer. Not an external standard; documented here because a foreign tool has to recognise it. |
 | **LunaNet / IOAG (Interagency Operations Advisory Group) lunar interchange** | write (time metadata also read) | [`src/lunar_interop.rs`](../src/lunar_interop.rs) | LunaNet interoperability specification / IOAG lunar communications architecture, over CCSDS 502.0 | The lunar frame, lunar time scale and lunar ephemeris emitted in LunaNet/IOAG-aligned CCSDS forms (`export_lunar_oem`, `export_kif_lunar`, `export_lunar_time_metadata`), with a field-conformance check on the emitted OEM ([`tests/lunar_interoperability_export_reference.rs`](../tests/lunar_interoperability_export_reference.rs)). |
-| **CZML** (Cesium Language) | write | [`src/interop/czml.rs`](../src/interop/czml.rs) | CesiumJS CZML packet format | A JSON stream of time-tagged packets for the CesiumJS globe; moving objects written in GCRS (`INERTIAL`). `--export czml` on any kind that places objects on the Earth. |
+| **CZML** (Cesium Language) | write | [`src/interop/czml.rs`](../src/interop/czml.rs) | CesiumJS CZML packet format | A JSON (JavaScript Object Notation) stream of time-tagged packets for the CesiumJS globe; moving objects written in GCRS (`INERTIAL`). `--export czml` on any kind that places objects on the Earth. |
 | **KML** (Keyhole Markup Language) | write | [`src/interop/kml.rs`](../src/interop/kml.rs) | OGC (Open Geospatial Consortium) KML 2.2 | Earth-fixed longitude, latitude and height for Google Earth and GIS (geographic information system) tools. `--export kml`. |
 | **GeoJSON** | write **and** read (route) | [`src/interop/geojson.rs`](../src/interop/geojson.rs) | IETF (Internet Engineering Task Force) RFC 7946 | Earth-fixed geometry for web maps and GIS tools (`--export geojson`); a `LineString` is read back as the straight-track input of the kinds that fly one (`--import-route <route.geojson>`). |
 | **STK ephemeris** (`.e`, `EphemerisTimePosVel`) | write | [`src/interop/stk.rs`](../src/interop/stk.rs) | Ansys STK ephemeris file format | Inertial (`ICRF`) position and velocity for STK and tools that read its ephemeris format. `--export stk`. |
@@ -73,7 +73,7 @@ field, read from a run of `scenarios/orbit-sgp4-gps.toml` with `--export-oem` an
 | OMM mean elements | `MEAN_MOTION / ECCENTRICITY / INCLINATION / RA_OF_ASC_NODE / ARG_OF_PERICENTER / MEAN_ANOMALY / BSTAR` | rev/day, –, deg, 1/Earth radii |
 
 The `ephemeris` kind's result JSON (JavaScript Object Notation) carries the same state in
-SI units per sample: `jd_utc`, `teme_r_m` / `teme_v_m_s`, `gcrs_r_m` / `gcrs_v_m_s`,
+SI (International System of Units) units per sample: `jd_utc`, `teme_r_m` / `teme_v_m_s`, `gcrs_r_m` / `gcrs_v_m_s`,
 `ecef_r_m` (m, m/s), plus `lat_deg`, `lon_deg`, `alt_km`.
 
 ## Honest scope
@@ -89,7 +89,7 @@ SI units per sample: `jd_utc`, `teme_r_m` / `teme_v_m_s`, `gcrs_r_m` / `gcrs_v_m
   catalogue) is tracked separately and is founder-gated.
 - The independent SPICE/ANISE (SPICE: Spacecraft, Planet, Instrument, C-matrix, Events; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit) numerical cross-check of the frame reduction is
   delivered in the standalone, workspace-excluded crate `xval/anise-frames/`:
-  `gcrs_to_itrs_matrix` against ANISE's GCRF→ITRF93 rotation over eight epochs
+  `gcrs_to_itrs_matrix` against ANISE's GCRF (Geocentric Celestial Reference Frame) → ITRF93 (International Terrestrial Reference Frame 1993) rotation over eight epochs
   2020–2023 agrees to ≤ 0.86 m on the ground and ≤ 3.6 m at GNSS orbit (see
-  [`VALIDATION.md`](VALIDATION.md)). It needs SPICE kernels, so it is not a default CI
+  [`VALIDATION.md`](VALIDATION.md)). It needs SPICE kernels, so it is not a default continuous-integration (CI)
   gate.
