@@ -2362,6 +2362,32 @@ mod artifacts {
         out
     }
 
+    /// `repo_root/rel` is a regular file whose every path component is spelled exactly
+    /// as `rel` spells it. `Path::is_file` alone is not enough: on a case-insensitive
+    /// filesystem (the macOS default) the candidate `src/SOLAR_SYSTEM.rs`, made from the
+    /// constant named in a `module` field, resolved to `src/solar_system.rs`, so the
+    /// committed ledger carried a link that is dead on GitHub and that a Linux
+    /// regeneration drops — and `ledger_json_matches_the_matrix` failed on Linux only.
+    fn is_file_exact(repo_root: &Path, rel: &str) -> bool {
+        if !repo_root.join(rel).is_file() {
+            return false;
+        }
+        let mut dir = repo_root.to_path_buf();
+        for part in Path::new(rel).components() {
+            let std::path::Component::Normal(name) = part else {
+                return false;
+            };
+            let listed = std::fs::read_dir(&dir)
+                .map(|it| it.flatten().any(|e| e.file_name() == name))
+                .unwrap_or(false);
+            if !listed {
+                return false;
+            }
+            dir.push(name);
+        }
+        true
+    }
+
     fn link_for(path: &str) -> Link {
         Link {
             path: path.to_string(),
@@ -2401,12 +2427,12 @@ mod artifacts {
             .map(|it| {
                 let module_links: Vec<Link> = module_candidate_paths(it.module)
                     .into_iter()
-                    .filter(|p| repo_root.join(p).is_file())
+                    .filter(|p| is_file_exact(repo_root, p))
                     .map(|p| link_for(&p))
                     .collect();
                 let test_paths: Vec<String> = extract_rs_paths(it.tests)
                     .into_iter()
-                    .filter(|p| repo_root.join(p).is_file())
+                    .filter(|p| is_file_exact(repo_root, p))
                     .collect();
                 let fixture = fixture_for(&test_paths, repo_root);
                 LedgerRow {
