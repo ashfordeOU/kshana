@@ -13,18 +13,31 @@ Abbreviations used on this page, in full:
 
 | Abbreviation | Meaning |
 |---|---|
+| AltBOC | alternative binary offset carrier (the Galileo E5 wideband signal) |
+| C/A | coarse/acquisition (the GPS L1 civil signal) |
+| C/N0 | carrier-to-noise density ratio |
 | CSV | comma-separated values |
+| dB | decibel |
+| dB-Hz | decibel-hertz (the unit of C/N0) |
+| dBW | decibels relative to one watt |
 | EIRP | effective isotropic radiated power |
+| GNSS | global navigation satellite system |
+| GPS | Global Positioning System |
 | HTML | HyperText Markup Language |
 | HTTP | Hypertext Transfer Protocol |
 | JSON | JavaScript Object Notation |
+| km | kilometre |
+| min | minute |
 | MBSE | model-based systems engineering |
 | NSGA-II | non-dominated sorting genetic algorithm II |
+| ns | nanosecond |
 | PDF | Portable Document Format |
 | PNT | positioning, navigation and timing |
 | ReqIF | Requirements Interchange Format |
 | SHA-256 | Secure Hash Algorithm, 256-bit |
+| SVG | Scalable Vector Graphics |
 | SysML v2 | Systems Modeling Language, version 2 |
+| TLS | Transport Layer Security |
 | TOML | Tom's Obvious, Minimal Language (the scenario file format) |
 | VCRM | verification cross-reference matrix |
 
@@ -40,10 +53,14 @@ Abbreviations used on this page, in full:
 - **Reproducible in the free engine.** The design optimiser, the mission dossier and the
   study dossier write out the scenario files they ran, with their hashes. Anyone with open
   Kshana can re-run one and get the same figure.
-- **Honest labels carried through.** Every Pro output is labelled MODELLED, and every
-  figure keeps the tier the open engine gave it (VALIDATED, MODELLED or PARTNER, see the
-  [verification matrix](VERIFICATION-MATRIX.md)), never a higher one. An input whose
-  uncertainty is assumed rather than sourced is printed as ASSUMED on every output.
+- **Honest labels carried through.** Every Pro result is labelled MODELLED: the result
+  document of each Pro scenario kind, and of each command on this page, carries a label
+  that starts with MODELLED. Files that hold no computed figure carry no label: imported
+  requirement lists, the SysML v2 model text, manifests, ledgers, checkpoints and job
+  lists. Every figure keeps the tier the open engine gave it (VALIDATED, MODELLED or
+  PARTNER, see the [verification matrix](VERIFICATION-MATRIX.md)), never a higher one. An
+  input whose uncertainty is assumed rather than sourced is printed as ASSUMED on the
+  uncertainty study's result, charts and report.
 
 ## What Pro answers
 
@@ -52,6 +69,9 @@ Abbreviations used on this page, in full:
 | Which design should we fly? | [Design optimiser](#design-optimiser) | the Pareto front of a design space, its knee, and each front design as a plain scenario file |
 | How sure are we, and what drives the result? | [Uncertainty and sensitivity](#uncertainty-and-sensitivity) | confidence bands, the probability of meeting a limit, and a ranking of the inputs that drive the result |
 | Does the mission meet its requirements, and can we hand that over? | [Mission dossier](#mission-dossier) | one dossier (PDF, HTML, JSON) with a verification matrix, open items and a reproducibility record |
+| Did the last change make a figure we care about worse? | [Campaign watch](#campaign-watch) | a pass or fail on named figures and requirements, a hash-chained history of every run, a trend page and a figure-by-figure diff |
+| Will our signal plan interfere with GNSS, or suffer from it? | [Spectrum coexistence](#spectrum-coexistence) | a verdict per candidate plan and GNSS signal, in both directions, over a worldwide grid, with the plans ranked |
+| Can the team queue studies on its own network and prove what was delivered? | [On-premises job service](#on-premises-job-service) | a job queue that survives a restart, a stored result per job and a hash-chained delivery ledger |
 | Which requirements does this run verify, and what changes if a design changes? | [Requirements and traceability](#requirements-and-traceability) | a VCRM, a SysML v2 model, a change-impact report and an offline evidence pack |
 | Which architecture wins, and on what evidence? | [Trade studies](#trade-studies) | the options ranked on a figure of merit, with an evidence pack of reproducible scenario hashes |
 | Does it still pass after the next engine release? | [Scenario regression check](#scenario-regression-check) | a pass or fail verdict against the previous run's figures, and an HTML report |
@@ -60,7 +80,18 @@ Abbreviations used on this page, in full:
 | Can the team run it on its own network? | [On-premises service](#on-premises-service) | a small HTTP service in front of the engine and the Pro features |
 
 The numbers below come from real runs of the worked examples that ship with Pro. Each one
-is a modelled result of an illustrative study, not a statement about any real mission.
+is a modelled result of an illustrative study, not a statement about any real mission. The
+design, uncertainty and mission-dossier examples were run with Pro 0.2.0, a development
+build, on open engine 0.29.0, and so were the campaign-watch, spectrum-coexistence and
+job-service examples. Each design and uncertainty result records a digest of its
+runs: the SHA-256 over the SHA-256 of every run's result document, in order.
+
+| Worked example | Open-engine runs | Run digest (SHA-256) |
+|---|---|---|
+| Design optimiser, whole Moon | 609 | `df81aad45cce5bc7cfa93485bdebfb947ecd746a858afe32956c4b757f0b0d3f` |
+| Design optimiser, south polar cap | 609 | `53dcc9c44290f737453ca6af04968e8f54bce291783fa788e3bd569ee5fb9c39` |
+| Uncertainty, clock holdover | 2,000 | `abab765e36ce4b78865b1d9f91aa8240b683f22892abc5fbe9c58267af87ffbb` |
+| Sensitivity, low-Earth-orbit positioning chain | 6,144 | `fb54eac6f964fe134457ffe6fcc6a8294ec2ff0fa06af620fac2df71959aabb0` |
 
 ## Design optimiser
 
@@ -81,11 +112,25 @@ where a reference design sits; a chart of the front; a self-contained HTML repor
 each front design as a plain open scenario file, with an index that lists the SHA-256 of
 the result the free engine gives for it.
 
-**Worked example.** A lunar navigation constellation, fewest satellites against
+**Worked examples.** A lunar navigation constellation, fewest satellites against
 availability over the whole Moon: 608 designs, all run, give a front of 12 designs at six
 points, from 8 satellites at 19.5446 % availability to 24 satellites at 100 %, with the
-knee at 16 satellites and 85.0404 %. Re-running front designs in the free engine gave
-results whose SHA-256 equals the one in the index.
+knee at 16 satellites and 85.0404 %. The six points are 8 satellites at 19.5446 %, 12 at
+55.4222 %, 14 at 73.5637 %, 16 at 85.0404 %, 20 at 93.2496 % and 24 at 100 % (seven front
+designs reach 100 %). The knee design is 16 satellites in 2 orbital planes at 8,000 km
+altitude and 45° inclination, with phasing 1. The bundled lunar relay design
+(8 + 6 satellites), scored as the reference, reaches 21.3286 % with 14 satellites, and 2
+front designs are at least as good on both objectives and better on one. Scored over the
+south polar cap instead, the same 608 designs give a front of 9 designs at four points,
+from 8 satellites at 24.5261 % to 16 satellites at 100 %, with the knee at 14 satellites
+and 91.6739 % (2 planes at 8,000 km and 75° inclination, phasing 0); the four points are
+8 satellites at 24.5261 %, 12 at 69.5825 %, 14 at 91.6739 % and 16 at 100 %. There the bundled
+design reaches 96.7241 % with 14 satellites: no front design dominates it, because it lies
+outside the stated design space. Each study made 609 open-engine runs (the 608 designs and
+the reference). Every front design was re-run in the free engine (open Kshana 0.29.0),
+and 12 of 12 and 9 of 9 gave a result whose SHA-256 equals the one in the index. For the
+whole-Moon knee design that SHA-256 is
+`89882372b381f75bd091e6acaed01e17a979a14723294c10e4a55fca4936a61f`.
 
 **What it does not do.** It has no cost model, so a variable no objective penalises drifts
 to the edge of its range. Constellation studies score geometry only: no signal power,
@@ -113,9 +158,27 @@ chart, a self-contained HTML report, and a checkpoint file with one line per fin
 **Worked examples.** An X-band link margin with three assumed input uncertainties: 40,960
 runs give a mean margin of 92.12 dB with a 5th to 95th percentile range of 90.12 to
 94.12 dB, a probability of 0.8198 (95 % interval 0.8114 to 0.8280) that the margin is at
-least 91 dB, and the transmitter's EIRP as the main driver (total Sobol' index 0.669). A
-clock-holdover study stopped after 700 of its 2,000 runs and resumed ended with the same
-six files, byte for byte, as the same study run without a stop.
+least 91 dB, and the transmitter's EIRP as the main driver (total Sobol' index 0.669).
+
+A clock-holdover study (the member scenario of the open campaign
+`campaign-monte-carlo-clock-holdover`) with one assumed input, the clock's
+white-frequency-noise level (`q_wf`), uniform from 4.5e-20 to 2.7e-19 (half to three times
+the datasheet value): at the end of the 60-minute run, 1,366 of 2,000 runs stayed within
+±20 ns, a probability of 0.683 (95 % interval 0.6623 to 0.703). With one input, the
+ranking of inputs is flagged as not reliable. The same study stopped after 700 of its
+2,000 runs and resumed ended with the same six files, byte for byte, as the study run
+without a stop.
+
+A low-Earth-orbit positioning chain (the open `leo-pnt-chain` kind) with four assumed
+input uncertainties, ranked by Sobol' indices: 6,144 runs (1,024 × (4 + 2)). With the
+low-Earth-orbit layer, the fused position error has a mean of 0.4312 m (5th to 95th
+percentile 0.2465 to 0.6041 m), and the orbit and clock error of the low-Earth-orbit
+satellites drives it (total Sobol' index 0.99). With GNSS alone, the position error has a
+mean of 1.6041 m (1.5389 to 1.6739 m), driven by the GPS signal-in-space range error
+(0.68) and the Galileo one (0.32). The peak C/N0 of the pass has a mean of 60.7336 dB-Hz
+(59.0898 to 62.3719 dB-Hz), driven by the transmit power (1.01: a total index is an
+estimate, and its 95 % interval, 0.9467 to 1.0659, contains 1). Every other input's total
+index is below 0.01.
 
 **What it does not do.** Inputs are treated as independent. The result holds only for the
 stated input distributions, which the tool cannot check. More runs narrow the sampling
@@ -146,12 +209,170 @@ SHA-256.
 positioning chain, a lunar relay constellation, the L band under jamming, a jamming,
 spoofing and holdover campaign, and a Mars orbiter) and one trade study: 7 met, all on a
 MODELLED or PARTNER basis, 4 not met, 1 not verified, 15 open items, in a 21-page PDF. The
-re-check repeated the five runs and the trade study and got the same result bytes.
+re-check repeated the five runs and the trade study and got the same result bytes. The
+dossier's SHA-256 is
+`49df1e0e78e07cc53649ff7d2ded07a53c02da1af508fce46660cb5da599eac9` (Pro 0.2.0, a
+development build, on open engine 0.29.0, with the issue time fixed on the command line).
+The verification matrix, as the dossier checked it (values rounded to four decimals; a
+field written without a unit has the unit 1):
+
+| Requirement | Method | Criterion checked | Value the run wrote | Verdict | Basis |
+|---|---|---|---|---|---|
+| LEO-001 | analysis | `ppp.cases[1].median_convergence_min <= 10 min` | 7.5 min | met | MODELLED |
+| LEO-002 | analysis | `ppp.cases[0].median_convergence_min <= 10 min` | 11.5 min | not met | MODELLED |
+| LEO-003 | test | `fusion.fused.rms_error_3d_m <= 0.5 m` | 0.4349 m | met (stays open: test) | MODELLED |
+| LUN-001 | analysis | `global.availability_pct >= 95 %` | 21.3286 % | not met | MODELLED |
+| LUN-002 | analysis | `global.pdop.median <= 6` | 5.22 | met | MODELLED |
+| SPC-001 | analysis | `timeline.bands[3].min_cn0_dbhz >= 25 dB-Hz` | 44.0752 dB-Hz | met | PARTNER |
+| SPC-002 | analysis | `timeline.bands[0].min_cn0_dbhz >= 25 dB-Hz` | 3.2329 dB-Hz | not met | PARTNER |
+| CMP-001 | analysis | time error at or below the guard at every step | 51.7825 ns against a 50 ns guard at element 214 of the series; 275 of 458 elements within | not met | PARTNER |
+| CMP-002 | demonstration | first campaign event within 30 min | 1,200 s | met (stays open: demonstration) | PARTNER |
+| MARS-001 | analysis | `fom.rms_error_relays_m <= 5 m` | 1.8827 m | met | MODELLED |
+| MARS-002 | analysis | `fom.availability_relays >= 99 %` | 1 (100 %) | met | MODELLED |
+| OPS-001 | inspection | none: verified by hand | no run traced | not verified | none |
+
+The field names are the open engine's own result fields (`ppp` is precise point
+positioning, `rms` root mean square, `pdop` position dilution of precision and `fom`
+figure of merit). The requirement identifiers name what they cover: LEO low Earth orbit,
+LUN lunar, SPC spectrum, CMP campaign, MARS the Mars orbiter and OPS operations.
 
 **What it does not do.** The dossier's hashes prove that its files agree with each other;
 they are not a signature and do not prove who issued it. Simulation evidence counts as
 analysis and does not replace a test, an inspection or a demonstration. A dossier is not a
 certification, a qualification or an acceptance by any authority.
+
+## Campaign watch
+
+**The question.** A free user runs a campaign and reads the result. A Pro user names the
+figures that matter in a set of scenarios, says what worse means for each, and gets a
+pipeline that fails when a change to a scenario, a model or the engine makes one of them
+worse, or stops meeting its requirement.
+
+**How it works.** It extends the [scenario regression check](#scenario-regression-check).
+A pack of scenarios of any open kind carries watch tables. Each watch names a figure (a
+result field, an aggregate such as the largest value of a time series, a campaign figure
+such as a channel's value at the end of a phase, or the point where a sweep crosses a
+threshold), says whether higher, lower or a target value is better, and sets a tolerance
+and, optionally, a requirement checked with its unit. A Monte Carlo figure is judged with
+statistics instead of a tolerance: a Welch t-test on the means and an F-test on the spreads,
+at a significance level fixed before the first run (0.01 by default), so a new set of
+random seeds is not called a regression and a doubled spread is. Every run is appended to a
+history in which each record carries the hash of the one before, and a check reports
+whether that chain is intact. A pack without watch tables runs exactly as before.
+
+**What it produces.** A JSON file with every figure, every watch and its verdict (the next
+run's baseline); an HTML report; the hash-chained history; a trend page with one small
+chart per watched figure; a figure-by-figure diff of any two runs; and an exit code of 0
+when every watch holds and 1 otherwise, so a continuous-integration pipeline can stop on it.
+
+**Worked examples.** The campaign pack watches three open campaigns (a chained jamming,
+spoofing, holdover and integrity mission, a 200-seed Monte Carlo clock ensemble and a
+jammer-power sweep) on 10 figures, with the requirements taken from the open campaign
+documentation. Run twice, it passed both times; the second run found 0 changed results, the
+history check reported 2 records with the chain intact, and the diff reported 0 of 125
+figures moved. For the clock ensemble the statistical gate reported t = 0.000 and p = 1.0,
+as it must for the same seeds. A six-revision demonstration sequence of the chained mission
+shows a regression caught. A revision that changed only a comment moved no watched figure,
+and a weaker jammer was reported as an improvement of C/N0. Then raising the jammer from
+-33 to -24 dBW drops C/N0 at the end of the jamming phase from 30.60 to 21.82 dB-Hz, below
+the 25 dB-Hz floor, and the satellites
+tracking from 8 to 0; three watches regressed, the requirement was not met, and the run
+exited 1. Withdrawing that revision passed again, and a faster spoofer was detected at
+310 s instead of 370 s and reported as an improvement, as was the smaller share of the
+mission under alarm, while two time-error figures moved within their tolerances. The
+history of the six runs checked intact; its last record's hash is
+`bb2f10ebaec45beb1ed95c4a54c652d351a2d9eda3c24d421860b30c2700dc4c`.
+
+**What it does not do.** A watch proves that a MODELLED figure stayed stable or moved; it
+does not prove the figure is true. The statistical gate uses the ensemble's mean, standard
+deviation and count only: it has no test for correlated runs or for percentiles, and the
+F-test assumes roughly normal samples. A figure with no stated direction is reported and
+never fails a run. Requirements compare values; there is no arithmetic between fields.
+
+## Spectrum coexistence
+
+**The question.** A free user checks one satellite's signal against one GNSS signal. A Pro
+user tests one or more candidate signal plans, each a signal design and a constellation,
+against every open-service GNSS signal the engine models, with every satellite of the plan
+in view at once, and gets a verdict per plan and signal against a limit the study states.
+
+**How it works.** The victim signals are GPS L1 C/A and L5, and Galileo E1, E5a, E5b and
+E5 AltBOC. Both directions are tested: the loss of C/N0 each plan causes to each GNSS
+signal, and the loss the GNSS signals cause to the plan. Every physical number comes from
+open-engine runs (the signal model of the open `leo-signal` kind and the coverage grid of
+the open `constellation-design` kind); Pro adds only the sum over the satellites in view
+at each cell of a worldwide grid and the ranking of the plans. The limit and its source are
+inputs; no limit is built in. The plans are ranked on ranging accuracy, worst loss caused
+and number of satellites with the open engine's Pareto routine.
+
+**What it produces.** A result file that gives every open run with the SHA-256 of its
+scenario and result and a unit for every number; a matrix chart of plans against signals;
+a world map of the worst loss; a chart of the ranked plans (all three SVG); and a
+self-contained HTML report.
+
+**Worked example.** Four illustrative plans on the open engine's generic signal designs,
+against an illustrative limit of 0.1 dB chosen for the example only: an L-band signal on
+Walker constellations of 288 and 144 satellites at 1,000 km, and two C-band signals on
+288 satellites. The study ran 10 open-engine runs, and all 4 plans were compatible. The
+worst loss caused was 0.00544 dB, by the 288-satellite L-band plan to the Galileo E5 AltBOC
+signal at a cell with 17 of its satellites in view, a margin of 0.0946 dB to the limit.
+The 144-satellite plan caused at most 0.00288 dB, with 9 in view. Neither C-band plan
+overlaps any GNSS signal in frequency. In the other direction, the GNSS signals cost the
+L-band plans at most 0.00908 dB. Two plans form the ranked front: the 144-satellite L-band
+plan and the wide C-band plan. The study's scenario hash (the SHA-256 of its canonical
+JSON) is `479364bde54004a2300562d7468c9accb53b87ac7408982de86d810aadf985d4`.
+
+**What it does not do.** The result is an upper bound: every satellite in view is taken at
+the maximum received power, with no power that varies with elevation and no receive-antenna
+pattern. Only the open-service signals the open engine models are covered (not GPS L2C),
+with smooth spectra and no spreading-code lines. Other systems are left out of the sum:
+other GNSS, other low-Earth-orbit systems and services on the ground. It is not a
+coordination filing and not a regulatory finding.
+
+## On-premises job service
+
+**The question.** A free user runs one scenario at a time on one machine. A Pro team queues
+studies on its own network, lets them run while no one watches, and can show afterwards
+exactly which result was delivered for which request.
+
+**How it works.** It extends the [on-premises service](#on-premises-service). Started with a
+data directory, the service keeps a queue of jobs on disk and runs them on a set number of
+workers. Three operations ship: run a scenario of any open or Pro kind, build a study
+dossier, and run a scenario regression check. A job's identifier is the SHA-256 of the
+operation and the request, so the same request is the same job and is not run twice. Each
+delivery is recorded in a ledger in which each record carries the hash of the one before,
+and a route re-checks the chain and the stored results against it. After a stop or a
+crash, every unfinished job is queued again and no finished job is run again. The
+licence is checked when a job is submitted and again when it runs. The interface is
+described by an OpenAPI 3.1 document generated from the service's own route table, and a
+job board page lists the jobs. The service contains no network client: its only outbound
+connection is a health probe to its own address.
+
+**What it produces.** For each job, the request, its status, its result and its files,
+under the data directory; the delivery ledger; the ledger check; the OpenAPI document; and
+the job board page.
+
+**Worked example.** A service with two workers took a link-budget run: the submission was
+accepted and queued (HTTP status 202), and the job succeeded on its first attempt. Its
+identifier was `fb6e50fffa53fc97135885c9a42f8de0c175d803181af99dcc94e14de5aa0004`. Its
+result is the same JSON document as the command-line run of the same file (the command line prints it formatted, so
+the bytes differ). Submitting the same request again returned the same job, already
+finished. The ledger check verified 3 records and 1 delivered job with no mismatch, the
+OpenAPI document listed 13 paths, and the job board page loaded nothing from outside.
+After a restart the finished job still showed one attempt. In a second test three jobs were
+queued on one worker and the service was killed while the second was running, with one
+finished and one still queued; after the restart that job ran again and succeeded (its
+second attempt), the finished job was not run again, the queued one ran once, and the
+ledger verified 9 records and 3 delivered jobs. Without a licence, a job for a Pro scenario
+was refused on submission (status 403) and nothing was queued, while an open scenario was
+accepted (status 202). The status, result, repeated submission, ledger check, OpenAPI
+document and job board requests were answered with status 200.
+
+**What it does not do.** One request per connection, with no streaming: a client polls. One
+licence for the whole service and one shared access token, not user management. Plain HTTP
+only: encryption with TLS belongs in the site's own reverse proxy. One service per data
+directory, and nothing locks it. No cancellation, time limit, priority or retention policy.
+The data directory is the only copy of the results and the ledger, so it must be backed up.
 
 ## Requirements and traceability
 
@@ -212,4 +433,4 @@ serves the open engine only and refuses every Pro feature.
 - **Pro is not open source.** It is not part of this repository and is not offered under
   the AGPL-3.0 (GNU Affero General Public License, version 3). See
   [LICENSING.md](../LICENSING.md).
-- **Nothing Pro produces is a certification.** Every output is modelled, and says so.
+- **Nothing Pro produces is a certification.** Every result is modelled, and says so.
