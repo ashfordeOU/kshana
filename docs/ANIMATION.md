@@ -118,7 +118,7 @@ power, for decibel cells, so a narrow jammer is not diluted).
 A kind whose result carries none of these shapes (a link budget, a single-epoch geometry,
 a statistics-only Monte Carlo summary, or the telecom holdover, whose result publishes the
 record's hash but not the record) is refused with `no time series to animate`, and nothing
-is written. With kshana 0.28.0, 68 of the 132 bundled scenarios animate and 64 are
+is written. With kshana 0.29.0, 68 of the 132 bundled scenarios animate and 64 are
 refused (over all 138 scenario files, 71 and 67). `cargo test --test animation --
 --nocapture` prints the census over all 138 files.
 
@@ -149,9 +149,9 @@ std::fs::write("run.html", &anim.files[0].content)?;
 
 ## Limits
 
-- The Python wheel, the WebAssembly module and the Model Context Protocol (MCP) server do
-  not expose the exporter yet; it is reachable from the command line and the Rust
-  library.
+- The Python wheel and the WebAssembly module do not expose the exporter yet; it is
+  reachable from the command line, the Rust library and the Model Context Protocol (MCP)
+  server's `animate_scenario` tool (which returns at most 120 frames in one reply).
 - Axes are linear. A series spanning many decades (a clock's error growth from 0.1 ns to
   a microsecond) reads as flat until late in the run.
 - The animated SVG relies on CSS animation of a clip rectangle; current Chromium, Firefox

@@ -24,6 +24,7 @@
 
 use super::elements::{sat_state, sub, LeoNavMessage, SysTime, C_LIGHT};
 use super::truth::{TruthClock, TruthOrbit};
+use crate::portable_math::PortableFloat;
 use serde::{Deserialize, Serialize};
 
 /// Earth radius used for the user sphere in the weight average (m): the WGS 84
@@ -47,7 +48,7 @@ pub struct SisreWeights {
 pub fn sisre_weights(r_m: f64, mask_deg: f64) -> SisreWeights {
     let re = EARTH_RADIUS_M;
     let el = mask_deg.to_radians();
-    let lam_max = (re / r_m * el.cos()).acos() - el;
+    let lam_max = (re / r_m * el.pcos()).pacos() - el;
     let n = 20_000usize; // even
     let h = lam_max / n as f64;
     let (mut s_w, mut s_c2, mut s_s2) = (0.0, 0.0, 0.0);
@@ -60,14 +61,18 @@ pub fn sisre_weights(r_m: f64, mask_deg: f64) -> SisreWeights {
         } else {
             2.0
         };
-        let rho = (re * re + r_m * r_m - 2.0 * re * r_m * lam.cos()).sqrt();
-        let sin_eta = if rho > 0.0 { re * lam.sin() / rho } else { 0.0 };
-        let wgt = lam.sin() * coef;
+        let rho = (re * re + r_m * r_m - 2.0 * re * r_m * lam.pcos()).sqrt();
+        let sin_eta = if rho > 0.0 {
+            re * lam.psin() / rho
+        } else {
+            0.0
+        };
+        let wgt = lam.psin() * coef;
         s_w += wgt;
         s_c2 += wgt * (1.0 - sin_eta * sin_eta);
         s_s2 += wgt * sin_eta * sin_eta;
     }
-    let max_nadir = (re * el.cos() / r_m).asin();
+    let max_nadir = (re * el.pcos() / r_m).pasin();
     SisreWeights {
         w_r: (s_c2 / s_w).sqrt(),
         w_ac2: 0.5 * s_s2 / s_w,
@@ -120,7 +125,7 @@ impl StatsAcc {
     pub fn push(&mut self, w: &SisreWeights, rac: [f64; 3], clock_m: f64) {
         let (a, c, r) = (rac[0], rac[1], rac[2]);
         let orb = (w.w_r * w.w_r * r * r + w.w_ac2 * (a * a + c * c)).sqrt();
-        let tot = ((w.w_r * r - clock_m).powi(2) + w.w_ac2 * (a * a + c * c)).sqrt();
+        let tot = ((w.w_r * r - clock_m).ppowi(2) + w.w_ac2 * (a * a + c * c)).sqrt();
         self.n += 1;
         self.so2 += orb * orb;
         self.somax = self.somax.max(orb);

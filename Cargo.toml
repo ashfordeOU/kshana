@@ -1,6 +1,6 @@
 [package]
 name = "kshana"
-version = "0.28.0"
+version = "0.29.0"
 edition = "2021"
 description = "Open, reproducible PNT-resilience simulator with quantum-sensor performance models"
 # Dual-licensed: GNU AGPL-3.0-only for open use, OR a commercial licence from
@@ -91,6 +91,8 @@ exclude = [
     "/scripts",
     "/commands",
     "/examples",
+    # The README's Studio screenshot capture script (a Node.js tool, no part of the engine).
+    "/tools/capture_studio_shots.mjs",
 ]
 
 [lib]
@@ -124,6 +126,11 @@ serde_json = { version = "1", features = ["float_roundtrip"] }
 toml = "0.8"
 sha2 = "0.10"
 hex = "0.4"
+# Pure-Rust mathematics library: the same source, and so the same bits, on every target.
+# Already in the dependency tree (rand_distr draws through it); named here because
+# `src/portable_math.rs` calls it directly for the outputs that must not depend on the
+# host's own library. `Cargo.lock` pins the exact version.
+libm = "0.2"
 
 # Optional bindings. Off by default: the core library, CLI, tests, and the
 # dependency-audit gate never compile or scan these unless the feature is enabled.
@@ -140,6 +147,11 @@ getrandom = { version = "0.2", features = ["js"] }
 python = ["dep:pyo3"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
 wasm = ["dep:wasm-bindgen"]
+# The bundled reference scenarios (`kshana example`) as a library module,
+# `kshana::bundled_scenarios`. Off by default, so the Python wheel and the WebAssembly
+# module do not carry the scenario text; the MCP (Model Context Protocol) server turns it
+# on to hand an agent a runnable example of every kind.
+bundled-scenarios = []
 
 [dev-dependencies]
 # Independent SGP4 implementation for the head-to-head accuracy cross-check

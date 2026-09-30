@@ -46,6 +46,7 @@ pub const J6: f64 = 5.4068e-7;
 pub const EARTH_ZONALS_J2_J6: [f64; 5] = [J2, J3, J4, J5, J6];
 
 use crate::ephem::AU_M;
+use crate::portable_math::{Maths, Platform, Portable};
 
 type Vec3 = [f64; 3];
 
@@ -148,24 +149,27 @@ pub fn zonal_potential_body(r: Vec3, b: &crate::body::Body) -> f64 {
 /// reference radius `re`, the exact analytic gradient of [`zonal_potential_with`]. The Earth
 /// specialisations pass the [`MU_EARTH`]/[`RE_EARTH`] literals, so the arithmetic — and its
 /// operation order — is the historical one and the Earth result is bit-identical.
-fn zonal_accel_with(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> Vec3 {
+///
+/// Generic over the mathematics library ([`crate::portable_math`]) for its integer powers:
+/// `M = Platform` is the historical arithmetic, `M = Portable` the platform-independent one.
+fn zonal_accel_with<M: Maths>(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> Vec3 {
     let rn = norm(r);
     let s = r[2] / rn;
     let (p, dp) = legendre(s, jn.len() + 1);
     // ∂s/∂x_k for s = z/r: (−z·x/r³, −z·y/r³, (r²−z²)/r³).
     let dsdx = [
-        -r[2] * r[0] / rn.powi(3),
-        -r[2] * r[1] / rn.powi(3),
-        (rn * rn - r[2] * r[2]) / rn.powi(3),
+        -r[2] * r[0] / M::powi(rn, 3),
+        -r[2] * r[1] / M::powi(rn, 3),
+        (rn * rn - r[2] * r[2]) / M::powi(rn, 3),
     ];
     let mut a = [0.0; 3];
     for (i, &j) in jn.iter().enumerate() {
         let n = i + 2;
         let ni = n as i32;
-        let coef = -mu * j * re.powi(ni);
+        let coef = -mu * j * M::powi(re, ni);
         // ∂/∂x_k[ r^{−(n+1)}·P_n(s) ] = −(n+1)·r^{−(n+3)}·x_k·P_n + r^{−(n+1)}·P_n'·∂s/∂x_k.
-        let t1 = -(n as f64 + 1.0) * rn.powi(-(ni + 3));
-        let t2 = rn.powi(-(ni + 1)) * dp[n];
+        let t1 = -(n as f64 + 1.0) * M::powi(rn, -(ni + 3));
+        let t2 = M::powi(rn, -(ni + 1)) * dp[n];
         for k in 0..3 {
             a[k] += coef * (t1 * r[k] * p[n] + t2 * dsdx[k]);
         }
@@ -179,14 +183,21 @@ fn zonal_accel_with(r: Vec3, mu: f64, re: f64, jn: &[f64]) -> Vec3 {
 /// [`zonal_potential`]; with `jn = [J2]` it reduces to [`j2_accel`] to machine precision.
 /// Delegates to [`zonal_accel_with`] with the Earth [`MU_EARTH`]/[`RE_EARTH`] literals.
 pub fn zonal_accel(r: Vec3, jn: &[f64]) -> Vec3 {
-    zonal_accel_with(r, MU_EARTH, RE_EARTH, jn)
+    zonal_accel_with::<Platform>(r, MU_EARTH, RE_EARTH, jn)
+}
+
+/// [`zonal_accel`] evaluated with the platform-independent mathematics library
+/// ([`crate::portable_math`]): the same formula and operation order, the same bits on every
+/// platform. For callers whose output is discrete (the low Earth orbit navigation message).
+pub(crate) fn zonal_accel_portable(r: Vec3, jn: &[f64]) -> Vec3 {
+    zonal_accel_with::<Portable>(r, MU_EARTH, RE_EARTH, jn)
 }
 
 /// Zonal perturbing acceleration about an arbitrary central body `b` (using `b.mu`, `b.re`,
 /// `b.zonals`). With `b = Body::earth()` this equals [`zonal_accel`] called with
 /// [`EARTH_ZONALS_J2_J6`] bit-for-bit, so the Earth path stays byte-identical.
 pub fn zonal_accel_body(r: Vec3, b: &crate::body::Body) -> Vec3 {
-    zonal_accel_with(r, b.mu, b.re, b.zonals)
+    zonal_accel_with::<Platform>(r, b.mu, b.re, b.zonals)
 }
 
 /// Sun gravitational parameter `GM☉` (m³/s²), IAU/DE value.
@@ -345,6 +356,12 @@ pub const EARTH_ROTATION_RATE: f64 = 7.292_115_146_7e-5;
 /// cutoff). This is a **static, solar-activity-independent mean** — *not* NRLMSISE-00 (the
 /// thermospheric model with its < 5 % accuracy clause is a follow-on; see `ROADMAP.md`).
 pub fn atmospheric_density(altitude_m: f64) -> f64 {
+    atmospheric_density_with::<Platform>(altitude_m)
+}
+
+/// [`atmospheric_density`], written once for both mathematics libraries
+/// ([`crate::portable_math`]). With `M = Platform` this is the historical arithmetic.
+fn atmospheric_density_with<M: Maths>(altitude_m: f64) -> f64 {
     // (base altitude h0 [km], nominal density ρ0 [kg/m³], scale height H [km]).
     const BANDS: [(f64, f64, f64); 28] = [
         (0.0, 1.225, 7.249),
@@ -383,7 +400,7 @@ pub fn atmospheric_density(altitude_m: f64) -> f64 {
         i += 1;
     }
     let (h0, rho0, scale) = BANDS[i];
-    rho0 * (-(h_km - h0) / scale).exp()
+    rho0 * M::exp(-(h_km - h0) / scale)
 }
 
 /// Atmospheric-drag acceleration (m/s², ECI) on a satellite at geocentric `r` (m) and ECI
@@ -393,7 +410,19 @@ pub fn atmospheric_density(altitude_m: f64) -> f64 {
 /// (m²/kg) and `ρ` is [`atmospheric_density`] at the spherical altitude `|r| − Rₑ`. This force is
 /// **dissipative** — it always removes orbital energy, the signature the propagator validates.
 pub fn drag_accel(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
-    let rho = atmospheric_density(norm(r) - RE_EARTH);
+    drag_accel_with::<Platform>(r, v, cd_area_over_mass)
+}
+
+/// [`drag_accel`] evaluated with the platform-independent mathematics library
+/// ([`crate::portable_math`]): the same formula and operation order, the same bits on every
+/// platform. For callers whose output is discrete (the low Earth orbit navigation message).
+pub(crate) fn drag_accel_portable(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
+    drag_accel_with::<Portable>(r, v, cd_area_over_mass)
+}
+
+/// The drag acceleration, written once for both mathematics libraries.
+fn drag_accel_with<M: Maths>(r: Vec3, v: Vec3, cd_area_over_mass: f64) -> Vec3 {
+    let rho = atmospheric_density_with::<M>(norm(r) - RE_EARTH);
     let w = EARTH_ROTATION_RATE;
     // v_rel = v − ωₑ ẑ × r.
     let v_rel = [v[0] + w * r[1], v[1] - w * r[0], v[2]];
@@ -480,10 +509,22 @@ pub struct SecularRates {
 
 /// Compute the J2 secular rates for the given orbit.
 pub fn j2_secular_rates(a: f64, e: f64, i_rad: f64) -> SecularRates {
+    j2_secular_rates_with::<Platform>(a, e, i_rad)
+}
+
+/// [`j2_secular_rates`] evaluated with the platform-independent mathematics library
+/// ([`crate::portable_math`]): the same formula and operation order, the same bits on every
+/// platform. For callers whose output is discrete (the low Earth orbit navigation message).
+pub(crate) fn j2_secular_rates_portable(a: f64, e: f64, i_rad: f64) -> SecularRates {
+    j2_secular_rates_with::<Portable>(a, e, i_rad)
+}
+
+/// The J2 secular rates, written once for both mathematics libraries.
+fn j2_secular_rates_with<M: Maths>(a: f64, e: f64, i_rad: f64) -> SecularRates {
     let n = mean_motion(a);
     let p = a * (1.0 - e * e);
-    let factor = n * J2 * (RE_EARTH / p).powi(2);
-    let (si, ci) = i_rad.sin_cos();
+    let factor = n * J2 * M::powi(RE_EARTH / p, 2);
+    let (si, ci) = M::sin_cos(i_rad);
     let sin2 = si * si;
     SecularRates {
         raan: -1.5 * factor * ci,
