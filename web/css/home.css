@@ -38,6 +38,8 @@
 .pro-line:hover{border-color:color-mix(in oklab,var(--magenta) 60%,transparent);color:var(--ink)}
 .pro-tag{font:500 10.5px/1 var(--mono);letter-spacing:.08em;text-transform:uppercase;padding:5px 8px;border-radius:7px;background:var(--magenta);color:var(--bg);flex:none}
 .pro-line .arr{flex:none}
+.pro-line .pro-mini{color:var(--magenta)} /* the real Pareto front of the Pro design study (build.py front_mini_hero) */
+.pro-line{white-space:normal;line-height:1.35}.pro-line>span:not(.pro-tag):not(.arr){min-width:0}
 
 .hero-panels{grid-column:3;grid-row:2/4;display:flex;flex-direction:column;gap:14px;align-self:center}
 .chart-panel{padding:14px 14px 10px;min-width:0}
@@ -330,7 +332,7 @@ section.block.asst{padding:clamp(44px,4vw,60px) 0}
 
 /* ------------------------------------------------------------------ proof strip */
 .stats{border-top:1px solid var(--line);border-bottom:1px solid var(--line);background:color-mix(in oklab,var(--bg-2) 50%,transparent)}
-.stats-in{display:grid;grid-template-columns:repeat(5,minmax(0,1fr))}
+.stats-in{display:grid;grid-auto-flow:column;grid-auto-columns:minmax(0,1fr)}
 .stat{padding:28px 24px 26px;border-left:1px solid var(--line);text-decoration:none;display:flex;flex-direction:column;transition:background-color .2s}
 .stat:hover{background:var(--panel-2)}
 .stat:first-child{border-left:0;padding-left:0}
@@ -412,12 +414,12 @@ body[data-page="index"] .pb-plug-h{color:var(--ink-3)}
   .bento{grid-template-columns:minmax(0,1fr)}
   .s2,.s3,.s4{grid-column:auto}
   .tile{min-height:0;padding:18px}
-  .stats-in{grid-template-columns:repeat(2,minmax(0,1fr))}
+  .stats-in{grid-auto-flow:row;grid-template-columns:repeat(2,minmax(0,1fr))}
   .stat{padding:20px 16px;border-left:0;border-top:1px solid var(--line)}
   .stat:nth-child(odd){padding-left:0}
   .stat:nth-child(even){border-left:1px solid var(--line)}
   .stat:nth-child(-n+2){border-top:0}
-  .stat:last-child{grid-column:1/-1;border-left:0;padding-left:0}
+  .stat:last-child:nth-child(odd){grid-column:1/-1;border-left:0;padding-left:0}
   .stat .n{font-size:28px}
   .closing-in{grid-template-columns:minmax(0,1fr)}
   .closing .cta-row{justify-content:flex-start}

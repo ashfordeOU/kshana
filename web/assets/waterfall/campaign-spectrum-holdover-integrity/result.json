@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.28.0",
+  "engine_version": "0.29.0",
   "scenario_hash": "1ce2687e8ded87c7fcb679798d3887c994934dc791b43fed638e9d5d87f0264a",
   "seed": 20260928,
   "kind": "campaign",
@@ -9,7 +9,7 @@
   "reproducibility": {
     "campaign_hash": "1ce2687e8ded87c7fcb679798d3887c994934dc791b43fed638e9d5d87f0264a",
     "runs_total": 8,
-    "run_digest": "1e57777b173ac1d91222676055569a17fc97780b780f2c4c355ec7775876f083"
+    "run_digest": "dd09401aa42b43d2d073648f8aae12b35fccefd825c256f2a35e6b2b774304bb"
   },
   "timeline": {
     "step_s": 1.0,
@@ -938,7 +938,7 @@
           {
             "kind": "clock",
             "scenario_hash": "b09542b32bc509a402c8b746d528e324897588b935310c920e0b1979f6c8cb23",
-            "result_sha256": "c77a4c24a2920dc41fd79bd52597b19447c5cfc469de7af00fdd2c7f5eeb7b6a",
+            "result_sha256": "045cac4bee470196a8bc78f82af03b51214f8ca637c046b6d7ac10c7d4bc4905",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -948,7 +948,7 @@
           {
             "kind": "spectrum",
             "scenario_hash": "74c1bbf14a8ecfb816774430d191ab2cb3699bf4be5f23e5c143ede4649d4b64",
-            "result_sha256": "15161d0b9325167d198283a9e965f6d6e60da10a0f5fbe0d1730e1412f462f08",
+            "result_sha256": "3d28b8ce196e5ec11273042b84a3648f8d7fbdb517d736cd4ee9ac1c63a1f204",
             "skip_s": 0.0,
             "channels": [
               "cn0_l1ca_dbhz",
@@ -981,7 +981,7 @@
           {
             "kind": "clock",
             "scenario_hash": "bffed370138c01a1903ec695b60782765b0ec9f0f66bf6d76edf4163f874b3b0",
-            "result_sha256": "53c8b48879778b83d22422877a596ad6c78f83ec14bc6a796ed14cb46aa1689d",
+            "result_sha256": "6d7c86f6a8dd1901aeef4500eff91f1e4ad2df8bb28cb9bb83649ff18bd64e39",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -991,7 +991,7 @@
           {
             "kind": "spectrum",
             "scenario_hash": "e99658478aa441b41983abe722848f17abd4117a035b93d47948d442f7cef759",
-            "result_sha256": "d32e6011165fbb4aab4e7c6d744073df0a25bc9bb2c2807399c0d62a22b5c2a4",
+            "result_sha256": "66025c871739eb5b1fe52299dbafc67d139b05e6d153da7b4f02ce5c0f94e17a",
             "skip_s": 0.0,
             "channels": [
               "cn0_l1ca_dbhz",
@@ -1012,7 +1012,7 @@
           {
             "kind": "clock",
             "scenario_hash": "8fe9dc92a620015a9fb6de6d866d56e70d7b9a902dd075cdb36019b13b796cf5",
-            "result_sha256": "060d8962113f7d6d413bd0063e696a5fe810099f16c902c8e311bcf09135ef93",
+            "result_sha256": "7e8a4e4f1433049b0936e88312813de5e0b1a7fef4a71bea4a7b5d3137d03a5f",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -1022,7 +1022,7 @@
           {
             "kind": "spectrum",
             "scenario_hash": "14c9955a2cda6b223e3742ecce6859107c95ab33f45534b6d13990db3891766d",
-            "result_sha256": "8a5f656f18ac2f0aefb60e8b893496cc08c31e08237ef01a0e1c9370057bfa3a",
+            "result_sha256": "2dfda92f217b3e06079da02217828fdedb52f7e92e23f5db8c30391fe3b2d78a",
             "skip_s": 0.0,
             "channels": [
               "cn0_l1ca_dbhz",

@@ -47,7 +47,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.28.0</small></a>
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="../missions.html">Missions</a>
       <a href="../capabilities.html">Capabilities</a>
@@ -664,19 +664,23 @@ together), <code>chart_svg</code>, <code>summary</code>, <code>table_csv</code>,
 <code>encode_permalink</code> / <code>decode_permalink</code> shareable-URL (URL: web address) codec, and the three exporters
 <code>export_sp3</code> / <code>export_omm</code> / <code>export_oem</code> that back the playground&#39;s export menu.
 Two further front doors reach the same <code>api</code>: the <strong>MCP (Model Context Protocol) server</strong> (<code>mcp/kshana-mcp</code>, a
-workspace-excluded <code>rmcp</code> crate exposing seven tools — <code>run_scenario</code>,
-<code>list_scenario_kinds</code>, <code>validate_scenario</code>, <code>export_sp3</code>, <code>export_omm</code>, <code>export_oem</code>,
-<code>export_table_csv</code>)
+workspace-excluded <code>rmcp</code> crate exposing fourteen tools — <code>run_scenario</code>,
+<code>list_scenario_kinds</code>, <code>validate_scenario</code>, <code>list_example_scenarios</code>,
+<code>get_example_scenario</code>, <code>report_scenario</code>, <code>animate_scenario</code>, <code>list_export_formats</code>,
+<code>export_interop</code>, <code>import_route</code>, <code>export_sp3</code>, <code>export_omm</code>, <code>export_oem</code>,
+<code>export_table_csv</code>; the two example tools read the bundled scenarios through the library&#39;s
+off-by-default <code>bundled-scenarios</code> feature, which only this server turns on)
 and the <strong>JetBrains IDE (integrated development environment) plugin</strong> (<code>ide/jetbrains</code>, a Kotlin project that shells out to
 the <code>kshana</code> CLI rather than linking the library).</p>
 <pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart LR
     cli[&quot;CLI · main.rs&lt;br/&gt;native binary&quot;] --&gt; api
     py[&quot;Python · python.rs (PyO3 abi3)&lt;br/&gt;RunOutput class + run · run_full · run_typed · scenario_kinds · list_kinds · validate_toml · error_kind · version&quot;] --&gt; api
     wasm[&quot;WebAssembly · wasm.rs (wasm-bindgen)&lt;br/&gt;run · run_all · chart_svg · summary · table_csv · list_kinds · error_kind · version · encode/decode_permalink&lt;br/&gt;export_sp3 · export_omm · export_oem&quot;] --&gt; api
-    mcp[&quot;MCP server · mcp/kshana-mcp (rmcp)&lt;br/&gt;tools: run_scenario · list_scenario_kinds · validate_scenario&lt;br/&gt;export_sp3 · export_omm · export_oem · export_table_csv&quot;] --&gt; api
+    mcp[&quot;MCP server · mcp/kshana-mcp (rmcp)&lt;br/&gt;tools: run_scenario · list_scenario_kinds · validate_scenario&lt;br/&gt;list_example_scenarios · get_example_scenario&lt;br/&gt;report_scenario · animate_scenario&lt;br/&gt;list_export_formats · export_interop · import_route&lt;br/&gt;export_sp3 · export_omm · export_oem · export_table_csv&quot;] --&gt; api
     ide[&quot;JetBrains plugin · ide/jetbrains (Kotlin)&quot;] -- spawns process --&gt; cli
     api[&quot;api::run_toml / run_scenario / list_scenario_kinds&quot;] --&gt; out[&quot;identical { json, svg, summary } on every surface&quot;]</code></pre>
-<p>Feature-gating: Python and WASM are <code>--features python</code> / <code>--features wasm</code>; the MCP
+<p>Feature-gating: Python and WASM are <code>--features python</code> / <code>--features wasm</code>; the bundled
+scenario table is <code>--features bundled-scenarios</code> (the MCP server&#39;s only use of it); the MCP
 server and the <code>xval/*</code> cross-checks are workspace-EXCLUDED crates; the IDE plugin links
 nothing — it runs the CLI.</p>
 <h2 id="8-determinism--reproducibility">8. Determinism &amp; reproducibility<a class="anchor" href="#8-determinism--reproducibility" aria-label="Link to this section">#</a></h2>
@@ -732,8 +736,8 @@ the public engine.</p>
       <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.28.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.28.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -746,7 +750,7 @@ the public engine.</p>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.28.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>
