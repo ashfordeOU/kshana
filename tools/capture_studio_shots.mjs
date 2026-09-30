@@ -2,10 +2,13 @@
 //
 // Capture the Kshana Studio screenshots used by the README, in the light and the dark theme.
 //
-// Each shot opens one bundled scenario in Kshana Studio, lets the engine run it in the
-// browser (WebAssembly), selects the named result tab, moves the replay to a stated frame
-// where the visual has one, and saves the tab row plus the first visual card of that tab
-// as a PNG at twice the CSS pixel size. Nothing is drawn or edited here: the pictures are
+// Two flow shots show how the Studio is used: the start screen (domain tiles and the search
+// across scenarios, domains and fields) and the dashboard after a run (the five numbered
+// steps Choose, Set, Run, Read results and Share, the key figures and the panels), both at a
+// 1440 px wide window. Each panel shot opens one bundled scenario, lets the engine run it in
+// the browser (WebAssembly), selects the named result panel, moves the replay to a stated
+// frame where the visual has one, and saves the panel row plus the first visual card of that
+// panel. Every shot is a PNG at twice the CSS pixel size. Nothing is drawn or edited here: the pictures are
 // what the Studio shows for a real run. The README's copies under docs/assets/readme/studio/
 // are these PNG files scaled to at most 1600 px wide and saved as JPEG (quality 82).
 //
@@ -35,7 +38,13 @@ const SHOTS = [
   { name: "leo-chain", scenario: "leo-pnt-end-to-end", tab: "leo-chain", frame: null },
 ];
 const VIEWPORT = { width: 1920, height: 1400 };
+const FLOW_VIEWPORT = { width: 1440, height: 1000 };
 const SCALE = 2;
+// name, query, what to wait for, the element whose bottom ends the crop
+const FLOW = [
+  { name: "start", query: "?start=1", ready: "#start:not([hidden]) #start-tiles > *", bottom: null },
+  { name: "dashboard", query: "?scenario=l-band-waterfall-jamming&tab=spectrum", ready: "#kpis-wrap:not([hidden]) #figs > *", bottom: "panel" },
+];
 
 const browser = await chromium.launch();
 const record = [];
@@ -43,7 +52,30 @@ for (const theme of ["light", "dark"]) {
   const ctx = await browser.newContext({ viewport: VIEWPORT, deviceScaleFactor: SCALE, colorScheme: theme, reducedMotion: "reduce" });
   // The Studio reads a remembered theme from localStorage before first paint.
   await ctx.addInitScript((t) => { try { localStorage.setItem("kshana-theme", t); } catch (e) { /* private mode */ } }, theme);
+  // The first-visit hint is closed: the numbered steps it explains are in the shot.
+  await ctx.addInitScript(() => { try { localStorage.setItem("kshana-studio-hint", "done"); } catch (e) { /* private mode */ } });
   const page = await ctx.newPage();
+  await page.setViewportSize(FLOW_VIEWPORT);
+  for (const f of FLOW) {
+    const url = new URL(f.query, studio).href;
+    await page.goto(url, { waitUntil: "networkidle" });
+    await page.waitForSelector(f.ready, { timeout: 60000 });
+    await page.waitForTimeout(2000);
+    const box = await page.evaluate((bottom) => {
+      let h = innerHeight;
+      if (bottom === "panel") {
+        const p = [...document.querySelectorAll("[role=tabpanel]")].find((e) => !e.hidden && e.offsetHeight > 0);
+        const c = p && [...p.querySelectorAll(".card")].find((e) => e.querySelector("svg:not(.icon), canvas, .chain") && !e.querySelector(".player"));
+        if (c) h = Math.ceil(c.getBoundingClientRect().bottom + scrollY + 16);
+      }
+      return { x: 0, y: 0, width: innerWidth, height: Math.min(h, 1500) };
+    }, f.bottom);
+    const file = `studio-${f.name}-${theme}.png`;
+    await page.screenshot({ path: join(out, file), clip: box, fullPage: true });
+    record.push({ file, url, scenario: null, tab: null, replay_frame: null, theme, viewport: FLOW_VIEWPORT, device_scale_factor: SCALE, crop_css_px: box });
+    console.log(file, JSON.stringify(box));
+  }
+  await page.setViewportSize(VIEWPORT);
   for (const s of SHOTS) {
     const url = new URL(`?scenario=${s.scenario}&tab=${s.tab}`, studio).href;
     await page.goto(url, { waitUntil: "networkidle" });
@@ -68,11 +100,14 @@ for (const theme of ["light", "dark"]) {
     const box = await page.evaluate((tab) => {
       const tl = document.getElementById(`tab-${tab}`).closest("[role=tablist]").getBoundingClientRect();
       const p = [...document.querySelectorAll("[role=tabpanel]")].find((e) => !e.hidden && e.offsetHeight > 0);
-      // The first card of the tab is its main visual, with its own header and controls.
-      const c = p.querySelector(".card").getBoundingClientRect();
+      // The first card of the panel that holds a visual is its main visual, with its own header
+      // and controls (the replay bar above it, where the panel has one, is kept in the crop).
+      const c = ([...p.querySelectorAll(".card")].find((e) => e.querySelector("svg, canvas, .chain") && !e.querySelector(".player input[type=range]")) || p.querySelector(".card")).getBoundingClientRect();
       const pad = 16;
+      const pl = p.querySelector(".player");
+      const right = Math.max(c.right, pl ? pl.getBoundingClientRect().right : 0);
       const x = Math.max(0, Math.floor(c.left - pad)), y = Math.max(0, Math.floor(tl.top + scrollY - pad));
-      return { x, y, width: Math.ceil(c.right + pad) - x, height: Math.ceil(c.bottom + scrollY + 8) - y };
+      return { x, y, width: Math.ceil(right + pad) - x, height: Math.ceil(c.bottom + scrollY + 8) - y };
     }, s.tab);
     const file = `studio-${s.name}-${theme}.png`;
     await page.screenshot({ path: join(out, file), clip: box, fullPage: true });
