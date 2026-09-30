@@ -150,13 +150,13 @@
 .prose td code{font-size:12.5px}
 
 /* ---------------- generated reference cards (scenario and capability references) */
-.ref-card{display:grid;gap:10px;padding:18px 20px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);margin:0 0 14px;scroll-margin-top:96px}
+.ref-card{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:18px 20px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);margin:0 0 14px;scroll-margin-top:96px}
 .ref-card:target{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-soft),var(--shadow)}
 .prose .ref-card h3{margin:0;font:600 15px/1.3 var(--mono);letter-spacing:0;overflow-wrap:anywhere}
 .ref-card>p{margin:0;font-size:15.5px;line-height:1.6}
 .ref-card pre{margin:0}
 .ref-meta{display:flex;flex-wrap:wrap;gap:6px}
-.ref-meta span{display:inline-flex;align-items:center;font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:5px 8px;border:1px solid var(--line-2);border-radius:999px;background:var(--panel-2)}
+.ref-meta span{display:inline-flex;align-items:center;max-width:100%;overflow-wrap:anywhere;font:500 10.5px/1.2 var(--mono);letter-spacing:.06em;text-transform:uppercase;color:var(--ink-2);padding:5px 8px;border:1px solid var(--line-2);border-radius:999px;background:var(--panel-2)}
 
 /* ---------------- glossary: the site's own abbreviations (#on-this-site) as a two-column list */
 .site-gloss{display:grid;grid-template-columns:minmax(7.5em,auto) minmax(0,1fr);border:1px solid var(--line);border-radius:var(--r);background:var(--panel);overflow:hidden}
@@ -180,7 +180,7 @@
 .docs-toc h2{display:flex;align-items:center;gap:8px;font:500 11px/1.3 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:var(--ink-3);margin:0 0 10px}
 .docs-toc h2::before{content:"";width:6px;height:6px;border-radius:2px;background:var(--cyan);flex:none}
 .docs-toc a{display:block;padding:5px 0 5px 12px;border-left:1px solid var(--line-2);color:var(--ink-2);text-decoration:none}
-.docs-toc a.l3{padding-left:24px;color:var(--ink-3)}
+.docs-toc a.l3{padding-left:24px;color:var(--ink-2)}
 .docs-toc a:hover,.docs-toc a:focus-visible{color:var(--ink);border-left-color:var(--cyan)}
 .docs-toc a[aria-current="location"]{color:var(--ink);border-left:2px solid var(--cyan);padding-left:11px}
 .docs-toc a.l3[aria-current="location"]{padding-left:23px}
