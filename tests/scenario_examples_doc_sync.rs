@@ -106,24 +106,25 @@ fn every_bundled_example_names_a_kind_the_engine_has() {
 
 #[test]
 fn every_capability_card_run_target_is_bundled_and_offered() {
-    // A capability card's `run` field puts a Run button on the public site, but only if
-    // the file is ALSO in the playground catalogue: web/app.js gates the button behind
-    // `knownScenario(c.run)`, which searches its own SCENARIOS table. A card naming a
-    // file the table does not carry renders with no button and no error — the reader
-    // sees a capability described and no way to run it, which is exactly the silence
+    // A capability card's `run` field names the scenario a reader can run for that
+    // capability. On the site that means the Studio: it opens a scenario only if the file
+    // is in its catalogue (the SCENARIOS table in web/playground/lib/catalog.mjs) and the
+    // file itself is bundled beside it (web/playground/scenarios/), because the Studio
+    // loads its scenarios from there at run time. A card naming a file the catalogue does
+    // not carry opens the default scenario instead, with no error — the reader sees a
+    // capability described and no way to run it, which is exactly the silence
     // `every_scenario_kind_ships_a_runnable_example` exists to prevent one layer down.
     //
-    // Six cards were in that state when this test was written, one of them the
-    // real-laser-ranging datum, which had shipped for weeks with a dead `run`.
-    //
-    // Both halves matter: the catalogue entry makes the button appear, and the bundled
-    // file makes it work, because the page fetches `scenarios/<file>` at run time.
+    // Six cards were in that state when this test was written (against the single-page
+    // site's own table in web/app.js), one of them the real-laser-ranging datum, which had
+    // shipped for weeks with a dead `run`.
     let caps_raw =
         std::fs::read_to_string("web/capabilities.json").expect("read web/capabilities.json");
     let caps: serde_json::Value = serde_json::from_str(&caps_raw).expect("parse capabilities.json");
     let cards = caps["capabilities"].as_array().expect("capabilities array");
 
-    let app = std::fs::read_to_string("web/app.js").expect("read web/app.js");
+    let app = std::fs::read_to_string("web/playground/lib/catalog.mjs")
+        .expect("read web/playground/lib/catalog.mjs");
     // The catalogue rows are `["<file>.toml", ...` — match the file in that position
     // only, so a scenario merely mentioned in a comment does not count as offered.
     let offered: BTreeSet<String> = app
@@ -135,7 +136,7 @@ fn every_capability_card_run_target_is_bundled_and_offered() {
         .collect();
     assert!(
         offered.len() > 40,
-        "only {} catalogue entries parsed out of web/app.js — the SCENARIOS row shape \
+        "only {} catalogue entries parsed out of web/playground/lib/catalog.mjs — the SCENARIOS row shape \
          changed and this test is now grading nothing",
         offered.len()
     );
@@ -150,8 +151,15 @@ fn every_capability_card_run_target_is_bundled_and_offered() {
             broken.push(format!("{name:?} runs {run:?}, which is not in scenarios/"));
         } else if !offered.contains(run) {
             broken.push(format!(
-                "{name:?} runs {run:?}, which the playground catalogue in web/app.js \
-                 does not offer, so the card renders with no Run button"
+                "{name:?} runs {run:?}, which the Studio catalogue in \
+                 web/playground/lib/catalog.mjs does not offer, so the Studio cannot open it"
+            ));
+        } else if !std::path::Path::new("web/playground/scenarios")
+            .join(run)
+            .exists()
+        {
+            broken.push(format!(
+                "{name:?} runs {run:?}, which is not bundled in web/playground/scenarios/"
             ));
         }
     }

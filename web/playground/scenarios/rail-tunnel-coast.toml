@@ -1,0 +1,40 @@
+# Rail tunnel coast: how long a train's inertial navigation system (INS) keeps it
+# inside a track-discrimination budget with no Global Navigation Satellite System
+# (GNSS) in a tunnel.
+#
+# The mission question: GNSS-based train positioning loses the sky in every tunnel,
+# cutting and covered station. On a line with parallel tracks, telling which track the
+# train is on needs a cross-track error well under half the track spacing (track
+# centres on European main lines are typically around 4 m apart). How many seconds
+# into a tunnel does the position error pass 2 m, and 20 m? At 160 km/h (44.4 m/s) the
+# answer converts directly into how long a tunnel the INS alone can bridge.
+#
+# The model is `ins-trn-coast` (five growth terms combined root-sum-square). The IMU
+# (inertial measurement unit) is the representative tactical-grade class from the
+# engine's grade table (Groves 2013, Table 4.1 band), NOT a datasheet for any product.
+#
+# Honest scope: real train positioning also uses wheel odometry and trackside balises.
+# This engine has no odometer model, so this file is INS only, which is the
+# pessimistic bound; an odometer would hold along-track error far lower. No aiding is
+# applied (`trn_fix_mode = "none"`). MODELLED: every figure is modelled from class
+# coefficients, not measured on a train.
+kind = "ins-trn-coast"
+
+imu_grade = "tactical"
+
+# 160 km/h. The scale-factor term grows with the distance run.
+speed_m_s = 44.4
+ref_accel_m_s2 = 0.0
+
+combination = "rss"
+
+# Track discrimination (2 m) and a coarse along-line budget (20 m).
+crossing_thresholds_m = [2.0, 20.0]
+
+drift_band_lo_m_per_s = 0.001
+drift_band_hi_m_per_s = 0.050
+
+trn_fix_mode = "none"
+
+# A 10-minute GNSS-denied section: at 160 km/h, about 27 km of tunnel.
+mission_duration_s = 600.0

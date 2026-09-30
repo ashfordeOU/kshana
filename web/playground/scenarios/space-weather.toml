@@ -1,0 +1,21 @@
+# Space-weather environment model demonstrator.
+#
+# Solar (F10.7 / F10.7a) and geomagnetic (Kp) activity drive the Jacchia-1971
+# exospheric temperature, which in turn scales thermospheric neutral density above
+# the static US-Standard-Atmosphere-1976 model — the solar-cycle density dependence
+# (a ~5–10x swing at LEO) the static atmosphere omits. Reports the indices, the
+# exospheric temperature, and the activity-corrected vs static density at a set of
+# altitudes.
+#
+# HONEST SCOPE: MODELLED. The Kp<->ap conversion is the definitional IAGA table and
+# the exospheric temperature is validated against published solar-min/mean/max
+# magnitudes, but the density correction is a CALIBRATED FIRST-ORDER scale-height
+# coupling — it captures the right sign, monotonicity and order of magnitude, NOT
+# the absolute accuracy of a data-validated (NRLMSISE-00) atmosphere.
+# Run:  kshana scenarios/space-weather.toml
+kind = "space-weather"
+
+f107 = 180.0       # daily 10.7 cm solar radio flux (sfu) — an active sun
+f107a = 165.0      # 81-day average (sfu)
+kp = 4.0           # planetary geomagnetic index (0-9); 4 = unsettled
+altitudes_km = [300.0, 400.0, 500.0, 600.0, 800.0]

@@ -1,0 +1,669 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>LEO-PNT in Kshana · Kshana docs</title>
+<meta name="description" content="LEO-PNT in Kshana. Kshana documentation, generated from the repository.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="canonical" href="https://kshana.dev/docs/leo-pnt.html">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:url" content="https://kshana.dev/docs/leo-pnt.html">
+<meta property="og:title" content="LEO-PNT in Kshana · Kshana docs">
+<meta property="og:description" content="LEO-PNT in Kshana. Kshana documentation, generated from the repository.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="LEO-PNT in Kshana · Kshana docs">
+<meta name="twitter:description" content="LEO-PNT in Kshana. Kshana documentation, generated from the repository.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="../missions.html">Missions</a>
+      <a href="../capabilities.html">Capabilities</a>
+      <a href="../evidence.html">Evidence</a>
+      <a href="../developers.html">Developers</a>
+      <a href="../docs/index.html" aria-current="page">Docs</a>
+      <a href="../editions.html">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html" aria-current="page">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Low Earth orbit (LEO) navigation</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/LEO-PNT.md</code></span></div>
+    <div class="prose"><h1 id="leo-pnt-in-kshana">LEO-PNT in Kshana</h1>
+<p>LEO-PNT is positioning, navigation and timing (PNT) from satellites in low Earth orbit
+(LEO), alongside or instead of the medium Earth orbit (MEO) global navigation satellite
+systems (GNSS) such as the Global Positioning System (GPS) and Galileo. This page ties together every LEO-PNT kind and scenario of the engine: what
+each computes, the bands and signal presets and where their numbers come from, what the
+navigation message carries, what is VALIDATED and what is MODELLED, and how to run each
+scenario. The kind pages go deeper:</p>
+<div class="tbl"><table><thead><tr>
+<th>Page</th>
+<th>Kinds</th>
+</tr>
+</thead><tbody><tr>
+<td><a href="leo-signal.html">LEO-SIGNAL.md</a></td>
+<td><code>leo-signal</code> (signal designs) and the multi-band <code>spectrum</code> panels</td>
+</tr>
+<tr>
+<td><a href="leo-pass.html">LEO-PASS.md</a></td>
+<td><code>leo-pass</code> (pass geometry and link budget per band, low-energy fixes, ionosphere sounding, spoofing monitors)</td>
+</tr>
+<tr>
+<td><a href="leo-navmsg.html">LEO-NAVMSG.md</a></td>
+<td><code>leo-navmsg</code> (the broadcast message: fitter, user algorithm, binary and text formats)</td>
+</tr>
+<tr>
+<td><a href="leo-pnt-fusion.html">LEO-PNT-FUSION.md</a></td>
+<td><code>leo-pvt</code>, <code>leo-ppp</code>, <code>ntn-positioning</code> (fused positioning, precise point positioning, 5G non-terrestrial network (NTN) positioning, timing, polar coverage)</td>
+</tr>
+<tr>
+<td><a href="spectrum.html">SPECTRUM.md</a></td>
+<td><code>spectrum</code> (jamming waterfalls and the jammer-to-signal ratio (J/S) per band)</td>
+</tr>
+<tr>
+<td><a href="campaigns.html">CAMPAIGNS.md</a></td>
+<td><code>campaign</code> (chains, sweeps, Monte Carlo and compositions of any kinds)</td>
+</tr>
+</tbody></table></div>
+<h2 id="system-agnostic-first">System-agnostic first<a class="anchor" href="#system-agnostic-first" aria-label="Link to this section">#</a></h2>
+<p>The engine is a generic LEO-PNT simulator. Any constellation (a Walker pattern, explicit
+orbital elements, a two-line element set (TLE) through the Simplified General Perturbations 4 (SGP4) propagator, or a designed single pass), any
+signal design (any band, any mix of binary phase-shift keying (BPSK), binary offset carrier
+(BOC) and frequency-division multiple access (FDMA) components), any navigation-message
+model. Named systems are optional presets: data files, each with its source, which fill
+only what a scenario leaves out. Every capability, test, oracle and bundled scenario runs
+with no Celeste data present.</p>
+<p>The Celeste IOD (in-orbit demonstration) preset is one optional preset among them. Its
+signal parameters were presented at the ESA NAVISP (European Space Agency Navigation
+Innovation and Support Programme) LEO-PNT workshop, 2026, and have no public source yet.
+Every workshop-derived number of the engine lives in one file,
+<span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>src/celeste_iod.rs</code></span>, which <code>build.rs</code> compiles in only when it
+exists, and in the repository-only scenarios <code>scenarios/*celeste-iod*.toml</code>. Deleting that
+file and those scenarios withholds the preset with no source edit; every other test, oracle
+and scenario runs without it (<code>tests/workshop_preset_isolation.rs</code> guards which files may
+name it). This page gives none of its numbers.</p>
+<h2 id="the-kinds-and-how-they-connect">The kinds and how they connect<a class="anchor" href="#the-kinds-and-how-they-connect" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Kind</th>
+<th>What one run computes</th>
+<th>Label</th>
+</tr>
+</thead><tbody><tr>
+<td><code>leo-signal</code></td>
+<td>a signal design&#39;s band-limited power spectral density (PSD), power in band, root-mean-square (Gabor) bandwidth, code-tracking jitter against carrier-to-noise density (C/N0), acquisition search, and spectral separation coefficients (SSC) against GNSS signals; a band trade (ultra high frequency (UHF), L, S, C)</td>
+<td>closed forms VALIDATED, designs and trade MODELLED</td>
+</tr>
+<tr>
+<td><code>spectrum</code> (multi-band panels)</td>
+<td>per-band waterfalls with per-band jammers (continuous wave (CW), chirp, narrowband, wideband, matched), each signal&#39;s J/S and effective C/N0 over a timeline</td>
+<td>spectra VALIDATED, jammers MODELLED</td>
+</tr>
+<tr>
+<td><code>leo-pass</code></td>
+<td>pass geometry, Doppler and Doppler rate, free-space loss, satellite and user antennas, ITU-R (International Telecommunication Union, Radiocommunication Sector) gaseous, rain, scintillation and building entry loss, C/N0 per band and epoch beside the MEO GNSS carriers; ionosphere per band and the ionosphere-free pairs; low-energy fixes; ionosphere sounding; spoofing monitors</td>
+<td>components VALIDATED, pass MODELLED</td>
+</tr>
+<tr>
+<td><code>leo-navmsg</code></td>
+<td>the broadcast ephemeris and clock message: fitter, signal-in-space range error (SISRE) against fit interval and update period, mid-pass update continuity, user algorithm, binary frame with a 24-bit cyclic redundancy check (CRC-24Q), exports in the style of RINEX 4 (Receiver Independent Exchange Format) and as comma-separated values (CSV)</td>
+<td>user algorithm, weights and CRC VALIDATED, fits MODELLED</td>
+</tr>
+<tr>
+<td><code>leo-pvt</code></td>
+<td>Doppler positioning, joint GNSS + LEO pseudorange fixes with inter-system biases, polar and Arctic geometry, time transfer to Coordinated Universal Time (UTC), with an optional per-epoch time-error trace</td>
+<td>maximum Doppler VALIDATED, rest MODELLED</td>
+</tr>
+<tr>
+<td><code>leo-ppp</code></td>
+<td>precise point positioning (PPP) convergence with GNSS only and with LEO layers</td>
+<td>MODELLED</td>
+</tr>
+<tr>
+<td><code>ntn-positioning</code></td>
+<td>5G NTN positioning accuracy from the downlink bandwidth (Cramér-Rao bound)</td>
+<td>MODELLED</td>
+</tr>
+<tr>
+<td><code>leo-pnt-chain</code></td>
+<td>one system end to end: signal design, pass, message, fused fix and PPP, every hand-off listed</td>
+<td>MODELLED</td>
+</tr>
+<tr>
+<td><code>campaign</code></td>
+<td>any of the above chained on one timeline, swept, run as a Monte Carlo ensemble or composed under shared conditions</td>
+<td>MODELLED</td>
+</tr>
+</tbody></table></div>
+<p>The chain hands values in code (see <a href="#end-to-end-leo-pnt-chain">End-to-end LEO-PNT chain</a>
+below): the signal design sets the pass band&#39;s EIRP (equivalent isotropically radiated
+power) split and tracked chip rate; the pass gives the tracked C/N0 and code jitter; the
+navigation message&#39;s SISRE and the pass C/N0 weight the LEO measurements of the fused fix.</p>
+<h2 id="bands">Bands<a class="anchor" href="#bands" aria-label="Link to this section">#</a></h2>
+<p>The generic designs use public band centres; each is REPRESENTATIVE, not any system&#39;s
+signal (<code>data/leo-signals/generic-bands.toml</code>, <code>generic-c-band.toml</code>).</p>
+<div class="tbl"><table><thead><tr>
+<th>Band</th>
+<th>Allocation</th>
+<th>Generic design</th>
+<th>Centre</th>
+<th>Transmit bandwidth</th>
+<th>Components</th>
+<th>First-order ionospheric delay relative to L</th>
+</tr>
+</thead><tbody><tr>
+<td>UHF</td>
+<td>not a radionavigation allocation (representative); carrier from the public <span class="withdrawn" title="Withdrawn by its publisher; no archived copy">openRECEIVER survey</span> (page since withdrawn; see <a href="leo-signal.html#references">LEO-SIGNAL.md</a>)</td>
+<td><code>generic-uhf</code></td>
+<td>465 MHz</td>
+<td>10 MHz</td>
+<td>BPSK(5) pilot and data</td>
+<td>6.6 ×</td>
+</tr>
+<tr>
+<td>L</td>
+<td>radionavigation-satellite service (RNSS), the Galileo E5 centre</td>
+<td><code>generic-l</code></td>
+<td>1191.795 MHz</td>
+<td>20.46 MHz</td>
+<td>BPSK(10) pilot and data</td>
+<td>1</td>
+</tr>
+<tr>
+<td>S</td>
+<td>radiodetermination-satellite service (RDSS), the S carrier of NavIC (Navigation with Indian Constellation)</td>
+<td><code>generic-s</code></td>
+<td>2492.028 MHz</td>
+<td>16.5 MHz</td>
+<td>BPSK(5) pilot and data</td>
+<td>0.23 ×</td>
+</tr>
+<tr>
+<td>C</td>
+<td>RNSS, centre of the 5010–5030 MHz allocation</td>
+<td><code>generic-c</code>, <code>generic-c-band-leo</code></td>
+<td>5020 MHz</td>
+<td>20 MHz</td>
+<td>BPSK(10) pilot and data</td>
+<td>0.056 ×</td>
+</tr>
+<tr>
+<td>C extended</td>
+<td>outside the RNSS allocation (representative)</td>
+<td><code>generic-c-wide</code></td>
+<td>5100 MHz</td>
+<td>120 MHz</td>
+<td>BPSK(50) pilot and data</td>
+<td>0.055 ×</td>
+</tr>
+<tr>
+<td>S (mobile-satellite service, MSS)</td>
+<td>MSS downlink, 3GPP (Third Generation Partnership Project) band n256</td>
+<td>used by <code>ntn-positioning</code></td>
+<td>2172.5 MHz</td>
+<td>0.18 to 20 MHz</td>
+<td>5G New Radio positioning signals</td>
+<td>0.30 ×</td>
+</tr>
+</tbody></table></div>
+<p>BPSK(n) is binary phase-shift keying at n × 1.023 Mchip/s. The delay ratio is <code>(f_L/f)²</code>
+with <code>f_L</code> = 1191.795 MHz. The free-space loss grows by <code>20·log10(f/f_L)</code> at the same
+range (−8.2 dB at UHF, +6.4 dB at S, +12.5 dB at C).</p>
+<h2 id="signal-and-system-presets">Signal and system presets<a class="anchor" href="#signal-and-system-presets" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Preset</th>
+<th>Source</th>
+<th>What it carries</th>
+</tr>
+</thead><tbody><tr>
+<td><code>generic-bands</code>, <code>generic-leo</code></td>
+<td>REPRESENTATIVE, band centres from the ITU Radio Regulations</td>
+<td><code>generic-bands</code> (signal designs): the band table above; <code>generic-leo</code> (the <code>leo-pass</code> default): UHF at 450 MHz, L, S and C at the centres above, 0 dBW EIRP per band, a 550 km sun-synchronous Walker 240/12/1 layer</td>
+</tr>
+<tr>
+<td><code>generic-c-band</code></td>
+<td>REPRESENTATIVE, for C-band systems whose parameters are not public (for example TrustPoint)</td>
+<td>BPSK(10) at 5020 MHz, isoflux beam</td>
+</tr>
+<tr>
+<td><code>xona-pulsar</code></td>
+<td>PUBLIC: Leclère, Marathe and Reid, Institute of Navigation (ION) GNSS+ 2025, <a href="https://arxiv.org/abs/2509.19551">arXiv 2509.19551</a></td>
+<td>X1 at 1593.3225 MHz (1.023 Mchip/s) and X5 at 1190.51625 MHz (10.23 Mchip/s), the published minimum and maximum received powers, 258 satellites at about 1080 km (53 and 97 deg shells)</td>
+</tr>
+<tr>
+<td><code>iridium-stl</code></td>
+<td>PUBLIC: <a href="https://rntfnd.org/wp-content/uploads/Recent-PNT-Improvements-and-Test-Results-Based-on-Low-Earth-Orbit-Satellites.pdf">Resilient Navigation and Timing Foundation (RNTF) briefing</a></td>
+<td>bursts in 1616–1626 MHz, Doppler up to ±36 kHz, 66 satellites at 780 km (781 km in the <code>leo-pass</code> preset), received power &quot;300 to 2400 times GPS&quot;</td>
+</tr>
+<tr>
+<td><code>starlink-soo</code> / <code>starlink-soop</code> / <code>starlink-sop</code> (signal, pass and positioning kinds)</td>
+<td>PUBLIC signal figures: Kozhaya, Saroufim and Kassas, <a href="https://navi.ion.org/content/72/1/navi.685">NAVIGATION 72(1)</a>; REPRESENTATIVE orbit</td>
+<td>a 240 MHz Ku-band beacon used for Doppler only, C/N0 about 57 dB-Hz</td>
+</tr>
+<tr>
+<td><code>centispace</code></td>
+<td>PUBLIC signal structure: <a href="https://pmc.ncbi.nlm.nih.gov/articles/PMC10301026/">PMC10301026</a>; REPRESENTATIVE orbit and power</td>
+<td>BPSK at 2.046 Mchip/s near L1 and L5</td>
+</tr>
+<tr>
+<td><code>atomic-zero-clock</code> (<code>atomic</code> in the message kind)</td>
+<td>PUBLIC: <a href="https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/">InsideGNSS, ATOMIC (Autonomous Time and Orbit Determination for Microsatellite Constellations) payload</a></td>
+<td>a 6th-order polynomial ephemeris with no clock terms (the clock is steered to GNSS time)</td>
+</tr>
+<tr>
+<td><code>celeste-iod</code> (optional)</td>
+<td>WORKSHOP: presented at the ESA NAVISP LEO-PNT workshop, 2026</td>
+<td>the in-orbit demonstration&#39;s signal configuration #1 and message layout, in the one withholdable file</td>
+</tr>
+</tbody></table></div>
+<p>Every preset marks its numbers PUBLIC (with a URL), REPRESENTATIVE (a documented design
+choice, never a claim about a real system) or WORKSHOP, and the result of every run that
+uses one says which.</p>
+<h2 id="the-navigation-message">The navigation message<a class="anchor" href="#the-navigation-message" aria-label="Link to this section">#</a></h2>
+<p>A LEO navigation message (<a href="leo-navmsg.html">LEO-NAVMSG.md</a>) carries four parts, the
+structure the Galileo Open Service Signal-in-Space Interface Control Document (OS SIS ICD)
+and the published LEO proposals share:</p>
+<div class="tbl"><table><thead><tr>
+<th>Part</th>
+<th>Content</th>
+</tr>
+</thead><tbody><tr>
+<td>Ephemeris</td>
+<td>the Galileo ICD 16-parameter Keplerian set (square root of the semi-major axis, eccentricity, inclination and its rate, right ascension of the node and its rate, argument of perigee, mean anomaly, mean-motion correction, six harmonic corrections, reference time), plus along-track, cross-track and radial correction polynomials; or the Liu et al. 2025 22-parameter model (<a href="https://doi.org/10.3390/rs17162894">doi 10.3390/rs17162894</a>); or the ATOMIC zero-clock polynomial</td>
+</tr>
+<tr>
+<td>Synchronisation</td>
+<td>week number and time of week (TOW), and a second-order clock polynomial (af0, af1, af2 about toc)</td>
+</tr>
+<tr>
+<td>Auxiliary</td>
+<td>space-vehicle identifier (SVID), issue of data (IOD), signal health</td>
+</tr>
+<tr>
+<td>Other services</td>
+<td>ionospheric corrections for single-frequency users (a Klobuchar-style set and NeQuick-G ai0–ai2) and the system-time-to-UTC offset (A0, A1, leap seconds and their schedule)</td>
+</tr>
+</tbody></table></div>
+<p>The binary frame is Kshana&#39;s own documented encoding modelled on these components, not any
+system&#39;s bit layout. RINEX 4.02 defines no LEO navigation records, so the RINEX-style
+export is a documented Kshana extension (prior art: <a href="https://arxiv.org/abs/2401.17767">arXiv 2401.17767</a>).</p>
+<h2 id="resilience">Resilience<a class="anchor" href="#resilience" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Scenario</th>
+<th>Kind</th>
+<th>Result of one run</th>
+</tr>
+</thead><tbody><tr>
+<td><code>leo-resilience-multiband-diversity</code></td>
+<td><code>campaign</code> sweep of <code>spectrum</code></td>
+<td>a 50 MHz barrage at 1185 MHz swept from −140 to −80 dBW: GPS L5 is lost at −105 dBW, Galileo E5a and the LEO L-band signal at −100 dBW; the UHF, S- and C-band LEO signals keep 49.4, 49.2 and 47.4 dB-Hz at every power</td>
+</tr>
+<tr>
+<td><code>leo-resilience-js-margin</code></td>
+<td><code>spectrum</code></td>
+<td>a 40 MHz barrage at 1185 MHz stepping up 5 dB every 10 s from −125 dBW: GPS L5 lost at −105 dBW, Galileo E5a at −100 dBW, Xona X5 (at its published minimum, −144.9 dBW) at −95 dBW; a generic LEO signal at −135 dBW still tracks at −90 dBW (28.9 dB-Hz). Received power buys J/S margin dB for dB</td>
+</tr>
+<tr>
+<td><code>leo-resilience-spoof-doppler</code></td>
+<td><code>leo-pass</code> <code>[spoofer]</code></td>
+<td>a 30 m position jump at a surveyed site: the GNSS-only Doppler test never detects it; the test on every channel does, 105 s after the onset (see <a href="leo-pass.html#spoofing-monitors-spoofer">LEO-PASS.md</a>)</td>
+</tr>
+<tr>
+<td><code>leo-resilience-spoof-monitors</code></td>
+<td><code>campaign</code> compose of <code>leo-pass</code></td>
+<td>four spoofers, both monitors: an L-band-only spoofer and an all-band spoofer without ionosphere are caught by the cross-band monitor at the onset (300 s) and by the Doppler monitor at 420 s and 395 s; an ionosphere-aware all-band spoofer only by the Doppler monitor (395 s); a GNSS-only 30 m push by neither</td>
+</tr>
+<tr>
+<td><code>leo-resilience-gnss-jammed-leo-carries</code></td>
+<td><code>campaign</code> chain (<code>spectrum</code>, <code>integrity</code>)</td>
+<td>GNSS jammed for 15 minutes (GPS L1 coarse/acquisition (C/A) code to about 10 dB-Hz, E5a to 17.4 dB-Hz against a 25 dB-Hz floor) while the S- and C-band LEO signals hold 49.2 and 47.4 dB-Hz; receiver autonomous integrity monitoring (RAIM) on the LEO layer alone forms a protection level at every epoch, under the 50 m vertical alert limit at 28 of 30 grid times, with the alarm raised at the other two; nominal and recovery phases 5.4 to 15.6 m</td>
+</tr>
+</tbody></table></div>
+<p>The spoofing monitors, their statistics and their limits are on
+<a href="leo-pass.html#spoofing-monitors-spoofer">LEO-PASS.md</a>. The multi-band waterfall with a
+different jammer per band is <code>multi-band-jamming-waterfall</code> (<a href="leo-signal.html">LEO-SIGNAL.md</a>).</p>
+<h2 id="one-scenario-per-experiment-focus-area">One scenario per experiment focus area<a class="anchor" href="#one-scenario-per-experiment-focus-area" aria-label="Link to this section">#</a></h2>
+<p>The eight experiment focus areas of the Celeste IOD call for third-party experimentation
+(ESA Open Space Innovation Platform, OSIP) are generic LEO-PNT questions; each has a
+system-agnostic scenario:</p>
+<div class="tbl"><table><thead><tr>
+<th>Focus area</th>
+<th>Scenario</th>
+<th>Kind</th>
+<th>Result of one run</th>
+</tr>
+</thead><tbody><tr>
+<td>High-accuracy positioning (PPP)</td>
+<td><code>leo-focus-ppp-altitude</code></td>
+<td><code>campaign</code> sweep of <code>leo-ppp</code></td>
+<td>a 192-satellite layer at 500, 1000 and 1500 km cuts multi-GNSS float PPP convergence at Munich from 13.0 min to 3.25, 3.25 and 3.5 min (six realisations, 30 s epochs)</td>
+</tr>
+<tr>
+<td>PNT resilience (L, S, C)</td>
+<td><code>leo-resilience-multiband-diversity</code></td>
+<td><code>campaign</code> sweep of <code>spectrum</code></td>
+<td>see Resilience</td>
+</tr>
+<tr>
+<td>5G/6G NTN compatibility</td>
+<td><code>leo-focus-ntn-bandwidth</code></td>
+<td><code>campaign</code> sweep of <code>ntn-positioning</code></td>
+<td>positioning-reference bandwidth 180 kHz to 20 MHz: zenith range sigma 6.5 m to 5.8 cm, time-of-arrival 3D error 30.1 m to 2.1 m, floored by the 1 m network synchronisation error</td>
+</tr>
+<tr>
+<td>Low-energy PNT for the Internet of Things (IoT) and mobile</td>
+<td><code>leo-focus-iot-eirp</code></td>
+<td><code>campaign</code> sweep of <code>leo-pass</code> <code>[iot]</code></td>
+<td>UHF EIRP −35 to +5 dBW: below a median C/N0 of about 35 dB-Hz the hot-start energy per fix climbs from 18 mJ to 55 J; above it the battery life at one fix per hour is 8334 days, set by the sleep current</td>
+</tr>
+<tr>
+<td>LEO-PNT science</td>
+<td><code>leo-focus-science-iono-sounding</code></td>
+<td><code>leo-pass</code></td>
+<td>slant total electron content (TEC) from every band pair of a four-band pass over Tromsø: 18.85 TEC units recovered by each pair, 1-sigma 0.017 (UHF with L) to 2.9 TEC units (S with C)</td>
+</tr>
+<tr>
+<td>Additional PNT data services</td>
+<td><code>leo-focus-data-services</code></td>
+<td><code>campaign</code> compose of <code>leo-navmsg</code></td>
+<td>the Kshana message frame grows from 146 bytes (ephemeris and clock, 1045 bits) to 154 with the Klobuchar set, 159 with NeQuick-G and 171 with the UTC parameters</td>
+</tr>
+<tr>
+<td>Indoor navigation (UHF)</td>
+<td><code>leo-focus-indoor-uhf</code></td>
+<td><code>campaign</code> compose of <code>leo-pass</code></td>
+<td>peak indoor C/N0 in a traditional building: UHF 34.1, L 24.2, S 16.5, C 9.0 dB-Hz; in a thermally efficient one UHF 15.3 dB-Hz and every other band lower</td>
+</tr>
+<tr>
+<td>MEO + LEO fused PNT</td>
+<td><code>leo-focus-fused-pnt-sisre</code></td>
+<td><code>campaign</code> sweep of <code>leo-pvt</code></td>
+<td>Xona X5 fused with GPS and Galileo over Madrid: GNSS-only 3D error 1.06 m root mean square (RMS); fused 0.08 m at a 5 cm LEO SISRE, 0.57 m at 0.5 m and 1.01 m at 5 m</td>
+</tr>
+</tbody></table></div>
+<h2 id="one-scenario-per-end-user-vertical">One scenario per end-user vertical<a class="anchor" href="#one-scenario-per-end-user-vertical" aria-label="Link to this section">#</a></h2>
+<p>Each vertical is a <code>campaign</code> chain on one timeline, so it animates, and each has a
+<code>leo-pass</code> member, so it exports geometry (see <a href="#running-a-scenario">Running</a>).</p>
+<div class="tbl"><table><thead><tr>
+<th>Vertical</th>
+<th>Scenario</th>
+<th>Result of one run</th>
+</tr>
+</thead><tbody><tr>
+<td>Autonomous vehicles</td>
+<td><code>leo-vertical-autonomous-vehicle</code></td>
+<td>a car in Munich: open road, fused error 0.30 m mean; in a 35 deg urban canyon GPS and Galileo keep 8 satellites and a 5.8 m mean error, the generic LEO layer adds 4 to 5 and brings it to 2.1 m, still above the 1.5 m lane-level threshold at about half the canyon epochs</td>
+</tr>
+<tr>
+<td>Railway and maritime</td>
+<td><code>leo-vertical-rail-maritime</code></td>
+<td>the bundled <code>maritime-strait-jamming</code> ship loses every GNSS satellite (12.1 dB-Hz) while its S- and C-band LEO pass reaches 44.2 and 38.1 dB-Hz; the bundled <code>rail-tunnel-coast</code> train reaches 2 m of inertial error 35.8 s into the tunnel; in the open its LEO pass gives 35 to 50 dB-Hz in L</td>
+</tr>
+<tr>
+<td>Critical infrastructure</td>
+<td><code>leo-vertical-critical-infrastructure-timing</code></td>
+<td>a substation time server&#39;s TCXO-class oscillator (temperature-compensated crystal) free-running through a day without GNSS reaches 29 µs, past the 1 µs guard between 75 and 80 minutes after the loss (on the 5-minute grid); the same class disciplined to Iridium stays within −40 to +11 ns</td>
+</tr>
+<tr>
+<td>Polar and Arctic users</td>
+<td><code>leo-vertical-polar-arctic</code></td>
+<td>GPS + Galileo mean position dilution of precision (PDOP) 1.38, 1.57 and 1.62 at Tromsø, Svalbard and the North Pole; with Iridium 1.29, 1.34 and 1.26, from 3.0, 5.5 and 6.8 Iridium satellites in view</td>
+</tr>
+<tr>
+<td>Wireless networks 5G/6G</td>
+<td><code>leo-vertical-5g-network-timing</code></td>
+<td>a base station&#39;s oven-controlled crystal oscillator (OCXO) in holdover crosses the 1.1 µs network limit after 8863 s and the 1.5 µs end-application limit after 10006 s (the <code>telecom-timing</code> kind&#39;s analysis); disciplined to Xona X5 its time error stays between −0.7 and +0.3 ns all day, with a predicted 1-sigma of 5 ns, the broadcast UTC offset&#39;s stated uncertainty</td>
+</tr>
+<tr>
+<td>Asset tracking and IoT</td>
+<td><code>leo-vertical-asset-tracking-iot</code></td>
+<td>a container tag&#39;s hot UHF fix costs 18 mJ on the quay and at sea (8334 days of battery at one fix an hour) and 34 mJ in a warehouse (5770 days), where L band falls to 20 to 24 dB-Hz</td>
+</tr>
+</tbody></table></div>
+<h2 id="validated-and-modelled">VALIDATED and MODELLED<a class="anchor" href="#validated-and-modelled" aria-label="Link to this section">#</a></h2>
+<p>A row is VALIDATED only when a test reproduces a published setup and pins the published
+figure within a stated tolerance; everything else is MODELLED with its rationale
+(<a href="verification-matrix.html">VERIFICATION-MATRIX.md</a>, <a href="modelled-rationale.html">MODELLED-RATIONALE.md</a>).</p>
+<p>VALIDATED LEO-PNT rows:</p>
+<ul>
+<li>closed-form band-limited signal power and early-late code-tracking jitter at published operating points (Betz and Kolodziejski 2009), with the Gabor bandwidth and SSC cross-checked;</li>
+<li>the maximum Doppler of a LEO navigation satellite (Xona Pulsar X1 32–34 kHz, Iridium ±36 kHz), and the static-user Doppler envelope against arXiv 2509.19551 Table 1;</li>
+<li>ITU-R P.838-3 rain coefficients, P.618-14 rain attenuation and tropospheric scintillation, and P.2109-2 building entry loss against the ITU-R Study Group 3 validation data;</li>
+<li>the first-order ionospheric delay scaling and free-space loss (IS-GPS-200 group-delay ratio, the Friis form);</li>
+<li>the global-average SISRE weights (Montenbruck et al. 2018), the Galileo ICD user algorithm against RTKLIB on real broadcast ephemerides, and CRC-24Q against its catalogue check value.</li>
+</ul>
+<p>MODELLED LEO-PNT rows: every signal design and band trade, the multi-band waterfall, every
+pass and link budget as a whole, the presets, low-energy fixes, the message fitter and
+formats, Doppler and joint positioning, PPP convergence, NTN positioning, time transfer,
+polar coverage, the end-to-end chain, the spoofing monitors and ionosphere sounding, and
+every campaign (a campaign composes kinds and adds no physics; its composition identities
+are tested, <a href="campaigns.html">CAMPAIGNS.md</a>). No LEO C/N0, ranging error or positioning figure
+is compared with a measurement of any satellite.</p>
+<h2 id="running-a-scenario">Running a scenario<a class="anchor" href="#running-a-scenario" aria-label="Link to this section">#</a></h2>
+<p>Every scenario above is bundled: <code>kshana example &lt;name&gt;</code> prints it, and</p>
+<pre data-lang="text"><code class="hljs">kshana scenarios/&lt;name&gt;.toml --animate html --export all</code></pre>
+<p>writes, next to the file, the result (<code>.result.json</code>), the chart (<code>.chart.svg</code>), the
+advanced report (<code>.report.html</code> and <code>.report.json</code>, with a section that embeds the animated
+run and lists the exports), the interactive player (<code>.animation.html</code>) and the exports.
+What applies depends on the kind:</p>
+<ul>
+<li>a run with a time axis animates: <code>leo-pass</code> epochs, the <code>spoof.series</code> of a spoofing run,
+<code>spectrum</code> timelines, <code>leo-pvt</code> joint epochs and timing traces, <code>leo-ppp</code> error curves
+and every campaign chain. A sweep or a composition has no time axis: <code>--animate</code> refuses
+it with exit status 1 and then the command writes nothing at all, so run the eight
+sweeps and compositions above (<code>leo-resilience-multiband-diversity</code>,
+<code>leo-resilience-spoof-monitors</code> and every <code>leo-focus-*</code> scenario except
+<code>leo-focus-science-iono-sounding</code>) without <code>--animate</code>;</li>
+<li><code>leo-pass</code> and <code>leo-pnt-chain</code> export CZML (the Cesium Language), KML (Keyhole Markup
+Language), GeoJSON and STK (Systems Tool Kit) ephemerides of the pass geometry; a
+campaign exports each member that has geometry as its own file set, the member label in
+the file name (<code>&lt;name&gt;.&lt;member&gt;.czml</code>), so every vertical exports its LEO passes; the
+other LEO kinds state why a format does not apply (<a href="interop.html">INTEROP.md</a>).</li>
+</ul>
+<p>The remaining LEO scenarios, by kind (details on each kind&#39;s page):</p>
+<div class="tbl"><table><thead><tr>
+<th>Kind</th>
+<th>Scenarios</th>
+</tr>
+</thead><tbody><tr>
+<td><code>leo-signal</code></td>
+<td><code>leo-band-trade</code>, <code>xona-pulsar-signals</code>, optional <code>celeste-iod-classical-pilot-signals</code></td>
+</tr>
+<tr>
+<td><code>spectrum</code></td>
+<td><code>multi-band-jamming-waterfall</code></td>
+</tr>
+<tr>
+<td><code>leo-pass</code></td>
+<td><code>leo-pass-vs-gnss-cn0</code>, <code>leo-pass-xona-pulsar</code>, <code>leo-pass-iridium</code>, <code>leo-indoor-uhf</code>, <code>leo-iot-energy</code>, optional <code>leo-pass-celeste-iod-multiband</code></td>
+</tr>
+<tr>
+<td><code>leo-navmsg</code></td>
+<td><code>leo-navmsg-fit-interval-trade</code>, <code>leo-navmsg-model-comparison</code>, <code>leo-navmsg-midpass-update</code>, <code>leo-navmsg-encode-decode</code>, optional <code>leo-navmsg-celeste-iod</code></td>
+</tr>
+<tr>
+<td><code>leo-pvt</code></td>
+<td><code>leo-doppler-positioning</code>, <code>starlink-sop-doppler-positioning</code>, <code>meo-leo-fused-pvt</code>, <code>polar-arctic-leo-coverage</code>, <code>leo-timing-utc</code>, optional <code>celeste-iod-fused-pvt</code></td>
+</tr>
+<tr>
+<td><code>leo-ppp</code></td>
+<td><code>leo-ppp-convergence</code></td>
+</tr>
+<tr>
+<td><code>ntn-positioning</code></td>
+<td><code>ntn-5g-positioning</code></td>
+</tr>
+<tr>
+<td><code>leo-pnt-chain</code></td>
+<td><code>leo-pnt-end-to-end</code>, <code>xona-pulsar-end-to-end</code>, optional <code>celeste-iod-end-to-end</code></td>
+</tr>
+<tr>
+<td><code>constellation-design</code></td>
+<td><code>leo-pnt-mega-shell</code></td>
+</tr>
+<tr>
+<td><code>slot-timing</code></td>
+<td><code>slot-timing-ocxo-leo</code></td>
+</tr>
+</tbody></table></div>
+<p>The optional scenarios are repository-only and are withheld with the Celeste preset file.</p>
+<p>Two of them sit in other kinds. <code>leo-pnt-mega-shell</code> (<code>constellation-design</code>) sizes a
+5000-satellite LEO-PNT constellation in four illustrative Walker shells: availability
+99.22 % at a PDOP of 3 or less above a 20° mask, median PDOP 1.11 and 39.4 satellites in
+view on average over 648 grid points and 12 epochs. <code>slot-timing-ocxo-leo</code> (<code>slot-timing</code>)
+asks how long the datasheet OCXO of a LEO smallsat stays inside a 100 ns slot guard at k = 3
+after its last GNSS fix: the guard breaks 650.8 s after a fix, so it needs a fix at least
+every 645.8 s (133.8 a day), with random-walk frequency noise the dominant term.</p>
+<h2 id="end-to-end-leo-pnt-chain">End-to-end LEO-PNT chain<a class="anchor" href="#end-to-end-leo-pnt-chain" aria-label="Link to this section">#</a></h2>
+<p>The <code>leo-pnt-chain</code> kind (<span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>src/leo_pnt_chain.rs</code></span>) follows one
+LEO-PNT system from its signal design to the user&#39;s position. Each stage is the engine&#39;s own
+kind, run on its own table of the chain scenario, and the chain hands values from one stage
+to the next in code:</p>
+<div class="tbl"><table><thead><tr>
+<th>From</th>
+<th>To</th>
+<th>What is handed on</th>
+</tr>
+</thead><tbody><tr>
+<td><code>leo-signal</code> (<code>[signal]</code>, <code>signal_design</code>)</td>
+<td><code>leo-pass</code></td>
+<td>the tracked component&#39;s power share, the in-band fraction and the tracked chip rate (the band&#39;s EIRP split and its C/N0 offset)</td>
+</tr>
+<tr>
+<td><code>leo-pass</code> (<code>[pass]</code>)</td>
+<td><code>leo-navmsg</code></td>
+<td>the chain satellite&#39;s altitude and inclination (the message&#39;s truth orbit), unless <code>[navmsg.orbit]</code> states them</td>
+</tr>
+<tr>
+<td><code>leo-pass</code></td>
+<td><code>leo-pvt</code> (<code>[fusion]</code>)</td>
+<td>the tracked C/N0 at the positioning mask and at the zenith, from a least-squares line in sin(elevation) fitted to the pass</td>
+</tr>
+<tr>
+<td><code>leo-navmsg</code> (<code>[navmsg]</code>)</td>
+<td><code>leo-pvt</code>, <code>leo-ppp</code> (<code>[ppp]</code>)</td>
+<td>the signal-in-space range error (SISRE): the message&#39;s representation error (root mean square, orbit and clock) with the scenario&#39;s <code>od_sisre_m</code> orbit-determination term in root-sum-square</td>
+</tr>
+<tr>
+<td><code>leo-signal</code></td>
+<td><code>leo-pvt</code></td>
+<td>the carrier frequency and the tracked chip rate</td>
+</tr>
+</tbody></table></div>
+<p>A value is handed on only where the downstream table leaves it unset, and every hand-off is
+listed in the result&#39;s <code>handoffs</code> array with its value, unit and target. A band of <code>[pass]</code>
+must name the design (<code>signal = &quot;&lt;design&gt;&quot;</code>); that is how a <code>leo-pass</code> band carries any
+<code>leo-signal</code> design on its own too: it takes the design&#39;s centre frequency, transmit
+bandwidth and tracked chip rate, splits its EIRP across the components, and reports the
+tracked-component C/N0 and the band-limited coherent early-late code-tracking jitter
+(Betz and Kolodziejski 2009; half-chip spacing, 1 Hz loop, 20 ms) at every epoch.</p>
+<p>Scenarios:</p>
+<div class="tbl"><table><thead><tr>
+<th>Scenario</th>
+<th>System</th>
+<th>Result of one run</th>
+</tr>
+</thead><tbody><tr>
+<td><code>leo-pnt-end-to-end</code></td>
+<td>generic: the representative <code>generic-l</code> design, a 1080 km, 53° pass over Madrid, a 240-satellite Walker layer</td>
+<td>tracked C/N0 peak 58.2 dB-Hz, median code jitter 0.050 m; SISRE 0.250 m handed on; GNSS-only root-mean-square (RMS) 3D error 1.60 m, GNSS + LEO 0.43 m; precise point positioning (PPP) convergence 11.5 min GNSS only, 7.5 min with the LEO layer</td>
+</tr>
+<tr>
+<td><code>xona-pulsar-end-to-end</code></td>
+<td>Xona Pulsar X5 (arXiv 2509.19551), the inclined shell for positioning and both shells for PPP</td>
+<td>tracked C/N0 peak 66.3 dB-Hz, median code jitter 0.018 m; GNSS-only RMS 3D error 1.49 m, GNSS + LEO 0.68 m; PPP convergence 20.6 min GNSS only, 5.9 min with Pulsar</td>
+</tr>
+<tr>
+<td><code>celeste-iod-end-to-end</code> (optional)</td>
+<td>Celeste IOD E5 configuration #1 with the Celeste message preset (withheld with the preset)</td>
+<td>the pass reproduces the peak total C/N0 the preset is calibrated to (the value lives in the preset file); two satellites barely move a 95-minute fused fix (1.50 m to 1.48 m RMS 3D)</td>
+</tr>
+</tbody></table></div>
+<pre data-lang="text"><code class="hljs">kshana scenarios/leo-pnt-end-to-end.toml --animate html --export all</code></pre>
+<p>writes the result, the chart, the advanced report (which embeds the animated pass and links
+the exports), the interactive player, and CZML (the Cesium Language), KML (Keyhole Markup Language),
+GeoJSON and STK (Systems Tool Kit) ephemeris files of the pass geometry.</p>
+<p>The chain is MODELLED: it adds no physics, and each stage keeps its own labels. The
+positioning stage&#39;s C/N0 model is a straight line in sin(elevation), so a pass-specific
+shape is reduced to two numbers; the message stage models no orbit determination, which is
+why <code>od_sisre_m</code> is a stated input (0.25 m in the bundled scenarios, representative of the
+decimetre-level on-board orbit determination and steered chip-scale clock the ATOMIC payload
+reports: <a href="https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/">https://insidegnss.com/first-steps-toward-a-fully-operational-leo-pnt-payload/</a>).</p>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="solar-system.html"><small>Previous</small>Solar system and other bodies</a><a class="next" href="leo-signal.html"><small>Next</small>LEO signal designs</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#system-agnostic-first">System-agnostic first</a><a class="l2" href="#the-kinds-and-how-they-connect">The kinds and how they connect</a><a class="l2" href="#bands">Bands</a><a class="l2" href="#signal-and-system-presets">Signal and system presets</a><a class="l2" href="#the-navigation-message">The navigation message</a><a class="l2" href="#resilience">Resilience</a><a class="l2" href="#one-scenario-per-experiment-focus-area">One scenario per experiment focus area</a><a class="l2" href="#one-scenario-per-end-user-vertical">One scenario per end-user vertical</a><a class="l2" href="#validated-and-modelled">VALIDATED and MODELLED</a><a class="l2" href="#running-a-scenario">Running a scenario</a><a class="l2" href="#end-to-end-leo-pnt-chain">End-to-end LEO-PNT chain</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
+      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.29.0 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

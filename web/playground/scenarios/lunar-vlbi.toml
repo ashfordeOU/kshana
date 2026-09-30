@@ -1,0 +1,44 @@
+# Lunar geodetic VLBI: an Earth baseline observing a lunar-surface beacon.
+#
+# Two ground stations (a VLBI baseline, here a Goldstone-like and a Canberra-like site)
+# observe a one-way signal from a NovaMoon-class transmitter on the lunar near side. The
+# geodetic observable (src/lunar_vlbi.rs) is the NEAR-FIELD two-range difference
+#   tau_geom = (|r2 - r_B| - |r1 - r_B|) / c
+# (the Moon is near-field, not a plane wave), plus the station clock-offset difference and a
+# differenced Earth-potential Shapiro term. The report gives the delay, its finite-difference
+# rate, and the wavefront-curvature near-field correction over the pass, with partials
+# available for OD/frame work.
+#
+# Oracle: in the far-field limit the geometric delay collapses to the same-codebase plane-wave
+# delta-DOR observable (src/radiometric.rs), matched to machine precision; the partials are
+# finite-difference checked. At true lunar distance the near-field correction is a non-zero
+# tens-to-hundreds-of-microseconds term.
+#
+# Honesty: MODELLED, NOT validated against real VLBI data. Polar motion is dropped
+# (xp = yp = 0) so station inertial positions carry a few-metre frame error; the beacon mixes
+# a mean-equator-of-date Moon series with an ICRF body-fixed offset (jd_tdb ~ jd_tt), a
+# frame-consistency mismatch below model fidelity; no light-time iteration, media or aberration
+# beyond the differenced Shapiro. No TRL, flight heritage or agency endorsement is claimed.
+kind = "lunar-vlbi"
+
+# Station 1 (DSN Goldstone-like, California).
+station1_lat_deg = 40.4256
+station1_lon_deg = -116.8893
+station1_alt_m = 1000.0
+
+# Station 2 (DSN Canberra-like, Australia) — a long intercontinental baseline.
+station2_lat_deg = -35.4014
+station2_lon_deg = 148.9819
+station2_alt_m = 688.0
+
+# Beacon on the lunar near side (equatorial, sub-Earth point).
+beacon_lat_deg = 0.0
+beacon_lon_deg = 0.0
+beacon_alt_m = 0.0
+
+# Epoch (UTC) and pass sampling.
+epoch_year = 2024
+epoch_month = 1
+epoch_day = 1
+horizon_hours = 6.0
+step_min = 30.0

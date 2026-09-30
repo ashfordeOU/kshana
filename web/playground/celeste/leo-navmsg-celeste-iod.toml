@@ -1,0 +1,26 @@
+# ESA Celeste in-orbit demonstration (IOD) preset: the one scenario that uses material
+# presented at the ESA Navigation Innovation and Support Programme (NAVISP) LEO-PNT
+# workshop, 2026. Withhold it from a release by deleting this file and
+# src/leo_navmsg/presets/celeste_iod.rs (see that file's header).
+#
+# Public: the 510 km near-polar sun-synchronous orbit (GMV, ION GNSS+ 2026 abstract
+# 16907; Thales Alenia Space) and the 1191.795 MHz L-band carrier (open-receiver.com,
+# flagged "to be confirmed"). Workshop: the message structure (Galileo Keplerian set plus
+# along/cross/radial polynomials a0..a5, c0..c2, r0..r4, clock polynomial, SVID, health,
+# issue of data, ionospheric and UTC parameters), the 5-minute record spacing and the
+# CSV column names. The Celeste bit layout is not public: Kshana's own encoding is used.
+kind = "leo-navmsg"
+name = "Celeste IOD message (workshop preset)"
+seed = 15
+preset = "celeste-iod"
+analysis = ["encode-decode", "fit-interval-trade"]
+
+[message]
+csv_schema = "celeste-iod"
+
+[trade]
+span_s = 1800
+fit_intervals_s = [60, 120, 300, 600, 900]
+update_periods_s = [60, 150, 300]
+update_fit_interval_s = 300
+models = ["kepler16", "kepler-rac"]

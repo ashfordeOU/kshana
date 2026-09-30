@@ -1,0 +1,114 @@
+# LEO-PNT resilience by band diversity: one jammer, a four-band receiver.
+#
+# A receiver tracks a low Earth orbit (LEO) positioning, navigation and timing (PNT)
+# system in four bands (UHF, L, S and C) beside GPS L5 and Galileo E5a. One wideband
+# (barrage) noise jammer, 50 MHz wide and centred at 1185 MHz, covers the whole L5/E5
+# band. The campaign sweeps its received power from -140 to -80 dBW and records each
+# band's effective carrier-to-noise density (C/N0) from the `spectrum` kind's spectral
+# separation coefficient (SSC) chain.
+#
+# What the sweep shows: the jammer takes every L-band signal, GNSS and LEO alike, in
+# order of their received power; the UHF, S- and C-band LEO signals keep their nominal
+# C/N0 at every power, because no jammer power falls in their bands. A system that
+# spreads its signals over several bands is only denied by a jammer in every band.
+#
+# Signals (every one public or representative; no system-specific data):
+#   gps-l5, galileo-e5a   interface-document minimum received power
+#   generic-uhf  465 MHz, BPSK(5), 10 MHz, -150 dBW          [representative]
+#   generic-l    1191.795 MHz (the Galileo E5 centre), -150 dBW  [representative]
+#   generic-s    2492.028 MHz (the NavIC S carrier), -150 dBW    [representative]
+#   generic-c    5020 MHz (the 5010-5030 MHz RNSS allocation), -152 dBW [representative]
+# (BPSK binary phase-shift keying; RNSS radionavigation-satellite service.)
+#
+# MODELLED: the spectra are validated closed forms; the jammer and the received powers
+# are scenario inputs. This is the "PNT resilience in L, S and C bands" focus area.
+kind = "campaign"
+title = "LEO-PNT band diversity against an L-band barrage jammer"
+seed = 20260929
+
+[sweep]
+metrics = [
+  { name = "cn0_gps_l5", path = "timeline.bands[0].min_cn0_dbhz" },
+  { name = "cn0_galileo_e5a", path = "timeline.bands[1].min_cn0_dbhz" },
+  { name = "cn0_leo_uhf", path = "timeline.bands[2].min_cn0_dbhz" },
+  { name = "cn0_leo_l", path = "timeline.bands[3].min_cn0_dbhz" },
+  { name = "cn0_leo_s", path = "timeline.bands[4].min_cn0_dbhz" },
+  { name = "cn0_leo_c", path = "timeline.bands[5].min_cn0_dbhz" },
+  { name = "tracking_leo_l", path = "timeline.bands[3].tracking_fraction" },
+]
+
+[[sweep.axes]]
+name = "jammer_power"
+key = "jammers.0.received_power_dbw"
+unit = "dBW"
+start = -140.0
+stop = -80.0
+steps = 13
+
+[sweep.scenario]
+kind = "spectrum"
+seed = 11
+duration_s = 2.0
+step_s = 1.0
+
+[sweep.scenario.receiver]
+noise_figure_db = 2.0
+antenna_temp_k = 290.0
+tracking_threshold_dbhz = 25.0
+
+[sweep.scenario.grid]
+f_min_mhz = 1150.0
+f_max_mhz = 1220.0
+n_freq = 70
+
+[[sweep.scenario.panels]]
+name = "UHF"
+f_min_mhz = 455.0
+f_max_mhz = 475.0
+n_freq = 40
+
+[[sweep.scenario.panels]]
+name = "S band"
+f_min_mhz = 2482.0
+f_max_mhz = 2502.0
+n_freq = 40
+
+[[sweep.scenario.panels]]
+name = "C band"
+f_min_mhz = 5005.0
+f_max_mhz = 5035.0
+n_freq = 40
+
+[[sweep.scenario.bands]]
+name = "gps-l5"
+
+[[sweep.scenario.bands]]
+name = "galileo-e5a"
+
+[[sweep.scenario.bands]]
+name = "generic-uhf"
+signal = "generic-uhf"
+signal_power_dbw = -150.0
+
+[[sweep.scenario.bands]]
+name = "generic-l"
+signal = "generic-l"
+signal_power_dbw = -150.0
+
+[[sweep.scenario.bands]]
+name = "generic-s"
+signal = "generic-s"
+signal_power_dbw = -150.0
+
+[[sweep.scenario.bands]]
+name = "generic-c"
+signal = "generic-c"
+signal_power_dbw = -152.0
+
+[[sweep.scenario.jammers]]
+name = "L5-band barrage"
+waveform = "wideband"
+centre_mhz = 1185.0
+bandwidth_mhz = 50.0
+received_power_dbw = -140.0
+on_s = 0.0

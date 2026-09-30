@@ -102,8 +102,9 @@ fn card_matrix_map_references_real_rows_and_covers_every_card() {
 #[test]
 fn oracle_references_have_no_dead_entries() {
     // The ledger's oracle column turns external-source names into outbound links via
-    // web/data/oracle-references.json. The site matches case-sensitively with
-    // `oracleText.includes(m)` (see oracleSources() in web/app.js), so every `match`
+    // web/data/oracle-references.json. A consumer matches case-sensitively with
+    // `oracleText.includes(m)` (the single-page site's oracleSources() did; the file is
+    // still published at kshana.dev/data/ and shipped with the Studio), so every `match`
     // token must actually occur in some matrix oracle string — otherwise it is dead
     // weight (or a typo) that can never surface a link. We also reject malformed URLs
     // and empty labels so a bad entry can't ship a broken "Sources:" chip.
@@ -152,7 +153,7 @@ fn oracle_references_have_no_dead_entries() {
 
 #[test]
 fn every_standard_card_states_its_proof_explicitly() {
-    // web/app.js renders the "validated" pill from `if (s.proof)`, and an absent field
+    // The site build labels a standard "Checked" from `if s.get("proof")`, and an absent field
     // renders as no claim at all rather than as an error — so a card added without it
     // silently publishes a standard with no statement either way. Require the field on
     // every card, in one of the two shapes the site uses: `true`, or a non-empty string

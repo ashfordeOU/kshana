@@ -1,0 +1,4 @@
+{
+ "note": "Optional scenario groups, each in its own folder with an index.json. To ship without a group, delete its folder and its entry here; nothing else refers to it.",
+ "groups": ["celeste/"]
+}
