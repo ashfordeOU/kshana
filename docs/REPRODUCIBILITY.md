@@ -19,6 +19,8 @@ stream keyed by the scenario `seed`, drawn in a fixed order. Consequences:
 | Scenario input hash (`scenario_hash`) is platform-independent | **Yes** | content-addressed SHA-256 of the canonical scenario, pinned in `tests/golden.rs` |
 | Input fingerprint + output **shape** identical across OS (operating system) | **Yes** | `tests/cross_platform_golden.rs` pins an exact SHA-256 per scenario (ten scenarios, one `.sha256` file each in `tests/golden/`), checked on the 3-OS CI (continuous integration) matrix |
 | Output **values** agree across OS (ubuntu/macOS/Windows) | **Yes, to 1e-6** | the `reproducibility-matrix` CI job runs `golden.rs` (1e-6), `sgp4_verification.rs` (2e-5 km), and `determinism.rs` on all three OS |
+| A low Earth orbit (LEO) navigation-message frame is the same bytes on every platform, the WebAssembly (WASM) build included | **Yes** | `src/portable_math.rs` (every transcendental of the `leo-navmsg` kind goes through the pure-Rust `libm` crate); `leo_navmsg::tests::the_encoded_frame_is_the_same_bytes_on_every_platform` pins a whole frame with no platform gate |
+| Seeded index draws (bootstrap resampling, shuffles) are the same on 32-bit and 64-bit targets | **Yes** | `portable_math::uniform_index` always samples as `u64`; pinned in `portable_math::tests` |
 | Same toolchain everywhere | **Yes** | `rust-toolchain.toml` pins the channel; `scripts/check-toolchain.sh` fails the build on drift; CI and release pin the same version |
 | Same dependency set | **Yes** | `Cargo.lock` is committed and `cargo metadata --locked` is used for the SBOM (software bill of materials) |
 
@@ -38,6 +40,21 @@ is the platform math library: `sqrt`, `ln`, `exp` and friends are not required
 by IEEE-754 (IEEE: Institute of Electrical and Electronics Engineers) to be correctly rounded, so Linux (glibc, the GNU C library), macOS, and Windows can
 each return a different last bit. Over a long run these ~1e-16 differences
 accumulate to perhaps ~1e-12 relative.
+
+Two things make that last-place difference larger than it starts, and both are
+measured rather than assumed. An **adaptive integrator** chooses its next step from the
+error estimate through a fifth root, so one unit in the last place changes the step
+sequence and the two platforms then agree only to the integration tolerance. An
+**iterative estimator** (a least-squares fit, an orbit-determination filter) can take a
+different path to convergence. Kinds built on either can differ between platforms by
+more than 1e-6 in individual fields; `src/test_support.rs` records the same regime for
+the unit tests.
+
+Where an output is **discrete**, a last-place difference is not acceptable at all, and
+the kind is computed with `src/portable_math.rs` instead of the host library. The
+`leo-navmsg` kind is the first: its binary frame is transmitted integers, and the same
+scenario once encoded to a different frame natively and in the browser. It is now the
+same bytes everywhere.
 
 Because of this, the golden tests do **not** pin a single cross-platform hash of
 the floating-point output — that would be fragile and would fail honestly-correct

@@ -38,6 +38,7 @@ pub mod sisre;
 pub mod text;
 pub mod truth;
 
+use crate::portable_math::PortableFloat;
 use elements::{
     sat_state, sub, KlobucharSet, LeoNavMessage, NequickSet, Services, SysTime, UtcOffset, C_LIGHT,
 };
@@ -1385,11 +1386,11 @@ pub fn geodetic_to_ecef(lat: f64, lon: f64, h: f64) -> [f64; 3] {
     let a = 6_378_137.0;
     let f = 1.0 / 298.257_223_563;
     let e2 = f * (2.0 - f);
-    let n = a / (1.0 - e2 * lat.sin().powi(2)).sqrt();
+    let n = a / (1.0 - e2 * lat.psin().ppowi(2)).sqrt();
     [
-        (n + h) * lat.cos() * lon.cos(),
-        (n + h) * lat.cos() * lon.sin(),
-        (n * (1.0 - e2) + h) * lat.sin(),
+        (n + h) * lat.pcos() * lon.pcos(),
+        (n + h) * lat.pcos() * lon.psin(),
+        (n * (1.0 - e2) + h) * lat.psin(),
     ]
 }
 
@@ -1399,7 +1400,7 @@ pub fn elevation(user: [f64; 3], sat: [f64; 3]) -> f64 {
     let d = sub(sat, user);
     let up = elements::unit(user);
     (elements::dot(d, up) / elements::norm(d))
-        .asin()
+        .pasin()
         .to_degrees()
 }
 
@@ -1411,9 +1412,9 @@ pub fn worst_case_jump(dpos: [f64; 3], dclk_m: f64, sat_pos: [f64; 3], max_nadir
         return dclk_m.abs();
     }
     let rhat = elements::unit(sat_pos);
-    let theta = (elements::dot(dpos, rhat) / n).clamp(-1.0, 1.0).acos();
-    let hi = n * (theta - max_nadir).max(0.0).cos();
-    let lo = n * (theta + max_nadir).min(std::f64::consts::PI).cos();
+    let theta = (elements::dot(dpos, rhat) / n).clamp(-1.0, 1.0).pacos();
+    let hi = n * (theta - max_nadir).max(0.0).pcos();
+    let lo = n * (theta + max_nadir).min(std::f64::consts::PI).pcos();
     (hi - dclk_m).abs().max((lo - dclk_m).abs())
 }
 
@@ -2540,19 +2541,19 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
         .iter()
         .copied()
         .fold(f64::INFINITY, f64::min)
-        .log10()
+        .plog10()
         .floor();
     let ymax = vals
         .iter()
         .copied()
         .fold(0.0, f64::max)
-        .log10()
+        .plog10()
         .ceil()
         .max(ymin + 1.0);
     let xs: Vec<f64> = rows.iter().map(|r| r.fit_interval_s).collect();
     let xmax = xs.iter().copied().fold(0.0, f64::max);
     let xp = |x: f64| ml + pw * x / xmax;
-    let yp = |v: f64| mt + ph - ph * (v.max(1e-5).log10() - ymin) / (ymax - ymin);
+    let yp = |v: f64| mt + ph - ph * (v.max(1e-5).plog10() - ymin) / (ymax - ymin);
     s.push_str(&crate::chart::panel_axes(
         ml,
         mt,
@@ -2562,7 +2563,7 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
     ));
     let mut e = ymin;
     while e <= ymax + 1e-9 {
-        let y = yp(10f64.powf(e));
+        let y = yp(10f64.ppowf(e));
         s.push_str(&format!(
             "<line x1=\"{ml}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#262019\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"#8c8273\">1e{e:.0}</text>",
             ml + pw,

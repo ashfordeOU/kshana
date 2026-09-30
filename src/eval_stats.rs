@@ -9,7 +9,8 @@
 //! reproducible from `(inputs, seed)`.
 
 use crate::impairment_eval::auc;
-use rand::{Rng, SeedableRng};
+use crate::portable_math::uniform_index;
+use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 
 // ── Percentile bootstrap ────────────────────────────────────────────────────
@@ -45,7 +46,7 @@ pub fn bootstrap_ci(samples: &[f64], b: usize, seed: u64, alpha: f64) -> (f64, f
     for _ in 0..b.max(1) {
         let mut s = 0.0;
         for _ in 0..n {
-            s += samples[rng.gen_range(0..n)];
+            s += samples[uniform_index(&mut rng, n)];
         }
         means.push(s / n as f64);
     }
@@ -66,10 +67,10 @@ pub fn bootstrap_auc_ci(pos: &[f64], neg: &[f64], b: usize, seed: u64, alpha: f6
     let mut aucs = Vec::with_capacity(b.max(1));
     for _ in 0..b.max(1) {
         for slot in prs.iter_mut() {
-            *slot = pos[rng.gen_range(0..np)];
+            *slot = pos[uniform_index(&mut rng, np)];
         }
         for slot in nrs.iter_mut() {
-            *slot = neg[rng.gen_range(0..nn)];
+            *slot = neg[uniform_index(&mut rng, nn)];
         }
         aucs.push(auc(&prs, &nrs));
     }
