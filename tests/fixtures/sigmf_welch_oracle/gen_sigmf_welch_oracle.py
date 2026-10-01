@@ -87,7 +87,14 @@ def scipy_welch(x, fs, nfft, overlap):
         noverlap=nfft - step, nfft=nfft, detrend=False, return_onesided=False,
         scaling="density", average="mean",
     )
-    segments = (len(x) - nfft) // step + 1
+    # The segment count is scipy's own segmentation of the same samples (the number of
+    # columns its spectrogram produces with the same parameters), not a count recomputed here.
+    _, _, sxx = scipy.signal.spectrogram(
+        np.asarray(x, dtype=np.complex128), fs=fs, window="hann", nperseg=nfft,
+        noverlap=nfft - step, nfft=nfft, detrend=False, return_onesided=False,
+        scaling="density", mode="psd",
+    )
+    segments = int(sxx.shape[1])
     return np.fft.fftshift(f), np.fft.fftshift(p), segments
 
 
