@@ -55,7 +55,7 @@ use crate::jamming::{
     effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status, q_factor,
     BOLTZMANN_J_PER_K,
 };
-use crate::navsignal::{q_from_ssc, spectral_separation_coeff_offset, Modulation, F0_HZ};
+use crate::navsignal::{q_from_ssc, simpson, spectral_separation_coeff_offset, Modulation, F0_HZ};
 use crate::sdr::Cf64;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -535,7 +535,7 @@ impl Jammer {
                 .iter()
                 .map(|&(a, b, w)| w * overlap(a, b, f_lo, f_hi) / (b - a).max(1e-300))
                 .sum(),
-            Spread::Shaped(m, fc) => integrate_range(f_lo - fc, f_hi - fc, 64, |f| m.psd(f)),
+            Spread::Shaped(m, fc) => simpson(f_lo - fc, f_hi - fc, 64, |f| m.psd(f)),
         }
     }
 
@@ -562,7 +562,7 @@ impl Jammer {
                         return 0.0;
                     }
                     let n = (((x1 - x0) / lobe) * 80.0).ceil().max(64.0) as usize;
-                    w * integrate_range(x0, x1, n, g) / (b - a)
+                    w * simpson(x0, x1, n, g) / (b - a)
                 })
                 .sum(),
             Spread::Shaped(m, fc) => spectral_separation_coeff_offset(
@@ -630,20 +630,6 @@ fn overlap(a0: f64, a1: f64, b0: f64, b1: f64) -> f64 {
     (a1.min(b1) - a0.max(b0)).max(0.0)
 }
 
-/// Composite Simpson integral of `g` over `[a, b]` with `n` panels (forced even).
-fn integrate_range(a: f64, b: f64, n: usize, g: impl Fn(f64) -> f64) -> f64 {
-    if b <= a {
-        return 0.0;
-    }
-    let n = if n % 2 == 0 { n.max(2) } else { n + 1 };
-    let h = (b - a) / n as f64;
-    let mut s = g(a) + g(b);
-    for i in 1..n {
-        s += if i % 2 == 1 { 4.0 } else { 2.0 } * g(a + i as f64 * h);
-    }
-    s * h / 3.0
-}
-
 // ───────────────────────────── the model ─────────────────────────────
 
 /// Everything the spectrum is built from.
@@ -664,7 +650,7 @@ impl SpectrumModel {
         let mut p = self.n0_w_per_hz;
         for b in &self.bands {
             let pw = db_to_lin(b.signal_power_dbw);
-            let frac = integrate_range(f_lo - b.centre_hz, f_hi - b.centre_hz, 16, |f| {
+            let frac = simpson(f_lo - b.centre_hz, f_hi - b.centre_hz, 16, |f| {
                 b.unit_psd(f)
             });
             p += pw * frac / width;
@@ -1588,33 +1574,15 @@ impl SpectrumScenario {
         }
 
         // Downsample the grid for JSON by block-averaging power.
-        let fx = cols.div_ceil(self.grid.json_max_freq.max(1));
-        let ty = rows.div_ceil(self.grid.json_max_rows.max(1));
-        let jcols = cols.div_ceil(fx);
-        let jrows = rows.div_ceil(ty);
-        let mut wf = Vec::with_capacity(jrows);
-        for r in 0..jrows {
-            let mut row = Vec::with_capacity(jcols);
-            for c in 0..jcols {
-                let (mut s, mut n) = (0.0, 0usize);
-                for grow in grid.iter().take(((r + 1) * ty).min(rows)).skip(r * ty) {
-                    for v in grow.iter().take(((c + 1) * fx).min(cols)).skip(c * fx) {
-                        s += v;
-                        n += 1;
-                    }
-                }
-                row.push(round2(lin_to_db(s / n as f64)));
-            }
-            wf.push(row);
-        }
-        let jfreq: Vec<f64> = (0..jcols)
-            .map(|c| {
-                let a = f0 + (c * fx) as f64 * bin;
-                let b = f0 + (((c + 1) * fx).min(cols)) as f64 * bin;
-                0.5 * (a + b)
-            })
-            .collect();
-        let jt: Vec<f64> = (0..jrows).map(|r| (r * ty) as f64 * dt).collect();
+        let (fx, ty, jfreq, jt, wf) = downsample_grid(
+            &grid,
+            f0,
+            bin,
+            dt,
+            self.grid.json_max_freq,
+            self.grid.json_max_rows,
+        );
+        let (jcols, jrows) = (jfreq.len(), jt.len());
         let peak_db = grid
             .iter()
             .flatten()
@@ -2750,7 +2718,7 @@ mod tests {
     #[test]
     fn mboc_is_a_unit_area_one_eleventh_mix() {
         let m = Modulation::Mboc { p: 1.0 / 11.0 };
-        let area = integrate_range(-60.0 * RC, 60.0 * RC, 400_000, |f| m.psd(f));
+        let area = simpson(-60.0 * RC, 60.0 * RC, 400_000, |f| m.psd(f));
         assert!((area - 1.0).abs() < 0.02, "MBOC area {area}");
         let f = 6.0 * RC;
         let want = (10.0 / 11.0) * Modulation::BocSin { m: 1.0, n: 1.0 }.psd(f)
