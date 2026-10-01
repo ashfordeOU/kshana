@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.29.1] - 2026-10-01
+
+A patch release on 0.29.0: the measured coverage figure, the project's name line on
+kshana.dev, a faster coverage job, and a refreshed README. No engine output changes:
+every scenario gives the same result as on 0.29.0.
+
 ### Revisions to published numbers
 
 - **Line coverage: ~96 % → ~95 %.** The coverage job re-measured the released 0.29.0
@@ -18,6 +24,27 @@ breaking changes are called out explicitly.
   surface `tests/coverage_figure_doc_sync.rs` pins moves together: `docs/COVERAGE.md`, the
   README badge, Evidence line and CI table, the crates.io, PyPI and npm badges, the
   technical report and the kshana.dev coverage page. The 85 % floor is unchanged.
+
+### Added
+
+- **The name line on kshana.dev.** "Kshana · क्षण · the precise instant" now opens the Home
+  hero and sits under the brand in every page's footer. kshana.dev still makes no request
+  to another host: the Devanagari is a self-hosted Noto Sans Devanagari subset of the
+  three letters of क्षण (1,692 bytes, `web/fonts/`, with its SIL Open Font License text and
+  its SHA-256 in `web/fonts/FONTS.json`). `web/tools/fetch_third_party.py` learned to save
+  a Google Fonts `text=` subset under a content-addressed file name.
+
+### Changed
+
+- **The coverage job is faster.** On 0.29.0 it took 143 minutes against a healthy 91 to
+  94. The `tests/property.rs` fuzzer, the cause the last time, took 4 of them. The bundled
+  corpus grew from 74 to 139 scenarios, and three test binaries walked all of it one file
+  at a time (`determinism` twice, `advanced_report` and `animation` once): 37 minutes
+  together under coverage instrumentation, against 3 on 0.27.2. They now share
+  `tests/support/corpus.rs`, which runs the per-scenario work on every core and hands the
+  results back in sorted order; every scenario and every assertion stays. On an arm64
+  laptop, debug build: `determinism` takes 143 s on 14 cores
+  against 612 s with `KSHANA_CORPUS_THREADS=1` (the old serial walk).
 
 ## [0.29.0] - 2026-10-01
 
@@ -4588,7 +4615,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.29.0...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.29.1...HEAD
+[0.29.1]: https://github.com/AshfordeOU/kshana/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/AshfordeOU/kshana/compare/v0.27.4...v0.28.0
 [0.27.4]: https://github.com/AshfordeOU/kshana/compare/v0.27.3...v0.27.4
