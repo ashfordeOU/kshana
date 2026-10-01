@@ -18,7 +18,7 @@
 <p align="center">
   <a href="https://kshana.dev"><img src="https://img.shields.io/badge/Kshana%20Studio-try%20in%20browser-066A86" alt="Kshana Studio — run the engine in your browser, no install"></a>
   <a href="tests/sgp4_verification.rs"><img src="https://img.shields.io/badge/SGP4-666%2F666%20AIAA%20vectors%20%C2%B7%204.12mm-377D0C" alt="SGP4 validated against all 666 AIAA 2006-6753 vectors, worst 4.12 mm"></a>
-  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-83%20external%20oracles-377D0C" alt="83 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 136 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
+  <a href="#validation-at-a-glance"><img src="https://img.shields.io/badge/validated-93%20external%20oracles-377D0C" alt="93 capabilities validated against independent external oracles (real data, independent libraries, or published reference vectors); 126 more are honestly labelled MODELLED and 4 are PARTNER-owned — see Validation at a glance"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C" alt="~96% line coverage on src/ excluding the generated data tables and the CLI entrypoint (cargo-tarpaulin LLVM engine), gated at 85% in CI"></a>
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://sonarcloud.io/api/project_badges/measure?project=ashfordeOU_kshana&metric=alert_status" alt="SonarQube Cloud Quality Gate status"></a>
@@ -461,20 +461,20 @@ sweeps and Monte Carlo ensembles in [`docs/CAMPAIGNS.md`](docs/CAMPAIGNS.md).
 
 **Validated, not asserted.** Each row of the verification matrix names a capability, the
 oracle it is checked against, the test that runs the check, and the label that follows.
-<strong>83 of 223</strong> capabilities validated against independent external oracles; 136 honestly labelled Modelled.
+<strong>93 of 223</strong> capabilities validated against independent external oracles; 126 honestly labelled Modelled.
 
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-verification-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-verification-light.svg">
-  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, then oracle, then test, then ledger label. Example: SGP4/SDP4 propagation (src/sgp4.rs), checked against the AIAA 2006-6753 vectors by tests/sgp4_verification.rs (666 vectors, worst 4.12 mm), labelled VALIDATED. A row may be VALIDATED only with an independent external oracle. Live counts: 83 Validated, 136 Modelled, 4 Partner, 223 total." width="100%">
+  <img src="docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, then oracle, then test, then ledger label. Example: SGP4/SDP4 propagation (src/sgp4.rs), checked against the AIAA 2006-6753 vectors by tests/sgp4_verification.rs (666 vectors, worst 4.12 mm), labelled VALIDATED. A row may be VALIDATED only with an independent external oracle. Live counts: 93 Validated, 126 Modelled, 4 Partner, 223 total." width="100%">
 </picture>
 </p>
 
 | Label | Rows | Meaning |
 |---|---|---|
-| **VALIDATED** | 83 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
-| **MODELLED** | 136 | checked against analytic truth or simulation self-consistency, and said out loud |
+| **VALIDATED** | 93 | an independent external oracle agrees: real data, an independent implementation or published reference vectors |
+| **MODELLED** | 126 | checked against analytic truth or simulation self-consistency, and said out loud |
 | **PARTNER** | 4 | owned by a hardware partner; Kshana holds no oracle for it |
 
 The ledger: [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generated from
@@ -500,7 +500,7 @@ The ledger: [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), genera
 ### Validation at a glance
 
 Every row is enforced by a named test in CI. This table is a **curated highlight**;
-the full machine-checked matrix is **223 rows — 83 VALIDATED, 136 MODELLED, 4 PARTNER**
+the full machine-checked matrix is **223 rows — 93 VALIDATED, 126 MODELLED, 4 PARTNER**
 (`src/verification.rs`), with the complete evidence (and what is honestly *not* yet
 validated) in [`docs/VALIDATION.md`](docs/VALIDATION.md) and the per-release
 [`kshana-validation-summary.html`](https://github.com/ashfordeOU/kshana/releases)
@@ -561,20 +561,20 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 <summary><b>Evidence figures: the provenance diagram, oracle kinds, SGP4 by regime and the status breakdown</b></summary>
 
 <p align="center">
-  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 83 Validated, 136 Modelled, 4 Partner, 223 total" width="900">
+  <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 93 Validated, 126 Modelled, 4 Partner, 223 total" width="900">
   <br><sub>How a capability earns its label — the CI-enforced invariant: no external oracle ⇒ cannot be Validated · <a href="docs/assets/diagrams/validation-provenance.svg">SVG</a></sub>
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 83 of 83 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
+  <img src="docs/assets/figures/oracle-kind-stacked.png" alt="How each claim is backed: the Validated column is 93 of 93 ExternalDataset by construction (CI-enforced); Modelled rows are honestly tagged InternalConsistency, ReferenceImpl, or ExternalDataset; Partner rows have no Kshana oracle" width="62%">
   <br>
   <img src="docs/assets/figures/sgp4-regime-bars.png" alt="SGP4/SDP4 worst-case position error vs the AIAA 2006-6753 reference by regime, log scale: every regime is far below the AIAA tolerance, worst case 4.12 mm in the deep-space non-resonant regime" width="96%">
   <br><sub>Top: every Validated row is backed by an external dataset, by construction. Bottom: SGP4 matches the official reference in every regime (worst 4.12 mm). <a href="docs/assets/figures/oracle-kind-stacked.svg">SVG</a> · <a href="docs/assets/figures/sgp4-regime-bars.svg">SVG</a></sub>
 </p>
 
 <p align="center">
-  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 223 capabilities: 83 Validated (checked vs external oracle), 136 Modelled, 4 Partner-owned" width="780">
-  <br><sub>83 Validated · 136 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
+  <img src="docs/assets/figures/validation-breakdown.png" alt="Verification status across all 223 capabilities: 93 Validated (checked vs external oracle), 126 Modelled, 4 Partner-owned" width="780">
+  <br><sub>93 Validated · 126 Modelled · 4 Partner — <a href="docs/assets/figures/validation-breakdown.svg">SVG</a></sub>
 </p>
 
 </details>

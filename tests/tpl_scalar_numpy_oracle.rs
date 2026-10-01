@@ -41,6 +41,8 @@ fn scalar_mhss_pl_matches_numpy() {
     let reference: serde_json::Value =
         serde_json::from_str(REFERENCE_JSON).expect("parse reference.json");
     let cases = reference["cases"].as_array().expect("cases");
+    // PIN-SCOPE:    the number of cases in the committed numpy reference fixture
+    // PIN-EXCLUDES: the protection levels compared below, which carry their own tolerance
     assert_eq!(cases.len(), 300, "the committed fixture carries 300 cases");
 
     let mut worst_rel = 0.0_f64;
