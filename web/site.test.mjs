@@ -211,19 +211,32 @@ for (const rel of ported) {
 assert.deepEqual(remote, [], "ported files that make a browser fetch from a third-party host");
 assert.ok(resourceTags > 500, `only ${resourceTags} resource tags were scanned: the third-party scan is broken`);
 
-// The local fonts: every page loads exactly one stylesheet from fonts/, that stylesheet
-// stands in for a recorded Google Fonts address, and every file it names is there, intact,
-// with its licence text beside it.
+// The local fonts: every page loads exactly one main font set from fonts/, plus the
+// Devanagari subset for the name line ("Kshana · क्षण · the precise instant") exactly where
+// the page shows it. Each stylesheet stands in for a recorded Google Fonts address, and every
+// file it names is there, intact, with its licence text beside it.
 const fonts = JSON.parse(text("fonts/FONTS.json"));
 const fontCss = new Set(Object.values(fonts.stylesheets).map((e) => e.css));
+const NAME_CSS = "noto-sans-devanagari.css";
+let nameLinePages = 0;
 for (const rel of [...pages, NOT_FOUND]) {
-  const links = [...text(rel).matchAll(/<link href="([^"]*fonts\/[^"]+\.css)" rel="stylesheet">/g)].map((m) => m[1]);
-  assert.equal(links.length, 1, `${rel}: expected exactly one local font stylesheet, found ${links.length}`);
-  const css = links[0].split("fonts/")[1];
-  assert.ok(fontCss.has(css), `${rel}: loads fonts/${css}, which FONTS.json does not record`);
-  const target = links[0].startsWith("/") ? links[0].slice(1) : posix.normalize(posix.join(posix.dirname(rel), links[0]));
-  assert.equal(target, `fonts/${css}`, `${rel}: font stylesheet address resolves to ${target}`);
+  const page = text(rel);
+  const links = [...page.matchAll(/<link href="([^"]*fonts\/[^"]+\.css)" rel="stylesheet">/g)].map((m) => m[1]);
+  const sheets = links.map((l) => l.split("fonts/")[1]);
+  const main = sheets.filter((c) => c !== NAME_CSS);
+  assert.equal(main.length, 1, `${rel}: expected exactly one local main font stylesheet, found ${main.length}`);
+  const showsName = /<span lang="sa" class="dev">क्षण<\/span>/.test(page);
+  if (showsName) nameLinePages++;
+  assert.equal(sheets.includes(NAME_CSS), showsName,
+    showsName ? `${rel}: shows the name line in Devanagari but does not load fonts/${NAME_CSS}`
+              : `${rel}: loads fonts/${NAME_CSS} but shows no Devanagari name line`);
+  for (const [i, css] of sheets.entries()) {
+    assert.ok(fontCss.has(css), `${rel}: loads fonts/${css}, which FONTS.json does not record`);
+    const target = links[i].startsWith("/") ? links[i].slice(1) : posix.normalize(posix.join(posix.dirname(rel), links[i]));
+    assert.equal(target, `fonts/${css}`, `${rel}: font stylesheet address resolves to ${target}`);
+  }
 }
+assert.ok(nameLinePages >= 7, `only ${nameLinePages} pages show the name line: the footer lost it`);
 let fontFaces = 0;
 for (const css of fontCss) {
   const body = text(`fonts/${css}`);
