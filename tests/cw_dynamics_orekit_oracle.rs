@@ -41,8 +41,14 @@
 //! scales as rho^2) were seen before this amendment, so the expected direction of the result is
 //! known; the bar is the original one and is not touched. The new strict test is
 //! `cw_second_order_matches_nonlinear_orekit_within_1mm`; the first-order finding stays pinned.
+//!
+//! VERDICT, ROUND 2 (2026-10-01): AGREES. Worst |rho_CW2 - rho_Orekit| over T/3: 1.15e-7 m
+//! (radial bounded), 9.76e-8 m (along-track), 5.37e-8 m (cross-track), 2.16e-8 m (mixed
+//! bounded), all at t = T/3, against the 1e-3 m bar. Mutation: halving the second-order term
+//! (`k = 0.5 / r0` in `second_order_correction`) gives 1.85e-3, 3.14e-3, 1.99e-3 m and turns the
+//! strict test red. The linear STM alone still misses the bar, as recorded above.
 
-use kshana::cw_dynamics::{mean_motion, propagate, State6};
+use kshana::cw_dynamics::{mean_motion, propagate, propagate_second_order, State6};
 use kshana::orbit::MU_EARTH;
 
 const REF: &str = include_str!("fixtures/cw_dynamics_orekit_oracle/cw_dynamics_orekit_oracle.txt");
@@ -140,10 +146,42 @@ fn cw_matches_nonlinear_orekit_within_the_linearisation_bound() {
     );
 }
 
+/// Worst second-order-minus-Orekit position gap per case: (id, gap m, at t s).
+fn worst_second_order_gaps() -> Vec<(String, f64, f64)> {
+    let mut out = Vec::new();
+    for (id, a, s0, samples) in &parse() {
+        let n = mean_motion(MU_EARTH, *a);
+        let mut worst = (0.0_f64, 0.0_f64);
+        for (t, rho) in samples {
+            let s = propagate_second_order(n, *a, *t, s0);
+            let d = ((s[0] - rho[0]).powi(2) + (s[1] - rho[1]).powi(2) + (s[2] - rho[2]).powi(2))
+                .sqrt();
+            if d > worst.0 {
+                worst = (d, *t);
+            }
+        }
+        out.push((id.clone(), worst.0, worst.1));
+    }
+    out
+}
+
 /// Pre-registered (round 2 amendment above): the second-order closed-form propagator against the
 /// unchanged Orekit fixture at the unchanged 1e-3 m bar.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn cw_second_order_matches_nonlinear_orekit_within_1mm() {
-    unimplemented!("pre-registered: cw_dynamics::propagate_second_order does not exist yet");
+    let gaps = worst_second_order_gaps();
+    assert_eq!(gaps.len(), 4);
+    for (id, gap, t) in &gaps {
+        eprintln!("{id}: worst |rho_CW2 - rho_Orekit| = {gap:.3e} m at t = {t:.0} s");
+    }
+    let failures: Vec<String> = gaps
+        .into_iter()
+        .filter(|g| !(g.1 <= POS_TOL_M))
+        .map(|(id, gap, t)| format!("{id}: {gap:.3e} m at t = {t:.0} s exceeds {POS_TOL_M:e} m"))
+        .collect();
+    assert!(
+        failures.is_empty(),
+        "disagreements:\n{}",
+        failures.join("\n")
+    );
 }
