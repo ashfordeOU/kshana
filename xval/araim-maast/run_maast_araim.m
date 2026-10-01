@@ -1,4 +1,4 @@
-function run_maast_araim(maast_dir, araim2_dir, fixture_dir)
+function run_maast_araim(maast_dir, araim2_dir, fixture_dir, variant)
 % Headless MAAST-for-ARAIM-2 driver for tests/integrity_araim_stanford_oracle.rs (Kshana
 % cross-validation; not MAAST code).
 %
@@ -11,7 +11,7 @@ function run_maast_araim(maast_dir, araim2_dir, fixture_dir)
 % budget and settings. Writes
 %   <fixture_dir>/maast_araim_levels.csv   case, n_gps, n_gal, vpl, hpl, emt, sig_acc, p_not_monitored
 %   <fixture_dir>/maast_araim_subsets.csv  case, k, pfault_inst, excluded satellites (c:prn, '|'-separated)
-% Usage: octave --no-gui --eval "run_maast_araim('<maast>', '<maast_for_araim_2>', '<fixture dir>')"
+% Usage: octave --no-gui --eval "run_maast_araim('<maast>', '<maast_for_araim_2>', '<fixture dir>' [, '<variant>'])"
 global KSH_COMPAT_DIR
 addpath(maast_dir);
 addpath(araim2_dir, '-begin');
@@ -24,6 +24,27 @@ addpath(KSH_COMPAT_DIR, '-begin');
 % Pre-registered ISM and budget.
 sig_ura = 1.0; sig_ure = 0.5; b_nom = 0.75; b_cont = 0;
 p_sat = 1e-5; p_const_gps = 1e-8; p_const_gal = 1e-4;
+% Optional matched-input variants for the uniform-sigma functions (second pre-registration):
+%   'uniform_pc'   sigma_URE = sigma_URA = 1.0 m, P_const = 1e-4 for both constellations
+%   'uniform_nopc' sigma_URE = sigma_URA = 1.0 m, P_const = 0 for both constellations
+% Only the levels file is written, as maast_araim_<variant>_levels.csv.
+if nargin < 4
+    variant = '';
+end
+switch variant
+    case ''
+    case 'uniform_pc'
+        sig_ure = 1.0; p_const_gps = 1e-4; p_const_gal = 1e-4;
+    case 'uniform_nopc'
+        sig_ure = 1.0; p_const_gps = 0; p_const_gal = 0;
+    otherwise
+        error('unknown variant %s', variant);
+end
+if isempty(variant)
+    tag = 'maast_araim';
+else
+    tag = ['maast_araim_' variant];
+end
 prm.phmi_vert = 9.8e-8; prm.phmi_hor = 2e-9;
 prm.pfa_vert = 3.9e-6; prm.pfa_hor = 9e-8;
 prm.p_thres = 8e-8; prm.p_emt = 1e-5;
@@ -43,9 +64,13 @@ case_id = C{1}; lat = C{3}; lon = C{4}; cst = C{6}; prn = C{7};
 xyz = [C{8}, C{9}, C{10}];
 
 cases = unique(case_id);
-lev = fopen(fullfile(fixture_dir, 'maast_araim_levels.csv'), 'w');
+lev = fopen(fullfile(fixture_dir, [tag '_levels.csv']), 'w');
 fprintf(lev, 'case,n_gps,n_gal,vpl_m,hpl_m,emt_m,sig_acc_m,p_not_monitored\n');
-sub = fopen(fullfile(fixture_dir, 'maast_araim_subsets.csv'), 'w');
+if isempty(variant)
+    sub = fopen(fullfile(fixture_dir, 'maast_araim_subsets.csv'), 'w');
+else
+    sub = fopen('/dev/null', 'w');
+end
 fprintf(sub, 'case,k,pfault_inst,excluded\n');
 for ci = 1:numel(cases)
     rows = find(case_id == cases(ci));

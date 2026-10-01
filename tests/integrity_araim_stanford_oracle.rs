@@ -379,6 +379,16 @@ fn uniform_sigma_araim_dual_raim_gap_against_maast() {
 // (`araim_reference::add_v42_protection_levels`) validated above. Rewiring the shipping
 // functions to the ADD path is not part of this comparison: `araim_raim` is the kernel the
 // lunar ARAIM row is validated on, with its own reference.
+//
+// **Result (2026-10-01, after the run).** Not conformant. `araim_dual_raim` against
+// `uniform_pc` on the 240 GPS + Galileo cases: worst |dVPL| 0.386 m, |dHPL| 1.925 m.
+// `araim_raim` against `uniform_nopc` on the 30 GPS-only cases (none refused): worst |dVPL|
+// 0.748 m, |dHPL| 4.036 m. (`uniform_pc` has no number on the 30 GPS-only cases: MAAST stops
+// there, which this comparison does not use.) The uniform functions split the false-alert
+// budget over all single-satellite hypotheses with one multiplier for both axes, have no
+// `P_THRES` subset rule or `FC_THRES` merge and use a radial local level, so they implement a
+// simplified allocation; the strict tests stay ignored and `uniform_sigma_matched_gap_finding`
+// pins the gaps.
 
 fn uniform_case_gaps(variant: &str, dual: bool) -> (usize, f64, f64) {
     let geo = load_geometry();
@@ -449,7 +459,8 @@ fn uniform_case_gaps(variant: &str, dual: bool) -> (usize, f64, f64) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING: araim_dual_raim is not ADD v4.2-conformant on matched inputs: worst |dVPL| \
+            0.386 m, |dHPL| 1.925 m over 240 cases against TOL_PL 0.05 m"]
 fn uniform_sigma_araim_dual_raim_matches_maast_on_matched_inputs() {
     let (n, dv, dh) = uniform_case_gaps("uniform_pc", true);
     assert!(n > 0);
@@ -457,11 +468,29 @@ fn uniform_sigma_araim_dual_raim_matches_maast_on_matched_inputs() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING: araim_raim is not ADD v4.2-conformant on matched inputs: worst |dVPL| \
+            0.748 m, |dHPL| 4.036 m over 30 cases against TOL_PL 0.05 m"]
 fn uniform_sigma_araim_raim_matches_maast_on_matched_inputs() {
     let (n, dv, dh) = uniform_case_gaps("uniform_nopc", false);
     assert!(n > 0);
     assert!(dv <= TOL_PL_M && dh <= TOL_PL_M);
+}
+
+/// The matched-input finding, pinned: both uniform functions miss TOL_PL by the measured gaps.
+#[test]
+fn uniform_sigma_matched_gap_finding() {
+    let (n, dv, dh) = uniform_case_gaps("uniform_pc", true);
+    assert_eq!(n, 240);
+    assert!(
+        (dv - 0.386).abs() < 5e-3 && (dh - 1.925).abs() < 5e-3,
+        "{dv} {dh}"
+    );
+    let (n, dv, dh) = uniform_case_gaps("uniform_nopc", false);
+    assert_eq!(n, 30);
+    assert!(
+        (dv - 0.748).abs() < 5e-3 && (dh - 4.036).abs() < 5e-3,
+        "{dv} {dh}"
+    );
 }
 
 // ── Fixture generator ────────────────────────────────────────────────────────────────────────
