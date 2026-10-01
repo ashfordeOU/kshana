@@ -11,11 +11,44 @@ breaking changes are called out explicitly.
 
 ## [0.29.2] - 2026-10-01
 
-A patch release on 0.29.1 that removes duplicated code in the LEO navigation-message,
-fusion and spectrum modules. No engine output changes: every bundled scenario gives a
-byte-identical result to 0.29.1 apart from the version stamp.
+A patch release on 0.29.1. It removes duplicated code in the LEO navigation-message,
+fusion and spectrum modules, adds a light theme to kshana.dev, moves Kshana Studio to
+its own address, makes the site readable by search engines and AI assistants, fixes
+several small things in the Studio, and lets npm releases publish without a stored
+token. No engine output changes: every bundled scenario gives a byte-identical result
+to 0.29.1 apart from the version stamp.
+
+### Added
+
+- **A light theme for kshana.dev.** Every page can be read light or dark. The site
+  follows the reader's system setting and has a switch to change it.
+- **Search engines and AI assistants can read the site.** Each page now has its own
+  title, description, canonical address, social-card tags and schema.org structured
+  data, and plain text for the sections a script draws. The site publishes
+  `robots.txt`, a `sitemap.xml` with the date each page last changed, `llms.txt` and
+  `llms-full.txt` (a short and a full plain-text guide for AI assistants), and an
+  IndexNow key so a deploy can tell search engines what changed.
+- **npm releases can publish without a stored token.** The npm job now runs Node 24 and
+  npm 11.5.1 or later, which support npm trusted publishing: npm exchanges the release
+  job's GitHub identity for a short-lived credential. The `NPM_TOKEN` secret still works
+  and is used while it is set, so nothing changes until trusted publishing is turned on
+  for the package on npmjs.com. `docs/RELEASING.md` lists the steps.
 
 ### Changed
+
+- **The home page headline is readable over the globe.** A soft shade now sits behind
+  the headline and its text, fading the orbit lines and satellite dots of the animated
+  globe where they cross it.
+- **Kshana Studio has its own address: <https://kshana.dev/studio/>.** Every link on the
+  site and in the documentation points there. The old address, `/playground/`, still
+  works and forwards to the new one with the scenario, view and other settings in the
+  link kept.
+- **Studio fixes.** The engine file is downloaded once instead of twice. While it
+  downloads, the Studio shows the scenario's recorded result at once, labelled as
+  recorded, instead of an empty screen. On a phone the header is one compact row. The
+  key figures wrap two to a row, so none is hidden off the side of the screen. Field
+  labels use the scenario's own words, with the field name beside them, and search
+  finds fields by either.
 
 - **Less duplicated code.** The LEO navigation-message units table wrote the same ten
   SISRE statistics rows for four fit summaries. A macro now writes them once. The two
