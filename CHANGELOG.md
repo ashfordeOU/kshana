@@ -54,6 +54,10 @@ every scenario gives the same result as on 0.29.0.
   the papers. The header badges are smaller and shorter (18 px high; "~95%", "83/223",
   "quality", "AGPL-3.0", "zenodo.20528627"), so the eleven fit on two lines; every link and
   alt text keeps its full meaning.
+- **The container image job gets 90 minutes.** At v0.29.0 the `kshana-mcp` image's
+  emulated linux/arm64 build hit the old 45-minute limit while compiling its last crate,
+  so the image, the MCP registry entry and the channel check did not publish. The
+  limit is now 90 minutes; the image is unchanged.
 - **Eight float literals regrouped** in `src/ephem.rs` and `src/sgp4.rs` (`0.323_273_64` →
   `0.323_273_640`): SonarQube Cloud read a last group of `_64` or `_32` as a missing `f64` or
   `f32` suffix (rule S7454). The values are the same numbers, so every result is unchanged.
