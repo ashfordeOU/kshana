@@ -31,12 +31,9 @@ QUALITY = 82
 OUTPUT = f"scaled to at most {MAX_W} px wide, JPEG quality {QUALITY}, no metadata"
 
 STUDIO_VIEWS = {
-    "start": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
-    "dashboard": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
-    "phone-steps": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures and panels, with the step bar (Choose, Set, Run, Results) fixed to the bottom of the screen",
-    "lband": "Spectrum panel: the L-band waterfall under jamming",
-    "coverage": "Coverage panel: the mean PDOP map of four GNSS constellations",
-    "leo-chain": "End-to-end chain panel: the low-Earth-orbit chain from signal design to precise point positioning",
+    "home": "Simple view, opening screen: four questions, a recorded result on the map, and every area of the engine with its evidence mix",
+    "task": "Simple view on integrity-raim: the answer first in one plain sentence, its key figures, at most five settings, and the folded sections Advanced settings, How this is computed and For researchers",
+    "advanced": "Advanced view (the full dashboard) after a run of constellation-multi-gnss-coverage: the scenario library, the five steps, key figures with PASS chips, the panel row and the coverage map",
 }
 SITE_ORDER = ["home", "research", "editions"]
 SITE_VIEWS = {
@@ -76,7 +73,7 @@ def studio(src, captured):
                       "crop_css_px": r["crop_css_px"], "output": OUTPUT, "captured": captured})
         print(out.relative_to(REPO))
     doc = {"tool": "tools/capture_studio_shots.mjs, then tools/readme_shots.py",
-           "note": "Real screenshots of Kshana Studio running in the browser engine (WebAssembly): two flow shots (the start screen, and the dashboard after a run), one phone-width shot with the bottom step bar, and three panel shots (the panel row plus the first visual card of the named panel). Nothing is drawn or edited.",
+           "note": "Real screenshots of Kshana Studio running in the browser engine (WebAssembly): the Simple view's opening screen, the Simple view on one scenario, and the Advanced view (the full dashboard) after a run. Nothing is drawn or edited.",
            "shots": shots}
     (OUT / "studio" / "SHOTS.json").write_text(json.dumps(doc, indent=2, ensure_ascii=False) + "\n")
 
