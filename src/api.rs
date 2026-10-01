@@ -39,7 +39,7 @@ impl RunOutput {
 }
 
 /// Escape the five characters that matter in HTML text/attribute context.
-fn html_escape(s: &str) -> String {
+pub(crate) fn html_escape(s: &str) -> String {
     s.replace('&', "&amp;")
         .replace('<', "&lt;")
         .replace('>', "&gt;")
