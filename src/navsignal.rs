@@ -1014,36 +1014,41 @@ pub fn nelp_multipath_bias_s(
         c2(eps - half) - c2(eps + half)
     };
     // Sign convention: with no multipath S(ε) = R(ε−Δ/2)² − R(ε+Δ/2)² is positive for a
-    // late estimate (ε > 0), so a stable lock point has S' > 0.
+    // late estimate (ε > 0), so a stable lock point has S' > 0. The search walks outward
+    // from ε = 0 in steps of a quarter of the correlation grid, so the first stable crossing
+    // met on either side is the one nearest zero.
     let w = half + delay_s + acf.tau_step_s;
-    let steps = (2.0 * w / (0.25 * acf.tau_step_s))
-        .ceil()
-        .clamp(200.0, 200_000.0) as usize;
-    let mut best: Option<f64> = None;
-    let mut prev_x = -w;
-    let mut prev_s = s(prev_x);
-    for i in 1..=steps {
-        let x = -w + 2.0 * w * i as f64 / steps as f64;
-        let sx = s(x);
-        if prev_s < 0.0 && sx >= 0.0 {
-            let (mut lo, mut hi) = (prev_x, x);
-            for _ in 0..60 {
-                let mid = 0.5 * (lo + hi);
-                if s(mid) < 0.0 {
-                    lo = mid;
-                } else {
-                    hi = mid;
-                }
-            }
-            let root = 0.5 * (lo + hi);
-            if best.is_none_or(|b| root.abs() < b.abs()) {
-                best = Some(root);
+    let step = 0.25 * acf.tau_step_s;
+    let k_max = (w / step).ceil() as usize;
+    let refine = |mut lo: f64, mut hi: f64| -> f64 {
+        for _ in 0..60 {
+            let mid = 0.5 * (lo + hi);
+            if s(mid) < 0.0 {
+                lo = mid;
+            } else {
+                hi = mid;
             }
         }
-        prev_x = x;
-        prev_s = sx;
+        0.5 * (lo + hi)
+    };
+    let s0 = s(0.0);
+    let (mut right_prev, mut left_prev) = (s0, s0);
+    for k in 0..k_max {
+        let xr = (k + 1) as f64 * step;
+        let sr = s(xr);
+        let sl = s(-xr);
+        let right = (right_prev < 0.0 && sr >= 0.0).then(|| refine(xr - step, xr));
+        let left = (sl < 0.0 && left_prev >= 0.0).then(|| refine(-xr, -xr + step));
+        match (left, right) {
+            (Some(l), Some(r)) => return Some(if l.abs() < r.abs() { l } else { r }),
+            (Some(l), None) => return Some(l),
+            (None, Some(r)) => return Some(r),
+            (None, None) => {}
+        }
+        right_prev = sr;
+        left_prev = sl;
     }
-    best
+    None
 }
 
 /// **Worst-case multipath bias** (s) of a NELP discriminator over a set of excess delays
