@@ -5,7 +5,7 @@
     {
       "strip": "site-strip-light.jpg",
       "position": 1,
-      "site_url": "http://127.0.0.1:8871/index.html",
+      "site_url": "http://127.0.0.1:8893/index.html",
       "section": "#top",
       "view": "Home hero: the mission console and the name line, Kshana · क्षण · the precise instant",
       "theme": "light",
@@ -26,7 +26,7 @@
     {
       "strip": "site-strip-light.jpg",
       "position": 2,
-      "site_url": "http://127.0.0.1:8871/evidence.html",
+      "site_url": "http://127.0.0.1:8893/evidence.html",
       "section": "#cite",
       "view": "Evidence, Published research: the arXiv papers built on the open engine",
       "theme": "light",
@@ -37,7 +37,7 @@
       "device_scale_factor": 2,
       "crop_css_px": {
         "x": 0,
-        "y": 8516,
+        "y": 8636,
         "width": 1440,
         "height": 820
       },
@@ -47,7 +47,7 @@
     {
       "strip": "site-strip-light.jpg",
       "position": 3,
-      "site_url": "http://127.0.0.1:8871/editions.html",
+      "site_url": "http://127.0.0.1:8893/editions.html",
       "section": "#pro",
       "view": "Editions, Same engine, amplified: what Kshana Pro adds to the open engine",
       "theme": "light",
@@ -58,7 +58,7 @@
       "device_scale_factor": 2,
       "crop_css_px": {
         "x": 0,
-        "y": 2804,
+        "y": 2824,
         "width": 1440,
         "height": 820
       },
@@ -68,7 +68,7 @@
     {
       "strip": "site-strip-dark.jpg",
       "position": 1,
-      "site_url": "http://127.0.0.1:8871/index.html",
+      "site_url": "http://127.0.0.1:8893/index.html",
       "section": "#top",
       "view": "Home hero: the mission console and the name line, Kshana · क्षण · the precise instant",
       "theme": "dark",
@@ -89,7 +89,7 @@
     {
       "strip": "site-strip-dark.jpg",
       "position": 2,
-      "site_url": "http://127.0.0.1:8871/evidence.html",
+      "site_url": "http://127.0.0.1:8893/evidence.html",
       "section": "#cite",
       "view": "Evidence, Published research: the arXiv papers built on the open engine",
       "theme": "dark",
@@ -110,7 +110,7 @@
     {
       "strip": "site-strip-dark.jpg",
       "position": 3,
-      "site_url": "http://127.0.0.1:8871/editions.html",
+      "site_url": "http://127.0.0.1:8893/editions.html",
       "section": "#pro",
       "view": "Editions, Same engine, amplified: what Kshana Pro adds to the open engine",
       "theme": "dark",
