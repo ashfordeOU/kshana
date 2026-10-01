@@ -384,7 +384,9 @@ pub fn snapshot_raim(
 /// The geodetic (WGS-84 ellipsoid-normal) East, North and Up unit vectors at an
 /// Earth-fixed position. `None` at the Earth's centre.
 fn geodetic_enu_basis(user: Vec3) -> Option<(Vec3, Vec3, Vec3)> {
-    if !(user.iter().map(|c| c * c).sum::<f64>() > 0.0) {
+    if user.iter().map(|c| c * c).sum::<f64>().partial_cmp(&0.0)
+        != Some(std::cmp::Ordering::Greater)
+    {
         return None;
     }
     let g = crate::frames::ecef_to_geodetic(user);
