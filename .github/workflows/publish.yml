@@ -34,7 +34,8 @@
 # mid-release before (v0.27.0). After crates.io, what can still fail is a token or the
 # network, not the build.
 #
-# A missing registry token FAILS the job. It used to skip the upload and report success,
+# A missing registry token FAILS the job (npm: a missing credential, since npm can also
+# authenticate without a token through trusted publishing, see the npm job). It used to skip the upload and report success,
 # so a channel could silently miss a version with every job green (PyPI has no 0.22.0 or
 # 0.23.0, npm no 0.22.0). release.yml's `parity` job then asks every registry whether it
 # really serves the version.
@@ -380,16 +381,24 @@ jobs:
       url: https://www.npmjs.com/package/kshana
     permissions:
       contents: read
-      # `npm publish --provenance` signs npm-native provenance with this job's OIDC identity.
+      # This job's OIDC identity does two things: `npm publish --provenance` signs
+      # npm-native provenance with it, and npm trusted publishing exchanges it for a
+      # short-lived publish credential, so no long-lived token is needed once the package
+      # names a trusted publisher on npmjs.com (docs/RELEASING.md, "npm without a token").
       id-token: write
     steps:
-      - name: Require the registry token
+      - name: Say how this job will authenticate to npm
         env:
           TOKEN: ${{ secrets.NPM_TOKEN }}
+        # Not a hard requirement any more: with no NPM_TOKEN, npm authenticates through
+        # trusted publishing (OIDC). If neither is configured, `npm publish` fails with an
+        # authentication error and the job is red, so a missing credential still cannot
+        # pass silently; release.yml's `parity` job also asks npm for the version.
         run: |
-          if [ -z "$TOKEN" ]; then
-            echo "::error::NPM_TOKEN is not set; a release tag cannot reach npm without it"
-            exit 1
+          if [ -n "$TOKEN" ]; then
+            echo "::notice::NPM_TOKEN is set; npm tries trusted publishing (OIDC) first and falls back to the token"
+          else
+            echo "::notice::NPM_TOKEN is not set; publishing through npm trusted publishing (OIDC) only"
           fi
       - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
@@ -397,15 +406,23 @@ jobs:
           path: npm-dist
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
-          node-version: "20"
+          # Trusted publishing needs Node 22.14.0 or later and npm 11.5.1 or later.
+          node-version: "24"
           registry-url: "https://registry.npmjs.org"
+      - name: Upgrade npm to a version with trusted publishing
+        run: |
+          npm install -g npm@^11.5.1
+          npm --version
       - name: Publish
         env:
-          NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         # Publish the tarball npm-build packed and attested, so the attested bytes are
         # exactly what ships. --provenance records npm-native build provenance.
         run: |
           set +e
+          # The token reaches npm (through the .npmrc setup-node wrote) only when it is set:
+          # an empty NODE_AUTH_TOKEN must not stand in the way of the OIDC exchange.
+          if [ -n "$NPM_TOKEN" ]; then export NODE_AUTH_TOKEN="$NPM_TOKEN"; fi
           # The leading ./ is load-bearing. npm reads a bare `dir/file.tgz` as the GitHub
           # shorthand `owner/repo` and tries to clone github.com/npm-dist/...: v0.27.3's npm
           # job failed exactly that way ("Permission denied (publickey)"), after crates.io
