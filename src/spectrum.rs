@@ -2135,7 +2135,37 @@ fn waterfall_svg(
             esc(&b.name)
         ));
     }
-    // Time ticks.
+    time_axis(&mut s, t_rows, x0, y0, ph);
+    let (bx, by) = (x0, h - 26.0);
+    colour_bar(
+        &mut s,
+        (bx, by, 10.0),
+        levels,
+        (lo_db, hi_db),
+        bx - 2.0 - 26.0,
+        by + 9.0,
+    );
+    cn0_bars(
+        &mut s,
+        model,
+        timeline_bands,
+        (n0_db, thr),
+        (720.0, y0, 250.0, ph),
+        &BarStyle {
+            bar_h: 10,
+            font: 11,
+            bar_dy: 12.0,
+            label_dy: 16.0,
+            ticks: true,
+        },
+    );
+    s.push_str("</svg>");
+    s
+}
+
+/// The time axis down the left of a waterfall whose top-left corner is `(x0, y0)` and
+/// height `ph`: five ticks from zero to the end of the last row, and the axis label.
+fn time_axis(s: &mut String, t_rows: &[f64], x0: f64, y0: f64, ph: f64) {
     let t_end =
         t_rows.last().copied().unwrap_or(0.0) + (t_rows.get(1).copied().unwrap_or(1.0) - t_rows[0]);
     for k in 0..=4 {
@@ -2152,8 +2182,20 @@ fn waterfall_svg(
         y0 + ph / 2.0,
         y0 + ph / 2.0
     ));
-    // Colour bar.
-    let (bx, by, bw_, bh) = (x0, h - 26.0, 240.0, 10.0);
+}
+
+/// The colour bar of the shared scale `[lo_db, hi_db]`: `levels` cells from `(bx, by)`,
+/// `bh` tall and 240 wide, with the low end labelled at `lo_x` and both labels at
+/// baseline `label_y`.
+fn colour_bar(
+    s: &mut String,
+    (bx, by, bh): (f64, f64, f64),
+    levels: usize,
+    (lo_db, hi_db): (f64, f64),
+    lo_x: f64,
+    label_y: f64,
+) {
+    let bw_ = 240.0;
     for k in 0..levels {
         s.push_str(&format!(
             "<rect x=\"{:.1}\" y=\"{by:.1}\" width=\"{:.2}\" height=\"{bh:.1}\" fill=\"{}\"/>",
@@ -2165,13 +2207,35 @@ fn waterfall_svg(
     s.push_str(&format!(
         "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{lo_db:.0}</text>\
          <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{hi_db:.0} dBW/Hz</text>",
-        bx - 2.0 - 26.0,
-        by + 9.0,
+        lo_x,
+        label_y,
         bx + bw_ + 4.0,
-        by + 9.0
+        label_y
     ));
-    // Bars: nominal and minimum effective C/N0 per band.
-    let (bx0, bpw) = (720.0, 250.0);
+}
+
+/// Sizes of the per-band C/N₀ bars: bar height and label font size in pixels, how far
+/// above the band's row centre the grey bar and the label sit, and whether the C/N₀
+/// axis gets tick labels.
+struct BarStyle {
+    bar_h: u32,
+    font: u32,
+    bar_dy: f64,
+    label_dy: f64,
+    ticks: bool,
+}
+
+/// The per-band C/N₀ panel in the rectangle `(bx0, y0, bpw, ph)`: each band's nominal
+/// C/N₀ in grey over its minimum effective C/N₀, coloured against the tracking threshold
+/// `thr`, and the threshold line.
+fn cn0_bars(
+    s: &mut String,
+    model: &SpectrumModel,
+    timeline_bands: &serde_json::Value,
+    (n0_db, thr): (f64, f64),
+    (bx0, y0, bpw, ph): (f64, f64, f64, f64),
+    st: &BarStyle,
+) {
     s.push_str(&crate::chart::panel_axes(
         bx0,
         y0,
@@ -2181,12 +2245,11 @@ fn waterfall_svg(
     ));
     let cmax = 60.0;
     let xb = |c: f64| bx0 + (c.clamp(0.0, cmax) / cmax) * bpw;
-    let n0 = model.bands.len().max(1) as f64;
-    let slot = ph / n0;
-    let n0_db_l = n0_db;
+    let slot = ph / model.bands.len().max(1) as f64;
+    let (bar_h, font) = (st.bar_h, st.font);
     for (i, b) in model.bands.iter().enumerate() {
         let yc = y0 + slot * (i as f64 + 0.5);
-        let nom = b.nominal_cn0_dbhz(n0_db_l);
+        let nom = b.nominal_cn0_dbhz(n0_db);
         let min_c = timeline_bands[i]["min_cn0_dbhz"].as_f64().unwrap_or(nom);
         let col = if min_c < thr {
             "#e5645a"
@@ -2196,14 +2259,14 @@ fn waterfall_svg(
             "#46b67e"
         };
         s.push_str(&format!(
-            "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"10\" fill=\"#5a5245\"/>\
-             <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"10\" fill=\"{col}\"/>\
-             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#bcb3a3\">{} {:.1} / {:.1}</text>",
-            yc - 12.0,
+            "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"#5a5245\"/>\
+             <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{col}\"/>\
+             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"#bcb3a3\">{} {:.1} / {:.1}</text>",
+            yc - st.bar_dy,
             (xb(nom) - bx0).max(0.5),
             yc,
             (xb(min_c) - bx0).max(0.5),
-            yc - 16.0,
+            yc - st.label_dy,
             esc(&b.name),
             nom,
             min_c
@@ -2216,16 +2279,16 @@ fn waterfall_svg(
         y0 + ph,
         y0 + ph + 16.0
     ));
-    for k in 0..=3 {
-        let c = cmax * k as f64 / 3.0;
-        s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"#8a8172\">{c:.0}</text>",
-            xb(c),
-            y0 + ph + 30.0
-        ));
+    if st.ticks {
+        for k in 0..=3 {
+            let c = cmax * k as f64 / 3.0;
+            s.push_str(&format!(
+                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"#8a8172\">{c:.0}</text>",
+                xb(c),
+                y0 + ph + 30.0
+            ));
+        }
     }
-    s.push_str("</svg>");
-    s
 }
 
 /// One waterfall panel: its label, bin-centre frequencies (Hz) and grid (W/Hz), rows by
@@ -2352,84 +2415,30 @@ fn multi_band_svg(
         x0 + total_w / 2.0,
         y0 + ph + 52.0
     ));
-    let t_end =
-        t_rows.last().copied().unwrap_or(0.0) + (t_rows.get(1).copied().unwrap_or(1.0) - t_rows[0]);
-    for q in 0..=4 {
-        let t = t_end * q as f64 / 4.0;
-        s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"#8a8172\">{:.0}</text>",
-            x0 - 6.0,
-            y0 + ph * q as f64 / 4.0 + 4.0,
-            t
-        ));
-    }
-    s.push_str(&format!(
-        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#8a8172\" transform=\"rotate(-90 16 {:.1})\">time (s)</text>",
-        y0 + ph / 2.0,
-        y0 + ph / 2.0
-    ));
-    // Colour bar.
-    let (bx, by, bw_, bh) = (x0, h - 18.0, 240.0, 8.0);
-    for q in 0..levels {
-        s.push_str(&format!(
-            "<rect x=\"{:.1}\" y=\"{by:.1}\" width=\"{:.2}\" height=\"{bh:.1}\" fill=\"{}\"/>",
-            bx + bw_ * q as f64 / levels as f64,
-            bw_ / levels as f64 + 0.3,
-            ramp_colour((q as f64 + 0.5) / levels as f64)
-        ));
-    }
-    s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{lo_db:.0}</text>\
-         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{hi_db:.0} dBW/Hz</text>",
+    time_axis(&mut s, t_rows, x0, y0, ph);
+    let (bx, by) = (x0, h - 18.0);
+    colour_bar(
+        &mut s,
+        (bx, by, 8.0),
+        levels,
+        (lo_db, hi_db),
         bx - 28.0,
         by + 8.0,
-        bx + bw_ + 4.0,
-        by + 8.0
-    ));
-    // Bars: nominal and minimum effective C/N0 per band.
-    let (bx0, bpw) = (810.0, 260.0);
-    s.push_str(&crate::chart::panel_axes(
-        bx0,
-        y0,
-        bpw,
-        y0 + ph,
-        "C/N0 (dB-Hz): nominal (grey) / minimum",
-    ));
-    let cmax = 60.0;
-    let xb = |c: f64| bx0 + (c.clamp(0.0, cmax) / cmax) * bpw;
-    let slot = ph / model.bands.len().max(1) as f64;
-    for (i, b) in model.bands.iter().enumerate() {
-        let yc = y0 + slot * (i as f64 + 0.5);
-        let nom = b.nominal_cn0_dbhz(n0_db);
-        let min_c = timeline_bands[i]["min_cn0_dbhz"].as_f64().unwrap_or(nom);
-        let col = if min_c < thr {
-            "#e5645a"
-        } else if min_c < thr + 6.0 {
-            "#e0a64a"
-        } else {
-            "#46b67e"
-        };
-        s.push_str(&format!(
-            "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"8\" fill=\"#5a5245\"/>\
-             <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"8\" fill=\"{col}\"/>\
-             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"10\" fill=\"#bcb3a3\">{} {:.1} / {:.1}</text>",
-            yc - 9.0,
-            (xb(nom) - bx0).max(0.5),
-            yc,
-            (xb(min_c) - bx0).max(0.5),
-            yc - 12.0,
-            esc(&b.name),
-            nom,
-            min_c
-        ));
-    }
-    let xt = xb(thr);
-    s.push_str(&format!(
-        "<line x1=\"{xt:.1}\" y1=\"{y0:.1}\" x2=\"{xt:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"5 4\"/>\
-         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e5645a\">threshold {thr:.0}</text>",
-        y0 + ph,
-        y0 + ph + 16.0
-    ));
+    );
+    cn0_bars(
+        &mut s,
+        model,
+        timeline_bands,
+        (n0_db, thr),
+        (810.0, y0, 260.0, ph),
+        &BarStyle {
+            bar_h: 8,
+            font: 10,
+            bar_dy: 9.0,
+            label_dy: 12.0,
+            ticks: false,
+        },
+    );
     s.push_str("</svg>");
     s
 }
