@@ -1,0 +1,87 @@
+/* Light-theme surfaces (0.29.2): section bands, domain-tinted cards, figure panels, a reading panel
+   for docs. Loaded last on every site page (shell.html). The light palette itself (ground, cards,
+   ink, semantic colours) lives in theme.css and tokens.css; this file only adds surface structure.
+
+   How dark mode stays untouched: every rule below is driven by the "dial" tokens in the first block.
+   The two dark blocks set each dial to its off value (0%, 0px, none), so in dark the rules draw
+   nothing and change no layout. Three theme states, like theme.css: no data-theme follows the
+   system; data-theme="light" | "dark" forces one. */
+:root{
+  --band-bg:linear-gradient(180deg,#D8DFEB 0,#DCE3EE 40%,#E1E6EF 100%);     /* alternate section band (v2: one notch deeper) */
+  --band-edge:inset 0 1px 0 rgba(28,44,84,.13),inset 0 -1px 0 rgba(28,44,84,.07);
+  --dark-edge:22px;   /* soft shade where a light section meets a dark band (editions Pro) */
+  --band-pad:clamp(56px,6vw,88px);                                          /* bottom room for bands that had none */
+  --wash:7%;        /* domain-colour wash at the top of a card */
+  --stripe:3px;     /* domain-colour rule along the top edge of a card */
+  --fig-on:"";      /* figure panel behind a card's chart (content value; none = no panel) */
+  --fig-a:100%;     /* figure panel strength, also used to match label halos to the panel */
+  --fig-bg:#ECF0F6; /* figure panel base, tinted 6% towards the card's domain colour */
+  --fig-in:12px;    /* figure panel inner padding */
+  --rule-a:100%;    /* accent rule under section headers */
+  --rule-pad:20px;
+  --foot-a:60%;     /* footer sinks one shade below the bands */
+  --panel-pos:relative; --panel-iso:isolate; /* docs reading panel anchor (dark: static, auto) */
+  --inst-a:100%;    /* instrument surfaces (hero log, metric cards, windows, install pill): tinted glass */
+  --inst-shadow:0 1px 0 rgba(255,255,255,.65) inset,0 16px 34px -20px rgba(18,32,72,.38),0 2px 6px -2px rgba(18,32,72,.14);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --band-bg:none; --band-edge:0 0 #0000; --dark-edge:0px; --band-pad:0px; --wash:0%; --stripe:0px;
+    --fig-on:none; --fig-a:0%; --fig-in:0px; --rule-a:0%; --rule-pad:0px; --foot-a:0%; --panel-pos:static; --panel-iso:auto; --inst-a:0%; --inst-shadow:var(--shadow);
+  }
+}
+:root[data-theme="dark"]{
+  --band-bg:none; --band-edge:0 0 #0000; --dark-edge:0px; --band-pad:0px; --wash:0%; --stripe:0px;
+  --fig-on:none; --fig-a:0%; --fig-in:0px; --rule-a:0%; --rule-pad:0px; --foot-a:0%; --panel-pos:static; --panel-iso:auto; --inst-a:0%; --inst-shadow:var(--shadow);
+}
+
+/* ---------------- section bands: ground / tinted band / ground, with soft edges */
+main>:is(section.block,section.mx-sec,section.lb,section.closing):nth-of-type(even){background:var(--band-bg);box-shadow:var(--band-edge)}
+main>section.mx-sec:nth-of-type(even){padding-bottom:var(--band-pad)}
+main>section[data-nav-dark]+section{box-shadow:inset 0 var(--dark-edge) calc(var(--dark-edge) * 1.3) calc(var(--dark-edge) * -1) rgba(10,16,34,.2),var(--band-edge)}
+main>section:has(+section[data-nav-dark]){box-shadow:inset 0 calc(var(--dark-edge) * -1) calc(var(--dark-edge) * 1.3) calc(var(--dark-edge) * -1) rgba(10,16,34,.2),var(--band-edge)}
+.sec-head{padding-bottom:var(--rule-pad);
+  background:linear-gradient(90deg,color-mix(in oklab,var(--cyan) var(--rule-a),transparent),color-mix(in oklab,var(--cyan) calc(var(--rule-a) * .25),transparent) 30%,transparent 62%) left bottom/100% 1px no-repeat}
+.foot{background:color-mix(in oklab,var(--bg-3) var(--foot-a),color-mix(in oklab,var(--bg-2) 45%,transparent))}
+
+/* ---------------- cards: a wash and a top rule in the card's own domain colour (--c) */
+.tile,.ev-tile{background:
+  linear-gradient(var(--c,transparent),var(--c,transparent)) top/100% var(--stripe) no-repeat,
+  linear-gradient(180deg,color-mix(in oklab,var(--c,transparent) var(--wash),transparent),transparent 150px),
+  var(--panel)}
+
+/* ---------------- figure panel: the chart sits on its own faint, domain-tinted panel */
+.tile :is(.viz-plot,.ob-plot){margin-inline:calc(-1 * var(--fig-in));padding:var(--fig-in);border-radius:12px;
+  background:color-mix(in oklab,color-mix(in oklab,var(--c,var(--cyan)) 6%,var(--fig-bg)) var(--fig-a),transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--c,var(--cyan)) calc(var(--fig-a) * .16),transparent)}
+.ev-vis::before{content:var(--fig-on);position:absolute;inset:6px -12px -8px;z-index:-1;border-radius:12px;pointer-events:none;
+  background:color-mix(in oklab,color-mix(in oklab,var(--c,var(--cyan)) 6%,var(--fig-bg)) var(--fig-a),transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--c,var(--cyan)) calc(var(--fig-a) * .16),transparent)}
+.tile .ob-track,.tile .ob-sat{stroke:color-mix(in oklab,var(--s-nav) var(--fig-a),var(--amber))} /* drawn over dark Earth imagery */
+.tile .ob-svg .ob-halo,.ev-svg .ev-lab{stroke:color-mix(in oklab,color-mix(in oklab,var(--c,var(--cyan)) 6%,var(--fig-bg)) var(--fig-a),var(--panel-solid))}
+
+/* ---------------- docs: the article sits on a reading panel, the code on a deeper well */
+.docs{--code-bg:#E9EEF5; --code-head:#DFE5EF; --inline-bg:rgba(28,44,84,.075)}
+.docs-main{position:var(--panel-pos);isolation:var(--panel-iso)}
+.docs-main::before{content:var(--fig-on);position:absolute;inset:-26px -30px -30px;z-index:-1;border-radius:20px;pointer-events:none;
+  background:var(--surface);box-shadow:0 0 0 1px var(--line),var(--shadow)}
+@media (max-width:820px){.docs-main::before{inset:-14px -10px -18px;border-radius:16px}}
+
+/* ---------------- instruments: hero event log, metric cards, console windows, install pill.
+   A tinted, deeper glass that holds its own against the hero art; a shaded title bar; plots on a panel. */
+:is(.hero-log,.hero-panels .chart-panel,.mh-matrix){border-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line));box-shadow:var(--inst-shadow)}
+:is(.hero-log,.hero-panels .chart-panel,.mh-matrix,.window){
+  background:linear-gradient(180deg,color-mix(in oklab,#E8EDF5 calc(var(--inst-a) * .94),transparent),color-mix(in oklab,#DCE3EE calc(var(--inst-a) * .94),transparent)),var(--panel)}
+.window{border-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line-2));background:linear-gradient(180deg,color-mix(in oklab,#E8EDF5 calc(var(--inst-a) * .94),transparent),color-mix(in oklab,#DCE3EE calc(var(--inst-a) * .94),transparent)),color-mix(in oklab,var(--panel-solid) 88%,transparent)}
+:is(.log-head,.mm-head,.win-bar){background:color-mix(in oklab,#D0D9E6 var(--inst-a),color-mix(in oklab,var(--bg-2) var(--wb-a,0%),transparent));border-bottom-color:color-mix(in oklab,var(--line-2) var(--inst-a),var(--line))}
+.win-bar{--wb-a:60%}
+.log-body{background:color-mix(in oklab,#E4EAF2 calc(var(--inst-a) * .6),transparent)}
+.log-head .tag{background:color-mix(in oklab,#EEF2F8 var(--inst-a),var(--panel-2))}
+.hero-panels .cp-svg{border-radius:7px;background:color-mix(in oklab,color-mix(in oklab,var(--c,var(--cyan)) 6%,#F0F3F8) var(--inst-a),transparent);
+  box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--c,var(--cyan)) calc(var(--inst-a) * .18),transparent)}
+.hero-panels .cp-thr-t{stroke:color-mix(in oklab,color-mix(in oklab,var(--c,var(--cyan)) 6%,#F0F3F8) var(--inst-a),var(--bg-2))}
+.btn-code{background:color-mix(in oklab,#E3E9F2 var(--inst-a),var(--panel));border-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line-2));box-shadow:0 1px 0 color-mix(in oklab,#FFFFFF calc(var(--inst-a) * .7),transparent) inset}
+.btn-code:hover{background:color-mix(in oklab,color-mix(in oklab,var(--cyan) 8%,#E3E9F2) var(--inst-a),var(--panel-2));border-color:color-mix(in oklab,var(--cyan) calc(var(--inst-a) * .55),var(--line-3))}
+.btn-code .cp{color:color-mix(in oklab,var(--cyan) var(--inst-a),var(--ink-3));border-left-color:color-mix(in oklab,var(--line-3) var(--inst-a),var(--line-2))}
+.btn-code:hover .cp{color:color-mix(in oklab,var(--ink) var(--inst-a),var(--ink-3))}
+

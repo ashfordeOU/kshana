@@ -5,7 +5,7 @@
 // Nothing here synthesises a value: every line, cell, dot and figure is read from those files.
 // Sections: shared helpers · L-band waterfall · six ways · integrity and coasting · constellation
 // designer · campaigns · solar system · kept modules (holdover reader, one block, Studio loader).
-import { fmt, nearestByX } from "../playground/lib/views.mjs";
+import { fmt, nearestByX } from "../studio/lib/views.mjs";
 import { studioHref } from "./studio-links.mjs";
 
 const D = JSON.parse(document.getElementById("kpage").textContent);
@@ -78,8 +78,8 @@ function prov(p, m, eng, { lead = null, studioTab = null } = {}) {
   p.append(src);
   const stem = m.file.replace(/\.toml$/, "");
   if (studioTab) {
-    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = studioHref(ROOT, stem, studioTab) || `/playground/?scenario=${stem}&tab=${studioTab}`; p.append(a);
-    const r = el("a", null, "Report and data"); r.href = `/playground/?scenario=${stem}&tab=exports`; p.append(r);
+    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = studioHref(ROOT, stem, studioTab) || `/studio/?scenario=${stem}&tab=${studioTab}`; p.append(a);
+    const r = el("a", null, "Report and data"); r.href = `/studio/?scenario=${stem}&tab=exports`; p.append(r);
     return;
   }
   // An engine-run visual: the Studio view that reproduces it (js/studio-links.mjs, generated from
@@ -1315,7 +1315,7 @@ async function loadDemo() {
   let runs;
   try {
     runs = await Promise.all(cols.map((c) => (D.orbits && D.orbits[c.dataset.run]) ? Promise.resolve(D.orbits[c.dataset.run])
-      : import("../playground/lib/packs.mjs").then((m) => (loadDemo.reader ||= m.createPackReader()).run(`${ROOT}playground/recorded/`, c.dataset.run)).then((r) => { if (!r) throw new Error("not recorded"); return r; })
+      : import("../studio/lib/packs.mjs").then((m) => (loadDemo.reader ||= m.createPackReader()).run(`${ROOT}studio/recorded/`, c.dataset.run)).then((r) => { if (!r) throw new Error("not recorded"); return r; })
         .then((r) => ({ toml: r.toml, geometry: (typeof r.json === "string" ? JSON.parse(r.json) : r.json).geometry }))));
   } catch (e) {
     for (const c of cols) c.querySelector('[data-cz="toml"]').textContent = "The recorded run could not be loaded here; open it in the Studio instead.";

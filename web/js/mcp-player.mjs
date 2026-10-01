@@ -4,7 +4,7 @@
 // recording (src/tools/record_mcp_session.py -> src/data/mcp-session.json), passed in by the page.
 // One step at a time: initialize -> tools/list -> validate_scenario -> run_scenario -> result.
 // Each step shows the request and the reply's key fields; the recorded JSON sits behind "Show JSON".
-import { fmt } from "../playground/lib/views.mjs";
+import { fmt } from "../studio/lib/views.mjs";
 
 const RM = matchMedia("(prefers-reduced-motion: reduce)").matches;
 const SVGNS = "http://www.w3.org/2000/svg";
