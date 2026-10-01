@@ -1,0 +1,133 @@
+# Kshana
+
+> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.29.2, AGPL-3.0-only licence, by Ashforde OÜ. 83 of 223 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
+
+Kshana is a deterministic Rust engine for PNT (positioning, navigation and timing) resilience studies: GNSS (global navigation satellite system) jamming and spoofing, clock holdover, RAIM (receiver autonomous integrity monitoring) and protection levels, orbits, low-Earth-orbit navigation, and navigation at the Moon and Mars. Every scenario is a TOML file; every run is reproducible from its scenario, seed and engine version. It is not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.
+
+## Site
+
+- [Kshana: open-source GNSS jamming and spoofing simulator](https://kshana.dev/): Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser.
+- [Missions: GNSS and PNT resilience by sector](https://kshana.dev/missions): GNSS jamming, spoofing and clock holdover scenarios for ten sectors, from defence, aviation and maritime to telecom timing and lunar navigation.
+- [Capabilities: GNSS, clocks, orbits, Moon and Mars](https://kshana.dev/capabilities): GNSS signal bands and jamming, clock holdover, timing masks, integrity monitoring (RAIM), orbits and lunar navigation: every scenario kind on one map.
+- [Evidence: validation against external oracles](https://kshana.dev/evidence): Which Kshana capabilities are validated against independent oracles and which are modelled: verification matrix, validation ledger, papers and citation.
+- [Install Kshana: CLI, Rust, Python, npm and MCP server](https://kshana.dev/developers): Install Kshana as a command-line tool, Rust crate, Python or npm package, Model Context Protocol (MCP) server, container or JetBrains plugin.
+- [Editions: open source and Kshana Pro](https://kshana.dev/editions): Kshana is free and open source under the AGPL-3.0 licence. Kshana Pro adds a design optimiser, uncertainty and sensitivity studies and a mission dossier.
+- [Kshana Studio](https://kshana.dev/studio/): Run GNSS jamming, spoofing, holdover and integrity scenarios in your browser. The open-source engine runs locally as WebAssembly; nothing is uploaded.
+
+## Install
+
+- Command line (Rust): `cargo install kshana` (https://crates.io/crates/kshana)
+- Rust library: `cargo add kshana` (https://crates.io/crates/kshana)
+- Python: `pip install kshana` (https://pypi.org/project/kshana/)
+- JavaScript and WebAssembly: `npm install kshana` (https://www.npmjs.com/package/kshana)
+- AI assistant (MCP server): `cargo install kshana-mcp` (https://crates.io/crates/kshana-mcp)
+- Docker image: `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` (https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp)
+- Source code: https://github.com/ashfordeOU/kshana
+- Cite the software: DOI [10.5281/zenodo.20528627](https://doi.org/10.5281/zenodo.20528627)
+
+## Research
+
+- [The Cost of Lunar South-Polar Geometry, and Surface Beacons as the Efficient Fix: A Dilution-of-Precision Analysis](https://arxiv.org/abs/2607.06212): arXiv 2607.06212. Planned orbits bunch overhead for a lunar south-pole user; a few ranging beacons on nearby high ground fix the geometry more cheaply than more satellites.
+- [Earth-baseline VLBI restores the observability of a lunar surface station in joint orbit-and-clock determination](https://arxiv.org/abs/2607.02566): arXiv 2607.02566. Lunar-network ranging fixes only relative geometry; an Earth-baseline very-long-baseline interferometry delay ties a surface station to the Earth frame, even with few satellites.
+- [A Conditional Timing Protection Level: Holdover-Limited Undetected Time Error Under GNSS Spoofing](https://arxiv.org/abs/2606.24210): arXiv 2606.24210. A recorded spoof shows a timing receiver serving time far more wrong than it reports; no unconditional bound exists, so the paper bounds the undetected error conditionally.
+- [How Stable Is a PNT Resilience Score? Decision-Instability of Single-Number Resilience Ratings under Framework-Aligned Weighting](https://arxiv.org/abs/2607.05415): arXiv 2607.05415. Single-number resilience ratings for positioning, navigation and timing are stable only where one design dominates; weighting, threat and declared techniques can flip them.
+- [Anticipating the Optimism Gap: Predicting Distribution-Shift Degradation of RF-Impairment Detectors from In-Distribution Statistics](https://arxiv.org/abs/2606.22054): arXiv 2606.22054. How much an interference detector loses under shifted conditions can be predicted from its own in-distribution scores; synthetic results, checked on open field recordings.
+
+## Docs: Get started
+
+- [Overview](https://kshana.dev/docs/overview): Every run is reproducible bit for bit from the scenario, the seed and the engine version.
+- [Concepts — a plain-language primer](https://kshana.dev/docs/concepts): This page explains what Kshana does and why, starting from zero and building up to the physics.
+- [Glossary](https://kshana.dev/docs/glossary): Plain-language definitions of the terms used in Kshana. Each entry starts with a one-line "in plain terms" and then adds the precise meaning where it…
+- [The kshana.dev site](https://kshana.dev/docs/studio): web/ is the tree that GitHub Pages serves as https://kshana.dev: the pages (index.html, missions.html, capabilities.html, evidence.html, developers.html…
+- [Tutorials](https://kshana.dev/docs/tutorials): Hands-on, worked examples that take you from “run a shipped scenario” to “quantify and defend a result.” Every number quoted in the three tutorials is a…
+- [Tutorial 1](https://kshana.dev/docs/tutorial-first-orbit): Kind: orbit · Scenario: scenarios/orbit-sgp4-gps.toml (teaching copy: scenarios/orbit.toml) · Difficulty: beginner · ~15 min
+- [Tutorial 2 — Clock holdover: how long can you coast](https://kshana.dev/docs/tutorial-clock-holdover): Kind: clock · Scenario: scenarios/clock-holdover.toml (teaching copy: scenarios/clock.toml) · Difficulty: beginner · ~20 min
+- [Tutorial 3](https://kshana.dev/docs/tutorial-quantum-vs-classical): Kinds: spoof + hybrid · Scenarios: scenarios/spoof-attack.toml, scenarios/hybrid-pnt.toml (teaching copies: scenarios/security.toml…
+- [Worked example](https://kshana.dev/docs/example-multi-tool): This walks one trajectory through the standards-based interop and mission-analysis scenario kinds end to end, showing how Kshana sits between the…
+
+## Docs: Scenarios
+
+- [Scenario kinds](https://kshana.dev/docs/scenarios): The 75 built-in scenario kinds that kshana::api::run_toml dispatches over, each with its one-line description and its required / optional TOML (Tom's…
+- [Scenario reference](https://kshana.dev/docs/scenario-reference): Every bundled scenario file (138), grouped by kind. The description is the file's own header comment; the key parameters are its top-level settings.
+- [Result schema — reading a Kshana *.result.json](https://kshana.dev/docs/schema): Every run writes a versioned, self-describing JSON (JavaScript Object Notation) artifact next to the scenario.
+- [Using real constellation TLEs](https://kshana.dev/docs/real-tle-guide): The bundled scenarios/orbit-sgp4-gps.toml already carries real TLEs (two-line element sets): the Celestrak gps-ops snapshot of the operational GPS…
+- [Campaigns](https://kshana.dev/docs/campaigns): A single scenario answers one question about one situation. A mission is a sequence of situations, and a design study is a family of them.
+
+## Docs: Outputs and exports
+
+- [Run reports](https://kshana.dev/docs/reports): Every run of the command-line interface (CLI) writes a report beside its result: a printable HyperText Markup Language (HTML) page…
+- [Animation export](https://kshana.dev/docs/animation): --animate turns a run's time series into something that moves: an animated Scalable Vector Graphics (SVG) file, a single self-contained HyperText Markup…
+- [Interoperability exports and imports](https://kshana.dev/docs/interop): A run writes a result document, a chart and a report. --export also writes the scenario's geometry, or its synthesised signal, in the formats other tools…
+
+## Docs: Validation and evidence
+
+- [Validation status](https://kshana.dev/docs/validation): On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the reference relation within an enforced gate…
+- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 223 rows — 83 VALIDATED, 136 MODELLED, 4 PARTNER.
+- [Capability reference](https://kshana.dev/docs/capability-reference): The 46 capability cards from web/capabilities.json, then all 223 rows of the verification matrix.
+- [Modelled capabilities — rationale](https://kshana.dev/docs/modelled-rationale): These capabilities are implemented from published or first-principles physics with tests, but are honestly labelled MODELLED — not checked against an…
+- [Claims vs. reality — overclaim ledger](https://kshana.dev/docs/claims-vs-reality): An independent audit of an earlier Kshana version catalogued fourteen overclaims (OC-0 … OC-13): places where a public-facing surface (README…
+- [Provenance](https://kshana.dev/docs/provenance): Kshana's central honesty discipline is that every sensor parameter, physical model, and validation dataset is traceable to a published source — a…
+- [Reproducibility and provenance](https://kshana.dev/docs/reproducibility): Kshana is built to be reproducible: the same inputs produce the same results, and the build artifacts can be traced back to the source that produced them.
+- [Capability map](https://kshana.dev/docs/capability-map): Kshana is a PNT (positioning, navigation and timing) performance-and-resilience evidence engine, not a full space-systems toolkit.
+- [Standards and interoperability](https://kshana.dev/docs/standards): Kshana speaks the standard interchange formats of the GNSS (global navigation satellite system), flight-dynamics, and timing communities so it can sit…
+- [Line coverage — the measurement of record](https://kshana.dev/docs/line-coverage): The "~95 % line coverage" on the README badge, the README CI (continuous integration) table, the crates.io and PyPI (Python Package Index) front pages…
+
+## Docs: Timing
+
+- [Slot timing](https://kshana.dev/docs/slot-timing): The slot-timing scenario kind answers three questions for a clock that free-runs between synchronisations and must keep traffic inside a time-indexed…
+- [Telecom timing: masks, sources and presets](https://kshana.dev/docs/telecom-timing): This page lists every limit the telecom-timing scenario kind checks, where each one comes from, and what was left out. The code is src/telecom_timing.rs.
+- [A signed command applied at a deceived time still misroutes](https://kshana.dev/docs/deceived-time): A technical note for operators of time-indexed networks: constellations that route, task or hand over by a schedule, where each node acts when its own…
+
+## Docs: Integrity and interference
+
+- [Integrity and security](https://kshana.dev/docs/integrity): Kshana reports two figures of merit (FoMs) — Integrity and Security — that are easy to mistake for the aviation-grade quantities of the same name.
+- [Spectrum model and waterfall](https://kshana.dev/docs/spectrum): The spectrum scenario kind builds the Global Navigation Satellite System (GNSS) L band, and any other band a designed signal occupies (ultra-high…
+- [ARAIM reference](https://kshana.dev/docs/araim-reference): This note documents Kshana's open implementation of Advanced Receiver Autonomous Integrity Monitoring (ARAIM): the algorithm, every assumption, the…
+- [DO-316 / DO-229E integrity compliance map](https://kshana.dev/docs/compliance): This document maps the RTCA (formerly the Radio Technical Commission for Aeronautics) DO-229E (SBAS (satellite-based augmentation system) MOPS (minimum…
+- [PNT-resilience framework cross-walk](https://kshana.dev/docs/resilience-crosswalk): Aligned to, not certified. This maps Kshana's simulated capabilities to the published PNT-resilience (PNT: positioning, navigation and timing) frameworks.
+
+## Docs: Orbits
+
+- [SGP4/SDP4 validation against the community reference](https://kshana.dev/docs/sgp4-validation): Kshana's orbit propagator is validated against the canonical community reference for SGP4/SDP4 (SGP4: Simplified General Perturbations 4; SDP4…
+- [Force-model validation by ephemeris fitting](https://kshana.dev/docs/agency-orbit-validation): Kshana's full-force engine (src/precise_od.rs) fit to real agency precise-orbit products, with honest, citable, commit-hash-stamped residuals.
+- [Solar system and positioning around other bodies](https://kshana.dev/docs/solar-system): The constellation-design kind uses the same catalogue to build constellations around any of these bodies (CONSTELLATION-DESIGN.md).
+
+## Docs: Low Earth orbit (LEO) navigation
+
+- [LEO-PNT in Kshana](https://kshana.dev/docs/leo-pnt): LEO-PNT is positioning, navigation and timing (PNT) from satellites in low Earth orbit (LEO), alongside or instead of the medium Earth orbit (MEO) global…
+- [LEO-PNT signal designs and the multi-band spectrum](https://kshana.dev/docs/leo-signal): The leo-signal scenario kind analyses low Earth orbit (LEO) positioning, navigation and timing (PNT) signals. It is not tied to one system.
+- [LEO pass and link budget (leo-pass)](https://kshana.dev/docs/leo-pass): LEO-PNT is positioning, navigation and timing (PNT) from satellites in low Earth orbit (LEO).
+- [LEO navigation message](https://kshana.dev/docs/leo-navmsg): The leo-navmsg scenario kind builds the broadcast ephemeris and clock message of a low Earth orbit (LEO) positioning, navigation and timing (PNT)…
+- [Fused MEO and LEO positioning, navigation and timing](https://kshana.dev/docs/leo-pnt-fusion): Three scenario kinds provide positioning, navigation and timing (PNT) with satellites in low Earth orbit (LEO) alone or fused with the medium-Earth-orbit…
+- [Constellation design](https://kshana.dev/docs/constellation-design): The constellation-design kind builds one or more satellite constellations around the Earth, the Moon, Mars or any other body in the solar-system…
+
+## Docs: Quantum sensors
+
+- [Quantum-sensor models](https://kshana.dev/docs/quantum-models): Kshana is a PNT-resilience (PNT: positioning, navigation and timing) simulator with quantum-sensor performance models.
+- [Quantum inertial-sensor physics](https://kshana.dev/docs/quantum-physics): Most of Kshana drives its quantum sensors from published Allan/noise coefficients — datasheet lookups (see QUANTUM-MODELS.md and PROVENANCE.md).
+
+## Docs: APIs and integrations
+
+- [Python API](https://kshana.dev/docs/python-api): Kshana ships a first-class Python application programming interface (API), built with PyO3 and maturin.
+- [npm and WebAssembly](https://kshana.dev/docs/npm): Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation Satellite System) signals fail, and tells you how long a system keeps…
+- [Rust crate](https://kshana.dev/docs/rust): Try it first with nothing to install: Kshana Studio runs the whole engine in your browser, compiled to WebAssembly, and uploads nothing.
+- [kshana-mcp](https://kshana.dev/docs/mcp): kshana-mcp is a Model Context Protocol (MCP) server for Kshana, the open-source simulator for PNT (positioning, navigation and timing) resilience.
+- [Kshana for JetBrains IDEs](https://kshana.dev/docs/jetbrains): Install: Kshana — PNT simulator on the JetBrains Marketplace — or, in any JetBrains IDE, Settings → Plugins → Marketplace → search "Kshana".
+- [Where Kshana runs, and where it does not](https://kshana.dev/docs/deployment-targets): A scope boundary, written down so that nobody discovers it as a commitment in a meeting.
+- [Architecture](https://kshana.dev/docs/architecture): Kshana is one engine organised in layers over a shared core: the sensor packs (clock, inertial, time-transfer, hybrid); an astrodynamics / numerical…
+- [Where Kshana sits](https://kshana.dev/docs/positioning): Kshana is an open, reproducible PNT (positioning, navigation and timing) resilience evidence engine.
+
+## Docs: Project
+
+- [Changelog](https://kshana.dev/docs/changelog): The format is based on Keep a Changelog, and this project adheres to Semantic Versioning.
+- [Licensing](https://kshana.dev/docs/licensing): Kshana is dual-licensed. You may use the open engine under either the open licence (AGPL-3.0) or a commercial licence from Ashforde OÜ.
+- [Security policy](https://kshana.dev/docs/security): Please do not open a public issue for security-sensitive reports. We aim to acknowledge within a few business days.
+- [Contributing to Kshana](https://kshana.dev/docs/contributing): Thanks for your interest. Kshana aims to be a neutral, reproducible, honestly- validated reference for hybrid quantum/classical PNT.
+- [Kshana governance](https://kshana.dev/docs/governance): This document states how Kshana is governed: who makes decisions, how, and what the project will and will not absorb.
+- [Contributor Covenant Code of Conduct](https://kshana.dev/docs/code-of-conduct): We as members, contributors, and leaders pledge to make participation in our community a harassment-free experience for everyone, regardless of age, body…
+
+## Optional
+
+- [Full text of the site and docs](https://kshana.dev/llms-full.txt): every page above as plain text, generated with the site
+- [Sitemap](https://kshana.dev/sitemap.xml)
+- [Docs index](https://kshana.dev/docs/)

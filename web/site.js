@@ -358,7 +358,7 @@
   var pal = $("#palette"), inp = $("#palInput"), list = $("#palList"), count = $("#palCount");
   var items = null, shown = [], act = 0, lastFocus = null;
   var ACTIONS = [
-    { t: "Launch " + ((window.KSITE && window.KSITE.studio) || "Kshana Studio"), h: "/playground/", k: "Action" },
+    { t: "Launch " + ((window.KSITE && window.KSITE.studio) || "Kshana Studio"), h: "/studio/", k: "Action" },
     { t: "Switch light or dark theme", a: function () { themeBtn && themeBtn.click(); }, k: "Action" },
     { t: "Copy: cargo install kshana", a: function () { copyText("cargo install kshana"); }, k: "Action" },
     { t: "Request a Kshana Pro evaluation", h: "mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation", k: "Action" },
@@ -411,6 +411,8 @@
   function close() { if (!pal || pal.hidden) return; pal.hidden = true; if (lastFocus && lastFocus.focus) lastFocus.focus(); }
   window.KSpalette = open;
   var kbtn = $("#kbtn"); if (kbtn) kbtn.addEventListener("click", open);
+  // ?q=<terms> on any page opens the search with the terms typed (the site search a search engine can link to)
+  try { var q0 = new URLSearchParams(location.search).get("q"); if (q0 && pal) { open(); inp.value = q0; load().then(render); } } catch (e) {}
   if (pal) {
     pal.addEventListener("click", function (e) { if (e.target === pal) close(); });
     inp.addEventListener("input", function () { act = 0; render(); });
