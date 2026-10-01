@@ -1,0 +1,67 @@
+{
+  "astropy_version": "8.0.1",
+  "final_mjds": [
+    61173.0,
+    61174.0,
+    61175.0,
+    61176.0,
+    61177.0,
+    61178.0,
+    61179.0,
+    61180.0,
+    61181.0,
+    61182.0,
+    61183.0,
+    61184.0,
+    61185.0,
+    61186.0,
+    61187.0,
+    61188.0,
+    61189.0,
+    61190.0,
+    61191.0,
+    61192.0
+  ],
+  "final_rows": 20,
+  "first_mjd": 61173.0,
+  "last_mjd": 61204.0,
+  "oracle": "astropy.utils.iers.IERS.read(format='cds', readme=IERS_A_README)",
+  "pm_flag_census": {
+    "I": 32
+  },
+  "pm_flag_of_final_rows": [
+    "I"
+  ],
+  "pm_flag_of_prediction_rows": [
+    "I"
+  ],
+  "prediction_first_mjd": 61193.0,
+  "prediction_last_mjd": 61204.0,
+  "prediction_mjds": [
+    61193.0,
+    61194.0,
+    61195.0,
+    61196.0,
+    61197.0,
+    61198.0,
+    61199.0,
+    61200.0,
+    61201.0,
+    61202.0,
+    61203.0,
+    61204.0
+  ],
+  "prediction_rows": 12,
+  "rows": 32,
+  "source_file": "tools/finals2000A_2026.txt",
+  "source_sha256": "bba73f0524eda18e78c1e0cde6843a60a1cf1fe0a3afcc9afc6239c0f63df822",
+  "ut1_flag_census": {
+    "I": 32
+  },
+  "ut1_flag_of_final_rows": [
+    "I"
+  ],
+  "ut1_flag_of_prediction_rows": [
+    "I"
+  ]
+}

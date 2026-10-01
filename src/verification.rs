@@ -514,8 +514,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Onboard clock state estimation",
             capability: "3-state (phase/freq/drift) van-Loan Kalman clock, Joseph-stabilised",
             module: "clock_state",
-            tests: "clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and 3×3 covariance P over 1925 steps / 4 parameter sets vs filterpy 1.4.5; worst |relΔ| 2.8e-14)",
-            oracle: "filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED",
+            tests: "clock_state::tests (analytic van-Loan Q; NEES; PSD positivity); tests/clock_state_reference.rs (full predict+update trajectory — state x and 3×3 covariance P over 1925 steps / 4 parameter sets vs filterpy 1.4.5; worst |relΔ| 2.8e-14); tests/clock_state_igs_holdout_oracle.rs::three_state_filter_on_held_out_igs_clocks_finding (pins the finding)",
+            oracle: "filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Block IIF satellites (2025-08-17 to 30), with Q fitted to the first-half ADEV and the filter scored on the held-out second half, the filter is consistent one step ahead (0.906 to 0.971 of epochs inside its 95 % band, bar 90 %) but over-confident at one hour on 9 of 11 clocks (0.486 to 0.829) and its innovation sums fall outside [2.4, 3.6] on 5. The fitted white-phase noise is zero on every satellite, and the hour-scale error (periodic terms, flicker FM) is not in the 3-state model",
             oracle_kind: ReferenceImpl,
             status: Modelled,
         },
@@ -575,12 +575,12 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "GNSS/INS sensor fusion",
-            capability: "15-state error-state EKF (loosely & tightly coupled), tightly-coupled pseudorange/Doppler UKF, and a coupled clock+position filter",
+            capability: "15-state error-state EKF, loosely coupled (validated on a real IMU/GNSS drive against NaveGo); a tightly coupled pseudorange/Doppler UKF and a coupled clock+position filter (consistency-only, outside the validated claim)",
             module: "fusion (gnss_ins_ekf, tightly_coupled, ukf, coupled)",
-            tests: "fusion::tests (UKF==linear-KF identity; outage coast; NEES); tests/gnss_ins_sensor_fusion_reference.rs (50 cases vs filterpy 1.4.5: linear EKF loose/tight + coupled-PNT posteriors to ≤2.4e-12; UKF 40-epoch run worst |Δx| 1.9e-7 / |ΔP| 9.5e-6)",
-            oracle: "filterpy 1.4.5 (R. Labbe, MIT) on numpy/scipy. The three LINEAR filters reach the uniquely-defined Bayesian posterior independently (Joseph vs standard form, machine precision) — a genuine library-vs-library check; the tightly-coupled UKF shares the same sigma-point recursion, so it is consistency-only. Stays MODELLED (the trajectory truth / sensor calibration are not externally validated)",
-            oracle_kind: ReferenceImpl,
-            status: Modelled,
+            tests: "fusion::tests (UKF==linear-KF identity; outage coast; NEES); tests/gnss_ins_sensor_fusion_reference.rs (50 cases vs filterpy 1.4.5: linear EKF loose/tight + coupled-PNT posteriors to ≤2.4e-12; UKF 40-epoch run worst |Δx| 1.9e-7 / |ΔP| 9.5e-6); tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego (NaveGo v1.4 loosely coupled solution on NaveGo's real Ekinox IMU/GNSS drive: horizontal RMS 0.912x, vertical 0.940x, position-innovation RMS 0.861x of NaveGo's, mean normalised innovation 0.395; bars 1.2x, 1.2x, 1.2x and 1.5 fixed before the run)",
+            oracle: "NaveGo v1.4 (R. Gonzalez, LGPL-3.0, run as a tool under GNU Octave, never linked): its loosely coupled ins_gnss on its own real Ekinox IMU/GNSS land-vehicle drive, both solutions scored against the Ekinox reference trajectory. Both filters read the same 20 Hz float32 input, and Kshana's configuration is mapped mechanically from the dataset's published parameters. Kshana's horizontal and vertical position RMS and its position-innovation RMS are within 1.2x of NaveGo's (measured 0.912, 0.940 and 0.861) and its mean normalised innovation is at most 1.5 (measured 0.395: about 2.5x under-confident, given the dataset's stated GNSS sigmas); tolerances fixed before the comparison. Scope: GNSS is present at 5 Hz for the whole drive, so no outage or coast is tested and the check catches gross filter defects rather than fine tuning (lever-arm-corrected raw fixes would land near the vertical bar); the lever-arm transform is computed in the test harness. The tightly coupled UKF and the coupled clock+position filter keep their filterpy 1.4.5 consistency checks (linear posteriors to 2.4e-12) and stay outside the validated claim",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "GNSS-denied jamming resilience",
@@ -595,8 +595,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Spoofing detection",
             capability: "Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM",
             module: "spoof, spoof_detect, spoof_monitors",
-            tests: "tests/spoof_texbat_validation.rs (TEXBAT parameter characterisation)",
-            oracle: "TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors",
+            tests: "tests/spoof_texbat_validation.rs (TEXBAT parameter characterisation); tests/spoof_detection_jammertest_oracle.rs::monitors_against_the_published_onsets_reproduce_the_recorded_disagreement (pins the finding)",
+            oracle: "TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the published slot start), and three pre-onset windows carried false alarms from the clock monitor (81, 64 and 173 epochs). The first observable effect was a loss of dual-frequency GPS tracking, not a RAIM inconsistency. The published onsets are minute-resolution schedule slot starts; that they precede the RF capture is an interpretation, not a measurement",
             oracle_kind: ExternalDataset,
             status: Modelled,
         },
@@ -604,8 +604,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Timing Protection Level under spoofing",
             capability: "Closed-form bound on worst-case undetected time error = monitor floor + oscillator coast-σ over CUSUM detection latency, reported as a red-noise-floor band",
             module: "tpl",
-            tests: "tpl::tests (closed-form oracles + CUSUM); examples/tpl_jammertest.rs (JammerTest 2024 real-spoof calibration)",
-            oracle: "Composes Validated primitives (allan/holdover van-Loan, security floor); calibrated on JammerTest 2024 scenario 2.1.1 (~1.01 ms real served-time pull vs ≤51 ns claimed). Bridge over Validated parts — not itself an external validation.",
+            tests: "tpl::tests (closed-form oracles + CUSUM); examples/tpl_jammertest.rs (JammerTest 2024 real-spoof calibration); tests/tpl_jammertest_coverage_oracle.rs::tpl_against_measured_time_error_reproduces_the_recorded_disagreement (pins the finding)",
+            oracle: "Composes Validated primitives (allan/holdover van-Loan, security floor); calibrated on JammerTest 2024 scenario 2.1.1 (~1.01 ms real served-time pull vs ≤51 ns claimed). Bridge over Validated parts — not itself an external validation. 0.30 external comparison, a finding (stays MODELLED): on the JammerTest 2024 spoofing scenarios the measured undetected served-time error exceeds the nominal TPL at 3 of 8 detected onsets: 184.3 vs 34.6 ns (2.1.4), 295.7 vs 159.3 ns (2.3.5) and 143.0 vs 69.0 ns (2.3.11); three of the five inside are trivial (a latched pre-onset false alarm). Likely cause: the coast term from a 60 s calibration with zero drift noise does not cover the receiver TCXO's frequency wander over 15 to 39 s. The measured error is Kshana's own single-point clock estimate against a line fitted to its own pre-onset estimates, so even agreement would not have been fully independent",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -694,8 +694,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Launch-window & ascent geometry (mission analysis)",
             capability: "Two-body launch azimuth(s) (sin Az = cos i / cos lat), minimum reachable inclination, circular velocity, Earth-rotation eastward bonus, dogleg plane-change Δv and daily opportunities. Runnable from the CLI/bindings as the `launch-window` scenario kind (scenarios/launch-window.toml)",
             module: "launch",
-            tests: "launch::tests (due-east launch reaches i=latitude, KSC→ISS = textbook 45°, polar = N/S, i<lat unreachable, 465 m/s equatorial bonus, plane-change 10° ≈ 1.34 km/s + 180° = 2v, daily-opportunity counts, scenario reproducible/MODELLED + dogleg path); dominance_demonstrators (reachable + reproducible + KSC→ISS 45° + MODELLED-not-VALIDATED)",
-            oracle: "Closed-form spherical-trig launch geometry vs published worked-example anchors (Vallado, Fundamentals of Astrodynamics 4th ed., Algorithm 37 launch-azimuth + Ch.6 plane-change; tests/launch_window_ascent_geometry_reference.rs). These re-use the same closed form kshana implements (a published-value parity / transcription check, InternalConsistency); MODELLED two-body, no rotating-Earth velocity-triangle / ascent / drag-loss model",
+            tests: "launch::tests (due-east launch reaches i=latitude, KSC→ISS = textbook 45°, polar = N/S, i<lat unreachable, 465 m/s equatorial bonus, plane-change 10° ≈ 1.34 km/s + 180° = 2v, daily-opportunity counts, scenario reproducible/MODELLED + dogleg path); dominance_demonstrators (reachable + reproducible + KSC→ISS 45° + MODELLED-not-VALIDATED); tests/launch_geometry_orekit_oracle.rs::burnout_azimuth_reproduces_the_target_inclination_in_orekit; tests/launch_geometry_orekit_oracle.rs::earth_rotation_speed_gap_is_recorded_as_a_finding",
+            oracle: "Closed-form spherical-trig launch geometry vs published worked-example anchors (Vallado, Fundamentals of Astrodynamics 4th ed., Algorithm 37 launch-azimuth + Ch.6 plane-change; tests/launch_window_ascent_geometry_reference.rs). These re-use the same closed form kshana implements (a published-value parity / transcription check, InternalConsistency); MODELLED two-body, no rotating-Earth velocity-triangle / ascent / drag-loss model. 0.30 external comparison against Orekit 12.2 (Apache-2.0), a finding (stays MODELLED): the geometry agrees to rounding (inclination read back from the burnout azimuth over 158 cases, worst 2.6e-15 rad; minimum inclination, circular velocity and dogleg delta-v to 3e-16), but the Earth-rotation site speed misses the pre-registered 1e-6 relative at 62.9 deg latitude (1.12e-6). The gap grows as tan(lat), consistent with a polar-motion pole offset of about 5.8e-7 rad in Orekit's Earth frame that the spherical ω·R·cos(lat) omits. The claim was not narrowed before the run, so the row cannot promote on this comparison",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -703,8 +703,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Ballistic re-entry corridor (Allen–Eggers)",
             capability: "Peak deceleration (ballistic-coefficient-independent), velocity + altitude at peak-g, and peak-heating velocity for an exponential-atmosphere ballistic entry. Runnable from the CLI/bindings as the `reentry` scenario kind (scenarios/reentry.toml)",
             module: "reentry",
-            tests: "reentry::tests (peak-g independent of ballistic coefficient + physical g-band, grows with steeper γ / faster entry, peak-g velocity = V_e·e^(−1/2) and peak-heating = V_e·e^(−1/6) faster, peak-g altitude physical + deeper for higher B, scenario reproducible/MODELLED + degenerate-geometry rejected); dominance_demonstrators (reachable + reproducible + V_e·e^(−1/2) fraction + MODELLED-not-VALIDATED)",
-            oracle: "Closed-form Allen–Eggers analytic entry, additionally cross-checked vs a scipy 1.18 solve_ivp (DOP853) numerical integration of the SAME drag-only entry ODE (tests/ballistic_re_entry_corridor_reference.rs, 36 cases, worst a_max rel 2.9e-9) — a numeric-integral-vs-own-analytic-form check, so still InternalConsistency, NOT an external validation. MODELLED ballistic (no lift), no aerothermal/TPS — heating output is a velocity, not a heat-flux",
+            tests: "reentry::tests (peak-g independent of ballistic coefficient + physical g-band, grows with steeper γ / faster entry, peak-g velocity = V_e·e^(−1/2) and peak-heating = V_e·e^(−1/6) faster, peak-g altitude physical + deeper for higher B, scenario reproducible/MODELLED + degenerate-geometry rejected); dominance_demonstrators (reachable + reproducible + V_e·e^(−1/2) fraction + MODELLED-not-VALIDATED); tests/reentry_reconstruction_oracle.rs::reentry_overprediction_is_recorded_as_a_finding",
+            oracle: "Closed-form Allen–Eggers analytic entry, additionally cross-checked vs a scipy 1.18 solve_ivp (DOP853) numerical integration of the SAME drag-only entry ODE (tests/ballistic_re_entry_corridor_reference.rs, 36 cases, worst a_max rel 2.9e-9) — a numeric-integral-vs-own-analytic-form check, so still InternalConsistency, NOT an external validation. MODELLED ballistic (no lift), no aerothermal/TPS — heating output is a velocity, not a heat-flux. 0.30 external comparison, a finding (stays MODELLED): against the Stardust SRC entry reconstruction (Desai and Qualls, NASA NTRS 20080008567), the Allen–Eggers peak deceleration for the printed inertial entry state (12.9 km/s, -8.2 deg, H 7200 m) is 61.8 g against the best-estimated-trajectory 32.89 g, +88 % against a 15 % tolerance: the constant-flight-path-angle, no-gravity solution roughly doubles the peak of a shallow, faster-than-escape entry. Stardust carried no accelerometer, so the reconstruction is a trajectory estimate",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -728,12 +728,12 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "3-DOF attitude & pointing error budget (AOCS)",
-            capability: "Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) + RSS pointing-error budget over named 1σ contributors with the dominant term. Runnable from the CLI/bindings as the `attitude-budget` scenario kind (scenarios/attitude-budget.toml)",
+            capability: "Gravity-gradient worst-case disturbance torque ((3/2)(μ/R³)ΔI) as the peak over attitude (the validated claim), plus an RSS pointing-error budget over named 1σ contributors with the dominant term (a quadrature sum of caller-supplied numbers, outside the validated claim). Runnable from the CLI/bindings as the `attitude-budget` scenario kind (scenarios/attitude-budget.toml)",
             module: "attitude_budget",
-            tests: "attitude_budget::tests (GG torque vanishes for a symmetric body, grows lower-down, linear in ΔI, RSS quadrature sum, variance-fractions-sum-to-1); tests/attitude_gg_torque_reference.rs (20 cases vs an independent full-tensor GG torque T=(3μ/R³)(n̂×(I·n̂)) numerically maximised over attitude with Hipparchus 3.1 linalg; worst rel 6e-15, + Wertz/Sidi published O(1e-6) s⁻² band)",
-            oracle: "Closed-form gravity-gradient torque and quadrature RSS, cross-checked against a hand-coded full-tensor torque numerically maximised over attitude (Hipparchus 3.1 linalg) which blindly rediscovers the 45° peak — a strong self-consistency check, but the GG physics is shared/hand-coded so it stays InternalConsistency, not external. MODELLED scalar AOCS budget — no control-loop/6-DoF/flexible-mode simulation",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "attitude_budget::tests (GG torque vanishes for a symmetric body, grows lower-down, linear in ΔI, RSS quadrature sum, variance-fractions-sum-to-1); tests/attitude_gg_torque_reference.rs (20 cases vs an independent full-tensor GG torque T=(3μ/R³)(n̂×(I·n̂)) numerically maximised over attitude with Hipparchus 3.1 linalg; worst rel 6e-15, + Wertz/Sidi published O(1e-6) s⁻² band); tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk (40 cases vs Basilisk 2.9.1 GravityGradientEffector: peak at the 45 deg attitude within 1e-12 relative, worst 2.1e-15; no torque above the peak over 2000 random attitudes per case, 3 diagonal and 5 general inertia tensors, 5 altitudes)",
+            oracle: "Basilisk 2.9.1 GravityGradientEffector (AVSLab, ISC), an independent C++ implementation of the full-tensor gravity-gradient torque: Kshana's peak (3/2)(μ/R³)ΔI equals Basilisk's torque at the 45 deg attitude within 1e-12 relative (worst 2.1e-15) over 5 altitudes and 8 inertia tensors, and bounds Basilisk's torque over 2000 random attitudes per case; tolerance fixed before the comparison. Validated claim: the gravity-gradient torque peak. The RSS pointing budget is a quadrature sum of caller-supplied numbers with no external truth and stays outside it; the hand-coded Hipparchus full-tensor maximisation remains as supporting self-consistency. No control-loop/6-DoF/flexible-mode simulation",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Ground-station pass prediction (ground segment)",
@@ -912,8 +912,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Joint UT1 and polar-motion error over a common row set",
             capability: "One table reports the UT1 prediction error, the polar-motion pole error and their quadrature combination at the Moon over an IDENTICAL epoch set per horizon, emitting the epochs each component was measured at. Separately, the scenario names whichever EOP input is in force and decomposes its row census, and always emits the predicted-versus-final horizon table with an explicit statement of why it is empty when it is",
             module: "frame_eop",
-            tests: "frame_eop::tests and realtime_frame_eop::tests (all three components carry equal, elementwise-identical, strictly ascending epoch sets over both real IERS extracts; the joint set collapses to the intersection when the two Bulletin B blocks genuinely disagree, and a horizon with no shared rows is omitted rather than zero-filled; the emptiness of the predicted-versus-final table is stated in the document rather than implied by a missing field; a real second vintage populates it, cross-checked row for row; a missing later vintage is an error, not a silent empty table)",
-            oracle: "An algebraic identity evaluated by a different expression than the one under test: the emitted combination is the root-mean-square of the per-epoch hypotenuse, and the check is the hypotenuse of the two components' own root-mean-squares. The residual path is cross-checked against a separate call into frame_eop, and the row census against the identity rows = finals + predictions. The residual MAGNITUDE is checked only against a plausibility band, never against an IERS-published prediction-accuracy figure -- reading a real product is provenance, not an oracle, which is why this stays Modelled",
+            tests: "frame_eop::tests and realtime_frame_eop::tests (all three components carry equal, elementwise-identical, strictly ascending epoch sets over both real IERS extracts; the joint set collapses to the intersection when the two Bulletin B blocks genuinely disagree, and a horizon with no shared rows is omitted rather than zero-filled; the emptiness of the predicted-versus-final table is stated in the document rather than implied by a missing field; a real second vintage populates it, cross-checked row for row; a missing later vintage is an error, not a silent empty table); tests/joint_eop_error_bulletin_a_oracle.rs::measured_error_against_the_iers_accuracy_formula_pole_agrees_ut1_does_not",
+            oracle: "An algebraic identity evaluated by a different expression than the one under test: the emitted combination is the root-mean-square of the per-epoch hypotenuse, and the check is the hypotenuse of the two components' own root-mean-squares. The residual path is cross-checked against a separate call into frame_eop, and the row census against the identity rows = finals + predictions. The residual MAGNITUDE is checked only against a plausibility band, never against an IERS-published prediction-accuracy figure -- reading a real product is provenance, not an oracle, which is why this stays Modelled. 0.30 external comparison, a finding (stays MODELLED): measured predicted-minus-final over 178 IERS Bulletin A issues (2023-01 to 2026-06) against the accuracy formula each issue prints: the pole agrees within 1.5x at 10 to 40 days (ratios 0.77 to 0.80), UT1 does not (0.48 at 10 days and 1.59 at 40 days; measured growth near h^1.6 against the formula's h^0.75). This mostly tests the IERS formula against the IERS's realised error, Kshana only subtracting; a pole-only claim was not written before the run, so it cannot promote from this comparison",
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
@@ -921,8 +921,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Offline default Earth-orientation input is a real IERS product",
             capability: "The `realtime-frame-eop` runtime default is the library's own embedded copy of a verbatim IERS finals2000A extract (MJD 61173-61204) carrying BOTH row vintages the format defines -- 20 Bulletin B finals and 12 Bulletin A prediction-only rows -- so a bare run with no file argument and no network emits a populated per-horizon table and `predicted_rows.n = 12`, together with the operational-predictor comparison and the agreement against the product's own published prediction rows. The prior five-row final-only excerpt remains shipped, byte-pinned and exercised: on it `predicted_rows.n` is 0, which is the input file's property and not a parser outcome, and the emitted census names whichever input is in force and decomposes it as rows = final_rows + prediction_rows",
             module: "realtime_frame_eop, eop",
-            tests: "realtime_frame_eop::tests and tests/operational_eop_predictor_reference.rs (a bare default run asserted to report 32 rows / 20 finals / 12 predictions spanning MJD 61193-61204 against an INDEPENDENT count taken by eop::parse_all and eop::parse_all_predicted over the same bytes, with every horizon row required to be measured from real rows; the same scenario run on the final-only excerpt asserted to report zero prediction rows and rows == final_rows, with eop::parse_all_predicted independently confirming the file publishes none; both `tools/` runtime assets pinned byte-for-byte against their `tests/fixtures/` mirrors and asserted to be different products; the census prose asserted to name the input in force and asserted NOT to contain the superseded explanation; and the frozen pre-change capture of the old default still asserted field for field, with no tolerance, against a run on the input it was captured on -- the three source-identity strings that legitimately moved pinned individually old-to-new so the allowance cannot absorb a numeric change)",
-            oracle: "The published IERS finals2000A series itself, used verbatim and byte-pinned: this row's claim is a claim about that external product -- how many rows of each Bulletin vintage the shipped extract carries, over which MJD span -- and the reference is the file's own fixed-column content, whose SHA-256 is recorded in tests/fixtures/agency/NOTICE.md and which is byte-identical to the copy the arXiv P4 artifact bundle publishes. ExternalDataset is nonetheless DECLINED and the status is Modelled, deliberately: the count is taken by this crate's own parser and checked by this crate's own parser over the same bytes, so the check shares its expression with the thing under test; the IERS publishes no companion table of per-vintage row counts for an arbitrary excerpt that could serve as an independent oracle; and the excerpt is a slice this repository cut, not a product IERS issued in that form. What the external data does buy is PROVENANCE -- the rows are real and unaltered -- which is not the same as an oracle, the same line already drawn on the joint-EOP and operational-predictor rows. REVISION (programme rule R4): moving the default off the five-row final-only excerpt moved ten cells of the released p4_frame_eop.csv -- eop_source, predicted_rows.n 0 -> 12, first_mjd and last_mjd from blank to 61193 / 61204, the measured pole floor 0.07693113803915594 -> 0.06776429738439221 mas with its two per-axis terms 0.05439852939188552 -> 0.04791659420284556 mas, the Earth-orientation term 14.016178596543083 -> 14.016014260081214 m, the total 20.097702765309116 -> 20.09758815707301 m and 67.03872038471734 -> 67.03833809279155 ns -- and the twenty-four populated Table 2 cells of tests/golden/realtime-frame-eop.csv. The other twelve cells of p4_frame_eop.csv, and both Table 1 rows of the golden CSV, are unchanged. Every moved cell is enumerated old-to-new in docs/revisions/G12-default-eop-cell-changes.md. The revised pole floor is the SAME quantity P4 already publishes in its polar-motion table (n = 20, 0.0678 mas): before this change the paper's budget took that floor from the five-row excerpt while its pole table took it from the 2026 extract, and the budget's value was 13.5 % the larger of the two. Every other figure P4 prints from this table -- 14.016 m, 14.403 m, 0.177 m, 20.098 m, 67.04 ns, 0.7170 ms, the 48.6 / 51.4 / 0.008 percent variance shares and the 20.3 / 21.6 / 50.0 percent halving sensitivities -- is unchanged at the precision printed; the two pole figures are the only printed numbers that move",
+            tests: "realtime_frame_eop::tests and tests/operational_eop_predictor_reference.rs (a bare default run asserted to report 32 rows / 20 finals / 12 predictions spanning MJD 61193-61204 against an INDEPENDENT count taken by eop::parse_all and eop::parse_all_predicted over the same bytes, with every horizon row required to be measured from real rows; the same scenario run on the final-only excerpt asserted to report zero prediction rows and rows == final_rows, with eop::parse_all_predicted independently confirming the file publishes none; both `tools/` runtime assets pinned byte-for-byte against their `tests/fixtures/` mirrors and asserted to be different products; the census prose asserted to name the input in force and asserted NOT to contain the superseded explanation; and the frozen pre-change capture of the old default still asserted field for field, with no tolerance, against a run on the input it was captured on -- the three source-identity strings that legitimately moved pinned individually old-to-new so the allowance cannot absorb a numeric change); tests/embedded_eop_census_astropy_oracle.rs::vintage_census_matches_astropy; tests/embedded_eop_census_astropy_oracle.rs::rows_called_prediction_only_are_flagged_measured_by_astropy",
+            oracle: "The published IERS finals2000A series itself, used verbatim and byte-pinned: this row's claim is a claim about that external product -- how many rows of each Bulletin vintage the shipped extract carries, over which MJD span -- and the reference is the file's own fixed-column content, whose SHA-256 is recorded in tests/fixtures/agency/NOTICE.md and which is byte-identical to the copy the arXiv P4 artifact bundle publishes. ExternalDataset is nonetheless DECLINED and the status is Modelled, deliberately: the count is taken by this crate's own parser and checked by this crate's own parser over the same bytes, so the check shares its expression with the thing under test; the IERS publishes no companion table of per-vintage row counts for an arbitrary excerpt that could serve as an independent oracle; and the excerpt is a slice this repository cut, not a product IERS issued in that form. What the external data does buy is PROVENANCE -- the rows are real and unaltered -- which is not the same as an oracle, the same line already drawn on the joint-EOP and operational-predictor rows. REVISION (programme rule R4): moving the default off the five-row final-only excerpt moved ten cells of the released p4_frame_eop.csv -- eop_source, predicted_rows.n 0 -> 12, first_mjd and last_mjd from blank to 61193 / 61204, the measured pole floor 0.07693113803915594 -> 0.06776429738439221 mas with its two per-axis terms 0.05439852939188552 -> 0.04791659420284556 mas, the Earth-orientation term 14.016178596543083 -> 14.016014260081214 m, the total 20.097702765309116 -> 20.09758815707301 m and 67.03872038471734 -> 67.03833809279155 ns -- and the twenty-four populated Table 2 cells of tests/golden/realtime-frame-eop.csv. The other twelve cells of p4_frame_eop.csv, and both Table 1 rows of the golden CSV, are unchanged. Every moved cell is enumerated old-to-new in docs/revisions/G12-default-eop-cell-changes.md. The revised pole floor is the SAME quantity P4 already publishes in its polar-motion table (n = 20, 0.0678 mas): before this change the paper's budget took that floor from the five-row excerpt while its pole table took it from the 2026 extract, and the budget's value was 13.5 % the larger of the two. Every other figure P4 prints from this table -- 14.016 m, 14.403 m, 0.177 m, 20.098 m, 67.04 ns, 0.7170 ms, the 48.6 / 51.4 / 0.008 percent variance shares and the 20.3 / 21.6 / 50.0 percent halving sensitivities -- is unchanged at the precision printed; the two pole figures are the only printed numbers that move. 0.30 external comparison with astropy 8.0.1 utils.iers (BSD-3-Clause), a finding (stays MODELLED): the census agrees exactly (32 rows, 20 Bulletin B finals, 12 rows without a final at MJD 61193-61204, span 61173-61204), but the 12 rows this row calls Bulletin A prediction rows carry the IERS I (measured) flag for both polar motion and UT1, not P: they are rapid measured values not yet superseded by Bulletin B, not predictions. The pre-registered flag criterion fails",
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
@@ -948,8 +948,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Lunar geodetic VLBI",
             capability: "Near-field VLBI delay for an Earth baseline observing a lunar beacon + partials",
             module: "lunar_vlbi",
-            tests: "lunar_vlbi::tests (far-field limit matches delta_dor; near-field correction; FD partials)",
-            oracle: "Plane-wave delta_dor (same-codebase) in the far-field limit; finite-difference partials",
+            tests: "lunar_vlbi::tests (far-field limit matches delta_dor; near-field correction; FD partials); tests/lunar_vlbi_anise_oracle.rs::near_field_delay_disagrees_with_the_anise_light_time_difference",
+            oracle: "Plane-wave delta_dor (same-codebase) in the far-field limit; finite-difference partials. 0.30 external comparison, a finding (stays MODELLED): against ANISE 0.10 converged light times through DE440 (75 delays on 2024-01-01 over three DSN baselines, generated by xval/anise-lunar-od without Kshana code), no delay is within the 1 ps tolerance. The largest gap is 24 µs, from the analytic Moon centre (about 200 km from DE440), the single instantaneous geometry with no light-time iteration (3.6 µs) and the dropped polar motion; beacon partials differ by up to 2.9e-3 relative against 1e-6. The module-doc claim that the frame approximations are below the model fidelity does not hold at this level",
             oracle_kind: OracleKind::ReferenceImpl,
             status: VerificationStatus::Modelled,
         },
@@ -976,7 +976,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "Exact parity-subspace split of a measurement error into the part RAIM cannot see and the part it can. For the linearised snapshot model y = G\u{b7}x + e, any error dy decomposes uniquely into a BLIND component in range(G) \u{2014} absorbed as a state error S\u{b7}dy and annihilated by the residual projector Pperp = I \u{2212} G\u{b7}S, so invisible to ANY residual test, not merely to a particular threshold \u{2014} and a DETECTABLE component in parity space. The module returns the projector, the split, and the blind fraction, so a caller can quantify how much of a specific error a snapshot monitor is structurally unable to report. Applied to the real inter-ephemeris floor: the metre-level DE440-vs-INPOP21a and DE440-vs-EPM2021 disagreement in the geocentric Moon position is absorbed almost entirely as user position error (median blind fraction 1.000000; median blind position error 2.3955 m and 2.0050 m) against a parity residual at the 1e-15 m level",
             module: "lunar_common_mode",
             tests: "lunar_common_mode::tests (8 lib tests: the split is additive and reconstructs dy; a common-mode covariance yields a positive common-mode protection level while a parity-only covariance yields a near-zero one; the projector annihilates range(G)); tests/lunar_common_mode_integrity_reference.rs (the engine split against an independent numpy computation on byte-identical inputs over the committed 366-epoch sample, relative AND absolute error < 1e-3)",
-            oracle: "An independent numpy implementation of the same 4x4 least-squares split, fed byte-identical inputs (user, satellites and every per-satellite dy are rounded to 1 micrometre before being written to reference.json and before reaching the oracle), so the only difference between the two sides is the linear solver. WHY THIS IS NOT VALIDATED, despite using real data: the DE440 / INPOP21a / EPM2021 inter-ephemeris disagreement is an INPUT both sides receive, not an independent check of the answer \u{2014} numpy evaluates the same formula, so it corroborates the implementation and not the model. The lunar constellation geometry (8 LCNS-like nodes at 5000 km slant range) is an original deterministic construction, not a surveyed or published one. The blindness is in any case a known, correct property of all snapshot RAIM; the contribution is quantifying it on a real inter-ephemeris floor, not discovering it. Ephemeris provenance for the reused Moon states is in tests/fixtures/inter_ephemeris/NOTICE.md (JPL, IMCCE, IAA RAS)",
+            oracle: "An independent numpy implementation of the same 4x4 least-squares split, fed byte-identical inputs (user, satellites and every per-satellite dy are rounded to 1 micrometre before being written to reference.json and before reaching the oracle), so the only difference between the two sides is the linear solver. WHY THIS IS NOT VALIDATED, despite using real data: the DE440 / INPOP21a / EPM2021 inter-ephemeris disagreement is an INPUT both sides receive, not an independent check of the answer \u{2014} numpy evaluates the same formula, so it corroborates the implementation and not the model. The lunar constellation geometry (8 LCNS-like nodes at 5000 km slant range) is an original deterministic construction, not a surveyed or published one. The blindness is in any case a known, correct property of all snapshot RAIM; the contribution is quantifying it on a real inter-ephemeris floor, not discovering it. Ephemeris provenance for the reused Moon states is in tests/fixtures/inter_ephemeris/NOTICE.md (JPL, IMCCE, IAA RAS). 0.30 review under policy P2, a finding (stays MODELLED): this comparison was proposed for promotion and declined on adversarial verification. Every committed dy is built as E·Δs, which lies exactly in range(G), so any left inverse of G, least squares or not, returns blind_dx = [-Δs, 0] and a zero parity residual: numpy's answer equals the input's sign flip to 5.8e-15 m, a deliberately mis-weighted left inverse reproduces the fixture to 4.9e-15 m, and replacing the engine's projector with a non-least-squares one leaves the test green. The comparison therefore checks the identity S·G = I, an internal identity, and its 1e-3 bar is loose for a linear solve. Promotion needs a new pre-registered comparison on residuals with a parity component, at about 1e-12",
             oracle_kind: OracleKind::ReferenceImpl,
             status: VerificationStatus::Modelled,
         },
@@ -1036,12 +1036,12 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "Lunar joint communications-and-navigation geometry",
-            capability: "Per-satellite topocentric look angles and slant range at a named selenographic site, and the signal-in-space ranging accuracy exposed as a scenario parameter so the service-volume sweep yields a ranging REQUIREMENT rather than a pass/fail at one fixed sigma",
+            capability: "Per-satellite topocentric look angles (azimuth clockwise from north, elevation) and slant range at a named selenographic site, given the satellite in the site's Moon body-fixed frame (the validated claim). The signal-in-space ranging accuracy is exposed as a scenario parameter so the service-volume sweep yields a ranging REQUIREMENT rather than a pass/fail at one fixed sigma; that parameter is a design input outside the validated claim",
             module: "lunar_service",
-            tests: "lunar_service::tests (topocentric against hand-computed geometry: overhead, due north/east/west, antipodal, and the degenerate polar east direction; the exported visible flag agrees with the independent visibility filter over a full 6 h sweep; the export is off by default and provably changes nothing else; protection levels are exactly linear in the exposed sigma while the geometry underneath is untouched)",
-            oracle: "Closed-form geometry whose answer is known without running the code (elevation 90 deg overhead, azimuth 0/90/270 deg due north/east/west, Euclidean slant range) plus cross-agreement with lunar_service::visible_sat_positions, which computes the same elevation through a separate expression. MODELLED: the oracle is internal. The MCI propagation and the visible-satellite SET the export is derived from are separately Validated against ANISE 0.10.2 (see the service-volume row); an external azimuth/range oracle is the outstanding upgrade for this row",
-            oracle_kind: OracleKind::InternalConsistency,
-            status: VerificationStatus::Modelled,
+            tests: "lunar_service::tests (topocentric against hand-computed geometry: overhead, due north/east/west, antipodal, and the degenerate polar east direction; the exported visible flag agrees with the independent visibility filter over a full 6 h sweep; the export is off by default and provably changes nothing else; protection levels are exactly linear in the exposed sigma while the geometry underneath is untouched); tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites (768 samples over 8 sites, 12 epochs and 8 satellites vs ANISE 0.10.2: azimuth and elevation within 1e-6 deg, range and site position within 1 mm; worst 2.2e-12 deg, 2.1e-13 deg, 5.6e-9 m)",
+            oracle: "ANISE 0.10.2 (Nyx Space, MPL-2.0, run as a tool from xval/anise-service-geometry, binary lunar-look-angles-xval, which calls no Kshana code): ANISE's own azimuth, elevation and range routine (azimuth_elevation_range_sez) from sites built by its latitude-longitude-altitude constructor on the pck00011 Moon (sphere 1737.4 km), with the satellites rotated into MOON_PA_DE440 through moon_pa_de440_200625.bpc. 768 samples over 8 sites (the 4 named sites and 4 others, above and below the horizon), 12 epochs and 8 satellites agree within 1e-6 deg in azimuth and elevation and 1 mm in range and site position (fixed before the comparison); measured 2.2e-12 deg, 2.1e-13 deg and 5.6e-9 m. Claim: site placement and look angles given the satellite in the site's body-fixed frame. Kshana's own mean-rotation Moon-fixed frame realisation and the ranging-accuracy parameter are outside it; the closed-form geometry unit tests remain as supporting checks",
+            oracle_kind: OracleKind::ExternalDataset,
+            status: VerificationStatus::Validated,
         },
         VerificationItem {
             requirement: "Lunar differential PNT",
@@ -1056,8 +1056,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Lunar interoperability export",
             capability: "LunaNet/IOAG-aligned lunar frame + time + ephemeris export (CCSDS OEM + KIF) with round-trip conformance",
             module: "lunar_interop",
-            tests: "lunar_interop::tests (OEM carries lunar REF_FRAME/TIME_SYSTEM; time metadata round-trips; KIF envelope); tests/lunar_interoperability_export_reference.rs (kshana's emitted lunar OEM re-parsed by the independent `oem` Python library: REF_FRAME/TIME_SYSTEM/CENTER tokens + per-epoch state to format precision; a corrupted export is rejected)",
-            oracle: "kshana's lunar OEM export re-parsed by the independent third-party `oem` library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision (1 mm / 1e-9 km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED",
+            tests: "lunar_interop::tests (OEM carries lunar REF_FRAME/TIME_SYSTEM; time metadata round-trips; KIF envelope); tests/lunar_interoperability_export_reference.rs (kshana's emitted lunar OEM re-parsed by the independent `oem` Python library: REF_FRAME/TIME_SYSTEM/CENTER tokens + per-epoch state to format precision; a corrupted export is rejected); tests/lunar_interop_oem_oracle.rs::recorded_two_reader_outcome_is_for_todays_export",
+            oracle: "kshana's lunar OEM export re-parsed by the independent third-party `oem` library (R. J. Anderson): frame/time tokens and per-epoch state agree to write precision (1 mm / 1e-9 km/s) and a dropped-TIME_SYSTEM export is rejected — a structural interchange round-trip; the lunar frame/time physical semantics are validated by their own rows, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): a second independent reader, the Orekit 12.2 CCSDS OEM parser (Apache-2.0, strict defaults), refuses both lunar files because it does not implement the LTC and TCL time systems (it decodes the crate's EME2000/UTC OEM, and decodes the lunar files once TIME_SYSTEM is replaced by TDB); oem 0.4.5 decodes them within the written precision only by falling back from the unsupported time system. Interchange of these lunar files with mainstream CCSDS readers is not established",
             oracle_kind: OracleKind::InternalConsistency,
             status: VerificationStatus::Modelled,
         },
@@ -1138,17 +1138,17 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Torque-free rigid-body attitude dynamics",
             capability: "Euler's rotational equations of motion (I ω̇ = τ − ω × Iω, principal-axis and general inertia tensor) coupled to quaternion attitude kinematics (q̇ = ½ q ⊗ ω) and propagated with a fixed-step RK4 integrator that re-normalises the quaternion each step",
             module: "attitude_dynamics",
-            tests: "attitude_dynamics::tests (apply/solve inverse, spherical-top zero torque, principal-axis fixed point, short-run energy+momentum conservation, q̇=½q⊗ω, symmetric-top rate sign + body-cone precession); tests/attitude_dynamics_reference.rs (200 000-step torque-free runs: |q|=1 to 1e-10, kinetic energy T=½ωᵀIω conserved to 1e-9 rel, |Iω| and the inertial momentum vector conserved to 1e-9/1e-8 rel, both on a tri-axial and a general non-diagonal inertia; symmetric-top oblate + prolate body-cone precession reproduced to 1e-6 vs the analytic λ=ω₃(I_a−I_t)/I_t)",
-            oracle: "Physical conservation laws of the free rigid body (quaternion-norm, rotational kinetic energy, body-frame and inertial angular-momentum) plus the closed-form symmetric-top body-cone precession rate (Goldstein §5.6–5.7; Wertz §16) — these are self-consistency invariants the integrator must preserve, NOT an external dataset, so the row stays InternalConsistency. MODELLED first-principles dynamics — no flexible-body / control-loop / external-torque environment",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "attitude_dynamics::tests (apply/solve inverse, spherical-top zero torque, principal-axis fixed point, short-run energy+momentum conservation, q̇=½q⊗ω, symmetric-top rate sign + body-cone precession); tests/attitude_dynamics_reference.rs (200 000-step torque-free runs: |q|=1 to 1e-10, kinetic energy T=½ωᵀIω conserved to 1e-9 rel, |Iω| and the inertial momentum vector conserved to 1e-9/1e-8 rel, both on a tri-axial and a general non-diagonal inertia; symmetric-top oblate + prolate body-cone precession reproduced to 1e-6 vs the analytic λ=ω₃(I_a−I_t)/I_t); tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk (two general non-diagonal inertias, 1e4 s torque-free vs the Basilisk 2.9.1 spacecraft hub with RKF78: quaternion within 1e-9, worst 3.3e-11; body rates within 1e-9 rad/s, worst 3.4e-12)",
+            oracle: "Basilisk 2.9.1 spacecraft hub rigid-body propagation (AVSLab, ISC; MRP attitude through its own coupled hub equations, svIntegratorRKF78 at relative tolerance 1e-12), an independent implementation of the torque-free rigid-body equations: Kshana's RK4 quaternion (dt 0.01 s) and body rates agree within 1e-9 over 1e4 s on two general non-diagonal inertias (worst 3.3e-11 and 3.4e-12 rad/s); tolerance fixed before the comparison. Validated claim: torque-free motion; the external-torque term is not compared. The conservation-law and symmetric-top checks remain as supporting self-consistency. No flexible-body / control-loop / external-torque environment",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Clohessy–Wiltshire / Hill relative-motion dynamics",
             capability: "Linearised relative motion of a chaser about a target on a circular reference orbit in the LVLH frame (ẍ−2nẏ−3n²x=0, ÿ+2nẋ=0, z̈+n²z=0), solved by the closed-form 6×6 state-transition matrix Φ(n,t) (Clohessy–Wiltshire 1960; Vallado Alg. 48), with the bounded relative-orbit condition ẏ₀=−2n·x₀",
             module: "cw_dynamics",
-            tests: "cw_dynamics::tests (Φ(0)=I, cross-track decoupled SHM); tests/cw_dynamics_reference.rs (closed-form Φ vs an independent fixed-step RK4 integration of the same Hill ODEs to <1e-6 over a third of an orbit; Φ(t)Φ(−t)=I to 1e-9; the bounded condition ẏ₀=−2n·x₀ closes the full state after one period to 1e-9 with no secular along-track drift over 10 orbits; a pure radial offset drifts the analytic −12π·x₀ per orbit)",
-            oracle: "The closed-form CW state-transition matrix cross-checked against an independent numeric integration of the same linearised equations of motion, plus the analytic relative-orbit invariants (time-reversibility Φ(t)Φ(−t)=I, the −2n·x₀ bounded-orbit condition, the −12π·x₀ per-orbit secular drift, decoupled cross-track SHM) — self-consistency checks of the linear dynamics, NOT an external dataset, so the row stays InternalConsistency. MODELLED linear relative motion on a circular reference orbit — no eccentricity (Tschauner–Hempel), J2, or differential-drag terms",
+            tests: "cw_dynamics::tests (Φ(0)=I, cross-track decoupled SHM); tests/cw_dynamics_reference.rs (closed-form Φ vs an independent fixed-step RK4 integration of the same Hill ODEs to <1e-6 over a third of an orbit; Φ(t)Φ(−t)=I to 1e-9; the bounded condition ẏ₀=−2n·x₀ closes the full state after one period to 1e-9 with no secular along-track drift over 10 orbits; a pure radial offset drifts the analytic −12π·x₀ per orbit); tests/cw_dynamics_orekit_oracle.rs::cw_disagreement_with_orekit_is_recorded_as_a_finding",
+            oracle: "The closed-form CW state-transition matrix cross-checked against an independent numeric integration of the same linearised equations of motion, plus the analytic relative-orbit invariants (time-reversibility Φ(t)Φ(−t)=I, the −2n·x₀ bounded-orbit condition, the −12π·x₀ per-orbit secular drift, decoupled cross-track SHM) — self-consistency checks of the linear dynamics, NOT an external dataset, so the row stays InternalConsistency. MODELLED linear relative motion on a circular reference orbit — no eccentricity (Tschauner–Hempel), J2, or differential-drag terms. 0.30 external comparison, a finding (stays MODELLED): against Orekit 12.2 nonlinear two-body relative motion at 100 m separation over a third of a 500 km orbit, the CW position departs by 1.2 to 6.3 mm (0.85 to 4.3 ρ²/r), above the pre-registered 1e-3 m. At 10 m the gap is exactly 1/100, so it is the omitted second-order term, not a defect: the pre-registered tolerance sat below the linearisation error itself",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -1181,12 +1181,12 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "GNSS carrier-phase integer ambiguity resolution (LAMBDA)",
-            capability: "Integer least-squares ambiguity fixing the LAMBDA way: a volume-preserving integer (Z) decorrelating transform (integer-Gauss size reduction of the L D Lᵀ factor) + an exact Schnorr–Euchner depth-first branch-and-bound integer least-squares search + the closed-form bootstrapped success rate P_s=∏(2Φ(1/(2σ_{i|I}))−1), with the ratio test on the two best candidates",
+            capability: "Integer least-squares ambiguity fixing the LAMBDA way: a volume-preserving integer (Z) decorrelating transform (integer-Gauss size reduction of the L D Lᵀ factor) + an exact Schnorr–Euchner depth-first branch-and-bound integer least-squares search, with the ratio test on the two best candidates (the validated claim); plus the closed-form bootstrapped success rate P_s=∏(2Φ(1/(2σ_{i|I}))−1), checked only internally and outside the validated claim",
             module: "lambda",
-            tests: "lambda::tests (L D Lᵀ reconstructs Q); tests/lambda_reference.rs (the Z-transform is unimodular |det Z|=1 with Q_z=ZᵀQZ SPD, det-preserving, and lower total off-diagonal correlation; the Schnorr–Euchner ILS matches brute-force enumeration over 300 random covariances; the full decorrelate→search→back-transform pipeline equals the direct ILS and Z⁻ᵀZᵀ round-trips integers; the closed-form bootstrapped success rate matches a 200k-trial Monte-Carlo of sequential conditional rounding to <0.01)",
-            oracle: "Self-consistency of the integer estimator: the Z-transform invariants (unimodularity, congruence, determinant), the EXACT ILS verified against independent brute-force enumeration, and the bootstrapped success rate verified against a Monte-Carlo of the rounding process it models — internal-consistency checks, NOT an external dataset, so the row stays InternalConsistency. MODELLED integer-Gauss decorrelation (the conditional-variance reordering permutations of the full LAMBDA reduction are out of scope; they speed the search but change neither the exact ILS answer nor the bootstrapped rate)",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "lambda::tests (L D Lᵀ reconstructs Q); tests/lambda_reference.rs (the Z-transform is unimodular |det Z|=1 with Q_z=ZᵀQZ SPD, det-preserving, and lower total off-diagonal correlation; the Schnorr–Euchner ILS matches brute-force enumeration over 300 random covariances; the full decorrelate→search→back-transform pipeline equals the direct ILS and Z⁻ᵀZᵀ round-trips integers; the closed-form bootstrapped success rate matches a 200k-trial Monte-Carlo of sequential conditional rounding to <0.01); tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances (the fixed integers equal RTKLIB v2.4.2-p13 lambda() on 300 random covariances, n 2 to 10, 226 of them not solvable by rounding; the two best squared norms agree to 1e-9 relative, measured 5.6e-13)",
+            oracle: "RTKLIB v2.4.2-p13 lambda() (its lambda.c source file, T. Takasu, BSD-2-Clause), an independent LAMBDA reduction and MLAMBDA search compiled from C and run as a tool, on 300 random covariances (n 2 to 10): integer least squares has a unique minimiser, so the fixed integers must be identical (0 mismatches) and the two best squared norms, which feed the ratio test, agree to 1e-9 relative (measured 5.6e-13); tolerance fixed before the comparison. Validated claim: the ILS solution and its two best norms. RTKLIB does not compute the bootstrapped success rate, which stays checked internally against a Monte-Carlo of the rounding process; the Z-transform invariants and the brute-force enumeration remain as supporting checks. Integer-Gauss decorrelation only (the reordering permutations of the full LAMBDA reduction speed the search but change neither the exact ILS answer nor the bootstrapped rate)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "B-plane targeting & patched-conic gravity assist",
@@ -1228,8 +1228,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "INS/TRN coasting error growth & threshold crossings",
             capability: "Position-error-vs-coast-duration budget built from IMU coefficients — accelerometer bias (t²), gyro-bias tilt through gravity (t³), velocity random walk (t^1.5), angle random walk (t^2.5) and scale factor times the travelled distance (t¹ cruising, t² under sustained specific force) — combined under a stated rule (rss / linear-sum / deterministic-sum-with-stochastic-rss), with the coast durations reaching caller-supplied position thresholds (10 m and 50 m by default) located by bisection, a per-contribution breakdown naming the dominant source at each crossing, and a TRN-bounded mode giving the largest terrain-fix interval that holds each threshold. Runnable as the `ins-trn-coast` scenario kind",
             module: "inertial::coast (CoastModel, Contribution, Combination, TrnFixMode, InsTrnCoastScenario); scenario kind `ins-trn-coast`",
-            tests: "inertial::coast::tests (36 library tests). Growth powers: doubling_the_coast_scales_each_contribution_by_two_to_its_own_power; a_pure_bias_error_quadruples_and_a_pure_random_walk_error_grows_by_two_to_the_three_halves; the_exponents_the_document_publishes_are_the_ones_the_curves_actually_follow. Cross-model oracles: the_bias_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward; the_gyro_tilt_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward; the_velocity_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner (300 seeds, rel < 0.10); the_angle_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner (300 seeds, rel < 0.10); the_scale_factor_law_matches_a_double_integration_of_the_engines_imu_error_model (rel < 2e-3); the_model_reduces_to_the_engines_existing_classical_ins_budget (rel < 1e-12). Crossings: every_contributions_closed_form_crossing_agrees_with_the_engines_bisection (20 pairs, rel < 1e-9); the_located_crossing_puts_the_model_on_the_threshold_it_searched_for; an_error_free_imu_never_reaches_a_threshold_and_says_so_instead_of_reporting_zero. TRN: a_full_reset_fix_makes_every_inter_fix_excursion_identical; a_position_only_fix_lets_each_excursion_exceed_the_last_and_the_peak_is_the_final_one; the_largest_fix_interval_holding_a_threshold_puts_the_peak_on_that_threshold; a_position_only_fix_cannot_bound_a_tactical_hour_at_any_fix_rate; a_fix_residual_above_the_threshold_is_reported_as_never_holding_not_as_a_zero. Surface: every_published_field_carries_a_unit_and_a_provenance_class; the_scenario_runs_through_the_engines_public_dispatch_and_is_reproducible",
-            oracle: "Two in-codebase routes that never see this module's algebra. (1) `inertial::AccelModel`, the engine's step-by-step stochastic dead-reckoner, integrated forward at dt = 0.01-0.05 s: deterministic for the bias and gyro-bias channels (agreeing to the Euler truncation, rel < 2e-4 and < 1e-3), and Monte-Carlo over 300 fixed seeds for the velocity- and angle-random-walk channels, whose sample RMS reproduces σ_vrw·t^1.5/√3 and g·σ_arw·t^2.5/√20 to rel < 0.10 (the sampling error of an RMS over 300 seeds is ~4%). The simulator only ever adds a white increment per step; it has no knowledge of the t^1.5 or t^2.5 laws, so this is a different route to the same number, not the same expression restated. (2) `inertial::imu_errors::ImuErrorModel::distort` double-integrated over an accelerate-then-cruise profile, reproducing s×(travelled distance) to rel < 2e-3 without ever multiplying a distance by a scale factor. Separately, and labelled a COMPATIBILITY check rather than an oracle, the model reduces bit-close (rel < 1e-12) to `quantum_trade::ClassicalInsBudget` when the gyro channels are off and the platform is under sustained specific force — that shares the expression and so cannot fail with it; it is there to prove no second, divergent error model was forked. Threshold crossings are located by the engine's existing bisection (`quantum_trade::PositionDrift::inertial_holdover_s`) and each single contribution's crossing is additionally inverted algebraically, the two agreeing to rel < 1e-15. The IMU class coefficients (navigation/tactical/industrial/consumer) are representative Groves 2013 Table 4.1 BAND figures and stay MODELLED, as does the TRN fix residual, which is a documented input. No external reference dataset of coasted position error exists in the tree and none was fetched: promoting this row to Validated needs a logged inertial dataset with position truth propagated through an independent strapdown navigator",
+            tests: "inertial::coast::tests (36 library tests). Growth powers: doubling_the_coast_scales_each_contribution_by_two_to_its_own_power; a_pure_bias_error_quadruples_and_a_pure_random_walk_error_grows_by_two_to_the_three_halves; the_exponents_the_document_publishes_are_the_ones_the_curves_actually_follow. Cross-model oracles: the_bias_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward; the_gyro_tilt_law_matches_the_engines_stochastic_dead_reckoner_stepped_forward; the_velocity_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner (300 seeds, rel < 0.10); the_angle_random_walk_law_matches_a_monte_carlo_of_the_engines_dead_reckoner (300 seeds, rel < 0.10); the_scale_factor_law_matches_a_double_integration_of_the_engines_imu_error_model (rel < 2e-3); the_model_reduces_to_the_engines_existing_classical_ins_budget (rel < 1e-12). Crossings: every_contributions_closed_form_crossing_agrees_with_the_engines_bisection (20 pairs, rel < 1e-9); the_located_crossing_puts_the_model_on_the_threshold_it_searched_for; an_error_free_imu_never_reaches_a_threshold_and_says_so_instead_of_reporting_zero. TRN: a_full_reset_fix_makes_every_inter_fix_excursion_identical; a_position_only_fix_lets_each_excursion_exceed_the_last_and_the_peak_is_the_final_one; the_largest_fix_interval_holding_a_threshold_puts_the_peak_on_that_threshold; a_position_only_fix_cannot_bound_a_tactical_hour_at_any_fix_rate; a_fix_residual_above_the_threshold_is_reported_as_never_holding_not_as_a_zero. Surface: every_published_field_carries_a_unit_and_a_provenance_class; the_scenario_runs_through_the_engines_public_dispatch_and_is_reproducible; tests/ins_coast_navego_montecarlo_oracle.rs::finding_laws_hold_to_600_s_and_overstate_beyond",
+            oracle: "Two in-codebase routes that never see this module's algebra. (1) `inertial::AccelModel`, the engine's step-by-step stochastic dead-reckoner, integrated forward at dt = 0.01-0.05 s: deterministic for the bias and gyro-bias channels (agreeing to the Euler truncation, rel < 2e-4 and < 1e-3), and Monte-Carlo over 300 fixed seeds for the velocity- and angle-random-walk channels, whose sample RMS reproduces σ_vrw·t^1.5/√3 and g·σ_arw·t^2.5/√20 to rel < 0.10 (the sampling error of an RMS over 300 seeds is ~4%). The simulator only ever adds a white increment per step; it has no knowledge of the t^1.5 or t^2.5 laws, so this is a different route to the same number, not the same expression restated. (2) `inertial::imu_errors::ImuErrorModel::distort` double-integrated over an accelerate-then-cruise profile, reproducing s×(travelled distance) to rel < 2e-3 without ever multiplying a distance by a scale factor. Separately, and labelled a COMPATIBILITY check rather than an oracle, the model reduces bit-close (rel < 1e-12) to `quantum_trade::ClassicalInsBudget` when the gyro channels are off and the platform is under sustained specific force — that shares the expression and so cannot fail with it; it is there to prove no second, divergent error model was forked. Threshold crossings are located by the engine's existing bisection (`quantum_trade::PositionDrift::inertial_holdover_s`) and each single contribution's crossing is additionally inverted algebraically, the two agreeing to rel < 1e-15. The IMU class coefficients (navigation/tactical/industrial/consumer) are representative Groves 2013 Table 4.1 BAND figures and stay MODELLED, as does the TRN fix residual, which is a documented input. No external reference dataset of coasted position error exists in the tree and none was fetched: promoting this row to Validated needs a logged inertial dataset with position truth propagated through an independent strapdown navigator. 0.30 external comparison, a finding (stays MODELLED): against a NaveGo v1.4 free-inertial strapdown Monte Carlo (LGPL-3.0, under GNU Octave, 300 seeds, the same IMU error profile) every growth law agrees within 5 % up to 600 s, but beyond that the accelerometer-bias, gyro-bias, VRW and ARW laws overstate the horizontal error: by 7 to 21 % at 1200 s, 19 to 55 % at 1800 s and 2.2x to 8x at one hour, because the flat-Earth monomials omit the 84.4-minute Schuler feedback. Crossings reported beyond about 10 minutes are pessimistic for a Schuler-tuned navigator",
             oracle_kind: ReferenceImpl,
             status: Modelled,
         },
@@ -1354,8 +1354,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Operational-style Earth-orientation prediction error, measured predicted-versus-final",
             capability: "A least-squares bias-plus-rate fit over a trailing window plus the principal periodic terms — annual, semi-annual and the two principal zonal tides for UT1; Chandler, annual and semi-annual for the pole — extrapolated with the last in-window residual carried forward: the class IERS Bulletin A uses, in place of the persistence predictor the published horizon rested on. Scored the only honest way: a forecast for T+h built from rapid Bulletin A rows at or before T, measured against the LATER-PUBLISHED Bulletin B final at T+h, with persistence scored over the identical epoch set against the identical finals beside it. A target epoch with no published final is dropped rather than re-scored against the rapid column; a periodic term the window cannot constrain is reported as rejected with the cycles it actually spans; an incomplete window is refused rather than quietly shortened",
             module: "frame_eop, realtime_frame_eop",
-            tests: "frame_eop::tests, realtime_frame_eop::tests and tests/operational_eop_predictor_reference.rs (analytic-signal coefficient recovery to 1e-9 at a 365-day window; a bias-plus-rate fit equal to the closed-form ordinary-least-squares slope and intercept to 1e-12 on real rows; TWO look-ahead detectors that wreck the rapid UT1 and pole columns of every row after the issue epoch — leaving the Bulletin B finals intact — and demand bit-identical output, mutation-verified to turn 10 tests red when the fit barrier is loosened by exactly one day; an independently rebuilt epoch list; a target's Bulletin B block blanked and the epoch shown to leave the table; term admission checked at 6, 15, 150 and 365-day windows; monotone row counts; and a frozen pre-change capture of the default report asserted field for field with no tolerance, which additionally asserts the capture does not contain the new keys so it cannot be silently regenerated into a self-comparison)",
-            oracle: "Three independent routes, none of them a published prediction-accuracy figure. (1) An analytic signal with known coefficients — the only way to exercise the periodic machinery, since no committed series is long enough to admit an annual term. (2) The textbook closed-form least-squares solution, different algebra from the matrix solve under test, on real rows. (3) The genuine archived Bulletin A prediction rows the real 2026 product publishes, compared per lead as an AGREEMENT statistic and explicitly not as an error: 0.256 ms at 1 day, 0.695 ms at 2 days, 1.252 ms at 3 days, drifting to 3.885 ms at 9 days. So this is Bulletin A's CLASS, close at short lead, not Bulletin A. The predicted-versus-final residuals are real measured quantities over real IERS rows, but their magnitude is checked only against the DIRECTION of the comparison, never against an IERS-published accuracy number — reading a real product is provenance, not an oracle. MEASURED: at day 1 the operational predictor gives 3.78 m of Moon-frame error against persistence's 11.39 m (3.01×), at day 2 10.23 m against 21.72 m (2.12×), at day 3 20.33 m against 30.57 m (1.50×) — and it is WORSE beyond three days (0.87× at 5 days, 0.43× at 10), which the report emits rather than showing only the horizons that flatter it. NOT reproduced: the autoregressive residual filter and the tabulated zonal-tide reduction, the 365-day operational window is unreachable with the committed data, and NO archived earlier vintage of the series exists in this repository — so the archived-vintage table reports no rows rather than scoring a synthesised one",
+            tests: "frame_eop::tests, realtime_frame_eop::tests and tests/operational_eop_predictor_reference.rs (analytic-signal coefficient recovery to 1e-9 at a 365-day window; a bias-plus-rate fit equal to the closed-form ordinary-least-squares slope and intercept to 1e-12 on real rows; TWO look-ahead detectors that wreck the rapid UT1 and pole columns of every row after the issue epoch — leaving the Bulletin B finals intact — and demand bit-identical output, mutation-verified to turn 10 tests red when the fit barrier is loosened by exactly one day; an independently rebuilt epoch list; a target's Bulletin B block blanked and the epoch shown to leave the table; term admission checked at 6, 15, 150 and 365-day windows; monotone row counts; and a frozen pre-change capture of the default report asserted field for field with no tolerance, which additionally asserts the capture does not contain the new keys so it cannot be silently regenerated into a self-comparison); tests/operational_eop_predictor_bulletin_a_oracle.rs::predictor_mae_against_bulletin_a_and_the_pcc_range_finding",
+            oracle: "Three independent routes, none of them a published prediction-accuracy figure. (1) An analytic signal with known coefficients — the only way to exercise the periodic machinery, since no committed series is long enough to admit an annual term. (2) The textbook closed-form least-squares solution, different algebra from the matrix solve under test, on real rows. (3) The genuine archived Bulletin A prediction rows the real 2026 product publishes, compared per lead as an AGREEMENT statistic and explicitly not as an error: 0.256 ms at 1 day, 0.695 ms at 2 days, 1.252 ms at 3 days, drifting to 3.885 ms at 9 days. So this is Bulletin A's CLASS, close at short lead, not Bulletin A. The predicted-versus-final residuals are real measured quantities over real IERS rows, but their magnitude is checked only against the DIRECTION of the comparison, never against an IERS-published accuracy number — reading a real product is provenance, not an oracle. MEASURED: at day 1 the operational predictor gives 3.78 m of Moon-frame error against persistence's 11.39 m (3.01×), at day 2 10.23 m against 21.72 m (2.12×), at day 3 20.33 m against 30.57 m (1.50×) — and it is WORSE beyond three days (0.87× at 5 days, 0.43× at 10), which the report emits rather than showing only the horizons that flatter it. NOT reproduced: the autoregressive residual filter and the tabulated zonal-tide reduction, the 365-day operational window is unreachable with the committed data, and NO archived earlier vintage of the series exists in this repository — so the archived-vintage table reports no rows rather than scoring a synthesised one. 0.30 external comparison, a finding (stays MODELLED): scored against the same finals over 178 archived Bulletin A issues with the crate's default 15-day window, the predictor's UT1 MAE is 2.4x to 12.6x Bulletin A's at 1 to 10 days (bar 1.5x) and 5.32 ms at 10 days, outside the 0.36 to 3.13 ms range of the 2nd EOP PCC; the pole is 1.5x to 1.85x Bulletin A's (inside 1.5x only at 6 and 7 days); 19 of 21 pre-registered conditions fail. Correction to route (3): the 2026 product rows it was compared with carry the IERS I (measured) flag, not P, so those agreement figures are against measured rapid values, not Bulletin A predictions",
             oracle_kind: ReferenceImpl,
             status: Modelled,
         },
@@ -1382,7 +1382,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "Accepts a tabulated Moon-centred state ephemeris (the evaluation of an SPK/BSP kernel) or a published constellation definition behind `ephemeris_path`, runs the identical coverage / DOP / protection-level sweep against it, and emits the σ_URE ranging requirement it implies BESIDE the unchanged illustrative Keplerian and perturbed results with the difference as its own named quantity. Every figure carries a provenance class that distinguishes kernel-derived from published-element-derived from modelled, so the two can never be confused in a downstream quotation",
             module: "lunar_ephemeris, lunar_service",
             tests: "lunar_ephemeris::tests (format and frame parsing; Lagrange interpolation exact at nodes and on a linear track off-node; ICRF elements take the IAU 2015 reduction and are byte-equal to an explicit icrf_to_iau_moon application; true↔mean anomaly round-trips against a forward Kepler solve; malformed files refused with the reason named). lunar_service::tests (with `ephemeris_path` unset the report's key set and SHA-256 are pinned; the Keplerian row equals the standalone Keplerian run field for field; the identity σ_required · HPL_max / σ_URE = AL, then an END-TO-END re-run at the computed requirement reaching 100 % protection-level availability and a re-run 1 % above it not reaching it; every emitted numeric field of both new blocks walked from the produced JSON for a unit and a provenance class; the committed fixtures matched to their source tables satellite for satellite; a horizon past the end of a table refused)",
-            oracle: "The GEOMETRY is external and hashed: three fixtures whose numbers come only from documents retrieved with URL, retrieval date and SHA-256, regenerable by committed generators that verify the upstream hash and ABORT rather than emit a number — the LANS interoperability-demonstration reference constellation (NASA NTRS 20250009447, SHA-256 d1b916be…), the LNCSS case studies (NAVIGATION 70(4) navi.613, CC BY, SHA-256 4e294687…), and a genuine flown-spacecraft ephemeris for LRO, Danuri, Chandrayaan-2 and CAPSTONE evaluated from JPL's own reconstructed kernels via Horizons. NO lunar-navigation constellation kernel exists publicly — Moonlight/LCNS, LCRNS and LNSS are not flying and NAIF publishes nothing for them — and none was invented. The DERIVED σ_URE requirement has NO external oracle (nobody publishes the ranging accuracy a 50 m lunar HPL demands over this service volume), so it is checked against its own algebraic identity and, independently, by re-running the whole sweep at the computed requirement and confirming availability flips there. MEASURED: the published 8-satellite design needs σ_URE 2.9044 m at 100 % coverage against the illustrative constellation's 0.3591 m at 37.85 % — an 8.09× revision of a published number under programme rule R4. The qualitative conclusion survives (LNIS-class 30 m still does not close a 50 m south-polar HPL) but the shortfall was overstated eightfold. The 5-satellite LANS demo yields ZERO protection-level samples — five satellites cannot give the six-in-view a single-fault hypothesis set needs — and the requirement field is ABSENT rather than fabricated; likewise for the four real spacecraft at 0 % coverage. InternalConsistency is the honest kind: the INPUT data is external and hashed, but the quantity this row is about is validated only against itself",
+            oracle: "The GEOMETRY is external and hashed: three fixtures whose numbers come only from documents retrieved with URL, retrieval date and SHA-256, regenerable by committed generators that verify the upstream hash and ABORT rather than emit a number — the LANS interoperability-demonstration reference constellation (NASA NTRS 20250009447, SHA-256 d1b916be…), the LNCSS case studies (NAVIGATION 70(4) navi.613, CC BY, SHA-256 4e294687…), and a genuine flown-spacecraft ephemeris for LRO, Danuri, Chandrayaan-2 and CAPSTONE evaluated from JPL's own reconstructed kernels via Horizons. NO lunar-navigation constellation kernel exists publicly — Moonlight/LCNS, LCRNS and LNSS are not flying and NAIF publishes nothing for them — and none was invented. The DERIVED σ_URE requirement has NO external oracle (nobody publishes the ranging accuracy a 50 m lunar HPL demands over this service volume), so it is checked against its own algebraic identity and, independently, by re-running the whole sweep at the computed requirement and confirming availability flips there. MEASURED: the published 8-satellite design needs σ_URE 2.9044 m at 100 % coverage against the illustrative constellation's 0.3591 m at 37.85 % — an 8.09× revision of a published number under programme rule R4. The qualitative conclusion survives (LNIS-class 30 m still does not close a 50 m south-polar HPL) but the shortfall was overstated eightfold. The 5-satellite LANS demo yields ZERO protection-level samples — five satellites cannot give the six-in-view a single-fault hypothesis set needs — and the requirement field is ABSENT rather than fabricated; likewise for the four real spacecraft at 0 % coverage. InternalConsistency is the honest kind: the INPUT data is external and hashed, but the quantity this row is about is validated only against itself. 0.30 external comparison, a finding (stays MODELLED): against the LNCSS case-study statistics of navi.613 on 346 grid points, 4 of 12 availability statistics fall outside the pre-registered 2 percentage points (case A: -4.0, +22.5 and -3.6 pp; case B: -12.1 pp). Likely causes: elements read in the wrong frame, two-body Kepler over 15 days against the paper's unstated force model, and a grid not reproducible from the text. The PDOP half was not evaluable (LANS prints no numeric statistic); the comparison test is committed ignored",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -1428,10 +1428,10 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Composed timing PL — scalar MHSS specialization (H=1_N)",
             capability: "Scalar-time solution-separation TPL over heterogeneous sources; PL driven by worst-exclusion subset noise + UTC(k) bias",
             module: "src/integrity/tpl_scalar.rs",
-            tests: "integrity::tpl_scalar::tests (rank-1, fuse/exclude, bias-dominance, IR cross-check)",
-            oracle: "Direct MHSS integrity-risk sum Σ p·Q((PL−b−T)/σ) cross-check; ARAIM lineage Blanch 2015 / Joerger 2014",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "integrity::tpl_scalar::tests (rank-1, fuse/exclude, bias-dominance, IR cross-check); tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy (300 committed cases: numpy lstsq subset estimators, general separation covariance, scipy brentq PL; PL within 1e-9 relative, worst 1.2e-10; driving subset exact)",
+            oracle: "P2: numpy 2.3.5 linalg.lstsq and scipy 1.18.1 (norm.isf, norm.sf, brentq) recompute, by their own algorithms, the subset weighted least-squares estimators, the general separation covariance sqrt(Δ Σ Δᵀ), the biases and the protection level from them on 300 committed inputs (tests/fixtures/tpl_scalar_numpy_oracle); the PL agrees within 1e-9 relative (worst 1.2e-10) and the driving exclusion subset is identical, tolerance fixed before the comparison. The multipliers, priors and bias overbounds are inputs, and the structure of the PL equation (mode list, ir/2 split, bias projection) is a stated input, as for the Lunar ARAIM protection-level kernel row; the validated claim is the linear algebra and the PL on those inputs, not the physical magnitudes of a timing scenario. ARAIM lineage Blanch 2015 / Joerger 2014",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Composed timing PL — P0-seeded holdover ride-through",
@@ -1464,8 +1464,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Heterogeneous UTC(k) traceability-bias integrity overbound",
             capability: "Per-source bias overbound b = (U/k_cov)·Phi^-1(1-tail/2) + ageing, inflating a published Type-B expanded uncertainty to an allocated integrity tail; bridges to tpl_scalar as bias_s",
             module: "src/integrity/hetero_budget.rs",
-            tests: "integrity::hetero_budget::tests + tests/hetero_budget_reference.rs",
-            oracle: "Independent numpy + stdlib-statistics reproduction of the overbound closed form (InternalConsistency). The BIPM Circular-T [UTC-UTC(USNO)] series is a CITED input only — it is the SAME series already Validated for the R4 holdover-coverage row and is NOT re-validated here; reproducing its values proves nothing about R2. Deep integrity tail is Modelled.",
+            tests: "integrity::hetero_budget::tests + tests/hetero_budget_reference.rs; tests/hetero_budget_utc_k_oracle.rs::overbound_exceedance_on_real_utc_k_finding (data-gated: skips with a message when the BIPM series is absent)",
+            oracle: "Independent numpy + stdlib-statistics reproduction of the overbound closed form (InternalConsistency). The BIPM Circular-T [UTC-UTC(USNO)] series is a CITED input only — it is the SAME series already Validated for the R4 holdover-coverage row and is NOT re-validated here; reproducing its values proves nothing about R2. Deep integrity tail is Modelled. 0.30 external comparison, a finding (stays MODELLED): on the BIPM per-laboratory UTC-UTC(k) files (102 laboratories, 105 024 rows with published uncertainties) the overbound b = 2.576 u at the 1e-2 tail is exceeded by 50.8 % of rows (Clopper-Pearson 95 %: 50.4 to 51.1 %) and by more than 1 % at 101 of 102 laboratories. The published u is the uncertainty of the BIPM's determination of UTC-UTC(k), not a bound on the offset, which routinely runs to many times u; the overbound as specified does not bound real UTC(k) traceability bias",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -1482,10 +1482,10 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "GLS common-mode whitening (Aitken) + Mahalanobis identity",
             capability: "Hand-rolled Cholesky Omega=LL^T and forward-substitution whitening z=L^-1 r (Cov(z)=I when Cov(r)=Omega); Mahalanobis square z^T z = r^T Omega^-1 r",
             module: "src/integrity/gls_commonmode.rs",
-            tests: "integrity::gls_commonmode::tests + tests/gls_reference.rs",
-            oracle: "Independent numpy Cholesky/solve reproduction of the whitened Mahalanobis square (InternalConsistency). GLS/Aitken 1935 whitening is Cited.",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "integrity::gls_commonmode::tests + tests/gls_reference.rs + tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack (201 committed SPD cases: factor, whitened residual, whitening operator and Mahalanobis square against numpy LAPACK within 1e-12 relative, worst 7.9e-16)",
+            oracle: "P2: numpy 2.3.5 linalg.cholesky (LAPACK potrf), solve (gesv) and inv on 201 committed SPD inputs (tests/fixtures/gls_whitening_numpy_oracle) check the hand-rolled factor, the whitened residual and the whitening operator; the Mahalanobis square is checked against solve(Omega, r), which uses no Cholesky, so the identity z^T z = r^T Omega^-1 r is confirmed by a separate route. All within 1e-12 relative (worst 7.9e-16), tolerance fixed before the comparison. The largest condition number is 19.3, so ill-conditioned matrices are not covered. GLS/Aitken 1935 whitening is Cited.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Common-mode consistency statistic (separation-blind shared-reference fault)",
@@ -1518,8 +1518,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Lunar datum null-space classification (LLR rank-additivity + libration defect-lift)",
             capability: "Classification of the internal-ranging datum problem: a single range observation contributes rank 1 (6-dimensional null space); the origin-X and scale pair is near-null and physical DE440 libration lifts the defect to zero while the pair stays near-degenerate",
             module: "lunar_identifiability, lunar_datum",
-            tests: "tests/lunar_datum_identifiability_reference.rs (single_internal_range_row_has_six_dim_datum_null_space; extending_the_librating_arc_lifts_the_origin_scale_degeneracy)",
-            oracle: "Engine-reproduced geometric structure plus the closed-form 2x2 Schur identity; consistent in STRUCTURE with Sosnica et al. 2025 (arXiv:2510.15484), whose reported magnitudes are NOT reproduced here. The classification is structural; the correlation/CRLB magnitudes under real geometry are MODELLED (reflector coordinates and orientation held fixed).",
+            tests: "tests/lunar_datum_identifiability_reference.rs (single_internal_range_row_has_six_dim_datum_null_space; extending_the_librating_arc_lifts_the_origin_scale_degeneracy); tests/lunar_datum_sosnica_oracle.rs::origin_scale_correlation_and_crlb_disagree_with_the_published_geometry",
+            oracle: "Engine-reproduced geometric structure plus the closed-form 2x2 Schur identity; consistent in STRUCTURE with Sosnica et al. 2025 (arXiv:2510.15484), whose reported magnitudes are NOT reproduced here. The classification is structural; the correlation/CRLB magnitudes under real geometry are MODELLED (reflector coordinates and orientation held fixed). 0.30 external comparison, a finding (stays MODELLED): against Sosnica et al. 2025, the range-Fisher origin-scale correlation (-0.993 / -0.988) is within 0.05 of the published -0.97, but on the paper's own five-reflector geometry the equal-weight 7-parameter Helmert correlation is -0.78 (the published value rests on per-reflector errors the paper does not print), and the origin CRLB (0.6 to 1.2 mm at 3 mm range noise) is 96 to 98 % below the paper's 3.07 cm against a 20 % tolerance. Magnitudes not reproduced",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -1534,19 +1534,19 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "DE440 lunar principal-axis orientation provider",
-            capability: "MOON_PA_DE440 to J2000 rotation at arbitrary epochs, by element-wise linear interpolation of a committed 731-row daily series with column Gram-Schmidt re-orthonormalisation; embedded at compile time so there is no runtime filesystem I/O and the WASM build carries it",
+            capability: "MOON_PA_DE440 to J2000 rotation at arbitrary epochs inside 2024-01-01 to 2025-12-31 TDB, by geodesic interpolation R0·Exp(f·Log(R0ᵀR1)) between the nodes of a committed 731-row daily series; embedded at compile time so there is no runtime filesystem I/O and the WASM build carries it",
             module: "lunar_orientation",
-            tests: "lunar_orientation::tests (de440_moon_pa_reproduces_fixture_rows, de440_moon_pa_shows_real_libration); tests/lunar_pa_frame_realisation_guard.rs::the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre",
-            oracle: "The series itself is external: JPL DE440 binary PCK moon_pa_de440_200625.bpc, NAIF frame 31008, extracted by the committed scripts/gen_de440_moon_pa.py via spiceypy 8.1.2, fixture SHA-256 3076f81ef95d83f5efa240ed4c7ccb422f109407dde841fcf28d42dc63586eb7. What is NOT independent: the node-level test round-trips through the same embedded copy the engine reads, so it checks the parser and interpolator, not JPL. The independent content is physical - the recovered sub-Earth libration spans 15.6 deg in longitude and 13.6 deg in latitude, which is the known lunar optical libration, and a constant or mis-scaled series cannot produce it. Interpolation between the one-day nodes is MEASURED, not asserted, at about 14 m at the lunar surface after re-orthonormalisation; the module is therefore a geometry substrate for identifiability analysis and is NOT sub-metre in absolute orientation.",
+            tests: "lunar_orientation::tests (de440_moon_pa_reproduces_fixture_rows, de440_moon_pa_shows_real_libration); tests/lunar_pa_frame_realisation_guard.rs::the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre; tests/lunar_pa_orientation_spice_oracle.rs::interpolated_rotation_matches_direct_kernel_evaluation_off_node (2 000 random off-node epochs vs SPICE pxform on the binary PCK: rotation angle within 1.7e-5 rad, worst 1.7e-6 rad, 3 m at the mean radius)",
+            oracle: "NAIF SPICE Toolkit (CSPICE N0067 through spiceypy 8.2.0, run as a tool): pxform from MOON_PA_DE440 to J2000 evaluating JPL's binary PCK moon_pa_de440_200625.bpc directly, with NAIF's own frame kernel moon_de440_250416.tf, at 2 000 random off-node epochs in the embedded window. The rotation angle between Kshana's and SPICE's matrices is within 1.7e-5 rad (30 m at the 1737.4 km mean radius, fixed before the comparison); measured worst 1.7e-6 rad (3 m), RMS 7.8e-7 rad, and worst 1.75e-6 rad on 6 000 further epochs drawn by the verifier. The daily nodes were themselves extracted from the same kernel (scripts/gen_de440_moon_pa.py, fixture SHA-256 3076f81ef95d83f5efa240ed4c7ccb422f109407dde841fcf28d42dc63586eb7), so this comparison tests the interpolation between them, which is the claim. Found by this comparison and fixed: the earlier element-wise linear interpolation with Gram-Schmidt kept the axis but not the angle of the 13.2 deg/day rotation and was in error by up to 2.0e-4 rad (340 m) near the quarter points; the earlier figure of about 14 m came from a guard that samples interval midpoints only. Outside 2024-2025 the series clamps silently to its end rows. A geometry substrate for identifiability analysis, not a sub-metre orientation product",
             oracle_kind: ExternalDataset,
-            status: Modelled,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Lunar LLR datum geometry substrate (principal-axis reflectors, ground stations, analytic range partials)",
             capability: "The five near-side retroreflector arrays in PA body-frame metres and the LLR ground stations in geodetic coordinates; reflector body-to-inertial placement through the DE440 PA orientation; analytic partials of Earth-to-reflector range with respect to the 4-parameter datum; and the LLR-only Fisher matrix exhibiting the lunocentre-X to scale degeneracy that motivates the 7-parameter analysis",
             module: "lunar_llr_geometry",
-            tests: "lunar_llr_geometry::tests (reflector_and_station_catalogs_are_well_formed, analytic_partials_match_finite_difference, llr_one_way_range_is_earth_moon_scale, zero_datum_reproduces_nominal_range, llr_only_fisher_shows_strong_com_x_scale_degeneracy); tests/lunar_pa_frame_realisation_guard.rs; tests/llr_datum_degeneracy_reference.rs",
-            oracle: "The computation is checked internally: every analytic partial against a finite difference, and the zero-datum case against the nominal range. The CATALOGUE is checked externally and independently - the DE440 principal-axis coordinates (Park et al. 2021, tests/fixtures/llr_geometry/de440_retroreflectors_pa.csv) are cross-checked against Table 6 of the DE430 surface-coordinates memorandum (tests/fixtures/lunar_llr/de430_retroreflectors_pa.csv, machine-extracted from a SHA-256-verified PDF by tests/fixtures/lunar_llr/generate_de430_retroreflectors_pa.py) and agree to 1.12 m, while the mean-Earth realisation of the same five arrays differs by 672 to 871 m. The DEGENERACY STRUCTURE is checked against a published result: Sosnica et al. 2025, 'Definition and Realization of the International Lunar Reference Frame', arXiv:2510.15484, which reports for the lunar principal-axis frame a lunocentre-X to scale correlation coefficient of r = -0.97, and that LLR fails to reach the actual centre of mass of the Moon with an accuracy better than 12 cm because of that correlation. This module recovers the same structure (|corr(t_x, scale)| between 0.9 and 0.9999, datum defect <= 1) from an LLR-only Fisher design. The corroboration is across ephemerides, not a round trip: the paper combines INPOP21a, DE430 and EPM2021, whereas this module is driven by DE440 libration. What is NOT reproduced is magnitude - the correlation here is about -0.988 against their -0.97, and the 4-parameter CRLB is sub-millimetre against their 12 cm achieved floor, because orientation and reflector coordinates are held fixed here and solved there. Geometry and degeneracy structure only; no accuracy claim about a solved datum.",
+            tests: "lunar_llr_geometry::tests (reflector_and_station_catalogs_are_well_formed, analytic_partials_match_finite_difference, llr_one_way_range_is_earth_moon_scale, zero_datum_reproduces_nominal_range, llr_only_fisher_shows_strong_com_x_scale_degeneracy); tests/lunar_pa_frame_realisation_guard.rs; tests/llr_datum_degeneracy_reference.rs; tests/lunar_llr_geometry_range_oracle.rs::reflector_ranges_against_ilrs_normal_points",
+            oracle: "The computation is checked internally: every analytic partial against a finite difference, and the zero-datum case against the nominal range. The CATALOGUE is checked externally and independently - the DE440 principal-axis coordinates (Park et al. 2021, tests/fixtures/llr_geometry/de440_retroreflectors_pa.csv) are cross-checked against Table 6 of the DE430 surface-coordinates memorandum (tests/fixtures/lunar_llr/de430_retroreflectors_pa.csv, machine-extracted from a SHA-256-verified PDF by tests/fixtures/lunar_llr/generate_de430_retroreflectors_pa.py) and agree to 1.12 m, while the mean-Earth realisation of the same five arrays differs by 672 to 871 m. The DEGENERACY STRUCTURE is checked against a published result: Sosnica et al. 2025, 'Definition and Realization of the International Lunar Reference Frame', arXiv:2510.15484, which reports for the lunar principal-axis frame a lunocentre-X to scale correlation coefficient of r = -0.97, and that LLR fails to reach the actual centre of mass of the Moon with an accuracy better than 12 cm because of that correlation. This module recovers the same structure (|corr(t_x, scale)| between 0.9 and 0.9999, datum defect <= 1) from an LLR-only Fisher design. The corroboration is across ephemerides, not a round trip: the paper combines INPOP21a, DE430 and EPM2021, whereas this module is driven by DE440 libration. What is NOT reproduced is magnitude - the correlation here is about -0.988 against their -0.97, and the 4-parameter CRLB is sub-millimetre against their 12 cm achieved floor, because orientation and reflector coordinates are held fixed here and solved there. Geometry and degeneracy structure only; no accuracy claim about a solved datum. 0.30 external comparison, a finding (stays MODELLED): against 192 ILRS CRD v2 lunar normal points (2024-04 to 06, EDC/DGFI-TUM; Grasse, APOLLO, Matera), with the Moon centre from DE440 through SPICE and the Shapiro and Mendes-Pavlis delays applied, the one-way residual RMS was 96 m against a 10 m bar, driven by the element-wise interpolation of the daily DE440 principal-axis series then in force (about 2e-4 rad within a day). After the orientation-provider row's comparison replaced it with geodesic interpolation, the same test measures 22.7 m (Grasse 14.2 m, APOLLO 46.2 m, Matera 9.3 m), equal to the kernel-orientation diagnostic and still above 10 m: what remains is the rounded APOLLO station coordinates and the absent polar motion. The series clamps silently outside 2024-2025 (the 2015 normal points give 2.2e6 m)",
             oracle_kind: ExternalDataset,
             status: Modelled,
         },
@@ -1572,8 +1572,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Relativistic clock-rate to frame coupling for the lunar timescale",
             capability: "rate_frame_jacobian gives the sensitivity of the lunar timescale rate to the frame realisation: d_alpha/d_scale = +U_moon/c^2, about +3.140e-11; d_alpha/d_velocity about -1.11e-14; d_alpha/d_r_radial = +g_moon/c^2, about +1.807e-17 per metre, with the radial entry equal to the scale entry divided by the lunar radius. Propagated through a frame-estimation datum these bound the rate perturbation at about 2e-17, far below the roughly 1.7e-11 rate offset of a lunar timescale against TT, so a frame re-realisation at this level does not move the timescale rate measurably.",
             module: "lunar_gauge, lunar_time",
-            tests: "lunar_gauge::tests (d_alpha_d_scale_approx_3_140e_minus_11, d_alpha_d_velocity_approx_neg_1_11e_minus_14, d_alpha_d_radial_approx_1_807e_minus_17, d_alpha_d_radial_equals_scale_over_r_moon)",
-            oracle: "First-order relativistic rate model - self-potential, kinetic term and redshift gradient - differentiated with respect to the frame parameters in closed form, with the internal identity d_alpha/dr = d_alpha/ds divided by RE_MOON_M checked to 1e-12 so the two derivatives cannot drift apart. The comparison band and the tidal and J2 contributions are Modelled reference-surface figures, not a metrological budget, and no claim is made that a real lunar clock realises this rate.",
+            tests: "lunar_gauge::tests (d_alpha_d_scale_approx_3_140e_minus_11, d_alpha_d_velocity_approx_neg_1_11e_minus_14, d_alpha_d_radial_approx_1_807e_minus_17, d_alpha_d_radial_equals_scale_over_r_moon); tests/lunar_rate_frame_coupling_oracle.rs::rate_frame_jacobian_disagrees_with_the_published_self_potential_beyond_1e_4",
+            oracle: "First-order relativistic rate model - self-potential, kinetic term and redshift gradient - differentiated with respect to the frame parameters in closed form, with the internal identity d_alpha/dr = d_alpha/ds divided by RE_MOON_M checked to 1e-12 so the two derivatives cannot drift apart. The comparison band and the tidal and J2 contributions are Modelled reference-surface figures, not a metrological budget, and no claim is made that a real lunar clock realises this rate. 0.30 external comparison, a finding (stays MODELLED): compared with Ashby and Patla 2024 (AJ 167:149) L_m = 3.13881(15)e-11, Kshana's GM/(R c²) = 3.13981e-11 is 3.18e-4 high against a 1e-4 tolerance. The paper evaluates a degree-350 lunar potential on the equator (1738.14 km) plus a rotation term, not a point mass at the 1737.4 km mean radius, and the function takes no GM or radius argument, so no published value of this closed form exists and P1 does not apply",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -1735,12 +1735,12 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "SigMF recording input and output, and Welch spectral estimates of complex IQ",
-            capability: "sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on strings and byte buffers. spectrum::welch_psd: Hann-windowed, overlapped, averaged periodograms, density-scaled, on an in-crate radix-2 transform (spectrum::fft_in_place). spectrum::synthesise_iq draws the model as IQ, and the `spectrum` kind's [iq] section runs model to IQ to SigMF to Welch and compares with the model; its [recording] section estimates a real recording (native builds)",
+            capability: "sigmf: read and write Signal Metadata Format recordings (JSON .sigmf-meta with the core global, captures and annotations fields; raw .sigmf-data as cf32_le, ci16_le or ci8, the integer decoders shared with realdata::iqif::load_iq), all on strings and byte buffers. spectrum::welch_psd: Hann-windowed, overlapped, averaged periodograms, density-scaled, on an in-crate radix-2 transform (spectrum::fft_in_place). Those two are the validated claim. spectrum::synthesise_iq draws the model as IQ, and the `spectrum` kind's [iq] section runs model to IQ to SigMF to Welch and compares with the model; its [recording] section estimates a real recording (native builds); the synthesis and those model comparisons are outside the validated claim",
             module: "sigmf (read, write, encode, decode, parse_meta, meta_to_json); spectrum (welch_psd, fft_in_place, synthesise_iq)",
-            tests: "sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — floor within 2 % of variance over sample rate, Parseval total within 2 %, Hann equivalent noise bandwidth 1.5 bins; noise_like_synthesis_is_unbiased_through_welch — median Welch-minus-model within 0.1 dB through a ci16_le round trip; synthesised_iq_through_sigmf_reproduces_the_model_spectrum)",
-            oracle: "Round-trip identities, a direct discrete Fourier transform, and the white-noise, Parseval and Hann equivalent-noise-bandwidth closed forms. The SigMF field names follow the published specification (github.com/sigmf/SigMF), but no externally produced recording is in the repository, so reading a third-party file is untested here and the row stays Modelled. A synthesised periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits: total power agrees within 2 %, per-bin densities near a chirp do not",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "sigmf::tests (cf32_round_trip_is_exact_to_single_precision; ci16_round_trip_is_within_half_a_code; ci16_is_little_endian_i_then_q; integer_encoding_counts_saturation; metadata_uses_the_core_namespace; unsupported_types_and_channels_are_refused; sample_start_offsets_into_the_data); spectrum::tests (fft_matches_a_direct_dft; welch_reads_white_noise_as_variance_over_fs_and_keeps_a_tone_s_power — floor within 2 % of variance over sample rate, Parseval total within 2 %, Hann equivalent noise bandwidth 1.5 bins; noise_like_synthesis_is_unbiased_through_welch — median Welch-minus-model within 0.1 dB through a ci16_le round trip; synthesised_iq_through_sigmf_reproduces_the_model_spectrum); tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python (Welch PSD vs scipy 1.18.1 signal.welch per bin to 1e-12 relative over 27 cases, observed 6.0e-14; five sigmf-python 1.13.0 recordings decoded bit-identically with identical metadata; crate-written recordings read back bit-identically by sigmf-python and schema-valid against SigMF v1.2.6)",
+            oracle: "scipy 1.18.1 scipy.signal.welch (BSD-3-Clause) with the same periodic Hann window, overlap, density scaling, no detrend and two-sided mean average: every bin within 1e-12 relative (observed 6.0e-14) over 27 cases, with segment counts taken from scipy's own spectrogram. sigmf-python 1.13.0 (LGPL-3.0, run as a tool) writes five third-party recordings (cf32_le, ci16_le, ci8, two captures with annotations, a non-zero first sample_start) that the crate decodes bit-identically with identical core fields, and reads the crate's recordings back bit-identically; the SigMF v1.2.6 metadata schema reports zero errors on the crate's metadata. Tolerances fixed before the first comparison. Outside the claim: spectrum::synthesise_iq and the [iq] and [recording] comparisons with the model (a synthesis has no single right answer; a periodic chirp shows lines, Fresnel ripple and edge tails the smooth model omits, total power within 2 %), the integer-to-float scaling convention (the crate divides by 32767 and 127, sigmf-python's autoscale by 2^15 and 2^7, which the specification leaves open; the comparison uses raw codes), multi-channel recordings and the data types the reader refuses",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         // ── Solar-system ephemeris and positioning around any body ──────────────
         VerificationItem {
@@ -1783,8 +1783,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Physical constants of every solar-system body and the whole-system report",
             capability: "Body gains Mercury, Venus, Jupiter, Saturn, Uranus, Neptune, Pluto, Phobos, Deimos, Io, Europa, Ganymede, Callisto and Titan (gravitational parameter, reference radius, J2 where published with the radius it is referenced to, IAU pole and prime meridian), a name lookup and a BodyFacts record (NAIF code, class, parent, equatorial and mean radius); the `solar-system` kind reports them for all eighteen bodies with the positions, light times and an orbit track over one revolution, each body labelled VALIDATED or MODELLED",
             module: "body (Body::by_name, Body::facts, Body::prime_meridian, SOLAR_SYSTEM, BodyFacts); solar_system (SolarSystemScenario, position_label)",
-            tests: "body::tests (every_catalogue_body_resolves_by_name_and_carries_its_record; a_zonal_field_is_referenced_to_its_sources_radius; retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate); solar_system::tests (defaults_report_all_eighteen_bodies_with_tracks; earth_heliocentric_distance_is_one_au_and_period_one_year; a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position; moons_orbit_their_planets_at_their_mean_distance; pluto_outside_its_table_is_an_error_not_a_guess; every_emitted_number_has_a_unit)",
-            oracle: "Transcription of published constants, each cited where it is defined: gravitational parameters from the JPL Horizons body records and the JPL satellite physical-parameter table, radii from the JPL physical-parameter tables (IAU WGCCRE 2015), poles and prime meridians from the IAU Working Group on Cartographic Coordinates and Rotational Elements (mean values, without the T-rate and periodic terms), J2 from Smith et al. 2012, Iess et al. 2018 and 2019, and Jacobson 2009 and 2014. Checked for internal consistency (the Jupiter rotation period against the System III rate, each J2 against its reference radius), not against an external oracle",
+            tests: "body::tests (every_catalogue_body_resolves_by_name_and_carries_its_record; a_zonal_field_is_referenced_to_its_sources_radius; retrograde_rotators_have_negative_rates_and_periods_match_the_iau_rate); solar_system::tests (defaults_report_all_eighteen_bodies_with_tracks; earth_heliocentric_distance_is_one_au_and_period_one_year; a_planet_track_closes_on_its_orbit_and_starts_at_the_epoch_position; moons_orbit_their_planets_at_their_mean_distance; pluto_outside_its_table_is_an_error_not_a_guess; every_emitted_number_has_a_unit); tests/body_constants_naif_oracle.rs::recorded_naif_disagreements_are_unchanged",
+            oracle: "Transcription of published constants, each cited where it is defined: gravitational parameters from the JPL Horizons body records and the JPL satellite physical-parameter table, radii from the JPL physical-parameter tables (IAU WGCCRE 2015), poles and prime meridians from the IAU Working Group on Cartographic Coordinates and Rotational Elements (mean values, without the T-rate and periodic terms), J2 from Smith et al. 2012, Iess et al. 2018 and 2019, and Jacobson 2009 and 2014. Checked for internal consistency (the Jupiter rotation period against the System III rate, each J2 against its reference radius), not against an external oracle. 0.30 comparison with NAIF pck00011 and gm_de440 read by spiceypy, a finding (stays MODELLED): 72 of 84 constants of the fourteen added bodies agree to every printed digit and 12 do not. The Phobos GM, radius, pole and prime meridian and the Deimos pole and prime meridian follow the IAU 2009 Mars-satellite elements where pck00011 carries the 2015 update, and the Uranus, Neptune and Pluto GM come from other satellite-ephemeris solutions than gm_de440 (Pluto 8.69326e11 against 8.69614e11 m³/s²). Even full agreement would have been close to a transcription check",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -1820,8 +1820,8 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             requirement: "Coverage and dilution-of-precision maps for arbitrary multi-constellation designs at scale, around any central body",
             capability: "The `constellation-design` kind beyond the two pinned cases: explicit and multi-shell designs, several constellations per run with one receiver clock per constellation, the Earth, the Moon and Mars from the body constants, the BeiDou preset (medium-orbit phase and 118 deg E inclined-geosynchronous crossing modelled), per-cell satellites in view, GDOP, PDOP, HDOP, VDOP and availability, downsampled ground tracks, and a sub-satellite-latitude visibility prefilter that runs a 5 000-satellite design on a 10 deg grid in a fraction of a second",
             module: "constellation (coverage, ConstellationDesignScenario, beidou_slots, body_by_name)",
-            tests: "constellation::tests (prefilter_matches_brute_force_exactly — every map and counter equals a scan with the direct elevation test; five_thousand_satellites_on_a_coarse_grid — 5 000 satellites, prints the run time and the pair tests kept; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts)",
-            oracle: "Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different reference epochs, so it is not a snapshot of any date",
+            tests: "constellation::tests (prefilter_matches_brute_force_exactly — every map and counter equals a scan with the direct elevation test; five_thousand_satellites_on_a_coarse_grid — 5 000 satellites, prints the run time and the pair tests kept; a_clock_per_constellation_needs_one_more_satellite; beidou_geo_and_igso_geometry; lunar_shell_runs_around_the_moon; presets_are_earth_only_and_errors_are_clear; preset_counts); tests/constellation_availability_published_spec_oracle.rs::presets_meet_the_published_dop_availability (regression check only)",
+            oracle: "Internal consistency: the brute-force elevation scan, the hand-computed and orbit::dop reductions, and the closed-form Walker and geosynchronous geometry. Two-body orbits with an optional secular J2, a spherical body with the local vertical along the radius, geometric visibility only (no signal power, satellite health, terrain or third-body perturbation), and the relative phase between systems taken from different reference epochs, so it is not a snapshot of any date. 0.30 review, a finding (stays MODELLED): the presets meet the published one-sided DOP-availability floors (BeiDou OS Performance Standard 3.0, Galileo OS SDD) at 100 %, but with the engine's PDOP doubled in a scratch copy they still meet them (worst point 99.36 %), so the floors cannot detect even a 100 % error in the quantity this row computes; tightening them after the run would be a post-hoc tolerance. Promotion needs a two-sided comparison of DOP values on identical geometry with a pre-set tolerance",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -2002,12 +2002,12 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         VerificationItem {
             requirement: "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period",
-            capability: "The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; a Levenberg-Marquardt fit of the Galileo Keplerian set on non-singular elements with weak priors, then along-track, cross-track and radial correction polynomials by linear least squares; the clock polynomial fitted net of the user's relativistic term; SISRE (orbit-only and with clock) over usage periods centred in their fit windows, versus fit interval and update period",
+            capability: "The `leo-navmsg` kind's fitter and trade: a truth orbit integrated with zonal J2-J6 or EGM2008 gravity to the chosen degree and drag, and a seeded free or steered clock; a Levenberg-Marquardt fit of the Galileo Keplerian set on non-singular elements with weak priors, then along-track, cross-track and radial correction polynomials by linear least squares; the clock polynomial fitted net of the user's relativistic term; SISRE (orbit-only and with clock) over usage periods centred in their fit windows, versus fit interval and update period. Validated part: the 16-parameter Keplerian fit and its orbit-only SISRE against fit interval on real precise orbits; the correction polynomials, the clock fit, the update-period trade and the integrated truth remain modelled",
             module: "leo_navmsg::fit (fit_message, lstsq, polyfit); leo_navmsg::truth (TruthOrbit, TruthClock); leo_navmsg (sequence_stats, LeoNavmsgScenario)",
-            tests: "leo_navmsg::tests::a_two_body_truth_is_recovered_by_the_keplerian_fit_to_a_millimetre; leo_navmsg::tests::the_user_algorithm_reproduces_the_fitted_truth_to_a_millimetre_with_corrections; leo_navmsg::tests::the_clock_fit_returns_the_truth_clock_through_the_user_relativistic_term; leo_navmsg::tests::keplerian_sisre_grows_with_the_fit_interval_and_the_corrections_fix_it (monotonic growth from 1 to 15 minutes and at least a threefold improvement at 15 minutes); leo_navmsg::tests::defaults_run_encode_decode_without_any_preset_and_are_deterministic",
-            oracle: "Internal consistency: a two-body truth is recovered by the 16-parameter set to below 1 mm (the model is exact there), and a J2-J6 truth over one minute by the corrected set to below 1 mm. The SISRE figures are the representation error against Kshana's own integrated truth; no orbit determination or prediction error is modelled and no real LEO broadcast message is in the repository to compare with",
-            oracle_kind: InternalConsistency,
-            status: Modelled,
+            tests: "leo_navmsg::tests::a_two_body_truth_is_recovered_by_the_keplerian_fit_to_a_millimetre; leo_navmsg::tests::the_user_algorithm_reproduces_the_fitted_truth_to_a_millimetre_with_corrections; leo_navmsg::tests::the_clock_fit_returns_the_truth_clock_through_the_user_relativistic_term; leo_navmsg::tests::keplerian_sisre_grows_with_the_fit_interval_and_the_corrections_fix_it (monotonic growth from 1 to 15 minutes and at least a threefold improvement at 15 minutes); leo_navmsg::tests::defaults_run_encode_decode_without_any_preset_and_are_deterministic; tests/leo_navmsg_fit_real_orbit_oracle.rs::fitted_sisre_matches_liu_2025_on_real_orbits (TU Graz ITSG reduced-dynamic orbits of GRACE-A, GRACE-C, Sentinel-2A and Sentinel-6A fitted over 20 and 30 min arcs: along, cross and radial RMS 0.804 to 1.087 and SISRE 0.716 to 0.809 of Liu et al. 2025, inside 1.5x; SISRE weights within 0.0007 of its Table 2)",
+            oracle: "Real precise science orbits as truth (TU Graz IfG/ITSG operational reduced-dynamic orbits, free for any use with acknowledgment; SHA-256 values in the fixture NOTICE) fitted by the 16-parameter set over 20 and 30 min arcs, against the statistics Liu et al. 2025 (Remote Sensing 17(16):2894, CC BY 4.0) publish for the same satellites and days: along, cross and radial RMS each within 1.5x (measured 0.804 to 1.087), SISRE within 1.5x (measured 0.716 to 0.809) and SISRE weights within 0.005 of its Table 2 (measured 0.0007); tolerances fixed before the comparison. The per-component gate gives the test its teeth: zeroing the inclination rate leaves every SISRE ratio inside 1.5x but fails the cross-track gate. The uniform 0.72 to 0.81 SISRE ratio is the paper's: its printed SISRE values use Table 2's weights unsquared rather than its own Eq. 9, which Kshana follows (Montenbruck et al. 2018). Outside the claim: the correction polynomials, the clock fit, the update-period trade and the integrated J2-J6/EGM2008 truth, which keep their internal checks (a two-body truth recovered by the 16-parameter set to below 1 mm)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
         },
         VerificationItem {
             requirement: "Mid-pass LEO navigation message update with a continuity check at the switch",
@@ -2041,7 +2041,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "leo_navmsg::elements::EphemerisModel, variant Liu22 (the 16-parameter set plus a semi-major-axis rate, a mean-motion rate and once- and three-per-revolution radius harmonics, as Kshana reads the paper's parameter list) and EcefPoly (a per-axis ECEF polynomial with no clock terms, the relativistic term from -2 r.v/c^2, scored against a steered clock); the model-comparison analysis and Kshana's 22-parameter fit at the paper's five altitudes over 20-minute arcs beside the published SISRE",
             module: "leo_navmsg::elements (kepler_point, ephemeris_at); leo_navmsg::fit (fit_message); leo_navmsg (liu_comparison, LIU2025_TABLE)",
             tests: "leo_navmsg::tests::liu22_beats_the_16_parameter_set_over_a_20_minute_arc; leo_navmsg::tests::the_ecef_polynomial_fits_a_minute_to_millimetres; leo_navmsg::tests::every_preset_resolves_and_the_atomic_preset_selects_the_zero_clock_polynomial",
-            oracle: "Liu, Su, Xie, Zhou and Qu (2025), Remote Sensing 17(16):2894, doi 10.3390/rs17162894, SISRE 8.88, 6.21, 2.87, 2.11 and 0.75 cm at 320, 475, 786, 966 and 1336 km over a 20-minute arc, is printed beside Kshana's figures, not pinned: the paper fitted real precise science orbits and its full text (the exact parameter equations) was not accessible, so the setups differ. ATOMIC model facts from InsideGNSS (6th-order polynomial, about one minute validity, 30 s refresh, clock steered, 24 cm clock error)",
+            oracle: "Liu, Su, Xie, Zhou and Qu (2025), Remote Sensing 17(16):2894, doi 10.3390/rs17162894, SISRE 8.88, 6.21, 2.87, 2.11 and 0.75 cm at 320, 475, 786, 966 and 1336 km over a 20-minute arc, is printed beside Kshana's figures, not pinned: the paper fitted real precise science orbits and its full text (the exact parameter equations) was not accessible, so the setups differ. ATOMIC model facts from InsideGNSS (6th-order polynomial, about one minute validity, 30 s refresh, clock steered, 24 cm clock error). 0.30 external comparison, a finding (stays MODELLED): with the same TU Graz ITSG orbits and Liu et al. 2025 tables as the fitter row, Kshana's 22-parameter fit leaves 1.71x (Sentinel-2A) and 1.86x (Sentinel-6A) the published along-track RMS on 20 min arcs, above the pre-registered 1.5x, while its 30 min arcs and the 16-parameter set agree within 10 to 20 %. Likely causes, unverified: the fitter's weak zero-centred priors on the added terms and its half-n-dot convention. The paper prints identical numbers for two different 22-parameter rows in Tables 4 and 5, which lowers confidence in those rows; the comparison test is committed ignored",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -2078,7 +2078,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "Weighted least-squares Gauss-Newton fixes over any mix of systems, one receiver clock per system (the inter-system bias estimated with the position) or a known broadcast offset on the reference time scale; per-measurement sigmas supplied by the caller, by default the engine's delay-lock-loop thermal noise (navsignal::dll_code_jitter_chips) at the C/N0 of the elevation combined with the signal-in-space range error; unweighted DOP (GDOP, PDOP, HDOP, VDOP, TDOP) in the local geodetic frame, formal east-north-up sigmas and the bias sigmas; the `leo-pvt` joint mode compares GNSS-only, LEO-only and fused fixes and sweeps the DOP against the number of LEO satellites added",
             module: "leo_fusion::joint_pvt (solve, dop, code_sigma_dll_m, SystemClock); leo_fusion::system (SystemCfg, System); leo_fusion::pvt_kind (run_joint)",
             tests: "leo_fusion::joint_pvt::tests (dop_matches_the_hand_derived_zenith_plus_three_horizon_case: HDOP = VDOP = sqrt(4/3), TDOP = sqrt(1/3), PDOP = sqrt(8/3), GDOP = sqrt(3) to 1e-9; a_lone_satellite_with_its_own_clock_adds_nothing_and_a_known_offset_does; a_noise_free_fix_recovers_position_clock_and_inter_system_bias; seeded_fixes_agree_with_their_formal_covariance; dll_noise_is_the_textbook_figure_for_gps_l1_ca); leo_fusion::pvt_kind::tests (fusing_leo_never_worsens_the_median_pdop_and_the_isb_is_recovered); tests/leo_fusion_scenarios.rs (meo_leo_fusion_beats_gnss_alone_and_recovers_the_leo_bias)",
-            oracle: "A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon 120 deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output",
+            oracle: "A hand-derived four-satellite DOP (one satellite at the zenith and three on the horizon 120 deg apart, whose normal matrix inverts by hand), the structural identity that a system with its own clock and one satellite adds no geometry, noise-free recovery of position, clock and bias, and seeded errors against the covariance. Internal checks only; not compared with a receiver's output. 0.30 external comparison, a finding (stays MODELLED): on a multi-GNSS IGS day (ABMF 2018-05-13, GPS and Galileo C1C, broadcast ephemeris, Klobuchar) the inter-system bias agrees with RTKLIB v2.4.2-p13 rnx2rtkp (median difference -0.35 ns, bar 1 ns), but only 93.2 % of 280 epochs are within 3 m of the ITRF2020 coordinate against the pre-registered 95 %. RTKLIB itself reaches 88.2 % on the same data, so the bar is beyond single-frequency broadcast positioning at this station and day rather than a solver discrepancy; the comparison test is committed ignored",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -2164,6 +2164,713 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle: "The first-order dispersion identity, exact by construction against the engine's own first-order delay (whose 1/f^2 scaling is VALIDATED against IS-GPS-200 in its own row); the precision is thermal code noise only, without multipath or inter-frequency biases",
             oracle_kind: InternalConsistency,
             status: Modelled,
+        },
+    ]
+}
+
+// ── Oracle basis of every VALIDATED row (the promotion rule, applied both ways) ──
+//
+// `docs/VALIDATION.md` ("The promotion rule") names the oracle kinds a VALIDATED row may
+// rest on. `OracleKind::ExternalDataset` says only that the oracle is external; the table
+// below says WHICH accepted kind it is, and names the one test that carries the
+// comparison. The unit tests in this file require every VALIDATED row to be declared
+// exactly once, the declared source to be the one the row's own oracle text names, and
+// the declared test to be one the row cites; `tests/verification_rows_declare_an_oracle_basis.rs`
+// requires that test to exist on disk as a real, non-ignored `#[test]`.
+
+/// Which accepted oracle kind backs a VALIDATED row (`docs/VALIDATION.md`, "The promotion
+/// rule"). The kinds are disjoint by what supplies the comparand, not by how strong it is.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, serde::Serialize)]
+pub enum OracleBasis {
+    /// Measured data: the truth is an observation of the physical world (a clock record,
+    /// telemetry with ground-truth labels, a terrain survey, laser ranging, UTC(k)).
+    Measured,
+    /// An independent third-party library or tool computes the same uniquely defined
+    /// quantity on the same inputs, and implements the domain computation itself.
+    Library,
+    /// Published reference vectors, tables or verification examples: numbers a standard,
+    /// agency or reference text prints so implementations can be checked against them.
+    Reference,
+    /// Policy P1: a published worked value computed from the same closed form the row
+    /// implements, in a publication independent of Kshana, compared at a stated tolerance.
+    P1WorkedValue,
+    /// Policy P2: an independent numerical library (numpy, SciPy, LAPACK, or an equivalent
+    /// third-party numerical core) recomputes a uniquely defined linear-algebra quantity on
+    /// stated inputs by a different algorithm than Kshana's.
+    P2NumericalLibrary,
+}
+
+/// The declared oracle basis of one VALIDATED row.
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct OracleBasisEntry {
+    /// The row's `requirement` (unique in the matrix), which keys the declaration.
+    pub requirement: &'static str,
+    /// The accepted oracle kind the row rests on.
+    pub basis: OracleBasis,
+    /// The test that carries the comparison: `tests/x.rs`, `tests/x.rs::test_fn` or
+    /// `src/m.rs::test_fn`. It must be one the row cites and a real `#[test]`.
+    pub oracle_test: &'static str,
+    /// The independent source, quoted verbatim from the row's own oracle text.
+    pub source: &'static str,
+    /// Empty when the row satisfies the written rule. Otherwise the reason it does not,
+    /// recorded rather than hidden; flagged rows are listed in `docs/VALIDATION.md`.
+    pub flag: &'static str,
+}
+
+/// The oracle basis of every VALIDATED row of [`verification_matrix`], one entry per row.
+pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
+    use OracleBasis::*;
+    vec![
+        OracleBasisEntry {
+            requirement: "Frequency stability characterisation",
+            basis: Reference,
+            oracle_test: "tests/allan_reference.rs",
+            source: "NIST SP 1065",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Frequency stability on a real measured clock",
+            basis: Library,
+            oracle_test: "tests/cs5071a_reference.rs",
+            source: "Stable32",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Allan estimator parity on the canonical Stable32 reference series",
+            basis: Library,
+            oracle_test: "tests/phasedat_reference.rs",
+            source: "Stable32",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Extended-range frequency stability (Theo1 / TOTDEV)",
+            basis: Library,
+            oracle_test: "tests/theo1_totvar_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maximum Time Interval Error (MTIE) — telecom wander metric",
+            basis: Library,
+            oracle_test: "tests/mtie_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Modified Allan / Time deviation (MDEV / TDEV)",
+            basis: Library,
+            oracle_test: "tests/mdev_tdev_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Optical-clock frequency stability on a real measured curve",
+            basis: Measured,
+            oracle_test: "tests/optical_clock_adev_reference.rs",
+            source: "Norcia",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Integrity (RAIM/ARAIM/SBAS)",
+            basis: Reference,
+            oracle_test: "tests/igs_real_data.rs::real_sp3_geometry_araim_meets_the_integrity_budget",
+            source: "DO-229E/DO-316 K-factors",
+            flag: "The cited tests check plausibility ranges (metre-level HPL/VPL, VPL > HPL, APV-I availability) on real IGS geometry; no external value is compared to a stated tolerance. The K-factors are transcribed constants and the real geometry is an input, neither is an oracle. The kernel and the protection-level values are validated in their own rows (RAIM/ARAIM statistical kernel vs SciPy, SBAS PL vs RTKLIB, ARAIM MHSS vs the WG-C worked example). Re-point this row at those tests or demote it",
+        },
+        OracleBasisEntry {
+            requirement: "Orbit propagation & determination",
+            basis: Reference,
+            oracle_test: "tests/sgp4_verification.rs",
+            source: "AIAA 2006-6753",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Numerical Cowell propagator & force model",
+            basis: Library,
+            oracle_test: "tests/numerical_cowell_propagator_reference.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Batch & sequential orbit determination",
+            basis: Library,
+            oracle_test: "tests/batch_sequential_orbit_determination_reference.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Deep-space radiometric light-time solver",
+            basis: Library,
+            oracle_test: "tests/deep_space_mars_radiometric_reference.rs",
+            source: "ANISE 0.10",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Broadcast-ephemeris satellite position (multi-GNSS RINEX)",
+            basis: Library,
+            oracle_test: "tests/rinex_sp3_interop_reference.rs",
+            source: "RTKLIB v2.4.2-p13",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SP3 precise-ephemeris interpolation",
+            basis: Library,
+            oracle_test: "tests/sp3_interp_reference.rs",
+            source: "RTKLIB peph2pos",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Strapdown INS mechanization",
+            basis: Library,
+            oracle_test: "tests/classical_strapdown_ins_reference.rs",
+            source: "NaveGo v1.4",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Gravity-field functional synthesis (gravity-aided / GNSS-free nav map)",
+            basis: Reference,
+            oracle_test: "tests/icgem_gravity_reference.rs",
+            source: "GRS80",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lambert two-body transfer solver",
+            basis: Library,
+            oracle_test: "tests/lambert_reference.rs",
+            source: "lamberthub 1.0.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Reference frames & timescales",
+            basis: Reference,
+            oracle_test: "tests/frame_reference_vectors.rs",
+            source: "SOFA / ERFA reference vectors",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Ranging-code design trade",
+            basis: P1WorkedValue,
+            oracle_test: "src/navsignal.rs::gps_ca_gold_crosscorr_matches_textbook",
+            source: "Published GPS C/A Gold cross-correlation",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS geometry / dilution of precision (DOP)",
+            basis: Library,
+            oracle_test: "tests/dop_reference.rs",
+            source: "gnss_lib_py 1.0.4",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Broadcast ionosphere model (Klobuchar, IS-GPS-200)",
+            basis: Library,
+            oracle_test: "tests/klobuchar_reference.rs",
+            source: "RTKLIB ionmodel",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "RAIM/ARAIM integrity statistical kernel (χ² / non-central χ² / normal laws)",
+            basis: Library,
+            oracle_test: "tests/raim_reference.rs",
+            source: "SciPy 1.17.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SBAS protection level (DO-229E weighted-LS HPL/VPL)",
+            basis: Library,
+            oracle_test: "tests/sbas_reference.rs",
+            source: "RTKLIB SBAS-PL fork",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "ML detector-evaluation metrics (ROC/AUC/confusion/Pfa-Pmd)",
+            basis: Library,
+            oracle_test: "tests/eval_metrics_reference.rs",
+            source: "scikit-learn 1.9.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Anomaly-detection scoring on real spacecraft telemetry",
+            basis: Library,
+            oracle_test: "tests/opssat_ad_reference.rs",
+            source: "scikit-learn roc_auc_score",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Quantum-trade numerical kernels (NNLS / χ² bands / van-Loan Q)",
+            basis: Library,
+            oracle_test: "tests/scipy_reference.rs",
+            source: "scipy 1.17.1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Geomagnetic reference field (IGRF-14 synthesis)",
+            basis: Library,
+            oracle_test: "tests/alternative_complementary_pnt_reference.rs",
+            source: "ppigrf 2.1.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Detection statistics — Gaussian AUC & minimum detectable fault",
+            basis: Library,
+            oracle_test: "tests/quantum_faults_reference.rs",
+            source: "scikit-learn roc_auc_score",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Rank-order statistics kernel (Kendall-τ / Dirichlet / percentile)",
+            basis: Library,
+            oracle_test: "tests/resilience_score_decision_instability_reference.rs",
+            source: "stats.kendalltau",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA priority-derivation kernel (AHP eigenvector / consistency ratio)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/mcda_ahp_reference.rs",
+            source: "scipy.linalg.eig",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA weighted-aggregation kernels (WSM / WPM)",
+            basis: Library,
+            oracle_test: "tests/mcda_wsm_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA distance-to-ideal ranking (TOPSIS)",
+            basis: Library,
+            oracle_test: "tests/mcda_topsis_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA compromise ranking (VIKOR)",
+            basis: Library,
+            oracle_test: "tests/mcda_vikor_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA outranking net-flow ranking (PROMETHEE II)",
+            basis: Library,
+            oracle_test: "tests/mcda_promethee_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA outranking choice kernel (ELECTRE I)",
+            basis: Library,
+            oracle_test: "tests/mcda_electre_reference.rs",
+            source: "pyDecision",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA aggregation kernels (WASPAS / MOORA)",
+            basis: Library,
+            oracle_test: "tests/mcda_waspas_reference.rs",
+            source: "pymcdm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "MCDA proportional ranking (COPRAS)",
+            basis: Library,
+            oracle_test: "tests/mcda_copras_reference.rs",
+            source: "pyDecision",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CUSUM change-detection latency & ARL",
+            basis: Reference,
+            oracle_test: "tests/timing_protection_level_under_spoofing_reference.rs::cusum_arl1_matches_siegmund_and_montgomery",
+            source: "Montgomery",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Clock-holdover coast-variance & threshold inversion",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/gnss_denied_clock_holdover_reference.rs",
+            source: "scipy 1.18 (BSD-3-Clause): linalg.expm",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Inverse-Simpson diversity kernel",
+            basis: Library,
+            oracle_test: "tests/resilience_diversity_reference.rs",
+            source: "scikit-bio 0.7.3",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GPS L1 C/A spreading-code generation",
+            basis: Reference,
+            oracle_test: "src/sdr.rs::ca_first_ten_chips_match_is_gps_200_octal",
+            source: "IS-GPS-200 Table 3-Ia",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Cislunar mission analysis",
+            basis: Reference,
+            oracle_test: "tests/cislunar_mission_analysis_reference.rs",
+            source: "Three-Body Periodic Orbit Database",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SRTM digital-elevation reader on real terrain",
+            basis: Measured,
+            oracle_test: "tests/terrain_nav_validation.rs::real_srtm_committed_badwater_tile_reads_real_relief",
+            source: "SRTM v3",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CCSDS OEM interoperability (GMAT/Orekit/STK ephemeris import)",
+            basis: Library,
+            oracle_test: "tests/ccsds_oem_interop_reference.rs",
+            source: "B. Sease",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CCSDS Space Packet (133.0) TM/TC framing",
+            basis: Library,
+            oracle_test: "tests/ccsds_space_packet_reference.rs",
+            source: "spacepackets 0.32.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Ground-station pass prediction (ground segment)",
+            basis: Library,
+            oracle_test: "tests/ground_station_pass_prediction_reference.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "One-way link budget (comms / link design)",
+            basis: P1WorkedValue,
+            oracle_test: "tests/one_way_link_budget_reference.rs",
+            source: "JPL Pub 82-76",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar coordinate time",
+            basis: P1WorkedValue,
+            oracle_test: "tests/lunar_coordinate_time_reference.rs",
+            source: "Ashby & Patla 2024",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Fisher information & Cramér–Rao observability",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/fim_observability_reference.rs",
+            source: "numpy.linalg.eigh",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar reference-frame realisation",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_reference_frame_realisation_reference.rs",
+            source: "numpy/scipy SVD",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar navigation service volume",
+            basis: Library,
+            oracle_test: "tests/lunar_navigation_service_volume_reference.rs",
+            source: "ANISE 0.10.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Wahba/TRIAD/QUEST attitude determination",
+            basis: Library,
+            oracle_test: "tests/wahba_reference.rs",
+            source: "Rotation.align_vectors",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS square-law acquisition detection statistics",
+            basis: Library,
+            oracle_test: "tests/acquisition_reference.rs",
+            source: "scipy.stats.ncx2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CRPA anti-jam array beamforming",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/crpa_reference.rs",
+            source: "numpy.linalg",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "IEEE-1139 power-law clock noise + flicker-FM floor",
+            basis: Library,
+            oracle_test: "tests/powerlaw_oadev_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CCSDS OEM covariance-block interchange",
+            basis: Library,
+            oracle_test: "tests/ccsds_oem_covariance_reference.rs",
+            source: "oem 0.4.5",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar ARAIM protection-level kernel",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_protection_level_reference.rs",
+            source: "RTKLIB 2.4.2-p13",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "ARAIM MHSS protection levels against published reference vectors",
+            basis: Reference,
+            oracle_test: "tests/araim_reference_vectors.rs",
+            source: "Working Group C",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Built-in analytic lunar ephemeris — its STATED ACCURACY BOUND checked against real data",
+            basis: Measured,
+            oracle_test: "tests/lunar_llr_real_data.rs::the_analytic_moon_series_disagrees_with_jpl_by_the_same_amount",
+            source: "lunar laser-ranging normal points",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Composed timing PL — holdover envelope coverage, multi-year regime (tau>=90d)",
+            basis: Measured,
+            oracle_test: "tests/cti_holdover_coverage_reference.rs",
+            source: "BIPM Circular-T",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar datum identifiability - decomposition linear algebra",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_datum_identifiability_reference.rs::decompose_matches_scipy_reference",
+            source: "SciPy/NumPy",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Coupled lunar frame and timescale gauge: the joint spatial-datum, clock-offset and clock-rate null space",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_coupled_gauge_reference.rs::coupled_gauge_matches_numpy_on_real_de440_rows",
+            source: "numpy/LAPACK",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Cross-provider lunar frame/dynamics consistency (real inter-ephemeris)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_interop_budget_reference.rs",
+            source: "numpy SVD least-squares",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Autonomous free-network fault-observability linear-algebra pipeline (parity projector, detectability, MDB non-centrality, Byzantine block-spark)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/lunar_faultobs_reference.rs::faultobs_matches_numpy_scipy_on_real_de440_rows",
+            source: "numpy/scipy",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Telecom-timing MTIE and TDEV on a holdover time-error series",
+            basis: Library,
+            oracle_test: "tests/telecom_timing_reference.rs",
+            source: "allantools 2024.06",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Holdover prediction from a measured clock record, checked on held-out data",
+            basis: Measured,
+            oracle_test: "tests/slot_timing_cs5071a_holdout.rs::holdover_inversion_predicts_the_held_out_caesium_record",
+            source: "5071A caesium",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Closed-form L-band signal power spectral densities and spectral separation coefficients",
+            basis: P1WorkedValue,
+            oracle_test: "src/spectrum.rs::q_values_match_kaplan_hegarty",
+            source: "Kaplan & Hegarty",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Planet positions across the solar system from the JPL Standish Keplerian elements",
+            basis: Reference,
+            oracle_test: "tests/solar_system_horizons_reference.rs::standish_table1_mercury_to_saturn_within_twice_the_nominal_error",
+            source: "JPL Horizons",
+            flag: "The oracle is external (JPL Horizons, DE441) but the bar, twice the nominal error the JPL page states, was set after the first comparison. The promotion rule requires the tolerance to be stated before the comparison is run. Re-derive the bar from a published figure fixed in advance, or record the post-hoc bar as a limitation and decide whether the row keeps its status",
+        },
+        OracleBasisEntry {
+            requirement: "Light time between solar-system bodies",
+            basis: Reference,
+            oracle_test: "tests/solar_system_horizons_reference.rs::light_time_matches_horizons_within_the_position_bound",
+            source: "JPL Horizons",
+            flag: "The light-time bar is derived from the post-hoc twice-nominal Standish position bar of the planet-position row, so it inherits the same defect: the tolerance was not fixed before the first comparison",
+        },
+        OracleBasisEntry {
+            requirement: "Walker constellation geometry and the published nominal slots of GPS, Galileo and GLONASS",
+            basis: Reference,
+            oracle_test: "src/constellation.rs::walker_24_3_1_reproduces_galileo_os_sdd_table_23",
+            source: "Galileo Open Service Service Definition Document",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Global dilution of precision of the GPS baseline constellation",
+            basis: Reference,
+            oracle_test: "src/constellation.rs::gps_baseline_global_dop_matches_the_sps_performance_standard",
+            source: "GPS SPS PS 5th edition",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Band-limited closed forms for any ranging signal: power in band and early-late code-tracking jitter against published values, with the Gabor bandwidth and offset spectral separation cross-checked",
+            basis: P1WorkedValue,
+            oracle_test: "src/navsignal.rs::bpsk_power_in_band_closed_form_matches_textbook_and_numeric",
+            source: "90.3 per cent main-lobe power",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maximum Doppler of a low Earth orbit navigation satellite, which sizes the acquisition search",
+            basis: P1WorkedValue,
+            oracle_test: "src/leo_signal.rs::max_doppler_matches_published_xona_and_iridium_figures",
+            source: "Xona Pulsar X1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Rain specific-attenuation coefficients for any band a LEO-PNT link uses",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p838_coefficients_reproduce_table5_to_its_printed_digits",
+            source: "ITU-R P.838-3",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Long-term slant-path rain attenuation on an Earth-space link",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p618_rain_attenuation_matches_the_itu_validation_examples",
+            source: "validation examples",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Tropospheric amplitude scintillation on an Earth-space link",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p618_scintillation_matches_the_itu_validation_examples",
+            source: "validation examples",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Building entry loss for an indoor LEO-PNT user",
+            basis: Reference,
+            oracle_test: "tests/leo_link_reference.rs::p2109_building_entry_loss_matches_the_itu_workbook",
+            source: "validation workbook",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "First-order ionospheric delay per band, the ionosphere-free combination and free-space loss",
+            basis: P1WorkedValue,
+            oracle_test: "tests/leo_link_reference.rs::first_order_iono_reproduces_the_is_gps_200_group_delay_ratio",
+            source: "IS-GPS-200",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maximum Doppler a static user sees from a LEO or MEO orbit",
+            basis: P1WorkedValue,
+            oracle_test: "tests/leo_link_reference.rs::doppler_envelope_reproduces_the_pulsar_paper_table_1",
+            source: "Table 1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Global-average signal-in-space range error weights for any orbit altitude",
+            basis: P1WorkedValue,
+            oracle_test: "src/leo_navmsg/sisre.rs::weights_reproduce_the_published_meo_and_geo_table",
+            source: "Montenbruck, Steigenberger and Hauschild (2018)",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Galileo ICD broadcast-ephemeris user algorithm as the base of a LEO navigation message",
+            basis: Library,
+            oracle_test: "tests/leo_navmsg_reference.rs::the_galileo_user_algorithm_reproduces_rtklib_to_a_millimetre",
+            source: "RTKLIB 2.4.2-p13 eph2pos",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "CRC-24Q frame check for the LEO navigation message",
+            basis: Reference,
+            oracle_test: "src/leo_navmsg/codec.rs::crc24q_matches_the_catalogue_check_value",
+            source: "CRC catalogue check value",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Doppler a ground receiver must handle from a LEO navigation satellite",
+            basis: P1WorkedValue,
+            oracle_test: "tests/leo_doppler_reference.rs::iridium_doppler_reaches_the_published_36_khz",
+            source: "Iridium Doppler",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS/INS sensor fusion",
+            basis: Library,
+            oracle_test: "tests/gnss_ins_navego_dataset_oracle.rs::loosely_coupled_rms_within_1p2x_of_navego",
+            source: "NaveGo v1.4",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "3-DOF attitude & pointing error budget (AOCS)",
+            basis: Library,
+            oracle_test: "tests/attitude_gg_torque_basilisk_oracle.rs::gravity_gradient_torque_matches_basilisk",
+            source: "Basilisk 2.9.1 GravityGradientEffector",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Lunar joint communications-and-navigation geometry",
+            basis: Library,
+            oracle_test: "tests/lunar_service_geometry_oracle.rs::look_angles_match_anise_at_selenographic_sites",
+            source: "ANISE 0.10.2",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Torque-free rigid-body attitude dynamics",
+            basis: Library,
+            oracle_test: "tests/attitude_dynamics_basilisk_oracle.rs::torque_free_motion_matches_basilisk",
+            source: "Basilisk 2.9.1 spacecraft hub",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS carrier-phase integer ambiguity resolution (LAMBDA)",
+            basis: Library,
+            oracle_test: "tests/lambda_rtklib_oracle.rs::ils_solution_matches_rtklib_lambda_on_300_covariances",
+            source: "RTKLIB v2.4.2-p13",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Composed timing PL — scalar MHSS specialization (H=1_N)",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/tpl_scalar_numpy_oracle.rs::scalar_mhss_pl_matches_numpy",
+            source: "numpy 2.3.5",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GLS common-mode whitening (Aitken) + Mahalanobis identity",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/gls_whitening_numpy_oracle.rs::whitening_and_mahalanobis_match_numpy_lapack",
+            source: "numpy 2.3.5",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "DE440 lunar principal-axis orientation provider",
+            basis: Library,
+            oracle_test: "tests/lunar_pa_orientation_spice_oracle.rs::interpolated_rotation_matches_direct_kernel_evaluation_off_node",
+            source: "NAIF SPICE Toolkit",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "SigMF recording input and output, and Welch spectral estimates of complex IQ",
+            basis: Library,
+            oracle_test: "tests/sigmf_welch_oracle.rs::welch_and_sigmf_io_match_scipy_and_sigmf_python",
+            source: "scipy 1.18.1 scipy.signal.welch",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period",
+            basis: Measured,
+            oracle_test: "tests/leo_navmsg_fit_real_orbit_oracle.rs::fitted_sisre_matches_liu_2025_on_real_orbits",
+            source: "Liu et al. 2025",
+            flag: "",
         },
     ]
 }
@@ -2663,6 +3370,125 @@ mod tests {
         assert!(
             s.validated >= 4,
             "expected a real externally-validated core"
+        );
+    }
+
+    // ── The promotion rule, applied both ways: every VALIDATED row declares which
+    // accepted oracle kind backs it, and nothing else may declare one ────────────
+    #[test]
+    fn every_validated_row_declares_exactly_one_oracle_basis() {
+        let m = verification_matrix();
+        let basis = validated_oracle_basis();
+        for it in m
+            .iter()
+            .filter(|i| i.status == VerificationStatus::Validated)
+        {
+            let n = basis
+                .iter()
+                .filter(|b| b.requirement == it.requirement)
+                .count();
+            assert_eq!(
+                n, 1,
+                "Validated row '{}' must declare exactly one oracle basis (found {n})",
+                it.requirement
+            );
+        }
+        for b in &basis {
+            let row = m.iter().find(|i| i.requirement == b.requirement);
+            assert!(
+                matches!(row, Some(r) if r.status == VerificationStatus::Validated),
+                "oracle basis declared for '{}', which is not a Validated row",
+                b.requirement
+            );
+        }
+    }
+
+    /// The row a declaration is keyed to.
+    fn row_of(b: &OracleBasisEntry) -> VerificationItem {
+        verification_matrix()
+            .into_iter()
+            .find(|i| i.requirement == b.requirement)
+            .expect("declaration keyed to a matrix row (checked above)")
+    }
+
+    #[test]
+    fn a_declared_basis_quotes_the_rows_own_source_and_test() {
+        for b in validated_oracle_basis() {
+            let row = row_of(&b);
+            assert!(
+                !b.source.trim().is_empty()
+                    && row.oracle.to_lowercase().contains(&b.source.to_lowercase()),
+                "row '{}': declared source '{}' is not named in the row's oracle text",
+                b.requirement,
+                b.source
+            );
+            // Our own second implementation, or our own earlier output, is never the oracle.
+            assert!(
+                !b.source.to_lowercase().contains("kshana"),
+                "row '{}': the declared source is Kshana itself",
+                b.requirement
+            );
+            let path = b.oracle_test.split("::").next().unwrap_or("");
+            assert!(
+                path.ends_with(".rs") && (path.starts_with("tests/") || path.starts_with("src/")),
+                "row '{}': oracle test '{}' must be tests/*.rs or src/*.rs, optionally ::test_fn",
+                b.requirement,
+                b.oracle_test
+            );
+            let module = path.strip_prefix("src/").map(|p| {
+                p.trim_end_matches(".rs")
+                    .trim_end_matches("/mod")
+                    .replace('/', "::")
+            });
+            let cited = row.tests.contains(path)
+                || module
+                    .as_deref()
+                    .is_some_and(|m| row.tests.contains(&format!("{m}::")));
+            assert!(
+                cited,
+                "row '{}': oracle test '{}' is not one the row cites in its tests field",
+                b.requirement, b.oracle_test
+            );
+        }
+    }
+
+    #[test]
+    fn p2_rows_name_an_independent_numerical_library() {
+        const NUMERICAL: [&str; 4] = ["numpy", "scipy", "lapack", "rtklib"];
+        for b in validated_oracle_basis()
+            .into_iter()
+            .filter(|b| b.basis == OracleBasis::P2NumericalLibrary)
+        {
+            let s = b.source.to_lowercase();
+            assert!(
+                NUMERICAL.iter().any(|n| s.contains(n)),
+                "P2 row '{}': source '{}' is not an independent numerical library",
+                b.requirement,
+                b.source
+            );
+        }
+    }
+
+    // Rows the written rule does not support are flagged, never silently kept; the list is
+    // pinned here and printed in docs/VALIDATION.md ("Existing VALIDATED rows re-examined").
+    #[test]
+    fn flagged_rows_are_exactly_the_documented_ones() {
+        const FLAGGED: [&str; 3] = [
+            "Integrity (RAIM/ARAIM/SBAS)",
+            "Planet positions across the solar system from the JPL Standish Keplerian elements",
+            "Light time between solar-system bodies",
+        ];
+        let mut got: Vec<&str> = validated_oracle_basis()
+            .into_iter()
+            .filter(|b| !b.flag.is_empty())
+            .map(|b| b.requirement)
+            .collect();
+        got.sort_unstable();
+        let mut want = FLAGGED.to_vec();
+        want.sort_unstable();
+        assert_eq!(
+            got, want,
+            "flagged rows changed: update docs/VALIDATION.md too"
         );
     }
 
