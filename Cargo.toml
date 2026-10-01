@@ -91,8 +91,11 @@ exclude = [
     "/scripts",
     "/commands",
     "/examples",
-    # The README's Studio screenshot capture script (a Node.js tool, no part of the engine).
+    # The README's screenshot tools: the Studio and site capture scripts (Node.js) and the
+    # tool that compresses them into the README's copies (no part of the engine).
     "/tools/capture_studio_shots.mjs",
+    "/tools/capture_site_shots.mjs",
+    "/tools/readme_shots.py",
 ]
 
 [lib]
