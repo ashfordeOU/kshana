@@ -73,6 +73,52 @@
 //!
 //! Any failure leaves the row MODELLED with the gap recorded; no bar changes after the run.
 
+use kshana::eo_payload::{ground_track_spacing_equator_j2, swath_width};
+
+const EXEMPT: &str =
+    include_str!("fixtures/eo_payload_coverage_orekit_oracle/exempt_flag_points.txt");
+
+const ALTS_KM: [f64; 7] = [400.0, 550.0, 700.0, 850.0, 1000.0, 1200.0, 1500.0];
+const INCS_DEG: [f64; 6] = [1.0, 30.0, 51.6, 70.0, 90.0, 98.0];
+const HALF_FOVS_DEG: [f64; 4] = [7.5, 25.0, 40.0, 50.0];
+
+/// The contiguous-flag exemption list, recomputed from the engine alone: every grid point whose
+/// swath / spacing ratio lies within +-0.1 % of 1, as "h_km i_deg half_fov_deg ratio".
+fn engine_exempt_points() -> Vec<String> {
+    let mut out = Vec::new();
+    for h in ALTS_KM {
+        for i in INCS_DEG {
+            for f in HALF_FOVS_DEG {
+                let sw = swath_width(f.to_radians(), h * 1e3).unwrap();
+                let sp = ground_track_spacing_equator_j2(h * 1e3, i.to_radians());
+                let ratio = sw / sp;
+                if (ratio - 1.0).abs() <= 1e-3 {
+                    out.push(format!("{h} {i} {f} {ratio:.6}"));
+                }
+            }
+        }
+    }
+    out
+}
+
+/// The committed exemption list (written before the oracle ran) is the engine's.
+#[test]
+fn exempt_flag_points_are_the_engines() {
+    let committed: Vec<String> = EXEMPT
+        .lines()
+        .map(str::trim)
+        .filter(|l| !l.is_empty() && !l.starts_with('#'))
+        .map(String::from)
+        .collect();
+    let engine = engine_exempt_points();
+    if std::env::var_os("EO_PRINT_EXEMPT").is_some() {
+        for l in &engine {
+            println!("{l}");
+        }
+    }
+    assert_eq!(committed, engine);
+}
+
 #[test]
 #[ignore = "pre-registered; not yet run"]
 fn eo_coverage_matches_orekit_and_geographiclib() {

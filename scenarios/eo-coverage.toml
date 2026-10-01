@@ -5,8 +5,9 @@
 # period and equatorial ground-track spacing (with a contiguous-coverage flag).
 #
 # HONEST SCOPE: MODELLED spherical-Earth geometry only -- no radiometry / MTF /
-# atmosphere / pointing-jitter / sun-glint model; ground-track spacing is the
-# simple nodal R_e*omega*T (no J2 nodal regression).
+# atmosphere / pointing-jitter / sun-glint model. Ground-track spacing is
+# R_e*(omega - dOmega/dt)*T_nodal with first-order J2 secular rates; the
+# inclination defaults to the sun-synchronous one for the altitude.
 # Run:  kshana scenarios/eo-coverage.toml
 kind = "eo-coverage"
 
@@ -14,3 +15,4 @@ altitude_km = 700.0
 half_fov_deg = 7.5               # nadir half-angle from boresight
 ifov_microrad = 14.0             # per-pixel IFOV for the nadir GSD
 max_off_nadir_deg = 45.0         # slewable field of regard
+# inclination_deg = 98.19        # optional; sun-synchronous when absent
