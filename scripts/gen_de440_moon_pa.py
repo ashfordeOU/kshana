@@ -20,7 +20,8 @@ Columns: t_tt_jc, r00, r01, r02, r10, r11, r12, r20, r21, r22
   t_tt_jc = (JD_TDB - 2451545.0) / 36525.0   [Julian centuries from J2000]
   r{i}{j}  = element (i,j) of the 3×3 MOON_PA_DE440 → J2000 rotation matrix
 
-Window: 2024-01-01 00:00:00 TDB for 730 days at 1-day cadence (731 rows).
+Window: 2014-01-01 00:00:00 TDB to 2030-12-31 at 1-day cadence (6209 rows; the first
+release covered 2024-2025 only, 731 rows; re-extracted, those nodes agree to 4.3e-13).
 TT vs TDB: differ by <2 ms (periodic, bounded); the column is labelled t_tt_jc
 but the epochs are TDB.  The difference is ≪1 μrad/s × 2 ms < 1 nrad and is
 immaterial to libration at any precision relevant here (Modelled assumption,
@@ -55,7 +56,7 @@ except ImportError:
 # ---------------------------------------------------------------------------
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 REPO_ROOT  = os.path.dirname(SCRIPT_DIR)
-ORACLE_KRN = "/tmp/kshana-oracles/kernels"   # fetched companion kernels + large kernels
+ORACLE_KRN = os.path.join(os.environ.get("KSHANA_ORACLES", os.path.expanduser("~/Code/kshana-oracles")), "data", "naif")  # fetched companion kernels + large kernels
 
 # Resolve BPC: prefer local repo copy (for CI), fall back to oracle dir
 _bpc_local = os.path.join(REPO_ROOT, "xval", "anise-lunar-od", "kernels",
@@ -102,9 +103,9 @@ FRAME_31008_CENTER       = 301
 # ---------------------------------------------------------------------------
 J2000_JD   = 2_451_545.0      # J2000.0 in Julian Date
 SEC_PER_JC = 36_525.0 * 86_400.0
-START_TDB  = "2024-01-01 00:00:00 TDB"
-N_DAYS     = 730
-CADENCE_D  = 1                 # 1-day cadence → 731 rows
+START_TDB  = "2014-01-01 00:00:00 TDB"
+N_DAYS     = 6208              # through 2030-12-31
+CADENCE_D  = 1                 # 1-day cadence → 6209 rows
 
 
 def main() -> None:
@@ -192,7 +193,7 @@ def main() -> None:
 
         lon_amp = (max(lons) - min(lons)) / 2.0
         lat_amp = (max(lats) - min(lats)) / 2.0
-        print(f"\nSanity check — sub-Earth point libration amplitude (730-day window):")
+        print(f"\nSanity check — sub-Earth point libration amplitude (2014-2030 window):")
         print(f"  Longitude: {min(lons):.3f}° to {max(lons):.3f}°  amplitude = {lon_amp:.3f}°")
         print(f"  Latitude:  {min(lats):.3f}° to {max(lats):.3f}°  amplitude = {lat_amp:.3f}°")
 

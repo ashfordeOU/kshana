@@ -88,12 +88,29 @@
 //! pre-registered figure; promotion impossible because of APOLLO), the 160 points of the two
 //! ITRF2020 stations, and APOLLO alone. Grasse 7845 and Matera 7941 take their ITRF2020 values
 //! (identical in SLRF2020 to the printed digits).
+//!
+//! ### Round 2 result (2026-10-01): DISAGREES, and BLOCKED for APOLLO; the row stays MODELLED
+//!
+//! * All 192 points: RMS **10.94 m**, mean 10.91 m, against 10 m (22.7 m before). Grasse 7845
+//!   (151) 10.99 m, Matera 7941 (9) 10.49 m, APOLLO 7045 (32, approximate position) 10.84 m;
+//!   the two ITRF2020 stations together (160) 10.96 m. 2015 slice (349, secondary, now inside the
+//!   series span): RMS 11.25 m, mean 11.00 m (2.18e6 m before, the clamp).
+//! * What remains is a near-constant offset: the scatter about the mean is 0.77 m over the 192
+//!   points (0.59 m for APOLLO) and 2.4 m in 2015, with the same +10.5 to +11.0 m mean at every
+//!   station and in both years. A common offset of that size is what the model's stated omissions
+//!   (no relativistic time-scale transformation of the DE440 TDB-frame Moon vector to the
+//!   geocentric TT frame, no solar term) are expected to leave; that is an inference, not tested
+//!   here, and adding those terms would be a new comparison.
+//! * Engine effect, shown by mutation: dropping polar motion (x_p = y_p = 0 inside
+//!   `lunar_vlbi::station_inertial_position_itrs`) raises the RMS to 12.52 m (APOLLO 14.66 m).
 
 use kshana::cio::gcrs_to_itrs_matrix;
 use kshana::frames::Geodetic;
-use kshana::lunar_llr_geometry::{reflectors, stations};
-use kshana::lunar_orientation::de440_moon_pa_body_to_inertial;
-use kshana::lunar_vlbi::station_inertial_position;
+use kshana::lunar_llr_geometry::{reflectors, stations, stations_itrf, ItrfStation};
+use kshana::lunar_orientation::{
+    de440_moon_pa_body_to_inertial, try_de440_moon_pa_body_to_inertial,
+};
+use kshana::lunar_vlbi::{station_inertial_position, station_inertial_position_itrs};
 use kshana::timescales::{utc_to_tt, utc_to_ut1};
 
 const CSV: &str = include_str!("fixtures/lunar_llr_geometry_range_oracle/reference.csv");
@@ -131,6 +148,9 @@ struct Np {
     moon: V3,
     /// Diagnostic only: MOON_PA_DE440 -> J2000 straight from the kernel (SPICE `pxform`).
     diag_rot: [[f64; 3]; 3],
+    /// Round 2: IERS Bulletin A polar motion (arcsec).
+    xp_as: f64,
+    yp_as: f64,
 }
 
 fn normal_points() -> Vec<Np> {
@@ -138,7 +158,7 @@ fn normal_points() -> Vec<Np> {
         .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
         .map(|l| {
             let f: Vec<&str> = l.split(',').collect();
-            assert_eq!(f.len(), 24, "bad row {l}");
+            assert_eq!(f.len(), 26, "bad row {l}");
             let p = |i: usize| f[i].parse::<f64>().unwrap_or_else(|e| panic!("{l}: {e}"));
             Np {
                 slice: f[0].to_string(),
@@ -158,9 +178,24 @@ fn normal_points() -> Vec<Np> {
                     [p(18), p(19), p(20)],
                     [p(21), p(22), p(23)],
                 ],
+                xp_as: p(24),
+                yp_as: p(25),
             }
         })
         .collect()
+}
+
+/// The model of the station and the Earth orientation used for a residual.
+#[derive(Clone, Copy, PartialEq)]
+enum Model {
+    /// The first comparison: the geodetic catalogue `stations()`, no polar motion.
+    Round1,
+    /// Round 2: `stations_itrf()` (ITRF2020 with velocity; APOLLO approximate) and polar motion.
+    Round2,
+}
+
+fn itrf_station(id: u32) -> Option<ItrfStation> {
+    stations_itrf().into_iter().find(|s| s.cdp_id == id)
 }
 
 fn catalogue_station(id: u32) -> Option<Geodetic> {
@@ -253,12 +288,34 @@ struct Residual {
 }
 
 fn residuals() -> (Vec<Residual>, usize) {
+    residuals_with(Model::Round1)
+}
+
+fn residuals_with(model: Model) -> (Vec<Residual>, usize) {
     let mut out = Vec::new();
     let mut skipped = 0;
     for np in normal_points() {
         let Some(g) = catalogue_station(np.station) else {
             skipped += 1;
             continue;
+        };
+        let itrf = itrf_station(np.station);
+        if model == Model::Round2 && itrf.is_none() {
+            skipped += 1;
+            continue;
+        }
+        let as_rad = std::f64::consts::PI / (180.0 * 3600.0);
+        let (xp, yp) = match model {
+            Model::Round1 => (0.0, 0.0),
+            Model::Round2 => (np.xp_as * as_rad, np.yp_as * as_rad),
+        };
+        let place = |jd_tt: f64, jd_ut1: f64| -> V3 {
+            match (model, itrf) {
+                (Model::Round2, Some(st)) => {
+                    station_inertial_position_itrs(st.itrs_position(jd_tt), jd_tt, jd_ut1, xp, yp)
+                }
+                _ => station_inertial_position(g, jd_tt, jd_ut1),
+            }
         };
         let pa = catalogue_reflector(&np.target);
         let jd0 = 2_400_000.5 + np.mjd + np.sod / 86_400.0;
@@ -269,10 +326,17 @@ fn residuals() -> (Vec<Residual>, usize) {
         let (tt0, ut0) = at(0.0);
         let (tt2, ut2) = at(np.tof);
         let (ttb, _) = at(0.5 * np.tof);
-        let r_sta0 = station_inertial_position(g, tt0, ut0);
-        let r_sta2 = station_inertial_position(g, tt2, ut2);
+        let r_sta0 = place(tt0, ut0);
+        let r_sta2 = place(tt2, ut2);
         let tb_jc = (ttb - 2_451_545.0) / 36_525.0;
-        let r_ref = add(np.moon, de440_moon_pa_body_to_inertial(pa, tb_jc));
+        let r_ref = match model {
+            Model::Round1 => add(np.moon, de440_moon_pa_body_to_inertial(pa, tb_jc)),
+            Model::Round2 => add(
+                np.moon,
+                try_de440_moon_pa_body_to_inertial(pa, tb_jc)
+                    .unwrap_or_else(|e| panic!("normal point outside the orientation span: {e}")),
+            ),
+        };
         let k = np.diag_rot;
         let r_ref_diag = add(
             np.moon,
@@ -298,7 +362,7 @@ fn residuals() -> (Vec<Residual>, usize) {
                 + shapiro(GM_MOON, r_moon_ref, norm(sub(r_sta2, np.moon)), rho_dn));
 
         // Elevation of the up-leg line of sight in the station's geodetic frame.
-        let m = gcrs_to_itrs_matrix(tt0, ut0, 0.0, 0.0);
+        let m = gcrs_to_itrs_matrix(tt0, ut0, xp, yp);
         let los = [
             m[0][0] * up[0] + m[0][1] * up[1] + m[0][2] * up[2],
             m[1][0] * up[0] + m[1][1] * up[1] + m[1][2] * up[2],
@@ -396,13 +460,94 @@ fn reflector_ranges_against_ilrs_normal_points() {
         (20.0..25.0).contains(&rms_diag),
         "the kernel-orientation diagnostic RMS was 22.7 m, now {rms_diag:.2} m"
     );
-    assert!(n15 == 349 && rms15 > 1.0e6, "the 2015 clamp finding moved");
+    // The 2015 clamp finding (RMS 2.18e6 m) is gone: the series now spans 2014-2030 and
+    // errors outside it, so the 2015 points are placed with their own orientation.
+    assert!(
+        n15 == 349 && (13.0..17.0).contains(&rms15),
+        "the 2015 first-model RMS was 15.0 m once the clamp was removed, now {rms15:.2} m"
+    );
+}
+
+/// Round 2 residual statistics: (all 192, the two ITRF2020 stations, APOLLO alone, 2015 slice).
+fn round2_stats() -> [(usize, f64, f64); 4] {
+    let (res, skipped) = residuals_with(Model::Round2);
+    assert_eq!(
+        skipped, 0,
+        "every normal-point station is in stations_itrf()"
+    );
+    let pick = |slice: &str, f: &dyn Fn(u32) -> bool| -> Vec<f64> {
+        res.iter()
+            .filter(|r| r.slice == slice && f(r.station))
+            .map(|r| r.res_m)
+            .collect()
+    };
+    [
+        stats(&pick("2024", &|_| true)),
+        stats(&pick("2024", &|s| s != 7045)),
+        stats(&pick("2024", &|s| s == 7045)),
+        stats(&pick("2015", &|_| true)),
+    ]
 }
 
 /// Pre-registered (round 2 amendment above): ITRF2020/SLRF2020 stations, polar motion and the
 /// extended, non-clamping orientation series against the same 192 normal points at 10 m.
+/// The round 2 finding, pinned in the gate: with ITRF2020 stations, polar motion and the
+/// non-clamping series the 2024 RMS falls from 22.7 m to 10.94 m, still above the 10 m bar, and
+/// what remains is a near-constant offset of about +10.9 m common to every station and to both
+/// years (scatter 0.6 to 0.8 m in 2024, 2.4 m in 2015), the signature of a term the pre-registered model leaves out (it
+/// states no relativistic time-scale transformation and Shapiro delay from the Earth and the Moon
+/// only). The bounds below were set after the run: a characterisation, never a promotion basis.
 #[test]
-#[ignore = "pre-registered; not yet run"]
+fn round2_finding_is_a_common_offset_of_about_eleven_metres() {
+    let s = round2_stats();
+    let scatter = |(_, mean, rms): (usize, f64, f64)| (rms * rms - mean * mean).max(0.0).sqrt();
+    assert_eq!((s[0].0, s[1].0, s[2].0, s[3].0), (192, 160, 32, 349));
+    assert!(
+        s[0].2 > RMS_TOL_M,
+        "the round 2 RMS is now within 10 m ({:.3} m): re-examine M091",
+        s[0].2
+    );
+    for (i, v) in s.iter().enumerate() {
+        assert!(
+            (10.0..12.0).contains(&v.1),
+            "set {i}: mean {:.3} m moved",
+            v.1
+        );
+        assert!(
+            scatter(*v) < 3.0,
+            "set {i}: scatter {:.3} m moved",
+            scatter(*v)
+        );
+    }
+}
+
+#[test]
+#[ignore = "FINDING: 2024 RMS 10.94 m over 192 points exceeds the 10 m bar (Grasse + Matera 10.96 m, APOLLO 10.84 m); a common +10.9 m offset remains, and APOLLO has no ITRF2020/SLRF2020 coordinates, so the row is BLOCKED"]
 fn reflector_ranges_round2_itrf2020_polar_motion() {
-    unimplemented!("pre-registered: ITRF2020 station catalogue and polar-motion columns not yet present");
+    let s = round2_stats();
+    let names = [
+        "2024 all",
+        "2024 Grasse + Matera (ITRF2020)",
+        "2024 APOLLO (approximate)",
+        "2015 all (secondary)",
+    ];
+    for (name, (n, mean, rms)) in names.iter().zip(s.iter()) {
+        eprintln!("M091 round 2 {name}: n = {n}, mean {mean:.3} m, RMS {rms:.3} m");
+    }
+    for st in [7845, 7941, 7045] {
+        let (res, _) = residuals_with(Model::Round2);
+        let v: Vec<f64> = res
+            .iter()
+            .filter(|r| r.slice == "2024" && r.station == st)
+            .map(|r| r.res_m)
+            .collect();
+        let (n, mean, rms) = stats(&v);
+        eprintln!("M091 round 2 2024 station {st}: n = {n}, mean {mean:.3} m, RMS {rms:.3} m");
+    }
+    assert_eq!(s[0].0, 192);
+    assert!(
+        s[0].2 <= RMS_TOL_M,
+        "2024 RMS {:.3} m exceeds {RMS_TOL_M} m",
+        s[0].2
+    );
 }

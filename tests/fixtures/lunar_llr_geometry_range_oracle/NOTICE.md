@@ -50,3 +50,25 @@ NAIF kernels are public-domain NASA/JPL data and are not redistributed here. Rep
 `source ~/Code/kshana-oracles/env.sh && $ORACLE_PY generate_reference.py > reference.csv`.
 
 **Consumed by:** `tests/lunar_llr_geometry_range_oracle.rs`.
+
+## 3. Round 2 (2026-10-01)
+
+- `reference.csv` regenerated with two new last columns, `xp_arcsec,yp_arcsec` (IERS Bulletin A
+  polar motion from the same `finals2000A.all`, linear in time). Every measurement, UT1-UTC and
+  Moon column is byte-identical to the first generation; the nine diagnostic `pxform` columns
+  moved by at most 3.9e-13 between the two runs (same toolkit version and kernel hashes).
+- Station coordinates used by `lunar_llr_geometry::stations_itrf()` (cited in the source, not
+  vendored), both retrieved 2026-10-01 without a login:
+  - ITRF2020 SLR station positions and velocities, IGN:
+    `https://itrf.ign.fr/ftp/pub/itrf/itrf2020/ITRF2020_SLR.SSC.txt`, SHA-256
+    `d0f7afc0111eec3ccb292c496884d98c8aeafade44abdc7a475735f546809b4d` (free use with citation:
+    Altamimi, Rebischung, Collilieux, Métivier and Chanard, "ITRF2020: an augmented reference
+    frame refining the modeling of nonlinear station motions", Journal of Geodesy 97, 47, 2023).
+    Grasse 7845 (10002S002) and Matera 7941 (12734S008).
+  - ILRS SLRF2020: `https://ilrs.cddis.eosdis.nasa.gov/docs/2025/SLRF2020_POS+VEL_2025.02.05.snx`,
+    SHA-256 `fd669e0a028bb12ccf01cccbbf0573cc42b89e8c35b22328fcda7296d114c3de`: the same values
+    for 7845 and 7941; it does not contain APOLLO 7045.
+  - APOLLO 7045 is in neither file. Its only open position is the ILRS station page's
+    approximate one, 32.780361 N, 105.820417 W, 2788 m
+    (`https://ilrs.gsfc.nasa.gov/network/stations/active/APOL_station_info.html`).
+
