@@ -32,7 +32,7 @@ function initTrio() {
     const k = panels.findIndex((p) => p.id === id);
     if (k < 0) return;
     pick(k);
-    requestAnimationFrame(() => panels[k].scrollIntoView({ block: "start" }));
+    if (window.KSkeep) window.KSkeep(panels[k]); else panels[k].scrollIntoView({ block: "start" });
   };
   addEventListener("hashchange", fromHash);
   fromHash();

@@ -402,7 +402,7 @@ async function footprint(fig) {
     const [la, lo] = cellLatLon(c.i, c.j);
     let t = tools.g.patchSectionScalar(toml, "receiver", "lat_deg", la);
     t = tools.g.patchSectionScalar(t, "receiver", "lon_deg", lo);
-    return `${ROOT}playground/index.html${tools.sh.encodeFragment(t)}`;
+    return `/playground/${tools.sh.encodeFragment(t)}`;
   };
   const pick = (k) => {
     const c = cells[k]; if (!c || k === cur) return;
@@ -413,7 +413,7 @@ async function footprint(fig) {
     const b = document.createElement("b");
     b.textContent = `${la}° N, ${lo}° E`;
     const a = document.createElement("a");
-    a.className = "mx-open"; a.textContent = `Open this run in ${STUDIO}`; a.href = `${ROOT}playground/index.html?scenario=${F.file}&tab=signal`;
+    a.className = "mx-open"; a.textContent = `Open this run in ${STUDIO}`; a.href = `/playground/?scenario=${F.file}&tab=signal`;
     read.replaceChildren(b, ` · about ${Math.round(Math.hypot(c.i, c.j) * F.step)} km from the jammer · mean J/S ${c.js.toFixed(1)} dB · tracking availability ${c.av.toFixed(2)} `, a);
     load().then((toml) => { if (cur === k) a.href = href(toml, c); }, () => {});
   };
@@ -508,7 +508,8 @@ function matrix() {
   MODES.forEach(([, n, c]) => hr.append(el("th", { scope: "col", style: `--c:var(${c})` }, el("i"), n)));
   tb.append(cap, el("thead", {}, hr));
   const body = el("tbody");
-  const go = (r) => { r.t.click(); document.getElementById("sectors").scrollIntoView({ behavior: RM ? "auto" : "smooth" }); };
+  // open the sector and land its panel (id = the sector) just under the header
+  const go = (r) => { r.t.click(); const p = document.getElementById(r.t.getAttribute("aria-controls")); if (window.KSkeep) window.KSkeep(p); else p.scrollIntoView({ block: "start" }); };
   rows.forEach((r, i) => {
     const b = el("button", { type: "button", style: `--c:${r.c}` }, el("i"), el("span", { text: r.name }));
     b.addEventListener("click", () => go(r));

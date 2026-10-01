@@ -14,10 +14,10 @@
 <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../site.css">
 <link rel="stylesheet" href="../css/docs.css">
-<link rel="canonical" href="https://kshana.dev/docs/architecture.html">
+<link rel="canonical" href="https://kshana.dev/docs/architecture">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kshana">
-<meta property="og:url" content="https://kshana.dev/docs/architecture.html">
+<meta property="og:url" content="https://kshana.dev/docs/architecture">
 <meta property="og:title" content="Kshana — Architecture · Kshana docs">
 <meta property="og:description" content="Kshana — Architecture. Kshana documentation, generated from the repository.">
 <meta property="og:image" content="https://kshana.dev/og-card.png">
@@ -48,19 +48,20 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.1</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.1</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
-      <a href="../missions.html">Missions</a>
-      <a href="../capabilities.html">Capabilities</a>
-      <a href="../evidence.html">Evidence</a>
-      <a href="../developers.html">Developers</a>
-      <a href="../docs/index.html" aria-current="page">Docs</a>
-      <a href="../editions.html">Editions</a>
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
     </nav>
     <div class="nav-right">
       <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
-      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <a class="pill" href="/playground/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
       <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
     </div>
   </div>
@@ -70,7 +71,7 @@
 <div class="docs docs-page">
   <aside class="docs-side" aria-label="Documentation">
     <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
-    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html" aria-current="page">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture" aria-current="page">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
   </aside>
   <article class="docs-main">
     <div class="docs-meta"><span>APIs and integrations</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/ARCHITECTURE.md">Edit on GitHub</a><span>Source: <code>docs/ARCHITECTURE.md</code></span></div>
@@ -95,9 +96,9 @@ seeds.</p>
 <p>This document collects the structural and behavioural diagrams. §1 is the sensor-pack
 core; §1a maps the astrodynamics, fusion, and alt-PNT layers added since; §1b–§1d the
 study, domain and output layers. For usage see
-the <a href="overview.html">README</a>; for what is and isn&#39;t validated see
-<a href="validation.html">VALIDATION</a>; for the per-capability maturity table see
-<a href="capability-map.html">CAPABILITY</a>.</p>
+the <a href="/docs/overview">README</a>; for what is and isn&#39;t validated see
+<a href="/docs/validation">VALIDATION</a>; for the per-capability maturity table see
+<a href="/docs/capability-map">CAPABILITY</a>.</p>
 <p>Abbreviations used in the diagrams and not spelled out where they appear: ADEV, Allan
 deviation; BW, bandwidth; CAI,
 cold-atom interferometer; CZML, the Cesium Language; Δ-DOR, delta differential one-way
@@ -232,7 +233,7 @@ cannot drift from the code.</p>
 are fed by) <code>orbit</code>. The <strong>astrodynamics / numerical</strong> layer adds a non-analytic Cowell
 propagator alongside the analytic SGP4/SDP4 path; the <strong>fusion</strong> layer carries the
 GNSS/INS estimators; and the <strong>alt-PNT</strong> layer is GPS-denied (GPS: Global Positioning System) gravity-map matching. These
-are library/scenario capabilities (see <a href="capability-map.html">CAPABILITY</a> for which are wired to
+are library/scenario capabilities (see <a href="/docs/capability-map">CAPABILITY</a> for which are wired to
 a scenario <code>kind</code> vs reachable as a Rust API (application programming interface)).</p>
 <pre data-lang="mermaid"><code class="hljs language-mermaid">flowchart TD
     subgraph astro[&quot;Astrodynamics &amp; numerical&quot;]
@@ -295,7 +296,7 @@ NRHO is a CR3BP (circular, Sun-free) solution, not validated against a real LANS
 ephemeris — and LunaNet integrity. The
 agency-ephemeris force-model fit (<code>precise_od</code>, <code>lunar_od</code>, <code>tides</code>, <code>gravity_sh</code>) and the
 full alt-PNT field set (<code>igrf</code>, <code>altpnt/terrain</code>, <code>gravimeter</code>) round out the module list;
-see <a href="capability-map.html">CAPABILITY</a> for the per-module maturity.</p>
+see <a href="/docs/capability-map">CAPABILITY</a> for the per-module maturity.</p>
 <h2 id="1b-resilience-studies-machine-learning-evaluation--reproducible-artifacts">1b. Resilience studies, machine-learning evaluation &amp; reproducible artifacts<a class="anchor" href="#1b-resilience-studies-machine-learning-evaluation--reproducible-artifacts" aria-label="Link to this section">#</a></h2>
 <p>Five further module groups form the <strong>open, reproducible-study</strong> layer behind the
 project&#39;s research papers. Unlike the scenario <code>kind</code>s, these are reached as
@@ -346,7 +347,7 @@ TPL is conditional on an independent cross-check detecting the attack.</li>
 categories) plus a decision-instability study: a Dirichlet weighting simplex, Kendall-τ
 rank instability, top-1 winner flip rate, and common-mode <strong>diversity collapse</strong>
 (Hill-N2), with an integrity-hashed assurance report and 35 hand-derived oracle tests.
-See <a href="resilience-crosswalk.html">RESILIENCE-CROSSWALK</a>. Synthetic architectures aligned to
+See <a href="/docs/resilience-crosswalk">RESILIENCE-CROSSWALK</a>. Synthetic architectures aligned to
 RPCF v2.0 — a self-assessment, not a certification.</li>
 <li><strong><code>impairment_eval</code> / <code>impairment_study</code> / <code>impairment_ml</code> / <code>eval_stats</code></strong> — the
 RF-impairment optimism-gap study: a labelled synthetic corpus and detector-agnostic
@@ -452,12 +453,12 @@ an external oracle.</p>
     lfus -. GNSS presets .-&gt; cd
     bp -. reuses .-&gt; ss
     camp -. runs other kinds through .-&gt; api</code></pre>
-<p>The per-kind detail is in <a href="leo-pnt.html">LEO-PNT</a>, <a href="leo-signal.html">LEO-SIGNAL</a>,
-<a href="leo-pass.html">LEO-PASS</a>, <a href="leo-navmsg.html">LEO-NAVMSG</a>, <a href="leo-pnt-fusion.html">LEO-PNT-FUSION</a>,
-<a href="spectrum.html">SPECTRUM</a>, <a href="constellation-design.html">CONSTELLATION-DESIGN</a>,
-<a href="telecom-timing.html">TELECOM-TIMING</a>, <a href="slot-timing.html">SLOT-TIMING</a>,
-<a href="campaigns.html">CAMPAIGNS</a>, <a href="reports.html">REPORTS</a>, <a href="animation.html">ANIMATION</a> and
-<a href="interop.html">INTEROP</a>.</p>
+<p>The per-kind detail is in <a href="/docs/leo-pnt">LEO-PNT</a>, <a href="/docs/leo-signal">LEO-SIGNAL</a>,
+<a href="/docs/leo-pass">LEO-PASS</a>, <a href="/docs/leo-navmsg">LEO-NAVMSG</a>, <a href="/docs/leo-pnt-fusion">LEO-PNT-FUSION</a>,
+<a href="/docs/spectrum">SPECTRUM</a>, <a href="/docs/constellation-design">CONSTELLATION-DESIGN</a>,
+<a href="/docs/telecom-timing">TELECOM-TIMING</a>, <a href="/docs/slot-timing">SLOT-TIMING</a>,
+<a href="/docs/campaigns">CAMPAIGNS</a>, <a href="/docs/reports">REPORTS</a>, <a href="/docs/animation">ANIMATION</a> and
+<a href="/docs/interop">INTEROP</a>.</p>
 <h2 id="2-engine-pipeline-per-run">2. Engine pipeline (per run)<a class="anchor" href="#2-engine-pipeline-per-run" aria-label="Link to this section">#</a></h2>
 <p>Each run steps a single sensor model through the time grid, disciplining it whenever
 GNSS is nominal and letting it free-run (holdover / dead-reckoning) during the outage.</p>
@@ -703,15 +704,15 @@ TLE/multi-constellation geometry, Monte-Carlo bands, trade-study sweeps, the pri
 HTML (HyperText Markup Language) report with its machine-readable twin, and the
 release/publish/wheels/pages workflows.</p>
 <p>Several capabilities once listed here as future work have since <strong>shipped</strong> and are
-covered above or in <a href="validation.html">VALIDATION</a>: the full IAU 2000A nutation and the
+covered above or in <a href="/docs/validation">VALIDATION</a>: the full IAU 2000A nutation and the
 equinox-free CIO GCRS↔ITRS / ITRF (International Terrestrial Reference Frame) reduction (validated bit-for-bit against SOFA/ERFA (SOFA: Standards of Fundamental Astronomy; ERFA: Essential Routines for Fundamental Astronomy)),
 the EGM2008 (Earth Gravitational Model 2008) geopotential to degree/order 70, the <strong>Lense–Thirring</strong> frame-dragging term,
 solid/ocean/atmospheric tides, a DE-grade (DE440/ANISE (DE440: Development Ephemeris 440; ANISE: Attitude, Navigation, Instrument, Spacecraft, Ephemeris — a pure-Rust planetary-geometry toolkit)) ephemeris cross-validation,
 the external Orekit 12.2 cross-validation of the numerical Cowell propagator (0.08 m
 over 24 h) and of batch and sequential orbit determination, and the 17-state
 tightly-coupled navigator surfaced as the <code>hybrid-ukf</code> scenario kind.</p>
-<p>The remaining follow-ons are tracked in <a href="changelog.html">CHANGELOG</a> <code>[Unreleased]</code> and the
-per-capability roadmap in <a href="capability-map.html">CAPABILITY</a>: a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
+<p>The remaining follow-ons are tracked in <a href="/docs/changelog">CHANGELOG</a> <code>[Unreleased]</code> and the
+per-capability roadmap in <a href="/docs/capability-map">CAPABILITY</a>: a higher-degree (e.g. 200×200) EGM (Earth Gravitational Model)
 <strong>tesseral</strong> field and loader beyond the shipped degree/order-70 path, the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model)
 thermospheric density (the propagator&#39;s drag uses a static exponential density, and the
 <code>space-weather</code> kind&#39;s Jacchia-71 density is characterised against NRLMSISE-00 but not
@@ -722,7 +723,7 @@ Earth by New techniques) gravity map for the alt-PNT matcher.</p>
 same <code>ErrorModel</code> interface (and the <code>ExternalPack</code> contract in §4) without changing
 the public engine.</p>
 </div>
-    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="deployment-targets.html"><small>Previous</small>Where Kshana runs</a><a class="next" href="positioning.html"><small>Next</small>Where Kshana sits</a></nav>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/deployment-targets"><small>Previous</small>Where Kshana runs</a><a class="next" href="/docs/positioning"><small>Next</small>Where Kshana sits</a></nav>
   </article>
   <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#1-module-structure">1. Module structure</a><a class="l2" href="#1a-astrodynamics-fusion--alt-pnt-layers">1a. Astrodynamics, fusion &amp; alt-PNT layers</a><a class="l2" href="#1b-resilience-studies-machine-learning-evaluation--reproducible-artifacts">1b. Resilience studies, machine-learning evaluation &amp; reproducible artifacts</a><a class="l2" href="#1c-integrity-gnss-deep-space-lunar--mission-layers">1c. Integrity, GNSS, deep-space, lunar &amp; mission layers</a><a class="l2" href="#1d-leo-pnt-spectrum-solar-system-network-timing-campaigns--outputs">1d. LEO PNT, spectrum, solar system, network timing, campaigns &amp; outputs</a><a class="l2" href="#2-engine-pipeline-per-run">2. Engine pipeline (per run)</a><a class="l2" href="#3-the-error-model-interface-the-extension-point">3. The error-model interface (the extension point)</a><a class="l2" href="#4-dispatch-cli-and-bindings">4. Dispatch (CLI and bindings)</a><a class="l3" href="#typed-dispatch-and-the-structured-api">Typed dispatch and the structured API</a><a class="l3" href="#extending-kshana-with-an-external-pack">Extending Kshana with an external pack</a><a class="l2" href="#5-the-hybrid-capstone">5. The hybrid capstone</a><a class="l2" href="#6-geometry-derived-gnss-availability">6. Geometry-derived GNSS availability</a><a class="l2" href="#7-bindings">7. Bindings</a><a class="l2" href="#8-determinism--reproducibility">8. Determinism &amp; reproducibility</a><a class="l2" href="#9-deferred--future-structure">9. Deferred / future structure</a></nav>
 </div>
@@ -731,10 +732,10 @@ the public engine.</p>
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
-      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
-      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
-      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="/playground/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
       <span>Kshana v0.29.1 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>

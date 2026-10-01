@@ -15,6 +15,8 @@ const REPO = dirname(WEB);
 const text = (rel) => readFileSync(join(WEB, rel), "utf8");
 const legacy = JSON.parse(text("tools/legacy-urls.json"));
 const ids = (rel) => new Set([...text(rel).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
+// A clean address ("/evidence", "/playground/") -> the file the host serves for it.
+const fileOf = (pathname) => { const p = pathname.replace(/^\//, ""); return p === "" || p.endsWith("/") ? p + "index.html" : /\.[a-z0-9]+$/i.test(p) ? p : p + ".html"; };
 
 // The generated script, loaded the way a browser's classic <script> would, without a page:
 // it must define the mapping and not try to navigate.
@@ -54,7 +56,8 @@ for (const c of legacy.cases) {
     redirected += 1;
     assert.equal(navigate(u.search, u.hash), c.to, `${c.url}: the page navigates there`);
     const landed = new URL(c.to, legacy.origin + "/");
-    const file = landed.pathname.slice(1);
+    assert.ok(!/\.html$/.test(landed.pathname), `${c.url} lands on ${c.to}: a redirect names the clean address, without .html`);
+    const file = fileOf(landed.pathname);
     assert.ok(existsSync(join(WEB, file)), `${c.url} lands on ${file}, which does not exist`);
     const frag = landed.hash.slice(1);
     // A share link's fragment is the scenario itself, read by the Studio; any other fragment is an anchor.
@@ -75,9 +78,9 @@ for (const c of legacy.cases) {
   }
 }
 // Share and embed links keep their payload: the Studio reads the same fragment and query.
-assert.equal(target("", "#s=abc_DEF-123"), "playground/index.html#s=abc_DEF-123");
-assert.equal(target("?embed=1&scenario=clock-holdover.toml", "#s=abc"), "playground/index.html?embed=1&scenario=clock-holdover.toml#s=abc");
-assert.equal(target("?scenario=x&embed=1", ""), "playground/index.html?scenario=x&embed=1");
+assert.equal(target("", "#s=abc_DEF-123"), "/playground/#s=abc_DEF-123");
+assert.equal(target("?embed=1&scenario=clock-holdover.toml", "#s=abc"), "/playground/?embed=1&scenario=clock-holdover.toml#s=abc");
+assert.equal(target("?scenario=x&embed=1", ""), "/playground/?scenario=x&embed=1");
 assert.equal(target("?embed=10", ""), null, "only embed=1 is an embed link");
 // Old embed links name result tabs by the single-page site's ids (its tabs.mjs: fom,
 // timeseries, stability, orbit3d, sweep). Each is either still a Studio tab or is mapped to
@@ -95,10 +98,10 @@ for (const [old, now] of Object.entries(legacy.redirects.embedTabs)) {
   assert.ok(!studioTabs.has(old), `${old} is a Studio tab again: remove its mapping`);
   assert.ok(studioTabs.has(now), `${old} maps to ${now}, which is not a Studio tab`);
 }
-assert.equal(target("?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", ""), "playground/index.html?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview");
-assert.equal(target("?embed=1&tab=orbit3d&seed=3", ""), "playground/index.html?embed=1&tab=orbit&seed=3");
-assert.equal(target("?embed=1&tab=json", ""), "playground/index.html?embed=1&tab=json", "a current tab name passes through");
-assert.equal(target("?embed=1&scenario=fom.toml", ""), "playground/index.html?embed=1&scenario=fom.toml", "only the tab parameter is rewritten");
+assert.equal(target("?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", ""), "/playground/?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview");
+assert.equal(target("?embed=1&tab=orbit3d&seed=3", ""), "/playground/?embed=1&tab=orbit&seed=3");
+assert.equal(target("?embed=1&tab=json", ""), "/playground/?embed=1&tab=json", "a current tab name passes through");
+assert.equal(target("?embed=1&scenario=fom.toml", ""), "/playground/?embed=1&scenario=fom.toml", "only the tab parameter is rewritten");
 // An address the new home page owns is never hijacked.
 for (const id of ids("index.html")) assert.equal(target("", `#${id}`), null, `#${id} is a live anchor on the home page and must not redirect`);
 for (const a of legacy.keptAnchors) assert.ok(ids("index.html").has(a), `kept anchor #${a} is on the home page`);

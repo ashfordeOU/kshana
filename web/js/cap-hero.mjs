@@ -234,23 +234,25 @@ const sets = $$("[data-cc] [role='tablist']").map((list) => {
 });
 
 // Open the panel that holds an anchor, then bring the anchor into view.
-function reveal(id, smooth) {
+function reveal(id) {
   const target = id && document.getElementById(id); if (!target) return false;
   const p = target.closest(".cc-panel"); if (!p) return false;
   for (const s of sets) {
     const t = s.tabs.find((x) => s.panel(x) === p);
     if (t) { if (t.getAttribute("aria-selected") !== "true") s.select(t, false); break; }
   }
-  requestAnimationFrame(() => requestAnimationFrame(() => target.scrollIntoView({ behavior: smooth && !matchMedia("(prefers-reduced-motion: reduce)").matches ? "smooth" : "auto", block: "start" })));
+  // site.js KSkeep lands the anchor under the header and holds it there while the newly shown
+  // panel's charts and canvases draw (a smooth scroll here chased a target that kept moving).
+  if (window.KSkeep) window.KSkeep(target); else target.scrollIntoView({ block: "start" });
   return true;
 }
-const fromHash = (smooth) => { try { reveal(decodeURIComponent(location.hash.slice(1)), smooth); } catch (e) { /* malformed hash */ } };
-fromHash(false);
-addEventListener("hashchange", () => fromHash(true));
+const fromHash = () => { try { reveal(decodeURIComponent(location.hash.slice(1))); } catch (e) { /* malformed hash */ } };
+fromHash();
+addEventListener("hashchange", fromHash);
 // A link to the hash already in the address bar fires no hashchange: handle the click too.
 document.addEventListener("click", (e) => {
   const a = e.target.closest("a[href^='#']"); if (!a) return;
   const id = a.getAttribute("href").slice(1);
-  if (id && "#" + id === location.hash && reveal(id, true)) e.preventDefault();
+  if (id && "#" + id === location.hash && reveal(id)) e.preventDefault();
 });
 }

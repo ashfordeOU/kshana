@@ -14,10 +14,10 @@
 <link rel="stylesheet" href="../theme.css">
 <link rel="stylesheet" href="../site.css">
 <link rel="stylesheet" href="../css/docs.css">
-<link rel="canonical" href="https://kshana.dev/docs/tutorials.html">
+<link rel="canonical" href="https://kshana.dev/docs/tutorials">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Kshana">
-<meta property="og:url" content="https://kshana.dev/docs/tutorials.html">
+<meta property="og:url" content="https://kshana.dev/docs/tutorials">
 <meta property="og:title" content="Tutorials · Kshana docs">
 <meta property="og:description" content="Tutorials. Kshana documentation, generated from the repository.">
 <meta property="og:image" content="https://kshana.dev/og-card.png">
@@ -48,19 +48,20 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="../index.html" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.1</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.1</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
-      <a href="../missions.html">Missions</a>
-      <a href="../capabilities.html">Capabilities</a>
-      <a href="../evidence.html">Evidence</a>
-      <a href="../developers.html">Developers</a>
-      <a href="../docs/index.html" aria-current="page">Docs</a>
-      <a href="../editions.html">Editions</a>
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
     </nav>
     <div class="nav-right">
       <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
-      <a class="pill" href="../playground/index.html"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <a class="pill" href="/playground/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
       <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
     </div>
   </div>
@@ -70,7 +71,7 @@
 <div class="docs docs-page">
   <aside class="docs-side" aria-label="Documentation">
     <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
-    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="overview.html">Overview</a><a href="concepts.html">Concepts primer</a><a href="studio.html">Studio guide</a><a href="tutorials.html" aria-current="page">Tutorials</a><a href="tutorial-first-orbit.html">1 · Your first orbit</a><a href="tutorial-clock-holdover.html">2 · Clock holdover</a><a href="tutorial-quantum-vs-classical.html">3 · Quantum against classical</a><a href="example-multi-tool.html">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="scenarios.html">Scenario kinds</a><a href="scenario-reference.html">Scenario reference</a><a href="schema.html">Result schema</a><a href="real-tle-guide.html">Using real TLEs</a><a href="campaigns.html">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="reports.html">Run reports</a><a href="animation.html">Animation export</a><a href="interop.html">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="validation.html">Validation status</a><a href="verification-matrix.html">Verification matrix</a><a href="capability-reference.html">Capability reference</a><a href="modelled-rationale.html">Why rows stay Modelled</a><a href="claims-vs-reality.html">Claims against reality</a><a href="provenance.html">Provenance</a><a href="reproducibility.html">Reproducibility</a><a href="capability-map.html">Capability map</a><a href="standards.html">Standards and interoperability</a><a href="line-coverage.html">Line coverage</a></div><div><h2>Timing</h2><a href="slot-timing.html">Slot timing</a><a href="telecom-timing.html">Telecom timing</a><a href="deceived-time.html">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="integrity.html">Integrity and security</a><a href="spectrum.html">Spectrum and waterfall</a><a href="araim-reference.html">ARAIM reference</a><a href="compliance.html">DO-316 / DO-229E map</a><a href="resilience-crosswalk.html">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="sgp4-validation.html">SGP4 validation</a><a href="agency-orbit-validation.html">Force-model validation</a><a href="solar-system.html">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="leo-pnt.html">LEO positioning, navigation and timing</a><a href="leo-signal.html">LEO signal designs</a><a href="leo-pass.html">LEO pass and link budget</a><a href="leo-navmsg.html">LEO navigation message</a><a href="leo-pnt-fusion.html">Fused MEO and LEO positioning</a><a href="constellation-design.html">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="quantum-models.html">Quantum-sensor models</a><a href="quantum-physics.html">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="python-api.html">Python API</a><a href="npm.html">npm and WebAssembly</a><a href="rust.html">Rust crate</a><a href="mcp.html">MCP server</a><a href="jetbrains.html">JetBrains plugin</a><a href="deployment-targets.html">Where Kshana runs</a><a href="architecture.html">Architecture</a><a href="positioning.html">Where Kshana sits</a></div><div><h2>Project</h2><a href="glossary.html">Glossary</a><a href="changelog.html">Changelog</a><a href="roadmap.html">Roadmap</a><a href="licensing.html">Licensing</a><a href="security.html">Security</a><a href="contributing.html">Contributing</a><a href="governance.html">Governance</a><a href="code-of-conduct.html">Code of conduct</a></div></nav></details>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials" aria-current="page">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
   </aside>
   <article class="docs-main">
     <div class="docs-meta"><span>Get started</span><a href="https://github.com/ashfordeOU/kshana/blob/main/docs/tutorials/README.md">Edit on GitHub</a><span>Source: <code>docs/tutorials/README.md</code></span></div>
@@ -85,8 +86,8 @@ clock holds 6600 s, the test fails the build the day that stops being true.</p>
 few more abbreviations, each spelled out where it first appears: GNSS (Global
 Navigation Satellite System), GPS (Global Positioning System), CLI (command-line
 interface) and TOML (Tom&#39;s Obvious Minimal Language, the scenario file format).</p>
-<p>New to the project? Read the <a href="concepts.html">concepts primer</a> and the
-<a href="glossary.html">glossary</a> first, then come back here.</p>
+<p>New to the project? Read the <a href="/docs/concepts">concepts primer</a> and the
+<a href="/docs/glossary">glossary</a> first, then come back here.</p>
 <h2 id="the-three-worked-examples">The three worked examples<a class="anchor" href="#the-three-worked-examples" aria-label="Link to this section">#</a></h2>
 <div class="tbl"><table><thead><tr>
 <th>#</th>
@@ -98,7 +99,7 @@ interface) and TOML (Tom&#39;s Obvious Minimal Language, the scenario file forma
 </tr>
 </thead><tbody><tr>
 <td>1</td>
-<td><a href="tutorial-first-orbit.html">My first orbit: where are the GPS satellites</a></td>
+<td><a href="/docs/tutorial-first-orbit">My first orbit: where are the GPS satellites</a></td>
 <td>propagate a real GPS constellation, read availability, position dilution of precision (PDOP) and position accuracy, and export where the satellites actually are (SP3 precise-orbit format)</td>
 <td><code>orbit</code></td>
 <td>beginner</td>
@@ -106,7 +107,7 @@ interface) and TOML (Tom&#39;s Obvious Minimal Language, the scenario file forma
 </tr>
 <tr>
 <td>2</td>
-<td><a href="tutorial-clock-holdover.html">Clock holdover: how long can you coast</a></td>
+<td><a href="/docs/tutorial-clock-holdover">Clock holdover: how long can you coast</a></td>
 <td>run a GNSS-denied clock holdover, read the timing figure of merit, and understand the √(q_wf·T) growth law behind it</td>
 <td><code>clock</code></td>
 <td>beginner</td>
@@ -114,7 +115,7 @@ interface) and TOML (Tom&#39;s Obvious Minimal Language, the scenario file forma
 </tr>
 <tr>
 <td>3</td>
-<td><a href="tutorial-quantum-vs-classical.html">Quantum vs classical GNSS resilience</a></td>
+<td><a href="/docs/tutorial-quantum-vs-classical">Quantum vs classical GNSS resilience</a></td>
 <td>the capstone: a spoofing detector (<code>spoof</code>) and a full fused PNT suite (<code>hybrid</code>), and how to read security / integrity / dead-reckoning together</td>
 <td><code>spoof</code> + <code>hybrid</code></td>
 <td>intermediate</td>
@@ -124,7 +125,7 @@ interface) and TOML (Tom&#39;s Obvious Minimal Language, the scenario file forma
 <h2 id="how-to-run-a-tutorial">How to run a tutorial<a class="anchor" href="#how-to-run-a-tutorial" aria-label="Link to this section">#</a></h2>
 <p>Every tutorial runs the same scenario three ways; pick whichever fits you. They
 all call the <em>one</em> engine, so the numbers are identical (mirrors the README
-<a href="overview.html#usage">Usage</a> section).</p>
+<a href="/docs/overview#usage">Usage</a> section).</p>
 <p><strong>Command line.</strong> The CLI dispatches on the scenario’s <code>kind</code> field and writes
 <code>&lt;scenario&gt;.result.json</code>, <code>&lt;scenario&gt;.chart.svg</code>, <code>&lt;scenario&gt;.report.html</code> and
 <code>&lt;scenario&gt;.report.json</code> next to the input (JSON is JavaScript Object Notation, SVG
@@ -151,7 +152,7 @@ result = json.loads(kshana.run(<span class="hljs-built_in">open</span>(<span cla
 checkout: <code>json.loads(kshana.list_kinds())</code> tells you which scenario kinds your
 build has.</p>
 <p><strong>Browser playground.</strong> Zero install: open the
-<a href="../playground/index.html">playground</a>, pick a scenario, edit the
+<a href="/playground/">playground</a>, pick a scenario, edit the
 parameters, and read the result. Nothing is uploaded; the engine runs client-side
 as WebAssembly.</p>
 <p>The tutorials quote the <strong>CLI</strong>, but every command has the Python and playground
@@ -231,7 +232,7 @@ commonly-used kinds (the eight tutorial domains above plus their nearest neighbo
 It is <strong>not</strong> the complete set: <code>src/api.rs::list_scenario_kinds()</code> returns all <strong>75</strong>
 built-in kinds. That function (exposed as <code>list_kinds()</code> in the Python and WebAssembly (WASM) bindings,
 and as <code>kshana kinds --json</code> on the command line) is the authoritative,
-always-current catalogue, and <a href="scenarios.html"><code>SCENARIOS.md</code></a> is its generated
+always-current catalogue, and <a href="/docs/scenarios"><code>SCENARIOS.md</code></a> is its generated
 enumeration, one section per kind with the required and optional TOML fields.
 <code>tests/tutorials.rs::tutorial_scenarios_use_real_kinds</code> enforces that every kind a
 tutorial documents is a real dispatch kind, so nothing in this table can name a kind
@@ -304,7 +305,7 @@ stands (<code>cargo run -- &lt;file&gt;</code> or <code>kshana &lt;file&gt;</cod
 kshana 0.29.1 printed for it on 2026-09-29. Unlike the tutorial figures, these lines
 are a record of one run, not pinned by <code>tests/tutorials.rs</code>: rerun the scenario for
 the current value. Results state their own scope (most carry a <code>label</code>), and the
-<a href="verification-matrix.html">verification matrix</a> states which capabilities are
+<a href="/docs/verification-matrix">verification matrix</a> states which capabilities are
 VALIDATED against an external oracle and which are MODELLED.</p>
 <div class="tbl"><table><thead><tr>
 <th>Capability</th>
@@ -318,84 +319,84 @@ VALIDATED against an external oracle and which are MODELLED.</p>
 <td><code>scenarios/l-band-waterfall-jamming.toml</code></td>
 <td><code>spectrum</code></td>
 <td><code>scenario spectrum | 5 bands | 3 jammers | noise floor -202.0 dBW/Hz | worst band gps-l1ca min C/N0 3.2 dB-Hz (J/S 60.2 dB)</code></td>
-<td><a href="spectrum.html">SPECTRUM.md</a></td>
+<td><a href="/docs/spectrum">SPECTRUM.md</a></td>
 </tr>
 <tr>
 <td>The solar system at one epoch</td>
 <td><code>scenarios/solar-system-tour.toml</code></td>
 <td><code>solar-system</code></td>
 <td><code>Solar system at 2026-09-28T00:00:00 (JD 2461311.50080 TDB), 18 bodies, observer Earth</code></td>
-<td><a href="scenarios.html#solar-system">SCENARIOS.md</a></td>
+<td><a href="/docs/scenarios#solar-system">SCENARIOS.md</a></td>
 </tr>
 <tr>
 <td>Positioning around another body</td>
 <td><code>scenarios/europa-surface-pnt.toml</code></td>
 <td><code>body-pnt</code></td>
 <td><code>Positioning around Europa — surface user, 12 relays at 4500 km, 171 epochs</code></td>
-<td><a href="scenarios.html#body-pnt">SCENARIOS.md</a></td>
+<td><a href="/docs/scenarios#body-pnt">SCENARIOS.md</a></td>
 </tr>
 <tr>
 <td>Constellation design at scale</td>
 <td><code>scenarios/constellation-multi-gnss-coverage.toml</code></td>
 <td><code>constellation-design</code></td>
 <td><code>constellation-design: 102 satellites (GPS, Galileo, BeiDou, GLONASS) around the Earth; availability 100.00% (PDOP &lt;= 6 at 10 deg mask), …</code></td>
-<td><a href="constellation-design.html">CONSTELLATION-DESIGN.md</a></td>
+<td><a href="/docs/constellation-design">CONSTELLATION-DESIGN.md</a></td>
 </tr>
 <tr>
 <td>Campaigns: kinds chained on one timeline</td>
 <td><code>scenarios/campaign-jam-spoof-holdover-integrity.toml</code></td>
 <td><code>campaign</code></td>
 <td><code>campaign f87a4a0e0bab | Jamming, spoofing, holdover and integrity: a chained mission | chain: 6 phases over 4570 s, …</code></td>
-<td><a href="campaigns.html">CAMPAIGNS.md</a></td>
+<td><a href="/docs/campaigns">CAMPAIGNS.md</a></td>
 </tr>
 <tr>
 <td>One LEO-PNT system end to end</td>
 <td><code>scenarios/leo-pnt-end-to-end.toml</code></td>
 <td><code>leo-pnt-chain</code></td>
 <td><code>LEO-PNT end to end, generic 1080 km constellation</code></td>
-<td><a href="leo-pnt.html">LEO-PNT.md</a></td>
+<td><a href="/docs/leo-pnt">LEO-PNT.md</a></td>
 </tr>
 <tr>
 <td>Fused MEO + LEO positioning</td>
 <td><code>scenarios/meo-leo-fused-pvt.toml</code></td>
 <td><code>leo-pvt</code></td>
 <td><code>LEO PVT (joint) at 40.42, -3.70 over 1800 s</code></td>
-<td><a href="leo-pnt-fusion.html">LEO-PNT-FUSION.md</a></td>
+<td><a href="/docs/leo-pnt-fusion">LEO-PNT-FUSION.md</a></td>
 </tr>
 <tr>
 <td>LEO signals, passes and navigation messages</td>
 <td><code>scenarios/leo-band-trade.toml</code>, <code>scenarios/leo-pass-iridium.toml</code>, <code>scenarios/leo-navmsg-encode-decode.toml</code></td>
 <td><code>leo-signal</code>, <code>leo-pass</code>, <code>leo-navmsg</code></td>
 <td><code>LEO pass link budget, air user at 50.00, -30.00; 1 LEO satellite(s), 900 s window</code> (the pass)</td>
-<td><a href="leo-signal.html">LEO-SIGNAL.md</a>, <a href="leo-pass.html">LEO-PASS.md</a>, <a href="leo-navmsg.html">LEO-NAVMSG.md</a></td>
+<td><a href="/docs/leo-signal">LEO-SIGNAL.md</a>, <a href="/docs/leo-pass">LEO-PASS.md</a>, <a href="/docs/leo-navmsg">LEO-NAVMSG.md</a></td>
 </tr>
 <tr>
 <td>PPP convergence with a LEO layer; 5G positioning</td>
 <td><code>scenarios/leo-ppp-convergence.toml</code>, <code>scenarios/ntn-5g-positioning.toml</code></td>
 <td><code>leo-ppp</code>, <code>ntn-positioning</code></td>
 <td><code>PPP convergence to 0.10 m horizontal / 0.10 m vertical, 12 runs per case, 96 GNSS satellites</code></td>
-<td><a href="scenarios.html#leo-ppp">SCENARIOS.md</a></td>
+<td><a href="/docs/scenarios#leo-ppp">SCENARIOS.md</a></td>
 </tr>
 <tr>
 <td>Resilience: GNSS jammed, LEO carries the user</td>
 <td><code>scenarios/leo-resilience-gnss-jammed-leo-carries.toml</code></td>
 <td><code>campaign</code></td>
 <td><code>campaign 248395b851cc | GNSS jammed, LEO-PNT carries the user, integrity maintained | chain: 3 phases over 2100 s, …</code></td>
-<td><a href="resilience-crosswalk.html">RESILIENCE-CROSSWALK.md</a></td>
+<td><a href="/docs/resilience-crosswalk">RESILIENCE-CROSSWALK.md</a></td>
 </tr>
 <tr>
 <td>Verticals: rail, maritime, telecom, vehicles, Arctic</td>
 <td><code>scenarios/leo-vertical-rail-maritime.toml</code> (and the other <code>leo-vertical-*</code> files)</td>
 <td><code>campaign</code></td>
 <td><code>campaign 49575d27b696 | Railway and maritime with a LEO layer | chain: 3 phases over 2520 s, …</code></td>
-<td><a href="campaigns.html">CAMPAIGNS.md</a></td>
+<td><a href="/docs/campaigns">CAMPAIGNS.md</a></td>
 </tr>
 <tr>
 <td>Telecom holdover against the ITU-T (International Telecommunication Union, Telecommunication Standardization Sector) G.8272 clock limits</td>
 <td><code>scenarios/telecom-prtc-holdover-24h.toml</code></td>
 <td><code>telecom-timing</code></td>
 <td><code>telecom-timing: max|TE| 603.2 ns over 90000 s; eprtc-a-holdover FAIL, prtc-a FAIL; 100 ns budget exceeded after 8206 s (MODELLED)</code></td>
-<td><a href="telecom-timing.html">TELECOM-TIMING.md</a></td>
+<td><a href="/docs/telecom-timing">TELECOM-TIMING.md</a></td>
 </tr>
 </tbody></table></div>
 <p>LEO is low Earth orbit and MEO medium Earth orbit; PVT is position, velocity and
@@ -404,13 +405,13 @@ TDB is Barycentric Dynamical Time; JD is Julian Date; TE is time error.</p>
 <p>The CLI adds three outputs on top of any run:</p>
 <ul>
 <li><strong>Reports.</strong> Every run writes <code>&lt;scenario&gt;.report.html</code> and <code>&lt;scenario&gt;.report.json</code>
-(see <a href="reports.html">REPORTS.md</a>). <code>kshana --study &lt;suite.toml&gt;</code> runs a suite of
+(see <a href="/docs/reports">REPORTS.md</a>). <code>kshana --study &lt;suite.toml&gt;</code> runs a suite of
 scenarios into one <code>.study.json</code> and <code>.study.html</code>, for example
 <code>kshana --study scenarios/quantum-pnt-demonstrator.suite.toml</code>.</li>
 <li><strong>Animation.</strong> <code>kshana &lt;scenario.toml&gt; --animate &lt;svg|html|frames|all&gt;</code> renders the
 run’s time series, for example <code>--animate html</code> on <code>scenarios/orbit-sgp4-gps.toml</code>
 writes <code>orbit-sgp4-gps.animation.html</code>. A kind with no sampled time axis (such as
-<code>solar-system</code>) is refused with an error; see <a href="animation.html">ANIMATION.md</a>.</li>
+<code>solar-system</code>) is refused with an error; see <a href="/docs/animation">ANIMATION.md</a>.</li>
 <li><strong>Interop exports.</strong> <code>--export &lt;czml|kml|geojson|stk|sigmf|all|list&gt;</code> writes the
 result for other tools: CZML (Cesium Language), KML (Keyhole Markup Language, for
 Google Earth), GeoJSON (geographic JSON), an STK (Systems Tool Kit) ephemeris, or a
@@ -418,7 +419,7 @@ SigMF (Signal Metadata Format) recording. <code>--export list</code> says
 which formats apply to a scenario; SigMF applies only to <code>spectrum</code>. The orbit pack
 also exports <code>--export-sp3</code>, <code>--export-omm</code> and <code>--export-oem</code> (CCSDS, the
 Consultative Committee for Space Data Systems, orbit messages). See
-<a href="interop.html">INTEROP.md</a>.</li>
+<a href="/docs/interop">INTEROP.md</a>.</li>
 </ul>
 <h2 id="graded-exercises">Graded exercises<a class="anchor" href="#graded-exercises" aria-label="Link to this section">#</a></h2>
 <p>Work through the ladder. Each tier is harder and more defensible than the last;
@@ -464,14 +465,14 @@ Celestrak, Dr T. S. Kelso).</li>
 don’t refetch): AIAA (American Institute of Aeronautics and Astronautics) 2006-6753
 “Revisiting Spacetrack Report #3” test vectors,
 <a href="https://celestrak.org/publications/AIAA/2006-6753/">https://celestrak.org/publications/AIAA/2006-6753/</a>, used by
-<code>tests/sgp4_verification.rs</code>; see <a href="sgp4-validation.html"><code>docs/SGP4-VALIDATION.md</code></a>.</li>
+<code>tests/sgp4_verification.rs</code>; see <a href="/docs/sgp4-validation"><code>docs/SGP4-VALIDATION.md</code></a>.</li>
 <li><strong>Clock-stability relations oracle</strong>: NIST (National Institute of Standards and
 Technology) Special Publication 1065 (Riley, <em>Handbook of Frequency Stability
 Analysis</em>), <a href="https://tf.nist.gov/general/pdf/2220.pdf">https://tf.nist.gov/general/pdf/2220.pdf</a>, the σ_y(τ)↔phase relations
 behind Tutorial 2.</li>
 </ul>
 </div>
-    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="studio.html"><small>Previous</small>Studio guide</a><a class="next" href="tutorial-first-orbit.html"><small>Next</small>1 · Your first orbit</a></nav>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/studio"><small>Previous</small>Studio guide</a><a class="next" href="/docs/tutorial-first-orbit"><small>Next</small>1 · Your first orbit</a></nav>
   </article>
   <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#the-three-worked-examples">The three worked examples</a><a class="l2" href="#how-to-run-a-tutorial">How to run a tutorial</a><a class="l2" href="#annotated-teaching-scenarios">Annotated teaching scenarios</a><a class="l2" href="#the-full-scenario-kind-catalogue">The full scenario-kind catalogue</a><a class="l2" href="#beyond-the-tutorials-newer-capabilities">Beyond the tutorials: newer capabilities</a><a class="l2" href="#graded-exercises">Graded exercises</a><a class="l3" href="#want-fresh-data">Want fresh data?</a></nav>
 </div>
@@ -480,10 +481,10 @@ behind Tutorial 2.</li>
 <footer class="foot">
   <div class="wrap">
     <div class="foot-grid">
-      <div class="foot-brand"><a class="brand" href="../index.html"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
-      <div><h2>Product</h2><a href="../playground/index.html">Kshana Studio</a><a href="../missions.html">Missions</a><a href="../capabilities.html">Capabilities</a><a href="../evidence.html">Evidence</a></div>
-      <div><h2>Developers</h2><a href="../developers.html#install">Install</a><a href="../developers.html#mcp">MCP server</a><a href="../docs/index.html">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
-      <div><h2>Company</h2><a href="../editions.html">Editions</a><a href="../editions.html#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
+      <div><h2>Product</h2><a href="/playground/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
       <span>Kshana v0.29.1 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
