@@ -102,6 +102,40 @@ pub fn parse_bulletin_b_pm(line: &str) -> Option<(f64, f64)> {
     Some((xp, yp))
 }
 
+/// The IERS vintage of one `finals2000A` row.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum EopVintage {
+    /// IERS-measured (flag `I`) with the Bulletin B block published: a final value.
+    Final,
+    /// IERS-measured (flag `I`) with the Bulletin B block still blank: a rapid measured value
+    /// not yet superseded by the final series.
+    Rapid,
+    /// Flag `P` on polar motion (column 17) or on UT1−UTC (column 58): a Bulletin A prediction.
+    Predicted,
+}
+
+/// Column 17 (1-indexed) of a `finals2000A` row: the IERS (`I`) / prediction (`P`) flag of the
+/// Bulletin A polar motion.
+const PM_FLAG_COL: usize = 16;
+/// Column 58 (1-indexed): the IERS (`I`) / prediction (`P`) flag of the Bulletin A UT1−UTC.
+const UT1_FLAG_COL: usize = 57;
+
+/// Classify a `finals2000A` row by the IERS flags (columns 17 and 58, per the IERS
+/// `readme.finals2000A`): `P` on either is [`EopVintage::Predicted`]; otherwise a row with a
+/// Bulletin B block is [`EopVintage::Final`] and one without is [`EopVintage::Rapid`]. `None`
+/// for a line [`parse_line`] cannot read (blank future rows, comments).
+pub fn row_vintage(line: &str) -> Option<EopVintage> {
+    parse_line(line)?;
+    let flag = |c: usize| line.as_bytes().get(c).copied();
+    if flag(PM_FLAG_COL) == Some(b'P') || flag(UT1_FLAG_COL) == Some(b'P') {
+        Some(EopVintage::Predicted)
+    } else if parse_bulletin_b_ut1(line).is_some() {
+        Some(EopVintage::Final)
+    } else {
+        Some(EopVintage::Rapid)
+    }
+}
+
 /// True when a row carries a Bulletin A value but **no** Bulletin B final value — a
 /// prediction-only (future) row (the `P`-flagged / blank-final section of Bulletin A).
 pub fn is_prediction_row(line: &str) -> bool {
