@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2518,
-    "fields_total": 2520,
+    "fields_described": 2520,
+    "fields_total": 2522,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -2741,13 +2741,19 @@
           "unit": "deg"
         },
         "equatorial_ground_track_spacing_km": {
-          "definition": "equatorial distance between successive ascending nodes: R_eq * omega_Earth * T, with no J2 nodal regression",
+          "definition": "equatorial distance between successive ascending nodes: R_eq * (omega_Earth - dOmega/dt) * T_nodal, with the first-order J2 nodal regression",
           "evidence_tier": "validated",
           "provenance": "closed-form",
           "unit": "km"
         },
         "half_fov_deg": {
           "definition": "sensor half field of view, as a nadir angle measured from boresight",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "inclination_deg": {
+          "definition": "orbit inclination; the sun-synchronous inclination for the altitude when not given",
           "evidence_tier": "illustrative",
           "provenance": "input",
           "unit": "deg"
@@ -2770,6 +2776,12 @@
           "provenance": "closed-form",
           "unit": "m"
         },
+        "nodal_period_min": {
+          "definition": "J2 nodal (draconitic) period 2*pi / (n + dM/dt + domega/dt), first-order J2 secular rates of a circular orbit",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
+          "unit": "min"
+        },
         "orbital_period_min": {
           "definition": "circular-orbit period 2*pi*sqrt((R_eq + h)^3 / mu_Earth)",
           "evidence_tier": "validated",
@@ -2783,10 +2795,10 @@
           "unit": "km"
         }
       },
-      "fields_described": 9,
-      "fields_total": 9,
+      "fields_described": 11,
+      "fields_total": 11,
       "fields_without_units": [],
-      "label": "MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track spacing is simple nodal R_e·ω·T (no J2 regression)",
+      "label": "MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track spacing is R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates",
       "source": "defaults"
     },
     "ephemeris": {
