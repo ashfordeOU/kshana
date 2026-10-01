@@ -48,14 +48,16 @@ along-track completing the triad. The clock adds the ICD relativistic term
 `F·e·√A·sin E`; for `ecef-poly` it is the general form `−2 r·v / c²` from the polynomial
 and its derivative.
 
-Three readings are Kshana's own and are stated as such:
+The Liu et al. terms follow the paper's user algorithm (Section 2.2, Eq. 1-7):
+`A = A0 + ȧ·tk`, `n = √(μ/A0³) + Δn + ṅ·tk` (releases before 0.30 used the Global
+Positioning System (GPS) civil-navigation convention `½·ṅ·tk`, so a `ṅ` they wrote is twice
+the paper's), and `Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ` added to the radius,
+`Φ` the uncorrected argument of latitude.
+
+Two readings are Kshana's own and are stated as such:
 
 - The RAC frame and the `τ = tk / tau_s` normalisation. No public document defines a LEO
   correction frame for a broadcast message.
-- The Liu et al. terms. The paper's full text was not accessible, so Kshana evaluates
-  `A = A0 + ȧ·tk`, `n = n0 + Δn + ṅ·tk` (the paper's Eq. 1; releases before 0.30 used the Global Positioning System (GPS) civil-navigation convention `½·ṅ·tk`) and adds
-  `Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ` to the radius, `Φ` the argument
-  of latitude.
 - A zero-clock message's clock is zero in total: the steering loop is taken to hold the
   apparent clock, relativistic term included, to system time.
 
@@ -75,7 +77,9 @@ relativistic term) or steered (a first-order Gauss–Markov residual).
 alone are nearly indistinguishable. It starts from the osculating state at `toe` with
 the J2 node rate. Weak zero-centred priors bound the rates and harmonics that a short
 arc cannot resolve; with a 1 cm observation weight they act only in those null
-directions. The RAC polynomials are then fitted to the along/cross/radial residuals by
+directions. The `liu22` fit instead follows the paper's Section 2.3: it starts with every
+correction term zero, has no priors (plain least squares) and stops when every parameter
+step is below 1e-3 of its formal standard deviation, or after 100 iterations. The RAC polynomials are then fitted to the along/cross/radial residuals by
 linear least squares, and the clock polynomial to the truth clock minus the relativistic
 term the user will add back.
 
