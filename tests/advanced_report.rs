@@ -28,21 +28,11 @@ use kshana::advanced_report::{build, sha256_hex, Invocation, Report};
 use serde_json::Value;
 use std::fs;
 
+#[path = "support/corpus.rs"]
+mod corpus;
+
 fn runnable_scenarios() -> Vec<std::path::PathBuf> {
-    let mut v: Vec<_> = fs::read_dir("scenarios")
-        .expect("scenarios dir")
-        .filter_map(Result::ok)
-        .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|x| x == "toml"))
-        .filter(|p| {
-            !p.file_name()
-                .and_then(|n| n.to_str())
-                .unwrap_or_default()
-                .ends_with(".suite.toml")
-        })
-        .collect();
-    v.sort();
-    v
+    corpus::runnable_scenarios()
 }
 
 fn report_of(path: &std::path::Path) -> (kshana::api::RunOutput, String, Report) {
@@ -119,9 +109,10 @@ fn every_bundled_scenario_produces_a_complete_report_whose_labels_match_the_matr
     let matrix = kshana::verification::verification_matrix();
     let scenarios = runnable_scenarios();
     assert!(!scenarios.is_empty(), "no scenario found under scenarios/");
-    let mut bad: Vec<String> = Vec::new();
-    let mut checked = 0usize;
-    for path in &scenarios {
+    // Each scenario is run and reported on the corpus pool (tests/support/corpus.rs);
+    // the problems come back in the corpus's sorted order.
+    let per_scenario = corpus::par_map(&scenarios, |path| {
+        let mut bad: Vec<String> = Vec::new();
         let name = path.display().to_string();
         let (out, src, r) = report_of(path);
 
@@ -298,8 +289,10 @@ fn every_bundled_scenario_produces_a_complete_report_whose_labels_match_the_matr
         if !html.contains("@media print") || !html.contains("@page") {
             bad.push(format!("{name}: report.html has no print stylesheet"));
         }
-        checked += 1;
-    }
+        bad
+    });
+    let checked = per_scenario.len();
+    let bad: Vec<String> = per_scenario.into_iter().flatten().collect();
     assert!(
         bad.is_empty(),
         "{} problem(s) across the bundled reports:\n{}",
