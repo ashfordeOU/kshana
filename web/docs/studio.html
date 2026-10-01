@@ -86,7 +86,10 @@
 <code>editions.html</code>), the documentation under <code>docs/</code>, and Kshana Studio under <code>studio/</code>
 (served at <a href="https://kshana.dev/studio/">https://kshana.dev/studio/</a>),
 the app that runs the engine in the browser as WebAssembly (WASM) with no server-side
-computation and nothing uploaded.</p>
+computation and nothing uploaded. The Studio has two views of one engine: the Simple view
+(<code>studio/index.html</code>, the answer first in plain words) and the Advanced view
+(<code>studio/advanced/index.html</code>, the full dashboard), which shares the Simple view&#39;s
+engine, worker, modules and data through <code>&lt;base href=&quot;../&quot;&gt;</code>.</p>
 <h2 id="where-the-files-come-from">Where the files come from<a class="anchor" href="#where-the-files-come-from" aria-label="Link to this section">#</a></h2>
 <p>Three kinds of file live here, and they are changed in three different ways.</p>
 <ol>
@@ -141,7 +144,8 @@ node web/site.test.mjs             <span class="hljs-comment"># the ported tree:
 node web/legacy-urls.test.mjs      <span class="hljs-comment"># every old kshana.dev address still resolves</span>
 <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> web/studio/lib/*.test.mjs; <span class="hljs-keyword">do</span> node <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span>; <span class="hljs-keyword">done</span>   <span class="hljs-comment"># the Studio&#x27;s modules</span></code></pre>
 <p>Each module in <code>studio/lib/</code> is pure logic with a matching <code>*.test.mjs</code>; the Studio&#39;s
-DOM (Document Object Model, the page&#39;s element tree) driver is <code>studio/app.js</code>.
+DOM (Document Object Model, the page&#39;s element tree) drivers are <code>studio/app.js</code> (the
+Simple view) and <code>studio/advanced.js</code> (the Advanced view).
 Continuous integration runs every one of these as its own step and fails if a test file
 under <code>web/</code> has no step.</p>
 <h2 id="no-third-party-requests">No third-party requests<a class="anchor" href="#no-third-party-requests" aria-label="Link to this section">#</a></h2>
