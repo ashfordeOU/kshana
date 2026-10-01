@@ -28,12 +28,13 @@
 //!   (in-plane, perpendicular to radial). The polynomials run in `τ = tk / tau_s`, so each
 //!   coefficient is in metres. This is Kshana's documented definition; no public document
 //!   defines a LEO correction frame for a broadcast message.
-//! * Liu et al. 2025 name their six added parameters but the full text was not accessible
-//!   when this was written. Kshana evaluates them as: `A = A0 + ȧ·tk`,
-//!   `n = n0 + Δn + ½·ṅ·tk` (the GPS civil-navigation convention for a mean-motion rate),
-//!   and a radius correction extended by once- and three-per-revolution terms,
-//!   `δr += Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ`, with `Φ` the argument of
-//!   latitude. A different reading would change the fitted values, not the method.
+//! * Liu et al. 2025 evaluate their six added parameters by their user algorithm
+//!   (Section 2.2, Eq. 1-7), which Kshana follows exactly: `A_k = A + ȧ·tk`,
+//!   `n = √(μ/A³) + Δn + ṅ·tk` (Eq. 1; no factor ½, unlike the GPS civil-navigation
+//!   convention Kshana used before 0.30, so a ṅ written by an earlier release is twice the
+//!   paper's), the mean anomaly `M = M0 + n·tk`, and a radius correction extended by once- and
+//!   three-per-revolution terms, `δr += Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ`,
+//!   with `Φ` the uncorrected argument of latitude (Eq. 3, 5).
 //! * The relativistic clock term: for the Keplerian models the ICD eccentricity term
 //!   `F·e·√A·sin E`; for the polynomial model its general form `−2 r·v / c²`, taken from
 //!   the polynomial and its derivative (`r·v` is the same in ECEF and in inertial axes
@@ -460,7 +461,7 @@ pub fn kepler_point(k: &Keplerian, extra: Option<&Liu22Extra>, tk: f64) -> Keple
     let a0 = k.sqrt_a * k.sqrt_a;
     let n0 = (MU / (a0 * a0 * a0)).sqrt();
     let (a, n) = match extra {
-        Some(x) => (a0 + x.a_dot * tk, n0 + k.delta_n + 0.5 * x.n_dot * tk),
+        Some(x) => (a0 + x.a_dot * tk, n0 + k.delta_n + x.n_dot * tk),
         None => (a0, n0 + k.delta_n),
     };
     let mk = k.m0 + n * tk;

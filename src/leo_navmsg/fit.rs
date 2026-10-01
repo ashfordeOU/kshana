@@ -11,6 +11,10 @@
 //!   parameters an arc too short to resolve them would otherwise send to large offsetting
 //!   values; the observation weight is 1 cm, so the priors act only in those null
 //!   directions. The Jacobian is by central differences.
+//! * **`liu22`** follows Liu et al. 2025, Section 2.3, instead: the start is the osculating
+//!   state at `toe` with every correction term zero, there are no priors (plain least
+//!   squares), and the iteration stops on parameter convergence, when every parameter step is
+//!   below 1e-3 of its formal standard deviation (the paper's 100-iteration cap kept).
 //! * **`kepler-rac`** then fits the along-track, cross-track and radial residuals of the
 //!   Keplerian fit, each with a polynomial in `τ = tk / tau_s` (`tau_s` the power of two at
 //!   or above half the fit interval), by linear least squares. Because the least-squares
@@ -430,7 +434,10 @@ fn initial_params(truth: &TruthOrbit, reft: &SysTime, liu: bool) -> Vec<f64> {
     p[3] = i;
     p[4] = wrap_pi(raan - truth.theta(dt) + OMEGA_E * reft.tow);
     p[5] = wrap_pi(m + argp);
-    p[7] = rates.raan;
+    if !liu {
+        // Liu et al. 2025 start with every correction term zero.
+        p[7] = rates.raan;
+    }
     p
 }
 
@@ -439,6 +446,7 @@ fn kepler_residuals(
     reft: &SysTime,
     times: &[SysTime],
     obs: &[[f64; 3]],
+    prior_scale: f64,
     out: &mut Vec<f64>,
 ) {
     out.clear();
@@ -451,8 +459,8 @@ fn kepler_residuals(
         }
     }
     for (j, &pj) in p.iter().enumerate() {
-        if PRIOR_SIGMA[j] > 0.0 {
-            out.push(pj / PRIOR_SIGMA[j]);
+        if prior_scale > 0.0 && PRIOR_SIGMA[j] > 0.0 {
+            out.push(pj / (prior_scale * PRIOR_SIGMA[j]));
         }
     }
 }
@@ -465,15 +473,19 @@ fn fit_kepler(
     liu: bool,
 ) -> Result<(Vec<f64>, usize), String> {
     let np = n_params(liu);
+    // Liu22 is plain least squares (prior scale 0, no priors) and stops on parameter
+    // convergence; the other Keplerian models keep their priors at full weight.
+    let priors: f64 = if liu { 0.0 } else { 1.0 };
+    let max_iter = if liu { 100 } else { 80 };
     let mut p = initial_params(truth, reft, liu);
     let mut r = Vec::new();
-    kepler_residuals(&p, reft, times, obs, &mut r);
+    kepler_residuals(&p, reft, times, obs, priors, &mut r);
     let mut cost: f64 = r.iter().map(|x| x * x).sum();
     let mut lambda: f64 = 1e-3;
     let mut iters = 0;
     let mut stall = 0;
     let (mut rp, mut rm) = (Vec::new(), Vec::new());
-    for it in 0..80 {
+    for it in 0..max_iter {
         iters = it + 1;
         // Jacobian by central differences: jac[i][j].
         let m = r.len();
@@ -482,9 +494,9 @@ fn fit_kepler(
             let h = FD_STEP[j];
             let mut q = p.clone();
             q[j] = p[j] + h;
-            kepler_residuals(&q, reft, times, obs, &mut rp);
+            kepler_residuals(&q, reft, times, obs, priors, &mut rp);
             q[j] = p[j] - h;
-            kepler_residuals(&q, reft, times, obs, &mut rm);
+            kepler_residuals(&q, reft, times, obs, priors, &mut rm);
             for i in 0..m {
                 jac[i][j] = (rp[i] - rm[i]) / (2.0 * h);
             }
@@ -508,7 +520,7 @@ fn fit_kepler(
             };
             let q: Vec<f64> = p.iter().zip(&dp).map(|(a, b)| a + b).collect();
             let mut rq = Vec::new();
-            kepler_residuals(&q, reft, times, obs, &mut rq);
+            kepler_residuals(&q, reft, times, obs, priors, &mut rq);
             let cq: f64 = rq.iter().map(|x| x * x).sum();
             if cq.is_finite() && cq < cost {
                 let cost_before = cost;
@@ -518,6 +530,15 @@ fn fit_kepler(
                 cost = cq;
                 lambda = (lambda / 5.0).max(1e-12);
                 improved = true;
+                if liu {
+                    // Parameter convergence: every step below 1e-3 of its formal sigma.
+                    if let Some(sig) = formal_sigma(&jac) {
+                        if dp.iter().zip(&sig).all(|(d, s)| d.abs() <= 1e-3 * s) {
+                            return Ok((p, iters));
+                        }
+                    }
+                    break;
+                }
                 // Converged: the cost (in units of the 1 cm observation weight) stopped
                 // moving, relatively or absolutely.
                 if rel < 1e-10 || (cost_before - cq) < 1e-6 {
@@ -540,4 +561,59 @@ fn fit_kepler(
         return Err("Keplerian fit diverged".to_string());
     }
     Ok((p, iters))
+}
+
+/// Formal standard deviations of the parameters, `sqrt(diag((JᵀJ)⁻¹))` in the units of the
+/// residuals (here the 1 cm observation weight), by a Cholesky factorisation of the
+/// column-equilibrated normal matrix. `None` when that matrix is not positive definite.
+fn formal_sigma(jac: &[Vec<f64>]) -> Option<Vec<f64>> {
+    let n = jac.first()?.len();
+    let d: Vec<f64> = (0..n)
+        .map(|j| jac.iter().map(|row| row[j] * row[j]).sum::<f64>().sqrt())
+        .collect();
+    if d.iter().any(|v| !(*v > 0.0) || !v.is_finite()) {
+        return None;
+    }
+    let mut a = vec![vec![0.0; n]; n];
+    for row in jac {
+        for i in 0..n {
+            let ri = row[i] / d[i];
+            for j in 0..=i {
+                a[i][j] += ri * row[j] / d[j];
+            }
+        }
+    }
+    // Cholesky: a = L Lᵀ (lower triangle in place).
+    for j in 0..n {
+        let mut s = a[j][j];
+        for k in 0..j {
+            s -= a[j][k] * a[j][k];
+        }
+        if !(s > 0.0) {
+            return None;
+        }
+        let l = s.sqrt();
+        a[j][j] = l;
+        for i in j + 1..n {
+            let mut t = a[i][j];
+            for k in 0..j {
+                t -= a[i][k] * a[j][k];
+            }
+            a[i][j] = t / l;
+        }
+    }
+    // diag(A⁻¹)_j = ‖L⁻¹ e_j‖²: solve L y = e_j by forward substitution.
+    let mut out = Vec::with_capacity(n);
+    for j in 0..n {
+        let mut y = vec![0.0; n];
+        for i in j..n {
+            let mut t = if i == j { 1.0 } else { 0.0 };
+            for k in j..i {
+                t -= a[i][k] * y[k];
+            }
+            y[i] = t / a[i][i];
+        }
+        out.push(y.iter().map(|v| v * v).sum::<f64>().sqrt() / d[j]);
+    }
+    Some(out)
 }

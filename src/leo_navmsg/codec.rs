@@ -158,7 +158,7 @@ const NAMES_C: [&str; 8] = ["c0", "c1", "c2", "c3", "c4", "c5", "c6", "c7"];
 const NAMES_R: [&str; 8] = ["r0", "r1", "r2", "r3", "r4", "r5", "r6", "r7"];
 // Liu et al. 2025 extras.
 const F_ADOT: FieldSpec = FieldSpec::new("aDot", 26, true, p2(-20), "m/s");
-const F_NDOT: FieldSpec = FieldSpec::new("nDot", 30, true, p2(-60), "semicircle/s^2");
+const F_NDOT: FieldSpec = FieldSpec::new("nDot", 30, true, p2(-58), "semicircle/s^2");
 const F_CRS3: FieldSpec = FieldSpec::new("Crs3", 26, true, p2(-10), "m");
 const F_CRC3: FieldSpec = FieldSpec::new("Crc3", 26, true, p2(-10), "m");
 const F_CRS1: FieldSpec = FieldSpec::new("Crs1", 26, true, p2(-10), "m");
