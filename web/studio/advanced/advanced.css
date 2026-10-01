@@ -1,0 +1,23 @@
+/* Advanced view additions (2026-10-01, 0.29.3): the switch back to the Simple view, and a phone
+   layout that is at least usable: one header row of 64 px or less, and no strip that hides
+   controls sideways (the panel tabs, the key figures and the phone sub-tabs wrap instead). */
+.view-switch{background:var(--surface);color:var(--ink);border:1px solid var(--line-2);font-weight:600}
+.view-switch:hover{background:var(--line)}
+@media (max-width:760px){
+  .bar{flex-wrap:nowrap;max-height:64px;overflow:hidden}
+  .bar .pill.view-switch{display:inline-flex;height:44px;padding:0 12px;font-size:12.5px;flex:none}
+  .brand-tag{display:none}
+  .tabs,.subtabs{flex-wrap:wrap;overflow-x:visible}
+  .tab,.subtabs button{flex:0 0 auto}
+  .figs.kpis{overflow-x:visible}
+  .chart-box{overflow-x:hidden}
+  .chart-box svg.chart,.chart-box.img img{min-width:0}
+  .table-scroll{overflow-x:visible}
+  .table-scroll .tbl,.table-scroll .tbl tbody,.table-scroll .tbl tr,.table-scroll .tbl td{display:block;width:100%}
+  .table-scroll .tbl thead{display:none}
+  .table-scroll .tbl tr{padding:8px 0;border-bottom:1px solid var(--line)}
+  .table-scroll .tbl td{border:0;padding:2px 0;text-align:left!important;white-space:normal!important}
+  .json,pre.mono{white-space:pre-wrap;word-break:break-all}
+}
+@media (max-width:370px){.bar .pill.view-switch{padding:0 9px;font-size:12px}}
+.pill.view-switch{display:inline-flex!important;align-items:center}

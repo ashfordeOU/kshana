@@ -1,12 +1,12 @@
 {
- "engine_version": "0.29.2",
+ "engine_version": "0.29.3",
  "source": "native",
  "platform": "darwin arm64",
- "recorded_utc": "2026-10-01T13:06:20.602Z",
+ "recorded_utc": "2026-10-01T15:42:35.184Z",
  "runs": {
   "celeste-iod-classical-pilot-signals.toml": {
    "file": "celeste-iod-classical-pilot-signals.json.gz",
-   "bytes": 26169,
+   "bytes": 26170,
    "unpacked_bytes": 118718,
    "report": true,
    "animation": false,
@@ -35,7 +35,7 @@
   },
   "celeste-iod-fused-pvt.toml": {
    "file": "celeste-iod-fused-pvt.json.gz",
-   "bytes": 35049,
+   "bytes": 35047,
    "unpacked_bytes": 126358,
    "report": true,
    "animation": true,
