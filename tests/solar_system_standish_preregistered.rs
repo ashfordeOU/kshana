@@ -70,6 +70,15 @@
 //!
 //! Fixture: `tests/fixtures/solar_system_standish_preregistered/` (generator, NOTICE, CSVs),
 //! fetched only after this header was committed.
+//!
+//! # Result (run 2026-10-01, after the pre-registration commit 80451866)
+//!
+//! Every RMS is inside its bar; the largest RMS over the Table 8.10.1 figure is 0.778 (Saturn's
+//! distance, Table 1), then 0.774 (Venus' latitude, Table 2) and 0.763 (Mars' longitude, Table 1).
+//! Maxima, not gating, reach 3.83 times the figure (Mercury's latitude, Table 1): the published
+//! errors behave as RMS-like figures, not as bounds. Mutation check: dropping the Table 2b
+//! mean-anomaly terms (b, c, s, f) turns the test red (Neptune's longitude RMS 5.25 times, Saturn's
+//! 2.50 times, Jupiter's 1.72 times the figure).
 
 use kshana::ephem::{standish_state, Planet, StandishTable};
 
@@ -149,7 +158,11 @@ fn error(model_m: [f64; 3], oracle_km: [f64; 3]) -> [f64; 3] {
     let (lo, bo, ro) = lbr(oracle_km);
     let pi = std::f64::consts::PI;
     let dl = (lm - lo + pi).rem_euclid(2.0 * pi) - pi;
-    [dl * ARCSEC_PER_RAD, (bm - bo) * ARCSEC_PER_RAD, (rm - ro) / 1e3]
+    [
+        dl * ARCSEC_PER_RAD,
+        (bm - bo) * ARCSEC_PER_RAD,
+        (rm - ro) / 1e3,
+    ]
 }
 
 /// Per-series statistics: RMS and maximum absolute error per component, and the epoch count.
@@ -226,7 +239,6 @@ fn evaluate(
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn standish_rms_errors_are_within_explanatory_supplement_table_8_10_1() {
     let mut failures = evaluate(
         "horizons_table1.csv",
