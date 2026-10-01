@@ -72,8 +72,241 @@
 //!    ground range R_e (pi/2 - rho) within 0.5 % of the GeographicLib geodesic distance.
 //!
 //! Any failure leaves the row MODELLED with the gap recorded; no bar changes after the run.
+//!
+//! VERDICT (2026-10-01, first run): AGREES on every comparison. Worst relative gaps: angular radius
+//! 5.4e-16, circular period 1.6e-16, swath 4.8e-13 (intersection) and 7.0e-13 (footprint), maximum
+//! access 1.9e-14, nadir GSD 2.9e-10, J2 nodal period 1.2e-5, node spacing 6.7e-5 (42 points, 15
+//! or 16 nodes each); WGS-84 limb 0.186 deg against 0.3 deg; WGS-84 maximum ground range 3.2e-3
+//! against 5e-3; contiguous flag equal at all 168 points (12 contiguous, 156 gapped). Mutation:
+//! dropping the nodal regression (`EARTH_ROTATION_RATE - 0.0 * j2_node_rate(..)`) fails 35 of 42
+//! node-spacing points, worst 2.19e-2. For context, the former R_e omega_E T (circular period)
+//! form departs from the oracle by -1.77e-2 to +1.8e-3 on the same grid.
 
-use kshana::eo_payload::{ground_track_spacing_equator_j2, swath_width};
+use kshana::eo_payload::{
+    circular_period, earth_angular_radius, ground_range, ground_track_spacing_equator_j2,
+    j2_nodal_period, nadir_gsd, swath_width,
+};
+
+const REF: &str = include_str!(
+    "fixtures/eo_payload_coverage_orekit_oracle/eo_payload_coverage_orekit_oracle.txt"
+);
+
+const R_E: f64 = 6_378_137.0;
+const SPHERE_REL: f64 = 1e-9;
+const GSD_REL: f64 = 1e-7;
+const PERIOD_REL: f64 = 1e-12;
+const NODE_REL: f64 = 1e-3;
+const LIMB_DEG: f64 = 0.3;
+const MAX_RANGE_REL: f64 = 5e-3;
+
+fn fields(line: &str) -> Vec<String> {
+    line.split_once(' ')
+        .unwrap()
+        .1
+        .split('|')
+        .map(|f| f.trim().to_string())
+        .collect()
+}
+
+fn num(s: &str) -> f64 {
+    s.parse().unwrap()
+}
+
+fn key(h: f64, i: f64, f: f64) -> String {
+    format!("{h} {i} {f}")
+}
+
+/// Runs every pre-registered comparison; returns (failures, report lines).
+fn compare() -> (Vec<String>, Vec<String>) {
+    let mut fail = Vec::new();
+    let mut rep = Vec::new();
+    let mut worst: std::collections::BTreeMap<&str, f64> = Default::default();
+    let mut note = |k: &'static str, v: f64| {
+        let e = worst.entry(k).or_insert(0.0);
+        *e = e.max(v);
+    };
+    let rel_check = |what: &str, k: f64, o: f64, tol: f64, fail: &mut Vec<String>| -> f64 {
+        let r = ((k - o) / o).abs();
+        if !(r <= tol) {
+            fail.push(format!(
+                "{what}: Kshana {k:.12e} vs oracle {o:.12e}, rel {r:.3e} > {tol:e}"
+            ));
+        }
+        r
+    };
+    let mut swath_or: std::collections::BTreeMap<String, f64> = Default::default();
+    let mut spacing_or: std::collections::BTreeMap<String, f64> = Default::default();
+    let mut counts = [0usize; 8];
+    for line in REF.lines() {
+        let tag = line.split(' ').next().unwrap_or("");
+        match tag {
+            "SPHERE" => {
+                let f = fields(line);
+                let h = num(&f[0]) * 1e3;
+                let r = rel_check(
+                    &format!("angular radius h {}", f[0]),
+                    earth_angular_radius(h),
+                    num(&f[1]),
+                    SPHERE_REL,
+                    &mut fail,
+                );
+                note("angular radius", r);
+                let r = rel_check(
+                    &format!("period h {}", f[0]),
+                    circular_period(h),
+                    num(&f[2]),
+                    PERIOD_REL,
+                    &mut fail,
+                );
+                note("circular period", r);
+                counts[0] += 1;
+            }
+            "SWATH" => {
+                let f = fields(line);
+                let h = num(&f[0]) * 1e3;
+                let k = swath_width(num(&f[1]).to_radians(), h).unwrap();
+                let r = rel_check(
+                    &format!("swath (intersection) h {} fov {}", f[0], f[1]),
+                    k,
+                    num(&f[2]),
+                    SPHERE_REL,
+                    &mut fail,
+                );
+                note("swath, intersection", r);
+                for (j, what) in [(3, "mean"), (4, "min"), (5, "max")] {
+                    let r = rel_check(
+                        &format!("swath (footprint {what}) h {} fov {}", f[0], f[1]),
+                        k,
+                        num(&f[j]),
+                        SPHERE_REL,
+                        &mut fail,
+                    );
+                    note("swath, footprint", r);
+                }
+                swath_or.insert(format!("{} {}", f[0], f[1]), num(&f[2]));
+                counts[1] += 1;
+            }
+            "GSD" => {
+                let f = fields(line);
+                let k = nadir_gsd(num(&f[0]) * 1e3, num(&f[1]));
+                let r = rel_check(
+                    &format!("GSD h {} ifov {}", f[0], f[1]),
+                    k,
+                    num(&f[2]),
+                    GSD_REL,
+                    &mut fail,
+                );
+                note("nadir GSD", r);
+                counts[2] += 1;
+            }
+            "ACCESS" => {
+                let f = fields(line);
+                let h = num(&f[0]) * 1e3;
+                let eta = num(&f[1]).to_radians().min(earth_angular_radius(h));
+                let k = ground_range(eta, h).unwrap();
+                let r = rel_check(
+                    &format!("access h {} slew {} ({})", f[0], f[1], f[3]),
+                    k,
+                    num(&f[2]),
+                    SPHERE_REL,
+                    &mut fail,
+                );
+                note("maximum access", r);
+                counts[3] += 1;
+            }
+            "NODE" => {
+                let f = fields(line);
+                let (h, i) = (num(&f[0]) * 1e3, num(&f[1]).to_radians());
+                assert!(num(&f[4]) >= 15.0, "too few nodes: {line}");
+                let r = rel_check(
+                    &format!("nodal period h {} i {}", f[0], f[1]),
+                    j2_nodal_period(h, i),
+                    num(&f[2]),
+                    NODE_REL,
+                    &mut fail,
+                );
+                note("J2 nodal period", r);
+                let r = rel_check(
+                    &format!("node spacing h {} i {}", f[0], f[1]),
+                    ground_track_spacing_equator_j2(h, i),
+                    num(&f[3]),
+                    NODE_REL,
+                    &mut fail,
+                );
+                note("node spacing", r);
+                spacing_or.insert(format!("{} {}", f[0], f[1]), num(&f[3]));
+                counts[4] += 1;
+            }
+            "WGS" => {
+                let f = fields(line);
+                let d = (earth_angular_radius(num(&f[0]) * 1e3).to_degrees() - num(&f[3])).abs();
+                if !(d <= LIMB_DEG) {
+                    fail.push(format!(
+                        "WGS-84 limb h {} lat {} {}: |d| {d:.4} deg > {LIMB_DEG}",
+                        f[0], f[1], f[2]
+                    ));
+                }
+                note("WGS-84 limb (deg)", d);
+                counts[5] += 1;
+            }
+            "GEO" => {
+                let f = fields(line);
+                let rho = earth_angular_radius(num(&f[0]) * 1e3);
+                let k = R_E * (std::f64::consts::FRAC_PI_2 - rho);
+                let r = rel_check(
+                    &format!("WGS-84 max ground range h {} lat {} {}", f[0], f[1], f[2]),
+                    k,
+                    num(&f[3]),
+                    MAX_RANGE_REL,
+                    &mut fail,
+                );
+                note("WGS-84 max ground range", r);
+                counts[6] += 1;
+            }
+            _ => {}
+        }
+    }
+    // Contiguous-coverage flag at every (h, i, half field of view), exempt points excepted.
+    let exempt: Vec<String> = engine_exempt_points()
+        .iter()
+        .map(|l| l.rsplit_once(' ').unwrap().0.to_string())
+        .collect();
+    let (mut n_true, mut n_false) = (0, 0);
+    for h in ALTS_KM {
+        for i in INCS_DEG {
+            for fv in HALF_FOVS_DEG {
+                let hs = format!("{h:.1}");
+                let o_sw = swath_or[&format!("{hs} {fv:.1}")];
+                let o_sp = spacing_or[&format!("{hs} {i:.1}")];
+                let oracle_flag = o_sw >= o_sp;
+                let k_flag = swath_width(fv.to_radians(), h * 1e3).unwrap()
+                    >= ground_track_spacing_equator_j2(h * 1e3, i.to_radians());
+                if oracle_flag {
+                    n_true += 1
+                } else {
+                    n_false += 1
+                }
+                if k_flag != oracle_flag && !exempt.contains(&key(h, i, fv)) {
+                    fail.push(format!("contiguous flag h {h} i {i} fov {fv}: Kshana {k_flag}, oracle {oracle_flag}"));
+                }
+                counts[7] += 1;
+            }
+        }
+    }
+    rep.push(format!(
+        "points: sphere {}, swath {}, GSD {}, access {}, node {}, WGS limb {}, WGS range {}, flags {} ({n_true} contiguous, {n_false} gapped)",
+        counts[0], counts[1], counts[2], counts[3], counts[4], counts[5], counts[6], counts[7]
+    ));
+    for (k, v) in &worst {
+        rep.push(format!("worst {k}: {v:.3e}"));
+    }
+    assert_eq!(
+        counts,
+        [7, 28, 21, 14, 42, 35, 35, 168],
+        "fixture incomplete"
+    );
+    (fail, rep)
+}
 
 const EXEMPT: &str =
     include_str!("fixtures/eo_payload_coverage_orekit_oracle/exempt_flag_points.txt");
@@ -120,7 +353,10 @@ fn exempt_flag_points_are_the_engines() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn eo_coverage_matches_orekit_and_geographiclib() {
-    unimplemented!("pre-registered: fixture and engine function not yet present");
+    let (fail, rep) = compare();
+    for l in &rep {
+        eprintln!("{l}");
+    }
+    assert!(fail.is_empty(), "disagreements:\n{}", fail.join("\n"));
 }
