@@ -5,25 +5,25 @@
 // so the home page sends those old addresses to where the content lives now.
 (function (g) {
   var RULES = {
-  "embed": "playground/index.html",
+  "embed": "/playground/",
   "embedTabs": {
     "fom": "overview",
     "orbit3d": "orbit"
   },
   "hash": {
-    "ashforde": "editions.html#contact",
-    "cite": "evidence.html#cite",
-    "editions": "editions.html",
-    "explore": "capabilities.html#explorer",
-    "ledger": "evidence.html#ledger",
-    "mcp": "developers.html#mcp",
-    "playground": "playground/index.html",
-    "standards": "evidence.html#standards",
-    "validation": "evidence.html#matrix"
+    "ashforde": "/editions#contact",
+    "cite": "/evidence#cite",
+    "editions": "/editions",
+    "explore": "/capabilities#explorer",
+    "ledger": "/evidence#ledger",
+    "mcp": "/developers#mcp",
+    "playground": "/playground/",
+    "standards": "/evidence#standards",
+    "validation": "/evidence#matrix"
   },
   "hashPrefix": {
-    "ldg-": "evidence.html#ledger",
-    "s=": "playground/index.html{hash}"
+    "ldg-": "/evidence#ledger",
+    "s=": "/playground/{hash}"
   }
 };
   function legacyTarget(search, hash) {

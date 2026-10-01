@@ -150,7 +150,7 @@
 .prose td code{font-size:12.5px}
 
 /* ---------------- generated reference cards (scenario and capability references) */
-.ref-card{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:18px 20px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);margin:0 0 14px;scroll-margin-top:96px}
+.ref-card{display:grid;grid-template-columns:minmax(0,1fr);gap:10px;padding:18px 20px;border-radius:var(--r);border:1px solid var(--line);background:var(--panel);box-shadow:var(--shadow);margin:0 0 14px}
 .ref-card:target{border-color:var(--cyan);box-shadow:0 0 0 3px var(--cyan-soft),var(--shadow)}
 .prose .ref-card h3{margin:0;font:600 15px/1.3 var(--mono);letter-spacing:0;overflow-wrap:anywhere}
 .ref-card>p{margin:0;font-size:15.5px;line-height:1.6}

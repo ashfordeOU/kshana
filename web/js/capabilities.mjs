@@ -78,8 +78,8 @@ function prov(p, m, eng, { lead = null, studioTab = null } = {}) {
   p.append(src);
   const stem = m.file.replace(/\.toml$/, "");
   if (studioTab) {
-    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = studioHref(ROOT, stem, studioTab) || `${ROOT}playground/index.html?scenario=${stem}&tab=${studioTab}`; p.append(a);
-    const r = el("a", null, "Report and data"); r.href = `${ROOT}playground/index.html?scenario=${stem}&tab=exports`; p.append(r);
+    const a = el("a", "prov-open", `Open in ${STUDIO}`); a.href = studioHref(ROOT, stem, studioTab) || `/playground/?scenario=${stem}&tab=${studioTab}`; p.append(a);
+    const r = el("a", null, "Report and data"); r.href = `/playground/?scenario=${stem}&tab=exports`; p.append(r);
     return;
   }
   // An engine-run visual: the Studio view that reproduces it (js/studio-links.mjs, generated from

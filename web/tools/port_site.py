@@ -273,7 +273,7 @@ def not_found_page(index_text, studio_name):
     <span class="eyebrow" style="--c:var(--coral)"><i></i>Error 404 · page not found</span>
     <h1 class="h1">No page at this address. <span class="soft">The rest is where it was.</span></h1>
     <p class="lede">The address may be mistyped, or it may be from the earlier single-page site. Start from the home page, read the docs, or run a scenario in {esc}. Search finds every page, scenario and doc.</p>
-    <div class="ctas"><a class="btn btn-ink" href="index.html">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="docs/index.html">Docs</a><a class="btn btn-ghost" href="playground/index.html">Launch {esc}</a></div>
+    <div class="ctas"><a class="btn btn-ink" href="/">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="/docs/">Docs</a><a class="btn btn-ghost" href="/playground/">Launch {esc}</a></div>
   </div>
 </section>
 </main>"""
@@ -292,11 +292,21 @@ def is_page(rel):
 
 
 def canonical(rel):
+    """A page's address as the site links it: clean, with no ".html" ("/" for Home, /docs/ for the
+    docs index, /evidence for evidence.html). The host serves both forms; this is the one it names."""
     if rel == "index.html":
         return ORIGIN + "/"
     if rel.endswith("/index.html"):
         return f"{ORIGIN}/{rel[:-len('index.html')]}"
-    return f"{ORIGIN}/{rel}"
+    return f"{ORIGIN}/{rel[:-len('.html')] if rel.endswith('.html') else rel}"
+
+
+def site_file(addr):
+    """A clean site address ("/evidence", "/docs/", "/playground/") -> the file the host serves for it."""
+    path = addr.split("#", 1)[0].split("?", 1)[0].lstrip("/")
+    if path == "" or path.endswith("/"):
+        return path + "index.html"
+    return path if "." in path.rsplit("/", 1)[-1] else path + ".html"
 
 
 def head_block(rel, text, version, summ):
@@ -441,10 +451,17 @@ def studio_index(text, studio_name):
     text = re.sub(r"<title>[^<]*</title>", f"<title>{esc}</title>", text, count=1)
     text = re.sub(r"(data-studio-name>)[^<]*(<)", lambda m: m.group(1) + esc + m.group(2), text)
     text = re.sub(r"(data-studio-short>)[^<]*(<)", lambda m: m.group(1) + short + m.group(2), text)
-    text = text.replace(f'href="{ORIGIN}/#ledger"', 'href="../evidence.html#ledger"')
-    text = re.sub(r'(<p class="embed-only"><a href=")' + re.escape(ORIGIN) + r'(")', r"\1index.html\2", text)
+    text = text.replace(f'href="{ORIGIN}/#ledger"', 'href="/evidence#ledger"')
+    text = re.sub(r'(<p class="embed-only"><a href=")' + re.escape(ORIGIN) + r'(")', r"\1/playground/\2", text)
     if ORIGIN in text:
         fail("Studio index.html still links to the old single-page kshana.dev after the known rewrites")
+    # Links to the site's pages by their clean address, as the site build writes them:
+    # ../missions.html -> /missions, ../docs/index.html -> /docs/, ../index.html -> /
+    def clean(m):
+        path, rest = m.group(2), m.group(3) or ""
+        path = path[: -len("index.html")] if path == "index.html" or path.endswith("/index.html") else path[: -len(".html")]
+        return f'{m.group(1)}/{path}{rest}"'
+    text = re.sub(r'(<a\b[^>]*?\shref=")\.\./([\w/-]+\.html)([#?][^"]*)?"', clean, text)
     return text
 
 
@@ -557,7 +574,8 @@ def check_legacy(legacy, out):
     targets = [red["embed"]] + list(red["hashPrefix"].values()) + list(red["hash"].values())
     for t in targets:
         t = t.replace("{hash}", "")
-        path, _, frag = t.partition("#")
+        _, _, frag = t.partition("#")
+        path = site_file(t)
         if path not in out:
             fail(f"legacy redirect target {path} is not in the ported site")
         elif frag and frag not in ids_of(out[path].decode("utf-8")):

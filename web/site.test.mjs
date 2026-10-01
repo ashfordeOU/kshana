@@ -112,6 +112,7 @@ const ids = (rel) => {
 const onDisk = (rel) => rel in manifest.files || OWNED.has(rel) || (OWNED_DIRS.some((d) => rel.startsWith(d)) && existsSync(join(WEB, rel)));
 const built = (rel) => BUILT.some((b) => rel.startsWith(b));
 const broken = [];
+const dirty = [];
 let links = 0;
 let studioLinks = 0;
 for (const rel of [...pages, NOT_FOUND]) {
@@ -124,8 +125,12 @@ for (const rel of [...pages, NOT_FOUND]) {
     const [path, query] = pathQuery.split("?");
     // a root-absolute address ("/site.css", used by 404.html) is a path from web/
     let target = path === "" ? rel : path.startsWith("/") ? posix.normalize(path.slice(1)) : posix.normalize(posix.join(posix.dirname(rel), path));
-    if (target.endsWith("/")) target += "index.html";
+    if (target.endsWith("/") || target === ".") target = target === "." ? "index.html" : target + "index.html";
     if (target.startsWith("../")) { broken.push(`${rel}: ${raw} leaves the site`); continue; }
+    // a clean address (/evidence, /docs/changelog) is the page the host serves for it
+    if (!onDisk(target) && !built(target) && onDisk(target + ".html")) target += ".html";
+    // every link to a page is its clean address: no ".html", no "index.html" (Home is "/")
+    if (rel !== NOT_FOUND && isPage(rel) && /(^|\/)index\.html$|\.html$/.test(path) && !path.startsWith("assets/") && !/^(\.\.\/)*assets\//.test(path)) dirty.push(`${rel}: ${raw}`);
     if (built(target)) continue;
     if (!onDisk(target)) { broken.push(`${rel}: ${raw} -> ${target} does not exist`); continue; }
     if (frag && target.endsWith(".html") && !ids(target).has(decodeURIComponent(frag))) broken.push(`${rel}: ${raw} -> no id="${frag}" in ${target}`);
@@ -140,6 +145,7 @@ for (const rel of [...pages, NOT_FOUND]) {
   }
 }
 assert.deepEqual(broken, [], "broken internal links");
+assert.deepEqual(dirty.slice(0, 20), [], "links that name a page by its .html file instead of its clean address");
 assert.ok(links > 1000, `only ${links} internal links were checked: the link scan is broken`);
 assert.ok(studioLinks > 20, `only ${studioLinks} links into the Studio name a scenario: the scan is broken`);
 
@@ -147,7 +153,7 @@ assert.ok(studioLinks > 20, `only ${studioLinks} links into the Studio name a sc
 const sitemap = text("sitemap.xml");
 for (const rel of pages) {
   const html = text(rel);
-  const url = "https://kshana.dev/" + (rel === "index.html" ? "" : rel.endsWith("/index.html") ? rel.slice(0, -"index.html".length) : rel);
+  const url = "https://kshana.dev/" + (rel === "index.html" ? "" : rel.endsWith("/index.html") ? rel.slice(0, -"index.html".length) : rel.replace(/\.html$/, ""));
   assert.ok(html.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical link`);
   assert.ok(html.includes('<meta property="og:image" content="https://kshana.dev/og-card.png">'), `${rel}: og:image`);
   assert.ok(sitemap.includes(`<loc>${url}</loc>`), `${rel}: missing from sitemap.xml`);
@@ -271,7 +277,7 @@ assert.ok(!nf.includes("legacy-redirects.js") && !nf.includes('rel="canonical"')
 for (const m of nf.replace(/<script\b[\s\S]*?<\/script>/g, (sc) => (sc.includes(" src=") ? sc : " ")).matchAll(/\s(?:href|src)="([^"]*)"/g)) {
   assert.ok(/^(\/|#|[a-z][a-z0-9+.-]*:)/i.test(m[1]), `404.html: relative address ${m[1]} would break below the site root`);
 }
-for (const to of ["/index.html", "/docs/index.html", "/playground/index.html"]) assert.ok(nf.includes(`href="${to}"`), `404.html links to ${to}`);
+for (const to of ["/", "/docs/", "/playground/"]) assert.ok(nf.includes(`href="${to}"`), `404.html links to ${to}`);
 assert.ok(nf.includes('root:"/"'), "404.html tells site.js the site root, so search results open from any depth");
 assert.ok(/<h1[^>]*>[^<]*No page at this address/.test(nf), "404.html says what happened");
 assert.ok(nf.includes('<header class="nav"') && nf.includes('<footer class="foot">') && nf.includes('id="palette"'), "404.html carries the site's navigation, footer and search");
