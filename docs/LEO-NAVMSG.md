@@ -188,9 +188,9 @@ Kshana's encoding:
 | `kepler-rac` | 60 s | 37 | 1045 | 0.000 cm | 0.044 cm |
 | `kepler-rac` | 300 s | 37 | 1045 | 0.005 cm | 0.120 cm |
 | `kepler-rac` | 600 s | 37 | 1045 | 0.160 cm | 0.208 cm |
-| `liu22` | 60 s | 22 | 730 | 0.011 cm | 0.046 cm |
-| `liu22` | 300 s | 22 | 730 | 0.068 cm | 0.139 cm |
-| `liu22` | 600 s | 22 | 730 | 0.269 cm | 0.299 cm |
+| `liu22` | 60 s | 22 | 730 | 0.014 cm | 0.046 cm |
+| `liu22` | 300 s | 22 | 730 | 0.074 cm | 0.142 cm |
+| `liu22` | 600 s | 22 | 730 | 0.258 cm | 0.290 cm |
 | `ecef-poly` (zero clock) | 60 s | 22 | 750 | 0.000 cm | 28.784 cm |
 | `ecef-poly` (zero clock) | 300 s | 22 | 750 | 0.005 cm | 28.784 cm |
 | `ecef-poly` (zero clock) | 600 s | 22 | 750 | 0.561 cm | 28.774 cm |
@@ -204,16 +204,19 @@ satellite's inclination:
 
 | Satellite | Altitude | Inclination | Liu et al. 2025 | Kshana (orbit-only RMS) | ratio |
 |---|---|---|---|---|---|
-| GRACE-A | 320 km | 89.00° | 8.88 cm | 5.40 cm | 0.61 |
-| GRACE-C | 475 km | 89.00° | 6.21 cm | 4.12 cm | 0.66 |
-| Sentinel-2A | 786 km | 98.57° | 2.87 cm | 2.95 cm | 1.03 |
-| HY-2A | 966 km | 99.34° | 2.11 cm | 2.38 cm | 1.13 |
-| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.70 cm | 0.94 |
+| GRACE-A | 320 km | 89.00° | 8.88 cm | 4.25 cm | 0.48 |
+| GRACE-C | 475 km | 89.00° | 6.21 cm | 2.87 cm | 0.46 |
+| Sentinel-2A | 786 km | 98.57° | 2.87 cm | 2.20 cm | 0.77 |
+| HY-2A | 966 km | 99.34° | 2.11 cm | 1.25 cm | 0.59 |
+| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.51 cm | 0.67 |
 
 This is **not** a validation. The paper fitted real precise science orbits of the named
 satellites (with their full gravity, drag and non-gravitational history); Kshana fits its
-own integrated orbit, reads the six added parameters as described above, and uses its
-own SISRE weights. The comparison shows the trend and the order of magnitude.
+own integrated orbit, evaluates the six added parameters as described above, and uses its
+own SISRE weights. The comparison shows the trend and the order of magnitude. The
+comparison on the same real orbits the paper fitted is
+`tests/leo_navmsg_fit_real_orbit_oracle.rs` (since 0.30 the 22-parameter fit agrees there
+within the pre-registered factor 1.5, on the paper's days and on eight held-out days).
 
 ### Mid-pass update
 

@@ -594,7 +594,7 @@ pub const LIMITATIONS: [&str; 6] = [
     "The binary format is Kshana's own documented encoding modelled on the published message components; it is not the bit layout of Celeste or any other system (none is public).",
     "The RINEX-style block is a documented Kshana extension; RINEX 4.02 defines no LEO navigation records.",
     "NeQuick-G coefficients are carried and the effective ionisation level is computed, but the NeQuick electron-density integration that turns it into a delay is not implemented; the Klobuchar delay is, scaled to the carrier by 1/f^2 with no correction for a satellite flying inside the ionosphere.",
-    "The Liu et al. 2025 22-parameter terms are evaluated as Kshana reads them from the paper's parameter list (the full text was not accessible); its SISRE-versus-altitude figures used real precise orbits, so the comparison is MODELLED, not VALIDATED.",
+    "The Liu et al. 2025 22-parameter terms follow the paper's user algorithm (Eq. 1-7) and fitting strategy (Section 2.3); its SISRE-versus-altitude figures used real precise orbits, so this comparison on a Kshana-integrated orbit is MODELLED, not VALIDATED (the real-orbit comparison is tests/leo_navmsg_fit_real_orbit_oracle.rs).",
 ];
 
 /// One row of the fit-interval trade.
