@@ -9,6 +9,24 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.29.2] - 2026-10-01
+
+A patch release on 0.29.1 that removes duplicated code in the LEO navigation-message,
+fusion and spectrum modules. No engine output changes: every bundled scenario gives a
+byte-identical result to 0.29.1 apart from the version stamp.
+
+### Changed
+
+- **Less duplicated code.** The LEO navigation-message units table wrote the same ten
+  SISRE statistics rows for four fit summaries. A macro now writes them once. The two
+  spectrum waterfall charts share one time axis, colour bar and C/N0 bar panel. The main
+  grid's downsampling reuses `downsample_grid`, and the Simpson integral reuses
+  `navsignal::simpson`. The LEO pass kind's two entry points share one setup step.
+  `leo_link::geometry` imports the `leo_fusion::geom` vector helpers instead of copying
+  them. The advanced report imports the API report's HTML escape instead of copying it.
+  All 139 bundled scenarios were run on 0.29.1 and on this code, and every output file
+  is byte-identical.
+
 ## [0.29.1] - 2026-10-01
 
 A patch release on 0.29.0: the measured coverage figure, the project's name line on
@@ -4642,7 +4660,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.29.1...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.29.2...HEAD
+[0.29.2]: https://github.com/AshfordeOU/kshana/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/AshfordeOU/kshana/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0
 [0.28.0]: https://github.com/AshfordeOU/kshana/compare/v0.27.4...v0.28.0

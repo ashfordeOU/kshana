@@ -15,7 +15,7 @@ and bundled scenario runs without any particular one of them.
 
 A scenario lists its systems as `[[system]]` tables. This complete scenario joins the GPS
 baseline constellation with a generic LEO layer and runs as written (`kshana <file>.toml`;
-engine 0.29.1 gives a median position dilution of precision of 2.43 for GPS alone and 1.17
+engine 0.29.2 gives a median position dilution of precision of 2.43 for GPS alone and 1.17
 fused, and a root-mean-square 3D error of 2.06 m and 0.47 m):
 
 ```toml
