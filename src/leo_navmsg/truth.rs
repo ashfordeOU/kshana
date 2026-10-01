@@ -278,6 +278,48 @@ impl TruthOrbit {
         })
     }
 
+    /// A truth orbit from tabulated Earth-fixed states, for fitting a message to a real
+    /// orbit (for example a precise science orbit). `states[k]` is the ECEF position (m) and
+    /// ECEF velocity (m/s) at `epoch + k·step_s`. The states are turned into this type's
+    /// pseudo-inertial frame by the same single rotation `θ(t) = θ0 + Ω̇e·t` that
+    /// [`TruthOrbit::state_ecef`] undoes, so `state_ecef` returns the tabulated states at the
+    /// nodes and cubic Hermite interpolants between them.
+    pub fn from_ecef_states(
+        epoch: SysTime,
+        step_s: f64,
+        theta0_rad: f64,
+        states: &[([f64; 3], [f64; 3])],
+    ) -> Result<TruthOrbit, String> {
+        if !(step_s > 0.0 && step_s <= 60.0) {
+            return Err(format!("node spacing must be in (0, 60] s; got {step_s}"));
+        }
+        if states.len() < 2 {
+            return Err(format!(
+                "a tabulated truth orbit needs at least two states; got {}",
+                states.len()
+            ));
+        }
+        let mut r = Vec::with_capacity(states.len());
+        let mut v = Vec::with_capacity(states.len());
+        for (k, (re, ve)) in states.iter().enumerate() {
+            if !re.iter().chain(ve.iter()).all(|x| x.is_finite()) {
+                return Err(format!("state {k} is not finite"));
+            }
+            let th = theta0_rad + OMEGA_E * (k as f64 * step_s);
+            // Inertial-sense velocity in ECEF axes: v_ecef + ω × r.
+            let vi = [ve[0] - OMEGA_E * re[1], ve[1] + OMEGA_E * re[0], ve[2]];
+            r.push(rot_z(*re, -th));
+            v.push(rot_z(vi, -th));
+        }
+        Ok(TruthOrbit {
+            epoch,
+            step_s,
+            theta0_rad,
+            r,
+            v,
+        })
+    }
+
     /// Length of the propagated arc (s).
     pub fn span_s(&self) -> f64 {
         (self.r.len() - 1) as f64 * self.step_s

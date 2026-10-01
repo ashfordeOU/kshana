@@ -9,6 +9,171 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+Ten verification-matrix rows move from MODELLED to VALIDATED after an independent oracle
+agreed within a tolerance fixed before the first comparison (the promotion rule in
+`docs/VALIDATION.md`). Fifty-one MODELLED rows were put to an external oracle in this round;
+the other forty-one stay MODELLED, and every disagreement is recorded below as a finding
+rather than tuned away. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
+
+| | 0.29.0 | Unreleased |
+| --- | --- | --- |
+| Verification-matrix rows | 223 | 223 |
+| of which VALIDATED against an external oracle | 83 | 93 |
+| of which MODELLED | 136 | 126 |
+| of which PARTNER | 4 | 4 |
+
+<details>
+<summary><b>Abbreviations used in this entry</b></summary>
+
+| Abbreviation | Meaning |
+| --- | --- |
+| ADEV, VRW, ARW | Allan deviation; velocity random walk; angle random walk |
+| ANISE, SPICE, NAIF, PCK | an open-source astrodynamics toolkit (Nyx Space); NASA's Spacecraft, Planet, Instrument, C-matrix, Events toolkit from its Navigation and Ancillary Information Facility; planetary constants kernel |
+| BIPM, UTC(k) | International Bureau of Weights and Measures; a laboratory's realisation of Coordinated Universal Time |
+| CCSDS, OEM, LTC, TCL | Consultative Committee for Space Data Systems; Orbit Ephemeris Message; lunar time systems written in the message's TIME_SYSTEM field |
+| CRLB | Cramér–Rao lower bound |
+| CW | Clohessy–Wiltshire relative motion |
+| DE440 | Development Ephemeris 440 of the Jet Propulsion Laboratory |
+| DOP, PDOP | dilution of precision; position dilution of precision |
+| EKF, UKF, INS, GNSS, IMU | extended Kalman filter; unscented Kalman filter; inertial navigation system; global navigation satellite system; inertial measurement unit |
+| EOP, IERS, PCC, MAE | Earth orientation parameters; International Earth Rotation and Reference Systems Service; Prediction Comparison Campaign; mean absolute error |
+| IGS, ILRS, ITRF2020 | International GNSS Service; International Laser Ranging Service; International Terrestrial Reference Frame 2020 |
+| ILS, LAMBDA | integer least squares; Least-squares AMBiguity Decorrelation Adjustment |
+| ISB | inter-system bias |
+| LEO | low Earth orbit |
+| MHSS, PL, TPL | multiple-hypothesis solution separation; protection level; timing protection level |
+| PSD, IQ, SigMF | power spectral density; in-phase and quadrature samples; Signal Metadata Format |
+| RAIM | receiver autonomous integrity monitoring |
+| RMS, SISRE | root mean square; signal-in-space range error |
+| RTKLIB | an open-source GNSS positioning library |
+| TCXO | temperature-compensated crystal oscillator |
+| VLBI | very-long-baseline interferometry |
+
+</details>
+
+### Validated
+
+Each row below names its oracle kind (Library: an independent third-party library computing
+a uniquely defined quantity; Measured: real measured data; P2: an independent numerical
+library recomputing a linear-algebra quantity on committed inputs), the oracle, the tolerance
+fixed before the run, and the result. Every promotion was re-run by a second reviewer, who
+regenerated the fixture byte for byte and showed that a deliberate engine mutation turns the
+test red.
+
+- **GNSS/INS sensor fusion** (Library), scoped to the loosely coupled 15-state error-state
+  EKF: NaveGo v1.4 (LGPL-3.0, run under GNU Octave) on its own real Ekinox IMU/GNSS drive.
+  Kshana's horizontal, vertical and position-innovation RMS are 0.912, 0.940 and 0.861 of
+  NaveGo's (bar 1.2) and its mean normalised innovation is 0.395 (bar 1.5). GNSS is present
+  for the whole drive, so no outage is tested. The tightly coupled UKF and the coupled clock
+  filter stay outside the claim.
+- **3-DOF attitude and pointing error budget** (Library), narrowed to the gravity-gradient
+  torque peak: Basilisk 2.9.1 GravityGradientEffector, 40 cases, within 1e-12 relative (worst
+  2.1e-15). The RSS pointing budget is a sum of caller-supplied numbers and stays outside it.
+- **Lunar joint communications-and-navigation geometry** (Library), narrowed to site
+  placement, azimuth, elevation and range: ANISE 0.10.2, 768 samples, within 1e-6 deg and
+  1 mm (worst 2.2e-12 deg and 5.6e-9 m). The ranging-accuracy parameter is a design input
+  outside the claim.
+- **Torque-free rigid-body attitude dynamics** (Library): the Basilisk 2.9.1 spacecraft hub,
+  1e4 s on two general inertias, quaternion and rates within 1e-9 (worst 3.3e-11 and
+  3.4e-12 rad/s).
+- **GNSS carrier-phase integer ambiguity resolution (LAMBDA)** (Library), narrowed to the ILS
+  solution and its two best norms: RTKLIB v2.4.2-p13 `lambda()`, 300 covariances, 0 integer
+  mismatches, norms within 1e-9 relative (worst 5.6e-13). The bootstrapped success rate stays
+  checked internally only.
+- **Composed timing PL, scalar MHSS** (P2): numpy 2.3.5 and scipy 1.18.1 on 300 committed
+  inputs, PL within 1e-9 relative (worst 1.2e-10), driving subset identical.
+- **GLS common-mode whitening and the Mahalanobis identity** (P2): numpy 2.3.5 LAPACK on 201
+  committed covariances, within 1e-12 relative (worst 7.9e-16); condition numbers up to 19.3.
+- **DE440 lunar principal-axis orientation provider** (Library): SPICE `pxform` on the binary
+  PCK at 2 000 off-node epochs, within 1.7e-5 rad (worst 1.7e-6 rad, about 3 m at the
+  surface), after the fix listed under "Fixed".
+- **SigMF recording input and output, and Welch spectra** (Library), narrowed to SigMF read and
+  write and `welch_psd`: scipy 1.18.1 `signal.welch` within 1e-12 relative per bin (worst
+  6.0e-14); sigmf-python 1.13.0 recordings decoded bit-identically; the crate's metadata valid
+  against the SigMF v1.2.6 schema. IQ synthesis and its model comparisons stay outside it.
+- **LEO broadcast-ephemeris fitter and SISRE against fit interval** (Measured), narrowed to the
+  16-parameter Keplerian fit and its orbit-only SISRE: TU Graz ITSG precise orbits of four
+  satellites against the statistics of Liu et al. 2025, components within 1.5x (0.804 to
+  1.087) and SISRE within 1.5x (0.716 to 0.809).
+
+### Findings
+
+The oracle disagreed with these rows, so they stay MODELLED. Each finding is also written into
+the row's oracle text (and so into `docs/MODELLED-RATIONALE.md`), with a test that pins it.
+
+- **Onboard clock state estimation:** on held-out IGS clocks of 11 GPS Block IIF satellites
+  the three-state filter is consistent one step ahead but over-confident at one hour on 9 of
+  11 (periodic and flicker terms are not in the model).
+- **Spoofing detection:** on JammerTest 2024 no observable-level monitor alarmed within 10 s
+  of any of the 8 published onsets, and three pre-onset windows carried false alarms.
+- **Timing protection level under spoofing:** the measured undetected time error exceeds the
+  TPL at 3 of 8 detected onsets (1.9x to 5.3x); a 60 s clock calibration does not cover the
+  receiver TCXO's wander.
+- **Launch-window and ascent geometry:** against Orekit 12.2 the geometry agrees to rounding,
+  but the Earth-rotation site speed misses 1e-6 relative at 62.9 deg latitude (1.12e-6, the
+  polar motion the spherical model omits).
+- **Ballistic re-entry corridor (Allen–Eggers):** the predicted peak deceleration for the
+  Stardust entry is 61.8 g against the reconstructed 32.89 g (+88 %, tolerance 15 %).
+- **Joint UT1 and polar-motion error:** against the accuracy formula printed in 178 IERS
+  Bulletin A issues, the pole agrees within 1.5x but UT1 does not (0.48 at 10 days, 1.59 at
+  40 days).
+- **Offline default Earth-orientation input:** astropy confirms the row census, but the 12
+  rows the crate calls Bulletin A predictions are flagged measured (I), not predicted (P).
+  The operational-predictor row's agreement figures were therefore against measured rows.
+- **Operational-style Earth-orientation prediction error:** the predictor's UT1 error is 2.4x
+  to 12.6x Bulletin A's at 1 to 10 days and 5.32 ms at 10 days, outside the 0.36 to 3.13 ms
+  range of the 2nd EOP PCC.
+- **Lunar geodetic VLBI:** against ANISE light times through DE440 no delay is within 1 ps;
+  the largest gap is 24 µs, mostly the analytic Moon centre (about 200 km from DE440).
+- **Lunar interoperability export:** Orekit 12.2 refuses the LTC and TCL time systems, so
+  interchange of the lunar OEM files with a second reader is not established.
+- **Clohessy–Wiltshire relative motion:** against Orekit nonlinear motion at 100 m the gap is
+  1.2 to 6.3 mm, above 1 mm; it scales as the omitted second-order term, so the
+  pre-registered tolerance sat below the linearisation error.
+- **INS/TRN coasting error growth:** against a NaveGo free-inertial Monte Carlo the growth laws
+  hold within 5 % to 600 s and overstate beyond it (2.2x to 8x at one hour), because they
+  omit the Schuler feedback.
+- **Lunar service volume from real constellation geometry:** 4 of 12 published availability
+  statistics differ by more than 2 percentage points (up to 22.5).
+- **Heterogeneous UTC(k) traceability-bias overbound:** on 105 024 BIPM rows the overbound is
+  exceeded by 50.8 % of rows; the published uncertainty bounds the BIPM's measurement of the
+  offset, not the offset.
+- **Lunar datum null-space classification:** on the published five-reflector geometry the
+  correlation is -0.78 against -0.97, and the origin CRLB is 96 to 98 % below the paper's.
+- **Lunar LLR datum geometry substrate:** against 192 ILRS lunar normal points of 2024 the
+  one-way residual RMS was 96 m with the earlier orientation interpolation and is 22.7 m after
+  the fix below, still above the 10 m bar (rounded station coordinates, no polar motion). The
+  orientation series clamps silently outside 2024-2025.
+- **Relativistic clock-rate to frame coupling:** the self-potential term is 3.18e-4 above the
+  published value (tolerance 1e-4); the paper evaluates a different potential, so no
+  published value of this closed form exists.
+- **Physical constants of every solar-system body:** 12 of 84 constants of the added bodies
+  differ from NAIF pck00011 and gm_de440 (older Mars-satellite elements; other GM solutions
+  for Uranus, Neptune and Pluto).
+- **Selectable LEO ephemeris models:** the 22-parameter fit leaves 1.71x and 1.86x the
+  published along-track error on 20 min arcs, above 1.5x.
+- **Joint GNSS and LEO positioning:** the inter-system bias agrees with RTKLIB, but 93.2 % of
+  epochs are within 3 m of ITRF2020 against 95 %; RTKLIB itself reaches 88.2 % on the data.
+- **Common-mode integrity blindness** and **coverage and DOP maps:** both comparisons passed
+  but were declined on review because a deliberately wrong engine also passes them (the
+  first only checks an internal identity; the second's published floors cannot see a doubled
+  PDOP).
+
+### Fixed
+
+- The DE440 lunar principal-axis orientation is now interpolated along the geodesic between
+  daily nodes. The earlier element-wise interpolation was in error by up to 2.0e-4 rad
+  (340 m at the lunar surface) near the quarter points of each day, not the "about 14 m" the
+  row stated. Its users (lunar laser-ranging geometry, lunar datum, lunar fault observability)
+  get the corrected orientation.
+
+### Added
+
+- `leo_navmsg::truth::TruthOrbit::from_ecef_states`, a truth orbit built from tabulated
+  Earth-fixed states, used by the real-orbit fitter comparison.
+- The test files and fixtures of the comparisons above, each with its generator and a
+  `NOTICE.md` giving source, licence, retrieval date and SHA-256.
+
 ## [0.29.3] - 2026-10-01
 
 A patch release on 0.29.2. Kshana Studio is rebuilt around two views: a Simple view

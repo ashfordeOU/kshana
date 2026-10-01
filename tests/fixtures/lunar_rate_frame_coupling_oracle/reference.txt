@@ -1,0 +1,13 @@
+# Published reference for the lunar clock-rate to frame-scale coupling (P1 comparison).
+# Source: N. Ashby and B. R. Patla, "A relativistic framework to establish coordinate time on the
+# Moon and beyond", The Astronomical Journal 167:149 (2024), doi:10.3847/1538-3881/ad643a,
+# preprint arXiv:2402.11150 (copy served 2026-10-01, SHA-256
+# 4a0bc4dec56d185add3ba112c1b2dc8e1cd87f18e1ab43e745595804cd47984b).
+# Eq. (10) and Table I. Values as printed; the uncertainty is the paper's, in units of the last digit.
+#
+# key | value | unit | where printed
+L_m | 3.13881e-11 | 1 | Eq. (10) and Table I, -Phi0m/c^2
+L_m_uncertainty | 0.00015e-11 | 1 | Eq. (10), the (15) on the last two digits
+GM_moon | 4.90280031e12 | m^3 s^-2 | Table I
+Phi_m_equator | -2.82101e6 | m^2 s^-2 | Sect. 2.2, degree-350 lunar potential on the equator
+a_m_equatorial_radius | 1738140 | m | Sect. 2.2
