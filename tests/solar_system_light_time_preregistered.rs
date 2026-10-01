@@ -46,7 +46,17 @@
 //! **Outcome rule.** All five RMS values within their bars: the row keeps VALIDATED on this test.
 //!
 //! Fixture: `tests/fixtures/solar_system_light_time_preregistered/` (generator, NOTICE, CSV),
-//! fetched only after this header was committed.
+//! fetched only after this header was committed. The generator also sends `REF_PLANE=FRAME`,
+//! which this header did not name; it does not change the scalar `LT`.
+//!
+//! # Result (run 2026-10-01, after the pre-registration commit aa701595)
+//!
+//! Every RMS is inside its bar: RMS(c dLT) over the bar is 0.168 (Mercury), 0.259 (Venus),
+//! 0.301 (Mars), 0.205 (Jupiter) and 0.265 (Saturn); the largest single error is 1.17 times the
+//! bar (Mars). Mutation check: a 1e-3 relative error in the speed of light inside the solver
+//! (`radiometric::solve_light_time`) turns the test red (Mercury 7.6, Venus 6.5, Mars 4.0 times
+//! the bar). The bar is set by the Standish positions, so it cannot see light-time errors much
+//! below about 2e-4 of the range; it validates the light time at the Standish accuracy only.
 
 use kshana::body::Body;
 use kshana::ephem_provider::AnalyticSolarSystem;
@@ -107,7 +117,6 @@ fn fixture() -> Vec<(usize, f64, f64)> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn light_time_rms_is_within_the_table_8_10_1_position_errors() {
     let rows = fixture();
     let eph = AnalyticSolarSystem::default();
