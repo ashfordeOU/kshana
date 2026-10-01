@@ -87,6 +87,16 @@
 //!
 //! Neither change touches the protection-level chain under comparison; quantity, Kshana side,
 //! K rescaling and the 1e-4 m bar are unchanged.
+//!
+//! # Amendment 3 (committed before any protection level was produced)
+//!
+//! GNU Octave 8.4 cannot parse MAAST's TESLA authentication classes (`auth/ReceiverTESLA.m`
+//! uses MATLAB method-signature blocks), so the L5 case cannot run with authentication on. It
+//! runs with authentication off, and the driver gives MAAST's L5 decoder, which dereferences
+//! the receiver object for type-50 messages even then, a stand-in `mt50Receiver` whose
+//! `include_crc` is true and whose `check_if_message_verified` returns true, which is the
+//! authentication-off behaviour MAAST already applies to every other message type. The L1
+//! case does not touch authentication. Nothing in the protection-level chain changes.
 
 /// Tolerance (m) on VPL and HPL after the stated K rescaling.
 pub const TOL_PL_M: f64 = 1e-4;
