@@ -33,10 +33,11 @@
 //!
 //! Scope (honest): patched-conic two-body flyby on a circular planetary orbit — no
 //! finite-sphere-of-influence transition modelling, no third-body perturbations during
-//! the encounter, and no ephemeris. It is a MODELLED capability whose reference tests
-//! check the closed-form flyby identities, the B-plane decomposition, and Tisserand
-//! invariance across a v∞-preserving deflection — internal-consistency oracles, not an
-//! external dataset.
+//! the encounter, and no ephemeris. The unit tests check the closed-form flyby identities,
+//! the B-plane decomposition and Tisserand invariance across a v∞-preserving deflection;
+//! `tests/bplane_gmat_oracle.rs` compares [`flyby_from_state`] (B·T̂, B·R̂, |B|, the turn
+//! angle and both asymptotes) with the General Mission Analysis Tool (GMAT) R2026a on 192
+//! hyperbolic states.
 //!
 //! References:
 //! - R. H. Battin, *An Introduction to the Mathematics and Methods of Astrodynamics*,
