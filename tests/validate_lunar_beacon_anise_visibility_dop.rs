@@ -137,7 +137,9 @@ fn check5(what: &str, got: [f64; 5], want: [f64; 5], worst: &mut f64) {
 /// Indices of the satellites the engine's mask keeps.
 fn engine_visible(user: Vec3, sats: &[Vec3]) -> Vec<usize> {
     let vis = visible_sat_positions(user, sats, mask());
-    (0..sats.len()).filter(|&i| vis.contains(&sats[i])).collect()
+    (0..sats.len())
+        .filter(|&i| vis.contains(&sats[i]))
+        .collect()
 }
 
 #[test]
@@ -162,21 +164,45 @@ fn beacon_visibility_and_augmented_dop_match_anise_and_numpy() {
     // Visible sets, exact.
     let sats6 = LunarConstellation::illustrative_lcns(6).positions_mcmf(0.0);
     let sats24 = LunarConstellation::illustrative_lcns(24).positions_mcmf(0.0);
-    assert_eq!(engine_visible(user, &sats6), idx(&g6[2]), "6-satellite visible set");
-    assert_eq!(engine_visible(user, &sats24), idx(&g24[2]), "24-satellite visible set");
-    let vb: Vec<usize> = (0..3).filter(|&i| beacon_visible(user, beacons[i])).collect();
+    assert_eq!(
+        engine_visible(user, &sats6),
+        idx(&g6[2]),
+        "6-satellite visible set"
+    );
+    assert_eq!(
+        engine_visible(user, &sats24),
+        idx(&g24[2]),
+        "24-satellite visible set"
+    );
+    let vb: Vec<usize> = (0..3)
+        .filter(|&i| beacon_visible(user, beacons[i]))
+        .collect();
     assert_eq!(vb, idx(&g6[3]), "visible beacon set");
     // ... and the counts the report prints.
-    assert_eq!(rows[0]["n_visible_sats"].as_u64().unwrap() as usize, idx(&g6[2]).len());
-    assert_eq!(rows[1]["n_visible_beacons"].as_u64().unwrap() as usize, idx(&g6[3]).len());
-    assert_eq!(rows[2]["n_visible_sats"].as_u64().unwrap() as usize, idx(&g24[2]).len());
+    assert_eq!(
+        rows[0]["n_visible_sats"].as_u64().unwrap() as usize,
+        idx(&g6[2]).len()
+    );
+    assert_eq!(
+        rows[1]["n_visible_beacons"].as_u64().unwrap() as usize,
+        idx(&g6[3]).len()
+    );
+    assert_eq!(
+        rows[2]["n_visible_sats"].as_u64().unwrap() as usize,
+        idx(&g24[2]).len()
+    );
 
     // DOP of all three report rows.
     let before = five(&g6[4..9]);
     let after = five(&g6[9..14]);
     let bigger = five(&g24[4..9]);
     check5("6 sats", dop_json(&rows[0]["dop"]), before, &mut worst);
-    check5("6 sats + beacons", dop_json(&rows[1]["dop"]), after, &mut worst);
+    check5(
+        "6 sats + beacons",
+        dop_json(&rows[1]["dop"]),
+        after,
+        &mut worst,
+    );
     check5("24 sats", dop_json(&rows[2]["dop"]), bigger, &mut worst);
 
     // The two improvement factors.
@@ -187,7 +213,10 @@ fn beacon_visibility_and_augmented_dop_match_anise_and_numpy() {
         let got = v[key].as_f64().unwrap();
         let e = rel(got, want);
         worst = worst.max(e);
-        assert!(e <= DOP_REL_TOL, "{key}: engine {got}, oracle {want}, rel {e:.3e}");
+        assert!(
+            e <= DOP_REL_TOL,
+            "{key}: engine {got}, oracle {want}, rel {e:.3e}"
+        );
     }
 
     // ---- Near-horizon beacons: exact. ----
@@ -238,10 +267,17 @@ fn beacon_visibility_and_augmented_dop_match_anise_and_numpy() {
             site(q[0], q[1], q[2])
         })
         .collect();
-    let tvis: Vec<usize> = (0..tb.len()).filter(|&i| beacon_visible(user, tb[i])).collect();
+    let tvis: Vec<usize> = (0..tb.len())
+        .filter(|&i| beacon_visible(user, tb[i]))
+        .collect();
     assert_eq!(tvis, idx(&three[3]));
     let d = dop_with_beacons(user, &sats6, &tb, mask()).expect("a solution exists");
-    check5("6 sats + 3 low beacons", dop5(&d), five(&three[4..9]), &mut worst);
+    check5(
+        "6 sats + 3 low beacons",
+        dop5(&d),
+        five(&three[4..9]),
+        &mut worst,
+    );
 
     println!(
         "beacon augmentation vs ANISE+numpy: visible sets exact (golden, 72 horizon cases, 48 \

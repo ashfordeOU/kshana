@@ -152,7 +152,10 @@ fn reference() -> Reference {
         sigmas: HashMap::new(),
         arrays: HashMap::new(),
     };
-    for line in text.lines().filter(|l| !l.starts_with('#') && !l.trim().is_empty()) {
+    for line in text
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+    {
         let f: Vec<&str> = line.split_whitespace().collect();
         match f[0] {
             "sigma" => {
@@ -186,7 +189,11 @@ struct Row {
 fn comparisons() -> Vec<Row> {
     let v = report();
     let r = reference();
-    let s = |k: &str| *r.scalars.get(k).unwrap_or_else(|| panic!("oracle has no {k}"));
+    let s = |k: &str| {
+        *r.scalars
+            .get(k)
+            .unwrap_or_else(|| panic!("oracle has no {k}"))
+    };
 
     // The oracle's own pre-stated self-check comes first: a light-time oracle that does not
     // reproduce the archived ranges to metres is not an oracle.
@@ -197,18 +204,33 @@ fn comparisons() -> Vec<Row> {
     );
 
     // Bookkeeping, exact.
-    assert_eq!(num(&v, "/data/normal_points_parsed") as usize, s("parsed") as usize);
-    assert_eq!(num(&v, "/data/normal_points_used") as usize, s("used") as usize);
+    assert_eq!(
+        num(&v, "/data/normal_points_parsed") as usize,
+        s("parsed") as usize
+    );
+    assert_eq!(
+        num(&v, "/data/normal_points_used") as usize,
+        s("used") as usize
+    );
     assert_eq!(
         num(&v, "/data/skipped_station_not_in_catalogue") as usize,
         s("skipped_station") as usize
     );
-    assert_eq!((s("parsed"), s("used"), s("skipped_station")), (349.0, 337.0, 12.0));
+    assert_eq!(
+        (s("parsed"), s("used"), s("skipped_station")),
+        (349.0, 337.0, 12.0)
+    );
 
     // Ranks exact, coupling exactly zero on both sides.
-    assert_eq!(num(&v, "/reflector_information/rank") as usize, s("reflector_rank") as usize);
+    assert_eq!(
+        num(&v, "/reflector_information/rank") as usize,
+        s("reflector_rank") as usize
+    );
     assert_eq!(s("reflector_rank") as usize, 15);
-    assert_eq!(num(&v, "/helmert/rank") as usize, s("helmert_rank") as usize);
+    assert_eq!(
+        num(&v, "/helmert/rank") as usize,
+        s("helmert_rank") as usize
+    );
     assert_eq!(s("helmert_rank") as usize, 7);
     assert_eq!(num(&v, "/reflector_information/offblock_fraction"), 0.0);
     assert_eq!(s("reflector_offblock_max"), 0.0);
@@ -223,7 +245,11 @@ fn comparisons() -> Vec<Row> {
             bar,
         })
     };
-    for p in v.pointer("/helmert/parameters").and_then(Value::as_array).unwrap() {
+    for p in v
+        .pointer("/helmert/parameters")
+        .and_then(Value::as_array)
+        .unwrap()
+    {
         let name = p["name"].as_str().unwrap();
         push(
             format!("sigma {name}"),
@@ -233,8 +259,14 @@ fn comparisons() -> Vec<Row> {
         );
     }
     for (path, key) in [
-        ("/datum_accuracy/translation_sigma_norm_m", "translation_sigma_norm_m"),
-        ("/datum_accuracy/rotation_sigma_norm_rad", "rotation_sigma_norm_rad"),
+        (
+            "/datum_accuracy/translation_sigma_norm_m",
+            "translation_sigma_norm_m",
+        ),
+        (
+            "/datum_accuracy/rotation_sigma_norm_rad",
+            "rotation_sigma_norm_rad",
+        ),
         ("/datum_accuracy/scale_sigma_ppb", "scale_sigma_ppb"),
     ] {
         push(key.to_string(), num(&v, path), s(key), SIGMA_REL_TOL);
@@ -248,7 +280,11 @@ fn comparisons() -> Vec<Row> {
     for a in v.pointer("/reflectors").and_then(Value::as_array).unwrap() {
         let t = a["ilrs_target"].as_str().unwrap();
         let (n_obs, want) = r.arrays[t];
-        assert_eq!(a["observations"].as_u64().unwrap() as usize, n_obs, "{t} observations");
+        assert_eq!(
+            a["observations"].as_u64().unwrap() as usize,
+            n_obs,
+            "{t} observations"
+        );
         push(
             format!("{t} across/along"),
             a["ratio_across_over_along"].as_f64().unwrap(),
@@ -352,11 +388,19 @@ fn reported_residual_is_the_engine_to_spice_light_time_gap() {
         assert_eq!(row[1].parse::<u32>().unwrap(), p.station_id);
         assert_eq!(row[2], p.target);
         let jd: f64 = row[3].parse().unwrap();
-        assert!((jd - p.jd_utc).abs() < 1e-9, "{}: epoch {jd} vs {}", row[0], p.jd_utc);
+        assert!(
+            (jd - p.jd_utc).abs() < 1e-9,
+            "{}: epoch {jd} vs {}",
+            row[0],
+            p.jd_utc
+        );
         assert_eq!(row[4].parse::<f64>().unwrap(), p.two_way_tof_s);
         let tof_spice: f64 = row[5].parse().unwrap();
         let st = stations.iter().find(|s| s.ilrs_id == p.station_id).unwrap();
-        let rf = reflectors.iter().find(|x| x.ilrs_target == p.target).unwrap();
+        let rf = reflectors
+            .iter()
+            .find(|x| x.ilrs_target == p.target)
+            .unwrap();
         let g = llr_geometry(st.position_at(p.jd_utc), rf.mer_m, p.jd_utc, 0.0);
         let gap = 0.5 * C * (tof_spice - g.two_way_tof_s);
         sum2 += gap * gap;

@@ -110,7 +110,12 @@ struct OracleRow {
 }
 
 /// The oracle's rows grouped by case, and its per-case summaries.
-fn oracle(path: &str) -> (HashMap<String, Vec<OracleRow>>, HashMap<String, serde_json::Value>) {
+fn oracle(
+    path: &str,
+) -> (
+    HashMap<String, Vec<OracleRow>>,
+    HashMap<String, serde_json::Value>,
+) {
     let text = std::fs::read_to_string(path).expect("the oracle output is committed");
     let mut rows: HashMap<String, Vec<OracleRow>> = HashMap::new();
     let mut sums = HashMap::new();
@@ -151,13 +156,19 @@ fn compare(
     sum: &serde_json::Value,
 ) -> (usize, f64, f64, usize) {
     let rep = sc.try_run().expect("the scenario runs");
-    let geom = rep.per_sat_geometry.as_ref().expect("export site configured");
+    let geom = rep
+        .per_sat_geometry
+        .as_ref()
+        .expect("export site configured");
     let ap = rep.antenna_pattern.as_ref().expect("antenna configured");
     assert_eq!(geom.len(), rows.len(), "{case}: row count");
     let g0_lin = 10f64.powf(ap.boresight_gain_dbi / 10.0);
     let (mut worst_angle, mut worst_gain, mut edges) = (0.0_f64, 0.0_f64, 0usize);
     for (g, o) in geom.iter().zip(rows) {
-        assert!((g.t_s - o.t_s).abs() < 1e-6 && g.sat == o.sat, "{case}: row order");
+        assert!(
+            (g.t_s - o.t_s).abs() < 1e-6 && g.sat == o.sat,
+            "{case}: row order"
+        );
         let th = g.off_boresight_deg.unwrap();
         let d = (th - o.theta_deg).abs();
         worst_angle = worst_angle.max(d);
@@ -193,9 +204,25 @@ fn compare(
             edges += 1;
             continue;
         }
-        assert_eq!(g.visible, o.visible, "{case} t={} sat {}: visible (el {:.4})", o.t_s, o.sat, o.el_deg);
-        assert_eq!(g.in_beam_pattern, Some(o.in_pattern), "{case} t={} sat {}: in beam (pattern)", o.t_s, o.sat);
-        assert_eq!(g.in_beam_symmetric, Some(o.in_symmetric), "{case} t={} sat {}: in beam (symmetric)", o.t_s, o.sat);
+        assert_eq!(
+            g.visible, o.visible,
+            "{case} t={} sat {}: visible (el {:.4})",
+            o.t_s, o.sat, o.el_deg
+        );
+        assert_eq!(
+            g.in_beam_pattern,
+            Some(o.in_pattern),
+            "{case} t={} sat {}: in beam (pattern)",
+            o.t_s,
+            o.sat
+        );
+        assert_eq!(
+            g.in_beam_symmetric,
+            Some(o.in_symmetric),
+            "{case} t={} sat {}: in beam (symmetric)",
+            o.t_s,
+            o.sat
+        );
     }
     let n = |k: &str| sum[k].as_i64().unwrap();
     let slack = edges as i64;
@@ -204,7 +231,10 @@ fn compare(
         (ap.in_beam_pattern_links as i64, "in_beam_pattern_links"),
         (ap.in_beam_symmetric_links as i64, "in_beam_symmetric_links"),
         (ap.in_beam_correction_links, "in_beam_correction_links"),
-        (ap.max_abs_epoch_correction_sats as i64, "max_abs_epoch_correction_sats"),
+        (
+            ap.max_abs_epoch_correction_sats as i64,
+            "max_abs_epoch_correction_sats",
+        ),
     ] {
         assert!(
             (got - n(key)).abs() <= slack,
