@@ -24,7 +24,7 @@
 //! elevation 1e-6 deg; range 1 mm.
 //!
 //! Kernels: `$KSHANA_ORACLES/data/naif/{de440s.bsp, moon_pa_de440_200625.bpc, pck00011.tpc,
-//! gm_de440.tpc}` (`source ~/Code/kshana-oracles/env.sh` first).
+//! gm_de440.tpc}` (`source "$KSHANA_ORACLES/env.sh"` first).
 //!
 //! Run: `cargo run --release --bin lunar-look-angles-xval` in this crate.
 
@@ -62,7 +62,7 @@ const SATS: [(f64, f64, f64, f64, f64, f64); 8] = [
 
 fn naif(name: &str) -> PathBuf {
     let root = std::env::var("KSHANA_ORACLES")
-        .unwrap_or_else(|_| format!("{}/Code/kshana-oracles", std::env::var("HOME").unwrap()));
+        .expect("KSHANA_ORACLES must name the oracle toolchain directory (source its env.sh)");
     PathBuf::from(root).join("data").join("naif").join(name)
 }
 

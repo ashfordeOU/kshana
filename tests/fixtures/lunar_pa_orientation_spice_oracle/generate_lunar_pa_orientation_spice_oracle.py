@@ -12,7 +12,7 @@ Pre-registered tolerance (fixed before the first comparison): the angle of
 R_kshana^T R_spice at most 1.7e-5 rad (30 m at the mean lunar radius).
 
 Run:
-    source ~/Code/kshana-oracles/env.sh
+    source "$KSHANA_ORACLES/env.sh"
     $ORACLE_PY tests/fixtures/lunar_pa_orientation_spice_oracle/generate_lunar_pa_orientation_spice_oracle.py
 
 Writes spice_moon_pa_reference.csv beside this script. Columns:
@@ -28,7 +28,7 @@ import numpy as np
 import spiceypy as sp
 
 HERE = pathlib.Path(__file__).resolve().parent
-ORACLES = pathlib.Path(os.environ.get("KSHANA_ORACLES", str(pathlib.Path.home() / "Code/kshana-oracles")))
+ORACLES = pathlib.Path(os.environ["KSHANA_ORACLES"])
 NAIF = ORACLES / "data" / "naif"
 KERNELS = ["naif0012.tls", "moon_de440_250416.tf", "moon_pa_de440_200625.bpc"]
 N_EPOCHS = 2000

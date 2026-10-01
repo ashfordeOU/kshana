@@ -13,7 +13,7 @@ Pre-registered tolerances (fixed before the first comparison): tokens exact; epo
 1 microsecond; position 5e-7 km, velocity 5e-10 km/s against Kshana's in-memory state,
 in EACH reader. A reader that refuses a file fails the comparison.
 
-    source ~/Code/kshana-oracles/env.sh
+    source "$KSHANA_ORACLES/env.sh"
     $ORACLE_PY tests/fixtures/lunar_interop_oem_oracle/generate_lunar_interop_oem_oracle.py
 """
 

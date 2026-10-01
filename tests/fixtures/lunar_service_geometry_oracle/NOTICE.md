@@ -12,4 +12,4 @@ calls no Kshana code). It is derived output; no kernel and no ANISE code is vend
 | `gm_de440.tpc` | https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc | 924ddf4fb9ead9fe8a1aa55780bcabde40b09d00065d58226e24b68d8092f140 | 2026-09-30 |
 
 Licence: NAIF kernels are public NASA/JPL data. Regenerate:
-`source ~/Code/kshana-oracles/env.sh; cd xval/anise-service-geometry; cargo run --release --bin lunar-look-angles-xval`.
+`source "$KSHANA_ORACLES/env.sh"; cd xval/anise-service-geometry; cargo run --release --bin lunar-look-angles-xval`.
