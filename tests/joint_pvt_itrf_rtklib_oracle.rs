@@ -36,6 +36,14 @@
 //! station on this day; it is not a solver discrepancy. The row stays MODELLED, and the test is
 //! ignored so the gate does not carry a known failure; it keeps the pre-registered assertions
 //! unchanged and can be run with `--ignored`.
+//!
+//! Re-run after an engine fix (validation 0.30 round 2, 2026-10-01, tolerance unchanged): a
+//! single-frequency Galileo E1 user of an I/NAV record now subtracts BGD(E1,E5b), the group delay
+//! of the record's E1/E5b clock reference, instead of BGD(E1,E5a). Revised numbers: 262 of 280
+//! epochs (93.6 %) within 3 m, median 1.57 m, 95th percentile 3.14 m, max 4.12 m; ISB median
+//! difference to RTKLIB -0.114 ns (95th percentile 2.635 ns); position difference to RTKLIB
+//! median 0.59 m, 95th percentile 1.62 m. Still a finding on (a). A dual-frequency comparison at
+//! the same bar is `tests/joint_pvt_dual_freq_itrf_rtklib_oracle.rs`.
 
 use kshana::gnss_sim::Meteo;
 use kshana::leo_fusion::joint_pvt::{solve, PseudorangeObs, SystemClock};
@@ -89,7 +97,7 @@ fn quantile(v: &[f64], q: f64) -> f64 {
 }
 
 #[test]
-#[ignore = "DISAGREES with the pre-registered 3 m / 95 % ITRF2020 bar (93.2 %); the ISB agrees with RTKLIB; finding recorded, row stays MODELLED"]
+#[ignore = "DISAGREES with the pre-registered 3 m / 95 % ITRF2020 bar (93.6 % after the round-2 BGD fix; 93.2 % before); the ISB agrees with RTKLIB; finding recorded, row stays MODELLED"]
 fn multi_gnss_fix_matches_itrf2020_and_rtklib() {
     let obs = parse_obs(OBS).expect("observation slice parses");
     let ephs = parse_nav(NAV).expect("navigation slice parses");
