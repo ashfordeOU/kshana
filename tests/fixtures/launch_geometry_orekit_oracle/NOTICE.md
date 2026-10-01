@@ -7,7 +7,15 @@ Used only by `tests/launch_geometry_orekit_oracle.rs`; not shipped in any publis
 - `launch_geometry_orekit_oracle.txt`: Orekit's inclinations for burnout states along the launch
   azimuths Kshana computed (158 cases), azimuth-sweep minimum inclinations, circular speeds,
   dogleg plane-change dv, Earth-fixed site speeds and daily plane-crossing counts.
-  SHA-256 a5898b27cb4259a9fc6153207dcc96149babbf896a28252871d11a8da563d323.
+  SHA-256 38cfa80e68435dd4f13914c3d25b37c66fb4c6a170fe0c7999ace20f27f42df7 (regenerated
+  2026-10-01 on the Linux host of round 2 with the same driver, Orekit 12.2 and script; the
+  earlier file, SHA-256 a5898b27cb4259a9fc6153207dcc96149babbf896a28252871d11a8da563d323, was
+  dumped on another platform whose libm differs by an ulp in `asin`. 24 lines changed: 22
+  `INC` lines, where the fed azimuths move by an ulp, or by about 3e-9 rad at lat -60 deg,
+  i 60.5 and 120 deg where cos(i)/cos(lat) is near -1, and Orekit's inclinations by at most
+  8.9e-16 rad; and 2 `OPP` lines (lat 62.9, i 62.9 and 67.9), where only the closest-approach
+  min|g| moves at the 1e-17 and 4e-17 level, the crossing counts unchanged. Every `MIN`,
+  `VC`, `DOG` and `ROT` line is byte-identical.)
 - `LaunchOrekitDriver.java`: the driver.
 - `gen_launch_geometry_orekit_oracle.sh`: dumps Kshana's azimuths (the ignored test
   `dump_kshana_launch_azimuths`) and feeds them to the driver.

@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2519,
-    "fields_total": 2521,
+    "fields_described": 2520,
+    "fields_total": 2522,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -5771,6 +5771,12 @@
           "provenance": "input",
           "unit": "deg"
         },
+        "site_lon_deg": {
+          "definition": "launch-site longitude, east; used only by the true-pole site speed",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
         "site_rotation_speed_m_s": {
           "definition": "omega_Earth * R_eq * cos(lat): the eastward speed a posigrade launch starts with",
           "evidence_tier": "validated",
@@ -5784,8 +5790,8 @@
           "unit": "deg"
         }
       },
-      "fields_described": 9,
-      "fields_total": 9,
+      "fields_described": 10,
+      "fields_total": 10,
       "fields_without_units": [],
       "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model)",
       "source": "defaults"
