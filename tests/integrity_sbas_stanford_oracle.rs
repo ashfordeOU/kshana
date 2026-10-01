@@ -104,6 +104,18 @@
 //! machine. The driver supplies stand-ins for both (`xval/sbas-maast/auth_stub/MT51.m` decodes
 //! nothing; the key state machine ignores the result), again only on the authentication path,
 //! which is off. Nothing in the protection-level chain changes.
+//!
+//! # Amendment 5 (L1 only; committed before any L1 protection level was produced)
+//!
+//! The L1 run completed but MAAST protected no user: `usr_vhpl` computes a protection level
+//! only when `n_view > 2 + n_const && n_geo` (a ranging GEO among the satellites passed in) or
+//! when `TRUTH_FLAG == 1 && n_view > 3`. In L1 replay the GEO's line never reaches `usr_vhpl`
+//! (its ionospheric variance is not positive), so every user stayed "not monitored". The L1 case
+//! is re-run with `TRUTH_FLAG = 1`, whose only other use in MAAST (`wmsprocess.m`) is in the
+//! simulated-message mode this replay does not run; it lifts the GEO gate and nothing else. The
+//! L5 run (GEO line present with an undefined variance, so it is counted by the gate but not
+//! used in the solution) is unaffected. In both cases a satellite line whose MAAST variance is
+//! not a positive number is not used by MAAST's solution and is likewise not given to Kshana.
 
 /// Tolerance (m) on VPL and HPL after the stated K rescaling.
 pub const TOL_PL_M: f64 = 1e-4;
