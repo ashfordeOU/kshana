@@ -46,10 +46,7 @@ fn floats(line: &str, tag: &str) -> Vec<f64> {
 }
 
 fn parse() -> (Vec<Problem>, usize) {
-    let mut lines = REFERENCE
-        .lines()
-        .filter(|l| !l.starts_with('#'))
-        .peekable();
+    let mut lines = REFERENCE.lines().filter(|l| !l.starts_with('#')).peekable();
     let mut out = Vec::new();
     let mut rtklib_failures = 0;
     while let Some(head) = lines.next() {

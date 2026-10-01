@@ -63,7 +63,14 @@ fn presets_meet_the_published_dop_availability() {
     const DAY: f64 = 86_400.0;
     // (preset, window, step, published global-average floor %, published worst-point floor %)
     let cases = [
-        ("beidou", 7.0 * DAY, 300.0, 98.0, 88.0, "BDS-OS-PS-3.0 Table 5-16"),
+        (
+            "beidou",
+            7.0 * DAY,
+            300.0,
+            98.0,
+            88.0,
+            "BDS-OS-PS-3.0 Table 5-16",
+        ),
         (
             "beidou-meo",
             7.0 * DAY,
@@ -72,7 +79,14 @@ fn presets_meet_the_published_dop_availability() {
             88.0,
             "BDS-OS-PS-3.0 Table 5-16",
         ),
-        ("galileo", 30.0 * DAY, 600.0, 90.0, 87.0, "Galileo OS SDD 1.3 Table 20"),
+        (
+            "galileo",
+            30.0 * DAY,
+            600.0,
+            90.0,
+            87.0,
+            "Galileo OS SDD 1.3 Table 20",
+        ),
     ];
     let mut failures = Vec::new();
     for (preset, duration, step, avg_floor, worst_floor, source) in cases {
