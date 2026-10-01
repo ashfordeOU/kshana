@@ -95,6 +95,8 @@ fn ils_solution_matches_rtklib_lambda_on_300_covariances() {
         rtklib_failures, 0,
         "RTKLIB returned an error on {rtklib_failures} problems"
     );
+    // PIN-SCOPE:    the number of problems in the committed RTKLIB reference fixture
+    // PIN-EXCLUDES: the values compared below, which carry their own tolerances
     assert_eq!(problems.len(), 300, "the fixture holds 300 problems");
     let mut worst_rel = [0.0_f64; 2];
     let mut mismatches = Vec::new();

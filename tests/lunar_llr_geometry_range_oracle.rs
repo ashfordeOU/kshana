@@ -42,6 +42,11 @@
 //!   22.7 m (Grasse 14.0 m, APOLLO 46.3 m, Matera 9.2 m). What remains is mostly the station
 //!   catalogue (APOLLO is rounded to 0.001 deg, about 100 m) and the dropped polar motion. Even
 //!   then the substrate would not meet 10 m.
+//! * After integration: the orientation provider's own oracle comparison (SPICE, off-node)
+//!   replaced the element-wise interpolation with geodesic interpolation. With that fix the
+//!   module's series gives 22.7 m (Grasse 14.2 m, APOLLO 46.2 m, Matera 9.3 m), the same as the
+//!   kernel diagnostic, and the pinned figure below follows it. The verdict is unchanged: the
+//!   pre-registered 10 m bar is still not met.
 //! * 2015 slice, finding only: RMS 2.18e6 m. The orientation series clamps to its 2024-01-01 row
 //!   for any earlier epoch, so 2015 reflectors are placed with a 2024 orientation; nothing warns.
 //!
@@ -341,10 +346,14 @@ fn reflector_ranges_against_ilrs_normal_points() {
         rms24 > RMS_TOL_M,
         "the 2024 RMS is now within 10 m ({rms24:.2} m): re-examine M091 for promotion"
     );
-    // The recorded finding.
+    // The recorded finding. The first comparison measured 96.2 m with the element-wise
+    // interpolation of the daily orientation series; once the orientation provider's own
+    // oracle comparison replaced it with geodesic interpolation, the module's series gives
+    // the same 22.7 m as the kernel-orientation diagnostic below. Still above 10 m: what
+    // remains is the rounded APOLLO station coordinates and the absent polar motion.
     assert!(
-        (90.0..100.0).contains(&rms24),
-        "the 2024 RMS was 96.2 m, now {rms24:.2} m"
+        (20.0..25.0).contains(&rms24),
+        "the 2024 RMS was 22.7 m after the geodesic orientation fix (96.2 m before it), now {rms24:.2} m"
     );
     let (_, _, rms_diag) = stats(&pick_with("2024", None, true));
     assert!(

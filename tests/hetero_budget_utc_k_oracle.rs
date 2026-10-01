@@ -30,6 +30,9 @@
 use kshana::integrity::hetero_budget::{integrity_bias_overbound, SourceBias, UtcRealizer};
 use std::path::PathBuf;
 
+// PIN-SCOPE:    the SHA-256 of each BIPM UTC-UTC(k) laboratory file read from the oracle data
+//               directory, so a changed download is refused rather than silently compared
+// PIN-EXCLUDES: every other file; the series themselves are not committed
 const PINS: &str = include_str!("fixtures/hetero_budget_utc_k_oracle/utclab.sha256");
 const TAIL: f64 = 1e-2;
 const ALLOCATION: f64 = 1e-2;
