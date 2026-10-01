@@ -102,6 +102,119 @@ pub fn stations() -> Vec<Station> {
     ]
 }
 
+/// Where an [`ItrfStation`]'s coordinates come from.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum StationCoordinates {
+    /// An ITRF2020 (International Terrestrial Reference Frame 2020) solution: Cartesian
+    /// position at `epoch_year` and a constant velocity.
+    Itrf2020 {
+        /// ITRS position (m) at `epoch_year`.
+        position_m: Vec3,
+        /// ITRS velocity (m per year).
+        velocity_m_per_yr: Vec3,
+        /// Reference epoch (decimal year), 2015.0 for ITRF2020.
+        epoch_year: f64,
+    },
+    /// No ITRF realisation exists: the approximate geodetic position the ILRS station page
+    /// publishes (WGS-84, no velocity). Metre-level at best.
+    IlrsApproximate {
+        /// Geodetic latitude (deg).
+        lat_deg: f64,
+        /// Geodetic longitude (deg, east positive).
+        lon_deg: f64,
+        /// Height above the ellipsoid (m).
+        height_m: f64,
+    },
+}
+
+/// An LLR station with terrestrial-frame coordinates and their source.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ItrfStation {
+    /// Station name (e.g. `"Grasse"`).
+    pub name: &'static str,
+    /// ILRS CDP pad identifier (e.g. 7845).
+    pub cdp_id: u32,
+    /// IERS DOMES number, or `""` when the station has none in ITRF2020.
+    pub domes: &'static str,
+    /// The coordinates.
+    pub coordinates: StationCoordinates,
+}
+
+impl ItrfStation {
+    /// ITRS position (m) at TT Julian date `jd_tt`: the ITRF2020 position propagated with its
+    /// velocity (Julian years of 365.25 d from the reference epoch, J2000.0 = 2000.0), or the
+    /// fixed approximate position.
+    pub fn itrs_position(&self, jd_tt: f64) -> Vec3 {
+        match self.coordinates {
+            StationCoordinates::Itrf2020 {
+                position_m,
+                velocity_m_per_yr,
+                epoch_year,
+            } => {
+                let year = 2000.0 + (jd_tt - 2_451_545.0) / 365.25;
+                let dt = year - epoch_year;
+                [
+                    position_m[0] + velocity_m_per_yr[0] * dt,
+                    position_m[1] + velocity_m_per_yr[1] * dt,
+                    position_m[2] + velocity_m_per_yr[2] * dt,
+                ]
+            }
+            StationCoordinates::IlrsApproximate {
+                lat_deg,
+                lon_deg,
+                height_m,
+            } => crate::frames::geodetic_to_ecef(crate::frames::Geodetic {
+                lat_rad: lat_deg.to_radians(),
+                lon_rad: lon_deg.to_radians(),
+                alt_m: height_m,
+            }),
+        }
+    }
+}
+
+/// The lunar laser-ranging stations of the ILRS normal-point record with their best openly
+/// available terrestrial coordinates.
+///
+/// * Grasse MeO 7845 (DOMES 10002S002) and Matera MLRO 7941 (DOMES 12734S008): ITRF2020,
+///   `ITRF2020_SLR.SSC.txt` (IGN, epoch 2015.0); the ILRS SLRF2020 SINEX
+///   (`SLRF2020_POS+VEL_2025.02.05.snx`) carries the same values.
+/// * APOLLO 7045: in neither ITRF2020 nor SLRF2020 (it does not range to LAGEOS), so only the
+///   ILRS station page's approximate position (32.780361 N, 105.820417 W, 2788 m) is available.
+pub fn stations_itrf() -> Vec<ItrfStation> {
+    vec![
+        ItrfStation {
+            name: "Grasse",
+            cdp_id: 7845,
+            domes: "10002S002",
+            coordinates: StationCoordinates::Itrf2020 {
+                position_m: [4_581_691.9389, 556_196.3678, 4_389_355.2869],
+                velocity_m_per_yr: [-0.01388, 0.01886, 0.01117],
+                epoch_year: 2015.0,
+            },
+        },
+        ItrfStation {
+            name: "Matera",
+            cdp_id: 7941,
+            domes: "12734S008",
+            coordinates: StationCoordinates::Itrf2020 {
+                position_m: [4_641_978.5239, 1_393_067.8197, 4_133_249.6959],
+                velocity_m_per_yr: [-0.01863, 0.01906, 0.01462],
+                epoch_year: 2015.0,
+            },
+        },
+        ItrfStation {
+            name: "APOLLO",
+            cdp_id: 7045,
+            domes: "",
+            coordinates: StationCoordinates::IlrsApproximate {
+                lat_deg: 32.780_361,
+                lon_deg: -105.820_417,
+                height_m: 2788.0,
+            },
+        },
+    ]
+}
+
 /// Reflector PA body coordinates → geocentric inertial position [m].
 ///
 /// `r_inertial = r_moon_geocentric + R_body→inertial(t) · pa_body`
