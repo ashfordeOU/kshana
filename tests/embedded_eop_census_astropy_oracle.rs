@@ -31,9 +31,7 @@ fn census() -> Value {
 
 fn find<'a>(v: &'a Value, key: &str) -> Option<&'a Value> {
     match v {
-        Value::Object(m) => m
-            .get(key)
-            .or_else(|| m.values().find_map(|c| find(c, key))),
+        Value::Object(m) => m.get(key).or_else(|| m.values().find_map(|c| find(c, key))),
         Value::Array(a) => a.iter().find_map(|c| find(c, key)),
         _ => None,
     }
