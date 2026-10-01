@@ -145,10 +145,27 @@
 //! known, and an order-of-magnitude estimate was made from the size of the terms (solar Shapiro
 //! about 7.6 m one way; the BCRS motion term up to about 1.9 m); no run of the new model was made.
 //! New strict test: `reflector_ranges_bcrs_iers2010_relativistic`.
+//!
+//! ### Third-amendment result (2026-10-01): AGREES, both promotion conditions hold
+//!
+//! * All 192 points: RMS **2.81 m** (mean 2.67 m) against 10 m. Grasse 7845 and Matera 7941
+//!   (160, ITRF2020): RMS **2.96 m** (mean 2.85 m). APOLLO 7045 (32, operator coordinates):
+//!   1.94 m. Grasse alone 2.96 m, Matera alone 2.86 m. 2015 slice (349, secondary): 3.82 m.
+//! * The round 2 harness reproduces its recorded 10.94 m exactly (APOLLO pinned to the ILRS
+//!   approximate position it used). A common +2.7 m remains, below the bar and not tuned away;
+//!   it is within what the model's stated omissions (solid-Earth and ocean-loading tides,
+//!   station eccentricity, reflector thermal and tidal terms) can leave; inferred, not tested.
+//! * The model was first written in this harness and, after the run, moved verbatim into the
+//!   engine as `lunar_llr_geometry::llr_bcrs_one_way_m` (identical figures to 1 mm).
+//! * Mutation: zeroing the Sun's two Shapiro legs in `llr_bcrs_one_way_m` gives RMS 10.19 m
+//!   (ITRF2020 stations 10.37 m) and fails the strict test; reverted by editing.
 
 use kshana::cio::gcrs_to_itrs_matrix;
 use kshana::frames::Geodetic;
-use kshana::lunar_llr_geometry::{reflectors, stations, stations_itrf, ItrfStation};
+use kshana::lunar_llr_geometry::{
+    llr_bcrs_one_way_m, reflectors, stations, stations_itrf, BcrsEvent, ItrfStation,
+    StationCoordinates,
+};
 use kshana::lunar_orientation::{
     de440_moon_pa_body_to_inertial, try_de440_moon_pa_body_to_inertial,
 };
@@ -193,6 +210,14 @@ struct Np {
     /// Round 2: IERS Bulletin A polar motion (arcsec).
     xp_as: f64,
     yp_as: f64,
+    /// Third amendment: BCRS inputs (DE440 through SPICE).
+    tof_tdb: f64,
+    earth0: [f64; 6],
+    earth2: [f64; 6],
+    moon_b: [f64; 6],
+    sun_b: V3,
+    u_earth: f64,
+    u_moon: f64,
 }
 
 fn normal_points() -> Vec<Np> {
@@ -200,7 +225,7 @@ fn normal_points() -> Vec<Np> {
         .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
         .map(|l| {
             let f: Vec<&str> = l.split(',').collect();
-            assert_eq!(f.len(), 26, "bad row {l}");
+            assert_eq!(f.len(), 50, "bad row {l}");
             let p = |i: usize| f[i].parse::<f64>().unwrap_or_else(|e| panic!("{l}: {e}"));
             Np {
                 slice: f[0].to_string(),
@@ -222,6 +247,13 @@ fn normal_points() -> Vec<Np> {
                 ],
                 xp_as: p(24),
                 yp_as: p(25),
+                tof_tdb: p(26),
+                earth0: std::array::from_fn(|i| p(27 + i)),
+                earth2: std::array::from_fn(|i| p(33 + i)),
+                moon_b: std::array::from_fn(|i| p(39 + i)),
+                sun_b: [p(45), p(46), p(47)],
+                u_earth: p(48),
+                u_moon: p(49),
             }
         })
         .collect()
@@ -232,12 +264,28 @@ fn normal_points() -> Vec<Np> {
 enum Model {
     /// The first comparison: the geodetic catalogue `stations()`, no polar motion.
     Round1,
-    /// Round 2: `stations_itrf()` (ITRF2020 with velocity; APOLLO approximate) and polar motion.
+    /// Round 2: ITRF2020 with velocity, APOLLO at the ILRS approximate position (as run then),
+    /// and polar motion.
     Round2,
+    /// Third amendment: as round 2 but APOLLO from `stations_itrf()` (the operator's published
+    /// geocentric coordinates) and the IERS Conventions 2010 Section 11.2 BCRS light time.
+    Round3,
 }
 
-fn itrf_station(id: u32) -> Option<ItrfStation> {
-    stations_itrf().into_iter().find(|s| s.cdp_id == id)
+fn itrf_station(id: u32, model: Model) -> Option<ItrfStation> {
+    let st = stations_itrf().into_iter().find(|s| s.cdp_id == id)?;
+    if model == Model::Round2 && id == 7045 {
+        // The round 2 run placed APOLLO at the ILRS station page's approximate position.
+        return Some(ItrfStation {
+            coordinates: StationCoordinates::IlrsApproximate {
+                lat_deg: 32.780_361,
+                lon_deg: -105.820_417,
+                height_m: 2788.0,
+            },
+            ..st
+        });
+    }
+    Some(st)
 }
 
 fn catalogue_station(id: u32) -> Option<Geodetic> {
@@ -341,19 +389,19 @@ fn residuals_with(model: Model) -> (Vec<Residual>, usize) {
             skipped += 1;
             continue;
         };
-        let itrf = itrf_station(np.station);
-        if model == Model::Round2 && itrf.is_none() {
+        let itrf = itrf_station(np.station, model);
+        if model != Model::Round1 && itrf.is_none() {
             skipped += 1;
             continue;
         }
         let as_rad = std::f64::consts::PI / (180.0 * 3600.0);
         let (xp, yp) = match model {
             Model::Round1 => (0.0, 0.0),
-            Model::Round2 => (np.xp_as * as_rad, np.yp_as * as_rad),
+            Model::Round2 | Model::Round3 => (np.xp_as * as_rad, np.yp_as * as_rad),
         };
         let place = |jd_tt: f64, jd_ut1: f64| -> V3 {
             match (model, itrf) {
-                (Model::Round2, Some(st)) => {
+                (Model::Round2 | Model::Round3, Some(st)) => {
                     station_inertial_position_itrs(st.itrs_position(jd_tt), jd_tt, jd_ut1, xp, yp)
                 }
                 _ => station_inertial_position(g, jd_tt, jd_ut1),
@@ -373,11 +421,27 @@ fn residuals_with(model: Model) -> (Vec<Residual>, usize) {
         let tb_jc = (ttb - 2_451_545.0) / 36_525.0;
         let r_ref = match model {
             Model::Round1 => add(np.moon, de440_moon_pa_body_to_inertial(pa, tb_jc)),
-            Model::Round2 => add(
+            Model::Round2 | Model::Round3 => add(
                 np.moon,
                 try_de440_moon_pa_body_to_inertial(pa, tb_jc)
                     .unwrap_or_else(|e| panic!("normal point outside the orientation span: {e}")),
             ),
+        };
+        // Third amendment: the same events in the BCRS (TDB-compatible), IERS 2010 Eq. 11.19,
+        // with the Shapiro delay of Eq. 11.17 from the Sun, the Earth and the Moon.
+        let bcrs = if model == Model::Round3 {
+            let ev = BcrsEvent {
+                earth_t0: np.earth0,
+                earth_t2: np.earth2,
+                moon_tb: np.moon_b,
+                sun_tb: np.sun_b,
+                u_earth_c2: np.u_earth,
+                u_moon_c2: np.u_moon,
+            };
+            let light = llr_bcrs_one_way_m(&ev, r_sta0, r_sta2, sub(r_ref, np.moon));
+            Some((light, 0.5 * C * np.tof_tdb))
+        } else {
+            None
         };
         let k = np.diag_rot;
         let r_ref_diag = add(
@@ -426,8 +490,10 @@ fn residuals_with(model: Model) -> (Vec<Residual>, usize) {
             g.alt_m,
         ) * fcula(elev, np.t_k, g.lat_rad, g.alt_m);
 
-        let measured = 0.5 * C * np.tof;
-        let predicted = geom + shap + tropo;
+        let (measured, predicted) = match bcrs {
+            Some((light, measured_tdb)) => (measured_tdb, light + tropo),
+            None => (0.5 * C * np.tof, geom + shap + tropo),
+        };
         out.push(Residual {
             slice: np.slice,
             station: np.station,
@@ -567,13 +633,50 @@ fn round2_finding_is_a_common_offset_of_about_eleven_metres() {
 /// light-time model at the unchanged 10 m bar, on all 192 points and on the two ITRF2020
 /// stations alone.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn reflector_ranges_bcrs_iers2010_relativistic() {
-    unimplemented!("pre-registered: fixture columns and harness not yet written");
+    let (res, skipped) = residuals_with(Model::Round3);
+    assert_eq!(
+        skipped, 0,
+        "every normal-point station is in stations_itrf()"
+    );
+    let pick = |slice: &str, f: &dyn Fn(u32) -> bool| -> Vec<f64> {
+        res.iter()
+            .filter(|r| r.slice == slice && f(r.station))
+            .map(|r| r.res_m)
+            .collect()
+    };
+    let sets = [
+        ("2024 all", stats(&pick("2024", &|_| true))),
+        (
+            "2024 Grasse + Matera (ITRF2020)",
+            stats(&pick("2024", &|s| s != 7045)),
+        ),
+        (
+            "2024 APOLLO (operator coordinates)",
+            stats(&pick("2024", &|s| s == 7045)),
+        ),
+        ("2024 Grasse", stats(&pick("2024", &|s| s == 7845))),
+        ("2024 Matera", stats(&pick("2024", &|s| s == 7941))),
+        ("2015 all (secondary)", stats(&pick("2015", &|_| true))),
+    ];
+    for (name, (n, mean, rms)) in &sets {
+        eprintln!("M091 third amendment {name}: n = {n}, mean {mean:.3} m, RMS {rms:.3} m");
+    }
+    assert_eq!((sets[0].1 .0, sets[1].1 .0), (192, 160));
+    assert!(
+        sets[0].1 .2 <= RMS_TOL_M,
+        "2024 RMS {:.3} m exceeds {RMS_TOL_M} m",
+        sets[0].1 .2
+    );
+    assert!(
+        sets[1].1 .2 <= RMS_TOL_M,
+        "2024 ITRF2020-station RMS {:.3} m exceeds {RMS_TOL_M} m",
+        sets[1].1 .2
+    );
 }
 
 #[test]
-#[ignore = "FINDING: 2024 RMS 10.94 m over 192 points exceeds the 10 m bar (Grasse + Matera 10.96 m, APOLLO 10.84 m); a common +10.9 m offset remains, and APOLLO has no ITRF2020/SLRF2020 coordinates, so the row is BLOCKED"]
+#[ignore = "FINDING: 2024 RMS 10.94 m over 192 points exceeds the 10 m bar (Grasse + Matera 10.96 m, APOLLO 10.84 m); a common +10.9 m offset remains, and APOLLO has no ITRF2020/SLRF2020 coordinates, so the row was BLOCKED; superseded by the third amendment, reflector_ranges_bcrs_iers2010_relativistic (2.81 m)"]
 fn reflector_ranges_round2_itrf2020_polar_motion() {
     let s = round2_stats();
     let names = [

@@ -15,6 +15,12 @@ needs to predict that normal point's range with the `lunar_llr_geometry` substra
   epoch evaluated directly from moon_pa_de440_200625.bpc with the NAIF frame kernel
   moon_de440_250416.tf (`pxform`), so the test can show how much of the residual the module's
   interpolated orientation series contributes;
+* (third amendment, the last 24 columns) the BCRS inputs of the IERS Conventions 2010 Section 11.2
+  light-time model from DE440 through SPICE, J2000, geometric, metres and metres per second:
+  the measured TT round-trip interval converted to TDB (`unitim`), the barycentric Earth state at
+  transmit t0 and at receive t2 = t0 + TOF(TDB), the barycentric Moon state and the Sun position
+  at the bounce epoch, and U/c^2 at the geocentre (all DE440 bodies but the Earth) and at the
+  selenocentre (all but the Moon), GM from gm_de440.tpc;
 * the geocentric Moon centre at the bounce epoch t0 + TOF/2, J2000 (ICRF-aligned) metres, from JPL
   DE440 (de440s.bsp) through NAIF SPICE (spiceypy 8.2.0, MIT; CSPICE N0067), `spkpos('MOON', et,
   'J2000', 'NONE', 'EARTH')`, with the UTC-to-TDB conversion by `str2et` and naif0012.tls.
@@ -43,6 +49,11 @@ DE440S = ORACLES / "data/naif/de440s.bsp"
 LSK = ORACLES / "data/naif/naif0012.tls"
 MOON_PA_BPC = ORACLES / "data/naif/moon_pa_de440_200625.bpc"
 MOON_FK = ORACLES / "data/naif/moon_de440_250416.tf"
+GM_TPC = ORACLES / "data/naif/gm_de440.tpc"
+C_M_S = 299792458.0
+# Bodies whose potential enters U (IERS Conventions 2010 Eq. 11.19): the Sun, the planetary-system
+# barycentres other than the Earth-Moon one, and the other member of the Earth-Moon pair.
+U_BODIES = ["10", "1", "2", "4", "5", "6", "7", "8", "9"]
 FINALS = ORACLES / "data/iers/finals2000A.all"
 
 SLICES = [
@@ -161,14 +172,27 @@ def parse_crd(path):
 
 
 def main():
-    for p in (DE440S, LSK, FINALS, MOON_PA_BPC, MOON_FK):
+    for p in (DE440S, LSK, FINALS, MOON_PA_BPC, MOON_FK, GM_TPC):
         if not p.exists():
             sys.exit(f"missing {p}: run ~/Code/kshana-oracles/setup.sh")
     spice.furnsh(str(LSK))
     spice.furnsh(str(DE440S))
     spice.furnsh(str(MOON_FK))
     spice.furnsh(str(MOON_PA_BPC))
+    spice.furnsh(str(GM_TPC))
     finals = load_finals()
+    gm = {b: spice.bodvrd(b, "GM", 1)[1][0] * 1e9 for b in U_BODIES + ["301", "399"]}
+
+    def ssb(body, et):
+        st, _ = spice.spkezr(body, et, "J2000", "NONE", "SOLAR SYSTEM BARYCENTER")
+        return [x * 1e3 for x in st]
+
+    def u_over_c2(at, others, et):
+        total = 0.0
+        for b in others:
+            p = ssb(b, et)[:3]
+            total += gm[b] / sum((at[i] - p[i]) ** 2 for i in range(3)) ** 0.5
+        return total / (C_M_S * C_M_S)
 
     print("# Measured-range reference for tests/lunar_llr_geometry_range_oracle.rs (generate_reference.py)")
     print(f"# de440s.bsp {sha256(DE440S)}")
@@ -176,11 +200,13 @@ def main():
     print(f"# finals2000A.all {sha256(FINALS)}")
     print(f"# moon_pa_de440_200625.bpc {sha256(MOON_PA_BPC)} (diagnostic columns only)")
     print(f"# moon_de440_250416.tf {sha256(MOON_FK)} (diagnostic columns only)")
+    print(f"# gm_de440.tpc {sha256(GM_TPC)} (third-amendment columns only)")
     print(f"# spiceypy {spice.__version__}, {spice.tkvrsn('TOOLKIT')}")
     print(
         "# slice,station,code,target,mjd_utc,sod_utc,tof_s,wavelength_nm,pressure_hpa,temperature_k,"
         "humidity_pct,dut1_s,moon_x_m,moon_y_m,moon_z_m,diag_pa_to_j2000_r11..r33 (row-major),"
-        "xp_arcsec,yp_arcsec"
+        "xp_arcsec,yp_arcsec,tof_tdb_s,earth_t0_x,y,z,vx,vy,vz,earth_t2_x,y,z,vx,vy,vz,"
+        "moon_b_x,y,z,vx,vy,vz,sun_b_x,y,z,u_earth_c2,u_moon_c2"
     )
     for name, directory, pattern in SLICES:
         n_files = verify_slice(directory)
@@ -213,11 +239,34 @@ def main():
                 moon_km, _ = spice.spkpos("MOON", et_b, "J2000", "NONE", "EARTH")
                 rot = spice.pxform("MOON_PA_DE440", "J2000", et_b)
                 rot_s = ",".join(f"{rot[i][j]:.15e}" for i in range(3) for j in range(3))
+                # Third amendment: BCRS inputs.
+                # TDB - TT varies by at most about 3e-10 s/s, so the interval scales by the local
+                # rate, taken over one day so that the 1e-7 s resolution of a double-precision
+                # epoch near 7.7e8 s does not enter (a direct difference of epochs would).
+                def tdb_minus_tt(et):
+                    return et - spice.unitim(et, "TDB", "TT")
+
+                rate = (tdb_minus_tt(et_t0 + 43200.0) - tdb_minus_tt(et_t0 - 43200.0)) / 86400.0
+                tof_tdb = tof * (1.0 + rate)
+                et_t2 = et_t0 + tof_tdb
+                e0 = ssb("EARTH", et_t0)
+                e2 = ssb("EARTH", et_t2)
+                mb = ssb("MOON", et_b)
+                sb = ssb("SUN", et_b)[:3]
+                eb = ssb("EARTH", et_b)[:3]
+                u_e = u_over_c2(eb, U_BODIES + ["301"], et_b)
+                u_m = u_over_c2(mb[:3], U_BODIES + ["399"], et_b)
+                bcrs = ",".join(
+                    [f"{tof_tdb:.13f}"]
+                    + [f"{x:.4f}" if i % 6 < 3 else f"{x:.7f}" for i, x in enumerate(e0 + e2 + mb)]
+                    + [f"{x:.4f}" for x in sb]
+                    + [f"{u_e:.12e}", f"{u_m:.12e}"]
+                )
                 print(
                     f"{name},{np_['station']},{np_['code']},{np_['target']},{mjd},{sod:.7f},{np_['tof_str']},"
                     f"{np_['wavelength_nm']},{p_hpa},{t_k},{rh},{dut1:.7f},"
                     f"{moon_km[0] * 1e3:.4f},{moon_km[1] * 1e3:.4f},{moon_km[2] * 1e3:.4f},{rot_s},"
-                    f"{xp:.7f},{yp:.7f}"
+                    f"{xp:.7f},{yp:.7f},{bcrs}"
                 )
                 n += 1
         print(f"# slice {name}: {n_files} files, {n} normal points", file=sys.stderr)
