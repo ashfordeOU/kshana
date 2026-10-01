@@ -96,11 +96,27 @@ const C: f64 = crate::timegeo::C_M_PER_S;
 /// ([`crate::cio::gcrs_to_itrs_matrix`]).
 ///
 /// **Caveat:** polar motion is dropped (`xp = yp = 0`), so the inertial position carries the
-/// (few-metre) frame error of the omitted pole wander.
+/// (few-metre) frame error of the omitted pole wander; [`station_inertial_position_itrs`] takes
+/// it.
 pub fn station_inertial_position(g: Geodetic, jd_tt: f64, jd_ut1: f64) -> Vec3 {
     let r_ecef = crate::frames::geodetic_to_ecef(g);
     let m = crate::cio::gcrs_to_itrs_matrix(jd_tt, jd_ut1, 0.0, 0.0);
     mat_vec(&transpose(&m), r_ecef)
+}
+
+/// Geocentric inertial (GCRS) position (m) of a station given by its ITRS Cartesian position
+/// `r_itrs`, at TT epoch `jd_tt` and UT1 epoch `jd_ut1`, with polar motion `xp_rad`, `yp_rad`
+/// (radians, from the Earth orientation parameters): the transpose of the full GCRS→ITRS
+/// matrix [`crate::cio::gcrs_to_itrs_matrix`] applied to `r_itrs`.
+pub fn station_inertial_position_itrs(
+    r_itrs: Vec3,
+    jd_tt: f64,
+    jd_ut1: f64,
+    xp_rad: f64,
+    yp_rad: f64,
+) -> Vec3 {
+    let m = crate::cio::gcrs_to_itrs_matrix(jd_tt, jd_ut1, xp_rad, yp_rad);
+    mat_vec(&transpose(&m), r_itrs)
 }
 
 /// Geocentric **inertial** position of a lunar-surface beacon (m) at TT epoch `jd_tt`.

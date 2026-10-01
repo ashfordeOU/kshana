@@ -9,7 +9,8 @@ needs to predict that normal point's range with the `lunar_llr_geometry` substra
   station, target, transmit epoch (UTC), two-way time of flight, wavelength, and the pass's
   meteorological record nearest in time (pressure hPa, temperature K, relative humidity %);
 * UT1-UTC at the transmit epoch from IERS finals2000A.all (Bulletin A column, linear), an input to
-  Kshana's Earth-rotation chain;
+  Kshana's Earth-rotation chain; and (round 2, the last two columns) the Bulletin A polar motion
+  x_p, y_p (arcsec) at the same epoch, linear in time;
 * DIAGNOSTIC ONLY (never the promotion basis): the MOON_PA_DE440 -> J2000 rotation at the bounce
   epoch evaluated directly from moon_pa_de440_200625.bpc with the NAIF frame kernel
   moon_de440_250416.tf (`pxform`), so the test can show how much of the residual the module's
@@ -72,14 +73,26 @@ def load_finals():
         try:
             mjd = float(line[7:15])
             dut1 = float(line[58:68])
+            # Bulletin A polar motion (arcsec), columns 19-27 and 38-46 (round 2 addition).
+            xp = float(line[18:27])
+            yp = float(line[37:46])
         except ValueError:
             continue
-        rows.append((mjd, dut1))
+        rows.append((mjd, dut1, xp, yp))
     return rows
 
 
+def polar_motion_at(finals, mjd):
+    """Bulletin A x_p, y_p (arcsec), linear in time, as for UT1-UTC."""
+    for r0, r1 in zip(finals, finals[1:]):
+        if r0[0] <= mjd <= r1[0]:
+            f = (mjd - r0[0]) / (r1[0] - r0[0])
+            return r0[2] + (r1[2] - r0[2]) * f, r0[3] + (r1[3] - r0[3]) * f
+    sys.exit(f"MJD {mjd} not in finals2000A.all")
+
+
 def dut1_at(finals, mjd):
-    for (m0, d0), (m1, d1) in zip(finals, finals[1:]):
+    for (m0, d0, *_), (m1, d1, *_) in zip(finals, finals[1:]):
         if m0 <= mjd <= m1:
             if abs(d1 - d0) > 0.5:
                 sys.exit(f"leap second inside the UT1 interpolation interval at MJD {mjd}")
@@ -166,7 +179,8 @@ def main():
     print(f"# spiceypy {spice.__version__}, {spice.tkvrsn('TOOLKIT')}")
     print(
         "# slice,station,code,target,mjd_utc,sod_utc,tof_s,wavelength_nm,pressure_hpa,temperature_k,"
-        "humidity_pct,dut1_s,moon_x_m,moon_y_m,moon_z_m,diag_pa_to_j2000_r11..r33 (row-major)"
+        "humidity_pct,dut1_s,moon_x_m,moon_y_m,moon_z_m,diag_pa_to_j2000_r11..r33 (row-major),"
+        "xp_arcsec,yp_arcsec"
     )
     for name, directory, pattern in SLICES:
         n_files = verify_slice(directory)
@@ -184,6 +198,7 @@ def main():
                 p_hpa, t_k, rh = np_["met"]
                 tof = float(np_["tof_str"])
                 dut1 = dut1_at(finals, mjd + sod / 86400.0)
+                xp, yp = polar_motion_at(finals, mjd + sod / 86400.0)
                 # UTC calendar string for SPICE.
                 yy, mm_, dd = y, mo, d
                 if mjd != mjd_of(y, mo, d):
@@ -201,7 +216,8 @@ def main():
                 print(
                     f"{name},{np_['station']},{np_['code']},{np_['target']},{mjd},{sod:.7f},{np_['tof_str']},"
                     f"{np_['wavelength_nm']},{p_hpa},{t_k},{rh},{dut1:.7f},"
-                    f"{moon_km[0] * 1e3:.4f},{moon_km[1] * 1e3:.4f},{moon_km[2] * 1e3:.4f},{rot_s}"
+                    f"{moon_km[0] * 1e3:.4f},{moon_km[1] * 1e3:.4f},{moon_km[2] * 1e3:.4f},{rot_s},"
+                    f"{xp:.7f},{yp:.7f}"
                 )
                 n += 1
         print(f"# slice {name}: {n_files} files, {n} normal points", file=sys.stderr)
