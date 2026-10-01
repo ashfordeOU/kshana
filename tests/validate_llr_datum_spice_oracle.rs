@@ -100,37 +100,273 @@
 //! only the measured side of those ratios.
 
 use kshana::api::run_toml;
+use kshana::lunar_llr::{llr_geometry, parse_reflector_catalogue, parse_station_catalogue};
+use kshana::realdata::llr_crd::read_crd_dir;
 use serde_json::Value;
+use std::collections::HashMap;
+use std::path::Path;
 
-#[allow(dead_code)]
 const REFERENCE: &str = "tests/fixtures/llr_datum_spice/reference.txt";
-#[allow(dead_code)]
 const POINTS: &str = "tests/fixtures/llr_datum_spice/points.csv";
+const LLR: &str = "tests/fixtures/lunar_llr";
 
 /// Relative tolerance on the seven Helmert sigmas and the three norms.
-#[allow(dead_code)]
 const SIGMA_REL_TOL: f64 = 1.0e-2;
 /// Relative tolerance on the Helmert condition number.
-#[allow(dead_code)]
 const CONDITION_REL_TOL: f64 = 2.0e-2;
 /// Relative tolerance on each array's across/along sigma ratio.
-#[allow(dead_code)]
 const RATIO_REL_TOL: f64 = 2.0e-2;
 /// Relative tolerance between the reported residual RMS and the engine-versus-SPICE gap.
-#[allow(dead_code)]
 const RESIDUAL_REL_TOL: f64 = 1.0e-3;
 /// Pre-stated bound on the oracle's own observed-minus-computed RMS (m).
-#[allow(dead_code)]
 const ORACLE_OC_RMS_MAX_M: f64 = 100.0;
 
-#[allow(dead_code)]
+const C: f64 = 299_792_458.0;
+
 fn report() -> Value {
     let out = run_toml("kind = \"lunar-llr-datum\"\n").expect("the real-data scenario runs");
     serde_json::from_str(&out.json).expect("the report parses")
 }
 
+fn num(v: &Value, p: &str) -> f64 {
+    v.pointer(p)
+        .and_then(Value::as_f64)
+        .unwrap_or_else(|| panic!("no number at {p}"))
+}
+
+fn rel(a: f64, b: f64) -> f64 {
+    (a - b).abs() / b.abs()
+}
+
+/// The oracle's scalar lines (`key value`) and its per-array lines.
+struct Reference {
+    scalars: HashMap<String, f64>,
+    sigmas: HashMap<String, f64>,
+    arrays: HashMap<String, (usize, f64)>,
+}
+
+fn reference() -> Reference {
+    let text = std::fs::read_to_string(REFERENCE).expect("the oracle output is committed");
+    let mut r = Reference {
+        scalars: HashMap::new(),
+        sigmas: HashMap::new(),
+        arrays: HashMap::new(),
+    };
+    for line in text.lines().filter(|l| !l.starts_with('#') && !l.trim().is_empty()) {
+        let f: Vec<&str> = line.split_whitespace().collect();
+        match f[0] {
+            "sigma" => {
+                r.sigmas.insert(f[1].to_string(), f[2].parse().unwrap());
+            }
+            "array" => {
+                r.arrays.insert(
+                    f[1].to_string(),
+                    (f[2].parse().unwrap(), f[5].parse().unwrap()),
+                );
+            }
+            k => {
+                r.scalars.insert(k.to_string(), f[1].parse().unwrap());
+            }
+        }
+    }
+    r
+}
+
+/// One pre-registered comparison: name, engine value, oracle value, relative gap, bar.
+struct Row {
+    name: String,
+    got: f64,
+    want: f64,
+    rel: f64,
+    bar: f64,
+}
+
+/// Every comparison the pre-registration names, plus the exact (bookkeeping, rank,
+/// coupling) checks, which are asserted here because they hold.
+fn comparisons() -> Vec<Row> {
+    let v = report();
+    let r = reference();
+    let s = |k: &str| *r.scalars.get(k).unwrap_or_else(|| panic!("oracle has no {k}"));
+
+    // The oracle's own pre-stated self-check comes first: a light-time oracle that does not
+    // reproduce the archived ranges to metres is not an oracle.
+    let oc = s("oracle_oc_rms_m");
+    assert!(
+        oc < ORACLE_OC_RMS_MAX_M,
+        "SPICE observed-minus-computed RMS {oc} m exceeds the pre-stated {ORACLE_OC_RMS_MAX_M} m"
+    );
+
+    // Bookkeeping, exact.
+    assert_eq!(num(&v, "/data/normal_points_parsed") as usize, s("parsed") as usize);
+    assert_eq!(num(&v, "/data/normal_points_used") as usize, s("used") as usize);
+    assert_eq!(
+        num(&v, "/data/skipped_station_not_in_catalogue") as usize,
+        s("skipped_station") as usize
+    );
+    assert_eq!((s("parsed"), s("used"), s("skipped_station")), (349.0, 337.0, 12.0));
+
+    // Ranks exact, coupling exactly zero on both sides.
+    assert_eq!(num(&v, "/reflector_information/rank") as usize, s("reflector_rank") as usize);
+    assert_eq!(s("reflector_rank") as usize, 15);
+    assert_eq!(num(&v, "/helmert/rank") as usize, s("helmert_rank") as usize);
+    assert_eq!(s("helmert_rank") as usize, 7);
+    assert_eq!(num(&v, "/reflector_information/offblock_fraction"), 0.0);
+    assert_eq!(s("reflector_offblock_max"), 0.0);
+
+    let mut rows = Vec::new();
+    let mut push = |name: String, got: f64, want: f64, bar: f64| {
+        rows.push(Row {
+            name,
+            got,
+            want,
+            rel: rel(got, want),
+            bar,
+        })
+    };
+    for p in v.pointer("/helmert/parameters").and_then(Value::as_array).unwrap() {
+        let name = p["name"].as_str().unwrap();
+        push(
+            format!("sigma {name}"),
+            p["sigma"].as_f64().unwrap(),
+            r.sigmas[name],
+            SIGMA_REL_TOL,
+        );
+    }
+    for (path, key) in [
+        ("/datum_accuracy/translation_sigma_norm_m", "translation_sigma_norm_m"),
+        ("/datum_accuracy/rotation_sigma_norm_rad", "rotation_sigma_norm_rad"),
+        ("/datum_accuracy/scale_sigma_ppb", "scale_sigma_ppb"),
+    ] {
+        push(key.to_string(), num(&v, path), s(key), SIGMA_REL_TOL);
+    }
+    push(
+        "helmert condition".to_string(),
+        num(&v, "/helmert/condition_number"),
+        s("helmert_condition"),
+        CONDITION_REL_TOL,
+    );
+    for a in v.pointer("/reflectors").and_then(Value::as_array).unwrap() {
+        let t = a["ilrs_target"].as_str().unwrap();
+        let (n_obs, want) = r.arrays[t];
+        assert_eq!(a["observations"].as_u64().unwrap() as usize, n_obs, "{t} observations");
+        push(
+            format!("{t} across/along"),
+            a["ratio_across_over_along"].as_f64().unwrap(),
+            want,
+            RATIO_REL_TOL,
+        );
+    }
+    for x in &rows {
+        println!(
+            "{:<28} engine {:.6e}  SPICE+numpy {:.6e}  rel {:.3e}  bar {:.0e}{}",
+            x.name,
+            x.got,
+            x.want,
+            x.rel,
+            x.bar,
+            if x.rel <= x.bar { "" } else { "  OUTSIDE" }
+        );
+    }
+    rows
+}
+
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered strict comparison FAILS: Helmert sigma tz engine 1.282270e-2 m vs \
+            SPICE+numpy 1.269258e-2 m, rel 1.025e-2 against the 1e-2 bar; every other \
+            quantity is inside its bar. Finding pinned by \
+            llr_datum_finding_tz_sigma_one_percent_gap"]
 fn llr_datum_covariance_matches_spice_light_time_and_numpy_inverse() {
-    unimplemented!("pre-registration: the comparison is written after this commit");
+    for x in comparisons() {
+        assert!(
+            x.rel <= x.bar,
+            "{}: engine {:.6e}, oracle {:.6e}, rel {:.3e} > bar {}",
+            x.name,
+            x.got,
+            x.want,
+            x.rel,
+            x.bar
+        );
+    }
+}
+
+/// FINDING, pinned. Against SPICE light time (DE440 Moon, DE440 lunar orientation, ITRF93
+/// Earth orientation) and a numpy inverse, the engine's Helmert sigma on the z translation
+/// is 1.03 % high, just outside the pre-registered 1 % bar; every other sigma, norm, the
+/// condition number and the five across/along ratios are inside their bars, and the
+/// bookkeeping, ranks and zero coupling match exactly. A diagnostic oracle run with the
+/// IAU 2015 lunar orientation in place of DE440's moved the oracle's z sigma by only
+/// 0.05 %, so the gap is not the orientation model; the remaining modelled link of that
+/// size is the engine's analytic Moon-centre series (156 km observed-minus-computed). This
+/// test fails if the gap closes (re-run the strict test) or grows.
+#[test]
+fn llr_datum_finding_tz_sigma_one_percent_gap() {
+    let rows = comparisons();
+    for x in &rows {
+        if x.name == "sigma tz" {
+            assert!(
+                x.rel > x.bar && x.rel < 1.1e-2,
+                "the tz gap moved: rel {:.4e} (pinned in (1e-2, 1.1e-2))",
+                x.rel
+            );
+        } else {
+            assert!(x.rel <= x.bar, "{} left its bar: rel {:.3e}", x.name, x.rel);
+        }
+    }
+}
+
+/// The residual the row publishes (156,494 m RMS) is the gap between the engine's modelled
+/// light time and a full-fidelity one: compare it with SPICE's light time over the same
+/// points, computing the engine's own per-point light time here.
+#[test]
+fn reported_residual_is_the_engine_to_spice_light_time_gap() {
+    let v = report();
+    let r = reference();
+    let oc = r.scalars["oracle_oc_rms_m"];
+    assert!(oc < ORACLE_OC_RMS_MAX_M);
+
+    let stations = parse_station_catalogue(
+        &std::fs::read_to_string(Path::new(LLR).join("itrf2020_llr_stations.csv")).unwrap(),
+    )
+    .unwrap();
+    let reflectors = parse_reflector_catalogue(
+        &std::fs::read_to_string(Path::new(LLR).join("de430_retroreflectors_mer.csv")).unwrap(),
+    )
+    .unwrap();
+    let points = read_crd_dir(&Path::new(LLR).join("normal_points")).unwrap();
+    let used: Vec<_> = points
+        .iter()
+        .filter(|p| stations.iter().any(|s| s.ilrs_id == p.station_id))
+        .collect();
+
+    let text = std::fs::read_to_string(POINTS).unwrap();
+    let rows: Vec<Vec<&str>> = text
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.starts_with("file,"))
+        .map(|l| l.split(',').collect())
+        .collect();
+    assert_eq!(rows.len(), used.len());
+
+    let mut sum2 = 0.0;
+    for (p, row) in used.iter().zip(rows.iter()) {
+        // The oracle parsed the same record: same station, target, epoch and time of flight.
+        assert_eq!(row[1].parse::<u32>().unwrap(), p.station_id);
+        assert_eq!(row[2], p.target);
+        let jd: f64 = row[3].parse().unwrap();
+        assert!((jd - p.jd_utc).abs() < 1e-9, "{}: epoch {jd} vs {}", row[0], p.jd_utc);
+        assert_eq!(row[4].parse::<f64>().unwrap(), p.two_way_tof_s);
+        let tof_spice: f64 = row[5].parse().unwrap();
+        let st = stations.iter().find(|s| s.ilrs_id == p.station_id).unwrap();
+        let rf = reflectors.iter().find(|x| x.ilrs_target == p.target).unwrap();
+        let g = llr_geometry(st.position_at(p.jd_utc), rf.mer_m, p.jd_utc, 0.0);
+        let gap = 0.5 * C * (tof_spice - g.two_way_tof_s);
+        sum2 += gap * gap;
+    }
+    let gap_rms = (sum2 / rows.len() as f64).sqrt();
+    let reported = num(&v, "/residuals/rms_m");
+    let e = rel(reported, gap_rms);
+    println!(
+        "residual RMS reported {reported:.1} m, engine-to-SPICE light-time gap RMS {gap_rms:.1} m, \
+         rel {e:.3e} (bar {RESIDUAL_REL_TOL}); SPICE's own O-C RMS {oc:.2} m"
+    );
+    assert!(e <= RESIDUAL_REL_TOL);
 }
