@@ -22,6 +22,10 @@ publish = false
 name = "service-geometry-xval"
 path = "src/main.rs"
 
+[[bin]]
+name = "lunar-look-angles-xval"
+path = "src/bin/lunar_look_angles.rs"
+
 [dependencies]
 # The kshana library supplies the model under test: lunar_service::LunarSat::position_mci
 # (the Newton-Raphson Kepler propagator), the lunar::mci_to_mcmf mean-rotation reduction,
