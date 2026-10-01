@@ -122,9 +122,43 @@ same tools:
 
 ## What the pipeline needs from the repository settings
 
-- Secrets: `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, `NPM_TOKEN`,
-  `JETBRAINS_MARKETPLACE_TOKEN`. A release tag fails if one is missing.
+- Secrets: `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, `JETBRAINS_MARKETPLACE_TOKEN`. A
+  release tag fails if one is missing. `NPM_TOKEN` is optional once npm trusted publishing
+  is set up (below); until then it is what publishes to npm.
 - Variable: `MCP_REGISTRY_PUBLISH=true` turns on the MCP registry step.
 - The `github-pages` environment allows deployments from `main` only. That is why the
   `site` job dispatches `pages.yml` on `main` with the tag as an input, instead of
   deploying from the tag itself; the content is still the tag's.
+
+## npm without a token (trusted publishing)
+
+The `npm` job in `publish.yml` runs Node 24 and npm 11.5.1 or later, which is what npm
+trusted publishing needs (Node 22.14.0 and npm 11.5.1 at least). npm then exchanges the
+job's GitHub OpenID Connect (OIDC) identity for a short-lived publish credential, so no
+long-lived token is stored. While `NPM_TOKEN` is set, the job also hands it to npm, which
+uses it when the OIDC exchange is not available, so releases keep working before and
+after the switch. With neither, `npm publish` fails and the release is red.
+
+Set it up once on npmjs.com (the founder, signed in as an owner of `kshana`):
+
+1. Open <https://www.npmjs.com/package/kshana>, then **Settings**.
+2. Under **Trusted Publisher**, choose **GitHub Actions**.
+3. Organisation or user: `ashfordeOU`. Repository: `kshana`.
+4. Workflow filename: `release.yml` (the file name only, not the path).
+5. Environment name: `npm` (the job's `environment:`).
+6. Save. After the next release has published through OIDC (its log shows no token in
+   use and the package page shows the trusted-publisher provenance), the `NPM_TOKEN`
+   secret can be deleted, and the package's **Publishing access** can be set to
+   "Require two-factor authentication and disallow tokens".
+
+Why `release.yml` and not `publish.yml`: the `npm publish` command lives in `publish.yml`,
+but `release.yml` calls it as a reusable workflow, and npm's documentation says that for a
+`workflow_call` "validation checks the calling workflow's name instead of the workflow that
+actually contains the publish command" (<https://docs.npmjs.com/trusted-publishers>,
+"Troubleshooting"). The same page requires `id-token: write` in both the calling and the
+called workflow; `release.yml`'s `publish` job and `publish.yml`'s `npm` job both grant it.
+
+One consequence: a manual retry by dispatching `publish.yml` on the tag (see "Retrying")
+presents `publish.yml` as the calling workflow, which does not match, so that path still
+needs `NPM_TOKEN`. Retry with "Re-run failed jobs" on the original `release.yml` run
+instead, which keeps `release.yml` as the caller.
