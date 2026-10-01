@@ -77,6 +77,17 @@
 //! Disclosure: the first comparison's per-station residuals and the kernel-orientation diagnostic
 //! (22.7 m) were seen before this amendment. The new strict test is
 //! `reflector_ranges_round2_itrf2020_polar_motion`.
+//!
+//! ### Second amendment (2026-10-01, after fetching the two coordinate files, before any run)
+//!
+//! APOLLO 7045 is in neither `ITRF2020_SLR.SSC.txt` (IGN) nor the ILRS
+//! `SLRF2020_POS+VEL_2025.02.05.snx`; the ILRS station page gives only an "approximate position"
+//! (32.780361 N, 105.820417 W, 2788 m, no Cartesian values). Under the amendment above the row is
+//! therefore BLOCKED. The run is still made exactly as amended, with APOLLO placed at that ILRS
+//! approximate position (no velocity), and reported three ways: all 192 points (the
+//! pre-registered figure; promotion impossible because of APOLLO), the 160 points of the two
+//! ITRF2020 stations, and APOLLO alone. Grasse 7845 and Matera 7941 take their ITRF2020 values
+//! (identical in SLRF2020 to the printed digits).
 
 use kshana::cio::gcrs_to_itrs_matrix;
 use kshana::frames::Geodetic;
