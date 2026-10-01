@@ -170,7 +170,7 @@ a missing value is `null` in `value` and "no value" in `display`.
   `<suite>.study.html`; it does not write this report.
 - **Bindings.** The Python and WebAssembly bindings keep `RunOutput::html_report()`, the
   one-page scorecard; the playground's downloadable report is its own page
-  (`web/playground/lib/report.mjs`). This report is written by the CLI, and Rust callers can build it
+  (`web/studio/lib/report.mjs`). This report is written by the CLI, and Rust callers can build it
   with `kshana::advanced_report::build`. The Model Context Protocol (MCP) server returns
   it from its `report_scenario` tool, as JSON or as the HTML page; the scenario file name
   in its reproduction command is the one the caller passes (default `scenario.toml`), and

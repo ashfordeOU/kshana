@@ -68,7 +68,7 @@ checkout: `json.loads(kshana.list_kinds())` tells you which scenario kinds your
 build has.
 
 **Browser playground.** Zero install: open the
-[playground](https://kshana.dev/#playground), pick a scenario, edit the
+[Studio](https://kshana.dev/studio/), pick a scenario, edit the
 parameters, and read the result. Nothing is uploaded; the engine runs client-side
 as WebAssembly.
 

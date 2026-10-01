@@ -153,7 +153,7 @@ const FOM_LABELS: &[(&str, &str, &str)] = &[
 /// A figure-of-merit value for the report table: three decimals across the plain
 /// range, and three significant figures in exponent form outside it, so a small value
 /// such as a p95 of 1.2e-4 ns is not printed as `0.000`. The playground's table and
-/// its downloadable report use the same rule (`web/playground/lib/report.mjs`, `fmtVal`), and so does
+/// its downloadable report use the same rule (`web/studio/lib/report.mjs`, `fmtVal`), and so does
 /// the study comparison table (`src/study.rs`).
 pub(crate) fn format_fom_value(v: f64) -> String {
     if v != 0.0 && (v.abs() >= 1e4 || v.abs() < 1e-2) {
