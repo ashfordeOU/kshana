@@ -38,6 +38,15 @@
 //! Precondition (checked on the oracle side, so the test is discriminating): every case has a
 //! parity part, `detectable_norm_np / s ≥ 0.05`.
 //!
+//! Amendment 1 (2026-10-01, written AFTER a first run; disclosed): the first run stopped at
+//! case 769 because the per-case precondition failed there. The parity part of a random
+//! per-satellite error is itself random (two degrees of freedom on the 6-satellite geometry),
+//! and 18 of the 732 six-satellite cases fall below 0.05 (smallest 0.0062; none of the 732
+//! eight-satellite cases, smallest 0.089). Cases 0 to 768 had been compared when the run stopped
+//! and none had exceeded the agreement bar. The precondition is replaced by: every case has
+//! `detectable_norm_np / s ≥ 1e-3`, and in each geometry at least 95 % of cases have it
+//! `≥ 0.05`. Inputs, oracle and the agreement tolerances are unchanged.
+//!
 //! Discrimination check, pre-registered: replacing the engine's state map with the oblique left
 //! inverse `S' = S + K·(I − G·S)`, `K[i][c] = 0.05·sin(1 + i + 2c)` (a 4 × n matrix that is not
 //! least squares, but still satisfies `S'·G = I`, which kept the earlier test green), must turn
@@ -76,7 +85,7 @@ fn dist(a: &[f64], b: &[f64]) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered (amendment 1); not yet run"]
 fn common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs() {
     let inputs = fixture("inputs.json");
     let oracle = fixture("numpy_reference.json");
@@ -106,6 +115,7 @@ fn common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs() {
 
     let (mut w_dx, mut w_r, mut w_bn, mut w_dn, mut w_bf, mut min_par) =
         (0.0f64, 0.0f64, 0.0f64, 0.0f64, 0.0f64, f64::INFINITY);
+    let mut per_geom = vec![(0usize, 0usize); geometries.len()];
     for (k, (c, o)) in cases.iter().zip(refs).enumerate() {
         let g = &geometries[c["geometry"].as_u64().unwrap() as usize];
         let dy = f64s(&c["delta_y"]);
@@ -115,11 +125,17 @@ fn common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs() {
         let np_bn = o["blind_norm"].as_f64().unwrap();
         let np_dn = o["detectable_norm"].as_f64().unwrap();
         let np_bf = o["blind_fraction"].as_f64().unwrap();
+        // Amendment 1: every case has a parity part; the 95 % share is checked after the loop.
         assert!(
-            np_dn / s >= MIN_PARITY_FRACTION,
+            np_dn / s >= 1e-3,
             "case {k}: precondition, parity fraction {}",
             np_dn / s
         );
+        let gi = c["geometry"].as_u64().unwrap() as usize;
+        per_geom[gi].0 += 1;
+        if np_dn / s >= MIN_PARITY_FRACTION {
+            per_geom[gi].1 += 1;
+        }
         min_par = min_par.min(np_dn / s);
         let split = common_mode_split(g, &dy).expect("split");
         let e_dx = dist(&split.blind_dx, &np_dx) / s;
@@ -153,6 +169,13 @@ fn common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs() {
             "case {k}: blind_fraction off by {e_bf:.3e}"
         );
     }
+    for (gi, (n, ok)) in per_geom.iter().enumerate() {
+        assert!(
+            *ok as f64 >= 0.95 * *n as f64,
+            "geometry {gi}: only {ok} of {n} cases have a parity fraction >= {MIN_PARITY_FRACTION}"
+        );
+    }
+    println!("cases with parity fraction >= {MIN_PARITY_FRACTION}, per geometry: {per_geom:?}");
     println!(
         "worst (relative to ‖δy‖): blind_dx {w_dx:.3e}, residual {w_r:.3e}, blind_norm {w_bn:.3e}, \
          detectable_norm {w_dn:.3e}; blind_fraction {w_bf:.3e}; smallest parity fraction {min_par:.3}"
