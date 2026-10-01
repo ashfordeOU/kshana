@@ -37,6 +37,32 @@
 //! uses, and which Table 2 satisfies as `w_R² + 2 w_AC² = 1`). For identical components G2
 //! therefore carries a bias of about 0.78 (Kshana lower); G1 does not.
 
+//! ## Round 2 pre-registration (M124, written 2026-10-01 before any engine change, before any
+//! held-out orbit is fetched and before any re-run)
+//!
+//! Engine changes, from the paper's Section 2.2 (Eq. 1-7) and 2.3, read in full this time:
+//! 1. Liu22 user algorithm exactly as Eq. 1: `n = sqrt(mu / A^3) + dn + n_dot (t - toe)` (no
+//!    factor 1/2), `A_k = A + a_dot (t - toe)`, harmonics on the uncorrected argument of latitude.
+//! 2. Liu22 fit as Section 2.3: plain least squares from the osculating elements at the reference
+//!    epoch with every correction term zero, no zero-centred priors.
+//! 3. Stop on parameter convergence: iterate until every parameter step is below 1e-3 of its
+//!    formal standard deviation (or the paper's 100-iteration cap).
+//! The Kepler16 path (M120) is not changed.
+//!
+//! Comparisons:
+//! * Re-run: the same four days, the same published Liu22 rows, the same G1 and G2 at the same
+//!   factor 1.5, 20 and 30 min (`liu22_model_matches_the_published_sisre`).
+//! * Held out (new): for each satellite the two following days, GRACE-A 2017-06-02 and
+//!   2017-06-03, GRACE-C, Sentinel-2A and Sentinel-6A 2024-01-02 and 2024-01-03, from the same
+//!   ITSG directory and the same conversion (`gen_fixture.py`), compared with the same printed
+//!   values of that satellite (the paper's tables are one-day statistics; day-to-day stability is
+//!   the assumption under test) at the same G1 and G2 factor 1.5, Liu22, 20 and 30 min. If a
+//!   day's file is missing or incomplete, the next available day is taken, by availability only,
+//!   before any fit is run on it. Test: `liu22_holds_on_held_out_days`.
+//! * PROMOTE only if both pass. A failure is a finding; no bar moves.
+//! Disclosure: the first run's ratios (Sentinel-2A 1.71, Sentinel-6A 1.86 along-track at 20 min)
+//! were seen before this amendment.
+
 use std::path::Path;
 
 use kshana::leo_navmsg::elements::{ephemeris_at, SysTime};
@@ -293,4 +319,11 @@ fn tabulated_truth_returns_its_states_at_the_nodes() {
             assert!((v[c] - rows[k][4 + c]).abs() < 1e-9, "node {k} velocity");
         }
     }
+}
+
+/// M124 round 2, pre-registered above: the Liu22 fit on held-out days.
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn liu22_holds_on_held_out_days() {
+    unimplemented!("pre-registered: held-out fixtures not yet fetched");
 }
