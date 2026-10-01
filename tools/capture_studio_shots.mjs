@@ -5,7 +5,7 @@
 // Two flow shots show how the Studio is used: the start screen (domain tiles and the search
 // across scenarios, domains and fields) and the dashboard after a run (the five numbered
 // steps Choose, Set, Run, Read results and Share, the key figures and the panels), both at a
-// 1440 px wide window. Each panel shot opens one bundled scenario, lets the engine run it in
+// 1440 px wide window, plus one phone-width shot (390 px) of the bottom step bar. Each panel shot opens one bundled scenario, lets the engine run it in
 // the browser (WebAssembly), selects the named result panel, moves the replay to a stated
 // frame where the visual has one, and saves the panel row plus the first visual card of that
 // panel. Every shot is a PNG at twice the CSS pixel size. Nothing is drawn or edited here: the pictures are
@@ -46,6 +46,10 @@ const FLOW = [
   { name: "dashboard", query: "?scenario=l-band-waterfall-jamming&tab=spectrum", ready: "#kpis-wrap:not([hidden]) #figs > *", bottom: "panel" },
 ];
 
+// The phone shot: a 390 px wide screen after a run, with the bottom step bar.
+const PHONE_VIEWPORT = { width: 390, height: 844 };
+const PHONE = { name: "phone-steps", query: "?scenario=l-band-waterfall-jamming&tab=spectrum", ready: "#kpis-wrap:not([hidden]) #figs > *" };
+
 const browser = await chromium.launch();
 const record = [];
 for (const theme of ["light", "dark"]) {
@@ -73,6 +77,21 @@ for (const theme of ["light", "dark"]) {
     const file = `studio-${f.name}-${theme}.png`;
     await page.screenshot({ path: join(out, file), clip: box, fullPage: true });
     record.push({ file, url, scenario: null, tab: null, replay_frame: null, theme, viewport: FLOW_VIEWPORT, device_scale_factor: SCALE, crop_css_px: box });
+    console.log(file, JSON.stringify(box));
+  }
+  // One phone-width shot: after a run, the five steps become the step bar fixed to the
+  // bottom of the screen (.mob). The crop is the whole phone screen.
+  {
+    await page.setViewportSize(PHONE_VIEWPORT);
+    const url = new URL(PHONE.query, studio).href;
+    await page.goto(url, { waitUntil: "networkidle" });
+    await page.waitForSelector(PHONE.ready, { timeout: 60000 });
+    await page.waitForSelector(".mob", { state: "visible", timeout: 60000 });
+    await page.waitForTimeout(2000);
+    const box = { x: 0, y: 0, width: PHONE_VIEWPORT.width, height: PHONE_VIEWPORT.height };
+    const file = `studio-${PHONE.name}-${theme}.png`;
+    await page.screenshot({ path: join(out, file), clip: box });
+    record.push({ file, url, scenario: "l-band-waterfall-jamming", tab: null, replay_frame: null, theme, viewport: PHONE_VIEWPORT, device_scale_factor: SCALE, crop_css_px: box });
     console.log(file, JSON.stringify(box));
   }
   await page.setViewportSize(VIEWPORT);

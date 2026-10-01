@@ -2256,6 +2256,14 @@ def build(engine: Engine) -> dict[str, bytes]:
             "captured_by": "tools/capture_studio_shots.mjs", "record": "studio/SHOTS.json",
             "files": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(STUDIO_DIR.glob("*.jpg")) + sorted(STUDIO_DIR.glob("*.png"))},
         }
+    # kshana.dev screenshots for the README's site strip: taken from the site build by
+    # tools/capture_site_shots.mjs, composed by tools/readme_shots.py, recorded the same way.
+    site_dir = DEFAULT_OUT / "site"
+    if (site_dir / "SHOTS.json").exists():
+        manifest["site_screenshots"] = {
+            "captured_by": "tools/capture_site_shots.mjs", "composed_by": "tools/readme_shots.py", "record": "site/SHOTS.json",
+            "files": {p.name: hashlib.sha256(p.read_bytes()).hexdigest() for p in sorted(site_dir.glob("*.jpg"))},
+        }
     out["MANIFEST.json"] = (json.dumps(manifest, indent=2, ensure_ascii=False) + "\n").encode()
     return out
 
