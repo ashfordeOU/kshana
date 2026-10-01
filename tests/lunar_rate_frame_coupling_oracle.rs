@@ -14,19 +14,27 @@
 //!   `rate_frame_jacobian` takes no GM or radius argument; it uses Kshana's own
 //!   `forces::MU_MOON` and `lunar_time::RE_MOON_M`, so the precondition is not met.
 //!
-//! ## Result (recorded, not tuned)
+//! ## First result (round 1, recorded, not tuned)
 //!
-//! Kshana gives 3.139807e-11; the paper prints 3.13881(15)e-11. The relative difference is
-//! 3.18e-4, three times the tolerance and about seven times the paper's own stated uncertainty.
-//! The row therefore stays MODELLED. Cause: Kshana evaluates a point-mass potential GM/R at the
-//! 1737.4 km mean radius; the paper evaluates a degree-350 lunar potential on the equator
-//! (a_m = 1738.14 km) and adds the rotation term. The two are not the same closed form, so this is
-//! also not a P1 situation: no single published number computed from Kshana's formula exists.
+//! Kshana gave 3.139807e-11 against the printed 3.13881(15)e-11: 3.18e-4 relative, three times
+//! the tolerance. Cause: Kshana evaluated a point-mass potential GM/R at the 1737.4 km mean radius;
+//! the paper evaluates the lunar potential on the equator (a_m = 1738.14 km) and adds the
+//! rotation term. The function took no GM or radius, so the P1 precondition was not met either.
 //!
-//! The test pins that finding: it fails if the gap closes (then the row should be re-examined
-//! for promotion) or if it moves (then the constants changed and the record is stale).
+//! ## Round 2 (2026-10-01): engine fix, re-run at the same 1e-4 tolerance
+//!
+//! `lunar_gauge::rate_frame_jacobian_with` now takes the lunar surface potential
+//! (`LunarSurfacePotential`: GM, equatorial radius, J2, rotation rate) and forms
+//! `L_m = [GM/a (1 + J2/2) + omega^2 a^2 / 2] / c^2`, the paper's Eq. (10) with the equatorial
+//! potential truncated at degree 2. The test passes the paper's printed GM, a_m and omega_m; the
+//! paper prints no J2, so Kshana's own GRAIL / Lunar Prospector J2 (2.0321e-4) is used. That is
+//! the remaining difference from the paper's degree-350 evaluation and is disclosed in the
+//! record. Disclosure: the expected outcome (about 1e-6 relative) was estimated by hand before
+//! this re-run, from the same closed form; the tolerance was not changed.
+//!
+//! Result: see the record; the strict test below asserts the pre-registered 1e-4.
 
-use kshana::lunar_gauge::rate_frame_jacobian;
+use kshana::lunar_gauge::{rate_frame_jacobian, rate_frame_jacobian_with, LunarSurfacePotential};
 
 const REF: &str = include_str!("fixtures/lunar_rate_frame_coupling_oracle/reference.txt");
 
@@ -48,33 +56,53 @@ fn value(key: &str) -> f64 {
     panic!("{key} not in reference.txt");
 }
 
+/// Kshana's J2 (`kshana::body::MOON_ZONALS_J2_J3[0]`): the paper prints none.
+const KSHANA_J2: f64 = kshana::body::MOON_ZONALS_J2_J3[0];
+
 #[test]
-fn rate_frame_jacobian_disagrees_with_the_published_self_potential_beyond_1e_4() {
+fn rate_frame_coupling_from_the_papers_inputs_matches_the_published_l_m_within_1e_4() {
     let l_m = value("L_m");
     let sigma = value("L_m_uncertainty");
     assert_eq!(l_m, 3.13881e-11, "the fixture is the printed value");
+    let paper = LunarSurfacePotential {
+        gm_m3_s2: value("GM_moon"),
+        radius_m: value("a_m_equatorial_radius"),
+        j2: KSHANA_J2,
+        omega_rad_s: value("omega_m"),
+    };
 
     // Epoch-independent: check two epochs give the same entry before comparing.
-    let k0 = rate_frame_jacobian(0.0).d_alpha_d_scale;
-    let k1 = rate_frame_jacobian(0.25).d_alpha_d_scale;
+    let k0 = rate_frame_jacobian_with(0.0, &paper).d_alpha_d_scale;
+    let k1 = rate_frame_jacobian_with(0.25, &paper).d_alpha_d_scale;
     assert_eq!(k0, k1, "d_alpha_d_scale must not depend on the epoch");
 
+    let rot = 0.5 * (paper.omega_rad_s * paper.radius_m).powi(2);
     let rel = (k0 - l_m).abs() / l_m;
     eprintln!(
-        "M093: kshana d_alpha/d_scale = {k0:.7e}, Ashby-Patla L_m = {l_m:.5e} +/- {sigma:.1e}; \
-         relative gap {rel:.3e} (tolerance {TOL_REL:.0e}); gap / paper sigma = {:.1}",
-        (k0 - l_m).abs() / sigma
+        "M093: kshana L_m from the paper's GM, a_m, omega_m and Kshana's J2 = {k0:.7e}; \
+         Ashby-Patla L_m = {l_m:.5e} +/- {sigma:.1e}; relative gap {rel:.3e} (tolerance \
+         {TOL_REL:.0e}); gap / paper sigma = {:.2}; rotation term {rot:.5} m^2/s^2 (printed {})",
+        (k0 - l_m).abs() / sigma,
+        value("rotation_term")
     );
+    assert!(
+        rel <= TOL_REL,
+        "relative gap {rel:.3e} exceeds the pre-registered {TOL_REL:.0e}"
+    );
+}
 
-    // The pre-registered comparison: it does NOT pass.
+/// With Kshana's own constants (MU_MOON, 1738.14 km, the Moon's rotation rate in body.rs) the
+/// default coupling used by `rate_tie_row` is reported against the same printed value. Not the
+/// P1 comparison (the inputs are Kshana's, not the paper's); it shows the shipped default.
+#[test]
+fn shipped_default_coupling_is_reported_against_the_published_l_m() {
+    let l_m = value("L_m");
+    let k = rate_frame_jacobian(0.0).d_alpha_d_scale;
+    let rel = (k - l_m).abs() / l_m;
+    eprintln!("M093 default: kshana {k:.7e} vs L_m {l_m:.5e}, relative {rel:.3e}");
+    assert_eq!(k, LunarSurfacePotential::KSHANA.l_m());
     assert!(
-        rel > TOL_REL,
-        "the gap closed ({rel:.3e} <= {TOL_REL:.0e}): re-examine the row for promotion"
-    );
-    // The recorded finding: 3.18e-4 relative, Kshana high.
-    assert!(k0 > l_m, "Kshana's value sits above the published one");
-    assert!(
-        (3.1e-4..3.3e-4).contains(&rel),
-        "the recorded gap was 3.18e-4; it is now {rel:.3e}, so the record is stale"
+        rel <= TOL_REL,
+        "shipped default {rel:.3e} from the printed L_m"
     );
 }
