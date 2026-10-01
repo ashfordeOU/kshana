@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Revisions to published numbers
+
+- **Line coverage: ~96 % → ~95 %.** The coverage job re-measured the released 0.29.0
+  code (commit `db796dd`, CI run 36809850252, 2026-10-01): **95.35 %**, 55,970 of 58,697
+  lines of `src/`. The published figure was 95.63 % (37,697 of 39,419 lines), measured on
+  `b1d350d` before 0.28.0; it rounded to ~96 %. The new figure rounds to ~95 %, so every
+  surface `tests/coverage_figure_doc_sync.rs` pins moves together: `docs/COVERAGE.md`, the
+  README badge, Evidence line and CI table, the crates.io, PyPI and npm badges, the
+  technical report and the kshana.dev coverage page. The 85 % floor is unchanged.
+
 ## [0.29.0] - 2026-10-01
 
 Twelve new scenario kinds and three new ways to read a run. The engine now covers the
