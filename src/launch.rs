@@ -35,6 +35,34 @@ pub fn site_rotation_speed(lat_rad: f64) -> f64 {
     EARTH_ROTATION_RATE * R_EARTH_EQUATORIAL_M * lat_rad.cos()
 }
 
+/// Surface speed (m/s) of an Earth-fixed site at geodetic `lat_rad`, `lon_rad` on the
+/// spherical Earth (radius `R_eq`), at TT Julian Date `jd_tt`, rotating about the true pole:
+/// `ω_eff · R_eq · |ẑ_CIP × r̂|` with `ω_eff = Ω (1 − LOD / 86400 s)` and the Celestial
+/// Intermediate Pole placed in the terrestrial frame at `(x_p, −y_p, 1)` from the IERS
+/// polar motion. `eop` supplies `x_p`, `y_p` and the excess length of day `LOD`. Unlike
+/// [`site_rotation_speed`], which rotates about the terrestrial z axis at the nominal rate,
+/// this carries the polar-motion tilt (amplified by `tan(lat)`) and the day-length change.
+/// The precession-nutation rate of the pole in space (about 1e-11 rad/s) is left out.
+pub fn site_rotation_speed_at(
+    lat_rad: f64,
+    lon_rad: f64,
+    jd_tt: f64,
+    eop: &crate::eop::EopSeries,
+) -> f64 {
+    let (_, xp, yp) = eop.frame_args_tt(jd_tt);
+    let lod_s = eop.lod_ms_tt(jd_tt) * 1e-3;
+    let omega = EARTH_ROTATION_RATE * (1.0 - lod_s / 86_400.0);
+    let n = (xp * xp + yp * yp + 1.0).sqrt();
+    let pole = [xp / n, -yp / n, 1.0 / n];
+    let site = [
+        lat_rad.cos() * lon_rad.cos(),
+        lat_rad.cos() * lon_rad.sin(),
+        lat_rad.sin(),
+    ];
+    let d = pole[0] * site[0] + pole[1] * site[1] + pole[2] * site[2];
+    omega * R_EARTH_EQUATORIAL_M * (1.0 - d * d).max(0.0).sqrt()
+}
+
 /// Plane-change Δv (m/s) to rotate a velocity of magnitude `v_orbit` through
 /// `delta_i_rad`: the vector relation `2·v·sin(Δi/2)`.
 pub fn plane_change_dv(v_orbit: f64, delta_i_rad: f64) -> f64 {
