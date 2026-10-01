@@ -52,6 +52,31 @@
 //!
 //! The assertions pin these numbers, so a change to the catalogue, the series or the placement
 //! that moves them fails here and sends the record back for re-examination.
+//!
+//! ## Round 2 amendment (written 2026-10-01, before any station coordinate file is fetched, before
+//! the generator is re-run and before the engine changes)
+//!
+//! Unchanged: the 192 normal points of the 2024 slice (files and SHA256SUMS untouched), the Moon
+//! centre (DE440 through SPICE), UT1-UTC, the reflector catalogue, the two-way light path, the
+//! Shapiro and Mendes-Pavlis/FCULa terms, and the bar: RMS at most **10 m** over the 192 points.
+//! Changed, the engine fixes the first comparison pointed at:
+//! 1. Stations: ITRF2020 Cartesian positions and velocities (IGN, `ITRF2020_SLR.SSC.txt`,
+//!    epoch 2015.0, propagated linearly to each normal point) for Grasse 7845 and Matera 7941;
+//!    APOLLO 7045 from the same file if present, otherwise from the ILRS SLRF2020 SINEX if it can
+//!    be downloaded without a login. Promotion requires all three stations from one of those two
+//!    sources; if APOLLO is unobtainable the result is reported but the row is BLOCKED.
+//! 2. Polar motion: x_p, y_p from the same IERS `finals2000A.all` (Bulletin A columns, linear in
+//!    time, as for UT1-UTC) enter the station's ITRS-to-GCRS transform
+//!    (`cio::gcrs_to_itrs_matrix`); two new columns in `reference.csv`, every existing column must
+//!    regenerate byte for byte.
+//! 3. The DE440 PA orientation series is extended from the same binary PCK to 2014-01-01 ..
+//!    2030-12-31 (daily nodes, the existing geodesic interpolation) and returns an error outside
+//!    that span instead of clamping. The 2024-2025 nodes must be unchanged.
+//!
+//! The 2015 slice (349 points) is reported as a secondary figure, not a promotion criterion.
+//! Disclosure: the first comparison's per-station residuals and the kernel-orientation diagnostic
+//! (22.7 m) were seen before this amendment. The new strict test is
+//! `reflector_ranges_round2_itrf2020_polar_motion`.
 
 use kshana::cio::gcrs_to_itrs_matrix;
 use kshana::frames::Geodetic;
@@ -361,4 +386,12 @@ fn reflector_ranges_against_ilrs_normal_points() {
         "the kernel-orientation diagnostic RMS was 22.7 m, now {rms_diag:.2} m"
     );
     assert!(n15 == 349 && rms15 > 1.0e6, "the 2015 clamp finding moved");
+}
+
+/// Pre-registered (round 2 amendment above): ITRF2020/SLRF2020 stations, polar motion and the
+/// extended, non-clamping orientation series against the same 192 normal points at 10 m.
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn reflector_ranges_round2_itrf2020_polar_motion() {
+    unimplemented!("pre-registered: ITRF2020 station catalogue and polar-motion columns not yet present");
 }
