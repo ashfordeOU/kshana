@@ -53,9 +53,16 @@
 //!   Gauss–Newton estimator) and the three-station design rationale are not compared here. The
 //!   threshold is three Earth stations, i.e. three baselines of which two are independent.
 //!
-//! ## Result
+//! ## Result (recorded 2026-10-01, not tuned): AGREES on the observability linear algebra
 //!
-//! Not yet run.
+//! 17 cases: every rank and defect equal (defects 1, 2, 3, 1 and 0 where the claim puts them);
+//! every observability decision equal; worst station null-overlap gap 8.4e-10 (bar 1e-6); worst
+//! station CRLB relative gap 1.2e-10 (bar 1e-8); the oracle's CRLB falls 50.12, 36.80, 27.53,
+//! 20.08 m from three to six Earth stations. The oracle's spectral-gap precondition held on every
+//! case. Mutations, each reverted by editing back: summing two of the three station axes into the
+//! CRLB fails `default_with_vlbi` (20.017 against 20.078 m); a 1e-8 rank threshold fails
+//! `ladder_six_sats_one_station` (rank 24 against 25). The estimator-attainment clause of the row
+//! is not covered by this comparison.
 
 use kshana::lunar_combination::{lunar_observability, observability_inputs, LunarNetworkConfig};
 
@@ -95,7 +102,6 @@ fn floats(v: &serde_json::Value) -> Vec<f64> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn lunar_observability_matches_numpy_on_the_committed_jacobians() {
     let inputs = fixture("inputs.json");
     let reference = fixture("reference.json");
