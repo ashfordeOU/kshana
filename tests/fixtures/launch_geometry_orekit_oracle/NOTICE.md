@@ -29,3 +29,13 @@ Inclination 1e-9 rad; minimum inclination 1e-9 rad (floor 1e-12 rad); circular s
 relative; dogleg dv 1e-10 relative; site speed 1e-6 relative; opportunity counts exact (tangent
 rule in the test). First run (2026-10-01): all met (worst inclination 2.6e-15 rad) except the
 site speed, which misses at 62.9 deg latitude by 1.12e-6 relative (Orekit includes polar motion).
+
+## Round 2 addition (2026-10-01): `finals2000A_2026-02-28_to_03-02.txt`
+
+Three data rows (MJD 61099 to 61101, lines 19416 to 19418) copied verbatim from the IERS Rapid
+Service/Prediction Center `finals2000A.all` frozen on 2026-09-30
+(https://datacenter.iers.org/data/9/finals2000A.all, SHA-256 of the whole file
+cc80680ec05c91b65e7d02c6068fe0d44dd0998dc880551975092d2d14aa8e18; IERS products, free use with
+citation; SHA-256 of the three-row extract 1d40ee99c6d71b3841ded7d4d34effebf7f84ce5d0afb46222b679919320446a). They supply x_p, y_p and LOD at the driver's epoch 2026-03-01T00:00:00 UTC to
+`launch::site_rotation_speed_at`. Orekit read its own copy (orekit-data `main`), whose row for
+2026-03-01 carries the same x_p and y_p and an LOD of 0.1505 ms against 0.1502 ms here.

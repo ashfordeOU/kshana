@@ -20,6 +20,7 @@
 //! | PM-x (arcsec)| 19–27   | `[18..27]`      |
 //! | PM-y (arcsec)| 38–46   | `[37..46]`      |
 //! | UT1−UTC (s)  | 59–68   | `[58..68]`      |
+//! | LOD (ms)     | 80–86   | `[79..86]`      |
 
 use crate::timescales::{tai_minus_utc, MJD_OFFSET, SECONDS_PER_DAY, TT_MINUS_TAI};
 
@@ -37,6 +38,9 @@ pub struct EopRecord {
     pub xp_arcsec: f64,
     /// Polar-motion pole y, arc seconds.
     pub yp_arcsec: f64,
+    /// Excess length of day (Bulletin A LOD), milliseconds; `0.0` when the field is blank
+    /// (the IERS leaves it blank on most prediction rows).
+    pub lod_ms: f64,
 }
 
 /// Parse one `finals2000A` data line into an [`EopRecord`], or `None` if the line is
@@ -49,11 +53,16 @@ pub fn parse_line(line: &str) -> Option<EopRecord> {
     let xp = line.get(18..27)?.trim().parse::<f64>().ok()?;
     let yp = line.get(37..46)?.trim().parse::<f64>().ok()?;
     let ut1 = line.get(58..68)?.trim().parse::<f64>().ok()?;
+    let lod_ms = line
+        .get(79..86)
+        .and_then(|f| f.trim().parse::<f64>().ok())
+        .unwrap_or(0.0);
     Some(EopRecord {
         mjd,
         ut1_utc_s: ut1,
         xp_arcsec: xp,
         yp_arcsec: yp,
+        lod_ms,
     })
 }
 
@@ -179,16 +188,44 @@ impl EopSeries {
         }
     }
 
-    /// The CIO-frame rotation inputs `(jd_ut1, x_p [rad], y_p [rad])` for a TT Julian
-    /// Date: convert TT→TAI→UTC (leap seconds), interpolate the EOP at that UTC, and
-    /// form UT1 = UTC + (UT1−UTC).
-    pub fn frame_args_tt(&self, jd_tt: f64) -> (f64, f64, f64) {
+    /// Linearly interpolate the excess length of day (milliseconds) at a UTC MJD, clamping
+    /// to the endpoints outside the tabulated span; `0.0` for an empty series.
+    pub fn interp_lod_ms_utc_mjd(&self, mjd_utc: f64) -> f64 {
+        let r = &self.records;
+        match (r.first(), r.last()) {
+            (Some(first), _) if mjd_utc <= first.mjd => first.lod_ms,
+            (_, Some(last)) if mjd_utc >= last.mjd => last.lod_ms,
+            (Some(_), Some(_)) => {
+                let i = r.partition_point(|e| e.mjd <= mjd_utc);
+                let (lo, hi) = (&r[i - 1], &r[i]);
+                let f = (mjd_utc - lo.mjd) / (hi.mjd - lo.mjd);
+                lo.lod_ms + f * (hi.lod_ms - lo.lod_ms)
+            }
+            _ => 0.0,
+        }
+    }
+
+    /// The excess length of day (milliseconds) at a TT Julian Date (TT converted to UTC as
+    /// in [`frame_args_tt`](Self::frame_args_tt)).
+    pub fn lod_ms_tt(&self, jd_tt: f64) -> f64 {
+        self.interp_lod_ms_utc_mjd(Self::jd_tt_to_jd_utc(jd_tt) - MJD_OFFSET)
+    }
+
+    /// TT Julian Date to UTC Julian Date through TAI and the leap-second table.
+    fn jd_tt_to_jd_utc(jd_tt: f64) -> f64 {
         let jd_tai = jd_tt - TT_MINUS_TAI / SECONDS_PER_DAY;
         // Leap seconds are piecewise-constant; one refinement step lands the argument
         // squarely inside the correct UTC day (TAI leads UTC by ~37 s).
         let leap0 = tai_minus_utc(jd_tai);
         let leap = tai_minus_utc(jd_tai - leap0 / SECONDS_PER_DAY);
-        let jd_utc = jd_tai - leap / SECONDS_PER_DAY;
+        jd_tai - leap / SECONDS_PER_DAY
+    }
+
+    /// The CIO-frame rotation inputs `(jd_ut1, x_p [rad], y_p [rad])` for a TT Julian
+    /// Date: convert TT→TAI→UTC (leap seconds), interpolate the EOP at that UTC, and
+    /// form UT1 = UTC + (UT1−UTC).
+    pub fn frame_args_tt(&self, jd_tt: f64) -> (f64, f64, f64) {
+        let jd_utc = Self::jd_tt_to_jd_utc(jd_tt);
         let mjd_utc = jd_utc - MJD_OFFSET;
         let (dut1, xp_as, yp_as) = self.interp_utc_mjd(mjd_utc);
         let jd_ut1 = jd_utc + dut1 / SECONDS_PER_DAY;
@@ -255,6 +292,7 @@ mod tests {
         assert_eq!(r.xp_arcsec, 0.054644);
         assert_eq!(r.yp_arcsec, 0.276986);
         assert_eq!(r.ut1_utc_s, -0.1104988);
+        assert_eq!(r.lod_ms, -0.0267);
     }
 
     #[test]
