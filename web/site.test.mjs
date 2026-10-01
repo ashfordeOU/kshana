@@ -25,12 +25,22 @@ const NOT_FOUND = "404.html"; // served by GitHub Pages for a missing address; n
 // The pages at addresses that moved (web/tools/legacy-urls.json "paths": the Studio's old
 // /playground/) only forward; they are not pages of the site map.
 const MOVED = Object.keys(JSON.parse(text("tools/legacy-urls.json")).redirects.paths || {}).map((p) => p.slice(1) + "index.html");
-const pages = ported.filter((rel) => isPage(rel) && rel !== NOT_FOUND && !MOVED.includes(rel));
+// The Studio's Advanced view (the full dashboard) is a second page of the Studio app: a view of
+// /studio/, noindex, so it is not a page of the site map either. Its <base href="../"> makes its
+// relative addresses resolve from the Studio's own folder.
+const VIEWS = ["studio/advanced/index.html"];
+const pages = ported.filter((rel) => isPage(rel) && rel !== NOT_FOUND && !MOVED.includes(rel) && !VIEWS.includes(rel));
 const indexed = pages;
 for (const rel of MOVED) {
   assert.ok(ported.includes(rel), `${rel}: the page at a moved address was not ported`);
   assert.ok(/<meta name="robots" content="noindex">/.test(text(rel)), `${rel} is noindex`);
 }
+for (const rel of VIEWS) {
+  assert.ok(ported.includes(rel), `${rel}: the Studio's Advanced view was not ported`);
+  assert.ok(/<meta name="robots" content="noindex">/.test(text(rel)), `${rel} is noindex`);
+}
+// The folder a page's relative addresses resolve from: its own, or the one its <base href> names.
+const linkDir = (rel, html) => { const b = html.match(/<base\s+href="([^"]*)"/); return b ? posix.normalize(posix.join(posix.dirname(rel), b[1])) : posix.dirname(rel); };
 assert.ok(ported.length > 100, `the manifest lists only ${ported.length} files`);
 assert.ok(pages.length > 20, `only ${pages.length} pages in the manifest`);
 
@@ -123,7 +133,8 @@ const broken = [];
 const dirty = [];
 let links = 0;
 let studioLinks = 0;
-for (const rel of [...pages, NOT_FOUND, ...MOVED]) {
+for (const rel of [...pages, NOT_FOUND, ...MOVED, ...VIEWS]) {
+  const dir = linkDir(rel, text(rel));
   const html = text(rel).replace(/<script\b[\s\S]*?<\/script>/g, " ");
   for (const m of html.matchAll(/\s(?:href|src)="([^"]*)"/g)) {
     const raw = m[1].replace(/&amp;/g, "&");
@@ -132,7 +143,8 @@ for (const rel of [...pages, NOT_FOUND, ...MOVED]) {
     const [pathQuery, frag] = raw.split("#");
     const [path, query] = pathQuery.split("?");
     // a root-absolute address ("/site.css", used by 404.html) is a path from web/
-    let target = path === "" ? rel : path.startsWith("/") ? posix.normalize(path.slice(1)) : posix.normalize(posix.join(posix.dirname(rel), path));
+    let target = path === "" ? rel : path.startsWith("/") ? posix.normalize(path.slice(1)) : posix.normalize(posix.join(dir, path));
+    if (target === "./") target = "."; // the site root, linked from a folder its <base href> names
     if (target.endsWith("/") || target === ".") target = target === "." ? "index.html" : target + "index.html";
     if (target.startsWith("../")) { broken.push(`${rel}: ${raw} leaves the site`); continue; }
     // a clean address (/evidence, /docs/changelog) is the page the host serves for it
@@ -222,7 +234,7 @@ for (const rel of ported) {
     for (const im of body.matchAll(/<script type="importmap">([\s\S]*?)<\/script>/gi)) {
       for (const m of im[1].matchAll(/"((?:https?:)?\/\/[^"]+)"/g)) remote.push(`${rel}: import map names ${m[1].slice(0, 80)}`);
       for (const [name, addr] of Object.entries(JSON.parse(im[1]).imports)) {
-        const target = posix.normalize(posix.join(posix.dirname(rel), addr));
+        const target = posix.normalize(posix.join(linkDir(rel, body), addr)); // an import map resolves against <base href> too
         assert.ok(/^\.\.?\//.test(addr), `${rel}: import map address for ${name} must be relative (./ or ../): ${addr}`);
         assert.ok(existsSync(join(WEB, target)), `${rel}: import map sends ${name} to ${target}, which does not exist`);
       }
@@ -246,7 +258,7 @@ const fonts = JSON.parse(text("fonts/FONTS.json"));
 const fontCss = new Set(Object.values(fonts.stylesheets).map((e) => e.css));
 const NAME_CSS = "noto-sans-devanagari.css";
 let nameLinePages = 0;
-for (const rel of [...pages, NOT_FOUND]) {
+for (const rel of [...pages, NOT_FOUND, ...VIEWS]) {
   const page = text(rel);
   const links = [...page.matchAll(/<link href="([^"]*fonts\/[^"]+\.css)" rel="stylesheet">/g)].map((m) => m[1]);
   const sheets = links.map((l) => l.split("fonts/")[1]);
@@ -259,7 +271,7 @@ for (const rel of [...pages, NOT_FOUND]) {
               : `${rel}: loads fonts/${NAME_CSS} but shows no Devanagari name line`);
   for (const [i, css] of sheets.entries()) {
     assert.ok(fontCss.has(css), `${rel}: loads fonts/${css}, which FONTS.json does not record`);
-    const target = links[i].startsWith("/") ? links[i].slice(1) : posix.normalize(posix.join(posix.dirname(rel), links[i]));
+    const target = links[i].startsWith("/") ? links[i].slice(1) : posix.normalize(posix.join(linkDir(rel, page), links[i]));
     assert.equal(target, `fonts/${css}`, `${rel}: font stylesheet address resolves to ${target}`);
   }
 }

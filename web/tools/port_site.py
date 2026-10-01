@@ -81,7 +81,12 @@ STUDIO_DATA = {
     "data/standards-matrix-map.json": "data/standards-matrix-map.json",
     "data/verification-matrix.json": "data/verification-matrix.json",
 }
-STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md"}
+STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md"}
+# Folders of review material in a Studio folder (screenshots, gate scripts, their reports).
+STUDIO_SKIP_DIRS = {"REVIEW"}
+# The Studio's pages: the Simple view, and the Advanced view (the full dashboard), which has
+# <base href="../"> so it shares the Simple view's engine, worker, modules and data.
+STUDIO_PAGES = ("index.html", "advanced/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
@@ -194,6 +199,10 @@ def localise(rel, text):
     """Point a ported file at web/'s own copies of what it would load from another host."""
     tp = third_party()
     depth = rel.count("/")
+    if rel.endswith(".html"):  # a page with <base href="../"> (the Studio's Advanced view) resolves from its parent
+        base = re.search(r'<base\s+href="((?:\.\./)+)"', text)
+        if base:
+            depth -= base.group(1).count("../")
     if rel.endswith((".html", ".css")):  # a stylesheet may quote the link in a comment
         def font(m):
             url = html.unescape(m.group(1))
@@ -508,7 +517,7 @@ def collect_studio(studio, site, version, summ, out, skip):
 
     # Everything in the Studio folder is ported except its dev files and pkg/ (built by
     # web/build.sh). A folder the app does not need can be left out with --studio-skip.
-    tops = sorted(d for d in os.listdir(studio) if os.path.isdir(os.path.join(studio, d)) and d != "pkg" and d != "node_modules")
+    tops = sorted(d for d in os.listdir(studio) if os.path.isdir(os.path.join(studio, d)) and d not in ("pkg", "node_modules") and d not in STUDIO_SKIP_DIRS)
     for d in skip:
         if d not in tops:
             fail(f"--studio-skip {d}: the Studio has no such folder")
@@ -534,6 +543,13 @@ def collect_studio(studio, site, version, summ, out, skip):
                 site_page = os.path.join(site, STUDIO_DIR, "index.html")
                 site_text = open(site_page, encoding="utf-8").read() if os.path.isfile(site_page) else ""
                 data = page(dst, site_seo(studio_index(open(src, encoding="utf-8").read(), studio_name), site_text).encode("utf-8"), version, summ)
+            elif rel in STUDIO_PAGES:
+                # the Advanced view: the same edits as the Simple view's page; it is noindex (a view
+                # of /studio/), so it carries no crawl text of its own
+                text = studio_index(open(src, encoding="utf-8").read(), studio_name)
+                if not re.search(r'<meta name="robots" content="[^"]*noindex', text):
+                    fail(f"Studio {rel} is not noindex: it is a view of /{STUDIO_DIR}/, the page search engines list")
+                data = page(dst, text.encode("utf-8"), version, summ)
             elif rel in ("channels.json", "tokens.css"):
                 continue  # written below from the site build
             elif rel in STUDIO_DATA:

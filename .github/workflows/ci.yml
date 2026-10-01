@@ -392,6 +392,16 @@ jobs:
         run: node web/studio/lib/kpi.test.mjs
       - name: Test the field finder against the bundled scenario files
         run: node web/studio/lib/finder.test.mjs
+      - name: Test the plain sentence written for every scenario's result
+        run: node web/studio/lib/meaning.test.mjs
+      - name: Test the ranking of the settings the Simple view shows
+        run: node web/studio/lib/inputs.test.mjs
+      - name: Test the Studio address state and the Simple / Advanced switch
+        run: node web/studio/lib/urlstate.test.mjs
+      - name: Test the capability map's areas and the first-paint words
+        run: node web/studio/lib/areas.test.mjs
+      - name: Test the first-use expansion of abbreviations
+        run: node web/studio/lib/abbr.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
