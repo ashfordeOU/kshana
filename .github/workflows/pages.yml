@@ -87,7 +87,7 @@ jobs:
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
       - name: Install wasm-pack (pinned)
-        uses: taiki-e/install-action@7623a79cdfecb99d681017af368ca353d9f49bb5 # v2
+        uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
         with:
           tool: wasm-pack@0.13.1
       - name: Build the WebAssembly engine and stage it for the Studio
