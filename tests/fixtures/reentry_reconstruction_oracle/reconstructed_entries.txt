@@ -1,0 +1,4 @@
+# Reconstructed ballistic Earth entries: values printed in the cited publication (text, not plots).
+# Source and provenance: NOTICE.md in this directory.
+# ENTRY id | entry_speed_m_s | flight_path_angle_deg (below horizontal) | frame of the entry state | peak_deceleration_g | speed_at_peak_g_m_s (or - when not printed) | source
+ENTRY stardust_src_2006 | 12900 | 8.2 | inertial | 32.89 | - | Desai and Qualls, AIAA 2008-1198 (NTRS 20080008567), sec. II and V

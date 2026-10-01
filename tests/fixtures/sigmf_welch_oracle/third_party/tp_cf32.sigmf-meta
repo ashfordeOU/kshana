@@ -1,0 +1,22 @@
+{
+    "global": {
+        "core:author": "sigmf-python 1.13.0",
+        "core:datatype": "cf32_le",
+        "core:description": "third-party oracle recording written by sigmf-python",
+        "core:hw": "synthetic, no hardware",
+        "core:num_channels": 1,
+        "core:offset": 0,
+        "core:recorder": "gen_sigmf_welch_oracle.py",
+        "core:sample_rate": 2000000.0,
+        "core:sha512": "ce5c7caaa3d09c50579f23a64491b6c6bef968bd2fd80439e22a86373815960be1093d2a19cb98be9487697a4be01fe663da4a4103b0b1de0f79b86955f2d68f",
+        "core:version": "1.2.6"
+    },
+    "captures": [
+        {
+            "core:datetime": "2026-10-01T00:00:00.000000Z",
+            "core:frequency": 1575420000.0,
+            "core:sample_start": 0
+        }
+    ],
+    "annotations": []
+}

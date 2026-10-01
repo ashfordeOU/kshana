@@ -1,0 +1,211 @@
+#!/usr/bin/env python3
+# SPDX-License-Identifier: AGPL-3.0-only
+"""Generate the measured-range reference for tests/lunar_llr_geometry_range_oracle.rs.
+
+For every ILRS lunar normal point in two slices it writes one CSV row carrying what the Rust test
+needs to predict that normal point's range with the `lunar_llr_geometry` substrate:
+
+* the measurement, parsed here from the CRD files (Ricklefs and Moore, CRD v1.01 and v2.01):
+  station, target, transmit epoch (UTC), two-way time of flight, wavelength, and the pass's
+  meteorological record nearest in time (pressure hPa, temperature K, relative humidity %);
+* UT1-UTC at the transmit epoch from IERS finals2000A.all (Bulletin A column, linear), an input to
+  Kshana's Earth-rotation chain;
+* DIAGNOSTIC ONLY (never the promotion basis): the MOON_PA_DE440 -> J2000 rotation at the bounce
+  epoch evaluated directly from moon_pa_de440_200625.bpc with the NAIF frame kernel
+  moon_de440_250416.tf (`pxform`), so the test can show how much of the residual the module's
+  interpolated orientation series contributes;
+* the geocentric Moon centre at the bounce epoch t0 + TOF/2, J2000 (ICRF-aligned) metres, from JPL
+  DE440 (de440s.bsp) through NAIF SPICE (spiceypy 8.2.0, MIT; CSPICE N0067), `spkpos('MOON', et,
+  'J2000', 'NONE', 'EARTH')`, with the UTC-to-TDB conversion by `str2et` and naif0012.tls.
+
+Slices:
+  2024: normal_points_2024/*.np2 (CRD v2), 2024-04..06, five targets, fetched 2026-10-01 from
+        https://edc.dgfi.tum.de/pub/slr/data/npt_crd_v2/<target>/2024/<target>_2024<mm>.np2
+  2015: ../lunar_llr/normal_points/*.npt (CRD v1), the slice already committed (2015-04..06).
+
+Every input file is hash-verified before anything is written. Run from this directory:
+
+  source ~/Code/kshana-oracles/env.sh
+  $ORACLE_PY generate_reference.py > reference.csv
+"""
+
+import hashlib
+import os
+import sys
+from pathlib import Path
+
+import spiceypy as spice
+
+HERE = Path(__file__).resolve().parent
+ORACLES = Path(os.environ.get("KSHANA_ORACLES", str(Path.home() / "Code/kshana-oracles")))
+DE440S = ORACLES / "data/naif/de440s.bsp"
+LSK = ORACLES / "data/naif/naif0012.tls"
+MOON_PA_BPC = ORACLES / "data/naif/moon_pa_de440_200625.bpc"
+MOON_FK = ORACLES / "data/naif/moon_de440_250416.tf"
+FINALS = ORACLES / "data/iers/finals2000A.all"
+
+SLICES = [
+    ("2024", HERE / "normal_points_2024", "*.np2"),
+    ("2015", HERE.parent / "lunar_llr" / "normal_points", "*.npt"),
+]
+
+
+def sha256(path):
+    return hashlib.sha256(Path(path).read_bytes()).hexdigest()
+
+
+def verify_slice(directory):
+    sums = (directory / "SHA256SUMS").read_text().splitlines()
+    for line in sums:
+        want, name = line.split("  ", 1)
+        got = sha256(directory / name)
+        if got != want:
+            sys.exit(f"{directory / name}: SHA-256 {got} != recorded {want}")
+    return len(sums)
+
+
+def load_finals():
+    rows = []
+    for line in FINALS.read_text().splitlines():
+        if len(line) < 68:
+            continue
+        try:
+            mjd = float(line[7:15])
+            dut1 = float(line[58:68])
+        except ValueError:
+            continue
+        rows.append((mjd, dut1))
+    return rows
+
+
+def dut1_at(finals, mjd):
+    for (m0, d0), (m1, d1) in zip(finals, finals[1:]):
+        if m0 <= mjd <= m1:
+            if abs(d1 - d0) > 0.5:
+                sys.exit(f"leap second inside the UT1 interpolation interval at MJD {mjd}")
+            return d0 + (d1 - d0) * (mjd - m0) / (m1 - m0)
+    sys.exit(f"MJD {mjd} not in finals2000A.all")
+
+
+def mjd_of(y, mo, d):
+    # Fliegel-Van Flandern civil date to MJD.
+    a = (14 - mo) // 12
+    yy = y + 4800 - a
+    mm = mo + 12 * a - 3
+    jdn = d + (153 * mm + 2) // 5 + 365 * yy + yy // 4 - yy // 100 + yy // 400 - 32045
+    return jdn - 2400001
+
+
+def parse_crd(path):
+    """Yield one dict per normal point (record 11) with the pass's met record nearest in time."""
+    station = code = target = None
+    start = None
+    wavelength = None
+    nps, mets = [], []
+
+    def flush():
+        for n in nps:
+            if not mets:
+                n["met"] = None
+            else:
+                n["met"] = min(mets, key=lambda m: abs(m[0] - n["sod_raw"]))[1:]
+            yield n
+
+    for raw in Path(path).read_text().splitlines():
+        f = raw.split()
+        if not f:
+            continue
+        rec = f[0].lower()
+        if rec == "h2":
+            code, station = f[1], int(f[2])
+        elif rec == "h3":
+            target = f[1]
+        elif rec == "h4":
+            start = (int(f[2]), int(f[3]), int(f[4]), int(f[5]) * 3600 + int(f[6]) * 60 + int(f[7]))
+            nps, mets = [], []
+        elif rec == "c0":
+            wavelength = float(f[2])
+        elif rec == "20":
+            mets.append((float(f[1]), float(f[2]), float(f[3]), float(f[4])))
+        elif rec == "11":
+            if int(f[4]) != 2:
+                sys.exit(f"{path}: epoch event {f[4]} is not 2 (ground transmit time)")
+            nps.append(
+                {
+                    "station": station,
+                    "code": code,
+                    "target": target,
+                    "start": start,
+                    "sod_raw": float(f[1]),
+                    "tof_str": f[2],
+                    "wavelength_nm": wavelength,
+                }
+            )
+        elif rec == "h8":
+            yield from flush()
+            nps, mets = [], []
+    yield from flush()
+
+
+def main():
+    for p in (DE440S, LSK, FINALS, MOON_PA_BPC, MOON_FK):
+        if not p.exists():
+            sys.exit(f"missing {p}: run ~/Code/kshana-oracles/setup.sh")
+    spice.furnsh(str(LSK))
+    spice.furnsh(str(DE440S))
+    spice.furnsh(str(MOON_FK))
+    spice.furnsh(str(MOON_PA_BPC))
+    finals = load_finals()
+
+    print("# Measured-range reference for tests/lunar_llr_geometry_range_oracle.rs (generate_reference.py)")
+    print(f"# de440s.bsp {sha256(DE440S)}")
+    print(f"# naif0012.tls {sha256(LSK)}")
+    print(f"# finals2000A.all {sha256(FINALS)}")
+    print(f"# moon_pa_de440_200625.bpc {sha256(MOON_PA_BPC)} (diagnostic columns only)")
+    print(f"# moon_de440_250416.tf {sha256(MOON_FK)} (diagnostic columns only)")
+    print(f"# spiceypy {spice.__version__}, {spice.tkvrsn('TOOLKIT')}")
+    print(
+        "# slice,station,code,target,mjd_utc,sod_utc,tof_s,wavelength_nm,pressure_hpa,temperature_k,"
+        "humidity_pct,dut1_s,moon_x_m,moon_y_m,moon_z_m,diag_pa_to_j2000_r11..r33 (row-major)"
+    )
+    for name, directory, pattern in SLICES:
+        n_files = verify_slice(directory)
+        n = 0
+        for path in sorted(directory.glob(pattern)):
+            for np_ in parse_crd(path):
+                y, mo, d, start_sod = np_["start"]
+                mjd = mjd_of(y, mo, d)
+                sod = np_["sod_raw"]
+                # A pass that crosses midnight restarts seconds-of-day at zero.
+                if sod < start_sod - 3600.0:
+                    mjd += 1
+                if np_["met"] is None:
+                    sys.exit(f"{path}: normal point at {sod} has no meteorological record")
+                p_hpa, t_k, rh = np_["met"]
+                tof = float(np_["tof_str"])
+                dut1 = dut1_at(finals, mjd + sod / 86400.0)
+                # UTC calendar string for SPICE.
+                yy, mm_, dd = y, mo, d
+                if mjd != mjd_of(y, mo, d):
+                    # Next civil day: let SPICE do the calendar arithmetic.
+                    et0 = spice.str2et(f"{yy:04d}-{mm_:02d}-{dd:02d} 00:00:00 UTC")
+                    yy, mm_, dd = (int(x) for x in spice.et2utc(et0 + 86400.0 + 1.0, "ISOC", 0)[:10].split("-"))
+                hh = int(sod // 3600)
+                mi = int((sod - hh * 3600) // 60)
+                ss = sod - hh * 3600 - mi * 60
+                et_t0 = spice.str2et(f"{yy:04d}-{mm_:02d}-{dd:02d} {hh:02d}:{mi:02d}:{ss:013.10f} UTC")
+                et_b = et_t0 + 0.5 * tof
+                moon_km, _ = spice.spkpos("MOON", et_b, "J2000", "NONE", "EARTH")
+                rot = spice.pxform("MOON_PA_DE440", "J2000", et_b)
+                rot_s = ",".join(f"{rot[i][j]:.15e}" for i in range(3) for j in range(3))
+                print(
+                    f"{name},{np_['station']},{np_['code']},{np_['target']},{mjd},{sod:.7f},{np_['tof_str']},"
+                    f"{np_['wavelength_nm']},{p_hpa},{t_k},{rh},{dut1:.7f},"
+                    f"{moon_km[0] * 1e3:.4f},{moon_km[1] * 1e3:.4f},{moon_km[2] * 1e3:.4f},{rot_s}"
+                )
+                n += 1
+        print(f"# slice {name}: {n_files} files, {n} normal points", file=sys.stderr)
+
+
+if __name__ == "__main__":
+    main()

@@ -1,0 +1,28 @@
+{
+  "global": {
+    "core:datatype": "cf32_le",
+    "core:sample_rate": 2048000.0,
+    "core:version": "1.0.0",
+    "core:description": "kshana-written oracle recording",
+    "core:author": "ashfordeOU",
+    "core:recorder": "kshana sigmf oracle fixture",
+    "core:hw": "synthetic, no hardware"
+  },
+  "captures": [
+    {
+      "core:sample_start": 0,
+      "core:frequency": 1575420000.0,
+      "core:datetime": "2026-10-01T00:00:00.000Z"
+    }
+  ],
+  "annotations": [
+    {
+      "core:sample_start": 16,
+      "core:sample_count": 128,
+      "core:freq_lower_edge": 1574420000.0,
+      "core:freq_upper_edge": 1576420000.0,
+      "core:label": "L1",
+      "core:comment": "annotation written by kshana"
+    }
+  ]
+}
