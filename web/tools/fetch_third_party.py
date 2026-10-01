@@ -16,7 +16,10 @@ Writes, under web/:
   fonts/<families>.css     the @font-face rules Google Fonts serves for one stylesheet URL,
                            with every file address made local
   fonts/files/*.woff2      the font files those rules name (every subset, so text renders
-                           exactly as it did)
+                           exactly as it did). A stylesheet asked for with `text=` (the
+                           name line's Devanagari, three letters) is answered with one file
+                           holding only those glyphs, from /l/font?kit=…; it is saved as
+                           <family>-text-<first 16 hex of its SHA-256>.woff2
   fonts/OFL-<family>.txt   each family's SIL Open Font License text, from the font project
   fonts/FONTS.json         which stylesheet URL each .css stands in for, and each file's SHA-256
   vendor/<name>@<ver>/...  each script library file, at its path inside the npm package,
@@ -45,6 +48,7 @@ OFL = {
     "Geist Mono": "https://raw.githubusercontent.com/google/fonts/main/ofl/geistmono/OFL.txt",
     "Unbounded": "https://raw.githubusercontent.com/google/fonts/main/ofl/unbounded/OFL.txt",
     "Bricolage Grotesque": "https://raw.githubusercontent.com/google/fonts/main/ofl/bricolagegrotesque/OFL.txt",
+    "Noto Sans Devanagari": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansdevanagari/OFL.txt",
 }
 
 
@@ -102,9 +106,19 @@ def fetch_fonts(urls):
         def local(m):
             src = m.group(1)
             fam = re.search(r"/s/([a-z0-9]+)/", src)
-            name = f"{fam.group(1) if fam else 'font'}-{os.path.basename(src)}"
-            if name not in reg["files"]:
+            if fam:
+                name = f"{fam.group(1)}-{os.path.basename(src)}"
+                data = None if name in reg["files"] else get(src)
+            elif "/l/font?" in src:
+                # a text= subset: the address is a query, not a file name; name it by its
+                # family and its content, so the same glyphs always land in the same file
                 data = get(src)
+                name = f"{''.join(slug(f).replace('-', '') for f in families)}-text-{sha(data)[:16]}.woff2"
+            else:
+                sys.exit(f"{url}: a font address of an unknown shape: {src}")
+            if data is not None and name not in reg["files"]:
+                if not data.startswith(b"wOF2"):
+                    sys.exit(f"{src}: not a WOFF2 file")
                 put(f"fonts/files/{name}", data)
                 reg["files"][name] = {"sha256": sha(data), "bytes": len(data), "from": src}
             return f"url(files/{name})"
