@@ -42,8 +42,20 @@
 //! the solved epochs; (b) the median over the epochs both tools solved of (Kshana ISB - RTKLIB
 //! ISB) at most 1 ns in magnitude.
 //!
+//! Result of the first and only run (2026-10-01), recorded as a FINDING: (b) agrees (median ISB
+//! difference -0.252 ns over 277 common epochs), (a) does not: 222 of 278 solved epochs (79.9 %)
+//! within 3 m, median 1.82 m, 95th percentile 4.39 m, max 7.17 m. RTKLIB on the same slices puts
+//! 195 of its 287 epochs (67.9 %) within 3 m (95th percentile 5.75 m). The ionosphere-free
+//! combination removes the ionosphere but multiplies code noise and multipath by about 3 (no
+//! carrier smoothing at 300 s spacing), and the GPS C1C-to-P1 code bias is not corrected by
+//! either tool; the 3 m / 95 % bar is beyond this code-only input for both tools, so the miss is
+//! the input's error budget, not a solver discrepancy. The strict test stays ignored; the finding
+//! is pinned by `dual_frequency_finding_is_pinned`.
+//!
 //! Discrimination check, pre-registered: combining Galileo E1 with E5a at the GPS L2 frequency
 //! instead of the E5a frequency (a wrong ionosphere-free coefficient) must turn this test red.
+//! Done 2026-10-01: the ISB criterion (b), which passes unmutated, fails (median -1.420 ns), and
+//! the share within 3 m drops to 76.3 %; the mutation was then edited back.
 
 use kshana::gnss_sim::Meteo;
 use kshana::leo_fusion::joint_pvt::{solve, PseudorangeObs, SystemClock};
@@ -101,9 +113,15 @@ fn quantile(v: &[f64], q: f64) -> f64 {
     s[k]
 }
 
-#[test]
-#[ignore = "pre-registered; not yet run"]
-fn dual_frequency_multi_gnss_fix_matches_itrf2020_and_rtklib() {
+/// Measured statistics of one run of the dual-frequency comparison.
+struct Stats {
+    n: usize,
+    share: f64,
+    med_isb: f64,
+    rtk_share: f64,
+}
+
+fn run() -> Stats {
     let obs_text = fixture("abmf_2018133_300s_GE_dual.rnx");
     let nav_text = fixture("brdc_2018133_G_Efnav.rnx");
     let obs = parse_obs(&obs_text).expect("observation slice parses");
@@ -197,6 +215,27 @@ fn dual_frequency_multi_gnss_fix_matches_itrf2020_and_rtklib() {
         quantile(&pos_diff, 0.5),
         quantile(&pos_diff, 0.95)
     );
+    let rtk_within = rtk_err.iter().filter(|&&e| e <= 3.0).count();
+    let rtk_share = rtk_within as f64 / rtk_err.len().max(1) as f64;
+    eprintln!(
+        "RTKLIB: {rtk_within}/{} = {:.1} % within 3 m",
+        rtk_err.len(),
+        100.0 * rtk_share
+    );
+    Stats {
+        n,
+        share,
+        med_isb,
+        rtk_share,
+    }
+}
+
+#[test]
+#[ignore = "DISAGREES with the pre-registered 3 m / 95 % ITRF2020 bar: 79.9 % of 278 epochs (RTKLIB 67.9 %); the ISB agrees with RTKLIB (median -0.25 ns); finding recorded, row stays MODELLED"]
+fn dual_frequency_multi_gnss_fix_matches_itrf2020_and_rtklib() {
+    let Stats {
+        n, share, med_isb, ..
+    } = run();
     assert!(n >= 100, "only {n} epochs solved");
     assert!(
         share >= 0.95,
@@ -206,5 +245,26 @@ fn dual_frequency_multi_gnss_fix_matches_itrf2020_and_rtklib() {
     assert!(
         med_isb.abs() <= 1.0,
         "median ISB difference to RTKLIB {med_isb:+.3} ns exceeds 1 ns"
+    );
+}
+
+/// The finding, pinned so a change to it is seen: on these dual-frequency slices the ISB agrees
+/// with RTKLIB within the pre-registered 1 ns, but neither tool reaches the 3 m / 95 % position
+/// bar, and Kshana is closer to ITRF2020 than RTKLIB is. The bands are the measured values of
+/// 2026-10-01 with a small margin, not acceptance criteria.
+#[test]
+fn dual_frequency_finding_is_pinned() {
+    let s = run();
+    assert!(s.n >= 270, "{} epochs solved", s.n);
+    assert!(s.med_isb.abs() <= 1.0, "ISB median {:+.3} ns", s.med_isb);
+    assert!(
+        (0.75..=0.85).contains(&s.share),
+        "Kshana share within 3 m moved: {:.3}",
+        s.share
+    );
+    assert!(
+        (0.63..=0.73).contains(&s.rtk_share),
+        "RTKLIB share within 3 m moved: {:.3}",
+        s.rtk_share
     );
 }
