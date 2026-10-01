@@ -27,6 +27,20 @@
 //! gated test pins the finding.
 //!
 //! Fixture, driver and provenance: `tests/fixtures/cw_dynamics_orekit_oracle/`.
+//!
+//! AMENDMENT, ROUND 2 (written 2026-10-01, before the second-order propagator exists or is run):
+//! the engine gains a closed-form second-order relative-motion solution,
+//! `cw_dynamics::propagate_second_order(n, r0, t, s0)`: the linear CW solution plus the response
+//! of the CW operator, from zero initial conditions, to the quadratic terms of the exact
+//! circular-chief relative equations (Newman, Lovell and Pratt 2015, second-order Cartesian
+//! solution by Volterra series; Karlgaard and Lutze, Journal of Guidance, Control, and Dynamics
+//! 26(1), 2003, for the same quadratic forcing). The comparison is UNCHANGED: same Orekit 12.2
+//! fixture (SHA-256 888693f6...ce061f, not regenerated), same four 100 m cases, same samples, same
+//! 1e-3 m maximum position gap; only the engine function evaluated changes, so the quantity is "CW
+//! with second-order correction". Disclosure: the first-order gaps and the 10 m diagnostic (gap
+//! scales as rho^2) were seen before this amendment, so the expected direction of the result is
+//! known; the bar is the original one and is not touched. The new strict test is
+//! `cw_second_order_matches_nonlinear_orekit_within_1mm`; the first-order finding stays pinned.
 
 use kshana::cw_dynamics::{mean_motion, propagate, State6};
 use kshana::orbit::MU_EARTH;
@@ -124,4 +138,12 @@ fn cw_matches_nonlinear_orekit_within_the_linearisation_bound() {
         "disagreements:\n{}",
         failures.join("\n")
     );
+}
+
+/// Pre-registered (round 2 amendment above): the second-order closed-form propagator against the
+/// unchanged Orekit fixture at the unchanged 1e-3 m bar.
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn cw_second_order_matches_nonlinear_orekit_within_1mm() {
+    unimplemented!("pre-registered: cw_dynamics::propagate_second_order does not exist yet");
 }
