@@ -57,8 +57,8 @@ to 0.29.1 apart from the version stamp.
   `navsignal::simpson`. The LEO pass kind's two entry points share one setup step.
   `leo_link::geometry` imports the `leo_fusion::geom` vector helpers instead of copying
   them. The advanced report imports the API report's HTML escape instead of copying it.
-  All 139 bundled scenarios were run on 0.29.1 and on this code, and every output file
-  is byte-identical.
+  Every one of the 139 scenario files in `scenarios/` was run on 0.29.1 and on this
+  code, and every output file is byte-identical.
 - **The leo-navmsg and leo-pvt units tables have their own files.** They moved out of
   modules that also hold logic, into `src/leo_navmsg/units.rs` and
   `src/leo_fusion/pvt_units.rs`. `PVT_UNITS` keeps its public path. Only these two
