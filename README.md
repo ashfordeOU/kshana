@@ -19,7 +19,7 @@
 
 <p align="center">
   <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&label=CI&style=flat-square&labelColor=0A1226" alt="Continuous integration status on main"></a>
-  <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~96%25%20line-377D0C?style=flat-square&labelColor=0A1226" alt="Line coverage near 96 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
+  <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25%20line-377D0C?style=flat-square&labelColor=0A1226" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%20of%20223-377D0C?style=flat-square&labelColor=0A1226" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality%20gate&style=flat-square&labelColor=0A1226" alt="SonarQube Cloud quality gate status"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -467,7 +467,7 @@ it impossible to call a capability VALIDATED without an independent external ora
 A few of the checks: all 666 AIAA (American Institute of Aeronautics and Astronautics)
 2006-6753 SGP4 (Simplified General Perturbations 4) vectors to 4.12 mm; the Cowell force
 model to 0.08 m against Orekit 12.2; Galileo to 0.61 m and Swarm-A to 0.10 m against real
-precise ephemerides of the European Space Agency (ESA). Tests hold near 96 % line coverage of
+precise ephemerides of the European Space Agency (ESA). Tests hold near 95 % line coverage of
 `src/`, gated at 85 % in CI. The ledger is
 [`docs/VERIFICATION-MATRIX.md`](docs/VERIFICATION-MATRIX.md), generated from
 `src/verification.rs`: the [full 223-row matrix](docs/VERIFICATION-MATRIX.md), and why each
@@ -541,7 +541,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 | **MODELLED** | PNT-resilience scoring + decision-instability | 35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed) | DHS RPCF v2.0 mapping + Dirichlet / Kendall-τ / Hill-N2 closed forms — synthetic architectures, not a certification |
 | **MODELLED** | RF-impairment optimism-gap study (scaling laws + leave-one-out predictor) | permutation-null significance; byte-deterministic artifact (5 seeds) | synthetic parameter-grounded corpus — the eval *metrics* are VALIDATED vs scikit-learn (above); the study is MODELLED |
 | CI | Cross-platform reproducibility | bit-identical input + shape goldens on 3 OSes (operating systems) | Linux / macOS / Windows CI matrix, SHA-256 goldens |
-| CI | Test coverage | **~96 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
+| CI | Test coverage | **~95 % line** on `src/` excluding `src/*_data.rs` and `src/main.rs`, gated ≥ 85 % | cargo-tarpaulin (LLVM engine) |
 
 <p align="center">
   <img src="docs/assets/diagrams/validation-provenance.png" alt="How a capability earns its label: Requirement maps to a module in src, to a test in tests, to an external oracle (real dataset, independent reference implementation, or published vectors), to a status — with a CI-enforced guard that no capability can be Validated without an external oracle. Live counts: 83 Validated, 136 Modelled, 4 Partner, 223 total" width="900">

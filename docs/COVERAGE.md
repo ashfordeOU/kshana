@@ -1,19 +1,19 @@
 # Line coverage — the measurement of record
 
-The "~96 % line coverage" on the README badge, the README CI (continuous integration) table, the crates.io and
-PyPI (Python Package Index) front pages, the kshana.dev hero and the technical report is **this** measurement, rounded to the nearest
+The "~95 % line coverage" on the README badge, the README CI (continuous integration) table, the crates.io and
+PyPI (Python Package Index) front pages, the kshana.dev line-coverage page and the technical report is **this** measurement, rounded to the nearest
 whole percent. `tests/coverage_figure_doc_sync.rs` fails if any of those six surfaces
 states a different figure from the one recorded below, so the next re-measurement moves
 all of them together or none.
 
 | | |
 |---|---|
-| Measured | **95.63 %** — 37,697 of 39,419 lines |
-| Commit | `b1d350d` (engine 0.27.2 + unreleased) |
-| Run | GitHub Actions, `ci.yml` job `coverage`, run 35934579709, 2026-09-24 |
+| Measured | **95.35 %** — 55,970 of 58,697 lines |
+| Commit | `db796dd` (engine 0.29.0, the `v0.29.0` tag) |
+| Run | GitHub Actions, `ci.yml` job `coverage`, run 36809850252, 2026-10-01 |
 | Tool | `cargo tarpaulin --engine llvm` (LLVM source-based instrumentation) |
 | Scope | `src/`, excluding the generated data tables `src/*_data.rs` and the thin CLI (command-line interface) entry point `src/main.rs`; `tests/` and `web/` are not measured |
-| Artifact | `coverage-lcov` (`lcov.info`, 239 source files) attached to that run |
+| Artifact | `coverage-lcov` (`lcov.info`, 290 source files) attached to that run |
 | Floor | the same job fails below **85 %** (`--fail-under 85`) — the floor is enforced on every push; the figure above is a record, not a gate |
 
 The command, verbatim from `.github/workflows/ci.yml`:
@@ -40,7 +40,11 @@ names any you miss.
 
 ## History
 
-The figure has been re-measured, not re-typed: 95.85 % at v0.17.0 (commit `1daa012`,
+The figure has been re-measured, not re-typed: 95.63 % on commit `b1d350d` (engine
+0.27.2 + unreleased, run 35934579709, 2026-09-24, 37,697 of 39,419 lines, published as
+~96 %), revised to 95.35 % on 0.29.0 (above), which rounds to ~95 %: the code grew by
+19,278 measured lines and the new lines are covered slightly less than the old ones;
+95.85 % at v0.17.0 (commit `1daa012`,
 2026-06-14, published as ~96 %), and ~97 % in two earlier release notes
 (`CHANGELOG.md`, left as history). `paper/kshana-technical-report.md` said "near 97 %"
 until it was brought to this record; it is now the sixth surface the test pins.
