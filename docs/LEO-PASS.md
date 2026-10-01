@@ -117,7 +117,7 @@ preset radiates 0 dBW (1 W).
 
 ## Bundled scenarios
 
-Each row is one run of `kshana scenarios/<name>.toml` (engine 0.29.1):
+Each row is one run of `kshana scenarios/<name>.toml` (engine 0.29.2):
 
 | Scenario | Setup | Result of one run |
 |---|---|---|
