@@ -8,20 +8,28 @@ before this script was first run:
 1. Extract the embedded 600 dots-per-inch bilevel figure images with poppler's `pdfimages`:
    Fig. 6 is the page-8 image of 2030 x 1687 pixels, Fig. 7 the page-9 image of 2050 x 1694.
 2. Panels and frames: rows whose dark fraction exceeds 0.6 are horizontal frame lines (two per
-   panel, top and bottom); within a panel, columns whose dark fraction exceeds 0.25 are the
-   vertical frame lines (left and right). Each line's position is the mean of its run of
+   panel, top and bottom); within a panel, columns holding a continuous dark run longer than
+   90 % of the panel height are the vertical frame lines (left and right). [Amended after the
+   first run: the first rule, a dark fraction above 0.25, also caught the steep dash-dot
+   curves; no value had been read.] Each line's position is the mean of its run of
    pixels.
 3. Axis calibration, one linear least-squares fit per axis: x (dB) against column on the left
    and right frame lines and the interior major tick marks (every 5 dB, drawn up from the bottom
    frame); log10(value) against row on the bottom and top frame lines and the interior decade
-   tick marks (drawn right from the left frame). Major ticks are the dark runs that start at a
-   frame line and are longer than 70 % of the longest such run but shorter than 3 % of the
-   panel width (longer runs are curves). The number of interior ticks found must equal the
+   tick marks (drawn right from the left frame). [Amended after the first run, before any value
+   was read: the first rule (runs longer than 70 % of the longest run shorter than 3 % of the
+   panel width) took a curve touching the left frame for a tick.] Major ticks are drawn on
+   both opposite frame lines; they are the positions where the dark runs starting at BOTH
+   lines are 10 to 25 pixels long (major ticks are about 16 pixels, minor ticks about 7). The number of interior ticks found must equal the
    number expected and every calibration residual must be at most 1.5 pixels, or the panel
    is void.
 4. The solid CRLB line: in each column of the window (Fig. 6: -9 to -1 dB; Fig. 7: 10 to 19
-   dB, where the dashed and dash-dot curves lie above it), the lowest dark run between 3 % of
-   the panel height above the bottom frame and 3 % below the top frame; its centre row. The
+   dB, where the dashed and dash-dot curves lie above it), the lowest dark run between 5 % of
+   the panel height above the bottom frame and 5 % below the top frame; its centre row.
+   [Amended after the third run: with the first margin, 3 %, the tip of the -5 dB major tick
+   of Fig. 6 entered one column and the panel was voided by the residual test. That run
+   printed the Fig. 6 medians, 819.8 m and 689.7 m/s at 0 dB, before this amendment; no
+   Kshana value had been computed.] The
    line is straight in these coordinates with the exactly known slope 0.05 decade per dB
    (the bound scales as the noise standard deviation). The intercept is the median over
    columns of log10(value) - 0.05 x; the reading is the value at 0 dB, 10^intercept. A
@@ -78,6 +86,14 @@ def clusters(idx):
     return [(float(np.mean(c)), c[0], c[-1]) for c in out]
 
 
+def major_ticks(side_a, side_b):
+    """Centres of the major tick marks: positions where the dark runs from BOTH opposite frame
+    lines are 10 to 25 pixels long (major ticks are about 16 pixels at 600 dots per inch,
+    minor ticks about 7), so that a curve touching one frame line is never taken for a tick."""
+    keep = [k for k in side_a if 10 <= side_a[k] <= 25 and 10 <= side_b.get(k, 0) <= 25]
+    return [c for c, _, _ in clusters(keep)]
+
+
 def extract(pdf, page, size, tmp):
     subprocess.run(["pdfimages", "-png", "-f", str(page), "-l", str(page), str(pdf),
                     str(Path(tmp) / f"p{page}")], check=True)
@@ -91,23 +107,24 @@ def extract(pdf, page, size, tmp):
 def read_panel(img, top, bot, x_min, x_max, lo, hi, window):
     h = bot[0] - top[0]
     sub = img[int(top[1]):int(bot[2]) + 1, :]
-    colfrac = sub.mean(axis=0)
-    vlines = clusters(list(np.where(colfrac > 0.25)[0]))
+    longest_run = np.array([max([e - s for s, e in runs(sub[:, c])] or [0])
+                            for c in range(sub.shape[1])])
+    vlines = clusters(list(np.where(longest_run > 0.9 * sub.shape[0])[0]))
     if len(vlines) != 2:
         return {"void": f"{len(vlines)} vertical frame lines"}
     left, right = vlines
     width = right[0] - left[0]
-    # Interior x ticks: vertical runs going up from the bottom frame line.
-    tick_len = []
-    for c in range(left[2] + 3, right[1] - 2):
-        col = img[:bot[1], c][::-1]
+    # Interior x ticks: vertical runs going up from the bottom frame and down from the top.
+    def run_from(seq):
         n = 0
-        while n < len(col) and col[n]:
+        while n < len(seq) and seq[n]:
             n += 1
-        tick_len.append((c, n))
-    longest = max(n for _, n in tick_len if n < 0.03 * width) if tick_len else 0
-    cand = [c for c, n in tick_len if 0.7 * longest < n < 0.03 * width]
-    xt = [m for m, _, _ in clusters(cand)]
+        return n
+
+    cols = range(left[2] + 3, right[1] - 2)
+    up = {c: run_from(img[:bot[1], c][::-1]) for c in cols}
+    down = {c: run_from(img[top[2] + 1:, c]) for c in cols}
+    xt = major_ticks(up, down)
     n_xt = int(round((x_max - x_min) / 5.0)) - 1
     if len(xt) != n_xt:
         return {"void": f"{len(xt)} x ticks, expected {n_xt}"}
@@ -115,17 +132,11 @@ def read_panel(img, top, bot, x_min, x_max, lo, hi, window):
     xs_db = [x_min + 5.0 * k for k in range(n_xt + 2)]
     ax, bx = np.polyfit(xs_px, xs_db, 1)
     xres = np.array(xs_db) - (ax * np.array(xs_px) + bx)
-    # Interior y ticks: horizontal runs going right from the left frame line.
-    tl = []
-    for r in range(top[2] + 3, bot[1] - 2):
-        row = img[r, left[2] + 1:]
-        n = 0
-        while n < len(row) and row[n]:
-            n += 1
-        tl.append((r, n))
-    longest_y = max(n for _, n in tl if n < 0.03 * width)
-    cand_y = [r for r, n in tl if 0.7 * longest_y < n < 0.03 * width]
-    yt = [m for m, _, _ in clusters(cand_y)]
+    # Interior y ticks: horizontal runs going right from the left frame and left from the right.
+    rows = range(top[2] + 3, bot[1] - 2)
+    rgt = {r: run_from(img[r, left[2] + 1:]) for r in rows}
+    lft = {r: run_from(img[r, :right[1]][::-1]) for r in rows}
+    yt = major_ticks(rgt, lft)
     n_yt = hi - lo - 1
     if len(yt) != n_yt:
         return {"void": f"{len(yt)} y ticks, expected {n_yt}"}
@@ -139,8 +150,8 @@ def read_panel(img, top, bot, x_min, x_max, lo, hi, window):
     # The solid line: lowest dark run in each window column.
     c0 = int(np.ceil((window[0] - bx) / ax))
     c1 = int(np.floor((window[1] - bx) / ax))
-    r_hi = int(top[0] + 0.03 * h)
-    r_lo = int(bot[0] - 0.03 * h)
+    r_hi = int(top[0] + 0.05 * h)
+    r_lo = int(bot[0] - 0.05 * h)
     xs, ys = [], []
     for c in range(c0, c1 + 1):
         rr = runs(img[r_hi:r_lo + 1, c])
