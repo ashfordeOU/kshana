@@ -108,8 +108,8 @@ fn every_bundled_example_names_a_kind_the_engine_has() {
 fn every_capability_card_run_target_is_bundled_and_offered() {
     // A capability card's `run` field names the scenario a reader can run for that
     // capability. On the site that means the Studio: it opens a scenario only if the file
-    // is in its catalogue (the SCENARIOS table in web/playground/lib/catalog.mjs) and the
-    // file itself is bundled beside it (web/playground/scenarios/), because the Studio
+    // is in its catalogue (the SCENARIOS table in web/studio/lib/catalog.mjs) and the
+    // file itself is bundled beside it (web/studio/scenarios/), because the Studio
     // loads its scenarios from there at run time. A card naming a file the catalogue does
     // not carry opens the default scenario instead, with no error — the reader sees a
     // capability described and no way to run it, which is exactly the silence
@@ -123,8 +123,8 @@ fn every_capability_card_run_target_is_bundled_and_offered() {
     let caps: serde_json::Value = serde_json::from_str(&caps_raw).expect("parse capabilities.json");
     let cards = caps["capabilities"].as_array().expect("capabilities array");
 
-    let app = std::fs::read_to_string("web/playground/lib/catalog.mjs")
-        .expect("read web/playground/lib/catalog.mjs");
+    let app = std::fs::read_to_string("web/studio/lib/catalog.mjs")
+        .expect("read web/studio/lib/catalog.mjs");
     // The catalogue rows are `["<file>.toml", ...` — match the file in that position
     // only, so a scenario merely mentioned in a comment does not count as offered.
     let offered: BTreeSet<String> = app
@@ -136,7 +136,7 @@ fn every_capability_card_run_target_is_bundled_and_offered() {
         .collect();
     assert!(
         offered.len() > 40,
-        "only {} catalogue entries parsed out of web/playground/lib/catalog.mjs — the SCENARIOS row shape \
+        "only {} catalogue entries parsed out of web/studio/lib/catalog.mjs — the SCENARIOS row shape \
          changed and this test is now grading nothing",
         offered.len()
     );
@@ -152,14 +152,14 @@ fn every_capability_card_run_target_is_bundled_and_offered() {
         } else if !offered.contains(run) {
             broken.push(format!(
                 "{name:?} runs {run:?}, which the Studio catalogue in \
-                 web/playground/lib/catalog.mjs does not offer, so the Studio cannot open it"
+                 web/studio/lib/catalog.mjs does not offer, so the Studio cannot open it"
             ));
-        } else if !std::path::Path::new("web/playground/scenarios")
+        } else if !std::path::Path::new("web/studio/scenarios")
             .join(run)
             .exists()
         {
             broken.push(format!(
-                "{name:?} runs {run:?}, which is not bundled in web/playground/scenarios/"
+                "{name:?} runs {run:?}, which is not bundled in web/studio/scenarios/"
             ));
         }
     }

@@ -99,11 +99,11 @@ jobs:
         # robots.txt is allow-all, so they were crawlable too. None of them is site
         # content. rsync into a staging tree and upload that instead.
         #
-        # This must run AFTER build.sh, which is what creates web/pkg, web/playground/pkg
+        # This must run AFTER build.sh, which is what creates web/pkg, web/studio/pkg
         # and web/scenarios. Nothing depends on the dropped files being served: ci.yml
         # runs the node tests from the checkout, and publish.yml rebuilds web/pkg for npm
         # on its own. Dropped: every *.test.mjs (at any depth, so the Studio's module
-        # tests in playground/lib/ go too), the smoke test, the build script, the port
+        # tests in studio/lib/ go too), the smoke test, the build script, the port
         # tool and its manifest, and the top-level README. The README, tools and manifest
         # excludes are anchored with a leading slash so they drop only the top-level
         # ones: web/pkg/README.md is staged by build.sh for the npm package and an
@@ -120,8 +120,8 @@ jobs:
             web/ site/
           echo "staged $(find site -type f | wc -l | tr -d ' ') of $(find web -type f | wc -l | tr -d ' ') file(s)"
           # The deploy is useless without these: fail here, not on a blank page.
-          for f in index.html playground/index.html playground/pkg/kshana.js playground/pkg/kshana_bg.wasm \
-                   pkg/kshana.js docs/index.html 404.html CNAME robots.txt sitemap.xml og-card.png legacy-redirects.js \
+          for f in index.html studio/index.html studio/pkg/kshana.js studio/pkg/kshana_bg.wasm playground/index.html \
+                   pkg/kshana.js docs/index.html 404.html CNAME robots.txt sitemap.xml llms.txt og-card.png legacy-redirects.js \
                    fonts/FONTS.json vendor/VENDOR.json; do
             [ -f "site/$f" ] || { echo "::error::the staged site is missing $f"; exit 1; }
           done

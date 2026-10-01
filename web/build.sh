@@ -7,7 +7,7 @@
 #
 # Outputs, all git-ignored:
 #   web/pkg/             the wasm-pack package (also the npm package's build directory)
-#   web/playground/pkg/  the same package where the Studio imports it from (./pkg/kshana.js)
+#   web/studio/pkg/  the same package where the Studio imports it from (./pkg/kshana.js)
 #   web/scenarios/       every reference scenario, at the address the single-page site
 #                        served them from (kshana.dev/scenarios/<file>.toml)
 #
@@ -45,13 +45,13 @@ echo "Staging npm package README…"
 cp README.npm.md web/pkg/README.md
 
 echo "Staging the package next to the Studio…"
-[ -f web/playground/index.html ] || { echo "web/playground/ is missing: run web/tools/port_site.py first" >&2; exit 1; }
-rm -rf web/playground/pkg
-mkdir -p web/playground/pkg
+[ -f web/studio/index.html ] || { echo "web/studio/ is missing: run web/tools/port_site.py first" >&2; exit 1; }
+rm -rf web/studio/pkg
+mkdir -p web/studio/pkg
 for f in kshana.js kshana_bg.wasm package.json LICENSE; do
-  if [ -f "web/pkg/$f" ]; then cp "web/pkg/$f" web/playground/pkg/; fi
+  if [ -f "web/pkg/$f" ]; then cp "web/pkg/$f" web/studio/pkg/; fi
 done
-[ -f web/playground/pkg/kshana.js ] && [ -f web/playground/pkg/kshana_bg.wasm ] \
+[ -f web/studio/pkg/kshana.js ] && [ -f web/studio/pkg/kshana_bg.wasm ] \
   || { echo "the WebAssembly package was not staged next to the Studio" >&2; exit 1; }
 
 echo "Staging scenarios…"

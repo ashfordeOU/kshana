@@ -22,7 +22,15 @@ const manifest = JSON.parse(text("PORT-MANIFEST.json"));
 const ported = Object.keys(manifest.files);
 const isPage = (rel) => rel.endsWith(".html") && !rel.startsWith("assets/");
 const NOT_FOUND = "404.html"; // served by GitHub Pages for a missing address; not a page of the site map
-const pages = ported.filter((rel) => isPage(rel) && rel !== NOT_FOUND);
+// The pages at addresses that moved (web/tools/legacy-urls.json "paths": the Studio's old
+// /playground/) only forward; they are not pages of the site map.
+const MOVED = Object.keys(JSON.parse(text("tools/legacy-urls.json")).redirects.paths || {}).map((p) => p.slice(1) + "index.html");
+const pages = ported.filter((rel) => isPage(rel) && rel !== NOT_FOUND && !MOVED.includes(rel));
+const indexed = pages;
+for (const rel of MOVED) {
+  assert.ok(ported.includes(rel), `${rel}: the page at a moved address was not ported`);
+  assert.ok(/<meta name="robots" content="noindex">/.test(text(rel)), `${rel} is noindex`);
+}
 assert.ok(ported.length > 100, `the manifest lists only ${ported.length} files`);
 assert.ok(pages.length > 20, `only ${pages.length} pages in the manifest`);
 
@@ -31,11 +39,11 @@ for (const rel of ported) {
   assert.ok(existsSync(join(WEB, rel)), `${rel} is in the manifest but not on disk: rerun the port`);
   assert.equal(sha(bytes(rel)), manifest.files[rel], `${rel} was changed after the port wrote it: rerun the port instead of editing it`);
 }
-const OWNED = new Set(["CNAME", "robots.txt", "README.md", "build.sh", "smoke.mjs", "capabilities.json", "favicon.svg",
+const OWNED = new Set(["CNAME", "README.md", "build.sh", "smoke.mjs", "capabilities.json", "favicon.svg",
   "og-card.png", "og-card.svg", "og-card.rendered-from.json", ".well-known/security.txt", "data/card-matrix-map.json",
   "data/oracle-references.json", "data/standards-matrix-map.json", "data/verification-matrix.json", "PORT-MANIFEST.json",
   "site.test.mjs", "legacy-urls.test.mjs"]);
-const BUILT = ["pkg/", "scenarios/", "playground/pkg/"];
+const BUILT = ["pkg/", "scenarios/", "studio/pkg/"];
 const walk = (dir, base = "") => readdirSync(join(WEB, dir), { withFileTypes: true }).flatMap((e) => {
   const rel = base ? `${base}/${e.name}` : e.name;
   return e.isDirectory() ? walk(join(dir, e.name), rel) : [rel];
@@ -49,7 +57,7 @@ assert.deepEqual(strays, [], "files under web/ that neither the port nor web/ it
 const cargo = readFileSync(join(REPO, "Cargo.toml"), "utf8");
 const version = cargo.split("[package]")[1].match(/^version\s*=\s*"([^"]+)"/m)[1];
 assert.equal(manifest.version, version, "the port manifest's version is not Cargo.toml's");
-assert.equal(JSON.parse(text("playground/channels.json")).version, version, "playground/channels.json version");
+assert.equal(JSON.parse(text("studio/channels.json")).version, version, "studio/channels.json version");
 const home = text("index.html");
 assert.ok(home.includes(`"softwareVersion": "${version}"`), "index.html JSON-LD softwareVersion");
 assert.ok(home.includes(`>v${version}<`), "index.html version chip");
@@ -81,17 +89,17 @@ assert.ok(visible(home).includes(`${s.validated} /${s.total} validated against`)
 assert.ok(visible(text("evidence.html")).includes(`All ${s.total} rows, one line each.`), "evidence.html ledger heading states the total");
 
 // ---- 4. The Studio ships the engine's own facts, not a copy that can age.
-for (const [copy, source] of [["playground/data/capabilities.json", "capabilities.json"],
-  ["playground/data/card-matrix-map.json", "data/card-matrix-map.json"],
-  ["playground/data/oracle-references.json", "data/oracle-references.json"],
-  ["playground/data/standards-matrix-map.json", "data/standards-matrix-map.json"],
-  ["playground/data/verification-matrix.json", "data/verification-matrix.json"]]) {
+for (const [copy, source] of [["studio/data/capabilities.json", "capabilities.json"],
+  ["studio/data/card-matrix-map.json", "data/card-matrix-map.json"],
+  ["studio/data/oracle-references.json", "data/oracle-references.json"],
+  ["studio/data/standards-matrix-map.json", "data/standards-matrix-map.json"],
+  ["studio/data/verification-matrix.json", "data/verification-matrix.json"]]) {
   assert.ok(bytes(copy).equals(bytes(source)), `${copy} is not web/${source}: rerun the port`);
 }
-const studioTomls = readdirSync(join(WEB, "playground/scenarios")).filter((f) => f.endsWith(".toml")).sort();
+const studioTomls = readdirSync(join(WEB, "studio/scenarios")).filter((f) => f.endsWith(".toml")).sort();
 assert.ok(studioTomls.length > 40, `the Studio bundles only ${studioTomls.length} scenarios`);
 // Every scenario file anywhere in the Studio is this checkout's scenario of the same name.
-const allStudioTomls = ported.filter((rel) => rel.startsWith("playground/") && rel.endsWith(".toml"));
+const allStudioTomls = ported.filter((rel) => rel.startsWith("studio/") && rel.endsWith(".toml"));
 for (const rel of allStudioTomls) {
   const f = rel.split("/").pop();
   const repoCopy = join(REPO, "scenarios", f);
@@ -99,9 +107,9 @@ for (const rel of allStudioTomls) {
   assert.ok(bytes(rel).equals(readFileSync(repoCopy)), `${rel} differs from scenarios/${f}: rerun the port`);
 }
 const studioScenarioNames = new Set(allStudioTomls.map((rel) => rel.split("/").pop()));
-const bundle = JSON.parse(text("playground/scenarios/index.json"));
-assert.deepEqual(Object.keys(bundle).sort(), studioTomls, "playground/scenarios/index.json bundles exactly the scenario files beside it");
-for (const f of studioTomls) assert.equal(bundle[f], text(`playground/scenarios/${f}`), `index.json's ${f} is the file's text`);
+const bundle = JSON.parse(text("studio/scenarios/index.json"));
+assert.deepEqual(Object.keys(bundle).sort(), studioTomls, "studio/scenarios/index.json bundles exactly the scenario files beside it");
+for (const f of studioTomls) assert.equal(bundle[f], text(`studio/scenarios/${f}`), `index.json's ${f} is the file's text`);
 
 // ---- 5. Every internal link on every page resolves: the file is there, and so is the anchor.
 const idsOf = new Map();
@@ -115,7 +123,7 @@ const broken = [];
 const dirty = [];
 let links = 0;
 let studioLinks = 0;
-for (const rel of [...pages, NOT_FOUND]) {
+for (const rel of [...pages, NOT_FOUND, ...MOVED]) {
   const html = text(rel).replace(/<script\b[\s\S]*?<\/script>/g, " ");
   for (const m of html.matchAll(/\s(?:href|src)="([^"]*)"/g)) {
     const raw = m[1].replace(/&amp;/g, "&");
@@ -134,7 +142,8 @@ for (const rel of [...pages, NOT_FOUND]) {
     if (built(target)) continue;
     if (!onDisk(target)) { broken.push(`${rel}: ${raw} -> ${target} does not exist`); continue; }
     if (frag && target.endsWith(".html") && !ids(target).has(decodeURIComponent(frag))) broken.push(`${rel}: ${raw} -> no id="${frag}" in ${target}`);
-    if (target === "playground/index.html" && query) {
+    if (rel !== "playground/index.html" && /(^|\/)playground\//.test(path)) broken.push(`${rel}: ${raw} links the Studio's old address (it is /studio/)`);
+    if (target === "studio/index.html" && query) {
       const sc = new URLSearchParams(query).get("scenario");
       if (sc) {
         studioLinks += 1;
@@ -149,17 +158,29 @@ assert.deepEqual(dirty.slice(0, 20), [], "links that name a page by its .html fi
 assert.ok(links > 1000, `only ${links} internal links were checked: the link scan is broken`);
 assert.ok(studioLinks > 20, `only ${studioLinks} links into the Studio name a scenario: the scan is broken`);
 
-// ---- 6. Every page says where it lives, carries the social card, and is in the sitemap.
+// ---- 6. Every page says where it lives, carries the social card, and is in the sitemap; the
+// crawl files are there (the site build writes them: robots.txt, sitemap.xml, llms.txt).
 const sitemap = text("sitemap.xml");
-for (const rel of pages) {
+for (const rel of indexed) {
   const html = text(rel);
   const url = "https://kshana.dev/" + (rel === "index.html" ? "" : rel.endsWith("/index.html") ? rel.slice(0, -"index.html".length) : rel.replace(/\.html$/, ""));
   assert.ok(html.includes(`<link rel="canonical" href="${url}">`), `${rel}: canonical link`);
   assert.ok(html.includes('<meta property="og:image" content="https://kshana.dev/og-card.png">'), `${rel}: og:image`);
   assert.ok(sitemap.includes(`<loc>${url}</loc>`), `${rel}: missing from sitemap.xml`);
 }
-assert.equal([...sitemap.matchAll(/<loc>/g)].length, pages.length, "sitemap.xml lists exactly the pages");
+assert.equal([...sitemap.matchAll(/<loc>/g)].length, indexed.length, "sitemap.xml lists exactly the indexed pages");
 assert.ok(text("robots.txt").includes("Sitemap: https://kshana.dev/sitemap.xml"), "robots.txt names the sitemap");
+assert.ok(!/^Disallow:\s*\S/im.test(text("robots.txt")), "robots.txt shuts nothing out");
+const llms = text("llms.txt");
+assert.ok(/^# \S/.test(llms) && /^> \S/m.test(llms), "llms.txt: an H1 and a summary");
+for (const rel of indexed) {
+  const url = "https://kshana.dev/" + (rel === "index.html" ? "" : rel.endsWith("/index.html") ? rel.slice(0, -"index.html".length) : rel.replace(/\.html$/, ""));
+  if (rel !== "docs/index.html") assert.ok(llms.includes(`(${url})`), `llms.txt links ${url}`);
+}
+assert.ok(text("llms-full.txt").length > 100000, "llms-full.txt carries the pages");
+for (const rel of pages) {
+  for (const m of text(rel).matchAll(/<script type="application\/ld\+json">([\s\S]*?)<\/script>/g)) assert.doesNotThrow(() => JSON.parse(m[1]), `${rel}: JSON-LD parses`);
+}
 assert.equal(text("CNAME").trim(), "kshana.dev", "CNAME");
 
 // ---- 7. Nothing from the machine that built it: no home-directory or checkout path in any
@@ -277,7 +298,7 @@ assert.ok(!nf.includes("legacy-redirects.js") && !nf.includes('rel="canonical"')
 for (const m of nf.replace(/<script\b[\s\S]*?<\/script>/g, (sc) => (sc.includes(" src=") ? sc : " ")).matchAll(/\s(?:href|src)="([^"]*)"/g)) {
   assert.ok(/^(\/|#|[a-z][a-z0-9+.-]*:)/i.test(m[1]), `404.html: relative address ${m[1]} would break below the site root`);
 }
-for (const to of ["/", "/docs/", "/playground/"]) assert.ok(nf.includes(`href="${to}"`), `404.html links to ${to}`);
+for (const to of ["/", "/docs/", "/studio/"]) assert.ok(nf.includes(`href="${to}"`), `404.html links to ${to}`);
 assert.ok(nf.includes('root:"/"'), "404.html tells site.js the site root, so search results open from any depth");
 assert.ok(/<h1[^>]*>[^<]*No page at this address/.test(nf), "404.html says what happened");
 assert.ok(nf.includes('<header class="nav"') && nf.includes('<footer class="foot">') && nf.includes('id="palette"'), "404.html carries the site's navigation, footer and search");
