@@ -36,6 +36,17 @@ every scenario gives the same result as on 0.29.0.
 
 ### Changed
 
+- **The site's links land where they point, at clean addresses.** A link to a section now
+  puts that section just under the header, on a phone and on a desktop: a Missions sector
+  link opens that sector with its panel at the top; Capabilities and Editions links hold
+  their place while the charts above them draw; Editions no longer adds a second header
+  offset; and a link into a folded part of a docs page opens it. Every page is linked by its
+  clean address (`/evidence#research`, `/docs/changelog`, `/` for Home), and the canonical
+  links, the sitemap and the old-address redirects name the same; the `.html` addresses
+  still work. Research has its own link in the header, between Evidence and Developers, and
+  in the footer. The docs no longer show the roadmap (`ROADMAP.md` stays in the repository):
+  the Project group is Changelog, Licensing, Security, Contributing, Governance and Code of
+  conduct, and the Glossary moved to Get started.
 - **The coverage job is faster.** On 0.29.0 it took 143 minutes against a healthy 91 to
   94. The `tests/property.rs` fuzzer, the cause the last time, took 4 of them. The bundled
   corpus grew from 74 to 139 scenarios, and three test binaries walked all of it one file
