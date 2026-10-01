@@ -1,0 +1,44 @@
+{
+    "global": {
+        "core:author": "sigmf-python 1.13.0",
+        "core:datatype": "cf32_le",
+        "core:description": "third-party oracle recording written by sigmf-python",
+        "core:hw": "synthetic, no hardware",
+        "core:num_channels": 1,
+        "core:offset": 0,
+        "core:recorder": "gen_sigmf_welch_oracle.py",
+        "core:sample_rate": 2500000.0,
+        "core:sha512": "0602d0103126c5438d33aa1e56772938fd8852cb5442e038223313ec5ae116588dcc7c117dc43ceae236a88e06b24af3ac3ca22f9e0809d293333cdc73287e18",
+        "core:version": "1.2.6"
+    },
+    "captures": [
+        {
+            "core:datetime": "2026-10-01T00:00:00.000000Z",
+            "core:frequency": 1575420000.0,
+            "core:sample_start": 0
+        },
+        {
+            "core:datetime": "2026-10-01T00:00:00.000205Z",
+            "core:frequency": 1561098000.0,
+            "core:sample_start": 512
+        }
+    ],
+    "annotations": [
+        {
+            "core:comment": "first annotation",
+            "core:freq_lower_edge": 1574420000.0,
+            "core:freq_upper_edge": 1576420000.0,
+            "core:label": "GPS L1",
+            "core:sample_count": 100,
+            "core:sample_start": 10
+        },
+        {
+            "core:comment": "second annotation",
+            "core:freq_lower_edge": 1560098000.0,
+            "core:freq_upper_edge": 1562098000.0,
+            "core:label": "B1I",
+            "core:sample_count": 50,
+            "core:sample_start": 600
+        }
+    ]
+}
