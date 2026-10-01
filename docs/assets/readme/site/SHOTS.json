@@ -1,0 +1,132 @@
+{
+  "tool": "tools/capture_site_shots.mjs, then tools/readme_shots.py",
+  "note": "Real screenshots of kshana.dev as built from web/ for this release: the Home hero, Evidence's Published research and Editions' Same engine, amplified. Nothing is drawn or edited.",
+  "shots": [
+    {
+      "strip": "site-strip-light.jpg",
+      "position": 1,
+      "site_url": "http://127.0.0.1:8871/index.html",
+      "section": "#top",
+      "view": "Home hero: the mission console and the name line, Kshana · क्षण · the precise instant",
+      "theme": "light",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 820
+      },
+      "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "strip": "site-strip-light.jpg",
+      "position": 2,
+      "site_url": "http://127.0.0.1:8871/evidence.html",
+      "section": "#cite",
+      "view": "Evidence, Published research: the arXiv papers built on the open engine",
+      "theme": "light",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 8516,
+        "width": 1440,
+        "height": 820
+      },
+      "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "strip": "site-strip-light.jpg",
+      "position": 3,
+      "site_url": "http://127.0.0.1:8871/editions.html",
+      "section": "#pro",
+      "view": "Editions, Same engine, amplified: what Kshana Pro adds to the open engine",
+      "theme": "light",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 2804,
+        "width": 1440,
+        "height": 820
+      },
+      "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "strip": "site-strip-dark.jpg",
+      "position": 1,
+      "site_url": "http://127.0.0.1:8871/index.html",
+      "section": "#top",
+      "view": "Home hero: the mission console and the name line, Kshana · क्षण · the precise instant",
+      "theme": "dark",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 820
+      },
+      "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "strip": "site-strip-dark.jpg",
+      "position": 2,
+      "site_url": "http://127.0.0.1:8871/evidence.html",
+      "section": "#cite",
+      "view": "Evidence, Published research: the arXiv papers built on the open engine",
+      "theme": "dark",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 8516,
+        "width": 1440,
+        "height": 820
+      },
+      "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    },
+    {
+      "strip": "site-strip-dark.jpg",
+      "position": 3,
+      "site_url": "http://127.0.0.1:8871/editions.html",
+      "section": "#pro",
+      "view": "Editions, Same engine, amplified: what Kshana Pro adds to the open engine",
+      "theme": "dark",
+      "viewport_css_px": {
+        "width": 1440,
+        "height": 1000
+      },
+      "device_scale_factor": 2,
+      "crop_css_px": {
+        "x": 0,
+        "y": 2804,
+        "width": 1440,
+        "height": 820
+      },
+      "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
+      "captured": "2026-10-01"
+    }
+  ]
+}

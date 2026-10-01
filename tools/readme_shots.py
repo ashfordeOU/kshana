@@ -33,7 +33,7 @@ OUTPUT = f"scaled to at most {MAX_W} px wide, JPEG quality {QUALITY}, no metadat
 STUDIO_VIEWS = {
     "start": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
     "dashboard": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
-    "phone-steps": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures, with the five steps as the step bar at the bottom of the screen",
+    "phone-steps": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures and panels, with the step bar (Choose, Set, Run, Results) fixed to the bottom of the screen",
     "lband": "Spectrum panel: the L-band waterfall under jamming",
     "coverage": "Coverage panel: the mean PDOP map of four GNSS constellations",
     "leo-chain": "End-to-end chain panel: the low-Earth-orbit chain from signal design to precise point positioning",
@@ -93,8 +93,11 @@ def site(src, captured):
         # The strip's ground is the page ground of the first shot (its top-left pixel).
         ground = imgs[0].getpixel((2, 2))
         strip = Image.new("RGB", (STRIP_W, cell_h + 2 * PAD), ground)
+        frame = (217, 220, 227) if theme == "light" else (52, 58, 74)  # a 1 px rule round each shot
         for k, c in enumerate(cells):
-            strip.paste(c, (PAD + k * (cell_w + GAP), PAD))
+            x = PAD + k * (cell_w + GAP)
+            strip.paste(frame, (x - 1, PAD - 1, x + cell_w + 1, PAD + cell_h + 1))
+            strip.paste(c, (x, PAD))
         out = OUT / "site" / f"site-strip-{theme}.jpg"
         save_jpeg(strip, out)
         print(out.relative_to(REPO))
