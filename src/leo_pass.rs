@@ -1614,10 +1614,27 @@ pub struct PassTracks {
     pub user_environment: String,
 }
 
+/// What every run of a [`LeoPassScenario`] starts from.
+struct RunSetup {
+    /// The epoch as written, UTC.
+    epoch: String,
+    /// The epoch as a Julian date, UTC.
+    jd0: f64,
+    /// Run length, s.
+    duration: f64,
+    /// Epoch spacing, s.
+    step: f64,
+    /// The propagation environment.
+    env: Env,
+    /// The user the environment places.
+    user_out: UserOut,
+}
+
 impl LeoPassScenario {
-    /// The satellites and the user on the run's time grid, from the same propagators the
-    /// run uses.
-    pub fn tracks(&self) -> Result<PassTracks, String> {
+    /// The epoch (the scenario's or the kind's default), the duration and step after the
+    /// grid checks, and the environment with the user it places: the start every run
+    /// shares.
+    fn setup(&self) -> Result<RunSetup, String> {
         let epoch = self
             .epoch
             .clone()
@@ -1632,6 +1649,27 @@ impl LeoPassScenario {
             ));
         }
         let (env, user_out) = self.env(jd0)?;
+        Ok(RunSetup {
+            epoch,
+            jd0,
+            duration,
+            step,
+            env,
+            user_out,
+        })
+    }
+
+    /// The satellites and the user on the run's time grid, from the same propagators the
+    /// run uses.
+    pub fn tracks(&self) -> Result<PassTracks, String> {
+        let RunSetup {
+            epoch,
+            jd0,
+            duration,
+            step,
+            env,
+            user_out,
+        } = self.setup()?;
         let sats = self.leo_sats(&env, duration)?;
         let n = (duration / step).floor() as usize + 1;
         let times: Vec<f64> = (0..n).map(|k| k as f64 * step).collect();
@@ -2014,20 +2052,14 @@ impl LeoPassScenario {
 
     /// Compute the report.
     pub fn compute(&self) -> Result<LeoPassReport, String> {
-        let epoch = self
-            .epoch
-            .clone()
-            .unwrap_or_else(|| "2026-09-28T08:00:00".to_string());
-        let jd0 = parse_epoch_jd(&epoch)?;
-        let duration = self.duration_s.unwrap_or(900.0);
-        let step = self.step_s.unwrap_or(5.0);
-        if !(duration > 0.0 && step > 0.0) || duration / step > 20_000.0 || duration > 86_400.0 {
-            return Err(format!(
-                "duration_s (at most 86400) and step_s must be positive with at most 20000 \
-                 epochs; got {duration} and {step}"
-            ));
-        }
-        let (env, user_out) = self.env(jd0)?;
+        let RunSetup {
+            epoch,
+            jd0,
+            duration,
+            step,
+            env,
+            user_out,
+        } = self.setup()?;
         let io = self.ionosphere.clone().unwrap_or_default();
         let peak_m = io.peak_height_km.unwrap_or(350.0) * 1e3;
         let scale_m = io.scale_height_km.unwrap_or(100.0) * 1e3;
