@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-// Kshana Studio (formerly the playground; redesign 2026-09-27): the DOM layer. The engine, share, guided,
+// Kshana Studio (rebuild 2026-10-01: opening screen, capability map, task screens; earlier the
+// playground, then the 2026-09-27 redesign): the DOM layer. The engine, share, guided,
 // sweep, overlay, report, chart-download, orbit, tour, embed and count logic are the
 // live playground's pure modules, reused unchanged from web/ in the kshana repository; the library,
 // parameter and view models are new pure modules (lib/catalog.mjs, lib/params.mjs,
@@ -21,7 +22,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, DOMAIN_LINES } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
@@ -29,6 +30,12 @@ import * as G from "./lib/stages.mjs";
 import { createPackReader } from "./lib/packs.mjs";
 import { kpis as kpiCards, honesty, kpiDelta, kpiKey, plainLabel } from "./lib/kpi.mjs";
 import { fieldIndex, findFields, scenarioCount, filterControls } from "./lib/finder.mjs";
+import { plainMeaning, plainDuration, headerParagraphs, taskWords } from "./lib/meaning.mjs";
+import { rankInputs, splitInputs, inputLabel, fieldName, VISIBLE_INPUTS } from "./lib/inputs.mjs";
+import { parseState, buildSearch, isNewEntry, persistentExtras, tabFromLink, viewUrl, chooseView, VIEW_KEY } from "./lib/urlstate.mjs";
+import { kindsOfToml, rowsForKind, evidenceMix } from "./lib/areas.mjs";
+import { spellOut } from "./lib/abbr.mjs";
+import { GUIDED_KNOBS } from "./lib/guided.mjs";
 
 // Recorded runs and native recordings, from one file per scenario or from packs.
 const PACKS = createPackReader();
@@ -76,6 +83,9 @@ const S = {
   embed: false, ho: null, orbitDirty: true, capDirty: true,
   nat: new Map(),     // folder -> index of the native engine's recordings (reports, animations, exports)
   link: {},           // what the page link asked for beyond scenario and tab: play, view, field, frame
+  inputBudget: 5, budgetFile: null, visibleIds: null, // settings shown by default (lib/inputs.mjs)
+  seen: new Set(),    // abbreviations already spelled out on this screen (lib/abbr.mjs)
+  pendingRun: false, groupDirs: null, homeDrawn: false,
 };
 const tomlEl = $("toml");
 
@@ -219,12 +229,13 @@ async function runScenario() {
   }
   const gen = beginJob("Running");
   clearError();
-  const src = tomlEl.value;
+  const src = tomlEl.value, file = S.file;
   let all;
   try {
     all = JSON.parse(await S.engine.call("run_all", src));
   } catch (e) {
     if (gen !== job.gen) return;
+    if (S.file !== file) { endJob(gen); return; }
     const rerun = job.rerun;
     endJob(gen);
     if (isCancelled(e)) setStatus(S.run ? "Run cancelled. The previous result is still shown." : "Run cancelled.");
@@ -239,6 +250,7 @@ async function runScenario() {
   const ms = performance.now() - job.startedAt;
   const rerun = job.rerun;
   endJob(gen);
+  if (S.file !== file) return; // the reader opened another scenario while this one ran
   if (rerun) { runScenario(); return; }
   let result;
   try { result = JSON.parse(all.json); } catch (e) { showError(errorMessage(e)); return; }
@@ -254,7 +266,7 @@ async function runScenario() {
   renderRun(run);
   renderHistory();
   setStatus(`${S.mode === "live" ? "Ran locally" : "Recorded run shown"} at ${run.at.toLocaleTimeString()}, run ${S.runCount}${ms >= 1000 ? `, ${(ms / 1000).toFixed(1)} s` : ""}.`, "ran");
-  const sum = $("summary");
+  const sum = $("m-big");
   sum.classList.remove("flash"); void sum.offsetWidth; sum.classList.add("flash");
 }
 
@@ -304,26 +316,23 @@ function recordedIntro() {
 }
 
 // ------------------------------------------------------------------ render a run
+// A run is shown as: the answer (a plain sentence read from the result), the key figures that
+// answer the question, the views of the result, then (collapsed) how it was computed and the
+// researcher's tools. lib/meaning.mjs writes the sentence and the cards.
 function renderRun(run) {
   S.run = run;
   S.exportsCache.delete(run.id);
   S.sweepSvg = null;
   $("sweep-out").hidden = true;
   const r = run.result;
-  const entry = entryFor(run.file);
-  const dom = entry ? domainOf(entry.domain) : null;
   $("headline").hidden = false;
-  $("hl-eyebrow").textContent = dom ? dom.label : "Result";
   $("summary").textContent = run.summary || "(this scenario publishes no one-line summary)";
   const b = $("hl-badges");
   b.replaceChildren();
-  b.append(h("span", { class: `badge ${run.mode === "live" ? "live" : "recorded"}`, text: run.mode === "live" ? "Live engine" : run.mode === "native" ? `Recorded run, native engine v${r.engine_version || S.version}` : `Recorded run, engine v${r.engine_version || S.version}` }));
-  if (run.preview) b.append(h("span", { class: "badge loading", title: "The live engine is still downloading. This recorded result is replaced by a live run when it is ready.", text: "Engine loading…" }));
-  const lab = V.resultLabel(r);
+  b.append(h("span", { class: `badge ${run.mode === "live" ? "live" : "recorded"}`, text: runSourceText(run) }));
   const tiers = tierCounts(r);
   if (tiers.validated) b.append(h("span", { class: "badge validated", text: `${tiers.validated} validated` }));
   if (tiers.modelled) b.append(h("span", { class: "badge modelled", text: `${tiers.modelled} modelled` }));
-  if (lab && !tiers.validated && !tiers.modelled) b.append(h("span", { class: `badge ${lab.tier.toLowerCase()}`, text: lab.tier.toLowerCase() }));
   const meta = fileMeta(r, S.version, run.toml);
   const m = $("run-meta");
   m.replaceChildren();
@@ -333,12 +342,22 @@ function renderRun(run) {
   if (typeof r.seed === "number") add("seed", String(r.seed));
   add("file", run.file || "shared link");
   if (run.mode === "live") add("time", `${Math.max(1, Math.round(run.ms))} ms`);
-  renderKpis(run);
-  paintHonesty(r);
+  renderAnswer(run);
   renderOverview(r);
   buildTabs();
   $("json").replaceChildren(...jsonNodes(r));
+  renderHow(run);
+  renderResearch(run);
+  fitInputBudget(run);
   updateSteps();
+}
+
+// "Live result · engine vX.Y.Z", or "Recorded result · vX.Y.Z", said plainly.
+function runSourceText(run) {
+  const v = (run.result && run.result.engine_version) || S.version;
+  if (run.mode === "live") return `Live result · engine v${S.version}`;
+  if (run.mode === "native") return `Recorded result, native engine · v${v}`;
+  return `Recorded result · v${v}${run.preview ? " · engine loading" : ""}`;
 }
 
 function tierCounts(r) {
@@ -351,78 +370,41 @@ function tierPill(tier) {
   const t = tier.toUpperCase() === "VALIDATED" ? "validated" : "modelled";
   return h("span", { class: `tier ${t}`, text: t });
 }
+// An evidence chip in the house style: "● VALIDATED".
+function lvlChip(tier, title = "") {
+  const t = String(tier || "").toLowerCase();
+  return h("span", { class: `lvl ${t}`, title: title || null }, h("i"), t);
+}
 
-// The key-figure strip (lib/kpi.mjs): 4 to 6 headline readouts, each with the change against
-// the reader's previous run of the same scenario and, where the kind defines one, a pass or fail
-// against a threshold the result states.
-function renderKpis(run) {
+// The answer: the chips that say where the result comes from, the plain sentence, the key figures.
+function renderAnswer(run) {
+  const r = run.result;
+  const mean = plainMeaning(r, run.toml) || { big: "", line: "", cards: [] };
+  const chips = $("m-chips");
+  chips.replaceChildren(h("span", { class: `chip-s2 ${run.mode === "live" ? "live" : "rec"}${run.preview ? " loading" : ""}` }, h("i"), runSourceText(run)));
+  const hn = honesty(r);
+  if (hn) chips.append(lvlChip(hn.tier, hn.text));
+  const seen = new Set(S.seen);
+  $("m-big").textContent = spellOut(mean.big, seen);
+  $("m-line").textContent = spellOut(mean.line, seen);
+  $("meaning").dataset.tier = hn ? hn.tier.toLowerCase() : "";
   const host = $("figs");
   host.replaceChildren();
-  const r = run.result;
-  const cards = kpiCards(r, run.toml, 6);
-  const prev = S.history.find((x) => x !== run && x.file === run.file && x.id < run.id);
-  const prevCards = prev ? kpiCards(prev.result, prev.toml, 6) : null;
-  for (const c of cards) {
-    const d = kpiDelta(c, prevCards);
-    host.append(h("div", { class: `fig kpi${c.state ? " st-" + c.state : ""}${c.input ? " is-input" : ""}`, role: "listitem", title: c.title || null },
-      h("div", { class: "k" }, h("span", { text: kpiLabel(c) }), tierPill(c.tier)),
-      c.sub ? h("div", { class: "s", text: c.sub }) : null,
-      h("div", { class: "v", title: String(c.v), "data-path": c.path || null, "data-raw": c.path ? JSON.stringify(c.v) : null }, c.text !== undefined ? c.text : V.fmt(c.v), c.unit ? h("small", { text: c.unit }) : null),
-      c.state ? h("div", { class: `w ${c.state}` }, h("b", { text: c.state === "pass" ? "Pass" : c.state === "fail" ? "Fail" : "Check" }), ` ${c.why}`) : null,
-      h("div", { class: `d ${d ? d.dir : "none"}` }, d ? `${d.dir === "up" ? "▲" : d.dir === "down" ? "▼" : "="} ${d.text} since run ${prev.id}` : prev ? "not in your previous run" : "first run")));
+  for (const c of mean.cards) {
+    host.append(h("div", { class: `kf${c.good ? " good" : ""}${c.bad ? " bad" : ""}`, role: "listitem", "data-path": c.path || null },
+      h("span", { class: "kf-l", text: c.label }),
+      h("span", { class: "kf-v" }, c.value, c.unit ? h("small", { text: c.unit }) : null),
+      c.sub ? h("span", { class: "kf-s", text: c.sub }) : null));
   }
-  host.style.setProperty("--n", String(Math.max(1, cards.length)));
-  host.dataset.n = String(cards.length);
-  $("kpis-wrap").hidden = !cards.length;
+  host.dataset.n = String(mean.cards.length);
+  $("kpis-wrap").hidden = !mean.cards.length;
 }
-// A field in "All fields": the scenario's own words for it first, then the field name it
-// is written as, e.g. "Horizontal alert limit (APV-I)" over "al_h_m". No comment, no label.
+
+// A field in "Advanced settings": the scenario's own words for it first, then the field name it
+// is written as, e.g. "Horizontal alert limit (APV-I)" over "al_h_m".
 function fieldLabelNode(f) {
   const plain = f.comment && plainLabel(f.comment) ? f.comment.charAt(0).toUpperCase() + f.comment.slice(1) : "";
-  return plain ? h("label", { title: f.key }, plain, h("small", { class: "fkey", text: f.key })) : h("label", { title: f.key }, f.key, f.comment ? h("small", { text: f.comment }) : null);
-}
-// A card's label: a plain label plus its term ("Horizontal alert limit (AL_H)"), else the
-// label without the unit in brackets (the unit is printed beside the value).
-function kpiLabel(c) {
-  if (c.term) return `${c.k} (${c.term})`;
-  return c.unit ? c.k.replace(/\s*\([^)]*\)$/, "") : c.k;
-}
-function paintHonesty(r) {
-  const hn = honesty(r), el = $("sc-honesty");
-  el.hidden = !hn;
-  if (!hn) return;
-  el.textContent = hn.tier;
-  el.dataset.tier = hn.tier.toLowerCase();
-  el.title = hn.tier === "VALIDATED" ? "Checked against an independent external oracle. " + hn.text : hn.tier === "PARTNER" ? "Figures owned by a partner. " + hn.text : "First-principles physics with tests, not yet checked against an external oracle. " + hn.text;
-}
-
-// Key figure cards: the clock-style figures of merit when the result has them, else the
-// numeric figures the engine documents in `units`.
-function renderFigures(r, toml = "") {
-  const host = $("figs");
-  host.replaceChildren();
-  const rows = buildFomRows(r);
-  const capFigs = K.capabilityFigures(r, toml, 8);
-  let cards;
-  if (capFigs.length) {
-    // A newer kind names its own headline figures; each card records the path it shows.
-    cards = capFigs.map((x) => { const ft = figureTier(r, x.path); return { k: x.label, sub: x.sub, text: x.text, v: x.value, unit: x.unit, tier: ft ? ft.tier : "", note: "", title: x.note, path: x.path }; });
-  } else if (rows.length) {
-    cards = rows.filter((x) => x.applicable !== false).slice(0, 8).map((x) => ({ k: x.label, sub: x.clockLabel, v: x.value, unit: x.unit, tier: x.tier || fomTier(x.metric), note: "" }));
-  } else {
-    cards = V.keyFigures(r, 8).map((x) => {
-      const ft = figureTier(r, x.path);
-      return { k: x.label, v: x.value, unit: x.unit, tier: ft ? ft.tier : "", note: x.note };
-    });
-  }
-  for (const c of cards) {
-    host.append(h("div", { class: "fig", title: c.title || null },
-      h("div", { class: "k" }, h("span", { text: c.unit ? c.k.replace(/\s*\([^)]*\)$/, "") : c.k }), tierPill(c.tier)),
-      c.sub ? h("div", { class: "s", text: c.sub }) : null,
-      h("div", { class: "v", title: String(c.v), "data-path": c.path || null, "data-raw": c.path ? JSON.stringify(c.v) : null }, c.text !== undefined ? c.text : V.fmt(c.v), c.unit ? h("small", { text: c.unit }) : null),
-      c.note ? h("div", { class: "c", text: c.note.length > 96 ? c.note.slice(0, 94) + "…" : c.note }) : null));
-  }
-  host.hidden = cards.length === 0;
+  return plain ? h("label", { title: f.key }, plain, h("small", { class: "fkey", text: f.key })) : h("label", { title: f.key }, fieldName(f), h("small", { class: "fkey", text: f.comment ? `${f.key} · ${f.comment}` : f.key }));
 }
 
 function renderOverview(r) {
@@ -487,6 +469,7 @@ function renderOverview(r) {
   if (lab) $("label-text").textContent = lab.text;
 }
 
+
 // ------------------------------------------------------------------ tabs
 const TAB_DEFS = [
   { id: "overview", label: "Overview", c: "var(--itg)" },
@@ -537,66 +520,52 @@ function buildTabs() {
     b.addEventListener("click", () => selectTab(id, { scroll: true }));
     row.append(b);
   }
-  $("tabs-wrap").hidden = false;
-  $("pin-count").hidden = !S.pins.length;
-  $("pin-count").textContent = String(S.pins.length);
+  $("tabs-wrap").hidden = available.length < 2;
   // Keep the reader's view across runs of the same scenario family; otherwise open the
   // most telling view for this kind of result.
   const sameFamily = prevAvail.filter((x) => x !== "compare").join() === available.filter((x) => x !== "compare").join();
-  if (S.tabRequest && available.includes(S.tabRequest)) S.activeTab = S.tabRequest;
-  else if (!sameFamily || !S.activeTab || !available.includes(S.activeTab)) S.activeTab = preferredTab(run);
-  S.tabRequest = null;
+  // A view the link asked for opens when the run offers it (it stays pending until then).
+  if (S.tabRequest && available.includes(S.tabRequest)) { S.activeTab = S.tabRequest; S.tabRequest = null; }
+  // Another scenario opens on its most telling view; the same scenario keeps the reader's view.
+  else if ((!sameFamily && S.tabsFile !== run.file) || !S.activeTab || !available.includes(S.activeTab)) S.activeTab = preferredTab(run);
+  S.tabsFile = run.file;
   renderTimeseries(); renderSignal(); renderHoldover(); renderMasks(); renderStability(); renderGround(); syncSweepControls(); renderCompare();
   S.orbitDirty = true;
   S.capDirty = true;
   stopPlayers();
-  selectTab(S.activeTab);
+  selectTab(S.activeTab, { url: !S.tabRequest });
 }
 
-// The dashboard: every primary panel of the run is on screen at once; a secondary one (sweep,
-// compare, the engine's animation and report, exports, JSON, the 3-D orbit) opens on top when
-// its tab is chosen. On a phone one panel shows at a time. The tab row names the panel in focus.
-const SECONDARY = new Set(["sweep", "compare", "animation", "report", "exports", "json", "orbit"]);
+// One view of the result at a time, chosen in the row above it (which wraps, never scrolls
+// sideways). The choice is part of the address, so a link opens the same view.
 const PHONE_MQ = window.matchMedia ? window.matchMedia("(max-width: 760px)") : { matches: false, addEventListener() {} };
-const WIDTH = { timeseries: 6, holdover: 6, stability: 6, ground: 6, signal: 12, masks: 12, overview: 12 };
-function primaryViews() {
-  const hasCap = available.some((id) => VIEW_ID[id] === "v-cap");
-  return available.filter((id) => !SECONDARY.has(id) && !(id === "overview" && hasCap));
-}
-function selectTab(id, { scroll = false } = {}) {
+function selectTab(id, { scroll = false, url = true } = {}) {
   if (!available.includes(id)) id = available[0];
   S.activeTab = id;
-  const phone = PHONE_MQ.matches;
-  const prim = primaryViews();
-  const shown = new Set(phone ? [VIEW_ID[id]] : [...prim.map((x) => VIEW_ID[x]), VIEW_ID[id]]);
-  // Half-width panels pair up; an unpaired one takes the whole row.
-  const halves = prim.filter((x) => WIDTH[x] === 6);
+  const shown = VIEW_ID[id];
   for (const vid of new Set(Object.values(VIEW_ID))) {
     const el = $(vid);
-    el.hidden = !shown.has(vid);
-    el.classList.toggle("is-sel", vid === VIEW_ID[id]);
-    el.classList.toggle("is-sec", vid === VIEW_ID[id] && SECONDARY.has(id));
-    const tab = Object.keys(VIEW_ID).find((k) => VIEW_ID[k] === vid && available.includes(k));
-    el.dataset.w = String(vid === "v-cap" ? 12 : WIDTH[tab] === 6 && (halves.length % 2 === 0 || halves.indexOf(tab) < halves.length - 1) ? 6 : 12);
+    el.hidden = vid !== shown;
+    el.classList.toggle("is-sel", vid === shown);
+    el.classList.remove("is-sec");
+    el.dataset.w = "12";
   }
   for (const b of $("tabs").children) {
     const sel = b.dataset.tab === id;
     b.setAttribute("aria-selected", sel ? "true" : "false");
     b.tabIndex = sel ? 0 : -1;
   }
-  const btn = $(`tab-${id}`);
-  // Bring the chosen tab into the row's view without scrolling the page.
-  if (btn) { const row = $("tabs"), l = btn.offsetLeft - row.offsetLeft; if (l < row.scrollLeft || l + btn.offsetWidth > row.scrollLeft + row.clientWidth) row.scrollLeft = Math.max(0, l - 16); }
-  if (shown.has("v-orbit") && S.orbitDirty) renderOrbit();
-  if (shown.has("v-cap") && S.capDirty) renderCapability();
-  if (!shown.has("v-cap")) for (const p of players) p.stop();
+  if (shown === "v-orbit" && S.orbitDirty) renderOrbit();
+  if (shown === "v-cap" && S.capDirty) renderCapability();
+  if (shown !== "v-cap") for (const p of players) p.stop();
   if (id === "animation") renderAnimation();
   if (id === "report") renderEngineReport();
   if (id === "exports") renderExports();
   if (scroll) {
-    const el = $(VIEW_ID[id]);
+    const el = $("tabs-wrap");
     if (el && el.scrollIntoView) el.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
   }
+  if (url && route && route.screen === "task" && !S.shared && route.tab !== id) { route = { ...route, tab: id }; setAddress(route); }
   updateCrumbs();
   updateSteps();
 }
@@ -660,7 +629,7 @@ function exportSvg(svg, title) {
   const vb = (svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/) || []).slice(1).map(Number);
   const [W, H] = vb.length === 2 ? vb : [760, 340];
   const meta = S.run ? fileMeta(S.run.result, S.version, S.run.toml) : { ver: S.version, hash: "" };
-  const prov = `Kshana v${meta.ver}${meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · kshana.dev`;
+  const prov = `Kshana v${meta.ver}${meta.hash ? " · scenario " + String(meta.hash).slice(0, 12) : ""} · doi:10.5281/zenodo.20528627 · kshana.dev`;
   const inner = svg.replace(/^<svg[^>]*>/, `<svg x="0" y="34" width="${W}" height="${H}" viewBox="0 0 ${W} ${H}">`);
   const out = `<svg xmlns="http://www.w3.org/2000/svg" width="${W}" height="${H + 58}" viewBox="0 0 ${W} ${H + 58}"><style>${CHART_CSS}</style><rect width="${W}" height="${H + 58}" fill="var(--space)"/><text x="16" y="22" font-size="14" font-weight="700" fill="var(--space-ink)" font-family="system-ui,sans-serif">${V.esc(title || "Kshana chart")}</text>${inner}<text x="${W - 12}" y="${H + 50}" text-anchor="end" font-size="10" fill="var(--space-ink-3)">${V.esc(prov)}</text></svg>`;
   return V.resolveVars(out, tokenValue);
@@ -1691,6 +1660,8 @@ async function renderEngineReport() {
 function withoutScripts(html) {
   const doc = new DOMParser().parseFromString(html, "text/html"); // parsing runs no script
   for (const el of doc.querySelectorAll("script")) el.remove();
+  // Inline handlers (onclick=…) are scripts too: a sandboxed frame would log each as blocked.
+  for (const el of doc.querySelectorAll("*")) for (const a of [...el.attributes]) if (/^on/i.test(a.name) || /^\s*javascript:/i.test(a.value)) el.removeAttribute(a.name);
   return "<!doctype html>\n" + doc.documentElement.outerHTML;
 }
 
@@ -1781,105 +1752,119 @@ function refreshEditor() {
   if (S.mode === "recorded") showNotice(edited ? recordedEditNotice() : recordedIntro());
 }
 function syncScroll() { const hl = $("code-hl"); hl.scrollTop = tomlEl.scrollTop; hl.scrollLeft = tomlEl.scrollLeft; }
+// ------------------------------------------------------------------ settings
+// At most five inputs show by default, ranked by lib/inputs.mjs; the rest wait under Advanced
+// settings. A change is written into the scenario text at once and runs when the reader presses
+// Run again (one primary action), so a change and its effect are never confused.
+const kindOf = (toml) => (String(toml).match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
+function curatedInputs(toml) {
+  const kind = kindOf(toml);
+  if (kind && K.hasCapability(kind)) return K.guidedFor(kind, numericFields(toml)).map((k) => ({ id: k.id, label: k.label, hint: k.hint, cap: k }));
+  const out = [];
+  for (const k of GUIDED_KNOBS) {
+    const raw = readKnob(toml, k);
+    const id = `${k.section || ""}::${k.key}`;
+    if (raw !== null && Number.isFinite(k.parse(raw)) && !out.some((x) => x.id === id)) out.push({ id, label: k.label, hint: k.hint, knob: k });
+  }
+  return out;
+}
+// The budget of visible settings: five, less any input the default view of the result already
+// shows (a replay scrubber, a budget slider), so the screen never shows more than five inputs.
+function fitInputBudget(run) {
+  if (S.budgetFile === run.file) return;
+  S.budgetFile = run.file;
+  const inView = [...$("views").querySelectorAll("input:not([type=search]),select,textarea")].filter((el) => el.getClientRects().length && !el.closest("[hidden]")).length;
+  const budget = Math.max(0, VISIBLE_INPUTS - inView);
+  if (budget !== S.inputBudget) { S.inputBudget = budget; buildParams(); }
+}
+function sliderNode(id, label, term, hint, min, max, step, value, raw, onInput) {
+  const input = h("input", { type: "range", id, min: String(min), max: String(max), step: String(step) });
+  input.value = String(Math.min(max, Math.max(min, value)));
+  const out = h("output", { for: id, id: `${id}-out`, text: raw });
+  const paint = () => input.style.setProperty("--p", `${((parseFloat(input.value) - min) / (max - min || 1)) * 100}%`);
+  paint();
+  input.addEventListener("input", () => { out.textContent = onInput(input.value); paint(); });
+  return h("div", { class: "knob fld" }, h("label", { for: id }, h("span", { class: "fl-t" }, label, term ? h("span", { class: "term", text: ` (${term})` }) : null), out), input, hint ? h("p", { class: "knob-hint fl-help", text: hint }) : null);
+}
+function inputNode(item) {
+  const { text, term } = inputLabel(item);
+  const c = item.curated;
+  let node;
+  if (c && c.knob) {
+    const k = c.knob, raw = readKnob(tomlEl.value, k);
+    node = sliderNode(`k-${k.section || "top"}-${k.key}`, text, term, c.hint || item.hint, k.min, k.max, k.step, k.parse(raw), raw, (v) => {
+      const val = k.parse(v);
+      tomlEl.value = k.section ? patchSectionScalar(tomlEl.value, k.section, k.key, val) : patchScalar(tomlEl.value, k.key, val);
+      changed();
+      return String(val);
+    });
+  } else if (c && c.cap) {
+    const k = c.cap;
+    node = sliderNode(`k-${k.id.replace(/[^a-z0-9]+/gi, "-")}`, text, term, c.hint || item.hint, k.min, k.max, k.step, k.field.value, k.field.raw, (v) => {
+      const cur = numericFields(tomlEl.value).find((x) => x.id === k.id);
+      if (!cur) return v;
+      tomlEl.value = patchField(tomlEl.value, cur, Number(parseFloat(v).toPrecision(12)));
+      changed();
+      const now = numericFields(tomlEl.value).find((x) => x.id === k.id);
+      return now ? now.raw : v;
+    });
+  } else if (item.field) {
+    node = h("div", { class: "knob fld fld-step" }, h("label", {}, h("span", { class: "fl-t" }, text, term ? h("span", { class: "term", text: ` (${term})` }) : null), stepperNode(item.field)), item.hint ? h("p", { class: "knob-hint fl-help", text: item.hint }) : null);
+  } else return null;
+  node.dataset.fieldId = item.id;
+  node.dataset.key = item.term || "";
+  node.dataset.label = `${text} ${item.term || ""}`;
+  return node;
+}
+// A number with − and + steps (× and ÷ on a log scale), written straight into the scenario.
+function stepperNode(f) {
+  const input = h("input", { type: "text", inputmode: "decimal", value: f.raw, "aria-label": `${fieldName(f)} (${f.section ? f.section + "." : ""}${f.key})` });
+  const current = () => numericFields(tomlEl.value).find((x) => x.id === f.id);
+  const commit = (v) => {
+    const cur = current();
+    if (!Number.isFinite(v) || !cur) { input.value = cur ? cur.raw : f.raw; return; }
+    tomlEl.value = patchField(tomlEl.value, cur, v);
+    const now = current();
+    input.value = now ? now.raw : String(v);
+    changed();
+  };
+  const step = (dir) => { const cur = current() || f; commit(stepValue(cur, dir)); };
+  input.addEventListener("change", () => commit(parseFloat(input.value)));
+  input.addEventListener("keydown", (e) => { if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); step(e.key === "ArrowUp" ? 1 : -1); } });
+  return h("span", { class: "stepper" },
+    h("button", { type: "button", "aria-label": `Decrease ${f.key}`, text: isLogScale(f) ? "÷" : "−", onclick: () => step(-1) }),
+    input,
+    h("button", { type: "button", "aria-label": `Increase ${f.key}`, text: isLogScale(f) ? "×" : "+", onclick: () => step(1) }));
+}
+// After any change of the scenario text: the editor, and the Run button says it is not run yet.
+function changed() { refreshEditor(); updateSteps(); }
 
-// Guided sliders (the live playground's knob set) and every-field steppers.
 function buildParams() {
   const toml = tomlEl.value;
-  const knobs = knobsForToml(toml);
+  const ranked = rankInputs(numericFields(toml), curatedInputs(toml));
+  const { visible, advanced } = splitInputs(ranked, S.inputBudget);
+  S.visibleIds = new Set(visible.map((x) => x.id));
   const kh = $("knobs");
-  kh.replaceChildren();
-  for (const k of knobs) {
-    const id = `k-${k.section || "top"}-${k.key}`;
-    const raw = readKnob(toml, k);
-    const v = k.parse(raw);
-    const input = h("input", { type: "range", id, min: String(k.min), max: String(k.max), step: String(k.step) });
-    input.value = String(Math.min(k.max, Math.max(k.min, v)));
-    const out = h("output", { for: id, id: `${id}-out`, text: raw });
-    const paint = () => input.style.setProperty("--p", `${((parseFloat(input.value) - k.min) / (k.max - k.min)) * 100}%`);
-    paint();
-    input.addEventListener("input", () => {
-      const val = k.parse(input.value);
-      out.textContent = String(val);
-      paint();
-      tomlEl.value = k.section ? patchSectionScalar(tomlEl.value, k.section, k.key, val) : patchScalar(tomlEl.value, k.key, val);
-      refreshEditor();
-      buildFields();
-      runScenario();
-    });
-    kh.append(h("div", { class: "knob", "data-field-id": `${k.section || ""}::${k.key}`, "data-key": k.key, "data-label": k.label }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
-  }
-  // A newer kind has its own guided sliders (lib/kinds.mjs), each bound to one field of the scenario.
-  const kind = (toml.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
-  const capKnobs = kind && K.hasCapability(kind) ? K.guidedFor(kind, numericFields(toml)) : [];
-  if (K.hasCapability(kind)) kh.replaceChildren();
-  for (const k of capKnobs) {
-    const id = `k-${k.id.replace(/[^a-z0-9]+/gi, "-")}`;
-    const input = h("input", { type: "range", id, min: String(k.min), max: String(k.max), step: String(k.step) });
-    input.value = String(k.field.value);
-    const out = h("output", { for: id, text: k.field.raw });
-    const paint = () => input.style.setProperty("--p", `${((parseFloat(input.value) - k.min) / (k.max - k.min || 1)) * 100}%`);
-    paint();
-    input.addEventListener("input", () => {
-      const cur = numericFields(tomlEl.value).find((x) => x.id === k.id);
-      if (!cur) return;
-      const val = Number(parseFloat(input.value).toPrecision(12));
-      tomlEl.value = patchField(tomlEl.value, cur, val);
-      const now = numericFields(tomlEl.value).find((x) => x.id === k.id);
-      out.textContent = now ? now.raw : String(val);
-      paint();
-      refreshEditor();
-      buildFields();
-      runScenario();
-    });
-    kh.append(h("div", { class: "knob", "data-field-id": k.id, "data-key": k.field.key, "data-label": k.label }, h("label", { for: id }, k.label, out), input, h("p", { class: "knob-hint", text: k.hint })));
-  }
-  const anyKnob = K.hasCapability(kind) ? capKnobs.length : knobs.length;
-  if (!anyKnob) kh.append(h("p", { class: "hint", text: "This scenario has none of the guided controls. Use All fields, or edit the source." }));
+  kh.replaceChildren(...visible.map(inputNode).filter(Boolean));
+  if (!visible.length) kh.append(h("p", { class: "hint", text: ranked.length ? "The view above already has its controls; every setting of the scenario is under Advanced settings." : "This scenario has no single number to change. The whole file is under “For researchers”." }));
+  $("field-count").textContent = advanced.length ? `${advanced.length} more` : "none";
+  $("params-hint").textContent = visible.length ? "Change a value, then run again. The answer and the chart update in place." : "";
   buildFields();
-  // A kind with no guided sliders opens on its full field list (unless the reader chose a view).
-  if (!S.pviewChosen) setPview(anyKnob ? "guided" : "all");
-  applyFieldFind();
 }
 function buildFields() {
-  const fields = numericFields(tomlEl.value);
-  $("field-count").textContent = String(fields.length);
+  const fields = numericFields(tomlEl.value).filter((f) => !(S.visibleIds && S.visibleIds.has(f.id)));
   const host = $("fields");
   host.replaceChildren();
   let sec = null;
   for (const f of fields) {
-    if (f.section !== sec) { sec = f.section; host.append(h("p", { class: "fsec", text: sec ? `[${sec}]` : "top level" })); }
-    const input = h("input", { type: "text", inputmode: "decimal", value: f.raw, "aria-label": `${f.section ? f.section + "." : ""}${f.key}` });
-    const current = () => numericFields(tomlEl.value).find((x) => x.id === f.id);
-    const commit = (v) => {
-      const cur = current();
-      if (!Number.isFinite(v) || !cur) { input.value = cur ? cur.raw : f.raw; return; }
-      tomlEl.value = patchField(tomlEl.value, cur, v);
-      refreshEditor();
-      buildParamsSoon();
-      runScenario();
-    };
-    const step = (dir) => { const cur = current() || f; commit(stepValue(cur, dir)); };
-    input.addEventListener("change", () => commit(parseFloat(input.value)));
-    input.addEventListener("keydown", (e) => { if (e.key === "ArrowUp" || e.key === "ArrowDown") { e.preventDefault(); step(e.key === "ArrowUp" ? 1 : -1); } });
-    host.append(h("div", { class: "field", "data-field-id": f.id, "data-key": f.key, "data-label": `${f.section ? f.section + "." : ""}${f.key} ${f.comment || ""}` },
-      fieldLabelNode(f),
-      h("span", { class: "stepper" },
-        h("button", { type: "button", "aria-label": `Decrease ${f.key}`, text: isLogScale(f) ? "÷" : "−", onclick: () => step(-1) }),
-        input,
-        h("button", { type: "button", "aria-label": `Increase ${f.key}`, text: isLogScale(f) ? "×" : "+", onclick: () => step(1) }))));
+    if (f.section !== sec) { sec = f.section; host.append(h("p", { class: "fsec", text: sec ? `[${sec}]` : "top of the file" })); }
+    host.append(h("div", { class: "field", "data-field-id": f.id, "data-key": f.key, "data-label": `${f.section ? f.section + "." : ""}${f.key} ${f.comment || ""}` }, fieldLabelNode(f), stepperNode(f)));
   }
-  if (!fields.length) host.append(h("p", { class: "hint", text: "No single numeric fields to tune here. Edit the source directly." }));
+  if (!fields.length) host.append(h("p", { class: "hint", text: "No other single numbers to change here. Edit the file under “For researchers”." }));
   applyFieldFind();
 }
 let paramsTimer = 0;
 function buildParamsSoon() { clearTimeout(paramsTimer); paramsTimer = setTimeout(buildParams, 250); }
-function setPview(v) {
-  S.pview = v;
-  for (const b of document.querySelectorAll("[data-pview]")) b.setAttribute("aria-selected", b.dataset.pview === v ? "true" : "false");
-  $("knobs").hidden = v !== "guided";
-  $("fields").hidden = v !== "all";
-  $("params-hint").textContent = v === "guided" ? "Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below." : "Every single number in the scenario. Step it, type it, or use the arrow keys; the scenario re-runs.";
-}
 
 // ------------------------------------------------------------------ scenario loading
 // All bundled scenario files in one JSON (scenarios/index.json), so a host serves one file
@@ -1892,87 +1877,147 @@ function scenarioBundle() {
 async function loadScenario(file, { run = true } = {}) {
   const entry = entryFor(file);
   if (!entry) return;
+  if (S.file !== file) { S.inputBudget = VISIBLE_INPUTS; S.budgetFile = null; }
   S.file = file;
   S.shared = false;
   let text = null;
-  const bundle = await scenarioBundle();
+  // The recorded run carries the scenario text it was run from (selfcheck.mjs proves it equal to
+  // the bundled file), so a task screen opens without waiting for the whole scenario bundle.
+  const recFirst = S.recCache.get(file) || (S.preferRecorded ? await loadRecorded(file).catch(() => null) : null);
+  if (recFirst && typeof recFirst.toml === "string") text = recFirst.toml;
+  const bundle = text === null ? await scenarioBundle() : null;
   if (bundle && typeof bundle[file] === "string") text = bundle[file];
   const dir = dirOf(file);
   if (text === null) try { const res = await fetch(dir ? `${dir}${file}` : `scenarios/${file}`, { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
   if (text === null) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
+  if (S.file !== file) return; // the reader moved on while this loaded
   if (text === null) { showError(`Could not load ${file}.`); return; }
   S.baseToml = text;
   tomlEl.value = text;
   paintScenarioHeader(entry);
   refreshEditor();
   buildParams();
-  renderLibrary();
   seedSweepRange(true);
   clearError();
   if (NOT_IN_BROWSER[file] && !RECORDED_NATIVELY.includes(file)) showNotice(NOT_IN_BROWSER[file]);
   else if (S.mode !== "recorded") showNotice("");
   if (run) runScenario();
 }
+// The task screen's heading: area, the question, one line on what is simulated.
 function paintScenarioHeader(entry) {
   const dom = entry ? domainOf(entry.domain) : null;
   const eb = $("sc-domain");
   eb.style.setProperty("--c", dom ? dom.color : "var(--ink-3)");
-  eb.querySelector("span").textContent = dom ? dom.label : "Shared scenario";
-  $("sc-title").textContent = entry ? entry.title : "Shared scenario";
-  $("sc-question").textContent = entry ? entry.question : "A scenario opened from a share link. It runs exactly as it was shared.";
-  $("sc-file").textContent = entry ? `${dirOf(entry.file) ? "optional preset: " : ""}scenarios/${entry.file}` : "from the link";
-  const kind = (tomlEl.value.match(/^\s*kind\s*=\s*"([^"]+)"/m) || [])[1];
-  $("sc-kind").textContent = kind ? `kind: ${kind}` : tomlEl.value ? "kind: clock holdover (the default)" : ""; // empty until the file has loaded
+  eb.querySelector("span").textContent = dom ? `${dom.label} · ${entry.title}` : "Shared scenario";
+  // The same words the first paint used (lib/meaning.mjs taskWords).
+  const w = entry ? taskWords(entry, dom ? dom.label : "", tomlEl.value) : null;
+  S.seen = new Set(w ? w.seen : []);
+  $("sc-title").textContent = w ? w.title : "A scenario opened from a share link";
+  $("sc-question").textContent = w ? w.sub : "It runs exactly as it was shared.";
+  const back = $("task-back");
+  back.href = dom ? `?domain=${encodeURIComponent(dom.id)}` : "./";
+  back.querySelector("span").textContent = dom ? dom.label : "All questions";
   updateCrumbs();
   document.title = `${entry ? entry.title : "Shared scenario"} · ${STUDIO_NAME}`;
 }
 
-// ------------------------------------------------------------------ library
-function renderLibrary() {
-  const q = $("lib-search").value;
-  const dsel = $("lib-domain");
-  let groups = groupedLibrary(q);
-  const all = groups;
-  if (dsel && dsel.value) groups = groups.filter((g) => g.domain.id === dsel.value);
-  const host = $("lib-list");
-  host.replaceChildren();
-  let n = 0;
-  for (const g of groups) {
-    const sec = h("div", { class: "lib-group" }, h("h3", {}, h("i", { class: "dot", style: `--c:${g.domain.color}` }), g.domain.label, h("span", { class: "n", text: String(g.items.length) })));
-    for (const e of g.items) {
-      n++;
-      const na = NOT_IN_BROWSER[e.file];
-      sec.append(h("button", { class: `lib-item${na ? " na" : ""}`, type: "button", style: `--c:${g.domain.color}`, title: e.question, "aria-current": e.file === S.file && !S.shared ? "true" : "false", "data-file": e.file, onclick: () => { closeLibDrawer(); closeStart(); loadScenario(e.file); } },
-        h("b", { text: e.title }), h("span", { text: e.question }), na ? h("span", { class: "tag", text: RECORDED_NATIVELY.includes(e.file) ? "recorded run, native engine" : "command line only" }) : null));
-    }
-    host.append(sec);
-  }
-  // Fields: which scenarios have a field named like the query, and a jump straight to it.
-  if (q.trim().length >= 3) {
-    if (!S.fieldIdx) ensureFieldIndex().then(() => { if ($("lib-search").value === q) renderLibrary(); });
-    else {
-      const hits = findFields(S.fieldIdx, q, 400).filter((x) => !dsel || !dsel.value || (entryFor(x.file) && entryFor(x.file).domain === dsel.value));
-      if (hits.length) {
-        const sec = h("div", { class: "lib-group fields" }, h("h3", {}, h("i", { class: "dot", style: "--c:var(--ink-3)" }), `Fields matching “${q.trim()}”`, h("span", { class: "n", text: `${scenarioCount(hits)} scenarios` })));
-        for (const x of hits.slice(0, 10)) {
-          const e = entryFor(x.file);
-          sec.append(h("button", { class: "lib-item field-hit", type: "button", "data-file": x.file, "data-field": x.id, onclick: () => { closeLibDrawer(); jumpToField(x.file, x.id); } }, h("b", { text: x.label }), h("span", { text: `in ${e ? e.title : x.file}` }), h("span", { class: "tag", text: "open at this field" })));
-        }
-        if (hits.length > 10) sec.append(h("p", { class: "hint lib-more", text: `${hits.length - 10} more: refine the words, or search on the start screen.` }));
-        host.prepend(sec);
-      }
-    }
-  }
-  if (!n && !host.children.length) host.append(h("p", { class: "hint", style: "padding:12px", text: "No scenario or field matches. Try a word like jamming, clock, lunar, orbit, mask or PDOP." }));
-  $("lib-count").textContent = q || (dsel && dsel.value) ? `${n} of ${SCENARIOS.length} scenarios` : `${SCENARIOS.length} scenarios · ${all.length} domains`;
+// ------------------------------------------------------------------ how this is computed
+// The method is the scenario file's own header; the level of evidence is the run's own label,
+// its per-figure tiers (figure_tiers) and the verification-matrix rows for the engine kinds the
+// scenario runs (lib/areas.mjs); the references are the oracles of those rows plus the sources
+// the header cites.
+let matrixPromise = null;
+function loadMatrix() {
+  if (!matrixPromise) matrixPromise = fetch("data/verification-matrix.json").then((x) => (x.ok ? x.json() : null)).catch(() => null);
+  return matrixPromise;
 }
-function paintDomainFilter() {
-  const host = $("lib-domains");
-  const prev = $("lib-domain") ? $("lib-domain").value : "";
-  const sel = h("select", { id: "lib-domain", class: "sel", "aria-label": "Show one domain" }, h("option", { value: "", text: "All domains" }), ...DOMAINS.filter((d) => SCENARIOS.some((s) => s[1] === d.id)).map((d) => h("option", { value: d.id, text: d.label })));
-  sel.value = prev;
-  sel.addEventListener("change", () => { renderLibrary(); updateCrumbs(); });
-  host.replaceChildren(h("label", { class: "sel-lbl", for: "lib-domain" }, "Domain"), sel);
+// The scenario's header comment, as paragraphs.
+// Sources a header cites: bracketed author-year notes, arXiv numbers and named standards.
+function headerCitations(paras) {
+  const out = new Set();
+  const text = paras.join(" ");
+  for (const m of text.matchAll(/\(([^()]*?\b(?:19|20)\d\d[a-z]?[^()]*?)\)/g)) if (/[A-Z][a-z]+/.test(m[1]) && m[1].length < 160) out.add(m[1].trim());
+  for (const m of text.matchAll(/\barXiv:\s?\d{4}\.\d{4,5}\b/g)) out.add(m[0]);
+  return [...out].slice(0, 6);
+}
+async function renderHow(run) {
+  const base = S.baseToml || run.toml;
+  const paras = headerParagraphs(base);
+  const seen = new Set(S.seen);
+  const method = $("how-method");
+  method.replaceChildren(...(paras.length ? paras.slice(0, 3).map((p) => h("p", { text: spellOut(p, seen) })) : [h("p", { text: "This scenario file has no header note. The engine summary below says what was run." })]));
+  if (paras.length > 3) method.append(h("details", { class: "more-notes" }, h("summary", { text: `${paras.length - 3} more notes from the scenario file` }), ...paras.slice(3).map((p) => h("p", { text: p }))));
+  const lvl = $("how-level"), refs = $("how-refs"), chip = $("how-lvl");
+  const r = run.result;
+  const hn = honesty(r);
+  lvl.replaceChildren();
+  if (hn) lvl.append(h("p", {}, lvlChip(hn.tier), " ", h("span", { text: `This run's own label: ${hn.text.replace(/^(VALIDATED|MODELLED|PARTNER)\s*[-:–]?\s*/, "")}` })));
+  const tiers = tierCounts(r);
+  if (tiers.validated || tiers.modelled) lvl.append(h("p", { text: `Per figure, from the engine's figure_tiers block: ${tiers.validated} validated, ${tiers.modelled} modelled. The tier of each figure is in the Overview view.` }));
+  chip.replaceChildren(hn ? lvlChip(hn.tier) : "");
+  refs.replaceChildren(...headerCitations(paras).map((c) => h("li", { text: c })));
+  const matrix = await loadMatrix();
+  if (S.run !== run || !matrix) return;
+  const rows = matrix.rows;
+  const idx = [...new Set(kindsOfToml(base).flatMap((k) => rowsForKind(k, rows)))];
+  if (idx.length) {
+    const mix = evidenceMix(idx, rows);
+    const ordered = idx.sort((a, b) => (rows[a].status === "VALIDATED" ? 0 : 1) - (rows[b].status === "VALIDATED" ? 0 : 1));
+    lvl.append(h("p", { text: `The engine methods this scenario runs have ${mix.validated} validated and ${mix.modelled} modelled rows in the verification matrix${mix.partner ? `, and ${mix.partner} owned by partners` : ""}:` }),
+      h("ul", { class: "mx" }, ordered.slice(0, 6).map((i) => h("li", {}, lvlChip(rows[i].status), " ", h("span", { text: rows[i].requirement })))));
+    if (ordered.length > 6) lvl.append(h("p", { class: "fine", text: `${ordered.length - 6} more rows in the verification matrix (Evidence page of the site).` }));
+    if (!hn) chip.replaceChildren(h("span", { class: "sm-n", text: `${mix.validated} validated · ${mix.modelled} modelled` }));
+    for (const i of ordered.filter((i) => rows[i].status === "VALIDATED").slice(0, 4)) refs.append(h("li", {}, h("span", { text: rows[i].oracle }), h("span", { class: "fine", text: ` (checks: ${rows[i].requirement})` })));
+  } else lvl.append(h("p", { class: "fine", text: "No verification-matrix row names this scenario's engine kind yet." }));
+  if (!refs.children.length) refs.append(h("li", { text: "The scenario file cites no source, and no validated matrix row covers its kind." }));
+}
+
+// ------------------------------------------------------------------ for researchers
+const DOI = "10.5281/zenodo.20528627";
+function pyPath(path) {
+  if (!path || /\[|\s/.test(path)) return null;
+  return path.split(".").map((k) => `["${k}"]`).join("");
+}
+function renderResearch(run) {
+  const name = (run.file || "shared").replace(/\.toml$/, "");
+  const edited = run.file && run.toml !== S.baseToml;
+  const v = S.version || (run.result && run.result.engine_version) || "";
+  $("cli").textContent = run.file && !edited && !dirOf(run.file)
+    ? `kshana example ${name} > ${name}.toml\nkshana ${name}.toml`
+    : `# save the scenario file below as ${name}.toml, then\nkshana ${name}.toml`;
+  $("cli-note").textContent = `Install with cargo install kshana --version ${v}. The run writes ${name}.result.json, a chart, and a report.`;
+  const mean = plainMeaning(run.result, run.toml);
+  const p = mean && mean.cards.map((c) => pyPath(c.path)).find(Boolean);
+  $("py").textContent = `import json, kshana\n\ntoml = open("${name}.toml").read()\nresult = json.loads(kshana.run(toml))\n${p ? `print(result${p})` : "print(sorted(result))"}`;
+  $("py-note").textContent = `Install with pip install kshana==${v}.`;
+  const meta = fileMeta(run.result, S.version, run.toml);
+  const btn = (label, title, onclick) => h("button", { type: "button", title, onclick }, icon("i-down"), label);
+  const row = $("exp-row");
+  row.replaceChildren(...[
+    btn("Result data (JSON)", "The engine's complete output for this run", () => triggerDownload(new Blob([JSON.stringify(run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json"))),
+    run.csv ? btn("Table (CSV)", "The same bytes the command-line tool writes as <scenario>.table.csv", () => triggerDownload(new Blob([run.csv], { type: "text/csv" }), chartFilename("table", meta, "csv"))) : null,
+    btn("Scenario file (TOML)", "The exact input of this run", () => triggerDownload(new Blob([run.toml], { type: "text/plain" }), chartFilename("scenario", meta, "toml"))),
+    btn("Figure (SVG)", "The chart on screen, with its title, engine version and DOI", () => { const f = currentFigure(); if (f) triggerDownload(svgBlob(f.svg), chartFilename(f.base, meta, "svg")); else toast("This view has no chart to export."); }),
+    btn("Figure (PNG)", "The chart on screen as a high-resolution bitmap", async () => { const f = currentFigure(); if (!f) { toast("This view has no chart to export."); return; } try { const { w, h: hh } = svgSize(f.svg); triggerDownload(await svgToPngBlob(f.svg, w, hh, 2), chartFilename(f.base, meta, "png")); } catch (e) { toast("PNG export failed: " + errorMessage(e)); } }),
+    btn("Reproducible report (HTML)", "One offline file: summary, figures with tiers, charts and the exact scenario", downloadReport),
+    h("button", { type: "button", title: "Every export of this run, including the engine's own formats", onclick: () => { selectTab("exports", { scroll: true }); } }, icon("i-open"), "All exports")].filter(Boolean));
+  const share = $("share-row");
+  share.replaceChildren(...[
+    h("button", { type: "button", onclick: copyShareLink }, icon("i-share"), "Copy a link to this exact scenario"),
+    h("button", { type: "button", onclick: copyEmbedCode }, icon("i-copy"), "Copy embed code"),
+    h("button", { type: "button", onclick: () => pinRun() }, icon("i-pin"), S.pins.length ? `Pin this run (${S.pins.length} pinned)` : "Pin this run to compare"),
+    S.pins.length ? h("button", { type: "button", onclick: openCompare }, icon("i-compare"), "Compare pinned runs") : null,
+    h("button", { type: "button", onclick: openHistory }, icon("i-history"), "Run history")].filter(Boolean));
+  $("cite").textContent = `Baweja, C. Kshana: a PNT-resilience simulator with quantum-sensor performance models, version ${v}. Ashforde OÜ. doi:${DOI}`;
+}
+// The chart of the view on screen, ready to download: title band, provenance and DOI.
+function currentFigure() {
+  const view = $(VIEW_ID[S.activeTab]);
+  const svg = view && view.querySelector(".chart-box svg");
+  if (!svg) return null;
+  const card = svg.closest(".card");
+  const title = (card && card.querySelector("h3") ? card.querySelector("h3").textContent : (TAB_DEFS.find((t) => t.id === S.activeTab) || {}).label || "Kshana chart").trim();
+  return { svg: exportSvg(new XMLSerializer().serializeToString(svg), title), base: slug(title) };
 }
 
 // ------------------------------------------------------------------ history
@@ -1988,9 +2033,6 @@ function renderHistory() {
         h("button", { class: "btn-mini", type: "button", onclick: () => pinRun(run) }, icon("i-pin"), "Pin"))));
   }
   $("hist-empty").hidden = S.history.length > 0;
-  const c = $("history-count");
-  c.hidden = !S.history.length;
-  c.textContent = String(S.history.length);
 }
 async function restoreRun(run) {
   S.file = run.file;
@@ -2006,7 +2048,6 @@ async function restoreRun(run) {
   paintScenarioHeader(entryFor(run.file));
   refreshEditor();
   buildParams();
-  renderLibrary();
   if (run.mode === "native") showNotice(nativeNotice(run));
   renderRun(run);
   renderHistory();
@@ -2043,11 +2084,13 @@ const COMMANDS = [
   { t: "Start the guided tour", run: () => startTour() },
   { t: "Toggle light or dark theme", run: () => toggleTheme() },
   { t: "Reset the scenario text", run: () => resetSource() },
-  { t: "Show every numeric field", run: () => { setDrawer(true); S.pviewChosen = true; setPview("all"); } },
-  { t: "Open the parameters", run: () => setDrawer(true) },
-  { t: "Download the results (exports)", run: () => { closeStart(); selectTab("exports", { scroll: true }); } },
+  { t: "Show every setting (advanced settings)", run: () => openDetails("adv") },
+  { t: "How this is computed", run: () => openDetails("how") },
+  { t: "Code, data and citation (for researchers)", run: () => openDetails("research") },
+  { t: "Download the results (exports)", run: () => selectTab("exports", { scroll: true }) },
   { t: "Compare the pinned runs", run: () => openCompare() },
-  { t: "Go to the start screen", run: () => openStart() },
+  { t: "Browse all scenarios", run: () => navigate({ screen: "browse", q: "" }) },
+  { t: "Go to the opening screen", run: () => navigate({ screen: "home" }) },
 ];
 let palItems = [], palSel = 0;
 function openPalette() {
@@ -2077,17 +2120,20 @@ function renderPalette() {
   // Every word must match somewhere; a word in the title counts most, then the file name.
   const words = q ? q.split(/\s+/) : [];
   const score = (s) => words.reduce((n, w) => n + (s[2].toLowerCase().includes(w) ? 4 : s[0].includes(w) ? 2 : 1), 0);
-  const scen = SCENARIOS.filter((s) => match(`${s[2]} ${s[3]} ${s[0]} ${domainOf(s[1]).label}`))
-    .map((s, i) => ({ s, i, sc: score(s) })).sort((a, b) => b.sc - a.sc || a.i - b.i).map((x) => x.s).slice(0, q ? 12 : 6)
-    .map((s) => ({ t: s[2], k: domainOf(s[1]).label, c: domainOf(s[1]).color, run: () => { closeStart(); loadScenario(s[0]); } }));
-  const doms = q ? DOMAINS.filter((d) => match(`${d.label} domain`) && SCENARIOS.some((s) => s[1] === d.id)).slice(0, 5).map((d) => ({ t: `Domain: ${d.label}`, k: `${SCENARIOS.filter((s) => s[1] === d.id).length} scenarios`, c: d.color, run: () => openStart({ domain: d.id }) })) : [];
-  const fields = q.length >= 3 && S.fieldIdx ? findFields(S.fieldIdx, q, 8).map((f) => ({ t: `Field: ${f.label}`, k: (entryFor(f.file) || { title: f.file }).title, c: "var(--ink-2)", run: () => jumpToField(f.file, f.id) })) : [];
-  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab panel")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: `Panel: ${d.label}`, c: d.c, run: () => { closeStart(); selectTab(id, { scroll: true }); } }; });
+  // The catalogue's ranking (domain and title before description) when the words appear as a
+  // phrase; otherwise every word must match somewhere, title first.
+  const phrase = q ? searchScenarios(q).map((e) => [e.file, e.domain, e.title, e.question]) : [];
+  const scen = (phrase.length ? phrase : SCENARIOS.filter((s) => match(`${s[2]} ${s[3]} ${s[0]} ${domainOf(s[1]).label}`))
+    .map((s, i) => ({ s, i, sc: score(s) })).sort((a, b) => b.sc - a.sc || a.i - b.i).map((x) => x.s)).slice(0, q ? 12 : 6)
+    .map((s) => ({ t: s[2], k: domainOf(s[1]).label, c: domainOf(s[1]).color, run: () => openScenario(s[0]) }));
+  const doms = q ? DOMAINS.filter((d) => match(`${d.label} domain`) && SCENARIOS.some((s) => s[1] === d.id)).slice(0, 5).map((d) => ({ t: `Area: ${d.label}`, k: `${SCENARIOS.filter((s) => s[1] === d.id).length} scenarios`, c: d.color, run: () => navigate({ screen: "domain", domain: d.id }) })) : [];
+  const fields = q.length >= 3 && S.fieldIdx ? findFields(S.fieldIdx, q, 8).map((f) => ({ t: `Setting: ${f.label}`, k: (entryFor(f.file) || { title: f.file }).title, c: "var(--ink-2)", run: () => jumpToField(f.file, f.id) })) : [];
+  const views = available.filter((id) => match(TAB_DEFS.find((d) => d.id === id).label + " view tab panel")).map((id) => { const d = TAB_DEFS.find((x) => x.id === id); return { t: `View: ${d.label}`, c: d.c, run: () => selectTab(id, { scroll: true }) }; });
   const cmds = COMMANDS.filter((c) => match(c.t)).map((c) => ({ ...c, c: "var(--ink-3)" }));
   section("Scenarios", scen);
-  section("Domains", doms);
-  section("Fields", fields);
-  section("Panels", views);
+  section("Areas", doms);
+  section("Settings", fields);
+  section("Views", views);
   section("Commands", cmds);
   if (!palItems.length) list.append(h("p", { class: "pal-sec", text: "Nothing matches" }));
   selPal(0);
@@ -2099,18 +2145,7 @@ function selPal(i) {
   if (cur) { cur.scrollIntoView({ block: "nearest" }); $("pal-input").setAttribute("aria-activedescendant", cur.id); }
 }
 
-// ------------------------------------------------------------------ tour
-const TOUR = [
-  { target: "#library", title: "Pick a mission", body: "Every bundled scenario, grouped by mission domain: jamming, spectrum, spoofing, clocks, navigation, integrity, orbits, constellation design, low Earth orbit navigation, campaigns, the Moon, Mars and the solar system. Search with /.", side: "right" },
-  { target: "#run", title: "Run it, locally", body: "The Rust engine runs in your browser as WebAssembly. Nothing is uploaded. ⌘↵ runs from anywhere.", side: "bottom" },
-  { target: "#params", title: "Tune it", body: "Guided sliders for the common knobs, or every numeric field in the scenario. Each change re-runs.", side: "right" },
-  { target: "#source", title: "Or edit anything", body: "The full scenario in TOML. What you run is exactly what you can share and reproduce.", side: "right" },
-  { target: "#headline", title: "Read the answer", body: "The one-line summary, the engine version and the scenario fingerprint, and whether each figure is validated or modelled.", side: "bottom" },
-  { target: "#tabs", title: "Every view of the run", body: "Views appear when the result supports them: signal and band for jamming, the waterfall for spectrum, the mission timeline for campaigns, coverage maps for constellations, holdover for clocks, masks for telecom timing, 3-D orbits, ground tracks, sweeps, and the engine's own animation and report.", side: "bottom" },
-  { target: "#pin", title: "Compare runs", body: "Pin up to four runs and see them side by side, with deltas and a difference trace.", side: "bottom" },
-  { target: "#btn-share", title: "Share or export", body: "Download the report, the result, the scenario and the engine's exports, or copy a link that carries the exact scenario, or an iframe for a course page or wiki.", side: "bottom" },
-  { target: "#cmdk-btn", title: "Everything from the keyboard", body: "⌘K finds any scenario, view or command. [ and ] move between views.", side: "bottom" },
-];
+
 const tour = { on: false, i: 0, steps: [], el: null, opener: null, refs: null };
 function startTour() {
   if (tour.on) return;
@@ -2164,6 +2199,18 @@ function endTour() {
   if (tour.opener && tour.opener.focus) tour.opener.focus();
 }
 
+
+// ------------------------------------------------------------------ tour
+const TOUR = [
+  { target: "#meaning", title: "The answer first", body: "A plain sentence read from the result, and where the result comes from: a live run in your browser, or a run recorded with the same engine.", side: "bottom" },
+  { target: "#figs", title: "The figures that answer it", body: "Each card is read from the engine's result document.", side: "bottom" },
+  { target: "#tabs", title: "Every view of the run", body: "Charts, maps, replays, the engine's own report and exports. [ and ] move between views.", side: "bottom" },
+  { target: "#params", title: "Try other settings", body: "The five settings that matter most for this question. Change one, then run again. The engine runs in your browser; nothing is uploaded.", side: "left" },
+  { target: "#how", title: "How this is computed", body: "The method, the level of evidence and the references.", side: "left" },
+  { target: "#research", title: "For researchers", body: "The command line and Python to run it yourself, the data and figures, and how to cite it.", side: "left" },
+  { target: "#cmdk-btn", title: "Search", body: "⌘K finds any scenario, area, setting, view or command.", side: "bottom" },
+];
+
 // ------------------------------------------------------------------ chrome
 function toggleTheme() {
   const root = document.documentElement;
@@ -2175,35 +2222,20 @@ let toastTimer = 0;
 function toast(msg) { const t = $("toast"); t.textContent = msg; t.hidden = false; clearTimeout(toastTimer); toastTimer = setTimeout(() => (t.hidden = true), 2600); }
 function openHistory() { $("history").hidden = false; $("history-close").focus(); }
 function closeHistory() { $("history").hidden = true; }
-function closeLibDrawer() { delete $("app").dataset.lib; syncScrim(); }
-function openLibDrawer() { $("app").dataset.lib = "open"; syncScrim(); $("lib-search").focus(); }
-const RAIL_MQ = window.matchMedia ? window.matchMedia("(max-width: 1279px)") : { matches: false, addEventListener() {} };
-function syncScrim() {
-  const lib = $("app").dataset.lib === "open" && RAIL_MQ.matches;
-  const drawer = $("app").dataset.drawer === "open" && RAIL_MQ.matches;
-  $("scrim").hidden = !(lib || drawer);
-}
+function openDetails(id) { const d = $(id); if (!d) return; d.open = true; d.scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" }); }
 function resetSource() {
   tomlEl.value = S.baseToml;
   refreshEditor();
   buildParams();
-  runScenario();
+  updateSteps();
 }
 function engineChip() {
   const chip = $("engine-chip");
   chip.dataset.mode = S.mode;
-  $("engine-label").textContent = S.mode === "live" ? `Live engine · v${S.version}` : S.mode === "recorded" ? `Recorded runs · v${S.version}` : "Engine unavailable";
-  chip.title = S.mode === "live" ? "The Kshana engine is running in this browser as WebAssembly" : `WebAssembly could not start here${S.liveError ? ` (${S.liveError})` : ""}. Showing real recorded runs of the bundled scenarios.`;
+  $("engine-label").textContent = S.mode === "live" ? `Live engine · v${S.version}` : S.mode === "recorded" ? `Recorded runs · v${S.version}` : S.mode === "loading" ? "Engine loading" : "Engine unavailable";
+  chip.title = S.mode === "live" ? "The Kshana engine is running in this browser as WebAssembly" : S.mode === "loading" ? "The engine is downloading. Recorded results show meanwhile." : `WebAssembly could not start here${S.liveError ? ` (${S.liveError})` : ""}. Showing real recorded runs of the bundled scenarios.`;
+  $("hero-load").hidden = S.mode !== "loading";
 }
-
-async function loadCounts() {
-  try {
-    const ledger = await (await fetch("data/verification-matrix.json")).json();
-    const m = matrixCounts(ledger);
-    $("matrix-line").replaceChildren(h("b", { text: `${m.validated} of ${m.total}` }), ` capabilities validated against independent external oracles · ${m.modelled} modelled · ${m.partner} partner-owned`);
-  } catch { /* the ledger is optional context */ }
-}
-
 function insertSpaces() {
   const s = tomlEl.selectionStart, e = tomlEl.selectionEnd;
   tomlEl.setRangeText("  ", s, e, "end");
@@ -2211,161 +2243,249 @@ function insertSpaces() {
   buildParamsSoon();
 }
 
-function bindUi() {
-  const sf = $("sig-field");
-  if (sf) sf.addEventListener("click", (e) => { const b = e.target.closest("button[data-field]"); if (!b) return; S.sigField = b.dataset.field; renderSignal(); });
-  $("run").addEventListener("click", runScenario);
-  $("run-cancel").addEventListener("click", cancelJob);
-  $("pin").addEventListener("click", () => pinRun());
-  $("lib-search").addEventListener("input", renderLibrary);
-  tomlEl.addEventListener("input", () => { refreshEditor(); buildParamsSoon(); });
-  tomlEl.addEventListener("scroll", syncScroll);
-  tomlEl.addEventListener("keydown", (e) => {
-    // Tab inserts two spaces, like the scenario files; Escape then Tab moves focus on.
-    if (e.key === "Tab" && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
-      if (tomlEl.dataset.esc === "1") { tomlEl.dataset.esc = ""; return; }
-      e.preventDefault();
-      insertSpaces();
-    } else if (e.key === "Escape") tomlEl.dataset.esc = "1";
-    else tomlEl.dataset.esc = "";
-  });
-  $("src-reset").addEventListener("click", resetSource);
-  $("src-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(tomlEl.value); toast("Scenario copied."); } catch { toast("Copy is blocked here."); } });
-  for (const b of document.querySelectorAll("[data-pview]")) b.addEventListener("click", () => { S.pviewChosen = true; setPview(b.dataset.pview); });
-  for (const b of document.querySelectorAll("[data-ts]")) b.addEventListener("click", () => { S.tsMode = b.dataset.ts; setTsMode(b.dataset.ts); });
-  $("ho-thr").addEventListener("input", drawHoldover);
-  $("ho-thr-reset").addEventListener("click", () => { if (S.ho && Number.isFinite(S.ho.threshold)) { $("ho-thr").value = String(S.ho.threshold); drawHoldover(); } });
-  $("sweep-run").addEventListener("click", runSweep);
-  $("sweep-knob").addEventListener("change", () => seedSweepRange(true));
-  $("sweep-knob2").addEventListener("change", () => seedSweepRange(true));
-  $("compare-clear").addEventListener("click", () => { S.pins = []; buildTabs(); selectTab(preferredTab(S.run)); });
-  $("json-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(JSON.stringify(S.run.result, null, 2)); toast("JSON copied."); } catch { toast("Copy is blocked here."); } });
-  $("json-download").addEventListener("click", () => { const meta = fileMeta(S.run.result, S.version, S.run.toml); triggerDownload(new Blob([JSON.stringify(S.run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json")); });
-  $("cmdk-btn").addEventListener("click", openPalette);
-  $("pal-input").addEventListener("input", renderPalette);
-  $("pal-input").addEventListener("keydown", (e) => {
-    if (e.key === "ArrowDown") { e.preventDefault(); selPal(palSel + 1); }
-    else if (e.key === "ArrowUp") { e.preventDefault(); selPal(palSel - 1); }
-    else if (e.key === "Enter" && !(e.metaKey || e.ctrlKey)) { e.preventDefault(); const it = palItems[palSel]; if (it) { closePalette(); it.run(); } }
-  });
-  $("palette").addEventListener("mousedown", (e) => { if (e.target.id === "palette") closePalette(); });
-  $("btn-history").addEventListener("click", () => ($("history").hidden ? openHistory() : closeHistory()));
-  $("history-close").addEventListener("click", closeHistory);
-  $("btn-tour").addEventListener("click", startTour);
-  $("btn-theme").addEventListener("click", toggleTheme);
-  const shareBtn = $("btn-share"), menu = $("share-menu");
-  const setMenu = (open) => { menu.hidden = !open; shareBtn.setAttribute("aria-expanded", open ? "true" : "false"); if (open) menu.querySelector("button").focus(); };
-  shareBtn.addEventListener("click", () => setMenu(menu.hidden));
-  menu.addEventListener("click", (e) => {
-    const b = e.target.closest("button");
-    if (!b) return;
-    setMenu(false);
-    if (b.dataset.act === "share-link") copyShareLink();
-    else if (b.dataset.act === "embed-code") copyEmbedCode();
-    else if (b.dataset.act === "embed-open") window.open(embedUrl(), "_blank", "noopener");
-    else if (b.dataset.act === "exports") { closeStart(); selectTab("exports", { scroll: true }); }
-  });
-  document.addEventListener("click", (e) => { if (!menu.hidden && !e.target.closest(".menu-wrap")) setMenu(false); });
-  bindDash();
-  $("tabs").addEventListener("keydown", (e) => {
-    if (e.key === "ArrowRight") { e.preventDefault(); cycleTab(1); }
-    else if (e.key === "ArrowLeft") { e.preventDefault(); cycleTab(-1); }
-  });
-  document.addEventListener("keydown", (e) => {
-    const mod = e.metaKey || e.ctrlKey;
-    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || "");
-    if (tour.on) {
-      if (e.key === "Escape") endTour();
-      else if (e.key === "ArrowRight") tour.refs.next.click();
-      else if (e.key === "ArrowLeft" && tour.i > 0) tour.refs.back.click();
-      else if (e.key === "Tab") { const f = [...tour.el.querySelectorAll("button:not(:disabled)")]; const i = f.indexOf(document.activeElement); e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus(); }
-      return;
-    }
-    if (mod && e.key.toLowerCase() === "k") { e.preventDefault(); if ($("palette").hidden) openPalette(); else closePalette(); return; }
-    if (mod && e.key === "Enter") { e.preventDefault(); closePalette(); runScenario(); return; }
-    if (e.key === "Escape") { const mx = document.querySelector(".is-max"); if (!$("palette").hidden) closePalette(); else if (mx) toggleMax(mx); else if (!$("history").hidden) closeHistory(); else if (!menu.hidden) setMenu(false); else if ($("app").dataset.lib === "open") closeLibDrawer(); else if ($("app").dataset.drawer === "open" && RAIL_MQ.matches) setDrawer(false); return; }
-    if (typing) return;
-    if (e.key === "/") { e.preventDefault(); if (!$("start").hidden) $("start-search").focus(); else if (RAIL_MQ.matches) openLibDrawer(); else $("lib-search").focus(); }
-    else if (e.key === "]") cycleTab(1);
-    else if (e.key === "[") cycleTab(-1);
-  });
-}
-
-// Install commands, from the site's channels.json (generated from the repository at build time).
-async function paintChannels() {
-  const box = $("install-line");
-  if (!box) return;
-  try {
-    const d = await (await fetch("channels.json")).json();
-    const pick = ["cli", "python", "npm", "mcp"].map((id) => d.channels.find((c) => c.id === id)).filter(Boolean);
-    box.replaceChildren(h("span", { class: "lbl", text: `Install v${d.version}` }), ...pick.map((c) => h("button", { class: "cmd-chip", type: "button", title: `Copy: ${c.command}`, "data-cmd": c.command, text: c.command })));
-    for (const b of box.querySelectorAll("button")) b.addEventListener("click", () => { navigator.clipboard && navigator.clipboard.writeText(b.dataset.cmd); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); });
-  } catch { box.hidden = true; }
-}
-
-
-// ------------------------------------------------------------------ the dashboard: steps, where you are, drawers
-// One flow on every scenario, shown as steps: 1 Choose, 2 Set, 3 Run, 4 Read results, 5 Share
-// or export. The current step is marked and the next action is the most prominent control.
-const STEP_ORDER = ["choose", "set", "run", "read", "share"];
-function currentStep() {
-  if (!$("start").hidden) return "choose";
-  if (job.active) return "run";
-  const stale = !S.run || S.run.file !== S.file || S.run.toml !== tomlEl.value;
-  if (stale) return $("app").dataset.drawer === "open" ? "set" : "run";
-  return "read";
-}
+// The one primary action, Run again, says what it will do.
 function updateSteps() {
-  if (!$("steps")) return;
-  const cur = currentStep(), ci = STEP_ORDER.indexOf(cur);
-  for (const b of $("steps").querySelectorAll("button")) {
-    const i = STEP_ORDER.indexOf(b.dataset.step);
-    b.dataset.state = i < ci ? "done" : i === ci ? "current" : i === ci + 1 ? "next" : "";
-    if (i === ci) b.setAttribute("aria-current", "step"); else b.removeAttribute("aria-current");
+  const run = $("run");
+  if (!run) return;
+  const stale = !!S.run && (S.run.file !== S.file || S.run.toml !== tomlEl.value);
+  const label = $("run-label");
+  if (!S.engine && S.mode === "loading") {
+    label.textContent = S.pendingRun ? "Will run when the engine is ready" : "Run when the engine is ready";
+    run.disabled = false;
+    if (!job.active) setStatus(stale || S.pendingRun ? "The engine is still loading. Your changes are kept and run as soon as it is ready." : "The engine is still loading. The result above is a recorded run.", "busy");
+  } else if (S.mode === "none") {
+    label.textContent = "Run again"; run.disabled = true;
+  } else {
+    label.textContent = stale ? "Run with these settings" : "Run again";
+    run.disabled = job.active;
+    if (!job.active) {
+      if (stale) setStatus("Your changes are not run yet.", "");
+      else if (S.run && S.run.mode === "live") setStatus(`The last run took ${Math.max(1, Math.round(S.run.ms))} ms in your browser. Nothing is uploaded.`, "ran");
+      else if (S.mode === "recorded") setStatus("WebAssembly is blocked here, so this shows recorded runs of the bundled scenarios.", "");
+      else setStatus("Runs in your browser. Nothing is uploaded.", "");
+    }
   }
-  // After an edit the next action is Run; after a run it is reading, then sharing.
-  $("run").classList.toggle("is-next", cur === "run" || cur === "set");
-  $("btn-share").classList.toggle("is-next", cur === "read");
-  const phoneStep = cur === "choose" ? "choose" : $("app").dataset.drawer === "open" && PHONE_MQ.matches ? "set" : "results";
-  for (const b of $("mob").children) b.setAttribute("aria-pressed", b.dataset.mstep === phoneStep ? "true" : "false");
+  run.classList.toggle("is-next", stale);
 }
-function goStep(step) {
-  if (step === "choose") { if (RAIL_MQ.matches || !$("start").hidden) openStart(); else { $("lib-search").focus(); openStart(); } }
-  else if (step === "set") { closeStart(); setDrawer(true); }
-  else if (step === "run") { closeStart(); runScenario(); }
-  else if (step === "read") { closeStart(); if (PHONE_MQ.matches) setDrawer(false); const k = $("kpis-wrap"); (k.hidden ? $("results") : k).scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" }); }
-  else if (step === "share") { closeStart(); selectTab("exports", { scroll: true }); }
+function pressRun() {
+  if (!S.engine) { S.pendingRun = true; updateSteps(); toast("The engine is still loading. Your run starts as soon as it is ready."); return; }
+  runScenario();
 }
 
-// Breadcrumbs: Studio › Domain › Scenario › Panel. Each part but the last is a way back.
+// Breadcrumbs: Studio › Area › Scenario. Each part but the last is a link back.
 function updateCrumbs() {
   const host = $("crumbs");
-  if (!host) return;
+  if (!host || !route) return;
   const parts = [];
   const sep = () => h("span", { class: "sep", "aria-hidden": "true", text: "›" });
-  const entry = S.shared ? null : entryFor(S.file);
-  const startOpen = !$("start").hidden;
-  const dom = startOpen ? (S.startDomain ? domainOf(S.startDomain) : null) : entry ? domainOf(entry.domain) : null;
-  parts.push(h("button", { type: "button", class: "cr", text: "Studio", title: "The start screen: every domain", onclick: () => openStart() }));
-  if (dom) parts.push(sep(), h("button", { type: "button", class: "cr", style: `--c:${dom.color}`, onclick: () => openStart({ domain: dom.id }) }, h("i", { class: "dot" }), dom.label));
-  if (!startOpen && (entry || S.shared)) {
-    parts.push(sep(), h("button", { type: "button", class: "cr", text: entry ? entry.title : "Shared scenario", onclick: () => $("results").scrollTo({ top: 0, behavior: reducedMotion() ? "auto" : "smooth" }) }));
-    const d = TAB_DEFS.find((t) => t.id === S.activeTab);
-    if (d && S.run) parts.push(sep(), h("span", { class: "cr here", "aria-current": "page", text: d.label }));
+  const link = (text, href, extra = {}) => h("a", { class: "cr", href, ...extra }, text);
+  const here = (text) => h("span", { class: "cr", "aria-current": "page", text });
+  if (route.screen === "home") parts.push(here("Studio"));
+  else parts.push(link("Studio", "./"));
+  if (route.screen === "domain") { const d = domainOf(route.domain); parts.push(sep(), here(d ? d.label : "Area")); }
+  if (route.screen === "browse") parts.push(sep(), here(route.q ? `Search: ${route.q}` : "All scenarios"));
+  if (route.screen === "task") {
+    const entry = S.shared ? null : entryFor(route.scenario);
+    const d = entry ? domainOf(entry.domain) : null;
+    if (d) parts.push(sep(), link(d.label, `?domain=${encodeURIComponent(d.id)}`));
+    parts.push(sep(), here(entry ? entry.title : "Shared scenario"));
   }
-  const last = parts[parts.length - 1];
-  if (last && last.tagName === "BUTTON" && !last.classList.contains("here")) last.setAttribute("aria-current", "page");
   host.replaceChildren(...parts);
 }
 
-// 2 Set: the parameters drawer (a side column on wide screens, an overlay on tablets, a sheet on phones).
-function setDrawer(open, { focus = true } = {}) {
-  $("app").dataset.drawer = open ? "open" : "closed";
-  $("btn-params").setAttribute("aria-expanded", open ? "true" : "false");
-  try { if (!PHONE_MQ.matches) localStorage.setItem("kshana-studio-drawer", open ? "1" : "0"); } catch { /* storage blocked */ }
-  syncScrim();
-  updateSteps();
-  if (open && focus && RAIL_MQ.matches) setTimeout(() => $("params-close").focus(), 30);
+// The field index over every bundled scenario (lib/finder.mjs), built once.
+let fieldIdxPromise = null;
+function ensureFieldIndex() {
+  if (!fieldIdxPromise) fieldIdxPromise = scenarioBundle().then((b) => { S.fieldIdx = fieldIndex(b || {}); return S.fieldIdx; });
+  return fieldIdxPromise;
+}
+// Open a scenario at one of its settings: highlighted and focused, under Advanced if need be.
+async function jumpToField(file, id) {
+  if (S.file !== file || S.shared || !route || route.screen !== "task") await openScenario(file);
+  const esc = (x) => (window.CSS && CSS.escape ? CSS.escape(x) : x.replace(/["\\]/g, "\\$&"));
+  $("field-find").value = "";
+  applyFieldFind();
+  let el = $("knobs").querySelector(`[data-field-id="${esc(id)}"]`);
+  if (!el) { $("adv").open = true; el = $("fields").querySelector(`.field[data-field-id="${esc(id)}"]`); }
+  for (const x of document.querySelectorAll(".knob.hit, .field.hit")) x.classList.remove("hit");
+  if (!el) { toast("That setting is not a single number in this scenario: edit it in the scenario file."); return; }
+  el.classList.add("hit");
+  el.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" });
+  const inp = el.querySelector("input");
+  if (inp) inp.focus({ preventScroll: true });
+  toast(`Opened at ${el.dataset.label || id}. Change it, then run again.`);
+}
+
+// ------------------------------------------------------------------ the opening screen
+// One line per area: lib/catalog.mjs DOMAIN_LINES (search reads it too).
+const DOMAIN_LINE = DOMAIN_LINES;
+const DOM_ICONS = ["interference", "spectrum", "spoofing", "timing", "navigation", "integrity", "orbits", "constellations", "leo", "leo-missions", "campaigns", "spaceops", "deepspace", "solar", "studies"];
+const domIcon = (id) => icon(`d-${DOM_ICONS.includes(id) ? id : "optional"}`);
+const HERO_FILE = "constellation-multi-gnss-coverage.toml";
+const scenarioHref = (file, tab) => `?scenario=${encodeURIComponent(file.replace(/\.toml$/, ""))}${tab ? `&tab=${encodeURIComponent(tab)}` : ""}`;
+
+let areasPromise = null;
+function loadAreas(dirs) {
+  if (!areasPromise) areasPromise = Promise.all(dirs.map((d) => fetch(`${d ? d : "data/"}areas.json`).then((x) => (x.ok ? x.json() : null)).catch(() => null)))
+    .then((all) => { const base = all[0] || { areas: [], levels: {} }; return { ...base, areas: all.flatMap((a) => (a ? a.areas : [])) }; });
+  return areasPromise;
+}
+// A tile's preview, drawn from the recorded points in data/areas.json.
+function previewSvg(p) {
+  const W = 120, H = 26;
+  if (!p) return null;
+  if (p.type === "line") {
+    const d = p.points.map((q, i) => `${i ? "L" : "M"}${(q[0] * W).toFixed(1)} ${(H - 2 - q[1] * (H - 4)).toFixed(1)}`).join(" ");
+    return svgNode(`<svg xmlns="http://www.w3.org/2000/svg" class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><path class="ln" d="${d}"/></svg>`);
+  }
+  if (p.type === "heat") {
+    const rows = p.cells.length, cols = p.cells[0].length, cw = W / cols, ch = H / rows;
+    let s = `<svg xmlns="http://www.w3.org/2000/svg" class="spark" viewBox="0 0 ${W} ${H}" preserveAspectRatio="none" aria-hidden="true"><g class="hm">`;
+    p.cells.forEach((row, i) => row.forEach((v, j) => { s += `<rect x="${(j * cw).toFixed(2)}" y="${(i * ch).toFixed(2)}" width="${(cw + 0.3).toFixed(2)}" height="${(ch + 0.3).toFixed(2)}" opacity="${(0.15 + 0.85 * v).toFixed(2)}"/>`; }));
+    return svgNode(s + "</g></svg>");
+  }
+  if (p.type === "figure") return h("span", { class: "spark-fig", "aria-hidden": "true" }, h("b", { text: p.value }), p.unit ? h("small", { text: ` ${p.unit}` }) : null);
+  return null;
+}
+// The honest mix: two parts, validated and modelled, as counted in the verification matrix.
+function evidenceBar(mix) {
+  const n = mix.validated + mix.modelled;
+  const v = n ? Math.round((100 * mix.validated) / n) : 0;
+  return h("span", { class: "ev", role: "img", "aria-label": `${mix.validated} validated and ${mix.modelled} modelled verification-matrix rows`, title: `${mix.validated} validated · ${mix.modelled} modelled rows in the verification matrix` },
+    h("span", { class: "ev-bar" }, h("i", { class: "v", style: `width:${v}%` }), h("i", { class: "m", style: `width:${100 - v}%` })),
+    h("span", { class: "ev-t" }, h("b", { text: `${v}%` }), " validated"));
+}
+
+let heroTimer = 0;
+async function renderHome() {
+  const dirs = S.groupDirs || [""];
+  // The hero is the recorded coverage run (data/hero.json: the same result, without the engine's chart).
+  const heroRec = fetch("data/hero.json").then((x) => (x.ok ? x.json() : null)).catch(() => null).then((x) => x || loadRecorded(HERO_FILE).catch(() => null));
+  const [data, rec] = await Promise.all([loadAreas(dirs), heroRec]);
+  // Legend: the two levels, each with its one-line meaning.
+  if (data && data.levels) $("legend").replaceChildren(...["validated", "modelled"].map((k) => h("li", {}, lvlChip(k), h("span", { text: data.levels[k] }))));
+  // The whole engine at a glance, from the generated ledger (lib/counts.mjs refuses a summary that disagrees with its rows).
+  (S.engineReady || Promise.resolve()).then(loadMatrix).then((ledger) => { if (!ledger) return; try { const m = matrixCounts(ledger); $("legend").append(h("li", { class: "lg-all" }, h("b", { text: `${m.validated} of ${m.total}` }), h("span", { text: `engine capabilities are validated across the whole verification matrix; ${m.modelled} are modelled and ${m.partner} are owned by partners.` }))); } catch { /* a ledger that disagrees with itself is not shown */ } });
+  const total = SCENARIOS.length;
+  $("cap-sub").textContent = `${data.areas.length} areas, ${total} ready-to-run scenarios. Each area shows a real recorded result and the mix of evidence behind it: the share of its engine methods validated against an outside reference.`;
+  const tiles = $("tiles");
+  tiles.replaceChildren(...data.areas.filter((a) => entryFor(a.first)).map((a) => {
+    const p = a.preview;
+    const pv = previewSvg(p);
+    const e = p && entryFor(p.file);
+    return h("a", { class: "tile", href: `?domain=${encodeURIComponent(a.id)}`, "data-domain": a.id, style: `--c:${a.color}`, title: DOMAIN_LINE[a.id] || a.label },
+      h("span", { class: "t-head" }, domIcon(a.id), h("b", { text: a.label })),
+      pv ? h("span", { class: "t-pv", role: "img", "aria-label": `Recorded preview from ${e ? e.title : p.file}: ${p.title}` }, pv) : null,
+      h("span", { class: "t-foot" }, h("span", { class: "n", text: `${a.count} scenario${a.count === 1 ? "" : "s"}` }), evidenceBar(a.mix)));
+  }), h("a", { class: "tile all", href: "?browse=1" }, h("span", { class: "t-head" }, icon("i-list"), h("b", { text: `Browse all ${total} scenarios` })), h("span", { class: "all-sub", text: "Search by name, question or setting" }), h("svg", { class: "go" })));
+  tiles.lastChild.lastChild.replaceWith(icon("i-arrow"));
+  tiles.lastChild.lastChild.classList.add("go");
+  if (rec) paintHero(rec);
+}
+function paintHero(rec) {
+  let r;
+  try { r = JSON.parse(rec.json); } catch { return; }
+  const mean = plainMeaning(r, rec.toml);
+  const seen = new Set();
+  $("hero-answer").textContent = mean ? spellOut(`${mean.big} ${mean.line}`, seen) : "";
+  $("hero-rec").textContent = `Recorded result · v${r.engine_version || rec.engine_version || S.version || ""}`.replace(/ · v$/, "");
+  const figs = $("hero-figs");
+  figs.replaceChildren(...(mean ? mean.cards : []).map((c) => h("div", { "data-path": c.path || null }, h("dt", { text: c.label }), h("dd", {}, c.value, c.unit ? h("small", { text: c.unit }) : null))));
+  const hn = honesty(r);
+  const inp = r.inputs || {};
+  const places = r.grid && Array.isArray(r.grid.lat_deg) && Array.isArray(r.grid.lon_deg) ? r.grid.lat_deg.length * r.grid.lon_deg.length : null;
+  $("hero-meta").replaceChildren(hn ? lvlChip(hn.tier, hn.text) : "", " ", [Number.isFinite(r.total_satellites) ? `${r.total_satellites} satellites` : "", Number.isFinite(inp.mask_deg) ? `${inp.mask_deg}° elevation mask` : "", places ? `${places} places` : "", Number.isFinite(inp.epochs) ? `${inp.epochs} time steps` : ""].filter(Boolean).join(", ") + ". Satellite positions only: no signal power, satellite health or terrain.");
+  const fields = G.coverageFields(r);
+  const field = (fields.find((f) => /visible/.test(f.key)) || fields[0] || {}).key;
+  const tr = r.tracks && Array.isArray(r.tracks.times_s) ? r.tracks : null;
+  const names = G.coverageLegend(r);
+  const box = $("hero-map");
+  const span = tr ? tr.times_s[tr.times_s.length - 1] - tr.times_s[0] : 0;
+  let k = 0, c = null;
+  const draw = () => {
+    c = G.coverageSvg(r, { field, k, land: S.land || [] });
+    setSvg(box, c.svg);
+    if (tr) $("hero-clock").textContent = `${plainDuration(tr.times_s[k] - tr.times_s[0])} of ${plainDuration(span)}`;
+  };
+  draw();
+  if (c) $("hero-cap").replaceChildren(h("span", { class: "ramp-l" }, h("i", { class: "ramp", style: `background:linear-gradient(90deg,${(c.field.lowerBetter ? [1, .75, .5, .25, 0] : [0, .25, .5, .75, 1]).map(V.heat).join(",")})` }), `${V.fmt(c.range[0], 3)} to ${V.fmt(c.range[1], 3)} ${c.field.label.toLowerCase()}${span ? `, over ${plainDuration(span)}` : ""}`),
+    h("ul", { class: "cons" }, names.map((n) => h("li", {}, h("i", { class: "sw", style: `background:${n.color}` }), n.name))));
+  clearInterval(heroTimer);
+  if (tr && !reducedMotion()) heroTimer = setInterval(() => { if ($("home").hidden || document.hidden) return; k = (k + 1) % tr.times_s.length; draw(); }, 420);
+  S.heroRedraw = draw;
+}
+
+// ------------------------------------------------------------------ an area, or every scenario
+function hitLink(e, extra = null) {
+  const d = domainOf(e.domain);
+  return h("a", { class: "start-hit", href: scenarioHref(e.file), "data-file": e.file, style: `--c:${d ? d.color : "var(--ink-3)"}` },
+    h("b", { text: e.title }), h("span", { text: e.question }), h("span", { class: "meta" }, d ? d.label : "", NOT_IN_BROWSER[e.file] ? " · recorded run, native engine" : ""), extra);
+}
+async function renderBrowse(st) {
+  const host = $("start-results"), ev = $("browse-evidence");
+  ev.hidden = true;
+  $("browse").dataset.mode = st.screen;
+  if (st.screen === "domain") {
+    const d = domainOf(st.domain);
+    if (!d) { navigate({ screen: "browse", q: "" }, { replace: true }); return; }
+    const items = SCENARIOS.filter((s) => s[1] === d.id).map((s) => entryFor(s[0])).filter(Boolean);
+    const kick = $("browse-kicker");
+    kick.style.setProperty("--c", d.color);
+    kick.querySelector("i").style.background = d.color;
+    kick.querySelector("span").textContent = `Area · ${items.length} scenario${items.length === 1 ? "" : "s"}`;
+    $("browse-h").textContent = d.label;
+    $("browse-lede").textContent = `${DOMAIN_LINE[d.id] || ""} Pick one: it opens on its result straight away.`.trim();
+    $("start-search").value = "";
+    $("start-search").closest(".search").hidden = true;
+    host.replaceChildren(h("div", { class: "start-hits" }, items.map((e) => hitLink(e))));
+    const data = await loadAreas(S.groupDirs || [""]);
+    const a = data.areas.find((x) => x.id === d.id);
+    if (a && route && route.domain === d.id) {
+      ev.hidden = false;
+      ev.replaceChildren(h("p", {}, h("b", { text: "Evidence behind this area. " }), `The engine methods its scenarios run have ${a.mix.validated} validated and ${a.mix.modelled} modelled rows in the verification matrix.`), evidenceBar(a.mix),
+        a.examples && a.examples.validated.length ? h("p", { class: "fine", text: `Validated, for example: ${a.examples.validated.join("; ")}.` }) : "");
+    }
+    return;
+  }
+  const kick = $("browse-kicker");
+  kick.querySelector("i").style.background = "var(--ink-3)";
+  kick.querySelector("span").textContent = "Browse";
+  $("browse-h").textContent = `All ${SCENARIOS.length} scenarios`;
+  $("browse-lede").textContent = "Search, or pick an area. Every scenario opens on its result straight away.";
+  $("start-search").closest(".search").hidden = false;
+  if ($("start-search").value !== st.q) $("start-search").value = st.q || "";
+  if (st.q) { await startSearch(); return; }
+  host.replaceChildren(...groupedLibrary("").flatMap((g) => [h("h3", {}, h("a", { href: `?domain=${encodeURIComponent(g.domain.id)}`, class: "grp", style: `--c:${g.domain.color}` }, h("i", { class: "dot" }), `${g.domain.label} · ${g.items.length}`)), h("div", { class: "start-hits" }, g.items.map((e) => hitLink(e)))]));
+}
+async function startSearch() {
+  const q = $("start-search").value.trim();
+  const host = $("start-results");
+  if (!q) { renderBrowse({ screen: "browse", q: "" }); return; }
+  await ensureFieldIndex();
+  if ($("start-search").value.trim() !== q) return;
+  const words = q.toLowerCase().split(/\s+/);
+  const doms = DOMAINS.filter((d) => SCENARIOS.some((s) => s[1] === d.id) && words.every((w) => `${d.label} ${DOMAIN_LINE[d.id] || ""}`.toLowerCase().includes(w)));
+  const scen = searchScenarios(q); // title and domain matches first
+  const fields = findFields(S.fieldIdx, q, 400);
+  const out = [];
+  if (doms.length) out.push(h("h3", { text: "Areas" }), h("div", { class: "start-doms" }, doms.map((d) => h("a", { class: "start-dom", href: `?domain=${encodeURIComponent(d.id)}`, style: `--c:${d.color}` }, h("span", { class: "ic" }, domIcon(d.id)), d.label))));
+  if (scen.length) out.push(h("h3", { text: `Scenarios (${scen.length})` }), h("div", { class: "start-hits" }, scen.slice(0, 24).map((e) => hitLink(e))));
+  if (fields.length) {
+    out.push(h("h3", { text: `Settings named like “${q}”: in ${scenarioCount(fields)} scenario${scenarioCount(fields) === 1 ? "" : "s"}` }), h("p", { class: "hint", text: "Each opens the scenario with that setting highlighted, ready to change." }));
+    out.push(h("div", { class: "start-hits" }, fields.slice(0, 24).map((x) => { const e = entryFor(x.file); const d = e ? domainOf(e.domain) : null; return h("button", { class: "start-hit field", type: "button", "data-file": x.file, "data-field": x.id, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => jumpToField(x.file, x.id) }, h("b", { text: x.label }), h("span", { text: `in ${e ? e.title : x.file}` }), h("span", { class: "meta", text: `${d ? d.label : ""} · setting ${x.section ? x.section + "." : ""}${x.key}` })); })));
+    if (fields.length > 24) out.push(h("p", { class: "hint", text: `${fields.length - 24} more matches: add a word to narrow them.` }));
+  }
+  if (!out.length) out.push(h("p", { class: "hint", text: `Nothing matches “${q}”. Try a word like jamming, clock, lunar, orbit, mask or PDOP.` }));
+  host.replaceChildren(...out);
+}
+
+// ------------------------------------------------------------------ compare
+function openCompare() {
+  if (!S.pins.length) { pinRun(); return; }
+  if (S.pins.length === 1 && !S.pins.includes(S.run)) { pinRun(); return; }
+  if (!available.includes("compare")) buildTabs();
+  selectTab("compare", { scroll: true });
+  if (S.pins.length < 2) toast("One run is pinned. Change a setting, run again, and pin that run to compare the two.");
 }
 
 // Find a field of this scenario: filter the controls, guided and all.
@@ -2381,142 +2501,26 @@ function applyFieldFind() {
   for (const el of fields) el.hidden = !!q && !okF.has(el.dataset.fieldId);
   for (const sec of $("fields").querySelectorAll(".fsec")) { let n = sec.nextElementSibling, any = false; while (n && !n.classList.contains("fsec")) { if (n.classList.contains("field") && !n.hidden) any = true; n = n.nextElementSibling; } sec.hidden = !!q && !any; }
   if (!q) { note.hidden = true; return; }
-  if (!okK.size && okF.size && S.pview === "guided") setPview("all");
+  if (okF.size && !okK.size) $("adv").open = true;
   note.hidden = false;
   note.textContent = okK.size + okF.size ? `${okK.size} guided control${okK.size === 1 ? "" : "s"} and ${okF.size} of ${fields.length} fields match “${q}”.` : `No field of this scenario matches “${q}”. Search every scenario with the library search.`;
 }
 
-// The field index over every bundled scenario (lib/finder.mjs), built once.
-let fieldIdxPromise = null;
-function ensureFieldIndex() {
-  if (!fieldIdxPromise) fieldIdxPromise = scenarioBundle().then((b) => { S.fieldIdx = fieldIndex(b || {}); return S.fieldIdx; });
-  return fieldIdxPromise;
-}
-// Open a scenario at one of its fields: the drawer opens and the control is highlighted and focused.
-async function jumpToField(file, id) {
-  closeStart();
-  if (S.file !== file || S.shared) await loadScenario(file);
-  $("field-find").value = "";
-  applyFieldFind();
-  setDrawer(true, { focus: false });
-  const esc = (x) => (window.CSS && CSS.escape ? CSS.escape(x) : x.replace(/["\\]/g, "\\$&"));
-  let el = $("knobs").querySelector(`.knob[data-field-id="${esc(id)}"]`);
-  if (el) setPview("guided");
-  else { S.pviewChosen = true; setPview("all"); el = $("fields").querySelector(`.field[data-field-id="${esc(id)}"]`); }
-  for (const x of document.querySelectorAll(".knob.hit, .field.hit")) x.classList.remove("hit");
-  if (!el) { toast("That field is not a single number in this scenario: edit it in the source."); return; }
-  el.classList.add("hit");
-  el.scrollIntoView({ block: "center", behavior: reducedMotion() ? "auto" : "smooth" });
-  const inp = el.querySelector("input");
-  if (inp) inp.focus({ preventScroll: true });
-  toast(`Opened at ${el.dataset.label || id}. Change it and the scenario re-runs.`);
+
+
+// Install commands, from the site's channels.json (generated from the repository at build time).
+async function paintChannels() {
+  const box = $("install-line");
+  if (!box) return;
+  try {
+    const d = await (await fetch("channels.json")).json();
+    const pick = ["cli", "python", "npm", "mcp"].map((id) => d.channels.find((c) => c.id === id)).filter(Boolean);
+    box.replaceChildren(h("span", { class: "lbl", text: `Install v${d.version}` }), ...pick.map((c) => h("button", { class: "cmd-chip", type: "button", title: `Copy: ${c.command}`, "data-cmd": c.command, text: c.command })));
+    for (const b of box.querySelectorAll("button")) b.addEventListener("click", () => { navigator.clipboard && navigator.clipboard.writeText(b.dataset.cmd); b.classList.add("copied"); setTimeout(() => b.classList.remove("copied"), 1200); });
+  } catch { box.hidden = true; }
 }
 
-// ------------------------------------------------------------------ the start screen
-const DOMAIN_LINE = {
-  interference: "Jammers against GNSS receivers: what is lost, and when.",
-  spectrum: "Waterfalls of the radio band: jammers, signals and what the receiver tracks.",
-  spoofing: "False signals and meaconing, and the monitors that catch them.",
-  timing: "Clocks without GNSS: holdover, stability, telecom masks, time transfer.",
-  navigation: "Inertial, terrain, gravity and other navigation without GNSS.",
-  integrity: "Position fixes and whether they can be trusted: RAIM (receiver autonomous integrity monitoring) and its advanced form, ARAIM.",
-  orbits: "Orbit propagation, ephemerides and GNSS geometry.",
-  constellations: "Design a constellation and map its coverage and PDOP (position dilution of precision).",
-  leo: "Low Earth orbit navigation signals, passes, messages and fixes.",
-  "leo-missions": "Studies and services built on a low Earth orbit layer.",
-  campaigns: "Chained missions, sweeps and Monte Carlo runs on one clock.",
-  spaceops: "Passes, launch windows, re-entry, link and attitude budgets.",
-  deepspace: "Navigation and time at the Moon, in cislunar space and at Mars.",
-  solar: "Every planet and moon at one epoch, with light times.",
-  studies: "Quantum sensors, trade studies and interoperability formats.",
-};
-const SUGGEST = [
-  ["l-band-waterfall-jamming.toml", "Watch a jammer on the L-band waterfall"],
-  ["constellation-multi-gnss-coverage.toml", "Map the coverage of four GNSS (global navigation satellite system) constellations"],
-  ["campaign-jam-spoof-holdover-integrity.toml", "Replay a jam, spoof and holdover mission"],
-  ["clock-holdover.toml", "Hold time when GNSS is lost"],
-];
-const domIcon = (id) => icon(`d-${["interference", "spectrum", "spoofing", "timing", "navigation", "integrity", "orbits", "constellations", "leo", "leo-missions", "campaigns", "spaceops", "deepspace", "solar", "studies"].includes(id) ? id : "optional"}`);
-function renderStart() {
-  const tiles = $("start-tiles");
-  tiles.replaceChildren();
-  for (const d of DOMAINS) {
-    const n = SCENARIOS.filter((s) => s[1] === d.id).length;
-    if (!n) continue;
-    tiles.append(h("button", { class: "start-tile", type: "button", "data-domain": d.id, style: `--c:${d.color}`, onclick: () => showDomain(d.id) },
-      h("span", { class: "ic" }, domIcon(d.id)), h("b", { text: d.label }), h("span", { class: "ln", text: DOMAIN_LINE[d.id] || "An optional group of scenarios." }), h("span", { class: "n", text: `${n} scenario${n === 1 ? "" : "s"}` })));
-  }
-  const sug = $("start-suggest");
-  sug.replaceChildren(...SUGGEST.filter(([f]) => entryFor(f)).map(([f, why]) => { const e = entryFor(f), d = domainOf(e.domain); return h("button", { type: "button", "data-file": f, style: `--c:${d.color}`, onclick: () => { closeStart(); loadScenario(f); } }, h("span", { class: "ic" }, domIcon(e.domain)), h("b", { text: why }), h("span", { text: `${e.title} · ${d.label}` }), h("span", { class: "go" }, "Open and run ", icon("i-arrow"))); }));
-}
-function hitButton(e, extra = null) {
-  const d = domainOf(e.domain);
-  return h("button", { class: "start-hit", type: "button", "data-file": e.file, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => { closeStart(); loadScenario(e.file); } },
-    h("b", { text: e.title }), h("span", { text: e.question }), h("span", { class: "meta" }, d ? d.label : "", NOT_IN_BROWSER[e.file] ? " · recorded run, native engine" : ""), extra);
-}
-function showDomain(id) {
-  S.startDomain = id;
-  $("start-search").value = "";
-  const d = domainOf(id);
-  const items = SCENARIOS.filter((s) => s[1] === id).map((s) => entryFor(s[0])).filter(Boolean);
-  $("start-results").replaceChildren(h("div", { class: "start-res-head" }, h("h2", {}, h("span", { class: "ic", style: `--c:${d.color}` }, domIcon(id)), `${d.label}: ${items.length} scenario${items.length === 1 ? "" : "s"}`), h("button", { type: "button", class: "btn-mini", text: "All domains", onclick: () => { S.startDomain = null; $("start-results").replaceChildren(); updateCrumbs(); } })), h("p", { class: "hint", text: "Pick one: it opens and runs in your browser. You can change its parameters next." }), h("div", { class: "start-hits" }, items.map((e) => hitButton(e))));
-  updateCrumbs();
-  const first = $("start-results").querySelector(".start-hit");
-  $("start-results").scrollIntoView({ block: "start", behavior: reducedMotion() ? "auto" : "smooth" });
-  if (first) first.focus({ preventScroll: true });
-}
-async function startSearch() {
-  const q = $("start-search").value.trim();
-  const host = $("start-results");
-  S.startDomain = null;
-  if (!q) { host.replaceChildren(); updateCrumbs(); return; }
-  await ensureFieldIndex();
-  if ($("start-search").value.trim() !== q) return;
-  const words = q.toLowerCase().split(/\s+/);
-  const doms = DOMAINS.filter((d) => SCENARIOS.some((s) => s[1] === d.id) && words.every((w) => `${d.label} ${DOMAIN_LINE[d.id] || ""}`.toLowerCase().includes(w)));
-  const scen = searchScenarios(q); // title and domain matches first
-  const fields = findFields(S.fieldIdx, q, 400);
-  const out = [];
-  if (doms.length) out.push(h("h3", { text: "Domains" }), h("div", { class: "start-doms" }, doms.map((d) => h("button", { type: "button", class: "start-dom", style: `--c:${d.color}`, onclick: () => showDomain(d.id) }, h("span", { class: "ic" }, domIcon(d.id)), d.label))));
-  if (scen.length) out.push(h("h3", { text: `Scenarios (${scen.length})` }), h("div", { class: "start-hits" }, scen.slice(0, 12).map((e) => hitButton(e))));
-  if (fields.length) {
-    out.push(h("h3", { text: `Fields named like “${q}”: in ${scenarioCount(fields)} scenario${scenarioCount(fields) === 1 ? "" : "s"}` }), h("p", { class: "hint", text: "Each opens the scenario with that control highlighted, ready to change." }));
-    out.push(h("div", { class: "start-hits" }, fields.slice(0, 24).map((x) => { const e = entryFor(x.file); const d = e ? domainOf(e.domain) : null; return h("button", { class: "start-hit field", type: "button", "data-file": x.file, "data-field": x.id, style: `--c:${d ? d.color : "var(--ink-3)"}`, onclick: () => jumpToField(x.file, x.id) }, h("b", { text: x.label }), h("span", { text: `in ${e ? e.title : x.file}` }), h("span", { class: "meta", text: `${d ? d.label : ""} · field ${x.section ? x.section + "." : ""}${x.key}` })); })));
-    if (fields.length > 24) out.push(h("p", { class: "hint", text: `${fields.length - 24} more matches: add a word to narrow them.` }));
-  }
-  if (!out.length) out.push(h("p", { class: "hint", text: `Nothing matches “${q}”. Try a word like jamming, clock, lunar, orbit, mask or PDOP.` }));
-  host.replaceChildren(...out);
-  updateCrumbs();
-}
-function openStart({ domain = null } = {}) {
-  closeLibDrawer();
-  if (PHONE_MQ.matches || RAIL_MQ.matches) setDrawer(false);
-  $("start").hidden = false;
-  $("dash").hidden = true;
-  $("results").scrollTo({ top: 0 });
-  if (domain) showDomain(domain);
-  else { S.startDomain = null; if (!$("start-search").value) $("start-results").replaceChildren(); }
-  updateCrumbs();
-  updateSteps();
-  if (!domain && !PHONE_MQ.matches) $("start-search").focus({ preventScroll: true });
-}
-function closeStart() {
-  if ($("start").hidden) return;
-  $("start").hidden = true;
-  $("dash").hidden = false;
-  updateCrumbs();
-  updateSteps();
-}
 
-// ------------------------------------------------------------------ compare: key figures and overlays
-function openCompare() {
-  closeStart();
-  if (!S.pins.length) { pinRun(); return; }
-  if (S.pins.length === 1 && !S.pins.includes(S.run)) { pinRun(); return; }
-  if (!available.includes("compare")) buildTabs();
-  selectTab("compare", { scroll: true });
-  if (S.pins.length < 2) toast("One run is pinned. Change a parameter, run again, and pin that run to compare the two.");
-}
 function renderCompareExtras() {
   const card = $("compare-kpi-card"), t = $("compare-kpi"), ov = $("compare-overlays");
   card.hidden = true; t.replaceChildren(); ov.replaceChildren();
@@ -2582,155 +2586,271 @@ function decoratePanels() {
   }
 }
 
-// ------------------------------------------------------------------ bindings of the dashboard chrome
-function bindDash() {
-  for (const b of $("steps").querySelectorAll("button")) b.addEventListener("click", () => goStep(b.dataset.step));
-  $("btn-params").addEventListener("click", () => setDrawer($("app").dataset.drawer !== "open"));
-  $("params-close").addEventListener("click", () => { setDrawer(false); $("btn-params").focus(); });
-  $("btn-lib").addEventListener("click", () => (RAIL_MQ.matches ? openLibDrawer() : openStart()));
-  $("lib-close").addEventListener("click", closeLibDrawer);
-  $("btn-start").addEventListener("click", () => openStart());
-  $("btn-compare").addEventListener("click", openCompare);
-  $("scrim").addEventListener("click", () => { closeLibDrawer(); if (RAIL_MQ.matches) setDrawer(false); });
+
+// ------------------------------------------------------------------ screens and the address
+// The address is the state (lib/urlstate.mjs): every screen has its own link, and Back and
+// Forward move between screens. Views of one scenario replace the entry instead of adding one.
+let route = null;
+function setAddress(state, { push = false } = {}) {
+  const url = location.pathname + buildSearch(state, persistentExtras(state.extra || {})) ;
+  if (push) history.pushState(null, "", url); else history.replaceState(null, "", url);
+}
+function navigate(state, { replace = false } = {}) {
+  const next = { screen: "home", scenario: null, tab: null, domain: null, q: "", ...state, extra: persistentExtras((route && route.extra) || {}) };
+  setAddress(next, { push: !replace && isNewEntry(route, next) });
+  applyRoute(next);
+}
+function openScenario(file, tab = null) { return navigate({ screen: "task", scenario: file, tab }); }
+function showScreen(id) {
+  for (const s of ["home", "browse", "task"]) $(s).hidden = s !== id;
+  document.body.dataset.screen = id;
+}
+async function applyRoute(st) {
+  const prev = route;
+  route = st;
+  S.link = { play: st.extra && st.extra.play === "1", view: st.extra && st.extra.view, field: st.extra && st.extra.field, frame: st.extra && st.extra.frame };
+  if (st.screen === "task" && entryFor(st.scenario)) {
+    const same = prev && prev.screen === "task" && prev.scenario === st.scenario && S.file === st.scenario && !S.shared;
+    showScreen("task");
+    if (!same) { window.scrollTo(0, 0); await openTask(st.scenario, st.tab); }
+    else if (st.tab && st.tab !== S.activeTab && available.includes(st.tab)) selectTab(st.tab, { url: false });
+  } else if (st.screen === "domain" || st.screen === "browse") {
+    showScreen("browse");
+    if (!prev || prev.screen !== st.screen || prev.domain !== st.domain) window.scrollTo(0, 0);
+    document.title = `${st.screen === "domain" && domainOf(st.domain) ? domainOf(st.domain).label : "All scenarios"} · ${STUDIO_NAME}`;
+    await renderBrowse(st);
+  } else {
+    route = { ...st, screen: "home" };
+    showScreen("home");
+    window.scrollTo(0, 0);
+    document.title = STUDIO_NAME;
+    if (!S.homeDrawn) { S.homeDrawn = true; await renderHome(); }
+  }
+  updateCrumbs();
+}
+// A task screen: the recorded result of the bundled file at once (labelled), then the live run.
+async function openTask(file, tab) {
+  S.tabRequest = tab || null;
+  S.preferRecorded = true;
+  stopPlayers();
+  paintScenarioHeader(entryFor(file));
+  // The first paint (index.html, data/firstpaint.json) may already show this run's recorded answer.
+  if (document.body.dataset.fp !== file.replace(/\.toml$/, "")) { $("m-big").textContent = "Opening the result…"; $("m-line").textContent = ""; }
+  delete document.body.dataset.fp;
+  await loadScenario(file, { run: false });
+  if (S.file !== file) return;
+  if (NOT_IN_BROWSER[file] && !RECORDED_NATIVELY.includes(file)) {
+    // Nothing to show in a browser: say so plainly, and how to run it.
+    $("m-chips").replaceChildren();
+    $("m-big").textContent = "This one runs on the command line, not in the browser.";
+    $("m-line").textContent = NOT_IN_BROWSER[file];
+    $("kpis-wrap").hidden = true; $("tabs-wrap").hidden = true;
+    for (const v of $("views").querySelectorAll(".view")) v.hidden = true;
+    showNotice("");
+    return;
+  }
+  if (NOT_IN_BROWSER[file]) { if (S.engine) await runScenario(); return; }
+  const rec = await loadRecorded(file).catch(() => null);
+  if (S.file === file && rec && rec.toml === tomlEl.value) {
+    let result = null;
+    try { result = JSON.parse(rec.json); } catch { /* shown by the live run instead */ }
+    if (result) {
+      if (!S.version) S.version = ((await recordedIndex(dirOf(file))) || {}).engine_version || "";
+      const entry = entryFor(file), want = S.tabRequest;
+      renderRun({ id: 0, file, title: entry ? entry.title : file, toml: rec.toml, result, svg: rec.svg || "", summary: rec.summary || "", csv: rec.csv || null, ms: 0, at: new Date(), mode: rec.source === "native" ? "native" : "recorded", platform: rec.platform || "", command: rec.command || "", preview: !S.engine });
+      if (want && S.activeTab !== want) S.tabRequest = want; // a view only the live run offers opens then
+    }
+  }
+  if (S.engine && S.mode === "live" && S.file === file) await runScenario();
+}
+
+// The switch to the Advanced view (the full dashboard): the same scenario, the same view of the
+// result, and the reader's changed settings, carried in the link (lib/urlstate.mjs viewUrl).
+function advancedHref() {
+  const onTask = route && route.screen === "task" && !S.shared;
+  const edited = onTask && S.file && tomlEl.value && tomlEl.value !== S.baseToml;
+  return viewUrl("advanced", { scenario: onTask ? S.file : null, tab: onTask ? S.activeTab : null, fragment: edited || S.shared ? encodeFragment(tomlEl.value) : "", extra: (route && route.extra) || {} });
+}
+function switchToAdvanced(e) {
+  if (e && (e.metaKey || e.ctrlKey || e.shiftKey || e.button)) return;
+  if (e) e.preventDefault();
+  try { localStorage.setItem(VIEW_KEY, "advanced"); } catch { /* storage blocked: the switch still works */ }
+  location.assign(advancedHref());
+}
+function bindUi() {
+  for (const id of ["view-switch", "open-advanced"]) { const a = $(id); a.addEventListener("click", switchToAdvanced); a.addEventListener("focus", () => { a.href = advancedHref(); }); a.addEventListener("mouseenter", () => { a.href = advancedHref(); }); }
+  const sf = $("sig-field");
+  if (sf) sf.addEventListener("click", (e) => { const b = e.target.closest("button[data-field]"); if (!b) return; S.sigField = b.dataset.field; renderSignal(); });
+  $("run").addEventListener("click", pressRun);
+  $("run-cancel").addEventListener("click", cancelJob);
+  tomlEl.addEventListener("input", () => { refreshEditor(); buildParamsSoon(); updateSteps(); });
+  tomlEl.addEventListener("scroll", syncScroll);
+  tomlEl.addEventListener("keydown", (e) => {
+    // Tab inserts two spaces, like the scenario files; Escape then Tab moves focus on.
+    if (e.key === "Tab" && !e.shiftKey && !e.metaKey && !e.ctrlKey && !e.altKey) {
+      if (tomlEl.dataset.esc === "1") { tomlEl.dataset.esc = ""; return; }
+      e.preventDefault();
+      insertSpaces();
+    } else if (e.key === "Escape") tomlEl.dataset.esc = "1";
+    else tomlEl.dataset.esc = "";
+  });
+  $("src-reset").addEventListener("click", (e) => { e.preventDefault(); resetSource(); });
+  $("src-copy").addEventListener("click", async (e) => { e.preventDefault(); try { await navigator.clipboard.writeText(tomlEl.value); toast("Scenario copied."); } catch { toast("Copy is blocked here."); } });
+  for (const b of document.querySelectorAll("[data-ts]")) b.addEventListener("click", () => { S.tsMode = b.dataset.ts; setTsMode(b.dataset.ts); });
+  $("ho-thr").addEventListener("input", drawHoldover);
+  $("ho-thr-reset").addEventListener("click", () => { if (S.ho && Number.isFinite(S.ho.threshold)) { $("ho-thr").value = String(S.ho.threshold); drawHoldover(); } });
+  $("sweep-run").addEventListener("click", runSweep);
+  $("sweep-knob").addEventListener("change", () => seedSweepRange(true));
+  $("sweep-knob2").addEventListener("change", () => seedSweepRange(true));
+  $("compare-clear").addEventListener("click", () => { S.pins = []; buildTabs(); selectTab(preferredTab(S.run)); renderResearch(S.run); });
+  $("json-copy").addEventListener("click", async () => { try { await navigator.clipboard.writeText(JSON.stringify(S.run.result, null, 2)); toast("JSON copied."); } catch { toast("Copy is blocked here."); } });
+  $("json-download").addEventListener("click", () => { const meta = fileMeta(S.run.result, S.version, S.run.toml); triggerDownload(new Blob([JSON.stringify(S.run.result, null, 2)], { type: "application/json" }), chartFilename("result", meta, "json")); });
+  for (const b of document.querySelectorAll("button.copy[data-copy]")) b.addEventListener("click", async () => { try { await navigator.clipboard.writeText($(b.dataset.copy).textContent); toast("Copied."); } catch { toast("Copy is blocked here: select the text instead."); } });
+  $("cmdk-btn").addEventListener("click", openPalette);
+  $("pal-input").addEventListener("input", renderPalette);
+  $("pal-input").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowDown") { e.preventDefault(); selPal(palSel + 1); }
+    else if (e.key === "ArrowUp") { e.preventDefault(); selPal(palSel - 1); }
+    else if (e.key === "Enter" && !(e.metaKey || e.ctrlKey)) { e.preventDefault(); const it = palItems[palSel]; if (it) { closePalette(); it.run(); } }
+  });
+  $("palette").addEventListener("mousedown", (e) => { if (e.target.id === "palette") closePalette(); });
+  $("history-close").addEventListener("click", closeHistory);
+  $("btn-theme").addEventListener("click", toggleTheme);
   $("field-find").addEventListener("input", applyFieldFind);
   $("kf-find").addEventListener("input", () => { const q = $("kf-find").value.trim().toLowerCase(); for (const tr of $("kf-table").querySelectorAll("tbody tr")) tr.hidden = !!q && !q.split(/\s+/).every((w) => tr.textContent.toLowerCase().includes(w)); });
   let st = 0;
-  $("start-search").addEventListener("input", () => { clearTimeout(st); st = setTimeout(startSearch, 120); });
+  $("start-search").addEventListener("input", () => { clearTimeout(st); st = setTimeout(() => { const q = $("start-search").value.trim(); route = { ...route, screen: "browse", q }; setAddress(route); updateCrumbs(); startSearch(); }, 140); });
   $("start-search").addEventListener("keydown", (e) => { if (e.key === "Enter") { e.preventDefault(); const f = $("start-results").querySelector(".start-hit, .start-dom"); if (f) f.click(); } });
-  for (const b of $("mob").children) b.addEventListener("click", () => {
-    const m = b.dataset.mstep;
-    if (m === "choose") openStart();
-    else if (m === "set") { closeStart(); setDrawer($("app").dataset.drawer !== "open" || !PHONE_MQ.matches); }
-    else if (m === "run") { closeStart(); setDrawer(false); runScenario(); $("results").scrollTo({ top: 0 }); window.scrollTo({ top: 0 }); }
-    else { closeStart(); setDrawer(false); }
-    updateSteps();
+  $("tabs").addEventListener("keydown", (e) => {
+    if (e.key === "ArrowRight") { e.preventDefault(); cycleTab(1); }
+    else if (e.key === "ArrowLeft") { e.preventDefault(); cycleTab(-1); }
   });
-  $("first-hint-close").addEventListener("click", () => { $("first-hint").hidden = true; try { localStorage.setItem("kshana-studio-hint", "done"); } catch { /* storage blocked */ } });
-  const relayout = () => { if (S.run) { selectTab(S.activeTab); } syncScrim(); updateSteps(); };
-  PHONE_MQ.addEventListener("change", relayout);
-  RAIL_MQ.addEventListener("change", relayout);
+  // In-page links (questions, tiles, results, crumbs) move between screens without a reload.
+  document.addEventListener("click", (e) => {
+    const a = e.target.closest("a[href]");
+    if (a && (a.id === "view-switch" || a.id === "open-advanced")) return;
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey || a.target) return;
+    const u = new URL(a.href, location.href);
+    if (u.origin !== location.origin || u.pathname !== location.pathname) return;
+    e.preventDefault();
+    const st2 = parseState(u.search);
+    navigate(st2);
+    if (st2.extra.play === "1") S.link.play = true;
+  });
+  window.addEventListener("popstate", () => { const st2 = parseState(location.search); applyRoute(st2); });
+  document.addEventListener("keydown", (e) => {
+    const mod = e.metaKey || e.ctrlKey;
+    const typing = /^(INPUT|TEXTAREA|SELECT)$/.test((e.target && e.target.tagName) || "");
+    if (tour.on) {
+      if (e.key === "Escape") endTour();
+      else if (e.key === "ArrowRight") tour.refs.next.click();
+      else if (e.key === "ArrowLeft" && tour.i > 0) tour.refs.back.click();
+      else if (e.key === "Tab") { const f = [...tour.el.querySelectorAll("button:not(:disabled)")]; const i = f.indexOf(document.activeElement); e.preventDefault(); f[(i + (e.shiftKey ? -1 : 1) + f.length) % f.length].focus(); }
+      return;
+    }
+    if (mod && e.key.toLowerCase() === "k") { e.preventDefault(); if ($("palette").hidden) openPalette(); else closePalette(); return; }
+    if (mod && e.key === "Enter") { e.preventDefault(); closePalette(); if (route && route.screen === "task") pressRun(); return; }
+    if (e.key === "Escape") { const mx = document.querySelector(".is-max"); if (!$("palette").hidden) closePalette(); else if (mx) toggleMax(mx); else if (!$("history").hidden) closeHistory(); return; }
+    if (typing) return;
+    if (e.key === "/") { e.preventDefault(); openPalette(); }
+    else if (e.key === "]" && route && route.screen === "task") cycleTab(1);
+    else if (e.key === "[" && route && route.screen === "task") cycleTab(-1);
+  });
   new MutationObserver(() => { if (!decoTimer) decoTimer = requestAnimationFrame(decoratePanels); }).observe($("views"), { childList: true, subtree: true });
   decoratePanels();
-}
-
-// ------------------------------------------------------------------ start
-// Old names of views still open the matching panel.
-function tabFromLink(tab) {
-  const ALIAS = { fom: "overview", figures: "overview", chart: "timeseries", "engine-chart": "timeseries", export: "exports", animations: "animation" };
-  return tab && ALIAS[tab] ? ALIAS[tab] : tab;
-}
-
-// While the engine downloads, show the bundled scenario's recorded run at once. It is the
-// same recording the Studio falls back to when WebAssembly is blocked, labelled "Recorded
-// run" with an "Engine loading" note; the live run replaces it as soon as the engine is ready.
-async function showRecordedPreview(file) {
-  // Title, area and question are in the catalogue: paint them before any download.
-  if (!S.run) { paintScenarioHeader(entryFor(file)); setStatus("Engine loading… Fetching the recorded result of this scenario.", "busy"); }
-  await loadScenario(file, { run: false });
-  if (S.engine || S.run || NOT_IN_BROWSER[file]) return;
-  const rec = await loadRecorded(file).catch(() => null);
-  if (!rec || S.engine || S.run || S.file !== file || rec.toml !== tomlEl.value) return;
-  let result;
-  try { result = JSON.parse(rec.json); } catch { return; }
-  if (!S.version) S.version = ((await recordedIndex(dirOf(file))) || {}).engine_version || ""; // replaced by the live engine's own
-  if (S.engine || S.run) return;
-  const entry = entryFor(file);
-  const want = S.tabRequest;
-  renderRun({ id: 0, file, title: entry ? entry.title : file, toml: rec.toml, result, svg: rec.svg || "", summary: rec.summary || "", csv: rec.csv || null,
-    ms: 0, at: new Date(), mode: rec.source === "native" ? "native" : "recorded", platform: rec.platform || "", command: rec.command || "", preview: true });
-  if (want && S.activeTab !== want) S.tabRequest = want; // a view the live run offers (an animation, say): it opens then
-  setStatus("Engine loading… Showing the recorded result of this scenario until the live engine is ready.", "busy");
+  PHONE_MQ.addEventListener("change", () => { if (S.run) selectTab(S.activeTab, { url: false }); });
 }
 
 async function main() {
+  // Which view opens (lib/urlstate.mjs chooseView): view=advanced in the link, or, on the bare
+  // address, the view this browser chose last. Site deep links open this Simple view.
+  let stored = null;
+  try { stored = localStorage.getItem(VIEW_KEY); } catch { /* storage blocked: Simple */ }
+  if (chooseView(location.search, stored) === "advanced" && !isEmbed(location.search)) {
+    const p0 = parseState(location.search);
+    location.replace(viewUrl("advanced", { scenario: p0.scenario, tab: p0.tab, fragment: location.hash, extra: p0.extra }));
+    return;
+  }
   bindUi();
-  paintChannels();
-  setPview("guided");
-  paintDomainFilter();
-  renderLibrary();
-  const params = new URLSearchParams(location.search);
-  S.link = { play: params.get("play") === "1", view: params.get("view"), field: params.get("field"), frame: params.get("frame") };
+  engineChip();
   S.embed = isEmbed(location.search);
   const cfg = S.embed ? embedConfig(location.search) : null;
   if (S.embed) for (const c of embedClassList(cfg)) document.body.classList.add(c);
-  const early = (cfg && cfg.scenario) || params.get("scenario");
-  const earlyFile = early && !/\.toml$/.test(early) ? `${early}.toml` : early;
-  const hasShared = !!decodeFragment(location.hash);
-  S.tabRequest = tabFromLink((cfg && cfg.tab) || params.get("tab"));
-  // A link that names a bundled scenario shows its recorded result first, before anything
-  // else is fetched (on a slow link every other download would delay it), with an "Engine
-  // loading" note; the engine download starts right after. Never an empty screen.
-  if (!hasShared && earlyFile && entryFor(earlyFile)) await showRecordedPreview(earlyFile);
-  let booting = null;
-  const boot = () => { if (!booting) { booting = bootEngine(); booting.catch(() => { /* reported below */ }); } return booting; };
-  if (S.run) boot();
-  // Real coastlines for the ground track (Natural Earth 1:110m land, public domain).
-  fetch("data/land.json").then((r) => (r.ok ? r.json() : [])).then((l) => { S.land = l; if (S.run && V.groundTrack(S.run.result)) renderGround(); }).catch(() => { S.land = []; });
-  // An optional group of scenarios in its own folder, and the native engine's recordings.
-  // Both are fetched once; the Studio works the same without either.
+  let shared = decodeFragment(location.hash);
+  let st = parseState(location.search);
+  // A switch from the Advanced view carries the scenario AND the reader's edit in the fragment.
+  const carried = shared && st.screen === "task" && entryFor(st.scenario) ? shared : null;
+  if (carried) shared = null;
+  if (cfg && cfg.scenario) st = { ...st, screen: "task", scenario: /\.toml$/.test(cfg.scenario) ? cfg.scenario : `${cfg.scenario}.toml`, tab: tabFromLink(cfg.tab) || st.tab };
+  // A scenario this build does not have opens the list of all scenarios, saying so.
+  const deferred = st.screen === "task" && !entryFor(st.scenario) && !shared; // maybe in an optional group
+  // The first screen paints from the catalogue and the recorded result before anything else is
+  // fetched (on a slow link every other download would delay it); the engine download follows.
+  // Optional groups of scenarios live in their own folders (groups.json). The opening screen and
+  // the lists count them, so they are read first there; a task link does not wait for them.
   const getJson = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const dirs = [""];
-  for (const dir of ((await getJson("groups.json")) || {}).groups || []) {
-    const group = await getJson(`${dir}index.json`);
-    if (group && registerGroup({ ...group, dir })) dirs.push(dir);
+  const readGroups = async () => {
+    for (const dir of ((await getJson("groups.json")) || {}).groups || []) {
+      const group = await getJson(`${dir}index.json`);
+      if (group && registerGroup({ ...group, dir })) dirs.push(dir);
+    }
+    S.groupDirs = dirs;
+  };
+  const groupsRead = st.screen === "task" && !deferred ? readGroups() : null;
+  if (!groupsRead) await readGroups();
+  if (!shared && !deferred) await applyRoute(st);
+  if (carried && S.file === st.scenario) {
+    tomlEl.value = carried;
+    refreshEditor(); buildParams(); updateSteps();
+    S.pendingRun = true;
+    toast("Opened with the settings you changed in the Advanced view.");
   }
-  if (dirs.length > 1) { paintDomainFilter(); renderLibrary(); }
-  renderStart();
+  let booting = bootEngine();
+  S.engineReady = booting.catch(() => {});
+  booting.catch(() => { /* reported below */ });
+  // Real coastlines for the maps (Natural Earth 1:110m land, public domain).
+  fetch("data/land.json").then((r) => (r.ok ? r.json() : [])).then((l) => { S.land = l; if (S.heroRedraw) S.heroRedraw(); if (S.run && V.groundTrack(S.run.result)) renderGround(); if (S.run && S.activeTab && VIEW_ID[S.activeTab] === "v-cap") { S.capDirty = true; selectTab(S.activeTab, { url: false }); } }).catch(() => { S.land = []; });
+  paintChannels();
+  // The native engine's recordings (the engine's own animation, report and exports).
+  if (groupsRead) await groupsRead;
+  if (deferred) {
+    if (entryFor(st.scenario)) await applyRoute(st);
+    else { navigate({ screen: "browse", q: st.scenario.replace(/\.toml$/, "").replace(/-/g, " ") }, { replace: true }); toast(`There is no scenario called ${st.scenario.replace(/\.toml$/, "")} here. These are the closest matches.`); }
+  }
   for (const dir of dirs) {
-    const idx = await fetch(`${dir}native/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    const idx = await getJson(`${dir}native/index.json`);
     if (idx) S.nat.set(dir, idx);
   }
-  // With no scenario named (or ?start=1) the Studio opens on its start screen; the default
-  // scenario still loads and runs behind it, so the engine is warm when the reader picks.
-  if (!S.embed && !hasShared && (params.get("start") === "1" || !early)) openStart();
-  boot();
-  // The landing (behind its start screen) and a scenario of an optional group: the recorded
-  // result now, while the engine loads.
-  if (!hasShared && !S.run) await showRecordedPreview(earlyFile && entryFor(earlyFile) ? earlyFile : DEFAULT_SCENARIO);
-  loadCounts();
+  if (S.run) buildTabs(); // the engine's recorded animation and report views, now that their index is in
   try {
     await booting;
   } catch (e) {
-    for (const x of document.querySelectorAll("#hl-badges .badge.loading")) x.remove();
     S.mode = "none";
     engineChip();
-    setStatus("");
+    updateSteps();
     showError(`The engine could not start: ${errorMessage(e)}. Serve this folder over HTTP (for example python3 -m http.server) rather than opening the file directly.`);
     return;
   }
   engineChip();
-  $("run").disabled = false;
-  setStatus(S.mode === "live" ? "Ready. Runs locally in your browser." : "Ready. Showing recorded runs.");
-  const shared = decodeFragment(location.hash);
-  // Accept a scenario named with or without its .toml extension (site links omit it).
-  const requestedRaw = (cfg && cfg.scenario) || params.get("scenario");
-  const requested = requestedRaw && !/\.toml$/.test(requestedRaw) ? `${requestedRaw}.toml` : requestedRaw;
-  // The link's tab (S.tabRequest) was applied by the preview, or is still pending for the live run.
-  // The parameters drawer starts open on wide screens (or as the reader last left it); never on phones.
-  let drawer = innerWidth >= 1680;
-  try { const v = localStorage.getItem("kshana-studio-drawer"); if (v === "1" || v === "0") drawer = v === "1" && !RAIL_MQ.matches; } catch { /* storage blocked */ }
-  if (!S.embed) setDrawer(drawer && !PHONE_MQ.matches);
-  // With no scenario named (or ?start=1) the Studio opens on its start screen; the default
-  // scenario still loads and runs behind it, so the engine is warm when the reader picks.
-  // The first-run hint shows to a reader who arrives without a scenario (a site link names one).
-  try { if (!S.embed && !requestedRaw && localStorage.getItem("kshana-studio-hint") !== "done") $("first-hint").hidden = false; } catch { /* storage blocked: no hint */ }
   if (shared && !S.embed) {
+    route = { screen: "task", scenario: null, tab: null, domain: null, q: "", extra: {} };
+    showScreen("task");
     S.file = null; S.shared = true; S.baseToml = shared;
     tomlEl.value = shared;
     paintScenarioHeader(null);
-    refreshEditor(); buildParams(); renderLibrary();
-    $("source").open = true;
-    setStatus("Loaded a shared scenario from the link.");
-    if (S.mode === "live") runScenario();
+    refreshEditor(); buildParams();
+    $("research").open = true; $("source").open = true;
+    updateCrumbs();
+    if (S.mode === "live") await runScenario();
     else showNotice("This link carries its own scenario, which needs the live engine. Open it on kshana.dev.");
     return;
   }
-  const file = requested && entryFor(requested) ? requested : DEFAULT_SCENARIO;
-  // The preview loaded this scenario already; reloading it would drop an edit made meanwhile.
-  if (S.file !== file) await loadScenario(file, { run: false });
   if (cfg) for (const [key, val] of Object.entries(cfg.knobs || {})) tomlEl.value = patchScalar(tomlEl.value, key, val);
   if (cfg && Object.keys(cfg.knobs || {}).length) { refreshEditor(); buildParams(); }
-  await runScenario();
+  updateSteps();
+  // On a task screen the live run now replaces the recorded result, with any change made meanwhile.
+  if (route && route.screen === "task" && S.file && (S.mode === "live" || S.pendingRun)) { S.pendingRun = false; await runScenario(); }
 }
 
 main();

@@ -266,7 +266,7 @@ body.has-max::after{content:"";position:fixed;inset:0;background:rgba(5,6,12,.6)
   .dhead{padding-bottom:6px}
   .dh-id h1{font-size:21px;margin:4px 0 6px}
   .dhead .question,.chip.file,.dhead .status{display:none}
-  /* one header row (0.29.2): the crumbs leave the bar; the domain chip above the title says where you are */
+  /* one header row (2026-10-01): the crumbs leave the bar; the domain chip above the title says where you are */
   .bar{flex-wrap:nowrap;min-height:56px;padding:6px 12px}
   .bar .crumbs{display:none}
   .dhead .status.busy{display:block;font-size:12px} /* "Engine loading…" or "Running…" stays visible on a phone */
@@ -281,7 +281,7 @@ body.has-max::after{content:"";position:fixed;inset:0;background:rgba(5,6,12,.6)
   .menu{right:auto;left:auto;right:0;width:min(290px,calc(100vw - 28px))}
   .headline{padding:12px 14px;border-radius:18px}
   .progress{top:0;margin:0 -14px 10px}
-  /* key figures wrap two to a row: none is hidden sideways (0.29.2) */
+  /* key figures wrap two to a row: none is hidden sideways (2026-10-01) */
   .figs.kpis{display:grid;grid-template-columns:repeat(2,minmax(0,1fr))!important;gap:8px}
   .figs.kpis .kpi{padding:10px 11px}
   .kpi .v{font-size:21px}

@@ -7,33 +7,19 @@
 <meta name="description" content="Run GNSS jamming, spoofing, holdover and integrity scenarios in your browser. The open-source engine runs locally as WebAssembly; nothing is uploaded.">
 <meta name="color-scheme" content="light dark">
 <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>
+  // The first paint's words (see the end of the page): asked for now, before the stylesheets
+  // hold the page up, and only for the screen this link opens.
+  try { var fpq = new URLSearchParams(location.search), fpf = fpq.get("scenario") ? "data/firstpaint.json" : !location.search ? "data/firstpaint-home.json" : null; if (fpf && !location.hash && !fpq.get("view") && !fpq.get("embed")) window.__fp = fetch(fpf).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; });
+    // A task link waits for its words before the modules (see the end of the page); every other
+    // screen fetches the modules at once, in parallel.
+    if (!fpq.get("scenario")) ["app.js", "lib/catalog.mjs", "lib/chartdl.mjs", "lib/counts.mjs", "lib/embed.mjs", "lib/engine.mjs", "lib/finder.mjs", "lib/guided.mjs", "lib/hover.mjs", "lib/kinds.mjs", "lib/kpi.mjs", "lib/orbit3d.mjs", "lib/overlay.mjs", "lib/packs.mjs", "lib/params.mjs", "lib/report.mjs", "lib/share.mjs", "lib/stages.mjs", "lib/sweep.mjs", "lib/tabs.mjs", "lib/tour.mjs", "lib/views.mjs", "lib/meaning.mjs", "lib/meaning-kinds.mjs", "lib/inputs.mjs", "lib/urlstate.mjs", "lib/areas.mjs", "lib/abbr.mjs"].forEach(function (h) { var l = document.createElement("link"); l.rel = "modulepreload"; l.href = h; document.head.appendChild(l); });
+  } catch (e) {}
+</script>
 <link href="../fonts/bricolage-grotesque-geist-geist-mono.css" rel="stylesheet">
 <link rel="stylesheet" href="tokens.css">
 <link rel="stylesheet" href="app.css">
-<link rel="stylesheet" href="dash.css">
-<!-- the Studio's modules, fetched in parallel with app.js rather than after it -->
-<link rel="modulepreload" href="app.js">
-<link rel="modulepreload" href="lib/catalog.mjs">
-<link rel="modulepreload" href="lib/chartdl.mjs">
-<link rel="modulepreload" href="lib/counts.mjs">
-<link rel="modulepreload" href="lib/embed.mjs">
-<link rel="modulepreload" href="lib/engine.mjs">
-<link rel="modulepreload" href="lib/finder.mjs">
-<link rel="modulepreload" href="lib/guided.mjs">
-<link rel="modulepreload" href="lib/hover.mjs">
-<link rel="modulepreload" href="lib/kinds.mjs">
-<link rel="modulepreload" href="lib/kpi.mjs">
-<link rel="modulepreload" href="lib/orbit3d.mjs">
-<link rel="modulepreload" href="lib/overlay.mjs">
-<link rel="modulepreload" href="lib/packs.mjs">
-<link rel="modulepreload" href="lib/params.mjs">
-<link rel="modulepreload" href="lib/report.mjs">
-<link rel="modulepreload" href="lib/share.mjs">
-<link rel="modulepreload" href="lib/stages.mjs">
-<link rel="modulepreload" href="lib/sweep.mjs">
-<link rel="modulepreload" href="lib/tabs.mjs">
-<link rel="modulepreload" href="lib/tour.mjs">
-<link rel="modulepreload" href="lib/views.mjs">
+<link rel="stylesheet" href="studio.css">
 <script type="importmap">
 { "imports": {
   "three": "../vendor/three@0.160.0/build/three.module.js",
@@ -41,8 +27,8 @@
 } }
 </script>
 <script>
-  // Apply a remembered theme before first paint (per-viewer convenience only).
-  try { const t = localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+  // A theme named in the link (?theme=dark|light) or remembered by this browser, applied before first paint.
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
 </script>
 <!-- seo:head -->
 <link rel="canonical" href="https://kshana.dev/studio/">
@@ -62,7 +48,7 @@
 <meta name="twitter:description" content="Run GNSS jamming, spoofing, holdover and integrity scenarios in your browser. The open-source engine runs locally as WebAssembly; nothing is uploaded.">
 <meta name="twitter:image" content="https://kshana.dev/og-card.png">
 <meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 83 of 223 capabilities validated against external oracles.">
-<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "@id": "https://kshana.dev/studio/#app", "name": "Kshana Studio", "url": "https://kshana.dev/studio/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any modern browser (WebAssembly)", "browserRequirements": "Requires JavaScript and WebAssembly", "softwareVersion": "0.29.2", "isAccessibleForFree": true, "license": "https://spdx.org/licenses/AGPL-3.0-only.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "isPartOf": {"@id": "https://kshana.dev/#app"}, "publisher": {"@id": "https://kshana.dev/#org"}, "description": "Run GNSS jamming, spoofing, holdover and integrity scenarios in your browser. The open-source engine runs locally as WebAssembly; nothing is uploaded."}</script>
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "WebApplication", "@id": "https://kshana.dev/studio/#app", "name": "Kshana Studio", "url": "https://kshana.dev/studio/", "applicationCategory": "DeveloperApplication", "operatingSystem": "Any modern browser (WebAssembly)", "browserRequirements": "Requires JavaScript and WebAssembly", "softwareVersion": "0.29.3", "isAccessibleForFree": true, "license": "https://spdx.org/licenses/AGPL-3.0-only.html", "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}, "isPartOf": {"@id": "https://kshana.dev/#app"}, "publisher": {"@id": "https://kshana.dev/#org"}, "description": "Run GNSS jamming, spoofing, holdover and integrity scenarios in your browser. The open-source engine runs locally as WebAssembly; nothing is uploaded."}</script>
 <!-- /seo:head -->
 </head>
 <body>
@@ -115,115 +101,85 @@
   <symbol id="d-optional" viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-dasharray="3 3"/><circle cx="12" cy="12" r="2.5" fill="currentColor"/></symbol>
 </svg>
 
-<a class="skip" href="#results">Skip to results</a>
+<a class="skip" href="#main">Skip to the content</a>
 
 <header class="bar" id="bar">
   <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:radial-gradient(circle at 46.5% 49.5%,var(--cyan,#0795BA) 0 5%,transparent 11%),radial-gradient(circle at 87.5% 12%,var(--cyan,#0795BA) 0 4%,transparent 8%),var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag" data-studio-short>Studio</span></a>
-  <nav class="site-links" aria-label="Site"><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/developers">Developers</a><a href="/docs/">Docs</a><a href="/editions">Editions</a></nav>
   <nav class="crumbs" id="crumbs" aria-label="Where you are"></nav>
   <div class="bar-right">
-    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running"><i></i><span id="engine-label">Loading engine…</span></span>
-    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, a domain, a field or a command"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Find anything</span><kbd class="kmod">⌘K</kbd></button>
-    <button class="t-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="The runs you made in this session"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="lbl">History</span><span class="count" id="history-count" hidden>0</span></button>
-    <button class="t-btn" id="btn-tour" title="A short tour of the Studio"><svg aria-hidden="true"><use href="#i-tour"/></svg><span class="lbl">Tour</span></button>
-    <button class="t-btn" id="btn-theme" aria-label="Toggle colour theme" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg><span class="lbl">Theme</span></button>
-    <a class="pill" href="/editions#pro">Kshana Pro</a>
+    <span class="engine-chip" id="engine-chip" data-mode="loading" title="Where the engine is running"><i></i><span id="engine-label">Engine loading</span><span class="e-short" aria-hidden="true">Loading</span><b class="bar-ind" aria-hidden="true"></b></span>
+    <a class="view-switch" id="view-switch" href="advanced/" title="The full dashboard: every panel, field and tab" aria-label="Switch to the Advanced view"><svg aria-hidden="true"><use href="#i-grid"/></svg><span class="lbl">Advanced view</span></a>
+    <button class="k-btn" id="cmdk-btn" aria-haspopup="dialog" aria-controls="palette" title="Find a scenario, an area, a setting or a command"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+    <button class="icon-btn" id="btn-theme" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
   </div>
 </header>
 
-<div class="app" id="app" data-pane="results" data-drawer="closed">
-  <!-- ============ 1 CHOOSE: the library rail ============ -->
-  <aside class="lib" id="library" aria-label="Scenario library">
-    <div class="lib-head">
-      <div class="rail-title"><span class="stepno" aria-hidden="true">1</span><h2>Choose a scenario</h2><button class="btn-quiet small lib-close" id="lib-close" title="Close the library"><svg aria-hidden="true"><use href="#i-x"/></svg>Close</button></div>
-      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="lib-search" type="search" placeholder="Scenario, domain or field" aria-label="Find a scenario, a domain or a field" autocomplete="off"><kbd>/</kbd></label>
-      <div class="lib-domains" id="lib-domains" role="group" aria-label="Filter by domain"></div>
-      <p class="lib-count" id="lib-count"></p>
+<main id="main" tabindex="-1">
+  <!-- ============ the opening screen ============ -->
+  <section class="screen wrap" id="home" aria-labelledby="home-h" hidden>
+    <p class="kicker"><i style="--c:var(--tim)"></i>Kshana Studio</p>
+    <h1 id="home-h">What would you like to find out?</h1>
+    <p class="lede">A positioning, navigation and timing simulator that runs in your browser. Nothing is uploaded. <span class="lede-2">Pick a question, or start from the result below.</span></p>
+    <nav class="questions" id="questions" aria-label="Questions to start with">
+      <a class="q now" href="?scenario=constellation-multi-gnss-coverage" data-file="constellation-multi-gnss-coverage.toml" style="--c:var(--orb)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-constellations"/></svg></span><span class="q-tx"><b>How many satellites can I see, anywhere on Earth?</b><span>Showing below</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="q" href="?scenario=integrity-raim" data-file="integrity-raim.toml" style="--c:var(--itg)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-integrity"/></svg></span><span class="q-tx"><b>Can I trust my position fix?</b><span>Integrity over 12 hours</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="q" href="?scenario=clock-holdover" data-file="clock-holdover.toml" style="--c:var(--tim)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-timing"/></svg></span><span class="q-tx"><b>How long can a clock keep time without satellites?</b><span>Clock holdover</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      <a class="q" href="?scenario=l-band-waterfall-jamming&amp;tab=spectrum&amp;play=1" data-file="l-band-waterfall-jamming.toml" data-tab="spectrum" style="--c:var(--int)"><span class="q-ic"><svg class="ic" aria-hidden="true"><use href="#d-spectrum"/></svg></span><span class="q-tx"><b>What does a jammer do to my receiver?</b><span>A radio waterfall</span></span><svg class="q-go" aria-hidden="true"><use href="#i-arrow"/></svg></a>
+    </nav>
+    <div class="land-grid">
+      <article class="card scope hero" id="hero" aria-labelledby="hero-h">
+        <div class="hero-top"><span class="chip-s" id="hero-area"><i class="dot" style="--c:var(--s-orb)"></i>Constellation design</span><span class="chip-s" id="hero-rec">Recorded result</span><span class="load-note" id="hero-load"><i></i>Engine loading. You can already explore this result.</span></div>
+        <h2 id="hero-h">How many navigation satellites can you see from anywhere on Earth?</h2>
+        <p class="answer" id="hero-answer">Loading the recorded result…</p>
+        <div class="hero-body">
+          <figure class="map-fig"><div class="map-box" id="hero-map" role="img" aria-label="Map of satellites in view over the Earth, from the recorded run"></div><span class="clock" id="hero-clock" aria-live="off"></span><figcaption id="hero-cap"></figcaption></figure>
+          <dl class="hfigs" id="hero-figs"></dl>
+        </div>
+        <div class="hero-act"><a class="btn-primary on-space" id="hero-open" href="?scenario=constellation-multi-gnss-coverage" data-file="constellation-multi-gnss-coverage.toml">Open this result <svg class="ic" aria-hidden="true"><use href="#i-arrow"/></svg></a><p class="hero-meta" id="hero-meta"></p></div>
+      </article>
+      <section class="capmap" aria-labelledby="cap-h">
+        <div class="cap-head"><h2 id="cap-h">Everything Kshana can do</h2><p id="cap-sub">Each area shows a real recorded result and the mix of evidence behind it.</p></div>
+        <ul class="legend" id="legend"></ul>
+        <div class="tiles" id="tiles"></div>
+      </section>
     </div>
-    <nav class="lib-list" id="lib-list" aria-label="Scenarios by mission domain"></nav>
-    <div class="lib-foot">
-      <button class="btn-quiet small" id="btn-start" type="button"><svg aria-hidden="true"><use href="#i-grid"/></svg>All domains, as tiles</button>
-      <p id="matrix-line" class="matrix-line"></p>
-      <a href="/evidence#ledger">Open the validation ledger <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
-    </div>
-  </aside>
+  </section>
 
-  <!-- ============ RESULTS: start screen, then the dashboard ============ -->
-  <main class="res" id="results" aria-label="Results" tabindex="-1">
-    <section class="start" id="start" aria-labelledby="start-h" hidden>
-      <p class="eyebrow"><i style="--c:var(--tim)"></i><span>Kshana Studio</span></p>
-      <h1 id="start-h">What do you want to do?</h1>
-      <p class="lede">Pick a domain and a scenario, set it up, run the engine in your browser, then read, compare and export the results. Nothing is uploaded.</p>
-      <ol class="flow" aria-label="How the Studio works">
-        <li><b>1</b><span><strong>Choose</strong> a domain and a scenario</span></li>
-        <li><b>2</b><span><strong>Set</strong> its parameters</span></li>
-        <li><b>3</b><span><strong>Run</strong> the engine, locally</span></li>
-        <li><b>4</b><span><strong>Read</strong> the key figures and panels</span></li>
-        <li><b>5</b><span><strong>Share or export</strong> the run</span></li>
-      </ol>
-      <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search scenarios, domains or fields, for example elevation mask" aria-label="Search scenarios, domains or fields" autocomplete="off"></label>
-      <div class="start-results" id="start-results" aria-live="polite"></div>
-      <div class="start-block" id="start-suggest-block">
-        <h2>Good first runs</h2>
-        <div class="start-suggest" id="start-suggest"></div>
-      </div>
-      <div class="start-block">
-        <h2>Domains</h2>
-        <div class="start-tiles" id="start-tiles"></div>
-      </div>
-    </section>
+  <!-- ============ an area, or every scenario ============ -->
+  <section class="screen wrap" id="browse" aria-labelledby="browse-h" hidden>
+    <a class="back" id="browse-back" href="./"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg>All questions</a>
+    <p class="kicker" id="browse-kicker"><i style="--c:var(--ink-3)"></i><span>Browse</span></p>
+    <h1 id="browse-h">All scenarios</h1>
+    <p class="lede" id="browse-lede">Pick one: it opens on its result straight away.</p>
+    <label class="search big"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="start-search" type="search" placeholder="Search by name, question or setting, for example elevation mask" aria-label="Search scenarios, areas or settings" autocomplete="off"></label>
+    <div class="browse-evidence" id="browse-evidence" hidden></div>
+    <div class="start-results" id="start-results" aria-live="polite"></div>
+  </section>
 
-    <div class="dash" id="dash">
-      <section class="dhead" id="dhead" aria-label="Scenario">
-        <div class="dh-id">
-          <p class="eyebrow" id="sc-domain"><i></i><span></span></p>
+  <!-- ============ a task screen ============ -->
+  <section class="screen wrap" id="task" aria-labelledby="sc-title" hidden>
+    <a class="back" id="task-back" href="./"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span>All questions</span></a>
+    <div class="task-grid">
+      <div class="task-main" id="results" aria-label="Result">
+        <header class="task-head">
+          <p class="kicker" id="sc-domain"><i></i><span></span></p>
           <h1 id="sc-title">Opening the scenario…</h1>
-          <div class="chips"><span class="chip" id="sc-kind" title="The engine kind this scenario runs"></span><span class="chip honesty" id="sc-honesty" hidden></span><code class="chip file" id="sc-file"></code></div>
-          <p class="question" id="sc-question"></p>
+          <p class="t-sub" id="sc-question"></p>
+        </header>
+        <section class="meaning" id="meaning" aria-label="What the result means" aria-live="polite">
+          <div class="m-top" id="m-chips"></div>
+          <p class="m-big" id="m-big"></p>
+          <p class="m-line" id="m-line"></p>
+        </section>
+        <p class="notice" id="notice" hidden></p>
+        <div class="progress" id="progress" hidden><i></i></div>
+        <div class="error" id="error" role="alert" hidden></div>
+        <section class="kpis-wrap" id="kpis-wrap" aria-label="Key figures" hidden><div class="kfigs" id="figs" role="list"></div></section>
+
+        <div class="tabs-wrap" id="tabs-wrap" hidden>
+          <p class="tabs-lbl" id="tabs-lbl">Views of this result</p>
+          <div class="tabs" id="tabs" role="tablist" aria-label="Views of this result" aria-describedby="tabs-lbl"></div>
         </div>
-        <div class="dh-act runbar" id="runbar">
-          <button class="btn-quiet" id="btn-lib" type="button" title="Open the scenario library"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Library</span></button>
-          <button class="btn-quiet" id="btn-params" type="button" aria-controls="editor-pane" aria-expanded="false" title="Show the parameters and the scenario source"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Parameters</span></button>
-          <button class="btn-run" id="run" disabled><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span><kbd>⌘↵</kbd></button>
-          <button class="btn-quiet" id="run-cancel" hidden>Cancel</button>
-          <button class="btn-quiet" id="pin" title="Keep this run to compare with another (up to 4)"><svg aria-hidden="true"><use href="#i-pin"/></svg><span>Pin run</span></button>
-          <button class="btn-quiet" id="btn-compare" type="button" title="Compare the pinned runs"><svg aria-hidden="true"><use href="#i-compare"/></svg><span>Compare</span><span class="count" id="pin-count" hidden>0</span></button>
-          <div class="menu-wrap">
-            <button class="btn-quiet" id="btn-share" aria-haspopup="menu" aria-expanded="false" aria-controls="share-menu" title="Share this run, or download it"><svg aria-hidden="true"><use href="#i-share"/></svg><span>Share or export</span></button>
-            <div class="menu" id="share-menu" role="menu" hidden>
-              <button role="menuitem" data-act="exports">Download results <small>report, JSON, scenario, tables and exports</small></button>
-              <button role="menuitem" data-act="share-link">Copy share link <small>the exact scenario, in the link</small></button>
-              <button role="menuitem" data-act="embed-code">Copy embed code <small>an iframe for a course page or wiki</small></button>
-              <button role="menuitem" data-act="embed-open">Preview embed mode <small>opens in a new tab</small></button>
-            </div>
-          </div>
-        </div>
-        <ol class="steps" id="steps" aria-label="Steps">
-          <li><button type="button" data-step="choose"><b>1</b>Choose</button></li>
-          <li><button type="button" data-step="set"><b>2</b>Set</button></li>
-          <li><button type="button" data-step="run"><b>3</b>Run</button></li>
-          <li><button type="button" data-step="read"><b>4</b>Read results</button></li>
-          <li><button type="button" data-step="share"><b>5</b>Share or export</button></li>
-        </ol>
-        <p class="status busy" id="status" role="status" aria-live="polite">Loading the engine. The recorded result of this scenario shows first.</p>
-      </section>
-      <div class="first-hint" id="first-hint" hidden><p><b>New here?</b> Follow the numbered steps: 1 choose a scenario, 2 set its parameters, 3 run it, 4 read the key figures and panels, 5 share or export. Every number is the engine's own output.</p><button class="btn-mini" id="first-hint-close" type="button">Got it</button></div>
-      <p class="notice" id="notice" hidden></p>
-      <div class="progress" id="progress" hidden><i></i></div>
-      <div class="error" id="error" role="alert" hidden></div>
-
-      <section class="kpis-wrap" id="kpis-wrap" aria-labelledby="kpis-h" hidden>
-        <div class="sec-head"><h2 id="kpis-h">Key figures</h2><p>Headline numbers from the engine's result, with the change since your previous run of this scenario, and a pass or fail where the run states a threshold.</p></div>
-        <div class="figs kpis" id="figs" role="list"></div>
-      </section>
-
-
-
-      <div class="tabs-wrap" id="tabs-wrap" hidden>
-        <p class="tabs-lbl" id="tabs-lbl">Panels</p>
-        <div class="tabs" id="tabs" role="tablist" aria-label="Result panels" aria-describedby="tabs-lbl"></div>
-      </div>
-
       <div class="views" id="views">
       <section class="view" id="v-overview" role="tabpanel" aria-label="Figures of merit" hidden>
         <div class="card" id="fom-card" hidden>
@@ -390,78 +346,102 @@
         </div>
       </section>
       </div>
-
-      <section class="headline" id="headline" aria-label="Run summary" hidden>
-        <div class="hl-top">
-          <p class="eyebrow"><i style="--c:var(--itg)"></i><span id="hl-eyebrow">Result</span></p>
-          <div class="hl-badges" id="hl-badges"></div>
-        </div>
-        <p class="summary" id="summary"></p>
-        <dl class="meta" id="run-meta"></dl>
-      </section>
-
-      <footer class="res-foot" id="res-foot">
-      <p>Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde. Every figure is labelled with its evidence tier; the <span data-studio-name>Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated.</p>
-      <p class="pro-line">Need a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration? That is Kshana Pro, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request">Request a study</a></p>
-      <div class="install-line" id="install-line" aria-label="Install the engine"></div>
-      <p class="credit">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
-      <p class="embed-only"><a href="/studio/" target="_blank" rel="noopener">Open in <span data-studio-name>Kshana Studio</span></a></p>
-      </footer>
-    </div>
-  </main>
-
-  <!-- ============ 2 SET: parameters and source, a side drawer (a sheet on phones) ============ -->
-  <section class="edit" id="editor-pane" aria-label="Parameters and scenario source" tabindex="-1">
-    <div class="drawer-top">
-      <div class="rail-title"><span class="stepno" aria-hidden="true">2</span><h2>Set parameters</h2><button class="btn-quiet small" id="params-close" title="Close the parameters and show the results"><svg aria-hidden="true"><use href="#i-x"/></svg>Done</button></div>
-      <p class="hint">Every change re-runs the engine and updates the key figures and panels.</p>
-      <label class="search"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a field, for example mask" aria-label="Find a field of this scenario" autocomplete="off"></label>
-      <p class="hint" id="field-find-note" hidden></p>
-    </div>
-    <div class="panel" id="params">
-      <div class="panel-head">
-        <h2>Parameters</h2>
-        <div class="seg" role="tablist" aria-label="Parameter view">
-          <button role="tab" aria-selected="true" data-pview="guided" id="pv-guided">Guided</button>
-          <button role="tab" aria-selected="false" data-pview="all" id="pv-all">All fields <span id="field-count"></span></button>
-        </div>
       </div>
-      <p class="hint" id="params-hint">Drag a slider and the scenario re-runs. Every control writes straight into the scenario text below.</p>
-      <div class="knobs" id="knobs"></div>
-      <div class="fields" id="fields" hidden></div>
-    </div>
 
-    <details class="panel src" id="source">
-      <summary><h2>Scenario source <small>TOML (Tom's Obvious, Minimal Language)</small></h2>
-        <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
-      </summary>
-      <div class="code" id="code">
-        <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
-        <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
-      </div>
-      <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on.</p>
-    </details>
+      <aside class="panel" id="panel" aria-label="Settings and details">
+        <section class="p-card" id="params" aria-labelledby="set-h">
+          <h2 id="set-h">Try other settings</h2>
+          <p class="p-next" id="params-hint">Change a value, then run again. The answer and the chart update in place.</p>
+          <div class="knobs" id="knobs"></div>
+          <button class="btn-primary wide" id="run" type="button"><svg class="ic" aria-hidden="true"><use href="#i-play"/></svg><span id="run-label">Run again</span></button>
+          <button class="btn-quiet wide" id="run-cancel" type="button" hidden>Cancel the run</button>
+          <p class="run-note status" id="status" role="status" aria-live="polite">Runs in your browser. Nothing is uploaded.</p>
+        </section>
+
+        <details class="more" id="adv">
+          <summary><span>Advanced settings</span><span class="sm-n" id="field-count"></span></summary>
+          <div class="adv-body">
+            <label class="search small"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="field-find" type="search" placeholder="Find a setting, for example mask" aria-label="Find a setting of this scenario" autocomplete="off"></label>
+            <p class="hint" id="field-find-note" hidden></p>
+            <div class="fields" id="fields"></div>
+            <p class="fine">Every setting comes from the scenario file. Edit the whole file under “For researchers”.</p>
+          </div>
+        </details>
+
+        <details class="more" id="how">
+          <summary><span>How this is computed</span><span class="sm-lvl" id="how-lvl"></span></summary>
+          <div class="how" id="how-body">
+            <h3>Method</h3>
+            <div id="how-method"></div>
+            <h3>Level of evidence</h3>
+            <div id="how-level"></div>
+            <h3>References</h3>
+            <ul class="refs" id="how-refs"></ul>
+            <section class="headline" id="headline" aria-label="The engine's own summary" hidden>
+              <h3 id="hl-eyebrow">The engine's own one-line summary</h3>
+              <div class="hl-badges" id="hl-badges"></div>
+              <p class="summary" id="summary"></p>
+              <dl class="meta" id="run-meta"></dl>
+            </section>
+            <p class="fine">Every figure is labelled with its evidence tier. Validated means checked against an independent external oracle; modelled means first-principles physics with tests, not yet oracle-checked.</p>
+          </div>
+        </details>
+
+        <details class="more" id="research">
+          <summary><span>For researchers</span><span class="sm-n">code, data, citation</span></summary>
+          <div class="rsr" id="res-body">
+            <h3>Run it on your computer</h3>
+            <div class="code-snip"><pre id="cli"></pre><button class="copy" type="button" data-copy="cli"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></div>
+            <p class="fine" id="cli-note"></p>
+            <h3>Run it from Python</h3>
+            <div class="code-snip"><pre id="py"></pre><button class="copy" type="button" data-copy="py"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></div>
+            <p class="fine" id="py-note"></p>
+            <h3>Export</h3>
+            <div class="exp-row" id="exp-row"></div>
+            <h3>Share</h3>
+            <div class="exp-row" id="share-row"></div>
+            <h3>Cite</h3>
+            <div class="code-snip"><pre id="cite"></pre><button class="copy" type="button" data-copy="cite"><svg class="ic" aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></div>
+            <p class="fine">Exported figures carry this DOI (digital object identifier) in their caption. The same scenario, seed and engine version give the same numbers.</p>
+            <details class="panel src" id="source">
+              <summary><h3>The scenario file <small>TOML (Tom's Obvious, Minimal Language)</small></h3>
+                <span class="src-tools"><button class="btn-mini" id="src-reset" title="Restore the bundled scenario"><svg aria-hidden="true"><use href="#i-reset"/></svg>Reset</button><button class="btn-mini" id="src-copy" title="Copy the scenario text"><svg aria-hidden="true"><use href="#i-copy"/></svg>Copy</button></span>
+              </summary>
+              <div class="code" id="code">
+                <pre class="code-hl" id="code-hl" aria-hidden="true" tabindex="-1"></pre>
+                <textarea id="toml" spellcheck="false" autocapitalize="off" autocomplete="off" aria-label="Scenario source (TOML)" aria-describedby="toml-kbd"></textarea>
+              </div>
+              <p class="hint" id="toml-kbd">In the editor, Tab indents by two spaces. Press Escape, then Tab, to move on. Run again to use your edit.</p>
+            </details>
+            <h3>Every panel and field</h3>
+            <p class="fine">The Advanced view is the full dashboard: every panel of this run side by side, every field of the scenario, sweeps, comparisons and the engine's own report. It opens on this scenario, with your settings.</p>
+            <a class="adv-link" id="open-advanced" href="advanced/"><svg class="ic" aria-hidden="true"><use href="#i-grid"/></svg>Open in Advanced view</a>
+            <p class="pro-mini">Need a calibrated digital twin of your own device, an audit-grade evidence pack or closed-source integration? That is <a href="/editions#pro">Kshana Pro</a>, under contract.</p>
+          </div>
+        </details>
+      </aside>
+    </div>
   </section>
-  <div class="scrim" id="scrim" hidden></div>
-</div>
+</main>
 
-<nav class="mob" id="mob" aria-label="Steps">
-  <button type="button" data-mstep="choose" aria-pressed="false"><svg aria-hidden="true"><use href="#i-list"/></svg><span>Choose</span></button>
-  <button type="button" data-mstep="set" aria-pressed="false"><svg aria-hidden="true"><use href="#i-sliders"/></svg><span>Set</span></button>
-  <button type="button" data-mstep="run" aria-pressed="false"><svg aria-hidden="true"><use href="#i-play"/></svg><span>Run</span></button>
-  <button type="button" data-mstep="results" aria-pressed="true"><svg aria-hidden="true"><use href="#i-grid"/></svg><span>Results</span></button>
-</nav>
+<footer class="foot res-foot" id="res-foot">
+  <p>Kshana is open source under the AGPL-3.0 (GNU Affero General Public License), with a commercial licence available. By Ashforde. Every figure is labelled with its evidence tier; the <span data-studio-name>Kshana Studio</span>'s timing, integrity and security figures are modelled unless marked validated. Cite as doi:10.5281/zenodo.20528627.</p>
+  <p class="pro-line"><a href="/editions#pro">Kshana Pro</a>: a clock digital twin calibrated to your device, a trade study with an audit-grade evidence pack, or closed-source integration, available under contract. <a href="mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation">Request an evaluation</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20commercial%20licence">Talk to us about a commercial licence</a> · <a href="mailto:contact@ashforde.org?subject=Kshana%20study%20request">Request a study</a></p>
+  <div class="install-line" id="install-line" aria-label="Install the engine"></div>
+  <p class="credit">Imagery: NASA Visible Earth (Blue Marble). Coastlines: Natural Earth. Every chart here is drawn from an engine run; a run, report, animation or export made by the native command-line engine is labelled as recorded.</p>
+  <p class="embed-only"><a href="/studio/" target="_blank" rel="noopener">Open in <span data-studio-name>Kshana Studio</span></a></p>
+</footer>
 
 <!-- Command palette -->
 <div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search scenarios and commands" hidden>
   <div class="pal-box">
-    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, domain, field, panel or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="pal-input" placeholder="Find a scenario, area, setting, view or command" aria-label="Search" autocomplete="off" role="combobox" aria-expanded="true" aria-controls="pal-list"><kbd>esc</kbd></div>
     <div class="pal-list" id="pal-list" role="listbox"></div>
     <div class="pal-foot"><span><kbd>↑</kbd><kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span><kbd>⌘↵</kbd> run</span></div>
   </div>
 </div>
 
-<!-- History drawer -->
+<!-- History drawer (from the search box: "Open run history") -->
 <aside class="drawer" id="history" role="dialog" aria-modal="false" aria-label="Run history" hidden>
   <div class="drawer-head"><h2>Run history <small>this session</small></h2><button class="icon-btn" id="history-close" aria-label="Close history"><svg aria-hidden="true"><use href="#i-x"/></svg></button></div>
   <ol class="hist" id="hist-list"></ol>
@@ -470,6 +450,50 @@
 
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
-<script type="module" src="app.js"></script>
+<script>
+/* First paint (0.29.3): before the Studio's modules arrive (over 700 kB on a slow link), paint the
+   recorded answer of the screen the link opens, from data/firstpaint.json, which tools_areas.mjs
+   writes with the Studio's own modules. app.js then writes the same words and everything else.
+   Only for a plain task link or the bare opening screen; anything else waits for app.js. */
+(function () {
+  // app.js and its modules start once the first paint is on screen (or at once when there is
+  // nothing to paint early), so on a slow link they do not compete with it for the first bytes.
+  var started = false;
+  function startApp() { if (started) return; started = true; var m = document.createElement("script"); m.type = "module"; m.src = "app.js"; document.body.appendChild(m); }
+  setTimeout(startApp, 4000); // never wait longer than this for the early paint
+  try {
+    var q = new URLSearchParams(location.search), sc = q.get("scenario"), keys = [];
+    q.forEach(function (v, k) { keys.push(k); });
+    if (location.hash || q.get("embed") || q.get("view") || keys.some(function (k) { return ["scenario", "tab", "play", "theme", "frame", "field"].indexOf(k) < 0; })) return startApp();
+    var stored = null; try { stored = localStorage.getItem("kshana-studio-view"); } catch (e) {}
+    if (!sc && stored === "advanced") return startApp(); // the bare address goes to the Advanced view
+    var $ = function (id) { return document.getElementById(id); };
+    var el = function (tag, cls, text) { var n = document.createElement(tag); if (cls) n.className = cls; if (text !== undefined) n.textContent = text; return n; };
+    if (sc ? false : keys.length && !(keys.length === 1 && q.get("theme"))) return startApp();
+    // The opening screen's own words are tiny, so the modules need not wait for them there.
+    if (!sc) startApp();
+    (window.__fp || fetch(sc ? "data/firstpaint.json" : "data/firstpaint-home.json").then(function (r) { return r.ok ? r.json() : null; })).then(function (d) {
+      if (!d || document.body.dataset.screen) return; // app.js got there first
+      var name = sc ? sc.replace(/\.toml$/, "") : null;
+      if (name) {
+        var e = d.s[name]; if (!e) return;
+        $("home").hidden = true; $("task").hidden = false; document.body.dataset.screen = "task"; document.body.dataset.fp = name;
+        var k = $("sc-domain"); k.style.setProperty("--c", e.c); k.querySelector("span").textContent = e.k;
+        $("sc-title").textContent = e.t; $("sc-question").textContent = e.u;
+        var chip = el("span", "chip-s2 rec loading"); chip.appendChild(el("i")); chip.appendChild(document.createTextNode("Recorded result · v" + d.engine_version + " · engine loading"));
+        $("m-chips").replaceChildren(chip);
+        $("m-big").textContent = e.b; $("m-line").textContent = e.l;
+        var figs = $("figs"); figs.replaceChildren(); figs.dataset.n = String(e.f.length);
+        e.f.forEach(function (c) { var n = el("div", "kf" + (c[4] ? " good" : "") + (c[5] ? " bad" : "")); n.setAttribute("role", "listitem"); n.appendChild(el("span", "kf-l", c[0])); var v = el("span", "kf-v", c[1]); if (c[2]) v.appendChild(el("small", "", c[2])); n.appendChild(v); if (c[3]) n.appendChild(el("span", "kf-s", c[3])); figs.appendChild(n); });
+        $("kpis-wrap").hidden = !e.f.length;
+      } else if (!keys.length || (keys.length === 1 && q.get("theme"))) {
+        $("home").hidden = false; document.body.dataset.screen = "home"; document.body.dataset.fp = "home";
+        $("hero-answer").textContent = d.hero.answer; $("hero-rec").textContent = "Recorded result · v" + d.engine_version;
+        $("hero-figs").replaceChildren.apply($("hero-figs"), d.hero.f.map(function (c) { var n = el("div"); n.appendChild(el("dt", "", c[0])); var v = el("dd", "", c[1]); if (c[2]) v.appendChild(el("small", "", c[2])); n.appendChild(v); return n; }));
+      }
+    }).catch(function () {}).then(function () { requestAnimationFrame(function () { setTimeout(startApp, 0); }); });
+  } catch (e) { startApp(); /* the Studio paints itself when app.js loads */ }
+})();
+</script>
 </body>
 </html>

@@ -182,11 +182,16 @@ export class Globe {
     this.camera.setViewOffset(w, h, (0.5 - cx) * w, 0, w, h);
     this.camera.zoom = this.o.fit ? this.o.fit(w, h) : 1;
     this.camera.updateProjectionMatrix();
+    // setSize clears the drawing buffer. Under reduced motion nothing loops, so redraw the last
+    // still frame here, in the same frame as the resize: waiting for the next animation frame
+    // left the globe blank whenever that frame never came (a capture, a paused tab, a full-page shot).
+    if (this.o.reduce && this.last) this.update(...this.last);
     this.kick();
   }
   kick() { if (this.o.onKick) this.o.onKick(); }
   // T: real seconds since start (drives orbit replay); s: campaign state {jam, spoof, hold, alarm, pl, al, mask}
   update(T, dt, s) {
+    this.last = [T, dt, s];
     const O = this.o, orb = this.orb || O.orb;
     const k = O.reduce ? 1 : 1 - Math.pow(0.002, dt);
     const c = this.cur;

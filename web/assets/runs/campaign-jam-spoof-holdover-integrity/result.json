@@ -1,6 +1,6 @@
 {
   "schema_version": "0.7",
-  "engine_version": "0.29.2",
+  "engine_version": "0.29.3",
   "scenario_hash": "f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1",
   "seed": 20260928,
   "kind": "campaign",
@@ -9,7 +9,7 @@
   "reproducibility": {
     "campaign_hash": "f87a4a0e0babe2ea4b7e8adc7739cf564e270dc1c261d2ff48386766bf9d1ba1",
     "runs_total": 18,
-    "run_digest": "e948d6e6985a99d6297968ec3ade159a2c1464bec5a46c48a9c9491af543b6d7"
+    "run_digest": "9962787dc775d888dc0dc364dbf4d1994e5caeadd84b756850326e2a9154e36d"
   },
   "timeline": {
     "step_s": 10.0,
@@ -485,7 +485,7 @@
           {
             "kind": "clock",
             "scenario_hash": "d4da90e954e1d68930c87b9dc48041b4a3b9832c827ea7cc1c1e0ff4e8a20438",
-            "result_sha256": "f2db2bc0748ae4d162d69973f1fb57f3217a958a58621d3ab64d4f09ba3dd287",
+            "result_sha256": "ea7a0838a5f6fbef7c1b843f883dcf8c9728d5d334cdbd8d86cbb8fedb8a6f34",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -495,7 +495,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "483c8c2a267acab9844ef5bfb3770b653299a8205263a55fb9d8c10c001746a2",
-            "result_sha256": "1c0fe449b14f75e2e4875c558e39278e8c394fdcdb795f7893ca4ca325cd4c61",
+            "result_sha256": "ec315920f874538093313d3ef687a745d213cbe21f4a5bf2c8a030beb2f37f0c",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -526,7 +526,7 @@
           {
             "kind": "clock",
             "scenario_hash": "0dd9a496b773256492e347b2d28ded1d761a27c5069ff5de4ce16c6475d37c25",
-            "result_sha256": "e1196eb2ebf8ac8c8b1b3d9b6298b9329cb529a7b338c8fffda312179a0d4bc6",
+            "result_sha256": "f43911e6d20d973211abbd3068b6e8d9424d79acda60e4573e7545b66af6bc34",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -536,7 +536,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "93fbea21183af82364ed49744563cfe012e5233bd7f84d5b69221eeb45ce0fd8",
-            "result_sha256": "fd7405d8bb679ddd645ca43b4ee281befae007bb01fa5e00c38679b76cf1c298",
+            "result_sha256": "1c3c6700c6402ca66ce7e04d9f838af7eaa62673a40064c1db5a90cb98efb029",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -567,7 +567,7 @@
           {
             "kind": "spoof",
             "scenario_hash": "6cd5f6feff2688f565fa83004717d8e1de3d98b6d8fc644aca3021caf51e3385",
-            "result_sha256": "2a80bd72b404f048f9d24b6451980dccb8e90bbfce8ca5287903ba4c431c25cb",
+            "result_sha256": "9eb6a0893bfe146f411af447ae21f31ef7b9bc2307558604e7fe7421dd7495c3",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -584,7 +584,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "4a0fd4e9846a0a2cdd4c6d602b306ca177cb25644f997db88a156702d7496eda",
-            "result_sha256": "7645916a5b562694327ad9882c73bdbe7d8d078cbda37ec18d2df306048d2615",
+            "result_sha256": "bb1adc2480115bf4e7ea679f2f08489238b3934bc9376fa1c1a50786052bfb7a",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -607,7 +607,7 @@
           {
             "kind": "clock",
             "scenario_hash": "fe79ef3fa52973de2c73fe538216d8368786db1b6feaef2717b67a0a120de4b7",
-            "result_sha256": "8a77f2fbc598ef6b7f2bd7cb5f2186f857c11a647e6add072e2c9eb62c5d946e",
+            "result_sha256": "bccb53458131fdd894d847b305edd806c29531b63582f641f12c15fad51875e6",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -617,7 +617,7 @@
           {
             "kind": "gnss-ins",
             "scenario_hash": "d4af0f1ca24ffeb686708d000fa41badbe4a890632e98a3d103b5acc65e03b81",
-            "result_sha256": "5a20a321ebe1ab1c22a0bd21eda9e59e78b7512d0aebc0e5a94bb1b7871bdcee",
+            "result_sha256": "af47794b2955980fabddfc04012113abd7d1d177d6b428c29a7315c512fc0f8e",
             "skip_s": 100.0,
             "channels": [
               "position_error_m",
@@ -627,7 +627,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "5aac34b045c7b765b09af732dc1c31a3df63cac3196db719d70f73a8b8e137ee",
-            "result_sha256": "d33ca55dbf0191711d4dd883632063813e508984451ca5eaf5530a9d3296a251",
+            "result_sha256": "8fb7bd22176e7633e9e14b3cd3be0f1bd2d398664acad08dbbb7d5670f8f28f0",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -650,7 +650,7 @@
           {
             "kind": "clock",
             "scenario_hash": "aa45c79cbf4a729dae794cd853fbd137ab300ccf306e437ee4ce51e324aa4718",
-            "result_sha256": "d569aae93090491c983803e4d91a06f908f8ecaf430fbe3a512b4602f88e416f",
+            "result_sha256": "cf1168ec7215b2ccd249569183179c1be607c1db53cb9ecdcefb4f7b342d2531",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -660,7 +660,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "6bd5540243b45c172b7570c519f102c8e3e0bda3cc22058d8dfc6fe7235fbd00",
-            "result_sha256": "4974d8dba419ea5c75c862aa94921570c557b1bf02ac6030c128140ccdab188d",
+            "result_sha256": "65df85882a0eb8518164e9b183ca78ae12cd239ef96de52f6171305c09d62bcb",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
@@ -691,7 +691,7 @@
           {
             "kind": "clock",
             "scenario_hash": "c49b88ca240046ff0089da19fd2c8e0109067fa49cee7988454c85e0928326d2",
-            "result_sha256": "5122c0f1e65bfb9c347f050d438464a69dfed08299f83eb86e71a661531b4a05",
+            "result_sha256": "5aa6088b39ebf463f5d00c8ecc515882e9066ab243193d45745f99e91896c6ac",
             "skip_s": 0.0,
             "channels": [
               "time_error_ns",
@@ -701,7 +701,7 @@
           {
             "kind": "jamming",
             "scenario_hash": "483c8c2a267acab9844ef5bfb3770b653299a8205263a55fb9d8c10c001746a2",
-            "result_sha256": "1c0fe449b14f75e2e4875c558e39278e8c394fdcdb795f7893ca4ca325cd4c61",
+            "result_sha256": "ec315920f874538093313d3ef687a745d213cbe21f4a5bf2c8a030beb2f37f0c",
             "skip_s": 0.0,
             "channels": [
               "cn0_dbhz",
