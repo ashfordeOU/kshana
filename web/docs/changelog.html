@@ -123,7 +123,12 @@ and its bottom step bar; a new &quot;The site&quot; strip shows three pages of k
 0.29.1 build (<code>tools/capture_site_shots.mjs</code>, composed by <code>tools/readme_shots.py</code> and
 recorded in <code>docs/assets/readme/site/SHOTS.json</code>); the coverage figure reads ~95 %; and
 the research figure&#39;s alt text, which repeated the architecture figure&#39;s, now describes
-the papers.</li>
+the papers. The header badges are smaller and shorter (18 px high; &quot;~95%&quot;, &quot;83/223&quot;,
+&quot;quality&quot;, &quot;AGPL-3.0&quot;, &quot;zenodo.20528627&quot;), so the eleven fit on two lines; every link and
+alt text keeps its full meaning.</li>
+<li><strong>Eight float literals regrouped</strong> in <code>src/ephem.rs</code> and <code>src/sgp4.rs</code> (<code>0.323_273_64</code> →
+<code>0.323_273_640</code>): SonarQube Cloud read a last group of <code>_64</code> or <code>_32</code> as a missing <code>f64</code> or
+<code>f32</code> suffix (rule S7454). The values are the same numbers, so every result is unchanged.</li>
 </ul>
 <h2 id="0290---2026-10-01"><a href="https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0">0.29.0</a> - 2026-10-01<a class="anchor" href="#0290---2026-10-01" aria-label="Link to this section">#</a></h2>
 <p>Twelve new scenario kinds and three new ways to read a run. The engine now covers the
