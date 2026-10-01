@@ -18,7 +18,7 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Continuous integration status on main"></a>
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&event=push&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Continuous integration status on main"></a>
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%2F223-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
@@ -91,7 +91,7 @@ you are, and on a phone the steps become a step bar.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-dashboard-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-dashboard-light.jpg">
-  <img src="docs/assets/readme/studio/studio-dashboard-light.jpg" alt="Kshana Studio after a run of the bundled scenario l-band-waterfall-jamming, engine v0.29.1 running locally. The breadcrumb reads Studio, Spectrum, L-band waterfall under jamming, Spectrum. The five steps Choose, Set, Run, Read results and Share or export sit under the scenario title, with step 4 current. Key figures: tracking threshold 25 dB-Hz, noise floor -201.98 dBW/Hz, lowest carrier-to-noise density 3.2329 dB-Hz on GPS L1 C/A and 4.6939 dB-Hz on Galileo E1, both FAIL (lock lost under the 25 dB-Hz threshold), and 36.857 dB-Hz on GPS L2C and 44.075 dB-Hz on GPS L5, both PASS. Below, the panel row and the replay bar." width="100%">
+  <img src="docs/assets/readme/studio/studio-dashboard-light.jpg" alt="Kshana Studio after a run of the bundled scenario l-band-waterfall-jamming, engine v0.29.2 running locally. The breadcrumb reads Studio, Spectrum, L-band waterfall under jamming, Spectrum. The five steps Choose, Set, Run, Read results and Share or export sit under the scenario title, with step 4 current. Key figures: noise floor -201.98 dBW/Hz, lowest carrier-to-noise density 3.2329 dB-Hz on GPS L1 C/A and 4.6939 dB-Hz on Galileo E1, both FAIL (lock lost under the 25 dB-Hz tracking threshold), and 36.857 dB-Hz on GPS L2C, 44.075 dB-Hz on GPS L5 and 46.975 dB-Hz on Galileo E5a, all three PASS. Below, the panel row and the replay bar." width="100%">
 </picture>
 
 <details>
@@ -109,7 +109,7 @@ you are, and on a phone the steps become a step bar.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-phone-steps-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-phone-steps-light.jpg">
-  <img src="docs/assets/readme/studio/studio-phone-steps-light.jpg" alt="Kshana Studio on a 390 px wide phone screen after a run of l-band-waterfall-jamming: the breadcrumb, the scenario title with its MODELLED label, Pin run, Compare and Share or export, the first key figures (tracking threshold 25 dB-Hz, noise floor -201.98 dBW/Hz), the panel tabs with Spectrum selected, the replay bar at t = 59 s and the top of the waterfall. Fixed to the bottom of the screen, the step bar: Choose, Set, Run and Results, with Results current." width="320">
+  <img src="docs/assets/readme/studio/studio-phone-steps-light.jpg" alt="Kshana Studio on a 390 px wide phone screen after a run of l-band-waterfall-jamming: a one-row header (the Kshana mark, the live-engine light, search, history and theme), the scenario title with its MODELLED label, Pin run, Compare and Share or export, all six key figures two to a row (noise floor -201.98 dBW/Hz and the lowest carrier-to-noise density of each of five signals, two FAIL and three PASS against the 25 dB-Hz tracking threshold), the panel tabs with Spectrum selected and the Waterfall view chosen. Fixed to the bottom of the screen, the step bar: Choose, Set, Run and Results, with Results current." width="320">
 </picture>
 </p>
 
@@ -144,7 +144,7 @@ editions.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
-  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.29.1 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.29.2 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
 </picture>
 
 ## Capabilities
