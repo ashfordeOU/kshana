@@ -1003,6 +1003,479 @@ impl AraimReferenceCheckScenario {
     }
 }
 
+// ---------------------------------------------------------------------------
+// ADD v4.2 path (fault detection), as implemented by Stanford MAAST for ARAIM 2.
+// ---------------------------------------------------------------------------
+
+/// The per-constellation Integrity Support Message (ISM) values the ADD v4.2 path applies to
+/// every satellite of one constellation.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct AddV42Ism {
+    /// `σ_URA` (m): user range accuracy bound for integrity; `C_int,i = σ_URA²`.
+    pub sigma_ura_m: f64,
+    /// `σ_URE` (m): user range error for accuracy and continuity; `C_acc,i = σ_URE²`.
+    pub sigma_ure_m: f64,
+    /// `b_nom` (m): the maximum nominal range bias for integrity.
+    pub b_nom_m: f64,
+    /// `P_sat`: prior probability of a satellite fault, per satellite.
+    pub p_sat: f64,
+    /// `P_const`: prior probability of a constellation-wide fault.
+    pub p_const: f64,
+}
+
+/// One monitored fault subset of the ADD v4.2 path: the satellites it removes (indices into
+/// the satellites the case used) and its prior.
+#[derive(Clone, Debug, PartialEq)]
+pub struct AddV42Subset {
+    /// Indices of the excluded satellites, ascending (empty for the all-in-view solution).
+    pub excluded: Vec<usize>,
+    /// The subset's prior: the probability that exactly its events (and no other) occur, plus
+    /// the priors of any lower-probability subsets merged into a constellation fault.
+    pub p_fault: f64,
+}
+
+/// Everything the ADD v4.2 fault-detection path produces for one geometry.
+#[derive(Clone, Debug, PartialEq)]
+pub struct AddV42Result {
+    /// Vertical Protection Level (m).
+    pub vpl_m: f64,
+    /// Horizontal Protection Level (m), `√(HPL_1² + HPL_2²)`.
+    pub hpl_m: f64,
+    /// East-axis protection level (m).
+    pub hpl_east_m: f64,
+    /// North-axis protection level (m).
+    pub hpl_north_m: f64,
+    /// Effective Monitor Threshold (m): the largest vertical test threshold over the monitored
+    /// subsets whose prior is at least `P_EMT` (the all-in-view solution included).
+    pub emt_m: f64,
+    /// `σ_v,acc` (m): the all-in-view vertical standard deviation under `C_acc`.
+    pub sigma_v_acc_m: f64,
+    /// Integrity risk of everything not monitored.
+    pub p_not_monitored: f64,
+    /// The vertical and horizontal detection multipliers `K_fa,3`, `K_fa,1 = K_fa,2`.
+    pub k_fa_vert: f64,
+    /// See [`AddV42Result::k_fa_vert`].
+    pub k_fa_horz: f64,
+    /// The monitored subsets, all-in-view first, in the order the subset rule selected them
+    /// (before identical subsets are combined).
+    pub monitored: Vec<AddV42Subset>,
+}
+
+/// Inputs of the ADD v4.2 path: the geometry rows (with `C_int`, `C_acc`), one nominal bias and
+/// one satellite prior per satellite, one prior per constellation, and the constants.
+#[derive(Clone, Debug, PartialEq)]
+pub struct AddV42Case {
+    /// The geometry rows, East/North/Up plus the constellation index, with the variances.
+    pub satellites: Vec<ReferenceSatellite>,
+    /// Number of constellation clock columns declared.
+    pub constellations: usize,
+    /// `b_nom,i` (m) per satellite.
+    pub b_nom_m: Vec<f64>,
+    /// `P_sat,i` per satellite.
+    pub p_sat: Vec<f64>,
+    /// `P_const,j` per declared constellation.
+    pub p_const: Vec<f64>,
+    /// Navigation constants and design parameters (`P_HMI`, `P_FA`, `P_THRES`, `P_EMT`).
+    pub constants: ReferenceConstants,
+    /// `FC_THRES`: a subset wholly inside one constellation whose prior is below `FC_THRES`
+    /// times that constellation's fault prior is merged into the constellation fault (MAAST's
+    /// default 0.01).
+    pub fc_thres: f64,
+}
+
+/// `P(more than r - 1 simultaneous events)` as the ADD v4.2 / MAAST `compute_p_not_monitored`
+/// writes it, for independent events with priors `p` (each below 1).
+fn p_not_monitored_beyond(p: &[f64], r: usize) -> f64 {
+    let p_no_fault: f64 = p.iter().map(|x| 1.0 - x).product();
+    let q: Vec<f64> = p.iter().map(|x| x / (1.0 - x)).collect();
+    let sq: f64 = q.iter().sum();
+    match r {
+        0 => 1.0,
+        1 => 1.0 - p_no_fault,
+        2 => 1.0 - p_no_fault * (1.0 + sq),
+        3 => {
+            let sq2: f64 = q.iter().map(|x| x * x).sum();
+            1.0 - p_no_fault * (1.0 + sq) - 0.5 * p_no_fault * (sq * sq - sq2)
+        }
+        _ => {
+            let s: f64 = p.iter().sum();
+            let fact: f64 = (1..=r).map(|k| k as f64).product();
+            s.powi(r as i32) / fact
+        }
+    }
+}
+
+/// The modified normal tail of the ADD v4.2 risk sum: `Φ(x)`, but `1` once `Φ(x)` exceeds ½
+/// (a fault whose threshold-plus-bias already exceeds the protection level contributes its
+/// whole prior).
+fn modified_phi(x: f64) -> f64 {
+    let v = crate::raim::normal_cdf(x);
+    if v > 0.5 {
+        1.0
+    } else {
+        v
+    }
+}
+
+/// The smallest protection level on one axis whose risk sum
+/// `Σ_k p_k·Φmod((T_k + b_k − PL)/σ_k)` does not exceed `budget`, by bisection to 1e-9 m.
+fn add_v42_axis_level(p: &[f64], t_plus_b: &[f64], sigma: &[f64], budget: f64) -> f64 {
+    let risk = |pl: f64| -> f64 {
+        p.iter()
+            .zip(t_plus_b)
+            .zip(sigma)
+            .map(|((&pk, &tb), &s)| pk * modified_phi((tb - pl) / s))
+            .sum()
+    };
+    let max_sigma = sigma.iter().cloned().fold(0.0, f64::max);
+    let max_tb = t_plus_b.iter().cloned().fold(0.0, f64::max);
+    let (mut lo, mut hi) = (0.0_f64, max_tb + 40.0 * max_sigma);
+    if risk(hi) > budget {
+        return f64::INFINITY;
+    }
+    while hi - lo > 1e-9 {
+        let mid = 0.5 * (lo + hi);
+        if risk(mid) > budget {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    hi
+}
+
+/// Run the ADD v4.2 fault-detection protection-level algorithm (the algorithm Stanford's
+/// "MAAST for ARAIM 2" `mhss_raim_baseline_v5` implements: subset determination with the
+/// `P_THRES` and `FC_THRES` rules, weighted subset solutions, thresholds, the modified-tail
+/// protection-level equation, EMT and `σ_v,acc`).
+///
+/// Subset determination: every combination of up to `max(N_fault,max, 2)` events (one event per
+/// satellite and per constellation) is formed with the prior that exactly those events occur;
+/// subsets lying inside one constellation and less likely than `FC_THRES` times that
+/// constellation's fault are merged into it; the subsets more likely than `P_HMI` are always
+/// monitored, and the rest are added in order of the number of satellites they remove until
+/// the unmonitored risk is at most `P_THRES`. A subset whose solution is unobservable is dropped
+/// and its prior added to the unmonitored risk. Exclusion (FDE) is not implemented.
+///
+/// # Errors
+///
+/// `Err` for inconsistent inputs, a singular all-in-view geometry, or priors that would need
+/// subsets of three or more simultaneous events.
+pub fn add_v42_protection_levels(case: &AddV42Case) -> Result<AddV42Result, String> {
+    let n = case.satellites.len();
+    if n == 0 || case.constellations == 0 {
+        return Err("an ADD v4.2 case needs satellites and constellations".to_string());
+    }
+    if case.b_nom_m.len() != n || case.p_sat.len() != n {
+        return Err("b_nom and P_sat need one value per satellite".to_string());
+    }
+    if case.p_const.len() != case.constellations {
+        return Err("P_const needs one value per constellation".to_string());
+    }
+    for (i, s) in case.satellites.iter().enumerate() {
+        if s.constellation >= case.constellations {
+            return Err(format!("satellite {i} names an undeclared constellation"));
+        }
+        if !(s.c_int_m2 > 0.0 && s.c_acc_m2 > 0.0) {
+            return Err(format!("satellite {i} has a non-positive error variance"));
+        }
+    }
+    let k = &case.constants;
+    let p_hmi = k.p_hmi_vert + k.p_hmi_horz;
+
+    // Events: one per satellite, then one per constellation that has satellites.
+    let present: Vec<usize> = (0..case.constellations)
+        .filter(|&j| case.satellites.iter().any(|s| s.constellation == j))
+        .collect();
+    let mut p_event: Vec<f64> = case.p_sat.clone();
+    p_event.extend(present.iter().map(|&j| case.p_const[j]));
+    if p_event.iter().any(|&p| !(0.0..1.0).contains(&p)) {
+        return Err("every prior must lie in [0, 1)".to_string());
+    }
+    let n_ev = p_event.len();
+    let mut r = 0usize;
+    let mut pnm = 1.0;
+    while pnm > k.p_thres && r < n_ev + 1 {
+        r += 1;
+        pnm = p_not_monitored_beyond(&p_event, r);
+    }
+    let n_fault_max = r.saturating_sub(1);
+    let depth = n_fault_max.max(2);
+    if depth > 2 {
+        return Err(format!(
+            "the priors need subsets of {n_fault_max} simultaneous events; this path enumerates \
+             at most two"
+        ));
+    }
+    let p_no_fault: f64 = p_event.iter().map(|p| 1.0 - p).product();
+    let q: Vec<f64> = p_event.iter().map(|p| p / (1.0 - p)).collect();
+    // Satellites removed by an event.
+    let sats_of = |e: usize| -> Vec<bool> {
+        if e < n {
+            (0..n).map(|i| i == e).collect()
+        } else {
+            let j = present[e - n];
+            (0..n)
+                .map(|i| case.satellites[i].constellation == j)
+                .collect()
+        }
+    };
+    // (events, removed-satellite mask, prior), in the enumeration order: none, singles, pairs.
+    struct Row {
+        events: Vec<usize>,
+        out: Vec<bool>,
+        p: f64,
+    }
+    let mut rows: Vec<Row> = vec![Row {
+        events: vec![],
+        out: vec![false; n],
+        p: p_no_fault,
+    }];
+    for e in 0..n_ev {
+        rows.push(Row {
+            events: vec![e],
+            out: sats_of(e),
+            p: p_no_fault * q[e],
+        });
+    }
+    for a in 0..n_ev {
+        for b in a + 1..n_ev {
+            let (sa, sb) = (sats_of(a), sats_of(b));
+            rows.push(Row {
+                events: vec![a, b],
+                out: sa.iter().zip(&sb).map(|(x, y)| *x || *y).collect(),
+                p: p_no_fault * q[a] * q[b],
+            });
+        }
+    }
+    // FC_THRES: merge subsets wholly inside a constellation into its fault.
+    for (jj, _) in present.iter().enumerate() {
+        let e = n + jj;
+        let Some(c) = rows.iter().position(|r| r.events == [e]) else {
+            continue;
+        };
+        let cset = rows[c].out.clone();
+        let pc = rows[c].p;
+        let mut merged = 0.0;
+        let mut keep = Vec::with_capacity(rows.len());
+        for (idx, row) in rows.into_iter().enumerate() {
+            let inside = row.out.iter().any(|&x| x)
+                && row.out.iter().zip(&cset).all(|(&o, &cs)| !o || cs);
+            if idx != c && inside && row.p < case.fc_thres * pc {
+                merged += row.p;
+            } else {
+                keep.push(row);
+            }
+        }
+        rows = keep;
+        if let Some(cr) = rows.iter_mut().find(|r| r.events == [e]) {
+            cr.p += merged;
+        }
+    }
+    // Order by the number of satellites removed (stable), then select.
+    rows.sort_by_key(|r| r.out.iter().filter(|&&x| x).count());
+    let large: Vec<usize> = (0..rows.len()).filter(|&i| rows[i].p > p_hmi).collect();
+    let mut p_nm = 1.0 - large.iter().map(|&i| rows[i].p).sum::<f64>();
+    let mut selected = large.clone();
+    for i in (0..rows.len()).filter(|i| !large.contains(i)) {
+        if p_nm <= k.p_thres {
+            break;
+        }
+        if rows[i].p > 0.0 {
+            p_nm -= rows[i].p;
+        }
+        selected.push(i);
+    }
+    let monitored: Vec<AddV42Subset> = selected
+        .iter()
+        .map(|&i| AddV42Subset {
+            excluded: (0..n).filter(|&s| rows[i].out[s]).collect(),
+            p_fault: rows[i].p,
+        })
+        .collect();
+    // Combine identical subsets (first occurrence keeps its place).
+    let mut unique: Vec<(Vec<bool>, f64)> = Vec::new();
+    for &i in &selected {
+        match unique.iter_mut().find(|(m, _)| *m == rows[i].out) {
+            Some(u) => u.1 += rows[i].p,
+            None => unique.push((rows[i].out.clone(), rows[i].p)),
+        }
+    }
+    if unique.first().map(|u| u.0.iter().any(|&x| x)) != Some(false) {
+        return Err("the all-in-view solution was not selected".to_string());
+    }
+
+    // Subset solutions on C_int; separations on C_acc.
+    let ref_case = ReferenceCase {
+        satellites: case.satellites.clone(),
+        constellations: case.constellations,
+        b_nom_m: 0.0,
+        p_sat: 0.0,
+        p_const: 0.0,
+        constants: case.constants,
+    };
+    let c_int: Vec<f64> = case.satellites.iter().map(|s| s.c_int_m2).collect();
+    let c_acc: Vec<f64> = case.satellites.iter().map(|s| s.c_acc_m2).collect();
+    let all = vec![true; n];
+    let s0 = subset_solution(&ref_case, &all).ok_or("the all-in-view geometry is singular")?;
+    let sigma_v_acc = quadrature(&s0.s[2], &c_acc);
+    struct Mode {
+        p: f64,
+        sigma: [f64; 3],
+        sigma_ss: [f64; 3],
+        bias: [f64; 3],
+    }
+    let mut modes: Vec<Mode> = Vec::new();
+    for (out, p) in &unique {
+        let keep: Vec<bool> = out.iter().map(|&o| !o).collect();
+        let kept = keep.iter().filter(|&&x| x).count();
+        let live = (0..case.constellations)
+            .filter(|&j| (0..n).any(|i| keep[i] && case.satellites[i].constellation == j))
+            .count();
+        let removed = n - kept;
+        let observable = removed < 3 || kept >= (3 + live).max(4);
+        match subset_solution(&ref_case, &keep).filter(|_| observable) {
+            Some(sk) => {
+                let sigma = std::array::from_fn(|qx| quadrature(&sk.s[qx], &c_int));
+                let sigma_ss = std::array::from_fn(|qx| {
+                    let d: Vec<f64> = (0..n).map(|i| sk.s[qx][i] - s0.s[qx][i]).collect();
+                    quadrature(&d, &c_acc)
+                });
+                let bias = std::array::from_fn(|qx| {
+                    (0..n)
+                        .map(|i| sk.s[qx][i].abs() * case.b_nom_m[i])
+                        .sum::<f64>()
+                });
+                modes.push(Mode {
+                    p: *p,
+                    sigma,
+                    sigma_ss,
+                    bias,
+                });
+            }
+            None => p_nm += *p,
+        }
+    }
+    let nsets = modes.len();
+    let (k_fa_horz, k_fa_vert) = if nsets > 1 {
+        let m = (nsets - 1) as f64;
+        (
+            normal_quantile(1.0 - 0.25 * k.p_fa_horz / m),
+            normal_quantile(1.0 - 0.5 * k.p_fa_vert / m),
+        )
+    } else {
+        (0.0, 0.0)
+    };
+    let k_fa = [k_fa_horz, k_fa_horz, k_fa_vert];
+    let p_for_pl: Vec<f64> = modes
+        .iter()
+        .enumerate()
+        .map(|(i, m)| if i == 0 { 2.0 } else { m.p })
+        .collect();
+    let budget_vert = k.p_hmi_vert - k.p_hmi_vert / p_hmi * p_nm;
+    let budget_horz = 0.5 * k.p_hmi_horz - 0.5 * k.p_hmi_horz / p_hmi * p_nm;
+    let level = |qx: usize, budget: f64| -> f64 {
+        let tb: Vec<f64> = modes
+            .iter()
+            .map(|m| k_fa[qx] * m.sigma_ss[qx] + m.bias[qx])
+            .collect();
+        let sg: Vec<f64> = modes.iter().map(|m| m.sigma[qx]).collect();
+        add_v42_axis_level(&p_for_pl, &tb, &sg, budget)
+    };
+    let vpl = level(2, budget_vert);
+    let hpl_e = level(0, budget_horz);
+    let hpl_n = level(1, budget_horz);
+    let emt = modes
+        .iter()
+        .enumerate()
+        .filter(|(i, m)| *i == 0 || m.p >= k.p_emt)
+        .map(|(_, m)| k_fa_vert * m.sigma_ss[2])
+        .fold(0.0_f64, f64::max);
+    Ok(AddV42Result {
+        vpl_m: vpl,
+        hpl_m: hpl_e.hypot(hpl_n),
+        hpl_east_m: hpl_e,
+        hpl_north_m: hpl_n,
+        emt_m: emt,
+        sigma_v_acc_m: sigma_v_acc,
+        p_not_monitored: p_nm,
+        k_fa_vert,
+        k_fa_horz,
+        monitored,
+    })
+}
+
+/// The ADD v4.2 path driven from Earth-fixed positions: `user` and `sats` in an Earth-fixed
+/// frame, `constellation[i]` the index into `isms` of satellite `i`. Lines of sight are
+/// projected on the geodetic (WGS-84 ellipsoid-normal) local level at the user, satellites
+/// below `mask_deg` are dropped, and the rest are ordered by constellation (input order kept
+/// within one). `C_int,i = σ_URA²` and `C_acc,i = σ_URE²` from the satellite's ISM.
+///
+/// Returns the result and, for each satellite used, its index in `sats` (the
+/// [`AddV42Subset::excluded`] indices refer to this list).
+///
+/// # Errors
+///
+/// As [`add_v42_protection_levels`], or when fewer than four satellites are above the mask.
+pub fn add_v42_protection_levels_ecef(
+    user: crate::frames::Vec3,
+    sats: &[crate::frames::Vec3],
+    constellation: &[usize],
+    isms: &[AddV42Ism],
+    constants: ReferenceConstants,
+    fc_thres: f64,
+    mask_deg: f64,
+) -> Result<(AddV42Result, Vec<usize>), String> {
+    if sats.len() != constellation.len() {
+        return Err("one constellation index per satellite".to_string());
+    }
+    let g = crate::frames::ecef_to_geodetic(user);
+    let (sl, cl) = g.lat_rad.sin_cos();
+    let (so, co) = g.lon_rad.sin_cos();
+    let east = [-so, co, 0.0];
+    let north = [-sl * co, -sl * so, cl];
+    let up = [cl * co, cl * so, sl];
+    let dot = |a: [f64; 3], b: [f64; 3]| a[0] * b[0] + a[1] * b[1] + a[2] * b[2];
+    let sin_mask = mask_deg.to_radians().sin();
+    let mut rows: Vec<(usize, ReferenceSatellite)> = Vec::new();
+    for (i, (&s, &c)) in sats.iter().zip(constellation).enumerate() {
+        let ism = isms
+            .get(c)
+            .ok_or_else(|| format!("satellite {i} names constellation {c} with no ISM"))?;
+        let d = [s[0] - user[0], s[1] - user[1], s[2] - user[2]];
+        let r = dot(d, d).sqrt();
+        let e = [d[0] / r, d[1] / r, d[2] / r];
+        if dot(e, up) >= sin_mask {
+            rows.push((
+                i,
+                ReferenceSatellite {
+                    east: -dot(e, east),
+                    north: -dot(e, north),
+                    up: -dot(e, up),
+                    constellation: c,
+                    c_int_m2: ism.sigma_ura_m * ism.sigma_ura_m,
+                    c_acc_m2: ism.sigma_ure_m * ism.sigma_ure_m,
+                },
+            ));
+        }
+    }
+    if rows.len() < 4 {
+        return Err("fewer than four satellites above the mask".to_string());
+    }
+    rows.sort_by_key(|(_, s)| s.constellation);
+    let used: Vec<usize> = rows.iter().map(|(i, _)| *i).collect();
+    let case = AddV42Case {
+        b_nom_m: rows.iter().map(|(_, s)| isms[s.constellation].b_nom_m).collect(),
+        p_sat: rows.iter().map(|(_, s)| isms[s.constellation].p_sat).collect(),
+        p_const: isms.iter().map(|m| m.p_const).collect(),
+        satellites: rows.into_iter().map(|(_, s)| s).collect(),
+        constellations: isms.len(),
+        constants,
+        fc_thres,
+    };
+    Ok((add_v42_protection_levels(&case)?, used))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
