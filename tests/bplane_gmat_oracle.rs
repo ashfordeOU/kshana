@@ -55,9 +55,14 @@
 //! |B|) are unchanged; only state 1's values had been compared (and passed) when the first
 //! run stopped.
 //!
+//! Result (2026-10-01, tolerances unchanged): all 192 states inside every bar; worst
+//! B·T̂ 1.19e-8 km, B·R̂ 1.33e-8 km, |B| 1.35e-8 km, turn angle 9.3e-15 rad, incoming
+//! asymptote 4.6e-15 rad, outgoing asymptote 5.0e-15 rad.
+//!
 //! Discrimination check, pre-registered: flipping the sign of the `√(1 − 1/e²)` term in the
 //! engine's incoming asymptote (`Ŝ = ê/e − …`, which yields the outgoing asymptote instead)
-//! must turn this test red.
+//! must turn this test red. Done 2026-10-01: red at state 1 (B·T̂ 142498.346 against GMAT's
+//! 144364.348 km); the mutation was then edited back.
 
 use kshana::bplane::flyby_from_state;
 use std::path::PathBuf;
@@ -99,7 +104,6 @@ fn numbers(line: &str) -> Vec<f64> {
 }
 
 #[test]
-#[ignore = "pre-registered (amendment 1); not yet run"]
 fn bplane_matches_gmat_over_a_hyperbolic_grid() {
     let states: Vec<Vec<f64>> = fixture("states.txt")
         .lines()
