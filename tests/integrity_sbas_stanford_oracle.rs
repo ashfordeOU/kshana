@@ -97,6 +97,13 @@
 //! `include_crc` is true and whose `check_if_message_verified` returns true, which is the
 //! authentication-off behaviour MAAST already applies to every other message type. The L1
 //! case does not touch authentication. Nothing in the protection-level chain changes.
+//!
+//! # Amendment 4 (committed before any protection level was produced)
+//!
+//! The L5 decoder also hands type-51 (key) messages to MAAST's `MT51` class and key state
+//! machine. The driver supplies stand-ins for both (`xval/sbas-maast/auth_stub/MT51.m` decodes
+//! nothing; the key state machine ignores the result), again only on the authentication path,
+//! which is off. Nothing in the protection-level chain changes.
 
 /// Tolerance (m) on VPL and HPL after the stated K rescaling.
 pub const TOL_PL_M: f64 = 1e-4;
