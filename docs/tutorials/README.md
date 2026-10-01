@@ -137,7 +137,7 @@ that does not exist.
 The three tutorials stay on the classic clock, orbit and security packs. The engine
 has grown well past them. Each row below is a shipped scenario you can run as it
 stands (`cargo run -- <file>` or `kshana <file>`); the summary is the first line
-kshana 0.29.0 printed for it on 2026-09-29. Unlike the tutorial figures, these lines
+kshana 0.29.1 printed for it on 2026-09-29. Unlike the tutorial figures, these lines
 are a record of one run, not pinned by `tests/tutorials.rs`: rerun the scenario for
 the current value. Results state their own scope (most carry a `label`), and the
 [verification matrix](../VERIFICATION-MATRIX.md) states which capabilities are
