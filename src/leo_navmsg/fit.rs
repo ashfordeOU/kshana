@@ -571,7 +571,7 @@ fn formal_sigma(jac: &[Vec<f64>]) -> Option<Vec<f64>> {
     let d: Vec<f64> = (0..n)
         .map(|j| jac.iter().map(|row| row[j] * row[j]).sum::<f64>().sqrt())
         .collect();
-    if d.iter().any(|v| !(*v > 0.0) || !v.is_finite()) {
+    if d.iter().any(|v| !v.is_finite() || *v <= 0.0) {
         return None;
     }
     let mut a = vec![vec![0.0; n]; n];
@@ -586,25 +586,25 @@ fn formal_sigma(jac: &[Vec<f64>]) -> Option<Vec<f64>> {
     // Cholesky: a = L Lᵀ (lower triangle in place).
     for j in 0..n {
         let mut s = a[j][j];
-        for k in 0..j {
-            s -= a[j][k] * a[j][k];
+        for v in &a[j][..j] {
+            s -= v * v;
         }
-        if !(s > 0.0) {
+        if s.is_nan() || s <= 0.0 {
             return None;
         }
         let l = s.sqrt();
         a[j][j] = l;
         for i in j + 1..n {
             let mut t = a[i][j];
-            for k in 0..j {
-                t -= a[i][k] * a[j][k];
+            for (x, z) in a[i][..j].iter().zip(&a[j][..j]) {
+                t -= x * z;
             }
             a[i][j] = t / l;
         }
     }
     // diag(A⁻¹)_j = ‖L⁻¹ e_j‖²: solve L y = e_j by forward substitution.
     let mut out = Vec::with_capacity(n);
-    for j in 0..n {
+    for (j, dj) in d.iter().enumerate() {
         let mut y = vec![0.0; n];
         for i in j..n {
             let mut t = if i == j { 1.0 } else { 0.0 };
@@ -613,7 +613,7 @@ fn formal_sigma(jac: &[Vec<f64>]) -> Option<Vec<f64>> {
             }
             y[i] = t / a[i][i];
         }
-        out.push(y.iter().map(|v| v * v).sum::<f64>().sqrt() / d[j]);
+        out.push(y.iter().map(|v| v * v).sum::<f64>().sqrt() / dj);
     }
     Some(out)
 }
