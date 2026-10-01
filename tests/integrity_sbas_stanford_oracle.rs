@@ -69,6 +69,25 @@
 //!   `kshana::sbas::iono_free_l1l5_noise_factor()`, so its L1/L5 ionosphere-free noise factor
 //!   is part of the comparison.
 
+//!
+//! # Amendment 2 (committed before any protection level was produced)
+//!
+//! Both amended runs again stopped inside MAAST's message readers, before any protection level:
+//! - L1: MAAST's start-up check of the ionospheric grid mask (`init_read_sbas_L1msgs.m`) counts
+//!   every stored type-18 (MT18) entry, including its three-deep per-band history, and demands
+//!   that the count equal the broadcast number of bands (5 for WAAS on 2020-01-01). Any start
+//!   time with a band received twice in the preceding 600 s therefore fails. The L1 case now
+//!   starts one second after the fifth MT18 of the file (MT18 for bands 3, 2, 1, 0, 9 at time of
+//!   week 258652, 258688, 258719, 258779, 258802 s), at t0 = 258803 s, epochs t0 + 300 k s for
+//!   k = 0..10. The rule is fixed by the message times alone.
+//! - L5: MAAST's L5 decoder dereferences the TESLA receiver object even with authentication
+//!   off, so the L5 case uses MAAST's execution-test configuration unchanged, authentication
+//!   included (`AUTHENTICATION_ENABLED` true, `SenderTESLA_AMAC36`/`ReceiverTESLA_AMAC36`,
+//!   `TEST_TESLA_AUTH` true).
+//!
+//! Neither change touches the protection-level chain under comparison; quantity, Kshana side,
+//! K rescaling and the 1e-4 m bar are unchanged.
+
 /// Tolerance (m) on VPL and HPL after the stated K rescaling.
 pub const TOL_PL_M: f64 = 1e-4;
 /// MAAST's rounded vertical precision-approach K-factor (`init_mops.m`, `MOPS_KV_PA`).
