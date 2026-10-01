@@ -40,6 +40,15 @@
 //!
 //! Discrimination check, pre-registered: the doubled-PDOP mutant (`pdop: 2.0 * pdop2.sqrt()` in
 //! `NormalAccum::solve`), which left the published-floor test green, must turn this test red.
+//!
+//! Result of the first run (2026-10-01, tolerances unchanged): both presets inside every bar on all
+//! 2592 cells. Positions identical (0 m); worst percentage difference 3.8e-13 points (rounding of
+//! identical counts); mean visible count identical; worst PDOP relative difference 8.0e-15
+//! (`galileo`) and 2.3e-14 (`gps-baseline`). Largest PDOP anywhere in the day: 2.72 (`galileo`),
+//! 5.62 (`gps-baseline`).
+//!
+//! Mutation, done 2026-10-01: with the doubled-PDOP mutant the test is red at the first cell
+//! (`galileo` cell 0,0: mean PDOP 3.965 against 1.983); the mutation was then edited back.
 
 use kshana::constellation::{
     body_by_name, coverage, satellite_positions_fixed, ClockModel, ConstellationCfg,
@@ -237,7 +246,6 @@ fn check_preset(preset: &str) -> [f64; 5] {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn coverage_dop_maps_match_gnss_lib_py_on_identical_geometry() {
     for p in PRESETS {
         let w = check_preset(p);
