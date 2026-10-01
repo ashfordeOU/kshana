@@ -326,11 +326,11 @@ jobs:
         # new test file under web/ without adding a step here would leave it untested with
         # CI green. This compares the two sets in both directions instead: a file on disk
         # with no step, or a step naming a file that no longer exists, fails here. The
-        # Studio's module tests live beside the modules in web/playground/lib/, so the
+        # Studio's module tests live beside the modules in web/studio/lib/, so the
         # search covers the whole of web/ except the build output.
         run: |
           set -euo pipefail
-          diff <(find web -name '*.test.mjs' -not -path 'web/pkg/*' -not -path 'web/playground/pkg/*' | sort) \
+          diff <(find web -name '*.test.mjs' -not -path 'web/pkg/*' -not -path 'web/studio/pkg/*' | sort) \
                <(grep -oE '^ +run: node web/[A-Za-z0-9_./-]+\.test\.mjs$' .github/workflows/ci.yml \
                  | awk '{print $3}' | sort -u) \
             || { echo "::error::the test files under web/ and the steps in ci.yml disagree (< on disk, > enumerated)"; exit 1; }
@@ -340,8 +340,8 @@ jobs:
         # directly (--no-opt), so it stages the copy the Studio's own modules import.
         run: |
           set -euo pipefail
-          mkdir -p web/playground/pkg
-          cp web/pkg/kshana.js web/pkg/kshana_bg.wasm web/pkg/package.json web/playground/pkg/
+          mkdir -p web/studio/pkg
+          cp web/pkg/kshana.js web/pkg/kshana_bg.wasm web/pkg/package.json web/studio/pkg/
       - name: Run wasm smoke test
         run: node web/smoke.mjs
       - name: Test the ported site against the ledger, the READMEs and its own manifest
@@ -349,49 +349,49 @@ jobs:
       - name: Test that every old kshana.dev address still resolves
         run: node web/legacy-urls.test.mjs
       - name: Test the share-link codec
-        run: node web/playground/lib/share.test.mjs
+        run: node web/studio/lib/share.test.mjs
       - name: Test the chart-download helpers
-        run: node web/playground/lib/chartdl.test.mjs
+        run: node web/studio/lib/chartdl.test.mjs
       - name: Test the off-main-thread engine client
-        run: node web/playground/lib/engine.test.mjs
+        run: node web/studio/lib/engine.test.mjs
       - name: Test the A/B compare logic
-        run: node web/playground/lib/compare.test.mjs
+        run: node web/studio/lib/compare.test.mjs
       - name: Test the chart-hover logic
-        run: node web/playground/lib/hover.test.mjs
+        run: node web/studio/lib/hover.test.mjs
       - name: Test the 3D orbit renderer math
-        run: node web/playground/lib/orbit3d.test.mjs
+        run: node web/studio/lib/orbit3d.test.mjs
       - name: Test the parameter-sweep helpers
-        run: node web/playground/lib/sweep.test.mjs
+        run: node web/studio/lib/sweep.test.mjs
       - name: Test the guided-knob helpers
-        run: node web/playground/lib/guided.test.mjs
+        run: node web/studio/lib/guided.test.mjs
       - name: Test the multi-run overlay logic
-        run: node web/playground/lib/overlay.test.mjs
+        run: node web/studio/lib/overlay.test.mjs
       - name: Test the tabbed-output model
-        run: node web/playground/lib/tabs.test.mjs
+        run: node web/studio/lib/tabs.test.mjs
       - name: Test the embed-mode helpers
-        run: node web/playground/lib/embed.test.mjs
+        run: node web/studio/lib/embed.test.mjs
       - name: Test the HTML-report builder
-        run: node web/playground/lib/report.test.mjs
+        run: node web/studio/lib/report.test.mjs
       - name: Test the guided-tour core
-        run: node web/playground/lib/tour.test.mjs
+        run: node web/studio/lib/tour.test.mjs
       - name: Test that the Studio's validation counts come from the ledger
-        run: node web/playground/lib/counts.test.mjs
+        run: node web/studio/lib/counts.test.mjs
       - name: Test that the Studio's scenario catalogue matches its bundled files and recordings
-        run: node web/playground/lib/catalog.test.mjs
+        run: node web/studio/lib/catalog.test.mjs
       - name: Test the scenario-parameter reader over every bundled scenario
-        run: node web/playground/lib/params.test.mjs
+        run: node web/studio/lib/params.test.mjs
       - name: Test the result views over recorded runs
-        run: node web/playground/lib/views.test.mjs
+        run: node web/studio/lib/views.test.mjs
       - name: Test the capability views of every scenario kind over recorded runs
-        run: node web/playground/lib/kinds.test.mjs
+        run: node web/studio/lib/kinds.test.mjs
       - name: Test the staged replays (waterfall, timeline, coverage map, solar system)
-        run: node web/playground/lib/stages.test.mjs
+        run: node web/studio/lib/stages.test.mjs
       - name: Test the reader of recorded runs, one file per scenario or packed
-        run: node web/playground/lib/packs.test.mjs
+        run: node web/studio/lib/packs.test.mjs
       - name: Test the key-figure strip over recorded runs
-        run: node web/playground/lib/kpi.test.mjs
+        run: node web/studio/lib/kpi.test.mjs
       - name: Test the field finder against the bundled scenario files
-        run: node web/playground/lib/finder.test.mjs
+        run: node web/studio/lib/finder.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #

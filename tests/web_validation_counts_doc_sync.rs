@@ -242,10 +242,10 @@ fn the_social_card_image_states_the_matrixs_counts() {
 /// and together they read as the project giving two answers to one question. The tally
 /// now comes from `counts.mjs` over the generated ledger — the same matrix the README
 /// counts are pinned to. In the redesigned site that module lives with the Studio
-/// (`web/playground/lib/counts.mjs`), and the Studio's copy of the ledger is the one in
+/// (`web/studio/lib/counts.mjs`), and the Studio's copy of the ledger is the one in
 /// `web/data/`, byte for byte (`web/site.test.mjs` pins that).
 ///
-/// This test pins the wiring from the Rust side; `web/playground/lib/counts.test.mjs`
+/// This test pins the wiring from the Rust side; `web/studio/lib/counts.test.mjs`
 /// and `web/site.test.mjs` (each its own CI step) pin the arithmetic and cross-check the
 /// README and the pages.
 #[test]
@@ -253,7 +253,7 @@ fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
     let s = summarize(&verification_matrix());
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
     let app =
-        std::fs::read_to_string(root.join("web/playground/app.js")).expect("web/playground/app.js");
+        std::fs::read_to_string(root.join("web/studio/app.js")).expect("web/studio/app.js");
     for needle in [
         "from \"./lib/counts.mjs\"",
         "matrixCounts(ledger)",
@@ -261,17 +261,17 @@ fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
     ] {
         assert!(
             app.contains(needle),
-            "web/playground/app.js must take its counts from the ledger through counts.mjs; \
+            "web/studio/app.js must take its counts from the ledger through counts.mjs; \
              missing {needle:?}"
         );
     }
     assert!(
         !app.contains("backed by an external oracle`"),
-        "web/playground/app.js carries a card-only 'backed by an external oracle' headline"
+        "web/studio/app.js carries a card-only 'backed by an external oracle' headline"
     );
     assert_eq!(
-        std::fs::read(root.join("web/playground/data/verification-matrix.json"))
-            .expect("web/playground/data/verification-matrix.json"),
+        std::fs::read(root.join("web/studio/data/verification-matrix.json"))
+            .expect("web/studio/data/verification-matrix.json"),
         std::fs::read(root.join("web/data/verification-matrix.json"))
             .expect("web/data/verification-matrix.json"),
         "the Studio's copy of the ledger is not the generated one; rerun web/tools/port_site.py"
@@ -287,8 +287,8 @@ fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
 
     let ci = std::fs::read_to_string(root.join(".github/workflows/ci.yml")).expect("ci.yml");
     assert!(
-        ci.contains("run: node web/playground/lib/counts.test.mjs")
+        ci.contains("run: node web/studio/lib/counts.test.mjs")
             && ci.contains("run: node web/site.test.mjs"),
-        "web/playground/lib/counts.test.mjs and web/site.test.mjs must each have a CI step"
+        "web/studio/lib/counts.test.mjs and web/site.test.mjs must each have a CI step"
     );
 }

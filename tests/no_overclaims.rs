@@ -34,12 +34,12 @@ const SURFACES: &[(&str, &str)] = &[
     ),
     ("web/editions.html", include_str!("../web/editions.html")),
     (
-        "web/playground/index.html",
-        include_str!("../web/playground/index.html"),
+        "web/studio/index.html",
+        include_str!("../web/studio/index.html"),
     ),
     (
-        "web/playground/lib/catalog.mjs",
-        include_str!("../web/playground/lib/catalog.mjs"),
+        "web/studio/lib/catalog.mjs",
+        include_str!("../web/studio/lib/catalog.mjs"),
     ),
     // The web README and the three registry front pages are public too, and web/README.md
     // drifted precisely because it was the one web surface no gate read.

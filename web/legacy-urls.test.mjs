@@ -15,7 +15,7 @@ const REPO = dirname(WEB);
 const text = (rel) => readFileSync(join(WEB, rel), "utf8");
 const legacy = JSON.parse(text("tools/legacy-urls.json"));
 const ids = (rel) => new Set([...text(rel).matchAll(/\sid="([^"]+)"/g)].map((m) => m[1]));
-// A clean address ("/evidence", "/playground/") -> the file the host serves for it.
+// A clean address ("/evidence", "/studio/") -> the file the host serves for it.
 const fileOf = (pathname) => { const p = pathname.replace(/^\//, ""); return p === "" || p.endsWith("/") ? p + "index.html" : /\.[a-z0-9]+$/i.test(p) ? p : p + ".html"; };
 
 // The generated script, loaded the way a browser's classic <script> would, without a page:
@@ -36,9 +36,9 @@ assert.ok(home.includes('<script src="legacy-redirects.js"></script>'), "index.h
 assert.ok(home.indexOf("legacy-redirects.js") < home.indexOf('rel="stylesheet"'), "and loads it ahead of the stylesheets");
 
 // In a page, the script navigates with location.replace (no extra history entry).
-const navigate = (search, hash) => {
+const navigate = (search, hash, pathname = "/") => {
   let went = null;
-  const win = { location: { search, hash, replace: (u) => { went = u; } }, document: {} };
+  const win = { location: { search, hash, pathname, replace: (u) => { went = u; } }, document: {} };
   vm.runInNewContext(src, { window: win });
   return went;
 };
@@ -46,15 +46,25 @@ const navigate = (search, hash) => {
 const buildSh = readFileSync(join(REPO, "web/build.sh"), "utf8");
 let redirected = 0;
 let kept = 0;
+const moved = Object.keys(legacy.redirects.paths || {});
+const movedFrom = (pathname) => moved.find((p) => pathname.startsWith(p));
 for (const c of legacy.cases) {
   const u = new URL(c.url, legacy.origin);
-  assert.equal(u.pathname === "/" || u.pathname === "/index.html" || c.to === null, true, `${c.url}: only the home page can redirect`);
-  const got = u.pathname === "/" || u.pathname === "/index.html" ? target(u.search, u.hash) : null;
+  const home = u.pathname === "/" || u.pathname === "/index.html";
+  assert.equal(home || !!movedFrom(u.pathname) || c.to === null, true, `${c.url}: only the home page and a moved address can redirect`);
+  const got = home || movedFrom(u.pathname) ? target(u.search, u.hash, u.pathname) : null;
   assert.equal(got, c.to, `${c.url} should ${c.to ? "go to " + c.to : "stay where it is"}`);
   assert.ok(c.cited && c.cited.trim().length > 0, `${c.url}: say where this address is published`);
+  if (movedFrom(u.pathname)) {
+    // the host serves the moved folder's page, and that page loads the script
+    const page = fileOf(movedFrom(u.pathname));
+    assert.ok(existsSync(join(WEB, page)), `${c.url}: web/${page} (the page at the old address) is missing: rerun the port`);
+    assert.ok(text(page).includes('<script src="/legacy-redirects.js"></script>'), `web/${page} loads /legacy-redirects.js`);
+    assert.ok(text(page).includes('<meta name="robots" content="noindex">'), `web/${page} is noindex`);
+  }
   if (c.to) {
     redirected += 1;
-    assert.equal(navigate(u.search, u.hash), c.to, `${c.url}: the page navigates there`);
+    assert.equal(navigate(u.search, u.hash, u.pathname), c.to, `${c.url}: the page navigates there`);
     const landed = new URL(c.to, legacy.origin + "/");
     assert.ok(!/\.html$/.test(landed.pathname), `${c.url} lands on ${c.to}: a redirect names the clean address, without .html`);
     const file = fileOf(landed.pathname);
@@ -64,7 +74,7 @@ for (const c of legacy.cases) {
     if (frag && !frag.startsWith("s=")) assert.ok(ids(file).has(frag), `${c.url} lands on ${c.to}, but ${file} has no id="${frag}"`);
   } else {
     kept += 1;
-    assert.equal(navigate(u.search, u.hash), null, `${c.url}: the page stays put`);
+    assert.equal(navigate(u.search, u.hash, u.pathname), null, `${c.url}: the page stays put`);
     if (c.file) {
       assert.ok(existsSync(join(WEB, c.file)), `${c.url}: web/${c.file} is gone`);
       if (c.id) assert.ok(ids(c.file).has(c.id), `${c.url}: web/${c.file} has no id="${c.id}"`);
@@ -78,14 +88,14 @@ for (const c of legacy.cases) {
   }
 }
 // Share and embed links keep their payload: the Studio reads the same fragment and query.
-assert.equal(target("", "#s=abc_DEF-123"), "/playground/#s=abc_DEF-123");
-assert.equal(target("?embed=1&scenario=clock-holdover.toml", "#s=abc"), "/playground/?embed=1&scenario=clock-holdover.toml#s=abc");
-assert.equal(target("?scenario=x&embed=1", ""), "/playground/?scenario=x&embed=1");
+assert.equal(target("", "#s=abc_DEF-123"), "/studio/#s=abc_DEF-123");
+assert.equal(target("?embed=1&scenario=clock-holdover.toml", "#s=abc"), "/studio/?embed=1&scenario=clock-holdover.toml#s=abc");
+assert.equal(target("?scenario=x&embed=1", ""), "/studio/?scenario=x&embed=1");
 assert.equal(target("?embed=10", ""), null, "only embed=1 is an embed link");
 // Old embed links name result tabs by the single-page site's ids (its tabs.mjs: fom,
 // timeseries, stability, orbit3d, sweep). Each is either still a Studio tab or is mapped to
 // the nearest one, so no old embed link falls back to a default view.
-const tabDefs = text("playground/app.js").match(/const TAB_DEFS = \[([\s\S]*?)\n\];/);
+const tabDefs = text("studio/app.js").match(/const TAB_DEFS = \[([\s\S]*?)\n\];/);
 assert.ok(tabDefs, "the Studio's tab list (const TAB_DEFS) was found");
 const studioTabs = new Set([...tabDefs[1].matchAll(/\{ id: "([a-z0-9-]+)"/g)].map((m) => m[1]));
 assert.ok(studioTabs.size >= 8, `only ${studioTabs.size} Studio tabs parsed`);
@@ -98,15 +108,21 @@ for (const [old, now] of Object.entries(legacy.redirects.embedTabs)) {
   assert.ok(!studioTabs.has(old), `${old} is a Studio tab again: remove its mapping`);
   assert.ok(studioTabs.has(now), `${old} maps to ${now}, which is not a Studio tab`);
 }
-assert.equal(target("?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", ""), "/playground/?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview");
-assert.equal(target("?embed=1&tab=orbit3d&seed=3", ""), "/playground/?embed=1&tab=orbit&seed=3");
-assert.equal(target("?embed=1&tab=json", ""), "/playground/?embed=1&tab=json", "a current tab name passes through");
-assert.equal(target("?embed=1&scenario=fom.toml", ""), "/playground/?embed=1&scenario=fom.toml", "only the tab parameter is rewritten");
+assert.equal(target("?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom", ""), "/studio/?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview");
+assert.equal(target("?embed=1&tab=orbit3d&seed=3", ""), "/studio/?embed=1&tab=orbit&seed=3");
+assert.equal(target("?embed=1&tab=json", ""), "/studio/?embed=1&tab=json", "a current tab name passes through");
+assert.equal(target("?embed=1&scenario=fom.toml", ""), "/studio/?embed=1&scenario=fom.toml", "only the tab parameter is rewritten");
+// A moved address keeps everything after the folder: the query, the fragment, the view.
+for (const [from, to] of Object.entries(legacy.redirects.paths || {})) {
+  assert.equal(target("?scenario=x&tab=y", "#s=abc", from + "index.html"), `${to}?scenario=x&tab=y#s=abc`, `${from}index.html keeps its query and fragment`);
+  assert.equal(target("", "", from), to, `${from} lands on ${to}`);
+  assert.ok(existsSync(join(WEB, fileOf(to))), `${from} lands on ${to}, which does not exist`);
+}
 // An address the new home page owns is never hijacked.
 for (const id of ids("index.html")) assert.equal(target("", `#${id}`), null, `#${id} is a live anchor on the home page and must not redirect`);
 for (const a of legacy.keptAnchors) assert.ok(ids("index.html").has(a), `kept anchor #${a} is on the home page`);
 // The Studio reads share and embed links with the modules the old page used.
-const studio = text("playground/app.js");
+const studio = text("studio/app.js");
 assert.ok(studio.includes("decodeFragment(location.hash)") && studio.includes("embedConfig(location.search)"), "the Studio reads share fragments and embed queries");
 // Material in this repository that cites a fragment address cites one on the list.
 const cited = ["docs/tutorials/README.md", "docs/tutorials/01-first-orbit.md", "README.md", "README.npm.md", "README.crates.md", "README.pypi.md"];
