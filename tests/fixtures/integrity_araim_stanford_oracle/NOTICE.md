@@ -30,11 +30,19 @@ Generated 2026-10-01 for `tests/integrity_araim_stanford_oracle.rs`. Files:
   semantics for that one call form (C = A(IA,:) in order of first occurrence, A = C(IC,:)) and
   defers every other call to Octave's own `unique`. It changes no MAAST algorithm.
 
+- `maast_araim_uniform_pc_levels.csv`, `maast_araim_uniform_nopc_levels.csv`: the same driver
+  with the matched-input variants of the second pre-registration (fourth argument
+  `'uniform_pc'` or `'uniform_nopc'`: sigma_URE = sigma_URA = 1.0 m and P_const = 1e-4 or 0 for
+  both constellations; levels only). The default run is unchanged by the variant argument
+  (re-run byte-identical).
+
 SHA-256 (as committed):
 
     f992650b142861f879bf7757813b5da66655d2f39aa86a9be8b4fdf95422c493  geometry.csv
     a1f27502a011faf048d8772e0c4fe329acb0aba72dd4a8e3ad1706218ab5ee8f  maast_araim_levels.csv
     18c637b7af25d31714876842ec77024224c703be4a9421fd000d0a8748a96110  maast_araim_subsets.csv
+    e0ee23f1679c910722a33bae8f3f5968525285c0a4692a9464b3b3269cf51d7d  maast_araim_uniform_pc_levels.csv
+    cdda7523f0f92d1e66f44678644eda35ad762a6d41c1ec5eada057f3780cccb3  maast_araim_uniform_nopc_levels.csv
 
 Inputs: Celestrak element sets (public, CelesTrak usage terms, see `tests/fixtures/celestrak/`)
 and the IGS precise orbit sample (IGS open data policy, see `tests/fixtures/igs/NOTICE`).
