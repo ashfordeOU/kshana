@@ -46,9 +46,14 @@
 //! * **What this validates.** The classification as a linear-algebra computation on the committed
 //!   matrices, which is the whole of the row's claim (the row claims no physical magnitude).
 //!
-//! ## Result
+//! ## Result (recorded 2026-10-01, not tuned): AGREES
 //!
-//! Not yet run.
+//! 72 cases over 18 subspaces: every `defect`, `dim_spatial`, `dim_temporal` and `coupled_dim`
+//! equal; worst `p_st_norm` relative gap 6.0e-15 (bar 1e-9); the four variants of every subspace
+//! classified identically. Mutations, each reverted by editing back: swapping the spatial and
+//! temporal ranks (`dim_spatial = d - rank(U_S)`) fails on case 4 (`one_spatial`, 0 against 1);
+//! a basis-dependent coupling norm (first null vector only) fails on case 16
+//! (`spatial_axis_plus_rate_axis`, 0.235 against 1.2e-17).
 
 use kshana::lunar_gauge::classify_null_space;
 
@@ -99,7 +104,6 @@ fn cases() -> Vec<Case> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn classify_null_space_matches_scipy_subspace_intersection() {
     let cases = cases();
     assert!(
