@@ -69,6 +69,16 @@
 //! G.8271.1 reference point C masks at the printed points. The ePRTC locked masks, the ePRTC-A
 //! holdover MTIE/TDEV and the G.8273.2 T-BC/T-TSC limits have no printed worked value on a
 //! figure and stay transcriptions; the PASS/FAIL verdict and margin logic is not an oracle quantity.
+//!
+//! VERDICT (2026-10-01, first run after pre-registration commit 970003ee): AGREES. All 10 mask
+//! values and 13 holdover values are inside their printed half-unit, for example 39.9875 ns
+//! against "40ns" (G.8272 Fig. 1), 60.67 and 100.72 ns exactly (G.8271.1 Fig. 7-3), 199.9972 ns
+//! against "200.0", 579.5 ns against "580 ns" (on the inclusive bound, as disclosed above),
+//! 518 400 s and 3 456 000 s exactly and 0.810185 day against "0.81 days". MUTATION: changing the
+//! G.8271.1 Table 7-2 slope 2.25 to 2.26 ns/s in `telecom_timing` moves the 20.2 s value to
+//! 100.922 ns and turns this test red; reverted by editing the file back. The excluded Figure 7-2
+//! label is pinned by `figure_7_2_label_at_1_3_s_is_not_its_own_table_value` (Kshana and Table 7-1
+//! give 197.5 ns).
 
 use kshana::telecom_timing::{
     eprtc_a_holdover_limit_ns, eprtc_a_holdover_period_s, limit_at, mask_by_id,
@@ -276,7 +286,6 @@ fn holdover_points() -> Vec<HoldoverPoint> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn mask_values_match_the_numbers_the_recommendations_print() {
     let mut failures = Vec::new();
     for pt in mask_points() {
@@ -309,4 +318,19 @@ fn mask_values_match_the_numbers_the_recommendations_print() {
         }
     }
     assert!(failures.is_empty(), "outside tolerance: {failures:?}");
+}
+
+/// FINDING about the Recommendation, not about Kshana: G.8271.1 Amd. 3 Figure 7-2 (p. 6) labels the
+/// start of the reference point C mask "200 ns" at tau = 1.3 s, while its own Table 7-1 gives
+/// 100 + 75 x 1.3 = 197.5 ns just inside the open interval 1.3 < tau <= 2.4. Excluded from the
+/// strict comparison by the pre-registered self-consistency rule; pinned here.
+#[test]
+fn figure_7_2_label_at_1_3_s_is_not_its_own_table_value() {
+    let m = mask_by_id("g8271-1-point-c").expect("mask");
+    let v = limit_at(m.mtie.expect("mtie").segments, 1.3 + EPS_S).expect("limit");
+    assert!((v - 197.5).abs() < 1e-6, "Kshana gives {v} ns at 1.3 s");
+    assert!(
+        (v - 200.0).abs() > 0.5,
+        "the printed 200 ns label is outside its half unit"
+    );
 }
