@@ -12,14 +12,17 @@
 //! **v**_inertial = **R** · **v**_body, i.e. body (PA) → J2000 inertial.
 //!
 //! # Interpolation
-//! At 1-day spacing the orientation changes by ~13° (sidereal rotation) so element-wise
-//! linear interpolation across a single day interval is NOT accurate for the full rotation
-//! (the matrix would lose orthogonality).  Here we interpolate element-wise and then
-//! re-orthonormalize via modified Gram-Schmidt applied to the **columns** of the result.
-//! At the 1-day spacing used for this fixture the interpolation error in the rotation
-//! angle (before renormalization) is ≲0.06° and Gram-Schmidt restores orthonormality to
-//! ≲1e-15; this is sufficient for the LLR Fisher analysis described in `lunar_llr_geometry.rs`.
-//! For sub-hour precision a slerp or cubic spline would be preferable.
+//! At 1-day spacing the orientation changes by ~13° (sidereal rotation). Between two nodes
+//! the relative rotation `R0ᵀ·R1` is applied at a uniform rate (geodesic interpolation,
+//! `R0 · Exp(f · Log(R0ᵀ R1))`), followed by a column Gram-Schmidt pass that removes only
+//! rounding-level departures from orthonormality. Against the NAIF SPICE Toolkit evaluating
+//! the binary PCK directly at 2 000 off-node epochs
+//! (`tests/lunar_pa_orientation_spice_oracle.rs`) the rotation-angle error is at most
+//! 1.7e-6 rad (about 3 m at the lunar surface), RMS 7.8e-7 rad.
+//!
+//! The earlier scheme (element-wise linear interpolation, then Gram-Schmidt) recovered the
+//! right axis but not the right angle: its error vanished at the interval midpoint and
+//! reached about 2e-4 rad (about 340 m at the surface) near the quarter points.
 //!
 //! # Sources
 //! - JPL DE440 binary PCK `moon_pa_de440_200625.bpc` (NAIF/JPL).
@@ -95,7 +98,7 @@ fn fixture_rows() -> &'static Vec<Row> {
 
 /// Gram-Schmidt orthonormalization of a 3×3 matrix (applied column-wise).
 ///
-/// Input: a matrix that is *nearly* orthonormal (e.g. element-wise interpolant of two
+/// Input: a matrix that is *nearly* orthonormal (e.g. a product of two
 /// rotation matrices).  Output: a proper rotation matrix (det ≈ +1, R^T R ≈ I).
 ///
 /// Column convention: `m[row][col]`, so column `k` is `[m[0][k], m[1][k], m[2][k]]`.
@@ -135,8 +138,8 @@ fn gram_schmidt(m: [[f64; 3]; 3]) -> [[f64; 3]; 3] {
 
 /// DE440 MOON_PA_DE440 → J2000 rotation at epoch `t_tt_jc` (Julian centuries from J2000 TT).
 ///
-/// Parses the embedded fixture, finds the bracketing 1-day interval, interpolates
-/// element-wise, and re-orthonormalizes via Gram-Schmidt.  Clamps to endpoints
+/// Parses the embedded fixture, finds the bracketing 1-day interval, applies the relative
+/// rotation at a uniform rate, and re-orthonormalizes via Gram-Schmidt.  Clamps to endpoints
 /// outside the fixture window (2024-01-01 to 2025-12-31 TDB).
 ///
 /// Returns a 3×3 matrix **R** with `v_inertial = R · v_body`.
@@ -169,18 +172,72 @@ pub fn de440_moon_pa(t_tt_jc: f64) -> [[f64; 3]; 3] {
     let t1 = rows[hi].t;
     let frac = (t_tt_jc - t0) / (t1 - t0);
 
-    // Element-wise linear interpolation
+    // Geodesic interpolation: R(f) = R0 · Exp(f · Log(R0ᵀ R1)), i.e. the relative
+    // one-day rotation is applied at a uniform rate. Element-wise linear interpolation
+    // followed by re-orthonormalisation (the previous scheme) recovers the right axis
+    // but not the right angle: for the ~13.2 deg daily rotation its angle error vanishes
+    // at the interval midpoint and reaches ~2e-4 rad (~340 m at the lunar surface) near
+    // the quarter points, as the SPICE oracle in
+    // tests/lunar_pa_orientation_spice_oracle.rs measured.
     let r0 = &rows[lo].r;
     let r1 = &rows[hi].r;
-    let mut interp = [[0.0_f64; 3]; 3];
-    for i in 0..3 {
-        for j in 0..3 {
-            interp[i][j] = r0[i][j] + frac * (r1[i][j] - r0[i][j]);
+    let rel = mat_tmul(r0, r1);
+    let step = rot_exp(rot_log(&rel), frac);
+    let interp = mat_mul(r0, &step);
+
+    // Remove the last rounding-level departure from orthonormality.
+    gram_schmidt(interp)
+}
+
+/// `aᵀ · b` for 3×3 matrices.
+fn mat_tmul(a: &[[f64; 3]; 3], b: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
+    let mut m = [[0.0_f64; 3]; 3];
+    for (i, row) in m.iter_mut().enumerate() {
+        for (j, v) in row.iter_mut().enumerate() {
+            *v = a[0][i] * b[0][j] + a[1][i] * b[1][j] + a[2][i] * b[2][j];
         }
     }
+    m
+}
 
-    // Restore orthonormality (lost by element-wise interpolation)
-    gram_schmidt(interp)
+/// `a · b` for 3×3 matrices.
+fn mat_mul(a: &[[f64; 3]; 3], b: &[[f64; 3]; 3]) -> [[f64; 3]; 3] {
+    let mut m = [[0.0_f64; 3]; 3];
+    for (i, row) in m.iter_mut().enumerate() {
+        for (j, v) in row.iter_mut().enumerate() {
+            *v = a[i][0] * b[0][j] + a[i][1] * b[1][j] + a[i][2] * b[2][j];
+        }
+    }
+    m
+}
+
+/// Rotation vector (axis times angle, rad) of a proper rotation matrix whose angle is
+/// well below π (the daily step here is about 0.23 rad).
+fn rot_log(r: &[[f64; 3]; 3]) -> [f64; 3] {
+    let w = [r[2][1] - r[1][2], r[0][2] - r[2][0], r[1][0] - r[0][1]];
+    let s = 0.5 * (w[0] * w[0] + w[1] * w[1] + w[2] * w[2]).sqrt();
+    let c = 0.5 * (r[0][0] + r[1][1] + r[2][2] - 1.0);
+    let theta = s.atan2(c);
+    // theta / (2 sin theta), with its small-angle limit.
+    let k = if s < 1e-12 { 0.5 } else { 0.5 * theta / s };
+    [k * w[0], k * w[1], k * w[2]]
+}
+
+/// Rotation matrix of the rotation vector `v` scaled by `f` (Rodrigues' formula).
+fn rot_exp(v: [f64; 3], f: f64) -> [[f64; 3]; 3] {
+    let v = [f * v[0], f * v[1], f * v[2]];
+    let theta = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+    if theta < 1e-15 {
+        return [[1.0, 0.0, 0.0], [0.0, 1.0, 0.0], [0.0, 0.0, 1.0]];
+    }
+    let (x, y, z) = (v[0] / theta, v[1] / theta, v[2] / theta);
+    let (s, c) = theta.sin_cos();
+    let t = 1.0 - c;
+    [
+        [c + x * x * t, x * y * t - z * s, x * z * t + y * s],
+        [y * x * t + z * s, c + y * y * t, y * z * t - x * s],
+        [z * x * t - y * s, z * y * t + x * s, c + z * z * t],
+    ]
 }
 
 /// Apply the DE440 MOON_PA → J2000 rotation to a body-frame vector.
