@@ -36,10 +36,24 @@
 //! checks are added here before the run, at the turn-angle bar):
 //! - `|B·T̂ − BdotT| ≤ 1e-6 km`, `|B·R̂ − BdotR| ≤ 1e-6 km` and `||B| − BVectorMag| ≤ 1e-6 km`
 //!   on every state;
-//! - turn angle: `|δ − ∠(GMAT incoming, GMAT outgoing asymptote)| ≤ 1e-9 rad` on every state;
+//! - turn angle: `|δ − ∠(GMAT incoming, GMAT outgoing asymptote)| ≤ 1e-9 rad` on every state
+//!   (see amendment 1 for GMAT's sign convention);
 //! - incoming and outgoing asymptote directions: the angle between Kshana's and GMAT's unit
 //!   vectors `≤ 1e-9 rad` on every state;
 //! - all 192 states reported by GMAT, none non-finite.
+//!
+//! Amendment 1 (2026-10-01, written AFTER a first run; disclosed): the first run stopped at
+//! state 1 on the turn-angle check (off by 2.78 rad, which is π − 2δ). GMAT's
+//! `IncomingRHA`/`IncomingDHA` give the direction from the body OUT along the inbound branch
+//! of the hyperbola (where the spacecraft comes from), which is `−Ŝ`, not the arrival
+//! direction `Ŝ` of the hyperbolic-excess velocity; its `OutgoingRHA`/`OutgoingDHA` give the
+//! departure direction. A diagnostic over all 192 states (numpy, outside this test) then
+//! showed GMAT's incoming direction equal to `−Ŝ` within 5.6e-15 rad, so the asymptote
+//! results were seen before this amendment. The comparison is re-mapped to GMAT's convention,
+//! tolerances unchanged: Kshana `Ŝ` against minus GMAT's incoming direction, and the turn
+//! angle `δ` against `π − ∠(GMAT incoming, GMAT outgoing)`. The B-plane checks (B·T̂, B·R̂,
+//! |B|) are unchanged; only state 1's values had been compared (and passed) when the first
+//! run stopped.
 //!
 //! Discrimination check, pre-registered: flipping the sign of the `√(1 − 1/e²)` term in the
 //! engine's incoming asymptote (`Ŝ = ê/e − …`, which yields the outgoing asymptote instead)
@@ -85,7 +99,7 @@ fn numbers(line: &str) -> Vec<f64> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered (amendment 1); not yet run"]
 fn bplane_matches_gmat_over_a_hyperbolic_grid() {
     let states: Vec<Vec<f64>> = fixture("states.txt")
         .lines()
@@ -119,12 +133,14 @@ fn bplane_matches_gmat_over_a_hyperbolic_grid() {
             [0.0, 0.0, 1.0],
         )
         .expect("hyperbolic state");
-        let g_in = radec_unit(g[4], g[5]);
+        // GMAT's incoming direction points out along the inbound branch: −Ŝ (amendment 1).
+        let g_in_out = radec_unit(g[4], g[5]);
+        let g_in = [-g_in_out[0], -g_in_out[1], -g_in_out[2]];
         let g_out = radec_unit(g[6], g[7]);
         let d_bt = (f.b_dot_t - g[1]).abs();
         let d_br = (f.b_dot_r - g[2]).abs();
         let d_bm = (f.b_mag - g[3]).abs();
-        let d_turn = (f.turn_angle - angle(g_in, g_out)).abs();
+        let d_turn = (f.turn_angle - (std::f64::consts::PI - angle(g_in_out, g_out))).abs();
         let d_in = angle(f.s_in, g_in);
         let d_out = angle(f.s_out, g_out);
         w_bt = w_bt.max(d_bt);
