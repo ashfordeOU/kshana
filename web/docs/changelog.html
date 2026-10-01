@@ -53,7 +53,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.2</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.3</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -87,6 +87,52 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 While the project is pre-1.0, the public scenario/result schema may still change;
 breaking changes are called out explicitly.</p>
 <h2 id="unreleased"><a href="https://github.com/AshfordeOU/kshana/compare/v0.29.2...HEAD">Unreleased</a><a class="anchor" href="#unreleased" aria-label="Link to this section">#</a></h2>
+<h2 id="0293---2026-10-01">[0.29.3] - 2026-10-01<a class="anchor" href="#0293---2026-10-01" aria-label="Link to this section">#</a></h2>
+<p>A patch release on 0.29.2. Kshana Studio is rebuilt around two views: a Simple view
+that answers first and explains in plain words, and an Advanced view with the full
+dashboard. Two small fixes on kshana.dev come with it. The engine does not change:
+every bundled scenario gives a byte-identical result to 0.29.2 apart from the version
+stamp.</p>
+<h3 id="changed">Changed<a class="anchor" href="#changed" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>Kshana Studio has a Simple view.</strong> It is what the Studio opens on.<ul>
+<li>The answer comes first: a scenario opens on its result, stated in one plain
+sentence. Every bundled scenario has its own sentence, written for what that
+scenario measures.</li>
+<li>At most five settings are on show, the ones that change the answer most. The rest
+are under &quot;Advanced settings&quot;, folded away until you open them.</li>
+<li>&quot;How this is computed&quot; explains the method in a few lines, and &quot;For researchers&quot;
+gives the engine&#39;s own figures, the scenario file and the evidence behind the
+result.</li>
+</ul>
+</li>
+<li><strong>The full dashboard is the Advanced view.</strong> Every panel, chart, export and report of
+the earlier Studio is there.</li>
+<li><strong>A switch moves between the two views and keeps your place.</strong> The scenario, the
+view you were on and any settings you edited carry over. The Studio remembers which
+view you used last. Links from the site and the documentation open the Simple view;
+a link with <code>view=advanced</code> opens the Advanced view, and every earlier Studio link
+still opens the same scenario and view.</li>
+<li><strong>A faster first view on slow connections.</strong> The recorded answer for a scenario is
+drawn before the rest of the Studio loads, so on a slow mobile connection the answer
+shows in about two seconds instead of about nine.</li>
+<li><strong>Better search.</strong> A search now lists scenarios whose area or title matches the words
+first, ahead of scenarios that only mention them in the file name or text.</li>
+</ul>
+<h3 id="fixed">Fixed<a class="anchor" href="#fixed" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>The home page globe no longer goes blank with reduced motion on.</strong> With the system
+setting for reduced motion on, resizing the window could leave the hero globe empty
+until the page scrolled. The globe now redraws in the same frame as the resize.</li>
+<li><strong>The L-band console on the home page explains its empty band.</strong> In &quot;Watch a jammer
+take the band&quot; the GPS L5 / Galileo E5a panel stayed dark for the whole minute, which
+read as broken. No jammer transmits in that band in this scenario, and the satellite
+signals sit below the noise floor, so nothing there rises above it. A quiet label now
+says so in any panel stretch with nothing above the floor (the L5 / E5a panel, and the
+L2C panel before its noise jammer starts), with each band&#39;s C/N0 and lock state from
+the same run. It is placed only where nothing is above the floor, so it never covers
+jammer energy.</li>
+</ul>
 <h2 id="0292---2026-10-01"><a href="https://github.com/AshfordeOU/kshana/compare/v0.29.1...v0.29.2">0.29.2</a> - 2026-10-01<a class="anchor" href="#0292---2026-10-01" aria-label="Link to this section">#</a></h2>
 <p>A patch release on 0.29.1. It removes duplicated code in the LEO navigation-message,
 fusion and spectrum modules, adds a light theme to kshana.dev, moves Kshana Studio to
@@ -110,7 +156,7 @@ job&#39;s GitHub identity for a short-lived credential. The <code>NPM_TOKEN</cod
 and is used while it is set, so nothing changes until trusted publishing is turned on
 for the package on npmjs.com. <code>docs/RELEASING.md</code> lists the steps.</li>
 </ul>
-<h3 id="changed">Changed<a class="anchor" href="#changed" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-1">Changed<a class="anchor" href="#changed-1" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>The home page headline is readable over the globe.</strong> A soft shade now sits behind
 the headline and its text, fading the orbit lines and satellite dots of the animated
@@ -145,7 +191,7 @@ table files join the copy-paste-detection exemptions for declarative catalogs in
 <code>sonar-project.properties</code>, which <code>tests/sonar_cpd_exclusions_are_justified.rs</code> checks.</p>
 </li>
 </ul>
-<h3 id="fixed">Fixed<a class="anchor" href="#fixed" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-1">Fixed<a class="anchor" href="#fixed-1" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>The README&#39;s CI badge shows the result of pushes to main.</strong> The badge counted runs of
 every event on main, so it could read &quot;failing&quot; while every push run was green; it now
@@ -174,7 +220,7 @@ three letters of क्षण (1,692 bytes, <code>web/fonts/</code>, with its SI
 its SHA-256 in <code>web/fonts/FONTS.json</code>). <code>web/tools/fetch_third_party.py</code> learned to save
 a Google Fonts <code>text=</code> subset under a content-addressed file name.</li>
 </ul>
-<h3 id="changed-1">Changed<a class="anchor" href="#changed-1" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-2">Changed<a class="anchor" href="#changed-2" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>The site&#39;s links land where they point, at clean addresses.</strong> A link to a section now
 puts that section just under the header, on a phone and on a desktop: a Missions sector
@@ -1359,7 +1405,7 @@ Studio screenshots taken from the running Studio by <code>tools/capture_studio_s
 The crates.io, PyPI, npm and MCP server READMEs follow the same design. Long reference
 material is folded or moved to <code>docs/</code>.</li>
 </ul>
-<h3 id="changed-2">Changed<a class="anchor" href="#changed-2" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-3">Changed<a class="anchor" href="#changed-3" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong><code>&lt;scenario&gt;.report.html</code> is now the advanced run report</strong> described under Added, and
 the CLI&#39;s <code>wrote …</code> line names <code>&lt;scenario&gt;.report.json</code> as well. The one-page scorecard
@@ -1378,7 +1424,7 @@ which is a breaking change for a caller that matches it exhaustively. The
 <code>ephemeris</code> kind&#39;s <code>gcrs_r_m</code> and <code>gcrs_v_m_s</code> columns change (see &quot;Revisions to
 published numbers&quot;). A run is still reproduced by the engine version that made it.</li>
 </ul>
-<h3 id="fixed-1">Fixed<a class="anchor" href="#fixed-1" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-2">Fixed<a class="anchor" href="#fixed-2" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong><code>export_table_csv</code> on the MCP server named four kinds as the only ones with a CSV
 (comma-separated values) table; six publish one.</strong> The tool always returned the table for <code>telecom-timing</code> and for
@@ -1526,7 +1572,7 @@ offered).</li>
 at npm, so npm, the ghcr.io MCP image, the MCP registry, the JetBrains Marketplace and
 kshana.dev never received it. 0.27.4 carries the same engine, with the release fix below,
 to every channel.</p>
-<h3 id="fixed-2">Fixed<a class="anchor" href="#fixed-2" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-3">Fixed<a class="anchor" href="#fixed-3" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>The npm publish step names the tarball by an explicit path.</strong> npm reads a bare
 <code>npm-dist/kshana-0.27.3.tgz</code> as the GitHub shorthand <code>owner/repo</code>, so v0.27.3&#39;s npm job
@@ -1535,7 +1581,7 @@ denied (publickey)&quot;. The tarball itself had been built and attested. The st
 publishes <code>./npm-dist/*.tgz</code>. Everything after npm in the release order (the MCP image,
 the JetBrains plugin, the channel-parity check and the site) was skipped, as designed.</li>
 </ul>
-<h3 id="changed-3">Changed<a class="anchor" href="#changed-3" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-4">Changed<a class="anchor" href="#changed-4" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>The telecom-timing and <code>gnss-ins</code> units catalogs are exempt from copy-paste
 detection</strong>, under the same policy and justification test as the other catalogs. The
@@ -1747,7 +1793,7 @@ one run, and the playground now uses it. It matches the four separate calls byte
 byte.</p>
 </li>
 </ul>
-<h3 id="fixed-3">Fixed<a class="anchor" href="#fixed-3" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-4">Fixed<a class="anchor" href="#fixed-4" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>REVISION: the GNSS/INS filter&#39;s gyro-bias coupling had the wrong sign, and the
 <code>gnss-ins</code> outage figures change.</strong> The error-state extended Kalman filter (EKF)
@@ -1918,7 +1964,7 @@ downloads were named plain <code>kshana-csv.csv</code>. The name now falls back 
 engine&#39;s version and a 12-hex FNV-1a-64 fingerprint of the scenario text.</p>
 </li>
 </ul>
-<h3 id="changed-4">Changed<a class="anchor" href="#changed-4" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-5">Changed<a class="anchor" href="#changed-5" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>The published crate is less than half its former size, and <code>cargo install kshana</code>
 builds the CLI alone.</strong> The package used to include the papers, their submission
@@ -2179,7 +2225,7 @@ not have. The guard asserts the stronger property instead — that the current
 engine still reproduces every published value.</p>
 </li>
 </ul>
-<h3 id="fixed-4">Fixed<a class="anchor" href="#fixed-4" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-5">Fixed<a class="anchor" href="#fixed-5" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p>SonarCloud analyses were recorded as <code>VERSION=not provided</code>, so the
 <code>previous_version</code> new-code period never advanced: it was still anchored at the
@@ -2210,7 +2256,7 @@ is left to human judgement. A stale reference to <code>verification::gen</code> 
 module is <code>artifacts</code> — is corrected in the sibling guard&#39;s own documentation.</p>
 </li>
 </ul>
-<h3 id="changed-5">Changed<a class="anchor" href="#changed-5" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-6">Changed<a class="anchor" href="#changed-6" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong><code>main</code> was rewritten on 2026-09-22 and force-pushed.</strong> Ten commits became
 four. The rewrite folded each commit that left a gate red into the commit that
@@ -2278,7 +2324,7 @@ ground under a published artefact.</p>
 </li>
 </ul>
 <h2 id="0271---2026-09-22"><a href="https://github.com/AshfordeOU/kshana/compare/v0.27.0...v0.27.1">0.27.1</a> - 2026-09-22<a class="anchor" href="#0271---2026-09-22" aria-label="Link to this section">#</a></h2>
-<h3 id="fixed-5">Fixed<a class="anchor" href="#fixed-5" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-6">Fixed<a class="anchor" href="#fixed-6" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>The published crate did not compile.</strong> <code>src/lunar_orientation.rs</code> holds a
 top-level <code>include_str!</code> of <code>tests/fixtures/llr_geometry/de440_moon_pa.csv</code>,
@@ -2296,7 +2342,7 @@ already shipped. A <code>package</code> job now builds and compiles the exact ta
 every push.</p>
 </li>
 </ul>
-<h3 id="changed-6">Changed<a class="anchor" href="#changed-6" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-7">Changed<a class="anchor" href="#changed-7" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>The lunar-frame-realisation emission pins no longer move on a version bump. The
 SVG footer carries the engine version, so every release re-baselined three
@@ -2419,7 +2465,7 @@ add three rows. The running total for this unreleased section is
 <strong>168 rows — 64 VALIDATED, 100 MODELLED, 4 PARTNER</strong>.</p>
 </li>
 </ul>
-<h3 id="changed-7">Changed<a class="anchor" href="#changed-7" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-8">Changed<a class="anchor" href="#changed-8" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Commit authorship across the whole history is now a single identity, and two
 published crates point at a commit that no longer exists.</strong> On 2026-09-21 the git
@@ -2453,7 +2499,7 @@ tag delivers the identical bytes the crate was built from. The next release reco
 valid commit with no action needed.</p>
 </li>
 </ul>
-<h3 id="fixed-6">Fixed<a class="anchor" href="#fixed-6" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-7">Fixed<a class="anchor" href="#fixed-7" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong><code>realtime-frame-eop</code> defaulted to an EOP file with no prediction rows (G12).</strong>
 The scenario embedded a five-row <em>final-only</em> <code>finals2000A</code> excerpt as its
@@ -2533,7 +2579,7 @@ resilience, CCSDS OEM interop, KIF), lifting runnable cards from 11 to 16.
 API- and library-only cards keep an honest docs link rather than a fake run
 button.</li>
 </ul>
-<h3 id="changed-8">Changed<a class="anchor" href="#changed-8" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-9">Changed<a class="anchor" href="#changed-9" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Documentation coverage is now ratcheted in CI.</strong> <code>check-doc-coverage.sh</code>
 compiles the library with <code>missing_docs</code>, counts the warnings, and fails only
@@ -2542,7 +2588,7 @@ under <code>-D warnings</code> would have turned ~1000 currently-undocumented pu
 into an overnight build break; this way new undocumented public items fail the
 build while the existing backlog is paid down deliberately.</li>
 </ul>
-<h3 id="fixed-7">Fixed<a class="anchor" href="#fixed-7" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-8">Fixed<a class="anchor" href="#fixed-8" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>The MCP <code>list_scenario_kinds</code> tool row advertised &quot;~17 built-in scenario
 kinds&quot;</strong> while <code>api::list_scenario_kinds()</code> had exposed 50 for some time — an
@@ -2621,7 +2667,7 @@ linear-factor figures.</li>
 carrier/Doppler-offset axis to the capture map (J/S × code-offset × carrier-offset,
 lock time per cell); the zero-carrier slice exactly reduces to the 2-D <code>capture_map</code>.</li>
 </ul>
-<h3 id="changed-9">Changed<a class="anchor" href="#changed-9" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-10">Changed<a class="anchor" href="#changed-10" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Sparse-monitor-network detection</strong> (<code>monitor_network</code>) now composes the physical
 <code>spoof_monitors</code> AGC statistic and the <code>lunar_service</code> selenographic visibility grid
@@ -2631,7 +2677,7 @@ probabilities remain the <code>detection</code> chi-square/Marcum-Q closed forms
 <code>SurfaceMonitor</code> / <code>SpoofEvent</code> fields changed</strong> to physical (lat/lon/alt/power)
 quantities.</li>
 </ul>
-<h3 id="fixed-8">Fixed<a class="anchor" href="#fixed-8" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-9">Fixed<a class="anchor" href="#fixed-9" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>OSNMA/TESLA authentication-overhead sizing</strong> (<code>nma_budget</code>): the per-page OSNMA
 field portions (8-bit HKROOT + 32-bit MACK per 2 s page) were mislabeled as
@@ -2722,7 +2768,7 @@ monitor-network sizing (<code>src/spoof_capture.rs</code>, <code>src/cross_senso
 <code>src/monitor_network.rs</code>) with an orbital-beam antenna footprint and an OSNMA
 authentication budget (<code>src/antenna.rs</code>, <code>src/nma_budget.rs</code>). MODELLED.</li>
 </ul>
-<h3 id="changed-10">Changed<a class="anchor" href="#changed-10" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-11">Changed<a class="anchor" href="#changed-11" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>The validation matrix and every derived artifact were regenerated from the single
 source of truth (<code>src/verification.rs</code>): the on-site ledger, the module-map and
@@ -2742,7 +2788,7 @@ integration host or product no longer fails the build.</li>
 <li>Documentation: the README <strong>Citing</strong> section now lists the four published arXiv
 preprints, and the surface-beacon DOP capability is documented in the lunar row.</li>
 </ul>
-<h3 id="fixed-9">Fixed<a class="anchor" href="#fixed-9" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-10">Fixed<a class="anchor" href="#fixed-10" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Integer loop counters for float-driven loops (Sonar S2193).</li>
 <li>Accurate chi-square inverse at low degrees of freedom via Newton refinement in the
@@ -2787,7 +2833,7 @@ Moonlight/LCNS-family ELFO, and with three Earth VLBI baselines the absolute
 station position is observable at a sub-metre bound — locked by
 <code>elfo_geometry_confirms_the_observability_structure</code>. Still MODELLED.</li>
 </ul>
-<h3 id="changed-11">Changed<a class="anchor" href="#changed-11" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-12">Changed<a class="anchor" href="#changed-12" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>The validation matrix and every generated evidence artifact were regenerated from
 the single source of truth (<code>src/verification.rs</code>): the ledger
@@ -2800,7 +2846,7 @@ and the README count strings across all distribution surfaces now read
 <p>A packaging-only patch release. No engine, scenario, or result changes; the
 validation matrix is unchanged at 39 VALIDATED · 46 MODELLED · 4 PARTNER across
 89 rows.</p>
-<h3 id="fixed-10">Fixed<a class="anchor" href="#fixed-10" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-11">Fixed<a class="anchor" href="#fixed-11" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>npm publish: the package <code>repository.url</code> derived from the crate manifest used
 the wrong-case GitHub owner (<code>AshfordeOU</code>), which failed npm&#39;s sigstore
@@ -2808,7 +2854,7 @@ provenance verification (it matches the owner case-sensitively). The manifest
 <code>repository</code> is now the canonical lowercase <code>ashfordeOU</code>, so the generated
 <code>package.json</code> matches the provenance subject and the npm release publishes.</li>
 </ul>
-<h3 id="changed-12">Changed<a class="anchor" href="#changed-12" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-13">Changed<a class="anchor" href="#changed-13" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Wheel build pins <code>codegen-units = 1</code> so the manylinux wheel is byte-reproducible
 across rebuilds (the rebuild-and-diff reproducibility check).</li>
@@ -2855,7 +2901,7 @@ inside the wheel and npm package; reproducible-build diff and post-release verif
 kshana.dev; a generated <code>validation-breakdown</code> figure derived from the matrix.</li>
 <li><strong>Per-surface READMEs</strong> for crates.io / PyPI / npm with a count honesty guard.</li>
 </ul>
-<h3 id="changed-13">Changed<a class="anchor" href="#changed-13" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-14">Changed<a class="anchor" href="#changed-14" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Sagnac time-transfer</strong> oracle upgraded to ExternalDataset — the equatorial-
 circumnavigation Sagnac correction is now checked against Ashby&#39;s published 207.4 ns
@@ -2877,7 +2923,7 @@ gated on non-test code.</li>
 <li><strong>kshana.dev</strong> proof-first overhaul: dominant hero, architecture diagrams and result
 figures, i18n, collapsible/responsive ledger and Standards sections.</li>
 </ul>
-<h3 id="fixed-11">Fixed<a class="anchor" href="#fixed-11" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-12">Fixed<a class="anchor" href="#fixed-12" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>SP3 precise ephemeris</strong> — apply the IGS Earth-rotation node correction during
 interpolation.</li>
@@ -2962,7 +3008,7 @@ every MODELLED trade.</li>
 study aggregation, hash-stable study metadata + <code>--study-name</code>, <code>--validate</code>
 scenario linting, and per-FoM validation-tier surfacing in study reports.</li>
 </ul>
-<h3 id="changed-14">Changed<a class="anchor" href="#changed-14" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-15">Changed<a class="anchor" href="#changed-15" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>kshana.dev redesigned around a shared domain spine</strong> — capabilities and
 validation folded into one domain explorer with a common vocabulary, the new
@@ -3010,14 +3056,14 @@ These read recordings the user supplies locally; no recordings are committed.</l
 numbers can be checked without rebuilding; they remain regenerable from the
 generators above. Raw datasets stay out of the repo (<code>/realdata-cache/</code>).</li>
 </ul>
-<h3 id="changed-15">Changed<a class="anchor" href="#changed-15" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-16">Changed<a class="anchor" href="#changed-16" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Version bumped to 0.20.0 across <code>Cargo.toml</code>, <code>CITATION.cff</code>, and <code>README</code>; the
 crossover study artifacts are regenerated so their stamp matches the released
 version.</li>
 </ul>
 <h2 id="0190---2026-06-18"><a href="https://github.com/AshfordeOU/kshana/compare/v0.18.0...v0.19.0">0.19.0</a> - 2026-06-18<a class="anchor" href="#0190---2026-06-18" aria-label="Link to this section">#</a></h2>
-<h3 id="changed-16">Changed<a class="anchor" href="#changed-16" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-17">Changed<a class="anchor" href="#changed-17" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Relicensed from Apache-2.0 to the GNU AGPL-3.0-only, with a commercial licence
 available from Ashforde OÜ (dual-licensing).</strong> The open engine stays fully open and
@@ -3180,7 +3226,7 @@ feeds the <code>hybrid-ukf</code> velocity-random-walk floor.</p>
 boundary; the capability map&#39;s community/governance row moves <code>none → partial</code> to reflect it.</p>
 </li>
 </ul>
-<h3 id="fixed-12">Fixed<a class="anchor" href="#fixed-12" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-13">Fixed<a class="anchor" href="#fixed-13" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>ARAIM integrity protection level — nominal bias (<code>b_nom</code>) and σ_URA now applied.</strong> The
 MHSS protection level now subtracts the one-sided nominal-bias projection
@@ -3237,7 +3283,7 @@ scalars. The data travels in the scenario, so the run stays reproducible and
 needs no filesystem (it works in the WASM playground). A <code>kshana --eop &lt;finals2000A&gt;</code> flag folds a real file into the scenario from the CLI. Closes the
 asymmetry where only <code>precise_od</code> consumed real Earth-orientation data.</li>
 </ul>
-<h3 id="fixed-13">Fixed<a class="anchor" href="#fixed-13" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-14">Fixed<a class="anchor" href="#fixed-14" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Range-rate frame consistency.</strong> The ground station is now mapped into the
 inertial frame through the exact inverse of the satellite&#39;s reduction
@@ -3285,7 +3331,7 @@ geopotential (IERS Conventions Ch. 6), wired into the force model.</li>
 <li><strong>Extended technical report (preprint)</strong> linked from the README, and the JOSS
 paper made submittable (author ORCID, compiled to PDF in CI on every change).</li>
 </ul>
-<h3 id="changed-17">Changed<a class="anchor" href="#changed-17" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-18">Changed<a class="anchor" href="#changed-18" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Frames validated to the millimetre against published Vallado vectors.</strong> The
 TEME→PEF/ITRF reduction, the full CIO IAU 2006/2000A GCRS→ITRS chain and the
@@ -3313,7 +3359,7 @@ rotation error, well inside SGP4&#39;s own model error) and refreshed <code>CAPA
 <a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator">JetBrains Marketplace</a>.
 README, <code>kshana.dev</code>, and the distribution docs link to it directly.</li>
 </ul>
-<h3 id="fixed-14">Fixed<a class="anchor" href="#fixed-14" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-15">Fixed<a class="anchor" href="#fixed-15" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>MCP registry publish</strong> now succeeds: the <code>server.json</code> <code>description</code> was over the
 registry&#39;s 100-character limit (HTTP 422). Shortened it, and aligned the server name
@@ -3368,7 +3414,7 @@ gate, or the MSRV build; ANISE is pinned <code>default-features = false</code>. 
 a kernel/network-self-skipping test gate, and an optional <code>workflow_dispatch</code>-only CI
 job (never blocks <code>main</code>). Documented in <code>docs/VALIDATION.md</code> (CIO row) and <code>ROADMAP.md</code>.</li>
 </ul>
-<h3 id="fixed-15">Fixed<a class="anchor" href="#fixed-15" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-16">Fixed<a class="anchor" href="#fixed-16" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Mobile-friendly playground.</strong> Fixed horizontal overflow of the playground <code>.panel</code>
 on phones (a CSS-grid item defaulting to <code>min-width: auto</code> rendered ~100 px wider than
@@ -3379,7 +3425,7 @@ links to the ~44 px WCAG 2.5.5 / Apple-HIG touch-target minimum on phones and to
 devices, with desktop sizing unchanged.</li>
 </ul>
 <h2 id="0140---2026-06-08"><a href="https://github.com/AshfordeOU/kshana/compare/v0.13.0...v0.14.0">0.14.0</a> - 2026-06-08<a class="anchor" href="#0140---2026-06-08" aria-label="Link to this section">#</a></h2>
-<h3 id="fixed-16">Fixed<a class="anchor" href="#fixed-16" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-17">Fixed<a class="anchor" href="#fixed-17" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Robustness hardening from an adversarial battle-test pass.</strong> (1) <code>sbas_protection_level</code> now
 rejects non-finite elevation/azimuth/variance and negative or non-finite covariance diagonals
@@ -3488,7 +3534,7 @@ propagator output and CCSDS OMM export.</li>
 the independent <code>sgp4</code> crate, a CI coverage gate (~97% line on <code>src/</code>), and a
 three-OS (<code>ubuntu</code>/<code>macos</code>/<code>windows</code>) reproducibility matrix.</li>
 </ul>
-<h3 id="changed-18">Changed<a class="anchor" href="#changed-18" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-19">Changed<a class="anchor" href="#changed-19" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Every playground chart now matches the site theme.</strong> All twelve SVG chart
 generators — the result/holdover chart (<code>src/report.rs</code> + <code>src/chart.rs</code>), the
@@ -3517,7 +3563,7 @@ the result&#39;s <code>scenario_hash</code> where present, with a source-hash fa
 integrity/lunar reports. What the fingerprint is and why it&#39;s there is documented in
 the README &quot;Output&quot; section and <a href="/docs/provenance"><code>docs/PROVENANCE.md</code></a>.</li>
 </ul>
-<h3 id="fixed-17">Fixed<a class="anchor" href="#fixed-17" aria-label="Link to this section">#</a></h3>
+<h3 id="fixed-18">Fixed<a class="anchor" href="#fixed-18" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong><code>raim::chi2_quantile</code> and the RAIM Stanford-noise sampler are now panic-free on
 out-of-range / non-finite inputs</strong> (a <code>read_dir</code>-order-dependent fuzz finding from
@@ -3972,7 +4018,7 @@ tests: measurement-model identity, perfect-IMU constant-velocity integration, GN
 accelerometer-bias estimation, and the CAI-limited 120-s outage benchmark.</li>
 </ul>
 <h2 id="0110---2026-06-05"><a href="https://github.com/AshfordeOU/kshana/compare/v0.10.0...v0.11.0">0.11.0</a> - 2026-06-05<a class="anchor" href="#0110---2026-06-05" aria-label="Link to this section">#</a></h2>
-<h3 id="changed-19">Changed<a class="anchor" href="#changed-19" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-20">Changed<a class="anchor" href="#changed-20" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Honest framing for the quantum positioning.</strong> The headline descriptor is now a
 <strong>&quot;PNT-resilience simulator with quantum-sensor performance models&quot;</strong> consistently
@@ -4361,7 +4407,7 @@ New <code>src/detection.rs</code> (Gaussian tail functions, NP/energy test, Mont
 P_fa/P_md) and <code>scenarios/spoof-meaconing.toml</code>. Backward compatible: a bare
 <code>[attack] rate_ns_per_s</code> is still accepted as a linear ramp.</li>
 </ul>
-<h3 id="changed-20">Changed<a class="anchor" href="#changed-20" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-21">Changed<a class="anchor" href="#changed-21" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Security FoM definition (<code>spoof</code> kind):</strong> from the analytic detectability
 bound <code>1 − min_detectable/threshold</code> to the stochastic detector&#39;s <code>1 − P_md</code>.
@@ -4398,7 +4444,7 @@ unchanged. This wires the previously library-only error model into a runnable
 pack and figure of merit.</li>
 </ul>
 <h2 id="0100---2026-06-04"><a href="https://github.com/AshfordeOU/kshana/compare/v0.9.2...v0.10.0">0.10.0</a> - 2026-06-04<a class="anchor" href="#0100---2026-06-04" aria-label="Link to this section">#</a></h2>
-<h3 id="changed-21">Changed<a class="anchor" href="#changed-21" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-22">Changed<a class="anchor" href="#changed-22" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Real-data validation.</strong> The multi-GNSS RINEX navigation parser, the GLONASS
 RK4 propagator, and the SP3 reader are now exercised against genuine IGS/DLR
@@ -4627,7 +4673,7 @@ a RINEX-file scenario kind — that and multi-GNSS/SP3 are next.)</li>
 <li><strong>Archival DOI.</strong> Releases are now deposited to Zenodo and assigned a citable DOI.</li>
 </ul>
 <h2 id="091---2026-06-03"><a href="https://github.com/AshfordeOU/kshana/compare/v0.9.0...v0.9.1">0.9.1</a> - 2026-06-03<a class="anchor" href="#091---2026-06-03" aria-label="Link to this section">#</a></h2>
-<h3 id="changed-22">Changed<a class="anchor" href="#changed-22" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-23">Changed<a class="anchor" href="#changed-23" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Documentation.</strong> Refreshed the README to institutional grade: a Capabilities
 overview of the full v0.9.0 stack, a Versioning &amp; releases section, a clean
@@ -4835,7 +4881,7 @@ an elevation mask. Verified end-to-end (a Walker constellation propagated,
 rotated TEME→ECEF, and counted from a geodetic site) and against the
 geocentric approximation.</li>
 </ul>
-<h3 id="changed-23">Changed<a class="anchor" href="#changed-23" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-24">Changed<a class="anchor" href="#changed-24" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>CI reliability.</strong> The <code>test-python-bindings</code> job now builds the wheel with
 <code>PyO3/maturin-action</code> (manylinux container) instead of a raw host <code>maturin build</code>, eliminating an intermittent <code>rustfmt-preview</code>/<code>cargo-fmt</code> rustup
@@ -4942,7 +4988,7 @@ TLE checksum is consistent and column-69-only; geodetic↔ECEF round-trips and t
 TEME→ECEF rotation preserves norm across the globe and a wide altitude band.</p>
 </li>
 </ul>
-<h3 id="changed-24">Changed<a class="anchor" href="#changed-24" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-25">Changed<a class="anchor" href="#changed-25" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Golden tests now <strong>pin the figures of merit field-by-field</strong> for the four
 reference scenarios (with a tolerance that absorbs cross-platform <code>libm</code> jitter),
@@ -5044,7 +5090,7 @@ its bound includes the link&#39;s measurement-noise floor, so a clock far better
 the link is scored against the delivered solution&#39;s actual noise. Security is the
 clock-aided spoof-detection score against the timing spec.</li>
 </ul>
-<h3 id="changed-25">Changed<a class="anchor" href="#changed-25" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-26">Changed<a class="anchor" href="#changed-26" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Release notes are now generated from the curated CHANGELOG section for the tag
 (<code>scripts/changelog-extract.sh</code>), so each GitHub release highlights what changed
@@ -5111,7 +5157,7 @@ target-gated to use the browser entropy source on <code>wasm32</code>.</li>
 <li>Shared <code>api::run_toml</code> dispatch used by the CLI and both bindings, so the
 command line and the bindings cannot drift.</li>
 </ul>
-<h3 id="changed-26">Changed<a class="anchor" href="#changed-26" aria-label="Link to this section">#</a></h3>
+<h3 id="changed-27">Changed<a class="anchor" href="#changed-27" aria-label="Link to this section">#</a></h3>
 <ul>
 <li>Holdover scoring is now segment-aware: outage timelines are split into
 contiguous segments at GNSS re-acquisition, and the reported holdover is the
@@ -5162,7 +5208,7 @@ services, not license fees.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/positioning"><small>Previous</small>Where Kshana sits</a><a class="next" href="/docs/licensing"><small>Next</small>Licensing</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l2" href="#0292---2026-10-01">0.29.2 - 2026-10-01</a><a class="l3" href="#added">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed">Fixed</a><a class="l2" href="#0291---2026-10-01">0.29.1 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers">Revisions to published numbers</a><a class="l3" href="#added-1">Added</a><a class="l3" href="#changed-1">Changed</a><a class="l2" href="#0290---2026-10-01">0.29.0 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers-1">Revisions to published numbers</a><a class="l3" href="#added-2">Added</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#fixed-1">Fixed</a><a class="l2" href="#0280---2026-09-26">0.28.0 - 2026-09-26</a><a class="l3" href="#added-3">Added</a><a class="l2" href="#0274---2026-09-26">0.27.4 - 2026-09-26</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#changed-3">Changed</a><a class="l2" href="#0273---2026-09-25">0.27.3 - 2026-09-25</a><a class="l3" href="#added-4">Added</a><a class="l3" href="#fixed-3">Fixed</a><a class="l3" href="#changed-4">Changed</a><a class="l3" href="#security">Security</a><a class="l2" href="#0272---2026-09-22">0.27.2 - 2026-09-22</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#fixed-4">Fixed</a><a class="l3" href="#changed-5">Changed</a><a class="l2" href="#0271---2026-09-22">0.27.1 - 2026-09-22</a><a class="l3" href="#fixed-5">Fixed</a><a class="l3" href="#changed-6">Changed</a><a class="l2" href="#0270---2026-09-22">0.27.0 - 2026-09-22</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-7">Changed</a><a class="l3" href="#fixed-6">Fixed</a><a class="l2" href="#0260---2026-09-18">0.26.0 - 2026-09-18</a><a class="l3" href="#added-7">Added</a><a class="l3" href="#changed-8">Changed</a><a class="l3" href="#fixed-7">Fixed</a><a class="l2" href="#0250---2026-07-15">0.25.0 - 2026-07-15</a><a class="l3" href="#added-8">Added</a><a class="l3" href="#changed-9">Changed</a><a class="l3" href="#fixed-8">Fixed</a><a class="l2" href="#0240---2026-07-09">0.24.0 - 2026-07-09</a><a class="l3" href="#added-9">Added</a><a class="l3" href="#changed-10">Changed</a><a class="l3" href="#fixed-9">Fixed</a><a class="l2" href="#0230---2026-06-29">0.23.0 - 2026-06-29</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#changed-11">Changed</a><a class="l2" href="#0221---2026-06-29">0.22.1 - 2026-06-29</a><a class="l3" href="#fixed-10">Fixed</a><a class="l3" href="#changed-12">Changed</a><a class="l2" href="#0220---2026-06-29">0.22.0 - 2026-06-29</a><a class="l3" href="#added-11">Added</a><a class="l3" href="#changed-13">Changed</a><a class="l3" href="#fixed-11">Fixed</a><a class="l3" href="#tests">Tests</a><a class="l2" href="#0210---2026-06-26">0.21.0 - 2026-06-26</a><a class="l3" href="#added-12">Added</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l2" href="#0293---2026-10-01">[0.29.3] - 2026-10-01</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed">Fixed</a><a class="l2" href="#0292---2026-10-01">0.29.2 - 2026-10-01</a><a class="l3" href="#added">Added</a><a class="l3" href="#changed-1">Changed</a><a class="l3" href="#fixed-1">Fixed</a><a class="l2" href="#0291---2026-10-01">0.29.1 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers">Revisions to published numbers</a><a class="l3" href="#added-1">Added</a><a class="l3" href="#changed-2">Changed</a><a class="l2" href="#0290---2026-10-01">0.29.0 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers-1">Revisions to published numbers</a><a class="l3" href="#added-2">Added</a><a class="l3" href="#changed-3">Changed</a><a class="l3" href="#fixed-2">Fixed</a><a class="l2" href="#0280---2026-09-26">0.28.0 - 2026-09-26</a><a class="l3" href="#added-3">Added</a><a class="l2" href="#0274---2026-09-26">0.27.4 - 2026-09-26</a><a class="l3" href="#fixed-3">Fixed</a><a class="l3" href="#changed-4">Changed</a><a class="l2" href="#0273---2026-09-25">0.27.3 - 2026-09-25</a><a class="l3" href="#added-4">Added</a><a class="l3" href="#fixed-4">Fixed</a><a class="l3" href="#changed-5">Changed</a><a class="l3" href="#security">Security</a><a class="l2" href="#0272---2026-09-22">0.27.2 - 2026-09-22</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#fixed-5">Fixed</a><a class="l3" href="#changed-6">Changed</a><a class="l2" href="#0271---2026-09-22">0.27.1 - 2026-09-22</a><a class="l3" href="#fixed-6">Fixed</a><a class="l3" href="#changed-7">Changed</a><a class="l2" href="#0270---2026-09-22">0.27.0 - 2026-09-22</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-8">Changed</a><a class="l3" href="#fixed-7">Fixed</a><a class="l2" href="#0260---2026-09-18">0.26.0 - 2026-09-18</a><a class="l3" href="#added-7">Added</a><a class="l3" href="#changed-9">Changed</a><a class="l3" href="#fixed-8">Fixed</a><a class="l2" href="#0250---2026-07-15">0.25.0 - 2026-07-15</a><a class="l3" href="#added-8">Added</a><a class="l3" href="#changed-10">Changed</a><a class="l3" href="#fixed-9">Fixed</a><a class="l2" href="#0240---2026-07-09">0.24.0 - 2026-07-09</a><a class="l3" href="#added-9">Added</a><a class="l3" href="#changed-11">Changed</a><a class="l3" href="#fixed-10">Fixed</a><a class="l2" href="#0230---2026-06-29">0.23.0 - 2026-06-29</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#changed-12">Changed</a><a class="l2" href="#0221---2026-06-29">0.22.1 - 2026-06-29</a><a class="l3" href="#fixed-11">Fixed</a><a class="l3" href="#changed-13">Changed</a><a class="l2" href="#0220---2026-06-29">0.22.0 - 2026-06-29</a><a class="l3" href="#added-11">Added</a><a class="l3" href="#changed-14">Changed</a><a class="l3" href="#fixed-12">Fixed</a></nav>
 </div>
 </main>
 
@@ -5175,8 +5221,8 @@ services, not license fees.</li>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.29.2 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.29.2 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.3 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.3 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -5189,7 +5235,7 @@ services, not license fees.</li>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.29.2",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.29.3",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

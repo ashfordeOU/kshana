@@ -60,6 +60,9 @@ function init(D) {
   const onsetEnd = D.campaign.phases[0].t1;
   const phaseAt = (ts) => (ts < onsetEnd ? 0 : chirp && chirp.off != null && ts < chirp.off ? 1 : 2);
   const short = (j) => (j.waveform === "chirp" ? "chirp" : j.waveform === "cw" ? "CW tone" : "noise");
+  // Rows where a window shows nothing above the noise floor. Satellite signals sit below the floor,
+  // so such a stretch is an empty-looking rectangle; the draw labels it from the run (quietNote).
+  const quiet = segs.map((s) => D.psd.map((row) => { for (let i = 0; i < s.n; i++) if (row[s.c0 + i] > 0) return false; return true; }));
   const marks = [];
   for (const j of D.jammers) {
     const seg = segs.findIndex((s) => j.fc >= s.lo && j.fc <= s.hi);
@@ -221,6 +224,7 @@ function init(D) {
         ctx.fillStyle = css.ink; ctx.textAlign = "left"; ctx.fillText(m.txt, g.x + 9, y - 9);
       }
     }
+    segs.forEach((s, i) => quietNote(i, vis, y0));
     // where the replay restarted: the rows below it are the previous pass
     if (vis < N && vis * rowH > 18) {
       const y = Math.round(y0 + vis * rowH) + 0.5;
@@ -260,6 +264,52 @@ function init(D) {
     });
     ctx.textAlign = "right"; ctx.fillStyle = css["ink-3"]; ctx.fillText("MHz", GL - 8, y0 + PH + 13);
     panel();
+  }
+
+  // The longest stretch of on-screen rows in window si with nothing above the floor gets a quiet
+  // label, centred in that stretch only, so it can never cover jammer energy. The wording comes from
+  // the run: the jammer list and each band's C/N0 and lock state at the stretch's newest row.
+  function quietNote(si, vis, y0) {
+    const g = L[si], q = quiet[si];
+    // rows in screen order, newest first: this pass (vis-1 … 0), then the previous one (N-1 … ceil(vis));
+    // a row's top sits (vis-1-k) rows below the top edge (plus N for the previous pass). A run never
+    // crosses the restart line between the two passes.
+    const vc = Math.ceil(vis), order = [];
+    for (let k = vc - 1; k >= 0; k--) order.push([k, vis - 1 - k, 0]);
+    for (let k = N - 1; k >= vc; k--) order.push([k, vis - 1 - k + N, 1]);
+    let best = null, run = null;
+    for (const [k, p, pass] of order) {
+      if (q[k] && run && run.pass === pass) run.p1 = p + 1;
+      else run = q[k] ? { k, pass, p0: p, p1: p + 1 } : null;
+      if (run) { const a = Math.max(0, run.p0), z = Math.min(N, run.p1); if (!best || z - a > best.z - best.a) best = { k: run.k, a, z }; }
+    }
+    if (!best) return;
+    // keep clear of the jammer-event labels above a quiet stretch and of the restart line below it
+    const top = y0 + best.a * rowH + (best.a > 0.01 ? 20 : 6), bot = y0 + best.z * rowH - (best.z < N - 0.01 ? 8 : 6);
+    const maxW = g.w - 14; if (maxW < 56 || bot - top < 30) return;
+    const inBand = bands.filter((b) => b.seg === si);
+    const jam = D.jammers.some((j) => j.fc >= segs[si].lo && j.fc <= segs[si].hi && (j.on / D.step_s) <= best.k && (j.off == null || j.off / D.step_s > best.k));
+    if (jam) return; // a jammer is on but under the floor: not an empty band, say nothing
+    const head = "No jammer in this band";
+    const SANS = "500 11px 'Geist', ui-sans-serif, system-ui, sans-serif", MONO = "500 10px 'Geist Mono', ui-monospace, monospace";
+    const wrap = (txt, font) => { ctx.font = font; const out = []; let cur = ""; for (const w of txt.split(" ")) { const tryL = cur ? `${cur} ${w}` : w; if (!cur || ctx.measureText(tryL).width <= maxW) cur = tryL; else { out.push(cur); cur = w; } } if (cur) out.push(cur); return out; };
+    const lines = [];
+    for (const l of wrap(head, SANS)) lines.push({ t: l, f: SANS, c: css.ink });
+    for (const l of wrap("signals sit below the noise floor", MONO)) lines.push({ t: l, f: MONO, c: css["ink-2"] });
+    const extra = [];
+    for (const b of inBand) for (const l of wrap(`${b.name} ${fmt(b.cn0[best.k])} dB-Hz · ${STATE_TXT[state(b, best.k)].toLowerCase()}`, MONO)) extra.push({ t: l, f: MONO, c: css["ink-2"], gap: !extra.length });
+    const LH = 14, room = bot - top - 12;
+    let all = lines.concat(extra);
+    if (all.length * LH + 4 > room) all = lines;
+    if (all.length * LH > room) all = lines.slice(0, Math.max(1, Math.floor(room / LH)));
+    if (!all.length || all.some((l) => { ctx.font = l.f; return ctx.measureText(l.t).width > maxW; })) return;
+    let bw = 0; for (const l of all) { ctx.font = l.f; bw = Math.max(bw, ctx.measureText(l.t).width); }
+    const h = all.length * LH + (all.some((l) => l.gap) ? 4 : 0) + 10, cx = g.x + g.w / 2, cy = (top + bot) / 2;
+    ctx.fillStyle = css["panel-solid"]; ctx.globalAlpha = 0.72; roundRect(cx - bw / 2 - 7, cy - h / 2, bw + 14, h, 6); ctx.fill(); ctx.globalAlpha = 1;
+    ctx.textAlign = "center"; ctx.textBaseline = "middle";
+    let y = cy - h / 2 + 5 + LH / 2;
+    for (const l of all) { if (l.gap) y += 4; ctx.font = l.f; ctx.fillStyle = l.c; ctx.fillText(l.t, cx, y); y += LH; }
+    ctx.font = MONO;
   }
 
   // ---------------------------------------------------------------- side panel and phases

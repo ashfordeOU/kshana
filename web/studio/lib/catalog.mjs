@@ -24,6 +24,26 @@ export const DOMAINS = [
   { id: "studies", label: "Quantum, trade studies & interoperability", color: "var(--spf)" },
 ];
 
+// One line per domain: what it covers, in plain words. Shown on the Studio's area screens and
+// read by the search, so "coverage" finds the constellation-design area.
+export const DOMAIN_LINES = {
+  interference: "Jammers against satellite navigation receivers: what is lost, and when.",
+  spectrum: "Waterfalls of the radio band: jammers, signals and what the receiver tracks.",
+  spoofing: "False signals and meaconing, and the monitors that catch them.",
+  timing: "Clocks without satellites: holdover, stability, telecom masks, time transfer.",
+  navigation: "Inertial, terrain, gravity and other navigation without satellites.",
+  integrity: "Position fixes and whether they can be trusted: RAIM (receiver autonomous integrity monitoring) and its advanced form, ARAIM.",
+  orbits: "Orbit propagation, ephemerides and the geometry of navigation satellites.",
+  constellations: "Design a constellation and map its coverage and PDOP (position dilution of precision).",
+  leo: "Low Earth orbit navigation signals, passes, messages and fixes.",
+  "leo-missions": "Studies and services built on a low Earth orbit layer.",
+  campaigns: "Chained missions, sweeps and Monte Carlo runs on one clock.",
+  spaceops: "Passes, launch windows, re-entry, link and attitude budgets.",
+  deepspace: "Navigation and time at the Moon, in cislunar space and at Mars.",
+  solar: "Every planet and moon at one epoch, with light times.",
+  studies: "Quantum sensors, trade studies and interoperability formats.",
+};
+
 // [file, domain, title, question]. `question` is the one line the scenario answers.
 export const SCENARIOS = [
   // Jamming & interference
@@ -219,28 +239,29 @@ export function entryFor(file) {
 }
 
 // Entries grouped in DOMAINS order, filtered by a case-insensitive query over file,
-// title, question and domain label. Empty groups are dropped.
+// title, question, domain label and domain line. Empty groups are dropped.
 export function groupedLibrary(query = "") {
   const q = query.trim().toLowerCase();
   const out = [];
   for (const d of DOMAINS) {
     const items = SCENARIOS.filter((s) => s[1] === d.id)
       .map((s) => ({ file: s[0], domain: s[1], title: s[2], question: s[3] }))
-      .filter((e) => !q || [e.file, e.title, e.question, d.label].some((t) => t.toLowerCase().includes(q)));
+      .filter((e) => !q || [e.file, e.title, e.question, d.label, DOMAIN_LINES[d.id] || ""].some((t) => t.toLowerCase().includes(q)));
     if (items.length) out.push({ domain: d, items });
   }
   return out;
 }
 
-// Search results ranked for a reader: a match in the title counts most, then the domain
-// label, then the file name, then the question. A match at the start of a word beats one
-// inside a word ("orbit" in "SGP4 orbits" beats "suborbital"). Ties keep library order.
-// Matches exactly the entries groupedLibrary(query) keeps.
+// Search results ranked for a reader. A match in the domain (its label or its one-line
+// description) or in the title counts most; then the file name, then the question. A
+// match at the start of a word beats one inside a word ("orbit" in "SGP4 orbits" beats
+// "suborbital"). So every title or domain match ranks above every match found only in a
+// description. Ties keep library order. Matches exactly the entries groupedLibrary(query) keeps.
 export function searchScenarios(query = "") {
   const q = query.trim().toLowerCase();
   if (!q) return [];
   const hit = (text, weight) => {
-    const t = text.toLowerCase();
+    const t = String(text).toLowerCase();
     const i = t.indexOf(q);
     if (i < 0) return 0;
     const atWord = i === 0 || !/[a-z0-9]/.test(t[i - 1]);
@@ -248,7 +269,17 @@ export function searchScenarios(query = "") {
   };
   return groupedLibrary(q)
     .flatMap((g) => g.items.map((e) => ({ e, d: g.domain })))
-    .map(({ e, d }, n) => ({ e, n, score: hit(e.title, 8) + hit(d.label, 4) + hit(e.file.replace(/\.toml$/, "").replace(/-/g, " "), 2) + hit(e.question, 1) }))
-    .sort((a, b) => b.score - a.score || a.n - b.n)
+    .map(({ e, d }, n) => {
+      // The domain is what a scenario is about; its title is how it is named. A domain match
+      // (label or line) leads by a little, so "orbit" lists the orbits area before a low-orbit
+      // scenario elsewhere, and "coverage" the constellation-design area before EO coverage.
+      // A domain named for the word ("Orbits & GNSS geometry" for "orbit") leads by a little more.
+      const named = d.label.toLowerCase().startsWith(q) ? 4 : 0;
+      const dom = Math.max(hit(d.label, 16), hit(DOMAIN_LINES[d.id] || "", 16)), tit = hit(e.title, 14);
+      const strong = (dom ? dom + named : 0) + (dom && tit ? Math.min(dom, tit) / 4 : tit);
+      const weak = hit(e.file.replace(/\.toml$/, "").replace(/-/g, " "), 2) + hit(e.question, 1);
+      return { e, n, strong, weak };
+    })
+    .sort((a, b) => b.strong - a.strong || b.weak - a.weak || a.n - b.n)
     .map((x) => x.e);
 }
