@@ -28,7 +28,8 @@ fn every_coverage_surface_states_the_recorded_measurement() {
         "recorded coverage {pct} is implausible — the parser read the wrong number"
     );
     let n = pct.round() as u32;
-    let badge = format!("badge/coverage-~{n}%25%20line");
+    // The badge reads "~N%": shields ends the message at the next `-`, so pin that too.
+    let badge = format!("badge/coverage-~{n}%25-");
     let surfaces: [(&str, &str, String); 7] = [
         (
             "README.md badge",
