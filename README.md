@@ -18,20 +18,18 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&label=CI&style=flat-square&labelColor=0A1226" alt="Continuous integration status on main"></a>
-  <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25%20line-377D0C?style=flat-square&labelColor=0A1226" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
-  <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%20of%20223-377D0C?style=flat-square&labelColor=0A1226" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
-  <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality%20gate&style=flat-square&labelColor=0A1226" alt="SonarQube Cloud quality gate status"></a>
-  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
-</p>
-
-<p align="center">
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.1-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.29.1"></a>
-  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only"></a>
-  <a href="#editions"><img src="https://img.shields.io/badge/commercial-available-B8288F?style=flat-square&labelColor=0A1226" alt="A commercial licence is available from Ashforde OÜ, see Editions"></a>
-  <a href="https://crates.io/crates/kshana"><img src="https://img.shields.io/crates/v/kshana?label=crates.io&color=066A86&style=flat-square&labelColor=0A1226" alt="kshana on crates.io, the current published version"></a>
-  <a href="https://pypi.org/project/kshana/"><img src="https://img.shields.io/pypi/v/kshana?label=PyPI&color=066A86&style=flat-square&labelColor=0A1226" alt="kshana on PyPI, the current published version"></a>
-  <a href="https://www.npmjs.com/package/kshana"><img src="https://img.shields.io/npm/v/kshana?label=npm&color=066A86&style=flat-square&labelColor=0A1226" alt="kshana on npm, the current published version"></a>
+  <a href="https://github.com/ashfordeOU/kshana/actions/workflows/ci.yml"><img src="https://img.shields.io/github/actions/workflow/status/ashfordeOU/kshana/ci.yml?branch=main&label=CI&style=flat-square&labelColor=0A1226" height="18" alt="Continuous integration status on main"></a>
+  <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
+  <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%2F223-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
+  <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.1-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.29.1"></a>
+  <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
+  <br>
+  <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
+  <a href="#editions"><img src="https://img.shields.io/badge/commercial-available-B8288F?style=flat-square&labelColor=0A1226" height="18" alt="A commercial licence is available from Ashforde OÜ, see Editions"></a>
+  <a href="https://crates.io/crates/kshana"><img src="https://img.shields.io/crates/v/kshana?label=crates.io&color=066A86&style=flat-square&labelColor=0A1226" height="18" alt="kshana on crates.io, the current published version"></a>
+  <a href="https://pypi.org/project/kshana/"><img src="https://img.shields.io/pypi/v/kshana?label=PyPI&color=066A86&style=flat-square&labelColor=0A1226" height="18" alt="kshana on PyPI, the current published version"></a>
+  <a href="https://www.npmjs.com/package/kshana"><img src="https://img.shields.io/npm/v/kshana?label=npm&color=066A86&style=flat-square&labelColor=0A1226" height="18" alt="kshana on npm, the current published version"></a>
 </p>
 
 <p align="center">

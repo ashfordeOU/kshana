@@ -51,7 +51,12 @@ every scenario gives the same result as on 0.29.0.
   0.29.1 build (`tools/capture_site_shots.mjs`, composed by `tools/readme_shots.py` and
   recorded in `docs/assets/readme/site/SHOTS.json`); the coverage figure reads ~95 %; and
   the research figure's alt text, which repeated the architecture figure's, now describes
-  the papers.
+  the papers. The header badges are smaller and shorter (18 px high; "~95%", "83/223",
+  "quality", "AGPL-3.0", "zenodo.20528627"), so the eleven fit on two lines; every link and
+  alt text keeps its full meaning.
+- **Eight float literals regrouped** in `src/ephem.rs` and `src/sgp4.rs` (`0.323_273_64` →
+  `0.323_273_640`): SonarQube Cloud read a last group of `_64` or `_32` as a missing `f64` or
+  `f32` suffix (rule S7454). The values are the same numbers, so every result is unchanged.
 
 ## [0.29.0] - 2026-10-01
 
