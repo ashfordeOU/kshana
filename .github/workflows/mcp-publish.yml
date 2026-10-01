@@ -35,7 +35,10 @@ jobs:
   image:
     name: OCI image (ghcr.io)
     runs-on: ubuntu-latest
-    timeout-minutes: 45
+    # The linux/arm64 half builds under emulation. At v0.29.0 the engine crate alone took
+    # about 25 minutes there and the job hit the old 45-minute limit while compiling the
+    # last crate (v0.28.0 finished in 27 minutes). 90 leaves room as the engine grows.
+    timeout-minutes: 90
     if: startsWith(github.ref, 'refs/tags/v')
     environment:
       name: ghcr-image
