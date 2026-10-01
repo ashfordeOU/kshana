@@ -64,8 +64,14 @@ fn main() {
         let ev = kshana::fim::sym_eig(&info).values;
         let lmax = ev.iter().cloned().fold(0.0_f64, f64::max);
         let thr = 1e-9 * lmax;
-        let below = ev.iter().filter(|&&l| l <= thr).fold(0.0_f64, |m, &l| m.max(l.abs()));
-        let above = ev.iter().filter(|&&l| l > thr).fold(f64::INFINITY, |m, &l| m.min(l));
+        let below = ev
+            .iter()
+            .filter(|&&l| l <= thr)
+            .fold(0.0_f64, |m, &l| m.max(l.abs()));
+        let above = ev
+            .iter()
+            .filter(|&&l| l > thr)
+            .fold(f64::INFINITY, |m, &l| m.min(l));
         eprintln!(
             "  {name}: largest |eig| at or below threshold / lmax = {:.3e}; smallest above / lmax = {:.3e}",
             below / lmax,

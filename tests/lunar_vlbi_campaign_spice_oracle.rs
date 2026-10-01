@@ -113,9 +113,35 @@
 //! from independent ephemeris, Earth-orientation and lunar-orientation geometry. Not a real
 //! campaign's accuracy: clocks, troposphere and Earth orientation are held fixed in both legs.
 //!
-//! ## Result
+//! ## Result (recorded 2026-10-01, not tuned)
 //!
-//! Not yet run.
+//! **`lunar-vlbi-fim`: AGREES on both legs.** Observation sets identical (16 of 147 scheduled
+//! baseline-epochs clear the mask). Default: rank 6/6 both; station sigmas within 2.2e-3
+//! (largest 0.1616 m against SPICE 0.1614 m); eigenvalues within 2.3e-3; condition 22093 against
+//! 22039 (2.4e-3); headline 0.092635 against 0.092540 m (1.0e-3); trace bound 8.8e-5; equipartition
+//! equal; ratios 71.36 against 71.29 and 50.46 against 50.40. Free network: rank 8/9 both, headline
+//! null with RANK-DEFICIENT status, kept eigenvalues within 2.1e-3, condition 9.0e-5, null space
+//! 0.006 deg apart. Line-of-sight sweep 10.965 against 10.961 deg, maximum 157.305 against 157.288
+//! deg, beacon declination 12.762 against 12.770 deg. P2 leg: covariance within 2.0e-13, sigma
+//! 1.0e-13 (free network 2.1e-7), eigenvalues 2.8e-16 of the largest, null space 1.5e-8 rad.
+//!
+//! **`lunar-frame-campaign`: the SPICE leg AGREES on all six scenarios; the P2 leg FAILS its bar on
+//! one, so the row is not promoted.** SPICE leg: observation sets identical (64, 52, 120, 64, 64,
+//! 48); datum sigmas within 3.2e-3, 4.7e-3, 1.4e-3, 6.0e-4 and 3.2e-3; condition within 2.6e-3;
+//! weakest direction within 0.07 deg; collinear-beacon null space 0.031 deg apart (rank 5 both);
+//! inter-beacon correlation 0.99999975 with stations estimated (gap 5.2e-9) and
+//! independence-discarded translation within 3.8e-3; translation norm 7.568 > 6.401 > 0.817 m over
+//! 16, 24 and 48 h; libration sweep 1.131, 1.723, 3.561 deg against the engine's 1.130, 1.722,
+//! 3.564. P2 leg: within 3e-14 on the five stations-fixed scenarios, but on `stations_estimated`
+//! the datum sigmas differ by up to 6.8e-6, the condition number by 9.1e-6 and the weakest
+//! direction by 1.1e-3 deg, against bars of 1e-9, 1e-6 and 5.7e-5 deg. The bars rested on a
+//! premise the pre-registration stated wrongly (largest condition number 4e5): with the stations
+//! estimated the Helmert matrix has condition 2.1e8 and the joint information matrix eigenvalues
+//! down to 6.4e-13 of the largest, so the marginal beacon information is formed with cancellation.
+//! Three NumPy routes to the same Schur complement (`inv`, Cholesky `solve`, `eigh`, a QR
+//! projection) themselves disagree by 2.9e-6 to 3.4e-6, so no double-precision algorithm meets
+//! the 1e-9 bar there. The bar is not loosened after the fact: the strict test stays ignored and
+//! `lunar_frame_campaign_finding_stations_estimated_p2_precision` pins the gap.
 
 use kshana::lunar_frame_campaign::{BeaconInput, LunarFrameCampaignScenario};
 use kshana::lunar_vlbi_fim::{schedule_jacobian, LunarVlbiFimScenario, StateLayout};
@@ -248,7 +274,6 @@ fn run(json: Result<(String, String), String>) -> J {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn lunar_vlbi_fim_matches_spice_geometry_and_numpy() {
     let inputs = fixture("inputs.json");
     let reference = fixture("reference.json");
@@ -262,20 +287,7 @@ fn lunar_vlbi_fim_matches_spice_geometry_and_numpy() {
         let sc = vlbi_scenario(name);
         let v = run(sc.run_json());
 
-        // The committed Jacobian is what the engine builds now.
         let (geoms, obs) = sc.schedule().expect("schedule");
-        let held: Vec<usize> = inp["held_fixed"]
-            .as_array()
-            .unwrap()
-            .iter()
-            .map(u)
-            .collect();
-        let layout = StateLayout::new(geoms[0].stations_inertial.len(), &held, false);
-        assert_eq!(
-            schedule_jacobian(&geoms, &obs, &layout),
-            mat(&inp["engine_jacobian"]),
-            "{name}: Jacobian drifted from the fixture"
-        );
 
         // ---- SPICE leg (binding). ----
         let s = &r["spice"];
@@ -432,12 +444,65 @@ fn lunar_vlbi_fim_matches_spice_geometry_and_numpy() {
                 "{name}: P2 null-space angle {ang} deg"
             );
         }
+
+        // Last, so a changed Jacobian is reported through the comparisons first: the committed
+        // Jacobian is what the engine builds now.
+        let held: Vec<usize> = inp["held_fixed"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .map(u)
+            .collect();
+        let layout = StateLayout::new(geoms[0].stations_inertial.len(), &held, false);
+        assert_eq!(
+            schedule_jacobian(&geoms, &obs, &layout),
+            mat(&inp["engine_jacobian"]),
+            "{name}: Jacobian drifted from the fixture"
+        );
     }
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING 2026-10-01: SPICE leg agrees on all six scenarios; P2 leg on stations_estimated \
+            differs by 6.8e-6 (datum sigma) against a pre-registered 1e-9 whose condition-number \
+            premise was wrong (Helmert condition 2.1e8, Schur cancellation; NumPy routes disagree \
+            among themselves by 3e-6). Not loosened; see the finding test."]
 fn lunar_frame_campaign_matches_spice_geometry_and_numpy() {
+    campaign_checks(&[]);
+}
+
+/// The finding, pinned: every pre-registered check passes except the P2 leg of the
+/// stations-estimated scenario, whose datum-sigma gap stays between 1e-6 and 1e-4 (it fails if
+/// the gap closes, so the row is re-examined, or moves, so the record is stale).
+#[test]
+fn lunar_frame_campaign_finding_stations_estimated_p2_precision() {
+    campaign_checks(&["stations_estimated"]);
+    let inputs = fixture("inputs.json");
+    let reference = fixture("reference.json");
+    let k = inputs["lunar_frame_campaign"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .position(|c| c["name"] == "stations_estimated")
+        .expect("scenario");
+    let v = run(campaign_scenario("stations_estimated").run_json());
+    let acc = &v["datum_accuracy"];
+    let mut engine = fv(&acc["translation_sigma_m"]);
+    engine.extend(fv(&acc["rotation_sigma_urad"]));
+    engine.push(f(&acc["scale_sigma_ppb"]) / 1e3);
+    let p2 = fv(&reference["lunar_frame_campaign"][k]["p2"]["sigma"]);
+    let gap = engine
+        .iter()
+        .zip(&p2)
+        .map(|(a, b)| rel(*a, *b))
+        .fold(0.0_f64, f64::max);
+    assert!(
+        (1e-6..=1e-4).contains(&gap),
+        "stations_estimated P2 datum-sigma gap {gap:.3e} left the pinned band [1e-6, 1e-4]"
+    );
+}
+
+fn campaign_checks(p2_exempt: &[&str]) {
     let inputs = fixture("inputs.json");
     let reference = fixture("reference.json");
     let ins = inputs["lunar_frame_campaign"].as_array().expect("inputs");
@@ -467,11 +532,6 @@ fn lunar_frame_campaign_matches_spice_geometry_and_numpy() {
                 )
             })
             .collect();
-        assert_eq!(
-            jac,
-            mat(&inp["engine_jacobian"]),
-            "{name}: Jacobian drifted from the fixture"
-        );
         let helm = &v["helmert"];
         let acc = &v["datum_accuracy"];
         let full = u(&helm["defect"]) == 0;
@@ -485,6 +545,9 @@ fn lunar_frame_campaign_matches_spice_geometry_and_numpy() {
         };
 
         for leg in ["spice", "p2"] {
+            if leg == "p2" && p2_exempt.contains(&name) {
+                continue;
+            }
             let s = &r[leg];
             let spice = leg == "spice";
             assert_eq!(u(&helm["rank"]), u(&s["rank"]), "{name} {leg}: rank");
@@ -582,6 +645,12 @@ fn lunar_frame_campaign_matches_spice_geometry_and_numpy() {
             d <= 0.05,
             "{name}: libration sweep engine {sweep} vs SPICE {}",
             s["sub_earth_sweep_deg"]
+        );
+        // Last, so a changed Jacobian is reported through the comparisons first.
+        assert_eq!(
+            jac,
+            mat(&inp["engine_jacobian"]),
+            "{name}: Jacobian drifted from the fixture"
         );
         by_name.insert(
             name.to_string(),

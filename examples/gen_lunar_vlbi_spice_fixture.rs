@@ -9,7 +9,6 @@
 //!
 //! Run: `cargo run --example gen_lunar_vlbi_spice_fixture > tests/fixtures/lunar_vlbi_campaign_spice_oracle/inputs.json`
 
-use kshana::fim::information_matrix;
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, BeaconInput, LunarFrameCampaignScenario,
 };
@@ -157,7 +156,6 @@ fn main() {
                 })
             })
             .collect();
-        let _ = information_matrix(&jac, &w); // the engine's own accumulation is exercised
         campaigns.push(serde_json::json!({
             "name": name,
             "stations": v["campaign"]["stations"]
