@@ -116,6 +116,21 @@
 //! L5 run (GEO line present with an undefined variance, so it is counted by the gate but not
 //! used in the solution) is unaffected. In both cases a satellite line whose MAAST variance is
 //! not a positive number is not used by MAAST's solution and is likewise not given to Kshana.
+//!
+//! # Result (2026-10-01; written after the comparison was run)
+//!
+//! - Case L1 passes: 2868 protected (epoch, user) pairs, the same set in both tools, worst
+//!   |dVPL| 7.1e-6 m and |dHPL| 1.6e-5 m against the 1e-4 m bar.
+//! - Case L5 fails the pre-registered set-equality condition, so it is not promoted. On the
+//!   3267 pairs both tools protect the levels agree to 1.0e-13 m (VPL) and 5.3e-14 m (HPL), but
+//!   308 further pairs are protected by Kshana and not by MAAST. In every one of them MAAST
+//!   passed no GEO line to `usr_vhpl` (the GEO is not in view of that user), and MAAST's L5 run
+//!   keeps the gate `n_view > 2 + n_const && n_geo`: a user is protected only while a GEO, the
+//!   source of the corrections, is in view. Kshana's `sbas_protection_level` evaluates the
+//!   protection-level equations for whatever satellites it is given and has no notion of
+//!   message reception. Amendment 5's statement that the L5 run is unaffected by the gate was
+//!   therefore wrong for those 308 pairs; that was found only when the comparison was run. The
+//!   strict L5 test stays ignored with this gap; `sbas_l5_finding_geo_reception_gate` pins it.
 
 /// Tolerance (m) on VPL and HPL after the stated K rescaling.
 pub const TOL_PL_M: f64 = 1e-4;
@@ -234,6 +249,35 @@ fn sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages() {
 /// Case L5: dual-frequency L1/L5 on MAAST's recorded L5 broadcast; the airborne term carries
 /// Kshana's ionosphere-free noise factor.
 #[test]
+#[ignore = "FINDING: levels agree to 1.0e-13 m on the 3267 pairs both protect, but 308 pairs \
+            with no GEO in view are protected by Kshana and not by MAAST (MAAST's GEO-reception \
+            gate); the pre-registered set equality fails"]
 fn sbas_l5_protection_levels_match_stanford_maast_on_real_waas_messages() {
     check("L5", iono_free_l1l5_noise_factor());
+}
+
+/// The L5 finding, pinned: identical levels where both tools protect, and the set difference is
+/// exactly the pairs for which MAAST passed no GEO line (no GEO in view), all protected by Kshana
+/// and none by MAAST.
+#[test]
+fn sbas_l5_finding_geo_reception_gate() {
+    let (n, dv, dh, one_sided) = compare("L5", iono_free_l1l5_noise_factor());
+    assert_eq!(n, 3267);
+    assert!(dv <= TOL_PL_M && dh <= TOL_PL_M, "levels: {dv:e} {dh:e}");
+    assert_eq!(one_sided.len(), 308);
+    let maast = maast_levels("L5");
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_L5_sats.csv")).unwrap();
+    let with_geo: std::collections::BTreeSet<(i64, usize)> = text
+        .lines()
+        .skip(1)
+        .filter_map(|l| {
+            let f: Vec<&str> = l.split(',').collect();
+            (f[2].parse::<u32>().unwrap() >= 120)
+                .then(|| (f[0].parse().unwrap(), f[1].parse().unwrap()))
+        })
+        .collect();
+    for key in &one_sided {
+        assert!(maast[key].0 <= 0.0, "{key:?}: MAAST protects it");
+        assert!(!with_geo.contains(key), "{key:?}: a GEO line was present");
+    }
 }
