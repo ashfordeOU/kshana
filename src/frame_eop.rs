@@ -53,7 +53,7 @@
 //!   reported only when the supplied series reaches them.
 
 use crate::eop::{
-    parse_all_predicted, parse_bulletin_b_pm, parse_bulletin_b_ut1, parse_line, EopRecord,
+    parse_all_predicted, parse_bulletin_b_pm, parse_bulletin_b_ut1, parse_measured, EopRecord,
 };
 use crate::timescales::{ERA_TURNS_PER_UT1_DAY, SECONDS_PER_DAY};
 
@@ -161,14 +161,14 @@ fn stats(horizon: Horizon, mut abs_resid: Vec<f64>) -> HorizonError {
 
 /// One parsed daily record used for the prediction-error measurement: the epoch (MJD),
 /// the rapid Bulletin A UT1−UTC, and the eventual final Bulletin B UT1−UTC (`None` on a
-/// prediction-only row).
+/// rapid row). Prediction rows (flag `P`) are not measurements and are left out.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DailyUt1 {
     /// Modified Julian Date (UTC).
     pub mjd: f64,
     /// Rapid Bulletin A UT1−UTC, seconds.
     pub ut1_rapid_s: f64,
-    /// Final Bulletin B UT1−UTC, seconds (`None` for a prediction-only row).
+    /// Final Bulletin B UT1−UTC, seconds (`None` for a rapid row).
     pub ut1_final_s: Option<f64>,
 }
 
@@ -177,7 +177,7 @@ pub fn parse_daily_ut1(body: &str) -> Vec<DailyUt1> {
     let mut out: Vec<DailyUt1> = body
         .lines()
         .filter_map(|line| {
-            let rec = parse_line(line)?;
+            let rec = parse_measured(line)?;
             Some(DailyUt1 {
                 mjd: rec.mjd,
                 ut1_rapid_s: rec.ut1_utc_s,
@@ -246,7 +246,7 @@ pub fn prediction_error_vs_horizon(body: &str, horizons: &[Horizon]) -> Vec<Hori
 
 /// One parsed daily polar-motion record: the epoch (MJD), the rapid Bulletin A pole
 /// `(x_p, y_p)` (arc seconds) and the eventual final Bulletin B pole (`None` on a
-/// prediction-only row).
+/// rapid row). Prediction rows (flag `P`) are left out.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct DailyPm {
     /// Modified Julian Date (UTC).
@@ -255,18 +255,18 @@ pub struct DailyPm {
     pub xp_rapid_as: f64,
     /// Rapid Bulletin A `y_p`, arc seconds.
     pub yp_rapid_as: f64,
-    /// Final Bulletin B `(x_p, y_p)`, arc seconds (`None` for a prediction-only row).
+    /// Final Bulletin B `(x_p, y_p)`, arc seconds (`None` for a rapid row).
     pub pm_final_as: Option<(f64, f64)>,
 }
 
 /// Parse a `finals2000A` file body into per-day polar-motion rapid/final pairs, sorted by
 /// MJD. The Bulletin A pole comes from [`parse_line`]; the Bulletin B pole from
-/// [`crate::eop::parse_bulletin_b_pm`] (blank on prediction-only rows).
+/// [`crate::eop::parse_bulletin_b_pm`] (blank on rapid rows).
 pub fn parse_daily_pm(body: &str) -> Vec<DailyPm> {
     let mut out: Vec<DailyPm> = body
         .lines()
         .filter_map(|line| {
-            let rec = parse_line(line)?;
+            let rec = parse_measured(line)?;
             Some(DailyPm {
                 mjd: rec.mjd,
                 xp_rapid_as: rec.xp_arcsec,
@@ -649,11 +649,11 @@ pub fn joint_eop_error_vs_horizon(body: &str, horizons: &[Horizon]) -> Vec<Joint
     out
 }
 
-/// A count and horizon span of the **real Bulletin A prediction-only rows** a
-/// `finals2000A` file publishes (the future rows whose Bulletin B section is blank).
+/// A count and horizon span of the **real Bulletin A prediction rows** a `finals2000A`
+/// file publishes (IERS flag `P`, see [`crate::eop::row_vintage`]).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct PredictedRowsSummary {
-    /// Number of Bulletin A prediction-only rows (blank Bulletin B).
+    /// Number of Bulletin A prediction rows (flag `P`).
     pub n: usize,
     /// First (earliest) predicted MJD, if any.
     pub first_mjd: Option<f64>,
@@ -707,7 +707,6 @@ pub fn predicted_vs_final_ut1(
     let issued = parse_all_predicted(as_issued);
     let cutoff = parse_daily_ut1(as_issued)
         .iter()
-        .filter(|d| d.ut1_final_s.is_some())
         .map(|d| d.mjd)
         .fold(f64::NEG_INFINITY, f64::max);
     // Later-vintage finals, keyed by MJD.
@@ -1565,7 +1564,6 @@ pub fn archived_vintage_comparison(
     let issued_pm = parse_daily_pm(as_issued);
     let cutoff = issued_ut1
         .iter()
-        .filter(|d| d.ut1_final_s.is_some())
         .map(|d| d.mjd)
         .fold(f64::NEG_INFINITY, f64::max);
     if !cutoff.is_finite() {
@@ -1727,7 +1725,6 @@ pub fn bulletin_a_agreement(
     let daily_pm = parse_daily_pm(body);
     let cutoff = daily_ut1
         .iter()
-        .filter(|d| d.ut1_final_s.is_some())
         .map(|d| d.mjd)
         .fold(f64::NEG_INFINITY, f64::max);
     if !cutoff.is_finite() {
@@ -2181,10 +2178,13 @@ mod tests {
     const LONGSPAN: &str =
         include_str!("../tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt");
 
-    // Real IERS finals2000A slice with genuine Bulletin A PREDICTION-ONLY rows: 20 FINAL
-    // rows (Bulletin B present) followed by 12 real prediction-only rows (blank Bulletin B),
-    // MJD 61173..61204, lifted verbatim. Carries the Bulletin B polar-motion columns too.
+    // Real IERS finals2000A slice: 20 FINAL rows (Bulletin B present) followed by 12 rapid
+    // measured rows (flag I, Bulletin B not yet published), MJD 61173..61204, lifted
+    // verbatim. It publishes no prediction (flag P) row. Carries the Bulletin B polar-motion columns too.
     const FIXTURE_2026: &str = include_str!("../tests/fixtures/agency/eop/finals2000A_2026.txt");
+    /// The extract of the 2026-09-30 product: 30 final, 54 rapid and 90 predicted rows (flag P).
+    const FIXTURE_20260930: &str =
+        include_str!("../tests/fixtures/agency/eop/finals2000A_20260930.txt");
 
     // ---- L19: closed-form lever arm (Validated) ----
 
@@ -2626,14 +2626,17 @@ mod tests {
 
     // ---- G1: real predicted-column ingestion + vintage differencing ----
 
-    // The predicted-column parser runs on REAL Bulletin A prediction-only rows: the 2026
-    // fixture publishes 12 genuine future rows (blank Bulletin B), spanning MJD 61193..61204.
+    // The predicted-column parser runs on REAL Bulletin A prediction rows (IERS flag P): the
+    // 2026-09-30 extract publishes 90 of them, MJD 61308..61397 (Bulletin A Vol. XXXIX No. 039).
+    // The older 2026 extract publishes none: its 12 rows without a Bulletin B block are flag I
+    // (rapid measured values), which the blank-block rule before release 0.30 miscounted.
     #[test]
     fn predicted_rows_summary_reads_real_prediction_rows() {
-        let s = predicted_rows_summary(FIXTURE_2026);
-        assert_eq!(s.n, 12, "12 real Bulletin A prediction-only rows");
-        assert_eq!(s.first_mjd, Some(61193.0));
-        assert_eq!(s.last_mjd, Some(61204.0));
+        let s = predicted_rows_summary(FIXTURE_20260930);
+        assert_eq!(s.n, 90, "90 real Bulletin A prediction rows");
+        assert_eq!(s.first_mjd, Some(61308.0));
+        assert_eq!(s.last_mjd, Some(61397.0));
+        assert_eq!(predicted_rows_summary(FIXTURE_2026).n, 0);
         // A file of only finals (no prediction rows) reports none.
         assert_eq!(predicted_rows_summary(LONGSPAN).n, 0);
     }
@@ -2666,7 +2669,12 @@ mod tests {
             } else {
                 // blank the Bulletin B tail (cols >=134) → a real prediction-only row that
                 // still carries the row's genuine Bulletin A predicted UT1.
-                let head: String = line.chars().take(134).collect();
+                // A prediction row as the IERS format marks it: flag P on polar motion
+                // (column 17) and UT1 (column 58).
+                let mut head: Vec<char> = line.chars().take(134).collect();
+                head[16] = 'P';
+                head[57] = 'P';
+                let head: String = head.into_iter().collect();
                 as_issued.push_str(head.trim_end());
             }
             as_issued.push('\n');
@@ -2947,7 +2955,7 @@ mod tests {
 
         // Naming the fallback is not enough: the count is what says how far the row
         // departs from the floor beside it. This series carries 32 rows of which 20 hold a
-        // Bulletin B final and 12 are Bulletin A prediction-only, so every prediction
+        // Bulletin B final and 12 are rapid rows without one, so every prediction
         // horizon touches exactly those 12 — at day 1 that is 12 of 31 samples, not one.
         assert_eq!(
             floor.polar_motion.truth_fallback_rows, 0,
@@ -3325,7 +3333,7 @@ mod tests {
         // truncated, never a value invented or changed.
         let blanked: String = LONGSPAN
             .lines()
-            .map(|line| match parse_line(line) {
+            .map(|line| match crate::eop::parse_line(line) {
                 Some(r) if (r.mjd - target).abs() < 1e-6 => line
                     .chars()
                     .take(134)
@@ -3366,20 +3374,22 @@ mod tests {
         );
     }
 
-    // ORACLE: the real published Bulletin A prediction rows of the 2026 extract. The
-    // agreement statistic must be measurable there, must cover every published prediction
-    // row, and must be reported per lead — and it must be ABSENT on the final-only
-    // fixture rather than invented.
+    // ORACLE: the real published Bulletin A prediction rows (flag P) of the 2026-09-30
+    // extract. The agreement statistic must be measurable there, must cover every published
+    // prediction row, and must be reported per lead — and it must be ABSENT on the final-only
+    // fixture, and on the older 2026 extract whose rows are all measured, rather than invented.
     #[test]
     fn the_bulletin_a_agreement_reads_the_real_published_prediction_rows() {
         let cfg = OperationalPredictorConfig::default();
-        let a =
-            bulletin_a_agreement(FIXTURE_2026, &cfg).expect("the 2026 extract publishes 12 rows");
-        assert_eq!(a.n, 12);
-        assert_eq!(a.leads.len(), 12);
-        assert_eq!(a.issue_mjd, 61192.0);
+        let a = bulletin_a_agreement(FIXTURE_20260930, &cfg)
+            .expect("the 2026-09-30 extract publishes 90 prediction rows");
+        assert_eq!(a.n, 90);
+        assert_eq!(a.leads.len(), 90);
+        // The as-issued cutoff is the last measured row (rapid, flag I), not the last final.
+        assert_eq!(a.issue_mjd, 61307.0);
         assert!((a.first_lead_days - 1.0).abs() < 1e-9);
-        assert!((a.last_lead_days - 12.0).abs() < 1e-9);
+        assert!((a.last_lead_days - 90.0).abs() < 1e-9);
+        assert!(bulletin_a_agreement(FIXTURE_2026, &cfg).is_none());
         // Ascending leads, each a genuine difference against the archived prediction.
         for w in a.leads.windows(2) {
             assert!(w[1].lead_days > w[0].lead_days);

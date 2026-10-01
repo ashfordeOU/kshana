@@ -55,8 +55,10 @@ impl Issue {
 
 /// One `finals2000A` data line with the columns `eop::parse_line` and the Bulletin B
 /// parsers read (0-indexed: MJD 7..15, x 18..27, y 37..46, UT1 58..68, Bulletin B x
-/// 134..144, y 144..154, UT1 154..165). With `b = None` the Bulletin B block is absent,
-/// which is how the format marks a row with no final value.
+/// 134..144, y 144..154, UT1 154..165), and the IERS I/P flags (columns 17 and 58, 0-indexed
+/// 16 and 57). With `b = None` the Bulletin B block is absent and both flags are `P`: the row is
+/// one of the issue's predictions. With `b = Some(..)` both flags are `I` (measured). Since
+/// release 0.30 the crate classifies predictions by these flags, as the IERS format does.
 pub fn finals_line(mjd: f64, x: f64, y: f64, ut1: f64, b: Option<(f64, f64, f64)>) -> String {
     let mut line = vec![b' '; 188];
     let mut put = |range: std::ops::Range<usize>, text: String| {
@@ -64,6 +66,9 @@ pub fn finals_line(mjd: f64, x: f64, y: f64, ut1: f64, b: Option<(f64, f64, f64)
         line[range].copy_from_slice(text.as_bytes());
     };
     put(7..15, format!("{mjd:8.2}"));
+    let flag = if b.is_some() { "I" } else { "P" };
+    put(16..17, flag.to_string());
+    put(57..58, flag.to_string());
     put(18..27, format!("{x:9.6}"));
     put(37..46, format!("{y:9.6}"));
     put(58..68, format!("{ut1:10.7}"));
