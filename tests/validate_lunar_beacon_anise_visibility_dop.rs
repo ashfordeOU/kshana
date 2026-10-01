@@ -62,15 +62,189 @@
 //! validated claim is visibility plus DOP on this committed geometry, not the accuracy of a
 //! fielded service.
 
-#[allow(dead_code)]
+use kshana::api::run_toml;
+use kshana::lunar::{selenographic_to_mcmf, Selenographic};
+use kshana::lunar_beacon::{beacon_visible, dop_with_beacons};
+use kshana::lunar_service::{visible_sat_positions, LunarConstellation};
+use kshana::orbit::Dop;
+use serde_json::Value;
+
 const REFERENCE: &str = "tests/fixtures/lunar_beacon_anise/reference.txt";
 
 /// Relative tolerance on every DOP and improvement factor.
-#[allow(dead_code)]
 const DOP_REL_TOL: f64 = 1.0e-9;
 
+type Vec3 = [f64; 3];
+
+fn site(lat_deg: f64, lon_deg: f64, alt_m: f64) -> Vec3 {
+    selenographic_to_mcmf(Selenographic {
+        lat_rad: lat_deg.to_radians(),
+        lon_rad: lon_deg.to_radians(),
+        alt_m,
+    })
+}
+
+fn mask() -> f64 {
+    5.0_f64.to_radians()
+}
+
+fn rel(a: f64, b: f64) -> f64 {
+    (a - b).abs() / b.abs()
+}
+
+fn lines(tag: &str) -> Vec<Vec<String>> {
+    std::fs::read_to_string(REFERENCE)
+        .expect("the oracle output is committed")
+        .lines()
+        .filter(|l| l.split_whitespace().next() == Some(tag))
+        .map(|l| l.split_whitespace().map(str::to_string).collect())
+        .collect()
+}
+
+fn idx(field: &str) -> Vec<usize> {
+    if field == "-" {
+        Vec::new()
+    } else {
+        field.split('|').map(|x| x.parse().unwrap()).collect()
+    }
+}
+
+fn five(f: &[String]) -> [f64; 5] {
+    [0, 1, 2, 3, 4].map(|k| f[k].parse::<f64>().unwrap())
+}
+
+fn dop5(d: &Dop) -> [f64; 5] {
+    [d.gdop, d.pdop, d.hdop, d.vdop, d.tdop]
+}
+
+fn dop_json(v: &Value) -> [f64; 5] {
+    ["gdop", "pdop", "hdop", "vdop", "tdop"].map(|k| v[k].as_f64().unwrap())
+}
+
+fn check5(what: &str, got: [f64; 5], want: [f64; 5], worst: &mut f64) {
+    for (k, name) in ["gdop", "pdop", "hdop", "vdop", "tdop"].iter().enumerate() {
+        let e = rel(got[k], want[k]);
+        *worst = worst.max(e);
+        assert!(
+            e <= DOP_REL_TOL,
+            "{what} {name}: engine {:.12e}, ANISE+numpy {:.12e}, rel {e:.3e}",
+            got[k],
+            want[k]
+        );
+    }
+}
+
+/// Indices of the satellites the engine's mask keeps.
+fn engine_visible(user: Vec3, sats: &[Vec3]) -> Vec<usize> {
+    let vis = visible_sat_positions(user, sats, mask());
+    (0..sats.len()).filter(|&i| vis.contains(&sats[i])).collect()
+}
+
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn beacon_visibility_and_augmented_dop_match_anise_and_numpy() {
-    unimplemented!("pre-registration: the comparison is written after this commit");
+    let mut worst: f64 = 0.0;
+    let user = site(-80.0, 0.0, 2.0);
+    let beacons = [
+        site(-80.0, 0.0, 2000.0),
+        site(-79.0, 60.0, 2000.0),
+        site(-79.0, -60.0, 2000.0),
+    ];
+
+    // ---- The golden geometry, through the runnable scenario kind itself. ----
+    let out = run_toml("kind = \"lunar-beacon\"\n").expect("the lunar-beacon kind runs");
+    let v: Value = serde_json::from_str(&out.json).unwrap();
+    let rows = v["rows"].as_array().unwrap();
+    let golden = lines("GOLDEN");
+    assert_eq!(golden.len(), 2);
+    let (g6, g24) = (&golden[0], &golden[1]);
+    assert_eq!((g6[1].as_str(), g24[1].as_str()), ("6", "24"));
+
+    // Visible sets, exact.
+    let sats6 = LunarConstellation::illustrative_lcns(6).positions_mcmf(0.0);
+    let sats24 = LunarConstellation::illustrative_lcns(24).positions_mcmf(0.0);
+    assert_eq!(engine_visible(user, &sats6), idx(&g6[2]), "6-satellite visible set");
+    assert_eq!(engine_visible(user, &sats24), idx(&g24[2]), "24-satellite visible set");
+    let vb: Vec<usize> = (0..3).filter(|&i| beacon_visible(user, beacons[i])).collect();
+    assert_eq!(vb, idx(&g6[3]), "visible beacon set");
+    // ... and the counts the report prints.
+    assert_eq!(rows[0]["n_visible_sats"].as_u64().unwrap() as usize, idx(&g6[2]).len());
+    assert_eq!(rows[1]["n_visible_beacons"].as_u64().unwrap() as usize, idx(&g6[3]).len());
+    assert_eq!(rows[2]["n_visible_sats"].as_u64().unwrap() as usize, idx(&g24[2]).len());
+
+    // DOP of all three report rows.
+    let before = five(&g6[4..9]);
+    let after = five(&g6[9..14]);
+    let bigger = five(&g24[4..9]);
+    check5("6 sats", dop_json(&rows[0]["dop"]), before, &mut worst);
+    check5("6 sats + beacons", dop_json(&rows[1]["dop"]), after, &mut worst);
+    check5("24 sats", dop_json(&rows[2]["dop"]), bigger, &mut worst);
+
+    // The two improvement factors.
+    for (key, want) in [
+        ("beacon_pdop_improvement", before[1] / after[1]),
+        ("constellation_pdop_improvement", before[1] / bigger[1]),
+    ] {
+        let got = v[key].as_f64().unwrap();
+        let e = rel(got, want);
+        worst = worst.max(e);
+        assert!(e <= DOP_REL_TOL, "{key}: engine {got}, oracle {want}, rel {e:.3e}");
+    }
+
+    // ---- Near-horizon beacons: exact. ----
+    let horizon = lines("HORIZON");
+    assert_eq!(horizon.len(), 72);
+    let mut n_vis = 0;
+    for f in &horizon {
+        let p: Vec<f64> = f[1..8].iter().map(|x| x.parse().unwrap()).collect();
+        let u = site(p[0], p[1], p[2]);
+        let b = site(p[3], p[4], p[5]);
+        let want = f[8] == "1";
+        n_vis += usize::from(want);
+        assert_eq!(
+            beacon_visible(u, b),
+            want,
+            "user height {} m, beacon height {} m, {} m from the horizon sum",
+            p[2],
+            p[5],
+            p[6]
+        );
+    }
+    assert_eq!(n_vis, 36, "half the horizon cases are inside, half outside");
+
+    // ---- Near-mask satellites: exact. ----
+    let masks = lines("MASK");
+    assert_eq!(masks.len(), 48);
+    for f in &masks {
+        let p: Vec<f64> = f[1..8].iter().map(|x| x.parse().unwrap()).collect();
+        let u = site(p[0], p[1], p[2]);
+        let s = [p[3], p[4], p[5]];
+        let want = f[8] == "1";
+        assert_eq!(
+            visible_sat_positions(u, &[s], mask()).len() == 1,
+            want,
+            "satellite at ANISE elevation {:.6} deg from ({}, {})",
+            p[6],
+            p[0],
+            p[1]
+        );
+    }
+
+    // ---- Three low-elevation beacons that add horizontal geometry. ----
+    let three = &lines("THREE")[0];
+    let tb: Vec<Vec3> = three[2]
+        .split(';')
+        .map(|t| {
+            let q: Vec<f64> = t.split(':').map(|x| x.parse().unwrap()).collect();
+            site(q[0], q[1], q[2])
+        })
+        .collect();
+    let tvis: Vec<usize> = (0..tb.len()).filter(|&i| beacon_visible(user, tb[i])).collect();
+    assert_eq!(tvis, idx(&three[3]));
+    let d = dop_with_beacons(user, &sats6, &tb, mask()).expect("a solution exists");
+    check5("6 sats + 3 low beacons", dop5(&d), five(&three[4..9]), &mut worst);
+
+    println!(
+        "beacon augmentation vs ANISE+numpy: visible sets exact (golden, 72 horizon cases, 48 \
+         mask cases, three-beacon case); worst DOP rel {worst:.3e} (bar {DOP_REL_TOL})"
+    );
 }
