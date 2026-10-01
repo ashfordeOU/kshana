@@ -11,3 +11,5 @@ L_m_uncertainty | 0.00015e-11 | 1 | Eq. (10), the (15) on the last two digits
 GM_moon | 4.90280031e12 | m^3 s^-2 | Table I
 Phi_m_equator | -2.82101e6 | m^2 s^-2 | Sect. 2.2, degree-350 lunar potential on the equator
 a_m_equatorial_radius | 1738140 | m | Sect. 2.2
+omega_m | 2.661621e-6 | rad s^-1 | Sect. 2.2, sidereal rotation rate of the Moon (added in round 2, 2026-10-01)
+rotation_term | 10.70118 | m^2 s^-2 | Sect. 2.2, omega_m^2 a_m^2 / 2 (added in round 2, 2026-10-01)
