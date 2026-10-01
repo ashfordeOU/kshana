@@ -252,8 +252,7 @@ fn the_social_card_image_states_the_matrixs_counts() {
 fn the_explorer_tally_is_the_matrixs_not_the_card_layers() {
     let s = summarize(&verification_matrix());
     let root = std::path::Path::new(env!("CARGO_MANIFEST_DIR"));
-    let app =
-        std::fs::read_to_string(root.join("web/studio/app.js")).expect("web/studio/app.js");
+    let app = std::fs::read_to_string(root.join("web/studio/app.js")).expect("web/studio/app.js");
     for needle in [
         "from \"./lib/counts.mjs\"",
         "matrixCounts(ledger)",
