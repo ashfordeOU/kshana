@@ -67,6 +67,19 @@
 //! two iterations below 0.1 mm, or 100 iterations. Item 3 above mis-states it; the
 //! pre-registered parameter-convergence rule is kept unchanged (it stops no earlier on a
 //! converging fit), and the difference is disclosed here rather than amended.
+//!
+//! ## Round 2 result (2026-10-01): AGREES on both comparisons
+//!
+//! * Re-run, the four paper days (Liu22, ratios Kshana/published A, C, R, SISRE): GRACE-A 20 min
+//!   0.924 1.088 0.927 0.790, 30 min 1.078 1.103 1.114 0.853; GRACE-C 20 min 1.001 1.015 1.010
+//!   0.783, 30 min 0.928 1.046 0.974 0.769; Sentinel-2A 20 min 1.103 1.012 1.138 0.822, 30 min
+//!   0.987 1.081 0.976 0.788; Sentinel-6A 20 min 0.924 1.118 1.010 0.755, 30 min 1.028 1.055
+//!   1.061 0.787. All inside 1.5x two-sided (first run: along-track 1.711 and 1.863).
+//! * Held out, eight days: every ratio between 0.683 (Sentinel-2A 2024-01-02, 20 min, SISRE) and
+//!   1.186 (GRACE-A 2017-06-02, 30 min, cross-track); all inside 1.5x two-sided.
+//! * Mutation: restoring the zero-centred priors on the Liu22 fit (the pre-0.30 fitter, with the
+//!   paper's full n_dot) gives Sentinel-6A 20 min along-track 1.08 cm against 0.70 cm (1.540) and
+//!   fails `liu22_model_matches_the_published_sisre`; reverted by editing.
 
 use std::path::Path;
 
@@ -321,9 +334,10 @@ fn fitted_sisre_matches_liu_2025_on_real_orbits() {
 /// Result of the pre-registered run (2026-10-01): DISAGREES. G1 fails on the 20 min arcs of
 /// the two higher orbits, along-track RMS 4.23 cm against 2.47 cm (Sentinel-2A, ratio 1.71)
 /// and 1.30 cm against 0.70 cm (Sentinel-6A, ratio 1.86); every other component and every
-/// SISRE is inside the factor 1.5. The row stays MODELLED (finding M124).
+/// SISRE is inside the factor 1.5. The row stayed MODELLED (finding M124).
+/// Round 2 re-run after the engine change pre-registered above (paper's Eq. 1 n_dot, no priors,
+/// zero start): AGREES, every ratio between 0.755 and 1.138.
 #[test]
-#[ignore = "DISAGREES: Liu22 along-track RMS 1.71x (Sentinel-2A) and 1.86x (Sentinel-6A) the published value at 20 min, above the pre-registered 1.5x (finding M124); row stays MODELLED"]
 fn liu22_model_matches_the_published_sisre() {
     let failures = compare(ModelKind::Liu22, "liu22");
     assert!(failures.is_empty(), "{}", failures.join("\n"));
@@ -351,7 +365,6 @@ fn tabulated_truth_returns_its_states_at_the_nodes() {
 
 /// M124 round 2, pre-registered above: the Liu22 fit on held-out days.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn liu22_holds_on_held_out_days() {
     let failures = compare_days(&held_out_days(), ModelKind::Liu22, "liu22-held-out");
     assert!(failures.is_empty(), "{}", failures.join("\n"));
