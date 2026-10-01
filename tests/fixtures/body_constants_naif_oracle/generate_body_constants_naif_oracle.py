@@ -10,7 +10,7 @@ POLE_RA[0], POLE_DEC[0] (deg), PM[0] (deg), PM[1] (deg/day). Calls no Kshana cod
 Pre-registered comparison (fixed before the first comparison; see the test): each Kshana
 constant must equal the NAIF value rounded to the significant digits Kshana prints.
 
-    source ~/Code/kshana-oracles/env.sh
+    source "$KSHANA_ORACLES/env.sh"
     $ORACLE_PY tests/fixtures/body_constants_naif_oracle/generate_body_constants_naif_oracle.py
 """
 
@@ -21,7 +21,7 @@ import pathlib
 import spiceypy as sp
 
 HERE = pathlib.Path(__file__).resolve().parent
-NAIF = pathlib.Path(os.environ.get("KSHANA_ORACLES", str(pathlib.Path.home() / "Code/kshana-oracles"))) / "data" / "naif"
+NAIF = pathlib.Path(os.environ["KSHANA_ORACLES"]) / "data" / "naif"
 BODIES = [
     ("Sun", 10), ("Mercury", 199), ("Venus", 299), ("Earth", 399), ("Moon", 301), ("Mars", 499),
     ("Phobos", 401), ("Deimos", 402), ("Jupiter", 599), ("Io", 501), ("Europa", 502),

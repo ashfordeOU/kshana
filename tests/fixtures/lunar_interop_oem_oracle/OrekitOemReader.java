@@ -4,7 +4,7 @@
 // Prints, per file, either the decoded header, metadata and states, or the exact
 // exception Orekit raises. Kshana is not involved.
 //
-//   source ~/Code/kshana-oracles/env.sh
+//   source "$KSHANA_ORACLES/env.sh"
 //   javac -cp "$OREKIT_CP" -d <scratch> OrekitOemReader.java
 //   java -cp "$OREKIT_CP:<scratch>" OrekitOemReader "$OREKIT_DATA" file1.oem file2.oem
 import java.io.File;
