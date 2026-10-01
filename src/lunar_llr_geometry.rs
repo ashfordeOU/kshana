@@ -213,7 +213,7 @@ pub fn stations_itrf() -> Vec<ItrfStation> {
             cdp_id: 7845,
             domes: "10002S002",
             coordinates: StationCoordinates::Itrf2020 {
-                position_m: [4_581_691.9389, 556_196.3678, 4_389_355.2869],
+                position_m: [4_581_691.938_9, 556_196.367_8, 4_389_355.286_9],
                 velocity_m_per_yr: [-0.01388, 0.01886, 0.01117],
                 epoch_year: 2015.0,
             },
@@ -223,7 +223,7 @@ pub fn stations_itrf() -> Vec<ItrfStation> {
             cdp_id: 7941,
             domes: "12734S008",
             coordinates: StationCoordinates::Itrf2020 {
-                position_m: [4_641_978.5239, 1_393_067.8197, 4_133_249.6959],
+                position_m: [4_641_978.523_9, 1_393_067.819_7, 4_133_249.695_9],
                 velocity_m_per_yr: [-0.01863, 0.01906, 0.01462],
                 epoch_year: 2015.0,
             },
@@ -282,7 +282,7 @@ pub struct BcrsEvent {
 /// GM of the Sun, the Earth and the Moon (m^3/s^2), JPL DE440 (`gm_de440.tpc`).
 pub const GM_SUN_DE440: f64 = 1.327_124_400_412_794_2e20;
 /// GM of the Earth, JPL DE440.
-pub const GM_EARTH_DE440: f64 = 3.986_004_355_070_226_6e14;
+pub const GM_EARTH_DE440: f64 = 3.986_004_355_070_227e14;
 /// GM of the Moon, JPL DE440.
 pub const GM_MOON_DE440: f64 = 4.902_800_118_457_55e12;
 

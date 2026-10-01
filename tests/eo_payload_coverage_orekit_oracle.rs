@@ -47,6 +47,7 @@
 //!    against node index; node spacing = R_e times |least-squares slope of the node longitude in
 //!    a frame turning at omega_E (right ascension of the node minus omega_E t, unwrapped)|.
 //!  - Contiguous flag (oracle): Orekit swath >= Orekit node spacing.
+//!
 //! ORACLE 2 (Library): Orekit 12.2 `OneAxisEllipsoid` WGS-84 (a = 6 378 137 m, f =
 //!    1/298.257223563) `pointOnLimb` for a satellite at geodetic altitude h over geodetic latitude
 //!    0 (limb to the north and to the east), 45 (limb to the north and to the south) and 90 deg
@@ -127,7 +128,7 @@ fn compare() -> (Vec<String>, Vec<String>) {
     };
     let rel_check = |what: &str, k: f64, o: f64, tol: f64, fail: &mut Vec<String>| -> f64 {
         let r = ((k - o) / o).abs();
-        if !(r <= tol) {
+        if r.is_nan() || r > tol {
             fail.push(format!(
                 "{what}: Kshana {k:.12e} vs oracle {o:.12e}, rel {r:.3e} > {tol:e}"
             ));
@@ -240,7 +241,7 @@ fn compare() -> (Vec<String>, Vec<String>) {
             "WGS" => {
                 let f = fields(line);
                 let d = (earth_angular_radius(num(&f[0]) * 1e3).to_degrees() - num(&f[3])).abs();
-                if !(d <= LIMB_DEG) {
+                if d.is_nan() || d > LIMB_DEG {
                     fail.push(format!(
                         "WGS-84 limb h {} lat {} {}: |d| {d:.4} deg > {LIMB_DEG}",
                         f[0], f[1], f[2]

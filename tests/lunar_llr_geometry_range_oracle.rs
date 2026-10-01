@@ -141,6 +141,7 @@
 //!    over the 160 points of the two ITRF2020 stations at most 10 m on their own, so the verdict
 //!    never rests on APOLLO's operator-published position alone; this replaces the earlier
 //!    "all three stations from ITRF2020 or SLRF2020" condition. APOLLO alone is reported.
+//!
 //! The 2015 slice stays secondary. Disclosure: before writing this, the round 2 residuals were
 //! known, and an order-of-magnitude estimate was made from the size of the terms (solar Shapiro
 //! about 7.6 m one way; the BCRS motion term up to about 1.9 m); no run of the new model was made.
