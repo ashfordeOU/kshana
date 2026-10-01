@@ -9,8 +9,10 @@
 //! <https://github.com/AndrewAnnex/SpiceyPy>): `pxform("MOON_PA_DE440", "J2000", et)` on
 //! the JPL DE440 binary PCK `moon_pa_de440_200625.bpc`, with NAIF's own frame kernel
 //! `moon_de440_250416.tf` and `naif0012.tls`. Kshana interpolates a committed daily series
-//! (element-wise linear, then column Gram-Schmidt); SPICE evaluates the kernel's Chebyshev
-//! segments at the exact epoch. The two share nothing but the kernel.
+//! (geodesic interpolation between the daily nodes, then a column Gram-Schmidt pass); SPICE
+//! evaluates the kernel's Chebyshev segments at the exact epoch. The two share nothing but
+//! the kernel. The first comparison, against the element-wise linear scheme the module used
+//! before, measured 1.96e-4 rad and failed this bound; the bound was not changed.
 //!
 //! ## Epochs
 //!
