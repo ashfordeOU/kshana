@@ -53,6 +53,7 @@ for (const theme of ["light", "dark"]) {
     await page.goto(url, { waitUntil: "networkidle" });
     await page.evaluate((t) => document.documentElement.setAttribute("data-theme", t), theme);
     await page.waitForSelector(s.section, { timeout: 60000 });
+    await page.waitForTimeout(6000); // let the hero globe finish loading before the scroll pass
     // Scroll through the page once so every reveal-on-scroll element has been shown.
     await page.evaluate(async () => {
       for (let y = 0; y < document.body.scrollHeight; y += 600) { scrollTo(0, y); await new Promise((r) => setTimeout(r, 60)); }
@@ -70,7 +71,7 @@ for (const theme of ["light", "dark"]) {
       await page.addStyleTag({ content: "header, .nav, .site-nav, [data-sticky] { visibility: hidden !important; }" });
     }
     const file = `site-${s.name}-${theme}.png`;
-    await page.screenshot({ path: join(out, file), clip: box, fullPage: true });
+    await page.screenshot({ path: join(out, file), clip: box, fullPage: box.y + box.height > VIEWPORT.height /* a full-page capture resizes the viewport, which clears the hero globe under reduced motion */ });
     record.push({ file, url, section: s.section, theme, viewport: VIEWPORT, device_scale_factor: SCALE, crop_css_px: box });
     console.log(file, JSON.stringify(box));
   }
