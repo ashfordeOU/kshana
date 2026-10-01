@@ -2,7 +2,8 @@
 
 `web/` is the tree that GitHub Pages serves as <https://kshana.dev>: the pages
 (`index.html`, `missions.html`, `capabilities.html`, `evidence.html`, `developers.html`,
-`editions.html`), the documentation under `docs/`, and Kshana Studio under `playground/`,
+`editions.html`), the documentation under `docs/`, and Kshana Studio under `studio/`
+(served at <https://kshana.dev/studio/>),
 the app that runs the engine in the browser as WebAssembly (WASM) with no server-side
 computation and nothing uploaded.
 
@@ -11,7 +12,7 @@ computation and nothing uploaded.
 Three kinds of file live here, and they are changed in three different ways.
 
 1. **Ported files.** The pages, `docs/`, `css/`, `js/`, `assets/`, the site data in
-   `data/` (`land.json`, `search.json`, `series.json`) and everything under `playground/`
+   `data/` (`land.json`, `search.json`, `series.json`) and everything under `studio/`
    are written by `web/tools/port_site.py` from a site build and the Studio's source.
    `PORT-MANIFEST.json` lists every one with its SHA-256 (Secure Hash Algorithm, 256-bit)
    checksum. **Do not edit them here**: `site.test.mjs` fails on a hand edit. Change the
@@ -23,9 +24,11 @@ Three kinds of file live here, and they are changed in three different ways.
    ```
 
    The port is deterministic: a second run writes nothing, and `--check` exits 1 if `web/`
-   is not what the port would write. It also writes the canonical link and social-card
-   tags of every page, `sitemap.xml`, `legacy-redirects.js` and `404.html`, and points
-   every page at the local fonts and script libraries (below).
+   is not what the port would write. It carries over the site build's crawl files
+   unchanged (each page's canonical, social-card and schema.org tags, `robots.txt`,
+   `sitemap.xml`, `llms.txt`, `llms-full.txt`), checks them, writes `legacy-redirects.js`,
+   `404.html` and the forwarding page at the Studio's old address (`playground/index.html`,
+   to `/studio/`), and points every page at the local fonts and script libraries (below).
 
 2. **Files `web/` owns.** These are sources in their own right and the port never
    touches them:
@@ -35,17 +38,17 @@ Three kinds of file live here, and they are changed in three different ways.
      gen_validation_artifacts`) and pinned by `tests/verification_artifacts_doc_sync.rs`;
      do not edit it by hand. `data/card-matrix-map.json`, `data/oracle-references.json`
      and `data/standards-matrix-map.json` are hand-maintained mappings that the same test
-     checks against the generated matrix. The Studio's copies under `playground/data/`
+     checks against the generated matrix. The Studio's copies under `studio/data/`
      are these files, byte for byte.
    - `og-card.svg`, `og-card.png` and `og-card.rendered-from.json` are the social card
      (`python3 tools/gen_og_card.py`).
-   - `CNAME`, `robots.txt`, `.well-known/security.txt`, `favicon.svg`.
+   - `CNAME`, `.well-known/security.txt`, `favicon.svg`.
    - `fonts/` and `vendor/`: the font files and the script library the pages use, fetched
      once by `tools/fetch_third_party.py` and committed (see "No third-party requests").
    - `build.sh`, `smoke.mjs`, `site.test.mjs`, `legacy-urls.test.mjs` and `tools/`.
 
 3. **Build outputs**, git-ignored and produced by `build.sh`: `pkg/` (the `wasm-pack`
-   package, which is also what the npm package is built from), `playground/pkg/` (the same
+   package, which is also what the npm package is built from), `studio/pkg/` (the same
    package where the Studio imports it) and `scenarios/` (every reference scenario, at the
    address the earlier single-page site served them from).
 
@@ -66,11 +69,11 @@ an existing package instead of compiling one. The Pages workflow never uses that
 node web/smoke.mjs                 # the WASM bindings (needs web/pkg)
 node web/site.test.mjs             # the ported tree: manifest, version, counts, links
 node web/legacy-urls.test.mjs      # every old kshana.dev address still resolves
-for f in web/playground/lib/*.test.mjs; do node "$f"; done   # the Studio's modules
+for f in web/studio/lib/*.test.mjs; do node "$f"; done   # the Studio's modules
 ```
 
-Each module in `playground/lib/` is pure logic with a matching `*.test.mjs`; the Studio's
-DOM (Document Object Model, the page's element tree) driver is `playground/app.js`.
+Each module in `studio/lib/` is pure logic with a matching `*.test.mjs`; the Studio's
+DOM (Document Object Model, the page's element tree) driver is `studio/app.js`.
 Continuous integration runs every one of these as its own step and fails if a test file
 under `web/` has no step.
 

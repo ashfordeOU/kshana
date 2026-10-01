@@ -46,7 +46,7 @@ result = json.loads(kshana.run(open("scenarios/orbit-sgp4-gps.toml").read()))
 print(result["geometry"]["best_pdop"], result["geometry"]["best_position_sigma_m"])
 ```
 
-Or open the [browser playground](https://kshana.dev/#playground) and pick the
+Or open the [browser Studio](https://kshana.dev/studio/) and pick the
 orbit scenario.
 
 ## Read the one-line summary
