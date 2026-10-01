@@ -1,0 +1,19 @@
+# Published reference for the lunar datum origin-X / scale classification (Reference comparison).
+# Source: K. Sosnica, A. Fienga, D. Pavlov, N. Rambaux, R. Zajdel, "Definition and Realization of
+# the International Lunar Reference Frame", arXiv:2510.15484v1 (17 Oct 2025), A&A proofs.
+# Copy: ~/Code/kshana-oracles/data/papers/arXiv-2510.15484.pdf,
+# SHA-256 d9bb2be2d367af9972e04ff644294273af1654347dc054c14249828984035856.
+# Values as printed.
+#
+# Sect. 6 text beside Fig. 10: correlation of T_X and scale.
+CORR | r_tx_scale | -0.97
+# Table 7, "ILRF vs. DE430" 1-sigma row.
+SIGMA | tx_m | 0.0307
+SIGMA | scale | 0.0184e-6
+# Table 6: positions of the LLR retroreflectors in PA ILRF (m). NGLR-1 is omitted: the paper calls
+# it preliminary, and DE430 (the frame of Table 7) has no coordinates for it.
+REFL | Apollo 11 | 1591966.745 | 690699.384 | 21003.764
+REFL | Apollo 14 | 1652689.627 | -520997.633 | -109730.514
+REFL | Apollo 15 | 1554678.397 | 98095.451 | 765005.257
+REFL | Luna 17 | 1114292.301 | -781298.502 | 1076058.718
+REFL | Luna 21 | 1339363.512 | 801871.855 | 756358.706
