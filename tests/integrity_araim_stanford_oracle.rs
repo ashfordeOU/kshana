@@ -97,7 +97,7 @@ pub const TOL_PL_M: f64 = 5e-2;
 pub const TOL_CLOSED_FORM_M: f64 = 1e-3;
 
 use kshana::araim_reference::{add_v42_protection_levels_ecef, AddV42Ism, ReferenceConstants};
-use kshana::raim::{araim_dual_raim, DualFaultPriors, IntegrityBudget};
+use kshana::raim::{araim_dual_raim, araim_raim, DualFaultPriors, FaultPriors, IntegrityBudget};
 use std::collections::BTreeMap;
 
 /// One geometry case of the fixture: user geodetic latitude/longitude (deg) and its satellites
@@ -344,6 +344,124 @@ fn uniform_sigma_araim_dual_raim_gap_against_maast() {
          |dHPL| {worst_h:.3} m"
     );
     assert!(n > 0);
+}
+
+// ── Second pre-registration: the uniform-sigma functions on matched inputs ──────────────────
+//
+// Written and committed before the matched MAAST runs below were made (2026-10-01).
+//
+// **Why a second comparison.** `uniform_sigma_araim_dual_raim_gap_against_maast` above measures
+// the shipping uniform-sigma functions against MAAST runs whose ISM they cannot express
+// (sigma_URE 0.5 m, P_const 1e-8 for GPS), so its 12.7 m gap mixes input and algorithm
+// differences. This comparison gives MAAST inputs the uniform functions can express, so any
+// remaining gap is the algorithm's.
+//
+// **Oracle.** The same MAAST for ARAIM 2 driver, `run_maast_araim.m`, with a variant argument:
+// - `uniform_pc`: sigma_URA = sigma_URE = 1.0 m, b_nom = 0.75 m, P_sat = 1e-5, P_const = 1e-4
+//   for GPS and Galileo; every other setting, the budget (LPV-200) and the geometry as above.
+//   Output `maast_araim_uniform_pc_levels.csv`.
+// - `uniform_nopc`: as `uniform_pc` but P_const = 0 for both. Output
+//   `maast_araim_uniform_nopc_levels.csv`.
+//
+// **Kshana side.** `kshana::raim::araim_dual_raim` on the GPS + Galileo cases against
+// `uniform_pc`, and `kshana::raim::araim_raim` on the GPS-only cases (the IGS precise-orbit
+// cases) against `uniform_nopc`, both with sigma = 1.0 m, P_sat = 1e-5, b_nom = 0.75 m
+// (P_const = 1e-4 for the dual function), budget P_HMI_vert = 9.8e-8, P_HMI_horz = 2e-9 and
+// p_fa = P_FA_VERT + P_FA_HOR = 3.99e-6 (the functions take one false-alarm budget), on the
+// satellites above the 5 degree mask, with zero residuals.
+// A case the Kshana function refuses (`araim_raim` needs six satellites) is counted and
+// reported, not scored.
+//
+// **Bar (the same as above).** |dVPL|, |dHPL| <= TOL_PL = 0.05 m on every case. If every case
+// passes, the uniform functions are recorded as ADD-conformant at that bar. If any case fails,
+// the uniform functions are recorded as not conformant to the ADD v4.2 allocation (a finding,
+// with the worst gaps), and the row's ARAIM protection-level claim rests on the ADD v4.2 path
+// (`araim_reference::add_v42_protection_levels`) validated above. Rewiring the shipping
+// functions to the ADD path is not part of this comparison: `araim_raim` is the kernel the
+// lunar ARAIM row is validated on, with its own reference.
+
+fn uniform_case_gaps(variant: &str, dual: bool) -> (usize, f64, f64) {
+    let geo = load_geometry();
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_araim_{variant}_levels.csv"))
+        .unwrap_or_else(|e| panic!("{variant}: {e}"));
+    let (mut n, mut worst_v, mut worst_h) = (0usize, 0.0_f64, 0.0_f64);
+    let mut refused = 0usize;
+    for l in text.lines().skip(1) {
+        let f: Vec<&str> = l.split(',').collect();
+        let case: usize = f[0].parse().unwrap();
+        let n_gal: usize = f[2].parse().unwrap();
+        if dual != (n_gal > 0) {
+            continue;
+        }
+        let (vpl_m, hpl_m): (f64, f64) = (f[3].parse().unwrap(), f[4].parse().unwrap());
+        let g = &geo[&case];
+        let user = user_ecef(g);
+        let here = Geodetic {
+            lat_rad: g.lat_deg.to_radians(),
+            lon_rad: g.lon_deg.to_radians(),
+            alt_m: 0.0,
+        };
+        let (mut sats, mut lab) = (Vec::new(), Vec::new());
+        for &(c, _, p) in &g.sats {
+            if elevation(here, p) >= 5f64.to_radians() {
+                sats.push(p);
+                lab.push(c as u8);
+            }
+        }
+        let zero = vec![0.0; sats.len()];
+        let budget = IntegrityBudget {
+            p_hmi_vert: 9.8e-8,
+            p_hmi_horz: 2e-9,
+            p_fa: 3.99e-6,
+        };
+        let r = if dual {
+            let priors = DualFaultPriors {
+                p_sat: 1e-5,
+                p_const: 1e-4,
+                b_nom_m: 0.75,
+            };
+            araim_dual_raim(user, &sats, &lab, &zero, 1.0, priors, budget)
+        } else {
+            let priors = FaultPriors {
+                p_sat: 1e-5,
+                b_nom_m: 0.75,
+            };
+            araim_raim(user, &sats, &zero, 1.0, priors, budget)
+        };
+        let Some(r) = r else {
+            refused += 1;
+            continue;
+        };
+        worst_v = worst_v.max((r.vpl_m - vpl_m).abs());
+        worst_h = worst_h.max((r.hpl_m - hpl_m).abs());
+        n += 1;
+    }
+    eprintln!(
+        "{variant} ({} function) vs MAAST on {n} cases ({refused} refused by Kshana): worst |dVPL| {worst_v:.4} m, |dHPL| \
+         {worst_h:.4} m",
+        if dual {
+            "araim_dual_raim"
+        } else {
+            "araim_raim"
+        }
+    );
+    (n, worst_v, worst_h)
+}
+
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn uniform_sigma_araim_dual_raim_matches_maast_on_matched_inputs() {
+    let (n, dv, dh) = uniform_case_gaps("uniform_pc", true);
+    assert!(n > 0);
+    assert!(dv <= TOL_PL_M && dh <= TOL_PL_M);
+}
+
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn uniform_sigma_araim_raim_matches_maast_on_matched_inputs() {
+    let (n, dv, dh) = uniform_case_gaps("uniform_nopc", false);
+    assert!(n > 0);
+    assert!(dv <= TOL_PL_M && dh <= TOL_PL_M);
 }
 
 // ── Fixture generator ────────────────────────────────────────────────────────────────────────
