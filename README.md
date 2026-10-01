@@ -22,7 +22,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-83%2F223-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="83 of 223 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.1-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.29.1"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.2-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.29.2"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -61,7 +61,7 @@ Every capability carries one of three labels in a machine-checked ledger: **VALI
 independent external oracle agrees), **MODELLED** (internally consistent, and said out loud)
 or **PARTNER** (a hardware partner owns it).
 
-> **Status: v0.29.1.** A validated, reproducible simulation substrate for PNT resilience.
+> **Status: v0.29.2.** A validated, reproducible simulation substrate for PNT resilience.
 > Timing and holdover come first, because that domain is the best validated. Kshana is a
 > study and trade-off instrument: not a radio-frequency (RF) signal simulator, not a GNSS
 > receiver and not a flight product. New to the field? Start with the
@@ -583,7 +583,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 ## Install
 
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
-v0.29.1 from the same tagged commit.
+v0.29.2 from the same tagged commit.
 
 | Channel | Install | Guide |
 |---|---|---|
@@ -598,8 +598,8 @@ v0.29.1 from the same tagged commit.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.1`,
-`pip install kshana==0.29.1` or `npm install kshana@0.29.1`. To build from source, see
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.2`,
+`pip install kshana==0.29.2` or `npm install kshana@0.29.2`. To build from source, see
 [Install and build](#install--build) under Reference.
 
 <details>
@@ -613,7 +613,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.29.1 6600.0 2610.0
+# 0.29.2 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -634,7 +634,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.29.1 6600 2610
+// 0.29.2 6600 2610
 console.log(summary(toml));
 ```
 
