@@ -24,7 +24,18 @@
 .cb-scn{min-width:0;overflow-wrap:anywhere;white-space:normal}
 @keyframes pulse{50%{box-shadow:0 0 0 7px transparent}}
 
-.hero-copy{grid-column:1;grid-row:2;align-self:center;padding:8px 0 4px}
+.hero-copy{grid-column:1;grid-row:2;align-self:center;padding:8px 0 4px;position:relative;
+  /* the copy never runs under the globe: its right edge stops short of the globe's left edge. The globe is
+     centred at --g-cx of the hero width (home.mjs center) with a radius that tracks the hero height
+     (home.mjs fit), approximated here as 0.46 * height - 200 px (measured at 780, 900 and 1000 px).
+     The copy starts at the page gutter of the centred --max column. */
+  --g-cx:.62; --g-r:calc(.46 * clamp(780px,100vh,1000px) - 200px);
+  max-width:calc(var(--g-cx) * 100vw - var(--g-r) - 28px - (100vw - min(100vw,var(--max))) / 2 - var(--gut))}
+/* a soft local scrim behind the copy (and the story copy), fading the orbit lines and dots that cross it */
+.story-copy::before,.beats::before{content:"";position:absolute;inset:-40px -56px -40px -48px;z-index:-1;pointer-events:none;
+  background:radial-gradient(farthest-side,color-mix(in oklab,var(--bg) 82%,transparent) 66%,transparent);filter:blur(8px)}
+.hero-copy::before{content:"";position:absolute;inset:-28px -56px -28px -48px;z-index:-1;pointer-events:none;
+  background:radial-gradient(farthest-side,color-mix(in oklab,var(--bg) 90%,transparent) 72%,transparent);filter:blur(8px)}
 .hero-copy .ver{display:inline-flex;align-items:center;gap:10px;font:500 12.5px/1 var(--mono);color:var(--ink-2);padding:7px 12px 7px 8px;border:1px solid var(--line-2);border-radius:999px;background:var(--panel);margin-bottom:20px;text-decoration:none}
 .hero-copy .ver span{background:var(--cyan-soft);color:var(--cyan);padding:4px 7px;border-radius:999px;font-size:11px}
 .hero h1{font-size:clamp(46px,5vw,76px);line-height:.98;letter-spacing:-.045em;font-weight:600;max-width:12ch}
@@ -319,7 +330,7 @@ section.block.asst{padding:clamp(44px,4vw,60px) 0}
 .story.no-pin .stage{position:relative;height:auto;min-height:0;display:grid;padding:clamp(72px,9vw,110px) 0 24px}
 .story.no-pin .stage canvas,.story.no-pin .stage .fallback{position:relative;inset:auto;left:auto;top:auto;transform:none;width:min(560px,100%);height:auto;aspect-ratio:1;margin:0 auto;grid-area:2/1}
 .story.no-pin .stage .fallback{width:min(420px,78%);align-self:center}
-.story.no-pin .stage-shade{display:none}
+.story.no-pin .stage-shade,.story.no-pin .story-copy::before,.story.no-pin .beats::before{display:none}
 .story.no-pin .stage-in{grid-area:1/1;display:grid;gap:22px;height:auto}
 .story.no-pin .story-copy,.story.no-pin .beats,.story.no-pin .hold,.story.no-pin .rail,.story.no-pin .legend{position:relative;inset:auto;left:auto;right:auto;top:auto;bottom:auto;transform:none;opacity:1;width:auto;max-width:none;height:auto}
 .story.no-pin .story-copy,.story.no-pin .beats,.story.no-pin .legend{padding:0 var(--gut)}
@@ -376,6 +387,12 @@ body[data-page="index"] .pb-plug-h{color:var(--ink-3)}
 @media (max-width:1180px){
   .console-bar .cb-scn,.console-bar .cb-scn+.sep{display:none}
   .hero-grid{grid-template-columns:minmax(0,1fr) minmax(0,.2fr) minmax(0,.62fr)}
+  .hero-copy{--g-cx:.66; --g-r:calc((.46 * clamp(780px,100vh,1000px) - 200px) * .86)}
+  .hero-stage .fallback{left:66%;width:min(40vw,560px)}
+  /* story: the globe sits at 72% and is drawn at 0.8 scale (home.mjs); at full story zoom (x1.35) its
+     radius is about 0.3726 * the stage height, so the copy and beats stop short of its left edge */
+  .stage .fallback{left:72%;width:min(42vw,500px)}
+  .story:not(.no-pin) :is(.story-copy,.beats){width:min(400px,calc(72vw - .3726 * clamp(675px,100vh,945px) - var(--gut) - 16px));max-width:none}
   .win-body{grid-template-columns:minmax(0,1fr) 250px}
   .win-side{display:none}
 }
@@ -385,6 +402,7 @@ body[data-page="index"] .pb-plug-h{color:var(--ink-3)}
   .console-bar{order:0;margin:14px var(--gut) 0;font-size:10.5px;gap:10px}
   .console-bar .hide-m{display:none}
   .hero-copy{order:1;padding:28px var(--gut) 0;align-self:stretch;max-width:100%}
+  .hero-copy::before{display:none}
   .hero-stage{order:2;position:relative;inset:auto;height:390px;margin-top:4px}
   .hero-stage .fallback{left:50%;width:min(78vw,340px)}
   .hero-scrim{display:none}

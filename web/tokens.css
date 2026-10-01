@@ -19,15 +19,15 @@
 */
 /* ================= Tokens ================= */
 :root{
-  --bg:#F6F7FB; --bg-2:#ECEEF5; --surface:#FFFFFF; --surface-2:#F8F9FC;
-  --ink:#0B0D18; --ink-2:#454C66; --ink-3:#5B627C; --line:rgba(11,13,24,.08); --line-2:rgba(11,13,24,.15);
+  --bg:#E8ECF3; --bg-2:#DEE4EE; --surface:#F5F7FB; --surface-2:#EDF1F7; /* 0.29.2: soft ground, cards a step lighter */
+  --ink:#182033; --ink-2:#3A455E; --ink-3:#4E5971; --line:rgba(28,44,84,.12); --line-2:rgba(28,44,84,.2);
   /* six failure domains: one colour each, used across the whole page */
-  --int:#C62A2F; --spf:#6B3FF0; --tim:#1F55F0; --orb:#00788A; --itg:#0B7A3E; --nav:#9A5B00;
+  --int:#B8262B; --spf:#6236E0; --tim:#1C4FE0; --orb:#006C7D; --itg:#0A6F38; --nav:#7C4800;
   --int-card:#E5383B; --spf-card:#6B3FF0; --tim-card:#1F55F0; --orb-card:#008795; --itg-card:#0F8A47; --nav-card:#F5A300;
   /* "space" surfaces stay dark in both themes: the sky, the scope, the console */
   --space:#05060C; --space-2:#0C0E18; --space-3:#151826; --space-ink:#EEF0FA; --space-ink-2:#A3AAC2; --space-ink-3:#8088A6; --space-line:rgba(255,255,255,.08);
   --s-int:#FF5B54; --s-spf:#A58BFF; --s-tim:#6A98FF; --s-orb:#2CD0DE; --s-itg:#3DDC84; --s-nav:#FFB224;
-  --sh-1:0 1px 2px rgba(11,13,24,.05); --sh-2:0 2px 4px rgba(11,13,24,.04),0 12px 32px -12px rgba(11,13,24,.16);
+  --sh-1:0 1px 2px rgba(24,40,80,.07); --sh-2:0 0 0 1px rgba(28,44,84,.06),0 2px 4px rgba(24,40,80,.04),0 12px 30px -14px rgba(24,40,80,.2);
   --sh-3:0 1px 1px rgba(0,0,0,.04),0 8px 16px -4px rgba(0,0,0,.08),0 32px 64px -16px rgba(0,0,0,.18),0 80px 140px -40px rgba(0,0,0,.26);
   --r-card:28px; --r-win:16px; --r-sm:12px;
   --ease:cubic-bezier(.16,1,.3,1); --spring:cubic-bezier(.34,1.56,.64,1);
@@ -56,4 +56,7 @@
   color-scheme:dark;
 }
 :root[data-theme="light"]{color-scheme:light}
+/* print (the Studio report view): paper, not the tinted screen ground */
+@media print and (prefers-color-scheme: light){:root:not([data-theme="dark"]){--bg:#FFFFFF; --bg-2:#F2F4F8; --surface:#FFFFFF; --surface-2:#F6F8FB}}
+@media print{:root[data-theme="light"]{--bg:#FFFFFF; --bg-2:#F2F4F8; --surface:#FFFFFF; --surface-2:#F6F8FB}}
 

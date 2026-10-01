@@ -6,30 +6,30 @@
    Text colours keep WCAG AA (4.5:1) on the ground they sit on, in both themes. */
 :root{
   color-scheme:light;
-  --bg:#F2F5FB; --bg-2:#E8EDF7; --bg-3:#DDE4F2;
-  --panel:rgba(255,255,255,.74); --panel-2:rgba(255,255,255,.6); --panel-solid:#FFFFFF;
-  --line:rgba(18,34,80,.09); --line-2:rgba(18,34,80,.16); --line-3:rgba(18,34,80,.28);
-  --ink:#0A1226; --ink-2:#3F4B67; --ink-3:#5A6680; --ink-4:#8C96AD;
-  --cyan:#066A86; --magenta:#B8288F; --lime:#377D0C; --amber:#7E4B00; --coral:#C9321F;
-  --cyan-soft:rgba(7,130,163,.1); --lime-soft:rgba(55,125,12,.1); --amber-soft:rgba(158,95,0,.1); --coral-soft:rgba(201,50,31,.1); --magenta-soft:rgba(184,40,143,.1);
-  --modelled:#7F96CC;
+  --bg:#E8ECF3; --bg-2:#DEE4EE; --bg-3:#D3DBE8; /* 0.29.2: a soft blue-grey ground, no near-white */
+  --panel:rgba(247,249,252,.9); --panel-2:rgba(238,242,248,.86); --panel-solid:#F5F7FB;
+  --line:rgba(28,44,84,.12); --line-2:rgba(28,44,84,.2); --line-3:rgba(28,44,84,.32);
+  --ink:#182033; --ink-2:#3A455E; --ink-3:#4E5971; --ink-4:#66718A;
+  --cyan:#066A86; --magenta:#A8247F; --lime:#2F6E0A; --amber:#764600; --coral:#B42D1B;
+  --cyan-soft:rgba(7,130,163,.12); --lime-soft:rgba(47,110,10,.12); --amber-soft:rgba(158,95,0,.12); --coral-soft:rgba(180,45,27,.11); --magenta-soft:rgba(168,36,127,.11);
+  --modelled:#7389BF;
   --nav-glass:90%; /* scrolled nav opacity: high enough in light that links keep 4.5:1 over a dark instrument */
-  --btn-bg:#0A1226; --btn-ink:#FFFFFF;
-  --shadow:0 1px 0 rgba(255,255,255,.9) inset, 0 24px 50px -30px rgba(20,40,90,.35), 0 2px 6px -2px rgba(20,40,90,.12);
-  --shadow-lg:0 1px 0 rgba(255,255,255,.9) inset, 0 50px 100px -50px rgba(20,40,90,.45), 0 8px 24px -12px rgba(20,40,90,.2);
-  --dot:rgba(18,34,80,.07);
-  --scrim:rgba(242,245,251,.82);
-  --gloss:linear-gradient(180deg, rgba(255,255,255,.7), transparent 50%);
+  --btn-bg:#182033; --btn-ink:#FFFFFF;
+  --shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 18px 40px -28px rgba(24,40,80,.3), 0 1px 3px rgba(24,40,80,.08);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.7) inset, 0 44px 90px -50px rgba(24,40,80,.38), 0 6px 18px -10px rgba(24,40,80,.16);
+  --dot:rgba(28,44,84,.065);
+  --scrim:rgba(232,236,243,.84);
+  --gloss:linear-gradient(180deg, rgba(255,255,255,.4), transparent 46%);
   --sans:"Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
   --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
   --display:"Unbounded", "Geist", sans-serif;
   --r:14px;
   --obs-ease:cubic-bezier(.22,.9,.24,1);
   /* shared names used by pages that are not rebuilt yet */
-  --surface:#FFFFFF; --surface-2:#F6F8FC;
+  --surface:#F5F7FB; --surface-2:#EDF1F7;
   --f-display:var(--sans); --f-text:var(--sans); --f-mono:var(--mono);
   --max:1360px; --gut:clamp(16px,3vw,40px);
-  --tim:#1F55F0;
+  --tim:#1C4FE0;
 }
 @media (prefers-color-scheme: dark){
   :root:not([data-theme="light"]){

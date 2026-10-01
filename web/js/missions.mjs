@@ -1,7 +1,7 @@
 // Missions page. Every picture here is drawn from real engine output:
 //   - the six failure cards are the site's pre-rendered charts (recorded runs), replayed on scroll;
 //   - the sector grade charts, the spoof replay and the clock-class chart read the recorded runs
-//     in playground/recorded/ (the npm kshana package the Studio runs);
+//     in studio/recorded/ (the npm kshana package the Studio runs);
 //   - the inertial cone reads data/series.json (the points the site's coasting chart plots);
 //   - the jamming footprint is FOOTPRINT below: one run of scenarios/maritime-strait-jamming.toml
 //     per grid cell with only [receiver] lat_deg / lon_deg changed, by the Studio's npm kshana
@@ -33,12 +33,12 @@ const fmt = (v, d = 3) => {
 };
 
 // ------------------------------------------------------------------ data
-const STUDIO_DATA = import("../playground/lib/packs.mjs").then((m) => m.createPackReader());
+const STUDIO_DATA = import("../studio/lib/packs.mjs").then((m) => m.createPackReader());
 const recs = new Map();
 function rec(file) {
   if (!recs.has(file)) {
     // The Studio's own reader: one file per scenario, or a pack of several, whichever it is served as.
-    recs.set(file, STUDIO_DATA.then((d) => d.run(`${ROOT}playground/recorded/`, file)).then((a) => { if (!a) throw new Error(file); return a; })
+    recs.set(file, STUDIO_DATA.then((d) => d.run(`${ROOT}studio/recorded/`, file)).then((a) => { if (!a) throw new Error(file); return a; })
       .then((a) => ({ a, r: typeof a.json === "string" ? JSON.parse(a.json) : a.json })));
   }
   return recs.get(file);
@@ -339,7 +339,7 @@ async function cone(fig) {
 // Cell k runs j = -NY..NY (south to north) and, inside each, i = -NX..NX (west to east), STEP km
 // apart and centred on the jammer; js10 = mean J/S in tenths of a dB, av = tracking availability x1000.
 const FOOTPRINT = {
-  engine: "0.29.1", file: "maritime-strait-jamming",
+  engine: "0.29.2", file: "maritime-strait-jamming",
   jlat: 59.799999997308404, jlon: 25.435753282453177, // jammer, from the scenario's position_ecef_m (WGS84)
   ship: [59.8, 24.9], step: 15, nx: 17, ny: 12,
   js10: [275,279,282,286,290,293,297,301,304,308,311,314,317,320,322,323,324,324,324,323,322,320,317,314,311,308,304,301,297,294,290,286,283,279,276,278,281,285,289,293,297,301,305,309,313,317,320,324,326,329,331,332,332,332,331,329,326,324,320,317,313,309,305,301,297,293,289,285,282,278,280,284,288,292,296,301,305,309,314,318,322,326,330,334,336,339,340,340,340,339,336,334,330,327,322,318,314,309,305,301,296,292,288,284,280,282,286,291,295,299,304,309,314,319,323,328,333,337,341,345,347,349,349,349,347,345,341,337,333,328,324,319,314,309,304,300,295,291,287,283,284,289,293,298,303,307,313,318,323,329,334,340,345,350,354,357,359,360,359,357,354,350,345,340,334,329,323,318,313,308,303,298,293,289,285,286,291,295,300,305,311,316,322,328,334,341,347,353,359,364,368,370,371,370,368,364,359,353,347,341,334,328,322,317,311,306,301,296,291,287,288,293,298,303,308,314,320,326,333,340,347,354,361,368,375,380,383,385,383,380,375,368,361,354,347,340,333,326,320,314,308,303,298,293,288,290,295,300,305,311,317,323,330,337,345,353,361,370,379,387,394,399,401,399,394,387,379,370,361,353,345,337,330,323,317,311,305,300,295,290,291,296,301,307,313,319,326,333,341,349,358,368,378,389,400,410,417,420,417,410,400,389,379,368,358,349,341,333,326,319,313,307,302,296,291,292,297,303,308,315,321,328,336,344,353,363,374,387,400,414,429,440,445,440,429,414,400,387,374,363,353,344,336,328,321,315,309,303,298,293,293,298,304,310,316,323,330,338,347,357,367,380,394,410,429,450,470,480,470,450,429,410,394,380,367,357,347,338,330,323,316,310,304,299,294,294,299,305,311,317,324,331,340,349,359,370,383,398,417,440,470,510,540,510,470,440,417,399,383,370,359,349,340,332,324,317,311,305,299,294,294,299,305,311,317,324,332,340,349,360,371,385,400,420,445,480,540,1101,540,480,445,420,400,385,371,360,349,340,332,325,318,311,305,300,294,294,299,305,311,317,324,332,340,349,359,370,384,399,417,440,470,510,540,510,470,440,417,399,384,370,359,349,340,332,324,318,311,305,300,294,294,299,304,310,317,323,331,339,348,357,368,380,394,410,429,450,470,480,470,450,429,410,394,380,368,357,348,339,331,324,317,311,305,299,294,293,298,304,309,316,322,329,337,345,354,364,375,387,401,415,429,440,445,440,429,415,401,387,375,364,354,345,337,329,322,316,310,304,299,294,292,297,303,308,314,320,327,334,342,350,359,369,379,390,401,410,417,420,417,410,401,390,379,369,359,350,342,334,327,321,314,308,303,298,293,291,296,301,306,312,318,324,331,338,346,354,362,371,379,387,394,399,400,399,394,387,379,371,362,354,346,338,331,325,318,312,307,301,296,292,290,294,299,304,310,315,321,328,334,341,348,355,362,369,375,380,383,385,383,380,375,369,362,355,348,341,334,328,321,316,310,305,300,295,290,288,293,297,302,307,312,318,324,329,335,342,348,354,359,364,368,370,371,370,368,364,359,354,348,342,336,330,324,318,313,307,302,298,293,289,286,291,295,300,304,309,314,319,325,330,335,341,346,350,354,357,359,359,359,357,354,350,346,341,335,330,325,320,314,309,305,300,295,291,287,284,288,293,297,301,306,310,315,320,325,329,334,338,342,345,347,349,349,349,347,345,342,338,334,329,325,320,315,311,306,302,297,293,289,285,282,286,290,294,298,302,307,311,315,319,323,327,331,334,336,338,340,340,340,338,336,334,331,327,323,319,315,311,307,303,298,294,290,286,283,280,284,287,291,295,299,303,306,310,314,318,321,324,327,329,330,331,332,331,330,329,327,324,321,318,314,310,307,303,299,295,291,288,284,280,278,281,285,288,292,295,299,302,306,309,312,315,318,320,322,323,324,324,324,323,322,320,318,315,312,309,306,302,299,295,292,288,285,281,278],
@@ -396,13 +396,13 @@ async function footprint(fig) {
   // Selection by hover, tap or arrow keys; the readout links to that exact run in the Studio.
   const read = $("[data-mx-read]", fig), sel = $(".mx-sel", el);
   let cur = null, base = null, tools = null;
-  const load = () => (base ||= Promise.all([rec(F.file), import(`../playground/lib/guided.mjs`), import(`../playground/lib/share.mjs`)])
+  const load = () => (base ||= Promise.all([rec(F.file), import(`../studio/lib/guided.mjs`), import(`../studio/lib/share.mjs`)])
     .then(([rr, g, sh]) => { tools = { g, sh }; return rr.a.toml; }));
   const href = (toml, c) => {
     const [la, lo] = cellLatLon(c.i, c.j);
     let t = tools.g.patchSectionScalar(toml, "receiver", "lat_deg", la);
     t = tools.g.patchSectionScalar(t, "receiver", "lon_deg", lo);
-    return `/playground/${tools.sh.encodeFragment(t)}`;
+    return `/studio/${tools.sh.encodeFragment(t)}`;
   };
   const pick = (k) => {
     const c = cells[k]; if (!c || k === cur) return;
@@ -413,7 +413,7 @@ async function footprint(fig) {
     const b = document.createElement("b");
     b.textContent = `${la}° N, ${lo}° E`;
     const a = document.createElement("a");
-    a.className = "mx-open"; a.textContent = `Open this run in ${STUDIO}`; a.href = `/playground/?scenario=${F.file}&tab=signal`;
+    a.className = "mx-open"; a.textContent = `Open this run in ${STUDIO}`; a.href = `/studio/?scenario=${F.file}&tab=signal`;
     read.replaceChildren(b, ` · about ${Math.round(Math.hypot(c.i, c.j) * F.step)} km from the jammer · mean J/S ${c.js.toFixed(1)} dB · tracking availability ${c.av.toFixed(2)} `, a);
     load().then((toml) => { if (cur === k) a.href = href(toml, c); }, () => {});
   };

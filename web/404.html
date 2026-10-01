@@ -15,6 +15,7 @@
 <link rel="stylesheet" href="/theme.css">
 <link rel="stylesheet" href="/site.css">
 <link rel="stylesheet" href="/css/pro-power.css">
+<link rel="stylesheet" href="/css/light.css">
 <style>.nf{min-height:62vh;display:flex;align-items:center}.nf .lede{margin-top:22px}.nf .ctas{margin-top:30px}</style>
 </head>
 <body data-page="404">
@@ -34,7 +35,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.1</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.29.2</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -47,7 +48,7 @@
     <div class="nav-right">
       <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
       <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
-      <a class="pill" href="/playground/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
       <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
     </div>
   </div>
@@ -59,7 +60,7 @@
     <span class="eyebrow" style="--c:var(--coral)"><i></i>Error 404 · page not found</span>
     <h1 class="h1">No page at this address. <span class="soft">The rest is where it was.</span></h1>
     <p class="lede">The address may be mistyped, or it may be from the earlier single-page site. Start from the home page, read the docs, or run a scenario in Kshana Studio. Search finds every page, scenario and doc.</p>
-    <div class="ctas"><a class="btn btn-ink" href="/">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="/docs/">Docs</a><a class="btn btn-ghost" href="/playground/">Launch Kshana Studio</a></div>
+    <div class="ctas"><a class="btn btn-ink" href="/">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="/docs/">Docs</a><a class="btn btn-ghost" href="/studio/">Launch Kshana Studio</a></div>
   </div>
 </section>
 </main>
@@ -68,13 +69,13 @@
   <div class="wrap">
     <div class="foot-grid">
       <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. Not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.</p><div class="foot-by">by Ashforde</div></div>
-      <div><h2>Product</h2><a href="/playground/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
       <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.29.1 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.29.1 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.29.2 · by Ashforde OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.29.2 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -87,7 +88,7 @@
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"/",page:"404",version:"0.29.1",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"/",page:"404",version:"0.29.2",studio:"Kshana Studio"};</script>
 <script src="/site.js" defer></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
 //    circular orbits recovered from the engine's ground tracks, on the three globes;
 //  - D.mcp: a real recorded kshana-mcp session (tools/record_mcp_session.py), as a stepped player.
 // Both runs are recorded from the site's one engine checkout (src/tools/record_runs.py).
-import { fmt } from "../playground/lib/views.mjs";
+import { fmt } from "../studio/lib/views.mjs";
 import { mountPlayer } from "./mcp-player.mjs";
 
 const D = JSON.parse(document.getElementById("kpage").textContent);
@@ -135,14 +135,14 @@ function mountGlobes(getHero, getTl, getStory) {
     const hs = $("#heroStage");
     if (hs) {
       const labels = {}; $$(".glabel", hs).forEach((l) => { labels[l.dataset.k] = l; });
-      const g = new Globe($("#glHero"), { ...base, parallax: !RM, labels, labelMaxX: () => { const p = $(".hero-panels"); if (!p || innerWidth <= 900) return innerWidth - 8; return p.getBoundingClientRect().left - hs.getBoundingClientRect().left - 8; }, speed: 720, center: (w) => (w > 900 ? 0.62 : 0.5), fit: (w, h) => (w > 900 ? Math.min(0.86, Math.max(0.64, h / 1180)) : 0.74), onReady: () => hs.classList.add("gl-ready") });
+      const g = new Globe($("#glHero"), { ...base, parallax: !RM, labels, labelMaxX: () => { const p = $(".hero-panels"); if (!p || innerWidth <= 900) return innerWidth - 8; return p.getBoundingClientRect().left - hs.getBoundingClientRect().left - 8; }, speed: 720, center: (w) => (w > 1180 ? 0.62 : w > 900 ? 0.66 : 0.5), fit: (w, h) => (w > 900 ? Math.min(0.86, Math.max(0.64, h / 1180)) * (w > 1180 ? 1 : 0.86) : 0.74), onReady: () => hs.classList.add("gl-ready") }); // 901-1180: a little right and smaller, so the copy column stays clear of it (home.css --g-left)
       globes.push([g, getHero, hs]);
     }
     const ws = $(".win-stage");
     if (ws) { const g = new Globe($("#glTl"), { ...base, speed: 720, fit: (w, h) => Math.max(0.6, Math.min(1.35, Math.min(w, h * 1.25) / 540)), onReady: () => ws.classList.add("gl-ready") }); globes.push([g, getTl, ws]); }
     const st = $("#stage");
     if (st) {
-      const g = new Globe($("#glStory"), { ...base, colorBy: "system", sysColors: SYS, speed: 540, parallax: !RM, center: (w) => (w > 900 ? 0.64 : 0.5), fit: (w, h) => (w > 900 ? Math.min(1.05, Math.max(0.75, h / 900)) : 0.8), onReady: () => st.classList.add("gl-ready") });
+      const g = new Globe($("#glStory"), { ...base, colorBy: "system", sysColors: SYS, speed: 540, parallax: !RM, center: (w) => (w > 1180 ? 0.64 : w > 900 ? 0.72 : 0.5), fit: (w, h) => (w > 900 ? Math.min(1.05, Math.max(0.75, h / 900)) * (w > 1180 ? 1 : 0.8) : 0.8), onReady: () => st.classList.add("gl-ready") }); // 901-1180: right and smaller, so the beats stay clear of it (home.css)
       globes.push([g, getStory, st]);
     }
     let last = performance.now();
