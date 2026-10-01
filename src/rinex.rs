@@ -111,10 +111,15 @@ pub struct RinexEphemeris {
     pub sv_accuracy: f64,
     /// SV health flag (0 = healthy).
     pub sv_health: f64,
-    /// Group delay differential `TGD` (s).
+    /// Group delay differential `TGD` (s). For Galileo this is `BGD(E1,E5a)`.
     pub tgd: f64,
-    /// Issue of data, clock.
+    /// Issue of data, clock. For Galileo the same RINEX slot carries `BGD(E1,E5b)`; read it
+    /// through [`Self::bgd_e1_e5b`].
     pub iodc: f64,
+    /// The second field of `BROADCAST ORBIT - 5`: "codes on L2" for GPS, the "data sources"
+    /// bit field for Galileo (bit 0 I/NAV E1-B, bit 1 F/NAV E5a-I, bit 2 I/NAV E5b-I, bit 8
+    /// clock for E5a/E1, bit 9 clock for E5b/E1).
+    pub data_sources: f64,
 
     /// Message transmission time of week (s).
     pub trans_time: f64,
@@ -314,6 +319,7 @@ pub fn parse_nav(text: &str) -> Result<Vec<RinexEphemeris>, String> {
             omega: l4[2],
             omega_dot: l4[3],
             idot: l5[0],
+            data_sources: l5[1],
             gps_week: l5[2],
             sv_accuracy: l6[0],
             sv_health: l6[1],
@@ -391,6 +397,47 @@ impl RinexEphemeris {
     /// Semi-major axis `A = (√A)²` (m).
     pub fn semi_major_axis(&self) -> f64 {
         self.sqrt_a * self.sqrt_a
+    }
+
+    /// Galileo broadcast group delay `BGD(E1,E5b)` (s), the last field of
+    /// `BROADCAST ORBIT - 6` (parsed into the `iodc` slot, which Galileo does not have).
+    /// Zero for other systems.
+    pub fn bgd_e1_e5b(&self) -> f64 {
+        if self.system == 'E' {
+            self.iodc
+        } else {
+            0.0
+        }
+    }
+
+    /// For a Galileo record, whether its clock polynomial refers to the E1/E5a
+    /// ionosphere-free combination (F/NAV) rather than E1/E5b (I/NAV). Read from the data
+    /// sources bits 8 and 9, then from the message bits (1 F/NAV; 0 or 2 I/NAV). `false` for
+    /// other systems and for a record that states neither.
+    pub fn galileo_clock_is_e1_e5a(&self) -> bool {
+        if self.system != 'E' {
+            return false;
+        }
+        let bits = self.data_sources as u32;
+        if bits & (1 << 8) != 0 {
+            return true;
+        }
+        if bits & (1 << 9) != 0 {
+            return false;
+        }
+        bits & 0b010 != 0 && bits & 0b101 == 0
+    }
+
+    /// The broadcast group delay (s) of the frequency pair the clock polynomial refers to,
+    /// which a single-frequency user on the first frequency (L1, E1) subtracts from the
+    /// clock: `TGD` for GPS and QZSS, `BGD(E1,E5a)` for a Galileo F/NAV record and
+    /// `BGD(E1,E5b)` for an I/NAV record (Galileo OS SIS ICD issue 2.0, section 5.1.5).
+    pub fn clock_reference_group_delay_s(&self) -> f64 {
+        if self.system == 'E' && !self.galileo_clock_is_e1_e5a() {
+            self.bgd_e1_e5b()
+        } else {
+            self.tgd
+        }
     }
 
     /// The gravitational constant `μ` (m³/s²) this satellite's broadcast
