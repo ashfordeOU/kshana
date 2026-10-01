@@ -1259,8 +1259,8 @@ pub fn add_v42_protection_levels(case: &AddV42Case) -> Result<AddV42Result, Stri
         let mut merged = 0.0;
         let mut keep = Vec::with_capacity(rows.len());
         for (idx, row) in rows.into_iter().enumerate() {
-            let inside = row.out.iter().any(|&x| x)
-                && row.out.iter().zip(&cset).all(|(&o, &cs)| !o || cs);
+            let inside =
+                row.out.iter().any(|&x| x) && row.out.iter().zip(&cset).all(|(&o, &cs)| !o || cs);
             if idx != c && inside && row.p < case.fc_thres * pc {
                 merged += row.p;
             } else {
@@ -1465,8 +1465,14 @@ pub fn add_v42_protection_levels_ecef(
     rows.sort_by_key(|(_, s)| s.constellation);
     let used: Vec<usize> = rows.iter().map(|(i, _)| *i).collect();
     let case = AddV42Case {
-        b_nom_m: rows.iter().map(|(_, s)| isms[s.constellation].b_nom_m).collect(),
-        p_sat: rows.iter().map(|(_, s)| isms[s.constellation].p_sat).collect(),
+        b_nom_m: rows
+            .iter()
+            .map(|(_, s)| isms[s.constellation].b_nom_m)
+            .collect(),
+        p_sat: rows
+            .iter()
+            .map(|(_, s)| isms[s.constellation].p_sat)
+            .collect(),
         p_const: isms.iter().map(|m| m.p_const).collect(),
         satellites: rows.into_iter().map(|(_, s)| s).collect(),
         constellations: isms.len(),
