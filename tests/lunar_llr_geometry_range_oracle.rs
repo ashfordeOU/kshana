@@ -304,7 +304,7 @@ fn reflector_ranges_against_ilrs_normal_points() {
     let (res, skipped) = residuals();
     let pick_with = |slice: &str, station: Option<u32>, diag: bool| -> Vec<f64> {
         res.iter()
-            .filter(|r| r.slice == slice && station.map_or(true, |s| r.station == s))
+            .filter(|r| r.slice == slice && station.is_none_or(|s| r.station == s))
             .map(|r| if diag { r.diag_res_m } else { r.res_m })
             .collect()
     };
