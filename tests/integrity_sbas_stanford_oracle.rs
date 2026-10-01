@@ -49,6 +49,26 @@
 //! ellipse axis) many times over. The set of (epoch, user) pairs both tools protect must also
 //! be equal.
 
+//!
+//! # Amendment 1 (committed before any protection level was produced)
+//!
+//! The first driver run stopped inside MAAST's L1 message reader: `maast_messages_2019_365.mat`
+//! holds only the L5 (dual-frequency) channel of GEO PRN 131 (its `sbas.band` is `L5`), so it
+//! has no L1 messages. No protection level was computed. The inputs are amended as follows; the
+//! quantity, the Kshana side, the K rescaling and the 1e-4 m bar are unchanged.
+//! - Case L1 (DO-229E single frequency): MAAST's other recorded real broadcast,
+//!   `sbas_messages_2020_001.mat` (15 GEO channels, L1, 2020-01-01), primary source GEO PRN 131
+//!   (WAAS), `dual_freq` 0, epochs time of week 259200 + 600 s to + 3600 s every 300 s.
+//! - Case L5 (dual-frequency L1/L5): `maast_messages_2019_365.mat` (GEO PRN 131, L5), exactly
+//!   MAAST's execution-test configuration (`dual_freq` 1, release 51 CY18 mask) with
+//!   authentication off, epochs time of week 259800 s to 262800 s every 300 s (the file spans
+//!   258905 s to 263104 s and the reader needs up to 600 s of earlier messages). Here MAAST forms
+//!   sigma^2 = sigma_flt^2 + sigma_UIRE^2 (its dual-frequency fixed term) + sigma_air^2 *
+//!   (f1^4 + f5^4) / (f1^2 - f5^2)^2 + sigma_tropo^2. The driver records the four terms before
+//!   that scaling; Kshana is fed sigma_air = sqrt(sigma_air^2) *
+//!   `kshana::sbas::iono_free_l1l5_noise_factor()`, so its L1/L5 ionosphere-free noise factor
+//!   is part of the comparison.
+
 /// Tolerance (m) on VPL and HPL after the stated K rescaling.
 pub const TOL_PL_M: f64 = 1e-4;
 /// MAAST's rounded vertical precision-approach K-factor (`init_mops.m`, `MOPS_KV_PA`).
