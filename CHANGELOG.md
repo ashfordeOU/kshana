@@ -45,6 +45,13 @@ every scenario gives the same result as on 0.29.0.
   results back in sorted order; every scenario and every assertion stays. On an arm64
   laptop, debug build: `determinism` takes 143 s on 14 cores
   against 612 s with `KSHANA_CORPUS_THREADS=1` (the old serial walk).
+- **The README, refreshed.** It opens with the same name line as the site; the Studio
+  screenshots are retaken from the 0.29.1 Studio, with a new one of the Studio on a phone
+  and its bottom step bar; a new "The site" strip shows three pages of kshana.dev from the
+  0.29.1 build (`tools/capture_site_shots.mjs`, composed by `tools/readme_shots.py` and
+  recorded in `docs/assets/readme/site/SHOTS.json`); the coverage figure reads ~95 %; and
+  the research figure's alt text, which repeated the architecture figure's, now describes
+  the papers.
 
 ## [0.29.0] - 2026-10-01
 
