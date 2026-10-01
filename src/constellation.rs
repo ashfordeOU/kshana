@@ -137,6 +137,25 @@ impl Sat {
     }
 }
 
+/// Body-fixed satellite positions (m) at `t` seconds after the epoch, in the order
+/// [`coverage`] uses (constellation by constellation, element set by element set), with the
+/// same propagation (two-body, optional secular J2 drift, body rotation). This exposes the
+/// geometry a coverage run sees, so an external tool can recompute the DOP maps on identical
+/// satellite positions.
+pub fn satellite_positions_fixed(
+    body: &Body,
+    constellations: &[Vec<Elements>],
+    j2: bool,
+    t: f64,
+) -> Vec<Vec3> {
+    constellations
+        .iter()
+        .enumerate()
+        .flat_map(|(c, els)| els.iter().map(move |&el| (c, el)))
+        .map(|(c, el)| Sat::new(el, body, j2, c).position_fixed(t, body.rotation_rate))
+        .collect()
+}
+
 fn dot(a: Vec3, b: Vec3) -> f64 {
     a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 }
