@@ -70,6 +70,8 @@ fn samples() -> Vec<Sample> {
 #[test]
 fn look_angles_match_anise_at_selenographic_sites() {
     let s = samples();
+    // PIN-SCOPE:    the number of samples in the committed ANISE reference fixture
+    // PIN-EXCLUDES: the angles and ranges compared below, which carry their own tolerances
     assert_eq!(s.len(), 768, "8 sites x 12 epochs x 8 satellites");
 
     // The four named sites in the fixture are Kshana's own named sites.
