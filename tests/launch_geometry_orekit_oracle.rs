@@ -35,12 +35,31 @@
 //! before the run, so the row stays MODELLED. The gated test below keeps comparisons 1 to 4 and 6;
 //! comparison 5 is kept strict in an ignored test and its gap is pinned as a finding.
 //!
+//! ROUND 2 (2026-10-01): engine fix, re-run at the same tolerance. `launch::site_rotation_speed_at`
+//! rotates the site about the true pole: the Celestial Intermediate Pole placed at (x_p, -y_p, 1)
+//! in the terrestrial frame from IERS polar motion, at the rate Omega (1 - LOD / 86400 s). The strict
+//! comparison 5 now calls it instead of `site_rotation_speed`, with the same epoch the driver used
+//! (2026-03-01T00:00:00 UTC), the same longitude (0 deg) and latitudes, the same Orekit 12.2 values
+//! (fixture unchanged) and the same 1e-6. Its EOP input is three rows copied verbatim from the
+//! frozen IERS finals2000A.all of 2026-09-30 (`finals2000A_2026-02-28_to_03-02.txt`, provenance in
+//! NOTICE.md). Disclosed: the changed call, and that a hand prototype of the same closed form was
+//! evaluated against the fixture's ROT values before this test was edited (worst 1.27e-7).
+//! `site_rotation_speed` (nominal rate about the z axis) is unchanged and its 1.12e-6 gap stays
+//! pinned below as the finding it is.
+//! Result: all seven latitudes within 1e-6; worst 1.27e-7 at 62.9 deg (the remainder grows as
+//! tan(lat) and is consistent with the precession-nutation rate of the pole, which the function
+//! leaves out). Mutation: placing the pole on the z axis again (x_p = y_p = 0) turns the strict
+//! test red at 1.12e-6. The fixture's sites are all at longitude 0, so y_p enters only at second
+//! order and its sign convention is not exercised by this comparison.
+//!
 //! Fixture, driver, generator and provenance: `tests/fixtures/launch_geometry_orekit_oracle/`.
 
+use kshana::eop::EopSeries;
 use kshana::launch::{
     circular_velocity, daily_launch_opportunities, launch_azimuth, min_inclination,
-    plane_change_dv, site_rotation_speed,
+    plane_change_dv, site_rotation_speed, site_rotation_speed_at,
 };
+use kshana::timescales::{julian_date, utc_to_tt};
 
 const REF: &str =
     include_str!("fixtures/launch_geometry_orekit_oracle/launch_geometry_orekit_oracle.txt");
@@ -228,10 +247,33 @@ fn site_speed_gaps() -> Vec<(f64, f64)> {
         .collect()
 }
 
+/// Comparison 5 with the true-pole site speed: (latitude deg, relative gap to Orekit), at the
+/// driver's epoch 2026-03-01T00:00:00 UTC and longitude 0.
+fn true_pole_site_speed_gaps() -> Vec<(f64, f64)> {
+    let eop = EopSeries::from_finals2000a(include_str!(
+        "fixtures/launch_geometry_orekit_oracle/finals2000A_2026-02-28_to_03-02.txt"
+    ));
+    assert_eq!(eop.len(), 3, "three verbatim IERS rows");
+    let jd_tt = utc_to_tt(julian_date(2026, 3, 1, 0, 0, 0.0));
+    REF.lines()
+        .filter_map(|l| l.strip_prefix("ROT "))
+        .map(|rest| {
+            let f = fields(rest);
+            let lat = f[0][0];
+            let v = site_rotation_speed_at(lat.to_radians(), 0.0, jd_tt, &eop);
+            (lat, rel(v, f[1][0]))
+        })
+        .collect()
+}
+
 #[test]
-#[ignore = "DISAGREES: site speed off Orekit by 1.12e-6 relative at 62.9 deg, above the pre-registered 1e-6"]
 fn earth_rotation_speed_matches_orekit_site_velocity() {
-    let failures: Vec<String> = site_speed_gaps()
+    let gaps = true_pole_site_speed_gaps();
+    assert_eq!(gaps.len(), 7);
+    for (lat, r) in &gaps {
+        eprintln!("true-pole site speed lat {lat}: rel gap to Orekit {r:e}");
+    }
+    let failures: Vec<String> = gaps
         .into_iter()
         .filter(|g| g.1 > ROT_REL_TOL)
         .map(|(lat, r)| format!("ROT lat {lat}: rel {r:e}"))
@@ -243,7 +285,8 @@ fn earth_rotation_speed_matches_orekit_site_velocity() {
     );
 }
 
-/// The finding, pinned in the gate: at least one latitude misses the pre-registered 1e-6, and
+/// The finding for the nominal `site_rotation_speed` (rotation about the terrestrial z axis at the
+/// nominal rate), still pinned in the gate: at least one latitude misses the pre-registered 1e-6, and
 /// every gap stays below 1e-5 (an envelope chosen after the comparison; a characterisation, never
 /// a promotion basis).
 #[test]
