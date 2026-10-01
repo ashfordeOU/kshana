@@ -122,8 +122,118 @@ pub const TOL_PL_M: f64 = 1e-4;
 /// MAAST's rounded vertical precision-approach K-factor (`init_mops.m`, `MOPS_KV_PA`).
 pub const MAAST_KV_PA: f64 = 5.33;
 
+use kshana::sbas::{
+    iono_free_l1l5_noise_factor, k_v_pa, sbas_protection_level, SbasErrorModel, SbasMode, SbasSat,
+};
+use std::collections::BTreeMap;
+
+const FIXTURE_DIR: &str = "tests/fixtures/integrity_sbas_stanford_oracle";
+
+/// MAAST's levels for one case: `(t, usr) -> (vpl, hpl)`; a level that is not a positive number
+/// is MAAST's "not monitored".
+fn maast_levels(case: &str) -> BTreeMap<(i64, usize), (f64, f64)> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_{case}_levels.csv"))
+        .expect("MAAST levels");
+    text.lines()
+        .skip(1)
+        .map(|l| {
+            let f: Vec<&str> = l.split(',').collect();
+            (
+                (f[0].parse().unwrap(), f[1].parse().unwrap()),
+                (f[4].parse().unwrap(), f[5].parse().unwrap()),
+            )
+        })
+        .collect()
+}
+
+/// The satellite lines MAAST handed to `usr_vhpl`, as Kshana inputs: `(t, usr) -> satellites`.
+/// A line whose MAAST variance is not a positive number is not used by MAAST's solution and is
+/// not given to Kshana.
+fn kshana_inputs(case: &str, air_factor: f64) -> BTreeMap<(i64, usize), Vec<SbasSat>> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_{case}_sats.csv"))
+        .expect("MAAST satellite lines");
+    let mut out: BTreeMap<(i64, usize), Vec<SbasSat>> = BTreeMap::new();
+    for l in text.lines().skip(1) {
+        let f: Vec<&str> = l.split(',').collect();
+        let v = |i: usize| f[i].parse::<f64>().unwrap();
+        let key = (f[0].parse().unwrap(), f[1].parse().unwrap());
+        let entry = out.entry(key).or_default();
+        let (e, n, u) = (v(3), v(4), v(5));
+        let (s2_flt, s2_uire, s2_tropo, s2_air) = (v(6), v(7), v(8), v(9));
+        let total = s2_flt + s2_uire + s2_tropo + air_factor * air_factor * s2_air;
+        if !(total > 0.0 && total.is_finite()) {
+            continue;
+        }
+        // MAAST's line of sight points from the satellite to the user: (E, N, U) =
+        // -(cos El sin Az, cos El cos Az, sin El).
+        entry.push(SbasSat {
+            el_rad: (-u).asin(),
+            az_rad: (-e).atan2(-n),
+            err: SbasErrorModel {
+                sigma_flt_m: s2_flt.sqrt(),
+                sigma_uire_m: s2_uire.sqrt(),
+                sigma_air_m: s2_air.sqrt() * air_factor,
+                sigma_tropo_m: s2_tropo.sqrt(),
+            },
+        });
+    }
+    out
+}
+
+/// `(pairs compared, worst |dVPL|, worst |dHPL|, pairs protected by only one tool)`.
+fn compare(case: &str, air_factor: f64) -> (usize, f64, f64, Vec<(i64, usize)>) {
+    let maast = maast_levels(case);
+    let inputs = kshana_inputs(case, air_factor);
+    let (mut worst_v, mut worst_h, mut n) = (0.0_f64, 0.0_f64, 0usize);
+    let mut one_sided = Vec::new();
+    for (key, &(vpl_m, hpl_m)) in &maast {
+        let maast_protects = vpl_m > 0.0 && hpl_m > 0.0;
+        let k = inputs
+            .get(key)
+            .and_then(|s| sbas_protection_level(s, SbasMode::PrecisionApproach));
+        match (maast_protects, k) {
+            (true, Some(r)) => {
+                let vpl = r.vpl_m.expect("precision approach has a VPL") * MAAST_KV_PA / k_v_pa();
+                worst_v = worst_v.max((vpl - vpl_m).abs());
+                worst_h = worst_h.max((r.hpl_m - hpl_m).abs());
+                n += 1;
+            }
+            (false, None) => {}
+            _ => one_sided.push(*key),
+        }
+    }
+    (n, worst_v, worst_h, one_sided)
+}
+
+fn check(case: &str, air_factor: f64) {
+    let (n, dv, dh, one_sided) = compare(case, air_factor);
+    eprintln!(
+        "SBAS {case} vs MAAST: {n} protected (epoch, user) pairs, worst |dVPL| {dv:.3e} m, \
+         |dHPL| {dh:.3e} m, {} pairs protected by one tool only",
+        one_sided.len()
+    );
+    assert!(n > 0, "{case}: no pair compared");
+    assert!(
+        one_sided.is_empty(),
+        "{case}: the protected sets differ at {} pairs, first {:?}",
+        one_sided.len(),
+        &one_sided[..one_sided.len().min(5)]
+    );
+    assert!(
+        dv <= TOL_PL_M && dh <= TOL_PL_M,
+        "{case}: worst |dVPL| {dv:.3e} m, |dHPL| {dh:.3e} m against {TOL_PL_M} m"
+    );
+}
+
+/// Case L1: DO-229E single frequency on the real WAAS L1 broadcast of 2020-01-01.
 #[test]
-#[ignore = "pre-registered; not yet run"]
-fn sbas_protection_levels_match_stanford_maast_on_real_waas_messages() {
-    unimplemented!("pre-registered; the comparison body lands with the fixture");
+fn sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages() {
+    check("L1", 1.0);
+}
+
+/// Case L5: dual-frequency L1/L5 on MAAST's recorded L5 broadcast; the airborne term carries
+/// Kshana's ionosphere-free noise factor.
+#[test]
+fn sbas_l5_protection_levels_match_stanford_maast_on_real_waas_messages() {
+    check("L5", iono_free_l1l5_noise_factor());
 }

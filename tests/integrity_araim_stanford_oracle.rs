@@ -77,6 +77,19 @@
 //! that one call form, every other call deferred to Octave's own) ahead of Octave's on the path
 //! and the oracle was re-run. MAAST's numbers from the invalid run were seen; no Kshana value
 //! had been computed, and the quantity, inputs, settings and bars above are unchanged.
+//!
+//! # Kshana-side implementation note (disclosed)
+//!
+//! The existing `araim_reference` path follows the Working Group C worked example and has no
+//! ADD v4.2 subset determination (`P_THRES`, `FC_THRES`), Effective Monitor Threshold or
+//! `C_acc` separation. The ADD v4.2 functions `add_v42_protection_levels` and
+//! `add_v42_protection_levels_ecef` were added to `src/araim_reference.rs` after the
+//! pre-registration, from the ADD v4.2 equations as MAAST's `mhss_raim_baseline_v5.m` and its
+//! helpers implement them. They were completed after MAAST's valid output files existed on disk
+//! (MAAST output 22:15 UTC, engine file final 22:17 UTC, 2026-10-01); no Kshana value had been
+//! computed on these cases until the strict test was first run, and no constant or tolerance
+//! was adjusted afterwards. The test shows that the Rust implementation reproduces the
+//! reference implementation of the ADD; it does not check the ADD itself.
 
 /// The ADD's TOL_PL (m): the protection-level tolerance.
 pub const TOL_PL_M: f64 = 5e-2;
@@ -190,7 +203,11 @@ fn araim_mhss_matches_stanford_maast_add_v4_2() {
     let geo = load_geometry();
     let maast = load_maast_levels();
     let subsets = load_maast_subsets();
-    assert_eq!(geo.len(), maast.len(), "every geometry case has a MAAST row");
+    assert_eq!(
+        geo.len(),
+        maast.len(),
+        "every geometry case has a MAAST row"
+    );
     let isms = isms();
     let (mut worst_v, mut worst_h, mut worst_e, mut worst_a) = (0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
     let mut compared = 0usize;
@@ -416,9 +433,7 @@ fn generate_geometry_fixture() {
                 if elevation(u, r) > 0.0 {
                     out.push_str(&format!(
                         "{case},TLE,{lat:?},{lon:?},{t_s:?},{c},{prn},{:?},{:?},{:?}\n",
-                        r[0],
-                        r[1],
-                        r[2]
+                        r[0], r[1], r[2]
                     ));
                 }
             }
@@ -434,10 +449,7 @@ fn generate_geometry_fixture() {
                     let prn: usize = s.sat[1..].trim().parse().expect("SP3 PRN");
                     out.push_str(&format!(
                         "{case},SP3,{lat:?},{lon:?},{:?},0,{prn},{:?},{:?},{:?}\n",
-                        k as f64,
-                        s.pos_m[0],
-                        s.pos_m[1],
-                        s.pos_m[2]
+                        k as f64, s.pos_m[0], s.pos_m[1], s.pos_m[2]
                     ));
                 }
             }
