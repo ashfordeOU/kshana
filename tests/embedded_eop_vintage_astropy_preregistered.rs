@@ -49,6 +49,15 @@
 //!    than the file, so this one criterion has the rounding unit as its tolerance.
 //!
 //! Outcome rule: all six hold, the census claim of the row is supported by astropy.
+//!
+//! # Result (run 2026-10-01, after the pre-registration commit 6fdae01b)
+//!
+//! All six hold. astropy reads 174 rows: 30 final (MJD 61224-61253), 54 rapid (61254-61307) and
+//! 90 predicted (61308-61397), each list equal to Kshana's; every predicted row is `P` in both
+//! flags; the bare run reports the same census; the 90 predictions match Bulletin A No. 039
+//! within its rounding (worst 5.0e-5 arcsec and 4.9e-6 s). Mutation: classifying a row with a
+//! blank Bulletin B block as a prediction (the round-1 rule) turns the test red (rapid n 0
+//! against 54).
 //! Any "agreement with the Bulletin A prediction" figure the scenario reports is a separate
 //! revision (it is scored against these real P rows), not part of this comparison.
 
@@ -93,7 +102,6 @@ fn mjds(v: &Value) -> Vec<f64> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn vintage_of_every_row_matches_astropy_and_predictions_match_bulletin_a() {
     let c = census();
     // 1. Same bytes.

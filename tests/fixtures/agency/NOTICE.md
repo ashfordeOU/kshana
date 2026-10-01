@@ -41,11 +41,29 @@ is tied to the exact bytes below by SHA-256.
   `https://datacenter.iers.org/data/latestVersion/finals.all.iau2000.txt`.
 - **Slice:** MJD 61173..61204 (2026-05-13 .. 2026-06-13), 32 consecutive daily rows
   lifted verbatim. The first **20** carry a Bulletin B final block; the last **12**
-  (MJD 61193..61204) are Bulletin A **prediction-only** rows with that block blank.
+  (MJD 61193..61204) have that block blank. All 32 carry the IERS flag `I` (measured) on
+  polar motion and UT1: the 12 are **rapid** measured rows, not predictions (release
+  0.30 correction; astropy 8.0.1 reads the same flags).
 - **SHA-256:** `bba73f0524eda18e78c1e0cde6843a60a1cf1fe0a3afcc9afc6239c0f63df822`
 - **Also shipped at** `tools/finals2000A_2026.txt` (byte-identical; same drift guard).
-  Since G12 this is the `realtime-frame-eop` **runtime default**, which is why a bare
-  run reports `predicted_rows.n = 12`.
+  It was the `realtime-frame-eop` runtime default from G12 to release 0.30.
+
+### `eop/finals2000A_20260930.txt`
+- **Product:** IERS `finals2000A.all` (`finals.all.iau2000.txt`), the copy frozen on
+  2026-09-30 (SHA-256 `cc80680ec05c91b65e7d02c6068fe0d44dd0998dc880551975092d2d14aa8e18`).
+- **Source (open, no login):** IERS Data Centre,
+  `https://datacenter.iers.org/data/9/finals2000A.all`; IERS products, free use with
+  citation.
+- **Slice:** lines 19541..19714, MJD 61224..61397 (2026-07-03 .. 2026-12-23), 174
+  consecutive daily rows lifted verbatim under a 14-line `#` comment header. By the IERS
+  flags (columns 17 and 58): **30** final rows (flag `I`, Bulletin B block present, MJD
+  61224..61253), **54** rapid rows (flag `I`, no Bulletin B block, MJD 61254..61307) and
+  **90** Bulletin A predictions (flag `P`, MJD 61308..61397, those of Bulletin A Vol. XXXIX
+  No. 039, issued 2026-09-24).
+- **SHA-256:** `37c20f3b387125d35a20d062fe9c213d78048537d91816a1b1003d5b3bfda953`
+- **Also shipped at** `tools/finals2000A_20260930.txt` (byte-identical; same drift guard).
+  Since release 0.30 this is the `realtime-frame-eop` **runtime default**, which is why a
+  bare run reports `predicted_rows.n = 90`.
 
 ## Swarm-A LEO (W4a)
 

@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2518,
-    "fields_total": 2520,
+    "fields_described": 2519,
+    "fields_total": 2521,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -12672,6 +12672,12 @@
           "provenance": "measured",
           "unit": "count"
         },
+        "eop_input.rapid_rows": {
+          "definition": "rows of the EOP input with the IERS measured flag I and no Bulletin B final block yet",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
         "eop_input.rows": {
           "definition": null,
           "evidence_tier": "validated",
@@ -13671,8 +13677,8 @@
           "unit": "count"
         }
       },
-      "fields_described": 160,
-      "fields_total": 160,
+      "fields_described": 161,
+      "fields_total": 161,
       "fields_without_units": [],
       "label": "Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm (1 ms ↔ 28.03 m ↔ 93.5 ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the frame-realisation floor is the post-fit RMS residual of an actual 7-parameter Helmert datum realisation (not an asserted 0.2 m). MODELLED: the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~14.4 m real-time at 1 h latency) are a round, NOT back-solved, representative allocation — the order-15-m real-time figure is independently bracketed by the real EOP-prediction curve (≈9.9 m at 1 day, ≈18.8 m at 2 days). The multi-day predictor is persistence, not IERS's operational Bulletin A algorithm, and a genuine predicted-vs-final vintage difference needs an archived earlier file vintage (not available from a single fetch). Not a certified real-time frame product.",
       "source": "defaults"
