@@ -1,14 +1,14 @@
 {
-  "note": "Every URL of the single-page kshana.dev (v0.28.0 and earlier) that published material uses, or that the old page itself handed out (share links, embed links, ledger-row links), and where it lands on the multi-page site, as its clean address (/evidence#ledger, /playground/). port_site.py generates web/legacy-redirects.js from the redirects block and refuses to port if a target is missing; web/legacy-urls.test.mjs replays every case. A fragment never reaches the server, so the fragment and query cases are redirected by that script on the home page; the path cases are files that stay where they were. embedTabs maps a result tab the single-page site had and the Studio renamed (fom, the figures-of-merit table, is now part of overview; orbit3d is now orbit); timeseries, stability and sweep kept their names.",
+  "note": "Every URL of the single-page kshana.dev (v0.28.0 and earlier) that published material uses, or that the old page itself handed out (share links, embed links, ledger-row links), and where it lands on the multi-page site, as its clean address (/evidence#ledger, /studio/). port_site.py generates web/legacy-redirects.js from the redirects block and refuses to port if a target is missing; web/legacy-urls.test.mjs replays every case. A fragment never reaches the server, so the fragment and query cases are redirected by that script on the home page; the path cases are files that stay where they were. embedTabs maps a result tab the single-page site had and the Studio renamed (fom, the figures-of-merit table, is now part of overview; orbit3d is now orbit); timeseries, stability and sweep kept their names. paths lists addresses that moved (the Studio: /playground/ until 0.29.1, /studio/ since 0.29.2): port_site.py writes a page at each old folder address (playground/index.html) that loads legacy-redirects.js, which forwards there keeping the query and the fragment.",
   "origin": "https://kshana.dev",
   "redirects": {
-    "embed": "/playground/",
+    "embed": "/studio/",
     "hashPrefix": {
-      "s=": "/playground/{hash}",
+      "s=": "/studio/{hash}",
       "ldg-": "/evidence#ledger"
     },
     "hash": {
-      "playground": "/playground/",
+      "playground": "/studio/",
       "ledger": "/evidence#ledger",
       "validation": "/evidence#matrix",
       "standards": "/evidence#standards",
@@ -21,6 +21,9 @@
     "embedTabs": {
       "fom": "overview",
       "orbit3d": "orbit"
+    },
+    "paths": {
+      "/playground/": "/studio/"
     }
   },
   "keptAnchors": [
@@ -48,7 +51,7 @@
     },
     {
       "url": "/#playground",
-      "to": "/playground/",
+      "to": "/studio/",
       "cited": "docs/tutorials/README.md, docs/tutorials/01-first-orbit.md"
     },
     {
@@ -98,27 +101,27 @@
     },
     {
       "url": "/#s=c2VlZCA9IDQyCg",
-      "to": "/playground/#s=c2VlZCA9IDQyCg",
+      "to": "/studio/#s=c2VlZCA9IDQyCg",
       "cited": "share links the old playground's Share button produced (the scenario travels in the fragment)"
     },
     {
       "url": "/?embed=1&scenario=integrity-raim.toml&seed=7&tab=fom",
-      "to": "/playground/?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview",
+      "to": "/studio/?embed=1&scenario=integrity-raim.toml&seed=7&tab=overview",
       "cited": "embed links for course pages, as documented in the old embed.mjs and web/README.md of every release since embed mode shipped (the documented example, tab=fom)"
     },
     {
       "url": "/?embed=1&scenario=orbit-sgp4-gps.toml&tab=orbit3d",
-      "to": "/playground/?embed=1&scenario=orbit-sgp4-gps.toml&tab=orbit",
+      "to": "/studio/?embed=1&scenario=orbit-sgp4-gps.toml&tab=orbit",
       "cited": "embed links naming the old 3D-orbit tab (tab ids of the single-page site's tabs.mjs: fom, timeseries, stability, orbit3d, sweep)"
     },
     {
       "url": "/?embed=1&scenario=clock-holdover.toml&tab=stability",
-      "to": "/playground/?embed=1&scenario=clock-holdover.toml&tab=stability",
+      "to": "/studio/?embed=1&scenario=clock-holdover.toml&tab=stability",
       "cited": "embed links naming a tab that kept its name (timeseries, stability, sweep)"
     },
     {
       "url": "/?tab=fom&embed=1",
-      "to": "/playground/?tab=overview&embed=1",
+      "to": "/studio/?tab=overview&embed=1",
       "cited": "the same embed link with its parameters in another order"
     },
     {
@@ -198,6 +201,36 @@
       "to": null,
       "built": "scenarios/clock-holdover.toml",
       "cited": "the old page fetched scenarios/<file>; web/build.sh still stages every scenario there"
+    },
+    {
+      "url": "/playground/",
+      "to": "/studio/",
+      "cited": "the Studio's address from 0.29.0 to 0.29.1: the site's navigation, the docs and every release's web/README.md"
+    },
+    {
+      "url": "/playground/index.html",
+      "to": "/studio/",
+      "cited": "the same address as a file, as the 0.29.0 site wrote it before its clean addresses"
+    },
+    {
+      "url": "/playground/index.html?scenario=clock-holdover&tab=holdover",
+      "to": "/studio/?scenario=clock-holdover&tab=holdover",
+      "cited": "the site's \"Open in Kshana Studio\" deep links (scenario and view), 0.29.0"
+    },
+    {
+      "url": "/playground/?scenario=integrity-raim&tab=timeseries",
+      "to": "/studio/?scenario=integrity-raim&tab=timeseries",
+      "cited": "the same deep links as clean addresses, 0.29.1"
+    },
+    {
+      "url": "/playground/?embed=1&scenario=integrity-raim&tab=timeseries",
+      "to": "/studio/?embed=1&scenario=integrity-raim&tab=timeseries",
+      "cited": "embed links the 0.29 Developers page documented"
+    },
+    {
+      "url": "/playground/#s=c2VlZCA9IDQyCg",
+      "to": "/studio/#s=c2VlZCA9IDQyCg",
+      "cited": "share links the 0.29 Studio's Share button produced (the scenario travels in the fragment)"
     }
   ]
 }

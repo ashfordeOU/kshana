@@ -39,7 +39,7 @@ __pycache__/
 # single-page site's URL. web/assets/ is site content and is tracked.
 /web/pkg
 /web/scenarios
-/web/playground/pkg
+/web/studio/pkg
 # The site's own copies of engine run reports (the Missions page links them) are site
 # content, not engine output: keep them despite the *.report.html rule above.
 !/web/assets/**/*.report.html

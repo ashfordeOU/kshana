@@ -11,16 +11,20 @@ modified. The port is a pure function of those two folders and this checkout, so
 twice changes nothing, and `--check` exits 1 when web/ is not what the port would write.
 
 What it writes (and records, with a SHA-256 each, in web/PORT-MANIFEST.json):
-  * every published site file except the site's own playground/ copy;
-  * the Studio under playground/, with its module tests, without its dev files and without
+  * every published site file except the site's own studio/ copy and its preview of the
+    Studio's old address (playground/);
+  * the Studio under studio/ (served at /studio/), with its module tests, without its dev files and without
     pkg/ (the WebAssembly package is built by web/build.sh from this checkout);
   * every scenario file (*.toml) the Studio carries, taken from THIS checkout's scenarios/
     under the same name, the scenarios/index.json bundle rebuilt from them, and
-    playground/data/*.json from web/'s own generated copies, so the app cannot state
+    studio/data/*.json from web/'s own generated copies, so the app cannot state
     older facts than the engine it runs;
-  * canonical, Open Graph and social-card tags on every page, and the schema.org block on
-    the home page, with the version from Cargo.toml and the counts from the ledger;
-  * sitemap.xml and legacy-redirects.js (from web/tools/legacy-urls.json).
+  * the site build's own crawl files and tags, as they are: canonical, Open Graph, social-card
+    and schema.org tags on every page, robots.txt, sitemap.xml, llms.txt, llms-full.txt and the
+    IndexNow key file. The port checks them (every page carries its canonical address and is in
+    the sitemap) and refuses a site built without them; it no longer writes its own;
+  * legacy-redirects.js and the pages at the Studio's old addresses (playground/index.html),
+    both from web/tools/legacy-urls.json.
 
   * no third-party requests: each page's Google Fonts stylesheet link becomes a link to
     the local copy under fonts/, and script-host addresses become paths under vendor/
@@ -48,11 +52,14 @@ WEB = os.path.dirname(TOOLS)
 REPO = os.path.dirname(WEB)
 ORIGIN = "https://kshana.dev"
 MANIFEST = "PORT-MANIFEST.json"
-STUDIO_DIR = "playground"
+STUDIO_DIR = "studio"
+# Addresses that moved: the Studio was under /playground/ until 0.29.1. The pages written
+# there (from legacy-urls.json "paths") forward to the new address.
+OLD_DIRS = ("playground/",)
 
 # Files web/ owns: sources for generators, deploy plumbing, and old URLs that must stay.
 OWNED = {
-    "CNAME", "robots.txt", "README.md", "build.sh", "smoke.mjs", "capabilities.json", "favicon.svg",
+    "CNAME", "README.md", "build.sh", "smoke.mjs", "capabilities.json", "favicon.svg",
     "og-card.png", "og-card.svg", "og-card.rendered-from.json", ".well-known/security.txt",
     "data/card-matrix-map.json", "data/oracle-references.json", "data/standards-matrix-map.json",
     "data/verification-matrix.json", MANIFEST,
@@ -260,6 +267,8 @@ def not_found_page(index_text, studio_name):
         if n != 1:
             fail(f"404.html: the home page has no {what}; its shell changed, update not_found_page()")
 
+    # an error page claims no address of its own and no structured data: the home page's block goes
+    one(SEO_HEAD.pattern, "", "<!-- seo:head --> block (the site build's canonical and social tags)", re.S)
     one(r'<meta charset="utf-8">', '<meta charset="utf-8">\n<meta name="robots" content="noindex">', "charset tag")
     one(r"<title>[^<]*</title>", "<title>Page not found · Kshana</title>", "<title>")
     one(r'(<meta name="description" content=")[^"]*(")',
@@ -273,7 +282,7 @@ def not_found_page(index_text, studio_name):
     <span class="eyebrow" style="--c:var(--coral)"><i></i>Error 404 · page not found</span>
     <h1 class="h1">No page at this address. <span class="soft">The rest is where it was.</span></h1>
     <p class="lede">The address may be mistyped, or it may be from the earlier single-page site. Start from the home page, read the docs, or run a scenario in {esc}. Search finds every page, scenario and doc.</p>
-    <div class="ctas"><a class="btn btn-ink" href="/">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="/docs/">Docs</a><a class="btn btn-ghost" href="/playground/">Launch {esc}</a></div>
+    <div class="ctas"><a class="btn btn-ink" href="/">Home <svg aria-hidden="true"><use href="#i-arrow"/></svg></a><a class="btn btn-ghost" href="/docs/">Docs</a><a class="btn btn-ghost" href="/studio/">Launch {esc}</a></div>
   </div>
 </section>
 </main>"""
@@ -302,66 +311,39 @@ def canonical(rel):
 
 
 def site_file(addr):
-    """A clean site address ("/evidence", "/docs/", "/playground/") -> the file the host serves for it."""
+    """A clean site address ("/evidence", "/docs/", "/studio/") -> the file the host serves for it."""
     path = addr.split("#", 1)[0].split("?", 1)[0].lstrip("/")
     if path == "" or path.endswith("/"):
         return path + "index.html"
     return path if "." in path.rsplit("/", 1)[-1] else path + ".html"
 
 
-def head_block(rel, text, version, summ):
-    """Canonical + social tags for one page, from the page's own title and description."""
-    title = re.search(r"<title>([^<]*)</title>", text)
-    desc = re.search(r'<meta name="description" content="([^"]*)"', text)
-    if not title or not desc:
-        fail(f"{rel}: no <title> or meta description, so it cannot carry social tags")
-        return ""
-    t, d, url = title.group(1), desc.group(1), canonical(rel)
-    alt = html.escape(f"Kshana, a PNT (positioning, navigation and timing) resilience simulator. "
-                      f"{summ['validated']} of {summ['total']} capabilities validated against external oracles.", quote=True)
-    lines = [
-        f'<link rel="canonical" href="{url}">',
-        '<meta property="og:type" content="website">',
-        '<meta property="og:site_name" content="Kshana">',
-        f'<meta property="og:url" content="{url}">',
-        f'<meta property="og:title" content="{t}">',
-        f'<meta property="og:description" content="{d}">',
-        f'<meta property="og:image" content="{ORIGIN}/og-card.png">',
-        '<meta property="og:image:width" content="1200">',
-        '<meta property="og:image:height" content="630">',
-        '<meta property="og:image:type" content="image/png">',
-        f'<meta property="og:image:alt" content="{alt}">',
-        '<meta name="twitter:card" content="summary_large_image">',
-        f'<meta name="twitter:title" content="{t}">',
-        f'<meta name="twitter:description" content="{d}">',
-        f'<meta name="twitter:image" content="{ORIGIN}/og-card.png">',
-        f'<meta name="twitter:image:alt" content="{alt}">',
-    ]
-    if rel == "index.html":
-        ld = {
-            "@context": "https://schema.org", "@type": "SoftwareApplication", "name": "Kshana",
-            "description": html.unescape(d), "applicationCategory": "Science",
-            "operatingSystem": "Any (WebAssembly in a modern browser)", "url": ORIGIN + "/",
-            "license": "https://spdx.org/licenses/AGPL-3.0-only",
-            "codeRepository": "https://github.com/ashfordeOU/kshana",
-            "downloadUrl": "https://github.com/ashfordeOU/kshana", "softwareVersion": version,
-            "keywords": ["PNT", "navigation", "quantum", "GNSS", "simulation"],
-            "author": {"@type": "Organization", "name": "Ashforde OÜ", "email": "contact@ashforde.org"},
-        }
-        body = json.dumps(ld, ensure_ascii=False, indent=2).replace("</", "<\\/")
-        lines.append(f'<script type="application/ld+json">\n{body}\n</script>')
-    return "\n".join(lines) + "\n"
+SEO_HEAD = re.compile(r"<!-- seo:head -->.*?<!-- /seo:head -->\n?", re.S)
+SEO_BODY = re.compile(r"<!-- seo:body -->.*?<!-- /seo:body -->\n?", re.S)
+
+
+def seo_check(rel, text, version):
+    """The site build writes every page's canonical, Open Graph, social-card and schema.org tags
+    (between <!-- seo:head --> markers). The port carries them over and checks the parts it relies on."""
+    if re.search(r'<meta name="robots" content="[^"]*noindex', text):
+        return
+    if len(SEO_HEAD.findall(text)) != 1 or text.count('rel="canonical"') != 1:
+        fail(f"{rel}: no canonical or social tags; the site build writes them (rebuild the site with build.py from 0.29.2 on)")
+        return
+    if f'<link rel="canonical" href="{canonical(rel)}">' not in text:
+        fail(f"{rel}: its canonical address is not {canonical(rel)}")
+    if f'<meta property="og:image" content="{ORIGIN}/og-card.png">' not in text:
+        fail(f"{rel}: its social card is not {ORIGIN}/og-card.png")
+    if rel == "index.html" and f'"softwareVersion": "{version}"' not in text:
+        fail(f"index.html: the schema.org block does not name version {version}")
 
 
 def page(rel, data, version, summ):
     text = localise(rel, data.decode("utf-8"))
-    if 'rel="canonical"' in text or 'property="og:' in text:
-        fail(f"{rel}: already carries canonical or Open Graph tags; the port adds them, so the source must not")
-        return data
     if text.count("</head>") != 1:
         fail(f"{rel}: expected exactly one </head>")
         return data
-    text = text.replace("</head>", head_block(rel, text, version, summ) + "</head>", 1)
+    seo_check(rel, text, version)
     if rel == "index.html":
         hook = '<meta charset="utf-8">'
         if text.count(hook) != 1:
@@ -377,12 +359,20 @@ def legacy_js(legacy):
 // GENERATED by web/tools/port_site.py from web/tools/legacy-urls.json. Do not edit.
 // The single-page kshana.dev put everything behind fragments on "/" (#playground, #ledger,
 // share links as #s=<scenario>, embeds as ?embed=1). A fragment never reaches the server,
-// so the home page sends those old addresses to where the content lives now.
+// so the home page sends those old addresses to where the content lives now. The pages at
+// addresses that moved (the Studio's /playground/, now /studio/) load it too: a moved
+// address keeps its query and its fragment.
 (function (g) {{
   var RULES = {rules};
-  function legacyTarget(search, hash) {{
+  function legacyTarget(search, hash, path) {{
     var q = search || "";
     var h = (hash || "").replace(/^#/, "");
+    var p = path || "/";
+    for (var from in RULES.paths) {{
+      if (Object.prototype.hasOwnProperty.call(RULES.paths, from) && p.indexOf(from) === 0) {{
+        return RULES.paths[from] + p.slice(from.length).replace(/(^|\\/)index\\.html$/, "$1") + q + (h ? "#" + h : "");
+      }}
+    }}
     if (/(^\\?|&)embed=1(&|$)/.test(q)) {{
       // A tab the single-page site had and the Studio renamed opens its nearest current tab.
       q = q.replace(/([?&]tab=)([^&]*)/, function (all, key, tab) {{
@@ -400,11 +390,38 @@ def legacy_js(legacy):
   }}
   g.kshanaLegacyTarget = legacyTarget;
   if (g.location && g.document) {{
-    var to = legacyTarget(g.location.search, g.location.hash);
+    var to = legacyTarget(g.location.search, g.location.hash, g.location.pathname);
     if (to) g.location.replace(to);
   }}
 }})(typeof window !== "undefined" ? window : globalThis);
 """.encode("utf-8")
+
+
+def moved_pages(legacy, studio_name):
+    """A page at each address that moved (legacy-urls.json "paths"): it loads legacy-redirects.js,
+    which forwards with the query and fragment kept, and is never indexed."""
+    pages = {}
+    for frm, to in legacy["redirects"].get("paths", {}).items():
+        if not (frm.startswith("/") and frm.endswith("/") and to.startswith("/") and to.endswith("/")):
+            fail(f"legacy-urls.json paths: {frm} -> {to}: both must be folder addresses (/old/ -> /new/)")
+            continue
+        esc = html.escape(studio_name, quote=True)
+        pages[frm.lstrip("/") + "index.html"] = f"""<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Moved to {to}</title>
+<meta name="robots" content="noindex">
+<link rel="canonical" href="{ORIGIN}{to}">
+<script src="/legacy-redirects.js"></script>
+<noscript><meta http-equiv="refresh" content="0; url={to}"></noscript>
+</head>
+<body>
+<p>This address has moved to <a href="{to}">{to}</a>{f" ({esc})" if to == "/" + STUDIO_DIR + "/" else ""}.</p>
+</body>
+</html>
+""".encode("utf-8")
+    return pages
 
 
 def collect_site(site, version, summ, out, studio_name):
@@ -415,8 +432,8 @@ def collect_site(site, version, summ, out, studio_name):
     rels = [l.strip() for l in open(listing, encoding="utf-8") if l.strip()]
     n = 0
     for rel in rels:
-        if rel.startswith(STUDIO_DIR + "/"):
-            continue
+        if rel.startswith(STUDIO_DIR + "/") or rel.startswith(OLD_DIRS):
+            continue  # the Studio comes from --studio; the old addresses from legacy-urls.json
         src = os.path.join(site, rel)
         if not os.path.isfile(src):
             fail(f"site: PUBLISH.txt lists {rel}, which is not on disk (rebuild the site)")
@@ -452,7 +469,7 @@ def studio_index(text, studio_name):
     text = re.sub(r"(data-studio-name>)[^<]*(<)", lambda m: m.group(1) + esc + m.group(2), text)
     text = re.sub(r"(data-studio-short>)[^<]*(<)", lambda m: m.group(1) + short + m.group(2), text)
     text = text.replace(f'href="{ORIGIN}/#ledger"', 'href="/evidence#ledger"')
-    text = re.sub(r'(<p class="embed-only"><a href=")' + re.escape(ORIGIN) + r'(")', r"\1/playground/\2", text)
+    text = re.sub(r'(<p class="embed-only"><a href=")' + re.escape(ORIGIN) + r'(")', r"\1/studio/\2", text)
     if ORIGIN in text:
         fail("Studio index.html still links to the old single-page kshana.dev after the known rewrites")
     # Links to the site's pages by their clean address, as the site build writes them:
@@ -463,6 +480,19 @@ def studio_index(text, studio_name):
         return f'{m.group(1)}/{path}{rest}"'
     text = re.sub(r'(<a\b[^>]*?\shref=")\.\./([\w/-]+\.html)([#?][^"]*)?"', clean, text)
     return text
+
+
+def site_seo(text, site_page):
+    """The site build's crawl text on its own copy of the Studio page (its description, the head
+    block and the <noscript> scenario list), put on the Studio page the port writes."""
+    head, body = SEO_HEAD.search(site_page), SEO_BODY.search(site_page)
+    desc = re.search(r'<meta name="description" content="[^"]*">', site_page)
+    if not head or not body or not desc:
+        fail(f"the site build's {STUDIO_DIR}/index.html has no crawl text (seo blocks or description); rebuild the site")
+        return text
+    text = re.sub(r'<meta name="description" content="[^"]*">', lambda m: desc.group(0), SEO_BODY.sub("", SEO_HEAD.sub("", text)), count=1)
+    text = text.replace("</head>", head.group(0) + "</head>", 1)
+    return re.sub(r"(<body\b[^>]*>\n?)", lambda m: m.group(1) + body.group(0), text, count=1)
 
 
 def collect_studio(studio, site, version, summ, out, skip):
@@ -501,7 +531,9 @@ def collect_studio(studio, site, version, summ, out, skip):
             dst = f"{STUDIO_DIR}/{rel}"
             src = os.path.join(root, fn)
             if rel == "index.html":
-                data = page(dst, studio_index(open(src, encoding="utf-8").read(), studio_name).encode("utf-8"), version, summ)
+                site_page = os.path.join(site, STUDIO_DIR, "index.html")
+                site_text = open(site_page, encoding="utf-8").read() if os.path.isfile(site_page) else ""
+                data = page(dst, site_seo(studio_index(open(src, encoding="utf-8").read(), studio_name), site_text).encode("utf-8"), version, summ)
             elif rel in ("channels.json", "tokens.css"):
                 continue  # written below from the site build
             elif rel in STUDIO_DATA:
@@ -560,9 +592,10 @@ def collect_studio(studio, site, version, summ, out, skip):
     # Studio edits changed and studio_index() must follow. The port cannot tell which, so
     # it says so rather than guessing.
     site_page = os.path.join(site, STUDIO_DIR, "index.html")
-    mine = studio_index(open(os.path.join(studio, "index.html"), encoding="utf-8").read(), studio_name)
-    if not os.path.isfile(site_page) or mine != open(site_page, encoding="utf-8").read():
-        note("the Studio page ported here is not the one in the site build's own playground/ copy. If --studio is the Studio the "
+    site_text = open(site_page, encoding="utf-8").read() if os.path.isfile(site_page) else ""
+    mine = site_seo(studio_index(open(os.path.join(studio, "index.html"), encoding="utf-8").read(), studio_name), site_text)
+    if not site_text or mine != site_text:
+        note(f"the Studio page ported here is not the one in the site build's own {STUDIO_DIR}/ copy. If --studio is the Studio the "
              "site was built with, build.py's Studio edits have changed: update studio_index() in this tool. If it is a newer "
              "Studio, this is expected; check that the site's links into the Studio still open (web/site.test.mjs does).")
     return n
@@ -571,7 +604,7 @@ def collect_studio(studio, site, version, summ, out, skip):
 def check_legacy(legacy, out):
     home_ids = ids_of(out["index.html"].decode("utf-8")) if "index.html" in out else set()
     red = legacy["redirects"]
-    targets = [red["embed"]] + list(red["hashPrefix"].values()) + list(red["hash"].values())
+    targets = [red["embed"]] + list(red["hashPrefix"].values()) + list(red["hash"].values()) + list(red.get("paths", {}).values())
     for t in targets:
         t = t.replace("{hash}", "")
         _, _, frag = t.partition("#")
@@ -596,14 +629,28 @@ def check_legacy(legacy, out):
     for h in legacy.get("keptAnchors", []):
         if h not in home_ids:
             fail(f"kept anchor #{h} no longer exists on the home page; give it a redirect instead")
+    for frm in red.get("paths", {}):
+        if frm.lstrip("/") + "index.html" not in out:
+            fail(f"moved address {frm} has no page")
+        if site_file(frm) in out and frm.lstrip("/").startswith(STUDIO_DIR + "/"):
+            fail(f"moved address {frm} is inside the Studio's own folder")
 
 
-def sitemap(out):
-    pages = sorted(p for p in out if is_page(p) and p != "404.html")
-    pages.sort(key=lambda p: (p != "index.html", p.count("/"), p))
-    body = "".join(f"  <url><loc>{canonical(p)}</loc></url>\n" for p in pages)
-    return ('<?xml version="1.0" encoding="UTF-8"?>\n<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">\n'
-            + body + "</urlset>\n").encode("utf-8")
+def check_sitemap(out):
+    """The site build's sitemap.xml lists every indexable ported page by its canonical address, once."""
+    sm = out.get("sitemap.xml", b"").decode("utf-8")
+    if not sm:
+        fail("site: no sitemap.xml; the site build writes it (rebuild the site with build.py from 0.29.2 on)")
+        return
+    listed = re.findall(r"<loc>([^<]+)</loc>", sm)
+    want = sorted(canonical(p) for p in out if is_page(p) and p != "404.html"
+                  and not re.search(r'<meta name="robots" content="[^"]*noindex', out[p].decode("utf-8")))
+    if sorted(listed) != want:
+        missing, extra = sorted(set(want) - set(listed)), sorted(set(listed) - set(want))
+        fail(f"sitemap.xml does not list exactly the indexable pages: missing {missing[:5]}, extra {extra[:5]}")
+    for f in ("robots.txt", "llms.txt", "llms-full.txt"):
+        if f not in out:
+            fail(f"site: no {f}; the site build writes it (rebuild the site with build.py from 0.29.2 on)")
 
 
 def main():
@@ -632,7 +679,8 @@ def main():
             for addr in third_party_requests(rel, out[rel].decode("utf-8")):
                 fail(f"{rel}: would make a browser fetch from another host ({addr[:90]}); kshana.dev serves its own fonts, styles and scripts")
     out["legacy-redirects.js"] = legacy_js(legacy)
-    out["sitemap.xml"] = sitemap(out)
+    out.update(moved_pages(legacy, json.load(open(ch, encoding="utf-8"))["studio"]))
+    check_sitemap(out)
     check_legacy(legacy, out)
     for rel in out:
         if rel in OWNED or rel.startswith(BUILT_DIRS) or rel.startswith(OWNED_DIRS):
@@ -683,7 +731,7 @@ def main():
             os.rmdir(d)
             d = os.path.dirname(d)
     total = sum(len(v) for v in out.values())
-    print(f"ported v{version}: {n_site} site files + {n_studio} Studio files + 2 generated, {total / 1e6:.1f} MB · "
+    print(f"ported v{version}: {n_site} site files + {n_studio} Studio files + {1 + len(legacy['redirects'].get('paths', {}))} generated, {total / 1e6:.1f} MB · "
           f"{len(changed)} written, {len(stale)} removed")
 
 

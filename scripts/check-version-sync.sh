@@ -71,7 +71,7 @@ fi
 #    not derived from Cargo.toml at release time, so its version strings drift silently
 #    every release unless checked here. Enforce the home page's JSON-LD softwareVersion
 #    (what crawlers read) and its visible version chip (what a visitor sees), the version
-#    the Studio's install panel states (playground/channels.json), and the version the
+#    the Studio's install panel states (studio/channels.json), and the version the
 #    port recorded in its manifest. A mismatch means: rebuild the site from this checkout
 #    and rerun the port.
 web="web/index.html"
@@ -83,7 +83,7 @@ for needle in \
     fail=1
   fi
 done
-for f in web/playground/channels.json web/PORT-MANIFEST.json; do
+for f in web/studio/channels.json web/PORT-MANIFEST.json; do
   if ! grep -qE "^ *\"version\": \"${ver}\"" "$f"; then
     echo "FAIL: $f does not state version ${ver}; rebuild the site and rerun web/tools/port_site.py." >&2
     fail=1

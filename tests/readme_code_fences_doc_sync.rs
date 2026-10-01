@@ -126,8 +126,8 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
     let files = [
         ("web/smoke.mjs", include_str!("../web/smoke.mjs")),
         (
-            "web/playground/lib/engine-worker.mjs",
-            include_str!("../web/playground/lib/engine-worker.mjs"),
+            "web/studio/lib/engine-worker.mjs",
+            include_str!("../web/studio/lib/engine-worker.mjs"),
         ),
     ];
     let mut checked = 0;
@@ -175,10 +175,10 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
     // functions off the module object (`mod.run`, `mod.chart_svg`, …). A name the package
     // does not export is `undefined` there, and the call fails only when a visitor uses
     // that feature. Check those names against the same export list.
-    let app = include_str!("../web/playground/app.js");
+    let app = include_str!("../web/studio/app.js");
     let at = app
         .find("import(\"./pkg/kshana.js\")")
-        .expect("web/playground/app.js no longer loads ./pkg/kshana.js with a dynamic import");
+        .expect("web/studio/app.js no longer loads ./pkg/kshana.js with a dynamic import");
     let window: String = app[at..].chars().take(1500).collect();
     let mut used = 0;
     let mut rest = window.as_str();
@@ -194,13 +194,13 @@ fn every_site_import_from_the_wasm_package_is_a_real_export() {
         used += 1;
         if !exports.contains(name.as_str()) {
             bad.push(format!(
-                "web/playground/app.js: uses `mod.{name}`, which src/wasm.rs does not export"
+                "web/studio/app.js: uses `mod.{name}`, which src/wasm.rs does not export"
             ));
         }
     }
     assert!(
         used >= 3,
-        "found only {used} package functions used by web/playground/app.js — the scan is broken"
+        "found only {used} package functions used by web/studio/app.js — the scan is broken"
     );
     assert!(bad.is_empty(), "{}", bad.join("\n"));
 }
