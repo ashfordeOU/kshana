@@ -47,6 +47,7 @@
 //!    epoch with every correction term zero, no zero-centred priors.
 //! 3. Stop on parameter convergence: iterate until every parameter step is below 1e-3 of its
 //!    formal standard deviation (or the paper's 100-iteration cap).
+//!
 //! The Kepler16 path (M120) is not changed.
 //!
 //! Comparisons:
@@ -60,6 +61,7 @@
 //!   day's file is missing or incomplete, the next available day is taken, by availability only,
 //!   before any fit is run on it. Test: `liu22_holds_on_held_out_days`.
 //! * PROMOTE only if both pass. A failure is a finding; no bar moves.
+//!
 //! Disclosure: the first run's ratios (Sentinel-2A 1.71, Sentinel-6A 1.86 along-track at 20 min)
 //! were seen before this amendment.
 //! Note added with the engine change, before any re-run or held-out fit: the paper's own

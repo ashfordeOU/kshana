@@ -176,7 +176,7 @@ fn cw_second_order_matches_nonlinear_orekit_within_1mm() {
     }
     let failures: Vec<String> = gaps
         .into_iter()
-        .filter(|g| !(g.1 <= POS_TOL_M))
+        .filter(|g| g.1.is_nan() || g.1 > POS_TOL_M)
         .map(|(id, gap, t)| format!("{id}: {gap:.3e} m at t = {t:.0} s exceeds {POS_TOL_M:e} m"))
         .collect();
     assert!(
