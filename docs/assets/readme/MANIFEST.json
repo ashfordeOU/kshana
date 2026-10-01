@@ -226,18 +226,12 @@
     "captured_by": "tools/capture_studio_shots.mjs",
     "record": "studio/SHOTS.json",
     "files": {
-      "studio-coverage-dark.jpg": "b3fa95f6ab60714fdf17636af688cf72c70e4972dc915fe806a430e58b648bf8",
-      "studio-coverage-light.jpg": "2cb54d76db57fb36c3e390b99ec86e6d2041d8baf1b1ea96016d2c0a88a64645",
-      "studio-dashboard-dark.jpg": "594b0af61a8a1e8ebdc2b7d4771d52968cd678b7a6f67c1ec6282b57e3077ed8",
-      "studio-dashboard-light.jpg": "2ac7b0737b16be066e15785129c3203c150bdef318fbbc342e1e08a9c31b4789",
-      "studio-lband-dark.jpg": "2dfb28a3df8acd2a33e392a90c422f66f9af65fe85a580883791e6a158db2f83",
-      "studio-lband-light.jpg": "db0b01aaa1277357a08204c2e001deb47f8ac0a7f7e7992d19daefeefe8239b2",
-      "studio-leo-chain-dark.jpg": "203462048031d06d6e710405dacafc66fc63ebd68e0052f67512cc0da78b75c6",
-      "studio-leo-chain-light.jpg": "fa06dcbaced25a364517f31055126313cef86c6a3f89967566e885239279ae7b",
-      "studio-phone-steps-dark.jpg": "872fd8ab56990fdeebfd23125f626d31999382847d021d5b9c16e1d936140b45",
-      "studio-phone-steps-light.jpg": "d4f3b76a91c89e734fbcc2965415d60ecfdd0254901b6fd27e9c1c5e462188ba",
-      "studio-start-dark.jpg": "0e635bf83d414e871854ab1607e0bd1e7fd2ba68c1188a28d903cb84ba7d31d0",
-      "studio-start-light.jpg": "671024377e413cfd8f99068776810cb4925774e107efc311271a9f6829888e1a"
+      "studio-advanced-dark.jpg": "1659af6dee017cde92d503e2f4527d2b4179fd020e91353850bc6cf9059398cd",
+      "studio-advanced-light.jpg": "14dddf8782080e96685a86279bfe5faf24ad3cdfacbe15962a6a85134477c948",
+      "studio-home-dark.jpg": "de5bb5aae747335f03f8b9748478960489408a531585619ec1a959c4fa65dc25",
+      "studio-home-light.jpg": "8ef28dae3082dae9d908d0155a1e1178fa08bd326c20b0fabd10cd4aefb484bb",
+      "studio-task-dark.jpg": "4176208f80745f71ef7f34ba15b71bf90c6f5e60ea1b307060ac2cc84aff7062",
+      "studio-task-light.jpg": "9ccd4d4c028fcd5482f27d0cb1145bd6b82f098dc63f78d97f9dcc1773d8ab78"
     }
   },
   "site_screenshots": {
@@ -245,8 +239,8 @@
     "composed_by": "tools/readme_shots.py",
     "record": "site/SHOTS.json",
     "files": {
-      "site-strip-dark.jpg": "a5c0c061684d8fae1407f34be984400d9dda9fbb8151b99bf1b294907dd9ce03",
-      "site-strip-light.jpg": "4037c0125cc2dfd277a6473c7781a5404e97c3c4f80e60ad1233d7fbad8c37ef"
+      "site-strip-dark.jpg": "319df51ddd0a6c8f30338932b2019456217589594e62238af1fa9f999fa61e03",
+      "site-strip-light.jpg": "e227f9a95fce6c0dae8fd703196cc84545e0beabcca5fc14f73ba69e77cac2a1"
     }
   }
 }

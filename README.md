@@ -69,66 +69,47 @@ or **PARTNER** (a hardware partner owns it).
 
 ## Kshana Studio
 
-Open [kshana.dev](https://kshana.dev) and the whole engine runs in your browser, compiled to
-WebAssembly. Nothing to install, and nothing is uploaded. The Studio opens on a start screen:
-pick a domain tile or a good first run, or search. Five numbered steps then take you from a
-question to a result you can hand on:
+Open [kshana.dev/studio](https://kshana.dev/studio/) and the whole engine runs in your
+browser, compiled to WebAssembly. Nothing to install, and nothing is uploaded. The Studio has
+two views of the same engine, and a switch in the header moves between them, keeping the
+scenario, the view and any settings you changed.
 
-1. **Choose** a scenario, by domain or from the library.
-2. **Set** its parameters in the parameters drawer, or edit the scenario source.
-3. **Run** the engine, locally, in the browser.
-4. **Read results**: the key figures first, each with a PASS or FAIL chip where the run
-   states a threshold and the change since your previous run, then the panels (overview,
-   charts, maps, replay, the engine's report and exports).
-5. **Share or export**: a link that reopens the same run, or the result, the report and the
-   exports it wrote.
-
-**Find any field.** One search box reaches scenarios, domains and the fields inside them:
-type "elevation mask" and it lists every scenario with that field and jumps to the control.
-**Compare**: pin up to four runs and read them side by side. A breadcrumb always says where
-you are, and on a phone the steps become a step bar.
+**The Simple view** is where the Studio opens. It starts from questions (how many satellites
+can I see, can I trust my position fix, how long can a clock keep time, what does a jammer do
+to my receiver) and from a map of everything the engine can do, each area with its share of
+validated methods. Open a scenario and the answer comes first: one plain sentence, written for
+what that scenario measures, then its key figures and a chart. At most five settings are on
+show, the ones that change the answer most; the rest wait under **Advanced settings**.
+**How this is computed** explains the method, and **For researchers** gives the engine's own
+figures, the scenario file, the code to run it from Python and the citation.
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-dashboard-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-dashboard-light.jpg">
-  <img src="docs/assets/readme/studio/studio-dashboard-light.jpg" alt="Kshana Studio after a run of the bundled scenario l-band-waterfall-jamming, engine v0.29.3 running locally. The breadcrumb reads Studio, Spectrum, L-band waterfall under jamming, Spectrum. The five steps Choose, Set, Run, Read results and Share or export sit under the scenario title, with step 4 current. Key figures: noise floor -201.98 dBW/Hz, lowest carrier-to-noise density 3.2329 dB-Hz on GPS L1 C/A and 4.6939 dB-Hz on Galileo E1, both FAIL (lock lost under the 25 dB-Hz tracking threshold), and 36.857 dB-Hz on GPS L2C, 44.075 dB-Hz on GPS L5 and 46.975 dB-Hz on Galileo E5a, all three PASS. Below, the panel row and the replay bar." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-task-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-task-light.jpg">
+  <img src="docs/assets/readme/studio/studio-task-light.jpg" alt="Kshana Studio, Simple view, on the bundled scenario integrity-raim, engine v0.29.3 running locally. The question: does the geometry meet the alert limits (horizontal and vertical protection level)? The answer first, marked Live result: Yes, mostly: for 95.3 % of the 12 h. The receiver's error bound stayed under the alert limits (40 m horizontal and 50 m vertical) at 344 of 361 checks, and no fix was misleading. Key figures: time the fix can be trusted 95.3 %, longest gap 10 min, typical error bound 6.4 / 13 m, misleading fixes 0. Beside it, Try other settings with five of them (the range error, the two alert limits, the duration and the elevation mask) and Run again, then the folded sections Advanced settings (13 more), How this is computed (5 validated, 9 modelled) and For researchers. Below, the views of this result and the protection levels plotted against the alert limit." width="100%">
 </picture>
 
+**The Advanced view** is the full dashboard: the scenario library, five numbered steps
+(Choose, Set, Run, Read results, Share or export), the key figures with PASS and FAIL chips
+where the run states a threshold, and every panel: overview, charts, maps, replay, the
+engine's report and exports. One search box reaches scenarios, domains and the fields inside
+them, and you can pin up to four runs and compare them side by side.
+
 <details>
-<summary>The start screen, the Studio on a phone, and three result panels: the L-band waterfall, a constellation coverage map and the low-Earth-orbit chain</summary>
+<summary>The Simple view's opening screen, and the Advanced view after a run</summary>
 
 <br>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-start-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-start-light.jpg">
-  <img src="docs/assets/readme/studio/studio-start-light.jpg" alt="Kshana Studio start screen, titled What do you want to do?: the five steps, a search box for scenarios, domains or fields (for example elevation mask), four good first runs (a jammer on the L-band waterfall, the coverage of four GNSS constellations, a jam, spoof and holdover mission, holding time when GNSS is lost) and tiles for each domain, from Jamming and interference to Mission analysis and space operations. The library on the left lists 139 scenarios in 16 domains." width="100%">
-</picture>
-
-<p align="center">
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-phone-steps-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-phone-steps-light.jpg">
-  <img src="docs/assets/readme/studio/studio-phone-steps-light.jpg" alt="Kshana Studio on a 390 px wide phone screen after a run of l-band-waterfall-jamming: a one-row header (the Kshana mark, the live-engine light, search, history and theme), the scenario title with its MODELLED label, Pin run, Compare and Share or export, all six key figures two to a row (noise floor -201.98 dBW/Hz and the lowest carrier-to-noise density of each of five signals, two FAIL and three PASS against the 25 dB-Hz tracking threshold), the panel tabs with Spectrum selected and the Waterfall view chosen. Fixed to the bottom of the screen, the step bar: Choose, Set, Run and Results, with Results current." width="320">
-</picture>
-</p>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-lband-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-lband-light.jpg">
-  <img src="docs/assets/readme/studio/studio-lband-light.jpg" alt="Kshana Studio, Spectrum panel, on the bundled scenario l-band-waterfall-jamming: a waterfall of the GNSS L band, frequency from 1200 to beyond 1500 MHz across and time from 0 to 60 s down, coloured from the -201.98 dBW/Hz noise floor up to -161.3 dBW/Hz. A jammer lights up the GPS L1 C/A band from 10 s. At t = 31 s the receiver has lost GPS L1 C/A (3.23 dB-Hz) and Galileo E1 (4.69 dB-Hz) and still tracks GPS L2C (41.98), GPS L5 (44.08) and Galileo E5a (46.98 dB-Hz) against a 25 dB-Hz tracking threshold." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-home-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-home-light.jpg">
+  <img src="docs/assets/readme/studio/studio-home-light.jpg" alt="Kshana Studio, Simple view, opening screen, titled What would you like to find out?, with the engine v0.29.3 live. Four questions: how many satellites can I see anywhere on Earth, can I trust my position fix, how long can a clock keep time without satellites, and what does a jammer do to my receiver. Below the first, its recorded result: at least 22 satellites in view at every place and 31 on average with GPS, Galileo, BeiDou and GLONASS together, a fix possible at 100 % of places and times, on a world map of satellites in view, with an Open this result button. Beside it, Everything Kshana can do: 16 areas and 139 ready-to-run scenarios, each tile with a small chart from a recorded run and its share of validated methods, and the ledger's 83 of 223 capabilities validated." width="100%">
 </picture>
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-coverage-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-coverage-light.jpg">
-  <img src="docs/assets/readme/studio/studio-coverage-light.jpg" alt="Kshana Studio, Coverage panel, on constellation-multi-gnss-coverage: a world map of the mean position dilution of precision (PDOP) on a 10-degree grid, from 0.831 to 1.0853, with all 102 GPS, Galileo, BeiDou and GLONASS satellites drawn on their ground tracks at t = 11.97 h, beside the global coverage figures (availability 100 %, mean visible 31.03, minimum visible 22)." width="100%">
-</picture>
-
-<picture>
-  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-leo-chain-dark.jpg">
-  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-leo-chain-light.jpg">
-  <img src="docs/assets/readme/studio/studio-leo-chain-light.jpg" alt="Kshana Studio, End-to-end chain panel, on leo-pnt-end-to-end: five stages, each handing values to the next. Signal design generic-l at 1.191795 GHz with 20.46 MHz bandwidth; pass and link with a peak tracked carrier-to-noise density of 58.168 dB-Hz, 75 degrees maximum elevation and 845 s above the mask; navigation message kepler-rac with a signal-in-space range error of 0.25 m RMS over a 300 s fit; fused positioning at 1.602 m 3-D RMS with GNSS only and 0.4349 m fused; precise point positioning converging in a median 11.5 min with GNSS only and 7.5 min with low-Earth-orbit satellites." width="100%">
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-advanced-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-advanced-light.jpg">
+  <img src="docs/assets/readme/studio/studio-advanced-light.jpg" alt="Kshana Studio, Advanced view, after a run of the bundled scenario constellation-multi-gnss-coverage (Four GNSS constellations, one map), engine v0.29.3 running locally. On the left the scenario library, 139 scenarios in 16 domains. The five steps Choose, Set, Run, Read results and Share or export, with step 4 current. Key figures: 102 satellites, availability 100 % (PASS), median position dilution of precision (PDOP) 0.95 (PASS), PDOP 95th percentile 1.105 (PASS), 31.03 satellites in view on average and 22 at the fewest. Below, the panel row with Coverage selected, the replay bar, a world map of the mean PDOP from 0.831 to 1.0853 with every satellite drawn, and the global coverage figures." width="100%">
 </picture>
 
 </details>
