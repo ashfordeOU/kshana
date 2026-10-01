@@ -108,7 +108,10 @@ fn perturbations() -> Vec<Perturb> {
         ("body frame 4.9e-4 rad about y", frame_tilt(1, 4.9e-4)),
         ("body frame 4.9e-4 rad about z", frame_tilt(2, 4.9e-4)),
         ("earth frame 1.5e-6 rad (polar motion)", earth_tilt(1.5e-6)),
-        ("STRESS body frame 0.1 deg about y", frame_tilt(1, 0.1_f64.to_radians())),
+        (
+            "STRESS body frame 0.1 deg about y",
+            frame_tilt(1, 0.1_f64.to_radians()),
+        ),
         ("STRESS moon 650 km along (0.1 deg)", moon_shift(1, 650.0)),
     ]
 }
@@ -124,7 +127,10 @@ fn vlbi_fim(sc: &LunarVlbiFimScenario, label: &str) {
     let used = StateLayout::new(n_st, &[0], sc.estimate_beacon.unwrap_or(false));
     let free = StateLayout::new(n_st, &[], sc.estimate_beacon.unwrap_or(false));
     let solve = |g: &[EpochGeometry], l: &StateLayout| {
-        solve_covariance(&information_matrix(&schedule_jacobian(g, &obs, l), &w), 1e-9)
+        solve_covariance(
+            &information_matrix(&schedule_jacobian(g, &obs, l), &w),
+            1e-9,
+        )
     };
     let base = solve(&geoms, &used);
     let base_free = solve(&geoms, &free);
@@ -136,7 +142,11 @@ fn vlbi_fim(sc: &LunarVlbiFimScenario, label: &str) {
         base.condition,
         base.sigma
     );
-    let lmax = base_free.eigenvalues.iter().cloned().fold(0.0_f64, f64::max);
+    let lmax = base_free
+        .eigenvalues
+        .iter()
+        .cloned()
+        .fold(0.0_f64, f64::max);
     println!(
         "[{label}] free rank {}/{} eig/lmax {:?}",
         base_free.rank,
@@ -213,7 +223,10 @@ fn campaign(sc: &LunarFrameCampaignScenario, label: &str) {
     let n_b = sched.geoms.len();
     let dim = 3 * n_b;
     let w = vec![1.0 / (1e-11 * 1e-11); sched.observations.len()];
-    let pts: Vec<Vec3> = kshana::lunar::NAMED_SITES.iter().map(|s| s.mcmf()).collect();
+    let pts: Vec<Vec3> = kshana::lunar::NAMED_SITES
+        .iter()
+        .map(|s| s.mcmf())
+        .collect();
     let a = helmert_design(&pts);
     let datum = |geoms: &[Vec<EpochGeometry>]| {
         let jac: Vec<Vec<f64>> = sched
@@ -266,7 +279,9 @@ fn campaign(sc: &LunarFrameCampaignScenario, label: &str) {
             .collect();
         let j = information_matrix(&jac, &w);
         let blk = |r0: usize, c0: usize, nr: usize, nc: usize| -> Vec<Vec<f64>> {
-            (0..nr).map(|i| (0..nc).map(|k| j[r0 + i][c0 + k]).collect()).collect()
+            (0..nr)
+                .map(|i| (0..nc).map(|k| j[r0 + i][c0 + k]).collect())
+                .collect()
         };
         let mss_inv = kshana::fim::crlb(&blk(0, 0, ns, ns), 1e-9).pseudo_covariance;
         let msb = blk(0, ns, ns, dim);
@@ -302,7 +317,12 @@ fn campaign(sc: &LunarFrameCampaignScenario, label: &str) {
         }
         let info_ind = kshana::fim::crlb(&cov_ind, 1e-9).pseudo_covariance;
         let di = solve_datum(&info_ind, &a, 1e-9).1;
-        (corr, d.translation_sigma_norm_m(), di.translation_sigma_norm_m(), d.sigma)
+        (
+            corr,
+            d.translation_sigma_norm_m(),
+            di.translation_sigma_norm_m(),
+            d.sigma,
+        )
     };
     let eb = estimated(&sched.geoms);
     println!("[{label}] estimated stations: max corr {:.4e}, translation {:.6} m, independence-discarded {:.6} m, sigma {:?}", eb.0, eb.1, eb.2, eb.3);
@@ -349,7 +369,11 @@ fn campaign(sc: &LunarFrameCampaignScenario, label: &str) {
             dot.abs().min(1.0).acos().to_degrees()
         );
         let pe = estimated(&pg);
-        let dse = eb.3.iter().zip(&pe.3).map(|(x, y)| rel(*y, *x)).fold(0.0_f64, f64::max);
+        let dse =
+            eb.3.iter()
+                .zip(&pe.3)
+                .map(|(x, y)| rel(*y, *x))
+                .fold(0.0_f64, f64::max);
         println!(
             "[{label}]     estimated: corr change {:.3e} (abs {:.3e}); translation change {:.3e}; discarded change {:.3e}; max sigma change {dse:.3e}",
             rel(pe.0, eb.0),
