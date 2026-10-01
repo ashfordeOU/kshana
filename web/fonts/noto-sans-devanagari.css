@@ -1,0 +1,11 @@
+/* Local copy of the @font-face rules Google Fonts serves for one stylesheet address (see FONTS.json).
+   Fetched by web/tools/fetch_third_party.py; the fonts are under the SIL Open Font License (OFL-*.txt). */
+@font-face {
+  font-family: 'Noto Sans Devanagari';
+  font-style: normal;
+  font-weight: 500;
+  font-stretch: 100%;
+  font-display: swap;
+  src: url(files/notosansdevanagari-text-87bf340d821848e2.woff2) format('woff2');
+  unicode-range: U+915, U+923, U+937, U+94d;
+}

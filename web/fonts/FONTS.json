@@ -16,6 +16,12 @@
     "Geist Mono",
     "Unbounded"
    ]
+  },
+  "https://fonts.googleapis.com/css2?family=Noto+Sans+Devanagari:wght@500&text=%E0%A4%95%E0%A5%8D%E0%A4%B7%E0%A4%A3&display=swap": {
+   "css": "noto-sans-devanagari.css",
+   "families": [
+    "Noto Sans Devanagari"
+   ]
   }
  },
  "files": {
@@ -89,6 +95,11 @@
    "bytes": 6204,
    "from": "https://fonts.gstatic.com/s/geistmono/v6/or3nQ6H-1_WfwkMZI_qYFrodmhHkjkotbA.woff2"
   },
+  "notosansdevanagari-text-87bf340d821848e2.woff2": {
+   "sha256": "87bf340d821848e263eaa2838958af362b85a53dc898a7ccb071e8b6ce76e4d9",
+   "bytes": 1692,
+   "from": "https://fonts.gstatic.com/l/font?kit=TuGoUUFzXI5FBtUq5a8bjKYTZjtRU6Sgv3NaV_SNmI0b8QQCQmHn6B2OHjbL_08AlUYly-UzoFoX6Owp22YhOUub_UfbjuNuPg&skey=c202a598b7d2afc7&v=v30"
+  },
   "unbounded-Yq6W-LOTXCb04q32xlpwtMZfvRIkSYZH.woff2": {
    "sha256": "54a956ea5b2cfddfea2d336dd36bfcba64f40fa8b2d41685d9d4edf4a2910ab8",
    "bytes": 13856,
@@ -130,6 +141,11 @@
    "file": "OFL-geist-mono.txt",
    "from": "https://raw.githubusercontent.com/google/fonts/main/ofl/geistmono/OFL.txt",
    "sha256": "1781d2806a07d91c4edf4740b88449fab7d0eadad53f7c351b94cd4d4eb8c00f"
+  },
+  "Noto Sans Devanagari": {
+   "file": "OFL-noto-sans-devanagari.txt",
+   "from": "https://raw.githubusercontent.com/google/fonts/main/ofl/notosansdevanagari/OFL.txt",
+   "sha256": "a216f6f8d85c7228093e0ee5e258d9d377e6671f68acb4db1930b29583d0f331"
   },
   "Unbounded": {
    "file": "OFL-unbounded.txt",
