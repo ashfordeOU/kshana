@@ -13,10 +13,14 @@
 //!
 //! HONEST SCOPE (MODELLED): spherical-Earth geometry only. Swath/GSD/access are
 //! geometric; there is no radiometry, MTF, atmospheric, pointing-jitter or
-//! sun-glint model, and the equatorial ground-track spacing is the simple nodal
-//! `R_e·ω⊕·T` (no J2 nodal-regression or eccentricity treatment).
+//! sun-glint model. The equatorial ground-track spacing of the scenario is
+//! `R_e·(ω⊕ − Ω̇)·T_nodal` with the first-order J2 nodal regression `Ω̇` and the J2 nodal
+//! (draconitic) period ([`ground_track_spacing_equator_j2`]); the altitude is read as a
+//! mean (first-order Brouwer) semi-major axis `R_e + h` on a circular orbit. The plain
+//! `R_e·ω⊕·T` ([`ground_track_spacing_equator`]) is kept for callers that supply their own
+//! period.
 
-use crate::forces::EARTH_ROTATION_RATE;
+use crate::forces::{j2_secular_rates, EARTH_ROTATION_RATE, J2};
 use crate::orbit::{MU_EARTH, R_EARTH_EQUATORIAL_M};
 use serde::Deserialize;
 
@@ -78,6 +82,49 @@ pub fn circular_period(altitude_m: f64) -> f64 {
 /// `R_e·ω⊕·T` apart at the equator.
 pub fn ground_track_spacing_equator(period_s: f64) -> f64 {
     R_EARTH_EQUATORIAL_M * EARTH_ROTATION_RATE * period_s
+}
+
+/// First-order J2 nodal regression `Ω̇` (rad/s) of a circular orbit at mean altitude
+/// `altitude_m` and inclination `inc_rad`: `−(3/2) n J2 (R_e/a)² cos i`.
+pub fn j2_node_rate(altitude_m: f64, inc_rad: f64) -> f64 {
+    j2_secular_rates(R_EARTH_EQUATORIAL_M + altitude_m, 0.0, inc_rad).raan
+}
+
+/// J2 nodal (draconitic) period (s), the time between successive ascending nodes of a
+/// circular orbit at mean altitude `altitude_m` and inclination `inc_rad`:
+/// `2π / (n + Ṁ + ω̇)` with the first-order J2 secular rates of the mean anomaly and the
+/// argument of perigee.
+pub fn j2_nodal_period(altitude_m: f64, inc_rad: f64) -> f64 {
+    let a = R_EARTH_EQUATORIAL_M + altitude_m;
+    let n = (MU_EARTH / (a * a * a)).sqrt();
+    let r = j2_secular_rates(a, 0.0, inc_rad);
+    std::f64::consts::TAU / (n + r.mean_anomaly + r.arg_perigee)
+}
+
+/// Equatorial ground-track spacing (m) between successive ascending nodes with the J2
+/// nodal regression: during one nodal period the node longitude moves by
+/// `(ω⊕ − Ω̇)·T_nodal`, so the nodes are `R_e·(ω⊕ − Ω̇)·T_nodal` apart at the equator.
+pub fn ground_track_spacing_equator_j2(altitude_m: f64, inc_rad: f64) -> f64 {
+    R_EARTH_EQUATORIAL_M
+        * (EARTH_ROTATION_RATE - j2_node_rate(altitude_m, inc_rad))
+        * j2_nodal_period(altitude_m, inc_rad)
+}
+
+/// Sun-synchronous inclination (rad) of a circular orbit at mean altitude `altitude_m`:
+/// the inclination whose J2 nodal regression equals the mean motion of the Sun,
+/// `2π / 365.2421897 d`. Errors above the altitude where no such inclination exists.
+pub fn sun_synchronous_inclination(altitude_m: f64) -> Result<f64, String> {
+    let a = R_EARTH_EQUATORIAL_M + altitude_m;
+    let n = (MU_EARTH / (a * a * a)).sqrt();
+    let sun_rate = std::f64::consts::TAU / (365.242_189_7 * 86_400.0);
+    let c = -sun_rate / (1.5 * n * J2 * (R_EARTH_EQUATORIAL_M / a).powi(2));
+    if !(-1.0..=1.0).contains(&c) {
+        return Err(format!(
+            "no sun-synchronous inclination at {:.0} km",
+            altitude_m / 1000.0
+        ));
+    }
+    Ok(c.acos())
 }
 
 fn eo_default_alt() -> f64 {
@@ -150,11 +197,26 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             definition: "circular-orbit period 2*pi*sqrt((R_eq + h)^3 / mu_Earth)",
         },
         FieldUnit {
+            path: "inclination_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "orbit inclination; the sun-synchronous inclination for the altitude \
+                         when not given",
+        },
+        FieldUnit {
+            path: "nodal_period_min",
+            unit: "min",
+            provenance: ClosedForm,
+            definition: "J2 nodal (draconitic) period 2*pi / (n + dM/dt + domega/dt), first-order \
+                         J2 secular rates of a circular orbit",
+        },
+        FieldUnit {
             path: "equatorial_ground_track_spacing_km",
             unit: "km",
             provenance: ClosedForm,
             definition: "equatorial distance between successive ascending nodes: \
-                         R_eq * omega_Earth * T, with no J2 nodal regression",
+                         R_eq * (omega_Earth - dOmega/dt) * T_nodal, with the first-order J2 \
+                         nodal regression",
         },
     ]
 };
@@ -176,6 +238,9 @@ pub struct EoCoverageScenario {
     /// Maximum slewable off-nadir angle (deg) — the field of regard for access.
     #[serde(default)]
     pub max_off_nadir_deg: Option<f64>,
+    /// Orbit inclination (deg); the sun-synchronous inclination for the altitude when absent.
+    #[serde(default)]
+    pub inclination_deg: Option<f64>,
 }
 
 impl EoCoverageScenario {
@@ -196,7 +261,19 @@ impl EoCoverageScenario {
             .map_err(|e| format!("half_fov too large: {e}"))?;
         let gsd = nadir_gsd(alt_m, self.ifov_microrad);
         let period = circular_period(alt_m);
-        let spacing = ground_track_spacing_equator(period);
+        let inc = match self.inclination_deg {
+            Some(d) if d.is_finite() && d > 0.0 && d < 180.0 => d.to_radians(),
+            Some(_) => {
+                return Err(
+                    "inclination_deg must be in (0, 180) (an equatorial orbit has no \
+                            ascending node)"
+                        .to_string(),
+                )
+            }
+            None => sun_synchronous_inclination(alt_m)?,
+        };
+        let nodal_period = j2_nodal_period(alt_m, inc);
+        let spacing = ground_track_spacing_equator_j2(alt_m, inc);
 
         // Maximum access ground range at the field-of-regard edge (clamped to the
         // horizon if the slew exceeds the Earth angular radius).
@@ -212,7 +289,7 @@ impl EoCoverageScenario {
             "kind": "eo-coverage",
             "label": "MODELLED — spherical-Earth space-triangle geometry; swath/GSD/access \
                       are geometric (no radiometry/MTF/atmosphere/jitter/glint), ground-track \
-                      spacing is simple nodal R_e·ω·T (no J2 regression)",
+                      spacing is R_e·(ω − Ω̇)·T_nodal with first-order J2 secular rates",
             "units": crate::field_schema::units_block(UNITS),
             "altitude_km": self.altitude_km,
             "half_fov_deg": self.half_fov_deg,
@@ -222,6 +299,8 @@ impl EoCoverageScenario {
             "max_off_nadir_deg": max_off_nadir.to_degrees(),
             "max_access_ground_range_km": max_access_m / 1000.0,
             "orbital_period_min": period / 60.0,
+            "inclination_deg": inc.to_degrees(),
+            "nodal_period_min": nodal_period / 60.0,
             "equatorial_ground_track_spacing_km": spacing / 1000.0,
             "contiguous_equatorial_coverage": contiguous,
         });
@@ -315,6 +394,7 @@ mod tests {
             half_fov_deg: 7.5,
             ifov_microrad: 14.0,
             max_off_nadir_deg: Some(45.0),
+            inclination_deg: None,
         };
         let (j1, _s) = scn.run_json().unwrap();
         let (j2, _s) = scn.run_json().unwrap();
@@ -330,12 +410,33 @@ mod tests {
     }
 
     #[test]
+    fn j2_node_spacing_exceeds_the_plain_form_for_prograde_orbits() {
+        // Prograde orbits regress westward (Ω̇ < 0), which adds to the Earth's relative spin.
+        let h = 420_000.0;
+        let i = 51.6_f64.to_radians();
+        assert!(j2_node_rate(h, i) < 0.0);
+        let plain = ground_track_spacing_equator(circular_period(h));
+        let j2 = ground_track_spacing_equator_j2(h, i);
+        assert!(j2 > plain, "{j2} vs {plain}");
+        // A sun-synchronous orbit's node advances at the Sun's mean motion.
+        let sso = sun_synchronous_inclination(700_000.0).unwrap();
+        assert!(
+            (sso.to_degrees() - 98.19).abs() < 0.05,
+            "{}",
+            sso.to_degrees()
+        );
+        let rate = j2_node_rate(700_000.0, sso);
+        assert!((rate - std::f64::consts::TAU / (365.242_189_7 * 86_400.0)).abs() < 1e-15);
+    }
+
+    #[test]
     fn scenario_rejects_bad_inputs() {
         let bad = EoCoverageScenario {
             altitude_km: -1.0,
             half_fov_deg: 7.5,
             ifov_microrad: 14.0,
             max_off_nadir_deg: None,
+            inclination_deg: None,
         };
         assert!(bad.run_json().is_err());
     }
