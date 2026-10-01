@@ -29,7 +29,7 @@
       var out = scored.slice(0, 12).map(function (x) { return x[1]; });
       r.replaceChildren();
       out.forEach(function (e, i) {
-        var a = document.createElement("a"); a.href = "../" + e.h; a.id = "docsR-" + i; a.setAttribute("role", "option"); a.setAttribute("aria-selected", "false"); a.textContent = e.t;
+        var a = document.createElement("a"); a.href = e.h; // a clean address from the site root (/docs/changelog#x) a.id = "docsR-" + i; a.setAttribute("role", "option"); a.setAttribute("aria-selected", "false"); a.textContent = e.t;
         var sm = document.createElement("small"); sm.textContent = e.d || ""; a.appendChild(sm); r.appendChild(a);
       });
       if (!out.length) { var p = document.createElement("small"); p.textContent = "No match in the docs."; r.appendChild(p); }

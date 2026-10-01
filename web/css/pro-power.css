@@ -15,7 +15,7 @@
 @media (max-width:560px){.pw-principles{grid-template-columns:minmax(0,1fr)}}
 
 /* ---- one amplifier: what free gives, what Pro adds, the real artefact */
-.pw-amp{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,44px);align-items:start;padding:clamp(26px,3.4vw,44px) 0;border-top:1px solid rgba(255,255,255,.1);scroll-margin-top:90px}
+.pw-amp{display:grid;grid-template-columns:minmax(0,.9fr) minmax(0,1.1fr);gap:clamp(20px,3vw,44px);align-items:start;padding:clamp(26px,3.4vw,44px) 0;border-top:1px solid rgba(255,255,255,.1)}
 @media (max-width:980px){.pw-amp{grid-template-columns:minmax(0,1fr)}}
 .pw-k{display:inline-flex;align-items:center;gap:8px;font:600 11.5px/1.2 var(--f-mono);letter-spacing:.08em;text-transform:uppercase;color:var(--pw-p)}
 .pw-k i{width:9px;height:9px;border-radius:3px;background:currentColor}
@@ -120,7 +120,7 @@
 .pw-pages p a{display:inline;box-shadow:none;color:var(--pw-b);font-weight:600}
 
 /* ---- three more answers behind one switcher: campaign watch, spectrum coexistence, job service */
-.pw-trio{border-top:1px solid rgba(255,255,255,.1);padding-top:clamp(26px,3.4vw,44px);scroll-margin-top:90px}
+.pw-trio{border-top:1px solid rgba(255,255,255,.1);padding-top:clamp(26px,3.4vw,44px)}
 .pw-trio-h{display:grid;gap:12px}
 .pw-trio-tabs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
 .pw-trio-tabs button{text-align:left;min-height:48px;padding:12px 14px;border-radius:14px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.03);color:var(--space-ink);font:650 15px/1.25 var(--f-text);cursor:pointer;min-width:0}
@@ -186,7 +186,7 @@
 @media (max-width:620px){.sj li{grid-template-columns:26px minmax(0,1fr) auto}.sj-rs{grid-column:2/-1}}
 
 /* ---- the rest of Pro, compact */
-.pw-more{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(20px,2.6vw,32px);scroll-margin-top:90px}
+.pw-more{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:clamp(20px,2.6vw,32px)}
 @media (max-width:1100px){.pw-more{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media (max-width:600px){.pw-more{grid-template-columns:minmax(0,1fr)}}
 .pw-more article{display:grid;gap:8px;align-content:start;padding:18px;border-radius:16px;border:1px solid rgba(255,255,255,.1);background:rgba(255,255,255,.03);min-width:0}

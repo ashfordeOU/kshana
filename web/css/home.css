@@ -338,6 +338,8 @@ section.block.asst{padding:clamp(44px,4vw,60px) 0}
 .stat:first-child{border-left:0;padding-left:0}
 .stat .n{font:500 34px/1 var(--mono);letter-spacing:-.04em;font-variant-numeric:tabular-nums}
 .stat .l{font-size:13px;color:var(--ink-3);margin-top:10px;line-height:1.4}
+.stat-go{margin-top:12px;font-size:13px;font-weight:500;line-height:1.2;color:var(--cyan);text-decoration:underline;text-underline-offset:3px}
+.stat-link:hover .stat-go,.stat-link:focus-visible .stat-go{text-decoration-thickness:2px}
 .stat .n i{font-style:normal;color:var(--ink-3);font-size:20px}
 
 /* ------------------------------------------------------------------ Pro band, in the Observatory panels (Home only) */

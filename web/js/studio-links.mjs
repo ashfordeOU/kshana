@@ -5,9 +5,11 @@ const VIEWS = {"aperture-duty-cycle":["overview","timeseries","report","exports"
 const stem = (f) => String(f).replace(/\.toml$/, "");
 /// The address of the Studio view that reproduces `scenario` (a file name, with or without .toml),
 /// or of its `tab` when one is named and the run has it; null when the Studio does not carry the run.
+/// A clean address from the site root (/playground/?scenario=...), whatever page asks: `root` is kept
+/// for the callers' signature only.
 export function studioHref(root, scenario, tab) {
   const n = stem(scenario);
   if (!LINKS[n]) return null;
-  return `${root}playground/` + (tab && VIEWS[n].includes(tab) ? `index.html?scenario=${n}&tab=${tab}` : LINKS[n]);
+  return "/playground/" + (tab && VIEWS[n].includes(tab) ? `?scenario=${n}&tab=${tab}` : LINKS[n].replace(/^index\.html/, ""));
 }
 export const studioHas = (scenario, tab) => !!LINKS[stem(scenario)] && (!tab || VIEWS[stem(scenario)].includes(tab));

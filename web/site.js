@@ -135,11 +135,69 @@
   }
   window.KStabs = initTabs;
 
-  // Sectors: #defence etc. select the sector and keep the URL in step.
+  /* ---------- anchor keeper: a link to #x lands x just under the header, and keeps it there ----------
+     Charts, globes and tables that draw after the jump change the height of what sits above the
+     target, so a single scroll lands short or long. keep(el) puts el at the top (the header offset
+     comes from html{scroll-padding-top}) and re-aligns it on every frame in which it has moved,
+     until the layout has been still for a second (at most 6 s), or at once when the reader scrolls,
+     clicks, touches or types. Every hash jump on every page goes through here: the page's first
+     load with a hash, hashchange, and a click on a link to the hash already in the address bar. */
+  var keepRun = 0;
+  function targetOf(hash) {
+    var id; try { id = decodeURIComponent((hash || "").replace(/^#/, "")); } catch (e) { id = (hash || "").slice(1); }
+    return id ? document.getElementById(id) : null;
+  }
+  function keep(el) {
+    if (!el) return;
+    // a target inside a closed <details> (the README's folded sections) cannot be scrolled to: open it
+    for (var d = el.closest("details:not([open])"); d; d = d.parentElement && d.parentElement.closest("details:not([open])")) d.open = true;
+    var run = ++keepRun, t0 = performance.now(), still = t0, last = null;
+    var align = function () { el.scrollIntoView({ block: "start", behavior: "instant" }); last = Math.round(el.getBoundingClientRect().top); };
+    var stop = function () { if (run === keepRun) keepRun++; off(); };
+    var evs = ["wheel", "touchstart", "keydown", "mousedown"];
+    var off = function () { evs.forEach(function (n) { removeEventListener(n, stop, true); }); };
+    evs.forEach(function (n) { addEventListener(n, stop, { capture: true, passive: true }); });
+    align();
+    (function tick() {
+      if (run !== keepRun) return;
+      var now = performance.now();
+      var top = Math.round(el.getBoundingClientRect().top);
+      if (Math.abs(top - last) > 1) { align(); still = now; }
+      if (now - still > 1000 || now - t0 > 6000) { stop(); return; }
+      requestAnimationFrame(tick);
+    })();
+  }
+  window.KSkeep = keep;
+  // A page module that opens a tab for a hash (the consoles on Capabilities and Editions) selects the
+  // tab in its own hashchange listener and calls KSkeep on the anchor; this runs after it, on the same
+  // (now shown) element, so the two agree.
+  var moved = false;
+  ["wheel", "touchstart", "keydown", "mousedown"].forEach(function (n) { addEventListener(n, function () { moved = true; }, { capture: true, passive: true, once: true }); });
+  function keepHash() { keep(targetOf(location.hash)); }
+  if ("scrollRestoration" in history && location.hash) history.scrollRestoration = "manual";
+  addEventListener("hashchange", function () { setTimeout(keepHash, 0); });
+  document.addEventListener("click", function (e) {
+    var a = e.target.closest && e.target.closest('a[href*="#"]');
+    if (!a || e.defaultPrevented || e.button !== 0 || e.metaKey || e.ctrlKey || e.shiftKey || e.altKey) return;
+    if (a.pathname !== location.pathname || a.host !== location.host || a.hash.length < 2 || a.hash !== location.hash) return;
+    // the hash is already in the address bar, so no hashchange will fire: keep it here
+    var el = targetOf(a.hash); if (el) { e.preventDefault(); setTimeout(function () { keep(el); }, 0); }
+  });
+  if (location.hash) {
+    keepHash();
+    // once images, fonts and deferred modules have loaded, align again, unless the reader has moved on
+    addEventListener("load", function () { if (!moved) keepHash(); }, { once: true });
+  }
+
+  // Sectors: a link to #defence (etc.) opens that sector and lands its panel just under the header.
+  // The id is the panel's (id="defence"); the tab is "st-defence". Selecting a tab keeps the URL in step.
   var sectorList = $(".sectors");
   if (sectorList) {
     var st = initTabs(sectorList, { onSelect: function (t) { var id = t.getAttribute("data-sector"); if (id && location.hash !== "#" + id) history.replaceState(null, "", "#" + id); } });
-    var pickHash = function () { var h = location.hash.slice(1); var t = st.tabs.filter(function (x) { return x.getAttribute("data-sector") === h; })[0]; if (t) { st.select(t, false); var sec = document.getElementById("sectors"); if (sec) sec.scrollIntoView(); } };
+    var pickHash = function () {
+      var h = location.hash.slice(1); var t = st.tabs.filter(function (x) { return x.getAttribute("data-sector") === h; })[0];
+      if (t) { st.select(t, false); keep(document.getElementById(h)); }
+    };
     pickHash(); addEventListener("hashchange", pickHash);
   }
   // Band atlas: the chips are tabs, and every mark on the frequency map selects its band.
@@ -300,7 +358,7 @@
   var pal = $("#palette"), inp = $("#palInput"), list = $("#palList"), count = $("#palCount");
   var items = null, shown = [], act = 0, lastFocus = null;
   var ACTIONS = [
-    { t: "Launch " + ((window.KSITE && window.KSITE.studio) || "Kshana Studio"), h: "playground/index.html", k: "Action" },
+    { t: "Launch " + ((window.KSITE && window.KSITE.studio) || "Kshana Studio"), h: "/playground/", k: "Action" },
     { t: "Switch light or dark theme", a: function () { themeBtn && themeBtn.click(); }, k: "Action" },
     { t: "Copy: cargo install kshana", a: function () { copyText("cargo install kshana"); }, k: "Action" },
     { t: "Request a Kshana Pro evaluation", h: "mailto:contact@ashforde.org?subject=Kshana%20Pro%20evaluation", k: "Action" },
@@ -336,7 +394,7 @@
       var a = document.createElement(it.h ? "a" : "button");
       a.className = "pal-item"; a.setAttribute("role", "option"); a.id = "pal-" + i;
       a.setAttribute("aria-selected", i === act ? "true" : "false");
-      if (it.h) a.href = /^(https?:|mailto:)/.test(it.h) ? it.h : ROOT + it.h; else a.type = "button";
+      if (it.h) a.href = /^(https?:|mailto:|\/)/.test(it.h) ? it.h : ROOT + it.h; else a.type = "button";
       var k = document.createElement("span"); k.className = "k"; k.textContent = it.k || "";
       var t = document.createElement("span"); t.className = "t"; t.textContent = it.t;
       a.append(k, t);
