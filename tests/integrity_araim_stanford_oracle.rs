@@ -65,6 +65,19 @@
 //! ISM; their gap against the same MAAST cases (with sigma = sigma_URA and P_const = 1e-4) is
 //! measured and reported by a separate gated test, not scored against the bar.
 
+//!
+//! # Oracle runtime note (committed before any Kshana value was computed)
+//!
+//! The first MAAST run under Octave produced invalid output: an empty EMT on every case. GNU
+//! Octave 8.4's `unique(A, 'rows', 'stable')` does not implement the third output (it warns
+//! "third output J is not yet implemented" and returns it empty), and MAAST's
+//! `find_unique_subsets.m` uses that output to carry each subset's prior into the
+//! protection-level sums, so every fault prior became zero. The driver now puts a
+//! compatibility `unique.m` (`xval/araim-maast/octave_compat/`, MATLAB's documented semantics for
+//! that one call form, every other call deferred to Octave's own) ahead of Octave's on the path
+//! and the oracle was re-run. MAAST's numbers from the invalid run were seen; no Kshana value
+//! had been computed, and the quantity, inputs, settings and bars above are unchanged.
+
 /// The ADD's TOL_PL (m): the protection-level tolerance.
 pub const TOL_PL_M: f64 = 5e-2;
 /// The closed-form tolerance (m) on the Effective Monitor Threshold and sigma_acc.
@@ -74,4 +87,126 @@ pub const TOL_CLOSED_FORM_M: f64 = 1e-3;
 #[ignore = "pre-registered; not yet run"]
 fn araim_mhss_matches_stanford_maast_add_v4_2() {
     unimplemented!("pre-registered; the comparison body lands with the fixture");
+}
+
+// ── Fixture generator ────────────────────────────────────────────────────────────────────────
+//
+// `KSHANA_WRITE_FIXTURE=1 cargo test --test integrity_araim_stanford_oracle -- --ignored
+// generate_geometry_fixture` rewrites `tests/fixtures/integrity_araim_stanford_oracle/geometry.csv`
+// from the committed element sets and precise orbit. The geometry is an input to both tools.
+
+use kshana::frames::{elevation, geodetic_to_ecef, teme_to_ecef, Geodetic};
+use kshana::orbit::Propagator;
+use kshana::sgp4::GravModel;
+use kshana::sp3::parse_sp3;
+use kshana::tle::parse_tle;
+
+const FIXTURE_DIR: &str = "tests/fixtures/integrity_araim_stanford_oracle";
+const USER_LATS_DEG: [f64; 5] = [-60.0, -30.0, 0.0, 30.0, 60.0];
+const USER_LONS_DEG: [f64; 6] = [-150.0, -90.0, -30.0, 30.0, 90.0, 150.0];
+
+/// `(SGP4 propagator, epoch in days since 1950 Jan 0.0)` for every element set in a file, built
+/// as `tests/araim_dual_real_data.rs` builds them.
+fn element_sets(path: &str) -> Vec<(Propagator, f64)> {
+    let text = std::fs::read_to_string(path).unwrap_or_else(|e| panic!("read {path}: {e}"));
+    let grav = GravModel::default().constants();
+    let lines: Vec<&str> = text.lines().map(str::trim).collect();
+    let mut out = Vec::new();
+    let mut i = 0;
+    while i < lines.len() {
+        if lines[i].starts_with("1 ") && i + 1 < lines.len() && lines[i + 1].starts_with("2 ") {
+            let tle = parse_tle(lines[i], lines[i + 1]).expect("element set parses");
+            out.push((
+                Propagator::Sgp4(Box::new(tle.to_sgp4(grav, false))),
+                tle.epoch_days_1950,
+            ));
+            i += 2;
+        } else {
+            i += 1;
+        }
+    }
+    out
+}
+
+/// `(latitude deg, longitude deg, geodetic position)` of every user, latitude-major.
+fn users() -> Vec<(f64, f64, Geodetic)> {
+    let mut v = Vec::new();
+    for &lat in &USER_LATS_DEG {
+        for &lon in &USER_LONS_DEG {
+            let g = Geodetic {
+                lat_rad: lat.to_radians(),
+                lon_rad: lon.to_radians(),
+                alt_m: 0.0,
+            };
+            v.push((lat, lon, g));
+        }
+    }
+    v
+}
+
+#[test]
+#[ignore = "fixture generator; run with KSHANA_WRITE_FIXTURE=1"]
+fn generate_geometry_fixture() {
+    if std::env::var("KSHANA_WRITE_FIXTURE").is_err() {
+        return;
+    }
+    let mut out = String::from("case,source,lat_deg,lon_deg,t_s,constellation,prn,x_m,y_m,z_m\n");
+    let mut case = 0usize;
+    // (i) GPS + Galileo element sets aligned to one instant (the latest epoch in the set).
+    let gps = element_sets("tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+    let gal = element_sets("tests/fixtures/celestrak/galileo_2026-06-07.txt");
+    let t_ref_days = gps
+        .iter()
+        .chain(gal.iter())
+        .map(|&(_, e)| e)
+        .fold(f64::MIN, f64::max);
+    let jd_ref = 2_433_281.5 + t_ref_days;
+    for k in 0..8 {
+        let t_s = 3.0 * 3600.0 * k as f64;
+        let jd = jd_ref + t_s / 86_400.0;
+        let mut sats: Vec<(usize, usize, [f64; 3])> = Vec::new();
+        for (c, set) in [(0usize, &gps), (1usize, &gal)] {
+            for (j, (p, e)) in set.iter().enumerate() {
+                let tsince = (t_ref_days - e) * 86_400.0 + t_s;
+                sats.push((c, j + 1, teme_to_ecef(p.position_eci(tsince), jd)));
+            }
+        }
+        for (lat, lon, u) in users() {
+            for &(c, prn, r) in &sats {
+                if elevation(u, r) > 0.0 {
+                    out.push_str(&format!(
+                        "{case},TLE,{lat:?},{lon:?},{t_s:?},{c},{prn},{:?},{:?},{:?}\n",
+                        r[0],
+                        r[1],
+                        r[2]
+                    ));
+                }
+            }
+            case += 1;
+        }
+    }
+    // (ii) GPS only, every epoch of the IGS precise orbit.
+    let sp3 = parse_sp3(include_str!("fixtures/igs/igs_sample.sp3")).expect("SP3 parses");
+    for (k, ep) in sp3.epochs.iter().enumerate() {
+        for (lat, lon, u) in users() {
+            for s in ep.sats.iter().filter(|s| s.sat.starts_with('G')) {
+                if elevation(u, s.pos_m) > 0.0 {
+                    let prn: usize = s.sat[1..].trim().parse().expect("SP3 PRN");
+                    out.push_str(&format!(
+                        "{case},SP3,{lat:?},{lon:?},{:?},0,{prn},{:?},{:?},{:?}\n",
+                        k as f64,
+                        s.pos_m[0],
+                        s.pos_m[1],
+                        s.pos_m[2]
+                    ));
+                }
+            }
+            case += 1;
+        }
+    }
+    std::fs::create_dir_all(FIXTURE_DIR).expect("fixture dir");
+    std::fs::write(format!("{FIXTURE_DIR}/geometry.csv"), out).expect("write geometry");
+    // The user position the Kshana side uses is `geodetic_to_ecef` of the row's latitude and
+    // longitude at height 0; MAAST forms its own from the same geodetic coordinates.
+    let _ = geodetic_to_ecef;
 }
