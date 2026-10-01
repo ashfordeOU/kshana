@@ -166,6 +166,100 @@ pub fn tisserand(a_sc: f64, e_sc: f64, i_sc: f64, a_planet: f64) -> f64 {
     a_planet / a_sc + 2.0 * (a_sc / a_planet * (1.0 - e_sc * e_sc)).sqrt() * i_sc.cos()
 }
 
+/// The B-plane description of a hyperbolic body-centred state, from [`flyby_from_state`].
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct FlybyState {
+    /// Hyperbolic-excess speed `v∞ = √(v² − 2μ/r)` (state units).
+    pub v_inf: f64,
+    /// Periapsis radius `r_p = |a|·(e − 1)`.
+    pub r_p: f64,
+    /// Eccentricity (> 1).
+    pub e: f64,
+    /// Turn angle `δ = 2·asin(1/e)` (rad).
+    pub turn_angle: f64,
+    /// Impact parameter `|B|`.
+    pub b_mag: f64,
+    /// `B·T̂`.
+    pub b_dot_t: f64,
+    /// `B·R̂`.
+    pub b_dot_r: f64,
+    /// Incoming-asymptote unit vector `Ŝ` (the arrival direction of `v∞`).
+    pub s_in: Vec3,
+    /// Outgoing-asymptote unit vector: `Ŝ` deflected by `δ` about the orbit normal.
+    pub s_out: Vec3,
+    /// Unit orbit normal `ĥ = r × v / |r × v|`.
+    pub h_hat: Vec3,
+}
+
+/// B-plane coordinates of a hyperbolic body-centred state `(r, v)` with gravitational
+/// parameter `mu`, with `T̂ = Ŝ × p̂` built from the reference pole `pole` (the `z` axis of
+/// the frame for the usual convention).
+///
+/// The incoming asymptote is `Ŝ = ê/e + √(1 − 1/e²)·(ĥ × ê)` (the arrival direction of the
+/// hyperbolic-excess velocity), the B-vector is `|B|·(Ŝ × ĥ)` with `|B|` from
+/// [`impact_parameter`], and the outgoing asymptote is `Ŝ` rotated by the turn angle about
+/// `ĥ` with [`deflect`]. Units follow the inputs (metres and m³/s², or kilometres and
+/// km³/s²). Returns `None` for a non-hyperbolic state (`e ≤ 1` or non-positive energy) or a
+/// degenerate one (rectilinear, or `Ŝ` parallel to the pole).
+pub fn flyby_from_state(r: Vec3, v: Vec3, mu: f64, pole: Vec3) -> Option<FlybyState> {
+    let rm = norm(r);
+    let v2 = dot(v, v);
+    let energy2 = v2 - 2.0 * mu / rm;
+    if energy2.is_nan() || energy2 <= 0.0 {
+        return None;
+    }
+    let v_inf = energy2.sqrt();
+    let h = cross(r, v);
+    let hm = norm(h);
+    if hm.is_nan() || hm <= 0.0 {
+        return None;
+    }
+    let h_hat = [h[0] / hm, h[1] / hm, h[2] / hm];
+    let rv = dot(r, v);
+    let e_vec = [
+        ((v2 - mu / rm) * r[0] - rv * v[0]) / mu,
+        ((v2 - mu / rm) * r[1] - rv * v[1]) / mu,
+        ((v2 - mu / rm) * r[2] - rv * v[2]) / mu,
+    ];
+    let e = norm(e_vec);
+    if e.is_nan() || e <= 1.0 {
+        return None;
+    }
+    let e_hat = [e_vec[0] / e, e_vec[1] / e, e_vec[2] / e];
+    let n_hat = cross(h_hat, e_hat);
+    let a = hyperbolic_sma(mu, v_inf);
+    let r_p = a.abs() * (e - 1.0);
+    let c = 1.0 / e;
+    let s = (1.0 - c * c).sqrt();
+    let s_in = [
+        c * e_hat[0] + s * n_hat[0],
+        c * e_hat[1] + s * n_hat[1],
+        c * e_hat[2] + s * n_hat[2],
+    ];
+    if norm(cross(s_in, pole)) <= 1e-12 {
+        return None;
+    }
+    let b_mag = impact_parameter(mu, v_inf, r_p);
+    let b_dir = unit(cross(s_in, h_hat));
+    let b_vec = [b_mag * b_dir[0], b_mag * b_dir[1], b_mag * b_dir[2]];
+    let (t_hat, r_hat) = bplane_frame(s_in, pole);
+    let (b_dot_t, b_dot_r) = bplane_components(b_vec, t_hat, r_hat);
+    let delta = turn_angle(flyby_eccentricity(mu, v_inf, r_p));
+    let s_out = deflect(s_in, delta, h_hat);
+    Some(FlybyState {
+        v_inf,
+        r_p,
+        e,
+        turn_angle: delta,
+        b_mag,
+        b_dot_t,
+        b_dot_r,
+        s_in,
+        s_out,
+        h_hat,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -177,6 +271,31 @@ mod tests {
 
     // Earth-ish μ (m³/s²) for the flyby-scalar tests.
     const MU: f64 = 3.986_004_418e14;
+
+    #[test]
+    fn flyby_from_state_recovers_the_closed_forms_at_periapsis() {
+        // Periapsis state of a known flyby in the xy-plane, prograde about +z.
+        let (v_inf, r_p) = (3000.0, 7.0e6);
+        let v_p = (v_inf * v_inf + 2.0 * MU / r_p).sqrt();
+        let pole = [0.3, 0.0, 1.0];
+        let f = flyby_from_state([r_p, 0.0, 0.0], [0.0, v_p, 0.0], MU, pole).expect("hyperbolic");
+        assert!(approx(f.v_inf, v_inf, 1e-6) && approx(f.r_p, r_p, 1e-3));
+        let e = flyby_eccentricity(MU, v_inf, r_p);
+        assert!(approx(f.e, e, 1e-12));
+        assert!(approx(f.turn_angle, turn_angle(e), 1e-12));
+        assert!(approx(f.b_mag, impact_parameter(MU, v_inf, r_p), 1e-3));
+        assert!(approx(f.b_dot_t.hypot(f.b_dot_r), f.b_mag, 1e-3));
+        let ang = dot(f.s_in, f.s_out).clamp(-1.0, 1.0).acos();
+        assert!(approx(ang, f.turn_angle, 1e-9));
+        // The outgoing asymptote is the incoming one reflected through the apse line.
+        let e_hat = [1.0, 0.0, 0.0];
+        let refl = 2.0 * dot(f.s_in, e_hat);
+        let mirrored = [refl - f.s_in[0], -f.s_in[1], -f.s_in[2]];
+        assert!(norm(sub(mirrored, [-f.s_out[0], -f.s_out[1], -f.s_out[2]])) < 1e-12);
+        // An elliptic state is rejected.
+        let ell = flyby_from_state([r_p, 0.0, 0.0], [0.0, 7000.0, 0.0], MU, pole);
+        assert!(ell.is_none());
+    }
 
     #[test]
     fn flyby_scalars_satisfy_the_closed_forms() {
