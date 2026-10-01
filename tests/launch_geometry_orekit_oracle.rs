@@ -52,6 +52,12 @@
 //! test red at 1.12e-6. The fixture's sites are all at longitude 0, so y_p enters only at second
 //! order and its sign convention is not exercised by this comparison.
 //!
+//! ROUND 2, second step (2026-10-01): the `launch-window` scenario gains `epoch`, `site_lon_deg`
+//! and `eop_finals2000a` and emits `site_rotation_speed_true_pole_m_s` from
+//! `site_rotation_speed_at`, so the report itself carries the true-pole speed. The strict test
+//! also runs the same seven latitudes through the scenario, at the same epoch, rows and 1e-6.
+//! This adds a path to the comparison; it changes neither the oracle values nor the tolerance.
+//!
 //! Fixture, driver, generator and provenance: `tests/fixtures/launch_geometry_orekit_oracle/`.
 
 use kshana::eop::EopSeries;
@@ -273,11 +279,36 @@ fn earth_rotation_speed_matches_orekit_site_velocity() {
     for (lat, r) in &gaps {
         eprintln!("true-pole site speed lat {lat}: rel gap to Orekit {r:e}");
     }
-    let failures: Vec<String> = gaps
+    let mut failures: Vec<String> = gaps
         .into_iter()
         .filter(|g| g.1 > ROT_REL_TOL)
         .map(|(lat, r)| format!("ROT lat {lat}: rel {r:e}"))
         .collect();
+    // The same comparison through the shipped `launch-window` scenario (its epoch, longitude
+    // and inlined finals2000A rows), at the same 1e-6: the report field must carry the value.
+    let eop_body =
+        include_str!("fixtures/launch_geometry_orekit_oracle/finals2000A_2026-02-28_to_03-02.txt");
+    for rest in REF.lines().filter_map(|l| l.strip_prefix("ROT ")) {
+        let f = fields(rest);
+        let lat = f[0][0];
+        let scn = kshana::launch::LaunchWindowScenario {
+            site_lat_deg: lat,
+            target_inclination_deg: 90.0,
+            altitude_km: 400.0,
+            site_lon_deg: 0.0,
+            epoch: Some("2026-03-01T00:00:00".to_string()),
+            eop_finals2000a: Some(eop_body.to_string()),
+        };
+        let v: serde_json::Value = serde_json::from_str(&scn.run_json().unwrap().0).unwrap();
+        let r = rel(
+            v["site_rotation_speed_true_pole_m_s"].as_f64().unwrap(),
+            f[1][0],
+        );
+        eprintln!("launch-window scenario lat {lat}: rel gap to Orekit {r:e}");
+        if r > ROT_REL_TOL {
+            failures.push(format!("scenario ROT lat {lat}: rel {r:e}"));
+        }
+    }
     assert!(
         failures.is_empty(),
         "disagreements:\n{}",
