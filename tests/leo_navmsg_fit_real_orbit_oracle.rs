@@ -62,6 +62,11 @@
 //! * PROMOTE only if both pass. A failure is a finding; no bar moves.
 //! Disclosure: the first run's ratios (Sentinel-2A 1.71, Sentinel-6A 1.86 along-track at 20 min)
 //! were seen before this amendment.
+//! Note added with the engine change, before any re-run or held-out fit: the paper's own
+//! termination rule (Section 2.3) is a change of the residual root-mean-square (RMS) between
+//! two iterations below 0.1 mm, or 100 iterations. Item 3 above mis-states it; the
+//! pre-registered parameter-convergence rule is kept unchanged (it stops no earlier on a
+//! converging fit), and the difference is disclosed here rather than amended.
 
 use std::path::Path;
 
@@ -72,6 +77,7 @@ use kshana::leo_navmsg::truth::TruthOrbit;
 
 /// One day of a satellite: fixture file, label, and the printed values
 /// `[A, C, R, SISRE]` (cm) for (16 at 20 min, 16 at 30 min, 22 at 20 min, 22 at 30 min).
+#[derive(Clone, Copy)]
 struct Day {
     file: &'static str,
     name: &'static str,
@@ -199,8 +205,30 @@ fn within(ours: f64, published: f64) -> bool {
 
 /// Run one model over every day and arc; return the failures (empty when G1 and G2 hold).
 fn compare(kind: ModelKind, label: &str) -> Vec<String> {
+    compare_days(&DAYS, kind, label)
+}
+
+/// The held-out days (pre-registered in round 2): the two days after each paper day, scored
+/// against the same printed values of that satellite.
+fn held_out_days() -> Vec<Day> {
+    let next = [
+        ("grace_a_2017-06-02.csv", "grace_a_2017-06-03.csv"),
+        ("grace_c_2024-01-02.csv", "grace_c_2024-01-03.csv"),
+        ("sentinel_2a_2024-01-02.csv", "sentinel_2a_2024-01-03.csv"),
+        ("sentinel_6a_2024-01-02.csv", "sentinel_6a_2024-01-03.csv"),
+    ];
+    let mut out = Vec::new();
+    for (d, (f1, f2)) in DAYS.iter().zip(next) {
+        for f in [f1, f2] {
+            out.push(Day { file: f, ..*d });
+        }
+    }
+    out
+}
+
+fn compare_days(days: &[Day], kind: ModelKind, label: &str) -> Vec<String> {
     let rows: Vec<(String, [f64; 4], [f64; 3], f64)> = std::thread::scope(|sc| {
-        let handles: Vec<_> = DAYS
+        let handles: Vec<_> = days
             .iter()
             .map(|d| {
                 sc.spawn(move || {
@@ -213,7 +241,7 @@ fn compare(kind: ModelKind, label: &str) -> Vec<String> {
                     for (arc, published) in [(1200.0, p20), (1800.0, p30)] {
                         let (rac, sisre) = day_stats(&truth, kind, arc);
                         out.push((
-                            format!("{} {} min", d.name, arc / 60.0),
+                            format!("{} {} {} min", d.name, d.file, arc / 60.0),
                             published,
                             rac,
                             sisre,
@@ -325,5 +353,6 @@ fn tabulated_truth_returns_its_states_at_the_nodes() {
 #[test]
 #[ignore = "pre-registered; not yet run"]
 fn liu22_holds_on_held_out_days() {
-    unimplemented!("pre-registered: held-out fixtures not yet fetched");
+    let failures = compare_days(&held_out_days(), ModelKind::Liu22, "liu22-held-out");
+    assert!(failures.is_empty(), "{}", failures.join("\n"));
 }
