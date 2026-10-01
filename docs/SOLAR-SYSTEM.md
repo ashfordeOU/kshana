@@ -163,7 +163,7 @@ deep-space link adds.
 `raan_deg` is the right ascension of the ascending node in the body's equatorial frame and
 `u0_deg` the argument of latitude at the epoch.
 
-The two bundled scenarios, as they run with kshana 0.29.2:
+The two bundled scenarios, as they run with kshana 0.29.3:
 
 | | `scenarios/mars-orbit-pnt.toml` | `scenarios/europa-surface-pnt.toml` |
 |---|---|---|
