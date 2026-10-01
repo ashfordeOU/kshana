@@ -47,10 +47,17 @@
 //! `detectable_norm_np / s ≥ 1e-3`, and in each geometry at least 95 % of cases have it
 //! `≥ 0.05`. Inputs, oracle and the agreement tolerances are unchanged.
 //!
+//! Result (2026-10-01, tolerances unchanged): all 1464 cases inside the bar; worst, relative to
+//! `‖δy‖`: `blind_dx` 1.06e-14, residual 4.4e-15, `blind_norm` 3.0e-15, `detectable_norm`
+//! 6.0e-16; `blind_fraction` 3.1e-15. Parity fraction at least 0.05 in 732 of 732
+//! eight-satellite and 714 of 732 six-satellite cases (smallest 0.006).
+//!
 //! Discrimination check, pre-registered: replacing the engine's state map with the oblique left
 //! inverse `S' = S + K·(I − G·S)`, `K[i][c] = 0.05·sin(1 + i + 2c)` (a 4 × n matrix that is not
 //! least squares, but still satisfies `S'·G = I`, which kept the earlier test green), must turn
-//! this test red.
+//! this test red. Done 2026-10-01: red at case 0 (`blind_dx` off by 5.5e-2·‖δy‖), while the
+//! earlier `tests/lunar_common_mode_integrity_reference.rs` stayed green under the same mutant;
+//! the mutation was then edited back.
 
 use kshana::lunar_common_mode::{common_mode_split, geometry_from_los};
 use std::path::PathBuf;
@@ -85,7 +92,6 @@ fn dist(a: &[f64], b: &[f64]) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered (amendment 1); not yet run"]
 fn common_mode_split_matches_numpy_lstsq_on_parity_bearing_inputs() {
     let inputs = fixture("inputs.json");
     let oracle = fixture("numpy_reference.json");
