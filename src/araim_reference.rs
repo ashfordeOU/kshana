@@ -1231,11 +1231,11 @@ pub fn add_v42_protection_levels(case: &AddV42Case) -> Result<AddV42Result, Stri
         out: vec![false; n],
         p: p_no_fault,
     }];
-    for e in 0..n_ev {
+    for (e, &qe) in q.iter().enumerate() {
         rows.push(Row {
             events: vec![e],
             out: sats_of(e),
-            p: p_no_fault * q[e],
+            p: p_no_fault * qe,
         });
     }
     for a in 0..n_ev {
