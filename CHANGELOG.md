@@ -9,6 +9,52 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.29.3] - 2026-10-01
+
+A patch release on 0.29.2. Kshana Studio is rebuilt around two views: a Simple view
+that answers first and explains in plain words, and an Advanced view with the full
+dashboard. Two small fixes on kshana.dev come with it. The engine does not change:
+every bundled scenario gives a byte-identical result to 0.29.2 apart from the version
+stamp.
+
+### Changed
+
+- **Kshana Studio has a Simple view.** It is what the Studio opens on.
+  - The answer comes first: a scenario opens on its result, stated in one plain
+    sentence. Every bundled scenario has its own sentence, written for what that
+    scenario measures.
+  - At most five settings are on show, the ones that change the answer most. The rest
+    are under "Advanced settings", folded away until you open them.
+  - "How this is computed" explains the method in a few lines, and "For researchers"
+    gives the engine's own figures, the scenario file and the evidence behind the
+    result.
+- **The full dashboard is the Advanced view.** Every panel, chart, export and report of
+  the earlier Studio is there.
+- **A switch moves between the two views and keeps your place.** The scenario, the
+  view you were on and any settings you edited carry over. The Studio remembers which
+  view you used last. Links from the site and the documentation open the Simple view;
+  a link with `view=advanced` opens the Advanced view, and every earlier Studio link
+  still opens the same scenario and view.
+- **A faster first view on slow connections.** The recorded answer for a scenario is
+  drawn before the rest of the Studio loads, so on a slow mobile connection the answer
+  shows in about two seconds instead of about nine.
+- **Better search.** A search now lists scenarios whose area or title matches the words
+  first, ahead of scenarios that only mention them in the file name or text.
+
+### Fixed
+
+- **The home page globe no longer goes blank with reduced motion on.** With the system
+  setting for reduced motion on, resizing the window could leave the hero globe empty
+  until the page scrolled. The globe now redraws in the same frame as the resize.
+- **The L-band console on the home page explains its empty band.** In "Watch a jammer
+  take the band" the GPS L5 / Galileo E5a panel stayed dark for the whole minute, which
+  read as broken. No jammer transmits in that band in this scenario, and the satellite
+  signals sit below the noise floor, so nothing there rises above it. A quiet label now
+  says so in any panel stretch with nothing above the floor (the L5 / E5a panel, and the
+  L2C panel before its noise jammer starts), with each band's C/N0 and lock state from
+  the same run. It is placed only where nothing is above the floor, so it never covers
+  jammer energy.
+
 ## [0.29.2] - 2026-10-01
 
 A patch release on 0.29.1. It removes duplicated code in the LEO navigation-message,
