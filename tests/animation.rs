@@ -17,6 +17,9 @@ use kshana::animation::{
 };
 use std::process::Command;
 
+#[path = "support/corpus.rs"]
+mod corpus;
+
 fn run(stem: &str) -> String {
     let path = format!("{}/scenarios/{stem}.toml", env!("CARGO_MANIFEST_DIR"));
     let src = std::fs::read_to_string(&path).expect("read scenario");
@@ -367,22 +370,12 @@ fn the_spectrum_waterfall_animates_row_by_row() {
 
 #[test]
 fn every_bundled_scenario_with_a_time_series_animates() {
-    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios");
-    let mut paths: Vec<_> = std::fs::read_dir(&dir)
-        .expect("scenarios dir")
-        .filter_map(Result::ok)
-        .map(|e| e.path())
-        .filter(|p| p.extension().is_some_and(|x| x == "toml"))
-        .collect();
-    paths.sort();
-    let mut animated = Vec::new();
-    let mut refused = Vec::new();
-    for path in paths {
+    // Run and animate each scenario on the corpus pool (tests/support/corpus.rs); the
+    // outcomes come back in the corpus's sorted order.
+    let paths = corpus::runnable_scenarios();
+    let outcomes = corpus::par_map(&paths, |path| {
         let name = path.file_stem().unwrap().to_string_lossy().into_owned();
-        if name.ends_with(".suite") {
-            continue;
-        }
-        let src = std::fs::read_to_string(&path).unwrap();
+        let src = std::fs::read_to_string(path).unwrap();
         let out = kshana::api::run_toml(&src)
             .unwrap_or_else(|e| panic!("bundled scenario {name} failed to run: {e}"));
         match extract_timeline(&out.json, None) {
@@ -400,10 +393,19 @@ fn every_bundled_scenario_with_a_time_series_animates() {
                             .unwrap_or_else(|e| panic!("{name} {}: {e}", file.name));
                     }
                 }
-                animated.push(name);
+                (name, true)
             }
-            Err(AnimationError::NoTimeSeries(_)) => refused.push(name),
+            Err(AnimationError::NoTimeSeries(_)) => (name, false),
             Err(e) => panic!("{name}: {e}"),
+        }
+    });
+    let mut animated = Vec::new();
+    let mut refused = Vec::new();
+    for (name, ok) in outcomes {
+        if ok {
+            animated.push(name);
+        } else {
+            refused.push(name);
         }
     }
     for must in [

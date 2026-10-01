@@ -173,6 +173,13 @@ jobs:
     # test's comment. The 240 cap stays as pure headroom; a job cancelled at its cap
     # never reveals its true runtime.
     #
+    # On v0.29.0 (run 36809850252) the job passed in 143 min. Not the fuzzer this time
+    # (4 min): the bundled corpus grew from 74 to 139 scenarios, and determinism (two
+    # passes), advanced_report and animation each walked all of it one file at a time,
+    # 37 min together against 3 on 0.27.2. They now share tests/support/corpus.rs,
+    # which runs the per-scenario work on every core, so each walk takes about as long
+    # as its slowest scenarios (leo-ppp-convergence first) instead of the sum.
+    #
     # The measurement and the --fail-under 85 floor below are unchanged.
     timeout-minutes: 240
     steps:
