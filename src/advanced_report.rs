@@ -932,14 +932,8 @@ pub fn unit_from_suffix(name: &str) -> Option<&'static str> {
         .map(|(_, unit)| *unit)
 }
 
-/// Escape the five characters that matter in HTML text and attribute context.
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('"', "&quot;")
-        .replace('\'', "&#39;")
-}
+// HTML text and attribute escaping is the one the API report uses.
+use crate::api::html_escape as esc;
 
 /// Percent-encode an SVG for an inert `data:` URI image.
 fn svg_data_uri(svg: &str) -> String {

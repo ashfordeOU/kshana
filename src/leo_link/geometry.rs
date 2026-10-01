@@ -38,33 +38,11 @@
 use super::{C_M_S, J2_EARTH, MU_EARTH, OMEGA_EARTH, RE_EARTH};
 use crate::constellation::Elements;
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic};
+use crate::leo_fusion::geom::{add, cross, dot, norm, scale, sub};
 use std::f64::consts::{PI, TAU};
 
 /// A 3-vector (m, m/s or m/s²).
 pub type Vec3 = [f64; 3];
-
-fn add(a: Vec3, b: Vec3) -> Vec3 {
-    [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
-}
-fn sub(a: Vec3, b: Vec3) -> Vec3 {
-    [a[0] - b[0], a[1] - b[1], a[2] - b[2]]
-}
-fn scale(a: Vec3, k: f64) -> Vec3 {
-    [a[0] * k, a[1] * k, a[2] * k]
-}
-fn dot(a: Vec3, b: Vec3) -> f64 {
-    a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
-}
-fn cross(a: Vec3, b: Vec3) -> Vec3 {
-    [
-        a[1] * b[2] - a[2] * b[1],
-        a[2] * b[0] - a[0] * b[2],
-        a[0] * b[1] - a[1] * b[0],
-    ]
-}
-fn norm(a: Vec3) -> f64 {
-    dot(a, a).sqrt()
-}
 
 /// Turn an ECI0 vector into ECEF at `t` seconds after the epoch.
 pub fn eci0_to_ecef(v: Vec3, t: f64) -> Vec3 {
