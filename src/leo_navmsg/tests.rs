@@ -526,7 +526,7 @@ fn the_encoded_frame_is_the_same_bytes_on_every_platform() {
     for (model, extra, crc) in [
         ("kepler16", "", "0x50D072"),
         ("kepler-rac", "rac_degrees = [7, 5, 6]\n", "0x19105F"),
-        ("liu22", "", "0x62373A"),
+        ("liu22", "", "0xDED99C"),
         (
             "ecef-poly",
             "poly_degree = 6\nfit_interval_s = 60\nupdate_period_s = 60\n",

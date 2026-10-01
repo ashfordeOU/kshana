@@ -53,7 +53,7 @@ Three readings are Kshana's own and are stated as such:
 - The RAC frame and the `τ = tk / tau_s` normalisation. No public document defines a LEO
   correction frame for a broadcast message.
 - The Liu et al. terms. The paper's full text was not accessible, so Kshana evaluates
-  `A = A0 + ȧ·tk`, `n = n0 + Δn + ½·ṅ·tk` (the Global Positioning System (GPS) civil-navigation convention) and adds
+  `A = A0 + ȧ·tk`, `n = n0 + Δn + ṅ·tk` (the paper's Eq. 1; releases before 0.30 used the Global Positioning System (GPS) civil-navigation convention `½·ṅ·tk`) and adds
   `Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ` to the radius, `Φ` the argument
   of latitude.
 - A zero-clock message's clock is zero in total: the steering loop is taken to hold the
@@ -319,7 +319,7 @@ and widens the fields to keep the ranges a LEO fit needs:
 | along/cross/radial corrections (model 2) | `racTauExp` | 4 | 1 | log2(s) |
 | along/cross/radial corrections (model 2) | `a_k, c_k, r_k` | 22 | 2^-14 | m |
 | Liu et al. 2025 extras (model 3) | `aDot` | 26 | 2^-20 | m/s |
-| Liu et al. 2025 extras (model 3) | `nDot` | 30 | 2^-60 | semicircle/s^2 |
+| Liu et al. 2025 extras (model 3) | `nDot` | 30 | 2^-58 | semicircle/s^2 |
 | Liu et al. 2025 extras (model 3) | `Crs3` | 26 | 2^-10 | m |
 | Liu et al. 2025 extras (model 3) | `Crc3` | 26 | 2^-10 | m |
 | Liu et al. 2025 extras (model 3) | `Crs1` | 26 | 2^-10 | m |
@@ -354,7 +354,9 @@ encoding fits at 300 to 2000 km, inclinations from 0° to 140° and fit interval
 20 minutes: `deltaN` and `OmegaDot` are wide because on a near-equatorial orbit the node
 is poorly defined and the fit shares the J2 drift of the argument of latitude between
 them, and `aDot` and `nDot` because the 22-parameter fit over 20 minutes absorbs part of
-the short-period oscillation of the semi-major axis. The degree-7 along-track
+the short-period oscillation of the semi-major axis. Since 0.30 the 22-parameter fit is the
+paper's plain least squares without priors, and an equatorial 800 km fit then needs `nDot`
+of about 6.3e-10 semicircle/s^2, so its scale went from 2^-60 to 2^-58. The degree-7 along-track
 corrections of `kepler-rac` fit the 22-bit coefficient range up to 15 minutes; a longer
 fit can exceed it and is then refused. `quantisation_budget` reports,
 for every ephemeris and clock field, the largest position and range change a half-step
