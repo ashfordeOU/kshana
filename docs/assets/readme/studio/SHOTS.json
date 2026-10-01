@@ -4,7 +4,7 @@
   "shots": [
     {
       "file": "studio-start-light.jpg",
-      "studio_url": "http://127.0.0.1:8872/?start=1",
+      "studio_url": "http://127.0.0.1:8893/studio/?start=1",
       "scenario": null,
       "view": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
       "tab": null,
@@ -26,7 +26,7 @@
     },
     {
       "file": "studio-dashboard-light.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": null,
       "view": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
       "tab": null,
@@ -48,7 +48,7 @@
     },
     {
       "file": "studio-phone-steps-light.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": "l-band-waterfall-jamming",
       "view": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures and panels, with the step bar (Choose, Set, Run, Results) fixed to the bottom of the screen",
       "tab": null,
@@ -70,7 +70,7 @@
     },
     {
       "file": "studio-lband-light.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": "l-band-waterfall-jamming",
       "view": "Spectrum panel: the L-band waterfall under jamming",
       "tab": "spectrum",
@@ -92,7 +92,7 @@
     },
     {
       "file": "studio-coverage-light.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
       "view": "Coverage panel: the mean PDOP map of four GNSS constellations",
       "tab": "coverage",
@@ -114,7 +114,7 @@
     },
     {
       "file": "studio-leo-chain-light.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=leo-pnt-end-to-end&tab=leo-chain",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=leo-pnt-end-to-end&tab=leo-chain",
       "scenario": "leo-pnt-end-to-end",
       "view": "End-to-end chain panel: the low-Earth-orbit chain from signal design to precise point positioning",
       "tab": "leo-chain",
@@ -136,7 +136,7 @@
     },
     {
       "file": "studio-start-dark.jpg",
-      "studio_url": "http://127.0.0.1:8872/?start=1",
+      "studio_url": "http://127.0.0.1:8893/studio/?start=1",
       "scenario": null,
       "view": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
       "tab": null,
@@ -158,7 +158,7 @@
     },
     {
       "file": "studio-dashboard-dark.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": null,
       "view": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
       "tab": null,
@@ -180,7 +180,7 @@
     },
     {
       "file": "studio-phone-steps-dark.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": "l-band-waterfall-jamming",
       "view": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures and panels, with the step bar (Choose, Set, Run, Results) fixed to the bottom of the screen",
       "tab": null,
@@ -202,7 +202,7 @@
     },
     {
       "file": "studio-lband-dark.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=l-band-waterfall-jamming&tab=spectrum",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
       "scenario": "l-band-waterfall-jamming",
       "view": "Spectrum panel: the L-band waterfall under jamming",
       "tab": "spectrum",
@@ -224,7 +224,7 @@
     },
     {
       "file": "studio-coverage-dark.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
       "view": "Coverage panel: the mean PDOP map of four GNSS constellations",
       "tab": "coverage",
@@ -246,7 +246,7 @@
     },
     {
       "file": "studio-leo-chain-dark.jpg",
-      "studio_url": "http://127.0.0.1:8872/?scenario=leo-pnt-end-to-end&tab=leo-chain",
+      "studio_url": "http://127.0.0.1:8893/studio/?scenario=leo-pnt-end-to-end&tab=leo-chain",
       "scenario": "leo-pnt-end-to-end",
       "view": "End-to-end chain panel: the low-Earth-orbit chain from signal design to precise point positioning",
       "tab": "leo-chain",

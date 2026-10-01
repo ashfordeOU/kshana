@@ -227,17 +227,17 @@
     "record": "studio/SHOTS.json",
     "files": {
       "studio-coverage-dark.jpg": "b3fa95f6ab60714fdf17636af688cf72c70e4972dc915fe806a430e58b648bf8",
-      "studio-coverage-light.jpg": "d5aaf6cfd8836b87de1a60a2e1cc9fd66202ae0e3229bdebff29124721831c1f",
-      "studio-dashboard-dark.jpg": "792cea65f889006787f33e7847d93ce48c9050730769479c261dc9cc9578cca6",
-      "studio-dashboard-light.jpg": "98cd7562f92a271436fd3ad6f0f7760f63c5b03404f76ed7471d112f03465715",
+      "studio-coverage-light.jpg": "2cb54d76db57fb36c3e390b99ec86e6d2041d8baf1b1ea96016d2c0a88a64645",
+      "studio-dashboard-dark.jpg": "594b0af61a8a1e8ebdc2b7d4771d52968cd678b7a6f67c1ec6282b57e3077ed8",
+      "studio-dashboard-light.jpg": "2ac7b0737b16be066e15785129c3203c150bdef318fbbc342e1e08a9c31b4789",
       "studio-lband-dark.jpg": "2dfb28a3df8acd2a33e392a90c422f66f9af65fe85a580883791e6a158db2f83",
-      "studio-lband-light.jpg": "166185f10975aaaf4b220827f8dbd2cb6da1deefabbdcf1ad1b1ac48a1ba5466",
+      "studio-lband-light.jpg": "db0b01aaa1277357a08204c2e001deb47f8ac0a7f7e7992d19daefeefe8239b2",
       "studio-leo-chain-dark.jpg": "203462048031d06d6e710405dacafc66fc63ebd68e0052f67512cc0da78b75c6",
-      "studio-leo-chain-light.jpg": "d19def7214380d10ad186742a8e159cc0302f2d58943d59021c5dad5de6ab3e8",
-      "studio-phone-steps-dark.jpg": "e556bcfbb590c8bdfbf84ef72b8c3dd5b7bdec21663b71038ff05ae546d6bbcc",
-      "studio-phone-steps-light.jpg": "ea9905d1b987b629028e728e1fca259ae2b69918befde8f1f5fc9443ff36807b",
-      "studio-start-dark.jpg": "13592edc3dbee152064294544fbd4cf71ab982fbfc326c811ff5d2d20464843d",
-      "studio-start-light.jpg": "cd76a864b67417e44f0156ec7219d0c1f4f1a5e3d32022e362542c5c81caff32"
+      "studio-leo-chain-light.jpg": "fa06dcbaced25a364517f31055126313cef86c6a3f89967566e885239279ae7b",
+      "studio-phone-steps-dark.jpg": "872fd8ab56990fdeebfd23125f626d31999382847d021d5b9c16e1d936140b45",
+      "studio-phone-steps-light.jpg": "d4f3b76a91c89e734fbcc2965415d60ecfdd0254901b6fd27e9c1c5e462188ba",
+      "studio-start-dark.jpg": "0e635bf83d414e871854ab1607e0bd1e7fd2ba68c1188a28d903cb84ba7d31d0",
+      "studio-start-light.jpg": "671024377e413cfd8f99068776810cb4925774e107efc311271a9f6829888e1a"
     }
   },
   "site_screenshots": {
@@ -245,8 +245,8 @@
     "composed_by": "tools/readme_shots.py",
     "record": "site/SHOTS.json",
     "files": {
-      "site-strip-dark.jpg": "7a83970a9677ae9663e8b6dcd5c013218f7173667b9891348cd201424cfa0f5f",
-      "site-strip-light.jpg": "21ea1d764fc2e6448c616808537440af32164206a141ac77d2bf07e9f5729d7e"
+      "site-strip-dark.jpg": "a5c0c061684d8fae1407f34be984400d9dda9fbb8151b99bf1b294907dd9ce03",
+      "site-strip-light.jpg": "4037c0125cc2dfd277a6473c7781a5404e97c3c4f80e60ad1233d7fbad8c37ef"
     }
   }
 }
