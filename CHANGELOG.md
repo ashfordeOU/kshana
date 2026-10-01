@@ -65,6 +65,12 @@ to 0.29.1 apart from the version stamp.
   table files join the copy-paste-detection exemptions for declarative catalogs in
   `sonar-project.properties`, which `tests/sonar_cpd_exclusions_are_justified.rs` checks.
 
+### Fixed
+
+- **The README's CI badge shows the result of pushes to main.** The badge counted runs of
+  every event on main, so it could read "failing" while every push run was green; it now
+  asks for push runs only (`event=push`).
+
 ## [0.29.1] - 2026-10-01
 
 A patch release on 0.29.0: the measured coverage figure, the project's name line on
