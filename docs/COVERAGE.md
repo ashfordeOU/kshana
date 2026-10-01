@@ -40,9 +40,9 @@ names any you miss.
 
 ## History
 
-The figure has been re-measured, not re-typed: 95.63 % on commit `b1d350d` (engine
-0.27.2 + unreleased, run 35934579709, 2026-09-24, 37,697 of 39,419 lines, published as
-~96 %), revised to 95.35 % on 0.29.0 (above), which rounds to ~95 %: the code grew by
+The figure has been re-measured, not re-typed: 95.63 % on commit `b1d350d`
+(engine 0.27.2 + unreleased, run 35934579709, 2026-09-24, 37,697 of 39,419 lines, published
+as ~96 %), revised to 95.35 % on 0.29.0 (above), which rounds to ~95 %: the code grew by
 19,278 measured lines and the new lines are covered slightly less than the old ones;
 95.85 % at v0.17.0 (commit `1daa012`,
 2026-06-14, published as ~96 %), and ~97 % in two earlier release notes

@@ -97,7 +97,7 @@ you are, and on a phone the steps become a step bar.
 </picture>
 
 <details>
-<summary>The start screen, and three result panels: the L-band waterfall, a constellation coverage map and the low-Earth-orbit chain</summary>
+<summary>The start screen, the Studio on a phone, and three result panels: the L-band waterfall, a constellation coverage map and the low-Earth-orbit chain</summary>
 
 <br>
 
@@ -106,6 +106,14 @@ you are, and on a phone the steps become a step bar.
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-start-light.jpg">
   <img src="docs/assets/readme/studio/studio-start-light.jpg" alt="Kshana Studio start screen, titled What do you want to do?: the five steps, a search box for scenarios, domains or fields (for example elevation mask), four good first runs (a jammer on the L-band waterfall, the coverage of four GNSS constellations, a jam, spoof and holdover mission, holding time when GNSS is lost) and tiles for each domain, from Jamming and interference to Mission analysis and space operations. The library on the left lists 139 scenarios in 16 domains." width="100%">
 </picture>
+
+<p align="center">
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-phone-steps-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/studio/studio-phone-steps-light.jpg">
+  <img src="docs/assets/readme/studio/studio-phone-steps-light.jpg" alt="Kshana Studio on a 390 px wide phone screen after a run of l-band-waterfall-jamming: the breadcrumb, the scenario title with its MODELLED label, Pin run, Compare and Share or export, the first key figures (tracking threshold 25 dB-Hz, noise floor -201.98 dBW/Hz), the panel tabs with Spectrum selected, the replay bar at t = 59 s and the top of the waterfall. Fixed to the bottom of the screen, the step bar: Choose, Set, Run and Results, with Results current." width="320">
+</picture>
+</p>
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/studio/studio-lband-dark.jpg">
@@ -128,6 +136,18 @@ you are, and on a phone the steps become a step bar.
 </details>
 
 The Studio's source and its build notes are in [`web/README.md`](web/README.md).
+
+### The site
+
+The rest of [kshana.dev](https://kshana.dev) is built from this repository's own files and
+engine runs: missions, capabilities, the evidence ledger, the published research and the
+editions.
+
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/site/site-strip-dark.jpg">
+  <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/site/site-strip-light.jpg">
+  <img src="docs/assets/readme/site/site-strip-light.jpg" alt="Three pages of kshana.dev side by side. The Home hero: the name line Kshana · क्षण · the precise instant above the headline Rehearse the minute GNSS goes dark, with the mission console of a real run of engine v0.29.1 (a globe and three live charts: clock time error, carrier-to-noise density and protection level). Evidence, Published research: the five arXiv papers built on the open engine, the newest with an engine figure. Editions, Kshana Pro, the same engine, amplified: Free runs one scenario, Pro answers the programme's question." width="100%">
+</picture>
 
 ## Capabilities
 
