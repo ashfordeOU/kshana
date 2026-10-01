@@ -83,10 +83,250 @@ pub const TOL_PL_M: f64 = 5e-2;
 /// The closed-form tolerance (m) on the Effective Monitor Threshold and sigma_acc.
 pub const TOL_CLOSED_FORM_M: f64 = 1e-3;
 
+use kshana::araim_reference::{add_v42_protection_levels_ecef, AddV42Ism, ReferenceConstants};
+use kshana::raim::{araim_dual_raim, DualFaultPriors, IntegrityBudget};
+use std::collections::BTreeMap;
+
+/// One geometry case of the fixture: user geodetic latitude/longitude (deg) and its satellites
+/// as `(constellation, PRN, Earth-fixed position)`.
+struct GeoCase {
+    lat_deg: f64,
+    lon_deg: f64,
+    sats: Vec<(usize, usize, [f64; 3])>,
+}
+
+fn load_geometry() -> BTreeMap<usize, GeoCase> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/geometry.csv")).expect("geometry");
+    let mut out: BTreeMap<usize, GeoCase> = BTreeMap::new();
+    for line in text.lines().skip(1) {
+        let f: Vec<&str> = line.split(',').collect();
+        let case: usize = f[0].parse().unwrap();
+        let e = out.entry(case).or_insert_with(|| GeoCase {
+            lat_deg: f[2].parse().unwrap(),
+            lon_deg: f[3].parse().unwrap(),
+            sats: Vec::new(),
+        });
+        e.sats.push((
+            f[5].parse().unwrap(),
+            f[6].parse().unwrap(),
+            [
+                f[7].parse().unwrap(),
+                f[8].parse().unwrap(),
+                f[9].parse().unwrap(),
+            ],
+        ));
+    }
+    out
+}
+
+/// MAAST's per-case outputs: `(n_gps, n_gal, vpl, hpl, emt, sig_acc, p_not_monitored)`.
+fn load_maast_levels() -> BTreeMap<usize, (usize, usize, [f64; 5])> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_araim_levels.csv"))
+        .expect("MAAST levels");
+    text.lines()
+        .skip(1)
+        .map(|l| {
+            let f: Vec<&str> = l.split(',').collect();
+            let v = |i: usize| f[i].parse::<f64>().unwrap();
+            (
+                f[0].parse().unwrap(),
+                (
+                    f[1].parse().unwrap(),
+                    f[2].parse().unwrap(),
+                    [v(3), v(4), v(5), v(6), v(7)],
+                ),
+            )
+        })
+        .collect()
+}
+
+/// MAAST's monitored subsets per case: `(excluded "c:prn" names sorted, prior)`.
+fn load_maast_subsets() -> BTreeMap<usize, Vec<(Vec<String>, f64)>> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_araim_subsets.csv"))
+        .expect("MAAST subsets");
+    let mut out: BTreeMap<usize, Vec<(Vec<String>, f64)>> = BTreeMap::new();
+    for l in text.lines().skip(1) {
+        let f: Vec<&str> = l.splitn(4, ',').collect();
+        let mut names: Vec<String> = if f[3].is_empty() {
+            vec![]
+        } else {
+            f[3].split('|').map(str::to_string).collect()
+        };
+        names.sort();
+        out.entry(f[0].parse().unwrap())
+            .or_default()
+            .push((names, f[2].parse().unwrap()));
+    }
+    out
+}
+
+fn isms() -> [AddV42Ism; 2] {
+    let gps = AddV42Ism {
+        sigma_ura_m: 1.0,
+        sigma_ure_m: 0.5,
+        b_nom_m: 0.75,
+        p_sat: 1e-5,
+        p_const: 1e-8,
+    };
+    [
+        gps,
+        AddV42Ism {
+            p_const: 1e-4,
+            ..gps
+        },
+    ]
+}
+
+fn user_ecef(c: &GeoCase) -> [f64; 3] {
+    geodetic_to_ecef(Geodetic {
+        lat_rad: c.lat_deg.to_radians(),
+        lon_rad: c.lon_deg.to_radians(),
+        alt_m: 0.0,
+    })
+}
+
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn araim_mhss_matches_stanford_maast_add_v4_2() {
-    unimplemented!("pre-registered; the comparison body lands with the fixture");
+    let geo = load_geometry();
+    let maast = load_maast_levels();
+    let subsets = load_maast_subsets();
+    assert_eq!(geo.len(), maast.len(), "every geometry case has a MAAST row");
+    let isms = isms();
+    let (mut worst_v, mut worst_h, mut worst_e, mut worst_a) = (0.0_f64, 0.0_f64, 0.0_f64, 0.0_f64);
+    let mut compared = 0usize;
+    for (case, g) in &geo {
+        let (n_gps, n_gal, m) = maast[case];
+        let sats: Vec<[f64; 3]> = g.sats.iter().map(|s| s.2).collect();
+        let cst: Vec<usize> = g.sats.iter().map(|s| s.0).collect();
+        let (r, used) = add_v42_protection_levels_ecef(
+            user_ecef(g),
+            &sats,
+            &cst,
+            &isms,
+            ReferenceConstants::LPV_200,
+            0.01,
+            5.0,
+        )
+        .unwrap_or_else(|e| panic!("case {case}: Kshana refused: {e}"));
+        // Precondition 1: the same satellites above the mask.
+        let k_gps = used.iter().filter(|&&i| g.sats[i].0 == 0).count();
+        assert_eq!(
+            (k_gps, used.len() - k_gps),
+            (n_gps, n_gal),
+            "case {case}: satellites above the mask differ"
+        );
+        // Precondition 2: the same monitored subsets (and priors).
+        let name = |i: usize| format!("{}:{}", g.sats[used[i]].0, g.sats[used[i]].1);
+        let mut mine: Vec<(Vec<String>, f64)> = r
+            .monitored
+            .iter()
+            .map(|s| {
+                let mut v: Vec<String> = s.excluded.iter().map(|&i| name(i)).collect();
+                v.sort();
+                (v, s.p_fault)
+            })
+            .collect();
+        let mut theirs = subsets[case].clone();
+        mine.sort_by(|a, b| a.0.cmp(&b.0));
+        theirs.sort_by(|a, b| a.0.cmp(&b.0));
+        assert_eq!(
+            mine.iter().map(|x| &x.0).collect::<Vec<_>>(),
+            theirs.iter().map(|x| &x.0).collect::<Vec<_>>(),
+            "case {case}: monitored subset lists differ"
+        );
+        for (a, b) in mine.iter().zip(&theirs) {
+            if !a.0.is_empty() {
+                assert!(
+                    (a.1 - b.1).abs() <= 1e-9 * b.1,
+                    "case {case}: prior of {:?}: Kshana {:e} MAAST {:e}",
+                    a.0,
+                    a.1,
+                    b.1
+                );
+            }
+        }
+        // The bars.
+        let dv = (r.vpl_m - m[0]).abs();
+        let dh = (r.hpl_m - m[1]).abs();
+        let de = (r.emt_m - m[2]).abs();
+        let da = (r.sigma_v_acc_m - m[3]).abs();
+        worst_v = worst_v.max(dv);
+        worst_h = worst_h.max(dh);
+        worst_e = worst_e.max(de);
+        worst_a = worst_a.max(da);
+        assert!(
+            dv <= TOL_PL_M && dh <= TOL_PL_M && de <= TOL_CLOSED_FORM_M && da <= TOL_CLOSED_FORM_M,
+            "case {case}: VPL {:.4}/{:.4}, HPL {:.4}/{:.4}, EMT {:.5}/{:.5}, sigma_acc {:.6}/{:.6} \
+             (Kshana/MAAST)",
+            r.vpl_m,
+            m[0],
+            r.hpl_m,
+            m[1],
+            r.emt_m,
+            m[2],
+            r.sigma_v_acc_m,
+            m[3]
+        );
+        compared += 1;
+    }
+    eprintln!(
+        "ARAIM vs MAAST ({compared} cases): worst |dVPL| {worst_v:.2e} m, |dHPL| {worst_h:.2e} m, \
+         |dEMT| {worst_e:.2e} m, |dsigma_acc| {worst_a:.2e} m"
+    );
+}
+
+/// The shipping uniform-sigma `araim_dual_raim` against the same MAAST cases. It takes one sigma
+/// (here sigma_URA), one P_const (1e-4) and no accuracy covariance, so it cannot be fed the
+/// pre-registered ISM; its gap is measured and pinned here, not scored against the bar.
+#[test]
+fn uniform_sigma_araim_dual_raim_gap_against_maast() {
+    let geo = load_geometry();
+    let maast = load_maast_levels();
+    let (mut worst_v, mut worst_h) = (0.0_f64, 0.0_f64);
+    let mut n = 0usize;
+    for (case, g) in &geo {
+        let (_, n_gal, m) = maast[case];
+        if n_gal == 0 {
+            continue;
+        }
+        let user = user_ecef(g);
+        let (mut sats, mut lab) = (Vec::new(), Vec::new());
+        for &(c, _, p) in &g.sats {
+            let el = elevation(
+                Geodetic {
+                    lat_rad: g.lat_deg.to_radians(),
+                    lon_rad: g.lon_deg.to_radians(),
+                    alt_m: 0.0,
+                },
+                p,
+            );
+            if el >= 5f64.to_radians() {
+                sats.push(p);
+                lab.push(c as u8);
+            }
+        }
+        let zero = vec![0.0; sats.len()];
+        let priors = DualFaultPriors {
+            p_sat: 1e-5,
+            p_const: 1e-4,
+            b_nom_m: 0.75,
+        };
+        let budget = IntegrityBudget {
+            p_hmi_vert: 9.8e-8,
+            p_hmi_horz: 2e-9,
+            p_fa: 3.9e-6,
+        };
+        if let Some(r) = araim_dual_raim(user, &sats, &lab, &zero, 1.0, priors, budget) {
+            worst_v = worst_v.max((r.vpl_m - m[0]).abs());
+            worst_h = worst_h.max((r.hpl_m - m[1]).abs());
+            n += 1;
+        }
+    }
+    eprintln!(
+        "araim_dual_raim (uniform sigma) vs MAAST on {n} dual cases: worst |dVPL| {worst_v:.3} m, \
+         |dHPL| {worst_h:.3} m"
+    );
+    assert!(n > 0);
 }
 
 // ── Fixture generator ────────────────────────────────────────────────────────────────────────
@@ -208,5 +448,4 @@ fn generate_geometry_fixture() {
     std::fs::write(format!("{FIXTURE_DIR}/geometry.csv"), out).expect("write geometry");
     // The user position the Kshana side uses is `geodetic_to_ecef` of the row's latitude and
     // longitude at height 0; MAAST forms its own from the same geodetic coordinates.
-    let _ = geodetic_to_ecef;
 }
