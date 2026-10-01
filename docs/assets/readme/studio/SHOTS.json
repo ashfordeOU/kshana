@@ -1,12 +1,12 @@
 {
   "tool": "tools/capture_studio_shots.mjs, then tools/readme_shots.py",
-  "note": "Real screenshots of Kshana Studio running in the browser engine (WebAssembly): two flow shots (the start screen, and the dashboard after a run), one phone-width shot with the bottom step bar, and three panel shots (the panel row plus the first visual card of the named panel). Nothing is drawn or edited.",
+  "note": "Real screenshots of Kshana Studio running in the browser engine (WebAssembly): the Simple view's opening screen, the Simple view on one scenario, and the Advanced view (the full dashboard) after a run. Nothing is drawn or edited.",
   "shots": [
     {
-      "file": "studio-start-light.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?start=1",
+      "file": "studio-home-light.jpg",
+      "studio_url": "http://127.0.0.1:8936/studio/",
       "scenario": null,
-      "view": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
+      "view": "Simple view, opening screen: four questions, a recorded result on the map, and every area of the engine with its evidence mix",
       "tab": null,
       "replay_frame": null,
       "theme": "light",
@@ -25,10 +25,10 @@
       "captured": "2026-10-01"
     },
     {
-      "file": "studio-dashboard-light.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
-      "scenario": null,
-      "view": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
+      "file": "studio-task-light.jpg",
+      "studio_url": "http://127.0.0.1:8936/studio/?scenario=integrity-raim",
+      "scenario": "integrity-raim",
+      "view": "Simple view on integrity-raim: the answer first in one plain sentence, its key figures, at most five settings, and the folded sections Advanced settings, How this is computed and For researchers",
       "tab": null,
       "replay_frame": null,
       "theme": "light",
@@ -41,104 +41,38 @@
         "x": 0,
         "y": 0,
         "width": 1440,
-        "height": 1060
+        "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
       "captured": "2026-10-01"
     },
     {
-      "file": "studio-phone-steps-light.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
-      "scenario": "l-band-waterfall-jamming",
-      "view": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures and panels, with the step bar (Choose, Set, Run, Results) fixed to the bottom of the screen",
-      "tab": null,
-      "replay_frame": null,
-      "theme": "light",
-      "viewport_css_px": {
-        "width": 390,
-        "height": 844
-      },
-      "device_scale_factor": 2,
-      "crop_css_px": {
-        "x": 0,
-        "y": 0,
-        "width": 390,
-        "height": 844
-      },
-      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
-    },
-    {
-      "file": "studio-lband-light.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
-      "scenario": "l-band-waterfall-jamming",
-      "view": "Spectrum panel: the L-band waterfall under jamming",
-      "tab": "spectrum",
-      "replay_frame": 31,
-      "theme": "light",
-      "viewport_css_px": {
-        "width": 1920,
-        "height": 1400
-      },
-      "device_scale_factor": 2,
-      "crop_css_px": {
-        "x": 270,
-        "y": 448,
-        "width": 1623,
-        "height": 678
-      },
-      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
-    },
-    {
-      "file": "studio-coverage-light.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "file": "studio-advanced-light.jpg",
+      "studio_url": "http://127.0.0.1:8936/studio/advanced/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
-      "view": "Coverage panel: the mean PDOP map of four GNSS constellations",
+      "view": "Advanced view (the full dashboard) after a run of constellation-multi-gnss-coverage: the scenario library, the five steps, key figures with PASS chips, the panel row and the coverage map",
       "tab": "coverage",
-      "replay_frame": 12,
-      "theme": "light",
-      "viewport_css_px": {
-        "width": 1920,
-        "height": 1400
-      },
-      "device_scale_factor": 2,
-      "crop_css_px": {
-        "x": 270,
-        "y": 448,
-        "width": 1623,
-        "height": 884
-      },
-      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
-    },
-    {
-      "file": "studio-leo-chain-light.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=leo-pnt-end-to-end&tab=leo-chain",
-      "scenario": "leo-pnt-end-to-end",
-      "view": "End-to-end chain panel: the low-Earth-orbit chain from signal design to precise point positioning",
-      "tab": "leo-chain",
       "replay_frame": null,
       "theme": "light",
       "viewport_css_px": {
-        "width": 1920,
-        "height": 1400
+        "width": 1440,
+        "height": 1000
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 270,
-        "y": 392,
-        "width": 1640,
-        "height": 460
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
       "captured": "2026-10-01"
     },
     {
-      "file": "studio-start-dark.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?start=1",
+      "file": "studio-home-dark.jpg",
+      "studio_url": "http://127.0.0.1:8936/studio/",
       "scenario": null,
-      "view": "Start screen: the five steps, search across scenarios, domains and fields, good first runs and domain tiles",
+      "view": "Simple view, opening screen: four questions, a recorded result on the map, and every area of the engine with its evidence mix",
       "tab": null,
       "replay_frame": null,
       "theme": "dark",
@@ -157,10 +91,10 @@
       "captured": "2026-10-01"
     },
     {
-      "file": "studio-dashboard-dark.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
-      "scenario": null,
-      "view": "Dashboard after a run of l-band-waterfall-jamming: breadcrumb, the five numbered steps, key figures with PASS and FAIL chips, the panel row",
+      "file": "studio-task-dark.jpg",
+      "studio_url": "http://127.0.0.1:8936/studio/?scenario=integrity-raim",
+      "scenario": "integrity-raim",
+      "view": "Simple view on integrity-raim: the answer first in one plain sentence, its key figures, at most five settings, and the folded sections Advanced settings, How this is computed and For researchers",
       "tab": null,
       "replay_frame": null,
       "theme": "dark",
@@ -173,95 +107,29 @@
         "x": 0,
         "y": 0,
         "width": 1440,
-        "height": 1060
+        "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
       "captured": "2026-10-01"
     },
     {
-      "file": "studio-phone-steps-dark.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
-      "scenario": "l-band-waterfall-jamming",
-      "view": "Phone width (390 px) after a run of l-band-waterfall-jamming: the key figures and panels, with the step bar (Choose, Set, Run, Results) fixed to the bottom of the screen",
-      "tab": null,
-      "replay_frame": null,
-      "theme": "dark",
-      "viewport_css_px": {
-        "width": 390,
-        "height": 844
-      },
-      "device_scale_factor": 2,
-      "crop_css_px": {
-        "x": 0,
-        "y": 0,
-        "width": 390,
-        "height": 844
-      },
-      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
-    },
-    {
-      "file": "studio-lband-dark.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=l-band-waterfall-jamming&tab=spectrum",
-      "scenario": "l-band-waterfall-jamming",
-      "view": "Spectrum panel: the L-band waterfall under jamming",
-      "tab": "spectrum",
-      "replay_frame": 31,
-      "theme": "dark",
-      "viewport_css_px": {
-        "width": 1920,
-        "height": 1400
-      },
-      "device_scale_factor": 2,
-      "crop_css_px": {
-        "x": 270,
-        "y": 448,
-        "width": 1623,
-        "height": 678
-      },
-      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
-    },
-    {
-      "file": "studio-coverage-dark.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "file": "studio-advanced-dark.jpg",
+      "studio_url": "http://127.0.0.1:8936/studio/advanced/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
-      "view": "Coverage panel: the mean PDOP map of four GNSS constellations",
+      "view": "Advanced view (the full dashboard) after a run of constellation-multi-gnss-coverage: the scenario library, the five steps, key figures with PASS chips, the panel row and the coverage map",
       "tab": "coverage",
-      "replay_frame": 12,
-      "theme": "dark",
-      "viewport_css_px": {
-        "width": 1920,
-        "height": 1400
-      },
-      "device_scale_factor": 2,
-      "crop_css_px": {
-        "x": 270,
-        "y": 448,
-        "width": 1623,
-        "height": 884
-      },
-      "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
-    },
-    {
-      "file": "studio-leo-chain-dark.jpg",
-      "studio_url": "http://127.0.0.1:8893/studio/?scenario=leo-pnt-end-to-end&tab=leo-chain",
-      "scenario": "leo-pnt-end-to-end",
-      "view": "End-to-end chain panel: the low-Earth-orbit chain from signal design to precise point positioning",
-      "tab": "leo-chain",
       "replay_frame": null,
       "theme": "dark",
       "viewport_css_px": {
-        "width": 1920,
-        "height": 1400
+        "width": 1440,
+        "height": 1000
       },
       "device_scale_factor": 2,
       "crop_css_px": {
-        "x": 270,
-        "y": 392,
-        "width": 1640,
-        "height": 460
+        "x": 0,
+        "y": 0,
+        "width": 1440,
+        "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
       "captured": "2026-10-01"

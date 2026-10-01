@@ -5,7 +5,10 @@
 `editions.html`), the documentation under `docs/`, and Kshana Studio under `studio/`
 (served at <https://kshana.dev/studio/>),
 the app that runs the engine in the browser as WebAssembly (WASM) with no server-side
-computation and nothing uploaded.
+computation and nothing uploaded. The Studio has two views of one engine: the Simple view
+(`studio/index.html`, the answer first in plain words) and the Advanced view
+(`studio/advanced/index.html`, the full dashboard), which shares the Simple view's
+engine, worker, modules and data through `<base href="../">`.
 
 ## Where the files come from
 
@@ -73,7 +76,8 @@ for f in web/studio/lib/*.test.mjs; do node "$f"; done   # the Studio's modules
 ```
 
 Each module in `studio/lib/` is pure logic with a matching `*.test.mjs`; the Studio's
-DOM (Document Object Model, the page's element tree) driver is `studio/app.js`.
+DOM (Document Object Model, the page's element tree) drivers are `studio/app.js` (the
+Simple view) and `studio/advanced.js` (the Advanced view).
 Continuous integration runs every one of these as its own step and fails if a test file
 under `web/` has no step.
 
