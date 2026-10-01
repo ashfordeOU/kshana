@@ -103,6 +103,48 @@
 //!   here, and adding those terms would be a new comparison.
 //! * Engine effect, shown by mutation: dropping polar motion (x_p = y_p = 0 inside
 //!   `lunar_vlbi::station_inertial_position_itrs`) raises the RMS to 12.52 m (APOLLO 14.66 m).
+//!
+//! ### Third amendment (2026-10-01, round 2 continued; written before the fixture is regenerated,
+//! before the engine or the harness changes and before any re-run)
+//!
+//! Unchanged: the 192 normal points of the 2024 slice, the reflector catalogue, the DE440 PA
+//! orientation series, the ITRF2020 positions and velocities of Grasse 7845 and Matera 7941,
+//! Bulletin A UT1-UTC and polar motion, Mendes-Pavlis/FCULa troposphere, and the bar: RMS of
+//! (measured minus predicted one-way range) at most **10 m**.
+//! Changed:
+//! 1. Light-time model: the relativistic formulation the International Earth Rotation and
+//!    Reference Systems Service (IERS) Conventions 2010 (Technical Note 36) Section 11.2 prescribes
+//!    for lunar laser ranging, in the barycentric celestial reference system (BCRS) with
+//!    Barycentric Dynamical Time (TDB): (a) Earth station and lunar reflector body-centred
+//!    vectors transformed with Eq. 11.19, `r_TDB = r_TT (1 - U/c^2 - L_C) - (V . r_TT / 2c^2) V`,
+//!    with `U` the potential at the body centre from every other DE440 body (Sun, Moon or Earth,
+//!    and the planetary-system barycentres; GM from `gm_de440.tpc`), `V` that body's barycentric
+//!    velocity and `L_C` from IERS Table 1.1; (b) station at transmit t0 and receive t2 on the
+//!    barycentric Earth at those epochs, the reflector on the barycentric Moon at t0 + TOF/2;
+//!    (c) Shapiro delay of Eq. 11.17 from the Sun, the Earth and the Moon; (d) the measured
+//!    round-trip interval, a Terrestrial Time (TT) interval, converted to TDB with the SPICE time
+//!    conversion. The barycentric states and potentials come from DE440 through SPICE in new
+//!    `reference.csv` columns; every existing column must regenerate byte for byte.
+//!    Reason: the first two comparisons computed the geometry from the DE440 geocentric Moon (a
+//!    TDB-compatible barycentric difference) with geocentric TT-compatible stations and no solar
+//!    Shapiro term, a mixture IERS Section 11.2 says not to use; the round 2 residual is a common
+//!    +10.9 m offset of the size those omissions predict.
+//! 2. APOLLO 7045 station source: the operator's published geocentric coordinates (Apache Point
+//!    Observatory APOLLO normal-point page, https://newapo.apo.nmsu.edu/mainpage/apollo/normalpoints/,
+//!    retrieved 2026-10-01, page SHA-256 a097fed4...7a49): radius 6374.69213 km, geocentric
+//!    latitude 32.6054889 deg, longitude 254.1795778 deg, stated "approximately", no velocity.
+//!    It replaces the ILRS approximate geodetic position (1.80 m away). No laser-ranging
+//!    analysis centre solution for APOLLO was found without a login (ITRF2020, SLRF2020, the
+//!    ILRS site log apol_20250116.log, the JPL DE421/DE430/DE440 reports and Pavlov et al. 2016
+//!    were checked; the last fits it but prints no value).
+//! 3. Promotion now requires BOTH (a) the RMS over all 192 points at most 10 m and (b) the RMS
+//!    over the 160 points of the two ITRF2020 stations at most 10 m on their own, so the verdict
+//!    never rests on APOLLO's operator-published position alone; this replaces the earlier
+//!    "all three stations from ITRF2020 or SLRF2020" condition. APOLLO alone is reported.
+//! The 2015 slice stays secondary. Disclosure: before writing this, the round 2 residuals were
+//! known, and an order-of-magnitude estimate was made from the size of the terms (solar Shapiro
+//! about 7.6 m one way; the BCRS motion term up to about 1.9 m); no run of the new model was made.
+//! New strict test: `reflector_ranges_bcrs_iers2010_relativistic`.
 
 use kshana::cio::gcrs_to_itrs_matrix;
 use kshana::frames::Geodetic;
@@ -519,6 +561,15 @@ fn round2_finding_is_a_common_offset_of_about_eleven_metres() {
             scatter(*v)
         );
     }
+}
+
+/// Pre-registered (third amendment above): the IERS Conventions 2010 Section 11.2 barycentric
+/// light-time model at the unchanged 10 m bar, on all 192 points and on the two ITRF2020
+/// stations alone.
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn reflector_ranges_bcrs_iers2010_relativistic() {
+    unimplemented!("pre-registered: fixture columns and harness not yet written");
 }
 
 #[test]
