@@ -12,3 +12,6 @@
   0 dB on the plotted axis, with the calibration diagnostics the procedure requires.
 - Licence of this directory: the script is AGPL-3.0-only like the repository; the JSON holds
   measured numbers (facts), not reproduced figure content.
+- Retrieved and read: 2026-10-01. `ho_xu_2004_readings.json` SHA-256 f60f3a2d77c1667721253fe79ed44acd9dce5069bdd2b99d8d38a510b0dd924e. Procedure amendments
+  made after the first runs and before any Kshana value was computed are recorded in the
+  script header (frame-line rule, tick rule, line-search margin).
