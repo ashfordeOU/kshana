@@ -58,6 +58,12 @@
 //!   of noise cells, spread over a 100 kHz search, passes only with probability of order 1e-4.
 //! - P3: at least 90 % of the acquisitions predicted visible.
 //!
+//! DEVIATION, recorded before the comparison was run and before any surface sample, header or
+//! prediction was looked at: the `.sdrx` of OP40 names `IQS_L1_20250304_070323_400MS_S_OP40_0.bin`,
+//! a file the dataset does not contain (it ships `..._300MS_S_OP40_0.bin`; seen in a directory
+//! listing when the prediction script failed to open the named file). The batch is excluded by
+//! the registration's own rule for metadata that does not match its file, not mapped by guess.
+//!
 //! If P1 to P3 hold, the row "Acquisition on real lunar-surface IQ" is promotable on this test.
 
 use kshana::acquisition::{pcps_acquire, refine, refine_doppler_coherent, PcpsConfig};
@@ -120,7 +126,14 @@ fn acquisitions(dir: &std::path::Path) -> Acquired {
     for batch in BATCHES {
         let p = dir.join(batch);
         let layout = parse_sdrx(&std::fs::read_to_string(&p).expect("sdrx")).expect("layout");
-        let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).expect("samples");
+        let Ok(bytes) = std::fs::read(p.parent().unwrap().join(&layout.url)) else {
+            eprintln!(
+                "EXCLUDED {batch}: its metadata names {}, which the dataset does not contain",
+                layout.url
+            );
+            excluded.push(batch.to_string());
+            continue;
+        };
         let header = IqsHeader::parse(&bytes).expect("IQS header");
         let d = header.disagreements(&layout, bytes.len());
         if !d.is_empty() {
