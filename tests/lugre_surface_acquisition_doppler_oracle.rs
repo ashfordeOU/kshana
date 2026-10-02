@@ -110,8 +110,11 @@ fn predictions() -> BTreeMap<(String, u8), (f64, bool)> {
         .collect()
 }
 
+/// Acquisitions per batch, `(prn, Doppler Hz)`, and the excluded batches.
+type Acquired = (BTreeMap<String, Vec<(u8, f64)>>, Vec<String>);
+
 /// Kshana's acquisitions per usable batch, `(prn, Doppler Hz)`, and the excluded batches.
-fn acquisitions(dir: &std::path::Path) -> (BTreeMap<String, Vec<(u8, f64)>>, Vec<String>) {
+fn acquisitions(dir: &std::path::Path) -> Acquired {
     let mut out = BTreeMap::new();
     let mut excluded = Vec::new();
     for batch in BATCHES {
