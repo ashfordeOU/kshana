@@ -53,6 +53,36 @@
 //! Fixture: `tests/fixtures/space_weather_density_accelerometer_oracle/windows.csv`, built by
 //! `make_fixture.py` there from the files above (only derived window averages and the decimated
 //! altitudes and indices are committed; sources and SHA-256 in NOTICE.md).
+//!
+//! First run (2026-10-02, commit after 20eed695; the result was seen before the amendment below
+//! was written): FAIL. CHAMP 2001 (max) 521 windows, 514 inside, median ratio 0.795, range
+//! 0.403-1.516; GRACE-A 2002 (max) 120 windows, 115 inside, median 0.628, range 0.461-0.860;
+//! GRACE-FO 1 2024 (max) 547 windows, 546 inside, median 0.721, range 0.472-1.359; GRACE-A 2008
+//! (min) 544 windows, 291 inside, median 1.952, range 0.660-3.696; GRACE-FO 1 2019 (min) has no
+//! qualifying window (its altitude is about 506 km, above the 500 km band). The calibrated
+//! single-coefficient factor over the static profile is about 2x too dense at solar minimum.
+//!
+//! Amendment 1 (written 2026-10-02 after the first run above, before the engine change below was
+//! written and before it was compared with any density file; tolerance, campaigns, windows,
+//! indices and lags unchanged). Engine change: the density becomes the Jacchia 1971 model the
+//! engine's exospheric temperature already comes from (Jacchia, "Revised static models of the
+//! thermosphere and exosphere with empirical temperature profiles", SAO Special Report 332,
+//! 1971), implemented from the report's equations (1)-(25) with no parameter fitted to any
+//! measurement: the static diffusion profiles from the 90 km boundary (equations 1-13), the
+//! diurnal temperature distribution (15)-(17) from the local solar time and the Sun's declination,
+//! the geomagnetic increment (18), the semiannual density variation (21)-(23), the
+//! seasonal-latitudinal variation of the lower thermosphere (24) and of helium (25). The
+//! implementation is first checked against the report's own printed tables (an engine unit test,
+//! tolerance fixed now: every Table 7 log10 density used within 0.01 and every Table 1 diurnal
+//! ratio used within 2 in its printed units of 1/1000). The comparison here then evaluates
+//! `space_weather::jacchia71_density(alt_m, lat_deg, lst_h, mjd_utc, &SpaceWeather)` at each
+//! decimated point, so the fixture gains each point's geodetic latitude, local solar time (the
+//! product's `local_solar_time`) and UTC Modified Julian Date; the fixture file is
+//! `windows_j71.csv` with points `alt_m:f107:f107a:kp:lat_deg:lst_h:mjd`. The original
+//! position-free function `space_weather_density` (re-pointed at the Jacchia 1971 profile at the
+//! diurnal-mean temperature, equation 26) is still scored by the original test, unchanged.
+//! Discrimination, pre-registered: forcing the J71 profile's exospheric temperature to a constant
+//! 1000 K (no activity dependence) must turn the amended test red.
 
 use kshana::space_weather::{space_weather_density, SpaceWeather};
 use std::path::PathBuf;
@@ -159,7 +189,7 @@ fn stats(windows: &[Window]) -> Vec<CampaignStat> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: FAIL, solar minimum (GRACE-A 2008) median ratio 1.95, 253 of 544 windows outside a factor 2 (up to 3.70); see the header"]
 fn activity_corrected_density_within_factor_two() {
     let Some(windows) = load() else {
         eprintln!("SKIP: fixture windows.csv absent (run make_fixture.py)");
@@ -179,6 +209,102 @@ fn activity_corrected_density_within_factor_two() {
         have_min |= s.phase == "min";
         have_max |= s.phase == "max";
         pass &= s.inside == s.n;
+    }
+    assert!(have_min && have_max, "need a counted solar-minimum and solar-maximum campaign");
+    assert!(pass, "some orbit-averaged densities are outside a factor 2 of the measurement");
+}
+
+fn fixture_j71() -> PathBuf {
+    PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/fixtures/space_weather_density_accelerometer_oracle/windows_j71.csv")
+}
+
+/// One orbit window of the amended comparison: the measured orbit average and the decimated
+/// points (alt_m, f107, f107a, kp, lat_deg, lst_h, mjd).
+struct WindowJ71 {
+    campaign: String,
+    phase: String,
+    start: String,
+    measured: f64,
+    points: Vec<[f64; 7]>,
+}
+
+fn load_j71() -> Option<Vec<WindowJ71>> {
+    let text = std::fs::read_to_string(fixture_j71()).ok()?;
+    let mut out = Vec::new();
+    for line in text.lines() {
+        if line.starts_with('#') || line.starts_with("campaign") || line.trim().is_empty() {
+            continue;
+        }
+        let f: Vec<&str> = line.split(',').collect();
+        assert_eq!(f.len(), 7, "malformed window line: {line}");
+        let points = f[6]
+            .split(';')
+            .map(|p| {
+                let v: Vec<f64> = p.split(':').map(|x| x.parse().expect("number")).collect();
+                assert_eq!(v.len(), 7, "malformed point {p}");
+                [v[0], v[1], v[2], v[3], v[4], v[5], v[6]]
+            })
+            .collect();
+        out.push(WindowJ71 {
+            campaign: f[0].to_string(),
+            phase: f[1].to_string(),
+            start: f[2].to_string(),
+            measured: f[5].parse().expect("measured"),
+            points,
+        });
+    }
+    Some(out)
+}
+
+fn engine_mean_j71(w: &WindowJ71) -> f64 {
+    let s: f64 = w
+        .points
+        .iter()
+        .map(|p| {
+            let sw = SpaceWeather { f107: p[1], f107a: p[2], kp: p[3] };
+            kshana::space_weather::jacchia71_density(p[0], p[4], p[5], p[6], &sw)
+        })
+        .sum();
+    s / w.points.len() as f64
+}
+
+#[test]
+#[ignore = "pre-registered (amendment 1); not yet run"]
+fn jacchia71_density_within_factor_two() {
+    let Some(windows) = load_j71() else {
+        eprintln!("SKIP: fixture windows_j71.csv absent (run make_fixture.py --j71)");
+        return;
+    };
+    let mut names: Vec<(String, String)> = Vec::new();
+    for w in &windows {
+        if !names.iter().any(|(c, _)| *c == w.campaign) {
+            names.push((w.campaign.clone(), w.phase.clone()));
+        }
+    }
+    let mut pass = true;
+    let (mut have_min, mut have_max) = (false, false);
+    for (c, phase) in names {
+        let mut r: Vec<(f64, String)> = windows
+            .iter()
+            .filter(|w| w.campaign == c && !w.points.is_empty())
+            .map(|w| (engine_mean_j71(w) / w.measured, w.start.clone()))
+            .collect();
+        r.sort_by(|a, b| a.0.partial_cmp(&b.0).expect("finite"));
+        let n = r.len();
+        let inside = r.iter().filter(|x| x.0 >= RATIO_LO && x.0 <= RATIO_HI).count();
+        if n > 0 {
+            eprintln!(
+                "{c} ({phase}): {n} windows, {inside} inside [0.5, 2], median ratio {:.3}, lowest {:.3} at {}, highest {:.3} at {}",
+                r[n / 2].0, r[0].0, r[0].1, r[n - 1].0, r[n - 1].1
+            );
+        }
+        if n < MIN_WINDOWS {
+            continue;
+        }
+        have_min |= phase == "min";
+        have_max |= phase == "max";
+        pass &= inside == n;
     }
     assert!(have_min && have_max, "need a counted solar-minimum and solar-maximum campaign");
     assert!(pass, "some orbit-averaged densities are outside a factor 2 of the measurement");
