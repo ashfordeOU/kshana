@@ -151,7 +151,7 @@ where
 {
     let n = x0.len();
     let m = z.len();
-    if weights.len() != m || n == 0 || m < n || weights.iter().any(|w| !(*w >= 0.0)) {
+    if weights.len() != m || n == 0 || m < n || weights.iter().any(|w| w.is_nan() || *w < 0.0) {
         return None;
     }
     let sw: Vec<f64> = weights.iter().map(|w| w.sqrt()).collect();

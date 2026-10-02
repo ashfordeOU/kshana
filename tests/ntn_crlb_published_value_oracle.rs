@@ -33,6 +33,7 @@
 //!   C/N0, T)` (added with this pre-registration; the existing complex-tone bound
 //!   `doppler_crb_sigma_hz` is its constant-envelope case, a unit test) with `(C/N0) T = γ`,
 //!   `T = 1 s`, `γ = 830` (and 957 with the boost, the PSS REs then weighted 2 in both spectra).
+//!
 //! Tolerances (half a unit of the printed last digit): `W_rms` within 0.005 MHz of 1.96 MHz;
 //! `σ_t` within 0.5 µs of 39 µs; `σ_f` within 0.5 Hz of 101 Hz and of 87 Hz (boost); `σ_ρ`
 //! within 0.005 m of 0.60 m and of 0.58 m (boost).
@@ -174,7 +175,10 @@ fn ssb_bounds_reproduce_the_published_values() {
         ok &= (sf - sf_want).abs() <= 0.5;
         ok &= (sr - sr_want).abs() <= 0.005;
     }
-    assert!(ok, "a published SSB bound is not reproduced within its printed digits");
+    assert!(
+        ok,
+        "a published SSB bound is not reproduced within its printed digits"
+    );
 }
 
 fn scenario() -> NtnScenario {
@@ -210,7 +214,13 @@ fn geometry_text() -> String {
         for p in samples {
             s += &format!(
                 "P {:.17e} {:.17e} {:.17e} {:.17e} {:.17e} {:.17e} {:.17e}\n",
-                p.t_s, p.sat_pos[0], p.sat_pos[1], p.sat_pos[2], p.sat_vel[0], p.sat_vel[1], p.sat_vel[2]
+                p.t_s,
+                p.sat_pos[0],
+                p.sat_pos[1],
+                p.sat_pos[2],
+                p.sat_vel[0],
+                p.sat_vel[1],
+                p.sat_vel[2]
             );
         }
     }
@@ -228,7 +238,10 @@ fn write_geometry_fixture_on_request() {
 }
 
 fn numbers(line: &str) -> Vec<f64> {
-    line.split_whitespace().skip(1).map(|x| x.parse().expect("number")).collect()
+    line.split_whitespace()
+        .skip(1)
+        .map(|x| x.parse().expect("number"))
+        .collect()
 }
 
 #[test]
@@ -251,7 +264,10 @@ fn ntn_fix_covariances_match_numpy() {
             continue;
         }
         for (p, q) in numbers(x).iter().zip(numbers(y)) {
-            assert!((p - q).abs() <= 1e-9 * p.abs().max(1.0), "geometry moved: {x} vs {y}");
+            assert!(
+                (p - q).abs() <= 1e-9 * p.abs().max(1.0),
+                "geometry moved: {x} vs {y}"
+            );
         }
     }
     let r = scenario().compute().expect("report");
@@ -272,14 +288,20 @@ fn ntn_fix_covariances_match_numpy() {
                 let got = r.doppler_pass.as_ref().expect("doppler pass").sigma_enu_m;
                 for c in 0..3 {
                     let rel = (got[c] - want[c]).abs() / want[c];
-                    eprintln!("Doppler sigma[{c}] engine {:.9} m numpy {:.9} m (rel {rel:.2e})", got[c], want[c]);
+                    eprintln!(
+                        "Doppler sigma[{c}] engine {:.9} m numpy {:.9} m (rel {rel:.2e})",
+                        got[c], want[c]
+                    );
                     ok &= rel <= 1e-3;
                 }
             }
             _ => {}
         }
     }
-    assert!(ok, "a formal sigma differs from numpy beyond the pre-registered tolerance");
+    assert!(
+        ok,
+        "a formal sigma differs from numpy beyond the pre-registered tolerance"
+    );
 }
 
 // Part C (kind P1), pre-registered 2026-10-02 after Parts A and B had been run, before this

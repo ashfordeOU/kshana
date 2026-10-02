@@ -187,11 +187,19 @@ fn dop_from_cofactor(q: &Mat, user: Vec3) -> Option<Dop> {
 /// (ECEF, m): the position block of `(HᵀWH)⁻¹` with weights `1/σ²`, projected on the local
 /// east, north and up axes. Evaluated at the true position it is the Cramér-Rao bound of the
 /// fix; `None` when the geometry cannot resolve the unknowns.
-pub fn formal_sigma_enu(user: Vec3, obs: &[PseudorangeObs], clocks: &[SystemClock]) -> Option<[f64; 3]> {
+pub fn formal_sigma_enu(
+    user: Vec3,
+    obs: &[PseudorangeObs],
+    clocks: &[SystemClock],
+) -> Option<[f64; 3]> {
     let systems: Vec<usize> = obs.iter().map(|o| o.system).collect();
     let (cols, own) = clock_columns(&systems, clocks);
     let n_clock = 1 + own.len();
-    if obs.len() < 3 + n_clock || obs.iter().any(|o| !(o.sigma_m.is_finite() && o.sigma_m > 0.0)) {
+    if obs.len() < 3 + n_clock
+        || obs
+            .iter()
+            .any(|o| !(o.sigma_m.is_finite() && o.sigma_m > 0.0))
+    {
         return None;
     }
     let sats: Vec<Vec3> = obs.iter().map(|o| o.sat_pos).collect();
