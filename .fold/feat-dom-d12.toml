@@ -15,6 +15,14 @@ owned_paths = [
   "tests/lunar_frame_campaign_rank_mpmath_oracle.rs",
   "tests/fixtures/lunar_frame_campaign_rank_mpmath_oracle/",
   "tests/lunar_frame_campaign_mpmath_oracle.rs",       # chord comparator and its disclosure (bars unchanged)
+  # opt-in square-root paths (rows file, section D); defaults unchanged
+  "src/fim.rs",                                        # crlb_srif
+  "src/batch_ls.rs",                                   # gauss_newton_srif
+  "src/orbit_determination.rs",                        # determine_orbit_batch_srif
+  "src/lunar_combination.rs",                          # formal_covariance_srif
+  "src/precise_od.rs",                                 # fit_srif (fit now delegates to a shared fit_with)
+  "src/cislunar_srif.rs",                              # srif_cross_validation_sqrt
+  "tests/precise_od_srif.rs",
   ".fold/feat-dom-d12.toml",
   ".fold/feat-dom-d12-rows.md",
   "changelog.d/feat-dom-d12.md",
@@ -26,12 +34,11 @@ text_edits = [
   "Lunar frame datum covariance with the stations estimated, against 50-digit extended precision (A1 narrowed claim, A3 control weakest-direction figure)",
   "Lunar frame datum from an observing campaign (A2: record founder decision, option A; status unchanged)",
 ]
-not_done = [
-  "srif opt-in paths in batch_ls, orbit_determination, cislunar_srif, fim, lunar_datum, lunar_combination, precise_od",
-]
+opt_in_paths_no_row = ["fim", "batch_ls", "orbit_determination", "lunar_combination", "precise_od", "cislunar_srif"]
+no_solver = ["lunar_datum (builds rows only; nothing to replace)"]
 
 [tests]
-filter = "cargo test --test lunar_frame_campaign_srif_mpmath_oracle --test lunar_frame_campaign_rank_mpmath_oracle --test lunar_frame_campaign_mpmath_oracle && cargo test --lib -- linalg_sr lunar_frame_campaign"
+filter = "cargo test --test lunar_frame_campaign_srif_mpmath_oracle --test lunar_frame_campaign_rank_mpmath_oracle --test lunar_frame_campaign_mpmath_oracle --test precise_od_srif && cargo test --lib -- linalg_sr lunar_frame_campaign fim batch_ls orbit_determination lunar_combination cislunar_srif"
 strict = [
   "srif_datum_matches_mpmath_extended_precision",
   "rank_decisions_match_mpmath_extended_precision",
@@ -56,5 +63,6 @@ lib_rs = "pub mod linalg_sr; (one line, made on this branch)"
 api_rs = "none made; see integrator_edits"
 
 [depends_on]
-packages = ["D4 (only for the not-done lunar_datum and lunar_combination paths)", "D7 (Dekker helpers may move to portable_math after it folds)"]
+packages = ["D7 (Dekker helpers may move to portable_math after it folds)"]
+d4_note = "D4 touches src/lunar_vlbi_fim.rs only; no file here overlaps it"
 note = "Pre-registration commits pushed before each run: b84ce19b (rank check), b41908c9 (srif)."
