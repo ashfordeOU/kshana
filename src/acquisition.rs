@@ -562,6 +562,73 @@ pub fn refine(
     (fd, tau)
 }
 
+/// Phase-coherent Doppler refinement: the prompt correlations of `periods` code periods at
+/// `doppler_hz` and `delay_samples` are squared, which removes the ±1 navigation data bits and
+/// doubles the residual carrier frequency, and the squared series is transformed by an FFT
+/// zero-padded to 8192 points; the peak, interpolated by a parabola through the log magnitudes
+/// of its two neighbours, is twice the residual. Returns the refined Doppler (Hz). The residual
+/// must lie within ±250 Hz (the squared series is sampled at 1 kHz); that is half the 500 Hz
+/// acquisition bin. Unlike [`refine`], whose one-millisecond energy is nearly flat over ±50 Hz,
+/// this resolves the carrier over the whole window.
+pub fn refine_doppler_coherent(
+    samples: &[Cf64],
+    code: &CaCode,
+    fs_hz: f64,
+    if_hz: f64,
+    doppler_hz: f64,
+    delay_samples: f64,
+    periods: usize,
+) -> Option<f64> {
+    let p = prompt_series(
+        samples,
+        code,
+        fs_hz,
+        if_hz,
+        doppler_hz,
+        delay_samples,
+        periods,
+    );
+    if p.len() < 8 {
+        return None;
+    }
+    const N: usize = 8192;
+    let mut sq = vec![Cf64::default(); N];
+    for (k, v) in p.iter().enumerate().take(N) {
+        sq[k] = Cf64::new(v.re * v.re - v.im * v.im, 2.0 * v.re * v.im);
+    }
+    let spec = fft_forward(&sq);
+    let mag: Vec<f64> = spec.iter().map(|c| c.re * c.re + c.im * c.im).collect();
+    let (kmax, _) = mag
+        .iter()
+        .enumerate()
+        .fold((0usize, f64::NEG_INFINITY), |b, (k, &m)| {
+            if m > b.1 {
+                (k, m)
+            } else {
+                b
+            }
+        });
+    let at = |k: isize| {
+        mag[k.rem_euclid(N as isize) as usize]
+            .max(f64::MIN_POSITIVE)
+            .ln()
+    };
+    let (a, b, c) = (
+        at(kmax as isize - 1),
+        at(kmax as isize),
+        at(kmax as isize + 1),
+    );
+    let den = a - 2.0 * b + c;
+    let frac = if den < 0.0 { 0.5 * (a - c) / den } else { 0.0 };
+    // Bin k of N at a 1 kHz rate is k·1000/N Hz; bins above N/2 are negative frequencies.
+    let mut bin = kmax as f64 + frac;
+    if bin > N as f64 / 2.0 {
+        bin -= N as f64;
+    }
+    let two_delta = bin * 1000.0 / N as f64;
+    Some(doppler_hz + two_delta / 2.0)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -824,6 +891,25 @@ mod tests {
                 "tau {tau}"
             );
         }
+    }
+
+    #[test]
+    fn coherent_refinement_resolves_the_carrier_through_data_bits() {
+        // A signal with ±1 data bits every 20 ms and a residual carrier of 137.3 Hz after a
+        // coarse Doppler: the squared-prompt FFT recovers it to within 2 Hz over 300 ms.
+        let fs = 2_000_000.0;
+        let code = CaCode::new(9).unwrap();
+        let true_fd = 2137.3;
+        let mut x = synth(9, fs, 2000 * 301, 40.0, 812.6, true_fd, 4);
+        for (n, s) in x.iter_mut().enumerate() {
+            // Flip the sign every 20 ms after the delay (bits change on code epochs).
+            let ms = ((n as f64 - 812.6) / 2000.0).floor() as i64;
+            if ms.rem_euclid(40) >= 20 {
+                *s = *s * -1.0;
+            }
+        }
+        let f = refine_doppler_coherent(&x, &code, fs, 0.0, 2000.0, 812.6, 300).unwrap();
+        assert!((f - true_fd).abs() < 2.0, "refined {f}");
     }
 
     #[test]
