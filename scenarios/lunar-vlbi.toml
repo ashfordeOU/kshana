@@ -42,3 +42,13 @@ epoch_month = 1
 epoch_day = 1
 horizon_hours = 6.0
 step_min = 30.0
+
+# Opt-in kernel path: set all three to run every sample on JPL DE440, the DE440 lunar principal
+# axes and the ITRF93 Earth orientation, with each light time converged in the barycentric frame
+# (station at reception, beacon at emission). The stations' WGS-84 coordinates are then read as
+# ITRF93 positions and the report adds the epoch's beacon and station partials. This path's
+# Newtonian delay agrees with NAIF SPICE converged light times to 0.06 ps
+# (tests/lunar_vlbi_spice_oracle.rs); the Shapiro term in delay_s stays analytic.
+# planetary_kernel_path = "de440s.bsp"
+# earth_orientation_kernel_path = "earth_latest_high_prec.bpc"
+# moon_orientation_kernel_path = "moon_pa_de440_200625.bpc"

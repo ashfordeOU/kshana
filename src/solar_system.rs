@@ -575,7 +575,7 @@ const UNITS: &[(&str, &str, &str, &str)] = &[
     ("bodies[].sidereal_rotation_period_h", "h", "derived", "360 degrees over the IAU prime-meridian rate; negative for retrograde rotation"),
     ("bodies[].pole_ra_deg", "deg", "published", "IAU pole right ascension at J2000 (WGCCRE mean value, without T-rate or periodic terms)"),
     ("bodies[].pole_dec_deg", "deg", "published", "IAU pole declination at J2000 (WGCCRE mean value)"),
-    ("bodies[].prime_meridian_deg", "deg", "computed", "IAU prime-meridian angle W at the epoch, W0 plus the rate times days from J2000"),
+    ("bodies[].prime_meridian_deg", "deg", "computed", "IAU prime-meridian angle W at the epoch: W0 plus the rate times days from J2000, plus the quadratic and periodic terms of the NAIF pck00011 model where the body carries them"),
     ("bodies[].position_m[]", "m", "computed", "heliocentric position in the ICRF, x y z"),
     ("bodies[].velocity_m_s[]", "m/s", "computed", "heliocentric velocity in the ICRF, x y z (two-body derivative for the planets)"),
     ("bodies[].heliocentric_distance_au", "au", "computed", "distance from the Sun in astronomical units (1 au = 149 597 870 700 m)"),
