@@ -80,9 +80,10 @@ fn tpl_rows() -> (Vec<TplRow>, Vec<String>) {
     (rows, undetected)
 }
 
-/// The strict comparison against the logged onsets.
+/// The strict comparison against the logged onsets. Run 2026-10-02: DISAGREES (see the pinned
+/// test below).
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES, measured undetected error above the TPL at 4 of 10 detected onsets (2.1.1 634.7 vs 458.5 ns, 2.3.5 232.6 vs 16.2 ns, 2.3.10 41.3 vs 6.0 ns, 2.6.3 218.6 vs 47.4 ns)"]
 fn measured_time_error_is_inside_the_drift_state_tpl_at_every_logged_detection() {
     let (rows, undetected) = tpl_rows();
     for row in &rows {
@@ -107,4 +108,33 @@ fn measured_time_error_is_inside_the_drift_state_tpl_at_every_logged_detection()
         .map(|r| r.id.as_str())
         .collect();
     assert!(outside.is_empty(), "outside the TPL: {outside:?}");
+}
+
+/// The round-2 outcome (2026-10-02), pinned: measured undetected error and TPL (ns, 0.1 ns).
+#[test]
+fn drift_state_tpl_against_the_logged_onsets_reproduces_the_recorded_disagreement() {
+    let (rows, undetected) = tpl_rows();
+    assert!(undetected.is_empty());
+    let want = [
+        ("2.1.1", 634.7, 458.5),
+        ("2.1.2", 0.0, 12.2),
+        ("2.1.4", 0.0, 4.1),
+        ("2.3.5", 232.6, 16.2),
+        ("2.3.10", 41.3, 6.0),
+        ("2.3.11", 0.0, 15.6),
+        ("2.3.15", 0.0, 2.6),
+        ("2.3.12", 0.0, 4.0),
+        ("2.6.1", 179.9, 295.3),
+        ("2.6.3", 218.6, 47.4),
+    ];
+    assert_eq!(rows.len(), want.len());
+    for (r, (id, err, tpl)) in rows.iter().zip(want) {
+        assert_eq!(r.id, id);
+        assert!(
+            (r.undetected_err_ns - err).abs() < 0.1,
+            "{id}: {}",
+            r.undetected_err_ns
+        );
+        assert!((r.tpl_ns - tpl).abs() < 0.1, "{id}: {}", r.tpl_ns);
+    }
 }
