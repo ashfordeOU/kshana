@@ -1,0 +1,4 @@
+# Ballistic Earth entries with a peak deceleration measured by an on-board accelerometer, and
+# the inputs fixed by the rule in tests/reentry_point_mass_accelerometer_oracle.rs.
+# Values printed in the cited publications (text or tables). Provenance: NOTICE.md here.
+# ENTRY id | entry_speed_m_s | flight_path_angle_deg (below horizontal) | frame | interface_radius_m | mass_kg | diameter_m | drag_coefficient | measured_peak_deceleration_g | sources
