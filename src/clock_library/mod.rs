@@ -21,7 +21,8 @@ pub mod condition;
 pub mod series;
 
 pub use card::{
-    pooled_hadamard_noise, score_curve, score_held_out, DeviceCard, HeldOutScore, ScoredPoint,
+    pooled_hadamard_noise, score_curve, score_held_out, score_held_out_records, DeviceCard,
+    HeldOutScore, ScoredPoint,
 };
 pub use condition::{condition, Anomaly, AnomalyKind, ConditioningLog};
 pub use series::PhaseSeries;
