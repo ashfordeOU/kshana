@@ -16,13 +16,13 @@ MODELLED rows were put to an external oracle in the first round and the remainin
 rows in the second; every disagreement is recorded below as a finding rather than tuned
 away. Three rows were split so that a validated part does not carry an unvalidated
 remainder, which takes the matrix from 223 to 226 rows; the validation packages folded since
-take it to 232. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
+take it to 235. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
 
 | | 0.29.0 | after round 1 | Unreleased |
 | --- | --- | --- | --- |
-| Verification-matrix rows | 223 | 223 | 232 |
-| of which VALIDATED against an external oracle | 83 | 93 | 116 |
-| of which MODELLED | 136 | 126 | 112 |
+| Verification-matrix rows | 223 | 223 | 235 |
+| of which VALIDATED against an external oracle | 83 | 93 | 117 |
+| of which MODELLED | 136 | 126 | 114 |
 | of which PARTNER | 4 | 4 | 4 |
 
 <details>
