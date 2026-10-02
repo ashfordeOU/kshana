@@ -20,6 +20,14 @@
 //           first and last event.
 // Constants are Kshana's: mu = 3.986004418e14 m^3/s^2, R_eq = 6378137 m.
 //
+// Mode "site-speed" (round 2, third step, pre-registered 2026-10-02): reads nothing and writes
+//   ROT2    the GCRF speed of an Earth-fixed point on a spherical Orekit body (ITRF, IERS 2010,
+//           simple EOP) at 2025-07-17T06:30:00 UTC, for latitudes {0, 28.5, 45.6, 62.9, -28.5, -60}
+//           and longitudes {0, 90, 123.4, -75} deg;
+//   EOP2    Orekit's interpolated x_p, y_p (arcsec) and LOD (s) at that epoch (diagnostic).
+// Run it with OREKIT_DATA pointing at a directory whose only Earth-orientation file is the frozen
+// 2026-09-30 IERS finals2000A.all (see gen_site_speed_true_pole.sh).
+//
 // Compile and run: see gen_launch_geometry_orekit_oracle.sh.
 
 import java.io.BufferedReader;
@@ -81,6 +89,10 @@ public class LaunchOrekitDriver {
                 .addProvider(new DirectoryCrawler(new File(System.getenv("OREKIT_DATA"))));
         Locale.setDefault(Locale.ROOT);
         gcrf = FramesFactory.getGCRF();
+        if (args.length > 0 && args[0].equals("site-speed")) {
+            siteSpeed();
+            return;
+        }
         t0 = new AbsoluteDate(2026, 3, 1, 0, 0, 0.0, TimeScalesFactory.getUTC());
 
         System.out.println("# Launch geometry reference values, Orekit 12.2 (Apache-2.0); see LaunchOrekitDriver.java and NOTICE.md.");
@@ -227,5 +239,26 @@ public class LaunchOrekitDriver {
 
     static String fmt(double x) {
         return Double.toString(x);
+    }
+
+    static void siteSpeed() {
+        AbsoluteDate t = new AbsoluteDate(2025, 7, 17, 6, 30, 0.0, TimeScalesFactory.getUTC());
+        System.out.println("# True-pole site speed reference values, Orekit 12.2 (Apache-2.0); see LaunchOrekitDriver.java and NOTICE.md.");
+        System.out.printf("# R_eq = %.1f m (sphere), ITRF IERS 2010 simple EOP, epoch 2025-07-17T06:30:00 UTC%n", RE);
+        System.out.println("# ROT2 lat_deg lon_deg | speed_m_s");
+        System.out.println("# EOP2 | x_p_arcsec y_p_arcsec | lod_s");
+        Frame itrf = FramesFactory.getITRF(IERSConventions.IERS_2010, true);
+        org.orekit.frames.EOPHistory eop = FramesFactory.getEOPHistory(IERSConventions.IERS_2010, true);
+        org.orekit.frames.PoleCorrection pole = eop.getPoleCorrection(t);
+        double asec = Math.toDegrees(1.0) * 3600.0;
+        System.out.printf("EOP2 | %.9f %.9f | %.9e%n", pole.getXp() * asec, pole.getYp() * asec, eop.getLOD(t));
+        OneAxisEllipsoid sphere = new OneAxisEllipsoid(RE, 0.0, itrf);
+        for (double latD : new double[] {0.0, 28.5, 45.6, 62.9, -28.5, -60.0}) {
+            for (double lonD : new double[] {0.0, 90.0, 123.4, -75.0}) {
+                Vector3D p = sphere.transform(new GeodeticPoint(Math.toRadians(latD), Math.toRadians(lonD), 0.0));
+                PVCoordinates pv = itrf.getTransformTo(gcrf, t).transformPVCoordinates(new PVCoordinates(p, Vector3D.ZERO));
+                System.out.printf("ROT2 %s %s | %.17e%n", fmt(latD), fmt(lonD), pv.getVelocity().getNorm());
+            }
+        }
     }
 }
