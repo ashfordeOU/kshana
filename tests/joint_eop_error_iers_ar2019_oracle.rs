@@ -45,6 +45,27 @@
 //! horizon) row. PASS only if every comparable row holds AND at least one UT1 row and one
 //! pole row are comparable. Otherwise the row does not promote.
 
+//! RESULT (first run, 2026-10-02): AGREES. The report has four realised-error tables (3a-3d,
+//! one per daily update time); Table 3a, the 17:00 UTC solution the weekly Bulletin A is
+//! issued from, was transcribed. 52 issues (MJD0 58486 to 58843). Kshana / IERS:
+//!
+//! | h (d) | UT1 RMS ratio | pole RMS ratio |
+//! |---|---|---|
+//! | 1 | 1.040 | 1.067 |
+//! | 5 | 1.058 | 1.071 |
+//! | 10 | 1.100 | 1.010 |
+//! | 20 | 1.042 | 1.014 |
+//! | 40 | 1.006 | 1.014 |
+//! | 90 | 1.001 | 1.005 |
+//!
+//! Day 0 (the table's first row) is not comparable: it is the issue's own cutoff, a rapid
+//! value, and the pipeline scores predictions past the cutoff (recorded, not hidden). The
+//! table's truth is 14 C04 and its predictions the daily solutions; here the truth is the
+//! Bulletin B block and the predictions the weekly issues, as fixed above. After the first
+//! run one assertion was added that makes the test stricter (all six scorable horizons must
+//! be compared). Mutations that turn this test red: scoring against the final one day early
+//! (horizons drop out), and scaling the UT1 residual by 1.3 (ratios 1.35-1.43).
+
 #[path = "fixtures/joint_eop_error_iers_ar2019_oracle/vintages.rs"]
 mod vintages;
 
@@ -82,8 +103,9 @@ fn table() -> Vec<Row> {
         .collect()
 }
 
-/// Per-issue absolute UT1 residual (ms) and 2-D pole residual (mas) at horizon `d`.
-fn residuals(d: u32) -> (Vec<f64>, Vec<f64>) {
+/// Per-issue absolute UT1 residual (ms) and 2-D pole residual (mas) at horizon `d`, or
+/// `None` when the pipeline forms no residual at that horizon.
+fn residuals(d: u32) -> Option<(Vec<f64>, Vec<f64>)> {
     let later = vintages::later_finals_body();
     let hs = [Horizon::Days(d)];
     let cfg = OperationalPredictorConfig::default();
@@ -92,13 +114,13 @@ fn residuals(d: u32) -> (Vec<f64>, Vec<f64>) {
         let body = iss.as_issued_body();
         let ut1 = predicted_vs_final_ut1(&body, &later, &hs);
         let arch = archived_vintage_comparison(&body, &later, &hs, &cfg);
-        let e = ut1.iter().find(|e| e.horizon == Horizon::Days(d)).unwrap();
-        let r = arch.iter().find(|r| r.horizon == Horizon::Days(d)).unwrap();
+        let e = ut1.iter().find(|e| e.horizon == Horizon::Days(d))?;
+        let r = arch.iter().find(|r| r.horizon == Horizon::Days(d))?;
         assert_eq!(e.n, 1);
         u.push(e.rms_s * 1e3);
         p.push(r.pm_archived.rms_native * 1e3);
     }
-    (u, p)
+    Some((u, p))
 }
 
 fn rms(v: &[f64]) -> f64 {
@@ -116,7 +138,10 @@ fn compare() -> (Vec<String>, Vec<String>, usize, usize) {
     horizons.dedup();
     let (mut lines, mut fails, mut nu, mut np) = (Vec::new(), Vec::new(), 0, 0);
     for d in horizons {
-        let (u, p) = residuals(d);
+        let Some((u, p)) = residuals(d) else {
+            println!("h={d} d: not comparable (the pipeline forms no residual at this horizon)");
+            continue;
+        };
         let at = |q: &str, s: &str| {
             rows.iter()
                 .find(|r| r.horizon == d && r.quantity == q && r.statistic == s)
@@ -153,7 +178,6 @@ fn compare() -> (Vec<String>, Vec<String>, usize, usize) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn bulletin_a_2019_prediction_error_matches_the_iers_realised_statistics() {
     let issues = vintages::issues();
     assert!(issues.len() >= 50, "a full year of weekly issues");
@@ -162,5 +186,9 @@ fn bulletin_a_2019_prediction_error_matches_the_iers_realised_statistics() {
         nu >= 1 && np >= 1,
         "need comparable UT1 and pole rows ({nu}, {np})"
     );
+    // Added after the first run (stricter, not looser): every table horizon the pipeline
+    // can score (1, 5, 10, 20, 40 and 90 d; day 0 is the issue's own cutoff) must be
+    // compared, so a horizon cannot drop out silently.
+    assert_eq!((nu, np), (6, 6), "every scorable horizon compared");
     assert!(fails.is_empty(), "outside [{LOW}, {HIGH}]: {fails:?}");
 }
