@@ -135,8 +135,9 @@ pub fn worst() -> ([f64; 4], [usize; 4]) {
     (w, n)
 }
 
+/// The strict comparison (run 2026-10-02: AGREES; worst Klobuchar 7.0e-13 m over 4 320 cases,
+/// Az 5.7e-14 sfu over 222, UTC drift 3.6e-15 s over 50, UTC leap 0 s over 21 602).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn services_match_gnsstk_and_erfa() {
     let (w, n) = worst();
     println!("worst: klobuchar {:.3e} m ({}), az {:.3e} sfu ({}), utc drift {:.3e} s ({}), utc leap {:.3e} s ({})",
