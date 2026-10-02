@@ -105,7 +105,27 @@ against predictions from ESA final orbits and the Firefly-reconstructed trajecto
 archive); P1 ≥2 batches with ≥2 visible acquisitions, P2 every pair within 50 Hz, P3 ≥90 %
 predicted visible.
 
-RESULT: PENDING_PD
+Proposed row:
+
+```rust
+VerificationItem {
+    requirement: "Acquisition on real lunar IQ against orbit-predicted Doppler (sample-power decision)",
+    capability: "acquisition::pcps_acquire with its sample-power decision on the nine non-surface LuGRE L1 batches with mid-rise levels; Doppler differences between acquired satellites compared with differences predicted from ESA final orbits and the Firefly-reconstructed Blue Ghost trajectory",
+    module: "acquisition, realdata::ion_sdr",
+    tests: "tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (pinned finding, data-gated); lugre_acquisition_predicted_doppler_oracle::acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction (strict, ignored with the gap)",
+    oracle: "Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered 0d1839d2. FINDING: all 288 searches cross the threshold on noise (sample-power statistics about 430 to 520 against 346.3), so P1 holds trivially and P3 holds (274 of 288 predicted visible) while P2 fails on 4033 of 4036 pairs. The band-limited front end raises every cell's noise about 1.46 times (pinned: noise floor 292 against the white-noise 200 on OP2 PRN 1), which the sample-power statistic does not see. Stays MODELLED",
+    oracle_kind: InternalConsistency,
+    status: Modelled,
+},
+```
+
+Record:
+- Result: P1 9 batches (4036 pairs); P2 4033 of 4036 beyond 50 Hz (fail; 3 within by chance:
+  OP2 PRN 15/22 2.1 Hz, OP23 PRN 9/20 −42.9 Hz, OP23 PRN 13/19 −44.2 Hz); P3 274/288.
+- Run: 5734 s in a release build, restarted once unchanged after a tool time limit stopped the
+  first attempt at 46 of 288 searches.
+- Mutation evidence: halving the sample-power normalisation in `pcps_grid` turns the pin red
+  (statistic 228.6 under 346.3); edited back.
 
 ## D7-b3. Acquisition on real lunar IQ against orbit-predicted Doppler, cell-averaging decision (new row, MODELLED)
 

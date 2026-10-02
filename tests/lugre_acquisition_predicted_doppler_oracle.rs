@@ -135,7 +135,7 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (run 2026-10-02 on 0d1839d2, restarted once after a tool time limit; 5734 s): all 288 searches cross the threshold (sample-power statistics about 430 to 520 against 346.3 on noise), so P1 holds trivially (9 batches) and P3 holds (274 of 288 predicted visible) while P2 fails on 4033 of 4036 pairs (3 within 50 Hz, by chance). The band-limited front end correlates neighbouring samples (lag-one 0.27 on OP23) and raises every cell about 1.4 times, which the sample-power statistic does not see. Pinned by noise_alone_crosses_the_sample_power_threshold_on_lugre_iq"]
 fn acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
@@ -186,5 +186,49 @@ fn acquired_doppler_differences_on_lugre_iq_match_the_orbit_prediction() {
     assert!(
         visible as f64 >= 0.9 * total as f64,
         "P3: {visible} of {total}"
+    );
+}
+
+/// The finding of the strict test, pinned (data-gated): on OP2's first 100 ms, the search for
+/// PRN 1 (the registered run found no orbit-consistent signal for it) crosses the sample-power
+/// threshold while its noise floor sits well above the white-noise value `2M`, and the
+/// cell-averaging statistic of the same grid stays below the threshold.
+#[test]
+fn noise_alone_crosses_the_sample_power_threshold_on_lugre_iq() {
+    let Some(dir) = data_dir() else {
+        eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
+        return;
+    };
+    let p = dir.join(SNAPSHOTS[0]);
+    let layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
+    let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).unwrap();
+    let fs = layout.sample_rate_hz;
+    let mut x = decode(&layout, &bytes, 0, (fs / 1000.0).round() as usize * 100).unwrap();
+    to_mid_rise(&mut x);
+    let cfg = PcpsConfig {
+        fs_hz: fs,
+        if_hz: 0.0,
+        coherent_ms: 1,
+        noncoherent: 100,
+        doppler_max_hz: 50_000.0,
+        doppler_step_hz: 500.0,
+        pfa: 1e-3,
+    };
+    let r = pcps_acquire(&x, &CaCode::new(1).unwrap(), &cfg).unwrap();
+    eprintln!("{r:?}");
+    assert!(
+        r.acquired,
+        "sample-power statistic {} under {}",
+        r.statistic, r.threshold
+    );
+    assert!(
+        r.floor > 1.2 * 200.0,
+        "noise floor {} (white noise: 200)",
+        r.floor
+    );
+    assert!(
+        !r.acquired_cell_average,
+        "cell-average statistic {}",
+        r.cell_average_statistic
     );
 }
