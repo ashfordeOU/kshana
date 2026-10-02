@@ -110,12 +110,14 @@ if command -v uv >/dev/null; then
   if [ ! -s "$ROOT/requirements.lock" ]; then
     $NICE uv pip compile --python 3.12 "$ROOT/requirements.in" -o "$ROOT/requirements.lock" || fail "uv pip compile"
   fi
-  $NICE uv pip install --python "$VENV/bin/python" -r "$ROOT/requirements.lock" || fail "uv pip install"
+  # The lock is a complete resolved closure; install it as pinned. --no-deps keeps a security bump
+  # above a dependency's tested-version cap (bsk caps pillow, protobuf, requests and bokeh) installable.
+  $NICE uv pip install --no-deps --python "$VENV/bin/python" -r "$ROOT/requirements.lock" || fail "uv pip install"
 else
   PY312="$(command -v python3.12 || true)"
   [ -n "$PY312" ] || fail "neither uv nor python3.12 found"
   [ -x "$VENV/bin/python" ] || $NICE "$PY312" -m venv "$VENV"
-  $NICE "$VENV/bin/pip" install -r "$ROOT/requirements.lock" || fail "pip install"
+  $NICE "$VENV/bin/pip" install --no-deps -r "$ROOT/requirements.lock" || fail "pip install"
 fi
 "$VENV/bin/python" - <<'EOF' || fail "python import check"
 import importlib, sys
