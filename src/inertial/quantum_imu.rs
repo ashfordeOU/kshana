@@ -793,6 +793,34 @@ mod tests {
     use super::*;
 
     #[test]
+    fn dual_cloud_qpn_composition() {
+        let cloud = |c: f64, n: f64| CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.1,
+            atom_number: n,
+            contrast: c,
+            cycle_time_s: 2.0,
+        };
+        let d = DualCai {
+            a: cloud(0.5, 1e4),
+            b: cloud(0.4, 4e4),
+        };
+        // Quadrature sum of 1/(C√N): 0.02 and 0.0125.
+        let diff = d.differential_phase_noise();
+        assert!((diff - (0.02f64.powi(2) + 0.0125f64.powi(2)).sqrt()).abs() < 1e-15);
+        assert!((d.half_difference_phase_noise() - diff / 2.0).abs() < 1e-15);
+        let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
+        let g = d.gradient_noise_per_shot(0.5);
+        assert!((g - diff / (k * 0.01 * 0.5)).abs() / g < 1e-12);
+        assert!((d.gradient_asd(0.5) - g * 2f64.sqrt()).abs() / g < 1e-12);
+        let sf = sagnac_scale_factor(k, 0.3, 0.1);
+        assert!((sf - coriolis_phase(k, 0.3, 1.0, 0.1)).abs() / sf < 1e-12);
+        assert!((d.rotation_noise_per_shot(0.3) - diff / 2.0 / sf).abs() < 1e-20);
+        assert!((qpn_phase_asd(0.5, 1e4, 2.0) - 0.02 * 2f64.sqrt()).abs() < 1e-15);
+        assert!(d.gradient_noise_per_shot(0.0).is_infinite());
+    }
+
+    #[test]
     fn effective_wavevector_for_rubidium() {
         // k_eff = 4π/λ; for Rb-87 (780.241 nm), k_eff ≈ 1.6106e7 rad/m.
         let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
