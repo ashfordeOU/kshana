@@ -431,6 +431,386 @@ impl ClockClass {
     }
 }
 
+/// Flicker frequency modulation (flicker FM, power-law exponent alpha = -1, Allan variance
+/// flat at `2 ln2 h_-1`) approximated by a bank of first-order Gauss-Markov frequency
+/// processes with logarithmically spaced correlation times.
+///
+/// A Gauss-Markov process of stationary variance `s^2` and correlation time `T` has the
+/// one-sided spectral density `S(f) = 4 s^2 T / (1 + (2 pi f T)^2)`, and `f S(f)` integrates to
+/// exactly `s^2` over `ln f`. Spacing the correlation times by a constant ratio `r` and giving
+/// every process the variance `s^2 = h_-1 ln r` therefore makes the bank's average `f S(f)`
+/// equal to `h_-1` between the shortest and longest correlation time, which is the flicker-FM
+/// spectrum `S_y(f) = h_-1 / f` (the sum-of-relaxations construction of Keshner, Proc. IEEE
+/// 70(3) 1982, and of van Vliet and Handel, Physica A 113 1982). With two processes per
+/// decade the bank's Allan variance stays within a few per cent of `2 ln2 h_-1` from about
+/// three times the shortest to a third of the longest correlation time.
+#[derive(Clone, Debug, PartialEq)]
+pub struct FlickerFmBank {
+    /// Flicker-FM coefficient `h_-1` (dimensionless; `sigma_y^2 = 2 ln2 h_-1`).
+    pub h_minus1: f64,
+    /// Correlation times of the Gauss-Markov processes (s), ascending.
+    pub taus: Vec<f64>,
+    /// Natural logarithm of the spacing ratio between successive correlation times.
+    pub log_ratio: f64,
+}
+
+impl FlickerFmBank {
+    /// A bank from `t_min` to `t_max` (s) with `per_decade` processes per decade.
+    pub fn log_spaced(h_minus1: f64, t_min: f64, t_max: f64, per_decade: usize) -> Self {
+        let per = per_decade.max(1) as f64;
+        let decades = (t_max / t_min).log10();
+        let n = (decades * per).round() as usize + 1;
+        let taus = (0..n).map(|k| t_min * 10f64.powf(k as f64 / per)).collect();
+        Self {
+            h_minus1,
+            taus,
+            log_ratio: std::f64::consts::LN_10 / per,
+        }
+    }
+
+    /// Stationary variance of each Gauss-Markov process, `h_-1 ln r`.
+    pub fn process_variance(&self) -> f64 {
+        self.h_minus1 * self.log_ratio
+    }
+}
+
+/// Noise and deterministic-signal model of the extended onboard clock filter
+/// [`ClockStateExt`].
+#[derive(Clone, Debug, PartialEq)]
+pub struct ClockModelExt {
+    /// White-FM spectral density on phase (s^2/s), as in [`ClockState3`].
+    pub q_wf: f64,
+    /// Random-walk-FM spectral density on frequency (1/s), as in [`ClockState3`].
+    pub q_rw: f64,
+    /// Random-run spectral density on drift (1/s^3), as in [`ClockState3`].
+    pub q_drift: f64,
+    /// Flicker-FM bank; `None` (or `h_minus1 = 0`) leaves it out.
+    pub flicker: Option<FlickerFmBank>,
+    /// Angular frequencies (rad/s) of the periodic phase terms, each carried as a
+    /// cosine-sine pair that rotates at that frequency (for a satellite clock, the once-,
+    /// twice-, ... per-revolution terms).
+    pub harmonics: Vec<f64>,
+    /// Spectral density (s^2/s) of the random walk driving each periodic pair's two
+    /// components (the amplitude and phase of each term wander).
+    pub q_harmonic: f64,
+}
+
+impl ClockModelExt {
+    /// Once-, twice-, ... `n`-per-revolution angular frequencies for an orbital period `t_rev`
+    /// (s).
+    pub fn per_revolution(t_rev: f64, n: usize) -> Vec<f64> {
+        (1..=n)
+            .map(|k| 2.0 * std::f64::consts::PI * k as f64 / t_rev)
+            .collect()
+    }
+
+    fn n_flicker(&self) -> usize {
+        match &self.flicker {
+            Some(b) if b.h_minus1 > 0.0 => b.taus.len(),
+            _ => 0,
+        }
+    }
+
+    /// State dimension: 3 clock states, one per flicker process, two per periodic term.
+    pub fn dim(&self) -> usize {
+        3 + self.n_flicker() + 2 * self.harmonics.len()
+    }
+
+    /// Observation row `H` of a phase measurement: the phase state plus the cosine
+    /// component of every periodic pair.
+    pub fn observation(&self) -> Vec<f64> {
+        let n = self.dim();
+        let mut h = vec![0.0; n];
+        h[0] = 1.0;
+        let h0 = 3 + self.n_flicker();
+        for j in 0..self.harmonics.len() {
+            h[h0 + 2 * j] = 1.0;
+        }
+        h
+    }
+
+    /// Exact discrete transition `F` and process-noise covariance `Q` over `dt` seconds
+    /// (row-major, `dim x dim`).
+    ///
+    /// Clock block: as [`ClockState3::predict`]. Each flicker process `z` with correlation
+    /// time `T` (`a = 1/T`, driving density `q = 2 s^2 / T`) decays as `exp(-a dt)` and feeds
+    /// phase by `T (1 - exp(-a dt))`; its exact noise contributions are
+    /// `Q_zz = q (1 - e^{-2 a dt}) / (2a)`,
+    /// `Q_xz = (q/a) [(1 - e^{-a dt})/a - (1 - e^{-2 a dt})/(2a)]` and
+    /// `Q_xx += (q/a^2) [dt - 2 (1 - e^{-a dt})/a + (1 - e^{-2 a dt})/(2a)]`
+    /// (Taylor series when `a dt < 1e-3`, to avoid cancellation). Each periodic pair
+    /// rotates by `w dt`; isotropic noise is invariant under the rotation, so its block is
+    /// `q_harmonic dt I`.
+    pub fn transition(&self, dt: f64) -> (Vec<f64>, Vec<f64>) {
+        let n = self.dim();
+        let mut f = vec![0.0; n * n];
+        let mut q = vec![0.0; n * n];
+        for i in 0..n {
+            f[i * n + i] = 1.0;
+        }
+        let (dt2, dt3) = (dt * dt, dt * dt * dt);
+        f[1] = dt;
+        f[2] = 0.5 * dt2;
+        f[n + 2] = dt;
+        let (qwf, qrw, qd) = (self.q_wf, self.q_rw, self.q_drift);
+        let dt4 = dt2 * dt2;
+        let dt5 = dt4 * dt;
+        q[0] = qwf * dt + qrw * dt3 / 3.0 + qd * dt5 / 20.0;
+        q[1] = qrw * dt2 / 2.0 + qd * dt4 / 8.0;
+        q[n] = q[1];
+        q[2] = qd * dt3 / 6.0;
+        q[2 * n] = q[2];
+        q[n + 1] = qrw * dt + qd * dt3 / 3.0;
+        q[n + 2] = qd * dt2 / 2.0;
+        q[2 * n + 1] = q[n + 2];
+        q[2 * n + 2] = qd * dt;
+        let nf = self.n_flicker();
+        if let Some(bank) = self.flicker.as_ref().filter(|_| nf > 0) {
+            let s2 = bank.process_variance();
+            for (i, &t) in bank.taus.iter().enumerate() {
+                let k = 3 + i;
+                let a = 1.0 / t;
+                let qk = 2.0 * s2 / t;
+                let ad = a * dt;
+                let e1 = -(-ad).exp_m1();
+                let e2 = -(-2.0 * ad).exp_m1();
+                f[k * n + k] = 1.0 - e1;
+                f[k] = t * e1;
+                let (qxx, qxz) = if ad < 1e-3 {
+                    (
+                        qk * (dt3 / 3.0 - a * dt4 / 4.0 + 7.0 * a * a * dt5 / 60.0
+                            - a * a * a * dt5 * dt / 24.0),
+                        qk * (dt2 / 2.0 - a * dt3 / 2.0 + 7.0 * a * a * dt4 / 24.0),
+                    )
+                } else {
+                    (
+                        qk / (a * a) * (dt - 2.0 * e1 / a + e2 / (2.0 * a)),
+                        qk / a * (e1 / a - e2 / (2.0 * a)),
+                    )
+                };
+                q[0] += qxx;
+                q[k] += qxz;
+                q[k * n] += qxz;
+                q[k * n + k] += qk * e2 / (2.0 * a);
+            }
+        }
+        let h0 = 3 + nf;
+        for (j, &w) in self.harmonics.iter().enumerate() {
+            let k = h0 + 2 * j;
+            let (s, c) = (w * dt).sin_cos();
+            f[k * n + k] = c;
+            f[k * n + k + 1] = -s;
+            f[(k + 1) * n + k] = s;
+            f[(k + 1) * n + k + 1] = c;
+            q[k * n + k] += self.q_harmonic * dt;
+            q[(k + 1) * n + k + 1] += self.q_harmonic * dt;
+        }
+        (f, q)
+    }
+}
+
+/// Extended onboard clock filter: the three clock states of [`ClockState3`], a flicker-FM
+/// bank of Gauss-Markov frequency states ([`FlickerFmBank`]) and rotating cosine-sine pairs
+/// for periodic phase terms (the once- and twice-per-revolution signatures of a navigation
+/// satellite clock). The measurement is phase, observed as the clock phase plus every
+/// periodic term. Covariance updates use the Joseph form, as [`ClockState3`] does.
+#[derive(Clone, Debug)]
+pub struct ClockStateExt {
+    /// State vector: `[phase, frequency, drift, flicker..., (cos, sin) per periodic term]`.
+    pub x: Vec<f64>,
+    /// Covariance, row-major `dim x dim`.
+    pub p: Vec<f64>,
+    model: ClockModelExt,
+    h: Vec<f64>,
+    cache: Vec<(f64, Vec<f64>, Vec<f64>)>,
+}
+
+impl ClockStateExt {
+    /// New filter at a zero state with zero covariance; seed it with
+    /// [`with_initial_cov`](Self::with_initial_cov).
+    pub fn new(model: ClockModelExt) -> Self {
+        let n = model.dim();
+        let h = model.observation();
+        Self {
+            x: vec![0.0; n],
+            p: vec![0.0; n * n],
+            model,
+            h,
+            cache: Vec::new(),
+        }
+    }
+
+    /// Diagonal initial covariance: the three clock-state variances, each flicker process at
+    /// its stationary variance, and `harmonic_var` (s^2) on every periodic component.
+    pub fn with_initial_cov(
+        mut self,
+        phase_var: f64,
+        freq_var: f64,
+        drift_var: f64,
+        harmonic_var: f64,
+    ) -> Self {
+        let n = self.dim();
+        self.p = vec![0.0; n * n];
+        self.p[0] = phase_var;
+        self.p[n + 1] = freq_var;
+        self.p[2 * n + 2] = drift_var;
+        let nf = self.model.n_flicker();
+        let s2 = self
+            .model
+            .flicker
+            .as_ref()
+            .map_or(0.0, |b| b.process_variance());
+        for i in 0..nf {
+            self.p[(3 + i) * n + 3 + i] = s2;
+        }
+        for k in 3 + nf..n {
+            self.p[k * n + k] = harmonic_var;
+        }
+        self
+    }
+
+    /// State dimension.
+    pub fn dim(&self) -> usize {
+        self.x.len()
+    }
+
+    /// The model.
+    pub fn model(&self) -> &ClockModelExt {
+        &self.model
+    }
+
+    fn fq(&mut self, dt: f64) -> (Vec<f64>, Vec<f64>) {
+        if let Some((_, f, q)) = self.cache.iter().find(|(d, _, _)| *d == dt) {
+            return (f.clone(), q.clone());
+        }
+        let (f, q) = self.model.transition(dt);
+        if self.cache.len() < 16 {
+            self.cache.push((dt, f.clone(), q.clone()));
+        }
+        (f, q)
+    }
+
+    /// Time update over `dt` seconds: `x = F x`, `P = F P F^T + Q`.
+    pub fn predict(&mut self, dt: f64) {
+        if dt <= 0.0 {
+            return;
+        }
+        let n = self.dim();
+        let (f, q) = self.fq(dt);
+        let mut nx = vec![0.0; n];
+        for i in 0..n {
+            nx[i] = (0..n).map(|k| f[i * n + k] * self.x[k]).sum();
+        }
+        self.x = nx;
+        let mut fp = vec![0.0; n * n];
+        for i in 0..n {
+            for k in 0..n {
+                let fik = f[i * n + k];
+                if fik != 0.0 {
+                    for j in 0..n {
+                        fp[i * n + j] += fik * self.p[k * n + j];
+                    }
+                }
+            }
+        }
+        let mut np = q;
+        for i in 0..n {
+            for j in 0..n {
+                let mut s = 0.0;
+                for k in 0..n {
+                    s += fp[i * n + k] * f[j * n + k];
+                }
+                np[i * n + j] += s;
+            }
+        }
+        // Symmetrise against round-off.
+        for i in 0..n {
+            for j in i + 1..n {
+                let m = 0.5 * (np[i * n + j] + np[j * n + i]);
+                np[i * n + j] = m;
+                np[j * n + i] = m;
+            }
+        }
+        self.p = np;
+    }
+
+    /// Predicted measurement `H x` (the observable clock phase, s).
+    pub fn predicted_phase(&self) -> f64 {
+        self.h.iter().zip(&self.x).map(|(h, x)| h * x).sum()
+    }
+
+    /// Variance of the predicted measurement, `H P H^T` (s^2), without measurement noise.
+    pub fn predicted_phase_var(&self) -> f64 {
+        let n = self.dim();
+        let mut s = 0.0;
+        for i in 0..n {
+            if self.h[i] == 0.0 {
+                continue;
+            }
+            for j in 0..n {
+                s += self.h[i] * self.p[i * n + j] * self.h[j];
+            }
+        }
+        s
+    }
+
+    /// Measurement update from a phase observation `z` (s) with noise variance `r` (s^2), in
+    /// the Joseph form. Returns `(innovation, innovation variance)`.
+    pub fn update_phase(&mut self, z: f64, r: f64) -> (f64, f64) {
+        let n = self.dim();
+        let s = self.predicted_phase_var() + r;
+        let nu = z - self.predicted_phase();
+        if s <= 0.0 {
+            return (nu, s);
+        }
+        let ph: Vec<f64> = (0..n)
+            .map(|i| (0..n).map(|j| self.p[i * n + j] * self.h[j]).sum::<f64>())
+            .collect();
+        let k: Vec<f64> = ph.iter().map(|v| v / s).collect();
+        for (xi, ki) in self.x.iter_mut().zip(&k) {
+            *xi += ki * nu;
+        }
+        // A = I - K H; P = A P A^T + K r K^T.
+        let mut a = vec![0.0; n * n];
+        for i in 0..n {
+            a[i * n + i] = 1.0;
+            for j in 0..n {
+                a[i * n + j] -= k[i] * self.h[j];
+            }
+        }
+        let mut ap = vec![0.0; n * n];
+        for i in 0..n {
+            for kk in 0..n {
+                let aik = a[i * n + kk];
+                if aik != 0.0 {
+                    for j in 0..n {
+                        ap[i * n + j] += aik * self.p[kk * n + j];
+                    }
+                }
+            }
+        }
+        let mut np = vec![0.0; n * n];
+        for i in 0..n {
+            for j in 0..n {
+                let mut v = r * k[i] * k[j];
+                for kk in 0..n {
+                    v += ap[i * n + kk] * a[j * n + kk];
+                }
+                np[i * n + j] = v;
+            }
+        }
+        for i in 0..n {
+            for j in i + 1..n {
+                let m = 0.5 * (np[i * n + j] + np[j * n + i]);
+                np[i * n + j] = m;
+                np[j * n + i] = m;
+            }
+        }
+        self.p = np;
+        (nu, s)
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -700,5 +1080,77 @@ mod tests {
         assert!((q_wf - 4.0e-24).abs() / q_wf < 1e-12); // (2e-12)^2
         assert!((q_rw - 3.0e-28).abs() / q_rw < 1e-12); // 3·(1e-14)^2
         assert!((q_drift - 2.0e-31).abs() / q_drift < 1e-12); // 20·(1e-16)^2
+    }
+
+    fn ext_model(h_m1: f64, harmonics: usize) -> ClockModelExt {
+        ClockModelExt {
+            q_wf: 1e-24,
+            q_rw: 2e-33,
+            q_drift: 0.0,
+            flicker: Some(FlickerFmBank::log_spaced(h_m1, 1e2, 1e6, 2)),
+            harmonics: ClockModelExt::per_revolution(43_082.05, harmonics),
+            q_harmonic: 1e-26,
+        }
+    }
+
+    #[test]
+    fn ext_without_flicker_or_harmonics_is_the_three_state_filter() {
+        let mut m = ext_model(0.0, 0);
+        m.q_drift = 1e-40;
+        let mut e = ClockStateExt::new(m).with_initial_cov(1e-12, 1e-18, 1e-32, 0.0);
+        let mut c = ClockState3::new(1e-24, 2e-33, 1e-40).with_initial_cov(1e-12, 1e-18, 1e-32);
+        assert_eq!(e.dim(), 3);
+        for k in 0..50 {
+            let dt = if k % 7 == 0 { 600.0 } else { 300.0 };
+            e.predict(dt);
+            c.predict(dt);
+            let z = 1e-9 * (k as f64 * 0.37).sin();
+            e.update_phase(z, 1e-22);
+            c.update_phase(z, 1e-22);
+        }
+        for i in 0..3 {
+            assert!((e.x[i] - c.x[i]).abs() <= 1e-12 * c.x[i].abs().max(1e-30));
+            for j in 0..3 {
+                let (a, b) = (e.p[i * 3 + j], c.p[i][j]);
+                assert!(
+                    (a - b).abs() <= 1e-9 * b.abs().max(1e-300),
+                    "P[{i}][{j}] {a} {b}"
+                );
+            }
+        }
+    }
+
+    #[test]
+    fn flicker_bank_keeps_its_stationary_variance_and_layout() {
+        let m = ext_model(2e-29, 2);
+        assert_eq!(m.flicker.as_ref().unwrap().taus.len(), 9);
+        assert_eq!(m.dim(), 3 + 9 + 4);
+        let s2 = m.flicker.as_ref().unwrap().process_variance();
+        assert!((s2 - 2e-29 * 0.5 * std::f64::consts::LN_10).abs() < 1e-40);
+        let mut e = ClockStateExt::new(m).with_initial_cov(0.0, 0.0, 0.0, 0.0);
+        for _ in 0..200 {
+            e.predict(300.0);
+        }
+        let n = e.dim();
+        for i in 3..12 {
+            let v = e.p[i * n + i];
+            assert!(
+                (v - s2).abs() <= 1e-9 * s2,
+                "flicker state {i}: {v} vs {s2}"
+            );
+        }
+        let h = e.model().observation();
+        assert_eq!(h.iter().filter(|&&v| v == 1.0).count(), 3);
+    }
+
+    #[test]
+    fn flicker_noise_series_branch_is_continuous() {
+        let mut m = ext_model(1e-29, 0);
+        m.q_wf = 0.0;
+        m.q_rw = 0.0;
+        let t = m.flicker.as_ref().unwrap().taus[8]; // 1e6 s
+        let (_, qa) = m.transition(t * (1e-3 - 1e-12));
+        let (_, qb) = m.transition(t * (1e-3 + 1e-12));
+        assert!((qa[0] - qb[0]).abs() <= 1e-7 * qb[0], "{} {}", qa[0], qb[0]);
     }
 }
