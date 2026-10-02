@@ -40,6 +40,11 @@
 //! plan's); UTC within 1 ns (the round-1 plan's), for both the drift term and the UTC time of day
 //! of every leap-second case including the inserted second, which must read 86400 + fraction.
 //! PROMOTE only if every case of every service agrees.
+//!
+//! Amendment (2026-10-02, after the ERFA values were generated and before any Kshana value was
+//! compared): the full quarter-second leap grid is 403 202 rows (17.5 MB), too large to commit;
+//! the fixture keeps every quarter second within 120 s of each event, every whole second within
+//! 1 h and every 15 s over the full 7 h either side (21 602 rows). Tolerances unchanged.
 
 use kshana::leo_navmsg::elements::{KlobucharSet, NequickSet, UtcOffset};
 use kshana::leo_navmsg::services::{effective_ionisation_level, klobuchar_delay_m, system_to_utc};
