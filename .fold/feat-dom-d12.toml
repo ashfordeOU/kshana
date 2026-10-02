@@ -1,0 +1,60 @@
+# Fold manifest for package D12, second fold. Main b4cd2b3b already holds this branch up to
+# 31f5bf93 (step 1's extended-precision row). This manifest covers only what is new since then.
+package = "D12"
+branch = "feat/dom-d12"
+base = "main @ 5a81d0f8 (merged into this branch; no rebase)"
+folded_up_to = "31f5bf93 (in main b4cd2b3b)"
+new_commits = ["f61fe58a", "b84ce19b", "263e7709", "b41908c9", "87b27701", "3bb28f95", "85c89af4"]
+
+owned_paths = [
+  "src/linalg_sr.rs",                                  # new module
+  "src/lib.rs",                                        # one line: pub mod linalg_sr;
+  "src/lunar_frame_campaign.rs",                       # opt-in `solver` field and srif path; default bytes unchanged
+  "tests/lunar_frame_campaign_srif_mpmath_oracle.rs",
+  "tests/fixtures/lunar_frame_campaign_srif_mpmath_oracle/",
+  "tests/lunar_frame_campaign_rank_mpmath_oracle.rs",
+  "tests/fixtures/lunar_frame_campaign_rank_mpmath_oracle/",
+  "tests/lunar_frame_campaign_mpmath_oracle.rs",       # chord comparator and its disclosure (bars unchanged)
+  ".fold/feat-dom-d12.toml",
+  ".fold/feat-dom-d12-rows.md",
+  "changelog.d/feat-dom-d12.md",
+]
+
+[rows]
+new = ["Square-root information datum solver against 50-digit extended precision"]
+text_edits = [
+  "Lunar frame datum covariance with the stations estimated, against 50-digit extended precision (A1 narrowed claim, A3 control weakest-direction figure)",
+  "Lunar frame datum from an observing campaign (A2: record founder decision, option A; status unchanged)",
+]
+not_done = [
+  "srif opt-in paths in batch_ls, orbit_determination, cislunar_srif, fim, lunar_datum, lunar_combination, precise_od",
+]
+
+[tests]
+filter = "cargo test --test lunar_frame_campaign_srif_mpmath_oracle --test lunar_frame_campaign_rank_mpmath_oracle --test lunar_frame_campaign_mpmath_oracle && cargo test --lib -- linalg_sr lunar_frame_campaign"
+strict = [
+  "srif_datum_matches_mpmath_extended_precision",
+  "rank_decisions_match_mpmath_extended_precision",
+]
+records = ["record_point_decisions_equal_the_exact_ones"]
+
+[integrator_edits]
+"src/verification.rs" = [
+  "append the new VerificationItem and its OracleBasisEntry (rows file, section B); mpmath is already in NUMERICAL",
+  "apply text edits A1, A2, A3 (rows file, section A)",
+]
+"src/api.rs" = [
+  "lunar-frame-campaign ScenarioMeta optional_fields: append \"solver\" (left out here because it would desynchronise the generated docs/SCENARIOS.md, which this branch may not edit)",
+]
+"regenerated docs" = [
+  "docs/VERIFICATION-MATRIX.md, docs/SCENARIOS.md and the other generated pages, by the repository generator after the row lands",
+  "README headline counts: 227 -> 228 rows, 111 -> 112 validated",
+]
+
+[registration]
+lib_rs = "pub mod linalg_sr; (one line, made on this branch)"
+api_rs = "none made; see integrator_edits"
+
+[depends_on]
+packages = ["D4 (only for the not-done lunar_datum and lunar_combination paths)", "D7 (Dekker helpers may move to portable_math after it folds)"]
+note = "Pre-registration commits pushed before each run: b84ce19b (rank check), b41908c9 (srif)."
