@@ -2,8 +2,8 @@
 branch = "feat/dom-d9"
 package = "D9"
 depends_on = ["D2", "D3"]
-preregistration_commit = "2ec76864"
-engine_commits = ["a12d5d5f", "52a931b2"]
+preregistration_commits = ["2ec76864", "fb475550", "c9cc0d49"]
+engine_commits = ["a12d5d5f", "52a931b2", "2e0a2bc1"]
 
 # Paths this branch owns (created or edited).
 owned_paths = [
@@ -15,6 +15,13 @@ owned_paths = [
   "tests/clock_library_device_cards_oracle.rs",
   "tests/clock_library_tcxo_card_jammertest_oracle.rs",
   "tests/clock_library_support/",
+  "tests/clock_library_periodic_cards_oracle.rs",
+  "tests/clock_library_f9p_cards_oracle.rs",
+  "tests/clock_state_ext_igs_conditioned_oracle.rs",
+  "tests/utck_bound_prospective_oracle.rs",
+  "tests/fixtures/clock_library_periodic_cards_oracle/",
+  "tests/fixtures/clock_library_f9p_cards_oracle/",
+  "tests/fixtures/clock_state_ext_igs_conditioned_oracle/",
   "tests/fixtures/clock_library_lag1_noise_id_allantools/",
   "tests/fixtures/clock_library_device_cards_oracle/",
   "tests/fixtures/clock_library_tcxo_card_jammertest_oracle/",
@@ -53,8 +60,24 @@ outcome = "BLOCKED"
 status = "Modelled (unchanged)"
 
 [[rows]]
-id = "M001, M002, M083 (c)"
-outcome = "founder decision; proposals only"
+id = "NEW periodic GPS IIF cards"
+requirement = "Measured GPS Block IIF clock cards with per-revolution terms (held-out prediction)"
+outcome = "FINDING"
+status = "Modelled"
+
+[[rows]]
+id = "M002 round 3"
+outcome = "FINDING"
+status = "Modelled (unchanged)"
+
+[[rows]]
+id = "M083 round 3"
+outcome = "pre-registered, prospective"
+status = "Modelled (unchanged)"
+
+[[rows]]
+id = "M001"
+outcome = "not acted on (no class promoted)"
 
 # Tests the integrator runs for this package.
 [tests]
@@ -64,5 +87,9 @@ integration = [
   "clock_library_lag1_noise_id_allantools",
   "clock_library_device_cards_oracle",
   "clock_library_tcxo_card_jammertest_oracle",
+  "clock_library_periodic_cards_oracle",
+  "clock_library_f9p_cards_oracle",
+  "clock_state_ext_igs_conditioned_oracle",
+  "utck_bound_prospective_oracle",
 ]
-data_gated = "non_blind_cards_are_reported reads realdata-cache/cs5071a and realdata-cache/ocxo (scripts/fetch_cs5071a.sh, scripts/fetch_ocxo.sh); KSHANA_REQUIRE_REALDATA=1 makes their absence fail"
+data_gated = "the ZED-F9P tests and M010 rounds 4/4b read $KSHANA_ORACLES/data/wroclaw_f9p (generate.py); non_blind_cards_are_reported reads realdata-cache/cs5071a and realdata-cache/ocxo (scripts/fetch_cs5071a.sh, scripts/fetch_ocxo.sh); KSHANA_REQUIRE_REALDATA=1 makes their absence fail"

@@ -18,8 +18,11 @@ Summary:
 |---|---|---|
 | NEW "Lag-1 autocorrelation power-law noise identification" | PROMOTE | VALIDATED (Library) |
 | NEW (b) "Measured device cards with held-out prediction" | FINDING (GPS IIF), BLOCKED (TCXO, Galileo maser, Deep Space Atomic Clock) | MODELLED |
-| (a) M010, spoofing-detection row | BLOCKED (round 3 not scored) | stays MODELLED |
-| (c) M001, M002, M083 | founder decisions: written proposals only, nothing run | unchanged |
+| (a) M010, spoofing-detection row | round 3 BLOCKED; rounds 4 and 4b FINDING (0 false alarms, 6 of 10 onsets) | stays MODELLED |
+| NEW "GPS Block IIF cards with per-revolution terms" (round 2) | FINDING (9 of 11) | MODELLED |
+| M002 "Onboard clock state estimation" round 3 (round 2) | FINDING ((a), (c) all 11; (b) fails on 2) | stays MODELLED |
+| M083 round 3 (round 2) | pre-registered, prospective, awaiting Circular T 465 | unchanged |
+| M001 | not acted on: no clock class promoted, so nothing to re-anchor on | unchanged |
 | M073 | deferred to the D3 archive | unchanged |
 
 ---
@@ -161,9 +164,47 @@ row's oracle text: "0.31 round 3, a pooled hierarchical ageing bound, pre-regist
 scored prospectively on Circular T issues from 465; not yet run (awaiting issues)" and to its
 tests field `tests/utck_bound_prospective_oracle.rs (round 3, prospective, not yet run)`.
 
+### Device-card class C8: u-blox ZED-F9P receiver TCXO (model class) — FINDING
+
+Append to the oracle text of row (b): "0.31 round 2, the ZED-F9P receiver TCXO as a model class
+on 14 days of 12 static Wroclaw stations (Zenodo 6488497, CC BY 4.0; pre-registered fb475550), a
+finding: with the registered pipeline 11 of 12 stations were not evaluable (RAIM rejected most
+ionosphere-free epochs) and BX14 failed; a disclosed re-run with a corrected pipeline
+(pre-registered c9cc0d49) passes 1 of 11 blind stations (BX12, 1.412; BX07 1.532 and BX13 1.542
+just outside), because single-point receiver clocks from intermittent 30 s files are not a clean
+oscillator record" and to its tests field `tests/clock_library_f9p_cards_oracle.rs
+(f9p_first_pipeline_reproduces_the_recorded_finding; f9p_corrected_pipeline_reproduces_the_recorded_finding; data-gated)`.
+
+### M002 round 3 — FINDING (closer than round 2)
+
+Append to the oracle text of "Onboard clock state estimation": "0.31 round 3, the round-2
+extended filter, tuning and criteria unchanged after the frozen conditioning detector, on fresh
+IGS clocks of 2026-04-01 to 14 (pre-registered fb475550), a finding (stays MODELLED): (a)
+one-step 0.941 to 0.968 and (c) triple-NIS mean 2.641 to 3.549 hold on all 11 satellites; (b)
+one hour fails on G09 (0.894) and G26 (0.876) against 0.90" and to its tests field
+`tests/clock_state_ext_igs_conditioned_oracle.rs::conditioned_extended_filter_finding`.
+Disclosed: tuning ran on scipy 1.17.1 and numpy 2.4.6 (round 2: 1.18.1, 2.3.5), same algorithm
+and options.
+
+### M010 rounds 4 and 4b — FINDING (closer than round 2)
+
+Replace the round-3 note of section 3 with: "0.31 round 3 (receiver card from the JammerTest
+unit's other sessions, pre-registered 2ec76864) blocked: 167 training epochs against 3600. Round
+4 (noise levels from the ZED-F9P model class, Wroclaw 2021, pre-registered fb475550) and round 4b
+(a disclosed re-run with the corrected extraction, c9cc0d49), a finding (stays MODELLED): zero
+pre-onset false alarms at all 10 logged onsets (round 2: 86) and 6 of 10 within 10 s (round 2:
+4); 2.1.1, 2.3.5, 2.3.10 and 2.6.1 stay late (+211, +23, +18, +51 s), unchanged by the clock
+noise level", and add to the tests field
+`tests/clock_library_tcxo_card_jammertest_oracle.rs (round_4_reproduces_the_recorded_finding; round_4b_reproduces_the_recorded_finding; data-gated)`.
+What it means: the TCXO card removes M010's false alarms, as the roadmap expected; the four late
+onsets are a detection-latency problem the clock monitor alone does not solve.
+
 ## 4. Founder decisions: written proposals, nothing run
 
 ### M001, "GNSS-denied clock holdover" (re-anchoring with a fit/test split)
+Status after round 2: still not acted on. Re-anchoring needs a validated class to anchor on; no
+device-card class promoted (GPS IIF 10/11 and 9/11, ZED-F9P 1/11), so changing the published
+holdover figures now would anchor them on unvalidated cards.
 Proposal: replace the synthesised per-class red-noise floors (`ClockClass`, `QuantumClockClass`)
 behind every holdover row with device cards fitted on measured records, each with a
 pre-registered fit/test split as in row (b): caesium (5071A), GPS IIF (the D9 window passes 10 of
