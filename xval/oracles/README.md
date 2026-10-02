@@ -59,6 +59,7 @@ Python packages (exact pins in `requirements.lock`; the full resolved set in
 |---|---|---|---|
 | numpy | 2.3.5 | BSD-3-Clause | P2 linear algebra |
 | scipy | 1.18.1 | BSD-3-Clause | statistics, Welch PSD, expm, P2 |
+| mpmath | 1.3.0 | BSD-3-Clause | extended-precision P2 linear algebra |
 | allantools | 2024.6 | LGPL-3.0 (tool only) | frequency stability |
 | gnss_lib_py | 1.0.4 | MIT | DOP (needs Python below 3.13) |
 | skyfield | 1.54 | MIT | EO footprint |
