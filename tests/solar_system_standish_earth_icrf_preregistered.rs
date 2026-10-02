@@ -291,10 +291,14 @@ fn icrf_positions_are_within_the_table_8_10_1_rms() {
 // Tolerance, at every gating epoch: the angle between the two offset vectors at most 0.3 deg, and
 // the difference of their lengths at most 8.1 km (mu_M/(mu_E + mu_M) = 0.01215 times 500 km, plus
 // 2 km for the fixture's rounding).
+//
+// Result (run 2026-10-02, after commit 558cc807): 3563 gating epochs, worst angle 0.0877 deg, worst
+// length difference 6.09 km (1800-1950, not gating: 0.0936 deg, 6.39 km). Mutations, reverted by
+// editing back: no split (Earth at the EMB) 4942 km, red; split sign flipped 180 deg, red; mass
+// ratio 1 % high 53.3 km, red.
 
 /// Case C: the Earth-EMB split itself, 1950 to 2050, against DE441's 399 minus 3.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn earth_minus_barycentre_offset_matches_de441_1950_to_2050() {
     let rows = fixture("horizons_icrf.csv");
     let emb: std::collections::HashMap<u64, [f64; 3]> = rows
