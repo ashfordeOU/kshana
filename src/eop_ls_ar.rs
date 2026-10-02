@@ -170,15 +170,16 @@ fn lstsq(rows: &[Vec<f64>], b: &[f64]) -> Option<Vec<f64>> {
     }
     for col in 0..k {
         let p = (col..k).max_by(|&i, &j| a[i][col].abs().total_cmp(&a[j][col].abs()))?;
-        if !(a[p][col].abs() > 1e-300) {
+        if a[p][col].abs().partial_cmp(&1e-300) != Some(std::cmp::Ordering::Greater) {
             return None;
         }
         a.swap(col, p);
         y.swap(col, p);
         for row in col + 1..k {
             let f = a[row][col] / a[col][col];
-            for c in col..k {
-                a[row][c] -= f * a[col][c];
+            let (upper, lower) = a.split_at_mut(row);
+            for (t, &v) in lower[0][col..].iter_mut().zip(&upper[col][col..]) {
+                *t -= f * v;
             }
             y[row] -= f * y[col];
         }
@@ -254,7 +255,10 @@ pub fn ls_ar_predict(
     h.sort_by(|a, b| a.0.total_cmp(&b.0));
     h.dedup_by(|a, b| (a.0 - b.0).abs() < 1e-6);
     let need = cfg.ut1_window_days.max(cfg.pm_window_days) + 1;
-    if h.len() < need || (h.last().unwrap().0 - issue_mjd).abs() > 1e-6 {
+    let Some(&(last_mjd, ..)) = h.last() else {
+        return Err(LsArError::IncompleteWindow);
+    };
+    if h.len() < need || (last_mjd - issue_mjd).abs() > 1e-6 {
         return Err(LsArError::IncompleteWindow);
     }
     let tail = &h[h.len() - need..];
@@ -285,7 +289,7 @@ pub fn ls_ar_predict(
     let yfc =
         ls_ar_series(&tp, &ys, &pm_periods, cfg.pm_ar_order, h_max).ok_or(LsArError::Singular)?;
 
-    let mut acc = *ut1r.last().unwrap();
+    let mut acc = *ut1r.last().ok_or(LsArError::IncompleteWindow)?;
     let mut out = Vec::with_capacity(h_max);
     for k in 0..h_max {
         acc += dfc[k];

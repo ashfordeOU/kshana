@@ -767,8 +767,8 @@ impl ClockStateExt {
             .map(|i| (0..n).map(|j| self.p[i * n + j] * self.h[j]).sum::<f64>())
             .collect();
         let k: Vec<f64> = ph.iter().map(|v| v / s).collect();
-        for i in 0..n {
-            self.x[i] += k[i] * nu;
+        for (xi, ki) in self.x.iter_mut().zip(&k) {
+            *xi += ki * nu;
         }
         // A = I - K H; P = A P A^T + K r K^T.
         let mut a = vec![0.0; n * n];
