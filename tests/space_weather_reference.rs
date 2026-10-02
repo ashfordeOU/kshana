@@ -50,9 +50,8 @@ const REF: &str = include_str!("fixtures/space_weather/space_weather_reference.t
 // (a) Published Jacchia-1971 temperature parity tolerance: 1 K over the grid.
 const TEMP_TOL_K: f64 = 1.0;
 // (b) Order-of-magnitude band for the 400 km solar-cycle swing vs NRLMSISE-00:
-// kshana/NRLMSISE within a factor of 3 (same order of magnitude). This DOCUMENTS,
-// not hides, the modelling gap: NRLMSISE-00 v0 gives a steeper swing than the
-// classic 5-10x band kshana is calibrated to.
+// kshana/NRLMSISE within a factor of 3 (same order of magnitude): two empirical models
+// (Jacchia 1971 and NRLMSISE-00) are compared here, neither is a measurement.
 const SWING_OOM_LO: f64 = 1.0 / 3.0;
 const SWING_OOM_HI: f64 = 3.0;
 // Reference altitudes used by the density grid (km).
