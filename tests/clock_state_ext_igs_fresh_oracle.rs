@@ -48,6 +48,14 @@
 //! sums of three consecutive non-overlapping one-step normalised innovations in [2.4, 3.6].
 //! PASS only if (a), (b) and (c) hold on every satellite. A PRN with no records in a half is
 //! reported and counts as a failure.
+//!
+//! VERDICT (first and only run, 2026-10-02): DISAGREES, the row stays MODELLED. (a) one-step
+//! 0.948 to 0.988 and (b) one hour 0.907 to 0.996 hold on all 11 satellites (round 1: (b)
+//! failed on 9 of 11). (c) fails on two: G24 0.964 and G30 1.929, both UNDER-confident; the
+//! others lie in 2.637 to 3.485. Both satellites' first halves carry bursts of large phase
+//! second differences (G24 around day 1, G30 at the day-6 and day-7 file boundaries) that the
+//! likelihood tuning absorbs as extra noise (G24 R = 10^-21.5 s^2). The strict test stays
+//! ignored; `extended_filter_on_fresh_igs_clocks_finding` pins the outcome.
 
 use kshana::clock_state::{ClockModelExt, ClockStateExt, FlickerFmBank};
 
@@ -211,8 +219,22 @@ fn failures() -> Vec<String> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered criteria not met on the fresh window (2026-10-02): (a) and (b) hold on all 11 \
+            satellites, (c) fails on G24 (triple-NIS mean 0.964) and G30 (1.929) against [2.4, 3.6]"]
 fn extended_filter_is_consistent_on_fresh_held_out_igs_clocks() {
     let f = failures();
     assert!(f.is_empty(), "pre-registered criteria failed: {f:?}");
+}
+
+/// Pins the recorded outcome of the pre-registered comparison (first and only run on this
+/// window, 2026-10-02): every satellite meets (a) and (b); (c) fails on G24 and G30, both
+/// under-confident (the second half is quieter than the first half the tuning saw).
+#[test]
+fn extended_filter_on_fresh_igs_clocks_finding() {
+    let f = failures();
+    assert_eq!(
+        f,
+        vec!["G24 NIS3 0.964".to_string(), "G30 NIS3 1.929".to_string()],
+        "recorded finding changed"
+    );
 }
