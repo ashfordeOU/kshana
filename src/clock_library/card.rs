@@ -69,6 +69,9 @@ pub struct DeviceCard {
     pub h_m2: f64,
     /// Linear fractional-frequency drift (1/s); zero for a card fitted on a curve.
     pub drift_per_s: f64,
+    /// Periodic phase terms `(period s, amplitude s)` fitted with the quadratic by
+    /// [`DeviceCard::fit_phase_periodic`]; empty for the power-law card.
+    pub periodic: Vec<(f64, f64)>,
     /// The points the card was fitted on.
     pub fit_points: Vec<CardPoint>,
     /// Conditioning log of the fit record (empty for a curve).
@@ -154,6 +157,26 @@ impl DeviceCard {
         Ok(card)
     }
 
+    /// Fit a card with periodic phase terms to the phase record `fit`: as
+    /// [`DeviceCard::fit_phase`], except that step 2 removes, jointly by least squares, the
+    /// quadratic and a sine-cosine pair at each of `periods` (seconds); the amplitude of each
+    /// pair is kept on the card and its closed-form Allan contribution enters
+    /// [`DeviceCard::adev`]. The noise terms are fitted on the residual.
+    pub fn fit_phase_periodic(
+        name: &str,
+        fit: &PhaseSeries,
+        periods: &[f64],
+    ) -> Result<DeviceCard, String> {
+        let (clean, conditioning) = condition(fit);
+        let (resid, c2, amps) = remove_quadratic_and_periodic(&clean, periods)
+            .ok_or_else(|| format!("{name}: periodic least squares failed"))?;
+        let mut card = Self::fit_phase_records(name, &[resid])?;
+        card.drift_per_s = 2.0 * c2;
+        card.periodic = periods.iter().copied().zip(amps).collect();
+        card.conditioning = conditioning;
+        Ok(card)
+    }
+
     /// Fit a card to published stability points `(tau, adev, edf)`; no drift.
     pub fn fit_curve(name: &str, points: &[(f64, f64, f64)]) -> Result<DeviceCard, String> {
         let pts: Vec<CardPoint> = points
@@ -189,6 +212,7 @@ impl DeviceCard {
             h_m1: f.h_m1,
             h_m2: f.h_m2,
             drift_per_s: 0.0,
+            periodic: Vec::new(),
             fit_points: used,
             conditioning: ConditioningLog::default(),
         })
@@ -202,10 +226,21 @@ impl DeviceCard {
             + (2.0 * PI * PI / 3.0) * self.h_m2 * tau
     }
 
-    /// The card's predicted Allan deviation at `tau`, drift included.
+    /// The card's predicted Allan deviation at `tau`, drift and periodic terms included. A
+    /// phase sinusoid of amplitude `A` and period `P` adds `4 A^2 sin^4(pi tau / P) / tau^2`
+    /// to the overlapping Allan variance (its second difference over `tau` has mean square
+    /// `8 A^2 sin^4(pi tau / P)`).
     pub fn adev(&self, tau: f64) -> f64 {
         let d = self.drift_per_s * tau;
-        (self.noise_allan_variance(tau) + 0.5 * d * d)
+        let per: f64 = self
+            .periodic
+            .iter()
+            .map(|&(p, a)| {
+                let s = (PI * tau / p).sin();
+                4.0 * a * a * s.powi(4) / (tau * tau)
+            })
+            .sum();
+        (self.noise_allan_variance(tau) + 0.5 * d * d + per)
             .max(0.0)
             .sqrt()
     }
@@ -239,6 +274,80 @@ impl DeviceCard {
             q_harmonic: 0.0,
         }
     }
+}
+
+/// Remove, by least squares over the present samples, `c0 + c1 t + c2 t^2` and a sine-cosine
+/// pair at each period from `s`. Returns the residual record, `c2` (s/s^2) and each pair's
+/// amplitude (s). `None` with too few samples or a singular system.
+#[allow(clippy::needless_range_loop)]
+fn remove_quadratic_and_periodic(
+    s: &PhaseSeries,
+    periods: &[f64],
+) -> Option<(PhaseSeries, f64, Vec<f64>)> {
+    let k = 3 + 2 * periods.len();
+    let pts: Vec<(f64, f64)> =
+        s.x.iter()
+            .enumerate()
+            .filter(|(_, v)| v.is_finite())
+            .map(|(i, v)| (i as f64 * s.tau0, *v))
+            .collect();
+    if pts.len() <= k {
+        return None;
+    }
+    let tc = pts.iter().map(|p| p.0).sum::<f64>() / pts.len() as f64;
+    let sc = pts
+        .iter()
+        .map(|p| (p.0 - tc).abs())
+        .fold(0.0_f64, f64::max)
+        .max(1.0);
+    let row = |t: f64| -> Vec<f64> {
+        let u = (t - tc) / sc;
+        let mut r = vec![1.0, u, u * u];
+        for &p in periods {
+            let w = 2.0 * PI / p;
+            r.push((w * t).sin());
+            r.push((w * t).cos());
+        }
+        r
+    };
+    let mut a = vec![vec![0.0; k]; k];
+    let mut b = vec![0.0; k];
+    for &(t, v) in &pts {
+        let r = row(t);
+        for i in 0..k {
+            b[i] += r[i] * v;
+            for j in 0..k {
+                a[i][j] += r[i] * r[j];
+            }
+        }
+    }
+    let inv = crate::fusion::ukf::inverse(&a)?;
+    let coef: Vec<f64> = (0..k)
+        .map(|i| (0..k).map(|j| inv[i][j] * b[j]).sum())
+        .collect();
+    if coef.iter().any(|c| !c.is_finite()) {
+        return None;
+    }
+    let x =
+        s.x.iter()
+            .enumerate()
+            .map(|(i, v)| {
+                let r = row(i as f64 * s.tau0);
+                v - (0..k).map(|j| r[j] * coef[j]).sum::<f64>()
+            })
+            .collect();
+    let amps = (0..periods.len())
+        .map(|j| coef[3 + 2 * j].hypot(coef[4 + 2 * j]))
+        .collect();
+    Some((
+        PhaseSeries {
+            t0: s.t0,
+            tau0: s.tau0,
+            x,
+        },
+        coef[2] / (sc * sc),
+        amps,
+    ))
 }
 
 /// One scored averaging time.
@@ -573,6 +682,39 @@ mod tests {
         let sc = score_held_out_records(&sep, &[clock(30_000, 1e-11, 0.0, 0.0, 14)], 1.5);
         assert!(sc.pass, "{:?}", sc.points);
         assert!(DeviceCard::fit_phase_records("none", &[]).is_err());
+    }
+
+    #[test]
+    fn a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot() {
+        // White FM at 30 s plus a once-per-revolution phase term of 2 ns.
+        let p = 43_082.05;
+        let mut s = clock(40_320, 3e-13, 0.0, 0.0, 15);
+        s.tau0 = 30.0;
+        for (i, v) in s.x.iter_mut().enumerate() {
+            *v = *v * 30.0 + 2e-9 * (2.0 * PI * i as f64 * 30.0 / p + 0.3).sin();
+        }
+        let (fit, held) = s.split_thirds();
+        let card = DeviceCard::fit_phase_periodic("periodic", &fit, &[p]).unwrap();
+        assert!(
+            (card.periodic[0].1 - 2e-9).abs() < 1e-10,
+            "{:?}",
+            card.periodic
+        );
+        assert!(score_held_out(&card, &held, 1.5).pass);
+        // The sinusoid's closed form: at tau = P/2 the term is 4 A^2 / tau^2.
+        let only = DeviceCard {
+            name: String::new(),
+            white_pm_var: 0.0,
+            h_0: 0.0,
+            h_m1: 0.0,
+            h_m2: 0.0,
+            drift_per_s: 0.0,
+            periodic: vec![(p, 2e-9)],
+            fit_points: Vec::new(),
+            conditioning: ConditioningLog::default(),
+        };
+        let t = p / 2.0;
+        assert!((only.adev(t) - 2.0 * 2e-9 / t).abs() < 1e-24);
     }
 
     #[test]
