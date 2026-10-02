@@ -6,7 +6,7 @@ before its oracle was run or its data fetched. The first six ended as FINDINGs. 
 founder decisions of 2026-10-02 (recorded at the end of this file) two more were registered:
 D7-a3, the LNAV encoder at the integer level on an unseen broadcast file, PASSES and is proposed
 as VALIDATED with one `validated_oracle_basis()` entry; D7-b4, acquisition on the never-opened
-surface-phase LuGRE batches, is recorded below.
+surface-phase LuGRE batches, is a FINDING (no batch held two satellites).
 
 Abbreviations: C/A coarse/acquisition; C/N0 carrier-to-noise density; LNAV legacy navigation
 message; IQ in-phase and quadrature samples; PRN pseudorandom noise number; SVN space vehicle
@@ -194,6 +194,37 @@ Record:
   acquired at +11 kHz); edited back.
 - Engine change it motivated: `PcpsResult::cell_average_statistic` / `acquired_cell_average`
   (commit 917890e0), unit-tested on coloured synthetic noise.
+
+## D7-b4. Acquisition on real lunar-surface IQ scored by orbit-predicted Doppler (new row, MODELLED)
+
+Proposed row:
+
+```rust
+VerificationItem {
+    requirement: "Acquisition on real lunar-surface IQ",
+    capability: "acquisition::pcps_acquire (cell-averaging decision, false-alarm probability 1e-7) with refine_doppler_coherent on the LuGRE L1 batches recorded on the lunar surface (I in the high nibble, mid-rise levels); Doppler differences between acquired satellites against differences predicted from ESA final orbits and the Firefly landing-site kernel",
+    module: "acquisition, realdata::ion_sdr, realdata::lugre",
+    tests: "tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (pinned finding, data-gated); lugre_surface_acquisition_doppler_oracle::surface_acquisitions_match_the_orbit_predicted_doppler (strict, ignored with the gap)",
+    oracle: "Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS Firefly landing-site kernel (xval/lugre-predicted-doppler/predict_surface.py, independent of Kshana), pre-registered 2108e6ff on batches never opened before. FINDING: non-vacuity fails; no batch holds two acquisitions. OP40 excluded (metadata names a missing file); OP38, OP73, OP77_0, OP77_1 acquire nothing and show no false alarm at 1e-7 (top statistics 325 to 356 against 385.9); OP74 and OP76 acquire PRN 31 and OP78_0 and OP78_1 PRN 12, each alone, all predicted visible. Stays MODELLED",
+    oracle_kind: InternalConsistency,
+    status: Modelled,
+},
+```
+
+Record:
+- Pre-registration: test file first pushed in `87f6bb95`, registration completed in `2108e6ff`
+  (2026-10-02T19:49:57Z) before any surface batch, header, kernel or orbit file was fetched.
+- Deviation before the run: OP40 excluded (its `.sdrx` names `..._400MS_...bin`; the dataset ships
+  `..._300MS_...bin`).
+- Result: P1 0 batches with a pair (fail); P2 no pair; P3 4 of 4.
+- Reported, not claimed: measured minus predicted Doppler +530.1 (OP74), +448.5 (OP76),
+  +638.8 (OP78_0) and +4913.3 Hz (OP78_1): the first three agree with one receiver clock offset
+  of about +0.35 ppm, consistent with the I/Q fix; OP78_1 is unexplained.
+- Mutation evidence: dropping the halving in `refine_doppler_coherent` turns the pin red; edited
+  back.
+- Lesson for the next registration (none is made here): the surface signals are weaker than
+  the development set's strongest; a longer integration (OP73 and OP76 hold 2 s) is the
+  dominant next step, registered before it is run.
 
 ## D7-c. Earth-GNSS at lunar distance, M039 (row 91): relative C/N0 plus visibility (MODELLED, unchanged status)
 

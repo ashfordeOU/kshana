@@ -46,6 +46,9 @@
 - LuGRE acquisition against orbit-predicted Doppler: with the sample-power decision every search
   crosses on band-limited noise; with the cell-averaging decision the strongest pairs agree in magnitude with
   the sign reversed, showing the registered I/Q order to be the conjugate of the data.
+- Blind acquisition on the lunar-surface batches: four batches each acquire one satellite
+  (predicted visible, no false alarm at 1e-7), none two, so the Doppler-difference bar has no
+  pair to score.
 - Relative C/N0 at lunar distance (M039 restated): 15 Block IIR/IIR-M records and one pair, too
   few for the registered bar.
 
