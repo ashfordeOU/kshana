@@ -53,6 +53,13 @@
 //! kilometres, not millimetres. It is published exactly because it is the honest size of the
 //! gap between this engine and an LLR analysis.
 //!
+//! **Kernel path (opt-in).** With `planetary_kernel_path` set, the Moon centre is the JPL DE440
+//! Moon read by the engine's own kernel reader ([`crate::ephem_provider::KernelEphemeris`]) and
+//! nothing else changes; the residual then falls from about 156 km to about 95 m on the
+//! committed slice, and the datum covariance agrees with the SPICE and NumPy oracle at the
+//! original bars (`tests/validate_llr_datum_kernel_moon.rs`, a diagnostic re-run on seen
+//! data, disclosed as such there). The analytic series stays the default.
+//!
 //! ## Why a kilometre-level residual does not invalidate the covariance — measured, not argued
 //!
 //! The datum covariance is a function of **geometry and weights**, not of the fit: an
@@ -86,7 +93,9 @@
 //! No TRL, flight heritage or agency endorsement is claimed, and this is not a geodetic
 //! product.
 
+use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, information_matrix};
+use crate::jd2::Jd2;
 use crate::lunar_frame_campaign::{helmert_design, solve_datum, HELMERT_PARAMETERS, N_HELMERT};
 use crate::precession::{mat_vec, transpose, Mat3, Vec3};
 use crate::realdata::llr_crd::{read_crd_dir, LlrNormalPoint};
@@ -341,10 +350,30 @@ pub struct LlrGeometry {
     pub station_direction_mer: Vec3,
 }
 
-/// Position of a reflector in the geocentric celestial frame at TT Julian date `jd_tt`.
-fn reflector_gcrs(mer_m: Vec3, jd_tt: f64) -> (Vec3, Mat3) {
-    let t_jc = (jd_tt - crate::timescales::JD_J2000) / 36_525.0;
-    let moon = crate::ephem::moon_position(t_jc);
+/// The geocentric Moon centre (m) at the UTC Julian date `jd_utc` plus `extra_s` seconds.
+///
+/// On the analytic source this is exactly the expression the engine has always used
+/// (`ephem::moon_position` at the TT of `jd_utc + extra_s / 86400`), so the default path is
+/// unchanged bit for bit. On a kernel source the epoch is carried as a two-part date
+/// (UTC day, then the seconds and TT − UTC added to the fraction) and the DE440 Moon relative
+/// to the Earth is read at its TDB.
+fn moon_centre(source: &LunisolarSource, jd_utc: f64, extra_s: f64) -> Result<Vec3, String> {
+    match source {
+        LunisolarSource::Analytic => {
+            let jd_tt = crate::timescales::utc_to_tt(jd_utc + extra_s / 86_400.0);
+            let t_jc = (jd_tt - crate::timescales::JD_J2000) / 36_525.0;
+            Ok(crate::ephem::moon_position(t_jc))
+        }
+        LunisolarSource::Kernel(k) => {
+            let tt_minus_utc = crate::timescales::tai_minus_utc(jd_utc) + 32.184;
+            k.moon_geocentric_tt(Jd2::new(jd_utc).add_seconds(extra_s + tt_minus_utc))
+        }
+    }
+}
+
+/// Position of a reflector in the geocentric celestial frame at TT Julian date `jd_tt`, the
+/// Moon centre being `moon`.
+fn reflector_gcrs(mer_m: Vec3, jd_tt: f64, moon: Vec3) -> (Vec3, Mat3) {
     // `icrf_to_iau_moon` maps celestial -> body-fixed, so its transpose lifts the body-fixed
     // reflector offset into the celestial frame. `jd_tdb ~= jd_tt` at the fidelity of the
     // analytic orientation model.
@@ -375,6 +404,27 @@ pub fn llr_geometry(
     jd_utc_tx: f64,
     dut1_s: f64,
 ) -> LlrGeometry {
+    llr_geometry_with(
+        &LunisolarSource::Analytic,
+        station_itrf_m,
+        reflector_mer_m,
+        jd_utc_tx,
+        dut1_s,
+    )
+    .expect("the analytic Moon series is defined at every epoch")
+}
+
+/// [`llr_geometry`] with the Moon centre taken from `source`: the analytic series (what
+/// [`llr_geometry`] uses) or a JPL kernel ([`crate::ephem_provider::KernelEphemeris`]). Only the
+/// Moon centre changes; the lunar orientation, Earth rotation and light-time iteration are the
+/// same. Fails only when a kernel has no data at an epoch.
+pub fn llr_geometry_with(
+    source: &LunisolarSource,
+    station_itrf_m: Vec3,
+    reflector_mer_m: Vec3,
+    jd_utc_tx: f64,
+    dut1_s: f64,
+) -> Result<LlrGeometry, String> {
     let day = 86_400.0;
     let r_sta_tx = station_gcrs(station_itrf_m, jd_utc_tx, dut1_s);
 
@@ -384,7 +434,8 @@ pub fn llr_geometry(
     let mut b_mat = [[0.0; 3]; 3];
     for _ in 0..4 {
         let jd_b_tt = crate::timescales::utc_to_tt(jd_utc_tx + tau_up / day);
-        let (p, m) = reflector_gcrs(reflector_mer_m, jd_b_tt);
+        let moon = moon_centre(source, jd_utc_tx, tau_up)?;
+        let (p, m) = reflector_gcrs(reflector_mer_m, jd_b_tt, moon);
         r_refl = p;
         b_mat = m;
         tau_up = norm3(sub3(r_refl, r_sta_tx)) / C;
@@ -405,17 +456,19 @@ pub fn llr_geometry(
     let partial_gcrs = [sum[0] / C, sum[1] / C, sum[2] / C];
 
     // Moon-centre-to-station direction in the body-fixed frame, at the bounce epoch.
-    let jd_b_tt = crate::timescales::utc_to_tt(jd_bounce);
-    let t_jc = (jd_b_tt - crate::timescales::JD_J2000) / 36_525.0;
-    let moon = crate::ephem::moon_position(t_jc);
+    let moon = match source {
+        // The analytic branch keeps its original epoch expression (jd_bounce, rounded once).
+        LunisolarSource::Analytic => moon_centre(source, jd_bounce, 0.0)?,
+        LunisolarSource::Kernel(_) => moon_centre(source, jd_utc_tx, tau_up)?,
+    };
     let to_station = mat_vec(&b_mat, unit3(sub3(r_sta_tx, moon)));
 
-    LlrGeometry {
+    Ok(LlrGeometry {
         two_way_tof_s: tau_up + tau_dn,
         partial_mer_s_per_m: mat_vec(&b_mat, partial_gcrs),
         one_way_range_m: 0.5 * (tau_up + tau_dn) * C,
         station_direction_mer: to_station,
-    }
+    })
 }
 
 // ---------------------------------------------------------------------------
@@ -493,6 +546,12 @@ pub struct LunarLlrDatumScenario {
     /// not a measurement. Default 0.1, above the worst-epoch disagreement with JPL over the
     /// committed span that `tests/lunar_llr_real_data.rs` measures.
     pub sensitivity_tilt_deg: Option<f64>,
+    /// Opt-in kernel path: a JPL planetary SPK (for example `de440s.bsp`, or a cut of it covering
+    /// the normal points). When set, the geocentric Moon centre is the kernel's DE440 Moon
+    /// relative to the Earth ([`crate::ephem_provider::KernelEphemeris`]) instead of the analytic
+    /// series, and the report gains a `moon_ephemeris` block naming the kernel and its SHA-256.
+    /// Nothing else changes. Default unset: the analytic series, as before.
+    pub planetary_kernel_path: Option<String>,
 }
 
 /// One usable observation after the catalogues have been joined to a normal point.
@@ -548,6 +607,14 @@ impl LunarLlrDatumScenario {
         let np_dir = self.path_or(&self.normal_points_dir, "normal_points");
         let points: Vec<LlrNormalPoint> = read_crd_dir(&np_dir)?;
         let dut1 = self.dut1_s.unwrap_or(0.0);
+        let kernel = match &self.planetary_kernel_path {
+            Some(p) => Some(KernelEphemeris::open(Path::new(p))?),
+            None => None,
+        };
+        let source = match &kernel {
+            Some(k) => LunisolarSource::Kernel(k),
+            None => LunisolarSource::Analytic,
+        };
 
         let n_parsed = points.len();
         let mut skipped_unknown_station = 0usize;
@@ -581,12 +648,13 @@ impl LunarLlrDatumScenario {
                 skipped_no_precision += 1;
                 continue;
             };
-            let g = llr_geometry(
+            let g = llr_geometry_with(
+                &source,
                 stations[si].position_at(p.jd_utc),
                 reflectors[ri].mer_m,
                 p.jd_utc,
                 dut1,
-            );
+            )?;
             station_counts[si] += 1;
             jd_min = jd_min.min(p.jd_utc);
             jd_max = jd_max.max(p.jd_utc);
@@ -952,13 +1020,25 @@ impl LunarLlrDatumScenario {
             },
             "units": units_block(),
         });
+        // A kernel run says so, and names the kernel; the analytic document is unchanged.
+        let mut json = json;
+        if let Some(k) = &kernel {
+            json["moon_ephemeris"] = serde_json::json!({
+                "source": "kernel",
+                "kernel_path": k.source(),
+                "kernel_sha256": k.kernel_sha256(),
+                "note": "geocentric Moon centre from the kernel (JPL DE440 Moon relative to the \
+                    Earth, J2000, at TDB); the lunar orientation (IAU 2015), Earth rotation and \
+                    light-time iteration are unchanged from the analytic path",
+            });
+        }
 
         let summary = format!(
             "lunar-llr-datum: {} archived normal points ({} parsed) from {} station(s) to {} \
              retroreflector arrays over {:.1} d; median measured normal-point precision {:.2} \
              mm one-way; reflector information rank {}/{}; Helmert rank {}/{} cond {:.3e}; \
              datum translation sigma {} m; observed-minus-computed one-way residual RMS {:.1} \
-             m (the modelled links, chiefly the analytic lunar ephemeris)",
+             m ({})",
             used.len(),
             n_parsed,
             station_counts.iter().filter(|&&n| n > 0).count(),
@@ -976,6 +1056,11 @@ impl LunarLlrDatumScenario {
                 "null (rank-deficient)".to_string()
             },
             residuals.rms_m,
+            if kernel.is_some() {
+                "the modelled links, with the Moon centre from the kernel"
+            } else {
+                "the modelled links, chiefly the analytic lunar ephemeris"
+            },
         );
 
         Ok(Computed { json, summary })
