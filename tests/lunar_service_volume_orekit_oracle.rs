@@ -58,6 +58,17 @@
 //!   timing run of the sweep on case-C elements with a test grid that printed only the sample
 //!   count (no statistic was looked at).
 //!
+//! ## Oracle correction (2026-10-02, after the first oracle run; Kshana side and bars unchanged)
+//!
+//! The first run of the driver integrated in Orekit's Moon "inertially oriented" frame, which
+//! follows the IAU lunar pole at date (its axes turned by 1.3e-4 rad over the first day), not in
+//! the pre-registered Moon-centred frame with ICRF axes, so its propagation dropped the
+//! fictitious forces of a turning frame. That run gave positions up to 17.6 km from Kshana's
+//! (203 m after 6 h on case A satellite 0, from identical initial states and identical
+//! Moon-fixed rotations, checked to 1e-10), while all 30 statistics were inside their bars. The
+//! driver now integrates in a pure translation of GCRF to the Moon's centre, as pre-registered,
+//! and the comparison is re-run with nothing else changed. Both runs are in the record.
+//!
 //! Debug-build runtime about five minutes (36 propagations and 6 sweeps of 7.5 million
 //! samples); `cargo test --release` about a minute.
 
