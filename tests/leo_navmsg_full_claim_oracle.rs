@@ -70,10 +70,218 @@
 //! PROMOTE the full row only if Parts A and B both agree; otherwise each part's outcome is
 //! reported and the strict test of a disagreeing part stays ignored with the measured gap.
 
+use std::path::{Path, PathBuf};
+
+use kshana::leo_navmsg::elements::{EphemerisModel, LeoNavMessage, SysTime};
+use kshana::leo_navmsg::fit::{sample_times, ModelKind};
+use kshana::leo_navmsg::sisre::sisre_weights;
+use kshana::leo_navmsg::truth::{TruthClock, TruthOrbit};
+use kshana::leo_navmsg::{sequence_stats, LeoNavmsgScenario};
+
+fn fixture(dir: &str, name: &str) -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/fixtures")
+        .join(dir)
+        .join(name)
+}
+
+const DIR: &str = "leo_navmsg_full_claim_oracle";
+const START_S: f64 = 900.0;
+const SPAN_S: f64 = 84_600.0;
+const CONFIGS: [(f64, f64); 4] = [
+    (1200.0, 600.0),
+    (1200.0, 1200.0),
+    (1800.0, 900.0),
+    (1800.0, 1800.0),
+];
+
+fn kinds() -> [(ModelKind, &'static str); 2] {
+    [
+        (ModelKind::Kepler16, "kepler16"),
+        (ModelKind::KeplerRac { degrees: [7, 5, 6] }, "kepler-rac"),
+    ]
+}
+
+/// The GRACE-C 2024-01-01 ITSG orbit (round-1 fixture) and the CLK1B clock on its grid.
+fn grace_c() -> (TruthOrbit, TruthClock) {
+    let text = std::fs::read_to_string(fixture(
+        "leo_navmsg_fit_real_orbit_oracle",
+        "grace_c_2024-01-01.csv",
+    ))
+    .unwrap();
+    let (mut week, mut tow0) = (0u32, 0.0);
+    let mut states = Vec::new();
+    for line in text.lines() {
+        if let Some(rest) = line.strip_prefix("# gps_week ") {
+            let f: Vec<&str> = rest.split_whitespace().collect();
+            week = f[0].parse().unwrap();
+            tow0 = f[2].parse().unwrap();
+            continue;
+        }
+        if line.starts_with('#') || line.trim().is_empty() {
+            continue;
+        }
+        let v: Vec<f64> = line.split(',').map(|s| s.parse().unwrap()).collect();
+        states.push(([v[1], v[2], v[3]], [v[4], v[5], v[6]]));
+    }
+    let orbit = TruthOrbit::from_ecef_states(SysTime::new(week, tow0), 10.0, 0.0, &states).unwrap();
+    let ctext = std::fs::read_to_string(fixture(DIR, "grace_c_clock_2024-01-01.csv")).unwrap();
+    let xs: Vec<f64> = ctext
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.trim().is_empty())
+        .map(|l| l.split(',').nth(1).unwrap().parse().unwrap())
+        .collect();
+    assert_eq!(xs.len(), states.len());
+    (orbit, TruthClock::from_samples(10.0, &xs).unwrap())
+}
+
+/// Kshana's sequences: per (model, interval, period), the statistics and the messages.
+fn kshana_runs() -> Vec<(
+    String,
+    kshana::leo_navmsg::sisre::ErrorStats,
+    Vec<LeoNavMessage>,
+)> {
+    let (orbit, clock) = grace_c();
+    let template = LeoNavmsgScenario::default().resolve().unwrap().template;
+    let mut rsum = 0.0;
+    for k in 0..=8640 {
+        let p = orbit.state_ecef(10.0 * k as f64).0;
+        rsum += (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
+    }
+    let w = sisre_weights(rsum / 8641.0, 0.0);
+    let start = orbit.epoch.plus(START_S);
+    let mut out = Vec::new();
+    for (kind, name) in kinds() {
+        for (interval, period) in CONFIGS {
+            let (st, msgs) = sequence_stats(
+                &orbit,
+                Some(&clock),
+                kind,
+                false,
+                &template,
+                &w,
+                &start,
+                SPAN_S,
+                interval,
+                period,
+                10.0,
+                10.0,
+            )
+            .unwrap();
+            out.push((format!("{name} {interval} {period}"), st, msgs));
+        }
+    }
+    out
+}
+
+/// Regenerates `kshana_messages.json` (the oracle's input). Run by hand only:
+/// `cargo test --release --test leo_navmsg_full_claim_oracle export -- --ignored`.
+#[test]
+#[ignore = "fixture generator"]
+fn export_kshana_messages_for_the_oracle() {
+    let (orbit, _) = grace_c();
+    let mut rsum = 0.0;
+    for k in 0..=8640 {
+        let p = orbit.state_ecef(10.0 * k as f64).0;
+        rsum += (p[0] * p[0] + p[1] * p[1] + p[2] * p[2]).sqrt();
+    }
+    let w = sisre_weights(rsum / 8641.0, 0.0);
+    let runs: Vec<serde_json::Value> = kshana_runs()
+        .into_iter()
+        .map(|(label, _, msgs)| serde_json::json!({ "label": label, "messages": msgs }))
+        .collect();
+    let doc = serde_json::json!({
+        "start_s": START_S, "span_s": SPAN_S, "sample_s": 10.0, "eval_step_s": 10.0,
+        "w_r": w.w_r, "w_ac2": w.w_ac2, "runs": runs,
+    });
+    std::fs::write(
+        fixture(DIR, "kshana_messages.json"),
+        serde_json::to_string(&doc).unwrap(),
+    )
+    .unwrap();
+}
+
+fn polyval(c: &[f64], x: f64) -> f64 {
+    c.iter().rev().fold(0.0, |acc, &v| acc * x + v)
+}
+
+/// Worst differences: (correction m, clock s, statistic m), and the count of messages checked.
+fn part_a() -> (f64, f64, f64, usize) {
+    let exported: serde_json::Value = serde_json::from_str(
+        &std::fs::read_to_string(fixture(DIR, "kshana_messages.json")).unwrap(),
+    )
+    .unwrap();
+    let oracle: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(fixture(DIR, "oracle_part_a.json")).unwrap())
+            .unwrap();
+    let (mut wc, mut wk, mut ws, mut n) = (0.0_f64, 0.0_f64, 0.0_f64, 0usize);
+    for (ri, (label, st, msgs)) in kshana_runs().into_iter().enumerate() {
+        let er = &exported["runs"][ri];
+        assert_eq!(er["label"].as_str().unwrap(), label);
+        assert_eq!(
+            serde_json::to_value(&msgs).unwrap(),
+            er["messages"],
+            "{label}: today's messages differ from the oracle's input"
+        );
+        let orr = &oracle["runs"][ri];
+        assert_eq!(orr["label"].as_str().unwrap(), label);
+        let (interval, period) = CONFIGS[ri % 4];
+        for (mi, m) in msgs.iter().enumerate() {
+            let om = &orr["messages"][mi];
+            // Fit samples of message mi, as sequence_stats lays them out.
+            let start = SysTime::new(2295, 86_400.0 + START_S);
+            let from = start.plus(mi as f64 * period - (interval - period) / 2.0);
+            let times = sample_times(&from, interval, 10.0);
+            let reft_week = m.week;
+            if let EphemerisModel::KeplerRac { kepler, rac } = &m.ephemeris {
+                let oa: Vec<f64> = serde_json::from_value(om["along"].clone()).unwrap();
+                let oc: Vec<f64> = serde_json::from_value(om["cross"].clone()).unwrap();
+                let orad: Vec<f64> = serde_json::from_value(om["radial"].clone()).unwrap();
+                for t in &times {
+                    let tau = t.minus(&SysTime::new(reft_week, kepler.toe)) / rac.tau_s;
+                    wc = wc
+                        .max((polyval(&rac.along, tau) - polyval(&oa, tau)).abs())
+                        .max((polyval(&rac.cross, tau) - polyval(&oc, tau)).abs())
+                        .max((polyval(&rac.radial, tau) - polyval(&orad, tau)).abs());
+                }
+            }
+            let c = m.clock.as_ref().unwrap();
+            let of: Vec<f64> = serde_json::from_value(om["clock"].clone()).unwrap();
+            for t in &times {
+                let dt = t.minus(&SysTime::new(m.week, c.toc));
+                let ours = c.af0 + c.af1 * dt + c.af2 * dt * dt;
+                let theirs = of[0] + of[1] * dt + of[2] * dt * dt;
+                wk = wk.max((ours - theirs).abs());
+            }
+            n += 1;
+        }
+        let os = &orr["stats"];
+        for (ours, key) in [
+            (st.along_rms_m, "along_rms_m"),
+            (st.cross_rms_m, "cross_rms_m"),
+            (st.radial_rms_m, "radial_rms_m"),
+            (st.clock_rms_m, "clock_rms_m"),
+            (st.sisre_orb_rms_m, "sisre_orb_rms_m"),
+            (st.sisre_rms_m, "sisre_rms_m"),
+        ] {
+            let theirs = os[key].as_f64().unwrap();
+            println!("{label:<22} {key:<16} kshana {ours:.6} oracle {theirs:.6}");
+            ws = ws.max((ours - theirs).abs());
+        }
+    }
+    (wc, wk, ws, n)
+}
+
+/// Part A, run with the pre-registered tolerances.
 #[test]
 #[ignore = "pre-registered; not yet run"]
 fn corrections_clock_fit_and_update_period_trade_match_an_independent_implementation_on_grace_fo() {
-    todo!("implemented after the fixture is fetched")
+    let (wc, wk, ws, n) = part_a();
+    println!("messages {n}: worst correction {wc:.3e} m, clock {wk:.3e} s, statistic {ws:.3e} m");
+    assert!(n > 0);
+    assert!(wc <= 1e-4, "correction {wc}");
+    assert!(wk <= 1e-12, "clock {wk}");
+    assert!(ws <= 1e-4, "statistic {ws}");
 }
 
 #[test]
