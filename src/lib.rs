@@ -202,6 +202,7 @@ pub mod mars_pnt;
 pub mod mcda;
 pub mod models;
 pub mod monitor_network;
+pub mod naif_kernel;
 pub mod navsignal;
 pub mod nma_budget;
 pub mod nutation;
