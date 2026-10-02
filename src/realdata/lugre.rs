@@ -484,6 +484,7 @@ senderId: 0 messageType: RAW rxTime: 1421026678.65449 measures: [ svid: 36 prRaw
             word_bytes: 1,
             words_per_chunk: 1,
             little_endian: true,
+            fill_lsb_first: false,
             pad_head: false,
             samples_per_lump: 1,
             header_bytes: IQS_HEADER_BYTES,

@@ -119,7 +119,10 @@ impl Snapshot {
     fn open(dir: &std::path::Path, sdrx: &str) -> Snapshot {
         let p = dir.join(sdrx);
         let text = std::fs::read_to_string(&p).unwrap_or_else(|e| panic!("{p:?}: {e}"));
-        let layout = parse_sdrx(&text).unwrap_or_else(|e| panic!("{p:?}: {e}"));
+        let mut layout = parse_sdrx(&text).unwrap_or_else(|e| panic!("{p:?}: {e}"));
+        // The low-nibble-I reading registered at 768cb62b (ion_sdr's default changed after
+        // the finding; see its module documentation).
+        layout.fill_lsb_first = true;
         let data = p.parent().unwrap().join(&layout.url);
         let bytes = std::fs::read(&data).unwrap_or_else(|e| panic!("{data:?}: {e}"));
         Snapshot { layout, bytes }
