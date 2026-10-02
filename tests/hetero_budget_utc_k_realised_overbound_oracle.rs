@@ -151,7 +151,10 @@ fn clopper_pearson(k: usize, n: usize) -> (f64, f64) {
 }
 
 /// (laboratories, test rows, exceedances, rows without an overbound, per-lab rates).
-fn run() -> Option<(usize, usize, usize, usize, Vec<(String, usize, usize)>)> {
+/// (laboratory, test rows, exceedances).
+type LabRate = (String, usize, usize);
+
+fn run() -> Option<(usize, usize, usize, usize, Vec<LabRate>)> {
     let labs = load()?;
     let (mut n, mut exc, mut nob) = (0usize, 0usize, 0usize);
     let mut per = Vec::new();
