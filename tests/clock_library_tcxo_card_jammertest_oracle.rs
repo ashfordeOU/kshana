@@ -171,3 +171,68 @@ fn card_monitor_detects_the_logged_onsets_within_10_s_without_false_alarms() {
         "onsets outside the tolerance: {failures:?}"
     );
 }
+
+// ── Round 4 ────────────────────────────────────────────────────────────────────────────────
+//
+// PRE-REGISTRATION (written 2026-10-02, committed and pushed before the Wroclaw record was
+// fetched). Round 3 above is BLOCKED for lack of training data from the JammerTest unit. Round 4
+// takes the noise levels from the same receiver MODEL instead: `pooled_hadamard_noise` over the
+// 30 s receiver-clock records of every Wroclaw ZED-F9P station of
+// `tests/clock_library_f9p_cards_oracle.rs` (Zenodo 6488497, CC BY 4.0, 2021, years before the
+// test week; each station's whole 14-day record, GPS-only single-point clock). Disclosed: these
+// are different oscillators of the same model, sampled at 30 s, while the monitor runs at 1 s;
+// the white-phase level `r` is the 30 s single-point level. Everything else is round 2 and round
+// 3 unchanged: the logged onsets, the slices, the non-latching three-state monitor, k = 5, the
+// 60 s calibration through `calibrate`, detection within 10 s of every evaluable logged onset
+// and zero pre-onset alarms, at least 8 evaluable. Data-gated: BLOCKED (nothing scored) when
+// the Wroclaw data are absent.
+
+/// The Wroclaw model-class monitor noise, or `None` when the data are absent.
+fn f9p_class_noise() -> Option<ClockNoiseEstimate> {
+    let recs: Vec<_> = cl::f9p_stations()?.into_iter().map(|(_, s)| s).collect();
+    let (noise, curve) = pooled_hadamard_noise(&recs)?;
+    println!(
+        "ZED-F9P class noise from {} stations: {noise:?}",
+        recs.len()
+    );
+    for (tau, hv, c) in curve {
+        println!("    HDEV tau {tau:>8} s  {:.4e}  terms {c}", hv.sqrt());
+    }
+    Some(noise)
+}
+
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn f9p_class_card_monitor_detects_the_logged_onsets_within_10_s_without_false_alarms() {
+    let noise = f9p_class_noise().expect("Wroclaw ZED-F9P data absent: round 4 BLOCKED");
+    let mut evaluated = 0;
+    let mut failures = Vec::new();
+    for o in jt::onsets_from("onsets_log.tsv") {
+        let r = run_onset_card(&o, noise);
+        let lat = r.detection.map(|(t, _)| t - r.onset);
+        println!(
+            "R4 {:<7} evaluable={} bound={:.1} ns pre_alarms={} first_pre={:?} detection={:?} latency={:?}",
+            r.id,
+            r.evaluable,
+            r.bound_ns,
+            r.pre_onset_alarms.len(),
+            r.pre_onset_alarms.first().map(|(t, k)| (t - r.onset, *k)),
+            r.detection.map(|(_, k)| k),
+            lat
+        );
+        if !r.evaluable {
+            continue;
+        }
+        evaluated += 1;
+        if !(r.pre_onset_alarms.is_empty()
+            && lat.is_some_and(|l| (0.0..=jt::DETECT_TOL_S).contains(&l)))
+        {
+            failures.push(r.id.clone());
+        }
+    }
+    assert!(evaluated >= 8, "only {evaluated} evaluable onsets");
+    assert!(
+        failures.is_empty(),
+        "onsets outside the tolerance: {failures:?}"
+    );
+}
