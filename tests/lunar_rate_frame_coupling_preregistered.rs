@@ -79,6 +79,19 @@
 //! Fixture: `tests/fixtures/lunar_rate_frame_coupling_preregistered/` (generator, NOTICE,
 //! extracted field numbers, pyshtools output, Horizons velocities), produced only after this
 //! header was committed.
+//!
+//! # Result (run 2026-10-02, after the pre-registration commit 5590ab21)
+//!
+//! * Entry 1: J2 referred to a_m 2.031887e-4 (A) and 2.031891e-4 (B); Kshana 3.1388012e-11
+//!   against 3.13881e-11, relative 2.80e-6 for both fields (0.028 of the bar).
+//! * Entry 2: Kshana 1.8061855e-17 /m against 1.8063350e-17 (A, g_eff 1.6234529 m/s^2) and
+//!   1.8063058e-17 (B), relative 8.28e-5 and 6.66e-5 (bar 1e-4; the degree 3 to 350 part of the
+//!   field, amplified by n + 1 in the gradient). The field's longitude-mean equatorial potential
+//!   is 2.821012e6 m^2/s^2 for both, matching the paper's Phi_m = -2.82101(7)e6.
+//! * Entry 3: 2000 epochs, RMS relative 8.0e-4, max 2.54e-3 (bar 4.5e-3).
+//! * Mutations (reverted by editing back): dropping J2 from `LunarSurfacePotential` turns entries
+//!   1 (1.044e-4) and 2 (3.9e-4) red; a constant lunar speed of 1022 m/s in place of the series
+//!   velocity turns entry 3 red (max 7.4e-2).
 
 use kshana::lunar_gauge::{rate_frame_jacobian_with, LunarSurfacePotential};
 
@@ -130,7 +143,6 @@ fn potential(field: &str) -> LunarSurfacePotential {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields() {
     let l_m = value_in(PAPER, "L_m");
     let mut worst: f64 = 0.0;
@@ -148,7 +160,6 @@ fn entry1_d_alpha_d_scale_matches_the_published_l_m_for_both_cited_fields() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fields() {
     let o = fixture("pyshtools_equatorial.txt");
     let omega = value_in(PAPER, "omega_m");
@@ -174,7 +185,6 @@ fn entry2_d_alpha_d_radial_matches_the_degree_350_equatorial_gravity_for_both_fi
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn entry3_d_alpha_d_velocity_matches_the_de441_lunar_speed() {
     let text = fixture("horizons_moon_velocity.csv");
     let p = potential("AIUB-GRL350A");

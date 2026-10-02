@@ -33,6 +33,13 @@
 //! this re-run, from the same closed form; the tolerance was not changed.
 //!
 //! Result: see the record; the strict test below asserts the pre-registered 1e-4.
+//!
+//! ## Note (2026-10-02)
+//!
+//! The round-2 change above altered the comparison without a new pre-registration and used
+//! Kshana's own J2. These two tests stay as regression checks of the shipped closed form; the
+//! promotion basis is `tests/lunar_rate_frame_coupling_preregistered.rs` (J2 from the cited
+//! AIUB-GRL350A/B fields, all three Jacobian entries).
 
 use kshana::lunar_gauge::{rate_frame_jacobian, rate_frame_jacobian_with, LunarSurfacePotential};
 
