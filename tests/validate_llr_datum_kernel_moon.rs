@@ -56,6 +56,24 @@
 //! * **Mutation check, planned now:** after the run, the kernel branch is made to return the
 //!   analytic Moon instead; the strict test must then fail (it must reproduce the original
 //!   1.025 % miss), and the edit is reverted.
+//!
+//! ## Result (run after the pre-registration commit c51f8b2 was published)
+//!
+//! Every quantity holds at the unchanged bars. The z-translation sigma, the one quantity the
+//! analytic run missed, moves from 1.025 % to 0.049 % (engine 1.268640e-2 m, oracle
+//! 1.269258e-2 m). The largest relative gap is now 1.1e-3 (the Luna 17 across/along ratio,
+//! bar 2e-2); every sigma and norm is within 4.9e-4 (bar 1e-2); the condition number within
+//! 9.6e-4 (bar 2e-2); bookkeeping, ranks and zero coupling exact. Information only: the
+//! kernel-path observed-minus-computed one-way residual RMS is 95.1 m, against 156,494 m on the
+//! analytic path; what remains is the IAU 2015 orientation, the absent polar motion and UT1,
+//! troposphere, tides and relativistic delay. The cut kernel (SHA-256 bf1efa31...) reproduces
+//! `de440s.bsp` bit for bit, and `de440s.bsp` and the oracle's `de440.bsp` give identical Moon
+//! states over the window. Mutation: making the kernel branch return the analytic Moon
+//! reproduced the original miss exactly (tz rel 1.025e-2, OUTSIDE) and the test failed;
+//! reverted.
+//!
+//! Outcome: DIAGNOSTIC PASS. The named cause accounts for the gap. The row stays MODELLED; its
+//! promotion on this seen-data re-run, or on fresh normal points, is the founder's decision.
 
 use kshana::api::run_toml;
 use serde_json::Value;
@@ -245,7 +263,6 @@ fn comparisons(v: &Value) -> Vec<Row> {
 
 /// The strict diagnostic comparison at the unchanged bars.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn llr_datum_with_kernel_moon_matches_spice_and_numpy_at_the_unchanged_bars() {
     let v = report();
     for x in comparisons(&v) {
@@ -258,5 +275,25 @@ fn llr_datum_with_kernel_moon_matches_spice_and_numpy_at_the_unchanged_bars() {
             x.rel,
             x.bar
         );
+    }
+}
+
+/// The kernel run's own pins, kept apart from the analytic path's: the report must name the
+/// kernel it read, by its SHA-256, and its headline figures are pinned to the values this run
+/// recorded, to the printed precision (1e-5 relative; a regression guard, not evidence).
+#[test]
+fn kernel_run_records_its_kernel_and_pins_its_headline() {
+    let v = report();
+    assert_eq!(
+        v.pointer("/moon_ephemeris/kernel_sha256")
+            .and_then(Value::as_str),
+        Some("bf1efa316511b944e33d0be609c8cda43a8dbafa45496c31ad2727cebb6bf4b8")
+    );
+    for (path, want) in [
+        ("/datum_accuracy/translation_sigma_norm_m", 1.834311e-2),
+        ("/residuals/rms_m", 95.128),
+    ] {
+        let got = num(&v, path);
+        assert!(rel(got, want) < 1e-5, "{path}: {got} vs pinned {want}");
     }
 }
