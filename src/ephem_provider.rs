@@ -378,6 +378,12 @@ impl KernelEphemeris {
         self.sun_geocentric(tt_to_tdb_jd2(jd_tt))
     }
 
+    /// Position of `target` relative to `center` (m, J2000) at a **UTC** two-part epoch, carried
+    /// to TDB by [`utc_to_tdb_jd2`]; `None` as for [`relative_position_jd2`](Self::relative_position_jd2).
+    pub fn relative_position_utc(&self, target: &Body, center: &Body, jd_utc: Jd2) -> Option<Vec3> {
+        self.relative_position_jd2(target, center, utc_to_tdb_jd2(jd_utc))
+    }
+
     /// The NAIF code of a body named as [`Body::name`] names it.
     pub fn naif_code_of(name: &str) -> Option<i32> {
         crate::body::SOLAR_SYSTEM
@@ -396,6 +402,14 @@ impl KernelEphemeris {
         let c = Self::naif_code_of(center.name)?;
         self.position(t, c, jd_tdb).ok()
     }
+}
+
+/// UTC two-part Julian date to TDB: TT = UTC + (TAI − UTC) + 32.184 s, with the leap seconds of
+/// [`crate::timescales::tai_minus_utc`], then [`tt_to_tdb_jd2`]. The two-term TDB − TT series
+/// is good to a few tens of microseconds; leap seconds are exact from 1972 on.
+pub fn utc_to_tdb_jd2(jd_utc: Jd2) -> Jd2 {
+    let tt_minus_utc = crate::timescales::tai_minus_utc(jd_utc.total()) + 32.184;
+    tt_to_tdb_jd2(jd_utc.add_seconds(tt_minus_utc))
 }
 
 /// TT two-part Julian date to TDB, with [`crate::timescales::tdb_minus_tt`].
