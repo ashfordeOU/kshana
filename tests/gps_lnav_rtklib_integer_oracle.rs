@@ -30,6 +30,11 @@
 //! input value lies within half a quantum of Kshana's integer times the IS-GPS-200 scale (the
 //! quantisation is round-to-nearest). Tolerance: exact; none is physical in a bit format.
 //! Non-vacuity: at least 25 satellites. If I1 to I3 hold, the row is promotable on this test.
+//!
+//! RESULT (run 2026-10-02 on d4d9eb9d + fixtures): 32 satellites, 0 failures: 960 of 960 words
+//! pass RTKLIB's parity, 96 of 96 subframes decode, every one of 608 decoded integers equals
+//! Kshana's, every input lies within half a quantum, week and times exact. MUTATION: quantising
+//! by truncation instead of rounding gives 235 failures; edited back.
 
 use kshana::gps_lnav::{encode_subframes, field_values, LnavConventions, LnavEphemeris, GPS_PI};
 use serde_json::Value;
@@ -207,7 +212,6 @@ fn compare() -> (Vec<String>, usize) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file() {
     let committed = std::fs::read_to_string(format!("{FIX}/kshana_words.txt")).expect("words");
     assert_eq!(
