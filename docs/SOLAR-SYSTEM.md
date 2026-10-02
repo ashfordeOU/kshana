@@ -172,13 +172,13 @@ The two bundled scenarios, as they run with kshana 0.29.3:
 | Span | one sol, 296 epochs | 306 822 s, 171 epochs |
 | Earth light time, one-way / round trip | 338.3 s / 676.6 s | 2182.9 s / 4365.8 s |
 | Earth in view | 0.811 of epochs | 0.439 |
-| Availability, relays only / with the Earth range | 1.000 / 1.000 | 0.485 / 0.725 |
-| Median PDOP | 1.375 | 5.266 |
-| RMS fix error, relays only / with the Earth range | 1.883 m / 1.629 m | 129.516 m / 100.983 m |
-| Median formal sigma, relays only / with the Earth range | 1.375 m / 1.304 m | 5.266 m / 4.272 m |
+| Availability, relays only / with the Earth range | 1.000 / 1.000 | 0.480 / 0.719 |
+| Median PDOP | 1.375 | 5.360 |
+| RMS fix error, relays only / with the Earth range | 1.883 m / 1.629 m | 112.742 m / 86.147 m |
+| Median formal sigma, relays only / with the Earth range | 1.375 m / 1.304 m | 5.360 m / 4.239 m |
 
-(RMS: root mean square.) Around Europa the Earth range lifts availability from 0.485 to
-0.725 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
+(RMS: root mean square.) Around Europa the Earth range lifts availability from 0.480 to
+0.719 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
 89.5 deg S on the Moon under a 12-satellite, 5000 km relay shell has the Earth in view at 0
 of 145 epochs, and its errors are the same with and without the link.
 
