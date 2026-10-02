@@ -15,3 +15,9 @@
 - Retrieved and read: 2026-10-01. `ho_xu_2004_readings.json` SHA-256 f60f3a2d77c1667721253fe79ed44acd9dce5069bdd2b99d8d38a510b0dd924e. Procedure amendments
   made after the first runs and before any Kshana value was computed are recorded in the
   script header (frame-line rule, tick rule, line-search margin).
+- Second fixture (amendment 1): `ho_xu_author_crlb.json`, the 6x6 bounds from the authors' function
+  TDOAFDOALocMvgSrcSenCRLB.m (Le Yang and K. C. Ho; TDOAFDOALocMvgSrcSen.zip from
+  https://cisp.ece.missouri.edu/code.html, SHA-256
+  08bae09ed86806dd022d56a7b76c9125b3f841dd4929517807bb3c19ce633a51, BSD-style licence, retrieved
+  2026-10-02; not vendored, fetched and run as a separate program by `run_author_crlb.sh`
+  under GNU Octave 8.4.0). JSON SHA-256 3e4d0bd70751156e98fd013a803cb741aeece089cc26b74c6d513ce211fc132b.

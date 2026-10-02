@@ -444,12 +444,13 @@ pub fn tdoa_fdoa_crlb(
 }
 
 /// Recover emitter position and velocity from joint TDOA + FDOA with a GENERAL noise
-/// covariance: the maximum-likelihood Gauss–Newton fit for Gaussian noise. The residuals are
-/// whitened by the Cholesky factor of the block-diagonal covariance `diag(q_rd, q_rrd)`
+/// covariance: the maximum-likelihood Gauss–Newton fit for Gaussian noise, the residuals
+/// weighted by the inverse of the block-diagonal covariance `diag(q_rd, q_rrd)`
 /// (`tdoa` in seconds, `fdoa` as range-rate differences in m/s, `q_rd` in m², `q_rrd` in
 /// m²/s²), so correlated differences sharing a reference receiver are weighted correctly.
-/// `x0` seeds the iteration. `None` on a singular covariance, bad geometry or
-/// non-convergence.
+/// `x0` seeds the iteration (analytic Jacobians), which stops when the Gauss–Newton step is
+/// below 1e-8 of its own standard deviation (`dxᵀ Hᵀ Q⁻¹ H dx < 1e-16`). `None` on a singular
+/// covariance, bad geometry or non-convergence within 100 iterations.
 #[allow(clippy::too_many_arguments)]
 pub fn solve_tdoa_fdoa_cov(
     receivers: &[Vec3],
@@ -470,45 +471,79 @@ pub fn solve_tdoa_fdoa_cov(
     {
         return None;
     }
-    let lt = cholesky(q_rd)?;
-    let lf = cholesky(q_rrd)?;
-    // Forward substitution L y = b.
-    let solve_l = |l: &Mat, b: &[f64]| -> Vec<f64> {
-        let n = b.len();
-        let mut y = vec![0.0; n];
-        for i in 0..n {
-            let mut s = b[i];
-            for j in 0..i {
-                s -= l[i][j] * y[j];
-            }
-            y[i] = s / l[i][i];
+    let m = 2 * (k - 1);
+    let mut q = vec![vec![0.0; m]; m];
+    for a in 0..k - 1 {
+        for b in 0..k - 1 {
+            q[a][b] = q_rd[a][b];
+            q[k - 1 + a][k - 1 + b] = q_rrd[a][b];
         }
-        y
-    };
-    let whiten = move |rd: &[f64], rrd: &[f64]| -> Vec<f64> {
-        let mut out = solve_l(&lt, rd);
-        out.extend(solve_l(&lf, rrd));
-        out
-    };
-    let recv = receivers.to_vec();
-    let rvel = recv_vel.to_vec();
-    let w2 = whiten.clone();
-    let model = move |x: &[f64]| {
+    }
+    let qi = mat_inverse(&q)?;
+    let mut z: Vec<f64> = tdoa.iter().map(|t| t * C).collect();
+    z.extend_from_slice(fdoa);
+    let mut x = x0;
+    for _ in 0..100 {
         let p = [x[0], x[1], x[2]];
         let v = [x[3], x[4], x[5]];
-        let rd: Vec<f64> = tdoa_predict(p, &recv).iter().map(|t| t * C).collect();
-        let rrd = fdoa_predict(p, v, &recv, &rvel);
-        w2(&rd, &rrd)
-    };
-    let rd_meas: Vec<f64> = tdoa.iter().map(|t| t * C).collect();
-    let z = whiten(&rd_meas, fdoa);
-    let w = vec![1.0; z.len()];
-    let res = crate::batch_ls::gauss_newton(model, &z, &w, &x0, 100, 1e-9)?;
-    if !res.converged {
-        return None;
+        // Residual and analytic Jacobian of [range differences; range-rate differences].
+        let mut hx: Vec<f64> = tdoa_predict(p, receivers).iter().map(|t| t * C).collect();
+        hx.extend(fdoa_predict(p, v, receivers, recv_vel));
+        let r: Vec<f64> = (0..m).map(|i| z[i] - hx[i]).collect();
+        let mut h: Vec<[f64; 6]> = tdoa_range_difference_jacobian(receivers, p)
+            .into_iter()
+            .map(|g| [g[0], g[1], g[2], 0.0, 0.0, 0.0])
+            .collect();
+        h.extend(fdoa_range_rate_difference_jacobian(
+            receivers, recv_vel, p, v,
+        ));
+        // Normal equations (Hᵀ Q⁻¹ H) dx = Hᵀ Q⁻¹ r.
+        let mut qr = vec![0.0; m];
+        for i in 0..m {
+            qr[i] = (0..m).map(|j| qi[i][j] * r[j]).sum();
+        }
+        let mut a = vec![vec![0.0; 6]; 6];
+        let mut bvec = [0.0; 6];
+        for c in 0..6 {
+            bvec[c] = (0..m).map(|i| h[i][c] * qr[i]).sum();
+            for d in 0..6 {
+                let mut acc = 0.0;
+                for i in 0..m {
+                    let hi = h[i][c];
+                    if hi == 0.0 {
+                        continue;
+                    }
+                    for j in 0..m {
+                        acc += hi * qi[i][j] * h[j][d];
+                    }
+                }
+                a[c][d] = acc;
+            }
+        }
+        let ai = mat_inverse(&a)?;
+        let mut dx = [0.0; 6];
+        for c in 0..6 {
+            dx[c] = (0..6).map(|d| ai[c][d] * bvec[d]).sum();
+        }
+        for c in 0..6 {
+            x[c] += dx[c];
+        }
+        // Converged when the step is negligible against its own uncertainty:
+        // dxᵀ (Hᵀ Q⁻¹ H) dx below 1e-16 (a step of 1e-8 standard deviations).
+        let mut size = 0.0;
+        for c in 0..6 {
+            for d in 0..6 {
+                size += dx[c] * a[c][d] * dx[d];
+            }
+        }
+        if !x.iter().all(|v| v.is_finite()) {
+            return None;
+        }
+        if size < 1e-16 {
+            return Some(x);
+        }
     }
-    let x = res.x;
-    Some([x[0], x[1], x[2], x[3], x[4], x[5]])
+    None
 }
 
 #[cfg(test)]
