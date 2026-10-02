@@ -16,12 +16,12 @@ MODELLED rows were put to an external oracle in the first round and the remainin
 rows in the second; every disagreement is recorded below as a finding rather than tuned
 away. Three rows were split so that a validated part does not carry an unvalidated
 remainder, which takes the matrix from 223 to 226 rows; the validation packages folded since
-take it to 228. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
+take it to 232. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
 
 | | 0.29.0 | after round 1 | Unreleased |
 | --- | --- | --- | --- |
-| Verification-matrix rows | 223 | 223 | 228 |
-| of which VALIDATED against an external oracle | 83 | 93 | 112 |
+| Verification-matrix rows | 223 | 223 | 232 |
+| of which VALIDATED against an external oracle | 83 | 93 | 116 |
 | of which MODELLED | 136 | 126 | 112 |
 | of which PARTNER | 4 | 4 | 4 |
 
@@ -363,7 +363,7 @@ its pinned test.
 
 ### Validation packages
 
-**D12, extended precision and a square-root solver (two new VALIDATED rows: 226 -> 228 rows, 110 -> 112 VALIDATED).**
+**D12, extended precision and a square-root solver (two new VALIDATED rows: 226 -> 228 rows, 110 -> 112 validated).**
 
 Part 1, extended-precision oracle:
 
@@ -399,6 +399,57 @@ Part 2, square-root information datum solver:
   comparator changed from acos to a chord, the bar did not).
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
   observing campaign" row is unchanged and still awaits a decision on its promotion.
+
+**D4, JPL kernel ephemeris spine, phase 1 (four new VALIDATED rows: 228 -> 232 rows, 112 -> 116 VALIDATED).**
+
+- **The NAIF kernel reader has its own row.** `naif_kernel` (DAF container, SPK type 2,
+  binary PCK type 2) agrees with the SPICE Toolkit (CSPICE N0067 through spiceypy 8.2.0) and
+  with ANISE 0.10.6 on all 600 DE440 states and 200 lunar-orientation rotations of a random grid
+  drawn from the pre-registration commit's own hash (abcd9133), inside bars derived beforehand
+  from double-precision Chebyshev evaluation (worst 0.6 % of the bar, 1.95e-3 m). The row claims
+  that the engine reads JPL kernels correctly, not that DE440 or the analytic series is accurate
+  (`tests/naif_reader_spice_oracle.rs`).
+- **`ephem_provider::KernelEphemeris`**: DE440 (or any type-2 SPK) positions through the
+  engine's own reader, with two-part TDB epochs and the kernel's SHA-256 kept for reports; it
+  never substitutes a system barycentre for a planet. `LunisolarSource` lets a geometry path
+  choose the analytic series (the default) or a kernel.
+- **Opt-in kernel Moon for `lunar-llr-datum` and `lunar-vlbi-fim`**: a `planetary_kernel_path`
+  key reads the geocentric Moon centre from the kernel; nothing else changes, and the report
+  gains a `moon_ephemeris` block naming the kernel and its SHA-256. Without the key both
+  reports are byte-identical to before.
+- **Lunar-surface-point covariance on the kernel path** (new VALIDATED row): with every station
+  fixed and the beacon on the DE440 Moon, the beacon covariance agrees with a SPICE light-time
+  Jacobian (worst 1.7e-3 against a 1 % bar) and a NumPy inverse (4e-14 against 1e-9),
+  pre-registered 4a51256 (`tests/lunar_vlbi_surface_point_spice_oracle.rs`). The analytic-path
+  row stays MODELLED: on the analytic Moon its smallest beacon sigma is 3.9 % below the oracle.
+- **Lunar frame datum from a real campaign, kernel Moon centre** (new VALIDATED row): on 447
+  unseen 2019-Q2 normal points, pre-registered 830d945a before any was fetched, the datum
+  covariance on the kernel path agrees with the unchanged SPICE and NumPy oracle within 7.6e-5
+  against 1 % and 2 % bars (`tests/validate_llr_datum_kernel_moon_fresh.rs`). The founder
+  decided that this row promotes only on fresh points; the seen-data diagnostic (c51f8b2) is a
+  finding, not evidence. The bar does not discriminate Moon models: the analytic Moon also
+  passes on the same slice (worst 3.8e-3), the planned mutation (the kernel Moon one hour late)
+  was not detected, and at the fold a Moon centre about 4,650 km wrong (the Moon taken about the
+  Earth-Moon barycentre) also passed. The row claims the covariance on that path, not the Moon
+  centre, and says so.
+- **Sun, Moon, Mercury and Venus positions from DE440 at UTC epochs** (new VALIDATED row):
+  `KernelEphemeris::relative_position_utc` agrees with Skyfield 1.54 on 600 positions between
+  1973 and 2026, worst 2.96 m, inside a pre-registered bar (0bfafe6d) set by the two-term
+  TDB − TT series (`tests/kernel_ephemeris_skyfield_oracle.rs`). Planet positions get this new
+  kernel row now; the Standish row and the planetary-moons row are unchanged, and the moons wait
+  for a scenario that needs them (founder decision).
+- Findings: the LLR datum comparison's one miss (z-translation sigma 1.025 % against 1 %) falls
+  to 0.049 % when only the Moon centre is read from DE440, on seen data
+  (`tests/validate_llr_datum_kernel_moon.rs`); on the fresh 2019 slice the analytic Moon passes
+  too, so the 2015 miss was marginal to that quarter's geometry. The analytic rows "Lunar frame
+  datum from a REAL observing campaign" and "Lunar-surface-point coordinate covariance … kept
+  distinct from the Earth-station one" stay MODELLED; their oracle texts now point at the
+  kernel-path rows.
+- `lunar_ephemeris` no longer says the engine has no binary-kernel reader; it points at the
+  reader row and explains why spacecraft kernels (types 13 and 21) still come through Horizons.
+- Revisions: none. No golden file, published figure or existing test value changes; the
+  analytic `lunar-llr-datum`, `lunar-vlbi-fim` and all-stations-fixed `lunar-vlbi-fim` reports
+  are byte-identical to before (result SHA-256 prefixes 9927aac2, cf1d2671, 25c357e4).
 
 ### Fixed
 
