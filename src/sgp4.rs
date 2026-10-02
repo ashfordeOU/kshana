@@ -1508,29 +1508,57 @@ impl MeanElementSet {
 pub const EARTH_ROTATION_ANGLE_RATE: f64 =
     TWO_PI * crate::timescales::ERA_TURNS_PER_UT1_DAY / crate::timescales::SECONDS_PER_DAY;
 
+/// Earth orientation parameters at an instant: UT1 − UTC and the pole coordinates, as the
+/// IERS (International Earth Rotation and Reference Systems Service) publishes them. The
+/// default is all zero (UT1 taken as UTC, no polar motion).
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct Eop {
+    /// UT1 − UTC (s).
+    pub ut1_minus_utc_s: f64,
+    /// Pole x coordinate (rad).
+    pub xp_rad: f64,
+    /// Pole y coordinate (rad).
+    pub yp_rad: f64,
+}
+
+/// TT (two-part) of a UTC instant, through the leap-second table.
+fn tt_of(utc: Jd2) -> f64 {
+    crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(utc)).total()
+}
+
 /// The rotation TEME -> ITRS (International Terrestrial Reference System) at a UTC instant,
 /// through the IAU 2006/2000A chain: TEME -> GCRS by [`crate::nutation::teme_to_gcrs_matrix`]
 /// (equation of the equinoxes, nutation, IAU 2006 bias-precession), GCRS -> CIRS by the CIO
 /// (Celestial Intermediate Origin) based [`crate::cio::gcrs_to_cirs_matrix`], and the Earth
 /// rotation angle of the two-part date. No Earth orientation parameters: UT1 is taken equal to
-/// UTC and the polar motion is zero.
+/// UTC and the polar motion is zero ([`teme_to_itrs_matrix_eop`] takes them).
 pub fn teme_to_itrs_matrix(utc: Jd2) -> Mat3 {
-    let tt = crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(utc)).total();
-    let celestial = matmul(
-        &crate::cio::gcrs_to_cirs_matrix(tt),
+    teme_to_itrs_matrix_eop(utc, &Eop::default())
+}
+
+/// [`teme_to_itrs_matrix`] with Earth orientation parameters: the Earth rotation angle of UT1
+/// = UTC + `ut1_minus_utc_s` and the polar motion `W(x_p, y_p, s′)`.
+pub fn teme_to_itrs_matrix_eop(utc: Jd2, eop: &Eop) -> Mat3 {
+    let tt = tt_of(utc);
+    matmul(
+        &gcrs_to_itrs_matrix_eop(utc, eop),
         &crate::nutation::teme_to_gcrs_matrix(tt),
-    );
-    matmul(&rz(crate::jd2::earth_rotation_angle(utc)), &celestial)
+    )
 }
 
 /// The rotation GCRS -> ITRS at a UTC instant on the same chain and assumptions as
 /// [`teme_to_itrs_matrix`].
 pub fn gcrs_to_itrs_matrix(utc: Jd2) -> Mat3 {
-    let tt = crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(utc)).total();
-    matmul(
-        &rz(crate::jd2::earth_rotation_angle(utc)),
-        &crate::cio::gcrs_to_cirs_matrix(tt),
-    )
+    gcrs_to_itrs_matrix_eop(utc, &Eop::default())
+}
+
+/// [`gcrs_to_itrs_matrix`] with Earth orientation parameters (SOFA `c2t06a` form:
+/// `W · R3(ERA) · C`).
+pub fn gcrs_to_itrs_matrix_eop(utc: Jd2, eop: &Eop) -> Mat3 {
+    let tt = tt_of(utc);
+    let era = crate::jd2::earth_rotation_angle(utc.add_seconds(eop.ut1_minus_utc_s));
+    let w = crate::frames::polar_motion_matrix(eop.xp_rad, eop.yp_rad, tt);
+    matmul(&w, &matmul(&rz(era), &crate::cio::gcrs_to_cirs_matrix(tt)))
 }
 
 /// Apply a celestial-to-terrestrial rotation `m` to an inertial state: the position rotated,

@@ -29,7 +29,7 @@ use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, AzElRange, Geod
 use crate::jd2::Jd2;
 use crate::orbit::{Propagator, R_EARTH_EQUATORIAL_M};
 use crate::precession::{mat_vec, matmul, rz, Mat3};
-use crate::sgp4::{MeanElementSet, SgpOrbit};
+use crate::sgp4::{Eop, MeanElementSet, SgpOrbit};
 use serde::Deserialize;
 
 /// One visibility pass of a satellite over a ground station.
@@ -193,13 +193,16 @@ pub fn p834_apparent_elevation_deg(h_km: f64, theta0_deg: f64) -> f64 {
     }
 }
 
-/// Which corrections the apparent pass predictor applies.
-#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+/// Which corrections the apparent pass predictor applies, and the Earth orientation
+/// parameters of the Earth-fixed rotation (zero by default: UT1 = UTC, no polar motion).
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
 pub struct ApparentOptions {
     /// ITU-R P.834-9 tropospheric refraction of the elevation.
     pub refraction: bool,
     /// Downlink light time: the satellite is taken where it was when the received signal left.
     pub light_time: bool,
+    /// UT1 − UTC and the pole coordinates (held constant over the window).
+    pub eop: Eop,
 }
 
 /// Apparent look angles of a satellite at a reception instant.
@@ -278,6 +281,8 @@ struct PassGeometry<'a> {
     h_km: f64,
     start: Jd2,
     grid: CelestialGrid,
+    /// Polar motion `W(x_p, y_p, s′)` at the window start (s′ moves by microarcseconds a day).
+    polar_motion: Mat3,
     opts: ApparentOptions,
 }
 
@@ -302,6 +307,11 @@ impl<'a> PassGeometry<'a> {
             h_km,
             start,
             grid: CelestialGrid::new(start, span_s),
+            polar_motion: crate::frames::polar_motion_matrix(
+                opts.eop.xp_rad,
+                opts.eop.yp_rad,
+                crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(start)).total(),
+            ),
             opts,
         })
     }
@@ -315,7 +325,8 @@ impl<'a> PassGeometry<'a> {
     /// Apparent look angles at the reception instant `t_s` seconds after the window start.
     fn look(&self, t_s: f64) -> Result<ApparentLook, String> {
         let t = self.start.add_seconds(t_s);
-        let to_itrs = rz(crate::jd2::earth_rotation_angle(t));
+        let era = crate::jd2::earth_rotation_angle(t.add_seconds(self.opts.eop.ut1_minus_utc_s));
+        let to_itrs = matmul(&self.polar_motion, &rz(era));
         let mut tau = 0.0;
         let mut sat = mat_vec(&to_itrs, self.sat_cirs(t)?);
         if self.opts.light_time {
@@ -538,6 +549,25 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
                          culmination are refined below it",
         },
         FieldUnit {
+            path: "ut1_minus_utc_s",
+            unit: "s",
+            provenance: Input,
+            definition: "UT1 minus UTC held over the window, an Earth orientation parameter of \
+                         the Earth-fixed rotation (IERS Bulletin A); 0 takes UT1 as UTC",
+        },
+        FieldUnit {
+            path: "xp_arcsec",
+            unit: "arcsec",
+            provenance: Input,
+            definition: "pole x coordinate held over the window (IERS); 0 means no polar motion",
+        },
+        FieldUnit {
+            path: "yp_arcsec",
+            unit: "arcsec",
+            provenance: Input,
+            definition: "pole y coordinate held over the window (IERS); 0 means no polar motion",
+        },
+        FieldUnit {
             path: "pass_count",
             unit: "count",
             provenance: Computed,
@@ -660,6 +690,15 @@ pub struct PassesScenario {
     /// Apply the downlink light time. Default true.
     #[serde(default = "pa_default_true")]
     pub light_time: bool,
+    /// UT1 − UTC (s) over the window, from IERS Bulletin A or the finals series. Default 0.
+    #[serde(default)]
+    pub ut1_minus_utc_s: f64,
+    /// Pole x coordinate (arcsec) over the window. Default 0.
+    #[serde(default)]
+    pub xp_arcsec: f64,
+    /// Pole y coordinate (arcsec) over the window. Default 0.
+    #[serde(default)]
+    pub yp_arcsec: f64,
 }
 
 fn pa_default_true() -> bool {
@@ -763,9 +802,24 @@ impl PassesScenario {
             alt_m: self.station_alt_m,
         };
         let duration_s = self.duration_hours * 3600.0;
+        if !(self.ut1_minus_utc_s.abs() <= 1.0
+            && self.xp_arcsec.abs() <= 2.0
+            && self.yp_arcsec.abs() <= 2.0)
+        {
+            return Err(
+                "Earth orientation parameters out of range: |ut1_minus_utc_s| <= 1, \
+                 |xp_arcsec| and |yp_arcsec| <= 2"
+                    .to_string(),
+            );
+        }
         let opts = ApparentOptions {
             refraction: self.refraction,
             light_time: self.light_time,
+            eop: Eop {
+                ut1_minus_utc_s: self.ut1_minus_utc_s,
+                xp_rad: crate::frames::arcsec(self.xp_arcsec),
+                yp_rad: crate::frames::arcsec(self.yp_arcsec),
+            },
         };
         let passes = predict_passes_apparent(
             &orbit,
@@ -798,8 +852,9 @@ impl PassesScenario {
             "kind": "passes",
             "label": "MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 \
                       propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar \
-                      motion), apparent elevation with ITU-R P.834-9 refraction and light \
-                      time when switched on, crossings and culmination refined below the step",
+                      motion unless Earth orientation parameters are given), apparent elevation \
+                      with ITU-R P.834-9 refraction and light time when switched on, crossings \
+                      and culmination refined below the step",
             "units": crate::field_schema::units_block(UNITS),
             "station_lat_deg": self.station_lat_deg,
             "station_lon_deg": self.station_lon_deg,
@@ -810,6 +865,9 @@ impl PassesScenario {
             "step_s": self.step_s,
             "refraction": self.refraction,
             "light_time": self.light_time,
+            "ut1_minus_utc_s": self.ut1_minus_utc_s,
+            "xp_arcsec": self.xp_arcsec,
+            "yp_arcsec": self.yp_arcsec,
             "pass_count": passes.len(),
             "total_access_s": total_access_s,
             "best_max_elevation_deg": if passes.is_empty() { serde_json::Value::Null } else { serde_json::json!(best_el) },
@@ -926,6 +984,9 @@ mod tests {
             step_s: 10.0,
             refraction: true,
             light_time: true,
+            ut1_minus_utc_s: 0.0,
+            xp_arcsec: 0.0,
+            yp_arcsec: 0.0,
         };
         let (j1, _s) = scn.run_json().unwrap();
         let (j2, _s) = scn.run_json().unwrap();
@@ -958,6 +1019,9 @@ mod tests {
             step_s: 10.0,
             refraction: true,
             light_time: true,
+            ut1_minus_utc_s: 0.0,
+            xp_arcsec: 0.0,
+            yp_arcsec: 0.0,
         };
         assert!(bad.run_json().is_err());
     }
@@ -1000,6 +1064,9 @@ mod tests {
             step_s: 10.0,
             refraction: false,
             light_time: false,
+            ut1_minus_utc_s: 0.0,
+            xp_arcsec: 0.0,
+            yp_arcsec: 0.0,
         };
         let sat = scn.sgp4_orbit().unwrap();
         let station = Geodetic {
@@ -1018,6 +1085,7 @@ mod tests {
                 ApparentOptions {
                     refraction,
                     light_time,
+                    ..Default::default()
                 },
             )
             .unwrap()

@@ -325,14 +325,17 @@ fn options(q: usize) -> ApparentOptions {
         1 => ApparentOptions {
             refraction: true,
             light_time: true,
+            ..Default::default()
         },
         2 => ApparentOptions {
             refraction: true,
             light_time: false,
+            ..Default::default()
         },
         _ => ApparentOptions {
             refraction: false,
             light_time: false,
+            ..Default::default()
         },
     }
 }
