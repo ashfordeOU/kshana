@@ -47,6 +47,14 @@
 //!   finding, published with the gap.
 //! * **Mutation check, planned now:** dropping the TDB − TT term (TT used as TDB, an error up to
 //!   1.7 ms) must turn the strict test red; the edit is then reverted.
+//!
+//! ## Result (run after the pre-registration commit 0bfafe6d was published)
+//!
+//! Seed 863282026935155989. All 600 positions are inside the bar, on the cut kernel (923
+//! records, checked by SPICE bit for bit) and on the full `de440s.bsp`. Worst difference 0.66
+//! of its bar, 2.96 m absolute: the expected size of the two-term TDB − TT series' error on a
+//! fast pair, and the honest precision of this provider at UTC epochs. Mutation: TT used as TDB
+//! fails both tests (worst 33 times the bar, 122 m); reverted. The barycentre refusal holds.
 
 // Index loops over the three axes read more plainly than iterator chains here.
 #![allow(clippy::needless_range_loop)]
@@ -127,7 +135,6 @@ fn compare(k: &KernelEphemeris) -> usize {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn kernel_ephemeris_matches_skyfield_at_utc_epochs() {
     let k = KernelEphemeris::open(std::path::Path::new(&format!("{DIR}grid_de440s.bsp")))
         .expect("cut kernel");
@@ -135,7 +142,6 @@ fn kernel_ephemeris_matches_skyfield_at_utc_epochs() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present() {
     let dir = std::env::var_os("KSHANA_NAIF_DIR")
         .map(std::path::PathBuf::from)
