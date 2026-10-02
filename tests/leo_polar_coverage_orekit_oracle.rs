@@ -52,6 +52,17 @@
 //! * per latitude and group: mean in view within 0.01; median PDOP, HDOP and VDOP within
 //!   1e-3 relative (and present on both sides or on neither); availability within 0.005.
 //!
+//! VERDICT (2026-10-02): AGREES at the pre-registered tolerance, unchanged. In-view counts per
+//! system identical on 1040/1040 samples (A) and 3000/3000 (B); mean in view, availability and
+//! the presence of a fix identical on every latitude and group; worst median DOP difference
+//! 4.6e-14 relative (A) and 1.9e-14 (B). Oracle self-checks: Orekit's interpolated states
+//! reproduce the table to 7.0e-8 m; Orekit DOPComputer and the NumPy inverse agree to 1.9e-10
+//! relative on the single-clock samples. Deliberate mutations turn this test red: every system
+//! on the first system's mask (B: 2890 failures, in view identical on 223/3000 samples), and one
+//! clock for every system (A and B: 90 failures, median DOP off by up to 8.3e-2 relative).
+//! Pre-registration commit 3254d456. Validated: the sweep geometry on the given Earth-fixed
+//! states; the propagation that produces those states is not part of this comparison.
+//!
 //! Fixture, drivers and provenance: `tests/fixtures/leo_polar_coverage_orekit_oracle/`.
 
 use kshana::leo_fusion::polar::{
@@ -323,7 +334,6 @@ fn compare(c: &Config, o: &Value) -> (Vec<String>, String) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn the_polar_sweep_agrees_with_orekit_and_numpy_on_the_given_states() {
     let mut all = Vec::new();
     for c in configs() {

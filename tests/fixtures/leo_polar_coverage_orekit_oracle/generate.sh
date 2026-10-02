@@ -16,5 +16,6 @@ for c in A B; do
   "$ORACLE_PY" "$DIR/oracle_numpy.py" "$DIR" "$c"
 done
 rm -rf "$BUILD"
-# The raw Orekit text output is large; the committed oracle_<c>.json keeps every number the test reads.
+# The raw Orekit text output is large and is not committed; oracle_<c>.json keeps every number the test reads.
+rm -f "$DIR"/orekit_A.txt "$DIR"/orekit_B.txt
 sha256sum "$DIR"/inputs_*.json "$DIR"/states_*.csv "$DIR"/oracle_*.json
