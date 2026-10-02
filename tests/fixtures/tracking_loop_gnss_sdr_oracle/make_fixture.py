@@ -46,20 +46,39 @@ def run_gnss_sdr(work, name, infile, pll_bw, dll_bw):
     return {k: np.ravel(m[k][()]).astype(float) for k in m.keys()}
 
 
-def errors(d, rate=0.0, slew=0.0, off=(0.0, 0.0)):
-    """Carrier error (rad, from the accumulated phase), code error (chips) and prompt phase (rad),
-    in the statistics window, with the calibration offsets removed."""
+def own_corr(binfile, starts, rate=0.0, slew=0.0, length=4000):
+    """Correlate the recording with the TRUE replica (code and carrier, no data sign) over
+    [start, start + length) for each block start."""
+    x = np.memmap(binfile, dtype=np.int8, mode="r")
+    code = ifgen.ca_code(1)
+    out = np.empty(len(starts), complex)
+    for i, b in enumerate(starts.astype(np.int64)):
+        n = np.arange(b, b + length)
+        seg = x[2 * b: 2 * (b + length)].astype(float)
+        phi, chi = ifgen.truth(n / ifgen.FS, rate, slew)
+        out[i] = np.sum((seg[0::2] + 1j * seg[1::2]) * code[np.floor(chi).astype(np.int64) % 1023]
+                        * np.exp(-1j * phi))
+    return out
+
+
+def errors(d, binfile, rate=0.0, slew=0.0, off=(0.0, 0.0)):
+    """Carrier error (rad), code error (chips) and prompt phase (rad) in the statistics window.
+
+    Carrier (amendment 2): the receiver's prompt correlator over the block that ends at
+    PRN_start_sample_count is P = exp(j*eps) * X, where X is the same correlation taken with the
+    true replica and eps the closed-loop carrier error; so eps = arg(P * conj(X)). The data sign
+    and the measurement noise are common to P and X and cancel; the result is unwrapped (period
+    pi, the Costas ambiguity) for slip counting."""
     s = d["PRN_start_sample_count"]
     sel = s / ifgen.FS >= T0
-    # code: the local code epoch starts at PRN_start_sample_count + aux1 (fractional samples)
     tc = (s + d["aux1"]) / ifgen.FS
     _, chi = ifgen.truth(tc, rate, slew)
     code = (chi + 511.5) % 1023 - 511.5 - off[1]
-    # carrier: GNSS-SDR accumulates the carrier phase with the opposite sign
-    phi, _ = ifgen.truth(s / ifgen.FS, rate, slew)
-    car = np.unwrap(2.0 * (-d["acc_carrier_phase_rad"] - phi - off[0])) / 2.0
+    P = d["Prompt_I"] + 1j * d["Prompt_Q"]
+    X = own_corr(binfile, s[sel] - 4000, rate, slew)
+    car = np.unwrap(2.0 * (np.angle(P[sel] * np.conj(X)) - off[0])) / 2.0
     prompt = np.arctan(d["Prompt_Q"] / d["Prompt_I"])
-    return car[sel], code[sel], prompt[sel]
+    return car, code[sel], prompt[sel], s[sel] / ifgen.FS
 
 
 def wrapped_std_deg(e):
@@ -69,9 +88,14 @@ def wrapped_std_deg(e):
     return float(np.degrees(w.std()))
 
 
-def slips(e):
-    """Changes of round(ebar/pi), ebar the 100 ms moving average of the unwrapped error."""
-    k = np.round(np.convolve(e, np.ones(100) / 100, mode="valid") / np.pi)
+def slips(e, t):
+    """Changes of round(ebar/pi), ebar the 100 ms moving average (in time) of the unwrapped
+    carrier error."""
+    c = np.concatenate([[0.0], np.cumsum(e)])
+    lo = np.searchsorted(t, t - 0.05)
+    hi = np.searchsorted(t, t + 0.05, side="right")
+    ebar = (c[hi] - c[lo]) / (hi - lo)
+    k = np.round(ebar / np.pi)
     return int(np.count_nonzero(np.diff(k)))
 
 
@@ -90,11 +114,11 @@ def main():
     # convention calibration, 60 dB-Hz (constant Doppler)
     f = recording("cal", 60.0, 12.0)
     d = run_gnss_sdr(work, "cal", f, PLL, DLL)
-    os.remove(f)
-    car, code, _ = errors(d)
+    car, code, _, _ = errors(d, f)
     off_car = float(np.angle(np.mean(np.exp(2j * car))) / 2.0)
     off_code = float(code.mean())
-    car, code, _ = errors(d, off=(off_car, off_code))
+    car, code, _, _ = errors(d, f, off=(off_car, off_code))
+    os.remove(f)
     rms_car = float(np.degrees(np.sqrt(np.mean(((car + np.pi / 2) % np.pi - np.pi / 2) ** 2))))
     rms_code = float(np.sqrt(np.mean(code ** 2)))
     runs.append(("calibration", 60.0, PLL, DLL, rms_car, rms_code, 0, len(car)))
@@ -105,10 +129,10 @@ def main():
     for cn0 in JITTER_CN0:
         f = recording("jit%02d" % cn0, cn0, 126.0)
         d = run_gnss_sdr(work, "jit%02d" % cn0, f, PLL, DLL)
+        car, code, _, t = errors(d, f, off=off)
         os.remove(f)
-        car, code, _ = errors(d, off=off)
         sp, sd = wrapped_std_deg(car), float(code.std())
-        runs.append(("jitter", cn0, PLL, DLL, sp, sd, slips(car), len(car)))
+        runs.append(("jitter", cn0, PLL, DLL, sp, sd, slips(car, t), len(car)))
         res.append("pll_jitter_deg,%g,%g,%.6f" % (PLL, cn0, sp))
         res.append("dll_jitter_chips,%g,%g,%.7f" % (DLL, cn0, sd))
         print("jitter", cn0, sp, sd, flush=True)
@@ -119,12 +143,12 @@ def main():
         for bw in (PLL, PLL_PULLIN):
             name = "swp%02d_b%02d" % (cn0, bw)
             d = run_gnss_sdr(work, name, f, bw, DLL)
-            car, code, _ = errors(d, off=off)
-            sp, sd, n = wrapped_std_deg(car), float(code.std()), slips(car)
+            car, code, _, t = errors(d, f, off=off)
+            sp, sd, n = wrapped_std_deg(car), float(code.std()), slips(car, t)
             sweep[bw].append((cn0, sp, sd, n, len(car)))
             runs.append(("sweep", cn0, bw, DLL, sp, sd, n, len(car)))
             if n >= 1:
-                res.append("slip_log10_mean_time_s,%g,%g,%d,%.4f" % (bw, cn0, n, np.log10(len(car) * 1e-3 / n)))
+                res.append("slip_log10_mean_time_s,%g,%g,%d,%.4f" % (bw, cn0, n, np.log10((t[-1] - t[0]) / n)))
             print("sweep", cn0, bw, sp, sd, n, flush=True)
         os.remove(f)
 
@@ -147,8 +171,8 @@ def main():
     # dynamic stress: mean prompt-correlator phase under a Doppler rate
     f = recording("ramp", 45.0, 66.0, rate=RATE)
     d = run_gnss_sdr(work, "ramp", f, PLL, DLL)
+    _, _, prompt, _ = errors(d, f, rate=RATE, off=off)
     os.remove(f)
-    _, _, prompt = errors(d, rate=RATE, off=off)
     mean_deg = abs(float(np.degrees(prompt.mean())))
     runs.append(("ramp", 45.0, PLL, DLL, mean_deg, float("nan"), 0, len(prompt)))
     res.append("doppler_rate_mean_error_deg,%g,%g,%.5f" % (PLL, RATE, mean_deg))
@@ -156,8 +180,8 @@ def main():
     # code ramp lag under a code-carrier divergence
     f = recording("slew", 45.0, 66.0, slew=SLEW)
     d = run_gnss_sdr(work, "slew", f, PLL, DLL)
+    _, code, _, _ = errors(d, f, slew=SLEW, off=off)
     os.remove(f)
-    _, code, _ = errors(d, slew=SLEW, off=off)
     lag = abs(float(code.mean()))
     runs.append(("slew", 45.0, PLL, DLL, float("nan"), lag, 0, len(code)))
     res.append("code_ramp_lag_chips,%g,%g,%.6f" % (DLL, SLEW, lag))

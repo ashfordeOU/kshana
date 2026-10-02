@@ -68,6 +68,26 @@
 //! 60 dB-Hz, so a dynamic-stress value was seen before this amendment; the graded recording is
 //! the separate 45 dB-Hz one. Quantities, recordings and tolerances are otherwise unchanged.
 //!
+//! Amendment 2 (2026-10-02, written AFTER the four jitter recordings and the first sweep point
+//! had been run; disclosed): the accumulated carrier phase in GNSS-SDR's tracking dump is not a
+//! usable measure of the closed-loop carrier error. It is written as a 32-bit float
+//! (`log_data`, `tmp_float = static_cast<float>(d_acc_carrier_phase_rad)`), so at 1500 Hz its
+//! resolution falls to 0.125 rad after about 100 s (the measured spread grew from 1.06° to 2.16°
+//! across the 45 dB-Hz run, the last value equal to that resolution over √12), and it is reset
+//! and re-referenced when the receiver changes state. Results seen with that measure: σ_PLL
+//! 8.13°, 19.19°, 2.16°, 1.50° at 30, 35, 40, 45 dB-Hz (engine 7.02°, 3.47°, 1.86°, 1.03°); σ_DLL
+//! 0.0164, 0.01066, 0.00524, 0.00281 chip (engine 0.0242, 0.0106, 0.00532, 0.00287); the code
+//! measure is unaffected and unchanged. Replacement carrier measure, chosen on the 60 dB-Hz
+//! calibration recording only: the receiver's prompt correlator over a block is `P = e^{jε}·X`,
+//! where `X` is the same correlation of the recording with the TRUE replica (computed by the
+//! driver in numpy) and `ε` the closed-loop carrier error, so `ε = arg(P·X*)`; the data sign and
+//! the thermal measurement noise are common to `P` and `X` and cancel exactly. The block that
+//! makes them cancel is the 4000 samples ending at `PRN_start_sample_count` (calibration: 0.175°
+//! against 1.80° and 1.93° for the neighbouring blocks; the engine's 60 dB-Hz value is 0.181°).
+//! No offset is needed. The recordings, configuration, quantities and every tolerance are
+//! unchanged; every recording is regenerated and re-run with this measure, including the ones
+//! already seen.
+//!
 //! Engine quantities: `pll_thermal_jitter_rad`, `dll_thermal_jitter_chips` (with `T`, `d`, `B`
 //! above), `LoopConfig::thresholds` (drop and re-lock, static user), `pll_dynamic_stress_deg`,
 //! `dll_ramp_lag_chips`, `log10_mean_time_to_cycle_slip_s`.
