@@ -26,7 +26,17 @@
 - M010 round 3 (receiver-TCXO card in the clock-aided spoofing monitor): blocked by the same
   training minimum; nothing scored, the row stays MODELLED.
 
+- Round 2 (owner-directed): GPS Block IIF cards with per-revolution terms on a fresh IGS
+  window (2026-04-01 to 14), a new MODELLED row: 9 of 11 within the bar (G03 and G25
+  non-stationary). M002 round 3, the extended filter after the conditioning detector: criteria
+  (a) and (c) hold on all 11 satellites for the first time, (b) fails on G09 and G26. M010 rounds
+  4 and 4b, with a ZED-F9P model-class card: zero pre-onset false alarms at all 10 logged onsets
+  and 6 of 10 detected within 10 s (round 2: 4); the row stays MODELLED. The ZED-F9P class card
+  itself fails (1 of 11 stations in a disclosed corrected re-run). M083 round 3 is
+  pre-registered prospectively on Circular T issues from 465.
+
 ### Revisions
 
 - No published figure, golden or docs number changes. Matrix totals change only if both new
-  rows are adopted: 226 rows, 110 validated -> 228 rows, 111 validated.
+  rows are adopted: 226 rows, 110 validated -> 229 rows, 111 validated (three new rows: lag-1
+  identification VALIDATED; device cards and periodic cards MODELLED).
