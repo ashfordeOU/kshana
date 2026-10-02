@@ -16,13 +16,13 @@ MODELLED rows were put to an external oracle in the first round and the remainin
 rows in the second; every disagreement is recorded below as a finding rather than tuned
 away. Three rows were split so that a validated part does not carry an unvalidated
 remainder, which takes the matrix from 223 to 226 rows; the validation packages folded since
-take it to 242. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
+take it to 249. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
 
 | | 0.29.0 | after round 1 | Unreleased |
 | --- | --- | --- | --- |
-| Verification-matrix rows | 223 | 223 | 242 |
+| Verification-matrix rows | 223 | 223 | 249 |
 | of which VALIDATED against an external oracle | 83 | 93 | 123 |
-| of which MODELLED | 136 | 126 | 115 |
+| of which MODELLED | 136 | 126 | 122 |
 | of which PARTNER | 4 | 4 | 4 |
 
 <details>
@@ -613,6 +613,62 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
   2492.028 MHz. At the old default free-space loss was understated by 0.327 dB.
 - Revisions: none. Every bundled scenario names its carrier, and all 138 bundled scenario
   results are byte-identical to the previous main.
+
+**D7, real lunar IQ and GPS LNAV (seven new rows, none VALIDATED: 242 -> 249 rows, validated 123 unchanged).**
+
+- `portable_math::FftPlan`: a mixed-radix fast Fourier transform (FFT) whose output is the same
+  bits on every platform; a SHA-256 pin of the 8000- and 24000-point transforms passes on
+  x86_64 and on wasm32-wasip1 (runner in `xval/portable-fft-wasm/`).
+- `acquisition`: parallel code-phase search on sampled IQ (`pcps_acquire`, `pcps_grid`) with
+  coherent folding, non-coherent accumulation, a chi-square threshold for a search-wide
+  false-alarm probability and a cell-averaging statistic for band-limited noise; `refine`,
+  `prompt_series` with code Doppler, and the M2M4 and grid-peak carrier-to-noise density (C/N0)
+  estimators.
+- `gps_lnav`: an IS-GPS-200 legacy navigation message (LNAV) encoder for subframes 1 to 3, with
+  the Table 20-XIV parity and a field decoder.
+- `realdata::ion_sdr`: a reader for the ION GNSS SDR Metadata Standard (`.sdrx`) and its sample
+  files, with `to_mid_rise` for two's-complement levels.
+- `realdata::lugre`: the LuGRE (Lunar GNSS Receiver Experiment) IQS batch header, RAW, ACQ and
+  NAV telemetry and CLK files, and a check that lists where `.sdrx` metadata contradicts the
+  binary header.
+- `antenna::GainPattern2D` and, in `earth_gnss_lunar`, the yaw-steering body frame, transmit
+  azimuth and off-nadir angles, and `transmit_side_db` for relative C/N0 with measured patterns.
+
+- GPS LNAV navigation-message encoding (new row, stays MODELLED after the integrator's
+  post-verification): on the IGS broadcast file of 2 March 2025, parsed and decoded by RTKLIB
+  v2.4.2-p13, all 960 words pass parity, all 96 subframes decode and all 608 broadcast integers
+  equal Kshana's (`tests/gps_lnav_rtklib_integer_oracle.rs`), but the pre-registration
+  (d4d9eb9d) reached the public branch two seconds after the commit holding the result, so the
+  order "registered before the file was fetched" cannot be shown and the row is not promoted.
+
+- `realdata::ion_sdr` fills words from the most significant bit (I in the high nibble of a LuGRE
+  byte; the earlier reading produced the conjugate signal), keeps the old reading as
+  `SdrLayout::fill_lsb_first`, and reads samples wider than a word.
+- `acquisition::refine_doppler_coherent`: phase-coherent Doppler refinement (0.2 Hz RMS at
+  30 dB-Hz over 200 ms in simulation).
+
+- GPS L1 C/A against gps-sdr-sim: chips and parity bit-exact; 230 of 1152 LNAV fields differ by
+  one unit because gps-sdr-sim truncates where the broadcast integer needs rounding.
+- LNAV decoded by RTKLIB: all parity and subframes pass and every parameter is within half a
+  quantum; 41 scaled values differ by a few units in the last place through RTKLIB's decimal
+  2^-43 constant, above the registered bar.
+- LuGRE acquisition against GNSS-SDR 0.0.19: 266 of 266 decisions agree, 250 located on the same
+  cell; most positives are artefacts of a −0.5 mean in the bare 4-bit levels; the C/N0 leg had no
+  contemporaneous flight data. Two batches (OP5, OP12) were excluded in error: their metadata
+  agrees with their headers, but the reader could not then read a sample wider than a word.
+- LuGRE acquisition against orbit-predicted Doppler: with the sample-power decision every search
+  crosses on band-limited noise; with the cell-averaging decision the strongest pairs agree in magnitude with
+  the sign reversed, showing the registered I/Q order to be the conjugate of the data.
+- Blind acquisition on the lunar-surface batches: four batches each acquire one satellite
+  (predicted visible, no false alarm at 1e-7), none two, so the Doppler-difference bar has no
+  pair to score.
+- Relative C/N0 at lunar distance (M039 restated): 15 Block IIR/IIR-M records and one pair, too
+  few for the registered bar.
+
+- Revisions: none; no published number, golden file or docs figure changed.
+- The M039 row "Earth-GNSS at lunar distance" restates its claim at lunar distance as the
+  relative C/N0 between satellites at one epoch plus visibility (absolute C/N0 is not claimed);
+  it stays MODELLED. The top-level NOTICE carries the LuGRE CC BY 4.0 attribution.
 
 ### Fixed
 
