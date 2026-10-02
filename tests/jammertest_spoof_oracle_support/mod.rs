@@ -144,9 +144,14 @@ pub fn line_predict(ts: &[f64], ys: &[f64], t: f64) -> f64 {
 
 pub fn run_onset(o: &Onset) -> OnsetResult {
     let obs_text = std::fs::read_to_string(format!("{FIXTURE_DIR}/{}", o.file)).expect("obs");
-    let nav_text =
-        std::fs::read_to_string(format!("{FIXTURE_DIR}/brdc_gps_20240911.rnx")).expect("nav");
     let obs = parse_obs(&obs_text).expect("parse obs");
+    // The broadcast navigation slice of the recording's day (2024-09-11 for every round-1 slice).
+    let day = &obs.epochs[0].time;
+    let nav_text = std::fs::read_to_string(format!(
+        "{FIXTURE_DIR}/brdc_gps_{:04}{:02}{:02}.rnx",
+        day.year, day.month, day.day
+    ))
+    .expect("nav");
     let ephs = parse_nav(&nav_text).expect("parse nav");
     let apriori = obs.header.approx_xyz.expect("approx xyz");
     let atmos = AtmosModel {
