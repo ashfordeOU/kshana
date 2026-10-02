@@ -139,3 +139,92 @@ fn f9p_first_pipeline_reproduces_the_recorded_finding() {
         }
     }
 }
+
+// ── Corrected pipeline (a disclosed re-run) ──────────────────────────────────────────────────
+//
+// PRE-REGISTRATION (written 2026-10-02 after the first run above was seen, committed and pushed
+// before the corrected pipeline was run on any station). A RE-RUN AFTER A SEEN FAILURE,
+// disclosed as such. What was seen: per-station presence under the first pipeline, BX14's card
+// and score, and one diagnostic file (BX03 day 064: epochs present, solved and RAIM-passed).
+// No other station's clock record, card or Allan deviation was computed.
+//
+// CHANGES (each fixed by the diagnosis, none by a card result):
+// 1. RAIM pseudorange sigma 8.94 m (`F9P_RAIM_SIGMA_M`): the registered 3 m code sigma scaled
+//    by the ionosphere-free L1/L2 noise factor sqrt(2.546^2 + 1.546^2) = 2.98, since the solve
+//    uses that combination.
+// 2. Each station's days are split into separate records at every missing epoch (records under
+//    5 epochs dropped), so no Allan or Hadamard difference spans a gap and a millisecond reset
+//    inside a gap cannot reach the statistics (`f9p_station_records`).
+// 3. Fit and score over records (`fit_phase_records`, `score_held_out_records`), the fit set
+//    being the earliest records holding a third of the station's present epochs
+//    (`split_records_by_third`), as for the JammerTest receiver class.
+// 4. Evaluability replaces the 50 % grid rule (the source files are themselves intermittent):
+//    at least 2000 present epochs in the fit set and a fitted card; otherwise the station fails.
+//
+// UNCHANGED: the method, the bar [1/1.5, 1.5] at every fitted averaging time, the data.
+// BLIND: the 11 stations other than BX14. The class PROMOTES only if all 11 pass; BX14 is
+// reported only. Mutation as above.
+//
+// VERDICT: not yet run.
+
+/// Corrected pipeline: per station, its score (`None` when not evaluable).
+fn f9p_corrected_scores() -> Option<Vec<(String, Option<HeldOutScore>)>> {
+    use kshana::clock_library::score_held_out_records;
+    let stations = f9p_station_records()?;
+    Some(
+        stations
+            .into_iter()
+            .map(|(st, recs)| {
+                let (fit, held) = split_records_by_third(&recs);
+                let nf: usize = fit.iter().map(|r| r.valid()).sum();
+                let nh: usize = held.iter().map(|r| r.valid()).sum();
+                println!("{st}: {} records, fit {nf} / held {nh} epochs", recs.len());
+                if nf < 2000 {
+                    println!("{st}: fewer than 2000 fit epochs (a failure)");
+                    return (st, None);
+                }
+                let Ok(card) = DeviceCard::fit_phase_records(&format!("ZED-F9P {st}"), &fit)
+                else {
+                    println!("{st}: no card (a failure)");
+                    return (st, None);
+                };
+                println!(
+                    "{st}: h0 {:.3e} h-1 {:.3e} h-2 {:.3e} wpm {:.3e} drift {:.3e}/s",
+                    card.h_0, card.h_m1, card.h_m2, card.white_pm_var, card.drift_per_s
+                );
+                let sc = score_held_out_records(&card, &held, BAR);
+                println!(
+                    "{:<16} pass={} worst factor {:.3} [{}]",
+                    sc.card,
+                    sc.pass,
+                    sc.worst_factor,
+                    sc.conditioning.summary()
+                );
+                for p in &sc.points {
+                    println!(
+                        "    tau {:>7.0} s  predicted {:.4e}  measured {:.4e}  ratio {:.3}  terms {}",
+                        p.tau_s, p.predicted, p.measured, p.ratio, p.terms
+                    );
+                }
+                (st, Some(sc))
+            })
+            .collect(),
+    )
+}
+
+#[test]
+#[ignore = "pre-registered (disclosed re-run); not yet run"]
+fn f9p_cards_corrected_pipeline() {
+    let scores = f9p_corrected_scores().expect("Wroclaw ZED-F9P data absent");
+    let failing: Vec<&String> = scores
+        .iter()
+        .filter(|(st, _)| st != "BX14")
+        .filter(|(_, s)| !s.as_ref().is_some_and(|s| s.pass))
+        .map(|(p, _)| p)
+        .collect();
+    assert_eq!(scores.len(), 12);
+    assert!(
+        failing.is_empty(),
+        "blind cards outside the bar: {failing:?}"
+    );
+}

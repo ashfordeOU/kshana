@@ -283,3 +283,68 @@ fn round_4_reproduces_the_recorded_finding() {
         );
     }
 }
+
+// ── Round 4b (a disclosed re-run) ────────────────────────────────────────────────────────────
+//
+// PRE-REGISTRATION (written 2026-10-02 after round 4 was seen; committed and pushed before it was
+// run). Round 4's noise levels came from the first Wroclaw extraction, later found to reject most
+// epochs at RAIM and to let records span gaps. Round 4b takes the noise levels from the
+// CORRECTED extraction of `tests/clock_library_f9p_cards_oracle.rs` (RAIM sigma 8.94 m, records
+// split at every missing epoch): `pooled_hadamard_noise` over every record of all 12 stations.
+// Everything else is round 4 unchanged, including the bars. Disclosed: round 4's per-onset
+// outcome (the same four onsets late as round 2) was seen before this; the change is fixed by
+// the extraction diagnosis, not by the onsets.
+//
+// VERDICT: not yet run.
+
+/// The corrected Wroclaw model-class monitor noise, or `None` when the data are absent.
+fn f9p_corrected_noise() -> Option<ClockNoiseEstimate> {
+    let recs: Vec<_> = cl::f9p_station_records()?
+        .into_iter()
+        .flat_map(|(_, r)| r)
+        .collect();
+    let (noise, curve) = pooled_hadamard_noise(&recs)?;
+    println!(
+        "corrected ZED-F9P class noise from {} records: {noise:?}",
+        recs.len()
+    );
+    for (tau, hv, c) in curve {
+        println!("    HDEV tau {tau:>8} s  {:.4e}  terms {c}", hv.sqrt());
+    }
+    Some(noise)
+}
+
+#[test]
+#[ignore = "pre-registered (disclosed re-run); not yet run"]
+fn round_4b_corrected_card_monitor_detects_the_logged_onsets() {
+    let noise = f9p_corrected_noise().expect("Wroclaw ZED-F9P data absent: round 4b BLOCKED");
+    let mut evaluated = 0;
+    let mut failures = Vec::new();
+    for o in jt::onsets_from("onsets_log.tsv") {
+        let r = run_onset_card(&o, noise);
+        let lat = r.detection.map(|(t, _)| t - r.onset);
+        println!(
+            "R4b {:<7} evaluable={} bound={:.1} ns pre_alarms={} detection={:?} latency={:?}",
+            r.id,
+            r.evaluable,
+            r.bound_ns,
+            r.pre_onset_alarms.len(),
+            r.detection.map(|(_, k)| k),
+            lat
+        );
+        if !r.evaluable {
+            continue;
+        }
+        evaluated += 1;
+        if !(r.pre_onset_alarms.is_empty()
+            && lat.is_some_and(|l| (0.0..=jt::DETECT_TOL_S).contains(&l)))
+        {
+            failures.push(r.id.clone());
+        }
+    }
+    assert!(evaluated >= 8, "only {evaluated} evaluable onsets");
+    assert!(
+        failures.is_empty(),
+        "onsets outside the tolerance: {failures:?}"
+    );
+}
