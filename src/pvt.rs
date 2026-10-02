@@ -1242,9 +1242,12 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
 
     #[test]
     fn galileo_clock_reference_follows_the_message_type() {
-        let nav =
-            include_str!("../tests/fixtures/joint_pvt_itrf_rtklib_oracle/brdc_2018133_G_Einav.rnx");
-        let ephs = parse_nav(nav).expect("parses");
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/joint_pvt_itrf_rtklib_oracle/brdc_2018133_G_Einav.rnx");
+        let Ok(nav) = std::fs::read_to_string(path) else {
+            return; // fixture not shipped in the published crate
+        };
+        let ephs = parse_nav(&nav).expect("parses");
         let gal: Vec<_> = ephs.iter().filter(|e| e.system == 'E').collect();
         assert!(!gal.is_empty());
         for e in gal {
