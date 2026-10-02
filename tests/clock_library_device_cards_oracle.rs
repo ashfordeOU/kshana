@@ -86,7 +86,25 @@
 //! `0.125 * self.h_0 / tau` in `DeviceCard::noise_allan_variance`; a passing strict test must
 //! turn red.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (first and only run, 2026-10-02, after pre-registration commit 2ec76864): the row
+//! stays MODELLED.
+//! * C3 GPS Block IIF (blind), DISAGREES: 10 of 11 cards within the bar (worst factors G03
+//!   1.110, G06 1.164, G08 1.339, G09 1.127, G10 1.065, G24 1.367, G25 1.144, G26 1.121, G30
+//!   1.312, G32 1.149); G27 fails at 1.510, OPTIMISTIC at the hour scale (predicted / measured
+//!   0.751 at 3840 s and 0.662 at 7680 s). The hour-scale error of an orbiting clock (periodic
+//!   terms) is not in a power-law card. Every record was complete (no gaps); the detector
+//!   removed 15 to 40 phase steps per fit third and 29 to 78 per held-out part, and 0 to 1
+//!   phase outliers.
+//! * C7 receiver TCXO (blind), BLOCKED: the generator keeps 364 epochs and the receiver-clock
+//!   extraction leaves 167 in two records (the dataset holds only
+//!   the attack sessions, 3 to 17 minutes long, nearly all within 60 s of a logged
+//!   transmission; the 2024-09-09 jamming session and the 3.2.8 meaconing session lose every
+//!   epoch), against the 3600 minimum. No card was fitted.
+//! * Reported, not blind: C1 caesium within the bar (worst 1.070 at 4096 s); C2 OCXO outside
+//!   it, conservative (2.348 at 128 s; the known floor change); C5 strontium within it at its
+//!   two scored points (1.291, 1.405).
+//! * Mutation (pre-registered, `0.125 * self.h_0 / tau`): the failing GPS set grows from G27 to
+//!   G08, G09, G10, G26, G27, G32 (the strict test was already red); reverted.
 
 #[path = "clock_library_support/mod.rs"]
 mod support;
@@ -163,7 +181,7 @@ fn receiver_tcxo_score() -> Option<HeldOutScore> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES, G27 worst factor 1.510 against 1.5 (optimistic, 0.662 at 7680 s); the other 10 cards within the bar"]
 fn gps_iif_cards_predict_their_held_out_two_thirds() {
     let scores = gps_iif_scores();
     assert!(!scores.is_empty(), "no GPS IIF satellite in the fixture");
@@ -176,11 +194,57 @@ fn gps_iif_cards_predict_their_held_out_two_thirds() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; BLOCKED 2026-10-02: the training selection keeps far fewer than the 3600 epochs required"]
 fn receiver_tcxo_card_predicts_its_held_out_sessions() {
     let sc = receiver_tcxo_score().expect("receiver card BLOCKED");
     assert!(sc.pass, "worst factor {:.3}", sc.worst_factor);
 }
+
+/// The run of 2026-10-02, pinned: per GPS IIF PRN, the worst factor (to 1e-3) and whether the
+/// card passed.
+const RECORDED_IIF: [(&str, f64, bool); 11] = [
+    ("G03", 1.110, true),
+    ("G06", 1.164, true),
+    ("G08", 1.339, true),
+    ("G09", 1.127, true),
+    ("G10", 1.065, true),
+    ("G24", 1.367, true),
+    ("G25", 1.144, true),
+    ("G26", 1.121, true),
+    ("G27", 1.510, false),
+    ("G30", 1.312, true),
+    ("G32", 1.149, true),
+];
+
+#[test]
+fn gps_iif_cards_reproduce_the_recorded_finding() {
+    let scores = gps_iif_scores();
+    assert_eq!(scores.len(), RECORDED_IIF.len());
+    for ((prn, sc), (rp, worst, pass)) in scores.iter().zip(RECORDED_IIF) {
+        assert_eq!(prn, rp);
+        let sc = sc.as_ref().expect("present");
+        assert_eq!(sc.pass, pass, "{prn}");
+        assert!(
+            (sc.worst_factor - worst).abs() < 6e-4,
+            "{prn}: worst factor {:.4} recorded {worst}",
+            sc.worst_factor
+        );
+    }
+}
+
+/// The receiver card is BLOCKED: the pre-registered selection leaves fewer training epochs
+/// than the minimum (pinned count after extraction).
+#[test]
+fn receiver_training_is_blocked_by_the_epoch_minimum() {
+    let recs = tcxo_training().expect("training fixture");
+    let n: usize = recs.iter().map(|r| r.valid()).sum();
+    println!("receiver training: {} records, {n} epochs", recs.len());
+    assert!(n < MIN_TRAIN_EPOCHS);
+    assert_eq!(n, RECORDED_TRAIN_EPOCHS);
+}
+
+/// Training epochs after extraction on 2026-10-02.
+const RECORDED_TRAIN_EPOCHS: usize = 167;
 
 /// Reported, never promotable (NOT BLIND): C1 caesium, C2 OCXO (data-gated) and C5 strontium.
 #[test]
