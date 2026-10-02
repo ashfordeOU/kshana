@@ -223,6 +223,7 @@ mod portable_math;
 pub mod powerlaw;
 pub mod precession;
 pub mod precise_od;
+pub mod precise_products;
 pub mod propagator;
 pub mod pvt;
 #[cfg(feature = "python")]
