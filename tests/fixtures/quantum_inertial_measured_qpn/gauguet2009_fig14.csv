@@ -1,0 +1,13 @@
+# Gauguet et al. PRA 80 063604 (2009) Fig. 14, measured rotation noise at 1 s (blue squares)
+# axis calibration px: x1e4=1125.0 x1e5=2433.0 y1e-6=1075.0 y1e-7=2089.5
+reduced_atom_number,rotation_noise_rad_s_per_rthz
+4.3873e+03,5.8066e-06
+8.5649e+03,3.6052e-06
+2.2004e+04,1.3740e-06
+3.7052e+04,6.5712e-07
+4.6991e+04,5.3450e-07
+7.3357e+04,4.0706e-07
+1.0748e+05,3.1213e-07
+1.7259e+05,2.6267e-07
+2.0257e+05,2.5795e-07
+2.6895e+05,2.1536e-07

@@ -1,0 +1,20 @@
+# Lutwak, PTTI 2011, SA.45s production statistics: Fig. 8 worst delivered unit (upper bin edge) and Fig. 4 typical unit
+source,tau_s,adev
+fig8a_worst_unit,1,4.0000e-10
+fig8b_worst_unit,10,1.0000e-10
+fig4_typical_unit,2,5.7523e-11
+fig4_typical_unit,4,4.1506e-11
+fig4_typical_unit,8,2.9870e-11
+fig4_typical_unit,16,2.1318e-11
+fig4_typical_unit,32,1.5074e-11
+fig4_typical_unit,64,1.0752e-11
+fig4_typical_unit,128,7.5359e-12
+fig4_typical_unit,256,5.3016e-12
+fig4_typical_unit,512,3.7666e-12
+fig4_typical_unit,1024,2.8417e-12
+fig4_typical_unit,2048,1.9518e-12
+fig4_typical_unit,4096,1.4469e-12
+fig4_typical_unit,8192,1.2290e-12
+fig4_typical_unit,16384,1.4206e-12
+fig4_typical_unit,32768,2.2921e-12
+fig4_typical_unit,65536,4.1131e-12
