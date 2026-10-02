@@ -47,8 +47,11 @@ pub const MIN_TERMS: usize = 8;
 /// One measured stability point a card was fitted on.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct CardPoint {
+    /// Averaging time (s).
     pub tau_s: f64,
+    /// Measured Allan deviation at `tau_s`.
     pub adev: f64,
+    /// Equivalent degrees of freedom of that point.
     pub edf: f64,
     /// The lag-1 identified exponent (`None` when the fallback applied or for a curve).
     pub alpha: Option<i32>,
@@ -353,23 +356,32 @@ fn remove_quadratic_and_periodic(
 /// One scored averaging time.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct ScoredPoint {
+    /// Averaging time (s).
     pub tau_s: f64,
+    /// Allan deviation the card predicts at `tau_s`.
     pub predicted: f64,
     /// Measured held-out Allan deviation (`NaN` when the held-out record has no value there).
     pub measured: f64,
+    /// `predicted / measured`.
     pub ratio: f64,
+    /// Number of difference terms behind the measured point.
     pub terms: usize,
 }
 
 /// The held-out score of one card.
 #[derive(Clone, Debug, PartialEq, Serialize)]
 pub struct HeldOutScore {
+    /// Name of the scored card.
     pub card: String,
+    /// The factor bar every point must meet (`1/bar <= ratio <= bar`).
     pub bar: f64,
+    /// The scored averaging times.
     pub points: Vec<ScoredPoint>,
     /// Largest `max(ratio, 1/ratio)` over the points (infinite if a point is missing).
     pub worst_factor: f64,
+    /// Whether every point meets the bar.
     pub pass: bool,
+    /// The conditioning log of the held-out record.
     pub conditioning: ConditioningLog,
 }
 
