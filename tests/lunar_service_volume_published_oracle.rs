@@ -43,6 +43,12 @@
 //! the paper's STK scenario uses an unstated force model on frozen orbits that depend on the
 //! Earth's perturbation; the STK 334-point grid is not given. The row stays MODELLED. The
 //! comparison takes about 40 s in a debug build and fails, so it is ignored with that reason.
+//!
+//! Round 2 (2026-10-02): the OP-frame, ephemeris-grade path (`lunar_perturbed::op_frame`,
+//! `propagate_tabulated`) agrees with Orekit computing the same scenario on identical
+//! ephemeris and grid, and the re-run of this comparison on that path still disagrees with the
+//! paper on 4 of 12; see `tests/lunar_service_volume_orekit_oracle.rs`. This file keeps the
+//! round-1 reading (elements as Moon-centred inertial, two-body), which is unchanged.
 
 use kshana::lunar::{selenographic_to_mcmf, Selenographic};
 use kshana::lunar_ephemeris::LunarEphemeris;
