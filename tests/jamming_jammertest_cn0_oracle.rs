@@ -92,8 +92,18 @@ pub fn predicted_drop_db(p_dbm: f64, d: f64, el_deg: f64, g_tx: f64, kind: &str,
     nom - effective_cn0_dbhz(nom, js, q_factor(kind, None), CA_CHIP_RATE_HZ)
 }
 
+/// Not run: BLOCKED (2026-10-02). The test catalogue (Testcatalog-2024.pdf, SHA-256
+/// a7abd86383dcfa862eeca31258a7a5cc5cf05369ef2711a6370524b790b00630) gives F8.1's EIRP (up to
+/// 50 W) and antenna (directional helix, RHCP, 10 dB gain) but not its position, height or
+/// pointing at Bleik ("decided in field"; participants are told to note the transmitting antenna
+/// themselves); the survey point "SENDER" in Appendix A is not attributed to F8.1. The official
+/// log (Logg_Jammertest_2024_v1.xlsx) times every 10 s step of 1.6.4 (16:25:00 to 16:39:28 CEST,
+/// "L2 missing") but its notes say multi-band power "refers to the most powerful band" and the
+/// lower bands ran stronger, with relative levels only on the video stream, so the L1 EIRP of
+/// 1.6.4 is not documented. The pre-registration also assumed 20 s steps; the log and catalogue
+/// give 10 s, which a run would have had to amend first.
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "BLOCKED: F8.1 position and pointing at Bleik and the L1 share of the multi-band 1.6.4 power are not documented (checked 2026-10-02)"]
 fn link_budget_predicts_the_measured_cn0_drop_within_3_db() {
     let (d, el, g, kind, nom) = geometry();
     let mut scored = 0;
