@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build d13c2a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build 2c06ef1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-75scenario kinds 132bundled scenario files 235capabilities in the verification matrix 117/235validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+75scenario kinds 132bundled scenario files 238capabilities in the verification matrix 121/238validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 L-band console · the spectrum kind
 
@@ -142,7 +142,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -198,7 +198,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -364,9 +364,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build d13c2a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build 2c06ef1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -378,7 +378,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 117 of 235 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 121 of 238 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 75 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -947,7 +947,7 @@ Orbit view
 
 engine v0.29.3t = 0 sReal engine run, replayed
 
-Engine v0.29.3, build d13c2a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 2c06ef1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2151,7 +2151,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-235 capabilities, each graded. 117 validated against independent external oracles. 114 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+238 capabilities, each graded. 121 validated against independent external oracles. 113 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.29.3 From the repository
 
@@ -2159,7 +2159,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 235 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 238 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2185,7 +2185,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.29.3, build d13c2a1 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.29.3, build 2c06ef1 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2201,7 +2201,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.29.3, build d13c2a1 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.29.3, build 2c06ef1 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2217,7 +2217,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.29.3, build d13c2a1 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.29.3, build 2c06ef1 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2231,7 +2231,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build d13c2a1 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 2c06ef1 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2245,7 +2245,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.29.3, build d13c2a1 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.29.3, build 2c06ef1 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2261,7 +2261,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.29.3, build d13c2a1 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.29.3, build 2c06ef1 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -2271,7 +2271,7 @@ Validated means an independent external source agrees: published reference vecto
 
 ### Capabilities graded
 
-117of 235 validated
+121of 238 validated
 
 Hover a cell
 
@@ -2295,7 +2295,7 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 235 rows, one line each.
+## All 238 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
@@ -2568,6 +2568,34 @@ IAU SOFA / ERFA reference vectors; Vallado AIAA 2006-6753 (0.1–4 mm)
 Tests
 
 tests/frame_reference_vectors.rs (Vallado end-to-end; SOFA/ERFA vectors)
+
+ValidatedTwo-part Julian dates and leap seconds on the Earth-orbit time pathjd2 (Jd2::from_utc_calendar, utc_to_tai, tai_to_utc, utc_to_ut1, tai_to_tt, earth_rotation_angle); sgp4 (Sgp4::new_at, Sgp4::propagate_at)
+
+Capability
+
+A UTC calendar date and time to a two-part UTC Julian date with the SOFA dtf2d convention for days that end in a leap second (86 401 s long, 23:59:60.x valid), UTC to TAI and back, and UT1 from UTC through TAI, on two-part dates from 1972-01-01: the time path SGP4 (Sgp4::propagate_at, measured from a two-part epoch) and the IAU 2006/2000A Earth-fixed rotation (sgp4::teme_to_itrs_matrix_eop with the two-part Earth rotation angle) take
+
+Oracle
+
+pyerfa 2.0.1.5 (liberfa 2.0.1, BSD-3-Clause; the SOFA algorithms as released by the ERFA project), an independent library: erfa.dtf2d("UTC"), erfa.utctai and erfa.taiutc on the committed instants, the gap formed part by part on the two-part dates, bar 1e-6 s fixed before the run (pre-registered e947e69d). Worst gap 9.6e-12 s (dtf2d) and 1.9e-11 s (utctai, taiutc). Every UTC day taken as 86 400 s, or the leap-day fraction left unscaled, turns the test red. UT1 through TAI (iauUtcut1) is checked by the Earth-orbit path row's ERFA leg. Scope: UTC from 1972-01-01; the earlier drifting-rate UTC is not modelled
+
+Tests
+
+tests/jd2_sofa_time_oracle.rs (224 UTC instants: six around each of the 27 leap seconds 1972-2016, two fixed, 60 seeded across 1972-2026; dtf2d, utctai and taiutc each within 1e-6 s, worst 1.9e-11 s); jd2::tests…
+
+ValidatedOne Earth-orbit path: SGP4 element sets to the GCRS and ITRS on the IAU 2006/2000A chain with Earth orientation parameterssgp4 (MeanElementSet, SgpOrbit, Eop, teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop); jd2 (utc_to_ut1, earth_rotation_angle); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix); frames (polar_motion_matrix)
+
+Capability
+
+The propagation and frame path every routed Earth-orbit kind shares: an SGP4 mean element set with a two-part UTC epoch (sgp4::MeanElementSet, read from constellation-design elements by MeanElementSet::from_earth_fixed) propagated by SGP4/SDP4 to TEME (sgp4::SgpOrbit), and the TEME -> ITRS and GCRS -> ITRS rotations of the IAU 2006/2000A chain with UT1 - UTC and polar motion (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, the zero-parameter forms teme_to_itrs_matrix and gcrs_to_itrs_matrix). TEME is the true equator of date with the mean equinox, reached from the GCRS through the IAU 2006 bias-precession, the IAU 2000B nutation and the equation of the equinoxes
+
+Oracle
+
+Leg 1: python-sgp4 2.24 (MIT licence; D. Vallado's reference C++ SGP4, the code that produced the AIAA 2006-6753 verification vectors), WGS-72, improved mode. Leg 2: pyerfa 2.0.1.5 (ERFA, BSD-3-Clause, the SOFA routines): c2t06a with TT from utctai/taitt and UT1 from utcut1, and for TEME c2t06a . pnm06a^T . rz(-ee06a). Bars fixed before the run (pre-registered 72ea9eb0). Disclosed: the first run failed leg 2 at 2016-12-31T23:59:59.5 by one second of rotation (UT1 taken from the UTC quasi Julian date on a leap-second day); the engine was corrected (jd2::utc_to_ut1) and the second run agrees at the unchanged bars. Polar motion dropped (46 failures) or WGS-84 constants in place of WGS-72 (4432 failures) turn the test red. This three-leg design replaced an end-to-end Orekit comparison that failed on Orekit's SDP4 at e = 0 and on its IERS 1996 TEME (the finding stays pinned in tests/leo_polar_coverage_full_claim_orekit_oracle.rs)
+
+Tests
+
+tests/earth_orbit_path_sgp4_erfa_oracle.rs (leg 1: 4432 TEME positions of the 232 committed element sets against python-sgp4 2.24, worst 6.1e-8 m, bar 1 cm; leg 2: 108 instants, 23 of them with Earth orientation…
 
 ValidatedRanging-code design tradenavsignal (CodeFamily)
 
@@ -3273,7 +3301,7 @@ ValidatedGround-station pass prediction (ground segment)passes
 
 Capability
 
-Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an orbit over a station above an elevation mask, with interpolated rise/set crossings and total access. Runnable from the CLI/bindings as the passes scenario kind (scenarios/passes.toml)
+Time-domain visibility passes (AOS/TCA/LOS, max elevation, duration) of an engine propagator over a station above an elevation mask, with interpolated rise/set crossings and total access: passes::predict_passes, the geometric scheduler (no refraction or light time). The passes scenario kind runs the apparent predictor of the row 'Apparent ground-station pass prediction with refraction and light time'
 
 Oracle
 
@@ -3282,6 +3310,20 @@ Orekit 12.2 (CS GROUP, Apache-2.0) + Hipparchus 3.1 — an independent flight-dy
 Tests
 
 passes::tests (interp-cross linear + degenerate-safe, polar→mid-lat passes, higher mask ⇒ fewer-or-equal); tests/ground_station_pass_prediction_reference.rs (22 scenarios / 129 passes vs Orekit 12.2 ElevationDetector…
+
+ValidatedApparent ground-station pass prediction with refraction and light timepasses (predict_passes_apparent, apparent_look_angles, ApparentOptions, p834_tau_s_deg, p834_tau_deg, p834_theta_m_deg, p834_apparent_elevation_deg, PassesScenario)
+
+Capability
+
+Visibility passes (AOS, TCA, LOS, maximum apparent elevation, duration) of an SGP4 element set over a WGS-84 station on the validated Earth-orbit path (IAU 2006/2000A, optional Earth orientation parameters), with ITU-R P.834-9 tropospheric refraction (equations 9 to 14, the Recommendation's printed coefficients) and the downlink light time, each switchable; crossings solved by bisection to 1e-7 s and the culmination by golden-section search. Runnable from the CLI/bindings as the passes scenario kind (scenarios/passes.toml), both corrections on by default
+
+Oracle
+
+Orekit 13.1.8 (CS GROUP, Apache-2.0) with Hipparchus 4.0.3: TLEPropagator on the same element sets in a TEME Orekit builds to the stated definition (its IERS 2010 TOD rotated by GAST - GMST), ElevationDetector and ElevationExtremumDetector with and without ITURP834AtmosphericRefraction, and AngularAzEl with AngularRadioRefractionModifier for the light-time case, crossings and maximum solved by Hipparchus; 60 cases (four orbits, five sea-level stations, masks 0, 5 and 10 deg, 24 hours). Bars fixed before the run (pre-registered e947e69d, leg 3 of 72ea9eb0). Light time ignored (9777 failures) or the P.834 constant 1.728 changed to 1.828 (7883 failures) turns the test red. Scope: stations at sea level; Orekit's P.834 h*theta0^2 coefficient is 0.011380 where the Recommendation prints 0.01380 (pinned), so heights above sea level are not compared. Round 1, against Orekit's default IERS 1996 TEME, held every pass bar but missed the direction bar by the 72 mas TEME convention gap (pinned)
+
+Tests
+
+tests/pass_predictor_on_path_orekit_oracle.rs (60 cases, 1210 passes: AOS/LOS within 3.4e-6 s, bar 5 ms; maximum elevation within 5.5e-7 deg, bar 1e-3 deg; 8979 apparent directions within 8.8e-7 deg, bar 1e-4 deg)…
 
 ValidatedOne-way link budget (comms / link design)linkbudget
 
@@ -5473,19 +5515,19 @@ Tests
 
 leo_fusion::timing::tests (the_utc_offset_follows_the_is_gps_200_expression; continuous_tracking_approaches_the_measurement_floor_and_gaps_cost_time; the_filter_is_consistent_over_seeds…
 
-ModelledLEO coverage and dilution of precision for polar and Arctic users against MEO GNSSleo_fusion::polar (latitude_sweep); leo_fusion::joint_pvt (dop)
+ValidatedLEO coverage and dilution of precision for polar and Arctic users against MEO GNSSleo_fusion::polar (latitude_sweep, latitude_sweep_at, element_sets, satellite_states_at); leo_fusion::joint_pvt (dop); sgp4 (MeanElementSet::from_earth_fixed, SgpOrbit, teme_to_itrs_matrix)
 
 Capability
 
-Satellites in view and median PDOP, HDOP and VDOP with availability against latitude, over sampled longitudes and epochs, for the MEO GNSS systems alone, the LEO systems alone and all of them, each system with its own mask and clock model, run as the leo-pvt polar mode
+Satellites in view and median PDOP, HDOP and VDOP with availability against latitude, over sampled longitudes and epochs, for the MEO GNSS systems alone, the LEO systems alone and all of them, each system with its own mask and clock model, run as the leo-pvt polar mode; the orbits are SGP4/SDP4 element sets at the sweep epoch (2026-01-01T00:00:00 UTC in the polar mode) carried to the Earth-fixed frame on the validated Earth-orbit path (IAU 2006/2000A, UT1 = UTC, no polar motion)
 
 Oracle
 
-Internal consistency with the known geometry: MEO orbits at 55 to 56 deg leave the polar sky equatorward and low, so GNSS VDOP rises toward the pole (1.20 at the equator to 1.51 at 89.9 deg for GPS and Galileo in the bundled scenario), while a near-polar LEO shell converges there. Geometry only; no scintillation, terrain or signal power. 0.30 round 2 (pre-registered 3254d456), blocked (stays MODELLED): on the same tabulated Earth-fixed satellite states Orekit 12.2 visibility and DOPComputer, with a NumPy inverse for multi-clock groups, agree on in-view counts for 4040/4040 samples and on median DOP within 4.6e-14; the states themselves come from the two-body plus secular-J2 model, which no oracle covers, so the scoping awaits an owner decision
+Orekit 13.1.8 (Apache-2.0) with Hipparchus 4.0.3: the engine's GCRS states rotated to ITRF by Orekit (IERS 2010), WGS-84 TopocentricFrame visibility against each system's mask, org.orekit.gnss.DOPComputer for one clock unknown and NumPy 2.4.6 numpy.linalg.inv (P2) for several; with the path checked against python-sgp4 and ERFA (row 'One Earth-orbit path'). Bars fixed before the run (pre-registered 72ea9eb0; T2 and T3 are the 0.30 round-2 bars). The TEME -> GCRS step frozen at J2000 turns the test red (4739 failures). Geometry only; no scintillation, terrain or signal power. GNSS VDOP rises toward the pole (1.20 at the equator to 1.51 at 89.9 deg for GPS and Galileo in the bundled scenario) while a near-polar LEO shell converges there. History: round 2 (3254d456) agreed on tabulated two-body states; the D8 round-1 full claim against Orekit's own TLE propagation (e947e69d) was a finding, Orekit's SDP4 at e = 0 and its IERS 1996 TEME, pinned
 
 Tests
 
-leo_fusion::polar::tests (gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it); tests/leo_fusion_scenarios.rs (a_polar_leo_constellation_fills_the_sky_where_gnss_vertical_geometry_weakens)…
+tests/leo_polar_coverage_on_path_orekit_oracle.rs (configurations A and B, 4040 samples: Earth-fixed positions within 6.8e-5 m, bar 0.2 m; in-view counts identical on 4040/4040; median DOP within 2.3e-11 relative, bar…
 
 ModelledNamed LEO PNT systems as optional data presets, each with its sourceleo_fusion::presets (all, by_id, cn0_range_dbhz, noise_density_dbw_hz); leo_fusion::system (SystemCfg::build)
 
@@ -5958,7 +6000,7 @@ Terminal · kshana v0.29.3 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.29.3 (build d13c2a1):
+A recorded command-line session, engine v0.29.3 (build 2c06ef1):
 
 - $ kshana --version: kshana 0.29.3
 
@@ -6496,7 +6538,7 @@ What is included
 
 - All 75 scenario kinds and 132 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 117 of 235 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 121 of 238 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
