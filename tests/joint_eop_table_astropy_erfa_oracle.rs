@@ -82,6 +82,13 @@
 //! part is about 0.6 microseconds of time, against UT1 residuals of 1-50 microseconds at
 //! the floor row. A per-epoch diagnostic (closed form against the ERFA angle, rel -0.14 to
 //! +0.12 at the floor) was run before the amendment below was written.
+//!
+//! AMENDMENT A1 (written after the first run, which was seen; committed before the re-run).
+//! Only the oracle's date representation changes: ERFA receives the UTC date as
+//! (2400000.5 + MJD, 0.0), so `utcut1` places dUT1/86400 in an otherwise-zero second part
+//! (resolution about 1e-11 s; ERFA's `era00` adds the fractional parts first). Quantity,
+//! inputs, every tolerance (1e-5 on the combined statistics included) and the crate are
+//! unchanged. The engine is not touched between the runs.
 
 use kshana::realtime_frame_eop::RealtimeFrameEopScenario;
 use serde_json::{json, Value};
@@ -322,7 +329,7 @@ fn compare_predicted_vs_final(o: &Value) -> Vec<String> {
 }
 
 #[test]
-#[ignore = "first run 2026-10-02: Tables 4 and 6 and every Table 3 epoch set and UT1/pole statistic agree; 19 Table 3 combined statistics miss 1e-5 (rel 1e-5 to 1.3e-2) - oracle date-precision defect, see amendment A1"]
+#[ignore = "pre-registered amendment A1; not yet run (first run: 19 combined statistics missed 1e-5 on an oracle date-precision defect)"]
 fn joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa() {
     let o = oracle();
     assert_eq!(o["d_em_m"], json!(kshana::frame_eop::D_EM_M));
