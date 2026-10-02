@@ -151,9 +151,11 @@ fn d_elev_mask_deg() -> f64 {
 fn d_sat_eirp_dbw() -> f64 {
     26.0
 }
-/// S-band AFS carrier (Hz) — the P1 / `lunar-attack-surface` value.
+/// The AFS carrier (Hz): 2492.028 MHz, LSIS-020 of LSIS V1.0
+/// ([`crate::lunar_service::LSIS_AFS_CARRIER_HZ`]). It was a rounded 2.4 GHz until the
+/// revision that aligned every lunar default with the standard.
 fn d_carrier_hz() -> f64 {
-    2.4e9
+    crate::lunar_service::LSIS_AFS_CARRIER_HZ
 }
 /// Spreading-code chip rate (chips/s) — the GPS C/A reference rate
 /// [`crate::jamming::CA_CHIP_RATE_HZ`], the despreading processing gain.
@@ -295,7 +297,7 @@ pub struct LunarJammingScenario {
     /// Satellite transmit EIRP (dBW). Default 26 (the P1 AFS value).
     #[serde(default = "d_sat_eirp_dbw")]
     pub sat_eirp_dbw: f64,
-    /// Carrier frequency (Hz). Default 2.4e9 (the P1 AFS S-band value).
+    /// Carrier frequency (Hz). Default 2.492028e9, the LSIS-020 AFS carrier.
     #[serde(default = "d_carrier_hz")]
     pub carrier_hz: f64,
     /// Spreading-code chip rate (chips/s). Default 1.023e6 (the C/A reference).
@@ -2300,12 +2302,16 @@ mod tests {
     /// every other input at the module's documented default. It is the same point
     /// `a_single_median_j_over_s_would_misreport_the_outcome_that_the_table_reports`
     /// uses, because the claim being made is about that table.
+    /// The documented operating point: every default except a 25 km jammer and the 2.4 GHz
+    /// carrier of the bundled `lunar-jamming` scenario (the engine default is now the
+    /// LSIS-020 carrier; the numbers pinned at this point were measured at 2.4 GHz).
     fn mixed_operating_point() -> LunarJammingScenario {
         LunarJammingScenario {
             jammer: Some(LunarJammerCfg {
                 range_m: 25_000.0,
                 ..LunarJammerCfg::default()
             }),
+            carrier_hz: 2.4e9,
             ..Default::default()
         }
     }

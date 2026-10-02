@@ -804,11 +804,16 @@ fn d_p_hmi() -> f64 {
 fn d_sigma_ure_m() -> f64 {
     LUNAR_SIGMA_URE_M
 }
-/// S-band lunar augmented-forward-signal carrier (Hz) — the same 2.4 GHz the
-/// `lunar-attack-surface` and `lunar-jamming` packs already run at, so a geometry export
-/// and a jamming run describe the same radio.
+/// The LunaNet Augmented Forward Signal (AFS) carrier (Hz): 2492.028 MHz, LSIS-020 of the
+/// LunaNet Signal-In-Space Recommended Standard (LSIS) V1.0, 29 January 2025. Until this
+/// revision the default was a rounded 2.4 GHz, which understated the free-space loss of every
+/// link evaluated at the default by 20·log10(2492.028 / 2400) = 0.327 dB and overstated the
+/// aperture's half-power beamwidth by the same 3.8 per cent.
+pub const LSIS_AFS_CARRIER_HZ: f64 = 2_492.028e6;
+
+/// Default export carrier: the standard's AFS carrier, [`LSIS_AFS_CARRIER_HZ`].
 fn d_export_carrier_hz() -> f64 {
-    2.4e9
+    LSIS_AFS_CARRIER_HZ
 }
 /// Aperture (illumination) efficiency of the satellite transmit dish — the engine-wide
 /// representative [`crate::antenna::DEFAULT_APERTURE_EFFICIENCY`] (0.60).
@@ -834,7 +839,8 @@ pub struct ExportAntennaCfg {
     /// Satellite transmit-dish diameter (m). No default: the pattern is a statement about
     /// a specific aperture, so the caller has to name one.
     pub diameter_m: f64,
-    /// Carrier frequency (Hz). Default 2.4e9 (S-band lunar AFS).
+    /// Carrier frequency (Hz). Default 2.492028e9, the LSIS-020 AFS carrier
+    /// ([`LSIS_AFS_CARRIER_HZ`]).
     #[serde(default = "d_export_carrier_hz")]
     pub carrier_hz: f64,
     /// Aperture (illumination) efficiency in `(0, 1]`. Default 0.60.
@@ -2610,6 +2616,18 @@ mod tests {
     use super::*;
     use crate::lunar::{lunar_araim, lunar_sky_geometry};
     use std::f64::consts::FRAC_PI_2;
+
+    /// The export antenna's default carrier is the LSIS-020 Augmented Forward Signal carrier,
+    /// 2492.028 MHz, not a rounded 2.4 GHz; the rounding cost 0.327 dB of free-space loss.
+    #[test]
+    fn export_antenna_default_carrier_is_the_lsis_afs_carrier() {
+        let cfg: ExportAntennaCfg =
+            serde_json::from_str(r#"{"diameter_m": 1.0}"#).expect("diameter-only config");
+        assert_eq!(cfg.carrier_hz, 2_492.028e6);
+        assert_eq!(cfg.carrier_hz, LSIS_AFS_CARRIER_HZ);
+        let delta_fspl_db = 20.0 * (cfg.carrier_hz / 2.4e9).log10();
+        assert!((delta_fspl_db - 0.3268).abs() < 1e-4, "{delta_fspl_db}");
+    }
 
     fn budget() -> IntegrityBudget {
         IntegrityBudget {

@@ -1,0 +1,21 @@
+diff -ru /root/Code/kshana-oracles/lunar-afs/PocketSDR-AFS/src/sdr_nav.c /root/Code/kshana-oracles/lunar-afs/psdr-trace/src/sdr_nav.c
+--- /root/Code/kshana-oracles/lunar-afs/PocketSDR-AFS/src/sdr_nav.c	2026-10-02 16:16:34.500627708 +0000
++++ /root/Code/kshana-oracles/lunar-afs/psdr-trace/src/sdr_nav.c	2026-10-02 16:46:58.451663816 +0000
+@@ -2122,6 +2122,7 @@
+         sdr_log(3, "$LOG,%.3f,%s,%d,TOI NOT FOUND", time, ch->sig, ch->prn);
+         return;
+     }
++    sdr_log(3, "$LOG,%.3f,%s,%d,AFSD TOI=%d", time, ch->sig, ch->prn, toi); // TRACE: print-only
+ 
+     // decode block-interleave
+     for (i = 0, k = 0; i < 60; i++) {
+--- /root/Code/kshana-oracles/lunar-afs/PocketSDR-AFS/app/pocket_trk/pocket_trk.c	2026-10-02 16:16:34.469866320 +0000
++++ /root/Code/kshana-oracles/lunar-afs/psdr-trace/app/pocket_trk/pocket_trk.c	2026-10-02 16:46:58.451059826 +0000
+@@ -212,6 +212,7 @@
+     const char *file = "", *fftw_wisdom = FFTW_WISDOM, *conf_file = "";
+     const char *paths[4] = {"", "", "", ""}, *debug_file = "";
+     int inv_q = 0; // Inverse Q sign flag
++    sdr_log_level(4); // TRACE: print-only
+ 
+     for (int i = 1; i < argc; i++) {
+         if (!strcmp(argv[i], "-sig") && i + 1 < argc) {

@@ -422,8 +422,11 @@ fn d_slant_range_max_m() -> f64 {
     // 3000 km × 10^(2.4/20): the +2.4 dB slant-range spread of the deficit band.
     3.0e6 * 1.318_256_738_556_407
 }
+/// The AFS carrier (Hz): 2492.028 MHz, LSIS-020 of LSIS V1.0
+/// ([`crate::lunar_service::LSIS_AFS_CARRIER_HZ`]); a rounded 2.4 GHz until the revision that
+/// aligned every lunar default with the standard. The bundled scenario names its carrier.
 fn d_carrier_hz() -> f64 {
-    2.4e9
+    crate::lunar_service::LSIS_AFS_CARRIER_HZ
 }
 /// Terrestrial GPS L1 C/A received power, TYPICAL, in dBW.
 ///
@@ -1081,11 +1084,24 @@ mod tests {
 
     use super::*;
 
+    /// The carrier of the P1 paper and of the bundled `lunar-attack-surface` scenario
+    /// (2.4 GHz). The engine default is now the LSIS-020 carrier; the P1 baseline tests name
+    /// the paper's carrier explicitly so that they still reproduce it.
+    const P1_CARRIER_HZ: f64 = 2.4e9;
+
+    /// The P1 baseline configuration: every default, with the paper's carrier.
+    fn p1_baseline() -> LunarAttackSurfaceScenario {
+        LunarAttackSurfaceScenario {
+            carrier_hz: P1_CARRIER_HZ,
+            ..LunarAttackSurfaceScenario::default()
+        }
+    }
+
     /// Empty TOML reproduces the P1 baseline headline numbers across all six composed
     /// analyses. Oracle: each sub-result matches its own module's Validated figure.
     #[test]
     fn empty_scenario_reproduces_p1_baseline() {
-        let scn = LunarAttackSurfaceScenario::default();
+        let scn = p1_baseline();
         let a = scn.analyse().expect("baseline analyses");
 
         // Link budget. The received power is unchanged and always was right: a closed-form
@@ -1192,7 +1208,7 @@ mod tests {
     /// grid-level statement that it is not reached anywhere on the shipped grid.
     #[test]
     fn footprint_sweep_is_reported_against_altitude_and_beamwidth() {
-        let scn = LunarAttackSurfaceScenario::default();
+        let scn = p1_baseline();
         let a = scn.analyse().expect("baseline analyses");
         let s = &a.footprint_sweep;
 
@@ -1265,7 +1281,8 @@ mod tests {
                    footprint_altitude_min_m = 50_000.0\n\
                    footprint_altitude_max_m = 250_000.0\n\
                    footprint_altitude_steps = 3\n\
-                   footprint_diameter_steps = 4\n";
+                   footprint_diameter_steps = 4\n\
+                   carrier_hz = 2.4e9\n";
         let scn: LunarAttackSurfaceScenario =
             toml::from_str(src).expect("sweep axes parse from TOML");
         let a = scn.analyse().expect("analyses");
