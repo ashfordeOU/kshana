@@ -160,6 +160,46 @@ pub fn cusum_latency_s(kref: f64, h: f64, z: f64, dt: f64) -> f64 {
     ((h / step).floor() + 1.0) * dt
 }
 
+/// Steady-state innovation 1-sigma (s) of the three-state clock-aided monitor
+/// ([`crate::spoof_monitors::ClockAidedMonitor`]) sampled every `dt` seconds with white phase
+/// variance `r`: the Riccati recursion of [`crate::clock_state::ClockState3`] is iterated from
+/// an uninformed start until the predicted phase variance settles (relative change below
+/// 1e-12, at most 100 000 steps), and `sqrt(P_phase + r)` is returned. This is the monitor's
+/// detectability floor with drift states: the largest step a spoof can hold below the
+/// `k`-sigma alarm is `k` times it.
+pub fn kalman_monitor_sigma_s(q_wf: f64, q_rw: f64, q_drift: f64, r: f64, dt: f64) -> f64 {
+    let mut f = crate::clock_state::ClockState3::new(q_wf, q_rw, q_drift)
+        .with_initial_cov(1.0, 1e-10, 1e-16);
+    let mut last = f64::INFINITY;
+    for _ in 0..100_000 {
+        f.predict(dt);
+        let s = f.covariance()[0][0] + r;
+        f.update_phase(0.0, r);
+        if ((s - last) / s).abs() < 1e-12 {
+            return s.max(0.0).sqrt();
+        }
+        last = s;
+    }
+    last.max(0.0).sqrt()
+}
+
+/// The Timing Protection Level (ns) of the three-state clock-aided monitor: `k` times its
+/// steady-state innovation sigma ([`kalman_monitor_sigma_s`] at the monitor cadence `dt`) plus
+/// the oscillator's coast 1-sigma over the detection latency with all three red-noise terms
+/// ([`crate::holdover::coast_phase_sigma`] with `q_drift`). Pass PSDs raised to the clock-class
+/// floor ([`crate::spoof_monitors::ClockNoiseEstimate::with_class_floor`]) when they come from a
+/// calibration too short to see the long-tau noise.
+pub fn timing_protection_level_drift_ns(
+    noise: &crate::spoof_monitors::ClockNoiseEstimate,
+    dt: f64,
+    k: f64,
+    detection_latency_s: f64,
+) -> f64 {
+    let floor = k * kalman_monitor_sigma_s(noise.q_wf, noise.q_rw, noise.q_drift, noise.r, dt);
+    let coast = coast_phase_sigma(noise.q_wf, noise.q_rw, noise.q_drift, detection_latency_s);
+    (floor + coast) * 1e9
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -294,5 +334,24 @@ mod tests {
         );
         // And the bound is meaningful (positive, above the static consistency floor).
         assert!(tpl > 5.0 * 22.1);
+    }
+    #[test]
+    fn drift_state_tpl_grows_with_latency_and_with_drift_noise() {
+        let n = crate::spoof_monitors::ClockNoiseEstimate {
+            r: 9e-18,
+            q_wf: 4e-20,
+            q_rw: 1e-21,
+            q_drift: 0.0,
+        };
+        let a = timing_protection_level_drift_ns(&n, 1.0, 5.0, 10.0);
+        let b = timing_protection_level_drift_ns(&n, 1.0, 5.0, 40.0);
+        assert!(b > a);
+        let d = crate::spoof_monitors::ClockNoiseEstimate {
+            q_drift: 1e-24,
+            ..n
+        };
+        assert!(timing_protection_level_drift_ns(&d, 1.0, 5.0, 40.0) > b);
+        // The steady-state innovation sigma is at least the measurement sigma.
+        assert!(kalman_monitor_sigma_s(n.q_wf, n.q_rw, n.q_drift, n.r, 1.0) >= 3e-9);
     }
 }
