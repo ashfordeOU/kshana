@@ -1,0 +1,74 @@
+{
+  "config": "A",
+  "epoch_utc": [
+    2026.0,
+    1.0,
+    1.0,
+    0.0,
+    0.0,
+    0.0
+  ],
+  "lats_deg": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    70.0,
+    80.0,
+    89.9
+  ],
+  "lons_deg": [
+    -180.0,
+    -135.0,
+    -90.0,
+    -45.0,
+    0.0,
+    45.0,
+    90.0,
+    135.0
+  ],
+  "pdop_threshold": 6.0,
+  "scenario": "scenarios/polar-arctic-leo-coverage.toml",
+  "site_height_m": 0.0,
+  "systems": [
+    {
+      "clock": "estimated",
+      "mask_rad": 0.17453292519943295,
+      "n_satellites": 24,
+      "name": "GPS",
+      "role": "gnss"
+    },
+    {
+      "clock": "estimated",
+      "mask_rad": 0.17453292519943295,
+      "n_satellites": 24,
+      "name": "Galileo",
+      "role": "gnss"
+    },
+    {
+      "clock": "estimated",
+      "mask_rad": 0.17453292519943295,
+      "n_satellites": 66,
+      "name": "Iridium",
+      "role": "leo"
+    }
+  ],
+  "times_s": [
+    0.0,
+    600.0,
+    1200.0,
+    1800.0,
+    2400.0,
+    3000.0,
+    3600.0,
+    4200.0,
+    4800.0,
+    5400.0,
+    6000.0,
+    6600.0,
+    7200.0
+  ]
+}
