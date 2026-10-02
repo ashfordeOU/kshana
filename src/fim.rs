@@ -246,6 +246,62 @@ pub fn crlb(info: &[Vec<f64>], rel_tol: f64) -> Crlb {
     }
 }
 
+/// [`crlb`] computed by the opt-in square-root route from the Jacobian and weights, never forming
+/// or decomposing the information matrix `M = J^T W J`. The whitened Jacobian is triangularised
+/// (Householder QR, [`crate::linalg_sr::Srif`]); the spectrum comes from a one-sided Jacobi
+/// singular value decomposition of `R` (`lambda = s^2`), and the full-rank covariance from
+/// `R^-1 R^-T`. The rank rule is the same as [`crlb`]'s (`lambda > rel_tol lambda_max`), but the
+/// eigenvalues carry the accuracy of `R`, whose condition number is the square root of `M`'s, so
+/// ill-conditioned problems keep about twice the correct digits. Results agree with [`crlb`]
+/// where both are accurate (unit-tested); [`crlb`] stays the default everywhere.
+pub fn crlb_srif(jac: &[Vec<f64>], weights: &[f64], rel_tol: f64) -> Crlb {
+    let n = jac.first().map_or(0, Vec::len);
+    let mut filter = crate::linalg_sr::Srif::new(n);
+    filter.update(jac, weights);
+    let r = filter.r();
+    let (sv, vecs) = crate::linalg_sr::jacobi_svd(r);
+    let eigenvalues: Vec<f64> = sv.iter().map(|x| x * x).collect();
+    let lmax = eigenvalues.iter().cloned().fold(0.0_f64, f64::max);
+    let thr = rel_tol * lmax.max(0.0);
+    let kept: Vec<bool> = eigenvalues.iter().map(|&l| l > thr && l > 0.0).collect();
+    let rank = kept.iter().filter(|k| **k).count();
+    let defect = n - rank;
+    let mut pinv = vec![vec![0.0; n]; n];
+    for (j, &l) in eigenvalues.iter().enumerate() {
+        if !kept[j] {
+            continue;
+        }
+        for (a, row) in pinv.iter_mut().enumerate() {
+            for (b, x) in row.iter_mut().enumerate() {
+                *x += vecs[a][j] * vecs[b][j] / l;
+            }
+        }
+    }
+    let null_cols: Vec<usize> = (0..n).filter(|&j| !kept[j]).collect();
+    let null_space: Mat = (0..n)
+        .map(|a| null_cols.iter().map(|&j| vecs[a][j]).collect())
+        .collect();
+    let covariance = if defect == 0 {
+        crate::linalg_sr::covariance_from_sqrt_information(r)
+    } else {
+        None
+    };
+    let source = covariance.as_ref().unwrap_or(&pinv);
+    let crlb_diag: Vec<f64> = (0..n).map(|i| source[i][i]).collect();
+    let crlb_std = crlb_diag.iter().map(|&v| v.max(0.0).sqrt()).collect();
+    Crlb {
+        n,
+        rank,
+        defect,
+        eigenvalues,
+        null_space,
+        pseudo_covariance: covariance.clone().unwrap_or(pinv),
+        covariance,
+        crlb_diag,
+        crlb_std,
+    }
+}
+
 /// Scalar optimality criteria of a Fisher information matrix `info`, the figures of
 /// merit of optimal experiment design. Larger information ⇒ smaller covariance, so
 /// D/E/T-optimality are **maximised** and A-optimality is **minimised**.
@@ -621,6 +677,45 @@ mod tests {
         assert_eq!(c.defect, 0);
         assert_eq!(c.rank, 3);
         assert!(c.covariance.is_some());
+    }
+
+    #[test]
+    fn crlb_srif_agrees_with_crlb_on_full_rank_and_rank_deficient_designs() {
+        // Full rank: two-way range-like rows over three parameters.
+        let jac = vec![
+            vec![1.0, 0.2, -0.3],
+            vec![0.1, 1.0, 0.4],
+            vec![-0.5, 0.3, 1.0],
+            vec![0.7, -0.2, 0.1],
+        ];
+        let w = vec![2.0, 1.0, 0.5, 4.0];
+        let a = crlb(&information_matrix(&jac, &w), 1e-9);
+        let b = crlb_srif(&jac, &w, 1e-9);
+        assert_eq!((a.rank, a.defect), (b.rank, b.defect));
+        for i in 0..3 {
+            assert!((a.crlb_std[i] - b.crlb_std[i]).abs() < 1e-12 * a.crlb_std[i]);
+            assert!((a.eigenvalues[i] - b.eigenvalues[i]).abs() < 1e-12 * a.eigenvalues[2]);
+        }
+        // Rank-deficient: a common offset of the first two parameters is unobservable.
+        let jac = vec![
+            vec![1.0, -1.0, 0.0],
+            vec![2.0, -2.0, 1.0],
+            vec![0.0, 0.0, 1.0],
+        ];
+        let w = vec![1.0; 3];
+        let a = crlb(&information_matrix(&jac, &w), 1e-9);
+        let b = crlb_srif(&jac, &w, 1e-9);
+        assert_eq!((b.rank, b.defect), (a.rank, a.defect));
+        assert_eq!(b.defect, 1);
+        assert!(b.covariance.is_none());
+        let n2 = (b.null_space[0][0].powi(2) + b.null_space[1][0].powi(2)).sqrt();
+        assert!((n2 - 1.0).abs() < 1e-12, "null space is the common offset");
+        for i in 0..3 {
+            for j in 0..3 {
+                let d = a.pseudo_covariance[i][j] - b.pseudo_covariance[i][j];
+                assert!(d.abs() < 1e-12);
+            }
+        }
     }
 
     #[test]

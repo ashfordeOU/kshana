@@ -736,6 +736,20 @@ pub fn formal_covariance(cfg: &LunarNetworkConfig) -> Option<Vec<Vec<f64>>> {
     inverse(&info)
 }
 
+/// [`formal_covariance`] by the opt-in square-root route: the whitened Jacobian at the converged
+/// [`estimate`] state is triangularised (Householder QR) and the covariance read as `R⁻¹R⁻ᵀ`,
+/// never forming or inverting `HᵀWH`. Same solve, same Jacobian, same `None` cases; the default
+/// is unchanged.
+pub fn formal_covariance_srif(cfg: &LunarNetworkConfig) -> Option<Vec<Vec<f64>>> {
+    let p = problem(cfg);
+    let h = model(cfg);
+    let r = gauss_newton_qr(&h, &p.z, &p.weights, &p.x0, 100, 1e-6)?;
+    let jac = crate::batch_ls::fd_jacobian(&h, &r.x, p.z.len());
+    let mut filter = crate::linalg_sr::Srif::new(r.x.len());
+    filter.update(&jac, &p.weights);
+    crate::linalg_sr::covariance_from_sqrt_information(filter.r())
+}
+
 /// Convert a solver result + truth into the recovered-vs-truth summary, guarding non-finite values.
 fn summarize_solution(
     cfg: &LunarNetworkConfig,
@@ -1840,6 +1854,25 @@ mod tests {
             (0.85..=1.20).contains(&efficiency),
             "estimator efficiency RMS/CRLB = {efficiency:.3} (RMS={rms:.2} m, CRLB={crlb:.2} m) should be ≈ 1"
         );
+    }
+
+    #[test]
+    fn the_srif_formal_covariance_matches_the_normal_equation_one() {
+        let cfg = LunarNetworkConfig::default();
+        let a = formal_covariance(&cfg).expect("covariance");
+        let b = formal_covariance_srif(&cfg).expect("covariance");
+        assert_eq!(a.len(), b.len());
+        for i in 0..a.len() {
+            for j in 0..a.len() {
+                let scale = (a[i][i] * a[j][j]).sqrt();
+                assert!(
+                    (a[i][j] - b[i][j]).abs() <= 1e-6 * scale,
+                    "[{i}][{j}] {} vs {}",
+                    a[i][j],
+                    b[i][j]
+                );
+            }
+        }
     }
 
     #[test]

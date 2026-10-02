@@ -4,22 +4,22 @@
   <desc>Generated from src/verification.rs via web/data/verification-matrix.json by tools/gen_validation_figures.py. Do not edit by hand.</desc>
   <rect x="0" y="0" width="820" height="400" fill="#0c0b08"/>
   <text x="40" y="50" font-size="24" font-weight="700" fill="#e0bd84">Validated means external oracle &#8212; by construction</text>
-  <text x="40" y="78" font-size="15" fill="#8c8273">Status &#215; oracle kind from verification-matrix.json (n=226). Validated = 110/110 ExternalDataset &#8212; CI-enforced.</text>
+  <text x="40" y="78" font-size="15" fill="#8c8273">Status &#215; oracle kind from verification-matrix.json (n=232). Validated = 116/116 ExternalDataset &#8212; CI-enforced.</text>
   <text x="40" y="146" font-size="17" font-weight="700" fill="#f1ece2">Validated</text>
-  <rect x="168" y="120" width="571.61" height="42" fill="#46b67e"/>
-  <text x="453.8" y="147" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">110</text>
-  <text x="751.61" y="147" font-size="18" font-weight="700" fill="#e0bd84">110</text>
+  <rect x="168" y="120" width="582" height="42" fill="#46b67e"/>
+  <text x="459" y="147" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">116</text>
+  <text x="762" y="147" font-size="18" font-weight="700" fill="#e0bd84">116</text>
   <text x="40" y="208" font-size="17" font-weight="700" fill="#f1ece2">Modelled</text>
-  <rect x="168" y="182" width="57.16" height="42" fill="#46b67e"/>
-  <text x="196.58" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">11</text>
-  <rect x="225.16" y="182" width="67.55" height="42" fill="#c99a3c"/>
-  <text x="258.94" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">13</text>
-  <rect x="292.71" y="182" width="457.29" height="42" fill="#d2925e"/>
-  <text x="521.36" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">88</text>
-  <text x="762" y="209" font-size="18" font-weight="700" fill="#e0bd84">112</text>
+  <rect x="168" y="182" width="55.19" height="42" fill="#46b67e"/>
+  <text x="195.59" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">11</text>
+  <rect x="223.19" y="182" width="65.22" height="42" fill="#c99a3c"/>
+  <text x="255.8" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">13</text>
+  <rect x="288.41" y="182" width="441.52" height="42" fill="#d2925e"/>
+  <text x="509.17" y="209" font-size="18" font-weight="700" fill="#0c0b08" text-anchor="middle">88</text>
+  <text x="741.93" y="209" font-size="18" font-weight="700" fill="#e0bd84">112</text>
   <text x="40" y="270" font-size="17" font-weight="700" fill="#f1ece2">Partner</text>
-  <rect x="168" y="244" width="20.79" height="42" fill="#7c81b8"/>
-  <text x="200.79" y="271" font-size="18" font-weight="700" fill="#e0bd84">4</text>
+  <rect x="168" y="244" width="20.07" height="42" fill="#7c81b8"/>
+  <text x="200.07" y="271" font-size="18" font-weight="700" fill="#e0bd84">4</text>
   <text x="40" y="316" font-size="14" fill="#8c8273">Modelled oracle kinds: 11 ExternalDataset, 13 ReferenceImpl, 88 InternalConsistency (total 112 Modelled).</text>
   <rect x="40" y="339" width="16" height="16" fill="#46b67e"/>
   <text x="62" y="352" font-size="13" fill="#f1ece2">ExternalDataset</text>
@@ -29,5 +29,5 @@
   <text x="432" y="352" font-size="13" fill="#f1ece2">InternalConsistency</text>
   <rect x="595" y="339" width="16" height="16" fill="#7c81b8"/>
   <text x="617" y="352" font-size="13" fill="#f1ece2">NoneKind</text>
-  <text x="40" y="386" font-size="15" fill="#f1ece2"><tspan font-weight="700">110</tspan> Validated &#183; <tspan font-weight="700">112</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">226</tspan> total</text>
+  <text x="40" y="386" font-size="15" fill="#f1ece2"><tspan font-weight="700">116</tspan> Validated &#183; <tspan font-weight="700">112</tspan> Modelled &#183; <tspan font-weight="700">4</tspan> Partner &#183; <tspan font-weight="700">232</tspan> total</text>
 </svg>
