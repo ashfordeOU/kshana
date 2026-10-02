@@ -107,7 +107,7 @@ pooch==1.8.2
 ppigrf==2.1.0
 prometheus-client==0.26.0
 prompt-toolkit==3.0.53
-protobuf==6.33.1
+protobuf==6.33.5
 psutil==7.2.2
 ptyprocess==0.7.0
 pure-eval==0.2.4
