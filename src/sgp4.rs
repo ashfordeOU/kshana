@@ -22,6 +22,8 @@
 //! for the user and the satellites, which is internally consistent for line-of-sight
 //! geometry without the full TEME→ECEF reduction (polar motion, nutation).
 
+use crate::jd2::Jd2;
+use crate::precession::{mat_vec, matmul, rz, Mat3};
 use std::f64::consts::PI;
 
 const TWO_PI: f64 = 2.0 * PI;
@@ -168,6 +170,9 @@ pub struct Sgp4 {
     /// The element epoch as a UTC Julian Date (`epoch` days since 1950 Jan 0.0 plus
     /// 2 433 281.5): the instant `tsince = 0` names.
     epoch_jd_utc: f64,
+    /// The same epoch as a two-part Julian date, which keeps the microsecond a single `f64`
+    /// Julian date loses; [`Sgp4::propagate_at`] measures time since epoch from it.
+    epoch_jd2: Jd2,
     deep: bool,
     isimp: bool,
 
@@ -285,6 +290,7 @@ impl Sgp4 {
             grav,
             afspc,
             epoch_jd_utc: epoch + 2_433_281.5,
+            epoch_jd2: Jd2::from_parts(2_433_281.0, 0.5 + epoch),
             deep: false,
             isimp: false,
             bstar,
@@ -556,6 +562,40 @@ impl Sgp4 {
     /// date of the TEME (true equator, mean equinox) frame at that instant.
     pub fn epoch_jd_utc(&self) -> f64 {
         self.epoch_jd_utc
+    }
+
+    /// The element epoch as a two-part UTC Julian date.
+    pub fn epoch_jd2(&self) -> Jd2 {
+        self.epoch_jd2
+    }
+
+    /// As [`Sgp4::new`], with the epoch given as a two-part UTC Julian date that the
+    /// propagator keeps at full precision for [`Sgp4::propagate_at`].
+    #[allow(clippy::too_many_arguments)]
+    pub fn new_at(
+        grav: GravConst,
+        afspc: bool,
+        epoch: Jd2,
+        bstar: f64,
+        ecco: f64,
+        argpo: f64,
+        inclo: f64,
+        mo: f64,
+        no_kozai: f64,
+        nodeo: f64,
+    ) -> Self {
+        let days_1950 = (epoch.day - 2_433_281.0) + (epoch.frac - 0.5);
+        let mut s = Self::new(
+            grav, afspc, days_1950, bstar, ecco, argpo, inclo, mo, no_kozai, nodeo,
+        );
+        s.epoch_jd2 = epoch;
+        s
+    }
+
+    /// Propagate to the UTC instant `t`, the time since epoch formed part by part from the
+    /// two-part Julian dates. Same output and error codes as [`Sgp4::propagate`].
+    pub fn propagate_at(&self, t: Jd2) -> Result<([f64; 3], [f64; 3]), i32> {
+        self.propagate(t.diff_seconds(self.epoch_jd2) / 60.0)
     }
 
     /// Nominal orbital period (s) from the un-Kozai'd mean motion.
@@ -1399,6 +1439,233 @@ impl Sgp4 {
     }
 }
 
+// ── One propagation and frame path for Earth orbits ──────────────────────────────────────
+
+/// Classical elements of an Earth orbit with the node given as an Earth-fixed longitude at
+/// the epoch: the constellation-design convention of [`crate::constellation::Elements`].
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct EarthFixedElements {
+    /// Semi-major axis (m).
+    pub a_m: f64,
+    /// Eccentricity.
+    pub e: f64,
+    /// Inclination (rad).
+    pub inc_rad: f64,
+    /// Earth-fixed longitude of the ascending node at the epoch (rad).
+    pub node_lon_rad: f64,
+    /// Argument of perigee (rad).
+    pub argp_rad: f64,
+    /// Mean anomaly at the epoch (rad).
+    pub m0_rad: f64,
+}
+
+/// An SGP4 mean element set with a two-part UTC epoch, in the units [`Sgp4::new`] takes:
+/// the complete input of the propagation, and so exactly what an oracle comparison hands to
+/// an independent SGP4 implementation.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct MeanElementSet {
+    /// Element epoch (UTC, two-part Julian date).
+    pub epoch_utc: Jd2,
+    /// Kozai mean motion (rad/min).
+    pub no_kozai: f64,
+    /// Eccentricity.
+    pub ecco: f64,
+    /// Inclination (rad).
+    pub inclo: f64,
+    /// Right ascension of the ascending node in TEME (true equator, mean equinox) (rad).
+    pub nodeo: f64,
+    /// Argument of perigee (rad).
+    pub argpo: f64,
+    /// Mean anomaly (rad).
+    pub mo: f64,
+    /// Drag term B* (1 / Earth radii).
+    pub bstar: f64,
+}
+
+impl MeanElementSet {
+    /// The SGP4 element set of an orbit given with an Earth-fixed node: the Kozai mean motion
+    /// `sqrt(mu / a^3)` with the WGS-72 constants SGP4 is defined with, the TEME right
+    /// ascension of the node equal to the Earth-fixed node longitude plus the Greenwich mean
+    /// sidereal time of the epoch (the TEME to pseudo-Earth-fixed angle, UT1 taken as UTC),
+    /// and B* zero.
+    pub fn from_earth_fixed(el: &EarthFixedElements, epoch_utc: Jd2) -> Self {
+        let g = wgs72();
+        let a_er = el.a_m / 1000.0 / g.radiusearthkm;
+        Self {
+            epoch_utc,
+            no_kozai: g.xke / a_er.powf(1.5),
+            ecco: el.e,
+            inclo: el.inc_rad,
+            nodeo: (el.node_lon_rad + gstime(epoch_utc.total())).rem_euclid(TWO_PI),
+            argpo: el.argp_rad.rem_euclid(TWO_PI),
+            mo: el.m0_rad.rem_euclid(TWO_PI),
+            bstar: 0.0,
+        }
+    }
+}
+
+/// Earth's rotation rate (rad/s) as the derivative of the IAU 2000 Earth rotation angle.
+pub const EARTH_ROTATION_ANGLE_RATE: f64 =
+    TWO_PI * crate::timescales::ERA_TURNS_PER_UT1_DAY / crate::timescales::SECONDS_PER_DAY;
+
+/// Earth orientation parameters at an instant: UT1 − UTC and the pole coordinates, as the
+/// IERS (International Earth Rotation and Reference Systems Service) publishes them. The
+/// default is all zero (UT1 taken as UTC, no polar motion).
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct Eop {
+    /// UT1 − UTC (s).
+    pub ut1_minus_utc_s: f64,
+    /// Pole x coordinate (rad).
+    pub xp_rad: f64,
+    /// Pole y coordinate (rad).
+    pub yp_rad: f64,
+}
+
+/// TT (two-part) of a UTC instant, through the leap-second table.
+fn tt_of(utc: Jd2) -> f64 {
+    crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(utc)).total()
+}
+
+/// The rotation TEME -> ITRS (International Terrestrial Reference System) at a UTC instant,
+/// through the IAU 2006/2000A chain: TEME -> GCRS by [`crate::nutation::teme_to_gcrs_matrix`]
+/// (equation of the equinoxes, nutation, IAU 2006 bias-precession), GCRS -> CIRS by the CIO
+/// (Celestial Intermediate Origin) based [`crate::cio::gcrs_to_cirs_matrix`], and the Earth
+/// rotation angle of the two-part date. No Earth orientation parameters: UT1 is taken equal to
+/// UTC and the polar motion is zero ([`teme_to_itrs_matrix_eop`] takes them).
+pub fn teme_to_itrs_matrix(utc: Jd2) -> Mat3 {
+    teme_to_itrs_matrix_eop(utc, &Eop::default())
+}
+
+/// [`teme_to_itrs_matrix`] with Earth orientation parameters: the Earth rotation angle of UT1
+/// = UTC + `ut1_minus_utc_s` and the polar motion `W(x_p, y_p, s′)`.
+pub fn teme_to_itrs_matrix_eop(utc: Jd2, eop: &Eop) -> Mat3 {
+    let tt = tt_of(utc);
+    matmul(
+        &gcrs_to_itrs_matrix_eop(utc, eop),
+        &crate::nutation::teme_to_gcrs_matrix(tt),
+    )
+}
+
+/// The rotation GCRS -> ITRS at a UTC instant on the same chain and assumptions as
+/// [`teme_to_itrs_matrix`].
+pub fn gcrs_to_itrs_matrix(utc: Jd2) -> Mat3 {
+    gcrs_to_itrs_matrix_eop(utc, &Eop::default())
+}
+
+/// [`gcrs_to_itrs_matrix`] with Earth orientation parameters (SOFA `c2t06a` form:
+/// `W · R3(ERA) · C`).
+pub fn gcrs_to_itrs_matrix_eop(utc: Jd2, eop: &Eop) -> Mat3 {
+    let tt = tt_of(utc);
+    let era = crate::jd2::earth_rotation_angle(crate::jd2::utc_to_ut1(utc, eop.ut1_minus_utc_s));
+    let w = crate::frames::polar_motion_matrix(eop.xp_rad, eop.yp_rad, tt);
+    matmul(&w, &matmul(&rz(era), &crate::cio::gcrs_to_cirs_matrix(tt)))
+}
+
+/// Apply a celestial-to-terrestrial rotation `m` to an inertial state: the position rotated,
+/// and the velocity rotated less the Earth's rotation `omega x r` (polar motion and the
+/// precession-nutation rate, both below 1e-9 of the rotation, are neglected in the velocity).
+pub fn rotate_state_to_earth_fixed(m: &Mat3, r: [f64; 3], v: [f64; 3]) -> ([f64; 3], [f64; 3]) {
+    let r_f = mat_vec(m, r);
+    let v_rot = mat_vec(m, v);
+    let w = EARTH_ROTATION_ANGLE_RATE;
+    (
+        r_f,
+        [v_rot[0] + w * r_f[1], v_rot[1] - w * r_f[0], v_rot[2]],
+    )
+}
+
+/// An Earth orbit on the one validated propagation and frame path: SGP4/SDP4 (checked
+/// against the 666 AIAA verification vectors) from a [`MeanElementSet`], carried to the
+/// Earth-fixed frame by [`teme_to_itrs_matrix`]. Every scenario kind that needs an Earth
+/// satellite's position routes through this type rather than a private orbit model.
+#[derive(Clone, Debug)]
+pub struct SgpOrbit {
+    /// The element set the propagator was built from.
+    pub set: MeanElementSet,
+    prop: Sgp4,
+}
+
+impl SgpOrbit {
+    /// Initialise SGP4 (WGS-72 constants, the modern sidereal-time mode) from an element set.
+    pub fn new(set: MeanElementSet) -> Self {
+        let prop = Sgp4::new_at(
+            wgs72(),
+            false,
+            set.epoch_utc,
+            set.bstar,
+            set.ecco,
+            set.argpo,
+            set.inclo,
+            set.mo,
+            set.no_kozai,
+            set.nodeo,
+        );
+        Self { set, prop }
+    }
+
+    /// An orbit from Earth-fixed elements at a UTC epoch ([`MeanElementSet::from_earth_fixed`]).
+    pub fn from_earth_fixed(el: &EarthFixedElements, epoch_utc: Jd2) -> Self {
+        Self::new(MeanElementSet::from_earth_fixed(el, epoch_utc))
+    }
+
+    /// An orbit from a two-line element set (WGS-72, the modern sidereal-time mode).
+    pub fn from_tle(line1: &str, line2: &str) -> Result<Self, String> {
+        let tle = crate::tle::parse_tle(line1, line2)?;
+        let set = MeanElementSet {
+            epoch_utc: Jd2::from_parts(2_433_281.0, 0.5 + tle.epoch_days_1950),
+            no_kozai: tle.no_kozai_rad_min,
+            ecco: tle.ecco,
+            inclo: tle.inclo_rad,
+            nodeo: tle.nodeo_rad,
+            argpo: tle.argpo_rad,
+            mo: tle.mo_rad,
+            bstar: tle.bstar,
+        };
+        Ok(Self::new(set))
+    }
+
+    /// Nominal orbital period (s).
+    pub fn period_s(&self) -> f64 {
+        self.prop.period_s()
+    }
+
+    /// TEME position (m) and velocity (m/s) at the UTC instant `t`.
+    pub fn teme_state(&self, t: Jd2) -> Result<([f64; 3], [f64; 3]), String> {
+        let (r, v) = self
+            .prop
+            .propagate_at(t)
+            .map_err(|code| format!("SGP4 error code {code}"))?;
+        Ok((
+            [r[0] * 1e3, r[1] * 1e3, r[2] * 1e3],
+            [v[0] * 1e3, v[1] * 1e3, v[2] * 1e3],
+        ))
+    }
+
+    /// GCRS position (m) and velocity (m/s) at the UTC instant `t`.
+    pub fn gcrs_state(&self, t: Jd2) -> Result<([f64; 3], [f64; 3]), String> {
+        let (r, v) = self.teme_state(t)?;
+        let tt = crate::jd2::tai_to_tt(crate::jd2::utc_to_tai(t)).total();
+        let m = crate::nutation::teme_to_gcrs_matrix(tt);
+        Ok((mat_vec(&m, r), mat_vec(&m, v)))
+    }
+
+    /// ITRS position (m) and velocity (m/s) at the UTC instant `t`.
+    pub fn itrs_state(&self, t: Jd2) -> Result<([f64; 3], [f64; 3]), String> {
+        self.itrs_state_with(t, &teme_to_itrs_matrix(t))
+    }
+
+    /// [`SgpOrbit::itrs_state`] with the TEME -> ITRS rotation of the instant given, so a
+    /// caller evaluating many satellites at one instant builds the rotation once.
+    pub fn itrs_state_with(
+        &self,
+        t: Jd2,
+        teme_to_itrs: &Mat3,
+    ) -> Result<([f64; 3], [f64; 3]), String> {
+        let (r, v) = self.teme_state(t)?;
+        Ok(rotate_state_to_earth_fixed(teme_to_itrs, r, v))
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1451,6 +1718,74 @@ mod tests {
         assert!(
             kepler_short_period(0.0, 1.0, 0.0).is_none(),
             "a vanishing Newton denominator (e = 1) must be reported, not returned as NaN"
+        );
+    }
+
+    const ISS_L1: &str = "1 25544U 98067A   08264.51782528 -.00002182  00000-0 -11606-4 0  2927";
+    const ISS_L2: &str = "2 25544  51.6416 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+
+    #[test]
+    fn propagate_at_measures_time_from_the_two_part_epoch() {
+        let o = SgpOrbit::from_tle(ISS_L1, ISS_L2).unwrap();
+        let at = o.set.epoch_utc.add_seconds(5_400.0);
+        let (a, _) = o.prop.propagate_at(at).unwrap();
+        let (b, _) = o.prop.propagate(90.0).unwrap();
+        for k in 0..3 {
+            assert!((a[k] - b[k]).abs() < 1e-9, "{a:?} vs {b:?}");
+        }
+    }
+
+    #[test]
+    fn the_itrs_path_matches_the_orbit_module_iau_chain() {
+        // The same TLE through orbit::Propagator::position_in_frame (TEME -> GCRS -> ITRS on
+        // single-f64 dates) lands within a centimetre of the two-part path.
+        let o = SgpOrbit::from_tle(ISS_L1, ISS_L2).unwrap();
+        let p = crate::orbit::Propagator::Sgp4(Box::new(o.prop.clone()));
+        for t in [0.0, 1_800.0, 43_200.0] {
+            let at = o.set.epoch_utc.add_seconds(t);
+            let (r, _) = o.itrs_state(at).unwrap();
+            let jd = at.total();
+            let q = p.position_in_frame(
+                t,
+                crate::orbit::Frame::Itrs,
+                crate::timescales::utc_to_tt(jd),
+                jd,
+                0.0,
+                0.0,
+            );
+            let d = ((r[0] - q[0]).powi(2) + (r[1] - q[1]).powi(2) + (r[2] - q[2]).powi(2)).sqrt();
+            assert!(d < 0.01, "t = {t}: {d} m");
+        }
+    }
+
+    #[test]
+    fn an_earth_fixed_node_stays_at_its_longitude_at_the_epoch() {
+        // A circular polar orbit with its node at 40 deg E, satellite at the node at the epoch:
+        // the ITRS position is on the equator at 40 deg E, up to the milliarcsecond-level
+        // difference between the sidereal-time and CIO conventions (and the SGP4 short-period
+        // terms, which keep the satellite within a few kilometres of the mean node).
+        let epoch = Jd2::from_utc_calendar(2026, 1, 1, 0, 0, 0.0).unwrap();
+        let el = EarthFixedElements {
+            a_m: 7_000_000.0,
+            e: 0.0,
+            inc_rad: 90.0_f64.to_radians(),
+            node_lon_rad: 40.0_f64.to_radians(),
+            argp_rad: 0.0,
+            m0_rad: 0.0,
+        };
+        let (r, v) = SgpOrbit::from_earth_fixed(&el, epoch)
+            .itrs_state(epoch)
+            .unwrap();
+        let lon = r[1].atan2(r[0]).to_degrees();
+        assert!((lon - 40.0).abs() < 0.05, "node longitude {lon}");
+        // Earth-fixed velocity of a polar orbit at the node: northward, westward drift of the
+        // ground (omega x r) of about 0.5 km/s.
+        assert!(v[2] > 7_000.0);
+        let east = [-lon.to_radians().sin(), lon.to_radians().cos(), 0.0];
+        let ve = v[0] * east[0] + v[1] * east[1];
+        assert!(
+            (ve + EARTH_ROTATION_ANGLE_RATE * 7_000_000.0).abs() < 60.0,
+            "{ve}"
         );
     }
 }
