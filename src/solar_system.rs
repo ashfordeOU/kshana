@@ -38,7 +38,7 @@ use crate::ephem::{
     icrf_to_ecliptic, satellite_state, standish_elements, standish_nominal_error, Planet,
     Satellite, StandishTable,
 };
-use crate::ephem_provider::AnalyticSolarSystem;
+use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
 use crate::radiometric::{light_time_solution, shapiro_delay, two_way_range};
 use crate::timescales::TwoPartJd;
 use serde::{Deserialize, Serialize};
@@ -316,9 +316,28 @@ fn norm(v: Vec3) -> f64 {
     (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt()
 }
 
-/// Light time, range and Shapiro delay from `from` to `to`, received at `jd_tdb`.
+/// Light time, range and Shapiro delay from `from` to `to`, received at `jd_tdb`, on the
+/// analytic solar system in its heliocentric frame: [`link_on`] with the Sun as the centre.
 pub fn link(
     eph: &AnalyticSolarSystem,
+    from: &Body,
+    to: &Body,
+    jd_tdb: f64,
+) -> Result<LinkOut, String> {
+    link_on(eph, &Body::sun(), from, to, jd_tdb)
+}
+
+/// Light time, range and Shapiro delay from `from` to `to`, received at `jd_tdb` (TDB), on any
+/// [`EphemerisProvider`], with every position taken relative to `center` (the Sun for the
+/// analytic solar system; the solar-system barycentre for a planetary-ephemeris provider).
+///
+/// The one-way light time is [`light_time_solution`]: the receiver `to` at the reception epoch,
+/// the transmitter `from` at its retarded position. The Sun's Shapiro delay is formed from the
+/// transmitter and receiver positions relative to the Sun at their own epochs, so it does not
+/// depend on the centre chosen.
+pub fn link_on<E: EphemerisProvider>(
+    eph: &E,
+    center: &Body,
     from: &Body,
     to: &Body,
     jd_tdb: f64,
@@ -330,16 +349,22 @@ pub fn link(
             from.name, to.name
         )
     };
-    let (rx, _) = eph
-        .heliocentric_state(to.name, jd_tdb)
+    let rx = eph
+        .relative_position(to, center, jd_tdb)
         .ok_or_else(unavailable)?;
-    let (tx_now, _) = eph
-        .heliocentric_state(from.name, jd_tdb)
+    let tx_now = eph
+        .relative_position(from, center, jd_tdb)
         .ok_or_else(unavailable)?;
     let t_rx = TwoPartJd::from_f64(jd_tdb);
-    let lt = light_time_solution(rx, t_rx, from, &sun, eph).ok_or_else(unavailable)?;
-    let two_way = two_way_range(rx, from, &sun, t_rx, eph).ok_or_else(unavailable)?;
-    let to_sun = sub([0.0; 3], rx);
+    let lt = light_time_solution(rx, t_rx, from, center, eph).ok_or_else(unavailable)?;
+    let two_way = two_way_range(rx, from, center, t_rx, eph).ok_or_else(unavailable)?;
+    let sun_rx = eph
+        .relative_position(&sun, center, jd_tdb)
+        .ok_or_else(unavailable)?;
+    let sun_tx = eph
+        .relative_position(&sun, center, lt.tx_epoch.to_f64())
+        .ok_or_else(unavailable)?;
+    let to_sun = sub(sun_rx, rx);
     let to_tx = sub(lt.tx_pos, rx);
     let cos_sep = (to_sun[0] * to_tx[0] + to_sun[1] * to_tx[1] + to_sun[2] * to_tx[2])
         / (norm(to_sun) * norm(to_tx)).max(f64::MIN_POSITIVE);
@@ -351,7 +376,11 @@ pub fn link(
         one_way_range_m: lt.tau_s * C_M_S,
         two_way_range_m: two_way,
         two_way_light_time_s: two_way / C_M_S,
-        shapiro_delay_s: shapiro_delay(lt.tx_pos, rx, crate::forces::MU_SUN),
+        shapiro_delay_s: shapiro_delay(
+            sub(lt.tx_pos, sun_tx),
+            sub(rx, sun_rx),
+            crate::forces::MU_SUN,
+        ),
         sun_separation_deg: cos_sep.clamp(-1.0, 1.0).acos().to_degrees(),
     })
 }
