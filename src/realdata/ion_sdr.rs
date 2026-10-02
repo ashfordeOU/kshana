@@ -8,17 +8,26 @@
 //! `countwords` words of `sizeword` bytes each, in the stated byte order; inside it the
 //! **lumps** repeat, each lump holding one sample period of every **stream** it lists, and the
 //! bits a chunk cannot fill with whole lumps are padding at its head or its tail. A stream
-//! sample is `packedbits` bits per component (two components, I and Q, for complex formats),
-//! of which `quantization` bits carry the value, aligned to the left (most significant) or
-//! right end of the slot, coded as two's complement, offset binary, sign-magnitude or a
-//! single sign bit.
+//! sample is `packedbits` bits, all components together (a complex sample gives I and Q half
+//! each), of which `quantization` bits per component carry the value, coded as two's
+//! complement, offset binary, sign-magnitude or a single sign bit. The settings may be given
+//! as attributes or as child elements; a stream's band may be a reference to a top-level
+//! band of the same identifier.
 //!
-//! This module reads the subset the LuGRE (Lunar GNSS Receiver Experiment) snapshots use and
-//! refuses anything else with a stated reason: one lane, one stream per lump, complex `IQ` or
-//! `QI` samples (or real `IF` samples), no block header or footer. Samples come out as the
-//! integer levels the coding defines, held in `f64`: two's complement as the signed integer,
-//! offset binary and sign-magnitude as the odd symmetric levels `±1, ±3, …`, a sign bit as
-//! `±1`. The levels are exact, so a converter that writes them as 8-bit integers loses
+//! Byte and bit order follow the chunk's `endian`: a little-endian word is read least
+//! significant byte first AND filled from its least significant bit upward (the first
+//! component of the first sample in the lowest bits), a big-endian word from its most
+//! significant bit downward. For the LuGRE (Lunar GNSS Receiver Experiment) snapshots, one
+//! byte per complex sample with `endian` Little, this puts I in the low nibble and Q in the
+//! high one; the receiver's interface control document says only "IQ interleaved", and a
+//! swap of the two would conjugate the signal, mirroring every Doppler.
+//!
+//! This module reads the subset the LuGRE snapshots use and refuses anything else with a
+//! stated reason: one lane, one stream, complex `IQ` or `QI` samples (or real `IF` samples),
+//! one block spanning the file, whose header and footer bytes are skipped. Samples come out
+//! as the integer levels the coding defines, held in `f64`: two's complement as the signed
+//! integer, offset binary and sign-magnitude as the odd symmetric levels `±1, ±3, …`, a sign
+//! bit as `±1`. The levels are exact, so a converter that writes them as 8-bit integers loses
 //! nothing.
 //!
 //! Reference: ION GNSS SDR Metadata Standard, version 1.0 (Institute of Navigation, 2020),
@@ -292,9 +301,10 @@ pub struct SdrLayout {
     pub translated_freq_hz: f64,
     /// Bits carrying a component's value.
     pub quantization: u32,
-    /// Bits allocated to a component.
+    /// Bits allocated to one sample, all its components together (the standard's
+    /// `packedbits`); a complex sample gives each component half.
     pub packed_bits: u32,
-    /// Value aligned to the most significant end of its slot.
+    /// Value aligned to the most significant end of its component slot.
     pub align_left: bool,
     /// Sample format.
     pub format: SampleFormat,
@@ -304,25 +314,33 @@ pub struct SdrLayout {
     pub word_bytes: usize,
     /// Words per chunk.
     pub words_per_chunk: usize,
-    /// Most significant byte first.
-    pub big_endian: bool,
-    /// Unfilled chunk bits sit at the head (most significant end) rather than the tail.
+    /// Little-endian words. The byte order of a word, and also the order in which samples
+    /// fill it: a little-endian word is filled from its least significant bit upward (the
+    /// first component of the first sample in the lowest bits), a big-endian word from its
+    /// most significant bit downward.
+    pub little_endian: bool,
+    /// Unfilled chunk bits come first in fill order rather than last.
     pub pad_head: bool,
     /// Samples per lump (the stream's rate factor).
     pub samples_per_lump: usize,
-    /// Byte offset of the first chunk in the file.
-    pub offset_bytes: usize,
+    /// Bytes before the first chunk (the block header and any file offset).
+    pub header_bytes: usize,
+    /// Bytes after the last chunk (the block footer).
+    pub footer_bytes: usize,
 }
 
 impl SdrLayout {
     /// Bits per sample (all components).
     pub fn sample_bits(&self) -> usize {
         self.packed_bits as usize
-            * if self.format == SampleFormat::If {
-                1
-            } else {
-                2
-            }
+    }
+
+    /// Bits per component slot.
+    pub fn component_bits(&self) -> usize {
+        match self.format {
+            SampleFormat::If => self.packed_bits as usize,
+            _ => self.packed_bits as usize / 2,
+        }
     }
 
     /// Whole samples in one chunk.
@@ -339,9 +357,15 @@ impl SdrLayout {
 
     /// Number of complete samples in a data file of `len` bytes.
     pub fn sample_count(&self, len: usize) -> usize {
-        let body = len.saturating_sub(self.offset_bytes);
+        let body = len.saturating_sub(self.header_bytes + self.footer_bytes);
         (body / self.chunk_bytes()) * self.samples_per_chunk()
     }
+}
+
+/// A setting given either as an attribute of `el` or as the text of its child element of the
+/// same name (the standard's schema uses child elements; both appear in the wild).
+fn setting<'a>(el: &'a XmlElement, key: &str) -> Option<&'a str> {
+    el.attr(key).or_else(|| el.child_text(key)).map(str::trim)
 }
 
 /// Read the layout from the text of an `.sdrx` file. Refuses (with the reason) any layout
@@ -365,31 +389,36 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     if blocks.len() > 1 {
         return Err("more than one <block>: only single-lane files are read".into());
     }
+    let int = |el: &XmlElement, key: &str| -> Result<Option<usize>, String> {
+        setting(el, key)
+            .map(|v| {
+                v.parse::<usize>()
+                    .map_err(|_| format!("<{}> {key} is not an integer: {v:?}", el.name))
+            })
+            .transpose()
+    };
+    let (mut header_bytes, mut footer_bytes) = (0, 0);
     if let Some(b) = blocks.first() {
-        for k in ["sizeheader", "sizefooter"] {
-            if let Some(v) = b.attr(k) {
-                if v.trim().parse::<usize>().unwrap_or(1) != 0 {
-                    return Err(format!("block {k}={v}: headers and footers are not read"));
-                }
-            }
+        header_bytes = int(b, "sizeheader")?.unwrap_or(0);
+        footer_bytes = int(b, "sizefooter")?.unwrap_or(0);
+        let cycles = int(b, "cycles")?.unwrap_or(0);
+        if cycles != 0 && (header_bytes != 0 || footer_bytes != 0) {
+            return Err(format!(
+                "a block of {cycles} cycles with a header or footer repeats; only a single \
+                 block spanning the file is read"
+            ));
         }
     }
     let chunk = root.find("chunk").ok_or("no <chunk> element")?;
-    let num = |el: &XmlElement, key: &str| -> Result<usize, String> {
-        el.attr(key)
-            .ok_or(format!("<{}> lacks {key}", el.name))?
-            .trim()
-            .parse()
-            .map_err(|_| format!("<{}> {key} is not an integer", el.name))
-    };
-    let word_bytes = num(chunk, "sizeword")?;
-    let words_per_chunk = num(chunk, "countwords")?;
-    let big_endian = !chunk
-        .attr("endian")
-        .is_some_and(|e| e.eq_ignore_ascii_case("little"));
-    let pad_head = chunk
-        .attr("padding")
-        .is_some_and(|p| p.eq_ignore_ascii_case("head"));
+    let word_bytes = int(chunk, "sizeword")?.ok_or("<chunk> lacks sizeword")?;
+    let words_per_chunk = int(chunk, "countwords")?.ok_or("<chunk> lacks countwords")?;
+    if word_bytes == 0 || word_bytes > 8 || words_per_chunk == 0 {
+        return Err(format!(
+            "chunk of {words_per_chunk} words of {word_bytes} bytes"
+        ));
+    }
+    let little_endian = setting(chunk, "endian").is_some_and(|e| e.eq_ignore_ascii_case("little"));
+    let pad_head = setting(chunk, "padding").is_some_and(|p| p.eq_ignore_ascii_case("head"));
     let text_of = |key: &str| -> Result<String, String> {
         stream
             .child_text(key)
@@ -404,11 +433,6 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
     };
     let quantization = parse_u("quantization")?;
     let packed_bits = parse_u("packedbits")?;
-    if quantization == 0 || quantization > packed_bits || packed_bits > 32 {
-        return Err(format!(
-            "quantization {quantization} in {packed_bits} packed bits"
-        ));
-    }
     let ratefactor = stream
         .child_text("ratefactor")
         .map(|t| {
@@ -424,27 +448,64 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         "IF" => SampleFormat::If,
         other => return Err(format!("unsupported sample format {other:?}")),
     };
+    let slot = if format == SampleFormat::If {
+        packed_bits
+    } else {
+        packed_bits / 2
+    };
+    if quantization == 0
+        || quantization > slot
+        || slot > 32
+        || (format != SampleFormat::If && packed_bits % 2 != 0)
+    {
+        return Err(format!(
+            "quantization {quantization} in {packed_bits} packed bits per sample"
+        ));
+    }
     let encoding = Encoding::parse(&text_of("encoding")?)?;
-    let align_left = !stream
+    let align_left = stream
         .child_text("alignment")
-        .is_some_and(|a| a.trim().eq_ignore_ascii_case("right"));
+        .is_some_and(|a| a.trim().eq_ignore_ascii_case("left"));
     let system = root.find("system").ok_or("no <system> element")?;
-    let base = freq_hz(system.find("freqbase").ok_or("no <freqbase>")?)?;
-    let band = stream
-        .find("band")
-        .or_else(|| root.find("band"))
-        .ok_or("no <band> element")?;
+    let freqbase = {
+        let mut systems = Vec::new();
+        root.find_all("system", &mut systems);
+        systems
+            .iter()
+            .find_map(|s| s.child("freqbase"))
+            .ok_or("no <freqbase>")?
+    };
+    let _ = system;
+    let base = freq_hz(freqbase)?;
+    // The stream names its band; the band's frequencies may sit in a top-level <band> of the
+    // same id.
+    let band_ref = stream.find("band");
+    let mut bands = Vec::new();
+    root.find_all("band", &mut bands);
+    let band = bands
+        .iter()
+        .copied()
+        .find(|b| {
+            b.child("centerfreq").is_some()
+                && match band_ref.and_then(|r| r.attr("id")) {
+                    Some(id) => b.attr("id") == Some(id),
+                    None => true,
+                }
+        })
+        .ok_or("no <band> with a <centerfreq> for the stream")?;
     let center_freq_hz = freq_hz(band.child("centerfreq").ok_or("no <centerfreq>")?)?;
     let translated_freq_hz = band
         .child("translatedfreq")
         .map(freq_hz)
         .transpose()?
         .unwrap_or(0.0);
-    let file = root.find("file").ok_or("no <file> element")?;
-    let url = file
-        .child_text("url")
-        .ok_or("<file> lacks <url>")?
-        .to_string();
+    let mut files = Vec::new();
+    root.find_all("file", &mut files);
+    let file = files
+        .iter()
+        .find(|f| f.child("url").is_some())
+        .ok_or("no <file> with a <url>")?;
+    let url = file.child_text("url").unwrap_or_default().to_string();
     let offset_bytes = file
         .child_text("offset")
         .map(|t| {
@@ -466,10 +527,11 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         encoding,
         word_bytes,
         words_per_chunk,
-        big_endian,
+        little_endian,
         pad_head,
         samples_per_lump: ratefactor,
-        offset_bytes,
+        header_bytes: header_bytes + offset_bytes,
+        footer_bytes,
     })
 }
 
@@ -485,14 +547,15 @@ pub fn decode(
     if per_chunk == 0 {
         return Err("a chunk holds no whole lump".into());
     }
-    if start + n > layout.sample_count(data.len()) {
+    let total = layout.sample_count(data.len());
+    if start + n > total {
         return Err(format!(
-            "samples {start}..{} requested, the file holds {}",
-            start + n,
-            layout.sample_count(data.len())
+            "samples {start}..{} requested, the file holds {total}",
+            start + n
         ));
     }
     let chunk_bytes = layout.chunk_bytes();
+    let word_bits = layout.word_bytes * 8;
     let chunk_bits = chunk_bytes * 8;
     let used_bits = per_chunk * layout.sample_bits();
     let head_pad = if layout.pad_head {
@@ -500,47 +563,65 @@ pub fn decode(
     } else {
         0
     };
-    let pb = layout.packed_bits as usize;
+    let cb = layout.component_bits();
     let q = layout.quantization;
-    let mut out = Vec::with_capacity(n);
-    let mut chunk_buf: Vec<u8> = Vec::with_capacity(chunk_bytes);
+    let mut words: Vec<u64> = Vec::with_capacity(layout.words_per_chunk);
     let mut cur_chunk = usize::MAX;
+    let mut out = Vec::with_capacity(n);
     for s in start..start + n {
         let c = s / per_chunk;
         if c != cur_chunk {
-            // Normalise the chunk to most-significant-byte-first words.
-            let at = layout.offset_bytes + c * chunk_bytes;
-            chunk_buf.clear();
+            let at = layout.header_bytes + c * chunk_bytes;
+            words.clear();
             for w in data[at..at + chunk_bytes].chunks_exact(layout.word_bytes) {
-                if layout.big_endian {
-                    chunk_buf.extend_from_slice(w);
+                let mut v = 0u64;
+                if layout.little_endian {
+                    for &byte in w.iter().rev() {
+                        v = (v << 8) | byte as u64;
+                    }
                 } else {
-                    chunk_buf.extend(w.iter().rev());
+                    for &byte in w {
+                        v = (v << 8) | byte as u64;
+                    }
                 }
+                words.push(v);
             }
             cur_chunk = c;
         }
-        let bit0 = head_pad + (s % per_chunk) * layout.sample_bits();
-        let read = |bit: usize| -> u64 {
-            let mut v = 0u64;
-            for k in 0..pb {
-                let b = bit + k;
-                v = (v << 1) | ((chunk_buf[b / 8] >> (7 - b % 8)) & 1) as u64;
+        // Fill-order bit `g` of the chunk: little-endian words fill from bit 0 up, big-endian
+        // words from the top bit down.
+        let bit = |g: usize| -> u64 {
+            let (w, k) = (g / word_bits, g % word_bits);
+            let pos = if layout.little_endian {
+                k
+            } else {
+                word_bits - 1 - k
+            };
+            (words[w] >> pos) & 1
+        };
+        let component = |g0: usize| -> f64 {
+            let mut slot = 0u64;
+            for k in 0..cb {
+                if layout.little_endian {
+                    slot |= bit(g0 + k) << k;
+                } else {
+                    slot = (slot << 1) | bit(g0 + k);
+                }
             }
             let code = if layout.align_left {
-                v >> (pb as u32 - q)
+                slot >> (cb as u32 - q)
             } else {
-                v & ((1u64 << q) - 1)
+                slot & ((1u64 << q) - 1)
             };
-            code
+            layout.encoding.level(code, q)
         };
-        let a = layout.encoding.level(read(bit0), q);
-        let sample = match layout.format {
+        let g0 = head_pad + (s % per_chunk) * layout.sample_bits();
+        let a = component(g0);
+        out.push(match layout.format {
             SampleFormat::If => Cf64::new(a, 0.0),
-            SampleFormat::Iq => Cf64::new(a, layout.encoding.level(read(bit0 + pb), q)),
-            SampleFormat::Qi => Cf64::new(layout.encoding.level(read(bit0 + pb), q), a),
-        };
-        out.push(sample);
+            SampleFormat::Iq => Cf64::new(a, component(g0 + cb)),
+            SampleFormat::Qi => Cf64::new(component(g0 + cb), a),
+        });
     }
     Ok(out)
 }
@@ -549,29 +630,41 @@ pub fn decode(
 mod tests {
     use super::*;
 
-    const META: &str = r#"<?xml version="1.0"?>
-<!-- a hand-written example in the shape of the standard -->
-<metadata>
-  <system id="S"><freqbase format="MHz">8</freqbase></system>
-  <file><url>snap.bin</url></file>
-  <lane id="L">
-    <block cycles="1" sizeheader="0" sizefooter="0">
-      <chunk sizeword="1" countwords="3" endian="Big" padding="Tail">
-        <lump>
-          <stream id="L1">
-            <ratefactor>1</ratefactor>
-            <quantization>4</quantization>
-            <packedbits>4</packedbits>
-            <alignment>Left</alignment>
-            <format>IQ</format>
-            <encoding>TC</encoding>
-            <band id="L1"><centerfreq format="MHz">1575.42</centerfreq>
-              <translatedfreq format="Hz">0</translatedfreq></band>
-          </stream>
-        </lump>
-      </chunk>
-    </block>
-  </lane>
+    /// The shape of a LuGRE `.sdrx` file: settings as child elements, a header and footer,
+    /// the band referenced by id, one byte per complex sample.
+    const META: &str = r#"<?xml version="1.0" encoding="utf-8"?>
+<metadata xmlns="http://www.ion.org/standards/sdrwg/schema/metadata.xsd">
+   <comment format="text">a hand-written example</comment>
+   <lane id="Lane">
+      <system id="System"/>
+      <block id="Block00">
+         <chunk id="Chunk00">
+            <sizeword>1</sizeword>
+            <countwords>1</countwords>
+            <endian>Little</endian>
+            <padding>None</padding>
+            <lump id="Lump00">
+               <stream id="Stream00">
+                  <ratefactor>1</ratefactor>
+                  <quantization>4</quantization>
+                  <packedbits>8</packedbits>
+                  <alignment>Undefined</alignment>
+                  <format>IQ</format>
+                  <encoding>TC</encoding>
+                  <band id="L1"/>
+               </stream>
+            </lump>
+         </chunk>
+         <cycles>0</cycles>
+         <sizeheader>2</sizeheader>
+         <sizefooter>1</sizefooter>
+      </block>
+   </lane>
+   <system id="System"><freqbase format="MHz">8</freqbase></system>
+   <band id="L1"><centerfreq format="MHz">1575.420</centerfreq>
+      <translatedfreq format="MHz">0</translatedfreq></band>
+   <band id="L5"><centerfreq format="MHz">1176.450</centerfreq></band>
+   <file id="File"><url>snap.bin</url><lane id="Lane"/></file>
 </metadata>"#;
 
     #[test]
@@ -581,30 +674,57 @@ mod tests {
         assert_eq!(l.sample_rate_hz, 8e6);
         assert_eq!(l.center_freq_hz, 1_575_420_000.0);
         assert_eq!(l.quantization, 4);
+        assert_eq!(l.component_bits(), 4);
         assert_eq!(l.format, SampleFormat::Iq);
         assert_eq!(l.encoding, Encoding::TwosComplement);
-        assert_eq!(l.samples_per_chunk(), 3);
+        assert!(l.little_endian);
+        assert_eq!((l.header_bytes, l.footer_bytes), (2, 1));
+        assert_eq!(l.samples_per_chunk(), 1);
+        assert_eq!(l.sample_count(10), 7);
     }
 
     #[test]
-    fn decodes_hand_packed_nibbles() {
+    fn decodes_little_endian_nibbles_low_first() {
         let l = parse_sdrx(META).unwrap();
-        // I = +7, Q = −8; I = −1, Q = 0; I = +1, Q = −2.
-        let bytes = [0x78u8, 0xF0, 0x1E, 0x12, 0x34, 0x56];
-        let s = decode(&l, &bytes, 0, 6).unwrap();
-        let want = [
-            (7.0, -8.0),
-            (-1.0, 0.0),
-            (1.0, -2.0),
-            (1.0, 2.0),
-            (3.0, 4.0),
-            (5.0, 6.0),
-        ];
+        // Header AA BB; samples: low nibble I, high nibble Q; footer CC.
+        // 0x87: I = 7, Q = −8. 0x0F: I = −1, Q = 0. 0xE1: I = 1, Q = −2.
+        let bytes = [0xAAu8, 0xBB, 0x87, 0x0F, 0xE1, 0xCC];
+        let s = decode(&l, &bytes, 0, 3).unwrap();
+        let want = [(7.0, -8.0), (-1.0, 0.0), (1.0, -2.0)];
         for (g, w) in s.iter().zip(want) {
             assert_eq!((g.re, g.im), w);
         }
-        assert_eq!(decode(&l, &bytes, 4, 2).unwrap(), s[4..6].to_vec());
-        assert!(decode(&l, &bytes, 5, 2).is_err());
+        assert_eq!(decode(&l, &bytes, 1, 2).unwrap(), s[1..3].to_vec());
+        assert!(decode(&l, &bytes, 2, 2).is_err());
+    }
+
+    #[test]
+    fn big_endian_words_fill_from_the_top_bit() {
+        let meta = META
+            .replace("<sizeword>1</sizeword>", "<sizeword>2</sizeword>")
+            .replace("<endian>Little</endian>", "<endian>Big</endian>")
+            .replace("<sizeheader>2</sizeheader>", "<sizeheader>0</sizeheader>")
+            .replace("<sizefooter>1</sizefooter>", "<sizefooter>0</sizefooter>");
+        let l = parse_sdrx(&meta).unwrap();
+        assert_eq!(l.samples_per_chunk(), 2);
+        // Word 0x78F0: first sample I = 7, Q = −8; second I = −1, Q = 0.
+        let s = decode(&l, &[0x78, 0xF0], 0, 2).unwrap();
+        assert_eq!((s[0].re, s[0].im, s[1].re, s[1].im), (7.0, -8.0, -1.0, 0.0));
+    }
+
+    #[test]
+    fn eight_bit_components_in_sixteen_bit_samples() {
+        let meta = META
+            .replace(
+                "<quantization>4</quantization>",
+                "<quantization>8</quantization>",
+            )
+            .replace("<packedbits>8</packedbits>", "<packedbits>16</packedbits>")
+            .replace("<sizeword>1</sizeword>", "<sizeword>2</sizeword>");
+        let l = parse_sdrx(&meta).unwrap();
+        // Little-endian 16-bit word bytes [0x05, 0xFD] = 0xFD05: I = 0x05, Q = 0xFD = −3.
+        let s = decode(&l, &[0, 0, 0x05, 0xFD, 0], 0, 1).unwrap();
+        assert_eq!((s[0].re, s[0].im), (5.0, -3.0));
     }
 
     #[test]
@@ -618,30 +738,16 @@ mod tests {
     }
 
     #[test]
-    fn little_endian_words_and_right_alignment() {
-        let meta = META
-            .replace(
-                r#"sizeword="1" countwords="3" endian="Big""#,
-                r#"sizeword="2" countwords="1" endian="Little""#,
-            )
-            .replace("<packedbits>4</packedbits>", "<packedbits>8</packedbits>")
-            .replace(
-                "<alignment>Left</alignment>",
-                "<alignment>Right</alignment>",
-            );
-        let l = parse_sdrx(&meta).unwrap();
-        // One 16-bit little-endian word 0x0F03 → bytes 0F 03 most significant first.
-        let s = decode(&l, &[0x03, 0x0F], 0, 1).unwrap();
-        assert_eq!((s[0].re, s[0].im), (-1.0, 3.0));
-    }
-
-    #[test]
     fn refuses_what_it_does_not_read() {
-        assert!(parse_sdrx(&META.replace("sizeheader=\"0\"", "sizeheader=\"16\"")).is_err());
+        assert!(parse_sdrx(&META.replace("<cycles>0</cycles>", "<cycles>4</cycles>")).is_err());
         assert!(
             parse_sdrx(&META.replace("<encoding>TC</encoding>", "<encoding>XX</encoding>"))
                 .is_err()
         );
+        assert!(parse_sdrx(
+            &META.replace("<packedbits>8</packedbits>", "<packedbits>6</packedbits>")
+        )
+        .is_err());
         assert!(parse_xml("<a><b></a>").is_err());
     }
 }
