@@ -368,8 +368,8 @@ impl NtnScenario {
                     fixes += 1;
                     // The bound is the formal covariance at the true position, not at the
                     // noisy estimate.
-                    let s = joint_pvt::formal_sigma_enu(user, &obs, &clocks)
-                        .unwrap_or(fix.sigma_enu_m);
+                    let s =
+                        joint_pvt::formal_sigma_enu(user, &obs, &clocks).unwrap_or(fix.sigma_enu_m);
                     sig3.push((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]).sqrt());
                     err3.push(norm(sub(fix.position, user)));
                     pdops.push(fix.dop.pdop);
@@ -417,7 +417,8 @@ impl NtnScenario {
                         Some(DopplerPassOut {
                             satellite: *j,
                             n_obs: obs.len(),
-                            duration_s: (obs.len().saturating_sub(1)) as f64 * self.step_s.unwrap_or(10.0),
+                            duration_s: (obs.len().saturating_sub(1)) as f64
+                                * self.step_s.unwrap_or(10.0),
                             sigma_range_rate_mps: *sigma_rr,
                             sigma_enu_m: fix.sigma_enu_m,
                             horizontal_error_m: h,
