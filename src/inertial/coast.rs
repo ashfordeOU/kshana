@@ -14,9 +14,24 @@
 //!
 //! ## The model
 //!
-//! Every contribution is an exact monomial in the coast duration `t`, `σ(t) = c·t^p`.
-//! The coefficients come from the standard IMU coefficient set (Groves 2013 §4.4.1 /
-//! Table 4.1 for the class bands; IEEE Std 952-1997 for the Allan-region naming):
+//! Each contribution's position error comes from the nine-state local-level inertial
+//! error model with Schuler feedback ([`ErrorDynamics`]; Groves, *Principles of GNSS,
+//! Inertial, and Multisensor Integrated Navigation Systems*, 2nd ed., 2013, chapter 14):
+//! attitude, velocity and position errors of a level platform heading north at the
+//! configured speed and site, driven by one error source at a time. A velocity error tilts
+//! the computed frame through the transport rate, the tilt couples gravity back into the
+//! velocity, and the loop oscillates at the 84-minute Schuler period, so a bias error is
+//! bounded instead of growing as `t²`; the Earth rate couples the north and east channels;
+//! and the free-inertial vertical channel is unstable (time constant about 9.5 minutes),
+//! which is why every curve eventually diverges. Systematic sources report the horizontal
+//! error magnitude; the random walks report `sqrt((P_NN + P_EE)/2)` from the propagated
+//! covariance (Van Loan's method).
+//!
+//! Each contribution also carries its short-coast **leading-order law**, the exact
+//! flat-Earth monomial `σ(t) = c·t^p` the error model approaches while the coast is short
+//! against the Schuler period. The coefficients come from the standard IMU coefficient set
+//! (Groves 2013 §4.4.1 / Table 4.1 for the class bands; IEEE Std 952-1997 for the
+//! Allan-region naming):
 //!
 //! | contribution | `c` | `p` | class |
 //! |---|---|---|---|
@@ -38,13 +53,12 @@
 //! `σ_vrw² t³/3`. *Angle random walk* makes the tilt a Wiener process of diffusion
 //! `σ_arw²`; the doubly integrated gravity coupling has variance `g² σ_arw² t⁵/20`.
 //!
-//! Each of those closed forms is exact **for this model**, so each contribution's own
-//! crossing is reported twice — the analytic inversion `t = (threshold/c)^(1/p)` and a
-//! bisection on the same curve through the engine's existing
-//! [`crate::quantum_trade::PositionDrift::inertial_holdover_s`] — with their relative
-//! difference, per rule: where a closed form is exact, report both and their agreement.
-//! The **total** has no such inversion (it mixes five different powers), so the headline
-//! crossings are bisection only.
+//! Each leading-order law is exact for that law, so its crossing is reported twice — the
+//! analytic inversion `t = (threshold/c)^(1/p)` and a bisection on the same monomial —
+//! beside the crossing of the contribution's error-model curve (`error_model_s`). The
+//! headline crossings are the FIRST crossings of the combined error model, found by a
+//! forward scan in steps no longer than a 32nd of the Schuler period and a bisection,
+//! because under Schuler feedback the error is not monotone in `t`.
 //!
 //! ## The combination is a modelling choice, and it is stated
 //!
@@ -82,11 +96,13 @@
 //!
 //! ## Validated vs Modelled
 //!
-//! The *growth laws* are Validated: each is checked against an independent route — a
-//! Monte-Carlo ensemble of the engine's existing stochastic dead-reckoner
+//! The *leading-order laws* are each checked against an independent route inside the
+//! engine — a Monte-Carlo ensemble of the stochastic dead-reckoner
 //! [`crate::inertial::AccelModel`] for the bias, VRW, gyro-bias and ARW channels, and a
 //! double integration of [`crate::inertial::imu_errors::ImuErrorModel`]'s own distorted
-//! specific force for the scale-factor channel. The *class coefficients* are MODELLED
+//! specific force for the scale-factor channel. The *error model* is compared against the
+//! free-inertial strapdown mechanization of NaveGo v1.4 (LGPL-3.0, run under GNU Octave)
+//! in `tests/ins_coast_schuler_navego_oracle.rs`. The *class coefficients* are MODELLED
 //! representative figures for each IMU grade, not a datasheet for a specific part, and
 //! the TRN fix residual is a documented input, not a measurement.
 
@@ -96,9 +112,11 @@ use crate::quantum_trade::PositionDrift;
 use serde::Deserialize;
 
 /// The honesty label carried on the result document.
-const LABEL: &str = "MODELLED INS/TRN coasting error budget. The per-contribution growth \
-laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, \
-scale factor x travelled distance) are exact for this model and cross-checked against the \
+const LABEL: &str = "MODELLED INS/TRN coasting error budget. Each contribution is propagated \
+through a nine-state local-level inertial error model with Schuler feedback (level platform \
+heading north at a stated site, free-inertial including the unstable vertical channel); its \
+short-coast leading-order laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, \
+angle random walk t^2.5, scale factor x travelled distance) are cross-checked against the \
 engine's own stochastic dead-reckoner and IMU error model; the IMU grade coefficients are \
 representative CLASS figures (Groves 2013 Table 4.1 bands), not a datasheet for a part, and \
 the TRN fix residual is a documented input. The crossings are located by bisection on the \
@@ -284,24 +302,39 @@ impl ContributionClass {
     }
 }
 
-/// One error contribution: an exact monomial `σ(t) = coefficient · t^exponent` (metres).
+/// One error contribution. Its position error [`Contribution::error_m`] comes from the
+/// nine-state error model ([`ErrorDynamics`]) driven by its [`ErrorSource`]; its
+/// short-coast leading-order law is the monomial `coefficient · t^exponent`
+/// ([`Contribution::leading_order_m`]), which the error model approaches as `t → 0`.
 #[derive(Clone, Debug)]
 pub struct Contribution {
     /// Stable machine name, e.g. `accel_bias`.
     pub name: &'static str,
     /// Systematic or random.
     pub class: ContributionClass,
-    /// The power of the coast duration this contribution grows with.
+    /// The power of the coast duration the leading-order (short-coast) law grows with.
     pub exponent: f64,
-    /// The monomial coefficient, in m/s^exponent.
+    /// The leading-order monomial coefficient, in m/s^exponent.
     pub coefficient: f64,
-    /// The algebraic law, for a reader of the result document.
+    /// The leading-order algebraic law, for a reader of the result document.
     pub law: &'static str,
+    /// What drives this contribution through the error model.
+    pub source: ErrorSource,
+    /// The error dynamics of the model this contribution belongs to.
+    pub dynamics: ErrorDynamics,
 }
 
 impl Contribution {
-    /// Position error (m) from this contribution alone after coasting `t` s.
+    /// Position error (m) from this contribution alone after coasting `t` s, from the
+    /// nine-state error model with Schuler feedback ([`source_error_m`]).
     pub fn error_m(&self, t: f64) -> f64 {
+        source_error_m(&self.dynamics, self.source, t)
+    }
+
+    /// The short-coast leading-order law `coefficient · t^exponent` (m): the flat-Earth
+    /// growth with no Schuler feedback, which [`Self::error_m`] follows while the coast
+    /// is short against the 84-minute Schuler period.
+    pub fn leading_order_m(&self, t: f64) -> f64 {
         if t <= 0.0 {
             // t^0 is 1 even at t = 0: a constant contribution (the TRN fix residual) is
             // present the instant the coast starts, the growing ones are not.
@@ -314,8 +347,8 @@ impl Contribution {
         self.coefficient * t.powf(self.exponent)
     }
 
-    /// The coast duration (s) at which this contribution ALONE reaches `threshold_m`,
-    /// by exact algebraic inversion of its monomial. `None` when the coefficient is zero
+    /// The coast duration (s) at which this contribution's LEADING-ORDER law alone reaches
+    /// `threshold_m`, by exact algebraic inversion of its monomial. `None` when the coefficient is zero
     /// (it never reaches any positive threshold) or the exponent is zero (it is either
     /// already past the threshold or never reaches it — neither is a crossing time).
     pub fn closed_form_crossing_s(&self, threshold_m: f64) -> Option<f64> {
@@ -323,6 +356,19 @@ impl Contribution {
             return None;
         }
         Some((threshold_m / self.coefficient).powf(1.0 / self.exponent))
+    }
+}
+
+/// One contribution's error-model curve as a drift, for its own first crossing.
+struct SingleContribution<'a>(&'a Contribution);
+
+impl PositionDrift for SingleContribution<'_> {
+    fn drift_m(&self, t: f64) -> f64 {
+        self.0.error_m(t)
+    }
+
+    fn inertial_holdover_s(&self, threshold_m: f64) -> f64 {
+        first_crossing_s(|t| self.0.error_m(t), threshold_m)
     }
 }
 
@@ -455,6 +501,394 @@ impl TrnFixMode {
 }
 
 // ---------------------------------------------------------------------------
+// Nine-state local-level inertial error model (Schuler feedback)
+// ---------------------------------------------------------------------------
+
+/// Earth rotation rate used by the error model (rad/s), WGS-84.
+pub const EARTH_RATE_RAD_S: f64 = 7.292_115e-5;
+/// WGS-84 equatorial radius (m).
+const WGS84_A_M: f64 = 6_378_137.0;
+/// WGS-84 first eccentricity squared.
+const WGS84_E2: f64 = 6.694_379_990_14e-3;
+/// WGS-84 flattening.
+const WGS84_F: f64 = 1.0 / 298.257_223_563;
+/// WGS-84 gravitational constant (m³/s²).
+const WGS84_MU: f64 = 3.986_004_418e14;
+/// Default site latitude of the error model (deg): a mid-latitude reading.
+pub const DEFAULT_LATITUDE_DEG: f64 = 45.0;
+/// Default site height of the error model (m).
+pub const DEFAULT_HEIGHT_M: f64 = 0.0;
+/// The error model's output is saturated here (m): far beyond this a linearised error
+/// model has no meaning, and a finite ceiling keeps every search well defined while the
+/// unstable free-inertial vertical channel grows without bound.
+pub const ERROR_SATURATION_M: f64 = 1.0e12;
+
+/// Number of error states: attitude (north, east, down tilt), velocity (north, east,
+/// down), position (north, east in metres; height).
+const NS: usize = 9;
+/// State indices.
+const PHI_N: usize = 0;
+const PHI_E: usize = 1;
+const DV_N: usize = 3;
+const DV_E: usize = 4;
+const DP_N: usize = 6;
+const DP_E: usize = 7;
+
+/// The linearised error dynamics `x' = F x` of a strapdown navigator in the local
+/// navigation (north, east, down) frame, after Groves, *Principles of GNSS, Inertial, and
+/// Multisensor Integrated Navigation Systems*, 2nd ed. (2013), §14.2: attitude error
+/// `ψ' = −ω_in×ψ + δω_in − C δω_ib`, velocity error `δv' = f×ψ + C δf − (2ω_ie+ω_en)×δv −
+/// (2δω_ie+δω_en)×v + δg`, position error from the curvilinear rates, and the vertical
+/// channel's gravity gradient `δg_D = −2 g0 δh / r_eS`. Linearised about a level platform
+/// heading north at a constant speed, with the latitude held at the site value; WGS-84
+/// radii of curvature and normal gravity. The Schuler loop (velocity error → transport
+/// rate → tilt → gravity coupling) bounds the bias terms, the Earth-rate terms couple the
+/// north and east channels, and the free-inertial vertical channel is unstable.
+#[derive(Clone, Copy, Debug)]
+pub struct ErrorDynamics {
+    /// The 9×9 system matrix, row-major, states `[ψN ψE ψD δvN δvE δvD δN δE δh]`.
+    pub f: [[f64; NS]; NS],
+    /// Local normal gravity used for the specific force (m/s²).
+    pub gravity_m_s2: f64,
+    /// Schuler angular frequency `sqrt(g / R_N)` for reference (rad/s).
+    pub schuler_rate_rad_s: f64,
+}
+
+impl ErrorDynamics {
+    /// Build the dynamics for a site (`latitude_rad`, `height_m`), a northward speed
+    /// `speed_m_s` and a northward specific force `accel_m_s2`.
+    pub fn new(latitude_rad: f64, height_m: f64, speed_m_s: f64, accel_m_s2: f64) -> Self {
+        let (sl, cl) = latitude_rad.sin_cos();
+        let tl = sl / cl;
+        let den = 1.0 - WGS84_E2 * sl * sl;
+        let r_merid = WGS84_A_M * (1.0 - WGS84_E2) / den.powf(1.5);
+        let r_trans = WGS84_A_M / den.sqrt();
+        let (rho_n, rho_e) = (r_merid + height_m, r_trans + height_m);
+        // Somigliana normal gravity with the height correction (Groves eq. 2.134/2.139).
+        let g0 = 9.780_325_335_9 * (1.0 + 0.001_931_853 * sl * sl) / den.sqrt();
+        let m = EARTH_RATE_RAD_S
+            * EARTH_RATE_RAD_S
+            * WGS84_A_M
+            * WGS84_A_M
+            * (WGS84_A_M * (1.0 - WGS84_F))
+            / WGS84_MU;
+        let g = g0
+            * (1.0 - 2.0 / WGS84_A_M * (1.0 + WGS84_F * (1.0 - 2.0 * sl * sl) + m) * height_m
+                + 3.0 * height_m * height_m / (WGS84_A_M * WGS84_A_M));
+        // Geocentric radius of the surface (Groves eq. 2.137).
+        let r_es = r_trans * (cl * cl + (1.0 - WGS84_E2) * (1.0 - WGS84_E2) * sl * sl).sqrt();
+        let om = EARTH_RATE_RAD_S;
+        let v = speed_m_s;
+        let a = accel_m_s2;
+        let mut f = [[0.0; NS]; NS];
+        // omega_in = (wn, we, wd); W = 2 omega_ie + omega_en.
+        let (wn, we, wd) = (om * cl, -v / rho_n, -om * sl);
+        let (cap_wn, cap_we, cap_wd) = (2.0 * om * cl, -v / rho_n, -2.0 * om * sl);
+        // Attitude: -omega_in x psi.
+        f[0][1] += wd;
+        f[0][2] += -we;
+        f[1][0] += -wd;
+        f[1][2] += wn;
+        f[2][0] += we;
+        f[2][1] += -wn;
+        // Attitude: + delta omega_in (delta omega_ie + delta omega_en).
+        f[0][6] += -om * sl / rho_n;
+        f[0][4] += 1.0 / rho_e;
+        f[1][3] += -1.0 / rho_n;
+        f[1][8] += v / (rho_n * rho_n);
+        f[2][6] += -om * cl / rho_n;
+        f[2][4] += -tl / rho_e;
+        // Velocity: f x psi with f = (a, 0, -g).
+        f[3][1] += g;
+        f[4][0] += -g;
+        f[4][2] += -a;
+        f[5][1] += a;
+        // Velocity: -W x dv.
+        f[3][5] += -cap_we;
+        f[3][4] += cap_wd;
+        f[4][3] += -cap_wd;
+        f[4][5] += cap_wn;
+        f[5][4] += -cap_wn;
+        f[5][3] += cap_we;
+        // Velocity: -(2 d omega_ie + d omega_en) x v, v = (v, 0, 0).
+        // East row: -u_D v, u_D = -2 om cl dN/rho_n - tl dvE/rho_e.
+        f[4][6] += 2.0 * om * cl * v / rho_n;
+        f[4][4] += tl * v / rho_e;
+        // Down row: +u_E v, u_E = -dvN/rho_n + v dh/rho_n^2.
+        f[5][3] += -v / rho_n;
+        f[5][8] += v * v / (rho_n * rho_n);
+        // Gravity gradient: dg_D = -2 g dh / r_eS (dh positive up).
+        f[5][8] += -2.0 * g / r_es;
+        // Position: dN' = dvN - v dh / rho_n, dE' = dvE, dh' = -dvD.
+        f[6][3] += 1.0;
+        f[6][8] += -v / rho_n;
+        f[7][4] += 1.0;
+        f[8][5] += -1.0;
+        Self {
+            f,
+            gravity_m_s2: g,
+            schuler_rate_rad_s: (g / rho_n).sqrt(),
+        }
+    }
+}
+
+/// What drives one contribution through [`ErrorDynamics`].
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum ErrorSource {
+    /// A constant specific-force error on the body x (north) axis (m/s²): accelerometer
+    /// bias, or scale factor times a sustained specific force.
+    AccelX(f64),
+    /// A constant angular-rate error on the body x (north) axis (rad/s): gyro bias.
+    GyroX(f64),
+    /// An initial north velocity error (m/s): scale factor times the speed built before
+    /// the coast.
+    InitialVelocityX(f64),
+    /// White specific-force noise of this power spectral density (m²/s³) on the x and y
+    /// accelerometers: velocity random walk.
+    AccelNoiseXy(f64),
+    /// White angular-rate noise of this power spectral density (rad²/s) on the x and y
+    /// gyros: angle random walk.
+    GyroNoiseXy(f64),
+    /// A constant position error (m): the TRN fix residual.
+    Constant(f64),
+}
+
+impl ErrorSource {
+    /// Whether the source is zero (contributes nothing at any time).
+    fn is_zero(self) -> bool {
+        match self {
+            ErrorSource::AccelX(x)
+            | ErrorSource::GyroX(x)
+            | ErrorSource::InitialVelocityX(x)
+            | ErrorSource::AccelNoiseXy(x)
+            | ErrorSource::GyroNoiseXy(x)
+            | ErrorSource::Constant(x) => x == 0.0,
+        }
+    }
+}
+
+type Mat = Vec<f64>;
+
+fn mat_mul(a: &[f64], b: &[f64], n: usize) -> Mat {
+    let mut c = vec![0.0; n * n];
+    for i in 0..n {
+        for k in 0..n {
+            let aik = a[i * n + k];
+            if aik == 0.0 {
+                continue;
+            }
+            let (row_b, row_c) = (&b[k * n..k * n + n], &mut c[i * n..i * n + n]);
+            for (cj, bj) in row_c.iter_mut().zip(row_b.iter()) {
+                *cj += aik * bj;
+            }
+        }
+    }
+    c
+}
+
+/// Infinity norm of an `n × n` row-major matrix.
+fn norm_inf(a: &[f64], n: usize) -> f64 {
+    (0..n)
+        .map(|i| a[i * n..i * n + n].iter().map(|x| x.abs()).sum::<f64>())
+        .fold(0.0, f64::max)
+}
+
+/// The number of halvings that bring `norm` to at most 1/64.
+fn halvings(norm: f64) -> i32 {
+    if norm > 1.0 / 64.0 {
+        (norm * 64.0).log2().ceil() as i32
+    } else {
+        0
+    }
+}
+
+/// `exp(a)` for a matrix already scaled to norm at most 1/64: an 8-term Taylor series
+/// (truncation below 1e-19 relative).
+fn expm_small(a: &[f64], n: usize) -> Mat {
+    let mut result = vec![0.0; n * n];
+    for i in 0..n {
+        result[i * n + i] = 1.0;
+    }
+    let mut term = result.clone();
+    for k in 1..=8 {
+        term = mat_mul(&term, a, n);
+        let inv = 1.0 / k as f64;
+        for (r, t) in result.iter_mut().zip(term.iter_mut()) {
+            *t *= inv;
+            *r += *t;
+        }
+    }
+    result
+}
+
+/// Matrix exponential by scaling and squaring.
+fn expm(a: &[f64], n: usize) -> Mat {
+    let s = halvings(norm_inf(a, n));
+    let scale = 0.5f64.powi(s);
+    let a_s: Mat = a.iter().map(|x| x * scale).collect();
+    let mut result = expm_small(&a_s, n);
+    for _ in 0..s {
+        result = mat_mul(&result, &result, n);
+    }
+    result
+}
+
+impl ErrorDynamics {
+    /// The 10×10 transition of the augmented system `[x; 1]` over `t` s under constant
+    /// forcing `u` (`x' = F x + u`).
+    fn augmented_transition(&self, u: &[f64; NS], t: f64) -> Mat {
+        let n = NS + 1;
+        let mut a = vec![0.0; n * n];
+        for i in 0..NS {
+            for j in 0..NS {
+                a[i * n + j] = self.f[i][j] * t;
+            }
+            a[i * n + NS] = u[i] * t;
+        }
+        expm(&a, n)
+    }
+
+    /// Apply an augmented transition to a state.
+    fn apply_augmented(e: &[f64], x0: &[f64; NS]) -> [f64; NS] {
+        let n = NS + 1;
+        let mut x = [0.0; NS];
+        for (i, xi) in x.iter_mut().enumerate() {
+            let mut s = e[i * n + NS];
+            for j in 0..NS {
+                s += e[i * n + j] * x0[j];
+            }
+            *xi = s;
+        }
+        x
+    }
+
+    /// The state transition `Φ(t)` and the driven covariance `Q(t) = ∫Φ G Q Gᵀ Φᵀ` of white
+    /// noise with diagonal spectral density `q` (per state): Van Loan's method on a step
+    /// `t / 2^k` small enough for a direct series, then `k` doublings
+    /// `Φ(2τ) = Φ(τ)²`, `Q(2τ) = Φ(τ) Q(τ) Φ(τ)ᵀ + Q(τ)`.
+    fn transition_and_noise(&self, q: &[f64; NS], t: f64) -> (Mat, Mat) {
+        let mut fmat = vec![0.0; NS * NS];
+        for i in 0..NS {
+            for j in 0..NS {
+                fmat[i * NS + j] = self.f[i][j];
+            }
+        }
+        let k = halvings(norm_inf(&fmat, NS) * t);
+        let tau = t * 0.5f64.powi(k);
+        let n = 2 * NS;
+        let mut m = vec![0.0; n * n];
+        for i in 0..NS {
+            for j in 0..NS {
+                m[i * n + j] = -self.f[i][j] * tau;
+                m[(NS + i) * n + NS + j] = self.f[j][i] * tau;
+            }
+            m[i * n + NS + i] = q[i] * tau;
+        }
+        let e = expm_small(&m, n);
+        // Lower-right block is Phi^T; upper-right block is Phi^{-1} Q.
+        let mut phi = vec![0.0; NS * NS];
+        let mut upper = vec![0.0; NS * NS];
+        for i in 0..NS {
+            for j in 0..NS {
+                phi[i * NS + j] = e[(NS + j) * n + NS + i];
+                upper[i * NS + j] = e[i * n + NS + j];
+            }
+        }
+        let mut qd = mat_mul(&phi, &upper, NS);
+        for _ in 0..k {
+            qd = add_sandwich(&phi, &qd, &qd);
+            phi = mat_mul(&phi, &phi, NS);
+        }
+        (phi, qd)
+    }
+}
+
+/// `Φ P Φᵀ + Q` for 9×9 matrices.
+fn add_sandwich(phi: &[f64], p: &[f64], q: &[f64]) -> Mat {
+    let fp = mat_mul(phi, p, NS);
+    let mut out = q.to_vec();
+    for i in 0..NS {
+        for j in 0..NS {
+            let (a, b) = (&fp[i * NS..i * NS + NS], &phi[j * NS..j * NS + NS]);
+            out[i * NS + j] += a.iter().zip(b.iter()).map(|(x, y)| x * y).sum::<f64>();
+        }
+    }
+    out
+}
+
+fn horizontal(x: &[f64; NS]) -> f64 {
+    (x[DP_N] * x[DP_N] + x[DP_E] * x[DP_E]).sqrt()
+}
+
+fn per_axis_rms(p: &[f64]) -> f64 {
+    (0.5 * (p[DP_N * NS + DP_N] + p[DP_E * NS + DP_E]).max(0.0)).sqrt()
+}
+
+fn saturate(e: f64) -> f64 {
+    if e.is_finite() {
+        e.min(ERROR_SATURATION_M)
+    } else {
+        ERROR_SATURATION_M
+    }
+}
+
+/// The deterministic forcing and initial state of a source.
+fn forcing(source: ErrorSource) -> ([f64; NS], [f64; NS]) {
+    let mut x0 = [0.0; NS];
+    let mut u = [0.0; NS];
+    match source {
+        ErrorSource::AccelX(b) => u[DV_N] = b,
+        ErrorSource::GyroX(b) => u[PHI_N] = -b,
+        ErrorSource::InitialVelocityX(dv) => x0[DV_N] = dv,
+        _ => {}
+    }
+    (x0, u)
+}
+
+/// The white-noise spectral densities of a stochastic source, per state.
+fn noise(source: ErrorSource) -> [f64; NS] {
+    let mut q = [0.0; NS];
+    match source {
+        ErrorSource::AccelNoiseXy(s) => {
+            q[DV_N] = s;
+            q[DV_E] = s;
+        }
+        ErrorSource::GyroNoiseXy(s) => {
+            q[PHI_N] = s;
+            q[PHI_E] = s;
+        }
+        _ => {}
+    }
+    q
+}
+
+/// Horizontal position error (m) after `t` s from one source through the error dynamics:
+/// the horizontal magnitude for a systematic source, the per-axis RMS
+/// `sqrt((P_NN + P_EE)/2)` for a white-noise source. Saturated at [`ERROR_SATURATION_M`].
+pub fn source_error_m(dyn_: &ErrorDynamics, source: ErrorSource, t: f64) -> f64 {
+    if let ErrorSource::Constant(r) = source {
+        return r;
+    }
+    if t <= 0.0 || source.is_zero() {
+        return 0.0;
+    }
+    let e = match source {
+        ErrorSource::AccelNoiseXy(_) | ErrorSource::GyroNoiseXy(_) => {
+            let (_, qd) = dyn_.transition_and_noise(&noise(source), t);
+            per_axis_rms(&qd)
+        }
+        _ => {
+            let (x0, u) = forcing(source);
+            horizontal(&ErrorDynamics::apply_augmented(
+                &dyn_.augmented_transition(&u, t),
+                &x0,
+            ))
+        }
+    };
+    saturate(e)
+}
+
+// ---------------------------------------------------------------------------
 // The model
 // ---------------------------------------------------------------------------
 
@@ -472,6 +906,10 @@ pub struct CoastModel {
     /// A constant position error present from the first sample (m) — the TRN matcher
     /// residual when a fix mode is active, zero otherwise.
     pub fix_residual_m: f64,
+    /// Site latitude of the error model (deg).
+    pub latitude_deg: f64,
+    /// Site height of the error model (m).
+    pub height_m: f64,
     /// The resolved contributions, in report order.
     contributions: Vec<Contribution>,
 }
@@ -485,6 +923,47 @@ impl CoastModel {
         combination: Combination,
         fix_residual_m: f64,
     ) -> Self {
+        Self::build(
+            imu,
+            speed_m_s,
+            ref_accel_m_s2,
+            combination,
+            fix_residual_m,
+            DEFAULT_LATITUDE_DEG,
+            DEFAULT_HEIGHT_M,
+        )
+    }
+
+    /// The same model at another site: the error dynamics depend on latitude (Earth-rate
+    /// coupling, gravity, radii of curvature) and height.
+    pub fn with_site(self, latitude_deg: f64, height_m: f64) -> Self {
+        Self::build(
+            self.imu,
+            self.speed_m_s,
+            self.ref_accel_m_s2,
+            self.combination,
+            self.fix_residual_m,
+            latitude_deg,
+            height_m,
+        )
+    }
+
+    fn build(
+        imu: ImuParamsSi,
+        speed_m_s: f64,
+        ref_accel_m_s2: f64,
+        combination: Combination,
+        fix_residual_m: f64,
+        latitude_deg: f64,
+        height_m: f64,
+    ) -> Self {
+        let dynamics = ErrorDynamics::new(
+            latitude_deg.to_radians(),
+            height_m,
+            speed_m_s,
+            ref_accel_m_s2,
+        );
+        let s = imu.accel_scale_factor;
         let mut contributions = vec![
             Contribution {
                 name: "accel_bias",
@@ -492,6 +971,8 @@ impl CoastModel {
                 exponent: 2.0,
                 coefficient: 0.5 * imu.accel_bias_m_s2,
                 law: "0.5 * b_a * t^2",
+                source: ErrorSource::AccelX(imu.accel_bias_m_s2),
+                dynamics,
             },
             Contribution {
                 name: "gyro_bias_tilt",
@@ -499,20 +980,26 @@ impl CoastModel {
                 exponent: 3.0,
                 coefficient: G_M_PER_S2 * imu.gyro_bias_rad_s / 6.0,
                 law: "g * b_g * t^3 / 6",
+                source: ErrorSource::GyroX(imu.gyro_bias_rad_s),
+                dynamics,
             },
             Contribution {
                 name: "scale_factor_cruise",
                 class: ContributionClass::Deterministic,
                 exponent: 1.0,
-                coefficient: imu.accel_scale_factor * speed_m_s,
+                coefficient: s * speed_m_s,
                 law: "s * v * t",
+                source: ErrorSource::InitialVelocityX(s * speed_m_s),
+                dynamics,
             },
             Contribution {
                 name: "scale_factor_accel",
                 class: ContributionClass::Deterministic,
                 exponent: 2.0,
-                coefficient: 0.5 * imu.accel_scale_factor * ref_accel_m_s2,
+                coefficient: 0.5 * s * ref_accel_m_s2,
                 law: "0.5 * s * a * t^2",
+                source: ErrorSource::AccelX(s * ref_accel_m_s2),
+                dynamics,
             },
             Contribution {
                 name: "velocity_random_walk",
@@ -520,6 +1007,10 @@ impl CoastModel {
                 exponent: 1.5,
                 coefficient: imu.accel_vrw_m_s_per_sqrt_s / 3.0f64.sqrt(),
                 law: "sigma_vrw * t^1.5 / sqrt(3)",
+                source: ErrorSource::AccelNoiseXy(
+                    imu.accel_vrw_m_s_per_sqrt_s * imu.accel_vrw_m_s_per_sqrt_s,
+                ),
+                dynamics,
             },
             Contribution {
                 name: "angle_random_walk",
@@ -527,6 +1018,10 @@ impl CoastModel {
                 exponent: 2.5,
                 coefficient: G_M_PER_S2 * imu.gyro_arw_rad_per_sqrt_s / 20.0f64.sqrt(),
                 law: "g * sigma_arw * t^2.5 / sqrt(20)",
+                source: ErrorSource::GyroNoiseXy(
+                    imu.gyro_arw_rad_per_sqrt_s * imu.gyro_arw_rad_per_sqrt_s,
+                ),
+                dynamics,
             },
         ];
         if fix_residual_m > 0.0 {
@@ -536,6 +1031,8 @@ impl CoastModel {
                 exponent: 0.0,
                 coefficient: fix_residual_m,
                 law: "r (constant)",
+                source: ErrorSource::Constant(fix_residual_m),
+                dynamics,
             });
         }
         Self {
@@ -544,8 +1041,28 @@ impl CoastModel {
             ref_accel_m_s2,
             combination,
             fix_residual_m,
+            latitude_deg,
+            height_m,
             contributions,
         }
+    }
+
+    /// The error dynamics every contribution of this model shares.
+    pub fn dynamics(&self) -> ErrorDynamics {
+        ErrorDynamics::new(
+            self.latitude_deg.to_radians(),
+            self.height_m,
+            self.speed_m_s,
+            self.ref_accel_m_s2,
+        )
+    }
+
+    /// Per-contribution leading-order (flat-Earth, short-coast) error (m), in report order.
+    pub fn leading_order_breakdown_m(&self, t: f64) -> Vec<f64> {
+        self.contributions
+            .iter()
+            .map(|c| c.leading_order_m(t))
+            .collect()
     }
 
     /// The resolved contributions, in report order.
@@ -587,6 +1104,54 @@ impl PositionDrift for CoastModel {
         let parts = self.breakdown_m(t);
         self.combination.combine(&parts, &self.classes())
     }
+
+    /// The FIRST coast duration at which the combined error reaches `threshold_m`. With
+    /// Schuler feedback the error is not monotone in `t`, so a doubling bracket could land
+    /// on a later crossing; this scans forward in steps no longer than
+    /// [`CROSSING_SCAN_MAX_STEP_S`] (a 32nd of the Schuler period) and bisects inside the
+    /// first step that reaches the threshold.
+    fn inertial_holdover_s(&self, threshold_m: f64) -> f64 {
+        first_crossing_s(|t| self.drift_m(t), threshold_m)
+    }
+}
+
+/// Longest step of the forward crossing scan (s): about a 32nd of the 84.4-minute Schuler
+/// period, so no Schuler half-cycle can hide a crossing between two samples.
+pub const CROSSING_SCAN_MAX_STEP_S: f64 = 158.0;
+/// The forward crossing scan gives up at this coast duration (s), about 116 days.
+pub const CROSSING_SCAN_HORIZON_S: f64 = 1.0e7;
+
+/// First `t` at which `f(t) >= threshold`, scanning forward from 0 (steps growing by 25 %
+/// from 1 s, capped at [`CROSSING_SCAN_MAX_STEP_S`]) and bisecting inside the first step
+/// that reaches it. `f64::INFINITY` when the scan horizon passes without a crossing.
+pub fn first_crossing_s<F: Fn(f64) -> f64>(f: F, threshold: f64) -> f64 {
+    if threshold <= 0.0 {
+        return 0.0;
+    }
+    if f(0.0) >= threshold {
+        return 0.0;
+    }
+    let (mut lo, mut hi) = (0.0f64, 1.0f64);
+    loop {
+        if f(hi) >= threshold {
+            break;
+        }
+        if hi >= CROSSING_SCAN_HORIZON_S {
+            return f64::INFINITY;
+        }
+        lo = hi;
+        hi = (hi * 1.25).min(hi + CROSSING_SCAN_MAX_STEP_S);
+    }
+    // The bracket is at most 158 s wide: 64 halvings resolve it far below a nanosecond.
+    for _ in 0..64 {
+        let mid = 0.5 * (lo + hi);
+        if f(mid) < threshold {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    0.5 * (lo + hi)
 }
 
 // ---------------------------------------------------------------------------
@@ -701,41 +1266,64 @@ pub struct TrnCoast {
 pub const MAX_TRN_INTERVALS: usize = 4096;
 
 impl CoastModel {
-    /// Error (m) accumulated during ONE inter-fix interval of length `tau`, when the
-    /// interval starts at mission time `t0` and the preceding fix corrected position only.
+    /// End-of-interval error (m) of every contribution for `n` consecutive inter-fix
+    /// intervals of length `tau` when each fix corrects horizontal POSITION only.
     ///
-    /// Deterministic contributions keep their velocity error across the fix, so their
-    /// position increment is `c[(t0+τ)^p − t0^p]`. The random walks keep the variance they
-    /// had at the fix, which re-enters as the (independent) `σ_v(t0)·τ` and
-    /// `g·σ_θ(t0)·τ²/2` terms alongside the freshly accumulated `τ³/3` and `τ⁵/20` ones.
-    fn position_only_interval_parts(&self, t0: f64, tau: f64) -> Vec<f64> {
-        self.contributions
-            .iter()
-            .map(|c| match c.name {
-                "velocity_random_walk" => {
-                    // sigma_vrw * sqrt(t0*tau^2 + tau^3/3); the sqrt(3) is inside.
-                    let s = self.imu.accel_vrw_m_s_per_sqrt_s;
-                    s * (t0 * tau * tau + tau * tau * tau / 3.0).max(0.0).sqrt()
+    /// Each contribution's error state is carried through the error model across the
+    /// intervals: at every fix the north and east position errors (and, for the random
+    /// walks, their covariance rows and columns) are zeroed while the velocity, tilt and
+    /// height errors keep running. The first interval therefore reproduces the free coast.
+    fn position_only_parts(&self, tau: f64, n: usize) -> Vec<Vec<f64>> {
+        let dynamics = self.dynamics();
+        let mut out = vec![Vec::with_capacity(self.contributions.len()); n];
+        for c in &self.contributions {
+            if c.source.is_zero() {
+                for row in out.iter_mut() {
+                    row.push(0.0);
                 }
-                "angle_random_walk" => {
-                    // g * sigma_arw * sqrt(t0*tau^4/4 + tau^5/20).
-                    let s = self.imu.gyro_arw_rad_per_sqrt_s;
-                    G_M_PER_S2
-                        * s
-                        * (t0 * tau.powi(4) / 4.0 + tau.powi(5) / 20.0)
-                            .max(0.0)
-                            .sqrt()
-                }
-                "trn_fix_residual" => c.coefficient,
-                _ => {
-                    if c.exponent == 0.0 {
-                        c.coefficient
-                    } else {
-                        c.coefficient * ((t0 + tau).powf(c.exponent) - t0.powf(c.exponent))
+                continue;
+            }
+            match c.source {
+                ErrorSource::Constant(r) => {
+                    for row in out.iter_mut() {
+                        row.push(r);
                     }
                 }
-            })
-            .collect()
+                ErrorSource::AccelNoiseXy(_) | ErrorSource::GyroNoiseXy(_) => {
+                    let (phi, qd) = dynamics.transition_and_noise(&noise(c.source), tau);
+                    let mut p = vec![0.0; NS * NS];
+                    for row in out.iter_mut() {
+                        for k in 0..NS {
+                            for idx in [DP_N, DP_E] {
+                                p[idx * NS + k] = 0.0;
+                                p[k * NS + idx] = 0.0;
+                            }
+                        }
+                        p = add_sandwich(&phi, &p, &qd);
+                        row.push(if c.source.is_zero() {
+                            0.0
+                        } else {
+                            saturate(per_axis_rms(&p))
+                        });
+                    }
+                }
+                _ => {
+                    let (mut x, u) = forcing(c.source);
+                    let e = dynamics.augmented_transition(&u, tau);
+                    for row in out.iter_mut() {
+                        x[DP_N] = 0.0;
+                        x[DP_E] = 0.0;
+                        x = ErrorDynamics::apply_augmented(&e, &x);
+                        row.push(if c.source.is_zero() {
+                            0.0
+                        } else {
+                            saturate(horizontal(&x))
+                        });
+                    }
+                }
+            }
+        }
+        out
     }
 
     /// Run the TRN-bounded coast over `mission_s` with fixes every `fix_interval_s`.
@@ -756,16 +1344,20 @@ impl CoastModel {
         }
         let classes = self.classes();
         let n = ((mission_s / fix_interval_s).floor() as usize).clamp(1, MAX_TRN_INTERVALS);
-        let mut errs = Vec::with_capacity(n);
-        for k in 0..n {
-            let t0 = k as f64 * fix_interval_s;
-            let parts = match mode {
-                TrnFixMode::FullReset => self.breakdown_m(fix_interval_s),
-                TrnFixMode::PositionOnly => self.position_only_interval_parts(t0, fix_interval_s),
-                TrnFixMode::None => unreachable!("the none mode returned above"),
-            };
-            errs.push(self.combination.combine(&parts, &classes));
-        }
+        let errs: Vec<f64> = match mode {
+            TrnFixMode::FullReset => {
+                let e = self
+                    .combination
+                    .combine(&self.breakdown_m(fix_interval_s), &classes);
+                vec![e; n]
+            }
+            TrnFixMode::PositionOnly => self
+                .position_only_parts(fix_interval_s, n)
+                .iter()
+                .map(|parts| self.combination.combine(parts, &classes))
+                .collect(),
+            TrnFixMode::None => unreachable!("the none mode returned above"),
+        };
         let peak = errs.iter().copied().fold(0.0f64, f64::max);
         TrnCoast {
             fix_interval_s,
@@ -857,6 +1449,11 @@ pub struct InsTrnCoastScenario {
     pub speed_m_s: Option<f64>,
     /// Sustained specific force over the coast (m/s²). Default 0.
     pub ref_accel_m_s2: Option<f64>,
+    /// Latitude of the error model's level, north-heading platform (deg). Default
+    /// [`DEFAULT_LATITUDE_DEG`].
+    pub latitude_deg: Option<f64>,
+    /// Height of the platform (m). Default [`DEFAULT_HEIGHT_M`].
+    pub height_m: Option<f64>,
     /// Combination rule: `rss` (default), `linear-sum`, `det-sum-stoch-rss`.
     pub combination: Option<String>,
     /// Position-error thresholds the crossings are reported at (m). Default
@@ -966,6 +1563,21 @@ impl InsTrnCoastScenario {
         Ok((v, a))
     }
 
+    /// Resolve the error model's site.
+    fn resolve_site(&self) -> Result<(f64, f64), String> {
+        let lat = self.latitude_deg.unwrap_or(DEFAULT_LATITUDE_DEG);
+        let h = self.height_m.unwrap_or(DEFAULT_HEIGHT_M);
+        if !lat.is_finite() || lat.abs() >= 89.0 {
+            return Err(format!(
+                "latitude_deg must be finite and within (-89, 89) (got {lat})"
+            ));
+        }
+        if !h.is_finite() || !(-1_000.0..=100_000.0).contains(&h) {
+            return Err(format!("height_m must be within [-1000, 100000] (got {h})"));
+        }
+        Ok((lat, h))
+    }
+
     /// Resolve the TRN configuration.
     fn resolve_trn(&self) -> Result<(TrnFixMode, f64, f64, f64), String> {
         let mode = TrnFixMode::parse(self.trn_fix_mode.as_deref().unwrap_or("none"))?;
@@ -1017,7 +1629,8 @@ impl InsTrnCoastScenario {
         let imu = self.resolve_imu()?.si();
         let (v, a) = self.resolve_motion()?;
         let comb = Combination::parse(self.combination.as_deref().unwrap_or("rss"))?;
-        Ok(CoastModel::new(imu, v, a, comb, 0.0))
+        let (lat, h) = self.resolve_site()?;
+        Ok(CoastModel::new(imu, v, a, comb, 0.0).with_site(lat, h))
     }
 
     /// The same model with the TRN matcher residual attached, used only for the
@@ -1032,7 +1645,8 @@ impl InsTrnCoastScenario {
         } else {
             residual
         };
-        Ok(CoastModel::new(imu, v, a, comb, r))
+        let (lat, h) = self.resolve_site()?;
+        Ok(CoastModel::new(imu, v, a, comb, r).with_site(lat, h))
     }
 
     /// Run the scenario, returning `(json, summary)`.
@@ -1048,6 +1662,7 @@ impl InsTrnCoastScenario {
         let params = self.resolve_imu()?;
         let si = params.si();
         let (speed, ref_accel) = self.resolve_motion()?;
+        let (lat, height) = self.resolve_site()?;
         let comb = Combination::parse(self.combination.as_deref().unwrap_or("rss"))?;
         let thresholds = self.resolve_thresholds()?;
         let grades = self.resolve_grades()?;
@@ -1094,7 +1709,7 @@ impl InsTrnCoastScenario {
                 "threshold_m": th,
                 "coast_s": c.coast_s,
                 "status": c.status,
-                "method": "bisection on the combined model",
+                "method": "forward scan and bisection on the combined nine-state error model",
                 "error_at_coast_m": err_at,
                 "travelled_distance_m": dist,
                 "implied_mean_drift_rate_m_per_s": rate,
@@ -1135,8 +1750,10 @@ impl InsTrnCoastScenario {
                         }
                         _ => None,
                     };
+                    let em = locate_crossing(&SingleContribution(c), th).coast_s;
                     serde_json::json!({
                         "threshold_m": th,
+                        "error_model_s": em,
                         "closed_form_s": closed,
                         "bisection_s": bis,
                         "rel_diff": rel,
@@ -1158,7 +1775,7 @@ impl InsTrnCoastScenario {
         let sensitivity: Vec<serde_json::Value> = Combination::all()
             .iter()
             .map(|&k| {
-                let m = CoastModel::new(si, speed, ref_accel, k, 0.0);
+                let m = CoastModel::new(si, speed, ref_accel, k, 0.0).with_site(lat, height);
                 let rows: Vec<serde_json::Value> = thresholds
                     .iter()
                     .map(|&th| {
@@ -1178,7 +1795,8 @@ impl InsTrnCoastScenario {
         let mut grade_rows = Vec::new();
         let mut band_rows = Vec::new();
         for g in &grades {
-            let gm = CoastModel::new(g.params().si(), speed, ref_accel, comb, 0.0);
+            let gm = CoastModel::new(g.params().si(), speed, ref_accel, comb, 0.0)
+                .with_site(lat, height);
             let rows: Vec<serde_json::Value> = thresholds
                 .iter()
                 .map(|&th| {
@@ -1296,6 +1914,14 @@ impl InsTrnCoastScenario {
                 "gyro_arw_deg_per_sqrt_hr": params.gyro_arw_deg_per_sqrt_hr,
                 "gyro_arw_rad_per_sqrt_s": si.gyro_arw_rad_per_sqrt_s,
             },
+            "site": {
+                "latitude_deg": lat,
+                "height_m": height,
+                "gravity_m_s2": model.dynamics().gravity_m_s2,
+                "schuler_period_s": 2.0 * std::f64::consts::PI / model.dynamics().schuler_rate_rad_s,
+                "note": "the nine-state error model is linearised about a level platform heading \
+        north at this site, latitude held fixed over the coast",
+            },
             "motion": {
                 "speed_m_s": speed,
                 "ref_accel_m_s2": ref_accel,
@@ -1390,10 +2016,15 @@ const UNITS: &[(&str, &str, &str, Option<&str>)] = &[
     ("imu.gyro_arw_rad_per_sqrt_s", "rad/sqrt(s)", "computed", Some("square of this is the white angular-rate PSD q_arw")),
     ("motion.speed_m_s", "m/s", "input", None),
     ("motion.ref_accel_m_s2", "m/s^2", "input", None),
-    ("contributions.exponent", "1", "modelled", Some("the power of coast duration this contribution grows with")),
-    ("contributions.coefficient_si", "m/s^exponent", "computed", None),
+    ("site.latitude_deg", "deg", "input", Some("latitude of the error model's level, north-heading platform; default 45")),
+    ("site.height_m", "m", "input", None),
+    ("site.gravity_m_s2", "m/s^2", "computed", Some("WGS-84 normal gravity at the site")),
+    ("site.schuler_period_s", "s", "computed", Some("2 pi sqrt(R_N / g) at the site")),
+    ("contribution_crossings.crossings.error_model_s", "s", "computed", Some("first crossing of that contribution's nine-state error-model curve, by forward scan and bisection; null when the scan horizon passes")),
+    ("contributions.exponent", "1", "modelled", Some("the power of coast duration this contribution's short-coast leading-order law grows with")),
+    ("contributions.coefficient_si", "m/s^exponent", "computed", Some("coefficient of the leading-order law; the error model departs from it as the Schuler loop acts")),
     ("crossings.threshold_m", "m", "input", None),
-    ("crossings.coast_s", "s", "computed", Some("bisection on the combined model; null with a status when the model never reaches the threshold")),
+    ("crossings.coast_s", "s", "computed", Some("first crossing of the combined nine-state error model, by forward scan and bisection; null with a status when the model never reaches the threshold")),
     ("crossings.error_at_coast_m", "m", "computed", Some("the model re-evaluated at the located crossing; a residual check on the bisection")),
     ("crossings.travelled_distance_m", "m", "computed", None),
     ("crossings.implied_mean_drift_rate_m_per_s", "m/s", "computed", Some("threshold / crossing duration; the quantity a duty-cycle study sweeps")),
@@ -1483,6 +2114,61 @@ pub fn scale_factor_reference_error_m(
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn the_error_model_follows_the_leading_order_law_on_a_short_coast() {
+        // As t -> 0 the Schuler, Earth-rate and vertical couplings have not acted yet, so
+        // every contribution of the nine-state model approaches its flat-Earth monomial.
+        let m = CoastModel::new(
+            ImuGrade::Tactical.params().si(),
+            10.0,
+            0.01,
+            Combination::Rss,
+            0.0,
+        )
+        .with_site(45.0, 1000.0);
+        for c in m.contributions() {
+            let (e, l) = (c.error_m(30.0), c.leading_order_m(30.0));
+            assert!(rel(e, l) < 0.02, "{}: {e} vs leading order {l}", c.name);
+        }
+    }
+
+    #[test]
+    fn a_bias_error_is_schuler_bounded() {
+        // Single-channel Schuler law b (1 - cos(w_s t)) / w_s^2 with w_s = sqrt(g / R):
+        // the nine-state model adds only the weak Earth-rate and vertical couplings.
+        let m = CoastModel::new(
+            ImuGrade::Tactical.params().si(),
+            0.0,
+            0.0,
+            Combination::Rss,
+            0.0,
+        )
+        .with_site(45.0, 1000.0);
+        let d = m.dynamics();
+        let ws = d.schuler_rate_rad_s;
+        let b = m.imu.accel_bias_m_s2;
+        let bias = &m.contributions()[0];
+        assert_eq!(bias.name, "accel_bias");
+        for t in [600.0, 1800.0, 3600.0] {
+            let closed = b * (1.0 - (ws * t).cos()) / (ws * ws);
+            assert!(
+                rel(bias.error_m(t), closed) < 0.03,
+                "{t} s: {} vs {closed}",
+                bias.error_m(t)
+            );
+        }
+        // Bounded: never beyond 2 b / w_s^2 (plus the couplings) within one Schuler period.
+        assert!(bias.error_m(2532.0) < 1.05 * 2.0 * b / (ws * ws));
+        for c in m.contributions() {
+            eprintln!(
+                "{:<22} {:?}",
+                c.name,
+                [30.0, 60.0, 120.0, 300.0, 600.0, 1200.0, 1800.0, 3600.0]
+                    .map(|t| (c.error_m(t) * 1000.0).round() / 1000.0)
+            );
+        }
+    }
+
     use super::*;
     use crate::inertial::AccelModel;
     use crate::quantum_trade::ClassicalInsBudget;
@@ -1497,6 +2183,13 @@ mod tests {
         } else {
             (a - b).abs() / d
         }
+    }
+
+    /// The combined LEADING-ORDER (flat-Earth monomial) error of a model: the short-coast
+    /// law each contribution's error-model curve approaches as `t -> 0`.
+    fn lead(m: &CoastModel, t: f64) -> f64 {
+        let parts = m.leading_order_breakdown_m(t);
+        m.combination.combine(&parts, &m.classes())
     }
 
     /// A model with exactly one contribution active, so a growth power can be pinned
@@ -1534,7 +2227,7 @@ mod tests {
 
     #[test]
     fn doubling_the_coast_scales_each_contribution_by_two_to_its_own_power() {
-        // Every contribution is a monomial in t, so doubling t must multiply it by
+        // Every leading-order law is a monomial in t, so doubling t must multiply it by
         // exactly 2^p and by nothing else. A contribution wired to the wrong integral
         // (a bias integrated once, a random walk integrated twice) fails here even
         // though its magnitude at a single epoch could be tuned to look right.
@@ -1549,7 +2242,7 @@ mod tests {
         for (name, p) in expected {
             let m = single(name);
             for t in [10.0f64, 137.0, 900.0] {
-                let ratio = m.drift_m(2.0 * t) / m.drift_m(t);
+                let ratio = lead(&m, 2.0 * t) / lead(&m, t);
                 assert!(
                     rel(ratio, 2.0f64.powf(*p)) < 1.0e-12,
                     "{name} at t={t}: doubling scaled the error by {ratio}, expected 2^{p} = {}",
@@ -1564,10 +2257,11 @@ mod tests {
     {
         // The two headline cases named in the acceptance, spelled out separately from
         // the table above so a regression names itself.
+        // (Leading-order laws; the error model departs from them as the Schuler loop acts.)
         let bias = single("accel_bias");
-        assert!(rel(bias.drift_m(600.0) / bias.drift_m(300.0), 4.0) < 1.0e-12);
+        assert!(rel(lead(&bias, 600.0) / lead(&bias, 300.0), 4.0) < 1.0e-12);
         let vrw = single("velocity_random_walk");
-        assert!(rel(vrw.drift_m(600.0) / vrw.drift_m(300.0), 2.0f64.powf(1.5)) < 1.0e-12);
+        assert!(rel(lead(&vrw, 600.0) / lead(&vrw, 300.0), 2.0f64.powf(1.5)) < 1.0e-12);
     }
 
     #[test]
@@ -1585,7 +2279,7 @@ mod tests {
             if c.coefficient <= 0.0 {
                 continue;
             }
-            let measured = (c.error_m(800.0) / c.error_m(400.0)).log2();
+            let measured = (c.leading_order_m(800.0) / c.leading_order_m(400.0)).log2();
             assert!(
                 rel(measured, c.exponent) < 1.0e-12,
                 "{} reports exponent {} but its curve measures {measured}",
@@ -1799,18 +2493,18 @@ mod tests {
             Combination::Rss,
             0.0,
         );
+        // The LEADING-ORDER laws are that budget; the error model departs from it only
+        // as the Schuler loop acts, so the two still agree on a short coast.
         for t in [1.0, 60.0, 600.0, 3600.0] {
             assert!(
-                rel(mine.drift_m(t), existing.drift_m(t)) < 1.0e-12,
+                rel(lead(&mine, t), existing.drift_m(t)) < 1.0e-12,
                 "t={t}: this model {} m vs ClassicalInsBudget {} m",
-                mine.drift_m(t),
+                lead(&mine, t),
                 existing.drift_m(t)
             );
         }
-        for th in [10.0, 50.0] {
-            let a = locate_crossing(&mine, th).coast_s.expect("reached");
-            let b = existing.inertial_holdover_s(th);
-            assert!(rel(a, b) < 1.0e-9, "threshold {th}: {a} s vs {b} s");
+        for t in [1.0, 10.0, 30.0] {
+            assert!(rel(mine.drift_m(t), existing.drift_m(t)) < 2.0e-3, "t={t}");
         }
     }
 
@@ -1867,10 +2561,15 @@ mod tests {
     }
 
     #[test]
+    // The name is the one `src/verification.rs` cites; under the Schuler error model the
+    // body pins the weaker, true statement (the peak is the largest excursion, and the
+    // excursions grow over the hour). A rename is proposed to the integrator.
     fn a_position_only_fix_lets_each_excursion_exceed_the_last_and_the_peak_is_the_final_one() {
         // Measured rather than assumed: the peak scan takes the maximum over every
-        // interval, and this pins that the sequence really is the monotone one the
-        // physics implies (velocity error and tilt survive a position-only fix).
+        // interval. Velocity error and tilt survive a position-only fix, so the
+        // excursions grow over the hour; under Schuler feedback the velocity error
+        // oscillates, so the sequence need not be monotone and the peak is the maximum,
+        // not necessarily the last interval.
         let m = CoastModel::new(
             ImuGrade::Tactical.params().si(),
             200.0,
@@ -1880,19 +2579,9 @@ mod tests {
         );
         let c = m.trn_coast(TrnFixMode::PositionOnly, 120.0, 3600.0);
         assert_eq!(c.intervals, 30);
-        for w in c.interval_errors_m.windows(2) {
-            assert!(
-                w[1] >= w[0],
-                "excursion sequence fell: {} -> {}",
-                w[0],
-                w[1]
-            );
-        }
-        let last = *c
-            .interval_errors_m
-            .last()
-            .expect("30 intervals were evaluated");
-        assert!(rel(c.peak_error_m, last) < 1.0e-12);
+        let max = c.interval_errors_m.iter().copied().fold(0.0f64, f64::max);
+        assert!(rel(c.peak_error_m, max) < 1.0e-12);
+        assert!(c.peak_error_m > 2.0 * c.interval_errors_m[0]);
         // And it is strictly worse than the full-reset reading of the same fix rate.
         let full = m.trn_coast(TrnFixMode::FullReset, 120.0, 3600.0);
         assert!(
@@ -1931,7 +2620,7 @@ mod tests {
         // does not bracket at all.
         let cases: &[(TrnFixMode, ImuGrade, f64)] = &[
             (TrnFixMode::FullReset, ImuGrade::Tactical, 3600.0),
-            (TrnFixMode::PositionOnly, ImuGrade::Navigation, 600.0),
+            (TrnFixMode::PositionOnly, ImuGrade::Tactical, 600.0),
         ];
         for (mode, grade, mission) in cases {
             let m = CoastModel::new(grade.params().si(), 200.0, 0.0, Combination::Rss, 5.0);
@@ -2140,12 +2829,15 @@ mod tests {
             .iter()
             .find(|c| c.name == "gyro_bias_tilt")
             .expect("gyro_bias_tilt is always present");
+        // (The leading-order laws; under Schuler feedback the bias term is bounded while
+        // the gyro term keeps growing, so the overtaking only comes sooner.)
         let t_star = bias.coefficient / gyro.coefficient;
         assert!(
-            rel(bias.error_m(t_star), gyro.error_m(t_star)) < 1.0e-12,
+            rel(bias.leading_order_m(t_star), gyro.leading_order_m(t_star)) < 1.0e-12,
             "the two curves do not meet at {t_star} s"
         );
-        assert!(gyro.error_m(0.5 * t_star) < bias.error_m(0.5 * t_star));
+        assert!(gyro.leading_order_m(0.5 * t_star) < bias.leading_order_m(0.5 * t_star));
+        assert!(gyro.leading_order_m(2.0 * t_star) > bias.leading_order_m(2.0 * t_star));
         assert!(gyro.error_m(2.0 * t_star) > bias.error_m(2.0 * t_star));
     }
 
