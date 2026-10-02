@@ -1,0 +1,30 @@
+# Configuration B of the M131 oracle comparison (tests/leo_polar_coverage_orekit_oracle.rs):
+# the bundled `polar-arctic-leo-coverage` systems with a different elevation mask per system
+# (GPS 5 deg, Galileo 15 deg, Iridium 8 deg) and Galileo on the reference time scale with a
+# known offset, so the per-system mask and the known-offset clock model are both exercised.
+# A finer grid than the bundled scenario: 12 longitudes and 25 epochs over two hours.
+kind = "leo-pvt"
+mode = "polar"
+duration_s = 7200.0
+step_s = 300.0
+
+[polar]
+lat_step_deg = 10.0
+lon_step_deg = 30.0
+pdop_threshold = 6.0
+
+[[system]]
+name = "GPS"
+preset = "gps-baseline"
+mask_deg = 5.0
+
+[[system]]
+name = "Galileo"
+preset = "galileo"
+mask_deg = 15.0
+clock = "known"
+
+[[system]]
+name = "Iridium"
+leo_preset = "iridium-stl"
+mask_deg = 8.0

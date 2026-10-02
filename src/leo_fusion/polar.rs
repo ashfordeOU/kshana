@@ -18,7 +18,7 @@
 //! not modelled here).
 
 use super::geom::{elevation, median, Site};
-use super::joint_pvt::{dop, SystemClock};
+use super::joint_pvt::{dop, Dop, SystemClock};
 use super::system::System;
 use serde::Serialize;
 
@@ -54,6 +54,93 @@ pub struct PolarRow {
     pub fused: GroupStats,
 }
 
+/// Earth-fixed satellite positions per epoch, each tagged with its system index:
+/// `states[epoch][k] = (position (m), system)`.
+pub type SatStates = Vec<Vec<([f64; 3], usize)>>;
+
+/// Earth-fixed positions of every satellite of every system at each epoch of `times_s`.
+pub fn satellite_states(systems: &[System], times_s: &[f64]) -> SatStates {
+    times_s
+        .iter()
+        .map(|&t| {
+            systems
+                .iter()
+                .enumerate()
+                .flat_map(|(k, s)| s.orbits.iter().map(move |o| (o.state(t).0, k)))
+                .collect()
+        })
+        .collect()
+}
+
+/// One sample of the sweep: one site (latitude, longitude) at one epoch.
+#[derive(Clone, Debug, PartialEq)]
+pub struct Sample {
+    /// Longitude (deg).
+    pub lon_deg: f64,
+    /// Index of the epoch in the states.
+    pub epoch: usize,
+    /// Satellites above their own system's mask, per system.
+    pub in_view_by_system: Vec<usize>,
+    /// Satellites in view per group: MEO GNSS, LEO, every system.
+    pub in_view: [usize; 3],
+    /// DOP per group, `None` when the group's geometry cannot resolve its unknowns.
+    pub dop: [Option<Dop>; 3],
+}
+
+/// Every sample of one latitude over `lons_deg` and every epoch of `states`.
+pub fn latitude_samples(
+    systems: &[System],
+    states: &[Vec<([f64; 3], usize)>],
+    lat_deg: f64,
+    lons_deg: &[f64],
+) -> Vec<Sample> {
+    let clocks: Vec<SystemClock> = systems.iter().map(|s| s.clock).collect();
+    let mut out = Vec::with_capacity(lons_deg.len() * states.len());
+    for &lon in lons_deg {
+        let site = Site {
+            lat_deg,
+            lon_deg: lon,
+            height_m: 0.0,
+        };
+        let user = site.ecef();
+        let up = site.enu().2;
+        for (epoch, sats) in states.iter().enumerate() {
+            let vis: Vec<([f64; 3], usize)> = sats
+                .iter()
+                .filter(|(p, k)| elevation(user, up, *p) >= systems[*k].mask_rad)
+                .copied()
+                .collect();
+            let mut in_view_by_system = vec![0; systems.len()];
+            for (_, k) in &vis {
+                in_view_by_system[*k] += 1;
+            }
+            let mut in_view = [0; 3];
+            let mut dops: [Option<Dop>; 3] = [None; 3];
+            for g in 0..3 {
+                let sel: Vec<([f64; 3], usize)> = vis
+                    .iter()
+                    .filter(|(_, k)| match g {
+                        0 => systems[*k].role == "gnss",
+                        1 => systems[*k].role == "leo",
+                        _ => true,
+                    })
+                    .copied()
+                    .collect();
+                in_view[g] = sel.len();
+                dops[g] = dop(user, &sel, &clocks);
+            }
+            out.push(Sample {
+                lon_deg: lon,
+                epoch,
+                in_view_by_system,
+                in_view,
+                dop: dops,
+            });
+        }
+    }
+    out
+}
+
 /// Sweep latitudes over `lons_deg` and epochs `times_s`, with a PDOP threshold for
 /// availability.
 pub fn latitude_sweep(
@@ -63,55 +150,33 @@ pub fn latitude_sweep(
     times_s: &[f64],
     pdop_threshold: f64,
 ) -> Vec<PolarRow> {
-    let clocks: Vec<SystemClock> = systems.iter().map(|s| s.clock).collect();
-    // Satellite positions per epoch, once: (epoch) -> [(position, system)].
-    let states: Vec<Vec<([f64; 3], usize)>> = times_s
-        .iter()
-        .map(|&t| {
-            systems
-                .iter()
-                .enumerate()
-                .flat_map(|(k, s)| s.orbits.iter().map(move |o| (o.state(t).0, k)))
-                .collect()
-        })
-        .collect();
+    let states = satellite_states(systems, times_s);
+    latitude_sweep_on_states(systems, &states, lats_deg, lons_deg, pdop_threshold)
+}
+
+/// [`latitude_sweep`] on given Earth-fixed satellite states (only each system's role, mask
+/// and clock model are read from `systems`).
+pub fn latitude_sweep_on_states(
+    systems: &[System],
+    states: &[Vec<([f64; 3], usize)>],
+    lats_deg: &[f64],
+    lons_deg: &[f64],
+    pdop_threshold: f64,
+) -> Vec<PolarRow> {
     lats_deg
         .iter()
         .map(|&lat| {
             let mut acc: [GroupAcc; 3] = Default::default();
-            for &lon in lons_deg {
-                let site = Site {
-                    lat_deg: lat,
-                    lon_deg: lon,
-                    height_m: 0.0,
-                };
-                let user = site.ecef();
-                let up = site.enu().2;
-                for sats in &states {
-                    let vis: Vec<([f64; 3], usize)> = sats
-                        .iter()
-                        .filter(|(p, k)| elevation(user, up, *p) >= systems[*k].mask_rad)
-                        .copied()
-                        .collect();
-                    for (g, a) in acc.iter_mut().enumerate() {
-                        let sel: Vec<([f64; 3], usize)> = vis
-                            .iter()
-                            .filter(|(_, k)| match g {
-                                0 => systems[*k].role == "gnss",
-                                1 => systems[*k].role == "leo",
-                                _ => true,
-                            })
-                            .copied()
-                            .collect();
-                        a.3 += sel.len();
-                        a.5 += 1;
-                        if let Some(d) = dop(user, &sel, &clocks) {
-                            a.0.push(d.pdop);
-                            a.1.push(d.hdop);
-                            a.2.push(d.vdop);
-                            if d.pdop <= pdop_threshold {
-                                a.4 += 1;
-                            }
+            for s in latitude_samples(systems, states, lat, lons_deg) {
+                for (g, a) in acc.iter_mut().enumerate() {
+                    a.3 += s.in_view[g];
+                    a.5 += 1;
+                    if let Some(d) = s.dop[g] {
+                        a.0.push(d.pdop);
+                        a.1.push(d.hdop);
+                        a.2.push(d.vdop);
+                        if d.pdop <= pdop_threshold {
+                            a.4 += 1;
                         }
                     }
                 }
