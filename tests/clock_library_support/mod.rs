@@ -93,6 +93,35 @@ pub fn f9p_stations() -> Option<Vec<(String, PhaseSeries)>> {
     Some(out)
 }
 
+/// RAIM sigma (m) of the corrected ZED-F9P pipeline: the 3 m code sigma scaled by the
+/// ionosphere-free L1/L2 noise factor sqrt(2.546^2 + 1.546^2) = 2.98.
+pub const F9P_RAIM_SIGMA_M: f64 = 3.0 * 2.98;
+
+/// The corrected ZED-F9P pipeline: per station, its 14 days as separate 30 s records split at
+/// every missing epoch (records of fewer than 5 epochs dropped), the receiver clock with the
+/// RAIM sigma [`F9P_RAIM_SIGMA_M`]. Records in time order. `None` when the data are absent.
+pub fn f9p_station_records() -> Option<Vec<(String, Vec<PhaseSeries>)>> {
+    let dir = f9p_dir();
+    let list = std::fs::read_to_string(dir.join("stations.tsv")).ok()?;
+    let mut out = Vec::new();
+    for line in list.lines().skip(1).filter(|l| !l.trim().is_empty()) {
+        let f: Vec<&str> = line.split('\t').collect();
+        let station = f[0].to_string();
+        let mut recs = Vec::new();
+        for doy in f[1].split(',') {
+            let obs = std::fs::read_to_string(dir.join(&station).join(format!("{doy}.rnx")))
+                .expect("station day");
+            let nav = std::fs::read_to_string(dir.join("brdc").join(format!("{doy}.rnx")))
+                .expect("brdc day");
+            let ep = receiver_clock_params(&obs, &nav, true, F9P_RAIM_SIGMA_M);
+            recs.extend(stretches_at(&ep, F9P_TAU0, F9P_TAU0 * 1.5, 4.0 * F9P_TAU0));
+        }
+        recs.sort_by(|a, b| a.t0.total_cmp(&b.t0));
+        out.push((station, recs));
+    }
+    Some(out)
+}
+
 /// Sampling of the Wroclaw ZED-F9P files, seconds.
 pub const F9P_TAU0: f64 = 30.0;
 
@@ -235,6 +264,16 @@ pub fn receiver_clock_with(
     nav_text: &str,
     gps_only: bool,
 ) -> Vec<(f64, Option<f64>)> {
+    receiver_clock_params(obs_text, nav_text, gps_only, RAIM_SIGMA_M)
+}
+
+/// [`receiver_clock_with`] with an explicit RAIM pseudorange sigma (m).
+pub fn receiver_clock_params(
+    obs_text: &str,
+    nav_text: &str,
+    gps_only: bool,
+    raim_sigma_m: f64,
+) -> Vec<(f64, Option<f64>)> {
     let obs = parse_obs(obs_text).expect("parse obs");
     let ephs = parse_nav(nav_text).expect("parse nav");
     let apriori = obs.header.approx_xyz.expect("approx xyz");
@@ -284,7 +323,7 @@ pub fn receiver_clock_with(
                         rows.push([u[0], u[1], u[2], 1.0]);
                         resid.push(m.pseudorange_m - pred);
                     }
-                    match parity_raim_test(&rows, &resid, RAIM_SIGMA_M, RAIM_PFA) {
+                    match parity_raim_test(&rows, &resid, raim_sigma_m, RAIM_PFA) {
                         Some(r) => alarm = r.alert,
                         None => alarm = true,
                     }
@@ -303,6 +342,17 @@ pub fn receiver_clock_with(
 /// [`SPLIT_GAP_S`] (missing or dropped epochs), keep the records of at least
 /// [`MIN_STRETCH_S`], each gridded at 1 s.
 pub fn stretches(epochs: &[(f64, Option<f64>)]) -> Vec<PhaseSeries> {
+    stretches_at(epochs, 1.0, SPLIT_GAP_S, MIN_STRETCH_S)
+}
+
+/// [`stretches`] at grid spacing `tau0`, splitting at gaps longer than `split_gap_s` and keeping
+/// records spanning at least `min_s` seconds.
+pub fn stretches_at(
+    epochs: &[(f64, Option<f64>)],
+    tau0: f64,
+    split_gap_s: f64,
+    min_s: f64,
+) -> Vec<PhaseSeries> {
     let present: Vec<(f64, f64)> = epochs
         .iter()
         .filter_map(|(t, c)| c.map(|c| (*t, c)))
@@ -310,14 +360,14 @@ pub fn stretches(epochs: &[(f64, Option<f64>)]) -> Vec<PhaseSeries> {
     let mut out = Vec::new();
     let mut cur: Vec<(f64, f64)> = Vec::new();
     let flush = |cur: &mut Vec<(f64, f64)>, out: &mut Vec<PhaseSeries>| {
-        if cur.len() >= 2 && cur[cur.len() - 1].0 - cur[0].0 >= MIN_STRETCH_S {
-            out.push(PhaseSeries::from_samples(cur, 1.0).0);
+        if cur.len() >= 2 && cur[cur.len() - 1].0 - cur[0].0 >= min_s {
+            out.push(PhaseSeries::from_samples(cur, tau0).0);
         }
         cur.clear();
     };
     for p in present {
         if let Some(last) = cur.last() {
-            if p.0 - last.0 > SPLIT_GAP_S {
+            if p.0 - last.0 > split_gap_s {
                 flush(&mut cur, &mut out);
             }
         }
