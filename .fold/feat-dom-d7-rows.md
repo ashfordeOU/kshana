@@ -195,13 +195,13 @@ Record:
 - Engine change it motivated: `PcpsResult::cell_average_statistic` / `acquired_cell_average`
   (commit 917890e0), unit-tested on coloured synthetic noise.
 
-## D7-b4. Acquisition on real lunar-surface IQ scored by orbit-predicted Doppler (new row, MODELLED)
+## D7-b4. Acquisition on held-out real lunar IQ against orbit-predicted Doppler (new row, MODELLED)
 
 Proposed row:
 
 ```rust
 VerificationItem {
-    requirement: "Acquisition on real lunar-surface IQ",
+    requirement: "Acquisition on held-out real lunar IQ against orbit-predicted Doppler",
     capability: "acquisition::pcps_acquire (cell-averaging decision, false-alarm probability 1e-7) with refine_doppler_coherent on the LuGRE L1 batches recorded on the lunar surface (I in the high nibble, mid-rise levels); Doppler differences between acquired satellites against differences predicted from ESA final orbits and the Firefly landing-site kernel",
     module: "acquisition, realdata::ion_sdr, realdata::lugre",
     tests: "tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (pinned finding, data-gated); lugre_surface_acquisition_doppler_oracle::surface_acquisitions_match_the_orbit_predicted_doppler (strict, ignored with the gap)",
@@ -222,6 +222,11 @@ Record:
   of about +0.35 ppm, consistent with the I/Q fix; OP78_1 is unexplained.
 - Mutation evidence: dropping the halving in `refine_doppler_coherent` turns the pin red; edited
   back.
+- Tolerance source, stated against the integrator's instruction (scatter on the ALREADY-SEEN
+  batches): the registered 10 Hz bar rests on a synthetic Monte Carlo of the coherent
+  refinement (RMS 0.21 Hz at 30 dB-Hz), registered and pushed before the integrator's message was
+  read; on the seen batches the refinement had only been measured in its non-coherent form
+  (30 to 50 Hz between runs). The run was not repeated to change that: it was the one blind run.
 - Lesson for the next registration (none is made here): the surface signals are weaker than
   the development set's strongest; a longer integration (OP73 and OP76 hold 2 s) is the
   dominant next step, registered before it is run.
@@ -265,13 +270,18 @@ edited.
    measured two-dimensional transmit patterns (NAVCEN Block IIR/IIR-M), plus geometric
    visibility; absolute C/N0 is not claimed (Parker et al. report a common 7 to 12 dB loss)."
    Status stays MODELLED: the LuGRE data hold one usable IIR/IIR-M pair (D7-c).
-2. **CC BY 4.0 attribution: ADOPTED** as written into every LuGRE fixture NOTICE: "Contains
+2. **CC BY 4.0 attribution: ADOPTED**, in `docs/LUGRE-DATA.md` and every LuGRE fixture NOTICE.
+   Proposed line for the README and the top-level NOTICE (integrator to apply): "LuGRE Mission
+   Data (doi 10.5281/zenodo.16411687), NASA and Agenzia Spaziale Italiana, CC BY 4.0; derived
+   extracts only, see docs/LUGRE-DATA.md." The text: "Contains
    data from the Lunar GNSS Receiver Experiment (LuGRE) Mission Data, J. Parker, F. Dovis et al.,
    NASA and Agenzia Spaziale Italiana, Zenodo, doi 10.5281/zenodo.16411687, licensed under
    CC BY 4.0. Kshana's fixtures are derived extracts; no sample file is redistributed."
 3. **I/Q order: FIXED in the engine** (3c480336): `ion_sdr` fills words from the most significant
    bit, putting I in the high nibble of a LuGRE byte; the earlier reading stays available as
-   `SdrLayout::fill_lsb_first` and the registered comparisons request it explicitly. A further
+   `SdrLayout::fill_lsb_first` and the registered comparisons request it explicitly. Unit test
+   `a_sub_byte_stream_of_known_order_keeps_the_doppler_sign` decodes a synthetic 4-bit stream of
+   known order and Doppler. Any comparison using the corrected reading needs a fresh registration. A further
    reader defect found on the way (a sample wider than a word) is fixed (87f6bb95), and it
    showed that OP5 and OP12 had been excluded in error (corrected in the record).
 4. **Blind registration on the held-out surface batches: DONE**, D7-b4 (2108e6ff), with the

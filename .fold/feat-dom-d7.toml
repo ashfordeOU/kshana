@@ -32,6 +32,7 @@ owned = [
   "xval/lugre-predicted-doppler/",
   "xval/lugre-relative-cn0/",
   "xval/portable-fft-wasm/",
+  "docs/LUGRE-DATA.md",
   "changelog.d/feat-dom-d7.md",
   ".fold/feat-dom-d7.toml",
   ".fold/feat-dom-d7-rows.md",
@@ -52,7 +53,7 @@ rows = [
   { id = "D7-b",  requirement = "Acquisition and C/N0 estimation on real lunar IQ", status = "MODELLED", outcome = "FINDING", prereg = "768cb62b" },
   { id = "D7-b2", requirement = "Acquisition on real lunar IQ against orbit-predicted Doppler (sample-power decision)", status = "MODELLED", outcome = "FINDING", prereg = "0d1839d2" },
   { id = "D7-b3", requirement = "Acquisition on real lunar IQ scored by orbit-predicted Doppler", status = "MODELLED", outcome = "FINDING", prereg = "a81a9a4e" },
-  { id = "D7-b4", requirement = "Acquisition on real lunar-surface IQ scored by orbit-predicted Doppler", status = "MODELLED", outcome = "FINDING", prereg = "2108e6ff" },
+  { id = "D7-b4", requirement = "Acquisition on held-out real lunar IQ against orbit-predicted Doppler", status = "MODELLED", outcome = "FINDING", prereg = "2108e6ff" },
   { id = "D7-c",  requirement = "Earth-GNSS at lunar distance (M039, row 91) relative C/N0 plus visibility", status = "MODELLED (unchanged)", outcome = "FINDING", prereg = "768cb62b" },
 ]
 
