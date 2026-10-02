@@ -16,13 +16,13 @@ MODELLED rows were put to an external oracle in the first round and the remainin
 rows in the second; every disagreement is recorded below as a finding rather than tuned
 away. Three rows were split so that a validated part does not carry an unvalidated
 remainder, which takes the matrix from 223 to 226 rows; the validation packages folded since
-take it to 238. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
+take it to 242. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
 
 | | 0.29.0 | after round 1 | Unreleased |
 | --- | --- | --- | --- |
-| Verification-matrix rows | 223 | 223 | 238 |
-| of which VALIDATED against an external oracle | 83 | 93 | 121 |
-| of which MODELLED | 136 | 126 | 113 |
+| Verification-matrix rows | 223 | 223 | 242 |
+| of which VALIDATED against an external oracle | 83 | 93 | 123 |
+| of which MODELLED | 136 | 126 | 115 |
 | of which PARTNER | 4 | 4 | 4 |
 
 <details>
@@ -568,6 +568,51 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
 - Not routed yet: `leo_pass`, the doppler, joint and timing `leo-pvt` modes and the
   `leo_navmsg` truth orbit (their models live in `leo_link::geometry` and `leo_fusion::geom`),
   and Earth designs in `constellation-design` (a named two-body fast tier).
+
+**D6, LunaNet AFS reference generator, LSIS V1.0 (four new rows, two VALIDATED: 238 -> 242 rows, validated 121 -> 123).**
+
+- **LunaNet Augmented Forward Signal (AFS) reference generator** (`lunar_afs`), pinned to the
+  LunaNet Signal-In-Space Recommended Standard (LSIS) V1.0 of 29 January 2025 and naming that
+  version in every output: the 2492.028 MHz carrier; the AFS-I BPSK(1) data channel at 500
+  symbols per second with its 2046-chip Gold code; the AFS-Q BPSK(5) pilot with its 10230-chip
+  Weil primary, 4-chip secondary and 1500-chip tertiary codes; the frame identifier 0 frame
+  (synchronisation pattern, BCH (51, 8) subframe 1, CRC-24, rate one-half LDPC subframes 2 to
+  4, 60 by 98 block interleaver) with an exhaustive subframe-1 decoder and a min-sum LDPC
+  decoder written from the parity-check matrix alone; and baseband IQ synthesis with truth
+  labels written as a SigMF recording. Codes are generated from the standard's shift registers
+  and Legendre/Weil constructions. Nothing copied from the standard is redistributed (it
+  carries no reuse terms): the AFS-Q primary indices come from IS-GPS-800J, and what only the
+  standard's attachments define (AFS-I G2 delays, tertiary codes, LDPC submatrices) is read at
+  run time from a local cache that `xval/lunar-afs/fetch_lsis.sh` fills from the NASA-hosted
+  PDF, every file checked against a pinned SHA-256 (`lunar_afs::lsis`). The model is a
+  conformance reference, not a channel, propagation or link-budget model.
+- `sigmf::meta_to_json_with_extensions` and `sigmf::annotation_extension_fields`: a recording
+  can carry namespaced extension fields declared in `core:extensions`.
+- New VALIDATED row "LunaNet AFS baseband rendering against an independent generator, given
+  its channel state": against LANS-AFS-SIM (BSD-2-Clause, commit 480c6bf3, S-band build), zero
+  chip mismatches over the codes of PRNs 1 to 210, zero symbol mismatches over the three frames
+  of the run, and a normalised complex correlation of 0.999990 over 23.9 s of its own samples
+  (worst 2 ms block 0.999948), inside bars fixed before the comparison (pre-registered
+  986ac280). It drives the renderer with the simulator's own channel state and does not cover
+  the power split from the carrier-to-noise density or the SigMF and 8-bit writing.
+- New VALIDATED row "LunaNet AFS frame channel coding, FID 0": the 6000-symbol frames equal
+  LANS-AFS-SIM's symbol for symbol (pre-registered 986ac280); the subframe-1 code reproduces the
+  LSIS Figure 8 worked example and the CRC-24 the CRC-24/LTE-A catalogue check value.
+- Both promoted rows are data-gated on the LSIS cache: their oracle test skips with a notice
+  until `xval/lunar-afs/fetch_lsis.sh` has been run.
+- Finding (new MODELLED row), "LunaNet AFS spreading-code generation": of 2 937 232 generated
+  chips and bits compared with the standard's tables and Annex 3 files, one differs, the "last
+  24 chips" Table E-5 prints for tertiary PRN 147, which duplicates the PRN 151 cell while the
+  standard's own Annex 3 file agrees with the generator. The zero-mismatch criterion is missed.
+- Finding (new MODELLED row), "LunaNet AFS closed-loop decodability": three pre-registered runs
+  against PocketSDR-AFS; the third met its tracking and decoding bars in full but not its guard
+  that a print-only receiver build reproduces the pinned build's log, because two runs of the
+  unmodified receiver already differ in their acquisition records.
+- Fixed: the default carrier of `lunar_service` (`export_antenna.carrier_hz`), `lunar_jamming`
+  and `attack_surface` was a rounded 2.4 GHz; it is now the LSIS-020 AFS carrier,
+  2492.028 MHz. At the old default free-space loss was understated by 0.327 dB.
+- Revisions: none. Every bundled scenario names its carrier, and all 138 bundled scenario
+  results are byte-identical to the previous main.
 
 ### Fixed
 
