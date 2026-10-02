@@ -20,6 +20,9 @@
 //! capability — its reference tests are self-consistency checks (forward→inverse round
 //! trips, `J·CRLB = I`, geometry-driven GDOP behaviour), not an external dataset.
 
+// Dense small-matrix algebra (inverses, Cholesky, Fisher sums) reads clearest with indices.
+#![allow(clippy::needless_range_loop)]
+
 /// A 3-vector `[x, y, z]` (m, or m/s for velocities).
 pub type Vec3 = [f64; 3];
 

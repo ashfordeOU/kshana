@@ -29,6 +29,7 @@
 //! uncertainty plus three standard errors of a Monte Carlo root-mean-square error (RMSE),
 //! 3/sqrt(2N) for N trials: 0.01 + 3/sqrt(40 000) = 0.025 with N = 20 000.
 //!
+//!
 //! A. Ho and Chan 1993, geometric factor G_e of Eq. (31), RMSE / (c sigma_D), for three
 //!    geostationary receivers (orbit radius 42 164 km, latitude 0) and an emitter on a
 //!    spherical Earth of radius 6 378 km (Section II), TDOAs D21 and D32 with covariance
@@ -47,10 +48,12 @@
 //!      (G_e falls with latitude and longitude, p. 1319), so the emitter is at 40 deg N, 0 deg.
 //!      Compared: G_e(2 deg) with 1718, and sigma_D = 2000 m / (G_e(30 deg) x 3e5 km/s), the
 //!      paper's c (Appendix A), with 0.832 us.
+//!
 //! B. Ho and Chan 1993, Appendix A, Eq. (42), p. 1320: emitter on the equator under s1,
 //!    s2 at eta = acos(6378 / 42164) = 81.3 deg from s1: maximum TDOA "19.64 ms" with
 //!    c = 3 x 10^5 km/s. Kshana: `tdoa_predict` converted to the paper's c (x 299 792 458 /
 //!    3e8); tolerance 0.005 ms.
+//!
 //! C. Ho and Xu 2004, Figs. 6 and 7 (p. 2460-2461), solid lines: the CRLB of position and of
 //!    velocity, as RMSE, for receivers of Table I (p. 2460), TDOA and FDOA (range and
 //!    range-rate difference) covariances c^2 sigma_d^2 R and 0.1 c^2 sigma_d^2 R, R with 1 on
@@ -62,6 +65,7 @@
 //!    (procedure in its header, committed with this file) writes the value of each solid line at
 //!    0 dB from a fixed-slope fit; a panel the script marks void is not compared and the test
 //!    fails on it.
+//!
 //! D. Ho and Xu 2004, Section V-B and Fig. 6/7: at low noise the published estimator "reaches
 //!    the CRLB". Kshana's covariance-weighted maximum-likelihood Gauss-Newton solver
 //!    `solve_tdoa_fdoa_cov`, seeded at the true state, over N = 20 000 seeded Gaussian trials:
@@ -283,6 +287,7 @@ fn ho_xu_2004_crlb_lines() {
 
 /// Monte Carlo RMSE (position, velocity) of the covariance-weighted solver, or the number of
 /// non-converged trials.
+#[allow(clippy::needless_range_loop)]
 fn monte_carlo_rmse(source: (Vec3, Vec3), noise: f64, n: usize, seed: u64) -> (f64, f64, usize) {
     let (s, sd) = table_1();
     let (p, v) = source;
@@ -338,8 +343,8 @@ fn ho_xu_2004_ml_estimator_attains_the_printed_bound() {
     let tol = 0.01 + 3.0 / (2.0 * N as f64).sqrt();
     let mut ck = Check::new();
     for (figure, source, x_db, seed) in [
-        ("fig6_far_field", FAR, -30.0, 2004_06u64),
-        ("fig7_near_field", NEAR, -20.0, 2004_07u64),
+        ("fig6_far_field", FAR, -30.0, 200_406_u64),
+        ("fig7_near_field", NEAR, -20.0, 200_407_u64),
     ] {
         let noise = 10f64.powf(x_db / 10.0);
         let (rp, rv, bad) = monte_carlo_rmse(source, noise, N, seed);
@@ -381,7 +386,8 @@ fn ho_xu_2004_ml_estimator_attains_the_printed_bound() {
 //
 // E. Fig. 7 against the authors' corrected source u = [600, 650, 550] m (same velocity): the
 //    block C comparison (1 % of each reading) and the block D Monte Carlo check at -20 dB
-//    (bar 0.025, N = 20 000, seed 2004_17), unchanged in every other respect.
+//    (bar 0.025, N = 20 000, seed 200 417), unchanged in every other respect.
+//
 // F. A second, independent oracle for the bound itself: the authors' function
 //    TDOAFDOALocMvgSrcSenCRLB.m (Le Yang and K. C. Ho, revised 2010), run under GNU Octave 8.4
 //    as a separate program by `tests/fixtures/geolocation_crlb_published_oracle/
@@ -411,7 +417,7 @@ fn ho_xu_2004_fig7_with_the_authors_corrected_source() {
     const N: usize = 20_000;
     let tol = 0.01 + 3.0 / (2.0 * N as f64).sqrt();
     let x_db = -20.0;
-    let (rp, rv, bad) = monte_carlo_rmse(NEAR_ERRATUM, 10f64.powf(x_db / 10.0), N, 2004_17);
+    let (rp, rv, bad) = monte_carlo_rmse(NEAR_ERRATUM, 10f64.powf(x_db / 10.0), N, 200_417);
     if bad > 0 {
         ck.fail(format!(
             "fig7 corrected source: {bad} of {N} trials did not converge"
