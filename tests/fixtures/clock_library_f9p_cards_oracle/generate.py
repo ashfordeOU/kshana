@@ -4,7 +4,8 @@
 
 Source: Zenodo record 6488497 (doi:10.5281/zenodo.6488497), "RINEX files from low-cost GNSS
 receivers in Wroclaw, Poland; January - March, 2021", CC BY 4.0: daily 30 s multi-GNSS RINEX of
-static u-blox ZED-F9P receivers. Broadcast navigation: IGS merged BRDC00IGS_R_2021<DOY>0000_01D_MN
+static u-blox ZED-F9P receivers. Broadcast navigation: IGS merged GPS file BRDC00WRD_R_2021<DOY>0000_01D_GN (the pre-registration
+named BRDC00IGS_R, which does not exist for 2021)
 from the BKG mirror. Committed with the pre-registration, before it was first run. It computes no
 statistic.
 
@@ -69,7 +70,8 @@ def main():
     for d in sorted(doys_all):
         out = DEST / "brdc" / f"{d:03d}.rnx"
         if not out.exists():
-            name = f"BRDC00IGS_R_2021{d:03d}0000_01D_MN.rnx.gz"
+            # The IGS merged file of 2021 is BRDC00WRD (GPS-only GN); BRDC00IGS starts later.
+            name = f"BRDC00WRD_R_2021{d:03d}0000_01D_GN.rnx.gz"
             raw = get(f"https://igs.bkg.bund.de/root_ftp/IGS/BRDC/2021/{d:03d}/{name}")
             shas.append(f"{hashlib.sha256(raw).hexdigest()}  {name}")
             out.write_bytes(gzip.decompress(raw))
