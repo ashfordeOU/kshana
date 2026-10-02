@@ -92,6 +92,23 @@
 //! * **Mutation check, planned now.** After the comparison, a deliberate reader mutation
 //!   (evaluating each record at `-s` instead of `s`) is applied and the strict test must turn
 //!   red; the edit is then reverted.
+//!
+//! ## Result (run after the pre-registration commit abcd9133 was published)
+//!
+//! Seed 12379710599223412932 (commit abcd913310d988c4ccb0babae9144ea53af2b1a5). Disclosure:
+//! the generator's first run aborted on its first SPICE call because it computed the grid
+//! interval as the intersection of individual segments, which is empty for the lunar
+//! orientation kernel (split in two at 2426); no oracle value was produced. The interval was
+//! corrected to the intersection of each body's covered span, as the text above intends, and
+//! the second run is the one recorded. The cut kernels hold 1051 SPK and 199 PCK records, each
+//! verified by SPICE to evaluate bit for bit like the full files.
+//!
+//! All 600 states and 200 rotations are inside the bars against both oracles, on the cut
+//! kernels and on the full NAIF files. Worst difference over its bar: position 6.0e-3 (SPICE)
+//! and 6.0e-3 (ANISE), velocity 5.9e-3 and 5.9e-3, rotation 3.7e-3 and 3.5e-3. Worst absolute
+//! position difference 1.95e-3 m (one unit in the last place of a barycentric outer-planet
+//! position), worst rotation element 3.8e-12. Mutation: evaluating every record at `-s` turns
+//! both strict tests red (3597 comparisons outside the bar); reverted.
 
 use kshana::naif_kernel::{PckKernel, SpkKernel};
 
@@ -190,6 +207,9 @@ struct Worst {
     rot_anise: f64,
     pos_abs_spice: f64,
     rot_abs_spice: f64,
+    /// Information only: worst absolute position difference from SPICE for the Moon relative to
+    /// the Earth (m), the pair the lunar paths consume.
+    moon_earth_abs_spice: f64,
     failures: usize,
 }
 
@@ -214,6 +234,9 @@ fn compare(spk: &SpkKernel, pck: &PckKernel) -> Worst {
             let dp_a = (st[0][k] - s.anise[k] * 1e3).abs();
             let dv_a = (st[1][k] - s.anise[3 + k] * 1e3).abs();
             w.pos_abs_spice = w.pos_abs_spice.max(dp_s);
+            if (s.target, s.observer) == (301, 399) {
+                w.moon_earth_abs_spice = w.moon_earth_abs_spice.max(dp_s);
+            }
             w.pos_spice = w.pos_spice.max(dp_s / bar_p);
             w.vel_spice = w.vel_spice.max(dv_s / bar_v);
             w.pos_anise = w.pos_anise.max(dp_a / bar_pa);
@@ -259,7 +282,6 @@ fn compare(spk: &SpkKernel, pck: &PckKernel) -> Worst {
 
 /// The strict pre-registered comparison on the cut kernels committed with the fixture.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn reader_matches_spice_and_anise_on_the_post_registration_grid() {
     let spk = SpkKernel::open(std::path::Path::new(&format!("{DIR}grid_de440s.bsp"))).unwrap();
     let pck = PckKernel::open(std::path::Path::new(&format!(
@@ -294,7 +316,6 @@ fn sha256_hex(path: &std::path::Path) -> String {
 
 /// The same comparison and bars on the full NAIF files, when they are present (data-gated).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn reader_matches_spice_and_anise_on_the_full_naif_kernels_when_present() {
     let Some(dir) = full_kernel_dir() else {
         eprintln!(
