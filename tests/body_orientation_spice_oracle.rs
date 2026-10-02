@@ -37,6 +37,18 @@
 //!   round-1 pre-registered test `tests/body_constants_naif_oracle.rs`.
 //! * PROMOTE only if every one of the 574 matrices is within tolerance and the round-1
 //!   constants test passes.
+//!
+//! ## Result (2026-10-02, first run after the engine moved to the full pck00011 model; not tuned)
+//!
+//! All 574 matrices of the fourteen added bodies within 1e-9 rad. Worst per body: Phobos
+//! 1.43e-10, Jupiter 4.27e-11, Saturn 3.93e-11, Uranus 3.74e-11, Deimos 3.45e-11, Neptune
+//! 2.02e-11, Io 1.26e-11, Europa 8.74e-12, Ganymede 3.28e-12, Pluto 2.66e-12, Callisto
+//! 1.36e-12, Titan 1.14e-12, Mercury 4.62e-13, Venus 7.11e-14 rad. Information only: the Sun
+//! 6.4e-13 rad; Earth 6.6e-3, Moon 2.8e-2 and Mars 9.6e-4 rad, because those three keep their
+//! conventional constants without pck00011's rates and periodic terms (owned by other rows).
+//! Mutation: dropping the century-squared term of the phase angles (Phobos's fifth Mars-system
+//! angle, 12.71 deg per century squared) turns the test red, Phobos 40 of 41 epochs outside,
+//! worst 8.7e-4 rad. The round-1 constants test passes on the same engine change.
 
 use kshana::body::Body;
 
@@ -84,7 +96,9 @@ fn angle(a: &[[f64; 3]; 3], b: &[[f64; 3]; 3]) -> f64 {
             s += d * d;
         }
     }
-    2.0 * (s.sqrt() / (2.0 * std::f64::consts::SQRT_2)).min(1.0).asin()
+    2.0 * (s.sqrt() / (2.0 * std::f64::consts::SQRT_2))
+        .min(1.0)
+        .asin()
 }
 
 /// Per body: (largest angle, epochs within tolerance, epochs).
@@ -108,14 +122,15 @@ fn compare() -> Vec<(String, f64, usize, usize)> {
         } else {
             "information"
         };
-        eprintln!("M109 orientation {n:9} ({tag}): worst {worst:.3e} rad, {ok}/{all} within 1e-9 rad");
+        eprintln!(
+            "M109 orientation {n:9} ({tag}): worst {worst:.3e} rad, {ok}/{all} within 1e-9 rad"
+        );
     }
     out
 }
 
 /// The pre-registered comparison: every matrix of the fourteen added bodies within 1e-9 rad.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn orientation_matches_spice_pxform_for_the_fourteen_added_bodies() {
     let res = compare();
     let verdict: Vec<_> = res
@@ -127,7 +142,8 @@ fn orientation_matches_spice_pxform_for_the_fourteen_added_bodies() {
     assert_eq!(n, 14 * 41, "41 epochs per body");
     for (name, worst, ok, all) in verdict {
         assert_eq!(
-            ok, all,
+            ok,
+            all,
             "{name}: {} of {all} epochs outside 1e-9 rad (worst {worst:.3e} rad)",
             all - ok
         );

@@ -30,6 +30,7 @@ use crate::gravity_sh::SphericalHarmonicField;
 /// Degrees → radians, for the IAU pole/prime-meridian constants below (which are published in
 /// degrees and degrees-per-day).
 const DEG: f64 = std::f64::consts::PI / 180.0;
+const TAU: f64 = std::f64::consts::TAU;
 
 /// A central body's gravitational and orientation parameters — the constants a propagator's
 /// central-gravity path needs to be body-agnostic instead of Earth-hard-coded.
@@ -58,6 +59,51 @@ pub struct Body {
     pub prime_w0: f64,
     /// IAU prime-meridian rotation rate `Ẇ` (rad/day).
     pub prime_w_dot: f64,
+    /// The rest of the IAU rotation model beyond the four constants above: the pole's century
+    /// rates, the quadratic prime-meridian term and the periodic (nutation-precession) terms,
+    /// as the NAIF `pck00011.tpc` kernel carries them. `None` evaluates the four constants alone
+    /// (the Sun, Earth, Moon and Mars carry their conventional mean constants this way).
+    pub iau_terms: Option<IauRotationTerms>,
+}
+
+/// The time-dependent part of an IAU rotation model (IAU Working Group on Cartographic
+/// Coordinates and Rotational Elements, 2015 report, in the form of the NAIF generic kernel
+/// `pck00011.tpc`). With `T` Julian centuries and `d` days past J2000 TDB and the phase angles
+/// `θᵢ = θᵢ₀ + θᵢ₁ T + θᵢ₂ T²`:
+///
+/// * pole right ascension `α = α₀ + α₁ T + Σ aᵢ sin θᵢ`;
+/// * pole declination `δ = δ₀ + δ₁ T + Σ bᵢ cos θᵢ`;
+/// * prime meridian `W = W₀ + Ẇ d + W₂ d² + Σ cᵢ sin θᵢ`.
+///
+/// `α₀, δ₀, W₀, Ẇ` are the [`Body`] fields; everything else is here, in degrees.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct IauRotationTerms {
+    /// `α₁` (deg per Julian century).
+    pub pole_ra_rate_deg_per_century: f64,
+    /// `δ₁` (deg per Julian century).
+    pub pole_dec_rate_deg_per_century: f64,
+    /// `W₂` (deg per day²).
+    pub prime_w_quad_deg_per_day2: f64,
+    /// Phase angles `[θᵢ₀ (deg), θᵢ₁ (deg/century), θᵢ₂ (deg/century²)]` of the body's system.
+    pub angles: &'static [[f64; 3]],
+    /// `aᵢ` (deg), paired with `angles` by index.
+    pub ra_sin_deg: &'static [f64],
+    /// `bᵢ` (deg).
+    pub dec_cos_deg: &'static [f64],
+    /// `cᵢ` (deg).
+    pub w_sin_deg: &'static [f64],
+}
+
+impl IauRotationTerms {
+    /// The same terms with the prime-meridian part removed (no quadratic or periodic `W`
+    /// terms), for a frame that keeps the pole but freezes the prime meridian.
+    pub fn without_prime_meridian(self) -> Self {
+        Self {
+            prime_w_quad_deg_per_day2: 0.0,
+            w_sin_deg: &[],
+            ..self
+        }
+    }
 }
 
 impl Body {
@@ -79,6 +125,7 @@ impl Body {
             pole_dec0: 90.0 * DEG,
             prime_w0: 190.147 * DEG,
             prime_w_dot: 360.985_623_5 * DEG,
+            iau_terms: None,
         }
     }
 
@@ -99,6 +146,7 @@ impl Body {
             pole_dec0: 52.886 * DEG,
             prime_w0: 176.630 * DEG,
             prime_w_dot: 350.891_982_26 * DEG,
+            iau_terms: None,
         }
     }
 
@@ -177,6 +225,7 @@ impl Body {
             pole_dec0: 66.5392 * DEG,
             prime_w0: 38.3213 * DEG,
             prime_w_dot: 13.176_358 * DEG,
+            iau_terms: None,
         }
     }
 
@@ -196,17 +245,21 @@ impl Body {
             pole_dec0: 63.87 * DEG,
             prime_w0: 84.176 * DEG,
             prime_w_dot: 14.1844 * DEG,
+            iau_terms: None,
         }
     }
 
     // ------------------------------------------------------------------------
     // The rest of the solar system. Gravitational parameters: the JPL Horizons
     // body records (planets, DE440-series values) and the JPL Solar System
-    // Dynamics planetary-satellite physical-parameter table (moons). Radii: the
+    // Dynamics planetary-satellite physical-parameter table (moons); Uranus,
+    // Neptune, Pluto, Phobos and Deimos from NAIF gm_de440.tpc. Radii: the
     // JPL planetary physical-parameter table (IAU WGCCRE 2015, Archinal et al.
-    // 2018). Pole, prime meridian and rate: IAU WGCCRE 2015 mean values (2009
-    // for Phobos and Deimos), without the T-rate and periodic terms. A negative
-    // prime-meridian rate (and rotation rate) marks retrograde rotation.
+    // 2018). Orientation: the IAU WGCCRE 2015 rotation model as NAIF
+    // pck00011.tpc carries it, the constant terms in the four fields and the
+    // century rates, quadratic and periodic terms in `iau_terms` (constants at
+    // the bottom of this file). A negative prime-meridian rate (and rotation
+    // rate) marks retrograde rotation.
     // ------------------------------------------------------------------------
 
     /// **Mercury** — `μ = 2.203186855e13 m³/s²`, reference radius 2 440 000 m (the radius
@@ -220,6 +273,7 @@ impl Body {
             2_440_000.0,
             &MERCURY_ZONALS_J2,
             [281.0103, 61.4155, 329.5988, 6.138_510_8],
+            Some(MERCURY_TERMS),
         )
     }
 
@@ -233,6 +287,7 @@ impl Body {
             6_051_800.0,
             &[],
             [272.76, 67.16, 160.20, -1.481_368_8],
+            None,
         )
     }
 
@@ -247,6 +302,7 @@ impl Body {
             71_492_000.0,
             &JUPITER_ZONALS_J2,
             [268.056_595, 64.495_303, 284.95, 870.536_000_0],
+            Some(JUPITER_TERMS),
         )
     }
 
@@ -261,69 +317,87 @@ impl Body {
             60_330_000.0,
             &SATURN_ZONALS_J2,
             [40.589, 83.537, 38.90, 810.793_902_4],
+            Some(SATURN_TERMS),
         )
     }
 
-    /// **Uranus** — `μ = 5.7939506103e15 m³/s²`, reference radius 25 559 km,
+    /// **Uranus** — `μ = 5.793951256527211e15 m³/s²` (NAIF `gm_de440.tpc`, BODY799), reference
+    /// radius 25 559 km,
     /// `J2 = 3.5107e-3` (Jacobson 2014, same reference radius), IAU pole
     /// (257.311°, −15.175°), `W = 203.81° − 501.1600928°/day` (retrograde).
     pub fn uranus() -> Self {
         Self::point(
             "Uranus",
-            5.793_950_610_3e15,
+            5.793_951_256_527_211e15,
             25_559_000.0,
             &URANUS_ZONALS_J2,
             [257.311, -15.175, 203.81, -501.160_092_8],
+            None,
         )
     }
 
-    /// **Neptune** — `μ = 6.83509997e15 m³/s²`, reference radius **25 225 km**
+    /// **Neptune** — `μ = 6.835103145462294e15 m³/s²` (NAIF `gm_de440.tpc`, BODY899), reference
+    /// radius **25 225 km**
     /// (the radius Jacobson 2009 references `J2 = 3.4084e-3` to; the 1-bar
     /// equatorial radius, 24 764 km, is in [`BodyFacts`]), IAU pole (299.36°,
-    /// 43.46°, without the Neptune-node terms), `W = 249.978° + 541.1397757°/day`.
+    /// 43.46°, plus the Neptune-node term N), `W = 249.978° + 541.1397757°/day − 0.48° sin N`.
     pub fn neptune() -> Self {
         Self::point(
             "Neptune",
-            6.835_099_97e15,
+            6.835_103_145_462_294e15,
             25_225_000.0,
             &NEPTUNE_ZONALS_J2,
             [299.36, 43.46, 249.978, 541.139_775_7],
+            Some(NEPTUNE_TERMS),
         )
     }
 
-    /// **Pluto** — `μ = 8.69326e11 m³/s²` (Pluto alone), radius 1 188 300 m, IAU
+    /// **Pluto** — `μ = 8.696138177608748e11 m³/s²` (Pluto alone, NAIF `gm_de440.tpc`, BODY999),
+    /// radius 1 188 300 m, IAU
     /// 2015 pole (132.993°, −6.163°), `W = 302.695° + 56.3625225°/day`.
     pub fn pluto() -> Self {
         Self::point(
             "Pluto",
-            8.693_26e11,
+            8.696_138_177_608_748e11,
             1_188_300.0,
             &[],
             [132.993, -6.163, 302.695, 56.362_522_5],
+            None,
         )
     }
 
-    /// **Phobos** — `μ = 7.087e5 m³/s²`, mean radius 11 080 m, IAU 2009 pole
-    /// (317.68°, 52.90°), synchronous `W = 35.06° + 1128.8445850°/day`.
+    /// **Phobos** — `μ = 7.087546066894452e5 m³/s²` (NAIF `gm_de440.tpc`, BODY401), mean radius
+    /// 11 080 m, the IAU 2015 rotation model as corrected in NAIF `pck00011.tpc` (pole
+    /// 317.67071657°, 52.88627266° with century rates, `W = 35.18774440° + 1128.84475928°/day`
+    /// plus a quadratic term, and the Mars-system periodic terms in [`IauRotationTerms`]).
     pub fn phobos() -> Self {
         Self::point(
             "Phobos",
-            7.087e5,
+            7.087_546_066_894_452e5,
             11_080.0,
             &[],
-            [317.68, 52.90, 35.06, 1_128.844_585_0],
+            [
+                317.670_716_57,
+                52.886_272_66,
+                35.187_744_40,
+                1_128.844_759_28,
+            ],
+            Some(PHOBOS_TERMS),
         )
     }
 
-    /// **Deimos** — `μ = 9.62e4 m³/s²`, mean radius 6 200 m, IAU 2009 pole
-    /// (316.65°, 53.52°), synchronous `W = 79.41° + 285.1618970°/day`.
+    /// **Deimos** — `μ = 9.615569648120313e4 m³/s²` (NAIF `gm_de440.tpc`, BODY402), mean radius
+    /// 6 200 m, the IAU 2015 rotation model of NAIF `pck00011.tpc` (pole 316.65705808°,
+    /// 53.50992033° with century rates, `W = 79.39932954° + 285.16188899°/day`, and the
+    /// Mars-system periodic terms in [`IauRotationTerms`]).
     pub fn deimos() -> Self {
         Self::point(
             "Deimos",
-            9.62e4,
+            9.615_569_648_120_313e4,
             6_200.0,
             &[],
-            [316.65, 53.52, 79.41, 285.161_897_0],
+            [316.657_058_08, 53.509_920_33, 79.399_329_54, 285.161_888_99],
+            Some(DEIMOS_TERMS),
         )
     }
 
@@ -336,6 +410,7 @@ impl Body {
             1_821_490.0,
             &[],
             [268.05, 64.50, 200.39, 203.488_953_8],
+            Some(IO_TERMS),
         )
     }
 
@@ -348,6 +423,7 @@ impl Body {
             1_560_800.0,
             &[],
             [268.08, 64.51, 36.022, 101.374_723_5],
+            Some(EUROPA_TERMS),
         )
     }
 
@@ -360,6 +436,7 @@ impl Body {
             2_631_200.0,
             &[],
             [268.20, 64.57, 44.064, 50.317_608_1],
+            Some(GANYMEDE_TERMS),
         )
     }
 
@@ -372,6 +449,7 @@ impl Body {
             2_410_300.0,
             &[],
             [268.72, 64.83, 259.51, 21.571_071_5],
+            Some(CALLISTO_TERMS),
         )
     }
 
@@ -384,13 +462,21 @@ impl Body {
             2_574_760.0,
             &[],
             [39.4827, 83.4279, 186.5855, 22.576_976_8],
+            None,
         )
     }
 
     /// A body with no tesseral field, from its `μ`, reference radius, zonals and
     /// IAU `[α₀, δ₀, W₀, Ẇ]` (degrees and degrees per day). The spin rate is `Ẇ`
     /// in rad/s.
-    fn point(name: &'static str, mu: f64, re: f64, zonals: &'static [f64], iau: [f64; 4]) -> Self {
+    fn point(
+        name: &'static str,
+        mu: f64,
+        re: f64,
+        zonals: &'static [f64],
+        iau: [f64; 4],
+        iau_terms: Option<IauRotationTerms>,
+    ) -> Self {
         Self {
             name,
             mu,
@@ -402,6 +488,7 @@ impl Body {
             pole_dec0: iau[1] * DEG,
             prime_w0: iau[2] * DEG,
             prime_w_dot: iau[3] * DEG,
+            iau_terms,
         }
     }
 
@@ -437,20 +524,46 @@ impl Body {
         SOLAR_SYSTEM.iter().find(|f| f.name == self.name)
     }
 
-    /// IAU prime-meridian angle `W` (radians, wrapped to `[0, 2π)`) at `jd_tdb`.
+    /// IAU prime-meridian angle `W` (radians, wrapped to `[0, 2π)`) at `jd_tdb`, with every
+    /// quadratic and periodic term in [`iau_terms`](Self::iau_terms).
     pub fn prime_meridian(&self, jd_tdb: f64) -> f64 {
-        (self.prime_w0 + self.prime_w_dot * (jd_tdb - 2_451_545.0))
+        self.iau_angles_et((jd_tdb - 2_451_545.0) * 86_400.0)
+            .2
             .rem_euclid(2.0 * std::f64::consts::PI)
     }
 
-    /// The rotation from the J2000 frame (ICRF axes) to this body's IAU body-fixed frame at
-    /// `et_tdb_s` seconds past J2000 TDB: `R_z(W) R_x(90° − δ) R_z(90° + α)`, with `r_bodyfixed =
-    /// R · r_j2000`. The rows of `R` are the body-fixed axes expressed in J2000.
-    pub fn iau_rotation_et(&self, et_tdb_s: f64) -> [[f64; 3]; 3] {
+    /// The IAU pole right ascension `α`, declination `δ` and prime meridian `W` (radians; `W`
+    /// not wrapped) at `et_tdb_s` seconds past J2000 TDB: the four constant fields plus, when
+    /// the body carries [`iau_terms`](Self::iau_terms), the century rates, the quadratic
+    /// prime-meridian term and the periodic terms.
+    pub fn iau_angles_et(&self, et_tdb_s: f64) -> (f64, f64, f64) {
         let d = et_tdb_s / 86_400.0;
-        let ra = self.pole_ra0;
-        let dec = self.pole_dec0;
-        let w = (self.prime_w0 + self.prime_w_dot * d).rem_euclid(2.0 * std::f64::consts::PI);
+        let mut ra = self.pole_ra0;
+        let mut dec = self.pole_dec0;
+        let mut w = self.prime_w0 + self.prime_w_dot * d;
+        if let Some(t) = &self.iau_terms {
+            let tc = d / 36_525.0;
+            ra += t.pole_ra_rate_deg_per_century * tc * DEG;
+            dec += t.pole_dec_rate_deg_per_century * tc * DEG;
+            w += t.prime_w_quad_deg_per_day2 * d * d * DEG;
+            for (i, a) in t.angles.iter().enumerate() {
+                let theta = ((a[0] + a[1] * tc + a[2] * tc * tc) * DEG).rem_euclid(TAU);
+                let (s, c) = theta.sin_cos();
+                ra += t.ra_sin_deg.get(i).copied().unwrap_or(0.0) * s * DEG;
+                dec += t.dec_cos_deg.get(i).copied().unwrap_or(0.0) * c * DEG;
+                w += t.w_sin_deg.get(i).copied().unwrap_or(0.0) * s * DEG;
+            }
+        }
+        (ra, dec, w)
+    }
+
+    /// The rotation from the J2000 frame (ICRF axes) to this body's IAU body-fixed frame at
+    /// `et_tdb_s` seconds past J2000 TDB: `R_z(W) R_x(90° − δ) R_z(90° + α)` with `α, δ, W` from
+    /// [`iau_angles_et`](Self::iau_angles_et), so `r_bodyfixed = R · r_j2000`. The rows of `R` are
+    /// the body-fixed axes expressed in J2000.
+    pub fn iau_rotation_et(&self, et_tdb_s: f64) -> [[f64; 3]; 3] {
+        let (ra, dec, w) = self.iau_angles_et(et_tdb_s);
+        let w = w.rem_euclid(TAU);
         euler_313(
             w,
             std::f64::consts::FRAC_PI_2 - dec,
@@ -615,7 +728,7 @@ pub const SOLAR_SYSTEM: [BodyFacts; 18] = [
         401,
         BodyClass::Moon,
         Some("Mars"),
-        13.1,
+        13.0,
         11.08,
         None,
     ),
@@ -736,6 +849,213 @@ const fn facts(
         j2,
     }
 }
+
+// ------------------------------------------------------------------------
+// IAU rotation-model terms beyond the four constants, transcribed from the
+// NAIF generic kernel pck00011.tpc (IAU WGCCRE 2015 report with the NAIF
+// corrections that kernel documents; Phobos from the corrected 2015 model).
+// Phase angles are the kernel's BODYn_NUT_PREC_ANGLES of each system, grouped
+// [constant, rate per Julian century, rate per century squared]; coefficient
+// arrays are paired with the angles by index and stop at the last non-zero
+// term. Venus, Uranus, Pluto and Titan carry no non-zero rate or periodic term.
+// ------------------------------------------------------------------------
+
+/// pck00011 `BODY1_NUT_PREC_ANGLES` (5 angles): `[θ₀ (deg), θ₁ (deg/century), θ₂ (deg/century²)]`.
+const MERCURY_ANGLES: [[f64; 3]; 5] = [
+    [174.7910857, 149472.535875, 0.0],
+    [349.5821714, 298945.07175, 0.0],
+    [164.3732571, 448417.607625, 0.0],
+    [339.1643429, 597890.1435, 0.0],
+    [153.9554286, 747362.679375, 0.0],
+];
+/// pck00011 `BODY4_NUT_PREC_ANGLES` (26 angles): `[θ₀ (deg), θ₁ (deg/century), θ₂ (deg/century²)]`.
+const MARS_SYSTEM_ANGLES: [[f64; 3]; 26] = [
+    [190.72646643, 15917.10818695, 0.0],
+    [21.4689247, 31834.27934054, 0.0],
+    [332.86082793, 19139.89694742, 0.0],
+    [394.93256437, 38280.79631835, 0.0],
+    [189.6327156, 41215158.1842005, 12.711923222],
+    [121.46893664, 660.22803474, 0.0],
+    [231.05028581, 660.9912354, 0.0],
+    [251.37314025, 1320.50145245, 0.0],
+    [217.98635955, 38279.9612555, 0.0],
+    [196.19729402, 19139.83628608, 0.0],
+    [198.991226, 19139.4819985, 0.0],
+    [226.292679, 38280.8511281, 0.0],
+    [249.663391, 57420.7251593, 0.0],
+    [266.18351, 76560.636795, 0.0],
+    [79.398797, 0.5042615, 0.0],
+    [122.433576, 19139.9407476, 0.0],
+    [43.058401, 38280.8753272, 0.0],
+    [57.663379, 57420.7517205, 0.0],
+    [79.476401, 76560.6495004, 0.0],
+    [166.325722, 0.5042615, 0.0],
+    [129.071773, 19140.0328244, 0.0],
+    [36.352167, 38281.0473591, 0.0],
+    [56.668646, 57420.929536, 0.0],
+    [67.364003, 76560.2552215, 0.0],
+    [104.79268, 95700.4387578, 0.0],
+    [95.391654, 0.5042615, 0.0],
+];
+/// pck00011 `BODY5_NUT_PREC_ANGLES` (15 angles): `[θ₀ (deg), θ₁ (deg/century), θ₂ (deg/century²)]`.
+const JUPITER_SYSTEM_ANGLES: [[f64; 3]; 15] = [
+    [73.32, 91472.9, 0.0],
+    [24.62, 45137.2, 0.0],
+    [283.9, 4850.7, 0.0],
+    [355.8, 1191.3, 0.0],
+    [119.9, 262.1, 0.0],
+    [229.8, 64.3, 0.0],
+    [352.25, 2382.6, 0.0],
+    [113.35, 6070.0, 0.0],
+    [146.64, 182945.8, 0.0],
+    [49.24, 90274.4, 0.0],
+    [99.360714, 4850.4046, 0.0],
+    [175.895369, 1191.9605, 0.0],
+    [300.323162, 262.5475, 0.0],
+    [114.012305, 6070.2476, 0.0],
+    [49.511251, 64.3, 0.0],
+];
+/// pck00011 `BODY8_NUT_PREC_ANGLES` (17 angles): `[θ₀ (deg), θ₁ (deg/century), θ₂ (deg/century²)]`.
+const NEPTUNE_SYSTEM_ANGLES: [[f64; 3]; 17] = [
+    [357.85, 52.316, 0.0],
+    [323.92, 62606.6, 0.0],
+    [220.51, 55064.2, 0.0],
+    [354.27, 46564.5, 0.0],
+    [75.31, 26109.4, 0.0],
+    [35.36, 14325.4, 0.0],
+    [142.61, 2824.6, 0.0],
+    [177.85, 52.316, 0.0],
+    [647.84, 125213.2, 0.0],
+    [355.7, 104.632, 0.0],
+    [533.55, 156.948, 0.0],
+    [711.4, 209.264, 0.0],
+    [889.25, 261.58, 0.0],
+    [1067.1, 313.896, 0.0],
+    [1244.95, 366.212, 0.0],
+    [1422.8, 418.528, 0.0],
+    [1600.65, 470.844, 0.0],
+];
+/// pck00011 BODY199: century rates, quadratic prime-meridian term and periodic terms.
+const MERCURY_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.0328,
+    pole_dec_rate_deg_per_century: -0.0049,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &MERCURY_ANGLES,
+    ra_sin_deg: &[],
+    dec_cos_deg: &[],
+    w_sin_deg: &[0.01067257, -0.00112309, -0.0001104, -2.539e-05, -5.71e-06],
+};
+/// pck00011 BODY599: century rates, quadratic prime-meridian term and periodic terms.
+const JUPITER_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.006499,
+    pole_dec_rate_deg_per_century: 0.002413,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &JUPITER_SYSTEM_ANGLES,
+    ra_sin_deg: &[
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.000117, 0.000938, 0.001432, 3e-05,
+        0.00215,
+    ],
+    dec_cos_deg: &[
+        0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 5e-05, 0.000404, 0.000617, -1.3e-05,
+        0.000926,
+    ],
+    w_sin_deg: &[],
+};
+/// pck00011 BODY699: century rates, quadratic prime-meridian term and periodic terms.
+const SATURN_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.036,
+    pole_dec_rate_deg_per_century: -0.004,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &[],
+    ra_sin_deg: &[],
+    dec_cos_deg: &[],
+    w_sin_deg: &[],
+};
+/// pck00011 BODY899: century rates, quadratic prime-meridian term and periodic terms.
+const NEPTUNE_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: 0.0,
+    pole_dec_rate_deg_per_century: 0.0,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &NEPTUNE_SYSTEM_ANGLES,
+    ra_sin_deg: &[0.7],
+    dec_cos_deg: &[-0.51],
+    w_sin_deg: &[-0.48],
+};
+/// pck00011 BODY401: century rates, quadratic prime-meridian term and periodic terms.
+const PHOBOS_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.10844326,
+    pole_dec_rate_deg_per_century: -0.06134706,
+    prime_w_quad_deg_per_day2: 9.53613703121215e-09,
+    angles: &MARS_SYSTEM_ANGLES,
+    ra_sin_deg: &[-1.78428399, 0.02212824, -0.01028251, -0.00475595],
+    dec_cos_deg: &[-1.07516537, 0.00668626, -0.0064874, 0.00281576],
+    w_sin_deg: &[1.42421769, -0.02273783, 0.00410711, 0.00631964, -1.143],
+};
+/// pck00011 BODY402: century rates, quadratic prime-meridian term and periodic terms.
+const DEIMOS_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.10518014,
+    pole_dec_rate_deg_per_century: -0.05979094,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &MARS_SYSTEM_ANGLES,
+    ra_sin_deg: &[
+        0.0, 0.0, 0.0, 0.0, 0.0, 3.09217726, 0.22980637, 0.06418655, 0.02533537, 0.00778695,
+    ],
+    dec_cos_deg: &[
+        0.0, 0.0, 0.0, 0.0, 0.0, 1.83936004, 0.1432532, 0.01911409, -0.0148259, 0.0019243,
+    ],
+    w_sin_deg: &[
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        0.0,
+        -2.73954829,
+        -0.39968606,
+        -0.06563259,
+        -0.0291294,
+        0.0169916,
+    ],
+};
+/// pck00011 BODY501: century rates, quadratic prime-meridian term and periodic terms.
+const IO_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.009,
+    pole_dec_rate_deg_per_century: 0.003,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &JUPITER_SYSTEM_ANGLES,
+    ra_sin_deg: &[0.0, 0.0, 0.094, 0.024],
+    dec_cos_deg: &[0.0, 0.0, 0.04, 0.011],
+    w_sin_deg: &[0.0, 0.0, -0.085, -0.022],
+};
+/// pck00011 BODY502: century rates, quadratic prime-meridian term and periodic terms.
+const EUROPA_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.009,
+    pole_dec_rate_deg_per_century: 0.003,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &JUPITER_SYSTEM_ANGLES,
+    ra_sin_deg: &[0.0, 0.0, 0.0, 1.086, 0.06, 0.015, 0.009],
+    dec_cos_deg: &[0.0, 0.0, 0.0, 0.468, 0.026, 0.007, 0.002],
+    w_sin_deg: &[0.0, 0.0, 0.0, -0.98, -0.054, -0.014, -0.008],
+};
+/// pck00011 BODY503: century rates, quadratic prime-meridian term and periodic terms.
+const GANYMEDE_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.009,
+    pole_dec_rate_deg_per_century: 0.003,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &JUPITER_SYSTEM_ANGLES,
+    ra_sin_deg: &[0.0, 0.0, 0.0, -0.037, 0.431, 0.091],
+    dec_cos_deg: &[0.0, 0.0, 0.0, -0.016, 0.186, 0.039],
+    w_sin_deg: &[0.0, 0.0, 0.0, 0.033, -0.389, -0.082],
+};
+/// pck00011 BODY504: century rates, quadratic prime-meridian term and periodic terms.
+const CALLISTO_TERMS: IauRotationTerms = IauRotationTerms {
+    pole_ra_rate_deg_per_century: -0.009,
+    pole_dec_rate_deg_per_century: 0.003,
+    prime_w_quad_deg_per_day2: 0.0,
+    angles: &JUPITER_SYSTEM_ANGLES,
+    ra_sin_deg: &[0.0, 0.0, 0.0, 0.0, -0.068, 0.59, 0.0, 0.01],
+    dec_cos_deg: &[0.0, 0.0, 0.0, 0.0, -0.029, 0.254, 0.0, -0.004],
+    w_sin_deg: &[0.0, 0.0, 0.0, 0.0, 0.061, -0.533, 0.0, -0.009],
+};
 
 #[cfg(test)]
 mod tests {
