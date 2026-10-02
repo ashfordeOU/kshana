@@ -348,16 +348,29 @@ impl SdrLayout {
         }
     }
 
-    /// Whole samples in one chunk.
-    pub fn samples_per_chunk(&self) -> usize {
+    /// Chunks read as one unit: one, unless a lump is wider than a chunk (an 8-bit complex
+    /// sample in 1-byte words, as in the LuGRE 8-bit batch), when consecutive chunks are joined
+    /// until a whole number of lumps fits.
+    pub fn chunks_per_unit(&self) -> usize {
         let chunk_bits = self.word_bytes * self.words_per_chunk * 8;
         let lump_bits = self.sample_bits() * self.samples_per_lump;
-        (chunk_bits / lump_bits) * self.samples_per_lump
+        if lump_bits > chunk_bits {
+            lump_bits.div_ceil(chunk_bits)
+        } else {
+            1
+        }
     }
 
-    /// Bytes per chunk.
+    /// Whole samples in one unit of [`Self::chunks_per_unit`] chunks.
+    pub fn samples_per_chunk(&self) -> usize {
+        let unit_bits = self.chunk_bytes() * 8;
+        let lump_bits = self.sample_bits() * self.samples_per_lump;
+        (unit_bits / lump_bits) * self.samples_per_lump
+    }
+
+    /// Bytes per unit of [`Self::chunks_per_unit`] chunks.
     pub fn chunk_bytes(&self) -> usize {
-        self.word_bytes * self.words_per_chunk
+        self.word_bytes * self.words_per_chunk * self.chunks_per_unit()
     }
 
     /// Number of complete samples in a data file of `len` bytes.
@@ -772,6 +785,30 @@ mod tests {
         assert_eq!(v.iter().map(|s| s.re).sum::<f64>(), 0.0);
         assert_eq!(v.iter().map(|s| s.im).sum::<f64>(), 0.0);
         assert_eq!((v[0].re, v[15].re), (-15.0, 15.0));
+    }
+
+    #[test]
+    fn a_sample_wider_than_a_word_spans_consecutive_words() {
+        // The LuGRE 8-bit batch: 16 packed bits per complex sample in 1-byte words.
+        let meta = META
+            .replace(
+                "<quantization>4</quantization>",
+                "<quantization>8</quantization>",
+            )
+            .replace("<packedbits>8</packedbits>", "<packedbits>16</packedbits>");
+        let l = parse_sdrx(&meta).unwrap();
+        assert_eq!(
+            (l.chunks_per_unit(), l.samples_per_chunk(), l.chunk_bytes()),
+            (2, 1, 2)
+        );
+        // Header AA BB, then I = 0x05, Q = 0xFD (−3), I = 0x80 (−128), Q = 0x7F; footer CC.
+        let bytes = [0xAA, 0xBB, 0x05, 0xFD, 0x80, 0x7F, 0xCC];
+        assert_eq!(l.sample_count(bytes.len()), 2);
+        let s = decode(&l, &bytes, 0, 2).unwrap();
+        assert_eq!(
+            (s[0].re, s[0].im, s[1].re, s[1].im),
+            (5.0, -3.0, -128.0, 127.0)
+        );
     }
 
     #[test]

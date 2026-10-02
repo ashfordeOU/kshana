@@ -27,7 +27,8 @@
   2^-43 constant, above the registered bar.
 - LuGRE acquisition against GNSS-SDR 0.0.19: 266 of 266 decisions agree, 250 located on the same
   cell; most positives are artefacts of a −0.5 mean in the bare 4-bit levels; the C/N0 leg had no
-  contemporaneous flight data. Two batches carry `.sdrx` metadata that contradicts their headers.
+  contemporaneous flight data. Two batches (OP5, OP12) were excluded in error: their metadata
+  agrees with their headers, but the reader could not then read a sample wider than a word.
 - LuGRE acquisition against orbit-predicted Doppler: with the sample-power decision every search
   crosses on band-limited noise; with the cell-averaging decision the strongest pairs agree in magnitude with
   the sign reversed, showing the registered I/Q order to be the conjugate of the data.

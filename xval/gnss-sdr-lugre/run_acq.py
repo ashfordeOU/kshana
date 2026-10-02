@@ -26,7 +26,9 @@ import numpy as np
 HERE = os.path.dirname(os.path.abspath(__file__))
 # 2025-03-02T08:00:00Z in GPS seconds since 1980-01-06 (18 leap seconds).
 SURFACE_CUT_GPS_S = 1424937618.0
-# Excluded before any run: the .sdrx metadata contradicts the binary header (see NOTICE.md).
+# Excluded before any run, IN ERROR as later found: the metadata of both agrees with the binary
+# header (see the CORRECTION in tests/fixtures/lugre_acquisition_gnss_sdr/NOTICE.md). Kept as
+# run, so the committed records reproduce.
 EXCLUDED = ("_OP5_0", "_OP12_0")
 
 
