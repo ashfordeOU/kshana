@@ -13,3 +13,9 @@ See LICENSING.md for which licence applies to your use and how the two relate.
 "Kshana" and associated marks are trademarks of Ashforde OÜ. The licence applies
 to the source code; it does not grant rights to the project name or marks. Forks
 and derivative distributions must use a different name.
+
+Third-party data:
+  Contains data from the Lunar GNSS Receiver Experiment (LuGRE) Mission Data,
+  J. Parker, F. Dovis et al., NASA and Agenzia Spaziale Italiana, Zenodo,
+  doi 10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are
+  derived extracts; no sample file is redistributed (see docs/LUGRE-DATA.md).
