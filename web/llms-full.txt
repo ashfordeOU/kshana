@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build 0b1723c · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 8de93cf · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build 0b1723c · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-75scenario kinds 132bundled scenario files 242capabilities in the verification matrix 123/242validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+75scenario kinds 132bundled scenario files 249capabilities in the verification matrix 123/249validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 L-band console · the spectrum kind
 
@@ -142,7 +142,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 0b1723c · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -198,7 +198,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 0b1723c · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -364,9 +364,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build 0b1723c · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 8de93cf · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build 0b1723c · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -378,7 +378,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 123 of 242 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 123 of 249 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 75 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -947,7 +947,7 @@ Orbit view
 
 engine v0.29.3t = 0 sReal engine run, replayed
 
-Engine v0.29.3, build 8de93cf · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 0b1723c · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2151,7 +2151,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-242 capabilities, each graded. 123 validated against independent external oracles. 115 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+249 capabilities, each graded. 123 validated against independent external oracles. 122 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.29.3 From the repository
 
@@ -2159,7 +2159,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 242 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 249 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2185,7 +2185,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.29.3, build 8de93cf · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.29.3, build 0b1723c · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2201,7 +2201,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.29.3, build 8de93cf · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.29.3, build 0b1723c · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2217,7 +2217,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.29.3, build 8de93cf · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.29.3, build 0b1723c · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2231,7 +2231,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 8de93cf · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 0b1723c · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2245,7 +2245,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.29.3, build 8de93cf · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.29.3, build 0b1723c · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2261,7 +2261,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.29.3, build 8de93cf · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.29.3, build 0b1723c · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -2271,7 +2271,7 @@ Validated means an independent external source agrees: published reference vecto
 
 ### Capabilities graded
 
-123of 242 validated
+123of 249 validated
 
 Hover a cell
 
@@ -2295,7 +2295,7 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 242 rows, one line each.
+## All 249 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
@@ -3671,11 +3671,11 @@ ModelledEarth-GNSS at lunar distanceearth_gnss_lunar
 
 Capability
 
-Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for. Per satellite and per epoch it computes the off-boresight angle against the transmitter nadir, whether the Earth occults the straight path, the slant range and its free-space loss, the transmit gain at that angle, the received power and the carrier-to-noise density; it then aggregates only the links clearing a tracking threshold, and sweeps a full constellation revolution so the answer is a DISTRIBUTION rather than one snapshot. Three facts drive the result and the report states each: the Earth subtends 13.90 deg from the constellation radius so the beam PEAK is geometrically unavailable to any lunar-bound ray; what remains is the main-lobe edge and the sidelobes, the regime LuGRE operated in at the Moon in 2025; and the L1 path loss is about 208 dB, some 25 dB more than a terrestrial user pays. MEASURED on the bundled 24-satellite GPS-class geometry over 64 epochs of one orbital period: SIGNAL availability 0.375 with a best link of 30.93 dB-Hz, and FIX availability 0.000 - at most two simultaneous trackable links, never the four a position needs. The separation of those two availabilities is the point, and the report refuses to let them be confused: Earth-GNSS at lunar distance is a TIMING-grade layer, not a position-grade one, and a layered-resilience prior must take the fix availability. The conditioning is emitted for the same reason - every visible satellite lies inside a cone a couple of degrees wide as seen from the Moon, so the lines of sight are near-parallel by construction. Runnable as the earth-gnss-lunar kind
+Earth-GNSS reception at lunar distance: the weak-signal layer P7 Table 1 names and the engine had no model for. Per satellite and per epoch it computes the off-boresight angle against the transmitter nadir, whether the Earth occults the straight path, the slant range and its free-space loss, the transmit gain at that angle, the received power and the carrier-to-noise density; it then aggregates only the links clearing a tracking threshold, and sweeps a full constellation revolution so the answer is a DISTRIBUTION rather than one snapshot. Three facts drive the result and the report states each: the Earth subtends 13.90 deg from the constellation radius so the beam PEAK is geometrically unavailable to any lunar-bound ray; what remains is the main-lobe edge and the sidelobes, the regime LuGRE operated in at the Moon in 2025; and the L1 path loss is about 208 dB, some 25 dB more than a terrestrial user pays. MEASURED on the bundled 24-satellite GPS-class geometry over 64 epochs of one orbital period: SIGNAL availability 0.375 with a best link of 30.93 dB-Hz, and FIX availability 0.000 - at most two simultaneous trackable links, never the four a position needs. The separation of those two availabilities is the point, and the report refuses to let them be confused: Earth-GNSS at lunar distance is a TIMING-grade layer, not a position-grade one, and a layered-resilience prior must take the fix availability. The conditioning is emitted for the same reason - every visible satellite lies inside a cone a couple of degrees wide as seen from the Moon, so the lines of sight are near-parallel by construction. Runnable as the earth-gnss-lunar kind Restated per D7: the claim at lunar distance is the RELATIVE carrier-to-noise density between satellites at one epoch, from measured two-dimensional transmit patterns (NAVCEN Block IIR/IIR-M), plus geometric visibility; absolute C/N0 is not claimed (Parker et al. report a common 7 to 12 dB loss).
 
 Oracle
 
-Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly illuminated circular aperture, the Airy pattern, while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe peaked off-boresight to even out power across the Earth disc and sidelobes that are not Airy. Published measured patterns exist and are not vendored here, so orderings and orders of magnitude carry, while the dB of any single satellite does not. A FIRST IMPLEMENTATION OF THIS ROW WAS WRONG IN A WAY WORTH RECORDING: the Airy expression is valid only in the forward hemisphere, its argument goes as sin(theta), and at theta near 180 deg it wraps around and returns FULL BORESIGHT GAIN behind the aperture - so the two strongest links in the first report were satellites pointing their antennas away from the Moon, and they were the only two that cleared the threshold. Behind the aperture the model now applies a flat back-lobe floor, stated as a bound rather than a fabricated pattern shape. Deliberately absent, each making the budget OPTIMISTIC: no ionospheric or tropospheric loss on the limb-grazing rays, no polarisation, pointing or implementation loss, and a spherical Earth with no refractive extension. The Moon position is an INPUT, not an ephemeris lookup, because the quantity under test is the link and the beam geometry. Upgrading this row to Validated needs a measured transmit pattern and LuGRE normal points to check against; neither is in the repository and neither is invented here. 0.30 round 2, a finding (stays MODELLED): a measured-input link path (real SP3 positions, per-block transmit power, tabulated transmit and receive patterns, acquisition and tracking hysteresis) was checked against Montenbruck et al. 2023 Table 3 for GENESIS at 6000 km (pre-registered 5b414f0a): zenith-antenna means agree on 5 of 6 within one dB of the paper sensitivity; nadir-antenna means are 1.0 to 2.4 satellites higher than printed, plausibly because the paper used azimuth-dependent GPS side-lobe patterns that are not published. The lunar-distance figures of this row still use the Airy stand-in
+Closed-form identities and internal consistency; NO external oracle is claimed. The limb half angle is checked against asin(R_earth/r_orbit) and the geometry against it; the free-space loss, the DOP kernel and the SGP4 propagation this composes are each externally validated in their own rows and this row does not borrow their status. WHY MODELLED, and it is the transmit pattern: the gain at angle is a uniformly illuminated circular aperture, the Airy pattern, while a real GPS L1 antenna is a twelve-element helical array with a shaped main lobe peaked off-boresight to even out power across the Earth disc and sidelobes that are not Airy. Published measured patterns exist and are not vendored here, so orderings and orders of magnitude carry, while the dB of any single satellite does not. A FIRST IMPLEMENTATION OF THIS ROW WAS WRONG IN A WAY WORTH RECORDING: the Airy expression is valid only in the forward hemisphere, its argument goes as sin(theta), and at theta near 180 deg it wraps around and returns FULL BORESIGHT GAIN behind the aperture - so the two strongest links in the first report were satellites pointing their antennas away from the Moon, and they were the only two that cleared the threshold. Behind the aperture the model now applies a flat back-lobe floor, stated as a bound rather than a fabricated pattern shape. Deliberately absent, each making the budget OPTIMISTIC: no ionospheric or tropospheric loss on the limb-grazing rays, no polarisation, pointing or implementation loss, and a spherical Earth with no refractive extension. The Moon position is an INPUT, not an ephemeris lookup, because the quantity under test is the link and the beam geometry. Upgrading this row to Validated needs a measured transmit pattern and LuGRE normal points to check against; neither is in the repository and neither is invented here. 0.30 round 2, a finding (stays MODELLED): a measured-input link path (real SP3 positions, per-block transmit power, tabulated transmit and receive patterns, acquisition and tracking hysteresis) was checked against Montenbruck et al. 2023 Table 3 for GENESIS at 6000 km (pre-registered 5b414f0a): zenith-antenna means agree on 5 of 6 within one dB of the paper sensitivity; nadir-antenna means are 1.0 to 2.4 satellites higher than printed, plausibly because the paper used azimuth-dependent GPS side-lobe patterns that are not published. The lunar-distance figures of this row still use the Airy stand-in. 0.30+ D7, a finding (stays MODELLED): the restated quantity, the C/N0 DIFFERENCE between Block IIR/IIR-M satellites tracked at one epoch, predicted with the NAVCEN per-SVN measured L1 patterns (two-dimensional, yaw-steering frame) against the LuGRE flight C/N0 (pre-registered 768cb62b: 99 % visible, pair RMS <= 3.0 dB, median <= 2.0 dB, at least 50 records and 30 pairs) has too little data: the 26 qualifying transit and lunar-orbit epochs hold 15 tracked IIR/IIR-M records (mostly IIF and III are tracked) and one pair. All 15 are predicted visible and the single pair's residual is -0.06 dB; nothing is claimed
 
 Tests
 
@@ -3848,6 +3848,104 @@ Library: PocketSDR-AFS (T. Ebinuma after T. Takasu's PocketSDR 0.13, BSD-2-Claus
 Tests
 
 tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (third pre-registration: 2 nodes, 4 channels tracked, worst Doppler error 0.57 Hz, worst code offset error…
+
+ModelledGPS L1 C/A cross-generator conformancegps_lnav, sdr
+
+Capability
+
+GPS L1 C/A spreading codes (sdr::CaCode) and LNAV subframes 1-3 (gps_lnav: IS-GPS-200 field quantisation with the specification's pi, two's complement packing, TLM and HOW words, Table 20-XIV parity with D29*/D30* inversion, the parity-solving bits of words 2 and 10) compared bit for bit with gps-sdr-sim on its bundled brdc0010.22n (32 satellites)
+
+Oracle
+
+gps-sdr-sim (MIT, commit 28ca29a6, run as a separate program through a committed harness), pre-registered f88f2969 with a bit-exact bar on (A) C/A chips, (B) every computed LNAV field, (C) every parity bit. FINDING: (A) 0 of 32 736 chips differ, (C) the parity of 0 of 1 920 words differs, (B) 230 of 1 152 computed fields differ by one unit: gps-sdr-sim's eph2sbf truncates toward zero with C casts where the broadcast integer needs rounding (every differing value lies within 0.01 of a unit of Kshana's rounded integer). Stays MODELLED: the registered bar was the conjunction
+
+Tests
+
+tests/gps_l1ca_gpssdrsim_cross_generator.rs::gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding (pinned finding); tests/gps_l1ca_gpssdrsim_cross_generator.rs::ca_codes_lnav_fields_and_parity_match_gps_sdr_…
+
+ModelledGPS LNAV encoding decoded by an independent receiver librarygps_lnav
+
+Capability
+
+Kshana's LNAV subframes 1-3 (gps_lnav::encode_subframes) for the 32 brdc0010.22n ephemerides fed to RTKLIB's decode_word and decode_frame: parity of every word, subframe decoding with consistent issue of data, and every decoded parameter against Kshana's integer and against the input value
+
+Oracle
+
+RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) decode_word/decode_frame as a separate program, pre-registered ca5f0142: R1 parity and decoding, R2 decoded value equal to Kshana's integer times the IS-GPS-200 scale within 2^-52 relative, R3 within half a quantum of the input. FINDING: R1 960 of 960 words and 96 of 96 subframes; R3 every parameter, week and reference times exact; R2 fails on 41 values (af1, delta-n, IDOT) by 1 to 4 units in the last place because RTKLIB's P2_43 is the decimal 1.136868377216160E-13, 2.6e-16 relative from 2^-43; dividing by RTKLIB's constant returns Kshana's integer in every case. Stays MODELLED: the registered R2 bar was too tight for the oracle's own constant
+
+Tests
+
+tests/gps_lnav_rtklib_decode_oracle.rs::rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43 (pinned finding)…
+
+ModelledGPS LNAV navigation-message encodinggps_lnav
+
+Capability
+
+IS-GPS-200 LNAV subframes 1-3 (gps_lnav::encode_subframes: round-to-nearest quantisation of every clock and orbit parameter at the specification's scale factors and value of pi, two's complement packing, TLM and HOW words, Table 20-XIV parity with D29*/D30* inversion, the parity-solving bits of words 2 and 10), the message a GPS L1 C/A signal generator transmits
+
+Oracle
+
+RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) readrnx parsing the IGS daily broadcast file BRDC00IGS_R_20250610000_01D_MN.rnx and decode_word/decode_frame decoding Kshana's words, run as a separate program; pre-registered d4d9eb9d before the file was fetched, exact-integer bar. Mutation: truncating instead of rounding gives 235 failures. Earlier comparisons of the same encoder are recorded as findings: against gps-sdr-sim, which truncates (230 fields), and against RTKLIB's scaled values, whose decimal 2^-43 constant missed a one-ulp bar (41 values). Integrator post-verification (stays MODELLED): the comparison agrees and a parity-set mutation also turns it red, but the pre-registration d4d9eb9d reached the public branch at 20:02:29 UTC, two seconds after the result commit 1783f904 (20:02:27 UTC) that already holds RTKLIB's output for the file, so the order 'registered before the file was fetched' cannot be shown; a fresh registration pushed before an unseen broadcast file is fetched would settle it
+
+Tests
+
+tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file (32 satellites of the IGS broadcast file of 2 March 2025: 960 of 960 words pass RTKLIB parity, 96 of 96…
+
+ModelledAcquisition and C/N0 estimation on real lunar IQacquisition, portable_math, realdata::ion_sdr, realdata::lugre
+
+Capability
+
+Parallel code-phase search (acquisition::pcps_acquire: portable FFT, coherent folding, non-coherent accumulation, chi-square threshold for a search-wide false-alarm probability), refinement, open-loop prompt correlation with code Doppler and the M2M4 C/N0 estimator, run on the LuGRE L1 4-bit IQ batches read through realdata::ion_sdr
+
+Oracle
+
+GNSS-SDR 0.0.19 (GPL-3.0, separate program, pinned configuration) on the nine non-surface L1 batches and the flight receiver's RAW C/N0 (LuGRE Mission Data, Zenodo 16411687, CC BY 4.0), pre-registered 768cb62b. FINDING: Kshana's reader decodes all 288 compared spans identically to an independent converter; GNSS-SDR declares 266 of 288 searches positive and Kshana agrees on all 266 decisions, but only 250 are located on GNSS-SDR's cell (A2 fails); the C/N0 leg is vacuous, no flight RAW epoch lying within 30 s of any batch (nearest 141 s). Most positives are artefacts: the bare two's-complement levels carry a -0.5 mean on I and Q, a zero-frequency line 32 dB above the noise in a 1 kHz bin, which both receivers acquire. Two batches (OP5, OP12) were excluded in error: a digit-stripped reading of their metadata was taken for a contradiction with their headers; the real cause was that the reader could not read a sample wider than a word (since fixed). Stays MODELLED
+
+Tests
+
+tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (pinned finding, data-gated); tests/lugre_acquisition_gnss_sdr_oracle.rs::acquisition_and_relative_cn0_on_lugre_iq_match…
+
+ModelledAcquisition on real lunar IQ against orbit-predicted Doppler (sample-power decision)acquisition, realdata::ion_sdr
+
+Capability
+
+acquisition::pcps_acquire with its sample-power decision on the nine non-surface LuGRE L1 batches with mid-rise levels; Doppler differences between acquired satellites compared with differences predicted from ESA final orbits and the Firefly-reconstructed Blue Ghost trajectory
+
+Oracle
+
+Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered 0d1839d2. FINDING: all 288 searches cross the threshold on noise (sample-power statistics about 430 to 520 against 346.3), so P1 holds trivially and P3 holds (274 of 288 predicted visible) while P2 fails on 4033 of 4036 pairs. The band-limited front end raises every cell's noise about 1.46 times (pinned: noise floor 292 against the white-noise 200 on OP2 PRN 1), which the sample-power statistic does not see. Stays MODELLED
+
+Tests
+
+tests/lugre_acquisition_predicted_doppler_oracle.rs::noise_alone_crosses_the_sample_power_threshold_on_lugre_iq (pinned finding, data-gated)…
+
+ModelledAcquisition on real lunar IQ scored by orbit-predicted Doppleracquisition, realdata::ion_sdr
+
+Capability
+
+acquisition::pcps_acquire with the cell-averaging decision (peak over the grid's mean cell, robust to band-limited noise) on the nine non-surface LuGRE L1 batches with mid-rise levels; Doppler differences between acquired satellites compared with differences predicted from ESA final orbits and the Firefly-reconstructed Blue Ghost trajectory
+
+Oracle
+
+Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS reconstructed trajectory (xval/lugre-predicted-doppler/predict.py, independent of Kshana), pre-registered a81a9a4e. FINDING: P1 and P3 hold (4 batches, 12 of 12 acquisitions predicted visible) but P2 fails on 8 of 8 pairs. The two strongest pairs match the prediction in magnitude with the sign reversed (OP2 PRN 18/24: +7670.0 Hz measured, -7693.9 predicted; OP17 PRN 11/30: +11155.0, -11114.4), so the registered I-in-the-low-nibble order is the conjugate of the batches; the six detections just above threshold match neither sign. The refinement's Doppler scatter (30 to 50 Hz between two runs) was also underestimated by the registration. Stays MODELLED
+
+Tests
+
+tests/lugre_acquisition_cell_average_doppler_oracle.rs::strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed (pinned finding, data-gated)…
+
+ModelledAcquisition on held-out real lunar IQ against orbit-predicted Doppleracquisition, realdata::ion_sdr, realdata::lugre
+
+Capability
+
+acquisition::pcps_acquire (cell-averaging decision, false-alarm probability 1e-7) with refine_doppler_coherent on the LuGRE L1 batches recorded on the lunar surface (I in the high nibble, mid-rise levels); Doppler differences between acquired satellites against differences predicted from ESA final orbits and the Firefly landing-site kernel
+
+Oracle
+
+Predicted Doppler from ESA/ESOC final orbits and the NAIF CLPS Firefly landing-site kernel (xval/lugre-predicted-doppler/predict_surface.py, independent of Kshana), pre-registered 2108e6ff on batches never opened before. FINDING: non-vacuity fails; no batch holds two acquisitions. OP40 excluded (metadata names a missing file); OP38, OP73, OP77_0, OP77_1 acquire nothing and show no false alarm at 1e-7 (top statistics 325 to 356 against 385.9); OP74 and OP76 acquire PRN 31 and OP78_0 and OP78_1 PRN 12, each alone, all predicted visible. Stays MODELLED. Disclosed deviations: the registered 10 Hz Doppler bar rests on a synthetic Monte Carlo of the coherent refinement, not on the scatter of the already-seen batches the integrator asked for; OP40 was excluded before the run because its metadata names a sample file the dataset does not ship
+
+Tests
+
+tests/lugre_surface_acquisition_doppler_oracle.rs::each_surface_acquisition_is_a_single_predicted_visible_satellite (pinned finding, data-gated)…
 
 ValidatedLunar joint communications-and-navigation geometrylunar_service
 
@@ -6056,7 +6154,7 @@ Terminal · kshana v0.29.3 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.29.3 (build 8de93cf):
+A recorded command-line session, engine v0.29.3 (build 0b1723c):
 
 - $ kshana --version: kshana 0.29.3
 
@@ -6594,7 +6692,7 @@ What is included
 
 - All 75 scenario kinds and 132 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 123 of 242 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 123 of 249 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
