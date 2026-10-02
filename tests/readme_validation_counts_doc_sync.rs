@@ -218,3 +218,93 @@ fn every_public_validation_count_string_matches_the_matrix() {
         stale.join("\n")
     );
 }
+
+/// The tests above pin the count strings they know about, and only look for the current
+/// numbers; a site nobody listed can keep an old count and every `contains` still passes.
+/// That is how the architecture alt-texts kept "223 capabilities (83 VALIDATED, ...)"
+/// after the matrix moved on. This test reads every count-shaped phrase in the four
+/// READMEs, wherever it is, and requires it to state the current matrix:
+/// "N VALIDATED, M MODELLED, P PARTNER" (any case) and "of T capabilities" / "T rows".
+/// Screenshots of a released Studio (`docs/assets/readme/studio/`) are exempt: their
+/// alt-text describes the picture of that release, which is re-captured, not generated.
+#[test]
+fn no_readme_states_a_stale_validation_count() {
+    let m = verification_matrix();
+    let count = |s: VerificationStatus| m.iter().filter(|i| i.status == s).count();
+    let (v, md, p, t) = (
+        count(VerificationStatus::Validated),
+        count(VerificationStatus::Modelled),
+        count(VerificationStatus::PartnerOwned),
+        m.len(),
+    );
+
+    let num = |w: &str| -> Option<usize> {
+        w.trim_matches(|c: char| !c.is_ascii_digit())
+            .parse()
+            .ok()
+            .filter(|_| {
+                w.chars()
+                    .next()
+                    .is_some_and(|c| c.is_ascii_digit() || c == '(')
+            })
+    };
+    let word = |w: &str| -> String {
+        w.trim_matches(|c: char| !c.is_alphanumeric())
+            .to_ascii_lowercase()
+    };
+
+    let mut stale = Vec::new();
+    for (name, body) in [
+        ("README.md", include_str!("../README.md")),
+        ("README.crates.md", include_str!("../README.crates.md")),
+        ("README.pypi.md", include_str!("../README.pypi.md")),
+        ("README.npm.md", include_str!("../README.npm.md")),
+    ] {
+        for (ln, line) in body.lines().enumerate() {
+            if line.contains("docs/assets/readme/studio/") {
+                continue;
+            }
+            let toks: Vec<&str> = line.split_whitespace().collect();
+            for i in 0..toks.len() {
+                let at = |k: usize| toks.get(i + k).copied().unwrap_or("");
+                // "N VALIDATED, M MODELLED, P PARTNER" in any case.
+                if word(at(1)) == "validated"
+                    && word(at(3)) == "modelled"
+                    && word(at(5)).starts_with("partner")
+                {
+                    if let (Some(a), Some(b), Some(c)) = (num(at(0)), num(at(2)), num(at(4))) {
+                        if (a, b, c) != (v, md, p) {
+                            stale.push(format!(
+                                "  {name}:{}: {a}/{b}/{c} VALIDATED/MODELLED/PARTNER, matrix {v}/{md}/{p}",
+                                ln + 1
+                            ));
+                        }
+                    }
+                }
+                // "of T capabilities" and "T rows" / "T-row" totals.
+                let total_here = if word(at(0)) == "of" && word(at(2)).starts_with("capabilit") {
+                    num(at(1))
+                } else if word(at(1)) == "rows" || at(0).ends_with("-row") {
+                    num(at(0).trim_end_matches("-row"))
+                } else {
+                    None
+                };
+                if let Some(n) = total_here {
+                    if n != t && n > 100 {
+                        stale.push(format!(
+                            "  {name}:{}: total {n}, matrix {t} ({:?})",
+                            ln + 1,
+                            toks[i..(i + 3).min(toks.len())].join(" ")
+                        ));
+                    }
+                }
+            }
+        }
+    }
+    assert!(
+        stale.is_empty(),
+        "README count phrases disagree with verification_matrix() \
+         ({v} VALIDATED / {md} MODELLED / {p} PARTNER of {t}):\n{}",
+        stale.join("\n")
+    );
+}

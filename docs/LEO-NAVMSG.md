@@ -53,6 +53,9 @@ The Liu et al. terms follow the paper's user algorithm (Section 2.2, Eq. 1-7):
 Positioning System (GPS) civil-navigation convention `½·ṅ·tk`, so a `ṅ` they wrote is twice
 the paper's), and `Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ` added to the radius,
 `Φ` the uncorrected argument of latitude.
+The `ṅ` scale convention is transcribed from the paper's Eq. 1; the comparison with the
+paper on real orbits does not depend on it (a factor ½ on `ṅ` leaves every fitted figure
+unchanged), so the meaning of a transmitted `nDot` value is not validated there.
 
 Two readings are Kshana's own and are stated as such:
 
@@ -77,9 +80,11 @@ relativistic term) or steered (a first-order Gauss–Markov residual).
 alone are nearly indistinguishable. It starts from the osculating state at `toe` with
 the J2 node rate. Weak zero-centred priors bound the rates and harmonics that a short
 arc cannot resolve; with a 1 cm observation weight they act only in those null
-directions. The `liu22` fit instead follows the paper's Section 2.3: it starts with every
-correction term zero, has no priors (plain least squares) and stops when every parameter
-step is below 1e-3 of its formal standard deviation, or after 100 iterations. The RAC polynomials are then fitted to the along/cross/radial residuals by
+directions. The `liu22` fit instead takes the paper's Section 2.3 start and estimator: it starts with
+every correction term zero, has no priors (plain least squares) and keeps the paper's
+100-iteration cap. It stops on Kshana's own parameter-convergence rule, when every
+parameter step is below 1e-3 of its formal standard deviation; the paper stops instead
+when the RMS changes by less than 0.1 mm. The RAC polynomials are then fitted to the along/cross/radial residuals by
 linear least squares, and the clock polynomial to the truth clock minus the relativistic
 term the user will add back.
 

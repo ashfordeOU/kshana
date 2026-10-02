@@ -54,6 +54,10 @@ use kshana::integrity::hetero_budget::{
 use std::collections::BTreeMap;
 use std::path::PathBuf;
 
+// PIN-SCOPE:    the SHA-256 of each committed BIPM UTC(k) input file of this comparison, so
+//               the realised offsets the overbound is built from are the retrieved ones.
+// PIN-EXCLUDES: every kshana result document. This pins committed oracle inputs, not an
+//               emission, so no change to what kshana reports can move it.
 const PINS: &str = include_str!("fixtures/hetero_budget_utc_k_oracle/utclab.sha256");
 const TAIL: f64 = 1e-2;
 const ALLOCATION: f64 = 1e-2;

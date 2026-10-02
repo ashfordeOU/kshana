@@ -11,10 +11,12 @@
 //!   parameters an arc too short to resolve them would otherwise send to large offsetting
 //!   values; the observation weight is 1 cm, so the priors act only in those null
 //!   directions. The Jacobian is by central differences.
-//! * **`liu22`** follows Liu et al. 2025, Section 2.3, instead: the start is the osculating
-//!   state at `toe` with every correction term zero, there are no priors (plain least
-//!   squares), and the iteration stops on parameter convergence, when every parameter step is
-//!   below 1e-3 of its formal standard deviation (the paper's 100-iteration cap kept).
+//! * **`liu22`** takes the start and estimator of Liu et al. 2025, Section 2.3, instead: the
+//!   start is the osculating state at `toe` with every correction term zero, there are no
+//!   priors (plain least squares), and the paper's 100-iteration cap is kept. The iteration
+//!   stops on Kshana's own parameter-convergence rule, when every parameter step is below
+//!   1e-3 of its formal standard deviation; the paper stops instead when the RMS changes by
+//!   less than 0.1 mm.
 //! * **`kepler-rac`** then fits the along-track, cross-track and radial residuals of the
 //!   Keplerian fit, each with a polynomial in `τ = tk / tau_s` (`tau_s` the power of two at
 //!   or above half the fit interval), by linear least squares. Because the least-squares
