@@ -1,0 +1,31 @@
+# Oracle Python environment for the Kshana validation rows.
+# Pins follow the versions the committed fixtures name (tests/fixtures/*/generate_*.py,
+# scripts/gen_*.py). Unpinned entries are new for the 0.30 uplift; their resolved
+# versions are frozen in requirements.lock by setup.sh.
+# Licence of each package is listed in README.md.
+numpy
+scipy
+allantools==2024.6
+gnss_lib_py==1.0.4
+skyfield==1.54
+sgp4==2.26
+spiceypy
+pymsis==0.12.0
+sigmf
+filterpy==1.4.5
+scikit-learn
+lamberthub==1.0.0
+pymcdm==1.4.0
+oem==0.4.5
+ppigrf
+astropy
+pyerfa
+jplephem
+h5py
+pandas
+openpyxl
+georinex
+jsonschema
+referencing
+spacepackets
+bsk
