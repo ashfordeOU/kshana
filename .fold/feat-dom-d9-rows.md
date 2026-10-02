@@ -5,6 +5,13 @@ pre-registration of every comparison below is commit **2ec76864**, pushed 2026-1
 before any fixture was fetched or any oracle was run. `src/verification.rs` is not edited on
 this branch; the integrator pastes the text below.
 
+Checked on a scratch copy (not committed): with rows 1 and 2 and the basis entry pasted into
+`src/verification.rs`, `cargo test --lib verification` passes every matrix invariant except
+`readme_headline_counts_match_the_matrix` (the generated README counts must be regenerated:
+226 rows / 110 validated -> 228 / 111), and `verification_rows_name_a_test_that_exists`,
+`verification_rows_cite_evidence_that_exists` and `verification_rows_declare_an_oracle_basis`
+pass.
+
 Summary:
 
 | Row | Outcome | Status to set |
