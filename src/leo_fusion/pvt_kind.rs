@@ -528,10 +528,8 @@ impl LeoPvtScenario {
                     rows: polar::latitude_sweep(&systems, &lats, &lons, &times, thr),
                 });
                 report.label =
-                    "MODELLED geometry against latitude: SGP4/SDP4 orbits from each system's \
-                                element sets at 2026-01-01T00:00:00 UTC on the IAU 2006/2000A \
-                                Earth-fixed frame (UT1 = UTC, no polar motion), each system's \
-                                elevation mask, no terrain, signal power or scintillation"
+                    "MODELLED geometry against latitude: two-body orbits with J2 drift, each \
+                                system's elevation mask, no terrain, signal power or scintillation"
                         .into();
             }
             "timing" => {
