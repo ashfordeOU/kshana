@@ -7,7 +7,7 @@
 //   states_<c>.csv   Earth-fixed satellite positions and velocities at every epoch.
 // For every sample (latitude, longitude, epoch) it builds the site on a WGS 84 OneAxisEllipsoid
 // in ITRF, a TopocentricFrame there, and one Orekit Ephemeris per satellite from its tabulated
-// Earth-fixed states (taken as ITRF); a satellite is in view when Orekit's elevation is at or
+// Earth-fixed states (taken as ITRF, carried to GCRF for interpolation); a satellite is in view when Orekit's elevation is at or
 // above its system's mask. It prints, per sample: the in-view count of each system, the
 // smallest |elevation - mask| over all satellites, the topocentric (east, north, zenith)
 // line-of-sight unit vector of every satellite in view, and for each group (gnss, leo, all)
@@ -43,6 +43,7 @@ import org.orekit.time.TimeScalesFactory;
 import org.orekit.utils.AbsolutePVCoordinates;
 import org.orekit.utils.Constants;
 import org.orekit.utils.IERSConventions;
+import org.orekit.utils.PVCoordinates;
 
 public class LeoPolarOrekitDriver {
 
@@ -98,6 +99,8 @@ public class LeoPolarOrekitDriver {
         // Tabulated states per satellite: key (system, satellite) in file order.
         List<int[]> keys = new ArrayList<>();
         List<List<SpacecraftState>> tab = new ArrayList<>();
+        java.util.Map<Integer, List<Vector3D>> fixedPos = new java.util.HashMap<>();
+        Frame gcrf = FramesFactory.getGCRF();
         for (String line : Files.readAllLines(Paths.get(dir, "states_" + cfg + ".csv"))) {
             if (line.startsWith("#") || line.isEmpty()) {
                 continue;
@@ -122,7 +125,13 @@ public class LeoPolarOrekitDriver {
                     Double.parseDouble(f[6]));
             Vector3D v = new Vector3D(Double.parseDouble(f[7]), Double.parseDouble(f[8]),
                     Double.parseDouble(f[9]));
-            tab.get(idx).add(new SpacecraftState(new AbsolutePVCoordinates(itrf, d, p, v)));
+            // Orekit's Ephemeris interpolates in a pseudo-inertial frame, so each tabulated
+            // Earth-fixed state is carried to GCRF by Orekit's own frame transform; the driver
+            // asks for positions back in ITRF and checks they reproduce the table.
+            PVCoordinates inGcrf = itrf.getTransformTo(gcrf, d)
+                    .transformPVCoordinates(new PVCoordinates(p, v));
+            tab.get(idx).add(new SpacecraftState(new AbsolutePVCoordinates(gcrf, d, inGcrf)));
+            fixedPos.computeIfAbsent(idx, x -> new ArrayList<>()).add(p);
         }
         List<Ephemeris> eph = new ArrayList<>();
         for (List<SpacecraftState> states : tab) {
@@ -157,7 +166,7 @@ public class LeoPolarOrekitDriver {
                         SpacecraftState st = eph.get(k).propagate(d);
                         Vector3D p = st.getPosition(itrf);
                         worstRepro = FastMath.max(worstRepro,
-                                p.distance(tab.get(k).get(ei).getPosition()));
+                                p.distance(fixedPos.get(k).get(ei)));
                         double el = topo.getElevation(p, itrf, d);
                         minMargin = FastMath.min(minMargin, FastMath.abs(el - masks.get(sys)));
                         if (el >= masks.get(sys)) {
