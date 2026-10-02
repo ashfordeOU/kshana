@@ -27,7 +27,7 @@ def main():
     for line in text.splitlines():
         if line.startswith("*  "):
             k += 1
-            keep = k % 2 == 0
+            keep = k % 2 == 0 and k < 288  # 00:00-23:55; the file also holds 24:00
             continue
         if keep and line.startswith("P") and line[1] in "GE":
             sat = line[1:4]
@@ -35,8 +35,8 @@ def main():
             if abs(x) < 1e-6 and abs(y) < 1e-6 and abs(z) < 1e-6:
                 continue  # SP3 missing-position marker
             out.append(f"{k // 2},{sat},{x * 1e3:.3f},{y * 1e3:.3f},{z * 1e3:.3f}")
-    if k != 287:
-        raise SystemExit(f"expected 288 epochs, found {k + 1}")
+    if k < 287:
+        raise SystemExit(f"expected at least 288 epochs, found {k + 1}")
     Path(__file__).with_name("orbits_20230101_10min.csv").write_text("\n".join(out) + "\n")
 
 

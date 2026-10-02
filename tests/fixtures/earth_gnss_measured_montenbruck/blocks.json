@@ -1,0 +1,302 @@
+{
+ "source": "https://files.igs.org/pub/station/general/igs_satellite_metadata.snx",
+ "source_sha256": "5ae97c6f65d5c9f238f79565cdd478af9e0da1cc0f0f589bf6c5aad0de5234c2",
+ "valid_at": "2023-01-01 12:00",
+ "satellites": {
+  "E01": {
+   "svn": "E210",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E02": {
+   "svn": "E211",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E03": {
+   "svn": "E212",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E04": {
+   "svn": "E213",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E05": {
+   "svn": "E214",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E07": {
+   "svn": "E207",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E08": {
+   "svn": "E208",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E09": {
+   "svn": "E209",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E10": {
+   "svn": "E224",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E11": {
+   "svn": "E101",
+   "block": "GAL-1",
+   "name": "Launched"
+  },
+  "E12": {
+   "svn": "E102",
+   "block": "GAL-1",
+   "name": "Launched"
+  },
+  "E13": {
+   "svn": "E220",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E14": {
+   "svn": "E202",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E15": {
+   "svn": "E221",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E18": {
+   "svn": "E201",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E19": {
+   "svn": "E103",
+   "block": "GAL-1",
+   "name": "Launched"
+  },
+  "E20": {
+   "svn": "E104",
+   "block": "GAL-1",
+   "name": "Launched"
+  },
+  "E21": {
+   "svn": "E215",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E22": {
+   "svn": "E204",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E24": {
+   "svn": "E205",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E25": {
+   "svn": "E216",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E26": {
+   "svn": "E203",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E27": {
+   "svn": "E217",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E30": {
+   "svn": "E206",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E31": {
+   "svn": "E218",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E33": {
+   "svn": "E222",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E34": {
+   "svn": "E223",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "E36": {
+   "svn": "E219",
+   "block": "GAL-2",
+   "name": "Launched"
+  },
+  "G01": {
+   "svn": "G063",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G02": {
+   "svn": "G061",
+   "block": "GPS-IIR-B",
+   "name": "Launched"
+  },
+  "G03": {
+   "svn": "G069",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G04": {
+   "svn": "G074",
+   "block": "GPS-IIIA",
+   "name": "Launched"
+  },
+  "G05": {
+   "svn": "G050",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G06": {
+   "svn": "G067",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G07": {
+   "svn": "G048",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G08": {
+   "svn": "G072",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G09": {
+   "svn": "G068",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G10": {
+   "svn": "G073",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G11": {
+   "svn": "G078",
+   "block": "GPS-IIIA",
+   "name": "Launched"
+  },
+  "G12": {
+   "svn": "G058",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G13": {
+   "svn": "G043",
+   "block": "GPS-IIR-A",
+   "name": "Launched"
+  },
+  "G14": {
+   "svn": "G077",
+   "block": "GPS-IIIA",
+   "name": "Launched"
+  },
+  "G15": {
+   "svn": "G055",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G16": {
+   "svn": "G056",
+   "block": "GPS-IIR-A",
+   "name": "Launched"
+  },
+  "G17": {
+   "svn": "G053",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G18": {
+   "svn": "G075",
+   "block": "GPS-IIIA",
+   "name": "Launched"
+  },
+  "G19": {
+   "svn": "G059",
+   "block": "GPS-IIR-B",
+   "name": "Launched"
+  },
+  "G20": {
+   "svn": "G051",
+   "block": "GPS-IIR-A",
+   "name": "Launched"
+  },
+  "G21": {
+   "svn": "G045",
+   "block": "GPS-IIR-A",
+   "name": "Launched"
+  },
+  "G22": {
+   "svn": "G041",
+   "block": "GPS-IIR-A",
+   "name": "Launched"
+  },
+  "G23": {
+   "svn": "G076",
+   "block": "GPS-IIIA",
+   "name": "Launched"
+  },
+  "G24": {
+   "svn": "G065",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G25": {
+   "svn": "G062",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G26": {
+   "svn": "G071",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G27": {
+   "svn": "G066",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G29": {
+   "svn": "G057",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G30": {
+   "svn": "G064",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  },
+  "G31": {
+   "svn": "G052",
+   "block": "GPS-IIR-M",
+   "name": "Launched"
+  },
+  "G32": {
+   "svn": "G070",
+   "block": "GPS-IIF",
+   "name": "Launched"
+  }
+ }
+}
