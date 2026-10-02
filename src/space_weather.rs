@@ -247,7 +247,8 @@ pub fn jacchia71_number_densities(z_km: f64, t_inf: f64) -> [f64; 6] {
     let int_mix = j71_integrate(J71_Z0_KM, z_mix, 2.0, &|z| {
         j71_mbar(z) * j71_gravity(z) / (J71_R_GAS * temp(z))
     });
-    let rho_mix = J71_RHO0_G_CM3 * (j71_mbar(z_mix) / temp(z_mix)) / (j71_mbar(J71_Z0_KM) / J71_T0_K)
+    let rho_mix = J71_RHO0_G_CM3 * (j71_mbar(z_mix) / temp(z_mix))
+        / (j71_mbar(J71_Z0_KM) / J71_T0_K)
         * (-int_mix).exp();
     // Equations (2)-(4): species at the top of the mixing region.
     let mbar = j71_mbar(z_mix);
@@ -312,7 +313,8 @@ pub fn jacchia71_diurnal_ratio(lat_rad: f64, decl_rad: f64, hour_angle_rad: f64)
     tau = (tau + std::f64::consts::PI).rem_euclid(two_pi) - std::f64::consts::PI;
     let sm = theta.sin().powf(J71_M_EXP);
     let cm = eta.cos().powf(J71_M_EXP);
-    (1.0 + J71_R * sm) * (1.0 + J71_R * (cm - sm) / (1.0 + J71_R * sm) * (0.5 * tau).cos().powf(J71_N_EXP))
+    (1.0 + J71_R * sm)
+        * (1.0 + J71_R * (cm - sm) / (1.0 + J71_R * sm) * (0.5 * tau).cos().powf(J71_N_EXP))
 }
 
 /// Equations (21)-(23): semiannual variation Δlog10 ρ at height `z_km` and Modified Julian
@@ -323,7 +325,9 @@ fn j71_semiannual(z_km: f64, mjd: f64) -> f64 {
     let tau = phi + 0.09544 * ((0.5 + 0.5 * (two_pi * phi + 6.035).sin()).powf(1.650) - 0.5);
     let f = (5.876e-7 * z_km.powf(2.331) + 0.06328) * (-2.868e-3 * z_km).exp();
     let g = 0.02835
-        + 0.3817 * (1.0 + 0.4671 * (two_pi * tau + 4.137).sin()) * (2.0 * two_pi * tau + 4.259).sin();
+        + 0.3817
+            * (1.0 + 0.4671 * (two_pi * tau + 4.137).sin())
+            * (2.0 * two_pi * tau + 4.259).sin();
     f * g
 }
 
@@ -362,7 +366,13 @@ pub fn sun_declination_rad(mjd: f64) -> f64 {
 /// nighttime minimum `T_c` of equation (14) times the diurnal ratio of equation (17) plus the
 /// geomagnetic increment of equation (18); the density is the static profile at that
 /// temperature with the helium (25), semiannual (21) and seasonal-latitudinal (24) corrections.
-pub fn jacchia71_density(altitude_m: f64, lat_deg: f64, lst_h: f64, mjd: f64, sw: &SpaceWeather) -> f64 {
+pub fn jacchia71_density(
+    altitude_m: f64,
+    lat_deg: f64,
+    lst_h: f64,
+    mjd: f64,
+    sw: &SpaceWeather,
+) -> f64 {
     let z_km = altitude_m / 1000.0;
     let lat = lat_deg.to_radians();
     let decl = sun_declination_rad(mjd);
@@ -381,7 +391,9 @@ pub fn jacchia71_density(altitude_m: f64, lat_deg: f64, lst_h: f64, mjd: f64, sw
 /// plus the geomagnetic increment of equation (18).
 pub fn mean_exospheric_temperature(sw: &SpaceWeather) -> f64 {
     let kp = sw.kp.clamp(0.0, 9.0);
-    exospheric_temperature(sw.f107, sw.f107a, 0.0) * (1.0 + J71_R / 2.0) + 28.0 * kp + 0.03 * kp.exp()
+    exospheric_temperature(sw.f107, sw.f107a, 0.0) * (1.0 + J71_R / 2.0)
+        + 28.0 * kp
+        + 0.03 * kp.exp()
 }
 
 /// A space-weather state: the solar (F10.7 daily + 81-day average, sfu) and
@@ -638,7 +650,10 @@ mod tests {
         for &(z, t, logrho) in &J71_TABLE7 {
             let rho_g_cm3 = jacchia71_static_density(z, t) / 1000.0;
             let d = rho_g_cm3.log10() - logrho;
-            eprintln!("z {z} T {t}: {:.4} vs {logrho} ({d:+.4})", rho_g_cm3.log10());
+            eprintln!(
+                "z {z} T {t}: {:.4} vs {logrho} ({d:+.4})",
+                rho_g_cm3.log10()
+            );
             worst = worst.max(d.abs());
         }
         assert!(worst <= 0.01, "worst |dlog10 rho| {worst}");
@@ -666,7 +681,11 @@ mod tests {
                 f64::to_radians(-20.0),
                 (lst - 12.0) * std::f64::consts::PI / 12.0,
             );
-            assert!((1000.0 * r - want).abs() <= 2.0, "lat {lat} lst {lst}: {} vs {want}", 1000.0 * r);
+            assert!(
+                (1000.0 * r - want).abs() <= 2.0,
+                "lat {lat} lst {lst}: {} vs {want}",
+                1000.0 * r
+            );
         }
     }
 
@@ -785,7 +804,10 @@ mod tests {
         // J71 Table 7: log10 rho(400 km) = -15.608 at 600 K and -14.627 at 900 K, a factor
         // 10^0.981 = 9.6 apart.
         let swing = jacchia71_static_density(400.0, 900.0) / jacchia71_static_density(400.0, 600.0);
-        assert!((swing.log10() - 0.981).abs() < 0.01, "400 km swing {swing}x");
+        assert!(
+            (swing.log10() - 0.981).abs() < 0.01,
+            "400 km swing {swing}x"
+        );
     }
 
     #[test]
@@ -800,7 +822,10 @@ mod tests {
         let night = jacchia71_density(450_000.0, 0.0, 3.0, 51_989.0, &sw);
         assert!(day > 1.5 * night, "day {day} night {night}");
         let mean = space_weather_density(450_000.0, &sw);
-        assert!(night < mean && mean < day, "night {night} mean {mean} day {day}");
+        assert!(
+            night < mean && mean < day,
+            "night {night} mean {mean} day {day}"
+        );
     }
 
     #[test]

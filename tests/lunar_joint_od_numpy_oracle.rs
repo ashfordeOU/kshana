@@ -88,14 +88,21 @@ fn configs() -> Vec<(&'static str, LunarNetworkConfig)> {
     let a = LunarNetworkConfig::default();
     let b = LunarNetworkConfig { seed: 7, ..a };
     let c = LunarNetworkConfig { n_sat: 6, ..a };
-    let d = LunarNetworkConfig { n_sat: 8, n_earth: 4, ..a };
+    let d = LunarNetworkConfig {
+        n_sat: 8,
+        n_earth: 4,
+        ..a
+    };
     let e = LunarNetworkConfig {
         orbit_ecc: 0.6,
         n_sat: 6,
         orbit_planes: 2,
         ..a
     };
-    let f = LunarNetworkConfig { with_vlbi: false, ..a };
+    let f = LunarNetworkConfig {
+        with_vlbi: false,
+        ..a
+    };
     vec![("A", a), ("B", b), ("C", c), ("D", d), ("E", e), ("F", f)]
 }
 
@@ -158,8 +165,11 @@ fn write_inputs_on_request() {
         doc.insert(name.to_string(), to_json(&build(&cfg)));
     }
     std::fs::create_dir_all(dir()).expect("dir");
-    std::fs::write(dir().join("inputs.json"), serde_json::to_string(&Value::Object(doc)).expect("json"))
-        .expect("write");
+    std::fs::write(
+        dir().join("inputs.json"),
+        serde_json::to_string(&Value::Object(doc)).expect("json"),
+    )
+    .expect("write");
 }
 
 fn same(a: &Value, b: &Value, path: &str) {
@@ -172,7 +182,10 @@ fn same(a: &Value, b: &Value, path: &str) {
         }
         (Value::Number(p), Value::Number(q)) => {
             let (p, q) = (p.as_f64().expect("f64"), q.as_f64().expect("f64"));
-            assert!((p - q).abs() <= 1e-12 * p.abs().max(q.abs()).max(1e-300), "{path}: {p} vs {q}");
+            assert!(
+                (p - q).abs() <= 1e-12 * p.abs().max(q.abs()).max(1e-300),
+                "{path}: {p} vs {q}"
+            );
         }
         _ => assert_eq!(a, b, "{path}"),
     }
@@ -183,7 +196,11 @@ fn norm(v: &[f64]) -> f64 {
 }
 
 fn vecf(v: &Value) -> Vec<f64> {
-    v.as_array().expect("array").iter().map(|x| x.as_f64().expect("f64")).collect()
+    v.as_array()
+        .expect("array")
+        .iter()
+        .map(|x| x.as_f64().expect("f64"))
+        .collect()
 }
 
 #[test]
@@ -212,9 +229,16 @@ fn joint_solve_linear_algebra_matches_numpy() {
         let graded_f = name != "F" || kappa < 1e12;
         match x1 {
             Some(x1) => {
-                let d: Vec<f64> = x1.iter().zip(&p.x0).zip(&step_np).map(|((a, b), s)| (a - b) - s).collect();
+                let d: Vec<f64> = x1
+                    .iter()
+                    .zip(&p.x0)
+                    .zip(&step_np)
+                    .map(|((a, b), s)| (a - b) - s)
+                    .collect();
                 let rel = norm(&d) / norm(&step_np);
-                eprintln!("{name}: kappa {kappa:.3e}, tol {tol:.1e}; first step rel diff {rel:.2e}");
+                eprintln!(
+                    "{name}: kappa {kappa:.3e}, tol {tol:.1e}; first step rel diff {rel:.2e}"
+                );
                 if graded_f {
                     ok &= rel <= tol;
                 }
@@ -254,5 +278,8 @@ fn joint_solve_linear_algebra_matches_numpy() {
         );
         ok &= rel_st <= tol;
     }
-    assert!(ok, "a joint-solve comparison exceeds its pre-registered tolerance");
+    assert!(
+        ok,
+        "a joint-solve comparison exceeds its pre-registered tolerance"
+    );
 }

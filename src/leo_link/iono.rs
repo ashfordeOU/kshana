@@ -80,7 +80,13 @@ pub fn iono_free_coefficients(f1_hz: f64, f2_hz: f64) -> (f64, f64) {
 /// clocks and troposphere cancel in `p2 − p1`; `dcb_p1_minus_p2_m` is the receiver plus
 /// satellite differential code bias of `P1 − P2` in metres (zero for modelled delays), which the
 /// measured difference carries with the opposite sign and is added back here.
-pub fn geometry_free_stec_tecu(p1_m: f64, p2_m: f64, f1_hz: f64, f2_hz: f64, dcb_p1_minus_p2_m: f64) -> f64 {
+pub fn geometry_free_stec_tecu(
+    p1_m: f64,
+    p2_m: f64,
+    f1_hz: f64,
+    f2_hz: f64,
+    dcb_p1_minus_p2_m: f64,
+) -> f64 {
     let (a, b) = (f1_hz * f1_hz, f2_hz * f2_hz);
     ((p2_m - p1_m) + dcb_p1_minus_p2_m) * a * b / (40.3 * (a - b)) / TECU
 }

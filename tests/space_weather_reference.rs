@@ -30,15 +30,15 @@
 //!   the density row stays MODELLED).
 //!   Oracle: pymsis 0.12.0 NRLMSISE-00 (MSIS v0; Picone et al. 2002), total mass
 //!   density at 300/400/500/800 km for solar-min/mean/max x quiet/storm. kshana's
-//!   `density_activity_factor` is a single-coefficient calibrated scale-height
-//!   coupling, NOT NRLMSISE-00 absolute density, so it is checked ONLY for:
+//!   `density_activity_factor` is the Jacchia 1971 static density over the activity-free
+//!   static profile (another empirical model than NRLMSISE-00), so it is checked ONLY for:
 //!     * correct sign (hotter/active thermosphere => denser),
-//!     * monotonicity in T_inf,
+//!     * monotonicity in T_inf, and the NRLMSISE-00 shape of the swing with altitude,
 //!     * the 400 km solar-cycle swing within the SAME ORDER OF MAGNITUDE (factor
 //!       of 3) as NRLMSISE-00, and storm-increment direction.
-//!   The 300/500/800 km magnitude divergences are MEASURED and DOCUMENTED here
-//!   (see the eprintln summary), not gated. This part exists to PROVE the density
-//!   correction stays modelled.
+//!   The 300/500/800 km differences are MEASURED and DOCUMENTED here (see the eprintln
+//!   summary), not gated. The measured comparison of the density is
+//!   `tests/space_weather_density_accelerometer_oracle.rs`.
 //!
 //! Reference data, provenance and the committed generator live in
 //! `tests/fixtures/space_weather/`.
@@ -111,8 +111,11 @@ fn exospheric_temperature_matches_published_jacchia_1971() {
 fn density_factor_direction_and_order_of_magnitude_vs_nrlmsise00() {
     // --- Robust DIRECTIONAL facts (must hold; characterisation, not fit) ---
 
-    // Sign + monotonicity: the J71 solar-cycle factor rises above 1 and is
-    // strictly increasing in altitude-leverage at every reference altitude.
+    // Sign + shape: the solar-cycle factor rises above 1 everywhere, grows with altitude up
+    // to 500 km, and falls again by 800 km where helium dominates at solar minimum. The shape
+    // is that of the NRLMSISE-00 rows below (7.0, 17.3, 37.0, 13.6 at 300/400/500/800 km)
+    // and of the Jacchia 1971 density the engine now uses (its Figure 4); the strictly
+    // increasing swing asserted here before belonged to the replaced single-coefficient factor.
     let mut last = 0.0_f64;
     for &alt in &ALTS_KM {
         let f = kshana_solarcycle_factor(alt);
@@ -120,10 +123,17 @@ fn density_factor_direction_and_order_of_magnitude_vs_nrlmsise00() {
             f > 1.0,
             "solar-max must be denser than solar-min at {alt} km (factor {f})"
         );
-        assert!(
-            f > last,
-            "solar-cycle swing must grow with altitude: {alt} km gave {f} <= {last}"
-        );
+        if alt <= 500.0 {
+            assert!(
+                f > last,
+                "solar-cycle swing must grow with altitude to 500 km: {alt} km gave {f} <= {last}"
+            );
+        } else {
+            assert!(
+                f < last,
+                "solar-cycle swing must fall above 500 km, as NRLMSISE-00's does: {alt} km gave {f} >= {last}"
+            );
+        }
         last = f;
     }
 
@@ -211,8 +221,8 @@ fn density_factor_direction_and_order_of_magnitude_vs_nrlmsise00() {
     );
     eprintln!(
         "  -> GATED: 400 km swing within factor 3 (kshana/NRLMSISE = {ratio:.3}); \
-         500/800 km diverge (kshana's calibrated coupling has NO per-altitude validity \
-         aloft: 800 km kshana {:.0}x vs NRLMSISE-00 {:.0}x). 400 km storm increment \
+         500/800 km reported only (800 km kshana {:.0}x vs NRLMSISE-00 {:.0}x). \
+         400 km storm increment \
          agrees to {:.0}%.",
         kshana_solarcycle_factor(800.0),
         msis_solarcycle[&800],

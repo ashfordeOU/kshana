@@ -30,6 +30,7 @@
 //! Campaigns (fixed now): days of year 5, 15, 25, ..., 365 (every tenth day) of
 //! - solar maximum: CHAMP 2001; GRACE-A (Sat_1) 2002; GRACE-FO 1 (Sat_1) 2024;
 //! - solar minimum: GRACE-A (Sat_1) 2008; GRACE-FO 1 (Sat_1) 2019.
+//!
 //! A day the server does not hold is skipped and listed in the fixture's NOTICE.md.
 //!
 //! Orbit windows (fixed now): each day is cut into consecutive windows of one Keplerian period
@@ -156,7 +157,9 @@ fn engine_mean(w: &Window) -> f64 {
     let s: f64 = w
         .points
         .iter()
-        .map(|&(alt, f107, f107a, kp)| space_weather_density(alt, &SpaceWeather { f107, f107a, kp }))
+        .map(|&(alt, f107, f107a, kp)| {
+            space_weather_density(alt, &SpaceWeather { f107, f107a, kp })
+        })
         .sum();
     s / w.points.len() as f64
 }
@@ -188,7 +191,10 @@ fn stats(windows: &[Window]) -> Vec<CampaignStat> {
                 .collect();
             r.sort_by(|a, b| a.0.partial_cmp(&b.0).expect("finite"));
             let n = r.len();
-            let inside = r.iter().filter(|x| x.0 >= RATIO_LO && x.0 <= RATIO_HI).count();
+            let inside = r
+                .iter()
+                .filter(|x| x.0 >= RATIO_LO && x.0 <= RATIO_HI)
+                .count();
             let median = if n > 0 { r[n / 2].0 } else { f64::NAN };
             CampaignStat {
                 campaign: c,
@@ -225,8 +231,14 @@ fn activity_corrected_density_within_factor_two() {
         have_max |= s.phase == "max";
         pass &= s.inside == s.n;
     }
-    assert!(have_min && have_max, "need a counted solar-minimum and solar-maximum campaign");
-    assert!(pass, "some orbit-averaged densities are outside a factor 2 of the measurement");
+    assert!(
+        have_min && have_max,
+        "need a counted solar-minimum and solar-maximum campaign"
+    );
+    assert!(
+        pass,
+        "some orbit-averaged densities are outside a factor 2 of the measurement"
+    );
 }
 
 fn fixture_j71() -> PathBuf {
@@ -277,7 +289,11 @@ fn engine_mean_j71(w: &WindowJ71) -> f64 {
         .points
         .iter()
         .map(|p| {
-            let sw = SpaceWeather { f107: p[1], f107a: p[2], kp: p[3] };
+            let sw = SpaceWeather {
+                f107: p[1],
+                f107a: p[2],
+                kp: p[3],
+            };
             kshana::space_weather::jacchia71_density(p[0], p[4], p[5], p[6], &sw)
         })
         .sum();
@@ -307,7 +323,10 @@ fn jacchia71_density_within_factor_two() {
             .collect();
         r.sort_by(|a, b| a.0.partial_cmp(&b.0).expect("finite"));
         let n = r.len();
-        let inside = r.iter().filter(|x| x.0 >= RATIO_LO && x.0 <= RATIO_HI).count();
+        let inside = r
+            .iter()
+            .filter(|x| x.0 >= RATIO_LO && x.0 <= RATIO_HI)
+            .count();
         if n > 0 {
             eprintln!(
                 "{c} ({phase}): {n} windows, {inside} inside [0.5, 2], median ratio {:.3}, lowest {:.3} at {}, highest {:.3} at {}",
@@ -321,8 +340,14 @@ fn jacchia71_density_within_factor_two() {
         have_max |= phase == "max";
         pass &= inside == n;
     }
-    assert!(have_min && have_max, "need a counted solar-minimum and solar-maximum campaign");
-    assert!(pass, "some orbit-averaged densities are outside a factor 2 of the measurement");
+    assert!(
+        have_min && have_max,
+        "need a counted solar-minimum and solar-maximum campaign"
+    );
+    assert!(
+        pass,
+        "some orbit-averaged densities are outside a factor 2 of the measurement"
+    );
 }
 
 /// Pins the finding of the amended comparison so a change to the density model is noticed:
@@ -346,9 +371,16 @@ fn jacchia71_finding_is_pinned() {
     for c in ["CHAMP-2001", "GRACE-A-2002"] {
         let r = ratios(c);
         assert!(r.len() >= 100, "{c}: {} windows", r.len());
-        assert!(r[0] >= RATIO_LO && r[r.len() - 1] <= RATIO_HI, "{c}: {:?}", (r[0], r[r.len() - 1]));
+        assert!(
+            r[0] >= RATIO_LO && r[r.len() - 1] <= RATIO_HI,
+            "{c}: {:?}",
+            (r[0], r[r.len() - 1])
+        );
     }
     let r = ratios("GRACE-A-2008");
     let median = r[r.len() / 2];
-    assert!((1.6..=1.9).contains(&median), "GRACE-A 2008 median ratio {median}");
+    assert!(
+        (1.6..=1.9).contains(&median),
+        "GRACE-A 2008 median ratio {median}"
+    );
 }

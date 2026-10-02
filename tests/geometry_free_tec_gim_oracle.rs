@@ -93,7 +93,10 @@ fn load() -> Option<Vec<Los>> {
         if line.starts_with('#') || line.starts_with("prn") || line.trim().is_empty() {
             continue;
         }
-        let f: Vec<f64> = line.split(',').map(|x| x.parse().expect("number")).collect();
+        let f: Vec<f64> = line
+            .split(',')
+            .map(|x| x.parse().expect("number"))
+            .collect();
         assert_eq!(f.len(), 7, "malformed line {line}");
         out.push(Los {
             prn: f[0] as u32,
@@ -108,8 +111,11 @@ fn load() -> Option<Vec<Los>> {
     Some(out)
 }
 
+/// One counted arc: PRN, start (s of day), epochs and mean difference (TECU).
+type Arc = (u32, f64, usize, f64);
+
 /// Per-arc mean differences (engine - GIM) and the per-epoch differences.
-fn arcs(los: &[Los]) -> (Vec<(u32, f64, usize, f64)>, Vec<f64>) {
+fn arcs(los: &[Los]) -> (Vec<Arc>, Vec<f64>) {
     let mut prns: Vec<u32> = los.iter().map(|l| l.prn).collect();
     prns.sort_unstable();
     prns.dedup();
@@ -134,7 +140,12 @@ fn arcs(los: &[Los]) -> (Vec<(u32, f64, usize, f64)>, Vec<f64>) {
                         })
                         .collect();
                     all.extend(&d);
-                    out.push((prn, seg[0].sod, seg.len(), d.iter().sum::<f64>() / d.len() as f64));
+                    out.push((
+                        prn,
+                        seg[0].sod,
+                        seg.len(),
+                        d.iter().sum::<f64>() / d.len() as f64,
+                    ));
                 }
                 start = k;
             }
@@ -157,9 +168,15 @@ fn geometry_free_slant_tec_matches_the_code_gim_on_abmf() {
         eprintln!("G{prn:02} arc from {t0:.0} s, {n} epochs: mean difference {m:+.2} TECU");
         worst = worst.max(m.abs());
     }
-    eprintln!("{} arcs, worst |arc mean| {worst:.2} TECU, per-epoch RMS {rms:.2} TECU", arcs.len());
+    eprintln!(
+        "{} arcs, worst |arc mean| {worst:.2} TECU, per-epoch RMS {rms:.2} TECU",
+        arcs.len()
+    );
     assert!(arcs.len() >= MIN_ARCS, "only {} counted arcs", arcs.len());
-    assert!(worst <= TOL_TECU, "worst arc mean difference {worst:.2} TECU > {TOL_TECU}");
+    assert!(
+        worst <= TOL_TECU,
+        "worst arc mean difference {worst:.2} TECU > {TOL_TECU}"
+    );
 }
 
 /// Pins the finding: at least 33 of the counted arcs agree with the GIM within 3 TECU and the
@@ -174,6 +191,10 @@ fn geometry_free_finding_is_pinned() {
     let mut m: Vec<f64> = arcs.iter().map(|a| a.3.abs()).collect();
     m.sort_by(|a, b| a.partial_cmp(b).expect("finite"));
     let inside = m.iter().filter(|x| **x <= TOL_TECU).count();
-    assert!(arcs.len() == 36 && inside >= 33, "{inside} of {} arcs inside", arcs.len());
+    assert!(
+        arcs.len() == 36 && inside >= 33,
+        "{inside} of {} arcs inside",
+        arcs.len()
+    );
     assert!(m[m.len() / 2] < 1.5, "median |arc mean| {}", m[m.len() / 2]);
 }
