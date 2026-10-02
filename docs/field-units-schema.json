@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2518,
-    "fields_total": 2520,
+    "fields_described": 2520,
+    "fields_total": 2522,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -5771,6 +5771,12 @@
           "provenance": "input",
           "unit": "deg"
         },
+        "site_lon_deg": {
+          "definition": "launch-site longitude, east; used only by the true-pole site speed",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
         "site_rotation_speed_m_s": {
           "definition": "omega_Earth * R_eq * cos(lat): the eastward speed a posigrade launch starts with",
           "evidence_tier": "validated",
@@ -5784,8 +5790,8 @@
           "unit": "deg"
         }
       },
-      "fields_described": 9,
-      "fields_total": 9,
+      "fields_described": 10,
+      "fields_total": 10,
       "fields_without_units": [],
       "label": "MODELLED — two-body spherical-Earth launch geometry; azimuth is the geometric sin(Az)=cos(i)/cos(lat) relation (no rotating-Earth velocity-triangle correction, no ascent/drag-loss model)",
       "source": "defaults"
@@ -12672,6 +12678,12 @@
           "provenance": "measured",
           "unit": "count"
         },
+        "eop_input.rapid_rows": {
+          "definition": "rows of the EOP input with the IERS measured flag I and no Bulletin B final block yet",
+          "evidence_tier": "validated",
+          "provenance": "measured",
+          "unit": "count"
+        },
         "eop_input.rows": {
           "definition": null,
           "evidence_tier": "validated",
@@ -13671,8 +13683,8 @@
           "unit": "count"
         }
       },
-      "fields_described": 160,
-      "fields_total": 160,
+      "fields_described": 161,
+      "fields_total": 161,
       "fields_without_units": [],
       "label": "Real-time lunar frame / Earth-orientation prediction budget. VALIDATED closed form: the L19 lever arm (1 ms ↔ 28.03 m ↔ 93.5 ns), ω⊕ cross-checked against the CIO Earth-rotation angle. VALIDATED real data: the L18 UT1 and polar-motion prediction-error curves read directly off the real IERS finals2000A series (Bulletin A rapid vs Bulletin B final, and multi-day persistence over the real daily rows). DERIVED: the frame-realisation floor is the post-fit RMS residual of an actual 7-parameter Helmert datum realisation (not an asserted 0.2 m). MODELLED: the lunar-relay OD covariance magnitudes (0.27 m post-processed, ~14.4 m real-time at 1 h latency) are a round, NOT back-solved, representative allocation — the order-15-m real-time figure is independently bracketed by the real EOP-prediction curve (≈9.9 m at 1 day, ≈18.8 m at 2 days). The multi-day predictor is persistence, not IERS's operational Bulletin A algorithm, and a genuine predicted-vs-final vintage difference needs an archived earlier file vintage (not available from a single fetch). Not a certified real-time frame product.",
       "source": "defaults"

@@ -35,6 +35,34 @@ pub fn site_rotation_speed(lat_rad: f64) -> f64 {
     EARTH_ROTATION_RATE * R_EARTH_EQUATORIAL_M * lat_rad.cos()
 }
 
+/// Surface speed (m/s) of an Earth-fixed site at geodetic `lat_rad`, `lon_rad` on the
+/// spherical Earth (radius `R_eq`), at TT Julian Date `jd_tt`, rotating about the true pole:
+/// `ω_eff · R_eq · |ẑ_CIP × r̂|` with `ω_eff = Ω (1 − LOD / 86400 s)` and the Celestial
+/// Intermediate Pole placed in the terrestrial frame at `(x_p, −y_p, 1)` from the IERS
+/// polar motion. `eop` supplies `x_p`, `y_p` and the excess length of day `LOD`. Unlike
+/// [`site_rotation_speed`], which rotates about the terrestrial z axis at the nominal rate,
+/// this carries the polar-motion tilt (amplified by `tan(lat)`) and the day-length change.
+/// The precession-nutation rate of the pole in space (about 1e-11 rad/s) is left out.
+pub fn site_rotation_speed_at(
+    lat_rad: f64,
+    lon_rad: f64,
+    jd_tt: f64,
+    eop: &crate::eop::EopSeries,
+) -> f64 {
+    let (_, xp, yp) = eop.frame_args_tt(jd_tt);
+    let lod_s = eop.lod_ms_tt(jd_tt) * 1e-3;
+    let omega = EARTH_ROTATION_RATE * (1.0 - lod_s / 86_400.0);
+    let n = (xp * xp + yp * yp + 1.0).sqrt();
+    let pole = [xp / n, -yp / n, 1.0 / n];
+    let site = [
+        lat_rad.cos() * lon_rad.cos(),
+        lat_rad.cos() * lon_rad.sin(),
+        lat_rad.sin(),
+    ];
+    let d = pole[0] * site[0] + pole[1] * site[1] + pole[2] * site[2];
+    omega * R_EARTH_EQUATORIAL_M * (1.0 - d * d).max(0.0).sqrt()
+}
+
 /// Plane-change Δv (m/s) to rotate a velocity of magnitude `v_orbit` through
 /// `delta_i_rad`: the vector relation `2·v·sin(Δi/2)`.
 pub fn plane_change_dv(v_orbit: f64, delta_i_rad: f64) -> f64 {
@@ -136,6 +164,20 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
                          launch starts with",
         },
         FieldUnit {
+            path: "site_lon_deg",
+            unit: "deg",
+            provenance: Input,
+            definition: "launch-site longitude, east; used only by the true-pole site speed",
+        },
+        FieldUnit {
+            path: "site_rotation_speed_true_pole_m_s",
+            unit: "m/s",
+            provenance: Computed,
+            definition: "Omega (1 - LOD/86400 s) * R_eq * |z_CIP x r_site| at the scenario epoch, \
+                         the pole and length of day from the supplied IERS finals2000A rows; \
+                         null when no epoch is given",
+        },
+        FieldUnit {
             path: "daily_opportunities",
             unit: "count",
             provenance: Computed,
@@ -179,6 +221,59 @@ pub struct LaunchWindowScenario {
     /// Target circular-orbit altitude (km).
     #[serde(default = "lw_default_alt")]
     pub altitude_km: f64,
+    /// Launch-site longitude (deg east), used only for the true-pole site speed.
+    #[serde(default)]
+    pub site_lon_deg: f64,
+    /// Launch epoch, UTC, `YYYY-MM-DDTHH:MM:SS`. With [`Self::eop_finals2000a`] it selects
+    /// the IERS polar motion and length of day for `site_rotation_speed_true_pole_m_s`.
+    #[serde(default)]
+    pub epoch: Option<String>,
+    /// The body of a real IERS `finals2000A` file covering [`Self::epoch`] (the `--eop`
+    /// CLI path inlines it). Required together with `epoch`.
+    #[serde(default)]
+    pub eop_finals2000a: Option<String>,
+}
+
+impl LaunchWindowScenario {
+    /// The site speed about the true pole at the scenario epoch ([`site_rotation_speed_at`]),
+    /// or `None` when no epoch is given. Errors when only one of `epoch` and
+    /// `eop_finals2000a` is given, when the file has no readable row, or when the epoch lies
+    /// outside the file's span (the series is never extrapolated here).
+    fn true_pole_site_speed(&self, lat_rad: f64) -> Result<Option<f64>, String> {
+        let (epoch, body) = match (&self.epoch, &self.eop_finals2000a) {
+            (None, None) => return Ok(None),
+            (Some(e), Some(b)) => (e, b),
+            _ => {
+                return Err("the true-pole site speed needs both `epoch` and \
+                            `eop_finals2000a` (a real IERS finals2000A body)"
+                    .to_string())
+            }
+        };
+        if !(-180.0..=360.0).contains(&self.site_lon_deg) {
+            return Err("site_lon_deg must be in [-180, 360]".to_string());
+        }
+        let jd_utc = crate::leo_pass::parse_epoch_jd(epoch)?;
+        let records = crate::eop::parse_all(body);
+        let (Some(first), Some(last)) = (records.first(), records.last()) else {
+            return Err("eop_finals2000a contained no readable IERS finals2000A rows".to_string());
+        };
+        let mjd_utc = jd_utc - crate::timescales::MJD_OFFSET;
+        if mjd_utc < first.mjd || mjd_utc > last.mjd {
+            return Err(format!(
+                "epoch {epoch} (MJD {mjd_utc:.3}) is outside the EOP rows supplied \
+                 (MJD {} to {})",
+                first.mjd, last.mjd
+            ));
+        }
+        let eop = crate::eop::EopSeries::new(records);
+        let jd_tt = crate::timescales::utc_to_tt(jd_utc);
+        Ok(Some(site_rotation_speed_at(
+            lat_rad,
+            self.site_lon_deg.to_radians(),
+            jd_tt,
+            &eop,
+        )))
+    }
 }
 
 impl LaunchWindowScenario {
@@ -199,6 +294,7 @@ impl LaunchWindowScenario {
         let v_orbit = circular_velocity(alt_m);
         let i_min = min_inclination(lat).to_degrees();
         let opportunities = daily_launch_opportunities(lat, inc);
+        let true_pole_speed = self.true_pole_site_speed(lat)?;
 
         // Direct azimuths when reachable; otherwise the dogleg Δv from i_min.
         // A direct azimuth exists exactly when inc ≥ |lat| (cos i / cos lat ∈ [-1, 1]),
@@ -220,6 +316,9 @@ impl LaunchWindowScenario {
             "min_inclination_deg": i_min,
             "circular_velocity_m_s": v_orbit,
             "site_rotation_speed_m_s": site_rotation_speed(lat),
+            "site_lon_deg": self.site_lon_deg,
+            "epoch": self.epoch,
+            "site_rotation_speed_true_pole_m_s": true_pole_speed,
             "daily_opportunities": opportunities,
             "launch_azimuth_deg": azimuths.map(|(a, d)| serde_json::json!({"ascending": a, "descending": d})),
             "dogleg_plane_change_dv_m_s": dogleg_dv,
@@ -337,6 +436,9 @@ mod tests {
             site_lat_deg: 28.5,
             target_inclination_deg: 51.6,
             altitude_km: 400.0,
+            site_lon_deg: 0.0,
+            epoch: None,
+            eop_finals2000a: None,
         };
         let (j1, _s) = scn.run_json().unwrap();
         let (j2, _s) = scn.run_json().unwrap();
@@ -355,6 +457,9 @@ mod tests {
             site_lat_deg: 51.6,
             target_inclination_deg: 28.5,
             altitude_km: 400.0,
+            site_lon_deg: 0.0,
+            epoch: None,
+            eop_finals2000a: None,
         };
         let (j, _s) = scn.run_json().unwrap();
         let v: serde_json::Value = serde_json::from_str(&j).unwrap();
@@ -363,5 +468,45 @@ mod tests {
             "no direct azimuth below latitude"
         );
         assert!(v["dogleg_plane_change_dv_m_s"].as_f64().unwrap() > 0.0);
+    }
+
+    // Two real IERS finals2000A rows (MJD 59579 and 59580, flag I with the Bulletin B block).
+    const EOP_ROWS: &str = "211231 59579.00 I  0.056257 0.000030  0.275943 0.000035  I-0.1104179 0.0000019  0.1927 0.0016  I     0.073    0.060    -0.273    0.299  0.056304  0.275973 -0.1104355     0.040    -0.287  \n22 1 1 59580.00 I  0.054644 0.000026  0.276986 0.000032  I-0.1104988 0.0000023 -0.0267 0.0022  I     0.095    0.060    -0.250    0.299  0.054574  0.276983 -0.1105197     0.059    -0.259  \n";
+
+    #[test]
+    fn scenario_reports_the_true_pole_site_speed_at_an_epoch() {
+        let scn = |epoch: Option<&str>, eop: Option<&str>| LaunchWindowScenario {
+            site_lat_deg: 62.9,
+            target_inclination_deg: 90.0,
+            altitude_km: 400.0,
+            site_lon_deg: 10.0,
+            epoch: epoch.map(str::to_string),
+            eop_finals2000a: eop.map(str::to_string),
+        };
+        // No epoch: the field is present and null.
+        let (j, _) = scn(None, None).run_json().unwrap();
+        let v: serde_json::Value = serde_json::from_str(&j).unwrap();
+        assert!(v["site_rotation_speed_true_pole_m_s"].is_null());
+        // With an epoch and EOP rows: exactly site_rotation_speed_at on the same inputs.
+        let (j, _) = scn(Some("2022-01-01T00:00:00"), Some(EOP_ROWS))
+            .run_json()
+            .unwrap();
+        let v: serde_json::Value = serde_json::from_str(&j).unwrap();
+        let eop = crate::eop::EopSeries::from_finals2000a(EOP_ROWS);
+        let jd_tt =
+            crate::timescales::utc_to_tt(crate::timescales::julian_date(2022, 1, 1, 0, 0, 0.0));
+        let want =
+            site_rotation_speed_at(62.9_f64.to_radians(), 10.0_f64.to_radians(), jd_tt, &eop);
+        assert_eq!(
+            v["site_rotation_speed_true_pole_m_s"].as_f64().unwrap(),
+            want
+        );
+        assert!((want / site_rotation_speed(62.9_f64.to_radians()) - 1.0).abs() < 1e-5);
+        // Half the inputs, or an epoch outside the rows: an error, never a clamp.
+        assert!(scn(Some("2022-01-01T00:00:00"), None).run_json().is_err());
+        assert!(scn(None, Some(EOP_ROWS)).run_json().is_err());
+        assert!(scn(Some("2022-01-05T00:00:00"), Some(EOP_ROWS))
+            .run_json()
+            .is_err());
     }
 }

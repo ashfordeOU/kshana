@@ -29,12 +29,12 @@ use serde_json::Value;
 
 const TOML: &str = include_str!("../scenarios/realtime-frame-eop.toml");
 const GOLDEN_CSV: &str = include_str!("golden/realtime-frame-eop.csv");
-/// The EOP product the committed scenario actually runs on. G12 moved the runtime default
-/// off the five-row final-only excerpt and onto this real 2026 extract (20 Bulletin B
-/// finals + 12 Bulletin A prediction-only rows), so the oracle here reads the same bytes
-/// the scenario does. `realtime_frame_eop::tests::bundled_eop_matches_the_test_fixture`
+/// The EOP product the committed scenario actually runs on. Release 0.30 moved the runtime
+/// default onto this real extract of the 2026-09-30 finals2000A.all (30 Bulletin B finals,
+/// 54 rapid measured rows, 90 Bulletin A predictions, classified by the IERS I/P flags), so
+/// the oracle here reads the same bytes the scenario does. `realtime_frame_eop::tests::bundled_eop_matches_the_test_fixture`
 /// pins this fixture byte-for-byte to the `tools/` copy the library embeds.
-const FIXTURE: &str = include_str!("fixtures/agency/eop/finals2000A_2026.txt");
+const FIXTURE: &str = include_str!("fixtures/agency/eop/finals2000A_20260930.txt");
 
 fn scenario() -> RealtimeFrameEopScenario {
     toml::from_str(TOML).expect("realtime-frame-eop scenario parses")

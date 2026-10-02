@@ -1,0 +1,6 @@
+# pyshtools 4.14.1 SHGravCoeffs.from_file(format='icgem', lmax=350).expand(a=1738140, f=0, lmax=350)
+# key | value | unit | note
+AIUB-GRL350A.mean_radial_gravity_m_s2 | -1.623465254095e+00 | m s^-2 | equator row 351, 1404 longitudes, r = 1738140.0 m
+AIUB-GRL350A.mean_potential_m2_s2 | 2.821012162327e+06 | m^2 s^-2 | same row
+AIUB-GRL350B.mean_radial_gravity_m_s2 | -1.623438975400e+00 | m s^-2 | equator row 351, 1404 longitudes, r = 1738140.0 m
+AIUB-GRL350B.mean_potential_m2_s2 | 2.821012012487e+06 | m^2 s^-2 | same row
