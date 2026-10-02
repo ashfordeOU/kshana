@@ -166,7 +166,9 @@ fn gyroscope_qpn_matches_gauguet_measured_rotation_noise() {
     let mut scored = 0;
     let op = gauguet(OPERATING_N_RED).rotation_asd(v_perp());
     let r = op / OPERATING_MEASURED;
-    println!("operating point N=2e5: kshana {op:.4e} measured {OPERATING_MEASURED:.2e} ratio {r:.3}");
+    println!(
+        "operating point N=2e5: kshana {op:.4e} measured {OPERATING_MEASURED:.2e} ratio {r:.3}"
+    );
     worst = worst.max((r - 1.0).abs());
     for (n, measured) in read_csv(FIG14) {
         let share = qpn_share(n);
@@ -183,7 +185,10 @@ fn gyroscope_qpn_matches_gauguet_measured_rotation_noise() {
         }
     }
     println!("admitted Fig. 14 points: {scored}; worst |ratio - 1| = {worst:.3}");
-    assert!(scored >= 1, "no Fig. 14 point falls in the pre-registered QPN window");
+    assert!(
+        scored >= 1,
+        "no Fig. 14 point falls in the pre-registered QPN window"
+    );
     assert!(worst <= BAR, "worst |ratio - 1| {worst:.3} exceeds {BAR}");
 }
 

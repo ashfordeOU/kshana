@@ -135,9 +135,12 @@ fn measured_te_sq(x: &[f64], tau0: f64, taus_m: &[usize]) -> Vec<(f64, usize)> {
 }
 
 fn cs_phase() -> Option<Vec<f64>> {
-    let p = std::env::var("KSHANA_CS5071A_PATH").map(std::path::PathBuf::from).unwrap_or_else(
-        |_| std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("realdata-cache/cs5071a/5071A_phase.txt"),
-    );
+    let p = std::env::var("KSHANA_CS5071A_PATH")
+        .map(std::path::PathBuf::from)
+        .unwrap_or_else(|_| {
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                .join("realdata-cache/cs5071a/5071A_phase.txt")
+        });
     let text = std::fs::read_to_string(p).ok()?;
     Some(
         text.lines()
@@ -160,7 +163,10 @@ fn caesium_ratios() -> Option<Vec<(String, f64)>> {
     for tau in [1usize, 10, 100, 1_000, 10_000, 100_000] {
         let meas = overlapping_adev(&x, 1.0, tau);
         let lim = m.fit.adev(tau as f64);
-        println!("Cs ADEV tau {tau:>6} s: measured {meas:.3e} model {lim:.3e} ratio {:.3}", meas / lim);
+        println!(
+            "Cs ADEV tau {tau:>6} s: measured {meas:.3e} model {lim:.3e} ratio {:.3}",
+            meas / lim
+        );
         out.push((format!("Cs ADEV {tau} s"), meas / lim));
     }
     let taus = [100.0, 1_000.0, 10_000.0, 50_000.0];
@@ -186,8 +192,14 @@ fn caesium_or_skip() -> Option<Vec<(String, f64)>> {
 /// Assert every ratio lies in its pinned window (label substring, low, high).
 fn pin(ratios: &[(String, f64)], windows: &[(&str, f64, f64)]) {
     for (label, lo, hi) in windows {
-        let (_, r) = ratios.iter().find(|(l, _)| l == label).unwrap_or_else(|| panic!("{label}"));
-        assert!((*lo..*hi).contains(r), "{label}: ratio {r:.3} left [{lo}, {hi})");
+        let (_, r) = ratios
+            .iter()
+            .find(|(l, _)| l == label)
+            .unwrap_or_else(|| panic!("{label}"));
+        assert!(
+            (*lo..*hi).contains(r),
+            "{label}: ratio {r:.3} left [{lo}, {hi})"
+        );
     }
 }
 
@@ -195,7 +207,10 @@ fn pin(ratios: &[(String, f64)], windows: &[(&str, f64, f64)]) {
 #[ignore = "FINDING: the 5071A record exceeds the caesium preset at 1, 10, 100 and 1000 s (ADEV ratios 29.97, 9.18, 3.08, 1.35) and in holdover at every coast (1.15 to 8.74); inside at 1e4 and 1e5 s (0.91, 0.72)"]
 fn caesium_preset_envelopes_the_measured_5071a() {
     let Some(r) = caesium_or_skip() else { return };
-    assert!(r.iter().all(|(_, v)| *v <= 1.0), "the 5071A unit lies outside the caesium preset at some tau");
+    assert!(
+        r.iter().all(|(_, v)| *v <= 1.0),
+        "the 5071A unit lies outside the caesium preset at some tau"
+    );
 }
 
 /// FINDING pinned (run 2026-10-02, after the pre-registration commit a01c491c). The
@@ -225,10 +240,14 @@ fn caesium_finding_pinned() {
 
 /// One THU2 day: contiguous cleaned phase segments (s), 30 s spacing.
 fn thu2_days() -> Vec<(String, Vec<Vec<f64>>)> {
-    let text = std::fs::read_to_string(format!("{FIXTURES}/thu2_8040c_esa_mgex.csv")).expect("THU2 fixture");
+    let text = std::fs::read_to_string(format!("{FIXTURES}/thu2_8040c_esa_mgex.csv"))
+        .expect("THU2 fixture");
     // Columns: date, seconds_of_day, clock_bias_s. Cleaning per the header rule.
     let mut by_day: Vec<(String, Vec<(usize, f64)>)> = Vec::new();
-    for l in text.lines().filter(|l| !l.starts_with('#') && !l.starts_with("date")) {
+    for l in text
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.starts_with("date"))
+    {
         let mut it = l.split(',');
         let d = it.next().unwrap().to_string();
         let sod: f64 = it.next().unwrap().parse().unwrap();
@@ -236,7 +255,11 @@ fn thu2_days() -> Vec<(String, Vec<Vec<f64>>)> {
         if by_day.last().is_none_or(|(dd, _)| *dd != d) {
             by_day.push((d.clone(), Vec::new()));
         }
-        by_day.last_mut().unwrap().1.push(((sod / 30.0).round() as usize, b));
+        by_day
+            .last_mut()
+            .unwrap()
+            .1
+            .push(((sod / 30.0).round() as usize, b));
     }
     by_day
         .into_iter()
@@ -291,7 +314,11 @@ fn rubidium_ratios() -> Vec<(String, f64)> {
         }
         let meas = (num / den).sqrt();
         let lim = m.fit.adev(30.0 * k as f64);
-        println!("Rb ADEV tau {:>5} s: pooled measured {meas:.3e} model {lim:.3e} ratio {:.3}", 30 * k, meas / lim);
+        println!(
+            "Rb ADEV tau {:>5} s: pooled measured {meas:.3e} model {lim:.3e} ratio {:.3}",
+            30 * k,
+            meas / lim
+        );
         out.push((format!("Rb ADEV {} s", 30 * k), meas / lim));
     }
     let taus = [300.0, 990.0, 3_000.0];
@@ -319,7 +346,10 @@ fn rubidium_ratios() -> Vec<(String, f64)> {
 #[ignore = "FINDING: the THU2 8040C Allan deviation is inside the rubidium preset at every tau (0.35 to 0.87) but its holdover time error exceeds the synthesised one at 300, 990 and 3000 s (1.07, 1.27, 1.60)"]
 fn rubidium_preset_envelopes_thu2_8040c() {
     let r = rubidium_ratios();
-    assert!(r.iter().all(|(_, v)| *v <= 1.0), "the THU2 8040C lies outside the rubidium preset at some tau");
+    assert!(
+        r.iter().all(|(_, v)| *v <= 1.0),
+        "the THU2 8040C lies outside the rubidium preset at some tau"
+    );
 }
 
 /// FINDING pinned (run 2026-10-02, after a01c491c): Allan deviation inside the preset
@@ -345,17 +375,24 @@ fn rubidium_finding_pinned() {
 
 /// Measured / model ratios for the SA.45s production figures.
 fn csac_ratios() -> Vec<(String, f64)> {
-    let text = std::fs::read_to_string(format!("{FIXTURES}/sa45s_lutwak2011.csv")).expect("CSAC fixture");
+    let text =
+        std::fs::read_to_string(format!("{FIXTURES}/sa45s_lutwak2011.csv")).expect("CSAC fixture");
     let (_, m) = model("csac");
     let mut out = Vec::new();
     // Columns: source, tau_s, adev.
-    for l in text.lines().filter(|l| !l.starts_with('#') && !l.starts_with("source")) {
+    for l in text
+        .lines()
+        .filter(|l| !l.starts_with('#') && !l.starts_with("source"))
+    {
         let mut it = l.split(',');
         let src = it.next().unwrap();
         let tau: f64 = it.next().unwrap().parse().unwrap();
         let meas: f64 = it.next().unwrap().parse().unwrap();
         let lim = m.fit.adev(tau);
-        println!("CSAC {src} tau {tau:>8.1} s: measured {meas:.3e} model {lim:.3e} ratio {:.3}", meas / lim);
+        println!(
+            "CSAC {src} tau {tau:>8.1} s: measured {meas:.3e} model {lim:.3e} ratio {:.3}",
+            meas / lim
+        );
         out.push((format!("{src} {tau} s"), meas / lim));
     }
     out
@@ -365,7 +402,10 @@ fn csac_ratios() -> Vec<(String, f64)> {
 #[ignore = "FINDING: the worst delivered SA.45s in Lutwak 2011 Fig. 8a (highest occupied bin ends at 4.0e-10 at 1 s; the bar starts near 3.4e-10) is 1.26x the CSAC preset; 10 s worst unit 0.995x, typical unit 0.09x to 0.27x"]
 fn csac_preset_envelopes_sa45s_production_units() {
     let r = csac_ratios();
-    assert!(r.iter().all(|(_, v)| *v <= 1.0), "an SA.45s production figure lies outside the CSAC preset");
+    assert!(
+        r.iter().all(|(_, v)| *v <= 1.0),
+        "an SA.45s production figure lies outside the CSAC preset"
+    );
 }
 
 /// FINDING pinned (run 2026-10-02, after a01c491c).
