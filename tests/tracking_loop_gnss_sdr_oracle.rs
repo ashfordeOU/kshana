@@ -54,6 +54,20 @@
 //!   mean time is the window length over the slip count, at every sweep point with at least 10
 //!   slips.
 //!
+//! Amendment 1 (2026-10-02, written after the convention calibration and before any test
+//! recording was generated; disclosed): the 60 dB-Hz calibration fixed the code reference (the
+//! local code epoch starts at `PRN_start_sample_count + aux1`; 0.0004 chip root mean square) and
+//! the carrier sign (the receiver phase is minus `acc_carrier_phase_rad`; 0.22° root mean
+//! square), but with a constant Doppler it cannot tell which sample the accumulated phase refers
+//! to. A second calibration recording at 60 dB-Hz with a 10 Hz/s Doppler rate was therefore run:
+//! the accumulated-phase error drifts (−1.28°/s or −4.88°/s, depending on the reference sample),
+//! while the prompt-correlator phase `atan(Q/I)` stays constant (trend 0.003°/s). So the
+//! accumulated phase is used only where the Doppler is constant (jitter, thresholds, slips), and
+//! the dynamic-stress mean is measured as the mean prompt-correlator phase, which is the mean
+//! carrier error over each integration. That calibration showed a mean prompt phase of 10.12° at
+//! 60 dB-Hz, so a dynamic-stress value was seen before this amendment; the graded recording is
+//! the separate 45 dB-Hz one. Quantities, recordings and tolerances are otherwise unchanged.
+//!
 //! Engine quantities: `pll_thermal_jitter_rad`, `dll_thermal_jitter_chips` (with `T`, `d`, `B`
 //! above), `LoopConfig::thresholds` (drop and re-lock, static user), `pll_dynamic_stress_deg`,
 //! `dll_ramp_lag_chips`, `log10_mean_time_to_cycle_slip_s`.
