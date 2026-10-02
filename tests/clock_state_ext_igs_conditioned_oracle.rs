@@ -39,7 +39,13 @@
 //! MUTATION (pre-registered, if it passes): halve the tuned `R` in the scored run (a mistuned
 //! measurement noise must break (c)).
 //!
-//! VERDICT: not yet run.
+//! VERDICT (first and only run, 2026-10-02, after pre-registration commit fb475550): DISAGREES,
+//! the row stays MODELLED, closer than round 2. (a) one-step holds on all 11 satellites (0.941 to
+//! 0.968); (c) the triple-NIS mean, which failed on G24 and G30 in round 2, now holds on all 11
+//! (2.641 to 3.549); (b) the one-hour criterion fails on two, G09 (0.894) and G26 (0.876), both
+//! OVER-confident at one hour; the other nine lie in 0.916 to 0.994. The conditioning removed 2
+//! to 41 phase steps per satellite and one burst (G25), and logged four frequency steps (G03).
+//! The pre-registered R-halving mutation applies only to a pass and was not run.
 
 #[path = "clock_library_support/mod.rs"]
 mod support;
@@ -205,10 +211,20 @@ fn failures() -> Vec<String> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES, (b) one-hour fails on G09 (0.894) and G26 (0.876) against 0.90; (a) and (c) hold on all 11"]
 fn conditioned_extended_filter_is_consistent_on_fresh_held_out_igs_clocks() {
     let f = failures();
     assert!(f.is_empty(), "pre-registered criteria failed: {f:?}");
+}
+
+/// Pins the recorded outcome (first and only run, 2026-10-02).
+#[test]
+fn conditioned_extended_filter_finding() {
+    assert_eq!(
+        failures(),
+        vec!["G09 1h 0.894".to_string(), "G26 1h 0.876".to_string()],
+        "recorded finding changed"
+    );
 }
 
 /// Pipeline step (run once, by hand, before `tune.py`): decimate the 30 s fixture to 300 s,
