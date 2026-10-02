@@ -49,6 +49,14 @@
 //! (`p1 - p2` in place of `p2 - p1`) must turn the test red. Reported only: a 10 % error in the
 //! 40.3 constant.
 //!
+//! Result (run 2026-10-02 on the fixture of the commit after 5e795f93): FAIL, a finding. 36 arcs
+//! counted; 33 within 3 TECU (26 within 1.5 TECU), per-epoch RMS 3.95 TECU. Outside: G06 from
+//! 21:01 UTC (+6.84 TECU, a steady +5 to +11 TECU through the local evening, consistent with
+//! the smooth degree-15 map missing post-sunset structure at a low-latitude station) and G31
+//! from 09:20 UTC (-3.62 TECU, driven by code noise and multipath of +-10 TECU in the raw
+//! geometry-free combination) and G09 from 16:20 UTC (+3.39 TECU, a 71-epoch arc). The formula's sign, constant and band order agree with the map
+//! on every other arc (median |arc mean| about 1 TECU).
+//!
 //! Fixture: `tests/fixtures/geometry_free_tec_gim_oracle/los.csv` from `make_fixture.py` there
 //! (NOTICE.md gives sources, licences, retrieval date and SHA-256).
 
@@ -136,7 +144,7 @@ fn arcs(los: &[Los]) -> (Vec<(u32, f64, usize, f64)>, Vec<f64>) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; FAIL (finding): 33 of 36 arcs within 3 TECU, worst G06 evening arc +6.84 TECU, G31 -3.62 and G09 +3.39 TECU; see the header"]
 fn geometry_free_slant_tec_matches_the_code_gim_on_abmf() {
     let Some(los) = load() else {
         eprintln!("SKIP: fixture los.csv absent (run make_fixture.py)");
@@ -152,4 +160,20 @@ fn geometry_free_slant_tec_matches_the_code_gim_on_abmf() {
     eprintln!("{} arcs, worst |arc mean| {worst:.2} TECU, per-epoch RMS {rms:.2} TECU", arcs.len());
     assert!(arcs.len() >= MIN_ARCS, "only {} counted arcs", arcs.len());
     assert!(worst <= TOL_TECU, "worst arc mean difference {worst:.2} TECU > {TOL_TECU}");
+}
+
+/// Pins the finding: at least 33 of the counted arcs agree with the GIM within 3 TECU and the
+/// median |arc mean| is below 1.5 TECU.
+#[test]
+fn geometry_free_finding_is_pinned() {
+    let Some(los) = load() else {
+        eprintln!("SKIP: fixture los.csv absent (run make_fixture.py)");
+        return;
+    };
+    let (arcs, _) = arcs(&los);
+    let mut m: Vec<f64> = arcs.iter().map(|a| a.3.abs()).collect();
+    m.sort_by(|a, b| a.partial_cmp(b).expect("finite"));
+    let inside = m.iter().filter(|x| **x <= TOL_TECU).count();
+    assert!(arcs.len() == 36 && inside >= 33, "{inside} of {} arcs inside", arcs.len());
+    assert!(m[m.len() / 2] < 1.5, "median |arc mean| {}", m[m.len() / 2]);
 }
