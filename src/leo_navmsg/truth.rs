@@ -404,6 +404,13 @@ pub enum ClockConfig {
         /// Seed of the noise.
         seed: u64,
     },
+    /// A measured clock: the user-visible offset (s) tabulated every `step_s` seconds from the
+    /// truth epoch (see [`TruthClock::from_samples`]), linearly interpolated. Nothing is added:
+    /// a real onboard clock already carries the relativistic effects of its orbit.
+    Measured {
+        /// Sample spacing (s).
+        step_s: f64,
+    },
     /// A clock steered to system time on board (the "zero-clock" case): the user-visible
     /// offset is only the steering residual, a first-order Gauss–Markov process.
     Steered {
@@ -445,6 +452,9 @@ impl TruthClock {
                     walk.resize(n, 0.0);
                 }
             }
+            ClockConfig::Measured { .. } => {
+                return Err("a measured clock is built with TruthClock::from_samples".to_string());
+            }
             ClockConfig::Steered {
                 sigma_s,
                 tau_s,
@@ -466,6 +476,22 @@ impl TruthClock {
             }
         }
         Ok(TruthClock { cfg, walk })
+    }
+
+    /// A measured clock from its user-visible offsets `samples` (s), one every `step_s`
+    /// seconds from the truth orbit's epoch (for example a real satellite's onboard clock on
+    /// the grid of its precise orbit). At least two finite samples and a positive step.
+    pub fn from_samples(step_s: f64, samples: &[f64]) -> Result<TruthClock, String> {
+        if !(step_s > 0.0 && step_s.is_finite()) || samples.len() < 2 {
+            return Err("a measured clock needs a positive step and at least two samples".into());
+        }
+        if samples.iter().any(|x| !x.is_finite()) {
+            return Err("a measured clock sample is not finite".to_string());
+        }
+        Ok(TruthClock {
+            cfg: ClockConfig::Measured { step_s },
+            walk: samples.to_vec(),
+        })
     }
 
     fn noise(&self, dt: f64) -> f64 {
@@ -497,6 +523,7 @@ impl TruthClock {
                     + self.noise(dt)
                     + orbit.relativistic_s(dt)
             }
+            ClockConfig::Measured { step_s } => self.noise(dt / step_s),
             ClockConfig::Steered { .. } => self.noise(dt),
         }
     }
