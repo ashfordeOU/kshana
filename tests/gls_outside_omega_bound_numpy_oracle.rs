@@ -31,8 +31,8 @@
 //!   `cos_w = (1^T Omega^-1 d) / sqrt((1^T Omega^-1 1)(d^T Omega^-1 d))`, has `|cos_w|` in
 //!   [0.1, 0.9], so neither ceiling sits at its degenerate edge.
 //! - Tier B, 40 ill-conditioned SPD cases (30 `Q diag(lambda) Q^T`, condition number log-uniform
-//!   in [1e3, 1e8]; 10 shared-reference `diag(s^2) + rho s s^T`, `rho` in [0.999, 0.9999999]),
-//!   same `|cos_w|` rule.
+//!   in [1e3, 1e8]; 10 shared-reference `Omega_ij = s_i s_j (rho + (1 - rho) delta_ij)`, `rho`
+//!   in [0.999, 0.9999999]), same `|cos_w|` rule.
 //! - Tier P (pure common mode), 5 cases `d = k 1`, `k` in {1, 2, -0.5, 3, 0.1}: separation is
 //!   blind (`alpha_ss` infinite in exact arithmetic), so the minimum is `alpha_cm`; the minimum
 //!   and `alpha_cm` are compared, the isolated `alpha_ss` is not (it is not an output of the

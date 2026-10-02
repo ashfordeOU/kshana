@@ -27,8 +27,9 @@
 //!   `s' >= 9`, a shift common to every source.
 //! - Tier B, 40 ill-conditioned SPD cases: 30 of the form `Q diag(lambda) Q^T` (Q from the QR of
 //!   a Gaussian matrix, eigenvalues log-spaced, condition number log-uniform in [1e3, 1e8]) and
-//!   10 shared-reference matrices `diag(s^2) + rho s s^T` with `rho` in [0.999, 0.9999999]; the
-//!   same `|cos_w| >= 0.1` rule applies.
+//!   10 shared-reference matrices `Omega_ij = s_i s_j (rho + (1 - rho) delta_ij)` (every pair of
+//!   sources correlated at `rho`, `rho` in [0.999, 0.9999999]); the same `|cos_w| >= 0.1` rule
+//!   applies.
 //!
 //! **Tolerance, fixed before the first comparison.** Case 0 and Tiers A and C: relative error at
 //! most 1e-12 against the numpy value. Tier B: relative error at most
