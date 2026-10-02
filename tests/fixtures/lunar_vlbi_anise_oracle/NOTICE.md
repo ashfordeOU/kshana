@@ -27,3 +27,21 @@ delay), and the central-difference partial of that delay with respect to the bea
 - **Reproduce:** `source ~/Code/kshana-oracles/env.sh`, then in `xval/anise-lunar-od`:
   `cargo run --release --bin lunar_vlbi_oracle > ../../tests/fixtures/lunar_vlbi_anise_oracle/anise_delays.csv`.
 - **Consumed by:** `tests/lunar_vlbi_anise_oracle.rs`.
+
+## Cut kernels (round 2, `kernels/`)
+
+For the engine's own kernel reader (`tests/lunar_vlbi_anise_oracle.rs::kernel_delay_matches_the_anise_light_time_difference`
+and `tests/naif_kernel_reader_check.rs`), `kernels/make_kernel_subsets.py` (2026-10-02) copied,
+bit for bit, the type-2 records covering 2023-12-31..2024-01-02 UTC from the three kernels above
+into small kernels, and checked with SPICE (CSPICE N0067, spiceypy 8.2.0) that every state and
+rotation over the window is identical between the full and the cut kernels:
+
+- `de440s_2024-01-01.bsp` (segments 3/0, 301/3, 399/3),
+  `8f7986fcc8e2987c9d94efa86e02a2a578631b2cb939d497a395f1c58c3b739e`
+- `earth_itrf93_2024-01-01.bpc` (frame 3000 against ECLIPJ2000),
+  `cafe5985f6a81d86cfd49e42949e94c1d51dc4e2bfccd04497a2d60e49f0bb23`
+- `moon_pa_de440_2024-01-01.bpc` (frame 31008 against J2000),
+  `a895c74d3404bc80fead6af56a83c09cc338455ef89930085d798a95f34f97fa`
+- `spice_reader_check.csv`: SPICE `spkgeo` and `pxform` values from the cut kernels at the 25
+  epochs, for the reader self-check (not the M038 oracle). The leapseconds kernel used for
+  `str2et` is NAIF `naif0012.tls`, `678e32bdb5a744117a467cd9601cd6b373f0e9bc9bbde1371d5eee39600a039b`.

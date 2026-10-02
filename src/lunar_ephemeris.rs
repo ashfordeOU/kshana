@@ -665,6 +665,10 @@ pub struct EphemerisSourceBlock {
     /// [`published_frame_tie_angle_deg`], never quoted.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub published_frame_tie_angle_deg: Option<f64>,
+    /// How an OP-frame element set was propagated when the scenario put it on the
+    /// ephemeris-grade path (`planetary_kernel_path`); absent otherwise.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub propagation: Option<String>,
     /// Honest scope note for this source.
     pub note: String,
 }
@@ -738,6 +742,7 @@ pub fn source_block(e: &LunarEphemeris) -> EphemerisSourceBlock {
         published_frame,
         source_caveat: e.meta("source_caveat"),
         published_frame_tie_angle_deg: tie,
+        propagation: None,
         note,
     }
 }
