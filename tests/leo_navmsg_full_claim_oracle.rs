@@ -272,9 +272,9 @@ fn part_a() -> (f64, f64, f64, usize) {
     (wc, wk, ws, n)
 }
 
-/// Part A, run with the pre-registered tolerances.
+/// Part A, run with the pre-registered tolerances (2026-10-02: AGREES; 704 messages, worst
+/// correction 4.4e-9 m, clock 6.6e-17 s, statistic 9.5e-11 m).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn corrections_clock_fit_and_update_period_trade_match_an_independent_implementation_on_grace_fo() {
     let (wc, wk, ws, n) = part_a();
     println!("messages {n}: worst correction {wc:.3e} m, clock {wk:.3e} s, statistic {ws:.3e} m");
@@ -356,8 +356,9 @@ fn part_b() -> Vec<(String, f64)> {
     out
 }
 
+/// Part B, run with the pre-registered tolerance (2026-10-02: AGREES; worst 3.9 to 4.5 mm over
+/// 6 h in the five cases).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn integrated_truth_orbit_matches_orekit_within_2_cm_over_6_h() {
     let rows = part_b();
     for (label, worst) in &rows {
