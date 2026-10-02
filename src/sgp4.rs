@@ -1556,7 +1556,7 @@ pub fn gcrs_to_itrs_matrix(utc: Jd2) -> Mat3 {
 /// `W · R3(ERA) · C`).
 pub fn gcrs_to_itrs_matrix_eop(utc: Jd2, eop: &Eop) -> Mat3 {
     let tt = tt_of(utc);
-    let era = crate::jd2::earth_rotation_angle(utc.add_seconds(eop.ut1_minus_utc_s));
+    let era = crate::jd2::earth_rotation_angle(crate::jd2::utc_to_ut1(utc, eop.ut1_minus_utc_s));
     let w = crate::frames::polar_motion_matrix(eop.xp_rad, eop.yp_rad, tt);
     matmul(&w, &matmul(&rz(era), &crate::cio::gcrs_to_cirs_matrix(tt)))
 }
