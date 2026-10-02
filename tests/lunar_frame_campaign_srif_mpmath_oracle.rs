@@ -86,6 +86,47 @@
 //! answer on committed inputs, within the a-priori bound of a square-root (orthogonal
 //! factorisation) pipeline. Not the Jacobian, not any physical accuracy, and nothing about the
 //! default spectral solver, which is unchanged.
+//!
+//! ## Result (recorded 2026-10-02, not tuned)
+//!
+//! Pre-registration commit `b41908c9` (pushed 2026-10-02 16:19 UTC) precedes the solver, the
+//! fixture and the oracle run. Oracle self-agreement 1.4e-43 or better.
+//!
+//! **Every pre-registered check passes on all four scenarios.**
+//! * `stations_estimated_2026_06_09` (binding; Helmert condition 6.6e8): datum sigmas within
+//!   9.1e-15 to 3.0e-13 against bars 4.1e-7 to 5.3e-7; condition 1.1e-13 against 1.1e-6;
+//!   weakest direction 2.6e-14 rad against 3.5e-2.
+//! * `stations_fixed_2026_06_09` (control): sigmas within 1.9e-15 against bars down to 4.8e-12;
+//!   condition 2.1e-15 against 1.2e-9; weakest direction 1.7e-16 rad against 5.1e-10.
+//! * `stations_estimated_2026_03_18`: sigmas within 3.8e-13 (spectral solver on the same
+//!   inputs: 4.8e-6); condition 1.2e-13; weakest direction 1.4e-13 rad.
+//! * `stations_estimated_2024_01_01`: sigmas within 2.3e-13 (spectral: 9.7e-6); condition
+//!   4.9e-13; weakest direction 2.2e-14 rad.
+//!
+//! The square-root solver is seven to eight orders of magnitude more accurate than the spectral
+//! one on these inputs, and its bars sit five to six orders below the information-form bars of
+//! the companion test.
+//!
+//! **Disclosures.** (1) Weakest-direction measurement: the comparator was first written as
+//! `acos` of the cosine, which cannot resolve angles below about 1.5e-8 rad and so read 0 on every
+//! scenario; it now measures the chord between the sign-aligned unit vectors. The bar is
+//! unchanged, the change only makes the measured angle accurate, and the same fix is made in the
+//! companion test. (2) Before this record was written, `src/linalg_sr.rs` was found carrying three
+//! unreviewed edits that did not match the pre-registered algorithm (a plain dot product in
+//! place of the compensated one, a flipped Householder sign, and sigmas from a spectral inverse
+//! instead of the row norms of `R_H^-1`), consistent with mutation experiments that were not
+//! reverted. They were removed and the comparison re-run; every figure above is bit-for-bit what
+//! the run before the edits were found printed.
+//!
+//! **Mutations (each applied to the restored solver, run, reverted).** (1) The Jacobi singular
+//! value decomposition limited to one sweep: red (8 failures; weakest direction 0.76 rad against
+//! 3.5e-2, condition off by 0.92). (2) The whitening `sqrt(w)` scaled by `1 + 1e-6`: red (28
+//! failures; every sigma off by 1.0e-6 against bars down to 1.9e-7). (3) A flipped Householder
+//! sign: stays green (largest sigma error 3.8e-13, unchanged: on these columns the diagonal does
+//! not dominate, so the classical cancellation does not occur). (4) A plain dot product in
+//! place of the compensated one: stays green (1.1e-12). Neither (3) nor (4) degrades the result
+//! measurably on these inputs, so no bar of this form could see them; recorded as the limit of
+//! the check, which detects datum errors above about 2e-7 relative.
 
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, LunarFrameCampaignScenario,
@@ -205,7 +246,6 @@ fn engine_inputs(name: &str, sc: &LunarFrameCampaignScenario) -> J {
 /// The committed inputs are exactly what the engine builds now (the solver does not change
 /// them). With `KSHANA_WRITE_MPMATH_FIXTURE=1` it writes them instead (the fixture generator).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn engine_inputs_match_the_committed_fixture() {
     let built: Vec<J> = scenarios(false)
         .iter()
@@ -237,6 +277,23 @@ fn engine_sigma(v: &J) -> Vec<f64> {
     s.extend(fv(&acc["rotation_sigma_urad"]));
     s.push(f(&acc["scale_sigma_ppb"]) / 1e3);
     s
+}
+
+/// The angle (rad) between two directions, from the chord between the sign-aligned unit vectors:
+/// `2 asin(|e/|e| - s o/|o|| / 2)`. Unlike `acos` of the cosine, it resolves angles below
+/// `sqrt(2u)`, about 1.5e-8 rad.
+fn direction_angle(e: &[f64], o: &[f64]) -> f64 {
+    let norm = |x: &[f64]| x.iter().map(|a| a * a).sum::<f64>().sqrt();
+    let (ne, no) = (norm(e), norm(o));
+    let dot: f64 = e.iter().zip(o).map(|(a, b)| a * b).sum();
+    let s = if dot < 0.0 { -1.0 } else { 1.0 };
+    let chord = e
+        .iter()
+        .zip(o)
+        .map(|(a, b)| (a / ne - s * b / no).powi(2))
+        .sum::<f64>()
+        .sqrt();
+    2.0 * (chord / 2.0).min(1.0).asin()
 }
 
 fn rel(a: f64, b: f64) -> f64 {
@@ -292,9 +349,7 @@ fn compare(name: &str, sc: &LunarFrameCampaignScenario, r: &J) -> Vec<(String, f
     ));
     let ew = fv(&helm["weakest_direction"]["direction"]);
     let ow = fv(&r["weakest_direction"]);
-    let dot: f64 = ew.iter().zip(&ow).map(|(a, b)| a * b).sum();
-    let norm = |x: &[f64]| x.iter().map(|a| a * a).sum::<f64>().sqrt();
-    let ang = (dot.abs() / (norm(&ew) * norm(&ow))).min(1.0).acos();
+    let ang = direction_angle(&ew, &ow);
     let bar = FLOOR
         + 2.0 * lmax.sqrt() * (e_j * f(&r["zt_norm"]) + e_b + cu * lmax.sqrt())
             / f(&r["eigengap_lambda2_minus_lambda1"]);
@@ -304,7 +359,6 @@ fn compare(name: &str, sc: &LunarFrameCampaignScenario, r: &J) -> Vec<(String, f
 
 /// The strict pre-registered comparison.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn srif_datum_matches_mpmath_extended_precision() {
     let reference = fixture("reference.json");
     let refs = reference["scenarios"].as_array().expect("scenarios");
