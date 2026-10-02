@@ -390,6 +390,13 @@ Part 2, square-root information datum solver:
   pre-registered bars certify errors only above about 2e-7 relative: they reject the default
   solver but not a flipped Householder sign, an uncompensated dot product or a spectral final
   inverse, and the row says so.
+- Opt-in square-root paths beside the unchanged defaults: `fim::crlb_srif`,
+  `batch_ls::gauss_newton_srif`, `orbit_determination::determine_orbit_batch_srif`,
+  `lunar_combination::formal_covariance_srif`, `precise_od::fit_srif` and
+  `cislunar_srif::srif_cross_validation_sqrt`, on new `linalg_sr::weighted_lstsq` and
+  `covariance_from_sqrt_information`. Each agrees with its default where both are accurate (an
+  internal check, no row; no validation is claimed for them). `precise_od::fit` now delegates to
+  a shared routine; its output and every scenario's default output are unchanged.
 - Lunar frame campaign rank decisions: a pre-registered extended-precision check over 40 days
   confirms every decidable station-block and full-rank Helmert decision. The a-priori bound cannot
   certify the 20 rank-deficient Helmert days; in exact arithmetic their defect is geometric, with
