@@ -1,0 +1,29 @@
+# IERS Annual Report 2019, section 3.5.2 Rapid Service/Prediction Centre (page 137), Table 3a:
+# "RMS of the differences between the EOP time series predictions produced by the 17:00 UTC
+# daily EOP solutions and the 14 C04 combination solutions for 2019." (The 17:00 UTC solution
+# is the one the weekly Bulletin A is issued from; Tables 3b-3d, other update times, differ
+# by at most a few per cent.) Transcribed 2026-10-02 from
+# https://www.iers.org/fileadmin/SharedDocs/Publikationen/EN/IERS/Publications/ar/ar2019/ar2019_352.pdf
+# Units: pole mas, UT1-UTC ms.
+quantity,statistic,horizon_days,value,page
+pole_x,rms,0,0.05,137
+pole_y,rms,0,0.04,137
+ut1,rms,0,0.042,137
+pole_x,rms,1,0.30,137
+pole_y,rms,1,0.23,137
+ut1,rms,1,0.061,137
+pole_x,rms,5,1.90,137
+pole_y,rms,5,1.25,137
+ut1,rms,5,0.198,137
+pole_x,rms,10,3.46,137
+pole_y,rms,10,1.88,137
+ut1,rms,10,0.463,137
+pole_x,rms,20,5.75,137
+pole_y,rms,20,2.84,137
+ut1,rms,20,1.851,137
+pole_x,rms,40,7.21,137
+pole_y,rms,40,4.04,137
+ut1,rms,40,6.259,137
+pole_x,rms,90,8.45,137
+pole_y,rms,90,8.66,137
+ut1,rms,90,19.983,137

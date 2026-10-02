@@ -155,6 +155,189 @@ pub fn source_from_bias(
     }
 }
 
+/// A paired Gaussian overbound of an empirical error distribution (Rife, Pullen, Enge and
+/// Pervan, "Paired overbounding for nonideal LAAS and WAAS error distributions", IEEE
+/// Trans. Aerosp. Electron. Syst. 42(4), 2006; the zero-mean special case is the CDF
+/// overbound of DeCleene, ION GPS 2000): a left Gaussian CDF `Phi((x - mean_left)/sigma)`
+/// that lies on or above the empirical CDF and a right one `Phi((x - mean_right)/sigma)` that
+/// lies on or below it, so that both tails are bounded at every probability level.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct PairedOverbound {
+    /// Mean of the left (upper-CDF) bounding Gaussian.
+    pub mean_left: f64,
+    /// Mean of the right (lower-CDF) bounding Gaussian.
+    pub mean_right: f64,
+    /// Common standard deviation of the pair.
+    pub sigma: f64,
+}
+
+impl PairedOverbound {
+    /// Two-sided bound at total tail probability `tail`:
+    /// `max(|mean_left|, |mean_right|) + sigma Phi^-1(1 - tail/2)`. Each side carries at
+    /// most `tail/2`.
+    pub fn bound(&self, tail: f64) -> f64 {
+        self.mean_left.abs().max(self.mean_right.abs()) + self.sigma * inv_normal(1.0 - tail / 2.0)
+    }
+}
+
+/// Inverse standard-normal CDF: Acklam's rational approximation refined by one Halley step
+/// on [`crate::raim::normal_cdf`] (relative error near machine precision; much faster than
+/// the bisection of [`normal_quantile`], which matters when every empirical level of a
+/// sample needs its quantile).
+fn inv_normal(p: f64) -> f64 {
+    if p <= 0.0 {
+        return f64::NEG_INFINITY;
+    }
+    if p >= 1.0 {
+        return f64::INFINITY;
+    }
+    const A: [f64; 6] = [
+        -3.969683028665376e+01,
+        2.209460984245205e+02,
+        -2.759285104469687e+02,
+        1.383_577_518_672_69e2,
+        -3.066479806614716e+01,
+        2.506628277459239e+00,
+    ];
+    const B: [f64; 5] = [
+        -5.447609879822406e+01,
+        1.615858368580409e+02,
+        -1.556989798598866e+02,
+        6.680131188771972e+01,
+        -1.328068155288572e+01,
+    ];
+    const C: [f64; 6] = [
+        -7.784894002430293e-03,
+        -3.223964580411365e-01,
+        -2.400758277161838e+00,
+        -2.549732539343734e+00,
+        4.374664141464968e+00,
+        2.938163982698783e+00,
+    ];
+    const D: [f64; 4] = [
+        7.784695709041462e-03,
+        3.224671290700398e-01,
+        2.445134137142996e+00,
+        3.754408661907416e+00,
+    ];
+    let plow = 0.02425;
+    let x = if p < plow {
+        let q = (-2.0 * p.ln()).sqrt();
+        (((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
+            / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
+    } else if p <= 1.0 - plow {
+        let q = p - 0.5;
+        let r = q * q;
+        (((((A[0] * r + A[1]) * r + A[2]) * r + A[3]) * r + A[4]) * r + A[5]) * q
+            / (((((B[0] * r + B[1]) * r + B[2]) * r + B[3]) * r + B[4]) * r + 1.0)
+    } else {
+        let q = (-2.0 * (1.0 - p).ln()).sqrt();
+        -(((((C[0] * q + C[1]) * q + C[2]) * q + C[3]) * q + C[4]) * q + C[5])
+            / ((((D[0] * q + D[1]) * q + D[2]) * q + D[3]) * q + 1.0)
+    };
+    // One Halley refinement.
+    let e = crate::raim::normal_cdf(x) - p;
+    let u = e * (2.0 * std::f64::consts::PI).sqrt() * (x * x / 2.0).exp();
+    x - u / (1.0 + x * u / 2.0)
+}
+
+/// The tightest paired Gaussian overbound of `samples` at the two-sided tail `tail`.
+///
+/// For a common `sigma`, the smallest admissible `mean_right` is
+/// `max_i (x_(i) - sigma Phi^-1((i-1)/n))` (the right Gaussian must not exceed the
+/// empirical CDF just below each order statistic) and the largest admissible `mean_left` is
+/// `min_i (x_(i) - sigma Phi^-1(i/n))` (the left Gaussian must reach the empirical CDF at
+/// each order statistic), over every interior level (the levels 0 and 1 have no finite
+/// Gaussian bound). `sigma` is then chosen to minimise [`PairedOverbound::bound`] at `tail`:
+/// a 120-point logarithmic grid from 1e-4 to 10 times the sample range (and `sigma = 0`),
+/// refined by golden-section search between the best grid point's neighbours. Returns `None`
+/// for fewer than two samples or a non-finite sample.
+pub fn paired_overbound(samples: &[f64], tail: f64) -> Option<PairedOverbound> {
+    if samples.len() < 2 || samples.iter().any(|v| !v.is_finite()) {
+        return None;
+    }
+    let mut x = samples.to_vec();
+    x.sort_by(f64::total_cmp);
+    let n = x.len();
+    let nf = n as f64;
+    // Right constraints: i = 2..=n (level (i-1)/n in (0,1)); left: i = 1..=n-1.
+    let zr: Vec<(f64, f64)> = (2..=n)
+        .map(|i| (x[i - 1], inv_normal((i - 1) as f64 / nf)))
+        .collect();
+    let zl: Vec<(f64, f64)> = (1..n)
+        .map(|i| (x[i - 1], inv_normal(i as f64 / nf)))
+        .collect();
+    let eval = |s: f64| -> PairedOverbound {
+        let mr = zr
+            .iter()
+            .map(|&(v, z)| v - s * z)
+            .fold(f64::NEG_INFINITY, f64::max);
+        let ml = zl
+            .iter()
+            .map(|&(v, z)| v - s * z)
+            .fold(f64::INFINITY, f64::min);
+        PairedOverbound {
+            mean_left: ml,
+            mean_right: mr,
+            sigma: s,
+        }
+    };
+    let b = |s: f64| eval(s).bound(tail);
+    let span = (x[n - 1] - x[0]).max(f64::MIN_POSITIVE);
+    let mut grid: Vec<f64> = vec![0.0];
+    let (lo, hi) = ((span * 1e-4).ln(), (span * 10.0).ln());
+    grid.extend((0..120).map(|j| (lo + (hi - lo) * j as f64 / 119.0).exp()));
+    let (mut jbest, mut bbest) = (0usize, f64::INFINITY);
+    for (j, &s) in grid.iter().enumerate() {
+        let v = b(s);
+        if v < bbest {
+            bbest = v;
+            jbest = j;
+        }
+    }
+    let (mut a, mut c) = (
+        grid[jbest.saturating_sub(1)],
+        grid[(jbest + 1).min(grid.len() - 1)],
+    );
+    let g = (5f64.sqrt() - 1.0) / 2.0;
+    for _ in 0..60 {
+        let s1 = c - g * (c - a);
+        let s2 = a + g * (c - a);
+        if b(s1) <= b(s2) {
+            c = s2;
+        } else {
+            a = s1;
+        }
+    }
+    let s_mid = 0.5 * (a + c);
+    let best = if b(s_mid) < bbest { s_mid } else { grid[jbest] };
+    Some(eval(best))
+}
+
+/// A [`SourceBias`] built from a laboratory's realised offsets instead of a published
+/// uncertainty: the paired overbound of the training offsets
+/// ([`paired_overbound`] at `tail`) gives `sigma` (as the expanded uncertainty with coverage
+/// factor 1) and its larger absolute mean, and the paired-overbound bound of the training
+/// changes over the staleness interval (`increments`, offsets `x(t + lag) - x(t)` at the lag
+/// between the end of training and the epoch of use) is added as the ageing inflation. Then
+/// [`integrity_bias_overbound`]`(bias, tail)` is
+/// `sigma Phi^-1(1 - tail/2) + max|mean| + bound(increments, tail)`.
+pub fn source_bias_from_realised_offsets(
+    offsets_s: &[f64],
+    increments_s: &[f64],
+    tail: f64,
+    realizer: UtcRealizer,
+) -> Option<SourceBias> {
+    let po = paired_overbound(offsets_s, tail)?;
+    let ib = paired_overbound(increments_s, tail)?.bound(tail);
+    Some(SourceBias {
+        expanded_uncertainty_s: po.sigma,
+        coverage_factor: 1.0,
+        ageing_inflation_s: po.mean_left.abs().max(po.mean_right.abs()) + ib,
+        realizer,
+    })
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -292,5 +475,49 @@ mod tests {
             (corr - linear).abs() < 1e-18,
             "rho=1 single realizer must recover the linear sum: {corr} vs {linear}"
         );
+    }
+
+    #[test]
+    fn inverse_normal_matches_the_bisection_quantile() {
+        for &p in &[1e-6, 0.005, 0.0243, 0.1, 0.5, 0.9, 0.995, 1.0 - 1e-6] {
+            let (a, b) = (inv_normal(p), normal_quantile(p));
+            assert!((a - b).abs() < 1e-9, "{p}: {a} {b}");
+        }
+    }
+
+    #[test]
+    fn paired_overbound_bounds_every_interior_level_and_its_tail() {
+        // A skewed, shifted sample: the pair must straddle the empirical CDF.
+        let xs: Vec<f64> = (0..400)
+            .map(|i| {
+                let u = (i as f64 + 0.5) / 400.0;
+                3.0 + normal_quantile(u) + 2.0 * u * u
+            })
+            .collect();
+        let po = paired_overbound(&xs, 1e-2).unwrap();
+        assert!(po.mean_left <= po.mean_right);
+        let mut s = xs.clone();
+        s.sort_by(f64::total_cmp);
+        let n = s.len() as f64;
+        for (i, &x) in s.iter().enumerate() {
+            let fi = (i + 1) as f64 / n;
+            let fim = i as f64 / n;
+            let left = crate::raim::normal_cdf((x - po.mean_left) / po.sigma);
+            let right = crate::raim::normal_cdf((x - po.mean_right) / po.sigma);
+            if fi < 1.0 {
+                assert!(left >= fi - 1e-9, "left at {i}");
+            }
+            if fim > 0.0 {
+                assert!(right <= fim + 1e-9, "right at {i}");
+            }
+        }
+        let b = po.bound(1e-2);
+        let exceed = xs.iter().filter(|v| v.abs() > b).count() as f64 / n;
+        assert!(exceed <= 1e-2);
+        // Built into a SourceBias, the existing overbound reproduces bound + increment bound.
+        let inc: Vec<f64> = (0..100).map(|i| (i as f64 - 49.5) * 0.01).collect();
+        let sb = source_bias_from_realised_offsets(&xs, &inc, 1e-2, UtcRealizer(1)).unwrap();
+        let ib = paired_overbound(&inc, 1e-2).unwrap().bound(1e-2);
+        assert!((integrity_bias_overbound(&sb, 1e-2) - (b + ib)).abs() < 1e-6 * (b + ib));
     }
 }
