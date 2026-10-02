@@ -32,3 +32,21 @@ Regenerate:
 
     source "$KSHANA_ORACLES/env.sh"
     $ORACLE_PY tests/fixtures/lunar_vlbi_spice_oracle/generate_lunar_vlbi_spice_oracle.py
+
+## Amendment 3: epochs near J2000
+
+`spice_light_times_j2000.csv` (SHA-256
+`131564e6c1e935a675e976d4f923e679be81d02756578d0c56b08227f47dba55`) is the same generator run
+with `--epochs j2000`: 25 hourly epochs from 2000-01-01T06:00 to 2000-01-02T06:00 UTC, where
+SPICE's double-precision ephemeris time resolves the emission epoch (at 2024 epochs it rounds
+it by up to 6e-8 s, about 6e-12 s of light time; see the test header). Same kernels and hashes.
+
+`kernels/` holds the engine's inputs for those epochs, cut by `kernels/make_kernel_subsets_2000.py`
+from the full files above (records bit for bit; SPICE reproduces every state and rotation of the
+full kernels at 68 epochs exactly). The cutter reuses the DAF writer of
+`../lunar_vlbi_anise_oracle/kernels/make_kernel_subsets.py`, whose internal file name field
+reads "M038 2024-01-01 subset" in these files too.
+
+- `de440s_2000-01-01.bsp` SHA-256 `7db308802fdc8af1407cd8d5bea55620924badbc4e1d0744f2a31db9df782826`
+- `earth_itrf93_2000-01-01.bpc` SHA-256 `ce205cb5559c80e10b8af0ba691371ed0a1692fbd5f74acbb7aff951c515a2f8`
+- `moon_pa_de440_2000-01-01.bpc` SHA-256 `af4bfee7922636c1873866769efeebbdf91b92b9a82676c12caedb0cb52f8b2b`
