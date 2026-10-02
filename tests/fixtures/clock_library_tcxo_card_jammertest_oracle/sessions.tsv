@@ -1,0 +1,5 @@
+folder	date	epochs	kept	file
+Jamming/stationary/Very High Power (≥10W)/Bands_L1_L2_L5/1.6.4	2024-09-09	1039	0	-
+Meaconing/stationary/High Power (_10W)/Bands_E1_L1_L2/3.1.1,3.1.2	2024-09-10	734	166	train_01.obs
+Meaconing/stationary/Very High Power (≥10W)/Bands_E1_L1_L2/3.2.7	2024-09-10	395	198	train_02.obs
+Meaconing/stationary/Very High Power (≥10W)/Bands_E1_L1_L2/3.2.8	2024-09-10	182	0	-

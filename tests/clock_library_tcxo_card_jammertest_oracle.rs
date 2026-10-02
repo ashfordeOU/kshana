@@ -34,7 +34,12 @@
 //! window. PROMOTE only if all evaluable onsets agree and at least eight are evaluable. With
 //! fewer than 3600 training epochs the comparison is BLOCKED and nothing is scored.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (2026-10-02, after pre-registration commit 2ec76864): BLOCKED, nothing scored, the
+//! row stays MODELLED. The dataset's stationary sessions outside the scored ones are four attack
+//! recordings of 3 to 17 minutes (1.6.4 on 2024-09-09; 3.1.1/3.1.2, 3.2.7, 3.2.8 on 2024-09-10);
+//! removing every epoch within 60 s of a logged transmission keeps 364 epochs, and the
+//! receiver-clock extraction leaves 167 in two records, against the 3600 minimum. Unblocking
+//! needs a longer quiet-sky record of the same receiver (see the D9 rows file).
 
 #[path = "jammertest_spoof_oracle_support/mod.rs"]
 mod jt;
@@ -125,8 +130,14 @@ fn run_onset_card(o: &jt::Onset, noise: ClockNoiseEstimate) -> jt::OnsetResult {
     r
 }
 
+/// The comparison is BLOCKED by the training-epoch minimum (pinned 2026-10-02).
 #[test]
-#[ignore = "pre-registered; not yet run"]
+fn round_3_is_blocked_by_the_training_minimum() {
+    assert!(card_noise().is_none());
+}
+
+#[test]
+#[ignore = "pre-registered; BLOCKED 2026-10-02: 167 receiver training epochs against the 3600 minimum, nothing scored"]
 fn card_monitor_detects_the_logged_onsets_within_10_s_without_false_alarms() {
     let noise = card_noise().expect("receiver card BLOCKED");
     let mut evaluated = 0;
