@@ -387,6 +387,64 @@ impl KernelGeometry {
         let (p1, p2) = (part(ecef1)?, part(ecef2)?);
         Ok(sub(p2, p1))
     }
+
+    /// Partial of [`delay_s`](Self::delay_s) with respect to the beacon's body-fixed position
+    /// `body` (s/m, components along the DE440 lunar principal axes). For each station the
+    /// light-time partial is `∂LT/∂b = −R_M(t − LT)·û / (c − û·V)`, `R_M` the J2000-to-principal
+    /// axes rotation at that station's emission epoch; the delay partial is station 2's minus
+    /// station 1's.
+    pub fn delay_partials_beacon_body(
+        &self,
+        ecef1: Vec3,
+        ecef2: Vec3,
+        body: Vec3,
+        t_hi: f64,
+        t_lo: f64,
+    ) -> Result<Vec3, String> {
+        let z = [0.0; 3];
+        let part = |ecef: Vec3| -> Result<Vec3, String> {
+            let sol = self.light_time(ecef, body, t_hi, t_lo, z)?;
+            let u = sol.unit_beacon_to_station;
+            let v = sol.beacon_velocity_m_s;
+            let den = C - (u[0] * v[0] + u[1] * v[1] + u[2] * v[2]);
+            let (r, _) = self.moon.rotation_from_j2000(
+                FRAME_MOON_PA_DE440,
+                t_hi,
+                t_lo - sol.light_time_s,
+            )?;
+            let ub = crate::naif_kernel::mat_vec(&r, u);
+            Ok([-ub[0] / den, -ub[1] / den, -ub[2] / den])
+        };
+        let (p1, p2) = (part(ecef1)?, part(ecef2)?);
+        Ok(sub(p2, p1))
+    }
+
+    /// Partials of [`delay_s`](Self::delay_s) with respect to the two stations' Earth-fixed
+    /// (ITRF93) positions (s/m), returned as `(∂τ/∂s1, ∂τ/∂s2)`. For a station the light-time
+    /// partial is `∂LT/∂s = R_E(t)·û / (c − û·V)`, `R_E` the J2000-to-ITRF93 rotation at the
+    /// reception epoch; the delay `LT(2) − LT(1)` takes it with a minus sign for station 1.
+    pub fn delay_partials_stations(
+        &self,
+        ecef1: Vec3,
+        ecef2: Vec3,
+        body: Vec3,
+        t_hi: f64,
+        t_lo: f64,
+    ) -> Result<(Vec3, Vec3), String> {
+        let z = [0.0; 3];
+        let (r_e, _) = self.earth.rotation_from_j2000(FRAME_ITRF93, t_hi, t_lo)?;
+        let part = |ecef: Vec3| -> Result<Vec3, String> {
+            let sol = self.light_time(ecef, body, t_hi, t_lo, z)?;
+            let u = sol.unit_beacon_to_station;
+            let v = sol.beacon_velocity_m_s;
+            let den = C - (u[0] * v[0] + u[1] * v[1] + u[2] * v[2]);
+            let ue = crate::naif_kernel::mat_vec(&r_e, u);
+            Ok([ue[0] / den, ue[1] / den, ue[2] / den])
+        };
+        let p1 = part(ecef1)?;
+        let p2 = part(ecef2)?;
+        Ok(([-p1[0], -p1[1], -p1[2]], p2))
+    }
 }
 
 // ---------------------------------------------------------------------------
@@ -440,7 +498,7 @@ fn d_step_min() -> f64 {
 /// sampled over a horizon. The TOML `kind = "lunar-vlbi"` entry the engine dispatches to
 /// [`LunarVlbiScenario::run`]. All angles are degrees in the TOML and converted to radians
 /// internally.
-#[derive(Clone, Copy, Debug, serde::Deserialize)]
+#[derive(Clone, Debug, serde::Deserialize)]
 pub struct LunarVlbiScenario {
     /// Station 1 geodetic latitude (deg).
     #[serde(default = "d_st1_lat")]
@@ -484,6 +542,22 @@ pub struct LunarVlbiScenario {
     /// Sampling step (minutes).
     #[serde(default = "d_step_min")]
     pub step_min: f64,
+    /// Opt-in kernel path: a planetary SPK (e.g. JPL `de440s.bsp`). When this and the two
+    /// orientation kernels below are all set, every sample is computed by [`KernelGeometry`]:
+    /// the stations' WGS-84 coordinates are read as ITRF93 positions, the beacon is placed on
+    /// the 1737.4 km sphere in the DE440 lunar principal-axis frame, the epochs are converted
+    /// with [`crate::naif_kernel::naif_et_from_utc`], each light time is converged in the
+    /// barycentric frame, and the report adds the epoch's beacon and station partials. Unset
+    /// (the default), the analytic path runs.
+    #[serde(default)]
+    pub planetary_kernel_path: Option<String>,
+    /// Kernel path: the binary Earth-orientation PCK (ITRF93, e.g. `earth_latest_high_prec.bpc`).
+    #[serde(default)]
+    pub earth_orientation_kernel_path: Option<String>,
+    /// Kernel path: the binary lunar-orientation PCK (MOON_PA_DE440, e.g.
+    /// `moon_pa_de440_200625.bpc`).
+    #[serde(default)]
+    pub moon_orientation_kernel_path: Option<String>,
 }
 
 impl Default for LunarVlbiScenario {
@@ -503,6 +577,9 @@ impl Default for LunarVlbiScenario {
             epoch_day: d_epoch_day(),
             horizon_hours: d_horizon_hours(),
             step_min: d_step_min(),
+            planetary_kernel_path: None,
+            earth_orientation_kernel_path: None,
+            moon_orientation_kernel_path: None,
         }
     }
 }
@@ -608,6 +685,28 @@ pub const UNITS: &[crate::field_schema::FieldUnit] = {
             provenance: Computed,
             definition: "geocentric beacon range at this sample",
         },
+        FieldUnit {
+            path: "epoch_partials.beacon_body_s_per_m[]",
+            unit: "s/m",
+            provenance: Computed,
+            definition: "kernel path only: partial of the light-time delay at the epoch with \
+                         respect to the beacon's body-fixed position, components along the \
+                         DE440 lunar principal axes",
+        },
+        FieldUnit {
+            path: "epoch_partials.station1_itrf93_s_per_m[]",
+            unit: "s/m",
+            provenance: Computed,
+            definition: "kernel path only: partial of the light-time delay at the epoch with \
+                         respect to station 1's Earth-fixed (ITRF93) position",
+        },
+        FieldUnit {
+            path: "epoch_partials.station2_itrf93_s_per_m[]",
+            unit: "s/m",
+            provenance: Computed,
+            definition: "kernel path only: partial of the light-time delay at the epoch with \
+                         respect to station 2's Earth-fixed (ITRF93) position",
+        },
     ]
 };
 
@@ -649,7 +748,29 @@ pub struct LunarVlbiReport {
     pub horizon_hours: f64,
     /// Per-epoch samples.
     pub series: Vec<LunarVlbiSample>,
+    /// Which geometry produced the delays: `"analytic"` (the default series Moon and mean
+    /// lunar frame, one instantaneous geometry) or `"kernel"` ([`KernelGeometry`]: DE440,
+    /// MOON_PA_DE440 and ITRF93 kernels with converged light times).
+    pub geometry_path: &'static str,
+    /// Kernel path only: the delay partials at the epoch.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub epoch_partials: Option<LunarVlbiEpochPartials>,
 }
+
+/// The kernel path's delay partials at the scenario epoch (s/m).
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct LunarVlbiEpochPartials {
+    /// With respect to the beacon's position along the DE440 lunar principal axes.
+    pub beacon_body_s_per_m: Vec3,
+    /// With respect to station 1's ITRF93 position.
+    pub station1_itrf93_s_per_m: Vec3,
+    /// With respect to station 2's ITRF93 position.
+    pub station2_itrf93_s_per_m: Vec3,
+}
+
+/// One sample's geometry, whichever path computed it: `(geometric delay, full delay,
+/// near-field correction, beacon range, baseline)` in s, s, s, m, m.
+type SampleGeometry = (f64, f64, f64, f64, f64);
 
 impl LunarVlbiScenario {
     fn geodetic1(&self) -> Geodetic {
@@ -693,9 +814,92 @@ impl LunarVlbiScenario {
         (r1, r2, r_b)
     }
 
+    /// The kernel path's geometry, when all three kernel paths are set; `None` for the
+    /// analytic path. Setting only some of them is an error.
+    fn kernel_geometry(&self) -> Result<Option<KernelGeometry>, String> {
+        match (
+            self.planetary_kernel_path.as_deref(),
+            self.earth_orientation_kernel_path.as_deref(),
+            self.moon_orientation_kernel_path.as_deref(),
+        ) {
+            (None, None, None) => Ok(None),
+            (Some(spk), Some(earth), Some(moon)) => Ok(Some(KernelGeometry::open(
+                std::path::Path::new(spk),
+                std::path::Path::new(earth),
+                std::path::Path::new(moon),
+            )?)),
+            _ => Err("the kernel path needs planetary_kernel_path, \
+                      earth_orientation_kernel_path and moon_orientation_kernel_path together"
+                .to_string()),
+        }
+    }
+
+    /// Reception epoch `t_hours` after the scenario epoch, as NAIF ephemeris time `(hi, lo)`.
+    fn et_at(&self, t_hours: f64) -> (f64, f64) {
+        let jd_day = crate::timescales::julian_date(
+            self.epoch_year,
+            self.epoch_month,
+            self.epoch_day,
+            0,
+            0,
+            0.0,
+        );
+        crate::naif_kernel::naif_et_from_utc(jd_day, t_hours * 3_600.0)
+    }
+
+    /// The kernel path's station ITRF93 positions and beacon body-fixed position (m).
+    fn kernel_points(&self) -> (Vec3, Vec3, Vec3) {
+        (
+            crate::frames::geodetic_to_ecef(self.geodetic1()),
+            crate::frames::geodetic_to_ecef(self.geodetic2()),
+            crate::lunar::selenographic_to_mcmf(self.beacon_sel()),
+        )
+    }
+
+    /// One sample on either path.
+    fn sample_at(
+        &self,
+        kernel: Option<&KernelGeometry>,
+        t_hours: f64,
+    ) -> Result<SampleGeometry, String> {
+        let (r1, r2, r_b, geom) = match kernel {
+            None => {
+                let (r1, r2, r_b) = self.geometry_at(t_hours);
+                (r1, r2, r_b, geometric_delay_s(r1, r2, r_b))
+            }
+            Some(k) => {
+                let (s1, s2, body) = self.kernel_points();
+                let (hi, lo) = self.et_at(t_hours);
+                let r1 = k.station_j2000(s1, hi, lo)?;
+                let r2 = k.station_j2000(s2, hi, lo)?;
+                let (r_b, _) = k.beacon_geocentric(body, hi, lo)?;
+                (r1, r2, r_b, k.delay_s(s1, s2, body, hi, lo)?)
+            }
+        };
+        // The full delay adds the differenced Shapiro term to this path's geometric delay
+        // (on the analytic path exactly `vlbi_delay_s`, as before the kernel path existed).
+        let full = match kernel {
+            None => vlbi_delay_s(r1, r2, r_b, 0.0, 0.0, true),
+            Some(_) => {
+                geom + (vlbi_delay_s(r1, r2, r_b, 0.0, 0.0, true) - geometric_delay_s(r1, r2, r_b))
+            }
+        };
+        let far_field = crate::radiometric::delta_dor(r_b, [0.0, 0.0, 0.0], sub(r2, r1));
+        Ok((geom, full, geom - far_field, norm(r_b), norm(sub(r2, r1))))
+    }
+
     /// Sample the pass over the horizon and summarise the VLBI delay, its rate, and the
-    /// near-field correction.
+    /// near-field correction. Panics if the kernel path is configured and fails; use
+    /// [`try_run`](Self::try_run) to receive the error.
     pub fn run(&self) -> LunarVlbiReport {
+        self.try_run().expect("lunar-vlbi scenario")
+    }
+
+    /// As [`run`](Self::run), returning an error when a configured kernel cannot be read or
+    /// does not cover an epoch.
+    pub fn try_run(&self) -> Result<LunarVlbiReport, String> {
+        let kernel = self.kernel_geometry()?;
+        let k = kernel.as_ref();
         let step_h = (self.step_min / 60.0).max(1e-6);
         let n = (self.horizon_hours / step_h).floor() as usize;
         let mut series: Vec<LunarVlbiSample> = Vec::with_capacity(n + 1);
@@ -703,31 +907,25 @@ impl LunarVlbiScenario {
         let mut max_delay = f64::NEG_INFINITY;
         for i in 0..=n {
             let t = i as f64 * step_h;
-            let (r1, r2, r_b) = self.geometry_at(t);
-            let delay = vlbi_delay_s(r1, r2, r_b, 0.0, 0.0, true);
-            let geom = geometric_delay_s(r1, r2, r_b);
-            let nfc_us = near_field_correction_s(r1, r2, r_b) * 1e6;
-            let range_km = norm(r_b) / 1e3;
+            let (geom, delay, nfc, range_m, _) = self.sample_at(k, t)?;
             min_delay = min_delay.min(delay);
             max_delay = max_delay.max(delay);
             series.push(LunarVlbiSample {
                 t_hours: t,
                 delay_s: delay,
                 geometric_delay_s: geom,
-                near_field_correction_us: nfc_us,
-                beacon_range_km: range_km,
+                near_field_correction_us: nfc * 1e6,
+                beacon_range_km: range_m / 1e3,
             });
         }
 
         // Epoch geometry + a one-step finite-difference delay rate at the epoch.
-        let (r1, r2, r_b) = self.geometry_at(0.0);
-        let baseline_km = norm(sub(r2, r1)) / 1e3;
-        let beacon_range_km = norm(r_b) / 1e3;
-        let delay0 = vlbi_delay_s(r1, r2, r_b, 0.0, 0.0, true);
-        let nfc_us0 = near_field_correction_s(r1, r2, r_b) * 1e6;
+        let (geom0, delay0, nfc0, range0_m, baseline0_m) = self.sample_at(k, 0.0)?;
+        let baseline_km = baseline0_m / 1e3;
+        let beacon_range_km = range0_m / 1e3;
+        let nfc_us0 = nfc0 * 1e6;
         let dt_h = step_h.min(self.horizon_hours.max(step_h));
-        let (r1b, r2b, r_bb) = self.geometry_at(dt_h);
-        let delay1 = vlbi_delay_s(r1b, r2b, r_bb, 0.0, 0.0, true);
+        let (_, delay1, _, _, _) = self.sample_at(k, dt_h)?;
         let dt_s = dt_h * 3600.0;
         let delay_rate = if dt_s > 0.0 {
             (delay1 - delay0) / dt_s
@@ -742,13 +940,27 @@ impl LunarVlbiScenario {
             series.push(LunarVlbiSample {
                 t_hours: 0.0,
                 delay_s: delay0,
-                geometric_delay_s: geometric_delay_s(r1, r2, r_b),
+                geometric_delay_s: geom0,
                 near_field_correction_us: nfc_us0,
                 beacon_range_km,
             });
         }
 
-        LunarVlbiReport {
+        let epoch_partials = match k {
+            None => None,
+            Some(k) => {
+                let (s1, s2, body) = self.kernel_points();
+                let (hi, lo) = self.et_at(0.0);
+                let (p1, p2) = k.delay_partials_stations(s1, s2, body, hi, lo)?;
+                Some(LunarVlbiEpochPartials {
+                    beacon_body_s_per_m: k.delay_partials_beacon_body(s1, s2, body, hi, lo)?,
+                    station1_itrf93_s_per_m: p1,
+                    station2_itrf93_s_per_m: p2,
+                })
+            }
+        };
+
+        Ok(LunarVlbiReport {
             baseline_km,
             beacon_range_km,
             delay_s: delay0,
@@ -759,7 +971,9 @@ impl LunarVlbiScenario {
             max_delay_s: max_delay,
             horizon_hours: self.horizon_hours,
             series,
-        }
+            geometry_path: if k.is_some() { "kernel" } else { "analytic" },
+            epoch_partials,
+        })
     }
 }
 
@@ -1055,6 +1269,116 @@ mod tests {
         assert!(svg.starts_with("<svg"));
         assert!(svg.ends_with("</svg>"));
         assert!(svg.contains("Lunar VLBI"));
+    }
+
+    /// The cut DE440, ITRF93 and MOON_PA_DE440 kernels the integration tests use
+    /// (2024-01-01, 25 h).
+    fn fixture_kernels() -> (String, String, String) {
+        let d = concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/fixtures/lunar_vlbi_anise_oracle/kernels/"
+        );
+        (
+            format!("{d}de440s_2024-01-01.bsp"),
+            format!("{d}earth_itrf93_2024-01-01.bpc"),
+            format!("{d}moon_pa_de440_2024-01-01.bpc"),
+        )
+    }
+
+    /// The body-frame beacon partials and the ITRF93 station partials of the kernel path equal
+    /// a central difference of its own converged delay (an internal check of the algebra, not
+    /// an oracle).
+    #[test]
+    fn kernel_partials_match_a_central_difference_of_the_kernel_delay() {
+        let (spk, earth, moon) = fixture_kernels();
+        let k = KernelGeometry::open(
+            std::path::Path::new(&spk),
+            std::path::Path::new(&earth),
+            std::path::Path::new(&moon),
+        )
+        .unwrap();
+        let g = |lat: f64, lon: f64, h: f64| {
+            crate::frames::geodetic_to_ecef(Geodetic {
+                lat_rad: lat.to_radians(),
+                lon_rad: lon.to_radians(),
+                alt_m: h,
+            })
+        };
+        let s1 = g(40.4256, -116.8893, 1000.0);
+        let s2 = g(-35.4014, 148.9819, 688.0);
+        let body = [1_737_400.0, 0.0, 0.0];
+        let (hi, lo) = crate::naif_kernel::naif_et_from_utc(2_460_310.5, 5.0 * 3_600.0);
+        let h = 2_000.0;
+        let fd = |f: &dyn Fn(Vec3) -> f64| -> Vec3 {
+            let mut out = [0.0; 3];
+            for (i, o) in out.iter_mut().enumerate() {
+                let mut e = [0.0; 3];
+                e[i] = h;
+                let m = [-e[0], -e[1], -e[2]];
+                *o = (f(e) - f(m)) / (2.0 * h);
+            }
+            out
+        };
+        let rel = |a: Vec3, b: Vec3| norm(sub(a, b)) / norm(b);
+        let pb = k.delay_partials_beacon_body(s1, s2, body, hi, lo).unwrap();
+        let fb = fd(&|e| k.delay_s(s1, s2, add(body, e), hi, lo).unwrap());
+        assert!(rel(pb, fb) < 1e-6, "beacon body partials {}", rel(pb, fb));
+        let (p1, p2) = k.delay_partials_stations(s1, s2, body, hi, lo).unwrap();
+        let f1 = fd(&|e| k.delay_s(add(s1, e), s2, body, hi, lo).unwrap());
+        let f2 = fd(&|e| k.delay_s(s1, add(s2, e), body, hi, lo).unwrap());
+        assert!(rel(p1, f1) < 1e-8, "station 1 partials {}", rel(p1, f1));
+        assert!(rel(p2, f2) < 1e-8, "station 2 partials {}", rel(p2, f2));
+    }
+
+    /// With the three kernels set the scenario runs on the kernel path: its geometric delays
+    /// are `KernelGeometry::delay_s` at the NAIF epochs, the report says so and carries the
+    /// epoch partials; with one kernel missing the run is refused.
+    #[test]
+    fn scenario_kernel_path_emits_the_kernel_delay() {
+        let (spk, earth, moon) = fixture_kernels();
+        let scn = LunarVlbiScenario {
+            planetary_kernel_path: Some(spk.clone()),
+            earth_orientation_kernel_path: Some(earth.clone()),
+            moon_orientation_kernel_path: Some(moon.clone()),
+            ..LunarVlbiScenario::default()
+        };
+        let r = scn.try_run().unwrap();
+        assert_eq!(r.geometry_path, "kernel");
+        let k = KernelGeometry::open(
+            std::path::Path::new(&spk),
+            std::path::Path::new(&earth),
+            std::path::Path::new(&moon),
+        )
+        .unwrap();
+        let (s1, s2, body) = scn.kernel_points();
+        assert_eq!(body, [1_737_400.0, 0.0, 0.0]);
+        for s in &r.series {
+            let (hi, lo) = crate::naif_kernel::naif_et_from_utc(2_460_310.5, s.t_hours * 3_600.0);
+            let want = k.delay_s(s1, s2, body, hi, lo).unwrap();
+            assert_eq!(s.geometric_delay_s, want);
+            assert!(
+                (s.delay_s - s.geometric_delay_s).abs() < 1e-9,
+                "Shapiro is sub-ns"
+            );
+        }
+        let p = r.epoch_partials.expect("kernel path partials");
+        let (hi, lo) = crate::naif_kernel::naif_et_from_utc(2_460_310.5, 0.0);
+        assert_eq!(
+            p.beacon_body_s_per_m,
+            k.delay_partials_beacon_body(s1, s2, body, hi, lo).unwrap()
+        );
+        // The analytic default is unchanged and labelled.
+        let a = LunarVlbiScenario::default().try_run().unwrap();
+        assert_eq!(a.geometry_path, "analytic");
+        assert!(a.epoch_partials.is_none());
+        // The two paths differ by the analytic path's recorded tens of microseconds.
+        let gap = (a.series[0].geometric_delay_s - r.series[0].geometric_delay_s).abs();
+        assert!((1e-7..1e-4).contains(&gap), "analytic vs kernel {gap:e} s");
+        let partial = LunarVlbiScenario {
+            moon_orientation_kernel_path: None,
+            ..scn
+        };
+        assert!(partial.try_run().unwrap_err().contains("together"));
     }
 
     #[test]
