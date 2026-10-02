@@ -320,6 +320,101 @@ pub fn ac_stark_phase(delta_ls_first: f64, delta_ls_third: f64, rabi_eff: f64) -
     (delta_ls_first - delta_ls_third) / rabi_eff
 }
 
+/// Quantum-projection-noise (QPN) phase amplitude spectral density (rad/√Hz) of one
+/// interferometer run every `cycle_time_s`: the per-shot QPN phase `1/(C·√N)` times
+/// `√T_c`, i.e. the white-phase level whose one-second Allan deviation it is.
+/// `contrast` is the fringe visibility `P_max − P_min` (the convention of
+/// `P = (1 + C·cos Φ)/2` that [`projection_noise_rad`] uses).
+pub fn qpn_phase_asd(contrast: f64, atom_number: f64, cycle_time_s: f64) -> f64 {
+    projection_noise_rad(contrast, atom_number) * cycle_time_s.max(0.0).sqrt()
+}
+
+/// Sagnac (rotation) scale factor of one three-pulse interferometer (rad per rad/s):
+/// `∂Φ/∂Ω = 2·k_eff·v_⊥·T²`, the derivative of [`coriolis_phase`] with respect to the
+/// rotation rate.
+pub fn sagnac_scale_factor(k_eff: f64, v_perp: f64, pulse_sep_t: f64) -> f64 {
+    2.0 * k_eff * v_perp * pulse_sep_t * pulse_sep_t
+}
+
+/// Two cold-atom interferometers interrogated by the same Raman beam at the same time
+/// (a dual-cloud instrument): either two vertically separated clouds read as a gravity
+/// gradiometer, or two counter-launched clouds read as a gyroscope. Each cloud carries
+/// its own atom number and contrast; both share the wavelength, the pulse separation
+/// `T` and the cycle time, which are taken from `a`.
+///
+/// The detection noise of the two clouds is independent, so the quantum projection
+/// noise of any linear combination of the two phases is the quadrature sum of the
+/// per-cloud QPN phases weighted by the combination's coefficients. Common-mode
+/// (vibration, laser-phase) noise cancels in the differential combination and is not
+/// part of this budget.
+#[derive(Clone, Copy, Debug)]
+pub struct DualCai {
+    /// The first interferometer (top cloud, or source A).
+    pub a: CaiAccelerometer,
+    /// The second interferometer (bottom cloud, or source B).
+    pub b: CaiAccelerometer,
+}
+
+impl DualCai {
+    /// Per-shot QPN of the phase difference `Φ_a − Φ_b` (rad):
+    /// `√(1/(C_a²N_a) + 1/(C_b²N_b))`.
+    pub fn differential_phase_noise(&self) -> f64 {
+        self.a
+            .projection_noise_phase()
+            .hypot(self.b.projection_noise_phase())
+    }
+
+    /// Per-shot QPN of the gravity gradient (s⁻²) for clouds `baseline_m` apart along
+    /// the Raman axis: `σ_Γ = σ(Φ_a − Φ_b)/(k_eff·T²·L)`.
+    pub fn gradient_noise_per_shot(&self, baseline_m: f64) -> f64 {
+        let scale = self.a.scale_factor() * baseline_m;
+        if scale == 0.0 {
+            return f64::INFINITY;
+        }
+        self.differential_phase_noise() / scale
+    }
+
+    /// Gradient QPN amplitude spectral density (s⁻²/√Hz): the per-shot value times
+    /// `√T_c`.
+    pub fn gradient_asd(&self, baseline_m: f64) -> f64 {
+        self.gradient_noise_per_shot(baseline_m) * self.a.cycle_time_s.max(0.0).sqrt()
+    }
+
+    /// Per-shot QPN of the half-difference `(Φ_a − Φ_b)/2` (rad): the rotation phase of
+    /// two counter-launched sources, whose Sagnac phases have opposite signs while the
+    /// acceleration phase is common.
+    pub fn half_difference_phase_noise(&self) -> f64 {
+        0.5 * self.differential_phase_noise()
+    }
+
+    /// Per-shot QPN of the rotation rate (rad/s) of two counter-launched sources with
+    /// transverse speed `v_perp` (m/s): `σ_Ω = σ((Φ_a − Φ_b)/2)/(2·k_eff·v_⊥·T²)`.
+    pub fn rotation_noise_per_shot(&self, v_perp: f64) -> f64 {
+        let sf = sagnac_scale_factor(self.a.k_eff(), v_perp, self.a.pulse_sep_t);
+        if sf == 0.0 {
+            return f64::INFINITY;
+        }
+        self.half_difference_phase_noise() / sf
+    }
+
+    /// Rotation-rate QPN amplitude spectral density (rad/s/√Hz), equal to the
+    /// one-second Allan deviation of the rotation signal under white phase noise.
+    pub fn rotation_asd(&self, v_perp: f64) -> f64 {
+        self.rotation_noise_per_shot(v_perp) * self.a.cycle_time_s.max(0.0).sqrt()
+    }
+
+    /// Per-shot QPN of the common-mode (half-sum) acceleration (m/s²):
+    /// `σ((Φ_a + Φ_b)/2)/(k_eff·T²)`; the half-sum and half-difference carry the same
+    /// QPN because the two clouds' detection noise is independent.
+    pub fn common_mode_accel_noise_per_shot(&self) -> f64 {
+        let scale = self.a.scale_factor();
+        if scale == 0.0 {
+            return f64::INFINITY;
+        }
+        self.half_difference_phase_noise() / scale
+    }
+}
+
 /// One point of a cycle-time drift sweep.
 #[derive(Clone, Copy, Debug)]
 pub struct DriftSweepPoint {
@@ -696,6 +791,34 @@ mod budget_tests {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn dual_cloud_qpn_composition() {
+        let cloud = |c: f64, n: f64| CaiAccelerometer {
+            wavelength_m: RB87_D2_WAVELENGTH_M,
+            pulse_sep_t: 0.1,
+            atom_number: n,
+            contrast: c,
+            cycle_time_s: 2.0,
+        };
+        let d = DualCai {
+            a: cloud(0.5, 1e4),
+            b: cloud(0.4, 4e4),
+        };
+        // Quadrature sum of 1/(C√N): 0.02 and 0.0125.
+        let diff = d.differential_phase_noise();
+        assert!((diff - (0.02f64.powi(2) + 0.0125f64.powi(2)).sqrt()).abs() < 1e-15);
+        assert!((d.half_difference_phase_noise() - diff / 2.0).abs() < 1e-15);
+        let k = effective_wavevector(RB87_D2_WAVELENGTH_M);
+        let g = d.gradient_noise_per_shot(0.5);
+        assert!((g - diff / (k * 0.01 * 0.5)).abs() / g < 1e-12);
+        assert!((d.gradient_asd(0.5) - g * 2f64.sqrt()).abs() / g < 1e-12);
+        let sf = sagnac_scale_factor(k, 0.3, 0.1);
+        assert!((sf - coriolis_phase(k, 0.3, 1.0, 0.1)).abs() / sf < 1e-12);
+        assert!((d.rotation_noise_per_shot(0.3) - diff / 2.0 / sf).abs() < 1e-20);
+        assert!((qpn_phase_asd(0.5, 1e4, 2.0) - 0.02 * 2f64.sqrt()).abs() < 1e-15);
+        assert!(d.gradient_noise_per_shot(0.0).is_infinite());
+    }
 
     #[test]
     fn effective_wavevector_for_rubidium() {
