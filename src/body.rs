@@ -442,6 +442,33 @@ impl Body {
         (self.prime_w0 + self.prime_w_dot * (jd_tdb - 2_451_545.0))
             .rem_euclid(2.0 * std::f64::consts::PI)
     }
+
+    /// The rotation from the J2000 frame (ICRF axes) to this body's IAU body-fixed frame at
+    /// `et_tdb_s` seconds past J2000 TDB: `R_z(W) R_x(90° − δ) R_z(90° + α)`, with `r_bodyfixed =
+    /// R · r_j2000`. The rows of `R` are the body-fixed axes expressed in J2000.
+    pub fn iau_rotation_et(&self, et_tdb_s: f64) -> [[f64; 3]; 3] {
+        let d = et_tdb_s / 86_400.0;
+        let ra = self.pole_ra0;
+        let dec = self.pole_dec0;
+        let w = (self.prime_w0 + self.prime_w_dot * d).rem_euclid(2.0 * std::f64::consts::PI);
+        euler_313(
+            w,
+            std::f64::consts::FRAC_PI_2 - dec,
+            std::f64::consts::FRAC_PI_2 + ra,
+        )
+    }
+}
+
+/// `R_z(a) · R_x(b) · R_z(c)` (frame rotations).
+fn euler_313(a: f64, b: f64, c: f64) -> [[f64; 3]; 3] {
+    let (sa, ca) = a.sin_cos();
+    let (sb, cb) = b.sin_cos();
+    let (sc, cc) = c.sin_cos();
+    [
+        [ca * cc - sa * cb * sc, ca * sc + sa * cb * cc, sa * sb],
+        [-sa * cc - ca * cb * sc, -sa * sc + ca * cb * cc, ca * sb],
+        [sb * sc, -sb * cc, cb],
+    ]
 }
 
 impl Default for Body {
