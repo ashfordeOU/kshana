@@ -183,6 +183,15 @@ pub fn tai_to_utc(tai: Jd2) -> Jd2 {
     guess
 }
 
+/// UT1 from the UTC quasi Julian date and UT1 − UTC (s), the convention of SOFA `iauUtcut1`:
+/// through TAI, `UT1 = TAI + (UT1 − UTC) − (TAI − UTC)`, with TAI − UTC of the UTC day. Adding
+/// UT1 − UTC to the quasi Julian date directly would be wrong by up to a second near the end of
+/// a day that ends in a leap second, whose fraction counts 86 401 s.
+pub fn utc_to_ut1(utc: Jd2, ut1_minus_utc_s: f64) -> Jd2 {
+    let (jdn, _) = utc_day_and_fraction(utc);
+    utc_to_tai(utc).add_seconds(ut1_minus_utc_s - tai_minus_utc_on(jdn))
+}
+
 /// TT (Terrestrial Time) from TAI: TT = TAI + 32.184 s exactly.
 pub fn tai_to_tt(tai: Jd2) -> Jd2 {
     tai.add_seconds(crate::timescales::TT_MINUS_TAI)
@@ -289,5 +298,24 @@ mod tests {
         let d =
             (a - b + std::f64::consts::PI).rem_euclid(std::f64::consts::TAU) - std::f64::consts::PI;
         assert!(d.abs() < 1e-8, "{d}");
+    }
+
+    #[test]
+    fn ut1_runs_through_tai_across_a_leap_second_day() {
+        // Across the 2016-12-31 leap second UT1 - UTC steps from about -0.6 s to +0.4 s, and
+        // UT1 runs on with the Earth: 1.5 s of TAI separate 23:59:59.5 from the next UTC
+        // midnight, and so 1.5 s of UT1 (the quasi Julian date would be off by about 1 s).
+        let utc = Jd2::from_utc_calendar(2016, 12, 31, 23, 59, 59.5).unwrap();
+        let ut1 = utc_to_ut1(utc, -0.6);
+        let midnight = Jd2::from_utc_calendar(2017, 1, 1, 0, 0, 0.0).unwrap();
+        let ut1_mid = utc_to_ut1(midnight, 0.4);
+        assert!(
+            (ut1_mid.diff_seconds(ut1) - 1.5).abs() < 1e-9,
+            "{}",
+            ut1_mid.diff_seconds(ut1)
+        );
+        // On an ordinary day it is the plain sum.
+        let d = Jd2::from_utc_calendar(2020, 5, 5, 12, 0, 0.0).unwrap();
+        assert!((utc_to_ut1(d, 0.25).diff_seconds(d) - 0.25).abs() < 1e-9);
     }
 }
