@@ -36,7 +36,14 @@
 //! round-off on these record lengths is expected below 1e-12; 1e-9 leaves three orders of
 //! margin and is still far below the 0.5 that would change an identification.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (2026-10-02, after pre-registration commit 2ec76864): AGREES. 140 of 140 cases
+//! with identical `alpha_int` and `d`; worst |alpha - alpha_ref| 9.6e-13 and worst
+//! |rho - rho_ref| 4.8e-13 against the 1e-9 bar. Disclosed: the first attempt stopped in the
+//! harness before any comparison, because numpy 2.4.6 printed the records as
+//! `np.float64(...)`; the generator's output format was corrected (`float(v)`), the same seeds
+//! regenerated the same records, the oracle file was byte-identical, and the comparison then
+//! ran once. Mutation: `rho = r1 / (1 - r1)` in `allan::lag1_noise_id` turns this test red
+//! (reverted).
 
 use kshana::allan::{lag1_noise_id, Lag1DataType};
 
@@ -99,7 +106,6 @@ fn oracle() -> Vec<Case> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn lag1_noise_id_matches_allantools() {
     let recs = records();
     let cases = oracle();
