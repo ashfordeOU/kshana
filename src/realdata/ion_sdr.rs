@@ -21,6 +21,10 @@
 //! byte per complex sample with `endian` Little, this puts I in the low nibble and Q in the
 //! high one; the receiver's interface control document says only "IQ interleaved", and a
 //! swap of the two would conjugate the signal, mirroring every Doppler.
+//! FINDING: scored against orbit-predicted Doppler, the strongest LuGRE acquisitions read this
+//! way come out mirrored (`tests/lugre_acquisition_cell_average_doppler_oracle.rs`), so the
+//! batches are evidently the conjugate of this reading: I in the high nibble. The reading is
+//! left as documented until that is decided and re-registered.
 //!
 //! This module reads the subset the LuGRE snapshots use and refuses anything else with a
 //! stated reason: one lane, one stream, complex `IQ` or `QI` samples (or real `IF` samples),
