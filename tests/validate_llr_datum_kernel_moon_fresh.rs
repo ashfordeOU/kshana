@@ -57,6 +57,29 @@
 //! * **Mutation check, planned now:** the kernel Moon read one hour late (a 0.55 degree
 //!   line-of-sight error, ten times the analytic series' worst) must turn the strict test red;
 //!   the edit is then reverted. If it does not, that is reported.
+//!
+//! ## Result (run after the pre-registration commit 830d945a was published)
+//!
+//! The slice exists in full (all 15 monthly files). 458 normal points parsed, 447 used, 11
+//! skipped for a station outside the catalogue; Helmert rank 7 on both sides, so the quarter
+//! is SUFFICIENT. The oracle's self-check holds: SPICE observed-minus-computed RMS 10.86 m.
+//!
+//! **Every quantity holds at the unchanged bars.** Worst gaps: sigmas and norms 4.0e-5 (bar
+//! 1e-2), condition 1.6e-5 (bar 2e-2), across/along ratios 7.6e-5 (Luna 17, bar 2e-2);
+//! bookkeeping, ranks, per-array counts and zero coupling exact. Kernel-path residual RMS
+//! 33.7 m (information only).
+//!
+//! **Mutations.** The planned one (kernel Moon read one hour late) was NOT detected: the test
+//! still passed. A one-hour shift moves the whole geometry coherently along the orbit, and the
+//! datum covariance depends on the spread of the lines of sight, not on their absolute timing.
+//! A structural mutation chosen after that (disclosed as such): dropping the down-leg from the
+//! range partial doubles every sigma and fails all ten sigma and norm comparisons; reverted.
+//!
+//! **Finding on discrimination (information only, not a pre-registered comparison):** on this
+//! slice the analytic Moon also passes every bar (worst 3.8e-3, Luna 17 ratio; tz 4.4e-4). The
+//! 1 % bar does not separate the two Moon models here. The 2015 miss (1.025 %) was a marginal
+//! case of that quarter's geometry, so this pass validates the datum covariance on fresh data,
+//! not an improvement attributable to the kernel Moon.
 
 use kshana::api::run_toml;
 use serde_json::Value;
@@ -155,10 +178,12 @@ fn comparisons(v: &Value) -> Vec<(String, f64, f64, f64, f64)> {
         7,
         "INSUFFICIENT: oracle Helmert rank"
     );
-    assert_eq!(
-        v.pointer("/moon_ephemeris/source").and_then(Value::as_str),
-        Some("kernel")
-    );
+    if std::env::var_os("KSHANA_INFO_ANALYTIC").is_none() {
+        assert_eq!(
+            v.pointer("/moon_ephemeris/source").and_then(Value::as_str),
+            Some("kernel")
+        );
+    }
     assert_eq!(
         num(v, "/data/normal_points_parsed") as usize,
         s("parsed") as usize
@@ -240,7 +265,6 @@ fn comparisons(v: &Value) -> Vec<(String, f64, f64, f64, f64)> {
 
 /// The strict, pre-registered fresh-data comparison.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points() {
     let v = report(true);
     let bad: Vec<_> = comparisons(&v)
@@ -248,4 +272,13 @@ fn llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points() {
         .filter(|(_, _, _, r, bar)| r > bar)
         .collect();
     assert!(bad.is_empty(), "outside the bar: {bad:?}");
+}
+
+/// Information only, no bar: the same comparison printed for the analytic Moon on this slice.
+/// Run with `KSHANA_INFO_ANALYTIC=1 cargo test --test validate_llr_datum_kernel_moon_fresh
+/// analytic_moon_on_the_fresh_slice -- --ignored --nocapture`.
+#[test]
+#[ignore = "information only: prints the analytic-Moon gaps on the fresh slice"]
+fn analytic_moon_on_the_fresh_slice() {
+    let _ = comparisons(&report(false));
 }
