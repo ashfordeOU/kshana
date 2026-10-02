@@ -29,6 +29,14 @@
   1e-9) (`tests/lunar_vlbi_surface_point_spice_oracle.rs`). The analytic-path row stays
   MODELLED: on the analytic Moon its smallest beacon sigma is 3.9 % below the oracle.
 
+- **The kernel-Moon LLR datum holds on fresh normal points** (new row, proposed VALIDATED): on
+  447 unseen 2019 normal points the datum covariance agrees with the unchanged SPICE and NumPy
+  oracle within 7.6e-5 against 1 % and 2 % bars (`tests/validate_llr_datum_kernel_moon_fresh.rs`).
+- **Sun, Moon, Mercury and Venus positions from DE440 at UTC epochs** (new row, proposed
+  VALIDATED): `KernelEphemeris::relative_position_utc` agrees with Skyfield 1.54 on 600 positions
+  between 1973 and 2026, worst 2.96 m, inside a bar set by the two-term TDB − TT series
+  (`tests/kernel_ephemeris_skyfield_oracle.rs`).
+
 ### Findings
 
 - **The LLR datum miss is the analytic Moon.** The LLR datum comparison's one miss (z-translation
@@ -36,8 +44,11 @@
   with every other quantity inside its unchanged bar and the observed-minus-computed residual
   falling from 156,494 m to 95 m (`tests/validate_llr_datum_kernel_moon.rs`). This was a
   diagnostic re-run on oracle values and normal points already seen, and it is disclosed as
-  such. The analytic default row stays MODELLED; whether this may promote a kernel-path row is a
-  founder decision.
+  such; promotion rests on the fresh-data run above.
+- **On fresh 2019 normal points the analytic Moon also passes the LLR datum bars** (worst
+  3.8e-3, information only), so the 2015 miss was marginal to that quarter's geometry, and a
+  one-hour error in the Moon's epoch is not detected by this comparison. The analytic default row
+  stays MODELLED until its own pre-registered fresh-data run.
 
 ### Changed
 

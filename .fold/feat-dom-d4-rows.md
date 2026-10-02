@@ -109,74 +109,113 @@ New ending: `…so this is a Cramér-Rao bound for a reduced parameter set and o
 
 ---
 
-## Row 3. M078, LLR datum with the kernel Moon — outcome: diagnostic PASS; promotion is a founder decision
+## Row 3 (new). M078, LLR datum with the kernel Moon — outcome: PROMOTE on fresh data
 
-### What was done
+The founder ruled (2026-10-02) that the seen-data diagnostic may not promote and that fresh
+normal points are required. Both runs are recorded.
 
-`tests/validate_llr_datum_kernel_moon.rs`, pre-registered in `c51f8b2924488c78f5dc9d03123bc90200e31024`
-(pushed 2026-10-02T15:50:38Z), before the 2015 kernel cut existed and before the engine's kernel
-path for this scenario ran. Same quantities, same committed oracle (`reference.txt` of 6b27964a,
-SPICE + NumPy), same 337 normal points, same bars (1 % sigmas and norms, 2 % condition and
-ratios, exact bookkeeping, ranks and coupling). Only the Moon centre changes.
+### Seen-data diagnostic (does not promote; kept as a finding)
 
-| Quantity | Analytic (seen, 6b27964a) | Kernel Moon | Bar |
-|---|---|---|---|
-| sigma tz | 1.025e-2 (OUTSIDE) | 4.87e-4 | 1e-2 |
-| worst other sigma / norm | < 1e-2 | 4.52e-4 | 1e-2 |
-| condition number | inside | 9.57e-4 | 2e-2 |
-| worst across/along ratio | inside | 1.12e-3 (Luna 17) | 2e-2 |
-| residual RMS (information) | 156,494 m | 95.1 m | none |
+`tests/validate_llr_datum_kernel_moon.rs`, pre-registered in `c51f8b2`, same 337 points and
+oracle (6b27964a), unchanged bars: tz sigma 1.025 % -> 0.049 %, every quantity inside, residual
+156,494 m -> 95 m. Mutation (kernel branch returns the analytic Moon) reproduced the original
+miss. Disclosed: seen data, fix chosen after the miss, an uncommitted engine patch reverted by
+mistake and re-applied identically before commit.
 
-Mutation: making the kernel branch return the analytic Moon reproduced the original miss exactly
-(tz 1.025e-2, OUTSIDE); reverted. The cut kernel (`bf1efa31…`) is bit-identical to `de440s.bsp`
-over 4078 epochs, and `de440s.bsp` and the oracle's `de440.bsp` give identical Moon states (0 m).
+### Fresh-data comparison (the evidence for promotion)
 
-Disclosures: the oracle values and normal points were already seen; the fix (kernel Moon) was
-chosen after the miss, as the record had named it; the bar is unchanged. While making the
-mutation, an uncommitted copy of the engine threading was reverted by mistake and re-applied
-from the same patch before commit; the re-run gave the identical numbers.
+`tests/validate_llr_datum_kernel_moon_fresh.rs`, pre-registered in
+`830d945ad43e25920c6be9a034db73a7123b5cc2` (pushed 2026-10-02T17:07:22Z) before any 2019 file was
+fetched. Slice: EDC CRD files for the five arrays, 2019-04..06 (all 15 exist); 458 parsed, 447
+used, 11 skipped (station outside the catalogue); sufficient. Oracle: the unchanged
+`gen_llr_datum_spice.py` (CSPICE N0067, spiceypy 8.2.0, MIT; NumPy 2.3.5) through a wrapper that
+only redirects directories; its self-check holds (SPICE O-C 10.86 m < 100 m).
 
-### Founder decision needed (D1), with a proposal for each answer
+| Quantity | Kernel Moon | Bar |
+|---|---|---|
+| seven sigmas and three norms, worst | 4.0e-5 | 1e-2 |
+| condition number | 1.6e-5 | 2e-2 |
+| across/along ratios, worst (Luna 17) | 7.6e-5 | 2e-2 |
+| bookkeeping, ranks, per-array counts, coupling | exact | exact |
+| residual RMS (information) | 33.7 m | none |
 
-* **If a diagnostic re-run on seen data may promote:** add a new row (rule 5; the default path
-  stays analytic and keeps its MODELLED row):
+Mutations: the planned one (kernel Moon one hour late) was NOT detected (the covariance depends on
+the spread of the lines of sight, not their timing). A structural mutation chosen afterwards and
+disclosed (down-leg dropped from the range partial) doubles every sigma and fails all ten.
+
+FINDING (information only, not pre-registered): on this slice the analytic Moon also passes every
+bar (worst 3.8e-3). The 1 % bar does not separate the Moon models here; the 2015 miss was a
+marginal case of that quarter's geometry. The row therefore validates the datum covariance on
+fresh data with the kernel Moon; it does not show that the kernel Moon was needed. A separate
+pre-registered fresh-data run of the ANALYTIC default row would very likely pass too and is
+recommended as the next step for M078 itself.
+
+### Proposed `VerificationItem`
 
 ```rust
         VerificationItem {
             requirement: "Lunar frame datum from a REAL observing campaign, kernel Moon centre",
-            capability: "The lunar-llr-datum seven-parameter Helmert datum covariance on the same 337 archived ILRS normal points and measured weights, with the geocentric Moon centre read from JPL DE440 by the engine's own kernel reader (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Only the Moon centre differs from the analytic row; the IAU 2015 orientation, the absent polar motion and UT1, the catalogues, weights and linear algebra are the same",
+            capability: "The lunar-llr-datum seven-parameter Helmert datum covariance from archived ILRS normal points and their measured weights, with the geocentric Moon centre read from JPL DE440 by the engine's own kernel reader (planetary_kernel_path; lunar_llr::llr_geometry_with, ephem_provider::KernelEphemeris). Only the Moon centre differs from the analytic row; the IAU 2015 orientation, the absent polar motion and UT1, the catalogues, selection rules, weights and linear algebra are the same. Runnable as the `lunar-llr-datum` scenario with planetary_kernel_path (and normal_points_dir for another slice)",
             module: "lunar_llr (llr_geometry_with, LunarLlrDatumScenario); ephem_provider (KernelEphemeris); naif_kernel",
-            tests: "tests/validate_llr_datum_kernel_moon.rs::llr_datum_with_kernel_moon_matches_spice_and_numpy_at_the_unchanged_bars; tests/validate_llr_datum_kernel_moon.rs::kernel_run_records_its_kernel_and_pins_its_headline",
-            oracle: "The unchanged pre-registered SPICE + NumPy comparison of the analytic row (6b27964a: NAIF SPICE Toolkit N0067 two-way light times on DE440, ITRF93 and the DE440 lunar orientation with finite-difference partials; numpy 2.3.5 information matrix and inverse), re-run on the kernel path at the unchanged bars (1 % sigmas and norms, 2 % condition and ratios, exact bookkeeping, ranks and coupling), pre-registered as a diagnostic in c51f8b2. Every quantity holds: tz sigma 4.9e-4 (the analytic row's 1.025 % miss), worst 1.1e-3 (a 2 % ratio); residual RMS 95 m against the analytic 156,494 m. DISCLOSED: the oracle values and the 337 points were seen before this re-run, and the kernel Moon was chosen because the analytic run missed; promoted under the founder's rule of <date> that a named-cause re-run at an unchanged bar may promote. Both sides read DE440: this validates the covariance on DE440, not DE440",
+            tests: "tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points (447 unseen 2019-Q2 normal points; sigmas and norms within 4.0e-5 of 1e-2, condition 1.6e-5 of 2e-2, ratios 7.6e-5 of 2e-2, bookkeeping and ranks exact); tests/validate_llr_datum_kernel_moon.rs (the 2015 seen-data diagnostic, 0.049 % on tz; not evidence for this row); lunar_llr::tests",
+            oracle: "NAIF SPICE Toolkit N0067 (spiceypy 8.2.0, MIT) two-way light times on DE440, ITRF93 Earth orientation and the DE440 lunar orientation (MOON_ME) with 100 m finite-difference partials, and numpy 2.3.5 (BSD-3-Clause, LAPACK) information matrix and inverse: the unchanged generator of the analytic row's comparison (6b27964a), run on a fresh slice (EDC CRD normal points, 2019-04..06) pre-registered in 830d945a before any of it was fetched, at the analytic row's bars (1 % sigmas and norms, 2 % condition and ratios, exact bookkeeping, ranks and coupling) and its oracle self-check (SPICE O-C 10.86 m < 100 m). Every quantity holds, worst 7.6e-5. Mutations: the planned one-hour Moon delay is NOT detected (the covariance depends on the spread of the lines of sight, not their timing); dropping the down-leg partial fails every sigma. Finding: on this slice the analytic Moon passes too (worst 3.8e-3), so this validates the covariance on fresh data, not a kernel-Moon improvement. Both sides read DE440: this validates the computation on DE440, not DE440. Outside the claim: an LLR accuracy (a Cramér-Rao bound for a reduced parameter set)",
             oracle_kind: ExternalDataset,
             status: Validated,
         },
-        // OracleBasisEntry: basis Library, oracle_test
-        // "tests/validate_llr_datum_kernel_moon.rs::llr_datum_with_kernel_moon_matches_spice_and_numpy_at_the_unchanged_bars",
-        // source "NAIF SPICE Toolkit N0067".
+        // OracleBasisEntry { requirement: <as above>, basis: Library,
+        //   oracle_test: "tests/validate_llr_datum_kernel_moon_fresh.rs::llr_datum_kernel_moon_matches_spice_and_numpy_on_fresh_normal_points",
+        //   source: "NAIF SPICE Toolkit N0067", flag: "" },
 ```
 
-* **If fresh normal points are required (D3):** add no row now. Re-run
-  `tests/validate_llr_datum_kernel_moon.rs` unchanged on a fresh, pre-registered normal-point
-  slice and its own SPICE reference; promote the row above only on that.
+### Amendment to the analytic M078 row (old -> new, `oracle` text, last sentence)
 
-* **Either way, amend the analytic M078 row (old -> new), `oracle` text, last sentence:**
-  - Old: `…The z-translation sigma is 1.03 % high against the pre-registered 1 % bar, most likely from the analytic Moon-centre series"`
-  - New: `…The z-translation sigma is 1.03 % high against the pre-registered 1 % bar. A diagnostic re-run with only the Moon centre read from DE440 (pre-registered c51f8b2, seen data, unchanged bars) brings it to 0.049 % with every other quantity inside its bar, and the residual from 156,494 m to 95 m: the analytic Moon-centre series is the cause. This row, on the analytic default, stays MODELLED"`
-  - and add `tests/validate_llr_datum_kernel_moon.rs` to its `tests` text.
+- Old: `…The z-translation sigma is 1.03 % high against the pre-registered 1 % bar, most likely from the analytic Moon-centre series"`
+- New: `…The z-translation sigma is 1.03 % high against the pre-registered 1 % bar. With the Moon centre from DE440 it falls to 0.049 % (c51f8b2, seen data), and on fresh 2019 normal points the kernel-Moon datum holds every bar (row \"…, kernel Moon centre\"), where the analytic Moon also stays inside the bars (worst 3.8e-3, information only). This row, on the analytic default, stays MODELLED until a pre-registered fresh-data run of the analytic path"`
+
+---
+
+## Row 4 (new). Body positions from DE440 through KernelEphemeris at UTC epochs — outcome: PROMOTE
+
+`tests/kernel_ephemeris_skyfield_oracle.rs`, pre-registered in
+`0bfafe6dfc72fd15eb5c98d7582efba924c9b335` (pushed 2026-10-02T17:15:51Z). Engine change before it:
+`KernelEphemeris::relative_position_utc` and `utc_to_tdb_jd2` (`f19f21f6`).
+
+| Item | Value |
+|---|---|
+| Grid | seed from the commit hash: 200 UTC epochs 1973-01-01..2026-09-30 (no leap-second instant), one random pair of Sun/Mercury/Venus/Earth/Moon each, plus Moon and Sun wrt Earth: 600 positions |
+| Oracle | Skyfield 1.54 (MIT), own leap seconds and TDB−TT, own de440s reader (jplephem) |
+| Bar | per component `5e-5 s x |v_rel| + 1e-13 R + 1e-5 m` (the engine's stated two-term TDB−TT accuracy plus the reader bar) |
+| Result | 600/600 on the cut (923 records, SPICE bit-identical) and on the full de440s; worst 0.66 of the bar, 2.96 m |
+| Mutation | TT used as TDB: worst 33x the bar (122 m), both tests red; reverted |
+| Also asserted | Mars to Neptune and Pluto by name are refused (de440s holds only their barycentres) |
+
+```rust
+        VerificationItem {
+            requirement: "Sun, Moon, Mercury and Venus positions from the DE440 kernel at UTC epochs (KernelEphemeris)",
+            capability: "Geometric positions of the Sun, Mercury, Venus, the Earth and the Moon relative to one another (J2000/ICRF axes, metres) from a JPL DE440 kernel through ephem_provider::KernelEphemeris at UTC epochs: body names mapped to NAIF codes, UTC carried through the leap-second table and TT to TDB with the two-term TDB-TT series, the kernel read by the engine's own reader. A body the kernel holds only as a system barycentre (Mars to Neptune, Pluto in de440s) is refused, never substituted. The kernel-free Standish row stays the browser and fallback path",
+            module: "ephem_provider (KernelEphemeris::relative_position_utc, utc_to_tdb_jd2); naif_kernel; timescales",
+            tests: "tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs (600 positions at 200 UTC epochs 1973-2026 drawn from the pre-registration hash; worst 0.66 of the bar, 2.96 m); tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present (data-gated); tests/kernel_ephemeris_skyfield_oracle.rs::barycentre_only_bodies_are_refused_not_substituted; ephem_provider::tests",
+            oracle: "Skyfield 1.54 (MIT), with its own leap-second table, its own TDB-TT and its own reader of the same NAIF de440s.bsp (jplephem), run as a separate program at UTC epochs. Pre-registered (0bfafe6d) before the fixture existed, the grid seeded from that commit's hash, with a bar of 5e-5 s times the relative speed (the engine's stated two-term TDB-TT accuracy) plus 1e-13 of the barycentric distance plus 1e-5 m, per component. Result: all 600 inside, worst 0.66 of the bar (2.96 m on a fast pair, the TDB-TT series' own error). Mutation: TT used as TDB fails at 33 times the bar. Both sides read DE440: this validates the provider and its time chain, not DE440. Outside the claim: the planets beyond Venus as bodies (de440s carries their barycentres only), the planetary moons, and precision below the two-term TDB-TT series (a few metres for the fastest pairs)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        // OracleBasisEntry { requirement: <as above>, basis: Library,
+        //   oracle_test: "tests/kernel_ephemeris_skyfield_oracle.rs::kernel_ephemeris_matches_skyfield_at_utc_epochs",
+        //   source: "Skyfield 1.54", flag: "" },
+```
+
+M107 (Standish) and M108 (moons) rows are unchanged: this is a new method on a new row, and the
+Standish exceedance stays a published finding.
 
 ---
 
 ## Rows not changed, and why
 
 * **M107** ("Planet positions across the solar system from the JPL Standish Keplerian elements")
-  and **M108** ("Positions of the Moon and seven major moons…"): not touched. `KernelEphemeris`
-  can supply DE440 Sun, Mercury, Venus, Earth and Moon (and barycentres 1 to 9 by NAIF code), but
-  a kernel-based planet row is a new method and therefore a new row; the Standish exceedance
-  stays a published finding on M107. Proposal for the founder: a new row "Planet and Moon
-  positions from the JPL DE440 kernel through KernelEphemeris", pre-registered against Horizons
-  or SPICE; the moons (M108) need the satellite kernels (mar099, jup365, sat441) and SPK types 3,
-  13 or 21, which this branch does not add.
+  and **M108** ("Positions of the Moon and seven major moons…"): not touched. The kernel planet
+  positions are Row 4 above, a new row. The moons (M108) wait for the first scenario that needs
+  them (likely `mars-pnt`), which brings the satellite kernels and SPK type 3 with its own
+  pre-registered row (founder decision, 2026-10-02).
 * **M072/M075** (ephemeris dynamics) and **M089**: no action; founder's call, as the package says.
 * **"Built-in analytic lunar ephemeris — its STATED ACCURACY BOUND checked against real data"**:
   unchanged; it validates the analytic series' own bound and remains true.
