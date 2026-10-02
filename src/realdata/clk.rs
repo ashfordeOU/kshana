@@ -86,6 +86,7 @@ pub struct CircularTSection1 {
     pub issue: Option<u32>,
     /// The section's MJD columns.
     pub mjds: Vec<i64>,
+    /// One row per laboratory, values in the order of `mjds`.
     pub rows: Vec<CircularTRow>,
 }
 

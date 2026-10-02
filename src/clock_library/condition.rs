@@ -46,22 +46,37 @@ pub const K_FSTEP: f64 = 10.0;
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub enum AnomalyKind {
     /// A run of `len` missing epochs in the input.
-    Gap { len: usize },
+    Gap {
+        /// Number of missing epochs.
+        len: usize,
+    },
     /// One sample set missing (an isolated phase outlier).
     PhaseOutlier,
     /// A phase jump of `size_s` seconds, removed from every later sample.
-    PhaseStep { size_s: f64 },
+    PhaseStep {
+        /// Size of the jump (s).
+        size_s: f64,
+    },
     /// `len` samples set missing inside a run of anomalous differences.
-    Burst { len: usize },
+    Burst {
+        /// Number of samples set missing.
+        len: usize,
+    },
     /// A logged (not removed) change of fractional frequency by `size`.
-    FrequencyStep { size: f64 },
+    FrequencyStep {
+        /// Change of fractional frequency.
+        size: f64,
+    },
 }
 
 /// One logged anomaly: its grid index, its time and its kind.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct Anomaly {
+    /// Index on the record's regular grid.
     pub index: usize,
+    /// Time of that grid point (s from the record start).
     pub t: f64,
+    /// What was found.
     pub kind: AnomalyKind,
 }
 
