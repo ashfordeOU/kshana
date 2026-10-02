@@ -35,6 +35,14 @@
 //! `finding_laws_hold_to_600_s_and_overstate_beyond` pins that measured finding; it was
 //! written after the comparison and promotes nothing.
 //!
+//! Round 2: the engine's `Contribution::error_m` now comes from a nine-state error model
+//! with Schuler feedback, and the round-1 monomials survive as
+//! `Contribution::leading_order_m`, which this file compares so that it keeps recording
+//! round 1 exactly. This fixture also carries an oracle artefact found in round 2: NaveGo's
+//! quaternion update skips body-to-navigation rates below 1e-8 rad/s, which froze the
+//! attitude in T3, T4 and T5. The round-2 comparison, with that guard lifted, is
+//! `tests/ins_coast_schuler_navego_oracle.rs`.
+//!
 //! Disclosure: the first run of T3 put the 1 s burst one sample early (the
 //! mechanization never integrates sample 1), so the cruise speed reached 9 m/s, not 10,
 //! and T3 read 12 to 14 % low at every duration. The generator was corrected and T3
@@ -89,7 +97,7 @@ fn oracle_table() -> Vec<Row> {
             .iter()
             .find(|c| c.name == name)
             .expect("contribution")
-            .error_m(t)
+            .leading_order_m(t)
     };
 
     let terms: [(&str, &str, &CoastModel, bool); 6] = [
