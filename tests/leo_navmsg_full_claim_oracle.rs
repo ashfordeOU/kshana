@@ -75,7 +75,7 @@ use std::path::{Path, PathBuf};
 use kshana::leo_navmsg::elements::{EphemerisModel, LeoNavMessage, SysTime};
 use kshana::leo_navmsg::fit::{sample_times, ModelKind};
 use kshana::leo_navmsg::sisre::sisre_weights;
-use kshana::leo_navmsg::truth::{TruthClock, TruthOrbit};
+use kshana::leo_navmsg::truth::{OrbitConfig, TruthClock, TruthOrbit};
 use kshana::leo_navmsg::{sequence_stats, LeoNavmsgScenario};
 
 fn fixture(dir: &str, name: &str) -> PathBuf {
@@ -284,8 +284,86 @@ fn corrections_clock_fit_and_update_period_trade_match_an_independent_implementa
     assert!(ws <= 1e-4, "statistic {ws}");
 }
 
+/// Part B cases: label, altitude (km), gravity degree, `cd_area_over_mass`.
+const CASES: [(&str, f64, usize, f64); 5] = [
+    ("twobody", 550.0, 0, 0.0),
+    ("zonal6", 550.0, 6, 0.0),
+    ("egm20", 550.0, 20, 0.0),
+    ("egm70", 550.0, 70, 0.0),
+    ("egm20drag", 400.0, 20, 0.01),
+];
+const B_DURATION_S: f64 = 6.0 * 3600.0;
+
+fn truth_case(alt_km: f64, degree: usize, cd: f64) -> TruthOrbit {
+    TruthOrbit::propagate(&OrbitConfig {
+        altitude_m: alt_km * 1e3,
+        inclination_rad: 53f64.to_radians(),
+        eccentricity: 0.001,
+        raan_rad: 30f64.to_radians(),
+        arg_perigee_rad: 40f64.to_radians(),
+        mean_anomaly_rad: 50f64.to_radians(),
+        gravity_degree: degree,
+        cd_area_over_mass: cd,
+        theta0_rad: 1.0,
+        epoch: SysTime::new(2400, 0.0),
+        duration_s: B_DURATION_S,
+        step_s: 5.0,
+    })
+    .unwrap()
+}
+
+/// Writes the Orekit driver's input (`orekit_cases.txt`). Run by hand only.
+#[test]
+#[ignore = "fixture generator"]
+fn export_truth_cases_for_orekit() {
+    let mut out = String::new();
+    for (label, alt, deg, cd) in CASES {
+        let o = truth_case(alt, deg, cd);
+        let (r, v) = o.state_inertial(0.0);
+        out.push_str(&format!(
+            "{label} {deg} {cd:e} 1.0 {B_DURATION_S} 60 {:.17e} {:.17e} {:.17e} {:.17e} {:.17e} {:.17e}\n",
+            r[0], r[1], r[2], v[0], v[1], v[2]
+        ));
+    }
+    std::fs::write(fixture(DIR, "orekit_cases.txt"), out).unwrap();
+}
+
+/// Largest 3-D difference (m) per case between Kshana's truth and Orekit.
+fn part_b() -> Vec<(String, f64)> {
+    let text = std::fs::read_to_string(fixture(DIR, "orekit_truth.txt")).unwrap();
+    let mut out = Vec::new();
+    for (label, alt, deg, cd) in CASES {
+        let o = truth_case(alt, deg, cd);
+        let mut worst = 0.0_f64;
+        let mut n = 0;
+        for l in text
+            .lines()
+            .filter(|l| l.split_whitespace().next() == Some(label))
+        {
+            let f: Vec<f64> = l
+                .split_whitespace()
+                .skip(1)
+                .map(|x| x.parse().unwrap())
+                .collect();
+            let p = o.state_ecef(f[0]).0;
+            let d = ((p[0] - f[1]).powi(2) + (p[1] - f[2]).powi(2) + (p[2] - f[3]).powi(2)).sqrt();
+            worst = worst.max(d);
+            n += 1;
+        }
+        assert_eq!(n, 361, "{label}: Orekit epochs");
+        out.push((label.to_string(), worst));
+    }
+    out
+}
+
 #[test]
 #[ignore = "pre-registered; not yet run"]
 fn integrated_truth_orbit_matches_orekit_within_2_cm_over_6_h() {
-    todo!("implemented after the Orekit driver is written")
+    let rows = part_b();
+    for (label, worst) in &rows {
+        println!("{label:<10} worst 3-D difference {worst:.4e} m");
+    }
+    for (label, worst) in rows {
+        assert!(worst <= 0.02, "{label}: {worst} m");
+    }
 }
