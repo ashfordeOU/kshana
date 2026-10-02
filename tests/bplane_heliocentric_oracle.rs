@@ -92,7 +92,19 @@
 //! - Vis-viva mutant: `2.0 / rm` → `1.9 / rm` in `bplane::elements_aei` must turn part B red.
 //! - Assist mutant: `assist_delta_v` returning `v_inf_in − v_inf_out` must turn part A red.
 //!
-//! The strict tests below are ignored until the fixture exists and the comparison has run.
+//!
+//! ## Result (2026-10-02, tolerances unchanged)
+//!
+//! - A: all 192 states inside the bar; worst `|v∞ − √C3|` 2.8e-14·v∞, worst velocity-change
+//!   difference 5.6e-14·v∞.
+//! - B: all 350 heliocentric states inside every bar; worst `a` 1.7e-15 relative, `e` 2.2e-14
+//!   relative, `i` 4.1e-14 rad, Tisserand against sbpy 1.3e-15, against `3 − C3/v_c²` 8.9e-16.
+//! - C: all 12 objects inside their bound; worst `|ΔT|/bound` 0.386 (Icarus |ΔT| 4.8e-4 of
+//!   3.25e-3; 2003 EH1 3.65e-4 of 9.45e-4).
+//! - Mutations, each then edited back: Tisserand coefficient 2 → 3 turns B red (state 1: T
+//!   3.9958 against sbpy 2.9998) and C red (Phaethon 4.7172 against 4.509); the vis-viva mutant
+//!   turns B red (state 1: a 1.1919e8 against GMAT 1.0737e8 km); the reversed assist turns A
+//!   red (state 1: Δv sign flipped).
 
 use kshana::bplane::{assist_delta_v, elements_aei, flyby_from_state, tisserand};
 use std::path::PathBuf;
@@ -153,7 +165,6 @@ fn gmat_planetocentric() -> Vec<Vec<f64>> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn assist_delta_v_matches_gmat_asymptotes_and_c3() {
     let states = rows(&read("bplane_gmat_oracle", "states.txt"));
     assert_eq!(states.len(), N_PLANETOCENTRIC);
@@ -195,7 +206,6 @@ fn assist_delta_v_matches_gmat_asymptotes_and_c3() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn heliocentric_elements_and_tisserand_match_gmat_and_sbpy() {
     let c3 = gmat_planetocentric();
     // helio_states.txt: id k branch planet a_P_km X Y Z VX VY VZ (km, km/s), SunMJ2000Ec
@@ -285,7 +295,6 @@ fn rounding_bound(a: f64, e: f64, i_deg: f64) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn tisserand_matches_kasuga_jewitt_2019_table_8_1() {
     let mut worst = 0.0f64;
     for (name, a, e, i_deg, t_pub) in KASUGA_JEWITT_2019 {

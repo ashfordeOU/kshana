@@ -37,7 +37,8 @@
 //! the B-plane decomposition and Tisserand invariance across a v∞-preserving deflection;
 //! `tests/bplane_gmat_oracle.rs` compares [`flyby_from_state`] (B·T̂, B·R̂, |B|, the turn
 //! angle and both asymptotes) with the General Mission Analysis Tool (GMAT) R2026a on 192
-//! hyperbolic states.
+//! hyperbolic states, and `tests/bplane_heliocentric_oracle.rs` compares [`assist_delta_v`],
+//! [`elements_aei`] and [`tisserand`] with GMAT, sbpy and published Tisserand values.
 //!
 //! References:
 //! - R. H. Battin, *An Introduction to the Mathematics and Methods of Astrodynamics*,
