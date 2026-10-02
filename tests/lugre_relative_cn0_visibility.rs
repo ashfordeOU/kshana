@@ -117,9 +117,9 @@ fn pattern(svn: &str) -> Option<GainPattern2D> {
     GainPattern2D::new(az, th, gain).ok()
 }
 
-#[test]
-#[ignore = "pre-registered; not yet run"]
-fn relative_cn0_and_visibility_at_lunar_distance_match_lugre() {
+/// The comparison: `(tracked IIR/IIR-M records with a pattern, of them predicted visible,
+/// pair residuals as (epoch, dB))`.
+fn evaluate() -> (usize, usize, Vec<(i64, f64)>) {
     // epochs.csv: gps_s, rx_x, rx_y, rx_z, sun_x, sun_y, sun_z (ITRF93, m)
     let epochs: BTreeMap<i64, ([f64; 3], [f64; 3])> = csv("epochs.csv")
         .iter()
@@ -186,6 +186,13 @@ fn relative_cn0_and_visibility_at_lunar_distance_match_lugre() {
             }
         }
     }
+    (records, visible, resid)
+}
+
+#[test]
+#[ignore = "FINDING (run 2026-10-02 on 768cb62b + fixture): non-vacuity not met - 15 tracked Block IIR/IIR-M records (bar 50) and 1 pair (bar 30 over 10 epochs); 15 of 15 predicted visible; the one pair residual is -0.06 dB. At the 26 qualifying transit and lunar-orbit epochs the flight receiver tracked 37 GPS records, mostly Block IIF and III. A first generator run also admitted commissioning epochs (18 records), against the registration, and was replaced. Pinned by too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar"]
+fn relative_cn0_and_visibility_at_lunar_distance_match_lugre() {
+    let (records, visible, resid) = evaluate();
     let n = resid.len();
     let rms = (resid.iter().map(|r| r.1 * r.1).sum::<f64>() / n.max(1) as f64).sqrt();
     let mut abs: Vec<f64> = resid.iter().map(|r| r.1.abs()).collect();
@@ -212,4 +219,18 @@ fn relative_cn0_and_visibility_at_lunar_distance_match_lugre() {
     assert!(n >= 30 && pair_epochs >= 10, "R1 non-vacuity");
     assert!(rms <= 3.0, "R2 RMS {rms}");
     assert!(median <= 2.0, "R2 median {median}");
+}
+
+/// The finding of the strict test, pinned on the committed fixture: the data the flight
+/// receiver produced beyond 100 000 km hold too few Block IIR and IIR-M satellites for the
+/// pre-registered bar. Every one of them is predicted visible, and the single same-epoch pair
+/// agrees with the measured C/N0 difference to within half a decibel; one pair is reported,
+/// not claimed.
+#[test]
+fn too_few_iir_records_at_lunar_distance_for_the_relative_cn0_bar() {
+    let (records, visible, resid) = evaluate();
+    assert_eq!(records, 15);
+    assert_eq!(visible, 15);
+    assert_eq!(resid.len(), 1);
+    assert!(resid[0].1.abs() < 0.5, "pair residual {}", resid[0].1);
 }
