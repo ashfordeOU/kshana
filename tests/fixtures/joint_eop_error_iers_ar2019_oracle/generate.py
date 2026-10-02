@@ -47,7 +47,9 @@ MJD_2019 = (58484, 58848)  # 2019-01-01 .. 2019-12-31
 
 def table_leads():
     rows = [l for l in open(os.path.join(HERE, "ar2019_table.csv")) if l.strip() and not l.startswith("#")]
-    return sorted({int(l.split(",")[2]) for l in rows[1:]})
+    # Day 0 is the issue's own cutoff (a rapid value, not a prediction row); the pipeline
+    # under test scores predictions past the cutoff, so no prediction row is written for it.
+    return sorted({int(l.split(",")[2]) for l in rows[1:]} - {0})
 
 
 def fetch():
