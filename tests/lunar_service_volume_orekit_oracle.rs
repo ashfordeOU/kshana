@@ -170,6 +170,9 @@ fn kshana() -> &'static Kshana {
         let op = op_frame(&spk, et0.0, et0.1).expect("OP frame");
         let model = EphemerisForceModel::de440();
         let users = grid();
+        // PIN-SCOPE:    the size of the committed user grid the Orekit oracle was run on, so the
+        //               engine and the oracle compare the same points.
+        // PIN-EXCLUDES: every service-volume figure; those are compared against the oracle values.
         assert_eq!(users.len(), 346);
         let mut tabs = Vec::new();
         let mut figures = Vec::new();
