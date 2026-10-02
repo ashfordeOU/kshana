@@ -787,6 +787,46 @@ mod tests {
         assert_eq!((v[0].re, v[15].re), (-15.0, 15.0));
     }
 
+    /// A synthetic C/A signal of known Doppler (+2 kHz), quantised to 4-bit two's complement
+    /// and packed one complex sample per byte with I in the high nibble, as the LuGRE batches
+    /// are: read with the default fill order the search finds +2 kHz; read low nibble first
+    /// (the conjugate) it finds the mirror, −2 kHz.
+    #[test]
+    fn a_sub_byte_stream_of_known_order_keeps_the_doppler_sign() {
+        use crate::acquisition::{pcps_acquire, PcpsConfig};
+        use crate::sdr::{CaCode, CA_CHIP_RATE_HZ};
+        let fs = 2_000_000.0;
+        let code = CaCode::new(5).unwrap();
+        let q = |v: f64| -> u8 { (v.round().clamp(-8.0, 7.0) as i8 as u8) & 0x0F };
+        let mut bytes = vec![0xAA, 0xBB];
+        for n in 0..20_000usize {
+            let t = n as f64 / fs;
+            let chip = (t * CA_CHIP_RATE_HZ).floor() as usize % 1023;
+            let ph = core::f64::consts::TAU * 2_000.0 * t;
+            let a = 5.0 * code.bipolar[chip];
+            bytes.push((q(a * ph.cos()) << 4) | q(a * ph.sin()));
+        }
+        bytes.push(0xCC);
+        let mut l = parse_sdrx(META).unwrap();
+        l.sample_rate_hz = fs;
+        let cfg = PcpsConfig {
+            fs_hz: fs,
+            if_hz: 0.0,
+            coherent_ms: 1,
+            noncoherent: 10,
+            doppler_max_hz: 5_000.0,
+            doppler_step_hz: 500.0,
+            pfa: 1e-3,
+        };
+        let x = decode(&l, &bytes, 0, 20_000).unwrap();
+        let r = pcps_acquire(&x, &code, &cfg).unwrap();
+        assert!(r.acquired && r.doppler_hz == 2_000.0, "{r:?}");
+        l.fill_lsb_first = true;
+        let x = decode(&l, &bytes, 0, 20_000).unwrap();
+        let r = pcps_acquire(&x, &code, &cfg).unwrap();
+        assert!(r.acquired && r.doppler_hz == -2_000.0, "{r:?}");
+    }
+
     #[test]
     fn a_sample_wider_than_a_word_spans_consecutive_words() {
         // The LuGRE 8-bit batch: 16 packed bits per complex sample in 1-byte words.
