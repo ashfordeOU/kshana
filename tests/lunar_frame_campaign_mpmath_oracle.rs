@@ -147,6 +147,11 @@
 //! magnitude more accurate on the same inputs. [`record_engine_accuracy_against_a_factorisation_route`]
 //! pins that observation so a change in either is re-examined.
 //!
+//! **Measurement fix, disclosed.** The weakest-direction comparator was first `acos` of the
+//! cosine, which cannot resolve angles below about 1.5e-8 rad (it read 0 on the control, against
+//! a 9.4e-11 bar). It now measures the chord between the sign-aligned unit vectors; the bar is
+//! unchanged. Measured: 5.9e-6, 6.6e-16 (control, now a real pass) and 2.7e-5 rad.
+//!
 //! **Mutations (each applied, run, and reverted).** (1) `fim::sym_eig` stopping its Jacobi sweeps
 //! once the off-diagonal mass is below 1e-6 of the diagonal: red (control sigmas off by up to
 //! 2.9e-5 against bars down to 1e-11; one 2024 stations-estimated sigma 5.2e-2 against 2.8e-2).
@@ -295,6 +300,23 @@ fn engine_sigma(v: &J) -> Vec<f64> {
     s
 }
 
+/// The angle (rad) between two directions, from the chord between the sign-aligned unit vectors:
+/// `2 asin(|e/|e| - s o/|o|| / 2)`. Unlike `acos` of the cosine, it resolves angles below
+/// `sqrt(2u)`, about 1.5e-8 rad.
+fn direction_angle(e: &[f64], o: &[f64]) -> f64 {
+    let norm = |x: &[f64]| x.iter().map(|a| a * a).sum::<f64>().sqrt();
+    let (ne, no) = (norm(e), norm(o));
+    let dot: f64 = e.iter().zip(o).map(|(a, b)| a * b).sum();
+    let s = if dot < 0.0 { -1.0 } else { 1.0 };
+    let chord = e
+        .iter()
+        .zip(o)
+        .map(|(a, b)| (a / ne - s * b / no).powi(2))
+        .sum::<f64>()
+        .sqrt();
+    2.0 * (chord / 2.0).min(1.0).asin()
+}
+
 fn rel(a: f64, b: f64) -> f64 {
     (a - b).abs() / b.abs()
 }
@@ -350,10 +372,7 @@ fn compare(
     // Weakest direction.
     let ew = fv(&helm["weakest_direction"]["direction"]);
     let ow = fv(&r["weakest_direction"]);
-    let dot: f64 = ew.iter().zip(&ow).map(|(a, b)| a * b).sum();
-    let norm = |x: &[f64]| x.iter().map(|a| a * a).sum::<f64>().sqrt();
-    let cos = (dot.abs() / (norm(&ew) * norm(&ow))).min(1.0);
-    let ang = cos.acos();
+    let ang = direction_angle(&ew, &ow);
     let bar = FLOOR
         + cu * (a_f * f(&r["zt_norm_sq"]) + a_s * f(&r["a_norm_sq"]) + a_h)
             / f(&r["eigengap_lambda2_minus_lambda1"]);
