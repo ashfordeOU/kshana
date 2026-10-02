@@ -290,7 +290,6 @@ fn report_detection_power_matches_scipy_chi2_and_ncx2() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn report_detection_power_matches_scipy_with_comparable_sigmas() {
     let reference = load_reference();
     let configs = reference["added_configurations"]
