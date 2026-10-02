@@ -1,6 +1,6 @@
 # Kshana
 
-> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.29.3, AGPL-3.0-only licence, by Ashforde OÜ. 121 of 238 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
+> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.29.3, AGPL-3.0-only licence, by Ashforde OÜ. 123 of 242 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
 
 Kshana is a deterministic Rust engine for PNT (positioning, navigation and timing) resilience studies: GNSS (global navigation satellite system) jamming and spoofing, clock holdover, RAIM (receiver autonomous integrity monitoring) and protection levels, orbits, low-Earth-orbit navigation, and navigation at the Moon and Mars. Every scenario is a TOML file; every run is reproducible from its scenario, seed and engine version. It is not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.
 
