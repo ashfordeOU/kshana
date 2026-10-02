@@ -1,53 +1,72 @@
 # Fold manifest for package D12 (extended-precision oracle first, square-root information
-# solver second). This branch delivers step 1 only; step 2 is out of scope for this session.
+# solver second). Both steps are delivered: step 2 at the founder's instruction of 2026-10-02.
 package = "D12"
 branch = "feat/dom-d12"
 base = "main @ 4646c224"
 head_note = "see the final report for the branch head"
 
-# Paths this branch adds or changes. No engine source file is changed.
 owned_paths = [
+  # step 1
   "tests/lunar_frame_campaign_mpmath_oracle.rs",
   "tests/fixtures/lunar_frame_campaign_mpmath_oracle/",
+  "tests/lunar_frame_campaign_rank_mpmath_oracle.rs",
+  "tests/fixtures/lunar_frame_campaign_rank_mpmath_oracle/",
   "xval/oracles/requirements.in",    # adds mpmath==1.3.0
   "xval/oracles/requirements.lock",  # the resolver's mpmath entry only
+  # step 2
+  "src/linalg_sr.rs",                # new module
+  "src/lunar_frame_campaign.rs",     # opt-in `solver` field and srif path; default bytes unchanged
+  "tests/lunar_frame_campaign_srif_mpmath_oracle.rs",
+  "tests/fixtures/lunar_frame_campaign_srif_mpmath_oracle/",
+  # fold
   ".fold/feat-dom-d12.toml",
   ".fold/feat-dom-d12-rows.md",
   "changelog.d/feat-dom-d12.md",
 ]
 
-# Rows. "M074" is the roadmap's name for the matrix row below.
 [rows]
-new = ["Lunar frame datum covariance with the stations estimated, against 50-digit extended precision"]
-founder_decision = ["Lunar frame datum from an observing campaign"]  # M074: proposal only, not acted on
-deferred = ["(b) estimator accuracy against extended precision, square-root information solver (step 2)"]
-
-[tests]
-filter = "cargo test --test lunar_frame_campaign_mpmath_oracle"
-strict = "lunar_frame_campaign_datum_matches_mpmath_extended_precision"
-also = [
-  "engine_inputs_match_the_committed_fixture",
-  "record_engine_accuracy_against_a_factorisation_route",
+new = [
+  "Lunar frame datum covariance with the stations estimated, against 50-digit extended precision",
+  "Square-root information datum solver against 50-digit extended precision",
+]
+founder_decision_recorded = ["Lunar frame datum from an observing campaign"]  # M074: option A, stays MODELLED, gains a pointer
+not_done = [
+  "srif opt-in paths in batch_ls, orbit_determination, cislunar_srif, fim, lunar_datum, lunar_combination, precise_od",
 ]
 
-# Edits the integrator must make in files this branch may not touch (exact text in the rows file).
+[tests]
+filter = "cargo test --test lunar_frame_campaign_mpmath_oracle --test lunar_frame_campaign_rank_mpmath_oracle --test lunar_frame_campaign_srif_mpmath_oracle && cargo test --lib -- linalg_sr lunar_frame_campaign"
+strict = [
+  "lunar_frame_campaign_datum_matches_mpmath_extended_precision",
+  "rank_decisions_match_mpmath_extended_precision",
+  "srif_datum_matches_mpmath_extended_precision",
+]
+records = [
+  "record_engine_accuracy_against_a_factorisation_route",
+  "record_point_decisions_equal_the_exact_ones",
+]
+
 [integrator_edits]
 "src/verification.rs" = [
-  "append the new VerificationItem (rows file, section 1)",
-  "append its OracleBasisEntry to validated_oracle_basis() (rows file, section 1)",
-  "add \"mpmath\" to NUMERICAL in p2_rows_name_an_independent_numerical_library (else the new P2 entry fails that unit test)",
+  "append the two new VerificationItems (rows file, sections 1 and 3)",
+  "append their two OracleBasisEntry values to validated_oracle_basis()",
+  "add \"mpmath\" to NUMERICAL in p2_rows_name_an_independent_numerical_library",
+  "append to the oracle text of 'Lunar frame datum from an observing campaign' the pointer sentence of rows file section 2, option A",
+]
+"src/api.rs" = [
+  "lunar-frame-campaign ScenarioMeta optional_fields: append \"solver\" (left out here because it would desynchronise the generated docs/SCENARIOS.md, which this branch may not edit)",
 ]
 "xval/oracles/README.md" = ["licence table: | mpmath | 1.3.0 | BSD-3-Clause | extended-precision P2 linear algebra |"]
 "regenerated docs" = [
-  "docs/VERIFICATION-MATRIX.md and the other generated pages, by the repository generator after the row lands",
-  "README headline counts: 226 -> 227 rows, 110 -> 111 validated (readme_headline_counts_match_the_matrix fails until then)",
+  "docs/VERIFICATION-MATRIX.md, docs/SCENARIOS.md and the other generated pages, by the repository generator after the rows land",
+  "README headline counts: 226 -> 228 rows, 110 -> 112 validated (readme_headline_counts_match_the_matrix fails until then)",
 ]
-dry_run = "row, basis entry and NUMERICAL edit applied locally and reverted: verification lib tests 12/13 (only the README count test fails, as expected); verification_rows_declare_an_oracle_basis and verification_rows_name_a_test_that_exists pass"
+dry_run = "section 1 row, basis entry and NUMERICAL edit applied locally and reverted: verification lib tests 12/13 (only the README count test fails, as expected); verification_rows_declare_an_oracle_basis and verification_rows_name_a_test_that_exists pass. Repeated for both rows before the final push (see report)."
 
 [registration]
-lib_rs = "none"
-api_rs = "none"
+lib_rs = "pub mod linalg_sr; (one line, made on this branch)"
+api_rs = "none made; see integrator_edits"
 
 [depends_on]
-packages = ["D2"]
-note = "D2's pre-registration tags are replaced, per the integrator, by the pushed pre-registration commit 804662d5. Step 2 would also wait for D4 and D7 to fold."
+packages = ["D2", "D4 (only for the not-done lunar_datum and lunar_combination paths)", "D7 (helpers may move to portable_math after it folds)"]
+note = "D2's pre-registration tags are replaced, per the integrator, by pushed pre-registration commits 804662d5, b84ce19b and b41908c9."
