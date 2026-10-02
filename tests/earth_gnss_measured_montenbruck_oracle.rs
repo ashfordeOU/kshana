@@ -228,7 +228,7 @@ fn raan_ltan_14h() -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-02 first run): zenith agrees on 5 of 6 (E1-C 3.250/3.632/2.951 vs 3.3/3.7/3.0; L1 C/A +3 dB 4.417 vs 4.7, -3 dB 2.715 vs 2.9) but zenith L1 C/A nominal is 3.340 vs 3.8 (tol 0.30) and every nadir mean is 1.0 to 2.4 satellites HIGH (L1 C/A 8.153/9.771/7.167 vs 5.8/7.4/5.0, E1-C 7.715/8.500/6.819 vs 6.6/7.3/5.8); pinned by finding_genesis_nadir_counts_exceed_the_paper"]
 fn genesis_table_3_mean_tracked_satellites() {
     let inp = load();
     let raan = raan_ltan_14h();
@@ -261,4 +261,28 @@ fn genesis_table_3_mean_tracked_satellites() {
         }
     }
     assert!(failures.is_empty(), "outside tolerance: {failures:#?}");
+}
+
+/// FINDING, pinned (2026-10-02): with the inputs the paper prints (Table 2 powers, the
+/// azimuth-averaged Fig. 3 patterns, the Fig. 4 receive pattern, Eq. 6 noise factor, the stated
+/// thresholds and orbit) the zenith-antenna statistics largely reproduce Table 3, but the
+/// nadir-antenna means exceed it by 1.0 to 2.4 satellites. The nadir links sit at transmit angles
+/// of 13.9 to 28 deg, in the side-lobe region where the paper used azimuth-DEPENDENT GPS patterns
+/// (Table 1) and only azimuth averages are published; the unstated orbit phase and sampling are
+/// the other undocumented inputs. The gap is not closable from published data.
+#[test]
+fn finding_genesis_nadir_counts_exceed_the_paper() {
+    let inp = load();
+    let raan = raan_ltan_14h();
+    let (gz, gn) = mean_tracked(&inp, 'G', 0.0, raan);
+    let (ez, en) = mean_tracked(&inp, 'E', 0.0, raan);
+    assert!(
+        (gz - 3.340).abs() < 0.001 && (ez - 3.250).abs() < 0.001,
+        "{gz} {ez}"
+    );
+    assert!(
+        (gn - 8.153).abs() < 0.001 && (en - 7.715).abs() < 0.001,
+        "{gn} {en}"
+    );
+    assert!(gn - 5.8 > 1.0 && en - 6.6 > 1.0);
 }
