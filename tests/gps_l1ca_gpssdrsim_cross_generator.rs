@@ -298,12 +298,29 @@ fn gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding() {
             }
             let x = x * 2f64.powi(-p);
             let (k, g) = (as_int(a), as_int(b));
-            assert_eq!(k as f64, x.round(), "{}: Kshana is the rounded value", spec.name);
-            assert_eq!(g as f64, x.trunc(), "{}: gps-sdr-sim is the truncated value", spec.name);
+            assert_eq!(
+                k as f64,
+                x.round(),
+                "{}: Kshana is the rounded value",
+                spec.name
+            );
+            assert_eq!(
+                g as f64,
+                x.trunc(),
+                "{}: gps-sdr-sim is the truncated value",
+                spec.name
+            );
             assert_eq!((k - g).abs(), 1, "{}", spec.name);
-            assert!((x - x.round()).abs() < 0.01, "{}: {x} is not a broadcast integer", spec.name);
+            assert!(
+                (x - x.round()).abs() < 0.01,
+                "{}: {x} is not a broadcast integer",
+                spec.name
+            );
         }
     }
-    assert_eq!(computed, 32 * FIELDS.iter().filter(|f| !f.convention).count());
+    assert_eq!(
+        computed,
+        32 * FIELDS.iter().filter(|f| !f.convention).count()
+    );
     assert_eq!(differing, 230, "the finding as recorded: 230 fields");
 }

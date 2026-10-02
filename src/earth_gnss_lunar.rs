@@ -62,7 +62,7 @@
 //! ephemeris lookup. The quantity under test here is the link and the beam geometry; the
 //! engine models the lunar ephemeris elsewhere and nothing is gained by coupling them.
 
-use crate::antenna::{boresight_gain_dbi, pattern_gain_dbi};
+use crate::antenna::{boresight_gain_dbi, pattern_gain_dbi, GainPattern2D};
 use crate::jamming::{free_space_path_loss_db, nominal_cn0_dbhz, L1_HZ};
 use crate::orbit::{dop, Dop, R_EARTH_EQUATORIAL_M};
 use crate::walker::WalkerSgp4;
@@ -974,6 +974,67 @@ pub fn track_with_hysteresis(
         .collect()
 }
 
+// ── Relative C/N0 with measured two-dimensional transmit patterns ───────────────────────
+
+fn cross(a: Vec3, b: Vec3) -> Vec3 {
+    [
+        a[1] * b[2] - a[2] * b[1],
+        a[2] * b[0] - a[0] * b[2],
+        a[0] * b[1] - a[1] * b[0],
+    ]
+}
+
+/// The nominal yaw-steering body axes `[x, y, z]` of a GNSS satellite at `sat_m` with the Sun
+/// at `sun_m` (same frame and origin, the Earth's centre): `z` toward the Earth's centre, `y`
+/// along `z × (Sun direction)`, normal to the plane of Earth, satellite and Sun, and `x`
+/// completing the right-handed set, so that the Sun lies in the `+x` half of the `x`–`z`
+/// plane. This is the nominal attitude of the IGS (International GNSS Service) convention;
+/// eclipse-season yaw manoeuvres are not modelled. `None` when the Sun is collinear with the
+/// nadir.
+pub fn yaw_steering_axes(sat_m: Vec3, sun_m: Vec3) -> Option<[Vec3; 3]> {
+    let z = unit([-sat_m[0], -sat_m[1], -sat_m[2]])?;
+    let s = unit(sub(sun_m, sat_m))?;
+    let y = unit(cross(z, s))?;
+    let x = cross(y, z);
+    Some([x, y, z])
+}
+
+/// Off-boresight (off-nadir) angle and azimuth (deg) of the receiver at `rx_m` in the
+/// yaw-steering body frame of a transmitter at `tx_m`: azimuth measured in the body `x`–`y`
+/// plane from `+x` toward `+y`, in `[0, 360)`.
+pub fn transmit_angles(tx_m: Vec3, sun_m: Vec3, rx_m: Vec3) -> Option<(f64, f64)> {
+    let [x, y, z] = yaw_steering_axes(tx_m, sun_m)?;
+    let u = unit(sub(rx_m, tx_m))?;
+    let theta = dot(u, z).clamp(-1.0, 1.0).acos().to_degrees();
+    let az = dot(u, y).atan2(dot(u, x)).to_degrees().rem_euclid(360.0);
+    Some((theta, az))
+}
+
+/// The transmitter-dependent part of the link budget (dB): transmit power plus the
+/// tabulated transmit gain toward the receiver minus the free-space loss,
+/// `P_T + G_T(φ, θ) − 20 log10(4π r / λ)`. Everything that is common to the satellites a
+/// receiver tracks at one instant (its own gain toward a common direction, its noise, any
+/// common implementation loss) is left out, so the DIFFERENCE of two of these values at the
+/// same epoch is the predicted difference of their carrier-to-noise densities. `None` when
+/// the angle is outside the pattern or the path is blocked by a sphere of
+/// `occulting_radius_m` at the origin.
+pub fn transmit_side_db(
+    tx_m: Vec3,
+    sun_m: Vec3,
+    rx_m: Vec3,
+    tx_power_dbw: f64,
+    pattern: &GainPattern2D,
+    freq_hz: f64,
+    occulting_radius_m: f64,
+) -> Option<f64> {
+    if segment_blocked_by_sphere(tx_m, rx_m, occulting_radius_m) {
+        return None;
+    }
+    let (theta, az) = transmit_angles(tx_m, sun_m, rx_m)?;
+    let g = pattern.gain_at(az, theta)?;
+    Some(tx_power_dbw + g - free_space_path_loss_db(norm(sub(rx_m, tx_m)), freq_hz))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1326,5 +1387,44 @@ mod tests {
         for (path, _, _, _) in UNITS {
             assert!(units.contains_key(*path), "{path} missing from the block");
         }
+    }
+
+    #[test]
+    fn yaw_steering_frame_is_right_handed_with_the_sun_toward_plus_x() {
+        let sat = [26_560e3, 0.0, 0.0];
+        let sun = [1.0e11, 1.0e11, 2.0e10];
+        let [x, y, z] = yaw_steering_axes(sat, sun).unwrap();
+        assert!((dot(cross(x, y), z) - 1.0).abs() < 1e-12);
+        assert!((z[0] + 1.0).abs() < 1e-12);
+        let s = unit(sub(sun, sat)).unwrap();
+        assert!(dot(s, x) > 0.0 && dot(s, y).abs() < 1e-12);
+        // A receiver straight below is at zero off-nadir.
+        let (th, _) = transmit_angles(sat, sun, [0.0, 0.0, 0.0]).unwrap();
+        assert!(th.abs() < 1e-9);
+        // A receiver displaced toward +y of the body frame is at azimuth 90.
+        let rx = [0.0, 0.0, 0.0];
+        let rx = [rx[0] + 1e6 * y[0], rx[1] + 1e6 * y[1], rx[2] + 1e6 * y[2]];
+        let (_, az) = transmit_angles(sat, sun, rx).unwrap();
+        assert!((az - 90.0).abs() < 1e-9, "{az}");
+    }
+
+    #[test]
+    fn transmit_side_differences_follow_gain_and_range() {
+        let p = GainPattern2D::new(
+            vec![0.0, 180.0],
+            vec![0.0, 30.0],
+            vec![vec![10.0, 4.0], vec![10.0, 4.0]],
+        )
+        .unwrap();
+        let sun = [1.5e11, 0.0, 0.0];
+        let tx = [0.0, 26_560e3, 0.0];
+        let near = [0.0, 6_378e3 + 400e3, 0.0];
+        let a = transmit_side_db(tx, sun, near, 14.5, &p, L1_HZ, 6_378e3).unwrap();
+        let fspl = free_space_path_loss_db(26_560e3 - 6_778e3, L1_HZ);
+        assert!((a - (14.5 + 10.0 - fspl)).abs() < 1e-9);
+        // Behind the Earth: occulted.
+        assert!(
+            transmit_side_db(tx, sun, [0.0, -7_000e3, 0.0], 14.5, &p, L1_HZ, 6_378e3).is_none()
+        );
     }
 }

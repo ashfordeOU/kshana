@@ -779,6 +779,99 @@ pub fn capture_footprint_sweep(
     }
 }
 
+// ── Tabulated two-dimensional patterns ──────────────────────────────────────────────────
+
+/// A tabulated antenna gain pattern over azimuth and off-boresight angle, such as the
+/// measured GPS Block IIR and IIR-M transmit patterns the US Coast Guard Navigation Center
+/// (NAVCEN) publishes. Gains are interpolated bilinearly; azimuth wraps around the full
+/// circle; an off-boresight angle outside the tabulated range is undefined (`None`), never
+/// extrapolated.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct GainPattern2D {
+    /// Azimuths (deg), strictly increasing, spanning less than 360 deg.
+    pub azimuth_deg: Vec<f64>,
+    /// Off-boresight angles (deg), strictly increasing.
+    pub off_boresight_deg: Vec<f64>,
+    /// Gain (dB relative to isotropic) at `[azimuth index][off-boresight index]`.
+    pub gain_db: Vec<Vec<f64>>,
+}
+
+impl GainPattern2D {
+    /// A pattern from its grid; an error unless both axes strictly increase, the azimuths
+    /// span less than a full turn and every row has one gain per off-boresight angle.
+    pub fn new(
+        azimuth_deg: Vec<f64>,
+        off_boresight_deg: Vec<f64>,
+        gain_db: Vec<Vec<f64>>,
+    ) -> Result<Self, String> {
+        let inc = |v: &[f64]| v.windows(2).all(|w| w[1] > w[0]);
+        if azimuth_deg.is_empty() || !inc(&azimuth_deg) {
+            return Err("azimuths must strictly increase".into());
+        }
+        if azimuth_deg[azimuth_deg.len() - 1] - azimuth_deg[0] >= 360.0 {
+            return Err("azimuths must span less than 360 deg".into());
+        }
+        if off_boresight_deg.len() < 2 || !inc(&off_boresight_deg) {
+            return Err("off-boresight angles must strictly increase".into());
+        }
+        if gain_db.len() != azimuth_deg.len()
+            || gain_db.iter().any(|r| r.len() != off_boresight_deg.len())
+        {
+            return Err("gain grid does not match the axes".into());
+        }
+        Ok(Self {
+            azimuth_deg,
+            off_boresight_deg,
+            gain_db,
+        })
+    }
+
+    /// Gain (dB) at azimuth `az_deg` (any value; wrapped) and off-boresight `theta_deg`.
+    pub fn gain_at(&self, az_deg: f64, theta_deg: f64) -> Option<f64> {
+        let t = &self.off_boresight_deg;
+        if !(theta_deg >= t[0] && theta_deg <= t[t.len() - 1]) || !az_deg.is_finite() {
+            return None;
+        }
+        let k = t.partition_point(|&x| x <= theta_deg).clamp(1, t.len() - 1);
+        let ft = (theta_deg - t[k - 1]) / (t[k] - t[k - 1]);
+        let row =
+            |i: usize| self.gain_db[i][k - 1] + ft * (self.gain_db[i][k] - self.gain_db[i][k - 1]);
+        let a = &self.azimuth_deg;
+        let n = a.len();
+        if n == 1 {
+            return Some(row(0));
+        }
+        let az = a[0] + (az_deg - a[0]).rem_euclid(360.0);
+        let j = a.partition_point(|&x| x <= az);
+        let (i0, i1, x0, x1) = if j == 0 || j == n {
+            // Between the last azimuth and the first one plus a turn.
+            (n - 1, 0, a[n - 1], a[0] + 360.0)
+        } else {
+            (j - 1, j, a[j - 1], a[j])
+        };
+        let fa = (az - x0) / (x1 - x0);
+        Some(row(i0) + fa * (row(i1) - row(i0)))
+    }
+
+    /// The azimuth average of the gain in linear power at each off-boresight angle, in dB,
+    /// as `(angle_deg, gain_db)` pairs (each tabulated azimuth weighted equally).
+    pub fn azimuth_average(&self) -> Vec<(f64, f64)> {
+        self.off_boresight_deg
+            .iter()
+            .enumerate()
+            .map(|(k, &th)| {
+                let mean = self
+                    .gain_db
+                    .iter()
+                    .map(|r| 10f64.powf(r[k] / 10.0))
+                    .sum::<f64>()
+                    / self.gain_db.len() as f64;
+                (th, 10.0 * mean.log10())
+            })
+            .collect()
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -1400,5 +1493,40 @@ mod tests {
             );
             assert!((c.hpbw_deg - 7.300).abs() < 0.01);
         }
+    }
+
+    #[test]
+    fn two_dimensional_pattern_interpolates_and_wraps() {
+        let p = GainPattern2D::new(
+            vec![0.0, 90.0, 180.0, 270.0],
+            vec![0.0, 10.0],
+            vec![
+                vec![10.0, 0.0],
+                vec![12.0, 2.0],
+                vec![14.0, 4.0],
+                vec![16.0, 6.0],
+            ],
+        )
+        .unwrap();
+        assert_eq!(p.gain_at(0.0, 0.0), Some(10.0));
+        assert_eq!(p.gain_at(45.0, 5.0), Some(6.0));
+        // Between 270 and 360 (= 0): halfway is the mean of the two rows.
+        assert_eq!(p.gain_at(315.0, 0.0), Some(13.0));
+        assert_eq!(p.gain_at(-45.0, 0.0), Some(13.0));
+        assert_eq!(p.gain_at(720.0 + 90.0, 10.0), Some(2.0));
+        assert_eq!(p.gain_at(0.0, 10.5), None);
+        let avg = p.azimuth_average();
+        assert!(
+            (avg[0].1
+                - 10.0
+                    * ((10f64.powf(1.0) + 10f64.powf(1.2) + 10f64.powf(1.4) + 10f64.powf(1.6))
+                        / 4.0)
+                        .log10())
+            .abs()
+                < 1e-12
+        );
+        assert!(
+            GainPattern2D::new(vec![0.0, 360.0], vec![0.0, 1.0], vec![vec![0.0; 2]; 2]).is_err()
+        );
     }
 }
