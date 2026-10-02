@@ -44,11 +44,18 @@
 //! engine reads itself ([`crate::naif_kernel`]): JPL DE440 Earth and Moon, the DE440 lunar
 //! principal axes and the ITRF93 Earth orientation (with UT1 and polar motion), each light time
 //! converged in the barycentric frame (station at reception, beacon at emission, the Earth's
-//! motion during the flight), and beacon partials with the light-time factor `1/(c − û·V)`.
-//! Against ANISE light times through the same kernels it agrees to 0.12 ps on 75 delays and
-//! 2.9e-7 relative on the partials (`tests/lunar_vlbi_anise_oracle.rs`). It is Newtonian: no
-//! Shapiro, media or barycentric-to-geocentric scale term, and the reception epoch is in the
-//! SPICE ephemeris-time convention ([`crate::naif_kernel::naif_et_from_utc`]).
+//! motion during the flight), and beacon (body-frame) and station (ITRF93) partials with the
+//! light-time factor `1/(c − û·V)`. Against light times the NAIF SPICE Toolkit solves itself
+//! (`spkcpt`/`spkcpo` with converged Newtonian correction, DSN stations from NAIF's station
+//! kernel) it agrees to 0.06 ps on 75 delays, 7.4e-9 relative on the beacon partials and
+//! 3.8e-11 on the station partials (`tests/lunar_vlbi_spice_oracle.rs`, epochs near J2000,
+//! where SPICE's double-precision time resolves the emission epoch). The `lunar-vlbi`
+//! scenario runs this path when `planetary_kernel_path`, `earth_orientation_kernel_path` and
+//! `moon_orientation_kernel_path` are set; its `geometric_delay_s` is then this delay. It is
+//! Newtonian: no Shapiro, media or barycentric-to-geocentric scale term (the scenario's
+//! `delay_s` adds the analytic differenced Shapiro term, outside the comparison), and the
+//! reception epoch is in the SPICE ephemeris-time convention
+//! ([`crate::naif_kernel::naif_et_from_utc`]).
 //!
 //! **Honesty / caveats (the analytic path below).** The analytic path is **NOT** validated: the
 //! geometry is honest (a near-field two-range difference, Shapiro reused from `radiometric`),

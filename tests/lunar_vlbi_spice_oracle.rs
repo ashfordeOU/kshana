@@ -97,6 +97,18 @@
 //! * Why the old configuration measured a different quantity: at 2024 epochs the oracle's
 //!   light time is that of an emission epoch rounded to 1.19e-7 s, not the converged light
 //!   time itself; the engine carries ET as two doubles and does not round it.
+//!
+//! ## Amendment 3 result (2026-10-02, first run at these epochs, nothing tuned): AGREES
+//!
+//! * Delay: 75 of 75 within 1 ps; largest gap 6.17e-14 s.
+//! * Beacon partials (body frame): 75 of 75 within 1e-6; largest 7.41e-9.
+//! * Station partials (ITRF93): 150 of 150 within 1e-6; largest 3.82e-11.
+//! * Information: with the engine's own `naif_et_from_utc` epochs the same figures are
+//!   6.15e-14 s, 7.41e-9 and 3.82e-11 (75/75, 75/75, 150/150).
+//! * Mutations (each red, reverted by editing the file back): the light-time factor removed
+//!   from the body-frame beacon partials (den = c): beacon partials 0/75, worst 9.93e-5; the
+//!   same in the station partials: station partials 0/150, worst 8.77e-5; the Earth's motion
+//!   during the flight dropped from `light_time`: delays 0/75, worst 3.48e-6 s.
 
 use kshana::lunar_vlbi::KernelGeometry;
 
@@ -306,7 +318,6 @@ fn spice_2024_epochs_finding_is_unchanged() {
 /// Amendment 3: the pre-registered comparison at epochs near J2000, where SPICE's ET resolves
 /// the emission epoch.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn kernel_delay_and_partials_match_spice_light_times_near_j2000() {
     let r = compare(&SET_J2000, &spice_et);
     report("epochs near J2000", r);
