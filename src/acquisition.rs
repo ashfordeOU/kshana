@@ -334,7 +334,7 @@ pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<Pc
         power += x.re * x.re + x.im * x.im;
     }
     let sigma2 = power / needed as f64;
-    if !(sigma2 > 0.0) {
+    if sigma2.is_nan() || sigma2 <= 0.0 {
         return Err("the samples carry no power".into());
     }
     for m in 0..cfg.noncoherent {
@@ -429,7 +429,7 @@ pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<Pc
 /// at low C/N0 (the peak is the largest of many cells). `None` when `ρ ≤ 0`.
 pub fn cn0_from_grid(r: &PcpsResult, coherent_ms: usize) -> Option<f64> {
     let rho = r.statistic / r.floor - 1.0;
-    if !(rho > 0.0) {
+    if rho.is_nan() || rho <= 0.0 {
         return None;
     }
     Some(10.0 * (rho / (coherent_ms as f64 * 1e-3)).plog10())
@@ -469,11 +469,10 @@ pub fn prompt_series(
         let (mut sn, mut cs) = (-core::f64::consts::TAU * cyc0).psin_cos();
         let (dsn, dcs) = (-core::f64::consts::TAU * (f / fs_hz).fract()).psin_cos();
         let mut acc = Cf64::default();
-        for n in n0..n1 {
+        for (n, &s) in samples.iter().enumerate().take(n1).skip(n0) {
             let chip_phase = (n as f64 - epoch) * code_rate / fs_hz;
             let idx = (chip_phase.floor() as i64).rem_euclid(CA_CODE_LEN as i64) as usize;
             let c = code.bipolar[idx];
-            let s = samples[n];
             acc.re += c * (s.re * cs - s.im * sn);
             acc.im += c * (s.re * sn + s.im * cs);
             let ns = sn * dcs + cs * dsn;
@@ -504,12 +503,12 @@ pub fn cn0_m2m4(prompts: &[Cf64], t_coh_s: f64) -> Option<f64> {
     m2 /= n;
     m4 /= n;
     let d = 2.0 * m2 * m2 - m4;
-    if !(d > 0.0) {
+    if d.is_nan() || d <= 0.0 {
         return None;
     }
     let ps = d.sqrt();
     let pn = m2 - ps;
-    if !(pn > 0.0) {
+    if pn.is_nan() || pn <= 0.0 {
         return None;
     }
     Some(10.0 * (ps / (pn * t_coh_s)).plog10())
