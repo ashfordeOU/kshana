@@ -59,6 +59,16 @@
 //! row reports alongside the one-way light time, are not compared with any external value by
 //! this test.
 //!
+//! **Amendment 1 (written 2026-10-02, after the interpolation precondition failed and before any
+//! light time was compared).** The first run stopped at the precondition: the 1-day nodes gave
+//! interpolation errors up to 139 m (the Moon), 42 m (Mercury) and 2 m (the Earth) against the
+//! 10 m limit, so the error budget above was wrong by a factor of about 40 to 140 and that run is
+//! void; no light-time difference was computed. The only change: the nodes are now every 0.5 day
+//! (`STEP_SIZE='720 m'`), JD 2458849.5 + 0.5 j, j = 0 to 4384 (the same span, 4385 per body), and
+//! the 8-point stencil is the nodes floor(u)-3 to floor(u)+4 with u the time in half-days from the
+//! first node. The (h)^8 scaling predicts about 0.5 m for the Moon. The precondition limit (10 m),
+//! the reception epochs, the oracle and the 1e-6 s bar are unchanged.
+//!
 //! **Mutation to show afterwards.** Stopping `radiometric::solve_light_time` after its first
 //! iterate (the instantaneous range over c) must turn this test red.
 //!
@@ -73,7 +83,9 @@ use std::collections::HashMap;
 type Vec3 = [f64; 3];
 
 const NODE_JD0: f64 = 2_458_849.5;
-const NODE_COUNT: usize = 2193;
+const NODE_COUNT: usize = 4385;
+/// Node spacing (days), amendment 1.
+const NODE_STEP_D: f64 = 0.5;
 const EPOCHS: usize = 1576;
 const TOL_S: f64 = 1.0e-6;
 const INTERP_PRECONDITION_M: f64 = 10.0;
@@ -109,10 +121,10 @@ fn horizons_id(name: &str) -> usize {
     }
 }
 
-/// DE441 barycentric ICRF positions on a 1-day grid, interpolated by 8-point Lagrange.
+/// DE441 barycentric ICRF positions on a half-day grid, interpolated by 8-point Lagrange.
 #[derive(Debug)]
 struct De441Table {
-    /// Horizons ID -> node positions (m), node k at JD NODE_JD0 + k.
+    /// Horizons ID -> node positions (m), node k at JD NODE_JD0 + NODE_STEP_D k.
     nodes: HashMap<usize, Vec<Vec3>>,
 }
 
@@ -123,7 +135,11 @@ impl De441Table {
             let id: usize = c[0].parse().expect("id");
             let jd = num(&c[1]);
             let v = nodes.entry(id).or_default();
-            assert_eq!(jd, NODE_JD0 + v.len() as f64, "node grid for {id}");
+            assert_eq!(
+                jd,
+                NODE_JD0 + NODE_STEP_D * v.len() as f64,
+                "node grid for {id}"
+            );
             v.push([num(&c[2]) * 1e3, num(&c[3]) * 1e3, num(&c[4]) * 1e3]);
         }
         for (id, v) in &nodes {
@@ -135,7 +151,7 @@ impl De441Table {
 
     fn position(&self, id: usize, jd: f64) -> Vec3 {
         let v = &self.nodes[&id];
-        let x = jd - NODE_JD0;
+        let x = (jd - NODE_JD0) / NODE_STEP_D;
         let k = x.floor() as isize;
         let first = k - 3;
         assert!(
