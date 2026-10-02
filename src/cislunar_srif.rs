@@ -136,6 +136,28 @@ fn srif_over_arc(o: &Mat, n: usize) -> Srif {
 /// The state dimension is read off the width of the epochs' variational STM, so the SAME function
 /// serves the planar four-state and the spatial six-state paths; the planar behaviour is unchanged.
 pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPoint> {
+    cross_validation_with(epochs, rel_tol, false)
+}
+
+/// [`srif_cross_validation`] with the Gramian-side singular values read by the opt-in
+/// square-root route: Householder QR of the observability matrix `O` and a one-sided Jacobi SVD of
+/// its triangular factor ([`crate::linalg_sr`]), instead of the eigenvalues of the Gram `OᵀO`,
+/// which square the condition number. Rank rule, floors and the SRIF side are unchanged; the
+/// default [`srif_cross_validation`] is unchanged.
+pub fn srif_cross_validation_sqrt(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPoint> {
+    cross_validation_with(epochs, rel_tol, true)
+}
+
+/// Singular values of `o` (descending, `n` of them, zeros where `o` has fewer rows) from the
+/// triangular factor, never forming `oᵀo`.
+fn sqrt_singular_values(o: &[Vec<f64>], n: usize) -> Vec<f64> {
+    let r = crate::linalg_sr::householder_r(o, n);
+    let (mut sv, _) = crate::linalg_sr::jacobi_svd(&r);
+    sv.reverse();
+    sv
+}
+
+fn cross_validation_with(epochs: &[ObsEpoch], rel_tol: f64, sqrt: bool) -> Vec<SrifArcPoint> {
     // The one convention on the eigenvalue side: σ-floor rel_tol·σ_max ⇔ λ-floor rel_tol²·λ_max
     // (the Gram OᵀO squares the singular values), matching `rank_from_singular_values`.
     let floor = rel_tol * rel_tol;
@@ -152,16 +174,25 @@ pub fn srif_cross_validation(epochs: &[ObsEpoch], rel_tol: f64) -> Vec<SrifArcPo
         // P6 rank read uses, and the SAME `rank_from_singular_values` the rank-vs-arc table and
         // gramian_spectrum use, so the two rank reads cannot silently disagree), and the condition
         // of OᵀO.
-        let sv = singular_values(&o);
+        let sv = if sqrt {
+            sqrt_singular_values(&o, n_state)
+        } else {
+            singular_values(&o)
+        };
         // …held additionally to the algebraic bound rank <= min(rows, cols): a prefix carrying
         // fewer measurement rows than states cannot observe more directions than it has rows,
         // whatever the tolerance (see `bounded_rank_from_singular_values`).
         let gramian_rank = bounded_rank_from_singular_values(&sv, rel_tol, o.len(), n_state).rank;
-        let ones = vec![1.0; o.len()];
-        let gram = information_matrix(&o, &ones);
-        let gram_eig = sym_eig(&gram);
+        let gram_values: Vec<f64> = if sqrt {
+            // Eigenvalues of OᵀO as the squared singular values, ascending.
+            sv.iter().rev().map(|s| s * s).collect()
+        } else {
+            let ones = vec![1.0; o.len()];
+            let gram = information_matrix(&o, &ones);
+            sym_eig(&gram).values
+        };
         let gramian_condition = if gramian_rank == n_state {
-            floored_condition(&gram_eig.values, floor)
+            floored_condition(&gram_values, floor)
         } else {
             f64::INFINITY
         };
@@ -239,6 +270,31 @@ mod tests {
             prev = t;
         }
         epochs
+    }
+
+    #[test]
+    fn the_square_root_gramian_read_matches_the_default_read() {
+        let rel_tol = 1e-6;
+        let epochs = single_link_arc(24, 0.06);
+        let a = srif_cross_validation(&epochs, rel_tol);
+        let b = srif_cross_validation_sqrt(&epochs, rel_tol);
+        assert_eq!(full_rank_transition(&a), full_rank_transition(&b));
+        for (p, q) in a.iter().zip(&b) {
+            assert_eq!(p.gramian_rank, q.gramian_rank, "epoch {}", p.epoch_index);
+            assert_eq!(p.srif_condition.to_bits(), q.srif_condition.to_bits());
+            if p.gramian_condition.is_finite() {
+                let r = (p.gramian_condition - q.gramian_condition).abs() / p.gramian_condition;
+                assert!(
+                    r < 1e-6,
+                    "epoch {}: {} vs {}",
+                    p.epoch_index,
+                    p.gramian_condition,
+                    q.gramian_condition
+                );
+            } else {
+                assert!(q.gramian_condition.is_infinite());
+            }
+        }
     }
 
     // ── ORACLE (Validated): the independent SRIF agrees with the rank transition ──

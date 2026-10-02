@@ -268,6 +268,75 @@ pub fn jacobi_svd(a: &[Vec<f64>]) -> (Vec<f64>, Vec<Vec<f64>>) {
     (values, vectors)
 }
 
+/// The solution of a weighted linear least-squares problem by the square-root route.
+#[derive(Clone, Debug)]
+pub struct LsqSqrt {
+    /// The minimiser of `||W^1/2 (J x - b)||`.
+    pub x: Vec<f64>,
+    /// The square-root information matrix `R` (upper triangular, `R^T R = J^T W J`).
+    pub r: Vec<Vec<f64>>,
+    /// The weighted residual norm `||W^1/2 (J x - b)||` at the minimiser.
+    pub residual_norm: f64,
+}
+
+/// Solve `min ||W^1/2 (J x - b)||` by Householder QR of the augmented whitened matrix
+/// `[W^1/2 J | W^1/2 b]`, without forming `J^T W J`: the leading `n x n` block of the triangular
+/// factor is `R`, its last column carries `Q^T W^1/2 b`, and `x` follows by back substitution.
+/// `None` on a dimension mismatch, a negative or non-finite weight, or a zero diagonal in `R`
+/// (rank-deficient `J`).
+pub fn weighted_lstsq(jac: &[Vec<f64>], weights: &[f64], rhs: &[f64]) -> Option<LsqSqrt> {
+    let m = jac.len();
+    let n = jac.first().map_or(0, Vec::len);
+    if n == 0
+        || m < n
+        || weights.len() != m
+        || rhs.len() != m
+        || jac.iter().any(|row| row.len() != n)
+        || weights.iter().any(|w| !w.is_finite() || *w < 0.0)
+    {
+        return None;
+    }
+    let aug: Vec<Vec<f64>> = jac
+        .iter()
+        .zip(weights)
+        .zip(rhs)
+        .map(|((row, &w), &b)| {
+            let s = w.sqrt();
+            row.iter()
+                .map(|v| v * s)
+                .chain(std::iter::once(b * s))
+                .collect()
+        })
+        .collect();
+    let ra = householder_r(&aug, n + 1);
+    let r: Vec<Vec<f64>> = ra[..n].iter().map(|row| row[..n].to_vec()).collect();
+    if (0..n).any(|i| r[i][i] == 0.0) {
+        return None;
+    }
+    let qtb: Vec<f64> = ra[..n].iter().map(|row| row[n]).collect();
+    let mut x = vec![0.0; n];
+    for i in (0..n).rev() {
+        let acc = dot2(&r[i][i + 1..], &x[i + 1..]);
+        x[i] = (qtb[i] - acc) / r[i][i];
+    }
+    Some(LsqSqrt {
+        x,
+        residual_norm: ra[n][n].abs(),
+        r,
+    })
+}
+
+/// The covariance `R^-1 R^-T` from a square-root information matrix, without forming or inverting
+/// `R^T R`. `None` when `R` has a zero diagonal entry.
+pub fn covariance_from_sqrt_information(r: &[Vec<f64>]) -> Option<Vec<Vec<f64>>> {
+    let x = upper_tri_inverse(r)?;
+    Some(
+        x.iter()
+            .map(|row_i| x.iter().map(|row_j| dot2(row_i, row_j)).collect())
+            .collect(),
+    )
+}
+
 /// A seven-parameter datum solution computed from a square-root information matrix.
 #[derive(Clone, Debug)]
 pub struct SqrtDatum {
@@ -535,6 +604,56 @@ mod tests {
         }
         let n2: f64 = d.weakest_direction.iter().map(|x| x * x).sum();
         assert!((n2 - 1.0).abs() < 1e-13);
+    }
+
+    #[test]
+    fn weighted_lstsq_recovers_an_exact_solution_and_its_covariance() {
+        let mut g = stream(37);
+        let truth: Vec<f64> = (0..4).map(|_| g()).collect();
+        let jac: Vec<Vec<f64>> = (0..15).map(|_| (0..4).map(|_| g()).collect()).collect();
+        let w: Vec<f64> = (0..15).map(|_| 1.0 + g().abs()).collect();
+        let b: Vec<f64> = jac
+            .iter()
+            .map(|row| row.iter().zip(&truth).map(|(a, x)| a * x).sum())
+            .collect();
+        let s = weighted_lstsq(&jac, &w, &b).expect("solves");
+        for (x, t) in s.x.iter().zip(&truth) {
+            assert!((x - t).abs() < 1e-13);
+        }
+        assert!(s.residual_norm < 1e-13);
+        // The covariance inverts J^T W J.
+        let c = covariance_from_sqrt_information(&s.r).expect("full rank");
+        let info = gram(&s.r);
+        for i in 0..4 {
+            for j in 0..4 {
+                let e: f64 = (0..4).map(|k| info[i][k] * c[k][j]).sum();
+                assert!((e - if i == j { 1.0 } else { 0.0 }).abs() < 1e-11);
+            }
+        }
+        assert!(weighted_lstsq(&jac[..3], &w[..3], &b[..3]).is_none());
+    }
+
+    #[test]
+    fn weighted_lstsq_keeps_accuracy_where_the_normal_equations_lose_it() {
+        // The Lauchli matrix [1 1; e 0; 0 e] with e = 1e-9: plainly accumulated, J^T J =
+        // [1+e^2 1; 1 1+e^2] rounds to the singular all-ones matrix in binary64 (e^2 is below the
+        // unit roundoff), while QR solves the problem to about u cond(J), here 1.6e-7.
+        let e = 1e-9;
+        let jac = vec![vec![1.0, 1.0], vec![e, 0.0], vec![0.0, e]];
+        let truth = [0.3, -0.7];
+        let b: Vec<f64> = jac
+            .iter()
+            .map(|row| row[0] * truth[0] + row[1] * truth[1])
+            .collect();
+        let s = weighted_lstsq(&jac, &[1.0; 3], &b).expect("solves");
+        for (x, t) in s.x.iter().zip(truth) {
+            assert!((x - t).abs() < 1e-6, "{x} vs {t}");
+        }
+        let normal = matmul_t(&jac, &jac);
+        assert_eq!(
+            normal[0][0] * normal[1][1] - normal[0][1] * normal[1][0],
+            0.0
+        );
     }
 
     #[test]

@@ -754,6 +754,31 @@ pub fn fit<F: ForceModel>(
     obs: &[Observation],
     cfg: &FitConfig,
 ) -> Option<OdReport> {
+    fit_with(template, initial, obs, cfg, false)
+}
+
+/// [`fit`] with each Gauss–Newton step solved by the opt-in square-root route
+/// ([`crate::linalg_sr::weighted_lstsq`]): the whitened partials and residuals, with the
+/// empirical-acceleration a-priori constraint carried as pseudo-measurement rows, are
+/// triangularised by Householder QR instead of forming and inverting the normal matrix. Same
+/// arguments, editing and report as [`fit`]; `None` additionally on a rank-deficient Jacobian. The
+/// default [`fit`] is unchanged.
+pub fn fit_srif<F: ForceModel>(
+    template: &F,
+    initial: EstimatedParams,
+    obs: &[Observation],
+    cfg: &FitConfig,
+) -> Option<OdReport> {
+    fit_with(template, initial, obs, cfg, true)
+}
+
+fn fit_with<F: ForceModel>(
+    template: &F,
+    initial: EstimatedParams,
+    obs: &[Observation],
+    cfg: &FitConfig,
+    srif: bool,
+) -> Option<OdReport> {
     if obs.len() < 3 {
         return None;
     }
@@ -857,9 +882,11 @@ pub fn fit<F: ForceModel>(
             Vec::new()
         };
 
-        // Weighted normal equations over the non-edited observations.
+        // Weighted normal equations over the non-edited observations (and, for the square-root
+        // route, the same rows kept un-accumulated).
         let mut ata = vec![vec![0.0; n_params]; n_params];
         let mut atb = vec![0.0; n_params];
+        let (mut sr_rows, mut sr_w, mut sr_b) = (Vec::new(), Vec::new(), Vec::new());
         for (i, ob) in obs.iter().enumerate() {
             if edited[i] {
                 continue;
@@ -888,6 +915,11 @@ pub fn fit<F: ForceModel>(
                         ata[p][q] += row[p] * w * row[q];
                     }
                 }
+                if srif {
+                    sr_rows.push(row);
+                    sr_w.push(w);
+                    sr_b.push(resid[axis]);
+                }
             }
         }
 
@@ -897,13 +929,24 @@ pub fn fit<F: ForceModel>(
             for k in 0..n_emp {
                 ata[emp_base + k][emp_base + k] += wa;
                 atb[emp_base + k] += wa * (0.0 - emp_get(&emp, k));
+                if srif {
+                    let mut row = vec![0.0; n_params];
+                    row[emp_base + k] = 1.0;
+                    sr_rows.push(row);
+                    sr_w.push(wa);
+                    sr_b.push(0.0 - emp_get(&emp, k));
+                }
             }
         }
 
-        let ata_inv = inverse(&ata)?;
-        let dx: Vec<f64> = (0..n_params)
-            .map(|p| (0..n_params).map(|q| ata_inv[p][q] * atb[q]).sum())
-            .collect();
+        let dx: Vec<f64> = if srif {
+            crate::linalg_sr::weighted_lstsq(&sr_rows, &sr_w, &sr_b)?.x
+        } else {
+            let ata_inv = inverse(&ata)?;
+            (0..n_params)
+                .map(|p| (0..n_params).map(|q| ata_inv[p][q] * atb[q]).sum())
+                .collect()
+        };
         for k in 0..3 {
             r0[k] += dx[k];
             v0[k] += dx[3 + k];
