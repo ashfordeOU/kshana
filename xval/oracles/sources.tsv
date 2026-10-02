@@ -1,0 +1,32 @@
+# id	dest (under data/)	url	licence	rows (plan ids)	mutable
+# mutable=1: the upstream file is updated in place; setup.sh keeps the first copy it fetched
+# (dated in MANIFEST) and never overwrites it, so a row's fixture slice stays reproducible.
+naif-de440	naif/de440.bsp	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440.bsp	US Government work, public (NAIF)	M038 M043 M045 M090 M091	0
+naif-de440s	naif/de440s.bsp	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/spk/planets/de440s.bsp	US Government work, public (NAIF)	M038 M045 M090 M091 xval	0
+naif-moon-pa	naif/moon_pa_de440_200625.bpc	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/moon_pa_de440_200625.bpc	US Government work, public (NAIF)	M045 M090 M091	0
+naif-moon-fk	naif/moon_de440_250416.tf	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/fk/satellites/moon_de440_250416.tf	US Government work, public (NAIF)	M045 M090 M091	0
+naif-pck00011	naif/pck00011.tpc	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/pck00011.tpc	US Government work, public (NAIF)	M109 M090	0
+naif-gm-de440	naif/gm_de440.tpc	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/gm_de440.tpc	US Government work, public (NAIF)	M109	0
+naif-lsk	naif/naif0012.tls	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/lsk/naif0012.tls	US Government work, public (NAIF)	all NAIF users	0
+naif-earth-bpc	naif/earth_latest_high_prec.bpc	https://naif.jpl.nasa.gov/pub/naif/generic_kernels/pck/earth_latest_high_prec.bpc	US Government work, public (NAIF)	M038 M091 xval	1
+iers-finals2000A	iers/finals2000A.all	https://datacenter.iers.org/data/9/finals2000A.all	IERS products, free use with citation	M034 M035 M073	1
+iers-c04	iers/EOP_20_C04_one_file_1962-now.txt	https://datacenter.iers.org/data/latestVersion/EOP_20_C04_one_file_1962-now.txt	IERS products, free use with citation	M034 M073	1
+eoppcc2-paper	iers/eoppcc2_s40623-022-01753-9.pdf	https://earth-planets-space.springeropen.com/counter/pdf/10.1186/s40623-022-01753-9.pdf	CC BY 4.0 (Earth, Planets and Space)	M073	0
+sigmf-spec	sigmf/SigMF-v1.2.6.tar.gz	https://github.com/sigmf/SigMF/archive/refs/tags/v1.2.6.tar.gz	CC BY-SA 4.0	M106	0
+sigmf-python-src	sigmf/sigmf-python-v1.13.0.tar.gz	https://github.com/sigmf/sigmf-python/archive/refs/tags/v1.13.0.tar.gz	LGPL-3.0 (tool only, never vendored)	M106	0
+navcen-iir-patterns	navcen/GPS_IIR_IIR-M_LM.zip	https://www.navcen.uscg.gov/sites/default/files/zip/GPS_IIR_IIR-M_LM.zip	US Government / Lockheed Martin public release for world-wide use	M039	0
+navcen-iir-paper	navcen/NAVI.123.pdf	https://www.ion.org/publications/upload/NAVI.123.pdf	ION, offered free to the public (reading copy; do not vendor)	M039	0
+lugre	lugre/LuGRE.zip	https://zenodo.org/api/records/16411687/files/LuGRE.zip/content	CC BY 4.0	M039	0
+jammertest-readme	jammertest2024/README.md	https://zenodo.org/api/records/15911589/files/README.md/content	GPL-3.0-or-later (NOTICE entry required if vendored)	M009 M010 M011	0
+jammertest-data	jammertest2024/GNSS_DATASET_JAMMING_SPOOFING.tar.gz	https://zenodo.org/api/records/15911589/files/GNSS_DATASET_JAMMING_SPOOFING.tar.gz/content	GPL-3.0-or-later (NOTICE entry required if vendored)	M009 M010 M011	0
+jammertest-plan	jammertest2024/Transmissionplan-Jammertest-2024.pdf	https://gpspatron.com/wp-content/uploads/2024/10/Transmissionplan-Jammertest-2024.pdf	Public document (Norwegian test organisers); cite, do not vendor	M009 M010 M011	0
+magnav-licence	magnav/LICENSE.md	https://zenodo.org/api/records/12723700/files/LICENSE.md/content	record licence text (read before vendoring anything)	M012	0
+magnav-dsa	magnav/DATA_SHARING_AGREEMENT.md	https://zenodo.org/api/records/12723700/files/DATA_SHARING_AGREEMENT.md/content	record data-sharing agreement	M012	0
+magnav-readme-2020	magnav/2020_Flight_Readme_Files.zip	https://zenodo.org/api/records/12723700/files/2020_Flight_%7BFlt10xx%7D_Readme_Files.zip/content	see magnav/LICENSE.md	M012	0
+magnav-flt1002	magnav/Flt1002_train.h5	https://zenodo.org/api/records/12723700/files/Flt1002_train.h5/content	see magnav/LICENSE.md	M012	0
+itrf2020-gnss-ssc	igs/ITRF2020_GNSS.SSC.txt	https://itrf.ign.fr/ftp/pub/itrf/itrf2020/ITRF2020_GNSS.SSC.txt	IGN/ITRF products, free use with citation	M127	0
+code-gim-2018-133	igs/CODG1330.18I.Z	https://www.aiub.unibe.ch/download/CODE/2018/CODG1330.18I.Z	CODE/AIUB open products, cite	M136	0
+code-dcb-p1p2-1805	igs/P1P21805.DCB.Z	https://www.aiub.unibe.ch/download/CODE/2018/P1P21805.DCB.Z	CODE/AIUB open products, cite	M136	0
+code-dcb-p1c1-1805	igs/P1C11805.DCB.Z	https://www.aiub.unibe.ch/download/CODE/2018/P1C11805.DCB.Z	CODE/AIUB open products, cite	M136	0
+naca-1381	papers/NACA-TR-1381_Allen-Eggers.pdf	https://ntrs.nasa.gov/api/citations/19930091020/downloads/19930091020.pdf	NACA/NASA, public	M019	0
+sosnica-2025	papers/arXiv-2510.15484.pdf	https://arxiv.org/pdf/2510.15484	arXiv (reading copy; values cited, not vendored)	M088	0
