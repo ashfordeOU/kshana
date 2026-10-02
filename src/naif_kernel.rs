@@ -39,6 +39,9 @@
 //! orientation kernel was produced; it differs from the full Fairhead-Bretagnon TDB by up to a
 //! few tens of microseconds).
 
+// Index loops read more plainly than iterator chains in the 3x3 matrix and record code here.
+#![allow(clippy::needless_range_loop)]
+
 use crate::precession::Vec3;
 
 /// A 3x3 matrix, row-major.
