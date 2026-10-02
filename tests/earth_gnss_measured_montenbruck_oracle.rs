@@ -31,7 +31,7 @@
 //! - Satellite block on that date from the IGS satellite metadata file
 //!   igs_satellite_metadata.snx (SATELLITE/IDENTIFIER and SATELLITE/PRN blocks): GPS-IIR-A,
 //!   GPS-IIR-B, GPS-IIR-M, GPS-IIF, GPS-IIIA; GAL-1 (In-Orbit Validation, IOV), GAL-2 (Full
-//!   Operational Capability, FOC). IOV-3 is GSAT0103; IOV-1/2 are GSAT0101 and GSAT0102.
+//!   Operational Capability, FOC). IOV-3 is GSAT0103 (SVN E103); IOV-1/2 are GSAT0101 and GSAT0102 (E101, E102).
 //! - Transmit power, Table 2 (p. 6), dBW: L1 C/A IIR-A 14.5, IIR-B 14.5, IIR-M 14.5, IIF 14.0,
 //!   III 13.5; E1-C IOV-1/2 10.5, IOV-3 9.0, FOC 14.5.
 //! - Transmit gain: the azimuth-averaged L1/E1 curves of Fig. 3 (p. 5; IIR-A, IIR-B/M for both
@@ -158,7 +158,7 @@ fn load() -> Inputs {
             "GPS-IIR-M" => (14.5, "GPS IIR-B/M"),
             "GPS-IIF" => (14.0, "GPS IIF"),
             "GPS-IIIA" => (13.5, "GPS III"),
-            "GAL-1" if svn_name == "GSAT0103" => (9.0, "Galileo IOV"),
+            "GAL-1" if svn_name == "E103" => (9.0, "Galileo IOV"),
             "GAL-1" => (10.5, "Galileo IOV"),
             "GAL-2" => (14.5, "Galileo FOC"),
             _ => {
@@ -170,7 +170,7 @@ fn load() -> Inputs {
     let mut tx = BTreeMap::new();
     for (sat, info) in blocks["satellites"].as_object().expect("satellites") {
         let block = info["block"].as_str().expect("block");
-        let name = info["name"].as_str().unwrap_or("");
+        let name = info["svn"].as_str().unwrap_or("");
         if let Some((p, curve)) = spec(block, sat, name) {
             tx.insert(sat.clone(), (p, table(&pats["transmit_l1_e1"][curve])));
         }
