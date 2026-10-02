@@ -111,6 +111,50 @@
 //! campaign are as accurate as a backward-stable double-precision computation can make them. It
 //! does not validate the Jacobian (the SPICE leg of the earlier test does that), nor any physical
 //! accuracy of the illustrative campaign.
+//!
+//! ## Result (recorded 2026-10-02, first run, not tuned)
+//!
+//! Pre-registration commit `804662d5` (pushed 2026-10-02 15:45 UTC) precedes the fixture.
+//! Disclosed start-up defect of the oracle script, fixed before it wrote any output: its own
+//! 50-against-80-digit self-check compared the weakest direction as `sqrt(1 - cos^2)`, which
+//! cancels down to the 50-digit noise (it reported 7.3e-26 on the control); it now uses the norm
+//! of the difference of the two sign-pinned unit vectors. No engine value had been compared.
+//!
+//! **Every pre-registered check passes on all three scenarios.** Oracle self-agreement 1.1e-38,
+//! 1.4e-46 and 1.0e-39.
+//! * `stations_estimated_2026_03_18` (binding; Helmert condition 2.28e8, joint information
+//!   condition 3.0e13): datum sigmas within 8.5e-7 to 4.8e-6 against bars 9.6e-2 to 2.2e-1;
+//!   condition number within 4.6e-6 against 0.47; weakest direction 5.9e-6 rad apart.
+//! * `stations_fixed_2026_03_18` (control): sigmas within 3.8e-15 to 2.0e-14 against bars 1.0e-11
+//!   to 2.8e-7; condition 4.1e-14 against 5.6e-7; weakest direction identical (bar 9.4e-11 rad).
+//! * `stations_estimated_2024_01_01` (seen scenario; Helmert condition 2.11e8, joint 1.6e12):
+//!   sigmas within 1.9e-7 to 9.7e-6 against bars 2.8e-2 to 6.9e-2; condition 1.3e-5 against 0.15;
+//!   weakest direction 2.7e-5 rad apart.
+//!
+//! Plainly: on the stations-estimated scenarios the bar is a worst-case first-order bound and
+//! sits four orders of magnitude above the engine's error, and the weakest-direction bar (21 rad
+//! and 1.5 rad) exceeds a right angle, so that one check carries no information there. The bars
+//! are not small because the formula is generous but because the problem is that sensitive: a
+//! deliberate 1e-9 relative scaling of the Schur correction moves the sigmas by up to 28 %.
+//!
+//! **Settling the earlier dispute (diagnostic, recorded in `reference.json`).** Against the
+//! 50-digit answer the largest datum-sigma error is, on 2024-01-01: the engine 9.7e-6; NumPy
+//! `inv` 2.9e-6; NumPy `eigh` spectral inverse 6.2e-6; NumPy Cholesky solve 9.4e-9; NumPy QR
+//! projection 5.5e-9 (2026-03-18: engine 4.8e-6, `inv` 9.4e-7, `eigh` 2.3e-6, Cholesky 1.4e-8, QR
+//! 2.2e-8). The engine is the less accurate side of the 6.8e-6 gap, through its explicit spectral
+//! inverse of the station block; it is within the a-priori backward-error bound, but a
+//! factorisation route (Cholesky or QR, the square-root information form) is about three orders of
+//! magnitude more accurate on the same inputs. [`record_engine_accuracy_against_a_factorisation_route`]
+//! pins that observation so a change in either is re-examined.
+//!
+//! **Mutations (each applied, run, and reverted).** (1) `fim::sym_eig` stopping its Jacobi sweeps
+//! once the off-diagonal mass is below 1e-6 of the diagonal: red (control sigmas off by up to
+//! 2.9e-5 against bars down to 1e-11; one 2024 stations-estimated sigma 5.2e-2 against 2.8e-2).
+//! (2) The station-block Schur correction scaled by `1 + 1e-9`: red (2026-03-18 sigmas off by up
+//! to 0.28 against 0.15; 2024 by 6.8e-2 against 6.6e-2); at `1 + 1e-7` the datum turns
+//! rank-deficient and the full-rank assertion fails. (3) The station-block pseudo-inverse threshold
+//! raised from 1e-9 to 1e-6: no effect (the station block is better conditioned than that), so not
+//! counted as evidence.
 
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, LunarFrameCampaignScenario,
@@ -217,7 +261,6 @@ fn engine_inputs(name: &str, sc: &LunarFrameCampaignScenario) -> J {
 /// The committed inputs are exactly what the engine builds now. With
 /// `KSHANA_WRITE_MPMATH_FIXTURE=1` it writes them instead (the fixture generator).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn engine_inputs_match_the_committed_fixture() {
     let built: Vec<J> = scenarios()
         .iter()
@@ -326,7 +369,6 @@ fn compare(
 
 /// The strict pre-registered comparison: every quantity of every scenario within its bar.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn lunar_frame_campaign_datum_matches_mpmath_extended_precision() {
     let reference = fixture("reference.json");
     let refs = reference["scenarios"].as_array().expect("scenarios");
@@ -346,4 +388,35 @@ fn lunar_frame_campaign_datum_matches_mpmath_extended_precision() {
         }
     }
     assert!(failures.is_empty(), "{}", failures.join("\n"));
+}
+
+/// The accuracy observation behind the record: on both stations-estimated scenarios the
+/// engine's largest datum-sigma error against the 50-digit answer lies in [1e-7, 1e-4], while the
+/// recorded NumPy Cholesky route is below 1e-7. It fails if the engine becomes as accurate as a
+/// factorisation route (re-examine the record) or drifts.
+#[test]
+fn record_engine_accuracy_against_a_factorisation_route() {
+    let reference = fixture("reference.json");
+    let refs = reference["scenarios"].as_array().expect("scenarios");
+    for ((name, sc), r) in scenarios().iter().zip(refs) {
+        if !name.starts_with("stations_estimated") {
+            continue;
+        }
+        let (json, _) = sc.run_json().expect("scenario runs");
+        let v: J = serde_json::from_str(&json).expect("report json");
+        let worst = engine_sigma(&v)
+            .iter()
+            .zip(fv(&r["sigma"]))
+            .map(|(a, b)| rel(*a, b))
+            .fold(0.0_f64, f64::max);
+        assert!(
+            (1e-7..=1e-4).contains(&worst),
+            "{name}: engine sigma error {worst:.3e} left the recorded band [1e-7, 1e-4]"
+        );
+        let chol = f(&r["numpy_double_precision_sigma_error_diagnostic"]["cholesky_solve"]);
+        assert!(
+            chol < 1e-7,
+            "{name}: recorded Cholesky route error {chol:.3e}"
+        );
+    }
 }
