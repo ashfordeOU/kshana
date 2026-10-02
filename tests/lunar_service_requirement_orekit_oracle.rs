@@ -91,6 +91,36 @@
 //!   four orbiters give 0 % coverage (from the engine's lib tests and the round-1 record); the
 //!   engine lib test that runs LNCSS case A on the OP path for 2 h and checks only the report's
 //!   structure. No value of these ten runs has been computed.
+//!
+//! ## Result (2026-10-02, first run, nothing tuned): FAILS on one of ten runs; a FINDING
+//!
+//! * The oracle's self-check against the RTKLIB + SciPy protection-level fixture: worst
+//!   1.5e-8 m over its seven cases.
+//! * 155 of 160 values within their bars. All sixteen values agree for LNCSS A and C in both
+//!   configurations (for example the dense-grid requirement, case A 3.879072208 m both sides,
+//!   case C 8.500303972 / 8.500303973 m; worst HPL case A 386.690404161 / 386.690404186 m),
+//!   for LNCSS B on the bundled grid, and for LANS and the orbiters (no protection-level sample
+//!   on either side, requirement absent on both, coverage 23.61 / 24.15 % and 0 % equal).
+//! * Outside, all on LNCSS B, dense grid, all worst-sample statistics of near-singular
+//!   geometries (PDOP up to about 1e6): `pdop_mean` 275.16 vs 373.62, `pdop_max` 1.154e6 vs
+//!   1.873e6, `hpl_max_m` 1.626e6 vs 0.993e6, `vpl_max_m` 1.347e8 vs 0.352e8,
+//!   `sigma_required_m` 0.000923 vs 0.001511 m (Kshana vs Orekit). The robust companions agree
+//!   on the same run: `hpl_p95_m` 917.81 vs 917.01, `sigma_required_p95_m` 1.6343 vs 1.6357 m,
+//!   `pdop_min`, `hpl_min_m` to 1e-9; `n_pl_samples` 19 007 vs 19 006 (the engine admits one
+//!   geometry Hipparchus's LU calls singular). On geometry this degenerate the metre-level
+//!   position agreement (worst 4.6 m) is amplified past any fixed bar: the pre-registered 1 %
+//!   argument assumed conditioning below about 70. The worst-sample requirement the row emits
+//!   is then a property of numerical degeneracy, not of the constellation; a conditioning
+//!   guard in the engine would change the emitted quantity and needs its own pre-registration
+//!   and a founder decision. The strict test stays ignored; `lncss_b_dense_finding_is_unchanged`
+//!   pins the five gaps and the eleven agreements of that run.
+//! * Mutations (reverted by editing back): the Earth third body removed: besides LNCSS B, case
+//!   A's dense-grid `pdop_mean` (590.4 vs 54.8) and `pdop_max` move outside; the requirements
+//!   stay inside (over 12 h the Earth's pull moves these orbits far less than over the
+//!   15-day position comparison), so this mutation discriminates weakly here. The requirement
+//!   taken at the 95th-percentile HPL instead of the worst sample: `sigma_required_m` outside
+//!   on LNCSS A (both grids), B (bundled) and C (both grids), for example A dense 4.532 vs
+//!   3.879 m.
 
 use serde_json::Value;
 
@@ -219,7 +249,7 @@ fn passes(field: &str, k: Option<f64>, o: Option<f64>) -> bool {
 
 /// The pre-registered comparison: every value of all ten runs within its bar.
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "fails: 155/160; LNCSS B dense grid pdop_mean, pdop_max, hpl_max_m, vpl_max_m, sigma_required_m outside on near-singular geometry; finding M076"]
 fn service_volume_report_matches_the_library_oracle_on_all_retrieved_geometries() {
     let rows = oracle();
     assert_eq!(rows.len(), 10, "five geometries x two configurations");
@@ -248,5 +278,40 @@ fn service_volume_report_matches_the_library_oracle_on_all_retrieved_geometries(
     assert!(
         failures.is_empty(),
         "outside the pre-registered bars: {failures:?}"
+    );
+}
+
+/// Pins the finding: on LNCSS B, dense grid, exactly the five worst-sample statistics fall
+/// outside their bars and the other eleven values agree.
+#[test]
+fn lncss_b_dense_finding_is_unchanged() {
+    let rows = oracle();
+    let (_, _, o) = rows
+        .iter()
+        .find(|(r, c, _)| r == "lncss_b" && c == "D")
+        .expect("oracle row");
+    let (_, file, op) = GEOMETRIES[1];
+    let k = kshana_values(file, op, CONFIGS[1].1);
+    let outside: Vec<&str> = FIELDS
+        .iter()
+        .enumerate()
+        .filter(|(i, f)| !passes(f, k[*i], o[*i]))
+        .map(|(_, f)| *f)
+        .collect();
+    assert_eq!(
+        outside,
+        [
+            "pdop_mean",
+            "pdop_max",
+            "hpl_max_m",
+            "vpl_max_m",
+            "sigma_required_m"
+        ],
+        "the recorded LNCSS B dense-grid gaps moved"
+    );
+    let sr = k[14].expect("requirement");
+    assert!(
+        (0.0008..0.0011).contains(&sr),
+        "the engine's worst-sample requirement was 0.000923 m, now {sr}"
     );
 }
