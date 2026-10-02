@@ -46,8 +46,10 @@
 //! 6. **Time to lose lock** — two distinct quantities, both reported. The *declared* loss
 //!    of lock is when a two-threshold lock detector with confirmation dwells transitions,
 //!    driven by a C/N₀ profile; the *physical* escape time is the mean time between cycle
-//!    slips, `T̄ = π²·ρ·I₀²(ρ)/(2·B_n)` with loop SNR `ρ = 1/σ_PLL²` (Viterbi's first-order
-//!    result), reported in `log₁₀ s` because it spans hundreds of decades.
+//!    slips of the Costas loop, `T̄ = π²·ρ'·I₀²(ρ')/(2·B_n)` with `ρ' = ρ/4` and loop SNR
+//!    `ρ = 1/σ_PLL²` (Viterbi's first-order result applied to the doubled phase `2φ` a Costas
+//!    loop tracks, whose slips are half cycles), reported in `log₁₀ s` because it spans
+//!    many decades.
 //!
 //! ## Validated vs Modelled
 //!
@@ -71,9 +73,11 @@
 //! Oscillator (Allan-deviation) and vibration jitter are **not** modelled: the carrier
 //! budget here is thermal plus dynamic stress only, and a real receiver adds those two
 //! terms, which can only make the threshold worse. Front-end bandwidth limiting, multipath,
-//! AGC dynamics, data-bit-transition losses, aiding from an inertial or clock reference,
-//! and any half-cycle correction to the cycle-slip formula are likewise out of scope and
-//! stated rather than silently included.
+//! AGC dynamics, data-bit-transition losses, and aiding from an inertial or clock reference
+//! are likewise out of scope and stated rather than silently included. The slip time is
+//! Viterbi's first-order expression; a second-order loop slips more often (GNSS-SDR 0.0.19's
+//! second-order Costas loop slipped about ten times more often near the threshold in
+//! `tests/tracking_loop_gnss_sdr_oracle.rs`).
 //!
 //! References: Kaplan & Hegarty, *Understanding GPS/GNSS* (3rd ed.), ch. 8 (carrier and
 //! code tracking loops, thermal jitter, the tracking-threshold rules, the second-order
@@ -308,19 +312,21 @@ pub fn ln_bessel_i0(x: f64) -> f64 {
     }
 }
 
-/// **Mean time between carrier cycle slips**, reported as `log₁₀(seconds)`:
-/// `T̄ = π²·ρ·I₀²(ρ)/(2·B_n)` with loop SNR `ρ = 1/σ_PLL²` (Viterbi's first-order,
+/// **Mean time between Costas carrier slips** (half cycles), reported as `log₁₀(seconds)`:
+/// `T̄ = π²·ρ'·I₀²(ρ')/(2·B_n)` with `ρ' = ρ/4` and loop SNR `ρ = 1/σ_PLL²` (Viterbi's first-order,
 /// sinusoidal-phase-detector result; Gardner, *Phaselock Techniques*, ch. 9).
 ///
-/// Returned in log₁₀ because the quantity spans hundreds of decades over the C/N₀ range of
-/// interest — at the 15° design point it is astronomically long (the point of the rule),
-/// and it collapses to seconds only once the jitter approaches a quarter cycle. It is
-/// applied here to the **Costas** loop SNR without any half-cycle correction for the
-/// Costas discriminator's π-ambiguity; that omission makes this an optimistic bound, and
-/// it is stated rather than papered over with an invented factor.
+/// A Costas loop is insensitive to the data sign, so it tracks the doubled phase `2φ`: that
+/// variable behaves as a phase-locked loop with loop SNR `ρ/4`, and one of its cycle slips is
+/// a half-cycle (π) slip of the carrier. Using `ρ` itself (the phase-locked-loop form) would
+/// overstate the slip time by many decades near the tracking threshold. Returned in log₁₀
+/// because the quantity spans many decades over the C/N₀ range of interest: at the 15° design
+/// point (`ρ' ≈ 3.6`) it is of order a minute for a 10 Hz loop, and it collapses below a
+/// second as the jitter grows. Viterbi's expression is for a first-order loop; a second-order
+/// loop slips more often, so this is an optimistic bound.
 pub fn log10_mean_time_to_cycle_slip_s(cn0_dbhz: f64, bn_hz: f64, t_s: f64) -> f64 {
     let sigma = pll_thermal_jitter_rad(cn0_dbhz, bn_hz, t_s);
-    let rho = 1.0 / (sigma * sigma).max(f64::MIN_POSITIVE);
+    let rho = 0.25 / (sigma * sigma).max(f64::MIN_POSITIVE);
     let ln10 = std::f64::consts::LN_10;
     2.0 * std::f64::consts::PI.log10() + rho.log10() + 2.0 * ln_bessel_i0(rho) / ln10
         - (2.0 * bn_hz.max(f64::MIN_POSITIVE)).log10()
@@ -1276,8 +1282,9 @@ impl TrackingLoopScenario {
                       jammer power and antenna gains are REPRESENTATIVE BAND FIGURES, not a \
                       datasheet for any receiver. NOT modelled: oscillator (Allan-deviation) \
                       and vibration jitter, front-end bandwidth limiting, multipath, AGC \
-                      dynamics, data-bit-transition loss, external aiding, and any half-cycle \
-                      correction to the Costas cycle-slip formula. The loop-dynamics denial \
+                      dynamics, data-bit-transition loss and external aiding; the Costas \
+                      slip time is Viterbi's first-order expression on rho/4 (half-cycle \
+                      slips), an optimistic bound for a second-order loop. The loop-dynamics denial \
                       radius is reported ALONGSIDE the existing power-ratio radius and never \
                       in place of it. Not a certified receiver-performance product.",
             "loop": {
@@ -1949,9 +1956,9 @@ mod tests {
 
     #[test]
     fn the_cycle_slip_time_collapses_as_the_jitter_approaches_a_quarter_cycle() {
-        // The 15-degree rule is conservative precisely because the slip time is
-        // astronomically long there and falls off a cliff below it. Assert the ordering and
-        // the two anchor magnitudes rather than a shape nobody can check.
+        // The Costas slip time falls monotonically with C/N0, is of order a minute at the
+        // 15-degree design point of a 10 Hz loop (rho/4 ~ 3.6), and is under a second once
+        // the jitter approaches a quarter cycle.
         let (b, t) = (10.0_f64, 1e-3);
         let mut prev = f64::INFINITY;
         for cn0 in [45.0_f64, 40.0, 35.0, 30.0, 27.0, 25.0, 22.0, 20.0] {
@@ -1963,15 +1970,21 @@ mod tests {
             .expect("a threshold");
         let l = log10_mean_time_to_cycle_slip_s(at_threshold, b, t);
         assert!(
-            l > 9.0,
-            "at the 15-degree design point the mean slip time must be astronomically long, \
-             got 10^{l} s"
+            (1.0..3.0).contains(&l),
+            "at the 15-degree design point the Costas slip time is of order a minute, got 10^{l} s"
         );
-        // Where the jitter reaches a quarter cycle the loop slips in seconds.
+        // The phase-locked-loop form (rho instead of rho/4) is far longer there.
+        let sigma = pll_thermal_jitter_rad(at_threshold, b, t);
+        let rho = 1.0 / (sigma * sigma);
+        let pll_form = 2.0 * std::f64::consts::PI.log10()
+            + rho.log10()
+            + 2.0 * ln_bessel_i0(rho) / std::f64::consts::LN_10
+            - (2.0 * b).log10();
+        assert!(pll_form - l > 5.0, "{pll_form} vs {l}");
         let quarter = log10_mean_time_to_cycle_slip_s(20.0, b, t);
         assert!(
-            quarter < 2.0,
-            "at 20 dB-Hz (sigma ~44 deg) the loop should slip within ~10^2 s, got 10^{quarter}"
+            quarter < 0.0,
+            "at 20 dB-Hz the Costas loop should slip within a second, got 10^{quarter}"
         );
     }
 
