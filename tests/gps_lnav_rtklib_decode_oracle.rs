@@ -229,7 +229,7 @@ fn compare() -> (Vec<String>, usize) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (run 2026-10-02 on ca5f0142 + fixture): R1 parity 960 of 960 words and subframes 1-3 decoded for 32 of 32 satellites; R3 every parameter within half a quantum, week and times exact; R2 fails on 41 values, all af1, delta-n and IDOT, by 1 to 4 units in the last place: RTKLIB defines P2_43 as the decimal 1.136868377216160E-13, 2.6e-16 relative from 2^-43, above the registered 2^-52. Pinned by rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43"]
 fn kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters() {
     let committed = std::fs::read_to_string(format!("{FIX}/kshana_words.txt")).expect("words");
     assert_eq!(
@@ -244,4 +244,56 @@ fn kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters() {
     }
     assert_eq!(n, 32, "non-vacuity");
     assert!(fail.is_empty());
+}
+
+/// The finding of the strict test, pinned on the committed fixtures: every word passes RTKLIB's
+/// parity, every subframe decodes, every parameter is within half a quantum of its input, and
+/// the only R2 differences are the three fields RTKLIB scales by its decimal `P2_43`; dividing
+/// RTKLIB's value by that decimal (and by the semicircle constant where it applies) returns
+/// exactly Kshana's integer in every one of them.
+#[test]
+fn rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43() {
+    const RTKLIB_P2_43: f64 = 1.136868377216160E-13;
+    let committed = std::fs::read_to_string(format!("{FIX}/kshana_words.txt")).expect("words");
+    assert_eq!(committed, kshana_words());
+    let (fail, n) = compare();
+    assert_eq!(n, 32);
+    assert_eq!(fail.len(), 41, "{fail:#?}");
+    for f in &fail {
+        assert!(
+            [" f1: ", " deln: ", " idot: "]
+                .iter()
+                .any(|k| f.contains(k)),
+            "unexpected failure: {f}"
+        );
+    }
+    let decoded: Value = serde_json::from_str(
+        &std::fs::read_to_string(format!("{FIX}/rtklib_decoded.json")).unwrap(),
+    )
+    .unwrap();
+    for (s, (prn, e, tow)) in decoded["sats"].as_array().unwrap().iter().zip(inputs()) {
+        let ours = field_values(&e, &LnavConventions::default(), tow).unwrap();
+        for (key, name, semi, width) in [
+            ("f1", "af1", false, 16u32),
+            ("deln", "delta_n", true, 16),
+            ("idot", "idot", true, 14),
+        ] {
+            let raw = ours.iter().find(|(n, _)| *n == name).unwrap().1;
+            let k = if raw >> (width - 1) == 1 {
+                raw as f64 - 2f64.powi(width as i32)
+            } else {
+                raw as f64
+            };
+            let scale = if semi {
+                RTKLIB_P2_43 * GPS_PI
+            } else {
+                RTKLIB_P2_43
+            };
+            assert_eq!((num(s, key) / scale).round(), k, "PRN {prn} {key}");
+            assert!(
+                (num(s, key) - k * scale).abs() <= 2.0 * f64::EPSILON * num(s, key).abs(),
+                "PRN {prn} {key}"
+            );
+        }
+    }
 }
