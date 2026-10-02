@@ -35,8 +35,9 @@ pub struct LsqResult {
     pub converged: bool,
 }
 
-/// Central finite-difference Jacobian `H` (`m × n`) of `h` at `x`.
-fn fd_jacobian<H>(h: &H, x: &[f64], m: usize) -> Vec<Vec<f64>>
+/// Central finite-difference Jacobian `H` (`m × n`) of `h` at `x`, the one [`gauss_newton`]
+/// linearises with (step `1e-6 · max(|x_p|, 1)` per parameter).
+pub fn fd_jacobian<H>(h: &H, x: &[f64], m: usize) -> Vec<Vec<f64>>
 where
     H: Fn(&[f64]) -> Vec<f64>,
 {
