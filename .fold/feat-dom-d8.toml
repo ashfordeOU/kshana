@@ -1,13 +1,13 @@
 # Fold manifest for package D8: one validated propagation, frame and time path; private
-# orbit models removed. Branch feat/dom-d8, cut from main at 4646c224.
+# orbit models removed. Branch feat/dom-d8, merged with main up to eeb68226 (1a189024).
 
 branch = "feat/dom-d8"
 package = "D8"
 depends_on = ["D0", "D2"]
-# D1 holds the M131 scoping choice (a founder decision); see .fold/feat-dom-d8-rows.md.
-decisions_pending = ["D1 (M131 scoping)"]
+# A complete fold was built and checked on the branch (961b1b6a, 3a07b184) and reverted for the
+# integrator (f9768b91); see .fold/feat-dom-d8-rows.md, section 7.
+reference_fold_commits = ["961b1b6a", "3a07b184"]
 
-# Source files of the package that this branch changed.
 owned_paths_changed = [
   "src/jd2.rs",
   "src/sgp4.rs",
@@ -15,9 +15,12 @@ owned_paths_changed = [
   "src/passes.rs",
   "src/walker.rs",
 ]
-# Owned by the package and inventoried, but unchanged on this branch (see the rows file,
-# "Inventory"): no private model of their own, a named fast tier, physics that is a row's
-# subject, or a model that lives in a file outside the package.
+# Outside the owned set, changed for honesty of labels and the scenario registration only.
+other_paths_changed = [
+  "src/api.rs (passes ScenarioMeta description and optional fields)",
+  "src/leo_fusion/pvt_kind.rs (polar-mode label)",
+  "src/interop/scene.rs (passes mover description)",
+]
 owned_paths_unchanged = [
   "src/constellation.rs",
   "src/leo_pass.rs",
@@ -27,77 +30,72 @@ owned_paths_unchanged = [
   "src/handoff.rs",
   "src/propagator.rs",
 ]
-# New tests and fixtures.
 new_paths = [
   "tests/jd2_sofa_time_oracle.rs",
   "tests/fixtures/jd2_sofa_time_oracle/",
+  "tests/earth_orbit_path_sgp4_erfa_oracle.rs",
+  "tests/fixtures/earth_orbit_path_sgp4_erfa_oracle/",
+  "tests/leo_polar_coverage_on_path_orekit_oracle.rs",
+  "tests/fixtures/leo_polar_coverage_on_path_orekit_oracle/",
+  "tests/pass_predictor_on_path_orekit_oracle.rs",
+  "tests/fixtures/pass_predictor_on_path_orekit_oracle/",
   "tests/leo_polar_coverage_full_claim_orekit_oracle.rs",
   "tests/fixtures/leo_polar_coverage_full_claim_orekit_oracle/",
   "tests/pass_predictor_apparent_orekit_oracle.rs",
   "tests/fixtures/pass_predictor_apparent_orekit_oracle/",
   "tests/no_private_models.rs",
   "xval/d8-orekit13/",
-  ".fold/feat-dom-d8.toml",
-  ".fold/feat-dom-d8-rows.md",
-  "changelog.d/feat-dom-d8.md",
 ]
-# Existing test edited (revision recorded in its header and in the rows file).
 edited_tests = ["tests/leo_polar_coverage_orekit_oracle.rs"]
-
-# No one-line registration in src/lib.rs or src/api.rs was needed: every new item lives in
-# an existing module.
-registrations = []
+registrations = ["src/api.rs: passes optional fields refraction, light_time, ut1_minus_utc_s, xp_arcsec, yp_arcsec"]
 
 [rows]
-# Row identifiers: the requirement string keys a row in src/verification.rs.
-amend = [
-  "M131 (row 218): LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS",
-  "Ground-station pass prediction (ground segment)",
-]
 new = [
   "Two-part Julian dates and leap seconds on the Earth-orbit time path",
+  "One Earth-orbit path: SGP4 element sets to the GCRS and ITRS on the IAU 2006/2000A chain with Earth orientation parameters",
   "Apparent ground-station pass prediction with refraction and light time",
 ]
-promote = ["Two-part Julian dates and leap seconds on the Earth-orbit time path"]
-findings = [
+promote = [
+  "Two-part Julian dates and leap seconds on the Earth-orbit time path",
+  "One Earth-orbit path: SGP4 element sets to the GCRS and ITRS on the IAU 2006/2000A chain with Earth orientation parameters",
+  "Apparent ground-station pass prediction with refraction and light time",
   "M131 (row 218): LEO coverage and dilution of precision for polar and Arctic users against MEO GNSS",
-  "Apparent ground-station pass prediction with refraction and light time",
 ]
+amend = ["Ground-station pass prediction (ground segment): capability narrowed to passes::predict_passes"]
+matrix_after = "231 rows, 116 VALIDATED, 111 MODELLED, 4 PARTNER"
 
 [tests]
-# Every test this package adds or touches, as cargo filters.
 filter = [
   "--test jd2_sofa_time_oracle",
+  "--test earth_orbit_path_sgp4_erfa_oracle",
+  "--test leo_polar_coverage_on_path_orekit_oracle",
+  "--test pass_predictor_on_path_orekit_oracle",
   "--test leo_polar_coverage_full_claim_orekit_oracle",
-  "--test leo_polar_coverage_orekit_oracle",
   "--test pass_predictor_apparent_orekit_oracle",
+  "--test leo_polar_coverage_orekit_oracle",
   "--test ground_station_pass_prediction_reference",
   "--test no_private_models",
   "--test leo_fusion_scenarios",
   "--test interop_formats",
   "--lib jd2:: sgp4:: passes:: walker:: leo_fusion::polar frugal::",
 ]
-# Re-run of every VALIDATED row's declared oracle test at unchanged bars (the 58 test files
-# named in validated_oracle_basis(), plus the library unit tests that carry in-crate rows).
-rerun_validated = "every oracle_test of validated_oracle_basis() and cargo test --lib"
 
 [generated]
-# Generated artefacts this branch leaves stale on purpose (the package may not edit them).
-# Regenerate after folding the rows:
 regenerate = [
-  "docs/field-units-schema.json: cargo test --test field_units_global zzz_emit_field_units_schema -- --ignored (the passes kind's label and six field definitions changed)",
-  "docs/VERIFICATION-MATRIX.md, docs/MODELLED-RATIONALE.md and the other matrix-derived pages: cargo run --bin gen_validation_artifacts (after the row text of .fold/feat-dom-d8-rows.md is folded)",
+  "after folding the rows: cargo run --bin gen_validation_artifacts",
+  "cargo test --test field_units_global zzz_emit_field_units_schema -- --ignored",
+  "python3 tools/gen_validation_figures.py; tools/gen_readme_assets.py; tools/gen_og_card.py; the provenance diagram; web/ counts (rows file, section 7)",
 ]
-# Red on this branch until that regeneration, and only because of it.
 expected_red_until_regenerated = [
   "tests/field_units_global.rs::the_committed_field_units_schema_is_current",
+  "tests/scenarios_reference_doc_sync.rs (docs/SCENARIOS.md: passes description and fields)",
 ]
 
 [oracles]
-orekit = "Orekit 13.1.8 with Hipparchus 4.0.3 (Apache-2.0), jars from Maven Central, SHA-1 verified"
-orekit_data = "orekit-data main branch, retrieved 2026-10-02; only tai-utc.dat is loaded (no Earth orientation parameters)"
+orekit = "Orekit 13.1.8 with Hipparchus 4.0.3 (Apache-2.0), Maven Central, SHA-1 verified"
+orekit_data = "orekit-data main, only tai-utc.dat loaded (no Earth orientation parameters)"
 erfa = "pyerfa 2.0.1.5 (liberfa 2.0.1, BSD-3-Clause)"
+sgp4_reference = "python-sgp4 2.24 (MIT)"
 numpy = "NumPy 2.4.6 (BSD-3-Clause)"
-diagnostic_only = "python-sgp4 2.24 (MIT), used after the M131 failure to locate it; not a pre-registered oracle"
 reference_text = "ITU-R P.834-9 (12/2017), cited, not vendored"
-environment = "xval/d8-orekit13/setup.sh builds it; then source ~/Code/kshana-oracles/env13.sh (OREKIT13_CP, OREKIT13_DATA_NO_EOP, ORACLE13_PY)"
+environment = "xval/d8-orekit13/setup.sh, then source ~/Code/kshana-oracles/env13.sh"
