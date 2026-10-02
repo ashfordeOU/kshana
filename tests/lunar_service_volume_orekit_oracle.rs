@@ -69,6 +69,29 @@
 //! driver now integrates in a pure translation of GCRF to the Moon's centre, as pre-registered,
 //! and the comparison is re-run with nothing else changed. Both runs are in the record.
 //!
+//! ## Result (2026-10-02, the corrected oracle run; nothing on the Kshana side tuned): AGREES
+//!
+//! * Positions: 2 196 of 2 196 within 100 m; worst 4.633 m.
+//! * Statistics, Kshana / Orekit (availability %, failure tolerance %, coverage %, PDOP
+//!   median, GDOP median): all 30 within their bars.
+//!   - A 5 deg: 100 / 100, 90.9028 / 90.9028, 100 / 100, 3.619285 / 3.619282, 4.133311 / 4.133309
+//!   - A 20 deg: 94.5139 / 94.5139, 35.5556 / 35.5556, 99.93588 / 99.93588, 5.780673 / 5.780657,
+//!     6.755799 / 6.755775
+//!   - B 5 deg: 100 / 100, 100 / 100, 100 / 100, 4.172000 / 4.171997, 4.848393 / 4.848389
+//!   - B 20 deg: 100 / 100, 89.6528 / 89.6528, 100 / 100, 4.640340 / 4.640330, 5.433883 / 5.433866
+//!   - C 5 deg: 100 / 100, 100 / 100, 100 / 100, 2.030921 / 2.030921, 2.303532 / 2.303532
+//!   - C 20 deg: 100 / 100, 100 / 100, 100 / 100, 3.756245 / 3.756245, 4.378976 / 4.378976
+//! * Mutation (red, then reverted by editing the file back): the Earth third body removed from
+//!   `EphemerisForceModel::de440`: positions worst 1 462.7 km, and case A's 5 deg failure
+//!   tolerance and 20 deg availability and failure tolerance move outside 2 pp.
+//! * Round-1 re-run against navi.613 (same 2 pp): still DISAGREES on 4 of 12, now case A
+//!   failure tolerance 5 deg -7.00 pp, availability 20 deg +17.00 pp, failure tolerance 20 deg
+//!   -18.55 pp, and case B failure tolerance 20 deg -10.35 pp (round 1, on the MCI two-body
+//!   reading: -4.01, +22.49, -3.55, -12.08). With the scenario now computed identically by an
+//!   independent library, the remaining gap to the paper is in what the paper does not state
+//!   (STK's force model, its OP-frame orientation convention, its 334-point grid), not in this
+//!   engine. Pinned by `published_statistics_finding_is_unchanged`.
+//!
 //! Debug-build runtime about five minutes (36 propagations and 6 sweeps of 7.5 million
 //! samples); `cargo test --release` about a minute.
 
@@ -168,7 +191,8 @@ fn kshana() -> &'static Kshana {
                 .collect();
             let tab = propagate_tabulated(&spk, &model, &states, et0, 15.0 * 86_400.0, 10.0, 60.0)
                 .expect("propagation");
-            let f = MASKS_DEG.map(|m| service_volume_figures(&tab, &users, 60.0, 15, m.to_radians()));
+            let f =
+                MASKS_DEG.map(|m| service_volume_figures(&tab, &users, 60.0, 15, m.to_radians()));
             tabs.push(tab);
             figures.push(f);
         }
@@ -178,18 +202,17 @@ fn kshana() -> &'static Kshana {
 
 /// Orekit rows: figures (case, mask) -> 6 numbers, and positions (case, sat, hour) -> xyz.
 #[allow(clippy::type_complexity)]
-fn orekit() -> (Vec<(String, f64, [f64; 6])>, Vec<(String, usize, usize, [f64; 3])>) {
+fn orekit() -> (
+    Vec<(String, f64, [f64; 6])>,
+    Vec<(String, usize, usize, [f64; 3])>,
+) {
     let text = std::fs::read_to_string(format!("{DIR}orekit_lncss.csv")).expect("oracle CSV");
     let (mut fig, mut pos) = (Vec::new(), Vec::new());
     for l in text.lines().filter(|l| !l.starts_with('#')) {
         let f: Vec<&str> = l.split(',').collect();
         let n = |i: usize| f[i].parse::<f64>().unwrap();
         match f[0] {
-            "figures" => fig.push((
-                f[1].to_string(),
-                n(2),
-                [n(3), n(4), n(5), n(6), n(7), n(8)],
-            )),
+            "figures" => fig.push((f[1].to_string(), n(2), [n(3), n(4), n(5), n(6), n(7), n(8)])),
             "position" => pos.push((
                 f[1].to_string(),
                 f[2].parse().unwrap(),
@@ -204,11 +227,14 @@ fn orekit() -> (Vec<(String, f64, [f64; 6])>, Vec<(String, usize, usize, [f64; 3
 
 /// The pre-registered comparison against Orekit.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn service_volume_matches_orekit_on_identical_ephemeris_and_grid() {
     let k = kshana();
     let (fig, pos) = orekit();
-    assert_eq!(pos.len(), 36 * 61, "every satellite at 61 six-hourly epochs");
+    assert_eq!(
+        pos.len(),
+        36 * 61,
+        "every satellite at 61 six-hourly epochs"
+    );
     assert_eq!(fig.len(), 6, "3 cases x 2 masks");
     let mut worst_pos: f64 = 0.0;
     for (case, sat, hour, p) in &pos {
@@ -261,7 +287,10 @@ fn service_volume_matches_orekit_on_identical_ephemeris_and_grid() {
             f.n_dop, o[5]
         );
     }
-    assert!(failures.is_empty(), "outside the pre-registered bars: {failures:?}");
+    assert!(
+        failures.is_empty(),
+        "outside the pre-registered bars: {failures:?}"
+    );
 }
 
 /// navi.613 Tables 4 and 5: [availability 5 deg, tolerance 5 deg, availability 20 deg,
@@ -274,7 +303,7 @@ const PUBLISHED: [[f64; 4]; 3] = [
 
 /// The round-1 comparison with the paper, re-run unchanged on the OP-frame perturbed path.
 #[test]
-#[ignore = "pre-registered re-run of the round-1 comparison; not yet run"]
+#[ignore = "disagrees with navi.613 on 4 of 12 (A: -7.00, +17.00, -18.55 pp; B: -10.35 pp); finding M076"]
 fn published_availability_rerun_on_the_op_frame_perturbed_path() {
     let k = kshana();
     let mut failures = Vec::new();
@@ -296,5 +325,41 @@ fn published_availability_rerun_on_the_op_frame_perturbed_path() {
             }
         }
     }
-    assert!(failures.is_empty(), "outside the round-1 2 pp: {failures:?}");
+    assert!(
+        failures.is_empty(),
+        "outside the round-1 2 pp: {failures:?}"
+    );
+}
+
+/// The finding against the paper stays exactly what was measured: the four disagreeing values
+/// and the eight that agree, on the OP-frame perturbed path.
+#[test]
+fn published_statistics_finding_is_unchanged() {
+    let k = kshana();
+    let got: Vec<[f64; 4]> = (0..3)
+        .map(|c| {
+            [
+                k.figures[c][0].availability_worst_min_day_pct,
+                k.figures[c][0].failure_tolerance_worst_min_day_pct,
+                k.figures[c][1].availability_worst_min_day_pct,
+                k.figures[c][1].failure_tolerance_worst_min_day_pct,
+            ]
+        })
+        .collect();
+    let recorded = [
+        [100.0, 90.902_777_8, 94.513_888_9, 35.555_555_6],
+        [100.0, 100.0, 100.0, 89.652_777_8],
+        [100.0, 100.0, 100.0, 100.0],
+    ];
+    for c in 0..3 {
+        for i in 0..4 {
+            assert!(
+                (got[c][i] - recorded[c][i]).abs() < 1e-6,
+                "case {} value {i}: {} moved from the recorded {}",
+                CASES[c],
+                got[c][i],
+                recorded[c][i]
+            );
+        }
+    }
 }

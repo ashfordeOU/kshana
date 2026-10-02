@@ -766,7 +766,10 @@ impl EphemerisForceModel {
             let bn = norm(rb);
             add(
                 a,
-                sub(scale(d, gm / (dn * dn * dn)), scale(rb, gm / (bn * bn * bn))),
+                sub(
+                    scale(d, gm / (dn * dn * dn)),
+                    scale(rb, gm / (bn * bn * bn)),
+                ),
             )
         };
         if self.earth {
