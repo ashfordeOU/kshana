@@ -165,7 +165,16 @@ fn f9p_first_pipeline_reproduces_the_recorded_finding() {
 // BLIND: the 11 stations other than BX14. The class PROMOTES only if all 11 pass; BX14 is
 // reported only. Mutation as above.
 //
-// VERDICT: not yet run.
+// VERDICT (first and only run of the corrected pipeline, 2026-10-02, after c9cc0d49):
+// DISAGREES, the class fails. All 12 stations evaluable (10 185 to 12 983 fit epochs, 246 to
+// 1421 records). 1 of 11 blind stations within the bar (BX12, 1.412); BX07 1.532 and BX13
+// 1.542 just outside; BX08 1.979, BX03 6.665, BX10 7.268, BX22 54.4, BX05 734, BX09 1650, BX04
+// 6960, BX06 13 029; BX14 (not blind) 8325. The robust frequency scatter of the extracted clocks
+// (1.6e-9 to 2.4e-7 at 30 s) and the phase steps the detector removes (88 to 211 per held-out
+// part) show that single-point receiver clocks from these intermittent 30 s files are not a clean
+// oscillator record: the comparison measures the extraction as much as the crystal. No further
+// re-run on this record is planned; a clean ZED-F9P record (1 s, continuous, the receiver's own
+// clock bias output) is the way forward.
 
 /// Corrected pipeline: per station, its score (`None` when not evaluable).
 fn f9p_corrected_scores() -> Option<Vec<(String, Option<HeldOutScore>)>> {
@@ -213,7 +222,7 @@ fn f9p_corrected_scores() -> Option<Vec<(String, Option<HeldOutScore>)>> {
 }
 
 #[test]
-#[ignore = "pre-registered (disclosed re-run); not yet run"]
+#[ignore = "pre-registered (disclosed re-run); run 2026-10-02: DISAGREES, 1 of 11 blind stations within the bar (BX12); BX07 1.532, BX13 1.542, others 1.98 to 13 029"]
 fn f9p_cards_corrected_pipeline() {
     let scores = f9p_corrected_scores().expect("Wroclaw ZED-F9P data absent");
     let failing: Vec<&String> = scores
@@ -227,4 +236,44 @@ fn f9p_cards_corrected_pipeline() {
         failing.is_empty(),
         "blind cards outside the bar: {failing:?}"
     );
+}
+
+/// The corrected-pipeline run (2026-10-02), pinned: per station, worst factor (relative 1e-3)
+/// and pass. Data-gated.
+const RECORDED_CORRECTED: [(&str, f64, bool); 12] = [
+    ("BX03", 6.665, false),
+    ("BX04", 6960.323, false),
+    ("BX05", 733.615, false),
+    ("BX06", 13029.327, false),
+    ("BX07", 1.532, false),
+    ("BX08", 1.979, false),
+    ("BX09", 1649.954, false),
+    ("BX10", 7.268, false),
+    ("BX12", 1.412, true),
+    ("BX13", 1.542, false),
+    ("BX14", 8324.727, false),
+    ("BX22", 54.405, false),
+];
+
+#[test]
+fn f9p_corrected_pipeline_reproduces_the_recorded_finding() {
+    let Some(scores) = f9p_corrected_scores() else {
+        assert!(
+            !require_realdata(),
+            "Wroclaw data absent with KSHANA_REQUIRE_REALDATA=1"
+        );
+        println!("[f9p] Wroclaw ZED-F9P data absent (generate.py); skipped");
+        return;
+    };
+    assert_eq!(scores.len(), RECORDED_CORRECTED.len());
+    for ((st, sc), (rs, worst, pass)) in scores.iter().zip(RECORDED_CORRECTED) {
+        assert_eq!(st, rs);
+        let sc = sc.as_ref().expect("evaluable");
+        assert_eq!(sc.pass, pass, "{st}");
+        assert!(
+            (sc.worst_factor / worst - 1.0).abs() < 1e-3,
+            "{st}: worst factor {:.4} recorded {worst}",
+            sc.worst_factor
+        );
+    }
 }
