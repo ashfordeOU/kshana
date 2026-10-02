@@ -517,6 +517,85 @@ pub fn assemble_epoch(
     out
 }
 
+/// Assemble the single-epoch ionosphere-free measurements from a parsed observation file and
+/// precise products (SP3 orbit, RINEX clock, ANTEX satellite offsets, P1−C1 code biases), the
+/// precise-product counterpart of [`assemble_epoch`].
+///
+/// Only GPS (L1/L2) and Galileo (E1/E5a) satellites with both code pseudoranges are used, the
+/// frequency pairs of the IGS ionosphere-free clocks. A GPS C/A-code (`C1C`) pseudorange takes
+/// the P1−C1 bias of `products.p1_c1_ns` (zero when absent) before the combination. The
+/// satellite state is evaluated at the transmit time (pseudorange travel time and satellite
+/// clock removed), at the antenna phase centre of the combination, with the periodic
+/// relativistic clock term, and rotated for the Earth's rotation during the signal travel time
+/// (Sagnac). The ionospheric term is zero; the troposphere is the model of [`assemble_epoch`].
+/// Satellites without products at the transmit time, or below `mask_deg`, are dropped.
+pub fn assemble_epoch_precise(
+    obs: &RinexObs,
+    epoch_idx: usize,
+    products: &crate::precise_products::PreciseProducts,
+    apriori: Vec3,
+    meteo: &Meteo,
+    mask_deg: f64,
+) -> Vec<(String, SppMeasurement)> {
+    let epoch = match obs.epochs.get(epoch_idx) {
+        Some(e) => e,
+        None => return Vec::new(),
+    };
+    let t_rx = epoch.time.seconds_from_gps_epoch();
+    let doy = day_of_year(epoch.time.year, epoch.time.month, epoch.time.day);
+    let station = ecef_to_geodetic(apriori);
+    let mut out = Vec::new();
+    for sv in &epoch.sats {
+        let (l2_codes, f2, ant1, ant2): (&[&str], f64, &str, &str) = match sv.sat.chars().next() {
+            Some('G') => (&L2_CODES, L2_HZ, "G01", "G02"),
+            Some('E') => (&E5A_CODES, E5A_HZ, "E01", "E05"),
+            _ => continue,
+        };
+        let Some((code1, mut p1)) = L1_CODES.iter().find_map(|c| {
+            obs.observation(epoch_idx, &sv.sat, c)
+                .filter(|&r| r > 0.0)
+                .map(|r| (*c, r))
+        }) else {
+            continue;
+        };
+        let Some(p2) = pseudorange(obs, epoch_idx, &sv.sat, l2_codes) else {
+            continue;
+        };
+        if sv.sat.starts_with('G') && code1 == "C1C" {
+            p1 += products.p1_c1_ns.get(&sv.sat).copied().unwrap_or(0.0) * 1e-9 * C_M_PER_S;
+        }
+        let rho = iono_free_pair(p1, L1_HZ, p2, f2);
+        let mut t_tx = t_rx - rho / C_M_PER_S;
+        let Some(clk0) = products.clock_s(&sv.sat, t_tx) else {
+            continue;
+        };
+        t_tx -= clk0;
+        let Some(st) = products.state(&sv.sat, t_tx, (ant1, L1_HZ), (ant2, f2)) else {
+            continue;
+        };
+        let geo_travel = dist(apriori, st.pos_apc) / C_M_PER_S;
+        let sat_ecef = sagnac_rotate(st.pos_apc, geo_travel);
+        let look = look_angles(station, sat_ecef);
+        if look.el_rad.to_degrees() < mask_deg {
+            continue;
+        }
+        let tropo_m = tropo_delay_m(meteo, station.lat_rad, station.alt_m, look.el_rad, doy);
+        let weight = look.el_rad.sin().powi(2).max(1e-3);
+        out.push((
+            sv.sat.clone(),
+            SppMeasurement {
+                sat_ecef,
+                pseudorange_m: rho,
+                sat_clock_m: C_M_PER_S * st.clock_s,
+                iono_m: 0.0,
+                tropo_m,
+                weight,
+            },
+        ));
+    }
+    out
+}
+
 /// The horizontal, vertical, and 3-D position error (m) of an estimate `est`
 /// against a surveyed truth `truth`, decomposed in the truth's local ENU frame.
 fn enu_error(truth: Vec3, est: Vec3) -> (f64, f64, f64) {
