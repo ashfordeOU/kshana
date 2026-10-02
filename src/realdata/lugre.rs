@@ -12,9 +12,8 @@
 //!   quantisation bits, sampling, carrier and intermediate frequencies, bandwidth), the IQ
 //!   samples, and a 3-byte cyclic redundancy check. The `.sdrx` metadata beside each file
 //!   ([`crate::realdata::ion_sdr`]) describes the same layout; [`IqsHeader::disagreements`]
-//!   lists where the two disagree, because they do: for two of the published batches the
-//!   metadata gives 4-bit samples at 8 Msps while the binary header (and the operations table)
-//!   gives 8 bits for one and 4 Msps for the other.
+//!   lists where the two disagree. On the eleven non-surface L1 batches they agree (the 8-bit batch
+//!   OP5 and the 4 Msps batch OP12 included).
 //! - **RAW** (pseudorange, Doppler, carrier phase and C/N0 per satellite per second), **ACQ**
 //!   (acquisition records: Doppler, code phase, correlator values, C/N0) and **NAV** (the
 //!   onboard least-squares solution) as the ASCII text the handbook describes, one message per

@@ -25,3 +25,10 @@ Generated 2026-10-02, after the pre-registration commit 768cb62b was pushed.
   header defined by the receiver interface control document NIL-TN-QAS-024 (OP5: metadata 4-bit,
   header 8-bit with 1 601 536 samples; OP12: metadata 8 MHz, header 4 Msps), as the operations
   table also says. The surface batches (`_S_`) were never opened.
+
+CORRECTION (2026-10-02, after the runs): this exclusion rested on a misreading. The `.sdrx`
+files of OP5 (8-bit, 16 packed bits per complex sample) and OP12 (4 MHz) agree with their
+binary headers; a digit-stripped comparison of the metadata hid that. What failed was
+`ion_sdr`, which then could not read a sample wider than a word and counted zero samples for
+OP5 (fixed in the same commit as this note). The two batches were excluded in error, not for
+any fault of the data; the recorded results cover the other nine.

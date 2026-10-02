@@ -77,7 +77,7 @@ VerificationItem {
     capability: "Parallel code-phase search (acquisition::pcps_acquire: portable FFT, coherent folding, non-coherent accumulation, chi-square threshold for a search-wide false-alarm probability), refinement, open-loop prompt correlation with code Doppler and the M2M4 C/N0 estimator, run on the LuGRE L1 4-bit IQ batches read through realdata::ion_sdr",
     module: "acquisition, portable_math, realdata::ion_sdr, realdata::lugre",
     tests: "tests/lugre_acquisition_gnss_sdr_oracle.rs::finding_dc_artefacts_and_no_contemporaneous_flight_cn0 (pinned finding, data-gated); lugre_acquisition_gnss_sdr_oracle::acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver (strict, ignored with the gap); acquisition::tests; realdata::ion_sdr::tests; realdata::lugre::tests",
-    oracle: "GNSS-SDR 0.0.19 (GPL-3.0, separate program, pinned configuration) on the nine non-surface L1 batches and the flight receiver's RAW C/N0 (LuGRE Mission Data, Zenodo 16411687, CC BY 4.0), pre-registered 768cb62b. FINDING: Kshana's reader decodes all 288 compared spans identically to an independent converter; GNSS-SDR declares 266 of 288 searches positive and Kshana agrees on all 266 decisions, but only 250 are located on GNSS-SDR's cell (A2 fails); the C/N0 leg is vacuous, no flight RAW epoch lying within 30 s of any batch (nearest 141 s). Most positives are artefacts: the bare two's-complement levels carry a -0.5 mean on I and Q, a zero-frequency line 32 dB above the noise in a 1 kHz bin, which both receivers acquire. Two batches (OP5, OP12) have .sdrx metadata that contradicts their binary headers. Stays MODELLED",
+    oracle: "GNSS-SDR 0.0.19 (GPL-3.0, separate program, pinned configuration) on the nine non-surface L1 batches and the flight receiver's RAW C/N0 (LuGRE Mission Data, Zenodo 16411687, CC BY 4.0), pre-registered 768cb62b. FINDING: Kshana's reader decodes all 288 compared spans identically to an independent converter; GNSS-SDR declares 266 of 288 searches positive and Kshana agrees on all 266 decisions, but only 250 are located on GNSS-SDR's cell (A2 fails); the C/N0 leg is vacuous, no flight RAW epoch lying within 30 s of any batch (nearest 141 s). Most positives are artefacts: the bare two's-complement levels carry a -0.5 mean on I and Q, a zero-frequency line 32 dB above the noise in a 1 kHz bin, which both receivers acquire. Two batches (OP5, OP12) were excluded in error: a digit-stripped reading of their metadata was taken for a contradiction with their headers; the real cause was that the reader could not read a sample wider than a word (since fixed). Stays MODELLED",
     oracle_kind: InternalConsistency,
     status: Modelled,
 },
@@ -93,7 +93,9 @@ Record:
 - Result: A0 288/288; A1 266 from 9; A2 250/266 (fail); A3 266/266; C1 0 pairs (fail).
 - Mutation evidence: flipping the sign of the carrier wipe in `pcps_grid` turns the pin red
   (OP2 PRN 18's Doppler no longer GNSS-SDR's); edited back.
-- Disclosures: OP5 and OP12 excluded after download, before any run (metadata contradicts the
+- Disclosures: OP5 and OP12 excluded after download, before any run, on a claimed metadata
+  contradiction that was WRONG (CORRECTION in the test header and NOTICE: both batches' metadata
+  agrees with their headers; the reader could not read OP5's 16-bit samples). Original wording: (metadata contradicts the
   binary header); flight C/N0 extracted over 120 s (test applies 30 s); the first run was stopped
   by a tool time limit at 226 of 266 cases and restarted unchanged.
 

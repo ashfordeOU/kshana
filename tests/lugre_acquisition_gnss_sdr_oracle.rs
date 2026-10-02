@@ -77,6 +77,12 @@
 //! OP12: metadata 8 MHz, header 4 Msps); nine snapshots remain. The flight C/N0 extraction
 //! window is 120 s, wider than the registered 30 s, so that the fixture shows how far the
 //! nearest flight epoch is; the test still applies 30 s.
+//! CORRECTION (2026-10-02, after the runs): this exclusion rested on a misreading. The `.sdrx`
+//! files of OP5 (8-bit, 16 packed bits per complex sample) and OP12 (4 MHz) agree with their
+//! binary headers; a digit-stripped comparison of the metadata hid that. What failed was
+//! `ion_sdr`, which then could not read a sample wider than a word and counted zero samples
+//! for OP5 (fixed in the same commit as this note). The two batches were excluded in error,
+//! not for any fault of the data; the recorded results cover the other nine.
 //!
 //! REPORTED, NOT GATING: Kshana positives GNSS-SDR calls negative; the grid C/N0
 //! (`cn0_from_grid`); the flight receiver's acquisition records where contemporaneous.

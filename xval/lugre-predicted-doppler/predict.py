@@ -2,7 +2,7 @@
 """Predicted GPS L1 Doppler at each LuGRE L1 snapshot, for
 tests/lugre_acquisition_predicted_doppler_oracle.rs. Independent of Kshana.
 
-For every non-surface L1 snapshot (OP5 and OP12 excluded) and PRN 1-32 present in the ESA/ESOC
+For every non-surface L1 snapshot (OP5 and OP12 excluded, in error as later found; kept as run) and PRN 1-32 present in the ESA/ESOC
 final multi-GNSS orbit of the day: receive time t = the receiver time in the IQS header (GPS
 seconds); receiver position in J2000 from the Firefly-reconstructed Blue Ghost cruise SPK
 (NAIF body -2711) relative to the Earth; GPS position from the SP3 (Earth-fixed, 5-minute

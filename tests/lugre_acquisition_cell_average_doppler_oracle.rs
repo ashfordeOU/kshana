@@ -32,7 +32,8 @@
 //!
 //! DATA. LuGRE Mission Data, Zenodo record 16411687 (CC BY 4.0, Parker et al.), the same nine
 //! non-surface L1 snapshots as the GNSS-SDR comparison (OP2, OP14, OP17, OP18, OP21, OP22, OP23,
-//! OP32, OP37; OP5 and OP12 excluded for their contradictory metadata; the surface phase held
+//! OP32, OP37; OP5 and OP12 excluded, in error
+//! as later found (see `tests/lugre_acquisition_gnss_sdr_oracle.rs`); the surface phase held
 //! out and never opened). Samples read with `kshana::realdata::ion_sdr`, I in the low nibble
 //! (the stated convention; a swap would mirror every Doppler and fail criterion P2).
 //!
