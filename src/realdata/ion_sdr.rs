@@ -626,6 +626,20 @@ pub fn decode(
     Ok(out)
 }
 
+/// Map two's-complement levels `v` to `2v + 1`, the symmetric odd levels of a mid-rise
+/// quantiser (`−15 … +15` for 4 bits), in place. A two's-complement analogue-to-digital
+/// converter whose decision thresholds sit at the integers reconstructs at the half-integers
+/// `v + ½`; read as the bare integers `v`, its output carries a mean of `−½` least significant
+/// bit, a carrier at zero frequency that every acquisition search sees. The LuGRE L1 batches
+/// show exactly that mean on I and Q. The factor two keeps the levels integers; correlation does
+/// not see a scale.
+pub fn to_mid_rise(samples: &mut [Cf64]) {
+    for s in samples {
+        s.re = 2.0 * s.re + 1.0;
+        s.im = 2.0 * s.im + 1.0;
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -725,6 +739,17 @@ mod tests {
         // Little-endian 16-bit word bytes [0x05, 0xFD] = 0xFD05: I = 0x05, Q = 0xFD = −3.
         let s = decode(&l, &[0, 0, 0x05, 0xFD, 0], 0, 1).unwrap();
         assert_eq!((s[0].re, s[0].im), (5.0, -3.0));
+    }
+
+    #[test]
+    fn mid_rise_levels_are_symmetric() {
+        let mut v: Vec<Cf64> = (-8..8)
+            .map(|k| Cf64::new(k as f64, -(k as f64) - 1.0))
+            .collect();
+        to_mid_rise(&mut v);
+        assert_eq!(v.iter().map(|s| s.re).sum::<f64>(), 0.0);
+        assert_eq!(v.iter().map(|s| s.im).sum::<f64>(), 0.0);
+        assert_eq!((v[0].re, v[15].re), (-15.0, 15.0));
     }
 
     #[test]
