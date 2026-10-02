@@ -82,8 +82,8 @@ fn matrix(v: &serde_json::Value) -> Vec<Vec<f64>> {
 fn load_reference() -> serde_json::Value {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests/fixtures/gls_outside_omega_bound_numpy_oracle/reference.json");
-    let raw = std::fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).expect("parse reference.json")
 }
 
@@ -121,9 +121,11 @@ fn check(
     let rel = (got - want).abs() / want.abs();
     let w = worst.entry(format!("{tier}/{what}")).or_insert(0.0);
     *w = w.max(rel);
-    let share = worst.entry("largest share of allowance".to_string()).or_insert(0.0);
+    let share = worst
+        .entry("largest share of allowance".to_string())
+        .or_insert(0.0);
     *share = share.max(rel / allowed);
-    if !(rel <= allowed) {
+    if rel.is_nan() || rel > allowed {
         failures.push(format!(
             "case {idx} (tier {tier}) {what}: engine {got:.17e} vs numpy {want:.17e}, \
              relative {rel:.3e} > allowed {allowed:.3e}"

@@ -80,8 +80,8 @@ const SPEC_RAMP_CLOCK_S_S: f64 = 1.0e-11;
 fn load_reference() -> Value {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests/fixtures/hybrid_fault_power_scipy_oracle/reference.json");
-    let raw = std::fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).expect("parse reference.json")
 }
 
@@ -111,7 +111,7 @@ impl Tally {
         } else {
             self.worst = self.worst.max(rel);
         }
-        if !(rel <= tol) {
+        if rel.is_nan() || rel > tol {
             self.failures.push(format!(
                 "{label}: engine {got:.15e} vs SciPy {want:.15e}, relative {rel:.3e} > {tol:e}"
             ));
@@ -259,7 +259,9 @@ fn check_configuration(cfg: &Value, ladder: &[f64], t: &mut Tally) {
 #[test]
 fn report_detection_power_matches_scipy_chi2_and_ncx2() {
     let reference = load_reference();
-    let configs = reference["configurations"].as_array().expect("configurations");
+    let configs = reference["configurations"]
+        .as_array()
+        .expect("configurations");
     assert_eq!(configs.len(), 4, "four committed configurations");
     let ladder: Vec<f64> = reference["multiples"]
         .as_array()
