@@ -126,6 +126,41 @@ Record: pre-registration 2ec76864; oracle the official JammerTest 2024 log onset
 tolerance unchanged (detection within 10 s, zero pre-onset alarms, at least 8 evaluable);
 result BLOCKED; no mutation (nothing scored).
 
+## 3a. Round 2 (owner instruction: "finish everything"; pre-registration fb475550)
+
+The owner asked, after round 1, for the dominant options to be carried out. Round 2 was
+pre-registered in one commit, **fb475550** (pushed 2026-10-02 17:47 UTC, engine 2e0a2bc1),
+before any of its data was fetched.
+
+### NEW row: GPS Block IIF device cards with per-revolution terms (FINDING, MODELLED)
+
+```rust
+        VerificationItem {
+            requirement: "Measured GPS Block IIF clock cards with per-revolution terms (held-out prediction)",
+            capability: "clock_library::DeviceCard::fit_phase_periodic: a device card that carries the once- to four-per-revolution phase terms (period T/k, T = 43 082.05 s), fitted jointly with the quadratic by least squares on one third of a measured satellite clock record, with each term's closed-form Allan contribution 4 A^2 sin^4(pi tau / P) / tau^2 in the predicted Allan deviation",
+            module: "clock_library (card)",
+            tests: "tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; pre-registered fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)",
+            oracle: "Measured records, held out: IGS final combined 30 s clocks of the 11 GPS Block IIF satellites over 2026-04-01 to 14 (a window no test had opened; IGS, open with attribution). 0.31 external comparison (pre-registered fb475550, predicted / measured Allan deviation within [1/1.5, 1.5] at every fitted averaging time on every satellite), a finding (stays MODELLED): 9 of 11 cards are within the bar; G03 (1.947) and G25 (1.581) are optimistic between 60 s and 2000 s because their held-out records are noisier than their fit thirds (G25's held-out part carries 16 gaps and 29 phase outliers), a change of the clock rather than a missing periodic term. Dropping the periodic terms from the prediction fails all 11 cards (1.77 to 4.96), so the terms carry the prediction",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+```
+
+Record: pre-registration fb475550; oracle the held-out two thirds (Measured); bar [1/1.5, 1.5],
+all cards; result 9 of 11 (G06 1.100, G08 1.145, G09 1.053, G10 1.062, G24 1.153, G26 1.336, G27
+1.117, G30 1.415, G32 1.083; fail G03 1.947, G25 1.581); power-law control fails on the same
+two; mutation `0.0 * a * a` fails all 11; first and only run.
+
+### M083 round 3 (prospective): PRE-REGISTERED, awaiting data
+
+`tests/utck_bound_prospective_oracle.rs`, pre-registered fb475550 before Circular T 465 was
+published. Prior laboratories (SHA-256 of the acronym, first byte even) over 2015-2022; test
+laboratories (odd) on Circular T issues from 465 until 1000 values accumulate; a laboratory
+without history counts as exceeding; bar pooled exceedance <= 1e-2, unchanged. Append to the
+row's oracle text: "0.31 round 3, a pooled hierarchical ageing bound, pre-registered fb475550 and
+scored prospectively on Circular T issues from 465; not yet run (awaiting issues)" and to its
+tests field `tests/utck_bound_prospective_oracle.rs (round 3, prospective, not yet run)`.
+
 ## 4. Founder decisions: written proposals, nothing run
 
 ### M001, "GNSS-denied clock holdover" (re-anchoring with a fit/test split)
