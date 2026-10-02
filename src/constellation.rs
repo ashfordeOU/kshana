@@ -137,6 +137,25 @@ impl Sat {
     }
 }
 
+/// Body-fixed satellite positions (m) at `t` seconds after the epoch, in the order
+/// [`coverage`] uses (constellation by constellation, element set by element set), with the
+/// same propagation (two-body, optional secular J2 drift, body rotation). This exposes the
+/// geometry a coverage run sees, so an external tool can recompute the DOP maps on identical
+/// satellite positions.
+pub fn satellite_positions_fixed(
+    body: &Body,
+    constellations: &[Vec<Elements>],
+    j2: bool,
+    t: f64,
+) -> Vec<Vec3> {
+    constellations
+        .iter()
+        .enumerate()
+        .flat_map(|(c, els)| els.iter().map(move |&el| (c, el)))
+        .map(|(c, el)| Sat::new(el, body, j2, c).position_fixed(t, body.rotation_rate))
+        .collect()
+}
+
 fn dot(a: Vec3, b: Vec3) -> f64 {
     a[0] * b[0] + a[1] * b[1] + a[2] * b[2]
 }
@@ -924,7 +943,8 @@ pub struct DopValues {
     pub hdop: f64,
     /// Vertical DOP.
     pub vdop: f64,
-    /// Time DOP of the reference clock (the first constellation with a satellite in view).
+    /// Time DOP of the reference clock: the clock of the lowest-numbered constellation with a
+    /// satellite in view (GDOP uses the same clock).
     pub tdop: f64,
 }
 
@@ -1010,7 +1030,7 @@ impl NormalAccum {
     }
 
     /// Solve for the DOPs in the local east/north/up frame at the unit radial `up`.
-    /// `ref_clock` is the constellation whose clock gives TDOP (the first one seen).
+    /// `ref_clock` is the clock index whose variance gives TDOP (the lowest one in view).
     fn solve(&mut self, east: Vec3, north: Vec3, up: Vec3, ref_clock: usize) -> Option<DopValues> {
         let n = 3 + self.clocks;
         if self.rows < n {
@@ -1072,7 +1092,7 @@ pub fn dop_at(user: Vec3, sats: &[(Vec3, usize)]) -> Option<DopValues> {
         if l == 0.0 {
             continue;
         }
-        first.get_or_insert(c);
+        first = Some(first.map_or(c, |f: usize| f.min(c)));
         acc.add([d[0] / l, d[1] / l, d[2] / l], c);
     }
     acc.solve(e, n, u, first?)
@@ -1342,7 +1362,9 @@ pub fn coverage(
     let mut s_vdop = vec![0.0_f64; cells];
     let mut s_gdop = vec![0.0_f64; cells];
     let mut m_pdop = vec![0.0_f64; cells];
-    let mut vis_by_cons = vec![0.0_f64; n_cons];
+    // Visible-satellite counts per cell and constellation, kept as integers so the global
+    // per-constellation mean is one weighted sum over cells (not a long running float sum).
+    let mut vis_count = vec![0_u64; cells * n_cons];
     let (mut hp, mut hh, mut hv, mut hg) = (Hist::new(), Hist::new(), Hist::new(), Hist::new());
     let mut work = WorkCounters {
         epochs: ne,
@@ -1419,7 +1441,9 @@ pub fn coverage(
                             }
                         }
                         let c = clock_of(sats[i].cons);
-                        first.get_or_insert(c);
+                        // The reference clock is the lowest-numbered one in view, so TDOP
+                        // and GDOP do not depend on the order the satellites are scanned in.
+                        first = Some(first.map_or(c, |f: usize| f.min(c)));
                         acc.add([d[0] / l, d[1] / l, d[2] / l], c);
                         nvis += 1;
                         per_cons[sats[i].cons] += 1;
@@ -1431,7 +1455,7 @@ pub fn coverage(
                 min_vis[cell] = min_vis[cell].min(nvis);
                 max_vis[cell] = max_vis[cell].max(nvis);
                 for (c, &k) in per_cons.iter().enumerate() {
-                    vis_by_cons[c] += w * k as f64;
+                    vis_count[cell * n_cons + c] += k as u64;
                 }
                 if let Some(d) = first.and_then(|f| acc.solve(e_v, n_v, u_v, f)) {
                     work.dop_solutions += 1;
@@ -1485,6 +1509,15 @@ pub fn coverage(
         }
     }
     let norm_w = if wsum > 0.0 { wsum } else { 1.0 };
+    let mut vis_by_cons = vec![0.0_f64; n_cons];
+    for (a, &wa) in weights.iter().enumerate() {
+        for o in 0..nlo {
+            let c = a * nlo + o;
+            for (k, v) in vis_by_cons.iter_mut().enumerate() {
+                *v += wa * vis_count[c * n_cons + k] as f64 / fe;
+            }
+        }
+    }
     let worst = (0..cells)
         .map(|c| 100.0 * n_avail[c] as f64 / fe)
         .fold(f64::INFINITY, f64::min);
@@ -1517,7 +1550,7 @@ pub fn coverage(
         worst_site_availability_pct: worst,
         global_mean_visible: g_vis / norm_w,
         global_min_visible: min_vis.iter().copied().min().unwrap_or(0),
-        mean_visible_by_constellation: vis_by_cons.iter().map(|v| v / fe / norm_w).collect(),
+        mean_visible_by_constellation: vis_by_cons.iter().map(|v| v / norm_w).collect(),
         lats_deg: lats,
         lons_deg: lons,
         hist_pdop: hp,

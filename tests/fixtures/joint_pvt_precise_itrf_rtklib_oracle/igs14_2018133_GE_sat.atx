@@ -1,0 +1,1600 @@
+     1.4            M                                       ANTEX VERSION / SYST
+A                                                           PCV TYPE / REFANT   
+########################################################### COMMENT             
+General hint for satellite antenna corrections:             COMMENT             
+   All values in this file refer to an IGS-specific axis    COMMENT             
+   convention which differs from manufacturer               COMMENT             
+   specifications for certain satellite types. The IGS      COMMENT             
+   convention allows for a uniform description of the       COMMENT             
+   spacecraft attitude for all satellites applying a yaw-   COMMENT             
+   steering attitude control. Detailed definitions are      COMMENT             
+   provided in Montenbruck et al. (2015).                   COMMENT             
+                                                            COMMENT             
+GPS satellite antenna corrections:                          COMMENT             
+  - z-offsets:                                              COMMENT             
+    + satellite-specific                                    COMMENT             
+    + based on reprocessed (1994-2014) and operational      COMMENT             
+      (2015-2016) AC SINEX files                            COMMENT             
+    + weighted mean of seven ACs (CODE, ESA, GFZ, JPL, MIT, COMMENT             
+      NRCan, ULR)                                           COMMENT             
+    + solutions aligned to ITRF2014                         COMMENT             
+    + trend-corrected to epoch 2010.0                       COMMENT             
+    + analyzed and combined by IGN and TUM                  COMMENT             
+    + L1 and L2 set to the results for the ionosphere-free  COMMENT             
+      linear combination                                    COMMENT             
+    + block-specific mean values for historical satellites  COMMENT             
+      (active prior to 1994)                                COMMENT             
+  - phase center variations:                                COMMENT             
+    + block-specific                                        COMMENT             
+    + purely nadir-dependent (no azimuth-dependence)        COMMENT             
+    + maximum nadir angle: 14 degrees (Block I), 17 degrees COMMENT             
+      (Block II/IIA/IIR-A/IIR-B/IIR-M/IIF)                  COMMENT             
+    + adopted from igs05.atx                                COMMENT             
+    + solutions aligned to IGb00                            COMMENT             
+    + unweighted mean of two ACs (GFZ, TUM)                 COMMENT             
+    + L1 and L2 set to the results for the ionosphere-free  COMMENT             
+      linear combination                                    COMMENT             
+    + Block IIF: adopted from igs08.atx, solutions aligned  COMMENT             
+      to IGS08, unweighted mean of CODE and ESOC            COMMENT             
+    + extension for nadir angles beyond 14 degrees based on COMMENT             
+      LEO data from 2009 analyzed by CODE                   COMMENT             
+  - x- and y-offsets:                                       COMMENT             
+    + block-specific (except for Block IIR)                 COMMENT             
+    + based on manufacturer information                     COMMENT             
+    + satellite-specific corrections from pre-flight        COMMENT             
+      calibrations for Block IIR (Dilssner et al., 2016:    COMMENT             
+      Evaluating the pre-flight GPS Block IIR/IIR-M antenna COMMENT             
+      phase pattern measurements, IGS Workshop 2016)        COMMENT             
+                                                            COMMENT             
+GLONASS satellite antenna corrections:                      COMMENT             
+  - z-offsets:                                              COMMENT             
+    + satellite-specific                                    COMMENT             
+    + based on reprocessed and operational CODE (2002-2016) COMMENT             
+      and ESOC (2009-2016) solutions                        COMMENT             
+    + solutions aligned to ITRF2014                         COMMENT             
+    + L1 and L2 set to the results for the ionosphere-free  COMMENT             
+      linear combination                                    COMMENT             
+    + block-specific mean values for historical satellites  COMMENT             
+      (active between 1998 and 2002)                        COMMENT             
+  - phase center variations:                                COMMENT             
+    + block-specific (common parameters for GLONASS and     COMMENT             
+      GLONASS-M), satellite-specific values for R714        COMMENT             
+    + purely nadir-dependent (no azimuth-dependence)        COMMENT             
+    + maximum nadir angle: 15 degrees                       COMMENT             
+    + adopted from igs08.atx                                COMMENT             
+    + solutions aligned to ITRF2008                         COMMENT             
+    + unweighted mean of two ACs (CODE, ESOC)               COMMENT             
+    + L1 and L2 set to the results for the ionosphere-free  COMMENT             
+      linear combination                                    COMMENT             
+  - x- and y-offsets:                                       COMMENT             
+    + block-specific                                        COMMENT             
+    + based on manufacturer information                     COMMENT             
+                                                            COMMENT             
+GALILEO-0A/B satellite antenna corrections:                 COMMENT             
+  - x-, y- and z-offsets:                                   COMMENT             
+    + satellite- and frequency-specific values based        COMMENT             
+      on ESA information (Zandbergen and Navarro, 2008)     COMMENT             
+  - phase center variations:                                COMMENT             
+    + wild card values                                      COMMENT             
+                                                            COMMENT             
+GALILEO-1 and GALILEO-2 satellite antenna calibrations      COMMENT             
+  - PCO and PV values generated from ARP-related            COMMENT             
+    information in ANTEX_GAL_FOC_IOV.atx (GSA, 2016a) and   COMMENT             
+    CoM/ARP coordinates (GSA, 2016b) as published by the    COMMENT             
+    GSA                                                     COMMENT             
+  - Derived from satellite antenna ground measurements      COMMENT             
+    H(f,dir) and ideal Galileo SISICD signal-modulations    COMMENT             
+  - PCOs refer to the center-of-mass in accord with IGS     COMMENT             
+    ANTEX conventions                                       COMMENT             
+  - Carrier-phase patterns refer to the                     COMMENT             
+    carrier-phase-center and IGS axes conventions           COMMENT             
+  - Signals: E5a,E5b,E5(AltBOC),E6,E1                       COMMENT             
+             E5(AltBOC) from E5AQ and E5BQ                  COMMENT             
+  - Satellites: IOV-PFM,IOV-FM2,IOV-FM3,IOV-FM4             COMMENT             
+                FOC-1 - FOC-14                              COMMENT             
+  - Preliminary PCO values (no PV) for FOC-15 to FOC-18     COMMENT             
+    using mean values of FOC-3 to FOC-14                    COMMENT             
+                                                            COMMENT             
+BeiDou satellite antenna corrections:                       COMMENT             
+  - x-, y- and z-offsets:                                   COMMENT             
+    + block-specific                                        COMMENT             
+    + conventional MGEX values                              COMMENT             
+    + duplicate entries for C01 and C02 to support the use  COMMENT             
+      of RINEX 3.01 and 3.02 observation codes of B1        COMMENT             
+  - phase center variations:                                COMMENT             
+    + wild card values                                      COMMENT             
+    + maximum nadir angle: 14 degrees (BEIDOU-2M),          COMMENT             
+      9 degrees (BEIDOU-2G/I)                               COMMENT             
+                                                            COMMENT             
+QZSS satellite antenna calibrations                         COMMENT             
+  - PCO and PV values generated from S/C-origin related     COMMENT             
+    phase center and center-of-mass information published   COMMENT             
+    by the CAO (CAO, 2017)                                  COMMENT             
+  - PCOs refer to the center-of-mass in accordance with IGS COMMENT             
+    ANTEX conventions                                       COMMENT             
+  - Carrier-phase patterns refer to the                     COMMENT             
+    carrier-phase-center and IGS axes                       COMMENT             
+  - PV information for QZS-1 is presently unavailable       COMMENT             
+  - Signals: J1, J2, J5, J6                                 COMMENT             
+                                                            COMMENT             
+IRNSS satellite antenna corrections:                        COMMENT             
+  - x-, y- and z-offsets:                                   COMMENT             
+    + block-specific                                        COMMENT             
+    + based on ISRO information (provided by A.S. Ganeshan) COMMENT             
+  - phase center variations:                                COMMENT             
+    + wild card values                                      COMMENT             
+    + maximum nadir angle: 14 degrees (taking into account  COMMENT             
+      the off-nadir pointing navigation antenna)            COMMENT             
+                                                            COMMENT             
+Receiver antenna corrections:                               COMMENT             
+  - absolute elevation- and azimuth-dependent corrections   COMMENT             
+    from robot calibrations in the field performed by       COMMENT             
+    Geo++ GmbH for GPS and, to some extent, for GLONASS     COMMENT             
+    (http://www.geopp.de/gnpcvdb)                           COMMENT             
+  - purely elevation-dependent corrections from relative    COMMENT             
+    field calibrations performed by NGS and/or other        COMMENT             
+    institutions; converted to absolute corrections by      COMMENT             
+    adding                                                  COMMENT             
+      d_offset (AOAD/M_T_abs - AOAD/M_T_rel)  and           COMMENT             
+      d_pattern (AOAD/M_T_abs - AOAD/M_T_rel)               COMMENT             
+    (http://www.ngs.noaa.gov/ANTCAL,                        COMMENT             
+     ftp://igs.org/pub/station/general/igs_01.pcv)          COMMENT             
+  - IMPORTANT hints:                                        COMMENT             
+    If no corrections are available for a combination of an COMMENT             
+    antenna with one specific radome, the values for the    COMMENT             
+    corresponding antenna without a radome (radome code:    COMMENT             
+    NONE) are used within the IGS.                          COMMENT             
+    If no corrections for the GLONASS frequencies are       COMMENT             
+    available, the values for the GPS frequencies are used  COMMENT             
+    within the IGS instead.                                 COMMENT             
+                                                            COMMENT             
+References:                                                 COMMENT             
+  Schmid R, Dach R, Collilieux X, Jaeggi A, Schmitz M,      COMMENT             
+    Dilssner F (2016) Absolute IGS antenna phase center     COMMENT             
+    model igs08.atx: status and potential improvements.     COMMENT             
+    J Geod 90(4): 343-364, doi: 10.1007/s00190-015-0876-3   COMMENT             
+  Rothacher M, Schmid R (2010) ANTEX: The Antenna Exchange  COMMENT             
+    Format, Version 1.4 (ftp://igs.org/pub/station/general/ COMMENT             
+    antex14.txt)                                            COMMENT             
+  CAO (2017) QZS 1-4 Satellite Information                  COMMENT             
+    URL http://qzss.go.jp/en/technical/qzssinfo/index.html  COMMENT             
+        (accessed 2017/01/15)                               COMMENT             
+  Montenbruck O, Schmid R, Mercier F, Steigenberger P, Noll COMMENT             
+    C, Fatkulin R, Kogure S, Ganeshan AS (2015) GNSS        COMMENT             
+    satellite geometry and attitude models. Adv Space Res   COMMENT             
+    56(6): 1015-1029, doi: 10.1016/j.asr.2015.06.019        COMMENT             
+  GSA (2016a) Galileo IOV and FOC  Satellite Antenna        COMMENT             
+    Calibrations, SINEX code GSAT_1934                      COMMENT             
+    URL https://www.gsc-europa.eu/sites/default/files/      COMMENT             
+        sites/all/files/ANTEX_GAL_FOC_IOV.atx               COMMENT             
+        (accessed 18/01/26)                                 COMMENT             
+  GSA (2016b) Galileo IOV and FOC satellite metadata        COMMENT             
+    URL https://www.gsc-europa.eu/support-to-developers/    COMMENT             
+        galileo-iov-satellite-metadata (accessed 18/01/26)  COMMENT             
+  Zandbergen R, Navarro D (2008) Specification of Galileo   COMMENT             
+    and GIOVE Space Segment properties relevant for         COMMENT             
+    Laser Ranging, ESA-EUING-TN/10206, Issue 3.2,           COMMENT             
+    08/05/2008, Galileo Project Office, ESA, Noordwijk      COMMENT             
+                                                            COMMENT             
+Changes:                                                    COMMENT             
+  week 2247 Added G079 (G28)                                COMMENT             
+            Decommission date G049 (G28)                    COMMENT             
+  week 2239 Added R861 (R16)                                COMMENT             
+            Decommission date R736 (R16)                    COMMENT             
+            Added EML_REACH_RX    NONE                      COMMENT             
+  week 2233  Added R807 (R25), G049 (G28)                   COMMENT             
+             Decommission date G044 (G28)                   COMMENT             
+             Added ESVUA92         NONE                     COMMENT             
+  week 2223  Updated PCO/PV for E223 (E34) and              COMMENT             
+                                E224 (E10)                  COMMENT             
+             Added EML_REACH_RS2+  NONE                     COMMENT             
+                   GING20M         NONE                     COMMENT             
+                   GING30          NONE                     COMMENT             
+  week 2218  Added R806 (R22)                               COMMENT             
+             Decommission date R735 (R22)                   COMMENT             
+             Added TRMR780         NONE                     COMMENT             
+  week 2215  Added GMXZENITH06     NONE                     COMMENT             
+                   TRM59800.99     SCIS                     COMMENT             
+  week 2196  Added C020 (C01)                               COMMENT             
+             Decommission date C003 (C01), C020 (C18)       COMMENT             
+             Extended NOAZI PV zero patterns for BeiDou MEO COMMENT             
+             from 14 to 15 degrees                          COMMENT             
+             Added frequency C05 (copied from C07) to       COMMENT             
+             BeiDou 3 satellites                            COMMENT             
+  week 2194  Added G041 (G22)                               COMMENT             
+             Decommission date  G047 (G22)                  COMMENT             
+             Added HXCCGX611A      HXCM                     COMMENT             
+                   STXSA1000       NONE                     COMMENT             
+                   TIAPENG7N       NONE                     COMMENT             
+  week 2188  Added E223 (E34) and E224 (E10)                COMMENT             
+  week 2186  Added SPPSP85UHF      NONE                     COMMENT             
+  week 2185  Added J005 (J04)                               COMMENT             
+             Added ASH701945B.99   NONE                     COMMENT             
+                   ASH701945B.99   SCIS                     COMMENT             
+                   ASH701945B.99   SCIT                     COMMENT             
+  week 2178  Added GMXZENITH60     NONE                     COMMENT             
+                   STXSA1200       STXR                     COMMENT             
+                   TRM115000.00+S  SCIT                     COMMENT             
+                   TRSAX4E02       NONE                     COMMENT             
+  week 2175  Added SPPSP85         NONE                     COMMENT             
+  week 2163  Added G078 (G11)                               COMMENT             
+             Decommission date  G046 (G11)                  COMMENT             
+             Added SOKGRX3         NONE                     COMMENT             
+  week 2148  Added LEIAS11         NONE                     COMMENT             
+                   SEPPOLANT_X_MF  NONE                     COMMENT             
+  week 2136  Added SEPVC6150L      NONE                     COMMENT             
+                   SEPVC6150L      SCIS                     COMMENT             
+                   SPP135000.00    NONE                     COMMENT             
+  week 2134  Added R805 (R11)                               COMMENT             
+             Decommission date  R805 (R25), R853 (R11)      COMMENT             
+             Added LEICGA100       NONE                     COMMENT             
+  week 2132  Added R805 (R25)                               COMMENT             
+  week 2131  Added G077 (G14)                               COMMENT             
+             Decommission date: G041 (G14)                  COMMENT             
+             Added CNTAT600        CNTS                     COMMENT             
+                   HGGCYH8372      HGGS                     COMMENT             
+                   LEIFLX100       NONE                     COMMENT             
+                   TWIVSP6037L     NONE                     COMMENT             
+  week 2129  Added EML_REACH_RS2   NONE                     COMMENT             
+                   STXS900A        NONE                     COMMENT             
+                   TIAPENG6J2      NONE                     COMMENT             
+                   TRMR12I         NONE                     COMMENT             
+  week 2118  Added R735 (R22)                               COMMENT             
+             Decommission date: R731 (R22)                  COMMENT             
+             Added FOIA90          NONE                     COMMENT             
+                   HEMS631         NONE                     COMMENT             
+  week 2114  Added G076 (G23), C230 (C61)                   COMMENT             
+             Decommission date: G060 (G23)                  COMMENT             
+  week 2113  Corrected entries for TWIVC6050                COMMENT             
+             Renamed antenna                                COMMENT             
+               CNTT300+ to CNTT300PLUS                      COMMENT             
+             Radome changed from CNTS to NONE for           COMMENT             
+               CNTAT340, CNTT30, CNTT300, CNTT300PLUS       COMMENT             
+  week 2112  Added C229 (C60)                               COMMENT             
+             Updated PCO and PV of J003 (J07)               COMMENT             
+                   TWIVC6050       NONE                     COMMENT             
+                   TWIVC6050       SCIS                     COMMENT             
+                   TWIVC6050       SCIT                     COMMENT             
+  week 2108  Added STXS700A        NONE                     COMMENT             
+                   STXS990A        NONE                     COMMENT             
+  week 2101  Added R860 (R24)                               COMMENT             
+             Decommission date: R735 (R24)                  COMMENT             
+  week 2097  Added G075 (G18)                               COMMENT             
+             Decommission date: G034 (G18)                  COMMENT             
+  week 2091  Added C225 (C44), C226 (C43), C227 (C41)       COMMENT             
+                   C228 (C42)                               COMMENT             
+             Added GMXZENITH16     NONE                     COMMENT             
+                   TRMR12          NONE                     COMMENT             
+             Withdrawn TRM115000.00+S   SCIT                COMMENT             
+  week 2086  Added R859 (R04)                               COMMENT             
+             Decommission date: R742 (R04)                  COMMENT             
+             Added SLGAT45101CP    SLGZ                     COMMENT             
+  week 2082  PRN/SVN assignment modified:                   COMMENT             
+               C45 (C222 to C223)                           COMMENT             
+               C46 (C223 to C222)                           COMMENT             
+             Added AERAT1675_542E  NEVE                     COMMENT             
+                   JAVTRIUMPH_3A   NONE                     COMMENT             
+  week 2080  Added C224 (C40)                               COMMENT             
+             Added AOAD/M_T_RFI_T  NONE                     COMMENT             
+                   AOAD/M_T_RFI_T  SCIS                     COMMENT             
+  week 2076  Added G074 (G04), R716 (R27), C104 (C59),      COMMENT             
+                   C020 (C18),C220 (C38), C221 (C39),       COMMENT             
+                   C222 (C45), C223 (C46)                   COMMENT             
+             Decommission date: G036 (G04), C104 (C18)      COMMENT             
+  week 2074  Added R723 (R10)                               COMMENT             
+             Decommission date: R717 (R10)                  COMMENT             
+  week 2073  Added CNTT30          CNTS                     COMMENT             
+                   CNTT300+        CNTS                     COMMENT             
+                   CNTAT340        CNTS                     COMMENT             
+  week 2072  Added GINCYF90        NONE                     COMMENT             
+                   TRM59800.99     NONE                     COMMENT             
+                   TRM59800.99     SCIT                     COMMENT             
+  week 2070  Modified radom from NONE to CNTS:              COMMENT             
+                   CNTT300         CNTS                     COMMENT             
+                   CNTAT350        CNTS                     COMMENT             
+                   CNTAT500        CNTS                     COMMENT             
+  week 2062  Added G036 (G04)                               COMMENT             
+             Decommission date: G074 (G04)                  COMMENT             
+  week 2061  Adjusted ending time for C104 (C32)            COMMENT             
+             Added CNTT300         NONE                     COMMENT             
+                   CNTAT350        NONE                     COMMENT             
+                   CNTAT500        NONE                     COMMENT             
+  week 2060  Added R858 (R12)                               COMMENT             
+             Decommission date: 723 (R12)                   COMMENT             
+             Updated PCO/PV for E215-E222 with              COMMENT             
+             chamber calibrations                           COMMENT             
+             Adjusted starting and endig times: BEIDOU      COMMENT             
+             Added JAVGRANT_G5T+GP JVSD                     COMMENT             
+                   JAV_GRANT-G3T+G JVSD                     COMMENT             
+                   STXSA1500       STXG                     COMMENT             
+                   STXSA1800       STXS                     COMMENT             
+                   TRM115000.00+S  SCIT                     COMMENT             
+                   TRM159800.00    SCIT                     COMMENT             
+  week 2056  Update of Beidou-2 PCOs                        COMMENT             
+             Beidou-3 satellites added                      COMMENT             
+             Added C018 (C03), C101 (C31), C102 (C19,C33),  COMMENT             
+                   C102 (C57), C103 (C28,C58), C103 (C58),  COMMENT             
+                   C104 (C32), C201 (C19,C47), C202 (C20),  COMMENT             
+                   C203 (C27), C204 (C48), C205 (C22),      COMMENT             
+                   C206 (C21), C207 (C29), C208 (C30),      COMMENT             
+                   C209 (C23), C210 (C24), C211 (C26),      COMMENT             
+                   C212 (C25), C214 (C33), C215 (C35),      COMMENT             
+                   C216 (C34), C217 (C59), C218 (C36),      COMMENT             
+                   C219 (C37)                               COMMENT             
+             Added TWIVC6150       NONE                     COMMENT             
+                   TWIVC6150       SCIS                     COMMENT             
+  week 2045  Added GMXZENITH40     NONE                     COMMENT             
+                   LEIGG04         NONE                     COMMENT             
+  week 2038  Updated PCO and PV for G074 (G04)              COMMENT             
+             Added HITAT45101CP    HITZ                     COMMENT             
+  week 2035  Added G074 (G04)                               COMMENT             
+             Decommision date: G036 (G04)                   COMMENT             
+  week 2032  Added Decommision date: C001 (C30)             COMMENT             
+  week 2031  Added LEIICG70        NONE                     COMMENT             
+                   MVECR152GNSSA   NONE                     COMMENT             
+                   STXS900         NONE                     COMMENT             
+  week 2030  Added ARFAS13DFS      ARFS                     COMMENT             
+                   TRM59800.00C    NONE                     COMMENT             
+  week 2029  Added R857 (R15)                               COMMENT             
+             Decommision date: R716 (R15)                   COMMENT             
+             Added JAV_RINGANT_G3T JAVD                     COMMENT             
+                   JAVRINGANT_G5T  JAVD                     COMMENT             
+                   JAVTRIUMPH_2A+P JVSD                     COMMENT             
+                   TPSHIPER_VR     NONE                     COMMENT             
+                   TRMR10-2        NONE                     COMMENT             
+  week 2022  Preliminary PCO and PV for                     COMMENT             
+             FOC-19 to FOC-22                               COMMENT             
+             Added G036 (G04), E219 (E36), E220 (E13)       COMMENT             
+                   E221 (E15), E222 (E33)                   COMMENT             
+             Decommision date: G049 (G04)                   COMMENT             
+             Added TRMSPS986       NONE                     COMMENT             
+  week 2017  Added C018 (C17), C019 (C16)                   COMMENT             
+             Corrected commision date: R856 (R05)           COMMENT             
+             Corrected decommision date: R734 (R05)         COMMENT             
+  week 2013  Added R856 (R05)                               COMMENT             
+             Decommision date: R734 (R05)                   COMMENT             
+  week 2000  Added LEIGG04PLUS     NONE                     COMMENT             
+                   NOV850          NONE                     COMMENT             
+                   STXS800         NONE                     COMMENT             
+                   STXS800A        NONE                     COMMENT             
+  week 1992  Added G034 (G18)                               COMMENT             
+             Decommision date: G054 (G18)                   COMMENT             
+  week 1986  Chamber calibrated PCO and PCV for             COMMENT             
+             Galileo FOC satellites:                        COMMENT             
+             FOC-1 to FOC-14                                COMMENT             
+             Added E215 (E21), E216 (E25), E217 (E27),      COMMENT             
+                   E218 (E31)                               COMMENT             
+  week 1984  Calibrated PCO and PV for QZSS satellites:     COMMENT             
+             QZS-1,QZS-2,QZS-3,QZS-4                        COMMENT             
+             Added J002 (J02), J003 (J07), J004 (J03)       COMMENT             
+             Added JAVTRIUMPH_2A+P JVGR                     COMMENT             
+                   TRM159800.00    NONE                     COMMENT             
+                   TRM159800.00    SCIS                     COMMENT             
+                   TRM159900.00    NONE                     COMMENT             
+                   TRM159900.00    SCIS                     COMMENT             
+  week 1977  Added G049 (G04)                               COMMENT             
+             Decommision date: G036 (G04)                   COMMENT             
+             Added LEIGS18         NONE                     COMMENT             
+  week 1973  Added R852 (R14), 801 (R26)                    COMMENT             
+             Decommision date: R801(R14)                    COMMENT             
+             Added HXCCGX601A      HXCS                     COMMENT             
+                   SEPALTUS_NR3    NONE                     COMMENT             
+  week 1972  Chamber calibrated PCO and PCV for             COMMENT             
+             Galileo IOV satellites:                        COMMENT             
+             IOV-PFM,IOV-FM2,IOV-FM3,IOV-FM4                COMMENT             
+             Added IGAIG8          NONE                     COMMENT             
+  week 1967  Added R801 (R14)                               COMMENT             
+             Decommision date: R715 (R14), R801(R26)        COMMENT             
+  week 1958  Added G036 (G04)                               COMMENT             
+             Decommission date: G038 (G04)                  COMMENT             
+             Added SJTTL111        NONE                     COMMENT             
+  week 1949  Added G038 (G04)                               COMMENT             
+             Decommission date: G049 (G04)                  COMMENT             
+  week 1943  Added STXS9I          NONE                     COMMENT             
+  week 1941  Added ARFAS1FS        ARFC                     COMMENT             
+                   SOKGCX3         NONE                     COMMENT             
+  week 1935  Added STHCR3-G3       STHC                     COMMENT             
+                   TWIVP6050_CONE  NONE                     COMMENT             
+                                                            COMMENT             
+Major changes w.r.t. igs08.atx:                             COMMENT             
+  - satellite antenna corrections consistent with ITRF2014/ COMMENT             
+    IGS14                                                   COMMENT             
+  - satellite antenna z-offsets based on the results of     COMMENT             
+    more ACs (GPS: 7 instead of 5, GLONASS: still 2)        COMMENT             
+  - satellite antenna z-offsets trend-corrected to epoch    COMMENT             
+    2010.0                                                  COMMENT             
+  - satellite-specific x- and y-offsets from pre-flight     COMMENT             
+    calibrations for the Block IIR satellites               COMMENT             
+  - type-specific robot-based receiver antenna corrections  COMMENT             
+    updated with results from recent individual antenna     COMMENT             
+    calibrations                                            COMMENT             
+  - conversion of relative receiver antenna corrections     COMMENT             
+    with updated AOAD/M_T values                            COMMENT             
+  - additional ROBOT calibrations:                          COMMENT             
+      AERAT2775_43    SPKE                                  COMMENT             
+      AOAD/M_T        DUTD                                  COMMENT             
+      ASH700936D_M    SCIS                                  COMMENT             
+      ASH700936E      SCIS                                  COMMENT             
+      ASH701073.1     NONE                                  COMMENT             
+      ASH701073.1     SCIS                                  COMMENT             
+      ASH701073.1     SNOW                                  COMMENT             
+      ASH701945C_M    SCIS                                  COMMENT             
+      ASH701945D_M    NONE                                  COMMENT             
+      ASH701945D_M    SCIS                                  COMMENT             
+      ASH701945E_M    SCIS                                  COMMENT             
+      ASH701945G_M    NONE                                  COMMENT             
+      ASH701945G_M    SCIS                                  COMMENT             
+      ASH701946.3     NONE                                  COMMENT             
+      TRM29659.00     UNAV                                  COMMENT             
+      TRM41249.00     SCIT                                  COMMENT             
+      TRM57971.00     TZGD                                  COMMENT             
+  - additional COPIED calibrations:                         COMMENT             
+      ASH700936F_C    SNOW                                  COMMENT             
+      ASH701945B_M    SCIS                                  COMMENT             
+  - updated ROBOT calibrations:                             COMMENT             
+      AOAD/M_T        NONE                                  COMMENT             
+      ASH700936C_M    SNOW                                  COMMENT             
+      ASH700936E      NONE                                  COMMENT             
+      ASH701945C_M    NONE                                  COMMENT             
+      JAVRINGANT_DM   NONE                                  COMMENT             
+      LEIAR10         NONE                                  COMMENT             
+      LEIAR20         LEIM                                  COMMENT             
+      LEIAR25         LEIT                                  COMMENT             
+      LEIAR25.R3      NONE                                  COMMENT             
+      LEIAR25.R3      LEIT                                  COMMENT             
+      LEIAR25.R4      NONE                                  COMMENT             
+      LEIAR25.R4      LEIT                                  COMMENT             
+      NOV702GG        NONE                                  COMMENT             
+      TPSCR.G5        TPSH                                  COMMENT             
+      TRM29659.00     NONE                                  COMMENT             
+      TRM29659.00     SCIS                                  COMMENT             
+      TRM57971.00     NONE                                  COMMENT             
+      TRM59800.00     NONE                                  COMMENT             
+      TRM59800.00     SCIS                                  COMMENT             
+  - updated COPIED calibrations:                            COMMENT             
+      AOAD/M_TA_NGS   NONE                                  COMMENT             
+      ASH700936A_M    NONE                                  COMMENT             
+      ASH700936E_C    NONE                                  COMMENT             
+      ASH700936F_C    NONE                                  COMMENT             
+      ASH701073.3     NONE                                  COMMENT             
+      ASH701945B_M    NONE                                  COMMENT             
+      ASH701946.2     NONE                                  COMMENT             
+      RNG80971.00     NONE                                  COMMENT             
+      TPSCR4          NONE                                  COMMENT             
+      TRM59800.80     NONE                                  COMMENT             
+      TRM59800.80     SCIS                                  COMMENT             
+  - additional GLONASS calibrations:                        COMMENT             
+      AOAD/M_T        NONE                                  COMMENT             
+      ASH700936C_M    SNOW                                  COMMENT             
+      ASH701945C_M    NONE                                  COMMENT             
+      TRM29659.00     SCIS                                  COMMENT             
+                                                            COMMENT             
+Compiled by Arturo Villiger (AIUB),                         COMMENT             
+  e-mail: arturo.villiger@aiub.unibe.ch                     COMMENT             
+########################################################### COMMENT             
+                                                            END OF HEADER       
+                                                            START OF ANTENNA    
+BLOCK IIF           G01                 G063      2011-036A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2011     7    16     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1501.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1501.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-B         G02                 G061      2004-045A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2004    11     6     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      1.30     -1.10    728.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      1.30     -1.10    728.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G03                 G069      2014-068A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2014    10    29     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1550.60                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1550.60                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G04                 G049      2009-014A TYPE / SERIAL NO    
+                                             0    01-DEC-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2017    12     1     0     0    0.0000000                 VALID FROM          
+  2018     9    28    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      0.00      0.00    963.20                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      0.00      0.00    963.20                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G05                 G050      2009-043A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2009     8    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -3.30     -0.30    778.00                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -3.30     -0.30    778.00                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G06                 G067      2014-026A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2014     5    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1467.00                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1467.00                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G07                 G048      2008-012A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2008     3    15     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -0.40      5.00    822.40                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -0.40      5.00    822.40                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G08                 G072      2015-033A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2015     7    15     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1501.40                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1501.40                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G09                 G068      2014-045A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2014     8     2     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1522.60                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1522.60                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G10                 G073      2015-062A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2015    10    31     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1515.10                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1515.10                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G11                 G046      1999-055A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  1999    10     7     0     0    0.0000000                 VALID FROM          
+  2021     4     9    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -0.70     -1.20   1117.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -0.70     -1.20   1117.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G12                 G058      2006-052A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2006    11    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     10.20     -5.60    767.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     10.20     -5.60    767.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G13                 G043      1997-035A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  1997     7    23     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -2.40     -1.60   1348.30                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -2.40     -1.60   1348.30                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G14                 G041      2000-071A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2000    11    10     0     0    0.0000000                 VALID FROM          
+  2020     7    27    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -2.50     -1.70   1304.50                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -2.50     -1.70   1304.50                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G15                 G055      2007-047A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2007    10    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      4.50      1.90    622.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      4.50      1.90    622.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G16                 G056      2003-005A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2003     1    29     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     12.60     -6.90   1468.70                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     12.60     -6.90   1468.70                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G17                 G053      2005-038A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2005     9    26     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      3.00      1.00    770.90                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      3.00      1.00    770.90                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIA           G18                 G034      1993-068A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2018     1    24     0     0    0.0000000                 VALID FROM          
+  2020     3     9    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    279.00      0.00   2352.40                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    279.00      0.00   2352.40                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-B         G19                 G059      2004-009A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2004     3    20     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      8.60     -0.60    808.20                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      8.60     -0.60    808.20                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G20                 G051      2000-025A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2000     5    11     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      1.00     -3.20   1313.50                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      1.00     -3.20   1313.50                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G21                 G045      2003-010A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2003     3    31     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -3.40      2.90   1359.10                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -3.40      2.90   1359.10                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-B         G22                 G047      2003-058A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2003    12    21     0     0    0.0000000                 VALID FROM          
+  2022     1    18    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -2.20      2.20    850.60                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -2.20      2.20    850.60                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-B         G23                 G060      2004-023A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2004     6    23     0     0    0.0000000                 VALID FROM          
+  2020     6     9    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     15.40      6.80    766.10                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     15.40      6.80    766.10                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G24                 G065      2012-053A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2012    10     4     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1407.10                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1407.10                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G25                 G062      2010-022A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2010     5    28     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1517.40                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1517.40                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G26                 G071      2015-013A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2015     3    25     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1503.50                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1503.50                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G27                 G066      2013-023A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2013     5    15     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1522.30                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1522.30                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-A         G28                 G044      2000-040A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2000     7    16     0     0    0.0000000                 VALID FROM          
+  2022    10    25    23    59   59.9999999                 VALID UNTIL         
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+      1.40      4.70    999.50                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+      1.40      4.70    999.50                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G29                 G057      2007-062A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2007    12    20     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     10.90     -4.50    791.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     10.90     -4.50    791.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G30                 G064      2014-008A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2014     2    21     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1522.10                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1522.10                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIR-M         G31                 G052      2006-042A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2006     9    25     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+     -0.80      5.80    912.50                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+     -0.80      5.80    912.50                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+BLOCK IIF           G32                 G070      2016-007A TYPE / SERIAL NO    
+                                             0    29-JAN-17 METH / BY / # / DATE
+     0.0                                                    DAZI                
+     0.0  17.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     2                                                      # OF FREQUENCIES    
+  2016     2     5     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+   G01                                                      START OF FREQUENCY  
+    394.00      0.00   1534.80                              NORTH / EAST / UP   
+   G01                                                      END OF FREQUENCY    
+   G02                                                      START OF FREQUENCY  
+    394.00      0.00   1534.80                              NORTH / EAST / UP   
+   G02                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E01                 E210      2016-030B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    24-MAY-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2016     5    24     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    122.14     -9.38    636.31                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    122.84     -8.98    675.33                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    122.04     -9.21    689.83                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    121.33     -8.01    724.14                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    122.48     -9.17    655.82                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E02                 E211      2016-030A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    24-MAY-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2016     5    24     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    122.69     -9.25    617.15                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    123.00     -9.26    660.14                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    121.85     -8.63    683.43                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    121.30     -9.14    726.10                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    122.84     -9.25    638.72                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E03                 E212      2016-069B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    06-OCT-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2016    11    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    116.87    -10.16    610.79                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    117.74    -10.19    651.20                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    116.60    -10.06    679.72                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    115.98     -9.20    737.11                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    117.31    -10.17    630.95                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E04                 E213      2016-069C TYPE / SERIAL NO    
+CHAMBER             ESA                      1    06-OCT-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2016    11    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    123.13     -9.59    604.15                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    123.93    -10.09    652.12                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    123.38     -9.26    673.06                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    122.40     -9.66    734.80                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    123.54     -9.84    628.27                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E05                 E214      2016-069D TYPE / SERIAL NO    
+CHAMBER             ESA                      1    06-OCT-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2016    11    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    122.39     -9.23    606.00                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    122.78     -9.52    654.75                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    121.52     -8.35    682.22                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    121.39     -9.39    757.13                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    122.59     -9.37    630.29                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E07                 E207      2016-069A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    06-OCT-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2016    11    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    120.62     -9.18    610.92                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    120.90     -9.37    656.22                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    120.17     -9.26    673.96                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    119.15     -9.79    692.82                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    120.77     -9.26    633.66                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E08                 E208      2015-079B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2015    12    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    121.88     -9.83    606.20                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    122.54     -9.77    649.74                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    121.91     -9.12    675.51                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    121.91    -10.28    723.70                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    122.22     -9.80    628.10                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E09                 E209      2015-079A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2015    12    17     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    120.84     -8.52    596.95                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    121.57     -9.30    646.86                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    120.69     -9.25    679.14                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    120.83     -9.28    712.75                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    121.22     -8.91    621.94                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-1           E11                 E101      2011-060A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    09-FEB-12 METH / BY / # / DATE
+     2.0                                                    DAZI                
+     0.0  14.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2011    10    21     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+   -169.80     25.85    791.85                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+   -170.11     27.01    797.95                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+   -170.93     29.75    709.86                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+   -169.37     29.63    811.77                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+   -169.95     26.42    792.86                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-1           E12                 E102      2011-060B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    09-FEB-12 METH / BY / # / DATE
+     2.0                                                    DAZI                
+     0.0  14.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2011    10    21     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+   -169.51     27.83    781.42                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+   -171.20     27.80    808.79                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+   -171.16     28.93    740.36                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+   -171.57     29.91    844.59                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+   -170.35     27.84    792.88                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E14                 E202      2014-050B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2014     8    22     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    172.49    -12.41    609.38                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    172.90    -12.60    657.22                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    171.38    -12.33    645.37                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    171.04    -12.96    721.99                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    172.70    -12.50    633.71                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E18                 E201      2014-050A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2014     8    22     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    177.38    -12.78    610.84                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    178.29    -13.34    658.08                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    177.36    -13.43    690.30                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    176.51    -13.28    742.04                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    177.83    -13.07    634.92                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-1           E19                 E103      2012-055A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    09-FEB-12 METH / BY / # / DATE
+     2.0                                                    DAZI                
+     0.0  14.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2012    10    12     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+   -171.01     27.94    792.08                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+   -172.67     28.25    787.96                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+   -171.51     30.12    737.91                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+   -172.21     29.88    806.06                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+   -171.85     28.14    788.27                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-1           E20                 E104      2012-055B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    09-FEB-12 METH / BY / # / DATE
+     2.0                                                    DAZI                
+     0.0  14.0   1.0                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2012    10    12     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+   -169.76     26.69    806.57                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+   -171.67     27.51    800.33                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+   -170.74     28.55    714.95                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+   -171.48     28.17    791.49                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+   -170.74     27.10    801.94                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E21                 E215      2017-079A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    19-OCT-17 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2017    12    12     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    127.06    -10.96    602.85                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    127.64    -11.56    649.77                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    127.12    -10.82    692.66                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    126.80    -10.57    779.85                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    127.36    -11.27    626.19                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E22                 E204      2015-017B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2015     3    27     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    122.34     -9.50    653.93                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    121.81     -9.64    648.50                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    121.06     -7.78    674.57                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    118.52     -8.04    697.73                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    122.08     -9.58    651.35                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E24                 E205      2015-045A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2015     9    11     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    119.33     -9.53    628.78                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    120.07     -9.88    672.94                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    119.75     -9.15    700.98                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    117.43     -9.21    723.13                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    119.70     -9.70    650.89                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E25                 E216      2017-079B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    19-OCT-17 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2017    12    12     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    120.85    -10.35    601.00                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    121.38    -10.65    644.29                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    120.62     -9.96    678.28                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    119.73     -9.75    731.18                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    121.12    -10.50    622.73                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E26                 E203      2015-017A TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2015     3    27     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    119.70     -8.46    600.95                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    120.36     -8.53    649.78                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    119.45     -8.45    673.47                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    118.76     -8.60    744.76                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    120.03     -8.50    625.41                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E27                 E217      2017-079C TYPE / SERIAL NO    
+CHAMBER             ESA                      1    19-OCT-17 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2017    12    12     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    121.92    -11.03    635.69                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    122.33    -11.48    671.94                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    121.15    -10.78    673.56                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    120.65    -11.09    742.98                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    122.13    -11.25    653.75                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E30                 E206      2015-045B TYPE / SERIAL NO    
+CHAMBER             ESA                      1    12-FEB-16 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2015     9    11     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    119.58     -8.88    611.48                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    120.09     -8.55    655.73                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    118.61     -8.06    682.73                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    119.59     -8.23    697.41                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    119.84     -8.71    633.71                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
+                                                            START OF ANTENNA    
+GALILEO-2           E31                 E218      2017-079D TYPE / SERIAL NO    
+CHAMBER             ESA                      1    19-OCT-17 METH / BY / # / DATE
+     5.0                                                    DAZI                
+     0.0  20.0   0.5                                        ZEN1 / ZEN2 / DZEN  
+     5                                                      # OF FREQUENCIES    
+  2017    12    12     0     0    0.0000000                 VALID FROM          
+IGS14_2247                                                  SINEX CODE          
+E05 derived from Signal-Component: E5A-I                    COMMENT             
+E07 derived from Signal-Component: E5B-I                    COMMENT             
+E06 derived from Signal-Component: E6-C                     COMMENT             
+E01 derived from Signal-Component: E1-C                     COMMENT             
+E08 derived from Signal-Component: E5-Q (AltBOC)            COMMENT             
+   E05                                                      START OF FREQUENCY  
+    121.05    -10.28    615.06                              NORTH / EAST / UP   
+   E05                                                      END OF FREQUENCY    
+   E07                                                      START OF FREQUENCY  
+    122.12    -10.29    656.92                              NORTH / EAST / UP   
+   E07                                                      END OF FREQUENCY    
+   E06                                                      START OF FREQUENCY  
+    122.01     -9.59    692.22                              NORTH / EAST / UP   
+   E06                                                      END OF FREQUENCY    
+   E01                                                      START OF FREQUENCY  
+    122.43    -10.76    737.79                              NORTH / EAST / UP   
+   E01                                                      END OF FREQUENCY    
+   E08                                                      START OF FREQUENCY  
+    121.60    -10.28    636.06                              NORTH / EAST / UP   
+   E08                                                      END OF FREQUENCY    
+                                                            END OF ANTENNA      
