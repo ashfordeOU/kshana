@@ -70,8 +70,8 @@ fn matrix(v: &serde_json::Value) -> Vec<Vec<f64>> {
 fn load_reference() -> serde_json::Value {
     let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
         .join("tests/fixtures/gls_common_mode_statistic_numpy_oracle/reference.json");
-    let raw = std::fs::read_to_string(&path)
-        .unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
+    let raw =
+        std::fs::read_to_string(&path).unwrap_or_else(|e| panic!("read {}: {e}", path.display()));
     serde_json::from_str(&raw).expect("parse reference.json")
 }
 
@@ -117,7 +117,7 @@ fn common_mode_statistic_matches_numpy_lapack() {
         let w = worst.entry(tier.to_string()).or_insert(0.0);
         *w = w.max(rel);
         worst_share_of_allowance = worst_share_of_allowance.max(rel / allowed);
-        if !(rel <= allowed) {
+        if rel.is_nan() || rel > allowed {
             failures.push(format!(
                 "case {idx} (tier {tier}, N={n}, cond {cond:.3e}, cos_w {cos_w:.3}): engine \
                  {:.17e} vs numpy {want:.17e}, relative {rel:.3e} > allowed {allowed:.3e}",
@@ -127,12 +127,10 @@ fn common_mode_statistic_matches_numpy_lapack() {
         // Tier C carries the unshifted partner's index: the shift must inflate the statistic.
         if let Some(partner) = case["shift_of"].as_u64() {
             let base = &cases[partner as usize];
-            let base_got = common_mode_consistency(
-                &matrix(&base["omega"]),
-                &vector(&base["residual"]),
-            )
-            .expect("SPD")
-            .value;
+            let base_got =
+                common_mode_consistency(&matrix(&base["omega"]), &vector(&base["residual"]))
+                    .expect("SPD")
+                    .value;
             if !(got.value > base_got && got.value >= 9.0 * (1.0 - 1e-12)) {
                 failures.push(format!(
                     "case {idx}: common-mode shift of case {partner} did not inflate the \
