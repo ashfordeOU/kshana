@@ -1,0 +1,68 @@
+# Fold manifest for package D9 (measured clock library, "Clock Atlas").
+branch = "feat/dom-d9"
+package = "D9"
+depends_on = ["D2", "D3"]
+preregistration_commit = "2ec76864"
+engine_commits = ["a12d5d5f", "52a931b2"]
+
+# Paths this branch owns (created or edited).
+owned_paths = [
+  "src/clock_library/",
+  "src/allan.rs",            # lag-1 autocorrelation noise identifier only
+  "src/realdata/clk.rs",
+  "src/utck_bound.rs",
+  "tests/clock_library_lag1_noise_id_allantools.rs",
+  "tests/clock_library_device_cards_oracle.rs",
+  "tests/clock_library_tcxo_card_jammertest_oracle.rs",
+  "tests/clock_library_support/",
+  "tests/fixtures/clock_library_lag1_noise_id_allantools/",
+  "tests/fixtures/clock_library_device_cards_oracle/",
+  "tests/fixtures/clock_library_tcxo_card_jammertest_oracle/",
+  ".fold/feat-dom-d9.toml",
+  ".fold/feat-dom-d9-rows.md",
+  "changelog.d/feat-dom-d9.md",
+]
+
+# One-line registrations made outside the owned paths.
+registrations = [
+  "src/lib.rs: pub mod clock_library;",
+  "src/lib.rs: pub mod utck_bound;",
+  "src/realdata/mod.rs: pub mod clk;",
+]
+
+# Matrix rows (text in .fold/feat-dom-d9-rows.md). The release label "0.31" in the proposed
+# oracle text is a placeholder for the integrating release.
+[[rows]]
+id = "NEW lag-1 noise identification"
+requirement = "Power-law noise identification by lag-1 autocorrelation"
+outcome = "PROMOTE"
+status = "Validated"
+basis = "Library"
+oracle_test = "tests/clock_library_lag1_noise_id_allantools.rs"
+
+[[rows]]
+id = "NEW (b) device cards"
+requirement = "Measured clock device cards (held-out prediction)"
+outcome = "FINDING"
+status = "Modelled"
+
+[[rows]]
+id = "M010 (a)"
+requirement = "Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM (capability text)"
+outcome = "BLOCKED"
+status = "Modelled (unchanged)"
+
+[[rows]]
+id = "M001, M002, M083 (c)"
+outcome = "founder decision; proposals only"
+
+# Tests the integrator runs for this package.
+[tests]
+filter = "clock_library"
+lib_filters = ["clock_library", "realdata::clk", "utck_bound", "allan::tests::lag1"]
+integration = [
+  "clock_library_lag1_noise_id_allantools",
+  "clock_library_device_cards_oracle",
+  "clock_library_tcxo_card_jammertest_oracle",
+]
+data_gated = "non_blind_cards_are_reported reads realdata-cache/cs5071a and realdata-cache/ocxo (scripts/fetch_cs5071a.sh, scripts/fetch_ocxo.sh); KSHANA_REQUIRE_REALDATA=1 makes their absence fail"
