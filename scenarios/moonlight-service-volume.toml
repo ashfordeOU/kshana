@@ -130,7 +130,13 @@ p_hmi = 1e-4
 #   ephemeris_path = "tests/fixtures/lunar_ephemeris/lncss_case_a_navi613.csv"
 #     8-satellite LNCSS case study A, Table 1 of Bhamidipati, Mina, Sanchez and Gao,
 #     NAVIGATION 70(4) navi.613, 2023 (open access, CC BY). Cases B (12 sats) and C (16)
-#     are committed beside it.
+#     are committed beside it. Its elements are stated in the Earth orbital-plane (OP)
+#     frame; to place them in that frame at the paper's epoch and propagate them under the
+#     lunar J2 + C22 field and Earth and Sun third bodies at DE440 positions, add
+#       planetary_kernel_path = "tests/fixtures/lunar_service_volume_orekit_oracle/de440s_2025-11-09_15d.bsp"
+#       epoch_utc = "2025-11-09T00:00:00"
+#     (that cut kernel covers 2025-11-08..2025-11-25; any SPK holding the Earth, Moon and
+#     Sun over the horizon works, e.g. NAIF de440s.bsp).
 #   ephemeris_path = "tests/fixtures/lunar_ephemeris/horizons_lunar_orbiters_2023001_12h.csv"
 #     the four spacecraft really in lunar orbit on 2023-01-01, from JPL Horizons. NOT a
 #     navigation constellation: 1-2 in view over the south pole, no protection level, so
