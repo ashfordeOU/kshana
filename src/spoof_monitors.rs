@@ -358,6 +358,228 @@ pub struct CombinedSpoofDecision {
     pub fused: FusedSpoofDecision,
 }
 
+// --- Clock-aided monitor with drift states (Hadamard-calibrated, non-latching) --------
+
+/// Clock noise levels estimated from a short phase record: the white phase-measurement
+/// variance `r` (s^2) and the three power-law PSDs of [`crate::clock_state::ClockState3`]
+/// (`q_wf` white frequency modulation, `q_rw` random-walk frequency modulation, `q_drift`
+/// random-run frequency modulation, the driving noise of the drift state).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct ClockNoiseEstimate {
+    /// White phase-measurement variance (s^2).
+    pub r: f64,
+    /// White-FM PSD (s^2/s).
+    pub q_wf: f64,
+    /// Random-walk-FM PSD (1/s).
+    pub q_rw: f64,
+    /// Random-run-FM PSD (1/s^3).
+    pub q_drift: f64,
+}
+
+impl ClockNoiseEstimate {
+    /// Raise each PSD to at least the floor of a clock class
+    /// ([`crate::clock_state::ClockClass::psds`]): a short calibration cannot see the long-tau
+    /// red noise, so the class floor stands in where the measurement is lower. `r` is kept.
+    pub fn with_class_floor(self, class: crate::clock_state::ClockClass) -> Self {
+        let (wf, rw, dr) = class.psds();
+        Self {
+            r: self.r,
+            q_wf: self.q_wf.max(wf),
+            q_rw: self.q_rw.max(rw),
+            q_drift: self.q_drift.max(dr),
+        }
+    }
+}
+
+/// Hadamard variance of the four noise types this estimator separates, per unit level, at
+/// averaging time `tau` (s): white phase `10 / (3 tau^2)` per unit `r` (the third difference of
+/// white phase has variance `20 r`), white FM `1 / tau`, random-walk FM `tau / 6` and random-run
+/// FM `11 tau^3 / 120`. The white-FM and random-walk-FM coefficients are the NIST SP 1065
+/// (Riley 2008) Hadamard responses in the `q` convention of [`crate::clock_state::q_from_allan`];
+/// the random-run coefficient is the same integral for a drift state driven by white noise.
+fn hadamard_basis(tau: f64) -> [f64; 4] {
+    [
+        10.0 / (3.0 * tau * tau),
+        1.0 / tau,
+        tau / 6.0,
+        11.0 * tau * tau * tau / 120.0,
+    ]
+}
+
+/// Estimate `(r, q_wf, q_rw, q_drift)` from a phase record `phase` (s) sampled every `tau0`
+/// seconds, from its Hadamard variance, which rejects a constant frequency offset and a
+/// linear frequency drift exactly (the reason it is used here and not the Allan variance:
+/// a receiver crystal's drift biases the Allan variance of a short record upward and makes the
+/// random-walk level unidentifiable). The overlapping Hadamard variance is taken at
+/// `tau = tau0 * 2^j` for every `j` with more than `3 * 2^j + 3` samples, and the four levels
+/// are the non-negative weighted least-squares fit of [`hadamard_basis`] to those values, each
+/// equation divided by its measured value (a relative fit, so every averaging time counts
+/// alike). Returns `None` with fewer than 8 samples.
+pub fn hadamard_noise_fit(phase: &[f64], tau0: f64) -> Option<ClockNoiseEstimate> {
+    let n = phase.len();
+    if n < 8 || tau0 <= 0.0 {
+        return None;
+    }
+    let mut rows: Vec<([f64; 4], f64)> = Vec::new();
+    let mut m = 1usize;
+    while n > 3 * m + 3 {
+        let h = crate::allan::hadamard_adev(phase, tau0, m);
+        let hv = h * h;
+        if hv > 0.0 && hv.is_finite() {
+            let b = hadamard_basis(m as f64 * tau0);
+            rows.push(([b[0] / hv, b[1] / hv, b[2] / hv, b[3] / hv], 1.0));
+        }
+        m *= 2;
+    }
+    if rows.is_empty() {
+        return None;
+    }
+    // Non-negative least squares by enumerating the active sets (four unknowns).
+    let mut best: Option<([f64; 4], f64)> = None;
+    for mask in 1u32..16 {
+        let idx: Vec<usize> = (0..4).filter(|j| mask & (1 << j) != 0).collect();
+        if idx.len() > rows.len() {
+            continue;
+        }
+        let k = idx.len();
+        let mut ata = vec![vec![0.0; k]; k];
+        let mut atb = vec![0.0; k];
+        for (a, y) in &rows {
+            for (p, &ip) in idx.iter().enumerate() {
+                atb[p] += a[ip] * y;
+                for (q, &iq) in idx.iter().enumerate() {
+                    ata[p][q] += a[ip] * a[iq];
+                }
+            }
+        }
+        let Some(inv) = crate::fusion::ukf::inverse(&ata) else {
+            continue;
+        };
+        let sol: Vec<f64> = (0..k)
+            .map(|p| (0..k).map(|q| inv[p][q] * atb[q]).sum())
+            .collect();
+        if sol.iter().any(|v| !(v.is_finite() && *v >= 0.0)) {
+            continue;
+        }
+        let mut x = [0.0; 4];
+        for (p, &ip) in idx.iter().enumerate() {
+            x[ip] = sol[p];
+        }
+        let cost: f64 = rows
+            .iter()
+            .map(|(a, y)| {
+                let f: f64 = (0..4).map(|j| a[j] * x[j]).sum();
+                (f - y) * (f - y)
+            })
+            .sum();
+        if best.as_ref().is_none_or(|(_, c)| cost < *c) {
+            best = Some((x, cost));
+        }
+    }
+    let (x, _) = best?;
+    Some(ClockNoiseEstimate {
+        r: x[0],
+        q_wf: x[1],
+        q_rw: x[2],
+        q_drift: x[3],
+    })
+}
+
+/// The outcome of one epoch of the [`ClockAidedMonitor`].
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct ClockMonitorStep {
+    /// Measured minus predicted phase (s).
+    pub innovation_s: f64,
+    /// Innovation 1-sigma `sqrt(P_phase + r)` (s) the decision used.
+    pub sigma_s: f64,
+    /// Whether `|innovation| > k sigma`.
+    pub alarm: bool,
+}
+
+/// A clock-aided spoofing monitor on a three-state clock model (phase, frequency, drift;
+/// [`crate::clock_state::ClockState3`]): each epoch the clock is predicted forward, the
+/// receiver's GNSS clock estimate is compared with the prediction, and an alarm is raised when
+/// the innovation exceeds `k` times its own predicted 1-sigma `sqrt(P_phase + r)`.
+///
+/// Two properties distinguish it from a fixed bound on a trailing straight line:
+/// * **drift states**: the frequency and the drift are estimated, and the bound grows with the
+///   clock's random-walk and random-run noise, so a crystal's frequency wander is followed
+///   rather than flagged;
+/// * **no latching**: an alarmed epoch is not used to update the clock, but the prediction's
+///   covariance keeps growing through it, so after a false alarm the bound widens and the
+///   monitor recovers instead of freezing a stale prediction.
+#[derive(Clone, Debug)]
+pub struct ClockAidedMonitor {
+    filter: crate::clock_state::ClockState3,
+    noise: ClockNoiseEstimate,
+    k: f64,
+    t_last: Option<f64>,
+}
+
+impl ClockAidedMonitor {
+    /// A monitor for the clock noise `noise` and alarm multiplier `k` (sigmas). The state starts
+    /// unknown (phase, frequency and drift variances `1 s^2`, `1e-10` and `1e-16`), so the
+    /// first epochs pass through [`calibrate`](Self::calibrate) unchecked.
+    pub fn new(noise: ClockNoiseEstimate, k: f64) -> Self {
+        let filter = crate::clock_state::ClockState3::new(noise.q_wf, noise.q_rw, noise.q_drift)
+            .with_initial_cov(1.0, 1e-10, 1e-16);
+        Self {
+            filter,
+            noise,
+            k,
+            t_last: None,
+        }
+    }
+
+    fn predict_to(&mut self, t: f64) {
+        match self.t_last {
+            Some(t0) => self.filter.predict(t - t0),
+            None => self.filter.x[0] = 0.0,
+        }
+        self.t_last = Some(t);
+    }
+
+    /// Feed a calibration sample `(t, phase)` (s, s): predict and update without a decision.
+    pub fn calibrate(&mut self, t: f64, phase_s: f64) {
+        let first = self.t_last.is_none();
+        self.predict_to(t);
+        if first {
+            self.filter.x[0] = phase_s;
+        }
+        self.filter.update_phase(phase_s, self.noise.r);
+    }
+
+    /// Monitor one epoch: predict to `t`, test `phase_s` against the prediction, and update the
+    /// clock only when the epoch is not alarmed (`exclude` also skips the update, for an epoch
+    /// another monitor has alarmed).
+    pub fn step(&mut self, t: f64, phase_s: f64, exclude: bool) -> ClockMonitorStep {
+        self.predict_to(t);
+        let innovation_s = phase_s - self.filter.phase_est();
+        let sigma_s = (self.filter.covariance()[0][0] + self.noise.r)
+            .max(0.0)
+            .sqrt();
+        let alarm = innovation_s.abs() > self.k * sigma_s;
+        if !alarm && !exclude {
+            self.filter.update_phase(phase_s, self.noise.r);
+        }
+        ClockMonitorStep {
+            innovation_s,
+            sigma_s,
+            alarm,
+        }
+    }
+
+    /// Advance the prediction to `t` without a measurement (an epoch with no clock estimate).
+    pub fn coast(&mut self, t: f64) {
+        self.predict_to(t);
+    }
+
+    /// The noise levels the monitor runs on.
+    pub fn noise(&self) -> ClockNoiseEstimate {
+        self.noise
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -651,6 +873,94 @@ mod tests {
             d.sqm_el_metric > 0.0,
             "Early > Late should give a positive imbalance, got {}",
             d.sqm_el_metric
+        );
+    }
+    /// A seeded clock: white phase noise `sx` (s), white FM `a` (ADEV at 1 s), a constant
+    /// frequency drift `d` (1/s^2), sampled every second.
+    fn synthetic_clock(n: usize, sx: f64, a: f64, d: f64, seed: u64) -> Vec<f64> {
+        use rand::SeedableRng;
+        use rand_distr::{Distribution, Normal};
+        let mut rng = rand_chacha::ChaCha8Rng::seed_from_u64(seed);
+        let g = Normal::new(0.0, 1.0).unwrap();
+        let mut x = 0.0;
+        (0..n)
+            .map(|i| {
+                x += a * g.sample(&mut rng);
+                let t = i as f64;
+                x + 0.5 * d * t * t + sx * g.sample(&mut rng)
+            })
+            .collect()
+    }
+
+    #[test]
+    fn hadamard_fit_recovers_white_phase_and_white_frequency_through_a_drift() {
+        let phase = synthetic_clock(4096, 3e-9, 2e-10, 1e-11, 7);
+        let est = hadamard_noise_fit(&phase, 1.0).unwrap();
+        // Within 25 % of the truth on 4096 samples; the drift does not leak into the levels.
+        assert!((est.r.sqrt() / 3e-9 - 1.0).abs() < 0.25, "{est:?}");
+        assert!((est.q_wf.sqrt() / 2e-10 - 1.0).abs() < 0.25, "{est:?}");
+    }
+
+    #[test]
+    fn clock_aided_monitor_follows_a_drifting_clock_and_flags_a_step() {
+        let phase = synthetic_clock(600, 3e-9, 2e-10, 1e-11, 11);
+        let noise = hadamard_noise_fit(&phase[..60], 1.0).unwrap();
+        let mut m = ClockAidedMonitor::new(noise, 5.0);
+        for (i, &x) in phase[..60].iter().enumerate() {
+            m.calibrate(i as f64, x);
+        }
+        let mut alarms = 0;
+        for (i, &x) in phase.iter().enumerate().skip(60) {
+            let st = m.step(i as f64, x, false);
+            alarms += st.alarm as usize;
+        }
+        assert!(
+            alarms <= 2,
+            "a drifting clock is not a spoof: {alarms} alarms"
+        );
+        // A 1 microsecond step is flagged at once.
+        let st = m.step(600.0, phase[599] + 1e-6, false);
+        assert!(st.alarm);
+    }
+
+    #[test]
+    fn an_alarm_does_not_latch_the_monitor() {
+        let phase = synthetic_clock(300, 3e-9, 2e-10, 0.0, 3);
+        let noise = ClockNoiseEstimate {
+            r: 9e-18,
+            q_wf: 4e-20,
+            q_rw: 1e-22,
+            q_drift: 0.0,
+        };
+        let mut m = ClockAidedMonitor::new(noise, 5.0);
+        for (i, &x) in phase[..60].iter().enumerate() {
+            m.calibrate(i as f64, x);
+        }
+        // One outlier epoch alarms and is not used ...
+        assert!(m.step(60.0, phase[60] + 1e-6, false).alarm);
+        // ... and the following clean epochs pass: the prediction did not freeze.
+        let later: usize = (61..120)
+            .map(|i| m.step(i as f64, phase[i], false).alarm as usize)
+            .sum();
+        assert_eq!(later, 0);
+    }
+
+    #[test]
+    fn class_floor_only_raises_the_psds() {
+        let low = ClockNoiseEstimate {
+            r: 1e-18,
+            q_wf: 0.0,
+            q_rw: 0.0,
+            q_drift: 0.0,
+        };
+        let f = low.with_class_floor(crate::clock_state::ClockClass::Tcxo);
+        let (wf, rw, dr) = crate::clock_state::ClockClass::Tcxo.psds();
+        assert_eq!((f.r, f.q_wf, f.q_rw, f.q_drift), (1e-18, wf, rw, dr));
+        let high = ClockNoiseEstimate { q_wf: 1.0, ..low };
+        assert_eq!(
+            high.with_class_floor(crate::clock_state::ClockClass::Tcxo)
+                .q_wf,
+            1.0
         );
     }
 }
