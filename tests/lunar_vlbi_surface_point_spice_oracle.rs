@@ -100,6 +100,27 @@
 //! fixed on both sides, the stations and beacon site are illustrative, and the bound is a
 //! Cramér-Rao bound for the beacon alone. Both sides read DE440, so agreement validates the
 //! engine's geometry and linear algebra on DE440, not DE440 itself.
+//!
+//! ## Result (run after the pre-registration commit 4a51256 was published)
+//!
+//! **Both legs AGREE.** SPICE leg: the 16 observations identical; rank 3 and defect 0 on both
+//! sides; eigenvalues within 5.9e-5 (6.1799e-3, 145.526 and 805.724 per square metre);
+//! condition 130378 against 130386 (5.9e-5); beacon sigmas 12.6929, 0.081211 and 0.84104 m
+//! against 12.6932, 0.081351 and 0.84159 m, the worst 1.7e-3 (the y sigma, bar 1e-2); RMS
+//! 7.34445 against 7.34467 m (2.9e-5); lever arm 32.1974 (1.4e-8); computed over equipartition
+//! 175.718 against 175.724 (2.9e-5). P2 leg: eigenvalues within 7.1e-16 of the largest, sigmas
+//! within 3.9e-14. The Earth orientation kernel was the 2026-10-02 copy (SHA-256 54cdfdd1...);
+//! the oracle toolchain was rebuilt on Python 3.12 with NumPy 2.3.5 and SciPy 1.18.1, the
+//! versions the M069 generator pins, before this run.
+//!
+//! Mutation: transposing the body-frame rotation of the beacon partial in
+//! `lunar_vlbi_fim::jacobian_row` fails the committed-Jacobian guard and, with that guard
+//! removed for the experiment, the SPICE leg (y sigma 1.868 m against 0.0814 m, condition 1.42e4
+//! against 1.30e5) and the P2 leg; reverted.
+//!
+//! Information only, not a pre-registered comparison: the same scenario on the analytic Moon
+//! gives a y sigma of 0.078174 m, 3.9 % below this oracle, which is why the analytic row stays
+//! MODELLED.
 
 use kshana::lunar_vlbi_fim::{schedule_jacobian, Datum, LunarVlbiFimScenario, StateLayout};
 
@@ -191,7 +212,8 @@ fn zzz_emit_inputs() {
         "engine_observations": obs,
         "engine_jacobian": jac,
         "weights": vec![1.0 / (sigma * sigma); obs.len()],
-        "engine_kernel": scn.planetary_kernel_path,
+        "engine_kernel": "tests/fixtures/lunar_vlbi_anise_oracle/kernels/de440s_2024-01-01.bsp",
+        "engine_kernel_sha256": scn.kernel().unwrap().unwrap().kernel_sha256(),
     });
     std::fs::create_dir_all(DIR).unwrap();
     std::fs::write(
@@ -203,7 +225,6 @@ fn zzz_emit_inputs() {
 
 /// The strict, pre-registered comparison: the binding SPICE leg and the P2 leg.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy() {
     let inputs = fixture("inputs.json");
     let reference = fixture("reference.json");
