@@ -1,0 +1,10 @@
+# Degree-2 numbers of the two lunar gravity fields of Bertone et al. 2021 (Earth and Space Science,
+# doi:10.1029/2020EA001454), the reference [8] Ashby and Patla 2024 cite for Phi_m. Copied from
+# the ICGEM files (headers and the "gfc 2 0" line); see NOTICE.md for URLs, retrieval date, SHA-256.
+# key | value | unit | where
+AIUB-GRL350A.gravity_constant | 4.9027999671e12 | m^3 s^-2 | header gravity_constant 0.49027999671D+13
+AIUB-GRL350A.radius_m | 1738000 | m | header radius 0.1738000D+07
+AIUB-GRL350A.C20bar | -0.908833998020e-4 | 1 | gfc 2 0, fully normalised, permanent tide not included
+AIUB-GRL350B.gravity_constant | 4.9027999671e12 | m^3 s^-2 | header gravity_constant 0.49027999671D+13
+AIUB-GRL350B.radius_m | 1738000 | m | header radius 0.1738000D+07
+AIUB-GRL350B.C20bar | -0.908835799357e-4 | 1 | gfc 2 0, fully normalised, permanent tide not included

@@ -20,6 +20,7 @@
 //! | PM-x (arcsec)| 19–27   | `[18..27]`      |
 //! | PM-y (arcsec)| 38–46   | `[37..46]`      |
 //! | UT1−UTC (s)  | 59–68   | `[58..68]`      |
+//! | LOD (ms)     | 80–86   | `[79..86]`      |
 
 use crate::timescales::{tai_minus_utc, MJD_OFFSET, SECONDS_PER_DAY, TT_MINUS_TAI};
 
@@ -37,10 +38,13 @@ pub struct EopRecord {
     pub xp_arcsec: f64,
     /// Polar-motion pole y, arc seconds.
     pub yp_arcsec: f64,
+    /// Excess length of day (Bulletin A LOD), milliseconds; `0.0` when the field is blank
+    /// (the IERS leaves it blank on most prediction rows).
+    pub lod_ms: f64,
 }
 
 /// Parse one `finals2000A` data line into an [`EopRecord`], or `None` if the line is
-/// too short or the Bulletin A final fields are blank (a prediction-only / future row).
+/// too short or the Bulletin A fields are blank (a future row the product has not filled).
 pub fn parse_line(line: &str) -> Option<EopRecord> {
     if line.len() < 68 {
         return None;
@@ -49,11 +53,16 @@ pub fn parse_line(line: &str) -> Option<EopRecord> {
     let xp = line.get(18..27)?.trim().parse::<f64>().ok()?;
     let yp = line.get(37..46)?.trim().parse::<f64>().ok()?;
     let ut1 = line.get(58..68)?.trim().parse::<f64>().ok()?;
+    let lod_ms = line
+        .get(79..86)
+        .and_then(|f| f.trim().parse::<f64>().ok())
+        .unwrap_or(0.0);
     Some(EopRecord {
         mjd,
         ut1_utc_s: ut1,
         xp_arcsec: xp,
         yp_arcsec: yp,
+        lod_ms,
     })
 }
 
@@ -65,27 +74,26 @@ pub fn parse_all(body: &str) -> Vec<EopRecord> {
 /// Column slice for the Bulletin B (final EOP 14 C04) UT1−UTC, seconds
 /// (`finals2000A` columns 155–165, 0-indexed `[154..165]`). Verified against the same
 /// real rows as the Bulletin A map above (e.g. MJD 59580: A −0.1104988, B −0.1105197).
-/// This block is filled on **final** rows and **blank on prediction-only (future) rows**,
-/// which is exactly what distinguishes the two record kinds.
+/// This block is filled on **final** rows and blank on rapid (flag `I`) and predicted (flag
+/// `P`) rows; the vintage itself is read from the flags, see [`row_vintage`].
 const BULLETIN_B_UT1_COLS: std::ops::Range<usize> = 154..165;
 
 /// Parse the Bulletin B (final) UT1−UTC of a `finals2000A` row, or `None` when that
-/// trailing block is blank — i.e. the row is a Bulletin A prediction-only (future) row.
+/// trailing block is blank — a rapid or predicted row (see [`row_vintage`]).
 pub fn parse_bulletin_b_ut1(line: &str) -> Option<f64> {
     line.get(BULLETIN_B_UT1_COLS)?.trim().parse::<f64>().ok()
 }
 
 /// Column slices for the Bulletin B (final EOP 14 C04) polar-motion pole, arc seconds
 /// (`finals2000A` PM-x columns 135–144 → 0-indexed `[134..144]`, PM-y columns 145–154 →
-/// `[144..154]`, per the IERS `readme.finals2000A`). Filled on **final** rows and **blank
-/// on prediction-only (future) rows**, exactly like the Bulletin B UT1 block above (e.g.
+/// `[144..154]`, per the IERS `readme.finals2000A`). Filled on **final** rows and blank
+/// on rapid and predicted rows, exactly like the Bulletin B UT1 block above (e.g.
 /// MJD 59580: Bulletin B x_p 0.054574″, y_p 0.276983″).
 const BULLETIN_B_PMX_COLS: std::ops::Range<usize> = 134..144;
 const BULLETIN_B_PMY_COLS: std::ops::Range<usize> = 144..154;
 
 /// Parse the Bulletin B (final) polar-motion pole `(x_p, y_p)` of a `finals2000A` row (arc
-/// seconds), or `None` when either trailing block is blank — i.e. the row is a Bulletin A
-/// prediction-only (future) row. The same vintage distinction as [`parse_bulletin_b_ut1`],
+/// seconds), or `None` when either trailing block is blank — a rapid or predicted row. The same vintage distinction as [`parse_bulletin_b_ut1`],
 /// applied to the pole rather than the rotation phase.
 pub fn parse_bulletin_b_pm(line: &str) -> Option<(f64, f64)> {
     let xp = line.get(BULLETIN_B_PMX_COLS)?.trim().parse::<f64>().ok()?;
@@ -93,26 +101,69 @@ pub fn parse_bulletin_b_pm(line: &str) -> Option<(f64, f64)> {
     Some((xp, yp))
 }
 
-/// True when a row carries a Bulletin A value but **no** Bulletin B final value — a
-/// prediction-only (future) row (the `P`-flagged / blank-final section of Bulletin A).
-pub fn is_prediction_row(line: &str) -> bool {
-    parse_line(line).is_some() && parse_bulletin_b_ut1(line).is_none()
+/// The IERS vintage of one `finals2000A` row.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum EopVintage {
+    /// IERS-measured (flag `I`) with the Bulletin B block published: a final value.
+    Final,
+    /// IERS-measured (flag `I`) with the Bulletin B block still blank: a rapid measured value
+    /// not yet superseded by the final series.
+    Rapid,
+    /// Flag `P` on polar motion (column 17) or on UT1−UTC (column 58): a Bulletin A prediction.
+    Predicted,
 }
 
-/// Parse a Bulletin A **prediction-only** row (future date, blank Bulletin B final
-/// section) into an [`EopRecord`] holding the *predicted* UT1 / polar-motion. Returns
-/// `None` for a final row (those carry a Bulletin B value, and are served unchanged by
-/// [`parse_line`]) and for unreadable rows. This is the prediction-record path that lets
-/// a real-time consumer read the future rows the file also publishes, without disturbing
-/// the existing final-row parsing.
-pub fn parse_predicted(line: &str) -> Option<EopRecord> {
-    if parse_bulletin_b_ut1(line).is_some() {
-        return None; // final row — handled by parse_line
+/// Column 17 (1-indexed) of a `finals2000A` row: the IERS (`I`) / prediction (`P`) flag of the
+/// Bulletin A polar motion.
+const PM_FLAG_COL: usize = 16;
+/// Column 58 (1-indexed): the IERS (`I`) / prediction (`P`) flag of the Bulletin A UT1−UTC.
+const UT1_FLAG_COL: usize = 57;
+
+/// Classify a `finals2000A` row by the IERS flags (columns 17 and 58, per the IERS
+/// `readme.finals2000A`): `P` on either is [`EopVintage::Predicted`]; otherwise a row with a
+/// Bulletin B block is [`EopVintage::Final`] and one without is [`EopVintage::Rapid`]. `None`
+/// for a line [`parse_line`] cannot read (blank future rows, comments).
+pub fn row_vintage(line: &str) -> Option<EopVintage> {
+    parse_line(line)?;
+    let flag = |c: usize| line.as_bytes().get(c).copied();
+    if flag(PM_FLAG_COL) == Some(b'P') || flag(UT1_FLAG_COL) == Some(b'P') {
+        Some(EopVintage::Predicted)
+    } else if parse_bulletin_b_ut1(line).is_some() {
+        Some(EopVintage::Final)
+    } else {
+        Some(EopVintage::Rapid)
     }
-    parse_line(line)
 }
 
-/// Parse every Bulletin A **prediction-only** row from a `finals2000A` file body.
+/// True when a row is a Bulletin A prediction: the IERS `P` flag on polar motion (column 17)
+/// or UT1−UTC (column 58). Before release 0.30 this was "a Bulletin A value with a blank
+/// Bulletin B block", which also caught the rapid measured rows (flag `I`) not yet superseded
+/// by the final series; see [`row_vintage`].
+pub fn is_prediction_row(line: &str) -> bool {
+    row_vintage(line) == Some(EopVintage::Predicted)
+}
+
+/// Parse a Bulletin A **prediction** row (IERS flag `P`) into an [`EopRecord`] holding the
+/// predicted UT1 / polar motion. Returns `None` for a measured row (final or rapid, flag `I`)
+/// and for unreadable rows.
+pub fn parse_predicted(line: &str) -> Option<EopRecord> {
+    if is_prediction_row(line) {
+        parse_line(line)
+    } else {
+        None
+    }
+}
+
+/// Parse a **measured** row (IERS flag `I`: final or rapid) into an [`EopRecord`]; `None` for a
+/// prediction row and for unreadable rows.
+pub fn parse_measured(line: &str) -> Option<EopRecord> {
+    match row_vintage(line)? {
+        EopVintage::Predicted => None,
+        EopVintage::Final | EopVintage::Rapid => parse_line(line),
+    }
+}
+
+/// Parse every Bulletin A **prediction** row (flag `P`) from a `finals2000A` file body.
 pub fn parse_all_predicted(body: &str) -> Vec<EopRecord> {
     body.lines().filter_map(parse_predicted).collect()
 }
@@ -179,16 +230,44 @@ impl EopSeries {
         }
     }
 
-    /// The CIO-frame rotation inputs `(jd_ut1, x_p [rad], y_p [rad])` for a TT Julian
-    /// Date: convert TT→TAI→UTC (leap seconds), interpolate the EOP at that UTC, and
-    /// form UT1 = UTC + (UT1−UTC).
-    pub fn frame_args_tt(&self, jd_tt: f64) -> (f64, f64, f64) {
+    /// Linearly interpolate the excess length of day (milliseconds) at a UTC MJD, clamping
+    /// to the endpoints outside the tabulated span; `0.0` for an empty series.
+    pub fn interp_lod_ms_utc_mjd(&self, mjd_utc: f64) -> f64 {
+        let r = &self.records;
+        match (r.first(), r.last()) {
+            (Some(first), _) if mjd_utc <= first.mjd => first.lod_ms,
+            (_, Some(last)) if mjd_utc >= last.mjd => last.lod_ms,
+            (Some(_), Some(_)) => {
+                let i = r.partition_point(|e| e.mjd <= mjd_utc);
+                let (lo, hi) = (&r[i - 1], &r[i]);
+                let f = (mjd_utc - lo.mjd) / (hi.mjd - lo.mjd);
+                lo.lod_ms + f * (hi.lod_ms - lo.lod_ms)
+            }
+            _ => 0.0,
+        }
+    }
+
+    /// The excess length of day (milliseconds) at a TT Julian Date (TT converted to UTC as
+    /// in [`frame_args_tt`](Self::frame_args_tt)).
+    pub fn lod_ms_tt(&self, jd_tt: f64) -> f64 {
+        self.interp_lod_ms_utc_mjd(Self::jd_tt_to_jd_utc(jd_tt) - MJD_OFFSET)
+    }
+
+    /// TT Julian Date to UTC Julian Date through TAI and the leap-second table.
+    fn jd_tt_to_jd_utc(jd_tt: f64) -> f64 {
         let jd_tai = jd_tt - TT_MINUS_TAI / SECONDS_PER_DAY;
         // Leap seconds are piecewise-constant; one refinement step lands the argument
         // squarely inside the correct UTC day (TAI leads UTC by ~37 s).
         let leap0 = tai_minus_utc(jd_tai);
         let leap = tai_minus_utc(jd_tai - leap0 / SECONDS_PER_DAY);
-        let jd_utc = jd_tai - leap / SECONDS_PER_DAY;
+        jd_tai - leap / SECONDS_PER_DAY
+    }
+
+    /// The CIO-frame rotation inputs `(jd_ut1, x_p [rad], y_p [rad])` for a TT Julian
+    /// Date: convert TT→TAI→UTC (leap seconds), interpolate the EOP at that UTC, and
+    /// form UT1 = UTC + (UT1−UTC).
+    pub fn frame_args_tt(&self, jd_tt: f64) -> (f64, f64, f64) {
+        let jd_utc = Self::jd_tt_to_jd_utc(jd_tt);
         let mjd_utc = jd_utc - MJD_OFFSET;
         let (dut1, xp_as, yp_as) = self.interp_utc_mjd(mjd_utc);
         let jd_ut1 = jd_utc + dut1 / SECONDS_PER_DAY;
@@ -255,6 +334,7 @@ mod tests {
         assert_eq!(r.xp_arcsec, 0.054644);
         assert_eq!(r.yp_arcsec, 0.276986);
         assert_eq!(r.ut1_utc_s, -0.1104988);
+        assert_eq!(r.lod_ms, -0.0267);
     }
 
     #[test]
@@ -263,7 +343,7 @@ mod tests {
         assert!(parse_line("too short").is_none());
     }
 
-    // A Bulletin A prediction-only row: same fixed layout as the real rows above with
+    // A Bulletin A prediction row: same fixed layout as the real rows above with
     // the `P` flags and a BLANK Bulletin B final section (columns [134..]). The Bulletin
     // A predicted fields sit in the identical columns parse_line reads, so this is a
     // pure column-layout check of the prediction path — not a data-accuracy claim.
@@ -299,7 +379,7 @@ mod tests {
 
     #[test]
     fn prediction_row_has_no_bulletin_b_polar_motion() {
-        // A prediction-only row's Bulletin B pole block is blank ⇒ None (same vintage
+        // A prediction row's Bulletin B pole block is blank ⇒ None (same vintage
         // distinction as the UT1 block).
         assert!(parse_bulletin_b_pm(PRED_ROW).is_none());
     }

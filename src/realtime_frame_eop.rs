@@ -35,14 +35,18 @@
 //! + realisation floor).
 //!
 //! ## The EOP input (G12)
-//! The bundled offline default **is** a real IERS `finals2000A` product: the verbatim
-//! 2026 extract (`tools/finals2000A_2026.txt`, MJD 61173–61204), embedded in the library
-//! so a bare run needs no file argument and no network. It publishes 20 Bulletin B final
-//! rows and **12 genuine Bulletin A prediction-only rows** (MJD 61193–61204), so a bare
-//! run reports `predicted_rows.n = 12` and a populated `table2_error_vs_horizon`. A
+//! The bundled offline default **is** a real IERS `finals2000A` product: a verbatim
+//! extract of the finals2000A.all of 2026-09-30 (`tools/finals2000A_20260930.txt`, MJD
+//! 61224–61397), embedded in the library so a bare run needs no file argument and no
+//! network. Its rows are classified by the IERS I/P flags (columns 17 and 58): 30 Bulletin B
+//! final rows, 54 rapid measured rows (flag I, no final yet) and **90 genuine Bulletin A
+//! prediction rows** (flag P, MJD 61308–61397, those of Bulletin A Vol. XXXIX No. 039), so a
+//! bare run reports `predicted_rows.n = 90` and a populated `table2_error_vs_horizon`. A
 //! caller can still point `eop_finals2000a` at any other real product; the emitted
 //! `eop_input` block names whichever input is in force and carries its row census
-//! (`rows = final_rows + prediction_rows`).
+//! (`rows = final_rows + rapid_rows + prediction_rows`). Release 0.30 replaced the earlier
+//! default (`tools/finals2000A_2026.txt`, MJD 61173–61204, still committed): its 12 rows
+//! without a Bulletin B block, once reported as predictions, carry flag I and are rapid.
 //!
 //! The earlier default, `tools/finals2000A_2022001.txt`, is a FINAL-ONLY five-row excerpt
 //! and is still committed and still drift-guarded. On that input `predicted_rows.n = 0` —
@@ -90,13 +94,16 @@ use serde::Deserialize;
 /// default the library embeds, not a test-only fixture. The drift guard below pins it
 /// byte-for-byte to the test-fixture copy so the two cannot diverge.
 ///
-/// G12: this file carries both vintages of row the format defines — 20 Bulletin B finals
-/// and 12 Bulletin A prediction-only rows — so the default run exercises the prediction
-/// path on real data instead of reporting an empty census.
-const FIXTURE: &str = include_str!("../tools/finals2000A_2026.txt");
+/// Release 0.30: this file carries all three vintages the IERS format defines, classified
+/// by the I/P flags (columns 17 and 58): 30 Bulletin B finals, 54 rapid measured rows not yet
+/// final, and 90 Bulletin A predictions (flag `P`, those of Bulletin A Vol. XXXIX No. 039),
+/// cut verbatim from the finals2000A.all of 2026-09-30. The earlier 2026 extract
+/// (`tools/finals2000A_2026.txt`) is kept: all 32 of its rows are measured (flag `I`); the 12
+/// it used to call predictions are rapid rows.
+const FIXTURE: &str = include_str!("../tools/finals2000A_20260930.txt");
 
 /// The name [`FIXTURE`] is reported under in `eop_source` and `eop_input.source`.
-const BUNDLED_EOP_SOURCE: &str = "bundled fixture finals2000A_2026";
+const BUNDLED_EOP_SOURCE: &str = "bundled fixture finals2000A_20260930";
 
 /// The honesty label carried on the result document.
 const LABEL: &str = "Real-time lunar frame / Earth-orientation prediction budget. \
@@ -149,10 +156,10 @@ pub struct RealtimeFrameEopScenario {
     /// Polar-motion y-pole prediction error (milliarcseconds) for the L21 budget. Measured
     /// from the real PM residual when omitted (see [`Self::delta_xp_mas`]).
     pub delta_yp_mas: Option<f64>,
-    /// Path to a real `finals2000A` EOP file. Absent ⇒ the bundled real IERS 2026 extract
-    /// (`tools/finals2000A_2026.txt`, 20 Bulletin B finals + 12 Bulletin A prediction-only
-    /// rows) is used, which is why a bare run reports `predicted_rows.n = 12` and a
-    /// populated per-horizon table. Supply a path to run against any other real product —
+    /// Path to a real `finals2000A` EOP file. Absent ⇒ the bundled real IERS extract
+    /// (`tools/finals2000A_20260930.txt`: 30 Bulletin B finals, 54 rapid measured rows and 90
+    /// Bulletin A predictions, classified by the IERS I/P flags) is used, which is why a bare
+    /// run reports `predicted_rows.n = 90` and a populated per-horizon table. Supply a path to run against any other real product —
     /// the repository also ships a 45-row final-only extract
     /// (`tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt`) and the five-row
     /// final-only excerpt that used to be the default
@@ -226,10 +233,11 @@ struct Computed {
     predicted_vs_final: Vec<HorizonError>,
     /// The archived later-vintage path, when one was supplied.
     later_source: Option<String>,
-    /// Row census of the EOP input: total parsed rows, and how many carry a Bulletin B
-    /// final block.
+    /// Row census of the EOP input by IERS vintage: total parsed rows, final rows (flag `I`
+    /// with a Bulletin B block) and rapid measured rows (flag `I`, no Bulletin B block).
     eop_rows: usize,
     eop_final_rows: usize,
+    eop_rapid_rows: usize,
     /// True when the EOP series came from the bundled offline fixture.
     eop_is_bundled_fixture: bool,
     predicted_rows: PredictedRowsSummary,
@@ -322,8 +330,17 @@ impl RealtimeFrameEopScenario {
         let predicted_rows = predicted_rows_summary(&body);
         // G12: a row census of whatever EOP product is actually in force, so the report
         // shows WHY `predicted_rows.n` is what it is instead of leaving a bare 0.
-        let eop_rows = crate::eop::parse_all(&body).len();
-        let eop_final_rows = eop_rows.saturating_sub(predicted_rows.n);
+        let vintages: Vec<crate::eop::EopVintage> =
+            body.lines().filter_map(crate::eop::row_vintage).collect();
+        let eop_rows = vintages.len();
+        let eop_final_rows = vintages
+            .iter()
+            .filter(|v| **v == crate::eop::EopVintage::Final)
+            .count();
+        let eop_rapid_rows = vintages
+            .iter()
+            .filter(|v| **v == crate::eop::EopVintage::Rapid)
+            .count();
 
         // G12: the TRUE predicted-vs-final vintage differencing, run only when an archived
         // later vintage of the same product is supplied. With one vintage there is nothing
@@ -422,6 +439,7 @@ impl RealtimeFrameEopScenario {
             later_source,
             eop_rows,
             eop_final_rows,
+            eop_rapid_rows,
             eop_is_bundled_fixture: self.eop_finals2000a.is_none(),
             predicted_rows,
             measured_pm_floor_mas,
@@ -623,30 +641,30 @@ impl RealtimeFrameEopScenario {
                 "kind": if c.eop_is_bundled_fixture { "bundled-offline-fixture" } else { "supplied-finals2000a-file" },
                 "rows": c.eop_rows,
                 "final_rows": c.eop_final_rows,
+                "rapid_rows": c.eop_rapid_rows,
                 "prediction_rows": c.predicted_rows.n,
                 "note": "The EOP input is always a real IERS finals2000A product used \
-                         verbatim. With no `eop_finals2000a` path the library's own embedded \
-                         copy of the 2026 extract (tools/finals2000A_2026.txt, MJD \
-                         61173-61204) is in force: 20 rows carry a Bulletin B final block and \
-                         12 are Bulletin A prediction-only rows (MJD 61193-61204), so a bare \
-                         run reports `prediction_rows` = 12 and the per-horizon table is \
-                         populated from real rows. `predicted_rows.n` is 0 only on an input \
-                         that publishes no prediction row at all — the five-row \
-                         finals2000A_2022001 excerpt that used to be the default, and the \
-                         45-row finals2000A_2022001_longspan extract, are both final-only and \
-                         both still committed; a zero there is the file's property, not a \
-                         parser failure. Switching the default moved ten cells of the released \
-                         p4_frame_eop.csv, enumerated old-to-new in \
-                         docs/revisions/G12-default-eop-cell-changes.md under programme rule \
-                         R4. `rows` = `final_rows` + `prediction_rows` for whichever input is \
-                         in force.",
+                         verbatim, its rows classified by the IERS I/P flags (columns 17 and \
+                         58): final = flag I with a Bulletin B block, rapid = flag I without \
+                         one, prediction = flag P. With no `eop_finals2000a` path the \
+                         library's own embedded extract (tools/finals2000A_20260930.txt, MJD \
+                         61224-61397, cut from the finals2000A.all of 2026-09-30) is in force: \
+                         30 final rows (MJD 61224-61253), 54 rapid rows (61254-61307) and 90 \
+                         Bulletin A predictions (61308-61397, those of Bulletin A Vol. XXXIX \
+                         No. 039). The earlier 2026 extract (tools/finals2000A_2026.txt, MJD \
+                         61173-61204) holds no prediction: the 12 rows it used to report as \
+                         predictions carry flag I and are rapid measured values. \
+                         `predicted_rows.n` is 0 on any input that publishes no P row, such \
+                         as the final-only finals2000A_2022001 excerpts; a zero there is the \
+                         file's property, not a parser failure. \
+                         `rows` = `final_rows` + `rapid_rows` + `prediction_rows`.",
             },
             "predicted_rows": {
                 "n": c.predicted_rows.n,
                 "first_mjd": c.predicted_rows.first_mjd,
                 "last_mjd": c.predicted_rows.last_mjd,
-                "note": "Real Bulletin A prediction-only rows (blank Bulletin B) the file \
-                         publishes, parsed by eop::parse_all_predicted. A genuine predicted-\
+                "note": "Real Bulletin A prediction rows (IERS flag P) the file publishes, \
+                         parsed by eop::parse_all_predicted. A genuine predicted-\
                          vs-final residual needs an archived earlier vintage of the SAME \
                          product; from a single instantaneous fetch these future dates have \
                          no eventual final yet, so the multi-day Table 2 growth uses the \
@@ -1136,6 +1154,12 @@ fn units_block() -> serde_json::Value {
     );
     put("eop_input.rows", "count", "measured", "");
     put("eop_input.final_rows", "count", "measured", "");
+    put(
+        "eop_input.rapid_rows",
+        "count",
+        "measured",
+        "rows of the EOP input with the IERS measured flag I and no Bulletin B final block yet",
+    );
     put("eop_input.prediction_rows", "count", "measured", "");
     put("predicted_rows.n", "count", "measured", "");
     put(
@@ -1700,8 +1724,14 @@ mod tests {
     fn bundled_eop_matches_the_test_fixture() {
         assert_eq!(
             FIXTURE,
+            include_str!("../tests/fixtures/agency/eop/finals2000A_20260930.txt"),
+            "tools/finals2000A_20260930.txt (the shipped runtime DEFAULT) has drifted from \
+             tests/fixtures/agency/eop/finals2000A_20260930.txt — re-copy it"
+        );
+        assert_eq!(
+            include_str!("../tools/finals2000A_2026.txt"),
             include_str!("../tests/fixtures/agency/eop/finals2000A_2026.txt"),
-            "tools/finals2000A_2026.txt (the shipped runtime DEFAULT) has drifted from \
+            "tools/finals2000A_2026.txt has drifted from \
              tests/fixtures/agency/eop/finals2000A_2026.txt — re-copy it"
         );
         assert_eq!(
@@ -2060,28 +2090,35 @@ mod tests {
         assert_eq!(bundled["eop_input"]["kind"], "bundled-offline-fixture");
         assert_eq!(bundled["eop_source"], BUNDLED_EOP_SOURCE);
 
-        // Independent census over the same bytes, not a restatement of the report.
+        // Independent census over the same bytes, not a restatement of the report. The
+        // independent oracle for these counts (astropy) is
+        // tests/embedded_eop_vintage_astropy_preregistered.rs.
         let rows = crate::eop::parse_all(FIXTURE).len();
         let preds = crate::eop::parse_all_predicted(FIXTURE);
         assert_eq!(
-            rows, 32,
-            "the bundled 2026 extract carries 32 readable rows"
+            rows, 174,
+            "the bundled 2026-09-30 extract carries 174 readable rows"
         );
-        assert_eq!(preds.len(), 12, "12 of them are prediction-only");
+        assert_eq!(
+            preds.len(),
+            90,
+            "90 of them are Bulletin A predictions (flag P)"
+        );
         assert_eq!(bundled["eop_input"]["rows"], rows);
         assert_eq!(bundled["eop_input"]["prediction_rows"], preds.len());
-        assert_eq!(bundled["eop_input"]["final_rows"], rows - preds.len());
+        assert_eq!(bundled["eop_input"]["final_rows"], 30);
+        assert_eq!(bundled["eop_input"]["rapid_rows"], 54);
 
         // THE ACCEPTANCE CRITERION: a default run, no inputs at all.
-        assert_eq!(bundled["predicted_rows"]["n"], 12);
+        assert_eq!(bundled["predicted_rows"]["n"], 90);
         assert!(
             bundled["predicted_rows"]["n"].as_u64().unwrap() > 0,
             "a default run must publish prediction rows"
         );
-        assert_eq!(bundled["predicted_rows"]["first_mjd"], 61193.0);
-        assert_eq!(bundled["predicted_rows"]["last_mjd"], 61204.0);
-        assert_eq!(preds.first().unwrap().mjd, 61193.0);
-        assert_eq!(preds.last().unwrap().mjd, 61204.0);
+        assert_eq!(bundled["predicted_rows"]["first_mjd"], 61308.0);
+        assert_eq!(bundled["predicted_rows"]["last_mjd"], 61397.0);
+        assert_eq!(preds.first().unwrap().mjd, 61308.0);
+        assert_eq!(preds.last().unwrap().mjd, 61397.0);
         let t2 = bundled["table2_error_vs_horizon"].as_array().unwrap();
         assert_eq!(
             t2.len(),
@@ -2114,7 +2151,9 @@ mod tests {
             let e = &v["eop_input"];
             assert_eq!(
                 e["rows"].as_u64().unwrap(),
-                e["final_rows"].as_u64().unwrap() + e["prediction_rows"].as_u64().unwrap(),
+                e["final_rows"].as_u64().unwrap()
+                    + e["rapid_rows"].as_u64().unwrap()
+                    + e["prediction_rows"].as_u64().unwrap(),
                 "row census must decompose"
             );
             assert!(e["note"].as_str().unwrap().contains("eop_finals2000a"));
@@ -2122,7 +2161,7 @@ mod tests {
         // The prose must not still explain the default as a final-only excerpt.
         let note = bundled["eop_input"]["note"].as_str().unwrap();
         assert!(
-            note.contains("finals2000A_2026"),
+            note.contains("finals2000A_20260930"),
             "the census note must name the input actually in force: {note}"
         );
         assert!(
@@ -2182,10 +2221,9 @@ mod tests {
                 as_issued.push_str(line);
                 kept += 1;
             } else {
-                // Blank the Bulletin B tail: a real prediction-only row carrying the row's
-                // genuine Bulletin A UT1.
-                let head: String = line.chars().take(134).collect();
-                as_issued.push_str(head.trim_end());
+                // Blank the Bulletin B tail and set the IERS P flags (columns 17 and 58): a
+                // prediction row carrying the row's genuine Bulletin A UT1.
+                as_issued.push_str(&as_prediction_row(line));
             }
             as_issued.push('\n');
         }
@@ -2254,8 +2292,22 @@ mod tests {
     /// The real 45-row extract: the longest verbatim series committed here, and the only
     /// input whose row count makes a per-horizon statistic worth reading.
     const LONGSPAN_PATH: &str = "tests/fixtures/agency/eop/finals2000A_2022001_longspan.txt";
-    /// The real 2026 extract: 20 final rows plus 12 genuine Bulletin A prediction rows.
+    /// The older real 2026 extract: 20 final rows plus 12 rapid measured rows (flag I, no
+    /// Bulletin B block yet). It publishes no prediction.
     const REAL_2026_PATH: &str = "tests/fixtures/agency/eop/finals2000A_2026.txt";
+    /// The real extract of the 2026-09-30 product (the offline default): 30 final, 54 rapid
+    /// and 90 Bulletin A prediction rows (flag P).
+    const REAL_20260930_PATH: &str = "tests/fixtures/agency/eop/finals2000A_20260930.txt";
+
+    /// A real row re-emitted as a prediction row the way the IERS format marks one: the
+    /// Bulletin B block (columns 135 on) removed and the flags of polar motion (column 17)
+    /// and UT1-UTC (column 58) set to `P`. Every value is the row's own.
+    fn as_prediction_row(line: &str) -> String {
+        let mut head: Vec<char> = line.chars().take(134).collect();
+        head[16] = 'P';
+        head[57] = 'P';
+        head.into_iter().collect::<String>().trim_end().to_string()
+    }
 
     /// Run a scenario and parse its report.
     fn run(scn: RealtimeFrameEopScenario) -> Value {
@@ -2272,8 +2324,7 @@ mod tests {
         })
     }
 
-    /// The report over the real 2026 extract — the only shipped input that publishes
-    /// genuine Bulletin A prediction rows, so the only one whose agreement block fills.
+    /// The report over the real 2026 extract, whose rows are all measured (no prediction).
     fn real_2026_report() -> Value {
         run(RealtimeFrameEopScenario {
             eop_finals2000a: Some(REAL_2026_PATH.to_string()),
@@ -2281,8 +2332,18 @@ mod tests {
         })
     }
 
+    /// The report over the real 2026-09-30 extract, supplied as a path — the shipped input
+    /// that publishes genuine Bulletin A prediction rows, so the one whose agreement block
+    /// fills.
+    fn real_20260930_report() -> Value {
+        run(RealtimeFrameEopScenario {
+            eop_finals2000a: Some(REAL_20260930_PATH.to_string()),
+            ..Default::default()
+        })
+    }
+
     /// An as-issued vintage built by truncating the Bulletin B tail of the real 45-row
-    /// series after its first `kept` rows, so the later rows read as prediction-only.
+    /// series after its first `kept` rows and setting their P flags, so they read as predictions.
     /// Every value is a real IERS value; only the trailing final block is removed. See
     /// [`tests::table6_populates_from_a_two_vintage_pair_and_scores_all_three_predictors`]
     /// for why this is a reachability construction and not an archived vintage.
@@ -2296,8 +2357,7 @@ mod tests {
                 out.push_str(line);
                 n += 1;
             } else {
-                let head: String = line.chars().take(134).collect();
-                out.push_str(head.trim_end());
+                out.push_str(&as_prediction_row(line));
             }
             out.push('\n');
         }
@@ -2346,6 +2406,7 @@ mod tests {
             run(RealtimeFrameEopScenario::default()),
             longspan_report(),
             real_2026_report(),
+            real_20260930_report(),
             two_vintage_report(25, "units"),
         ]
     }
@@ -2744,19 +2805,22 @@ mod tests {
         );
     }
 
-    // ORACLE: the real published Bulletin A prediction rows of the 2026 extract, through
-    // the scenario. The agreement block must reach the report and carry one row per
-    // published prediction.
+    // ORACLE: the real published Bulletin A prediction rows (flag P) of the 2026-09-30
+    // extract, through the scenario. The agreement block must reach the report and carry one
+    // row per published prediction; on the older 2026 extract, which publishes none, it must
+    // say so.
     #[test]
     fn the_report_carries_the_agreement_with_the_published_bulletin_a_predictions() {
-        let v = run(RealtimeFrameEopScenario {
-            eop_finals2000a: Some(REAL_2026_PATH.to_string()),
-            ..Default::default()
-        });
+        let v = real_20260930_report();
         let a = &v["operational_predictor_model"]["published_bulletin_a_agreement"];
         assert_eq!(a["status"], "measured");
-        assert_eq!(a["n"], 12);
-        assert_eq!(a["leads"].as_array().unwrap().len(), 12);
+        assert_eq!(a["n"], 90);
+        assert_eq!(a["leads"].as_array().unwrap().len(), 90);
+        assert_eq!(
+            real_2026_report()["operational_predictor_model"]["published_bulletin_a_agreement"]
+                ["status"],
+            "no-published-prediction-rows"
+        );
         assert!(a["statement"]
             .as_str()
             .unwrap()
