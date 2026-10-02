@@ -34,10 +34,12 @@
 
 pub mod clk;
 pub mod gnsslogger;
+pub mod ion_sdr;
 pub mod iqif;
 pub mod jammertest;
 pub mod llr_crd;
 pub mod lola_dem;
+pub mod lugre;
 pub mod raim;
 pub mod rinex;
 pub mod satgrid;

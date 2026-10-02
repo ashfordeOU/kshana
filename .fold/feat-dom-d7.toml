@@ -1,0 +1,69 @@
+# Fold manifest for package D7 (real lunar IQ: acquisition and C/N0 on LuGRE, and Earth GNSS
+# reception at lunar distance). Read by the integrator; no tool consumes it automatically.
+package = "D7"
+branch = "feat/dom-d7"
+depends_on = []   # the acquisition leg depends on nothing; the positioning leg (out of scope here) needs D4
+
+# Paths this package owns or adds.
+owned = [
+  "src/acquisition.rs",
+  "src/portable_math.rs",          # FFT additions only (FftPlan and its tests)
+  "src/realdata/ion_sdr.rs",
+  "src/realdata/lugre.rs",
+  "src/earth_gnss_lunar.rs",        # relative-C/N0 additions only (yaw_steering_axes, transmit_angles, transmit_side_db)
+  "src/antenna.rs",                 # GainPattern2D only
+  "src/gps_lnav.rs",                # new module: IS-GPS-200 LNAV encoder (not in the roadmap's owns list; flagged in the report)
+  "tests/gps_l1ca_gpssdrsim_cross_generator.rs",
+  "tests/gps_lnav_rtklib_decode_oracle.rs",
+  "tests/gps_lnav_rtklib_integer_oracle.rs",
+  "tests/lugre_surface_acquisition_doppler_oracle.rs",
+  "tests/lugre_acquisition_gnss_sdr_oracle.rs",
+  "tests/lugre_acquisition_predicted_doppler_oracle.rs",
+  "tests/lugre_acquisition_cell_average_doppler_oracle.rs",
+  "tests/lugre_relative_cn0_visibility.rs",
+  "tests/fixtures/gps_l1ca_gpssdrsim_cross_generator/",
+  "tests/fixtures/gps_lnav_rtklib_decode/",
+  "tests/fixtures/gps_lnav_rtklib_integer/",
+  "tests/fixtures/lugre_surface_acquisition_doppler/",
+  "tests/fixtures/lugre_acquisition_gnss_sdr/",
+  "tests/fixtures/lugre_acquisition_predicted_doppler/",
+  "tests/fixtures/lugre_relative_cn0/",
+  "xval/gnss-sdr-lugre/",
+  "xval/lugre-predicted-doppler/",
+  "xval/lugre-relative-cn0/",
+  "xval/portable-fft-wasm/",
+  "docs/LUGRE-DATA.md",
+  "changelog.d/feat-dom-d7.md",
+  ".fold/feat-dom-d7.toml",
+  ".fold/feat-dom-d7-rows.md",
+]
+
+# One-line registrations made outside the owned files.
+registrations = [
+  "src/lib.rs: pub mod gps_lnav;",
+  "src/realdata/mod.rs: pub mod ion_sdr; pub mod lugre;",
+]
+
+# Proposed verification rows (full text in .fold/feat-dom-d7-rows.md). D7-a3 is proposed as
+# VALIDATED (one validated_oracle_basis() entry, basis Library, RTKLIB); the rest are FINDINGs.
+rows = [
+  { id = "D7-a",  requirement = "GPS L1 C/A cross-generator conformance", status = "MODELLED", outcome = "FINDING", prereg = "f88f2969" },
+  { id = "D7-a2", requirement = "GPS LNAV encoding decoded by an independent receiver library", status = "MODELLED", outcome = "FINDING", prereg = "ca5f0142" },
+  { id = "D7-a3", requirement = "GPS LNAV navigation-message encoding", status = "VALIDATED (proposed)", outcome = "PROMOTE", prereg = "d4d9eb9d" },
+  { id = "D7-b",  requirement = "Acquisition and C/N0 estimation on real lunar IQ", status = "MODELLED", outcome = "FINDING", prereg = "768cb62b" },
+  { id = "D7-b2", requirement = "Acquisition on real lunar IQ against orbit-predicted Doppler (sample-power decision)", status = "MODELLED", outcome = "FINDING", prereg = "0d1839d2" },
+  { id = "D7-b3", requirement = "Acquisition on real lunar IQ scored by orbit-predicted Doppler", status = "MODELLED", outcome = "FINDING", prereg = "a81a9a4e" },
+  { id = "D7-b4", requirement = "Acquisition on held-out real lunar IQ against orbit-predicted Doppler", status = "MODELLED", outcome = "FINDING", prereg = "2108e6ff" },
+  { id = "D7-c",  requirement = "Earth-GNSS at lunar distance (M039, row 91) relative C/N0 plus visibility", status = "MODELLED (unchanged)", outcome = "FINDING", prereg = "768cb62b" },
+]
+
+# Tests the integrator runs for this package.
+# The LuGRE tests are data-gated (KSHANA_LUGRE_DIR, default ~/Code/kshana-oracles/data/lugre/LuGRE)
+# and say SKIPPED when the data are absent; with data, the two acquisition pins take about 2 and 1
+# minutes in a debug build. The strict tests are ignored (findings) and take 30 to 120 minutes in
+# a release build.
+test_filter = [
+  "cargo test --lib -- portable_math acquisition gps_lnav realdata::ion_sdr realdata::lugre antenna::tests::two_dimensional earth_gnss_lunar",
+  "cargo test --test gps_l1ca_gpssdrsim_cross_generator --test gps_lnav_rtklib_decode_oracle --test gps_lnav_rtklib_integer_oracle --test lugre_relative_cn0_visibility",
+  "cargo test --test lugre_acquisition_gnss_sdr_oracle --test lugre_acquisition_predicted_doppler_oracle --test lugre_acquisition_cell_average_doppler_oracle --test lugre_surface_acquisition_doppler_oracle",
+]
