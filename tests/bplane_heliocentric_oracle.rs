@@ -41,7 +41,7 @@
 //! 5.20288700 au; 1 au = 149 597 870.7 km) as entry `k mod n` of those with
 //! `v∞ ≤ 0.27·v_c` (so both heliocentric arcs stay bound). The two heliocentric states are
 //! `(r_P, v_P + v∞·Ŝ)` (before) and `(r_P, v_P + v∞·Ŝ_out)` (after). The generator drops a
-//! state whose inclination, from its own vectors, is below 1e-2 rad or above π − 1e-2 rad
+//! state whose inclination, from its own vectors, is below 1e-2 rad or above π − 1e-2 rad (1e-3 rad after amendment 1)
 //! (the arccosine is ill-conditioned there); it prints the number dropped. Each state is
 //! written once with 17 significant digits (`helio_states.txt`), and both sides read the same
 //! decimal strings. `μ_☉ = 132 712 440 041.939 38 km³/s²` (DE440), set explicitly as
@@ -74,6 +74,18 @@
 //! inputs' half units (5e-4 au, 5e-4, 5e-4 deg) through the analytic partial derivatives of
 //! equation (8.3) written in this file (`rounding_bound`), evaluated at the printed values.
 //!
+//! ## Amendment 1 (2026-10-02, written after the first fixture generation; disclosed)
+//!
+//! The first generation (GMAT and sbpy run; no Kshana value computed and no comparison made)
+//! kept only 245 of the 384 heliocentric states: with the 1e-2 rad inclination filter most
+//! low-`v∞` encounters were dropped (`i ≈ v∞,z/v_c`), which breaks the pre-registered guard in
+//! the strict test (more than 344 states kept). The first two lines of each oracle file were
+//! seen while checking the run. Remedy: the input filter becomes 1e-3 rad (an input-only count
+//! then keeps 350 states; the smallest inclination in the whole set is 1.3e-4 rad). This keeps
+//! MORE states, including worse-conditioned ones: at 1e-3 rad the arccosine amplifies a
+//! 4e-16 rounding of `cos i` to about 4e-13 rad, still inside the unchanged 1e-12 rad bar. The
+//! guard, every tolerance, the oracles and all other inputs are unchanged.
+//!
 //! ## Discrimination checks, pre-registered
 //! - The verifier's mutant: the Tisserand coefficient 2 → 3 in `bplane::tisserand` must turn
 //!   parts B and C red.
@@ -91,7 +103,7 @@ const N_PLANETOCENTRIC: usize = 192;
 const TOL_REL: f64 = 1e-9;
 const TOL_INC_RAD: f64 = 1e-12;
 const TOL_T: f64 = 1e-9;
-const MIN_INC_RAD: f64 = 1e-2;
+const MIN_INC_RAD: f64 = 1e-3; // amendment 1 (was 1e-2)
 
 fn read(dir: &str, name: &str) -> String {
     let p = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
