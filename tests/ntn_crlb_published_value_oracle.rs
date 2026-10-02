@@ -281,3 +281,22 @@ fn ntn_fix_covariances_match_numpy() {
     }
     assert!(ok, "a formal sigma differs from numpy beyond the pre-registered tolerance");
 }
+
+// Part C (kind P1), pre-registered 2026-10-02 after Parts A and B had been run, before this
+// comparison was run: the band-limited BPSK closed form `ntn::gabor_bandwidth_bpsk_hz`, the
+// one spectrum family of the row's capability that Parts A and B do not reach. Betz, "Binary
+// Offset Carrier Modulations for Radionavigation", NAVIGATION 48(4), 2001, Table 1 (doi
+// 10.1002/j.2161-4296.2001.tb00247.x; founder-supplied reading copy, not vendored) prints the
+// RMS bandwidth, computed over a 24 MHz receive bandwidth with the band-limited spectrum
+// normalised to unit power (his equation 13, the definition the engine uses), as 1.1 MHz for
+// 1.023 MHz PSK-R (BPSK-R) and 3.5 MHz for 10.23 MHz PSK-R. Tolerance: half the printed last
+// digit, 0.05 MHz. Discrimination: computing the numerator over the full band instead of the
+// half band (`b_hz` in place of `b_hz / 2`) must turn it red.
+#[test]
+#[ignore = "pre-registered (Part C); not yet run"]
+fn bpsk_rms_bandwidth_reproduces_betz_table_1() {
+    let a = kshana::leo_fusion::ntn::gabor_bandwidth_bpsk_hz(1.023e6, 24e6) / 1e6;
+    let b = kshana::leo_fusion::ntn::gabor_bandwidth_bpsk_hz(10.23e6, 24e6) / 1e6;
+    eprintln!("BPSK-R(1) {a:.4} MHz (printed 1.1), BPSK-R(10) {b:.4} MHz (printed 3.5)");
+    assert!((a - 1.1).abs() <= 0.05 && (b - 3.5).abs() <= 0.05);
+}
