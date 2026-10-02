@@ -134,6 +134,7 @@ pub mod fusion;
 pub mod geolocation;
 pub mod glonass;
 pub mod gnss_sim;
+pub mod gps_lnav;
 pub mod gravimeter;
 pub mod gravity_sh;
 pub mod gse_sim;
