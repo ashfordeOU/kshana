@@ -222,8 +222,8 @@ fn close_rel(x: Option<f64>, y: Option<f64>, rel: f64) -> bool {
     }
 }
 
-/// Every pre-registered comparison of one configuration; returns the failures and a summary.
-
+/// Every pre-registered comparison of one configuration (T1 against Orekit's GCRF -> ITRF);
+/// returns the failures and a summary.
 fn compare(c: &Config, o: &Value) -> (Vec<String>, String) {
     let mut fails = Vec::new();
     let states = satellite_states_at(&c.systems, c.epoch, &c.times);
