@@ -9,7 +9,8 @@
 //! dilution-of-precision sweep over the design grid (planes × satellites ×
 //! inclination) and coverage-fraction / revisit-time figures of merit.
 
-use crate::frames::{geodetic_to_ecef, is_visible, teme_to_ecef, Geodetic};
+use crate::frames::{geodetic_to_ecef, is_visible, Geodetic};
+use crate::jd2::Jd2;
 use crate::orbit::{dop, Propagator};
 use crate::sgp4::{wgs72, Sgp4};
 use serde::{Deserialize, Serialize};
@@ -35,6 +36,11 @@ pub struct WalkerSgp4 {
 pub const WALKER_EPOCH_DAYS_1950: f64 = 25_000.0;
 pub fn walker_epoch_jd() -> f64 {
     2_433_281.5 + WALKER_EPOCH_DAYS_1950
+}
+
+/// The common Walker epoch as a two-part UTC Julian date.
+pub fn walker_epoch() -> Jd2 {
+    Jd2::from_parts(2_433_281.0, 0.5 + WALKER_EPOCH_DAYS_1950)
 }
 
 impl WalkerSgp4 {
@@ -89,17 +95,18 @@ impl WalkerSgp4 {
 /// The ECEF positions of the constellation satellites visible from `station`
 /// (above `mask_deg`) at `t_sec` after the common Walker epoch. The Walker
 /// satellites are propagated through SGP4 in the inertial TEME frame, then rotated
-/// to Earth-fixed with the sidereal time of the absolute instant, so the ground
-/// track moves correctly over the window.
+/// to the Earth-fixed ITRS by the IAU 2006/2000A chain of the absolute instant
+/// ([`crate::sgp4::teme_to_itrs_matrix`]), so the ground track moves correctly
+/// over the window.
 fn visible_ecef(
     sats: &[Propagator],
     station: Geodetic,
     t_sec: f64,
     mask_deg: f64,
 ) -> Vec<[f64; 3]> {
-    let jd = walker_epoch_jd() + t_sec / 86_400.0;
+    let m = crate::sgp4::teme_to_itrs_matrix(walker_epoch().add_seconds(t_sec));
     sats.iter()
-        .map(|p| teme_to_ecef(p.position_eci(t_sec), jd))
+        .map(|p| crate::precession::mat_vec(&m, p.position_eci(t_sec)))
         .filter(|&r| is_visible(station, r, mask_deg))
         .collect()
 }
