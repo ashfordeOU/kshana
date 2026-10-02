@@ -16,12 +16,12 @@ MODELLED rows were put to an external oracle in the first round and the remainin
 rows in the second; every disagreement is recorded below as a finding rather than tuned
 away. Three rows were split so that a validated part does not carry an unvalidated
 remainder, which takes the matrix from 223 to 226 rows; the validation packages folded since
-take it to 227. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
+take it to 228. The counts are read from the generated `docs/VERIFICATION-MATRIX.md`.
 
 | | 0.29.0 | after round 1 | Unreleased |
 | --- | --- | --- | --- |
-| Verification-matrix rows | 223 | 223 | 227 |
-| of which VALIDATED against an external oracle | 83 | 93 | 111 |
+| Verification-matrix rows | 223 | 223 | 228 |
+| of which VALIDATED against an external oracle | 83 | 93 | 112 |
 | of which MODELLED | 136 | 126 | 112 |
 | of which PARTNER | 4 | 4 | 4 |
 
@@ -363,7 +363,9 @@ its pinned test.
 
 ### Validation packages
 
-**D12, extended-precision oracle (one new VALIDATED row: 226 -> 227 rows, 110 -> 111 VALIDATED).**
+**D12, extended precision and a square-root solver (two new VALIDATED rows: 226 -> 228 rows, 110 -> 112 VALIDATED).**
+
+Part 1, extended-precision oracle:
 
 - Lunar frame datum with the stations estimated: a 50-digit mpmath extended-precision oracle
   (pre-registered 804662d5, condition-scaled bars from an a-priori backward-error formula) agrees
@@ -376,6 +378,27 @@ its pinned test.
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
   observing campaign" row stays MODELLED pending a decision on its promotion; its tests text
   now cites the new test and its finding.
+
+Part 2, square-root information datum solver:
+
+- New opt-in square-root information solver (`linalg_sr`; `solver = "srif"` in the
+  lunar-frame-campaign scenario): Householder QR, marginalisation through the triangular factor,
+  a Jacobi SVD for the spectrum, and compensated products from correctly rounded operations
+  only. Against the 50-digit oracle (pre-registered b41908c9) its datum sigmas agree to 3e-13 on
+  a new date (2026-06-09); on the 2026-03-18 and 2024-01-01 inputs the default solver is off by
+  up to 1e-5. New VALIDATED row under P2. The default solver and its output are unchanged. The
+  pre-registered bars certify errors only above about 2e-7 relative: they reject the default
+  solver but not a flipped Householder sign, an uncompensated dot product or a spectral final
+  inverse, and the row says so.
+- Lunar frame campaign rank decisions: a pre-registered extended-precision check over 40 days
+  confirms every decidable station-block and full-rank Helmert decision. The a-priori bound cannot
+  certify the 20 rank-deficient Helmert days; in exact arithmetic their defect is geometric, with
+  the 1e-9 threshold inside the campaign's natural range of eigenvalue ratios. No row.
+- The extended-precision campaign row's claim is narrowed to "within the worst-case bound", and
+  its stations-fixed weakest-direction check now measures a real angle (6.6e-16 rad; the
+  comparator changed from acos to a chord, the bar did not).
+- Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
+  observing campaign" row is unchanged and still awaits a decision on its promotion.
 
 ### Fixed
 
