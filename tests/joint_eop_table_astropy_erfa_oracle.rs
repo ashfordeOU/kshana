@@ -73,6 +73,16 @@
 //! this branch, before that engine fix merges, the census still counts flag-I rows without
 //! a Bulletin B block as predictions (the M035 round-1 finding).
 
+//! FIRST RUN (2026-10-02, generator commit after 455b8fb5): Tables 4 and 6 agree exactly on
+//! all twelve cases; every Table 3 horizon, epoch list, fallback count and UT1 and pole
+//! statistic agrees (worst relative difference 1e-16). 19 of the 36 combined-at-the-Moon
+//! statistics miss the 1e-5 bar (relative 1.0e-5 to 1.3e-2, both signs, largest at the
+//! floor row's median). Diagnosed as an oracle defect: the generator passed the UT1 date to
+//! ERFA as (2400000.5, MJD + dUT1/86400), where one unit in the last place of the second
+//! part is about 0.6 microseconds of time, against UT1 residuals of 1-50 microseconds at
+//! the floor row. A per-epoch diagnostic (closed form against the ERFA angle, rel -0.14 to
+//! +0.12 at the floor) was run before the amendment below was written.
+
 use kshana::realtime_frame_eop::RealtimeFrameEopScenario;
 use serde_json::{json, Value};
 
@@ -312,7 +322,7 @@ fn compare_predicted_vs_final(o: &Value) -> Vec<String> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "first run 2026-10-02: Tables 4 and 6 and every Table 3 epoch set and UT1/pole statistic agree; 19 Table 3 combined statistics miss 1e-5 (rel 1e-5 to 1.3e-2) - oracle date-precision defect, see amendment A1"]
 fn joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa() {
     let o = oracle();
     assert_eq!(o["d_em_m"], json!(kshana::frame_eop::D_EM_M));
