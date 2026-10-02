@@ -325,7 +325,10 @@ impl<'a> PassGeometry<'a> {
     /// Apparent look angles at the reception instant `t_s` seconds after the window start.
     fn look(&self, t_s: f64) -> Result<ApparentLook, String> {
         let t = self.start.add_seconds(t_s);
-        let era = crate::jd2::earth_rotation_angle(t.add_seconds(self.opts.eop.ut1_minus_utc_s));
+        let era = crate::jd2::earth_rotation_angle(crate::jd2::utc_to_ut1(
+            t,
+            self.opts.eop.ut1_minus_utc_s,
+        ));
         let to_itrs = matmul(&self.polar_motion, &rz(era));
         let mut tau = 0.0;
         let mut sat = mat_vec(&to_itrs, self.sat_cirs(t)?);
