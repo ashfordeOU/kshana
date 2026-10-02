@@ -121,6 +121,8 @@ fn check(
     let rel = (got - want).abs() / want.abs();
     let w = worst.entry(format!("{tier}/{what}")).or_insert(0.0);
     *w = w.max(rel);
+    let share = worst.entry("largest share of allowance".to_string()).or_insert(0.0);
+    *share = share.max(rel / allowed);
     if !(rel <= allowed) {
         failures.push(format!(
             "case {idx} (tier {tier}) {what}: engine {got:.17e} vs numpy {want:.17e}, \
@@ -130,7 +132,6 @@ fn check(
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn undetectable_common_mode_ceiling_matches_numpy_lapack() {
     let reference = load_reference();
     let cases = reference["cases"].as_array().expect("cases");

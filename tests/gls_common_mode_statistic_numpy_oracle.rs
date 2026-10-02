@@ -87,7 +87,6 @@ fn allowed_relative(tier: &str, n: usize, cond: f64, cos_w: f64) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn common_mode_statistic_matches_numpy_lapack() {
     let reference = load_reference();
     let cases = reference["cases"].as_array().expect("cases");
@@ -98,6 +97,7 @@ fn common_mode_statistic_matches_numpy_lapack() {
     );
 
     let mut worst = std::collections::BTreeMap::<String, f64>::new();
+    let mut worst_share_of_allowance = 0.0_f64;
     let mut failures = Vec::new();
     for (idx, case) in cases.iter().enumerate() {
         let tier = case["tier"].as_str().expect("tier");
@@ -116,6 +116,7 @@ fn common_mode_statistic_matches_numpy_lapack() {
         let allowed = allowed_relative(tier, n, cond, cos_w);
         let w = worst.entry(tier.to_string()).or_insert(0.0);
         *w = w.max(rel);
+        worst_share_of_allowance = worst_share_of_allowance.max(rel / allowed);
         if !(rel <= allowed) {
             failures.push(format!(
                 "case {idx} (tier {tier}, N={n}, cond {cond:.3e}, cos_w {cos_w:.3}): engine \
@@ -142,7 +143,8 @@ fn common_mode_statistic_matches_numpy_lapack() {
         }
     }
     eprintln!(
-        "common-mode statistic vs numpy: {} cases, worst relative error per tier {worst:?}",
+        "common-mode statistic vs numpy: {} cases, worst relative error per tier {worst:?}, \
+         largest share of a case's allowance {worst_share_of_allowance:.3e}",
         cases.len()
     );
     assert!(
