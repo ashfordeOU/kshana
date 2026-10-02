@@ -95,11 +95,33 @@ def finals_line(mjd, x, y, ut1, flag, b):
 
 
 def read(path):
-    """astropy's reading of a finals2000A file: MJD -> dict of A, B and combined values."""
-    t = iers.IERS_A.read(path)
+    """astropy's reading of a finals2000A file: MJD -> dict of A, B and combined values.
+
+    astropy 8.0.1 `IERS_A.read` indexes the first prediction (P) row to set
+    `meta["predictive_mjd"]` and raises IndexError on a file with no P row (the joint
+    input and the 2019 later vintage have none). Reading-only workaround, added after the
+    first run stopped there before writing any output: astropy reads a temporary copy with
+    one sentinel P row appended one day after the last row, and that day is dropped."""
+    import tempfile
+
+    body = open(path).read().splitlines()
+    sentinel = None
+    if not any(len(l) > 57 and (l[16] == "P" or l[57] == "P") for l in body):
+        last = body[-1]
+        sentinel = mjd_of(last) + 1
+        s = finals_line(sentinel, float(last[18:27]), float(last[37:46]), float(last[58:68]), "P", None)
+        body.append(s)
+    with tempfile.NamedTemporaryFile("w", suffix=".txt", delete=False) as tmp:
+        tmp.write("\n".join(body) + "\n")
+    try:
+        t = iers.IERS_A.read(tmp.name)
+    finally:
+        os.unlink(tmp.name)
     out = {}
     for r in t:
         mjd = float(r["MJD"].value)
+        if mjd == sentinel:
+            continue
         def val(c, unit):
             v = r[c]
             v = getattr(v, "value", v)
