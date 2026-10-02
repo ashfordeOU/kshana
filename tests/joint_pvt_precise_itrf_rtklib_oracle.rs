@@ -60,6 +60,34 @@
 //!
 //! Discrimination check, pre-registered: if the strict test passes, dropping the periodic
 //! relativistic clock term (`clock_s: clk` in `PreciseProducts::state`) must turn it red.
+//!
+//! Fixture note (written with the fixture, before the first run): RTKLIB's `satposs` forms the
+//! transmit time from a broadcast clock even in precise mode, so it is also given the committed
+//! broadcast slice `brdc_2018133_G_Efnav.rnx` of the dual-frequency fixture; the positions and
+//! clocks it then uses are the precise ones. The ANTEX cut keeps the offsets and drops the
+//! phase-centre variation rows (code positioning uses the offsets only).
+//!
+//! Result of the first and only run (2026-10-02), recorded as a FINDING; tolerances unchanged.
+//! (a) does not hold: 262 of 278 solved epochs (94.2 %) within 3 m of ITRF2020, median 1.20 m,
+//! 95th percentile 3.09 m, max 4.89 m. RTKLIB on the same inputs: 270 of 287 epochs (94.1 %),
+//! median 1.21 m, 95th percentile 3.18 m. Precise products move both tools from 80 % / 68 %
+//! (dual-frequency broadcast) to 94 %, and both still miss by under one percentage point: what
+//! remains is ionosphere-free code noise and multipath (about three times the single-frequency
+//! level, no carrier smoothing at 300 s spacing; RTKLIB's own per-satellite residuals average up
+//! to ±0.8 m over the day), not orbit or clock error and not a solver discrepancy.
+//! (b) does not hold: median ISB difference −1.031 ns over 277 common epochs (per-epoch
+//! |difference| 95th percentile 2.69 ns; position difference to RTKLIB median 0.64 m).
+//! Diagnosis after the run (disclosed; nothing was changed to pass): RTKLIB v2.4.2-p13 does not
+//! apply satellite antenna offsets in single mode (`postpos.c` calls `setpcv` only when the mode
+//! is not single, so `file-satantfile` is read and then ignored); its positions are bit-identical
+//! with and without the ANTEX file. The oracle side therefore did not follow the processing
+//! stated above. With Kshana's antenna offsets removed as a diagnostic only, the median ISB
+//! difference is +0.04 ns (and 92.4 % of epochs are within 3 m). The strict test stays ignored
+//! with both gaps in its reason; the finding is pinned by `precise_product_finding_is_pinned`.
+//!
+//! Discrimination, done 2026-10-02 although the strict test does not pass: dropping the
+//! relativistic clock term moves the share within 3 m to 15.8 % (median error 7.31 m) and the
+//! median ISB difference to +1.73 ns, outside the pinned bands; the mutation was then edited back.
 
 use kshana::gnss_sim::Meteo;
 use kshana::leo_fusion::joint_pvt::{solve, PseudorangeObs, SystemClock};
@@ -232,7 +260,7 @@ fn run() -> Stats {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "DISAGREES with the pre-registered bar: (a) 94.2 % of 278 epochs within 3 m of ITRF2020 (need 95 %; RTKLIB 94.1 %); (b) median ISB difference -1.03 ns (need 1 ns), RTKLIB single mode ignores satellite antenna offsets; finding recorded, row stays MODELLED"]
 fn precise_product_multi_gnss_fix_matches_itrf2020_and_rtklib() {
     let Stats {
         n,
@@ -250,5 +278,30 @@ fn precise_product_multi_gnss_fix_matches_itrf2020_and_rtklib() {
     assert!(
         med_isb.abs() <= 1.0,
         "median ISB difference to RTKLIB {med_isb:+.3} ns exceeds 1 ns"
+    );
+}
+
+/// The finding, pinned so a change to it is seen: with precise products both tools reach about
+/// 94 % within 3 m, and the ISB differs from RTKLIB by about -1 ns because RTKLIB's single mode
+/// does not apply the satellite antenna offsets. The bands are the measured values of 2026-10-02
+/// with a small margin, not acceptance criteria.
+#[test]
+fn precise_product_finding_is_pinned() {
+    let s = run();
+    assert!(s.n >= 270, "{} epochs solved", s.n);
+    assert!(
+        (0.92..=0.96).contains(&s.share),
+        "Kshana share within 3 m moved: {:.3}",
+        s.share
+    );
+    assert!(
+        (0.92..=0.96).contains(&s.rtk_share),
+        "RTKLIB share within 3 m moved: {:.3}",
+        s.rtk_share
+    );
+    assert!(
+        (-1.3..=-0.8).contains(&s.med_isb),
+        "ISB median difference moved: {:+.3} ns",
+        s.med_isb
     );
 }
