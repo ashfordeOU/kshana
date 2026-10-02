@@ -78,6 +78,17 @@
 //! `src/leo_navmsg/tests.rs` pins a whole encoded frame, byte for byte, on every
 //! platform, and scans the module's sources for an inherent transcendental call. If
 //! `libm` ever changes a result, or someone writes `.sin()` there, that test says so.
+//!
+//! ## Fast Fourier transform
+//!
+//! [`FftPlan`] is a mixed-radix fast Fourier transform (FFT) for any length, written for the
+//! acquisition search in [`crate::acquisition`]. Its twiddle factors come from the portable
+//! `libm` sine and cosine, and every butterfly is IEEE-754 additions and multiplications in an
+//! order fixed by the plan, with no fused multiply-add and no reduction whose association the
+//! compiler or a thread count could change. The transform of a given input is therefore the
+//! same bits on every target; the unit test beside it pins a SHA-256 (Secure Hash Algorithm)
+//! digest of the output bits, and that test is run on a second architecture (WebAssembly) as
+//! the evidence, not the argument.
 
 /// The mathematics library a shared routine is evaluated with. See the module
 /// documentation for when a routine needs to be generic over this.
@@ -283,6 +294,129 @@ impl PortableFloat for f64 {
     }
 }
 
+/// A planned discrete Fourier transform of one length, bit-reproducible on every platform
+/// (see the module documentation).
+///
+/// The forward transform is `X[k] = Σ_n x[n] · exp(−2πi·nk/N)`; the inverse is
+/// `x[n] = (1/N) Σ_k X[k] · exp(+2πi·nk/N)`. The length is factored into radices 4, 2, 3, 5
+/// and then any remaining primes, and the transform is the recursive Cooley–Tukey
+/// decimation in time over those factors; a prime factor `p` costs `p²` operations per
+/// output group, so a length with a large prime factor is slow but still exact to the same
+/// rounding. Complex numbers are `(re, im)` pairs.
+#[derive(Clone, Debug)]
+pub(crate) struct FftPlan {
+    n: usize,
+    factors: Vec<usize>,
+    /// `exp(−2πi·k/N)` for `k` in `0..N`.
+    twiddles: Vec<(f64, f64)>,
+}
+
+impl FftPlan {
+    /// A plan for length `n` (at least 1).
+    pub(crate) fn new(n: usize) -> Self {
+        assert!(n >= 1, "an FFT needs at least one point");
+        let mut factors = Vec::new();
+        let mut m = n;
+        for p in [4usize, 2, 3, 5] {
+            while m % p == 0 {
+                factors.push(p);
+                m /= p;
+            }
+        }
+        let mut p = 7;
+        while m > 1 {
+            while m % p == 0 {
+                factors.push(p);
+                m /= p;
+            }
+            p += 2;
+        }
+        // The twiddle angle is formed as an exact fraction of a turn before scaling, and
+        // the octant symmetry is not used: each factor is the portable library's value at
+        // its own argument.
+        let twiddles = (0..n)
+            .map(|k| {
+                let a = -core::f64::consts::TAU * (k as f64 / n as f64);
+                (libm::cos(a), libm::sin(a))
+            })
+            .collect();
+        Self {
+            n,
+            factors,
+            twiddles,
+        }
+    }
+
+    /// The forward transform of `x` (length must equal the plan's).
+    pub(crate) fn forward(&self, x: &[(f64, f64)]) -> Vec<(f64, f64)> {
+        assert_eq!(x.len(), self.n, "FFT input length");
+        let mut out = vec![(0.0, 0.0); self.n];
+        let mut scratch = Vec::new();
+        self.rec(x, 0, 1, &mut out, 0, &mut scratch);
+        out
+    }
+
+    /// The inverse transform of `x`, scaled by `1/N`, computed as the conjugate of the
+    /// forward transform of the conjugate.
+    pub(crate) fn inverse(&self, x: &[(f64, f64)]) -> Vec<(f64, f64)> {
+        let conj: Vec<(f64, f64)> = x.iter().map(|&(r, i)| (r, -i)).collect();
+        let s = 1.0 / self.n as f64;
+        self.forward(&conj)
+            .into_iter()
+            .map(|(r, i)| (r * s, -i * s))
+            .collect()
+    }
+
+    /// Transform the `n/stride`-point subsequence `x[offset + j·stride]` into `out`
+    /// (whose length is that subsequence length), using factors from `level` on.
+    fn rec(
+        &self,
+        x: &[(f64, f64)],
+        offset: usize,
+        stride: usize,
+        out: &mut [(f64, f64)],
+        level: usize,
+        scratch: &mut Vec<(f64, f64)>,
+    ) {
+        let n = out.len();
+        if n == 1 {
+            out[0] = x[offset];
+            return;
+        }
+        let p = self.factors[level];
+        let m = n / p;
+        for q in 0..p {
+            self.rec(
+                x,
+                offset + q * stride,
+                stride * p,
+                &mut out[q * m..(q + 1) * m],
+                level + 1,
+                scratch,
+            );
+        }
+        // Butterflies: out[k + s·m] = Σ_q W_n^{q(k + s·m)} · sub_q[k], W_n = exp(−2πi/n).
+        let tw_step = self.n / n;
+        scratch.clear();
+        scratch.resize(p, (0.0, 0.0));
+        for k in 0..m {
+            for q in 0..p {
+                scratch[q] = out[q * m + k];
+            }
+            for s in 0..p {
+                let e = k + s * m;
+                let (mut re, mut im) = scratch[0];
+                for (q, &(ar, ai)) in scratch.iter().enumerate().skip(1) {
+                    let (wr, wi) = self.twiddles[((q * e) % n) * tw_step];
+                    re += ar * wr - ai * wi;
+                    im += ar * wi + ai * wr;
+                }
+                out[s * m + k] = (re, im);
+            }
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -423,5 +557,93 @@ mod tests {
             assert!(close(Portable::sin(x), Platform::sin(x)));
             assert!(close(Portable::cos(x), Platform::cos(x)));
         }
+    }
+
+    /// A deterministic test signal built from integers only, so the input itself is the same
+    /// bits everywhere.
+    fn fft_test_signal(n: usize) -> Vec<(f64, f64)> {
+        let mut state: u64 = 0x9E37_79B9_7F4A_7C15;
+        (0..n)
+            .map(|_| {
+                state = state
+                    .wrapping_mul(6_364_136_223_846_793_005)
+                    .wrapping_add(1_442_695_040_888_963_407);
+                let a = ((state >> 40) as i64 - (1 << 23)) as f64 / 1024.0;
+                let b = (((state >> 16) & 0xFF_FFFF) as i64 - (1 << 23)) as f64 / 1024.0;
+                (a, b)
+            })
+            .collect()
+    }
+
+    fn naive_dft(x: &[(f64, f64)]) -> Vec<(f64, f64)> {
+        let n = x.len();
+        (0..n)
+            .map(|k| {
+                let (mut re, mut im) = (0.0, 0.0);
+                for (j, &(xr, xi)) in x.iter().enumerate() {
+                    let a = -core::f64::consts::TAU * (((j * k) % n) as f64 / n as f64);
+                    let (s, c) = (libm::sin(a), libm::cos(a));
+                    re += xr * c - xi * s;
+                    im += xr * s + xi * c;
+                }
+                (re, im)
+            })
+            .collect()
+    }
+
+    #[test]
+    fn fft_matches_the_defining_sum_for_every_radix() {
+        for n in [
+            1usize, 2, 3, 4, 5, 6, 7, 8, 12, 16, 30, 49, 60, 77, 128, 250, 343,
+        ] {
+            let x = fft_test_signal(n);
+            let plan = FftPlan::new(n);
+            let got = plan.forward(&x);
+            let want = naive_dft(&x);
+            let scale = x.iter().map(|v| v.0.abs() + v.1.abs()).sum::<f64>();
+            for (g, w) in got.iter().zip(&want) {
+                let err = (g.0 - w.0).abs().max((g.1 - w.1).abs());
+                assert!(err <= 1e-13 * scale, "n={n}: error {err:e}");
+            }
+            let back = plan.inverse(&got);
+            for (b, v) in back.iter().zip(&x) {
+                let err = (b.0 - v.0).abs().max((b.1 - v.1).abs());
+                assert!(
+                    err <= 1e-12 * scale / n as f64 + 1e-9,
+                    "n={n}: round trip {err:e}"
+                );
+            }
+        }
+    }
+
+    // PIN-SCOPE:    SHA-256 of the little-endian bits of the forward and inverse transforms of
+    //               the integer test signal at the GPS L1 one-millisecond lengths 8000 and 24000
+    // PIN-EXCLUDES: nothing else; any change to the plan's arithmetic order moves the digest
+    const FFT_8000_SHA256: &str =
+        "5f76810549d430ee3cbd2c5d198ade39e3ad5af7996d9a46cc734e440a13a19f";
+    const FFT_24000_SHA256: &str =
+        "fe349e931b57311390373187b53469d73eecd7dbca238c56eee79d9c9ed39179";
+
+    fn fft_digest(n: usize) -> String {
+        use sha2::{Digest, Sha256};
+        let plan = FftPlan::new(n);
+        let x = fft_test_signal(n);
+        let f = plan.forward(&x);
+        let b = plan.inverse(&f);
+        let mut h = Sha256::new();
+        for &(r, i) in f.iter().chain(&b) {
+            h.update(r.to_bits().to_le_bytes());
+            h.update(i.to_bits().to_le_bytes());
+        }
+        hex::encode(h.finalize())
+    }
+
+    /// The bits are the plan's, pinned: the same digest on x86_64 and on wasm32 (run as
+    /// `cargo test --target wasm32-wasip1 --lib portable_math` under a WASI runtime) is the
+    /// evidence that the transform does not depend on the host.
+    #[test]
+    fn fft_output_bits_are_pinned_on_every_platform() {
+        assert_eq!(fft_digest(8000), FFT_8000_SHA256);
+        assert_eq!(fft_digest(24000), FFT_24000_SHA256);
     }
 }
