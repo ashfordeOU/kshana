@@ -183,6 +183,25 @@ fn dop_from_cofactor(q: &Mat, user: Vec3) -> Option<Dop> {
     })
 }
 
+/// Formal east, north and up one-sigmas (m) of the weighted joint fix linearised at `user`
+/// (ECEF, m): the position block of `(HᵀWH)⁻¹` with weights `1/σ²`, projected on the local
+/// east, north and up axes. Evaluated at the true position it is the Cramér-Rao bound of the
+/// fix; `None` when the geometry cannot resolve the unknowns.
+pub fn formal_sigma_enu(user: Vec3, obs: &[PseudorangeObs], clocks: &[SystemClock]) -> Option<[f64; 3]> {
+    let systems: Vec<usize> = obs.iter().map(|o| o.system).collect();
+    let (cols, own) = clock_columns(&systems, clocks);
+    let n_clock = 1 + own.len();
+    if obs.len() < 3 + n_clock || obs.iter().any(|o| !(o.sigma_m.is_finite() && o.sigma_m > 0.0)) {
+        return None;
+    }
+    let sats: Vec<Vec3> = obs.iter().map(|o| o.sat_pos).collect();
+    let h = design(user, &sats, &cols, n_clock)?;
+    let w: Vec<f64> = obs.iter().map(|o| 1.0 / (o.sigma_m * o.sigma_m)).collect();
+    let (a, _) = normal_equations(&h, &w, &vec![0.0; h.len()]);
+    let q = inverse(&a)?;
+    Some(project(&q, user).0)
+}
+
 /// Weighted least-squares joint fix by Gauss-Newton from `apriori` (ECEF, m).
 pub fn solve(
     obs: &[PseudorangeObs],

@@ -251,7 +251,8 @@ pub struct SignalBound {
     pub range_sigma_mask_m: f64,
     /// CRB range one-sigma at the zenith C/N0 (m).
     pub range_sigma_zenith_m: f64,
-    /// Median formal one-sigma 3D position of the time-of-arrival fix (m).
+    /// Median formal one-sigma 3D position of the time-of-arrival fix (m), the Cramér-Rao
+    /// bound evaluated at the true position.
     pub toa_median_sigma_3d_m: Option<f64>,
     /// RMS 3D error of the seeded time-of-arrival fixes (m).
     pub toa_rms_error_3d_m: Option<f64>,
@@ -365,7 +366,10 @@ impl NtnScenario {
                 let start = [user[0] + 500.0, user[1] - 500.0, user[2] + 500.0];
                 if let Ok(fix) = joint_pvt::solve(&obs, &clocks, start, 15) {
                     fixes += 1;
-                    let s = fix.sigma_enu_m;
+                    // The bound is the formal covariance at the true position, not at the
+                    // noisy estimate.
+                    let s = joint_pvt::formal_sigma_enu(user, &obs, &clocks)
+                        .unwrap_or(fix.sigma_enu_m);
                     sig3.push((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]).sqrt());
                     err3.push(norm(sub(fix.position, user)));
                     pdops.push(fix.dop.pdop);
