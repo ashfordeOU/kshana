@@ -378,7 +378,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 112 of 228 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 116 of 231 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 75 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -2151,7 +2151,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-228 capabilities, each graded. 112 validated against independent external oracles. 112 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+231 capabilities, each graded. 116 validated against independent external oracles. 112 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.29.3 From the repository
 
@@ -2159,7 +2159,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 228 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 231 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2295,7 +2295,7 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 228 rows, one line each.
+## All 231 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
@@ -6398,7 +6398,7 @@ What is included
 
 - All 75 scenario kinds and 132 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 112 of 228 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 116 of 231 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
