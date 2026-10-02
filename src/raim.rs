@@ -33,8 +33,10 @@
 //!
 //! Scope: single-constellation, snapshot (no carrier smoothing; single-fault
 //! hypotheses — no simultaneous multi-satellite subsets; no full ARAIM
-//! integrity-risk *budget* allocation across constellations). Validation against
-//! a public reference dataset (gLAB) is a roadmap item. Together these provide
+//! integrity-risk *budget* allocation across constellations). [`snapshot_raim`]
+//! and [`snapshot_raim_fde`] are cross-validated against RTKLIB's `estpos`/`raim_fde`
+//! on real station data (`tests/integrity_snapshot_raim_rtklib_oracle.rs`); the
+//! ADD v4.2 ARAIM path lives in `araim_reference`. Together these provide
 //! the genuine HPL/VPL an integrity claim rests on — not a self-consistency FoM.
 
 use crate::frames::Vec3;
@@ -345,9 +347,11 @@ pub fn snapshot_raim(
     let fault_detected = test_statistic > threshold;
 
     // Hat-matrix diagonal P_ii = g_i . (A0 g_i) = g_i . s_i.
-    // Position rows of S, rotated into the local ENU frame, give the horizontal
-    // and vertical sensitivity of the estimate to each satellite's error.
-    let (east, north, up) = enu_basis(user)?;
+    // Position rows of S, rotated into the local level, give the horizontal and
+    // vertical sensitivity of the estimate to each satellite's error. The local
+    // level is the geodetic one (WGS-84 ellipsoid normal), the frame in which
+    // horizontal and vertical protection levels are defined.
+    let (east, north, up) = geodetic_enu_basis(user)?;
     let pb = pbias(threshold, dof as f64, p_md);
     let mut slope_h_max = 0.0_f64;
     let mut slope_v_max = 0.0_f64;
@@ -374,6 +378,84 @@ pub fn snapshot_raim(
         fault_detected,
         hpl_m: slope_h_max * pb * sigma_m,
         vpl_m: slope_v_max * pb * sigma_m,
+    })
+}
+
+/// The geodetic (WGS-84 ellipsoid-normal) East, North and Up unit vectors at an
+/// Earth-fixed position. `None` at the Earth's centre.
+fn geodetic_enu_basis(user: Vec3) -> Option<(Vec3, Vec3, Vec3)> {
+    if user.iter().map(|c| c * c).sum::<f64>().partial_cmp(&0.0)
+        != Some(std::cmp::Ordering::Greater)
+    {
+        return None;
+    }
+    let g = crate::frames::ecef_to_geodetic(user);
+    let (sl, cl) = g.lat_rad.sin_cos();
+    let (so, co) = g.lon_rad.sin_cos();
+    Some((
+        [-so, co, 0.0],
+        [-sl * co, -sl * so, cl],
+        [cl * co, cl * so, sl],
+    ))
+}
+
+/// The outcome of snapshot fault detection and exclusion (FDE) at one epoch.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct RaimFdeResult {
+    /// The all-in-view snapshot RAIM result.
+    pub all_in_view: RaimResult,
+    /// The excluded satellite (index into the input), when a fault was detected and an
+    /// exclusion was accepted.
+    pub excluded: Option<usize>,
+    /// The snapshot RAIM result of the accepted exclusion subset.
+    pub after_exclusion: Option<RaimResult>,
+}
+
+/// Snapshot RAIM with single-satellite fault exclusion. When the all-in-view chi-squared
+/// test ([`snapshot_raim`]) declares a fault, every single-satellite exclusion is re-solved
+/// on the remaining satellites; an exclusion is accepted when its own chi-squared test
+/// (with `n - 5` degrees of freedom, at least one) passes, and among the accepted ones the
+/// subset with the smallest residual root-mean-square `sqrt(SSE / (n - 1))` is chosen. If
+/// none passes, no satellite is excluded. This is the classic exclusion rule (Brown; the
+/// rule RTKLIB's `raim_fde` applies). The re-solutions are linearised at the all-in-view
+/// position, as the residuals are.
+///
+/// Returns `None` when [`snapshot_raim`] does (fewer than 5 satellites, a degenerate
+/// line of sight or a singular geometry).
+pub fn snapshot_raim_fde(
+    user: Vec3,
+    sats: &[Vec3],
+    range_residual_m: &[f64],
+    sigma_m: f64,
+    p_fa: f64,
+    p_md: f64,
+) -> Option<RaimFdeResult> {
+    let all_in_view = snapshot_raim(user, sats, range_residual_m, sigma_m, p_fa, p_md)?;
+    let mut best: Option<(usize, f64, RaimResult)> = None;
+    if all_in_view.fault_detected {
+        let n = sats.len();
+        for k in 0..n {
+            let s: Vec<Vec3> = (0..n).filter(|&i| i != k).map(|i| sats[i]).collect();
+            let y: Vec<f64> = (0..n)
+                .filter(|&i| i != k)
+                .map(|i| range_residual_m[i])
+                .collect();
+            let Some(r) = snapshot_raim(user, &s, &y, sigma_m, p_fa, p_md) else {
+                continue;
+            };
+            if r.fault_detected {
+                continue;
+            }
+            let rms = (r.sse / (n - 1) as f64).sqrt();
+            if best.as_ref().is_none_or(|b| rms < b.1) {
+                best = Some((k, rms, r));
+            }
+        }
+    }
+    Some(RaimFdeResult {
+        all_in_view,
+        excluded: best.as_ref().map(|b| b.0),
+        after_exclusion: best.map(|b| b.2),
     })
 }
 
