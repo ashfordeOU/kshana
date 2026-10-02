@@ -1,0 +1,1566 @@
+{
+  "cases": [
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.7034413499464656,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06568945108885241,
+      "nodeo_rad": 0.0,
+      "orbit": 0,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 0.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 5.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.0005,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 0.9005898940290741,
+      "mask_deg": 10.0,
+      "mo_rad": 0.0,
+      "no_kozai_rad_min": 0.06758268853800353,
+      "nodeo_rad": 0.7853981633974483,
+      "orbit": 1,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 0.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 5.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 10.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 0.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 5.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 10.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 0.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 5.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 10.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 0.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 5.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 10.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 0.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 5.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 0.0,
+      "bstar": 0.0,
+      "ecco": 0.0,
+      "epoch_jd": [
+        2461041.0,
+        0.5
+      ],
+      "inclo_rad": 1.5079644737231008,
+      "mask_deg": 10.0,
+      "mo_rad": 0.5235987755982988,
+      "no_kozai_rad_min": 0.06254899328662844,
+      "nodeo_rad": 2.0943951023931953,
+      "orbit": 2,
+      "start_utc": [
+        2026.0,
+        1.0,
+        1.0,
+        0.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 0.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 5.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 10.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 52.2,
+      "station_lon_deg": 0.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 0.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 5.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 10.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 0.0,
+      "station_lon_deg": 30.0
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 0.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 5.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 10.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 78.2,
+      "station_lon_deg": 15.4
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 0.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 5.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 10.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": -33.9,
+      "station_lon_deg": 18.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 0.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 5.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    },
+    {
+      "argpo_rad": 1.5707963267948966,
+      "bstar": 0.0,
+      "ecco": 0.001,
+      "epoch_jd": [
+        2460482.0,
+        0.75
+      ],
+      "inclo_rad": 1.5341444125030157,
+      "mask_deg": 10.0,
+      "mo_rad": 3.490658503988659,
+      "no_kozai_rad_min": 0.05742178052460756,
+      "nodeo_rad": 4.363323129985824,
+      "orbit": 3,
+      "start_utc": [
+        2024.0,
+        6.0,
+        21.0,
+        6.0,
+        0.0,
+        0.0
+      ],
+      "station_height_m": 0.0,
+      "station_lat_deg": 64.8,
+      "station_lon_deg": -147.5
+    }
+  ],
+  "duration_s": 86400.0,
+  "q4_sample_step_s": 30.0
+}
