@@ -37,7 +37,7 @@ def main():
         for name, x in recs:
             f.write(f"@{name}\n")
             for v in x:
-                f.write(f"{v!r}\n")
+                f.write(f"{float(v)!r}\n")
     with open(HERE / "oracle.txt", "w") as f:
         f.write(f"# allantools {allantools.__version__} autocorr_noise_id(x, af, type, dmin=0, dmax=2)\n")
         f.write("# record type af alpha_int alpha d rho\n")
