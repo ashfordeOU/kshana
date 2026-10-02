@@ -13,13 +13,25 @@
 //!
 //! ## Label
 //!
-//! MODELLED: geometry only, two-body orbits with J2 drift, each system's own elevation mask,
-//! no terrain, no signal power and no ionospheric scintillation (strong at high latitude and
-//! not modelled here).
+//! ## Orbits
+//!
+//! Every satellite is propagated by SGP4/SDP4 ([`crate::sgp4::SgpOrbit`]) from its system's
+//! element set at the sweep epoch, read as SGP4 mean elements with the node an Earth-fixed
+//! longitude at the epoch, and carried to the Earth-fixed frame by the IAU 2006/2000A chain
+//! with no Earth orientation parameters (UT1 = UTC, zero polar motion). The polar mode runs at
+//! [`polar_epoch`]; [`latitude_sweep_at`] takes any epoch. A system's `j2` switch has no effect
+//! here: SGP4 always carries the zonal harmonics it is defined with.
+//!
+//! ## Label
+//!
+//! MODELLED: geometry only, each system's own elevation mask, no terrain, no signal power and
+//! no ionospheric scintillation (strong at high latitude and not modelled here).
 
 use super::geom::{elevation, median, Site};
 use super::joint_pvt::{dop, Dop, SystemClock};
 use super::system::System;
+use crate::jd2::Jd2;
+use crate::sgp4::{teme_to_itrs_matrix, EarthFixedElements, MeanElementSet, SgpOrbit};
 use serde::Serialize;
 
 /// Running sums for one group: PDOPs, HDOPs, VDOPs, satellites in view, available samples,
@@ -58,18 +70,59 @@ pub struct PolarRow {
 /// `states[epoch][k] = (position (m), system)`.
 pub type SatStates = Vec<Vec<([f64; 3], usize)>>;
 
-/// Earth-fixed positions of every satellite of every system at each epoch of `times_s`.
-pub fn satellite_states(systems: &[System], times_s: &[f64]) -> SatStates {
+/// The reference epoch of the `leo-pvt` polar mode: 2026-01-01T00:00:00 UTC. The scenario's
+/// times are seconds after it.
+pub fn polar_epoch() -> Jd2 {
+    Jd2::from_utc_calendar(2026, 1, 1, 0, 0, 0.0).expect("a valid calendar date")
+}
+
+/// The SGP4 element set of every satellite of every system at `epoch`, each tagged with its
+/// system index: the orbits the sweep propagates.
+pub fn element_sets(systems: &[System], epoch: Jd2) -> Vec<(MeanElementSet, usize)> {
+    systems
+        .iter()
+        .enumerate()
+        .flat_map(|(k, s)| {
+            s.orbits.iter().map(move |o| {
+                let el = EarthFixedElements {
+                    a_m: o.a,
+                    e: o.e,
+                    inc_rad: o.inc,
+                    node_lon_rad: o.raan0,
+                    argp_rad: o.argp0,
+                    m0_rad: o.m0,
+                };
+                (MeanElementSet::from_earth_fixed(&el, epoch), k)
+            })
+        })
+        .collect()
+}
+
+/// Earth-fixed positions of every satellite of every system at each epoch of `times_s`
+/// (seconds after `epoch`), propagated by SGP4 and rotated to the ITRS. A satellite SGP4
+/// cannot propagate at an instant (a decayed or non-physical orbit) is left out of that
+/// instant.
+pub fn satellite_states_at(systems: &[System], epoch: Jd2, times_s: &[f64]) -> SatStates {
+    let orbits: Vec<(SgpOrbit, usize)> = element_sets(systems, epoch)
+        .into_iter()
+        .map(|(set, k)| (SgpOrbit::new(set), k))
+        .collect();
     times_s
         .iter()
         .map(|&t| {
-            systems
+            let at = epoch.add_seconds(t);
+            let m = teme_to_itrs_matrix(at);
+            orbits
                 .iter()
-                .enumerate()
-                .flat_map(|(k, s)| s.orbits.iter().map(move |o| (o.state(t).0, k)))
+                .filter_map(|(o, k)| o.itrs_state_with(at, &m).ok().map(|(r, _)| (r, *k)))
                 .collect()
         })
         .collect()
+}
+
+/// [`satellite_states_at`] at the polar mode's [`polar_epoch`].
+pub fn satellite_states(systems: &[System], times_s: &[f64]) -> SatStates {
+    satellite_states_at(systems, polar_epoch(), times_s)
 }
 
 /// One sample of the sweep: one site (latitude, longitude) at one epoch.
@@ -141,8 +194,8 @@ pub fn latitude_samples(
     out
 }
 
-/// Sweep latitudes over `lons_deg` and epochs `times_s`, with a PDOP threshold for
-/// availability.
+/// Sweep latitudes over `lons_deg` and epochs `times_s` (seconds after [`polar_epoch`]), with
+/// a PDOP threshold for availability.
 pub fn latitude_sweep(
     systems: &[System],
     lats_deg: &[f64],
@@ -150,7 +203,26 @@ pub fn latitude_sweep(
     times_s: &[f64],
     pdop_threshold: f64,
 ) -> Vec<PolarRow> {
-    let states = satellite_states(systems, times_s);
+    latitude_sweep_at(
+        systems,
+        polar_epoch(),
+        lats_deg,
+        lons_deg,
+        times_s,
+        pdop_threshold,
+    )
+}
+
+/// [`latitude_sweep`] with the times counted from `epoch` (UTC).
+pub fn latitude_sweep_at(
+    systems: &[System],
+    epoch: Jd2,
+    lats_deg: &[f64],
+    lons_deg: &[f64],
+    times_s: &[f64],
+    pdop_threshold: f64,
+) -> Vec<PolarRow> {
+    let states = satellite_states_at(systems, epoch, times_s);
     latitude_sweep_on_states(systems, &states, lats_deg, lons_deg, pdop_threshold)
 }
 
