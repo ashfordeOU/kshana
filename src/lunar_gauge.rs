@@ -52,38 +52,93 @@ pub const IDX_RATE: usize = 8;
 /// (the `d_alpha_d_velocity` coefficient is negative: `≈ −1.11e-14`; the last term subtracts).
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct RateFrameJacobian {
-    /// `∂α/∂s = +U_moon / c²` ≈ +3.140e-11 per unit fractional scale.
+    /// `∂α/∂s = L_m = −Φ0m / c²` ≈ +3.1388e-11 per unit fractional scale: the lunar
+    /// surface potential on the equator plus the rotation term, over `c²`
+    /// ([`LunarSurfacePotential::l_m`]).
     pub d_alpha_d_scale: f64,
     /// `∂α/∂v = −|v| / c²` ≈ −1.11e-14 per (m/s).
     pub d_alpha_d_velocity: f64,
-    /// `∂α/∂r_radial = +g_moon / c²` ≈ +1.807e-17 per metre.
+    /// `∂α/∂r_radial = +g_eff / c²` ≈ +1.806e-17 per metre, with `g_eff` the radial
+    /// gradient of the same effective potential on the equator
+    /// ([`LunarSurfacePotential::effective_gravity_m_s2`]).
     pub d_alpha_d_radial: f64,
 }
 
-/// Compute the three frame→rate coupling Jacobian entries at TT epoch `t_tt_jc`
-/// (Julian centuries since J2000.0).
-///
-/// Uses `GM_moon` from [`crate::forces::MU_MOON`] and `RE_moon`, `c²`, velocity from
-/// [`crate::lunar_time`]. The velocity entry `d_alpha_d_velocity` is time-dependent
-/// because the geocentric Moon speed varies ≈ ±1 % over the lunar month.
-pub fn rate_frame_jacobian(t_tt_jc: f64) -> RateFrameJacobian {
-    let mu = crate::forces::MU_MOON;
-    let r = crate::lunar_time::RE_MOON_M;
-    let c2 = crate::lunar_time::C2_M2_S2;
+/// The lunar self-potential model behind [`rate_frame_jacobian_with`]: a central mass with the
+/// second zonal harmonic, evaluated on the equator at `radius_m`, plus the rotation term of a
+/// clock co-rotating with the Moon. This is the closed form of Ashby and Patla (2024, The
+/// Astronomical Journal 167:149, Eq. (10)), `L_m = −Φ0m/c² = −Φ_m(θ = π/2)/c² + ω_m² a_m² / (2c²)`,
+/// with the potential on the equator truncated at degree 2 (the paper evaluates a degree-350
+/// field; the zonal part beyond `J2` and the longitude-dependent sectoral terms are left out).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct LunarSurfacePotential {
+    /// Lunar gravitational parameter `GM` (m³/s²).
+    pub gm_m3_s2: f64,
+    /// Equatorial radius at which the clock sits, also the reference radius of `j2` (m).
+    pub radius_m: f64,
+    /// Unnormalised second zonal harmonic `J2` (dimensionless, positive for an oblate body).
+    pub j2: f64,
+    /// Sidereal rotation rate of the Moon (rad/s).
+    pub omega_rad_s: f64,
+}
 
-    // Gravitational potential at the lunar surface: U_moon = GM / R (m²/s²).
-    let u_moon = mu / r;
-    // Surface gravitational acceleration: g_moon = GM / R² (m/s²).
-    let g_moon = mu / (r * r);
+impl LunarSurfacePotential {
+    /// Kshana's own constants: `forces::MU_MOON`, the lunar equatorial radius 1738.14 km
+    /// (Ashby and Patla 2024, Sect. 2.2), `body::MOON_ZONALS_J2_J3[0]` (2.0321e-4, GRAIL /
+    /// Lunar Prospector) and the Moon's sidereal rotation rate from `body::Body::moon()`
+    /// (2.6616995e-6 rad/s). Before release 0.30 the coupling used a point mass at the
+    /// 1737.4 km mean radius with no rotation term (3.13981e-11, 3.2e-4 high).
+    pub const KSHANA: LunarSurfacePotential = LunarSurfacePotential {
+        gm_m3_s2: crate::forces::MU_MOON,
+        radius_m: 1_738_140.0,
+        j2: crate::body::MOON_ZONALS_J2_J3[0],
+        omega_rad_s: 2.661_699_5e-6,
+    };
+
+    /// `−Φ0m` (m²/s², positive): `GM/a · (1 + J2/2) + ω² a² / 2` on the equator.
+    pub fn equatorial_potential_m2_s2(&self) -> f64 {
+        let a = self.radius_m;
+        self.gm_m3_s2 / a * (1.0 + 0.5 * self.j2) + 0.5 * self.omega_rad_s.powi(2) * a * a
+    }
+
+    /// `L_m = −Φ0m / c²`, the fractional rate of a clock on the lunar equator against one at
+    /// rest at infinity in the Moon's local frame.
+    pub fn l_m(&self) -> f64 {
+        self.equatorial_potential_m2_s2() / crate::lunar_time::C2_M2_S2
+    }
+
+    /// The radial gradient of the same effective potential on the equator, as a positive
+    /// downward acceleration: `GM/a² · (1 + 3 J2/2) − ω² a` (m/s²).
+    pub fn effective_gravity_m_s2(&self) -> f64 {
+        let a = self.radius_m;
+        self.gm_m3_s2 / (a * a) * (1.0 + 1.5 * self.j2) - self.omega_rad_s.powi(2) * a
+    }
+}
+
+/// Compute the three frame→rate coupling Jacobian entries at TT epoch `t_tt_jc`
+/// (Julian centuries since J2000.0) with Kshana's own lunar constants
+/// ([`LunarSurfacePotential::KSHANA`]). See [`rate_frame_jacobian_with`].
+pub fn rate_frame_jacobian(t_tt_jc: f64) -> RateFrameJacobian {
+    rate_frame_jacobian_with(t_tt_jc, &LunarSurfacePotential::KSHANA)
+}
+
+/// Compute the three frame→rate coupling Jacobian entries at TT epoch `t_tt_jc` for a given
+/// lunar surface potential (GM, equatorial radius, `J2`, rotation rate), so that the coupling
+/// can be evaluated from a publication's own inputs.
+///
+/// The velocity entry `d_alpha_d_velocity` is time-dependent because the geocentric Moon
+/// speed (from [`crate::lunar_time`]) varies ≈ ±1 % over the lunar month.
+pub fn rate_frame_jacobian_with(t_tt_jc: f64, p: &LunarSurfacePotential) -> RateFrameJacobian {
+    let c2 = crate::lunar_time::C2_M2_S2;
 
     // Geocentric Moon velocity at this epoch (m/s).
     let v = crate::lunar_time::moon_geocentric_velocity_m_s(t_tt_jc);
     let v_mag = (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
 
     RateFrameJacobian {
-        d_alpha_d_scale: u_moon / c2,    // +3.140e-11 per unit scale
+        d_alpha_d_scale: p.l_m(),        // +3.1388e-11 per unit scale
         d_alpha_d_velocity: -v_mag / c2, // ≈ −1.11e-14 per (m/s)
-        d_alpha_d_radial: g_moon / c2,   // +1.807e-17 per metre
+        d_alpha_d_radial: p.effective_gravity_m_s2() / c2, // +1.806e-17 per metre
     }
 }
 
@@ -533,10 +588,17 @@ mod tests {
 
     #[test]
     fn d_alpha_d_radial_equals_scale_over_r_moon() {
-        let jac = rate_frame_jacobian(T_J2000);
+        // For a point mass (no J2, no rotation) the identity g/c² = (U/R)/c² = (U/c²)/R holds
+        // exactly; the oblateness and rotation terms are what separate the two entries.
         let r = crate::lunar_time::RE_MOON_M;
+        let point_mass = LunarSurfacePotential {
+            gm_m3_s2: crate::forces::MU_MOON,
+            radius_m: r,
+            j2: 0.0,
+            omega_rad_s: 0.0,
+        };
+        let jac = rate_frame_jacobian_with(T_J2000, &point_mass);
         let expected = jac.d_alpha_d_scale / r;
-        // This is an exact algebraic identity: g/c² = (U/R)/c² = (U/c²)/R.
         let abs_err = (jac.d_alpha_d_radial - expected).abs();
         assert!(
             abs_err < expected.abs() * 1e-12,

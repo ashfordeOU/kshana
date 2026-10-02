@@ -7,7 +7,15 @@ Used only by `tests/launch_geometry_orekit_oracle.rs`; not shipped in any publis
 - `launch_geometry_orekit_oracle.txt`: Orekit's inclinations for burnout states along the launch
   azimuths Kshana computed (158 cases), azimuth-sweep minimum inclinations, circular speeds,
   dogleg plane-change dv, Earth-fixed site speeds and daily plane-crossing counts.
-  SHA-256 a5898b27cb4259a9fc6153207dcc96149babbf896a28252871d11a8da563d323.
+  SHA-256 38cfa80e68435dd4f13914c3d25b37c66fb4c6a170fe0c7999ace20f27f42df7 (regenerated
+  2026-10-01 on the Linux host of round 2 with the same driver, Orekit 12.2 and script; the
+  earlier file, SHA-256 a5898b27cb4259a9fc6153207dcc96149babbf896a28252871d11a8da563d323, was
+  dumped on another platform whose libm differs by an ulp in `asin`. 24 lines changed: 22
+  `INC` lines, where the fed azimuths move by an ulp, or by about 3e-9 rad at lat -60 deg,
+  i 60.5 and 120 deg where cos(i)/cos(lat) is near -1, and Orekit's inclinations by at most
+  8.9e-16 rad; and 2 `OPP` lines (lat 62.9, i 62.9 and 67.9), where only the closest-approach
+  min|g| moves at the 1e-17 and 4e-17 level, the crossing counts unchanged. Every `MIN`,
+  `VC`, `DOG` and `ROT` line is byte-identical.)
 - `LaunchOrekitDriver.java`: the driver.
 - `gen_launch_geometry_orekit_oracle.sh`: dumps Kshana's azimuths (the ignored test
   `dump_kshana_launch_azimuths`) and feeds them to the driver.
@@ -29,3 +37,24 @@ Inclination 1e-9 rad; minimum inclination 1e-9 rad (floor 1e-12 rad); circular s
 relative; dogleg dv 1e-10 relative; site speed 1e-6 relative; opportunity counts exact (tangent
 rule in the test). First run (2026-10-01): all met (worst inclination 2.6e-15 rad) except the
 site speed, which misses at 62.9 deg latitude by 1.12e-6 relative (Orekit includes polar motion).
+
+## Round 2 addition (2026-10-01): `finals2000A_2026-02-28_to_03-02.txt`
+
+Three data rows (MJD 61099 to 61101, lines 19416 to 19418) copied verbatim from the IERS Rapid
+Service/Prediction Center `finals2000A.all` frozen on 2026-09-30
+(https://datacenter.iers.org/data/9/finals2000A.all, SHA-256 of the whole file
+cc80680ec05c91b65e7d02c6068fe0d44dd0998dc880551975092d2d14aa8e18; IERS products, free use with
+citation; SHA-256 of the three-row extract 1d40ee99c6d71b3841ded7d4d34effebf7f84ce5d0afb46222b679919320446a). They supply x_p, y_p and LOD at the driver's epoch 2026-03-01T00:00:00 UTC to
+`launch::site_rotation_speed_at`. Orekit read its own copy (orekit-data `main`), whose row for
+2026-03-01 carries the same x_p and y_p and an LOD of 0.1505 ms against 0.1502 ms here.
+
+## Round 2, third step (2026-10-02): `site_speed_true_pole_orekit.txt` and `finals2000A_2025-07-16_to_07-18.txt`
+
+- `finals2000A_2025-07-16_to_07-18.txt`: three rows (MJD 60872 to 60874) copied verbatim from the same
+  frozen 2026-09-30 finals2000A.all (SHA-256 cc80680e...8e18); SHA-256 of the extract
+  8463675ae4b3cb592a282704ccb855e3e784d3ec49d6735852fc7c200613a45b. Committed with the pre-registration
+  (commit 71bebf63).
+- `site_speed_true_pole_orekit.txt`: output of `LaunchOrekitDriver site-speed` (Orekit 12.2, run as a
+  separate program) by `gen_site_speed_true_pole.sh`, which gives Orekit a data directory whose only
+  Earth-orientation file is that frozen finals2000A.all. Generated 2026-10-02 after the
+  pre-registration commit. SHA-256 0696b425661e8a2b4bda7274b95e6ac2228d68c1e8e91fbb658aee4d0af0a272.

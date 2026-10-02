@@ -153,6 +153,22 @@ fn retarget_source_identity(base: &mut Value) {
         .expect("eop_input is an object")
         .remove("note")
         .expect("the frozen capture carries a census note");
+    // Release 0.30 (M035): rows are classified by the IERS I/P flags, and the prediction-row
+    // note was rewritten from "prediction-only rows (blank Bulletin B)" to "prediction rows
+    // (IERS flag P)". The old wording is pinned here and the new claim checked by the caller;
+    // the value it describes (`predicted_rows.n` = 0 on this input) stays in the comparison.
+    let pr = base["predicted_rows"]
+        .as_object_mut()
+        .expect("predicted_rows is an object");
+    let old = pr
+        .remove("note")
+        .expect("the frozen capture carries a predicted-rows note");
+    assert!(
+        old.as_str().is_some_and(
+            |s| s.starts_with("Real Bulletin A prediction-only rows (blank Bulletin B)")
+        ),
+        "the frozen predicted-rows note is not the pre-0.30 wording: {old}"
+    );
 }
 
 #[test]
@@ -175,6 +191,13 @@ fn the_defaults_still_emit_every_pre_g13_field_with_its_pre_g13_value() {
     assert!(
         note.contains("final-only"),
         "the census prose must still explain the zero-prediction-row case: {note}"
+    );
+    let pred_note = now["predicted_rows"]["note"]
+        .as_str()
+        .expect("a predicted-rows note");
+    assert!(
+        pred_note.contains("IERS flag P"),
+        "the predicted-rows note must name the flag that defines a prediction: {pred_note}"
     );
     let mut bad = Vec::new();
     assert_superset(&base, &now, "$", &mut bad);
@@ -207,7 +230,9 @@ fn the_persistence_reproducibility_table_is_byte_identical() {
     // row to it. G12 DID move its Table 2 rows, by moving the default EOP input onto a
     // real product carrying prediction rows; the committed golden was reissued with that
     // revision (docs/revisions/G12-default-eop-cell-changes.md) and must be reproduced
-    // byte-for-byte from here on.
+    // byte-for-byte from here on. Release 0.30 (M035) moved the default again, onto the
+    // flag-classified extract of the 2026-09-30 product; the golden was reissued with that
+    // revision (docs/revisions/M035-default-eop-recut-cell-changes.md).
     let out = run_toml("kind=\"realtime-frame-eop\"\n").unwrap();
     let csv = out.csv.as_ref().expect("a CSV artifact");
     assert_eq!(

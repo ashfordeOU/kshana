@@ -19,7 +19,16 @@
 //! block are measured rapid values not yet superseded by the final series, not Bulletin A
 //! predictions. The second test pins that finding so it cannot drift silently.
 
-use kshana::realtime_frame_eop::RealtimeFrameEopScenario;
+//!
+//! ROUND 2 (2026-10-01): superseded as the row's comparison. Kshana now classifies rows by the
+//! IERS I/P flags and the offline default moved to `tools/finals2000A_20260930.txt`; the new
+//! pre-registered comparison is `tests/embedded_eop_vintage_astropy_preregistered.rs`. This file
+//! keeps the round-1 census of the OLD extract and now checks Kshana's flag-based classification
+//! of that same file against it: 20 final rows, the 12 blank-Bulletin-B rows as rapid (flag I),
+//! and no prediction. Those expectations were written after the round-1 result was known, so
+//! this is a regression pin, not a promotion basis.
+
+use kshana::eop::{parse_line, row_vintage, EopVintage};
 use serde_json::Value;
 
 const CENSUS: &str = include_str!("fixtures/embedded_eop_census_astropy_oracle/census.json");
@@ -27,14 +36,6 @@ const EMBEDDED: &[u8] = include_bytes!("../tools/finals2000A_2026.txt");
 
 fn census() -> Value {
     serde_json::from_str(CENSUS).expect("census.json parses")
-}
-
-fn find<'a>(v: &'a Value, key: &str) -> Option<&'a Value> {
-    match v {
-        Value::Object(m) => m.get(key).or_else(|| m.values().find_map(|c| find(c, key))),
-        Value::Array(a) => a.iter().find_map(|c| find(c, key)),
-        _ => None,
-    }
 }
 
 fn sha256_hex(bytes: &[u8]) -> String {
@@ -49,54 +50,34 @@ fn vintage_census_matches_astropy() {
     assert_eq!(
         c["source_sha256"].as_str().unwrap(),
         sha256_hex(EMBEDDED),
-        "census.json was generated from different bytes than the embedded extract"
+        "census.json was generated from different bytes than the old extract"
     );
-
-    let (json, _summary) = RealtimeFrameEopScenario::default()
-        .run_json()
-        .expect("bare default run");
-    let report: Value = serde_json::from_str(&json).unwrap();
-    let eop_input = find(&report, "eop_input").expect("eop_input block");
-    let predicted = find(&report, "predicted_rows").expect("predicted_rows block");
-
-    // (1) total rows, (2) final rows, (3) prediction-only rows and their span.
-    assert_eq!(eop_input["rows"].as_u64(), c["rows"].as_u64(), "row count");
-    assert_eq!(
-        eop_input["final_rows"].as_u64(),
-        c["final_rows"].as_u64(),
-        "Bulletin B final rows"
-    );
-    assert_eq!(
-        predicted["n"].as_u64(),
-        c["prediction_rows"].as_u64(),
-        "rows without a Bulletin B block"
-    );
-    assert_eq!(
-        predicted["first_mjd"].as_f64(),
-        c["prediction_first_mjd"].as_f64()
-    );
-    assert_eq!(
-        predicted["last_mjd"].as_f64(),
-        c["prediction_last_mjd"].as_f64()
-    );
-
-    // (4) the whole-file span the row claims, read by astropy.
-    assert_eq!(c["first_mjd"].as_f64(), Some(61173.0));
-    assert_eq!(c["last_mjd"].as_f64(), Some(61204.0));
-
-    // The crate's own parser over the same bytes, epoch by epoch, against astropy's lists.
     let body = std::str::from_utf8(EMBEDDED).unwrap();
-    let ours_pred: Vec<f64> = kshana::eop::parse_all_predicted(body)
-        .iter()
-        .map(|r| r.mjd)
+    let classified: Vec<(f64, EopVintage)> = body
+        .lines()
+        .filter_map(|l| Some((parse_line(l)?.mjd, row_vintage(l)?)))
         .collect();
-    let theirs_pred: Vec<f64> = c["prediction_mjds"]
-        .as_array()
-        .unwrap()
-        .iter()
-        .map(|v| v.as_f64().unwrap())
-        .collect();
-    assert_eq!(ours_pred, theirs_pred, "prediction-only epochs");
+    let list = |v: EopVintage| -> Vec<f64> {
+        classified
+            .iter()
+            .filter(|r| r.1 == v)
+            .map(|r| r.0)
+            .collect()
+    };
+    let json_list = |k: &str| -> Vec<f64> {
+        c[k].as_array()
+            .unwrap()
+            .iter()
+            .map(|v| v.as_f64().unwrap())
+            .collect()
+    };
+    assert_eq!(classified.len() as u64, c["rows"].as_u64().unwrap());
+    assert_eq!(list(EopVintage::Final), json_list("final_mjds"));
+    // The rows round 1 called "prediction-only" (blank Bulletin B) are rapid measured rows.
+    assert_eq!(list(EopVintage::Rapid), json_list("prediction_mjds"));
+    assert!(list(EopVintage::Predicted).is_empty());
+    assert!(c["ut1_flag_census"].get("P").is_none());
+    assert!(kshana::eop::parse_all_predicted(body).is_empty());
 }
 
 /// Criterion (5), the disagreement: the IERS vintage flag of the rows the row text calls
