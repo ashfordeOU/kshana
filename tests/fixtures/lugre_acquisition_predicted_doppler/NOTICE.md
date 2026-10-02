@@ -33,3 +33,8 @@ b8c89108dc2eca2e09c86d5a3ba7d38bd4b590d0bb66615f3497df079f418664  ESA0MGNFIN_202
 948e173035d26f37f3947a4db4968571ff92e79f385f29730fb944e441c140c9  ESA0MGNFIN_20250550000_01D_05M_ORB.SP3.gz
 31d39910d631745fb99c356eef5df39cc00a5007fb692dbff730314095b81a20  ESA0MGNFIN_20250580000_01D_05M_ORB.SP3.gz
 ```
+
+Attribution (CC BY 4.0): Contains data from the Lunar GNSS Receiver Experiment (LuGRE) Mission
+Data, J. Parker, F. Dovis et al., NASA and Agenzia Spaziale Italiana, Zenodo, doi
+10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are derived extracts; no
+sample file is redistributed.

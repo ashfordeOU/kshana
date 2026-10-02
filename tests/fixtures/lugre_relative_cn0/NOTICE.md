@@ -45,3 +45,8 @@ b8c89108dc2eca2e09c86d5a3ba7d38bd4b590d0bb66615f3497df079f418664  ESA0MGNFIN_202
 
 The first run also fetched days 015 and 016 for its commissioning epochs; the replacing run
 uses the transit and lunar-orbit days only.
+
+Attribution (CC BY 4.0): Contains data from the Lunar GNSS Receiver Experiment (LuGRE) Mission
+Data, J. Parker, F. Dovis et al., NASA and Agenzia Spaziale Italiana, Zenodo, doi
+10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are derived extracts; no
+sample file is redistributed.

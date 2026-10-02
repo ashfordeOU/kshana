@@ -18,7 +18,21 @@
 - `antenna::GainPattern2D` and, in `earth_gnss_lunar`, the yaw-steering body frame, transmit
   azimuth and off-nadir angles, and `transmit_side_db` for relative C/N0 with measured patterns.
 
-### Findings (each pre-registered; no row promoted)
+### Validated (pre-registered, proposed for promotion)
+
+- GPS LNAV navigation-message encoding: on the IGS broadcast file of 2 March 2025, parsed and
+  decoded by RTKLIB v2.4.2-p13, all 960 words pass parity, all 96 subframes decode and all 608
+  broadcast integers equal Kshana's (`tests/gps_lnav_rtklib_integer_oracle.rs`).
+
+### Changed
+
+- `realdata::ion_sdr` fills words from the most significant bit (I in the high nibble of a LuGRE
+  byte; the earlier reading produced the conjugate signal), keeps the old reading as
+  `SdrLayout::fill_lsb_first`, and reads samples wider than a word.
+- `acquisition::refine_doppler_coherent`: phase-coherent Doppler refinement (0.2 Hz RMS at
+  30 dB-Hz over 200 ms in simulation).
+
+### Findings (each pre-registered)
 
 - GPS L1 C/A against gps-sdr-sim: chips and parity bit-exact; 230 of 1152 LNAV fields differ by
   one unit because gps-sdr-sim truncates where the broadcast integer needs rounding.

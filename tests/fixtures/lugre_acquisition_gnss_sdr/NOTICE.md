@@ -32,3 +32,8 @@ binary headers; a digit-stripped comparison of the metadata hid that. What faile
 `ion_sdr`, which then could not read a sample wider than a word and counted zero samples for
 OP5 (fixed in the same commit as this note). The two batches were excluded in error, not for
 any fault of the data; the recorded results cover the other nine.
+
+Attribution (CC BY 4.0): Contains data from the Lunar GNSS Receiver Experiment (LuGRE) Mission
+Data, J. Parker, F. Dovis et al., NASA and Agenzia Spaziale Italiana, Zenodo, doi
+10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are derived extracts; no
+sample file is redistributed.
