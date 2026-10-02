@@ -37,6 +37,65 @@ pub const MASK_DEG: f64 = 10.0;
 pub const RAIM_SIGMA_M: f64 = 3.0;
 pub const RAIM_PFA: f64 = 1e-5;
 pub const RESET_TOL_M: f64 = 100.0;
+/// The Wroclaw ZED-F9P record (Zenodo 6488497) data directory.
+pub fn f9p_dir() -> PathBuf {
+    std::env::var_os("KSHANA_ORACLES")
+        .map(PathBuf::from)
+        .unwrap_or_else(|| {
+            PathBuf::from(std::env::var_os("HOME").unwrap_or_default()).join("Code/kshana-oracles")
+        })
+        .join("data/wroclaw_f9p")
+}
+
+/// Per station of the Wroclaw ZED-F9P record (Zenodo 6488497), its 14 selected days as one
+/// 30 s gridded receiver-clock record (GPS-only single-point clock, the M010 pass 1; epochs
+/// with no solution, a solve failure or a RAIM alarm are missing). The files are the
+/// generator's `<STATION>/<DOY>.rnx` with `brdc/<DOY>.rnx`; `None` when the directory is
+/// absent.
+pub fn f9p_stations() -> Option<Vec<(String, PhaseSeries)>> {
+    let dir = f9p_dir();
+    let list = std::fs::read_to_string(dir.join("stations.tsv")).ok()?;
+    let mut out = Vec::new();
+    for line in list.lines().skip(1).filter(|l| !l.trim().is_empty()) {
+        let f: Vec<&str> = line.split('\t').collect();
+        let (station, doys) = (f[0].to_string(), f[1]);
+        let mut samples: Vec<(f64, f64)> = Vec::new();
+        for doy in doys.split(',') {
+            let obs = std::fs::read_to_string(dir.join(&station).join(format!("{doy}.rnx")))
+                .expect("station day");
+            let nav = std::fs::read_to_string(dir.join("brdc").join(format!("{doy}.rnx")))
+                .expect("brdc day");
+            samples.extend(
+                receiver_clock_with(&obs, &nav, true)
+                    .into_iter()
+                    .filter_map(|(t, c)| c.map(|c| (t, c))),
+            );
+        }
+        let first_doy: i64 = doys.split(',').next().unwrap().parse().unwrap();
+        let start = (days_from_2024_09_01(2021, 1, 1) + first_doy - 1) as f64 * 86_400.0;
+        // Grid over the whole 14 days from the first day's midnight.
+        let mut x = vec![f64::NAN; 14 * 2880];
+        for (t, c) in samples {
+            let k = (t - start) / F9P_TAU0;
+            let i = k.round();
+            if (k - i).abs() < 0.01 && i >= 0.0 && (i as usize) < x.len() && x[i as usize].is_nan()
+            {
+                x[i as usize] = c;
+            }
+        }
+        let s = PhaseSeries {
+            t0: start,
+            tau0: F9P_TAU0,
+            x,
+        };
+        out.push((station, s));
+    }
+    Some(out)
+}
+
+/// Sampling of the Wroclaw ZED-F9P files, seconds.
+pub const F9P_TAU0: f64 = 30.0;
+
 /// A gap longer than this (s) splits a training session into separate records.
 pub const SPLIT_GAP_S: f64 = 10.0;
 /// Records shorter than this (s) are dropped.
@@ -104,8 +163,12 @@ pub fn ocxo() -> Option<PhaseSeries> {
 /// `@PRN ...` header, then `k d` lines (epoch index, increment of the bias in 1e-14 s since
 /// the previous listed epoch; the first listed value is relative to `first_bias_s`).
 pub fn igs_iif() -> Vec<(String, PhaseSeries)> {
-    let text = std::fs::read_to_string(format!("{CARD_DIR}/igs_iif_30s.txt"))
-        .expect("tests/fixtures/clock_library_device_cards_oracle/igs_iif_30s.txt");
+    igs_iif_from(&format!("{CARD_DIR}/igs_iif_30s.txt"))
+}
+
+/// [`igs_iif`] from another fixture file of the same format.
+pub fn igs_iif_from(path: &str) -> Vec<(String, PhaseSeries)> {
+    let text = std::fs::read_to_string(path).unwrap_or_else(|e| panic!("{path}: {e}"));
     let mut out: Vec<(String, PhaseSeries)> = Vec::new();
     let mut acc: i64 = 0;
     let mut base = 0.0;
@@ -138,13 +201,23 @@ pub fn igs_iif() -> Vec<(String, PhaseSeries)> {
     out
 }
 
-/// GPS seconds of a calendar epoch, counted from 2024-09-01 00:00 (the JammerTest week only).
+/// Days from 2024-09-01 to a civil date (proleptic Gregorian; H. Hinnant's days-from-civil).
+fn days_from_2024_09_01(y: i32, m: u32, d: u32) -> i64 {
+    let civil = |y: i32, m: u32, d: u32| -> i64 {
+        let y = if m <= 2 { y - 1 } else { y } as i64;
+        let era = y.div_euclid(400);
+        let yoe = y - era * 400;
+        let m = m as i64;
+        let doy = (153 * (if m > 2 { m - 3 } else { m + 9 }) + 2) / 5 + d as i64 - 1;
+        let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
+        era * 146_097 + doe
+    };
+    civil(y, m, d) - civil(2024, 9, 1)
+}
+
+/// Seconds of a calendar epoch (GPS time) counted from 2024-09-01 00:00.
 fn secs(y: i32, mo: u32, d: u32, h: u32, mi: u32, s: f64) -> f64 {
-    assert!(
-        y == 2024 && mo == 9,
-        "JammerTest dates are in September 2024"
-    );
-    (d as f64 - 1.0) * 86_400.0 + h as f64 * 3600.0 + mi as f64 * 60.0 + s
+    days_from_2024_09_01(y, mo, d) as f64 * 86_400.0 + h as f64 * 3600.0 + mi as f64 * 60.0 + s
 }
 
 /// The receiver clock bias (s) of every epoch of a RINEX observation file, by the M010 round-1
@@ -152,6 +225,16 @@ fn secs(y: i32, mo: u32, d: u32, h: u32, mi: u32, s: f64) -> f64 {
 /// resets unwrapped, and the epoch dropped (None) when it has no solution, a solve failure, or
 /// a RAIM parity alarm. Times are seconds from 2024-09-01 00:00 GPS time.
 pub fn receiver_clock(obs_text: &str, nav_text: &str) -> Vec<(f64, Option<f64>)> {
+    receiver_clock_with(obs_text, nav_text, false)
+}
+
+/// [`receiver_clock`], optionally restricted to GPS satellites (`gps_only`): a multi-GNSS file
+/// would otherwise mix GPS and Galileo in one clock without an inter-system bias.
+pub fn receiver_clock_with(
+    obs_text: &str,
+    nav_text: &str,
+    gps_only: bool,
+) -> Vec<(f64, Option<f64>)> {
     let obs = parse_obs(obs_text).expect("parse obs");
     let ephs = parse_nav(nav_text).expect("parse nav");
     let apriori = obs.header.approx_xyz.expect("approx xyz");
@@ -167,6 +250,7 @@ pub fn receiver_clock(obs_text: &str, nav_text: &str) -> Vec<(f64, Option<f64>)>
         let t = secs(e.year, e.month, e.day, e.hour, e.minute, e.second);
         let meas: Vec<_> = assemble_epoch(&obs, idx, &ephs, apriori, &atmos, MASK_DEG, true)
             .into_iter()
+            .filter(|(sat, _)| !gps_only || sat.starts_with('G'))
             .map(|(_, m)| m)
             .collect();
         let n = meas.len();
