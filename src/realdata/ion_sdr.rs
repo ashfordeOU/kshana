@@ -14,17 +14,16 @@
 //! as attributes or as child elements; a stream's band may be a reference to a top-level
 //! band of the same identifier.
 //!
-//! Byte and bit order follow the chunk's `endian`: a little-endian word is read least
-//! significant byte first AND filled from its least significant bit upward (the first
-//! component of the first sample in the lowest bits), a big-endian word from its most
-//! significant bit downward. For the LuGRE (Lunar GNSS Receiver Experiment) snapshots, one
-//! byte per complex sample with `endian` Little, this puts I in the low nibble and Q in the
-//! high one; the receiver's interface control document says only "IQ interleaved", and a
-//! swap of the two would conjugate the signal, mirroring every Doppler.
-//! FINDING: scored against orbit-predicted Doppler, the strongest LuGRE acquisitions read this
-//! way come out mirrored (`tests/lugre_acquisition_cell_average_doppler_oracle.rs`), so the
-//! batches are evidently the conjugate of this reading: I in the high nibble. The reading is
-//! left as documented until that is decided and re-registered.
+//! Byte order follows the chunk's `endian`: a multi-byte word is assembled least significant
+//! byte first when it is little-endian. Samples then fill each word from its MOST significant
+//! bit downward whatever the byte order (`SdrLayout::fill_lsb_first` false, the default), so a
+//! LuGRE (Lunar GNSS Receiver Experiment) byte holding one 4-bit complex sample carries I in
+//! its high nibble and Q in its low one. That reading was decided on evidence: read the other
+//! way, with I in the low nibble (`fill_lsb_first` true, this module's earlier default and the
+//! reading the D7 comparisons registered at 768cb62b, 0d1839d2 and a81a9a4e use explicitly), the
+//! strongest LuGRE acquisitions came out mirrored against orbit-predicted Doppler
+//! (`tests/lugre_acquisition_cell_average_doppler_oracle.rs`): the conjugate of the signal. The
+//! receiver's interface control document says only "IQ interleaved".
 //!
 //! This module reads the subset the LuGRE snapshots use and refuses anything else with a
 //! stated reason: one lane, one stream, complex `IQ` or `QI` samples (or real `IF` samples),
@@ -318,11 +317,13 @@ pub struct SdrLayout {
     pub word_bytes: usize,
     /// Words per chunk.
     pub words_per_chunk: usize,
-    /// Little-endian words. The byte order of a word, and also the order in which samples
-    /// fill it: a little-endian word is filled from its least significant bit upward (the
-    /// first component of the first sample in the lowest bits), a big-endian word from its
-    /// most significant bit downward.
+    /// Little-endian words: the byte order in which a multi-byte word is assembled.
     pub little_endian: bool,
+    /// Samples fill a word from its least significant bit upward (the first component of the
+    /// first sample in the lowest bits) instead of from its most significant bit downward.
+    /// `parse_sdrx` sets it false; true reproduces the reading the first D7 registrations used
+    /// (see the module documentation).
+    pub fill_lsb_first: bool,
     /// Unfilled chunk bits come first in fill order rather than last.
     pub pad_head: bool,
     /// Samples per lump (the stream's rate factor).
@@ -532,6 +533,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         word_bytes,
         words_per_chunk,
         little_endian,
+        fill_lsb_first: false,
         pad_head,
         samples_per_lump: ratefactor,
         header_bytes: header_bytes + offset_bytes,
@@ -592,11 +594,11 @@ pub fn decode(
             }
             cur_chunk = c;
         }
-        // Fill-order bit `g` of the chunk: little-endian words fill from bit 0 up, big-endian
-        // words from the top bit down.
+        // Fill-order bit `g` of the chunk: from the top bit of each word down, or from bit 0 up
+        // when `fill_lsb_first`.
         let bit = |g: usize| -> u64 {
             let (w, k) = (g / word_bits, g % word_bits);
-            let pos = if layout.little_endian {
+            let pos = if layout.fill_lsb_first {
                 k
             } else {
                 word_bits - 1 - k
@@ -606,7 +608,7 @@ pub fn decode(
         let component = |g0: usize| -> f64 {
             let mut slot = 0u64;
             for k in 0..cb {
-                if layout.little_endian {
+                if layout.fill_lsb_first {
                     slot |= bit(g0 + k) << k;
                 } else {
                     slot = (slot << 1) | bit(g0 + k);
@@ -702,8 +704,23 @@ mod tests {
     }
 
     #[test]
-    fn decodes_little_endian_nibbles_low_first() {
+    fn decodes_one_byte_samples_high_nibble_first() {
         let l = parse_sdrx(META).unwrap();
+        assert!(!l.fill_lsb_first);
+        // Header AA BB; samples: high nibble I, low nibble Q; footer CC.
+        // 0x78: I = 7, Q = −8. 0xF0: I = −1, Q = 0. 0x1E: I = 1, Q = −2.
+        let bytes = [0xAAu8, 0xBB, 0x78, 0xF0, 0x1E, 0xCC];
+        let s = decode(&l, &bytes, 0, 3).unwrap();
+        let want = [(7.0, -8.0), (-1.0, 0.0), (1.0, -2.0)];
+        for (g, w) in s.iter().zip(want) {
+            assert_eq!((g.re, g.im), w);
+        }
+    }
+
+    #[test]
+    fn the_registered_low_nibble_first_reading_is_kept_on_request() {
+        let mut l = parse_sdrx(META).unwrap();
+        l.fill_lsb_first = true;
         // Header AA BB; samples: low nibble I, high nibble Q; footer CC.
         // 0x87: I = 7, Q = −8. 0x0F: I = −1, Q = 0. 0xE1: I = 1, Q = −2.
         let bytes = [0xAAu8, 0xBB, 0x87, 0x0F, 0xE1, 0xCC];
@@ -740,9 +757,10 @@ mod tests {
             .replace("<packedbits>8</packedbits>", "<packedbits>16</packedbits>")
             .replace("<sizeword>1</sizeword>", "<sizeword>2</sizeword>");
         let l = parse_sdrx(&meta).unwrap();
-        // Little-endian 16-bit word bytes [0x05, 0xFD] = 0xFD05: I = 0x05, Q = 0xFD = −3.
+        // Little-endian 16-bit word bytes [0x05, 0xFD] = 0xFD05, filled from the top: I = 0xFD
+        // = −3, Q = 0x05.
         let s = decode(&l, &[0, 0, 0x05, 0xFD, 0], 0, 1).unwrap();
-        assert_eq!((s[0].re, s[0].im), (5.0, -3.0));
+        assert_eq!((s[0].re, s[0].im), (-3.0, 5.0));
     }
 
     #[test]

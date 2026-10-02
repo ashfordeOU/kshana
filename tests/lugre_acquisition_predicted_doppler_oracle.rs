@@ -104,7 +104,10 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
     let mut out = BTreeMap::new();
     for snap in SNAPSHOTS {
         let p = dir.join(snap);
-        let layout = parse_sdrx(&std::fs::read_to_string(&p).expect("sdrx")).expect("layout");
+        let mut layout = parse_sdrx(&std::fs::read_to_string(&p).expect("sdrx")).expect("layout");
+        // The low-nibble-I reading registered at 0d1839d2 (ion_sdr's default changed after
+        // the finding; see its module documentation).
+        layout.fill_lsb_first = true;
         let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).expect("samples");
         let fs = layout.sample_rate_hz;
         let n = (fs / 1000.0).round() as usize * 100;
@@ -200,7 +203,10 @@ fn noise_alone_crosses_the_sample_power_threshold_on_lugre_iq() {
         return;
     };
     let p = dir.join(SNAPSHOTS[0]);
-    let layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
+    let mut layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
+    // The low-nibble-I reading registered at 0d1839d2 (ion_sdr's default changed after
+    // the finding; see its module documentation).
+    layout.fill_lsb_first = true;
     let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).unwrap();
     let fs = layout.sample_rate_hz;
     let mut x = decode(&layout, &bytes, 0, (fs / 1000.0).round() as usize * 100).unwrap();
