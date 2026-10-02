@@ -2925,7 +2925,15 @@ impl LeoPassScenario {
                     iono_delay_1_m: peak.map(|e| e.bands[i].iono_delay_m),
                     iono_delay_2_m: peak.map(|e| e.bands[j].iono_delay_m),
                     geometry_free_stec_tecu: peak.map(|e| {
-                        (e.bands[i].iono_delay_m - e.bands[j].iono_delay_m) * k_gf / iono::TECU
+                        // The modelled group delays stand in for the two pseudoranges (the
+                        // geometry cancels); modelled delays carry no code bias.
+                        iono::geometry_free_stec_tecu(
+                            e.bands[j].iono_delay_m,
+                            e.bands[i].iono_delay_m,
+                            bj.frequency_hz,
+                            bi.frequency_hz,
+                            0.0,
+                        )
                     }),
                     geometry_free_stec_sigma_tecu: match (n1, n2) {
                         (Some(x), Some(y)) => {

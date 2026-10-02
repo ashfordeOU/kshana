@@ -97,6 +97,78 @@ pub fn doppler_crb_sigma_hz(cn0_dbhz: f64, t_s: f64) -> f64 {
     (3.0 / (2.0 * PI * PI * cn0 * t_s.powi(3))).sqrt()
 }
 
+/// Root-mean-square (energy-weighted, central) duration of any signal envelope over
+/// `[0, t_s]` by numerical integration: `σ_t² = ∫ t² e(t) dt / ∫ e(t) dt − (∫ t e(t) dt / ∫ e(t) dt)²`
+/// with `e(t)` the instantaneous power. A constant envelope gives `t_s / √12`.
+pub fn rms_duration_numeric_s<F: Fn(f64) -> f64>(power: F, t_s: f64) -> f64 {
+    let n = 20_000;
+    let e = simpson(&power, 0.0, t_s, n);
+    let m1 = simpson(|t| t * power(t), 0.0, t_s, n) / e;
+    let m2 = simpson(|t| t * t * power(t), 0.0, t_s, n) / e;
+    (m2 - m1 * m1).max(0.0).sqrt()
+}
+
+/// CRB frequency one-sigma (Hz) of a known signal of RMS duration `sigma_t_s` received at
+/// C/N0 (dB-Hz) over `t_s`: `1 / (2 π σ_t √(2 (C/N0) T))`, the time-frequency dual of
+/// [`toa_crb_sigma_m`]. With `σ_t = T/√12` (a constant-envelope tone) it equals
+/// [`doppler_crb_sigma_hz`].
+pub fn frequency_crb_sigma_hz(sigma_t_s: f64, cn0_dbhz: f64, t_s: f64) -> f64 {
+    let cn0 = 10f64.powf(cn0_dbhz / 10.0);
+    1.0 / (2.0 * PI * sigma_t_s * (2.0 * cn0 * t_s).sqrt())
+}
+
+/// One satellite in view at one epoch of the time-of-arrival run: its body-fixed position
+/// (m), elevation (rad) and the pseudorange one-sigma per signal (m, the time-of-arrival bound
+/// at that elevation's C/N0 combined with the synchronisation error).
+#[derive(Clone, Debug)]
+pub struct NtnLos {
+    /// Satellite position (m, Earth-fixed).
+    pub sat_pos: [f64; 3],
+    /// Elevation (rad).
+    pub el: f64,
+    /// Pseudorange one-sigma for each signal, in the order of [`NtnGeometry::signals`] (m).
+    pub sigma_m: Vec<f64>,
+}
+
+/// One range-rate sample of the single-satellite Doppler pass, before noise.
+#[derive(Clone, Debug)]
+pub struct NtnDopplerSample {
+    /// Time from the run start (s).
+    pub t_s: f64,
+    /// Satellite position (m, Earth-fixed).
+    pub sat_pos: [f64; 3],
+    /// Satellite velocity (m/s, Earth-fixed).
+    pub sat_vel: [f64; 3],
+}
+
+/// The geometry an `ntn-positioning` run uses, exported so an external tool can recompute the
+/// formal covariances on identical inputs: the true user position, the satellites in view at
+/// every epoch with their per-signal sigmas, and the Doppler pass.
+#[derive(Clone, Debug)]
+pub struct NtnGeometry {
+    /// True user position (m, Earth-fixed).
+    pub user_ecef: [f64; 3],
+    /// Signals, in report order.
+    pub signals: Vec<NtnSignalCfg>,
+    /// Satellites in view per epoch.
+    pub epochs: Vec<Vec<NtnLos>>,
+    /// The Doppler pass: satellite index, samples and the range-rate one-sigma (m/s).
+    pub doppler_pass: Option<(usize, Vec<NtnDopplerSample>, f64)>,
+}
+
+/// Run settings shared by [`NtnScenario::compute`] and its geometry.
+struct NtnCtx {
+    carrier: f64,
+    t_int: f64,
+    t_dop: f64,
+    cn0: [f64; 2],
+    sync: f64,
+    n_ep: usize,
+    mean_in_view: f64,
+    n_satellites: usize,
+    site: Site,
+}
+
 /// One signal of the NTN scenario.
 #[derive(Clone, Debug, Deserialize, Serialize)]
 #[serde(deny_unknown_fields)]
@@ -179,7 +251,8 @@ pub struct SignalBound {
     pub range_sigma_mask_m: f64,
     /// CRB range one-sigma at the zenith C/N0 (m).
     pub range_sigma_zenith_m: f64,
-    /// Median formal one-sigma 3D position of the time-of-arrival fix (m).
+    /// Median formal one-sigma 3D position of the time-of-arrival fix (m), the Cramér-Rao
+    /// bound evaluated at the true position.
     pub toa_median_sigma_3d_m: Option<f64>,
     /// RMS 3D error of the seeded time-of-arrival fixes (m).
     pub toa_rms_error_3d_m: Option<f64>,
@@ -242,8 +315,141 @@ fn default_systems() -> Vec<SystemCfg> {
 }
 
 impl NtnScenario {
+    /// The geometry of this run (see [`NtnGeometry`]); [`NtnScenario::compute`] uses exactly
+    /// this geometry.
+    pub fn geometry(&self) -> Result<NtnGeometry, String> {
+        Ok(self.prepare()?.0)
+    }
+
     /// Compute the report.
     pub fn compute(&self) -> Result<NtnReport, String> {
+        let (geo, ctx) = self.prepare()?;
+        let NtnCtx {
+            carrier,
+            t_int,
+            t_dop,
+            cn0,
+            sync,
+            n_ep,
+            mean_in_view,
+            n_satellites,
+            site,
+        } = ctx;
+        let user = geo.user_ecef;
+        let clocks = [SystemClock::Estimated];
+        let mut rng = ChaCha8Rng::seed_from_u64(self.seed.unwrap_or(1));
+        let n01 = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
+        let mut out = Vec::new();
+        for (si, sig) in geo.signals.iter().enumerate() {
+            let beta = gabor_bandwidth_flat_hz(sig.bandwidth_hz);
+            let (mut sig3, mut err3, mut pdops, mut fixes) =
+                (Vec::new(), Vec::new(), Vec::new(), 0usize);
+            for v in &geo.epochs {
+                // Every satellite in one clock group (one network time scale).
+                let obs: Vec<PseudorangeObs> = v
+                    .iter()
+                    .map(|s| {
+                        let sd = s.sigma_m[si];
+                        PseudorangeObs {
+                            sat_pos: s.sat_pos,
+                            pseudorange_m: norm(sub(s.sat_pos, user))
+                                + 300.0
+                                + sd * n01.sample(&mut rng),
+                            sigma_m: sd,
+                            system: 0,
+                        }
+                    })
+                    .collect();
+                if obs.len() < 4 {
+                    continue;
+                }
+                let start = [user[0] + 500.0, user[1] - 500.0, user[2] + 500.0];
+                if let Ok(fix) = joint_pvt::solve(&obs, &clocks, start, 15) {
+                    fixes += 1;
+                    // The bound is the formal covariance at the true position, not at the
+                    // noisy estimate.
+                    let s =
+                        joint_pvt::formal_sigma_enu(user, &obs, &clocks).unwrap_or(fix.sigma_enu_m);
+                    sig3.push((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]).sqrt());
+                    err3.push(norm(sub(fix.position, user)));
+                    pdops.push(fix.dop.pdop);
+                }
+            }
+            out.push(SignalBound {
+                name: sig.name.clone(),
+                bandwidth_hz: sig.bandwidth_hz,
+                rms_bandwidth_hz: beta,
+                range_sigma_mask_m: toa_crb_sigma_m(beta, cn0[0], t_int),
+                range_sigma_zenith_m: toa_crb_sigma_m(beta, cn0[1], t_int),
+                toa_median_sigma_3d_m: median(sig3),
+                toa_rms_error_3d_m: rms(&err3),
+                median_pdop: median(pdops),
+                toa_availability: fixes as f64 / n_ep as f64,
+            });
+        }
+        let doppler_pass = match &geo.doppler_pass {
+            Some((j, samples, sigma_rr)) => {
+                let obs: Vec<RangeRateObs> = samples
+                    .iter()
+                    .map(|smp| {
+                        let rr = doppler::range_rate(user, [0.0; 3], smp.sat_pos, smp.sat_vel);
+                        RangeRateObs {
+                            t_s: smp.t_s,
+                            sat_pos: smp.sat_pos,
+                            sat_vel: smp.sat_vel,
+                            range_rate_mps: rr + 0.2 + sigma_rr * n01.sample(&mut rng),
+                            sigma_mps: *sigma_rr,
+                        }
+                    })
+                    .collect();
+                let opts = DopplerOptions {
+                    height_sigma_m: Some(10.0),
+                    ..Default::default()
+                };
+                let start = [user[0] + 2e3, user[1] + 2e3, user[2] - 2e3];
+                match doppler::solve(&obs, &opts, start, Some(user)) {
+                    Ok(fix) => {
+                        let e = sub(fix.position, user);
+                        let (ee, nn, _) = site.enu();
+                        let h = ((super::geom::dot(e, ee)).powi(2)
+                            + (super::geom::dot(e, nn)).powi(2))
+                        .sqrt();
+                        Some(DopplerPassOut {
+                            satellite: *j,
+                            n_obs: obs.len(),
+                            duration_s: (obs.len().saturating_sub(1)) as f64
+                                * self.step_s.unwrap_or(10.0),
+                            sigma_range_rate_mps: *sigma_rr,
+                            sigma_enu_m: fix.sigma_enu_m,
+                            horizontal_error_m: h,
+                        })
+                    }
+                    Err(_) => None,
+                }
+            }
+            None => None,
+        };
+        Ok(NtnReport {
+            label: "MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a \
+                    textbook closed form (checked against numerical integration, not against a \
+                    published worked figure); the accuracy is a bound on a multipath-free channel \
+                    with a stated synchronisation error, not an achieved result"
+                .into(),
+            carrier_hz: carrier,
+            integration_s: t_int,
+            doppler_integration_s: t_dop,
+            cn0_dbhz: cn0,
+            sync_error_m: sync,
+            doppler_sigma_zenith_hz: doppler_crb_sigma_hz(cn0[1], t_dop),
+            n_satellites,
+            mean_in_view,
+            signals: out,
+            doppler_pass,
+        })
+    }
+
+    /// Validate the inputs and build the run's geometry and settings.
+    fn prepare(&self) -> Result<(NtnGeometry, NtnCtx), String> {
         let carrier = self.carrier_hz.unwrap_or(2_172.5e6);
         let t_int = self.integration_s.unwrap_or(0.1);
         let t_dop = self.doppler_integration_s.unwrap_or(1.0);
@@ -307,64 +513,30 @@ impl NtnScenario {
         };
         let user = site.ecef();
         let up = site.enu().2;
-        let clocks: Vec<SystemClock> = systems.iter().map(|_| SystemClock::Estimated).collect();
         let n_ep = (duration / step).floor() as usize + 1;
         let views: Vec<Vec<super::system::InView>> = (0..n_ep)
             .map(|k| in_view(&systems, user, up, k as f64 * step))
             .collect();
         let mean_in_view = views.iter().map(|v| v.len() as f64).sum::<f64>() / n_ep as f64;
-        let mut rng = ChaCha8Rng::seed_from_u64(self.seed.unwrap_or(1));
-        let n01 = Normal::new(0.0, 1.0).map_err(|e| e.to_string())?;
-        let mut out = Vec::new();
-        for sig in &signals {
-            let beta = gabor_bandwidth_flat_hz(sig.bandwidth_hz);
-            let sig_at = |el: f64| {
-                let c = systems[0].cn0_at(el);
-                let crb = toa_crb_sigma_m(beta, c, t_int);
-                (crb * crb + sync * sync).sqrt()
-            };
-            let (mut sig3, mut err3, mut pdops, mut fixes) =
-                (Vec::new(), Vec::new(), Vec::new(), 0usize);
-            for v in &views {
-                // Every satellite in one clock group (one network time scale).
-                let obs: Vec<PseudorangeObs> = v
-                    .iter()
-                    .map(|s| {
-                        let sd = sig_at(s.el);
-                        PseudorangeObs {
-                            sat_pos: s.pos,
-                            pseudorange_m: norm(sub(s.pos, user))
-                                + 300.0
-                                + sd * n01.sample(&mut rng),
-                            sigma_m: sd,
-                            system: 0,
-                        }
+        let epochs: Vec<Vec<NtnLos>> = views
+            .iter()
+            .map(|v| {
+                v.iter()
+                    .map(|s| NtnLos {
+                        sat_pos: s.pos,
+                        el: s.el,
+                        sigma_m: signals
+                            .iter()
+                            .map(|sig| {
+                                let beta = gabor_bandwidth_flat_hz(sig.bandwidth_hz);
+                                let crb = toa_crb_sigma_m(beta, systems[0].cn0_at(s.el), t_int);
+                                (crb * crb + sync * sync).sqrt()
+                            })
+                            .collect(),
                     })
-                    .collect();
-                if obs.len() < 4 {
-                    continue;
-                }
-                let start = [user[0] + 500.0, user[1] - 500.0, user[2] + 500.0];
-                if let Ok(fix) = joint_pvt::solve(&obs, &clocks[..1], start, 15) {
-                    fixes += 1;
-                    let s = fix.sigma_enu_m;
-                    sig3.push((s[0] * s[0] + s[1] * s[1] + s[2] * s[2]).sqrt());
-                    err3.push(norm(sub(fix.position, user)));
-                    pdops.push(fix.dop.pdop);
-                }
-            }
-            out.push(SignalBound {
-                name: sig.name.clone(),
-                bandwidth_hz: sig.bandwidth_hz,
-                rms_bandwidth_hz: beta,
-                range_sigma_mask_m: toa_crb_sigma_m(beta, cn0[0], t_int),
-                range_sigma_zenith_m: toa_crb_sigma_m(beta, cn0[1], t_int),
-                toa_median_sigma_3d_m: median(sig3),
-                toa_rms_error_3d_m: rms(&err3),
-                median_pdop: median(pdops),
-                toa_availability: fixes as f64 / n_ep as f64,
-            });
-        }
+                    .collect()
+            })
+            .collect();
         // Single-satellite Doppler over the longest pass of the first system.
         let lambda = C_LIGHT / carrier;
         let sigma_rr = (lambda * doppler_crb_sigma_hz(cn0[0], t_dop)).max(1e-3);
@@ -380,62 +552,40 @@ impl NtnScenario {
         }
         let doppler_pass = match best {
             Some((j, n)) if n >= 6 => {
-                let mut obs = Vec::new();
+                let mut samples = Vec::new();
                 for (k, v) in views.iter().enumerate() {
                     if let Some(s) = v.iter().find(|s| s.system == 0 && s.sat == j) {
-                        let rr = doppler::range_rate(user, [0.0; 3], s.pos, s.vel);
-                        obs.push(RangeRateObs {
+                        samples.push(NtnDopplerSample {
                             t_s: k as f64 * step,
                             sat_pos: s.pos,
                             sat_vel: s.vel,
-                            range_rate_mps: rr + 0.2 + sigma_rr * n01.sample(&mut rng),
-                            sigma_mps: sigma_rr,
                         });
                     }
                 }
-                let opts = DopplerOptions {
-                    height_sigma_m: Some(10.0),
-                    ..Default::default()
-                };
-                let start = [user[0] + 2e3, user[1] + 2e3, user[2] - 2e3];
-                match doppler::solve(&obs, &opts, start, Some(user)) {
-                    Ok(fix) => {
-                        let e = sub(fix.position, user);
-                        let (ee, nn, _) = site.enu();
-                        let h = ((super::geom::dot(e, ee)).powi(2)
-                            + (super::geom::dot(e, nn)).powi(2))
-                        .sqrt();
-                        Some(DopplerPassOut {
-                            satellite: j,
-                            n_obs: obs.len(),
-                            duration_s: (obs.len().saturating_sub(1)) as f64 * step,
-                            sigma_range_rate_mps: sigma_rr,
-                            sigma_enu_m: fix.sigma_enu_m,
-                            horizontal_error_m: h,
-                        })
-                    }
-                    Err(_) => None,
-                }
+                Some((j, samples, sigma_rr))
             }
             _ => None,
         };
-        Ok(NtnReport {
-            label: "MODELLED positioning from Cramér-Rao bounds: the bandwidth-to-bound step is a \
-                    textbook closed form (checked against numerical integration, not against a \
-                    published worked figure); the accuracy is a bound on a multipath-free channel \
-                    with a stated synchronisation error, not an achieved result"
-                .into(),
-            carrier_hz: carrier,
-            integration_s: t_int,
-            doppler_integration_s: t_dop,
-            cn0_dbhz: cn0,
-            sync_error_m: sync,
-            doppler_sigma_zenith_hz: doppler_crb_sigma_hz(cn0[1], t_dop),
-            n_satellites: systems.iter().map(|s| s.n_satellites).sum(),
-            mean_in_view,
-            signals: out,
-            doppler_pass,
-        })
+        let n_satellites = systems.iter().map(|s| s.n_satellites).sum();
+        Ok((
+            NtnGeometry {
+                user_ecef: user,
+                signals,
+                epochs,
+                doppler_pass,
+            },
+            NtnCtx {
+                carrier,
+                t_int,
+                t_dop,
+                cn0,
+                sync,
+                n_ep,
+                mean_in_view,
+                n_satellites,
+                site,
+            },
+        ))
     }
 
     /// Run and render: JSON with units, summary, chart.
@@ -623,6 +773,20 @@ mod tests {
         // By hand: B = 5 MHz, beta = 1.4434 MHz, C/N0 = 1e4.5, T = 0.1 s:
         // c / (2 pi * 1.4434e6 * sqrt(2 * 31622.8 * 0.1)) = 0.4157 m.
         assert!((a - 0.4157).abs() < 1e-3, "{a}");
+    }
+
+    #[test]
+    fn the_time_spread_frequency_bound_reduces_to_the_tone_bound() {
+        // A constant envelope over T has RMS duration T/sqrt(12) (numerically), and the
+        // time-spread bound then equals the complex-tone bound.
+        let t = 0.25;
+        let st = rms_duration_numeric_s(|_| 1.0, t);
+        assert!((st - t / 12f64.sqrt()).abs() < 1e-9 * t, "{st}");
+        for cn0 in [30.0, 45.0, 60.0] {
+            let a = frequency_crb_sigma_hz(st, cn0, t);
+            let b = doppler_crb_sigma_hz(cn0, t);
+            assert!((a - b).abs() < 1e-8 * b, "{a} vs {b}");
+        }
     }
 
     #[test]

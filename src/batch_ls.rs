@@ -35,8 +35,9 @@ pub struct LsqResult {
     pub converged: bool,
 }
 
-/// Central finite-difference Jacobian `H` (`m × n`) of `h` at `x`.
-fn fd_jacobian<H>(h: &H, x: &[f64], m: usize) -> Vec<Vec<f64>>
+/// Central finite-difference Jacobian `H` (`m × n`) of `h` at `x`, the one [`gauss_newton`]
+/// linearises with (step `1e-6 · max(|x_p|, 1)` per parameter).
+pub fn fd_jacobian<H>(h: &H, x: &[f64], m: usize) -> Vec<Vec<f64>>
 where
     H: Fn(&[f64]) -> Vec<f64>,
 {
@@ -107,6 +108,70 @@ where
         let dx: Vec<f64> = (0..n)
             .map(|p| (0..n).map(|q| a_inv[p][q] * b[q]).sum())
             .collect();
+        for (xp, &d) in x.iter_mut().zip(&dx) {
+            *xp += d;
+        }
+        let dx_norm = dx.iter().map(|v| v * v).sum::<f64>().sqrt();
+        if dx_norm < tol {
+            converged = true;
+            break;
+        }
+    }
+    let hx = h(&x);
+    let rms = (z
+        .iter()
+        .zip(&hx)
+        .map(|(&zi, &hi)| (zi - hi).powi(2))
+        .sum::<f64>()
+        / m as f64)
+        .sqrt();
+    Some(LsqResult {
+        x,
+        iterations,
+        rms_residual: rms,
+        converged,
+    })
+}
+
+/// [`gauss_newton`] with each step solved by Householder QR of the whitened Jacobian
+/// (`min ‖√W (H dx − r)‖`, [`crate::leo_navmsg::fit::lstsq`]) instead of inverting the normal
+/// matrix `HᵀWH`. The normal equations square the condition number; QR keeps the step's
+/// forward error near `κ ε` rather than `κ² ε`, which matters for ill-conditioned networks.
+/// Same arguments, convergence rule and result as [`gauss_newton`].
+pub fn gauss_newton_qr<H>(
+    h: H,
+    z: &[f64],
+    weights: &[f64],
+    x0: &[f64],
+    max_iter: usize,
+    tol: f64,
+) -> Option<LsqResult>
+where
+    H: Fn(&[f64]) -> Vec<f64>,
+{
+    let n = x0.len();
+    let m = z.len();
+    if weights.len() != m || n == 0 || m < n || weights.iter().any(|w| w.is_nan() || *w < 0.0) {
+        return None;
+    }
+    let sw: Vec<f64> = weights.iter().map(|w| w.sqrt()).collect();
+    let mut x = x0.to_vec();
+    let mut iterations = 0;
+    let mut converged = false;
+    for it in 0..max_iter {
+        iterations = it + 1;
+        let hx = h(&x);
+        if hx.len() != m {
+            return None;
+        }
+        let jac = fd_jacobian(&h, &x, m);
+        let a: Vec<Vec<f64>> = jac
+            .iter()
+            .zip(&sw)
+            .map(|(row, s)| row.iter().map(|v| v * s).collect())
+            .collect();
+        let b: Vec<f64> = (0..m).map(|i| sw[i] * (z[i] - hx[i])).collect();
+        let dx = crate::leo_navmsg::fit::lstsq(&a, &b)?;
         for (xp, &d) in x.iter_mut().zip(&dx) {
             *xp += d;
         }
