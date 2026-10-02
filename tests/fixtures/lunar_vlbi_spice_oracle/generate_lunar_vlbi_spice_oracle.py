@@ -25,13 +25,19 @@ station 0 = DSS-14, 1 = DSS-43, 2 = DSS-63; x,y,z the station's ITRF93 position 
 (spkpos, 'NONE', relative to EARTH); dlt_db* in s/m along the MOON_PA_DE440 axes; dlt_ds* in
 s/m along ITRF93.
 
+With `--epochs j2000` (round 2 amendment 3) the 25 epochs run hourly from 2000-01-01T06:00 to
+2000-01-02T06:00 UTC instead, where SPICE's double ET resolves the emission epoch, and the
+output is spice_light_times_j2000.csv.
+
     source "$KSHANA_ORACLES/env.sh"
     $ORACLE_PY tests/fixtures/lunar_vlbi_spice_oracle/generate_lunar_vlbi_spice_oracle.py
+    $ORACLE_PY tests/fixtures/lunar_vlbi_spice_oracle/generate_lunar_vlbi_spice_oracle.py --epochs j2000
 """
 
 import hashlib
 import os
 import pathlib
+import sys
 import tempfile
 
 import spiceypy as sp
@@ -53,7 +59,14 @@ H_KM = 500.0
 STENCIL = [(-2.0, 1.0), (-1.0, -8.0), (1.0, 8.0), (2.0, -1.0)]
 
 
+J2000_SET = sys.argv[1:] == ["--epochs", "j2000"]
+OUTPUT = "spice_light_times_j2000.csv" if J2000_SET else "spice_light_times.csv"
+
+
 def utc(hour):
+    if J2000_SET:
+        h = hour + 6
+        return "2000-01-%02dT%02d:00:00" % (1 + h // 24, h % 24)
     return "2024-01-02T00:00:00" if hour == 24 else "2024-01-01T%02d:00:00" % hour
 
 
@@ -104,6 +117,8 @@ def main():
     for k in KERNELS:
         lines.append("# kernel %s sha256 %s"
                      % (k, hashlib.sha256((NAIF / k).read_bytes()).hexdigest()))
+    if J2000_SET:
+        lines.append("# epochs: 25 hourly from %s UTC" % utc(0))
     lines.append("# beacon (1737.4, 0, 0) km in MOON_PA_DE440; stations 0 DSS-14, 1 DSS-43, "
                  "2 DSS-63; partials: five-point central difference, h = %.0f km" % H_KM)
     lines.append("hour,et_s,station,x_m,y_m,z_m,lt_s,dlt_dbx,dlt_dby,dlt_dbz,dlt_dsx,dlt_dsy,"
@@ -124,9 +139,9 @@ def main():
             vals = [x * 1e3 for x in s_km] + [lt] + db + ds
             lines.append("%d,%s,%d,%s" % (hour, repr(et), si,
                                           ",".join("%.17e" % v for v in vals)))
-    lines.insert(len(KERNELS) + 3,
+    lines.insert(len(KERNELS) + (4 if J2000_SET else 3),
                  "# spkcpt vs spkcpo light time at zero offset: worst %.3e s" % worst_route)
-    (HERE / "spice_light_times.csv").write_text("\n".join(lines) + "\n")
+    (HERE / OUTPUT).write_text("\n".join(lines) + "\n")
     os.remove(spk)
     os.rmdir(tmp)
     print("wrote %d rows; spkcpt/spkcpo worst %.3e s" % (len(ets) * 3, worst_route))
