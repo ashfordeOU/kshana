@@ -53,6 +53,11 @@
 //! signal, which at GNSS (global navigation satellite system) carrier-to-noise densities is
 //! 30 dB or more below the noise in the sampled bandwidth.
 //!
+//! On real front ends the noise is band-limited and the samples are correlated, which raises
+//! every cell's noise by a common factor that the sample power does not reveal; for that case
+//! the result also carries a cell-averaging statistic, the peak over the grid's own mean cell,
+//! with its own decision against the same threshold.
+//!
 //! What it does not do, stated: no code-Doppler compensation across non-coherent blocks (a
 //! 25 kHz carrier Doppler moves the code 16 chips per second), no data-bit wipe-off, no
 //! cell-averaging CFAR (constant false-alarm rate) beyond the global power normalisation.
@@ -248,6 +253,13 @@ pub struct PcpsResult {
     pub n_doppler_bins: usize,
     /// Mean sample power `σ²` used to normalise.
     pub sample_power: f64,
+    /// The peak normalised by the grid's own mean cell instead of the sample power,
+    /// `2M · G_max / mean(G)`: a cell-averaging statistic that stays chi-square-scaled when
+    /// the noise is not white (a band-limited front end correlates neighbouring samples and
+    /// raises every cell's noise by the same factor, which `statistic` does not see).
+    pub cell_average_statistic: f64,
+    /// Whether `cell_average_statistic` exceeded `threshold`.
+    pub acquired_cell_average: bool,
 }
 
 /// Run the parallel code-phase search of `cfg` on `samples` (at least
@@ -369,6 +381,9 @@ pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<Pc
         }
     }
     let (peak, jb, tb) = best;
+    let n_all = (acc.len() * spc) as f64;
+    let mean_cell = acc.iter().flatten().sum::<f64>() / n_all;
+    let cell_average_statistic = 2.0 * cfg.noncoherent as f64 * peak / mean_cell;
     let samples_per_chip = cfg.fs_hz / CA_CHIP_RATE_HZ;
     let guard = samples_per_chip.ceil() as usize;
     let mut floor_sum = 0.0;
@@ -401,6 +416,8 @@ pub fn pcps_grid(samples: &[Cf64], code: &CaCode, cfg: &PcpsConfig) -> Result<Pc
             samples_per_code: spc,
             n_doppler_bins: bins.len(),
             sample_power: sigma2,
+            cell_average_statistic,
+            acquired_cell_average: cell_average_statistic > threshold,
         },
         grid: acc,
     })
@@ -745,6 +762,40 @@ mod tests {
         assert!(!one.acquired, "{one:?}");
         assert!(many.acquired, "{many:?}");
         assert!(many.delay_samples.abs_diff(777) <= 1);
+    }
+
+    #[test]
+    fn cell_averaging_holds_its_false_alarm_rate_on_coloured_noise() {
+        // Noise correlated between neighbouring samples: x[n] = w[n] + 0.6·w[n−1], lag-one
+        // correlation ρ = 0.6/1.36 = 0.44. Against a code of 1.955 samples per chip the cell
+        // noise rises by 1 + 2ρ(1 − 1/1.955) ≈ 1.43: the sample-power statistic is inflated by
+        // that and crosses; the cell-averaging one does not.
+        let fs = 2_000_000.0;
+        let w = synth(3, fs, 2000 * 20 + 1, -100.0, 0.0, 0.0, 77);
+        let x: Vec<Cf64> = (1..w.len()).map(|n| w[n] + w[n - 1] * 0.6).collect();
+        let c = PcpsConfig {
+            noncoherent: 20,
+            ..cfg(fs)
+        };
+        let r = pcps_acquire(&x, &CaCode::new(3).unwrap(), &c).unwrap();
+        assert!(
+            r.floor > 1.3 * 40.0 && r.floor < 1.6 * 40.0,
+            "floor {}",
+            r.floor
+        );
+        assert!(
+            r.acquired,
+            "the sample-power statistic should be fooled: {r:?}"
+        );
+        assert!(!r.acquired_cell_average, "{r:?}");
+        // And a real signal on the same coloured noise is still found by it.
+        let s = synth(3, fs, 2000 * 20 + 1, 45.0, 321.0, 1500.0, 78);
+        let y: Vec<Cf64> = (1..s.len()).map(|n| s[n] + w[n - 1] * 0.6).collect();
+        let r = pcps_acquire(&y, &CaCode::new(3).unwrap(), &c).unwrap();
+        assert!(
+            r.acquired_cell_average && r.delay_samples.abs_diff(320) <= 2,
+            "{r:?}"
+        );
     }
 
     #[test]
