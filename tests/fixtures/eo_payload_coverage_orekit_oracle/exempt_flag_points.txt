@@ -1,0 +1,2 @@
+# Contiguous-flag exemption list (pre-registered rule: Kshana swath / J2 node spacing within +-0.1 % of 1).
+# No grid point has a ratio within +-0.1 % of 1, so every contiguous flag must match exactly.

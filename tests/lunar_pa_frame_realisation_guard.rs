@@ -248,9 +248,9 @@ fn the_orientation_series_interpolation_error_is_tens_of_metres_not_sub_metre() 
         .collect();
     assert_eq!(
         rows.len(),
-        731,
-        "the DE440 orientation fixture should hold 731 daily rows; found {}. A changed \
-         cadence changes the interpolation error this test bounds.",
+        6209,
+        "the DE440 orientation fixture should hold 6 209 daily rows (2014-2030); found {}. \
+         A changed cadence changes the interpolation error this test bounds.",
         rows.len()
     );
     assert_eq!(rows[0].len(), 10, "expected t plus nine matrix elements");

@@ -48,14 +48,16 @@ along-track completing the triad. The clock adds the ICD relativistic term
 `F·e·√A·sin E`; for `ecef-poly` it is the general form `−2 r·v / c²` from the polynomial
 and its derivative.
 
-Three readings are Kshana's own and are stated as such:
+The Liu et al. terms follow the paper's user algorithm (Section 2.2, Eq. 1-7):
+`A = A0 + ȧ·tk`, `n = √(μ/A0³) + Δn + ṅ·tk` (releases before 0.30 used the Global
+Positioning System (GPS) civil-navigation convention `½·ṅ·tk`, so a `ṅ` they wrote is twice
+the paper's), and `Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ` added to the radius,
+`Φ` the uncorrected argument of latitude.
+
+Two readings are Kshana's own and are stated as such:
 
 - The RAC frame and the `τ = tk / tau_s` normalisation. No public document defines a LEO
   correction frame for a broadcast message.
-- The Liu et al. terms. The paper's full text was not accessible, so Kshana evaluates
-  `A = A0 + ȧ·tk`, `n = n0 + Δn + ½·ṅ·tk` (the Global Positioning System (GPS) civil-navigation convention) and adds
-  `Crs1·sin Φ + Crc1·cos Φ + Crs3·sin 3Φ + Crc3·cos 3Φ` to the radius, `Φ` the argument
-  of latitude.
 - A zero-clock message's clock is zero in total: the steering loop is taken to hold the
   apparent clock, relativistic term included, to system time.
 
@@ -75,7 +77,9 @@ relativistic term) or steered (a first-order Gauss–Markov residual).
 alone are nearly indistinguishable. It starts from the osculating state at `toe` with
 the J2 node rate. Weak zero-centred priors bound the rates and harmonics that a short
 arc cannot resolve; with a 1 cm observation weight they act only in those null
-directions. The RAC polynomials are then fitted to the along/cross/radial residuals by
+directions. The `liu22` fit instead follows the paper's Section 2.3: it starts with every
+correction term zero, has no priors (plain least squares) and stops when every parameter
+step is below 1e-3 of its formal standard deviation, or after 100 iterations. The RAC polynomials are then fitted to the along/cross/radial residuals by
 linear least squares, and the clock polynomial to the truth clock minus the relativistic
 term the user will add back.
 
@@ -184,9 +188,9 @@ Kshana's encoding:
 | `kepler-rac` | 60 s | 37 | 1045 | 0.000 cm | 0.044 cm |
 | `kepler-rac` | 300 s | 37 | 1045 | 0.005 cm | 0.120 cm |
 | `kepler-rac` | 600 s | 37 | 1045 | 0.160 cm | 0.208 cm |
-| `liu22` | 60 s | 22 | 730 | 0.011 cm | 0.046 cm |
-| `liu22` | 300 s | 22 | 730 | 0.068 cm | 0.139 cm |
-| `liu22` | 600 s | 22 | 730 | 0.269 cm | 0.299 cm |
+| `liu22` | 60 s | 22 | 730 | 0.014 cm | 0.046 cm |
+| `liu22` | 300 s | 22 | 730 | 0.074 cm | 0.142 cm |
+| `liu22` | 600 s | 22 | 730 | 0.258 cm | 0.290 cm |
 | `ecef-poly` (zero clock) | 60 s | 22 | 750 | 0.000 cm | 28.784 cm |
 | `ecef-poly` (zero clock) | 300 s | 22 | 750 | 0.005 cm | 28.784 cm |
 | `ecef-poly` (zero clock) | 600 s | 22 | 750 | 0.561 cm | 28.774 cm |
@@ -200,16 +204,19 @@ satellite's inclination:
 
 | Satellite | Altitude | Inclination | Liu et al. 2025 | Kshana (orbit-only RMS) | ratio |
 |---|---|---|---|---|---|
-| GRACE-A | 320 km | 89.00° | 8.88 cm | 5.40 cm | 0.61 |
-| GRACE-C | 475 km | 89.00° | 6.21 cm | 4.12 cm | 0.66 |
-| Sentinel-2A | 786 km | 98.57° | 2.87 cm | 2.95 cm | 1.03 |
-| HY-2A | 966 km | 99.34° | 2.11 cm | 2.38 cm | 1.13 |
-| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.70 cm | 0.94 |
+| GRACE-A | 320 km | 89.00° | 8.88 cm | 4.25 cm | 0.48 |
+| GRACE-C | 475 km | 89.00° | 6.21 cm | 2.87 cm | 0.46 |
+| Sentinel-2A | 786 km | 98.57° | 2.87 cm | 2.20 cm | 0.77 |
+| HY-2A | 966 km | 99.34° | 2.11 cm | 1.25 cm | 0.59 |
+| Sentinel-6A | 1336 km | 66.04° | 0.75 cm | 0.51 cm | 0.67 |
 
 This is **not** a validation. The paper fitted real precise science orbits of the named
 satellites (with their full gravity, drag and non-gravitational history); Kshana fits its
-own integrated orbit, reads the six added parameters as described above, and uses its
-own SISRE weights. The comparison shows the trend and the order of magnitude.
+own integrated orbit, evaluates the six added parameters as described above, and uses its
+own SISRE weights. The comparison shows the trend and the order of magnitude. The
+comparison on the same real orbits the paper fitted is
+`tests/leo_navmsg_fit_real_orbit_oracle.rs` (since 0.30 the 22-parameter fit agrees there
+within the pre-registered factor 1.5, on the paper's days and on eight held-out days).
 
 ### Mid-pass update
 
@@ -319,7 +326,7 @@ and widens the fields to keep the ranges a LEO fit needs:
 | along/cross/radial corrections (model 2) | `racTauExp` | 4 | 1 | log2(s) |
 | along/cross/radial corrections (model 2) | `a_k, c_k, r_k` | 22 | 2^-14 | m |
 | Liu et al. 2025 extras (model 3) | `aDot` | 26 | 2^-20 | m/s |
-| Liu et al. 2025 extras (model 3) | `nDot` | 30 | 2^-60 | semicircle/s^2 |
+| Liu et al. 2025 extras (model 3) | `nDot` | 30 | 2^-58 | semicircle/s^2 |
 | Liu et al. 2025 extras (model 3) | `Crs3` | 26 | 2^-10 | m |
 | Liu et al. 2025 extras (model 3) | `Crc3` | 26 | 2^-10 | m |
 | Liu et al. 2025 extras (model 3) | `Crs1` | 26 | 2^-10 | m |
@@ -354,7 +361,9 @@ encoding fits at 300 to 2000 km, inclinations from 0° to 140° and fit interval
 20 minutes: `deltaN` and `OmegaDot` are wide because on a near-equatorial orbit the node
 is poorly defined and the fit shares the J2 drift of the argument of latitude between
 them, and `aDot` and `nDot` because the 22-parameter fit over 20 minutes absorbs part of
-the short-period oscillation of the semi-major axis. The degree-7 along-track
+the short-period oscillation of the semi-major axis. Since 0.30 the 22-parameter fit is the
+paper's plain least squares without priors, and an equatorial 800 km fit then needs `nDot`
+of about 6.3e-10 semicircle/s^2, so its scale went from 2^-60 to 2^-58. The degree-7 along-track
 corrections of `kepler-rac` fit the 22-bit coefficient range up to 15 minutes; a longer
 fit can exceed it and is then refused. `quantisation_budget` reports,
 for every ephemeris and clock field, the largest position and range change a half-step
@@ -448,7 +457,8 @@ runs without it, and the README's scenario-file count still counts the withheld 
 | Mid-pass continuity | MODELLED | jump identity; closed-form cone bound against sampling |
 | Binary format and budget | MODELLED | round trips; every field's half step under 1 mm |
 | RINEX-style and CSV | MODELLED | round trips |
-| Liu 22-parameter and ATOMIC models | MODELLED | published Liu table printed beside Kshana's, not pinned |
+| Liu et al. 2025 22-parameter model and fit | VALIDATED | TU Graz ITSG precise orbits of four satellites against the paper's Tables 4, 5, 6 and 8: along, cross, radial and SISRE ratios 0.755 to 1.138 on the paper days and 0.683 to 1.186 on eight held-out days, inside 1.5x (`tests/leo_navmsg_fit_real_orbit_oracle.rs`) |
+| ATOMIC zero-clock polynomial and the five-altitude table | MODELLED | ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned |
 | Ionosphere and UTC | MODELLED | ICD closed forms; the RTKLIB-checked Klobuchar model |
 
 ## Limitations

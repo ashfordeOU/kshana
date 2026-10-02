@@ -64,13 +64,17 @@ DE440 and DE441", *The Astronomical Journal*, 161, 105. doi:10.3847/1538-3881/ab
   MOON_PA_DE440 as frame 31008 pointing to the binary PCK segment; the standard NAIF companion
   for this BPC was not publicly available via generic_kernels at generation time)
 
-**Toolkit:** spiceypy 8.1.2 (wrapping CSPICE N0067).
+**Toolkit:** spiceypy 8.1.2 (wrapping CSPICE N0067) for the first release; spiceypy 8.2.0
+(CSPICE N0067) for the 2026-10-01 extension, kernels from `~/Code/kshana-oracles/data/naif/`.
 
 **Generation script:** `scripts/gen_de440_moon_pa.py` (committed; run with the venv at
 `/tmp/kshana-oracles/.venv/bin/python` to reproduce).
 
-**Window and cadence:** 2024-01-01 00:00:00 TDB through 2025-12-31 00:00:00 TDB, 1-day
-cadence, 731 rows.
+**Window and cadence:** 2014-01-01 00:00:00 TDB through 2030-12-31 00:00:00 TDB, 1-day
+cadence, 6 209 rows (extended 2026-10-01 from the first release's 2024-01-01 .. 2025-12-31, 731
+rows; the re-extracted 2024-2025 nodes agree with the earlier ones to 4.3e-13 per matrix
+element, the same epochs, the last digits differing between the two extraction runs). Outside
+the window `lunar_orientation::try_de440_moon_pa` returns an error; nothing clamps.
 
 **Columns:** `t_tt_jc, r00, r01, r02, r10, r11, r12, r20, r21, r22` where `t_tt_jc =
 (JD_TDB − 2 451 545.0) / 36 525.0` (Julian centuries from J2000 in TDB) and `r{i}{j}` is
@@ -96,7 +100,7 @@ not copyrightable. Cited per good scholarly practice.
 |---------------------|------------------------------------------------------------------|
 | reflectors.csv      | 760b8a9b846b5d142add68381a5e92ac219094c4ef03f9ae349b9b06b904a8d1 |
 | stations.csv        | 945cdc3c5c2c5f1721df2f59bf4549005f152a98a9cf86936d2abe880295f416 |
-| de440_moon_pa.csv   | 3076f81ef95d83f5efa240ed4c7ccb422f109407dde841fcf28d42dc63586eb7 |
+| de440_moon_pa.csv   | c289f9742220f5a49a9e7f57aec3f61a6836f31c7b4f586b54b3a8fda480736b |
 
 ## Representative multi-technique measurement menu — Modelled assumptions (P1)
 
