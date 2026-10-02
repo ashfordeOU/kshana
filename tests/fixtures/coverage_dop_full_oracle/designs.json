@@ -1,0 +1,30 @@
+{
+  "comment": "Pre-registered inputs of tests/coverage_dop_full_oracle.rs (validation 0.30 round 2 repair). Every design: 5 deg elevation mask, PDOP threshold 6, no J2, full global grid. Fields follow the constellation-design scenario.",
+  "designs": [
+    {"name": "galileo", "body": "earth", "clock": "common", "duration_s": 86400.0, "step_s": 300.0, "grid_step_deg": 5.0,
+     "constellation": [{"name": "Galileo", "preset": "galileo"}]},
+    {"name": "gps-baseline", "body": "earth", "clock": "common", "duration_s": 86400.0, "step_s": 300.0, "grid_step_deg": 5.0,
+     "constellation": [{"name": "GPS", "preset": "gps-baseline"}]},
+    {"name": "beidou", "body": "earth", "clock": "common", "duration_s": 86400.0, "step_s": 300.0, "grid_step_deg": 5.0,
+     "constellation": [{"name": "BeiDou", "preset": "beidou"}]},
+    {"name": "gnss-multi", "body": "earth", "clock": "per-constellation", "duration_s": 86400.0, "step_s": 300.0, "grid_step_deg": 5.0,
+     "constellation": [{"name": "Galileo", "preset": "galileo"}, {"name": "GPS", "preset": "gps-baseline"}]},
+    {"name": "moon-multishell", "body": "moon", "clock": "common", "duration_s": 86400.0, "step_s": 300.0, "grid_step_deg": 5.0,
+     "constellation": [{"name": "Lunar", 
+       "shell": [
+         {"pattern": "delta", "total": 12, "planes": 3, "phasing": 1, "altitude_km": 3000.0, "inclination_deg": 55.0, "raan0_deg": 10.0, "argp_deg": 0.0, "mean_anomaly0_deg": 0.0},
+         {"pattern": "star", "total": 6, "planes": 3, "phasing": 1, "altitude_km": 5000.0, "inclination_deg": 90.0, "raan0_deg": 0.0, "argp_deg": 0.0, "mean_anomaly0_deg": 30.0}],
+       "satellite": [
+         {"id": "ELFO", "semi_major_axis_km": 6142.4, "eccentricity": 0.6, "inclination_deg": 57.7, "raan_deg": 0.0, "argp_deg": 90.0, "mean_anomaly_deg": 0.0}]}]},
+    {"name": "mars-two-systems", "body": "mars", "clock": "per-constellation", "duration_s": 86400.0, "step_s": 300.0, "grid_step_deg": 5.0,
+     "constellation": [
+       {"name": "MarsA", "shell": [{"pattern": "star", "total": 15, "planes": 3, "phasing": 1, "altitude_km": 6000.0, "inclination_deg": 80.0, "raan0_deg": 0.0, "argp_deg": 0.0, "mean_anomaly0_deg": 0.0}]},
+       {"name": "MarsB", "satellite": [
+         {"semi_major_axis_km": 15000.0, "eccentricity": 0.2, "inclination_deg": 30.0, "raan_deg": 40.0, "argp_deg": 270.0, "mean_anomaly_deg": 10.0},
+         {"semi_major_axis_km": 15000.0, "eccentricity": 0.2, "inclination_deg": 30.0, "raan_deg": 160.0, "argp_deg": 270.0, "mean_anomaly_deg": 130.0},
+         {"semi_major_axis_km": 15000.0, "eccentricity": 0.2, "inclination_deg": 30.0, "raan_deg": 280.0, "argp_deg": 270.0, "mean_anomaly_deg": 250.0},
+         {"semi_major_axis_km": 20428.0, "eccentricity": 0.0, "inclination_deg": 0.0, "raan_deg": 0.0, "argp_deg": 0.0, "mean_anomaly_deg": 45.0}]}]},
+    {"name": "leo-scale", "body": "earth", "clock": "common", "duration_s": 3600.0, "step_s": 300.0, "grid_step_deg": 10.0,
+     "constellation": [{"name": "LEO", "shell": [{"pattern": "delta", "total": 1584, "planes": 72, "phasing": 17, "altitude_km": 550.0, "inclination_deg": 53.0, "raan0_deg": 0.0, "argp_deg": 0.0, "mean_anomaly0_deg": 0.0}]}]}
+  ]
+}

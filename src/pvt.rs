@@ -45,10 +45,20 @@ const L1_CODES: [&str; 5] = ["C1C", "C1W", "C1P", "C1X", "C1L"];
 /// semi-codeless P(Y) first, then the modernised L2C codes), for the
 /// dual-frequency iono-free combination.
 const L2_CODES: [&str; 6] = ["C2W", "C2L", "C2S", "C2X", "C2P", "C2C"];
-/// GPS L1 carrier frequency (Hz).
+/// Galileo E5a code-pseudorange observation codes tried, in priority order (pilot, combined,
+/// data), for the E1/E5a ionosphere-free combination.
+const E5A_CODES: [&str; 3] = ["C5Q", "C5X", "C5I"];
+/// Galileo E5b code-pseudorange observation codes, the fallback second frequency when no E5a
+/// code is present (E1/E5b ionosphere-free combination).
+const E5B_CODES: [&str; 3] = ["C7Q", "C7X", "C7I"];
+/// GPS L1 carrier frequency (Hz); also Galileo E1.
 const L1_HZ: f64 = 1_575_420_000.0;
 /// GPS L2 carrier frequency (Hz).
 const L2_HZ: f64 = 1_227_600_000.0;
+/// Galileo E5a carrier frequency (Hz), the same as GPS L5.
+const E5A_HZ: f64 = 1_176_450_000.0;
+/// Galileo E5b carrier frequency (Hz).
+const E5B_HZ: f64 = 1_207_140_000.0;
 /// Maximum age (s) of a broadcast ephemeris record relative to the epoch for it to
 /// be used (the broadcast fit interval is nominally ±2 h).
 const MAX_EPH_AGE_S: f64 = 7200.0;
@@ -344,13 +354,33 @@ fn pseudorange(obs: &RinexObs, epoch_idx: usize, sat: &str, codes: &[&str]) -> O
         .filter(|&r| r > 0.0)
 }
 
-/// The geometry-preserving, ionosphere-free dual-frequency code combination of the
-/// L1 and L2 pseudoranges `p1`/`p2`: `(f₁²·P₁ − f₂²·P₂)/(f₁² − f₂²)`. The
-/// first-order ionospheric delay (which scales as `1/f²`) cancels exactly, so no
-/// ionosphere model is needed.
-fn iono_free_combination(p1: f64, p2: f64) -> f64 {
-    let (g1, g2) = (L1_HZ * L1_HZ, L2_HZ * L2_HZ);
+/// The geometry-preserving, ionosphere-free dual-frequency code combination of
+/// pseudoranges `p1` on frequency `f1` and `p2` on `f2` (Hz):
+/// `(f₁²·P₁ − f₂²·P₂)/(f₁² − f₂²)`. The first-order ionospheric delay (which scales as
+/// `1/f²`) cancels exactly, so no ionosphere model is needed.
+fn iono_free_pair(p1: f64, f1: f64, p2: f64, f2: f64) -> f64 {
+    let (g1, g2) = (f1 * f1, f2 * f2);
     (g1 * p1 - g2 * p2) / (g1 - g2)
+}
+
+/// The second-frequency pseudorange for the ionosphere-free combination of `sat`, with its
+/// carrier frequency (Hz) and the broadcast group delay (s) of the first-frequency/this-frequency
+/// pair: GPS (and every system but Galileo) L2 with `TGD`; Galileo E5a with `BGD(E1,E5a)`, else
+/// E5b with `BGD(E1,E5b)`.
+fn second_frequency(
+    obs: &RinexObs,
+    epoch_idx: usize,
+    sat: &str,
+    system: char,
+    eph: &RinexEphemeris,
+) -> Option<(f64, f64, f64)> {
+    if system == 'E' {
+        if let Some(p) = pseudorange(obs, epoch_idx, sat, &E5A_CODES) {
+            return Some((p, E5A_HZ, eph.tgd));
+        }
+        return pseudorange(obs, epoch_idx, sat, &E5B_CODES).map(|p| (p, E5B_HZ, eph.bgd_e1_e5b()));
+    }
+    pseudorange(obs, epoch_idx, sat, &L2_CODES).map(|p| (p, L2_HZ, eph.tgd))
 }
 
 /// Assemble the single-epoch SPP measurements from a parsed observation file and a
@@ -400,16 +430,6 @@ pub fn assemble_epoch(
             Some(r) => r,
             None => continue,
         };
-        // Use the ionosphere-free combination when dual-frequency and L2 is present.
-        let p2 = if dual_freq {
-            pseudorange(obs, epoch_idx, &sv.sat, &L2_CODES)
-        } else {
-            None
-        };
-        let (rho, iono_free) = match p2 {
-            Some(p2) => (iono_free_combination(p1, p2), true),
-            None => (p1, false),
-        };
         // A BeiDou record's Toe and Toc are on the BDT scale — RINEX writes them
         // that way and `parse_nav` keeps them there — so the ephemeris must be
         // selected and evaluated against a BDT time of week. GPS leads BDT by a
@@ -422,6 +442,18 @@ pub fn assemble_epoch(
         let eph = match select_ephemeris(ephs, system, prn, tow_sys) {
             Some(e) => e,
             None => continue,
+        };
+        // Use the ionosphere-free combination when dual-frequency and a second frequency is
+        // present (GPS L1/L2; Galileo E1/E5a, else E1/E5b). `pair_gd` is the broadcast group
+        // delay of the pair actually combined.
+        let p2 = if dual_freq {
+            second_frequency(obs, epoch_idx, &sv.sat, system, eph)
+        } else {
+            None
+        };
+        let (rho, iono_free, pair_gd) = match p2 {
+            Some((p2, f2, gd)) => (iono_free_pair(p1, L1_HZ, p2, f2), true, gd),
+            None => (p1, false, 0.0),
         };
         // Transmit time: first guess from the pseudorange, then corrected for the
         // satellite clock so the broadcast position is evaluated at the true
@@ -438,14 +470,17 @@ pub fn assemble_epoch(
         if look.el_rad.to_degrees() < mask_deg {
             continue;
         }
-        // The ionosphere-free clock references the L1/L2 combination, so the L1
-        // group delay (TGD) is not applied there; the single-frequency L1 user
-        // subtracts it.
+        // The broadcast clock refers to one ionosphere-free pair (GPS L1/L2; Galileo E1/E5a
+        // for F/NAV, E1/E5b for I/NAV). The clock seen on the first frequency is that clock
+        // minus the pair's group delay, and the clock of another ionosphere-free pair is the
+        // first-frequency clock plus that pair's group delay (Galileo OS SIS ICD 2.0,
+        // section 5.1.5). For GPS L1/L2 the two terms cancel.
         let sat_clock_s = eph.sv_clock_bias_s(t_tx);
+        let ref_gd = eph.clock_reference_group_delay_s();
         let sat_clock_m = if iono_free {
-            C_M_PER_S * sat_clock_s
+            C_M_PER_S * (sat_clock_s - ref_gd + pair_gd)
         } else {
-            C_M_PER_S * (sat_clock_s - eph.tgd)
+            C_M_PER_S * (sat_clock_s - ref_gd)
         };
         let iono_m = if iono_free {
             0.0
@@ -474,6 +509,85 @@ pub fn assemble_epoch(
                 pseudorange_m: rho,
                 sat_clock_m,
                 iono_m,
+                tropo_m,
+                weight,
+            },
+        ));
+    }
+    out
+}
+
+/// Assemble the single-epoch ionosphere-free measurements from a parsed observation file and
+/// precise products (SP3 orbit, RINEX clock, ANTEX satellite offsets, P1−C1 code biases), the
+/// precise-product counterpart of [`assemble_epoch`].
+///
+/// Only GPS (L1/L2) and Galileo (E1/E5a) satellites with both code pseudoranges are used, the
+/// frequency pairs of the IGS ionosphere-free clocks. A GPS C/A-code (`C1C`) pseudorange takes
+/// the P1−C1 bias of `products.p1_c1_ns` (zero when absent) before the combination. The
+/// satellite state is evaluated at the transmit time (pseudorange travel time and satellite
+/// clock removed), at the antenna phase centre of the combination, with the periodic
+/// relativistic clock term, and rotated for the Earth's rotation during the signal travel time
+/// (Sagnac). The ionospheric term is zero; the troposphere is the model of [`assemble_epoch`].
+/// Satellites without products at the transmit time, or below `mask_deg`, are dropped.
+pub fn assemble_epoch_precise(
+    obs: &RinexObs,
+    epoch_idx: usize,
+    products: &crate::precise_products::PreciseProducts,
+    apriori: Vec3,
+    meteo: &Meteo,
+    mask_deg: f64,
+) -> Vec<(String, SppMeasurement)> {
+    let epoch = match obs.epochs.get(epoch_idx) {
+        Some(e) => e,
+        None => return Vec::new(),
+    };
+    let t_rx = epoch.time.seconds_from_gps_epoch();
+    let doy = day_of_year(epoch.time.year, epoch.time.month, epoch.time.day);
+    let station = ecef_to_geodetic(apriori);
+    let mut out = Vec::new();
+    for sv in &epoch.sats {
+        let (l2_codes, f2, ant1, ant2): (&[&str], f64, &str, &str) = match sv.sat.chars().next() {
+            Some('G') => (&L2_CODES, L2_HZ, "G01", "G02"),
+            Some('E') => (&E5A_CODES, E5A_HZ, "E01", "E05"),
+            _ => continue,
+        };
+        let Some((code1, mut p1)) = L1_CODES.iter().find_map(|c| {
+            obs.observation(epoch_idx, &sv.sat, c)
+                .filter(|&r| r > 0.0)
+                .map(|r| (*c, r))
+        }) else {
+            continue;
+        };
+        let Some(p2) = pseudorange(obs, epoch_idx, &sv.sat, l2_codes) else {
+            continue;
+        };
+        if sv.sat.starts_with('G') && code1 == "C1C" {
+            p1 += products.p1_c1_ns.get(&sv.sat).copied().unwrap_or(0.0) * 1e-9 * C_M_PER_S;
+        }
+        let rho = iono_free_pair(p1, L1_HZ, p2, f2);
+        let mut t_tx = t_rx - rho / C_M_PER_S;
+        let Some(clk0) = products.clock_s(&sv.sat, t_tx) else {
+            continue;
+        };
+        t_tx -= clk0;
+        let Some(st) = products.state(&sv.sat, t_tx, (ant1, L1_HZ), (ant2, f2)) else {
+            continue;
+        };
+        let geo_travel = dist(apriori, st.pos_apc) / C_M_PER_S;
+        let sat_ecef = sagnac_rotate(st.pos_apc, geo_travel);
+        let look = look_angles(station, sat_ecef);
+        if look.el_rad.to_degrees() < mask_deg {
+            continue;
+        }
+        let tropo_m = tropo_delay_m(meteo, station.lat_rad, station.alt_m, look.el_rad, doy);
+        let weight = look.el_rad.sin().powi(2).max(1e-3);
+        out.push((
+            sv.sat.clone(),
+            SppMeasurement {
+                sat_ecef,
+                pseudorange_m: rho,
+                sat_clock_m: C_M_PER_S * st.clock_s,
+                iono_m: 0.0,
                 tropo_m,
                 weight,
             },
@@ -1187,11 +1301,50 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let i2 = i1 * (L1_HZ / L2_HZ).powi(2); // L2 delay scales as 1/f²
         let p1 = geo + i1;
         let p2 = geo + i2;
-        let pif = iono_free_combination(p1, p2);
+        let pif = iono_free_pair(p1, L1_HZ, p2, L2_HZ);
         assert!(
             (pif - geo).abs() < 1e-6,
             "iono-free {pif:.6} should equal {geo}"
         );
+    }
+
+    #[test]
+    fn galileo_iono_free_pairs_cancel_a_dispersive_delay() {
+        let geo = 24_000_000.0_f64;
+        let i1 = 6.0;
+        for f2 in [E5A_HZ, E5B_HZ] {
+            let p2 = geo + i1 * (L1_HZ / f2).powi(2);
+            let pif = iono_free_pair(geo + i1, L1_HZ, p2, f2);
+            assert!((pif - geo).abs() < 1e-6, "iono-free {pif:.6} vs {geo}");
+        }
+    }
+
+    #[test]
+    fn galileo_clock_reference_follows_the_message_type() {
+        let path = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/joint_pvt_itrf_rtklib_oracle/brdc_2018133_G_Einav.rnx");
+        let Ok(nav) = std::fs::read_to_string(path) else {
+            return; // fixture not shipped in the published crate
+        };
+        let ephs = parse_nav(&nav).expect("parses");
+        let gal: Vec<_> = ephs.iter().filter(|e| e.system == 'E').collect();
+        assert!(!gal.is_empty());
+        for e in gal {
+            // The slice holds I/NAV records only: clock for E1/E5b, so the E1 user takes
+            // BGD(E1,E5b).
+            assert!(
+                !e.galileo_clock_is_e1_e5a(),
+                "data sources {}",
+                e.data_sources
+            );
+            assert_eq!(e.clock_reference_group_delay_s(), e.bgd_e1_e5b());
+        }
+        let mut f = *ephs.iter().find(|e| e.system == 'E').unwrap();
+        f.data_sources = 258.0; // F/NAV, clock for E5a/E1
+        assert!(f.galileo_clock_is_e1_e5a());
+        assert_eq!(f.clock_reference_group_delay_s(), f.tgd);
+        let g = ephs.iter().find(|e| e.system == 'G').unwrap();
+        assert_eq!(g.clock_reference_group_delay_s(), g.tgd);
     }
 
     #[test]
