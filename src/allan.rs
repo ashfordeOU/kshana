@@ -722,6 +722,197 @@ pub fn mtie_curve(phase: &[f64], tau0: Seconds) -> Vec<MtiePoint> {
     out
 }
 
+// ─────────────────────────────────────────────────────────────────────────────
+// Lag-1 autocorrelation power-law noise identification (Riley and Greenhall).
+// ─────────────────────────────────────────────────────────────────────────────
+
+/// Whether a record handed to [`lag1_noise_id`] holds phase (time error) or fractional
+/// frequency samples.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+pub enum Lag1DataType {
+    /// Phase (time-error) samples `x`, seconds.
+    Phase,
+    /// Fractional-frequency samples `y`.
+    Frequency,
+}
+
+/// The result of [`lag1_noise_id`].
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct Lag1NoiseId {
+    /// The identified power-law exponent `alpha` of `S_y(f) ∝ f^alpha`, rounded to an integer
+    /// (+2 white phase modulation down to -2 random-walk frequency modulation).
+    pub alpha_int: i32,
+    /// The unrounded estimate `p + 2` (phase data) or `p` (frequency data).
+    pub alpha: f64,
+    /// The number of first differences taken before the stopping rule held.
+    pub d: usize,
+    /// `delta = r1 / (1 + r1)` of the final differenced series.
+    pub rho: f64,
+}
+
+impl Lag1NoiseId {
+    /// The identified type as a [`PowerLawNoise`], or `None` outside the five modelled types.
+    pub fn noise(&self) -> Option<PowerLawNoise> {
+        match self.alpha_int {
+            2 => Some(PowerLawNoise::WhitePm),
+            1 => Some(PowerLawNoise::FlickerPm),
+            0 => Some(PowerLawNoise::WhiteFm),
+            -1 => Some(PowerLawNoise::FlickerFm),
+            -2 => Some(PowerLawNoise::RandomWalkFm),
+            _ => None,
+        }
+    }
+}
+
+/// The lag-1 autocorrelation `r1 = Σ (z_n - mean)(z_{n+1} - mean) / Σ (z_n - mean)^2` of `z`.
+/// Returns `NaN` for fewer than two samples or a constant series.
+pub fn lag1_acf(z: &[f64]) -> f64 {
+    if z.len() < 2 {
+        return f64::NAN;
+    }
+    let mu = z.iter().sum::<f64>() / z.len() as f64;
+    let num: f64 = z.windows(2).map(|w| (w[0] - mu) * (w[1] - mu)).sum();
+    let den: f64 = z.iter().map(|v| (v - mu) * (v - mu)).sum();
+    num / den
+}
+
+/// Remove the least-squares polynomial of degree `deg` in the sample index from `z`.
+#[allow(clippy::needless_range_loop)]
+fn detrend_poly(z: &[f64], deg: usize) -> Vec<f64> {
+    let n = z.len();
+    let k = deg + 1;
+    if n <= k {
+        return vec![0.0; n];
+    }
+    // Centred and scaled abscissa keeps the normal equations well conditioned; the fitted
+    // polynomial (and so the residual) is the same as on the raw index.
+    let c = (n as f64 - 1.0) / 2.0;
+    let s = c.max(1.0);
+    let u: Vec<f64> = (0..n).map(|i| (i as f64 - c) / s).collect();
+    let mut ata = vec![vec![0.0; k]; k];
+    let mut atb = vec![0.0; k];
+    for (ui, zi) in u.iter().zip(z) {
+        let mut pw = vec![1.0; k];
+        for j in 1..k {
+            pw[j] = pw[j - 1] * ui;
+        }
+        for a in 0..k {
+            atb[a] += pw[a] * zi;
+            for b in 0..k {
+                ata[a][b] += pw[a] * pw[b];
+            }
+        }
+    }
+    // Gaussian elimination with partial pivoting.
+    for col in 0..k {
+        let piv = (col..k)
+            .max_by(|&i, &j| ata[i][col].abs().total_cmp(&ata[j][col].abs()))
+            .unwrap_or(col);
+        ata.swap(col, piv);
+        atb.swap(col, piv);
+        let d = ata[col][col];
+        if d.abs() < 1e-300 {
+            return z.to_vec();
+        }
+        for row in col + 1..k {
+            let f = ata[row][col] / d;
+            for cc in col..k {
+                ata[row][cc] -= f * ata[col][cc];
+            }
+            atb[row] -= f * atb[col];
+        }
+    }
+    let mut coef = vec![0.0; k];
+    for i in (0..k).rev() {
+        let mut acc = atb[i];
+        for j in i + 1..k {
+            acc -= ata[i][j] * coef[j];
+        }
+        coef[i] = acc / ata[i][i];
+    }
+    z.iter()
+        .zip(&u)
+        .map(|(zi, ui)| {
+            let mut p = 0.0;
+            for c in coef.iter().rev() {
+                p = p * ui + c;
+            }
+            zi - p
+        })
+        .collect()
+}
+
+/// Identify the dominant power-law noise type of a record at averaging factor `af` from the
+/// lag-1 autocorrelation of the (differenced) data, the method of W. J. Riley and C. A.
+/// Greenhall, "Power law noise identification using the lag 1 autocorrelation", Proc. 18th
+/// European Frequency and Time Forum (2004), also NIST SP 1065 (Special Publication) §5.2.
+///
+/// Phase data are decimated to every `af`-th sample and their quadratic trend (frequency
+/// offset and drift) is removed; frequency data are averaged in non-overlapping groups of
+/// `af` and their linear trend is removed. Then, repeatedly, `r1` = [`lag1_acf`] and
+/// `delta = r1/(1+r1)`: if `d >= dmin` and (`delta < 0.25` or `d >= dmax`) the estimate is
+/// `p = -2(delta + d)` and `alpha = p + 2` (phase) or `p` (frequency); otherwise the series is
+/// first-differenced and `d` incremented. `alpha_int` is `-round(2 delta) - 2d` (+2 for phase),
+/// with ties rounded to even. These are the conventions of allantools `autocorr_noise_id`.
+///
+/// Riley and Greenhall recommend `dmin = 0` and `dmax = 2` for the Allan and modified Allan
+/// variances, and at least about 30 decimated samples for a reliable answer. Returns `None`
+/// when fewer than `dmax + 3` decimated samples remain or the autocorrelation is undefined.
+pub fn lag1_noise_id(
+    data: &[f64],
+    af: usize,
+    data_type: Lag1DataType,
+    dmin: usize,
+    dmax: usize,
+) -> Option<Lag1NoiseId> {
+    let af = af.max(1);
+    let mut z: Vec<f64> = match data_type {
+        Lag1DataType::Phase => {
+            let dec: Vec<f64> = data.iter().step_by(af).copied().collect();
+            detrend_poly(&dec, 2)
+        }
+        Lag1DataType::Frequency => {
+            let avg: Vec<f64> = data
+                .chunks_exact(af)
+                .map(|c| c.iter().sum::<f64>() / af as f64)
+                .collect();
+            detrend_poly(&avg, 1)
+        }
+    };
+    if z.len() < dmax + 3 || z.iter().any(|v| !v.is_finite()) {
+        return None;
+    }
+    let add = if data_type == Lag1DataType::Phase {
+        2
+    } else {
+        0
+    };
+    let mut d = 0usize;
+    loop {
+        let r1 = lag1_acf(&z);
+        if !r1.is_finite() {
+            return None;
+        }
+        let rho = r1 / (1.0 + r1);
+        if d >= dmin && (rho < 0.25 || d >= dmax) {
+            let p = -2.0 * (rho + d as f64);
+            let alpha = p + add as f64;
+            let alpha_int = (-(2.0 * rho).round_ties_even() - 2.0 * d as f64) as i32 + add;
+            return Some(Lag1NoiseId {
+                alpha_int,
+                alpha,
+                d,
+                rho,
+            });
+        }
+        z = z.windows(2).map(|w| w[1] - w[0]).collect();
+        d += 1;
+        if z.len() < 2 {
+            return None;
+        }
+    }
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -896,6 +1087,55 @@ mod tests {
             phase.push(x);
         }
         phase
+    }
+
+    fn iid(n: usize, seed: u64) -> Vec<f64> {
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        let dist = Normal::new(0.0, 1.0).unwrap();
+        (0..n).map(|_| dist.sample(&mut rng)).collect()
+    }
+
+    fn cumsum(v: &[f64]) -> Vec<f64> {
+        let mut acc = 0.0;
+        v.iter()
+            .map(|x| {
+                acc += x;
+                acc
+            })
+            .collect()
+    }
+
+    #[test]
+    fn lag1_identifies_white_pm_white_fm_and_random_walk_fm() {
+        let w = iid(4096, 3);
+        let wpm = lag1_noise_id(&w, 1, Lag1DataType::Phase, 0, 2).unwrap();
+        assert_eq!(wpm.alpha_int, 2, "{wpm:?}");
+        let wfm = lag1_noise_id(&cumsum(&w), 1, Lag1DataType::Phase, 0, 2).unwrap();
+        assert_eq!(wfm.alpha_int, 0, "{wfm:?}");
+        let rw = lag1_noise_id(&cumsum(&cumsum(&w)), 1, Lag1DataType::Phase, 0, 2).unwrap();
+        assert_eq!(rw.alpha_int, -2, "{rw:?}");
+        // The same white FM handed over as frequency data.
+        let y = lag1_noise_id(&w, 1, Lag1DataType::Frequency, 0, 2).unwrap();
+        assert_eq!(y.alpha_int, 0, "{y:?}");
+        assert_eq!(y.noise(), Some(PowerLawNoise::WhiteFm));
+        // Decimation keeps white FM white FM.
+        let wfm8 = lag1_noise_id(&cumsum(&w), 8, Lag1DataType::Phase, 0, 2).unwrap();
+        assert_eq!(wfm8.alpha_int, 0, "{wfm8:?}");
+    }
+
+    #[test]
+    fn lag1_is_blind_to_a_quadratic_phase_trend() {
+        let w = cumsum(&iid(2048, 5));
+        let trended: Vec<f64> = w
+            .iter()
+            .enumerate()
+            .map(|(i, x)| x + 3.0 + 0.2 * i as f64 + 1e-4 * (i * i) as f64)
+            .collect();
+        let a = lag1_noise_id(&w, 1, Lag1DataType::Phase, 0, 2).unwrap();
+        let b = lag1_noise_id(&trended, 1, Lag1DataType::Phase, 0, 2).unwrap();
+        assert!((a.alpha - b.alpha).abs() < 1e-6, "{a:?} {b:?}");
+        assert!(lag1_acf(&[1.0]).is_nan());
+        assert!(lag1_noise_id(&[0.0, 1.0], 1, Lag1DataType::Phase, 0, 2).is_none());
     }
 
     /// Best-fit slope of log10(adev) vs log10(tau) over a curve, by ordinary
