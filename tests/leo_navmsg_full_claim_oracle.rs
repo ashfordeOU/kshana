@@ -69,6 +69,24 @@
 //!
 //! PROMOTE the full row only if Parts A and B both agree; otherwise each part's outcome is
 //! reported and the strict test of a disagreeing part stays ignored with the measured gap.
+//!
+//! ## Amendment after the run (2026-10-02, review): Part A is an internal cross-check
+//!
+//! Written after both parts had been run and seen (results below each test). Part A's script
+//! (`oracle_part_a.py`) was written and run by this project and re-evaluates the same closed
+//! forms Kshana uses (the Keplerian user algorithm, the along/cross/radial frame, polynomial
+//! evaluation, the relativistic term and the statistics) on Kshana's own exported messages.
+//! `docs/VALIDATION.md` excludes such a script as an oracle ("our own second implementation"),
+//! and the measured clock enters only as an input, so Part A does not validate the correction
+//! polynomials, the clock fit (the row's seeded free or steered clock is not exercised; only the
+//! measured-clock variant is) or the update-period trade. Part A is kept, at its unchanged
+//! tolerances, as an internal consistency check of the exported messages and the closed forms;
+//! it is not cited as an oracle. Part B (Orekit 12.2, Apache-2.0) is an independent library and
+//! is the only part of this file that validates. The full row is therefore NOT promoted: the
+//! validated part grows by the integrated truth orbit, and the correction polynomials, the clock
+//! fit and the update-period trade stay modelled until an oracle not written by this project
+//! (published statistics on the same real orbits, or a third-party fitting tool) is
+//! pre-registered. No tolerance was changed.
 
 use std::path::{Path, PathBuf};
 
@@ -272,10 +290,11 @@ fn part_a() -> (f64, f64, f64, usize) {
     (wc, wk, ws, n)
 }
 
-/// Part A, run with the pre-registered tolerances (2026-10-02: AGREES; 704 messages, worst
-/// correction 4.4e-9 m, clock 6.6e-17 s, statistic 9.5e-11 m).
+/// Part A, run with the pre-registered tolerances (2026-10-02: agrees; 704 messages, worst
+/// correction 4.4e-9 m, clock 6.6e-17 s, statistic 9.5e-11 m). An internal cross-check against a
+/// script written in this repository, not an independent oracle (see the amendment above).
 #[test]
-fn corrections_clock_fit_and_update_period_trade_match_an_independent_implementation_on_grace_fo() {
+fn corrections_clock_fit_and_update_period_trade_agree_with_an_internal_cross_check_on_grace_fo() {
     let (wc, wk, ws, n) = part_a();
     println!("messages {n}: worst correction {wc:.3e} m, clock {wk:.3e} s, statistic {ws:.3e} m");
     assert!(n > 0);

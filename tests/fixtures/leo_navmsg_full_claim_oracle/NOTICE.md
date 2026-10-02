@@ -13,8 +13,10 @@ Used by `tests/leo_navmsg_full_claim_oracle.rs`.
   `gen_clock.py`.
 - `kshana_messages.json`: Kshana's fitted messages (the oracle's input), written by the
   ignored test `export_kshana_messages_for_the_oracle`.
-- `oracle_part_a.json`: the independent oracle's values, written by `oracle_part_a.py`
-  (numpy 2.3.5 from the oracle virtual environment).
+- `oracle_part_a.json`: the internal cross-check's values, written by `oracle_part_a.py`
+  (numpy 2.3.5 from the oracle virtual environment). The script was written in this repository
+  and re-evaluates Kshana's closed forms, so it is not an independent oracle (see the amendment in
+  the test file's header).
 - \`orekit_cases.txt\`: Kshana's node-0 states of the Part B cases (written by the ignored test
   \`export_truth_cases_for_orekit\`); \`orekit_truth.txt\`: Earth-fixed positions from Orekit 12.2
   (CS GROUP, Apache-2.0) and Hipparchus 3.1 through \`java/TruthOrekitDriver.java\`, with the EGM2008
