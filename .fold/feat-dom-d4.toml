@@ -1,0 +1,76 @@
+# Fold manifest for package D4 (JPL kernel ephemeris spine), phase 1.
+branch = "feat/dom-d4"
+base = "main"
+base_commit = "d127e3ce6e68e69c9cd6705d0803ce34cb52f351"
+depends_on = ["D0", "D2", "D3"]
+# D2 (pre-registration tags) was replaced, as the integrator instructed, by commit-and-push
+# pre-registration: abcd913 (reader), c51f8b2 (M078 diagnostic), 4a51256 (M070 kernel path).
+# D3 (kernel manifests) is not on this branch; the fixtures pin every NAIF file by SHA-256.
+
+owned_paths = [
+  "src/naif_kernel.rs",          # unchanged here: already on main (folded earlier); mutated and reverted only
+  "src/ephem_provider.rs",       # KernelEphemeris, LunisolarSource, tt_to_tdb_jd2
+  "src/lunar_ephemeris.rs",      # module doc only: the "no DAF reader" rationale now points at the reader row
+  "src/lunar_llr.rs",            # llr_geometry_with, planetary_kernel_path, moon_ephemeris block
+  "src/lunar_vlbi_fim.rs",       # epoch_geometry_with, planetary_kernel_path, moon_ephemeris block
+  "tests/naif_reader_spice_oracle.rs",
+  "tests/fixtures/naif_reader_spice_oracle/",
+  "tests/validate_llr_datum_kernel_moon.rs",
+  "tests/fixtures/llr_datum_kernel_moon/",
+  "tests/lunar_vlbi_surface_point_spice_oracle.rs",
+  "tests/fixtures/lunar_vlbi_surface_point_spice_oracle/",
+  ".fold/feat-dom-d4.toml",
+  ".fold/feat-dom-d4-rows.md",
+  "changelog.d/feat-dom-d4.md",
+]
+# Not touched: src/ephem.rs, src/lunar_llr_geometry.rs, src/lunar_vlbi.rs (already has its own
+# kernel path), src/verification.rs, CHANGELOG.md, README files, every generated doc, web/.
+
+# Rows, by their `requirement` string (the matrix has no other identifier).
+new_rows = [
+  "NAIF kernel reader: DAF container, SPK type 2 and binary PCK type 2",                          # PROMOTE (proposed VALIDATED, Library)
+  "Lunar-surface-point coordinate covariance from a VLBI delay schedule, kernel path",             # PROMOTE (proposed VALIDATED, Library + P2)
+  "Lunar frame datum from a REAL observing campaign, kernel Moon centre",                          # FINDING-grade diagnostic pass; status is a founder decision (D1)
+]
+amended_rows = [
+  "Lunar frame datum from a REAL observing campaign",                                                # text gains a pointer to the diagnostic; stays MODELLED
+  "Lunar-surface-point coordinate covariance from a VLBI delay schedule, kept distinct from the Earth-station one",  # text gains a pointer; stays MODELLED
+]
+unchanged_rows_noted = [
+  "Planet positions across the solar system from the JPL Standish Keplerian elements",   # M107: not touched
+  "Positions of the Moon and seven major moons (Phobos, Deimos, the Galilean moons, Titan)",  # M108: not touched
+]
+
+# Tests this package adds or depends on (cargo test filters).
+test_filter = [
+  "--test naif_reader_spice_oracle",
+  "--test validate_llr_datum_kernel_moon",
+  "--test lunar_vlbi_surface_point_spice_oracle",
+  "--test naif_kernel_reader_check",
+  "--test validate_llr_datum_spice_oracle",
+  "--test lunar_llr_real_data",
+  "--test lunar_vlbi_campaign_spice_oracle",
+  "--test lunar_vlbi_spice_oracle",
+  "--test lunar_vlbi_anise_oracle",
+  "--test field_units_global",
+  "--lib ephem_provider",
+  "--lib lunar_llr",
+  "--lib lunar_vlbi",
+  "--lib naif_kernel",
+]
+
+# Registrations the integrator must make (not made here, because each regenerates a generated
+# doc this branch may not edit; the scenario keys work without them):
+[registrations]
+"src/api.rs" = """In the ScenarioMeta of "lunar-llr-datum" and of "lunar-vlbi-fim", append
+"planetary_kernel_path" to optional_fields, then regenerate docs/SCENARIOS.md and the web
+scenario reference with the usual generator."""
+"src/lib.rs" = "none: every module used already exists"
+
+[phase2_out_of_scope]
+items = [
+  "default switch to the kernel for the command line and Python (founder decision, after 0.30)",
+  "embedded compressed Chebyshev table for the browser Studio and tests/embedded_ephemeris_oracle.rs",
+  "threading through the remaining direct callers of ephem::moon_position / sun_position",
+  "SPK types 3, 13, 21 and the satellite kernels mar099, jup365, sat441",
+]
