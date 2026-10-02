@@ -63,6 +63,13 @@
 //! Pre-registration commit 3254d456. Validated: the sweep geometry on the given Earth-fixed
 //! states; the propagation that produces those states is not part of this comparison.
 //!
+//! REVISION (package D8, 2026-10-02): the polar mode no longer runs the two-body plus
+//! secular-J2 states committed here; it propagates by SGP4 and the IAU 2006/2000A chain. The
+//! geometry comparison on these states is unchanged and still runs at its bars; the check that
+//! the committed states are the engine's own propagation is replaced by a check that the polar
+//! mode reports the sweep on its own states. The full claim, propagation included, is
+//! pre-registered in `tests/leo_polar_coverage_full_claim_orekit_oracle.rs`.
+//!
 //! Fixture, drivers and provenance: `tests/fixtures/leo_polar_coverage_orekit_oracle/`.
 
 use kshana::leo_fusion::polar::{
@@ -185,16 +192,20 @@ fn report_rows(c: &Config) -> Vec<PolarRow> {
         .collect()
 }
 
-/// The committed states are the engine's own propagation, and the polar mode's report is the
-/// sweep on those states over the committed grid: the comparison below is of the sweep the
-/// scenario runs.
+/// The polar mode's report is the sweep on the engine's own satellite states over the
+/// committed grid. Revision (package D8): the polar mode now propagates by SGP4 and the IAU
+/// 2006/2000A chain, so the committed round-2 states (two-body with secular J2) are no longer
+/// the ones it runs; they stay the shared input of the geometry-only comparison below, and the
+/// full claim from element sets is `tests/leo_polar_coverage_full_claim_orekit_oracle.rs`.
 #[test]
-fn the_committed_states_and_grid_are_the_ones_the_polar_mode_runs() {
+fn the_polar_mode_reports_the_sweep_on_its_own_states_over_the_committed_grid() {
     for c in configs() {
         let mine = satellite_states(&c.systems, &c.times);
-        assert_eq!(mine, c.states, "config {}: states differ", c.name);
-        let on_states =
-            latitude_sweep_on_states(&c.systems, &c.states, &c.lats, &c.lons, c.threshold);
+        assert_ne!(
+            mine, c.states,
+            "the round-2 states are retired from the polar mode"
+        );
+        let on_states = latitude_sweep_on_states(&c.systems, &mine, &c.lats, &c.lons, c.threshold);
         let report = report_rows(&c);
         assert_eq!(report.len(), on_states.len(), "config {}", c.name);
         for (r, s) in report.iter().zip(&on_states) {
