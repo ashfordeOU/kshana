@@ -41,6 +41,7 @@
 //!   - for each epoch, one ordered pair (target, observer) of distinct bodies, uniform over the
 //!     15 bodies `de440s.bsp` carries: the solar-system barycentre 0, the barycentres 1 to 9,
 //!     the Sun 10, Mercury 199, Venus 299, the Moon 301 and the Earth 399.
+//!
 //!   At every epoch two fixed pairs are added because they are the ones the engine's lunar paths
 //!   consume: the Moon relative to the Earth (301, 399) and the Sun relative to the Earth
 //!   (10, 399). That is 600 states and 200 rotations.
@@ -87,6 +88,7 @@
 //!   - ANISE leg only: ANISE holds epochs to the nanosecond, so its bars add `2e-9 s` times the
 //!     relative speed (from SPICE) to the position bar, `1e-12 m/s` to the velocity bar and
 //!     `1e-14` to the rotation bar; nothing else differs.
+//!
 //!   PROMOTE only if all 600 states and 200 rotations hold against BOTH oracles. Any failure is
 //!   published as a finding and the strict test stays ignored with the measured gap.
 //! * **Mutation check, planned now.** After the comparison, a deliberate reader mutation
@@ -109,6 +111,9 @@
 //! position difference 1.95e-3 m (one unit in the last place of a barycentric outer-planet
 //! position), worst rotation element 3.8e-12. Mutation: evaluating every record at `-s` turns
 //! both strict tests red (3597 comparisons outside the bar); reverted.
+
+// Index loops over the three axes read more plainly than iterator chains here.
+#![allow(clippy::needless_range_loop)]
 
 use kshana::naif_kernel::{PckKernel, SpkKernel};
 
