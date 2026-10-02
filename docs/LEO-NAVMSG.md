@@ -457,7 +457,8 @@ runs without it, and the README's scenario-file count still counts the withheld 
 | Mid-pass continuity | MODELLED | jump identity; closed-form cone bound against sampling |
 | Binary format and budget | MODELLED | round trips; every field's half step under 1 mm |
 | RINEX-style and CSV | MODELLED | round trips |
-| Liu 22-parameter and ATOMIC models | MODELLED | published Liu table printed beside Kshana's, not pinned |
+| Liu et al. 2025 22-parameter model and fit | VALIDATED | TU Graz ITSG precise orbits of four satellites against the paper's Tables 4, 5, 6 and 8: along, cross, radial and SISRE ratios 0.755 to 1.138 on the paper days and 0.683 to 1.186 on eight held-out days, inside 1.5x (`tests/leo_navmsg_fit_real_orbit_oracle.rs`) |
+| ATOMIC zero-clock polynomial and the five-altitude table | MODELLED | ATOMIC facts from InsideGNSS; the published Liu table printed beside Kshana's integrated-orbit fit, not pinned |
 | Ionosphere and UTC | MODELLED | ICD closed forms; the RTKLIB-checked Klobuchar model |
 
 ## Limitations
