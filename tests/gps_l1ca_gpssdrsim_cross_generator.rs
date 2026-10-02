@@ -194,7 +194,7 @@ fn compare(o: &Value) -> (usize, Vec<String>, usize, usize, Vec<String>) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (run 2026-10-02 on f88f2969 + fixture): C/A chips 0 of 32736 differ and the parity of 0 of 1920 words differs, but 230 of 1152 computed LNAV fields differ by one least-significant bit: gps-sdr-sim eph2sbf truncates toward zero with C casts, Kshana rounds to nearest; pinned by gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding"]
 fn ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly() {
     let o = load();
     let (chips, fields, parity, sats, frames) = compare(&o);
@@ -217,4 +217,93 @@ fn ca_codes_lnav_fields_and_parity_match_gps_sdr_sim_bit_exactly() {
         fields.len()
     );
     assert_eq!(parity, 0, "parity bits differ");
+}
+
+/// Field scale `2^p`, signedness and semicircle conversion for the computed fields that carry
+/// a physical value.
+fn scale_of(name: &str) -> Option<(&'static str, i32, bool, bool)> {
+    Some(match name {
+        "tgd" => ("tgd", -31, true, false),
+        "toc" => ("toc_sec", 4, false, false),
+        "af2" => ("af2", -55, true, false),
+        "af1" => ("af1", -43, true, false),
+        "af0" => ("af0", -31, true, false),
+        "crs" => ("crs", -5, true, false),
+        "delta_n" => ("deltan", -43, true, true),
+        "m0" => ("m0", -31, true, true),
+        "cuc" => ("cuc", -29, true, false),
+        "e" => ("ecc", -33, false, false),
+        "cus" => ("cus", -29, true, false),
+        "sqrt_a" => ("sqrta", -19, false, false),
+        "toe" => ("toe_sec", 4, false, false),
+        "cic" => ("cic", -29, true, false),
+        "omega0" => ("omg0", -31, true, true),
+        "cis" => ("cis", -29, true, false),
+        "i0" => ("inc0", -31, true, true),
+        "crc" => ("crc", -5, true, false),
+        "omega" => ("aop", -31, true, true),
+        "omega_dot" => ("omgdot", -43, true, true),
+        "idot" => ("idot", -43, true, true),
+        _ => return None,
+    })
+}
+
+/// The finding of the strict test, pinned on the committed oracle output: the codes and
+/// the parity agree exactly; every differing field is a one-unit difference in which
+/// gps-sdr-sim holds the value truncated toward zero and Kshana the value rounded to nearest;
+/// and in every such field the ephemeris value lies within 0.01 of a unit of Kshana's integer,
+/// so the integer the satellite broadcast (of which the RINEX value is the decimal print) is
+/// Kshana's, not gps-sdr-sim's.
+#[test]
+fn gps_sdr_sim_truncates_where_the_broadcast_integer_needs_rounding() {
+    use kshana::gps_lnav::GPS_PI;
+    let o = load();
+    let (chips, _, parity, sats, _) = compare(&o);
+    assert_eq!(sats, 32);
+    assert_eq!(chips, 0);
+    assert_eq!(parity, 0);
+    let mut differing = 0;
+    let mut computed = 0;
+    for s in o["sats"].as_array().unwrap() {
+        let w = words(s);
+        let theirs: [[u32; 10]; 3] = [
+            w[10..20].try_into().unwrap(),
+            w[20..30].try_into().unwrap(),
+            w[30..40].try_into().unwrap(),
+        ];
+        let decoded = decode_fields(&theirs, w[9]);
+        let tow = (num(s, "g0_sec") / 6.0) as u32 + 1;
+        let ours = field_values(&ephemeris(s), &LnavConventions::default(), tow).unwrap();
+        for spec in FIELDS.iter().filter(|f| !f.convention) {
+            computed += 1;
+            let a = ours.iter().find(|(n, _)| *n == spec.name).unwrap().1;
+            let b = decoded.iter().find(|(n, _)| *n == spec.name).unwrap().1;
+            if a == b {
+                continue;
+            }
+            differing += 1;
+            let (key, p, signed, semicircle) =
+                scale_of(spec.name).unwrap_or_else(|| panic!("{} differs", spec.name));
+            let width: u32 = spec.pieces.iter().map(|q| q.2).sum();
+            let as_int = |raw: u64| -> i64 {
+                if signed && raw >> (width - 1) == 1 {
+                    raw as i64 - (1i64 << width)
+                } else {
+                    raw as i64
+                }
+            };
+            let mut x = num(s, key);
+            if semicircle {
+                x /= GPS_PI;
+            }
+            let x = x * 2f64.powi(-p);
+            let (k, g) = (as_int(a), as_int(b));
+            assert_eq!(k as f64, x.round(), "{}: Kshana is the rounded value", spec.name);
+            assert_eq!(g as f64, x.trunc(), "{}: gps-sdr-sim is the truncated value", spec.name);
+            assert_eq!((k - g).abs(), 1, "{}", spec.name);
+            assert!((x - x.round()).abs() < 0.01, "{}: {x} is not a broadcast integer", spec.name);
+        }
+    }
+    assert_eq!(computed, 32 * FIELDS.iter().filter(|f| !f.convention).count());
+    assert_eq!(differing, 230, "the finding as recorded: 230 fields");
 }
