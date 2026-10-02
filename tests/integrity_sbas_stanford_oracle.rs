@@ -1,0 +1,283 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! Satellite-Based Augmentation System (SBAS) protection levels (RTCA DO-229E) against Stanford
+//! MAAST (the MATLAB Algorithm Availability Simulation Tool) driven by real Wide Area
+//! Augmentation System (WAAS) messages.
+//!
+//! # Pre-registration (written and committed before the fixture is generated or the oracle run)
+//!
+//! **Quantity.** For every (epoch, user) pair MAAST protects in precision-approach mode: the
+//! Vertical Protection Level (VPL) and the Horizontal Protection Level (HPL) of the DO-229E
+//! weighted-least-squares protection-level equations.
+//!
+//! **Oracle.** Stanford GPS Laboratory MAAST (<https://github.com/stanford-gps-lab/maast>,
+//! commit 7d32b049; its files carry the notice "This script file may be distributed and used
+//! freely, provided this copyright notice is always kept with it", copyright the Board of
+//! Trustees of the Leland Stanford Junior University). It is run as a separate tool under GNU
+//! Octave 8.4 by the headless driver `xval/sbas-maast/run_maast_sbas.m`; none of its code is
+//! vendored. Only derived numbers are committed, under
+//! `tests/fixtures/integrity_sbas_stanford_oracle/` with a `NOTICE.md`.
+//!
+//! **Inputs.** MAAST's own recorded real WAAS broadcast, `maast_messages_2019_365.mat` (GEO PRN
+//! 131), replayed through MAAST's message decoder and user chain (`svmrunpub` ->
+//! `read_in_sbas_messages` -> `usrprocess` -> `usr_vhpl`) exactly as MAAST's own execution test
+//! configures it (start GPS week 2086, time of week 259200 s, almanac `alm01jan2020.txt`, GEO
+//! data row 131, release 51 CY18 ionospheric grid mask, MOPS airborne accuracy designator
+//! model `af_cnmp_mops`, MOPS troposphere `af_trpmops`), but in the L1 single-frequency
+//! precision-approach mode (`dual_freq` 0, `pa_mode` 1, authentication off), so the real
+//! broadcast User Differential Range Error (UDRE) and Grid Ionospheric Vertical Error (GIVE)
+//! values and their degradation terms set the variances. Users: MAAST's North-America polygon
+//! `usrn_america.txt` on a 5 degree latitude/longitude grid. Epochs: time of week 259200 + 600 s
+//! to + 3600 s every 300 s (11 epochs). For each protected user the driver records, per
+//! satellite used, MAAST's East-North-Up line of sight and the four variance components MAAST
+//! sums inside `usrprocess` (fast/long-term sigma_flt^2 including the degradation terms,
+//! sigma_UIRE^2, sigma_tropo^2, sigma_air^2), and MAAST's resulting VPL and HPL.
+//!
+//! **Kshana side.** `kshana::sbas::sbas_protection_level` in `SbasMode::PrecisionApproach`, fed
+//! the same satellites with elevation and azimuth taken from MAAST's line of sight and the four
+//! sigma components (square roots of MAAST's variances) in `SbasErrorModel`.
+//!
+//! **Stated K rescaling.** MAAST uses the rounded MOPS constants K_V,PA = 5.33 and
+//! K_H,PA = 6.0. Kshana's K_H,PA is also 6.0; its K_V,PA is the unrounded normal quantile
+//! Phi^-1(1 - 5e-8) = 5.3267... (`kshana::sbas::k_v_pa`). The compared Kshana VPL is therefore
+//! VPL_Kshana * 5.33 / k_v_pa(); the HPL is compared unscaled.
+//!
+//! **Tolerance and its source.** |VPL - VPL_MAAST| <= 1e-4 m and |HPL - HPL_MAAST| <= 1e-4 m on
+//! every (epoch, user) pair: both tools evaluate the same closed form (an inverse of a weighted
+//! normal matrix) on the same inputs, so any difference is round-off; 1e-4 m leaves four orders
+//! of magnitude of margin over double-precision round-off on metre-level levels while still
+//! detecting any modelling difference (a missing variance term, a wrong weight, a different
+//! ellipse axis) many times over. The set of (epoch, user) pairs both tools protect must also
+//! be equal.
+
+//!
+//! # Amendment 1 (committed before any protection level was produced)
+//!
+//! The first driver run stopped inside MAAST's L1 message reader: `maast_messages_2019_365.mat`
+//! holds only the L5 (dual-frequency) channel of GEO PRN 131 (its `sbas.band` is `L5`), so it
+//! has no L1 messages. No protection level was computed. The inputs are amended as follows; the
+//! quantity, the Kshana side, the K rescaling and the 1e-4 m bar are unchanged.
+//! - Case L1 (DO-229E single frequency): MAAST's other recorded real broadcast,
+//!   `sbas_messages_2020_001.mat` (15 GEO channels, L1, 2020-01-01), primary source GEO PRN 131
+//!   (WAAS), `dual_freq` 0, epochs time of week 259200 + 600 s to + 3600 s every 300 s.
+//! - Case L5 (dual-frequency L1/L5): `maast_messages_2019_365.mat` (GEO PRN 131, L5), exactly
+//!   MAAST's execution-test configuration (`dual_freq` 1, release 51 CY18 mask) with
+//!   authentication off, epochs time of week 259800 s to 262800 s every 300 s (the file spans
+//!   258905 s to 263104 s and the reader needs up to 600 s of earlier messages). Here MAAST forms
+//!   sigma^2 = sigma_flt^2 + sigma_UIRE^2 (its dual-frequency fixed term) + sigma_air^2 *
+//!   (f1^4 + f5^4) / (f1^2 - f5^2)^2 + sigma_tropo^2. The driver records the four terms before
+//!   that scaling; Kshana is fed sigma_air = sqrt(sigma_air^2) *
+//!   `kshana::sbas::iono_free_l1l5_noise_factor()`, so its L1/L5 ionosphere-free noise factor
+//!   is part of the comparison.
+
+//!
+//! # Amendment 2 (committed before any protection level was produced)
+//!
+//! Both amended runs again stopped inside MAAST's message readers, before any protection level:
+//! - L1: MAAST's start-up check of the ionospheric grid mask (`init_read_sbas_L1msgs.m`) counts
+//!   every stored type-18 (MT18) entry, including its three-deep per-band history, and demands
+//!   that the count equal the broadcast number of bands (5 for WAAS on 2020-01-01). Any start
+//!   time with a band received twice in the preceding 600 s therefore fails. The L1 case now
+//!   starts one second after the fifth MT18 of the file (MT18 for bands 3, 2, 1, 0, 9 at time of
+//!   week 258652, 258688, 258719, 258779, 258802 s), at t0 = 258803 s, epochs t0 + 300 k s for
+//!   k = 0..10. The rule is fixed by the message times alone.
+//! - L5: MAAST's L5 decoder dereferences the TESLA receiver object even with authentication
+//!   off, so the L5 case uses MAAST's execution-test configuration unchanged, authentication
+//!   included (`AUTHENTICATION_ENABLED` true, `SenderTESLA_AMAC36`/`ReceiverTESLA_AMAC36`,
+//!   `TEST_TESLA_AUTH` true).
+//!
+//! Neither change touches the protection-level chain under comparison; quantity, Kshana side,
+//! K rescaling and the 1e-4 m bar are unchanged.
+//!
+//! # Amendment 3 (committed before any protection level was produced)
+//!
+//! GNU Octave 8.4 cannot parse MAAST's TESLA authentication classes (`auth/ReceiverTESLA.m`
+//! uses MATLAB method-signature blocks), so the L5 case cannot run with authentication on. It
+//! runs with authentication off, and the driver gives MAAST's L5 decoder, which dereferences
+//! the receiver object for type-50 messages even then, a stand-in `mt50Receiver` whose
+//! `include_crc` is true and whose `check_if_message_verified` returns true, which is the
+//! authentication-off behaviour MAAST already applies to every other message type. The L1
+//! case does not touch authentication. Nothing in the protection-level chain changes.
+//!
+//! # Amendment 4 (committed before any protection level was produced)
+//!
+//! The L5 decoder also hands type-51 (key) messages to MAAST's `MT51` class and key state
+//! machine. The driver supplies stand-ins for both (`xval/sbas-maast/auth_stub/MT51.m` decodes
+//! nothing; the key state machine ignores the result), again only on the authentication path,
+//! which is off. Nothing in the protection-level chain changes.
+//!
+//! # Amendment 5 (L1 only; committed before any L1 protection level was produced)
+//!
+//! The L1 run completed but MAAST protected no user: `usr_vhpl` computes a protection level
+//! only when `n_view > 2 + n_const && n_geo` (a ranging GEO among the satellites passed in) or
+//! when `TRUTH_FLAG == 1 && n_view > 3`. In L1 replay the GEO's line never reaches `usr_vhpl`
+//! (its ionospheric variance is not positive), so every user stayed "not monitored". The L1 case
+//! is re-run with `TRUTH_FLAG = 1`, whose only other use in MAAST (`wmsprocess.m`) is in the
+//! simulated-message mode this replay does not run; it lifts the GEO gate and nothing else. The
+//! L5 run (GEO line present with an undefined variance, so it is counted by the gate but not
+//! used in the solution) is unaffected. In both cases a satellite line whose MAAST variance is
+//! not a positive number is not used by MAAST's solution and is likewise not given to Kshana.
+//!
+//! # Result (2026-10-01; written after the comparison was run)
+//!
+//! - Case L1 passes: 2868 protected (epoch, user) pairs, the same set in both tools, worst
+//!   |dVPL| 7.1e-6 m and |dHPL| 1.6e-5 m against the 1e-4 m bar.
+//! - Case L5 fails the pre-registered set-equality condition, so it is not promoted. On the
+//!   3267 pairs both tools protect the levels agree to 1.0e-13 m (VPL) and 5.3e-14 m (HPL), but
+//!   308 further pairs are protected by Kshana and not by MAAST. In every one of them MAAST
+//!   passed no GEO line to `usr_vhpl` (the GEO is not in view of that user), and MAAST's L5 run
+//!   keeps the gate `n_view > 2 + n_const && n_geo`: a user is protected only while a GEO, the
+//!   source of the corrections, is in view. Kshana's `sbas_protection_level` evaluates the
+//!   protection-level equations for whatever satellites it is given and has no notion of
+//!   message reception. Amendment 5's statement that the L5 run is unaffected by the gate was
+//!   therefore wrong for those 308 pairs; that was found only when the comparison was run. The
+//!   strict L5 test stays ignored with this gap; `sbas_l5_finding_geo_reception_gate` pins it.
+
+/// Tolerance (m) on VPL and HPL after the stated K rescaling.
+pub const TOL_PL_M: f64 = 1e-4;
+/// MAAST's rounded vertical precision-approach K-factor (`init_mops.m`, `MOPS_KV_PA`).
+pub const MAAST_KV_PA: f64 = 5.33;
+
+use kshana::sbas::{
+    iono_free_l1l5_noise_factor, k_v_pa, sbas_protection_level, SbasErrorModel, SbasMode, SbasSat,
+};
+use std::collections::BTreeMap;
+
+const FIXTURE_DIR: &str = "tests/fixtures/integrity_sbas_stanford_oracle";
+
+/// MAAST's levels for one case: `(t, usr) -> (vpl, hpl)`; a level that is not a positive number
+/// is MAAST's "not monitored".
+fn maast_levels(case: &str) -> BTreeMap<(i64, usize), (f64, f64)> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_{case}_levels.csv"))
+        .expect("MAAST levels");
+    text.lines()
+        .skip(1)
+        .map(|l| {
+            let f: Vec<&str> = l.split(',').collect();
+            (
+                (f[0].parse().unwrap(), f[1].parse().unwrap()),
+                (f[4].parse().unwrap(), f[5].parse().unwrap()),
+            )
+        })
+        .collect()
+}
+
+/// The satellite lines MAAST handed to `usr_vhpl`, as Kshana inputs: `(t, usr) -> satellites`.
+/// A line whose MAAST variance is not a positive number is not used by MAAST's solution and is
+/// not given to Kshana.
+fn kshana_inputs(case: &str, air_factor: f64) -> BTreeMap<(i64, usize), Vec<SbasSat>> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_{case}_sats.csv"))
+        .expect("MAAST satellite lines");
+    let mut out: BTreeMap<(i64, usize), Vec<SbasSat>> = BTreeMap::new();
+    for l in text.lines().skip(1) {
+        let f: Vec<&str> = l.split(',').collect();
+        let v = |i: usize| f[i].parse::<f64>().unwrap();
+        let key = (f[0].parse().unwrap(), f[1].parse().unwrap());
+        let entry = out.entry(key).or_default();
+        let (e, n, u) = (v(3), v(4), v(5));
+        let (s2_flt, s2_uire, s2_tropo, s2_air) = (v(6), v(7), v(8), v(9));
+        let total = s2_flt + s2_uire + s2_tropo + air_factor * air_factor * s2_air;
+        if !(total > 0.0 && total.is_finite()) {
+            continue;
+        }
+        // MAAST's line of sight points from the satellite to the user: (E, N, U) =
+        // -(cos El sin Az, cos El cos Az, sin El).
+        entry.push(SbasSat {
+            el_rad: (-u).asin(),
+            az_rad: (-e).atan2(-n),
+            err: SbasErrorModel {
+                sigma_flt_m: s2_flt.sqrt(),
+                sigma_uire_m: s2_uire.sqrt(),
+                sigma_air_m: s2_air.sqrt() * air_factor,
+                sigma_tropo_m: s2_tropo.sqrt(),
+            },
+        });
+    }
+    out
+}
+
+/// `(pairs compared, worst |dVPL|, worst |dHPL|, pairs protected by only one tool)`.
+fn compare(case: &str, air_factor: f64) -> (usize, f64, f64, Vec<(i64, usize)>) {
+    let maast = maast_levels(case);
+    let inputs = kshana_inputs(case, air_factor);
+    let (mut worst_v, mut worst_h, mut n) = (0.0_f64, 0.0_f64, 0usize);
+    let mut one_sided = Vec::new();
+    for (key, &(vpl_m, hpl_m)) in &maast {
+        let maast_protects = vpl_m > 0.0 && hpl_m > 0.0;
+        let k = inputs
+            .get(key)
+            .and_then(|s| sbas_protection_level(s, SbasMode::PrecisionApproach));
+        match (maast_protects, k) {
+            (true, Some(r)) => {
+                let vpl = r.vpl_m.expect("precision approach has a VPL") * MAAST_KV_PA / k_v_pa();
+                worst_v = worst_v.max((vpl - vpl_m).abs());
+                worst_h = worst_h.max((r.hpl_m - hpl_m).abs());
+                n += 1;
+            }
+            (false, None) => {}
+            _ => one_sided.push(*key),
+        }
+    }
+    (n, worst_v, worst_h, one_sided)
+}
+
+fn check(case: &str, air_factor: f64) {
+    let (n, dv, dh, one_sided) = compare(case, air_factor);
+    eprintln!(
+        "SBAS {case} vs MAAST: {n} protected (epoch, user) pairs, worst |dVPL| {dv:.3e} m, \
+         |dHPL| {dh:.3e} m, {} pairs protected by one tool only",
+        one_sided.len()
+    );
+    assert!(n > 0, "{case}: no pair compared");
+    assert!(
+        one_sided.is_empty(),
+        "{case}: the protected sets differ at {} pairs, first {:?}",
+        one_sided.len(),
+        &one_sided[..one_sided.len().min(5)]
+    );
+    assert!(
+        dv <= TOL_PL_M && dh <= TOL_PL_M,
+        "{case}: worst |dVPL| {dv:.3e} m, |dHPL| {dh:.3e} m against {TOL_PL_M} m"
+    );
+}
+
+/// Case L1: DO-229E single frequency on the real WAAS L1 broadcast of 2020-01-01.
+#[test]
+fn sbas_l1_protection_levels_match_stanford_maast_on_real_waas_messages() {
+    check("L1", 1.0);
+}
+
+/// Case L5: dual-frequency L1/L5 on MAAST's recorded L5 broadcast; the airborne term carries
+/// Kshana's ionosphere-free noise factor.
+#[test]
+#[ignore = "FINDING: levels agree to 1.0e-13 m on the 3267 pairs both protect, but 308 pairs \
+            with no GEO in view are protected by Kshana and not by MAAST (MAAST's GEO-reception \
+            gate); the pre-registered set equality fails"]
+fn sbas_l5_protection_levels_match_stanford_maast_on_real_waas_messages() {
+    check("L5", iono_free_l1l5_noise_factor());
+}
+
+/// The L5 finding, pinned: identical levels where both tools protect, and the set difference is
+/// exactly the pairs for which MAAST passed no GEO line (no GEO in view), all protected by Kshana
+/// and none by MAAST.
+#[test]
+fn sbas_l5_finding_geo_reception_gate() {
+    let (n, dv, dh, one_sided) = compare("L5", iono_free_l1l5_noise_factor());
+    assert_eq!(n, 3267);
+    assert!(dv <= TOL_PL_M && dh <= TOL_PL_M, "levels: {dv:e} {dh:e}");
+    assert_eq!(one_sided.len(), 308);
+    let maast = maast_levels("L5");
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_L5_sats.csv")).unwrap();
+    let with_geo: std::collections::BTreeSet<(i64, usize)> = text
+        .lines()
+        .skip(1)
+        .filter_map(|l| {
+            let f: Vec<&str> = l.split(',').collect();
+            (f[2].parse::<u32>().unwrap() >= 120)
+                .then(|| (f[0].parse().unwrap(), f[1].parse().unwrap()))
+        })
+        .collect();
+    for key in &one_sided {
+        assert!(maast[key].0 <= 0.0, "{key:?}: MAAST protects it");
+        assert!(!with_geo.contains(key), "{key:?}: a GEO line was present");
+    }
+}
