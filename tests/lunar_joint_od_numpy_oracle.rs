@@ -56,8 +56,26 @@
 //!
 //! Discrimination, pre-registered: dropping the weights in the normal matrix of
 //! `batch_ls::gauss_newton` (`w = 1`) must turn the test red.
+//!
+//! Result (2026-10-02). First run (commit 5094bc31): A to E agree (first step within 3.7e-11,
+//! numpy step at the solution at most 3.6e-8 stored units, sigmas within 2.0e-11, station
+//! errors equal); F fails: first-step relative difference 6.1e-7 against `tol` 1e-8 (κ of the
+//! whitened Jacobian 1.43e5). The engine solved each step by inverting the normal matrix, whose
+//! condition number is κ², so its forward error is about κ²ε = 4.5e-6 where a QR or SVD solve
+//! reaches κε. Engine fix (written after that result was seen): `batch_ls::gauss_newton_qr`
+//! solves each step by Householder QR of the whitened Jacobian (the engine's existing
+//! `leo_navmsg::fit::lstsq`), and `lunar_combination::estimate` and `formal_covariance` use it;
+//! this test now calls `gauss_newton_qr` (the solver `estimate` runs) and the inputs were
+//! re-exported (the converged states moved by the fix), the oracle procedure and tolerances
+//! unchanged. Re-run: PASS. First steps within 1.1e-14 to 2.4e-11 (F included), numpy steps at
+//! the solutions 1.7e-11 to 3.6e-8 stored units, worst sigma 1.3e-11, station errors equal
+//! (A 3.541350 m, B 1.669598 m, C 4.155462 m, D 2.010563 m, E 0.125650 m).
+//! Mutations: the pre-registered one (weights dropped in `gauss_newton`'s normal matrix) no
+//! longer reaches `estimate` and stays green; the same mutation on the path `estimate` now uses
+//! (unit weights in `gauss_newton_qr`) turns the test red (the converged states move and the
+//! input check fails).
 
-use kshana::batch_ls::{fd_jacobian, gauss_newton};
+use kshana::batch_ls::{fd_jacobian, gauss_newton_qr as gauss_newton};
 use kshana::lunar_combination::{estimate, formal_covariance, model, problem, LunarNetworkConfig};
 use serde_json::{json, Value};
 use std::path::PathBuf;
@@ -169,7 +187,6 @@ fn vecf(v: &Value) -> Vec<f64> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn joint_solve_linear_algebra_matches_numpy() {
     let (Ok(inputs), Ok(oracle)) = (
         std::fs::read_to_string(dir().join("inputs.json")),
