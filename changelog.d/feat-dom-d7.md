@@ -28,7 +28,8 @@
 - LuGRE acquisition against GNSS-SDR 0.0.19: 266 of 266 decisions agree, 250 located on the same
   cell; most positives are artefacts of a −0.5 mean in the bare 4-bit levels; the C/N0 leg had no
   contemporaneous flight data. Two batches carry `.sdrx` metadata that contradicts their headers.
-- LuGRE acquisition against orbit-predicted Doppler: the strongest pairs agree in magnitude with
+- LuGRE acquisition against orbit-predicted Doppler: with the sample-power decision every search
+  crosses on band-limited noise; with the cell-averaging decision the strongest pairs agree in magnitude with
   the sign reversed, showing the registered I/Q order to be the conjugate of the data.
 - Relative C/N0 at lunar distance (M039 restated): 15 Block IIR/IIR-M records and one pair, too
   few for the registered bar.
