@@ -8,7 +8,7 @@ Tools (all run as separate programs, nothing is copied into the crate):
   * astropy 8.0.1, `astropy.utils.iers.IERS_A.read` (BSD-3-Clause): reads every finals2000A
     file below with the IERS's own CDS ReadMe, and forms the "Bulletin B where published,
     else Bulletin A" series itself (`UT1_UTC`, `PM_x`, `PM_y`).
-  * pyerfa 2.0.1.5 (BSD-3-Clause; the IAU SOFA algorithms): `c2t06a` builds the full
+  * pyerfa 2.0.1.5 (BSD-3-Clause; the IAU SOFA algorithms): `c2t06a`'s components build the full
     celestial-to-terrestrial rotation for the true and for the persisted (or predicted)
     Earth orientation; the error rotation's angle times the Earth-Moon lever distance is the
     oracle's position error at the Moon.
@@ -142,18 +142,33 @@ def read(path):
     return out
 
 
-def c2t(mjd, ut1_utc, xp_as, yp_as):
-    """ERFA celestial-to-terrestrial matrix at 0h UTC of `mjd`.
+def era_exact(mjd, ut1_utc):
+    """Amendment A2: the Earth rotation angle (rad) of IERS Conventions (2010) eq. (5.15),
+    theta = 2 pi (0.7790572732640 + 1.00273781191135448 Tu), Tu = JD(UT1) - 2451545.0,
+    evaluated in exact rational arithmetic and rounded once. ERFA `era00` evaluates the same
+    formula in double precision with a resolution of about 3.1e-14 rad (one unit in the last
+    place of Tu, about 9312.5 days here), which the second run showed is too coarse for
+    floor-row error angles of about 1e-9 rad."""
+    from fractions import Fraction as F
 
-    Amendment A1: the UTC date is passed as (2400000.5 + MJD, 0.0), so the UT1-UTC offset
-    lands in an otherwise-zero second part and keeps about 1e-11 s of resolution. The first
-    run passed (2400000.5, MJD), where one unit in the last place of MJD + dUT1/86400 is
-    about 0.6 microseconds of time."""
+    tu = F(mjd) - F("51544.5") + F(ut1_utc) / 86400
+    turns = F("0.7790572732640") + F("1.00273781191135448") * tu
+    frac = turns - (turns.numerator // turns.denominator)
+    return 2.0 * np.pi * float(frac)
+
+
+def c2t(mjd, ut1_utc, xp_as, yp_as):
+    """Celestial-to-terrestrial matrix at 0h UTC of `mjd`, built from ERFA's components
+    exactly as `eraC2t06a` builds it (`c2i06a`, `sp00`, `pom00`, `c2tcio`), with the Earth
+    rotation angle from `era_exact` (amendment A2) instead of `era00`. TT is formed by ERFA
+    from the UTC date passed as (2400000.5 + MJD, 0.0) (amendment A1); TT enters only the
+    precession-nutation and s', which are identical for the two rotations compared."""
     u1, u2 = 2400000.5 + mjd, 0.0
     a1, a2 = erfa.utctai(u1, u2)
     t1, t2 = erfa.taitt(a1, a2)
-    ut1a, ut1b = erfa.utcut1(u1, u2, ut1_utc)
-    return erfa.c2t06a(t1, t2, ut1a, ut1b, xp_as * ARCSEC, yp_as * ARCSEC)
+    rc2i = erfa.c2i06a(t1, t2)
+    rpom = erfa.pom00(xp_as * ARCSEC, yp_as * ARCSEC, erfa.sp00(t1, t2))
+    return erfa.c2tcio(rc2i, era_exact(mjd, ut1_utc), rpom)
 
 
 def error_angle(r_true, r_other):

@@ -97,6 +97,14 @@
 //! 0.00273781191135448, and one unit in the last place of t (about 9312.5 days) is
 //! 3.13e-14 rad of Earth rotation angle, against floor-row error angles of about 1.3e-9 rad
 //! (2.4e-5 relative). The engine is still not touched.
+//!
+//! AMENDMENT A2 (written after the second run, which was seen; committed before the third).
+//! Only the oracle's evaluation of the Earth rotation angle changes: the rotation is built
+//! from ERFA's own components as `eraC2t06a` builds it (`c2i06a`, `sp00`, `pom00`,
+//! `c2tcio`), with the angle of IERS Conventions (2010) eq. (5.15) evaluated in exact
+//! rational arithmetic and rounded once (about 1e-15 rad) instead of by `era00`. Quantity,
+//! inputs, every tolerance and the crate are unchanged. If this run still misses, the row
+//! does not promote on this oracle.
 
 use kshana::realtime_frame_eop::RealtimeFrameEopScenario;
 use serde_json::{json, Value};
@@ -337,7 +345,7 @@ fn compare_predicted_vs_final(o: &Value) -> Vec<String> {
 }
 
 #[test]
-#[ignore = "second run (A1): two floor-row combined statistics miss 1e-5 (p50 2.5e-5, p95 1.05e-5) on the ERFA era00 resolution (3.1e-14 rad); see amendment A2"]
+#[ignore = "pre-registered amendment A2; not yet run (second run: floor-row combined p50 2.5e-5, p95 1.05e-5 against 1e-5)"]
 fn joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa() {
     let o = oracle();
     assert_eq!(o["d_em_m"], json!(kshana::frame_eop::D_EM_M));
