@@ -98,8 +98,10 @@
 //! coordinates and the schedule are inputs, not a flown campaign. No TRL, flight heritage or
 //! agency endorsement is claimed.
 
+use crate::ephem_provider::{KernelEphemeris, LunisolarSource};
 use crate::fim::{crlb, design_metrics, information_matrix};
 use crate::frames::Geodetic;
+use crate::jd2::Jd2;
 use crate::lunar::Selenographic;
 use crate::lunar_vlbi::{
     beacon_inertial_position, delay_partials_beacon, delay_partials_station1,
@@ -235,6 +237,33 @@ pub fn epoch_geometry(
         gcrs_to_itrs: crate::cio::gcrs_to_itrs_matrix(jd_tt, jd_ut1, 0.0, 0.0),
         icrf_to_moon: crate::lunar_frame::icrf_to_iau_moon(jd_tt),
     }
+}
+
+/// [`epoch_geometry`] with the Moon centre taken from `source`. The analytic source is
+/// [`epoch_geometry`] itself, unchanged. A kernel source reads the DE440 Moon relative to the
+/// Earth ([`crate::ephem_provider::KernelEphemeris`]) at the epoch's TDB, the epoch carried as a
+/// two-part date, and places the beacon on it with the same IAU 2015 body rotation; the
+/// stations, Earth rotation and lunar orientation are unchanged. Fails only when the kernel has
+/// no data at the epoch.
+pub fn epoch_geometry_with(
+    source: &LunisolarSource,
+    stations: &[Geodetic],
+    beacon: Selenographic,
+    jd_utc_epoch: f64,
+    t_hours: f64,
+) -> Result<EpochGeometry, String> {
+    let LunisolarSource::Kernel(k) = source else {
+        return Ok(epoch_geometry(stations, beacon, jd_utc_epoch, t_hours));
+    };
+    let mut g = epoch_geometry(stations, beacon, jd_utc_epoch, t_hours);
+    let jd_utc = jd_utc_epoch + t_hours / 24.0;
+    let tt_minus_utc = crate::timescales::tai_minus_utc(jd_utc) + 32.184;
+    let jd_tt = Jd2::new(jd_utc_epoch).add_seconds(t_hours * 3_600.0 + tt_minus_utc);
+    let moon = k.moon_geocentric_tt(jd_tt)?;
+    let r_body = crate::lunar::selenographic_to_mcmf(beacon);
+    g.beacon_inertial = add(moon, mat_vec(&transpose(&g.icrf_to_moon), r_body));
+    g.moon_inertial = moon;
+    Ok(g)
 }
 
 // ---------------------------------------------------------------------------
@@ -558,6 +587,12 @@ pub struct LunarVlbiFimScenario {
     pub rel_tol: Option<f64>,
     /// The `g` of the equipartition link being compared against. Default 3.
     pub equipartition_g: Option<f64>,
+    /// Opt-in kernel path: a JPL planetary SPK (for example `de440s.bsp`, or a cut of it covering
+    /// the schedule). When set, the geocentric Moon centre the beacon sits on is the kernel's
+    /// DE440 Moon relative to the Earth ([`crate::ephem_provider::KernelEphemeris`]) instead of the
+    /// analytic series, and the report gains a `moon_ephemeris` block naming the kernel and its
+    /// SHA-256. Nothing else changes. Default unset: the analytic series, as before.
+    pub planetary_kernel_path: Option<String>,
 }
 
 /// Defaults, one accessor each, so the resolved value and the documented default can never
@@ -806,6 +841,14 @@ impl LunarVlbiFimScenario {
         Ok((json, c.summary))
     }
 
+    /// The kernel named by `planetary_kernel_path`, opened, or `None` on the analytic path.
+    pub fn kernel(&self) -> Result<Option<KernelEphemeris>, String> {
+        self.planetary_kernel_path
+            .as_deref()
+            .map(|p| KernelEphemeris::open(std::path::Path::new(p)))
+            .transpose()
+    }
+
     /// Build the schedule: the epoch geometries and the feasible (baseline, epoch)
     /// observations, with the elevation mask applied at both ends of every baseline.
     ///
@@ -826,9 +869,16 @@ impl LunarVlbiFimScenario {
             0.0,
         );
         let step_h = step_min / 60.0;
+        let kernel = self.kernel()?;
+        let source = match &kernel {
+            Some(k) => LunisolarSource::Kernel(k),
+            None => LunisolarSource::Analytic,
+        };
         let geoms: Vec<EpochGeometry> = (0..n_epochs)
-            .map(|k| epoch_geometry(&geodetics, beacon, jd_utc_epoch, k as f64 * step_h))
-            .collect();
+            .map(|k| {
+                epoch_geometry_with(&source, &geodetics, beacon, jd_utc_epoch, k as f64 * step_h)
+            })
+            .collect::<Result<_, _>>()?;
         let mut observations = Vec::new();
         for (e, geom) in geoms.iter().enumerate() {
             let beacon_itrs = geom.beacon_itrs();
@@ -1295,6 +1345,18 @@ impl LunarVlbiFimScenario {
                          result, not a failure.",
             },
         });
+        // A kernel run says so, and names the kernel; the analytic document is unchanged.
+        let mut json = json;
+        if let Some(k) = self.kernel()? {
+            json["moon_ephemeris"] = serde_json::json!({
+                "source": "kernel",
+                "kernel_path": k.source(),
+                "kernel_sha256": k.kernel_sha256(),
+                "note": "geocentric Moon centre under the beacon from the kernel (JPL DE440 Moon \
+                    relative to the Earth, J2000, at TDB); the beacon's IAU 2015 body rotation, \
+                    the stations and Earth rotation are unchanged from the analytic path",
+            });
+        }
 
         Ok(Computed { json, summary })
     }
