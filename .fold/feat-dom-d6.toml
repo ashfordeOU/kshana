@@ -1,0 +1,77 @@
+# Fold metadata for package D6: LunaNet Augmented Forward Signal (AFS) reference generator,
+# pinned to the LunaNet Signal-In-Space Recommended Standard (LSIS) V1.0, 29 January 2025.
+package = "D6"
+branch = "feat/dom-d6"
+base = "main@4646c224"
+title = "LunaNet Augmented Forward Signal reference generator (LSIS V1.0)"
+
+# D3 (environment locks) is the only declared dependency. Codes and frames need nothing else;
+# the service volume (D4) and time messages (D5) are not touched by this branch.
+depends_on = ["D3"]
+
+owned_paths = [
+  "src/lunar_afs/",                      # new module (codes, frame, ldpc, lsis, params, waveform)
+  "src/lunar_service.rs",                # carrier-default defect fix only (commit 85a7b6f4)
+  "src/lunar_jamming.rs",                # carrier default + test operating point (commit 0a139fce)
+  "src/attack_surface.rs",               # carrier default + P1 baseline tests (commit 0a139fce)
+  "src/sigmf.rs",                        # additive extension-field writer and reader
+  "tests/lunar_afs_codes_lsis_reference.rs",
+  "tests/lunar_afs_frame_coding_oracle.rs",
+  "tests/lunar_afs_waveform_lans_afs_sim_oracle.rs",
+  "tests/lunar_afs_decodability_pocketsdr_oracle.rs",
+  "tests/lunar_afs_decodability_pocketsdr_4bit_oracle.rs",
+  "tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs",
+  "tests/fixtures/lunar_afs_waveform_lans_afs_sim/",
+  "tests/fixtures/lunar_afs_decodability_pocketsdr/",
+  "xval/lunar-afs/",                     # oracle build and run scripts (separate programs)
+  ".fold/feat-dom-d6.toml",
+  ".fold/feat-dom-d6-rows.md",
+  ".fold/feat-dom-d6-erratum.md",
+  "changelog.d/feat-dom-d6.md",
+]
+
+# One-line registration made on this branch.
+registrations = ["src/lib.rs: pub mod lunar_afs;"]
+
+# Not delivered on this branch (would change generated docs or the README scenario count):
+# scenarios/lunar-afs-*.toml and a scenario kind; the proposed file is in the rows file.
+not_delivered = ["scenarios/lunar-afs-*.toml", "moonlight-service-volume.toml carrier comment (port output; next re-port)"]
+
+# Licence: nothing copied from LSIS is on the branch head (removed in cdc9bc07). The fold must
+# be a SQUASH so that earlier commits carrying the LDPC tables and code files never reach main.
+squash_required = true
+
+[lsis_cache]
+fetch = "xval/lunar-afs/fetch_lsis.sh"
+dir = "$KSHANA_LSIS_DIR or ~/.cache/kshana/lsis"
+pdf_sha256 = "986e07959f527d24280d87b5477298424ffdf754c4625f08041b5749592e61b6"
+pinned_digests = "src/lunar_afs/lsis.rs PINNED (14 files)"
+
+# Proposed verification-matrix rows (exact text in .fold/feat-dom-d6-rows.md).
+[rows]
+new = [
+  "LunaNet AFS spreading-code generation (LSIS V1.0)",                    # MODELLED, finding
+  "LunaNet AFS baseband rendering against an independent generator, given its channel state (LSIS V1.0)",  # VALIDATED (Library)
+  "LunaNet AFS frame channel coding, FID 0 (LSIS V1.0)",                  # VALIDATED (Library)
+  "LunaNet AFS closed-loop decodability by an independent receiver (LSIS V1.0)",  # MODELLED, finding
+]
+unchanged = ["Lunar navigation service volume"]
+
+[tests]
+filter = "lunar_afs"
+lib = ["lunar_afs::", "sigmf::tests", "lunar_service::", "lunar_jamming::", "attack_surface::"]
+integration = [
+  "lunar_afs_codes_lsis_reference",
+  "lunar_afs_frame_coding_oracle",
+  "lunar_afs_waveform_lans_afs_sim_oracle",
+  "lunar_afs_decodability_pocketsdr_oracle",
+  "lunar_afs_decodability_pocketsdr_4bit_oracle",
+  "lunar_afs_decodability_pocketsdr_v3_oracle",
+]
+# Data-gated (skips with a notice when absent): KSHANA_LANS_RUN=<dir of xval/lunar-afs/run_lans.sh>
+# Data-gated on the LSIS cache (skip with a notice without it): the code comparison, D3-D5 of
+# the frame-coding file, W1 (AFS-I/tertiary), W2 and W3 of the waveform file.
+data_gated = ["lunar_afs_waveform_lans_afs_sim_oracle::afs_full_run_matches_lans_afs_sim", "LSIS cache"]
+
+[pre_registration]
+commits = ["986ac280", "825768f4", "b62f9fe2"]
