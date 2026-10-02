@@ -44,6 +44,7 @@
 //!    areostationary) as a second, one clock each, same window;
 //! 7. `leo-scale`: Earth, a 1584-satellite Walker delta 1584/72/17 at 550 km and 53 degrees,
 //!    common clock, 1 hour at 300 s, 10 degree grid.
+//!
 //! The body constants (gravitational parameter, radius, spin rate) are the engine's published
 //! values (`crate::body`), exported once to `bodies.txt` and checked here to be unchanged.
 //!
@@ -259,6 +260,7 @@ type CellInfo = (f64, f64, f64);
 
 /// Compares one design. With `strict` every bar panics at its first violation; otherwise the
 /// violations are collected and returned with a per-cell summary.
+#[allow(clippy::neg_cmp_op_on_partial_ord)]
 fn check_design(d: &Value, strict: bool) -> (Worst, Vec<String>, Vec<CellInfo>) {
     let name = d["name"].as_str().unwrap();
     let mut w = Worst::default();

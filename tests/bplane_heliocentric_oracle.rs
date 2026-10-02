@@ -59,6 +59,7 @@
 //! - the closed-form link with the oracle's speed: `|T_Kshana − (3 − C3/v_c²)| ≤ 1e-9`, with
 //!   `C3` from GMAT for the planetocentric state `k` (exact for a circular planet orbit at the
 //!   encounter radius).
+//!
 //! Preconditions: all 384 − (dropped) states reported by GMAT and sbpy, all finite, every
 //! GMAT `SMA` positive.
 //!
