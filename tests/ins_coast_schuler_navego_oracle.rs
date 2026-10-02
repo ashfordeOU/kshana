@@ -76,6 +76,19 @@
 //! * The round-1 NaveGo values for T1, T2 and T6, which the dead band barely touches, were
 //!   seen in round 1. The engine model below is the textbook error model with no fitted
 //!   parameter, so it cannot be tuned to them.
+//!
+//! # Result (run 2026-10-02, after the engine change, commit 440b3877, and the fixture,
+//! commit 73929319)
+//!
+//! AGREES: all 48 comparisons within 5 %. Largest differences: VRW +3.70 % at 1200 s and
+//! +3.67 % at 1800 s, ARW +3.33 % at 1800 s, VRW -3.02 % at 60 s (the stochastic terms sit
+//! inside about 1.3 sampling standard deviations); every deterministic term is within
+//! 1.6 % (scale-factor cruise at 30 s) and within 0.6 % beyond 60 s. Both oracle anomalies
+//! are gone with the dead band lifted: T3 and T4 are now Schuler-bounded (2.35 m and 2.42 m
+//! at one hour, against the flat 10.8 m and 19.4 m), and the VRW per-axis RMS at 3600 s is
+//! 34.85 m (round 1, dead band in place: 56.9 m). Mutation: zeroing the transport-rate
+//! feedback term `-dvN / R_N` in the east tilt rate (the Schuler loop) puts accel bias at
+//! +695 % and scale factor at +350 % to +695 % at one hour, and the test fails.
 
 use kshana::inertial::coast::{CoastModel, Combination, ImuGrade};
 use std::collections::BTreeMap;
@@ -176,8 +189,8 @@ fn print_table(rows: &[Row]) {
 
 /// The pre-registered comparison: every term within 5 % of the corrected NaveGo runs at
 /// every duration (48 comparisons).
+/// Result (2026-10-02): AGREES, 48 of 48; largest |difference| 3.70 % (VRW at 1200 s).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn coast_error_model_matches_the_corrected_navego_runs() {
     let rows = oracle_table();
     print_table(&rows);
