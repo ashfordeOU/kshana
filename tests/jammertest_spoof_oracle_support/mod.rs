@@ -61,7 +61,12 @@ pub struct Onset {
 }
 
 pub fn onsets() -> Vec<Onset> {
-    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/onsets.tsv")).expect("onsets.tsv");
+    onsets_from("onsets.tsv")
+}
+
+/// The onsets listed in `file` (same columns as `onsets.tsv`) in the fixture directory.
+pub fn onsets_from(file: &str) -> Vec<Onset> {
+    let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/{file}")).expect("onsets file");
     text.lines()
         .skip(1)
         .filter(|l| !l.trim().is_empty())
@@ -318,4 +323,80 @@ pub fn run_onset(o: &Onset) -> OnsetResult {
         detection,
         epochs,
     }
+}
+
+/// Round 2 (pre-registered in `tests/spoof_detection_jammertest_log_oracle.rs`): the same
+/// per-epoch solve, RAIM and clock unwrapping as [`run_onset`], with the clock-aided monitor
+/// replaced by the engine's three-state, Hadamard-calibrated, non-latching
+/// [`kshana::spoof_monitors::ClockAidedMonitor`] on noise levels raised to the TCXO class floor.
+/// `bound_ns` and `sigma_mon_s` report the monitor's first post-calibration decision bound;
+/// `q_wf`, `q_rw` and `r` are the floored levels (`q_drift` is in [`R2Noise`]).
+pub struct R2Noise {
+    pub noise: Option<kshana::spoof_monitors::ClockNoiseEstimate>,
+}
+
+pub fn run_onset_r2(o: &Onset) -> (OnsetResult, R2Noise) {
+    use kshana::clock_state::ClockClass;
+    use kshana::spoof_monitors::{hadamard_noise_fit, ClockAidedMonitor};
+    let mut r = run_onset(o);
+    for e in r.epochs.iter_mut() {
+        e.clock_innov_s = None;
+        if e.alarm == Some(AlarmKind::Clock) {
+            e.alarm = None;
+        }
+    }
+    let cal: Vec<(f64, f64)> = r
+        .epochs
+        .iter()
+        .filter(|e| e.t >= r.cal_start && e.t < r.cal_end)
+        .filter_map(|e| e.clock_s.map(|c| (e.t, c)))
+        .collect();
+    let phases: Vec<f64> = cal.iter().map(|(_, c)| *c).collect();
+    let noise = hadamard_noise_fit(&phases, 1.0).map(|n| n.with_class_floor(ClockClass::Tcxo));
+    r.bound_ns = f64::NAN;
+    r.sigma_mon_s = f64::NAN;
+    if let Some(n) = noise {
+        r.q_wf = n.q_wf;
+        r.q_rw = n.q_rw;
+        r.r = n.r;
+        let mut m = ClockAidedMonitor::new(n, SPOOF_DETECT_K);
+        for (t, c) in &cal {
+            m.calibrate(*t, *c);
+        }
+        for e in r.epochs.iter_mut() {
+            if e.t < r.cal_end {
+                continue;
+            }
+            match e.clock_s {
+                Some(c) => {
+                    let st = m.step(e.t, c, e.alarm.is_some());
+                    if r.bound_ns.is_nan() {
+                        r.sigma_mon_s = st.sigma_s;
+                        r.bound_ns = SPOOF_DETECT_K * st.sigma_s * 1e9;
+                    }
+                    e.clock_innov_s = Some(st.innovation_s);
+                    if st.alarm && e.alarm.is_none() {
+                        e.alarm = Some(AlarmKind::Clock);
+                    }
+                }
+                None => m.coast(e.t),
+            }
+        }
+    }
+    r.evaluable = (r.onset - r.cal_end) >= MIN_PRE_S
+        && cal.len() >= PRED_MIN
+        && noise.is_some()
+        && r.bound_ns.is_finite();
+    r.pre_onset_alarms = r
+        .epochs
+        .iter()
+        .filter(|e| e.t >= r.cal_end && e.t < r.onset)
+        .filter_map(|e| e.alarm.map(|k| (e.t, k)))
+        .collect();
+    r.detection = r
+        .epochs
+        .iter()
+        .filter(|e| e.t >= r.onset && e.t <= r.horizon_end)
+        .find_map(|e| e.alarm.map(|k| (e.t, k)));
+    (r, R2Noise { noise })
 }
