@@ -95,6 +95,33 @@ pub fn determine_orbit_batch(
     )
 }
 
+/// [`determine_orbit_batch`] by the opt-in square-root solver
+/// ([`crate::batch_ls::gauss_newton_srif`]): each Gauss–Newton step is solved by Householder QR of
+/// the whitened Jacobian instead of inverting the normal matrix, and the formal covariance of the
+/// initial state is returned from the same triangular factor. The default batch solver is
+/// unchanged.
+#[allow(clippy::too_many_arguments)]
+pub fn determine_orbit_batch_srif(
+    z: &[f64],
+    weights: &[f64],
+    x0: &[f64],
+    stations: &[Station],
+    dt: f64,
+    n_epochs: usize,
+    max_iter: usize,
+    tol: f64,
+) -> Option<(LsqResult, Vec<Vec<f64>>)> {
+    let stations = stations.to_vec();
+    crate::batch_ls::gauss_newton_srif(
+        |x| predict_ranges(x, &stations, dt, n_epochs),
+        z,
+        weights,
+        x0,
+        max_iter,
+        tol,
+    )
+}
+
 /// **Sequential** orbit determination: starting from `x0`/`p0`, step a [`Ukf`] forward through the
 /// force-model dynamics and update it with each epoch's station ranges in turn, returning the final
 /// filter. `ranges_per_epoch[k]` holds one range per station for epoch `k` (spaced `dt` apart);
@@ -216,6 +243,53 @@ mod tests {
             vel_err(&sol.x, &truth) < 1e-3,
             "velocity error {} m/s",
             vel_err(&sol.x, &truth)
+        );
+    }
+
+    #[test]
+    fn the_srif_batch_matches_the_default_batch_and_returns_a_covariance() {
+        let truth = truth_state();
+        let stns = stations();
+        let (dt, n) = (20.0, 30);
+        let clean = predict_ranges(&truth, &stns, dt, n);
+        let mut rng = ChaCha8Rng::seed_from_u64(0x0D_0D_0E);
+        let noise = Normal::new(0.0, 5.0).unwrap();
+        let z: Vec<f64> = clean.iter().map(|&r| r + noise.sample(&mut rng)).collect();
+        let weights = vec![1.0 / 25.0; z.len()];
+        let guess = [
+            truth[0] + 1000.0,
+            truth[1] - 800.0,
+            truth[2] + 600.0,
+            truth[3] + 5.0,
+            truth[4] - 4.0,
+            truth[5] + 3.0,
+        ];
+        // The noisy-range tolerance of the default test: both correctors stall at the
+        // finite-difference noise floor below it, at slightly different points.
+        let a = determine_orbit_batch(&z, &weights, &guess, &stns, dt, n, 50, 1e-3).expect("runs");
+        let (b, cov) =
+            determine_orbit_batch_srif(&z, &weights, &guess, &stns, dt, n, 50, 1e-3).expect("runs");
+        // They reach the same least-squares state to a small fraction of the formal sigma (the two
+        // solvers round differently; neither is an oracle for the other here).
+        for (k, (p, q)) in a.x.iter().zip(&b.x).enumerate() {
+            assert!((p - q).abs() < 1e-2 * cov[k][k].sqrt(), "x[{k}] {p} vs {q}");
+        }
+        // The formal covariance is symmetric positive-definite and its position sigma covers the
+        // achieved position error at a few sigma.
+        for i in 0..6 {
+            assert!(cov[i][i] > 0.0);
+            for j in 0..6 {
+                assert!((cov[i][j] - cov[j][i]).abs() <= 1e-12 * (cov[i][i] * cov[j][j]).sqrt());
+            }
+        }
+        let pos_sigma = (cov[0][0] + cov[1][1] + cov[2][2]).sqrt();
+        let err = ((b.x[0] - truth[0]).powi(2)
+            + (b.x[1] - truth[1]).powi(2)
+            + (b.x[2] - truth[2]).powi(2))
+        .sqrt();
+        assert!(
+            err < 5.0 * pos_sigma,
+            "error {err} m vs sigma {pos_sigma} m"
         );
     }
 
