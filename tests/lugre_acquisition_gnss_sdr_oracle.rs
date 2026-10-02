@@ -71,6 +71,13 @@
 //!   2.6 dB, and the bar is set above that at 3.0 dB RMS, with the median of the absolute
 //!   residual at 2.0 dB (about the median of a zero-mean normal of 2.6 dB spread, 1.75 dB).
 //!
+//! DEVIATIONS, recorded after the data were downloaded and before anything was run: OP5 and
+//! OP12 are excluded, their `.sdrx` metadata contradicting the binary header the receiver
+//! interface control document defines (OP5: metadata 4-bit, header 8-bit with 1 601 536 samples;
+//! OP12: metadata 8 MHz, header 4 Msps); nine snapshots remain. The flight C/N0 extraction
+//! window is 120 s, wider than the registered 30 s, so that the fixture shows how far the
+//! nearest flight epoch is; the test still applies 30 s.
+//!
 //! REPORTED, NOT GATING: Kshana positives GNSS-SDR calls negative; the grid C/N0
 //! (`cn0_from_grid`); the flight receiver's acquisition records where contemporaneous.
 //!

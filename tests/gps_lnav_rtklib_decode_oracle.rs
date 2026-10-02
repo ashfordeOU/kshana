@@ -253,6 +253,8 @@ fn kshana_lnav_subframes_decode_in_rtklib_to_the_broadcast_parameters() {
 /// exactly Kshana's integer in every one of them.
 #[test]
 fn rtklib_recovers_every_integer_and_differs_only_by_its_decimal_two_to_the_minus_43() {
+    // Written as RTKLIB writes it (rtklib.h), a decimal literal.
+    #[allow(clippy::excessive_precision)]
     const RTKLIB_P2_43: f64 = 1.136868377216160E-13;
     let committed = std::fs::read_to_string(format!("{FIX}/kshana_words.txt")).expect("words");
     assert_eq!(committed, kshana_words());

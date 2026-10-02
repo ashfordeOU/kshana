@@ -30,7 +30,9 @@
 
 use crate::portable_math::powi;
 
-/// The value of pi IS-GPS-200 specifies for semicircle conversions.
+/// The value of pi IS-GPS-200 specifies for semicircle conversions. Deliberately not
+/// `std::f64::consts::PI`: the specification fixes these fourteen digits.
+#[allow(clippy::approx_constant)]
 pub const GPS_PI: f64 = 3.141_592_653_589_8;
 
 /// The TLM preamble `10001011`.
@@ -515,10 +517,7 @@ mod tests {
             quantise(3.0 * 2f64.powi(-5) - 1e-12, -5, 16, true).unwrap(),
             3
         );
-        assert_eq!(
-            quantise(-1.0 * 2f64.powi(-5), -5, 16, true).unwrap(),
-            0xFFFF
-        );
+        assert_eq!(quantise(-(2f64.powi(-5)), -5, 16, true).unwrap(), 0xFFFF);
         assert!(quantise(4.0, -5, 8, true).is_err());
         assert_eq!(quantise(127.0 / 32.0, -5, 8, true).unwrap(), 127);
         assert!(quantise(-1.0, 0, 8, false).is_err());

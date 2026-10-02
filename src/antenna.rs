@@ -829,7 +829,7 @@ impl GainPattern2D {
     /// Gain (dB) at azimuth `az_deg` (any value; wrapped) and off-boresight `theta_deg`.
     pub fn gain_at(&self, az_deg: f64, theta_deg: f64) -> Option<f64> {
         let t = &self.off_boresight_deg;
-        if !(theta_deg >= t[0] && theta_deg <= t[t.len() - 1]) || !az_deg.is_finite() {
+        if !(theta_deg >= t[0] && theta_deg <= t[t.len() - 1] && az_deg.is_finite()) {
             return None;
         }
         let k = t.partition_point(|&x| x <= theta_deg).clamp(1, t.len() - 1);

@@ -158,7 +158,10 @@ impl IqsHeader {
 
 /// The `key: value` fields of one telemetry text line, with any bracketed group
 /// (`measures: [ … ]`, `acfCorr: [ … ]`) returned separately as its list of tokens.
-fn fields(line: &str) -> (Vec<(String, String)>, Vec<(String, Vec<String>)>) {
+/// `key: value` pairs and bracketed groups of one telemetry line.
+type Fields = (Vec<(String, String)>, Vec<(String, Vec<String>)>);
+
+fn fields(line: &str) -> Fields {
     let mut flat = Vec::new();
     let mut groups = Vec::new();
     let toks: Vec<&str> = line.split_whitespace().collect();
