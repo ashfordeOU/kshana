@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 2c06ef1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build 8de93cf · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-75scenario kinds 132bundled scenario files 238capabilities in the verification matrix 121/238validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+75scenario kinds 132bundled scenario files 242capabilities in the verification matrix 123/242validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 L-band console · the spectrum kind
 
@@ -142,7 +142,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -198,7 +198,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -364,9 +364,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.29.3, build 2c06ef1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build 8de93cf · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 2c06ef1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build 8de93cf · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -378,7 +378,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 121 of 238 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 123 of 242 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 75 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -947,7 +947,7 @@ Orbit view
 
 engine v0.29.3t = 0 sReal engine run, replayed
 
-Engine v0.29.3, build 2c06ef1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.29.3, build 8de93cf · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2151,7 +2151,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-238 capabilities, each graded. 121 validated against independent external oracles. 113 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+242 capabilities, each graded. 123 validated against independent external oracles. 115 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.29.3 From the repository
 
@@ -2159,7 +2159,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 238 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 242 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2185,7 +2185,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.29.3, build 2c06ef1 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.29.3, build 8de93cf · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2201,7 +2201,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.29.3, build 2c06ef1 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.29.3, build 8de93cf · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2217,7 +2217,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.29.3, build 2c06ef1 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.29.3, build 8de93cf · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2231,7 +2231,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 2c06ef1 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 8de93cf · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2245,7 +2245,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.29.3, build 2c06ef1 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.29.3, build 8de93cf · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2261,7 +2261,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.29.3, build 2c06ef1 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.29.3, build 8de93cf · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -2271,7 +2271,7 @@ Validated means an independent external source agrees: published reference vecto
 
 ### Capabilities graded
 
-121of 238 validated
+123of 242 validated
 
 Hover a cell
 
@@ -2295,7 +2295,7 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 238 rows, one line each.
+## All 242 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
@@ -3792,6 +3792,62 @@ Independent third-party authority ANISE 0.10.2 astro::Orbit Keplerian propagator
 Tests
 
 lunar_service::tests (DOP reuses the validated kernel; PL reduces to the south-pole case); tests/lunar_navigation_service_volume_reference.rs (per-satellite MCI position to <1e-3 m + EXACT visible-satellite set over…
+
+ModelledLunaNet AFS spreading-code generation (LSIS V1.0)lunar_afs::codes, lunar_afs::lsis, lunar_afs::params (IS-GPS-800J indices)
+
+Capability
+
+The Augmented Forward Signal codes of LSIS V1.0 (29 January 2025): the AFS-Q 10230-chip primary generated from the IS-GPS-800 L1C pilot construction with the IS-GPS-800J indices (the same 210 assignments LSIS Appendix D prints), the AFS-I 2046-chip Gold codes generated from g1 = x^11 + x^2 + 1 and g2 = x^11 + x^8 + x^5 + x^2 + 1 with each PRN's G2 delay recovered from the standard's Annex 3 file, the four secondary codes, the 1500-chip tertiary codes, the interim Table 11 node assignment and the tiered pilot code. LSIS content is read at run time from a SHA-256-verified local cache filled from the NASA-hosted PDF, never redistributed
+
+Oracle
+
+Reference: the values LSIS V1.0 prints for validation (Tables C-1 to C-5, D-1 to D-6, E-1 to E-6) and its Annex 3 electronic code files, under a zero-mismatch criterion fixed before the comparison. The criterion is missed by one printed cell that is internally inconsistent with the standard's own Annex 3 file, so the row stays MODELLED; an erratum note is drafted. The same chips also equal LANS-AFS-SIM's (row 'LunaNet AFS baseband rendering against an independent generator, given its channel state')
+
+Tests
+
+lunar_afs::codes::tests (maximal-length registers, Legendre balance, G2 delay round trip, tier composition); tests/lunar_afs_codes_lsis_reference.rs::afs_codes_finding_one_misprinted_table_cell (without the LSIS cache…
+
+ValidatedLunaNet AFS baseband rendering against an independent generator, given its channel state (LSIS V1.0)lunar_afs::waveform::render, lunar_afs::codes, lunar_afs::frame
+
+Capability
+
+The rendering core of the AFS baseband (LSIS-130: complex envelope I + jQ, I = the AFS-I Gold code times the 500 symbol/s frame at 1.023 Mchip/s, Q = the tiered AFS-Q pilot at 5.115 Mchip/s, carrier rotation, chip and symbol alignment) reproduces an independent generator's samples when driven by that generator's own recorded channel state (code phases and rates, carrier phase and frequency, per-channel amplitude). Not covered: the node model that derives that state from a Doppler, delay and carrier-to-noise density, the 50/50 power split computed from the carrier-to-noise density (the amplitudes are taken from the simulator), and the SigMF metadata and 8-bit sample writing
+
+Oracle
+
+Library: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae, S-band build, run as a separate program); Kshana's samples are driven only by the simulator's recorded channel state, and a print-only trace build is checked byte-identical to the unpatched one. Bars fixed before the run: zero chip and symbol mismatches, |rho| >= 0.999 over the run and >= 0.99 per 2 ms block, phase within 0.05 rad. Equal I and Q amplitudes are an input of the comparison, so the power split is not tested by it. LANS-AFS-SIM reads its tertiary codes from the LSIS Annex 3 file, so that part is not independent of the code row. LANS-AFS-SIM and PocketSDR-AFS share an author and count as one independent implementation. Data-gated: the LANS-AFS-SIM comparison needs the local LSIS V1.0 cache (xval/lunar-afs/fetch_lsis.sh, SHA-256 verified) and skips with a notice without it
+
+Tests
+
+tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_chips_match_lans_afs_sim (the 210 AFS-Q primary codes always; with KSHANA_LANS_RUN and the LSIS cache all 630 codes, zero chip mismatches)…
+
+ValidatedLunaNet AFS frame channel coding, FID 0 (LSIS V1.0)lunar_afs::frame, lunar_afs::ldpc, lunar_afs::lsis
+
+Capability
+
+The 12 s, 6000-symbol FID 0 frame of LSIS V1.0: 68-symbol synchronisation pattern, BCH (51, 8) subframe 1 (octal-763 generator), CRC-24 ((1 + X)·P(X)) on subframes 2-4, rate 1/2 LDPC encoding with the printed A, B^-1, C, D (LSIS Annex 1, read at run time from the SHA-256-verified local cache) and the standard's puncturing, 60 x 98 block interleaver; an exhaustive subframe-1 decoder that flags a TOI outside 0..99, and a normalised min-sum LDPC decoder written from H = [[A, B, 0], [C, D, I]] alone
+
+Oracle
+
+Library: LANS-AFS-SIM (T. Ebinuma, BSD-2-Clause, commit 480c6bf353717bafc04b5ee5bafb38ed90e61aae), whose own BCH, CRC, LDPC and interleaver produce frames symbol-identical to Kshana's for the same content (zero mismatches, bar fixed before the run). Corroborated by Reference values: the LSIS V1.0 Figure 8 BCH worked example and the CRC-24/LTE-A check value (Greg Cook's catalogue of parametrised CRC algorithms), both bit-exact; and by PocketSDR-AFS decoding every subframe of the frames it synchronised in three runs with passing CRC and matching subframe-2 bits. The parity-check test is close to an internal identity (it confirms the printed B^-1 inverts the printed B) and is not counted as an oracle. Data-gated: the LANS-AFS-SIM comparison needs the local LSIS V1.0 cache (xval/lunar-afs/fetch_lsis.sh, SHA-256 verified) and skips with a notice without it
+
+Tests
+
+tests/lunar_afs_waveform_lans_afs_sim_oracle.rs::afs_frames_and_baseband_match_lans_afs_sim (with the LSIS cache: the 3 frames LANS-AFS-SIM transmits, built from the same FID, TOI and data bits: zero of 18 000 symbols…
+
+ModelledLunaNet AFS closed-loop decodability by an independent receiver (LSIS V1.0)lunar_afs::waveform (recording and truth labels), xval/lunar-afs/run_pocketsdr.sh
+
+Capability
+
+A Kshana AFS recording acquired, tracked and decoded by an independent software receiver and compared with the recording's own truth labels. This proves conformance to the standard and label consistency only; it is not a statement about channel physics, propagation, received power or link budgets, whose values in the recording are chosen inputs
+
+Oracle
+
+Library: PocketSDR-AFS (T. Ebinuma after T. Takasu's PocketSDR 0.13, BSD-2-Clause, commit 5b23809f30d68518b7fad7a564fd0fac57cc497d, S-band build, print-only log-level copy), under criteria fixed before each run. The third pre-registered comparison meets its decoding and tracking bars C1 and C2 in full but not its guard G0 as written (two runs of the unmodified receiver differ in the same four acquisition records), and the second missed by 5 violations, so the row stays MODELLED. LANS-AFS-SIM and PocketSDR-AFS share an author and count as one independent implementation; the frame-coding row's printed-vector checks guard against a shared misreading
+
+Tests
+
+tests/lunar_afs_decodability_pocketsdr_v3_oracle.rs::third_run_finding_c1_c2_hold_g0_is_receiver_nondeterminism (third pre-registration: 2 nodes, 4 channels tracked, worst Doppler error 0.57 Hz, worst code offset error…
 
 ValidatedLunar joint communications-and-navigation geometrylunar_service
 
@@ -6000,7 +6056,7 @@ Terminal · kshana v0.29.3 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.29.3 (build 2c06ef1):
+A recorded command-line session, engine v0.29.3 (build 8de93cf):
 
 - $ kshana --version: kshana 0.29.3
 
@@ -6538,7 +6594,7 @@ What is included
 
 - All 75 scenario kinds and 132 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 121 of 238 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 123 of 242 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
