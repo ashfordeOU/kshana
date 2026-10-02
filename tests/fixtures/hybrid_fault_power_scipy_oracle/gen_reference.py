@@ -46,6 +46,13 @@ CONFIGURATIONS = [
     ),
     ("high_missed_detection", {"p_fa": 1e-6, "p_md": 0.1}),
 ]
+# Amendment 1: comparable RF and optical sigmas, so the variance combination is discriminated.
+ADDED_CONFIGURATIONS = [
+    (
+        "comparable_sigmas",
+        {"rf_pos_sigma_m": 2.0e-4, "rf_vertical_sigma_m": 3.0e-4, "rf_clock_sigma_s": 1.0e-12},
+    ),
+]
 DEFAULT_P_FA = 1e-5  # specification defaults of the scenario
 DEFAULT_P_MD = 1e-3
 
@@ -74,24 +81,31 @@ def solve(p_fa, p_md):
     }
 
 
-def main():
+def build(configurations):
     configs = []
-    for name, scenario in CONFIGURATIONS:
+    for name, scenario in configurations:
         p_fa = scenario.get("p_fa", DEFAULT_P_FA)
         p_md = scenario.get("p_md", DEFAULT_P_MD)
         entry = {"name": name, "scenario": scenario}
         entry.update(solve(p_fa, p_md))
         configs.append(entry)
+    return configs
+
+
+def main():
+    configs = build(CONFIGURATIONS)
+    added = build(ADDED_CONFIGURATIONS)
     out = {
         "generator": "tests/fixtures/hybrid_fault_power_scipy_oracle/gen_reference.py",
         "scipy": scipy.__version__,
         "oracle": "scipy.stats.chi2.isf / chi2.sf, scipy.stats.ncx2.cdf / ncx2.sf, scipy.optimize.brentq",
         "multiples": MULTIPLES,
         "configurations": configs,
+        "added_configurations": added,
     }
     path = pathlib.Path(__file__).resolve().parent / "reference.json"
     path.write_text(json.dumps(out, indent=1) + "\n")
-    for c in configs:
+    for c in configs + added:
         print(f"{c['name']}: T={c['threshold']:.12g} lambda*={c['lambda_star']:.12g} "
               f"brentq residual {c['residual_at_lambda_star']:.2e}")
 
