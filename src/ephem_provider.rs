@@ -664,6 +664,8 @@ mod tests {
     #[test]
     fn kernel_ephemeris_records_the_kernel_digest() {
         // The digest the fixture's NOTICE.md pins for this file.
+        // PIN-SCOPE:    the SHA-256 of the committed cut kernel, equal to the digest its NOTICE.md records.
+        // PIN-EXCLUDES: the positions read from the kernel, compared with their oracle elsewhere.
         assert_eq!(
             cut_kernel().kernel_sha256(),
             "8f7986fcc8e2987c9d94efa86e02a2a578631b2cb939d497a395f1c58c3b739e"

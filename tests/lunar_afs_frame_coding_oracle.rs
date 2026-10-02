@@ -202,6 +202,8 @@ fn decoder_from_parity_check_matrices_recovers_every_frame() {
             sb4: random_bits(&mut rng, SB34_DATA_BITS),
         };
         let sym = coder.encode(&f).unwrap();
+        // PIN-SCOPE:    the FID 0 frame length (6000 symbols) and its 68-symbol synchronisation prefix.
+        // PIN-EXCLUDES: the coded content, decoded and checked below.
         assert_eq!(sym.len(), 6000);
         assert_eq!(sym[..68], sync_pattern()[..]);
         let soft: Vec<f64> = sym.iter().map(|&b| 4.0 * level(b)).collect();

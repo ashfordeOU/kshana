@@ -121,6 +121,8 @@ fn compare(o: &Value) -> (usize, Vec<String>, usize, usize, Vec<String>) {
             .iter()
             .map(|c| c.as_u64().unwrap() as u8)
             .collect();
+        // PIN-SCOPE:    the length of each gps-sdr-sim C/A code record (1023 chips).
+        // PIN-EXCLUDES: the chip values, compared bit for bit below.
         assert_eq!(theirs.len(), 1023);
         chip_diff += ours
             .chips
