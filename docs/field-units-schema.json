@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2537,
-    "fields_total": 2539,
+    "fields_described": 2534,
+    "fields_total": 2536,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -12134,7 +12134,7 @@
       "complete": true,
       "fields": {
         "altitude_km": {
-          "definition": "circular-orbit altitude above the equatorial radius; the SGP4 mean semi-major axis is R_eq + this",
+          "definition": "circular-orbit altitude above the equatorial radius; the orbit radius is R_eq + this",
           "evidence_tier": "illustrative",
           "provenance": "input",
           "unit": "km"
@@ -12170,7 +12170,7 @@
           "unit": "count"
         },
         "passes[].aos_s": {
-          "definition": "acquisition of signal: reception time, seconds from the window start, at which the apparent elevation rises through the mask, solved by bisection to 1e-7 s; 0 for a pass already in progress",
+          "definition": "acquisition of signal: seconds from the window start at which the elevation rises through the mask, linearly interpolated between the bracketing samples; clamped to 0 for a pass already in progress",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "s"
@@ -12182,19 +12182,19 @@
           "unit": "s"
         },
         "passes[].los_s": {
-          "definition": "loss of signal: reception time, seconds from the window start, at which the apparent elevation falls back through the mask, solved by bisection; the window length for a pass still in progress at the end",
+          "definition": "loss of signal: seconds from the window start at which the elevation falls back through the mask, linearly interpolated; clamped to the window length for a pass still in progress at the end",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "s"
         },
         "passes[].max_elevation_deg": {
-          "definition": "highest apparent elevation above the station's local horizon reached during the pass (refraction and light time when switched on)",
+          "definition": "highest elevation above the station's local horizon reached during the pass, at the step_s sampling resolution",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "deg"
         },
         "passes[].tca_s": {
-          "definition": "culmination: seconds from the window start of the highest apparent elevation of the pass, by golden-section search to 1e-4 s",
+          "definition": "time of closest approach: seconds from the window start of the highest-elevation sample of the pass, at the step_s resolution",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "s"
@@ -12212,7 +12212,7 @@
           "unit": "deg"
         },
         "step_s": {
-          "definition": "sampling step of the rise/set search; crossings and the culmination are refined below it",
+          "definition": "sampling step of the rise/set search, which sets the TCA and maximum-elevation resolution",
           "evidence_tier": "illustrative",
           "provenance": "input",
           "unit": "s"
@@ -12222,30 +12222,12 @@
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "s"
-        },
-        "ut1_minus_utc_s": {
-          "definition": "UT1 minus UTC held over the window, an Earth orientation parameter of the Earth-fixed rotation (IERS Bulletin A); 0 takes UT1 as UTC",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "s"
-        },
-        "xp_arcsec": {
-          "definition": "pole x coordinate held over the window (IERS); 0 means no polar motion",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "arcsec"
-        },
-        "yp_arcsec": {
-          "definition": "pole y coordinate held over the window (IERS); 0 means no polar motion",
-          "evidence_tier": "illustrative",
-          "provenance": "input",
-          "unit": "arcsec"
         }
       },
-      "fields_described": 18,
-      "fields_total": 18,
+      "fields_described": 15,
+      "fields_total": 15,
       "fields_without_units": [],
-      "label": "MODELLED — time-domain ground-station pass prediction; SGP4/SDP4 propagation, IAU 2006/2000A Earth-fixed frame (UT1 = UTC, no polar motion unless Earth orientation parameters are given), apparent elevation with ITU-R P.834-9 refraction and light time when switched on, crossings and culmination refined below the step",
+      "label": "MODELLED — time-domain ground-station pass prediction; Keplerian propagation + Earth rotation (no SGP4 drag/J2 regression), TCA/max-elevation at the sample-step resolution, no light-time / refraction correction",
       "source": "defaults"
     },
     "pvt": {

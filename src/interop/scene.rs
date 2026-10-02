@@ -605,8 +605,8 @@ pub fn scene_of(src: &str) -> Result<Scene, ExportError> {
                     "satellite".into(),
                     MoverRole::Satellite,
                     format!(
-                        "circular orbit, {} km altitude, {} deg inclination (SGP4 mean elements \
-                         at the window start, as the passes kind propagates it)",
+                        "circular orbit, {} km altitude, {} deg inclination (Keplerian, as the \
+                         passes kind propagates it)",
                         scn.altitude_km, scn.inclination_deg
                     ),
                     scn.propagator(),
