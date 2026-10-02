@@ -295,7 +295,12 @@ fn round_4_reproduces_the_recorded_finding() {
 // outcome (the same four onsets late as round 2) was seen before this; the change is fixed by
 // the extraction diagnosis, not by the onsets.
 //
-// VERDICT: not yet run.
+// VERDICT (first and only run, 2026-10-02, after c9cc0d49): DISAGREES, identical to round 4:
+// zero pre-onset alarms at all 10 onsets, 6 of 10 within tolerance, the same four late (2.1.1
+// +211.2 s, 2.3.5 +23.0 s, 2.3.10 +18.0 s, 2.6.1 +51.0 s), with a wider bound (224.6 ns; r
+// 1.74e-15 s^2, q_wf 6.03e-19 s, q_rw 2.29e-25 /s, q_drift 0). The four late onsets do not
+// depend on the clock noise level over this range: the first observable effect there is a
+// solve failure or a late clock departure, not a missed clock alarm.
 
 /// The corrected Wroclaw model-class monitor noise, or `None` when the data are absent.
 fn f9p_corrected_noise() -> Option<ClockNoiseEstimate> {
@@ -315,7 +320,7 @@ fn f9p_corrected_noise() -> Option<ClockNoiseEstimate> {
 }
 
 #[test]
-#[ignore = "pre-registered (disclosed re-run); not yet run"]
+#[ignore = "pre-registered (disclosed re-run); run 2026-10-02: DISAGREES at the same 4 of 10 onsets as round 4; zero pre-onset false alarms"]
 fn round_4b_corrected_card_monitor_detects_the_logged_onsets() {
     let noise = f9p_corrected_noise().expect("Wroclaw ZED-F9P data absent: round 4b BLOCKED");
     let mut evaluated = 0;
@@ -347,4 +352,26 @@ fn round_4b_corrected_card_monitor_detects_the_logged_onsets() {
         failures.is_empty(),
         "onsets outside the tolerance: {failures:?}"
     );
+}
+
+#[test]
+fn round_4b_reproduces_the_recorded_finding() {
+    let Some(noise) = f9p_corrected_noise() else {
+        assert!(
+            !cl::require_realdata(),
+            "Wroclaw data absent with KSHANA_REQUIRE_REALDATA=1"
+        );
+        println!("[m010 r4b] Wroclaw ZED-F9P data absent; skipped");
+        return;
+    };
+    for (o, (id, pre, lat)) in jt::onsets_from("onsets_log.tsv").iter().zip(RECORDED_R4) {
+        let r = run_onset_card(o, noise);
+        assert_eq!(r.id, id);
+        assert_eq!(r.pre_onset_alarms.len(), pre, "{id}");
+        let got = r.detection.map(|(t, _)| t - r.onset).expect("detection");
+        assert!(
+            (got - lat).abs() < 0.01,
+            "{id}: latency {got:.3} recorded {lat}"
+        );
+    }
 }
