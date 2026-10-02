@@ -73,11 +73,18 @@ pub fn mars_prime_meridian(body: &Body, jd_tdb: f64) -> f64 {
 
 /// The rotation from Mars-centred inertial (≈J2000/ICRF) to the Mars body-fixed frame at
 /// `jd_tdb`, as the IAU 3-1-3 sequence `R_z(W)·R_x(90°−δ₀)·R_z(90°+α₀)` built from the body's
-/// fixed pole `(pole_ra0, pole_dec0)` and the prime meridian `W` of [`mars_prime_meridian`].
+/// fixed pole `(pole_ra0, pole_dec0)` and the prime meridian `W` of [`mars_prime_meridian`], or,
+/// for a body carrying [`crate::body::IauRotationTerms`], by [`Body::iau_rotation_et`] with the
+/// pole's rates and the periodic terms.
 /// Apply with [`crate::precession::mat_vec`]: `r_bodyfixed = R · r_inertial`; the inverse
 /// (body-fixed → inertial) is its transpose. The rows of `R` are the Mars-fixed axes expressed
 /// in ICRF, so row 2 is the Mars pole `(cos δ₀ cos α₀, cos δ₀ sin α₀, sin δ₀)`.
 pub fn iau_mars_rotation(body: &Body, jd_tdb: f64) -> Mat3 {
+    if body.iau_terms.is_some() {
+        // The full IAU model (century rates, quadratic and periodic terms) for the bodies
+        // that carry one; the same 3-1-3 sequence.
+        return body.iau_rotation_et((jd_tdb - JD_J2000) * 86_400.0);
+    }
     let ra = body.pole_ra0;
     let dec = body.pole_dec0;
     let w = mars_prime_meridian(body, jd_tdb);

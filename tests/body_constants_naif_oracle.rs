@@ -18,6 +18,14 @@
 //! significant digits, trailing zeros dropped). J2 and the mean radius are outside the
 //! claim. The verdict covers the fourteen bodies the row adds; Sun, Earth, Moon and Mars
 //! carry conventional constants owned by other rows and are reported for information.
+//!
+//! ## Results
+//!
+//! Round 1 (2026-10-01): 12 of 84 constants of the added bodies disagreed (Phobos and Deimos on
+//! the IAU 2009 elements; Uranus, Neptune and Pluto GM from other solutions). Round 2
+//! (2026-10-02): the engine moved Phobos and Deimos to pck00011 and those GM values to
+//! gm_de440; this comparison, unchanged, now finds 0 of 84 disagreements. The orientation the
+//! constants produce is compared separately in `tests/body_orientation_spice_oracle.rs`.
 
 use kshana::body::Body;
 
@@ -99,23 +107,21 @@ fn disagreements(only_added: bool) -> Vec<String> {
         .collect()
 }
 
-/// The disagreements found on the first (and only) run, among the fourteen added bodies.
-/// Phobos and Deimos carry the IAU 2009 elements (pck00011 carries the 2015 update, and a
-/// different Phobos radius and GM); the Uranus, Neptune and Pluto GM values come from other
-/// satellite-ephemeris solutions than the ones gm_de440.tpc carries.
-const RECORDED_DISAGREEMENTS: [&str; 12] = [
-    "Phobos: GM [m^3/s^2] Kshana 7.087e5 vs NAIF 7.088e5",
-    "Phobos: equatorial radius [km] Kshana 1.31e1 vs NAIF 1.30e1",
-    "Phobos: pole RA0 [deg] Kshana 3.1768e2 vs NAIF 3.1767e2",
-    "Phobos: W0 [deg] Kshana 3.506e1 vs NAIF 3.519e1",
-    "Phobos: Wdot [deg/day] Kshana 1.128844585e3 vs NAIF 1.128844759e3",
-    "Deimos: pole RA0 [deg] Kshana 3.1665e2 vs NAIF 3.1666e2",
-    "Deimos: pole DEC0 [deg] Kshana 5.352e1 vs NAIF 5.351e1",
-    "Deimos: W0 [deg] Kshana 7.941e1 vs NAIF 7.940e1",
-    "Deimos: Wdot [deg/day] Kshana 2.85161897e2 vs NAIF 2.85161889e2",
-    "Uranus: GM [m^3/s^2] Kshana 5.7939506103e15 vs NAIF 5.7939512565e15",
-    "Neptune: GM [m^3/s^2] Kshana 6.83509997e15 vs NAIF 6.83510315e15",
-    "Pluto: GM [m^3/s^2] Kshana 8.69326e11 vs NAIF 8.69614e11",
+/// The round-1 run (2026-10-01) found twelve disagreements among the added bodies: Phobos and
+/// Deimos carried the IAU 2009 elements and the Uranus, Neptune and Pluto GM values came from
+/// other satellite-ephemeris solutions. Round 2 (2026-10-02) moved those constants to pck00011
+/// and gm_de440, and the re-run of this unchanged comparison finds none. The disagreements left
+/// are the conventional constants of the four bodies owned by other rows, reported for
+/// information: the IAU/WGS/DE421 GM values of the Sun, Earth and Moon and Kshana's IAU 2009
+/// Mars orientation, where pck00011 carries the updated Mars model.
+const INFORMATIONAL_DISAGREEMENTS: [&str; 7] = [
+    "Sun: GM [m^3/s^2] Kshana 1.32712440018e20 vs NAIF 1.32712440041e20",
+    "Earth: GM [m^3/s^2] Kshana 3.986004418e14 vs NAIF 3.986004355e14",
+    "Moon: GM [m^3/s^2] Kshana 4.902800066e12 vs NAIF 4.902800118e12",
+    "Mars: pole RA0 [deg] Kshana 3.17681e2 vs NAIF 3.17269e2",
+    "Mars: pole DEC0 [deg] Kshana 5.2886e1 vs NAIF 5.4433e1",
+    "Mars: W0 [deg] Kshana 1.7663e2 vs NAIF 1.7605e2",
+    "Mars: Wdot [deg/day] Kshana 3.5089198226e2 vs NAIF 3.5089198244e2",
 ];
 
 fn report() -> Vec<String> {
@@ -139,20 +145,19 @@ fn report() -> Vec<String> {
     bad_added
 }
 
-/// The finding stays exactly what was recorded: the other 72 constants of the added bodies
-/// agree with NAIF to every digit Kshana prints, and these twelve do not. A changed constant
-/// either way fails here, so the row's oracle text cannot go stale.
+/// Outside the verdict, exactly the seven conventional constants of the Sun, Earth, Moon and
+/// Mars differ from NAIF; a changed constant either way fails here, so the row text cannot go
+/// stale.
 #[test]
-fn recorded_naif_disagreements_are_unchanged() {
-    assert_eq!(report(), RECORDED_DISAGREEMENTS.to_vec());
+fn only_the_conventional_constants_of_other_rows_differ() {
+    assert!(report().is_empty());
+    assert_eq!(disagreements(false), INFORMATIONAL_DISAGREEMENTS.to_vec());
 }
 
 /// The pre-registered comparison: every compared constant of the fourteen added bodies equal
-/// to the NAIF value at Kshana's printed digits. It fails on the twelve constants above, so the
-/// row stays MODELLED; it is kept, ignored, to be re-run if the catalogue moves to pck00011 and
-/// gm_de440.
+/// to the NAIF value at Kshana's printed digits. Round 1 found twelve disagreements; after the
+/// round-2 move to pck00011 and gm_de440 it passes unchanged.
 #[test]
-#[ignore = "12 constants of the added bodies differ from pck00011/gm_de440 (finding M109)"]
 fn constants_match_naif_pck00011_and_gm_de440() {
     let bad = report();
     assert!(
