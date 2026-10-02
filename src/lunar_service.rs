@@ -545,6 +545,97 @@ pub fn coverage<C: PositionsMcmf + ?Sized>(
     }
 }
 
+/// The service-volume figures of merit of a constellation over a surface grid, at one
+/// elevation mask, from samples every `step_s` over whole days.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct ServiceVolumeFigures {
+    /// Navigation availability at the worst grid point (%): for each grid point and each day,
+    /// the share of samples with at least four satellites above the mask; the minimum over
+    /// points and days ("minimum per day" at the worst point).
+    pub availability_worst_min_day_pct: f64,
+    /// Single-failure tolerance at the worst grid point (%): as availability with at least five.
+    pub failure_tolerance_worst_min_day_pct: f64,
+    /// Coverage (%): the share of all (grid point, sample) pairs with at least four satellites.
+    pub coverage_pct: f64,
+    /// Median position dilution of precision over the pairs with a defined DOP.
+    pub pdop_median: Option<f64>,
+    /// Median geometric dilution of precision over the same pairs.
+    pub gdop_median: Option<f64>,
+    /// Pairs with a defined DOP.
+    pub n_dop: usize,
+}
+
+/// [`ServiceVolumeFigures`] of `constellation` for Moon-fixed `users` (m), samples
+/// `t = k · step_s` over `days` whole days, mask `elev_mask_rad`. Visibility is
+/// [`visible_sat_positions`] (elevation above the local spherical horizontal), DOP the
+/// validated [`crate::orbit::dop`]; a median over an even count is the mean of the middle two.
+pub fn service_volume_figures<C: PositionsMcmf + ?Sized>(
+    constellation: &C,
+    users: &[Vec3],
+    step_s: f64,
+    days: usize,
+    elev_mask_rad: f64,
+) -> ServiceVolumeFigures {
+    let per_day = (86_400.0 / step_s).round() as usize;
+    let mut worst = [100.0_f64; 2];
+    let mut n_four = 0usize;
+    let mut n_all = 0usize;
+    let mut pdops = Vec::new();
+    let mut gdops = Vec::new();
+    for day in 0..days {
+        let mut counts = vec![[0usize; 2]; users.len()];
+        for s in 0..per_day {
+            let t = (day * per_day + s) as f64 * step_s;
+            let sats = constellation.positions_mcmf(t);
+            for (u, &user) in users.iter().enumerate() {
+                let vis = visible_sat_positions(user, &sats, elev_mask_rad);
+                n_all += 1;
+                if vis.len() >= 4 {
+                    counts[u][0] += 1;
+                    n_four += 1;
+                    if let Some(d) = crate::orbit::dop(user, &vis) {
+                        pdops.push(d.pdop);
+                        gdops.push(d.gdop);
+                    }
+                }
+                if vis.len() >= 5 {
+                    counts[u][1] += 1;
+                }
+            }
+        }
+        for c in &counts {
+            for k in 0..2 {
+                worst[k] = worst[k].min(100.0 * c[k] as f64 / per_day as f64);
+            }
+        }
+    }
+    let median = |v: &mut Vec<f64>| -> Option<f64> {
+        if v.is_empty() {
+            return None;
+        }
+        v.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+        let m = v.len() / 2;
+        Some(if v.len() % 2 == 0 {
+            0.5 * (v[m - 1] + v[m])
+        } else {
+            v[m]
+        })
+    };
+    let n_dop = pdops.len();
+    ServiceVolumeFigures {
+        availability_worst_min_day_pct: worst[0],
+        failure_tolerance_worst_min_day_pct: worst[1],
+        coverage_pct: if n_all == 0 {
+            0.0
+        } else {
+            100.0 * n_four as f64 / n_all as f64
+        },
+        pdop_median: median(&mut pdops),
+        gdop_median: median(&mut gdops),
+        n_dop,
+    }
+}
+
 /// One row of the constellation-size sweep ([`sweep_over_n`]) — the P2 Table 1 record.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct NSweepRow {
