@@ -197,6 +197,66 @@ where
     })
 }
 
+/// [`gauss_newton`] with each step solved by the opt-in square-root route of
+/// [`crate::linalg_sr::weighted_lstsq`] (Householder QR of `[√W H | √W r]`, never forming `HᵀWH`),
+/// returning with the result the formal covariance `R⁻¹R⁻ᵀ` at the converged state, read off the
+/// same triangular factor rather than an inverted normal matrix. Same arguments and convergence
+/// rule as [`gauss_newton`]; `None` on a dimension mismatch, a negative weight or a rank-deficient
+/// Jacobian. The default solvers are unchanged.
+pub fn gauss_newton_srif<H>(
+    h: H,
+    z: &[f64],
+    weights: &[f64],
+    x0: &[f64],
+    max_iter: usize,
+    tol: f64,
+) -> Option<(LsqResult, Vec<Vec<f64>>)>
+where
+    H: Fn(&[f64]) -> Vec<f64>,
+{
+    let n = x0.len();
+    let m = z.len();
+    if weights.len() != m || n == 0 || m < n {
+        return None;
+    }
+    let mut x = x0.to_vec();
+    let mut iterations = 0;
+    let mut converged = false;
+    for it in 0..max_iter {
+        iterations = it + 1;
+        let hx = h(&x);
+        if hx.len() != m {
+            return None;
+        }
+        let r: Vec<f64> = (0..m).map(|i| z[i] - hx[i]).collect();
+        let jac = fd_jacobian(&h, &x, m);
+        let dx = crate::linalg_sr::weighted_lstsq(&jac, weights, &r)?.x;
+        for (xp, &d) in x.iter_mut().zip(&dx) {
+            *xp += d;
+        }
+        let dx_norm = dx.iter().map(|v| v * v).sum::<f64>().sqrt();
+        if dx_norm < tol {
+            converged = true;
+            break;
+        }
+    }
+    let hx = h(&x);
+    let jac = fd_jacobian(&h, &x, m);
+    let resid: Vec<f64> = (0..m).map(|i| z[i] - hx[i]).collect();
+    let sol = crate::linalg_sr::weighted_lstsq(&jac, weights, &resid)?;
+    let cov = crate::linalg_sr::covariance_from_sqrt_information(&sol.r)?;
+    let rms = (resid.iter().map(|v| v * v).sum::<f64>() / m as f64).sqrt();
+    Some((
+        LsqResult {
+            x,
+            iterations,
+            rms_residual: rms,
+            converged,
+        },
+        cov,
+    ))
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
@@ -255,6 +315,41 @@ mod tests {
             assert!((got - want).abs() < 1e-4, "x[{k}] = {got} vs {want}");
         }
         assert!(r.rms_residual < 1e-4, "rms = {}", r.rms_residual);
+    }
+
+    #[test]
+    #[allow(clippy::needless_range_loop)] // the 2x2 product mirrors its formula
+    fn the_srif_corrector_matches_the_normal_equation_corrector_and_returns_its_covariance() {
+        let ts = [0.0f64, 0.5, 1.0, 1.5, 2.0, 2.5];
+        let z: Vec<f64> = ts.iter().map(|&t| 1.5 * (0.5 * t).exp()).collect();
+        let w = vec![1.0, 2.0, 1.0, 0.5, 1.0, 3.0];
+        let model = move |x: &[f64]| {
+            ts.iter()
+                .map(|&t| x[0] * (x[1] * t).exp())
+                .collect::<Vec<_>>()
+        };
+        let a = gauss_newton(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("solves");
+        let (b, cov) = gauss_newton_srif(model, &z, &w, &[1.0, 1.0], 50, 1e-12).expect("solves");
+        assert!(b.converged);
+        for (p, q) in a.x.iter().zip(&b.x) {
+            assert!((p - q).abs() < 1e-9, "{p} vs {q}");
+        }
+        // The covariance inverts the normal matrix at the solution.
+        let jac = fd_jacobian(&model, &b.x, ts.len());
+        let mut info = [[0.0; 2]; 2];
+        for (row, wi) in jac.iter().zip(&w) {
+            for p in 0..2 {
+                for q in 0..2 {
+                    info[p][q] += row[p] * wi * row[q];
+                }
+            }
+        }
+        for i in 0..2 {
+            for j in 0..2 {
+                let e: f64 = (0..2).map(|k| info[i][k] * cov[k][j]).sum();
+                assert!((e - if i == j { 1.0 } else { 0.0 }).abs() < 1e-9);
+            }
+        }
     }
 
     #[test]
