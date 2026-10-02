@@ -4,7 +4,10 @@ base = "main"
 base_commit = "d127e3ce6e68e69c9cd6705d0803ce34cb52f351"
 depends_on = ["D0", "D2", "D3"]
 # D2 (pre-registration tags) was replaced, as the integrator instructed, by commit-and-push
-# pre-registration: abcd913 (reader), c51f8b2 (M078 diagnostic), 4a51256 (M070 kernel path).
+# pre-registration: abcd913 (reader), c51f8b2 (M078 diagnostic), 4a51256 (M070 kernel path),
+# 830d945 (M078 fresh data), 0bfafe6 (KernelEphemeris at UTC vs Skyfield).
+# Founder decisions taken 2026-10-02: M078 promotes only on fresh data; planet positions get a new
+# kernel row now; moons wait for a scenario that needs them.
 # D3 (kernel manifests) is not on this branch; the fixtures pin every NAIF file by SHA-256.
 
 owned_paths = [
@@ -19,6 +22,10 @@ owned_paths = [
   "tests/fixtures/llr_datum_kernel_moon/",
   "tests/lunar_vlbi_surface_point_spice_oracle.rs",
   "tests/fixtures/lunar_vlbi_surface_point_spice_oracle/",
+  "tests/validate_llr_datum_kernel_moon_fresh.rs",
+  "tests/fixtures/llr_datum_kernel_moon_fresh/",
+  "tests/kernel_ephemeris_skyfield_oracle.rs",
+  "tests/fixtures/kernel_ephemeris_skyfield_oracle/",
   ".fold/feat-dom-d4.toml",
   ".fold/feat-dom-d4-rows.md",
   "changelog.d/feat-dom-d4.md",
@@ -30,7 +37,8 @@ owned_paths = [
 new_rows = [
   "NAIF kernel reader: DAF container, SPK type 2 and binary PCK type 2",                          # PROMOTE (proposed VALIDATED, Library)
   "Lunar-surface-point coordinate covariance from a VLBI delay schedule, kernel path",             # PROMOTE (proposed VALIDATED, Library + P2)
-  "Lunar frame datum from a REAL observing campaign, kernel Moon centre",                          # FINDING-grade diagnostic pass; status is a founder decision (D1)
+  "Lunar frame datum from a REAL observing campaign, kernel Moon centre",                          # PROMOTE on fresh 2019 data (founder rule: fresh data required)
+  "Sun, Moon, Mercury and Venus positions from the DE440 kernel at UTC epochs (KernelEphemeris)",   # PROMOTE (proposed VALIDATED, Library: Skyfield 1.54)
 ]
 amended_rows = [
   "Lunar frame datum from a REAL observing campaign",                                                # text gains a pointer to the diagnostic; stays MODELLED
@@ -46,6 +54,8 @@ test_filter = [
   "--test naif_reader_spice_oracle",
   "--test validate_llr_datum_kernel_moon",
   "--test lunar_vlbi_surface_point_spice_oracle",
+  "--test validate_llr_datum_kernel_moon_fresh",
+  "--test kernel_ephemeris_skyfield_oracle",
   "--test naif_kernel_reader_check",
   "--test validate_llr_datum_spice_oracle",
   "--test lunar_llr_real_data",
