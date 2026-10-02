@@ -94,10 +94,73 @@
 //!   public copy is the missing input.
 //! * Neither entry prints the speed at peak deceleration in text or a table, so only the
 //!   peak deceleration is compared.
+//!
+//! # Result (run 2026-10-02, after the integrator was committed)
+//!
+//! AGREES on both included entries. Stardust: 36.62 g against 32.89 g (+11.3 %), peak at
+//! 54.3 km and 8362 m/s. Genesis: 28.52 g against 27.0 g (+5.6 %), peak at 50.8 km and
+//! 6766 m/s. Both overpredict, as expected of a non-rotating atmosphere fed the inertial
+//! speed (the atmosphere-relative speed is a few hundred m/s lower). Mutation: removing the
+//! curvature term `V/r` from the flight-path-angle equation gives 66.0 g and 51.5 g
+//! (+101 %, +91 %) and the test fails.
 
-/// The pre-registered comparison. Not yet run.
+use kshana::reentry::{simulate_planar_entry, PlanarEntry, R_EARTH_M};
+
+const REF: &str =
+    include_str!("fixtures/reentry_point_mass_reconstruction_oracle/reconstructed_entries.txt");
+
+const REL_TOL: f64 = 0.15;
+
+struct Entry {
+    id: String,
+    kshana_g: f64,
+    recon_g: f64,
+}
+
+fn entries() -> Vec<Entry> {
+    REF.lines()
+        .filter_map(|l| l.strip_prefix("ENTRY "))
+        .map(|rest| {
+            let f: Vec<&str> = rest.split('|').map(str::trim).collect();
+            let num = |i: usize| -> f64 { f[i].parse().unwrap() };
+            let (v, gamma_deg, r_ei, m, d, cd, recon_g) =
+                (num(1), num(2), num(4), num(5), num(6), num(7), num(8));
+            let area = std::f64::consts::PI * d * d / 4.0;
+            let r = simulate_planar_entry(&PlanarEntry {
+                entry_speed_m_s: v,
+                flight_path_angle_rad: gamma_deg.to_radians(),
+                interface_altitude_m: r_ei - R_EARTH_M,
+                ballistic_coeff_kg_m2: m / (cd * area),
+            });
+            eprintln!(
+                "{}: B {:.3} kg/m^2, kshana {:.3} g at {:.1} km, {:.0} m/s; reconstruction {:.2} g ({:+.2} %)",
+                f[0],
+                m / (cd * area),
+                r.peak_deceleration_g,
+                r.altitude_at_peak_m / 1000.0,
+                r.speed_at_peak_m_s,
+                recon_g,
+                100.0 * (r.peak_deceleration_g - recon_g) / recon_g
+            );
+            Entry {
+                id: f[0].to_string(),
+                kshana_g: r.peak_deceleration_g,
+                recon_g,
+            }
+        })
+        .collect()
+}
+
+/// The pre-registered comparison: every included entry's peak deceleration within 15 %.
+/// Result (2026-10-02): AGREES, Stardust +11.3 %, Genesis +5.6 %.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn point_mass_peak_deceleration_matches_reconstructed_entries() {
-    panic!("pre-registered; the comparison is written after the integrator and the fixture");
+    let e = entries();
+    assert_eq!(e.len(), 2, "Stardust and Genesis are the included entries");
+    let bad: Vec<String> = e
+        .iter()
+        .filter(|x| (x.kshana_g - x.recon_g).abs() / x.recon_g > REL_TOL)
+        .map(|x| format!("{}: {:.2} g vs {:.2} g", x.id, x.kshana_g, x.recon_g))
+        .collect();
+    assert!(bad.is_empty(), "outside 15 %: {}", bad.join("; "));
 }
