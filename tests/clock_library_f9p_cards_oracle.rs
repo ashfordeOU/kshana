@@ -32,7 +32,17 @@
 //! MUTATION (pre-registered, if it passes): `0.125 * self.h_0 / tau` in
 //! `DeviceCard::noise_allan_variance`; the strict test must turn red.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (first and only run of this pipeline, 2026-10-02, after pre-registration fb475550):
+//! DISAGREES, the class fails. 11 of 12 stations (BX03-BX10, BX12, BX13, BX22) fail the 50 %
+//! presence rule (10 to 19 % of epochs present); BX14 (73 %) fails the bar at 23 541, its
+//! held-out Allan deviation at 240 and 480 s (1.6e-6) poisoned by a receiver millisecond reset
+//! inside a data gap, which the detector cannot see across a gap. Diagnosis (after the run, one
+//! file, no card fitted): the daily files are themselves intermittent (BX03 day 064: 1551 of 2880
+//! epochs) and the RAIM test, with the 3 m sigma of the JammerTest pipeline, rejects most of the
+//! rest (229 of 1551) because the ionosphere-free combination amplifies code noise about three
+//! times. The broadcast navigation came from BRDC00WRD_R (BRDC00IGS_R does not exist for 2021;
+//! commit 52178918). A corrected pipeline is a new, disclosed comparison
+//! (`f9p_cards_corrected_pipeline`, below).
 
 #[path = "clock_library_support/mod.rs"]
 mod support;
@@ -92,7 +102,7 @@ fn f9p_scores() -> Option<Vec<(String, Option<HeldOutScore>)>> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES, 11 of 12 stations fail the 50 % presence rule (RAIM rejects most epochs) and BX14 fails the bar at 23 541 (a millisecond reset inside a gap)"]
 fn f9p_cards_predict_their_held_out_two_thirds() {
     let Some(scores) = f9p_scores() else {
         panic!("Wroclaw ZED-F9P data absent (run generate.py)");
@@ -104,4 +114,28 @@ fn f9p_cards_predict_their_held_out_two_thirds() {
         .map(|(p, _)| p)
         .collect();
     assert!(failing.is_empty(), "cards outside the bar: {failing:?}");
+}
+
+/// The first run (2026-10-02), pinned: every station fails; BX14 is the only one fitted.
+/// Data-gated.
+#[test]
+fn f9p_first_pipeline_reproduces_the_recorded_finding() {
+    let Some(scores) = f9p_scores() else {
+        assert!(
+            !require_realdata(),
+            "Wroclaw data absent with KSHANA_REQUIRE_REALDATA=1"
+        );
+        println!("[f9p] Wroclaw ZED-F9P data absent (generate.py); skipped");
+        return;
+    };
+    assert_eq!(scores.len(), 12);
+    for (st, sc) in &scores {
+        match st.as_str() {
+            "BX14" => {
+                let sc = sc.as_ref().expect("BX14 fitted");
+                assert!(!sc.pass && (sc.worst_factor - 23_541.65).abs() < 1.0);
+            }
+            _ => assert!(sc.is_none(), "{st} unexpectedly passed the presence rule"),
+        }
+    }
 }

@@ -186,6 +186,14 @@ fn card_monitor_detects_the_logged_onsets_within_10_s_without_false_alarms() {
 // 60 s calibration through `calibrate`, detection within 10 s of every evaluable logged onset
 // and zero pre-onset alarms, at least 8 evaluable. Data-gated: BLOCKED (nothing scored) when
 // the Wroclaw data are absent.
+//
+// VERDICT (first and only run, 2026-10-02): DISAGREES, the row stays MODELLED, closer than round
+// 2. All 10 logged onsets evaluable; ZERO pre-onset alarms at every onset (round 2: 1 at 2.1.4
+// and 85 at 2.3.15); 6 of 10 agree (round 2: 4); the same four as round 2 are late: 2.1.1
+// (+211.2 s), 2.3.5 (+23.0 s), 2.3.10 (+18.0 s), 2.6.1 (+51.0 s). Monitor bound 88.3 ns.
+// Disclosed: the noise levels came from the Wroclaw extraction whose RAIM test rejected most
+// epochs and whose records span gaps (see `tests/clock_library_f9p_cards_oracle.rs`); the
+// fitted levels were r 2.58e-16 s^2, q_wf 2.25e-18 s, q_rw 0, q_drift 3.03e-38 /s^3.
 
 /// The Wroclaw model-class monitor noise, or `None` when the data are absent.
 fn f9p_class_noise() -> Option<ClockNoiseEstimate> {
@@ -202,7 +210,7 @@ fn f9p_class_noise() -> Option<ClockNoiseEstimate> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES at 4 of 10 logged onsets (2.1.1 +211 s, 2.3.5 +23 s, 2.3.10 +18 s, 2.6.1 +51 s); zero pre-onset false alarms at all 10"]
 fn f9p_class_card_monitor_detects_the_logged_onsets_within_10_s_without_false_alarms() {
     let noise = f9p_class_noise().expect("Wroclaw ZED-F9P data absent: round 4 BLOCKED");
     let mut evaluated = 0;
@@ -235,4 +243,43 @@ fn f9p_class_card_monitor_detects_the_logged_onsets_within_10_s_without_false_al
         failures.is_empty(),
         "onsets outside the tolerance: {failures:?}"
     );
+}
+
+/// Round 4 (2026-10-02), pinned: per logged onset, pre-onset alarms and first-alarm latency (s,
+/// 0.01 s). Data-gated.
+const RECORDED_R4: [(&str, usize, f64); 10] = [
+    ("2.1.1", 0, 211.20),
+    ("2.1.2", 0, 0.20),
+    ("2.1.4", 0, 0.20),
+    ("2.3.5", 0, 23.00),
+    ("2.3.10", 0, 18.00),
+    ("2.3.11", 0, 0.19),
+    ("2.3.15", 0, 0.19),
+    ("2.3.12", 0, 0.20),
+    ("2.6.1", 0, 51.00),
+    ("2.6.3", 0, 1.19),
+];
+
+#[test]
+fn round_4_reproduces_the_recorded_finding() {
+    let Some(noise) = f9p_class_noise() else {
+        assert!(
+            !cl::require_realdata(),
+            "Wroclaw data absent with KSHANA_REQUIRE_REALDATA=1"
+        );
+        println!("[m010 r4] Wroclaw ZED-F9P data absent; skipped");
+        return;
+    };
+    let os = jt::onsets_from("onsets_log.tsv");
+    assert_eq!(os.len(), RECORDED_R4.len());
+    for (o, (id, pre, lat)) in os.iter().zip(RECORDED_R4) {
+        let r = run_onset_card(o, noise);
+        assert_eq!(r.id, id);
+        assert_eq!(r.pre_onset_alarms.len(), pre, "{id}");
+        let got = r.detection.map(|(t, _)| t - r.onset).expect("detection");
+        assert!(
+            (got - lat).abs() < 0.01,
+            "{id}: latency {got:.3} recorded {lat}"
+        );
+    }
 }
