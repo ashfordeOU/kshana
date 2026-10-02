@@ -264,6 +264,10 @@ fn sbas_l5_finding_geo_reception_gate() {
     let (n, dv, dh, one_sided) = compare("L5", iono_free_l1l5_noise_factor());
     assert_eq!(n, 3267);
     assert!(dv <= TOL_PL_M && dh <= TOL_PL_M, "levels: {dv:e} {dh:e}");
+    // PIN-SCOPE:    the size of the L5 finding: the user-epoch pairs Kshana protects and MAAST
+    //               does not, all of them pairs with no GEO in view on the committed WAAS day.
+    // PIN-EXCLUDES: the protection-level values, which are checked against TOL_PL_M above, and
+    //               every other SBAS output.
     assert_eq!(one_sided.len(), 308);
     let maast = maast_levels("L5");
     let text = std::fs::read_to_string(format!("{FIXTURE_DIR}/maast_sbas_L5_sats.csv")).unwrap();

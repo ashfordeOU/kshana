@@ -142,7 +142,7 @@ fn gauguet_ratios() -> (f64, Vec<(f64, f64)>) {
 /// FINDING pinned (run 2026-10-02, after the pre-registration commit fcb9ac64): the
 /// QPN-only prediction sits 21 % to 31 % below the measured rotation noise at the three
 /// admitted points (ratios 0.788, 0.739, 0.695) and 25 % below at the operating point
-/// (0.747). The worst point misses the ±30 % bar by 0.5 percentage points. The gap has
+/// (0.751). The worst point misses the ±30 % bar by 0.5 percentage points. The gap has
 /// the sign and size of what the model leaves out: the paper's own detection-noise
 /// terms (laser α and electronic γ, up to 30 % of the variance inside the window) and
 /// the nominal launch geometry (kshana's Sagnac scale factor is 4.2 % above the
