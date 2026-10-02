@@ -83,6 +83,18 @@
 //! diurnal-mean temperature, equation 26) is still scored by the original test, unchanged.
 //! Discrimination, pre-registered: forcing the J71 profile's exospheric temperature to a constant
 //! 1000 K (no activity dependence) must turn the amended test red.
+//!
+//! Result after the engine change (commit 5cac30a8; run 2026-10-02): FAIL, a finding.
+//! Amended (J71 point model): CHAMP 2001 521/521 windows inside, median ratio 1.342 (range
+//! 0.833-1.951); GRACE-A 2002 120/120, median 1.266 (0.937-1.908); GRACE-FO 1 2024 526/547,
+//! median 1.456 (0.807-3.361, the outliers in the recovery from the 2024-10-10 storm and in
+//! August 2024); GRACE-A 2008 (solar minimum) 412/544, median 1.738 (0.391-3.500). Original
+//! position-free function (J71 profile at the diurnal-mean temperature): CHAMP 2001 507/521,
+//! median 1.419; GRACE-A 2002 120/120, median 1.154; GRACE-FO 1 2024 465/547, median 1.462;
+//! GRACE-A 2008 351/544, median 1.828. Jacchia 1971, fitted to 1958-1970 drag data, is about
+//! 1.7 times too dense in the deep 2008-2009 solar minimum (a known property of the pre-2000
+//! empirical models; Emmert et al. 2010 report record-low densities then) and overshoots in
+//! storm recovery; at solar maximum outside storms it agrees within the factor 2.
 
 use kshana::space_weather::{space_weather_density, SpaceWeather};
 use std::path::PathBuf;
@@ -192,7 +204,7 @@ fn stats(windows: &[Window]) -> Vec<CampaignStat> {
 }
 
 #[test]
-#[ignore = "pre-registered; run 2026-10-02: FAIL, solar minimum (GRACE-A 2008) median ratio 1.95, 253 of 544 windows outside a factor 2 (up to 3.70); see the header"]
+#[ignore = "pre-registered; FAIL (finding): before the J71 change GRACE-A 2008 median ratio 1.95, 253 of 544 windows outside a factor 2; with the J71 diurnal-mean profile 193 of 544 outside (median 1.83) and GRACE-FO 2024 82 of 547 outside; see the header"]
 fn activity_corrected_density_within_factor_two() {
     let Some(windows) = load() else {
         eprintln!("SKIP: fixture windows.csv absent (run make_fixture.py)");
@@ -273,7 +285,7 @@ fn engine_mean_j71(w: &WindowJ71) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered (amendment 1); not yet run"]
+#[ignore = "pre-registered (amendment 1); FAIL (finding): GRACE-A 2008 132 of 544 windows outside a factor 2 (median ratio 1.74, up to 3.50), GRACE-FO 2024 21 of 547 (up to 3.36); CHAMP 2001 and GRACE-A 2002 all inside"]
 fn jacchia71_density_within_factor_two() {
     let Some(windows) = load_j71() else {
         eprintln!("SKIP: fixture windows_j71.csv absent (run make_fixture.py --j71)");
@@ -311,4 +323,32 @@ fn jacchia71_density_within_factor_two() {
     }
     assert!(have_min && have_max, "need a counted solar-minimum and solar-maximum campaign");
     assert!(pass, "some orbit-averaged densities are outside a factor 2 of the measurement");
+}
+
+/// Pins the finding of the amended comparison so a change to the density model is noticed:
+/// the J71 point model keeps every CHAMP 2001 and GRACE-A 2002 orbit average inside a factor 2
+/// and sits 1.6-1.9 times above the measured GRACE-A 2008 solar-minimum density (median).
+#[test]
+fn jacchia71_finding_is_pinned() {
+    let Some(windows) = load_j71() else {
+        eprintln!("SKIP: fixture windows_j71.csv absent (run make_fixture.py --j71)");
+        return;
+    };
+    let ratios = |c: &str| -> Vec<f64> {
+        let mut r: Vec<f64> = windows
+            .iter()
+            .filter(|w| w.campaign == c)
+            .map(|w| engine_mean_j71(w) / w.measured)
+            .collect();
+        r.sort_by(|a, b| a.partial_cmp(b).expect("finite"));
+        r
+    };
+    for c in ["CHAMP-2001", "GRACE-A-2002"] {
+        let r = ratios(c);
+        assert!(r.len() >= 100, "{c}: {} windows", r.len());
+        assert!(r[0] >= RATIO_LO && r[r.len() - 1] <= RATIO_HI, "{c}: {:?}", (r[0], r[r.len() - 1]));
+    }
+    let r = ratios("GRACE-A-2008");
+    let median = r[r.len() / 2];
+    assert!((1.6..=1.9).contains(&median), "GRACE-A 2008 median ratio {median}");
 }
