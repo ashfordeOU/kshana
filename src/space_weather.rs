@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Space-weather environment model: solar (F10.7) and geomagnetic (Kp/ap) activity
-//! indices and their first-order effect on thermospheric neutral density — the
-//! activity dependence the static US-Standard-Atmosphere-1976
+//! indices and their effect on thermospheric neutral density — the activity
+//! dependence the static piecewise-exponential atmosphere
 //! ([`crate::forces::atmospheric_density`]) deliberately omits.
 //!
 //! Real thermospheric density at LEO altitudes (200–1000 km) swings by roughly an
@@ -17,17 +17,20 @@
 //!   * the **exospheric temperature** is the Jacchia-1971 nighttime global
 //!     minimum `T_c = 379 + 3.24·F̄ + 1.3·(F − F̄)` plus the geomagnetic increment
 //!     `ΔT = 28·Kp + 0.03·e^Kp`, validated against the published solar-min/mean/max
-//!     magnitudes.
+//!     magnitudes;
+//!   * the **density** is the Jacchia 1971 thermosphere (Jacchia, SAO Special
+//!     Report 332, 1971) implemented from the report's equations: static diffusion
+//!     profiles from the 90 km boundary ([`jacchia71_static_density`], reproducing
+//!     the report's printed Table 7 to its 0.001 printed digits in log10 density),
+//!     and at a point ([`jacchia71_density`]) the diurnal temperature distribution,
+//!     the geomagnetic increment and the semiannual, seasonal-latitudinal and helium
+//!     variations. No constant is fitted to any measurement here.
 //!
-//! Honest scope (MODELLED, not a data-validated atmosphere): the density
-//! correction [`density_activity_factor`] is a **first-order, phenomenological**
-//! scale-height coupling — `exp[C·Δh·(1/T_ref − 1/T∞)]` — whose single coefficient
-//! `C` is *calibrated* so the 400 km solar-cycle density ratio lands at the
-//! middle of the observed 5–10× range. It captures the correct sign, monotonicity
-//! and order of magnitude of the activity dependence; it is **not** NRLMSISE-00 /
-//! Jacchia-Bowman absolute density and makes no per-altitude accuracy claim. The
-//! static USSA76 profile is taken as the moderate-activity (`T∞ ≈ 1000 K`)
-//! reference at which the factor is unity.
+//! [`space_weather_density`] is the position-free form: the static profile at the
+//! diurnal-mean exospheric temperature (`T_c (1 + R/2)` plus the geomagnetic
+//! increment, the report's equation 26). [`density_activity_factor`] reports the
+//! J71 density relative to the static piecewise-exponential profile
+//! ([`crate::forces::atmospheric_density`]) that carries no activity dependence.
 
 use serde::Deserialize;
 
@@ -94,40 +97,291 @@ pub fn exospheric_temperature(f107: f64, f107a: f64, kp: f64) -> f64 {
     t_c + dt_geo
 }
 
-/// Reference exospheric temperature (K) at which the density correction is unity —
-/// the moderate-activity value implied by the static USSA76 thermosphere.
-const REFERENCE_EXOSPHERIC_TEMP_K: f64 = 1000.0;
-/// Base of the activity-sensitive thermosphere (km); below it density is treated
-/// as activity-insensitive (factor = 1).
-const THERMOSPHERE_BASE_KM: f64 = 120.0;
-/// Empirical scale-height coupling (K·km⁻¹), calibrated so the 400 km density
-/// ratio between solar-minimum (`T∞ ≈ 606 K`) and solar-maximum (`T∞ ≈ 1124 K`)
-/// exospheric temperatures is ≈ 7× — the middle of the observed 5–10× solar-cycle
-/// swing. This is a calibration constant, NOT a physical molecular mass.
-const DENSITY_TEMP_COUPLING_K_PER_KM: f64 = 9.14;
-
-/// First-order, MODELLED density multiplier on the static [`crate::forces::atmospheric_density`]
-/// at geometric altitude `altitude_m` for exospheric temperature `t_inf_k`:
-/// `exp[C·Δh·(1/T_ref − 1/T∞)]` above the thermosphere base, 1 below it. Unity at
-/// the reference temperature; >1 for hotter (more active) thermospheres, <1 for
-/// cooler. See the module honesty note — this is a calibrated scale-height
-/// coupling, not an absolute NRLMSISE density.
+/// The Jacchia 1971 static density at geometric altitude `altitude_m` and exospheric
+/// temperature `t_inf_k`, divided by the activity-free static piecewise-exponential profile
+/// ([`crate::forces::atmospheric_density`]) at the same altitude: how far the space-weather
+/// state moves density away from the static model. Below the 90 km J71 boundary it is 1.
 pub fn density_activity_factor(altitude_m: f64, t_inf_k: f64) -> f64 {
     let h_km = altitude_m / 1000.0;
-    if h_km <= THERMOSPHERE_BASE_KM || t_inf_k <= 0.0 {
+    if h_km <= J71_Z0_KM || t_inf_k <= 0.0 {
         return 1.0;
     }
-    let dh = h_km - THERMOSPHERE_BASE_KM;
-    (DENSITY_TEMP_COUPLING_K_PER_KM * dh * (1.0 / REFERENCE_EXOSPHERIC_TEMP_K - 1.0 / t_inf_k))
-        .exp()
+    jacchia71_static_density(h_km, t_inf_k) / crate::forces::atmospheric_density(altitude_m)
 }
 
-/// Activity-corrected neutral density (kg/m³) at geometric altitude `altitude_m`:
-/// the static USSA76 profile scaled by [`density_activity_factor`] for this
-/// space-weather state. MODELLED first-order activity dependence.
+/// Activity-dependent neutral density (kg/m³) at geometric altitude `altitude_m`, without a
+/// position: the Jacchia 1971 static profile at the diurnal-mean exospheric temperature
+/// [`mean_exospheric_temperature`]. Below the 90 km J71 boundary it returns the static
+/// piecewise-exponential profile. For a density at a point (latitude, local time, date) use
+/// [`jacchia71_density`].
 pub fn space_weather_density(altitude_m: f64, sw: &SpaceWeather) -> f64 {
-    crate::forces::atmospheric_density(altitude_m)
-        * density_activity_factor(altitude_m, sw.exospheric_temperature())
+    let h_km = altitude_m / 1000.0;
+    if h_km <= J71_Z0_KM {
+        return crate::forces::atmospheric_density(altitude_m);
+    }
+    jacchia71_static_density(h_km, mean_exospheric_temperature(sw))
+}
+
+// ── Jacchia 1971 thermosphere (Jacchia, SAO Special Report 332, 1971) ──
+//
+// Every constant below is printed in the report; equation numbers refer to it. Nothing is
+// fitted to any measurement in this crate.
+
+/// Lower boundary height (km), temperature (K) and mass density (g/cm³) of the J71 models.
+const J71_Z0_KM: f64 = 90.0;
+const J71_T0_K: f64 = 183.0;
+const J71_RHO0_G_CM3: f64 = 3.46e-9;
+/// Height of the temperature-profile inflection point (km).
+const J71_ZX_KM: f64 = 125.0;
+/// Sea-level mean molecular mass (g/mol) of the J71 composition.
+const J71_M0: f64 = 28.960;
+/// Equation (1): mean molecular mass polynomial between 90 and 100 km.
+const J71_MBAR: [f64; 7] = [
+    28.82678,
+    -7.40066e-2,
+    -1.19407e-2,
+    4.51103e-4,
+    -8.21895e-6,
+    1.07561e-5,
+    -6.97444e-7,
+];
+/// Avogadro's number and the universal gas constant as the report uses them.
+const J71_AVOGADRO: f64 = 6.02257e23;
+const J71_R_GAS: f64 = 8.31432;
+/// Equation (8): gravity 9.80665 (1 + z/R_e)^-2 m/s², R_e = 6356.766 km.
+const J71_G0: f64 = 9.80665;
+const J71_RE_KM: f64 = 6356.766;
+/// Sea-level volume fractions and molecular masses (g/mol): N2, O2, Ar, He.
+const J71_Q_N2: f64 = 0.78110;
+const J71_Q_O2: f64 = 0.20955;
+const J71_Q_AR: f64 = 0.0093432;
+const J71_Q_HE: f64 = 0.0000061471;
+const J71_M_N2: f64 = 28.0134;
+const J71_M_O2: f64 = 31.9988;
+const J71_M_AR: f64 = 39.948;
+const J71_M_HE: f64 = 4.0026;
+const J71_M_O: f64 = 15.9994;
+const J71_M_H: f64 = 1.00797;
+/// Thermal diffusion coefficient of helium (0 for the other constituents).
+const J71_ALPHA_HE: f64 = -0.38;
+/// Equation (17) diurnal-variation parameters.
+const J71_R: f64 = 0.3;
+const J71_M_EXP: f64 = 2.2;
+const J71_N_EXP: f64 = 3.0;
+const J71_BETA_DEG: f64 = -37.0;
+const J71_P_DEG: f64 = 6.0;
+const J71_GAMMA_DEG: f64 = 43.0;
+/// Obliquity of the ecliptic used by equation (25).
+const J71_EPS_DEG: f64 = 23.44;
+
+/// Equation (9): temperature at the inflection point for exospheric temperature `t_inf`.
+fn j71_tx(t_inf: f64) -> f64 {
+    371.6678 + 0.0518806 * t_inf - 294.3505 * (-0.00216222 * t_inf).exp()
+}
+
+/// Equations (9)-(13): the J71 temperature (K) at height `z_km` for exospheric temperature
+/// `t_inf` (K).
+pub fn jacchia71_temperature(z_km: f64, t_inf: f64) -> f64 {
+    let tx = j71_tx(t_inf);
+    let gx = 1.90 * (tx - J71_T0_K) / (J71_ZX_KM - J71_Z0_KM);
+    if z_km <= J71_ZX_KM {
+        // Fourth-degree polynomial with T(z0) = T0, T'(z0) = 0, T'(zx) = Gx, T''(zx) = 0.
+        let d0 = J71_Z0_KM - J71_ZX_KM;
+        let c4 = -3.0 * (J71_T0_K - tx - 2.0 / 3.0 * gx * d0) / d0.powi(4);
+        let c3 = -(gx + 4.0 * c4 * d0.powi(3)) / (3.0 * d0 * d0);
+        let d = z_km - J71_ZX_KM;
+        tx + gx * d + c3 * d.powi(3) + c4 * d.powi(4)
+    } else {
+        let a = 2.0 / std::f64::consts::PI * (t_inf - tx);
+        let d = z_km - J71_ZX_KM;
+        tx + a * (gx / a * d * (1.0 + 4.5e-6 * d.powf(2.5))).atan()
+    }
+}
+
+fn j71_gravity(z_km: f64) -> f64 {
+    J71_G0 / (1.0 + z_km / J71_RE_KM).powi(2)
+}
+
+fn j71_mbar(z_km: f64) -> f64 {
+    let d = z_km - J71_Z0_KM;
+    J71_MBAR.iter().rev().fold(0.0, |acc, &c| acc * d + c)
+}
+
+/// Eight-point Gauss-Legendre nodes and weights on [-1, 1].
+const GL8: [(f64, f64); 8] = [
+    (-0.960_289_856_497_536_3, 0.101_228_536_290_376_26),
+    (-0.796_666_477_413_626_7, 0.222_381_034_453_374_47),
+    (-0.525_532_409_916_329, 0.313_706_645_877_887_3),
+    (-0.183_434_642_495_649_8, 0.362_683_783_378_362),
+    (0.183_434_642_495_649_8, 0.362_683_783_378_362),
+    (0.525_532_409_916_329, 0.313_706_645_877_887_3),
+    (0.796_666_477_413_626_7, 0.222_381_034_453_374_47),
+    (0.960_289_856_497_536_3, 0.101_228_536_290_376_26),
+];
+
+/// ∫ f over [a, b] by eight-point Gauss-Legendre on pieces no longer than `h` (km).
+fn j71_integrate(a: f64, b: f64, h: f64, f: &dyn Fn(f64) -> f64) -> f64 {
+    if b == a {
+        return 0.0;
+    }
+    let n = ((b - a).abs() / h).ceil().max(1.0) as usize;
+    let step = (b - a) / n as f64;
+    let mut sum = 0.0;
+    for k in 0..n {
+        let lo = a + k as f64 * step;
+        let mid = lo + 0.5 * step;
+        for &(x, w) in &GL8 {
+            sum += w * f(mid + 0.5 * step * x);
+        }
+    }
+    sum * 0.5 * step
+}
+
+/// Number densities (cm⁻³) of the J71 static model at height `z_km` (≥ 90 km) for exospheric
+/// temperature `t_inf`: `[N2, O2, O, Ar, He, H]`. Hydrogen is zero at and below 100 km.
+pub fn jacchia71_number_densities(z_km: f64, t_inf: f64) -> [f64; 6] {
+    let z_km = z_km.max(J71_Z0_KM);
+    let temp = |z: f64| jacchia71_temperature(z, t_inf);
+    // Equation (5) from 90 km to min(z, 100 km): barometric with the mean molecular mass.
+    let z_mix = z_km.min(100.0);
+    let int_mix = j71_integrate(J71_Z0_KM, z_mix, 2.0, &|z| {
+        j71_mbar(z) * j71_gravity(z) / (J71_R_GAS * temp(z))
+    });
+    let rho_mix = J71_RHO0_G_CM3 * (j71_mbar(z_mix) / temp(z_mix)) / (j71_mbar(J71_Z0_KM) / J71_T0_K)
+        * (-int_mix).exp();
+    // Equations (2)-(4): species at the top of the mixing region.
+    let mbar = j71_mbar(z_mix);
+    let n_tot = J71_AVOGADRO * rho_mix / mbar;
+    let ratio = mbar / J71_M0;
+    let base = [
+        J71_Q_N2 * ratio * n_tot,
+        n_tot * (ratio * (1.0 + J71_Q_O2) - 1.0),
+        2.0 * n_tot * (1.0 - ratio),
+        J71_Q_AR * ratio * n_tot,
+        J71_Q_HE * ratio * n_tot,
+    ];
+    if z_km <= 100.0 {
+        return [base[0], base[1], base[2], base[3], base[4], 0.0];
+    }
+    // Equation (6): diffusion above 100 km.
+    let t100 = temp(100.0);
+    let tz = temp(z_km);
+    let g_over_rt = |z: f64| j71_gravity(z) / (J71_R_GAS * temp(z));
+    let mut int_diff = j71_integrate(100.0, z_km.min(J71_ZX_KM), 5.0, &g_over_rt);
+    if z_km > J71_ZX_KM {
+        int_diff += j71_integrate(J71_ZX_KM, z_km, 12.5, &g_over_rt);
+    }
+    let masses = [J71_M_N2, J71_M_O2, J71_M_O, J71_M_AR, J71_M_HE];
+    let mut out = [0.0; 6];
+    for i in 0..5 {
+        let alpha = if i == 4 { J71_ALPHA_HE } else { 0.0 };
+        out[i] = base[i] * (t100 / tz).powf(1.0 + alpha) * (-masses[i] * int_diff).exp();
+    }
+    // Equation (7): hydrogen at 500 km, in diffusion equilibrium from there.
+    let t500 = temp(500.0);
+    let lt = t500.log10();
+    let n_h500 = 10f64.powf(73.13 - 39.40 * lt + 5.5 * lt * lt);
+    let int_h = j71_integrate(500.0, z_km, 12.5, &g_over_rt);
+    out[5] = n_h500 * (t500 / tz) * (-J71_M_H * int_h).exp();
+    out
+}
+
+fn j71_mass_density_g_cm3(n: &[f64; 6]) -> f64 {
+    let m = [J71_M_N2, J71_M_O2, J71_M_O, J71_M_AR, J71_M_HE, J71_M_H];
+    n.iter().zip(m.iter()).map(|(a, b)| a * b).sum::<f64>() / J71_AVOGADRO
+}
+
+/// Mass density (kg/m³) of the J71 static model at height `z_km` for exospheric temperature
+/// `t_inf` (the report's Tables 6 and 7, before the semiannual, seasonal-latitudinal and helium
+/// corrections).
+pub fn jacchia71_static_density(z_km: f64, t_inf: f64) -> f64 {
+    j71_mass_density_g_cm3(&jacchia71_number_densities(z_km, t_inf)) * 1000.0
+}
+
+/// Equation (17): the local exospheric temperature divided by the global nighttime minimum
+/// `T_c`, at geographic latitude `lat_rad`, solar declination `decl_rad` and solar hour angle
+/// `hour_angle_rad` (local solar time counted from upper culmination).
+pub fn jacchia71_diurnal_ratio(lat_rad: f64, decl_rad: f64, hour_angle_rad: f64) -> f64 {
+    let deg = std::f64::consts::PI / 180.0;
+    let eta = 0.5 * (lat_rad - decl_rad).abs();
+    let theta = 0.5 * (lat_rad + decl_rad).abs();
+    let mut tau = hour_angle_rad
+        + J71_BETA_DEG * deg
+        + J71_P_DEG * deg * (hour_angle_rad + J71_GAMMA_DEG * deg).sin();
+    let two_pi = 2.0 * std::f64::consts::PI;
+    tau = (tau + std::f64::consts::PI).rem_euclid(two_pi) - std::f64::consts::PI;
+    let sm = theta.sin().powf(J71_M_EXP);
+    let cm = eta.cos().powf(J71_M_EXP);
+    (1.0 + J71_R * sm) * (1.0 + J71_R * (cm - sm) / (1.0 + J71_R * sm) * (0.5 * tau).cos().powf(J71_N_EXP))
+}
+
+/// Equations (21)-(23): semiannual variation Δlog10 ρ at height `z_km` and Modified Julian
+/// Date `mjd`.
+fn j71_semiannual(z_km: f64, mjd: f64) -> f64 {
+    let two_pi = 2.0 * std::f64::consts::PI;
+    let phi = (mjd - 36204.0) / 365.2422;
+    let tau = phi + 0.09544 * ((0.5 + 0.5 * (two_pi * phi + 6.035).sin()).powf(1.650) - 0.5);
+    let f = (5.876e-7 * z_km.powf(2.331) + 0.06328) * (-2.868e-3 * z_km).exp();
+    let g = 0.02835
+        + 0.3817 * (1.0 + 0.4671 * (two_pi * tau + 4.137).sin()) * (2.0 * two_pi * tau + 4.259).sin();
+    f * g
+}
+
+/// Equation (24): seasonal-latitudinal variation of the lower thermosphere, Δlog10 ρ.
+fn j71_seasonal_latitudinal(z_km: f64, lat_rad: f64, mjd: f64) -> f64 {
+    let phi = (mjd - 36204.0) / 365.2422;
+    let dz = z_km - 90.0;
+    let s = 0.014 * dz * (-0.0013 * dz * dz).exp();
+    let p = (2.0 * std::f64::consts::PI * phi + 1.72).sin();
+    s * lat_rad.signum() * p * lat_rad.sin().powi(2)
+}
+
+/// Equation (25): seasonal-latitudinal variation of helium, Δlog10 n(He).
+fn j71_helium(lat_rad: f64, decl_rad: f64) -> f64 {
+    if decl_rad == 0.0 {
+        return 0.0;
+    }
+    let eps = J71_EPS_DEG.to_radians();
+    let q = std::f64::consts::FRAC_PI_4;
+    0.65 * (decl_rad / eps).abs()
+        * ((q - 0.5 * lat_rad * decl_rad.signum()).sin().powi(3) - q.sin().powi(3))
+}
+
+/// Geocentric declination of the Sun (rad) at Modified Julian Date `mjd` (low-precision series,
+/// [`crate::ephem::sun_position`]).
+pub fn sun_declination_rad(mjd: f64) -> f64 {
+    let t = (mjd + 2_400_000.5 - 2_451_545.0) / 36_525.0;
+    let r = crate::ephem::sun_position(t);
+    (r[2] / (r[0] * r[0] + r[1] * r[1] + r[2] * r[2]).sqrt()).asin()
+}
+
+/// Jacchia 1971 neutral mass density (kg/m³) at a point: geometric height `altitude_m`,
+/// geographic latitude `lat_deg`, local solar time `lst_h` (hours), UTC Modified Julian Date
+/// `mjd`, for the space-weather state `sw` (F10.7 of the previous day, its 81-day centred mean,
+/// and Kp taken 6.7 h earlier, as the report prescribes). The exospheric temperature is the
+/// nighttime minimum `T_c` of equation (14) times the diurnal ratio of equation (17) plus the
+/// geomagnetic increment of equation (18); the density is the static profile at that
+/// temperature with the helium (25), semiannual (21) and seasonal-latitudinal (24) corrections.
+pub fn jacchia71_density(altitude_m: f64, lat_deg: f64, lst_h: f64, mjd: f64, sw: &SpaceWeather) -> f64 {
+    let z_km = altitude_m / 1000.0;
+    let lat = lat_deg.to_radians();
+    let decl = sun_declination_rad(mjd);
+    let hour_angle = (lst_h - 12.0) * std::f64::consts::PI / 12.0;
+    let t_c = exospheric_temperature(sw.f107, sw.f107a, 0.0);
+    let kp = sw.kp.clamp(0.0, 9.0);
+    let t_inf = t_c * jacchia71_diurnal_ratio(lat, decl, hour_angle) + 28.0 * kp + 0.03 * kp.exp();
+    let mut n = jacchia71_number_densities(z_km, t_inf);
+    n[4] *= 10f64.powf(j71_helium(lat, decl));
+    let rho = j71_mass_density_g_cm3(&n) * 1000.0;
+    rho * 10f64.powf(j71_semiannual(z_km, mjd) + j71_seasonal_latitudinal(z_km, lat, mjd))
+}
+
+/// The J71 diurnal-mean exospheric temperature (K) of a space-weather state: the nighttime
+/// minimum times `1 + R/2` (the report's equation 26, the mean of `T_c` and `T_M = 1.3 T_c`)
+/// plus the geomagnetic increment of equation (18).
+pub fn mean_exospheric_temperature(sw: &SpaceWeather) -> f64 {
+    let kp = sw.kp.clamp(0.0, 9.0);
+    exospheric_temperature(sw.f107, sw.f107a, 0.0) * (1.0 + J71_R / 2.0) + 28.0 * kp + 0.03 * kp.exp()
 }
 
 /// A space-weather state: the solar (F10.7 daily + 81-day average, sfu) and
@@ -191,16 +445,17 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             path: "exospheric_temperature_k",
             unit: "K",
             provenance: ClosedForm,
-            definition: "Jacchia-1971 global exospheric temperature T_inf = 379 + 3.24*f107a \
-                         + 1.3*(f107 - f107a) + 28*kp + 0.03*exp(kp)",
+            definition: "Jacchia-1971 global nighttime-minimum exospheric temperature T_inf = \
+                         379 + 3.24*f107a + 1.3*(f107 - f107a) + 28*kp + 0.03*exp(kp)",
         },
         FieldUnit {
-            path: "reference_exospheric_temperature_k",
+            path: "mean_exospheric_temperature_k",
             unit: "K",
-            provenance: Modelled,
-            definition: "the exospheric temperature at which the density activity factor is \
-                         unity: the moderate-activity value (1000 K) assigned to the static \
-                         USSA76 thermosphere, a modelling choice rather than a measurement",
+            provenance: ClosedForm,
+            definition: "Jacchia-1971 diurnal-mean exospheric temperature (379 + 3.24*f107a + \
+                         1.3*(f107 - f107a))*(1 + 0.3/2) + 28*kp + 0.03*exp(kp) (the report's \
+                         equation 26 plus the geomagnetic increment), at which the density rows \
+                         are evaluated",
         },
         FieldUnit {
             path: "altitudes[].altitude_km",
@@ -222,18 +477,18 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
         FieldUnit {
             path: "altitudes[].activity_density_kg_m3",
             unit: "kg/m^3",
-            provenance: Computed,
-            definition: "static_density_kg_m3 * activity_factor: the same row's static density \
-                         scaled by this space-weather state",
+            provenance: Modelled,
+            definition: "Jacchia-1971 static-profile mass density at this altitude and the \
+                         diurnal-mean exospheric temperature (no latitude, local-time or \
+                         seasonal terms)",
         },
         FieldUnit {
             path: "altitudes[].activity_factor",
             unit: "1",
-            provenance: Modelled,
-            definition: "dimensionless density multiplier exp[C*(h - 120 km)*(1/T_ref - \
-                         1/T_inf)] above the 120 km thermosphere base and 1 below it; the \
-                         coupling coefficient C is calibrated to the observed 400 km \
-                         solar-cycle swing, so the magnitude is a model assumption",
+            provenance: Computed,
+            definition: "activity_density_kg_m3 / static_density_kg_m3: how far this \
+                         space-weather state moves the density away from the activity-free \
+                         static profile",
         },
     ]
 };
@@ -294,13 +549,14 @@ impl SpaceWeatherScenario {
             kp: self.kp,
         };
         let t_inf = sw.exospheric_temperature();
+        let t_mean = mean_exospheric_temperature(&sw);
         let rows: Vec<serde_json::Value> = self
             .altitudes_km
             .iter()
             .map(|&h| {
                 let alt_m = h * 1000.0;
                 let stat = crate::forces::atmospheric_density(alt_m);
-                let factor = density_activity_factor(alt_m, t_inf);
+                let factor = density_activity_factor(alt_m, t_mean);
                 serde_json::json!({
                     "altitude_km": h,
                     "static_density_kg_m3": stat,
@@ -311,16 +567,16 @@ impl SpaceWeatherScenario {
             .collect();
         let json = serde_json::json!({
             "kind": "space-weather",
-            "label": "MODELLED — solar/geomagnetic indices + Jacchia-71 exospheric \
-                      temperature; density is a calibrated first-order activity \
-                      correction, NOT a data-validated (NRLMSISE) atmosphere",
+            "label": "MODELLED — solar/geomagnetic indices, Jacchia-71 exospheric \
+                      temperature and Jacchia-71 static density at the diurnal-mean \
+                      temperature",
             "units": crate::field_schema::units_block(UNITS),
             "f107": self.f107,
             "f107a": f107a,
             "kp": self.kp,
             "ap": sw.ap(),
             "exospheric_temperature_k": t_inf,
-            "reference_exospheric_temperature_k": REFERENCE_EXOSPHERIC_TEMP_K,
+            "mean_exospheric_temperature_k": t_mean,
             "altitudes": rows,
         });
         let summary = format!(
@@ -331,7 +587,7 @@ impl SpaceWeatherScenario {
             self.kp,
             sw.ap(),
             t_inf,
-            density_activity_factor(self.altitudes_km[0] * 1000.0, t_inf),
+            density_activity_factor(self.altitudes_km[0] * 1000.0, t_mean),
             self.altitudes_km[0],
         );
         let json = serde_json::to_string_pretty(&json).map_err(|e| e.to_string())?;
@@ -342,6 +598,77 @@ impl SpaceWeatherScenario {
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Jacchia 1971 Table 7 (SAO Special Report 332, pp. 108-111): printed log10 mass density
+    /// (g/cm³) against height (km) and exospheric temperature (K).
+    const J71_TABLE7: [(f64, f64, f64); 26] = [
+        (100.0, 500.0, -9.254),
+        (150.0, 500.0, -11.903),
+        (150.0, 950.0, -11.697),
+        (200.0, 500.0, -13.090),
+        (200.0, 700.0, -12.782),
+        (200.0, 900.0, -12.613),
+        (300.0, 500.0, -14.764),
+        (300.0, 700.0, -14.108),
+        (300.0, 900.0, -13.745),
+        (400.0, 500.0, -16.092),
+        (400.0, 700.0, -15.190),
+        (400.0, 900.0, -14.627),
+        (460.0, 500.0, -16.555),
+        (460.0, 700.0, -15.786),
+        (460.0, 1000.0, -14.877),
+        (500.0, 500.0, -16.712),
+        (500.0, 700.0, -16.155),
+        (500.0, 900.0, -15.425),
+        (500.0, 1000.0, -15.162),
+        (500.0, 1200.0, -14.769),
+        (500.0, 1400.0, -14.491),
+        (600.0, 1000.0, -15.837),
+        (600.0, 1400.0, -15.001),
+        (800.0, 1000.0, -16.932),
+        (800.0, 1200.0, -16.388),
+        (120.0, 1500.0, -10.599),
+    ];
+
+    #[test]
+    fn jacchia71_static_profile_reproduces_the_printed_table_7() {
+        // Tolerance fixed before the comparison (amendment 1 of the TOLEOS oracle): 0.01 in
+        // log10 density.
+        let mut worst: f64 = 0.0;
+        for &(z, t, logrho) in &J71_TABLE7 {
+            let rho_g_cm3 = jacchia71_static_density(z, t) / 1000.0;
+            let d = rho_g_cm3.log10() - logrho;
+            eprintln!("z {z} T {t}: {:.4} vs {logrho} ({d:+.4})", rho_g_cm3.log10());
+            worst = worst.max(d.abs());
+        }
+        assert!(worst <= 0.01, "worst |dlog10 rho| {worst}");
+    }
+
+    #[test]
+    fn jacchia71_diurnal_ratio_reproduces_the_printed_table_1() {
+        // Table 1 (p. 72), solar declination -20 deg: 1000 T_l/T_c by latitude and local solar
+        // time. Tolerance fixed before the comparison: within 2 printed units.
+        let cases = [
+            (0.0, 0.0, 1019.0),
+            (0.0, 3.0, 1006.0),
+            (0.0, 14.0, 1290.0),
+            (-15.0, 14.0, 1299.0),
+            (45.0, 14.0, 1206.0),
+            (30.0, 8.0, 1068.0),
+            (-60.0, 20.0, 1173.0),
+            (90.0, 12.0, 1088.0),
+            (-90.0, 5.0, 1193.0),
+            (60.0, 23.0, 1042.0),
+        ];
+        for (lat, lst, want) in cases {
+            let r = jacchia71_diurnal_ratio(
+                f64::to_radians(lat),
+                f64::to_radians(-20.0),
+                (lst - 12.0) * std::f64::consts::PI / 12.0,
+            );
+            assert!((1000.0 * r - want).abs() <= 2.0, "lat {lat} lst {lst}: {} vs {want}", 1000.0 * r);
+        }
+    }
 
     #[test]
     fn kp_to_ap_matches_the_definitional_table_at_grid_points() {
@@ -428,14 +755,14 @@ mod tests {
     }
 
     #[test]
-    fn density_factor_is_unity_at_reference_and_below_the_thermosphere() {
-        // At the reference exospheric temperature the factor is exactly 1.
-        assert!(
-            (density_activity_factor(400_000.0, REFERENCE_EXOSPHERIC_TEMP_K) - 1.0).abs() < 1e-12
-        );
-        // Below the thermosphere base, activity does not move density.
-        assert_eq!(density_activity_factor(100_000.0, 1500.0), 1.0);
-        assert_eq!(density_activity_factor(100_000.0, 600.0), 1.0);
+    fn density_factor_is_the_j71_to_static_ratio_and_unity_below_the_boundary() {
+        let f = density_activity_factor(400_000.0, 900.0);
+        let want =
+            jacchia71_static_density(400.0, 900.0) / crate::forces::atmospheric_density(400_000.0);
+        assert!((f - want).abs() < 1e-12 * want);
+        // Below the 90 km J71 boundary, activity does not move density.
+        assert_eq!(density_activity_factor(80_000.0, 1500.0), 1.0);
+        assert_eq!(density_activity_factor(80_000.0, 600.0), 1.0);
     }
 
     #[test]
@@ -444,30 +771,41 @@ mod tests {
         let hot = density_activity_factor(400_000.0, 1124.0); // solar max
         assert!(
             cold < 1.0,
-            "solar-min density should fall below USSA76: {cold}"
+            "solar-min density should fall below the static profile: {cold}"
         );
         assert!(
             hot > 1.0,
-            "solar-max density should rise above USSA76: {hot}"
+            "solar-max density should rise above the static profile: {hot}"
         );
         assert!(hot > cold);
     }
 
     #[test]
-    fn solar_cycle_density_swing_at_400km_is_in_the_observed_band() {
-        // The headline calibration: 400 km density at solar max vs solar min must
-        // land in the empirically observed ~5–10× range.
-        let swing =
-            density_activity_factor(400_000.0, 1124.0) / density_activity_factor(400_000.0, 606.0);
-        assert!(
-            (5.0..=10.0).contains(&swing),
-            "400 km solar-cycle swing {swing}x"
-        );
+    fn solar_cycle_density_swing_at_400km_follows_table_7() {
+        // J71 Table 7: log10 rho(400 km) = -15.608 at 600 K and -14.627 at 900 K, a factor
+        // 10^0.981 = 9.6 apart.
+        let swing = jacchia71_static_density(400.0, 900.0) / jacchia71_static_density(400.0, 600.0);
+        assert!((swing.log10() - 0.981).abs() < 0.01, "400 km swing {swing}x");
+    }
+
+    #[test]
+    fn point_density_carries_the_diurnal_bulge() {
+        let sw = SpaceWeather {
+            f107: 150.0,
+            f107a: 150.0,
+            kp: 2.0,
+        };
+        // Equinox 2001-03-21 (MJD 51989): afternoon equator denser than pre-dawn equator.
+        let day = jacchia71_density(450_000.0, 0.0, 14.0, 51_989.0, &sw);
+        let night = jacchia71_density(450_000.0, 0.0, 3.0, 51_989.0, &sw);
+        assert!(day > 1.5 * night, "day {day} night {night}");
+        let mean = space_weather_density(450_000.0, &sw);
+        assert!(night < mean && mean < day, "night {night} mean {mean} day {day}");
     }
 
     #[test]
     fn space_weather_density_brackets_the_static_model() {
-        // The activity correction multiplies the static USSA76 density and stays
+        // The activity-dependent density brackets the static profile and stays
         // physically bounded (never zero/negative, never absurdly large).
         let alt = 500_000.0;
         let stat = crate::forces::atmospheric_density(alt);
