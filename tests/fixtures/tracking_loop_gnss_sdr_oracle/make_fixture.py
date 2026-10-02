@@ -46,16 +46,18 @@ def run_gnss_sdr(work, name, infile, pll_bw, dll_bw):
     return {k: np.ravel(m[k][()]).astype(float) for k in m.keys()}
 
 
-def own_corr(binfile, starts, rate=0.0, slew=0.0, length=4000):
-    """Correlate the recording with the TRUE replica (code and carrier, no data sign) over
-    [start, start + length) for each block start."""
+def own_corr(binfile, s, a1, fcode, rate=0.0, slew=0.0, length=4000):
+    """Correlate the recording over the block [s - length, s) with the RECEIVER's code replica
+    (its code epoch s + aux1 and its code rate, as GNSS-SDR generated it) and the TRUE carrier."""
     x = np.memmap(binfile, dtype=np.int8, mode="r")
     code = ifgen.ca_code(1)
-    out = np.empty(len(starts), complex)
-    for i, b in enumerate(starts.astype(np.int64)):
+    out = np.empty(len(s), complex)
+    for i in range(len(s)):
+        b = int(s[i]) - length
         n = np.arange(b, b + length)
         seg = x[2 * b: 2 * (b + length)].astype(float)
-        phi, chi = ifgen.truth(n / ifgen.FS, rate, slew)
+        phi, _ = ifgen.truth(n / ifgen.FS, rate, slew)
+        chi = 1023.0 - (s[i] + a1[i] - n) * fcode[i] / ifgen.FS
         out[i] = np.sum((seg[0::2] + 1j * seg[1::2]) * code[np.floor(chi).astype(np.int64) % 1023]
                         * np.exp(-1j * phi))
     return out
@@ -68,14 +70,15 @@ def errors(d, binfile, rate=0.0, slew=0.0, off=(0.0, 0.0)):
     PRN_start_sample_count is P = exp(j*eps) * X, where X is the same correlation taken with the
     true replica and eps the closed-loop carrier error; so eps = arg(P * conj(X)). The data sign
     and the measurement noise are common to P and X and cancel; the result is unwrapped (period
-    pi, the Costas ambiguity) for slip counting."""
+    pi, the Costas ambiguity) for slip counting. X uses the receiver's own code replica
+    (amendment 3) so that the noise cancels exactly, not only up to the code-tracking error."""
     s = d["PRN_start_sample_count"]
     sel = s / ifgen.FS >= T0
     tc = (s + d["aux1"]) / ifgen.FS
     _, chi = ifgen.truth(tc, rate, slew)
     code = (chi + 511.5) % 1023 - 511.5 - off[1]
     P = d["Prompt_I"] + 1j * d["Prompt_Q"]
-    X = own_corr(binfile, s[sel] - 4000, rate, slew)
+    X = own_corr(binfile, s[sel], d["aux1"][sel], d["code_freq_chips"][sel], rate, slew)
     car = np.unwrap(2.0 * (np.angle(P[sel] * np.conj(X)) - off[0])) / 2.0
     prompt = np.arctan(d["Prompt_Q"] / d["Prompt_I"])
     return car, code[sel], prompt[sel], s[sel] / ifgen.FS
