@@ -199,7 +199,7 @@ fn config(fs: f64, if_hz: f64, dwells: usize) -> PcpsConfig {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (run 2026-10-02 on 768cb62b + fixtures, restarted once after a tool time limit stopped it at 226 of 266 cases): A0 288 of 288 spans decode identically to the independent converter; A1 266 GNSS-SDR positives from 9 snapshots; A3 266 of 266 also Kshana positives; A2 fails, 250 of 266 located (251 on the same Doppler bin), the 16 misses near-tie maxima elsewhere in the grid; C1 vacuous, 0 pairs: no flight RAW epoch lies within 30 s (nearest 141 s) of any batch. Most positives are artefacts: read as bare two-s-complement integers the samples carry a -0.5 mean on I and Q that both receivers acquire. Pinned by finding_dc_artefacts_and_no_contemporaneous_flight_cn0"]
 fn acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiver() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
@@ -366,4 +366,53 @@ fn acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiv
     );
     assert!(rms <= TOLERANCE_RMS_DB, "C2 RMS {rms}");
     assert!(median <= TOLERANCE_MEDIAN_DB, "C2 median {median}");
+}
+
+/// The finding of the strict test, pinned (data-gated where it needs the samples): no flight
+/// C/N0 lies near any batch; the decoded levels carry a mean of −0.5 on I and on Q; GNSS-SDR
+/// declared 266 of 288 searches positive; Kshana locates a strong satellite (OP2 PRN 18) on
+/// GNSS-SDR's cell and, on one of the 16 misses (OP21 PRN 20), finds its maximum at the mirror
+/// Doppler of GNSS-SDR's.
+#[test]
+fn finding_dc_artefacts_and_no_contemporaneous_flight_cn0() {
+    assert!(flight_cn0().is_empty(), "flight C/N0 near a batch");
+    let cases = cases();
+    assert_eq!(cases.len(), 288);
+    assert_eq!(cases.iter().filter(|c| c.positive).count(), 266);
+    let Some(dir) = data_dir() else {
+        eprintln!("SKIPPED (sample part): LuGRE data not found (set KSHANA_LUGRE_DIR)");
+        return;
+    };
+    let snap = Snapshot::open(&dir, "L0/IQS/IQS_L1_20250116_013117_400MS_C_OP2_0.sdrx");
+    let x = snap.read(0, 800_000);
+    let (mi, mq) = (
+        x.iter().map(|s| s.re).sum::<f64>() / x.len() as f64,
+        x.iter().map(|s| s.im).sum::<f64>() / x.len() as f64,
+    );
+    assert!(
+        (mi + 0.5).abs() < 0.01 && (mq + 0.5).abs() < 0.01,
+        "means {mi} {mq}"
+    );
+    let run = |name: &str, prn: u8| {
+        let c = cases
+            .iter()
+            .find(|c| c.snapshot.ends_with(name) && c.prn == prn)
+            .unwrap();
+        let s = Snapshot::open(&dir, &c.snapshot);
+        let fs = s.layout.sample_rate_hz;
+        let n = c.num_dwells * (fs / 1000.0).round() as usize;
+        let y = s.read(c.sample_counter - n, n);
+        let r = pcps_acquire(
+            &y,
+            &CaCode::new(prn).unwrap(),
+            &config(fs, 0.0, c.num_dwells),
+        )
+        .unwrap();
+        (c.delay, c.doppler, r)
+    };
+    let (d, f, r) = run("OP2_0.sdrx", 18);
+    assert_eq!(r.doppler_hz, f);
+    assert!(circular(r.delay_samples as f64, d, 8000.0) <= 2.0);
+    let (_, f, r) = run("OP21_0.sdrx", 20);
+    assert_eq!(r.doppler_hz, -f, "the miss lands on the mirror Doppler");
 }
