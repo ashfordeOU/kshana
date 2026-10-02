@@ -267,3 +267,67 @@ fn icrf_positions_are_within_the_table_8_10_1_rms() {
     }
     assert!(failures.is_empty(), "{failures:#?}");
 }
+
+// # Amendment C (pre-registered 2026-10-02, after cases A and B were run, before case C was
+// # computed)
+//
+// Why: a mutation run after cases A and B showed that removing the Earth-Moon split altogether
+// (the Earth placed at the EMB) stays inside the EMB bar of case A (RMS distance 0.729 of the
+// 6 000 km figure), because the split, at most about 4 671 km, is smaller than that figure. Case A
+// therefore cannot see whether the split is there. Case C compares the split itself.
+//
+// Quantity: the Earth's offset from the EMB, Kshana `heliocentric_state("Earth")` minus
+// `ecliptic_to_icrf(standish_state(EarthMoonBarycentre))` (that is, minus mu_M/(mu_E + mu_M) times
+// the Montenbruck & Gill geocentric Moon), against Horizons 399 minus Horizons 3, both from the
+// case-B fixture `horizons_icrf.csv` already fetched (rounded to 1 km per coordinate, so the oracle
+// offset carries at most about 1.7 km of rounding).
+//
+// Sample: the case-B grid epochs from JD 2433282.5 (1950-01-01) to 2469807.5 (2050-01-01), the
+// span where Kshana's lunar series states its accuracy ("the Moon to ~0.3 deg / ~few 10^2 km over
+// a few decades around J2000", the `ephem` module documentation, citing Montenbruck and Gill,
+// Satellite Orbits, Sect. 3.3.2; the bar below comes from that stated accuracy, which this test
+// did not verify against the book). Epochs from 1800 to 1950 are printed, not gating.
+//
+// Tolerance, at every gating epoch: the angle between the two offset vectors at most 0.3 deg, and
+// the difference of their lengths at most 8.1 km (mu_M/(mu_E + mu_M) = 0.01215 times 500 km, plus
+// 2 km for the fixture's rounding).
+
+/// Case C: the Earth-EMB split itself, 1950 to 2050, against DE441's 399 minus 3.
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn earth_minus_barycentre_offset_matches_de441_1950_to_2050() {
+    let rows = fixture("horizons_icrf.csv");
+    let emb: std::collections::HashMap<u64, [f64; 3]> = rows
+        .iter()
+        .filter(|r| r.id == 3)
+        .map(|r| (r.jd.to_bits(), r.pos_km))
+        .collect();
+    let (mut worst_ang_gate, mut worst_len_gate, mut n_gate) = (0.0_f64, 0.0_f64, 0usize);
+    let (mut worst_ang_early, mut worst_len_early) = (0.0_f64, 0.0_f64);
+    for r in rows.iter().filter(|r| r.id == 399) {
+        let e = emb[&r.jd.to_bits()];
+        let o = [r.pos_km[0] - e[0], r.pos_km[1] - e[1], r.pos_km[2] - e[2]];
+        let ke = km(kshana_icrf_m(399, r.jd));
+        let kb = km(kshana_icrf_m(3, r.jd));
+        let k = [ke[0] - kb[0], ke[1] - kb[1], ke[2] - kb[2]];
+        let no = (o[0] * o[0] + o[1] * o[1] + o[2] * o[2]).sqrt();
+        let nk = (k[0] * k[0] + k[1] * k[1] + k[2] * k[2]).sqrt();
+        let cos = ((o[0] * k[0] + o[1] * k[1] + o[2] * k[2]) / (no * nk)).clamp(-1.0, 1.0);
+        let ang = cos.acos().to_degrees();
+        let dlen = (nk - no).abs();
+        if r.jd >= 2_433_282.5 {
+            worst_ang_gate = worst_ang_gate.max(ang);
+            worst_len_gate = worst_len_gate.max(dlen);
+            n_gate += 1;
+        } else {
+            worst_ang_early = worst_ang_early.max(ang);
+            worst_len_early = worst_len_early.max(dlen);
+        }
+    }
+    println!(
+        "C split 1950-2050: n={n_gate}, worst angle {worst_ang_gate:.4} deg (bar 0.3), worst length difference {worst_len_gate:.2} km (bar 8.1); 1800-1950 (not gating): {worst_ang_early:.4} deg, {worst_len_early:.2} km"
+    );
+    assert!(n_gate > 3500, "gating epochs {n_gate}");
+    assert!(worst_ang_gate <= 0.3, "angle {worst_ang_gate} deg");
+    assert!(worst_len_gate <= 8.1, "length {worst_len_gate} km");
+}
