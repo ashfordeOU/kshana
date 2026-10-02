@@ -508,8 +508,8 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             path: "altitude_km",
             unit: "km",
             provenance: Input,
-            definition: "circular-orbit altitude above the equatorial radius; the orbit \
-                         radius is R_eq + this",
+            definition: "circular-orbit altitude above the equatorial radius; the SGP4 mean \
+                         semi-major axis is R_eq + this",
         },
         FieldUnit {
             path: "inclination_deg",
@@ -534,8 +534,8 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             path: "step_s",
             unit: "s",
             provenance: Input,
-            definition: "sampling step of the rise/set search, which sets the TCA and \
-                         maximum-elevation resolution",
+            definition: "sampling step of the rise/set search; crossings and the \
+                         culmination are refined below it",
         },
         FieldUnit {
             path: "pass_count",
@@ -561,31 +561,31 @@ const UNITS: &[crate::field_schema::FieldUnit] = {
             path: "passes[].aos_s",
             unit: "s",
             provenance: Computed,
-            definition: "acquisition of signal: seconds from the window start at which the \
-                         elevation rises through the mask, linearly interpolated between the \
-                         bracketing samples; clamped to 0 for a pass already in progress",
+            definition: "acquisition of signal: reception time, seconds from the window \
+                         start, at which the apparent elevation rises through the mask, solved \
+                         by bisection to 1e-7 s; 0 for a pass already in progress",
         },
         FieldUnit {
             path: "passes[].tca_s",
             unit: "s",
             provenance: Computed,
-            definition: "time of closest approach: seconds from the window start of the \
-                         highest-elevation sample of the pass, at the step_s resolution",
+            definition: "culmination: seconds from the window start of the highest apparent \
+                         elevation of the pass, by golden-section search to 1e-4 s",
         },
         FieldUnit {
             path: "passes[].los_s",
             unit: "s",
             provenance: Computed,
-            definition: "loss of signal: seconds from the window start at which the elevation \
-                         falls back through the mask, linearly interpolated; clamped to the \
-                         window length for a pass still in progress at the end",
+            definition: "loss of signal: reception time, seconds from the window start, at \
+                         which the apparent elevation falls back through the mask, solved by \
+                         bisection; the window length for a pass still in progress at the end",
         },
         FieldUnit {
             path: "passes[].max_elevation_deg",
             unit: "deg",
             provenance: Computed,
-            definition: "highest elevation above the station's local horizon reached during \
-                         the pass, at the step_s sampling resolution",
+            definition: "highest apparent elevation above the station's local horizon \
+                         reached during the pass (refraction and light time when switched on)",
         },
         FieldUnit {
             path: "passes[].duration_s",
