@@ -171,7 +171,7 @@ fn acquisitions(dir: &std::path::Path) -> BTreeMap<String, Vec<(u8, f64)>> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (run 2026-10-02 on a81a9a4e): P2 fails, 8 of 8 pairs beyond 50 Hz (P1 4 snapshots, P3 12 of 12 visible). The two strongest pairs match the prediction in magnitude with the sign REVERSED: OP2 PRN 18/24 measured +7670.0 Hz, predicted -7693.9 (23.9 Hz once mirrored); OP17 PRN 11/30 +11155.0 against -11114.4 (40.6 Hz). The registered I-in-the-low-nibble order is evidently the conjugate of the batches; the six detections at statistics 349 to 357 (threshold 346.3) match neither sign. Pinned by strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed"]
 fn cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
@@ -223,4 +223,68 @@ fn cell_average_acquisitions_on_lugre_iq_match_the_orbit_predicted_doppler() {
         visible as f64 >= 0.9 * total as f64,
         "P3: {visible} of {total}"
     );
+}
+
+/// The finding of the strict test, pinned (data-gated): the two strongest pairs of the
+/// registered run, re-acquired in a narrow window about the Doppler that run recorded and
+/// refined as there, agree with the orbit prediction only when the measured Doppler
+/// differences are mirrored, and miss it by more than 15 kHz as registered. The bound here is
+/// 150 Hz, not the registered 50 Hz, and that is part of the finding: the narrow re-search
+/// refines OP2's pair to 7640 Hz and OP17's to 11205 Hz where the registered run gave 7670 Hz
+/// and 11155 Hz (mirrored residuals 53.9 and 90.6 Hz here, 23.9 and 40.6 Hz there), because `refine`
+/// maximises the energy of one-millisecond correlations, which is nearly flat over ±50 Hz;
+/// the registration's "about 10 Hz" resolution was wrong, so the 50 Hz bar sat at the
+/// refinement's own scatter.
+#[test]
+fn strong_pairs_match_the_prediction_only_with_the_doppler_sign_reversed() {
+    let Some(dir) = data_dir() else {
+        eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
+        return;
+    };
+    let pred = predictions();
+    // (snapshot, PRN, coarse Doppler of the registered run) per satellite of each pair.
+    let pairs = [
+        (SNAPSHOTS[0], (18u8, 11_000.0), (24u8, 3_000.0)),
+        (SNAPSHOTS[2], (11u8, 6_500.0), (30u8, -4_500.0)),
+    ];
+    for (snap, a, b) in pairs {
+        let p = dir.join(snap);
+        let layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
+        let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).unwrap();
+        let fs = layout.sample_rate_hz;
+        let mut x = decode(&layout, &bytes, 0, (fs / 1000.0).round() as usize * 100).unwrap();
+        to_mid_rise(&mut x);
+        let refined = |(prn, coarse): (u8, f64)| -> f64 {
+            let code = CaCode::new(prn).unwrap();
+            let cfg = PcpsConfig {
+                fs_hz: fs,
+                if_hz: coarse,
+                coherent_ms: 1,
+                noncoherent: 100,
+                doppler_max_hz: 1_000.0,
+                doppler_step_hz: 500.0,
+                pfa: 1e-3,
+            };
+            let r = pcps_acquire(&x, &code, &cfg).unwrap();
+            assert!(r.acquired_cell_average, "{snap} PRN {prn}: {r:?}");
+            coarse + refine(&x, &code, fs, coarse, &r, 300.0, 99).0
+        };
+        let (fa, fb) = (refined(a), refined(b));
+        let measured = fa - fb;
+        let predicted = pred[&(snap.to_string(), a.0)].0 - pred[&(snap.to_string(), b.0)].0;
+        eprintln!(
+            "{snap} PRN {} vs {}: measured {measured:.1}, predicted {predicted:.1}",
+            a.0, b.0
+        );
+        assert!(
+            (measured + predicted).abs() <= 150.0,
+            "mirrored residual {}",
+            measured + predicted
+        );
+        assert!(
+            (measured - predicted).abs() > 15_000.0,
+            "registered residual {}",
+            measured - predicted
+        );
+    }
 }
