@@ -72,14 +72,15 @@ kshana scenarios/passes.toml
 ```
 
 ```
-passes: 5 pass(es) of a 550 km / 97.6° orbit over (52.2°, 4.4°) > 10° in 24 h; 1675 s total access (MODELLED)
+passes: 5 pass(es) of a 550 km / 97.6° orbit over (52.2°, 4.4°) > 10° in 24 h; 1659 s total access (MODELLED)
 ```
 
 Predicts the rise/set passes over a station above an elevation mask: acquisition of
 signal (AOS), time of closest approach (TCA), loss of signal (LOS), maximum elevation
 and duration, plus total access time. That is the ground-segment planning query.
-Propagation is Keplerian plus Earth rotation; use an SGP4 propagator (the `orbit` or
-`ephemeris` kinds) for operational fidelity.
+The orbit is an SGP4 element set carried to the Earth-fixed frame on the IAU 2006/2000A
+chain, and the elevations are apparent: ITU-R P.834-9 refraction and the downlink light
+time, each switchable (`refraction`, `light_time`).
 
 ## 3. Does the contact close? (`link-budget`)
 

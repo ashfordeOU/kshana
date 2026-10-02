@@ -3,11 +3,13 @@
 # Predicts the visibility passes (AOS / TCA / LOS, maximum elevation, duration) of
 # a circular orbit over a ground station above an elevation mask across a window --
 # the rise/set scheduler the static look-angle primitives do not provide. AOS/LOS
-# crossing times are interpolated between samples; total access time is summed.
+# crossings are solved by bisection and the culmination by golden-section search;
+# total access time is summed.
 #
-# HONEST SCOPE: MODELLED. Keplerian propagation + Earth rotation (no SGP4 drag / J2
-# nodal regression -- use an SGP4 propagator for operational fidelity); TCA and max
-# elevation are at the sample-step resolution; no light-time / refraction correction.
+# The orbit is an SGP4 element set on the IAU 2006/2000A Earth-fixed frame (UT1 = UTC
+# and no polar motion unless ut1_minus_utc_s, xp_arcsec, yp_arcsec are given); the
+# elevations are apparent, with ITU-R P.834-9 refraction and the downlink light time
+# (switches `refraction` and `light_time`, both on by default).
 # Run:  kshana scenarios/passes.toml
 kind = "passes"
 
