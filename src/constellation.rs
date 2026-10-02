@@ -1362,7 +1362,9 @@ pub fn coverage(
     let mut s_vdop = vec![0.0_f64; cells];
     let mut s_gdop = vec![0.0_f64; cells];
     let mut m_pdop = vec![0.0_f64; cells];
-    let mut vis_by_cons = vec![0.0_f64; n_cons];
+    // Visible-satellite counts per cell and constellation, kept as integers so the global
+    // per-constellation mean is one weighted sum over cells (not a long running float sum).
+    let mut vis_count = vec![0_u64; cells * n_cons];
     let (mut hp, mut hh, mut hv, mut hg) = (Hist::new(), Hist::new(), Hist::new(), Hist::new());
     let mut work = WorkCounters {
         epochs: ne,
@@ -1453,7 +1455,7 @@ pub fn coverage(
                 min_vis[cell] = min_vis[cell].min(nvis);
                 max_vis[cell] = max_vis[cell].max(nvis);
                 for (c, &k) in per_cons.iter().enumerate() {
-                    vis_by_cons[c] += w * k as f64;
+                    vis_count[cell * n_cons + c] += k as u64;
                 }
                 if let Some(d) = first.and_then(|f| acc.solve(e_v, n_v, u_v, f)) {
                     work.dop_solutions += 1;
@@ -1507,6 +1509,15 @@ pub fn coverage(
         }
     }
     let norm_w = if wsum > 0.0 { wsum } else { 1.0 };
+    let mut vis_by_cons = vec![0.0_f64; n_cons];
+    for (a, &wa) in weights.iter().enumerate() {
+        for o in 0..nlo {
+            let c = a * nlo + o;
+            for (k, v) in vis_by_cons.iter_mut().enumerate() {
+                *v += wa * vis_count[c * n_cons + k] as f64 / fe;
+            }
+        }
+    }
     let worst = (0..cells)
         .map(|c| 100.0 * n_avail[c] as f64 / fe)
         .fold(f64::INFINITY, f64::min);
@@ -1539,7 +1550,7 @@ pub fn coverage(
         worst_site_availability_pct: worst,
         global_mean_visible: g_vis / norm_w,
         global_min_visible: min_vis.iter().copied().min().unwrap_or(0),
-        mean_visible_by_constellation: vis_by_cons.iter().map(|v| v / fe / norm_w).collect(),
+        mean_visible_by_constellation: vis_by_cons.iter().map(|v| v / norm_w).collect(),
         lats_deg: lats,
         lons_deg: lons,
         hist_pdop: hp,

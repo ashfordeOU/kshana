@@ -94,7 +94,40 @@
 //! 4. the body rotation dropped in `Sat::position_fixed`;
 //! 5. the Walker phase offset taken as `2π(F+1)/T`.
 //!
-//! The strict test is ignored until the fixture exists and the comparison has run.
+//! ## Engine change 2 (2026-10-02, made AFTER the first run; disclosed)
+//!
+//! The first run stopped at `gps-baseline` on the per-constellation mean visible count:
+//! 8.12188911602088 against the oracle's 8.121889116012243 (1.1e-12 relative, bar 1e-12;
+//! `galileo` had passed every bar). The engine summed `w·count` for every cell and epoch into
+//! one running float (746 496 additions), while the global mean visible count sums integer
+//! counts per cell first. `coverage` now keeps integer counts per cell and constellation and
+//! forms one weighted sum over cells, as it already did for the global count. This removes a
+//! float accumulation error of the engine; the bar is unchanged.
+//!
+//! ## Result (2026-10-02, tolerances unchanged): FINDING
+//!
+//! - Earth, all five designs inside every bar: `galileo`, `gps-baseline`, `beidou`,
+//!   `gnss-multi` (one clock per constellation, numpy oracle) and `leo-scale` (1584
+//!   satellites): elements within 3.6e-15 rad; positions within 1.0e-7 m; fix share,
+//!   availability and global shares within 8.8e-13 points; visible counts within 1.2e-14;
+//!   fewest and most visible equal; mean PDOP, HDOP, VDOP, GDOP and largest PDOP within
+//!   2.0e-14 relative; ground tracks within the 5e-4 degree rounding of the scenario JSON.
+//! - Moon (`moon-multishell`) and Mars (`mars-two-systems`): elements (both Walker patterns,
+//!   two shells, explicit and elliptical satellites), positions (within 8.1e-8 m), visible
+//!   counts, availability and ground tracks inside their bars, but the DOP bar fails in 80
+//!   (Moon) and 128 (Mars) of 2592 cells, all with an oracle largest PDOP of 1434 or more,
+//!   where the normal matrix's condition number (about PDOP²) amplifies rounding (worst 1.1e-6
+//!   and 8.0e-6 relative; every cell with largest PDOP below 1000 and the same fixes agrees
+//!   within 5.5e-10), and 1 (Moon) and 3 (Mars) cells differ by exactly one fix epoch (1/288)
+//!   because the engine's absolute pivot threshold (1e-10) and numpy's rank tolerance disagree
+//!   on a numerically singular geometry; their mean DOP then differs by up to 100 %.
+//! - The strict test stays ignored with this gap; `finding_is_pinned` pins it.
+//! - Mutations, each turning `finding_is_pinned` red on the Earth designs, then edited back:
+//!   (1) GDOP, HDOP, VDOP doubled: `galileo` cell 0,0 mean HDOP 1.6554 against 0.8277;
+//!   (2) PDOP doubled: mean PDOP 3.9654 against 1.9827; (3) clock columns collapsed:
+//!   `gnss-multi` cell 0,0 mean PDOP 1.3682 against 1.3754; (4) body rotation dropped:
+//!   `galileo` position off by 647 km at 300 s; (5) Walker phase offset `F+1`: `galileo`
+//!   satellite 8 mean anomaly off by 0.2618 rad.
 
 use kshana::constellation::{
     body_by_name, coverage, satellite_positions_fixed, ClockModel, ConstellationDesignScenario,
@@ -220,9 +253,28 @@ fn rel(a: f64, b: f64) -> f64 {
     (a - b).abs() / b.abs()
 }
 
-fn check_design(d: &Value) -> Worst {
+/// Per-cell summary for the pinned finding: |fix difference| (percentage points), the
+/// oracle's largest PDOP, and the worst DOP relative difference.
+type CellInfo = (f64, f64, f64);
+
+/// Compares one design. With `strict` every bar panics at its first violation; otherwise the
+/// violations are collected and returned with a per-cell summary.
+fn check_design(d: &Value, strict: bool) -> (Worst, Vec<String>, Vec<CellInfo>) {
     let name = d["name"].as_str().unwrap();
     let mut w = Worst::default();
+    let mut viol: Vec<String> = Vec::new();
+    let mut info: Vec<CellInfo> = Vec::new();
+    macro_rules! check {
+        ($c:expr, $($t:tt)*) => {
+            if !$c {
+                let m = format!($($t)*);
+                if strict {
+                    panic!("{m}");
+                }
+                viol.push(m);
+            }
+        };
+    }
     // Body constants unchanged.
     let body_name = d["body"].as_str().unwrap();
     let body = body_by_name(body_name).unwrap();
@@ -260,15 +312,15 @@ fn check_design(d: &Value) -> Worst {
         ];
         let dmax = dang.iter().cloned().fold(0.0, f64::max);
         w.el = w.el.max(dmax);
-        assert!(
+        check!(
             da <= TOL_A_M,
             "{name} sat {}: a {} vs {}",
             v[1],
             e.a_m,
             v[2]
         );
-        assert!(de <= TOL_E, "{name} sat {}: e {} vs {}", v[1], e.e, v[3]);
-        assert!(
+        check!(de <= TOL_E, "{name} sat {}: e {} vs {}", v[1], e.e, v[3]);
+        check!(
             dmax <= TOL_ANGLE_RAD,
             "{name} sat {}: angles off by {dang:?} rad",
             v[1]
@@ -290,13 +342,13 @@ fn check_design(d: &Value) -> Worst {
                 + (s[2] - num(&r[4])).powi(2))
             .sqrt();
             w.pos = w.pos.max(dp);
-            assert!(
+            check!(
                 dp <= TOL_POS_M,
                 "{name} t {t} sat {k}: position off by {dp} m"
             );
         }
     }
-    assert!(it.next().is_none(), "{name}: extra position rows");
+    check!(it.next().is_none(), "{name}: extra position rows");
 
     // Maps.
     let r = coverage(&body, &els, &spec(d), false).expect("coverage");
@@ -307,34 +359,36 @@ fn check_design(d: &Value) -> Worst {
                 let d1 = (r.global_availability_pct - v[0]).abs();
                 let d2 = (r.global_fix_pct - v[1]).abs();
                 let d3 = (r.worst_site_availability_pct - v[2]).abs();
-                assert!(
+                check!(
                     d1 <= TOL_PCT,
                     "{name}: global availability {} vs {}",
                     r.global_availability_pct,
                     v[0]
                 );
-                assert!(
+                check!(
                     d2 <= TOL_PCT,
                     "{name}: global fix {} vs {}",
                     r.global_fix_pct,
                     v[1]
                 );
-                assert!(
+                check!(
                     d3 <= TOL_PCT,
                     "{name}: worst cell {} vs {}",
                     r.worst_site_availability_pct,
                     v[2]
                 );
                 let d4 = rel(r.global_mean_visible, v[3]);
-                assert!(
+                check!(
                     d4 <= TOL_VIS,
                     "{name}: global mean visible {} vs {}",
                     r.global_mean_visible,
                     v[3]
                 );
-                assert_eq!(
-                    r.global_min_visible, v[4] as usize,
-                    "{name}: global fewest visible"
+                check!(
+                    r.global_min_visible == v[4] as usize,
+                    "{name}: global fewest visible {} vs {}",
+                    r.global_min_visible,
+                    v[4]
                 );
                 w.pct = w.pct.max(d1).max(d2).max(d3);
                 w.vis = w.vis.max(d4);
@@ -344,7 +398,7 @@ fn check_design(d: &Value) -> Worst {
                 assert_eq!(v.len(), r.mean_visible_by_constellation.len());
                 for (a, b) in r.mean_visible_by_constellation.iter().zip(&v) {
                     let dv = if *b == 0.0 { a.abs() } else { rel(*a, *b) };
-                    assert!(
+                    check!(
                         dv <= TOL_VIS,
                         "{name}: per-constellation visible {a} vs {b}"
                     );
@@ -360,28 +414,39 @@ fn check_design(d: &Value) -> Worst {
                 let d_fix = (r.fix_pct[a][o] - v[0]).abs();
                 let d_av = (r.availability_pct[a][o] - v[1]).abs();
                 let d_vis = (r.mean_visible[a][o] - v[2]).abs();
-                assert!(
+                check!(
                     d_fix <= TOL_PCT,
                     "{at}: fix {} vs {}",
                     r.fix_pct[a][o],
                     v[0]
                 );
-                assert!(
+                check!(
                     d_av <= TOL_PCT,
                     "{at}: availability {} vs {}",
                     r.availability_pct[a][o],
                     v[1]
                 );
-                assert!(
+                check!(
                     d_vis <= TOL_VIS,
                     "{at}: mean visible {} vs {}",
                     r.mean_visible[a][o],
                     v[2]
                 );
-                assert_eq!(r.min_visible[a][o], v[3] as usize, "{at}: fewest visible");
-                assert_eq!(r.max_visible[a][o], v[4] as usize, "{at}: most visible");
+                check!(
+                    r.min_visible[a][o] == v[3] as usize,
+                    "{at}: fewest visible {} vs {}",
+                    r.min_visible[a][o],
+                    v[3]
+                );
+                check!(
+                    r.max_visible[a][o] == v[4] as usize,
+                    "{at}: most visible {} vs {}",
+                    r.max_visible[a][o],
+                    v[4]
+                );
                 w.pct = w.pct.max(d_fix).max(d_av);
                 w.vis = w.vis.max(d_vis);
+                let mut cell_rel = 0.0f64;
                 let eng = [
                     ("mean PDOP", r.mean_pdop[a][o]),
                     ("mean HDOP", r.mean_hdop[a][o]),
@@ -394,12 +459,16 @@ fn check_design(d: &Value) -> Worst {
                     match x {
                         Some(x) => {
                             let e = rel(*x, o_v);
-                            assert!(e <= TOL_DOP_REL, "{at}: {what} {x} vs {o_v}");
+                            check!(e <= TOL_DOP_REL, "{at}: {what} {x} vs {o_v}");
                             w.dop = w.dop.max(e);
+                            if !o_v.is_nan() {
+                                cell_rel = cell_rel.max(e);
+                            }
                         }
-                        None => assert!(o_v.is_nan(), "{at}: {what} fix mismatch"),
+                        None => check!(o_v.is_nan(), "{at}: {what} fix mismatch"),
                     }
                 }
+                info.push((d_fix, v[9], cell_rel));
                 w.cells += 1;
             }
         }
@@ -437,7 +506,7 @@ fn check_design(d: &Value) -> Worst {
             let dlo0 = (lo[j].as_f64().unwrap() - num(&o[3])).rem_euclid(360.0);
             let dlo = dlo0.min(360.0 - dlo0);
             w.track = w.track.max(dla).max(dlo);
-            assert!(
+            check!(
                 dla <= TOL_TRACK_DEG && dlo <= TOL_TRACK_DEG,
                 "{name} sat {k} t {t}: track ({}, {}) vs Orekit ({}, {})",
                 la[j],
@@ -448,26 +517,84 @@ fn check_design(d: &Value) -> Worst {
             w.tracks += 1;
         }
     }
-    w
+    (w, viol, info)
+}
+
+fn report(name: &str, w: &Worst) {
+    println!(
+        "{name}: {} cells, {} track samples; worst element angle {:.1e} rad, position {:.1e} m, \
+         |d pct| {:.1e}, visible {:.1e}, DOP rel {:.2e}, track {:.1e} deg",
+        w.cells, w.tracks, w.el, w.pos, w.pct, w.vis, w.dop, w.track
+    );
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "finding: the Earth designs agree on every bar, but the Moon and Mars designs exceed \
+            the 1e-9 relative DOP bar at ill-conditioned cells (largest PDOP 1434 and above; up \
+            to 8.0e-6 relative) and 4 cells differ by one fix epoch (engine pivot 1e-10 against \
+            numpy rank); see finding_is_pinned"]
 fn coverage_dop_maps_match_independent_tools_on_every_design() {
     for d in designs() {
-        let w = check_design(&d);
-        println!(
-            "{}: {} cells, {} track samples; worst element angle {:.1e} rad, position {:.1e} m, \
-             |d pct| {:.1e}, visible {:.1e}, DOP rel {:.2e}, track {:.1e} deg",
-            d["name"].as_str().unwrap(),
-            w.cells,
-            w.tracks,
-            w.el,
-            w.pos,
-            w.pct,
-            w.vis,
-            w.dop,
-            w.track
+        let (w, _, _) = check_design(&d, true);
+        report(d["name"].as_str().unwrap(), &w);
+    }
+}
+
+/// The measured state of the comparison (run 2026-10-02): the five Earth designs (Galileo,
+/// GPS, BeiDou, Galileo plus GPS with one clock each, the 1584-satellite shell) are inside
+/// every bar; on the Moon and Mars designs the only violations are (a) cells whose fix share
+/// differs by exactly one epoch (1/288) because the engine's absolute pivot threshold and
+/// numpy's rank tolerance disagree on a numerically singular geometry, with the global fix
+/// share that follows from them, and (b) DOP differences above 1e-9 relative only in those
+/// cells or in cells whose largest PDOP (oracle) is at least 1000, where the normal matrix's
+/// condition number (about PDOP squared) amplifies double-precision rounding.
+#[test]
+fn finding_is_pinned() {
+    for d in designs() {
+        let name = d["name"].as_str().unwrap();
+        let (w, viol, info) = check_design(&d, false);
+        report(name, &w);
+        if d["body"].as_str() == Some("earth") {
+            assert!(
+                viol.is_empty(),
+                "{name}: {} violations, first {:?}",
+                viol.len(),
+                viol.first()
+            );
+            continue;
+        }
+        for m in &viol {
+            let kind_ok = m.contains(": fix ")
+                || m.contains(": global fix ")
+                || ["PDOP", "HDOP", "VDOP", "GDOP"]
+                    .iter()
+                    .any(|k| m.contains(k));
+            assert!(kind_ok, "{name}: unexpected violation {m}");
+        }
+        let one_epoch = 100.0 / epochs(&d).len() as f64;
+        let mut fix_cells = 0usize;
+        for &(d_fix, max_pdop, rel) in &info {
+            if d_fix > TOL_PCT {
+                assert!(
+                    (d_fix - one_epoch).abs() < 1e-9,
+                    "{name}: fix differs by {d_fix}"
+                );
+                fix_cells += 1;
+            } else if rel > TOL_DOP_REL {
+                assert!(
+                    max_pdop >= 1000.0,
+                    "{name}: DOP {rel} at largest PDOP {max_pdop}"
+                );
+            }
+        }
+        let limit = if name == "moon-multishell" { 1 } else { 3 };
+        assert!(
+            fix_cells <= limit,
+            "{name}: {fix_cells} cells with a fix difference"
+        );
+        assert!(
+            !viol.is_empty(),
+            "{name}: the finding no longer reproduces; re-run the strict test"
         );
     }
 }
