@@ -105,6 +105,18 @@
 //! rational arithmetic and rounded once (about 1e-15 rad) instead of by `era00`. Quantity,
 //! inputs, every tolerance and the crate are unchanged. If this run still misses, the row
 //! does not promote on this oracle.
+//!
+//! THIRD RUN (amendment A2, 2026-10-02): AGREES on every criterion. Table 3: nine horizons
+//! (floor plus 1-90 days, n = 397, 450, 449, 446, 441, 431, 421, 411, 361 over 451 input
+//! rows), every epoch list of the three components equal to astropy's, every fallback count
+//! equal (54 at each persistence horizon), UT1 and pole statistics within 6e-16 relative,
+//! combined statistics within 1.9e-7 relative (floor rms 1.0e-9, p50 7.6e-8). Tables 4 and
+//! 6: all twelve cases give the expected status and row counts; every UT1 and pole RMS
+//! equal to astropy's to 1.1e-16. Engine mutations that turn this test red (each reverted
+//! by editing the file back): the combination dropping its pole term (36 failures); the
+//! persistence pole residual dropping its y component (62); the archived Bulletin A pole
+//! error dropping its y component (24); the single-vintage status reported as
+//! "no-matched-pairs" (4).
 
 use kshana::realtime_frame_eop::RealtimeFrameEopScenario;
 use serde_json::{json, Value};
@@ -138,7 +150,10 @@ fn f(v: &Value) -> f64 {
 
 fn close(fails: &mut Vec<String>, what: String, k: f64, o: f64, rel: f64, abs: f64) {
     let ok = (k - o).abs() <= rel * o.abs() + abs;
-    let line = format!("{what}: Kshana {k:.12e} oracle {o:.12e} rel {:.2e}", (k - o) / o);
+    let line = format!(
+        "{what}: Kshana {k:.12e} oracle {o:.12e} rel {:.2e}",
+        (k - o) / o
+    );
     println!("{line}");
     if !ok {
         fails.push(line);
@@ -345,7 +360,6 @@ fn compare_predicted_vs_final(o: &Value) -> Vec<String> {
 }
 
 #[test]
-#[ignore = "pre-registered amendment A2; not yet run (second run: floor-row combined p50 2.5e-5, p95 1.05e-5 against 1e-5)"]
 fn joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa() {
     let o = oracle();
     assert_eq!(o["d_em_m"], json!(kshana::frame_eop::D_EM_M));
