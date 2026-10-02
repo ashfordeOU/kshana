@@ -14261,15 +14261,15 @@
       "complete": true,
       "fields": {
         "altitudes[].activity_density_kg_m3": {
-          "definition": "static_density_kg_m3 * activity_factor: the same row's static density scaled by this space-weather state",
-          "evidence_tier": "inherits-scenario-label",
-          "provenance": "computed",
+          "definition": "Jacchia-1971 static-profile mass density at this altitude and the diurnal-mean exospheric temperature (no latitude, local-time or seasonal terms)",
+          "evidence_tier": "modelled",
+          "provenance": "modelled",
           "unit": "kg/m^3"
         },
         "altitudes[].activity_factor": {
-          "definition": "dimensionless density multiplier exp[C*(h - 120 km)*(1/T_ref - 1/T_inf)] above the 120 km thermosphere base and 1 below it; the coupling coefficient C is calibrated to the observed 400 km solar-cycle swing, so the magnitude is a model assumption",
-          "evidence_tier": "modelled",
-          "provenance": "modelled",
+          "definition": "activity_density_kg_m3 / static_density_kg_m3: how far this space-weather state moves the density away from the activity-free static profile",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
           "unit": "1"
         },
         "altitudes[].altitude_km": {
@@ -14291,7 +14291,7 @@
           "unit": "2 nT"
         },
         "exospheric_temperature_k": {
-          "definition": "Jacchia-1971 global exospheric temperature T_inf = 379 + 3.24*f107a + 1.3*(f107 - f107a) + 28*kp + 0.03*exp(kp)",
+          "definition": "Jacchia-1971 global nighttime-minimum exospheric temperature T_inf = 379 + 3.24*f107a + 1.3*(f107 - f107a) + 28*kp + 0.03*exp(kp)",
           "evidence_tier": "validated",
           "provenance": "closed-form",
           "unit": "K"
@@ -14314,17 +14314,17 @@
           "provenance": "input",
           "unit": "1"
         },
-        "reference_exospheric_temperature_k": {
-          "definition": "the exospheric temperature at which the density activity factor is unity: the moderate-activity value (1000 K) assigned to the static USSA76 thermosphere, a modelling choice rather than a measurement",
-          "evidence_tier": "modelled",
-          "provenance": "modelled",
+        "mean_exospheric_temperature_k": {
+          "definition": "Jacchia-1971 diurnal-mean exospheric temperature (379 + 3.24*f107a + 1.3*(f107 - f107a))*(1 + 0.3/2) + 28*kp + 0.03*exp(kp) (the report's equation 26 plus the geomagnetic increment), at which the density rows are evaluated",
+          "evidence_tier": "validated",
+          "provenance": "closed-form",
           "unit": "K"
         }
       },
       "fields_described": 10,
       "fields_total": 10,
       "fields_without_units": [],
-      "label": "MODELLED — solar/geomagnetic indices + Jacchia-71 exospheric temperature; density is a calibrated first-order activity correction, NOT a data-validated (NRLMSISE) atmosphere",
+      "label": "MODELLED — solar/geomagnetic indices, Jacchia-71 exospheric temperature and Jacchia-71 static density at the diurnal-mean temperature",
       "source": "defaults"
     },
     "spectrum": {
