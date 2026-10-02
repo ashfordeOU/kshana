@@ -11,9 +11,13 @@ power the `hybrid-optical-rf` report states for its cross-modality chi-square mo
   the reference values; nothing from it is copied into the crate.
 - Inputs: four scenario configurations (false-alarm and missed-detection probabilities, and in
   one of them the RF sigmas and ramp rates), the monitor's 4 degrees of freedom from its
-  definition, and the report's twelve-point multiple ladder. No third-party data is included.
+  definition, and the report's twelve-point multiple ladder. Amendment 1 adds, under
+  `added_configurations`, a fifth configuration whose RF sigmas are comparable to the optical
+  ones (2e-4 m, 3e-4 m, 1e-12 s), pre-registered before it was generated. No third-party data
+  is included.
 - Tolerance, fixed before the first comparison (stated in the test header): threshold 1e-9
   relative, every other value 1e-6 relative.
-- Generated 2026-10-02. `reference.json` SHA-256
-  bdd556b25899186166fa5e57945f139b043bea2d01c16c4a3555be60a013e3c0 (the generator
+- Generated 2026-10-02 (regenerated with amendment 1 the same day; the four original
+  configurations are byte-identical). `reference.json` SHA-256
+  923b54d7ef43e5491b942373b74cf60f0c6d244db51332e856dd30485ef67eed (the generator
   reproduces it byte for byte).
