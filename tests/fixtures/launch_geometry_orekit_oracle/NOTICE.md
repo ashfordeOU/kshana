@@ -47,3 +47,14 @@ cc80680ec05c91b65e7d02c6068fe0d44dd0998dc880551975092d2d14aa8e18; IERS products,
 citation; SHA-256 of the three-row extract 1d40ee99c6d71b3841ded7d4d34effebf7f84ce5d0afb46222b679919320446a). They supply x_p, y_p and LOD at the driver's epoch 2026-03-01T00:00:00 UTC to
 `launch::site_rotation_speed_at`. Orekit read its own copy (orekit-data `main`), whose row for
 2026-03-01 carries the same x_p and y_p and an LOD of 0.1505 ms against 0.1502 ms here.
+
+## Round 2, third step (2026-10-02): `site_speed_true_pole_orekit.txt` and `finals2000A_2025-07-16_to_07-18.txt`
+
+- `finals2000A_2025-07-16_to_07-18.txt`: three rows (MJD 60872 to 60874) copied verbatim from the same
+  frozen 2026-09-30 finals2000A.all (SHA-256 cc80680e...8e18); SHA-256 of the extract
+  8463675ae4b3cb592a282704ccb855e3e784d3ec49d6735852fc7c200613a45b. Committed with the pre-registration
+  (commit 71bebf63).
+- `site_speed_true_pole_orekit.txt`: output of `LaunchOrekitDriver site-speed` (Orekit 12.2, run as a
+  separate program) by `gen_site_speed_true_pole.sh`, which gives Orekit a data directory whose only
+  Earth-orientation file is that frozen finals2000A.all. Generated 2026-10-02 after the
+  pre-registration commit. SHA-256 0696b425661e8a2b4bda7274b95e6ac2228d68c1e8e91fbb658aee4d0af0a272.

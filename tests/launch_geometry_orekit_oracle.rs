@@ -87,6 +87,13 @@
 //!   pole, which the function leaves out and which depends on the site's longitude; the outcome at
 //!   other longitudes was not computed before this was written.
 //!
+//! RESULT of the third step (run 2026-10-02, after the pre-registration commit 71bebf63; fixture
+//! `site_speed_true_pole_orekit.txt` from `gen_site_speed_true_pole.sh`): all 24 sites within
+//! 1e-6 on both paths; worst 4.87e-8 (62.9 deg, longitude 0), 4.32e-8 (-60, 0); every equatorial
+//! site 2.3e-11. Orekit's interpolated pole at the epoch (EOP2 line) is x_p 0.189386", y_p
+//! 0.435332", LOD 0.1696 ms. Mutations (reverted by editing back): the y_p sign flipped (pole at
+//! (x_p, +y_p, 1)) gives 8.2e-6 at 62.9 deg, longitude 90, red; the pole on the z axis gives
+//! 4.4e-6, red.
 //! Fixture, driver, generator and provenance: `tests/fixtures/launch_geometry_orekit_oracle/`.
 
 use kshana::eop::EopSeries;
@@ -369,7 +376,6 @@ fn earth_rotation_speed_gap_is_recorded_as_a_finding() {
 /// ROUND 2, third step (pre-registered 2026-10-02): the true-pole site speed at a fresh epoch and
 /// at non-zero longitudes against Orekit 12.2, on the function and the scenario path, 1e-6.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes() {
     let ref2_path = format!(
         "{}/tests/fixtures/launch_geometry_orekit_oracle/site_speed_true_pole_orekit.txt",
