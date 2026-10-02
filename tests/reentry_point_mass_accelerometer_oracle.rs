@@ -63,6 +63,38 @@
 //!   amendment and rejected there as not a reconstruction. No accelerometer value for any
 //!   of the three listed capsules has been read by the author of this amendment.
 //! * The engine is not changed for this amendment; there is nothing to tune.
+//!
+//! # Search result (2026-10-02, after the commit above): BLOCKED, comparison not run
+//!
+//! * **Hayabusa 2010: excluded.** The capsule carried no recording accelerometer (the
+//!   flight was observed only from the ground and the air; NASA Technical Reports Server,
+//!   NTRS, 20160000307). No measured value can exist.
+//! * **OSIRIS-REx 2023: excluded.** The capsule sensed deceleration only with mechanical
+//!   g-switches for parachute timing; no acceleration record exists. Its "peak
+//!   deceleration" figures are POST2 simulation outputs (NTRS 20240000629, 20240014280).
+//! * **Hayabusa2 2020: BLOCKED, oracle source unreadable here.** Its Reentry Environment
+//!   Measurement Module (REMM) recorded three-axis acceleration at 125 Hz (JAXA press
+//!   briefing of 2021-03-05, slide 6, which prints no peak value). The open-access paper
+//!   that analyses the REMM record, Yamada and Yoshihara, "Post-Flight Analysis of
+//!   Recovered Components of Hayabusa2 Sample Return Capsule", Journal of Evolving Space
+//!   Activities 1 (2023) 16, doi 10.57350/jesa.16 (J-STAGE), could not be retrieved: the
+//!   host refuses this session's network egress and the PDF exceeds the fetch tool's
+//!   10 MB limit. The other REMM analyses, AIAA 2022-3801 ("Best Estimated Trajectory and
+//!   Attitude Motion of Hayabusa2 SRC Reentry Flight") and an Elsevier book chapter, are
+//!   paywalled. No measured Hayabusa2 peak deceleration has been read. Inputs located
+//!   but not yet resolved by the rule: entry state 11.58 km/s and -12.0 deg at 200 km
+//!   geodetic, labelled "derived" (Tsuda et al., Trans. JSASS 67(6) 340, 2024, Table 1;
+//!   licensed CC BY-NC-ND 4.0, so numbers are cited, the paper is not vendored); mass "16 kg" and diameter "about 40 cm" (Yamada et al., Trans. JSASS Aerospace
+//!   Tech. Japan 19(4) 514, 2021); a candidate drag-coefficient database, "The Aerodynamic
+//!   Data Base for Asteroid Sample Return Capsule", ISAS report SP (2003), JAXA repository
+//!   record 33260, which needs Japanese fonts to read and was not read.
+//! * **Seen while searching (disclosed).** The 2021 Trans. JSASS paper (received 2019, a
+//!   pre-flight document) prints a PREDICTED maximum deceleration of 41.26 G (standard
+//!   deviation 0.48 G over a 5000-run Monte Carlo analysis) at 83.1 s; it is a prediction, not an oracle value, and it was read before any
+//!   Kshana run for Hayabusa2 (none has been made).
+//! * The missing input is a readable copy of doi 10.57350/jesa.16 (open access) or of AIAA
+//!   2022-3801 that prints the REMM maximum deceleration as a number. With it, the inputs
+//!   above are resolved by the unchanged rule, committed, and only then is this test run.
 
 use kshana::reentry::{simulate_planar_entry, PlanarEntry, R_EARTH_M};
 
@@ -114,10 +146,13 @@ fn entries() -> Vec<Entry> {
 /// The pre-registered comparison: every included entry's peak deceleration within 15 % of
 /// the on-board accelerometer maximum.
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "BLOCKED: no readable source prints an accelerometer-measured peak; not run"]
 fn point_mass_peak_deceleration_matches_accelerometer_records() {
     let e = entries();
-    assert!(!e.is_empty(), "no entry with a printed accelerometer maximum is included");
+    assert!(
+        !e.is_empty(),
+        "no entry with a printed accelerometer maximum is included"
+    );
     let bad: Vec<String> = e
         .iter()
         .filter(|x| (x.kshana_g - x.measured_g).abs() / x.measured_g > REL_TOL)
