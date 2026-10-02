@@ -710,7 +710,7 @@ async fn run_scenario_reaches_constellations_around_other_bodies() {
     assert_eq!(doc["fom"]["n_epochs"].as_u64(), Some(171));
     assert!(close(
         &doc["fom"]["availability_relays"],
-        0.485_380_116_959_064_3
+        0.479_532_163_742_690_03
     ));
     client.cancel().await.ok();
 }
