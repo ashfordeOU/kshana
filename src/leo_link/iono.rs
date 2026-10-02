@@ -74,6 +74,17 @@ pub fn iono_free_coefficients(f1_hz: f64, f2_hz: f64) -> (f64, f64) {
     (a / (a - b), -b / (a - b))
 }
 
+/// Slant total electron content (TEC units, 1e16 electrons/m²) from the geometry-free code
+/// combination of two pseudoranges (or two first-order group delays) `p1_m` on `f1_hz` and
+/// `p2_m` on `f2_hz`: `((p2 − p1) + dcb) f1² f2² / (40.3 (f1² − f2²)) / 1e16`. The geometry,
+/// clocks and troposphere cancel in `p2 − p1`; `dcb_p1_minus_p2_m` is the receiver plus
+/// satellite differential code bias of `P1 − P2` in metres (zero for modelled delays), which the
+/// measured difference carries with the opposite sign and is added back here.
+pub fn geometry_free_stec_tecu(p1_m: f64, p2_m: f64, f1_hz: f64, f2_hz: f64, dcb_p1_minus_p2_m: f64) -> f64 {
+    let (a, b) = (f1_hz * f1_hz, f2_hz * f2_hz);
+    ((p2_m - p1_m) + dcb_p1_minus_p2_m) * a * b / (40.3 * (a - b)) / TECU
+}
+
 /// Noise amplification of the ionosphere-free combination for per-band noise `sigma1`,
 /// `sigma2`: `√(a₁²σ₁² + a₂²σ₂²)`. With `sigma1 = sigma2 = 1` it is the familiar factor
 /// (2.98 for GPS L1/L2, 2.59 for L1/L5).
