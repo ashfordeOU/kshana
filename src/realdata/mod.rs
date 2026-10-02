@@ -32,6 +32,7 @@
 //! deviation statistic is [`Orient::Raw`] (it already rises with impairment), and AGC
 //! polarity is receiver-dependent so its adapters take it as a parameter.
 
+pub mod clk;
 pub mod gnsslogger;
 pub mod iqif;
 pub mod jammertest;
