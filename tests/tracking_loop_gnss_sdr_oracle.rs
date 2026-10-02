@@ -88,6 +88,16 @@
 //! unchanged; every recording is regenerated and re-run with this measure, including the ones
 //! already seen.
 //!
+//! Amendment 3 (2026-10-02, written AFTER the four jitter recordings had been measured with
+//! amendment 2; disclosed): amendment 2 formed `X` with the TRUE code replica, so the noise
+//! cancels only up to the receiver's code-tracking error; the uncancelled part grows as the C/N₀
+//! falls (about √(2δ) of the per-block noise phase for a code error of δ chip). Values seen with
+//! it: σ_PLL 12.73°, 5.50°, 2.29°, 1.15° at 30, 35, 40, 45 dB-Hz. `X` is now formed with the
+//! receiver's own code replica (its code epoch `PRN_start_sample_count + aux1` and its
+//! `code_freq_chips`) and the true carrier, which is exactly what `P` correlates except for the
+//! carrier error; on the calibration recording `|P|/|X|` is then 1.0000 (0.9996 with the true
+//! code) and the carrier error 0.174°. Nothing else changes; every recording is re-run.
+//!
 //! Engine quantities: `pll_thermal_jitter_rad`, `dll_thermal_jitter_chips` (with `T`, `d`, `B`
 //! above), `LoopConfig::thresholds` (drop and re-lock, static user), `pll_dynamic_stress_deg`,
 //! `dll_ramp_lag_chips`, `log10_mean_time_to_cycle_slip_s`.
