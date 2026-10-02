@@ -67,6 +67,34 @@
 //! information matrix of the stated campaign at the stated `rel_tol`, not of the engine's
 //! arithmetic: a geometric fact about the illustrative schedule. It does not validate the
 //! choice of `rel_tol`, which is a design choice with no external truth.
+//!
+//! ## Result (recorded 2026-10-02, first run, not tuned)
+//!
+//! Pre-registration commit `b84ce19b` (pushed 2026-10-02 16:12 UTC) precedes the fixture.
+//! Oracle self-agreement 9.2e-42 or better. **The pre-registered criterion passes, but it does not
+//! answer the question for the Helmert flips.**
+//! * Station block: all 40 days decided; all 40 match the engine. On 9 days (2026-03-15 and
+//!   2026-04-04 to 2026-04-11) the exact station block is singular: a station has no
+//!   observation, so those flips are geometric outright.
+//! * Helmert matrix, on the 31 days with a full-rank station block: 11 decided (all full rank,
+//!   all matching the engine); **20 undecided**, and the undecided ones are exactly the 20 days
+//!   on which the engine reports defect 1. The pre-registered error bound is too wide (the same
+//!   width seen in the companion test) to certify a decision within a factor of a few of the
+//!   threshold, so this test does not establish that those 20 decisions are geometric.
+//!
+//! **Diagnostic, not pre-registered and not counted as validation.** In exact arithmetic the
+//! ratio `lambda_min / lambda_max` is below 1e-9 on every one of the 20 defect-1 days (3.7e-11
+//! to 9.6e-10) and above it on all 11 full-rank days (1.1e-9 to 5.1e-8): the engine's point
+//! decision equals the exact one on all 31 days. The closest days are 2026-03-22 (9.6e-10, 4 %
+//! below the threshold) and 2026-04-16 (1.1e-9, 14 % above), against an engine eigenvalue error
+//! of about 1e-5 relative. So the flips are geometric in exact arithmetic: the threshold 1e-9 sits
+//! inside this campaign's natural range of ratios, and small schedule changes move the minimum
+//! across it. [`record_point_decisions_equal_the_exact_ones`] pins that observation.
+//!
+//! **Mutations (applied, run, reverted).** (1) Default `rel_tol` 1e-9 to 3e-9 in
+//! `lunar_frame_campaign`: red (2026-04-22, decided full rank, engine defect 1). (2) `fim::sym_eig`
+//! stopping its Jacobi sweeps at 1e-6 off-diagonal mass: stays green, because no decided item lies
+//! close enough to the threshold for that error to move it. Recorded as a limit of the check.
 
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, LunarFrameCampaignScenario,
@@ -173,7 +201,6 @@ fn engine_inputs(name: &str, sc: &LunarFrameCampaignScenario) -> J {
 /// The committed inputs are exactly what the engine builds now. With
 /// `KSHANA_WRITE_MPMATH_FIXTURE=1` it writes them instead (the fixture generator).
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn engine_inputs_match_the_committed_fixture() {
     let built: Vec<J> = days()
         .iter()
@@ -231,7 +258,6 @@ fn decided_defect(values: &[f64], bounds: &[f64]) -> Option<usize> {
 /// The strict pre-registered comparison: every decided rank decision on every day equals the
 /// engine's.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn rank_decisions_match_mpmath_extended_precision() {
     let reference = fixture("reference.json");
     let refs = reference["scenarios"].as_array().expect("scenarios");
@@ -302,4 +328,34 @@ fn rank_decisions_match_mpmath_extended_precision() {
          {undecided_helmert} Helmert matrices"
     );
     assert!(failures.is_empty(), "{}", failures.join("\n"));
+}
+
+/// The observation behind the record, not a pre-registered criterion: on the 31 days with a
+/// non-singular station block, the engine's Helmert defect equals the number of exact eigenvalues
+/// at most `REL_TOL` of the largest. It fails if the engine or the inputs change a decision.
+#[test]
+fn record_point_decisions_equal_the_exact_ones() {
+    let reference = fixture("reference.json");
+    let refs = reference["scenarios"].as_array().expect("scenarios");
+    let mut checked = 0;
+    for ((name, sc), r) in days().iter().zip(refs) {
+        if r["station_block_exactly_singular"].as_bool() == Some(true) {
+            continue;
+        }
+        let lam: Vec<f64> = r["helmert_eigen"]
+            .as_array()
+            .expect("helmert_eigen")
+            .iter()
+            .map(|e| f(&e["lambda"]))
+            .collect();
+        let lmax = lam.iter().cloned().fold(0.0_f64, f64::max);
+        let exact = lam.iter().filter(|l| **l <= REL_TOL * lmax).count();
+        let engine = report(sc)["helmert"]["defect"].as_u64().expect("defect") as usize;
+        assert_eq!(
+            engine, exact,
+            "{name}: engine defect {engine}, exact {exact}"
+        );
+        checked += 1;
+    }
+    assert_eq!(checked, 31);
 }
