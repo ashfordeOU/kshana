@@ -152,21 +152,16 @@ fn require_realdata() -> bool {
     std::env::var("KSHANA_REQUIRE_REALDATA").is_ok_and(|v| v == "1")
 }
 
-#[test]
-#[ignore = "pre-registered; not yet run"]
-fn caesium_preset_envelopes_the_measured_5071a() {
-    let Some(x) = cs_phase() else {
-        assert!(!require_realdata(), "5071A record missing");
-        eprintln!("skip: 5071A record not present (scripts/fetch_cs5071a.sh)");
-        return;
-    };
+/// Measured / model ratios for the 5071A record (`None` when the record is absent).
+fn caesium_ratios() -> Option<Vec<(String, f64)>> {
+    let x = cs_phase()?;
     let (_, m) = model("caesium");
-    let mut ok = true;
+    let mut out = Vec::new();
     for tau in [1usize, 10, 100, 1_000, 10_000, 100_000] {
         let meas = overlapping_adev(&x, 1.0, tau);
         let lim = m.fit.adev(tau as f64);
         println!("Cs ADEV tau {tau:>6} s: measured {meas:.3e} model {lim:.3e} ratio {:.3}", meas / lim);
-        ok &= meas <= lim;
+        out.push((format!("Cs ADEV {tau} s"), meas / lim));
     }
     let taus = [100.0, 1_000.0, 10_000.0, 50_000.0];
     let eng = engine_rms_te("caesium", 10.0, &taus);
@@ -174,9 +169,58 @@ fn caesium_preset_envelopes_the_measured_5071a() {
     for ((tau, e), (s, c)) in taus.iter().zip(&eng).zip(measured_te_sq(&x, 1.0, &taus_m)) {
         let meas = (s / c as f64).sqrt();
         println!("Cs holdover tau {tau:>6} s: measured RMS {meas:.3e} s ({c} sync) model {e:.3e} ratio {:.3}", meas / e);
-        ok &= meas <= *e;
+        out.push((format!("Cs holdover {tau} s"), meas / e));
     }
-    assert!(ok, "the 5071A unit lies outside the caesium preset at some tau");
+    Some(out)
+}
+
+fn caesium_or_skip() -> Option<Vec<(String, f64)>> {
+    let r = caesium_ratios();
+    if r.is_none() {
+        assert!(!require_realdata(), "5071A record missing");
+        eprintln!("skip: 5071A record not present (scripts/fetch_cs5071a.sh)");
+    }
+    r
+}
+
+/// Assert every ratio lies in its pinned window (label substring, low, high).
+fn pin(ratios: &[(String, f64)], windows: &[(&str, f64, f64)]) {
+    for (label, lo, hi) in windows {
+        let (_, r) = ratios.iter().find(|(l, _)| l == label).unwrap_or_else(|| panic!("{label}"));
+        assert!((*lo..*hi).contains(r), "{label}: ratio {r:.3} left [{lo}, {hi})");
+    }
+}
+
+#[test]
+#[ignore = "FINDING: the 5071A record exceeds the caesium preset at 1, 10, 100 and 1000 s (ADEV ratios 29.97, 9.18, 3.08, 1.35) and in holdover at every coast (1.15 to 8.74); inside at 1e4 and 1e5 s (0.91, 0.72)"]
+fn caesium_preset_envelopes_the_measured_5071a() {
+    let Some(r) = caesium_or_skip() else { return };
+    assert!(r.iter().all(|(_, v)| *v <= 1.0), "the 5071A unit lies outside the caesium preset at some tau");
+}
+
+/// FINDING pinned (run 2026-10-02, after the pre-registration commit a01c491c). The
+/// record's short-term Allan deviation falls as 1/τ (3.3e-10 at 1 s, white phase noise
+/// of the measurement), 30 times the datasheet figure; the unit is inside the preset
+/// only from about 1e4 s. The holdover time error is above the synthesised one at every
+/// coast, by 8.7x at 100 s and 1.15x at 50 000 s.
+#[test]
+fn caesium_finding_pinned() {
+    let Some(r) = caesium_or_skip() else { return };
+    pin(
+        &r,
+        &[
+            ("Cs ADEV 1 s", 28.0, 32.0),
+            ("Cs ADEV 10 s", 8.6, 9.8),
+            ("Cs ADEV 100 s", 2.9, 3.3),
+            ("Cs ADEV 1000 s", 1.28, 1.42),
+            ("Cs ADEV 10000 s", 0.85, 0.97),
+            ("Cs ADEV 100000 s", 0.66, 0.77),
+            ("Cs holdover 100 s", 8.2, 9.3),
+            ("Cs holdover 1000 s", 2.4, 2.7),
+            ("Cs holdover 10000 s", 1.16, 1.30),
+            ("Cs holdover 50000 s", 1.09, 1.22),
+        ],
+    );
 }
 
 /// One THU2 day: contiguous cleaned phase segments (s), 30 s spacing.
@@ -229,12 +273,11 @@ fn thu2_days() -> Vec<(String, Vec<Vec<f64>>)> {
         .collect()
 }
 
-#[test]
-#[ignore = "pre-registered; not yet run"]
-fn rubidium_preset_envelopes_thu2_8040c() {
+/// Measured / model ratios for the THU2 8040C.
+fn rubidium_ratios() -> Vec<(String, f64)> {
     let days = thu2_days();
     let (_, m) = model("rubidium");
-    let mut ok = true;
+    let mut out = Vec::new();
     for k in [1usize, 4, 10, 33, 100, 333] {
         let (mut num, mut den) = (0.0, 0.0);
         for (_, segs) in &days {
@@ -249,7 +292,7 @@ fn rubidium_preset_envelopes_thu2_8040c() {
         let meas = (num / den).sqrt();
         let lim = m.fit.adev(30.0 * k as f64);
         println!("Rb ADEV tau {:>5} s: pooled measured {meas:.3e} model {lim:.3e} ratio {:.3}", 30 * k, meas / lim);
-        ok &= meas <= lim;
+        out.push((format!("Rb ADEV {} s", 30 * k), meas / lim));
     }
     let taus = [300.0, 990.0, 3_000.0];
     let eng = engine_rms_te("rubidium", 30.0, &taus);
@@ -266,18 +309,45 @@ fn rubidium_preset_envelopes_thu2_8040c() {
     for ((tau, e), (s, c)) in taus.iter().zip(&eng).zip(acc) {
         let meas = (s / c as f64).sqrt();
         println!("Rb holdover tau {tau:>5} s: measured RMS {meas:.3e} s ({c} sync) model {e:.3e} ratio {:.3}", meas / e);
-        ok &= meas <= *e;
+        out.push((format!("Rb holdover {tau} s"), meas / e));
     }
     println!("THU2 days used: {}", days.len());
-    assert!(ok, "the THU2 8040C lies outside the rubidium preset at some tau");
+    out
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
-fn csac_preset_envelopes_sa45s_production_units() {
+#[ignore = "FINDING: the THU2 8040C Allan deviation is inside the rubidium preset at every tau (0.35 to 0.87) but its holdover time error exceeds the synthesised one at 300, 990 and 3000 s (1.07, 1.27, 1.60)"]
+fn rubidium_preset_envelopes_thu2_8040c() {
+    let r = rubidium_ratios();
+    assert!(r.iter().all(|(_, v)| *v <= 1.0), "the THU2 8040C lies outside the rubidium preset at some tau");
+}
+
+/// FINDING pinned (run 2026-10-02, after a01c491c): Allan deviation inside the preset
+/// (pooled over 19 days), holdover time error outside it, growing with the coast.
+#[test]
+fn rubidium_finding_pinned() {
+    let r = rubidium_ratios();
+    pin(
+        &r,
+        &[
+            ("Rb ADEV 30 s", 0.33, 0.38),
+            ("Rb ADEV 120 s", 0.52, 0.59),
+            ("Rb ADEV 300 s", 0.43, 0.48),
+            ("Rb ADEV 990 s", 0.41, 0.46),
+            ("Rb ADEV 3000 s", 0.54, 0.61),
+            ("Rb ADEV 9990 s", 0.82, 0.92),
+            ("Rb holdover 300 s", 1.02, 1.13),
+            ("Rb holdover 990 s", 1.20, 1.34),
+            ("Rb holdover 3000 s", 1.52, 1.69),
+        ],
+    );
+}
+
+/// Measured / model ratios for the SA.45s production figures.
+fn csac_ratios() -> Vec<(String, f64)> {
     let text = std::fs::read_to_string(format!("{FIXTURES}/sa45s_lutwak2011.csv")).expect("CSAC fixture");
     let (_, m) = model("csac");
-    let mut ok = true;
+    let mut out = Vec::new();
     // Columns: source, tau_s, adev.
     for l in text.lines().filter(|l| !l.starts_with('#') && !l.starts_with("source")) {
         let mut it = l.split(',');
@@ -286,9 +356,32 @@ fn csac_preset_envelopes_sa45s_production_units() {
         let meas: f64 = it.next().unwrap().parse().unwrap();
         let lim = m.fit.adev(tau);
         println!("CSAC {src} tau {tau:>8.1} s: measured {meas:.3e} model {lim:.3e} ratio {:.3}", meas / lim);
-        ok &= meas <= lim;
+        out.push((format!("{src} {tau} s"), meas / lim));
     }
-    assert!(ok, "an SA.45s production figure lies outside the CSAC preset");
+    out
+}
+
+#[test]
+#[ignore = "FINDING: the worst delivered SA.45s in Lutwak 2011 Fig. 8a (highest occupied bin ends at 4.0e-10 at 1 s; the bar starts near 3.4e-10) is 1.26x the CSAC preset; 10 s worst unit 0.995x, typical unit 0.09x to 0.27x"]
+fn csac_preset_envelopes_sa45s_production_units() {
+    let r = csac_ratios();
+    assert!(r.iter().all(|(_, v)| *v <= 1.0), "an SA.45s production figure lies outside the CSAC preset");
+}
+
+/// FINDING pinned (run 2026-10-02, after a01c491c).
+#[test]
+fn csac_finding_pinned() {
+    let r = csac_ratios();
+    pin(
+        &r,
+        &[
+            ("fig8a_worst_unit 1 s", 1.2, 1.32),
+            ("fig8b_worst_unit 10 s", 0.97, 1.0),
+            ("fig4_typical_unit 2 s", 0.24, 0.28),
+            ("fig4_typical_unit 8192 s", 0.08, 0.11),
+            ("fig4_typical_unit 65536 s", 0.15, 0.19),
+        ],
+    );
 }
 
 #[test]
