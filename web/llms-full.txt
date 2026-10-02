@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.29.3, build 3bdb8cb · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 3bdb8cb · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build d13c2a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-75scenario kinds 132bundled scenario files 232capabilities in the verification matrix 116/232validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+75scenario kinds 132bundled scenario files 235capabilities in the verification matrix 117/235validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 L-band console · the spectrum kind
 
@@ -142,7 +142,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.29.3, build 3bdb8cb · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -198,7 +198,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.29.3, build 3bdb8cb · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -364,9 +364,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.29.3, build 3bdb8cb · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build d13c2a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 3bdb8cb · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build d13c2a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -378,7 +378,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 116 of 232 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 117 of 235 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 75 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -947,7 +947,7 @@ Orbit view
 
 engine v0.29.3t = 0 sReal engine run, replayed
 
-Engine v0.29.3, build 3bdb8cb · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.29.3, build d13c2a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2151,7 +2151,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-232 capabilities, each graded. 116 validated against independent external oracles. 112 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+235 capabilities, each graded. 117 validated against independent external oracles. 114 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.29.3 From the repository
 
@@ -2159,7 +2159,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 232 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 235 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2185,7 +2185,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.29.3, build 3bdb8cb · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.29.3, build d13c2a1 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2201,7 +2201,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.29.3, build 3bdb8cb · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.29.3, build d13c2a1 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2217,7 +2217,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.29.3, build 3bdb8cb · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.29.3, build d13c2a1 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2231,7 +2231,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 3bdb8cb · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build d13c2a1 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2245,7 +2245,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.29.3, build 3bdb8cb · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.29.3, build d13c2a1 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2261,7 +2261,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.29.3, build 3bdb8cb · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.29.3, build d13c2a1 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -2271,7 +2271,7 @@ Validated means an independent external source agrees: published reference vecto
 
 ### Capabilities graded
 
-116of 232 validated
+117of 235 validated
 
 Hover a cell
 
@@ -2295,13 +2295,27 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 232 rows, one line each.
+## All 235 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
 By domain: bar length is rows, colour is status. Pick one to filter.
 
 ValidatedModelledPartner-owned
+
+ValidatedPower-law noise identification by lag-1 autocorrelationallan (lag1_noise_id, lag1_acf)
+
+Capability
+
+allan::lag1_noise_id: the Riley and Greenhall (2004) lag-1 autocorrelation noise identifier (decimated phase with its quadratic removed, or group-averaged frequency with its line removed; repeated first differences until delta = r1/(1+r1) < 0.25 or d = dmax), returning the integer and unrounded power-law exponent alpha (+2 white PM to -2 random-walk FM) at any averaging factor; it sets the noise-type degrees of freedom of the measured clock library's device cards
+
+Oracle
+
+allantools 2024.6 autocorr_noise_id (A. Wallin and contributors, LGPL-3.0-or-later, run as a separate program by the fixture generator): an independent implementation of the published Riley-Greenhall algorithm, a uniquely defined quantity under the stated conventions. Validates the identifier, not the noise content of any real clock
+
+Tests
+
+tests/clock_library_lag1_noise_id_allantools.rs (140 cases: ten Kasdin power-law records, b = 0 to -4, as phase and frequency data, af = 1 to 64; alpha_int and d identical, worst |d alpha| 9.6e-13 and |d rho| 4.8e-13…
 
 ValidatedFrequency stability characterisationallan
 
@@ -2877,6 +2891,34 @@ Tests
 
 holdover::tests (vs multi-step Kalman covariance recursion; white-FM exact; round-trip); coast-variance kernel externally validated in tests/gnss_denied_clock_holdover_reference.rs (vs scipy Van-Loan/brentq)
 
+ModelledMeasured clock device cards (held-out prediction)clock_library (card, condition, series), realdata::clk, allan (lag1_noise_id)
+
+Capability
+
+clock_library: a device card (white phase, white, flicker and random-walk FM plus a linear frequency drift) fitted to one third of a named measured clock record after a logged conditioning pass (gaps, phase outliers, phase steps, bursts removed; frequency steps logged), weighted by the lag-1-identified noise-type degrees of freedom, and its predicted Allan deviation scored on the held-out two thirds; readers for RINEX and IGS clock files, BIPM per-laboratory files and Circular T Section 1; conversion of a card to the slot-timing noise model, the extended Kalman clock model and the spoofing monitor's noise levels
+
+Oracle
+
+Measured records, held out: IGS final combined 30 s clocks of the 11 GPS Block IIF satellites over 2026-03-01 to 14 (a window no test had opened; IGS, open with attribution) and the JammerTest 2024 u-blox ZED-F9P receiver in its non-scored stationary sessions (GPL-3.0-or-later). D9 external comparison (pre-registered 2ec76864, every card's predicted / measured Allan deviation within [1/1.5, 1.5] at its fitted averaging times), a finding (stays MODELLED): 10 of 11 GPS IIF cards are within the bar; G27 is optimistic at the two-hour scale (0.662 at 7680 s, worst factor 1.510), the periodic hour-scale error a power-law card does not carry. The receiver TCXO card is blocked: outside the logged transmissions the dataset's other sessions leave 167 epochs against the 3600 required. Reported, not blind (records opened by earlier rows): the 5071A caesium card is within the bar (worst 1.070 up to 4096 s), the OCXO card is conservative and outside it (2.348 at 128 s; its noise floor changes during the record), and the Norcia strontium card fitted on the three shortest published points is within it at the two scored points (1.291, 1.405). Galileo passive hydrogen masers (no login-free source of final Galileo clocks reachable) and the Deep Space Atomic Clock (one open in-space value) are blocked. D9 round 2, the ZED-F9P receiver TCXO as a model class on 14 days of 12 static Wroclaw stations (Zenodo 6488497, CC BY 4.0; pre-registered fb475550), a finding: with the registered pipeline 11 of 12 stations were not evaluable (RAIM rejected most ionosphere-free epochs) and BX14 failed; a disclosed re-run with a corrected pipeline (pre-registered c9cc0d49) passes 1 of 11 blind stations (BX12, 1.412; BX07 1.532 and BX13 1.542 just outside), because single-point receiver clocks from intermittent 30 s files are not a clean oscillator record
+
+Tests
+
+tests/clock_library_device_cards_oracle.rs (gps_iif_cards_reproduce_the_recorded_finding; receiver_training_is_blocked_by_the_epoch_minimum; non_blind_cards_are_reported; pre-registered 2ec76864)…
+
+ModelledMeasured GPS Block IIF clock cards with per-revolution terms (held-out prediction)clock_library (card)
+
+Capability
+
+clock_library::card::DeviceCard::fit_phase_periodic: a device card that carries the once- to four-per-revolution phase terms (period T/k, T = 43 082.05 s), fitted jointly with the quadratic by least squares on one third of a measured satellite clock record, with each term's closed-form Allan contribution 4 A^2 sin^4(pi tau / P) / tau^2 in the predicted Allan deviation
+
+Oracle
+
+Measured records, held out: IGS final combined 30 s clocks of the 11 GPS Block IIF satellites over 2026-04-01 to 14 (a window no test had opened; IGS, open with attribution). D9 external comparison (pre-registered fb475550, predicted / measured Allan deviation within [1/1.5, 1.5] at every fitted averaging time on every satellite), a finding (stays MODELLED): 9 of 11 cards are within the bar; G03 (1.947) and G25 (1.581) are optimistic between 60 s and 2000 s because their held-out records are noisier than their fit thirds (G25's held-out part carries 16 gaps and 29 phase outliers), a change of the clock rather than a missing periodic term. Dropping the periodic terms from the prediction fails all 11 cards (1.77 to 4.96), so the terms carry the prediction
+
+Tests
+
+tests/clock_library_periodic_cards_oracle.rs (periodic_cards_reproduce_the_recorded_finding; pre-registered fb475550); clock_library::card::tests (a_periodic_card_carries_the_sinusoid_a_power_law_card_cannot)
+
 ModelledOnboard clock state estimationclock_state
 
 Capability
@@ -2885,7 +2927,7 @@ Capability
 
 Oracle
 
-filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Block IIF satellites (2025-08-17 to 30), with Q fitted to the first-half ADEV and the filter scored on the held-out second half, the filter is consistent one step ahead (0.906 to 0.971 of epochs inside its 95 % band, bar 90 %) but over-confident at one hour on 9 of 11 clocks (0.486 to 0.829) and its innovation sums fall outside [2.4, 3.6] on 5. The fitted white-phase noise is zero on every satellite, and the hour-scale error (periodic terms, flicker FM) is not in the 3-state model. 0.30 round 2, an extended filter (flicker FM and once- and twice-per-revolution states) on fresh held-out IGS clocks of 2025-09-01 to 14 (pre-registered 4b1a841e), a finding (stays MODELLED): the one-step and one-hour consistency criteria hold on all 11 satellites (0.948 to 0.988 and 0.907 to 0.996), but the innovation-sum criterion fails on G24 (0.964) and G30 (1.929) against [2.4, 3.6]
+filterpy 1.4.5 KalmanFilter (R. Labbe, MIT), with F via scipy.linalg.expm and Q via the Van-Loan 1978 block-matrix — an independent reference implementation reproducing kshana's full filter trajectory. Cross-implementation consistency: the clock physics / Allan calibration are not externally validated, so this stays MODELLED. 0.30 external comparison, a finding (stays MODELLED): on IGS final 30 s clocks of 11 GPS Block IIF satellites (2025-08-17 to 30), with Q fitted to the first-half ADEV and the filter scored on the held-out second half, the filter is consistent one step ahead (0.906 to 0.971 of epochs inside its 95 % band, bar 90 %) but over-confident at one hour on 9 of 11 clocks (0.486 to 0.829) and its innovation sums fall outside [2.4, 3.6] on 5. The fitted white-phase noise is zero on every satellite, and the hour-scale error (periodic terms, flicker FM) is not in the 3-state model. 0.30 round 2, an extended filter (flicker FM and once- and twice-per-revolution states) on fresh held-out IGS clocks of 2025-09-01 to 14 (pre-registered 4b1a841e), a finding (stays MODELLED): the one-step and one-hour consistency criteria hold on all 11 satellites (0.948 to 0.988 and 0.907 to 0.996), but the innovation-sum criterion fails on G24 (0.964) and G30 (1.929) against [2.4, 3.6]. D9 round 3, the round-2 extended filter, tuning and criteria unchanged after the frozen clock_library conditioning detector, on fresh IGS clocks of 2026-04-01 to 14 (pre-registered fb475550), a finding (stays MODELLED): (a) one-step 0.941 to 0.968 and (c) triple-NIS mean 2.641 to 3.549 hold on all 11 satellites; (b) one hour fails on G09 (0.894) and G26 (0.876) against 0.90
 
 Tests
 
@@ -3011,7 +3053,7 @@ Clock-aided χ², RAIM, AGC, SQM fused per-epoch security FoM
 
 Oracle
 
-TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the published slot start), and three pre-onset windows carried false alarms from the clock monitor (81, 64 and 173 epochs). The first observable effect was a loss of dual-frequency GPS tracking, not a RAIM inconsistency. The published onsets are minute-resolution schedule slot starts; that they precede the RF capture is an interpretation, not a measurement. 0.30 round 2, against the organisers official JammerTest 2024 log (second resolution; pre-registered 6a66994b with a Hadamard-calibrated three-state clock monitor without latching), a finding (stays MODELLED): the monitor alarms within 10 s at 4 of 10 logged onsets; at the other six it is 18 to 211 s late or raises pre-onset clock false alarms (1 at 2.1.4, 85 at 2.3.15)
+TEXBAT scenario parameters (Humphreys 2012) — characterisation, not pinned vectors. 0.30 external comparison, a finding (stays MODELLED): on JammerTest 2024 (Bleik; GPL-3.0 data) the observable-level monitors (clock-aided chi-square, RAIM, solve failure) raised no alarm within 10 s of any of the 8 evaluable published spoofing onsets (where the pre-onset window was clean, the first alarm came 10.2 to 39 s after the published slot start), and three pre-onset windows carried false alarms from the clock monitor (81, 64 and 173 epochs). The first observable effect was a loss of dual-frequency GPS tracking, not a RAIM inconsistency. The published onsets are minute-resolution schedule slot starts; that they precede the RF capture is an interpretation, not a measurement. 0.30 round 2, against the organisers official JammerTest 2024 log (second resolution; pre-registered 6a66994b with a Hadamard-calibrated three-state clock monitor without latching), a finding (stays MODELLED): the monitor alarms within 10 s at 4 of 10 logged onsets; at the other six it is 18 to 211 s late or raises pre-onset clock false alarms (1 at 2.1.4, 85 at 2.3.15). D9 round 3 (a receiver card from the JammerTest unit's other sessions, pre-registered 2ec76864) blocked: 167 training epochs against 3600. D9 rounds 4 and 4b (noise levels from a u-blox ZED-F9P model-class card, Wroclaw 2021, pre-registered fb475550; 4b a disclosed re-run with a corrected extraction, c9cc0d49), a finding (stays MODELLED): zero pre-onset false alarms at all 10 logged onsets and 6 of 10 within 10 s; 2.1.1, 2.3.5, 2.3.10 and 2.6.1 stay late (+211, +23, +18, +51 s), unchanged by the clock noise level
 
 Tests
 
@@ -4403,7 +4445,7 @@ Per-source bias overbound b = (U/k_cov)·Phi^-1(1-tail/2) + ageing, inflating a 
 
 Oracle
 
-Independent numpy + stdlib-statistics reproduction of the overbound closed form (InternalConsistency). The BIPM Circular-T [UTC-UTC(USNO)] series is a CITED input only — it is the SAME series already Validated for the R4 holdover-coverage row and is NOT re-validated here; reproducing its values proves nothing about R2. Deep integrity tail is Modelled. 0.30 external comparison, a finding (stays MODELLED): on the BIPM per-laboratory UTC-UTC(k) files (102 laboratories, 105 024 rows with published uncertainties) the overbound b = 2.576 u at the 1e-2 tail is exceeded by 50.8 % of rows (Clopper-Pearson 95 %: 50.4 to 51.1 %) and by more than 1 % at 101 of 102 laboratories. The published u is the uncertainty of the BIPM's determination of UTC-UTC(k), not a bound on the offset, which routinely runs to many times u; the overbound as specified does not bound real UTC(k) traceability bias. 0.30 round 2, an overbound of the realised UTC-UTC(k) offsets trained on 2015-2022 and tested on 2023-2026 BIPM Circular T data (pre-registered ca0921a4, pooled exceedance at most 1e-2), a finding (stays MODELLED): the pooled exceedance is 0.0333 (694 of 20 826 rows over 82 laboratories; 0.0127 without the 430 rows that have no bound by rule)
+Independent numpy + stdlib-statistics reproduction of the overbound closed form (InternalConsistency). The BIPM Circular-T [UTC-UTC(USNO)] series is a CITED input only — it is the SAME series already Validated for the R4 holdover-coverage row and is NOT re-validated here; reproducing its values proves nothing about R2. Deep integrity tail is Modelled. 0.30 external comparison, a finding (stays MODELLED): on the BIPM per-laboratory UTC-UTC(k) files (102 laboratories, 105 024 rows with published uncertainties) the overbound b = 2.576 u at the 1e-2 tail is exceeded by 50.8 % of rows (Clopper-Pearson 95 %: 50.4 to 51.1 %) and by more than 1 % at 101 of 102 laboratories. The published u is the uncertainty of the BIPM's determination of UTC-UTC(k), not a bound on the offset, which routinely runs to many times u; the overbound as specified does not bound real UTC(k) traceability bias. 0.30 round 2, an overbound of the realised UTC-UTC(k) offsets trained on 2015-2022 and tested on 2023-2026 BIPM Circular T data (pre-registered ca0921a4, pooled exceedance at most 1e-2), a finding (stays MODELLED): the pooled exceedance is 0.0333 (694 of 20 826 rows over 82 laboratories; 0.0127 without the 430 rows that have no bound by rule). D9 round 3, a pooled hierarchical ageing bound (utck_bound), pre-registered fb475550 and scored prospectively on Circular T issues from 465: not yet run (awaiting issues)
 
 Tests
 
@@ -5916,7 +5958,7 @@ Terminal · kshana v0.29.3 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.29.3 (build 3bdb8cb):
+A recorded command-line session, engine v0.29.3 (build d13c2a1):
 
 - $ kshana --version: kshana 0.29.3
 
@@ -6454,7 +6496,7 @@ What is included
 
 - All 75 scenario kinds and 132 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 116 of 232 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 117 of 235 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
