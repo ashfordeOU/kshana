@@ -58,7 +58,7 @@
 //! come from [`crate::lunar_vlbi::station_inertial_position`]. Because truth and prediction take
 //! the identical path, the closed loop is exact up to the injected noise.
 
-use crate::batch_ls::{gauss_newton, LsqResult};
+use crate::batch_ls::{gauss_newton, gauss_newton_qr, LsqResult};
 use crate::fusion::ukf::inverse;
 use crate::lunar::mcmf_to_selenographic;
 use crate::lunar_vlbi::{beacon_inertial_position, geometric_delay_s, station_inertial_position};
@@ -655,7 +655,7 @@ pub fn estimate(cfg: &LunarNetworkConfig) -> JointSolution {
     let np = p.x0.len();
     // tol is the step norm in STORED units; 1e-6 stored = ~1 m physical, well below the lunar-
     // distance formal σ, so it declares convergence once the GN step settles into the floor.
-    let result = gauss_newton(model(cfg), &p.z, &p.weights, &p.x0, 100, 1e-6);
+    let result = gauss_newton_qr(model(cfg), &p.z, &p.weights, &p.x0, 100, 1e-6);
     summarize_solution(cfg, &p.x_true, result, p.z.len(), np)
 }
 
@@ -722,7 +722,7 @@ pub fn model(cfg: &LunarNetworkConfig) -> impl Fn(&[f64]) -> Vec<f64> {
 pub fn formal_covariance(cfg: &LunarNetworkConfig) -> Option<Vec<Vec<f64>>> {
     let p = problem(cfg);
     let h = model(cfg);
-    let r = gauss_newton(&h, &p.z, &p.weights, &p.x0, 100, 1e-6)?;
+    let r = gauss_newton_qr(&h, &p.z, &p.weights, &p.x0, 100, 1e-6)?;
     let jac = crate::batch_ls::fd_jacobian(&h, &r.x, p.z.len());
     let n = r.x.len();
     let mut info = vec![vec![0.0; n]; n];
