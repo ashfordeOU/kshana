@@ -168,6 +168,7 @@ pub mod leo_signal;
 pub mod linalg_sr;
 pub mod linkbudget;
 pub mod lunar;
+pub mod lunar_afs;
 pub mod lunar_beacon;
 pub mod lunar_combination;
 pub mod lunar_common_mode;

@@ -267,6 +267,101 @@ pub fn meta_to_json(meta: &Meta) -> Result<String, String> {
     serde_json::to_string_pretty(meta).map_err(|e| format!("cannot serialise SigMF metadata: {e}"))
 }
 
+/// Serialise `meta` with extension fields of one SigMF extension namespace (`ns`), the way
+/// the SigMF specification lets a recording carry fields outside `core:`: the namespace is
+/// declared in `global.core:extensions` (`name`, `version`, `optional: true`), `global` is
+/// merged into the `global` object and `annotations[i]` into the `i`-th annotation. Every key
+/// must start with `ns:`, and none may overwrite a field already written.
+///
+/// This is how the [`crate::lunar_afs`] generator writes its truth labels beside the samples;
+/// [`annotation_extension_fields`] reads them back.
+pub fn meta_to_json_with_extensions(
+    meta: &Meta,
+    ns: &str,
+    version: &str,
+    global: &serde_json::Map<String, serde_json::Value>,
+    annotations: &[serde_json::Map<String, serde_json::Value>],
+) -> Result<String, String> {
+    use serde_json::{json, Value};
+    if ns.is_empty() || ns == "core" || !ns.chars().all(|c| c.is_ascii_alphanumeric() || c == '_') {
+        return Err(format!("invalid SigMF extension namespace {ns:?}"));
+    }
+    if annotations.len() > meta.annotations.len() {
+        return Err(format!(
+            "{} annotation extension maps for {} annotations",
+            annotations.len(),
+            meta.annotations.len()
+        ));
+    }
+    let prefix = format!("{ns}:");
+    let mut v =
+        serde_json::to_value(meta).map_err(|e| format!("cannot serialise SigMF metadata: {e}"))?;
+    let merge = |obj: &mut serde_json::Map<String, Value>, ext: &serde_json::Map<String, Value>| {
+        for (k, val) in ext {
+            if !k.starts_with(&prefix) {
+                return Err(format!("extension key {k:?} is not in namespace {ns:?}"));
+            }
+            if obj.contains_key(k) {
+                return Err(format!("extension key {k:?} is already present"));
+            }
+            obj.insert(k.clone(), val.clone());
+        }
+        Ok(())
+    };
+    let g = v["global"]
+        .as_object_mut()
+        .ok_or("global is not an object")?;
+    let decl = json!({"name": ns, "version": version, "optional": true});
+    match g.get_mut("core:extensions") {
+        Some(Value::Array(a)) => a.push(decl),
+        _ => {
+            g.insert("core:extensions".into(), json!([decl]));
+        }
+    }
+    merge(g, global)?;
+    let anns = v["annotations"]
+        .as_array_mut()
+        .ok_or("annotations is not an array")?;
+    for (a, ext) in anns.iter_mut().zip(annotations) {
+        merge(a.as_object_mut().ok_or("annotation is not an object")?, ext)?;
+    }
+    serde_json::to_string_pretty(&v).map_err(|e| format!("cannot serialise SigMF metadata: {e}"))
+}
+
+/// The `ns:` extension fields of the `global` object and of every annotation of a SigMF
+/// metadata document, in order (an annotation without such fields gives an empty map).
+#[allow(clippy::type_complexity)]
+pub fn annotation_extension_fields(
+    json: &str,
+    ns: &str,
+) -> Result<
+    (
+        serde_json::Map<String, serde_json::Value>,
+        Vec<serde_json::Map<String, serde_json::Value>>,
+    ),
+    String,
+> {
+    let v: serde_json::Value =
+        serde_json::from_str(json).map_err(|e| format!("invalid SigMF metadata JSON: {e}"))?;
+    let prefix = format!("{ns}:");
+    let pick = |o: &serde_json::Value| -> serde_json::Map<String, serde_json::Value> {
+        o.as_object()
+            .map(|m| {
+                m.iter()
+                    .filter(|(k, _)| k.starts_with(&prefix))
+                    .map(|(k, v)| (k.clone(), v.clone()))
+                    .collect()
+            })
+            .unwrap_or_default()
+    };
+    let g = pick(&v["global"]);
+    let anns = v["annotations"]
+        .as_array()
+        .map(|a| a.iter().map(pick).collect())
+        .unwrap_or_default();
+    Ok((g, anns))
+}
+
 /// Encode complex samples as a `.sigmf-data` byte buffer.
 ///
 /// For the integer types `full_scale` is the sample magnitude mapped to the largest
@@ -389,6 +484,35 @@ pub fn write(rec: &Recording, full_scale: f64) -> Result<(String, Vec<u8>, usize
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// Extension fields are declared, merged under their namespace, refused outside it, and
+    /// read back; the core fields still parse.
+    #[test]
+    fn extension_fields_round_trip_and_stay_namespaced() {
+        let mut m = Meta::new(DataType::Ci8, 12e6, 2.492028e9, "x");
+        m.annotations.push(Annotation {
+            sample_start: 5,
+            sample_count: Some(10),
+            freq_lower_edge: None,
+            freq_upper_edge: None,
+            label: Some("a".into()),
+            comment: None,
+        });
+        let mut g = serde_json::Map::new();
+        g.insert("ext1:standard".into(), serde_json::json!("LSIS V1.0"));
+        let mut a = serde_json::Map::new();
+        a.insert("ext1:toi".into(), serde_json::json!(17));
+        let js = meta_to_json_with_extensions(&m, "ext1", "0.1.0", &g, &[a.clone()]).unwrap();
+        assert_eq!(parse_meta(&js).unwrap(), m);
+        let (g2, anns) = annotation_extension_fields(&js, "ext1").unwrap();
+        assert_eq!(g2, g);
+        assert_eq!(anns, vec![a]);
+        assert!(js.contains("\"core:extensions\""));
+        let mut bad = serde_json::Map::new();
+        bad.insert("core:label".into(), serde_json::json!("x"));
+        assert!(meta_to_json_with_extensions(&m, "ext1", "0.1.0", &bad, &[]).is_err());
+        assert!(meta_to_json_with_extensions(&m, "core", "0.1.0", &g, &[]).is_err());
+    }
 
     fn ramp(n: usize) -> Vec<Cf64> {
         (0..n)
