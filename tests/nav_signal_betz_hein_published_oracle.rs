@@ -149,7 +149,7 @@ impl Check {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-01 first run): 45 of 45 spectral cells agree inside half a unit; the first side lobe at 24 MHz does not: BOC(5,2) 100.32 ns / 0.6155 vs 101 / 0.57, BOC(8,4) 63.30 ns vs 64 (ratio 0.5426 agrees), BOC(10,5) 52.56 ns / 0.5680 vs 54 / 0.48; an independent NumPy evaluation (xval/navsignal-betz-convention) gives the same Kshana values; pinned by finding_betz_side_lobes_and_multipath"]
 fn betz_table_1_spectral_measures() {
     let peak = [0.0, 0.0, 4.9, 7.6, 9.5];
     let max_psd = [-60.1, -69.8, -66.2, -68.9, -69.9];
@@ -256,7 +256,6 @@ fn betz_table_1_spectral_measures() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn betz_text_correlation_values_over_1_ghz() {
     let mut ck = Check::new();
     // (modulation, printed peak count, printed first-peak value, printed zero crossing ns)
@@ -322,7 +321,7 @@ fn equivalent_cn0_offset_db(reference: (&Modulation, f64), boc_m: (&Modulation, 
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-01 first run): BOC(5,2) 11.44 dB vs 11 and BOC(10,5) 7.42 dB vs approximately 7 agree inside 0.5 dB; BOC(8,4) gives 6.22 dB vs approximately 7 (-0.78 dB); pinned by finding_betz_side_lobes_and_multipath"]
 fn betz_figure_17_equal_accuracy_c_n0_offsets() {
     let mut ck = Check::new();
     let tc1 = 1.0 / (1.023 * MHZ);
@@ -363,7 +362,7 @@ fn worst_case_bias_m(m: &Modulation, band_hz: f64, spacing_s: f64) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-01 first run): every worst-case bias is 11 to 15 % below the printed value (24 MHz: BPSK(10) 4.79 vs 5.4 m, BOC(10,5) 2.59 vs 2.9, BPSK(1) 4.28 vs 4.9, BOC(5,2) 4.95 vs 5.6, BOC(8,4) 3.11 vs 3.5; 12 MHz: BPSK(1) 7.83 vs 8.8, BOC(5,2) 5.09 vs 6.0); reproduced by an independent NumPy evaluation of the stated convention; pinned by finding_betz_side_lobes_and_multipath"]
 fn betz_worst_case_multipath_bias() {
     let mut ck = Check::new();
     let tc1 = 1.0 / (1.023 * MHZ);
@@ -407,7 +406,6 @@ fn betz_worst_case_multipath_bias() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn hein_mboc_interference_improvements() {
     let mut ck = Check::new();
     let mboc = Modulation::Mboc { p: 1.0 / 11.0 };
@@ -427,4 +425,41 @@ fn hein_mboc_interference_improvements() {
         0.05,
     );
     ck.finish();
+}
+
+/// FINDING about the comparison, pinned (2026-10-01): under the convention this file fixed from
+/// the paper's text, Kshana (and an independent NumPy evaluation,
+/// `xval/navsignal-betz-convention/check_betz_convention.py`) give the 24 MHz first side lobes,
+/// the BOC(8,4) Fig. 17 offset and every Figs. 18-21 worst-case multipath bias below are; the
+/// paper prints different values (see the ignore reasons above). No band choice or spacing
+/// convention found reproduces all of them, so the gap is an unstated detail of the paper's
+/// computation (filter shape or discriminator normalisation), recorded as a finding.
+#[test]
+fn finding_betz_side_lobes_and_multipath() {
+    for (m, delay_ns, ratio) in [
+        (boc(5.0, 2.0), 100.32, 0.6155),
+        (boc(8.0, 4.0), 63.30, 0.5426),
+        (boc(10.0, 5.0), 52.56, 0.5680),
+    ] {
+        let tc = 1.0 / m.chip_rate_hz();
+        let (tau, r2) =
+            first_acf_side_lobe(&modulation_acf(&m, RX, 2.5 * tc, 0.05e-9), tc).expect("side lobe");
+        assert!((tau * 1e9 - delay_ns).abs() < 0.01 && (r2 - ratio).abs() < 1e-4);
+    }
+    let tc1 = 1.0 / (1.023 * MHZ);
+    let off = equivalent_cn0_offset_db((&bpsk(10.0), 0.05 * tc1), (&boc(8.0, 4.0), 50e-9));
+    assert!((off - 6.216).abs() < 0.01, "BOC(8,4) offset {off}");
+    for (m, band, spacing, kshana, printed) in [
+        (bpsk(10.0), RX, 0.05 * tc1, 4.790, 5.4),
+        (boc(10.0, 5.0), RX, 40e-9, 2.592, 2.9),
+        (bpsk(1.0), RX, 0.05 * tc1, 4.284, 4.9),
+        (boc(5.0, 2.0), RX, 80e-9, 4.946, 5.6),
+        (boc(8.0, 4.0), RX, 50e-9, 3.110, 3.5),
+        (bpsk(1.0), 12.0 * MHZ, 0.05 * tc1, 7.827, 8.8),
+        (boc(5.0, 2.0), 12.0 * MHZ, 80e-9, 5.089, 6.0),
+    ] {
+        let b = worst_case_bias_m(&m, band, spacing);
+        assert!((b - kshana).abs() < 0.005, "bias {b} m");
+        assert!(b < 0.9 * printed);
+    }
 }
