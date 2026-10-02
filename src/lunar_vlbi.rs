@@ -40,9 +40,20 @@
 //! verified by central finite difference (relative error < 1e-5); the station partials are
 //! `dtau/dr1 = −(r1 − r_B)/(|r1 − r_B|·c)` and `dtau/dr2 = (r2 − r_B)/(|r2 − r_B|·c)`.
 //!
-//! **Honesty / caveats.** This is a `Modelled` capability, **NOT** validated against real VLBI
-//! data. The geometry is honest (a near-field two-range difference, Shapiro reused from
-//! `radiometric`), but several deliberate simplifications are carried openly:
+//! **Kernel path.** [`KernelGeometry`] computes the same delay from the NAIF kernels the
+//! engine reads itself ([`crate::naif_kernel`]): JPL DE440 Earth and Moon, the DE440 lunar
+//! principal axes and the ITRF93 Earth orientation (with UT1 and polar motion), each light time
+//! converged in the barycentric frame (station at reception, beacon at emission, the Earth's
+//! motion during the flight), and beacon partials with the light-time factor `1/(c − û·V)`.
+//! Against ANISE light times through the same kernels it agrees to 0.12 ps on 75 delays and
+//! 2.9e-7 relative on the partials (`tests/lunar_vlbi_anise_oracle.rs`). It is Newtonian: no
+//! Shapiro, media or barycentric-to-geocentric scale term, and the reception epoch is in the
+//! SPICE ephemeris-time convention ([`crate::naif_kernel::naif_et_from_utc`]).
+//!
+//! **Honesty / caveats (the analytic path below).** The analytic path is **NOT** validated: the
+//! geometry is honest (a near-field two-range difference, Shapiro reused from `radiometric`),
+//! but several deliberate simplifications are carried openly, and against the same ANISE
+//! oracle it is 24 µs off (mostly the analytic Moon centre):
 //!
 //! * **Polar motion is dropped** (`xp = yp = 0` in [`station_inertial_position`]): the GCRS↔ITRS
 //!   matrix omits the sub-arcsecond pole wander, so station inertial positions carry a

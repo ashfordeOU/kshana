@@ -67,6 +67,20 @@
 //!   NAIF time conversion differs from the full Fairhead-Bretagnon TDB by about 25 us on
 //!   2024-01-01 (measured with ERFA `dtdb` while choosing the convention, before any delay was
 //!   compared); the record states it.
+//!
+//! ## Round 2 result (2026-10-02, first run of the kernel path; nothing tuned): AGREES
+//!
+//! * Delay: 75 of 75 within 1 ps; largest gap 1.20e-13 s, RMS 4.98e-14 s.
+//! * Beacon partials: 75 of 75 within 1e-6; largest relative error 2.86e-7.
+//! * Mutations (each turned the strict test red, then reverted by editing the file back): the
+//!   light-time factor removed from the partials (den = c): partials 0 of 75, worst 1.02e-4;
+//!   the Earth's motion during the flight dropped (no `E(t) - E(t - LT)` step): delays 0 of 75,
+//!   worst 3.48e-6 s.
+//! * Scope, stated with the result: both sides evaluate the Newtonian light-time delay at a
+//!   reception epoch in the SPICE ephemeris-time convention. Moving the epoch by the 25.3 us
+//!   difference to the full TDB series moves the delays by up to 5.8e-11 s (measured after the
+//!   result, with the engine), and neither side carries the Shapiro, media or
+//!   barycentric-to-geocentric scale terms.
 
 use kshana::frames::Geodetic;
 use kshana::lunar::Selenographic;
@@ -212,7 +226,6 @@ fn kernel_geometry() -> KernelGeometry {
 /// The pre-registered comparison on the kernel path: every delay within 1 ps and every beacon
 /// partial within 1e-6 relative of the ANISE oracle.
 #[test]
-#[ignore = "pre-registered (round 2 amendment); not yet run"]
 fn kernel_delay_matches_the_anise_light_time_difference() {
     let geom = kernel_geometry();
     let rows = rows();
