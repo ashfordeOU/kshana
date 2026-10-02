@@ -62,15 +62,84 @@
 //! * Outside the claim, stated now: the analytic path (`station_inertial_position`,
 //!   `beacon_inertial_position`, `geometric_delay_s`), whose ANISE finding stays pinned; the
 //!   Shapiro, media and barycentric-to-geocentric scale terms, which SPICE does not model.
+//!
+//! ## Result of that run (2026-10-02, first run, nothing tuned): FAILS, a finding about the oracle
+//!
+//! * Delay: 17 of 75 within 1 ps; largest gap 1.03e-11 s. Beacon partials: 74 of 75 within
+//!   1e-6; largest 1.12e-6. Station partials: 150 of 150; largest 4.85e-9.
+//! * Diagnosis (after the result, SPICE-side only, disclosed): SPICE carries ET as one double.
+//!   Near 2024 (ET about 7.6e8 s) its spacing is 1.19e-7 s, so the emission epoch `et - lt`
+//!   SPICE evaluates the beacon at is rounded by up to 6e-8 s; at the beacon's barycentric
+//!   speed (about 30 km/s) that moves each light time by up to about 6e-12 s. The per-station
+//!   light-time differences (Kshana minus SPICE) correlate with the error this rounding
+//!   predicts at 0.99999, with a residual RMS of 1.1e-14 s against an RMS of 2.9e-12 s. A
+//!   check that SPICE's `CN` is converged (re-iterating its geometry ten more times) moved no
+//!   light time by more than 2.2e-16 s. The pre-registered precision argument above counted
+//!   only position rounding and missed this term: at 2024 epochs the oracle cannot resolve
+//!   1 ps, and the five-point partial inherits the same noise divided by the step.
+//!   The strict test below stays ignored with these numbers; `spice_2024_epochs_finding_is_unchanged`
+//!   pins them.
+//!
+//! ## Amendment 3 (pre-registration, written after that result and before the fixture below
+//! was generated or any value at these epochs seen)
+//!
+//! * The same oracle, generator, stations, beacon, stencil, step and tolerances (**1 ps**,
+//!   **1e-6**, all 300 comparisons), at reception epochs where SPICE's double ET resolves the
+//!   emission epoch: 25 hourly epochs from 2000-01-01T06:00 to 2000-01-02T06:00 UTC
+//!   (|ET| < 65 000 s, spacing at most 1.5e-11 s, so the rounding moves a light time by less
+//!   than 1e-15 s). The fixture is `spice_light_times_j2000.csv` from the same generator with
+//!   `--epochs j2000`.
+//! * Kshana reads cut kernels of the same three files for 2000-01-01 to 2000-01-02
+//!   (`tests/fixtures/lunar_vlbi_spice_oracle/kernels/`, cut and checked bit for bit by
+//!   `make_kernel_subsets_2000.py`; the Earth-orientation kernel starts at
+//!   2000-01-01T00:00, hence the 06:00 start).
+//! * Information only: the same with `naif_et_from_utc`.
+//! * Why the old configuration measured a different quantity: at 2024 epochs the oracle's
+//!   light time is that of an emission epoch rounded to 1.19e-7 s, not the converged light
+//!   time itself; the engine carries ET as two doubles and does not round it.
 
 use kshana::lunar_vlbi::KernelGeometry;
 
 const DELAY_TOL_S: f64 = 1.0e-12;
 const PARTIAL_REL_TOL: f64 = 1.0e-6;
-const FIXTURE: &str = concat!(
-    env!("CARGO_MANIFEST_DIR"),
-    "/tests/fixtures/lunar_vlbi_spice_oracle/spice_light_times.csv"
-);
+/// A comparison set: the SPICE fixture, the directory and names of the cut kernels, and the
+/// UTC day (Julian date at 0 h) and hour of the first epoch.
+struct Set {
+    fixture: &'static str,
+    kernels: [&'static str; 3],
+    jd_day: f64,
+    hour0: f64,
+}
+
+const SET_2024: Set = Set {
+    fixture: "lunar_vlbi_spice_oracle/spice_light_times.csv",
+    kernels: [
+        "lunar_vlbi_anise_oracle/kernels/de440s_2024-01-01.bsp",
+        "lunar_vlbi_anise_oracle/kernels/earth_itrf93_2024-01-01.bpc",
+        "lunar_vlbi_anise_oracle/kernels/moon_pa_de440_2024-01-01.bpc",
+    ],
+    jd_day: 2_460_310.5,
+    hour0: 0.0,
+};
+
+const SET_J2000: Set = Set {
+    fixture: "lunar_vlbi_spice_oracle/spice_light_times_j2000.csv",
+    kernels: [
+        "lunar_vlbi_spice_oracle/kernels/de440s_2000-01-01.bsp",
+        "lunar_vlbi_spice_oracle/kernels/earth_itrf93_2000-01-01.bpc",
+        "lunar_vlbi_spice_oracle/kernels/moon_pa_de440_2000-01-01.bpc",
+    ],
+    jd_day: 2_451_544.5,
+    hour0: 6.0,
+};
+
+fn fixture(rel: &str) -> std::path::PathBuf {
+    std::path::PathBuf::from(format!(
+        "{}/tests/fixtures/{rel}",
+        env!("CARGO_MANIFEST_DIR")
+    ))
+}
+
 const BASELINES: [(usize, usize); 3] = [(0, 1), (0, 2), (2, 1)];
 
 /// One (epoch, station) row of the SPICE fixture.
@@ -85,8 +154,8 @@ struct Row {
     dlt_dstation: [f64; 3],
 }
 
-fn rows() -> Vec<Row> {
-    let text = std::fs::read_to_string(FIXTURE).expect("SPICE fixture");
+fn rows(set: &Set) -> Vec<Row> {
+    let text = std::fs::read_to_string(fixture(set.fixture)).expect("SPICE fixture");
     text.lines()
         .filter(|l| !l.starts_with('#') && !l.trim().is_empty() && !l.starts_with("hour"))
         .map(|l| {
@@ -106,16 +175,11 @@ fn rows() -> Vec<Row> {
         .collect()
 }
 
-fn kernel_geometry() -> KernelGeometry {
-    let dir = concat!(
-        env!("CARGO_MANIFEST_DIR"),
-        "/tests/fixtures/lunar_vlbi_anise_oracle/kernels/"
-    );
-    let p = |f: &str| std::path::PathBuf::from(format!("{dir}{f}"));
+fn kernel_geometry(set: &Set) -> KernelGeometry {
     KernelGeometry::open(
-        &p("de440s_2024-01-01.bsp"),
-        &p("earth_itrf93_2024-01-01.bpc"),
-        &p("moon_pa_de440_2024-01-01.bpc"),
+        &fixture(set.kernels[0]),
+        &fixture(set.kernels[1]),
+        &fixture(set.kernels[2]),
     )
     .expect("cut kernels")
 }
@@ -135,9 +199,9 @@ fn rel(k: [f64; 3], s: [f64; 3]) -> f64 {
 
 /// Worst delay gap, worst beacon-partial and station-partial relative errors, and pass counts
 /// `(delays, beacon partials, station partials)`, with each epoch given to Kshana by `et_of`.
-fn compare(et_of: &dyn Fn(&Row) -> (f64, f64)) -> (f64, f64, f64, [usize; 3], usize) {
-    let geom = kernel_geometry();
-    let rows = rows();
+fn compare(set: &Set, et_of: &dyn Fn(&Row) -> (f64, f64)) -> (f64, f64, f64, [usize; 3], usize) {
+    let geom = kernel_geometry(set);
+    let rows = rows(set);
     assert_eq!(rows.len(), 75, "25 epochs x 3 stations");
     let body = [1_737_400.0, 0.0, 0.0];
     let (mut dmax, mut bmax, mut smax): (f64, f64, f64) = (0.0, 0.0, 0.0);
@@ -184,19 +248,31 @@ fn compare(et_of: &dyn Fn(&Row) -> (f64, f64)) -> (f64, f64, f64, [usize; 3], us
     (dmax, bmax, smax, pass, n)
 }
 
-/// The pre-registered comparison at SPICE's own ET.
-#[test]
-#[ignore = "pre-registered; not yet run"]
-fn kernel_delay_and_partials_match_spice_converged_light_times() {
-    let (dmax, bmax, smax, pass, n) = compare(&|r: &Row| (r.et.round(), r.et - r.et.round()));
+fn spice_et(r: &Row) -> (f64, f64) {
+    (r.et.round(), r.et - r.et.round())
+}
+
+fn report(label: &str, (dmax, bmax, smax, pass, n): (f64, f64, f64, [usize; 3], usize)) {
     eprintln!(
-        "M038 vs SPICE CN: delay max {dmax:.4e} s, within 1 ps {}/{n}; beacon partials max \
-         {bmax:.4e}, within 1e-6 {}/{n}; station partials max {smax:.4e}, within 1e-6 {}/{}",
+        "M038 vs SPICE CN, {label}: delay max {dmax:.4e} s, within 1 ps {}/{n}; beacon \
+         partials max {bmax:.4e}, within 1e-6 {}/{n}; station partials max {smax:.4e}, within \
+         1e-6 {}/{}",
         pass[0],
         pass[1],
         pass[2],
         2 * n
     );
+}
+
+/// The first pre-registered comparison, at 2024 epochs. Measured: delays 17/75 within 1 ps
+/// (worst 1.03e-11 s), beacon partials 74/75 (worst 1.12e-6), station partials 150/150; the
+/// gap is SPICE's rounding of the emission epoch to its double ET (see the header).
+#[test]
+#[ignore = "fails: delays 17/75 within 1 ps (worst 1.03e-11 s), beacon partials 74/75 (worst 1.12e-6); SPICE's double ET rounds the emission epoch by up to 6e-8 s at 2024"]
+fn kernel_delay_and_partials_match_spice_converged_light_times() {
+    let r = compare(&SET_2024, &spice_et);
+    report("2024 epochs", r);
+    let (dmax, bmax, smax, pass, n) = r;
     assert_eq!(n, 75);
     assert_eq!(pass[0], 75, "delays outside 1 ps (max {dmax:.3e} s)");
     assert_eq!(pass[1], 75, "beacon partials outside 1e-6 (max {bmax:.3e})");
@@ -206,19 +282,55 @@ fn kernel_delay_and_partials_match_spice_converged_light_times() {
     );
 }
 
-/// Information only: the same comparison with Kshana's own UTC-to-ET conversion.
+/// Pins the 2024-epoch finding: it fails if the gap closes or moves.
+#[test]
+fn spice_2024_epochs_finding_is_unchanged() {
+    let r = compare(&SET_2024, &spice_et);
+    report("2024 epochs (pinned finding)", r);
+    let (dmax, bmax, smax, pass, _) = r;
+    assert_eq!(pass, [17, 74, 150], "the recorded pass counts moved");
+    assert!(
+        (9e-12..1.2e-11).contains(&dmax),
+        "worst delay gap was 1.03e-11 s, now {dmax:.3e}"
+    );
+    assert!(
+        (1.0e-6..1.3e-6).contains(&bmax),
+        "worst beacon partial was 1.12e-6, now {bmax:.3e}"
+    );
+    assert!(
+        smax < 1e-8,
+        "worst station partial was 4.85e-9, now {smax:.3e}"
+    );
+}
+
+/// Amendment 3: the pre-registered comparison at epochs near J2000, where SPICE's ET resolves
+/// the emission epoch.
 #[test]
 #[ignore = "pre-registered; not yet run"]
-fn information_only_with_the_engine_epoch_conversion() {
-    let (dmax, bmax, smax, pass, n) = compare(&|r: &Row| {
-        kshana::naif_kernel::naif_et_from_utc(2_460_310.5, r.hour as f64 * 3_600.0)
-    });
-    eprintln!(
-        "M038 vs SPICE CN, engine ET (information): delay max {dmax:.4e} s ({}/{n}); beacon \
-         partials max {bmax:.4e} ({}/{n}); station partials max {smax:.4e} ({}/{})",
-        pass[0],
-        pass[1],
-        pass[2],
-        2 * n
+fn kernel_delay_and_partials_match_spice_light_times_near_j2000() {
+    let r = compare(&SET_J2000, &spice_et);
+    report("epochs near J2000", r);
+    let (dmax, bmax, smax, pass, n) = r;
+    assert_eq!(n, 75);
+    assert_eq!(pass[0], 75, "delays outside 1 ps (max {dmax:.3e} s)");
+    assert_eq!(pass[1], 75, "beacon partials outside 1e-6 (max {bmax:.3e})");
+    assert_eq!(
+        pass[2], 150,
+        "station partials outside 1e-6 (max {smax:.3e})"
     );
+}
+
+/// Information only: both sets with Kshana's own UTC-to-ET conversion.
+#[test]
+#[ignore = "information only"]
+fn information_only_with_the_engine_epoch_conversion() {
+    for (label, set) in [
+        ("2024, engine ET", &SET_2024),
+        ("J2000, engine ET", &SET_J2000),
+    ] {
+        let r = compare(set, &|r: &Row| {
+            kshana::naif_kernel::naif_et_from_utc(set.jd_day, (set.hour0 + r.hour as f64) * 3_600.0)
+        });
+        report(label, r);
+    }
 }
