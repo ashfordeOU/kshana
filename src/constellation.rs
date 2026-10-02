@@ -943,7 +943,8 @@ pub struct DopValues {
     pub hdop: f64,
     /// Vertical DOP.
     pub vdop: f64,
-    /// Time DOP of the reference clock (the first constellation with a satellite in view).
+    /// Time DOP of the reference clock: the clock of the lowest-numbered constellation with a
+    /// satellite in view (GDOP uses the same clock).
     pub tdop: f64,
 }
 
@@ -1029,7 +1030,7 @@ impl NormalAccum {
     }
 
     /// Solve for the DOPs in the local east/north/up frame at the unit radial `up`.
-    /// `ref_clock` is the constellation whose clock gives TDOP (the first one seen).
+    /// `ref_clock` is the clock index whose variance gives TDOP (the lowest one in view).
     fn solve(&mut self, east: Vec3, north: Vec3, up: Vec3, ref_clock: usize) -> Option<DopValues> {
         let n = 3 + self.clocks;
         if self.rows < n {
@@ -1091,7 +1092,7 @@ pub fn dop_at(user: Vec3, sats: &[(Vec3, usize)]) -> Option<DopValues> {
         if l == 0.0 {
             continue;
         }
-        first.get_or_insert(c);
+        first = Some(first.map_or(c, |f: usize| f.min(c)));
         acc.add([d[0] / l, d[1] / l, d[2] / l], c);
     }
     acc.solve(e, n, u, first?)
@@ -1438,7 +1439,9 @@ pub fn coverage(
                             }
                         }
                         let c = clock_of(sats[i].cons);
-                        first.get_or_insert(c);
+                        // The reference clock is the lowest-numbered one in view, so TDOP
+                        // and GDOP do not depend on the order the satellites are scanned in.
+                        first = Some(first.map_or(c, |f: usize| f.min(c)));
                         acc.add([d[0] / l, d[1] / l, d[2] / l], c);
                         nvis += 1;
                         per_cons[sats[i].cons] += 1;
