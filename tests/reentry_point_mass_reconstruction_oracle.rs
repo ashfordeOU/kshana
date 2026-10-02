@@ -65,6 +65,35 @@
 //! * The Stardust best-estimated peak (32.89 g) has been known since round 1, and the
 //!   Stardust reconstruction was re-read for this amendment to find its printed mass
 //!   (46 kg). The NTRS search above listed titles only.
+//!
+//! # Inputs resolved by the rule (written 2026-10-02 after reading the sources, before the
+//! integrator was written or run)
+//!
+//! * **Stardust 2006.** 12 900 m/s and 8.2 deg, inertial (only inertial values are
+//!   printed); interface radius 6503.14 km, so interface altitude 125 003 m; m = 46 kg
+//!   (NTRS 20080008567 sec. II); D = 0.8128 m (NTRS 20040105538, reference area 0.51887
+//!   m^2); C_D = 1.4828, Table 4 of NTRS 20040105538 at Mach 35.4, the highest Mach number
+//!   below the Mach 38 the paper names as the upper edge of the continuum regime, zero
+//!   angle of attack (axial coefficient = drag coefficient there). B = 59.789 kg/m^2.
+//!   Oracle: best-estimated maximum 32.89 g (NTRS 20080008567 sec. V).
+//! * **Genesis 2004.** 11 040 m/s and 8.0 deg, inertial (the reconstructions print only
+//!   inertial values; the planet-relative -8.25 deg and 10.7 km/s in NTRS 20050050931 are a
+//!   1999 pre-flight nominal, not the flight); interface radius 6503.14 km, printed as the
+//!   entry-state reference radius in the cited mission paper NTRS 20050050931 (AAS 99-469),
+//!   so 125 003 m; m = 205.6 kg (reconstruction, NTRS 20080019649); D = 1.52 m, the
+//!   heat-shield dimension printed on the configuration drawing (Fig. 2 of NTRS
+//!   20050060761, also in NTRS 20050050931; the text says "approximately 1.5 m"; a
+//!   dimension label, not a value read off a plot, disclosed); C_D = 1.4828, because NTRS
+//!   20050050931 states that the Stardust hypersonic-continuum database applies to Genesis
+//!   unchanged. B = 76.412 kg/m^2. Oracle: best-estimated maximum 27.0 g (NTRS
+//!   20080019649, also NTRS 20080010667 and 20050217463).
+//! * **Hayabusa 2010: not included.** The three NTRS candidates print only pre-entry
+//!   predicted states (NTRS 20110015027 Table 2) and observation planning; none prints a
+//!   reconstructed peak deceleration. The figure "about 25 G" found on the open web is an
+//!   unattributed estimate, not a reconstruction. A JAXA flight-data reconstruction in a
+//!   public copy is the missing input.
+//! * Neither entry prints the speed at peak deceleration in text or a table, so only the
+//!   peak deceleration is compared.
 
 /// The pre-registered comparison. Not yet run.
 #[test]
