@@ -46,6 +46,17 @@
 //! oracle gives as exactly zero (the zero-fault magnitude and non-centrality) must be exactly
 //! zero; the degrees of freedom must be exactly 4. Every value in every configuration must pass.
 //!
+//! **Second pre-registration (amendment 1, written after the first comparison).** A mutation
+//! that drops the optical term from the separation variance passed the four configurations
+//! above: there the optical sigmas (about 1.9e-4 m and 1.3e-12 s) are about 1e-3 of the RF
+//! sigmas, so the optical term moves the minimum detectable bias by about 5e-7, below the 1e-6
+//! bar. The variance combination is part of the claim, so a fifth configuration is added with
+//! comparable sigmas: RF 2.0e-4 m horizontal, 3.0e-4 m vertical and 1.0e-12 s clock, every
+//! other input at its default. It is held in the fixture under `added_configurations`, read
+//! by its own test (`report_detection_power_matches_scipy_with_comparable_sigmas`), with the
+//! same oracle and the same tolerances. The first test and its four configurations are
+//! unchanged.
+//!
 //! **Not covered here.** The `injected[]` entries (a bias written into the RF estimate and the
 //! monitor re-run) are compared only with the engine's own closed form in the library tests; no
 //! independent oracle reaches them. The sigma magnitudes stay Modelled.
@@ -108,6 +119,143 @@ impl Tally {
     }
 }
 
+/// Compare one configuration of the report against its SciPy reference values.
+fn check_configuration(cfg: &Value, ladder: &[f64], t: &mut Tally) {
+    let name = cfg["name"].as_str().expect("name");
+    let scenario_json = &cfg["scenario"];
+    let scenario: HybridOpticalRfScenario =
+        serde_json::from_value(scenario_json.clone()).expect("scenario inputs");
+    let (json, _) = scenario.run_json().expect("scenario runs");
+    let report: Value = serde_json::from_str(&json).expect("report JSON");
+    let f = &report["fault_injection"];
+    let ol = &report["optical_link"];
+
+    assert_eq!(f["dof"].as_u64(), Some(SPEC_DOF), "{name}: dof");
+    assert_eq!(cfg["dof"].as_u64(), Some(SPEC_DOF), "{name}: oracle dof");
+
+    let threshold = num(&cfg["threshold"], "threshold");
+    let lambda_star = num(&cfg["lambda_star"], "lambda_star");
+    let root_lambda = num(&cfg["root_lambda_star"], "root_lambda_star");
+    t.rel(
+        format!("{name} chi2_threshold"),
+        num(&f["chi2_threshold"], "chi2_threshold"),
+        threshold,
+        THRESHOLD_REL_TOL,
+    );
+    t.rel(
+        format!("{name} cross_modality_raim.chi2_threshold"),
+        num(
+            &report["cross_modality_raim"]["chi2_threshold"],
+            "cross chi2_threshold",
+        ),
+        threshold,
+        THRESHOLD_REL_TOL,
+    );
+    for (key, want) in [
+        ("noncentrality_at_mdb", lambda_star),
+        ("pbias", root_lambda),
+        ("p_detect_at_zero_fault", num(&cfg["p_detect_zero"], "p0")),
+        ("p_detect_at_mdb", num(&cfg["p_detect_at_mdb"], "pmdb")),
+        (
+            "deterministic_detection_multiple_of_mdb",
+            num(&cfg["crossing_multiple"], "crossing"),
+        ),
+    ] {
+        t.rel(format!("{name} {key}"), num(&f[key], key), want, REL_TOL);
+    }
+
+    // Axis sigmas from the specification's pairing, magnitudes from the report.
+    let rf_h = num(&ol["rf_position_sigma_m"], "rf_position_sigma_m");
+    let rf_v = scenario_json["rf_vertical_sigma_m"]
+        .as_f64()
+        .unwrap_or(SPEC_VERTICAL_OVER_HORIZONTAL * rf_h);
+    let rf_c = num(&ol["rf_clock_sigma_s"], "rf_clock_sigma_s");
+    let opt_r = num(&ol["optical_ranging_sigma_m"], "optical_ranging_sigma_m");
+    let opt_t = num(&ol["optical_timing_sigma_s"], "optical_timing_sigma_s");
+    let ramp_pos = scenario_json["fault_ramp_rate_pos_m_s"]
+        .as_f64()
+        .unwrap_or(SPEC_RAMP_POS_M_S);
+    let ramp_clk = scenario_json["fault_ramp_rate_clock_s_s"]
+        .as_f64()
+        .unwrap_or(SPEC_RAMP_CLOCK_S_S);
+    let spec_axes = [
+        ("east", rf_h, opt_r, ramp_pos),
+        ("north", rf_h, opt_r, ramp_pos),
+        ("up", rf_v, opt_r, ramp_pos),
+        ("clock", rf_c, opt_t, ramp_clk),
+    ];
+    let axes = f["axes"].as_array().expect("axes");
+    assert_eq!(axes.len(), spec_axes.len(), "{name}: four monitored axes");
+    let curve_p: Vec<f64> = cfg["p_detect_curve"]
+        .as_array()
+        .expect("p_detect_curve")
+        .iter()
+        .map(|p| num(p, "p_detect"))
+        .collect();
+    assert_eq!(curve_p.len(), ladder.len());
+
+    for (ax, (axis_name, s_rf, s_opt, ramp)) in axes.iter().zip(spec_axes) {
+        assert_eq!(ax["name"].as_str(), Some(axis_name), "{name}: axis order");
+        let sigma_sep = (s_rf * s_rf + s_opt * s_opt).sqrt();
+        let mdb = root_lambda * sigma_sep;
+        let label = format!("{name} {axis_name}");
+        t.rel(
+            format!("{label} sigma_separation"),
+            num(&ax["sigma_separation"], "sigma_separation"),
+            sigma_sep,
+            REL_TOL,
+        );
+        t.rel(
+            format!("{label} minimum_detectable_bias"),
+            num(&ax["minimum_detectable_bias"], "mdb"),
+            mdb,
+            REL_TOL,
+        );
+        t.rel(
+            format!("{label} ramp_time_to_detect_s"),
+            num(&ax["ramp_time_to_detect_s"], "ramp time"),
+            mdb / ramp,
+            REL_TOL,
+        );
+        let headline = match axis_name {
+            "east" => Some("mdb_horizontal_m"),
+            "up" => Some("mdb_vertical_m"),
+            "clock" => Some("mdb_timing_s"),
+            _ => None,
+        };
+        if let Some(key) = headline {
+            t.rel(format!("{name} {key}"), num(&f[key], key), mdb, REL_TOL);
+        }
+        let curve = ax["detection_power_curve"].as_array().expect("curve");
+        assert_eq!(curve.len(), ladder.len(), "{label}: curve length");
+        for ((pt, &m), &p) in curve.iter().zip(ladder).zip(&curve_p) {
+            assert_eq!(
+                num(&pt["fault_multiple_of_mdb"], "multiple"),
+                m,
+                "{label}: ladder"
+            );
+            t.rel(
+                format!("{label} m={m} fault_magnitude"),
+                num(&pt["fault_magnitude"], "fault_magnitude"),
+                m * mdb,
+                REL_TOL,
+            );
+            t.rel(
+                format!("{label} m={m} noncentrality"),
+                num(&pt["noncentrality"], "noncentrality"),
+                m * m * lambda_star,
+                REL_TOL,
+            );
+            t.rel(
+                format!("{label} m={m} p_detect"),
+                num(&pt["p_detect"], "p_detect"),
+                p,
+                REL_TOL,
+            );
+        }
+    }
+}
+
 #[test]
 fn report_detection_power_matches_scipy_chi2_and_ncx2() {
     let reference = load_reference();
@@ -126,143 +274,46 @@ fn report_detection_power_matches_scipy_chi2_and_ncx2() {
         worst_threshold: 0.0,
     };
     for cfg in configs {
-        let name = cfg["name"].as_str().expect("name");
-        let scenario_json = &cfg["scenario"];
-        let scenario: HybridOpticalRfScenario =
-            serde_json::from_value(scenario_json.clone()).expect("scenario inputs");
-        let (json, _) = scenario.run_json().expect("scenario runs");
-        let report: Value = serde_json::from_str(&json).expect("report JSON");
-        let f = &report["fault_injection"];
-        let ol = &report["optical_link"];
-
-        assert_eq!(f["dof"].as_u64(), Some(SPEC_DOF), "{name}: dof");
-        assert_eq!(cfg["dof"].as_u64(), Some(SPEC_DOF), "{name}: oracle dof");
-
-        let threshold = num(&cfg["threshold"], "threshold");
-        let lambda_star = num(&cfg["lambda_star"], "lambda_star");
-        let root_lambda = num(&cfg["root_lambda_star"], "root_lambda_star");
-        t.rel(
-            format!("{name} chi2_threshold"),
-            num(&f["chi2_threshold"], "chi2_threshold"),
-            threshold,
-            THRESHOLD_REL_TOL,
-        );
-        t.rel(
-            format!("{name} cross_modality_raim.chi2_threshold"),
-            num(
-                &report["cross_modality_raim"]["chi2_threshold"],
-                "cross chi2_threshold",
-            ),
-            threshold,
-            THRESHOLD_REL_TOL,
-        );
-        for (key, want) in [
-            ("noncentrality_at_mdb", lambda_star),
-            ("pbias", root_lambda),
-            ("p_detect_at_zero_fault", num(&cfg["p_detect_zero"], "p0")),
-            ("p_detect_at_mdb", num(&cfg["p_detect_at_mdb"], "pmdb")),
-            (
-                "deterministic_detection_multiple_of_mdb",
-                num(&cfg["crossing_multiple"], "crossing"),
-            ),
-        ] {
-            t.rel(format!("{name} {key}"), num(&f[key], key), want, REL_TOL);
-        }
-
-        // Axis sigmas from the specification's pairing, magnitudes from the report.
-        let rf_h = num(&ol["rf_position_sigma_m"], "rf_position_sigma_m");
-        let rf_v = scenario_json["rf_vertical_sigma_m"]
-            .as_f64()
-            .unwrap_or(SPEC_VERTICAL_OVER_HORIZONTAL * rf_h);
-        let rf_c = num(&ol["rf_clock_sigma_s"], "rf_clock_sigma_s");
-        let opt_r = num(&ol["optical_ranging_sigma_m"], "optical_ranging_sigma_m");
-        let opt_t = num(&ol["optical_timing_sigma_s"], "optical_timing_sigma_s");
-        let ramp_pos = scenario_json["fault_ramp_rate_pos_m_s"]
-            .as_f64()
-            .unwrap_or(SPEC_RAMP_POS_M_S);
-        let ramp_clk = scenario_json["fault_ramp_rate_clock_s_s"]
-            .as_f64()
-            .unwrap_or(SPEC_RAMP_CLOCK_S_S);
-        let spec_axes = [
-            ("east", rf_h, opt_r, ramp_pos),
-            ("north", rf_h, opt_r, ramp_pos),
-            ("up", rf_v, opt_r, ramp_pos),
-            ("clock", rf_c, opt_t, ramp_clk),
-        ];
-        let axes = f["axes"].as_array().expect("axes");
-        assert_eq!(axes.len(), spec_axes.len(), "{name}: four monitored axes");
-        let curve_p: Vec<f64> = cfg["p_detect_curve"]
-            .as_array()
-            .expect("p_detect_curve")
-            .iter()
-            .map(|p| num(p, "p_detect"))
-            .collect();
-        assert_eq!(curve_p.len(), ladder.len());
-
-        for (ax, (axis_name, s_rf, s_opt, ramp)) in axes.iter().zip(spec_axes) {
-            assert_eq!(ax["name"].as_str(), Some(axis_name), "{name}: axis order");
-            let sigma_sep = (s_rf * s_rf + s_opt * s_opt).sqrt();
-            let mdb = root_lambda * sigma_sep;
-            let label = format!("{name} {axis_name}");
-            t.rel(
-                format!("{label} sigma_separation"),
-                num(&ax["sigma_separation"], "sigma_separation"),
-                sigma_sep,
-                REL_TOL,
-            );
-            t.rel(
-                format!("{label} minimum_detectable_bias"),
-                num(&ax["minimum_detectable_bias"], "mdb"),
-                mdb,
-                REL_TOL,
-            );
-            t.rel(
-                format!("{label} ramp_time_to_detect_s"),
-                num(&ax["ramp_time_to_detect_s"], "ramp time"),
-                mdb / ramp,
-                REL_TOL,
-            );
-            let headline = match axis_name {
-                "east" => Some("mdb_horizontal_m"),
-                "up" => Some("mdb_vertical_m"),
-                "clock" => Some("mdb_timing_s"),
-                _ => None,
-            };
-            if let Some(key) = headline {
-                t.rel(format!("{name} {key}"), num(&f[key], key), mdb, REL_TOL);
-            }
-            let curve = ax["detection_power_curve"].as_array().expect("curve");
-            assert_eq!(curve.len(), ladder.len(), "{label}: curve length");
-            for ((pt, &m), &p) in curve.iter().zip(&ladder).zip(&curve_p) {
-                assert_eq!(
-                    num(&pt["fault_multiple_of_mdb"], "multiple"),
-                    m,
-                    "{label}: ladder"
-                );
-                t.rel(
-                    format!("{label} m={m} fault_magnitude"),
-                    num(&pt["fault_magnitude"], "fault_magnitude"),
-                    m * mdb,
-                    REL_TOL,
-                );
-                t.rel(
-                    format!("{label} m={m} noncentrality"),
-                    num(&pt["noncentrality"], "noncentrality"),
-                    m * m * lambda_star,
-                    REL_TOL,
-                );
-                t.rel(
-                    format!("{label} m={m} p_detect"),
-                    num(&pt["p_detect"], "p_detect"),
-                    p,
-                    REL_TOL,
-                );
-            }
-        }
+        check_configuration(cfg, &ladder, &mut t);
     }
     eprintln!(
         "hybrid-optical-rf detection power vs SciPy: worst relative error {:.3e} (tolerance \
          {REL_TOL:e}), threshold {:.3e} (tolerance {THRESHOLD_REL_TOL:e})",
+        t.worst, t.worst_threshold
+    );
+    assert!(
+        t.failures.is_empty(),
+        "{} disagreement(s):\n{}",
+        t.failures.len(),
+        t.failures.join("\n")
+    );
+}
+
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn report_detection_power_matches_scipy_with_comparable_sigmas() {
+    let reference = load_reference();
+    let configs = reference["added_configurations"]
+        .as_array()
+        .expect("added_configurations");
+    assert_eq!(configs.len(), 1, "one added configuration");
+    let ladder: Vec<f64> = reference["multiples"]
+        .as_array()
+        .expect("multiples")
+        .iter()
+        .map(|m| num(m, "multiple"))
+        .collect();
+    let mut t = Tally {
+        failures: Vec::new(),
+        worst: 0.0,
+        worst_threshold: 0.0,
+    };
+    for cfg in configs {
+        check_configuration(cfg, &ladder, &mut t);
+    }
+    eprintln!(
+        "hybrid-optical-rf detection power vs SciPy, comparable sigmas: worst relative error \
+         {:.3e} (tolerance {REL_TOL:e}), threshold {:.3e} (tolerance {THRESHOLD_REL_TOL:e})",
         t.worst, t.worst_threshold
     );
     assert!(
