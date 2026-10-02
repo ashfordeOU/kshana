@@ -53,6 +53,13 @@
 //! kilometres, not millimetres. It is published exactly because it is the honest size of the
 //! gap between this engine and an LLR analysis.
 //!
+//! **Kernel path (opt-in).** With `planetary_kernel_path` set, the Moon centre is the JPL DE440
+//! Moon read by the engine's own kernel reader ([`crate::ephem_provider::KernelEphemeris`]) and
+//! nothing else changes; the residual then falls from about 156 km to about 95 m on the
+//! committed slice, and the datum covariance agrees with the SPICE and NumPy oracle at the
+//! original bars (`tests/validate_llr_datum_kernel_moon.rs`, a diagnostic re-run on seen
+//! data, disclosed as such there). The analytic series stays the default.
+//!
 //! ## Why a kilometre-level residual does not invalidate the covariance — measured, not argued
 //!
 //! The datum covariance is a function of **geometry and weights**, not of the fit: an
