@@ -77,9 +77,114 @@
 //!   seen in round 1. The engine model below is the textbook error model with no fitted
 //!   parameter, so it cannot be tuned to them.
 
-/// The pre-registered comparison. Not yet run.
+use kshana::inertial::coast::{CoastModel, Combination, ImuGrade};
+use std::collections::BTreeMap;
+use std::path::PathBuf;
+
+const TOL: f64 = 0.05;
+const DURATIONS: [f64; 8] = [30.0, 60.0, 120.0, 300.0, 600.0, 1200.0, 1800.0, 3600.0];
+const SEEDS: usize = 300;
+const LATITUDE_DEG: f64 = 45.0;
+const HEIGHT_M: f64 = 1000.0;
+
+struct Row {
+    term: &'static str,
+    t: f64,
+    navego_m: f64,
+    kshana_m: f64,
+}
+
+impl Row {
+    fn rel(&self) -> f64 {
+        (self.kshana_m - self.navego_m) / self.navego_m
+    }
+}
+
+fn oracle_table() -> Vec<Row> {
+    let path = PathBuf::from(env!("CARGO_MANIFEST_DIR"))
+        .join("tests/fixtures/ins_coast_schuler_navego_oracle/navego_schuler_coast_errors.csv");
+    let text = std::fs::read_to_string(path).expect("fixture");
+    let mut acc: BTreeMap<(String, u64), (f64, usize)> = BTreeMap::new();
+    for line in text.lines().skip(1) {
+        let f: Vec<&str> = line.split(',').collect();
+        let t: f64 = f[2].parse().unwrap();
+        let dn: f64 = f[3].parse().unwrap();
+        let de: f64 = f[4].parse().unwrap();
+        let e = acc.entry((f[0].to_string(), t as u64)).or_insert((0.0, 0));
+        e.0 += dn * dn + de * de;
+        e.1 += 1;
+    }
+    let tactical = ImuGrade::Tactical.params().si();
+    let at = |v: f64, a: f64| {
+        CoastModel::new(tactical, v, a, Combination::Rss, 0.0).with_site(LATITUDE_DEG, HEIGHT_M)
+    };
+    let (still, cruise, sustained) = (at(0.0, 0.0), at(10.0, 0.0), at(0.0, 0.01));
+    let law = |m: &CoastModel, name: &str, t: f64| -> f64 {
+        m.contributions()
+            .iter()
+            .find(|c| c.name == name)
+            .expect("contribution")
+            .error_m(t)
+    };
+    let terms: [(&str, &str, &CoastModel, bool); 6] = [
+        ("T1", "accel_bias", &still, false),
+        ("T2", "gyro_bias_tilt", &still, false),
+        ("T3", "scale_factor_cruise", &cruise, false),
+        ("T4", "scale_factor_accel", &sustained, false),
+        ("T5", "velocity_random_walk", &still, true),
+        ("T6", "angle_random_walk", &still, true),
+    ];
+    let mut rows = Vec::new();
+    for (tag, name, model, stochastic) in terms {
+        for &t in &DURATIONS {
+            let (ss, n) = acc
+                .get(&(tag.to_string(), t as u64))
+                .copied()
+                .unwrap_or_else(|| panic!("{tag} at {t} s missing from the fixture"));
+            let navego_m = if stochastic {
+                assert_eq!(n, SEEDS, "{tag}: seed count");
+                (ss / (2.0 * n as f64)).sqrt()
+            } else {
+                assert_eq!(n, 1, "{tag}: one deterministic run");
+                ss.sqrt()
+            };
+            rows.push(Row {
+                term: name,
+                t,
+                navego_m,
+                kshana_m: law(model, name, t),
+            });
+        }
+    }
+    rows
+}
+
+fn print_table(rows: &[Row]) {
+    eprintln!("term                    t (s)    NaveGo (m)    Kshana (m)   rel diff   within 5%");
+    for r in rows {
+        eprintln!(
+            "{:<22} {:>6} {:>13.5} {:>13.5} {:>+9.4} {:>8}",
+            r.term,
+            r.t,
+            r.navego_m,
+            r.kshana_m,
+            r.rel(),
+            if r.rel().abs() <= TOL { "yes" } else { "NO" }
+        );
+    }
+}
+
+/// The pre-registered comparison: every term within 5 % of the corrected NaveGo runs at
+/// every duration (48 comparisons).
 #[test]
 #[ignore = "pre-registered; not yet run"]
 fn coast_error_model_matches_the_corrected_navego_runs() {
-    panic!("pre-registered; the comparison is written after the engine change and the fixture");
+    let rows = oracle_table();
+    print_table(&rows);
+    let bad: Vec<String> = rows
+        .iter()
+        .filter(|r| r.rel().abs() > TOL)
+        .map(|r| format!("{} at {} s: {:+.4}", r.term, r.t, r.rel()))
+        .collect();
+    assert!(bad.is_empty(), "outside 5 %: {}", bad.join("; "));
 }
