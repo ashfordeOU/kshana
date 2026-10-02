@@ -121,6 +121,8 @@ const DIR: &str = concat!(
     env!("CARGO_MANIFEST_DIR"),
     "/tests/fixtures/naif_reader_spice_oracle/"
 );
+// PIN-SCOPE:    the SHA-256 of the full NAIF kernels the data-gated oracles read, as retrieved.
+// PIN-EXCLUDES: any engine output.
 
 /// SHA-256 of the full NAIF files the oracles read (retrieved 2026-10-02 from
 /// `https://naif.jpl.nasa.gov/pub/naif/generic_kernels/`).
@@ -221,6 +223,8 @@ struct Worst {
 fn compare(spk: &SpkKernel, pck: &PckKernel) -> Worst {
     let states = state_rows();
     let rots = rot_rows();
+    // PIN-SCOPE:    the counts of pre-registered state and rotation rows in the fixture.
+    // PIN-EXCLUDES: their values, compared within the registered bars below.
     assert_eq!(states.len(), 600, "pre-registered: 600 states");
     assert_eq!(rots.len(), 200, "pre-registered: 200 rotations");
     let mut w = Worst::default();

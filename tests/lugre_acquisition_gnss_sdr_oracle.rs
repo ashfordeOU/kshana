@@ -386,6 +386,8 @@ fn acquisition_and_relative_cn0_on_lugre_iq_match_gnss_sdr_and_the_flight_receiv
 fn finding_dc_artefacts_and_no_contemporaneous_flight_cn0() {
     assert!(flight_cn0().is_empty(), "flight C/N0 near a batch");
     let cases = cases();
+    // PIN-SCOPE:    the case and positive counts of the committed GNSS-SDR record (the recorded finding).
+    // PIN-EXCLUDES: whether those decisions are right; the row stays a finding.
     assert_eq!(cases.len(), 288);
     assert_eq!(cases.iter().filter(|c| c.positive).count(), 266);
     let Some(dir) = data_dir() else {
