@@ -14,6 +14,7 @@ only the commits after that fold, merged with main in the commit that adds this 
 | `87b27701` | `src/linalg_sr.rs` and the opt-in `solver = "srif"` in `lunar_frame_campaign` (section B) |
 | `3bb28f95` | srif oracle run and recorded; chord comparator in both strict tests (sections A3 and B) |
 | `85c89af4` | fold files (superseded by this rewrite) |
+| (this commit and the one before it) | opt-in square-root paths in six more modules (section D) |
 
 Step 2 (the solver) was carried out at the founder's instruction of 2026-10-02 ("do
 everything"), which overrides the earlier scoping of step 2 out of this session.
@@ -119,12 +120,12 @@ Outcome: **PROMOTE** (new row).
     figures bit for bit. The four mutations above were redone on the restored code.
   - The weakest-direction comparator was changed from `acos` to the chord measure after the run
     (bars unchanged), as in section 1.
-  - Scope: only `lunar_frame_campaign` gains the opt-in. The roadmap also lists `batch_ls`,
-    `orbit_determination`, `cislunar_srif`, `fim`, `lunar_datum`, `lunar_combination` and
-    `precise_od`; those paths are not done. `lunar_datum` and `lunar_combination` should wait for
-    D4 to fold. D4 touches `src/lunar_vlbi_fim.rs` only, so this branch has no textual conflict
-    with it. The Dekker helpers live in `src/linalg_sr.rs` rather than `src/portable_math.rs` to
-    avoid a conflict with the unfolded D7; they can move after D7 folds.
+  - Scope: this row's evidence covers the `lunar_frame_campaign` path only. The other modules the
+    roadmap lists gained opt-in square-root paths afterwards (section D); they are not covered by
+    this row and claim no external validation. D4 touches `src/lunar_vlbi_fim.rs` only, so this
+    branch has no textual conflict with it. The Dekker helpers live in `src/linalg_sr.rs` rather
+    than `src/portable_math.rs` to avoid a conflict with the unfolded D7; they can move after D7
+    folds.
   - Cross-platform bit-identity is argued from the operations used (no host mathematics library
     call, no fused multiply-add in the production path) and tested only as rerun identity here.
   - `record_engine_accuracy_against_a_factorisation_route` (folded row) still passes: it tests the
@@ -156,3 +157,34 @@ Outcome: **criterion passes; question only partly answered.**
   the srif route uses the same threshold on squared singular values. A margin-aware decision
   (report "near threshold" when the ratio is within a stated factor) would be a design change for
   a later package.
+
+## D. Opt-in square-root paths in the other roadmap modules (no row; no validation claimed)
+
+Added after the second fold note, at the founder's instruction to finish the package. Each is a
+new function beside the unchanged default, built on two new `linalg_sr` primitives:
+`weighted_lstsq` (Householder QR of `[W^1/2 J | W^1/2 b]`, back substitution, residual norm) and
+`covariance_from_sqrt_information` (`R^-1 R^-T`).
+
+| Module | Opt-in function | Replaces (default kept) | Test |
+|---|---|---|---|
+| `fim` | `crlb_srif(jac, weights, rel_tol)` | `crlb(&information_matrix(..))`: rank, spectrum, null space, covariance from `R` | `fim::tests::crlb_srif_agrees_with_crlb_on_full_rank_and_rank_deficient_designs` (1e-12) |
+| `batch_ls` | `gauss_newton_srif` (returns the formal covariance too) | `gauss_newton`'s inverted normal matrix | `batch_ls::tests::the_srif_corrector_matches_the_normal_equation_corrector_and_returns_its_covariance` |
+| `orbit_determination` | `determine_orbit_batch_srif` | `determine_orbit_batch` | `orbit_determination::tests::the_srif_batch_matches_the_default_batch_and_returns_a_covariance` |
+| `lunar_combination` | `formal_covariance_srif` | `formal_covariance`'s `inverse(HᵀWH)` | `lunar_combination::tests::the_srif_formal_covariance_matches_the_normal_equation_one` (1e-6 of sqrt(C_ii C_jj)) |
+| `precise_od` | `fit_srif` (empirical a-priori carried as pseudo-measurement rows) | `fit`'s inverted normal matrix | `tests/precise_od_srif.rs` (2 tests: noisy arc; empirical tier at a loose and a tight prior) |
+| `cislunar_srif` | `srif_cross_validation_sqrt` | Gramian singular values from eigenvalues of `OᵀO` | `cislunar_srif::tests::the_square_root_gramian_read_matches_the_default_read` (same rank transition, condition within 1e-6) |
+| `lunar_datum` | none | — | The module only builds measurement rows (`*_row_datum7`, partials); it has no solve to replace. Its rows reach a solver through the modules above. |
+
+Also `linalg_sr::tests`: `weighted_lstsq` recovers an exact solution and its covariance, and keeps
+accuracy on a Läuchli matrix (e = 1e-9) whose plainly accumulated normal matrix rounds to
+singular.
+
+**What these do and do not claim.** Each opt-in agrees with its default where both are accurate
+(the default is not an oracle for it, nor the reverse): an internal-consistency check, the
+ReferenceImpl class at most. No row is proposed for them and none should be promoted on this
+evidence; a row would need its own pre-registered external comparison (the pattern of section B).
+`orbit_determination`: on the noisy-range case both correctors stall at the finite-difference
+noise floor below a 1e-6 step tolerance, at points 0.2 % of a formal sigma apart; the test uses the
+module's own 1e-3 tolerance and requires agreement within 1 % of a sigma (disclosed: first written
+at 1e-4 m absolute, failed at 1.4e-3 m, then reformulated relative to the sigma). No default
+output, golden file or published figure changes.
