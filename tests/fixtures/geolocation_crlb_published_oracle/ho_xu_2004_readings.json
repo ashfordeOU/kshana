@@ -1,0 +1,45 @@
+{
+  "figures": {
+    "fig6_far_field": {
+      "position_m": {
+        "calibration_max_residual_px": 0.42857142857157066,
+        "columns_used": 490,
+        "free_slope_decade_per_db": 0.04994957156495677,
+        "line_residual_px": 0.20524500229796108,
+        "px_per_db": 61.242867139857985,
+        "px_per_decade": 305.9999999999998,
+        "value_at_0_db": 819.8326489908727
+      },
+      "velocity_m_per_s": {
+        "calibration_max_residual_px": 0.42857142857157066,
+        "columns_used": 490,
+        "free_slope_decade_per_db": 0.04995012274396222,
+        "line_residual_px": 0.1961941657170077,
+        "px_per_db": 61.242867139857985,
+        "px_per_decade": 305.9999999999999,
+        "value_at_0_db": 689.6563213052713
+      }
+    },
+    "fig7_near_field": {
+      "position_m": {
+        "calibration_max_residual_px": 0.6111111111109405,
+        "columns_used": 416,
+        "free_slope_decade_per_db": 0.04996714827091428,
+        "line_residual_px": 0.34423789173125485,
+        "px_per_db": 46.19501950267186,
+        "px_per_decade": 205.2000487329434,
+        "value_at_0_db": 24.90885383065772
+      },
+      "velocity_m_per_s": {
+        "calibration_max_residual_px": 0.6111111111109405,
+        "columns_used": 416,
+        "free_slope_decade_per_db": 0.049993333336850264,
+        "line_residual_px": 0.352447818660935,
+        "px_per_db": 46.19501950267186,
+        "px_per_decade": 205.10019502681624,
+        "value_at_0_db": 12.946624550397221
+      }
+    }
+  },
+  "source_sha256": "5f657bc1b60fd1770e0f2239b9ac132933d9de02afddda6d8db376b89e910bd8"
+}

@@ -736,6 +736,434 @@ pub fn altboc_15_10_psd(f_hz: f64) -> f64 {
     eval(f_hz)
 }
 
+// ---------------------------------------------------------------------------------------
+// Band-limited spectrum measures, correlation function and multipath envelope
+// (Betz, "Binary Offset Carrier Modulations for Radionavigation", NAVIGATION 48(4), 2001,
+// equations (10) to (18) and (20) to (23))
+// ---------------------------------------------------------------------------------------
+
+/// The narrowest spectral feature of a modulation (Hz), which sets integration grids: the
+/// code rate for BPSK-R and sine-BOC (side lobes are one code rate wide), and the 1.023 MHz
+/// code rate for MBOC.
+fn lobe_width_hz(m: &Modulation) -> f64 {
+    m.chip_rate_hz()
+}
+
+/// **Fraction of a unit-area spectrum's power inside a double-sided band** `|f| ≤ band_hz/2`
+/// (Betz 2001, Eq. 11): `η = ∫ G(f) df` over the band.
+pub fn power_in_band(m: &Modulation, band_hz: f64) -> f64 {
+    let half = band_hz / 2.0;
+    // The density is symmetric: integrate the positive half and double it.
+    2.0 * simpson(0.0, half, panels_for(half, lobe_width_hz(m)), |f| m.psd(f))
+}
+
+/// **Maximum of the power spectral density inside the band**: `(f_max, G(f_max))`, with
+/// `f_max ≥ 0` the offset from the carrier (Hz) and `G` the unit-area density (1/Hz). The
+/// maximum is located by a scan and a golden-section refinement
+/// ([`crate::spectrum::psd_peak_hz`]); a spectrum peaking at the carrier returns `f ≈ 0`.
+pub fn psd_maximum(m: &Modulation, band_hz: f64) -> (f64, f64) {
+    let f = crate::spectrum::psd_peak_hz(m, band_hz / 2.0);
+    let g = m.psd(f);
+    // A density peaking at the carrier (BPSK-R) is largest at exactly f = 0.
+    if m.psd(0.0) >= g {
+        (0.0, m.psd(0.0))
+    } else {
+        (f, g)
+    }
+}
+
+/// **Fractional-power bandwidth** (Hz): the double-sided band, centred on the carrier, that
+/// passes `fraction` of the power the signal has inside `norm_band_hz` (for Betz 2001
+/// Table 1, `fraction = 0.9` of the power of a signal band-limited to 30 MHz). Solved by
+/// bisection on the monotone in-band power.
+pub fn fractional_power_bandwidth_hz(m: &Modulation, fraction: f64, norm_band_hz: f64) -> f64 {
+    let total = power_in_band(m, norm_band_hz);
+    let target = fraction.clamp(0.0, 1.0) * total;
+    let (mut lo, mut hi) = (0.0, norm_band_hz);
+    for _ in 0..60 {
+        let mid = 0.5 * (lo + hi);
+        if power_in_band(m, mid) < target {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    0.5 * (lo + hi)
+}
+
+/// **Equivalent rectangular bandwidth** (Hz, Betz 2001 Eq. 18): the width of a rectangular
+/// spectrum with the same in-band power and the same maximum density,
+/// `β_rect = ∫ G df / G(f_max)` over the band. It sets the resistance to a narrowband
+/// interferer at the worst-case frequency.
+pub fn equivalent_rectangular_bandwidth_hz(m: &Modulation, band_hz: f64) -> f64 {
+    power_in_band(m, band_hz) / psd_maximum(m, band_hz).1
+}
+
+/// **Spectral separation coefficient with a band-limited interferer** (1/Hz, Betz 2001
+/// Eq. 15 and 16): the interferer's density is normalised to unit power over its
+/// transmit band `tx_band_hz`, the reference signal's density is the unit-area one over
+/// all frequencies, and the overlap is integrated over the receiver band `rx_band_hz`:
+/// `κ = ∫_{rx} G_s(f) G_i(f) df / ∫_{tx} G_i(f) df`. With `tx_band_hz` infinite this is
+/// [`spectral_separation_coeff`].
+pub fn spectral_separation_coeff_band_limited(
+    sig: &Modulation,
+    intf: &Modulation,
+    rx_band_hz: f64,
+    tx_band_hz: f64,
+) -> f64 {
+    let half = rx_band_hz / 2.0;
+    let lobe = lobe_width_hz(sig).min(lobe_width_hz(intf));
+    let overlap = 2.0
+        * simpson(0.0, half, panels_for(half, lobe), |f| {
+            sig.psd(f) * intf.psd(f)
+        });
+    if tx_band_hz.is_finite() {
+        overlap / power_in_band(intf, tx_band_hz)
+    } else {
+        overlap
+    }
+}
+
+/// A **band-limited autocorrelation function** sampled on a uniform delay grid: the
+/// normalised `R(τ)/R(0)` with `R(τ) = ∫ G(f) e^{i2πfτ} df` over `|f| ≤ band/2` (Betz 2001
+/// Eq. 10 and 12). The density is even, so `R` is real and even.
+#[derive(Clone, Debug)]
+pub struct BandLimitedAcf {
+    /// Delay step of the grid (s).
+    pub tau_step_s: f64,
+    /// `R(k·tau_step)/R(0)` for `k = 0, 1, …`.
+    pub values: Vec<f64>,
+}
+
+impl BandLimitedAcf {
+    /// Largest delay the grid covers (s).
+    pub fn tau_max_s(&self) -> f64 {
+        (self.values.len() - 1) as f64 * self.tau_step_s
+    }
+
+    /// `R(τ)/R(0)` at any delay inside the grid (linear interpolation; `R` is even, so
+    /// negative delays are mirrored). Zero beyond the grid.
+    pub fn at(&self, tau_s: f64) -> f64 {
+        let x = tau_s.abs() / self.tau_step_s;
+        let k = x.floor() as usize;
+        if k + 1 >= self.values.len() {
+            return if k < self.values.len() {
+                self.values[k]
+            } else {
+                0.0
+            };
+        }
+        let w = x - k as f64;
+        self.values[k] * (1.0 - w) + self.values[k + 1] * w
+    }
+}
+
+/// Sample the band-limited, normalised autocorrelation of the unit-area density `psd` on
+/// `0 ≤ τ ≤ tau_max_s` in steps of `tau_step_s`, for a double-sided band `band_hz`.
+/// `lobe_hz` is the narrowest spectral feature of `psd`. The cosine transform is a Simpson
+/// sum over a frequency grid fine enough for both the spectrum and the oscillation at the
+/// largest delay; the cosines are generated by the Chebyshev recurrence.
+pub fn band_limited_acf(
+    psd: impl Fn(f64) -> f64,
+    band_hz: f64,
+    lobe_hz: f64,
+    tau_max_s: f64,
+    tau_step_s: f64,
+) -> BandLimitedAcf {
+    let half = band_hz / 2.0;
+    let n_tau = (tau_max_s / tau_step_s).ceil() as usize + 1;
+    // At least 40 panels per lobe and per period of cos(2π f τ_max).
+    let by_lobe = panels_for(half, lobe_hz);
+    let by_osc = (half * tau_max_s * 40.0).ceil() as usize;
+    let mut n = by_lobe.max(by_osc).max(2_000);
+    if n % 2 == 1 {
+        n += 1;
+    }
+    let h = half / n as f64;
+    let mut acc = vec![0.0f64; n_tau];
+    for j in 0..=n {
+        let f = j as f64 * h;
+        let w = if j == 0 || j == n {
+            1.0
+        } else if j % 2 == 1 {
+            4.0
+        } else {
+            2.0
+        };
+        let g = w * psd(f);
+        if g == 0.0 {
+            continue;
+        }
+        // cos(k θ) by the recurrence c_{k+1} = 2 cos θ c_k − c_{k−1}.
+        let theta = 2.0 * PI * f * tau_step_s;
+        let two_c = 2.0 * theta.cos();
+        let (mut c_prev, mut c) = (theta.cos(), 1.0);
+        for a in acc.iter_mut() {
+            *a += g * c;
+            let next = two_c * c - c_prev;
+            c_prev = c;
+            c = next;
+        }
+    }
+    let r0 = acc[0];
+    BandLimitedAcf {
+        tau_step_s,
+        values: acc.iter().map(|v| v / r0).collect(),
+    }
+}
+
+/// The **band-limited autocorrelation of a modulation** over `0 ≤ τ ≤ tau_max_s`.
+pub fn modulation_acf(
+    m: &Modulation,
+    band_hz: f64,
+    tau_max_s: f64,
+    tau_step_s: f64,
+) -> BandLimitedAcf {
+    band_limited_acf(
+        |f| m.psd(f),
+        band_hz,
+        lobe_width_hz(m),
+        tau_max_s,
+        tau_step_s,
+    )
+}
+
+/// Refine a sampled extremum at index `k` by a parabola through its neighbours:
+/// `(τ, value)`.
+fn parabolic_peak(acf: &BandLimitedAcf, k: usize, g: impl Fn(f64) -> f64) -> (f64, f64) {
+    let (y0, y1, y2) = (g(acf.values[k - 1]), g(acf.values[k]), g(acf.values[k + 1]));
+    let den = y0 - 2.0 * y1 + y2;
+    let dx = if den.abs() > 0.0 {
+        (0.5 * (y0 - y2) / den).clamp(-1.0, 1.0)
+    } else {
+        0.0
+    };
+    let tau = (k as f64 + dx) * acf.tau_step_s;
+    (tau, y1 - 0.25 * (y0 - y2) * dx)
+}
+
+/// **First side lobe of the correlation function** within one code chip `chip_s` (Betz
+/// 2001 Table 1: "time delay of first autocorrelation function sidelobe" and "ratio of
+/// squared first sidelobe magnitude to magnitude of squared main peak"): the first local
+/// maximum of `|R(τ)|²` after the correlation has crossed zero, for `0 < τ < chip_s`.
+/// Returns `(τ, |R(τ)|²/|R(0)|²)`, or `None` when the correlation keeps its sign over the
+/// whole chip (a rectangular chip has no side lobe inside its support).
+pub fn first_acf_side_lobe(acf: &BandLimitedAcf, chip_s: f64) -> Option<(f64, f64)> {
+    let k_end = ((chip_s / acf.tau_step_s).floor() as usize).min(acf.values.len() - 2);
+    let v = &acf.values;
+    let crossing = (1..=k_end).find(|&k| v[k] * v[k - 1] <= 0.0 && v[k - 1] != 0.0)?;
+    for k in crossing.max(1)..k_end {
+        let (a, b, c) = (v[k - 1].powi(2), v[k].powi(2), v[k + 1].powi(2));
+        if b >= a && b > c {
+            return Some(parabolic_peak(acf, k, |x| x * x));
+        }
+    }
+    None
+}
+
+/// **Local extrema of the correlation function** for `0 < τ < tau_end_s` whose magnitude is
+/// at least `min_abs`, as `(τ, R(τ)/R(0))`, each refined by a parabola.
+pub fn acf_extrema(acf: &BandLimitedAcf, tau_end_s: f64, min_abs: f64) -> Vec<(f64, f64)> {
+    let k_end = ((tau_end_s / acf.tau_step_s).floor() as usize).min(acf.values.len() - 2);
+    let v = &acf.values;
+    let mut out = Vec::new();
+    for k in 1..k_end {
+        let is_max = v[k] >= v[k - 1] && v[k] > v[k + 1];
+        let is_min = v[k] <= v[k - 1] && v[k] < v[k + 1];
+        if (is_max || is_min) && v[k].abs() >= min_abs {
+            out.push(parabolic_peak(acf, k, |x| x));
+        }
+    }
+    out
+}
+
+/// **First zero crossing of the correlation function** at positive delay (s), by linear
+/// interpolation between the bracketing samples; `None` if there is none on the grid.
+pub fn acf_first_zero_s(acf: &BandLimitedAcf) -> Option<f64> {
+    let v = &acf.values;
+    (1..v.len()).find(|&k| v[k] <= 0.0).map(|k| {
+        let (a, b) = (v[k - 1], v[k]);
+        let w = if a != b { a / (a - b) } else { 0.0 };
+        ((k - 1) as f64 + w) * acf.tau_step_s
+    })
+}
+
+/// **Multipath code-tracking bias of a non-coherent early-minus-late power (NELP)
+/// discriminator** on a band-limited signal (Betz 2001 Eq. 20 and 23): one specular
+/// reflection of relative amplitude `gamma` (e.g. 10^(−6/20) for a reflection 6 dB below
+/// the direct path), excess delay `delay_s`, and channel phase whose cosine is
+/// `cos_phase`; early-late spacing `spacing_s`. The discriminator is
+/// `S(ε) = |C(ε − Δ/2)|² − |C(ε + Δ/2)|²` with `C(x) = R(x) + γ e^{iψ} R(x − d)`, and the
+/// bias is its zero crossing with positive slope nearest `ε = 0`. Returns the bias (s,
+/// positive = late), or `None` if the discriminator has no stable zero in
+/// `|ε| ≤ Δ/2 + d + τ_step`.
+pub fn nelp_multipath_bias_s(
+    acf: &BandLimitedAcf,
+    spacing_s: f64,
+    gamma: f64,
+    delay_s: f64,
+    cos_phase: f64,
+) -> Option<f64> {
+    let half = spacing_s / 2.0;
+    let s = |eps: f64| -> f64 {
+        let c2 = |x: f64| {
+            let a = acf.at(x);
+            let b = acf.at(x - delay_s);
+            a * a + gamma * gamma * b * b + 2.0 * gamma * cos_phase * a * b
+        };
+        c2(eps - half) - c2(eps + half)
+    };
+    // Sign convention: with no multipath S(ε) = R(ε−Δ/2)² − R(ε+Δ/2)² is positive for a
+    // late estimate (ε > 0), so a stable lock point has S' > 0. The search walks outward
+    // from ε = 0 in steps of a quarter of the correlation grid, so the first stable crossing
+    // met on either side is the one nearest zero.
+    let w = half + delay_s + acf.tau_step_s;
+    let step = 0.25 * acf.tau_step_s;
+    let k_max = (w / step).ceil() as usize;
+    let refine = |mut lo: f64, mut hi: f64| -> f64 {
+        for _ in 0..60 {
+            let mid = 0.5 * (lo + hi);
+            if s(mid) < 0.0 {
+                lo = mid;
+            } else {
+                hi = mid;
+            }
+        }
+        0.5 * (lo + hi)
+    };
+    let s0 = s(0.0);
+    let (mut right_prev, mut left_prev) = (s0, s0);
+    for k in 0..k_max {
+        let xr = (k + 1) as f64 * step;
+        let sr = s(xr);
+        let sl = s(-xr);
+        let right = (right_prev < 0.0 && sr >= 0.0).then(|| refine(xr - step, xr));
+        let left = (sl < 0.0 && left_prev >= 0.0).then(|| refine(-xr, -xr + step));
+        match (left, right) {
+            (Some(l), Some(r)) => return Some(if l.abs() < r.abs() { l } else { r }),
+            (Some(l), None) => return Some(l),
+            (None, Some(r)) => return Some(r),
+            (None, None) => {}
+        }
+        right_prev = sr;
+        left_prev = sl;
+    }
+    None
+}
+
+/// **Worst-case multipath bias** (s) of a NELP discriminator over a set of excess delays
+/// and over the channel phase (its cosine sampled uniformly on `[−1, 1]` at `n_phase`
+/// points, which includes the in-phase and anti-phase cases): `max |bias|`.
+pub fn nelp_worst_case_multipath_bias_s(
+    acf: &BandLimitedAcf,
+    spacing_s: f64,
+    gamma: f64,
+    delays_s: &[f64],
+    n_phase: usize,
+) -> f64 {
+    let n_phase = n_phase.max(2);
+    let mut worst = 0.0f64;
+    for &d in delays_s {
+        for i in 0..n_phase {
+            let cp = -1.0 + 2.0 * i as f64 / (n_phase - 1) as f64;
+            if let Some(b) = nelp_multipath_bias_s(acf, spacing_s, gamma, d, cp) {
+                worst = worst.max(b.abs());
+            }
+        }
+    }
+    worst
+}
+
+#[cfg(test)]
+mod band_limited_measure_tests {
+    use super::*;
+
+    #[test]
+    fn power_in_band_matches_the_bpsk_closed_form() {
+        for (n, band) in [(1.0, 2.046e6), (2.0, 7.0e6), (10.0, 24.0e6)] {
+            let m = Modulation::BpskR { n };
+            let num = power_in_band(&m, band);
+            let closed = bpsk_power_in_band_closed_form(m.chip_rate_hz(), band);
+            assert!((num - closed).abs() < 1e-6, "{n} {band}: {num} vs {closed}");
+        }
+    }
+
+    #[test]
+    fn fractional_bandwidth_inverts_power_in_band() {
+        let m = Modulation::BocSin { m: 1.0, n: 1.0 };
+        let norm = 40.0e6;
+        let b = 5.3e6;
+        let frac = power_in_band(&m, b) / power_in_band(&m, norm);
+        let got = fractional_power_bandwidth_hz(&m, frac, norm);
+        assert!((got - b).abs() < 1.0, "{got} vs {b}");
+    }
+
+    #[test]
+    fn bpsk_maximum_is_at_the_carrier_and_boc11_at_its_lobe() {
+        let (f, g) = psd_maximum(&Modulation::BpskR { n: 1.0 }, 24e6);
+        assert_eq!(f, 0.0);
+        assert!((g - 1.0 / F0_HZ).abs() < 1e-15);
+        // BOC(1,1) maximum at tan y = 2y, y = π f / (2 f_s): 0.7590 MHz (spectrum tests).
+        let (f, _) = psd_maximum(&Modulation::BocSin { m: 1.0, n: 1.0 }, 24e6);
+        assert!((f - 0.7590e6).abs() < 1e3, "{f}");
+    }
+
+    #[test]
+    fn band_limited_ssc_reduces_to_the_unlimited_one() {
+        let a = Modulation::BpskR { n: 1.0 };
+        let b = Modulation::BocSin { m: 1.0, n: 1.0 };
+        let k1 = spectral_separation_coeff_band_limited(&a, &b, 24e6, f64::INFINITY);
+        let k0 = spectral_separation_coeff(&a, &b, 24e6);
+        assert!((k1 / k0 - 1.0).abs() < 1e-4, "{k1} vs {k0}");
+    }
+
+    #[test]
+    fn wide_band_bpsk_correlation_is_the_triangle() {
+        let m = Modulation::BpskR { n: 1.0 };
+        let tc = 1.0 / m.chip_rate_hz();
+        let acf = modulation_acf(&m, 400e6, 1.5 * tc, 1e-9);
+        for x in [0.1, 0.25, 0.5, 0.75] {
+            let r = acf.at(x * tc);
+            assert!((r - (1.0 - x)).abs() < 5e-3, "R({x} Tc) = {r}");
+        }
+        assert!(first_acf_side_lobe(&acf, tc).is_none());
+        let z = acf_first_zero_s(&acf).unwrap();
+        assert!((z / tc - 1.0).abs() < 0.02, "first zero {z}");
+    }
+
+    #[test]
+    fn wide_band_boc11_has_its_minus_half_side_lobe() {
+        // Ideal BOC(1,1) (n = 2): R(T_s) = −1/2 at T_s = T_c/2, so |R|² = 1/4.
+        let m = Modulation::BocSin { m: 1.0, n: 1.0 };
+        let tc = 1.0 / m.chip_rate_hz();
+        let acf = modulation_acf(&m, 400e6, 1.2 * tc, 0.5e-9);
+        let (tau, r2) = first_acf_side_lobe(&acf, tc).expect("side lobe");
+        assert!((tau / tc - 0.5).abs() < 0.01, "{tau}");
+        assert!((r2 - 0.25).abs() < 0.01, "{r2}");
+    }
+
+    #[test]
+    fn nelp_in_phase_bias_equals_the_coherent_envelope_on_a_wide_band() {
+        // In phase (cos ψ = 1) the composite correlation is real, so the NELP zero is the
+        // coherent early-late zero: compare with the infinite-band coherent envelope.
+        let m = Modulation::BpskR { n: 1.0 };
+        let tc = 1.0 / m.chip_rate_hz();
+        let acf = modulation_acf(&m, 400e6, 2.0 * tc, 0.5e-9);
+        let gamma = 10f64.powf(-6.0 / 20.0);
+        for d_chips in [0.1, 0.3, 0.6] {
+            let b = nelp_multipath_bias_s(&acf, 0.5 * tc, gamma, d_chips * tc, 1.0).unwrap();
+            let (coh, _) = multipath_error_envelope_chips(0.5, 6.0, d_chips);
+            assert!(
+                (b / tc - coh).abs() < 3e-3,
+                "d {d_chips}: {} vs {coh}",
+                b / tc
+            );
+        }
+        let none = nelp_multipath_bias_s(&acf, 0.5 * tc, 0.0, 0.3 * tc, 1.0).unwrap();
+        assert!(none.abs() < 1e-3 * tc, "no reflection, no bias: {none}");
+    }
+}
+
 #[cfg(test)]
 mod code_tests {
     use super::*;

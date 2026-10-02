@@ -838,9 +838,212 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
     s
 }
 
+// ---------------------------------------------------------------------------------------------
+// Measured inputs: real satellite positions, per-satellite transmit power and tabulated gain
+// patterns, in place of the Walker geometry and the Airy stand-in above.
+// ---------------------------------------------------------------------------------------------
+
+/// Boltzmann's constant in decibels, `−10 log10(1.380649e−23 J/K) = 228.6 dB(W/(Hz·K))⁻¹`.
+pub const BOLTZMANN_DB: f64 = 228.599_166_3;
+
+/// A tabulated antenna gain pattern: gain (dB) against off-boresight angle (deg), azimuth
+/// averaged, linearly interpolated, and UNDEFINED outside the tabulated range (a link outside
+/// it is reported, never extrapolated).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct GainTable {
+    /// Off-boresight angles (deg), strictly increasing.
+    pub angle_deg: Vec<f64>,
+    /// Gain (dB, relative to isotropic) at each angle.
+    pub gain_db: Vec<f64>,
+}
+
+impl GainTable {
+    /// A table from `(angle_deg, gain_db)` pairs; `None` unless the angles strictly increase and
+    /// there are at least two.
+    pub fn new(points: &[(f64, f64)]) -> Option<Self> {
+        if points.len() < 2 || points.windows(2).any(|w| w[1].0 <= w[0].0) {
+            return None;
+        }
+        Some(Self {
+            angle_deg: points.iter().map(|p| p.0).collect(),
+            gain_db: points.iter().map(|p| p.1).collect(),
+        })
+    }
+
+    /// Gain (dB) at `angle_deg`, or `None` outside the table.
+    pub fn gain_at(&self, angle_deg: f64) -> Option<f64> {
+        let a = &self.angle_deg;
+        if !(angle_deg >= a[0] && angle_deg <= a[a.len() - 1]) {
+            return None;
+        }
+        let k = a.partition_point(|&x| x <= angle_deg).clamp(1, a.len() - 1);
+        let (x0, x1) = (a[k - 1], a[k]);
+        let (y0, y1) = (self.gain_db[k - 1], self.gain_db[k]);
+        Some(y0 + (y1 - y0) * (angle_deg - x0) / (x1 - x0))
+    }
+}
+
+/// One transmitter-to-receiver link evaluated from measured inputs.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct MeasuredLink {
+    /// Transmit off-boresight angle: between the transmitter's nadir and the receiver (deg).
+    pub theta_tx_deg: f64,
+    /// Receive off-boresight angle: between the receiving antenna boresight and the
+    /// transmitter (deg).
+    pub z_rx_deg: f64,
+    /// Slant range (m).
+    pub range_m: f64,
+    /// Free-space loss `20 log10(4π r / λ)` (dB).
+    pub free_space_loss_db: f64,
+    /// Whether the straight path passes through the occulting sphere.
+    pub occulted: bool,
+    /// Carrier-to-noise density (dB-Hz) by the link equation
+    /// `P_T + G_T(θ) + G_R(z) − 20 log10(4π r/λ) + 228.6 − (T_eq + L_R)`; `None` when either
+    /// angle lies outside its gain table.
+    pub cn0_dbhz: Option<f64>,
+}
+
+/// Evaluate one link from measured inputs: transmitter position `tx_m` (its antenna boresight
+/// is its nadir, toward the origin), transmit power `tx_power_dbw` and pattern `tx_pattern`;
+/// receiver position `rx_m`, receiving-antenna boresight `rx_boresight` (any length) and
+/// pattern `rx_pattern`; carrier `freq_hz`; the receiver noise factor `T_eq + L_R` in dB
+/// (`noise_factor_db`); and a spherical occulting body of radius `occulting_radius_m` at the
+/// origin. This is the link budget of Montenbruck et al. (2023, J. Geod. 97:96, Eq. 4).
+#[allow(clippy::too_many_arguments)]
+pub fn measured_link(
+    tx_m: Vec3,
+    tx_power_dbw: f64,
+    tx_pattern: &GainTable,
+    rx_m: Vec3,
+    rx_boresight: Vec3,
+    rx_pattern: &GainTable,
+    freq_hz: f64,
+    noise_factor_db: f64,
+    occulting_radius_m: f64,
+) -> Option<MeasuredLink> {
+    let los = sub(rx_m, tx_m);
+    let range_m = norm(los);
+    let u = unit(los)?;
+    let nadir = unit([-tx_m[0], -tx_m[1], -tx_m[2]])?;
+    let b = unit(rx_boresight)?;
+    let theta_tx_deg = dot(nadir, u).clamp(-1.0, 1.0).acos().to_degrees();
+    let z_rx_deg = dot(b, [-u[0], -u[1], -u[2]])
+        .clamp(-1.0, 1.0)
+        .acos()
+        .to_degrees();
+    let free_space_loss_db = free_space_path_loss_db(range_m, freq_hz);
+    let occulted = segment_blocked_by_sphere(tx_m, rx_m, occulting_radius_m);
+    let cn0_dbhz = match (
+        tx_pattern.gain_at(theta_tx_deg),
+        rx_pattern.gain_at(z_rx_deg),
+    ) {
+        (Some(gt), Some(gr)) => {
+            Some(tx_power_dbw + gt + gr - free_space_loss_db + BOLTZMANN_DB - noise_factor_db)
+        }
+        _ => None,
+    };
+    Some(MeasuredLink {
+        theta_tx_deg,
+        z_rx_deg,
+        range_m,
+        free_space_loss_db,
+        occulted,
+        cn0_dbhz,
+    })
+}
+
+/// Acquisition-and-tracking state over an epoch series for one satellite: a signal not being
+/// tracked is acquired when its C/N0 reaches `acquire_dbhz`; once tracked it is kept while the
+/// C/N0 stays at or above `track_dbhz`. `None` (no usable link) drops the track.
+pub fn track_with_hysteresis(
+    cn0_dbhz: &[Option<f64>],
+    acquire_dbhz: f64,
+    track_dbhz: f64,
+) -> Vec<bool> {
+    let mut on = false;
+    cn0_dbhz
+        .iter()
+        .map(|c| {
+            on = match c {
+                Some(v) if on => *v >= track_dbhz,
+                Some(v) => *v >= acquire_dbhz,
+                None => false,
+            };
+            on
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn gain_table_interpolates_and_refuses_to_extrapolate() {
+        let t = GainTable::new(&[(0.0, 10.0), (10.0, 14.0), (20.0, 4.0)]).expect("table");
+        assert_eq!(t.gain_at(5.0), Some(12.0));
+        assert_eq!(t.gain_at(20.0), Some(4.0));
+        assert_eq!(t.gain_at(20.1), None);
+        assert_eq!(t.gain_at(-0.1), None);
+        assert!(GainTable::new(&[(0.0, 1.0), (0.0, 2.0)]).is_none());
+    }
+
+    #[test]
+    fn measured_link_matches_a_hand_budget() {
+        // Transmitter on the +x axis at GPS radius, receiver below it on the same axis with a
+        // zenith-pointing antenna: both off-boresight angles are zero.
+        let tx = [26_560e3, 0.0, 0.0];
+        let rx = [7_000e3, 0.0, 0.0];
+        let flat = GainTable::new(&[(0.0, 3.0), (180.0, 3.0)]).expect("table");
+        let l = measured_link(
+            tx,
+            14.5,
+            &flat,
+            rx,
+            [1.0, 0.0, 0.0],
+            &flat,
+            L1_HZ,
+            28.5,
+            6_378e3,
+        )
+        .expect("link");
+        assert!(l.theta_tx_deg.abs() < 1e-5 && l.z_rx_deg.abs() < 1e-5);
+        assert!(!l.occulted);
+        let lambda = 299_792_458.0 / L1_HZ;
+        let fsl = 20.0 * (4.0 * std::f64::consts::PI * 19_560e3 / lambda).log10();
+        let want = 14.5 + 3.0 + 3.0 - fsl + BOLTZMANN_DB - 28.5;
+        assert!((l.cn0_dbhz.expect("cn0") - want).abs() < 1e-9);
+        // A receiver on the far side of the Earth is occulted.
+        let far = measured_link(
+            tx,
+            14.5,
+            &flat,
+            [-7_000e3, 0.0, 0.0],
+            [1.0, 0.0, 0.0],
+            &flat,
+            L1_HZ,
+            28.5,
+            6_378e3,
+        )
+        .expect("link");
+        assert!(far.occulted);
+    }
+
+    #[test]
+    fn hysteresis_acquires_high_and_keeps_low() {
+        let c = [
+            Some(27.0),
+            Some(31.0),
+            Some(26.0),
+            Some(24.9),
+            Some(26.0),
+            Some(30.0),
+            None,
+            Some(29.0),
+        ];
+        let t = track_with_hysteresis(&c, 30.0, 25.0);
+        assert_eq!(t, vec![false, true, true, false, false, true, false, false]);
+    }
 
     fn scn() -> EarthGnssLunarScenario {
         EarthGnssLunarScenario {
