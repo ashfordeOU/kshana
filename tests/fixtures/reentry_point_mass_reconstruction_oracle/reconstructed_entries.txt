@@ -1,0 +1,7 @@
+# Reconstructed ballistic Earth entries and the inputs fixed by the rule in
+# tests/reentry_point_mass_reconstruction_oracle.rs. Values printed in the cited publications
+# (text or tables; the Genesis diameter is a dimension label on a configuration drawing).
+# Source and provenance: NOTICE.md in this directory.
+# ENTRY id | entry_speed_m_s | flight_path_angle_deg (below horizontal) | frame | interface_radius_m | mass_kg | diameter_m | drag_coefficient | reconstructed_peak_deceleration_g | sources
+ENTRY stardust_src_2006 | 12900 | 8.2 | inertial | 6503140 | 46 | 0.8128 | 1.4828 | 32.89 | NTRS 20080008567 sec. II, V; NTRS 20040105538 Table 4
+ENTRY genesis_src_2004 | 11040 | 8.0 | inertial | 6503140 | 205.6 | 1.52 | 1.4828 | 27.0 | NTRS 20080019649 sec. I, VI; NTRS 20050050931; NTRS 20050060761 Fig. 2; NTRS 20040105538 Table 4
