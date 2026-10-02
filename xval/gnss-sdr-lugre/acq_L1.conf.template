@@ -1,0 +1,53 @@
+; SPDX-License-Identifier: AGPL-3.0-only
+; GNSS-SDR 0.0.19 configuration pinned by tests/lugre_acquisition_gnss_sdr_oracle.rs.
+; run_acq.py substitutes ${FS} (sample rate from the .sdrx metadata), ${FILE} (the converted
+; interleaved signed 8-bit IQ file), ${PRN} and ${OUT}; nothing else changes between runs.
+[GNSS-SDR]
+GNSS-SDR.internal_fs_sps=${FS}
+
+SignalSource.implementation=File_Signal_Source
+SignalSource.filename=${FILE}
+SignalSource.item_type=ibyte
+SignalSource.sampling_frequency=${FS}
+SignalSource.samples=0
+SignalSource.repeat=false
+SignalSource.enable_throttle_control=false
+
+SignalConditioner.implementation=Signal_Conditioner
+DataTypeAdapter.implementation=Ibyte_To_Complex
+InputFilter.implementation=Pass_Through
+InputFilter.item_type=gr_complex
+Resampler.implementation=Pass_Through
+Resampler.item_type=gr_complex
+
+Channels_1C.count=1
+Channels.in_acquisition=1
+Channel0.satellite=${PRN}
+Channel0.signal=1C
+
+Acquisition_1C.implementation=GPS_L1_CA_PCPS_Acquisition
+Acquisition_1C.item_type=gr_complex
+Acquisition_1C.coherent_integration_time_ms=1
+Acquisition_1C.max_dwells=50
+Acquisition_1C.pfa=0.001
+Acquisition_1C.use_CFAR_algorithm=true
+Acquisition_1C.doppler_max=50000
+Acquisition_1C.doppler_step=500
+Acquisition_1C.bit_transition_flag=false
+Acquisition_1C.make_two_steps=false
+Acquisition_1C.blocking=true
+Acquisition_1C.dump=true
+Acquisition_1C.dump_filename=${OUT}/acq
+Acquisition_1C.dump_channel=0
+
+Tracking_1C.implementation=GPS_L1_CA_DLL_PLL_Tracking
+Tracking_1C.item_type=gr_complex
+Tracking_1C.pll_bw_hz=20.0
+Tracking_1C.dll_bw_hz=2.0
+TelemetryDecoder_1C.implementation=GPS_L1_CA_Telemetry_Decoder
+Observables.implementation=Hybrid_Observables
+PVT.implementation=RTKLIB_PVT
+PVT.positioning_mode=Single
+PVT.output_rate_ms=1000
+PVT.display_rate_ms=1000
+PVT.output_enabled=false
