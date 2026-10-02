@@ -143,8 +143,13 @@ def read(path):
 
 
 def c2t(mjd, ut1_utc, xp_as, yp_as):
-    """ERFA celestial-to-terrestrial matrix at 0h UTC of `mjd`."""
-    u1, u2 = 2400000.5, mjd
+    """ERFA celestial-to-terrestrial matrix at 0h UTC of `mjd`.
+
+    Amendment A1: the UTC date is passed as (2400000.5 + MJD, 0.0), so the UT1-UTC offset
+    lands in an otherwise-zero second part and keeps about 1e-11 s of resolution. The first
+    run passed (2400000.5, MJD), where one unit in the last place of MJD + dUT1/86400 is
+    about 0.6 microseconds of time."""
+    u1, u2 = 2400000.5 + mjd, 0.0
     a1, a2 = erfa.utctai(u1, u2)
     t1, t2 = erfa.taitt(a1, a2)
     ut1a, ut1b = erfa.utcut1(u1, u2, ut1_utc)
