@@ -407,7 +407,7 @@ Part 2, square-root information datum solver:
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
   observing campaign" row is unchanged and still awaits a decision on its promotion.
 
-**D4, JPL kernel ephemeris spine, phase 1 (four new VALIDATED rows: 228 -> 232 rows, 112 -> 116 VALIDATED).**
+**D4, JPL kernel ephemeris spine, phase 1 (four new VALIDATED rows: 228 -> 232 rows, 112 -> 116 validated).**
 
 - **The NAIF kernel reader has its own row.** `naif_kernel` (DAF container, SPK type 2,
   binary PCK type 2) agrees with the SPICE Toolkit (CSPICE N0067 through spiceypy 8.2.0) and
@@ -457,6 +457,52 @@ Part 2, square-root information datum solver:
 - Revisions: none. No golden file, published figure or existing test value changes; the
   analytic `lunar-llr-datum`, `lunar-vlbi-fim` and all-stations-fixed `lunar-vlbi-fim` reports
   are byte-identical to before (result SHA-256 prefixes 9927aac2, cf1d2671, 25c357e4).
+
+**D9, measured clock library "Clock Atlas" (three new rows, one VALIDATED: 232 -> 235 rows, 116 -> 117 validated).**
+
+- **Measured clock library (`clock_library`).** Device cards (white phase, white, flicker and
+  random-walk frequency modulation, a linear frequency drift and, optionally, once- to
+  four-per-revolution phase terms) fitted to a named measured clock record and scored on held-out
+  data; gap-aware Allan and Hadamard variances; a conditioning detector that logs every gap, phase
+  outlier, phase step, burst and frequency step and knows nothing of file or day boundaries;
+  conversion of a card to the slot-timing noise model, the extended Kalman clock model and the
+  spoofing monitor's noise levels. Readers for RINEX and IGS clock files, BIPM per-laboratory
+  files and Circular T Section 1 (`realdata::clk`); a pooled, hierarchical ageing bound for
+  UTC(k) (`utck_bound`, not yet scored).
+- **Lag-1 autocorrelation noise identification** (`allan::lag1_noise_id`, Riley and Greenhall
+  2004), new VALIDATED row (Library): agrees with allantools 2024.6 `autocorr_noise_id` on 140
+  cases, integers identical, worst difference 9.6e-13 against a 1e-9 bar (pre-registered
+  2ec76864; `tests/clock_library_lag1_noise_id_allantools.rs`).
+- **Measured device cards with held-out prediction**, new MODELLED row (a finding): fit on one
+  third, predict the Allan deviation of the other two thirds within a factor of 1.5
+  (pre-registered 2ec76864). GPS Block IIF on a fresh IGS window (2026-03-01 to 14): 10 of 11;
+  G27 is optimistic at the two-hour scale (worst factor 1.510). Caesium (within, 1.070), OCXO
+  (outside, 2.348) and strontium (within) are reported, not blind. The JammerTest receiver card
+  and the Galileo maser and Deep Space Atomic Clock cards are blocked. A ZED-F9P receiver TCXO
+  model class on 12 static Wroclaw stations (Zenodo 6488497) fails: 1 of 11 blind stations in a
+  disclosed corrected re-run (`tests/clock_library_device_cards_oracle.rs`,
+  `tests/clock_library_f9p_cards_oracle.rs`).
+- **GPS Block IIF cards with per-revolution terms**, new MODELLED row (a finding): on a second
+  fresh window (2026-04-01 to 14) 9 of 11 within the bar; G03 (1.947) and G25 (1.581) are
+  optimistic because their held-out records are noisier than their fit thirds; dropping the
+  periodic terms fails all 11 (pre-registered fb475550;
+  `tests/clock_library_periodic_cards_oracle.rs`).
+- **M002, onboard clock state estimation, round 3** (a finding, stays MODELLED): after the frozen
+  conditioning detector, the round-2 extended filter, tuning and criteria unchanged meet (a) and
+  (c) on all 11 satellites for the first time; (b) fails on G09 (0.894) and G26 (0.876)
+  (pre-registered fb475550; `tests/clock_state_ext_igs_conditioned_oracle.rs`).
+- **M010, spoofing detection, rounds 3 to 4b** (stays MODELLED): round 3 blocked (167 training
+  epochs from the JammerTest unit's other sessions against 3600); with a ZED-F9P model-class card
+  (rounds 4 and 4b) the clock monitor raises zero pre-onset false alarms at all 10 logged onsets
+  (round 2: 86) and 6 of 10 onsets are detected within 10 s (round 2: 4); the same four stay late
+  (`tests/clock_library_tcxo_card_jammertest_oracle.rs`).
+- **M083, UTC(k) overbound, round 3**: pre-registered prospectively (fb475550) on Circular T
+  issues from 465, not yet run (`tests/utck_bound_prospective_oracle.rs`).
+- Oracle environment: the Wroclaw ZED-F9P record is data-gated under
+  `$KSHANA_ORACLES/data/wroclaw_f9p` (CC BY 4.0, about 1.5 GB); the IGS clock fixtures are
+  vendored (IGS products, with attribution).
+- Revisions: none. No golden file, published figure or existing test value changes; M001
+  (holdover re-anchoring) is not acted on because no clock class promoted.
 
 ### Fixed
 
