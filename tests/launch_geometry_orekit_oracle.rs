@@ -58,6 +58,35 @@
 //! also runs the same seven latitudes through the scenario, at the same epoch, rows and 1e-6.
 //! This adds a path to the comparison; it changes neither the oracle values nor the tolerance.
 //!
+//! ROUND 2, third step: NEW PRE-REGISTRATION (written 2026-10-02, before the Orekit run below).
+//! The round-2 change above redefined comparison 5 (a new function with new inputs) after a hand
+//! prototype had been evaluated against the fixture, without a new pre-registration, and its
+//! sites all sat at longitude 0. That comparison is kept as a regression check, not a promotion
+//! basis. This is the fresh comparison for the true-pole site speed:
+//! * Quantity: `launch::site_rotation_speed_at(lat, lon, jd_tt, &eop)` and, through the shipped
+//!   `launch-window` scenario (`epoch`, `site_lon_deg`, `eop_finals2000a`), the report field
+//!   `site_rotation_speed_true_pole_m_s`.
+//! * Epoch: 2025-07-17T06:30:00 UTC (fresh; final IERS rows). Sites: latitudes {0, 28.5, 45.6,
+//!   62.9, -28.5, -60} deg times longitudes {0, 90, 123.4, -75} deg, 24 sites, so x_p and y_p
+//!   (and the sign of y_p) both enter at first order.
+//! * EOP input to Kshana: the three rows MJD 60872, 60873, 60874 copied verbatim from the frozen
+//!   2026-09-30 IERS finals2000A.all (SHA-256 cc80680e...8e18), committed as
+//!   `finals2000A_2025-07-16_to_07-18.txt`.
+//! * Oracle: Orekit 12.2 (Apache-2.0), run as a separate program (`LaunchOrekitDriver site-speed`):
+//!   the GCRF velocity magnitude of an Earth-fixed point on a spherical body (R_eq = 6378137 m) in
+//!   the ITRF (IERS 2010 conventions, simple EOP), at the epoch. Orekit reads its EOP from a data
+//!   directory whose only Earth-orientation file is that same frozen finals2000A.all, so both sides
+//!   use the same IERS release (Orekit prefers the Bulletin B pole columns where present; they
+//!   differ from the Bulletin A columns Kshana reads by under 1e-4 arcsec, below 1e-9 relative in
+//!   speed). Output lines `ROT2 lat lon | speed_m_s`, fixture `site_speed_true_pole_orekit.txt`.
+//! * Tolerance: relative difference at most 1e-6 for every site, on both the function and the
+//!   scenario path. The nominal `site_rotation_speed` (no epoch, the scenario's default
+//!   `site_rotation_speed_m_s`) is not part of this comparison: it stays the 1.12e-6 finding.
+//! * Disclosure: at 2026-03-01 and longitude 0 the same closed form was seen to agree within
+//!   1.27e-7 (worst at 62.9 deg), a remainder consistent with the precession-nutation rate of the
+//!   pole, which the function leaves out and which depends on the site's longitude; the outcome at
+//!   other longitudes was not computed before this was written.
+//!
 //! Fixture, driver, generator and provenance: `tests/fixtures/launch_geometry_orekit_oracle/`.
 
 use kshana::eop::EopSeries;
@@ -334,5 +363,54 @@ fn earth_rotation_speed_gap_is_recorded_as_a_finding() {
     assert!(
         gaps.iter().any(|g| g.1 > ROT_REL_TOL),
         "site speed now agrees within {ROT_REL_TOL:e}: the M018 record says DISAGREES and must be revisited"
+    );
+}
+
+/// ROUND 2, third step (pre-registered 2026-10-02): the true-pole site speed at a fresh epoch and
+/// at non-zero longitudes against Orekit 12.2, on the function and the scenario path, 1e-6.
+#[test]
+#[ignore = "pre-registered; not yet run"]
+fn true_pole_site_speed_matches_orekit_at_a_fresh_epoch_and_longitudes() {
+    let ref2_path = format!(
+        "{}/tests/fixtures/launch_geometry_orekit_oracle/site_speed_true_pole_orekit.txt",
+        env!("CARGO_MANIFEST_DIR")
+    );
+    let ref2 = std::fs::read_to_string(&ref2_path).unwrap_or_else(|e| panic!("{ref2_path}: {e}"));
+    const ROWS: &str =
+        include_str!("fixtures/launch_geometry_orekit_oracle/finals2000A_2025-07-16_to_07-18.txt");
+    let eop = EopSeries::from_finals2000a(ROWS);
+    assert_eq!(eop.len(), 3, "three verbatim IERS rows");
+    let jd_tt = utc_to_tt(julian_date(2025, 7, 17, 6, 30, 0.0));
+    let mut n = 0;
+    let mut worst: f64 = 0.0;
+    let mut failures = Vec::new();
+    for rest in ref2.lines().filter_map(|l| l.strip_prefix("ROT2 ")) {
+        let f = fields(rest);
+        let (lat, lon, oracle) = (f[0][0], f[0][1], f[1][0]);
+        let v = site_rotation_speed_at(lat.to_radians(), lon.to_radians(), jd_tt, &eop);
+        let scn = kshana::launch::LaunchWindowScenario {
+            site_lat_deg: lat,
+            target_inclination_deg: 90.0,
+            altitude_km: 400.0,
+            site_lon_deg: lon,
+            epoch: Some("2025-07-17T06:30:00".to_string()),
+            eop_finals2000a: Some(ROWS.to_string()),
+        };
+        let j: serde_json::Value = serde_json::from_str(&scn.run_json().unwrap().0).unwrap();
+        let vs = j["site_rotation_speed_true_pole_m_s"].as_f64().unwrap();
+        let (r, rs) = (rel(v, oracle), rel(vs, oracle));
+        eprintln!("ROT2 lat {lat} lon {lon}: function rel {r:.3e}, scenario rel {rs:.3e}");
+        worst = worst.max(r).max(rs);
+        if r > ROT_REL_TOL || rs > ROT_REL_TOL {
+            failures.push(format!("ROT2 lat {lat} lon {lon}: {r:e} / {rs:e}"));
+        }
+        n += 1;
+    }
+    assert_eq!(n, 24, "pre-registered site count");
+    eprintln!("ROT2 worst relative gap {worst:.3e} (bar {ROT_REL_TOL:e})");
+    assert!(
+        failures.is_empty(),
+        "disagreements:\n{}",
+        failures.join("\n")
     );
 }
