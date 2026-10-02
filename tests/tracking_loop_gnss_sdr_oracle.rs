@@ -98,6 +98,29 @@
 //! carrier error; on the calibration recording `|P|/|X|` is then 1.0000 (0.9996 with the true
 //! code) and the carrier error 0.174°. Nothing else changes; every recording is re-run.
 //!
+//! Result (2026-10-02, after amendment 3; tolerances unchanged), recorded as a FINDING.
+//! Inside the bars: (1) σ_PLL at 35, 40, 45 dB-Hz (+7.7 %, +2.8 %, +4.1 %); (2) σ_DLL at 35,
+//! 40, 45 dB-Hz (−0.0 %, −1.6 %, −4.0 %); (4) the carrier loop binds (measured 3σ_DLL 0.084 chip
+//! at the measured drop threshold); (5) dynamic stress 10.01° against 10.11° (−1.0 %); (6) code
+//! ramp lag 0.0246 chip against 0.0250 (−1.5 %). Outside: (1) σ_PLL at 30 dB-Hz 8.49° against
+//! 7.02° (+21 %); (2) σ_DLL at 30 dB-Hz 0.0164 chip against 0.0242 (−32 %: GNSS-SDR's normalised
+//! envelope discriminator does not show the early-minus-late-power squaring loss the engine's
+//! expression carries at a pre-detection SNR of 0 dB); (3) drop threshold 26.97 against
+//! 25.47 dB-Hz and re-lock 28.97 against 27.44 dB-Hz (both 1.5 dB above the engine: near the
+//! threshold the real loop's jitter grows faster than the linear expression); (7) mean time
+//! between slips: GNSS-SDR's second-order Costas loop slips 0.5 to 2 decades more often than
+//! Viterbi's first-order expression at all 9 qualifying points.
+//! Engine fix made after the first run (commit "Costas slip time uses rho/4"): the slip time had
+//! used the phase-locked-loop form (loop SNR ρ); a Costas loop tracks 2φ with loop SNR ρ/4 and
+//! slips by half cycles. The old form was 2 to 11 decades longer than measured (25 dB-Hz,
+//! 10 Hz: 10^9.55 s against a measured 10^0.78 s); the fixed form is 0.5 to 2 decades longer
+//! (10^1.60 s there). The comparison was re-run at the unchanged tolerance; (7) still fails.
+//! The strict test stays ignored with the gaps in its reason; `finding_is_pinned` pins them.
+//!
+//! Discrimination, done 2026-10-02: dropping the squaring-loss factor from
+//! `pll_thermal_jitter_rad` moves σ_PLL at 35 dB-Hz from +7.7 % to +15.9 % (outside the bar)
+//! and at 30 dB-Hz from +21 % to +48 %; the mutation was then edited back.
+//!
 //! Engine quantities: `pll_thermal_jitter_rad`, `dll_thermal_jitter_chips` (with `T`, `d`, `B`
 //! above), `LoopConfig::thresholds` (drop and re-lock, static user), `pll_dynamic_stress_deg`,
 //! `dll_ramp_lag_chips`, `log10_mean_time_to_cycle_slip_s`.
@@ -168,7 +191,7 @@ fn cfg(bn: f64) -> LoopConfig {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "DISAGREES with the pre-registered bars: sigma_PLL +21 % and sigma_DLL -32 % at 30 dB-Hz (35-45 dB-Hz agree); carrier thresholds 1.5 dB above the engine; slip times 0.5-2 decades shorter; dynamic stress, ramp lag and binding loop agree; finding recorded, row stays MODELLED"]
 fn tracking_loops_match_gnss_sdr_on_independent_if() {
     let r = rows();
     let mut fails = Vec::new();
@@ -273,5 +296,64 @@ fn tracking_loops_match_gnss_sdr_on_independent_if() {
     assert!(
         fails.is_empty(),
         "outside the pre-registered bars: {fails:#?}"
+    );
+}
+
+/// The finding, pinned so a change to it is seen: the parts that agree stay inside their bars,
+/// and the measured gaps of 2026-10-02 stay where they were (bands with a small margin, not
+/// acceptance criteria).
+#[test]
+fn finding_is_pinned() {
+    let r = rows();
+    let get = |kind: &str, a: &str, b: &str| -> f64 {
+        num(&r
+            .iter()
+            .find(|f| f[0] == kind && f[1] == a && (b.is_empty() || f[2] == b))
+            .unwrap_or_else(|| panic!("{kind} {a} {b}"))[if b.is_empty() { 2 } else { 3 }])
+    };
+    for cn0 in [35.0, 40.0, 45.0] {
+        let c = format!("{cn0}");
+        let p =
+            get("pll_jitter_deg", "10", &c) / pll_thermal_jitter_rad(cn0, B_PLL, T_S).to_degrees();
+        let d =
+            get("dll_jitter_chips", "1", &c) / dll_thermal_jitter_chips(cn0, B_DLL, T_S, D_CHIPS);
+        assert!(
+            (p - 1.0).abs() <= TOL_REL && (d - 1.0).abs() <= TOL_REL,
+            "{cn0}: {p} {d}"
+        );
+    }
+    let p30 =
+        get("pll_jitter_deg", "10", "30") / pll_thermal_jitter_rad(30.0, B_PLL, T_S).to_degrees();
+    let d30 =
+        get("dll_jitter_chips", "1", "30") / dll_thermal_jitter_chips(30.0, B_DLL, T_S, D_CHIPS);
+    assert!(
+        (1.15..=1.27).contains(&p30),
+        "PLL 30 dB-Hz ratio moved: {p30}"
+    );
+    assert!(
+        (0.62..=0.74).contains(&d30),
+        "DLL 30 dB-Hz ratio moved: {d30}"
+    );
+    let thr = cfg(B_PLL).thresholds(0.0, 0.0);
+    let gap = get("carrier_threshold_dbhz", "10", "") - thr.drop_cn0_dbhz.unwrap();
+    assert!(
+        (1.2..=1.8).contains(&gap),
+        "drop threshold gap moved: {gap}"
+    );
+    let stress = get("doppler_rate_mean_error_deg", "10", "10")
+        / pll_dynamic_stress_deg(DOPPLER_RATE, B_PLL);
+    let lag = get("code_ramp_lag_chips", "1", "0.1") / dll_ramp_lag_chips(CODE_SLEW, B_DLL);
+    assert!(
+        (stress - 1.0).abs() <= TOL_REL && (lag - 1.0).abs() <= TOL_REL,
+        "{stress} {lag}"
+    );
+    let slip = num(&r
+        .iter()
+        .find(|f| f[0] == "slip_log10_mean_time_s" && f[1] == "10" && f[2] == "25")
+        .expect("slip row")[4]);
+    let gap = log10_mean_time_to_cycle_slip_s(25.0, B_PLL, T_S) - slip;
+    assert!(
+        (0.5..=1.2).contains(&gap),
+        "slip-time gap at 25 dB-Hz moved: {gap}"
     );
 }
