@@ -1,8 +1,8 @@
 {
   "coverage": {
     "described_fields_without_definition": 239,
-    "fields_described": 2518,
-    "fields_total": 2520,
+    "fields_described": 2530,
+    "fields_total": 2532,
     "fields_without_units": 2,
     "kinds_complete": 74,
     "kinds_total": 75,
@@ -5273,6 +5273,13 @@
           "provenance": "closed-form",
           "unit": "s"
         },
+        "contribution_crossings[].crossings[].error_model_s": {
+          "declared_as": "contribution_crossings.crossings.error_model_s",
+          "definition": "first crossing of that contribution's nine-state error-model curve, by forward scan and bisection; null when the scan horizon passes",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
         "contribution_crossings[].crossings[].rel_diff": {
           "declared_as": "contribution_crossings.crossings.rel_diff",
           "definition": "|bisection - closed form| / closed form; the agreement of the two routes to the same crossing",
@@ -5296,14 +5303,14 @@
         },
         "contributions[].coefficient_si": {
           "declared_as": "contributions.coefficient_si",
-          "definition": null,
+          "definition": "coefficient of the leading-order law; the error model departs from it as the Schuler loop acts",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "m/s^exponent"
         },
         "contributions[].exponent": {
           "declared_as": "contributions.exponent",
-          "definition": "the power of coast duration this contribution grows with",
+          "definition": "the power of coast duration this contribution's short-coast leading-order law grows with",
           "evidence_tier": "modelled",
           "provenance": "modelled",
           "unit": "1"
@@ -5331,7 +5338,7 @@
         },
         "crossings[].coast_s": {
           "declared_as": "crossings.coast_s",
-          "definition": "bisection on the combined model; null with a status when the model never reaches the threshold",
+          "definition": "first crossing of the combined nine-state error model, by forward scan and bisection; null with a status when the model never reaches the threshold",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "s"
@@ -5472,6 +5479,30 @@
           "provenance": "input",
           "unit": "m/s"
         },
+        "site.gravity_m_s2": {
+          "definition": "WGS-84 normal gravity at the site",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s^2"
+        },
+        "site.height_m": {
+          "definition": null,
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
+        "site.latitude_deg": {
+          "definition": "latitude of the error model's level, north-heading platform; default 45",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "deg"
+        },
+        "site.schuler_period_s": {
+          "definition": "2 pi sqrt(R_N / g) at the site",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
         "swept_drift_band.hi_m_per_s": {
           "definition": null,
           "evidence_tier": "illustrative",
@@ -5556,10 +5587,10 @@
           "unit": "m"
         }
       },
-      "fields_described": 48,
-      "fields_total": 48,
+      "fields_described": 53,
+      "fields_total": 53,
       "fields_without_units": [],
-      "label": "MODELLED INS/TRN coasting error budget. The per-contribution growth laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, scale factor x travelled distance) are exact for this model and cross-checked against the engine's own stochastic dead-reckoner and IMU error model; the IMU grade coefficients are representative CLASS figures (Groves 2013 Table 4.1 bands), not a datasheet for a part, and the TRN fix residual is a documented input. The crossings are located by bisection on the model, never by manuscript arithmetic. Not certified for operational navigation.",
+      "label": "MODELLED INS/TRN coasting error budget. Each contribution is propagated through a nine-state local-level inertial error model with Schuler feedback (level platform heading north at a stated site, free-inertial including the unstable vertical channel); its short-coast leading-order laws (bias t^2, gyro-bias tilt t^3, velocity random walk t^1.5, angle random walk t^2.5, scale factor x travelled distance) are cross-checked against the engine's own stochastic dead-reckoner and IMU error model; the IMU grade coefficients are representative CLASS figures (Groves 2013 Table 4.1 bands), not a datasheet for a part, and the TRN fix residual is a documented input. The crossings are located by bisection on the model, never by manuscript arithmetic. Not certified for operational navigation.",
       "source": "defaults"
     },
     "integrity": {
@@ -13692,6 +13723,12 @@
           "provenance": "input",
           "unit": "kg/m^2"
         },
+        "entry_interface_altitude_m": {
+          "definition": "entry-interface altitude above the spherical Earth of radius 6378137 m where the point-mass integration starts; defaults to 122 km",
+          "evidence_tier": "illustrative",
+          "provenance": "input",
+          "unit": "m"
+        },
         "entry_velocity_m_s": {
           "definition": "speed at the atmospheric entry interface",
           "evidence_tier": "illustrative",
@@ -13716,6 +13753,42 @@
           "provenance": "closed-form",
           "unit": "m/s^2"
         },
+        "point_mass.altitude_at_peak_m": {
+          "definition": "altitude at the integrated peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m"
+        },
+        "point_mass.flight_path_angle_at_peak_deg": {
+          "definition": "flight-path angle below the horizontal at the integrated peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "deg"
+        },
+        "point_mass.peak_deceleration_g": {
+          "definition": "peak drag deceleration of the planar point-mass integration (gravity, curvature, US Standard Atmosphere 1976), in units of g_0 = 9.80665 m/s^2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "1"
+        },
+        "point_mass.peak_deceleration_m_s2": {
+          "definition": "the same peak drag deceleration in m/s^2",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s^2"
+        },
+        "point_mass.speed_at_peak_m_s": {
+          "definition": "speed at the integrated peak (atmosphere-relative; the atmosphere does not rotate in this model)",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "m/s"
+        },
+        "point_mass.time_at_peak_s": {
+          "definition": "time from the entry interface to the integrated peak",
+          "evidence_tier": "inherits-scenario-label",
+          "provenance": "computed",
+          "unit": "s"
+        },
         "scale_height_m": {
           "definition": "density scale height of the exponential isothermal atmosphere; defaults to the Earth value of 7200 m",
           "evidence_tier": "illustrative",
@@ -13735,8 +13808,8 @@
           "unit": "m/s"
         }
       },
-      "fields_described": 9,
-      "fields_total": 9,
+      "fields_described": 16,
+      "fields_total": 16,
       "fields_without_units": [],
       "label": "MODELLED — Allen–Eggers ballistic (no-lift) entry, exponential isothermal atmosphere, constant flight-path angle; peak-g is ballistic-coefficient-independent; heating is the peak-heating VELOCITY, NOT a heat-flux (no aerothermal/TPS model)",
       "source": "defaults"
