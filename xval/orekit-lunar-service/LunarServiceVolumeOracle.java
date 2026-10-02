@@ -14,7 +14,8 @@
 //     about the Moon (r x v of the Earth relative to the Moon, Orekit's DE440), x = p x z with p
 //     the lunar pole of Orekit's IAU Moon body frame, y = z x x; two-body elements with the
 //     gm_de440 lunar GM, converted by Orekit's KeplerianOrbit;
-//   * Orekit NumericalPropagator, Dormand-Prince 8(5,3), position tolerance 1e-3 m, with
+//   * Orekit NumericalPropagator in a Moon-centred frame with ICRF axes (a translation of
+//     GCRF), Dormand-Prince 8(5,3), position tolerance 1e-3 m, with
 //     Holmes-Featherstone lunar gravity (degree and order 2: J2 = 2.0321e-4, C22 = 2.2382e-5
 //     unnormalised, S22 = 0, reference radius 1737.4 km) in Orekit's IAU Moon body frame, and
 //     Earth and Sun third-body attraction from Orekit's DE440 (lnxp1990.440), GM values of
@@ -56,9 +57,13 @@ import org.orekit.forces.gravity.ThirdBodyAttraction;
 import org.orekit.forces.gravity.potential.GravityFieldFactory;
 import org.orekit.forces.gravity.potential.NormalizedSphericalHarmonicsProvider;
 import org.orekit.forces.gravity.potential.TideSystem;
+import org.hipparchus.CalculusFieldElement;
+import org.orekit.frames.FieldTransform;
 import org.orekit.frames.Frame;
 import org.orekit.frames.FramesFactory;
 import org.orekit.frames.Transform;
+import org.orekit.frames.TransformProvider;
+import org.orekit.time.FieldAbsoluteDate;
 import org.orekit.orbits.CartesianOrbit;
 import org.orekit.orbits.KeplerianOrbit;
 import org.orekit.orbits.OrbitType;
@@ -140,6 +145,34 @@ public class LunarServiceVolumeOracle {
         return a.length % 2 == 0 ? 0.5 * (a[m - 1] + a[m]) : a[m];
     }
 
+    /**
+     * The Moon-centred frame with ICRF (GCRF) axes the pre-registration names: a pure
+     * translation of GCRF to the Moon's centre. (Orekit's own Moon "inertially oriented"
+     * frame follows the IAU lunar pole at date, so its axes turn slowly; integrating in it as
+     * if it were inertial drops the fictitious forces.)
+     */
+    static final class MoonIcrf implements TransformProvider {
+        private static final long serialVersionUID = 1L;
+        private final CelestialBody moon;
+        private final Frame gcrf;
+
+        MoonIcrf(CelestialBody moon, Frame gcrf) {
+            this.moon = moon;
+            this.gcrf = gcrf;
+        }
+
+        @Override
+        public Transform getTransform(AbsoluteDate date) {
+            // Coordinates of the GCRF origin (the Earth) in the new, Moon-centred frame.
+            return new Transform(date, moon.getPVCoordinates(date, gcrf).negate());
+        }
+
+        @Override
+        public <T extends CalculusFieldElement<T>> FieldTransform<T> getTransform(FieldAbsoluteDate<T> date) {
+            throw new UnsupportedOperationException("field transforms are not used here");
+        }
+    }
+
     public static void main(String[] args) throws Exception {
         File fixtures = new File(args[0]);
         DataContext.getDefault().getDataProvidersManager()
@@ -151,7 +184,7 @@ public class LunarServiceVolumeOracle {
         CelestialBody sun = CelestialBodyFactory.getSun();
         Frame gcrf = FramesFactory.getGCRF();
         Frame moonBody = moon.getBodyOrientedFrame();
-        Frame moonInertial = moon.getInertiallyOrientedFrame();
+        Frame moonInertial = new Frame(gcrf, new MoonIcrf(moon, gcrf), "MOON_ICRF", true);
 
         // The masses Orekit's DE440 carries must be the pre-registered gm_de440 values.
         for (Object[] b : new Object[][] {{moon, GM_MOON}, {earth, GM_EARTH}, {sun, GM_SUN}}) {
