@@ -81,6 +81,13 @@
 //!   difference to the full TDB series moves the delays by up to 5.8e-11 s (measured after the
 //!   result, with the engine), and neither side carries the Shapiro, media or
 //!   barycentric-to-geocentric scale terms.
+//!
+//! ## Note after the round-2 verification (2026-10-02)
+//!
+//! In this comparison ANISE only evaluates the kernels; the light-time iteration that defines
+//! the delay is the generator's own loop, which `KernelGeometry::light_time` follows. It is
+//! therefore a kernel-evaluation cross-check, not this row's oracle. The light-time oracle is
+//! SPICE's own converged solution, `tests/lunar_vlbi_spice_oracle.rs`.
 
 use kshana::frames::Geodetic;
 use kshana::lunar::Selenographic;
