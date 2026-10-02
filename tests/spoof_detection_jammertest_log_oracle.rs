@@ -55,9 +55,10 @@ mod support;
 
 use support::*;
 
-/// The strict comparison against the logged onsets.
+/// The strict comparison against the logged onsets. Run 2026-10-02: DISAGREES at 6 of 10
+/// evaluable onsets (see the pinned test below).
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES at 6 of 10 logged onsets (2.1.1 first alarm +211 s, 2.3.5 +23 s, 2.3.10 +18 s, 2.6.1 +51 s; pre-onset clock false alarms at 2.1.4 (1) and 2.3.15 (85))"]
 fn engine_monitors_detect_the_logged_onsets_within_10_s_without_false_alarms() {
     let os = onsets_from("onsets_log.tsv");
     let mut evaluated = 0;
@@ -92,4 +93,58 @@ fn engine_monitors_detect_the_logged_onsets_within_10_s_without_false_alarms() {
         failures.is_empty(),
         "onsets outside the tolerance: {failures:?}"
     );
+}
+
+/// Reported, not scored (pre-registered): the round-1 monitors (fixed line-prediction clock
+/// bound, latching) re-scored against the logged onsets.
+#[test]
+fn round_1_monitors_rescored_against_the_logged_onsets() {
+    for o in onsets_from("onsets_log.tsv") {
+        let r = run_onset(&o);
+        println!(
+            "R1 {:<7} evaluable={} bound={:.1} ns pre_alarms={} first_pre={:?} detection={:?} latency={:?}",
+            r.id,
+            r.evaluable,
+            r.bound_ns,
+            r.pre_onset_alarms.len(),
+            r.pre_onset_alarms.first().map(|(t, k)| (t - r.onset, *k)),
+            r.detection.map(|(_, k)| k),
+            r.detection.map(|(t, _)| t - r.onset)
+        );
+    }
+}
+
+/// The round-2 outcome (2026-10-02), pinned: per logged onset, the pre-onset alarm count and the
+/// first alarm's latency (s, 0.01 s) of the engine monitors. Four onsets agree (2.1.2, 2.3.11,
+/// 2.3.12, 2.6.3); the row stays MODELLED.
+const RECORDED_R2: [(&str, usize, f64); 10] = [
+    ("2.1.1", 0, 211.20),
+    ("2.1.2", 0, 0.20),
+    ("2.1.4", 1, 0.20),
+    ("2.3.5", 0, 23.00),
+    ("2.3.10", 0, 18.00),
+    ("2.3.11", 0, 0.19),
+    ("2.3.15", 85, 0.19),
+    ("2.3.12", 0, 0.20),
+    ("2.6.1", 0, 51.00),
+    ("2.6.3", 0, 1.19),
+];
+
+#[test]
+fn engine_monitors_against_the_logged_onsets_reproduce_the_recorded_disagreement() {
+    let os = onsets_from("onsets_log.tsv");
+    assert_eq!(os.len(), RECORDED_R2.len());
+    let mut agreeing = Vec::new();
+    for (o, (id, pre, lat)) in os.iter().zip(RECORDED_R2) {
+        let (r, _) = run_onset_r2(o);
+        assert_eq!(r.id, id);
+        assert!(r.evaluable, "{id}");
+        assert_eq!(r.pre_onset_alarms.len(), pre, "{id}: pre-onset alarms");
+        let l = r.detection.map(|(t, _)| t - r.onset).expect("detected");
+        assert!((l - lat).abs() < 0.01, "{id}: latency {l}");
+        if pre == 0 && (0.0..=DETECT_TOL_S).contains(&l) {
+            agreeing.push(id);
+        }
+    }
+    assert_eq!(agreeing, ["2.1.2", "2.3.11", "2.3.12", "2.6.3"]);
 }
