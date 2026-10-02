@@ -1,6 +1,9 @@
 #!/usr/bin/env python3
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Independent oracle for Part A of tests/leo_navmsg_full_claim_oracle.rs (M120 round 2).
+"""Internal cross-check for Part A of tests/leo_navmsg_full_claim_oracle.rs (M120 round 2).
+
+Written in this repository; it re-evaluates Kshana's closed forms and is not an independent
+oracle (see the amendment in the test file's header).
 
 Written from the Galileo OS SIS ICD user algorithm (Keplerian position with the harmonic
 corrections, the relativistic clock term F e sqrt(A) sin E, F = -4.442807309e-10 s/sqrt(m),
