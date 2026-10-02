@@ -74,6 +74,16 @@
 //!
 //! Fixture: `tests/fixtures/solar_system_light_time_solver_preregistered/` (generator, NOTICE,
 //! CSVs), fetched only after this header was committed.
+//!
+//! # Result (run 2026-10-02, after the amendment commit 54d5c86f)
+//!
+//! Interpolation precondition: 12 608 positions, worst 1.06 m (limit 10 m). Every light time
+//! within 1e-6 s: max |dtau| 6.7e-9 s (Mercury), 3.0e-9 (Venus), 1.8e-9 (Mars), 1.7e-9
+//! (Jupiter), 1.6e-9 (Saturn), 4.7e-11 (Sun), 2.4e-9 (Moon); worst 0.007 of the bar. The
+//! position and light-time files are byte-identical to the void first fetch (only the node
+//! file changed). Mutation: stopping `radiometric::solve_light_time` after its first iterate
+//! turns the test red for every target (max |dtau| 9.9e-2 s Mercury, 5.9e-2 Venus, 4.7e-2
+//! Mars, 2.7e-2 Jupiter, 2.4e-2 Saturn, 2.7e-5 Sun, 1.4e-4 Moon); reverted by editing back.
 
 use kshana::body::Body;
 use kshana::ephem_provider::EphemerisProvider;
@@ -238,7 +248,6 @@ fn check_interpolation(table: &De441Table) {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn light_time_solver_on_de441_positions_matches_horizons_lt_within_1e_6_s() {
     let table = De441Table::load();
     check_interpolation(&table);

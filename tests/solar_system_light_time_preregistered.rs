@@ -57,6 +57,14 @@
 //! (`radiometric::solve_light_time`) turns the test red (Mercury 7.6, Venus 6.5, Mars 4.0 times
 //! the bar). The bar is set by the Standish positions, so it cannot see light-time errors much
 //! below about 2e-4 of the range; it validates the light time at the Standish accuracy only.
+//!
+//! # Note (2026-10-02)
+//!
+//! An adversarial review found that a solver stopped after its first iterate (no retarded
+//! transmitter) still passes this test (RMS over the bar 0.81 at worst), so it cannot see the
+//! retardation the solver adds. It is kept as a non-gating accuracy statement for the analytic
+//! path; the promotion basis for the solver is
+//! `tests/solar_system_light_time_solver_preregistered.rs` (DE441 positions, 1e-6 s).
 
 use kshana::body::Body;
 use kshana::ephem_provider::AnalyticSolarSystem;
