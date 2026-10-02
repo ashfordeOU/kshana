@@ -139,7 +139,13 @@ def main():
     site = kernels(naif)
     rows = []
     for name in BATCHES:
-        with open(os.path.join(lugre, "L0", "IQS", name + ".bin"), "rb") as f:
+        path = os.path.join(lugre, "L0", "IQS", name + ".bin")
+        if not os.path.exists(path):
+            # The .sdrx names this file; the dataset does not contain it (OP40). The test
+            # excludes the batch by the same rule.
+            print(f"skipped {name}: named data file absent")
+            continue
+        with open(path, "rb") as f:
             t0 = struct.unpack("<d", f.read(18)[10:18])[0]
         t = t0 + 0.1
         day = GPS0 + dt.timedelta(seconds=t - LEAP)
