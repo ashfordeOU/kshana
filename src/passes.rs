@@ -27,7 +27,7 @@
 
 use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, AzElRange, Geodetic};
 use crate::jd2::Jd2;
-use crate::orbit::{Orbit, Propagator, R_EARTH_EQUATORIAL_M};
+use crate::orbit::{Propagator, R_EARTH_EQUATORIAL_M};
 use crate::precession::{mat_vec, matmul, rz, Mat3};
 use crate::sgp4::{MeanElementSet, SgpOrbit};
 use serde::Deserialize;
@@ -667,25 +667,39 @@ fn pa_default_true() -> bool {
 }
 
 impl PassesScenario {
-    /// The satellite this scenario predicts passes of: a circular Keplerian orbit at
-    /// `altitude_km` above the equatorial radius, in the engine's inertial frame.
+    /// The satellite this scenario predicts passes of, as an engine [`Propagator`]: the SGP4
+    /// element set of [`PassesScenario::sgp4_orbit`] (time measured from the window start).
     pub fn propagator(&self) -> Propagator {
-        Propagator::Kepler(Orbit::new(
-            R_EARTH_EQUATORIAL_M + self.altitude_km * 1000.0,
-            self.inclination_deg.to_radians(),
-            self.raan_deg.to_radians(),
-            self.arg_lat_deg.to_radians(),
-        ))
+        let e = self.epoch_calendar();
+        let jd = crate::timescales::julian_date(
+            e[0] as i32,
+            e[1] as u32,
+            e[2] as u32,
+            e[3] as u32,
+            e[4] as u32,
+            e[5],
+        );
+        let set = self.element_set(Jd2::new(jd));
+        Propagator::Sgp4(Box::new(crate::sgp4::Sgp4::new_at(
+            crate::sgp4::wgs72(),
+            false,
+            set.epoch_utc,
+            set.bstar,
+            set.ecco,
+            set.argpo,
+            set.inclo,
+            set.mo,
+            set.no_kozai,
+            set.nodeo,
+        )))
     }
 
-    /// The satellite as SGP4 mean elements at the window start: the circular orbit at
-    /// `altitude_km` (Kozai mean motion from the WGS-72 constants), its node's right ascension
-    /// `raan_deg` in TEME, argument of latitude `arg_lat_deg` as the mean anomaly, B* zero.
-    pub fn sgp4_orbit(&self) -> Result<SgpOrbit, String> {
+    /// The scenario's SGP4 mean element set with the given epoch.
+    fn element_set(&self, epoch_utc: Jd2) -> MeanElementSet {
         let g = crate::sgp4::wgs72();
         let a_er = (R_EARTH_EQUATORIAL_M + self.altitude_km * 1000.0) / 1000.0 / g.radiusearthkm;
-        Ok(SgpOrbit::new(MeanElementSet {
-            epoch_utc: self.start()?,
+        MeanElementSet {
+            epoch_utc,
             no_kozai: g.xke / a_er.powf(1.5),
             ecco: 0.0,
             inclo: self.inclination_deg.to_radians(),
@@ -696,7 +710,14 @@ impl PassesScenario {
                 .to_radians()
                 .rem_euclid(std::f64::consts::TAU),
             bstar: 0.0,
-        }))
+        }
+    }
+
+    /// The satellite as SGP4 mean elements at the window start: the circular orbit at
+    /// `altitude_km` (Kozai mean motion from the WGS-72 constants), its node's right ascension
+    /// `raan_deg` in TEME, argument of latitude `arg_lat_deg` as the mean anomaly, B* zero.
+    pub fn sgp4_orbit(&self) -> Result<SgpOrbit, String> {
+        Ok(SgpOrbit::new(self.element_set(self.start()?)))
     }
 
     /// The window start as a two-part UTC Julian date.
@@ -814,6 +835,7 @@ impl PassesScenario {
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::orbit::Orbit;
 
     #[test]
     fn interp_cross_is_linear() {
