@@ -70,6 +70,15 @@
 //!
 //! Fixture: `tests/fixtures/solar_system_standish_earth_icrf_preregistered/` (generator, NOTICE,
 //! CSVs), fetched only after this header was committed.
+//!
+//! # Result (run 2026-10-02, after the pre-registration commit 8d38a28b)
+//!
+//! Every RMS is inside its bar. Case A, the Earth in the ecliptic: RMS over the EMB figure 0.433
+//! (lambda), 0.360 (phi), 0.483 (rho); maxima 1.30, 0.98, 1.30 times. Case B, the ICRF: the
+//! largest RMS over the figure is 0.778 (Saturn's distance), then 0.763 (Mars' longitude); the
+//! Earth 0.433 / 0.360 / 0.483; maxima reach 3.87 times (Mercury's latitude), not gating. The
+//! Earth and the EMB give the same ratios to three digits: the lunar-series offset agrees with
+//! DE441's Earth-EMB offset far inside the EMB bar.
 
 use kshana::ephem::{ecliptic_to_icrf, icrf_to_ecliptic, standish_state, Planet, StandishTable};
 use kshana::ephem_provider::AnalyticSolarSystem;
@@ -225,7 +234,6 @@ fn score(label: &str, id: usize, errs: &[[f64; 3]], failures: &mut Vec<String>) 
 /// Case A: the Earth (Horizons 399) in the J2000 ecliptic, through `AnalyticSolarSystem` and
 /// `icrf_to_ecliptic`, at the EMB row of Table 8.10.1.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms() {
     let rows = fixture("horizons_earth_ecliptic.csv");
     let errs: Vec<[f64; 3]> = rows
@@ -241,7 +249,6 @@ fn earth_from_the_split_barycentre_is_within_the_emb_table_8_10_1_rms() {
 /// Case B: the Table 1 barycentres and the Earth in the ICRF, both sides turned to ecliptic
 /// components by the typed IAU 1976 obliquity, at each body's Table 8.10.1 row.
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn icrf_positions_are_within_the_table_8_10_1_rms() {
     let rows = fixture("horizons_icrf.csv");
     let mut failures = Vec::new();
