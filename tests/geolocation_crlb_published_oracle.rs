@@ -149,7 +149,7 @@ impl Check {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-02): the 40 N values agree (1716.07 vs 1718, -0.11 %; 0.8318 vs 0.832 us, -0.02 %) but the Ottawa values printed from the Fig. 5(a) simulation do not: 254.34 vs 251 (+1.33 %) and 7.409 vs 7.1 (+4.35 %), bar 1 %; pinned by finding_ho_chan_ottawa_printed_values_are_not_the_bound"]
 fn ho_chan_1993_geometric_factors() {
     let mut ck = Check::new();
     let (ott_lat, ott_lon) = (45.35, -75.90);
@@ -182,7 +182,6 @@ fn ho_chan_1993_geometric_factors() {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn ho_chan_1993_maximum_tdoa() {
     let mut ck = Check::new();
     let eta = (RE_M / RS_M).acos().to_degrees();
@@ -267,7 +266,7 @@ fn reading(figure: &str, panel: &str) -> Result<f64, String> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-02): Fig. 6 agrees (+0.06 %, -0.17 %); Fig. 7 at the printed source [300, 325, 275] is 8.8x and 11.1x below the plotted line (2.822 m vs 24.909 m, 1.162 vs 12.947 m/s) because the figure is of [600, 650, 550], the authors' own erratum; see amendment 1 and finding_ho_xu_fig7_printed_source_is_not_the_plotted_one"]
 fn ho_xu_2004_crlb_lines() {
     let mut ck = Check::new();
     for (figure, source) in [("fig6_far_field", FAR), ("fig7_near_field", NEAR)] {
@@ -333,7 +332,7 @@ fn monte_carlo_rmse(source: (Vec3, Vec3), noise: f64, n: usize, seed: u64) -> (f
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (2026-10-02): far field agrees (+0.44 %, +0.41 %, bar 2.5 %); the near-field case at the printed source fails for the reason pinned in finding_ho_xu_fig7_printed_source_is_not_the_plotted_one (0.2837 vs 2.4909 m); amendment 1 passes at the corrected source"]
 fn ho_xu_2004_ml_estimator_attains_the_printed_bound() {
     const N: usize = 20_000;
     let tol = 0.01 + 3.0 / (2.0 * N as f64).sqrt();
@@ -395,7 +394,6 @@ fn ho_xu_2004_ml_estimator_attains_the_printed_bound() {
 const NEAR_ERRATUM: (Vec3, Vec3) = ([600.0, 650.0, 550.0], [-20.0, 15.0, 40.0]);
 
 #[test]
-#[ignore = "pre-registered (amendment 1); not yet run"]
 fn ho_xu_2004_fig7_with_the_authors_corrected_source() {
     let mut ck = Check::new();
     let (pos, vel) = crlb_rmse(NEAR_ERRATUM, 1.0);
@@ -435,7 +433,6 @@ fn ho_xu_2004_fig7_with_the_authors_corrected_source() {
 }
 
 #[test]
-#[ignore = "pre-registered (amendment 1); not yet run"]
 fn ho_xu_2004_bound_matches_the_authors_code() {
     let path = concat!(
         env!("CARGO_MANIFEST_DIR"),
@@ -481,4 +478,38 @@ fn ho_xu_2004_bound_matches_the_authors_code() {
         }
     }
     ck.finish();
+}
+
+/// FINDING about Ho and Chan (1993), pinned: Kshana's surface-constrained bound gives
+/// G_e = 254.34 (5 deg) and 7.409 (30 deg) at Ottawa, while the paper prints 251 and 7.1 from its
+/// Fig. 5(a) Monte Carlo simulation (number of trials not stated). The same bound reproduces the
+/// paper's two 40 deg N values to 0.11 % and 0.02 %, and the paper's own Table I formula, evaluated
+/// independently, gives 257.2 and 7.50 at Ottawa (further from the printed values, not closer).
+#[test]
+fn finding_ho_chan_ottawa_printed_values_are_not_the_bound() {
+    let g5 = geometric_factor(45.35, -75.90, -70.0, 5.0);
+    let g30 = geometric_factor(45.35, -75.90, -70.0, 30.0);
+    assert!((g5 - 254.337).abs() < 0.01, "G_e(5 deg) = {g5}");
+    assert!((g30 - 7.4091).abs() < 0.001, "G_e(30 deg) = {g30}");
+    assert!(g5 / 251.0 - 1.0 > 0.01 && g30 / 7.1 - 1.0 > 0.01);
+    let g2 = geometric_factor(40.0, 0.0, 0.0, 2.0);
+    assert!((g2 / 1718.0 - 1.0).abs() <= 0.01, "G_e(2 deg, 40 N) = {g2}");
+}
+
+/// FINDING about Ho and Xu (2004), pinned: at the near-field source the text prints,
+/// [300, 325, 275] m, the bound is 2.822 m and 1.162 m/s at 0 dB, a factor 8.8 and 11.1 below the
+/// Fig. 7 solid lines (24.909 m, 12.947 m/s as read); at [600, 650, 550] m, the source the
+/// authors' published code names as the one Fig. 7 was made with, it is 24.937 m and 12.945 m/s.
+#[test]
+fn finding_ho_xu_fig7_printed_source_is_not_the_plotted_one() {
+    let (p, v) = crlb_rmse(NEAR, 1.0);
+    assert!(
+        (p - 2.8224).abs() < 1e-3 && (v - 1.1616).abs() < 1e-3,
+        "{p} {v}"
+    );
+    let read_p = reading("fig7_near_field", "position_m").expect("reading");
+    let read_v = reading("fig7_near_field", "velocity_m_per_s").expect("reading");
+    assert!(read_p / p > 8.0 && read_v / v > 10.0);
+    let (pe, ve) = crlb_rmse(NEAR_ERRATUM, 1.0);
+    assert!((pe / read_p - 1.0).abs() <= 0.01 && (ve / read_v - 1.0).abs() <= 0.01);
 }
