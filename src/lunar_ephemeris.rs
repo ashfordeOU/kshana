@@ -32,14 +32,18 @@
 //!   only thing that differs between the two runs is the constellation design itself.
 //!   Provenance class **`published-elements`**.
 //!
-//! This module deliberately contains **no binary-kernel parser**. The repository's SPICE
-//! reader is [ANISE](https://github.com/nyx-space/anise), which is MPL-2.0 and edition
-//! 2024 and therefore confined to the workspace-excluded `xval/` crates (it would break
-//! both the `cargo deny` licence gate and the MSRV job if it entered this crate's
-//! dependency graph — see `xval/anise-frames/Cargo.toml`). Writing a second, hand-rolled
-//! DAF/SPK reader here to dodge that would be a new unvalidated numerical path in the
-//! middle of a provenance story, so the file this module reads is the *evaluated* kernel,
-//! with the evaluator (Horizons) and the query recorded in the file header.
+//! This module contains **no binary-kernel parser of its own**, and still reads the
+//! *evaluated* kernel, with the evaluator (Horizons) and the query recorded in the file
+//! header. The engine does have a binary-kernel reader: [`crate::naif_kernel`], a pure-Rust
+//! reader of the NAIF (Navigation and Ancillary Information Facility) Double precision Array
+//! File (DAF) container, Spacecraft and Planet Kernel (SPK) type 2 and binary Planetary
+//! Constants Kernel type 2, validated on its own matrix row against the SPICE Toolkit and
+//! ANISE on a random grid drawn after pre-registration (`tests/naif_reader_spice_oracle.rs`).
+//! It reads type 2 only (planetary Chebyshev ephemerides such as DE440), whereas
+//! reconstructed spacecraft kernels are usually types 13 or 21, which it does not read; a
+//! spacecraft-kernel path here would need those types added under a pre-registered row of
+//! their own. Until then the Horizons evaluation is the source, and the provenance below says
+//! so.
 //!
 //! ## Frames, said out loud
 //!
