@@ -6,29 +6,37 @@
 //!
 //! ## The split, and why it is shaped this way
 //!
-//! This module ships only the trait ([`EphemerisProvider`]) and the **kernel-free, low-precision**
+//! This module ships the trait ([`EphemerisProvider`]), the **kernel-free, low-precision**
 //! built-in implementation ([`BuiltinEphemeris`]), which reuses Kshana's own analytic Montenbruck &
-//! Gill Sun/Moon series ([`crate::ephem`]). The DE-grade implementation — JPL Development-Ephemeris
-//! positions for the Sun, Moon **and the planets** (Mars in particular) read from NAIF/SPK kernels —
-//! is intentionally **not** in this crate. It lives in a workspace-EXCLUDED `xval/anise-mars-od`
-//! cross-validation crate (added in D0.8), exactly as the DE-grade lunar provider
-//! [`crate::lunar_od::LunarEnvironment`] / `AnalyticLunarEnvironment` lives in core while its
-//! ANISE-backed sibling `AniseLunarEnvironment` lives in `xval/anise-lunar-od`.
+//! Gill Sun/Moon series ([`crate::ephem`]), the kernel-free whole-solar-system
+//! [`AnalyticSolarSystem`], and the **kernel** implementation [`KernelEphemeris`]: JPL
+//! Development Ephemeris positions (for example DE440 from `de440s.bsp`) read by the engine's own
+//! NAIF (Navigation and Ancillary Information Facility) kernel reader, [`crate::naif_kernel`].
+//! That reader is pure Rust written from the public NAIF Required Reading documents and is
+//! validated on its own matrix row (`tests/naif_reader_spice_oracle.rs`: 600 states and 200
+//! rotations on a random grid drawn after pre-registration, against the SPICE Toolkit and ANISE,
+//! every one inside a bar derived from double-precision Chebyshev evaluation). That row says the
+//! engine reads the kernel correctly; it says nothing about how accurate DE440 is.
 //!
-//! The reason is a hard CI constraint, not a stylistic one. The DE-grade path depends on `anise`
-//! (the pure-Rust NAIF/SPICE reimplementation) and `hifitime`, both licensed **MPL-2.0** and built
-//! on **edition 2024 (Rust ≥ 1.85)**. Pulling either into the main `kshana` dependency graph — even
-//! behind a cargo feature — would break two otherwise-green CI gates:
+//! The analytic series stay the default everywhere: a kernel is used only where a caller passes a
+//! [`KernelEphemeris`] (in the lunar laser-ranging datum and the lunar VLBI, very long baseline
+//! interferometry, information-matrix scenarios, through their `planetary_kernel_path` keys), and
+//! a kernel run records the kernel's SHA-256 in its output so the two kinds of run can never be
+//! mistaken for one another.
+//!
+//! ANISE (the pure-Rust NAIF/SPICE reimplementation) is still kept out of this crate, and the
+//! cross-validation crates that use it (`xval/anise-mars-od`, `xval/anise-lunar-od`) stay
+//! workspace-excluded, for a hard CI (continuous integration) reason: ANISE and `hifitime` are
+//! licensed **MPL-2.0** (Mozilla Public License 2.0) and built on **edition 2024 (Rust ≥ 1.85)**.
+//! Pulling either into the main `kshana` dependency graph — even behind a cargo feature — would
+//! break two otherwise-green CI gates:
 //!
 //! 1. `cargo deny check licenses` — MPL-2.0 sits outside the crate's strict license allow-list; and
-//! 2. the **MSRV 1.75** build — cargo 1.75 cannot even parse an edition-2024 manifest in the
-//!    resolved dependency graph.
+//! 2. the **MSRV 1.75** (minimum supported Rust version) build — cargo 1.75 cannot even parse an
+//!    edition-2024 manifest in the resolved dependency graph.
 //!
-//! Isolating the DE-grade provider in an excluded crate (its own `Cargo.lock`, invisible to root
-//! `cargo` commands) keeps the published crate lean and every default gate byte-for-byte untouched.
-//! The trait here is the seam that lets that out-of-crate provider plug in later with no change to
-//! the consumers. See `xval/anise-lunar-od/Cargo.toml`'s header for the identical rationale applied
-//! to the lunar environment.
+//! [`KernelEphemeris`] needs neither: it reads the kernel with [`crate::naif_kernel`]. See
+//! `xval/anise-lunar-od/Cargo.toml`'s header for the rationale applied to the lunar environment.
 
 use crate::body::Body;
 use crate::ephem::{
@@ -36,7 +44,12 @@ use crate::ephem::{
     standish_state, sun_position, Planet, Satellite, StandishTable,
 };
 
+use crate::jd2::Jd2;
+
 type Vec3 = [f64; 3];
+
+/// Seconds per day, for the ephemeris-time conversion of the kernel path.
+const SECONDS_PER_DAY: f64 = 86_400.0;
 
 /// J2000.0 epoch as a Julian Date (TT), the zero of `t_tt_jc`.
 const JD_J2000: f64 = 2_451_545.0;
@@ -48,8 +61,8 @@ const DAYS_PER_JULIAN_CENTURY: f64 = 36_525.0;
 /// Implementors return the position of `target` **relative to** `center` in the ICRF/EME2000
 /// inertial frame (metres) at the requested epoch (Julian Date, **TDB**). A provider returns `None`
 /// for any `(target, center)` pair it has no series or kernel for — letting a caller fall back to a
-/// higher-fidelity provider (the DE-grade `xval/anise-mars-od` path of D0.8) for the bodies the
-/// kernel-free [`BuiltinEphemeris`] cannot supply.
+/// higher-fidelity provider ([`KernelEphemeris`], or the DE-grade `xval/anise-mars-od` path) for
+/// the bodies the kernel-free [`BuiltinEphemeris`] cannot supply.
 pub trait EphemerisProvider: std::fmt::Debug {
     /// Position of `target` relative to `center` in the ICRF/EME2000 inertial frame (metres) at the
     /// epoch `jd_tdb` (Julian Date, TDB). Returns `None` for a `(target, center)` pair this provider
@@ -63,9 +76,9 @@ pub trait EphemerisProvider: std::fmt::Debug {
 /// It knows the **geocentric** Sun and Moon directions only — the closed-form series give the Sun to
 /// ~0.005° and the Moon to ~0.3° about J2000 (Montenbruck & Gill, *Satellite Orbits* §3.3.2) — so it
 /// can supply the Earth/Sun/Moon mutual positions and nothing else. For **Mars or any other planet**
-/// it has no series and returns `None`; the DE-grade ANISE-backed provider (`xval/anise-mars-od`,
-/// D0.8) is the path for those, exactly as [`crate::lunar_od::AnalyticLunarEnvironment`] gives way to
-/// the out-of-crate `AniseLunarEnvironment` for DE-grade lunar inputs.
+/// it has no series and returns `None`; [`KernelEphemeris`] is the path for those, as
+/// [`crate::lunar_od::AnalyticLunarEnvironment`] gives way to the out-of-crate
+/// `AniseLunarEnvironment` for DE-grade lunar inputs.
 ///
 /// The analytic series are parameterised by `t_tt_jc`, Julian centuries of **TT** since J2000. This
 /// provider takes the epoch as TDB and uses TDB ≈ TT directly: the TDB−TT difference is a periodic
@@ -109,7 +122,7 @@ impl EphemerisProvider for BuiltinEphemeris {
             ("Earth", "Sun") => Some(neg(sun_position(t))),
             ("Earth", "Moon") => Some(neg(moon_position(t))),
             // Mars and every other planet have no built-in series; geocentric Sun↔Moon pairs
-            // are not composed here. The DE-grade out-of-crate provider (D0.8) is the path.
+            // are not composed here. `KernelEphemeris` is the path.
             _ => None,
         }
     }
@@ -242,6 +255,195 @@ impl EphemerisProvider for AnalyticSolarSystem {
     }
 }
 
+/// A **kernel** ephemeris: JPL Development Ephemeris states read from an SPK (Spacecraft and
+/// Planet Kernel) file by the engine's own reader ([`crate::naif_kernel::SpkKernel`]).
+///
+/// Positions are geometric (no light time or aberration), in the J2000 frame of the kernel, in
+/// metres; epochs are **TDB** (barycentric dynamical time, which is what SPICE calls ephemeris
+/// time) given as a two-part Julian date ([`Jd2`]) so a sub-microsecond epoch survives: one
+/// `f64` Julian date near J2000 resolves only about 40 µs, about 4 cm of the Moon's motion.
+///
+/// Bodies are addressed by NAIF integer code ([`KernelEphemeris::state`]) or, through
+/// [`EphemerisProvider`], by [`Body::name`] mapped to its code in [`crate::body::SOLAR_SYSTEM`].
+/// A body whose own code is not in the kernel gives `None` (or an error from the coded calls):
+/// a planet is never silently replaced by its system barycentre (Jupiter's is about 200 km from
+/// Jupiter), so with `de440s.bsp` the providers here supply the Sun, Mercury, Venus, the Earth
+/// and the Moon, and the barycentres 0 to 9 by code.
+///
+/// What its correctness rests on: the reader row (`tests/naif_reader_spice_oracle.rs`), which
+/// validates reading, not DE440. The kernel file's SHA-256 is kept so a run can record exactly
+/// which kernel produced it ([`KernelEphemeris::kernel_sha256`]).
+#[derive(Debug, Clone)]
+pub struct KernelEphemeris {
+    spk: crate::naif_kernel::SpkKernel,
+    sha256: String,
+    source: String,
+}
+
+/// NAIF codes of the bodies the lunar paths ask a kernel for.
+pub mod naif_code {
+    /// The Sun.
+    pub const SUN: i32 = 10;
+    /// The Earth-Moon barycentre.
+    pub const EARTH_MOON_BARYCENTRE: i32 = 3;
+    /// The Moon.
+    pub const MOON: i32 = 301;
+    /// The Earth.
+    pub const EARTH: i32 = 399;
+}
+
+impl KernelEphemeris {
+    /// Read an SPK kernel from disk and record its SHA-256.
+    pub fn open(path: &std::path::Path) -> Result<Self, String> {
+        let bytes = std::fs::read(path).map_err(|e| format!("read {}: {e}", path.display()))?;
+        Self::from_bytes(bytes, path.display().to_string())
+    }
+
+    /// Wrap the bytes of an SPK kernel; `source` names it in reports (a path, usually).
+    pub fn from_bytes(bytes: Vec<u8>, source: String) -> Result<Self, String> {
+        use sha2::{Digest, Sha256};
+        let sha256 = Sha256::digest(&bytes)
+            .iter()
+            .map(|b| format!("{b:02x}"))
+            .collect();
+        let spk = crate::naif_kernel::SpkKernel::from_daf(
+            crate::naif_kernel::DafFile::from_bytes(bytes)?,
+        )?;
+        Ok(Self {
+            spk,
+            sha256,
+            source,
+        })
+    }
+
+    /// SHA-256 (lower-case hexadecimal) of the kernel file this ephemeris reads.
+    pub fn kernel_sha256(&self) -> &str {
+        &self.sha256
+    }
+
+    /// Where the kernel came from, as given to [`open`](Self::open).
+    pub fn source(&self) -> &str {
+        &self.source
+    }
+
+    /// Ephemeris time (TDB seconds past J2000) of a TDB two-part Julian date, as the
+    /// `(hi, lo)` pair the reader takes. The whole-day part is exact, so `hi` carries no rounding.
+    pub fn et_of(jd_tdb: Jd2) -> (f64, f64) {
+        (
+            (jd_tdb.day - JD_J2000) * SECONDS_PER_DAY,
+            jd_tdb.frac * SECONDS_PER_DAY,
+        )
+    }
+
+    /// Geometric state (position m, velocity m/s, acceleration m/s²; J2000) of NAIF body
+    /// `target` relative to NAIF body `center` at the TDB epoch `jd_tdb`.
+    pub fn state(
+        &self,
+        target: i32,
+        center: i32,
+        jd_tdb: Jd2,
+    ) -> Result<crate::naif_kernel::State3, String> {
+        let (hi, lo) = Self::et_of(jd_tdb);
+        self.spk.state(target, center, hi, lo)
+    }
+
+    /// Geometric position (m, J2000) of NAIF body `target` relative to `center` at TDB `jd_tdb`.
+    pub fn position(&self, target: i32, center: i32, jd_tdb: Jd2) -> Result<Vec3, String> {
+        Ok(self.state(target, center, jd_tdb)?[0])
+    }
+
+    /// The geocentric Moon (m, J2000) at TDB `jd_tdb`: the kernel counterpart of
+    /// [`crate::ephem::moon_position`].
+    pub fn moon_geocentric(&self, jd_tdb: Jd2) -> Result<Vec3, String> {
+        self.position(naif_code::MOON, naif_code::EARTH, jd_tdb)
+    }
+
+    /// The geocentric Sun (m, J2000) at TDB `jd_tdb`: the kernel counterpart of
+    /// [`crate::ephem::sun_position`].
+    pub fn sun_geocentric(&self, jd_tdb: Jd2) -> Result<Vec3, String> {
+        self.position(naif_code::SUN, naif_code::EARTH, jd_tdb)
+    }
+
+    /// The geocentric Moon (m, J2000) at a **TT** (terrestrial time) two-part Julian date, the
+    /// time argument the analytic series take: TT is carried to TDB with
+    /// [`crate::timescales::tdb_minus_tt`] (at most about 1.7 ms, which the series ignore but
+    /// which is about 1.7 m of the Moon's motion) before the kernel is read.
+    pub fn moon_geocentric_tt(&self, jd_tt: Jd2) -> Result<Vec3, String> {
+        self.moon_geocentric(tt_to_tdb_jd2(jd_tt))
+    }
+
+    /// The geocentric Sun (m, J2000) at a TT two-part Julian date (see
+    /// [`moon_geocentric_tt`](Self::moon_geocentric_tt)).
+    pub fn sun_geocentric_tt(&self, jd_tt: Jd2) -> Result<Vec3, String> {
+        self.sun_geocentric(tt_to_tdb_jd2(jd_tt))
+    }
+
+    /// The NAIF code of a body named as [`Body::name`] names it.
+    pub fn naif_code_of(name: &str) -> Option<i32> {
+        crate::body::SOLAR_SYSTEM
+            .iter()
+            .find(|f| f.name == name)
+            .map(|f| f.naif_id)
+    }
+
+    /// Position of `target` relative to `center` (m, J2000) at the TDB two-part epoch, or `None`
+    /// when either body has no NAIF code or no data in the kernel at that epoch.
+    pub fn relative_position_jd2(&self, target: &Body, center: &Body, jd_tdb: Jd2) -> Option<Vec3> {
+        if target.name == center.name {
+            return Some([0.0, 0.0, 0.0]);
+        }
+        let t = Self::naif_code_of(target.name)?;
+        let c = Self::naif_code_of(center.name)?;
+        self.position(t, c, jd_tdb).ok()
+    }
+}
+
+/// TT two-part Julian date to TDB, with [`crate::timescales::tdb_minus_tt`].
+pub fn tt_to_tdb_jd2(jd_tt: Jd2) -> Jd2 {
+    jd_tt.add_seconds(crate::timescales::tdb_minus_tt(jd_tt.total()))
+}
+
+impl EphemerisProvider for KernelEphemeris {
+    /// The kernel position of `target` relative to `center` (J2000, m). The single-`f64` TDB
+    /// epoch is split with [`Jd2::new`]; callers that hold a two-part epoch should use
+    /// [`KernelEphemeris::relative_position_jd2`] and keep its precision.
+    fn relative_position(&self, target: &Body, center: &Body, jd_tdb: f64) -> Option<Vec3> {
+        self.relative_position_jd2(target, center, Jd2::new(jd_tdb))
+    }
+}
+
+/// Where a lunar or solar geometry path takes the geocentric Moon and Sun from.
+///
+/// `Analytic` is the default everywhere and is the engine's behaviour before kernels existed,
+/// bit for bit: callers keep their own analytic expressions on that branch. `Kernel` reads the
+/// given [`KernelEphemeris`].
+#[derive(Debug, Clone, Copy, Default)]
+pub enum LunisolarSource<'a> {
+    /// The analytic Montenbruck & Gill series ([`crate::ephem`]).
+    #[default]
+    Analytic,
+    /// A JPL kernel read by the engine's own reader.
+    Kernel(&'a KernelEphemeris),
+}
+
+impl LunisolarSource<'_> {
+    /// The kernel, when this source is one.
+    pub fn kernel(&self) -> Option<&KernelEphemeris> {
+        match self {
+            LunisolarSource::Analytic => None,
+            LunisolarSource::Kernel(k) => Some(k),
+        }
+    }
+
+    /// `"analytic"` or `"kernel"`, for reports.
+    pub fn label(&self) -> &'static str {
+        match self {
+            LunisolarSource::Analytic => "analytic",
+            LunisolarSource::Kernel(_) => "kernel",
+        }
+    }
+}
+
 fn add(a: Vec3, b: Vec3) -> Vec3 {
     [a[0] + b[0], a[1] + b[1], a[2] + b[2]]
 }
@@ -351,7 +553,7 @@ mod tests {
     }
 
     /// The built-in knows no Mars (or any planet) series, so any Mars pair returns `None` — the
-    /// signal a caller uses to reach for the DE-grade out-of-crate provider (D0.8).
+    /// signal a caller uses to reach for a kernel provider ([`KernelEphemeris`]).
     #[test]
     fn mars_relative_to_earth_is_unsupported() {
         let p = BuiltinEphemeris;
@@ -433,5 +635,96 @@ mod tests {
         let d = [rm[0] - re[0], rm[1] - re[1], rm[2] - re[2]];
         let r = (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt();
         assert!((3.5e8..4.1e8).contains(&r));
+    }
+
+    /// The cut DE440 kernel committed for the lunar VLBI comparison (2023-12-31..2024-01-02;
+    /// segments 3 wrt 0, 301 wrt 3, 399 wrt 3), records bit-identical to NAIF's `de440s.bsp`.
+    fn cut_kernel() -> KernelEphemeris {
+        KernelEphemeris::open(std::path::Path::new(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/fixtures/lunar_vlbi_anise_oracle/kernels/de440s_2024-01-01.bsp"
+        )))
+        .expect("the committed cut kernel opens")
+    }
+
+    #[test]
+    fn kernel_ephemeris_records_the_kernel_digest() {
+        // The digest the fixture's NOTICE.md pins for this file.
+        assert_eq!(
+            cut_kernel().kernel_sha256(),
+            "8f7986fcc8e2987c9d94efa86e02a2a578631b2cb939d497a395f1c58c3b739e"
+        );
+    }
+
+    #[test]
+    fn kernel_epoch_split_is_exact_on_whole_days() {
+        assert_eq!(KernelEphemeris::et_of(Jd2::new(2_451_545.0)), (0.0, 0.0));
+        let (hi, lo) = KernelEphemeris::et_of(Jd2::from_parts(2_460_311.0, 0.25));
+        assert_eq!(hi, 8_766.0 * 86_400.0);
+        assert_eq!(lo, 21_600.0);
+    }
+
+    #[test]
+    fn kernel_moon_is_the_reader_state_of_301_relative_to_399() {
+        let k = cut_kernel();
+        let jd = Jd2::from_parts(2_460_311.0, 0.125);
+        let (hi, lo) = KernelEphemeris::et_of(jd);
+        let spk = crate::naif_kernel::SpkKernel::open(std::path::Path::new(concat!(
+            env!("CARGO_MANIFEST_DIR"),
+            "/tests/fixtures/lunar_vlbi_anise_oracle/kernels/de440s_2024-01-01.bsp"
+        )))
+        .unwrap();
+        assert_eq!(
+            k.moon_geocentric(jd).unwrap(),
+            spk.state(301, 399, hi, lo).unwrap()[0]
+        );
+        // Through the provider trait, by body name, the same vector.
+        let via_trait = k
+            .relative_position_jd2(&Body::moon(), &Body::earth(), jd)
+            .unwrap();
+        assert_eq!(via_trait, k.moon_geocentric(jd).unwrap());
+        let back = k
+            .relative_position_jd2(&Body::earth(), &Body::moon(), jd)
+            .unwrap();
+        for i in 0..3 {
+            assert_eq!(back[i], -via_trait[i]);
+        }
+    }
+
+    #[test]
+    fn kernel_never_substitutes_a_barycentre_or_invents_data() {
+        let k = cut_kernel();
+        let jd = 2_460_311.0;
+        // This cut holds no Mars (499) or Sun (10) data at all, and nothing outside its window.
+        assert!(k
+            .relative_position(&Body::mars(), &Body::earth(), jd)
+            .is_none());
+        assert!(k.sun_geocentric(Jd2::new(jd)).is_err());
+        assert!(k.moon_geocentric(Jd2::new(2_451_545.0)).is_err());
+    }
+
+    #[test]
+    fn kernel_and_analytic_moon_agree_within_the_series_stated_bound() {
+        // The analytic series states ~0.3 deg; the kernel is DE440. Same epoch, TT to TDB.
+        let k = cut_kernel();
+        let jd_tt = Jd2::from_parts(2_460_311.0, 0.0);
+        let kern = k.moon_geocentric_tt(jd_tt).unwrap();
+        let ana = moon_position((jd_tt.total() - 2_451_545.0) / 36_525.0);
+        let dot: f64 = (0..3).map(|i| kern[i] * ana[i]).sum();
+        let n = |v: Vec3| (v[0] * v[0] + v[1] * v[1] + v[2] * v[2]).sqrt();
+        let ang = (dot / (n(kern) * n(ana)))
+            .clamp(-1.0, 1.0)
+            .acos()
+            .to_degrees();
+        assert!(ang < 0.3, "{ang} deg");
+    }
+
+    #[test]
+    fn tt_to_tdb_adds_the_periodic_offset() {
+        let jd = Jd2::from_parts(2_460_311.0, 0.0);
+        let d = tt_to_tdb_jd2(jd).diff_seconds(jd);
+        let want = crate::timescales::tdb_minus_tt(jd.total());
+        assert!((d - want).abs() < 1e-9, "{d} vs {want}");
+        assert!(d.abs() < 2e-3);
     }
 }
