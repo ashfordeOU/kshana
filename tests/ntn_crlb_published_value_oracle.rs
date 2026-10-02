@@ -292,8 +292,9 @@ fn ntn_fix_covariances_match_numpy() {
 // 1.023 MHz PSK-R (BPSK-R) and 3.5 MHz for 10.23 MHz PSK-R. Tolerance: half the printed last
 // digit, 0.05 MHz. Discrimination: computing the numerator over the full band instead of the
 // half band (`b_hz` in place of `b_hz / 2`) must turn it red.
+// Result (2026-10-02): PASS, 1.1276 MHz and 3.4768 MHz. Mutation (full-band numerator):
+// 1.5893 and 5.0819 MHz, red.
 #[test]
-#[ignore = "pre-registered (Part C); not yet run"]
 fn bpsk_rms_bandwidth_reproduces_betz_table_1() {
     let a = kshana::leo_fusion::ntn::gabor_bandwidth_bpsk_hz(1.023e6, 24e6) / 1e6;
     let b = kshana::leo_fusion::ntn::gabor_bandwidth_bpsk_hz(10.23e6, 24e6) / 1e6;
