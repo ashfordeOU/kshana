@@ -103,6 +103,18 @@
 //! speed (the atmosphere-relative speed is a few hundred m/s lower). Mutation: removing the
 //! curvature term `V/r` from the flight-path-angle equation gives 66.0 g and 51.5 g
 //! (+101 %, +91 %) and the test fails.
+//!
+//! # Review (2026-10-02, after the result): not a Measured oracle, no promotion
+//!
+//! An adversarial review ruled that both maxima are outputs of the projects' own entry
+//! simulations, not observations: the Genesis hypersonic best-estimated trajectory is
+//! "indistinguishable from the pre-entry predicted trajectory" (27.0 g against a predicted
+//! 27.2 g, NTRS 20080019649) and the Stardust one differs from its simulation by a 0.83 %
+//! fitted drag multiplier. The "Measured" kind declared above therefore does not hold
+//! under `docs/VALIDATION.md`, and this agreement does not promote any row. The test stays
+//! as a cross-check of the integrator against two agency six-degree-of-freedom entry
+//! simulations; the bar is unchanged. The Measured route is the accelerometer comparison
+//! in `tests/reentry_point_mass_accelerometer_oracle.rs`.
 
 use kshana::reentry::{simulate_planar_entry, PlanarEntry, R_EARTH_M};
 
@@ -152,7 +164,8 @@ fn entries() -> Vec<Entry> {
 }
 
 /// The pre-registered comparison: every included entry's peak deceleration within 15 %.
-/// Result (2026-10-02): AGREES, Stardust +11.3 %, Genesis +5.6 %.
+/// Result (2026-10-02): AGREES, Stardust +11.3 %, Genesis +5.6 %. A cross-check against
+/// agency entry simulations, not a Measured oracle (see the review note above).
 #[test]
 fn point_mass_peak_deceleration_matches_reconstructed_entries() {
     let e = entries();
