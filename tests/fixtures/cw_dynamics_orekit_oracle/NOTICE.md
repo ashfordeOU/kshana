@@ -25,3 +25,7 @@ Generated 2026-10-01 with OpenJDK 21.0.5 and the oracle toolchain (`~/Code/kshan
 CW position within 1e-3 m of Orekit at every sample. First run (2026-10-01): DISAGREES, worst
 gaps 1.24e-3 to 6.28e-3 m (0.85 to 4.3 times rho^2/r). A diagnostic rerun at 10 m separation
 shrank every gap by a factor 100, so the gap is the second-order term of the linear model.
+
+Round 2 (2026-10-01): the same fixture, unchanged, is compared at the same 1e-3 m bar with the
+closed-form second-order propagator `cw_dynamics::propagate_second_order`: worst gaps 2.2e-8 to
+1.2e-7 m. AGREES.

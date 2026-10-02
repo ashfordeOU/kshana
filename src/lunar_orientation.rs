@@ -1,9 +1,12 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! DE440 lunar principal-axis orientation provider — compile-time embedded fixture.
 //!
-//! Exposes the MOON_PA_DE440 → J2000 rotation matrix at arbitrary epochs by linearly
-//! interpolating the committed 731-row fixture generated from the DE440 binary PCK
-//! (`moon_pa_de440_200625.bpc`) via spiceypy 8.1.2.  The embedded CSV is the
+//! Exposes the MOON_PA_DE440 → J2000 rotation matrix at arbitrary epochs inside
+//! 2014-01-01 .. 2030-12-31 TDB by interpolating the committed 6 209-row daily fixture generated
+//! from the DE440 binary PCK (`moon_pa_de440_200625.bpc`) via spiceypy (8.1.2 for the first
+//! 2024-2025 release, 8.2.0 for the 2014-2030 extension; the 2024-2025 nodes agree to 4.3e-13).
+//! Outside that span [`try_de440_moon_pa`] returns an [`OrientationSpanError`] and the
+//! infallible forms panic: the series never clamps to an end row (it used to, silently).  The embedded CSV is the
 //! human-auditable provenance copy; the functions here are the WASM-safe runtime source
 //! (no filesystem I/O at runtime — `include_str!` bakes the data at compile time).
 //!
@@ -29,13 +32,13 @@
 //! - Park, R. S. et al. (2021) "The JPL Planetary and Lunar Ephemerides DE440 and DE441",
 //!   *AJ* 161:105.  doi:10.3847/1538-3881/abd414
 //! - Generation script: `scripts/gen_de440_moon_pa.py` (committed for reproducibility).
-//! - Fixture SHA-256: 3076f81ef95d83f5efa240ed4c7ccb422f109407dde841fcf28d42dc63586eb7
+//! - Fixture SHA-256: c289f9742220f5a49a9e7f57aec3f61a6836f31c7b4f586b54b3a8fda480736b
 
 use crate::lunar_llr_geometry::Vec3;
 
 /// Compile-time embedded DE440 MOON_PA orientation fixture.
 ///
-/// 731 rows; 1-day cadence; window 2024-01-01 to 2025-12-31 TDB.
+/// 6 209 rows; 1-day cadence; window 2014-01-01 to 2030-12-31 TDB.
 /// Columns: `t_tt_jc, r00..r22` (see module docs).
 const DE440_MOON_PA_CSV: &str = include_str!("../tests/fixtures/llr_geometry/de440_moon_pa.csv");
 
@@ -50,7 +53,7 @@ struct Row {
 /// Raw parsing implementation — called exactly once (via [`fixture_rows`]).
 /// WASM-safe: `include_str!` bakes the data at compile time; no filesystem I/O.
 fn parse_rows() -> Vec<Row> {
-    let mut rows = Vec::with_capacity(732);
+    let mut rows = Vec::with_capacity(6210);
     for (i, line) in DE440_MOON_PA_CSV.lines().enumerate() {
         if i == 0 {
             continue; // skip header
@@ -136,24 +139,62 @@ fn gram_schmidt(m: [[f64; 3]; 3]) -> [[f64; 3]; 3] {
     ]
 }
 
+/// An epoch outside the span of the embedded orientation series.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct OrientationSpanError {
+    /// The requested epoch (Julian centuries from J2000 TT).
+    pub t_tt_jc: f64,
+    /// First node of the series (Julian centuries from J2000 TT).
+    pub first_jc: f64,
+    /// Last node of the series (Julian centuries from J2000 TT).
+    pub last_jc: f64,
+}
+
+impl std::fmt::Display for OrientationSpanError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "epoch {:.6} Julian centuries from J2000 is outside the DE440 lunar orientation series \
+             ({:.6} .. {:.6}, 2014-01-01 .. 2030-12-31 TDB)",
+            self.t_tt_jc, self.first_jc, self.last_jc
+        )
+    }
+}
+
+impl std::error::Error for OrientationSpanError {}
+
+/// The span `(first, last)` of the embedded orientation series, Julian centuries from J2000.
+pub fn de440_moon_pa_span() -> (f64, f64) {
+    let rows = fixture_rows();
+    (rows[0].t, rows[rows.len() - 1].t)
+}
+
 /// DE440 MOON_PA_DE440 → J2000 rotation at epoch `t_tt_jc` (Julian centuries from J2000 TT).
 ///
-/// Parses the embedded fixture, finds the bracketing 1-day interval, applies the relative
-/// rotation at a uniform rate, and re-orthonormalizes via Gram-Schmidt.  Clamps to endpoints
-/// outside the fixture window (2024-01-01 to 2025-12-31 TDB).
-///
-/// Returns a 3×3 matrix **R** with `v_inertial = R · v_body`.
+/// Panics outside the series span (2014-01-01 .. 2030-12-31 TDB); use [`try_de440_moon_pa`]
+/// to handle that case. Returns a 3×3 matrix **R** with `v_inertial = R · v_body`.
 pub fn de440_moon_pa(t_tt_jc: f64) -> [[f64; 3]; 3] {
+    try_de440_moon_pa(t_tt_jc).unwrap_or_else(|e| panic!("{e}"))
+}
+
+/// DE440 MOON_PA_DE440 → J2000 rotation at epoch `t_tt_jc` (Julian centuries from J2000 TT),
+/// or an error outside the series span.
+///
+/// Finds the bracketing 1-day interval of the embedded fixture, applies the relative rotation
+/// at a uniform rate, and re-orthonormalizes via Gram-Schmidt. Never clamps.
+pub fn try_de440_moon_pa(t_tt_jc: f64) -> Result<[[f64; 3]; 3], OrientationSpanError> {
     let rows = fixture_rows();
     debug_assert!(!rows.is_empty(), "fixture must not be empty");
-
-    // Clamp to window
-    if t_tt_jc <= rows[0].t {
-        return rows[0].r;
-    }
     let last = rows.len() - 1;
-    if t_tt_jc >= rows[last].t {
-        return rows[last].r;
+    if !(t_tt_jc >= rows[0].t && t_tt_jc <= rows[last].t) {
+        return Err(OrientationSpanError {
+            t_tt_jc,
+            first_jc: rows[0].t,
+            last_jc: rows[last].t,
+        });
+    }
+    if t_tt_jc == rows[last].t {
+        return Ok(rows[last].r);
     }
 
     // Binary search for the lower-bound row
@@ -186,7 +227,7 @@ pub fn de440_moon_pa(t_tt_jc: f64) -> [[f64; 3]; 3] {
     let interp = mat_mul(r0, &step);
 
     // Remove the last rounding-level departure from orthonormality.
-    gram_schmidt(interp)
+    Ok(gram_schmidt(interp))
 }
 
 /// `aᵀ · b` for 3×3 matrices.
@@ -242,20 +283,51 @@ fn rot_exp(v: [f64; 3], f: f64) -> [[f64; 3]; 3] {
 
 /// Apply the DE440 MOON_PA → J2000 rotation to a body-frame vector.
 ///
-/// Equivalent to `R · r_body` where `R = de440_moon_pa(t_tt_jc)`.
-/// Task 5b uses this to replace `lunar::mcmf_to_mci` in `reflector_inertial`.
+/// Equivalent to `R · r_body` where `R = de440_moon_pa(t_tt_jc)`; panics outside the series
+/// span (see [`try_de440_moon_pa_body_to_inertial`]).
 pub fn de440_moon_pa_body_to_inertial(r_body: Vec3, t_tt_jc: f64) -> Vec3 {
-    let r = de440_moon_pa(t_tt_jc);
-    [
+    try_de440_moon_pa_body_to_inertial(r_body, t_tt_jc).unwrap_or_else(|e| panic!("{e}"))
+}
+
+/// [`de440_moon_pa_body_to_inertial`], or an error outside the series span.
+pub fn try_de440_moon_pa_body_to_inertial(
+    r_body: Vec3,
+    t_tt_jc: f64,
+) -> Result<Vec3, OrientationSpanError> {
+    let r = try_de440_moon_pa(t_tt_jc)?;
+    Ok([
         r[0][0] * r_body[0] + r[0][1] * r_body[1] + r[0][2] * r_body[2],
         r[1][0] * r_body[0] + r[1][1] * r_body[1] + r[1][2] * r_body[2],
         r[2][0] * r_body[0] + r[2][1] * r_body[1] + r[2][2] * r_body[2],
-    ]
+    ])
 }
 
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    #[test]
+    fn the_series_errors_outside_its_span_instead_of_clamping() {
+        let (first, last) = de440_moon_pa_span();
+        // 2014-01-01 and 2030-12-31 TDB, in Julian centuries from J2000.
+        assert!(
+            (first - (2_456_658.5 - 2_451_545.0) / 36_525.0).abs() < 1e-9,
+            "{first}"
+        );
+        assert!(
+            (last - (2_462_866.5 - 2_451_545.0) / 36_525.0).abs() < 1e-9,
+            "{last}"
+        );
+        let day = 1.0 / 36_525.0;
+        assert!(try_de440_moon_pa(first - day).is_err());
+        assert!(try_de440_moon_pa(last + day).is_err());
+        assert!(try_de440_moon_pa(f64::NAN).is_err());
+        assert!(try_de440_moon_pa(first).is_ok() && try_de440_moon_pa(last).is_ok());
+        // 2015-05-01 (the committed 2015 normal points) is now inside the span.
+        assert!(try_de440_moon_pa((2_457_143.5 - 2_451_545.0) / 36_525.0).is_ok());
+        let e = try_de440_moon_pa_body_to_inertial([1.0, 0.0, 0.0], last + day).unwrap_err();
+        assert!(e.to_string().contains("outside"));
+    }
 
     /// Parse the first few fixture rows and check that `de440_moon_pa` reproduces them
     /// to <1e-9 (exact interpolation at a knot point) and that the result is a proper

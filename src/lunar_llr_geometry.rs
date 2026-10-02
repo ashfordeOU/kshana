@@ -102,6 +102,240 @@ pub fn stations() -> Vec<Station> {
     ]
 }
 
+/// Where an [`ItrfStation`]'s coordinates come from.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub enum StationCoordinates {
+    /// An ITRF2020 (International Terrestrial Reference Frame 2020) solution: Cartesian
+    /// position at `epoch_year` and a constant velocity.
+    Itrf2020 {
+        /// ITRS position (m) at `epoch_year`.
+        position_m: Vec3,
+        /// ITRS velocity (m per year).
+        velocity_m_per_yr: Vec3,
+        /// Reference epoch (decimal year), 2015.0 for ITRF2020.
+        epoch_year: f64,
+    },
+    /// No ITRF realisation exists: the station operator's published geocentric (not geodetic)
+    /// spherical coordinates (no velocity).
+    OperatorGeocentric {
+        /// Geocentric distance (m).
+        radius_m: f64,
+        /// Geocentric latitude (deg).
+        geocentric_lat_deg: f64,
+        /// Longitude (deg, east positive).
+        lon_deg: f64,
+    },
+    /// No ITRF realisation exists: the approximate geodetic position the ILRS station page
+    /// publishes (WGS-84, no velocity). Metre-level at best.
+    IlrsApproximate {
+        /// Geodetic latitude (deg).
+        lat_deg: f64,
+        /// Geodetic longitude (deg, east positive).
+        lon_deg: f64,
+        /// Height above the ellipsoid (m).
+        height_m: f64,
+    },
+}
+
+/// An LLR station with terrestrial-frame coordinates and their source.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct ItrfStation {
+    /// Station name (e.g. `"Grasse"`).
+    pub name: &'static str,
+    /// ILRS CDP pad identifier (e.g. 7845).
+    pub cdp_id: u32,
+    /// IERS DOMES number, or `""` when the station has none in ITRF2020.
+    pub domes: &'static str,
+    /// The coordinates.
+    pub coordinates: StationCoordinates,
+}
+
+impl ItrfStation {
+    /// ITRS position (m) at TT Julian date `jd_tt`: the ITRF2020 position propagated with its
+    /// velocity (Julian years of 365.25 d from the reference epoch, J2000.0 = 2000.0), or the
+    /// fixed approximate position.
+    pub fn itrs_position(&self, jd_tt: f64) -> Vec3 {
+        match self.coordinates {
+            StationCoordinates::Itrf2020 {
+                position_m,
+                velocity_m_per_yr,
+                epoch_year,
+            } => {
+                let year = 2000.0 + (jd_tt - 2_451_545.0) / 365.25;
+                let dt = year - epoch_year;
+                [
+                    position_m[0] + velocity_m_per_yr[0] * dt,
+                    position_m[1] + velocity_m_per_yr[1] * dt,
+                    position_m[2] + velocity_m_per_yr[2] * dt,
+                ]
+            }
+            StationCoordinates::OperatorGeocentric {
+                radius_m,
+                geocentric_lat_deg,
+                lon_deg,
+            } => {
+                let (la, lo) = (geocentric_lat_deg.to_radians(), lon_deg.to_radians());
+                [
+                    radius_m * la.cos() * lo.cos(),
+                    radius_m * la.cos() * lo.sin(),
+                    radius_m * la.sin(),
+                ]
+            }
+            StationCoordinates::IlrsApproximate {
+                lat_deg,
+                lon_deg,
+                height_m,
+            } => crate::frames::geodetic_to_ecef(crate::frames::Geodetic {
+                lat_rad: lat_deg.to_radians(),
+                lon_rad: lon_deg.to_radians(),
+                alt_m: height_m,
+            }),
+        }
+    }
+}
+
+/// The lunar laser-ranging stations of the ILRS normal-point record with their best openly
+/// available terrestrial coordinates.
+///
+/// * Grasse MeO 7845 (DOMES 10002S002) and Matera MLRO 7941 (DOMES 12734S008): ITRF2020,
+///   `ITRF2020_SLR.SSC.txt` (IGN, epoch 2015.0); the ILRS SLRF2020 SINEX
+///   (`SLRF2020_POS+VEL_2025.02.05.snx`) carries the same values.
+/// * APOLLO 7045: in neither ITRF2020 nor SLRF2020 (it does not range to LAGEOS). The operator
+///   (Apache Point Observatory Lunar Laser-ranging Operation) publishes geocentric coordinates on
+///   its normal-point page, "approximately" 6374.69213 km, 32.6054889 deg geocentric latitude,
+///   254.1795778 deg longitude (retrieved 2026-10-01); they are used here. The ILRS station
+///   page's approximate geodetic position (32.780361 N, 105.820417 W, 2788 m), used before 0.30,
+///   lies 1.80 m from it.
+pub fn stations_itrf() -> Vec<ItrfStation> {
+    vec![
+        ItrfStation {
+            name: "Grasse",
+            cdp_id: 7845,
+            domes: "10002S002",
+            coordinates: StationCoordinates::Itrf2020 {
+                position_m: [4_581_691.938_9, 556_196.367_8, 4_389_355.286_9],
+                velocity_m_per_yr: [-0.01388, 0.01886, 0.01117],
+                epoch_year: 2015.0,
+            },
+        },
+        ItrfStation {
+            name: "Matera",
+            cdp_id: 7941,
+            domes: "12734S008",
+            coordinates: StationCoordinates::Itrf2020 {
+                position_m: [4_641_978.523_9, 1_393_067.819_7, 4_133_249.695_9],
+                velocity_m_per_yr: [-0.01863, 0.01906, 0.01462],
+                epoch_year: 2015.0,
+            },
+        },
+        ItrfStation {
+            name: "APOLLO",
+            cdp_id: 7045,
+            domes: "",
+            coordinates: StationCoordinates::OperatorGeocentric {
+                radius_m: 6_374_692.13,
+                geocentric_lat_deg: 32.605_488_9,
+                lon_deg: 254.179_577_8,
+            },
+        },
+    ]
+}
+
+/// IERS Conventions 2010 Table 1.1: `L_C`, the average rate of TCG relative to TCB.
+pub const L_C: f64 = 1.480_826_867_41e-8;
+
+/// A body-centred position vector in TT-compatible (TDB-compatible for the Moon) body
+/// coordinates transformed to the TDB-compatible barycentric frame, IERS Conventions 2010
+/// Eq. 11.19: `r_TDB = r_TT (1 - U/c^2 - L_C) - (V . r_TT / 2c^2) V`, with `u_over_c2` the
+/// gravitational potential at the body centre from every other body divided by `c^2` and
+/// `v_bary_m_s` the body's barycentric velocity. Uncertainty below 1 mm (IERS).
+pub fn body_to_bcrs_tdb(r_tt: Vec3, u_over_c2: f64, v_bary_m_s: Vec3) -> Vec3 {
+    const C: f64 = 299_792_458.0;
+    let s = 1.0 - u_over_c2 - L_C;
+    let vr = (v_bary_m_s[0] * r_tt[0] + v_bary_m_s[1] * r_tt[1] + v_bary_m_s[2] * r_tt[2])
+        / (2.0 * C * C);
+    [
+        r_tt[0] * s - vr * v_bary_m_s[0],
+        r_tt[1] * s - vr * v_bary_m_s[1],
+        r_tt[2] * s - vr * v_bary_m_s[2],
+    ]
+}
+
+/// Barycentric (BCRS, TDB-compatible, ICRF axes) states for one LLR normal point, as an
+/// ephemeris such as DE440 gives them: metres and metres per second.
+#[derive(Debug, Clone, Copy, PartialEq)]
+pub struct BcrsEvent {
+    /// Earth position and velocity at transmit t0.
+    pub earth_t0: [f64; 6],
+    /// Earth position and velocity at receive t2.
+    pub earth_t2: [f64; 6],
+    /// Moon position and velocity at the bounce epoch.
+    pub moon_tb: [f64; 6],
+    /// Sun position at the bounce epoch.
+    pub sun_tb: Vec3,
+    /// Potential at the geocentre from every body but the Earth, divided by c^2.
+    pub u_earth_c2: f64,
+    /// Potential at the selenocentre from every body but the Moon, divided by c^2.
+    pub u_moon_c2: f64,
+}
+
+/// GM of the Sun, the Earth and the Moon (m^3/s^2), JPL DE440 (`gm_de440.tpc`).
+pub const GM_SUN_DE440: f64 = 1.327_124_400_412_794_2e20;
+/// GM of the Earth, JPL DE440.
+pub const GM_EARTH_DE440: f64 = 3.986_004_355_070_227e14;
+/// GM of the Moon, JPL DE440.
+pub const GM_MOON_DE440: f64 = 4.902_800_118_457_55e12;
+
+/// One-leg Shapiro delay as a length (m), IERS Conventions 2010 Eq. 11.17 (gamma = 1):
+/// `(2 GM / c^2) ln((r1 + r2 + rho) / (r1 + r2 - rho))`.
+pub fn shapiro_leg_m(gm: f64, r1: f64, r2: f64, rho: f64) -> f64 {
+    const C: f64 = 299_792_458.0;
+    2.0 * gm / (C * C) * ((r1 + r2 + rho) / (r1 + r2 - rho)).ln()
+}
+
+/// Predicted one-way LLR range (m), half the round-trip light path in TDB, by the barycentric
+/// formulation of IERS Conventions 2010 Section 11.2: the station's geocentric positions at
+/// transmit and receive (`station_t0_gcrs`, `station_t2_gcrs`, TT-compatible) and the
+/// reflector's selenocentric position (ICRF axes) taken to the BCRS with Eq. 11.19 and placed on
+/// the barycentric Earth and Moon of `ev`, then the two legs plus the Shapiro delay (Eq. 11.17)
+/// of the Sun, the Earth and the Moon. No troposphere, tides or station eccentricity.
+pub fn llr_bcrs_one_way_m(
+    ev: &BcrsEvent,
+    station_t0_gcrs: Vec3,
+    station_t2_gcrs: Vec3,
+    reflector_selenocentric: Vec3,
+) -> f64 {
+    let v = |a: &[f64; 6]| -> (Vec3, Vec3) { ([a[0], a[1], a[2]], [a[3], a[4], a[5]]) };
+    let add = |a: Vec3, b: Vec3| [a[0] + b[0], a[1] + b[1], a[2] + b[2]];
+    let dist = |a: Vec3, b: Vec3| {
+        let d = [a[0] - b[0], a[1] - b[1], a[2] - b[2]];
+        (d[0] * d[0] + d[1] * d[1] + d[2] * d[2]).sqrt()
+    };
+    let (e0, ve0) = v(&ev.earth_t0);
+    let (e2, ve2) = v(&ev.earth_t2);
+    let (mb, vm) = v(&ev.moon_tb);
+    let s0 = add(e0, body_to_bcrs_tdb(station_t0_gcrs, ev.u_earth_c2, ve0));
+    let s2 = add(e2, body_to_bcrs_tdb(station_t2_gcrs, ev.u_earth_c2, ve2));
+    let rf = add(
+        mb,
+        body_to_bcrs_tdb(reflector_selenocentric, ev.u_moon_c2, vm),
+    );
+    let eb = [
+        0.5 * (e0[0] + e2[0]),
+        0.5 * (e0[1] + e2[1]),
+        0.5 * (e0[2] + e2[2]),
+    ];
+    let (up, dn) = (dist(rf, s0), dist(s2, rf));
+    let sun = ev.sun_tb;
+    let shapiro = shapiro_leg_m(GM_SUN_DE440, dist(s0, sun), dist(rf, sun), up)
+        + shapiro_leg_m(GM_SUN_DE440, dist(rf, sun), dist(s2, sun), dn)
+        + shapiro_leg_m(GM_EARTH_DE440, dist(s0, e0), dist(rf, eb), up)
+        + shapiro_leg_m(GM_EARTH_DE440, dist(rf, eb), dist(s2, e2), dn)
+        + shapiro_leg_m(GM_MOON_DE440, dist(s0, mb), dist(rf, mb), up)
+        + shapiro_leg_m(GM_MOON_DE440, dist(rf, mb), dist(s2, mb), dn);
+    0.5 * (up + dn + shapiro)
+}
+
 /// Reflector PA body coordinates → geocentric inertial position [m].
 ///
 /// `r_inertial = r_moon_geocentric + R_body→inertial(t) · pa_body`
@@ -435,6 +669,27 @@ pub fn llr_datum_observability(
 
 #[cfg(test)]
 mod tests {
+
+    #[test]
+    fn solar_shapiro_on_an_earth_moon_leg_is_about_seven_and_a_half_metres() {
+        // r1 ~ r2 ~ 1 au, rho = 384 400 km: (2GM/c^2) ln(...) ~ 2953 m * rho / au.
+        let au = 1.495_978_707e11;
+        let d = shapiro_leg_m(GM_SUN_DE440, au, au + 1.0e5, 3.844e8);
+        assert!((d - 7.588).abs() < 0.01, "{d}");
+    }
+
+    #[test]
+    fn eq_11_19_shrinks_a_station_vector_by_u_plus_lc() {
+        // No velocity: r_TDB = r_TT (1 - U/c^2 - L_C).
+        let r = body_to_bcrs_tdb([6.4e6, 0.0, 0.0], 9.87e-9, [0.0; 3]);
+        assert!((r[0] - 6.4e6 * (1.0 - 9.87e-9 - L_C)).abs() < 1e-9);
+        // Velocity along the vector: an extra -(V r / 2c^2) V.
+        let c = 299_792_458.0_f64;
+        let r = body_to_bcrs_tdb([6.4e6, 0.0, 0.0], 0.0, [3.0e4, 0.0, 0.0]);
+        let want = 6.4e6 * (1.0 - L_C) - 3.0e4 * 6.4e6 / (2.0 * c * c) * 3.0e4;
+        assert!((r[0] - want).abs() < 1e-9);
+    }
+
     use super::*;
 
     #[test]
