@@ -1,0 +1,90 @@
+{
+  "config": "B",
+  "epoch_utc": [
+    2024.0,
+    3.0,
+    20.0,
+    12.0,
+    0.0,
+    0.0
+  ],
+  "lats_deg": [
+    0.0,
+    10.0,
+    20.0,
+    30.0,
+    40.0,
+    50.0,
+    60.0,
+    70.0,
+    80.0,
+    89.9
+  ],
+  "lons_deg": [
+    -180.0,
+    -150.0,
+    -120.0,
+    -90.0,
+    -60.0,
+    -30.0,
+    0.0,
+    30.0,
+    60.0,
+    90.0,
+    120.0,
+    150.0
+  ],
+  "pdop_threshold": 6.0,
+  "scenario": "tests/fixtures/leo_polar_coverage_orekit_oracle/variant_masks_clocks.toml",
+  "site_height_m": 0.0,
+  "systems": [
+    {
+      "clock": "estimated",
+      "mask_rad": 0.08726646259971647,
+      "n_satellites": 24,
+      "name": "GPS",
+      "role": "gnss"
+    },
+    {
+      "clock": "known",
+      "mask_rad": 0.2617993877991494,
+      "n_satellites": 24,
+      "name": "Galileo",
+      "role": "gnss"
+    },
+    {
+      "clock": "estimated",
+      "mask_rad": 0.13962634015954636,
+      "n_satellites": 66,
+      "name": "Iridium",
+      "role": "leo"
+    }
+  ],
+  "times_s": [
+    0.0,
+    300.0,
+    600.0,
+    900.0,
+    1200.0,
+    1500.0,
+    1800.0,
+    2100.0,
+    2400.0,
+    2700.0,
+    3000.0,
+    3300.0,
+    3600.0,
+    3900.0,
+    4200.0,
+    4500.0,
+    4800.0,
+    5100.0,
+    5400.0,
+    5700.0,
+    6000.0,
+    6300.0,
+    6600.0,
+    6900.0,
+    7200.0
+  ]
+}
