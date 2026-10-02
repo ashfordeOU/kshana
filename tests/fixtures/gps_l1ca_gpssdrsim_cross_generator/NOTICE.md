@@ -10,3 +10,6 @@
   (2025-01-07).
 - Input: `brdc0010.22n`, the GPS broadcast ephemeris file for 1 January 2022 that gps-sdr-sim
   ships in its repository (an IGS/NASA CDDIS daily broadcast file, public).
+- Generated 2026-10-02 with `generate.sh` (gcc 13, Ubuntu 24.04).
+  SHA-256 `brdc0010.22n`: 7db04513dd2d0e13c0ee20cb4eaa8f71e5a28ab58b65c9b5b789f86eeab436cd.
+  SHA-256 `gpssdrsim_output.json`: dddb496747d000cadbdc581181701efd8f1e3f5ec39645205c5dcd721b0402aa.
