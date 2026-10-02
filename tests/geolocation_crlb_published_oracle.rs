@@ -362,3 +362,123 @@ fn ho_xu_2004_ml_estimator_attains_the_printed_bound() {
     }
     ck.finish();
 }
+
+// ---------------------------------------------------------------------------------------------
+// AMENDMENT 1 (row M058, written 2026-10-02 AFTER the first run of the tests above; a NEW
+// pre-registration under rule 3 of the round-2 brief, the tests above stay unchanged).
+//
+// WHY: the first run (commit c71815dd fixture, engine d5adea18) found the Fig. 7 solid lines a
+// factor 8.8 (position) and 11.1 (velocity) above Kshana's bound for the printed near-field
+// source u = [300, 325, 275] m, while Fig. 6 agreed to 0.06 % and 0.17 %. RESULT SEEN BEFORE
+// THIS AMENDMENT: a diagnostic (an independent NumPy bound, not Kshana) then tried scaling the
+// source by 2, 5 and 10 and found u = [600, 650, 550] m gives 24.937 m and 12.945 m/s at 0 dB,
+// within 0.12 % of the readings. Only after that, the authors' published code
+// (https://cisp.ece.missouri.edu/code.html, TDOAFDOALocMvgSrcSen.zip, SHA-256 08bae09e...633a51,
+// BSD-style licence) was found; its example states: "To generate Fig. 7 in the paper, the source
+// location should be uo = [600 650 550]' and not uo = [300 325 275]'. The paper specifies a wrong
+// uo for Fig. 7." The original comparison therefore measured a different quantity: the figure
+// is not of the source the text prints. The authors' code also notes that the paper's Eq. (44)
+// is incorrect and implements the corrected expression.
+//
+// E. Fig. 7 against the authors' corrected source u = [600, 650, 550] m (same velocity): the
+//    block C comparison (1 % of each reading) and the block D Monte Carlo check at -20 dB
+//    (bar 0.025, N = 20 000, seed 2004_17), unchanged in every other respect.
+// F. A second, independent oracle for the bound itself: the authors' function
+//    TDOAFDOALocMvgSrcSenCRLB.m (Le Yang and K. C. Ho, revised 2010), run under GNU Octave 8.4
+//    as a separate program by `tests/fixtures/geolocation_crlb_published_oracle/
+//    run_author_crlb.sh`, for the far-field source, the printed near-field source and the
+//    corrected one, c^2 sigma_d^2 = 1 m^2. Every element of Kshana's 6 x 6 `tdoa_fdoa_crlb`
+//    must satisfy |K_ij - O_ij| <= 1e-9 sqrt(O_ii O_jj): both are the same closed-form
+//    double-precision bound, so the bar is numerical round-off on a matrix inverse whose
+//    condition number is below 1e6 here, with three orders of margin.
+
+const NEAR_ERRATUM: (Vec3, Vec3) = ([600.0, 650.0, 550.0], [-20.0, 15.0, 40.0]);
+
+#[test]
+#[ignore = "pre-registered (amendment 1); not yet run"]
+fn ho_xu_2004_fig7_with_the_authors_corrected_source() {
+    let mut ck = Check::new();
+    let (pos, vel) = crlb_rmse(NEAR_ERRATUM, 1.0);
+    for (panel, got) in [("position_m", pos), ("velocity_m_per_s", vel)] {
+        match reading("fig7_near_field", panel) {
+            Ok(read) => ck.rel(
+                &format!("fig7 (u = [600, 650, 550]) {panel} CRLB at 0 dB"),
+                got,
+                read,
+                0.01,
+            ),
+            Err(e) => ck.fail(e),
+        }
+    }
+    const N: usize = 20_000;
+    let tol = 0.01 + 3.0 / (2.0 * N as f64).sqrt();
+    let x_db = -20.0;
+    let (rp, rv, bad) = monte_carlo_rmse(NEAR_ERRATUM, 10f64.powf(x_db / 10.0), N, 2004_17);
+    if bad > 0 {
+        ck.fail(format!(
+            "fig7 corrected source: {bad} of {N} trials did not converge"
+        ));
+    }
+    let scale = 10f64.powf(0.05 * x_db);
+    for (panel, got) in [("position_m", rp), ("velocity_m_per_s", rv)] {
+        match reading("fig7_near_field", panel) {
+            Ok(read) => ck.rel(
+                &format!("fig7 (u = [600, 650, 550]) {panel} Monte Carlo RMSE at {x_db} dB"),
+                got,
+                read * scale,
+                tol,
+            ),
+            Err(e) => ck.fail(e),
+        }
+    }
+    ck.finish();
+}
+
+#[test]
+#[ignore = "pre-registered (amendment 1); not yet run"]
+fn ho_xu_2004_bound_matches_the_authors_code() {
+    let path = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tests/fixtures/geolocation_crlb_published_oracle/ho_xu_author_crlb.json"
+    );
+    let text = std::fs::read_to_string(path).expect("run run_author_crlb.sh first");
+    let v: serde_json::Value = serde_json::from_str(&text).expect("json");
+    let (s, sd) = table_1();
+    let mut ck = Check::new();
+    for (name, source) in [
+        ("far_2000_2500_3000", FAR),
+        ("near_printed_300_325_275", NEAR),
+        ("near_erratum_600_650_550", NEAR_ERRATUM),
+    ] {
+        let k = tdoa_fdoa_crlb(&s, &sd, source.0, source.1, &r_matrix(1.0), &r_matrix(0.1))
+            .expect("bound");
+        let o: Vec<Vec<f64>> = v["cases"][name]
+            .as_array()
+            .expect("rows")
+            .iter()
+            .map(|r| {
+                r.as_array()
+                    .expect("row")
+                    .iter()
+                    .map(|x| x.as_f64().expect("number"))
+                    .collect()
+            })
+            .collect();
+        let mut worst: f64 = 0.0;
+        for i in 0..6 {
+            for j in 0..6 {
+                let scale = (o[i][i] * o[j][j]).sqrt();
+                worst = worst.max((k[i][j] - o[i][j]).abs() / scale);
+            }
+        }
+        let ok = worst <= 1e-9;
+        println!(
+            "{name:<28} worst |K - O| / sqrt(O_ii O_jj) = {worst:.3e}  {}",
+            if ok { "ok" } else { "FAIL" }
+        );
+        if !ok {
+            ck.fail(format!("{name}: {worst:e}"));
+        }
+    }
+    ck.finish();
+}
