@@ -222,7 +222,9 @@ fn the_lunar_priors_the_engine_can_already_source() {
         .as_f64()
         .expect("mission_duration_s");
     assert!(
-        (peak - 52.932_679_010_653_31).abs() < 1e-9,
+        // 0.30 round 2: 52.932679 m under the flat-Earth monomials; 44.711834 m once the
+        // coast contributions run through the nine-state Schuler error model.
+        (peak - 44.711_833_548_431_166).abs() < 1e-9,
         "the inertial/TRN peak error moved: {peak}"
     );
     assert!(
