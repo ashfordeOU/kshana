@@ -61,6 +61,24 @@
 //! Discrimination, pre-registered: dropping the factor 2 under the root in `toa_crb_sigma_m`
 //! must turn Part A red; scaling the joint fix's `sigma_enu_m` by 1.01 in `joint_pvt::solve`
 //! must turn Part B red.
+//!
+//! Result (2026-10-02). Part A, first run (commit 9f2875db): PASS. W_rms 1.9616 MHz, σ_t
+//! 38.755 µs, σ_f 100.794 Hz, σ_ρ 0.5970 m; with the PSS boost σ_f 87.284 Hz, σ_ρ 0.5831 m
+//! (W_rms 1.8702 MHz, σ_t 41.679 µs).
+//! Part B, first run (commit 9f2875db): FAIL on one number. Signal 0 median 3-D sigma relative
+//! difference 1.1e-6, Doppler east/north/up 1.1e-5, 1.2e-5, 5.0e-6 (all inside), but signal 1
+//! (200 kHz) 6.5e-5 > 1e-5: the report evaluated the formal covariance at its noisy fix, about
+//! 100 m from the truth for a 135 m sigma, so the number was not the bound the row claims (the
+//! Cramér-Rao bound is the information at the true parameter). Engine fix (commit after
+//! 9f2875db; the failing value was seen before it was written): `joint_pvt::formal_sigma_enu`
+//! evaluates the weighted fix covariance at a given position, and the report's
+//! `toa_median_sigma_3d_m` uses it at the true position. Re-run at the unchanged tolerances:
+//! PASS, signal 0 5.2e-16 and signal 1 5.1e-15 relative; Doppler unchanged (the Doppler fix's
+//! reported sigma is still the solver's, inside 1e-3).
+//! Mutations: without the factor 2, σ_ρ = 0.8443 m and Part A (and the geometry check of
+//! Part B) turn red. The pre-registered Part B mutation (1.01 on `joint_pvt::solve`'s
+//! `sigma_enu_m`) no longer reaches the report after the fix and stays green; the same 1.01 on
+//! `joint_pvt::formal_sigma_enu`, the path the report now uses, turns Part B red (1.0e-2).
 
 use kshana::leo_fusion::ntn::{
     frequency_crb_sigma_hz, gabor_bandwidth_numeric_hz, rms_duration_numeric_s, toa_crb_sigma_m,
@@ -133,7 +151,6 @@ fn sigma_t_s(pss_w: f64) -> f64 {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn ssb_bounds_reproduce_the_published_values() {
     let total: f64 = (0..4).map(|l| symbol_energy(l, 1.0)).sum();
     assert_eq!(total, 830.0, "the SSB map must hold 830 REs");
@@ -215,7 +232,6 @@ fn numbers(line: &str) -> Vec<f64> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn ntn_fix_covariances_match_numpy() {
     let (Ok(committed), Ok(oracle)) = (
         std::fs::read_to_string(dir().join("geometry.txt")),
