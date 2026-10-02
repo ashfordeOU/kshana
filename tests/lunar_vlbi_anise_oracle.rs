@@ -35,13 +35,46 @@
 //! 20 ms delay), which neither side models.
 //!
 //! The assertions pin the finding: they fail if the gap closes (re-examine for promotion) or
-//! moves (the record is stale).
+//! moves (the record is stale). That finding stays true of the analytic path
+//! (`station_inertial_position`, `beacon_inertial_position`, `geometric_delay_s`), which the
+//! engine keeps.
+//!
+//! ## Round 2 amendment (2026-10-02, written before the kernel path was compared with the oracle)
+//!
+//! Engine fix: a pure-Rust NAIF kernel reader (`naif_kernel`: the DAF container, SPK type 2,
+//! binary PCK type 2, written from the NAIF required-reading documents, no third-party reader)
+//! and `lunar_vlbi::KernelGeometry`, which evaluates the delay from DE440 positions, the DE440
+//! lunar principal axes and the ITRF93 Earth orientation (precession, nutation, UT1 and polar
+//! motion) with each light time converged in the barycentric frame (station at reception, beacon
+//! at emission, the Earth's motion during the flight) and the beacon partials carrying the
+//! light-time factor `1/(c - u.V)`.
+//!
+//! * Oracle, fixture and tolerances unchanged: the committed `anise_delays.csv` (not
+//!   regenerated), **1 ps** on every one of the 75 delays and **1e-6** relative on every
+//!   beacon partial. PROMOTE only if both hold everywhere.
+//! * Kshana side (the only change): `KernelGeometry::delay_s(ecef_a, ecef_b, body, et)` and
+//!   `KernelGeometry::delay_partials_beacon(..)`, with the stations from
+//!   `frames::geodetic_to_ecef` (WGS-84), the beacon body vector (1 737 400, 0, 0) m in
+//!   MOON_PA_DE440, and the reception epoch `et = naif_kernel::naif_et_from_utc(2024-01-01, k h)`
+//!   (the NAIF leapseconds-kernel conversion, the convention the SPICE kernels are indexed by).
+//!   The UT1-UTC column is not used: UT1 and polar motion come from the Earth orientation kernel.
+//! * Kernels: the cuts in `tests/fixtures/lunar_vlbi_anise_oracle/kernels/` of the same three
+//!   files the oracle read (SHA-256 of the sources as in the CSV header), whose records SPICE
+//!   evaluates bit for bit like the full kernels (checked by the cutting script).
+//! * Disclosed: while building the reader it was checked against SPICE `spkgeo` and `pxform`
+//!   values on the cut kernels (`tests/naif_kernel_reader_check.rs`); SPICE is not this row's
+//!   oracle, and no ANISE delay was compared with the kernel path before this amendment. The
+//!   NAIF time conversion differs from the full Fairhead-Bretagnon TDB by about 25 us on
+//!   2024-01-01 (measured with ERFA `dtdb` while choosing the convention, before any delay was
+//!   compared); the record states it.
 
 use kshana::frames::Geodetic;
 use kshana::lunar::Selenographic;
+use kshana::lunar_vlbi::KernelGeometry;
 use kshana::lunar_vlbi::{
     beacon_inertial_position, delay_partials_beacon, geometric_delay_s, station_inertial_position,
 };
+use kshana::naif_kernel::naif_et_from_utc;
 use kshana::timescales::{utc_to_tt, utc_to_ut1};
 
 const CSV: &str = include_str!("fixtures/lunar_vlbi_anise_oracle/anise_delays.csv");
@@ -160,4 +193,60 @@ fn near_field_delay_disagrees_with_the_anise_light_time_difference() {
         (1.0e-3..1.0e-2).contains(&max_rel_partial),
         "the largest partial error was 2.95e-3, now {max_rel_partial:.3e}"
     );
+}
+
+fn kernel_geometry() -> KernelGeometry {
+    let dir = concat!(
+        env!("CARGO_MANIFEST_DIR"),
+        "/tests/fixtures/lunar_vlbi_anise_oracle/kernels/"
+    );
+    let p = |f: &str| std::path::PathBuf::from(format!("{dir}{f}"));
+    KernelGeometry::open(
+        &p("de440s_2024-01-01.bsp"),
+        &p("earth_itrf93_2024-01-01.bpc"),
+        &p("moon_pa_de440_2024-01-01.bpc"),
+    )
+    .expect("cut kernels")
+}
+
+/// The pre-registered comparison on the kernel path: every delay within 1 ps and every beacon
+/// partial within 1e-6 relative of the ANISE oracle.
+#[test]
+#[ignore = "pre-registered (round 2 amendment); not yet run"]
+fn kernel_delay_matches_the_anise_light_time_difference() {
+    let geom = kernel_geometry();
+    let rows = rows();
+    assert_eq!(rows.len(), 75, "25 epochs x 3 baselines");
+    let body = [1_737_400.0, 0.0, 0.0];
+    let ecef: Vec<[f64; 3]> = (0..3)
+        .map(|i| kshana::frames::geodetic_to_ecef(geod(i)))
+        .collect();
+    let (mut max_dtau, mut sum2, mut max_rel): (f64, f64, f64) = (0.0, 0.0, 0.0);
+    let (mut n_delay, mut n_partial) = (0, 0);
+    for r in &rows {
+        let secs = ((r.jd_utc - 2_460_310.5) * 24.0).round() * 3_600.0;
+        let (hi, lo) = naif_et_from_utc(2_460_310.5, secs);
+        let tau = geom
+            .delay_s(ecef[r.a], ecef[r.b], body, hi, lo)
+            .expect("delay");
+        let d = (tau - r.tau).abs();
+        max_dtau = max_dtau.max(d);
+        sum2 += d * d;
+        n_delay += usize::from(d <= DELAY_TOL_S);
+        let g = geom
+            .delay_partials_beacon(ecef[r.a], ecef[r.b], body, hi, lo)
+            .expect("partials");
+        let diff = [g[0] - r.grad[0], g[1] - r.grad[1], g[2] - r.grad[2]];
+        let rel = norm(diff) / norm(r.grad);
+        max_rel = max_rel.max(rel);
+        n_partial += usize::from(rel <= PARTIAL_REL_TOL);
+    }
+    let rms = (sum2 / rows.len() as f64).sqrt();
+    eprintln!(
+        "M038 kernel path: delay |kshana - ANISE| max {max_dtau:.4e} s, rms {rms:.4e} s, within \
+         1 ps: {n_delay}/75; beacon partials max relative error {max_rel:.4e}, within 1e-6: \
+         {n_partial}/75"
+    );
+    assert_eq!(n_delay, 75, "delays outside 1 ps (max {max_dtau:.3e} s)");
+    assert_eq!(n_partial, 75, "partials outside 1e-6 (max {max_rel:.3e})");
 }

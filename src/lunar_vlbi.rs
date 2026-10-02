@@ -193,6 +193,192 @@ pub fn near_field_correction_s(r1: Vec3, r2: Vec3, r_beacon: Vec3) -> f64 {
 }
 
 // ---------------------------------------------------------------------------
+// The kernel path: DE440 positions, DE440 lunar principal axes, ITRF93 Earth
+// orientation, and a converged light time.
+// ---------------------------------------------------------------------------
+
+/// NAIF codes used by the kernel path.
+const NAIF_EARTH_MOON: (i32, i32) = (399, 301);
+/// NAIF frame code of the ITRF93 Earth body-fixed frame (high-precision Earth PCK).
+pub const FRAME_ITRF93: i32 = 3000;
+/// NAIF frame code of the DE440 lunar principal-axis frame.
+pub const FRAME_MOON_PA_DE440: i32 = 31008;
+
+/// DE440-grade geometry for the delay, read from NAIF kernels by the engine's own
+/// [`crate::naif_kernel`] reader: the planetary ephemeris (SPK, e.g. `de440s.bsp`), the Earth
+/// orientation (binary PCK `earth_latest_high_prec.bpc`, ITRF93: precession, nutation, UT1 and
+/// polar motion) and the lunar orientation (binary PCK `moon_pa_de440_200625.bpc`, the DE440
+/// principal axes with physical libration).
+#[derive(Clone, Debug)]
+pub struct KernelGeometry {
+    spk: crate::naif_kernel::SpkKernel,
+    earth: crate::naif_kernel::PckKernel,
+    moon: crate::naif_kernel::PckKernel,
+}
+
+/// One converged light time from the beacon to a station.
+#[derive(Clone, Copy, Debug)]
+pub struct LightTimeSolution {
+    /// Light time (s).
+    pub light_time_s: f64,
+    /// Unit vector from the beacon at emission to the station at reception (J2000).
+    pub unit_beacon_to_station: Vec3,
+    /// Barycentric velocity of the beacon at emission (m/s, J2000).
+    pub beacon_velocity_m_s: Vec3,
+    /// Iterations used.
+    pub iterations: usize,
+}
+
+impl KernelGeometry {
+    /// Wrap three parsed kernels.
+    pub fn new(
+        spk: crate::naif_kernel::SpkKernel,
+        earth_orientation: crate::naif_kernel::PckKernel,
+        moon_orientation: crate::naif_kernel::PckKernel,
+    ) -> Self {
+        Self {
+            spk,
+            earth: earth_orientation,
+            moon: moon_orientation,
+        }
+    }
+
+    /// Read the three kernels from disk.
+    pub fn open(
+        spk: &std::path::Path,
+        earth_orientation: &std::path::Path,
+        moon_orientation: &std::path::Path,
+    ) -> Result<Self, String> {
+        Ok(Self::new(
+            crate::naif_kernel::SpkKernel::open(spk)?,
+            crate::naif_kernel::PckKernel::open(earth_orientation)?,
+            crate::naif_kernel::PckKernel::open(moon_orientation)?,
+        ))
+    }
+
+    /// Geocentric J2000 position (m) of an Earth-fixed (ITRF93) point at ET `(t_hi, t_lo)`.
+    pub fn station_j2000(&self, ecef: Vec3, t_hi: f64, t_lo: f64) -> Result<Vec3, String> {
+        let (r, _) = self.earth.rotation_from_j2000(FRAME_ITRF93, t_hi, t_lo)?;
+        Ok(crate::naif_kernel::mat_vec(
+            &crate::naif_kernel::mat_t(&r),
+            ecef,
+        ))
+    }
+
+    /// Geocentric J2000 position (m) and velocity (m/s) of a point fixed in the DE440 lunar
+    /// principal-axis frame (`body`, m from the Moon's centre) at ET `(t_hi, t_lo)`.
+    pub fn beacon_geocentric(
+        &self,
+        body: Vec3,
+        t_hi: f64,
+        t_lo: f64,
+    ) -> Result<(Vec3, Vec3), String> {
+        let (earth, moon) = NAIF_EARTH_MOON;
+        let m = self.spk.state(moon, earth, t_hi, t_lo)?;
+        let (r, dr) = self
+            .moon
+            .rotation_from_j2000(FRAME_MOON_PA_DE440, t_hi, t_lo)?;
+        // r_j2000 = Rᵀ b; its rate is (dR/dt)ᵀ b.
+        let off = crate::naif_kernel::mat_vec(&crate::naif_kernel::mat_t(&r), body);
+        let doff = crate::naif_kernel::mat_vec(&crate::naif_kernel::mat_t(&dr), body);
+        Ok((add(m[0], off), add(m[1], doff)))
+    }
+
+    /// The converged Newtonian light time from a beacon fixed in the lunar principal-axis frame
+    /// (`body`, m) to an Earth-fixed station (`ecef`, m) receiving at ET `(t_hi, t_lo)`, in the
+    /// solar-system barycentric frame: `c·LT = |E(t) + s(t) − E(t − LT) − G(t − LT) − p|`, with
+    /// `E` the Earth's barycentric position, `s` the station, `G` the beacon relative to the
+    /// Earth's centre and `p` an optional J2000 offset of the beacon (m; zero for the delay,
+    /// used to check partials). `E(t) − E(t − LT)` is the Earth's Taylor step
+    /// `v·LT − a·LT²/2` from its kernel velocity and acceleration at `t`; the neglected cubic
+    /// term is below 1e-9 m. Iterated until the light time moves by less than 1e-15 s.
+    pub fn light_time(
+        &self,
+        ecef: Vec3,
+        body: Vec3,
+        t_hi: f64,
+        t_lo: f64,
+        offset: Vec3,
+    ) -> Result<LightTimeSolution, String> {
+        let s = self.station_j2000(ecef, t_hi, t_lo)?;
+        let e = self.spk.state(NAIF_EARTH_MOON.0, 0, t_hi, t_lo)?;
+        let (v_e, a_e) = (e[1], e[2]);
+        let mut lt = {
+            let (g, _) = self.beacon_geocentric(body, t_hi, t_lo)?;
+            norm(sub(s, add(g, offset))) / C
+        };
+        for it in 1..=30 {
+            let d_e = [
+                v_e[0] * lt - 0.5 * a_e[0] * lt * lt,
+                v_e[1] * lt - 0.5 * a_e[1] * lt * lt,
+                v_e[2] * lt - 0.5 * a_e[2] * lt * lt,
+            ];
+            let (g, g_dot) = self.beacon_geocentric(body, t_hi, t_lo - lt)?;
+            let rho = sub(add(s, d_e), add(g, offset));
+            let r = norm(rho);
+            let next = r / C;
+            let done = (next - lt).abs() <= 1e-15;
+            lt = next;
+            if done {
+                let v_earth_te = [
+                    v_e[0] - a_e[0] * lt,
+                    v_e[1] - a_e[1] * lt,
+                    v_e[2] - a_e[2] * lt,
+                ];
+                return Ok(LightTimeSolution {
+                    light_time_s: lt,
+                    unit_beacon_to_station: [rho[0] / r, rho[1] / r, rho[2] / r],
+                    beacon_velocity_m_s: add(v_earth_te, g_dot),
+                    iterations: it,
+                });
+            }
+        }
+        Err("light time did not converge to 1e-15 s in 30 iterations".into())
+    }
+
+    /// The near-field VLBI delay `LT(station 2) − LT(station 1)` (s) at the common reception
+    /// epoch ET `(t_hi, t_lo)`, each light time converged by [`light_time`](Self::light_time).
+    /// No Shapiro, media or barycentric-to-geocentric time-scale term.
+    pub fn delay_s(
+        &self,
+        ecef1: Vec3,
+        ecef2: Vec3,
+        body: Vec3,
+        t_hi: f64,
+        t_lo: f64,
+    ) -> Result<f64, String> {
+        let z = [0.0; 3];
+        Ok(self.light_time(ecef2, body, t_hi, t_lo, z)?.light_time_s
+            - self.light_time(ecef1, body, t_hi, t_lo, z)?.light_time_s)
+    }
+
+    /// Partial of [`delay_s`](Self::delay_s) with respect to a J2000 offset of the beacon at
+    /// emission (s/m), analytic with the light-time factor: for each station
+    /// `∂LT/∂p = −û / (c − û·V)`, `û` the unit vector from beacon to station and `V` the
+    /// beacon's barycentric velocity at emission; the delay partial is station 2's minus
+    /// station 1's.
+    pub fn delay_partials_beacon(
+        &self,
+        ecef1: Vec3,
+        ecef2: Vec3,
+        body: Vec3,
+        t_hi: f64,
+        t_lo: f64,
+    ) -> Result<Vec3, String> {
+        let z = [0.0; 3];
+        let part = |ecef: Vec3| -> Result<Vec3, String> {
+            let sol = self.light_time(ecef, body, t_hi, t_lo, z)?;
+            let u = sol.unit_beacon_to_station;
+            let v = sol.beacon_velocity_m_s;
+            let den = C - (u[0] * v[0] + u[1] * v[1] + u[2] * v[2]);
+            Ok([-u[0] / den, -u[1] / den, -u[2] / den])
+        };
+        let (p1, p2) = (part(ecef1)?, part(ecef2)?);
+        Ok(sub(p2, p1))
+    }
+}
+
+// ---------------------------------------------------------------------------
 // Scenario.
 // ---------------------------------------------------------------------------
 
