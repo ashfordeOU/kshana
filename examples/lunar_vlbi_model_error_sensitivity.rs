@@ -70,9 +70,14 @@ fn perturbations() -> Vec<Perturb> {
             let a = [a[0] / an, a[1] / an, a[2] / an];
             let c = cross(u, a);
             let d = [u, a, c][dir];
-            for k in 0..3 {
-                g.moon_inertial[k] += km * 1e3 * d[k];
-                g.beacon_inertial[k] += km * 1e3 * d[k];
+            for ((m, b), dk) in g
+                .moon_inertial
+                .iter_mut()
+                .zip(g.beacon_inertial.iter_mut())
+                .zip(d)
+            {
+                *m += km * 1e3 * dk;
+                *b += km * 1e3 * dk;
             }
         })
     };
@@ -86,8 +91,8 @@ fn perturbations() -> Vec<Perturb> {
             g.icrf_to_moon = matmul3(&rot(ax, rad), &g.icrf_to_moon);
             let bt = kshana::precession::transpose(&g.icrf_to_moon);
             let off = mat_vec(&bt, mcmf);
-            for k in 0..3 {
-                g.beacon_inertial[k] = g.moon_inertial[k] + off[k];
+            for ((b, m), o) in g.beacon_inertial.iter_mut().zip(g.moon_inertial).zip(off) {
+                *b = m + o;
             }
         })
     };
