@@ -89,12 +89,46 @@ fn type_from_alpha(a: i32) -> Option<PowerLawNoise> {
 impl DeviceCard {
     /// Fit a card to the phase record `fit` (see the module documentation).
     pub fn fit_phase(name: &str, fit: &PhaseSeries) -> Result<DeviceCard, String> {
-        let (clean, conditioning) = condition(fit);
-        let (detr, c) = remove_quadratic(&clean);
-        let run = detr.longest_run();
+        Self::fit_phase_records(name, std::slice::from_ref(fit))
+    }
+
+    /// Fit a card to several separate records of one oscillator (for example the sessions of
+    /// one receiver), all at the same `tau0`. Each record is conditioned and has its own
+    /// quadratic removed; the Allan variance at each averaging factor is pooled over the
+    /// records (squared second differences summed over the total count), so no difference
+    /// spans two records; the noise is identified on the longest gap-free run of any record;
+    /// the drift is the mean of the records' drifts weighted by their present samples. With
+    /// one record this is the procedure of the module documentation.
+    pub fn fit_phase_records(name: &str, records: &[PhaseSeries]) -> Result<DeviceCard, String> {
+        let tau0 = records
+            .first()
+            .ok_or_else(|| format!("{name}: no records"))?
+            .tau0;
+        if records.iter().any(|r| r.tau0 != tau0) {
+            return Err(format!("{name}: records at different tau0"));
+        }
+        let mut detrended = Vec::with_capacity(records.len());
+        let mut conditioning = ConditioningLog::default();
+        let (mut dsum, mut dw) = (0.0, 0.0);
+        for r in records {
+            let (clean, log) = condition(r);
+            conditioning.sigma_y = conditioning.sigma_y.max(log.sigma_y);
+            conditioning.anomalies.extend(log.anomalies);
+            let (detr, c) = remove_quadratic(&clean);
+            let w = detr.valid() as f64;
+            dsum += 2.0 * c[2] * w;
+            dw += w;
+            detrended.push(detr);
+        }
+        let run = detrended
+            .iter()
+            .map(|d| d.longest_run())
+            .max_by_key(|r| r.len())
+            .unwrap_or_else(|| detrended[0].clone());
         let mut pts = Vec::new();
         let mut m = 1usize;
-        while let Some((v, terms)) = gappy_oavar(&detr.x, detr.tau0, m) {
+        loop {
+            let (vsum, terms) = pooled_oavar(&detrended, m);
             if terms < MIN_TERMS {
                 break;
             }
@@ -107,15 +141,15 @@ impl DeviceCard {
                 .unwrap_or(PowerLawNoise::RandomWalkFm);
             let edf = edf_overlapping_adev(noise, terms + 2 * m, m);
             pts.push(CardPoint {
-                tau_s: m as f64 * detr.tau0,
-                adev: v.sqrt(),
+                tau_s: m as f64 * tau0,
+                adev: (vsum / terms as f64).sqrt(),
                 edf,
                 alpha: alpha.filter(|a| type_from_alpha(*a).is_some()),
             });
             m *= 2;
         }
         let mut card = Self::fit_points(name, &pts)?;
-        card.drift_per_s = 2.0 * c[2];
+        card.drift_per_s = if dw > 0.0 { dsum / dw } else { 0.0 };
         card.conditioning = conditioning;
         Ok(card)
     }
@@ -260,17 +294,49 @@ fn finish(
     }
 }
 
+/// Sum of the Allan-variance terms (each already divided by `2 tau^2`) and their count at
+/// averaging factor `m`, pooled over `records`.
+fn pooled_oavar(records: &[PhaseSeries], m: usize) -> (f64, usize) {
+    let (mut s, mut c) = (0.0, 0usize);
+    for r in records {
+        if let Some((v, k)) = gappy_oavar(&r.x, r.tau0, m) {
+            s += v * k as f64;
+            c += k;
+        }
+    }
+    (s, c)
+}
+
 /// Score `card` on the held-out phase record `held` at the card's own averaging times.
 pub fn score_held_out(card: &DeviceCard, held: &PhaseSeries, bar: f64) -> HeldOutScore {
-    let (clean, log) = condition(held);
+    score_held_out_records(card, std::slice::from_ref(held), bar)
+}
+
+/// Score `card` on several held-out records of the same oscillator: each is conditioned (no
+/// detrending) and the Allan variance is pooled over them as in
+/// [`DeviceCard::fit_phase_records`].
+pub fn score_held_out_records(card: &DeviceCard, held: &[PhaseSeries], bar: f64) -> HeldOutScore {
+    let mut log = ConditioningLog::default();
+    let cleaned: Vec<PhaseSeries> = held
+        .iter()
+        .map(|h| {
+            let (c, l) = condition(h);
+            log.sigma_y = log.sigma_y.max(l.sigma_y);
+            log.anomalies.extend(l.anomalies);
+            c
+        })
+        .collect();
+    let tau0 = held.first().map_or(1.0, |h| h.tau0);
     let points = card
         .taus()
         .into_iter()
         .map(|tau| {
-            let m = (tau / clean.tau0).round() as usize;
-            let (measured, terms) = match gappy_oavar(&clean.x, clean.tau0, m) {
-                Some((v, c)) if c >= MIN_TERMS => (v.sqrt(), c),
-                _ => (f64::NAN, 0),
+            let m = (tau / tau0).round() as usize;
+            let (vsum, c) = pooled_oavar(&cleaned, m);
+            let (measured, terms) = if c >= MIN_TERMS {
+                ((vsum / c as f64).sqrt(), c)
+            } else {
+                (f64::NAN, 0)
             };
             let predicted = card.adev(tau);
             ScoredPoint {
@@ -489,6 +555,24 @@ mod tests {
         let ext = card.clock_model_ext(1.0, 1e4);
         assert!((ext.q_wf - 0.5 * card.h_0).abs() < 1e-40);
         assert!(DeviceCard::fit_curve("short", &pts[..2]).is_err());
+    }
+
+    #[test]
+    fn separate_records_pool_without_spanning_the_join() {
+        // Two sessions of one clock with an arbitrary offset between them: pooled, the card
+        // equals the one fitted on a single record of the same noise.
+        let mut a = clock(30_000, 1e-11, 0.0, 0.0, 12);
+        let b = clock(30_000, 1e-11, 0.0, 0.0, 13);
+        let sep = DeviceCard::fit_phase_records("two", &[a.clone(), b.clone()]).unwrap();
+        a.x.extend(b.x.iter().map(|v| v + 1e-3));
+        let joined = DeviceCard::fit_phase("joined", &a).unwrap();
+        // The joined record carries a 1 ms jump the detector removes as a phase step, so both
+        // describe the same white FM.
+        let t = 64.0;
+        assert!((sep.adev(t) / joined.adev(t) - 1.0).abs() < 0.1);
+        let sc = score_held_out_records(&sep, &[clock(30_000, 1e-11, 0.0, 0.0, 14)], 1.5);
+        assert!(sc.pass, "{:?}", sc.points);
+        assert!(DeviceCard::fit_phase_records("none", &[]).is_err());
     }
 
     #[test]
