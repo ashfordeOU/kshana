@@ -35,6 +35,14 @@
 //! issues, for UT1-UTC and for the 2-D pole error, Kshana <= 1.5 x Bulletin A at every lead
 //! 1..10 days (20 conditions), and Kshana's day-10 UT1-UTC MAE inside [0.36, 3.13] ms. PASS
 //! only if all 21 hold.
+//!
+//! VERDICT (first and only run, 2026-10-02): DISAGREES, the row stays MODELLED; 12 of 21
+//! conditions hold (round 1: 2). Kshana / Bulletin A MAE, UT1: 1.349, 1.735, 1.941, 2.017,
+//! 2.056, 2.105, 2.092, 2.050, 1.973, 1.892 at 1..10 d (Kshana 0.089 ms at 1 d to 0.910 ms at
+//! 10 d; Bulletin A 0.066 to 0.481 ms); pole: 0.903, 1.062, 1.132, 1.167, 1.192, 1.206,
+//! 1.210, 1.227, 1.250, 1.273 (all inside 1.5). Day-10 UT1 MAE 0.910 ms, inside the PCC range
+//! 0.36-3.13 ms. The UT1 gap at 2-10 days is the one Bulletin A closes with atmospheric
+//! angular-momentum forecasts, which an LS+AR model of the series alone does not have.
 
 #[path = "fixtures/eop_bulletin_a_vintages_oracle/vintages.rs"]
 mod vintages;
@@ -145,8 +153,32 @@ fn failures() -> Vec<String> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered bar not met (2026-10-02): 12 of 21 conditions hold; UT1 MAE is 1.73 to \
+            2.11 x Bulletin A at 2-10 d (bar 1.5); pole <= 1.27 x at every lead, UT1 1.35 x at 1 d \
+            and day-10 UT1 MAE 0.910 ms inside the PCC range"]
 fn ls_ar_predictor_meets_the_round_one_bar() {
     let f = failures();
     assert!(f.is_empty(), "failed conditions: {f:?}");
+}
+
+/// Pins the recorded outcome (first and only run, 2026-10-02): the nine UT1 conditions at
+/// 2..10 days fail; the pole at every lead, UT1 at 1 day and the PCC range hold.
+#[test]
+fn ls_ar_predictor_against_bulletin_a_finding() {
+    let f = failures();
+    let expect: Vec<String> = [
+        "UT1 2 d 1.73",
+        "UT1 3 d 1.94",
+        "UT1 4 d 2.02",
+        "UT1 5 d 2.06",
+        "UT1 6 d 2.11",
+        "UT1 7 d 2.09",
+        "UT1 8 d 2.05",
+        "UT1 9 d 1.97",
+        "UT1 10 d 1.89",
+    ]
+    .iter()
+    .map(|s| s.to_string())
+    .collect();
+    assert_eq!(f, expect, "recorded finding changed");
 }
