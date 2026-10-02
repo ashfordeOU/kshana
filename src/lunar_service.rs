@@ -545,6 +545,97 @@ pub fn coverage<C: PositionsMcmf + ?Sized>(
     }
 }
 
+/// The service-volume figures of merit of a constellation over a surface grid, at one
+/// elevation mask, from samples every `step_s` over whole days.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct ServiceVolumeFigures {
+    /// Navigation availability at the worst grid point (%): for each grid point and each day,
+    /// the share of samples with at least four satellites above the mask; the minimum over
+    /// points and days ("minimum per day" at the worst point).
+    pub availability_worst_min_day_pct: f64,
+    /// Single-failure tolerance at the worst grid point (%): as availability with at least five.
+    pub failure_tolerance_worst_min_day_pct: f64,
+    /// Coverage (%): the share of all (grid point, sample) pairs with at least four satellites.
+    pub coverage_pct: f64,
+    /// Median position dilution of precision over the pairs with a defined DOP.
+    pub pdop_median: Option<f64>,
+    /// Median geometric dilution of precision over the same pairs.
+    pub gdop_median: Option<f64>,
+    /// Pairs with a defined DOP.
+    pub n_dop: usize,
+}
+
+/// [`ServiceVolumeFigures`] of `constellation` for Moon-fixed `users` (m), samples
+/// `t = k · step_s` over `days` whole days, mask `elev_mask_rad`. Visibility is
+/// [`visible_sat_positions`] (elevation above the local spherical horizontal), DOP the
+/// validated [`crate::orbit::dop`]; a median over an even count is the mean of the middle two.
+pub fn service_volume_figures<C: PositionsMcmf + ?Sized>(
+    constellation: &C,
+    users: &[Vec3],
+    step_s: f64,
+    days: usize,
+    elev_mask_rad: f64,
+) -> ServiceVolumeFigures {
+    let per_day = (86_400.0 / step_s).round() as usize;
+    let mut worst = [100.0_f64; 2];
+    let mut n_four = 0usize;
+    let mut n_all = 0usize;
+    let mut pdops = Vec::new();
+    let mut gdops = Vec::new();
+    for day in 0..days {
+        let mut counts = vec![[0usize; 2]; users.len()];
+        for s in 0..per_day {
+            let t = (day * per_day + s) as f64 * step_s;
+            let sats = constellation.positions_mcmf(t);
+            for (u, &user) in users.iter().enumerate() {
+                let vis = visible_sat_positions(user, &sats, elev_mask_rad);
+                n_all += 1;
+                if vis.len() >= 4 {
+                    counts[u][0] += 1;
+                    n_four += 1;
+                    if let Some(d) = crate::orbit::dop(user, &vis) {
+                        pdops.push(d.pdop);
+                        gdops.push(d.gdop);
+                    }
+                }
+                if vis.len() >= 5 {
+                    counts[u][1] += 1;
+                }
+            }
+        }
+        for c in &counts {
+            for k in 0..2 {
+                worst[k] = worst[k].min(100.0 * c[k] as f64 / per_day as f64);
+            }
+        }
+    }
+    let median = |v: &mut Vec<f64>| -> Option<f64> {
+        if v.is_empty() {
+            return None;
+        }
+        v.sort_by(|a, b| a.partial_cmp(b).unwrap_or(std::cmp::Ordering::Equal));
+        let m = v.len() / 2;
+        Some(if v.len() % 2 == 0 {
+            0.5 * (v[m - 1] + v[m])
+        } else {
+            v[m]
+        })
+    };
+    let n_dop = pdops.len();
+    ServiceVolumeFigures {
+        availability_worst_min_day_pct: worst[0],
+        failure_tolerance_worst_min_day_pct: worst[1],
+        coverage_pct: if n_all == 0 {
+            0.0
+        } else {
+            100.0 * n_four as f64 / n_all as f64
+        },
+        pdop_median: median(&mut pdops),
+        gdop_median: median(&mut gdops),
+        n_dop,
+    }
+}
+
 /// One row of the constellation-size sweep ([`sweep_over_n`]) — the P2 Table 1 record.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize)]
 pub struct NSweepRow {
@@ -880,6 +971,20 @@ pub struct LunarServiceScenario {
     /// [`Self::run`] when a scenario may name a file.
     #[serde(default)]
     pub ephemeris_path: Option<String>,
+    /// An SPK planetary ephemeris (JPL DE440, e.g. `de440s.bsp` or a cut of it covering the
+    /// horizon) that switches an `ephemeris_path` element set stated in the Earth
+    /// orbital-plane (OP) frame onto the ephemeris-grade path: the elements are placed in the
+    /// OP frame at [`Self::epoch_utc`] ([`crate::lunar_perturbed::op_frame`]) and propagated
+    /// under the lunar `J2 + C22` field and Earth and Sun third bodies at DE440 positions
+    /// ([`crate::lunar_perturbed::propagate_tabulated`]), reduced to the IAU Moon-fixed
+    /// frame. Unset means nothing changes. Requires `ephemeris_path` (an OP-frame elements
+    /// file) and `epoch_utc`.
+    #[serde(default)]
+    pub planetary_kernel_path: Option<String>,
+    /// The epoch of the element set, `YYYY-MM-DDTHH:MM:SS` UTC, for
+    /// [`Self::planetary_kernel_path`].
+    #[serde(default)]
+    pub epoch_utc: Option<String>,
 }
 
 impl Default for LunarServiceScenario {
@@ -908,6 +1013,8 @@ impl Default for LunarServiceScenario {
             export_site_lon_deg: None,
             export_antenna: None,
             ephemeris_path: None,
+            planetary_kernel_path: None,
+            epoch_utc: None,
         }
     }
 }
@@ -1945,7 +2052,14 @@ impl LunarServiceScenario {
             }
         }
 
-        let (mut report, ex_eph) = self.sweep(&eph, eph.n_sats(), false);
+        let op_path = match self.planetary_kernel_path.as_deref() {
+            None => None,
+            Some(spk_path) => Some(self.op_frame_constellation(&eph, spk_path)?),
+        };
+        let (mut report, ex_eph) = match &op_path {
+            Some((tab, _)) => self.sweep(tab, eph.n_sats(), false),
+            None => self.sweep(&eph, eph.n_sats(), false),
+        };
         // The headline geometry is no longer the illustrative set, so the headline note
         // must stop calling it that. The default note is untouched.
         report.note = match eph.format() {
@@ -2070,9 +2184,92 @@ impl LunarServiceScenario {
                    eight-satellite illustrative one and the design and the size are \
                    conflated.",
         };
-        report.ephemeris = Some(crate::lunar_ephemeris::source_block(&eph));
+        let mut block = crate::lunar_ephemeris::source_block(&eph);
+        if let Some((_, how)) = op_path {
+            block.propagation = Some(how);
+            report.note = "Headline geometry is a RETRIEVED, published constellation \
+                           DEFINITION (provenance class published-elements) named by \
+                           ephemeris_path, placed in the Earth orbital-plane frame it is \
+                           stated in and propagated under the lunar J2 + C22 field and Earth \
+                           and Sun third bodies at DE440 positions (see \
+                           `ephemeris.propagation`), reduced to the IAU Moon-fixed frame. DOP \
+                           geometry reuses the gnss_lib_py-validated kernel; the LNIS \
+                           integrity budget is unchanged and remains MODELLED. The illustrative \
+                           Keplerian and perturbed results are retained in \
+                           `ephemeris_comparison`.";
+        }
+        report.ephemeris = Some(block);
         report.ephemeris_comparison = Some(comparison);
         Ok(report)
+    }
+
+    /// The ephemeris-grade constellation for [`Self::planetary_kernel_path`]: the OP-frame
+    /// element set of `eph` at [`Self::epoch_utc`], propagated by
+    /// [`crate::lunar_perturbed::propagate_tabulated`] (fixed 10 s fourth-order Runge-Kutta)
+    /// over the scenario horizon and tabulated at its step, with a one-line description.
+    fn op_frame_constellation(
+        &self,
+        eph: &crate::lunar_ephemeris::LunarEphemeris,
+        spk_path: &str,
+    ) -> Result<(crate::lunar_perturbed::TabulatedConstellation, String), String> {
+        use crate::lunar_perturbed as lp;
+        if eph.format() != crate::lunar_ephemeris::EphemerisFormat::Elements
+            || !eph
+                .meta("published_frame")
+                .to_ascii_uppercase()
+                .starts_with("OP")
+        {
+            return Err(
+                "planetary_kernel_path applies to an elements file stated in the OP frame"
+                    .to_string(),
+            );
+        }
+        let epoch = self
+            .epoch_utc
+            .as_deref()
+            .ok_or("planetary_kernel_path needs epoch_utc (YYYY-MM-DDTHH:MM:SS UTC)")?;
+        let jd = crate::leo_pass::parse_epoch_jd(epoch)?;
+        let jd_day = (jd - 0.5).floor() + 0.5;
+        let secs = ((jd - jd_day) * 86_400.0 * 1e3).round() / 1e3;
+        let et0 = crate::naif_kernel::naif_et_from_utc(jd_day, secs);
+        let spk = crate::naif_kernel::SpkKernel::open(std::path::Path::new(spk_path))?;
+        let op = lp::op_frame(&spk, et0.0, et0.1)?;
+        let states: Vec<lp::LunarState> = eph
+            .elements()
+            .iter()
+            .map(|s| {
+                lp::elements_in_frame_to_state(
+                    lp::GM_MOON_DE440,
+                    &op,
+                    s.sma_m,
+                    s.eccentricity,
+                    s.inc_deg,
+                    s.raan_deg,
+                    s.argp_deg,
+                    s.mean_anom_deg,
+                )
+            })
+            .collect();
+        let step = self.step_min * 60.0;
+        let horizon = self.times().last().copied().unwrap_or(0.0);
+        let tab = lp::propagate_tabulated(
+            &spk,
+            &lp::EphemerisForceModel::de440(),
+            &states,
+            et0,
+            horizon,
+            10.0,
+            step,
+        )?;
+        Ok((
+            tab,
+            format!(
+                "OP frame at {epoch} UTC (Earth's apparent orbit normal about the Moon, x along \
+                 its node on the IAU lunar equator); lunar GM, J2 and C22 in the IAU Moon-fixed \
+                 frame, Earth and Sun third bodies at DE440 positions from {spk_path}; \
+                 fourth-order Runge-Kutta, 10 s step"
+            ),
+        ))
     }
 
     /// Sweep the service volume against a constellation geometry (idealized or perturbed) and
@@ -3751,6 +3948,46 @@ mod tests {
 
     /// A missing or malformed file is an error the caller sees, never a quiet fallback to
     /// the illustrative geometry dressed up as a retrieved one.
+    #[test]
+    fn a_planetary_kernel_puts_an_op_frame_element_set_on_the_ephemeris_grade_path() {
+        let kernel = std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("tests/fixtures/lunar_service_volume_orekit_oracle/de440s_2025-11-09_15d.bsp")
+            .to_string_lossy()
+            .into_owned();
+        let base = LunarServiceScenario {
+            ephemeris_path: Some(fixture("lncss_case_a_navi613.csv")),
+            horizon_hours: 2.0,
+            step_min: 10.0,
+            ..LunarServiceScenario::default()
+        };
+        let op = LunarServiceScenario {
+            planetary_kernel_path: Some(kernel.clone()),
+            epoch_utc: Some("2025-11-09T00:00:00".to_string()),
+            ..base.clone()
+        };
+        let r = op.try_run().expect("OP-frame run");
+        let block = r.ephemeris.as_ref().expect("ephemeris block");
+        assert!(block
+            .propagation
+            .as_deref()
+            .is_some_and(|p| p.contains("OP frame at 2025-11-09T00:00:00")));
+        // The headline geometry moved off the MCI two-body reading.
+        let old = base.try_run().expect("two-body run");
+        assert!(old.ephemeris.as_ref().unwrap().propagation.is_none());
+        assert_ne!(r.pdop_mean, old.pdop_mean);
+        // An epoch is required, and the path refuses a file not stated in the OP frame.
+        let no_epoch = LunarServiceScenario {
+            epoch_utc: None,
+            ..op.clone()
+        };
+        assert!(no_epoch.try_run().unwrap_err().contains("epoch_utc"));
+        let icrf = LunarServiceScenario {
+            ephemeris_path: Some(fixture("lans_demo_ntrs20250009447.csv")),
+            ..op
+        };
+        assert!(icrf.try_run().unwrap_err().contains("OP frame"));
+    }
+
     #[test]
     fn a_bad_ephemeris_path_is_an_error_not_a_silent_fallback() {
         let missing = LunarServiceScenario {

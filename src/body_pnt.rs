@@ -518,6 +518,9 @@ impl BodyPntScenario {
         let mut eq_frame = body.clone();
         eq_frame.prime_w0 = 0.0;
         eq_frame.prime_w_dot = 0.0;
+        eq_frame.iau_terms = eq_frame
+            .iau_terms
+            .map(crate::body::IauRotationTerms::without_prime_meridian);
 
         let mut rng = ChaCha8Rng::seed_from_u64(self.seed.unwrap_or(1));
         let n_relay = Normal::new(0.0, sigma_relay).map_err(|e| e.to_string())?;

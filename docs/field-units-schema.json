@@ -14194,7 +14194,7 @@
           "unit": "m"
         },
         "bodies[].prime_meridian_deg": {
-          "definition": "IAU prime-meridian angle W at the epoch, W0 plus the rate times days from J2000",
+          "definition": "IAU prime-meridian angle W at the epoch: W0 plus the rate times days from J2000, plus the quadratic and periodic terms of the NAIF pck00011 model where the body carries them",
           "evidence_tier": "inherits-scenario-label",
           "provenance": "computed",
           "unit": "deg"

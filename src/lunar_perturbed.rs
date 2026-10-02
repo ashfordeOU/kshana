@@ -142,6 +142,11 @@ fn norm(a: Vec3) -> f64 {
     dot(a, a).sqrt()
 }
 
+fn unit(a: Vec3) -> Vec3 {
+    let n = norm(a);
+    [a[0] / n, a[1] / n, a[2] / n]
+}
+
 fn cross(a: Vec3, b: Vec3) -> Vec3 {
     [
         a[1] * b[2] - a[2] * b[1],
@@ -670,6 +675,310 @@ impl PerturbedConstellation {
         self.states0
             .iter()
             .map(|s| mci_to_mcmf(propagate(s, t_s, &self.model, &self.tol).r, t_s))
+            .collect()
+    }
+}
+
+// ---------------------------------------------------------------------------
+// Ephemeris-grade propagation: DE440 third bodies, an IAU Moon-fixed gravity
+// field, and elements given in the Earth orbital-plane (OP) frame
+// ---------------------------------------------------------------------------
+
+/// Lunar `GM` of NAIF `gm_de440.tpc` (BODY301_GM, m³/s²).
+pub const GM_MOON_DE440: f64 = 4.902_800_118_457_549e12;
+/// Earth `GM` of NAIF `gm_de440.tpc` (BODY399_GM, m³/s²).
+pub const GM_EARTH_DE440: f64 = 3.986_004_355_070_226e14;
+/// Sun `GM` of NAIF `gm_de440.tpc` (BODY10_GM, m³/s²).
+pub const GM_SUN_DE440: f64 = 1.327_124_400_412_793_9e20;
+
+/// The force model of the ephemeris-grade propagation, every constant explicit: the lunar
+/// monopole, `J2` and `C22` (unnormalised, `S22 = 0`) evaluated in the IAU Moon-fixed
+/// mean-Earth frame ([`crate::lunar_frame::icrf_to_iau_moon`]), and Earth and Sun third-body
+/// point masses at their positions from an SPK planetary ephemeris (JPL DE440, read by
+/// [`crate::naif_kernel`]). The integration frame is Moon-centred with ICRF axes.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct EphemerisForceModel {
+    /// Lunar `GM` (m³/s²).
+    pub gm_moon: f64,
+    /// Earth `GM` (m³/s²).
+    pub gm_earth: f64,
+    /// Sun `GM` (m³/s²).
+    pub gm_sun: f64,
+    /// Lunar `J2` (unnormalised).
+    pub j2: f64,
+    /// Lunar `C22` (unnormalised).
+    pub c22: f64,
+    /// Reference radius of the lunar field (m).
+    pub r_ref: f64,
+    /// Include the Earth third body.
+    pub earth: bool,
+    /// Include the Sun third body.
+    pub sun: bool,
+}
+
+impl EphemerisForceModel {
+    /// The default model: `gm_de440` masses, this module's [`MOON_J2`], [`MOON_C22`] and
+    /// [`MOON_REF_RADIUS_M`], with the Earth and the Sun.
+    pub fn de440() -> Self {
+        Self {
+            gm_moon: GM_MOON_DE440,
+            gm_earth: GM_EARTH_DE440,
+            gm_sun: GM_SUN_DE440,
+            j2: MOON_J2,
+            c22: MOON_C22,
+            r_ref: MOON_REF_RADIUS_M,
+            earth: true,
+            sun: true,
+        }
+    }
+
+    /// Acceleration (m/s², Moon-centred ICRF axes) of a satellite at `r`, given the Moon-fixed
+    /// rotation `rot` (`r_bf = rot · r`) and the Moon-centred Earth and Sun positions.
+    pub fn accel(&self, r: Vec3, rot: &[[f64; 3]; 3], earth: Vec3, sun: Vec3) -> Vec3 {
+        let rn = norm(r);
+        let mut a = scale(r, -self.gm_moon / (rn * rn * rn));
+        // Field terms in the Moon-fixed frame.
+        let rb = crate::naif_kernel::mat_vec(rot, r);
+        let r2 = rn * rn;
+        let r5 = r2 * r2 * rn;
+        let mr2 = self.gm_moon * self.r_ref * self.r_ref;
+        let zr2 = 5.0 * rb[2] * rb[2] / r2;
+        let cj = -1.5 * self.j2 * mr2 / r5;
+        let k = 3.0 * mr2 * self.c22 / r5;
+        let dxy = rb[0] * rb[0] - rb[1] * rb[1];
+        let ab = [
+            cj * rb[0] * (1.0 - zr2) + k * (2.0 * rb[0] - 5.0 * rb[0] * dxy / r2),
+            cj * rb[1] * (1.0 - zr2) + k * (-2.0 * rb[1] - 5.0 * rb[1] * dxy / r2),
+            cj * rb[2] * (3.0 - zr2) + k * (-5.0 * rb[2] * dxy / r2),
+        ];
+        // Back to ICRF axes with the transpose.
+        a = add(
+            a,
+            [
+                rot[0][0] * ab[0] + rot[1][0] * ab[1] + rot[2][0] * ab[2],
+                rot[0][1] * ab[0] + rot[1][1] * ab[1] + rot[2][1] * ab[2],
+                rot[0][2] * ab[0] + rot[1][2] * ab[1] + rot[2][2] * ab[2],
+            ],
+        );
+        let third = |a: Vec3, rb: Vec3, gm: f64| {
+            let d = sub(rb, r);
+            let dn = norm(d);
+            let bn = norm(rb);
+            add(
+                a,
+                sub(
+                    scale(d, gm / (dn * dn * dn)),
+                    scale(rb, gm / (bn * bn * bn)),
+                ),
+            )
+        };
+        if self.earth {
+            a = third(a, earth, self.gm_earth);
+        }
+        if self.sun {
+            a = third(a, sun, self.gm_sun);
+        }
+        a
+    }
+}
+
+/// The Moon-centred quantities every satellite shares at one instant: the Moon-fixed rotation
+/// and the Earth and Sun positions (m, ICRF axes).
+#[derive(Clone, Copy, Debug)]
+pub struct SharedGeometry {
+    /// ICRF → IAU Moon-fixed (mean-Earth) rotation.
+    pub rot: [[f64; 3]; 3],
+    /// Earth relative to the Moon (m).
+    pub earth: Vec3,
+    /// Sun relative to the Moon (m).
+    pub sun: Vec3,
+}
+
+/// [`SharedGeometry`] at ET `(et_hi, et_lo)` (TDB seconds past J2000) from an SPK holding the
+/// Earth (399), the Moon (301) and the Sun (10).
+pub fn shared_geometry(
+    spk: &crate::naif_kernel::SpkKernel,
+    et_hi: f64,
+    et_lo: f64,
+) -> Result<SharedGeometry, String> {
+    let earth = spk.state(399, 301, et_hi, et_lo)?[0];
+    let sun = spk.state(10, 301, et_hi, et_lo)?[0];
+    let jd_tdb = crate::timescales::JD_J2000 + (et_hi + et_lo) / SECONDS_PER_DAY;
+    Ok(SharedGeometry {
+        rot: crate::lunar_frame::icrf_to_iau_moon(jd_tdb),
+        earth,
+        sun,
+    })
+}
+
+/// The Earth orbital-plane (OP) frame of Ely (2005) and Ely and Lieb (2006) at ET
+/// `(et_hi, et_lo)`, as the rotation ICRF → OP (rows are the OP axes in ICRF):
+/// `ẑ` along the normal of the Earth's apparent orbit about the Moon (`r × v` of the Earth
+/// relative to the Moon, DE440, geometric), `x̂` along the intersection of that plane with the
+/// lunar equator, taken as `p̂ × ẑ` with `p̂` the IAU lunar pole (the node where the Earth's
+/// apparent orbit ascends through the lunar equator), and `ŷ = ẑ × x̂`. The frame is evaluated
+/// once at the epoch and then held fixed.
+pub fn op_frame(
+    spk: &crate::naif_kernel::SpkKernel,
+    et_hi: f64,
+    et_lo: f64,
+) -> Result<[[f64; 3]; 3], String> {
+    let e = spk.state(399, 301, et_hi, et_lo)?;
+    let z = unit(cross(e[0], e[1]));
+    let jd_tdb = crate::timescales::JD_J2000 + (et_hi + et_lo) / SECONDS_PER_DAY;
+    let (ra, dec) = crate::lunar_frame::lunar_pole_ra_dec(jd_tdb);
+    let p = [dec.cos() * ra.cos(), dec.cos() * ra.sin(), dec.sin()];
+    let x = unit(cross(p, z));
+    let y = cross(z, x);
+    Ok([x, y, z])
+}
+
+/// The Moon-centred ICRF state of a satellite whose classical elements (semi-major axis m,
+/// eccentricity, inclination, node, argument of perilune and mean anomaly, degrees) are given
+/// in a frame `frame` (rows its axes in ICRF, e.g. [`op_frame`]), two-body with `gm`.
+#[allow(clippy::too_many_arguments)]
+pub fn elements_in_frame_to_state(
+    gm: f64,
+    frame: &[[f64; 3]; 3],
+    sma_m: f64,
+    eccentricity: f64,
+    inc_deg: f64,
+    raan_deg: f64,
+    argp_deg: f64,
+    mean_anom_deg: f64,
+) -> LunarState {
+    let e = eccentricity;
+    let m = mean_anom_deg.to_radians();
+    let mut ea = m;
+    for _ in 0..60 {
+        let d = (ea - e * ea.sin() - m) / (1.0 - e * ea.cos());
+        ea -= d;
+        if d.abs() < 1e-15 {
+            break;
+        }
+    }
+    let nu = 2.0 * ((1.0 + e).sqrt() * (ea * 0.5).sin()).atan2((1.0 - e).sqrt() * (ea * 0.5).cos());
+    let p = sma_m * (1.0 - e * e);
+    let r = p / (1.0 + e * nu.cos());
+    let (snu, cnu) = nu.sin_cos();
+    let r_pf: Vec3 = [r * cnu, r * snu, 0.0];
+    let k = (gm / p).sqrt();
+    let v_pf: Vec3 = [-k * snu, k * (e + cnu), 0.0];
+    let (argp, inc, raan) = (
+        argp_deg.to_radians(),
+        inc_deg.to_radians(),
+        raan_deg.to_radians(),
+    );
+    let to_frame = |v: Vec3| rotz(rotx(rotz(v, argp), inc), raan);
+    let to_icrf = |v: Vec3| {
+        [
+            frame[0][0] * v[0] + frame[1][0] * v[1] + frame[2][0] * v[2],
+            frame[0][1] * v[0] + frame[1][1] * v[1] + frame[2][1] * v[2],
+            frame[0][2] * v[0] + frame[1][2] * v[1] + frame[2][2] * v[2],
+        ]
+    };
+    LunarState {
+        r: to_icrf(to_frame(r_pf)),
+        v: to_icrf(to_frame(v_pf)),
+    }
+}
+
+/// A constellation propagated together under [`EphemerisForceModel`] and tabulated at a fixed
+/// output step: positions (m, Moon-centred ICRF axes) of every satellite at
+/// `t = k · output_step_s`, `k = 0..=n`.
+#[derive(Clone, Debug)]
+pub struct TabulatedConstellation {
+    /// Epoch ET, two parts (TDB seconds past J2000).
+    pub epoch_et: (f64, f64),
+    /// Output step (s).
+    pub output_step_s: f64,
+    /// `positions[k][sat]`.
+    pub positions: Vec<Vec<Vec3>>,
+}
+
+/// Propagate `states0` (Moon-centred ICRF at ET `epoch_et`) together for `duration_s` with the
+/// classical fourth-order Runge-Kutta method at the fixed step `step_s` (which must divide
+/// `output_step_s`), sharing each stage's ephemeris and Moon-fixed rotation across the
+/// satellites, and tabulate the positions every `output_step_s`.
+pub fn propagate_tabulated(
+    spk: &crate::naif_kernel::SpkKernel,
+    model: &EphemerisForceModel,
+    states0: &[LunarState],
+    epoch_et: (f64, f64),
+    duration_s: f64,
+    step_s: f64,
+    output_step_s: f64,
+) -> Result<TabulatedConstellation, String> {
+    let per_out = (output_step_s / step_s).round() as usize;
+    if per_out == 0 || (per_out as f64 * step_s - output_step_s).abs() > 1e-9 {
+        return Err("the integration step must divide the output step".into());
+    }
+    let n_out = (duration_s / output_step_s).round() as usize;
+    let mut y: Vec<[f64; 6]> = states0
+        .iter()
+        .map(|s| [s.r[0], s.r[1], s.r[2], s.v[0], s.v[1], s.v[2]])
+        .collect();
+    let mut positions = Vec::with_capacity(n_out + 1);
+    positions.push(y.iter().map(|s| [s[0], s[1], s[2]]).collect::<Vec<Vec3>>());
+    let deriv = |g: &SharedGeometry, s: &[f64; 6]| -> [f64; 6] {
+        let a = model.accel([s[0], s[1], s[2]], &g.rot, g.earth, g.sun);
+        [s[3], s[4], s[5], a[0], a[1], a[2]]
+    };
+    let axpy = |s: &[f64; 6], k: &[f64; 6], h: f64| -> [f64; 6] {
+        let mut o = *s;
+        for i in 0..6 {
+            o[i] += h * k[i];
+        }
+        o
+    };
+    for kout in 0..n_out {
+        for j in 0..per_out {
+            // Elapsed time kept as an exact multiple of the step.
+            let t0 = (kout * per_out + j) as f64 * step_s;
+            let g0 = shared_geometry(spk, epoch_et.0, epoch_et.1 + t0)?;
+            let gm = shared_geometry(spk, epoch_et.0, epoch_et.1 + t0 + 0.5 * step_s)?;
+            let g1 = shared_geometry(spk, epoch_et.0, epoch_et.1 + t0 + step_s)?;
+            for s in y.iter_mut() {
+                let k1 = deriv(&g0, s);
+                let k2 = deriv(&gm, &axpy(s, &k1, 0.5 * step_s));
+                let k3 = deriv(&gm, &axpy(s, &k2, 0.5 * step_s));
+                let k4 = deriv(&g1, &axpy(s, &k3, step_s));
+                for i in 0..6 {
+                    s[i] += step_s / 6.0 * (k1[i] + 2.0 * k2[i] + 2.0 * k3[i] + k4[i]);
+                }
+            }
+        }
+        positions.push(y.iter().map(|s| [s[0], s[1], s[2]]).collect());
+    }
+    Ok(TabulatedConstellation {
+        epoch_et,
+        output_step_s,
+        positions,
+    })
+}
+
+impl TabulatedConstellation {
+    /// Moon-centred ICRF positions at output sample `k`.
+    pub fn positions_icrf(&self, k: usize) -> &[Vec3] {
+        &self.positions[k]
+    }
+}
+
+impl crate::lunar_service::PositionsMcmf for TabulatedConstellation {
+    /// Positions in the IAU Moon-fixed (mean-Earth) frame at `t_s` seconds past the epoch,
+    /// which must be a tabulated sample.
+    fn positions_mcmf(&self, t_s: f64) -> Vec<Vec3> {
+        let k = (t_s / self.output_step_s).round() as usize;
+        assert!(
+            (k as f64 * self.output_step_s - t_s).abs() < 1e-6 && k < self.positions.len(),
+            "t = {t_s} s is not a tabulated sample"
+        );
+        let jd_tdb = crate::timescales::JD_J2000
+            + (self.epoch_et.0 + self.epoch_et.1 + t_s) / SECONDS_PER_DAY;
+        let rot = crate::lunar_frame::icrf_to_iau_moon(jd_tdb);
+        self.positions[k]
+            .iter()
+            .map(|&r| crate::naif_kernel::mat_vec(&rot, r))
             .collect()
     }
 }
