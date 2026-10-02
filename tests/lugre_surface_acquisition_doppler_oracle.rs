@@ -202,7 +202,7 @@ fn acquisitions(dir: &std::path::Path) -> Acquired {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "FINDING (run 2026-10-02 on 2108e6ff, 1103 s): P1 non-vacuity fails - no batch has two acquisitions. OP40 excluded (its metadata names a missing file); OP38, OP73, OP77_0 and OP77_1 acquire nothing (top statistics 325 to 356, threshold 385.9, so no false alarm at 1e-7); OP74 and OP76 acquire PRN 31 and OP78_0 and OP78_1 PRN 12 (statistics 529 to 757), each alone; P3 4 of 4 predicted visible; P2 has no pair. Reported, not claimed: measured minus predicted Doppler is +530, +449 and +639 Hz on three of them (one receiver clock offset near 0.35 ppm), +4913 Hz on OP78_1. Pinned by each_surface_acquisition_is_a_single_predicted_visible_satellite"]
 fn surface_acquisitions_match_the_orbit_predicted_doppler() {
     let Some(dir) = data_dir() else {
         eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
@@ -263,4 +263,59 @@ fn surface_acquisitions_match_the_orbit_predicted_doppler() {
         visible as f64 >= 0.9 * total as f64,
         "P3: {visible} of {total}"
     );
+}
+
+/// The finding of the strict test, pinned (data-gated): the four acquisitions of the registered
+/// run, re-acquired in a narrow window about their recorded Doppler with the registered decision
+/// and refined as there, give the same coherent Doppler within 1 Hz and are predicted visible.
+#[test]
+fn each_surface_acquisition_is_a_single_predicted_visible_satellite() {
+    let Some(dir) = data_dir() else {
+        eprintln!("SKIPPED: LuGRE data not found (set KSHANA_LUGRE_DIR); nothing was compared");
+        return;
+    };
+    let pred = predictions();
+    // (batch, PRN, coarse Doppler, coherent Doppler) as the registered run recorded them.
+    let recorded = [
+        (BATCHES[3], 31u8, -5_500.0, -5_347.30),
+        (BATCHES[4], 31u8, -2_000.0, -1_832.41),
+        (BATCHES[7], 12u8, -2_000.0, -2_129.27),
+        (BATCHES[8], 12u8, 3_500.0, 3_335.97),
+    ];
+    for (batch, prn, coarse, coherent) in recorded {
+        let p = dir.join(batch);
+        let layout = parse_sdrx(&std::fs::read_to_string(&p).unwrap()).unwrap();
+        let bytes = std::fs::read(p.parent().unwrap().join(&layout.url)).unwrap();
+        let fs = layout.sample_rate_hz;
+        let spc = (fs / 1000.0).round() as usize;
+        let mut x = decode(&layout, &bytes, 0, spc * 300).unwrap();
+        to_mid_rise(&mut x);
+        let acq = &x[..spc * 100];
+        let code = CaCode::new(prn).unwrap();
+        let cfg = PcpsConfig {
+            fs_hz: fs,
+            if_hz: coarse,
+            coherent_ms: 1,
+            noncoherent: 100,
+            doppler_max_hz: 500.0,
+            doppler_step_hz: 500.0,
+            pfa: 1e-7,
+        };
+        let r = pcps_acquire(acq, &code, &cfg).unwrap();
+        assert!(r.acquired_cell_average, "{batch} PRN {prn}: {r:?}");
+        // Refine as the registered run did: zero intermediate frequency and the absolute
+        // Doppler, so that the code rate is scaled by the whole carrier Doppler.
+        let abs = kshana::acquisition::PcpsResult {
+            doppler_hz: coarse + r.doppler_hz,
+            ..r.clone()
+        };
+        let (_, tau) = refine(acq, &code, fs, 0.0, &abs, 300.0, 99);
+        let fd = refine_doppler_coherent(&x, &code, fs, 0.0, abs.doppler_hz, tau, 200).unwrap();
+        eprintln!("{batch} PRN {prn}: coherent Doppler {fd:.2} Hz (registered run {coherent:.2})");
+        assert!((fd - coherent).abs() < 1.0, "{batch} PRN {prn}: {fd}");
+        assert!(
+            pred[&(batch.to_string(), prn)].1,
+            "{batch} PRN {prn} not predicted visible"
+        );
+    }
 }
