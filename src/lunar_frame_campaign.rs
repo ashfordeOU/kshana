@@ -285,6 +285,13 @@ pub struct LunarFrameCampaignScenario {
     /// 1.0 — the `noise_sigma_m` default of [`crate::lunar_frame_realise`], so the comparison is
     /// against the number that scenario actually assumes.
     pub assumed_coordinate_sigma_m: Option<f64>,
+    /// Datum solver: `spectral` (default; normal equations through
+    /// [`crate::fim::crlb`]'s spectral inverse) or `srif` (opt-in; the square-root information
+    /// route of [`crate::linalg_sr`], which never forms or inverts an information matrix for the
+    /// datum and marginalises the stations through the trailing triangular block). With `srif`
+    /// the report carries `helmert.solver` and `helmert.solver_effective`; a rank-deficient
+    /// datum falls back to the spectral route for its null space and says so.
+    pub solver: Option<String>,
 }
 
 impl LunarFrameCampaignScenario {
@@ -469,6 +476,17 @@ impl LunarFrameCampaignScenario {
             ));
         }
         Ok(s)
+    }
+
+    /// True when the opt-in square-root information solver is selected.
+    fn resolved_srif(&self) -> Result<bool, String> {
+        match self.solver.as_deref() {
+            None | Some("spectral") => Ok(false),
+            Some("srif") => Ok(true),
+            Some(other) => Err(format!(
+                "solver must be \"spectral\" or \"srif\", got \"{other}\""
+            )),
+        }
     }
 
     fn resolved_station_datum(&self) -> Result<StationDatum, String> {
@@ -832,6 +850,7 @@ impl LunarFrameCampaignScenario {
         let rel_tol = self.resolved_rel_tol()?;
         let assumed_sigma = self.resolved_assumed_sigma()?;
         let station_datum = self.resolved_station_datum()?;
+        let srif = self.resolved_srif()?;
 
         let sched = self.schedule()?;
         let n_obs = sched.observations.len();
@@ -887,6 +906,20 @@ impl LunarFrameCampaignScenario {
             (matsub(&m_bb, &correction), full)
         };
 
+        // --- Opt-in square-root route: triangularise the whitened Jacobian once; the trailing
+        // beacon block is the square root of the Schur complement, so the stations are
+        // marginalised without inverting anything, and the beacon information used below is
+        // its Gram product rather than a difference of large terms. ---
+        let r_bb = srif.then(|| {
+            let mut filter = crate::linalg_sr::Srif::new(dim);
+            filter.update(&jac, &weights);
+            filter.trailing_block(n_beacon_columns)
+        });
+        let info_b = match &r_bb {
+            Some(r) => crate::linalg_sr::gram(r),
+            None => info_b,
+        };
+
         // --- How far the beacons are from independent, measured on the information matrix. ---
         let mut max_diag = 0.0_f64;
         for (i, row) in info_b.iter().enumerate() {
@@ -931,6 +964,29 @@ impl LunarFrameCampaignScenario {
 
         // --- The datum, driven by the campaign. ---
         let (h, datum) = solve_datum(&info_b, &a, rel_tol);
+        // With the square-root solver the datum is read off R_H (R_H^T R_H = H) when it is full
+        // rank; a rank-deficient datum keeps the spectral solution, which carries the null space.
+        let (datum, solver_effective) = match &r_bb {
+            None => (datum, "spectral"),
+            Some(r) => match crate::linalg_sr::datum_from_sqrt_information(r, &a, rel_tol) {
+                Some(sd) if sd.full_rank => (
+                    DatumSolution {
+                        rank: N_HELMERT,
+                        defect: 0,
+                        eigenvalues: sd.eigenvalues,
+                        condition: sd.condition,
+                        null_space: vec![Vec::new(); N_HELMERT],
+                        sigma: sd.sigma,
+                        full_rank: true,
+                        constrained_fraction: vec![1.0; N_HELMERT],
+                        weakest_direction: sd.weakest_direction,
+                        weakest_eigenvalue: sd.weakest_eigenvalue,
+                    },
+                    "srif",
+                ),
+                _ => (datum, "spectral (srif datum rank-deficient)"),
+            },
+        };
 
         // --- The same propagation with the inter-beacon correlations discarded: what the
         // independence assumption would have cost. ---
@@ -1114,7 +1170,7 @@ impl LunarFrameCampaignScenario {
             },
         );
 
-        let json = serde_json::json!({
+        let mut json = serde_json::json!({
             "kind": "lunar-frame-campaign",
             "label": LABEL,
             "units": units_block(),
@@ -1297,6 +1353,11 @@ impl LunarFrameCampaignScenario {
             },
         });
 
+        if srif {
+            // Emitted only when the solver is chosen, so the default report is unchanged.
+            json["helmert"]["solver"] = serde_json::Value::from("srif");
+            json["helmert"]["solver_effective"] = serde_json::Value::from(solver_effective);
+        }
         Ok(Computed { json, summary })
     }
 }
@@ -1868,6 +1929,64 @@ mod tests {
     }
 
     // ---- input validation ------------------------------------------------------------------
+
+    #[test]
+    fn the_default_solver_is_unchanged_and_an_unknown_solver_is_rejected() {
+        let base = LunarFrameCampaignScenario::default()
+            .run_json()
+            .expect("runs");
+        let spectral = LunarFrameCampaignScenario {
+            solver: Some("spectral".to_string()),
+            ..Default::default()
+        }
+        .run_json()
+        .expect("runs");
+        assert_eq!(base, spectral, "naming the default solver changes nothing");
+        let bad = LunarFrameCampaignScenario {
+            solver: Some("cholesky".to_string()),
+            ..Default::default()
+        }
+        .run_json();
+        assert!(bad.is_err_and(|e| e.contains("solver")));
+    }
+
+    #[test]
+    fn the_srif_solver_agrees_with_the_spectral_one_where_both_are_accurate_and_says_so() {
+        // Stations fixed: well conditioned, so both routes must agree closely.
+        let spectral: serde_json::Value = serde_json::from_str(
+            &LunarFrameCampaignScenario::default()
+                .run_json()
+                .expect("runs")
+                .0,
+        )
+        .expect("json");
+        let srif: serde_json::Value = serde_json::from_str(
+            &LunarFrameCampaignScenario {
+                solver: Some("srif".to_string()),
+                ..Default::default()
+            }
+            .run_json()
+            .expect("runs")
+            .0,
+        )
+        .expect("json");
+        assert_eq!(srif["helmert"]["solver"], "srif");
+        assert_eq!(srif["helmert"]["solver_effective"], "srif");
+        assert!(spectral["helmert"].get("solver").is_none());
+        let pick = |v: &serde_json::Value| -> Vec<f64> {
+            let acc = &v["datum_accuracy"];
+            acc["translation_sigma_m"]
+                .as_array()
+                .expect("t")
+                .iter()
+                .chain(acc["rotation_sigma_urad"].as_array().expect("r"))
+                .map(|x| x.as_f64().expect("number"))
+                .collect()
+        };
+        for (a, b) in pick(&spectral).iter().zip(pick(&srif)) {
+            assert!((a - b).abs() <= 1e-9 * a.abs(), "spectral {a} srif {b}");
+        }
+    }
 
     #[test]
     fn bad_inputs_are_rejected_rather_than_producing_a_number() {

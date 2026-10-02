@@ -26,13 +26,13 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.29.3, build 6401a64 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build eeb6822 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 6401a64 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build eeb6822 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
-75scenario kinds 132bundled scenario files 226capabilities in the verification matrix 110/226validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
+75scenario kinds 132bundled scenario files 228capabilities in the verification matrix 112/228validated against independent external oracles 5papers on arXiv built on the open engineRead the research  WASMruns in the browser as WebAssembly, no install
 
 L-band console · the spectrum kind
 
@@ -142,7 +142,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.29.3, build 6401a64 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build eeb6822 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -198,7 +198,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.29.3, build 6401a64 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.29.3, build eeb6822 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -364,9 +364,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.29.3, build 6401a64 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.29.3, build eeb6822 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.29.3, build 6401a64 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.29.3, build eeb6822 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -378,7 +378,7 @@ Open core · free · AGPL-3.0
 
 - Anyone who takes position or time from GNSS is exposed: jamming, spoofing and signal loss reach vehicles, networks, grids and spacecraft alike.
 
-- 110 of 226 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
+- 112 of 228 capabilities agree with independent external oracles; the rest are labelled Modelled, out loud.
 
 - All 75 scenario kinds, free with no feature gate, deterministic from scenario, seed and engine version.
 
@@ -947,7 +947,7 @@ Orbit view
 
 engine v0.29.3t = 0 sReal engine run, replayed
 
-Engine v0.29.3, build 6401a64 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.29.3, build eeb6822 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2151,7 +2151,7 @@ Title: Evidence: validation against external oracles · Kshana
 Evidence
 # Every capability wears its evidence.
 
-226 capabilities, each graded. 110 validated against independent external oracles. 112 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
+228 capabilities, each graded. 112 validated against independent external oracles. 112 honestly labelled Modelled. 4 partner-owned. Nothing is rounded up.
 
 Verification matrix v0.29.3 From the repository
 
@@ -2159,7 +2159,7 @@ Hover or focus a cell to read its capability and the oracle that grades it.
 
 Validated: an independent external oracle agreesModelledPartner-owned
 
-Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 226 rows · no scenario or seed: the engine's own ledgerRead the ledger
+Engine v0.29.3 · web/data/verification-matrix.json, generated from src/verification.rs · 228 rows · no scenario or seed: the engine's own ledgerRead the ledger
 
 - Free coreThe ledger, the results, the reproducibility stamp and the tests behind them are all in the open engine.
 
@@ -2185,7 +2185,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.29.3, build 6401a64 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.29.3, build eeb6822 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2201,7 +2201,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.29.3, build 6401a64 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.29.3, build eeb6822 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2217,7 +2217,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.29.3, build 6401a64 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.29.3, build eeb6822 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2231,7 +2231,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 6401a64 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.29.3 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build eeb6822 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2245,7 +2245,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.29.3, build 6401a64 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.29.3, build eeb6822 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2261,7 +2261,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.29.3, build 6401a64 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.29.3, build eeb6822 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -2271,7 +2271,7 @@ Validated means an independent external source agrees: published reference vecto
 
 ### Capabilities graded
 
-110of 226 validated
+112of 228 validated
 
 Hover a cell
 
@@ -2295,7 +2295,7 @@ With Pro: a mission dossier checks every requirement against real runs and keeps
 
 03Validation ledger
 
-## All 226 rows, one line each.
+## All 228 rows, one line each.
 
 Every row names its requirement, its status and the module that implements it. Open a row for its oracle and tests, or pick a domain to narrow it.
 
@@ -5459,6 +5459,34 @@ Tests
 
 tests/leo_resilience_verticals.rs (the_geometry_free_tec_is_the_pass_slant_tec: equals the pass's slant TEC at the peak to 1e-9 and its sigma equals the RSS code noise over 40.3 (1/f1^2 - 1/f2^2))…
 
+ValidatedLunar frame datum covariance with the stations estimated, against 50-digit extended precisionlunar_frame_campaign, fim
+
+Capability
+
+The seven-parameter Helmert datum covariance of the lunar-frame-campaign scenario with the Earth stations estimated (station 1 anchored), as lunar_frame_campaign computes it in binary64: the joint station-and-beacon Fisher information accumulated from the delay Jacobian, the station block marginalised by a Schur complement through a Jacobi spectral inverse, H = AᵀSA formed with the Helmert design and inverted spectrally. The problem is ill-conditioned by construction (Helmert condition number 2.1e8 to 2.3e8, joint information condition number 1.6e12 to 3.0e13): a 1e-9 relative change in the Schur correction moves the datum sigmas by up to 28 %. Reported: the seven datum sigmas, the Helmert condition number and the weakest direction. CLAIM, NARROWED: the engine's datum sigmas and condition number lie within the a-priori worst-case error bound of a backward-stable double-precision pipeline on this problem; this does not claim they are as accurate as double precision allows (a factorisation route is about a thousand times more accurate on the same inputs, and the opt-in square-root solver about ten million times), and the weakest direction is validated only where its bar is below a right angle (the stations-fixed control)
+
+Oracle
+
+mpmath 1.3.0 (BSD-3-Clause) at 50 significant digits, self-checked at 80 (agreement 1.1e-38 or better), on the engine's committed Jacobian, weights and Helmert design: mpmath's own LU solve for the Schur complement, its inverse for H and its Jacobi eigen-decomposition (P2, an independent numerical library). Pre-registered 804662d5 before the fixture existed, with bars from a first-order backward-error formula: constant (3n+1)n + m times the unit roundoff (Higham, Accuracy and Stability of Numerical Algorithms, Theorem 10.4, the Tier B form), times each quantity's exact first-order sensitivity to the joint information, the Schur complement and H. Measured: datum sigmas within 4.8e-6 on 2026-03-18 (bars 9.6e-2 to 2.2e-1), 9.7e-6 on 2024-01-01 (bars 2.8e-2 to 6.9e-2) and 2.0e-14 with the stations fixed (bars 1.0e-11 to 2.8e-7); condition number within 4.6e-6, 1.3e-5 and 4.1e-14. On the stations-estimated scenarios the bars are worst-case and four orders of magnitude above the measured error, and the weakest-direction bar there exceeds a right angle, so that one check is not counted; on the stations-fixed control the weakest direction agrees to 6.6e-16 rad against a 9.4e-11 bar, measured by the chord between unit vectors (an earlier acos comparator could not resolve angles below 1.5e-8 rad; the bar is unchanged). Diagnostic: NumPy 2.3.5 Cholesky and QR routes reach 9e-9 and 5e-9 on the 2024-01-01 inputs, its inverse and eigen routes 2.9e-6 and 6.2e-6: the engine is within its bound but about a thousand times less accurate than a factorisation route. Validates the linear algebra on the committed inputs, not the Jacobian (the SPICE leg of the campaign row does that) and not the physical accuracy of the illustrative campaign
+
+Tests
+
+tests/lunar_frame_campaign_mpmath_oracle.rs (lunar_frame_campaign_datum_matches_mpmath_extended_precision: three scenarios — stations estimated on a new campaign date 2026-03-18 (binding), stations fixed on that date…
+
+ValidatedSquare-root information datum solver against 50-digit extended precisionlinalg_sr, lunar_frame_campaign
+
+Capability
+
+An opt-in square-root information solver (lunar-frame-campaign solver = "srif"; default unchanged) that never forms or inverts an information matrix for the datum: Householder QR (orthogonal-triangular decomposition) of the whitened delay Jacobian as a square-root information filter measurement update, the Earth stations marginalised through the trailing triangular block (whose Gram product is the Schur complement), a second QR of R_bb A for the seven-parameter Helmert datum, sigmas as the row norms of the triangular inverse, and the spectrum (condition number, weakest direction) from a one-sided Jacobi singular value decomposition. Inner products are compensated with a Dekker-split error-free product, so every operation is a correctly rounded IEEE-754 basic operation or square root; identical results on every platform are argued from that, not tested across platforms
+
+Oracle
+
+mpmath 1.3.0 (BSD-3-Clause) at 50 significant digits, self-checked at 80 (agreement 1.4e-43 or better), on the engine's committed Jacobian, weights and Helmert design (P2, an independent numerical library: mpmath's own LU solve, inverse, Cholesky and Jacobi eigen-decomposition). Pre-registered b41908c9 before the solver was written, with bars from a first-order backward-error bound in square-root form: Householder QR constant mn plus (3n+1)n times the unit roundoff (Higham, Accuracy and Stability of Numerical Algorithms, Theorem 19.4 and Chapter 8) times exact sensitivities. Measured: datum sigmas within 3.0e-13 on 2026-06-09 (bars 4.1e-7 to 5.3e-7), 1.9e-15 with the stations fixed (bars down to 4.8e-12), 3.8e-13 on 2026-03-18 and 2.3e-13 on 2024-01-01, where the default spectral solver is off by 4.8e-6 and 9.7e-6; condition number within 4.9e-13; weakest direction within 1.4e-13 rad (control 1.7e-16 against 5.1e-10). LIMIT OF THE CHECK: the bars certify only datum errors below about 2e-7 relative; the measured 1e-13 figures are observations, not what the bars certify. The check rejects the default spectral solver (sigmas 9.7e-6 against 2.9e-7 on 2024-01-01; on the binding date 1.3e-6 against 4.9e-7, a margin of 1.3 to 2.6) and a mis-taken triangular inverse (column norms: red), but a flipped Householder sign, an uncompensated dot product, and sigmas from a spectral inverse of the H formed from the square-root factor (3.7e-9) all pass, so it does not show that each square-root step is needed. Validates the opt-in solver's linear algebra on committed inputs, not the Jacobian and not the default solver; bit-reproducibility across platforms is argued from the operations used and tested only as rerun identity on one platform
+
+Tests
+
+tests/lunar_frame_campaign_srif_mpmath_oracle.rs (srif_datum_matches_mpmath_extended_precision: four scenarios — stations estimated on a new campaign date 2026-06-09 (binding), stations fixed on that date (control)…
+
 Nothing matches that filter.
 
 Generated from the engine's verification matrix and pinned by a test. Scroll the list, or open a row for its capability, oracle and tests. The full table, every column at once, is in the docs: Capability reference.
@@ -5832,7 +5860,7 @@ Terminal · kshana v0.29.3 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.29.3 (build 6401a64):
+A recorded command-line session, engine v0.29.3 (build eeb6822):
 
 - $ kshana --version: kshana 0.29.3
 
@@ -6370,7 +6398,7 @@ What is included
 
 - All 75 scenario kinds and 132 bundled scenarios: native, Python, JavaScript, in the browser and over MCP (Model Context Protocol)
 
-- The full verification matrix: 110 of 226 capabilities validated against independent oracles, the rest labelled Modelled
+- The full verification matrix: 112 of 228 capabilities validated against independent oracles, the rest labelled Modelled
 
 - Every result stamped with scenario hash, seed and engine version, and written as JSON (JavaScript Object Notation), CSV (comma-separated values) tables and SVG (Scalable Vector Graphics) charts
 
