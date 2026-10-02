@@ -376,8 +376,8 @@ Part 1, extended-precision oracle:
   than a factorisation route.
 - Oracle environment: mpmath 1.3.0 added.
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
-  observing campaign" row stays MODELLED pending a decision on its promotion; its tests text
-  now cites the new test and its finding.
+  observing campaign" row stays MODELLED (founder decision 2026-10-02, option A: it does not
+  borrow the separate row's status); its tests text cites the new test and its finding.
 
 Part 2, square-root information datum solver:
 
@@ -405,7 +405,8 @@ Part 2, square-root information datum solver:
   its stations-fixed weakest-direction check now measures a real angle (6.6e-16 rad; the
   comparator changed from acos to a chord, the bar did not).
 - Revisions: none. No golden file or published figure changes; the "Lunar frame datum from an
-  observing campaign" row is unchanged and still awaits a decision on its promotion.
+  observing campaign" row is unchanged and stays MODELLED (founder decision 2026-10-02,
+  option A).
 
 **D4, JPL kernel ephemeris spine, phase 1 (four new VALIDATED rows: 228 -> 232 rows, 112 -> 116 validated).**
 
