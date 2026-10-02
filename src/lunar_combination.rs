@@ -58,7 +58,7 @@
 //! come from [`crate::lunar_vlbi::station_inertial_position`]. Because truth and prediction take
 //! the identical path, the closed loop is exact up to the injected noise.
 
-use crate::batch_ls::{gauss_newton, LsqResult};
+use crate::batch_ls::{gauss_newton, gauss_newton_qr, LsqResult};
 use crate::fusion::ukf::inverse;
 use crate::lunar::mcmf_to_selenographic;
 use crate::lunar_vlbi::{beacon_inertial_position, geometric_delay_s, station_inertial_position};
@@ -651,6 +651,34 @@ fn truth_state(cfg: &LunarNetworkConfig, rng: &mut ChaCha8Rng) -> Vec<f64> {
 /// NaN/inf (a diverged without-VLBI solve is captured as a large finite error, never propagated as
 /// non-finite — that ill-conditioning is the point of the contrast).
 pub fn estimate(cfg: &LunarNetworkConfig) -> JointSolution {
+    let p = problem(cfg);
+    let np = p.x0.len();
+    // tol is the step norm in STORED units; 1e-6 stored = ~1 m physical, well below the lunar-
+    // distance formal σ, so it declares convergence once the GN step settles into the floor.
+    let result = gauss_newton_qr(model(cfg), &p.z, &p.weights, &p.x0, 100, 1e-6);
+    summarize_solution(cfg, &p.x_true, result, p.z.len(), np)
+}
+
+/// The batch problem [`estimate`] solves, exported so an independent numerical library can
+/// recompute the solve's linear algebra on identical inputs: the noisy observations `z` (in
+/// [`forward`] order), the weights `1/σ²`, the a-priori `x0` (zeros) and the injected truth, all
+/// parameters in stored units (`param_scale_m` metres per unit; clocks as range-metres).
+#[derive(Clone, Debug)]
+pub struct LunarProblem {
+    /// Observations (s for VLBI delays, m for the clock tie and the ranges).
+    pub z: Vec<f64>,
+    /// Per-observation weight `1/σ²`.
+    pub weights: Vec<f64>,
+    /// A-priori state (zeros).
+    pub x0: Vec<f64>,
+    /// Injected truth state.
+    pub x_true: Vec<f64>,
+    /// Metres per stored parameter unit.
+    pub param_scale_m: f64,
+}
+
+/// Build the [`LunarProblem`] for `cfg`: the seed-determined truth, then the seeded noise.
+pub fn problem(cfg: &LunarNetworkConfig) -> LunarProblem {
     let net = Network::build(cfg);
     let mut rng = ChaCha8Rng::seed_from_u64(cfg.seed);
 
@@ -671,18 +699,41 @@ pub fn estimate(cfg: &LunarNetworkConfig) -> JointSolution {
         })
         .collect();
     let weights: Vec<f64> = sig.iter().map(|&s| 1.0 / (s * s)).collect();
+    LunarProblem {
+        z,
+        weights,
+        x0: vec![0.0; n_params(cfg)],
+        x_true,
+        param_scale_m: PARAM_SCALE,
+    }
+}
 
-    let np = n_params(cfg);
-    let x0 = vec![0.0; np];
-    let net_ref = &net;
-    let cfg_ref = cfg;
-    let h = move |x: &[f64]| forward(net_ref, cfg_ref, x);
+/// The forward model of [`estimate`] for `cfg`: stored-unit state to the predicted observables
+/// in [`forward`] order.
+pub fn model(cfg: &LunarNetworkConfig) -> impl Fn(&[f64]) -> Vec<f64> {
+    let net = Network::build(cfg);
+    let cfg = *cfg;
+    move |x: &[f64]| forward(&net, &cfg, x)
+}
 
-    // tol is the step norm in STORED units; 1e-6 stored = ~1 m physical, well below the lunar-
-    // distance formal σ, so it declares convergence once the GN step settles into the floor.
-    let result = gauss_newton(h, &z, &weights, &x0, 100, 1e-6);
-
-    summarize_solution(cfg, &x_true, result, z.len(), np)
+/// Formal covariance `(HᵀWH)⁻¹` (stored units) of the [`estimate`] solve at its converged
+/// state, with `H` the Jacobian the solver linearises with ([`crate::batch_ls::fd_jacobian`]).
+/// `None` when the solve fails or the information matrix is singular.
+pub fn formal_covariance(cfg: &LunarNetworkConfig) -> Option<Vec<Vec<f64>>> {
+    let p = problem(cfg);
+    let h = model(cfg);
+    let r = gauss_newton_qr(&h, &p.z, &p.weights, &p.x0, 100, 1e-6)?;
+    let jac = crate::batch_ls::fd_jacobian(&h, &r.x, p.z.len());
+    let n = r.x.len();
+    let mut info = vec![vec![0.0; n]; n];
+    for (row, &w) in jac.iter().zip(&p.weights) {
+        for a in 0..n {
+            for b in 0..n {
+                info[a][b] += row[a] * w * row[b];
+            }
+        }
+    }
+    inverse(&info)
 }
 
 /// Convert a solver result + truth into the recovered-vs-truth summary, guarding non-finite values.
