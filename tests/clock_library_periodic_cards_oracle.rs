@@ -41,7 +41,16 @@
 //! MUTATION (pre-registered): replace `4.0 * a * a` by `0.0 * a * a` in `DeviceCard::adev`
 //! (drop the periodic terms from the prediction); a passing strict test must turn red.
 //!
-//! VERDICT: not yet run.
+//! VERDICT (first and only run, 2026-10-02, after pre-registration commit fb475550): DISAGREES,
+//! the row is not promoted. 9 of 11 periodic cards are within the bar (worst factors G06 1.100,
+//! G08 1.145, G09 1.053, G10 1.062, G24 1.153, G26 1.336, G27 1.117, G30 1.415, G32 1.083); G03
+//! fails at 1.947 and G25 at 1.581, both OPTIMISTIC between 60 s and 2000 s (G03 0.514 at
+//! 960 s; G25 0.632 at 1920 s): their held-out records are noisier than their fit thirds (G25's
+//! held-out part carries 16 gaps and 29 phase outliers), a change of the clock rather than a
+//! missing periodic term. The power-law control fails on the same two (1.900, 1.611) and passes
+//! the other nine. Fitted once-per-revolution amplitudes 0.04 to 0.42 ns. Mutation (`0.0 * a *
+//! a`): all 11 cards fail (worst factors 1.770 to 4.964), so the periodic terms are carried by
+//! the prediction; reverted.
 
 #[path = "clock_library_support/mod.rs"]
 mod support;
@@ -113,7 +122,7 @@ fn scores() -> Vec<(String, Option<(HeldOutScore, HeldOutScore)>)> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered; run 2026-10-02: DISAGREES, G03 worst factor 1.947 and G25 1.581 against 1.5 (both optimistic, non-stationary held-out records); 9 of 11 within the bar"]
 fn periodic_cards_predict_their_held_out_two_thirds() {
     let all = scores();
     assert!(!all.is_empty());
@@ -123,4 +132,35 @@ fn periodic_cards_predict_their_held_out_two_thirds() {
         .map(|(p, _)| p)
         .collect();
     assert!(failing.is_empty(), "cards outside the bar: {failing:?}");
+}
+
+/// The run of 2026-10-02, pinned: per PRN, the periodic card's worst factor (to 1e-3) and pass.
+const RECORDED: [(&str, f64, bool); 11] = [
+    ("G03", 1.947, false),
+    ("G06", 1.100, true),
+    ("G08", 1.145, true),
+    ("G09", 1.053, true),
+    ("G10", 1.062, true),
+    ("G24", 1.153, true),
+    ("G25", 1.581, false),
+    ("G26", 1.336, true),
+    ("G27", 1.117, true),
+    ("G30", 1.415, true),
+    ("G32", 1.083, true),
+];
+
+#[test]
+fn periodic_cards_reproduce_the_recorded_finding() {
+    let all = scores();
+    assert_eq!(all.len(), RECORDED.len());
+    for ((prn, sc), (rp, worst, pass)) in all.iter().zip(RECORDED) {
+        assert_eq!(prn, rp);
+        let (sc, _) = sc.as_ref().expect("present");
+        assert_eq!(sc.pass, pass, "{prn}");
+        assert!(
+            (sc.worst_factor - worst).abs() < 6e-4,
+            "{prn}: worst factor {:.4} recorded {worst}",
+            sc.worst_factor
+        );
+    }
 }
