@@ -953,15 +953,38 @@ fn station_axes_in_null(c: &crate::fim::Crlb, dim: usize) -> f64 {
     overlap
 }
 
+/// The inputs [`lunar_observability`] analyses, exported so an independent numerical library
+/// can recompute the same linear algebra on them: the central finite-difference measurement
+/// Jacobian `H` (`m × n`, rows in [`forward`] order, columns in stored units) about the
+/// nominal geometry, the weights `W = diag(1/σ²)` (one per row), and the stored-unit scale
+/// (metres per stored unit) that converts the station-position CRLB back to metres.
+#[derive(Clone, Debug)]
+pub struct ObservabilityInputs {
+    /// Measurement Jacobian `H`, one row per observable.
+    pub jacobian: Vec<Vec<f64>>,
+    /// Per-observable weight `1/σ²`.
+    pub weights: Vec<f64>,
+    /// Metres per stored parameter unit (the station-position columns are `0..3`).
+    pub param_scale_m: f64,
+}
+
+/// Build the [`ObservabilityInputs`] for `cfg` (honours the `with_vlbi` switch).
+pub fn observability_inputs(cfg: &LunarNetworkConfig) -> ObservabilityInputs {
+    let net = Network::build(cfg);
+    let x0 = vec![0.0; n_params(cfg)];
+    ObservabilityInputs {
+        jacobian: fd_jacobian(&net, cfg, &x0),
+        weights: sigmas(cfg).iter().map(|&s| 1.0 / (s * s)).collect(),
+        param_scale_m: PARAM_SCALE,
+    }
+}
+
 /// Compute the Fisher-information observability and Cramér–Rao bound of the joint solve
 /// for `cfg` (honours the `with_vlbi` switch). Deterministic and noise-free.
 pub fn lunar_observability(cfg: &LunarNetworkConfig) -> LunarObservability {
-    let net = Network::build(cfg);
     let np = n_params(cfg);
-    let x0 = vec![0.0; np];
-    let jac = fd_jacobian(&net, cfg, &x0);
-    let weights: Vec<f64> = sigmas(cfg).iter().map(|&s| 1.0 / (s * s)).collect();
-    let info = crate::fim::information_matrix(&jac, &weights);
+    let inputs = observability_inputs(cfg);
+    let info = crate::fim::information_matrix(&inputs.jacobian, &inputs.weights);
     let c = crate::fim::crlb(&info, 1e-9);
     let d = crate::fim::design_metrics(&info, 1e-9);
 
