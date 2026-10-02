@@ -348,6 +348,13 @@ its pinned test.
   6.835103145462294e15; Pluto 8.69326e11 -> 8.696138177608748e11 (m^3/s^2); Phobos equatorial
   radius 13.1 -> 13.0 km; Phobos and Deimos pole and prime meridian from pck00011; the
   solar-system prime_meridian_deg now includes the quadratic and periodic terms.
+- `europa-surface-pnt` (`body-pnt` on Europa), from the full pck00011 Europa orientation
+  (7cfd66b4; the orientation agrees with SPICE pxform to 1.4e-10 rad), which moves the lander in
+  inertial space: availability relays only / with the Earth range 0.485 / 0.725 -> 0.480 / 0.719
+  (83 -> 82 of 171 epochs relays only), median PDOP 5.266 -> 5.360, RMS fix error 129.516 /
+  100.983 m -> 112.742 / 86.147 m, median formal sigma 5.266 / 4.272 m -> 5.360 / 4.239 m. The
+  table in `docs/SOLAR-SYSTEM.md` and the pin in `mcp/kshana-mcp/tests/round_trip.rs` follow;
+  `mars-orbit-pnt` is unchanged.
 - `space-weather` (f107 180, f107a 165, kp 4), the calibrated factor replaced by Jacchia 1971:
   activity_density_kg_m3 at 300/400/500/600/800 km 2.602e-11 -> 3.608e-11, 4.176e-12 ->
   6.929e-12, 8.136e-13 -> 1.618e-12, 1.769e-13 -> 4.189e-13, 1.544e-14 -> 3.781e-14;
