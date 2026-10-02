@@ -1,0 +1,53 @@
+# Fold manifest for package D12 (extended-precision oracle first, square-root information
+# solver second). This branch delivers step 1 only; step 2 is out of scope for this session.
+package = "D12"
+branch = "feat/dom-d12"
+base = "main @ 4646c224"
+head_note = "see the final report for the branch head"
+
+# Paths this branch adds or changes. No engine source file is changed.
+owned_paths = [
+  "tests/lunar_frame_campaign_mpmath_oracle.rs",
+  "tests/fixtures/lunar_frame_campaign_mpmath_oracle/",
+  "xval/oracles/requirements.in",    # adds mpmath==1.3.0
+  "xval/oracles/requirements.lock",  # the resolver's mpmath entry only
+  ".fold/feat-dom-d12.toml",
+  ".fold/feat-dom-d12-rows.md",
+  "changelog.d/feat-dom-d12.md",
+]
+
+# Rows. "M074" is the roadmap's name for the matrix row below.
+[rows]
+new = ["Lunar frame datum covariance with the stations estimated, against 50-digit extended precision"]
+founder_decision = ["Lunar frame datum from an observing campaign"]  # M074: proposal only, not acted on
+deferred = ["(b) estimator accuracy against extended precision, square-root information solver (step 2)"]
+
+[tests]
+filter = "cargo test --test lunar_frame_campaign_mpmath_oracle"
+strict = "lunar_frame_campaign_datum_matches_mpmath_extended_precision"
+also = [
+  "engine_inputs_match_the_committed_fixture",
+  "record_engine_accuracy_against_a_factorisation_route",
+]
+
+# Edits the integrator must make in files this branch may not touch (exact text in the rows file).
+[integrator_edits]
+"src/verification.rs" = [
+  "append the new VerificationItem (rows file, section 1)",
+  "append its OracleBasisEntry to validated_oracle_basis() (rows file, section 1)",
+  "add \"mpmath\" to NUMERICAL in p2_rows_name_an_independent_numerical_library (else the new P2 entry fails that unit test)",
+]
+"xval/oracles/README.md" = ["licence table: | mpmath | 1.3.0 | BSD-3-Clause | extended-precision P2 linear algebra |"]
+"regenerated docs" = [
+  "docs/VERIFICATION-MATRIX.md and the other generated pages, by the repository generator after the row lands",
+  "README headline counts: 226 -> 227 rows, 110 -> 111 validated (readme_headline_counts_match_the_matrix fails until then)",
+]
+dry_run = "row, basis entry and NUMERICAL edit applied locally and reverted: verification lib tests 12/13 (only the README count test fails, as expected); verification_rows_declare_an_oracle_basis and verification_rows_name_a_test_that_exists pass"
+
+[registration]
+lib_rs = "none"
+api_rs = "none"
+
+[depends_on]
+packages = ["D2"]
+note = "D2's pre-registration tags are replaced, per the integrator, by the pushed pre-registration commit 804662d5. Step 2 would also wait for D4 and D7 to fold."
