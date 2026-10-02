@@ -109,7 +109,6 @@ impl Tally {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
 fn report_detection_power_matches_scipy_chi2_and_ncx2() {
     let reference = load_reference();
     let configs = reference["configurations"].as_array().expect("configurations");
