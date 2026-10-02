@@ -36,6 +36,17 @@
 //!
 //! TOLERANCE, unchanged from round 1: pooled exceedance fraction <= 1e-2 (the allocated
 //! tail). The Clopper-Pearson 95 % interval and the per-laboratory rates are reported.
+//!
+//! VERDICT (first and only run, 2026-10-02): DISAGREES, the row stays MODELLED. 82
+//! laboratories, 20 826 test offsets, 694 exceedances: 0.0333 (Clopper-Pearson 95 % interval
+//! printed by the test). 430 of the 694 are rows whose staleness lag had fewer than 20
+//! training pairs (gappy laboratory series), counted as exceedances by rule; without them
+//! the rate is 264 / 20 396 = 0.0129, still above 1e-2 (informational, not the bar). The
+//! excess sits in a few laboratories whose offsets changed regime after 2022 (largest: KZ,
+//! AGGO, NSAI, IPQ, UAE, NAO). Against round 1 (0.508) the realised-offset overbound is
+//! fifteen times closer, but it does not bound 2023-2026 UTC(k) offsets at the 1e-2
+//! allocation. The CP interval code was corrected after the run (its upper limit solved the
+//! wrong sign); the bar does not use it.
 
 use kshana::integrity::hetero_budget::{
     integrity_bias_overbound, source_bias_from_realised_offsets, UtcRealizer,
@@ -134,7 +145,7 @@ fn clopper_pearson(k: usize, n: usize) -> (f64, f64) {
     let upper = if k == n {
         1.0
     } else {
-        solve(&|p| 0.975 - ln_binom_tail(p, k + 1))
+        solve(&|p| ln_binom_tail(p, k + 1) - 0.975)
     };
     (lower, upper)
 }
@@ -192,7 +203,8 @@ fn run() -> Option<(usize, usize, usize, usize, Vec<(String, usize, usize)>)> {
 }
 
 #[test]
-#[ignore = "pre-registered; not yet run"]
+#[ignore = "pre-registered bar not met (2026-10-02): pooled exceedance 694 / 20 826 = 0.0333 against \
+            1e-2 (430 of them rows with no overbound; 0.0127 without those)"]
 fn realised_offset_overbound_holds_on_2023_2026() {
     let Some((nl, n, exc, nob, mut per)) = run() else {
         eprintln!(
@@ -213,5 +225,23 @@ fn realised_offset_overbound_holds_on_2023_2026() {
     assert!(
         frac <= ALLOCATION,
         "pooled exceedance {frac:.4} > {ALLOCATION}"
+    );
+}
+
+/// Pins the recorded outcome (first and only run, 2026-10-02).
+#[test]
+fn realised_offset_overbound_finding() {
+    let Some((nl, n, exc, nob, _)) = run() else {
+        eprintln!(
+            "SKIPPED: BIPM UTC(k) files not found under {} (set KSHANA_ORACLES); this oracle \
+             did not run",
+            data_dir().display()
+        );
+        return;
+    };
+    assert_eq!(
+        (nl, n, exc, nob),
+        (82, 20_826, 694, 430),
+        "recorded finding changed"
     );
 }
