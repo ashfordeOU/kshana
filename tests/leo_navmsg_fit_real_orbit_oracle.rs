@@ -37,6 +37,52 @@
 //! uses, and which Table 2 satisfies as `w_R² + 2 w_AC² = 1`). For identical components G2
 //! therefore carries a bias of about 0.78 (Kshana lower); G1 does not.
 
+//! ## Round 2 pre-registration (M124, written 2026-10-01 before any engine change, before any
+//! held-out orbit is fetched and before any re-run)
+//!
+//! Engine changes, from the paper's Section 2.2 (Eq. 1-7) and 2.3, read in full this time:
+//! 1. Liu22 user algorithm exactly as Eq. 1: `n = sqrt(mu / A^3) + dn + n_dot (t - toe)` (no
+//!    factor 1/2), `A_k = A + a_dot (t - toe)`, harmonics on the uncorrected argument of latitude.
+//! 2. Liu22 fit as Section 2.3: plain least squares from the osculating elements at the reference
+//!    epoch with every correction term zero, no zero-centred priors.
+//! 3. Stop on parameter convergence: iterate until every parameter step is below 1e-3 of its
+//!    formal standard deviation (or the paper's 100-iteration cap).
+//!
+//! The Kepler16 path (M120) is not changed.
+//!
+//! Comparisons:
+//! * Re-run: the same four days, the same published Liu22 rows, the same G1 and G2 at the same
+//!   factor 1.5, 20 and 30 min (`liu22_model_matches_the_published_sisre`).
+//! * Held out (new): for each satellite the two following days, GRACE-A 2017-06-02 and
+//!   2017-06-03, GRACE-C, Sentinel-2A and Sentinel-6A 2024-01-02 and 2024-01-03, from the same
+//!   ITSG directory and the same conversion (`gen_fixture.py`), compared with the same printed
+//!   values of that satellite (the paper's tables are one-day statistics; day-to-day stability is
+//!   the assumption under test) at the same G1 and G2 factor 1.5, Liu22, 20 and 30 min. If a
+//!   day's file is missing or incomplete, the next available day is taken, by availability only,
+//!   before any fit is run on it. Test: `liu22_holds_on_held_out_days`.
+//! * PROMOTE only if both pass. A failure is a finding; no bar moves.
+//!
+//! Disclosure: the first run's ratios (Sentinel-2A 1.71, Sentinel-6A 1.86 along-track at 20 min)
+//! were seen before this amendment.
+//! Note added with the engine change, before any re-run or held-out fit: the paper's own
+//! termination rule (Section 2.3) is a change of the residual root-mean-square (RMS) between
+//! two iterations below 0.1 mm, or 100 iterations. Item 3 above mis-states it; the
+//! pre-registered parameter-convergence rule is kept unchanged (it stops no earlier on a
+//! converging fit), and the difference is disclosed here rather than amended.
+//!
+//! ## Round 2 result (2026-10-01): AGREES on both comparisons
+//!
+//! * Re-run, the four paper days (Liu22, ratios Kshana/published A, C, R, SISRE): GRACE-A 20 min
+//!   0.924 1.088 0.927 0.790, 30 min 1.078 1.103 1.114 0.853; GRACE-C 20 min 1.001 1.015 1.010
+//!   0.783, 30 min 0.928 1.046 0.974 0.769; Sentinel-2A 20 min 1.103 1.012 1.138 0.822, 30 min
+//!   0.987 1.081 0.976 0.788; Sentinel-6A 20 min 0.924 1.118 1.010 0.755, 30 min 1.028 1.055
+//!   1.061 0.787. All inside 1.5x two-sided (first run: along-track 1.711 and 1.863).
+//! * Held out, eight days: every ratio between 0.683 (Sentinel-2A 2024-01-02, 20 min, SISRE) and
+//!   1.186 (GRACE-A 2017-06-02, 30 min, cross-track); all inside 1.5x two-sided.
+//! * Mutation: restoring the zero-centred priors on the Liu22 fit (the pre-0.30 fitter, with the
+//!   paper's full n_dot) gives Sentinel-6A 20 min along-track 1.08 cm against 0.70 cm (1.540) and
+//!   fails `liu22_model_matches_the_published_sisre`; reverted by editing.
+
 use std::path::Path;
 
 use kshana::leo_navmsg::elements::{ephemeris_at, SysTime};
@@ -46,6 +92,7 @@ use kshana::leo_navmsg::truth::TruthOrbit;
 
 /// One day of a satellite: fixture file, label, and the printed values
 /// `[A, C, R, SISRE]` (cm) for (16 at 20 min, 16 at 30 min, 22 at 20 min, 22 at 30 min).
+#[derive(Clone, Copy)]
 struct Day {
     file: &'static str,
     name: &'static str,
@@ -173,8 +220,30 @@ fn within(ours: f64, published: f64) -> bool {
 
 /// Run one model over every day and arc; return the failures (empty when G1 and G2 hold).
 fn compare(kind: ModelKind, label: &str) -> Vec<String> {
+    compare_days(&DAYS, kind, label)
+}
+
+/// The held-out days (pre-registered in round 2): the two days after each paper day, scored
+/// against the same printed values of that satellite.
+fn held_out_days() -> Vec<Day> {
+    let next = [
+        ("grace_a_2017-06-02.csv", "grace_a_2017-06-03.csv"),
+        ("grace_c_2024-01-02.csv", "grace_c_2024-01-03.csv"),
+        ("sentinel_2a_2024-01-02.csv", "sentinel_2a_2024-01-03.csv"),
+        ("sentinel_6a_2024-01-02.csv", "sentinel_6a_2024-01-03.csv"),
+    ];
+    let mut out = Vec::new();
+    for (d, (f1, f2)) in DAYS.iter().zip(next) {
+        for f in [f1, f2] {
+            out.push(Day { file: f, ..*d });
+        }
+    }
+    out
+}
+
+fn compare_days(days: &[Day], kind: ModelKind, label: &str) -> Vec<String> {
     let rows: Vec<(String, [f64; 4], [f64; 3], f64)> = std::thread::scope(|sc| {
-        let handles: Vec<_> = DAYS
+        let handles: Vec<_> = days
             .iter()
             .map(|d| {
                 sc.spawn(move || {
@@ -187,7 +256,7 @@ fn compare(kind: ModelKind, label: &str) -> Vec<String> {
                     for (arc, published) in [(1200.0, p20), (1800.0, p30)] {
                         let (rac, sisre) = day_stats(&truth, kind, arc);
                         out.push((
-                            format!("{} {} min", d.name, arc / 60.0),
+                            format!("{} {} {} min", d.name, d.file, arc / 60.0),
                             published,
                             rac,
                             sisre,
@@ -267,9 +336,10 @@ fn fitted_sisre_matches_liu_2025_on_real_orbits() {
 /// Result of the pre-registered run (2026-10-01): DISAGREES. G1 fails on the 20 min arcs of
 /// the two higher orbits, along-track RMS 4.23 cm against 2.47 cm (Sentinel-2A, ratio 1.71)
 /// and 1.30 cm against 0.70 cm (Sentinel-6A, ratio 1.86); every other component and every
-/// SISRE is inside the factor 1.5. The row stays MODELLED (finding M124).
+/// SISRE is inside the factor 1.5. The row stayed MODELLED (finding M124).
+/// Round 2 re-run after the engine change pre-registered above (paper's Eq. 1 n_dot, no priors,
+/// zero start): AGREES, every ratio between 0.755 and 1.138.
 #[test]
-#[ignore = "DISAGREES: Liu22 along-track RMS 1.71x (Sentinel-2A) and 1.86x (Sentinel-6A) the published value at 20 min, above the pre-registered 1.5x (finding M124); row stays MODELLED"]
 fn liu22_model_matches_the_published_sisre() {
     let failures = compare(ModelKind::Liu22, "liu22");
     assert!(failures.is_empty(), "{}", failures.join("\n"));
@@ -293,4 +363,11 @@ fn tabulated_truth_returns_its_states_at_the_nodes() {
             assert!((v[c] - rows[k][4 + c]).abs() < 1e-9, "node {k} velocity");
         }
     }
+}
+
+/// M124 round 2, pre-registered above: the Liu22 fit on held-out days.
+#[test]
+fn liu22_holds_on_held_out_days() {
+    let failures = compare_days(&held_out_days(), ModelKind::Liu22, "liu22-held-out");
+    assert!(failures.is_empty(), "{}", failures.join("\n"));
 }

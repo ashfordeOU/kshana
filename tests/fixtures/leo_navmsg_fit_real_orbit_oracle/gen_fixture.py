@@ -18,6 +18,7 @@ is the paper's published fit statistics on these same orbits.
 Usage (with ~/Code/kshana-oracles/env.sh sourced):
 
     $ORACLE_PY gen_fixture.py <dir with the four .txt.gz files> <finals2000A.all>
+    $ORACLE_PY gen_fixture.py <dir with the eight held-out .txt.gz files> <finals2000A.all> held-out
 """
 
 import gzip
@@ -33,6 +34,18 @@ DAYS = [
     ("GRACEFO-1", "2024-01-01", "grace_c_2024-01-01.csv"),
     ("Sentinel-2A", "2024-01-01", "sentinel_2a_2024-01-01.csv"),
     ("Sentinel-6A", "2024-01-01", "sentinel_6a_2024-01-01.csv"),
+]
+# Held-out days (M124 round 2, pre-registered before they were fetched): the two days after
+# each satellite's paper day. Select with a third argument `held-out`.
+HELD_OUT = [
+    ("GRACE-1", "2017-06-02", "grace_a_2017-06-02.csv"),
+    ("GRACE-1", "2017-06-03", "grace_a_2017-06-03.csv"),
+    ("GRACEFO-1", "2024-01-02", "grace_c_2024-01-02.csv"),
+    ("GRACEFO-1", "2024-01-03", "grace_c_2024-01-03.csv"),
+    ("Sentinel-2A", "2024-01-02", "sentinel_2a_2024-01-02.csv"),
+    ("Sentinel-2A", "2024-01-03", "sentinel_2a_2024-01-03.csv"),
+    ("Sentinel-6A", "2024-01-02", "sentinel_6a_2024-01-02.csv"),
+    ("Sentinel-6A", "2024-01-03", "sentinel_6a_2024-01-03.csv"),
 ]
 LEAP_S = 18.0  # GPS - UTC on both 2017-06-01 and 2024-01-01
 GPS_TT = 51.184  # TT - GPS (s)
@@ -87,7 +100,8 @@ def main():
     src_dir, finals_path = sys.argv[1], sys.argv[2]
     finals = read_finals(finals_path)
     out_dir = os.path.dirname(os.path.abspath(__file__))
-    for sat, day, out in DAYS:
+    days = HELD_OUT if len(sys.argv) > 3 and sys.argv[3] == "held-out" else DAYS
+    for sat, day, out in days:
         name = f"{sat}_reducedDynamicOrbit_{day}.txt.gz"
         path = os.path.join(src_dir, name)
         sha = hashlib.sha256(open(path, "rb").read()).hexdigest()
