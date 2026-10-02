@@ -2,9 +2,11 @@
 
 Package D7 (real lunar IQ: acquisition and C/N0 on LuGRE, and Earth GNSS reception at lunar
 distance), branch `feat/dom-d7`. Every comparison below was pre-registered in a pushed commit
-before its oracle was run or its data fetched, and every one ended as a FINDING. No row is
-proposed as VALIDATED, so there is no `validated_oracle_basis()` entry to add. The surface-phase
-LuGRE snapshots were never opened and remain held out.
+before its oracle was run or its data fetched. The first six ended as FINDINGs. After the
+founder decisions of 2026-10-02 (recorded at the end of this file) two more were registered:
+D7-a3, the LNAV encoder at the integer level on an unseen broadcast file, PASSES and is proposed
+as VALIDATED with one `validated_oracle_basis()` entry; D7-b4, acquisition on the never-opened
+surface-phase LuGRE batches, is recorded below.
 
 Abbreviations: C/A coarse/acquisition; C/N0 carrier-to-noise density; LNAV legacy navigation
 message; IQ in-phase and quadrature samples; PRN pseudorandom noise number; SVN space vehicle
@@ -66,6 +68,43 @@ Record:
 - Founder note: a registration that compares decoded INTEGERS (not scaled values) would remove
   the constant-precision issue, but its outcome is now known, so it should not be registered on
   these inputs as if blind.
+
+## D7-a3. GPS LNAV broadcast integers, decoded by RTKLIB from an unseen file (new row, PROPOSED VALIDATED)
+
+Proposed row:
+
+```rust
+VerificationItem {
+    requirement: "GPS LNAV navigation-message encoding",
+    capability: "IS-GPS-200 LNAV subframes 1-3 (gps_lnav::encode_subframes: round-to-nearest quantisation of every clock and orbit parameter at the specification's scale factors and value of pi, two's complement packing, TLM and HOW words, Table 20-XIV parity with D29*/D30* inversion, the parity-solving bits of words 2 and 10), the message a GPS L1 C/A signal generator transmits",
+    module: "gps_lnav",
+    tests: "tests/gps_lnav_rtklib_integer_oracle.rs::kshana_lnav_integers_decode_in_rtklib_from_an_unseen_broadcast_file (32 satellites of the IGS broadcast file of 2 March 2025: 960 of 960 words pass RTKLIB parity, 96 of 96 subframes decode, 608 of 608 decoded broadcast integers equal Kshana's, every input within half a quantum, week and times exact); gps_lnav::tests",
+    oracle: "RTKLIB v2.4.2-p13 (BSD-2-Clause, commit 71db0ffa) readrnx parsing the IGS daily broadcast file BRDC00IGS_R_20250610000_01D_MN.rnx and decode_word/decode_frame decoding Kshana's words, run as a separate program; pre-registered d4d9eb9d before the file was fetched, exact-integer bar. Mutation: truncating instead of rounding gives 235 failures. Earlier comparisons of the same encoder are recorded as findings: against gps-sdr-sim, which truncates (230 fields), and against RTKLIB's scaled values, whose decimal 2^-43 constant missed a one-ulp bar (41 values)",
+    oracle_kind: ExternalDataset,
+    status: Validated,
+},
+```
+
+Proposed `validated_oracle_basis()` entry:
+
+```rust
+OracleBasisEntry {
+    requirement: "GPS LNAV navigation-message encoding",
+    basis: Library,
+    oracle_test: "tests/gps_lnav_rtklib_integer_oracle.rs",
+    source: "RTKLIB v2.4.2-p13",
+    flag: "",
+},
+```
+
+Record:
+- Pre-registration: `d4d9eb9d` (2026-10-02T19:59:24Z), before the input file was downloaded.
+  Disclosed in its header: it follows the D7-a and D7-a2 findings; the quantity is the broadcast
+  integer, a different quantity on unseen inputs, not a loosened bar.
+- Inputs: IGS daily broadcast file of 2 March 2025 (SHA-256 0983f748...), parsed by RTKLIB.
+- Result: 32 satellites, 0 failures. The strict test runs in the gate (not ignored).
+- Mutation evidence: truncation in `gps_lnav::quantise` gives 235 failures; edited back.
+- Revisions: none.
 
 ## D7-b. Acquisition and C/N0 estimation on real lunar IQ (new row, MODELLED)
 
@@ -187,27 +226,26 @@ Record:
 None. No golden file, docs figure or existing row value changed; `src/verification.rs` was not
 edited.
 
-## Founder decisions requested (proposals only; nothing acted on)
+## Founder decisions (made 2026-10-02: "choose the best and most dominant options")
 
-1. **M039 re-wording (D1).** Proposed capability addendum: "Relative carrier-to-noise density
-   between Block IIR/IIR-M satellites at one epoch, from measured two-dimensional transmit
-   patterns (NAVCEN), and geometric visibility; the absolute C/N0 at lunar distance is not
-   claimed (Parker et al. report a 7 to 12 dB common loss)." Status unchanged (MODELLED) until a
-   dataset with enough IIR/IIR-M pairs exists.
-2. **CC BY 4.0 attribution text for LuGRE.** Proposed: "Contains data from the Lunar GNSS
-   Receiver Experiment (LuGRE) Mission Data, J. Parker, F. Dovis et al., NASA and Agenzia
-   Spaziale Italiana, Zenodo, doi 10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's
-   fixtures are derived extracts (C/N0 values, acquisition records, header times); no sample
-   file is redistributed."
-3. **I/Q order of the LuGRE batches.** The evidence (D7-b3) says the registered order is the
-   conjugate. Options: change `ion_sdr` to fill sub-byte samples from the most significant bit
-   whatever the byte order (the reader's first draft), or keep the standard-driven reading and
-   add an explicit `swap_iq`. Either is an engine change whose next comparison needs a fresh
-   registration.
-4. **A clean acquisition registration on held-out data.** The surface-phase L1 batches (OP38 to
-   OP78) were never opened. A registration fixed now (corrected I/Q order, mid-rise levels,
-   cell-averaging decision, a lower false-alarm probability, a phase-coherent Doppler
-   refinement, and the D7-b3 bar with a tolerance from the refinement's measured scatter) could
-   be run on them blind. This is also the positioning leg's data (out of scope here).
-5. **New module `src/gps_lnav.rs`.** Not in the roadmap's owned list; added for the
-   cross-generator leg. Keep, or fold into `sdr`?
+1. **M039 re-wording: ADOPTED.** Text for the integrator to apply to row 91 (this package may
+   not edit `verification.rs`): append to the capability "Restated per D7: the claim at lunar
+   distance is the RELATIVE carrier-to-noise density between satellites at one epoch, from
+   measured two-dimensional transmit patterns (NAVCEN Block IIR/IIR-M), plus geometric
+   visibility; absolute C/N0 is not claimed (Parker et al. report a common 7 to 12 dB loss)."
+   Status stays MODELLED: the LuGRE data hold one usable IIR/IIR-M pair (D7-c).
+2. **CC BY 4.0 attribution: ADOPTED** as written into every LuGRE fixture NOTICE: "Contains
+   data from the Lunar GNSS Receiver Experiment (LuGRE) Mission Data, J. Parker, F. Dovis et al.,
+   NASA and Agenzia Spaziale Italiana, Zenodo, doi 10.5281/zenodo.16411687, licensed under
+   CC BY 4.0. Kshana's fixtures are derived extracts; no sample file is redistributed."
+3. **I/Q order: FIXED in the engine** (3c480336): `ion_sdr` fills words from the most significant
+   bit, putting I in the high nibble of a LuGRE byte; the earlier reading stays available as
+   `SdrLayout::fill_lsb_first` and the registered comparisons request it explicitly. A further
+   reader defect found on the way (a sample wider than a word) is fixed (87f6bb95), and it
+   showed that OP5 and OP12 had been excluded in error (corrected in the record).
+4. **Blind registration on the held-out surface batches: DONE**, D7-b4 (2108e6ff), with the
+   method fixed on the development batches plus a phase-coherent Doppler refinement (23cd06b4).
+   The surface batches are no longer blind for acquisition; the positioning leg (phase 2) must
+   be registered before it reads them.
+5. **`src/gps_lnav.rs`: KEPT** as its own module; with D7-a3 it carries a validated claim.
+

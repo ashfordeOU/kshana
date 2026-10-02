@@ -15,12 +15,16 @@ owned = [
   "src/gps_lnav.rs",                # new module: IS-GPS-200 LNAV encoder (not in the roadmap's owns list; flagged in the report)
   "tests/gps_l1ca_gpssdrsim_cross_generator.rs",
   "tests/gps_lnav_rtklib_decode_oracle.rs",
+  "tests/gps_lnav_rtklib_integer_oracle.rs",
+  "tests/lugre_surface_acquisition_doppler_oracle.rs",
   "tests/lugre_acquisition_gnss_sdr_oracle.rs",
   "tests/lugre_acquisition_predicted_doppler_oracle.rs",
   "tests/lugre_acquisition_cell_average_doppler_oracle.rs",
   "tests/lugre_relative_cn0_visibility.rs",
   "tests/fixtures/gps_l1ca_gpssdrsim_cross_generator/",
   "tests/fixtures/gps_lnav_rtklib_decode/",
+  "tests/fixtures/gps_lnav_rtklib_integer/",
+  "tests/fixtures/lugre_surface_acquisition_doppler/",
   "tests/fixtures/lugre_acquisition_gnss_sdr/",
   "tests/fixtures/lugre_acquisition_predicted_doppler/",
   "tests/fixtures/lugre_relative_cn0/",
@@ -39,14 +43,16 @@ registrations = [
   "src/realdata/mod.rs: pub mod ion_sdr; pub mod lugre;",
 ]
 
-# Proposed verification rows (full text in .fold/feat-dom-d7-rows.md). None is proposed as
-# VALIDATED: every comparison of this package ended as a FINDING.
+# Proposed verification rows (full text in .fold/feat-dom-d7-rows.md). D7-a3 is proposed as
+# VALIDATED (one validated_oracle_basis() entry, basis Library, RTKLIB); the rest are FINDINGs.
 rows = [
   { id = "D7-a",  requirement = "GPS L1 C/A cross-generator conformance", status = "MODELLED", outcome = "FINDING", prereg = "f88f2969" },
   { id = "D7-a2", requirement = "GPS LNAV encoding decoded by an independent receiver library", status = "MODELLED", outcome = "FINDING", prereg = "ca5f0142" },
+  { id = "D7-a3", requirement = "GPS LNAV navigation-message encoding", status = "VALIDATED (proposed)", outcome = "PROMOTE", prereg = "d4d9eb9d" },
   { id = "D7-b",  requirement = "Acquisition and C/N0 estimation on real lunar IQ", status = "MODELLED", outcome = "FINDING", prereg = "768cb62b" },
   { id = "D7-b2", requirement = "Acquisition on real lunar IQ against orbit-predicted Doppler (sample-power decision)", status = "MODELLED", outcome = "FINDING", prereg = "0d1839d2" },
   { id = "D7-b3", requirement = "Acquisition on real lunar IQ scored by orbit-predicted Doppler", status = "MODELLED", outcome = "FINDING", prereg = "a81a9a4e" },
+  { id = "D7-b4", requirement = "Acquisition on real lunar-surface IQ scored by orbit-predicted Doppler", status = "SEE ROWS FILE", outcome = "SEE ROWS FILE", prereg = "2108e6ff" },
   { id = "D7-c",  requirement = "Earth-GNSS at lunar distance (M039, row 91) relative C/N0 plus visibility", status = "MODELLED (unchanged)", outcome = "FINDING", prereg = "768cb62b" },
 ]
 
@@ -57,6 +63,6 @@ rows = [
 # a release build.
 test_filter = [
   "cargo test --lib -- portable_math acquisition gps_lnav realdata::ion_sdr realdata::lugre antenna::tests::two_dimensional earth_gnss_lunar",
-  "cargo test --test gps_l1ca_gpssdrsim_cross_generator --test gps_lnav_rtklib_decode_oracle --test lugre_relative_cn0_visibility",
-  "cargo test --test lugre_acquisition_gnss_sdr_oracle --test lugre_acquisition_predicted_doppler_oracle --test lugre_acquisition_cell_average_doppler_oracle",
+  "cargo test --test gps_l1ca_gpssdrsim_cross_generator --test gps_lnav_rtklib_decode_oracle --test gps_lnav_rtklib_integer_oracle --test lugre_relative_cn0_visibility",
+  "cargo test --test lugre_acquisition_gnss_sdr_oracle --test lugre_acquisition_predicted_doppler_oracle --test lugre_acquisition_cell_average_doppler_oracle --test lugre_surface_acquisition_doppler_oracle",
 ]
