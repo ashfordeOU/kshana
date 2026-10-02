@@ -89,6 +89,14 @@
 //! (resolution about 1e-11 s; ERFA's `era00` adds the fractional parts first). Quantity,
 //! inputs, every tolerance (1e-5 on the combined statistics included) and the crate are
 //! unchanged. The engine is not touched between the runs.
+//!
+//! SECOND RUN (amendment A1, 2026-10-02): everything agrees except two floor-row combined
+//! statistics: p50 rel 2.50e-5 and p95 rel 1.05e-5 (bar 1e-5); the floor rms is 7.7e-7, the
+//! floor max -4.9e-6, and every persistence horizon is within 4.7e-7. Diagnosed as a second
+//! oracle precision floor: ERFA `era00` forms t = d1 + (d2 - 2451545.0) before multiplying by
+//! 0.00273781191135448, and one unit in the last place of t (about 9312.5 days) is
+//! 3.13e-14 rad of Earth rotation angle, against floor-row error angles of about 1.3e-9 rad
+//! (2.4e-5 relative). The engine is still not touched.
 
 use kshana::realtime_frame_eop::RealtimeFrameEopScenario;
 use serde_json::{json, Value};
@@ -329,7 +337,7 @@ fn compare_predicted_vs_final(o: &Value) -> Vec<String> {
 }
 
 #[test]
-#[ignore = "pre-registered amendment A1; not yet run (first run: 19 combined statistics missed 1e-5 on an oracle date-precision defect)"]
+#[ignore = "second run (A1): two floor-row combined statistics miss 1e-5 (p50 2.5e-5, p95 1.05e-5) on the ERFA era00 resolution (3.1e-14 rad); see amendment A2"]
 fn joint_table_and_predicted_vs_final_tables_match_astropy_and_erfa() {
     let o = oracle();
     assert_eq!(o["d_em_m"], json!(kshana::frame_eop::D_EM_M));
