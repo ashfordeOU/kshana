@@ -45,6 +45,14 @@
 //! `jacobian.neglected_shapiro_partial_fraction` finite-differences the full delay with and
 //! without the Shapiro term and prints the largest relative row difference it produces.
 //!
+//! **Kernel path (opt-in).** With `planetary_kernel_path` set, the beacon sits on the JPL DE440
+//! Moon read by the engine's own kernel reader ([`crate::ephem_provider::KernelEphemeris`],
+//! through [`epoch_geometry_with`]) instead of the analytic series; nothing else changes. With
+//! every station held fixed and the beacon estimated, that path's beacon covariance agrees with
+//! a SPICE light-time Jacobian and a NumPy inverse to 1.7e-3
+//! (`tests/lunar_vlbi_surface_point_spice_oracle.rs`), while the analytic series moves the
+//! smallest beacon sigma by 3.9 %. The analytic series stays the default.
+//!
 //! ## Closure: baselines are not independent
 //!
 //! For a common beacon the geometric delay obeys `τ_ik = τ_ij + τ_jk` exactly, so of the
