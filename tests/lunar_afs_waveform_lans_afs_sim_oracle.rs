@@ -299,6 +299,8 @@ fn afs_frames_and_baseband_match_lans_afs_sim() {
         return;
     }
     let trace = parse_trace();
+    // PIN-SCOPE:    the data-bit counts of subframe 2 and subframes 3/4 in the simulator trace.
+    // PIN-EXCLUDES: the bit values and the frames, compared symbol for symbol below.
     assert_eq!(trace.sb2.len(), 1176);
     assert_eq!(trace.sb34.len(), 846);
     // W2: every frame the simulator transmits.

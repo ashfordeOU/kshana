@@ -284,6 +284,8 @@ fn llr_datum_with_kernel_moon_matches_spice_and_numpy_at_the_unchanged_bars() {
 #[test]
 fn kernel_run_records_its_kernel_and_pins_its_headline() {
     let v = report();
+    // PIN-SCOPE:    the Moon kernel SHA-256 the scenario reports, which must be the published DE440 file.
+    // PIN-EXCLUDES: the datum and its sigmas, compared with their oracle elsewhere.
     assert_eq!(
         v.pointer("/moon_ephemeris/kernel_sha256")
             .and_then(Value::as_str),

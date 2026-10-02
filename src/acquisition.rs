@@ -924,6 +924,8 @@ mod tests {
             for seed in 0..8 {
                 let x = synth(19, fs, 2000 * 400, cn0, 300.25, 1234.0, 21 + seed);
                 let p = prompt_series(&x, &code, fs, 0.0, 1234.0, 300.25, 400);
+                // PIN-SCOPE:    the number of 1 ms prompt correlations a 400 ms synthetic record yields.
+                // PIN-EXCLUDES: the C/N0 estimate itself, checked against its bar below.
                 assert_eq!(p.len(), 399);
                 let est = cn0_m2m4(&p, 1e-3).unwrap();
                 assert!((est - cn0).abs() < 1.5, "planted {cn0}, estimated {est}");

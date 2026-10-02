@@ -104,6 +104,8 @@ fn rows() -> Vec<Row> {
 
 fn compare(k: &KernelEphemeris) -> usize {
     let rows = rows();
+    // PIN-SCOPE:    the count of pre-registered oracle positions in the committed fixture.
+    // PIN-EXCLUDES: the positions, compared within the registered bar below.
     assert_eq!(rows.len(), 600, "pre-registered: 600 positions");
     let (mut worst, mut worst_abs, mut fails) = (0.0f64, 0.0f64, 0usize);
     for r in &rows {
@@ -156,6 +158,8 @@ fn kernel_ephemeris_matches_skyfield_on_the_full_kernel_when_present() {
         return;
     };
     let k = KernelEphemeris::open(&p).expect("full kernel");
+    // PIN-SCOPE:    the SHA-256 of the full DE440s kernel the data-gated leg opens, as NAIF publishes it.
+    // PIN-EXCLUDES: any engine output.
     assert_eq!(
         k.kernel_sha256(),
         "c1c7feeab882263fc493a9d5a5b2ddd71b54826cdf65d8d17a76126b260a49f2"

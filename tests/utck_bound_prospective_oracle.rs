@@ -44,6 +44,8 @@ use kshana::realdata::clk::{parse_bipm_utclab, parse_circular_t_section1};
 use kshana::utck_bound::{fit_prior, LabSeries};
 use std::path::PathBuf;
 
+// PIN-SCOPE:    the SHA-256 list of the BIPM per-laboratory files the prior reads.
+// PIN-EXCLUDES: any fitted bound or score.
 const PINS: &str = include_str!("fixtures/hetero_budget_utc_k_oracle/utclab.sha256");
 const PRIOR_RANGE: (i64, i64) = (57_023, 59_944);
 const TAIL: f64 = 1e-2;

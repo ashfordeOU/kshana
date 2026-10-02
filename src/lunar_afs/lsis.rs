@@ -11,6 +11,10 @@
 //! missing or altered file is an error that says how to fetch it.
 //!
 //! Cache directory: `$KSHANA_LSIS_DIR`, else `$HOME/.cache/kshana/lsis`.
+//!
+//! PIN-SCOPE:    the SHA-256 of the LSIS V1.0 PDF and of each attachment the engine reads, as
+//!               NASA publishes them.
+//! PIN-EXCLUDES: anything the generator computes from those files.
 
 use sha2::{Digest, Sha256};
 use std::path::PathBuf;
