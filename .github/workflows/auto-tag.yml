@@ -1,0 +1,81 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Tag a release once main is green on the version bump.
+#
+# docs/RELEASING.md step 4 used to be a hand step: push `vX.Y.Z` on a commit that is already
+# green on main. This workflow does that step and nothing else. When CI finishes green on a
+# push to main, it reads the version from Cargo.toml; if no `vX.Y.Z` tag exists yet, it checks
+# the version surfaces agree (scripts/check-version-sync.sh, as release.yml's verify does) and
+# pushes an annotated tag on exactly the commit CI verified. release.yml then runs on that tag
+# push, unchanged: verify -> release -> publish -> parity -> site.
+#
+# It never moves or replaces a tag. A commit that is not main's head any more (main moved
+# while CI ran) is skipped, so the tag always lands on the newest green commit that carries
+# the bump.
+#
+# The tag is pushed with the RELEASE_TAG_TOKEN secret, not the workflow's own token: a tag
+# pushed with GITHUB_TOKEN does not start other workflows, so release.yml would never run.
+# The secret is a fine-grained token for this repository with Contents read and write. A
+# missing secret fails the job instead of skipping it, so a bump is never left silently
+# untagged.
+name: Auto-tag
+on:
+  workflow_run:
+    workflows: [CI]
+    types: [completed]
+    branches: [main]
+permissions:
+  contents: read
+concurrency:
+  group: auto-tag
+  cancel-in-progress: false
+jobs:
+  tag:
+    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: The tag token is present
+        env:
+          TOKEN: ${{ secrets.RELEASE_TAG_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::RELEASE_TAG_TOKEN is not set (Settings -> Secrets and variables -> Actions); see docs/RELEASING.md"
+            exit 1
+          fi
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ github.event.workflow_run.head_sha }}
+          fetch-depth: 0
+          token: ${{ secrets.RELEASE_TAG_TOKEN }}
+      - name: Tag the version if it is new
+        env:
+          SHA: ${{ github.event.workflow_run.head_sha }}
+        run: |
+          set -euo pipefail
+          version="$(awk -F'"' '/^\[package\]/{p=1} p && /^version *=/{print $2; exit}' Cargo.toml)"
+          tag="v$version"
+          echo "Cargo.toml version: $version (commit $SHA)"
+          if git ls-remote --exit-code --tags origin "refs/tags/$tag" >/dev/null; then
+            echo "$tag already exists; nothing to do."
+            exit 0
+          fi
+          head="$(git ls-remote origin refs/heads/main | cut -f1)"
+          if [ "$head" != "$SHA" ]; then
+            echo "main moved on to $head while CI ran on $SHA; the run on the newer head tags it."
+            exit 0
+          fi
+          GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$tag" ./scripts/check-version-sync.sh
+          if ! grep -q "^## \[$version\]" CHANGELOG.md; then
+            echo "::error::CHANGELOG.md has no [$version] section; see docs/RELEASING.md step 1"
+            exit 1
+          fi
+          {
+            echo "$tag"
+            echo
+            ./scripts/changelog-extract.sh "$version" | awk 'NF{p=1} p && !NF{exit} p'
+          } > "$RUNNER_TEMP/tag-message.txt"
+          git config user.name ashfordeOU
+          git config user.email 236818772+ashfordeOU@users.noreply.github.com
+          git tag -a "$tag" "$SHA" -F "$RUNNER_TEMP/tag-message.txt"
+          git push origin "refs/tags/$tag"
+          echo "Pushed $tag on $SHA; release.yml runs on it."
