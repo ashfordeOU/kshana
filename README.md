@@ -22,7 +22,7 @@
   <a href="docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration"></a>
   <a href="#evidence"><img src="https://img.shields.io/badge/validated-123%2F249-377D0C?style=flat-square&labelColor=0A1226" height="18" alt="123 of 249 capabilities VALIDATED against an independent external oracle, from the verification matrix"></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><img src="https://img.shields.io/sonar/quality_gate/ashfordeOU_kshana?server=https%3A%2F%2Fsonarcloud.io&label=quality&style=flat-square&labelColor=0A1226" height="18" alt="SonarQube Cloud quality gate status"></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.29.3-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.29.3"></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.30.0-066A86?style=flat-square&labelColor=0A1226" height="18" alt="Release v0.30.0"></a>
   <a href="LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0-3F4B67?style=flat-square&labelColor=0A1226" height="18" alt="Licence: AGPL-3.0-only"></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-zenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" height="18" alt="DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release"></a>
@@ -45,7 +45,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.29.3: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.3 m against a 50 m alert limit." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.30.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.3 m against a 50 m alert limit." width="100%">
 </picture>
 
 ## Rehearse the minute GNSS goes dark
@@ -61,7 +61,7 @@ Every capability carries one of three labels in a machine-checked ledger: **VALI
 independent external oracle agrees), **MODELLED** (internally consistent, and said out loud)
 or **PARTNER** (a hardware partner owns it).
 
-> **Status: v0.29.3.** A validated, reproducible simulation substrate for PNT resilience.
+> **Status: v0.30.0.** A validated, reproducible simulation substrate for PNT resilience.
 > Timing and holdover come first, because that domain is the best validated. Kshana is a
 > study and trade-off instrument: not a radio-frequency (RF) signal simulator, not a GNSS
 > receiver and not a flight product. New to the field? Start with the
@@ -165,7 +165,7 @@ SigMF is the Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.29.3): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.30.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -383,7 +383,7 @@ the exports you ask for.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.29.3, through the api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.30.0, through the api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
 </picture>
 
 This bundled scenario runs 2 h: 10 min of GNSS, then about 1.8 h with GNSS denied. It asks
@@ -564,7 +564,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 ## Install
 
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
-v0.29.3 from the same tagged commit.
+v0.30.0 from the same tagged commit.
 
 | Channel | Install | Guide |
 |---|---|---|
@@ -579,8 +579,8 @@ v0.29.3 from the same tagged commit.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.29.3`,
-`pip install kshana==0.29.3` or `npm install kshana@0.29.3`. To build from source, see
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.30.0`,
+`pip install kshana==0.30.0` or `npm install kshana@0.30.0`. To build from source, see
 [Install and build](#install--build) under Reference.
 
 <details>
@@ -594,7 +594,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.29.3 6600.0 2610.0
+# 0.30.0 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -615,7 +615,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.29.3 6600 2610
+// 0.30.0 6600 2610
 console.log(summary(toml));
 ```
 
@@ -631,7 +631,7 @@ top as a separate overlay that depends on the engine and never forks it.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/architecture-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/architecture-light.svg">
-  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.29.3 under the AGPL-3.0, with api::run_toml, a typed dispatch over 75 kinds, and the verification ledger of 249 capabilities (123 VALIDATED, 122 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
+  <img src="docs/assets/readme/architecture-light.svg" alt="Kshana's architecture: one open engine at the centre, kshana 0.30.0 under the AGPL-3.0, with api::run_toml, a typed dispatch over 75 kinds, and the verification ledger of 249 capabilities (123 VALIDATED, 122 MODELLED, 4 PARTNER). Around it, every surface runs the same engine: Command line (cargo install kshana); Rust library (cargo add kshana); Python (pip install kshana); WebAssembly + Kshana Studio (npm install kshana); MCP server (cargo install kshana-mcp); Docker image (ghcr.io/ashfordeou/kshana-mcp); JetBrains plugin (Marketplace: &quot;Kshana&quot;). Below it, Kshana Pro, a proprietary overlay that depends on the open engine as a library and never forks it, and adds no physical model." width="100%">
 </picture>
 
 <details>
