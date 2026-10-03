@@ -13,6 +13,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana <scenario.toml> --animate <svg|html|frames|all> [--animate-fps <n>] [--animate-duration <s>]
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
+   or: kshana receiver-trust <scenario.toml>
    or: kshana kinds [--json]
    or: kshana example [<name>]
    or: kshana --help | --version";
@@ -63,6 +64,12 @@ fn main() -> ExitCode {
     // no scenarios/ directory, so this is how its user gets a scenario to run.
     if args.get(1).map(String::as_str) == Some("example") {
         return print_example(&args[2..]);
+    }
+    // `kshana receiver-trust <scenario.toml>` assesses a real receiver log. It is terminal
+    // and outside the scenario-kind dispatch: its scenario names a log file instead of
+    // describing a simulation.
+    if args.get(1).map(String::as_str) == Some("receiver-trust") {
+        return run_receiver_trust_cli(&args[2..]);
     }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
@@ -943,4 +950,53 @@ fn stamp_study_generated(json: &str, stamp: &str) -> String {
         }
         Err(_) => json.to_string(),
     }
+}
+
+/// `kshana receiver-trust <scenario.toml>`: read the receiver log the scenario names, run
+/// the trust monitors, and write `<stem>.result.json`, `<stem>.trust.csv` and
+/// `<stem>.trust.svg` next to the scenario.
+fn run_receiver_trust_cli(args: &[String]) -> ExitCode {
+    let Some(path) = args.first() else {
+        eprintln!("error: receiver-trust needs a scenario path");
+        return ExitCode::from(2);
+    };
+    let path = PathBuf::from(path);
+    let src = match std::fs::read_to_string(&path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: cannot read {}: {e}", path.display());
+            return ExitCode::from(2);
+        }
+    };
+    let mut scn: kshana::receiver_trust::scenario::ReceiverTrustScenario =
+        match toml::from_str(&src) {
+            Ok(s) => s,
+            Err(e) => {
+                eprintln!("error: invalid receiver-trust scenario: {e}");
+                return ExitCode::from(2);
+            }
+        };
+    let base = path.parent().map(PathBuf::from).unwrap_or_default();
+    kshana::receiver_trust::scenario::resolve_paths(&mut scn, &base);
+    let out = match kshana::receiver_trust::scenario::run_scenario(&scn) {
+        Ok(o) => o,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return ExitCode::FAILURE;
+        }
+    };
+    let stem = path.with_extension("");
+    for (ext, body) in [
+        ("result.json", &out.json),
+        ("trust.csv", &out.csv),
+        ("trust.svg", &out.svg),
+    ] {
+        let target = PathBuf::from(format!("{}.{ext}", stem.display()));
+        if let Err(e) = std::fs::write(&target, body) {
+            eprintln!("error: cannot write {}: {e}", target.display());
+            return ExitCode::FAILURE;
+        }
+    }
+    println!("{}", out.summary);
+    ExitCode::SUCCESS
 }

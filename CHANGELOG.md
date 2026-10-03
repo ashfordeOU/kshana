@@ -9,6 +9,26 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Receiver trust: assess a real GNSS receiver log.** `kshana receiver-trust <scenario.toml>`
+  reads a u-blox UBX, RINEX 3 (with an optional broadcast navigation file), Android
+  GnssLogger or NMEA 0183 log into one time-tagged timeline and runs trust monitors over it:
+  carrier-to-noise density (C/N0) drop, loss of lock, automatic gain control (AGC), the
+  u-blox jamming indicator, position jump and, with RINEX and navigation, the engine's own
+  single-point fix with parity receiver autonomous integrity monitoring (RAIM) and the
+  clock-aided monitor. Each epoch is nominal, degraded or untrusted, and the result says when
+  and why. Events and predicted C/N0 drops stated in the scenario are scored against
+  tolerances stated in the same file: detected, late or missed, and agree or disagree.
+  Outputs are the result JSON, a per-epoch CSV and a chart; the result carries the log's
+  SHA-256 and every threshold. Also reachable from Python (`kshana.receiver_trust`), the
+  WebAssembly package (`receiver_trust`, logs inline) and the Model Context Protocol (MCP)
+  server's new `assess_receiver_log` tool. Guide: `docs/RECEIVER-TRUST.md`; example:
+  `examples/receiver-trust/`. On the JammerTest 2024 spoofing logs the engine path reproduces
+  the pre-registered oracle pipeline's first alarm at every published onset
+  (`tests/receiver_trust_jammertest.rs`). The monitors stay MODELLED; no verification-matrix
+  row changes.
+
 ## [0.30.0] - 2026-10-03
 
 A minor release. Validation rounds 2 and wave-1 packages take the verification matrix from
