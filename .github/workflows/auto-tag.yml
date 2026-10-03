@@ -30,7 +30,12 @@ concurrency:
   cancel-in-progress: false
 jobs:
   tag:
-    if: github.event.workflow_run.conclusion == 'success' && github.event.workflow_run.event == 'push'
+    # Only a green push run of this repository's own main; never a pull request's run.
+    if: >-
+      github.event.workflow_run.conclusion == 'success' &&
+      github.event.workflow_run.event == 'push' &&
+      github.event.workflow_run.head_branch == 'main' &&
+      github.event.workflow_run.head_repository.full_name == github.repository
     runs-on: ubuntu-latest
     timeout-minutes: 10
     steps:
@@ -42,9 +47,12 @@ jobs:
             echo "::error::RELEASE_TAG_TOKEN is not set (Settings -> Secrets and variables -> Actions); see docs/RELEASING.md"
             exit 1
           fi
+      # Check out main itself, never the commit the triggering run names, then confirm main's
+      # head IS that commit. The tag lands only on a commit that is both what CI verified and
+      # what main holds now; if main moved on while CI ran, the run on the newer head tags it.
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
-          ref: ${{ github.event.workflow_run.head_sha }}
+          ref: main
           fetch-depth: 0
           token: ${{ secrets.RELEASE_TAG_TOKEN }}
       - name: Tag the version if it is new
@@ -59,7 +67,7 @@ jobs:
             echo "$tag already exists; nothing to do."
             exit 0
           fi
-          head="$(git ls-remote origin refs/heads/main | cut -f1)"
+          head="$(git rev-parse HEAD)"
           if [ "$head" != "$SHA" ]; then
             echo "main moved on to $head while CI ran on $SHA; the run on the newer head tags it."
             exit 0
@@ -76,6 +84,6 @@ jobs:
           } > "$RUNNER_TEMP/tag-message.txt"
           git config user.name ashfordeOU
           git config user.email 236818772+ashfordeOU@users.noreply.github.com
-          git tag -a "$tag" "$SHA" -F "$RUNNER_TEMP/tag-message.txt"
+          git tag -a "$tag" HEAD -F "$RUNNER_TEMP/tag-message.txt"
           git push origin "refs/tags/$tag"
           echo "Pushed $tag on $SHA; release.yml runs on it."
