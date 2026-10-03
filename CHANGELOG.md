@@ -9,6 +9,16 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.30.0] - 2026-10-03
+
+A minor release. Validation rounds 2 and wave-1 packages take the verification matrix from
+223 rows (93 VALIDATED) at 0.29.3 to 249 rows (123 VALIDATED, 122 MODELLED, 4 PARTNER); every
+promotion was checked against an independent oracle at a tolerance fixed before the run, and
+every disagreement is published as a finding. New: a native NAIF kernel reader and DE440 path,
+one validated SGP4-to-ITRS propagation and time path, a measured clock library, a LunaNet AFS
+reference generator, extended-precision and square-root information solvers, and real lunar IQ
+processing on LuGRE data. Published numbers that moved are listed as revisions below.
+
 Twenty-seven verification-matrix rows become VALIDATED after an independent oracle agreed
 within a tolerance fixed before the first comparison (the promotion rule in
 `docs/VALIDATION.md`): ten in a first validation round and seventeen in a second. Fifty-one
@@ -5451,7 +5461,8 @@ Initial release.
   services, not license fees.
 - `CITATION.cff` so the software can be cited.
 
-[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.29.2...HEAD
+[Unreleased]: https://github.com/AshfordeOU/kshana/compare/v0.30.0...HEAD
+[0.30.0]: https://github.com/AshfordeOU/kshana/compare/v0.29.3...v0.30.0
 [0.29.2]: https://github.com/AshfordeOU/kshana/compare/v0.29.1...v0.29.2
 [0.29.1]: https://github.com/AshfordeOU/kshana/compare/v0.29.0...v0.29.1
 [0.29.0]: https://github.com/AshfordeOU/kshana/compare/v0.28.0...v0.29.0
