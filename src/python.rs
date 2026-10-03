@@ -128,6 +128,21 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
 
 /// The available scenario kinds and their metadata, as a Python list of dicts
 /// (name, description, required/optional fields) — introspectable without source.
+/// Assess a real receiver log described by a `receiver-trust` scenario (TOML text). The
+/// log must be given inline (`text` or `base64`) or by a path the Python process can
+/// read. Returns the result document, the trust-timeline CSV, the chart and a summary.
+#[pyfunction]
+fn receiver_trust(toml: &str) -> PyResult<PyRunOutput> {
+    crate::receiver_trust::scenario::run_toml(toml)
+        .map(|o| PyRunOutput {
+            json: o.json,
+            svg: o.svg,
+            summary: o.summary,
+            csv: Some(o.csv),
+        })
+        .map_err(PyValueError::new_err)
+}
+
 #[pyfunction]
 fn scenario_kinds<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
     let json = crate::api::list_scenario_kinds_json();
@@ -201,6 +216,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_kinds, m)?)?;
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
+    m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
 }
