@@ -103,8 +103,8 @@ before you open one simply means CI tells you nothing you did not already know.
 - **Conventional Commits** (`feat:`, `fix:`, `docs:`, `test:`, `chore:` …).
 - **Semantic Versioning.** Pre-1.0, the scenario/result schema may change; call out
   breaking changes.
-- **Releases are cut by pushing a `vX.Y.Z` tag, and publishing is automatic but
-  ordered.** The Release workflow runs the full verification on the tagged commit, and
+- **Releases are cut by a `vX.Y.Z` tag, and publishing is automatic but ordered.** The
+  Auto-tag workflow pushes the tag once CI is green on `main` on a version bump. The Release workflow runs the full verification on the tagged commit, and
   only when it passes does it publish to crates.io, the Python Package Index (PyPI), npm,
   ghcr.io, the Model Context Protocol (MCP) registry and the JetBrains Marketplace; it
   then checks every channel serves the version and rebuilds kshana.dev from the tag. Nobody runs `cargo publish` by hand. The steps, and
