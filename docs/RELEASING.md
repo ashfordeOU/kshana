@@ -25,7 +25,13 @@ the new version.
    say OK.
 3. Merge to `main` and wait for continuous integration (CI, `ci.yml`) to pass on that
    commit. Tag only a commit that is already green on `main`.
-4. Push the tag: `git tag vX.Y.Z <commit> && git push origin vX.Y.Z`.
+4. The tag is pushed for you. When CI finishes green on a push to `main`, the Auto-tag
+   workflow (`.github/workflows/auto-tag.yml`) reads the version from `Cargo.toml` and, if
+   `vX.Y.Z` does not exist yet, reruns `scripts/check-version-sync.sh` against that tag and
+   pushes an annotated `vX.Y.Z` on exactly the commit CI verified. It skips a commit that
+   is no longer the head of `main`, and it never moves or replaces a tag. To tag by hand
+   instead (for example when the secret below is not set):
+   `git tag -a vX.Y.Z <commit> -m vX.Y.Z && git push origin vX.Y.Z`.
 
 ## What happens after the tag
 
@@ -126,6 +132,10 @@ same tools:
   release tag fails if one is missing. `NPM_TOKEN` is optional once npm trusted publishing
   is set up (below); until then it is what publishes to npm.
 - Variable: `MCP_REGISTRY_PUBLISH=true` turns on the MCP registry step.
+- Secret: `RELEASE_TAG_TOKEN`, a fine-grained token for this repository with Contents read
+  and write, for the Auto-tag workflow. A tag pushed with the workflow's own `GITHUB_TOKEN`
+  does not start other workflows, so `release.yml` would never run on it. Without the
+  secret the Auto-tag job fails on a green version bump; tag by hand (step 4).
 - The `github-pages` environment allows deployments from `main` only. That is why the
   `site` job dispatches `pages.yml` on `main` with the tag as an input, instead of
   deploying from the tag itself; the content is still the tag's.
