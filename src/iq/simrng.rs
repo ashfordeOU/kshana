@@ -78,6 +78,9 @@ mod tests {
     #[test]
     fn first_value_matches_the_reference_splitmix64() {
         // SplitMix64 from state 0: first output is the published constant.
+        // PIN-SCOPE:    the single SplitMix64 reference output for seed state zero, fixing
+        //               this generator to the published algorithm (Steele, Lea & Flood 2014).
+        // PIN-EXCLUDES: nothing else — one algorithm test vector, deliberately.
         assert_eq!(SimRng::seed(0).next_u64(), 0xE220_A839_7B1D_CDAF);
     }
 }

@@ -33,7 +33,10 @@ fn spec(fs: f64) -> SampleSpec {
 
 /// A fresh scratch folder for one test.
 fn scratch(name: &str) -> PathBuf {
-    let d = std::env::temp_dir().join(format!("kshana-iq-io-{}-{name}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let d = std::env::temp_dir().join(format!("kshana-iq-io-{}-{uniq}-{name}", std::process::id()));
     let _ = std::fs::remove_dir_all(&d);
     std::fs::create_dir_all(&d).unwrap();
     d
@@ -80,6 +83,8 @@ fn every_format_round_trips_bit_exact() {
         let bytes = random_bytes(f, 1000, &mut rng);
         let mut r = IqReader::with_chunk_bytes(&bytes[..], f, spec(1e6), 100);
         let samples = drain(&mut r, 333);
+        // PIN-SCOPE:    the sample count this fixture encodes, recovered by chunked reading.
+        // PIN-EXCLUDES: the sample values — compared on the next line.
         assert_eq!(samples.len(), 1000, "{f}");
         assert_eq!(samples, decode_samples(f, &bytes, 1.0), "{f}");
         let mut w = IqWriter::with_chunk_bytes(Vec::new(), f, 64);
@@ -257,6 +262,8 @@ fn resampler_response_passes_the_band_and_rejects_images_and_aliases() {
     // Up 3 / down 2: 1 MHz -> 1.5 MHz. Tone at 300 kHz; its image sits at 700 kHz.
     let mut rs = PolyphaseResampler::new(3, 2).unwrap();
     let y = resample_all(&mut rs, &complex_tone(300e3, 1e6, 40_000));
+    // PIN-SCOPE:    the 3/2 resampler output count for the forty-thousand-sample tone.
+    // PIN-EXCLUDES: the resampled spectrum — asserted below.
     assert_eq!(y.len(), 60_000);
     let seg = &y[3000..48_000];
     let pass = tone_amplitude(seg, 300e3, 1.5e6);
@@ -280,6 +287,8 @@ fn resampler_response_passes_the_band_and_rejects_images_and_aliases() {
         .map(|(a, b)| *a + b)
         .collect();
     let y = resample_all(&mut d, &x);
+    // PIN-SCOPE:    the decimate-by-four output count for the two-hundred-thousand-sample input.
+    // PIN-EXCLUDES: the decimated values — asserted below.
     assert_eq!(y.len(), 50_000);
     let seg = &y[1000..41_000];
     let pass = tone_amplitude(seg, 300e3, 1e6);
