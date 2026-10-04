@@ -40,7 +40,7 @@ for example) by editing the next file. The `campaign` kind can hold several kind
 one run under shared conditions; see [CAMPAIGNS.md](../CAMPAIGNS.md).
 
 Each command below is run from the repository root, and the summary under it is the
-first line kshana 0.30.0 prints for the shipped scenario.
+first line kshana 0.31.0 prints for the shipped scenario.
 
 ## 1. Ingest the trajectory a designer produced (`oem-interop`)
 
@@ -110,16 +110,17 @@ kshana scenarios/space-weather.toml
 ```
 
 ```
-space-weather: F10.7=180 F10.7a=165 Kp=4.0 (ap=27) -> T_inf=1047 K; density x1.08 at 300 km (MODELLED)
+space-weather: F10.7=180 F10.7a=165 Kp=4.0 (ap=27) -> T_inf=1047 K; density x1.49 at 300 km (MODELLED)
 ```
 
 Drives thermospheric neutral density from the solar (F10.7, the 10.7 cm radio flux,
 and its 81-day mean F10.7a) and geomagnetic (Kp and ap indices) activity via the
 Jacchia-71 exospheric temperature. That captures the ~5–10× solar-cycle density swing
 a static atmosphere omits, so an orbit-lifetime or drag estimate reflects the
-space-weather regime rather than a fixed atmosphere. The density is a calibrated
-first-order activity correction, not a data-validated NRLMSISE-00 (Naval Research
-Laboratory mass-spectrometer and incoherent-scatter) atmosphere.
+space-weather regime rather than a fixed atmosphere. Since 0.30 the density is the
+Jacchia 1971 thermospheric density, characterised against NRLMSISE-00 (Naval Research
+Laboratory mass-spectrometer and incoherent-scatter) but not a data-validated
+NRLMSISE-00 atmosphere.
 
 ## 5. Hand the result back (exports)
 
