@@ -666,11 +666,11 @@ together), `chart_svg`, `summary`, `table_csv`, `list_kinds`, `error_kind`, `ver
 `encode_permalink` / `decode_permalink` shareable-URL (URL: web address) codec, and the three exporters
 `export_sp3` / `export_omm` / `export_oem` that back the playground's export menu.
 Two further front doors reach the same `api`: the **MCP (Model Context Protocol) server** (`mcp/kshana-mcp`, a
-workspace-excluded `rmcp` crate exposing fourteen tools — `run_scenario`,
+workspace-excluded `rmcp` crate exposing fifteen tools — `run_scenario`,
 `list_scenario_kinds`, `validate_scenario`, `list_example_scenarios`,
 `get_example_scenario`, `report_scenario`, `animate_scenario`, `list_export_formats`,
 `export_interop`, `import_route`, `export_sp3`, `export_omm`, `export_oem`,
-`export_table_csv`; the two example tools read the bundled scenarios through the library's
+`export_table_csv`, `assess_receiver_log`; the two example tools read the bundled scenarios through the library's
 off-by-default `bundled-scenarios` feature, which only this server turns on)
 and the **JetBrains IDE (integrated development environment) plugin** (`ide/jetbrains`, a Kotlin project that shells out to
 the `kshana` CLI rather than linking the library).

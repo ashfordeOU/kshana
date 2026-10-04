@@ -19,6 +19,7 @@ __all__ = [
     "list_kinds",
     "error_kind",
     "version",
+    "receiver_trust",
     "__version__",
 ]
 
@@ -65,6 +66,13 @@ def run_typed(toml: str) -> RunOutput:
     """Run a scenario; return a typed :class:`RunOutput` with ``.json``/``.svg``/
     ``.summary``/``.csv``/``.data()``/``.write_csv()``. Raises ``ValueError`` if
     invalid."""
+
+def receiver_trust(toml: str) -> RunOutput:
+    """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
+
+    Returns the result document, the per-epoch trust CSV, the chart and a summary.
+    Raises ``ValueError`` on an invalid scenario or an unreadable log."""
+    ...
 
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required

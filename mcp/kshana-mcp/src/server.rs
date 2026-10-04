@@ -39,6 +39,23 @@ pub struct RunScenarioRequest {
     pub include_chart: bool,
 }
 
+/// Parameters for [`KshanaServer::assess_receiver_log`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ReceiverTrustRequest {
+    /// A `receiver-trust` scenario as TOML: `[log]` names the receiver log's `format`
+    /// (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or
+    /// `base64` (a `path` is read by the server process); optional `[monitors]`,
+    /// `[[events]]` and `[compare]` sections state thresholds, known events and
+    /// tolerances before the run.
+    pub toml: String,
+    /// When true, also return the trust chart as an SVG text block. Default false.
+    #[serde(default)]
+    pub include_chart: bool,
+    /// When true, also return the per-epoch trust timeline as CSV. Default false.
+    #[serde(default)]
+    pub include_csv: bool,
+}
+
 /// Parameters for tools that take only a scenario TOML.
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TomlRequest {
@@ -280,6 +297,38 @@ impl KshanaServer {
         Ok(CallToolResult::success(vec![ContentBlock::text(format!(
             "valid: detected scenario kind `{kind}`"
         ))]))
+    }
+
+    #[tool(
+        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request). The log's bytes go inline in the TOML as `text` or `base64`."
+    )]
+    fn assess_receiver_log(
+        &self,
+        Parameters(ReceiverTrustRequest {
+            toml,
+            include_chart,
+            include_csv,
+        }): Parameters<ReceiverTrustRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        match kshana::receiver_trust::scenario::run_toml(&toml) {
+            Ok(out) => {
+                let mut contents = vec![
+                    ContentBlock::text(out.summary),
+                    ContentBlock::text(out.json),
+                ];
+                if include_chart {
+                    contents.push(ContentBlock::text(out.svg));
+                }
+                if include_csv {
+                    contents.push(ContentBlock::text(out.csv));
+                }
+                Ok(CallToolResult::success(contents))
+            }
+            Err(e) => Err(McpError::invalid_params(
+                format!("receiver log assessment failed: {e}"),
+                None,
+            )),
+        }
     }
 
     #[tool(

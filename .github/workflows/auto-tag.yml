@@ -80,7 +80,10 @@ jobs:
           {
             echo "$tag"
             echo
-            ./scripts/changelog-extract.sh "$version" | awk 'NF{p=1} p && !NF{exit} p'
+            # Keep the first paragraph. awk reads to the end rather than exiting early: an early
+            # exit closes the pipe, changelog-extract.sh dies writing to it, and pipefail fails
+            # the step (that is how v0.30.0 went untagged).
+            ./scripts/changelog-extract.sh "$version" | awk 'NF{p=1} p && !NF{d=1} p && !d'
           } > "$RUNNER_TEMP/tag-message.txt"
           git config user.name ashfordeOU
           git config user.email 236818772+ashfordeOU@users.noreply.github.com

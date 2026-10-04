@@ -124,3 +124,18 @@ pub fn export_omm(toml: &str) -> Result<String, JsValue> {
 pub fn export_oem(toml: &str) -> Result<String, JsValue> {
     crate::api::export_oem(toml).map_err(|e| JsValue::from_str(&e))
 }
+
+/// Assess a real receiver log described by a `receiver-trust` scenario (TOML text). The
+/// browser has no file system, so the log (and any navigation file) must be inline as
+/// `text` or `base64`. Returns a JSON object `{json, csv, svg, summary}`.
+#[wasm_bindgen]
+pub fn receiver_trust(toml: &str) -> Result<String, JsValue> {
+    let o = crate::receiver_trust::scenario::run_toml(toml).map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({
+        "json": o.json,
+        "csv": o.csv,
+        "svg": o.svg,
+        "summary": o.summary,
+    })
+    .to_string())
+}
