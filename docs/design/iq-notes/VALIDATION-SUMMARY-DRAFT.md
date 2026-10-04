@@ -29,11 +29,16 @@ Across the whole engine that ledger is **249 rows, 123 validated, 122 modelled,
 kshana.dev. The signal layer below adds no validated-matrix rows; its physical
 models are MODELLED, checked against closed forms and injected truth as shown.
 
+One piece is externally validated: the GPS L1 C/A spreading codes and the LNAV
+navigation-message bits (fields and parity) the scene generates are **bit-exact
+against gps-sdr-sim**, an independent open GPS signal simulator, in a
+pre-registered comparison (`tests/gps_l1ca_gpssdrsim_cross_generator.rs`).
+
 ## The signal layer, mapped to what you asked about
 
 | What you drill into | How Kshana checks it | Result (bar) | State |
 |---|---|---|---|
-| **Raw IQ, multi-satellite, long runs** | An independent software receiver re-acquires and tracks the generated scene and recovers the injected truth; a real IGS broadcast scene is solved back to position | refined code phase 0.003 chip (0.05); Doppler < 0.5 Hz (2 Hz); C/N0 44.9 / 37.8 dB-Hz (±0.3 / 0.6); real broadcast scene position **2.3e-9 m** (1 mm); Doppler = −range-rate/λ to **1e-12** | Verified vs injected truth, closed form, real broadcast ephemeris |
+| **Raw IQ, multi-satellite, long runs** | An independent software receiver re-acquires and tracks the generated scene and recovers the injected truth; a real IGS broadcast scene is solved back to position | refined code phase 0.003 chip (0.05); Doppler < 0.5 Hz (2 Hz); C/N0 44.9 / 37.8 dB-Hz (±0.3 / 0.6); GPS L1 C/A codes + LNAV bits + parity **bit-exact vs gps-sdr-sim**; real broadcast scene position **2.3e-9 m**; Doppler = −range-rate/λ to **1e-12** | Validated (gps-sdr-sim) + injected truth |
 | **Acquisition** | Empirical detection/false-alarm rates vs the engine's own Marcum-Q statistics; FFT vs the defining DFT | FFT = DFT to **1e-9**; Pfa 0.0471 (target 0.05); Pd 0.527 vs Marcum-Q 0.523 | Checked vs published detector theory |
 | **Tracking loops** | Loop bandwidth, steady-state jitter and steady-state error vs Kaplan & Hegarty / Gardner closed forms; sweep one recording across loop designs | loop Bn within 0.5–3.5% (6%); Costas jitter +8% / +2% (12%); DLL jitter −3.5% / −0.4% (15%); 2nd-order ramp error < 1e-12 rel; NWPR/Beaulieu C/N0 unbiased to 0.3 dB | Checked vs published loop theory |
 | **Ionospheric scintillation** | Sample statistics of long runs vs the Cornell model's closed forms | sample S4 within **4%** of target (S4 = 0.3/0.6/0.9); 1/e decorrelation within **5%** of τ0 | MODELLED (Cornell model) |
