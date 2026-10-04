@@ -1,6 +1,6 @@
 {
  "note": "Written by web/tools/port_site.py. Every file the port put in web/, with its SHA-256. web/site.test.mjs checks the tree against it; do not edit a listed file by hand, rerun the port.",
- "version": "0.30.0",
+ "version": "0.31.0",
  "studio": "Kshana Studio",
  "files": {
   "3dbc29973d0072b686a7bf255b082cb0.txt": "f9def5e70037093c62ee91e50f52601fc87375c2653249ab295937a50a8ab55d",
@@ -121,7 +121,7 @@
   "docs/verification-matrix.html": "43bc0f1485ea1ac8da72602d603f797e8bb1ef2bb20f6bf7a42e615ad16e425c",
   "editions.html": "c1d39e8d82c59150f66323e2f7889937307b10a4feec5f01e57127ebe5dc6874",
   "evidence.html": "418c6668db18f25dbc9f7c3e386cf204756526551c2ed97a94bc971cbdb9028c",
-  "index.html": "18429cb2a40b9c58a5406de475dfc8503333b89357175d250a6c2a21cef716b2",
+  "index.html": "027de2e6515a7521b69cbf7de8d9de7567c999c51061b1421921d4c6bb229465",
   "js/cap-hero.mjs": "68a539fdf8efb6bb072bceaa2f3cf5eeeb6ec190423d773dfaa744ac2b10966d",
   "js/capabilities.mjs": "b2656ad28dcf485d43301954c0634528e55c9184c24ae9080b4d47f277ff9875",
   "js/developers-data.mjs": "1daa8ead24a378214665872dcbd62ec074147478972e18bb81d8cc5d399031ea",
@@ -175,7 +175,7 @@
   "studio/celeste/recorded/index.json": "860bea8e0bd68c077560af1455e3968a58ad75a028b6ffc61102f06ea725fd17",
   "studio/celeste/recorded/leo-navmsg-celeste-iod.json": "4d355bbe93b85bd8f6f023e3535fd623162debd5aa25355079d5113d2e4155e6",
   "studio/celeste/recorded/leo-pass-celeste-iod-multiband.json": "12868f86c10bc7f539e49524c64b490e2f67060fd6f47643573708cca76bafaa",
-  "studio/channels.json": "f37a2207d92427c83dd3471416195c0381dd0bf2e61c460a896a888fd147e487",
+  "studio/channels.json": "0bd517973484098a8c90e99b7d29dbea7a73808ee247364377c594eb953ebdf2",
   "studio/data/areas.json": "9d2184bf2efaec0dd505422b7d334d07d32e03f75f15aac51a24a69d52b0e8d7",
   "studio/data/capabilities.json": "0ec18aea5224312c0aa1a415945c41240f258944ae7eb1c07ab6db842450d249",
   "studio/data/card-matrix-map.json": "360d4116e865f9b6d412679fa7d72ce4adf5d51f0c01efbe3c403abf9a3c59df",
