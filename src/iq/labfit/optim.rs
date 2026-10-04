@@ -68,6 +68,18 @@ fn nm_pass<F: FnMut(&[f64]) -> f64, P: Fn(&mut [f64])>(
     opts: &NmOptions,
 ) -> NmResult {
     let n = x0.len();
+    // A zero-dimensional problem has a single point and nothing to search: evaluate it
+    // once and return, rather than indexing `fv[n - 1]` (a usize underflow) below.
+    if n == 0 {
+        let x = x0.to_vec();
+        let f0 = finite_or_inf(f(&x));
+        return NmResult {
+            x,
+            f: f0,
+            evals: 1,
+            converged: true,
+        };
+    }
     let mut evals = 0usize;
     let mut eval = |x: &[f64], evals: &mut usize| {
         *evals += 1;
@@ -257,7 +269,11 @@ pub fn grid_search<F: FnMut(&[f64]) -> f64>(
 ) -> Vec<(Vec<f64>, f64)> {
     let n = lo.len();
     let p = points.max(1);
-    let total = p.pow(n as u32);
+    // Guard the grid-size product against usize overflow for a high-dimensional request;
+    // an unrepresentable grid yields no points rather than a wrapped count or a panic.
+    let Some(total) = p.checked_pow(n as u32) else {
+        return Vec::new();
+    };
     let mut out = Vec::with_capacity(total);
     for k in 0..total {
         let mut r = k;
