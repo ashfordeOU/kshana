@@ -26,6 +26,15 @@
 
 pub use crate::sdr::Cf64;
 
+pub mod acq;
+pub mod channel;
+pub mod frontend;
+pub mod io;
+pub mod labfit;
+pub mod scene;
+pub mod signals;
+pub mod track;
+
 /// Speed of light in vacuum (m/s), as used throughout the IQ layer.
 pub const C_M_PER_S: f64 = 299_792_458.0;
 
