@@ -341,6 +341,8 @@ mod tests {
     fn secondary_cs25_matches_icd_binary_example() {
         // Galileo OS SIS ICD §3.5.1 prints CS25_1 = 380AD90 and its binary form.
         let bits = hex_to_bits("380AD90", 25).unwrap();
+        // PIN-SCOPE:    the binary form of Galileo CS25_1 = 380AD90 (OS SIS ICD §3.5.1).
+        // PIN-EXCLUDES: nothing — the ICD's own worked value for this secondary code.
         let want = "0011100000001010110110010";
         let got: String = bits.iter().map(|b| char::from(b'0' + b)).collect();
         assert_eq!(got, want);

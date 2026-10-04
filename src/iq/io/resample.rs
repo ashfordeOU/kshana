@@ -458,6 +458,8 @@ mod tests {
         let mut r = PolyphaseResampler::new(3, 2).unwrap();
         let mut out = Vec::new();
         r.process(&vec![Cf64::new(1.0, 0.0); 1000], &mut out);
+        // PIN-SCOPE:    the 3-up/2-down resampler output count for a thousand input samples.
+        // PIN-EXCLUDES: the sample values — only the rational-rate output count is pinned.
         assert_eq!(out.len(), 1500);
     }
 }
