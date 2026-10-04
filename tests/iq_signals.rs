@@ -119,6 +119,8 @@ fn gps_l2_cm_reaches_printed_end_state_is_gps_200n_table_3_ii() {
     for (i, row) in L2C_STATES.iter().enumerate() {
         let (bits, end) = gps::l2c_run(row.cm_initial, 10_229);
         assert_eq!(end, row.cm_end, "CM PRN {}", i + 1);
+        // PIN-SCOPE:    the GPS L2C CM code length requested from l2c_run.
+        // PIN-EXCLUDES: the chip values — the end register state is checked above.
         assert_eq!(bits.len(), 10_229);
     }
 }
@@ -160,6 +162,10 @@ fn sha256_hex_crlf_normalised(text: &str) -> String {
 #[test]
 fn galileo_e1_tables_are_the_committed_icd_annex_c_files() {
     // data/galileo-os-sis-icd/PROVENANCE.md: SHA-256 of the Annex C attachments with
+    // (the two assertions below.)
+    // PIN-SCOPE:    the SHA-256 of the committed Galileo E1-B and E1-C code tables,
+    //               binding them to the bytes extracted from the ICD PDF attachments.
+    // PIN-EXCLUDES: nothing — the whole table files, deliberately.
     // carriage returns removed (robust to a CRLF-converting checkout).
     assert_eq!(
         sha256_hex_crlf_normalised(galileo::E1B_TABLE_TEXT),
@@ -446,6 +452,8 @@ fn glonass_l1of_code_starts_with_icd_group_111111100() {
     // GLONASS ICD Edition 5.1 §3.3.2.1: "The first character of the PR ranging code is the
     // first character in the group 111111100".
     let bits = glonass::ranging_code_bits();
+    // PIN-SCOPE:    the GLONASS L1OF ranging-code length, one m-sequence period.
+    // PIN-EXCLUDES: the chip values — the first nine are checked on the next line.
     assert_eq!(bits.len(), 511);
     assert_eq!(bits[..9], [1, 1, 1, 1, 1, 1, 1, 0, 0]);
     // m-sequence closed forms: 256 ones, and periodic autocorrelation 511 / -1.
