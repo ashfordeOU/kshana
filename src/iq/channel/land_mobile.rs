@@ -33,18 +33,18 @@
 //! spectrum shaping); state transitions are tied to time, not to distance travelled; one
 //! diffuse path stands for the whole multipath cluster.
 //!
-//! Determinism: each satellite has its own ChaCha8 stream seeded from the model seed and the
+//! Determinism: each satellite has its own SplitMix64 stream seeded from the model seed and the
 //! satellite number.
 
 use super::{sat_seed, ChannelEffect, LineOfSight};
+use crate::iq::simrng::SimRng;
 use crate::iq::{ChannelSnapshot, PathState};
-use rand::{Rng, SeedableRng};
-use rand_chacha::ChaCha8Rng;
+use rand::Rng;
 use rand_distr::StandardNormal;
 use std::collections::BTreeMap;
 use std::f64::consts::PI;
 
-const SALT: u64 = 0x1A4D_0000;
+const STREAM: u64 = 0x1A4D_0000;
 
 /// A state of the land-mobile channel.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord)]
@@ -158,7 +158,7 @@ impl LandMobileParams {
 
 #[derive(Clone, Debug)]
 struct SatState {
-    rng: ChaCha8Rng,
+    rng: SimRng,
     state: LmsState,
     step: i64,
     direct_amp: f64,
@@ -214,7 +214,7 @@ impl LandMobile {
         let seed = self.seed;
         let step = (t_s / p.step_s).floor() as i64;
         let st = self.sats.entry(sat).or_insert_with(|| {
-            let mut rng = ChaCha8Rng::seed_from_u64(sat_seed(seed, sat, SALT));
+            let mut rng = SimRng::seed(sat_seed(seed, sat, STREAM));
             let pi = p.stationary();
             let u: f64 = rng.gen();
             let state = if u < pi[0] {
