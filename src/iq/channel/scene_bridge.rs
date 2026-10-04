@@ -267,7 +267,11 @@ mod tests {
         let mut sink = VecSink::default();
         scene.generate(&mut sink, &mut NullTruth).unwrap();
 
-        let intensity: Vec<f64> = sink.samples.iter().map(|z| z.re * z.re + z.im * z.im).collect();
+        let intensity: Vec<f64> = sink
+            .samples
+            .iter()
+            .map(|z| z.re * z.re + z.im * z.im)
+            .collect();
         let n = intensity.len() as f64;
         let m1 = intensity.iter().sum::<f64>() / n;
         let m2 = intensity.iter().map(|i| i * i).sum::<f64>() / n;
@@ -283,7 +287,11 @@ mod tests {
         );
         let mut sink2 = VecSink::default();
         scene2.generate(&mut sink2, &mut NullTruth).unwrap();
-        let i2: Vec<f64> = sink2.samples.iter().map(|z| z.re * z.re + z.im * z.im).collect();
+        let i2: Vec<f64> = sink2
+            .samples
+            .iter()
+            .map(|z| z.re * z.re + z.im * z.im)
+            .collect();
         let n2 = i2.len() as f64;
         let a1 = i2.iter().sum::<f64>() / n2;
         let a2 = i2.iter().map(|i| i * i).sum::<f64>() / n2;

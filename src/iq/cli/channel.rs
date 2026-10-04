@@ -69,7 +69,8 @@ impl Default for ChannelParams {
 }
 
 /// The switch names the channel flags add to `iq scene`.
-pub(crate) const CHANNEL_SWITCHES: &[&str] = &["--iono-klobuchar", "--tropo", "--land-mobile", "--nlos"];
+pub(crate) const CHANNEL_SWITCHES: &[&str] =
+    &["--iono-klobuchar", "--tropo", "--land-mobile", "--nlos"];
 
 impl ChannelParams {
     /// Parse the channel flags out of already-parsed [`Args`].
@@ -180,9 +181,7 @@ pub(crate) fn build_channel(
         + usize::from(p.iono_vtec_tecu.is_some())
         + usize::from(p.iono_klobuchar);
     if iono_sources > 1 {
-        return Err(
-            "give at most one of --iono-stec, --iono-vtec, --iono-klobuchar".to_string(),
-        );
+        return Err("give at most one of --iono-stec, --iono-vtec, --iono-klobuchar".to_string());
     }
     if p.nlos && p.multipath_height_m.is_none() && !p.land_mobile {
         return Err(

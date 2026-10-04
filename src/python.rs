@@ -327,8 +327,8 @@ fn iq_scene<'py>(
             .map(|s| s.code.carrier_hz())
             .unwrap_or(spec.center_hz);
         let start_tow = scene.config().start_tow_s;
-        if let Some(ch) = build_channel(&chan, carrier, params.seed, start_tow)
-            .map_err(PyValueError::new_err)?
+        if let Some(ch) =
+            build_channel(&chan, carrier, params.seed, start_tow).map_err(PyValueError::new_err)?
         {
             scene.set_channel(ch);
         }

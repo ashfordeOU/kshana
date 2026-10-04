@@ -332,6 +332,8 @@ mod tests {
     #[test]
     fn empty_params_build_an_empty_chain() {
         assert!(!FrontendParams::default().any());
-        assert!(build_chain(&FrontendParams::default(), 1.0e6).unwrap().is_empty());
+        assert!(build_chain(&FrontendParams::default(), 1.0e6)
+            .unwrap()
+            .is_empty());
     }
 }

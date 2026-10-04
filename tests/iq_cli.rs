@@ -161,8 +161,23 @@ fn broadcast_nav_scene_recovers_geometry() {
     let nav = "tests/fixtures/igs/BRDC00WRD_R_20181330000_01D_GN.rnx";
     assert_eq!(
         run(&args(&[
-            "scene", &iq, "--rate", "2046000", "--window", "0.002", "--nav", nav, "--rx-pos",
-            "50.09,8.66,150", "--start", "600", "--cn0", "50", "--no-noise", "--mask", "10",
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--window",
+            "0.002",
+            "--nav",
+            nav,
+            "--rx-pos",
+            "50.09,8.66,150",
+            "--start",
+            "600",
+            "--cn0",
+            "50",
+            "--no-noise",
+            "--mask",
+            "10",
         ])),
         0
     );
@@ -176,7 +191,12 @@ fn broadcast_nav_scene_recovers_geometry() {
             r.sat_id,
             r.pseudorange_m
         );
-        assert!(r.doppler_hz.abs() < 5000.0, "PRN {} doppler {}", r.sat_id, r.doppler_hz);
+        assert!(
+            r.doppler_hz.abs() < 5000.0,
+            "PRN {} doppler {}",
+            r.sat_id,
+            r.doppler_hz
+        );
     }
 }
 
@@ -190,24 +210,44 @@ fn frontend_command_and_inline_flags_filter_and_acquire() {
     let acq_json = dir.join("acq.json").display().to_string();
     assert_eq!(
         run(&args(&[
-            "scene", &iq, "--rate", "2046000", "--duration", "0.05", "--signal", "gps-l1ca",
-            "--prn", "11", "--doppler", "900", "--cn0", "50",
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.05",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "11",
+            "--doppler",
+            "900",
+            "--cn0",
+            "50",
         ])),
         0
     );
     // frontend command: 3-bit quantiser with AGC, writes a new recording + sidecar.
     assert_eq!(
-        run(&args(&[
-            "frontend", &iq, &filt, "--bits", "3", "--agc",
-        ])),
+        run(&args(&["frontend", &iq, &filt, "--bits", "3", "--agc",])),
         0
     );
     assert!(std::path::Path::new(&filt).exists());
     assert!(std::path::Path::new(&format!("{filt}.json")).exists());
     assert_eq!(
         run(&args(&[
-            "acquire", &filt, "--signal", "gps-l1ca", "--prn", "11", "--doppler-max", "4000",
-            "--doppler-step", "250", "--json", &acq_json,
+            "acquire",
+            &filt,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "11",
+            "--doppler-max",
+            "4000",
+            "--doppler-step",
+            "250",
+            "--json",
+            &acq_json,
         ])),
         0
     );
@@ -219,8 +259,21 @@ fn frontend_command_and_inline_flags_filter_and_acquire() {
     let acq2 = dir.join("acq2.json").display().to_string();
     assert_eq!(
         run(&args(&[
-            "acquire", &iq, "--signal", "gps-l1ca", "--prn", "11", "--doppler-max", "4000",
-            "--doppler-step", "250", "--bits", "3", "--agc", "--json", &acq2,
+            "acquire",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "11",
+            "--doppler-max",
+            "4000",
+            "--doppler-step",
+            "250",
+            "--bits",
+            "3",
+            "--agc",
+            "--json",
+            &acq2,
         ])),
         0
     );
@@ -237,25 +290,66 @@ fn scene_channel_flags_apply_and_validate() {
     let iq = dir.join("c.cf32").display().to_string();
     assert_eq!(
         run(&args(&[
-            "scene", &iq, "--rate", "2046000", "--duration", "0.01", "--signal", "gps-l1ca",
-            "--prn", "5", "--cn0", "48", "--no-noise", "--iono-stec", "25", "--tropo", "--s4",
-            "0.5", "--multipath-height", "2.0", "--multipath-ground", "wet",
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.01",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "5",
+            "--cn0",
+            "48",
+            "--no-noise",
+            "--iono-stec",
+            "25",
+            "--tropo",
+            "--s4",
+            "0.5",
+            "--multipath-height",
+            "2.0",
+            "--multipath-ground",
+            "wet",
         ])),
         0
     );
     // --nlos needs a reflected path.
     assert_eq!(
         run(&args(&[
-            "scene", &iq, "--rate", "2046000", "--duration", "0.01", "--signal", "gps-l1ca",
-            "--prn", "5", "--no-noise", "--nlos",
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.01",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "5",
+            "--no-noise",
+            "--nlos",
         ])),
         2
     );
     // Two ionosphere sources at once is a usage error.
     assert_eq!(
         run(&args(&[
-            "scene", &iq, "--rate", "2046000", "--duration", "0.01", "--signal", "gps-l1ca",
-            "--prn", "5", "--no-noise", "--iono-stec", "10", "--iono-klobuchar",
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.01",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "5",
+            "--no-noise",
+            "--iono-stec",
+            "10",
+            "--iono-klobuchar",
         ])),
         2
     );
@@ -325,7 +419,10 @@ fn scene_sigmf_round_trips_through_acquire() {
         assert!(det["acquired"].as_bool().unwrap(), "{det}");
         let (want_phase, want_dopp) = want[&prn];
         let dopp = det["doppler_hz"].as_f64().unwrap();
-        assert!((dopp - want_dopp).abs() <= 250.0, "doppler {dopp} vs {want_dopp}");
+        assert!(
+            (dopp - want_dopp).abs() <= 250.0,
+            "doppler {dopp} vs {want_dopp}"
+        );
         let phase = det["code_phase_chips"].as_f64().unwrap();
         let err = ((phase - want_phase + 511.5).rem_euclid(1023.0) - 511.5).abs();
         assert!(err <= 1.0, "code phase {phase} vs {want_phase} (err {err})");

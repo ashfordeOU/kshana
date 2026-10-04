@@ -166,9 +166,7 @@ pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String
     } else {
         p.prns
             .iter()
-            .map(|&id| {
-                u8::try_from(id).map_err(|_| format!("PRN {id} is out of range for GPS"))
-            })
+            .map(|&id| u8::try_from(id).map_err(|_| format!("PRN {id} is out of range for GPS")))
             .collect::<Result<Vec<_>, _>>()?
     };
     let mut chosen: Vec<&crate::rinex::RinexEphemeris> = Vec::new();
@@ -256,7 +254,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .num("--duration")
         .map_err(Fail::Usage)?
         .or(a.num("--window").map_err(Fail::Usage)?)
-        .ok_or(Fail::Usage("iq scene needs --duration <s> (or --window)".into()))?;
+        .ok_or(Fail::Usage(
+            "iq scene needs --duration <s> (or --window)".into(),
+        ))?;
     let seed = a.num("--seed").map_err(Fail::Usage)?.unwrap_or(1);
     let threads = a.num("--threads").map_err(Fail::Usage)?.unwrap_or(1);
     let cn0_dbhz = a.num("--cn0").map_err(Fail::Usage)?;
@@ -270,7 +270,11 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         let text = std::fs::read_to_string(nav).map_err(|e| Fail::Run(format!("{nav}: {e}")))?;
         let rx_llh_deg = match a.get("--rx-pos") {
             Some(v) => parse_llh(v)?,
-            None => return Err(Fail::Usage("iq scene --nav needs --rx-pos lat,lon,alt".into())),
+            None => {
+                return Err(Fail::Usage(
+                    "iq scene --nav needs --rx-pos lat,lon,alt".into(),
+                ))
+            }
         };
         let bp = BroadcastParams {
             fs_hz,
