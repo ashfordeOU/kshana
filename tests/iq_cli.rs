@@ -150,6 +150,55 @@ fn acquire_recovers_injected_code_phase_and_doppler() {
     }
 }
 
+/// The `frontend` command filters a recording and the result is still acquirable, and the
+/// inline front-end flags on `acquire` apply the same stages before processing.
+#[test]
+fn frontend_command_and_inline_flags_filter_and_acquire() {
+    let dir = scratch("fe");
+    let iq = dir.join("s.cf32").display().to_string();
+    let filt = dir.join("f.cf32").display().to_string();
+    let acq_json = dir.join("acq.json").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene", &iq, "--rate", "2046000", "--duration", "0.05", "--signal", "gps-l1ca",
+            "--prn", "11", "--doppler", "900", "--cn0", "50",
+        ])),
+        0
+    );
+    // frontend command: 3-bit quantiser with AGC, writes a new recording + sidecar.
+    assert_eq!(
+        run(&args(&[
+            "frontend", &iq, &filt, "--bits", "3", "--agc",
+        ])),
+        0
+    );
+    assert!(std::path::Path::new(&filt).exists());
+    assert!(std::path::Path::new(&format!("{filt}.json")).exists());
+    assert_eq!(
+        run(&args(&[
+            "acquire", &filt, "--signal", "gps-l1ca", "--prn", "11", "--doppler-max", "4000",
+            "--doppler-step", "250", "--json", &acq_json,
+        ])),
+        0
+    );
+    let v: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&acq_json).unwrap()).unwrap();
+    assert!(v["detections"][0]["acquired"].as_bool().unwrap(), "{v}");
+
+    // Inline front-end flags on acquire give an equivalent detection from the raw recording.
+    let acq2 = dir.join("acq2.json").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "acquire", &iq, "--signal", "gps-l1ca", "--prn", "11", "--doppler-max", "4000",
+            "--doppler-step", "250", "--bits", "3", "--agc", "--json", &acq2,
+        ])),
+        0
+    );
+    let v2: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&acq2).unwrap()).unwrap();
+    assert!(v2["detections"][0]["acquired"].as_bool().unwrap(), "{v2}");
+}
+
 /// The channel flags parse and apply: a scene with ionosphere, scintillation and multipath
 /// runs, and `--nlos` without a reflected path is a usage error.
 #[test]

@@ -214,7 +214,9 @@ fn version() -> &'static str {
 // (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
 
 use crate::iq::acq::{acquire, AcqConfig};
-use crate::iq::cli::{build_channel, build_code, build_scene, ChannelParams, SceneParams};
+use crate::iq::cli::{
+    build_chain, build_channel, build_code, build_scene, ChannelParams, FrontendParams, SceneParams,
+};
 use crate::iq::scene::TruthRecord;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
@@ -554,6 +556,74 @@ fn iq_labfit<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
     json_to_py(py, &v)
 }
 
+/// Apply a receiver front-end / interference-mitigation chain to complex samples
+/// (`i`/`q` lists sampled at `fs_hz`) and return the filtered samples as `samples_i` /
+/// `samples_q`. The stages mirror `kshana iq frontend`: an optional band-pass
+/// (`bandpass_lo`/`bandpass_hi` Hz), adaptive `notch`, pulse `blank`ing, frequency-domain
+/// `excise`, `agc`, and a `bits`-bit quantiser (preceded by an automatic AGC unless `no_agc`).
+/// Raises `ValueError` on an invalid chain.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, bandpass_lo=None, bandpass_hi=None, bandpass_transition=None, bandpass_atten=60.0, notch=false, notch_r=0.95, notch_mu=0.05, blank=None, blank_hold=0, excise=false, excise_fft=256, excise_pfa=1e-3, agc=false, agc_tau=1e-3, bits=None, quant_step=None, no_agc=false))]
+#[allow(clippy::too_many_arguments)]
+fn iq_frontend<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    bandpass_lo: Option<f64>,
+    bandpass_hi: Option<f64>,
+    bandpass_transition: Option<f64>,
+    bandpass_atten: f64,
+    notch: bool,
+    notch_r: f64,
+    notch_mu: f64,
+    blank: Option<f64>,
+    blank_hold: usize,
+    excise: bool,
+    excise_fft: usize,
+    excise_pfa: f64,
+    agc: bool,
+    agc_tau: f64,
+    bits: Option<u32>,
+    quant_step: Option<f64>,
+    no_agc: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::frontend::Stage;
+    let mut samples = samples_from(&i, &q)?;
+    let bandpass = match (bandpass_lo, bandpass_hi) {
+        (Some(lo), Some(hi)) => Some((lo, hi)),
+        (None, None) => None,
+        _ => {
+            return Err(PyValueError::new_err(
+                "bandpass needs both bandpass_lo and bandpass_hi",
+            ))
+        }
+    };
+    let params = FrontendParams {
+        bandpass,
+        bandpass_transition_hz: bandpass_transition,
+        bandpass_atten_db: bandpass_atten,
+        notch,
+        notch_r,
+        notch_mu,
+        blank,
+        blank_hold,
+        excise,
+        excise_fft,
+        excise_pfa,
+        agc,
+        agc_tau_s: agc_tau,
+        bits,
+        quant_step,
+        no_agc,
+    };
+    let mut chain = build_chain(&params, fs_hz).map_err(PyValueError::new_err)?;
+    chain.process(&mut samples);
+    let oi: Vec<f64> = samples.iter().map(|s| s.re).collect();
+    let oq: Vec<f64> = samples.iter().map(|s| s.im).collect();
+    json_to_py(py, &serde_json::json!({ "samples_i": oi, "samples_q": oq }))
+}
+
 /// The GNSS IQ signal names [`iq_scene`], [`iq_acquire`] and [`iq_track`] accept.
 #[pyfunction]
 fn iq_signals() -> Vec<String> {
@@ -579,6 +649,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;
     m.add_function(wrap_pyfunction!(iq_track, m)?)?;
     m.add_function(wrap_pyfunction!(iq_labfit, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_frontend, m)?)?;
     m.add_function(wrap_pyfunction!(iq_signals, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
