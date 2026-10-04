@@ -181,9 +181,34 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         }
     }
 
-    let format = match a.get("--format") {
-        Some(f) => SampleFormat::parse(f)?,
-        None => SampleFormat::CF32_LE,
+    // SigMF output: `--format sigmf`, or an out path ending in a SigMF suffix. The samples
+    // are written to the `.sigmf-data` file as cf32_le and described by a `.sigmf-meta`
+    // document (captures + per-satellite annotations) in place of the raw JSON sidecar.
+    let want_sigmf = a
+        .get("--format")
+        .map(|f| f.eq_ignore_ascii_case("sigmf"))
+        .unwrap_or(false)
+        || is_sigmf_path(&a.pos[0]);
+
+    // Per-satellite metadata for the SigMF annotations, captured before the scene is consumed.
+    let sat_meta: Vec<SatMeta> = scene
+        .satellites()
+        .iter()
+        .map(|s| SatMeta {
+            id: s.id,
+            carrier_hz: s.code.carrier_hz(),
+            chip_rate_hz: s.code.chip_rate_hz(),
+            cn0_dbhz: s.cn0_dbhz,
+        })
+        .collect();
+
+    let format = if want_sigmf {
+        SampleFormat::CF32_LE
+    } else {
+        match a.get("--format") {
+            Some(f) => SampleFormat::parse(f)?,
+            None => SampleFormat::CF32_LE,
+        }
     };
 
     // Truth sidecar: CSV by default, JSON Lines on request.
@@ -193,7 +218,13 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map(|s| s.to_string())
         .unwrap_or_else(|| default_truth_path(out, &truth_fmt));
 
-    let mut iq = create_raw(out, format)?;
+    let data_path = if want_sigmf {
+        sigmf_data_path(&a.pos[0])
+    } else {
+        a.pos[0].clone()
+    };
+
+    let mut iq = create_raw(Path::new(&data_path), format)?;
     let truth_file = BufWriter::new(
         File::create(&truth_path).map_err(|e| Fail::Run(format!("{truth_path}: {e}")))?,
     );
@@ -209,28 +240,104 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         }
     };
 
-    let sidecar = RawSidecar {
-        format: format.name(),
-        sample_rate_hz: spec.fs_hz,
-        center_hz: Some(spec.center_hz),
-        if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
-        header_bytes: None,
-        datetime: None,
-        description: Some("written by kshana iq scene".into()),
+    let meta_note = if want_sigmf {
+        let meta_path = write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc, summary.samples)?;
+        format!("SigMF data {data_path}, meta {meta_path}")
+    } else {
+        let sidecar = RawSidecar {
+            format: format.name(),
+            sample_rate_hz: spec.fs_hz,
+            center_hz: Some(spec.center_hz),
+            if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
+            header_bytes: None,
+            datetime: None,
+            description: Some("written by kshana iq scene".into()),
+        };
+        let sidecar_path = write_sidecar(out, &sidecar)?;
+        format!("sidecar {}", sidecar_path.display())
     };
-    let sidecar_path = write_sidecar(out, &sidecar)?;
 
     Ok(format!(
-        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; sidecar {}; channel: {}",
+        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; {}; channel: {}",
         summary.samples,
         format.name(),
         spec.fs_hz,
-        out.display(),
+        data_path,
         summary.truth_records,
         truth_path,
-        sidecar_path.display(),
+        meta_note,
         chan_desc,
     ))
+}
+
+/// Per-satellite data for a SigMF annotation.
+struct SatMeta {
+    id: u32,
+    carrier_hz: f64,
+    chip_rate_hz: f64,
+    cn0_dbhz: Option<f64>,
+}
+
+/// Whether `path` names a SigMF recording by one of its suffixes.
+fn is_sigmf_path(path: &str) -> bool {
+    path.ends_with(".sigmf-meta") || path.ends_with(".sigmf-data") || path.ends_with(".sigmf")
+}
+
+/// The base of a SigMF path (stripping any SigMF suffix).
+fn sigmf_base(path: &str) -> &str {
+    path.strip_suffix(".sigmf-meta")
+        .or_else(|| path.strip_suffix(".sigmf-data"))
+        .or_else(|| path.strip_suffix(".sigmf"))
+        .unwrap_or(path)
+}
+
+/// The `.sigmf-data` path for `path`.
+fn sigmf_data_path(path: &str) -> String {
+    format!("{}.sigmf-data", sigmf_base(path))
+}
+
+/// Write the `.sigmf-meta` document (one capture, one annotation per satellite plus one for
+/// the channel) and return its path.
+fn write_sigmf_meta(
+    path: &str,
+    spec: &SampleSpec,
+    sats: &[SatMeta],
+    chan_desc: &str,
+    samples: u64,
+) -> Result<String, Fail> {
+    use crate::sigmf::{meta_to_json, Annotation, DataType, Meta};
+    let mut meta = Meta::new(
+        DataType::Cf32Le,
+        spec.fs_hz,
+        spec.center_hz,
+        "written by kshana iq scene",
+    );
+    for s in sats {
+        let cn0 = s
+            .cn0_dbhz
+            .map(|c| format!("{c} dB-Hz"))
+            .unwrap_or_else(|| "elevation default".to_string());
+        meta.annotations.push(Annotation {
+            sample_start: 0,
+            sample_count: Some(samples),
+            freq_lower_edge: Some(s.carrier_hz - s.chip_rate_hz),
+            freq_upper_edge: Some(s.carrier_hz + s.chip_rate_hz),
+            label: Some(format!("PRN {}", s.id)),
+            comment: Some(format!("C/N0 {cn0}")),
+        });
+    }
+    meta.annotations.push(Annotation {
+        sample_start: 0,
+        sample_count: Some(samples),
+        freq_lower_edge: None,
+        freq_upper_edge: None,
+        label: Some("channel".to_string()),
+        comment: Some(chan_desc.to_string()),
+    });
+    let json = meta_to_json(&meta).map_err(Fail::Run)?;
+    let meta_path = format!("{}.sigmf-meta", sigmf_base(path));
+    std::fs::write(&meta_path, json).map_err(|e| Fail::Run(format!("{meta_path}: {e}")))?;
+    Ok(meta_path)
 }
 
 /// Default truth path: `<out>.truth.csv` or `.truth.jsonl`.

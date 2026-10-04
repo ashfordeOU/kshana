@@ -150,6 +150,109 @@ fn acquire_recovers_injected_code_phase_and_doppler() {
     }
 }
 
+/// The channel flags parse and apply: a scene with ionosphere, scintillation and multipath
+/// runs, and `--nlos` without a reflected path is a usage error.
+#[test]
+fn scene_channel_flags_apply_and_validate() {
+    let dir = scratch("chan");
+    let iq = dir.join("c.cf32").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene", &iq, "--rate", "2046000", "--duration", "0.01", "--signal", "gps-l1ca",
+            "--prn", "5", "--cn0", "48", "--no-noise", "--iono-stec", "25", "--tropo", "--s4",
+            "0.5", "--multipath-height", "2.0", "--multipath-ground", "wet",
+        ])),
+        0
+    );
+    // --nlos needs a reflected path.
+    assert_eq!(
+        run(&args(&[
+            "scene", &iq, "--rate", "2046000", "--duration", "0.01", "--signal", "gps-l1ca",
+            "--prn", "5", "--no-noise", "--nlos",
+        ])),
+        2
+    );
+    // Two ionosphere sources at once is a usage error.
+    assert_eq!(
+        run(&args(&[
+            "scene", &iq, "--rate", "2046000", "--duration", "0.01", "--signal", "gps-l1ca",
+            "--prn", "5", "--no-noise", "--iono-stec", "10", "--iono-klobuchar",
+        ])),
+        2
+    );
+}
+
+/// A scene written as SigMF (`--format sigmf`) round-trips: `acquire` reads the
+/// `.sigmf-meta`/`.sigmf-data` pair back and recovers the injected Doppler and code phase.
+#[test]
+fn scene_sigmf_round_trips_through_acquire() {
+    let dir = scratch("sigmf");
+    let meta = dir.join("s.sigmf-meta").display().to_string();
+    let data = dir.join("s.sigmf-data").display().to_string();
+    let truth = format!("{meta}.truth.csv");
+    let acq_json = dir.join("acq.json").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &meta,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.05",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "7,19",
+            "--doppler",
+            "800,-1200",
+            "--cn0",
+            "50",
+            "--no-noise",
+            "--format",
+            "sigmf",
+        ])),
+        0
+    );
+    // The SigMF pair and a readable metadata document exist.
+    assert!(std::path::Path::new(&data).exists(), "no sigmf-data");
+    let meta_json: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&meta).unwrap()).unwrap();
+    assert_eq!(meta_json["global"]["core:datatype"], "cf32_le");
+    assert!(meta_json["annotations"].as_array().unwrap().len() >= 2);
+
+    assert_eq!(
+        run(&args(&[
+            "acquire",
+            &meta,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "7,19",
+            "--doppler-max",
+            "4000",
+            "--doppler-step",
+            "250",
+            "--json",
+            &acq_json,
+        ])),
+        0
+    );
+    let want = truth_at_zero(&truth);
+    let v: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&acq_json).unwrap()).unwrap();
+    let dets = v["detections"].as_array().unwrap();
+    assert_eq!(dets.len(), 2);
+    for (det, prn) in dets.iter().zip([7u32, 19]) {
+        assert!(det["acquired"].as_bool().unwrap(), "{det}");
+        let (want_phase, want_dopp) = want[&prn];
+        let dopp = det["doppler_hz"].as_f64().unwrap();
+        assert!((dopp - want_dopp).abs() <= 250.0, "doppler {dopp} vs {want_dopp}");
+        let phase = det["code_phase_chips"].as_f64().unwrap();
+        let err = ((phase - want_phase + 511.5).rem_euclid(1023.0) - 511.5).abs();
+        assert!(err <= 1.0, "code phase {phase} vs {want_phase} (err {err})");
+    }
+}
+
 /// `track` converges to the injected Doppler and holds phase lock on a noise-free scene.
 #[test]
 fn track_converges_to_injected_doppler() {
