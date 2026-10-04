@@ -122,7 +122,11 @@ pub(crate) fn build_scene(p: &SceneParams) -> Result<Scene, String> {
 
 /// Run `kshana iq scene <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, &["--no-noise", "--data"]).map_err(Fail::Usage)?;
+    let switches: Vec<&str> = ["--no-noise", "--data"]
+        .into_iter()
+        .chain(super::channel::CHANNEL_SWITCHES.iter().copied())
+        .collect();
+    let a = Args::parse(args, &switches).map_err(Fail::Usage)?;
     a.need_pos(1, "scene")?;
     let out = Path::new(&a.pos[0]);
 
@@ -157,8 +161,25 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         data: a.has("--data"),
         threads: a.num("--threads").map_err(Fail::Usage)?.unwrap_or(1),
     };
-    let scene = build_scene(&params).map_err(Fail::Usage)?;
+    let mut scene = build_scene(&params).map_err(Fail::Usage)?;
     let spec = scene.config().spec;
+
+    // Optional propagation channel applied to every satellite.
+    let chan = super::channel::ChannelParams::from_args(&a)?;
+    let chan_desc = chan.describe();
+    if chan.any() {
+        let carrier = scene
+            .satellites()
+            .first()
+            .map(|s| s.code.carrier_hz())
+            .unwrap_or(spec.center_hz);
+        let start_tow = scene.config().start_tow_s;
+        if let Some(ch) = super::channel::build_channel(&chan, carrier, params.seed, start_tow)
+            .map_err(Fail::Usage)?
+        {
+            scene.set_channel(ch);
+        }
+    }
 
     let format = match a.get("--format") {
         Some(f) => SampleFormat::parse(f)?,
@@ -200,7 +221,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let sidecar_path = write_sidecar(out, &sidecar)?;
 
     Ok(format!(
-        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; sidecar {}",
+        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; sidecar {}; channel: {}",
         summary.samples,
         format.name(),
         spec.fs_hz,
@@ -208,6 +229,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         summary.truth_records,
         truth_path,
         sidecar_path.display(),
+        chan_desc,
     ))
 }
 

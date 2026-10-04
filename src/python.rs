@@ -214,7 +214,7 @@ fn version() -> &'static str {
 // (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
 
 use crate::iq::acq::{acquire, AcqConfig};
-use crate::iq::cli::{build_code, build_scene, SceneParams};
+use crate::iq::cli::{build_channel, build_code, build_scene, ChannelParams, SceneParams};
 use crate::iq::scene::TruthRecord;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
@@ -249,9 +249,13 @@ fn samples_from(i: &[f64], q: &[f64]) -> PyResult<Vec<Cf64>> {
 /// (`fs_hz`, `center_hz`, `if_hz`), the complex samples as two float lists (`samples_i`,
 /// `samples_q`) and the per-epoch `truth` records. `prns` is the PRN per satellite (the
 /// FDMA frequency channel for GLONASS); `dopplers` is one Doppler (Hz) per PRN, a single
-/// value applied to all, or omitted for zero. Raises `ValueError` on an invalid scene.
+/// value applied to all, or omitted for zero. An optional propagation channel is applied to
+/// every satellite through the channel knobs: `iono_stec`/`iono_vtec` (TECU) or
+/// `iono_klobuchar`, `tropo` (with `tropo_doy`), scintillation `s4`/`scint_tau0`/`sigma_phi`,
+/// `multipath_height` (m) with `multipath_ground` (`dry`/`wet`/`sea`), `land_mobile`, and
+/// `nlos`. Raises `ValueError` on an invalid scene or channel.
 #[pyfunction]
-#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1))]
+#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1, iono_stec=None, iono_vtec=None, iono_klobuchar=false, tropo=false, tropo_doy=180.0, s4=None, scint_tau0=1.0, sigma_phi=0.0, multipath_height=None, multipath_ground="dry".to_string(), land_mobile=false, nlos=false))]
 #[allow(clippy::too_many_arguments)]
 fn iq_scene<'py>(
     py: Python<'py>,
@@ -268,6 +272,18 @@ fn iq_scene<'py>(
     seed: u64,
     data: bool,
     threads: usize,
+    iono_stec: Option<f64>,
+    iono_vtec: Option<f64>,
+    iono_klobuchar: bool,
+    tropo: bool,
+    tropo_doy: f64,
+    s4: Option<f64>,
+    scint_tau0: f64,
+    sigma_phi: f64,
+    multipath_height: Option<f64>,
+    multipath_ground: String,
+    land_mobile: bool,
+    nlos: bool,
 ) -> PyResult<Bound<'py, PyAny>> {
     let params = SceneParams {
         fs_hz,
@@ -284,8 +300,36 @@ fn iq_scene<'py>(
         data,
         threads,
     };
-    let scene = build_scene(&params).map_err(PyValueError::new_err)?;
+    let mut scene = build_scene(&params).map_err(PyValueError::new_err)?;
     let spec = scene.config().spec;
+    // Optional propagation channel.
+    let chan = ChannelParams {
+        iono_stec_tecu: iono_stec,
+        iono_vtec_tecu: iono_vtec,
+        iono_klobuchar,
+        tropo,
+        tropo_doy,
+        s4,
+        scint_tau0_s: scint_tau0,
+        sigma_phi_rad: sigma_phi,
+        multipath_height_m: multipath_height,
+        multipath_ground,
+        land_mobile,
+        nlos,
+    };
+    if chan.any() {
+        let carrier = scene
+            .satellites()
+            .first()
+            .map(|s| s.code.carrier_hz())
+            .unwrap_or(spec.center_hz);
+        let start_tow = scene.config().start_tow_s;
+        if let Some(ch) = build_channel(&chan, carrier, params.seed, start_tow)
+            .map_err(PyValueError::new_err)?
+        {
+            scene.set_channel(ch);
+        }
+    }
     let mut sink = VecSink::default();
     let mut truth: Vec<TruthRecord> = Vec::new();
     scene

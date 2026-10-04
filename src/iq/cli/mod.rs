@@ -22,6 +22,7 @@
 //! mirror [`super::io::cli`] exactly.
 
 mod acquire;
+mod channel;
 mod labfit;
 mod scene;
 mod signal;
@@ -30,6 +31,8 @@ mod track;
 
 pub(crate) use signal::build_code;
 // Re-exported for the Python bindings, which build and generate a scene in-process.
+#[cfg(feature = "python")]
+pub(crate) use channel::{build_channel, ChannelParams};
 #[cfg(feature = "python")]
 pub(crate) use scene::{build_scene, SceneParams};
 #[cfg(feature = "python")]
@@ -43,6 +46,7 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
    or: kshana iq track   <recording> --signal <name> --prn <list> [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--coherent <N>] [--max-seconds <s>] [--acq-coherent <N>] [--acq-noncoherent <M>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq sweep   <recording> --signal <name> --prn <list> [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>] [--max-seconds <s>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+ scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
  recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>]
  signals: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of
  <list> is a comma-separated list (one per --prn, or a single value applied to all)";
