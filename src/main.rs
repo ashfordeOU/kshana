@@ -14,6 +14,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
    or: kshana receiver-trust <scenario.toml>
+   or: kshana iq <inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
    or: kshana --help | --version";
@@ -70,6 +71,11 @@ fn main() -> ExitCode {
     // describing a simulation.
     if args.get(1).map(String::as_str) == Some("receiver-trust") {
         return run_receiver_trust_cli(&args[2..]);
+    }
+    // `kshana iq <command>` handles recorded IQ datasets (inventory, info, extract, convert,
+    // decimate). Terminal for the same reason; the group lives in `kshana::iq::io::cli`.
+    if args.get(1).map(String::as_str) == Some("iq") {
+        return ExitCode::from(kshana::iq::io::cli::run(&args[2..]) as u8);
     }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
