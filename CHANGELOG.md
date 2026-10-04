@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.31.0] - 2026-10-04
+
 ### Added
 
 - **GNSS IQ layer: signal-level simulation and software-receiver processing.** A new `iq`
