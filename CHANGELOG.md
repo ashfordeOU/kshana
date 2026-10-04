@@ -9,8 +9,32 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.31.0] - 2026-10-04
+
 ### Added
 
+- **GNSS IQ layer: signal-level simulation and software-receiver processing.** A new `iq`
+  module takes Kshana from a single-satellite, short-block L1 C/A front end to a full
+  signal-level layer, reachable from the `kshana iq` command group. It generates long,
+  multi-satellite raw IQ scenes with a per-epoch truth sidecar (`iq::scene`); applies
+  propagation at the signal level — ionosphere with code-carrier divergence, troposphere,
+  amplitude and phase scintillation (Cornell model), Fresnel multipath and a three-state
+  land-mobile channel, with non-line-of-sight (`iq::channel`); acquires and tracks with FFT
+  acquisition and a multi-channel DLL/PLL/FLL bank, replaying one recording through many loop
+  designs (`iq::acq`, `iq::track`); models the front end — FIR/IIR filtering, 1-to-14-bit
+  quantisation, AGC, notch, pulse blanking and frequency-domain excision (`iq::frontend`);
+  streams large recorded datasets in bounded memory — int8/int16/float32/packed-2-bit and
+  real-IF formats, multi-file SigMF, resampling, a dataset inventory with per-file SHA-256 and
+  a batch runner (`iq::io`); adds spreading codes for GPS L5/L2C, Galileo E1 (CBOC, real ICD
+  memory codes) and E5a, BeiDou B1C/B1I and GLONASS L1OF, each checked against its interface
+  control document (`iq::signals`); and fits the tracking-loop loss-of-lock model to a real
+  receiver's observed behaviour in lab runs, with leave-one-run-out hold-out error and
+  extrapolation labelled as prediction (`iq::labfit`). Each numerical claim is tested against
+  an independent reference (an ICD table, a closed form, or an independent receiver recovering
+  the injected truth); the physical channel and loop models stay MODELLED. This is a software
+  layer only: it writes IQ files for software receivers and does not synthesise interference
+  or spoofing waveforms or drive radio hardware. No published scenario-kind count or
+  verification-matrix row changes. Design: `docs/design/GNSS-IQ-PLAN.md`.
 - **Receiver trust: assess a real GNSS receiver log.** `kshana receiver-trust <scenario.toml>`
   reads a u-blox UBX, RINEX 3 (with an optional broadcast navigation file), Android
   GnssLogger or NMEA 0183 log into one time-tagged timeline and runs trust monitors over it:

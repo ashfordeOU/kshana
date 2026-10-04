@@ -15,7 +15,7 @@
 # lockfile and this crate's Dockerfile through their own entries.
 [package]
 name = "kshana-mcp"
-version = "0.30.0"
+version = "0.31.0"
 edition = "2024"
 # 1.88, three minors above the `kshana` library's 1.85. Three advisories against rmcp
 # < 2.1 (a Streamable-HTTP session-table leak, missing OAuth resource validation, and
@@ -46,7 +46,7 @@ path = "src/main.rs"
 # `bundled-scenarios` compiles the reference scenarios into the library, so
 # `list_example_scenarios` / `get_example_scenario` can hand an agent a runnable scenario
 # of a kind: a registry or image install has no `scenarios/` directory to read.
-kshana = { path = "../..", version = "0.30", features = ["bundled-scenarios"] }
+kshana = { path = "../..", version = "0.31", features = ["bundled-scenarios"] }
 rmcp = { version = "2.1", features = ["server", "macros", "transport-io"] }
 tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
 serde = { version = "1", features = ["derive"] }
