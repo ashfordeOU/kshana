@@ -564,7 +564,7 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 ## Install
 
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
-v0.30.0 from the same tagged commit.
+v0.31.0 from the same tagged commit.
 
 | Channel | Install | Guide |
 |---|---|---|
@@ -579,8 +579,8 @@ v0.30.0 from the same tagged commit.
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
-MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.30.0`,
-`pip install kshana==0.30.0` or `npm install kshana@0.30.0`. To build from source, see
+MCP is the Model Context Protocol. Pin a release with `cargo install kshana --version 0.31.0`,
+`pip install kshana==0.31.0` or `npm install kshana@0.31.0`. To build from source, see
 [Install and build](#install--build) under Reference.
 
 <details>
