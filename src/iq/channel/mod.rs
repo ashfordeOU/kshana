@@ -170,10 +170,10 @@ pub(crate) fn add_delay_m(snap: &mut ChannelSnapshot, delay_m: f64, carrier_hz: 
 
 /// A per-satellite seed derived from a model seed: a SplitMix64 finaliser over the pair, so
 /// each satellite's random stream is independent of the order satellites are queried in.
-pub(crate) fn sat_seed(seed: u64, sat: u32, salt: u64) -> u64 {
+pub(crate) fn sat_seed(seed: u64, sat: u32, stream: u64) -> u64 {
     let mut z = seed
         .wrapping_add(0x9E37_79B9_7F4A_7C15u64.wrapping_mul(u64::from(sat) + 1))
-        .wrapping_add(salt.wrapping_mul(0xD1B5_4A32_D192_ED03));
+        .wrapping_add(stream.wrapping_mul(0xD1B5_4A32_D192_ED03));
     z = (z ^ (z >> 30)).wrapping_mul(0xBF58_476D_1CE4_E5B9);
     z = (z ^ (z >> 27)).wrapping_mul(0x94D0_49BB_1331_11EB);
     z ^ (z >> 31)
@@ -214,7 +214,7 @@ mod tests {
     }
 
     #[test]
-    fn sat_seeds_differ_by_satellite_and_salt() {
+    fn sat_seeds_differ_by_satellite_and_stream() {
         assert_ne!(sat_seed(1, 1, 0), sat_seed(1, 2, 0));
         assert_ne!(sat_seed(1, 1, 0), sat_seed(1, 1, 1));
         assert_eq!(sat_seed(7, 9, 3), sat_seed(7, 9, 3));

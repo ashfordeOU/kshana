@@ -40,14 +40,14 @@
 //! **Frequency.** Parameters apply to the carrier the chain is evaluated on; set S4 and
 //! `τ0` per carrier for multi-frequency scenes (the model does not scale them).
 //!
-//! Determinism: each satellite has its own ChaCha8 stream seeded from the model seed and the
+//! Determinism: each satellite has its own SplitMix64 stream seeded from the model seed and the
 //! satellite number, so the same seed gives bit-identical output whatever order satellites
 //! are queried in.
 
 use super::{sat_seed, ChannelEffect, LineOfSight};
+use crate::iq::simrng::SimRng;
 use crate::iq::ChannelSnapshot;
-use rand::{Rng, SeedableRng};
-use rand_chacha::ChaCha8Rng;
+use rand::Rng;
 use rand_distr::StandardNormal;
 use std::collections::BTreeMap;
 use std::f64::consts::SQRT_2;
@@ -56,7 +56,7 @@ use std::f64::consts::SQRT_2;
 /// autocorrelation reaches `1/e` at `ωn·τ/√2` equal to this value.
 pub const BUTTERWORTH_1_OVER_E_X: f64 = 1.239_646_436_810_474;
 
-const SALT: u64 = 0x5C17_0000;
+const STREAM: u64 = 0x5C17_0000;
 
 /// Parameters of the Cornell scintillation model.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -127,12 +127,12 @@ fn transition(omega_n: f64, dt: f64) -> ([[f64; 2]; 2], [[f64; 2]; 2]) {
 }
 
 impl Bw2 {
-    fn stationary(rng: &mut ChaCha8Rng) -> Self {
+    fn stationary(rng: &mut SimRng) -> Self {
         Self {
             u: [rng.sample(StandardNormal), rng.sample(StandardNormal)],
         }
     }
-    fn step(&mut self, phi: &[[f64; 2]; 2], l: &[[f64; 2]; 2], rng: &mut ChaCha8Rng) {
+    fn step(&mut self, phi: &[[f64; 2]; 2], l: &[[f64; 2]; 2], rng: &mut SimRng) {
         let w0: f64 = rng.sample(StandardNormal);
         let w1: f64 = rng.sample(StandardNormal);
         let u = self.u;
@@ -145,7 +145,7 @@ impl Bw2 {
 
 #[derive(Clone, Debug)]
 struct SatState {
-    rng: ChaCha8Rng,
+    rng: SimRng,
     re: Bw2,
     im: Bw2,
     ph: Bw2,
@@ -179,7 +179,7 @@ impl Scintillation {
         let p = self.params;
         let seed = self.seed;
         let st = self.sats.entry(sat).or_insert_with(|| {
-            let mut rng = ChaCha8Rng::seed_from_u64(sat_seed(seed, sat, SALT));
+            let mut rng = SimRng::seed(sat_seed(seed, sat, STREAM));
             let re = Bw2::stationary(&mut rng);
             let im = Bw2::stationary(&mut rng);
             let ph = Bw2::stationary(&mut rng);

@@ -33,6 +33,7 @@ pub mod io;
 pub mod labfit;
 pub mod scene;
 pub mod signals;
+pub(crate) mod simrng;
 pub mod track;
 
 /// Speed of light in vacuum (m/s), as used throughout the IQ layer.
