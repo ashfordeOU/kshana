@@ -39,14 +39,15 @@ pub(crate) use channel::{build_channel, ChannelParams};
 #[cfg(feature = "python")]
 pub(crate) use frontend::{build_chain, FrontendParams};
 #[cfg(feature = "python")]
-pub(crate) use scene::{build_scene, SceneParams};
+pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
 #[cfg(feature = "python")]
 pub(crate) use signal::signal_names;
 
 use std::collections::HashMap;
 
 /// Usage text of the processing commands, printed above [`super::io::cli::USAGE`].
-pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+   or: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf]
    or: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>]
    or: kshana iq track   <recording> --signal <name> --prn <list> [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--coherent <N>] [--max-seconds <s>] [--acq-coherent <N>] [--acq-noncoherent <M>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq sweep   <recording> --signal <name> --prn <list> [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>] [--max-seconds <s>] [--doppler-max <hz>] [--json <out>] [--csv <out>]

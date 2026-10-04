@@ -215,7 +215,8 @@ fn version() -> &'static str {
 
 use crate::iq::acq::{acquire, AcqConfig};
 use crate::iq::cli::{
-    build_chain, build_channel, build_code, build_scene, ChannelParams, FrontendParams, SceneParams,
+    build_broadcast_scene, build_chain, build_channel, build_code, build_scene, BroadcastParams,
+    ChannelParams, FrontendParams, SceneParams,
 };
 use crate::iq::scene::TruthRecord;
 use crate::iq::signals::SignalCode;
@@ -332,6 +333,74 @@ fn iq_scene<'py>(
             scene.set_channel(ch);
         }
     }
+    let mut sink = VecSink::default();
+    let mut truth: Vec<TruthRecord> = Vec::new();
+    scene
+        .generate(&mut sink, &mut truth)
+        .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let i: Vec<f64> = sink.samples.iter().map(|s| s.re).collect();
+    let q: Vec<f64> = sink.samples.iter().map(|s| s.im).collect();
+    let truth_json: Vec<serde_json::Value> = truth
+        .iter()
+        .map(|r| serde_json::to_value(r).unwrap_or(serde_json::Value::Null))
+        .collect();
+    let v = serde_json::json!({
+        "fs_hz": spec.fs_hz,
+        "center_hz": spec.center_hz,
+        "if_hz": spec.if_hz,
+        "samples_i": i,
+        "samples_q": q,
+        "truth": truth_json,
+    });
+    json_to_py(py, &v)
+}
+
+/// Generate a broadcast-ephemeris GNSS IQ scene in memory from RINEX navigation text.
+/// Each requested GPS PRN (or every healthy GPS satellite when `prns` is omitted) is placed
+/// at its true broadcast geometry for a receiver at `(rx_lat, rx_lon, rx_alt)` (degrees,
+/// degrees, metres) over the window starting at GPS time of week `start_tow`. Returns the
+/// same dict as [`iq_scene`] (sampling, `samples_i`/`samples_q`, per-epoch `truth`). Raises
+/// `ValueError` on an invalid file or scene.
+#[pyfunction]
+#[pyo3(signature = (fs_hz, window_s, nav_text, rx_lat, rx_lon, rx_alt, prns=None, start_tow=0.0, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, mask_deg=5.0, threads=1))]
+#[allow(clippy::too_many_arguments)]
+fn iq_scene_broadcast<'py>(
+    py: Python<'py>,
+    fs_hz: f64,
+    window_s: f64,
+    nav_text: String,
+    rx_lat: f64,
+    rx_lon: f64,
+    rx_alt: f64,
+    prns: Option<Vec<i64>>,
+    start_tow: f64,
+    cn0_dbhz: Option<f64>,
+    center_hz: Option<f64>,
+    if_hz: f64,
+    noise: bool,
+    noise_figure_db: f64,
+    seed: u64,
+    mask_deg: f64,
+    threads: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    let bp = BroadcastParams {
+        fs_hz,
+        duration_s: window_s,
+        nav_text,
+        prns: prns.unwrap_or_default(),
+        start_tow_s: start_tow,
+        rx_llh_deg: (rx_lat, rx_lon, rx_alt),
+        center_hz,
+        if_hz,
+        cn0_dbhz,
+        noise,
+        noise_figure_db,
+        seed,
+        elevation_mask_deg: mask_deg,
+        threads,
+    };
+    let scene = build_broadcast_scene(&bp).map_err(PyValueError::new_err)?;
+    let spec = scene.config().spec;
     let mut sink = VecSink::default();
     let mut truth: Vec<TruthRecord> = Vec::new();
     scene
@@ -646,6 +715,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_scene_broadcast, m)?)?;
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;
     m.add_function(wrap_pyfunction!(iq_track, m)?)?;
     m.add_function(wrap_pyfunction!(iq_labfit, m)?)?;

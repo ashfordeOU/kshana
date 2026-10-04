@@ -150,6 +150,36 @@ fn acquire_recovers_injected_code_phase_and_doppler() {
     }
 }
 
+/// A broadcast-ephemeris scene (`--nav`) recovers the true per-satellite geometry: the truth
+/// sidecar lists several visible GPS satellites with physically sensible pseudorange and
+/// Doppler, matching the library broadcast-scene path.
+#[test]
+fn broadcast_nav_scene_recovers_geometry() {
+    let dir = scratch("nav");
+    let iq = dir.join("b.cf32").display().to_string();
+    let truth = format!("{iq}.truth.csv");
+    let nav = "tests/fixtures/igs/BRDC00WRD_R_20181330000_01D_GN.rnx";
+    assert_eq!(
+        run(&args(&[
+            "scene", &iq, "--rate", "2046000", "--window", "0.002", "--nav", nav, "--rx-pos",
+            "50.09,8.66,150", "--start", "600", "--cn0", "50", "--no-noise", "--mask", "10",
+        ])),
+        0
+    );
+    let recs = truth_from_csv(&std::fs::read_to_string(&truth).unwrap()).unwrap();
+    let epoch0: Vec<_> = recs.iter().filter(|r| r.t_s == 0.0 && r.visible).collect();
+    assert!(epoch0.len() >= 6, "{} visible", epoch0.len());
+    for r in &epoch0 {
+        assert!(
+            r.pseudorange_m > 1.9e7 && r.pseudorange_m < 2.7e7,
+            "PRN {} pseudorange {}",
+            r.sat_id,
+            r.pseudorange_m
+        );
+        assert!(r.doppler_hz.abs() < 5000.0, "PRN {} doppler {}", r.sat_id, r.doppler_hz);
+    }
+}
+
 /// The `frontend` command filters a recording and the result is still acquirable, and the
 /// inline front-end flags on `acquire` apply the same stages before processing.
 #[test]

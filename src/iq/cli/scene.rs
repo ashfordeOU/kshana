@@ -10,14 +10,16 @@
 //! can be scored against exactly what went in.
 
 use super::{build_code, Args, Fail};
+use crate::frames::{geodetic_to_ecef, Geodetic};
 use crate::iq::io::inventory::{write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
 use crate::iq::io::SampleFormat;
 use crate::iq::scene::{
-    CsvTruthWriter, JsonLinesTruthWriter, NavData, NoiseConfig, RangeProfile, SatGeometry, Scene,
-    SceneConfig, SceneSatellite, TruthSink, T0_K,
+    CsvTruthWriter, JsonLinesTruthWriter, NavData, NoiseConfig, RangeProfile, ReceiverClock,
+    SatGeometry, Scene, SceneConfig, SceneSatellite, Trajectory, TruthSink, T0_K,
 };
 use crate::iq::{IqError, SampleSpec, SpreadingCode};
+use crate::rinex::parse_nav;
 use std::fs::File;
 use std::io::BufWriter;
 use std::path::Path;
@@ -120,6 +122,121 @@ pub(crate) fn build_scene(p: &SceneParams) -> Result<Scene, String> {
     Ok(scene)
 }
 
+/// Everything a broadcast-ephemeris scene needs, shared by the CLI and the Python binding.
+pub(crate) struct BroadcastParams {
+    /// Complex sample rate (Hz).
+    pub(crate) fs_hz: f64,
+    /// Scene length (s).
+    pub(crate) duration_s: f64,
+    /// The RINEX navigation file's text.
+    pub(crate) nav_text: String,
+    /// GPS PRNs to include; empty means every healthy GPS satellite in the file.
+    pub(crate) prns: Vec<i64>,
+    /// GPS time of week of the first sample (s).
+    pub(crate) start_tow_s: f64,
+    /// Receiver geodetic position `(lat_deg, lon_deg, alt_m)`.
+    pub(crate) rx_llh_deg: (f64, f64, f64),
+    /// Baseband centre frequency (Hz); `None` uses the GPS L1 carrier.
+    pub(crate) center_hz: Option<f64>,
+    /// Residual intermediate frequency (Hz).
+    pub(crate) if_hz: f64,
+    /// Stated C/N0 (dB-Hz); `None` uses the elevation default.
+    pub(crate) cn0_dbhz: Option<f64>,
+    /// Add thermal noise.
+    pub(crate) noise: bool,
+    /// Receiver noise figure (dB).
+    pub(crate) noise_figure_db: f64,
+    /// Noise seed.
+    pub(crate) seed: u64,
+    /// Elevation mask (degrees).
+    pub(crate) elevation_mask_deg: f64,
+    /// Synthesis threads per chunk.
+    pub(crate) threads: usize,
+}
+
+/// Build a broadcast-ephemeris [`Scene`] from `p`: parse the RINEX navigation file, pick for
+/// each requested GPS PRN the healthy ephemeris whose `toe` is closest to the start time, and
+/// place each satellite at its true broadcast geometry (so the truth sidecar carries the real
+/// per-satellite range, Doppler and code phase over the window). Reuses the engine's RINEX
+/// reader and the scene's broadcast geometry/LNAV path.
+pub(crate) fn build_broadcast_scene(p: &BroadcastParams) -> Result<Scene, String> {
+    let ephs = parse_nav(&p.nav_text)?;
+    let prns: Vec<u8> = if p.prns.is_empty() {
+        (1..=32).collect()
+    } else {
+        p.prns
+            .iter()
+            .map(|&id| {
+                u8::try_from(id).map_err(|_| format!("PRN {id} is out of range for GPS"))
+            })
+            .collect::<Result<Vec<_>, _>>()?
+    };
+    let mut chosen: Vec<&crate::rinex::RinexEphemeris> = Vec::new();
+    for prn in prns {
+        if let Some(e) = ephs
+            .iter()
+            .filter(|e| e.system == 'G' && e.prn == prn && e.sv_health == 0.0)
+            .min_by(|a, b| {
+                (a.toe - p.start_tow_s)
+                    .abs()
+                    .total_cmp(&(b.toe - p.start_tow_s).abs())
+            })
+        {
+            chosen.push(e);
+        }
+    }
+    if chosen.is_empty() {
+        return Err("no healthy GPS ephemeris found for the requested PRNs".to_string());
+    }
+    let center = p.center_hz.unwrap_or(crate::gnss_sim::L1_HZ);
+    let spec = SampleSpec {
+        fs_hz: p.fs_hz,
+        center_hz: center,
+        if_hz: p.if_hz,
+    };
+    let mut cfg = SceneConfig::new(spec, p.duration_s);
+    cfg.start_tow_s = p.start_tow_s;
+    cfg.seed = p.seed;
+    cfg.threads = p.threads.max(1);
+    cfg.elevation_mask_deg = p.elevation_mask_deg;
+    cfg.receiver = Trajectory::Static(geodetic_to_ecef(Geodetic {
+        lat_rad: p.rx_llh_deg.0.to_radians(),
+        lon_rad: p.rx_llh_deg.1.to_radians(),
+        alt_m: p.rx_llh_deg.2,
+    }));
+    cfg.clock = ReceiverClock::default();
+    cfg.noise = if p.noise {
+        NoiseConfig::from_noise_figure(p.noise_figure_db, T0_K)
+    } else {
+        NoiseConfig {
+            enabled: false,
+            ..NoiseConfig::from_noise_figure(p.noise_figure_db, T0_K)
+        }
+    };
+    let mut scene = Scene::new(cfg).map_err(|e| e.to_string())?;
+    for e in chosen {
+        let sat = SceneSatellite::gps_l1ca_broadcast(e, p.cn0_dbhz, Default::default())
+            .map_err(|err| err.to_string())?;
+        scene.add_satellite(sat);
+    }
+    Ok(scene)
+}
+
+/// Parse a `lat,lon,alt` triple (degrees, degrees, metres).
+fn parse_llh(v: &str) -> Result<(f64, f64, f64), Fail> {
+    let parts: Vec<f64> = v
+        .split(',')
+        .map(|s| s.trim().parse::<f64>())
+        .collect::<Result<_, _>>()
+        .map_err(|_| Fail::Usage(format!("--rx-pos wants lat,lon,alt (got {v:?})")))?;
+    if parts.len() != 3 {
+        return Err(Fail::Usage(
+            "--rx-pos wants three values: lat,lon,alt (deg,deg,m)".into(),
+        ));
+    }
+    Ok((parts[0], parts[1], parts[2]))
+}
+
 /// Run `kshana iq scene <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let switches: Vec<&str> = ["--no-noise", "--data"]
@@ -134,34 +251,70 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .num("--rate")
         .map_err(Fail::Usage)?
         .ok_or(Fail::Usage("iq scene needs --rate <hz>".into()))?;
+    // The scene length: --duration, or --window (its alias in broadcast mode).
     let duration_s = a
         .num("--duration")
         .map_err(Fail::Usage)?
-        .ok_or(Fail::Usage("iq scene needs --duration <s>".into()))?;
-    let signal = a
-        .get("--signal")
-        .ok_or(Fail::Usage("iq scene needs --signal <name>".into()))?
-        .to_string();
-    let ids: Vec<i64> = a.list("--prn").map_err(Fail::Usage)?;
-    if ids.is_empty() {
-        return Err(Fail::Usage("iq scene needs --prn <list>".into()));
-    }
-    let params = SceneParams {
-        fs_hz,
-        duration_s,
-        signal,
-        ids,
-        dopplers: a.list("--doppler").map_err(Fail::Usage)?,
-        center_hz: a.num("--center").map_err(Fail::Usage)?,
-        if_hz: a.num("--if").map_err(Fail::Usage)?.unwrap_or(0.0),
-        cn0_dbhz: a.num("--cn0").map_err(Fail::Usage)?,
-        noise_figure_db: a.num("--noise-figure").map_err(Fail::Usage)?.unwrap_or(2.0),
-        noise: !a.has("--no-noise"),
-        seed: a.num("--seed").map_err(Fail::Usage)?.unwrap_or(1),
-        data: a.has("--data"),
-        threads: a.num("--threads").map_err(Fail::Usage)?.unwrap_or(1),
+        .or(a.num("--window").map_err(Fail::Usage)?)
+        .ok_or(Fail::Usage("iq scene needs --duration <s> (or --window)".into()))?;
+    let seed = a.num("--seed").map_err(Fail::Usage)?.unwrap_or(1);
+    let threads = a.num("--threads").map_err(Fail::Usage)?.unwrap_or(1);
+    let cn0_dbhz = a.num("--cn0").map_err(Fail::Usage)?;
+    let noise = !a.has("--no-noise");
+    let noise_figure_db = a.num("--noise-figure").map_err(Fail::Usage)?.unwrap_or(2.0);
+    let center_hz = a.num("--center").map_err(Fail::Usage)?;
+    let if_hz = a.num("--if").map_err(Fail::Usage)?.unwrap_or(0.0);
+
+    // Broadcast-ephemeris scene (`--nav <rinex_nav>`) or stated-profile scene.
+    let mut scene = if let Some(nav) = a.get("--nav") {
+        let text = std::fs::read_to_string(nav).map_err(|e| Fail::Run(format!("{nav}: {e}")))?;
+        let rx_llh_deg = match a.get("--rx-pos") {
+            Some(v) => parse_llh(v)?,
+            None => return Err(Fail::Usage("iq scene --nav needs --rx-pos lat,lon,alt".into())),
+        };
+        let bp = BroadcastParams {
+            fs_hz,
+            duration_s,
+            nav_text: text,
+            prns: a.list("--prn").map_err(Fail::Usage)?,
+            start_tow_s: a.num("--start").map_err(Fail::Usage)?.unwrap_or(0.0),
+            rx_llh_deg,
+            center_hz,
+            if_hz,
+            cn0_dbhz,
+            noise,
+            noise_figure_db,
+            seed,
+            elevation_mask_deg: a.num("--mask").map_err(Fail::Usage)?.unwrap_or(5.0),
+            threads,
+        };
+        build_broadcast_scene(&bp).map_err(Fail::Usage)?
+    } else {
+        let signal = a
+            .get("--signal")
+            .ok_or(Fail::Usage("iq scene needs --signal <name>".into()))?
+            .to_string();
+        let ids: Vec<i64> = a.list("--prn").map_err(Fail::Usage)?;
+        if ids.is_empty() {
+            return Err(Fail::Usage("iq scene needs --prn <list>".into()));
+        }
+        let params = SceneParams {
+            fs_hz,
+            duration_s,
+            signal,
+            ids,
+            dopplers: a.list("--doppler").map_err(Fail::Usage)?,
+            center_hz,
+            if_hz,
+            cn0_dbhz,
+            noise_figure_db,
+            noise,
+            seed,
+            data: a.has("--data"),
+            threads,
+        };
+        build_scene(&params).map_err(Fail::Usage)?
     };
-    let mut scene = build_scene(&params).map_err(Fail::Usage)?;
     let spec = scene.config().spec;
 
     // Optional propagation channel applied to every satellite.
@@ -174,8 +327,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             .map(|s| s.code.carrier_hz())
             .unwrap_or(spec.center_hz);
         let start_tow = scene.config().start_tow_s;
-        if let Some(ch) = super::channel::build_channel(&chan, carrier, params.seed, start_tow)
-            .map_err(Fail::Usage)?
+        if let Some(ch) =
+            super::channel::build_channel(&chan, carrier, seed, start_tow).map_err(Fail::Usage)?
         {
             scene.set_channel(ch);
         }
