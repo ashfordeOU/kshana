@@ -1,6 +1,6 @@
 {
   "generator": "tools/gen_readme_assets.py",
-  "engine_version": "0.30.0",
+  "engine_version": "0.31.0",
   "scenario_kinds": 75,
   "matrix": {
     "validated": 123,
@@ -208,6 +208,7 @@
   },
   "mcp_tools": [
     "animate_scenario",
+    "assess_receiver_log",
     "export_interop",
     "export_oem",
     "export_omm",
