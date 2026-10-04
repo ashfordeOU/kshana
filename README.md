@@ -675,7 +675,7 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 ## AI assistant
 
 [`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
-reads back its JSON, instead of guessing the maths. Each of its fourteen tools is a thin wrapper
+reads back its JSON, instead of guessing the maths. Each of its fifteen tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
 ```bash
@@ -703,7 +703,7 @@ Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The serv
 in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>The fourteen tools</summary>
+<summary>The fifteen tools</summary>
 
 <br>
 
@@ -719,6 +719,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `import_route` | a GeoJSON route written into a scenario that flies a waypoint track |
 | `export_sp3` · `export_omm` · `export_oem` | an orbit scenario as SP3-c (Standard Product 3), a CCSDS (Consultative Committee for Space Data Systems) Orbit Mean-elements Message, or an Orbit Ephemeris Message |
 | `export_table_csv` | a run's reproducibility table as CSV (comma-separated values), for the kinds that define one |
+| `assess_receiver_log` | a real receiver log (UBX, RINEX, Android or NMEA) assessed for trust: when and why the fix stopped being trustworthy, and stated events scored against stated tolerances |
 
 </details>
 

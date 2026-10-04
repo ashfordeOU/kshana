@@ -79,6 +79,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "export_omm",
         "export_oem",
         "export_table_csv",
+        "assess_receiver_log",
     ]
     .into_iter()
     .collect();
@@ -1385,5 +1386,58 @@ async fn export_table_csv_returns_the_leo_navigation_message_and_telecom_tables(
     assert_eq!(first[0], "1");
     assert_eq!(first[1].parse::<f64>().ok(), Some(4.385));
     assert_eq!(csv.lines().count(), 18);
+    client.cancel().await.ok();
+}
+
+/// An NMEA sentence with its checksum (XOR of the bytes between `$` and `*`).
+fn nmea(body: &str) -> String {
+    let ck = body.bytes().fold(0u8, |a, b| a ^ b);
+    format!("${body}*{ck:02X}\n")
+}
+
+#[tokio::test]
+async fn assess_receiver_log_scores_an_inline_nmea_log() {
+    // Ten seconds clean (six satellites near 45 dB-Hz), then a 15 dB drop on every one of
+    // them from t = 10 s: the stated jamming event at 10 s must be detected at once.
+    let mut log = String::new();
+    for s in 0..20u32 {
+        let cn0 = if s < 10 { 45 } else { 30 };
+        log.push_str(&nmea(&format!(
+            "GPGGA,1200{s:02}.00,4807.038,N,01131.000,E,1,06,1.0,500.0,M,47.0,M,,"
+        )));
+        log.push_str(&nmea(&format!(
+            "GPGSV,2,1,06,01,40,083,{cn0},02,17,308,{cn0},03,07,344,{cn0},04,75,123,{cn0}"
+        )));
+        log.push_str(&nmea(&format!(
+            "GPGSV,2,2,06,05,30,210,{cn0},06,55,045,{cn0}"
+        )));
+    }
+    let toml = format!(
+        "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\ntext = '''\n{log}'''\n[monitors]\ncalibration_s = 5.0\n[[events]]\nlabel = \"jammer on\"\nkind = \"jamming\"\nonset_s = 10.0\npredicted_cn0_drop_db = 14.0\n"
+    );
+    let client = connect().await;
+    let res = client
+        .call_tool(call(
+            "assess_receiver_log",
+            serde_json::json!({ "toml": toml, "include_csv": true }),
+        ))
+        .await
+        .expect("call assess_receiver_log");
+    assert_ne!(res.is_error, Some(true));
+    let texts: Vec<String> = res
+        .content
+        .iter()
+        .filter_map(|c| c.as_text().map(|t| t.text.clone()))
+        .collect();
+    assert!(texts[0].contains("receiver-trust"), "summary: {}", texts[0]);
+    let doc: serde_json::Value = serde_json::from_str(&texts[1]).expect("result json");
+    let ev = &doc["events"][0];
+    assert_eq!(ev["outcome"], "detected", "{ev}");
+    assert_eq!(ev["latency_s"], 0.0, "{ev}");
+    assert_eq!(ev["cn0_verdict"], "agree", "{ev}");
+    assert!(
+        texts.iter().any(|t| t.starts_with("t_s,state,")),
+        "the CSV block"
+    );
     client.cancel().await.ok();
 }

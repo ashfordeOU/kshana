@@ -101,3 +101,5 @@ __pycache__/
 # Only derived, byte-deterministic study artifacts (above) are committed; the raw
 # recordings stay local.
 /realdata-cache/
+*.trust.csv
+*.trust.svg
