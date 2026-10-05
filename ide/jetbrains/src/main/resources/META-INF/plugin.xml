@@ -19,6 +19,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.32.0</b> — the plugin itself is unchanged; this release surfaces the GNSS IQ
+        signal layer on the engine's command line and Python API. Update the engine with
+        <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.31.0</b> — the plugin itself is unchanged; this release adds the GNSS IQ
         signal layer to the engine. Update the engine with <code>cargo install kshana</code>
         and see the release notes at https://github.com/ashfordeOU/kshana/releases.
