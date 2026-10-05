@@ -163,7 +163,7 @@ deep-space link adds.
 `raan_deg` is the right ascension of the ascending node in the body's equatorial frame and
 `u0_deg` the argument of latitude at the epoch.
 
-The two bundled scenarios, as they run with kshana 0.30.0:
+The two bundled scenarios, as they run with kshana 0.31.0:
 
 | | `scenarios/mars-orbit-pnt.toml` | `scenarios/europa-surface-pnt.toml` |
 |---|---|---|
@@ -177,7 +177,10 @@ The two bundled scenarios, as they run with kshana 0.30.0:
 | RMS fix error, relays only / with the Earth range | 1.883 m / 1.629 m | 112.742 m / 86.147 m |
 | Median formal sigma, relays only / with the Earth range | 1.375 m / 1.304 m | 5.360 m / 4.239 m |
 
-(RMS: root mean square.) Around Europa the Earth range lifts availability from 0.480 to
+(RMS: root mean square.) The Europa column is the Linux x86-64 build, the platform the release
+is built and tested on. On macOS arm64 one epoch sits on the availability edge and flips, so the
+same scenario prints 0.725 and 85.800 m for the two "with the Earth range" figures.
+Around Europa the Earth range lifts availability from 0.480 to
 0.719 of epochs. Where the Earth never clears the limb the link adds nothing: a lander at
 89.5 deg S on the Moon under a 12-satellite, 5000 km relay shell has the Earth in view at 0
 of 145 epochs, and its errors are the same with and without the link.
