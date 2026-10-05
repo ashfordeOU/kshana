@@ -21,8 +21,10 @@ __all__ = [
     "version",
     "receiver_trust",
     "iq_scene",
+    "iq_scene_broadcast",
     "iq_acquire",
     "iq_track",
+    "iq_frontend",
     "iq_labfit",
     "iq_signals",
     "__version__",
@@ -124,6 +126,18 @@ def iq_scene(
     seed: int = ...,
     data: bool = ...,
     threads: int = ...,
+    iono_stec: Optional[float] = ...,
+    iono_vtec: Optional[float] = ...,
+    iono_klobuchar: bool = ...,
+    tropo: bool = ...,
+    tropo_doy: float = ...,
+    s4: Optional[float] = ...,
+    scint_tau0: float = ...,
+    sigma_phi: float = ...,
+    multipath_height: Optional[float] = ...,
+    multipath_ground: str = ...,
+    land_mobile: bool = ...,
+    nlos: bool = ...,
 ) -> dict[str, Any]:
     """Generate a multi-satellite GNSS IQ scene in memory.
 
@@ -133,6 +147,34 @@ def iq_scene(
     ``dopplers`` is one Doppler (Hz) per PRN, a single value applied to all, or omitted for
     zero. Wrap ``samples_i``/``samples_q`` with ``numpy.asarray(...)`` for arrays. Raises
     ``ValueError`` on an invalid scene."""
+
+def iq_scene_broadcast(
+    fs_hz: float,
+    window_s: float,
+    nav_text: str,
+    rx_lat: float,
+    rx_lon: float,
+    rx_alt: float,
+    prns: Optional[list[int]] = ...,
+    start_tow: float = ...,
+    cn0_dbhz: Optional[float] = ...,
+    center_hz: Optional[float] = ...,
+    if_hz: float = ...,
+    noise: bool = ...,
+    noise_figure_db: float = ...,
+    seed: int = ...,
+    mask_deg: float = ...,
+    threads: int = ...,
+) -> dict[str, Any]:
+    """Generate a GNSS IQ scene from broadcast ephemeris.
+
+    Places each healthy GPS satellite at its true broadcast geometry over a window, from a
+    RINEX navigation message (``nav_text``) and a receiver position (``rx_lat``/``rx_lon``
+    in degrees, ``rx_alt`` in metres). ``prns`` selects satellites (default all visible
+    above ``mask_deg``); ``start_tow`` is the GPS time of week (s) the window begins. Returns
+    the same shape as :func:`iq_scene` (``samples_i``/``samples_q`` plus per-epoch ``truth``
+    carrying the real range, Doppler and code phase). Raises ``ValueError`` on an invalid
+    navigation message or scene."""
 
 def iq_acquire(
     i: list[float],
@@ -181,6 +223,36 @@ def iq_track(
     from the GPS-L1-C/A-like default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``,
     ``spacing``, ``coherent`` overrides it. Raises ``ValueError`` if a PRN is not
     acquired."""
+
+def iq_frontend(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    bandpass_lo: Optional[float] = ...,
+    bandpass_hi: Optional[float] = ...,
+    bandpass_transition: Optional[float] = ...,
+    bandpass_atten: float = ...,
+    notch: bool = ...,
+    notch_r: float = ...,
+    notch_mu: float = ...,
+    blank: Optional[float] = ...,
+    blank_hold: int = ...,
+    excise: bool = ...,
+    excise_fft: int = ...,
+    excise_pfa: float = ...,
+    agc: bool = ...,
+    agc_tau: float = ...,
+    bits: Optional[int] = ...,
+    quant_step: Optional[float] = ...,
+    no_agc: bool = ...,
+) -> dict[str, Any]:
+    """Run the receiver front-end chain over complex samples (``i``/``q`` at ``fs_hz``).
+
+    Applies, in order, a band-pass FIR (``bandpass_lo``/``bandpass_hi``), an adaptive notch
+    (``notch``), pulse blanking (``blank``), frequency-domain excision (``excise``), AGC
+    (``agc``) and a quantiser (``bits`` of 1/2/3/8/14, auto-AGC'd unless ``no_agc``). Returns
+    a dict with the filtered ``samples_i``/``samples_q``. Raises ``ValueError`` on an invalid
+    configuration (e.g. only one of the band-pass edges)."""
 
 def iq_labfit(toml: str) -> dict[str, Any]:
     """Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by
