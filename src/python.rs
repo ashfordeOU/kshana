@@ -214,7 +214,10 @@ fn version() -> &'static str {
 // (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
 
 use crate::iq::acq::{acquire, AcqConfig};
-use crate::iq::cli::{build_code, build_scene, SceneParams};
+use crate::iq::cli::{
+    build_broadcast_scene, build_chain, build_channel, build_code, build_scene, BroadcastParams,
+    ChannelParams, FrontendParams, SceneParams,
+};
 use crate::iq::scene::TruthRecord;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
@@ -249,9 +252,13 @@ fn samples_from(i: &[f64], q: &[f64]) -> PyResult<Vec<Cf64>> {
 /// (`fs_hz`, `center_hz`, `if_hz`), the complex samples as two float lists (`samples_i`,
 /// `samples_q`) and the per-epoch `truth` records. `prns` is the PRN per satellite (the
 /// FDMA frequency channel for GLONASS); `dopplers` is one Doppler (Hz) per PRN, a single
-/// value applied to all, or omitted for zero. Raises `ValueError` on an invalid scene.
+/// value applied to all, or omitted for zero. An optional propagation channel is applied to
+/// every satellite through the channel knobs: `iono_stec`/`iono_vtec` (TECU) or
+/// `iono_klobuchar`, `tropo` (with `tropo_doy`), scintillation `s4`/`scint_tau0`/`sigma_phi`,
+/// `multipath_height` (m) with `multipath_ground` (`dry`/`wet`/`sea`), `land_mobile`, and
+/// `nlos`. Raises `ValueError` on an invalid scene or channel.
 #[pyfunction]
-#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1))]
+#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1, iono_stec=None, iono_vtec=None, iono_klobuchar=false, tropo=false, tropo_doy=180.0, s4=None, scint_tau0=1.0, sigma_phi=0.0, multipath_height=None, multipath_ground="dry".to_string(), land_mobile=false, nlos=false))]
 #[allow(clippy::too_many_arguments)]
 fn iq_scene<'py>(
     py: Python<'py>,
@@ -268,6 +275,18 @@ fn iq_scene<'py>(
     seed: u64,
     data: bool,
     threads: usize,
+    iono_stec: Option<f64>,
+    iono_vtec: Option<f64>,
+    iono_klobuchar: bool,
+    tropo: bool,
+    tropo_doy: f64,
+    s4: Option<f64>,
+    scint_tau0: f64,
+    sigma_phi: f64,
+    multipath_height: Option<f64>,
+    multipath_ground: String,
+    land_mobile: bool,
+    nlos: bool,
 ) -> PyResult<Bound<'py, PyAny>> {
     let params = SceneParams {
         fs_hz,
@@ -284,7 +303,103 @@ fn iq_scene<'py>(
         data,
         threads,
     };
-    let scene = build_scene(&params).map_err(PyValueError::new_err)?;
+    let mut scene = build_scene(&params).map_err(PyValueError::new_err)?;
+    let spec = scene.config().spec;
+    // Optional propagation channel.
+    let chan = ChannelParams {
+        iono_stec_tecu: iono_stec,
+        iono_vtec_tecu: iono_vtec,
+        iono_klobuchar,
+        tropo,
+        tropo_doy,
+        s4,
+        scint_tau0_s: scint_tau0,
+        sigma_phi_rad: sigma_phi,
+        multipath_height_m: multipath_height,
+        multipath_ground,
+        land_mobile,
+        nlos,
+    };
+    if chan.any() {
+        let carrier = scene
+            .satellites()
+            .first()
+            .map(|s| s.code.carrier_hz())
+            .unwrap_or(spec.center_hz);
+        let start_tow = scene.config().start_tow_s;
+        if let Some(ch) =
+            build_channel(&chan, carrier, params.seed, start_tow).map_err(PyValueError::new_err)?
+        {
+            scene.set_channel(ch);
+        }
+    }
+    let mut sink = VecSink::default();
+    let mut truth: Vec<TruthRecord> = Vec::new();
+    scene
+        .generate(&mut sink, &mut truth)
+        .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let i: Vec<f64> = sink.samples.iter().map(|s| s.re).collect();
+    let q: Vec<f64> = sink.samples.iter().map(|s| s.im).collect();
+    let truth_json: Vec<serde_json::Value> = truth
+        .iter()
+        .map(|r| serde_json::to_value(r).unwrap_or(serde_json::Value::Null))
+        .collect();
+    let v = serde_json::json!({
+        "fs_hz": spec.fs_hz,
+        "center_hz": spec.center_hz,
+        "if_hz": spec.if_hz,
+        "samples_i": i,
+        "samples_q": q,
+        "truth": truth_json,
+    });
+    json_to_py(py, &v)
+}
+
+/// Generate a broadcast-ephemeris GNSS IQ scene in memory from RINEX navigation text.
+/// Each requested GPS PRN (or every healthy GPS satellite when `prns` is omitted) is placed
+/// at its true broadcast geometry for a receiver at `(rx_lat, rx_lon, rx_alt)` (degrees,
+/// degrees, metres) over the window starting at GPS time of week `start_tow`. Returns the
+/// same dict as [`iq_scene`] (sampling, `samples_i`/`samples_q`, per-epoch `truth`). Raises
+/// `ValueError` on an invalid file or scene.
+#[pyfunction]
+#[pyo3(signature = (fs_hz, window_s, nav_text, rx_lat, rx_lon, rx_alt, prns=None, start_tow=0.0, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, mask_deg=5.0, threads=1))]
+#[allow(clippy::too_many_arguments)]
+fn iq_scene_broadcast<'py>(
+    py: Python<'py>,
+    fs_hz: f64,
+    window_s: f64,
+    nav_text: String,
+    rx_lat: f64,
+    rx_lon: f64,
+    rx_alt: f64,
+    prns: Option<Vec<i64>>,
+    start_tow: f64,
+    cn0_dbhz: Option<f64>,
+    center_hz: Option<f64>,
+    if_hz: f64,
+    noise: bool,
+    noise_figure_db: f64,
+    seed: u64,
+    mask_deg: f64,
+    threads: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    let bp = BroadcastParams {
+        fs_hz,
+        duration_s: window_s,
+        nav_text,
+        prns: prns.unwrap_or_default(),
+        start_tow_s: start_tow,
+        rx_llh_deg: (rx_lat, rx_lon, rx_alt),
+        center_hz,
+        if_hz,
+        cn0_dbhz,
+        noise,
+        noise_figure_db,
+        seed,
+        elevation_mask_deg: mask_deg,
+        threads,
+    };
+    let scene = build_broadcast_scene(&bp).map_err(PyValueError::new_err)?;
     let spec = scene.config().spec;
     let mut sink = VecSink::default();
     let mut truth: Vec<TruthRecord> = Vec::new();
@@ -510,6 +625,74 @@ fn iq_labfit<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
     json_to_py(py, &v)
 }
 
+/// Apply a receiver front-end / interference-mitigation chain to complex samples
+/// (`i`/`q` lists sampled at `fs_hz`) and return the filtered samples as `samples_i` /
+/// `samples_q`. The stages mirror `kshana iq frontend`: an optional band-pass
+/// (`bandpass_lo`/`bandpass_hi` Hz), adaptive `notch`, pulse `blank`ing, frequency-domain
+/// `excise`, `agc`, and a `bits`-bit quantiser (preceded by an automatic AGC unless `no_agc`).
+/// Raises `ValueError` on an invalid chain.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, bandpass_lo=None, bandpass_hi=None, bandpass_transition=None, bandpass_atten=60.0, notch=false, notch_r=0.95, notch_mu=0.05, blank=None, blank_hold=0, excise=false, excise_fft=256, excise_pfa=1e-3, agc=false, agc_tau=1e-3, bits=None, quant_step=None, no_agc=false))]
+#[allow(clippy::too_many_arguments)]
+fn iq_frontend<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    bandpass_lo: Option<f64>,
+    bandpass_hi: Option<f64>,
+    bandpass_transition: Option<f64>,
+    bandpass_atten: f64,
+    notch: bool,
+    notch_r: f64,
+    notch_mu: f64,
+    blank: Option<f64>,
+    blank_hold: usize,
+    excise: bool,
+    excise_fft: usize,
+    excise_pfa: f64,
+    agc: bool,
+    agc_tau: f64,
+    bits: Option<u32>,
+    quant_step: Option<f64>,
+    no_agc: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::frontend::Stage;
+    let mut samples = samples_from(&i, &q)?;
+    let bandpass = match (bandpass_lo, bandpass_hi) {
+        (Some(lo), Some(hi)) => Some((lo, hi)),
+        (None, None) => None,
+        _ => {
+            return Err(PyValueError::new_err(
+                "bandpass needs both bandpass_lo and bandpass_hi",
+            ))
+        }
+    };
+    let params = FrontendParams {
+        bandpass,
+        bandpass_transition_hz: bandpass_transition,
+        bandpass_atten_db: bandpass_atten,
+        notch,
+        notch_r,
+        notch_mu,
+        blank,
+        blank_hold,
+        excise,
+        excise_fft,
+        excise_pfa,
+        agc,
+        agc_tau_s: agc_tau,
+        bits,
+        quant_step,
+        no_agc,
+    };
+    let mut chain = build_chain(&params, fs_hz).map_err(PyValueError::new_err)?;
+    chain.process(&mut samples);
+    let oi: Vec<f64> = samples.iter().map(|s| s.re).collect();
+    let oq: Vec<f64> = samples.iter().map(|s| s.im).collect();
+    json_to_py(py, &serde_json::json!({ "samples_i": oi, "samples_q": oq }))
+}
+
 /// The GNSS IQ signal names [`iq_scene`], [`iq_acquire`] and [`iq_track`] accept.
 #[pyfunction]
 fn iq_signals() -> Vec<String> {
@@ -532,9 +715,11 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_scene_broadcast, m)?)?;
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;
     m.add_function(wrap_pyfunction!(iq_track, m)?)?;
     m.add_function(wrap_pyfunction!(iq_labfit, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_frontend, m)?)?;
     m.add_function(wrap_pyfunction!(iq_signals, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())

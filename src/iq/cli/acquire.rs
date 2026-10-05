@@ -76,7 +76,8 @@ pub(crate) fn read_samples(src: &mut dyn IqSource, n: usize) -> Result<Vec<Cf64>
 
 /// Run `kshana iq acquire <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, &[]).map_err(Fail::Usage)?;
+    let switches: Vec<&str> = super::frontend::FRONTEND_SWITCHES.to_vec();
+    let a = Args::parse(args, &switches).map_err(Fail::Usage)?;
     a.need_pos(1, "acquire")?;
     let codes = codes_from_args(&a)?;
     let opened = open_recording(Path::new(&a.pos[0]), raw_sidecar(&a)?)?;
@@ -90,7 +91,14 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .collect::<Result<Vec<_>, _>>()
         .map_err(Fail::Run)?;
     let max_needed = needed.iter().copied().max().unwrap_or(0);
-    let samples = read_samples(src.as_mut(), max_needed)?;
+    let mut samples = read_samples(src.as_mut(), max_needed)?;
+
+    // Optional receiver front end applied before acquisition.
+    let fe = super::frontend::FrontendParams::from_args(&a)?;
+    if fe.any() {
+        let mut chain = super::frontend::build_chain(&fe, spec.fs_hz).map_err(Fail::Usage)?;
+        super::frontend::apply_chain(&mut chain, &mut samples);
+    }
 
     let mut results = Vec::new();
     for (code, need) in codes.iter().zip(&needed) {
