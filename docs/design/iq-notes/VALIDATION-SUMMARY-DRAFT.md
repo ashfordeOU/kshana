@@ -1,5 +1,5 @@
 <!--
-DRAFT — one-page validation summary for the Kenn Gold follow-up.
+DRAFT — one-page validation summary for a prospective-partner follow-up.
 Filled from the IQ streams' own test output (docs/design/iq-notes/*.md) after the
 merge. Still a DRAFT: before sending, re-confirm each figure against the test it
 cites on the released 0.31.0 tag, and keep the honest rule — a line reads
