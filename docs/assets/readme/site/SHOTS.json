@@ -21,7 +21,7 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "strip": "site-strip-light.jpg",
@@ -37,12 +37,12 @@
       "device_scale_factor": 2,
       "crop_css_px": {
         "x": 0,
-        "y": 8636,
+        "y": 8694,
         "width": 1440,
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "strip": "site-strip-light.jpg",
@@ -63,7 +63,7 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "strip": "site-strip-dark.jpg",
@@ -84,7 +84,7 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "strip": "site-strip-dark.jpg",
@@ -100,12 +100,12 @@
       "device_scale_factor": 2,
       "crop_css_px": {
         "x": 0,
-        "y": 8516,
+        "y": 8574,
         "width": 1440,
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "strip": "site-strip-dark.jpg",
@@ -126,7 +126,7 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     }
   ]
 }

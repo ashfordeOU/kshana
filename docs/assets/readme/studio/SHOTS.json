@@ -22,7 +22,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "file": "studio-task-light.jpg",
@@ -44,7 +44,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "file": "studio-advanced-light.jpg",
@@ -66,7 +66,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "file": "studio-home-dark.jpg",
@@ -88,7 +88,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "file": "studio-task-dark.jpg",
@@ -110,7 +110,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     },
     {
       "file": "studio-advanced-dark.jpg",
@@ -132,7 +132,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-01"
+      "captured": "2026-10-04"
     }
   ]
 }

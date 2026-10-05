@@ -180,7 +180,7 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.30.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.31.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
 </picture>
 
 The same scenario file gives the same bytes on every surface. MCP is the Model Context
@@ -202,7 +202,7 @@ beacons). See [Research](https://github.com/AshfordeOU/kshana#research).
 
 The whole engine is free under the AGPL-3.0. Kshana Pro, a proprietary overlay that depends
 on the open engine and never forks it, and custom studies are available under contract from
-Ashforde OÜ: [contact@ashforde.org](mailto:contact@ashforde.org). There are no prices; see
+Ashforde® OÜ: [contact@ashforde.org](mailto:contact@ashforde.org). There are no prices; see
 [docs/PRO.md](https://github.com/AshfordeOU/kshana/blob/main/docs/PRO.md).
 
 ## Learn more
@@ -218,6 +218,6 @@ Ashforde OÜ: [contact@ashforde.org](mailto:contact@ashforde.org). There are no 
 
 Free and open source under the **GNU AGPL-3.0-only** (the GNU Affero General Public
 License, version 3 only). A **commercial licence** is available from
-[Ashforde OÜ](https://ashforde.org) (an Estonian private limited company; OÜ = osaühing) for
+[Ashforde® OÜ](https://ashforde.org) (an Estonian private limited company; OÜ = osaühing) for
 closed integration; see [LICENSING.md](https://github.com/AshfordeOU/kshana/blob/main/LICENSING.md). Professionally developed
-and maintained by Ashforde OÜ.
+and maintained by Ashforde® OÜ.
