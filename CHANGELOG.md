@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.32.0] - 2026-10-05
+
 ### Added
 
 - **GNSS IQ layer on the CLI and Python (0.32.0 Phase A).** The existing `iq` module is now
