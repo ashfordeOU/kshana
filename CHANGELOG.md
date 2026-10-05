@@ -9,6 +9,26 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **GNSS IQ layer on the CLI and Python (0.32.0 Phase A).** The existing `iq` module is now
+  usable without writing Rust. Five new `kshana iq` commands join the data-handling group:
+  `scene` generates a long multi-satellite IQ scene to a file with a truth sidecar;
+  `acquire` runs FFT acquisition of one or more PRNs over a recording and reports each
+  detection (PRN, Doppler, code phase, statistic, threshold); `track` acquires then runs the
+  DLL/PLL/FLL bank over a recording and emits per-epoch tracking output (CSV/JSON) with
+  configurable loop bandwidths, integration time and correlator spacing; `sweep` replays one
+  recording across several loop designs and reports the resulting jitter and lock metrics per
+  design; and `labfit` fits the tracking-loop loss-of-lock model to a receiver-trust timeline.
+  The same core is exposed to Python (`kshana.iq_scene`, `iq_acquire`, `iq_track`,
+  `iq_labfit`, `iq_signals`), returning NumPy-friendly lists and dicts. Software-only and
+  additive: no new dependencies, no transmit, no interference or spoofing waveform synthesis;
+  the engine, acquisition, tracking and loop designs are the crate's own, so a CLI or Python
+  caller gets the same bits as the Rust tests. New module `iq::cli`; the scene's own truth
+  sidecar is the independent oracle in `tests/iq_cli.rs` (acquisition recovers each injected
+  code phase and Doppler, tracking converges to the injected Doppler). No published
+  scenario-kind count or verification-matrix row changes.
+
 ## [0.31.0] - 2026-10-04
 
 ### Added
