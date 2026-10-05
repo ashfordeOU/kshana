@@ -28,6 +28,31 @@ breaking changes are called out explicitly.
   sidecar is the independent oracle in `tests/iq_cli.rs` (acquisition recovers each injected
   code phase and Doppler, tracking converges to the injected Doppler). No published
   scenario-kind count or verification-matrix row changes.
+- **Remaining GNSS IQ library capabilities on the `iq` CLI and Python (0.32.0 Phase A.2).**
+  Builds on Phase A, surfacing the rest of the `iq` layer without writing Rust:
+  - **Propagation channel on `iq scene`** (and the Python `iq_scene`): a first-order
+    ionosphere (`--iono-stec`/`--iono-vtec` or `--iono-klobuchar`), the Saastamoinen/Niell
+    troposphere (`--tropo`), the Cornell scintillation model (`--s4`, `--scint-tau0`,
+    `--sigma-phi`), specular ground multipath (`--multipath-height`/`--multipath-ground`),
+    the three-state land-mobile channel (`--land-mobile`) and a non-line-of-sight block
+    (`--nlos`) apply to every satellite through a new crate-internal bridge
+    (`iq::channel::SceneChannelAdapter`) that converts the channel models' absolute paths
+    into the scene's excess-over-geometry form.
+  - **SigMF output on `iq scene`** (`--format sigmf`): writes the samples as a
+    `.sigmf-data`/`.sigmf-meta` pair with a capture and per-satellite annotations;
+    `acquire`/`track` already read SigMF, so a scene round-trips.
+  - **Front-end DSP**: a new `iq frontend <in> <out>` command and the same flags on
+    `acquire`/`track` (`--bandpass`, `--notch`, `--blank`, `--excise`, `--agc`, `--bits`
+    1/2/3/8/14) run the `iq::frontend` stages (band-pass FIR, adaptive notch, pulse blanking,
+    frequency-domain excision, AGC, quantiser); mirrored in Python as `iq_frontend`.
+  - **Broadcast-ephemeris scenes**: `iq scene --nav <rinex_nav> --rx-pos lat,lon,alt`
+    (with `--start`/`--window`/`--prn`) places each healthy GPS satellite at its true
+    broadcast geometry using the engine's RINEX reader, so the truth sidecar carries the real
+    per-satellite range, Doppler and code phase; mirrored in Python as `iq_scene_broadcast`.
+  Software-only and additive: no new dependencies, no transmit, no interference or spoofing
+  waveform synthesis (channel propagation effects act on the legitimate signal only). Each
+  numeric claim is tested against an independent reference (closed form or injected truth) in
+  the channel/front-end unit tests and `tests/iq_cli.rs`.
 
 ## [0.31.0] - 2026-10-04
 

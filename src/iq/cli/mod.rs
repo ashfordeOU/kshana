@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The processing half of the `kshana iq` command group: `scene`, `acquire`, `track`,
-//! `sweep` and `labfit`.
+//! `sweep`, `labfit` and `frontend`.
 //!
 //! [`run`] takes the arguments after `iq` and returns a process exit code (0 success,
 //! 1 failure, 2 usage error). It owns the five signal-processing commands and hands every
@@ -16,12 +16,16 @@
 //! * `sweep` — replay one recording across several loop designs and report lock metrics
 //!   ([`sweep`]);
 //! * `labfit` — fit the tracking-loop loss-of-lock model to a receiver-trust timeline
-//!   ([`labfit`]).
+//!   ([`labfit`]);
+//! * `frontend` — apply receiver front-end and interference-mitigation DSP to a recording
+//!   ([`frontend`]).
 //!
 //! The parsing style, the exit codes and the `--format`/`--rate`/`--center` raw-input flags
 //! mirror [`super::io::cli`] exactly.
 
 mod acquire;
+mod channel;
+mod frontend;
 mod labfit;
 mod scene;
 mod signal;
@@ -31,18 +35,26 @@ mod track;
 pub(crate) use signal::build_code;
 // Re-exported for the Python bindings, which build and generate a scene in-process.
 #[cfg(feature = "python")]
-pub(crate) use scene::{build_scene, SceneParams};
+pub(crate) use channel::{build_channel, ChannelParams};
+#[cfg(feature = "python")]
+pub(crate) use frontend::{build_chain, FrontendParams};
+#[cfg(feature = "python")]
+pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
 #[cfg(feature = "python")]
 pub(crate) use signal::signal_names;
 
 use std::collections::HashMap;
 
 /// Usage text of the processing commands, printed above [`super::io::cli::USAGE`].
-pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
+   or: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf]
    or: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>]
    or: kshana iq track   <recording> --signal <name> --prn <list> [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--coherent <N>] [--max-seconds <s>] [--acq-coherent <N>] [--acq-noncoherent <M>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq sweep   <recording> --signal <name> --prn <list> [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>] [--max-seconds <s>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+   or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+ acquire/track also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing
+ scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
  recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>]
  signals: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of
  <list> is a comma-separated list (one per --prn, or a single value applied to all)";
@@ -160,6 +172,7 @@ pub fn run(args: &[String]) -> i32 {
         Some("track") => finish(track::run(&args[1..])),
         Some("sweep") => finish(sweep::run(&args[1..])),
         Some("labfit") => finish(labfit::run(&args[1..])),
+        Some("frontend") => finish(frontend::run(&args[1..])),
         // Every data-handling command belongs to the io half of the group.
         Some(_) => super::io::cli::run(args),
     }

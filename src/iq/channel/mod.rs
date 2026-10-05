@@ -46,6 +46,10 @@ pub mod multipath;
 pub mod scint;
 pub mod tropo;
 
+mod scene_bridge;
+
+pub(crate) use scene_bridge::SceneChannelAdapter;
+
 /// The geometry of one satellite seen from the receiver at one instant.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub struct LineOfSight {
