@@ -172,3 +172,70 @@ def test_shipped_moonlight_scenario_emits_no_csv_without_an_export_site():
     # them commented out, so a plain run has no table.
     toml = (REPO / "scenarios" / "moonlight-service-volume.toml").read_text()
     assert kshana.run_typed(toml).csv is None
+
+
+# --- GNSS IQ layer (src/iq) ---------------------------------------------------------
+
+
+def test_iq_signals_lists_the_supported_names():
+    names = kshana.iq_signals()
+    assert isinstance(names, list) and "gps-l1ca" in names
+    assert all(isinstance(n, str) for n in names)
+
+
+def test_iq_scene_then_acquire_recovers_the_injected_signals():
+    # A noise-free two-satellite scene; acquisition must recover both PRNs, with the
+    # scene's own truth sidecar as the oracle for the Doppler.
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000,
+        duration_s=0.05,
+        signal="gps-l1ca",
+        prns=[5, 12],
+        dopplers=[1000.0, -1500.0],
+        cn0_dbhz=50.0,
+        noise=False,
+    )
+    assert len(scene["samples_i"]) == len(scene["samples_q"]) == int(0.05 * 2_046_000)
+    truth0 = {r["sat_id"]: r for r in scene["truth"] if r["t_s"] == 0.0}
+    assert set(truth0) == {5, 12}
+    dets = kshana.iq_acquire(
+        scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [5, 12],
+        doppler_step=250.0, doppler_max=4000.0,
+    )
+    assert len(dets) == 2
+    for det, prn in zip(dets, (5, 12)):
+        assert det["acquired"], det
+        assert abs(det["doppler_hz"] - truth0[prn]["doppler_hz"]) <= 250.0
+
+
+def test_iq_scene_arrays_are_numpy_float64_and_finite():
+    import numpy as np
+
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.02, signal="gps-l1ca", prns=[1], noise=False
+    )
+    i = np.asarray(scene["samples_i"])
+    q = np.asarray(scene["samples_q"])
+    assert i.dtype == np.float64 and q.dtype == np.float64
+    assert i.ndim == 1 and i.shape == q.shape
+    assert np.isfinite(i).all() and np.isfinite(q).all()
+
+
+def test_iq_track_converges_to_the_injected_doppler_and_locks():
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.8, signal="gps-l1ca", prns=[9],
+        dopplers=[1200.0], cn0_dbhz=50.0, noise=False,
+    )
+    out = kshana.iq_track(scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [9])
+    epochs = out["channels"][0]["epochs"]
+    assert len(epochs) > 500
+    last = epochs[-1]
+    assert abs(last["doppler_hz"] - 1200.0) < 5.0
+    assert last["phase_lock"] is True
+
+
+def test_iq_acquire_raises_on_an_unknown_signal():
+    import pytest
+
+    with pytest.raises(ValueError):
+        kshana.iq_acquire([0.0, 0.0], [0.0, 0.0], 2_046_000, "not-a-signal", [1])

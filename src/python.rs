@@ -205,6 +205,320 @@ fn version() -> &'static str {
     env!("CARGO_PKG_VERSION")
 }
 
+// --- GNSS IQ layer (src/iq) ---------------------------------------------------------
+//
+// These expose the signal-level simulation and software-receiver processing of the IQ
+// layer with the same conventions as the `kshana iq` CLI, returning native Python data
+// (lists and dicts) that `numpy.asarray(...)` wraps directly. The scene generator, the
+// acquisition and tracking engines and the loop designs are the crate's own
+// (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
+
+use crate::iq::acq::{acquire, AcqConfig};
+use crate::iq::cli::{build_code, build_scene, SceneParams};
+use crate::iq::scene::TruthRecord;
+use crate::iq::signals::SignalCode;
+use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
+use crate::iq::{Cf64, SampleSpec, SpreadingCode, VecSink};
+
+/// Build one spreading code per identifier in `prns`.
+fn codes_for(signal: &str, prns: &[i64]) -> PyResult<Vec<SignalCode>> {
+    if prns.is_empty() {
+        return Err(PyValueError::new_err("prns must list at least one PRN"));
+    }
+    prns.iter()
+        .map(|&id| build_code(signal, id).map_err(PyValueError::new_err))
+        .collect()
+}
+
+/// Interleave two equal-length real sequences into complex samples.
+fn samples_from(i: &[f64], q: &[f64]) -> PyResult<Vec<Cf64>> {
+    if i.len() != q.len() {
+        return Err(PyValueError::new_err(format!(
+            "i and q must be the same length ({} vs {})",
+            i.len(),
+            q.len()
+        )));
+    }
+    Ok(i.iter()
+        .zip(q)
+        .map(|(&re, &im)| Cf64::new(re, im))
+        .collect())
+}
+
+/// Generate a multi-satellite GNSS IQ scene in memory. Returns a dict with the sampling
+/// (`fs_hz`, `center_hz`, `if_hz`), the complex samples as two float lists (`samples_i`,
+/// `samples_q`) and the per-epoch `truth` records. `prns` is the PRN per satellite (the
+/// FDMA frequency channel for GLONASS); `dopplers` is one Doppler (Hz) per PRN, a single
+/// value applied to all, or omitted for zero. Raises `ValueError` on an invalid scene.
+#[pyfunction]
+#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1))]
+#[allow(clippy::too_many_arguments)]
+fn iq_scene<'py>(
+    py: Python<'py>,
+    fs_hz: f64,
+    duration_s: f64,
+    signal: String,
+    prns: Vec<i64>,
+    dopplers: Option<Vec<f64>>,
+    cn0_dbhz: Option<f64>,
+    center_hz: Option<f64>,
+    if_hz: f64,
+    noise: bool,
+    noise_figure_db: f64,
+    seed: u64,
+    data: bool,
+    threads: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    let params = SceneParams {
+        fs_hz,
+        duration_s,
+        signal,
+        ids: prns,
+        dopplers: dopplers.unwrap_or_default(),
+        center_hz,
+        if_hz,
+        cn0_dbhz,
+        noise_figure_db,
+        noise,
+        seed,
+        data,
+        threads,
+    };
+    let scene = build_scene(&params).map_err(PyValueError::new_err)?;
+    let spec = scene.config().spec;
+    let mut sink = VecSink::default();
+    let mut truth: Vec<TruthRecord> = Vec::new();
+    scene
+        .generate(&mut sink, &mut truth)
+        .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let i: Vec<f64> = sink.samples.iter().map(|s| s.re).collect();
+    let q: Vec<f64> = sink.samples.iter().map(|s| s.im).collect();
+    let truth_json: Vec<serde_json::Value> = truth
+        .iter()
+        .map(|r| serde_json::to_value(r).unwrap_or(serde_json::Value::Null))
+        .collect();
+    let v = serde_json::json!({
+        "fs_hz": spec.fs_hz,
+        "center_hz": spec.center_hz,
+        "if_hz": spec.if_hz,
+        "samples_i": i,
+        "samples_q": q,
+        "truth": truth_json,
+    });
+    json_to_py(py, &v)
+}
+
+/// FFT acquisition of each PRN over complex samples (`i`/`q` lists sampled at `fs_hz`).
+/// Returns a list of detection dicts (`code`, `acquired`, `doppler_hz`, `code_phase_chips`,
+/// `statistic`, `threshold`, `peak_ratio`, ...). Raises `ValueError` on a bad search.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, coherent=1, noncoherent=1, doppler_max=5000.0, doppler_step=None, pfa=1e-3))]
+#[allow(clippy::too_many_arguments)]
+fn iq_acquire<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    signal: String,
+    prns: Vec<i64>,
+    if_hz: f64,
+    center_hz: Option<f64>,
+    coherent: usize,
+    noncoherent: usize,
+    doppler_max: f64,
+    doppler_step: Option<f64>,
+    pfa: f64,
+) -> PyResult<Bound<'py, PyAny>> {
+    let codes = codes_for(&signal, &prns)?;
+    let samples = samples_from(&i, &q)?;
+    let spec = SampleSpec {
+        fs_hz,
+        center_hz: center_hz.unwrap_or_else(|| codes[0].carrier_hz()),
+        if_hz,
+    };
+    let coherent = coherent.max(1);
+    let cfg = AcqConfig {
+        coherent_periods: coherent,
+        noncoherent: noncoherent.max(1),
+        doppler_max_hz: doppler_max,
+        doppler_step_hz: doppler_step
+            .unwrap_or(2.0 / (3.0 * coherent as f64 * codes[0].period_s())),
+        pfa,
+    };
+    let mut out = Vec::new();
+    for code in &codes {
+        let grid = acquire(&samples, &spec, code, &cfg).map_err(PyValueError::new_err)?;
+        let r = grid.result;
+        out.push(serde_json::json!({
+            "code": r.code_name,
+            "acquired": r.acquired,
+            "doppler_hz": r.doppler_hz,
+            "code_phase_chips": r.code_phase_chips,
+            "delay_samples": r.delay_samples,
+            "statistic": r.statistic,
+            "threshold": r.threshold,
+            "peak_ratio": r.peak_ratio,
+            "second_peak": r.second_peak,
+            "sample_power": r.sample_power,
+        }));
+    }
+    json_to_py(py, &serde_json::Value::Array(out))
+}
+
+/// Acquire then track each PRN over complex samples. Returns a dict with one entry per
+/// channel (`code` and a list of per-epoch dicts: `doppler_hz`, `code_phase_chips`, `pli`,
+/// `phase_lock`, `cn0_nwpr_dbhz`, the prompt `i_prompt`/`q_prompt`, ...). The loop design
+/// starts from the GPS-L1-C/A-like default; any of `pll_bw`, `fll_bw`, `dll_bw`, `spacing`,
+/// `coherent` overrides it. Raises `ValueError` if a PRN is not acquired.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=1, acq_noncoherent=1, doppler_max=5000.0, max_seconds=None))]
+#[allow(clippy::too_many_arguments)]
+fn iq_track<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    signal: String,
+    prns: Vec<i64>,
+    if_hz: f64,
+    center_hz: Option<f64>,
+    pll_bw: Option<f64>,
+    fll_bw: Option<f64>,
+    dll_bw: Option<f64>,
+    spacing: Option<f64>,
+    coherent: Option<usize>,
+    periods_per_bit: Option<usize>,
+    acq_coherent: usize,
+    acq_noncoherent: usize,
+    doppler_max: f64,
+    max_seconds: Option<f64>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let codes = codes_for(&signal, &prns)?;
+    let samples = samples_from(&i, &q)?;
+    let spec = SampleSpec {
+        fs_hz,
+        center_hz: center_hz.unwrap_or_else(|| codes[0].carrier_hz()),
+        if_hz,
+    };
+    // Acquisition to initialise each channel.
+    let acq_coherent = acq_coherent.max(1);
+    let acq = AcqConfig {
+        coherent_periods: acq_coherent,
+        noncoherent: acq_noncoherent.max(1),
+        doppler_max_hz: doppler_max,
+        doppler_step_hz: 2.0 / (3.0 * acq_coherent as f64 * codes[0].period_s()),
+        pfa: 1e-3,
+    };
+    let mut inits = Vec::new();
+    for code in &codes {
+        let grid = acquire(&samples, &spec, code, &acq).map_err(PyValueError::new_err)?;
+        if !grid.result.acquired {
+            return Err(PyValueError::new_err(format!(
+                "{}: not acquired (statistic {:.2} < threshold {:.2})",
+                code.name(),
+                grid.result.statistic,
+                grid.result.threshold
+            )));
+        }
+        let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
+            std::sync::Arc::new(code.clone());
+        inits.push(ChannelInit::from_acquisition(
+            arc,
+            &grid.result,
+            &spec,
+            0,
+            periods_per_bit,
+        ));
+    }
+    // One loop design from the overrides.
+    let mut cfg = LoopConfig::default();
+    if let Some(d) = spacing {
+        cfg.spacing_chips = d;
+    }
+    if let Some(bn) = dll_bw {
+        cfg.dll_bn_hz = bn;
+    }
+    if let Some(n) = coherent {
+        cfg.coherent_periods = n.max(1);
+    }
+    if pll_bw.is_some() || fll_bw.is_some() {
+        cfg.carrier = CarrierLoop::FllAssistedPll {
+            pll_order: 2,
+            pll_bn_hz: pll_bw.unwrap_or(15.0),
+            fll_order: 1,
+            fll_bn_hz: fll_bw.unwrap_or(10.0),
+        };
+    }
+    let max_samples = max_seconds.map(|s| (s * fs_hz).round() as u64);
+    let mut src = crate::iq::VecSource::new(spec, samples);
+    let results = replay(&mut src, &inits, &[cfg], max_samples)
+        .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let chans: Vec<serde_json::Value> = codes
+        .iter()
+        .zip(&results[0].channels)
+        .map(|(code, epochs)| {
+            serde_json::json!({
+                "code": code.name(),
+                "epochs": epochs.iter().map(epoch_value).collect::<Vec<_>>(),
+            })
+        })
+        .collect();
+    json_to_py(
+        py,
+        &serde_json::json!({ "fs_hz": fs_hz, "channels": chans }),
+    )
+}
+
+/// One tracking epoch as a JSON value for the Python surface.
+fn epoch_value(e: &EpochOutput) -> serde_json::Value {
+    serde_json::json!({
+        "epoch": e.epoch,
+        "sample_index": e.sample_index,
+        "code_epoch_s": e.code_epoch_s,
+        "t_coh_s": e.t_coh_s,
+        "doppler_hz": e.doppler_hz,
+        "code_rate_hz": e.code_rate_hz,
+        "code_phase_chips": e.code_phase_chips,
+        "i_prompt": e.prompt.re,
+        "q_prompt": e.prompt.im,
+        "dll_chips": e.disc.dll_chips,
+        "pll_rad": e.disc.pll_rad,
+        "fll_hz": e.disc.fll_hz,
+        "pli": e.pli,
+        "phase_lock": e.phase_lock,
+        "code_lock": e.code_lock,
+        "cn0_nwpr_dbhz": e.cn0_nwpr_dbhz,
+        "cn0_beaulieu_dbhz": e.cn0_beaulieu_dbhz,
+    })
+}
+
+/// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
+/// `iq-labfit` TOML scenario. Returns a dict with the parsed `report`, the `residuals_csv`
+/// and `predictions_csv` tables and the `markdown`. Relative log paths are resolved against
+/// the working directory. Raises `ValueError` on an invalid scenario or unreadable log.
+#[pyfunction]
+fn iq_labfit<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
+    let out = crate::iq::labfit::run_toml(toml).map_err(PyValueError::new_err)?;
+    let report: serde_json::Value =
+        serde_json::from_str(&out.json).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let v = serde_json::json!({
+        "report": report,
+        "residuals_csv": out.residuals_csv,
+        "predictions_csv": out.predictions_csv,
+        "markdown": out.markdown,
+    });
+    json_to_py(py, &v)
+}
+
+/// The GNSS IQ signal names [`iq_scene`], [`iq_acquire`] and [`iq_track`] accept.
+#[pyfunction]
+fn iq_signals() -> Vec<String> {
+    crate::iq::cli::signal_names()
+        .iter()
+        .map(|s| s.to_string())
+        .collect()
+}
+
 #[pymodule]
 fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_class::<PyRunOutput>()?;
@@ -217,6 +531,11 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_track, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_labfit, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_signals, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
 }
