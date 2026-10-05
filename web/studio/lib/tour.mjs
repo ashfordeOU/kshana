@@ -66,7 +66,7 @@ export const TOUR_STEPS = [
   },
   {
     target: "#ashforde",
-    title: "From Ashforde OÜ",
+    title: "From Ashforde® OÜ",
     body: "Thank you for exploring Kshana. We build open, reproducible, evidence-first engineering for missions that cannot fail — honest about what is validated and what is modelled. Questions, a collaboration, or a study? Reach us at contact@ashforde.org.",
     side: "top",
   },

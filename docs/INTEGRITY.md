@@ -7,7 +7,7 @@ states plainly what they are today, what they are *not*, and what the roadmap
 adds. If you are evaluating Kshana for a safety-of-life or certification context,
 read this first.
 
-## Today (v0.30.0)
+## Today (v0.31.0)
 
 ### Integrity FoM — filter self-consistency
 The Integrity FoM is the fraction of outage samples whose true timing error stays
@@ -125,8 +125,11 @@ What `raim.rs` does **not** yet do:
   vehicle, that is a satellite)** are not modelled;
 - the ISM is a configurable parameter set (with the WG-C reference values), not a
   broadcast operational message or a validated threat model;
-- **fault detection and exclusion (FDE)** stops at identification: the faulted satellite is
-  named, but no re-solved, exclusion-protected position is reported.
+- **fault detection and exclusion (FDE)** is single-satellite and snapshot only: solution
+  separation names the faulted satellite, and `snapshot_raim_fde` re-solves each
+  single-satellite exclusion and returns the excluded satellite with the chi-squared test
+  and protection levels of the remaining subset, but no exclusion-protected position is
+  reported, and the `integrity` scenario kind does not run the exclusion step.
 
 The snapshot, solution-separation, and ARAIM cores are exercised on **real IGS (International GNSS Service)
 precise-orbit (SP3: Standard Product 3) geometry**, not synthetic constellations alone: `tests/igs_real_data.rs`

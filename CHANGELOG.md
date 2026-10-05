@@ -692,8 +692,8 @@ Union) 2006/2000A chain, with optional Earth orientation parameters.
 - Fixed: the default carrier of `lunar_service` (`export_antenna.carrier_hz`), `lunar_jamming`
   and `attack_surface` was a rounded 2.4 GHz; it is now the LSIS-020 AFS carrier,
   2492.028 MHz. At the old default free-space loss was understated by 0.327 dB.
-- Revisions: none. Every bundled scenario names its carrier, and all 138 bundled scenario
-  results are byte-identical to the previous main.
+- Revisions: none. Every bundled scenario names its carrier, and the results of all 138
+  scenario files are byte-identical to the previous main.
 
 **D7, real lunar IQ and GPS LNAV (seven new rows, none VALIDATED: 242 -> 249 rows, validated 123 unchanged).**
 

@@ -1,6 +1,6 @@
 # Kshana
 
-> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.30.0, AGPL-3.0-only licence, by Ashforde OÜ. 123 of 249 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
+> Open-source GNSS jamming and spoofing simulator for PNT (positioning, navigation and timing) resilience: holdover, RAIM, lunar navigation, in your browser. Version 0.31.0, AGPL-3.0-only licence, by Ashforde® OÜ. 123 of 249 capabilities are validated against external oracles; the rest are labelled Modelled or partner-owned.
 
 Kshana is a deterministic Rust engine for PNT (positioning, navigation and timing) resilience studies: GNSS (global navigation satellite system) jamming and spoofing, clock holdover, RAIM (receiver autonomous integrity monitoring) and protection levels, orbits, low-Earth-orbit navigation, and navigation at the Moon and Mars. Every scenario is a TOML file; every run is reproducible from its scenario, seed and engine version. It is not an RF (radio-frequency) signal simulator, not a GNSS receiver and not a flight product.
 
@@ -62,8 +62,8 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 ## Docs: Validation and evidence
 
 - [Validation status](https://kshana.dev/docs/validation): On tolerances. "Validated" below means a calibration test asserts the simulated statistic matches the reference relation within an enforced gate…
-- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 223 rows — 83 VALIDATED, 136 MODELLED, 4 PARTNER.
-- [Capability reference](https://kshana.dev/docs/capability-reference): The 46 capability cards from web/capabilities.json, then all 223 rows of the verification matrix.
+- [Verification matrix](https://kshana.dev/docs/verification-matrix): The complete, machine-checked evidence ledger: 249 rows — 123 VALIDATED, 122 MODELLED, 4 PARTNER.
+- [Capability reference](https://kshana.dev/docs/capability-reference): The 46 capability cards from web/capabilities.json, then all 249 rows of the verification matrix.
 - [Modelled capabilities — rationale](https://kshana.dev/docs/modelled-rationale): These capabilities are implemented from published or first-principles physics with tests, but are honestly labelled MODELLED — not checked against an…
 - [Claims vs. reality — overclaim ledger](https://kshana.dev/docs/claims-vs-reality): An independent audit of an earlier Kshana version catalogued fourteen overclaims (OC-0 … OC-13): places where a public-facing surface (README…
 - [Provenance](https://kshana.dev/docs/provenance): Kshana's central honesty discipline is that every sensor parameter, physical model, and validation dataset is traceable to a published source — a…

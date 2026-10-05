@@ -666,7 +666,7 @@ function budget(svgEl, m, fig, grades, val) {
     row.append(tr, el("b", null, g.x.map((x) => `${x.thr} m: ${n(x.t, 0)} s`).join(" · ")));
     grades.append(row);
   }
-  fig.innerHTML = `Time since GNSS was lost on the log axis, a ${m.grade}-grade IMU at ${ni(m.speed)} m/s: ` + m.crossings.map((x) => `<b>${x.thr} m</b> after ${n(x.t, 0)} s, dominated by ${x.dom.replace(/_/g, " ")}`).join(" · ") + ". The bars: the same crossings for four IMU grades.";
+  fig.innerHTML = `Time since GNSS was lost on the log axis, a ${m.grade}-grade IMU at ${ni(m.speed)} m/s: ` + m.crossings.map((x) => `<b>${x.thr} m</b> after ${n(x.t, 0)} s, dominated by ${x.dom.replace(/_/g, " ")}`).join(" · ") + ". The lines are the engine's short-coast growth laws and their root-sum-square; the crossings come from its full nine-state (Schuler) error model, which bounds the bias terms, so on long coasts each crossing comes a little later than the line reaches it. The bars: the same crossings for four IMU grades.";
   return pts;
 }
 
