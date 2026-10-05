@@ -20,6 +20,11 @@ __all__ = [
     "error_kind",
     "version",
     "receiver_trust",
+    "iq_scene",
+    "iq_acquire",
+    "iq_track",
+    "iq_labfit",
+    "iq_signals",
     "__version__",
 ]
 
@@ -100,3 +105,87 @@ def error_kind(toml: str) -> Optional[str]:
 
 def version() -> str:
     """The engine version (the crate version)."""
+
+def iq_signals() -> list[str]:
+    """The GNSS IQ signal names accepted by :func:`iq_scene`, :func:`iq_acquire` and
+    :func:`iq_track` (``gps-l1ca``, ``galileo-e1b``, ``glonass-l1of``, ...)."""
+
+def iq_scene(
+    fs_hz: float,
+    duration_s: float,
+    signal: str,
+    prns: list[int],
+    dopplers: Optional[list[float]] = ...,
+    cn0_dbhz: Optional[float] = ...,
+    center_hz: Optional[float] = ...,
+    if_hz: float = ...,
+    noise: bool = ...,
+    noise_figure_db: float = ...,
+    seed: int = ...,
+    data: bool = ...,
+    threads: int = ...,
+) -> dict[str, Any]:
+    """Generate a multi-satellite GNSS IQ scene in memory.
+
+    Returns a dict with the sampling (``fs_hz``, ``center_hz``, ``if_hz``), the complex
+    samples as two float lists (``samples_i``, ``samples_q``) and the per-epoch ``truth``
+    records. ``prns`` is the PRN per satellite (the FDMA frequency channel for GLONASS);
+    ``dopplers`` is one Doppler (Hz) per PRN, a single value applied to all, or omitted for
+    zero. Wrap ``samples_i``/``samples_q`` with ``numpy.asarray(...)`` for arrays. Raises
+    ``ValueError`` on an invalid scene."""
+
+def iq_acquire(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prns: list[int],
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    coherent: int = ...,
+    noncoherent: int = ...,
+    doppler_max: float = ...,
+    doppler_step: Optional[float] = ...,
+    pfa: float = ...,
+) -> list[dict[str, Any]]:
+    """FFT acquisition of each PRN over complex samples (``i``/``q`` sampled at ``fs_hz``).
+
+    Returns a list of detection dicts (``code``, ``acquired``, ``doppler_hz``,
+    ``code_phase_chips``, ``statistic``, ``threshold``, ``peak_ratio``, ...). Raises
+    ``ValueError`` on a bad search (e.g. an unknown signal)."""
+
+def iq_track(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prns: list[int],
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    pll_bw: Optional[float] = ...,
+    fll_bw: Optional[float] = ...,
+    dll_bw: Optional[float] = ...,
+    spacing: Optional[float] = ...,
+    coherent: Optional[int] = ...,
+    periods_per_bit: Optional[int] = ...,
+    acq_coherent: int = ...,
+    acq_noncoherent: int = ...,
+    doppler_max: float = ...,
+    max_seconds: Optional[float] = ...,
+) -> dict[str, Any]:
+    """Acquire then track each PRN over complex samples.
+
+    Returns a dict with ``fs_hz`` and one entry per channel (``code`` and a list of
+    per-epoch dicts: ``doppler_hz``, ``code_phase_chips``, ``pli``, ``phase_lock``,
+    ``cn0_nwpr_dbhz``, the prompt ``i_prompt``/``q_prompt``, ...). The loop design starts
+    from the GPS-L1-C/A-like default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``,
+    ``spacing``, ``coherent`` overrides it. Raises ``ValueError`` if a PRN is not
+    acquired."""
+
+def iq_labfit(toml: str) -> dict[str, Any]:
+    """Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by
+    an ``iq-labfit`` TOML scenario.
+
+    Returns a dict with the parsed ``report``, the ``residuals_csv`` and
+    ``predictions_csv`` tables and the ``markdown``. Relative log paths resolve against the
+    working directory. Raises ``ValueError`` on an invalid scenario or unreadable log."""
