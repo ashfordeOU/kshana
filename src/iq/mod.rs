@@ -36,6 +36,7 @@ pub mod cli;
 pub mod frontend;
 pub mod io;
 pub mod labfit;
+pub mod monitor;
 pub mod scene;
 pub mod signals;
 pub(crate) mod simrng;
