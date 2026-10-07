@@ -50,6 +50,29 @@ pub struct AcqConfig {
     pub pfa: f64,
 }
 
+/// Coherent integration time (s) the tracking hand-off searches with by default: about
+/// 4 ms. See [`auto_coherent_periods`].
+pub const AUTO_COHERENT_S: f64 = 4.0e-3;
+
+/// The default coherent length, in whole code periods, of the acquisition that initialises
+/// tracking: `ceil(4 ms / T_code)`, at least one period. That is 4 periods for a 1 ms code
+/// (GPS L1 C/A, L5) and 1 for a code of 4 ms or longer (Galileo E1, BeiDou B1C, GPS L2C).
+/// With the default Doppler step `2 / (3 · N · T_code)` it gives ~167 Hz bins on every
+/// signal.
+///
+/// Why not one period: a 1 ms search has ~667 Hz Doppler bins, and a hand-off up to
+/// ~333 Hz off leaves the FLL outside its pull-in. On a seeded sweep of 180 GPS L1 C/A
+/// channels (±5 kHz, 38 to 47 dB-Hz; `docs/design/evidence/iq-track-acq-default/`) one
+/// period false-locked 27 channels ~500 Hz off and missed 102; this default false-locked 1
+/// (36 Hz off at 38 dB-Hz) and missed 11, for ~40 ms more search per PRN.
+pub fn auto_coherent_periods(code_period_s: f64) -> usize {
+    if !(code_period_s.is_finite() && code_period_s > 0.0) {
+        return 1;
+    }
+    // The small tolerance keeps 4 ms / 1 ms (4.000…01 in binary) at 4, not 5.
+    ((AUTO_COHERENT_S / code_period_s - 1e-9).ceil() as usize).max(1)
+}
+
 impl AcqConfig {
     /// The Doppler grid (Hz), ascending.
     pub fn doppler_bins(&self) -> Vec<f64> {
@@ -288,4 +311,19 @@ pub fn predicted_pd(cfg: &AcqConfig, period_s: f64, cn0_dbhz: f64, pfa_cell: f64
     let m = cfg.noncoherent as f64;
     let rho = 10f64.powf(cn0_dbhz / 10.0) * cfg.coherent_periods as f64 * period_s;
     pd_square_law(threshold_for_pfa(pfa_cell, m), m, rho)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::auto_coherent_periods;
+
+    #[test]
+    fn the_auto_coherent_length_is_about_four_milliseconds() {
+        assert_eq!(auto_coherent_periods(1.0e-3), 4); // GPS L1 C/A, L5
+        assert_eq!(auto_coherent_periods(4.0e-3), 1); // Galileo E1
+        assert_eq!(auto_coherent_periods(10.0e-3), 1); // BeiDou B1C
+        assert_eq!(auto_coherent_periods(20.0e-3), 1); // GPS L2C CM
+        assert_eq!(auto_coherent_periods(1.5e-3), 3);
+        assert_eq!(auto_coherent_periods(0.0), 1);
+    }
 }

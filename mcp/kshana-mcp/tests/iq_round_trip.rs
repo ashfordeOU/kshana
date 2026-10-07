@@ -183,12 +183,9 @@ async fn scene_acquire_track_frontend_round_trip() {
         "iq_track",
         json!({
             "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
-            // Why 4: the default 1 ms initialising search has ~667 Hz Doppler bins, which
-            // leaves PRN 17 (-2400 Hz) outside the FLL's pull-in and it false-locks ~500 Hz
-            // off (the CLI does the same). A 4 ms search (~167 Hz bins) locks both;
-            // `kshana iq track --acq-coherent 4` gives the same result on this scene. The
-            // engine default is a separate, behaviour-changing decision, not this test's.
-            "acq_coherent": 4,
+            // No acq_coherent: the default hand-off (auto, ≈4 ms coherent) locks both
+            // channels. A one-period search false-locked PRN 17 ~500 Hz off on this scene
+            // (`tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`).
             "json_out": "track.json", "csv_out": "track.csv",
         }),
     )
