@@ -82,8 +82,8 @@ breaking changes are called out explicitly.
   per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
   in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
   Float output is unchanged.
-- **Eight oracle tests no longer fail on macOS from last-bit differences in their fixture
-  pins** (part of issue #36). The pins that check the engine still builds an oracle's
+- **Eight fixture pins in seven test files no longer fail on macOS from last-bit differences**
+  (part of issue #36). The pins that check the engine still builds an oracle's
   committed inputs (Jacobians, a state table, launch azimuths) compared bit for bit and
   failed on macOS arm64 by 2 to a few thousand units in the last place. They now compare
   within 1e-12 of a scale taken from the fixture; integers, keys and lengths still compare
