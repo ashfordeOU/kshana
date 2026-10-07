@@ -43,10 +43,25 @@ pub(crate) const TRACK_SWITCHES: &[&str] = &["--reacquire"];
 /// default, with every explicit loop and acquisition flag applied on top. Returns the
 /// design and the flags that overrode it.
 pub(crate) fn design_from_args(a: &Args) -> Result<(Design, Vec<String>), Fail> {
+    design_with(a, false)
+}
+
+/// The built-in default with only the acquisition flags applied: the hand-off of a
+/// `sweep` whose loop flags are lists.
+pub(crate) fn handoff_from_args(a: &Args) -> Result<Design, Fail> {
+    let (toml, overridden) = overrides_from_args(a, true)?;
+    if overridden.is_empty() {
+        return Ok(Design::builtin_default());
+    }
+    Design::builtin_default()
+        .with_overrides(&toml)
+        .map_err(Fail::Usage)
+}
+
+fn design_with(a: &Args, acq_only: bool) -> Result<(Design, Vec<String>), Fail> {
     let base = match a.get("--design") {
         Some(p) => {
-            let text =
-                std::fs::read_to_string(p).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+            let text = std::fs::read_to_string(p).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
             let file = DesignFile::parse(&text).map_err(|e| Fail::Usage(format!("{p}: {e}")))?;
             file.select(a.get("--design-name"))
                 .map_err(|e| Fail::Usage(format!("{p}: {e}")))?
@@ -54,12 +69,14 @@ pub(crate) fn design_from_args(a: &Args) -> Result<(Design, Vec<String>), Fail> 
         }
         None => {
             if a.get("--design-name").is_some() {
-                return Err(Fail::Usage("--design-name needs --design <file.toml>".into()));
+                return Err(Fail::Usage(
+                    "--design-name needs --design <file.toml>".into(),
+                ));
             }
             Design::builtin_default()
         }
     };
-    let (toml, overridden) = overrides_from_args(a)?;
+    let (toml, overridden) = overrides_from_args(a, acq_only)?;
     if overridden.is_empty() {
         return Ok((base, overridden));
     }
@@ -68,7 +85,7 @@ pub(crate) fn design_from_args(a: &Args) -> Result<(Design, Vec<String>), Fail> 
 }
 
 /// The explicit flags as a design table in the file format, and their names.
-fn overrides_from_args(a: &Args) -> Result<(String, Vec<String>), Fail> {
+fn overrides_from_args(a: &Args, acq_only: bool) -> Result<(String, Vec<String>), Fail> {
     let mut sections: Vec<(&str, Vec<String>)> = Vec::new();
     let mut flags = Vec::new();
     let mut put = |section: &'static str, key: &str, value: String, flag: &str| {
@@ -81,26 +98,46 @@ fn overrides_from_args(a: &Args) -> Result<(String, Vec<String>), Fail> {
     let f = |k: &str| a.num::<f64>(k).map_err(Fail::Usage);
     let u = |k: &str| a.num::<usize>(k).map_err(Fail::Usage);
     let float = |v: f64| format!("{v:?}");
-    if let Some(v) = f("--pll-bw")? {
-        put("carrier", "pll_bw_hz", float(v), "--pll-bw");
-    }
-    if let Some(v) = f("--fll-bw")? {
-        put("carrier", "fll_bw_hz", float(v), "--fll-bw");
-    }
-    if let Some(v) = f("--dll-bw")? {
-        put("code", "bw_hz", float(v), "--dll-bw");
-    }
-    if let Some(v) = f("--spacing")? {
-        put("integration", "spacing_chips", float(v), "--spacing");
-    }
-    if let Some(v) = u("--coherent")? {
-        put("integration", "coherent_periods", v.max(1).to_string(), "--coherent");
+    if !acq_only {
+        if let Some(v) = f("--pll-bw")? {
+            put("carrier", "pll_bw_hz", float(v), "--pll-bw");
+        }
+        if let Some(v) = f("--fll-bw")? {
+            put("carrier", "fll_bw_hz", float(v), "--fll-bw");
+        }
+        if let Some(v) = f("--dll-bw")? {
+            put("code", "bw_hz", float(v), "--dll-bw");
+        }
+        if let Some(v) = f("--spacing")? {
+            put("integration", "spacing_chips", float(v), "--spacing");
+        }
+        if let Some(v) = u("--coherent")? {
+            put(
+                "integration",
+                "coherent_periods",
+                v.max(1).to_string(),
+                "--coherent",
+            );
+        }
+        if a.has("--reacquire") {
+            put("lock", "reacquire", "true".into(), "--reacquire");
+        }
     }
     if let Some(v) = u("--acq-coherent")? {
-        put("acquisition", "coherent_periods", v.max(1).to_string(), "--acq-coherent");
+        put(
+            "acquisition",
+            "coherent_periods",
+            v.max(1).to_string(),
+            "--acq-coherent",
+        );
     }
     if let Some(v) = u("--acq-noncoherent")? {
-        put("acquisition", "noncoherent", v.max(1).to_string(), "--acq-noncoherent");
+        put(
+            "acquisition",
+            "noncoherent",
+            v.max(1).to_string(),
+            "--acq-noncoherent",
+        );
     }
     if let Some(v) = f("--doppler-max")? {
         put("acquisition", "doppler_max_hz", float(v), "--doppler-max");
@@ -110,9 +147,6 @@ fn overrides_from_args(a: &Args) -> Result<(String, Vec<String>), Fail> {
     }
     if let Some(v) = f("--pfa")? {
         put("acquisition", "pfa", float(v), "--pfa");
-    }
-    if a.has("--reacquire") {
-        put("lock", "reacquire", "true".into(), "--reacquire");
     }
     let toml = sections
         .iter()
@@ -259,7 +293,13 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let mut opened = open_recording(path, raw_sidecar(&a)?)?;
     let spec = opened.source.spec();
     let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
-    let inits = acquire_inits(&design, periods_per_bit, &spec, &codes, opened.source.as_mut())?;
+    let inits = acquire_inits(
+        &design,
+        periods_per_bit,
+        &spec,
+        &codes,
+        opened.source.as_mut(),
+    )?;
 
     let max_samples = a
         .num::<f64>("--max-seconds")

@@ -637,6 +637,157 @@ fn sweep_orders_lock_fraction_with_carrier_bandwidth() {
     assert!(lock(&rows[1]) >= lock(&rows[0]), "{rows:?}");
 }
 
+/// Loop designs and streamed outputs on `track` and `sweep`: a design file selects the
+/// loops, an explicit flag overrides it (and is recorded), `--epochs` streams the full
+/// per-epoch record, `--events` the lock events and `--summary` the metrics with the
+/// design's hash; `sweep --design` runs every design in the file.
+#[test]
+fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
+    let dir = scratch("designs");
+    let iq = dir.join("s.cf32").display().to_string();
+    let p = |n: &str| dir.join(n).display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "1.5",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6,21",
+            "--doppler",
+            "800,-1300",
+            "--cn0",
+            "46",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    let designs = p("loops.toml");
+    std::fs::write(
+        &designs,
+        "schema = \"kshana.loop-design/1\"\n\
+         [[design]]\nname = \"narrow\"\n[design.carrier]\npll_bw_hz = 6.0\n\
+         [[design]]\nname = \"wide\"\nextends = \"narrow\"\n[design.carrier]\npll_bw_hz = 20.0\n",
+    )
+    .unwrap();
+
+    let (epochs, events, summary) = (p("e.jsonl"), p("ev.jsonl"), p("summary.json"));
+    assert_eq!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6,21",
+            "--design",
+            &designs,
+            "--design-name",
+            "wide",
+            "--dll-bw",
+            "1.0",
+            "--epochs",
+            &epochs,
+            "--events",
+            &events,
+            "--summary",
+            &summary,
+        ])),
+        0
+    );
+    let s: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&summary).unwrap()).unwrap();
+    assert_eq!(s["schema"], "kshana.track-summary/1");
+    let d = &s["designs"][0];
+    assert_eq!(d["name"], "wide");
+    assert_eq!(d["carrier"]["pll_bw_hz"], 20.0);
+    assert_eq!(d["code"]["bw_hz"], 1.0, "the flag overrides the design");
+    assert_eq!(s["overridden_by_flags"][0], "--dll-bw");
+    let mut total = 0;
+    for ch in s["channels"].as_array().unwrap() {
+        assert_eq!(ch["final_state"], "LOCKED", "{ch}");
+        assert_eq!(ch["design_hash"], d["hash"]);
+        total += ch["epochs"].as_u64().unwrap();
+    }
+    let lines: Vec<String> = std::fs::read_to_string(&epochs)
+        .unwrap()
+        .lines()
+        .map(str::to_string)
+        .collect();
+    assert!(lines[0].contains("\"kshana.track-epoch/1\""));
+    assert_eq!(lines.len() as u64 - 1, total, "one record per epoch");
+    let first: serde_json::Value = serde_json::from_str(&lines[1]).unwrap();
+    for k in [
+        "e_i",
+        "l_q",
+        "pll_disc_rad",
+        "code_rate_hz",
+        "cn0_beaulieu_dbhz",
+        "state",
+    ] {
+        assert!(first.get(k).is_some(), "{k} missing from {first}");
+    }
+    let ev = std::fs::read_to_string(&events).unwrap();
+    assert_eq!(ev.matches("\"reason\":\"locked\"").count(), 2, "{ev}");
+
+    // sweep --design: every design in the file, with its hash.
+    let csv = p("sweep.csv");
+    assert_eq!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--csv",
+            &csv,
+        ])),
+        0
+    );
+    let rows: Vec<Vec<String>> = std::fs::read_to_string(&csv)
+        .unwrap()
+        .lines()
+        .skip(1)
+        .map(|l| l.split(',').map(str::to_string).collect())
+        .collect();
+    assert_eq!(rows.len(), 2);
+    assert_eq!(
+        (rows[0][0].as_str(), rows[1][0].as_str()),
+        ("narrow", "wide")
+    );
+    assert_ne!(rows[0][8], rows[1][8], "each row carries its design's hash");
+
+    // Mistakes are usage errors.
+    let bad = p("bad.toml");
+    std::fs::write(&bad, "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"x\"\n[design.code]\nbandwidth = 1\n").unwrap();
+    assert_eq!(
+        run(&args(&[
+            "track", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &bad
+        ])),
+        2
+    );
+    assert_eq!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--pll-bw",
+            "5,9",
+        ])),
+        2
+    );
+    assert_eq!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--epochs",
+            &p("e.unknown"),
+        ])),
+        2
+    );
+}
+
 /// `labfit` runs end to end from a synthetic RINEX scenario and writes its four reports.
 #[test]
 fn labfit_runs_from_a_synthetic_rinex_scenario() {
