@@ -36,6 +36,16 @@ breaking changes are called out explicitly.
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
 
+### Fixed
+
+- **GLONASS L1OF channels are acquired and tracked on their own FDMA carrier.**
+  `iq::acq::acquire` and the tracking channels mixed every code down from `if_hz` alone.
+  In a multi-channel GLONASS recording, a search for channel +3 therefore found channel
+  0's signal (all channels share one ranging code) and never looked 1.6875 MHz higher.
+  Both now use `SampleSpec::baseband_hz(carrier) = if_hz + (carrier − center_hz)`. The
+  carrier term is zero for any recording centred on the signal's own carrier and is
+  omitted when the centre is unknown, so CDMA processing is unchanged.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added

@@ -153,6 +153,8 @@ pub fn acquire(
     }
     let bins = cfg.doppler_bins();
     let fs = spec.fs_hz;
+    // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
+    let base_hz = spec.baseband_hz(code.carrier_hz());
     let chips_per_sample = code.chip_rate_hz() / fs;
 
     let plan = FftPlan::new(spc);
@@ -176,7 +178,7 @@ pub fn acquire(
 
     let mut grid = vec![vec![0.0_f64; spc]; bins.len()];
     for (row, &d) in grid.iter_mut().zip(&bins) {
-        let f = spec.if_hz + d;
+        let f = base_hz + d;
         for m in 0..cfg.noncoherent {
             let start = m * block;
             let mut fold = vec![(0.0_f64, 0.0_f64); spc];
