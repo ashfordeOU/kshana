@@ -28,7 +28,9 @@ use serde::{Deserialize, Serialize};
 pub struct Cn0Settings {
     /// Length of the baseline from the first estimate (s).
     pub baseline_s: f64,
-    /// Feed every `stride`-th estimate to the detectors (1 = every estimate).
+    /// Feed every `stride`-th estimate to the detectors (1 = every estimate; 0 is treated
+    /// as 1 here, and [`super::run::run_monitors`] replaces it with the loop's estimator
+    /// length).
     pub stride: usize,
     /// The change the detectors are tuned to (dB).
     pub shift_db: f64,
@@ -39,11 +41,12 @@ pub struct Cn0Settings {
 }
 
 impl Default for Cn0Settings {
-    /// 2 s baseline, every estimate, tuned to 3 dB, `h = 5`, `σ0 ≥ 0.1 dB`.
+    /// 2 s baseline, automatic stride (every estimate when used alone), tuned to 3 dB,
+    /// `h = 5`, `σ0 ≥ 0.1 dB`.
     fn default() -> Self {
         Cn0Settings {
             baseline_s: 2.0,
-            stride: 1,
+            stride: 0,
             shift_db: 3.0,
             h: 5.0,
             sigma_floor_db: 0.1,

@@ -22,7 +22,9 @@
 //! outputs of [`crate::iq::track`] ([`EpochMonitors::push_epoch`] routes an
 //! [`crate::iq::track::EpochOutput`] to all three). Each monitor learns its reference from
 //! the first `baseline_s` seconds it sees, then flags departures; [`MonitorReport`]
-//! collects the series and events of all of them.
+//! collects the series and events of all of them. [`run::run_monitors`] runs every
+//! configured monitor over a recording in one streaming pass; it backs
+//! `kshana iq monitor`, `kshana.iq_monitor` and the campaign runner.
 //!
 //! Status: MODELLED. Each statistic is checked by seeded simulation against its closed
 //! form ([`stats`]): the block-power false-alarm probability (Gamma tail), the
@@ -39,6 +41,7 @@
 pub mod cn0;
 pub mod lock;
 pub mod power;
+pub mod run;
 pub mod spectral;
 pub mod sqm;
 pub mod stats;
