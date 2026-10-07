@@ -82,6 +82,7 @@ annotations with `core:label` and a `kshana:test_event` object import the same e
 ```toml
 schema = "kshana.campaign/1"
 name = "overnight-01"
+data_class = "client-confidential"   # required: "synthetic" | "client-confidential"
 
 [inputs]
 conditions = ["lab/conds/*.toml"]   # globs of test-condition files; each names its recording
@@ -100,7 +101,11 @@ bits = 2
 [run]
 max_seconds = 0                     # 0 = whole recording
 workers = 0                         # 0 = all cores; outputs never depend on it
-epochs = "none"                     # reserved for the per-epoch stream; only "none" today
+epochs = "none"                     # "none" | "csv" | "jsonl" | "binary": keep each cell's
+                                    # kshana.track-epoch/1 stream in epochs/<key>.<ext>, its lock
+                                    # events in epochs/<key>.events.jsonl. Size: binary is 184 B
+                                    # per record, i.e. about 0.66 GB per channel-hour at 1 ms
+                                    # updates; CSV and JSONL are about 3x that.
 
 [scoring]
 baseline_window_s = 10.0            # pre-event window for baseline C/N0 and jitter
@@ -146,7 +151,8 @@ Output directory:
 out/
   campaign.json        resolved campaign (all inputs, hashes, engine version)
   cells/<key>.json     one per cell (schema kshana.campaign-cell/1)
-  epochs/<key>.*       only when run.epochs != "none" (kshana.track-epoch/1; reserved)
+  epochs/<key>.<ext>   only when run.epochs != "none" (kshana.track-epoch/1), with
+  epochs/<key>.events.jsonl  the lock events; both named, hashed and sized in the cell
   runs.jsonl           execution log (wall times; excluded from the digest)
   scorecard.csv        one row per (cell, satellite, event) plus one "whole-run" row per (cell, satellite)
   scorecard.json       the same rows plus the per-J/S-bin curves
@@ -159,6 +165,7 @@ rounded and hashes shortened):
 
 ```json
 {
+  "data_class": "synthetic",
   "design": {
     "hash": "f23475dc…",
     "name": "pll-only"
@@ -168,44 +175,44 @@ rounded and hashes shortened):
     "hash": "e015d238…",
     "name": "raw"
   },
-  "key": "01719c4d…",
-  "lock_source": "lock-indicators",
+  "key": "e2a43882…",
+  "lock_source": "track-session",
   "recording": {
     "conditions_hash": "9b094d27…",
     "id": "ramp",
-    "sha256": "fd93cf4b…"
+    "sha256": "0014e8ac…"
   },
   "run_hash": "c2f008aa…",
-  "sample_rate_hz": 2046000.0,
-  "samples_processed": 20460000,
+  "sample_rate_hz": 2500000.0,
+  "samples_processed": 25000000,
   "satellites": [
     {
       "events": [
         {
           "availability": 1.0,
-          "baseline_cn0_dbhz": 43.03,
-          "baseline_dll_jitter_chips": 0.205,
-          "baseline_pll_jitter_deg": 8.748,
+          "baseline_cn0_dbhz": 44.68,
+          "baseline_dll_jitter_chips": 0.06376,
+          "baseline_pll_jitter_deg": 7.628,
           "baseline_source": "measured",
           "cn0_curve": [
             {
               "js_db": 20.0,
-              "measured_cn0_dbhz": 37.58,
-              "measured_degradation_db": 5.45,
-              "modelled_cn0_dbhz": 38.31,
-              "modelled_degradation_db": 4.715,
+              "measured_cn0_dbhz": 38.68,
+              "measured_degradation_db": 6.0,
+              "modelled_cn0_dbhz": 38.8,
+              "modelled_degradation_db": 5.875,
               "n": 3000
             },
             {
               "js_db": 30.0,
-              "measured_cn0_dbhz": 29.08,
-              "measured_degradation_db": 13.95,
-              "modelled_cn0_dbhz": 29.88,
-              "modelled_degradation_db": 13.14,
+              "measured_cn0_dbhz": 29.98,
+              "measured_degradation_db": 14.7,
+              "modelled_cn0_dbhz": 29.95,
+              "modelled_degradation_db": 14.73,
               "n": 3000
             }
           ],
-          "dll_jitter_chips": 0.2014,
+          "dll_jitter_chips": 0.1597,
           "event_id": "bb-1",
           "false_lock_episodes": 0,
           "js_at_loss_db": null,
@@ -222,7 +229,7 @@ rounded and hashes shortened):
           "offset_s": 9.0,
           "onset_s": 3.0,
           "outage_s": null,
-          "pll_jitter_deg": 32.99,
+          "pll_jitter_deg": 30.4,
           "reacq_time_s": null,
           "reacquired": false,
           "time_to_loss_s": null,
@@ -239,16 +246,16 @@ rounded and hashes shortened):
       "id": 3,
       "signal": "gps-l1ca",
       "whole_run": {
-        "availability": 0.9946,
+        "availability": 0.9776,
         "code_lock_frac": 1.0,
-        "dll_jitter_chips": 0.2062,
+        "dll_jitter_chips": 0.06329,
         "false_lock_episodes": 0,
         "false_lock_per_hour": 0.0,
-        "locked_s": 8.951,
+        "locked_s": 8.799,
         "loss_count": 0,
-        "median_cn0_dbhz": 42.73,
-        "phase_lock_frac": 0.8911,
-        "pll_jitter_deg": 9.303,
+        "median_cn0_dbhz": 44.58,
+        "phase_lock_frac": 0.9911,
+        "pll_jitter_deg": 7.674,
         "reacq_count": 0,
         "scored_s": 9.0
       }
@@ -320,9 +327,19 @@ expected to agree. The tests cover:
   (`iq::track::TrackSession`) with each design's `LockConfig`, and its `EpochSink` feeds the scorer.
   An update counts as locked when the session's state is `LOCKED`. A `false-lock` event marks
   that channel's next update as a tracker-flagged false lock. Each cell records
-  `lock_source = "track-lock-state"`. The session's own rules (`LOOP-DESIGN-TOML.md` §3 and
+  `lock_source = "track-session"`. The session's own rules (`LOOP-DESIGN-TOML.md` §3 and
   `iq::track::lock`) therefore decide what counts as a loss, including `loss_dwell_s`, the
-  false-lock check, and re-acquisition when a design enables it.
+  false-lock check, `recovered` relocks, and re-acquisition and retirement when a design enables
+  them. Time after a channel's last update (retired, or never started because it was not
+  acquired) counts as unlocked, in the whole run and in every event window.
+* **Data class.** A campaign must state `data_class = "synthetic" | "client-confidential"`. It is
+  copied into the plan and every cell and is part of every cell key, so downstream tools can
+  refuse to mix the two. An unknown value is refused.
+* **Public verification.** `hash::canonical_json` and `hash::canonical_hash`,
+  `runner::cell_key(&CellKeyInputs)` and `report::digest(out_dir)` are public. A consumer can
+  re-derive every key and the `DIGEST` from `campaign.json` and the cell files. The DIGEST is the
+  SHA-256 hex of the lines `"<key> <sha256 of the cell file>\n"`, sorted, over every planned cell.
+  The cell files are pretty JSON with sorted keys and a trailing newline.
 * **Bars** live in `[scoring.bars]`. A recording's test-condition file may override them field by
   field in its own `[bars]` table. Bars sit outside every hash and are applied when the report is
   built, so changing a bar re-judges the results without re-running any cell.
@@ -358,3 +375,11 @@ expected to agree. The tests cover:
 * Under the session's rule (phase *or* code lock down for `loss_dwell_s`), the default
   FLL-assisted design loses lock at about 39 dB-Hz on these scenes, while the PLL-only design
   mostly holds. The scorer reports what the state machine decides. It does not second-guess it.
+* With `reacquire = true`, the session's re-acquisition searches run back to back, about 50 ms
+  each. The built-in limit of 3 failed searches therefore retires a channel about 0.2 s into a
+  noise-only gap, and it never returns. `tests/iq_campaign.rs` uses `max_reacq_attempts = 60`
+  to span a 2 s gap. A re-acquired channel is LOCKED again about 1.2 s after the signal
+  returns: one search, then the C/N0 estimator refilling (50 × 20 ms), then the 0.2 s dwell.
+  With `reacquire = false`, two of three channels recover about 0.5 s after the gap (relock is
+  `recovered`), and the third, whose loops drift during the gap, never does. That outcome is
+  pinned.

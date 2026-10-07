@@ -28,9 +28,13 @@ breaking changes are called out explicitly.
   (`jamming::effective_cn0_dbhz` with the type's `Q`) is drawn and labelled MODELLED wherever it
   appears.
 
-  Cells run in parallel and each is written atomically under a content-hash key. The key covers
-  the recording's SHA-256, the condition, front-end, design, run and scoring hashes, and the
-  engine version. A rerun therefore skips finished cells, and outputs never depend on the worker
+  Cells run in parallel through the tracking session's lock state machine, and each is
+  written atomically under a content-hash key. The key covers the recording's SHA-256, the
+  condition, front-end, design, run and scoring hashes, the required `data_class`
+  (`synthetic` | `client-confidential`) and the engine version. With `run.epochs` set, each
+  cell's `kshana.track-epoch/1` stream and lock events are also kept, named by cell key and
+  hashed into the cell. `cell_key` and `report::digest` are public, so a consumer can
+  re-derive every key and the digest. A rerun therefore skips finished cells, and outputs never depend on the worker
   count. The run writes `scorecard.csv`/`.json`, a self-contained `report.html` and a `DIGEST`.
   Pass/fail bars (`[scoring.bars]`, overridable per recording) are applied when the report is
   built.
@@ -47,6 +51,9 @@ breaking changes are called out explicitly.
   - every metric checked against the injected truth;
   - resume after a partial single-worker run with a corrupt cell, byte-identical to an
     uninterrupted four-worker run;
+  - per-cell epoch files;
+  - a 20 s three-satellite re-acquisition regression: with `reacquire` on, every channel is
+    back within 2 s of a 2 s gap; the `reacquire` off outcome is pinned;
   - bars re-judged without re-running;
   - the CLI;
   - an ignored release-mode throughput and memory check.

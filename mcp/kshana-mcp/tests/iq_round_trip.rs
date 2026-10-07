@@ -423,7 +423,7 @@ async fn a_campaign_runs_incrementally_within_the_budget_and_reports_its_status(
     .unwrap();
     std::fs::write(
         dir.join("c.toml"),
-        "schema = \"kshana.campaign/1\"\nname = \"mcp\"\n[inputs]\nconditions = [\"rec.toml\"]\n\
+        "schema = \"kshana.campaign/1\"\nname = \"mcp\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"rec.toml\"]\n\
          [[frontend]]\nname = \"raw\"\n[[frontend]]\nname = \"q2\"\nbits = 2\n",
     )
     .unwrap();
@@ -494,7 +494,7 @@ async fn a_campaign_runs_incrementally_within_the_budget_and_reports_its_status(
     .unwrap();
     std::fs::write(
         dir.join("bad.toml"),
-        "schema = \"kshana.campaign/1\"\nname = \"bad\"\n[inputs]\nconditions = [\"escape.toml\"]\n",
+        "schema = \"kshana.campaign/1\"\nname = \"bad\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"escape.toml\"]\n",
     )
     .unwrap();
     let err = call(

@@ -24,7 +24,10 @@
 //! workers, must give byte-identical cells and the same digest as one uninterrupted run on
 //! four workers.
 
+use kshana::iq::campaign::runner::{cell_key, CellKeyInputs};
 use kshana::iq::campaign::score::reference_q;
+use kshana::iq::campaign::spec::DataClass;
+use kshana::iq::campaign::Plan;
 use kshana::iq::campaign::{report, run, CellResult, LoadedCampaign, RunOptions, RunSummary};
 use kshana::iq::io::inventory::{write_sidecar, RawSidecar};
 use kshana::iq::io::stream::create_raw;
@@ -276,6 +279,7 @@ pll_bw_hz = 15.0
             &campaign,
             r#"schema = "kshana.campaign/1"
 name = "synthetic"
+data_class = "synthetic"
 [inputs]
 conditions = ["*.toml"]
 designs = "designs.toml"
@@ -383,7 +387,40 @@ fn the_reference_run_completes_every_cell_and_stamps_provenance() {
     assert_eq!(all.len(), 12);
     let designs =
         DesignFile::parse(&std::fs::read_to_string(f.dir.join("designs.toml")).unwrap()).unwrap();
+    let plan: Plan = serde_json::from_str(
+        &std::fs::read_to_string(f.reference_out.join("campaign.json")).unwrap(),
+    )
+    .unwrap();
+    assert_eq!(plan.data_class, DataClass::Synthetic);
+    // The public key and digest functions reproduce what the runner wrote.
+    for pc in &plan.cells {
+        let rec = &plan.recordings[pc.recording];
+        let (fe, fe_hash) = &plan.frontends[pc.frontend];
+        let d = &plan.designs[pc.design];
+        let key = cell_key(&CellKeyInputs {
+            recording_id: &rec.id,
+            recording_sha256: &rec.sha256,
+            conditions_hash: &rec.conditions_hash,
+            frontend: &fe.name,
+            frontend_hash: fe_hash,
+            design: d["name"].as_str().unwrap(),
+            design_hash: d["hash"].as_str().unwrap(),
+            run_hash: &plan.run_hash,
+            scoring_hash: &plan.scoring_hash,
+            data_class: plan.data_class.as_str(),
+            engine_version: &plan.engine_version,
+        });
+        assert_eq!(key, pc.key);
+    }
+    assert_eq!(report::digest(&f.reference_out).unwrap(), r.digest);
     for (_, c) in all.values() {
+        assert_eq!(
+            c.data_class,
+            DataClass::Synthetic,
+            "data_class on every cell"
+        );
+        assert_eq!(c.lock_source, "track-session");
+        assert!(c.epochs.is_none(), "epochs are not kept by default");
         assert_eq!(c.engine_version, env!("CARGO_PKG_VERSION"));
         assert_eq!(c.recording.sha256.len(), 64);
         assert_eq!(c.design.hash, designs.get(&c.design.name).unwrap().hash());
@@ -738,7 +775,7 @@ fn throughput_and_bounded_memory_on_a_long_recording() {
     .unwrap();
     std::fs::write(
         dir.join("c.toml"),
-        "schema = \"kshana.campaign/1\"\nname = \"perf\"\n[inputs]\nconditions = [\"long.toml\"]\n\
+        "schema = \"kshana.campaign/1\"\nname = \"perf\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"long.toml\"]\n\
          designs = \"d.toml\"\n",
     )
     .unwrap();
@@ -763,3 +800,171 @@ fn throughput_and_bounded_memory_on_a_long_recording() {
     }
     std::fs::remove_dir_all(&dir).ok();
 }
+
+#[test]
+fn epoch_files_are_written_per_cell_and_bound_into_the_cell() {
+    use kshana::iq::track::sink::BinaryEpochReader;
+    let f = fixture();
+    let mut text = std::fs::read_to_string(&f.campaign).unwrap();
+    text = text
+        .replace("[\"conds/*.toml\"]", "[\"conds/alias.toml\"]")
+        .replace("[[frontend]]\nname = \"agc-3bit\"\nbits = 3\n", "")
+        .replace("[scoring]", "[run]\nepochs = \"binary\"\n[scoring]");
+    let c = LoadedCampaign::load_text(&text, &f.campaign).unwrap();
+    let out = f.dir.join("out-epochs");
+    let _ = std::fs::remove_dir_all(&out);
+    let s = run(&c, &out, &RunOptions::default()).unwrap();
+    assert_eq!(s.cells_run, 2);
+    for (_, (_, cell)) in cells(&out) {
+        let ep = cell.epochs.expect("epochs kept");
+        assert_eq!(ep.format, "binary");
+        assert_eq!(ep.path, format!("epochs/{}.bin", cell.key));
+        let path = out.join(&ep.path);
+        assert_eq!(
+            kshana::iq::campaign::hash::sha256_file(&path).unwrap(),
+            ep.sha256
+        );
+        let r =
+            BinaryEpochReader::new(std::io::BufReader::new(std::fs::File::open(&path).unwrap()))
+                .unwrap();
+        let h = r.header().clone();
+        assert_eq!(h.channels.len(), 1);
+        assert_eq!(h.channels[0].design, cell.design.name);
+        assert_eq!(h.channels[0].design_hash, cell.design.hash);
+        assert_eq!(
+            h.recording_sha256.as_deref(),
+            Some(cell.recording.sha256.as_str())
+        );
+        let mut n = 0;
+        for rec in r {
+            assert_eq!(rec.unwrap().channel, 0);
+            n += 1;
+        }
+        // About one update per millisecond over the 6 s recording.
+        assert!((5_500..=6_100).contains(&n), "{n} records");
+        assert!(out.join(&ep.events_path).is_file());
+    }
+    let leftovers: Vec<_> = std::fs::read_dir(out.join("epochs"))
+        .unwrap()
+        .flatten()
+        .filter(|e| e.file_name().to_string_lossy().starts_with('.'))
+        .collect();
+    assert!(leftovers.is_empty(), "temporary files left: {leftovers:?}");
+}
+
+/// The re-acquisition regression scenario: three satellites at 45 dB-Hz with a 2 s
+/// noise-only gap (8-10 s) in a 20 s recording, two front ends, and two designs that differ
+/// only in `reacquire`. The session's re-acquisition searches run back to back, about 50 ms
+/// each, so the built-in limit of 3 failed searches retires a channel about 0.2 s into a
+/// gap. The `reacq` design therefore allows 60 searches, about 3 s, to span the gap.
+struct Gap20 {
+    out: PathBuf,
+}
+
+fn gap20() -> &'static Gap20 {
+    static G: OnceLock<Gap20> = OnceLock::new();
+    G.get_or_init(|| {
+        let dir = scratch("gap20");
+        scene(
+            &dir,
+            "gap20",
+            20.0,
+            &[(3, 1200.0), (11, -2300.0), (22, 800.0)],
+            |_, t| (!(8.0..10.0).contains(&t)).then_some(NOMINAL),
+        );
+        std::fs::write(
+            dir.join("gap20.toml"),
+            r#"schema = "kshana.test-conditions/1"
+[recording]
+id = "gap20"
+path = "gap20.cf32"
+settle_s = 1.0
+[[expected]]
+signal = "gps-l1ca"
+ids = [3, 11, 22]
+[[event]]
+id = "gap"
+kind = "outage"
+type = "unknown"
+onset_s = 8.0
+offset_s = 10.0
+"#,
+        )
+        .unwrap();
+        std::fs::write(
+            dir.join("d.toml"),
+            "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"observe\"\n\
+             [[design]]\nname = \"reacq\"\n[design.lock]\nreacquire = true\n\
+             max_reacq_attempts = 60\n",
+        )
+        .unwrap();
+        std::fs::write(
+            dir.join("c.toml"),
+            "schema = \"kshana.campaign/1\"\nname = \"gap20\"\ndata_class = \"synthetic\"\n\
+             [inputs]\nconditions = [\"gap20.toml\"]\ndesigns = \"d.toml\"\n\
+             [[frontend]]\nname = \"raw\"\n[[frontend]]\nname = \"agc-3bit\"\nbits = 3\n",
+        )
+        .unwrap();
+        let out = dir.join("out");
+        let c = LoadedCampaign::load(&dir.join("c.toml")).unwrap();
+        let s = run(&c, &out, &RunOptions::default()).unwrap();
+        assert_eq!(s.cells_run, 4);
+        Gap20 { out }
+    })
+}
+
+/// Each satellite's (lost, reacquired, reacq_time_s) for the gap event of one cell.
+fn gap_outcomes(design: &str, fe: &str) -> Vec<(i64, bool, bool, Option<f64>)> {
+    let all = cells(&gap20().out);
+    cell(&all, "gap20", fe, design)
+        .satellites
+        .iter()
+        .map(|s| {
+            let e = &s.score.events[0];
+            (s.score.id, e.lost, e.reacquired, e.reacq_time_s)
+        })
+        .collect()
+}
+
+#[test]
+fn with_reacquire_on_every_channel_is_back_within_two_seconds_of_the_gap() {
+    // The bar: one search (about 50 ms) plus a restarted channel's C/N0 estimator filling
+    // (50 windows of 20 ms = 1 s) plus the 0.2 s lock dwell, with margin.
+    for fe in ["raw", "agc-3bit"] {
+        for (id, lost, reacquired, t) in gap_outcomes("reacq", fe) {
+            assert!(lost, "{fe} PRN {id}: a 2 s noise-only gap must lose lock");
+            assert!(reacquired, "{fe} PRN {id}: not re-acquired");
+            let t = t.unwrap();
+            assert!(
+                (0.0..=2.0).contains(&t),
+                "{fe} PRN {id}: re-acquired {t} s after the gap"
+            );
+        }
+    }
+}
+
+#[test]
+fn with_reacquire_off_the_observe_only_outcome_is_pinned() {
+    // Pinned from the tracker as it stands (relock without a search is the session's
+    // `recovered` transition). If this changes, the tracker changed: update it deliberately.
+    for fe in ["raw", "agc-3bit"] {
+        let got: Vec<(i64, bool, bool)> = gap_outcomes("observe", fe)
+            .into_iter()
+            .map(|(id, lost, re, _)| (id, lost, re))
+            .collect();
+        eprintln!("{fe}: {got:?}");
+        assert!(got.iter().all(|&(_, lost, _)| lost), "{fe}: {got:?}");
+        let pinned: &[(i64, bool, bool)] = match fe {
+            "raw" => &PINNED_OBSERVE_RAW,
+            _ => &PINNED_OBSERVE_Q3,
+        };
+        assert_eq!(got, pinned, "{fe}");
+    }
+}
+
+// Observe-only (reacquire off): PRNs 3 and 11 recover once the signal returns; PRN 22's
+// loops drift during the gap and it never does, in either front end.
+const PINNED_OBSERVE_RAW: [(i64, bool, bool); 3] =
+    [(3, true, true), (11, true, true), (22, true, false)];
+const PINNED_OBSERVE_Q3: [(i64, bool, bool); 3] =
+    [(3, true, true), (11, true, true), (22, true, false)];

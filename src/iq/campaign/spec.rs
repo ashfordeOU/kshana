@@ -142,13 +142,58 @@ impl FrontendSpec {
     }
 }
 
-/// Where per-update tracking records go (reserved; only `"none"` today).
+/// Where per-update tracking records go: nowhere (the default; the scorer reads the
+/// updates as they are produced), or one file per cell in `epochs/<cell key>.<ext>` in
+/// one of the `kshana.track-epoch/1` forms, with the lock events beside it in
+/// `epochs/<cell key>.events.jsonl`. A record is one loop update of one channel. The
+/// binary form takes 184 bytes per record: at 1 ms updates, about 0.66 GB per channel-hour.
+/// CSV and JSON Lines take about three times as much.
 #[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "lowercase")]
 pub enum EpochOutputKind {
-    /// Not kept: the scorer reads the updates as they are produced.
+    /// Not kept.
     #[default]
     None,
+    /// CSV with a header row.
+    Csv,
+    /// JSON Lines with a header line.
+    Jsonl,
+    /// A JSON header line and fixed little-endian records.
+    Binary,
+}
+
+impl EpochOutputKind {
+    /// The writer format and file suffix, or `None` when epochs are not kept.
+    pub fn format(self) -> Option<(crate::iq::track::sink::EpochFormat, &'static str)> {
+        use crate::iq::track::sink::EpochFormat;
+        match self {
+            Self::None => None,
+            Self::Csv => Some((EpochFormat::Csv, "csv")),
+            Self::Jsonl => Some((EpochFormat::Jsonl, "jsonl")),
+            Self::Binary => Some((EpochFormat::Binary, "bin")),
+        }
+    }
+}
+
+/// What a campaign's data is, stated so that downstream tools can refuse to mix them. It
+/// is required, is copied into the plan and every cell, and is part of every cell key.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum DataClass {
+    /// Synthetic or public data.
+    Synthetic,
+    /// A client's confidential recordings.
+    ClientConfidential,
+}
+
+impl DataClass {
+    /// `synthetic` or `client-confidential`.
+    pub fn as_str(self) -> &'static str {
+        match self {
+            Self::Synthetic => "synthetic",
+            Self::ClientConfidential => "client-confidential",
+        }
+    }
 }
 
 /// Execution settings.
@@ -174,6 +219,8 @@ pub struct CampaignSpec {
     pub schema: String,
     /// The campaign's name.
     pub name: String,
+    /// What the data is (required).
+    pub data_class: DataClass,
     /// Inputs.
     pub inputs: Inputs,
     /// Front-end chains; omitted runs the empty chain (`raw`) only.
@@ -409,22 +456,39 @@ mod tests {
     #[test]
     fn a_campaign_parses_with_defaults_and_refuses_unknown_keys() {
         let s = CampaignSpec::parse(
-            "schema = \"kshana.campaign/1\"\nname = \"c\"\n[inputs]\nconditions = [\"*.toml\"]\n[scoring]\njs_bin_db = 2.0\n[scoring.bars]\nmax_reacq_s = 5.0\n",
+            "schema = \"kshana.campaign/1\"\nname = \"c\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"*.toml\"]\n[scoring]\njs_bin_db = 2.0\n[scoring.bars]\nmax_reacq_s = 5.0\n",
         )
         .unwrap();
         assert_eq!(s.frontends()[0].name, "raw");
         assert_eq!(s.scoring.js_bin_db, 2.0);
         assert_eq!(s.scoring.bars.as_ref().unwrap().max_reacq_s, Some(5.0));
         let bad = CampaignSpec::parse(
-            "schema = \"kshana.campaign/1\"\nname = \"c\"\n[inputs]\nconditions = [\"a\"]\n[run]\nthreads = 3\n",
+            "schema = \"kshana.campaign/1\"\nname = \"c\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"a\"]\n[run]\nthreads = 3\n",
         );
         assert!(bad.unwrap_err().contains("unknown field"));
     }
 
     #[test]
+    fn data_class_is_required_and_closed() {
+        let ok = "schema = \"kshana.campaign/1\"\nname = \"c\"\ndata_class = \"client-confidential\"\n[inputs]\nconditions = [\"a\"]\n";
+        assert_eq!(
+            CampaignSpec::parse(ok).unwrap().data_class,
+            DataClass::ClientConfidential
+        );
+        let missing = ok.replace("data_class = \"client-confidential\"\n", "");
+        assert!(CampaignSpec::parse(&missing)
+            .unwrap_err()
+            .contains("data_class"));
+        let typo = ok.replace("client-confidential", "client-confidental");
+        assert!(CampaignSpec::parse(&typo)
+            .unwrap_err()
+            .contains("unknown variant"));
+    }
+
+    #[test]
     fn the_worker_count_does_not_change_the_run_hash() {
         let a = CampaignSpec::parse(
-            "schema = \"kshana.campaign/1\"\nname = \"c\"\n[inputs]\nconditions = [\"a\"]\n[run]\nworkers = 1\n",
+            "schema = \"kshana.campaign/1\"\nname = \"c\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"a\"]\n[run]\nworkers = 1\n",
         )
         .unwrap();
         let mut b = a.clone();
