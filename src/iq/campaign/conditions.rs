@@ -499,7 +499,7 @@ impl TestConditions {
 }
 
 /// `rel` resolved against the directory holding `file` (absolute paths pass through).
-pub(crate) fn resolve(file: &Path, rel: &str) -> PathBuf {
+pub fn resolve(file: &Path, rel: &str) -> PathBuf {
     let p = Path::new(rel);
     if p.is_absolute() {
         p.to_path_buf()

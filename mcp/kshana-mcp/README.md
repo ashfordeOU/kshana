@@ -55,6 +55,8 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | `iq_acquire` | FFT (fast Fourier transform) acquisition of one or more PRNs (pseudo-random noise codes) over a recording (`kshana iq acquire`), optionally behind front-end stages: per PRN, acquired or not, Doppler, code phase, peak statistic and threshold. |
 | `iq_track` | Acquire, then track with the DLL/PLL/FLL (delay-, phase- and frequency-locked loop) bank (`kshana iq track`): per channel, epochs, final Doppler, final and mean C/N0, phase- and code-lock fractions, locked at the end. Per-epoch output goes to files only. |
 | `iq_frontend` | Apply receiver front-end and interference-mitigation DSP (digital signal processing: band-pass, notch, blanking, excision, AGC, quantiser) to a recording and write a new one (`kshana iq frontend`). |
+| `iq_campaign` | Run a lab-replay campaign (`kshana iq campaign`): recordings, each with a test-condition file stating the lab's known truth, × front-end chains × loop designs. Each cell is scored for time to loss of lock, re-acquisition time, C/N0 degradation against the stated J/S (beside an analytic reference labelled MODELLED), false-lock rate, PLL/DLL jitter and availability. Incremental and resumable: each call runs the pending cells that fit the sample budget (or `max_cells`). |
+| `iq_campaign_status` | A campaign output folder's progress: cells done and pending, and the digest once complete. Reads files only. |
 
 Each tool is a thin, faithful wrapper over a public function of the `kshana` library — no
 new simulation logic lives here, so an agent runs exactly the validated engine.
