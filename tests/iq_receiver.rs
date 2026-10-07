@@ -789,7 +789,9 @@ fn tracking_is_deterministic() {
 #[test]
 fn replay_runs_one_source_through_many_loop_designs() {
     let truth = data_truth();
-    let n = (1.0 * FS) as usize;
+    // 1.5 s: the 5 Hz design hands over from its FLL to the PLL near 1 s (fll_assist
+    // "pull-in"), and its lock is judged once it has settled.
+    let n = (1.5 * FS) as usize;
     let (iq, _) = synth(7, &truth, n, 91);
     let init = acquire_init(&iq);
     let designs: Vec<LoopConfig> = [5.0, 15.0, 30.0]

@@ -88,7 +88,7 @@ pfa = 1e-3
   integers in decimal and floats in the shortest form that round-trips, always with a `.` or
   an exponent (`15.0`, `0.001`). So it does not depend on field order in the file or in the
   code. The built-in default hashes to
-  `0773c7ee07e0fc22835ad563c4d87be2a95d584c6cf3ed94b479f573fdf094ff`, which is pinned by a test.
+  `c6c25a274a8e768097b04750cf43c2ca60adf645efb201617a21b38df3dd3d2c`, which is pinned by a test.
 * **Precedence on the CLI**: an explicit flag (`--pll-bw`, ...) overrides the selected design.
   The hash is taken after overrides, and the output records which keys were overridden.
 * **Front end is not part of a loop design.** The campaign runner treats front-end chains as a
