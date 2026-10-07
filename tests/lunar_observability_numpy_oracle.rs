@@ -64,6 +64,9 @@
 //! `ladder_six_sats_one_station` (rank 24 against 25). The estimator-attainment clause of the row
 //! is not covered by this comparison.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::lunar_combination::{lunar_observability, observability_inputs, LunarNetworkConfig};
 
 const OVERLAP_TOL: f64 = 1e-6;
@@ -127,7 +130,16 @@ fn lunar_observability_matches_numpy_on_the_committed_jacobians() {
             .iter()
             .map(floats)
             .collect();
-        assert_eq!(now.jacobian, h, "{name}: Jacobian drifted from the fixture");
+        // Within the finite-difference cancellation floor rather than bit for bit (issue #36):
+        // see `fixture_pin::FD_CANCELLATION` for where the 0.03 steps come from.
+        if let Err(e) = fixture_pin::check_matrix_scaled(
+            &now.jacobian,
+            &h,
+            fixture_pin::FD_CANCELLATION,
+            "jacobian",
+        ) {
+            panic!("{name}: Jacobian drifted from the fixture: {e}");
+        }
 
         let o = lunar_observability(&cfg);
         let o_rank = r["rank"].as_u64().expect("rank") as usize;

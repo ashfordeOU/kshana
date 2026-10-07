@@ -96,6 +96,9 @@
 //! 4.4e-6, red.
 //! Fixture, driver, generator and provenance: `tests/fixtures/launch_geometry_orekit_oracle/`.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::eop::EopSeries;
 use kshana::launch::{
     circular_velocity, daily_launch_opportunities, launch_azimuth, min_inclination,
@@ -184,10 +187,19 @@ fn burnout_azimuth_reproduces_the_target_inclination_in_orekit() {
                 let (lat, lon, i) = (f[0][0], f[0][1], f[0][2]);
                 let (asc_fed, desc_fed) = (f[1][0], f[1][1]);
                 let (asc, desc) = launch_azimuth(lat.to_radians(), i.to_radians()).unwrap();
-                assert!(
-                    (asc - asc_fed).abs() <= 1e-15 && (desc - desc_fed).abs() <= 1e-15,
-                    "fixture azimuths for lat {lat} i {i} are not today's Kshana output: regenerate"
-                );
+                // Within 1e-12 of the larger azimuth (about 3e-12 rad) rather than 1e-15: the
+                // azimuths move in the last bits between hosts' libms (issue #36). The Orekit
+                // comparison below runs on the fed azimuths and keeps its own bar.
+                if let Err(e) = fixture_pin::check_scaled(
+                    &[asc, desc],
+                    &[asc_fed, desc_fed],
+                    fixture_pin::NEAR_BIT,
+                    "azimuths (asc, desc)",
+                ) {
+                    panic!(
+                        "fixture azimuths for lat {lat} i {i} are not today's Kshana output: regenerate: {e}"
+                    );
+                }
                 assert_eq!(
                     expected[n_inc].0.to_bits(),
                     lat.to_bits(),
