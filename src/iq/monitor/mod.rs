@@ -13,9 +13,9 @@
 //! * [`sqm::SqmMonitor`] — signal-quality monitoring from the correlator outputs: the delta
 //!   `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)` tests, plus symmetric-pair
 //!   asymmetry tests from extra correlators when a channel supplies them.
-//! * [`lock::LockMonitor`] — lock-indicator time series (phase lock indicator, a frequency
-//!   lock indicator from successive prompts, lock flags) with loss-of-lock and re-lock
-//!   events and their durations.
+//! * [`lock::LockMonitor`] — lock-indicator time series (the channel's phase lock indicator
+//!   and a frequency lock indicator from successive prompts) as raw signals; lock decisions
+//!   stay with the tracking engine's lock state machine.
 //!
 //! The pre-correlation monitors are fed samples ([`power::PowerMonitor::push`],
 //! [`spectral::SpectralMonitor::push`]); the post-correlation ones are fed the per-epoch
@@ -93,7 +93,7 @@ impl Series {
 /// threshold.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct MonitorEvent {
-    /// The event kind, e.g. `power_rise`, `cn0_drop`, `loss_of_phase_lock`.
+    /// The event kind, e.g. `power_rise`, `cn0_drop`, `sqm_ratio`.
     pub kind: String,
     /// The channel (satellite) label for a post-correlation event.
     #[serde(default, skip_serializing_if = "Option::is_none")]
@@ -359,7 +359,7 @@ pub struct EpochMonitors {
     pub cn0: cn0::Cn0Monitor,
     /// The signal-quality monitor.
     pub sqm: sqm::SqmMonitor,
-    /// The lock monitor.
+    /// The lock-indicator series.
     pub lock: lock::LockMonitor,
 }
 
@@ -389,8 +389,7 @@ impl EpochMonitors {
             e.cn0_nwpr_dbhz,
             &[],
         );
-        self.lock
-            .push(t, e.prompt, e.pli, e.phase_lock, e.code_lock);
+        self.lock.push(t, e.prompt, e.pli);
     }
 
     /// The report of the three monitors.
@@ -411,7 +410,7 @@ pub struct EpochMonitorSettings {
     /// Signal-quality monitoring.
     #[serde(default)]
     pub sqm: sqm::SqmSettings,
-    /// Lock monitoring.
+    /// Lock-indicator series.
     #[serde(default)]
     pub lock: lock::LockSettings,
 }

@@ -21,8 +21,7 @@
 //!   triangle's `1 − d/2`, and a clean signal raises no event;
 //! * end to end on tracked signals: a 6 dB drop in signal amplitude is flagged by the C/N0
 //!   CUSUM, a reflected copy of the signal (a specular multipath path) appearing mid-way is
-//!   flagged by the ratio test, and a signal outage opens a loss-of-lock event at the
-//!   outage.
+//!   flagged by the ratio test, and the lock-indicator series fall during a signal outage.
 //!
 //! The tracked IQ is generated here (point-sampled C/A at 2.048 MHz with complex white
 //! noise of unit power per sample), in chunks, so no test holds the whole recording.
@@ -540,9 +539,9 @@ fn monitor_epochs(
 /// A 6 dB drop in signal amplitude at 4 s (45 → 39 dB-Hz) on a tracked signal: the C/N0
 /// CUSUM (fed independent 200 ms estimates) flags a `cn0_drop` whose change-time estimate
 /// is within 0.4 s of the step and whose alarm follows within 1 s; no `cn0_rise`, and the
-/// step itself does not break phase lock. (With this seed the default FLL-assisted loop
-/// slips half a cycle at 6.1 s, at 39 dB-Hz; the lock monitor flags that, which is
-/// correct, so lock is only asserted around the step.)
+/// step itself does not break the channel's phase lock. (With this seed the default
+/// FLL-assisted loop slips half a cycle at 6.1 s, at 39 dB-Hz, so lock is only asserted
+/// around the step.)
 #[test]
 fn tracked_cn0_drop_is_flagged_near_the_step() {
     let cfg = LoopConfig {
@@ -569,13 +568,11 @@ fn tracked_cn0_drop_is_flagged_near_the_step() {
     assert!((e.t_start_s - 4.0).abs() < 0.4, "{e:?}");
     assert!(e.t_alarm_s - 4.0 < 1.0 && e.t_alarm_s > 4.0, "{e:?}");
     assert!(r.events_of("cn0_rise").is_empty(), "{:?}", r.events);
-    assert!(
-        r.events_of("loss_of_phase_lock")
-            .iter()
-            .all(|e| e.t_start_s > 5.0),
-        "{:?}",
-        r.events
-    );
+    // The channel's own lock flag holds from 1 s to 5 s, across the step.
+    assert!(epochs
+        .iter()
+        .filter(|e| (1.0..5.0).contains(&e.code_epoch_s))
+        .all(|e| e.phase_lock));
 }
 
 /// A reflected copy of the signal (0.3 chip later, half the amplitude, in phase) appears at
@@ -598,27 +595,39 @@ fn reflected_path_appearing_is_flagged_by_the_ratio_test() {
     assert!(r.events.iter().all(|e| e.t_start_s > 3.0), "{:?}", r.events);
 }
 
-/// The signal is absent from 3.0 s to 3.5 s: a `loss_of_phase_lock` opens at the outage
-/// (within 0.2 s) and the lock series show it.
+/// The signal is absent from 3.0 s to 3.5 s: the PLI and FLI series sit near 1 before it
+/// and fall well below it during it (they are signals for scoring; lock decisions are the
+/// tracking engine's).
 #[test]
-fn signal_outage_opens_a_loss_of_lock_event() {
+fn lock_indicators_fall_during_a_signal_outage() {
     let cfg = LoopConfig::default();
     let mut g = gen(14, 45.0, 11);
     g.gain = Box::new(|t| if (3.0..3.5).contains(&t) { 0.0 } else { 1.0 });
     let epochs = track(&mut g, &cfg, 6.0);
     let r = monitor_epochs(&epochs, &cfg, EpochMonitorSettings::default());
-    let ev = r.events_of("loss_of_phase_lock");
-    println!("lock events {ev:?}");
-    assert!(!ev.is_empty(), "{:?}", r.events);
-    assert!((ev[0].t_start_s - 3.0).abs() < 0.2, "{:?}", ev[0]);
-    let pl = r.series_named("phase_lock", Some("G05")).unwrap();
-    let locked_before = pl
-        .t_s
-        .iter()
-        .zip(&pl.value)
-        .filter(|(t, _)| (1.0..3.0).contains(*t))
-        .all(|(_, v)| *v == 1.0);
-    assert!(locked_before);
+    let mean_in = |name: &str, lo: f64, hi: f64| {
+        let s = r.series_named(name, Some("G05")).unwrap();
+        let v: Vec<f64> = s
+            .t_s
+            .iter()
+            .zip(&s.value)
+            .filter(|(t, _)| (lo..hi).contains(*t))
+            .map(|(_, v)| *v)
+            .collect();
+        mean_sd(&v).0
+    };
+    let (pli_before, pli_during) = (mean_in("pli", 1.0, 3.0), mean_in("pli", 3.2, 3.5));
+    let (fli_before, fli_during) = (mean_in("fli", 1.0, 3.0), mean_in("fli", 3.2, 3.5));
+    println!("pli {pli_before:.3} -> {pli_during:.3}; fli {fli_before:.3} -> {fli_during:.3}");
+    assert!(
+        pli_before > 0.95 && pli_during < 0.5,
+        "{pli_before} {pli_during}"
+    );
+    assert!(
+        fli_before > 0.9 && fli_during < 0.5,
+        "{fli_before} {fli_during}"
+    );
+    assert!(r.events.is_empty() || r.events.iter().all(|e| e.t_start_s > 3.0));
 }
 
 // ── CLI ─────────────────────────────────────────────────────────────────────────────────
@@ -693,7 +702,7 @@ fn iq_monitor_cli_writes_series_and_events() {
         .series_named("cn0_dbhz", None)
         .and_then(|s| s.channel.clone())
         .expect("a channel series");
-    for name in ["sqm_delta", "sqm_ratio", "pli", "fli", "phase_lock"] {
+    for name in ["sqm_delta", "sqm_ratio", "pli", "fli"] {
         let s = r
             .series_named(name, Some(&ch))
             .unwrap_or_else(|| panic!("{name}"));
