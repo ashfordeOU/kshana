@@ -686,6 +686,65 @@ fn resuming_after_a_partial_single_worker_run_gives_identical_cells_and_digest()
     assert!(s.rows_failed > 0);
 }
 
+/// How many cells a dry run against the reference output would run.
+fn pending_against_reference(campaign_text: &str, base: &Path) -> (usize, usize) {
+    let f = fixture();
+    let c = LoadedCampaign::load_text(campaign_text, base).unwrap();
+    let dry = run(
+        &c,
+        &f.reference_out,
+        &RunOptions {
+            dry_run: true,
+            ..Default::default()
+        },
+    )
+    .unwrap();
+    (dry.cells_pending, dry.cells_skipped)
+}
+
+#[test]
+fn changing_the_design_the_conditions_or_the_scoring_reruns_the_affected_cells() {
+    let f = fixture();
+    let base = f.dir.join("campaign-variant.toml");
+    let text = std::fs::read_to_string(&f.campaign).unwrap();
+    // Nothing changed: every cell is found.
+    assert_eq!(pending_against_reference(&text, &base), (0, 12));
+
+    // A design edit re-runs the cells of that design only (3 recordings x 2 front ends).
+    let designs = std::fs::read_to_string(f.dir.join("designs.toml")).unwrap();
+    assert!(designs.contains("pll_bw_hz = 15.0"));
+    std::fs::write(
+        f.dir.join("designs-v2.toml"),
+        designs.replace("pll_bw_hz = 15.0", "pll_bw_hz = 14.0"),
+    )
+    .unwrap();
+    let changed = text.replace("designs.toml", "designs-v2.toml");
+    assert_eq!(pending_against_reference(&changed, &base), (6, 6));
+
+    // A conditions edit re-runs that recording's cells only (2 front ends x 2 designs). The
+    // copies keep every path as written, so only the edited recording's hash moves.
+    let v2 = f.dir.join("conds-v2");
+    std::fs::create_dir_all(&v2).unwrap();
+    for n in ["ramp", "gap", "alias"] {
+        let t = std::fs::read_to_string(f.dir.join("conds").join(format!("{n}.toml"))).unwrap();
+        let t = if n == "gap" {
+            assert!(t.contains("settle_s = 1.0"));
+            t.replace("settle_s = 1.0", "settle_s = 1.5")
+        } else {
+            t
+        };
+        std::fs::write(v2.join(format!("{n}.toml")), t).unwrap();
+    }
+    let changed = text.replace("conds/*.toml", "conds-v2/*.toml");
+    assert_eq!(pending_against_reference(&changed, &base), (4, 8));
+
+    // A scoring edit re-runs everything; a bar edit re-runs nothing.
+    let changed = text.replace("baseline_window_s = 2.0", "baseline_window_s = 2.5");
+    assert_eq!(pending_against_reference(&changed, &base), (12, 0));
+    let changed = text.replace("min_availability = 0.5", "min_availability = 0.9");
+    assert_eq!(pending_against_reference(&changed, &base), (0, 12));
+}
+
 #[test]
 fn the_cli_runs_checks_and_rebuilds() {
     let f = fixture();
