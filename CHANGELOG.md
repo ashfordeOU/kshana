@@ -40,10 +40,11 @@ breaking changes are called out explicitly.
   - **packed 4-bit** samples, signed (`ci4_msb`, `ci4_lsb`) or offset binary (`cu4_*`);
     **unsigned 8-bit** (`cu8`, the RTL-SDR layout; also the SigMF `cu8`/`ru8` data types);
     **12-bit values in 16-bit words**, left- or right-justified, either byte order
-    (`ci12r_le`, `ci12l_be`, …); and **one 2-bit code per byte** (`c2sm_byte`, …), beside the
+    (`ci12r_le`, `ci12l_be`, …) and their unsigned forms (`cu12r_le`, …); **unsigned 16-bit**
+    (`cu16_le`, `cu16_be`; also the SigMF `cu16_*`/`ru16_*` data types); and **one 2-bit code per byte** (`c2sm_byte`, …), beside the
     existing 8/16/32-bit and packed 2-bit formats. Unsigned codes decode to the odd mid-rise
     levels `2c − (2ⁿ − 1)`, the convention the 2-bit offset-binary mapping and the ION SDR
-    reader already use (so a `cu8` sample `c` reads `2c − 255`; `--gain 0.5` on conversion
+    reader already use (so a `cu8` sample `c` reads `2c − 255`, a `cu12*` one `2c − 4095`, a `cu16_*` one `2c − 65535`; `--gain 0.5` on conversion
     gives the familiar `c − 127.5`).
   - **Multi-stream files**: sample-interleaved raw files (`channels`/`channel` in the
     sidecar, or `--channels <n> --channel <k>`) and **multi-channel SigMF**

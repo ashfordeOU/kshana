@@ -87,6 +87,19 @@ fn random_bytes(f: SampleFormat, n_samples: usize, rng: &mut ChaCha8Rng) -> Vec<
             }
             v
         }
+        // Unsigned 12-bit: unused bits written as zero, as the encoder writes them.
+        Encoding::U12 { endian, justify } => {
+            let mut v = Vec::with_capacity(n_bytes);
+            while v.len() < n_bytes {
+                let x: u16 = rng.gen_range(0..4096);
+                let w = if justify == Justify::Left { x << 4 } else { x };
+                v.extend_from_slice(&match endian {
+                    Endian::Little => w.to_le_bytes(),
+                    Endian::Big => w.to_be_bytes(),
+                });
+            }
+            v
+        }
         Encoding::TwoBitPerByte { .. } => (0..n_bytes).map(|_| rng.gen_range(0..4u8)).collect(),
         _ => (0..n_bytes).map(|_| rng.gen()).collect(),
     }
