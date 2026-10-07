@@ -54,7 +54,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let s = run_campaign(&c, &out, &opts).map_err(Fail::Run)?;
     if let Some(p) = a.get("--json") {
         let text = serde_json::to_string_pretty(&s).unwrap_or_default();
-        std::fs::write(p, text).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        crate::iq::campaign::runner::write_atomic(std::path::Path::new(p), text.as_bytes())
+            .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     let mut msg = format!(
         "campaign {}: {} cell(s); {} already done, {} run now, {} failed, {} pending\noutput: {}",

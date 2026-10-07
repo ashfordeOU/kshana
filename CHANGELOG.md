@@ -59,7 +59,7 @@ breaking changes are called out explicitly.
   - bars re-judged without re-running;
   - the CLI;
   - ignored release-mode throughput and memory checks, including a 4 GB recording (5.45× real
-    time, peak memory 2 MB above the starting RSS).
+    time, peak memory 2 MB above the starting RSS; one-machine measurements, not bars).
 
   Software only: nothing transmits, and no interference or spoofing waveform is synthesised.
   Design and as-built notes: `docs/design/LAB-CAMPAIGN.md`.
