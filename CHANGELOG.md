@@ -43,8 +43,8 @@ breaking changes are called out explicitly.
   new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
   printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
   `iq::cli::signal_names` are now public too. Software-only and additive: the IQ layer adds no
-  interference or spoofer synthesis, nothing is ever transmitted, and there are no new dependencies. `server.json` declares
-  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  interference or spoofer synthesis, nothing is ever transmitted, and there are no new
+  dependencies. `server.json` declares the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
   generate a short two-satellite scene and check acquisition against the scene's own truth
   sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
   and the disabled state.
