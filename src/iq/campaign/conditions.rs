@@ -14,6 +14,7 @@
 //! and key at fault. Times are seconds from the first sample of the recording.
 
 use super::hash::{canonical_hash, CanonicalHash};
+use super::score::Bars;
 use crate::iq::io::inventory::RawSidecar;
 use serde::{Deserialize, Serialize};
 use std::path::{Path, PathBuf};
@@ -116,6 +117,10 @@ pub struct ExpectedSignals {
     /// Optional hand-off code phase per id (chips).
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub code_phase_chips: Vec<f64>,
+    /// Code periods per data bit (e.g. 20 for GPS L1 C/A with navigation data); omitted
+    /// tracks the signal as data-free.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub periods_per_bit: Option<usize>,
     /// A Kshana truth sidecar (synthetic scenes), relative to the test-condition file.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub truth: Option<String>,
@@ -332,6 +337,10 @@ pub struct TestConditions {
     /// The stated events.
     #[serde(default, rename = "event", skip_serializing_if = "Vec::is_empty")]
     pub events: Vec<Event>,
+    /// Pass/fail bars for this recording, overriding the campaign's field by field. Not
+    /// part of the condition hash: bars are applied when the report is built.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bars: Option<Bars>,
 }
 
 impl TestConditions {
@@ -472,6 +481,7 @@ impl TestConditions {
         let mut v = serde_json::to_value(self).unwrap_or_default();
         if let Some(m) = v.as_object_mut() {
             m.remove("receiver");
+            m.remove("bars");
         }
         canonical_hash(&v)
     }

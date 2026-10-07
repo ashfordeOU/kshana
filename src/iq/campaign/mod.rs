@@ -8,6 +8,13 @@
 //!   availability, time to loss of lock, re-acquisition time, C/N0 degradation against the
 //!   stated J/S (with an analytic reference labelled MODELLED), false-lock rate and PLL/DLL
 //!   jitter.
+//! * [`spec`]: the campaign file (`kshana.campaign/1`): recordings × front-end chains ×
+//!   loop designs, with run and scoring settings.
+//! * [`runner`]: plans the cells, skips those already done (content-hash keys), runs the
+//!   rest in parallel and writes one result per cell.
+//! * [`report`]: scorecards (CSV/JSON), the self-contained HTML report and the digest.
+//! * [`lockstate`]: the lock state the scorer reads, derived from the loop indicators.
+//! * [`truth`]: truth Doppler from a synthetic scene's sidecar, for the false-lock check.
 //! * [`hash`]: the canonical-JSON and file hashes that stamp every result.
 //!
 //! The design is in `docs/design/LAB-CAMPAIGN.md`. Nothing in this module synthesises,
@@ -15,4 +22,13 @@
 
 pub mod conditions;
 pub mod hash;
+pub mod lockstate;
+pub mod report;
+pub mod runner;
 pub mod score;
+pub mod spec;
+pub mod truth;
+
+pub use conditions::TestConditions;
+pub use runner::{run, CellResult, Plan, RunOptions, RunSummary};
+pub use spec::{CampaignSpec, LoadedCampaign};

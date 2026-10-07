@@ -94,6 +94,9 @@ pub struct ScoringConfig {
     /// Whether to compute the MODELLED reference curve.
     #[serde(default = "d_true")]
     pub reference_curve: bool,
+    /// Pass/fail bars, applied when the report is built (not by the scorer).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub bars: Option<Bars>,
 }
 
 fn d_baseline() -> f64 {
@@ -121,6 +124,7 @@ impl Default for ScoringConfig {
             false_lock_min_epochs: d_fl_epochs(),
             reacq_grace_s: d_grace(),
             reference_curve: true,
+            bars: None,
         }
     }
 }
@@ -146,6 +150,118 @@ impl ScoringConfig {
             return Err("scoring.false_lock_min_epochs must be at least 1".into());
         }
         Ok(())
+    }
+}
+
+/// Pass/fail bars. Every bar is optional; an unset bar is not judged. A metric that is
+/// absent (for example no loss of lock, so no re-acquisition time) passes a bar that only
+/// limits its size, except where noted.
+#[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct Bars {
+    /// Lock must hold at least this long after an event's onset (s); holding lock through
+    /// the event passes.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub min_time_to_loss_s: Option<f64>,
+    /// Lock must return within this time of an event's offset (s); a channel that lost lock
+    /// and never returned fails.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_reacq_s: Option<f64>,
+    /// Whole-run availability floor.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub min_availability: Option<f64>,
+    /// Availability floor within each event window.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub min_event_availability: Option<f64>,
+    /// Whole-run false-lock rate ceiling (episodes per locked hour).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_false_lock_per_hour: Option<f64>,
+    /// Carrier-jitter ceiling (deg), whole run and per event.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_pll_jitter_deg: Option<f64>,
+    /// Code-jitter ceiling (chips), whole run and per event.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub max_dll_jitter_chips: Option<f64>,
+}
+
+impl Bars {
+    /// `self` with every bar `over` sets replaced by `over`'s value.
+    pub fn merged(&self, over: Option<&Bars>) -> Bars {
+        let Some(o) = over else {
+            return self.clone();
+        };
+        Bars {
+            min_time_to_loss_s: o.min_time_to_loss_s.or(self.min_time_to_loss_s),
+            max_reacq_s: o.max_reacq_s.or(self.max_reacq_s),
+            min_availability: o.min_availability.or(self.min_availability),
+            min_event_availability: o.min_event_availability.or(self.min_event_availability),
+            max_false_lock_per_hour: o.max_false_lock_per_hour.or(self.max_false_lock_per_hour),
+            max_pll_jitter_deg: o.max_pll_jitter_deg.or(self.max_pll_jitter_deg),
+            max_dll_jitter_chips: o.max_dll_jitter_chips.or(self.max_dll_jitter_chips),
+        }
+    }
+
+    /// Whether any bar is set.
+    pub fn any(&self) -> bool {
+        *self != Bars::default()
+    }
+
+    /// The verdicts on a satellite's whole-run figures, keyed by bar name.
+    pub fn judge_run(&self, w: &WholeRunScore) -> BTreeMap<String, bool> {
+        let mut out = BTreeMap::new();
+        let le = |x: Option<f64>, b: f64| x.is_none_or(|x| x <= b);
+        if let Some(b) = self.min_availability {
+            out.insert(
+                "min_availability".into(),
+                w.availability.is_some_and(|a| a >= b),
+            );
+        }
+        if let Some(b) = self.max_false_lock_per_hour {
+            out.insert(
+                "max_false_lock_per_hour".into(),
+                le(w.false_lock_per_hour, b),
+            );
+        }
+        if let Some(b) = self.max_pll_jitter_deg {
+            out.insert("max_pll_jitter_deg".into(), le(w.pll_jitter_deg, b));
+        }
+        if let Some(b) = self.max_dll_jitter_chips {
+            out.insert("max_dll_jitter_chips".into(), le(w.dll_jitter_chips, b));
+        }
+        out
+    }
+
+    /// The verdicts on one event's figures, keyed by bar name.
+    pub fn judge_event(&self, e: &EventScore) -> BTreeMap<String, bool> {
+        let mut out = BTreeMap::new();
+        let le = |x: Option<f64>, b: f64| x.is_none_or(|x| x <= b);
+        if let Some(b) = self.min_time_to_loss_s {
+            out.insert(
+                "min_time_to_loss_s".into(),
+                e.locked_at_onset && e.time_to_loss_s.is_none_or(|t| t >= b),
+            );
+        }
+        if let Some(b) = self.max_reacq_s {
+            let ok = if e.lost || !e.locked_at_onset {
+                e.reacq_time_s.is_some_and(|t| t <= b)
+            } else {
+                true
+            };
+            out.insert("max_reacq_s".into(), ok);
+        }
+        if let Some(b) = self.min_event_availability {
+            out.insert(
+                "min_event_availability".into(),
+                e.availability.is_some_and(|a| a >= b),
+            );
+        }
+        if let Some(b) = self.max_pll_jitter_deg {
+            out.insert("max_pll_jitter_deg".into(), le(e.pll_jitter_deg, b));
+        }
+        if let Some(b) = self.max_dll_jitter_chips {
+            out.insert("max_dll_jitter_chips".into(), le(e.dll_jitter_chips, b));
+        }
+        out
     }
 }
 
