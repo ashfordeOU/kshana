@@ -25,15 +25,14 @@
 use super::conditions::{resolve, TestConditions};
 use super::hash::{canonical_hash, sha256_file, sha256_hex, CanonicalHash};
 use super::score::{SatScore, SatScorer, ScoreEpoch, ScoringConfig};
-use super::spec::{FrontendSpec, LoadedCampaign};
+use super::spec::{DataClass, FrontendSpec, LoadedCampaign};
 use super::truth::{TruthCursor, TruthDoppler};
 use crate::iq::acq::{acquire, samples_needed, AcqConfig, AcqResult};
 use crate::iq::cli::{apply_chain, build_chain, build_code};
 use crate::iq::io::batch::{default_workers, run_batch_items};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::signals::SignalCode;
-use crate::iq::track::design::Design;
-use crate::iq::track::sink::EpochSink;
+use crate::iq::track::sink::{ChannelInfo, EpochHeader, EpochSink, EventsWriter};
 use crate::iq::track::{
     ChannelInit, EpochOutput, LockEvent, LockState, SessionChannel, TrackSession,
 };
@@ -52,7 +51,7 @@ pub const PLAN_SCHEMA: &str = "kshana.campaign-plan/1";
 
 /// How the lock state in a cell was derived: the tracking session's lock state machine
 /// (`LOCKED` counts as locked) and its `false-lock` events.
-pub const LOCK_SOURCE: &str = "track-lock-state";
+pub const LOCK_SOURCE: &str = "track-session";
 
 /// Samples read per chunk.
 const CHUNK: usize = 1 << 16;
@@ -75,6 +74,23 @@ pub struct Handoff {
     pub statistic: Option<f64>,
     /// Acquisition threshold.
     pub threshold: Option<f64>,
+}
+
+/// A cell's per-update tracking output, when the campaign keeps it (`run.epochs`).
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct EpochFiles {
+    /// `csv`, `jsonl` or `binary` (`kshana.track-epoch/1`).
+    pub format: String,
+    /// The epoch file, relative to the output directory.
+    pub path: String,
+    /// Its SHA-256.
+    pub sha256: String,
+    /// Its size (bytes).
+    pub bytes: u64,
+    /// The lock-event file (JSON Lines), relative to the output directory.
+    pub events_path: String,
+    /// Its SHA-256.
+    pub events_sha256: String,
 }
 
 /// One satellite of a cell.
@@ -114,6 +130,8 @@ pub struct CellResult {
     pub schema: String,
     /// The cell key.
     pub key: String,
+    /// What the data is.
+    pub data_class: DataClass,
     /// Engine version.
     pub engine_version: String,
     /// The recording.
@@ -134,6 +152,10 @@ pub struct CellResult {
     pub samples_processed: u64,
     /// Per-satellite results, in test-condition order.
     pub satellites: Vec<CellSat>,
+    /// The per-update tracking output, when kept. Its channels are this cell's acquired
+    /// satellites, in test-condition order.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub epochs: Option<EpochFiles>,
 }
 
 /// One planned cell.
@@ -173,6 +195,8 @@ pub struct Plan {
     pub schema: String,
     /// Campaign name.
     pub name: String,
+    /// What the data is.
+    pub data_class: DataClass,
     /// Engine version.
     pub engine_version: String,
     /// Recordings, by id.
@@ -263,25 +287,49 @@ fn recording_sha(
     })
 }
 
-fn cell_key(
-    rec: &PlannedRecording,
-    fe: &(FrontendSpec, String),
-    d: &Design,
-    run_hash: &str,
-    scoring_hash: &str,
-) -> CanonicalHash {
+/// Everything a cell key covers.
+#[derive(Clone, Copy, Debug)]
+pub struct CellKeyInputs<'a> {
+    /// Recording id.
+    pub recording_id: &'a str,
+    /// SHA-256 of the recording's sample data.
+    pub recording_sha256: &'a str,
+    /// Condition hash ([`TestConditions::hash`]).
+    pub conditions_hash: &'a str,
+    /// Front-end chain name.
+    pub frontend: &'a str,
+    /// Front-end chain hash ([`FrontendSpec::hash`]).
+    pub frontend_hash: &'a str,
+    /// Design name.
+    pub design: &'a str,
+    /// Design hash ([`crate::iq::track::design::Design::hash`]).
+    pub design_hash: &'a str,
+    /// Run-settings hash.
+    pub run_hash: &'a str,
+    /// Scoring-settings hash.
+    pub scoring_hash: &'a str,
+    /// Data class (`synthetic` or `client-confidential`).
+    pub data_class: &'a str,
+    /// Engine version.
+    pub engine_version: &'a str,
+}
+
+/// A cell's key: the canonical hash ([`canonical_hash`]) of every input that determines
+/// its result, under the cell schema tag.
+pub fn cell_key(k: &CellKeyInputs) -> CanonicalHash {
     canonical_hash(&serde_json::json!({
         "schema": CELL_SCHEMA,
-        "recording_id": rec.id,
-        "recording_sha256": rec.sha256,
-        "conditions_hash": rec.conditions_hash,
-        "frontend": fe.0.name,
-        "frontend_hash": fe.1,
-        "design": d.name(),
-        "design_hash": d.hash(),
-        "run_hash": run_hash,
-        "scoring_hash": scoring_hash,
-        "engine_version": engine_version(),
+        "recording_id": k.recording_id,
+        "recording_sha256": k.recording_sha256,
+        "conditions_hash": k.conditions_hash,
+        "frontend": k.frontend,
+        "frontend_hash": k.frontend_hash,
+        "design": k.design,
+        "design_hash": k.design_hash,
+        "run_hash": k.run_hash,
+        "scoring_hash": k.scoring_hash,
+        "data_class": k.data_class,
+        "engine_version": k.engine_version,
     }))
 }
 
@@ -339,7 +387,19 @@ pub fn plan(c: &LoadedCampaign, out_dir: &Path, workers: usize) -> Result<Plan, 
         for (fi, fe) in frontends.iter().enumerate() {
             for (di, d) in c.designs.iter().enumerate() {
                 cells.push(PlannedCell {
-                    key: cell_key(rec, fe, d, &run_hash, &scoring_hash),
+                    key: cell_key(&CellKeyInputs {
+                        recording_id: &rec.id,
+                        recording_sha256: &rec.sha256,
+                        conditions_hash: &rec.conditions_hash,
+                        frontend: &fe.0.name,
+                        frontend_hash: &fe.1,
+                        design: d.name(),
+                        design_hash: d.hash(),
+                        run_hash: &run_hash,
+                        scoring_hash: &scoring_hash,
+                        data_class: c.spec.data_class.as_str(),
+                        engine_version: engine_version(),
+                    }),
                     recording: ri,
                     frontend: fi,
                     design: di,
@@ -350,6 +410,7 @@ pub fn plan(c: &LoadedCampaign, out_dir: &Path, workers: usize) -> Result<Plan, 
     Ok(Plan {
         schema: PLAN_SCHEMA.into(),
         name: c.spec.name.clone(),
+        data_class: c.spec.data_class,
         engine_version: engine_version().into(),
         recordings,
         frontends,
@@ -626,11 +687,23 @@ struct Chan {
     scorer: SatScorer,
 }
 
-/// Feeds the tracking session's updates, lock states and events to the scorers.
+/// One cell's epoch and event writers, writing to temporary files until the cell is done.
+struct CellWriters {
+    epochs: Box<dyn EpochSink>,
+    events: EventsWriter<std::io::BufWriter<std::fs::File>>,
+    tmp: (PathBuf, PathBuf),
+    dest: (PathBuf, PathBuf),
+}
+
+/// Feeds the tracking session's updates, lock states and events to the scorers, and to
+/// each cell's epoch writers when the campaign keeps epochs.
 struct ScoreSink<'a> {
     chans: Vec<Chan>,
     cursors: Vec<Option<TruthCursor<'a>>>,
     false_lock: Vec<bool>,
+    /// Session channel → (cell within the item, channel within the cell).
+    route: Vec<(usize, usize)>,
+    writers: Vec<Option<CellWriters>>,
 }
 
 impl EpochSink for ScoreSink<'_> {
@@ -649,17 +722,99 @@ impl EpochSink for ScoreSink<'_> {
         };
         let truth = self.cursors[channel].as_mut().map(|c| c.at(se.t_s));
         self.chans[channel].scorer.push(&se, truth);
+        let (cell, local) = self.route[channel];
+        if let Some(w) = self.writers[cell].as_mut() {
+            w.epochs.epoch(local, e, state)?;
+        }
         Ok(())
     }
 
     fn event(&mut self, ev: &LockEvent) -> Result<(), IqError> {
+        let ch = ev.channel as usize;
         if ev.reason == "false-lock" {
-            if let Some(f) = self.false_lock.get_mut(ev.channel as usize) {
+            if let Some(f) = self.false_lock.get_mut(ch) {
                 *f = true;
+            }
+        }
+        if let Some(&(cell, local)) = self.route.get(ch) {
+            if let Some(w) = self.writers[cell].as_mut() {
+                let mut ev = ev.clone();
+                ev.channel = local as u32;
+                w.events.event(&ev)?;
             }
         }
         Ok(())
     }
+}
+
+/// Open a cell's epoch writers on temporary files in `<out>/epochs/`.
+fn open_writers(
+    out_dir: &Path,
+    key: &str,
+    kind: super::spec::EpochOutputKind,
+    header: &EpochHeader,
+) -> Result<Option<CellWriters>, String> {
+    let Some((format, ext)) = kind.format() else {
+        return Ok(None);
+    };
+    let dir = out_dir.join("epochs");
+    std::fs::create_dir_all(&dir).map_err(|e| format!("{}: {e}", dir.display()))?;
+    let pid = std::process::id();
+    let dest = (
+        dir.join(format!("{key}.{ext}")),
+        dir.join(format!("{key}.events.jsonl")),
+    );
+    let tmp = (
+        dir.join(format!(".{key}.{ext}.tmp{pid}")),
+        dir.join(format!(".{key}.events.jsonl.tmp{pid}")),
+    );
+    let create = |p: &Path| {
+        std::fs::File::create(p)
+            .map(std::io::BufWriter::new)
+            .map_err(|e| format!("{}: {e}", p.display()))
+    };
+    let epochs = format
+        .writer(create(&tmp.0)?, header)
+        .map_err(|e| e.to_string())?;
+    let events = EventsWriter::new(create(&tmp.1)?);
+    Ok(Some(CellWriters {
+        epochs,
+        events,
+        tmp,
+        dest,
+    }))
+}
+
+/// Flush a cell's writers, move the files into place and describe them.
+fn close_writers(
+    mut w: CellWriters,
+    out_dir: &Path,
+    kind: super::spec::EpochOutputKind,
+) -> Result<EpochFiles, String> {
+    w.epochs.finish().map_err(|e| e.to_string())?;
+    w.events.finish().map_err(|e| e.to_string())?;
+    drop(w.epochs);
+    drop(w.events);
+    for (t, d) in [(&w.tmp.0, &w.dest.0), (&w.tmp.1, &w.dest.1)] {
+        std::fs::rename(t, d).map_err(|e| format!("{}: {e}", d.display()))?;
+    }
+    let rel = |p: &Path| {
+        p.strip_prefix(out_dir)
+            .unwrap_or(p)
+            .to_string_lossy()
+            .replace('\\', "/")
+    };
+    Ok(EpochFiles {
+        format: serde_json::to_value(kind)
+            .ok()
+            .and_then(|v| v.as_str().map(String::from))
+            .unwrap_or_default(),
+        path: rel(&w.dest.0),
+        sha256: sha256_file(&w.dest.0)?,
+        bytes: std::fs::metadata(&w.dest.0).map(|m| m.len()).unwrap_or(0),
+        events_path: rel(&w.dest.1),
+        events_sha256: sha256_file(&w.dest.1)?,
+    })
 }
 
 /// Run one work item and write its cells; returns the samples processed.
@@ -758,6 +913,28 @@ fn run_item(
             }
         }
     }
+    let mut route = Vec::new();
+    let mut per_cell: Vec<Vec<ChannelInfo>> = item.cells.iter().map(|_| Vec::new()).collect();
+    for ch in &chans {
+        let d = &c.designs[plan.cells[item.cells[ch.cell]].design];
+        route.push((ch.cell, per_cell[ch.cell].len()));
+        per_cell[ch.cell].push(ChannelInfo {
+            code: sats[ch.sat].code.name(),
+            design: d.name().into(),
+            design_hash: d.hash().into(),
+        });
+    }
+    let mut writers = Vec::new();
+    for (k, infos) in per_cell.into_iter().enumerate() {
+        let mut header = EpochHeader::new(infos, spec.fs_hz);
+        header.recording_sha256 = Some(rec.sha256.clone());
+        writers.push(open_writers(
+            out_dir,
+            &plan.cells[item.cells[k]].key,
+            c.spec.run.epochs,
+            &header,
+        )?);
+    }
     let mut session = TrackSession::new(spec, setups)?;
     let cursors: Vec<_> = chans
         .iter()
@@ -771,6 +948,8 @@ fn run_item(
         false_lock: vec![false; chans.len()],
         chans,
         cursors,
+        route,
+        writers,
     };
     let mut chain = build_chain(&fe.params(), spec.fs_hz)?;
     let mut buf = vec![Cf64::default(); CHUNK];
@@ -802,8 +981,16 @@ fn run_item(
     // Assemble and write each cell.
     let mut scores: Vec<Vec<Option<SatScore>>> =
         item.cells.iter().map(|_| vec![None; sats.len()]).collect();
+    let end_s = done as f64 / spec.fs_hz;
     for ch in sink.chans {
-        scores[ch.cell][ch.sat] = Some(ch.scorer.finish());
+        scores[ch.cell][ch.sat] = Some(ch.scorer.finish(end_s));
+    }
+    let mut epoch_files: Vec<Option<EpochFiles>> = Vec::new();
+    for w in sink.writers {
+        epoch_files.push(match w {
+            Some(w) => Some(close_writers(w, out_dir, c.spec.run.epochs)?),
+            None => None,
+        });
     }
     for (k, &ci) in item.cells.iter().enumerate() {
         let cell = &plan.cells[ci];
@@ -814,13 +1001,15 @@ fn run_item(
             .map(|(si, s)| CellSat {
                 handoff: handoffs[k][si].0.clone(),
                 score: scores[k][si].take().unwrap_or_else(|| {
-                    SatScorer::new(tc, &s.signal, s.id, s.code.chip_rate_hz(), scoring).finish()
+                    SatScorer::new(tc, &s.signal, s.id, s.code.chip_rate_hz(), scoring)
+                        .finish(end_s)
                 }),
             })
             .collect();
         let result = CellResult {
             schema: CELL_SCHEMA.into(),
             key: cell.key.clone(),
+            data_class: plan.data_class,
             engine_version: engine_version().into(),
             recording: RecordingStamp {
                 id: rec.id.clone(),
@@ -841,6 +1030,7 @@ fn run_item(
             sample_rate_hz: spec.fs_hz,
             samples_processed: done,
             satellites,
+            epochs: epoch_files[k].take(),
         };
         write_atomic(
             &cell_path(out_dir, &cell.key),

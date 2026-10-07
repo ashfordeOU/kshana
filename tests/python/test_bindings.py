@@ -328,7 +328,7 @@ def test_iq_campaign_runs_resumes_and_reports(tmp_path):
 
     campaign = tmp_path / "c.toml"
     campaign.write_text(
-        'schema = "kshana.campaign/1"\nname = "py"\n[inputs]\nconditions = ["rec.toml"]\n'
+        'schema = "kshana.campaign/1"\nname = "py"\ndata_class = "synthetic"\n[inputs]\nconditions = ["rec.toml"]\n'
     )
     out = str(tmp_path / "out")
     first = kshana.iq_campaign(str(campaign), out, workers=1)
