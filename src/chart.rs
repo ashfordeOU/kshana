@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Shared SVG charting helpers used by the per-pack chart renderers.
 
-/// Format a y-axis tick value at a precision sensible for its magnitude.
 use crate::palette::chart::{AXIS, BG, FONT_SANS, GRID, INK_2, MUTED};
+
+/// Format a y-axis tick value at a precision sensible for its magnitude.
 fn fmt_tick(v: f64) -> String {
     let a = v.abs();
     if a == 0.0 {
