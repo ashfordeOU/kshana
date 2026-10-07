@@ -24,6 +24,7 @@
 //! mirror [`super::io::cli`] exactly.
 
 mod acquire;
+mod campaign;
 mod channel;
 mod frontend;
 mod labfit;
@@ -50,6 +51,9 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
    or: kshana iq track   <recording> --signal <name> --prn <list> [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--coherent <N>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq sweep   <recording> --signal <name> --prn <list> [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>] [--max-seconds <s>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+   or: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+   or: kshana iq campaign report <out-dir>
+   or: kshana iq conditions <test-conditions.toml|json>
    or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
  acquire/track also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
@@ -179,8 +183,8 @@ impl std::fmt::Display for CommandError {
 
 impl std::error::Error for CommandError {}
 
-/// Run one processing command (`scene`, `acquire`, `track`, `sweep`, `labfit` or
-/// `frontend`, then its arguments exactly as the CLI takes them) in-process, and return
+/// Run one processing command (`scene`, `acquire`, `track`, `sweep`, `labfit`, `frontend`,
+/// `campaign` or `conditions`, then its arguments exactly as the CLI takes them) in-process, and return
 /// the message the CLI would print instead of printing it. Files are written exactly as
 /// the CLI writes them. This is the seam an embedding surface (the MCP server) drives, so
 /// it runs the same code path as `kshana iq` with nothing on stdout or stderr.
@@ -197,9 +201,11 @@ pub fn execute(args: &[String]) -> Result<String, CommandError> {
         Some("sweep") => sweep::run(rest),
         Some("labfit") => labfit::run(rest),
         Some("frontend") => frontend::run(rest),
+        Some("campaign") => campaign::run(rest),
+        Some("conditions") => campaign::conditions(rest),
         Some(other) => Err(Fail::Usage(format!(
             "unknown iq processing command {other:?}; expected scene, acquire, track, sweep, \
-             labfit or frontend"
+             labfit, frontend, campaign or conditions"
         ))),
         None => Err(Fail::Usage("no iq processing command given".into())),
     };
@@ -221,9 +227,10 @@ pub fn run(args: &[String]) -> i32 {
             println!("{USAGE}\n{}", super::io::cli::USAGE);
             0
         }
-        Some("scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend") => {
-            finish(execute(args))
-        }
+        Some(
+            "scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend" | "campaign"
+            | "conditions",
+        ) => finish(execute(args)),
         // Every data-handling command belongs to the io half of the group.
         Some(_) => super::io::cli::run(args),
     }
