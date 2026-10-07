@@ -393,7 +393,10 @@ fn multi_channel_sigmf_matches_sigmf_python() {
         .map(|s| c((s.re + 255.0) / 2.0, (s.im + 255.0) / 2.0))
         .collect();
     assert_eq!(got.len() as u64, r["samples_per_channel"].as_u64().unwrap());
-    assert_eq!(sha_f64(&got), r["channels"][0]["sha256_f64_iq"].as_str().unwrap());
+    assert_eq!(
+        sha_f64(&got),
+        r["channels"][0]["sha256_f64_iq"].as_str().unwrap()
+    );
 }
 
 /// The shape of a LuGRE `.sdrx` file (as in `realdata::ion_sdr`'s own tests) with a
@@ -506,7 +509,8 @@ fn gb_scale_recording_streams_in_bounded_memory() {
     let gen = |j: u64| ((j.wrapping_mul(37) + 11) & 0xFF) as u8;
     let t0 = std::time::Instant::now();
     {
-        let mut f = std::io::BufWriter::with_capacity(1 << 20, std::fs::File::create(&path).unwrap());
+        let mut f =
+            std::io::BufWriter::with_capacity(1 << 20, std::fs::File::create(&path).unwrap());
         f.write_all(&vec![0u8; header as usize]).unwrap();
         let mut block = vec![0u8; 1 << 20];
         let mut j = 0u64;

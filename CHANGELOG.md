@@ -35,6 +35,37 @@ breaking changes are called out explicitly.
   gps-sdr-sim's integer sine table, gains, zero initial carrier phase and truncated LNAV
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
+- **Lab-recording formats in `kshana iq` (0.34.0 "Lab replay", format breadth).** Every `iq`
+  command, the Rust `iq::io` readers and writers, and the dataset inventory now read:
+  - **packed 4-bit** samples, signed (`ci4_msb`, `ci4_lsb`) or offset binary (`cu4_*`);
+    **unsigned 8-bit** (`cu8`, the RTL-SDR layout; also the SigMF `cu8`/`ru8` data types);
+    **12-bit values in 16-bit words**, left- or right-justified, either byte order
+    (`ci12r_le`, `ci12l_be`, …); and **one 2-bit code per byte** (`c2sm_byte`, …), beside the
+    existing 8/16/32-bit and packed 2-bit formats. Unsigned codes decode to the odd mid-rise
+    levels `2c − (2ⁿ − 1)`, the convention the 2-bit offset-binary mapping and the ION SDR
+    reader already use (so a `cu8` sample `c` reads `2c − 255`; `--gain 0.5` on conversion
+    gives the familiar `c − 127.5`).
+  - **Multi-stream files**: sample-interleaved raw files (`channels`/`channel` in the
+    sidecar, or `--channels <n> --channel <k>`) and **multi-channel SigMF**
+    (`core:num_channels` > 1, formerly refused) read one stream at a time; sample indices,
+    captures and annotations count time instants, the reading sigmf-python takes. `iq info`
+    and the inventory report the channel count.
+  - **ION GNSS SDR `.sdrx` recordings** through the same opener (`iq info`, `acquire`,
+    `track`, `frontend`, `convert`, …), streamed in bounded memory; the inventory lists the
+    `.sdrx` and not its data file again.
+  - The raw-file sidecar (`<file>.toml` or `.json`) is documented with a TOML example in
+    `iq::io::inventory`.
+  Checks: hand-built byte vectors for every new layout; every format interleaved three ways
+  and read back stream by stream; the multi-channel and `cu8` recordings written by
+  sigmf-python 1.13.0 decoded identically to sigmf-python's own reading
+  (`tests/fixtures/iq_formats_sigmf_oracle/`); `.sdrx` streaming equal to the whole-file
+  decoder on three layouts. A GB-scale test (`tests/iq_formats.rs`, `#[ignore]`, writes its
+  file on the fly) read 4 GiB of two-stream `ci8` at 110 MB/s with the process's peak memory
+  up by 0.6 MB.
+  **API change:** `RawSidecar` gains `channels` and `channel`, `OpenedRecording` gains
+  `format_label` and `channels`, `InventoryEntry` gains `channels`, `RecordingKind` gains
+  `Sdrx`, and `Encoding` gains five variants; code that builds these structs literally or
+  matches `Encoding`/`RecordingKind` exhaustively needs the new fields or arms.
 
 ## [0.32.0] - 2026-10-05
 

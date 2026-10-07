@@ -45,8 +45,8 @@
 //!   of the 2-bit offset-binary mapping above and of the ION SDR reader
 //!   ([`crate::realdata::ion_sdr`]). These are the mid-rise levels of the converter, so a
 //!   zero-mean input stays zero-mean (an RTL-style `cu8` file read as `c − 128` carries a
-//!   −½ LSB DC term); the factor two keeps every level an integer. Divide by 2 (`--scale`)
-//!   to get the familiar `c − 127.5`.
+//!   −½ LSB DC term); the factor two keeps every level an integer. Halve them
+//!   (`iq convert --gain 0.5`) to get the familiar `c − 127.5`.
 //! * **12-bit in 16** ([`Encoding::I12`]): a two's-complement 12-bit value in a 16-bit word
 //!   of either byte order, either right-justified (bits 11–0, the upper four bits ignored on
 //!   reading and written as sign extension) or left-justified (bits 15–4, the low four bits
