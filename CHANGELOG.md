@@ -9,6 +9,22 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Documentation
+
+- **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
+  0.32.0 entries below say the IQ layer adds "no interference or spoofing waveform
+  synthesis". That is true of the IQ layer itself (`iq::scene` generates legitimate GNSS
+  signals only), but it read as a statement about the whole engine, and it is not one:
+  since 0.29.0 the `spectrum` kind's `[iq]` section writes a SigMF snapshot of its analytic
+  model with the configured jammers in it (noise-like jammers bin by bin, tones and chirps
+  as waveforms), and `spoof_capture` sums an authentic and a spoofer replica signal in
+  memory to test loop capture (the composite is never written out). The engine has also
+  carried a software GNSS receiver since 0.20.0 (`sdr`: acquisition and tracking; since
+  0.31.0 also `iq::acq` and `iq::track`). Nothing in Kshana transmits or drives radio
+  hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
+  design notes now say so; the released entries are left as they were published. No
+  behaviour changes.
+
 ### Added
 
 - **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
