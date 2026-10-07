@@ -49,8 +49,11 @@ pre-registered comparison (`tests/gps_l1ca_gpssdrsim_cross_generator.rs`).
 
 ## What this layer does not do, stated plainly
 
-- It does not generate jammer or spoofer RF, and has no over-the-air transmit.
-  Your simulator supplies the stimulus; Kshana is the receiving and analysis side.
+- It generates no RF and has no over-the-air transmit. The IQ layer's scenes carry
+  legitimate GNSS signals only; elsewhere in the engine the `spectrum` kind can write a
+  SigMF snapshot of its analytic jammer model to a file (since 0.29.0) and `spoof_capture`
+  builds an authentic-plus-spoofer composite in memory, never written out. For hardware
+  stimulus your simulator supplies the signal; Kshana is the receiving and analysis side.
 - Results on *your* receiver are a fitted model of its observed behaviour, with
   the fit error stated — not a copy of its proprietary loops.
 - The channel and loop models are MODELLED. They are checked against closed forms
