@@ -45,7 +45,8 @@ breaking changes are called out explicitly.
     existing 8/16/32-bit and packed 2-bit formats. Unsigned codes decode to the odd mid-rise
     levels `2c − (2ⁿ − 1)`, the convention the 2-bit offset-binary mapping and the ION SDR
     reader already use (so a `cu8` sample `c` reads `2c − 255`, a `cu12*` one `2c − 4095`, a `cu16_*` one `2c − 65535`; `--gain 0.5` on conversion
-    gives the familiar `c − 127.5`).
+    gives the familiar `c − 127.5`). SigMF `cu16_le`/`cu16_be` metadata, refused until now, is
+    accepted.
   - **Multi-stream files**: sample-interleaved raw files (`channels`/`channel` in the
     sidecar, or `--channels <n> --channel <k>`) and **multi-channel SigMF**
     (`core:num_channels` > 1, formerly refused) read one stream at a time; sample indices,
