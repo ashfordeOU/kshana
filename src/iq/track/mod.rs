@@ -37,6 +37,7 @@
 //! navigation-message decoding beyond bit signs.
 
 pub mod cn0;
+pub mod design;
 pub mod discrim;
 pub mod filter;
 
