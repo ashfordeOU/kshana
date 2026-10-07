@@ -27,6 +27,12 @@
 //! * **Replay.** [`replay`] runs one [`IqSource`](crate::iq::IqSource) once through a bank holding every
 //!   (channel, loop configuration) pair and returns the results per configuration, so many
 //!   loop designs can be compared on one recording.
+//! * **Streaming, lock states and designs.** [`TrackSession`] runs the same channels in
+//!   bounded memory, handing every update to an [`sink::EpochSink`] as it happens
+//!   (CSV/JSON-Lines/binary `kshana.track-epoch/1` writers and a reader, running
+//!   [`sink::Summary`] metrics), under the [`lock`] state machine: pull-in, locked, lost,
+//!   re-acquisition, with a ±1/(2T) false-lock check. [`design`] reads loop designs from
+//!   `kshana.loop-design/1` TOML (`docs/design/LOOP-DESIGN-TOML.md`).
 //!
 //! Honest label: MODELLED. The loop designs, jitter, steady-state error and C/N0
 //! estimators are checked against closed forms (Kaplan & Hegarty; Van Dierendonck;
@@ -43,9 +49,12 @@ pub mod filter;
 
 mod bank;
 mod channel;
+pub mod lock;
+pub mod sink;
 
 pub use bank::{replay, ReplayResult, TrackingBank};
 pub use channel::{Channel, ChannelInit, EpochOutput};
+pub use lock::{LockEvent, LockState, SessionChannel, TrackSession};
 
 use self::cn0::BitSyncConfig;
 use self::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};

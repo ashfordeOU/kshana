@@ -213,14 +213,14 @@ fn version() -> &'static str {
 // acquisition and tracking engines and the loop designs are the crate's own
 // (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
 
-use crate::iq::acq::{acquire, auto_coherent_periods, AcqConfig};
+use crate::iq::acq::{acquire, AcqConfig};
 use crate::iq::cli::{
     build_broadcast_scene, build_chain, build_channel, build_code, build_scene, BroadcastParams,
     ChannelParams, FrontendParams, SceneParams,
 };
 use crate::iq::scene::TruthRecord;
 use crate::iq::signals::SignalCode;
-use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
+use crate::iq::track::{ChannelInit, EpochOutput};
 use crate::iq::{Cf64, SampleSpec, SpreadingCode, VecSink};
 
 /// Build one spreading code per identifier in `prns`.
@@ -480,17 +480,21 @@ fn iq_acquire<'py>(
     json_to_py(py, &serde_json::Value::Array(out))
 }
 
-/// Acquire then track each PRN over complex samples. Returns a dict with one entry per
-/// channel (`code` and a list of per-epoch dicts: `doppler_hz`, `code_phase_chips`, `pli`,
-/// `phase_lock`, `cn0_nwpr_dbhz`, the prompt `i_prompt`/`q_prompt`, ...). The loop design
-/// starts from the GPS-L1-C/A-like default; any of `pll_bw`, `fll_bw`, `dll_bw`, `spacing`,
-/// `coherent` overrides it. The initialising acquisition integrates `acq_coherent` code
-/// periods coherently; the default `None` is auto (≈4 ms coherent: 4 periods of an untiered
-/// 1 ms code such as GPS L1 C/A, 1 period of a code whose full, overlay-included period is
-/// 4 ms or longer), and `acq_coherent=1` restores the 0.32 one-period search. Raises
-/// `ValueError` if a PRN is not acquired.
+/// Acquire then track each PRN over complex samples. Returns a dict with `fs_hz`, the
+/// resolved loop `design` (every field, with its `hash`), the lock-state `events` and one
+/// entry per channel (`code` and a list of per-epoch dicts: `doppler_hz`,
+/// `code_phase_chips`, `pli`, `phase_lock`, `cn0_nwpr_dbhz`, the early/prompt/late
+/// correlators, the discriminators, `state`, ...). The loop design is `design` (a path to a
+/// `kshana.loop-design/1` TOML file, or its text; `design_name` picks one, the first by
+/// default) or the GPS-L1-C/A-like built-in default; any of `pll_bw`, `fll_bw`, `dll_bw`,
+/// `spacing`, `coherent`, `reacquire` and the acquisition arguments overrides it. The
+/// initialising acquisition integrates `acq_coherent` code periods coherently; the default
+/// `None` is the design's (auto: ≈4 ms coherent, 4 periods of an untiered 1 ms code such as
+/// GPS L1 C/A, 1 period of a code whose full, overlay-included period is 4 ms or longer),
+/// and `acq_coherent=1` restores the 0.32 one-period search. Raises `ValueError` if a PRN
+/// is not acquired or the design is invalid.
 #[pyfunction]
-#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=1, doppler_max=5000.0, max_seconds=None))]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=None, doppler_max=None, max_seconds=None, design=None, design_name=None, reacquire=None))]
 #[allow(clippy::too_many_arguments)]
 fn iq_track<'py>(
     py: Python<'py>,
@@ -508,10 +512,16 @@ fn iq_track<'py>(
     coherent: Option<usize>,
     periods_per_bit: Option<usize>,
     acq_coherent: Option<usize>,
-    acq_noncoherent: usize,
-    doppler_max: f64,
+    acq_noncoherent: Option<usize>,
+    doppler_max: Option<f64>,
     max_seconds: Option<f64>,
+    design: Option<String>,
+    design_name: Option<String>,
+    reacquire: Option<bool>,
 ) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::track::design::{Design, DesignFile};
+    use crate::iq::track::sink::CollectSink;
+    use crate::iq::track::{SessionChannel, TrackSession};
     let codes = codes_for(&signal, &prns)?;
     let samples = samples_from(&i, &q)?;
     let spec = SampleSpec {
@@ -519,18 +529,68 @@ fn iq_track<'py>(
         center_hz: center_hz.unwrap_or_else(|| codes[0].carrier_hz()),
         if_hz,
     };
-    // Acquisition to initialise each channel.
-    // Default auto (≈4 ms coherent); `acq_coherent=1` restores the 0.32 one-period search.
-    let acq_coherent = acq_coherent
-        .unwrap_or_else(|| auto_coherent_periods(codes[0].period_s()))
-        .max(1);
-    let acq = AcqConfig {
-        coherent_periods: acq_coherent,
-        noncoherent: acq_noncoherent.max(1),
-        doppler_max_hz: doppler_max,
-        doppler_step_hz: 2.0 / (3.0 * acq_coherent as f64 * codes[0].period_s()),
-        pfa: 1e-3,
+    // The design: a file path or TOML text, else the built-in default; arguments override.
+    let base = match design {
+        None => {
+            if design_name.is_some() {
+                return Err(PyValueError::new_err("design_name needs design"));
+            }
+            Design::builtin_default()
+        }
+        Some(d) => {
+            let text = if std::path::Path::new(&d).is_file() {
+                std::fs::read_to_string(&d).map_err(|e| PyValueError::new_err(e.to_string()))?
+            } else {
+                d
+            };
+            DesignFile::parse(&text)
+                .and_then(|f| f.select(design_name.as_deref()).cloned())
+                .map_err(PyValueError::new_err)?
+        }
     };
+    let mut o = String::new();
+    let mut section = |name: &str, kv: Vec<(&str, Option<String>)>| {
+        let set: Vec<String> = kv
+            .into_iter()
+            .filter_map(|(k, v)| v.map(|v| format!("{k} = {v}")))
+            .collect();
+        if !set.is_empty() {
+            o.push_str(&format!("[{name}]\n{}\n", set.join("\n")));
+        }
+    };
+    let f = |v: Option<f64>| v.map(|x| format!("{x:?}"));
+    let n = |v: Option<usize>| v.map(|x| x.max(1).to_string());
+    section(
+        "carrier",
+        vec![("pll_bw_hz", f(pll_bw)), ("fll_bw_hz", f(fll_bw))],
+    );
+    section("code", vec![("bw_hz", f(dll_bw))]);
+    section(
+        "integration",
+        vec![
+            ("spacing_chips", f(spacing)),
+            ("coherent_periods", n(coherent)),
+        ],
+    );
+    section(
+        "lock",
+        vec![("reacquire", reacquire.map(|b| b.to_string()))],
+    );
+    section(
+        "acquisition",
+        vec![
+            ("coherent_periods", n(acq_coherent)),
+            ("noncoherent", n(acq_noncoherent)),
+            ("doppler_max_hz", f(doppler_max)),
+        ],
+    );
+    let design = if o.is_empty() {
+        base
+    } else {
+        base.with_overrides(&o).map_err(PyValueError::new_err)?
+    };
+    // Acquisition to initialise each channel.
+    let acq = design.acq_config(codes[0].period_s());
     let mut inits = Vec::new();
     for code in &codes {
         let grid = acquire(&samples, &spec, code, &acq).map_err(PyValueError::new_err)?;
@@ -552,42 +612,88 @@ fn iq_track<'py>(
             periods_per_bit,
         ));
     }
-    // One loop design from the overrides.
-    let mut cfg = LoopConfig::default();
-    if let Some(d) = spacing {
-        cfg.spacing_chips = d;
-    }
-    if let Some(bn) = dll_bw {
-        cfg.dll_bn_hz = bn;
-    }
-    if let Some(n) = coherent {
-        cfg.coherent_periods = n.max(1);
-    }
-    if pll_bw.is_some() || fll_bw.is_some() {
-        cfg.carrier = CarrierLoop::FllAssistedPll {
-            pll_order: 2,
-            pll_bn_hz: pll_bw.unwrap_or(15.0),
-            fll_order: 1,
-            fll_bn_hz: fll_bw.unwrap_or(10.0),
-        };
-    }
+    let channels = inits
+        .into_iter()
+        .map(|init| SessionChannel::from_design(init, &design))
+        .collect();
+    let mut session = TrackSession::new(spec, channels).map_err(PyValueError::new_err)?;
     let max_samples = max_seconds.map(|s| (s * fs_hz).round() as u64);
     let mut src = crate::iq::VecSource::new(spec, samples);
-    let results = replay(&mut src, &inits, &[cfg], max_samples)
+    let mut sink = CollectSink::default();
+    session
+        .run(&mut src, max_samples, &mut sink)
         .map_err(|e| PyValueError::new_err(e.to_string()))?;
     let chans: Vec<serde_json::Value> = codes
         .iter()
-        .zip(&results[0].channels)
-        .map(|(code, epochs)| {
-            serde_json::json!({
-                "code": code.name(),
-                "epochs": epochs.iter().map(epoch_value).collect::<Vec<_>>(),
-            })
+        .enumerate()
+        .map(|(k, code)| {
+            let epochs: Vec<serde_json::Value> = sink
+                .channels
+                .get(k)
+                .map(|v| {
+                    v.iter()
+                        .map(|(e, st)| {
+                            let mut j = epoch_value(e);
+                            j["state"] = st.as_str().into();
+                            j
+                        })
+                        .collect()
+                })
+                .unwrap_or_default();
+            serde_json::json!({ "code": code.name(), "epochs": epochs })
         })
+        .collect();
+    let events: Vec<serde_json::Value> = sink
+        .events
+        .iter()
+        .map(|e| serde_json::to_value(e).unwrap_or(serde_json::Value::Null))
         .collect();
     json_to_py(
         py,
-        &serde_json::json!({ "fs_hz": fs_hz, "channels": chans }),
+        &serde_json::json!({
+            "fs_hz": fs_hz,
+            "design": design.to_json(),
+            "events": events,
+            "channels": chans,
+        }),
+    )
+}
+
+/// Parse a `kshana.loop-design/1` TOML text (or a path to one) and return its designs,
+/// resolved: a list of dicts with every field set, the `name` and the `hash`. Raises
+/// `ValueError` on an invalid file.
+#[pyfunction]
+fn iq_loop_designs<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
+    let text = if std::path::Path::new(toml).is_file() {
+        std::fs::read_to_string(toml).map_err(|e| PyValueError::new_err(e.to_string()))?
+    } else {
+        toml.to_string()
+    };
+    let file = crate::iq::track::design::DesignFile::parse(&text).map_err(PyValueError::new_err)?;
+    let v: Vec<serde_json::Value> = file.designs().iter().map(|d| d.to_json()).collect();
+    json_to_py(py, &serde_json::Value::Array(v))
+}
+
+/// Read a binary tracking-epoch file (`kshana.track-epoch/1`, as `kshana iq track --epochs
+/// <path>.bin` writes it). Returns a dict with the `header` (schema, fields, channels with
+/// their code, design and design hash, sample rate, engine version) and the `records`, one
+/// dict per epoch. Raises `ValueError` on a file that is not one.
+#[pyfunction]
+fn iq_read_epochs<'py>(py: Python<'py>, path: &str) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::track::sink::BinaryEpochReader;
+    let f = std::fs::File::open(path).map_err(|e| PyValueError::new_err(format!("{path}: {e}")))?;
+    let reader = BinaryEpochReader::new(std::io::BufReader::new(f))
+        .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let header = serde_json::to_value(reader.header()).unwrap_or(serde_json::Value::Null);
+    let records = reader
+        .map(|r| {
+            r.map(|rec| serde_json::to_value(rec).unwrap_or(serde_json::Value::Null))
+                .map_err(|e| PyValueError::new_err(e.to_string()))
+        })
+        .collect::<PyResult<Vec<_>>>()?;
+    json_to_py(
+        py,
+        &serde_json::json!({ "header": header, "records": records }),
     )
 }
 
@@ -601,8 +707,16 @@ fn epoch_value(e: &EpochOutput) -> serde_json::Value {
         "doppler_hz": e.doppler_hz,
         "code_rate_hz": e.code_rate_hz,
         "code_phase_chips": e.code_phase_chips,
+        "periods": e.periods,
+        "i_early": e.early.re,
+        "q_early": e.early.im,
         "i_prompt": e.prompt.re,
         "q_prompt": e.prompt.im,
+        "i_late": e.late.re,
+        "q_late": e.late.im,
+        "carrier_phase_cycles": e.carrier_phase_cycles,
+        "bit_edge": e.bit_edge,
+        "bit": e.bit,
         "dll_chips": e.disc.dll_chips,
         "pll_rad": e.disc.pll_rad,
         "fll_hz": e.disc.fll_hz,
@@ -796,6 +910,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(iq_scene_broadcast, m)?)?;
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;
     m.add_function(wrap_pyfunction!(iq_track, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_loop_designs, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_read_epochs, m)?)?;
     m.add_function(wrap_pyfunction!(iq_labfit, m)?)?;
     m.add_function(wrap_pyfunction!(iq_frontend, m)?)?;
     m.add_function(wrap_pyfunction!(iq_signals, m)?)?;

@@ -40,7 +40,10 @@ use std::collections::BTreeMap;
 use std::path::{Path, PathBuf};
 use std::sync::OnceLock;
 
-const FS: f64 = 2.046e6;
+// 2.5 MHz, not 2.046 MHz: at exactly 2 samples per chip the code discriminator's S-curve is
+// a step (commensurate sampling, docs/design/evidence/dll-jitter/RESULTS.md), which would
+// hide the DLL jitter's growth with falling C/N0.
+const FS: f64 = 2.5e6;
 const NOMINAL: f64 = 45.0;
 const RC: f64 = 1.023e6;
 
@@ -409,8 +412,11 @@ fn the_reference_run_completes_every_cell_and_stamps_provenance() {
 fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
     let f = fixture();
     let all = cells(&f.reference_out);
-    // The PLL-only design holds lock through the event; the FLL-assisted one may lose it
-    // in the 30 dB J/S step (about 30 dB-Hz), and if it does, the loss is scored there.
+    // Whether and when a channel loses lock is the tracker's lock state machine's call
+    // (phase or code lock down for `loss_dwell_s`). The scoring must agree with that
+    // timeline: a loss carries the stated J/S at that moment, and a held channel is fully
+    // available. At least one channel holds lock through the whole event.
+    let mut held = 0;
     for (design, s) in ["pll-only", "fll-pll"].iter().flat_map(|d| {
         cell(&all, "ramp", "raw", d)
             .satellites
@@ -419,13 +425,18 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
     }) {
         assert_eq!(s.handoff.source, "hint");
         let e = &s.score.events[0];
-        if design == "pll-only" {
-            assert!(!e.lost, "PRN {} lost lock at a tracked C/N0", s.score.id);
-            assert!((e.availability.unwrap() - 1.0).abs() < 1e-9);
-        } else if e.lost {
-            assert_eq!(e.js_at_loss_db, Some(30.0));
-            assert!(e.time_to_loss_s.unwrap() >= 3.0);
-            assert!(e.reacquired && e.reacq_time_s.unwrap() < 2.0);
+        assert!(e.locked_at_onset, "{design}");
+        match e.time_to_loss_s {
+            None => {
+                held += 1;
+                assert!((e.availability.unwrap() - 1.0).abs() < 1e-9, "{design}");
+            }
+            Some(ttl) => {
+                assert!((0.0..6.0 + 30.0).contains(&ttl), "{design}: {ttl}");
+                let js = e.js_at_loss_db.unwrap();
+                assert_eq!(js, if ttl < 3.0 { 20.0 } else { 30.0 }, "{design}");
+                assert!(e.availability.unwrap() < 1.0);
+            }
         }
         // The NWPR estimate reads about 2 dB under the scene's stated C/N0; degradation is
         // measured from the measured baseline, so that offset cancels.
@@ -439,11 +450,11 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
         assert_eq!(bins, vec![20.0, 30.0]);
         for b in &e.cn0_curve {
             let measured = b.measured_degradation_db.unwrap();
+            if b.n < 2000 {
+                continue; // a bin cut short by losses of lock
+            }
             let modelled = b.modelled_degradation_db.unwrap();
             let truth = NOMINAL - effective_cn0_dbhz(NOMINAL, b.js_db, m.q, RC);
-            if b.n < 2000 {
-                continue; // a bin cut short by a loss of lock
-            }
             assert!(
                 (measured - truth).abs() < 2.0,
                 "PRN {} J/S {}: measured {measured:.2} vs injected {truth:.2}",
@@ -457,16 +468,20 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
                 "modelled {modelled} vs {truth}"
             );
         }
-        // Carrier jitter grows as C/N0 falls (about 9 deg at 43 dB-Hz to over 30 deg).
-        // The code discriminator's std is reported but not ordered here: at 2 samples per
-        // chip it sits near 0.2 chip at every C/N0 in this tracker, a known open point.
+        // Carrier and code jitter both grow as C/N0 falls.
         assert!(
             e.pll_jitter_deg.unwrap() > 2.0 * e.baseline_pll_jitter_deg.unwrap(),
             "{design}"
         );
-        assert!(e.dll_jitter_chips.is_some() && e.baseline_dll_jitter_chips.is_some());
+        assert!(
+            e.dll_jitter_chips.unwrap() > 1.3 * e.baseline_dll_jitter_chips.unwrap(),
+            "{design}: DLL {:?} vs baseline {:?}",
+            e.dll_jitter_chips,
+            e.baseline_dll_jitter_chips
+        );
         assert_eq!(s.score.whole_run.false_lock_episodes, 0);
     }
+    assert!(held >= 1, "no channel held lock through the event");
 }
 
 #[test]

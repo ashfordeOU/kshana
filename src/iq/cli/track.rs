@@ -1,63 +1,171 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! `kshana iq track`: acquire each requested PRN over a recording, then run the tracking
-//! bank (DLL/PLL/FLL) over the whole recording and emit the per-epoch tracking output.
+//! bank (DLL/PLL/FLL) over the whole recording, streaming the per-epoch output.
 //!
-//! Acquisition initialises each channel's code phase and Doppler
-//! ([`crate::iq::track::ChannelInit::from_acquisition`]); the recording is then replayed
-//! once ([`crate::iq::track::replay`]) through one loop design built from the loop flags
-//! (noise bandwidths, integration time, correlator spacing). Each loop update
-//! ([`crate::iq::track::EpochOutput`]) is written to the `--csv`/`--json` artifact and a
-//! last-epoch summary is printed.
+//! The loops come from a loop design ([`crate::iq::track::design`]): `--design <file.toml>`
+//! (`--design-name` picks one; the first is the default) or the built-in default, with any
+//! explicit loop or acquisition flag (`--pll-bw`, `--dll-bw`, `--spacing`, `--coherent`,
+//! `--acq-coherent`, ...) applied on top. Acquisition initialises each channel's code phase
+//! and Doppler ([`crate::iq::track::ChannelInit::from_acquisition`]); the recording is then
+//! replayed once through a [`TrackSession`], which runs the lock state machine (and, with
+//! `--reacquire` or a design that asks for it, re-acquisition) and hands every loop update
+//! to the outputs as it happens, so memory does not grow with the recording's length:
+//!
+//! * `--epochs <path>` — every epoch in the `kshana.track-epoch/1` record, as CSV, JSON
+//!   Lines or binary (by `--epochs-format`, else the path's suffix);
+//! * `--events <path>` — the lock-state events as JSON Lines;
+//! * `--summary <path>` — per-channel metrics, the resolved design and its hash, as JSON;
+//! * `--csv <path>` — the 0.32 per-epoch CSV (streamed);
+//! * `--json <path>` — the 0.32 per-epoch JSON (held in memory: prefer `--epochs`).
 
 use super::acquire::{codes_from_args, read_samples};
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::acq::acquire;
-use crate::iq::acq::{auto_coherent_periods, samples_needed, AcqConfig};
+use crate::iq::acq::samples_needed;
 use crate::iq::io::inventory::open_recording;
 use crate::iq::signals::SignalCode;
-use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
-use crate::iq::{IqSource, SampleSpec, SpreadingCode};
+use crate::iq::track::design::{Design, DesignFile};
+use crate::iq::track::sink::{
+    ChannelInfo, ChannelSummary, CollectSink, EpochFormat, EpochHeader, EpochSink, EventsWriter,
+    Fanout, Summary,
+};
+use crate::iq::track::{ChannelInit, EpochOutput, LockState, SessionChannel, TrackSession};
+use crate::iq::{IqError, IqSource, SampleSpec, SpreadingCode};
+use std::fs::File;
+use std::io::{BufWriter, Write};
 use std::path::Path;
 use std::sync::Arc;
 
-/// Build the acquisition config used to initialise tracking from the `--acq-*` flags. The
-/// coherent length defaults to auto (≈4 ms, [`auto_coherent_periods`]); `--acq-coherent 1`
-/// restores the one-period search of 0.32 and earlier.
-pub(crate) fn init_acq_config(a: &Args, period_s: f64) -> Result<AcqConfig, Fail> {
-    let coherent_periods = a
-        .num("--acq-coherent")
-        .map_err(Fail::Usage)?
-        .unwrap_or_else(|| auto_coherent_periods(period_s))
-        .max(1);
-    let noncoherent = a
-        .num("--acq-noncoherent")
-        .map_err(Fail::Usage)?
-        .unwrap_or(1usize)
-        .max(1);
-    Ok(AcqConfig {
-        coherent_periods,
-        noncoherent,
-        doppler_max_hz: a
-            .num("--doppler-max")
-            .map_err(Fail::Usage)?
-            .unwrap_or(5000.0),
-        doppler_step_hz: a
-            .num("--doppler-step")
-            .map_err(Fail::Usage)?
-            .unwrap_or(2.0 / (3.0 * coherent_periods as f64 * period_s)),
-        pfa: a.num("--pfa").map_err(Fail::Usage)?.unwrap_or(1e-3),
-    })
+/// The switches `track` and `sweep` take.
+pub(crate) const TRACK_SWITCHES: &[&str] = &["--reacquire"];
+
+/// The loop design the flags select: `--design` (and `--design-name`) or the built-in
+/// default, with every explicit loop and acquisition flag applied on top. Returns the
+/// design and the flags that overrode it.
+pub(crate) fn design_from_args(a: &Args) -> Result<(Design, Vec<String>), Fail> {
+    design_with(a, false)
 }
 
-/// Acquire each code over the start of `src` and return a tracking initialisation per code.
-/// `periods_per_bit` is carried into every channel (`None` tracks a data-free signal).
+/// The built-in default with only the acquisition flags applied: the hand-off of a
+/// `sweep` whose loop flags are lists.
+pub(crate) fn handoff_from_args(a: &Args) -> Result<Design, Fail> {
+    let (toml, overridden) = overrides_from_args(a, true)?;
+    if overridden.is_empty() {
+        return Ok(Design::builtin_default());
+    }
+    Design::builtin_default()
+        .with_overrides(&toml)
+        .map_err(Fail::Usage)
+}
+
+fn design_with(a: &Args, acq_only: bool) -> Result<(Design, Vec<String>), Fail> {
+    let base = match a.get("--design") {
+        Some(p) => {
+            let text = std::fs::read_to_string(p).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+            let file = DesignFile::parse(&text).map_err(|e| Fail::Usage(format!("{p}: {e}")))?;
+            file.select(a.get("--design-name"))
+                .map_err(|e| Fail::Usage(format!("{p}: {e}")))?
+                .clone()
+        }
+        None => {
+            if a.get("--design-name").is_some() {
+                return Err(Fail::Usage(
+                    "--design-name needs --design <file.toml>".into(),
+                ));
+            }
+            Design::builtin_default()
+        }
+    };
+    let (toml, overridden) = overrides_from_args(a, acq_only)?;
+    if overridden.is_empty() {
+        return Ok((base, overridden));
+    }
+    let d = base.with_overrides(&toml).map_err(Fail::Usage)?;
+    Ok((d, overridden))
+}
+
+/// The explicit flags as a design table in the file format, and their names.
+fn overrides_from_args(a: &Args, acq_only: bool) -> Result<(String, Vec<String>), Fail> {
+    let mut sections: Vec<(&str, Vec<String>)> = Vec::new();
+    let mut flags = Vec::new();
+    let mut put = |section: &'static str, key: &str, value: String, flag: &str| {
+        flags.push(flag.to_string());
+        match sections.iter_mut().find(|(s, _)| *s == section) {
+            Some((_, v)) => v.push(format!("{key} = {value}")),
+            None => sections.push((section, vec![format!("{key} = {value}")])),
+        }
+    };
+    let f = |k: &str| a.num::<f64>(k).map_err(Fail::Usage);
+    let u = |k: &str| a.num::<usize>(k).map_err(Fail::Usage);
+    let float = |v: f64| format!("{v:?}");
+    if !acq_only {
+        if let Some(v) = f("--pll-bw")? {
+            put("carrier", "pll_bw_hz", float(v), "--pll-bw");
+        }
+        if let Some(v) = f("--fll-bw")? {
+            put("carrier", "fll_bw_hz", float(v), "--fll-bw");
+        }
+        if let Some(v) = f("--dll-bw")? {
+            put("code", "bw_hz", float(v), "--dll-bw");
+        }
+        if let Some(v) = f("--spacing")? {
+            put("integration", "spacing_chips", float(v), "--spacing");
+        }
+        if let Some(v) = u("--coherent")? {
+            put(
+                "integration",
+                "coherent_periods",
+                v.max(1).to_string(),
+                "--coherent",
+            );
+        }
+        if a.has("--reacquire") {
+            put("lock", "reacquire", "true".into(), "--reacquire");
+        }
+    }
+    if let Some(v) = u("--acq-coherent")? {
+        put(
+            "acquisition",
+            "coherent_periods",
+            v.max(1).to_string(),
+            "--acq-coherent",
+        );
+    }
+    if let Some(v) = u("--acq-noncoherent")? {
+        put(
+            "acquisition",
+            "noncoherent",
+            v.max(1).to_string(),
+            "--acq-noncoherent",
+        );
+    }
+    if let Some(v) = f("--doppler-max")? {
+        put("acquisition", "doppler_max_hz", float(v), "--doppler-max");
+    }
+    if let Some(v) = f("--doppler-step")? {
+        put("acquisition", "doppler_step_hz", float(v), "--doppler-step");
+    }
+    if let Some(v) = f("--pfa")? {
+        put("acquisition", "pfa", float(v), "--pfa");
+    }
+    let toml = sections
+        .iter()
+        .map(|(s, kv)| format!("[{s}]\n{}\n", kv.join("\n")))
+        .collect::<String>();
+    Ok((toml, flags))
+}
+
+/// Acquire each code over the start of `src` with `design`'s hand-off search and return a
+/// tracking initialisation per code. `periods_per_bit` is carried into every channel
+/// (`None` tracks a data-free signal).
 pub(crate) fn acquire_inits(
-    a: &Args,
+    design: &Design,
+    periods_per_bit: Option<usize>,
     spec: &SampleSpec,
     codes: &[SignalCode],
     src: &mut dyn IqSource,
 ) -> Result<Vec<ChannelInit>, Fail> {
-    let cfg = init_acq_config(a, codes[0].period_s())?;
+    let cfg = design.acq_config(codes[0].period_s());
     let needed = codes
         .iter()
         .map(|c| samples_needed(spec, c, &cfg))
@@ -65,7 +173,6 @@ pub(crate) fn acquire_inits(
         .map_err(Fail::Run)?;
     let max_needed = needed.iter().copied().max().unwrap_or(0);
     let samples = read_samples(src, max_needed)?;
-    let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
 
     let mut inits = Vec::new();
     for (code, need) in codes.iter().zip(&needed) {
@@ -98,98 +205,57 @@ pub(crate) fn acquire_inits(
     Ok(inits)
 }
 
-/// Build one loop design from the loop flags, starting from the GPS-L1-C/A-like default.
-pub(crate) fn loop_config_from(a: &Args, label: &str) -> Result<LoopConfig, Fail> {
-    let mut cfg = LoopConfig {
-        label: label.to_string(),
-        ..LoopConfig::default()
-    };
-    if let Some(d) = a.num("--spacing").map_err(Fail::Usage)? {
-        cfg.spacing_chips = d;
-    }
-    if let Some(bn) = a.num("--dll-bw").map_err(Fail::Usage)? {
-        cfg.dll_bn_hz = bn;
-    }
-    if let Some(n) = a.num::<usize>("--coherent").map_err(Fail::Usage)? {
-        cfg.coherent_periods = n.max(1);
-    }
-    let pll_bw: Option<f64> = a.num("--pll-bw").map_err(Fail::Usage)?;
-    let fll_bw: Option<f64> = a.num("--fll-bw").map_err(Fail::Usage)?;
-    if pll_bw.is_some() || fll_bw.is_some() {
-        cfg.carrier = CarrierLoop::FllAssistedPll {
-            pll_order: 2,
-            pll_bn_hz: pll_bw.unwrap_or(15.0),
-            fll_order: 1,
-            fll_bn_hz: fll_bw.unwrap_or(10.0),
-        };
-    }
-    Ok(cfg)
+/// Open a file for writing, buffered.
+pub(crate) fn create(p: &str) -> Result<BufWriter<File>, Fail> {
+    File::create(p)
+        .map(BufWriter::new)
+        .map_err(|e| Fail::Run(format!("{p}: {e}")))
 }
 
-/// Run `kshana iq track <args>`.
-pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, &[]).map_err(Fail::Usage)?;
-    a.need_pos(1, "track")?;
-    let path = Path::new(&a.pos[0]);
-    let codes = codes_from_args(&a)?;
-
-    // One pass to acquire, a fresh pass to track the whole recording.
-    let mut opened = open_recording(path, raw_sidecar(&a)?)?;
-    let spec = opened.source.spec();
-    let inits = acquire_inits(&a, &spec, &codes, opened.source.as_mut())?;
-
-    let cfg = loop_config_from(&a, "track")?;
-    let max_samples = a
-        .num::<f64>("--max-seconds")
-        .map_err(Fail::Usage)?
-        .map(|s| (s * spec.fs_hz).round() as u64);
-
-    let mut track_src = open_recording(path, raw_sidecar(&a)?)?;
-    let results = replay(
-        track_src.source.as_mut(),
-        &inits,
-        std::slice::from_ref(&cfg),
-        max_samples,
-    )?;
-    let channels = &results[0].channels;
-
-    write_outputs(&a, &spec, &codes, channels)?;
-    Ok(summary(&codes, channels))
-}
-
-/// Write the optional `--json` and `--csv` per-epoch artifacts.
-fn write_outputs(
+/// The `--epochs` writer the flags ask for, if any.
+pub(crate) fn epochs_writer(
     a: &Args,
-    spec: &SampleSpec,
-    codes: &[SignalCode],
-    channels: &[Vec<EpochOutput>],
-) -> Result<(), Fail> {
-    if let Some(p) = a.get("--csv") {
-        std::fs::write(p, to_csv(codes, channels)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
-    }
-    if let Some(p) = a.get("--json") {
-        std::fs::write(p, to_json(spec, codes, channels))
-            .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
-    }
-    Ok(())
-}
-
-/// Every channel's epochs as CSV, one row per epoch with a leading `code` column.
-pub(crate) fn to_csv(codes: &[SignalCode], channels: &[Vec<EpochOutput>]) -> String {
-    let mut s = String::from(
-        "code,epoch,sample_index,code_epoch_s,t_coh_s,doppler_hz,code_rate_hz,code_phase_chips,\
-         i_prompt,q_prompt,dll_chips,pll_rad,fll_hz,pli,phase_lock,code_lock,cn0_nwpr_dbhz,cn0_beaulieu_dbhz\n",
-    );
-    for (code, epochs) in codes.iter().zip(channels) {
-        for e in epochs {
-            s.push_str(&epoch_row(&code.name(), e));
-            s.push('\n');
+    header: &EpochHeader,
+) -> Result<Option<Box<dyn EpochSink>>, Fail> {
+    let Some(p) = a.get("--epochs") else {
+        if a.get("--epochs-format").is_some() {
+            return Err(Fail::Usage("--epochs-format needs --epochs <path>".into()));
         }
-    }
-    s
+        return Ok(None);
+    };
+    let fmt = match a.get("--epochs-format") {
+        Some(f) => EpochFormat::parse(f).map_err(Fail::Usage)?,
+        None => EpochFormat::from_path(p).ok_or_else(|| {
+            Fail::Usage(format!(
+                "--epochs {p}: name the format with --epochs-format csv|jsonl|bin, or end the \
+                 path in .csv, .jsonl or .bin"
+            ))
+        })?,
+    };
+    Ok(Some(fmt.writer(create(p)?, header)?))
 }
 
-/// One CSV row for an epoch.
+/// The 0.32 per-epoch CSV, streamed: a `code` column then the epoch's fields.
+struct LegacyCsv<W: Write> {
+    w: W,
+    codes: Vec<String>,
+}
+
+impl<W: Write> EpochSink for LegacyCsv<W> {
+    fn epoch(&mut self, channel: usize, e: &EpochOutput, _: LockState) -> Result<(), IqError> {
+        writeln!(self.w, "{}", epoch_row(&self.codes[channel], e))
+            .map_err(|err| IqError::Io(err.to_string()))
+    }
+    fn finish(&mut self) -> Result<(), IqError> {
+        self.w.flush().map_err(|e| IqError::Io(e.to_string()))
+    }
+}
+
+/// The 0.32 CSV header.
+const LEGACY_CSV_HEADER: &str = "code,epoch,sample_index,code_epoch_s,t_coh_s,doppler_hz,code_rate_hz,code_phase_chips,\
+     i_prompt,q_prompt,dll_chips,pll_rad,fll_hz,pli,phase_lock,code_lock,cn0_nwpr_dbhz,cn0_beaulieu_dbhz";
+
+/// One 0.32 CSV row for an epoch.
 fn epoch_row(code: &str, e: &EpochOutput) -> String {
     let opt = |v: Option<f64>| v.map(|x| x.to_string()).unwrap_or_default();
     format!(
@@ -215,16 +281,172 @@ fn epoch_row(code: &str, e: &EpochOutput) -> String {
     )
 }
 
-/// Every channel's epochs as pretty JSON.
-fn to_json(spec: &SampleSpec, codes: &[SignalCode], channels: &[Vec<EpochOutput>]) -> String {
-    let chans: Vec<serde_json::Value> = codes
-        .iter()
-        .zip(channels)
-        .map(|(code, epochs)| {
-            serde_json::json!({
-                "code": code.name(),
-                "epochs": epochs.iter().map(epoch_json).collect::<Vec<_>>(),
+/// Run `kshana iq track <args>`.
+pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
+    let a = Args::parse(args, TRACK_SWITCHES).map_err(Fail::Usage)?;
+    a.need_pos(1, "track")?;
+    let path = Path::new(&a.pos[0]);
+    let codes = codes_from_args(&a)?;
+    let (design, overridden) = design_from_args(&a)?;
+
+    // One pass to acquire, a fresh pass to track the whole recording.
+    let mut opened = open_recording(path, raw_sidecar(&a)?)?;
+    let spec = opened.source.spec();
+    let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
+    let inits = acquire_inits(
+        &design,
+        periods_per_bit,
+        &spec,
+        &codes,
+        opened.source.as_mut(),
+    )?;
+
+    let max_samples = a
+        .num::<f64>("--max-seconds")
+        .map_err(Fail::Usage)?
+        .map(|s| (s * spec.fs_hz).round() as u64);
+    let mut track_src = open_recording(path, raw_sidecar(&a)?)?;
+    let tracked = max_samples.map_or(track_src.n_samples, |m| m.min(track_src.n_samples));
+
+    let channels: Vec<SessionChannel> = inits
+        .into_iter()
+        .map(|i| SessionChannel::from_design(i, &design))
+        .collect();
+    let mut session = TrackSession::new(spec, channels).map_err(Fail::Usage)?;
+    let names: Vec<String> = codes.iter().map(SignalCode::name).collect();
+    let header = EpochHeader::new(
+        names
+            .iter()
+            .map(|c| ChannelInfo {
+                code: c.clone(),
+                design: design.name().to_string(),
+                design_hash: design.hash().to_string(),
             })
+            .collect(),
+        spec.fs_hz,
+    );
+
+    let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);
+    let mut epochs = epochs_writer(&a, &header)?;
+    let mut events = a
+        .get("--events")
+        .map(|p| create(p).map(EventsWriter::new))
+        .transpose()?;
+    let mut legacy_csv = match a.get("--csv") {
+        Some(p) => {
+            let mut w = create(p)?;
+            writeln!(w, "{LEGACY_CSV_HEADER}").map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+            Some(LegacyCsv {
+                w,
+                codes: names.clone(),
+            })
+        }
+        None => None,
+    };
+    let mut collect = a.get("--json").map(|_| CollectSink::default());
+    {
+        let mut fan = Fanout::new();
+        fan.push(&mut summary);
+        if let Some(w) = epochs.as_deref_mut() {
+            fan.push(w);
+        }
+        if let Some(w) = events.as_mut() {
+            fan.push(w);
+        }
+        if let Some(w) = legacy_csv.as_mut() {
+            fan.push(w);
+        }
+        if let Some(c) = collect.as_mut() {
+            fan.push(c);
+        }
+        session.run(track_src.source.as_mut(), max_samples, &mut fan)?;
+    }
+
+    if let (Some(p), Some(c)) = (a.get("--json"), collect) {
+        std::fs::write(p, legacy_json(&spec, &names, &c))
+            .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+    }
+    if let Some(p) = a.get("--summary") {
+        let v = summary_json(&spec, tracked, &[(&design, &names)], &overridden, &summary);
+        std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default())
+            .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+    }
+    Ok(table(&names, &summary.channels))
+}
+
+/// One channel's summary as JSON.
+pub(crate) fn channel_json(
+    channel: usize,
+    code: &str,
+    design: &Design,
+    c: &ChannelSummary,
+) -> serde_json::Value {
+    let last = c.last.as_ref();
+    serde_json::json!({
+        "channel": channel,
+        "code": code,
+        "design": design.name(),
+        "design_hash": design.hash(),
+        "epochs": c.epochs,
+        "tracked_s": last.map(|l| l.code_epoch_s),
+        "final_doppler_hz": last.map(|l| l.doppler_hz),
+        "final_code_phase_chips": last.map(|l| l.code_phase_chips),
+        "final_cn0_dbhz": last.and_then(|l| l.cn0_nwpr_dbhz),
+        "mean_cn0_dbhz": c.mean_cn0_dbhz,
+        "phase_lock_fraction": c.phase_lock_fraction(),
+        "code_lock_fraction": c.code_lock_fraction(),
+        "locked_fraction": c.locked_fraction(),
+        "locked_at_end": c.locked_at_end(),
+        "final_state": last.map(|l| l.state.as_str()),
+        "transitions": c.transitions,
+        "false_locks": c.false_locks,
+        "reacquisitions": c.reacquisitions,
+        "phase_jitter_deg": c.phase_jitter_deg,
+        "code_jitter_chips": c.code_jitter_chips,
+    })
+}
+
+/// The `--summary` document. `groups` lists each design with the codes it tracked, in
+/// channel order.
+pub(crate) fn summary_json(
+    spec: &SampleSpec,
+    tracked: u64,
+    groups: &[(&Design, &[String])],
+    overridden: &[String],
+    summary: &Summary,
+) -> serde_json::Value {
+    let mut chans = Vec::new();
+    let mut idx = 0;
+    for (design, codes) in groups {
+        for code in codes.iter() {
+            let c = summary.channels.get(idx).cloned().unwrap_or_default();
+            chans.push(channel_json(idx, code, design, &c));
+            idx += 1;
+        }
+    }
+    serde_json::json!({
+        "schema": "kshana.track-summary/1",
+        "engine_version": env!("CARGO_PKG_VERSION"),
+        "sample_rate_hz": spec.fs_hz,
+        "samples_tracked": tracked,
+        "designs": groups.iter().map(|(d, _)| d.to_json()).collect::<Vec<_>>(),
+        "overridden_by_flags": overridden,
+        "channels": chans,
+    })
+}
+
+/// The 0.32 per-epoch JSON.
+fn legacy_json(spec: &SampleSpec, names: &[String], c: &CollectSink) -> String {
+    let chans: Vec<serde_json::Value> = names
+        .iter()
+        .enumerate()
+        .map(|(i, code)| {
+            let epochs: Vec<serde_json::Value> = c
+                .channels
+                .get(i)
+                .map(|v| v.iter().map(|(e, _)| epoch_json(e)).collect())
+                .unwrap_or_default();
+            serde_json::json!({ "code": code, "epochs": epochs })
         })
         .collect();
     let v = serde_json::json!({
@@ -234,7 +456,7 @@ fn to_json(spec: &SampleSpec, codes: &[SignalCode], channels: &[Vec<EpochOutput>
     serde_json::to_string_pretty(&v).unwrap_or_default()
 }
 
-/// One epoch as a JSON value.
+/// One epoch as a JSON value (the 0.32 shape).
 fn epoch_json(e: &EpochOutput) -> serde_json::Value {
     serde_json::json!({
         "epoch": e.epoch,
@@ -258,36 +480,27 @@ fn epoch_json(e: &EpochOutput) -> serde_json::Value {
 }
 
 /// A last-epoch summary table across the channels.
-fn summary(codes: &[SignalCode], channels: &[Vec<EpochOutput>]) -> String {
+fn table(names: &[String], channels: &[ChannelSummary]) -> String {
     let mut out = String::from(
-        "code\tepochs\tfinal_doppler_hz\tfinal_cn0_nwpr\tphase_lock_frac\tcode_lock_frac\n",
+        "code\tepochs\tfinal_doppler_hz\tfinal_cn0_nwpr\tphase_lock_frac\tcode_lock_frac\tfinal_state\n",
     );
-    for (code, epochs) in codes.iter().zip(channels) {
-        let n = epochs.len();
-        let last = epochs.last();
-        let plf = frac(epochs, |e| e.phase_lock);
-        let clf = frac(epochs, |e| e.code_lock);
+    for (i, code) in names.iter().enumerate() {
+        let c = channels.get(i).cloned().unwrap_or_default();
+        let last = c.last.as_ref();
         out.push_str(&format!(
-            "{}\t{}\t{}\t{}\t{:.3}\t{:.3}\n",
-            code.name(),
-            n,
+            "{}\t{}\t{}\t{}\t{:.3}\t{:.3}\t{}\n",
+            code,
+            c.epochs,
             last.map(|e| format!("{:.1}", e.doppler_hz))
                 .unwrap_or_else(|| "-".into()),
             last.and_then(|e| e.cn0_nwpr_dbhz)
-                .map(|c| format!("{c:.1}"))
+                .map(|v| format!("{v:.1}"))
                 .unwrap_or_else(|| "-".into()),
-            plf,
-            clf,
+            c.phase_lock_fraction(),
+            c.code_lock_fraction(),
+            last.map(|e| e.state.as_str()).unwrap_or("-"),
         ));
     }
     out.pop();
     out
-}
-
-/// Fraction of epochs for which `f` is true.
-pub(crate) fn frac(epochs: &[EpochOutput], f: impl Fn(&EpochOutput) -> bool) -> f64 {
-    if epochs.is_empty() {
-        return 0.0;
-    }
-    epochs.iter().filter(|e| f(e)).count() as f64 / epochs.len() as f64
 }

@@ -101,7 +101,72 @@ breaking changes are called out explicitly.
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
 
+- **Tracking engine for lab replay (0.34.0: B3.1, B3.2, B3.3, B6.1).**
+  - *Loop-design files*: `kshana.loop-design/1` TOML (`docs/design/LOOP-DESIGN-TOML.md`;
+    parser `iq::track::design`). One or more named designs set every loop field:
+    - carrier kind (PLL, FLL or FLL-assisted PLL), orders and bandwidths;
+    - PLL/FLL/DLL discriminators and carrier aiding;
+    - spacing and integration;
+    - lock thresholds and C/N0 windows, and bit sync;
+    - the lock state machine;
+    - the hand-off acquisition (`"auto"` or explicit).
+
+    Designs may `extends` one another. Unknown keys are refused. Each resolved design has a
+    SHA-256 hash that every output records. Surfaces:
+    - `kshana iq track --design <file> [--design-name]`, where explicit flags override the
+      design and are recorded;
+    - `kshana iq sweep --design <file>`, which runs every design in the file;
+    - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
+    - MCP `iq_track` `design`/`design_name`.
+  - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
+    carries:
+    - the early/prompt/late correlators;
+    - all three discriminator outputs;
+    - the PLL/FLL/DLL NCO states and the carrier phase;
+    - the PLI and lock flags;
+    - both C/N0 estimates and the bits;
+    - the lock state.
+
+    It is written as it happens, as CSV, JSON Lines or a versioned binary form with readers
+    in Rust (`BinaryEpochReader`) and Python (`iq_read_epochs`).
+    - `iq track`/`iq sweep` gain `--epochs`, `--events` and `--summary`
+      (`kshana.track-summary/1`). MCP `iq_track` gains `epochs_out`/`events_out` and builds
+      its reply from the bounded-memory summary.
+    - A run's heap no longer grows with the recording's length:
+      `tests/iq_track_memory.rs` measures it with a counting allocator (6× the length,
+      same peak within 64 KiB), with a control showing that the in-memory path does grow.
+    - Streamed output is bit-identical to the in-memory replay.
+  - *Lock state machine* (`iq::track::lock`, `TrackSession`): pull-in → locked → lost →
+    re-acquisition → pull-in, or retired after `max_reacq_attempts`.
+    - Thresholds (`loss_dwell_s`, `pull_in_max_s`, the re-acquisition Doppler window) come
+      from the design. Every transition is an event with its reason.
+    - The false-lock check searches the tracked Doppler against its ±1/(2T) FLL/PLL
+      alias. It catches the false lock PR #38 measured (−2400 Hz tracked 500 Hz off).
+      With re-acquisition on, the channel ends locked at the injected Doppler.
+    - A 0.8 s signal gap is declared lost and re-acquired within 0.3 s of the signal's
+      return.
+    - Re-acquisition is **off in the built-in default**, where the state machine only
+      observes and the loops run bit for bit as before. Turn it on per design
+      (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
+    - Tests: `tests/iq_track_engine.rs`, `tests/iq_cli.rs`, `iq::track::design::tests`,
+      `tests/python`, and the MCP IQ round trip.
+
 ### Changed
+
+- **`iq track`/`iq sweep` stream through the new session (see Added).**
+  - `--csv` keeps its 0.32 columns but is now streamed, so rows of several channels
+    interleave in time order instead of being grouped by channel. `--json` keeps its 0.32
+    shape and still holds every epoch in memory: use `--epochs` for long recordings.
+  - `iq sweep` measures jitter over the updates in the second half of the run's duration
+    (previously the second half of the update count), and its CSV/JSON gain a
+    `design_hash` column.
+  - The track table gains a `final_state` column.
+  - The usage text no longer claims `iq track` takes the front-end flags; only
+    `iq acquire` applies them.
+  - Python `iq_track`'s `acq_noncoherent` and `doppler_max` now default to `None` (the
+    design's values, 1 and 5000 Hz in the built-in design). Its epochs gain the
+    early/late correlators, `carrier_phase_cycles`, `bit_edge`, `bit` and `state`, and
+    the result gains `design` and `events`.
 
 - **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
   acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`

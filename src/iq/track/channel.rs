@@ -234,6 +234,27 @@ impl Channel {
         Ok(ch)
     }
 
+    /// A channel that joins the stream at absolute sample `start_sample` (its first loop
+    /// update numbered `first_epoch`), tracking `init`, whose code phase is given at stream
+    /// sample 0 (as [`ChannelInit::from_acquisition`] returns it). The code phase is carried
+    /// forward to `start_sample` at the hand-off Doppler's code rate; the carrier NCO starts
+    /// at phase 0 there. Re-acquisition uses it to restart a channel mid-stream.
+    pub fn new_at(
+        spec: &SampleSpec,
+        init: &ChannelInit,
+        cfg: &LoopConfig,
+        start_sample: u64,
+        first_epoch: u64,
+    ) -> Result<Self, String> {
+        let mut ch = Self::new(spec, init, cfg)?;
+        let rate = ch.code.chip_rate_hz() * (1.0 + init.doppler_hz / ch.code.carrier_hz());
+        ch.code_phase =
+            (init.code_phase_chips + start_sample as f64 * rate / spec.fs_hz).rem_euclid(ch.len);
+        ch.sample_index = start_sample;
+        ch.epoch = first_epoch;
+        Ok(ch)
+    }
+
     /// The loop core (filters and NCO settings).
     pub fn core(&self) -> &LoopCore {
         &self.core

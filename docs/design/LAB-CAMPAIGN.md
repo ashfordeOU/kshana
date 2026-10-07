@@ -261,8 +261,8 @@ rounded and hashes shortened):
 
 ### Metric definitions (per satellite, per design, per chain)
 
-Lock is the lock state machine of LOOP-DESIGN-TOML.md §3 (`LOCKED` vs everything else) with its `LOST`/`FALSE_LOCK`/re-acq
-events. A design file's `loss_dwell_s` therefore sets what counts as "loss".
+Lock is the tracking session's lock state machine (`LOCKED` against everything else), with its
+`LOST`, `false-lock` and re-acquisition events. A design file's `loss_dwell_s` therefore sets what counts as "loss".
 
 | metric | definition |
 |---|---|
@@ -273,7 +273,7 @@ events. A design file's `loss_dwell_s` therefore sets what counts as "loss".
 | baseline C/N0 | median NWPR C/N0 over locked epochs in `[onset − baseline_window_s, onset)` (else the stated `nominal_cn0_dbhz`) |
 | C/N0 degradation vs J/S | per `js_bin_db` bin of stated J/S during the event: `n`, median measured C/N0 over locked epochs, degradation = baseline − measured |
 | MODELLED reference | per bin: `effective_cn0_dbhz(baseline, js, Q(type), Rc)` from `jamming`, with Q from `jamming::q_factor` for the stated type or the event's `q` |
-| false-lock rate | episodes per hour of locked time. An episode is the tracker's `FALSE_LOCK` detection or, with a truth sidecar, ≥ `false_lock_min_epochs` consecutive locked epochs with \|Doppler − truth\| > threshold |
+| false-lock rate | episodes per hour of locked time. An episode is a `false-lock` event of the tracking session or, with a truth sidecar, ≥ `false_lock_min_epochs` consecutive locked epochs with \|Doppler − truth\| > threshold |
 | PLL / DLL jitter | sample std of `pll_disc_rad` (deg) and `dll_disc_chips` over locked epochs: baseline window and per event |
 
 All metrics are computed online from the epoch stream. Memory is bounded by the baseline window
@@ -316,16 +316,13 @@ expected to agree. The tests cover:
 
 ## 6. As built: refinements of the proposal
 
-* **Lock state.** The scorer reads a lock state from `lockstate::LockTracker`. This tracker runs §3 of
-  `LOOP-DESIGN-TOML.md` on the loop's lock indicators, with the design's `LockConfig`:
-  * LOCKED after `cn0_windows` consecutive updates with the locks up. These are phase and code lock,
-    or code lock alone for an FLL-only design.
-  * LOST after the locks have been down for `loss_dwell_s`, or after `pull_in_max_s` without a
-    first lock.
-  * LOCKED again when the locks hold once more. The loops keep running after a loss.
-
-  Each cell records `lock_source = "lock-indicators"`. When the tracker itself emits its state and
-  its `FALSE_LOCK` events, those feed the same `ScoreEpoch`, and nothing downstream changes.
+* **Lock state.** Each work item runs its channels through the tracking session
+  (`iq::track::TrackSession`) with each design's `LockConfig`, and its `EpochSink` feeds the scorer.
+  An update counts as locked when the session's state is `LOCKED`. A `false-lock` event marks
+  that channel's next update as a tracker-flagged false lock. Each cell records
+  `lock_source = "track-lock-state"`. The session's own rules (`LOOP-DESIGN-TOML.md` §3 and
+  `iq::track::lock`) therefore decide what counts as a loss, including `loss_dwell_s`, the
+  false-lock check, and re-acquisition when a design enables it.
 * **Bars** live in `[scoring.bars]`. A recording's test-condition file may override them field by
   field in its own `[bars]` table. Bars sit outside every hash and are applied when the report is
   built, so changing a bar re-judges the results without re-running any cell.
@@ -354,6 +351,10 @@ expected to agree. The tests cover:
 * A hand-off at the ±1/(2T) Costas alias never declares code lock: the coherent sum of the NWPR
   estimator cancels there. The false-lock test therefore scores a correct track against a
   shifted truth sidecar. That checks the scoring path, not the tracker's false-lock behaviour.
-* At 2 samples per chip, the code discriminator's standard deviation sits near 0.2 chip at every
-  C/N0 tested. That is above theory at high C/N0. The jitter is reported but not yet relied on
-  for ordering.
+* At exactly 2 samples per chip (2.046 MHz for GPS L1 C/A), the code discriminator's standard
+  deviation sits near 0.2 chip at every C/N0. Commensurate sampling turns the S-curve into a step
+  (`docs/design/evidence/dll-jitter/RESULTS.md`). The synthetic campaign therefore samples at
+  2.5 MHz, where DLL jitter grows with falling C/N0 as theory expects.
+* Under the session's rule (phase *or* code lock down for `loss_dwell_s`), the default
+  FLL-assisted design loses lock at about 39 dB-Hz on these scenes, while the PLL-only design
+  mostly holds. The scorer reports what the state machine decides. It does not second-guess it.

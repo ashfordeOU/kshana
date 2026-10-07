@@ -749,10 +749,32 @@ pub struct IqTrackRequest {
     /// How to read a raw file with no sidecar.
     #[serde(default)]
     pub raw: Option<RawInput>,
-    /// Also keep the per-epoch output as JSON at this path in the work directory.
+    /// A `kshana.loop-design/1` TOML file in the work directory (see
+    /// `docs/design/LOOP-DESIGN-TOML.md`); the loop arguments above override it. Default:
+    /// the built-in design.
+    #[serde(default)]
+    pub design: Option<String>,
+    /// Which design of the file; default its first.
+    #[serde(default)]
+    pub design_name: Option<String>,
+    /// Re-acquire a channel that loses lock (or false-locks) around its last Doppler.
+    /// Default false.
+    #[serde(default)]
+    pub reacquire: bool,
+    /// Stream every epoch (`kshana.track-epoch/1`: E/P/L, discriminators, loop states,
+    /// C/N0, lock state) to this path in the work directory; the format follows the suffix
+    /// (`.csv`, `.jsonl`, `.bin`). Bounded memory, whatever the recording's length.
+    #[serde(default)]
+    pub epochs_out: Option<String>,
+    /// Write the lock-state events (JSON Lines) to this path in the work directory.
+    #[serde(default)]
+    pub events_out: Option<String>,
+    /// Also keep the per-epoch output as JSON (the 0.32 shape, built in memory) at this
+    /// path in the work directory.
     #[serde(default)]
     pub json_out: Option<String>,
-    /// Also write the per-epoch output as CSV at this path in the work directory.
+    /// Also write the per-epoch output as CSV (the 0.32 columns, streamed) at this path in
+    /// the work directory.
     #[serde(default)]
     pub csv_out: Option<String>,
     /// Replace output files that already exist. Default false.
@@ -846,46 +868,6 @@ fn detection(d: &serde_json::Value) -> serde_json::Value {
         "statistic": pick("statistic"),
         "threshold": pick("threshold"),
         "peak_ratio": pick("peak_ratio"),
-    })
-}
-
-/// One tracking channel's per-epoch output reduced to its lock state and C/N0.
-fn channel_summary(ch: &serde_json::Value) -> serde_json::Value {
-    let epochs = ch
-        .get("epochs")
-        .and_then(serde_json::Value::as_array)
-        .map(Vec::as_slice)
-        .unwrap_or_default();
-    let f = |e: &serde_json::Value, k: &str| e.get(k).and_then(serde_json::Value::as_f64);
-    let b = |e: &serde_json::Value, k: &str| {
-        e.get(k)
-            .and_then(serde_json::Value::as_bool)
-            .unwrap_or(false)
-    };
-    let frac = |k: &str| {
-        if epochs.is_empty() {
-            0.0
-        } else {
-            epochs.iter().filter(|e| b(e, k)).count() as f64 / epochs.len() as f64
-        }
-    };
-    let cn0: Vec<f64> = epochs
-        .iter()
-        .filter_map(|e| f(e, "cn0_nwpr_dbhz"))
-        .collect();
-    let mean_cn0 = (!cn0.is_empty()).then(|| cn0.iter().sum::<f64>() / cn0.len() as f64);
-    let last = epochs.last();
-    serde_json::json!({
-        "code": ch.get("code").cloned().unwrap_or_default(),
-        "epochs": epochs.len(),
-        "tracked_s": last.and_then(|e| f(e, "code_epoch_s")),
-        "final_doppler_hz": last.and_then(|e| f(e, "doppler_hz")),
-        "final_code_phase_chips": last.and_then(|e| f(e, "code_phase_chips")),
-        "final_cn0_dbhz": last.and_then(|e| f(e, "cn0_nwpr_dbhz")),
-        "mean_cn0_dbhz": mean_cn0,
-        "phase_lock_fraction": frac("phase_lock"),
-        "code_lock_fraction": frac("code_lock"),
-        "locked_at_end": last.is_some_and(|e| b(e, "phase_lock") && b(e, "code_lock")),
     })
 }
 
@@ -1192,7 +1174,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once. The samples tracked (the whole recording, or its first `max_seconds`) must fit the sample budget. Replies per channel with the epoch count, seconds tracked, final Doppler and code phase, final and mean C/N0 (dB-Hz), the fraction of epochs in phase lock and in code lock, and `locked_at_end`. The per-epoch output goes to files only: `json_out` / `csv_out`. A PRN that is not acquired is refused with its statistic and threshold."
+        description = "Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once. The samples tracked (the whole recording, or its first `max_seconds`) must fit the sample budget. The loops come from `design` (a `kshana.loop-design/1` TOML file in the work directory, `design_name` to pick one) or the built-in design, with the loop arguments overriding it; `reacquire` re-acquires a channel that loses lock or false-locks. Tracking streams, so memory does not grow with the recording. Replies with the design's name and hash and, per channel, the epoch count, seconds tracked, final Doppler and code phase, final and mean C/N0 (dB-Hz), the fractions of epochs in phase and code lock, `locked_at_end`, the final lock state, false locks detected and re-acquisitions. Per-epoch output goes to files only: `epochs_out` (E/P/L, discriminators, loop states, C/N0, lock state; .csv/.jsonl/.bin), `events_out`, `json_out` / `csv_out`. A PRN that is not acquired is refused with its statistic and threshold."
     )]
     fn iq_track(
         &self,
@@ -1223,54 +1205,100 @@ impl KshanaServer {
                 iq.max_samples() as f64 / spec.fs_hz
             ),
         )?;
-        let json_out = r
-            .json_out
-            .as_deref()
-            .map(|p| iq.output(p, r.overwrite))
-            .transpose()?;
-        let csv_out = r
-            .csv_out
-            .as_deref()
-            .map(|p| iq.output(p, r.overwrite))
-            .transpose()?;
-        let (json_path, scratch) = match &json_out {
-            Some(p) => (p.clone(), false),
-            None => (iq.scratch("json")?, true),
+        let out = |p: &Option<String>| -> Result<Option<PathBuf>, McpError> {
+            p.as_deref().map(|p| iq.output(p, r.overwrite)).transpose()
         };
+        let json_out = out(&r.json_out)?;
+        let csv_out = out(&r.csv_out)?;
+        let epochs_out = out(&r.epochs_out)?;
+        let events_out = out(&r.events_out)?;
+        if let Some(p) = &epochs_out
+            && kshana::iq::track::sink::EpochFormat::from_path(&p.display().to_string()).is_none()
+        {
+            return Err(bad(
+                "epochs_out must end in .csv, .jsonl or .bin (the format follows the suffix)"
+                    .into(),
+            ));
+        }
+        let design = r.design.as_deref().map(|p| iq.input(p)).transpose()?;
+        if r.design_name.is_some() && design.is_none() {
+            return Err(bad("design_name needs design".into()));
+        }
+        // The summary comes from the run's own bounded-memory accumulators.
+        let summary_path = iq.scratch("json")?;
 
         let mut a = Argv::new("track");
         a.pos(&rec)
             .opt("--signal", Some(&r.signal))
             .opt("--prn", Some(list(&r.prns)))
+            .opt("--design", design.as_ref().map(|p| p.display()))
+            .opt("--design-name", r.design_name.as_deref())
             .opt("--pll-bw", r.pll_bw_hz)
             .opt("--fll-bw", r.fll_bw_hz)
             .opt("--dll-bw", r.dll_bw_hz)
             .opt("--spacing", r.spacing_chips)
             .opt("--coherent", r.coherent)
+            .switch("--reacquire", r.reacquire)
             .opt("--periods-per-bit", r.periods_per_bit)
             .opt("--max-seconds", r.max_seconds)
             .opt("--acq-coherent", r.acq_coherent)
             .opt("--acq-noncoherent", r.acq_noncoherent)
             .opt("--doppler-max", r.doppler_max_hz)
             .raw(r.raw.as_ref())
-            .opt("--json", Some(json_path.display()))
+            .opt("--summary", Some(summary_path.display()))
+            .opt("--epochs", epochs_out.as_ref().map(|p| p.display()))
+            .opt("--events", events_out.as_ref().map(|p| p.display()))
+            .opt("--json", json_out.as_ref().map(|p| p.display()))
             .opt("--csv", csv_out.as_ref().map(|p| p.display()));
         let run = run_cli(a.0);
-        if run.is_err() && scratch {
-            let _ = std::fs::remove_file(&json_path);
+        if run.is_err() {
+            let _ = std::fs::remove_file(&summary_path);
         }
         run?;
-        let full = read_json(&json_path, scratch)?;
-        let channels: Vec<serde_json::Value> = full
+        let summary = read_json(&summary_path, true)?;
+        let keep = [
+            "code",
+            "epochs",
+            "tracked_s",
+            "final_doppler_hz",
+            "final_code_phase_chips",
+            "final_cn0_dbhz",
+            "mean_cn0_dbhz",
+            "phase_lock_fraction",
+            "code_lock_fraction",
+            "locked_at_end",
+            "final_state",
+            "false_locks",
+            "reacquisitions",
+        ];
+        let channels: Vec<serde_json::Value> = summary
             .get("channels")
             .and_then(serde_json::Value::as_array)
-            .map(|c| c.iter().map(channel_summary).collect())
+            .map(|c| {
+                c.iter()
+                    .map(|ch| {
+                        serde_json::Value::Object(
+                            keep.iter()
+                                .filter_map(|k| ch.get(*k).map(|v| (k.to_string(), v.clone())))
+                                .collect(),
+                        )
+                    })
+                    .collect()
+            })
             .unwrap_or_default();
-        let files: Vec<PathBuf> = json_out.into_iter().chain(csv_out).collect();
+        let design_info = summary
+            .get("designs")
+            .and_then(|d| d.get(0))
+            .map(|d| serde_json::json!({ "name": d.get("name"), "hash": d.get("hash") }));
+        let files: Vec<PathBuf> = [epochs_out, events_out, json_out, csv_out]
+            .into_iter()
+            .flatten()
+            .collect();
         reply(serde_json::json!({
             "recording": iq.rel(&rec),
             "sample_rate_hz": spec.fs_hz,
             "samples_tracked": tracked,
+            "design": design_info,
             "channels": channels,
             "files": iq.written(&files),
         }))
