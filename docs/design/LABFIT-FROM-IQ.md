@@ -1,6 +1,7 @@
 # Lab fit from IQ campaigns (design, not built)
 
-Status: design for review, 2026-10-07. No code. Target: 0.36. Build item B7.1.
+Status: design approved 2026-10-07; bars pre-registered in §5.1 (2026-10-07), before any fitting
+code exists. No code yet. Target: 0.36. Build item B7.1.
 
 ## 1. What this adds, and why
 
@@ -62,7 +63,9 @@ not fitted. The censored bins are listed in the report.
 
 `Q_eff` and `δ` are partly degenerate when a unit spans a narrow J/S range. The fit reports
 their correlation, and with fewer than 8 dB of uncensored J/S span it fixes `Q` at the stated
-value (`jamming::q_factor`) and fits `δ` alone, saying so.
+value (`jamming::q_factor`) and fits `δ` alone. In that mode the report gives `Q` as **"stated,
+not fitted"** with its source (the type table or the event's `q`), never as a fitted value and
+never with an interval.
 
 Prerequisite: the jammer-type Q table must be reconciled first (`src/jamming.rs` against the
 spectral-separation values already VALIDATED in `spectrum`), because the stated `Q` is both the
@@ -116,7 +119,22 @@ Every prediction keeps labfit's existing label rules: `PREDICTION`, the nearest 
 recording, and the distance outside the tested condition box, with `extrapolation` stated when
 the condition lies outside it.
 
-## 5. Held-out validation with a pre-registered bar
+## 5. Validation with pre-registered bars
+
+### 5.1 Bars for the synthetic campaigns (pre-registered 2026-10-07)
+
+These bars are fixed here, in this commit, before any fitting code is written. The synthetic
+truth is known, so the synthetic CI runs **must** meet every one of them. They may be tightened
+later; they are never loosened after a run.
+
+| # | quantity | bar |
+|---|---|---|
+| a | parameter recovery on a campaign whose uncensored J/S span is at least 12 dB | `|δ̂ − δ| ≤ 0.5 dB` and `Q̂_eff` within ±20 % of the true `Q` |
+| b | coverage of the true parameters by their 95 % bootstrap intervals | in at least 90 % of 50 seeded synthetic campaigns |
+| c | leave-one-recording-out coverage of the 90 % prediction interval, interpolation bins and events | between 80 % and 98 % |
+| d | threshold J/S from the closed form (§3.2) against the direct `js_at_loss_db` estimate | within 1 dB |
+
+### 5.2 Hold-out procedure and the bars of a real study
 
 **Split.** Leave-one-recording-out within each unit: fit on all other recordings, predict the
 held-out recording's bins and events, record the errors and whether the held-out condition was
@@ -137,7 +155,9 @@ The report records the SHA-256 of this table and of the campaign `DIGEST`, evalu
 on interpolation hold-outs only (extrapolation errors are reported, never gated), and prints
 PASS or FAIL per bar. A fit run with `mode = "validation"` refuses to start without the table.
 Changing a bar after the results exist is visible as a new table hash; the report states which
-hash was evaluated. The numbers above are placeholders for the review, not proposed values.
+hash was evaluated. The numbers in the example table are illustrative: a real study registers
+its own bars in its own table before its data is opened, and they are at least as strict as §5.1
+where the quantities coincide.
 
 ## 6. Output: `kshana.labfit-iq/1`
 
@@ -216,12 +236,11 @@ It cannot be VALIDATED from synthetic data: the fit method is checked, not any r
 3. Jammer-type Q table reconciled (B7.4).
 4. This work: the C/N0 model and loader first, then the lock-model coupling, then validation.
 
-## 11. Open questions for review
+## 11. Decisions from review (2026-10-07)
 
-1. Is the fit unit right (per signal × design × front end × jammer type), or should the lab be
-   able to pool front-end chains?
-2. The default bootstrap replicate count (1000) against campaign size; and the minimum of 5
-   recordings per unit.
-3. The pre-registration bars: who sets them, and whether the synthetic CI run must meet the same
-   bars as a real study.
-4. Whether `Q_eff` should be reported at all when `q_mode = "fixed-stated"`, or only `δ`.
+1. Fit unit: per signal × loop design × front-end chain × jammer type, never pooled.
+2. Bootstrap: 1000 seeded replicates; at least 5 recordings per unit.
+3. Bars: §5.1, pre-registered; the synthetic CI must meet them. They may be tightened, never
+   loosened after a run.
+4. Fixed-stated mode: `Q` is reported as "stated, not fitted" with its source (§3.1).
+5. Ledger row as proposed in §9: MODELLED, InternalConsistency.
