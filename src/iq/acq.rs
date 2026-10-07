@@ -55,10 +55,17 @@ pub struct AcqConfig {
 pub const AUTO_COHERENT_S: f64 = 4.0e-3;
 
 /// The default coherent length, in whole code periods, of the acquisition that initialises
-/// tracking: `ceil(4 ms / T_code)`, at least one period. That is 4 periods for a 1 ms code
-/// (GPS L1 C/A, L5) and 1 for a code of 4 ms or longer (Galileo E1, BeiDou B1C, GPS L2C).
-/// With the default Doppler step `2 / (3 · N · T_code)` it gives ~167 Hz bins on every
-/// signal.
+/// tracking: `ceil(4 ms / T_code)`, at least one period.
+///
+/// `T_code` is the code's FULL period, [`SpreadingCode::period_s`] (primary length times
+/// secondary length for a tiered code), because that is the unit [`acquire`] integrates
+/// over: its replica is the whole tiered code. So every signal gets at least ~4 ms of
+/// coherent integration. The untiered 1 ms codes (GPS L1 C/A, BeiDou B1I, GLONASS L1OF) get
+/// 4 periods (4 ms, ~167 Hz bins with the default Doppler step `2 / (3 · N · T_code)`).
+/// Every code whose full period is already 4 ms or longer gets 1: Galileo E1-B (4 ms),
+/// BeiDou B1C (10 ms), GPS L5-I/L5-Q (10/20 ms with their Neuman-Hofman overlay), Galileo
+/// E5a-I/E5a-Q (20/100 ms), Galileo E1-C (100 ms with CS25) and GPS L2C. That is the same
+/// one tiered period those codes searched before, and finer bins than 167 Hz.
 ///
 /// Why not one period: a 1 ms search has ~667 Hz Doppler bins, and a hand-off up to
 /// ~333 Hz off leaves the FLL outside its pull-in. On a seeded sweep of 180 GPS L1 C/A
@@ -319,10 +326,10 @@ mod tests {
 
     #[test]
     fn the_auto_coherent_length_is_about_four_milliseconds() {
-        assert_eq!(auto_coherent_periods(1.0e-3), 4); // GPS L1 C/A, L5
-        assert_eq!(auto_coherent_periods(4.0e-3), 1); // Galileo E1
-        assert_eq!(auto_coherent_periods(10.0e-3), 1); // BeiDou B1C
-        assert_eq!(auto_coherent_periods(20.0e-3), 1); // GPS L2C CM
+        assert_eq!(auto_coherent_periods(1.0e-3), 4); // GPS L1 C/A, B1I, L1OF
+        assert_eq!(auto_coherent_periods(4.0e-3), 1); // Galileo E1-B
+        assert_eq!(auto_coherent_periods(10.0e-3), 1); // BeiDou B1C, GPS L5-I (tiered)
+        assert_eq!(auto_coherent_periods(100.0e-3), 1); // Galileo E1-C, E5a-Q (tiered)
         assert_eq!(auto_coherent_periods(1.5e-3), 3);
         assert_eq!(auto_coherent_periods(0.0), 1);
     }

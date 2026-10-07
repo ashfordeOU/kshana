@@ -223,7 +223,8 @@ def iq_track(
     from the GPS-L1-C/A-like default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``,
     ``spacing``, ``coherent`` overrides it. The initialising acquisition integrates
     ``acq_coherent`` code periods coherently; the default ``None`` is auto (≈4 ms coherent:
-    4 periods of a 1 ms code, 1 of a longer one), and ``acq_coherent=1`` restores the 0.32
+    4 periods of an untiered 1 ms code such as GPS L1 C/A, 1 period of a code whose full,
+    overlay-included period is 4 ms or longer), and ``acq_coherent=1`` restores the 0.32
     one-period search. Raises ``ValueError`` if a PRN is not acquired."""
 
 def iq_frontend(

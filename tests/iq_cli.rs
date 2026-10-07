@@ -533,6 +533,53 @@ fn track_default_handoff_does_not_false_lock_where_one_period_did() {
     );
 }
 
+/// The auto hand-off length per signal family. Acquisition integrates in FULL code periods
+/// (primary times secondary length: its replica is the whole tiered code), so the auto rule
+/// counts those: 4 periods for the untiered 1 ms codes, 1 for every code whose full period
+/// is already 4 ms or longer, including the tiered GPS L5, Galileo E5a and E1-C codes whose
+/// PRIMARY period is shorter. Every signal ends up with at least ~4 ms coherent, and none
+/// with more than one full period beyond what reaches 4 ms.
+#[test]
+fn auto_handoff_coherent_length_per_signal_family() {
+    use kshana::iq::acq::{auto_coherent_periods, AUTO_COHERENT_S};
+    use kshana::iq::cli::{build_code, signal_names};
+    use kshana::iq::SpreadingCode;
+    let expected: &[(&str, usize)] = &[
+        ("gps-l1ca", 4),
+        ("beidou-b1i", 4),
+        ("glonass-l1of", 4),
+        ("galileo-e1b", 1),
+        ("beidou-b1c", 1),
+        ("gps-l2c", 1),
+        ("gps-l5i", 1),
+        ("gps-l5q", 1),
+        ("galileo-e5a-i", 1),
+        ("galileo-e5a-q", 1),
+        ("galileo-e1c", 1),
+    ];
+    // Every accepted signal is pinned here, so a new signal must state its expectation.
+    let mut named: Vec<&str> = expected.iter().map(|(s, _)| *s).collect();
+    let mut all: Vec<&str> = signal_names().to_vec();
+    named.sort_unstable();
+    all.sort_unstable();
+    assert_eq!(named, all, "pin the auto hand-off length of every signal");
+    for &(signal, periods) in expected {
+        let code = build_code(signal, 1).unwrap();
+        let t = code.period_s();
+        let n = auto_coherent_periods(t);
+        assert_eq!(n, periods, "{signal}: full period {t} s");
+        let coherent = n as f64 * t;
+        assert!(
+            coherent >= AUTO_COHERENT_S - 1e-9,
+            "{signal}: {coherent} s coherent is below the ~4 ms hand-off"
+        );
+        assert!(
+            n == 1 || coherent < AUTO_COHERENT_S + t,
+            "{signal}: {n} periods overshoot ~4 ms by a whole period"
+        );
+    }
+}
+
 /// `sweep` reports one row per (design, PRN), and a wider carrier loop locks at least as
 /// often as a narrower one on the same recording.
 #[test]
