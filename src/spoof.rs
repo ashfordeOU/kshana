@@ -17,6 +17,7 @@
 //! summarises.
 
 use crate::detection::{analytic_pmd, detection_boundary, monte_carlo_pfa_pmd};
+use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, INK_3, MUTED};
 use crate::run::PHASE_MEAS_VAR_S2;
 use crate::scenario::{ClockCfg, TimeCfg};
 use crate::security::{min_detectable_offset_ns, monitor_sigma_s, SPOOF_DETECT_K, SPOOF_MONITOR_S};
@@ -541,10 +542,10 @@ pub fn to_svg(result: &SpoofResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Time-spoof detection: offset vs clock-aided detection bounds</text>",
@@ -559,36 +560,36 @@ pub fn to_svg(result: &SpoofResult) -> String {
         "spoof offset (ns)",
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     let right = ml + pw;
     // Spec threshold.
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>",
         hline(result.threshold_ns)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">spec {:.0} ns</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} ns</text>",
         ml + 4.0,
         yof(result.threshold_ns) - 4.0,
         result.threshold_ns
     ));
     // Per-clock detection bounds.
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"#e0bd84\" stroke-dasharray=\"3 3\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"{CYAN}\" stroke-dasharray=\"3 3\"/>",
         hline(result.quantum.min_detectable_ns)
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"#d2925e\" stroke-dasharray=\"3 3\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{0}\" x2=\"{right:.0}\" y2=\"{0}\" stroke=\"{AMBER}\" stroke-dasharray=\"3 3\"/>",
         hline(result.classical.min_detectable_ns)
     ));
     // The spoof offset ramp.
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#8c8273\" stroke-width=\"2\" points=\"{ramp}\"/>"
+        "<polyline fill=\"none\" stroke=\"{INK_3}\" stroke-width=\"2\" points=\"{ramp}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">time (s)</text>",
@@ -596,15 +597,15 @@ pub fn to_svg(result: &SpoofResult) -> String {
         h - 12.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#8c8273\">spoof offset</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{MUTED}\">spoof offset</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#e0bd84\">quantum detect bound</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum detect bound</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"76\" fill=\"#d2925e\">classical detect bound</text>",
+        "<text x=\"{:.0}\" y=\"76\" fill=\"{AMBER}\">classical detect bound</text>",
         ml + 10.0
     ));
     svg.push_str("</svg>");

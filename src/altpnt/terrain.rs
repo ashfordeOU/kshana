@@ -36,6 +36,7 @@ use crate::gravimeter::{GravityAnomalyModel, Mascon, M_PER_DEG};
 use crate::igrf::magnetic_field;
 use crate::ionex::cell;
 use crate::mapmatch::{field_likelihood, hierarchical_offset_search};
+use crate::palette::chart::{BG, BLUE, FONT_SANS, TEXT};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -826,7 +827,8 @@ fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
     let mut s = String::new();
     s.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" \
-         viewBox=\"0 0 {w} {h}\" font-family=\"sans-serif\">"
+         viewBox=\"0 0 {w} {h}\" font-family=\"{FONT_SANS}\" fill=\"{TEXT}\">\
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>"
     ));
     s.push_str(&format!(
         "<text x=\"16\" y=\"28\" font-size=\"16\" font-weight=\"bold\">{title}</text>"
@@ -845,7 +847,7 @@ fn bars_svg(title: &str, rows: &[(&str, f64)]) -> String {
         ));
         s.push_str(&format!(
             "<rect x=\"{x0}\" y=\"{y:.0}\" width=\"{len:.0}\" height=\"20\" \
-             fill=\"#3b6ea5\" rx=\"3\"/>"
+             fill=\"{BLUE}\" rx=\"3\"/>"
         ));
         s.push_str(&format!(
             "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"12\">{:.0} m</text>",
