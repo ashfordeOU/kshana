@@ -516,3 +516,81 @@ async fn a_campaign_runs_incrementally_within_the_budget_and_reports_its_status(
     client.cancel().await.ok();
     std::fs::remove_dir_all(&dir).ok();
 }
+
+#[tokio::test]
+async fn a_campaign_names_nothing_outside_the_work_dir_before_it_is_read() {
+    let dir = work_dir("campaign-contain");
+    // Files outside the work dir whose content is a marker and is not valid TOML or JSON, so
+    // that a parser which read one would quote it in its error.
+    let outside = dir
+        .parent()
+        .unwrap()
+        .join(format!("kshana-outside-{}", std::process::id()));
+    std::fs::create_dir_all(&outside).unwrap();
+    let marker = "SECRET-MARKER-9f3c";
+    let cond_out = outside.join("cond.toml");
+    let design_out = outside.join("design.toml");
+    let meta_out = outside.join("rec.sigmf-meta");
+    for f in [&cond_out, &design_out, &meta_out] {
+        std::fs::write(f, format!("{marker} = = =\n")).unwrap();
+    }
+    let client = connect(IqConfig::new(&dir, 3_100_000).unwrap()).await;
+    let campaign = |inputs: &str| {
+        format!(
+            "schema = \"kshana.campaign/1\"\nname = \"c\"\ndata_class = \"synthetic\"\n[inputs]\n{inputs}\n"
+        )
+    };
+
+    // A conditions path, a design path and a SigMF metadata path that escape the work dir.
+    std::fs::write(
+        dir.join("in-dir.toml"),
+        format!(
+            "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"x\"\n\
+             path = \"{}/rec.sigmf-data\"\nevents_from_sigmf = true\n\
+             [[expected]]\nsignal = \"gps-l1ca\"\nids = [1]\n",
+            outside.display()
+        ),
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("ok-cond.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"y\"\npath = \"y.bin\"\n\
+         format = \"ci8\"\nsample_rate_hz = 1e6\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [1]\n",
+    )
+    .unwrap();
+    let cases = [
+        (
+            "conditions",
+            campaign(&format!("conditions = [\"{}\"]", cond_out.display())),
+        ),
+        (
+            "design",
+            campaign(&format!(
+                "conditions = [\"ok-cond.toml\"]\ndesigns = \"{}\"",
+                design_out.display()
+            )),
+        ),
+        ("sigmf-meta", campaign("conditions = [\"in-dir.toml\"]")),
+    ];
+    for (what, text) in cases {
+        std::fs::write(dir.join("c.toml"), text).unwrap();
+        let err = call(
+            &client,
+            "iq_campaign",
+            json!({ "campaign": "c.toml", "out_dir": "out" }),
+        )
+        .await
+        .unwrap_err();
+        assert!(
+            err.contains("outside the IQ work directory"),
+            "{what}: {err}"
+        );
+        assert!(
+            !err.contains(marker),
+            "{what}: error quotes file content: {err}"
+        );
+    }
+    client.cancel().await.ok();
+    std::fs::remove_dir_all(&dir).ok();
+    std::fs::remove_dir_all(&outside).ok();
+}

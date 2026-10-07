@@ -307,14 +307,26 @@ pub struct LoadedCampaign {
     pub frontends: Vec<FrontendSpec>,
 }
 
+/// A caller's veto on a path, asked before the path is read.
+pub type PathCheck<'a> = &'a dyn Fn(&Path) -> Result<(), String>;
+
 impl LoadedCampaign {
     /// Parse `text` (a campaign whose relative paths resolve against `base`, the
     /// campaign file's path) and load every file it names.
     pub fn load_text(text: &str, base: &Path) -> Result<Self, String> {
+        Self::load_text_checked(text, base, &|_| Ok(()))
+    }
+
+    /// As [`Self::load_text`], but `check` is called with every path before anything is read
+    /// from it (a conditions file's folder and the file, its SigMF metadata, the design file),
+    /// so a caller can refuse a path without any of its content reaching an error message.
+    pub fn load_text_checked(text: &str, base: &Path, check: PathCheck) -> Result<Self, String> {
         let spec = CampaignSpec::parse(text)?;
         let mut files = Vec::new();
         for pat in &spec.inputs.conditions {
-            let found = expand_glob(&resolve(base, pat))?;
+            let pattern = resolve(base, pat);
+            check(pattern.parent().unwrap_or(Path::new(".")))?;
+            let found = expand_glob(&pattern)?;
             if found.is_empty() {
                 return Err(format!("inputs.conditions: '{pat}' matches no file"));
             }
@@ -324,7 +336,7 @@ impl LoadedCampaign {
         files.dedup();
         let mut conditions = Vec::new();
         for f in files {
-            let tc = TestConditions::load(&f)?;
+            let tc = TestConditions::load_checked(&f, check)?;
             conditions.push((f, tc));
         }
         conditions.sort_by(|a, b| a.1.recording.id.cmp(&b.1.recording.id));
@@ -347,6 +359,7 @@ impl LoadedCampaign {
             }
             Some(p) => {
                 let path = resolve(base, p);
+                check(&path)?;
                 let text = std::fs::read_to_string(&path)
                     .map_err(|e| format!("{}: {e}", path.display()))?;
                 let file =
@@ -380,8 +393,13 @@ impl LoadedCampaign {
 
     /// Read and load a campaign file.
     pub fn load(path: &Path) -> Result<Self, String> {
+        Self::load_checked(path, &|_| Ok(()))
+    }
+
+    /// As [`Self::load`], with `check` called on every path before it is read.
+    pub fn load_checked(path: &Path, check: PathCheck) -> Result<Self, String> {
         let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
-        Self::load_text(&text, path).map_err(|e| format!("{}: {e}", path.display()))
+        Self::load_text_checked(&text, path, check).map_err(|e| format!("{}: {e}", path.display()))
     }
 }
 
