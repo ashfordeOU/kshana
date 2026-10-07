@@ -708,6 +708,9 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
     assert_eq!(d["carrier"]["pll_bw_hz"], 20.0);
     assert_eq!(d["code"]["bw_hz"], 1.0, "the flag overrides the design");
     assert_eq!(s["overridden_by_flags"][0], "--dll-bw");
+    // 2.046 MHz is exactly 2 samples per chip: the summary warns.
+    assert_eq!(s["warnings"][0]["kind"], "commensurate_sampling");
+    assert_eq!(s["warnings"][0]["samples_per_chip"], 2.0);
     let mut total = 0;
     for ch in s["channels"].as_array().unwrap() {
         assert_eq!(ch["final_state"], "LOCKED", "{ch}");

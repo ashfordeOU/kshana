@@ -603,6 +603,46 @@ fn set<T: Clone>(slot: &mut T, v: Option<T>) {
     }
 }
 
+/// The canonical JSON text of `v`, which the design hash is taken over: no whitespace, object
+/// keys sorted by their UTF-8 bytes at every level, arrays in order, strings escaped as
+/// `serde_json` escapes them, integers in decimal and floats in the shortest form that
+/// round-trips (always with a `.` or an exponent, so `15.0` and `15` never collide). It does
+/// not depend on struct field order or on `serde_json`'s `preserve_order` feature.
+pub(crate) fn canonical_json(v: &serde_json::Value) -> String {
+    fn write(v: &serde_json::Value, out: &mut String) {
+        match v {
+            serde_json::Value::Object(map) => {
+                let mut keys: Vec<&String> = map.keys().collect();
+                keys.sort_unstable_by(|a, b| a.as_bytes().cmp(b.as_bytes()));
+                out.push('{');
+                for (i, k) in keys.into_iter().enumerate() {
+                    if i > 0 {
+                        out.push(',');
+                    }
+                    out.push_str(&serde_json::Value::String(k.clone()).to_string());
+                    out.push(':');
+                    write(&map[k], out);
+                }
+                out.push('}');
+            }
+            serde_json::Value::Array(items) => {
+                out.push('[');
+                for (i, item) in items.iter().enumerate() {
+                    if i > 0 {
+                        out.push(',');
+                    }
+                    write(item, out);
+                }
+                out.push(']');
+            }
+            scalar => out.push_str(&scalar.to_string()),
+        }
+    }
+    let mut out = String::new();
+    write(v, &mut out);
+    out
+}
+
 /// `(kind, pll_order, pll_bw, fll_order, fll_bw)` of a carrier loop.
 fn carrier_fields(
     c: &CarrierLoop,
@@ -633,8 +673,8 @@ fn carrier_fields(
 
 impl Design {
     fn from_resolved(name: String, description: Option<String>, resolved: Resolved) -> Self {
-        let json = serde_json::to_vec(&resolved).unwrap_or_default();
-        let hash = crate::advanced_report::sha256_hex(&json);
+        let value = serde_json::to_value(&resolved).unwrap_or_default();
+        let hash = crate::advanced_report::sha256_hex(canonical_json(&value).as_bytes());
         Self {
             name,
             description,
@@ -658,9 +698,11 @@ impl Design {
         self.description.as_deref()
     }
 
-    /// SHA-256 (lower-case hex) of the canonical JSON of the resolved design. The name and
-    /// description are not part of it, the schema identifier is, so two designs with the
-    /// same loops under different names hash alike.
+    /// SHA-256 (lower-case hex) of the canonical JSON of the resolved design (keys sorted at
+    /// every level, no whitespace, fixed number formatting; see
+    /// `docs/design/LOOP-DESIGN-TOML.md`). The name and description are not part of it, the
+    /// schema identifier is, so two designs with the same loops under different names hash
+    /// alike.
     pub fn hash(&self) -> &str {
         &self.hash
     }
@@ -890,6 +932,40 @@ mod tests {
     use super::*;
 
     const HEAD: &str = "schema = \"kshana.loop-design/1\"\n";
+
+    #[test]
+    fn canonical_json_sorts_keys_at_every_level_and_ignores_insertion_order() {
+        let mut a = serde_json::Map::new();
+        a.insert("z".into(), serde_json::json!(1.0));
+        a.insert("a".into(), serde_json::json!({"y": 2, "b": [3, "x"]}));
+        let mut b = serde_json::Map::new();
+        b.insert("a".into(), serde_json::json!({"b": [3, "x"], "y": 2}));
+        b.insert("z".into(), serde_json::json!(1.0));
+        let (a, b) = (serde_json::Value::Object(a), serde_json::Value::Object(b));
+        assert_eq!(canonical_json(&a), r#"{"a":{"b":[3,"x"],"y":2},"z":1.0}"#);
+        assert_eq!(canonical_json(&a), canonical_json(&b));
+        assert_ne!(
+            canonical_json(&serde_json::json!(15)),
+            canonical_json(&serde_json::json!(15.0))
+        );
+    }
+
+    #[test]
+    fn the_builtin_default_hash_is_pinned() {
+        // Campaign cell keys and reports key on this value. A change here is a change to the
+        // canonical form or to a default, and needs a schema or CHANGELOG note.
+        let d = Design::builtin_default();
+        let canonical = canonical_json(&serde_json::to_value(&d.resolved).unwrap());
+        assert!(canonical.starts_with(r#"{"acquisition":{"coherent_periods":"auto""#));
+        assert_eq!(
+            d.hash(),
+            crate::advanced_report::sha256_hex(canonical.as_bytes())
+        );
+        assert_eq!(
+            d.hash(),
+            "0773c7ee07e0fc22835ad563c4d87be2a95d584c6cf3ed94b479f573fdf094ff"
+        );
+    }
 
     #[test]
     fn an_empty_design_is_the_builtin_default() {
