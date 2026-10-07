@@ -104,8 +104,8 @@ breaking changes are called out explicitly.
 
     It is written as it happens, as CSV, JSON Lines or a versioned binary form with readers
     in Rust (`BinaryEpochReader`) and Python (`iq_read_epochs`).
-    - `iq track`/`iq sweep` gain `--epochs`, `--events` and `--summary`
-      (`kshana.track-summary/1`). MCP `iq_track` gains `epochs_out`/`events_out` and builds
+    - `iq track` gains `--epochs`, `--events` and `--summary` (`kshana.track-summary/1`),
+      and `iq sweep` gains `--epochs` and `--events`. MCP `iq_track` gains `epochs_out`/`events_out` and builds
       its reply from the bounded-memory summary.
     - A run's heap no longer grows with the recording's length:
       `tests/iq_track_memory.rs` measures it with a counting allocator (6× the length,
@@ -113,7 +113,9 @@ breaking changes are called out explicitly.
     - Streamed output is bit-identical to the in-memory replay.
   - *Lock state machine* (`iq::track::lock`, `TrackSession`): pull-in → locked → lost →
     re-acquisition → pull-in, or retired once a loss outlasts `reacq_window_s` (default
-    30 s). Failed searches are spaced 0.25 s, 0.5 s, 1 s and then 2 s apart, and
+    30 s). Failed searches are retried every `reacq_interval_s` (0.1 s), evenly spaced, so
+    the retry schedule adds at most 0.1 s to a measured re-acquisition time. An optional
+    back-off (`reacq_max_interval_s` above `reacq_interval_s`) is off by default, and
     `max_reacq_attempts` is an optional cap (0, none, by default). A 2 s outage on three
     PRNs at 4.092 MS/s now ends with every channel re-acquired and locked. Under a
     3-attempt budget, every channel was retired within 0.2 s of the loss.
@@ -122,8 +124,8 @@ breaking changes are called out explicitly.
     - The false-lock check searches the tracked Doppler against its ±1/(2T) FLL/PLL
       alias. It catches the false lock PR #38 measured (−2400 Hz tracked 500 Hz off).
       With re-acquisition on, the channel ends locked at the injected Doppler.
-    - A 0.8 s signal gap is declared lost and re-acquired within the retry interval in
-      force when the signal returns.
+    - A 0.8 s signal gap is declared lost and re-acquired within 0.3 s of the signal's
+      return.
     - `--summary` `final_state` (and the table's column) is the state after the last
       transition, so a channel retired after its last loop update reads `RETIRED`.
     - **FLL assistance only during pull-in** (`[design.carrier] fll_assist = "pull-in"`,
@@ -134,9 +136,28 @@ breaking changes are called out explicitly.
       phase-lock fraction was 10–16 %, with a true phase error of 38–41°. Gated, the
       default holds 100 % at 35 dB-Hz with 4.5°, the same as a PLL alone. Pull-in from a
       100 Hz hand-off error is unchanged. Evidence with pre-registered bars:
-      `docs/design/evidence/carrier-lock/`.
+      `docs/design/evidence/carrier-lock/`. **The default loops are therefore not bit for
+      bit with earlier runs of the default design.** Use `fll_assist = "always"` to
+      reproduce them. Known limit: at 35 dB-Hz the hand-over comes 1.9–2.6 s into the
+      track, and at 33 dB-Hz the 10 Hz FLL keeps the PLI below the hand-over threshold, so
+      pull-in never completes.
+    - New loop-design keys and API, listed:
+      - `[design.carrier]`: `fll_assist`, `fll_off_pli`, `fll_on_pli`, `fll_gate_dwell_s`;
+      - `[design.lock]`: `reacq_window_s`, `reacq_interval_s`, `reacq_max_interval_s`, with
+        `max_reacq_attempts` changed from a default of 3 to an optional cap (default 0);
+      - Rust: `LoopConfig.fll_assist` (`FllAssist`, `FllGate`), `LoopCore::set_fll_enabled`,
+        `EpochOutput.fll_active`, `ChannelSummary.final_state`.
+    - The design hash is over a canonical JSON form, and the built-in default's hash is
+      `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80` (pinned by a test).
+    - Output compatibility notes:
+      - the `iq track` table has a trailing `final_state` column;
+      - the `iq sweep` CSV has a trailing `design_hash` column, and its JSON has
+        `design_hash` and `warnings`;
+      - the sweep's `mean_cn0_dbhz` is now the mean over every update that has an NWPR
+        estimate (bounded-memory summary), no longer over the second half of the run.
     - Re-acquisition is **off in the built-in default**, where the state machine only
-      observes and the loops run bit for bit as before. Turn it on per design
+      observes and the loops run bit for bit as they do without it. (The default loops
+      themselves changed, though: see FLL assistance above.) Turn it on per design
       (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
     - A **`commensurate_sampling` warning**: when fs is within 1e-6 of a multiple of half
       the chip rate (`iq::track::commensurate_samples_per_chip`), `iq track`/`iq sweep`

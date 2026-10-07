@@ -59,8 +59,9 @@ reacquire = false                        # re-acquire a LOST channel around its 
                                          #   (off by default: the state machine only observes)
 reacq_doppler_window_hz = 500.0          # ± window of the re-acquisition search
 reacq_window_s = 30.0                    # a lost channel not locked again by then is RETIRED
-reacq_interval_s = 0.25                  # wait after a failed search; doubles each failure
-reacq_max_interval_s = 2.0               #   up to this
+reacq_interval_s = 0.1                   # wait after a failed search (evenly spaced)
+reacq_max_interval_s = 0.1               # optional back-off: above reacq_interval_s, the
+                                         #   wait doubles after each failure up to this
 max_reacq_attempts = 0                   # optional cap on failed searches per loss (0 = none)
 
 [design.bit_sync]
@@ -88,7 +89,7 @@ pfa = 1e-3
   integers in decimal and floats in the shortest form that round-trips, always with a `.` or
   an exponent (`15.0`, `0.001`). So it does not depend on field order in the file or in the
   code. The built-in default hashes to
-  `c6c25a274a8e768097b04750cf43c2ca60adf645efb201617a21b38df3dd3d2c`, which is pinned by a test.
+  `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80`, which is pinned by a test.
 * **Precedence on the CLI**: an explicit flag (`--pll-bw`, ...) overrides the selected design.
   The hash is taken after overrides, and the output records which keys were overridden.
 * **Front end is not part of a loop design.** The campaign runner treats front-end chains as a
@@ -175,10 +176,10 @@ Transitions:
   loops keep running meanwhile.
 * `REACQ` → `PULL_IN` on detection: the channel restarts from the new hand-off at the
   next chunk boundary, and its epoch numbering continues. Otherwise `REACQ` → `LOST`
-  (`reacq-failed`), and the next search starts `reacq_interval_s` later. The wait doubles
-  after each further failure, up to `reacq_max_interval_s` (0.25, 0.5, 1, 2, 2 … s by
-  default). So an outage costs a search every couple of seconds, and the signal's return
-  is found within the wait in force.
+  (`reacq-failed`), and the next search starts `reacq_interval_s` (0.1 s) later. The
+  searches are evenly spaced by default, so the retry schedule adds at most 0.1 s to a
+  measured re-acquisition time. Setting `reacq_max_interval_s` above `reacq_interval_s`
+  turns on a back-off, where the wait doubles after each failure up to that value.
 * The budget is **time**. A channel that has not locked again within `reacq_window_s` of
   being lost (counted from the first loss, through any re-acquisitions that did not reach
   `LOCKED`) is `RETIRED` and stops. `max_reacq_attempts > 0` additionally caps the failed
