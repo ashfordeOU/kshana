@@ -36,6 +36,19 @@ breaking changes are called out explicitly.
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
 
+### Fixed
+
+- **Jammer Q factors match the literature and the spectra.** `jamming::q_factor` had
+  CW/narrowband at 1.5 and broadband at 1.0. That made a tone on the carrier *less*
+  damaging than broadband noise, the reverse of the anti-jam equation's textbook
+  values. The table is now CW/narrowband `Q = 1` and broadband/swept `Q = 2`
+  (*Understanding GPS/GNSS*, 3rd ed., §9.4), the values the spectral-separation closed
+  forms give through `Q = 1/(R_c κ)`. A test pins both (`Q_CW`, `Q_BROADBAND`).
+  **Output change:** the `jamming`, `lunar-jamming` and interop-scene kinds now report
+  a lower effective C/N0 under CW/narrowband jammers (Q 1.5 → 1, −1.8 dB at high J/S)
+  and a higher one under broadband or swept jammers (Q 1 → 2, +3 dB at high J/S).
+  `q_override` is unchanged. `docs/SPECTRUM.md` is updated to match.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added

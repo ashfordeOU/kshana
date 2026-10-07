@@ -90,11 +90,16 @@ this is exactly the `jamming` kind's anti-jam equation with `Q = 1/(R_c κ)`; th
 `jamming_kind_cross_check` block runs the `jamming` kind's own functions on the same link
 inputs and prints the difference, which is zero to rounding.
 
-The report also prints the C/N₀ the `jamming` kind gives with its representative Q table.
-That table (broadband 1.0, CW 1.5) is not what the spectra give: a CW tone on the C/A
-carrier has `κ = T_c`, so `Q = 1`, and noise matched to C/A has `κ = 2/(3R_c)`, so
-`Q = 1.5`, the textbook values. In the bundled example the difference is 1.8 dB of C/N₀
-for the tone (17.98 against 19.74 dB-Hz).
+The report also prints the C/N₀ the `jamming` kind gives with its Q table: `Q = 1` for a
+CW or narrowband jammer on the carrier and `Q = 2` for broadband or swept noise over the
+signal's main lobe. These are the textbook values (*Understanding GPS/GNSS: Principles and
+Applications*, 3rd ed., §9.4), and they are what the spectra give through `Q = 1/(R_c κ)`. A
+CW tone on the C/A carrier has `κ = T_c`, so `Q = 1`. White noise over `±R_c` has
+`κ = 1/(2R_c)` with the in-band signal power normalised to one, so `Q = 2` (2.215 without
+the normalisation). Noise matched to C/A has `κ = 2/(3R_c)`, so `Q = 1.5`, a case the
+spectrum models directly. In the bundled example the table and the spectrum agree for the
+tone (17.98 dB-Hz both ways). They differ for the 16 MHz chirp, which spreads far wider than
+the main lobe the table's broadband value assumes, so the spectrum's own `κ` is the one to use.
 
 Each waterfall cell is the PSD averaged over its frequency bin and its row. A chirp is
 averaged exactly over the row, whole sweeps plus the partial one; a jammer switching on
@@ -198,7 +203,7 @@ In the WebAssembly build the file reads are unavailable; `kshana::sigmf::read` a
 
 | Claim | Label | Oracle |
 |---|---|---|
-| Signal PSDs and SSCs | VALIDATED | BPSK(n) main lobe 2n × 1.023 MHz null to null; BOC(1,1) lobes centred at ±1.023 MHz (Betz 2001); SSCs −61.86 / −64.87 / −67.88 dB/Hz for C/A×C/A, BOC(1,1)×BOC(1,1), C/A×BOC(1,1) from their Parseval closed forms, the values behind the published −61.8 / −64.8 / −67.8 dB/Hz; Q = 1 (CW) and 1.5 (matched) (Kaplan & Hegarty §9.4) |
+| Signal PSDs and SSCs | VALIDATED | BPSK(n) main lobe 2n × 1.023 MHz null to null; BOC(1,1) lobes centred at ±1.023 MHz (Betz 2001); SSCs −61.86 / −64.87 / −67.88 dB/Hz for C/A×C/A, BOC(1,1)×BOC(1,1), C/A×BOC(1,1) from their Parseval closed forms, the values behind the published −61.8 / −64.8 / −67.8 dB/Hz; Q = 1 (CW), 1.5 (matched) and 2 (white noise over the main lobe, in-band power normalised) (*Understanding GPS/GNSS*, 3rd ed., §9.4); the `jamming` kind's Q table (CW/narrowband 1, broadband/swept 2) is pinned to them (`jamming::tests::q_table_equals_the_spectral_separation_closed_forms`) |
 | Waterfall, J/S and C/N₀ timeline | MODELLED | Reduces exactly to the `jamming` kind's chain; the jammer powers, timeline and bandwidths are inputs |
 | SigMF codec and Welch estimate | MODELLED | Round trips, a direct discrete Fourier transform, white-noise and Parseval identities; no third-party recording is in the repository |
 | Multi-band waterfall with designed signals and per-band jammers | MODELLED | Reduces to the L-band chain (a single-component band gives the same numbers as before the extension) and to the validated signal spectra; the designed signals, jammers and bandwidths are inputs |
