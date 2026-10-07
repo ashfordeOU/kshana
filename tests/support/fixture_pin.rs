@@ -25,19 +25,6 @@ use serde_json::Value;
 /// platform difference issue #36 measured on these pins is 5e-15 of the scale.
 pub const NEAR_BIT: f64 = 1e-12;
 
-/// The tolerance for the lunar network's finite-difference measurement Jacobians, as a fraction
-/// of the largest magnitude in the matrix (1e6, the parameter-scale column).
-///
-/// Those Jacobians are central differences with a step of 1e-6 (`fd_jacobian` in
-/// `lunar_combination.rs` and `batch_ls.rs`), of a forward model that subtracts Earth-Moon
-/// distances of about 4e8 m. One unit in the last place there is 5.96e-8 m, and the difference
-/// quotient divides it by `2 × 1e-6`, so a last-bit change in the forward model moves a Jacobian
-/// entry by 0.0298 whatever its size. That is exactly what macOS arm64 showed (issue #36): 0.0298
-/// and 0.0596, one and two such units, on entries of 1.6e4 to 6.5e5. The bar, 2e-7 of 1e6 = 0.2,
-/// is about seven units; a 1e-6 relative change of the matrix moves its largest entry by 1.0
-/// and fails.
-pub const FD_CANCELLATION: f64 = 2e-7;
-
 /// The largest magnitude in `xs`.
 pub fn max_abs(xs: &[f64]) -> f64 {
     xs.iter().fold(0.0_f64, |m, x| m.max(x.abs()))
@@ -90,41 +77,6 @@ pub fn check_rows_scaled(
     }
     for (i, (a, b)) in now.iter().zip(fixture).enumerate() {
         check_scaled(a, b, k, &format!("{what}[{i}]"))?;
-    }
-    Ok(())
-}
-
-/// Every entry of `now` within `k * max|fixture|`, the scale taken over the whole matrix.
-pub fn check_matrix_scaled(
-    now: &[Vec<f64>],
-    fixture: &[Vec<f64>],
-    k: f64,
-    what: &str,
-) -> Result<(), String> {
-    if now.len() != fixture.len() {
-        return Err(format!(
-            "{what}: {} rows vs fixture {}",
-            now.len(),
-            fixture.len()
-        ));
-    }
-    let scale = fixture.iter().fold(0.0_f64, |m, r| m.max(max_abs(r)));
-    for (i, (a, b)) in now.iter().zip(fixture).enumerate() {
-        if a.len() != b.len() {
-            return Err(format!(
-                "{what}[{i}]: length {} vs fixture {}",
-                a.len(),
-                b.len()
-            ));
-        }
-        for (j, (&x, &y)) in a.iter().zip(b).enumerate() {
-            if !within(x, y, k * scale) {
-                return Err(format!(
-                    "{what}[{i}][{j}]: {x:e} vs fixture {y:e}, |Δ| {:e} > {k:e} × matrix scale {scale:e}",
-                    (x - y).abs()
-                ));
-            }
-        }
     }
     Ok(())
 }
