@@ -2114,10 +2114,10 @@ mod tests {
     }
 
     #[test]
-    fn a_narrowband_jammer_leaves_a_higher_effective_cn0_than_broadband_at_equal_js() {
-        // Same J/S, different despreading efficiency: Q = 1.5 for a tone vs 1.0 for
-        // matched wideband noise, so the tone hurts less. The J/S rows must be identical
-        // (Q does not enter the ratio) while the effective C/N0 rises.
+    fn a_narrowband_jammer_leaves_no_higher_effective_cn0_than_broadband_at_equal_js() {
+        // Same J/S, same Q: a tone on the carrier is textbook Q = 1 and broadband stays at
+        // the conservative 1.0, so a tone is not less damaging than noise. The J/S rows
+        // must be identical (Q does not enter the ratio) and the effective C/N0 equal.
         let wide = jammed();
         let tone = LunarJammingScenario {
             jammer: Some(LunarJammerCfg {
@@ -2127,13 +2127,14 @@ mod tests {
             ..Default::default()
         };
         let (rw, rt) = (wide.run().unwrap(), tone.run().unwrap());
-        assert!((rt.jammer.as_ref().unwrap().q - 1.5).abs() < 1e-12);
+        assert!((rt.jammer.as_ref().unwrap().q - 1.0).abs() < 1e-12);
         for (lw, lt) in rw.links.iter().zip(rt.links.iter()) {
             assert!((lw.js_db - lt.js_db).abs() < 1e-12, "Q must not move J/S");
             assert!(
-                lt.cn0_effective_dbhz > lw.cn0_effective_dbhz,
-                "a less efficiently despread jammer must leave more C/N0"
+                lt.cn0_effective_dbhz <= lw.cn0_effective_dbhz,
+                "a tone must not leave more C/N0 than broadband noise"
             );
+            assert!((lt.cn0_effective_dbhz - lw.cn0_effective_dbhz).abs() < 1e-12);
         }
     }
 
