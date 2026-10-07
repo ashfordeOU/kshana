@@ -569,3 +569,130 @@ fn knot_window_stays_bounded_while_streaming() {
     }
     assert_eq!(chunks, 200);
 }
+
+/// Samples of a one-satellite, noise-free, static scene of `code` carrying `nav`, with the
+/// baseband centred on the code's carrier.
+fn static_samples(
+    code: crate::iq::signals::SignalCode,
+    nav: NavData,
+    duration_s: f64,
+) -> Result<Vec<Cf64>, IqError> {
+    let spec = SampleSpec {
+        fs_hz: FS,
+        center_hz: code.carrier_hz(),
+        if_hz: 0.0,
+    };
+    let mut cfg = SceneConfig::new(spec, duration_s);
+    cfg.noise.enabled = false;
+    let mut scene = Scene::new(cfg)?;
+    scene.add_satellite(SceneSatellite {
+        id: 1,
+        code: Box::new(code),
+        geometry: SatGeometry::Profile(profile(2.1e7, 0.0, 0.0)),
+        cn0_dbhz: Some(50.0),
+        nav,
+    });
+    let mut sink = VecSink::default();
+    scene.generate(&mut sink, &mut NullTruth)?;
+    Ok(sink.samples)
+}
+
+/// Seeded data lands on each data component at its own symbol timing (IS-GPS-200/-705,
+/// Galileo OS SIS ICD, BDS-SIS-ICD B1I/B1C, GLONASS ICD): the sample-by-sample ratio of a
+/// data scene to the same scene without data is the symbol sign, every sign change falls
+/// on a symbol boundary in transmit time, and short symbols change sign often enough that
+/// 20 ms timing could not explain them. GLONASS adds the meander: a sign change at every
+/// mid-bit.
+#[test]
+fn seeded_data_uses_each_signals_symbol_timing() {
+    use crate::iq::signals::{beidou, galileo, glonass, gps};
+    let dur = 0.1;
+    let cases: Vec<(crate::iq::signals::SignalCode, f64, bool)> = vec![
+        (gps::l1ca(3).unwrap(), 0.02, false),
+        (gps::l5_i5(3).unwrap(), 0.01, false),
+        (gps::l2c_cm(3).unwrap(), 0.02, false),
+        (galileo::e1b(11).unwrap(), 0.004, false),
+        (galileo::e5a_i(11).unwrap(), 0.02, false),
+        (beidou::b1i(6).unwrap(), 0.02, false),
+        (beidou::b1i(1).unwrap(), 0.002, false),
+        (beidou::b1c_data(19).unwrap(), 0.01, false),
+        (glonass::l1of(1).unwrap(), 0.02, true),
+    ];
+    for (code, sym_s, meander) in cases {
+        let name = code.name();
+        let with = static_samples(code.clone(), NavData::Seeded { seed: 9 }, dur).unwrap();
+        let without = static_samples(code, NavData::None, dur).unwrap();
+        let signs: Vec<f64> = with
+            .iter()
+            .zip(&without)
+            .map(|(a, b)| (a.re * b.re + a.im * b.im).signum())
+            .collect();
+        // Sign changes on a grid of `step` seconds in transmit time (half a bit with a
+        // meander), within one sample.
+        let step = if meander { sym_s / 2.0 } else { sym_s };
+        let delay = 2.1e7 / C_M_PER_S;
+        let mut changes = 0usize;
+        let mut mid_bit = 0usize;
+        for k in 1..signs.len() {
+            if signs[k] == signs[k - 1] {
+                continue;
+            }
+            changes += 1;
+            let u = (k as f64 / FS - delay) / step;
+            let off = (u - u.round()).abs() * step * FS;
+            assert!(
+                off <= 1.0,
+                "{name}: sign change at sample {k}, {off:.2} samples off the {step} s grid"
+            );
+            if meander && (u.round() as i64).rem_euclid(2) == 1 {
+                mid_bit += 1;
+            }
+        }
+        let symbols = ((dur - delay.rem_euclid(sym_s)) / sym_s).floor() as usize;
+        if meander {
+            // Every whole bit in the record has its mid-bit meander transition.
+            assert!(
+                mid_bit >= symbols - 1,
+                "{name}: {mid_bit} mid-bit changes over {symbols} bits"
+            );
+        } else {
+            assert!(
+                changes >= (symbols / 4).max(1),
+                "{name}: {changes} sign changes over {symbols} symbols of {sym_s} s"
+            );
+        }
+    }
+}
+
+/// Data is refused where the scene cannot place it correctly: on pilot components, on
+/// GPS L2C as one CM/CL chip stream, and a decodable LNAV message on anything but L1 C/A.
+#[test]
+fn data_is_refused_on_pilots_and_unmodelled_signals() {
+    use crate::iq::signals::{beidou, galileo, gps};
+    let seeded = NavData::Seeded { seed: 1 };
+    for code in [
+        gps::l5_q5(3).unwrap(),
+        gps::l2c_cl(3).unwrap(),
+        gps::l2c(3).unwrap(),
+        galileo::e1c(11).unwrap(),
+        galileo::e5a_q(11).unwrap(),
+    ] {
+        let name = code.name();
+        assert!(
+            static_samples(code.clone(), seeded.clone(), 0.01).is_err(),
+            "{name}: seeded data accepted"
+        );
+        // Without data the same signal generates.
+        assert!(static_samples(code, NavData::None, 0.01).is_ok(), "{name}");
+    }
+    assert_eq!(
+        beidou::b1c_pilot(19).unwrap().data_modulation(),
+        crate::iq::DataModulation::Pilot
+    );
+    let lnav = NavData::Lnav {
+        eph: Box::new(eph()),
+        conv: LnavConventions::default(),
+    };
+    assert!(static_samples(galileo::e1b(11).unwrap(), lnav.clone(), 0.01).is_err());
+    assert!(static_samples(gps::l1ca(3).unwrap(), lnav, 0.01).is_ok());
+}
