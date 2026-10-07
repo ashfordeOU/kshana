@@ -14,8 +14,8 @@
 
 use super::acquire::codes_from_args;
 use super::track::{
-    acquire_inits, create, epochs_writer, handoff_from_args, sampling_warnings, warning_lines,
-    TRACK_SWITCHES,
+    acquire_inits, create, epochs_writer, handoff_from_args, overrides_from_args,
+    sampling_warnings, warning_lines, TRACK_SWITCHES,
 };
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::io::inventory::open_recording;
@@ -109,7 +109,13 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let mut opened = open_recording(path, raw_sidecar(&a)?)?;
     let spec = opened.source.spec();
     let handoff = if a.get("--design").is_some() {
-        designs[0].clone()
+        // The acquisition flags apply on top of the first design's hand-off.
+        let (toml, overridden) = overrides_from_args(&a, true)?;
+        if overridden.is_empty() {
+            designs[0].clone()
+        } else {
+            designs[0].with_overrides(&toml).map_err(Fail::Usage)?
+        }
     } else {
         handoff_from_args(&a)?
     };

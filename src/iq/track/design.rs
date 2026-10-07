@@ -60,10 +60,12 @@ pub struct LockConfig {
     /// How long (s) a lost channel keeps trying to re-acquire, from the moment it was
     /// lost, before it is retired. Re-acquisition succeeds when the channel locks again.
     pub reacq_window_s: f64,
-    /// Wait (s) after the first failed search before the next; it doubles after each
-    /// further failure, up to `reacq_max_interval_s`.
+    /// Wait (s) after a failed search before the next. With the default
+    /// `reacq_max_interval_s` equal to it the searches are evenly spaced, so the retry
+    /// schedule adds at most this much to a measured re-acquisition time.
     pub reacq_interval_s: f64,
-    /// Longest wait (s) between searches.
+    /// Optional back-off: when above `reacq_interval_s`, the wait doubles after each
+    /// failure up to this (s). Equal to `reacq_interval_s` by default (no back-off).
     pub reacq_max_interval_s: f64,
     /// Optional cap on failed searches per loss (0 = no cap; the window alone decides).
     pub max_reacq_attempts: u32,
@@ -79,8 +81,8 @@ impl Default for LockConfig {
             reacquire: false,
             reacq_doppler_window_hz: 500.0,
             reacq_window_s: 30.0,
-            reacq_interval_s: 0.25,
-            reacq_max_interval_s: 2.0,
+            reacq_interval_s: 0.1,
+            reacq_max_interval_s: 0.1,
             max_reacq_attempts: 0,
         }
     }
@@ -1086,9 +1088,12 @@ mod tests {
             d.hash(),
             crate::advanced_report::sha256_hex(canonical.as_bytes())
         );
+        // PIN-SCOPE:    SHA-256 of the canonical JSON of the built-in default loop design
+        // PIN-EXCLUDES: nothing: the whole canonical document (name and description are
+        //               never part of it), deliberately
         assert_eq!(
             d.hash(),
-            "c6c25a274a8e768097b04750cf43c2ca60adf645efb201617a21b38df3dd3d2c"
+            "33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80"
         );
     }
 

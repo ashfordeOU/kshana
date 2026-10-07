@@ -17,8 +17,8 @@
 //! * with `reacquire` on, a `LOST` channel goes to `REACQ`: the next samples are searched
 //!   ±`reacq_doppler_window_hz` around its last (or alias) Doppler, and on detection the
 //!   channel restarts from that hand-off (`PULL_IN`). A failed search is retried after
-//!   `reacq_interval_s`, the wait doubling up to `reacq_max_interval_s`, so an outage
-//!   costs a search every couple of seconds rather than a burst. A channel that has not
+//!   `reacq_interval_s` (0.1 s by default, evenly spaced; an optional back-off doubles the
+//!   wait up to `reacq_max_interval_s`). A channel that has not
 //!   locked again within `reacq_window_s` of being lost (or that used up the optional
 //!   `max_reacq_attempts`) is `RETIRED` and stops. With `reacquire` off (the built-in
 //!   default) the state machine only observes: the loops run exactly as without it, and a
@@ -506,7 +506,8 @@ impl Managed {
     }
 
     /// A re-acquisition found nothing (or could not run): schedule the next search after
-    /// the current interval (which then doubles, up to `reacq_max_interval_s`), or retire
+    /// the current interval (which then doubles, up to `reacq_max_interval_s`, when that
+    /// is above `reacq_interval_s`), or retire
     /// the channel once the loss has outlasted `reacq_window_s` or used up the optional
     /// `max_reacq_attempts`.
     fn reacq_failed(

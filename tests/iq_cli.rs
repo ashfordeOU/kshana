@@ -924,6 +924,16 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
         ])),
         2
     );
+
+    // sweep --design applies the acquisition flags to the hand-off rather than ignoring
+    // them: an invalid one is refused.
+    assert_ne!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--pfa",
+            "2.0",
+        ])),
+        0
+    );
 }
 
 /// `labfit` runs end to end from a synthetic RINEX scenario and writes its four reports.

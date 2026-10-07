@@ -70,8 +70,9 @@ pub struct ChannelInfo {
     pub design_hash: String,
 }
 
-/// The header every epoch output carries (the first line of the binary form; the
-/// JSON-Lines and CSV forms carry the channel list in their records).
+/// The header of an epoch output: the first line of the binary form, and the first line
+/// (`{"header": …}`) of the JSON-Lines form. The CSV form has only a column row; its
+/// records carry the channel index, and the channel list is in the run's `--summary`.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EpochHeader {
     /// [`EPOCH_SCHEMA`].
