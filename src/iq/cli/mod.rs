@@ -184,6 +184,10 @@ impl std::error::Error for CommandError {}
 /// the message the CLI would print instead of printing it. Files are written exactly as
 /// the CLI writes them. This is the seam an embedding surface (the MCP server) drives, so
 /// it runs the same code path as `kshana iq` with nothing on stdout or stderr.
+///
+/// The argument grammar is public API: it is exactly the CLI's (see `kshana iq --help`),
+/// and changes to it are CLI-compatible and additive only, so a caller written against one
+/// release keeps working on the next.
 pub fn execute(args: &[String]) -> Result<String, CommandError> {
     let rest = args.get(1..).unwrap_or_default();
     let r = match args.first().map(String::as_str) {

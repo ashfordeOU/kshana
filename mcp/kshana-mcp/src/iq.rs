@@ -37,8 +37,8 @@ use std::sync::atomic::{AtomicU64, Ordering};
 pub const IQ_DIR_ENV: &str = "KSHANA_MCP_IQ_DIR";
 /// Environment variable overriding the per-call sample budget.
 pub const IQ_MAX_SAMPLES_ENV: &str = "KSHANA_MCP_IQ_MAX_SAMPLES";
-/// The default per-call sample budget: 50 million complex samples, 400 MB as `cf32_le`
-/// (10 s at 5 MHz).
+/// The default per-call sample budget: 50 million complex samples (10 s at 5 MHz): 400 MB
+/// as `cf32_le`, 200 MB as `ci16_le`, 100 MB as `ci8`.
 pub const DEFAULT_MAX_SAMPLES: u64 = 50_000_000;
 /// The most synthesis threads a scene may ask for.
 const MAX_THREADS: usize = 64;
