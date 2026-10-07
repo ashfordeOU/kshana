@@ -62,9 +62,13 @@ breaking changes are called out explicitly.
 
 - **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
   acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`
-  code periods coherently instead of one: 4 periods for a 1 ms code (GPS L1 C/A, L5), 1 for
-  a code of 4 ms or longer (Galileo E1, BeiDou B1C, GPS L2C), so the default Doppler step
-  `2 / (3 · N · T_code)` is ~167 Hz on every signal instead of ~667 Hz on GPS L1 C/A. A
+  code periods coherently instead of one, where `T_code` is the code's full period (primary
+  times secondary length for a tiered code, the unit acquisition integrates over). The
+  untiered 1 ms codes (GPS L1 C/A, BeiDou B1I, GLONASS L1OF) now search 4 periods (4 ms), so
+  the default Doppler step `2 / (3 · N · T_code)` is ~167 Hz instead of ~667 Hz. Every code
+  whose full period is already 4 ms or longer keeps 1 period: Galileo E1-B (4 ms), BeiDou
+  B1C (10 ms), and the tiered GPS L5-I/L5-Q, Galileo E5a-I/E5a-Q and E1-C (10 to 100 ms with
+  their overlay codes), and GPS L2C. Every signal therefore integrates at least ~4 ms. A
   one-period search could hand a channel off up to ~333 Hz off, outside the FLL's pull-in,
   and it then tracked a false lock ~500 Hz away while reporting a clean track. On a seeded
   sweep of 180 GPS L1 C/A channels (Doppler across ±5 kHz, 38 to 47 dB-Hz, half with
