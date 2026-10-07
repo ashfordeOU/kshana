@@ -9,7 +9,7 @@
 //! `sha2` crate over the whole file read at once; and the crate's raw-IF loader
 //! (`realdata::iqif::load_iq`) as the one-shot decoder for `ci16_le`.
 
-use kshana::iq::io::format::{BitOrder, Components, Encoding, TwoBitCode};
+use kshana::iq::io::format::{BitOrder, Components, Encoding, Endian, Justify, TwoBitCode};
 use kshana::iq::io::inventory::{scan_dir, InventoryOptions, RecordingKind};
 use kshana::iq::io::report::{results_to_csv, results_to_json};
 use kshana::iq::io::sigmf_stream::{meta_for, open_sigmf_collection, write_sigmf_collection};
@@ -70,6 +70,24 @@ fn random_bytes(f: SampleFormat, n_samples: usize, rng: &mut ChaCha8Rng) -> Vec<
             }
             v
         }
+        // 12-bit values written the way the encoder writes them (sign extension above a
+        // right-justified value, zeros below a left-justified one), so re-encoding is exact.
+        Encoding::I12 { endian, justify } => {
+            let mut v = Vec::with_capacity(n_bytes);
+            while v.len() < n_bytes {
+                let x: i16 = rng.gen_range(-2048..2048);
+                let w = match justify {
+                    Justify::Left => (x << 4) as u16,
+                    Justify::Right => x as u16,
+                };
+                v.extend_from_slice(&match endian {
+                    Endian::Little => w.to_le_bytes(),
+                    Endian::Big => w.to_be_bytes(),
+                });
+            }
+            v
+        }
+        Encoding::TwoBitPerByte { .. } => (0..n_bytes).map(|_| rng.gen_range(0..4u8)).collect(),
         _ => (0..n_bytes).map(|_| rng.gen()).collect(),
     }
 }
