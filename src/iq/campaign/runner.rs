@@ -12,7 +12,8 @@
 //!
 //! Pending cells that share a recording and a chain are run together. The recording is
 //! read once, the chain is applied once, and every design in the group tracks every
-//! expected satellite from one bank, as `iq sweep` does. When there are fewer groups than
+//! expected satellite in one tracking session (`iq::track::TrackSession`, with each
+//! design's lock state machine), as `iq sweep` does. When there are fewer groups than
 //! workers, a group's designs are split across several work items so all cores are busy.
 //! Channels in a bank never interact, so grouping changes nothing in any result.
 //! `tests/iq_campaign.rs` checks this: one worker and many workers give byte-identical
@@ -23,18 +24,20 @@
 
 use super::conditions::{resolve, TestConditions};
 use super::hash::{canonical_hash, sha256_file, sha256_hex, CanonicalHash};
-use super::lockstate::LockTracker;
-use super::score::{SatScore, SatScorer, ScoringConfig};
+use super::score::{SatScore, SatScorer, ScoreEpoch, ScoringConfig};
 use super::spec::{FrontendSpec, LoadedCampaign};
-use super::truth::TruthDoppler;
+use super::truth::{TruthCursor, TruthDoppler};
 use crate::iq::acq::{acquire, samples_needed, AcqConfig, AcqResult};
 use crate::iq::cli::{apply_chain, build_chain, build_code};
 use crate::iq::io::batch::{default_workers, run_batch_items};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::design::Design;
-use crate::iq::track::{ChannelInit, EpochOutput, TrackingBank};
-use crate::iq::{Cf64, SpreadingCode};
+use crate::iq::track::sink::EpochSink;
+use crate::iq::track::{
+    ChannelInit, EpochOutput, LockEvent, LockState, SessionChannel, TrackSession,
+};
+use crate::iq::{Cf64, IqError, SpreadingCode};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 use std::io::Write;
@@ -47,8 +50,9 @@ pub const CELL_SCHEMA: &str = "kshana.campaign-cell/1";
 /// The schema tag of the resolved campaign (`campaign.json`).
 pub const PLAN_SCHEMA: &str = "kshana.campaign-plan/1";
 
-/// How the lock state in a cell was derived.
-pub const LOCK_SOURCE: &str = "lock-indicators";
+/// How the lock state in a cell was derived: the tracking session's lock state machine
+/// (`LOCKED` counts as locked) and its `false-lock` events.
+pub const LOCK_SOURCE: &str = "track-lock-state";
 
 /// Samples read per chunk.
 const CHUNK: usize = 1 << 16;
@@ -619,8 +623,43 @@ fn acquire_all(
 struct Chan {
     cell: usize,
     sat: usize,
-    lock: LockTracker,
     scorer: SatScorer,
+}
+
+/// Feeds the tracking session's updates, lock states and events to the scorers.
+struct ScoreSink<'a> {
+    chans: Vec<Chan>,
+    cursors: Vec<Option<TruthCursor<'a>>>,
+    false_lock: Vec<bool>,
+}
+
+impl EpochSink for ScoreSink<'_> {
+    fn epoch(&mut self, channel: usize, e: &EpochOutput, state: LockState) -> Result<(), IqError> {
+        let se = ScoreEpoch {
+            t_s: e.code_epoch_s,
+            t_coh_s: e.t_coh_s,
+            locked: state == LockState::Locked,
+            phase_lock: e.phase_lock,
+            code_lock: e.code_lock,
+            cn0_dbhz: e.cn0_nwpr_dbhz,
+            pll_rad: e.disc.pll_rad,
+            dll_chips: e.disc.dll_chips,
+            doppler_hz: e.doppler_hz,
+            false_lock_flag: std::mem::take(&mut self.false_lock[channel]),
+        };
+        let truth = self.cursors[channel].as_mut().map(|c| c.at(se.t_s));
+        self.chans[channel].scorer.push(&se, truth);
+        Ok(())
+    }
+
+    fn event(&mut self, ev: &LockEvent) -> Result<(), IqError> {
+        if ev.reason == "false-lock" {
+            if let Some(f) = self.false_lock.get_mut(ev.channel as usize) {
+                *f = true;
+            }
+        }
+        Ok(())
+    }
 }
 
 /// Run one work item and write its cells; returns the samples processed.
@@ -697,19 +736,17 @@ fn run_item(
         handoffs.push(per);
     }
 
-    // The bank: one channel per (cell, acquired satellite).
-    let mut pairs = Vec::new();
+    // The session: one channel per (cell, acquired satellite).
+    let mut setups = Vec::new();
     let mut chans = Vec::new();
     for (k, &ci) in item.cells.iter().enumerate() {
         let d = &c.designs[plan.cells[ci].design];
-        let lc = d.loop_config();
         for (si, (_, init)) in handoffs[k].iter().enumerate() {
             if let Some(init) = init {
-                pairs.push((init.clone(), lc.clone()));
+                setups.push(SessionChannel::from_design(init.clone(), d));
                 chans.push(Chan {
                     cell: k,
                     sat: si,
-                    lock: LockTracker::new(&d.lock_config(), lc.carrier.has_pll(), lc.cn0_windows),
                     scorer: SatScorer::new(
                         tc,
                         &sats[si].signal,
@@ -721,8 +758,8 @@ fn run_item(
             }
         }
     }
-    let mut bank = TrackingBank::new(spec, &pairs)?;
-    let mut cursors: Vec<_> = chans
+    let mut session = TrackSession::new(spec, setups)?;
+    let cursors: Vec<_> = chans
         .iter()
         .map(|ch| {
             let s = &sats[ch.sat];
@@ -730,9 +767,13 @@ fn run_item(
                 .and_then(|t| u32::try_from(s.id).ok().and_then(|id| truths[t].cursor(id)))
         })
         .collect();
+    let mut sink = ScoreSink {
+        false_lock: vec![false; chans.len()],
+        chans,
+        cursors,
+    };
     let mut chain = build_chain(&fe.params(), spec.fs_hz)?;
     let mut buf = vec![Cf64::default(); CHUNK];
-    let mut out: Vec<Vec<EpochOutput>> = Vec::new();
     let mut done = 0u64;
     loop {
         let want = match max_samples {
@@ -750,15 +791,10 @@ fn run_item(
             break;
         }
         apply_chain(&mut chain, &mut buf[..n]);
-        if !chans.is_empty() {
-            bank.process(&buf[..n], &mut out);
-            for (i, ch) in chans.iter_mut().enumerate() {
-                for e in out[i].drain(..) {
-                    let se = ch.lock.update(&e);
-                    let truth = cursors[i].as_mut().map(|c| c.at(se.t_s));
-                    ch.scorer.push(&se, truth);
-                }
-            }
+        if !sink.chans.is_empty() {
+            session
+                .process(&buf[..n], &mut sink)
+                .map_err(|e| e.to_string())?;
         }
         done += n as u64;
     }
@@ -766,7 +802,7 @@ fn run_item(
     // Assemble and write each cell.
     let mut scores: Vec<Vec<Option<SatScore>>> =
         item.cells.iter().map(|_| vec![None; sats.len()]).collect();
-    for ch in chans {
+    for ch in sink.chans {
         scores[ch.cell][ch.sat] = Some(ch.scorer.finish());
     }
     for (k, &ci) in item.cells.iter().enumerate() {
