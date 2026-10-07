@@ -20,7 +20,12 @@
 //! - `export_omm`             — export an `orbit` scenario's elements as CCSDS OMM.
 //! - `export_oem`             — export an `orbit` scenario's state series as CCSDS OEM.
 //! - `export_table_csv`       — run a scenario and return its reproducibility table as CSV.
+//! - `assess_receiver_log`    — assess a real GNSS receiver log for trust.
+//!
+//! The GNSS IQ tools (`iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
+//! `iq_frontend`) live in [`crate::iq`], with their file-path and sample-budget contract.
 
+use crate::iq::IqConfig;
 use rmcp::handler::server::router::tool::ToolRouter;
 use rmcp::handler::server::wrapper::Parameters;
 use rmcp::model::{
@@ -227,6 +232,8 @@ pub struct KshanaServer {
     // pass flags fields only read through a derived trait (here `Clone`), hence the allow.
     #[allow(dead_code)]
     tool_router: ToolRouter<KshanaServer>,
+    /// Where the IQ tools may read and write, and their per-call sample budget.
+    pub(crate) iq: IqConfig,
 }
 
 impl Default for KshanaServer {
@@ -237,10 +244,17 @@ impl Default for KshanaServer {
 
 #[tool_router]
 impl KshanaServer {
-    /// Construct the server with its generated tool router.
+    /// Construct the server with its generated tool router, taking the IQ work directory
+    /// and sample budget from the environment ([`IqConfig::from_env`]).
     pub fn new() -> Self {
+        Self::with_iq_config(IqConfig::from_env())
+    }
+
+    /// Construct the server with an explicit IQ configuration.
+    pub fn with_iq_config(iq: IqConfig) -> Self {
         Self {
-            tool_router: Self::tool_router(),
+            tool_router: Self::tool_router() + Self::iq_tool_router(),
+            iq,
         }
     }
 
@@ -675,7 +689,12 @@ impl ServerHandler for KshanaServer {
                  SigMF; import_route writes a GeoJSON route into a track-flying scenario; \
                  export_sp3 / export_omm / export_oem emit standard GNSS/CCSDS products from \
                  an orbit scenario (export_oem is the one carrying velocity); export_table_csv \
-                 returns the CSV reproducibility table for the kinds that publish one. Spectrum \
+                 returns the CSV reproducibility table for the kinds that publish one; \
+                 assess_receiver_log assesses a real receiver log for trust. The GNSS IQ \
+                 tools (iq_signals first, then iq_info, iq_scene, iq_acquire, iq_track and \
+                 iq_frontend) generate and process signal-level IQ recordings as FILES in a \
+                 configured work directory: pass paths relative to it; samples never travel \
+                 through the protocol, and replies are compact JSON summaries. Spectrum \
                  and waterfall, solar-system, constellation-design, campaign and the \
                  low-Earth-orbit navigation kinds all run through run_scenario. Construct \
                  scenarios from list_scenario_kinds metadata or from a bundled example; do \
