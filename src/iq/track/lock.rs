@@ -94,7 +94,7 @@ pub struct LockEvent {
     pub from: LockState,
     /// State after.
     pub to: LockState,
-    /// `locked`, `relocked`, `loss-of-lock`, `pull-in-timeout`, `false-lock`,
+    /// `locked`, `recovered`, `loss-of-lock`, `pull-in-timeout`, `false-lock`,
     /// `reacq-start`, `reacquired`, `reacq-failed` or `retired`.
     pub reason: String,
     /// Doppler involved (Hz): the alias of a false lock, the result of a re-acquisition.
@@ -422,7 +422,7 @@ impl Managed {
                     self.transition(
                         idx,
                         LockState::Locked,
-                        "relocked",
+                        "recovered",
                         e.sample_index,
                         (None, None, None, None),
                         sink,

@@ -57,3 +57,22 @@ pattern. That is why its σ scaled correctly in W7's run.
   scene is extreme.
 * Several Kshana tests and examples use 2.046 MHz. Their acquisition and carrier assertions
   are unaffected; their code-tracking jitter would not be representative.
+
+## C/N0 at 45 dB-Hz (W7: "NWPR reads ~2 dB low")
+
+`cn0_survey` (release, ignored in the debug suite) gives the steady-state mean of the
+estimators against the injected 45 dB-Hz:
+
+| fs (Hz) | NWPR (dB-Hz) | Beaulieu (dB-Hz) |
+|---|---|---|
+| 2 046 000 | 42.65 | 33.19 |
+| 2 500 000 | 44.77 | 46.71 |
+| 4 100 000 | 44.87 | 45.31 |
+
+The NWPR estimator's own bias at M = 50 windows is small: −0.1 to −0.2 dB here, and within
+0.3 dB on ideal prompts in `tests/iq_receiver.rs::cn0_estimators_are_unbiased_at_35_and_45_dbhz`.
+The ~2 dB shortfall W7 saw is the **same commensurate-sampling root cause**. The bang-bang DLL's
+code error costs correlation power (the mean |P| falls 0.75 dB below the ideal amplitude) and
+adds amplitude jitter. Beaulieu, which is sensitive to amplitude fluctuation, reads 12 dB low
+there. At an incommensurate rate both estimators read within 2 dB of truth, and NWPR within
+0.25 dB.
