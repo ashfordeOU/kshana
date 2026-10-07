@@ -34,6 +34,10 @@ fll_order = 1                            # 1..2   (fll, fll-assisted-pll)
 fll_bw_hz = 10.0
 pll_discriminator = "costas-atan"        # "atan2" | "costas-atan" | "costas-decision-directed"
 fll_discriminator = "atan2"              # "cross-product" | "atan2" | "atan2-pilot"
+fll_assist = "pull-in"                   # "pull-in" | "always"   (fll-assisted-pll only)
+fll_off_pli = 0.8                        # pull-in: FLL hands over once the smoothed PLI
+fll_on_pli = 0.6                         #   held >= off for the dwell; back once < on
+fll_gate_dwell_s = 0.1                   #   for the dwell (on < off: hysteresis)
 
 [design.code]
 order = 1                                # DLL order 1..2
@@ -54,7 +58,10 @@ false_lock_margin_db = 3.0               # alias-bin power must not exceed the p
 reacquire = false                        # re-acquire a LOST channel around its last Doppler
                                          #   (off by default: the state machine only observes)
 reacq_doppler_window_hz = 500.0          # ± window of the re-acquisition search
-max_reacq_attempts = 3                   # then the channel is RETIRED
+reacq_window_s = 30.0                    # a lost channel not locked again by then is RETIRED
+reacq_interval_s = 0.25                  # wait after a failed search; doubles each failure
+reacq_max_interval_s = 2.0               #   up to this
+max_reacq_attempts = 0                   # optional cap on failed searches per loss (0 = none)
 
 [design.bit_sync]
 min_votes = 12
@@ -168,8 +175,24 @@ Transitions:
   loops keep running meanwhile.
 * `REACQ` → `PULL_IN` on detection: the channel restarts from the new hand-off at the
   next chunk boundary, and its epoch numbering continues. Otherwise `REACQ` → `LOST`
-  (`reacq-failed`) and the search is tried again. After `max_reacq_attempts` failures
-  in a row the channel is `RETIRED` and stops. The count resets when a channel locks.
+  (`reacq-failed`), and the next search starts `reacq_interval_s` later. The wait doubles
+  after each further failure, up to `reacq_max_interval_s` (0.25, 0.5, 1, 2, 2 … s by
+  default). So an outage costs a search every couple of seconds, and the signal's return
+  is found within the wait in force.
+* The budget is **time**. A channel that has not locked again within `reacq_window_s` of
+  being lost (counted from the first loss, through any re-acquisitions that did not reach
+  `LOCKED`) is `RETIRED` and stops. `max_reacq_attempts > 0` additionally caps the failed
+  searches per loss. Both reset when the channel locks. (Until this revision the budget
+  was 3 back-to-back searches, which retired every channel within about 0.2 s of any
+  outage.)
+
+**FLL assistance** (`fll_assist`, FLL-assisted PLL only). With `"pull-in"` (the default)
+the FLL path feeds the loop until the smoothed PLI has held at or above `fll_off_pli` for
+`fll_gate_dwell_s`. From then on the PLL tracks alone, and the FLL comes back once the PLI
+has held below `fll_on_pli` for the dwell. With `"always"` the FLL path feeds every update.
+Left on, a 10 Hz FLL path injects enough frequency noise to break phase lock below about
+38 dB-Hz. The evidence is in `docs/design/evidence/carrier-lock/`. The epoch output's
+`fll_active` (Rust `EpochOutput`) says which applied.
 
 With `reacquire` off (the built-in default) the state machine only observes. The loops run
 bit for bit as without it (tested), and a `LOST` channel returns to `LOCKED`

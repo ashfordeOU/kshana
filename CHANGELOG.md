@@ -96,14 +96,29 @@ breaking changes are called out explicitly.
       same peak within 64 KiB), with a control showing that the in-memory path does grow.
     - Streamed output is bit-identical to the in-memory replay.
   - *Lock state machine* (`iq::track::lock`, `TrackSession`): pull-in → locked → lost →
-    re-acquisition → pull-in, or retired after `max_reacq_attempts`.
+    re-acquisition → pull-in, or retired once a loss outlasts `reacq_window_s` (default
+    30 s). Failed searches are spaced 0.25 s, 0.5 s, 1 s and then 2 s apart, and
+    `max_reacq_attempts` is an optional cap (0, none, by default). A 2 s outage on three
+    PRNs at 4.092 MS/s now ends with every channel re-acquired and locked. Under a
+    3-attempt budget, every channel was retired within 0.2 s of the loss.
     - Thresholds (`loss_dwell_s`, `pull_in_max_s`, the re-acquisition Doppler window) come
       from the design. Every transition is an event with its reason.
     - The false-lock check searches the tracked Doppler against its ±1/(2T) FLL/PLL
       alias. It catches the false lock PR #38 measured (−2400 Hz tracked 500 Hz off).
       With re-acquisition on, the channel ends locked at the injected Doppler.
-    - A 0.8 s signal gap is declared lost and re-acquired within 0.3 s of the signal's
-      return.
+    - A 0.8 s signal gap is declared lost and re-acquired within the retry interval in
+      force when the signal returns.
+    - `--summary` `final_state` (and the table's column) is the state after the last
+      transition, so a channel retired after its last loop update reads `RETIRED`.
+    - **FLL assistance only during pull-in** (`[design.carrier] fll_assist = "pull-in"`,
+      the default; `"always"` keeps the earlier behaviour bit for bit). The FLL hands over
+      to the PLL once the smoothed PLI has held at or above `fll_off_pli` (0.8) for
+      `fll_gate_dwell_s` (0.1 s), and returns below `fll_on_pli` (0.6). Left on, the 10 Hz
+      FLL path broke phase lock below about 38 dB-Hz on clean signals: at 35 dB-Hz the
+      phase-lock fraction was 10–16 %, with a true phase error of 38–41°. Gated, the
+      default holds 100 % at 35 dB-Hz with 4.5°, the same as a PLL alone. Pull-in from a
+      100 Hz hand-off error is unchanged. Evidence with pre-registered bars:
+      `docs/design/evidence/carrier-lock/`.
     - Re-acquisition is **off in the built-in default**, where the state machine only
       observes and the loops run bit for bit as before. Turn it on per design
       (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
