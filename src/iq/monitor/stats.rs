@@ -16,6 +16,17 @@
 //! * [`pli_mean`] — the mean of `cos 2θ` for the phase `θ` of `A + n`, `n` circular complex
 //!   Gaussian with `A²/E|n|² = γ`: `1 − (1 − e^{−γ})/γ` (the phase lock indicator
 //!   `(I² − Q²)/(I² + Q²)` on a perfectly tracked carrier).
+//! * [`welch_equivalent_segments`], [`welch_max_excess_pfa`] — a Welch PSD bin of white
+//!   Gaussian noise averaged over `K` periodic-Hann segments is, to a good approximation,
+//!   Gamma distributed with `K_eff` degrees of freedom per two (Welch 1967:
+//!   `1/K_eff = (1/K)[1 + 2Σ_{j≥1}(1 − j/K)ρ_j²]`, `ρ_j` the window's normalised overlap
+//!   correlation at a lag of `j` steps). Treating the bins as independent, the largest of
+//!   `B` bins exceeds `t` dB over its mean with probability
+//!   `1 − (1 − Q(K_eff, K_eff·10^{t/10}))^B`. This is an approximation: overlapping
+//!   segments are not exactly Gamma, adjacent Hann bins correlate, and the monitor divides
+//!   by an *estimated* baseline. On 750 blocks of 31 segments at 2.5 dB the measured rate
+//!   came out 1.3 times the formula (`tests/iq_monitor.rs`), so read it as an order of
+//!   magnitude for the false-alarm rate, not an exact figure.
 //! * [`sqm_delta_sd`], [`sqm_ratio_sd`] — first-order noise standard deviations of the delta
 //!   `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)` tests for an ideal BPSK correlation
 //!   triangle, early and late at `±d/2`, whose noise correlates as `1 − |Δτ|` (in chips):
@@ -147,6 +158,48 @@ pub fn pli_mean(gamma: f64) -> f64 {
         return gamma / 2.0;
     }
     1.0 - (1.0 - (-gamma).exp()) / gamma
+}
+
+/// Welch's equivalent number of independent segments for `segments` periodic-Hann
+/// segments of `nfft` points stepped by `step` points.
+pub fn welch_equivalent_segments(nfft: usize, step: usize, segments: usize) -> f64 {
+    let w: Vec<f64> = (0..nfft)
+        .map(|n| 0.5 - 0.5 * (std::f64::consts::TAU * n as f64 / nfft as f64).cos())
+        .collect();
+    let s2: f64 = w.iter().map(|v| v * v).sum();
+    let k = segments.max(1) as f64;
+    let mut acc = 0.0;
+    for j in 1..segments {
+        let lag = j * step.max(1);
+        if lag >= nfft {
+            break;
+        }
+        let c: f64 = (0..nfft - lag).map(|n| w[n] * w[n + lag]).sum::<f64>() / s2;
+        acc += (1.0 - j as f64 / k) * c * c;
+    }
+    k / (1.0 + 2.0 * acc)
+}
+
+/// Probability that the largest of `bins` Welch bins (each with `k_eff` equivalent
+/// segments, see [`welch_equivalent_segments`]) of white noise exceeds its mean by more
+/// than `threshold_db`, treating the bins as independent.
+pub fn welch_max_excess_pfa(k_eff: f64, bins: usize, threshold_db: f64) -> f64 {
+    let q = gamma_pq(k_eff, k_eff * 10f64.powf(threshold_db / 10.0)).1;
+    1.0 - (1.0 - q).powi(bins as i32)
+}
+
+/// The excess threshold (dB) at which [`welch_max_excess_pfa`] equals `pfa` (bisection).
+pub fn welch_excess_threshold_db(k_eff: f64, bins: usize, pfa: f64) -> f64 {
+    let (mut lo, mut hi) = (0.0f64, 60.0f64);
+    for _ in 0..100 {
+        let mid = 0.5 * (lo + hi);
+        if welch_max_excess_pfa(k_eff, bins, mid) > pfa {
+            lo = mid;
+        } else {
+            hi = mid;
+        }
+    }
+    hi
 }
 
 /// First-order noise standard deviation of the delta test `(I_E − I_L)/I_P` at early-late

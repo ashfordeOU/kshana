@@ -7,8 +7,11 @@
 //! * the **Welch PSD** ([`crate::spectrum::welch_psd`], `nfft` points, periodic Hann,
 //!   `overlap`) is compared bin by bin with the baseline PSD (the mean over the baseline
 //!   blocks): `psd_excess_db` is the largest `10·log10(PSD/baseline)` over the bins and
-//!   `psd_excess_freq_hz` the bin it falls in; a block above `excess_db` raises a
-//!   `spectral_excess` event. A max-hold of the excess and the baseline itself are kept as
+//!   `psd_excess_freq_hz` the bin it falls in; a block above the excess threshold raises a
+//!   `spectral_excess` event. The threshold is `excess_db` when that is positive, and
+//!   otherwise the level at which the largest bin of white noise exceeds its mean with
+//!   probability `excess_pfa` per block ([`super::stats::welch_excess_threshold_db`],
+//!   with Welch's equivalent segment count for the block). A max-hold of the excess and the baseline itself are kept as
 //!   spectra.
 //! * the **complex kurtosis** `mean(|x|⁴)/mean(|x|²)²` (2 for Gaussian noise, 1 for a
 //!   constant-envelope signal, larger for pulsed energy) is turned into a z-score against
@@ -37,8 +40,12 @@ pub struct SpectralSettings {
     pub nfft: usize,
     /// Welch segment overlap (fraction).
     pub overlap: f64,
-    /// Largest per-bin excess over the baseline PSD that counts (dB).
+    /// Largest per-bin excess over the baseline PSD that counts (dB); 0 or less = set from
+    /// `excess_pfa`.
     pub excess_db: f64,
+    /// Per-block false-alarm probability that sets the excess threshold when `excess_db`
+    /// is not positive.
+    pub excess_pfa: f64,
     /// Kurtosis z-score that counts.
     pub kurtosis_sigma: f64,
     /// Pulse threshold on `|x|²/σ²`.
@@ -48,15 +55,17 @@ pub struct SpectralSettings {
 }
 
 impl Default for SpectralSettings {
-    /// 50 ms blocks, 1 s baseline, 256-point Welch with 50 % overlap, 3 dB excess,
-    /// kurtosis and pulse z-scores of 6, pulse threshold 12 (`p = 6.1e-6`).
+    /// 50 ms blocks, 1 s baseline, 256-point Welch with 50 % overlap, the excess threshold
+    /// set for a false-alarm probability of 1e-4 per block, kurtosis and pulse z-scores of
+    /// 6, pulse threshold 12 (`p = 6.1e-6`).
     fn default() -> Self {
         SpectralSettings {
             block_s: 0.05,
             baseline_s: 1.0,
             nfft: 256,
             overlap: 0.5,
-            excess_db: 3.0,
+            excess_db: 0.0,
+            excess_pfa: 1e-4,
             kurtosis_sigma: 6.0,
             pulse_t: 12.0,
             pulse_sigma: 6.0,
@@ -69,6 +78,7 @@ pub struct SpectralMonitor {
     settings: SpectralSettings,
     fs_hz: f64,
     block_len: usize,
+    excess_threshold_db: f64,
     block: Vec<Cf64>,
     sample: u64,
     baseline_blocks: usize,
@@ -95,10 +105,17 @@ impl SpectralMonitor {
         let block_len = ((settings.block_s * fs_hz).round() as usize).max(settings.nfft);
         let baseline_blocks =
             ((settings.baseline_s / (block_len as f64 / fs_hz)).round() as usize).max(1);
+        let excess_threshold_db = if settings.excess_db > 0.0 {
+            settings.excess_db
+        } else {
+            let k_eff = Self::k_eff(&settings, block_len);
+            stats::welch_excess_threshold_db(k_eff, settings.nfft, settings.excess_pfa)
+        };
         SpectralMonitor {
             settings,
             fs_hz,
             block_len,
+            excess_threshold_db,
             block: Vec::with_capacity(block_len),
             sample: 0,
             baseline_blocks,
@@ -123,6 +140,33 @@ impl SpectralMonitor {
     /// Samples per block.
     pub fn block_len(&self) -> usize {
         self.block_len
+    }
+
+    /// The spectral-excess threshold in use (dB).
+    pub fn excess_threshold_db(&self) -> f64 {
+        self.excess_threshold_db
+    }
+
+    /// Welch's equivalent segment count for one block, as `welch_psd` steps it.
+    fn k_eff(st: &SpectralSettings, block_len: usize) -> f64 {
+        let ov = st.overlap.clamp(0.0, 0.95);
+        let step = ((st.nfft as f64) * (1.0 - ov)).round().max(1.0) as usize;
+        let segments = if block_len >= st.nfft {
+            (block_len - st.nfft) / step + 1
+        } else {
+            1
+        };
+        stats::welch_equivalent_segments(st.nfft, step, segments)
+    }
+
+    /// The closed-form per-block false-alarm probability of the spectral-excess test on
+    /// white noise at the threshold in use.
+    pub fn excess_pfa_closed_form(&self) -> f64 {
+        stats::welch_max_excess_pfa(
+            Self::k_eff(&self.settings, self.block_len),
+            self.settings.nfft,
+            self.excess_threshold_db,
+        )
     }
 
     /// Feed samples.
@@ -189,7 +233,7 @@ impl SpectralMonitor {
                         "spectral_excess",
                         None,
                         Side::Above,
-                        st.excess_db,
+                        self.excess_threshold_db,
                         1,
                     ));
                     self.det_kurt = Some(SpanDetector::new(
@@ -259,6 +303,14 @@ impl SpectralMonitor {
         let mut notes = vec![
             ("spectral.block_samples".into(), self.block_len.to_string()),
             ("spectral.nfft".into(), self.settings.nfft.to_string()),
+            (
+                "spectral.excess_threshold_db".into(),
+                format!("{:.3}", self.excess_threshold_db),
+            ),
+            (
+                "spectral.excess_pfa_per_block_white_noise".into(),
+                format!("{:.3e}", self.excess_pfa_closed_form()),
+            ),
             (
                 "spectral.pulse_pfa_per_sample_white_noise".into(),
                 format!("{:.3e}", stats::pulse_pfa(self.settings.pulse_t)),
