@@ -275,6 +275,8 @@ def test_iq_track_takes_a_design_and_reports_states_and_the_design():
     assert epochs[0]["state"] == "PULL_IN"
     assert {"i_early", "q_late", "carrier_phase_cycles"} <= set(epochs[0])
     assert abs(epochs[-1]["doppler_hz"] - 1200.0) < 5.0
+    # 2.046 MHz is exactly 2 samples per chip: the result warns.
+    assert out["warnings"][0]["kind"] == "commensurate_sampling"
     with pytest.raises(ValueError):
         kshana.iq_track(
             scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [9],

@@ -202,6 +202,10 @@ async fn scene_acquire_track_frontend_round_trip() {
     .unwrap();
     assert_eq!(trk["samples_tracked"], 3_069_000);
     assert_eq!(trk["design"]["name"], "wide");
+    assert_eq!(
+        trk["warnings"][0]["kind"], "commensurate_sampling",
+        "2.046 MHz is 2 samples/chip"
+    );
     assert_eq!(trk["design"]["hash"].as_str().unwrap().len(), 64);
     for ch in trk["channels"].as_array().unwrap() {
         assert_eq!(ch["locked_at_end"], true, "{ch}");

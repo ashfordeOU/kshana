@@ -481,7 +481,9 @@ fn iq_acquire<'py>(
 }
 
 /// Acquire then track each PRN over complex samples. Returns a dict with `fs_hz`, the
-/// resolved loop `design` (every field, with its `hash`), the lock-state `events` and one
+/// resolved loop `design` (every field, with its `hash`), the lock-state `events`, any
+/// `warnings` (`commensurate_sampling` when `fs_hz` is a multiple of half the chip rate:
+/// code-loop jitter and bias are then not representative) and one
 /// entry per channel (`code` and a list of per-epoch dicts: `doppler_hz`,
 /// `code_phase_chips`, `pli`, `phase_lock`, `cn0_nwpr_dbhz`, the early/prompt/late
 /// correlators, the discriminators, `state`, ...). The loop design is `design` (a path to a
@@ -654,6 +656,7 @@ fn iq_track<'py>(
             "fs_hz": fs_hz,
             "design": design.to_json(),
             "events": events,
+            "warnings": crate::iq::cli::sampling_warnings(&spec, &codes),
             "channels": chans,
         }),
     )

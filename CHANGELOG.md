@@ -119,7 +119,9 @@ breaking changes are called out explicitly.
     - the hand-off acquisition (`"auto"` or explicit).
 
     Designs may `extends` one another. Unknown keys are refused. Each resolved design has a
-    SHA-256 hash that every output records. Surfaces:
+    SHA-256 hash over a canonical JSON form (keys sorted at every level, fixed number
+    formatting), so the hash does not depend on field order; every output records it.
+    Surfaces:
     - `kshana iq track --design <file> [--design-name]`, where explicit flags override the
       design and are recorded;
     - `kshana iq sweep --design <file>`, which runs every design in the file;
@@ -155,6 +157,17 @@ breaking changes are called out explicitly.
     - Re-acquisition is **off in the built-in default**, where the state machine only
       observes and the loops run bit for bit as before. Turn it on per design
       (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
+    - A **`commensurate_sampling` warning**: when fs is within 1e-6 of a multiple of half
+      the chip rate (`iq::track::commensurate_samples_per_chip`), `iq track`/`iq sweep`
+      (output, `--summary`, sweep JSON), the MCP `iq_track` reply and the Python
+      `iq_track` result warn that code-loop jitter and bias are not representative. The
+      root cause is documented with pre-registered bars in
+      `docs/design/evidence/dll-jitter/`. At exactly 2 samples per chip with 0.5-chip
+      spacing, the DLL S-curve is a single step and the loop dithers: ≈ 0.09 chip RMS code
+      error (≈ 26 m) at 45 dB-Hz, against ≈ 0.004 chip at an incommensurate rate. The
+      ~2 dB low NWPR C/N0 at that rate has the same cause.
+    - A false-lock or re-acquisition search that cannot run (a rate with no whole number of
+      samples per code period) no longer stops tracking.
     - Tests: `tests/iq_track_engine.rs`, `tests/iq_cli.rs`, `iq::track::design::tests`,
       `tests/python`, and the MCP IQ round trip.
 

@@ -1174,7 +1174,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once. The samples tracked (the whole recording, or its first `max_seconds`) must fit the sample budget. The loops come from `design` (a `kshana.loop-design/1` TOML file in the work directory, `design_name` to pick one) or the built-in design, with the loop arguments overriding it; `reacquire` re-acquires a channel that loses lock or false-locks. Tracking streams, so memory does not grow with the recording. Replies with the design's name and hash and, per channel, the epoch count, seconds tracked, final Doppler and code phase, final and mean C/N0 (dB-Hz), the fractions of epochs in phase and code lock, `locked_at_end`, the final lock state, false locks detected and re-acquisitions. Per-epoch output goes to files only: `epochs_out` (E/P/L, discriminators, loop states, C/N0, lock state; .csv/.jsonl/.bin), `events_out`, `json_out` / `csv_out`. A PRN that is not acquired is refused with its statistic and threshold."
+        description = "Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once. The samples tracked (the whole recording, or its first `max_seconds`) must fit the sample budget. The loops come from `design` (a `kshana.loop-design/1` TOML file in the work directory, `design_name` to pick one) or the built-in design, with the loop arguments overriding it; `reacquire` re-acquires a channel that loses lock or false-locks. Tracking streams, so memory does not grow with the recording. Replies with the design's name and hash, any `warnings` (`commensurate_sampling`: a sample rate that is a multiple of half the chip rate makes code-loop jitter and bias unrepresentative) and, per channel, the epoch count, seconds tracked, final Doppler and code phase, final and mean C/N0 (dB-Hz), the fractions of epochs in phase and code lock, `locked_at_end`, the final lock state, false locks detected and re-acquisitions. Per-epoch output goes to files only: `epochs_out` (E/P/L, discriminators, loop states, C/N0, lock state; .csv/.jsonl/.bin), `events_out`, `json_out` / `csv_out`. A PRN that is not acquired is refused with its statistic and threshold."
     )]
     fn iq_track(
         &self,
@@ -1299,6 +1299,7 @@ impl KshanaServer {
             "sample_rate_hz": spec.fs_hz,
             "samples_tracked": tracked,
             "design": design_info,
+            "warnings": summary.get("warnings").cloned().unwrap_or_default(),
             "channels": channels,
             "files": iq.written(&files),
         }))

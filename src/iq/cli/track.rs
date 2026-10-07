@@ -29,7 +29,10 @@ use crate::iq::track::sink::{
     ChannelInfo, ChannelSummary, CollectSink, EpochFormat, EpochHeader, EpochSink, EventsWriter,
     Fanout, Summary,
 };
-use crate::iq::track::{ChannelInit, EpochOutput, LockState, SessionChannel, TrackSession};
+use crate::iq::track::{
+    commensurate_samples_per_chip, ChannelInit, EpochOutput, LockState, SessionChannel,
+    TrackSession,
+};
 use crate::iq::{IqError, IqSource, SampleSpec, SpreadingCode};
 use std::fs::File;
 use std::io::{BufWriter, Write};
@@ -326,6 +329,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         spec.fs_hz,
     );
 
+    let warnings = sampling_warnings(&spec, &codes);
     let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);
     let mut epochs = epochs_writer(&a, &header)?;
     let mut events = a
@@ -367,11 +371,59 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     if let Some(p) = a.get("--summary") {
-        let v = summary_json(&spec, tracked, &[(&design, &names)], &overridden, &summary);
+        let v = summary_json(
+            &spec,
+            tracked,
+            &[(&design, &names)],
+            &overridden,
+            &summary,
+            &warnings,
+        );
         std::fs::write(p, serde_json::to_string_pretty(&v).unwrap_or_default())
             .map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
-    Ok(table(&names, &summary.channels))
+    Ok(table(&names, &summary.channels) + &warning_lines(&warnings))
+}
+
+/// The `commensurate_sampling` warnings for `codes` on a stream sampled as `spec`: one per
+/// distinct chip rate whose samples per chip is a multiple of 1/2 (see
+/// [`commensurate_samples_per_chip`]).
+pub(crate) fn sampling_warnings(spec: &SampleSpec, codes: &[SignalCode]) -> Vec<serde_json::Value> {
+    let mut seen: Vec<f64> = Vec::new();
+    let mut out = Vec::new();
+    for c in codes {
+        let rate = c.chip_rate_hz();
+        if seen.contains(&rate) {
+            continue;
+        }
+        seen.push(rate);
+        if let Some(r) = commensurate_samples_per_chip(spec.fs_hz, rate) {
+            out.push(serde_json::json!({
+                "kind": "commensurate_sampling",
+                "fs_hz": spec.fs_hz,
+                "chip_rate_hz": rate,
+                "samples_per_chip": r,
+                "message": format!(
+                    "{} Hz is {r} samples per chip of {}: commensurate sampling turns the code \
+                     discriminator into a staircase (at 2 samples/chip the DLL dithers, about \
+                     0.09 chip RMS code error at 45 dB-Hz); code-loop jitter and bias from this \
+                     recording are not representative. Use a rate that is not a multiple of half \
+                     the chip rate to judge code loops.",
+                    spec.fs_hz,
+                    c.name()
+                ),
+            }));
+        }
+    }
+    out
+}
+
+/// The warnings as lines for the command's printed output.
+pub(crate) fn warning_lines(w: &[serde_json::Value]) -> String {
+    w.iter()
+        .filter_map(|v| v["message"].as_str())
+        .map(|m| format!("\nwarning: {m}"))
+        .collect()
 }
 
 /// One channel's summary as JSON.
@@ -414,6 +466,7 @@ pub(crate) fn summary_json(
     groups: &[(&Design, &[String])],
     overridden: &[String],
     summary: &Summary,
+    warnings: &[serde_json::Value],
 ) -> serde_json::Value {
     let mut chans = Vec::new();
     let mut idx = 0;
@@ -431,6 +484,7 @@ pub(crate) fn summary_json(
         "samples_tracked": tracked,
         "designs": groups.iter().map(|(d, _)| d.to_json()).collect::<Vec<_>>(),
         "overridden_by_flags": overridden,
+        "warnings": warnings,
         "channels": chans,
     })
 }
