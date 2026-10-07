@@ -475,6 +475,102 @@ fn track_converges_to_injected_doppler() {
     assert!(last["phase_lock"].as_bool().unwrap(), "{last}");
 }
 
+/// GLONASS L1OF channels are acquired and tracked on their own FDMA carriers: in a scene
+/// centred on channel 0, channels +3 and -7 sit 1.6875 MHz above and 3.9375 MHz below it,
+/// and each is found at its own injected Doppler and code phase, then tracked to it. Every
+/// channel shares one ranging code, so a search at the centre would find channel 0 again.
+#[test]
+fn glonass_channels_are_acquired_and_tracked_on_their_fdma_carriers() {
+    let dir = scratch("glonass");
+    let iq = dir.join("g.cf32").display().to_string();
+    let truth = format!("{iq}.truth.csv");
+    let acq_json = dir.join("acq.json").display().to_string();
+    let trk_json = dir.join("trk.json").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "10000000",
+            "--duration",
+            "0.3",
+            "--signal",
+            "glonass-l1of",
+            "--prn",
+            "0,3,-7",
+            "--doppler",
+            "500,-1200,2500",
+            "--cn0",
+            "48",
+            "--seed",
+            "1",
+        ])),
+        0
+    );
+    let t0: Vec<(f64, f64)> = truth_from_csv(&std::fs::read_to_string(&truth).unwrap())
+        .unwrap()
+        .into_iter()
+        .filter(|r| r.t_s == 0.0)
+        .map(|r| (r.code_phase_chips, r.doppler_hz))
+        .collect();
+    assert_eq!(t0.len(), 3);
+    assert_eq!(
+        run(&args(&[
+            "acquire",
+            &iq,
+            "--signal",
+            "glonass-l1of",
+            "--prn",
+            "0,3,-7",
+            "--coherent",
+            "4",
+            "--json",
+            &acq_json,
+        ])),
+        0
+    );
+    let v: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&acq_json).unwrap()).unwrap();
+    let dets = v["detections"].as_array().unwrap();
+    for (det, &(want_phase, want_dopp)) in dets.iter().zip(&t0) {
+        assert!(det["acquired"].as_bool().unwrap(), "{det}");
+        let dopp = det["doppler_hz"].as_f64().unwrap();
+        // 4 coherent 1 ms periods give a 167 Hz bin; within one bin of the truth.
+        assert!(
+            (dopp - want_dopp).abs() <= 170.0,
+            "doppler {dopp} vs {want_dopp}"
+        );
+        let phase = det["code_phase_chips"].as_f64().unwrap();
+        let err = ((phase - want_phase + 255.5).rem_euclid(511.0) - 255.5).abs();
+        assert!(err <= 1.0, "code phase {phase} vs {want_phase}");
+    }
+    assert_eq!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "glonass-l1of",
+            "--prn",
+            "0,3,-7",
+            "--acq-coherent",
+            "4",
+            "--json",
+            &trk_json,
+        ])),
+        0
+    );
+    let v: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&trk_json).unwrap()).unwrap();
+    for (ch, &(_, want_dopp)) in v["channels"].as_array().unwrap().iter().zip(&t0) {
+        let last = ch["epochs"].as_array().unwrap().last().unwrap();
+        let d = last["doppler_hz"].as_f64().unwrap();
+        assert!(
+            (d - want_dopp).abs() < 5.0,
+            "final doppler {d} vs {want_dopp}"
+        );
+    }
+}
+
 /// `sweep` reports one row per (design, PRN), and a wider carrier loop locks at least as
 /// often as a narrower one on the same recording.
 #[test]
