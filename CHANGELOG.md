@@ -36,6 +36,15 @@ breaking changes are called out explicitly.
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
 
+### Fixed
+
+- **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
+  a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
+  had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
+  per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
+  in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
+  Float output is unchanged.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added
