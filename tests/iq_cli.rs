@@ -475,6 +475,82 @@ fn track_converges_to_injected_doppler() {
     assert!(last["phase_lock"].as_bool().unwrap(), "{last}");
 }
 
+/// `track` and `sweep` apply the front-end flags: running either with `--notch --bits 2`
+/// gives exactly the output of running it without flags on the file `iq frontend` writes
+/// for the same flags (the 2-bit quantiser's levels are exact in cf32), and differs from
+/// running it on the unfiltered recording.
+#[test]
+fn track_and_sweep_apply_the_front_end_flags() {
+    let dir = scratch("fe-track");
+    let raw = dir.join("s.cf32").display().to_string();
+    let filtered = dir.join("f.cf32").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &raw,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.5",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "9",
+            "--doppler",
+            "1200",
+            "--cn0",
+            "50",
+            "--seed",
+            "3",
+        ])),
+        0
+    );
+    let fe = ["--notch", "--bits", "2"];
+    let mut fe_args = vec!["frontend", raw.as_str(), filtered.as_str()];
+    fe_args.extend(fe);
+    assert_eq!(run(&args(&fe_args)), 0);
+
+    for cmd in ["track", "sweep"] {
+        let out = |name: &str| dir.join(format!("{cmd}.{name}.json")).display().to_string();
+        let (plain, inline, offline) = (out("plain"), out("inline"), out("offline"));
+        let base = |input: &str, json: &str, with_fe: bool| {
+            let mut v = vec![
+                cmd,
+                input,
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "9",
+                "--acq-coherent",
+                "4",
+            ];
+            if with_fe {
+                v.extend(fe);
+            }
+            v.extend(["--json", json]);
+            run(&args(&v))
+        };
+        assert_eq!(base(&raw, &plain, false), 0, "{cmd} plain");
+        assert_eq!(base(&raw, &inline, true), 0, "{cmd} with front end");
+        assert_eq!(
+            base(&filtered, &offline, false),
+            0,
+            "{cmd} on filtered file"
+        );
+        let read = |p: &str| std::fs::read_to_string(p).unwrap();
+        assert_eq!(
+            read(&inline),
+            read(&offline),
+            "{cmd}: inline front end differs from the iq frontend output"
+        );
+        assert_ne!(
+            read(&inline),
+            read(&plain),
+            "{cmd}: the front-end flags had no effect"
+        );
+    }
+}
+
 /// `sweep` reports one row per (design, PRN), and a wider carrier loop locks at least as
 /// often as a narrower one on the same recording.
 #[test]
