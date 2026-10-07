@@ -15,7 +15,7 @@ use super::acquire::{codes_from_args, read_samples};
 use super::frontend::through_frontend;
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::acq::acquire;
-use crate::iq::acq::{samples_needed, AcqConfig};
+use crate::iq::acq::{auto_coherent_periods, samples_needed, AcqConfig};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
@@ -23,12 +23,14 @@ use crate::iq::{IqSource, SampleSpec, SpreadingCode};
 use std::path::Path;
 use std::sync::Arc;
 
-/// Build the acquisition config used to initialise tracking from the `--acq-*` flags.
+/// Build the acquisition config used to initialise tracking from the `--acq-*` flags. The
+/// coherent length defaults to auto (≈4 ms, [`auto_coherent_periods`]); `--acq-coherent 1`
+/// restores the one-period search of 0.32 and earlier.
 pub(crate) fn init_acq_config(a: &Args, period_s: f64) -> Result<AcqConfig, Fail> {
     let coherent_periods = a
         .num("--acq-coherent")
         .map_err(Fail::Usage)?
-        .unwrap_or(1usize)
+        .unwrap_or_else(|| auto_coherent_periods(period_s))
         .max(1);
     let noncoherent = a
         .num("--acq-noncoherent")
