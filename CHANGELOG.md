@@ -11,6 +11,49 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lab replay: test conditions, campaign runner and scoring (0.34.0).** `kshana iq campaign
+  <campaign.toml>` replays recordings × front-end chains × loop designs (`kshana.loop-design/1`)
+  and scores every cell against a per-recording test-condition file (`kshana.test-conditions/1`,
+  TOML or JSON). That file states what a lab knows about the recording: the expected satellites,
+  and for each event its type label, onset and offset, affected satellites and stated J/S or
+  jammer-power profile. It is metadata only. The scores per satellite, for the whole run and per
+  event, are:
+  - availability, time to loss of lock and the stated J/S at the loss;
+  - re-acquisition time, from the event offset and from the loss;
+  - measured C/N0 degradation per stated-J/S bin;
+  - false-lock episodes per locked hour (the tracker's flag, or Doppler against a truth sidecar);
+  - PLL and DLL discriminator jitter.
+
+  Next to each measured degradation curve, an analytic spectral-separation reference
+  (`jamming::effective_cn0_dbhz` with the type's `Q`) is drawn and labelled MODELLED wherever it
+  appears.
+
+  Cells run in parallel and each is written atomically under a content-hash key. The key covers
+  the recording's SHA-256, the condition, front-end, design, run and scoring hashes, and the
+  engine version. A rerun therefore skips finished cells, and outputs never depend on the worker
+  count. The run writes `scorecard.csv`/`.json`, a self-contained `report.html` and a `DIGEST`.
+  Pass/fail bars (`[scoring.bars]`, overridable per recording) are applied when the report is
+  built.
+
+  Also new:
+  - `kshana iq campaign report <dir>` rebuilds the scorecards, report and digest from the cells;
+  - `kshana iq conditions <file>` validates a test-condition file;
+  - Python gains `iq_test_conditions`, `iq_campaign` and `iq_campaign_report`;
+  - `kshana-mcp` gains `iq_campaign`, which is incremental and resumable under the per-call
+    sample budget with every file confined to the work directory, and `iq_campaign_status`.
+
+  Tests: `tests/iq_campaign.rs` runs a synthetic campaign of 3 recordings × 2 front ends × 2
+  designs. Its scenes carry stated C/N0 profiles, and it covers:
+  - every metric checked against the injected truth;
+  - resume after a partial single-worker run with a corrupt cell, byte-identical to an
+    uninterrupted four-worker run;
+  - bars re-judged without re-running;
+  - the CLI;
+  - an ignored release-mode throughput and memory check.
+
+  Software only: nothing transmits, and no interference or spoofing waveform is synthesised.
+  Design and as-built notes: `docs/design/LAB-CAMPAIGN.md`.
+
 - **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
   the `kshana iq` layer from an agent: `iq_signals` (the accepted signal names and the IQ
   set-up), `iq_info` (describe a recording), `iq_scene` (generate a stated-profile or
