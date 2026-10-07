@@ -33,6 +33,26 @@ breaking changes are called out explicitly.
   sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
   and the disabled state.
 
+### Changed
+
+- **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
+  acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`
+  code periods coherently instead of one: 4 periods for a 1 ms code (GPS L1 C/A, L5), 1 for
+  a code of 4 ms or longer (Galileo E1, BeiDou B1C, GPS L2C), so the default Doppler step
+  `2 / (3 · N · T_code)` is ~167 Hz on every signal instead of ~667 Hz on GPS L1 C/A. A
+  one-period search could hand a channel off up to ~333 Hz off, outside the FLL's pull-in,
+  and it then tracked a false lock ~500 Hz away while reporting a clean track. On a seeded
+  sweep of 180 GPS L1 C/A channels (Doppler across ±5 kHz, 38 to 47 dB-Hz, half with
+  navigation data; `docs/design/evidence/iq-track-acq-default/`, re-runnable) false locks
+  fall from 27 of 180 to 1 of 180 and missed acquisitions from 102 to 11, for ~40 ms more
+  search per PRN on GPS L1 (11 → 52 ms). The one residual false lock is at 38 dB-Hz, 36 Hz
+  off. Every surface agrees: `kshana iq track` and `kshana iq sweep` (`--acq-coherent`),
+  Python `kshana.iq_track` (`acq_coherent=None` is now auto; stub updated) and the MCP
+  `iq_track` tool. Users who relied on the old default can pass `acq_coherent=1`
+  (`--acq-coherent 1`). `kshana iq acquire`'s own `--coherent` default stays 1. New public
+  `iq::acq::auto_coherent_periods` and `iq::acq::AUTO_COHERENT_S`; regression test
+  `tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added

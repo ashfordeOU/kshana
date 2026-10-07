@@ -475,6 +475,64 @@ fn track_converges_to_injected_doppler() {
     assert!(last["phase_lock"].as_bool().unwrap(), "{last}");
 }
 
+/// Regression for the tracking hand-off default. With a one-period (1 ms) initialising
+/// search the Doppler bins are ~667 Hz wide, and on this scene PRN 17 (injected -2400 Hz)
+/// is handed off ~267 Hz off, outside the FLL's pull-in: it false-locks ~500 Hz away while
+/// reporting a clean track. The default is now auto (≈4 ms coherent, 4 periods for this
+/// 1 ms code, ~167 Hz bins), which locks it. Both halves are asserted, so the test fails if
+/// the default ever reverts to one period, and `--acq-coherent 1` is pinned as the opt-out
+/// that reproduces the old behaviour. (`docs/design/evidence/iq-track-acq-default/` has
+/// the seeded 180-channel sweep behind the change.)
+#[test]
+fn track_default_handoff_does_not_false_lock_where_one_period_did() {
+    let dir = scratch("track-default");
+    let iq = dir.join("s.cf32").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "1.5",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "3,17",
+            "--doppler",
+            "1250,-2400",
+            "--cn0",
+            "45",
+            "--seed",
+            "7",
+        ])),
+        0
+    );
+    let final_doppler = |extra: &[&str], name: &str| -> f64 {
+        let json = dir.join(name).display().to_string();
+        let mut a = vec![
+            "track", &iq, "--signal", "gps-l1ca", "--prn", "17", "--json", &json,
+        ];
+        a.extend_from_slice(extra);
+        assert_eq!(run(&args(&a)), 0, "track {extra:?}");
+        let v: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&json).unwrap()).unwrap();
+        let epochs = v["channels"][0]["epochs"].as_array().unwrap();
+        epochs.last().unwrap()["doppler_hz"].as_f64().unwrap()
+    };
+    let auto = final_doppler(&[], "auto.json");
+    assert!(
+        (auto + 2400.0).abs() < 25.0,
+        "default hand-off: final Doppler {auto} Hz, injected -2400 Hz"
+    );
+    let one = final_doppler(&["--acq-coherent", "1"], "one.json");
+    assert!(
+        (one + 2400.0).abs() > 400.0,
+        "--acq-coherent 1 no longer false-locks this channel (final {one} Hz); the scene no \
+         longer exercises the regression"
+    );
+}
+
 /// `sweep` reports one row per (design, PRN), and a wider carrier loop locks at least as
 /// often as a narrower one on the same recording.
 #[test]
