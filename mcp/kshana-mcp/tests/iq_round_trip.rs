@@ -183,8 +183,11 @@ async fn scene_acquire_track_frontend_round_trip() {
         "iq_track",
         json!({
             "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
-            // A 4 ms initialising search (167 Hz bins) puts both channels inside the FLL's
-            // pull-in; `kshana iq track --acq-coherent 4` gives the same lock on this scene.
+            // Why 4: the default 1 ms initialising search has ~667 Hz Doppler bins, which
+            // leaves PRN 17 (-2400 Hz) outside the FLL's pull-in and it false-locks ~500 Hz
+            // off (the CLI does the same). A 4 ms search (~167 Hz bins) locks both;
+            // `kshana iq track --acq-coherent 4` gives the same result on this scene. The
+            // engine default is a separate, behaviour-changing decision, not this test's.
             "acq_coherent": 4,
             "json_out": "track.json", "csv_out": "track.csv",
         }),

@@ -71,8 +71,10 @@ protocol. They follow one contract:
   `overwrite: true`. Unset, the IQ file tools are off and say how to enable them; every
   other tool is unaffected.
 - **A sample budget.** One call generates or processes at most `KSHANA_MCP_IQ_MAX_SAMPLES`
-  complex samples (default 50 000 000, 400 MB as `cf32_le`). The check runs before any
-  work, and the refusal names the duration or `max_seconds` that fits.
+  complex samples (default 50 000 000). In bytes that is 400 MB as `cf32_le` (8 bytes a
+  complex sample), 200 MB as `ci16_le` (4 bytes) and 100 MB as `ci8` (2 bytes); a scene is
+  written as `cf32_le` unless `format` says otherwise. The check runs before any work, and
+  the refusal names the duration or `max_seconds` that fits.
 - **Compact replies.** Each tool answers with one JSON summary: acquisition peaks, C/N0,
   lock state, and every file written with its path and byte count. Per-epoch tables go to
   the `json_out` / `csv_out` files you name.
