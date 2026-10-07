@@ -493,6 +493,7 @@ pub struct SatScorer {
     dll: Welford,
     prev_locked: Option<bool>,
     ever_locked: bool,
+    last_t: Option<f64>,
     loss_count: u32,
     reacq_count: u32,
     // False lock.
@@ -551,6 +552,7 @@ impl SatScorer {
             dll: Welford::default(),
             prev_locked: None,
             ever_locked: false,
+            last_t: None,
             loss_count: 0,
             reacq_count: 0,
             fl_run: 0,
@@ -574,6 +576,7 @@ impl SatScorer {
         }
         self.ever_locked |= e.locked;
         self.prev_locked = Some(e.locked);
+        self.last_t = Some(self.last_t.map_or(t, |l| l.max(t)));
 
         let new_episode = self.false_lock_update(e, truth_doppler_hz);
         let in_any_event = self.events.iter().any(|a| a.ev.contains(t));
@@ -685,8 +688,22 @@ impl SatScorer {
         false
     }
 
-    /// The figures.
-    pub fn finish(self) -> SatScore {
+    /// The figures, for a stream that ended at `end_s`. Time after the last update (a
+    /// channel that was retired, stopped or never started) counts as unlocked, in the
+    /// whole run and in every event window it overlaps.
+    pub fn finish(mut self, end_s: f64) -> SatScore {
+        let from = self.last_t.unwrap_or(0.0);
+        let whole_from = from.max(self.settle_s);
+        if end_s > whole_from {
+            self.scored_s += end_s - whole_from;
+        }
+        for a in &mut self.events {
+            let lo = from.max(a.ev.onset_s);
+            let hi = end_s.min(a.ev.offset_s);
+            if hi > lo {
+                a.in_s += hi - lo;
+            }
+        }
         let ratio = |a: f64, b: f64| (b > 0.0).then(|| a / b);
         let whole_run = WholeRunScore {
             scored_s: self.scored_s,
@@ -862,7 +879,7 @@ points = [[20.0, 30.0], [30.0, 40.0]]
             let locked = !(33.0..42.5).contains(&t);
             s.push(&ep(t, locked, 45.0), None);
         }
-        let r = s.finish();
+        let r = s.finish(60.0);
         let e = &r.events[0];
         assert!(e.lost && e.reacquired && e.locked_at_onset);
         assert!((e.time_to_loss_s.unwrap() - 13.0).abs() < 1e-6);
@@ -891,7 +908,7 @@ points = [[20.0, 30.0], [30.0, 40.0]]
             };
             s.push(&ep(t, true, cn0), None);
         }
-        let e = &s.finish().events[0];
+        let e = &s.finish(60.0).events[0];
         assert_eq!(e.cn0_curve.len(), 2);
         for b in &e.cn0_curve {
             let m = b.measured_cn0_dbhz.unwrap();
@@ -921,9 +938,32 @@ points = [[20.0, 30.0], [30.0, 40.0]]
             e.false_lock_flag = (t - 8.0).abs() < 1e-9;
             s.push(&e, Some(0.0));
         }
-        let r = s.finish();
+        let r = s.finish(60.0);
         assert_eq!(r.whole_run.false_lock_episodes, 3);
         assert!(r.whole_run.false_lock_per_hour.unwrap() > 0.0);
+    }
+
+    #[test]
+    fn time_after_the_last_update_counts_as_unlocked() {
+        let cfg = ScoringConfig::default();
+        let mut s = SatScorer::new(&tc(), "gps-l1ca", 5, 1.023e6, &cfg);
+        // Locked from 0 to 25 s, then the channel stops (retired) in a 60 s stream.
+        for i in 0..25_000 {
+            s.push(&ep(i as f64 * 1e-3, true, 45.0), None);
+        }
+        let r = s.finish(60.0);
+        let a = r.whole_run.availability.unwrap();
+        assert!((a - 24.0 / 59.0).abs() < 1e-3, "{a}");
+        let e = &r.events[0];
+        assert!((e.availability.unwrap() - 0.25).abs() < 1e-3, "{e:?}");
+        assert!(
+            !e.lost && !e.reacquired,
+            "a stopped channel records no transition"
+        );
+        // A channel that never started is unavailable for the whole scored time.
+        let none = SatScorer::new(&tc(), "gps-l1ca", 5, 1.023e6, &cfg).finish(60.0);
+        assert_eq!(none.whole_run.availability, Some(0.0));
+        assert_eq!(none.events[0].availability, Some(0.0));
     }
 
     #[test]
@@ -938,7 +978,7 @@ points = [[20.0, 30.0], [30.0, 40.0]]
             e.dll_chips = sgn * 0.01;
             s.push(&e, None);
         }
-        let r = s.finish();
+        let r = s.finish(60.0);
         assert!((r.whole_run.pll_jitter_deg.unwrap() - 0.1f64.to_degrees()).abs() < 1e-3);
         assert!((r.whole_run.dll_jitter_chips.unwrap() - 0.01).abs() < 1e-5);
     }

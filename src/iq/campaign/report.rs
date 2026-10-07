@@ -112,6 +112,37 @@ pub struct ReportSummary {
     pub digest: Option<String>,
 }
 
+/// The digest over `lines` (each `"<key> <sha256 of the cell file>\n"`): the SHA-256 hex
+/// of the lines sorted and concatenated.
+fn digest_of(mut lines: Vec<String>) -> String {
+    lines.sort();
+    sha256_hex(lines.concat().as_bytes())
+}
+
+/// The digest of the campaign in `out_dir`, computed from `campaign.json` and the cell
+/// files exactly as [`build`] writes it to `DIGEST`; `None` while any planned cell is
+/// missing. A cell file that does not parse, or carries another key, counts as missing.
+pub fn digest(out_dir: &Path) -> Result<Option<String>, String> {
+    let plan_path = out_dir.join("campaign.json");
+    let plan: Plan = serde_json::from_str(
+        &std::fs::read_to_string(&plan_path)
+            .map_err(|e| format!("{}: {e}", plan_path.display()))?,
+    )
+    .map_err(|e| format!("{}: {e}", plan_path.display()))?;
+    let mut lines = Vec::new();
+    for pc in &plan.cells {
+        if !super::runner::cell_done(out_dir, &pc.key) {
+            return Ok(None);
+        }
+        lines.push(format!(
+            "{} {}\n",
+            pc.key,
+            sha256_file(&cell_path(out_dir, &pc.key))?
+        ));
+    }
+    Ok(Some(digest_of(lines)))
+}
+
 fn opt(x: Option<f64>) -> String {
     x.map(|v| v.to_string()).unwrap_or_default()
 }
@@ -166,8 +197,7 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
         cells.push(c);
     }
     let complete = cells.len() == plan.cells.len();
-    digest_lines.sort();
-    let digest = complete.then(|| sha256_hex(digest_lines.concat().as_bytes()));
+    let digest = complete.then(|| digest_of(digest_lines));
 
     let mut rows = Vec::new();
     let mut curves = Vec::new();
@@ -279,6 +309,7 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
     let json = serde_json::json!({
         "schema": SCORECARD_SCHEMA,
         "campaign": plan.name,
+        "data_class": plan.data_class,
         "engine_version": plan.engine_version,
         "complete": complete,
         "cells_total": plan.cells.len(),
@@ -368,8 +399,9 @@ fn html(
     );
     let _ = write!(
         h,
-        "<h1>Lab replay campaign: {}</h1><p class=\"meta\">Kshana {} · {} recording(s) × {} front end(s) × {} design(s) = {} cells, {} done · digest <code>{}</code></p>",
+        "<h1>Lab replay campaign: {}</h1><p class=\"meta\">Data class <b>{}</b> · Kshana {} · {} recording(s) × {} front end(s) × {} design(s) = {} cells, {} done · digest <code>{}</code></p>",
         esc(&plan.name),
+        plan.data_class.as_str(),
         esc(&plan.engine_version),
         plan.recordings.len(),
         plan.frontends.len(),
