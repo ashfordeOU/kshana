@@ -344,8 +344,10 @@ fn a_signal_gap_is_lost_then_reacquired() {
         .iter()
         .find(|e| e.reason == "reacquired" && e.code_epoch_s >= gap.1 - 0.05)
         .unwrap_or_else(|| panic!("no re-acquisition after the gap: {:?}", sink.events));
+    // Searches are spaced (0.25 s, then 0.5 s, 1 s, … after each failure), so the signal's
+    // return is found within the interval in force by then (at most 1 s here).
     assert!(
-        back.code_epoch_s < gap.1 + 0.3,
+        back.code_epoch_s < gap.1 + 1.05,
         "re-acquired {:.3} s after the gap",
         back.code_epoch_s - gap.1
     );
@@ -603,7 +605,42 @@ fn an_unsearchable_rate_tracks_without_the_check() {
 /// and variants: the phase-lock fraction, the true carrier phase error (Costas, mod
 /// half a cycle), the Doppler error, the cycle slips and the LOCKED fraction, over
 /// 2 s ≤ t < `secs`. Release mode, `--ignored --nocapture`.
-fn carrier_measured(fs: f64, cn0_dbhz: f64, cfg: LoopConfig, secs: f64, data: bool) -> String {
+struct CarrierStats {
+    phase_lock: f64,
+    locked: f64,
+    mean_pli: f64,
+    sigma_deg: f64,
+    sigma_f_hz: f64,
+    slips: usize,
+    fll_on: f64,
+    toggles: usize,
+}
+
+impl std::fmt::Display for CarrierStats {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        write!(
+            f,
+            "phase_lock {:.3} locked {:.3} mean_pli {:.3} sigma_phase {:.1} deg sigma_f {:.2} Hz \
+             slips {} fll_on {:.3} toggles {}",
+            self.phase_lock,
+            self.locked,
+            self.mean_pli,
+            self.sigma_deg,
+            self.sigma_f_hz,
+            self.slips,
+            self.fll_on,
+            self.toggles
+        )
+    }
+}
+
+fn carrier_measured(
+    fs: f64,
+    cn0_dbhz: f64,
+    cfg: LoopConfig,
+    secs: f64,
+    data: bool,
+) -> CarrierStats {
     let doppler = 1500.0;
     let mut src = Synth::at(fs, 13, doppler, cn0_dbhz, secs, vec![]);
     let mut init = src.init(doppler);
@@ -653,12 +690,34 @@ fn carrier_measured(fs: f64, cn0_dbhz: f64, cfg: LoopConfig, secs: f64, data: bo
         .filter(|w| w[0].0.fll_active != w[1].0.fll_active)
         .count();
     let fll_on = frac(&|(e, _)| e.fll_active);
-    format!(
-        "phase_lock {phase_lock:.3} locked {locked:.3} mean_pli {mean_pli:.3} \
-         sigma_phase {sigma_deg:.1} deg sigma_f {:.2} Hz slips {slips} fll_on {fll_on:.3} \
-         toggles {toggles}",
-        std_dev(&df)
-    )
+    CarrierStats {
+        phase_lock,
+        locked,
+        mean_pli,
+        sigma_deg,
+        sigma_f_hz: std_dev(&df),
+        slips,
+        fll_on,
+        toggles,
+    }
+}
+
+/// Bars B1–B3 of `docs/design/evidence/carrier-lock/PREREGISTRATION.md` for the default
+/// design at 35 and 37 dB-Hz, with and without data bits, plus no FLL/PLL gate toggling
+/// in the steady state. Release mode: `cargo test --release --test iq_track_engine
+/// carrier_lock_bars -- --ignored`.
+#[test]
+#[ignore]
+fn carrier_lock_bars() {
+    for data in [false, true] {
+        for cn0 in [35.0, 37.0] {
+            let r = carrier_measured(4.1e6, cn0, LoopConfig::default(), 8.0, data);
+            assert!(r.phase_lock >= 0.95, "B1 {cn0} data={data}: {r}");
+            assert_eq!(r.slips, 0, "B2 {cn0} data={data}: {r}");
+            assert!(r.locked >= 0.95, "B3 {cn0} data={data}: {r}");
+            assert_eq!(r.toggles, 0, "gate chatter {cn0} data={data}: {r}");
+        }
+    }
 }
 
 #[test]
@@ -690,6 +749,13 @@ fn carrier_lock_survey() {
     }
 }
 
+/// A comma-separated list of numbers from an environment variable (survey settings).
+fn env_list(key: &str) -> Option<Vec<f64>> {
+    std::env::var(key)
+        .ok()
+        .map(|v| v.split(',').map(|x| x.trim().parse().unwrap()).collect())
+}
+
 fn with_spacing(d: f64) -> LoopConfig {
     LoopConfig {
         spacing_chips: d,
@@ -717,8 +783,9 @@ fn first_disc_d(fs: f64, d: f64, eps: f64) -> f64 {
 /// `(σ_ε, mean ε)` of the true code tracking error (chips) over 1.5 s ≤ t < 3.5 s at
 /// 45 dB-Hz with spacing `d`.
 fn code_error_d(fs: f64, d: f64) -> (f64, f64) {
-    let mut src = Synth::at(fs, 13, 1500.0, 45.0, 3.5, vec![]);
-    let init = src.init(1500.0);
+    let doppler = env_list("KSHANA_SURVEY_DOPPLER").map_or(1500.0, |v| v[0]);
+    let mut src = Synth::at(fs, 13, doppler, 45.0, 3.5, vec![]);
+    let init = src.init(doppler);
     let (phase0, rate) = (src.phase0, src.rate);
     let mut session = TrackSession::new(
         src.spec(),
@@ -751,8 +818,10 @@ fn code_error_d(fs: f64, d: f64) -> (f64, f64) {
 fn spacing_ratio_survey() {
     let chip = 1.023e6;
     println!("spc,d,s_curve,sigma_eps,mean_eps,control_sigma,control_mean,excess");
-    for d in [0.5, 0.25, 0.1] {
-        for r in [2.0, 2.5, 3.0, 3.5, 4.0, 5.0] {
+    let ds = env_list("KSHANA_SURVEY_D").unwrap_or(vec![0.5, 0.25, 0.1]);
+    let rs = env_list("KSHANA_SURVEY_SPC").unwrap_or(vec![2.0, 2.5, 3.0, 3.5, 4.0, 5.0]);
+    for &d in &ds {
+        for &r in &rs {
             let fs = r * chip;
             let s: Vec<String> = (0..7)
                 .map(|k| format!("{:.4}", first_disc_d(fs, d, k as f64 * 0.05 * d)))
@@ -769,31 +838,36 @@ fn spacing_ratio_survey() {
 }
 
 /// Bar B4 of `docs/design/evidence/carrier-lock/PREREGISTRATION.md`: with the FLL used
-/// only during pull-in, the default design still pulls in a hand-off 100 Hz off the true
-/// Doppler at 45 dB-Hz, reaches LOCKED and raises no false lock.
+/// only during pull-in (the default) and with it always on, the design pulls in a
+/// hand-off 100 Hz off the true Doppler at 45 dB-Hz, reaches LOCKED and raises no false
+/// lock.
 #[test]
 fn the_default_design_pulls_in_a_100_hz_handoff_error() {
-    let mut src = Synth::at(4.1e6, 13, 1500.0, 45.0, 2.2, vec![]);
-    let init = src.init(1400.0);
-    let mut session = TrackSession::new(
-        src.spec(),
-        vec![SessionChannel::from_config(init, LoopConfig::default())],
-    )
-    .unwrap();
-    let mut sink = CollectSink::default();
-    session.run(&mut src, None, &mut sink).unwrap();
-    let events = &sink.events;
-    assert!(
-        events.iter().all(|e| e.reason != "false-lock"),
-        "{events:?}"
-    );
-    let (last, state) = sink.channels[0].last().unwrap();
-    assert_eq!(*state, LockState::Locked, "{events:?}");
-    assert!(
-        (last.doppler_hz - 1500.0).abs() < 5.0,
-        "{}",
-        last.doppler_hz
-    );
+    let always = LoopConfig {
+        fll_assist: kshana::iq::track::FllAssist::Always,
+        ..LoopConfig::default()
+    };
+    for cfg in [LoopConfig::default(), always] {
+        let mode = format!("{:?}", cfg.fll_assist);
+        let mut src = Synth::at(4.1e6, 13, 1500.0, 45.0, 2.2, vec![]);
+        let init = src.init(1400.0);
+        let mut session =
+            TrackSession::new(src.spec(), vec![SessionChannel::from_config(init, cfg)]).unwrap();
+        let mut sink = CollectSink::default();
+        session.run(&mut src, None, &mut sink).unwrap();
+        let events = &sink.events;
+        assert!(
+            events.iter().all(|e| e.reason != "false-lock"),
+            "{mode}: {events:?}"
+        );
+        let (last, state) = sink.channels[0].last().unwrap();
+        assert_eq!(*state, LockState::Locked, "{mode}: {events:?}");
+        assert!(
+            (last.doppler_hz - 1500.0).abs() < 5.0,
+            "{mode}: {}",
+            last.doppler_hz
+        );
+    }
 }
 
 /// Several PRNs in one stream: the first source's noise, every source's signal.
