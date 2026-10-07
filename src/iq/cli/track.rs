@@ -10,14 +10,12 @@
 //! last-epoch summary is printed.
 
 use super::acquire::{codes_from_args, read_samples};
-use super::{raw_sidecar, Args, Fail};
+use super::{open_input, Args, Fail};
 use crate::iq::acq::acquire;
 use crate::iq::acq::{samples_needed, AcqConfig};
-use crate::iq::io::inventory::open_recording;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
 use crate::iq::{IqSource, SampleSpec, SpreadingCode};
-use std::path::Path;
 use std::sync::Arc;
 
 /// Build the acquisition config used to initialise tracking from the `--acq-*` flags.
@@ -128,11 +126,10 @@ pub(crate) fn loop_config_from(a: &Args, label: &str) -> Result<LoopConfig, Fail
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let a = Args::parse(args, &[]).map_err(Fail::Usage)?;
     a.need_pos(1, "track")?;
-    let path = Path::new(&a.pos[0]);
     let codes = codes_from_args(&a)?;
 
     // One pass to acquire, a fresh pass to track the whole recording.
-    let mut opened = open_recording(path, raw_sidecar(&a)?)?;
+    let mut opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
     let inits = acquire_inits(&a, &spec, &codes, opened.source.as_mut())?;
 
@@ -142,7 +139,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
 
-    let mut track_src = open_recording(path, raw_sidecar(&a)?)?;
+    let mut track_src = open_input(&a, 0)?;
     let results = replay(
         track_src.source.as_mut(),
         &inits,

@@ -8,12 +8,10 @@
 //! each requested code. It reports, per PRN, the detected Doppler, code phase, the
 //! normalised peak statistic, the detection threshold and whether the peak cleared it.
 
-use super::{build_code, raw_sidecar, Args, Fail};
+use super::{build_code, open_input, Args, Fail};
 use crate::iq::acq::{acquire, samples_needed, AcqConfig, AcqResult};
-use crate::iq::io::inventory::open_recording;
 use crate::iq::signals::SignalCode;
 use crate::iq::{Cf64, IqSource, SampleSpec, SpreadingCode};
-use std::path::Path;
 
 /// Parse the shared `--signal`/`--prn` arguments into one spreading code per PRN.
 pub(crate) fn codes_from_args(a: &Args) -> Result<Vec<SignalCode>, Fail> {
@@ -80,7 +78,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let a = Args::parse(args, &switches).map_err(Fail::Usage)?;
     a.need_pos(1, "acquire")?;
     let codes = codes_from_args(&a)?;
-    let opened = open_recording(Path::new(&a.pos[0]), raw_sidecar(&a)?)?;
+    let opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
     let cfg = acq_config(&a, codes[0].period_s())?;
 
