@@ -210,6 +210,63 @@ fn states_match(now: &str, committed: &str) -> Result<(), String> {
     Ok(())
 }
 
+/// `states_match` accepts a host difference of the size issue #36 measured (233 units in the
+/// last place) and still rejects a 1e-6 relative change of one coordinate, a changed index and a
+/// missing line.
+#[test]
+fn the_state_comparison_rejects_a_real_change() {
+    let committed = std::fs::read_to_string(format!("{DIR}/states_gcrs_A.csv")).unwrap();
+    let edit = |f: &dyn Fn(usize, f64) -> f64| -> String {
+        committed
+            .lines()
+            .map(|l| {
+                let p: Vec<&str> = l.split(',').collect();
+                if l.starts_with('#') || p.len() != 8 {
+                    return format!("{l}\n");
+                }
+                let mut o: Vec<String> = p[..2].iter().map(|s| s.to_string()).collect();
+                for (i, t) in p[2..].iter().enumerate() {
+                    o.push(format!("{:?}", f(i, t.parse::<f64>().unwrap())));
+                }
+                o.join(",") + "\n"
+            })
+            .collect()
+    };
+    assert_eq!(edit(&|_, x| x), committed, "the edit round-trips");
+    let ulps = |x: f64, n: i64| f64::from_bits((x.to_bits() as i64 + n) as u64);
+    states_match(
+        &edit(&|i, x| ulps(x, if i % 2 == 0 { 233 } else { -233 })),
+        &committed,
+    )
+    .expect("a host-sized difference");
+    let once = std::cell::Cell::new(false);
+    let changed = edit(&|i, x| {
+        if i == 4 && !once.replace(true) {
+            x * (1.0 + 1e-6)
+        } else {
+            x
+        }
+    });
+    assert!(
+        states_match(&changed, &committed).is_err(),
+        "vy x (1 + 1e-6)"
+    );
+    let reindexed = committed.replacen("\n0,1,", "\n0,2,", 1);
+    assert!(
+        states_match(&reindexed, &committed).is_err(),
+        "satellite index"
+    );
+    let shorter: String = committed
+        .lines()
+        .skip(1)
+        .map(|l| format!("{l}\n"))
+        .collect();
+    assert!(
+        states_match(&shorter, &committed).is_err(),
+        "a missing line"
+    );
+}
+
 /// Writes the engine's GCRS states; run by `generate.sh` before the oracle.
 #[test]
 #[ignore = "fixture generator: run by tests/fixtures/leo_polar_coverage_on_path_orekit_oracle/generate.sh"]
