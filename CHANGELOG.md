@@ -108,6 +108,10 @@ breaking changes are called out explicitly.
   Both now use `SampleSpec::baseband_hz(carrier) = if_hz + (carrier − center_hz)`. The
   carrier term is zero for any recording centred on the signal's own carrier and is
   omitted when the centre is unknown, so CDMA processing is unchanged.
+  Known limitation, unchanged here: a GLONASS scene identifies each satellite by its
+  frequency channel `k`, and the `u32` satellite id wraps a negative channel. The truth
+  sidecar writes `k = -7` as `sat_id` 4294967289 (`k + 2^32`). Read it back as `k` with an
+  `i32` cast.
 
 ## [0.32.0] - 2026-10-05
 
