@@ -109,8 +109,12 @@ the same `d`:
   Code tracking error is ≈ 0.09 chip RMS (≈ 26 m) with a −0.09 chip bias, against
   ≈ 0.003 chip at an incommensurate rate (about 30×). The correlation loss also makes the
   NWPR C/N0 read ≈ 2.4 dB low (42.6 for an injected 45 dB-Hz).
-- 4 samples/chip, d = 0.5 behaves like an incommensurate rate (0.88×). With d = 0.25 or
-  0.1 at the same rate, the code error is 8–10× the control.
+- 4 samples/chip depends on the code Doppler, which slides the sampling pattern along the
+  chips. With d = 0.5 it matches the control at 1500 and 4000 Hz Doppler (0.88×, 1.0×). At
+  0 Hz it is 2.0× with a +0.011 chip bias. With d = 0.25 or 0.1 the code error is
+  8–10× the control at 1500 Hz, and at 0 Hz d = 0.25 holds a +0.125 chip bias.
+- 8 and 16 samples/chip with d = 0.5 or 0.25 match the control at 1500 Hz. 6
+  samples/chip is about 4×, and d = 0.1 is still 4–7× at 6 and 8 samples/chip.
 - 2.5, 3 and 5 samples/chip are 4–8× the control at d = 0.5. At d = 0.1, every integer and
   half-integer rate from 2 to 5 is 6–12× the control.
 
