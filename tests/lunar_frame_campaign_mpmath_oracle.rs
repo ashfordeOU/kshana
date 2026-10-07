@@ -161,6 +161,9 @@
 //! raised from 1e-9 to 1e-6: no effect (the station block is better conditioned than that), so not
 //! counted as evidence.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, LunarFrameCampaignScenario,
 };
@@ -284,11 +287,16 @@ fn engine_inputs_match_the_committed_fixture() {
         .unwrap_or_else(|e| panic!("write {path}: {e}"));
         return;
     }
-    assert_eq!(
-        fixture("inputs.json")["scenarios"],
-        doc["scenarios"],
-        "the engine no longer builds the committed inputs"
-    );
+    // Within 1e-12 of each row's scale rather than bit for bit: the inputs move in the last
+    // bits between hosts' libms (issue #36). See `support/fixture_pin.rs`.
+    if let Err(e) = fixture_pin::check_json(
+        &doc["scenarios"],
+        &fixture("inputs.json")["scenarios"],
+        fixture_pin::NEAR_BIT,
+        "scenarios",
+    ) {
+        panic!("the engine no longer builds the committed inputs: {e}");
+    }
 }
 
 /// The engine's datum sigmas in the balanced units of the Helmert design.
