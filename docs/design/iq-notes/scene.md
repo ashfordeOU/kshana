@@ -25,6 +25,14 @@ Status: built on `claude/gnss-iq-scene`. Module: `src/iq/scene/` (`mod.rs`, `cod
   (MODELLED, `horizon + (zenith - horizon) * sin(el)`). Complex white Gaussian noise of
   power `N0 * fs` (`NoiseConfig`, from a noise figure and antenna temperature), optionally
   normalised to unit power.
+- Integer file output (`kshana iq scene --format ci8|ci16_*|<2-bit>`): the writer scale is set
+  from the configuration so the expected per-component RMS (noise `N0*fs/2` plus `A_i^2/2` per
+  satellite, at its stated C/N0 or the zenith C/N0 when none is stated) lands at a quarter of
+  full scale for 8 and 16 bits (31.75 and 8191.75 LSB; Gaussian clipping `2*Q(4)`, about
+  6.3e-5 of elements) and at 2 LSB for 2-bit (the ±2 thresholds at one sigma). The scale
+  (noise-normalised units per LSB) and the number of clipped elements are printed and recorded
+  in the sidecar description. Channel fading and multipath are not in the expected RMS. Float
+  output is unscaled.
 - Geometry and channel are evaluated at `geometry_rate_hz` (default 1 kHz) knots; the
   pseudorange between knots is a cubic Hermite interpolant of `P` and `dP/dt` (continuous
   phase and frequency, exact for quadratic range).
