@@ -1,7 +1,10 @@
-# Lab replay: test conditions, campaign runner and scoring (PROPOSAL)
+# Lab replay: test conditions, campaign runner and scoring
 
-Status: **proposal for review** (0.34.0 "Lab replay", items B5.1, B5.2, B8.1, B8.2, B8.3 and F1).
-Nothing here is implemented yet. Once agreed, this file becomes the normative reference.
+Status: **implemented** (0.34.0 "Lab replay", items B5.1, B5.2, B8.1, B8.2, B8.3 and the analytic reference curve). This file is
+the normative reference for `kshana::iq::campaign`, `kshana iq campaign`, `kshana iq conditions`, the
+Python functions `iq_test_conditions` / `iq_campaign` / `iq_campaign_report` and the MCP tools
+`iq_campaign` / `iq_campaign_status`. §6 lists where the implementation refines the original
+proposal.
 
 Scope line (binding): everything here reads recordings and scores them. The test-condition file
 *describes* interference that a lab applied; Kshana never synthesises, transmits or models a
@@ -36,9 +39,11 @@ notes = ""
 signal = "gps-l1ca"                 # any name `kshana iq` accepts
 ids = [3, 7, 11, 19]                # PRNs (or GLONASS channels)
 nominal_cn0_dbhz = 45.0             # optional, stated by the lab; otherwise measured pre-event
-# Optional hand-off hints. Without them the runner acquires (W1's acquisition design).
+# Optional hand-off hints (both lists, one value per id). Without them the runner
+# acquires with each design's acquisition settings.
 # doppler_hz = [1200.0, -800.0, 2300.0, 150.0]
 # code_phase_chips = [...]
+# periods_per_bit = 20             # optional: data bit length in code periods (omitted = data-free)
 truth = "run017.truth.csv"          # optional: a Kshana truth sidecar (synthetic scenes only);
                                     # enables the Doppler-truth false-lock check
 
@@ -80,7 +85,8 @@ name = "overnight-01"
 
 [inputs]
 conditions = ["lab/conds/*.toml"]   # globs of test-condition files; each names its recording
-designs = "designs.toml"            # a `kshana.loop-design/1` file (W1, LOOP-DESIGN-TOML.md)
+designs = "designs.toml"            # a `kshana.loop-design/1` file (LOOP-DESIGN-TOML.md);
+                                    # omitted = the built-in default design
 design_names = []                   # optional subset; empty = every design in the file
 
 [[frontend]]                        # front-end chains; one axis of the product
@@ -94,19 +100,21 @@ bits = 2
 [run]
 max_seconds = 0                     # 0 = whole recording
 workers = 0                         # 0 = all cores; outputs never depend on it
-epochs = "none"                     # "none" | "jsonl" | "binary": also keep W1's per-epoch stream
+epochs = "none"                     # reserved for the per-epoch stream; only "none" today
 
 [scoring]
 baseline_window_s = 10.0            # pre-event window for baseline C/N0 and jitter
 js_bin_db = 1.0                     # J/S bin width for the degradation curve
-false_lock_doppler_hz = "auto"      # truth check threshold; auto = 1/(4 T_coh)
+# false_lock_doppler_hz = 250.0     # truth check threshold; omitted = 1/(4 T_coh)
+false_lock_min_epochs = 50          # consecutive off-truth locked updates per episode
 reacq_grace_s = 30.0                # how long after offset re-acquisition is looked for
-reference_curve = true              # F1: draw the MODELLED SSC curve
+reference_curve = true              # draw the MODELLED SSC reference curve
 
-[scoring.bars]                      # optional pass/fail bars; omitted -> no pass/fail column
-max_time_to_loss_s = ...            # (only where the lab sets bars)
-max_reacq_s = 5.0
-min_availability = 0.95
+[scoring.bars]                      # optional pass/fail bars; omitted -> no verdict
+min_time_to_loss_s = 30.0           # lock must hold this long after onset (holding passes)
+max_reacq_s = 5.0                   # relock within this time of offset
+min_availability = 0.95             # whole run
+# min_event_availability, max_false_lock_per_hour, max_pll_jitter_deg, max_dll_jitter_chips
 ```
 
 **Cells.** A cell is one (recording, front-end chain, design). Each cell's key is SHA-256 over
@@ -138,7 +146,7 @@ Output directory:
 out/
   campaign.json        resolved campaign (all inputs, hashes, engine version)
   cells/<key>.json     one per cell (schema kshana.campaign-cell/1)
-  epochs/<key>.*       only when run.epochs != "none" (W1's kshana.track-epoch/1)
+  epochs/<key>.*       only when run.epochs != "none" (kshana.track-epoch/1; reserved)
   runs.jsonl           execution log (wall times; excluded from the digest)
   scorecard.csv        one row per (cell, satellite, event) plus one "whole-run" row per (cell, satellite)
   scorecard.json       the same rows plus the per-J/S-bin curves
@@ -146,44 +154,114 @@ out/
   DIGEST               SHA-256 over the sorted (key, sha256(cell file)) list  (B8.3)
 ```
 
-`kshana.campaign-cell/1`:
+`kshana.campaign-cell/1` (a real cell from `tests/iq_campaign.rs`, one satellite shown, numbers
+rounded and hashes shortened):
 
 ```json
 {
+  "design": {
+    "hash": "f23475dc…",
+    "name": "pll-only"
+  },
+  "engine_version": "0.32.0",
+  "frontend": {
+    "hash": "e015d238…",
+    "name": "raw"
+  },
+  "key": "01719c4d…",
+  "lock_source": "lock-indicators",
+  "recording": {
+    "conditions_hash": "9b094d27…",
+    "id": "ramp",
+    "sha256": "fd93cf4b…"
+  },
+  "run_hash": "c2f008aa…",
+  "sample_rate_hz": 2046000.0,
+  "samples_processed": 20460000,
+  "satellites": [
+    {
+      "events": [
+        {
+          "availability": 1.0,
+          "baseline_cn0_dbhz": 43.03,
+          "baseline_dll_jitter_chips": 0.205,
+          "baseline_pll_jitter_deg": 8.748,
+          "baseline_source": "measured",
+          "cn0_curve": [
+            {
+              "js_db": 20.0,
+              "measured_cn0_dbhz": 37.58,
+              "measured_degradation_db": 5.45,
+              "modelled_cn0_dbhz": 38.31,
+              "modelled_degradation_db": 4.715,
+              "n": 3000
+            },
+            {
+              "js_db": 30.0,
+              "measured_cn0_dbhz": 29.08,
+              "measured_degradation_db": 13.95,
+              "modelled_cn0_dbhz": 29.88,
+              "modelled_degradation_db": 13.14,
+              "n": 3000
+            }
+          ],
+          "dll_jitter_chips": 0.2014,
+          "event_id": "bb-1",
+          "false_lock_episodes": 0,
+          "js_at_loss_db": null,
+          "kind": "interference",
+          "locked_at_onset": true,
+          "lost": false,
+          "modelled": {
+            "chip_rate_hz": 1023000.0,
+            "formula": "(C/N0)eff = [1/(C/N0) + (J/S)/(Q*Rc)]^-1",
+            "label": "MODELLED",
+            "q": 1.0,
+            "q_source": "type-table"
+          },
+          "offset_s": 9.0,
+          "onset_s": 3.0,
+          "outage_s": null,
+          "pll_jitter_deg": 32.99,
+          "reacq_time_s": null,
+          "reacquired": false,
+          "time_to_loss_s": null,
+          "type": "broadband"
+        }
+      ],
+      "handoff": {
+        "code_phase_chips": 293.8,
+        "doppler_hz": 1200.0,
+        "source": "hint",
+        "statistic": null,
+        "threshold": null
+      },
+      "id": 3,
+      "signal": "gps-l1ca",
+      "whole_run": {
+        "availability": 0.9946,
+        "code_lock_frac": 1.0,
+        "dll_jitter_chips": 0.2062,
+        "false_lock_episodes": 0,
+        "false_lock_per_hour": 0.0,
+        "locked_s": 8.951,
+        "loss_count": 0,
+        "median_cn0_dbhz": 42.73,
+        "phase_lock_frac": 0.8911,
+        "pll_jitter_deg": 9.303,
+        "reacq_count": 0,
+        "scored_s": 9.0
+      }
+    }
+  ],
   "schema": "kshana.campaign-cell/1",
-  "key": "…", "engine_version": "0.34.0",
-  "recording": {"id": "run-017", "sha256": "…", "conditions_hash": "…"},
-  "frontend": {"name": "raw", "hash": "…"},
-  "design": {"name": "baseline", "hash": "…"},
-  "run_hash": "…", "scoring_hash": "…",
-  "samples_processed": 900000000,
-  "satellites": [{
-    "signal": "gps-l1ca", "id": 7,
-    "whole_run": {
-      "availability": 0.93, "locked_s": 279.0, "phase_lock_frac": 0.91, "code_lock_frac": 0.95,
-      "baseline_cn0_dbhz": 44.8, "pll_jitter_deg": 4.1, "dll_jitter_chips": 0.012,
-      "false_lock_episodes": 0, "false_lock_per_hour": 0.0, "loss_count": 1, "reacq_count": 1
-    },
-    "events": [{
-      "event_id": "jam-1", "type": "cw",
-      "lost": true, "time_to_loss_s": 74.2, "js_at_loss_db": 38.5,
-      "reacquired": true, "reacq_time_s": 3.1,
-      "availability": 0.61, "pll_jitter_deg": 9.8, "dll_jitter_chips": 0.031,
-      "false_lock_episodes": 0,
-      "cn0_curve": [{"js_db": 20.0, "n": 1000, "measured_cn0_dbhz": 44.1,
-                     "measured_degradation_db": 0.7,
-                     "modelled_cn0_dbhz": 44.6, "modelled_degradation_db": 0.2}],
-      "modelled": {"label": "MODELLED", "q": 1.0, "chip_rate_hz": 1.023e6,
-                   "formula": "(C/N0)eff = [1/(C/N0) + (J/S)/(Q*Rc)]^-1"},
-      "pass": {"max_reacq_s": true}
-    }]
-  }]
+  "scoring_hash": "3bc6ac68…"
 }
 ```
 
 ### Metric definitions (per satellite, per design, per chain)
 
-Lock is W1's state machine (`LOCKED` vs everything else) with its `LOST`/`FALSE_LOCK`/re-acq
+Lock is the lock state machine of LOOP-DESIGN-TOML.md §3 (`LOCKED` vs everything else) with its `LOST`/`FALSE_LOCK`/re-acq
 events. A design file's `loss_dwell_s` therefore sets what counts as "loss".
 
 | metric | definition |
@@ -194,8 +272,8 @@ events. A design file's `loss_dwell_s` therefore sets what counts as "loss".
 | re-acquisition time | first return to `LOCKED` at or after `max(offset, t_loss)` minus `offset`; `null` = not within grace |
 | baseline C/N0 | median NWPR C/N0 over locked epochs in `[onset − baseline_window_s, onset)` (else the stated `nominal_cn0_dbhz`) |
 | C/N0 degradation vs J/S | per `js_bin_db` bin of stated J/S during the event: `n`, median measured C/N0 over locked epochs, degradation = baseline − measured |
-| MODELLED reference | per bin: `effective_cn0_dbhz(baseline, js, Q(type), Rc)` from `jamming`, with Q from the corrected table (W5/D5: CW and narrowband 1.0, broadband 2.0) or the event's `q` |
-| false-lock rate | episodes per hour of locked time. An episode is W1's `FALSE_LOCK` alias detection or, with a truth sidecar, ≥ `cn0_windows` consecutive locked epochs with \|Doppler − truth\| > threshold |
+| MODELLED reference | per bin: `effective_cn0_dbhz(baseline, js, Q(type), Rc)` from `jamming`, with Q from `jamming::q_factor` for the stated type or the event's `q` |
+| false-lock rate | episodes per hour of locked time. An episode is the tracker's `FALSE_LOCK` detection or, with a truth sidecar, ≥ `false_lock_min_epochs` consecutive locked epochs with \|Doppler − truth\| > threshold |
 | PLL / DLL jitter | sample std of `pll_disc_rad` (deg) and `dll_disc_chips` over locked epochs: baseline window and per event |
 
 All metrics are computed online from the epoch stream. Memory is bounded by the baseline window
@@ -223,7 +301,7 @@ and the J/S bins, not by the recording length (B6.1).
 
 A synthetic campaign stands in for recordings. Kshana scenes use a C/N0 profile per satellite,
 applied as a `SceneChannel` amplitude scaling over time (a signal-power profile, not an
-interference waveform, per F2's wording). Profile segments ramp C/N0 down, drop it below
+interference waveform). Profile segments ramp C/N0 down, drop it below
 tracking threshold (a signal gap) and restore it. The matching test-condition file states the
 J/S that maps to each C/N0 under the analytic model, so the measured and MODELLED curves are
 expected to agree. The tests cover:
@@ -235,3 +313,47 @@ expected to agree. The tests cover:
 * a Doppler-truth false-lock case from a hand-off seeded at a ±1/(2T) alias;
 * a performance check: cells/s and samples/s logged, with a loose budget, and the GB-scale case
   `#[ignore]`d.
+
+## 6. As built: refinements of the proposal
+
+* **Lock state.** The scorer reads a lock state from `lockstate::LockTracker`. This tracker runs §3 of
+  `LOOP-DESIGN-TOML.md` on the loop's lock indicators, with the design's `LockConfig`:
+  * LOCKED after `cn0_windows` consecutive updates with the locks up. These are phase and code lock,
+    or code lock alone for an FLL-only design.
+  * LOST after the locks have been down for `loss_dwell_s`, or after `pull_in_max_s` without a
+    first lock.
+  * LOCKED again when the locks hold once more. The loops keep running after a loss.
+
+  Each cell records `lock_source = "lock-indicators"`. When the tracker itself emits its state and
+  its `FALSE_LOCK` events, those feed the same `ScoreEpoch`, and nothing downstream changes.
+* **Bars** live in `[scoring.bars]`. A recording's test-condition file may override them field by
+  field in its own `[bars]` table. Bars sit outside every hash and are applied when the report is
+  built, so changing a bar re-judges the results without re-running any cell.
+* **Cell key** also covers the recording id and the front-end and design names, so a renamed
+  design re-runs instead of reusing a result under another name. A recording made of several
+  data files hashes as the SHA-256 of its files' hex digests joined in order.
+* **Hand-off.** Each satellite of a cell records `handoff.source`: `hint`, `acquired` or
+  `not-acquired`, with the acquisition statistic and threshold. A satellite that is not acquired
+  is still scored, with zero availability, so it is never silently dropped. Acquisition runs on
+  the front-end-processed samples, once per distinct acquisition setting in a work item.
+* **Medians** come from a 0.05 dB histogram over 0–80 dB-Hz. They are exact to that bin width
+  and keep memory fixed however long an event runs. Measured on a 60 s, 4-satellite × 4-design
+  campaign in release, peak memory rose by 8 MB and throughput was 2.2× real time.
+* **Re-acquisition time** is reported both from the event offset (`reacq_time_s`, primary) and
+  from the loss of lock (`outage_s`).
+* **MCP.** `iq_campaign` refuses a campaign that names any file outside the work directory:
+  conditions, recordings, data files, truth sidecars or the design file. When `max_cells` is
+  omitted, it runs the pending cells, in plan order, whose recording spans fit the per-call
+  sample budget. `iq_campaign_status` only reads files.
+
+### Observations from the synthetic campaign (`tests/iq_campaign.rs`)
+
+* The NWPR C/N0 reads about 2 dB under a scene's stated C/N0. Degradation is measured from the
+  measured baseline, so this offset cancels. The MODELLED reference is drawn from the same
+  baseline.
+* A hand-off at the ±1/(2T) Costas alias never declares code lock: the coherent sum of the NWPR
+  estimator cancels there. The false-lock test therefore scores a correct track against a
+  shifted truth sidecar. That checks the scoring path, not the tracker's false-lock behaviour.
+* At 2 samples per chip, the code discriminator's standard deviation sits near 0.2 chip at every
+  C/N0 tested. That is above theory at high C/N0. The jitter is reported but not yet relied on
+  for ordering.
