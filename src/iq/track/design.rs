@@ -737,6 +737,14 @@ impl Design {
         self.resolved.acquisition.acq_config(code_period_s)
     }
 
+    /// The same design under another name (the hash does not change).
+    pub fn renamed(&self, name: &str) -> Self {
+        Self {
+            name: name.to_string(),
+            ..self.clone()
+        }
+    }
+
     /// This design with the fields of `overrides` (a design table in the file format,
     /// without `name`) applied on top, re-validated and re-hashed. The CLI uses it for
     /// explicit flags that override a file's design.
