@@ -407,6 +407,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             center_hz: Some(spec.center_hz),
             if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
             header_bytes: None,
+            channels: None,
+            channel: None,
             datetime: None,
             description: Some("written by kshana iq scene".into()),
         };

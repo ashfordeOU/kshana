@@ -2,7 +2,7 @@
 //! `kshana iq frontend`: apply receiver front-end and interference-mitigation DSP to a
 //! recording, and the shared front-end flags used by `acquire`/`track`.
 //!
-//! The command opens any recording [`open_recording`] opens, runs a chain of
+//! The command opens any recording [`crate::iq::io::inventory::open_recording`] opens, runs a chain of
 //! [`crate::iq::frontend`] stages over it in order (band-pass FIR, adaptive notch, pulse
 //! blanking, frequency-domain excision, AGC, quantiser) and writes a new raw recording with
 //! a sidecar. [`FrontendParams`]/[`build_chain`] are shared with the Python binding and with
@@ -10,7 +10,7 @@
 //! `track` apply to the samples before processing. The chain order is fixed: filtering and
 //! excision first, then AGC, then the quantiser last (as in a real front end).
 
-use super::{raw_sidecar, Args, Fail};
+use super::{open_input, Args, Fail};
 use crate::iq::frontend::agc::Agc;
 use crate::iq::frontend::blank::PulseBlanker;
 use crate::iq::frontend::fdaf::FreqExcision;
@@ -18,7 +18,7 @@ use crate::iq::frontend::fir::{self, Fir};
 use crate::iq::frontend::notch::AdaptiveNotch;
 use crate::iq::frontend::quant::Quantiser;
 use crate::iq::frontend::{Chain, Stage};
-use crate::iq::io::inventory::{open_recording, write_sidecar, RawSidecar};
+use crate::iq::io::inventory::{write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
 use crate::iq::io::SampleFormat;
 use crate::iq::{Cf64, IqSink};
@@ -206,10 +206,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let switches: Vec<&str> = FRONTEND_SWITCHES.to_vec();
     let a = Args::parse(args, &switches).map_err(Fail::Usage)?;
     a.need_pos(2, "frontend")?;
-    let input = Path::new(&a.pos[0]);
     let out = Path::new(&a.pos[1]);
 
-    let opened = open_recording(input, raw_sidecar(&a)?)?;
+    let opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
     let params = FrontendParams::from_args(&a)?;
     if !params.any() {
@@ -246,6 +245,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         center_hz: Some(spec.center_hz),
         if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
         header_bytes: None,
+        channels: None,
+        channel: None,
         datetime: None,
         description: Some("written by kshana iq frontend".into()),
     };

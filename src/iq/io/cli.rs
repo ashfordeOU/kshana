@@ -9,7 +9,7 @@
 
 use super::format::SampleFormat;
 use super::inventory::{
-    open_recording, scan_dir, write_sidecar, InventoryEntry, InventoryOptions, RawSidecar,
+    open_recording_with, scan_dir, write_sidecar, InventoryEntry, InventoryOptions, RawSidecar,
 };
 use super::report::{rows_to_csv, rows_to_json};
 use super::resample::{PolyphaseResampler, RealIfToBaseband, ResampledSource};
@@ -25,8 +25,9 @@ pub const USAGE: &str = "usage: kshana iq inventory <dir> [--recursive] [--no-ha
    or: kshana iq extract <in> <out> --start <s> --duration <s> [--to <format>]
    or: kshana iq convert <in> <out> --to <format> [--gain <g>]
    or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
- raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>]
- formats: ci8 ci16_le ci16_be cf32_le cf32_be, real r..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., Q-first ..._qi";
+ raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
+ multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)
+ formats: ci8 cu8 ci16_le ci16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi";
 
 const CHUNK_SAMPLES: usize = 1 << 14;
 const VALUE_FLAGS: &[&str] = &[
@@ -46,6 +47,8 @@ const VALUE_FLAGS: &[&str] = &[
     "--center",
     "--if",
     "--header",
+    "--channels",
+    "--channel",
 ];
 const SWITCHES: &[&str] = &["--recursive", "--no-hash", "--invert"];
 
@@ -106,6 +109,8 @@ impl Args {
             center_hz: self.num("--center")?,
             if_hz: self.num("--if")?,
             header_bytes: self.num("--header")?,
+            channels: self.num("--channels")?,
+            channel: None,
             datetime: None,
             description: None,
         }))
@@ -184,10 +189,13 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
             need_pos(a, 1, cmd)?;
             let p = Path::new(&a.pos[0]);
             let mut e = super::inventory::inventory_entry(p, true);
-            if let (Some(raw), None) = (a.raw().map_err(Fail::Usage)?, &e.format) {
-                let o = open_recording(p, Some(raw))?;
+            let channel = a.num("--channel").map_err(Fail::Usage)?;
+            let raw = a.raw().map_err(Fail::Usage)?;
+            if (e.format.is_none() && raw.is_some()) || channel.is_some() {
+                let o = open_recording_with(p, raw, channel)?;
                 let spec = o.source.spec();
-                e.format = Some(o.format.name());
+                e.format = Some(o.format_label.clone());
+                e.channels = o.channels.0;
                 e.sample_rate_hz = Some(spec.fs_hz);
                 e.n_samples = Some(o.n_samples);
                 e.duration_s = Some(o.n_samples as f64 / spec.fs_hz);
@@ -198,7 +206,11 @@ fn dispatch(cmd: &str, a: &Args) -> Result<String, Fail> {
         }
         "extract" | "convert" | "decimate" => {
             need_pos(a, 2, cmd)?;
-            let input = open_recording(Path::new(&a.pos[0]), a.raw().map_err(Fail::Usage)?)?;
+            let input = open_recording_with(
+                Path::new(&a.pos[0]),
+                a.raw().map_err(Fail::Usage)?,
+                a.num("--channel").map_err(Fail::Usage)?,
+            )?;
             let to = match a.opts.get("--to") {
                 Some(t) => SampleFormat::parse(t)?,
                 None if cmd == "convert" => {
@@ -325,6 +337,8 @@ fn write_output(
                 center_hz: Some(spec.center_hz),
                 if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
                 header_bytes: None,
+                channels: None,
+                channel: None,
                 datetime: None,
                 description: Some("written by kshana iq".into()),
             };
@@ -342,7 +356,7 @@ fn write_output(
         w.clipped(),
         if w.padded_elements() > 0 {
             format!(
-                "; last byte padded with {} 2-bit slot(s)",
+                "; last byte padded with {} packed slot(s)",
                 w.padded_elements()
             )
         } else {

@@ -55,7 +55,7 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
    or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
  acquire/track also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
- recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>]
+ recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; multi-stream inputs take --channel <k>
  signals: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of
  <list> is a comma-separated list (one per --prn, or a single value applied to all)";
 
@@ -211,7 +211,26 @@ pub(crate) fn raw_sidecar(a: &Args) -> Result<Option<crate::iq::io::inventory::R
         center_hz: a.num("--center").map_err(Fail::Usage)?,
         if_hz: a.num("--if").map_err(Fail::Usage)?,
         header_bytes: a.num("--header").map_err(Fail::Usage)?,
+        channels: a.num("--channels").map_err(Fail::Usage)?,
+        channel: None,
         datetime: None,
         description: None,
     }))
+}
+
+/// Open the recording named by positional argument `pos`, honouring the raw-input flags
+/// ([`raw_sidecar`]) and `--channel <k>` (the stream of a multi-channel recording).
+pub(crate) fn open_input(
+    a: &Args,
+    pos: usize,
+) -> Result<crate::iq::io::inventory::OpenedRecording, Fail> {
+    let path = a
+        .pos
+        .get(pos)
+        .ok_or_else(|| Fail::Usage("missing recording path".into()))?;
+    Ok(crate::iq::io::inventory::open_recording_with(
+        std::path::Path::new(path),
+        raw_sidecar(a)?,
+        a.num("--channel").map_err(Fail::Usage)?,
+    )?)
 }
