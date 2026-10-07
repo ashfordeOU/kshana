@@ -30,7 +30,7 @@
 //! segments in time, in the order listed**. Each listed stream's `hash` (SHA-512 of its
 //! `.sigmf-meta` file) is checked when present.
 
-use super::format::{Components, Encoding, SampleFormat};
+use super::format::{Components, Encoding, Endian, SampleFormat};
 use super::stream::IqReader;
 use crate::iq::{Cf64, IqError, IqSource, SampleSpec};
 use crate::sigmf::{Annotation, Capture, Meta};
@@ -84,6 +84,30 @@ pub fn sigmf_datatype(f: SampleFormat) -> Option<&'static str> {
         (Encoding::U8, false) => "ru8",
         (Encoding::I16Le, false) => "ri16_le",
         (Encoding::I16Be, false) => "ri16_be",
+        (
+            Encoding::U16 {
+                endian: Endian::Little,
+            },
+            true,
+        ) => "cu16_le",
+        (
+            Encoding::U16 {
+                endian: Endian::Big,
+            },
+            true,
+        ) => "cu16_be",
+        (
+            Encoding::U16 {
+                endian: Endian::Little,
+            },
+            false,
+        ) => "ru16_le",
+        (
+            Encoding::U16 {
+                endian: Endian::Big,
+            },
+            false,
+        ) => "ru16_be",
         (Encoding::F32Le, false) => "rf32_le",
         (Encoding::F32Be, false) => "rf32_be",
         (
@@ -91,7 +115,8 @@ pub fn sigmf_datatype(f: SampleFormat) -> Option<&'static str> {
             | Encoding::TwoBitPerByte { .. }
             | Encoding::I4 { .. }
             | Encoding::U4 { .. }
-            | Encoding::I12 { .. },
+            | Encoding::I12 { .. }
+            | Encoding::U12 { .. },
             _,
         ) => return None,
     })
@@ -624,7 +649,13 @@ mod tests {
             format_from_sigmf("cu8").unwrap(),
             SampleFormat::iq(Encoding::U8)
         );
-        assert!(format_from_sigmf("cu16_le").is_err());
+        assert_eq!(
+            format_from_sigmf("cu16_le").unwrap(),
+            SampleFormat::iq(Encoding::U16 {
+                endian: Endian::Little
+            })
+        );
+        assert!(format_from_sigmf("cu12r_le").is_err());
         assert!(format_from_sigmf("ci4_msb").is_err());
         assert!(format_from_sigmf("c2tc_msb").is_err());
         assert!(format_from_sigmf("ci16_le_qi").is_err());

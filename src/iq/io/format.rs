@@ -40,7 +40,8 @@
 //!
 //! * **4-bit** ([`Encoding::I4`], [`Encoding::U4`]): two elements per byte, the first in
 //!   bits 7–4 ([`BitOrder::MsbFirst`]) or bits 3–0 ([`BitOrder::LsbFirst`]).
-//! * **Unsigned (offset-binary)** codes ([`Encoding::U4`], [`Encoding::U8`]) decode to the
+//! * **Unsigned (offset-binary)** codes ([`Encoding::U4`], [`Encoding::U8`],
+//!   [`Encoding::U12`], [`Encoding::U16`]) decode to the
 //!   odd symmetric levels `2c − (2ⁿ − 1)` (−255, −253, …, +255 for 8 bits), the convention
 //!   of the 2-bit offset-binary mapping above and of the ION SDR reader
 //!   ([`crate::realdata::ion_sdr`]). These are the mid-rise levels of the converter, so a
@@ -51,6 +52,9 @@
 //!   of either byte order, either right-justified (bits 11–0, the upper four bits ignored on
 //!   reading and written as sign extension) or left-justified (bits 15–4, the low four bits
 //!   ignored on reading and written as zero). Values decode to −2048…2047 either way.
+//! * **Unsigned 12-bit in 16** ([`Encoding::U12`]): the same four layouts with an unsigned
+//!   code, decoded to `2c − 4095`; the unused four bits are ignored on reading and written
+//!   as zero. **Unsigned 16-bit** ([`Encoding::U16`]) decodes to `2c − 65535`.
 
 use crate::iq::{Cf64, IqError};
 
@@ -201,6 +205,18 @@ pub enum Encoding {
         /// Where the value sits in the word.
         justify: Justify,
     },
+    /// 16-bit offset-binary (unsigned) elements, decoded to `2c − 65535`.
+    U16 {
+        /// Byte order of the word.
+        endian: Endian,
+    },
+    /// A 12-bit offset-binary (unsigned) value in a 16-bit word, decoded to `2c − 4095`.
+    U12 {
+        /// Byte order of the word.
+        endian: Endian,
+        /// Where the value sits in the word.
+        justify: Justify,
+    },
 }
 
 impl Encoding {
@@ -213,7 +229,7 @@ impl Encoding {
             Encoding::TwoBit { .. } => 2,
             Encoding::I4 { .. } | Encoding::U4 { .. } => 4,
             Encoding::TwoBitPerByte { .. } | Encoding::U8 => 8,
-            Encoding::I12 { .. } => 16,
+            Encoding::I12 { .. } | Encoding::U16 { .. } | Encoding::U12 { .. } => 16,
         }
     }
 
@@ -344,8 +360,8 @@ impl SampleFormat {
     }
 
     /// The format's name. Complex formats start with `c`, real with `r`; then `i8`,
-    /// `u8`, `i16_le`, `i16_be`, `f32_le`, `f32_be`, `i12<j>_<e>` for 12-bit in 16
-    /// (`<j>` = `l` or `r` justified, `<e>` = `le` or `be`), `i4_<order>` / `u4_<order>`
+    /// `u8`, `i16_le`, `i16_be`, `u16_le`, `u16_be`, `f32_le`, `f32_be`, `i12<j>_<e>` or
+    /// `u12<j>_<e>` for 12-bit in 16 (`<j>` = `l` or `r` justified, `<e>` = `le` or `be`), `i4_<order>` / `u4_<order>`
     /// for packed 4-bit, `2<code>_<order>` for packed 2-bit (`<code>` = `tc`, `sm` or `ob`,
     /// `<order>` = `msb` or `lsb`), or `2<code>_byte` for one 2-bit code per byte; a
     /// Q-first complex format ends in `_qi`. The names of the 8-, 16- and 32-bit formats
@@ -368,6 +384,14 @@ impl SampleFormat {
                 if justify == Justify::Left { "l" } else { "r" },
                 if endian == Endian::Little { "le" } else { "be" }
             ),
+            Encoding::U16 { endian } => {
+                format!("u16_{}", if endian == Endian::Little { "le" } else { "be" })
+            }
+            Encoding::U12 { endian, justify } => format!(
+                "u12{}_{}",
+                if justify == Justify::Left { "l" } else { "r" },
+                if endian == Endian::Little { "le" } else { "be" }
+            ),
         };
         let s = if self.components == Components::Qi {
             "_qi"
@@ -382,7 +406,7 @@ impl SampleFormat {
         let bad = || {
             IqError::Format(format!(
                 "unknown sample format {name:?}: expected e.g. ci8, cu8, ci16_le, ci16_be, \
-                 cf32_le, cf32_be, ri16_le, ci12r_le, ci12l_be, ci4_msb, cu4_lsb, c2tc_msb, \
+                 cf32_le, cf32_be, ri16_le, ci12r_le, ci12l_be, cu16_le, cu12r_be, ci4_msb, cu4_lsb, c2tc_msb, \
                  r2sm_lsb, c2sm_byte, optionally ending _qi for complex"
             ))
         };
@@ -403,6 +427,24 @@ impl SampleFormat {
             "f32_be" => Encoding::F32Be,
             "u8" => Encoding::U8,
             "i12l_le" | "i12l_be" | "i12r_le" | "i12r_be" => Encoding::I12 {
+                justify: if &rest[3..4] == "l" {
+                    Justify::Left
+                } else {
+                    Justify::Right
+                },
+                endian: if rest.ends_with("le") {
+                    Endian::Little
+                } else {
+                    Endian::Big
+                },
+            },
+            "u16_le" => Encoding::U16 {
+                endian: Endian::Little,
+            },
+            "u16_be" => Encoding::U16 {
+                endian: Endian::Big,
+            },
+            "u12l_le" | "u12l_be" | "u12r_le" | "u12r_be" => Encoding::U12 {
                 justify: if &rest[3..4] == "l" {
                     Justify::Left
                 } else {
@@ -469,7 +511,9 @@ impl SampleFormat {
         for endian in [Endian::Little, Endian::Big] {
             for justify in [Justify::Left, Justify::Right] {
                 encs.push(Encoding::I12 { endian, justify });
+                encs.push(Encoding::U12 { endian, justify });
             }
+            encs.push(Encoding::U16 { endian });
         }
         for code in [
             TwoBitCode::TwosComplement,
@@ -504,6 +548,14 @@ impl std::fmt::Display for SampleFormat {
     }
 }
 
+/// The 16-bit word in the first two bytes of `c`.
+fn word(endian: Endian, c: &[u8]) -> u16 {
+    match endian {
+        Endian::Little => u16::from_le_bytes([c[0], c[1]]),
+        Endian::Big => u16::from_be_bytes([c[0], c[1]]),
+    }
+}
+
 /// Call `f` with each element value stored in `bytes` (a trailing partial element of a
 /// multi-byte encoding is ignored).
 pub(crate) fn for_each_element(enc: Encoding, bytes: &[u8], mut f: impl FnMut(f64)) {
@@ -523,11 +575,19 @@ pub(crate) fn for_each_element(enc: Encoding, bytes: &[u8], mut f: impl FnMut(f6
             .for_each(|c| f(f32::from_be_bytes([c[0], c[1], c[2], c[3]]) as f64)),
         Encoding::TwoBitPerByte { code } => bytes.iter().for_each(|&b| f(code.level(b) as f64)),
         Encoding::U8 => bytes.iter().for_each(|&b| f(2.0 * b as f64 - 255.0)),
-        Encoding::I12 { endian, justify } => bytes.chunks_exact(2).for_each(|c| {
-            let w = match endian {
-                Endian::Little => u16::from_le_bytes([c[0], c[1]]),
-                Endian::Big => u16::from_be_bytes([c[0], c[1]]),
+        Encoding::U16 { endian } => bytes
+            .chunks_exact(2)
+            .for_each(|c| f(2.0 * word(endian, c) as f64 - 65_535.0)),
+        Encoding::U12 { endian, justify } => bytes.chunks_exact(2).for_each(|c| {
+            let w = word(endian, c);
+            let code = match justify {
+                Justify::Left => w >> 4,
+                Justify::Right => w & 0x0fff,
             };
+            f(2.0 * code as f64 - 4_095.0)
+        }),
+        Encoding::I12 { endian, justify } => bytes.chunks_exact(2).for_each(|c| {
+            let w = word(endian, c);
             let v = match justify {
                 Justify::Left => (w as i16) >> 4,
                 Justify::Right => ((w << 4) as i16) >> 4,
@@ -603,6 +663,27 @@ pub(crate) fn push_element(enc: Encoding, v: f64, out: &mut Vec<u8>) -> bool {
             });
             c
         }
+        Encoding::U16 { endian } => {
+            let (q, c) = quantise((v + 65_535.0) / 2.0, 0.0, 65_535.0);
+            let w = q as u16;
+            out.extend_from_slice(&match endian {
+                Endian::Little => w.to_le_bytes(),
+                Endian::Big => w.to_be_bytes(),
+            });
+            c
+        }
+        Encoding::U12 { endian, justify } => {
+            let (q, c) = quantise((v + 4_095.0) / 2.0, 0.0, 4_095.0);
+            let w = match justify {
+                Justify::Left => (q as u16) << 4,
+                Justify::Right => q as u16,
+            };
+            out.extend_from_slice(&match endian {
+                Endian::Little => w.to_le_bytes(),
+                Endian::Big => w.to_be_bytes(),
+            });
+            c
+        }
         Encoding::TwoBit { .. } | Encoding::I4 { .. } | Encoding::U4 { .. } => {
             unreachable!("packed sub-byte elements are packed by the caller")
         }
@@ -669,7 +750,8 @@ mod tests {
         }
         assert_eq!(SampleFormat::CI16_LE.name(), "ci16_le");
         assert!(SampleFormat::parse("ri8_qi").is_err());
-        assert!(SampleFormat::parse("cu16_le").is_err());
+        assert!(SampleFormat::parse("cu16_x").is_err());
+        assert!(SampleFormat::parse("cu12x_le").is_err());
         assert!(SampleFormat::parse("ci4_mid").is_err());
         assert!(SampleFormat::parse("ci12x_le").is_err());
     }
