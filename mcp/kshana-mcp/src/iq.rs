@@ -20,8 +20,9 @@
 //!
 //! Each tool drives [`kshana::iq::cli::execute`] — the very code path `kshana iq` runs — so
 //! an agent gets the CLI's bits, with nothing written to stdout (the JSON-RPC channel). The
-//! layer is software only: it writes files for software receivers, drives no radio hardware,
-//! and synthesises no interference or spoofing waveform.
+//! layer is software only: it writes files for software receivers and drives no radio
+//! hardware. The IQ layer adds no interference or spoofer synthesis, and nothing is ever
+//! transmitted (the separate `spectrum` kind can write analytic jammer IQ snapshots to a file).
 
 use crate::server::KshanaServer;
 use kshana::iq::cli::{CommandError, build_code, execute, signal_names};
@@ -846,7 +847,7 @@ fn channel_summary(ch: &serde_json::Value) -> serde_json::Value {
 #[tool_router(router = iq_tool_router, vis = "pub(crate)")]
 impl KshanaServer {
     #[tool(
-        description = "The GNSS IQ layer's set-up, as JSON: `signals` (the signal names iq_scene, iq_acquire and iq_track accept), `enabled` (whether the IQ file tools are on), `work_dir` (the only folder they read and write; every path argument is relative to it), `max_samples` (the most complex samples one call may generate or process) and, when off, `reason`. IQ samples never travel through the protocol: tools take file paths in the work directory and reply with compact JSON summaries. Software only: no transmit, no interference or spoofing synthesis. Call this first."
+        description = "The GNSS IQ layer's set-up, as JSON: `signals` (the signal names iq_scene, iq_acquire and iq_track accept), `enabled` (whether the IQ file tools are on), `work_dir` (the only folder they read and write; every path argument is relative to it), `max_samples` (the most complex samples one call may generate or process) and, when off, `reason`. IQ samples never travel through the protocol: tools take file paths in the work directory and reply with compact JSON summaries. The IQ layer adds no interference or spoofer synthesis; nothing is ever transmitted. Call this first."
     )]
     fn iq_signals(&self) -> Result<CallToolResult, McpError> {
         let iq = &self.iq;
@@ -900,7 +901,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Generate a multi-satellite GNSS IQ scene into a file in the work directory (`kshana iq scene`). Stated-profile mode: `signal` + `prns` (+ optional `dopplers_hz`, `cn0_dbhz`, `data`). Broadcast mode: `nav` (a RINEX navigation file in the work directory) + `rx_pos` [lat, lon, alt] places each healthy GPS satellite at its true broadcast geometry. Optional `channel` applies ionosphere, troposphere, scintillation, multipath, land-mobile shadowing or NLOS at the signal level. `rate_hz × duration_s` must fit the sample budget (see iq_signals). Writes the recording (raw + `<out>.json` sidecar, or a SigMF pair) and a truth sidecar; replies with the files written and their byte counts, the sample count and sampling, and the truth's first epoch per satellite (code phase, Doppler, C/N0) to score iq_acquire against. Software only: no interference or spoofing waveform is synthesised."
+        description = "Generate a multi-satellite GNSS IQ scene into a file in the work directory (`kshana iq scene`). Stated-profile mode: `signal` + `prns` (+ optional `dopplers_hz`, `cn0_dbhz`, `data`). Broadcast mode: `nav` (a RINEX navigation file in the work directory) + `rx_pos` [lat, lon, alt] places each healthy GPS satellite at its true broadcast geometry. Optional `channel` applies ionosphere, troposphere, scintillation, multipath, land-mobile shadowing or NLOS at the signal level. `rate_hz × duration_s` must fit the sample budget (see iq_signals). Writes the recording (raw + `<out>.json` sidecar, or a SigMF pair) and a truth sidecar; replies with the files written and their byte counts, the sample count and sampling, and the truth's first epoch per satellite (code phase, Doppler, C/N0) to score iq_acquire against. The IQ layer adds no interference or spoofer synthesis; nothing is ever transmitted."
     )]
     fn iq_scene(
         &self,
