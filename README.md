@@ -63,8 +63,10 @@ or **PARTNER** (a hardware partner owns it).
 
 > **Status: v0.32.0.** A validated, reproducible simulation substrate for PNT resilience.
 > Timing and holdover come first, because that domain is the best validated. Kshana is a
-> study and trade-off instrument: not a radio-frequency (RF) signal simulator, not a GNSS
-> receiver and not a flight product. New to the field? Start with the
+> study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it
+> drives no radio and transmits nothing; its signal-level output is baseband IQ sample files
+> for software receivers), not a hardware or certified GNSS receiver (its software receiver
+> is an analysis tool) and not a flight product. New to the field? Start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
 ## Kshana Studio
@@ -594,7 +596,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.31.0 6600.0 2610.0
+# 0.32.0 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -615,7 +617,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.31.0 6600 2610
+// 0.32.0 6600 2610
 console.log(summary(toml));
 ```
 

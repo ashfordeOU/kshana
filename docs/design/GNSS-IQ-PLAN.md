@@ -21,10 +21,14 @@ memory.
 
 ## Out of scope
 
-- Synthesis of interference or spoofing waveforms into scenes. The existing analytic
-  jamming, loss-of-lock and capture models (`src/jamming.rs`, `src/tracking_loop.rs`,
-  `src/spoof_capture.rs`) and recorded lab IQ remain the path for studying receiver
-  response to interference.
+- Synthesis of interference or spoofing waveforms into this layer's scenes (`iq::scene`
+  generates legitimate GNSS signals only). The existing analytic jamming, loss-of-lock and
+  capture models (`src/jamming.rs`, `src/tracking_loop.rs`, `src/spoof_capture.rs`) and
+  recorded lab IQ remain the path for studying receiver response to interference. Scope
+  note (2026-10-07): outside this layer, the `spectrum` kind's `[iq]` section has written
+  SigMF snapshots of its analytic model, configured jammers included, since 0.29.0, and
+  `spoof_capture` sums an authentic and a spoofer replica signal in memory (never written
+  out) to test loop capture. Neither transmits anything.
 - Any output format or interface that drives radio hardware. Output is files for software
   receivers.
 - Claims about a specific commercial receiver's internals. Lab-fit results describe the
