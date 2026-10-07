@@ -3,7 +3,7 @@
 //! `sweep`, `labfit` and `frontend`.
 //!
 //! [`run`] takes the arguments after `iq` and returns a process exit code (0 success,
-//! 1 failure, 2 usage error). It owns the five signal-processing commands and hands every
+//! 1 failure, 2 usage error). It owns the signal-processing commands and hands every
 //! other command (the data-handling `inventory`, `info`, `extract`, `convert`, `decimate`)
 //! straight to [`super::io::cli::run`], so the two halves share one `kshana iq` namespace
 //! and one help screen. The commands expose, without a line of Rust:
@@ -18,7 +18,9 @@
 //! * `labfit` — fit the tracking-loop loss-of-lock model to a receiver-trust timeline
 //!   ([`labfit`]);
 //! * `frontend` — apply receiver front-end and interference-mitigation DSP to a recording
-//!   ([`frontend`]).
+//!   ([`frontend`]);
+//! * `monitor` — run the interference and spoofing detection monitors over a recording
+//!   and write their time series and events ([`monitor`]).
 //!
 //! The parsing style, the exit codes and the `--format`/`--rate`/`--center` raw-input flags
 //! mirror [`super::io::cli`] exactly.
@@ -27,6 +29,7 @@ mod acquire;
 mod channel;
 mod frontend;
 mod labfit;
+mod monitor;
 mod scene;
 mod signal;
 mod sweep;
@@ -39,9 +42,13 @@ pub(crate) use channel::{build_channel, ChannelParams};
 #[cfg(feature = "python")]
 pub(crate) use frontend::{build_chain, FrontendParams};
 #[cfg(feature = "python")]
+pub(crate) use monitor::{parse_args as monitor_parse_args, report_from_args as monitor_report};
+#[cfg(feature = "python")]
 pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
 #[cfg(feature = "python")]
 pub(crate) use signal::signal_names;
+#[cfg(feature = "python")]
+pub(crate) use Fail as CliFail;
 
 use std::collections::HashMap;
 
@@ -53,6 +60,7 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
    or: kshana iq sweep   <recording> --signal <name> --prn <list> [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>] [--max-seconds <s>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
    or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
    or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+   or: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--json <out>] [--csv <prefix>]
  acquire/track also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
  recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>]
@@ -173,6 +181,7 @@ pub fn run(args: &[String]) -> i32 {
         Some("sweep") => finish(sweep::run(&args[1..])),
         Some("labfit") => finish(labfit::run(&args[1..])),
         Some("frontend") => finish(frontend::run(&args[1..])),
+        Some("monitor") => finish(monitor::run(&args[1..])),
         // Every data-handling command belongs to the io half of the group.
         Some(_) => super::io::cli::run(args),
     }

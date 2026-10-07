@@ -29,6 +29,9 @@ use crate::iq::Cf64;
 use serde::{Deserialize, Serialize};
 use std::collections::VecDeque;
 
+/// A baseline mean and spread.
+pub type MeanSpread = (f64, f64);
+
 /// Settings of [`SqmMonitor`].
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(default)]
@@ -185,9 +188,10 @@ impl SqmMonitor {
         self.spacing
     }
 
-    /// The baseline (mean, spread of the averaged metric) of the delta and ratio tests.
-    pub fn references(&self) -> (Option<(f64, f64)>, Option<(f64, f64)>) {
-        (self.delta.reference, self.ratio.reference)
+    /// The baseline of the delta and ratio tests, each as (mean, spread of the averaged
+    /// metric), once learned.
+    pub fn references(&self) -> [Option<MeanSpread>; 2] {
+        [self.delta.reference, self.ratio.reference]
     }
 
     /// Feed one loop update at time `t_s` with integration time `t_coh_s`, its early,

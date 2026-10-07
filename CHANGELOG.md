@@ -35,6 +35,41 @@ breaking changes are called out explicitly.
   gps-sdr-sim's integer sine table, gains, zero initial carrier phase and truncated LNAV
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
+- **IQ-path detection monitors (0.34.0 "Lab replay").** New `iq::monitor` module,
+  `kshana iq monitor` command and `kshana.iq_monitor(path, ...)` binding. They observe a
+  recording and report time series plus flagged events (start, alarm and end times, peak,
+  threshold). They detect and measure only; nothing here generates a signal.
+  - **Total power / AGC**: block power and the gain an ideal AGC would apply; flags rises
+    and drops.
+  - **Pre-correlation spectrum**: Welch PSD per block against a learned baseline. The excess
+    threshold comes from a false-alarm target. Also complex kurtosis and a pulse detector.
+  - **Per-channel C/N0**: two one-sided CUSUM change detectors (drop and rise), fed
+    independent estimates (the stride is set from the loop's C/N0 window).
+  - **SQM from the correlators**: delta `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)`,
+    plus asymmetry tests from extra correlators when a channel supplies them.
+  - **Lock indicators**: PLI, a frequency lock indicator from successive prompts, lock
+    flags, and loss-of-lock / re-lock events with their durations.
+  
+  One streaming pass (`iq::monitor::run::run_monitors`) runs everything, with a TOML/JSON
+  settings file (`MonitorConfig`); the campaign runner uses the same entry point.
+  All MODELLED. Each statistic is checked against its closed form by seeded simulation
+  (`tests/iq_monitor.rs`):
+  - block-power exceedances against the Gamma tail;
+  - kurtosis mean 2 and spread `2/√N`;
+  - pulse fraction `e^{−t}`;
+  - CUSUM run lengths against Siegmund's approximation (measured 330 and 8.46 samples
+    against 338 and 8.34);
+  - the phase lock indicator against the Rician-phase mean;
+  - on a tracked C/A signal, SQM delta and ratio spreads within 6 % of the first-order
+    closed forms.
+  
+  The spectral-excess false-alarm formula is an approximation; the measured rate was 1.3×
+  the formula. End to end, the monitors flag:
+  - a 6 dB C/N0 step (change time within one estimate);
+  - a reflected path appearing mid-recording (ratio test);
+  - a signal outage (loss of lock opened within 0.1 s, re-lock time reported);
+  - a narrowband tone and sparse high-amplitude samples (spectral, pulse and kurtosis
+    tests). These are generic DSP test inputs, not interference models.
 
 ## [0.32.0] - 2026-10-05
 
