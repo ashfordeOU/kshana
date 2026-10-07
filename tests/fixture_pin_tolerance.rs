@@ -7,8 +7,10 @@
 //!
 //! 1. a host difference of the size macOS arm64 showed (up to 5e-15 of the scale) is accepted,
 //!    here simulated at twice that on every float;
-//! 2. a 1e-6 relative change of one entry is rejected, made on the smallest nonzero entry of the
-//!    smallest-scale row, where a row-scaled bar is loosest;
+//! 2. a 1e-6 relative change of one entry is rejected, made at the loosest point of the
+//!    fixture: the entry with the smallest |entry| / row scale, where a row-scaled bar admits the
+//!    largest relative change. An entry below 1e-6 of its row's scale is effectively unpinned
+//!    (a 1e-6 change of it is at most the 1e-12 bar); none of the committed fixtures has one;
 //! 3. a change to an integer, a key or a length is rejected exactly as before.
 
 #[path = "support/fixture_pin.rs"]
@@ -68,24 +70,32 @@ fn with_host_noise(v: &Value) -> Value {
     out
 }
 
-/// (2): the smallest nonzero entry of the smallest-scale nonzero row, times `1 + 1e-6`.
+/// (2): the loosest point of the document, times `1 + 1e-6`. A point is loosest when its
+/// |entry| / row scale is smallest over every nonzero entry of every row with a nonzero scale:
+/// there a row-scaled bar admits the largest relative change.
 fn with_one_real_change(v: &Value) -> Value {
     let mut out = v.clone();
-    let mut scales = Vec::new();
-    for_each_row(&mut out, &mut |row| scales.push(max_abs(&row_floats(row))));
-    let target = (0..scales.len())
-        .filter(|&i| scales[i] > 0.0)
-        .min_by(|&a, &b| scales[a].total_cmp(&scales[b]))
-        .expect("a nonzero float row");
+    let mut loosest: Option<(usize, usize, f64)> = None;
+    let mut r = 0;
+    for_each_row(&mut out, &mut |row| {
+        let xs = row_floats(row);
+        let scale = max_abs(&xs);
+        if scale > 0.0 {
+            for (i, x) in xs.iter().enumerate().filter(|(_, x)| **x != 0.0) {
+                let rel = x.abs() / scale;
+                if loosest.is_none_or(|(_, _, best)| rel < best) {
+                    loosest = Some((r, i, rel));
+                }
+            }
+        }
+        r += 1;
+    });
+    let (target, idx, _) = loosest.expect("a nonzero entry in a nonzero row");
     let mut n = 0;
     for_each_row(&mut out, &mut |row| {
         if n == target {
-            let xs = row_floats(row);
-            let i = (0..xs.len())
-                .filter(|&i| xs[i] != 0.0)
-                .min_by(|&a, &b| xs[a].abs().total_cmp(&xs[b].abs()))
-                .expect("a nonzero entry");
-            row[i] = Value::from(xs[i] * (1.0 + 1e-6));
+            let x = row[idx].as_f64().expect("f64");
+            row[idx] = Value::from(x * (1.0 + 1e-6));
         }
         n += 1;
     });
