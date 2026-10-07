@@ -138,6 +138,7 @@ def iq_scene(
     multipath_ground: str = ...,
     land_mobile: bool = ...,
     nlos: bool = ...,
+    cn0_profile: Optional[str] = ...,
 ) -> dict[str, Any]:
     """Generate a multi-satellite GNSS IQ scene in memory.
 
@@ -145,8 +146,11 @@ def iq_scene(
     samples as two float lists (``samples_i``, ``samples_q``) and the per-epoch ``truth``
     records. ``prns`` is the PRN per satellite (the FDMA frequency channel for GLONASS);
     ``dopplers`` is one Doppler (Hz) per PRN, a single value applied to all, or omitted for
-    zero. Wrap ``samples_i``/``samples_q`` with ``numpy.asarray(...)`` for arrays. Raises
-    ``ValueError`` on an invalid scene."""
+    zero. Wrap ``samples_i``/``samples_q`` with ``numpy.asarray(...)`` for arrays.
+    ``cn0_profile`` is a C/N0 profile file's text (TOML ``[[segment]]`` tables: ``step``,
+    ``ramp``, ``points`` or ``fade`` offsets in dB per satellite); it scales the signals
+    over any channel and the truth's ``cn0_dbhz`` follows it. Raises ``ValueError`` on an
+    invalid scene or profile."""
 
 def iq_scene_broadcast(
     fs_hz: float,

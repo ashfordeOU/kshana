@@ -11,6 +11,7 @@
 
 use super::{build_code, Args, Fail};
 use crate::frames::{geodetic_to_ecef, Geodetic};
+use crate::iq::channel::cn0_profile::{Cn0Profile, Cn0ProfileChannel, ProfiledTruth};
 use crate::iq::io::inventory::{write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
 use crate::iq::io::SampleFormat;
@@ -323,7 +324,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 
     // Optional propagation channel applied to every satellite.
     let chan = super::channel::ChannelParams::from_args(&a)?;
-    let chan_desc = chan.describe();
+    let mut chan_desc = chan.describe();
+    let mut inner = None;
     if chan.any() {
         let carrier = scene
             .satellites()
@@ -331,11 +333,27 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             .map(|s| s.code.carrier_hz())
             .unwrap_or(spec.center_hz);
         let start_tow = scene.config().start_tow_s;
-        if let Some(ch) =
-            super::channel::build_channel(&chan, carrier, seed, start_tow).map_err(Fail::Usage)?
-        {
-            scene.set_channel(ch);
+        inner =
+            super::channel::build_channel(&chan, carrier, seed, start_tow).map_err(Fail::Usage)?;
+    }
+    // Optional C/N0 profile (time-varying signal strength), applied over the channel.
+    let cn0_profile = match a.get("--cn0-profile") {
+        Some(p) => {
+            let text = std::fs::read_to_string(p).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+            Some(Cn0Profile::parse(&text).map_err(|e| Fail::Usage(e.to_string()))?)
         }
+        None => None,
+    };
+    match (&cn0_profile, inner) {
+        (Some(prof), inner) => {
+            chan_desc = format!(
+                "{chan_desc}; C/N0 profile ({} segment(s))",
+                prof.segments.len()
+            );
+            scene.set_channel(Box::new(Cn0ProfileChannel::new(prof.clone(), inner)));
+        }
+        (None, Some(ch)) => scene.set_channel(ch),
+        (None, None) => {}
     }
 
     // SigMF output: `--format sigmf`, or an out path ending in a SigMF suffix. The samples
@@ -385,16 +403,23 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let truth_file = BufWriter::new(
         File::create(&truth_path).map_err(|e| Fail::Run(format!("{truth_path}: {e}")))?,
     );
-    let summary = match truth_fmt.as_str() {
-        "csv" => generate(scene, &mut iq, &mut CsvTruthWriter::new(truth_file))?,
-        "jsonl" | "jsonlines" => {
-            generate(scene, &mut iq, &mut JsonLinesTruthWriter::new(truth_file))?
-        }
+    let mut truth_writer: Box<dyn TruthSink> = match truth_fmt.as_str() {
+        "csv" => Box::new(CsvTruthWriter::new(truth_file)),
+        "jsonl" | "jsonlines" => Box::new(JsonLinesTruthWriter::new(truth_file)),
         other => {
             return Err(Fail::Usage(format!(
                 "--truth-format must be csv or jsonl (got {other:?})"
             )))
         }
+    };
+    let summary = match cn0_profile {
+        // The truth states the profiled C/N0.
+        Some(prof) => generate(
+            scene,
+            &mut iq,
+            &mut ProfiledTruth::new(prof, truth_writer.as_mut()),
+        )?,
+        None => generate(scene, &mut iq, truth_writer.as_mut())?,
     };
 
     let meta_note = if want_sigmf {
