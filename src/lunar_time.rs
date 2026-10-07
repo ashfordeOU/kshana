@@ -23,8 +23,9 @@
 //! `[56.0, 59.0]` µs/day rather than as a single certified number. Nothing here is validated
 //! to sub-nanosecond absolute accuracy or certified for operational timekeeping.
 
-/// IAU defining constant `L_G` — the rate of TT with respect to TCG. `W0_earth = L_G · c²`.
 use crate::palette::chart::{AXIS, BG, CYAN, FONT_SANS, INK_2};
+
+/// IAU defining constant `L_G` — the rate of TT with respect to TCG. `W0_earth = L_G · c²`.
 pub const L_G: f64 = 6.969_290_134e-10;
 /// Speed of light squared, `c²` (m²/s²).
 pub const C2_M2_S2: f64 = 299_792_458.0 * 299_792_458.0;
