@@ -2100,8 +2100,9 @@ mod tests {
         // count and absolute sum are unchanged). The pre-revision raw hashes of the first and
         // third scenarios on Linux equal their pinned baseline-host values, so their new exact
         // pins carry over to the baseline host. The second scenario's exact hash is
-        // host-dependent and was NOT re-taken here: re-take it on the baseline host with
-        // `cargo test --lib zzz_emit_emission_pins -- --ignored --nocapture`.
+        // host-dependent, so it was taken on the baseline host (aarch64 macOS) with
+        // `cargo test --lib zzz_emit_emission_pins -- --ignored --nocapture`; that run also
+        // printed the first and third scenarios' pinned values and length 2912 for the second.
         // The first two are the ORIGINAL pins and are asserted only on the host they were
         // taken on. The last three are platform-independent by construction: the skeleton
         // has had every digit removed, so a last-ulp difference cannot reach it.
@@ -2116,7 +2117,7 @@ mod tests {
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
-                0x11e6_9d87_96d7_a02e, // RE-TAKE on the baseline host (see above)
+                0x3945_6eef_9ebd_d3c3,
                 2912,
                 0x8417_c494_2759_b4a0,
                 121,
