@@ -43,9 +43,12 @@ pub mod filter;
 
 mod bank;
 mod channel;
+pub mod lock;
+pub mod sink;
 
 pub use bank::{replay, ReplayResult, TrackingBank};
 pub use channel::{Channel, ChannelInit, EpochOutput};
+pub use lock::{LockEvent, LockState, SessionChannel, TrackSession};
 
 use self::cn0::BitSyncConfig;
 use self::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};
