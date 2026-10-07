@@ -1370,6 +1370,14 @@ impl KshanaServer {
                 }
             }
             let rec = iq.contained(&tc.recording_path(file))?;
+            // Events imported from SigMF were read from the recording's metadata, which
+            // sits beside the data file; it must be inside the work directory too.
+            if let Some(base) = rec.to_string_lossy().strip_suffix(".sigmf-data") {
+                let meta = PathBuf::from(format!("{base}.sigmf-meta"));
+                if meta.exists() {
+                    iq.contained(&meta)?;
+                }
+            }
             let raw = tc.recording.raw_sidecar().map_err(bad)?;
             let o = iq.open_sidecar(&rec, raw)?;
             let span = if loaded.spec.run.max_seconds > 0.0 {

@@ -52,6 +52,12 @@ pub struct RecordingSpec {
     /// Time of the first sample (ISO 8601), carried into outputs only.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub start_utc: Option<String>,
+    /// Read the events from the recording's SigMF annotations (see
+    /// [`TestConditions::import_sigmf_events`]) when the file is loaded. They join any
+    /// `[[event]]` tables given here. The resolved conditions carry the imported events
+    /// with this flag cleared, so the condition hash covers what was imported.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub events_from_sigmf: bool,
     /// Initial pull-in time excluded from whole-run scores and baselines (s).
     #[serde(default = "default_settle")]
     pub settle_s: f64,
@@ -355,10 +361,108 @@ impl TestConditions {
         Ok(tc)
     }
 
-    /// Read and parse a test-condition file.
+    /// Read and parse a test-condition file, importing SigMF events when it asks to.
     pub fn load(path: &Path) -> Result<Self, String> {
         let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
-        Self::parse(&text).map_err(|e| format!("{}: {e}", path.display()))
+        let mut tc = Self::parse(&text).map_err(|e| format!("{}: {e}", path.display()))?;
+        if tc.recording.events_from_sigmf {
+            let rec = tc.recording_path(path);
+            let name = rec.to_string_lossy().to_string();
+            let meta = match name.strip_suffix(".sigmf-data") {
+                Some(base) => PathBuf::from(format!("{base}.sigmf-meta")),
+                None if name.ends_with(".sigmf-meta") => rec.clone(),
+                None => {
+                    return Err(format!(
+                        "{}: events_from_sigmf needs a SigMF recording (got {})",
+                        path.display(),
+                        rec.display()
+                    ))
+                }
+            };
+            let json =
+                std::fs::read_to_string(&meta).map_err(|e| format!("{}: {e}", meta.display()))?;
+            let events =
+                Self::import_sigmf_events(&json).map_err(|e| format!("{}: {e}", meta.display()))?;
+            tc.events.extend(events);
+            tc.recording.events_from_sigmf = false;
+            tc.validate()
+                .map_err(|e| format!("{}: {e}", path.display()))?;
+        }
+        Ok(tc)
+    }
+
+    /// The events stated in a SigMF metadata document's annotations.
+    ///
+    /// Every annotation carrying a `kshana:test_event` object becomes one [`Event`]:
+    /// * `onset_s` is `core:sample_start / core:sample_rate`;
+    /// * `offset_s` adds `core:sample_count`, or runs to the end of the event's power points
+    ///   when there is no count;
+    /// * the id is the object's `id`, else the annotation's `core:label`, else
+    ///   `sigmf-<index>`;
+    /// * `core:freq_lower_edge` and `core:freq_upper_edge` give the stated bandwidth and its
+    ///   centre offset from the first capture's `core:frequency`.
+    ///
+    /// The object holds the other [`Event`] fields with their test-condition names (`kind`,
+    /// `type`, `affects`, `q`, `power`), and times in it are seconds from the recording's
+    /// first sample. Annotations without the object are ignored.
+    pub fn import_sigmf_events(meta_json: &str) -> Result<Vec<Event>, String> {
+        let meta: serde_json::Value =
+            serde_json::from_str(meta_json).map_err(|e| format!("SigMF metadata: {e}"))?;
+        let fs = meta["global"]["core:sample_rate"]
+            .as_f64()
+            .filter(|f| *f > 0.0)
+            .ok_or("SigMF metadata: global core:sample_rate is missing")?;
+        let center = meta["captures"][0]["core:frequency"].as_f64();
+        let mut out = Vec::new();
+        let empty = Vec::new();
+        let anns = meta["annotations"].as_array().unwrap_or(&empty);
+        for (i, a) in anns.iter().enumerate() {
+            let Some(obj) = a.get("kshana:test_event").and_then(|o| o.as_object()) else {
+                continue;
+            };
+            let at = format!("annotation {i}");
+            let start = a["core:sample_start"]
+                .as_u64()
+                .ok_or(format!("{at}: core:sample_start is missing"))?
+                as f64;
+            let mut v = serde_json::Value::Object(obj.clone());
+            let m = v.as_object_mut().expect("an object");
+            if !m.contains_key("id") {
+                let id = a["core:label"]
+                    .as_str()
+                    .map(String::from)
+                    .unwrap_or_else(|| format!("sigmf-{i}"));
+                m.insert("id".into(), id.into());
+            }
+            let onset = start / fs;
+            m.insert("onset_s".into(), onset.into());
+            let offset = match a["core:sample_count"].as_u64() {
+                Some(n) => (start + n as f64) / fs,
+                None => m
+                    .get("power")
+                    .and_then(|p| p["points"].as_array())
+                    .and_then(|p| p.last())
+                    .and_then(|p| p[0].as_f64())
+                    .ok_or(format!(
+                        "{at}: no core:sample_count and no power points to end the event"
+                    ))?,
+            };
+            m.insert("offset_s".into(), offset.into());
+            if let (Some(lo), Some(hi)) = (
+                a["core:freq_lower_edge"].as_f64(),
+                a["core:freq_upper_edge"].as_f64(),
+            ) {
+                m.entry("bandwidth_hz").or_insert((hi - lo).into());
+                if let Some(c) = center {
+                    m.entry("center_offset_hz")
+                        .or_insert(((lo + hi) / 2.0 - c).into());
+                }
+            }
+            let ev: Event =
+                serde_json::from_value(v).map_err(|e| format!("{at}: kshana:test_event: {e}"))?;
+            out.push(ev);
+        }
+        Ok(out)
     }
 
     /// The recording's path, resolved against the directory of the file at `file`.
@@ -596,6 +700,61 @@ points = [[10.0, 20.0], [20.0, 40.0]]
         assert!(TestConditions::parse(&t).unwrap_err().contains("overlap"));
         let ok = t.replace("onset_s = 15.0", "onset_s = 20.0");
         assert_eq!(TestConditions::parse(&ok).unwrap().events_for(7).len(), 2);
+    }
+
+    #[test]
+    fn sigmf_annotations_import_as_the_same_events_as_a_written_table() {
+        let dir = std::env::temp_dir().join(format!("kshana-cond-sigmf-{}", std::process::id()));
+        std::fs::create_dir_all(&dir).unwrap();
+        let meta = serde_json::json!({
+            "global": {"core:datatype": "cf32_le", "core:sample_rate": 4.0e6, "core:version": "1.0.0"},
+            "captures": [{"core:sample_start": 0, "core:frequency": 1575.42e6}],
+            "annotations": [
+                {"core:sample_start": 40_000_000u64, "core:sample_count": 40_000_000u64,
+                 "core:label": "jam-1",
+                 "core:freq_lower_edge": 1574.42e6, "core:freq_upper_edge": 1576.42e6,
+                 "kshana:test_event": {"kind": "interference", "type": "cw",
+                     "power": {"quantity": "js_db", "points": [[10.0, 20.0], [20.0, 40.0]]}}},
+                {"core:sample_start": 0, "core:sample_count": 10, "core:comment": "not an event"}
+            ]
+        });
+        std::fs::write(dir.join("r.sigmf-meta"), meta.to_string()).unwrap();
+        std::fs::write(
+            dir.join("a.toml"),
+            "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"run-1\"\npath = \"r.sigmf-meta\"\n\
+             events_from_sigmf = true\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [3, 7]\n",
+        )
+        .unwrap();
+        let imported = TestConditions::load(&dir.join("a.toml")).unwrap();
+        let e = &imported.events[0];
+        assert_eq!(imported.events.len(), 1, "the plain annotation is ignored");
+        assert_eq!(
+            (e.id.as_str(), e.onset_s, e.offset_s),
+            ("jam-1", 10.0, 20.0)
+        );
+        assert_eq!(e.event_type, EventType::Cw);
+        assert!((e.bandwidth_hz.unwrap() - 2.0e6).abs() < 1e-3);
+        assert!(e.center_offset_hz.unwrap().abs() < 1e-3);
+        assert!(
+            !imported.recording.events_from_sigmf,
+            "cleared once resolved"
+        );
+        // The same event written as a table resolves to the same conditions and hash.
+        let written = TestConditions::parse(&format!(
+            "{}[[event]]\nid = \"jam-1\"\nkind = \"interference\"\ntype = \"cw\"\n\
+             onset_s = 10.0\noffset_s = 20.0\ncenter_offset_hz = 0.0\nbandwidth_hz = 2000000.0\n\
+             [event.power]\nquantity = \"js_db\"\npoints = [[10.0, 20.0], [20.0, 40.0]]\n",
+            std::fs::read_to_string(dir.join("a.toml"))
+                .unwrap()
+                .replace("events_from_sigmf = true\n", "")
+        ))
+        .unwrap();
+        assert_eq!(imported.hash(), written.hash());
+        // A bad object names the annotation.
+        let bad = meta.to_string().replace("\"cw\"", "\"laser\"");
+        let err = TestConditions::import_sigmf_events(&bad).unwrap_err();
+        assert!(err.contains("annotation 0"), "{err}");
+        std::fs::remove_dir_all(&dir).ok();
     }
 
     #[test]

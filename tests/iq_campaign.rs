@@ -968,3 +968,65 @@ const PINNED_OBSERVE_RAW: [(i64, bool, bool); 3] =
     [(3, true, true), (11, true, true), (22, true, false)];
 const PINNED_OBSERVE_Q3: [(i64, bool, bool); 3] =
     [(3, true, true), (11, true, true), (22, true, false)];
+
+/// GB scale: a single recording of at least 4 GB (200 s of `cf32_le` at 2.5 MHz, one
+/// satellite) through one design. Run it with
+/// `cargo test --release --test iq_campaign gb_scale -- --ignored --nocapture`.
+/// `KSHANA_GB_SECONDS` changes the length. Bars: the campaign completes and tracks
+/// throughout; throughput is at least real time (2.5 Msample/s) for one channel; peak
+/// memory rises by under 64 MB however long the recording is.
+#[test]
+#[ignore = "GB scale: run in release on demand (needs ~4 GB of free disk)"]
+fn gb_scale_recording_streams_in_bounded_memory() {
+    let seconds: f64 = std::env::var("KSHANA_GB_SECONDS")
+        .ok()
+        .and_then(|v| v.parse().ok())
+        .unwrap_or(200.0);
+    let dir = scratch("gb");
+    scene(&dir, "big", seconds, &[(9, 1500.0)], |_, _| Some(NOMINAL));
+    let bytes = std::fs::metadata(dir.join("big.cf32")).unwrap().len();
+    eprintln!("recording: {:.2} GB", bytes as f64 / 1e9);
+    if seconds >= 200.0 {
+        assert!(bytes >= 4_000_000_000, "{bytes} bytes");
+    }
+    std::fs::write(
+        dir.join("big.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"big\"\npath = \"big.cf32\"\n\
+         [[expected]]\nsignal = \"gps-l1ca\"\nids = [9]\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("c.toml"),
+        "schema = \"kshana.campaign/1\"\nname = \"gb\"\ndata_class = \"synthetic\"\n\
+         [inputs]\nconditions = [\"big.toml\"]\n",
+    )
+    .unwrap();
+    let c = LoadedCampaign::load(&dir.join("c.toml")).unwrap();
+    let _ = std::fs::write("/proc/self/clear_refs", "5");
+    let before = vm_rss_kb();
+    let t0 = std::time::Instant::now();
+    let s = run(&c, &dir.join("out"), &RunOptions::default()).unwrap();
+    let wall = t0.elapsed().as_secs_f64();
+    let rate = s.samples_processed as f64 / wall;
+    eprintln!(
+        "GB scale: {} samples in {wall:.1} s = {:.2} Msample/s ({:.2}x real time), incl. hashing",
+        s.samples_processed,
+        rate / 1e6,
+        rate / FS
+    );
+    assert_eq!(s.cells_run, 1);
+    let all = cells(&dir.join("out"));
+    let w = &all.values().next().unwrap().1.satellites[0].score.whole_run;
+    assert!(w.availability.unwrap() > 0.95, "{w:?}");
+    assert!(
+        rate >= FS,
+        "slower than real time: {:.2} Msample/s",
+        rate / 1e6
+    );
+    if let (Some(a), Some(b)) = (before, vm_hwm_kb()) {
+        let grew_mb = b.saturating_sub(a) as f64 / 1024.0;
+        eprintln!("peak RSS during the campaign: {grew_mb:.0} MB above the RSS before it");
+        assert!(grew_mb < 64.0, "peak RSS grew by {grew_mb:.0} MB");
+    }
+    std::fs::remove_dir_all(&dir).ok();
+}
