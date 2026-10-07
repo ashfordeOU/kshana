@@ -9,6 +9,22 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Documentation
+
+- **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
+  0.32.0 entries below say the IQ layer adds "no interference or spoofing waveform
+  synthesis". That is true of the IQ layer itself (`iq::scene` generates legitimate GNSS
+  signals only), but it read as a statement about the whole engine, and it is not one:
+  since 0.29.0 the `spectrum` kind's `[iq]` section writes a SigMF snapshot of its analytic
+  model with the configured jammers in it (noise-like jammers bin by bin, tones and chirps
+  as waveforms), and `spoof_capture` sums an authentic and a spoofer replica signal in
+  memory to test loop capture (the composite is never written out). The engine has also
+  carried a software GNSS receiver since 0.20.0 (`sdr`: acquisition and tracking; since
+  0.31.0 also `iq::acq` and `iq::track`). Nothing in Kshana transmits or drives radio
+  hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
+  design notes now say so; the released entries are left as they were published. No
+  behaviour changes.
+
 ### Added
 
 - **Lab replay: test conditions, campaign runner and scoring (0.34.0).** `kshana iq campaign
@@ -141,15 +157,21 @@ breaking changes are called out explicitly.
 
     It is written as it happens, as CSV, JSON Lines or a versioned binary form with readers
     in Rust (`BinaryEpochReader`) and Python (`iq_read_epochs`).
-    - `iq track`/`iq sweep` gain `--epochs`, `--events` and `--summary`
-      (`kshana.track-summary/1`). MCP `iq_track` gains `epochs_out`/`events_out` and builds
+    - `iq track` gains `--epochs`, `--events` and `--summary` (`kshana.track-summary/1`),
+      and `iq sweep` gains `--epochs` and `--events`. MCP `iq_track` gains `epochs_out`/`events_out` and builds
       its reply from the bounded-memory summary.
     - A run's heap no longer grows with the recording's length:
       `tests/iq_track_memory.rs` measures it with a counting allocator (6× the length,
       same peak within 64 KiB), with a control showing that the in-memory path does grow.
     - Streamed output is bit-identical to the in-memory replay.
   - *Lock state machine* (`iq::track::lock`, `TrackSession`): pull-in → locked → lost →
-    re-acquisition → pull-in, or retired after `max_reacq_attempts`.
+    re-acquisition → pull-in, or retired once a loss outlasts `reacq_window_s` (default
+    30 s). Failed searches are retried every `reacq_interval_s` (0.1 s), evenly spaced, so
+    the retry schedule adds at most 0.1 s to a measured re-acquisition time. An optional
+    back-off (`reacq_max_interval_s` above `reacq_interval_s`) is off by default, and
+    `max_reacq_attempts` is an optional cap (0, none, by default). A 2 s outage on three
+    PRNs at 4.092 MS/s now ends with every channel re-acquired and locked. Under a
+    3-attempt budget, every channel was retired within 0.2 s of the loss.
     - Thresholds (`loss_dwell_s`, `pull_in_max_s`, the re-acquisition Doppler window) come
       from the design. Every transition is an event with its reason.
     - The false-lock check searches the tracked Doppler against its ±1/(2T) FLL/PLL
@@ -157,8 +179,38 @@ breaking changes are called out explicitly.
       With re-acquisition on, the channel ends locked at the injected Doppler.
     - A 0.8 s signal gap is declared lost and re-acquired within 0.3 s of the signal's
       return.
+    - `--summary` `final_state` (and the table's column) is the state after the last
+      transition, so a channel retired after its last loop update reads `RETIRED`.
+    - **FLL assistance only during pull-in** (`[design.carrier] fll_assist = "pull-in"`,
+      the default; `"always"` keeps the earlier behaviour bit for bit). The FLL hands over
+      to the PLL once the smoothed PLI has held at or above `fll_off_pli` (0.8) for
+      `fll_gate_dwell_s` (0.1 s), and returns below `fll_on_pli` (0.6). Left on, the 10 Hz
+      FLL path broke phase lock below about 38 dB-Hz on clean signals: at 35 dB-Hz the
+      phase-lock fraction was 10–16 %, with a true phase error of 38–41°. Gated, the
+      default holds 100 % at 35 dB-Hz with 4.5°, the same as a PLL alone. Pull-in from a
+      100 Hz hand-off error is unchanged. Evidence with pre-registered bars:
+      `docs/design/evidence/carrier-lock/`. **The default loops are therefore not bit for
+      bit with earlier runs of the default design.** Use `fll_assist = "always"` to
+      reproduce them. Known limit: at 35 dB-Hz the hand-over comes 1.9–2.6 s into the
+      track, and at 33 dB-Hz the 10 Hz FLL keeps the PLI below the hand-over threshold, so
+      pull-in never completes.
+    - New loop-design keys and API, listed:
+      - `[design.carrier]`: `fll_assist`, `fll_off_pli`, `fll_on_pli`, `fll_gate_dwell_s`;
+      - `[design.lock]`: `reacq_window_s`, `reacq_interval_s`, `reacq_max_interval_s`, with
+        `max_reacq_attempts` changed from a default of 3 to an optional cap (default 0);
+      - Rust: `LoopConfig.fll_assist` (`FllAssist`, `FllGate`), `LoopCore::set_fll_enabled`,
+        `EpochOutput.fll_active`, `ChannelSummary.final_state`.
+    - The design hash is over a canonical JSON form, and the built-in default's hash is
+      `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80` (pinned by a test).
+    - Output compatibility notes:
+      - the `iq track` table has a trailing `final_state` column;
+      - the `iq sweep` CSV has a trailing `design_hash` column, and its JSON has
+        `design_hash` and `warnings`;
+      - the sweep's `mean_cn0_dbhz` is now the mean over every update that has an NWPR
+        estimate (bounded-memory summary), no longer over the second half of the run.
     - Re-acquisition is **off in the built-in default**, where the state machine only
-      observes and the loops run bit for bit as before. Turn it on per design
+      observes and the loops run bit for bit as they do without it. (The default loops
+      themselves changed, though: see FLL assistance above.) Turn it on per design
       (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
     - A **`commensurate_sampling` warning**: when fs is within 1e-6 of a multiple of half
       the chip rate (`iq::track::commensurate_samples_per_chip`), `iq track`/`iq sweep`
@@ -212,6 +264,15 @@ breaking changes are called out explicitly.
   (`--acq-coherent 1`). `kshana iq acquire`'s own `--coherent` default stays 1. New public
   `iq::acq::auto_coherent_periods` and `iq::acq::AUTO_COHERENT_S`; regression test
   `tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`.
+
+### Fixed
+
+- **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
+  a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
+  had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
+  per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
+  in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
+  Float output is unchanged.
 
 ## [0.32.0] - 2026-10-05
 
