@@ -88,7 +88,7 @@ fn design_with(a: &Args, acq_only: bool) -> Result<(Design, Vec<String>), Fail> 
 }
 
 /// The explicit flags as a design table in the file format, and their names.
-fn overrides_from_args(a: &Args, acq_only: bool) -> Result<(String, Vec<String>), Fail> {
+pub(crate) fn overrides_from_args(a: &Args, acq_only: bool) -> Result<(String, Vec<String>), Fail> {
     let mut sections: Vec<(&str, Vec<String>)> = Vec::new();
     let mut flags = Vec::new();
     let mut put = |section: &'static str, key: &str, value: String, flag: &str| {
