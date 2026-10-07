@@ -449,7 +449,7 @@ pub(crate) fn channel_json(
         "code_lock_fraction": c.code_lock_fraction(),
         "locked_fraction": c.locked_fraction(),
         "locked_at_end": c.locked_at_end(),
-        "final_state": last.map(|l| l.state.as_str()),
+        "final_state": c.final_state.map(|s| s.as_str()),
         "transitions": c.transitions,
         "false_locks": c.false_locks,
         "reacquisitions": c.reacquisitions,
@@ -552,7 +552,7 @@ fn table(names: &[String], channels: &[ChannelSummary]) -> String {
                 .unwrap_or_else(|| "-".into()),
             c.phase_lock_fraction(),
             c.code_lock_fraction(),
-            last.map(|e| e.state.as_str()).unwrap_or("-"),
+            c.final_state.map(|s| s.as_str()).unwrap_or("-"),
         ));
     }
     out.pop();

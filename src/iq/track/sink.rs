@@ -611,6 +611,9 @@ pub struct ChannelSummary {
     pub reacquisitions: u64,
     /// The last update.
     pub last: Option<EpochRecord>,
+    /// The channel's lock state at the end: the later of the last update's state and the
+    /// last transition (a channel retired after its last update ends `RETIRED`).
+    pub final_state: Option<LockState>,
     /// Mean NWPR C/N0 over every update that has one (dB-Hz).
     pub mean_cn0_dbhz: Option<f64>,
     /// Carrier-phase discriminator standard deviation over the steady-state part (deg).
@@ -694,6 +697,7 @@ impl EpochSink for Summary {
             c.code_jitter_chips = c.dll.std();
         }
         c.last = Some(EpochRecord::new(channel, e, state));
+        c.final_state = Some(state);
         Ok(())
     }
     fn event(&mut self, ev: &LockEvent) -> Result<(), IqError> {
@@ -711,6 +715,7 @@ impl EpochSink for Summary {
         if ev.reason == "reacquired" {
             c.reacquisitions += 1;
         }
+        c.final_state = Some(ev.to);
         Ok(())
     }
 }
