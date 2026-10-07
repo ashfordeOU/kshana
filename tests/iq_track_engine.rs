@@ -39,6 +39,8 @@ struct Synth {
     total: u64,
     rng: u64,
     noise: bool,
+    /// Random ±1 navigation bits of 20 code periods, when set (seeded separately).
+    bits: Option<u64>,
 }
 
 impl Synth {
@@ -67,6 +69,7 @@ impl Synth {
             total: (seconds * fs) as u64,
             rng: 0x9e37_79b9_7f4a_7c15 ^ prn as u64,
             noise: true,
+            bits: None,
         }
     }
     fn gauss(&mut self) -> f64 {
@@ -112,7 +115,15 @@ impl IqSource for Synth {
                 Cf64::default()
             };
             if on {
-                let c = self.code.value_at(self.phase0 + self.rate * t);
+                let chips = self.phase0 + self.rate * t;
+                let mut c = self.code.value_at(chips);
+                if let Some(seed) = self.bits {
+                    let bit = (chips / (20.0 * 1023.0)).floor() as u64;
+                    let h = (bit ^ seed).wrapping_mul(0x9e37_79b9_7f4a_7c15);
+                    if (h >> 63) == 1 {
+                        c = -c;
+                    }
+                }
                 let ph = TAU * self.doppler * t;
                 v = v + Cf64::new(ph.cos(), ph.sin()) * (self.amp * c);
             }
@@ -299,7 +310,8 @@ fn a_false_lock_is_detected_at_the_alias_and_repaired_by_reacquisition() {
 }
 
 /// A 0.8 s signal gap: the channel is declared lost within the dwell, re-acquired after
-/// the signal returns, and locked again; epochs keep their numbering across the restart.
+/// the signal returns (with the default, time-based re-acquisition budget), and locked
+/// again; epochs keep their numbering across the restart.
 #[test]
 fn a_signal_gap_is_lost_then_reacquired() {
     let truth = 1500.0;
@@ -307,7 +319,7 @@ fn a_signal_gap_is_lost_then_reacquired() {
     let mut src = Synth::new(11, truth, 45.0, 5.0, vec![gap]);
     let init = src.init(truth + 40.0);
     let design = DesignFile::parse(
-        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"d\"\n[design.lock]\nreacquire = true\nmax_reacq_attempts = 1000\n",
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"d\"\n[design.lock]\nreacquire = true\n",
     )
     .unwrap();
     let ch = SessionChannel::from_design(init, &design.designs()[0]);
@@ -585,4 +597,314 @@ fn an_unsearchable_rate_tracks_without_the_check() {
     session.run(&mut src, None, &mut sink).unwrap();
     assert!(sink.channels[0].len() > 1000);
     assert!(!sink.events.iter().any(|e| e.reason == "false-lock"));
+}
+
+/// Carrier-loop behaviour on a clean data-free signal, for the default FLL-assisted PLL
+/// and variants: the phase-lock fraction, the true carrier phase error (Costas, mod
+/// half a cycle), the Doppler error, the cycle slips and the LOCKED fraction, over
+/// 2 s ≤ t < `secs`. Release mode, `--ignored --nocapture`.
+fn carrier_measured(fs: f64, cn0_dbhz: f64, cfg: LoopConfig, secs: f64, data: bool) -> String {
+    let doppler = 1500.0;
+    let mut src = Synth::at(fs, 13, doppler, cn0_dbhz, secs, vec![]);
+    let mut init = src.init(doppler);
+    if data {
+        src.bits = Some(7);
+        init.periods_per_bit = Some(20);
+    }
+    let mut session =
+        TrackSession::new(src.spec(), vec![SessionChannel::from_config(init, cfg)]).unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    let steady: Vec<_> = sink.channels[0]
+        .iter()
+        .filter(|(e, _)| e.code_epoch_s >= 2.0)
+        .collect();
+    let n = steady.len() as f64;
+    let frac = |f: &dyn Fn(&(kshana::iq::track::EpochOutput, LockState)) -> bool| {
+        steady.iter().filter(|x| f(x)).count() as f64 / n
+    };
+    let phase_lock = frac(&|(e, _)| e.phase_lock);
+    let locked = frac(&|(_, s)| *s == LockState::Locked);
+    // Carrier phase error in cycles, unwrapped; a slip is a step of a half cycle or more.
+    let errs: Vec<f64> = steady
+        .iter()
+        .map(|(e, _)| e.carrier_phase_cycles - doppler * e.sample_index as f64 / fs)
+        .collect();
+    let slips = errs
+        .windows(2)
+        .filter(|w| ((w[1] - w[0]) * 2.0).round() != 0.0)
+        .count();
+    let wrapped: Vec<f64> = errs
+        .iter()
+        .map(|x| {
+            let r = x.rem_euclid(0.5);
+            if r > 0.25 {
+                r - 0.5
+            } else {
+                r
+            }
+        })
+        .collect();
+    let sigma_deg = std_dev(&wrapped) * 360.0;
+    let df: Vec<f64> = steady.iter().map(|(e, _)| e.doppler_hz - doppler).collect();
+    let mean_pli = steady.iter().map(|(e, _)| e.pli).sum::<f64>() / n;
+    let toggles = steady
+        .windows(2)
+        .filter(|w| w[0].0.fll_active != w[1].0.fll_active)
+        .count();
+    let fll_on = frac(&|(e, _)| e.fll_active);
+    format!(
+        "phase_lock {phase_lock:.3} locked {locked:.3} mean_pli {mean_pli:.3} \
+         sigma_phase {sigma_deg:.1} deg sigma_f {:.2} Hz slips {slips} fll_on {fll_on:.3} \
+         toggles {toggles}",
+        std_dev(&df)
+    )
+}
+
+#[test]
+#[ignore]
+fn carrier_lock_survey() {
+    use kshana::iq::track::CarrierLoop;
+    let fll_assisted = LoopConfig::default();
+    let always = LoopConfig {
+        fll_assist: kshana::iq::track::FllAssist::Always,
+        ..LoopConfig::default()
+    };
+    let pll_only = LoopConfig {
+        carrier: CarrierLoop::Pll {
+            order: 2,
+            bn_hz: 15.0,
+        },
+        ..LoopConfig::default()
+    };
+    let data = std::env::var("KSHANA_SURVEY_DATA").is_ok();
+    for cn0 in [45.0, 42.0, 39.0, 37.0, 35.0] {
+        for (name, cfg) in [
+            ("default (fll pull-in)", &fll_assisted),
+            ("fll always", &always),
+            ("pll", &pll_only),
+        ] {
+            let r = carrier_measured(4.1e6, cn0, cfg.clone(), 8.0, data);
+            println!("{cn0} {name} data={data}: {r}");
+        }
+    }
+}
+
+fn with_spacing(d: f64) -> LoopConfig {
+    LoopConfig {
+        spacing_chips: d,
+        ..LoopConfig::default()
+    }
+}
+
+/// The first full-period DLL discriminator output on a noise-free signal `eps` chips off,
+/// with early-late spacing `d`.
+fn first_disc_d(fs: f64, d: f64, eps: f64) -> f64 {
+    let mut src = Synth::at(fs, 13, 0.0, 60.0, 0.004, vec![]);
+    src.noise = false;
+    let mut init = src.init(0.0);
+    init.code_phase_chips += eps;
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, with_spacing(d))],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    sink.channels[0][0].0.disc.dll_chips
+}
+
+/// `(σ_ε, mean ε)` of the true code tracking error (chips) over 1.5 s ≤ t < 3.5 s at
+/// 45 dB-Hz with spacing `d`.
+fn code_error_d(fs: f64, d: f64) -> (f64, f64) {
+    let mut src = Synth::at(fs, 13, 1500.0, 45.0, 3.5, vec![]);
+    let init = src.init(1500.0);
+    let (phase0, rate) = (src.phase0, src.rate);
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, with_spacing(d))],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    let v: Vec<f64> = sink.channels[0]
+        .iter()
+        .filter(|(e, _)| e.code_epoch_s >= 1.5)
+        .map(|(e, _)| {
+            let mut x = (e.code_phase_chips - (phase0 + rate * e.sample_index as f64 / fs))
+                .rem_euclid(1023.0);
+            if x > 511.5 {
+                x -= 1023.0;
+            }
+            x
+        })
+        .collect();
+    (std_dev(&v), v.iter().sum::<f64>() / v.len() as f64)
+}
+
+/// Which (samples per chip, spacing) pairs degrade code tracking
+/// (`docs/design/evidence/dll-jitter/RESULTS.md`): for each, the noise-free S-curve at
+/// offsets 0 … 0.6·d/2 and the 45 dB-Hz σ and mean of the code error, against an
+/// incommensurate control at 1.0731× the rate with the same d. Release mode.
+#[test]
+#[ignore]
+fn spacing_ratio_survey() {
+    let chip = 1.023e6;
+    println!("spc,d,s_curve,sigma_eps,mean_eps,control_sigma,control_mean,excess");
+    for d in [0.5, 0.25, 0.1] {
+        for r in [2.0, 2.5, 3.0, 3.5, 4.0, 5.0] {
+            let fs = r * chip;
+            let s: Vec<String> = (0..7)
+                .map(|k| format!("{:.4}", first_disc_d(fs, d, k as f64 * 0.05 * d)))
+                .collect();
+            let (se, me) = code_error_d(fs, d);
+            let (sc, mc) = code_error_d(fs * 1.0731, d);
+            println!(
+                "{r},{d},{},{se:.5},{me:+.5},{sc:.5},{mc:+.5},{:.2}",
+                s.join(" "),
+                se / sc
+            );
+        }
+    }
+}
+
+/// Bar B4 of `docs/design/evidence/carrier-lock/PREREGISTRATION.md`: with the FLL used
+/// only during pull-in, the default design still pulls in a hand-off 100 Hz off the true
+/// Doppler at 45 dB-Hz, reaches LOCKED and raises no false lock.
+#[test]
+fn the_default_design_pulls_in_a_100_hz_handoff_error() {
+    let mut src = Synth::at(4.1e6, 13, 1500.0, 45.0, 2.2, vec![]);
+    let init = src.init(1400.0);
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, LoopConfig::default())],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    let events = &sink.events;
+    assert!(
+        events.iter().all(|e| e.reason != "false-lock"),
+        "{events:?}"
+    );
+    let (last, state) = sink.channels[0].last().unwrap();
+    assert_eq!(*state, LockState::Locked, "{events:?}");
+    assert!(
+        (last.doppler_hz - 1500.0).abs() < 5.0,
+        "{}",
+        last.doppler_hz
+    );
+}
+
+/// Several PRNs in one stream: the first source's noise, every source's signal.
+struct Sum(Vec<Synth>);
+
+impl IqSource for Sum {
+    fn spec(&self) -> SampleSpec {
+        self.0[0].spec()
+    }
+    fn read(&mut self, buf: &mut [Cf64]) -> Result<usize, IqError> {
+        let n = self.0[0].read(buf)?;
+        let mut tmp = vec![Cf64::default(); n];
+        for s in &mut self.0[1..] {
+            s.read(&mut tmp)?;
+            for (o, v) in buf.iter_mut().zip(&tmp) {
+                *o = *o + *v;
+            }
+        }
+        Ok(n)
+    }
+}
+
+/// The outage regression from the campaign runs: 20 s, PRNs 3/11/22 at 45 dB-Hz,
+/// 4.092 MS/s, no signal for 8.0 ≤ t < 10.0 s, re-acquisition on with the default
+/// budget. Every channel must be re-acquired after the signal returns and end LOCKED
+/// (with a count-based budget of 3 they were all retired within 0.2 s of the loss).
+/// Release mode: `cargo test --release --test iq_track_engine outage -- --ignored`.
+#[test]
+#[ignore]
+fn every_channel_recovers_from_a_2_s_outage() {
+    let fs = 4.092e6;
+    let gap = (8.0, 10.0);
+    let prns = [(3, 1200.0), (11, -2300.0), (22, 400.0)];
+    let mut synths: Vec<Synth> = prns
+        .iter()
+        .map(|&(p, f)| Synth::at(fs, p, f, 45.0, 20.0, vec![gap]))
+        .collect();
+    for s in &mut synths[1..] {
+        s.noise = false;
+    }
+    let design = DesignFile::parse(
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"d\"\n[design.lock]\nreacquire = true\n",
+    )
+    .unwrap();
+    let chans = synths
+        .iter()
+        .map(|s| SessionChannel::from_design(s.init(s.doppler), &design.designs()[0]))
+        .collect();
+    let mut src = Sum(synths);
+    let mut session = TrackSession::new(src.spec(), chans).unwrap();
+    let mut collect = CollectSink::default();
+    let mut summary = kshana::iq::track::sink::Summary::new(1.0);
+    let mut fan = Fanout::new();
+    fan.push(&mut collect);
+    fan.push(&mut summary);
+    session.run(&mut src, None, &mut fan).unwrap();
+    for (i, &(prn, f)) in prns.iter().enumerate() {
+        let ev: Vec<_> = collect
+            .events
+            .iter()
+            .filter(|e| e.channel == i as u32)
+            .collect();
+        assert!(
+            ev.iter().all(|e| e.reason != "retired"),
+            "PRN {prn} retired: {ev:?}"
+        );
+        let back = ev
+            .iter()
+            .find(|e| e.reason == "reacquired" && e.code_epoch_s >= gap.1)
+            .unwrap_or_else(|| panic!("PRN {prn}: no re-acquisition after the gap: {ev:?}"));
+        assert!(back.code_epoch_s < gap.1 + 2.1, "PRN {prn}: {back:?}");
+        let searches = ev.iter().filter(|e| e.reason == "reacq-start").count();
+        assert!(
+            searches <= 8,
+            "PRN {prn}: {searches} searches in a 2 s outage"
+        );
+        let (last, state) = collect.channels[i].last().unwrap();
+        assert_eq!(*state, LockState::Locked, "PRN {prn}: {ev:?}");
+        assert!((last.doppler_hz - f).abs() < 25.0, "PRN {prn}");
+        assert_eq!(summary.channels[i].final_state, Some(LockState::Locked));
+    }
+}
+
+/// `final_state` is the channel's state after its last transition: a channel retired
+/// after its last loop update ends RETIRED, not in the state of that update.
+#[test]
+fn the_summary_final_state_follows_the_last_transition() {
+    let mut src = Synth::new(11, 1500.0, 45.0, 3.4, vec![(1.6, 3.4)]);
+    let init = src.init(1500.0);
+    let design = DesignFile::parse(
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"d\"\n[design.lock]\nreacquire = true\nreacq_window_s = 0.6\n",
+    )
+    .unwrap();
+    let ch = SessionChannel::from_design(init, &design.designs()[0]);
+    let mut session = TrackSession::new(src.spec(), vec![ch]).unwrap();
+    let mut collect = CollectSink::default();
+    let mut summary = kshana::iq::track::sink::Summary::new(1.0);
+    let mut fan = Fanout::new();
+    fan.push(&mut collect);
+    fan.push(&mut summary);
+    session.run(&mut src, None, &mut fan).unwrap();
+    let last_event = collect.events.last().expect("events");
+    assert_eq!(last_event.to, LockState::Retired, "{:?}", collect.events);
+    assert_eq!(summary.channels[0].final_state, Some(last_event.to));
+    // Searches were spaced, not back to back.
+    let starts: Vec<f64> = collect
+        .events
+        .iter()
+        .filter(|e| e.reason == "reacq-start")
+        .map(|e| e.code_epoch_s)
+        .collect();
+    assert!(starts.len() >= 2, "{:?}", collect.events);
+    assert!(starts.windows(2).all(|w| w[1] - w[0] >= 0.24), "{starts:?}");
 }

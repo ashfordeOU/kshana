@@ -32,7 +32,7 @@
 
 use super::cn0::BitSyncConfig;
 use super::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};
-use super::{CarrierLoop, LoopConfig};
+use super::{CarrierLoop, FllAssist, FllGate, LoopConfig};
 use crate::iq::acq::{auto_coherent_periods, AcqConfig};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
@@ -57,7 +57,15 @@ pub struct LockConfig {
     pub reacquire: bool,
     /// Half-width (Hz) of the re-acquisition Doppler search, centred on the last Doppler.
     pub reacq_doppler_window_hz: f64,
-    /// Failed re-acquisitions after which a channel is retired.
+    /// How long (s) a lost channel keeps trying to re-acquire, from the moment it was
+    /// lost, before it is retired. Re-acquisition succeeds when the channel locks again.
+    pub reacq_window_s: f64,
+    /// Wait (s) after the first failed search before the next; it doubles after each
+    /// further failure, up to `reacq_max_interval_s`.
+    pub reacq_interval_s: f64,
+    /// Longest wait (s) between searches.
+    pub reacq_max_interval_s: f64,
+    /// Optional cap on failed searches per loss (0 = no cap; the window alone decides).
     pub max_reacq_attempts: u32,
 }
 
@@ -70,7 +78,10 @@ impl Default for LockConfig {
             false_lock_margin_db: 3.0,
             reacquire: false,
             reacq_doppler_window_hz: 500.0,
-            max_reacq_attempts: 3,
+            reacq_window_s: 30.0,
+            reacq_interval_s: 0.25,
+            reacq_max_interval_s: 2.0,
+            max_reacq_attempts: 0,
         }
     }
 }
@@ -219,6 +230,10 @@ struct RawCarrier {
     fll_bw_hz: Option<f64>,
     pll_discriminator: Option<String>,
     fll_discriminator: Option<String>,
+    fll_assist: Option<String>,
+    fll_off_pli: Option<f64>,
+    fll_on_pli: Option<f64>,
+    fll_gate_dwell_s: Option<f64>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -243,6 +258,9 @@ struct RawLock {
     false_lock_margin_db: Option<f64>,
     reacquire: Option<bool>,
     reacq_doppler_window_hz: Option<f64>,
+    reacq_window_s: Option<f64>,
+    reacq_interval_s: Option<f64>,
+    reacq_max_interval_s: Option<f64>,
     max_reacq_attempts: Option<u32>,
 }
 
@@ -280,6 +298,10 @@ struct Carrier {
     fll_bw_hz: Option<f64>,
     pll_discriminator: String,
     fll_discriminator: String,
+    fll_assist: Option<String>,
+    fll_off_pli: Option<f64>,
+    fll_on_pli: Option<f64>,
+    fll_gate_dwell_s: Option<f64>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
@@ -349,6 +371,24 @@ fn fll_disc_name(d: FllDiscriminator) -> &'static str {
     }
 }
 
+/// Checks an `fll_assist` keyword; the gate settings come from their own keys.
+fn fll_assist(s: &str) -> Result<FllAssist, String> {
+    match s {
+        "pull-in" => Ok(FllAssist::default()),
+        "always" => Ok(FllAssist::Always),
+        o => Err(format!(
+            "carrier.fll_assist {o:?}: expected pull-in or always"
+        )),
+    }
+}
+
+fn fll_assist_name(a: FllAssist) -> &'static str {
+    match a {
+        FllAssist::PullIn(_) => "pull-in",
+        FllAssist::Always => "always",
+    }
+}
+
 fn dll_disc(s: &str) -> Result<DllDiscriminator, String> {
     Ok(match s {
         "eml-power" => DllDiscriminator::EarlyMinusLatePower,
@@ -376,6 +416,11 @@ impl Resolved {
     fn builtin() -> Self {
         let c = LoopConfig::default();
         let (kind, po, pb, fo, fb) = carrier_fields(&c.carrier);
+        let assisted = c.carrier.has_pll() && c.carrier.has_fll();
+        let gate = match c.fll_assist {
+            FllAssist::PullIn(g) => g,
+            FllAssist::Always => FllGate::default(),
+        };
         Self {
             schema: SCHEMA,
             integration: Integration {
@@ -390,6 +435,10 @@ impl Resolved {
                 fll_bw_hz: fb,
                 pll_discriminator: pll_disc_name(c.pll_discriminator).into(),
                 fll_discriminator: fll_disc_name(c.fll_discriminator).into(),
+                fll_assist: assisted.then(|| fll_assist_name(c.fll_assist).into()),
+                fll_off_pli: assisted.then_some(gate.off_pli),
+                fll_on_pli: assisted.then_some(gate.on_pli),
+                fll_gate_dwell_s: assisted.then_some(gate.dwell_s),
             },
             code: Code {
                 order: c.dll_order,
@@ -441,6 +490,23 @@ impl Resolved {
                     has_fll.then(|| self.carrier.fll_order.or(base.fll_order).unwrap_or(1));
                 self.carrier.fll_bw_hz =
                     has_fll.then(|| self.carrier.fll_bw_hz.or(base.fll_bw_hz).unwrap_or(10.0));
+                let assisted = has_pll && has_fll;
+                self.carrier.fll_assist = assisted.then(|| {
+                    self.carrier
+                        .fll_assist
+                        .clone()
+                        .or(base.fll_assist)
+                        .unwrap_or_else(|| "pull-in".into())
+                });
+                self.carrier.fll_off_pli = assisted
+                    .then(|| self.carrier.fll_off_pli.or(base.fll_off_pli))
+                    .flatten();
+                self.carrier.fll_on_pli = assisted
+                    .then(|| self.carrier.fll_on_pli.or(base.fll_on_pli))
+                    .flatten();
+                self.carrier.fll_gate_dwell_s = assisted
+                    .then(|| self.carrier.fll_gate_dwell_s.or(base.fll_gate_dwell_s))
+                    .flatten();
             }
         }
         let has_pll = self.carrier.kind != "fll";
@@ -450,6 +516,14 @@ impl Resolved {
             ("pll_bw_hz", c.pll_bw_hz.is_some(), has_pll),
             ("fll_order", c.fll_order.is_some(), has_fll),
             ("fll_bw_hz", c.fll_bw_hz.is_some(), has_fll),
+            ("fll_assist", c.fll_assist.is_some(), has_pll && has_fll),
+            ("fll_off_pli", c.fll_off_pli.is_some(), has_pll && has_fll),
+            ("fll_on_pli", c.fll_on_pli.is_some(), has_pll && has_fll),
+            (
+                "fll_gate_dwell_s",
+                c.fll_gate_dwell_s.is_some(),
+                has_pll && has_fll,
+            ),
         ] {
             if given && !allowed {
                 return Err(at(format!(
@@ -478,6 +552,13 @@ impl Resolved {
             fll_disc(d).map_err(at)?;
             self.carrier.fll_discriminator = d.clone();
         }
+        if let Some(a) = &c.fll_assist {
+            fll_assist(a).map_err(at)?;
+            self.carrier.fll_assist = Some(a.clone());
+        }
+        set_some(&mut self.carrier.fll_off_pli, c.fll_off_pli);
+        set_some(&mut self.carrier.fll_on_pli, c.fll_on_pli);
+        set_some(&mut self.carrier.fll_gate_dwell_s, c.fll_gate_dwell_s);
 
         let k = &raw.code;
         set(&mut self.code.order, k.order);
@@ -500,6 +581,9 @@ impl Resolved {
         set(&mut m.false_lock_margin_db, l.false_lock_margin_db);
         set(&mut m.reacquire, l.reacquire);
         set(&mut m.reacq_doppler_window_hz, l.reacq_doppler_window_hz);
+        set(&mut m.reacq_window_s, l.reacq_window_s);
+        set(&mut m.reacq_interval_s, l.reacq_interval_s);
+        set(&mut m.reacq_max_interval_s, l.reacq_max_interval_s);
         set(&mut m.max_reacq_attempts, l.max_reacq_attempts);
 
         set(&mut self.bit_sync.min_votes, raw.bit_sync.min_votes);
@@ -533,6 +617,21 @@ impl Resolved {
             return Err(format!(
                 "integration.spacing_chips must lie in (0, 2] (got {d})"
             ));
+        }
+        if let (Some(off), Some(on)) = (self.carrier.fll_off_pli, self.carrier.fll_on_pli) {
+            if !(on.is_finite() && off.is_finite() && on > -1.0 && on < off && off <= 1.0) {
+                return Err(format!(
+                    "carrier.fll_on_pli ({on}) must be below carrier.fll_off_pli ({off}), \
+                     both in (-1, 1]"
+                ));
+            }
+        }
+        if let Some(t) = self.carrier.fll_gate_dwell_s {
+            if !(t.is_finite() && t >= 0.0) {
+                return Err(format!(
+                    "carrier.fll_gate_dwell_s must be zero or positive (got {t})"
+                ));
+            }
         }
         if let (Some(o), Some(b)) = (self.carrier.pll_order, self.carrier.pll_bw_hz) {
             if !(1..=3).contains(&o) {
@@ -569,6 +668,15 @@ impl Resolved {
         pos(m.pull_in_max_s, "lock.pull_in_max_s")?;
         pos(m.loss_dwell_s, "lock.loss_dwell_s")?;
         pos(m.reacq_doppler_window_hz, "lock.reacq_doppler_window_hz")?;
+        pos(m.reacq_window_s, "lock.reacq_window_s")?;
+        pos(m.reacq_interval_s, "lock.reacq_interval_s")?;
+        pos(m.reacq_max_interval_s, "lock.reacq_max_interval_s")?;
+        if m.reacq_max_interval_s < m.reacq_interval_s {
+            return Err(format!(
+                "lock.reacq_max_interval_s ({}) must not be below lock.reacq_interval_s ({})",
+                m.reacq_max_interval_s, m.reacq_interval_s
+            ));
+        }
         if !m.false_lock_margin_db.is_finite() {
             return Err("lock.false_lock_margin_db must be finite".into());
         }
@@ -594,6 +702,12 @@ impl Resolved {
             ));
         }
         Ok(())
+    }
+}
+
+fn set_some<T>(slot: &mut Option<T>, v: Option<T>) {
+    if v.is_some() {
+        *slot = v;
     }
 }
 
@@ -753,6 +867,17 @@ impl Design {
             pll_discriminator: pll_disc(&c.pll_discriminator)
                 .unwrap_or(PllDiscriminator::CostasAtan),
             fll_discriminator: fll_disc(&c.fll_discriminator).unwrap_or(FllDiscriminator::Atan2),
+            fll_assist: match c.fll_assist.as_deref() {
+                Some("always") => FllAssist::Always,
+                _ => {
+                    let d = FllGate::default();
+                    FllAssist::PullIn(FllGate {
+                        off_pli: c.fll_off_pli.unwrap_or(d.off_pli),
+                        on_pli: c.fll_on_pli.unwrap_or(d.on_pli),
+                        dwell_s: c.fll_gate_dwell_s.unwrap_or(d.dwell_s),
+                    })
+                }
+            },
             pli_threshold: r.lock.pli_threshold,
             code_lock_cn0_dbhz: r.lock.code_lock_cn0_dbhz,
             cn0_windows: r.lock.cn0_windows,
@@ -1015,6 +1140,9 @@ false_lock_check = false
 false_lock_margin_db = 6.0
 reacquire = true
 reacq_doppler_window_hz = 300.0
+reacq_window_s = 12.0
+reacq_interval_s = 0.5
+reacq_max_interval_s = 4.0
 max_reacq_attempts = 5
 [design.bit_sync]
 min_votes = 8
@@ -1056,6 +1184,9 @@ pfa = 0.01
                 false_lock_margin_db: 6.0,
                 reacquire: true,
                 reacq_doppler_window_hz: 300.0,
+                reacq_window_s: 12.0,
+                reacq_interval_s: 0.5,
+                reacq_max_interval_s: 4.0,
                 max_reacq_attempts: 5,
             }
         );
@@ -1133,6 +1264,41 @@ pfa = 0.01
                 bn_hz: 4.0
             }
         );
+    }
+
+    #[test]
+    fn fll_assist_defaults_to_pull_in_and_belongs_to_the_assisted_kind() {
+        let parse =
+            |body: &str| DesignFile::parse(&format!("{HEAD}[[design]]\nname = \"a\"\n{body}"));
+        let d = Design::builtin_default();
+        assert_eq!(
+            d.loop_config().fll_assist,
+            FllAssist::PullIn(FllGate::default())
+        );
+        let tuned = parse("[design.carrier]\nfll_on_pli = 0.5\nfll_gate_dwell_s = 0.3\n").unwrap();
+        assert_eq!(
+            tuned.designs()[0].loop_config().fll_assist,
+            FllAssist::PullIn(FllGate {
+                off_pli: 0.8,
+                on_pli: 0.5,
+                dwell_s: 0.3
+            })
+        );
+        let err = parse("[design.carrier]\nfll_on_pli = 0.9\n").unwrap_err();
+        assert!(err.contains("must be below"), "{err}");
+        assert_eq!(d.to_json()["carrier"]["fll_assist"], "pull-in");
+        let always = parse("[design.carrier]\nfll_assist = \"always\"\n").unwrap();
+        assert_eq!(
+            always.designs()[0].loop_config().fll_assist,
+            FllAssist::Always
+        );
+        assert_ne!(always.designs()[0].hash(), d.hash());
+        let pll = parse("[design.carrier]\nkind = \"pll\"\n").unwrap();
+        assert!(pll.designs()[0].to_json()["carrier"]["fll_assist"].is_null());
+        let err = parse("[design.carrier]\nkind = \"pll\"\nfll_assist = \"always\"\n").unwrap_err();
+        assert!(err.contains("does not apply"), "{err}");
+        let err = parse("[design.carrier]\nfll_assist = \"sometimes\"\n").unwrap_err();
+        assert!(err.contains("pull-in or always"), "{err}");
     }
 
     #[test]

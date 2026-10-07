@@ -81,6 +81,48 @@ pub fn commensurate_samples_per_chip(fs_hz: f64, chip_rate_hz: f64) -> Option<f6
     (nearest > 0.0 && (r - nearest).abs() <= 1e-6 * r).then_some(r)
 }
 
+/// When the FLL path of an FLL-assisted PLL feeds the loop.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum FllAssist {
+    /// Only during pull-in: the FLL pulls the carrier in, hands over to the PLL once the
+    /// channel is phase-locked, and comes back when phase lock is lost (with hysteresis,
+    /// see [`FllGate`]). Left on, a 10 Hz FLL path injects enough frequency noise to break
+    /// phase lock below about 38 dB-Hz (`docs/design/evidence/carrier-lock/`).
+    PullIn(FllGate),
+    /// On at every update.
+    Always,
+}
+
+impl Default for FllAssist {
+    fn default() -> Self {
+        FllAssist::PullIn(FllGate::default())
+    }
+}
+
+/// The hand-over between the FLL and the PLL of [`FllAssist::PullIn`]. The FLL path is
+/// switched off once the smoothed PLI has stayed at or above `off_pli` for `dwell_s`, and
+/// back on once it has stayed below `on_pli` for `dwell_s`. `on_pli < off_pli` and the
+/// dwell keep the gate from chattering around one threshold.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct FllGate {
+    /// Smoothed PLI at or above which the FLL hands over to the PLL.
+    pub off_pli: f64,
+    /// Smoothed PLI below which the FLL comes back.
+    pub on_pli: f64,
+    /// How long (s) either condition must hold.
+    pub dwell_s: f64,
+}
+
+impl Default for FllGate {
+    fn default() -> Self {
+        Self {
+            off_pli: 0.8,
+            on_pli: 0.6,
+            dwell_s: 0.1,
+        }
+    }
+}
+
 /// The carrier loop of a channel.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum CarrierLoop {
@@ -166,6 +208,8 @@ pub struct LoopConfig {
     pub pll_discriminator: PllDiscriminator,
     /// Carrier-frequency discriminator.
     pub fll_discriminator: FllDiscriminator,
+    /// When the FLL path of an FLL-assisted PLL is used (ignored by the other kinds).
+    pub fll_assist: FllAssist,
     /// Smoothed phase lock indicator above which phase lock is declared.
     pub pli_threshold: f64,
     /// NWPR C/N0 (dB-Hz) at or above which code lock is declared.
@@ -181,7 +225,7 @@ pub struct LoopConfig {
 impl Default for LoopConfig {
     /// A GPS-L1-C/A-like design: 1-period integration, 0.5-chip spacing, carrier-aided
     /// first-order 2 Hz early-minus-late-power DLL, second-order 15 Hz Costas PLL assisted
-    /// by a first-order 10 Hz FLL, PLI threshold 0.8, code lock at 26 dB-Hz, C/N0 over 50
+    /// by a first-order 10 Hz FLL during pull-in, PLI threshold 0.8, code lock at 26 dB-Hz, C/N0 over 50
     /// windows.
     fn default() -> Self {
         Self {
@@ -200,6 +244,7 @@ impl Default for LoopConfig {
             },
             pll_discriminator: PllDiscriminator::CostasAtan,
             fll_discriminator: FllDiscriminator::Atan2,
+            fll_assist: FllAssist::default(),
             pli_threshold: 0.8,
             code_lock_cn0_dbhz: 26.0,
             cn0_windows: 50,
@@ -234,6 +279,7 @@ pub struct LoopCore {
     doppler_hz: f64,
     code_rate_hz: f64,
     prev_prompt: Option<Cf64>,
+    fll_enabled: bool,
 }
 
 impl LoopCore {
@@ -267,6 +313,7 @@ impl LoopCore {
             doppler_hz: init_doppler_hz,
             code_rate_hz: 0.0,
             prev_prompt: None,
+            fll_enabled: true,
         };
         s.code_rate_hz = s.base_code_rate();
         Ok(s)
@@ -292,7 +339,7 @@ impl LoopCore {
             Some(prev) => self.cfg.fll_discriminator.discriminate(prev, p, t_s),
             None => 0.0,
         };
-        let fe = if self.cfg.carrier.has_fll() {
+        let fe = if self.cfg.carrier.has_fll() && self.fll_enabled {
             TAU * fll_hz
         } else {
             0.0
@@ -308,6 +355,18 @@ impl LoopCore {
             fll_hz,
             dll_chips,
         }
+    }
+
+    /// Switch the FLL path of an FLL-assisted PLL on or off (the channel does this under
+    /// [`FllAssist::PullIn`]). A core that is never told keeps it on. An FLL-only loop
+    /// ignores it.
+    pub fn set_fll_enabled(&mut self, on: bool) {
+        self.fll_enabled = on || !self.cfg.carrier.has_pll();
+    }
+
+    /// Whether the FLL path feeds the loop.
+    pub fn fll_enabled(&self) -> bool {
+        self.cfg.carrier.has_fll() && self.fll_enabled
     }
 
     /// Carrier Doppler the NCO is set to (Hz, relative to the intermediate frequency).

@@ -6,7 +6,7 @@ use super::cn0::{
     beaulieu_cn0_from_term, beaulieu_term, nwpr_cn0_from_ratio, nwpr_power_ratio,
     phase_lock_indicator, BitSync,
 };
-use super::{Discriminators, LoopConfig, LoopCore};
+use super::{Discriminators, FllAssist, LoopConfig, LoopCore};
 use crate::iq::acq::AcqResult;
 use crate::iq::{Cf64, SampleSpec, SpreadingCode};
 use crate::portable_math::PortableFloat;
@@ -112,6 +112,8 @@ pub struct EpochOutput {
     /// The sign of a data bit completed since the previous update (`±1`, with the Costas
     /// loop's 180° ambiguity).
     pub bit: Option<i8>,
+    /// Whether the FLL path fed this update (see [`FllAssist`]).
+    pub fll_active: bool,
 }
 
 /// One tracking channel.
@@ -145,6 +147,7 @@ pub struct Channel {
     window: Vec<Cf64>,
     window_len: usize,
     pli: f64,
+    fll_gate_since: Option<f64>,
     nwpr: VecDeque<f64>,
     beaulieu: VecDeque<f64>,
     prev_window_sum: Option<Cf64>,
@@ -222,6 +225,7 @@ impl Channel {
             window: Vec::with_capacity(window_len),
             window_len,
             pli: 0.0,
+            fll_gate_since: None,
             nwpr: VecDeque::new(),
             beaulieu: VecDeque::new(),
             prev_window_sum: None,
@@ -343,6 +347,8 @@ impl Channel {
             let t = self.block_samples as f64 / self.fs;
             let code_epoch_s = (self.sample_index as f64 - self.code_phase / self.dcode) / self.fs;
             let [be, bp, bl] = std::mem::take(&mut self.block);
+            self.fll_gate_step();
+            let fll_active = self.core.fll_enabled();
             let disc = self.core.update(be, bp, bl, t);
             let cfg = self.core.config();
             out.push(EpochOutput {
@@ -366,12 +372,42 @@ impl Channel {
                 cn0_beaulieu_dbhz: self.cn0_beaulieu,
                 bit_edge: edge,
                 bit: self.pending_bit.take(),
+                fll_active,
             });
             self.epoch += 1;
             self.block_periods = 0;
             self.block_samples = 0;
         }
         self.set_ncos();
+    }
+
+    /// The FLL/PLL hand-over of [`FllAssist::PullIn`] on an FLL-assisted PLL: switch the
+    /// FLL path off once the smoothed PLI has held at or above `off_pli` for the dwell, back
+    /// on once it has held below `on_pli` for the dwell.
+    fn fll_gate_step(&mut self) {
+        let gate = match self.core.config().fll_assist {
+            FllAssist::PullIn(g) => g,
+            FllAssist::Always => return,
+        };
+        if !(self.core.config().carrier.has_pll() && self.core.config().carrier.has_fll()) {
+            return;
+        }
+        let now = self.sample_index as f64 / self.fs;
+        let on = self.core.fll_enabled();
+        let wants_change = if on {
+            self.pli >= gate.off_pli
+        } else {
+            self.pli < gate.on_pli
+        };
+        if !wants_change {
+            self.fll_gate_since = None;
+            return;
+        }
+        let since = *self.fll_gate_since.get_or_insert(now);
+        if now - since >= gate.dwell_s {
+            self.core.set_fll_enabled(!on);
+            self.fll_gate_since = None;
+        }
     }
 
     /// Window bookkeeping for the lock indicator, the C/N0 estimators and the bits.
