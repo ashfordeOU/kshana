@@ -370,3 +370,109 @@ async fn without_a_work_dir_the_file_tools_say_how_to_enable_them() {
     assert!(err.contains("KSHANA_MCP_IQ_DIR"), "{err}");
     client.cancel().await.ok();
 }
+
+#[tokio::test]
+async fn a_campaign_runs_incrementally_within_the_budget_and_reports_its_status() {
+    let dir = work_dir("campaign");
+    // A 1.5 s scene: 3_069_000 samples. The budget fits one cell per call.
+    let client = connect(IqConfig::new(&dir, 3_100_000).unwrap()).await;
+    let mut args = scene_args("rec.bin");
+    args["duration_s"] = json!(1.5);
+    call(&client, "iq_scene", args).await.unwrap();
+    std::fs::write(
+        dir.join("rec.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"rec\"\npath = \"rec.bin\"\n\
+         settle_s = 0.5\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [3, 17]\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("c.toml"),
+        "schema = \"kshana.campaign/1\"\nname = \"mcp\"\n[inputs]\nconditions = [\"rec.toml\"]\n\
+         [[frontend]]\nname = \"raw\"\n[[frontend]]\nname = \"q2\"\nbits = 2\n",
+    )
+    .unwrap();
+
+    let dry = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "c.toml", "out_dir": "out", "dry_run": true }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        (dry["cells_total"].as_u64(), dry["cells_run"].as_u64()),
+        (Some(2), Some(0))
+    );
+
+    let first = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "c.toml", "out_dir": "out" }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(first["cells_run"], 1, "{first:#}");
+    assert_eq!(first["cells_pending"], 1);
+    assert_eq!(first["samples_budgeted"], 3_069_000);
+    assert!(first["digest"].is_null());
+    let status = call(&client, "iq_campaign_status", json!({ "out_dir": "out" }))
+        .await
+        .unwrap();
+    assert_eq!(
+        (
+            status["cells_done"].as_u64(),
+            status["cells_pending"].as_u64()
+        ),
+        (Some(1), Some(1))
+    );
+
+    let second = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "c.toml", "out_dir": "out" }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        (
+            second["cells_run"].as_u64(),
+            second["cells_skipped"].as_u64()
+        ),
+        (Some(1), Some(1))
+    );
+    let digest = second["digest"].as_str().unwrap().to_string();
+    assert_eq!(digest.len(), 64);
+    let names: Vec<String> = files(&second).into_iter().map(|(p, _)| p).collect();
+    assert!(names.contains(&"out/report.html".to_string()), "{names:?}");
+    let status = call(&client, "iq_campaign_status", json!({ "out_dir": "out" }))
+        .await
+        .unwrap();
+    assert_eq!(status["digest"], json!(digest));
+
+    // A campaign naming a recording outside the work directory is refused.
+    std::fs::write(
+        dir.join("escape.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"x\"\npath = \"/etc/hostname\"\n\
+         format = \"ci8\"\nsample_rate_hz = 1e6\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [1]\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("bad.toml"),
+        "schema = \"kshana.campaign/1\"\nname = \"bad\"\n[inputs]\nconditions = [\"escape.toml\"]\n",
+    )
+    .unwrap();
+    let err = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "bad.toml", "out_dir": "out2" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(err.contains("outside the IQ work directory"), "{err}");
+    assert!(
+        !dir.join("out2").exists(),
+        "nothing created for a refused campaign"
+    );
+    client.cancel().await.ok();
+    std::fs::remove_dir_all(&dir).ok();
+}
