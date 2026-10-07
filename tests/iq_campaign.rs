@@ -670,3 +670,81 @@ fn the_cli_runs_checks_and_rebuilds() {
         "{msg}"
     );
 }
+
+/// A memory figure of this process (kB) from `/proc/self/status` (Linux only).
+fn status_kb(key: &str) -> Option<u64> {
+    std::fs::read_to_string("/proc/self/status")
+        .ok()?
+        .lines()
+        .find(|l| l.starts_with(key))?
+        .split_whitespace()
+        .nth(1)?
+        .parse()
+        .ok()
+}
+
+/// Peak resident memory (kB).
+fn vm_hwm_kb() -> Option<u64> {
+    status_kb("VmHWM:")
+}
+
+/// Current resident memory (kB).
+fn vm_rss_kb() -> Option<u64> {
+    status_kb("VmRSS:")
+}
+
+/// Throughput and memory on a longer recording: 60 s, 4 satellites, 4 designs. Run it
+/// with `cargo test --release --test iq_campaign -- --ignored --nocapture`. The scorer
+/// streams, so peak memory must not grow with the recording length the way keeping every
+/// epoch would (about 230 MB for 60 s x 8 channels).
+#[test]
+#[ignore = "long: run in release on demand"]
+fn throughput_and_bounded_memory_on_a_long_recording() {
+    let dir = scratch("perf");
+    scene(
+        &dir,
+        "long",
+        60.0,
+        &[(1, 900.0), (6, -1300.0), (14, 2100.0), (22, -400.0)],
+        |_, _| Some(NOMINAL),
+    );
+    std::fs::write(
+        dir.join("long.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"long\"\npath = \"long.cf32\"\n\
+         [[expected]]\nsignal = \"gps-l1ca\"\nids = [1, 6, 14, 22]\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("d.toml"),
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"a\"\n[[design]]\nname = \"b\"\n\
+         [design.carrier]\npll_bw_hz = 10.0\n[[design]]\nname = \"c\"\n[design.code]\nbw_hz = 1.0\n\
+         [[design]]\nname = \"d\"\n[design.integration]\nspacing_chips = 0.25\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("c.toml"),
+        "schema = \"kshana.campaign/1\"\nname = \"perf\"\n[inputs]\nconditions = [\"long.toml\"]\n\
+         designs = \"d.toml\"\n",
+    )
+    .unwrap();
+    // Reset the peak-RSS mark so it measures the campaign alone, not the scene synthesis.
+    let _ = std::fs::write("/proc/self/clear_refs", "5");
+    let before = vm_rss_kb();
+    let c = LoadedCampaign::load(&dir.join("c.toml")).unwrap();
+    let t0 = std::time::Instant::now();
+    let s = run(&c, &dir.join("out"), &RunOptions::default()).unwrap();
+    let wall = t0.elapsed().as_secs_f64();
+    let channel_samples = 60.0 * FS * 4.0 * 4.0;
+    eprintln!(
+        "60 s x 4 satellites x 4 designs: {wall:.1} s wall, {:.1} Mchannel-samples/s, {:.2}x real time per (design, satellite) channel set",
+        channel_samples / wall / 1e6,
+        60.0 / wall
+    );
+    assert_eq!(s.cells_run, 4);
+    if let (Some(a), Some(b)) = (before, vm_hwm_kb()) {
+        let grew_mb = (b.saturating_sub(a)) as f64 / 1024.0;
+        eprintln!("peak RSS during the campaign: {grew_mb:.0} MB above the RSS before it");
+        assert!(grew_mb < 200.0, "peak RSS grew by {grew_mb:.0} MB");
+    }
+    std::fs::remove_dir_all(&dir).ok();
+}
