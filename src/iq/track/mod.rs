@@ -62,6 +62,25 @@ use self::filter::LoopFilter;
 use super::Cf64;
 use std::f64::consts::TAU;
 
+/// Samples per chip, when a stream sampled at `fs_hz` is **commensurate** with a code of
+/// `chip_rate_hz`: the ratio lies within 1e-6 (relative) of a multiple of 1/2. The samples then
+/// fall on the same few chip phases in every chip, the early and late correlators see a
+/// staircase instead of the correlation triangle, and the code loop's discriminator has flat
+/// steps (a dead zone). At exactly 2 samples per chip with 0.5-chip spacing the S-curve is a
+/// single step and the DLL dithers bang-bang (≈ 0.09 chip, ≈ 26 m, RMS code error on GPS L1
+/// C/A at 45 dB-Hz against ≈ 0.004 chip at an incommensurate rate); 2.5, 3 and 5 samples per
+/// chip are milder but biased. Evidence: `docs/design/evidence/dll-jitter/`. Real front ends
+/// avoid such rates; a recording made at one should not be used to judge code-loop
+/// performance. Returns `None` for an incommensurate rate.
+pub fn commensurate_samples_per_chip(fs_hz: f64, chip_rate_hz: f64) -> Option<f64> {
+    if !(fs_hz > 0.0 && chip_rate_hz > 0.0) {
+        return None;
+    }
+    let r = fs_hz / chip_rate_hz;
+    let nearest = (2.0 * r).round() / 2.0;
+    (nearest > 0.0 && (r - nearest).abs() <= 1e-6 * r).then_some(r)
+}
+
 /// The carrier loop of a channel.
 #[derive(Clone, Copy, Debug, PartialEq)]
 pub enum CarrierLoop {

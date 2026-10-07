@@ -504,3 +504,85 @@ fn cn0_survey() {
         }
     }
 }
+
+/// S-curve, jitter and bias at integer and half-integer samples per chip and at an
+/// incommensurate control (`docs/design/evidence/dll-jitter/RESULTS.md`). Release mode:
+/// `cargo test --release --test iq_track_engine commensurate_ratio_survey -- --ignored
+/// --nocapture`.
+#[test]
+#[ignore]
+fn commensurate_ratio_survey() {
+    let chip = 1.023e6;
+    for r in [2.0, 2.5, 3.0, 3.5, 4.0, 5.0, 2.4438] {
+        let fs = r * chip;
+        let v: Vec<String> = [0.0, 0.03, 0.06, 0.09, 0.12, 0.15, 0.18, 0.21]
+            .iter()
+            .map(|&e| format!("{:.4}", first_disc(fs, e)))
+            .collect();
+        let (sd, se) = dll_measured(fs, 45.0);
+        let bias = dll_bias(fs, 45.0);
+        println!(
+            "ratio {r}: S {} | sigma_D {sd:.4} sigma_eps {se:.5} mean_eps {bias:.4}",
+            v.join(" ")
+        );
+    }
+}
+
+fn dll_bias(fs: f64, cn0_dbhz: f64) -> f64 {
+    let mut src = Synth::at(fs, 13, 1500.0, cn0_dbhz, 3.5, vec![]);
+    let init = src.init(1500.0);
+    let (phase0, rate) = (src.phase0, src.rate);
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, LoopConfig::default())],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    let v: Vec<f64> = sink.channels[0]
+        .iter()
+        .filter(|(e, _)| e.code_epoch_s >= 1.5)
+        .map(|(e, _)| {
+            let mut d = (e.code_phase_chips - (phase0 + rate * e.sample_index as f64 / fs))
+                .rem_euclid(1023.0);
+            if d > 511.5 {
+                d -= 1023.0;
+            }
+            d
+        })
+        .collect();
+    v.iter().sum::<f64>() / v.len() as f64
+}
+
+/// The commensurate-sampling rule: within 1e-6 (relative) of a multiple of half a chip.
+#[test]
+fn commensurate_rates_are_recognised() {
+    use kshana::iq::track::commensurate_samples_per_chip as c;
+    let chip = 1.023e6;
+    for fs in [2.046e6, 2.5575e6, 3.069e6, 4.092e6, 5.115e6, 16.368e6] {
+        assert!(c(fs, chip).is_some(), "{fs}");
+    }
+    assert_eq!(c(2.046e6, chip), Some(2.0));
+    for fs in [2.5e6, 4.1e6, 2.048e6, 4.0e6, 5.0e6, 2.046e6 * (1.0 + 5e-6)] {
+        assert!(c(fs, chip).is_none(), "{fs}");
+    }
+}
+
+/// A sample rate with no whole number of samples per code period (2.5 samples/chip here)
+/// cannot run the false-lock check's search; tracking goes on without it instead of
+/// stopping.
+#[test]
+fn an_unsearchable_rate_tracks_without_the_check() {
+    let fs = 2.5 * 1.023e6;
+    let mut src = Synth::at(fs, 13, 900.0, 45.0, 1.2, vec![]);
+    let init = src.init(900.0);
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, LoopConfig::default())],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    assert!(sink.channels[0].len() > 1000);
+    assert!(!sink.events.iter().any(|e| e.reason == "false-lock"));
+}

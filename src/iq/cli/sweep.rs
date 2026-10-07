@@ -13,7 +13,10 @@
 //! `--epochs`/`--events` stream the per-epoch records and lock events as `iq track` does.
 
 use super::acquire::codes_from_args;
-use super::track::{acquire_inits, create, epochs_writer, handoff_from_args, TRACK_SWITCHES};
+use super::track::{
+    acquire_inits, create, epochs_writer, handoff_from_args, sampling_warnings, warning_lines,
+    TRACK_SWITCHES,
+};
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::track::design::{Design, DesignFile};
@@ -183,14 +186,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             }
         })
         .collect();
-    write_outputs(&a, &rows)?;
-    Ok(table(&rows))
+    let warnings = sampling_warnings(&spec, &codes);
+    write_outputs(&a, &rows, &warnings)?;
+    Ok(table(&rows) + &warning_lines(&warnings))
 }
 
 /// Write the optional `--json` and `--csv` artifacts.
-fn write_outputs(a: &Args, rows: &[Metrics]) -> Result<(), Fail> {
+fn write_outputs(a: &Args, rows: &[Metrics], warnings: &[serde_json::Value]) -> Result<(), Fail> {
     if let Some(p) = a.get("--json") {
-        std::fs::write(p, to_json(rows)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+        std::fs::write(p, to_json(rows, warnings)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
     }
     if let Some(p) = a.get("--csv") {
         std::fs::write(p, to_csv(rows)).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
@@ -221,7 +225,7 @@ fn to_csv(rows: &[Metrics]) -> String {
 }
 
 /// Metrics as pretty JSON.
-fn to_json(rows: &[Metrics]) -> String {
+fn to_json(rows: &[Metrics], warnings: &[serde_json::Value]) -> String {
     let v: Vec<serde_json::Value> = rows
         .iter()
         .map(|m| {
@@ -238,7 +242,8 @@ fn to_json(rows: &[Metrics]) -> String {
             })
         })
         .collect();
-    serde_json::to_string_pretty(&serde_json::json!({ "designs": v })).unwrap_or_default()
+    serde_json::to_string_pretty(&serde_json::json!({ "designs": v, "warnings": warnings }))
+        .unwrap_or_default()
 }
 
 /// A human-readable table.

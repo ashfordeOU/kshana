@@ -76,3 +76,32 @@ code error costs correlation power (the mean |P| falls 0.75 dB below the ideal a
 adds amplitude jitter. Beaulieu, which is sensitive to amplitude fluctuation, reads 12 dB low
 there. At an incommensurate rate both estimators read within 2 dB of truth, and NWPR within
 0.25 dB.
+
+## Integer and half-integer rates (deciding the warning)
+
+`commensurate_ratio_survey` (release, ignored in the debug suite): noise-free S-curve
+(first-update discriminator, code offsets 0 to 0.21 chip) and the 45 dB-Hz jitter and mean code
+error, by samples per chip:
+
+| samples/chip | S-curve (0, 0.03 … 0.21 chip) | σ_D | σ_ε | mean ε |
+|---|---|---|---|---|
+| 2 | −0.2252 at every offset (one step) | 0.2075 | 0.09111 | −0.0923 |
+| 2.5 | 0.103, −0.003 ×3, −0.107 ×3, −0.176 (steps) | 0.0983 | 0.01492 | −0.0102 |
+| 3 | −0.144 ×6, −0.300 ×2 (steps) | 0.1168 | 0.03005 | −0.0129 |
+| 3.5 | −0.069 ×3, −0.147 ×2, −0.192 ×3 (steps) | 0.0786 | 0.00711 | −0.0041 |
+| 4 | 0.000 at every offset (dead zone ≥ ±0.21 chip) | 0.0672 | 0.00402 | −0.0004 |
+| 5 | 0.000 ×4, −0.105 ×3, −0.177 (steps) | 0.0954 | 0.01415 | −0.0105 |
+| 2.4438 (control) | −0.007 … −0.197, linear | 0.0639 | 0.00336 | +0.0010 |
+
+Every integer and half-integer ratio gives a staircase S-curve. The damage ranges from
+severe (2 samples/chip: 27× the control's code error, −0.09 chip bias) to mild (4 samples/chip,
+where noise dithers the dead zone). The warning therefore covers any fs/chip_rate within 1e-6
+(relative) of a multiple of 1/2 (`iq::track::commensurate_samples_per_chip`). It appears as
+`commensurate_sampling` in the `iq track`/`iq sweep` output and summary, the MCP `iq_track`
+reply and the Python `iq_track` result.
+
+Found on the way: at 2.5 samples/chip a GPS L1 C/A period is not a whole number of samples
+(2557.5), so no acquisition search can run there. The false-lock check's search used to abort
+the whole tracking session. Now it switches the check off for that channel; re-acquisition
+counts the attempt as failed, or retires the channel if no search can run at all
+(`an_unsearchable_rate_tracks_without_the_check`).

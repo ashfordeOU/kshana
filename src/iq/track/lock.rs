@@ -179,6 +179,7 @@ struct Managed {
     updates_since_check: usize,
     attempts: u32,
     suspect: bool,
+    check_unavailable: bool,
     reacq_center: f64,
     next_epoch: u64,
     last_t: f64,
@@ -212,6 +213,7 @@ impl TrackSession {
                     updates_since_check: 0,
                     attempts: 0,
                     suspect: false,
+                    check_unavailable: false,
                     next_epoch: 0,
                     last_t: 0.0,
                     loop_t: 0.0,
@@ -402,13 +404,25 @@ impl Managed {
             LockState::Lost => {
                 if lk.reacquire {
                     if self.collect.is_none() {
-                        self.start(
+                        let searchable = self.start(
                             Purpose::Reacq {
                                 center: self.reacq_center,
                             },
                             chunk_end,
                             spec,
                         )?;
+                        if !searchable {
+                            // No search can run at this sample rate: stop the channel.
+                            self.ch = None;
+                            return self.transition(
+                                idx,
+                                LockState::Retired,
+                                "retired",
+                                e.sample_index,
+                                (None, None, None, None),
+                                sink,
+                            );
+                        }
                         self.transition(
                             idx,
                             LockState::Reacq,
@@ -437,12 +451,12 @@ impl Managed {
             self.state,
             LockState::PullIn | LockState::Locked | LockState::Lost
         );
-        if lk.false_lock_check && watching {
+        if lk.false_lock_check && watching && !self.check_unavailable {
             self.updates_since_check += 1;
             if self.updates_since_check >= self.setup.config.cn0_windows && self.collect.is_none() {
                 self.updates_since_check = 0;
                 let alias_hz = 1.0 / (2.0 * e.t_coh_s);
-                self.start(
+                let searchable = self.start(
                     Purpose::FalseLock {
                         center: e.doppler_hz,
                         alias_hz,
@@ -450,13 +464,35 @@ impl Managed {
                     chunk_end,
                     spec,
                 )?;
+                if !searchable {
+                    self.check_unavailable = true;
+                }
             }
         }
         Ok(())
     }
 
+    /// A re-acquisition found nothing (or could not run): try again, or retire the channel
+    /// after `max_reacq_attempts` failures in a row.
+    fn reacq_failed(
+        &mut self,
+        idx: usize,
+        now: u64,
+        stat: Option<(f64, f64)>,
+        sink: &mut dyn EpochSink,
+    ) -> Result<(), IqError> {
+        self.attempts += 1;
+        let extra = (None, None, stat.map(|s| s.0), stat.map(|s| s.1));
+        if self.attempts >= self.setup.lock.max_reacq_attempts {
+            self.ch = None;
+            self.transition(idx, LockState::Retired, "retired", now, extra, sink)
+        } else {
+            self.transition(idx, LockState::Lost, "reacq-failed", now, extra, sink)
+        }
+    }
+
     /// Begin gathering samples for a search starting at stream sample `start`.
-    fn start(&mut self, purpose: Purpose, start: u64, spec: &SampleSpec) -> Result<(), IqError> {
+    fn start(&mut self, purpose: Purpose, start: u64, spec: &SampleSpec) -> Result<bool, IqError> {
         let code = self.setup.init.code.as_ref();
         let period = code.period_s();
         let base = self.setup.acquisition.acq_config(period);
@@ -479,7 +515,11 @@ impl Managed {
                 }
             }
         };
-        let need = samples_needed(spec, code, &cfg).map_err(IqError::Format)?;
+        // A rate with no whole number of samples per code period cannot be searched; the
+        // caller then goes on without the search.
+        let Ok(need) = samples_needed(spec, code, &cfg) else {
+            return Ok(false);
+        };
         self.collect = Some(Collect {
             purpose,
             start,
@@ -487,7 +527,7 @@ impl Managed {
             need,
             buf: Vec::with_capacity(need),
         });
-        Ok(())
+        Ok(true)
     }
 
     /// Act on a completed search. `now` is the first stream sample not yet given to the
@@ -509,7 +549,21 @@ impl Managed {
             if_hz: spec.if_hz + center,
             ..*spec
         };
-        let grid = acquire(&c.buf, &shifted, code.as_ref(), &c.cfg).map_err(IqError::Format)?;
+        // A search that cannot run (for example a sample rate with no whole number of
+        // samples per code period) never stops tracking: the false-lock check is switched
+        // off for the channel, and a re-acquisition counts as a failed attempt.
+        let grid = match acquire(&c.buf, &shifted, code.as_ref(), &c.cfg) {
+            Ok(g) => g,
+            Err(_) => {
+                return match c.purpose {
+                    Purpose::FalseLock { .. } => {
+                        self.check_unavailable = true;
+                        Ok(())
+                    }
+                    Purpose::Reacq { .. } => self.reacq_failed(idx, now, None, sink),
+                };
+            }
+        };
         match c.purpose {
             Purpose::FalseLock { alias_hz, .. } => {
                 let row_max = |r: &Vec<f64>| r.iter().copied().fold(0.0_f64, f64::max);
@@ -571,27 +625,7 @@ impl Managed {
                         sink,
                     )?;
                 } else {
-                    self.attempts += 1;
-                    if self.attempts >= self.setup.lock.max_reacq_attempts {
-                        self.ch = None;
-                        self.transition(
-                            idx,
-                            LockState::Retired,
-                            "retired",
-                            now,
-                            (None, None, Some(r.statistic), Some(r.threshold)),
-                            sink,
-                        )?;
-                    } else {
-                        self.transition(
-                            idx,
-                            LockState::Lost,
-                            "reacq-failed",
-                            now,
-                            (None, None, Some(r.statistic), Some(r.threshold)),
-                            sink,
-                        )?;
-                    }
+                    self.reacq_failed(idx, now, Some((r.statistic, r.threshold)), sink)?;
                 }
             }
         }
