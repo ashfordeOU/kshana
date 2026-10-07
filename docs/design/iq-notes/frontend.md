@@ -33,7 +33,8 @@ Entries for integration to merge into `CHANGELOG.md`, `docs/VALIDATION.md` and
 ## Limitations
 
 - Generic filter stages on generic inputs (tones, Gaussian noise, threshold vectors); no
-  model of any receiver or device, and no interference waveform synthesis.
+  model of any receiver or device, and no interference waveform synthesis in this layer
+  (the separate `spectrum` kind writes analytic jammer IQ snapshots; see docs/SPECTRUM.md).
 - The quantiser loss formulas are the weak-signal, Gaussian-noise, white-spectrum results;
   pre-correlation band-limiting and sampling-rate effects on the loss are not modelled.
 - The AGC's γ bias correction assumes a noise-dominated (circular Gaussian) input; a
