@@ -45,7 +45,7 @@
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/hero-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/hero-light.svg">
-  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.31.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
+  <img src="docs/assets/readme/hero-light.svg" alt="Rehearse the minute GNSS goes dark. Kshana's mission console, drawn from a real run of engine v0.32.0: the chained campaign campaign-jam-spoof-holdover-integrity (seed 20260928, 6 phases, 18 member runs over T+01:16:10) and the 102 satellites of GPS, Galileo, BeiDou and GLONASS from constellation-multi-gnss-coverage, each drawn on the circular two-body orbit recovered from the engine's ground track, radii compressed for display. Clock time error peaks at 62.7 ns against a 50 ns guard, carrier-to-noise density falls to -12.2 dB-Hz against a 25 dB-Hz floor, and the vertical protection level reaches 135.4 m against a 50 m alert limit." width="100%">
 </picture>
 
 ## Rehearse the minute GNSS goes dark
@@ -165,7 +165,7 @@ SigMF is the Signal Metadata Format.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/lband-waterfall-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/lband-waterfall-light.svg">
-  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.31.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
+  <img src="docs/assets/readme/lband-waterfall-light.svg" alt="The GNSS L band as one power spectral density over 60 s, from a real run of the spectrum kind (l-band-waterfall-jamming.toml, seed 7, engine v0.32.0): frequency across, time down, colour for power above the -202.0 dBW/Hz noise floor. Jammers: chirp privacy device (chirp, on at 10 s, off at 40 s); CW tone on L1 (cw, on at 30 s); L2 narrowband noise (narrowband, on at 45 s). Worst band GPS L1 C/A: minimum effective C/N0 3.2 dB-Hz at 31 s against a 25 dB-Hz tracking floor. GPS L1 C/A minimum 3.2 dB-Hz; Galileo E1 minimum 4.7 dB-Hz; GPS L2C minimum 36.9 dB-Hz; GPS L5 minimum 44.1 dB-Hz; Galileo E5a minimum 47.0 dB-Hz." width="100%">
 </picture>
 
 <picture>
@@ -383,7 +383,7 @@ the exports you ask for.
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="docs/assets/readme/flow-pipeline-dark.svg">
   <source media="(prefers-color-scheme: light)" srcset="docs/assets/readme/flow-pipeline-light.svg">
-  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.31.0, through the api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
+  <img src="docs/assets/readme/flow-pipeline-light.svg" alt="How a run flows. A scenario TOML file (a kind, a seed and its parameters) goes into the engine, kshana 0.32.0, through the api::run_toml dispatch over 75 scenario kinds, deterministic from scenario, seed and engine version. The engine writes result.json, chart.svg, report.html and report.json, a table.csv for the kinds that define one, and on request SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF exports; a suite writes study.json and study.html. Those files feed Kshana Studio in the browser, an AI assistant through the kshana-mcp server, and continuous integration." width="100%">
 </picture>
 
 This bundled scenario runs 2 h: 10 min of GNSS, then about 1.8 h with GNSS denied. It asks

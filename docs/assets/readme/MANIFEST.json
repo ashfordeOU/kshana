@@ -1,6 +1,6 @@
 {
   "generator": "tools/gen_readme_assets.py",
-  "engine_version": "0.31.0",
+  "engine_version": "0.32.0",
   "scenario_kinds": 75,
   "matrix": {
     "validated": 124,
