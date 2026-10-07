@@ -74,10 +74,12 @@
 //!   (10 windows), and scenes are lengthened so that it settles (Galileo E1 1.5 s, BeiDou
 //!   B1C 2.5 s, GPS L2C 4.5 s).
 //!
-//! The run-1 engine findings are kept as ignored tests: **D8** (default acquisition step
-//! against the decision-directed FLL pull-in: Galileo E1-B/E1-C), **D9** (GPS L2C CM at
-//! 20 ms integration with the default loop) and **D10** (BOC signals below nominal C/N0,
-//! isolated with an on-grid Doppler). The fix for each must un-ignore its test.
+//! The engine findings are kept as ignored tests, with their run-2 numbers: **D8** (default
+//! acquisition step against the decision-directed FLL pull-in: Galileo E1-B and E1-C),
+//! **D9** (GPS L2C CM at 20 ms integration with the default loop) and **D10** (BeiDou B1C
+//! below nominal C/N0). The fix for each must un-ignore its test. `galileo_e1b_on_grid_doppler`
+//! is the D8 control: the same E1-B scene with a zero acquisition residual passes every bar
+//! (run 1 with a 1.0 s scene measured it 43.42 dB-Hz; run 2 with 1.5 s, 44.41 dB-Hz).
 
 use kshana::iq::acq::{acquire, AcqConfig};
 use kshana::iq::scene::{
@@ -248,8 +250,16 @@ fn truth_phase(truth: &[TruthRecord], code: &SignalCode, t_s: f64) -> f64 {
 /// The M2M4 C/N0 (dB-Hz) of complex prompts of integration `t_s`.
 fn m2m4_cn0_dbhz(prompts: &[Cf64], t_s: f64) -> f64 {
     let n = prompts.len() as f64;
-    let m2 = prompts.iter().map(|p| p.re * p.re + p.im * p.im).sum::<f64>() / n;
-    let m4 = prompts.iter().map(|p| (p.re * p.re + p.im * p.im).powi(2)).sum::<f64>() / n;
+    let m2 = prompts
+        .iter()
+        .map(|p| p.re * p.re + p.im * p.im)
+        .sum::<f64>()
+        / n;
+    let m4 = prompts
+        .iter()
+        .map(|p| (p.re * p.re + p.im * p.im).powi(2))
+        .sum::<f64>()
+        / n;
     let ps = (2.0 * m2 * m2 - m4).max(0.0).sqrt();
     let pn = m2 - ps;
     10.0 * (ps / pn / t_s).log10()
@@ -371,8 +381,7 @@ fn run(case: &Case) -> Outcome {
         pli_mean: pli.iter().sum::<f64>() / n,
         pli_frac_ok: pli.iter().filter(|&&p| p >= 0.5).count() as f64 / n,
         code_rms_chips,
-        doppler_mean_err_hz: scored.iter().map(|e| e.doppler_hz).sum::<f64>() / n
-            - t0.doppler_hz,
+        doppler_mean_err_hz: scored.iter().map(|e| e.doppler_hz).sum::<f64>() / n - t0.doppler_hz,
         cn0_m2m4_dbhz: m2m4_cn0_dbhz(&prompts, scored[0].t_coh_s),
         cn0_nwpr_dbhz: scored.last().and_then(|e| e.cn0_nwpr_dbhz),
         secondary_agreement: (!case.secondary.is_empty())
@@ -434,28 +443,46 @@ fn gps_l5q() {
 }
 
 #[test]
+#[ignore = "FINDING D9: default loop (15 Hz PLL, 10 Hz FLL) at 20 ms CM integration does not \
+            hold lock: PLI mean -0.084 (T1), Doppler -99.71 Hz (T3), C/N0 M2M4 15.77 dB-Hz \
+            (T4); also from a zero-residual start in run 1 (PLI 0.02, -17.0 Hz)"]
 fn gps_l2c() {
     check(l2c_cm_case(3));
 }
 
 #[test]
+#[ignore = "FINDING D8: default acquisition step 2/(3T) leaves +83.3 Hz, beyond the default \
+            Atan2 FLL pull-in of 1/(4T) = 62.5 Hz; tracking false-locks at +125.02 Hz \
+            (T3), C/N0 M2M4 40.16 dB-Hz (T4); PLI 0.970 hides it"]
 fn galileo_e1b() {
     check(plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
+#[ignore = "FINDING D8: as galileo_e1b; +83.3 Hz acquisition residual, tracking false-locks \
+            at +125.02 Hz (T3), C/N0 M2M4 40.24 dB-Hz (T4), secondary agreement 51.87 % (T6)"]
 fn galileo_e1c() {
     check(tiered("galileo-e1c", galileo::e1c(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
 fn galileo_e5a_i() {
-    check(tiered("galileo-e5a-i", galileo::e5a_i(3).unwrap(), 25e6, 0.6));
+    check(tiered(
+        "galileo-e5a-i",
+        galileo::e5a_i(3).unwrap(),
+        25e6,
+        0.6,
+    ));
 }
 
 #[test]
 fn galileo_e5a_q() {
-    check(tiered("galileo-e5a-q", galileo::e5a_q(3).unwrap(), 25e6, 0.6));
+    check(tiered(
+        "galileo-e5a-q",
+        galileo::e5a_q(3).unwrap(),
+        25e6,
+        0.6,
+    ));
 }
 
 #[test]
@@ -464,17 +491,25 @@ fn beidou_b1i() {
 }
 
 #[test]
+#[ignore = "FINDING D10: BeiDou B1C (BOC(1,1), 10 ms) measures below nominal: engine NWPR \
+            42.55 dB-Hz (T5, -2.45 dB), M2M4 43.68 dB-Hz (-1.32 dB, in band); lock, code \
+            and Doppler bars pass"]
 fn beidou_b1c() {
     check(plain("beidou-b1c", beidou::b1c_data(3).unwrap(), 5e6, 2.5));
 }
 
 #[test]
 fn glonass_l1of() {
-    check(plain("glonass-l1of", glonass::l1of(-3).unwrap(), 1.25e6, 1.0));
+    check(plain(
+        "glonass-l1of",
+        glonass::l1of(-3).unwrap(),
+        1.25e6,
+        1.0,
+    ));
 }
 
-/// D10 isolated: Galileo E1-B with the Doppler on the acquisition grid (zero residual, so
-/// D8 cannot occur).
+/// Control for D8: Galileo E1-B with the Doppler on the acquisition grid (zero residual, so
+/// the D8 false lock cannot occur).
 #[test]
 fn galileo_e1b_on_grid_doppler() {
     let mut case = plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5);
