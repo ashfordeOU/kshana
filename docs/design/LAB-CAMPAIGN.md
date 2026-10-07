@@ -68,7 +68,8 @@ points = [[60.0, 20.0], [180.0, 50.0]]  # [t_s, value]; constant = one point
 ```
 
 **Rules.** Validation at load time names the file, event and key. `offset_s > onset_s`; points
-are time-ordered and inside `[onset_s, offset_s]` (held flat outside them up to the edges);
+are time-ordered and finite, and the profile is held flat before the first point and after the last
+(a point outside `[onset_s, offset_s]` is allowed; it only shapes the profile);
 `affects` ids must be in `[[expected]]`. Spoofing/outage events get every metric except the
 C/N0-vs-J/S comparison (no J/S → no reference curve). **Condition hash** = SHA-256 of the
 canonical JSON of the resolved file, with sorted keys and `[receiver]` text excluded.
@@ -132,13 +133,23 @@ min_availability = 0.95             # whole run
 # min_event_availability, max_false_lock_per_hour, max_pll_jitter_deg, max_dll_jitter_chips
 ```
 
-**Cells.** A cell is one (recording, front-end chain, design). Each cell's key is SHA-256 over
-canonical JSON of `{recording_sha256, conditions_hash, frontend_hash, design_hash, run_hash,
-scoring_hash, engine_version}`. For execution, the runner groups pending cells that share
+**Cells.** A cell is one (recording, front-end chain, design). Each cell's key is the SHA-256 of the
+compact, sorted-key JSON of `{conditions_hash, data_class, design, design_hash, engine_version,
+frontend, frontend_hash, recording_id, recording_sha256, run_hash,
+schema: "kshana.campaign-cell/1", scoring_hash}`. Changing the design, the conditions or the
+scoring settings therefore re-runs the affected cells (`tests/iq_campaign.rs`,
+`changing_the_design_the_conditions_or_the_scoring_reruns_the_affected_cells`). The condition hash
+covers the resolved file as written, including its `recording.path` and `truth` strings, so a file
+that is moved or re-pointed re-runs its cells. For execution, the runner groups pending cells that share
 (recording, chain). Each group reads the recording once, runs the chain once, and replays all
 of its designs through one bank, exactly as `iq sweep` does today. When there are fewer groups
 than workers, a group's designs are split into chunks, so the work still fills all cores.
 Channels in a bank are independent, so this grouping never changes any result.
+
+**Paths.** `campaign.json` and `hashes.json` hold the conditions and recording paths as resolved on
+the machine that ran the campaign (absolute when the campaign was started from an absolute path).
+Do not ship them to someone who should not see that folder layout; `cells/` and `DIGEST` hold no
+recording or conditions paths (epoch files are named relative to the output folder).
 
 **Resume.** On completion, a cell writes `cells/<key>.json` atomically (a temp file, then a
 rename), and a line is appended to `runs.jsonl` (key, wall time, worker; the only
@@ -304,11 +315,12 @@ and the J/S bins, not by the recording length (B6.1).
     runs the campaign. `--dry-run` lists the cells and their keys and states which are already
     done. `--max-cells` runs at most N pending cells, then stops cleanly.
   * `kshana iq campaign report <out-dir>` rebuilds the scorecards, report and DIGEST from `cells/`.
-* **Rust**: `kshana::iq::campaign::{TestConditions, CampaignSpec, Campaign, CellResult, Scorer}`
-  and `kshana::iq::campaign::score::Scorer`, an online scorer fed `EpochOutput`s, usable without
-  the runner.
+* **Rust**: `kshana::iq::campaign::{TestConditions, CampaignSpec, LoadedCampaign, CellResult, run, plan}`
+  and `kshana::iq::campaign::score::SatScorer`, an online per-satellite scorer fed `ScoreEpoch`s,
+  usable without the runner. `LoadedCampaign::load_checked` calls a caller's check on every file
+  it names before reading it (the MCP tool uses it to hold every path inside the work directory).
 * **Python**: `iq_test_conditions(text_or_path) -> dict`,
-  `iq_campaign(spec, out_dir, workers=0, resume=True, max_cells=None) -> dict` (summary + digest),
+  `iq_campaign(spec, out_dir, workers=0, resume=True, max_cells=None, dry_run=False) -> dict` (summary + digest),
   and `iq_campaign_report(out_dir) -> dict`. `kshana.pyi` is updated to match.
 * **MCP**: `iq_campaign` takes paths in the work directory, with a sample budget per call that
   covers all cells it runs. `max_cells` makes long campaigns incremental: call it repeatedly, and
@@ -327,7 +339,9 @@ expected to agree. The tests cover:
 * condition and campaign schema round-trips and their error cases;
 * resume after a killed run, which must equal an uninterrupted run byte for byte;
 * the same DIGEST for 1 worker and N workers;
-* a Doppler-truth false-lock case from a hand-off seeded at a ±1/(2T) alias;
+* a Doppler-truth false-lock case, scored by tracking correctly against a truth sidecar shifted by
+  300 Hz, beyond the 1/(4T) = 250 Hz threshold (§6 explains why a hand-off seeded at a ±1/(2T)
+  alias is not used);
 * a performance check: cells/s and samples/s logged, with a loose budget, and the GB-scale case
   `#[ignore]`d.
 
@@ -361,11 +375,14 @@ expected to agree. The tests cover:
   is still scored, with zero availability, so it is never silently dropped. Acquisition runs on
   the front-end-processed samples, once per distinct acquisition setting in a work item.
 * **GB scale.** `gb_scale_recording_streams_in_bounded_memory` (ignored; release) runs a 4.0 GB
-  recording (200 s of `cf32_le` at 2.5 MHz, one satellite). It processes 500 M samples in 36.7 s,
-  5.45× real time including the recording hash, with peak memory 2 MB above the starting RSS.
+  recording (200 s of `cf32_le` at 2.5 MHz, one satellite). On one machine it processed 500 M
+  samples in 36.7 s, 5.45× real time including the recording hash, with peak memory 2 MB above the
+  starting RSS. These are single-machine measurements, not bars: the test asserts only that peak memory grows by
+  less than 64 MB and that availability stays above 0.95.
 * **Medians** come from a 0.05 dB histogram over 0–80 dB-Hz. They are exact to that bin width
   and keep memory fixed however long an event runs. Measured on a 60 s, 4-satellite × 4-design
-  campaign in release, peak memory rose by 8 MB and throughput was 2.2× real time.
+  campaign in release (`throughput_and_bounded_memory_on_a_long_recording`, ignored), peak memory
+  rose by 8 MB and throughput was 2.2× real time on one machine. Neither is a bar: the test asserts only that peak memory grows by less than 200 MB.
 * **Re-acquisition time** is reported both from the event offset (`reacq_time_s`, primary) and
   from the loss of lock (`outage_s`).
 * **MCP.** `iq_campaign` refuses a campaign that names any file outside the work directory:
