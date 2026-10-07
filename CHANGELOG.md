@@ -132,7 +132,10 @@ breaking changes are called out explicitly.
   0's signal (all channels share one ranging code) and never looked 1.6875 MHz higher.
   Both now use `SampleSpec::baseband_hz(carrier) = if_hz + (carrier − center_hz)`. The
   carrier term is zero for any recording centred on the signal's own carrier and is
-  omitted when the centre is unknown, so CDMA processing is unchanged.
+  omitted when the centre is unknown, so CDMA processing is unchanged. If you worked
+  around the old behaviour by folding `carrier − center` into the sidecar's `if_hz`,
+  remove that term: the offset is now applied from the carrier and the centre, so
+  leaving it in applies it twice.
   Known limitation, unchanged here: a GLONASS scene identifies each satellite by its
   frequency channel `k`, and the `u32` satellite id wraps a negative channel. The truth
   sidecar writes `k = -7` as `sat_id` 4294967289 (`k + 2^32`). Read it back as `k` with an
