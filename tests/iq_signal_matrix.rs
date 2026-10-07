@@ -7,8 +7,9 @@
 //! [`kshana::iq::acq::acquire`] over the first code period and tracked over the whole scene
 //! by [`kshana::iq::track::replay`] with the default loop design ([`LoopConfig::default`]:
 //! FLL-assisted 2nd-order 15 Hz Costas PLL, carrier-aided 1st-order 2 Hz early-minus-late
-//! power DLL, 0.5-chip spacing, 1-period integration). Only the C/N0 estimator's window
-//! (5 periods × 10 windows) is shortened so that it settles inside these short scenes.
+//! power DLL, 0.5-chip spacing, 1-period integration). Only the number of C/N0 windows is
+//! reduced (10 instead of 50, each the default 20 periods) so that the estimate settles
+//! inside these short scenes.
 //!
 //! **Sample rates** are about 2.4× the chip rate (4.9× for the BOC signals) and are not
 //! commensurate with it (W1's finding on PR #45: a commensurate rate makes the code phase
@@ -57,6 +58,26 @@
 //!
 //! A signal that fails a bar is a finding: it is reported with its numbers, kept out of the
 //! default test set with `#[ignore = "FINDING …"]`, and the bar is not changed.
+//!
+//! # Amendment v2 (2026-10-07, after run 1; harness only, bars unchanged)
+//!
+//! Run 1 used one coherent acquisition period for every signal and an NWPR window of
+//! 5 periods × 10 windows. Two of its misses came from that harness, not from the engine:
+//! * Galileo E5a-I was not acquired (statistic 27.8 against threshold 38.0): with the
+//!   primary-only replica, the single 1 ms block straddled a secondary-code (NH20) sign
+//!   flip at this code phase. **(a)** Tiered codes are now acquired with 4 non-coherent
+//!   1-period blocks (`AcqConfig::noncoherent = 4`), so that flips straddle at most some
+//!   of them.
+//! * The 5-period NWPR window missed T5 on BeiDou B1I (46.57 dB-Hz, +1.57) and B1C
+//!   (41.77 dB-Hz, −3.2; 10 ms prompts at high per-prompt SNR) while the M2M4 estimate was
+//!   in band (44.64, 43.62). **(b)** T5 now uses the engine's default window of 20 periods
+//!   (10 windows), and scenes are lengthened so that it settles (Galileo E1 1.5 s, BeiDou
+//!   B1C 2.5 s, GPS L2C 4.5 s).
+//!
+//! The run-1 engine findings are kept as ignored tests: **D8** (default acquisition step
+//! against the decision-directed FLL pull-in: Galileo E1-B/E1-C), **D9** (GPS L2C CM at
+//! 20 ms integration with the default loop) and **D10** (BOC signals below nominal C/N0,
+//! isolated with an on-grid Doppler). The fix for each must un-ignore its test.
 
 use kshana::iq::acq::{acquire, AcqConfig};
 use kshana::iq::scene::{
@@ -87,6 +108,8 @@ struct Case {
     duration_s: f64,
     /// Expected C/N0 on the replica (dB-Hz).
     expected_cn0_dbhz: f64,
+    /// Injected Doppler (Hz).
+    doppler_hz: f64,
 }
 
 /// A tiered code's primary-only replica, with the secondary chips it leaves on the prompts.
@@ -101,6 +124,7 @@ fn tiered(signal: &'static str, tx: SignalCode, fs_hz: f64, duration_s: f64) -> 
         fs_hz,
         duration_s,
         expected_cn0_dbhz: CN0_DBHZ,
+        doppler_hz: DOPPLER_HZ,
     }
 }
 
@@ -115,6 +139,7 @@ fn plain(signal: &'static str, tx: SignalCode, fs_hz: f64, duration_s: f64) -> C
         fs_hz,
         duration_s,
         expected_cn0_dbhz: CN0_DBHZ,
+        doppler_hz: DOPPLER_HZ,
     }
 }
 
@@ -146,8 +171,9 @@ fn l2c_cm_case(prn: u16) -> Case {
         rx,
         secondary: Vec::new(),
         fs_hz: 2.5e6,
-        duration_s: 2.0,
+        duration_s: 4.5,
         expected_cn0_dbhz: CN0_DBHZ - 10.0 * 2f64.log10(),
+        doppler_hz: DOPPLER_HZ,
     }
 }
 
@@ -266,7 +292,7 @@ fn run(case: &Case) -> Outcome {
         code: Box::new(case.tx.clone()),
         geometry: SatGeometry::Profile(RangeProfile {
             range_m: 2.1e7,
-            range_rate_mps: -DOPPLER_HZ * lambda,
+            range_rate_mps: -case.doppler_hz * lambda,
             range_accel_mps2: 0.0,
             elevation_deg: 45.0,
             azimuth_deg: 0.0,
@@ -284,7 +310,8 @@ fn run(case: &Case) -> Outcome {
     let step = 2.0 / (3.0 * period);
     let acq_cfg = AcqConfig {
         coherent_periods: 1,
-        noncoherent: 1,
+        // Amendment v2 (a): tiered codes sum 4 blocks so a secondary flip cannot sink them all.
+        noncoherent: if case.secondary.is_empty() { 1 } else { 4 },
         doppler_max_hz: 2000.0,
         doppler_step_hz: step,
         pfa: 1e-3,
@@ -301,7 +328,6 @@ fn run(case: &Case) -> Outcome {
     let init = ChannelInit::from_acquisition(rx, &r, &spec, 0, None);
     let loop_cfg = LoopConfig {
         label: case.signal.into(),
-        cn0_window_periods: 5,
         cn0_windows: 10,
         ..LoopConfig::default()
     };
@@ -414,12 +440,12 @@ fn gps_l2c() {
 
 #[test]
 fn galileo_e1b() {
-    check(plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.0));
+    check(plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
 fn galileo_e1c() {
-    check(tiered("galileo-e1c", galileo::e1c(3).unwrap(), 5e6, 1.0));
+    check(tiered("galileo-e1c", galileo::e1c(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
@@ -439,10 +465,19 @@ fn beidou_b1i() {
 
 #[test]
 fn beidou_b1c() {
-    check(plain("beidou-b1c", beidou::b1c_data(3).unwrap(), 5e6, 1.5));
+    check(plain("beidou-b1c", beidou::b1c_data(3).unwrap(), 5e6, 2.5));
 }
 
 #[test]
 fn glonass_l1of() {
     check(plain("glonass-l1of", glonass::l1of(-3).unwrap(), 1.25e6, 1.0));
+}
+
+/// D10 isolated: Galileo E1-B with the Doppler on the acquisition grid (zero residual, so
+/// D8 cannot occur).
+#[test]
+fn galileo_e1b_on_grid_doppler() {
+    let mut case = plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5);
+    case.doppler_hz = 4000.0 / 3.0; // 8 bins of 2/(3 · 4 ms)
+    check(case);
 }
