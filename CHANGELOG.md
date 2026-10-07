@@ -24,6 +24,14 @@ breaking changes are called out explicitly.
   hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
   design notes now say so; the released entries are left as they were published. No
   behaviour changes.
+- **Known limitation: commensurate sampling.** At a sample rate that is an integer or
+  half-integer multiple of the chip rate, the samples sit on the same chip phases in every
+  chip, and the code discriminator becomes a staircase. On a synthetic GPS L1 C/A signal at
+  45 dB-Hz with 0.5-chip spacing, 2.046 MHz (2 samples/chip) gives ≈ 0.09 chip (≈ 26 m)
+  RMS code error and a −0.09 chip bias, against ≈ 0.003 chip at an incommensurate rate. The
+  NWPR C/N0 reads ≈ 2.4 dB low there. At 4.092 MHz the effect depends on the spacing: none
+  at 0.5 chip, 8–10× the code error at 0.25 or 0.1 chip. Carrier tracking is unaffected.
+  `docs/design/iq-notes/receiver.md` has the measurements.
 
 ### Added
 
