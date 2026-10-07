@@ -1357,7 +1357,14 @@ impl KshanaServer {
         use kshana::iq::campaign::{LoadedCampaign, RunOptions, run};
         let iq = &self.iq;
         let path = iq.input(&r.campaign)?;
-        let loaded = LoadedCampaign::load(&path).map_err(bad)?;
+        // Every file the campaign names is checked against the work directory before it is
+        // read, so a path outside it never reaches a parser (whose error would quote it).
+        let loaded = LoadedCampaign::load_checked(&path, &|p| {
+            iq.contained(p)
+                .map(|_| ())
+                .map_err(|e| e.message.to_string())
+        })
+        .map_err(bad)?;
         if let Some(d) = &loaded.spec.inputs.designs {
             iq.contained(&resolve(&path, d))?;
         }

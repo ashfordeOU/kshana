@@ -29,4 +29,4 @@ pub mod truth;
 
 pub use conditions::TestConditions;
 pub use runner::{run, CellResult, Plan, RunOptions, RunSummary};
-pub use spec::{CampaignSpec, LoadedCampaign};
+pub use spec::{CampaignSpec, LoadedCampaign, PathCheck};
