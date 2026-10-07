@@ -181,9 +181,33 @@ fn kurtosis_and_pulse_statistics_match_gaussian_closed_forms() {
     let p = stats::pulse_pfa(4.0 * sigma2);
     let tol = 4.0 * (p * (1.0 - p) / (4096.0 * pf.len() as f64)).sqrt();
     assert!((pm - p).abs() < tol, "pulse fraction {pm} vs {p}");
-    assert!(r.events.is_empty(), "{:?}", r.events);
+    // The largest-bin excess exceeds a fixed 2.5 dB at the rate the independent-bin Gamma
+    // closed form gives, within a factor of two either way (it is an approximation; the
+    // measured rate here is 1.3 times the formula).
     let ex = &r.series_named("psd_excess_db", None).unwrap().value;
-    assert!(ex.iter().all(|v| *v < 3.0));
+    let hits = ex.iter().filter(|v| **v > 2.5).count() as f64;
+    let fixed = SpectralMonitor::new(
+        fs,
+        SpectralSettings {
+            excess_db: 2.5,
+            ..settings
+        },
+    );
+    let want = fixed.excess_pfa_closed_form() * ex.len() as f64;
+    println!(
+        "max-excess > 2.5 dB: {hits} of {} blocks, closed form {want:.1}",
+        ex.len()
+    );
+    assert!(hits > 0.5 * want && hits < 2.0 * want, "{hits} vs {want}");
+    // At the automatic threshold (1e-4 per block by the closed form) the 750 noise blocks
+    // raise at most one spectral-excess event, and no kurtosis or pulse event.
+    println!(
+        "auto threshold {:.2} dB; events {:?}",
+        m.excess_threshold_db(),
+        r.events
+    );
+    assert!(r.events_of("spectral_excess").len() <= 1, "{:?}", r.events);
+    assert!(r.events_of("kurtosis").is_empty() && r.events_of("pulses").is_empty());
 }
 
 /// A tone at +50 kHz, 10 dB below the noise, added after the baseline raises a
@@ -212,10 +236,13 @@ fn spectral_excess_and_pulses_are_flagged() {
     }
     m.push(&spiky);
     let r = m.report();
+    // The tone opens the first spectral-excess span at its onset; the high-amplitude
+    // samples later also lift the whole PSD by about 0.5 dB, so further spans may follow,
+    // but none before the tone.
     let ex = r.events_of("spectral_excess");
-    assert_eq!(ex.len(), 1, "{:?}", r.events);
+    assert!(!ex.is_empty(), "{:?}", r.events);
     assert!((ex[0].t_start_s - 1.025).abs() < 0.03, "{:?}", ex[0]);
-    assert!(ex[0].t_end_s.unwrap() <= 1.53);
+    assert!(ex.iter().all(|e| e.t_start_s > 1.0));
     let f = r.series_named("psd_excess_freq_hz", None).unwrap();
     let i = f.t_s.iter().position(|t| *t > 1.1).unwrap();
     assert!(
