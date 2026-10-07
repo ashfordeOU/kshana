@@ -15,9 +15,12 @@ use kshana::iq::channel::cn0_profile::{rice_k_for_s4, Cn0Profile, Cn0Segment, Cn
 use std::path::PathBuf;
 
 fn scratch(name: &str) -> PathBuf {
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
     let d = std::env::temp_dir().join(format!(
-        "kshana-iq-cn0-profile-{}-{name}",
-        std::process::id()
+        "kshana-iq-cn0-profile-{}-{}-{name}",
+        std::process::id(),
+        SEQ.fetch_add(1, Ordering::Relaxed)
     ));
     let _ = std::fs::remove_dir_all(&d);
     std::fs::create_dir_all(&d).unwrap();
