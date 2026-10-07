@@ -167,7 +167,7 @@ Transitions:
 
 With `reacquire` off (the built-in default) the state machine only observes. The loops run
 bit for bit as without it (tested), and a `LOST` channel returns to `LOCKED`
-(`relocked`) when its locks hold for `loss_dwell_s` and no false lock is suspected.
+(`recovered`) when its locks hold for `loss_dwell_s` and no false lock is suspected.
 
 **False-lock check** (when `false_lock_check`). It runs every `cn0_windows` updates on every
 tracking channel (pull-in, locked or lost), because a false lock rarely shows lock
@@ -182,6 +182,6 @@ indicators:
 
 Events (`<out>.events.jsonl`, `LockEvent`) carry `channel`, `epoch`, `sample_index`,
 `code_epoch_s`, `from`, `to` and `reason`, where `reason` is one of `locked`,
-`relocked`, `loss-of-lock`, `pull-in-timeout`, `false-lock`, `reacq-start`,
+`recovered`, `loss-of-lock`, `pull-in-timeout`, `false-lock`, `reacq-start`,
 `reacquired`, `reacq-failed` or `retired`. Where it applies, an event also carries
 `doppler_hz`, `code_phase_chips`, `statistic` and `threshold`.
