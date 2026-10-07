@@ -80,6 +80,12 @@ async fn serves_exactly_the_expected_tool_set() {
         "export_oem",
         "export_table_csv",
         "assess_receiver_log",
+        "iq_signals",
+        "iq_info",
+        "iq_scene",
+        "iq_acquire",
+        "iq_track",
+        "iq_frontend",
     ]
     .into_iter()
     .collect();

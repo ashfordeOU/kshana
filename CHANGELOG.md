@@ -9,7 +9,45 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Documentation
+
+- **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
+  0.32.0 entries below say the IQ layer adds "no interference or spoofing waveform
+  synthesis". That is true of the IQ layer itself (`iq::scene` generates legitimate GNSS
+  signals only), but it read as a statement about the whole engine, and it is not one:
+  since 0.29.0 the `spectrum` kind's `[iq]` section writes a SigMF snapshot of its analytic
+  model with the configured jammers in it (noise-like jammers bin by bin, tones and chirps
+  as waveforms), and `spoof_capture` sums an authentic and a spoofer replica signal in
+  memory to test loop capture (the composite is never written out). The engine has also
+  carried a software GNSS receiver since 0.20.0 (`sdr`: acquisition and tracking; since
+  0.31.0 also `iq::acq` and `iq::track`). Nothing in Kshana transmits or drives radio
+  hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
+  design notes now say so; the released entries are left as they were published. No
+  behaviour changes.
+
 ### Added
+
+- **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
+  the `kshana iq` layer from an agent: `iq_signals` (the accepted signal names and the IQ
+  set-up), `iq_info` (describe a recording), `iq_scene` (generate a stated-profile or
+  broadcast-ephemeris scene, with the optional signal-level channel), `iq_acquire` (FFT
+  acquisition, optionally behind front-end stages), `iq_track` (acquire, then the DLL/PLL/FLL
+  bank) and `iq_frontend` (band-pass, notch, blanking, excision, AGC, quantiser). IQ samples
+  never cross the protocol: every tool takes file paths inside one work directory set by
+  `KSHANA_MCP_IQ_DIR` (unset leaves the IQ file tools off and every other tool unaffected),
+  refuses paths that resolve outside it and outputs that already exist unless `overwrite`
+  is set, enforces a per-call sample budget (`KSHANA_MCP_IQ_MAX_SAMPLES`, default 50 000 000)
+  before any work, refuses unknown arguments, and replies with a compact JSON summary
+  (detections, C/N0, lock state, and each file written with its byte count). Per-epoch output
+  goes only to files the caller names. The tools run the same code path as the CLI through a
+  new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
+  printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
+  `iq::cli::signal_names` are now public too. Software-only and additive: no transmit, no
+  interference or spoofing waveform synthesis, no new dependencies. `server.json` declares
+  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  generate a short two-satellite scene and check acquisition against the scene's own truth
+  sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
+  and the disabled state.
 
 - **The GNSS IQ layer in the validation ledger.** A pre-registered cross-check against
   gps-sdr-sim (an independent GPS L1 C/A baseband generator, MIT, commit 28ca29a6) is now part
@@ -35,6 +73,15 @@ breaking changes are called out explicitly.
   gps-sdr-sim's integer sine table, gains, zero initial carrier phase and truncated LNAV
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
+
+### Fixed
+
+- **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
+  a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
+  had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
+  per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
+  in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
+  Float output is unchanged.
 
 ## [0.32.0] - 2026-10-05
 

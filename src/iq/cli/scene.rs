@@ -13,7 +13,7 @@ use super::{build_code, Args, Fail};
 use crate::frames::{geodetic_to_ecef, Geodetic};
 use crate::iq::io::inventory::{write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
-use crate::iq::io::SampleFormat;
+use crate::iq::io::{Encoding, SampleFormat};
 use crate::iq::scene::{
     CsvTruthWriter, JsonLinesTruthWriter, NavData, NoiseConfig, RangeProfile, ReceiverClock,
     SatGeometry, Scene, SceneConfig, SceneSatellite, Trajectory, TruthSink, T0_K,
@@ -381,7 +381,11 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         a.pos[0].clone()
     };
 
-    let mut iq = create_raw(Path::new(&data_path), format)?;
+    // Integer outputs are scaled so the scene's expected RMS sits at a stated fraction of
+    // the integer range (see [`integer_scale`]); float outputs keep the scene's own units.
+    let rms = expected_rms_per_component(&scene);
+    let scale = integer_target_rms(format).map(|target| rms / target);
+    let mut iq = create_raw(Path::new(&data_path), format)?.with_scale(scale.unwrap_or(1.0));
     let truth_file = BufWriter::new(
         File::create(&truth_path).map_err(|e| Fail::Run(format!("{truth_path}: {e}")))?,
     );
@@ -397,6 +401,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         }
     };
 
+    let clipped = iq.clipped();
+    let scale_note = match scale {
+        Some(sc) => format!(
+            "; integer scale: 1 LSB = {sc:.6e} noise-normalised units (expected RMS {:.4} LSB per component), {clipped} element(s) clipped",
+            rms / sc
+        ),
+        None => String::new(),
+    };
+
     let meta_note = if want_sigmf {
         let meta_path = write_sigmf_meta(&a.pos[0], &spec, &sat_meta, &chan_desc, summary.samples)?;
         format!("SigMF data {data_path}, meta {meta_path}")
@@ -408,14 +421,14 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
             header_bytes: None,
             datetime: None,
-            description: Some("written by kshana iq scene".into()),
+            description: Some(format!("written by kshana iq scene{scale_note}")),
         };
         let sidecar_path = write_sidecar(out, &sidecar)?;
         format!("sidecar {}", sidecar_path.display())
     };
 
     Ok(format!(
-        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; {}; channel: {}",
+        "wrote {} samples ({}, {} Hz) to {}; {} truth records to {}; {}; channel: {}{}",
         summary.samples,
         format.name(),
         spec.fs_hz,
@@ -424,7 +437,59 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         truth_path,
         meta_note,
         chan_desc,
+        scale_note,
     ))
+}
+
+/// Fraction of the integer full scale the expected per-component RMS is placed at: 1/4,
+/// so a Gaussian scene clips on `2·Q(4) ≈ 6.3e-5` of its elements while the noise still
+/// spans ±32 levels in ci8 and ±8192 in ci16.
+const INTEGER_RMS_FRACTION: f64 = 0.25;
+
+/// The per-component RMS, in output LSB, an integer `format` is scaled to; `None` for
+/// float formats, which keep the scene's own (noise-normalised) units.
+///
+/// 8- and 16-bit encodings place the RMS at [`INTEGER_RMS_FRACTION`] of full scale
+/// (127 and 32767). The 2-bit encodings (levels ±1, ±3, thresholds 0 and ±2) place it at
+/// 2 LSB, so the ±2 thresholds sit at one standard deviation: the near-optimal 2-bit
+/// quantiser for Gaussian input (threshold ≈ 1.0 σ).
+pub(crate) fn integer_target_rms(format: SampleFormat) -> Option<f64> {
+    match format.encoding {
+        Encoding::I8 => Some(INTEGER_RMS_FRACTION * f64::from(i8::MAX)),
+        Encoding::I16Le | Encoding::I16Be => Some(INTEGER_RMS_FRACTION * f64::from(i16::MAX)),
+        Encoding::TwoBit { .. } => Some(2.0),
+        Encoding::F32Le | Encoding::F32Be => None,
+    }
+}
+
+/// Expected RMS of one output component (I or Q) of `scene`, in the scene's output units,
+/// from its configuration alone (the scene is streamed, so it cannot be measured first).
+///
+/// Thermal noise contributes `N0·fs/2` per component when enabled; satellite `i` adds
+/// `A_i²/2` with `A_i² = (C/N0)_i · N0`, its stated C/N0 or, without one, the elevation
+/// model's zenith value (an upper bound). Both are multiplied by the scene's output gain
+/// (`1/(N0·fs)` when normalised). Channel fading, multipath and scintillation are not
+/// included: they change the signal power by a few dB on signals that, at GNSS C/N0 and
+/// MHz rates, sit tens of dB below the noise.
+pub(crate) fn expected_rms_per_component(scene: &Scene) -> f64 {
+    let cfg = scene.config();
+    let n0 = cfg.noise.n0_w_per_hz();
+    let fs = cfg.spec.fs_hz;
+    let gain2 = if cfg.noise.normalise {
+        1.0 / (n0 * fs)
+    } else {
+        1.0
+    };
+    let noise = if cfg.noise.enabled { n0 * fs } else { 0.0 };
+    let signals: f64 = scene
+        .satellites()
+        .iter()
+        .map(|s| {
+            let cn0 = s.cn0_dbhz.unwrap_or(cfg.cn0_model.zenith_dbhz);
+            10f64.powf(cn0 / 10.0) * n0
+        })
+        .sum();
+    ((noise + signals) * gain2 / 2.0).sqrt()
 }
 
 /// Per-satellite data for a SigMF annotation.
