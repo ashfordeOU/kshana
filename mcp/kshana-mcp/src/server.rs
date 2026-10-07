@@ -228,9 +228,8 @@ const CSV_TABLE_KINDS: &str = "`realtime-frame-eop`, `lunar-time-budget`, `lunar
 /// The Kshana MCP server handle.
 #[derive(Clone)]
 pub struct KshanaServer {
-    // Consumed by the `#[tool_handler]`-generated `ServerHandler` impl; rustc's dead-code
-    // pass flags fields only read through a derived trait (here `Clone`), hence the allow.
-    #[allow(dead_code)]
+    /// The core tools plus the IQ tools; the `#[tool_handler]`-generated `ServerHandler`
+    /// impl lists and dispatches through it.
     tool_router: ToolRouter<KshanaServer>,
     /// Where the IQ tools may read and write, and their per-call sample budget.
     pub(crate) iq: IqConfig,
@@ -654,7 +653,9 @@ impl KshanaServer {
     }
 }
 
-#[tool_handler]
+// The router is the field, not rmcp's default `Self::tool_router()`, which would hold
+// only the core tools and miss the IQ router merged in by `with_iq_config`.
+#[tool_handler(router = self.tool_router)]
 impl ServerHandler for KshanaServer {
     fn get_info(&self) -> ServerInfo {
         // Set the identity explicitly: rmcp's `Implementation::from_build_env()` reports
