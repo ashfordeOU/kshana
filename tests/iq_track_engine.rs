@@ -253,6 +253,15 @@ fn a_false_lock_is_detected_at_the_alias_and_repaired_by_reacquisition() {
         sink
     };
     let observe = run(false);
+    // The hand-off sits on the ±1/(2T) Costas alias: the prompt rotates by π every
+    // millisecond, so the NWPR narrow-band sum cancels and code lock is never declared.
+    // The alias is rejected (never LOCKED), not reported as a clean track.
+    assert!(
+        observe.channels[0]
+            .iter()
+            .all(|(e, s)| !e.code_lock && *s != LockState::Locked),
+        "the alias must never reach code lock or LOCKED"
+    );
     let last = &observe.channels[0].last().unwrap().0;
     assert!(
         (last.doppler_hz - truth).abs() > 400.0,
@@ -462,4 +471,36 @@ fn dll_jitter_bars_at_45_dbhz() {
         (incommensurate / theory - 1.0).abs() <= 0.2,
         "P2: {incommensurate} vs {theory}"
     );
+}
+
+/// The C/N0 estimators against the injected 45 dB-Hz: NWPR is within 0.5 dB at
+/// incommensurate sample rates (its own bias at M = 50 windows is small), while at exactly
+/// 2 samples/chip the bang-bang DLL's correlation loss pulls it ~2 dB low
+/// (`docs/design/evidence/dll-jitter/RESULTS.md`). Release-mode speed is needed.
+#[test]
+#[ignore]
+fn cn0_survey() {
+    for fs in [2.046e6, 2.5e6, 4.1e6] {
+        let mut src = Synth::at(fs, 13, 1500.0, 45.0, 3.5, vec![]);
+        let init = src.init(1500.0);
+        let mut session = TrackSession::new(
+            src.spec(),
+            vec![SessionChannel::from_config(init, LoopConfig::default())],
+        )
+        .unwrap();
+        let mut sink = CollectSink::default();
+        session.run(&mut src, None, &mut sink).unwrap();
+        let steady = || {
+            sink.channels[0]
+                .iter()
+                .filter(|(e, _)| e.code_epoch_s >= 1.5)
+        };
+        let mean = |v: Vec<f64>| v.iter().sum::<f64>() / v.len() as f64;
+        let nwpr = mean(steady().filter_map(|(e, _)| e.cn0_nwpr_dbhz).collect());
+        let beaulieu = mean(steady().filter_map(|(e, _)| e.cn0_beaulieu_dbhz).collect());
+        println!("{fs}: NWPR {nwpr:.2} dB-Hz, Beaulieu {beaulieu:.2} dB-Hz (injected 45)");
+        if fs != 2.046e6 {
+            assert!((nwpr - 45.0).abs() < 0.5, "{fs}: NWPR {nwpr}");
+        }
+    }
 }
