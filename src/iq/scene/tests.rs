@@ -633,6 +633,7 @@ fn seeded_data_uses_each_signals_symbol_timing() {
         let delay = 2.1e7 / C_M_PER_S;
         let mut changes = 0usize;
         let mut mid_bit = 0usize;
+        let mut off_20ms = 0usize;
         for k in 1..signs.len() {
             if signs[k] == signs[k - 1] {
                 continue;
@@ -647,6 +648,18 @@ fn seeded_data_uses_each_signals_symbol_timing() {
             if meander && (u.round() as i64).rem_euclid(2) == 1 {
                 mid_bit += 1;
             }
+            // Every 20 ms boundary is also on a 10 ms (or shorter) grid, so only a change
+            // off the 20 ms grid shows the short symbol timing is really in use.
+            let u20 = (k as f64 / FS - delay) / 0.02;
+            if (u20 - u20.round()).abs() * 0.02 * FS > 1.0 {
+                off_20ms += 1;
+            }
+        }
+        if sym_s < 0.02 {
+            assert!(
+                off_20ms >= 1,
+                "{name}: no sign change off the 20 ms grid, symbols are not {sym_s} s"
+            );
         }
         let symbols = ((dur - delay.rem_euclid(sym_s)) / sym_s).floor() as usize;
         if meander {
