@@ -6,6 +6,7 @@
 
 use super::tables::{L2C_STATES, L5_PHASES};
 use super::{bipolar, Modulation, SignalCode, SignalError};
+use crate::iq::DataModulation;
 use crate::sdr::CaCode;
 
 /// GPS L1 carrier frequency (Hz).
@@ -48,7 +49,8 @@ pub fn l1ca(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&code.chips),
         vec![],
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Lnav))
 }
 
 // --- L5 -------------------------------------------------------------------------------
@@ -131,7 +133,8 @@ pub fn l5_i5(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&l5_primary_bits(row.xb_i5)),
         bipolar(&NH10),
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Symbols { symbol_s: 0.01 }))
 }
 
 /// GPS L5 quadrature (pilot) code Q5 for `prn` 1..=210, tiered with the 20-bit
@@ -145,7 +148,8 @@ pub fn l5_q5(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&l5_primary_bits(row.xb_q5)),
         bipolar(&NH20),
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Pilot))
 }
 
 // --- L2C ------------------------------------------------------------------------------
@@ -193,7 +197,8 @@ pub fn l2c_cm(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&bits),
         vec![],
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Symbols { symbol_s: 0.02 }))
 }
 
 /// GPS L2 CL code (767250 chips at 511.5 kchip/s, 1.5 s) for `prn` 1..=63. VALIDATED as
@@ -208,7 +213,8 @@ pub fn l2c_cl(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&bits),
         vec![],
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Pilot))
 }
 
 /// The transmitted L2C chip stream for `prn` 1..=63: CM and CL time-multiplexed chip by
@@ -231,7 +237,8 @@ pub fn l2c(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&bits),
         vec![],
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::NotModelled))
 }
 
 #[cfg(test)]
