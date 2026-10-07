@@ -158,6 +158,39 @@ fn new_integer_layouts_decode_hand_built_bytes() {
         ),
         // Q first: 0x1E as ci4_msb_qi is (I = E, Q = 1).
         (f("ci4_msb_qi"), &[0x1Eu8], vec![c(-2., 1.)], true),
+        // Unsigned 16-bit: code c reads 2c - 65535 (0 -> -65535, 0xFFFF -> +65535).
+        (
+            f("cu16_le"),
+            &[0x00, 0x00, 0xFF, 0xFF],
+            vec![c(-65535., 65535.)],
+            true,
+        ),
+        (
+            f("cu16_be"),
+            &[0x80, 0x00, 0x00, 0x01],
+            vec![c(1., -65533.)],
+            true,
+        ),
+        // Unsigned 12-bit: c reads 2c - 4095. Right-justified code 0x123 (291) = 0x0123;
+        // left-justified 0x123 = 0x1230. Unused bits are ignored on reading.
+        (
+            f("cu12r_le"),
+            &[0x23, 0xF1, 0x00, 0x00],
+            vec![c(2. * 291. - 4095., -4095.)],
+            false,
+        ),
+        (
+            f("cu12l_be"),
+            &[0x12, 0x3F, 0xFF, 0xF0],
+            vec![c(2. * 291. - 4095., 4095.)],
+            false,
+        ),
+        (
+            f("cu12r_be"),
+            &[0x01, 0x23, 0x0F, 0xFF],
+            vec![c(2. * 291. - 4095., 4095.)],
+            true,
+        ),
     ];
     for (fmt, bytes, expect, exact) in cases {
         let got = drain(&mut IqReader::new(bytes, fmt, spec(1e6)), 2);
@@ -175,6 +208,8 @@ fn new_integer_layouts_decode_hand_built_bytes() {
         ("cu4_lsb", c(17., -16.), 2),
         ("cu8", c(300., -256.), 2),
         ("ci12r_be", c(3000., 2047.), 1),
+        ("cu16_le", c(65536., -65536.), 2),
+        ("cu12l_le", c(4096., -4096.), 2),
     ] {
         let (_, clipped) = encode_samples(f(name), &[v], 1.0);
         assert_eq!(clipped, n_clip, "{name}");
@@ -208,6 +243,20 @@ fn new_integer_layouts_decode_hand_built_bytes() {
         .name(),
         "cu4_lsb"
     );
+}
+
+/// The unsigned 16-bit formats carry the SigMF `core:datatype` names; the 12-bit ones have
+/// none.
+#[test]
+fn unsigned_16_bit_formats_have_sigmf_names() {
+    use kshana::iq::io::sigmf_stream::{format_from_sigmf, sigmf_datatype};
+    for name in ["cu16_le", "cu16_be", "ru16_le", "ru16_be"] {
+        let fmt = format_from_sigmf(name).unwrap();
+        assert_eq!(fmt.name(), name);
+        assert_eq!(sigmf_datatype(fmt), Some(name));
+    }
+    let twelve = SampleFormat::parse("cu12r_le").unwrap();
+    assert_eq!(sigmf_datatype(twelve), None);
 }
 
 /// Every format, three streams interleaved sample by sample: each stream read alone, with

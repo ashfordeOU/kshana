@@ -27,7 +27,7 @@ pub const USAGE: &str = "usage: kshana iq inventory <dir> [--recursive] [--no-ha
    or: kshana iq decimate <in> <out> (--factor <d> | --up <l> --down <m>) [--to <format>] [--if-hz <hz>] [--invert]
  raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]
  multi-stream inputs (multi-channel SigMF, interleaved raw) take --channel <k> (from 0; default 0)
- formats: ci8 cu8 ci16_le ci16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi";
+ formats: ci8 cu8 ci16_le ci16_be cu16_le cu16_be cf32_le cf32_be, 12-bit in 16 ci12r_le ci12l_be cu12r_le ..., packed 4-bit ci4_msb cu4_lsb ..., packed 2-bit c2tc_msb c2sm_lsb r2ob_msb ..., 2-bit per byte c2sm_byte ..., real r..., Q-first ..._qi";
 
 const CHUNK_SAMPLES: usize = 1 << 14;
 const VALUE_FLAGS: &[&str] = &[
