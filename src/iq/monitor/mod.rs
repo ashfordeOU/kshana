@@ -25,7 +25,9 @@
 //! collects the series and events of all of them.
 //!
 //! Status: MODELLED. Each statistic is checked by seeded simulation against its closed
-//! form ([`stats`]): the block-power false-alarm probability (Gamma tail), the complex
+//! form ([`stats`]): the block-power false-alarm probability (Gamma tail), the
+//! spectral-excess false-alarm rate (an approximate Gamma closed form, measured at 1.3
+//! times the formula), the complex
 //! kurtosis of Gaussian noise (2, standard deviation `2/√N`), the exponential tail of
 //! `|x|²` behind the pulse detector, Siegmund's CUSUM average run length, the Rician-phase
 //! mean of `cos 2θ` behind the phase lock indicator, and the delta and ratio test noise
