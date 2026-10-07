@@ -363,6 +363,16 @@ impl TestConditions {
 
     /// Read and parse a test-condition file, importing SigMF events when it asks to.
     pub fn load(path: &Path) -> Result<Self, String> {
+        Self::load_checked(path, &|_| Ok(()))
+    }
+
+    /// As [`Self::load`], with `check` called on the file and on the SigMF metadata before
+    /// each is read.
+    pub fn load_checked(
+        path: &Path,
+        check: &dyn Fn(&Path) -> Result<(), String>,
+    ) -> Result<Self, String> {
+        check(path)?;
         let text = std::fs::read_to_string(path).map_err(|e| format!("{}: {e}", path.display()))?;
         let mut tc = Self::parse(&text).map_err(|e| format!("{}: {e}", path.display()))?;
         if tc.recording.events_from_sigmf {
@@ -379,6 +389,7 @@ impl TestConditions {
                     ))
                 }
             };
+            check(&meta)?;
             let json =
                 std::fs::read_to_string(&meta).map_err(|e| format!("{}: {e}", meta.display()))?;
             let events =
