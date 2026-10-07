@@ -45,8 +45,8 @@ pub const SCHEMA: &str = "kshana.loop-design/1";
 pub struct LockConfig {
     /// Longest time (s) a channel may stay in pull-in before it is declared lost.
     pub pull_in_max_s: f64,
-    /// Continuous time (s) with both phase and code lock lost before a locked channel is
-    /// declared lost.
+    /// Dwell (s): a locked channel is declared lost once phase or code lock has been lost
+    /// this long, and a channel is declared locked once both have held this long.
     pub loss_dwell_s: f64,
     /// Run the FLL/PLL ±1/(2T) ambiguity check while locked.
     pub false_lock_check: bool,
@@ -887,8 +887,10 @@ mod tests {
     fn an_empty_design_is_the_builtin_default() {
         let f = DesignFile::parse(&format!("{HEAD}[[design]]\nname = \"a\"\n")).unwrap();
         let d = &f.designs()[0];
-        let mut want = LoopConfig::default();
-        want.label = "a".into();
+        let want = LoopConfig {
+            label: "a".into(),
+            ..LoopConfig::default()
+        };
         assert_eq!(d.loop_config(), want);
         assert_eq!(d.lock_config(), LockConfig::default());
         assert!(
