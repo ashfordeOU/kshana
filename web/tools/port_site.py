@@ -96,6 +96,13 @@ DEV_PATH = re.compile(r"/Users/(?!you/)[A-Za-z0-9._-]+/|/home/[a-z][a-z0-9._-]*/
 # that ran the engine on a temporary copy leaves that machine's path in the report.
 REPORT_CMD = re.compile(r"(kshana )(?:/[^\s<>\"'&]+)*/([a-z0-9][a-z0-9-]*\.toml)")
 
+# The first bytes of a Git LFS pointer file. The site source keeps its binaries (the Studio's
+# WebAssembly package, its native recordings, images) in Git LFS; a checkout without
+# `git lfs pull` holds ~130-byte pointer files in their place, and porting those would ship
+# pointers to kshana.dev while every SHA in the manifest still matched. Kept equal to
+# LFS_POINTER_HEADER in web/tools/lfs-pointer.mjs (web/tools/lfs-pointer.test.mjs checks).
+LFS_POINTER = b"version https://git-lfs.github.com/spec/v1"
+
 notes = []
 errors = []
 
@@ -115,6 +122,16 @@ def rb(path):
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
+
+
+def refuse_lfs_pointers(out):
+    """Fail, naming each one, for every file the port would write that is a Git LFS pointer
+    rather than the file it points to. Returns the offending paths."""
+    bad = sorted(rel for rel, data in out.items() if data.startswith(LFS_POINTER))
+    for rel in bad:
+        fail(f"{rel}: is a Git LFS pointer, not the file. Run `git lfs install && git lfs pull` in the site "
+             "source checkout (for kshana-pro: --include='site-next/**'), rebuild, and port again")
+    return bad
 
 
 def ids_of(text):
@@ -694,6 +711,7 @@ def main():
         if rel.endswith((".html", ".css", ".js", ".mjs")):
             for addr in third_party_requests(rel, out[rel].decode("utf-8")):
                 fail(f"{rel}: would make a browser fetch from another host ({addr[:90]}); kshana.dev serves its own fonts, styles and scripts")
+    refuse_lfs_pointers(out)
     out["legacy-redirects.js"] = legacy_js(legacy)
     out.update(moved_pages(legacy, json.load(open(ch, encoding="utf-8"))["studio"]))
     check_sitemap(out)

@@ -108,8 +108,16 @@ light-time solver).
 ## What Kshana is not
 
 - **Not a radio-frequency (RF) signal simulator or hardware-in-the-loop (HIL) rig.**
-  Generating real signals and testing receivers is the job of RF simulators; Kshana works
-  at the level of error models and link budgets, before hardware or lab time is bought.
+  Kshana drives no radio hardware and transmits nothing. Most of it works at the level of
+  error models and link budgets, before hardware or lab time is bought. At the signal level
+  it is software only: the GNSS IQ layer (`iq`) writes baseband in-phase/quadrature (IQ)
+  sample files of legitimate GNSS signals for software receivers and runs its own software
+  receiver on them; the `spectrum` kind's `[iq]` section (since 0.29.0) writes a SigMF
+  (Signal Metadata Format) snapshot of its analytic model that includes the configured
+  jammers (noise-like jammers bin by bin, tones and chirps as waveforms); and `spoof_capture`
+  sums an authentic and a spoofer replica signal in memory to test loop capture, without
+  writing it out. Testing a hardware receiver against real RF stimulus is the job of an RF
+  simulator.
 - **Not a replacement for MATLAB/Simulink, STK or Orekit.** It sits
   next to them. It reads and writes the exchange formats they use — CCSDS (Consultative
   Committee for Space Data Systems) Orbit Ephemeris Messages, SP3 (Standard Product 3)
