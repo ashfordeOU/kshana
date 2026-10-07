@@ -24,6 +24,8 @@ __all__ = [
     "iq_scene_broadcast",
     "iq_acquire",
     "iq_track",
+    "iq_loop_designs",
+    "iq_read_epochs",
     "iq_frontend",
     "iq_labfit",
     "iq_signals",
