@@ -197,9 +197,11 @@ impl Cn0Profile {
                     from_db,
                     to_db,
                 } => {
-                    if !(start_s.is_finite() && from_db.is_finite() && to_db.is_finite())
-                        || !(end_s > start_s)
-                    {
+                    let ok = start_s.is_finite()
+                        && from_db.is_finite()
+                        && to_db.is_finite()
+                        && end_s > start_s;
+                    if !ok {
                         return bad(format!("segment {i}: ramp needs end_s > start_s"));
                     }
                 }
@@ -209,7 +211,7 @@ impl Cn0Profile {
                             "segment {i}: points need equal, non-empty t_s and db"
                         ));
                     }
-                    if t_s.windows(2).any(|w| !(w[1] > w[0])) {
+                    if !t_s.windows(2).all(|w| w[1] > w[0]) {
                         return bad(format!("segment {i}: t_s must increase strictly"));
                     }
                     if db.iter().chain(t_s).any(|v| !v.is_finite()) {
