@@ -27,6 +27,9 @@ __all__ = [
     "iq_frontend",
     "iq_labfit",
     "iq_signals",
+    "iq_test_conditions",
+    "iq_campaign",
+    "iq_campaign_report",
     "__version__",
 ]
 
@@ -256,6 +259,37 @@ def iq_frontend(
     (``agc``) and a quantiser (``bits`` of 1/2/3/8/14, auto-AGC'd unless ``no_agc``). Returns
     a dict with the filtered ``samples_i``/``samples_q``. Raises ``ValueError`` on an invalid
     configuration (e.g. only one of the band-pass edges)."""
+
+def iq_test_conditions(conditions: str) -> dict[str, Any]:
+    """Validate a lab test-condition file (``kshana.test-conditions/1``, TOML or JSON)
+    given as a path or as text.
+
+    Returns the resolved conditions as a dict, with the condition hash under ``hash``.
+    Raises ``ValueError`` on an invalid file."""
+
+def iq_campaign(
+    campaign: str,
+    out_dir: str,
+    workers: int = 0,
+    resume: bool = True,
+    max_cells: Optional[int] = None,
+    dry_run: bool = False,
+) -> dict[str, Any]:
+    """Run a lab-replay campaign (``kshana.campaign/1``, a path or TOML text; relative
+    paths in text resolve against the working directory) into ``out_dir``, as
+    ``kshana iq campaign`` does.
+
+    Cells already done are skipped unless ``resume`` is false; ``max_cells`` bounds how
+    many pending cells run now; ``dry_run`` only plans. Returns the run summary (cell
+    counts, failures, and the ``digest`` once every cell is done). Raises ``ValueError`` on
+    an invalid campaign and ``RuntimeError`` when the run cannot proceed."""
+
+def iq_campaign_report(out_dir: str) -> dict[str, Any]:
+    """Rebuild a campaign's scorecards, HTML report and digest from the cells in
+    ``out_dir``.
+
+    Returns the cell and row counts, the rows failing a bar and the ``digest`` (None until
+    every cell is done). Raises ``RuntimeError`` when ``out_dir`` holds no campaign."""
 
 def iq_labfit(toml: str) -> dict[str, Any]:
     """Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by
