@@ -70,8 +70,9 @@ pub struct ChannelInfo {
     pub design_hash: String,
 }
 
-/// The header every epoch output carries (the first line of the binary form; the
-/// JSON-Lines and CSV forms carry the channel list in their records).
+/// The header of an epoch output: the first line of the binary form, and the first line
+/// (`{"header": …}`) of the JSON-Lines form. The CSV form has only a column row; its
+/// records carry the channel index, and the channel list is in the run's `--summary`.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 pub struct EpochHeader {
     /// [`EPOCH_SCHEMA`].
@@ -611,6 +612,9 @@ pub struct ChannelSummary {
     pub reacquisitions: u64,
     /// The last update.
     pub last: Option<EpochRecord>,
+    /// The channel's lock state at the end: the later of the last update's state and the
+    /// last transition (a channel retired after its last update ends `RETIRED`).
+    pub final_state: Option<LockState>,
     /// Mean NWPR C/N0 over every update that has one (dB-Hz).
     pub mean_cn0_dbhz: Option<f64>,
     /// Carrier-phase discriminator standard deviation over the steady-state part (deg).
@@ -694,6 +698,7 @@ impl EpochSink for Summary {
             c.code_jitter_chips = c.dll.std();
         }
         c.last = Some(EpochRecord::new(channel, e, state));
+        c.final_state = Some(state);
         Ok(())
     }
     fn event(&mut self, ev: &LockEvent) -> Result<(), IqError> {
@@ -711,6 +716,7 @@ impl EpochSink for Summary {
         if ev.reason == "reacquired" {
             c.reacquisitions += 1;
         }
+        c.final_state = Some(ev.to);
         Ok(())
     }
 }

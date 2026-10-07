@@ -16,8 +16,11 @@
 //!   alias;
 //! * with `reacquire` on, a `LOST` channel goes to `REACQ`: the next samples are searched
 //!   ±`reacq_doppler_window_hz` around its last (or alias) Doppler, and on detection the
-//!   channel restarts from that hand-off (`PULL_IN`). After `max_reacq_attempts` failed
-//!   searches in a row it is `RETIRED` and stops. With `reacquire` off (the built-in
+//!   channel restarts from that hand-off (`PULL_IN`). A failed search is retried after
+//!   `reacq_interval_s` (0.1 s by default, evenly spaced; an optional back-off doubles the
+//!   wait up to `reacq_max_interval_s`). A channel that has not
+//!   locked again within `reacq_window_s` of being lost (or that used up the optional
+//!   `max_reacq_attempts`) is `RETIRED` and stops. With `reacquire` off (the built-in
 //!   default) the state machine only observes: the loops run exactly as without it, and a
 //!   `LOST` channel returns to `LOCKED` when its locks hold again and no false lock is
 //!   suspected.
@@ -178,6 +181,9 @@ struct Managed {
     bad_since: Option<f64>,
     updates_since_check: usize,
     attempts: u32,
+    lost_since: Option<f64>,
+    next_attempt_s: f64,
+    reacq_interval_s: f64,
     suspect: bool,
     check_unavailable: bool,
     reacq_center: f64,
@@ -212,6 +218,9 @@ impl TrackSession {
                     bad_since: None,
                     updates_since_check: 0,
                     attempts: 0,
+                    lost_since: None,
+                    next_attempt_s: 0.0,
+                    reacq_interval_s: 0.0,
                     suspect: false,
                     check_unavailable: false,
                     next_epoch: 0,
@@ -325,6 +334,13 @@ impl Managed {
         self.bad_since = None;
         if to == LockState::Locked {
             self.attempts = 0;
+            self.lost_since = None;
+        }
+        if to == LockState::Lost && self.lost_since.is_none() {
+            // A new loss: the re-acquisition window starts, and the first search with it.
+            self.lost_since = Some(self.last_t);
+            self.next_attempt_s = self.last_t;
+            self.reacq_interval_s = self.setup.lock.reacq_interval_s;
         }
         sink.event(&LockEvent {
             channel: idx as u32,
@@ -403,7 +419,18 @@ impl Managed {
             }
             LockState::Lost => {
                 if lk.reacquire {
-                    if self.collect.is_none() {
+                    if self.window_spent(t) {
+                        self.ch = None;
+                        return self.transition(
+                            idx,
+                            LockState::Retired,
+                            "retired",
+                            e.sample_index,
+                            (None, None, None, None),
+                            sink,
+                        );
+                    }
+                    if self.collect.is_none() && t >= self.next_attempt_s {
                         let searchable = self.start(
                             Purpose::Reacq {
                                 center: self.reacq_center,
@@ -472,8 +499,17 @@ impl Managed {
         Ok(())
     }
 
-    /// A re-acquisition found nothing (or could not run): try again, or retire the channel
-    /// after `max_reacq_attempts` failures in a row.
+    /// Whether this loss has used up its re-acquisition window at time `t` (s).
+    fn window_spent(&self, t: f64) -> bool {
+        self.lost_since
+            .is_some_and(|s| t - s >= self.setup.lock.reacq_window_s)
+    }
+
+    /// A re-acquisition found nothing (or could not run): schedule the next search after
+    /// the current interval (which then doubles, up to `reacq_max_interval_s`, when that
+    /// is above `reacq_interval_s`), or retire
+    /// the channel once the loss has outlasted `reacq_window_s` or used up the optional
+    /// `max_reacq_attempts`.
     fn reacq_failed(
         &mut self,
         idx: usize,
@@ -483,7 +519,11 @@ impl Managed {
     ) -> Result<(), IqError> {
         self.attempts += 1;
         let extra = (None, None, stat.map(|s| s.0), stat.map(|s| s.1));
-        if self.attempts >= self.setup.lock.max_reacq_attempts {
+        let lk = &self.setup.lock;
+        let capped = lk.max_reacq_attempts > 0 && self.attempts >= lk.max_reacq_attempts;
+        self.next_attempt_s = self.last_t + self.reacq_interval_s;
+        self.reacq_interval_s = (2.0 * self.reacq_interval_s).min(lk.reacq_max_interval_s);
+        if capped || self.window_spent(self.last_t) {
             self.ch = None;
             self.transition(idx, LockState::Retired, "retired", now, extra, sink)
         } else {

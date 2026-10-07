@@ -580,6 +580,141 @@ fn auto_handoff_coherent_length_per_signal_family() {
     }
 }
 
+/// Integer scene outputs use their dynamic range: the per-component RMS sits at a quarter of
+/// full scale for ci8/ci16 (Gaussian clipping `2·Q(4) ≈ 6.3e-5`) and at 2 LSB for 2-bit
+/// (thresholds at one sigma, so `|level| = 3` on `2·Q(1) ≈ 0.317` of elements), and each
+/// file still round-trips through `acquire` and `track` to the injected code phase and
+/// Doppler. Unit-power noise written unscaled collapses to about {-1, 0, 1}.
+#[test]
+fn integer_scene_outputs_use_the_dynamic_range_and_round_trip() {
+    let dir = scratch("intscale");
+    for fmt in ["ci8", "ci16_le", "c2tc_msb"] {
+        let iq = dir.join(format!("s.{fmt}")).display().to_string();
+        let truth = format!("{iq}.truth.csv");
+        let acq_json = dir.join(format!("acq.{fmt}.json")).display().to_string();
+        let trk_json = dir.join(format!("trk.{fmt}.json")).display().to_string();
+        assert_eq!(
+            run(&args(&[
+                "scene",
+                &iq,
+                "--rate",
+                "2046000",
+                "--duration",
+                "0.8",
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "9",
+                "--doppler",
+                "1200",
+                "--cn0",
+                "50",
+                "--seed",
+                "3",
+                "--format",
+                fmt,
+            ])),
+            0,
+            "{fmt}"
+        );
+        let bytes = std::fs::read(&iq).unwrap();
+        match fmt {
+            "ci8" | "ci16_le" => {
+                let (vals, full): (Vec<f64>, f64) = if fmt == "ci8" {
+                    (bytes.iter().map(|&b| f64::from(b as i8)).collect(), 127.0)
+                } else {
+                    (
+                        bytes
+                            .chunks_exact(2)
+                            .map(|c| f64::from(i16::from_le_bytes([c[0], c[1]])))
+                            .collect(),
+                        32767.0,
+                    )
+                };
+                let n = vals.len() as f64;
+                let rms = (vals.iter().map(|v| v * v).sum::<f64>() / n).sqrt();
+                let target = full / 4.0;
+                assert!(
+                    (rms / target - 1.0).abs() < 0.05,
+                    "{fmt}: rms {rms:.3} LSB, want {target:.2}"
+                );
+                let clipped = vals.iter().filter(|v| v.abs() >= full).count() as f64 / n;
+                assert!(clipped < 5e-4, "{fmt}: clipped fraction {clipped:.2e}");
+            }
+            _ => {
+                // Two's-complement 2-bit, MSB first: codes 00 01 10 11 -> +1 +3 -3 -1.
+                let outer = bytes
+                    .iter()
+                    .flat_map(|&b| (0..4).map(move |k| (b >> (6 - 2 * k)) & 3))
+                    .filter(|&c| c == 1 || c == 2)
+                    .count() as f64
+                    / (4 * bytes.len()) as f64;
+                assert!(
+                    (outer - 0.317).abs() < 0.03,
+                    "{fmt}: |level| = 3 on {outer:.3} of elements, want ~0.317"
+                );
+            }
+        }
+
+        assert_eq!(
+            run(&args(&[
+                "acquire",
+                &iq,
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "9",
+                "--coherent",
+                "4",
+                "--json",
+                &acq_json,
+            ])),
+            0,
+            "{fmt}"
+        );
+        let (want_phase, want_dopp) = truth_at_zero(&truth)[&9];
+        let v: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&acq_json).unwrap()).unwrap();
+        let det = &v["detections"][0];
+        assert!(det["acquired"].as_bool().unwrap(), "{fmt}: {det}");
+        let dopp = det["doppler_hz"].as_f64().unwrap();
+        assert!((dopp - want_dopp).abs() <= 200.0, "{fmt}: doppler {dopp}");
+        let phase = det["code_phase_chips"].as_f64().unwrap();
+        let err = ((phase - want_phase + 511.5).rem_euclid(1023.0) - 511.5).abs();
+        assert!(err <= 1.0, "{fmt}: code phase {phase} vs {want_phase}");
+
+        assert_eq!(
+            run(&args(&[
+                "track",
+                &iq,
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "9",
+                "--acq-coherent",
+                "4",
+                "--json",
+                &trk_json,
+            ])),
+            0,
+            "{fmt}"
+        );
+        let v: serde_json::Value =
+            serde_json::from_str(&std::fs::read_to_string(&trk_json).unwrap()).unwrap();
+        let last = v["channels"][0]["epochs"]
+            .as_array()
+            .unwrap()
+            .last()
+            .unwrap()
+            .clone();
+        assert!(
+            (last["doppler_hz"].as_f64().unwrap() - 1200.0).abs() < 5.0,
+            "{fmt}: final doppler {last}"
+        );
+        assert!(last["phase_lock"].as_bool().unwrap(), "{fmt}: {last}");
+    }
+}
+
 /// `sweep` reports one row per (design, PRN), and a wider carrier loop locks at least as
 /// often as a narrower one on the same recording.
 #[test]
@@ -788,6 +923,16 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
             &p("e.unknown"),
         ])),
         2
+    );
+
+    // sweep --design applies the acquisition flags to the hand-off rather than ignoring
+    // them: an invalid one is refused.
+    assert_ne!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--pfa",
+            "2.0",
+        ])),
+        0
     );
 }
 

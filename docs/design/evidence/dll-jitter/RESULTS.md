@@ -44,7 +44,8 @@ sets σ_D ≈ 0.21 at any C/N0 and a code tracking error of about 0.09 chip RMS 
 
 The mechanism is pinned by
 `tests/iq_track_engine.rs::commensurate_sampling_turns_the_dll_s_curve_into_a_step`, which runs
-in the debug suite. `dll_jitter_bars_at_45_dbhz` re-checks P1 and P2 in release builds.
+in the debug suite. `dll_jitter_bars` asserts P1 (both parts), P2 (2.5 and 4.1 MHz, at 45
+and 38 dB-Hz) and P3 in release builds.
 
 The PLL is not affected, because carrier phase does not depend on the chip-phase sampling
 pattern. That is why its σ scaled correctly in W7's run.
