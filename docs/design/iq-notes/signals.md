@@ -94,6 +94,9 @@ PDFs above (no hand edits); each table states its ICD issue and table number.
   searched and tracked on its own FDMA carrier (all channels share one ranging code). The
   carrier term is zero for a recording centred on the signal and is omitted when the
   centre is unknown (`center_hz` 0).
+- Known limitation: a GLONASS scene uses the frequency channel `k` as the satellite id,
+  which is `u32` (`SceneSatellite::id`, `TruthRecord::sat_id`). A negative channel wraps:
+  `k = -7` is written as 4294967289 (`k + 2^32`), and an `i32` cast recovers it.
 
 ### docs/VALIDATION.md
 
