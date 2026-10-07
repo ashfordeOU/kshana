@@ -49,6 +49,7 @@
 use super::geom::{median, norm, sub, EarthOrbit, Site};
 use super::system::SystemCfg;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+use crate::palette::chart::{BLUE, CORAL, CYAN, INK_2, INK_3, LIME, MAGENTA, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -810,9 +811,7 @@ fn ppp_svg(r: &PppReport) -> String {
         top + ph,
         "median horizontal error (log10 m) against minutes",
     ));
-    let palette = [
-        "#8a8172", "#5b7fa6", "#c79e63", "#6b9e78", "#a65b5b", "#7a5ba6", "#5ba6a2",
-    ];
+    let palette = [INK_3, BLUE, CYAN, LIME, CORAL, MAGENTA, INK_2];
     let n = r
         .cases
         .first()
@@ -843,8 +842,8 @@ fn ppp_svg(r: &PppReport) -> String {
     }
     let yc = y(r.criterion_horizontal_m);
     s.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{yc:.1}\" x2=\"{:.0}\" y2=\"{yc:.1}\" stroke=\"#a65b5b\" stroke-dasharray=\"4 3\"/>\
-         <text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10 m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">1 mm</text></svg>",
+        "<line x1=\"{ml:.0}\" y1=\"{yc:.1}\" x2=\"{:.0}\" y2=\"{yc:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"4 3\"/>\
+         <text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10 m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">1 mm</text></svg>",
         ml + pw,
         top + 10.0,
         top + ph
