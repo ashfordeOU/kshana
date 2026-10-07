@@ -73,9 +73,19 @@ are time-ordered and inside `[onset_s, offset_s]` (held flat outside them up to 
 C/N0-vs-J/S comparison (no J/S → no reference curve). **Condition hash** = SHA-256 of the
 canonical JSON of the resolved file, with sorted keys and `[receiver]` text excluded.
 
-**Import.** `kshana iq conditions <file>` validates a file and prints the resolved form. SigMF
-annotations with `core:label` and a `kshana:test_event` object import the same event fields
-(B8.1's SigMF route). Importers for the lab's own simulator logs wait for their sample files (R9).
+**Import.** `kshana iq conditions <file>` validates a file and prints the resolved form. With
+`events_from_sigmf = true` in `[recording]`, a SigMF recording's annotations become events when the
+file is loaded. Each annotation that carries a `kshana:test_event` object becomes one event:
+
+* onset and offset come from `core:sample_start`, `core:sample_count` and `core:sample_rate`;
+* the id comes from the object's `id`, else `core:label`;
+* the bandwidth and centre offset come from `core:freq_lower_edge` and `core:freq_upper_edge`,
+  relative to the capture's `core:frequency`;
+* the object holds the remaining event fields under their names here (`kind`, `type`, `affects`,
+  `q`, `power`).
+
+The resolved conditions carry the imported events, so the condition hash covers them. Importers
+for the lab's own simulator logs wait for their sample files (R9).
 
 ## 2. Campaign file (`kshana.campaign/1`)
 
@@ -350,6 +360,9 @@ expected to agree. The tests cover:
   `not-acquired`, with the acquisition statistic and threshold. A satellite that is not acquired
   is still scored, with zero availability, so it is never silently dropped. Acquisition runs on
   the front-end-processed samples, once per distinct acquisition setting in a work item.
+* **GB scale.** `gb_scale_recording_streams_in_bounded_memory` (ignored; release) runs a 4.0 GB
+  recording (200 s of `cf32_le` at 2.5 MHz, one satellite). It processes 500 M samples in 36.7 s,
+  5.45× real time including the recording hash, with peak memory 2 MB above the starting RSS.
 * **Medians** come from a 0.05 dB histogram over 0–80 dB-Hz. They are exact to that bin width
   and keep memory fixed however long an event runs. Measured on a 60 s, 4-satellite × 4-design
   campaign in release, peak memory rose by 8 MB and throughput was 2.2× real time.

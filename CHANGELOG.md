@@ -42,6 +42,8 @@ breaking changes are called out explicitly.
   Also new:
   - `kshana iq campaign report <dir>` rebuilds the scorecards, report and digest from the cells;
   - `kshana iq conditions <file>` validates a test-condition file;
+  - `events_from_sigmf = true` imports a SigMF recording's `kshana:test_event` annotations as
+    events;
   - Python gains `iq_test_conditions`, `iq_campaign` and `iq_campaign_report`;
   - `kshana-mcp` gains `iq_campaign`, which is incremental and resumable under the per-call
     sample budget with every file confined to the work directory, and `iq_campaign_status`.
@@ -56,7 +58,8 @@ breaking changes are called out explicitly.
     back within 2 s of a 2 s gap; the `reacquire` off outcome is pinned;
   - bars re-judged without re-running;
   - the CLI;
-  - an ignored release-mode throughput and memory check.
+  - ignored release-mode throughput and memory checks, including a 4 GB recording (5.45× real
+    time, peak memory 2 MB above the starting RSS).
 
   Software only: nothing transmits, and no interference or spoofing waveform is synthesised.
   Design and as-built notes: `docs/design/LAB-CAMPAIGN.md`.
