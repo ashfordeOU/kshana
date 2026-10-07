@@ -67,6 +67,11 @@ breaking changes are called out explicitly.
     `web/capabilities.json`, the `clock-holdover` result and
     `tests/fixtures/sgp4_comparison.md`. `tools/gen_readme_assets.py` reads the same
     palette, which corrects its light-theme drift from the site.
+- **`docs/assets/figures/domain-coverage-map` refreshed to current data (a data change, not
+  a repaint).** The figure stated 28 capabilities across 8 domains (11 validated, 17
+  modelled), stale against its own stated source; drawn now by its new generator from
+  `web/capabilities.json`, it reads 46 capabilities across 8 domains (17 validated, 29
+  modelled).
 
 ## [0.32.0] - 2026-10-05
 
