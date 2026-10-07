@@ -84,9 +84,11 @@ breaking changes are called out explicitly.
     `kshana.iq_scene(…, cn0_profile="<toml>")`.
   - What it is for: loops, monitors and campaign scoring can be stress-tested against a
     known truth. It changes the strength of the legitimate signals only.
-  - Checks (`tests/iq_cn0_profile.rs`): fade mean intensity 1 and S4 within 1.3 % of
-    target at S4 = 0.3, 0.7 and 1; the truth equal to the stated C/N0 plus the profile; and
-    a tracked NWPR C/N0 drop of 6.26 dB for a 6 dB step.
+  - Checks (`tests/iq_cn0_profile.rs`). Bars: fade mean intensity within 5 % of 1, S4 within
+    8 % of target (at S4 = 0.3, 0.7 and 1), intensity correlation above 0.9 at 0.05 τ and
+    below 0.05 at 5 τ; truth exactly the stated C/N0 plus the profile; a tracked NWPR C/N0
+    drop within 0.7 dB of a 6 dB step. Measured: S4 within 1.3 % of target, and a tracked
+    drop of 6.26 dB.
 
 ### Fixed
 

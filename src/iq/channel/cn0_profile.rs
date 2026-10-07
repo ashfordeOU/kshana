@@ -26,6 +26,13 @@
 //! per satellite per geometry knot and holds the amplitude between knots, so a profile is
 //! resolved at the scene's update rate. [`ProfiledTruth`] adds the same offsets to the
 //! `cn0_dbhz` column of the truth records, so the truth states the C/N0 that was generated.
+//! That is exact only when `SceneConfig.geometry_rate_hz` equals `1 / truth_interval_s`:
+//! the amplitude is held between geometry knots, so a truth record at any other time
+//! carries the offset at its own time, not the held one.
+//!
+//! A fade keeps the mean *intensity* at 1, but the mean of its offset in dB is negative
+//! (about −2.5 dB for Rayleigh, `S4 = 1`), so the time-averaged truth `cn0_dbhz` of a faded
+//! satellite sits below the C/N0 the scene states.
 //!
 //! The profile file (TOML):
 //!
