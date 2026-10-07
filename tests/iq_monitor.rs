@@ -620,3 +620,123 @@ fn signal_outage_opens_a_loss_of_lock_event() {
         .all(|(_, v)| *v == 1.0);
     assert!(locked_before);
 }
+
+// ── CLI ─────────────────────────────────────────────────────────────────────────────────
+
+/// `kshana iq monitor` on a 3 s noisy scene: pre-correlation and per-channel series are
+/// written as JSON and CSV, a clean scene raises no event, a settings file switches
+/// monitors on and tunes them, and `--power` alone leaves the spectral monitor off.
+#[test]
+fn iq_monitor_cli_writes_series_and_events() {
+    use kshana::iq::cli::run;
+    let dir = std::env::temp_dir().join(format!("kshana-iq-monitor-cli-{}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&dir);
+    std::fs::create_dir_all(&dir).unwrap();
+    let p = |s: &str| dir.join(s).display().to_string();
+    let args = |v: &[&str]| v.iter().map(|s| s.to_string()).collect::<Vec<_>>();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &p("s.cf32"),
+            "--rate",
+            "2046000",
+            "--duration",
+            "3",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "9",
+            "--doppler",
+            "1200",
+            "--cn0",
+            "47",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    std::fs::write(
+        p("mon.toml"),
+        "[power]\nbaseline_s = 1.0\n[spectral]\nbaseline_s = 1.0\n[epoch.cn0]\nbaseline_s = 1.0\n\
+         [epoch.sqm]\nbaseline_s = 1.0\n",
+    )
+    .unwrap();
+    assert_eq!(
+        run(&args(&[
+            "monitor",
+            &p("s.cf32"),
+            "--settings",
+            &p("mon.toml"),
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "9",
+            "--json",
+            &p("m.json"),
+            "--csv",
+            &p("m"),
+        ])),
+        0
+    );
+    let r: MonitorReport =
+        serde_json::from_str(&std::fs::read_to_string(p("m.json")).unwrap()).unwrap();
+    for name in [
+        "power_db",
+        "agc_gain_db",
+        "psd_excess_db",
+        "kurtosis",
+        "pulse_fraction",
+    ] {
+        assert!(r.series_named(name, None).is_some(), "{name}");
+    }
+    let ch = r
+        .series_named("cn0_dbhz", None)
+        .and_then(|s| s.channel.clone())
+        .expect("a channel series");
+    for name in ["sqm_delta", "sqm_ratio", "pli", "fli", "phase_lock"] {
+        let s = r
+            .series_named(name, Some(&ch))
+            .unwrap_or_else(|| panic!("{name}"));
+        assert!(!s.value.is_empty(), "{name}");
+    }
+    let cn0 = r.series_named("cn0_dbhz", Some(&ch)).unwrap();
+    let last = *cn0.value.last().unwrap();
+    // A sanity range only: the scene/estimator agreement is the tracking tests' business
+    // (this run reads about 44.8 dB-Hz for a 47 dB-Hz scene).
+    assert!((last - 47.0).abs() < 4.0, "C/N0 {last}");
+    assert!(r.events.is_empty(), "{:?}", r.events);
+    let series_csv = std::fs::read_to_string(p("m.series.csv")).unwrap();
+    assert!(series_csv.starts_with("series,channel,unit,t_s,value\n"));
+    assert!(series_csv.contains("sqm_ratio,"));
+    assert!(std::fs::read_to_string(p("m.events.csv"))
+        .unwrap()
+        .starts_with("kind,channel,"));
+
+    assert_eq!(
+        run(&args(&[
+            "monitor",
+            &p("s.cf32"),
+            "--power",
+            "--json",
+            &p("p.json")
+        ])),
+        0
+    );
+    let r: MonitorReport =
+        serde_json::from_str(&std::fs::read_to_string(p("p.json")).unwrap()).unwrap();
+    assert!(r.series_named("power_db", None).is_some());
+    assert!(r.series_named("kurtosis", None).is_none());
+    assert!(r.series_named("cn0_dbhz", None).is_none());
+    // A bad settings file is a run error, not a panic.
+    std::fs::write(p("bad.toml"), "[power]\nblock_s = \"x\"\n").unwrap();
+    assert_eq!(
+        run(&args(&[
+            "monitor",
+            &p("s.cf32"),
+            "--settings",
+            &p("bad.toml")
+        ])),
+        1
+    );
+    let _ = std::fs::remove_dir_all(&dir);
+}
