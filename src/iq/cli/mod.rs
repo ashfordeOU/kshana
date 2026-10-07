@@ -41,6 +41,8 @@ pub(crate) use channel::{build_channel, ChannelParams};
 pub(crate) use frontend::{apply_chain, build_chain, FrontendParams};
 #[cfg(feature = "python")]
 pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
+#[cfg(feature = "python")]
+pub(crate) use track::sampling_warnings;
 
 use std::collections::HashMap;
 
