@@ -594,7 +594,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.31.0 6600.0 2610.0
+# 0.32.0 6600.0 2610.0
 ```
 
 Beyond `run`, the module exposes `run_full` (JSON, SVG and the one-line summary at once),
@@ -615,7 +615,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.31.0 6600 2610
+// 0.32.0 6600 2610
 console.log(summary(toml));
 ```
 
