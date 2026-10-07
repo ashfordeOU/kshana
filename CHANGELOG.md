@@ -11,6 +11,28 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
+  the `kshana iq` layer from an agent: `iq_signals` (the accepted signal names and the IQ
+  set-up), `iq_info` (describe a recording), `iq_scene` (generate a stated-profile or
+  broadcast-ephemeris scene, with the optional signal-level channel), `iq_acquire` (FFT
+  acquisition, optionally behind front-end stages), `iq_track` (acquire, then the DLL/PLL/FLL
+  bank) and `iq_frontend` (band-pass, notch, blanking, excision, AGC, quantiser). IQ samples
+  never cross the protocol: every tool takes file paths inside one work directory set by
+  `KSHANA_MCP_IQ_DIR` (unset leaves the IQ file tools off and every other tool unaffected),
+  refuses paths that resolve outside it and outputs that already exist unless `overwrite`
+  is set, enforces a per-call sample budget (`KSHANA_MCP_IQ_MAX_SAMPLES`, default 50 000 000)
+  before any work, refuses unknown arguments, and replies with a compact JSON summary
+  (detections, C/N0, lock state, and each file written with its byte count). Per-epoch output
+  goes only to files the caller names. The tools run the same code path as the CLI through a
+  new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
+  printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
+  `iq::cli::signal_names` are now public too. Software-only and additive: no transmit, no
+  interference or spoofing waveform synthesis, no new dependencies. `server.json` declares
+  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  generate a short two-satellite scene and check acquisition against the scene's own truth
+  sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
+  and the disabled state.
+
 - **The GNSS IQ layer in the validation ledger.** A pre-registered cross-check against
   gps-sdr-sim (an independent GPS L1 C/A baseband generator, MIT, commit 28ca29a6) is now part
   of the always-on test suite (`tests/iq_gpssdrsim_cross_generator.rs`). Its committed

@@ -32,7 +32,7 @@ mod signal;
 mod sweep;
 mod track;
 
-pub(crate) use signal::build_code;
+pub use signal::build_code;
 // Re-exported for the Python bindings, which build and generate a scene in-process.
 #[cfg(feature = "python")]
 pub(crate) use channel::{build_channel, ChannelParams};
@@ -40,8 +40,6 @@ pub(crate) use channel::{build_channel, ChannelParams};
 pub(crate) use frontend::{build_chain, FrontendParams};
 #[cfg(feature = "python")]
 pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
-#[cfg(feature = "python")]
-pub(crate) use signal::signal_names;
 
 use std::collections::HashMap;
 
@@ -155,6 +153,62 @@ impl Args {
     }
 }
 
+/// The GNSS signal names the `scene`, `acquire`, `track` and `sweep` commands (and the
+/// Python and MCP surfaces) accept, in help-text order.
+pub fn signal_names() -> &'static [&'static str] {
+    signal::SIGNAL_NAMES
+}
+
+/// Why [`execute`] did not complete a command.
+#[derive(Clone, Debug, PartialEq, Eq)]
+pub enum CommandError {
+    /// The command was invoked wrongly (the CLI's exit code 2).
+    Usage(String),
+    /// The command was valid but could not complete (the CLI's exit code 1).
+    Run(String),
+}
+
+impl std::fmt::Display for CommandError {
+    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
+        match self {
+            CommandError::Usage(m) => write!(f, "usage error: {m}"),
+            CommandError::Run(m) => f.write_str(m),
+        }
+    }
+}
+
+impl std::error::Error for CommandError {}
+
+/// Run one processing command (`scene`, `acquire`, `track`, `sweep`, `labfit` or
+/// `frontend`, then its arguments exactly as the CLI takes them) in-process, and return
+/// the message the CLI would print instead of printing it. Files are written exactly as
+/// the CLI writes them. This is the seam an embedding surface (the MCP server) drives, so
+/// it runs the same code path as `kshana iq` with nothing on stdout or stderr.
+///
+/// The argument grammar is public API: it is exactly the CLI's (see `kshana iq --help`),
+/// and changes to it are CLI-compatible and additive only, so a caller written against one
+/// release keeps working on the next.
+pub fn execute(args: &[String]) -> Result<String, CommandError> {
+    let rest = args.get(1..).unwrap_or_default();
+    let r = match args.first().map(String::as_str) {
+        Some("scene") => scene::run(rest),
+        Some("acquire") => acquire::run(rest),
+        Some("track") => track::run(rest),
+        Some("sweep") => sweep::run(rest),
+        Some("labfit") => labfit::run(rest),
+        Some("frontend") => frontend::run(rest),
+        Some(other) => Err(Fail::Usage(format!(
+            "unknown iq processing command {other:?}; expected scene, acquire, track, sweep, \
+             labfit or frontend"
+        ))),
+        None => Err(Fail::Usage("no iq processing command given".into())),
+    };
+    r.map_err(|f| match f {
+        Fail::Usage(m) => CommandError::Usage(m),
+        Fail::Run(m) => CommandError::Run(m),
+    })
+}
+
 /// Run a `kshana iq` processing command; delegate every other command to
 /// [`super::io::cli::run`]. Returns the process exit code (0, 1 or 2).
 pub fn run(args: &[String]) -> i32 {
@@ -167,29 +221,26 @@ pub fn run(args: &[String]) -> i32 {
             println!("{USAGE}\n{}", super::io::cli::USAGE);
             0
         }
-        Some("scene") => finish(scene::run(&args[1..])),
-        Some("acquire") => finish(acquire::run(&args[1..])),
-        Some("track") => finish(track::run(&args[1..])),
-        Some("sweep") => finish(sweep::run(&args[1..])),
-        Some("labfit") => finish(labfit::run(&args[1..])),
-        Some("frontend") => finish(frontend::run(&args[1..])),
+        Some("scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend") => {
+            finish(execute(args))
+        }
         // Every data-handling command belongs to the io half of the group.
         Some(_) => super::io::cli::run(args),
     }
 }
 
 /// Turn a command's result into an exit code, printing the message or the error.
-fn finish(r: Result<String, Fail>) -> i32 {
+fn finish(r: Result<String, CommandError>) -> i32 {
     match r {
         Ok(msg) => {
             println!("{msg}");
             0
         }
-        Err(Fail::Usage(m)) => {
+        Err(CommandError::Usage(m)) => {
             eprintln!("error: {m}\n{USAGE}");
             2
         }
-        Err(Fail::Run(m)) => {
+        Err(CommandError::Run(m)) => {
             eprintln!("error: {m}");
             1
         }
