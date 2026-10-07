@@ -59,6 +59,14 @@
 //!     (B4) the acquired Doppler is within 125 Hz (one bin step) of `f_carr`.
 //! Non-vacuity: at least 6 channels.
 //!
+//! RESULT (added after the run of 2026-10-07 on 7777da53 with the fixture of e6c0a48c; the
+//! registration above is unchanged from 7777da53). (0) holds. (A) holds on all 11 channels:
+//! worst pseudorange 1.6e-3 m, code phase 5.5e-6 chip, Doppler 7.4e-5 Hz, elevation and
+//! azimuth 4e-9 degree. (B1), (B3) and (B4) hold in both windows (code phase within 0.195
+//! chip, Doppler within 72 Hz), but (B2) fails: all 21 PRNs gps-sdr-sim did not simulate are
+//! declared acquired in both windows. The strict (B) test is kept, ignored with the finding;
+//! `acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples` pins it.
+//!
 //! NOT COMPARED, AND WHY. The samples are not compared sample for sample with a Kshana scene:
 //! gps-sdr-sim synthesises the carrier from a 512-entry integer sine table, scales each
 //! satellite by an integer gain from its own path-loss and antenna-pattern model, starts every
@@ -279,14 +287,27 @@ fn scene_geometry_matches_gps_sdr_sim_channels() {
     );
 }
 
-/// (B) Acquisition of gps-sdr-sim's own samples.
-#[test]
-fn acquisition_finds_gps_sdr_sim_satellites_in_its_samples() {
-    let h = harness();
+/// One search of the registered design (B): PRN, window, and what `iq::acq` returned.
+struct Search {
+    prn: u8,
+    window: usize,
+    acquired: bool,
+    statistic: f64,
+    threshold: f64,
+    /// Circular code phase error against gps-sdr-sim (chips); `None` for a PRN it did not
+    /// simulate.
+    dcode: Option<f64>,
+    /// Doppler error against gps-sdr-sim's `f_carr` (Hz); `None` likewise.
+    ddoppler: Option<f64>,
+}
+
+/// Run design (B): every PRN 1 to 32 in both 10 ms windows. The 64 searches are independent
+/// and spread over the available threads.
+fn searches(h: &Value) -> Vec<Search> {
     let bytes = std::fs::read(format!("{DIR}gpssdrsim_first20ms.ci8")).expect("samples");
     let samples = decode_samples(SampleFormat::CI8, &bytes, 1.0);
     assert_eq!(samples.len(), 20 * SPMS);
-    let chans = channels(&h);
+    let chans = channels(h);
     let cfg = AcqConfig {
         coherent_periods: 1,
         noncoherent: 10,
@@ -294,39 +315,135 @@ fn acquisition_finds_gps_sdr_sim_satellites_in_its_samples() {
         doppler_step_hz: 125.0,
         pfa: 1e-3,
     };
-    for window in 0..2 {
-        let start = window * 10 * SPMS;
-        let t0 = start as f64 / FS;
-        let mut found = BTreeSet::new();
-        for prn in 1..=32u8 {
-            let code = GpsL1Ca::new(prn).unwrap();
-            let r = acquire(&samples[start..], &spec(), &code, &cfg)
-                .unwrap()
-                .result;
-            let chan = chans.iter().find(|c| num(c, "prn") as u8 == prn);
-            match chan {
-                Some(c) => {
-                    let want_cp = (num(c, "code_phase") + num(c, "f_code") * t0).rem_euclid(CA_LEN);
-                    let dcp = circ(r.code_phase_chips, want_cp, CA_LEN);
-                    let dd = (r.doppler_hz - num(c, "f_carr")).abs();
-                    eprintln!(
-                        "window {window} PRN {prn:2}: acquired {} (stat {:.1} / thr {:.1}), dcode {dcp:.3} chip, dDoppler {dd:.1} Hz",
-                        r.acquired, r.statistic, r.threshold
-                    );
-                    assert!(r.acquired, "(B1) PRN {prn} not acquired in window {window}");
-                    assert!(dcp <= 0.5, "(B3) PRN {prn} code phase off by {dcp} chip");
-                    assert!(dd <= 125.0, "(B4) PRN {prn} Doppler off by {dd} Hz");
-                    found.insert(prn);
+    let jobs: Vec<(usize, u8)> = (0..2)
+        .flat_map(|w| (1..=32u8).map(move |p| (w, p)))
+        .collect();
+    let threads = std::thread::available_parallelism().map_or(1, |n| n.get());
+    let next = std::sync::atomic::AtomicUsize::new(0);
+    let mut out: Vec<Search> = std::thread::scope(|sc| {
+        let handles: Vec<_> = (0..threads)
+            .map(|_| {
+                sc.spawn(|| {
+                    let mut mine = Vec::new();
+                    loop {
+                        let k = next.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+                        let Some(&(window, prn)) = jobs.get(k) else {
+                            break;
+                        };
+                        let start = window * 10 * SPMS;
+                        let t0 = start as f64 / FS;
+                        let code = GpsL1Ca::new(prn).unwrap();
+                        let r = acquire(&samples[start..], &spec(), &code, &cfg)
+                            .unwrap()
+                            .result;
+                        let chan = chans.iter().find(|c| num(c, "prn") as u8 == prn);
+                        let (dcode, ddoppler) = match chan {
+                            Some(c) => {
+                                let want = (num(c, "code_phase") + num(c, "f_code") * t0)
+                                    .rem_euclid(CA_LEN);
+                                (
+                                    Some(circ(r.code_phase_chips, want, CA_LEN)),
+                                    Some((r.doppler_hz - num(c, "f_carr")).abs()),
+                                )
+                            }
+                            None => (None, None),
+                        };
+                        mine.push(Search {
+                            prn,
+                            window,
+                            acquired: r.acquired,
+                            statistic: r.statistic,
+                            threshold: r.threshold,
+                            dcode,
+                            ddoppler,
+                        });
+                    }
+                    mine
+                })
+            })
+            .collect();
+        handles
+            .into_iter()
+            .flat_map(|h| h.join().unwrap())
+            .collect()
+    });
+    out.sort_by_key(|s| (s.window, s.prn));
+    for s in &out {
+        match (s.dcode, s.ddoppler) {
+            (Some(dc), Some(dd)) => eprintln!(
+                "window {} PRN {:2}: simulated, acquired {} (stat {:.1} / thr {:.1}), dcode {dc:.3} chip, dDoppler {dd:.1} Hz",
+                s.window, s.prn, s.acquired, s.statistic, s.threshold
+            ),
+            _ => eprintln!(
+                "window {} PRN {:2}: not simulated, acquired {} (stat {:.1} / thr {:.1})",
+                s.window, s.prn, s.acquired, s.statistic, s.threshold
+            ),
+        }
+    }
+    out
+}
+
+/// (B) Acquisition of gps-sdr-sim's own samples, at the registered bars.
+#[test]
+#[ignore = "FINDING (run 2026-10-07 on 7777da53 + fixture e6c0a48c): (B1) all 11 simulated PRNs acquired in both windows, (B3) code phase within 0.195 chip, (B4) Doppler within 72 Hz, but (B2) every one of the 21 PRNs gps-sdr-sim did not simulate is also declared acquired in both windows (statistic 151 to 206 against the threshold 79.5): the noise-free input has no thermal noise, so the other satellites' cross-correlation is what the Gaussian-noise threshold sees; pinned by acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples"]
+fn acquisition_finds_gps_sdr_sim_satellites_in_its_samples() {
+    let h = harness();
+    let n_chans = channels(&h).len();
+    let runs = searches(&h);
+    for w in 0..2 {
+        let mut found = 0;
+        for s in runs.iter().filter(|s| s.window == w) {
+            match (s.dcode, s.ddoppler) {
+                (Some(dc), Some(dd)) => {
+                    assert!(s.acquired, "(B1) PRN {} not acquired in window {w}", s.prn);
+                    assert!(dc <= 0.5, "(B3) PRN {} code phase off by {dc} chip", s.prn);
+                    assert!(dd <= 125.0, "(B4) PRN {} Doppler off by {dd} Hz", s.prn);
+                    found += 1;
                 }
-                None => {
-                    eprintln!(
-                        "window {window} PRN {prn:2}: absent, stat {:.1} / thr {:.1}",
-                        r.statistic, r.threshold
-                    );
-                    assert!(!r.acquired, "(B2) PRN {prn} acquired but not simulated");
-                }
+                _ => assert!(
+                    !s.acquired,
+                    "(B2) PRN {} acquired in window {w} but not simulated",
+                    s.prn
+                ),
             }
         }
-        assert_eq!(found.len(), chans.len());
+        assert_eq!(found, n_chans);
     }
+}
+
+/// The finding of the strict test, pinned on the committed oracle output. (B1), (B3) and (B4)
+/// hold at the registered bars in both windows. (B2) does not: every PRN gps-sdr-sim did not
+/// simulate crosses the detector threshold. That threshold is set for a cell that holds
+/// Gaussian noise of the measured sample power (`iq::acq`, chi-square with 2M degrees of
+/// freedom); gps-sdr-sim adds no noise, so the sample power is the eleven signals themselves
+/// and the cells of an absent PRN hold their cross-correlation, which is not chi-square. The
+/// separation between the two populations is recorded too (observed, not a registered bar):
+/// the largest absent-PRN statistic stays below a fifth of the smallest simulated one.
+#[test]
+fn acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples() {
+    let h = harness();
+    let n_chans = channels(&h).len();
+    assert_eq!(n_chans, 11);
+    let runs = searches(&h);
+    assert_eq!(runs.len(), 64);
+    let (present, absent): (Vec<&Search>, Vec<&Search>) =
+        runs.iter().partition(|s| s.dcode.is_some());
+    assert_eq!(present.len(), 2 * n_chans);
+    for s in &present {
+        assert!(s.acquired, "PRN {} window {}", s.prn, s.window);
+        assert!(s.dcode.unwrap() <= 0.5 && s.ddoppler.unwrap() <= 125.0);
+    }
+    // The finding as recorded: all 42 absent searches cross the threshold.
+    assert_eq!(absent.iter().filter(|s| s.acquired).count(), 42);
+    let absent_max = absent.iter().map(|s| s.statistic).fold(0.0, f64::max);
+    let present_min = present
+        .iter()
+        .map(|s| s.statistic)
+        .fold(f64::INFINITY, f64::min);
+    let threshold = runs[0].threshold;
+    eprintln!(
+        "threshold {threshold:.1}; absent PRNs up to {absent_max:.1}; simulated PRNs from {present_min:.1}"
+    );
+    assert!(runs.iter().all(|s| s.threshold == threshold));
+    assert!(absent_max < 0.2 * present_min);
 }
