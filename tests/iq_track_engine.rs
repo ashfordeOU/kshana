@@ -28,6 +28,7 @@ const FS: f64 = 2.046e6;
 /// One PRN at a fixed Doppler and C/N0 in unit-variance complex noise, with optional
 /// signal-off windows `[t0, t1)` (s).
 struct Synth {
+    fs: f64,
     code: kshana::iq::signals::SignalCode,
     doppler: f64,
     amp: f64,
@@ -37,22 +38,35 @@ struct Synth {
     n: u64,
     total: u64,
     rng: u64,
+    noise: bool,
 }
 
 impl Synth {
     fn new(prn: i64, doppler: f64, cn0_dbhz: f64, seconds: f64, gaps: Vec<(f64, f64)>) -> Self {
+        Self::at(FS, prn, doppler, cn0_dbhz, seconds, gaps)
+    }
+    fn at(
+        fs: f64,
+        prn: i64,
+        doppler: f64,
+        cn0_dbhz: f64,
+        seconds: f64,
+        gaps: Vec<(f64, f64)>,
+    ) -> Self {
         let code = build_code("gps-l1ca", prn).unwrap();
         let rate = code.chip_rate_hz() * (1.0 + doppler / code.carrier_hz());
         Self {
-            amp: (10f64.powf(cn0_dbhz / 10.0) / FS).sqrt(),
+            fs,
+            amp: (10f64.powf(cn0_dbhz / 10.0) / fs).sqrt(),
             code,
             doppler,
             rate,
             phase0: 300.25,
             gaps,
             n: 0,
-            total: (seconds * FS) as u64,
+            total: (seconds * fs) as u64,
             rng: 0x9e37_79b9_7f4a_7c15 ^ prn as u64,
+            noise: true,
         }
     }
     fn gauss(&mut self) -> f64 {
@@ -81,7 +95,7 @@ impl Synth {
 impl IqSource for Synth {
     fn spec(&self) -> SampleSpec {
         SampleSpec {
-            fs_hz: FS,
+            fs_hz: self.fs,
             center_hz: 1_575_420_000.0,
             if_hz: 0.0,
         }
@@ -90,9 +104,13 @@ impl IqSource for Synth {
         let k = buf.len().min((self.total - self.n) as usize);
         let s = std::f64::consts::FRAC_1_SQRT_2;
         for out in buf.iter_mut().take(k) {
-            let t = self.n as f64 / FS;
+            let t = self.n as f64 / self.fs;
             let on = !self.gaps.iter().any(|&(a, b)| t >= a && t < b);
-            let mut v = Cf64::new(s * self.gauss(), s * self.gauss());
+            let mut v = if self.noise {
+                Cf64::new(s * self.gauss(), s * self.gauss())
+            } else {
+                Cf64::default()
+            };
             if on {
                 let c = self.code.value_at(self.phase0 + self.rate * t);
                 let ph = TAU * self.doppler * t;
@@ -318,5 +336,130 @@ fn a_signal_gap_is_lost_then_reacquired() {
     assert!(
         epochs.windows(2).all(|w| w[1] > w[0]),
         "epoch numbering is monotonic"
+    );
+}
+
+// ---- DLL jitter (docs/design/evidence/dll-jitter/PREREGISTRATION.md) ----
+
+/// The per-update EMLP discriminator noise and the code tracking error of the closed form
+/// (Kaplan & Hegarty, infinite bandwidth): `(σ_D, σ_ε)` in chips.
+fn dll_theory(cn0_dbhz: f64) -> (f64, f64) {
+    let (t, d, bn) = (1e-3, 0.5, 2.0);
+    let c = 10f64.powf(cn0_dbhz / 10.0);
+    let var_e = bn * d / (2.0 * c) * (1.0 + 2.0 / ((2.0 - d) * t * c));
+    ((var_e / (2.0 * bn * t)).sqrt(), var_e.sqrt())
+}
+
+/// `(σ_D, σ_ε)` measured over 1.5 s ≤ t < 3.5 s on the synthetic source at `fs`.
+fn dll_measured(fs: f64, cn0_dbhz: f64) -> (f64, f64) {
+    let mut src = Synth::at(fs, 13, 1500.0, cn0_dbhz, 3.5, vec![]);
+    let init = src.init(1500.0);
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, LoopConfig::default())],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    let (phase0, rate) = (src.phase0, src.rate);
+    session.run(&mut src, None, &mut sink).unwrap();
+    let len = 1023.0;
+    let (mut disc, mut err) = (Vec::new(), Vec::new());
+    for (e, _) in &sink.channels[0] {
+        if e.code_epoch_s >= 1.5 {
+            disc.push(e.disc.dll_chips);
+            let truth = phase0 + rate * e.sample_index as f64 / fs;
+            let mut d = (e.code_phase_chips - truth).rem_euclid(len);
+            if d > len / 2.0 {
+                d -= len;
+            }
+            err.push(d);
+        }
+    }
+    (std_dev(&disc), std_dev(&err))
+}
+
+fn std_dev(xs: &[f64]) -> f64 {
+    let n = xs.len() as f64;
+    let m = xs.iter().sum::<f64>() / n;
+    (xs.iter().map(|x| (x - m).powi(2)).sum::<f64>() / (n - 1.0)).sqrt()
+}
+
+/// The full survey of the pre-registration (3 sample rates × 3 C/N0). Slow in a debug
+/// build; run with `cargo test --release --test iq_track_engine dll_jitter_survey --
+/// --ignored --nocapture`.
+#[test]
+#[ignore]
+fn dll_jitter_survey() {
+    println!("fs_hz,cn0_dbhz,sigma_d_chips,theory_sigma_d,sigma_eps_chips,theory_sigma_eps");
+    for fs in [2.046e6, 2.5e6, 4.1e6] {
+        for cn0 in [45.0, 38.0, 30.0] {
+            let (sd, se) = dll_measured(fs, cn0);
+            let (td, te) = dll_theory(cn0);
+            println!("{fs},{cn0},{sd:.5},{td:.5},{se:.5},{te:.5}");
+        }
+    }
+}
+
+/// The first full-period DLL discriminator output on a noise-free signal when the replica
+/// starts `eps` chips off.
+fn first_disc(fs: f64, eps: f64) -> f64 {
+    let mut src = Synth::at(fs, 13, 0.0, 60.0, 0.004, vec![]);
+    src.noise = false;
+    let mut init = src.init(0.0);
+    init.code_phase_chips += eps;
+    let mut session = TrackSession::new(
+        src.spec(),
+        vec![SessionChannel::from_config(init, LoopConfig::default())],
+    )
+    .unwrap();
+    let mut sink = CollectSink::default();
+    session.run(&mut src, None, &mut sink).unwrap();
+    sink.channels[0][0].0.disc.dll_chips
+}
+
+/// The mechanism behind the flat DLL jitter at 2 samples per chip
+/// (`docs/design/evidence/dll-jitter/`): with fs an exact multiple of the chip rate the
+/// samples fall on the same chip phases in every chip, so the early and late taps see a
+/// staircase, not the correlation triangle. With d = 0.5 at 2.000 samples/chip the
+/// discriminator's S-curve has no linear part at all: its first output is the same
+/// saturated value whatever the code offset in [0, 0.24] chip, so the DLL dithers
+/// bang-bang (σ_D ≈ 0.2 chip at any C/N0). At an incommensurate 2.5 MHz it is the
+/// unit-slope line the closed forms assume.
+#[test]
+fn commensurate_sampling_turns_the_dll_s_curve_into_a_step() {
+    let offsets = [0.03, 0.06, 0.09, 0.12, 0.15, 0.18];
+    let at = |fs: f64| offsets.map(|e| first_disc(fs, e));
+    let two_spc = at(2.046e6);
+    for v in two_spc {
+        assert!(
+            (v - two_spc[0]).abs() < 1e-9 && v.abs() > 0.2,
+            "{two_spc:?}"
+        );
+    }
+    let incommensurate = at(2.5e6);
+    for (e, v) in offsets.iter().zip(incommensurate) {
+        // The replica starts `e` chips ahead, so the discriminator reads about -e.
+        assert!(
+            (v + e).abs() < 0.2 * e + 0.01,
+            "e={e}: {v} ({incommensurate:?})"
+        );
+    }
+}
+
+/// Pre-registered bars P1 and P2 at 45 dB-Hz, on a 2.5 s run (the full survey is
+/// `dll_jitter_survey`). Release-mode speed is needed; CI's debug suite skips it.
+#[test]
+#[ignore]
+fn dll_jitter_bars_at_45_dbhz() {
+    let (theory, _) = dll_theory(45.0);
+    let (commensurate, _) = dll_measured(2.046e6, 45.0);
+    assert!(
+        commensurate >= 2.0 * theory,
+        "P1: {commensurate} vs {theory}"
+    );
+    let (incommensurate, _) = dll_measured(2.5e6, 45.0);
+    assert!(
+        (incommensurate / theory - 1.0).abs() <= 0.2,
+        "P2: {incommensurate} vs {theory}"
     );
 }
