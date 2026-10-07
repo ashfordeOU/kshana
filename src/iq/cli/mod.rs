@@ -36,8 +36,8 @@ pub use signal::build_code;
 // Re-exported for the Python bindings, which build and generate a scene in-process.
 #[cfg(feature = "python")]
 pub(crate) use channel::{build_channel, ChannelParams};
-#[cfg(feature = "python")]
-pub(crate) use frontend::{build_chain, FrontendParams};
+// Also used by the campaign runner, which applies the same front-end chains.
+pub(crate) use frontend::{apply_chain, build_chain, FrontendParams};
 #[cfg(feature = "python")]
 pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
 
