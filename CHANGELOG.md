@@ -47,8 +47,9 @@ breaking changes are called out explicitly.
     independent estimates (the stride is set from the loop's C/N0 window).
   - **SQM from the correlators**: delta `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)`,
     plus asymmetry tests from extra correlators when a channel supplies them.
-  - **Lock indicators**: PLI, a frequency lock indicator from successive prompts, lock
-    flags, and loss-of-lock / re-lock events with their durations.
+  - **Lock-indicator series**: PLI and a frequency lock indicator from successive
+    prompts, as raw signals. Lock and loss-of-lock decisions stay with the tracking
+    engine's lock state machine.
   
   One streaming pass (`iq::monitor::run::run_monitors`) runs everything, with a TOML/JSON
   settings file (`MonitorConfig`); the campaign runner uses the same entry point.
@@ -67,7 +68,8 @@ breaking changes are called out explicitly.
   the formula. End to end, the monitors flag:
   - a 6 dB C/N0 step (change time within one estimate);
   - a reflected path appearing mid-recording (ratio test);
-  - a signal outage (loss of lock opened within 0.1 s, re-lock time reported);
+  - a signal outage (PLI falls from 0.999 to −0.3 and FLI from 0.93 to 0.03 during
+    it);
   - a narrowband tone and sparse high-amplitude samples (spectral, pulse and kurtosis
     tests). These are generic DSP test inputs, not interference models.
 
