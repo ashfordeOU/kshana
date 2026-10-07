@@ -18,7 +18,8 @@
 //!   interleaved stream, de-interleaved by index.
 //!
 //! The GB-scale test is `#[ignore]` (it writes a ≥ 1 GiB scratch file, generated on the fly
-//! and deleted afterwards); run it with
+//! and deleted afterwards; a 200 MiB version of the same check runs in the normal suite); run
+//! it with
 //! `cargo test --release --test iq_formats -- --ignored --nocapture`, and set
 //! `KSHANA_IQ_GB_TEST_BYTES` to change the size.
 
@@ -496,12 +497,24 @@ fn vm_hwm_kb() -> Option<u64> {
 #[test]
 #[ignore = "writes a >= 1 GiB scratch file; run with --ignored (see the module docs)"]
 fn gb_scale_recording_streams_in_bounded_memory() {
-    use std::io::Write;
     let bytes: u64 = std::env::var("KSHANA_IQ_GB_TEST_BYTES")
         .ok()
         .and_then(|v| v.parse().ok())
         .unwrap_or(1 << 30);
-    let dir = scratch("gb");
+    stream_large_recording(bytes, "gb");
+}
+
+/// The same check at 200 MiB, which runs in the normal test suite.
+#[test]
+fn large_recording_streams_in_bounded_memory_200_mib() {
+    stream_large_recording(200 << 20, "200mib");
+}
+
+/// Write `bytes` of two-stream ci8 behind a header, read stream 1 back through
+/// `open_recording`, check every value and the peak-memory growth.
+fn stream_large_recording(bytes: u64, name: &str) {
+    use std::io::Write;
+    let dir = scratch(name);
     let path = dir.join("big.dat");
     let header = 4096u64;
     // Byte j of the body holds (j·37 + 11) mod 256: stream 0 is the even samples' I and Q,
