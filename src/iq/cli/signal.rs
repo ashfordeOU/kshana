@@ -22,17 +22,11 @@ pub(crate) const SIGNAL_NAMES: &[&str] = &[
     "glonass-l1of",
 ];
 
-/// The signal names the IQ commands and the Python bindings accept.
-#[cfg(feature = "python")]
-pub(crate) fn signal_names() -> &'static [&'static str] {
-    SIGNAL_NAMES
-}
-
 /// Build the spreading code for `signal` and `id`, where `id` is the PRN for every
 /// signal except GLONASS L1OF, for which it is the FDMA frequency channel `-7..=6`.
 /// The returned [`SignalCode`] carries its own nominal carrier frequency, so a scene or a
 /// receiver places it correctly without a separate centre argument.
-pub(crate) fn build_code(signal: &str, id: i64) -> Result<SignalCode, String> {
+pub fn build_code(signal: &str, id: i64) -> Result<SignalCode, String> {
     let prn = || -> Result<u16, String> {
         u16::try_from(id).map_err(|_| format!("{signal}: PRN {id} is out of range"))
     };

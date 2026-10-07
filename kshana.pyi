@@ -210,7 +210,7 @@ def iq_track(
     spacing: Optional[float] = ...,
     coherent: Optional[int] = ...,
     periods_per_bit: Optional[int] = ...,
-    acq_coherent: int = ...,
+    acq_coherent: Optional[int] = ...,
     acq_noncoherent: int = ...,
     doppler_max: float = ...,
     max_seconds: Optional[float] = ...,
@@ -221,8 +221,11 @@ def iq_track(
     per-epoch dicts: ``doppler_hz``, ``code_phase_chips``, ``pli``, ``phase_lock``,
     ``cn0_nwpr_dbhz``, the prompt ``i_prompt``/``q_prompt``, ...). The loop design starts
     from the GPS-L1-C/A-like default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``,
-    ``spacing``, ``coherent`` overrides it. Raises ``ValueError`` if a PRN is not
-    acquired."""
+    ``spacing``, ``coherent`` overrides it. The initialising acquisition integrates
+    ``acq_coherent`` code periods coherently; the default ``None`` is auto (≈4 ms coherent:
+    4 periods of an untiered 1 ms code such as GPS L1 C/A, 1 period of a code whose full,
+    overlay-included period is 4 ms or longer), and ``acq_coherent=1`` restores the 0.32
+    one-period search. Raises ``ValueError`` if a PRN is not acquired."""
 
 def iq_frontend(
     i: list[float],
