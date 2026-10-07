@@ -1152,6 +1152,24 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Modelled,
         },
         VerificationItem {
+            requirement: "GNSS IQ scene signal geometry against an independent baseband generator",
+            capability: "The IQ scene generator's per-satellite truth for a GPS L1 C/A broadcast-ephemeris scene (iq::scene: a broadcast-ephemeris SatGeometry, generated into TruthRecord truth records): which satellites are above the horizon, the pseudorange, the code phase at the first sample, the carrier Doppler and the look angles, for a static receiver, compared with the channel state gps-sdr-sim builds the first block of its own I/Q output from, for the same ephemeris, receiver and start time (ionosphere off on both sides)",
+            module: "iq::scene (Scene, SatGeometry, TruthRecord)",
+            tests: "tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels (11 channels: worst pseudorange 1.6e-3 m against 0.05 m, code phase 5.5e-6 chip against 2e-4, Doppler 7.4e-5 Hz against 0.02 Hz, look angles 4e-9 degree against 1e-4, visible set identical); tests/iq_gpssdrsim_cross_generator.rs::harness_reproduces_the_gps_sdr_sim_program_channel_listing (the oracle harness reproduces the program's own printed channel listing exactly)",
+            oracle: "gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6), an independent GPS L1 C/A baseband generator, built with its own Makefile and run as a separate program on its bundled brdc0010.22n at the example location of its usage text (scripts/gen_iq_gpssdrsim_ref.sh); a committed harness linked against the same build prints the channel state (computeRange, computeCodePhase) behind the program's first block. Bars fixed before the generator was run (pre-registered 7777da53). Scope: GPS L1 C/A geometry for a static receiver without ionosphere, troposphere or receiver clock; the channel models, noise and nav-data content of the scene are not part of this row",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "GNSS IQ acquisition on independently generated I/Q samples",
+            capability: "iq::acq::acquire (FFT parallel code-phase search with the square-law Marcum-Q threshold) with the GpsL1Ca replica, on 20 ms of gps-sdr-sim's own 8-bit I/Q output decoded by the iq::io sample decoder (ci8, 2.6 MHz, 11 satellites, no noise): every PRN 1 to 32 searched in two 10 ms windows, the result compared with the code phase and Doppler gps-sdr-sim modulated",
+            module: "iq::acq (acquire, AcqConfig); iq::io (decode_samples); iq::scene (GpsL1Ca)",
+            tests: "tests/iq_gpssdrsim_cross_generator.rs::acquisition_threshold_is_crossed_on_gps_sdr_sim_noise_free_samples (pinned finding); tests/iq_gpssdrsim_cross_generator.rs::acquisition_finds_gps_sdr_sim_satellites_in_its_samples (strict, ignored with the gap)",
+            oracle: "gps-sdr-sim (MIT, commit 28ca29a6) I/Q samples and its own channel state, pre-registered 7777da53: (B1) every simulated PRN acquired, (B2) no other PRN acquired, (B3) code phase within 0.5 chip, (B4) Doppler within 125 Hz. FINDING: B1, B3 and B4 hold in both windows (worst 0.195 chip, 72 Hz), but B2 fails: all 21 PRNs gps-sdr-sim did not simulate also cross the threshold (statistic 151 to 206 against 79.5; simulated PRNs 1 300 and up). The threshold is set for Gaussian noise of the measured sample power; gps-sdr-sim adds no noise, so the cells of an absent PRN hold the other satellites' cross-correlation. Stays MODELLED: the registered bar was the conjunction",
+            oracle_kind: ExternalDataset,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GPS LNAV encoding decoded by an independent receiver library",
             capability: "Kshana's LNAV subframes 1-3 (gps_lnav::encode_subframes) for the 32 brdc0010.22n ephemerides fed to RTKLIB's decode_word and decode_frame: parity of every word, subframe decoding with consistent issue of data, and every decoded parameter against Kshana's integer and against the input value",
             module: "gps_lnav",
@@ -3314,6 +3332,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: P2NumericalLibrary,
             oracle_test: "tests/lunar_frame_campaign_srif_mpmath_oracle.rs",
             source: "mpmath 1.3.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GNSS IQ scene signal geometry against an independent baseband generator",
+            basis: Library,
+            oracle_test: "tests/iq_gpssdrsim_cross_generator.rs::scene_geometry_matches_gps_sdr_sim_channels",
+            source: "gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6)",
             flag: "",
         },
     ]
