@@ -76,8 +76,9 @@ Status: built on `claude/gnss-iq-scene`. Module: `src/iq/scene/` (`mod.rs`, `cod
 - Amplitude, visibility and channel paths are held between geometry knots (1 ms by default).
 - Bit-identical output is guaranteed on one platform; `sin`, `cos` and `ln` come from the
   platform library, so another platform may differ in the last bits.
-- Out of scope per the plan: no interference or spoofing waveforms, nothing that drives
-  radio hardware.
+- Out of scope per the plan: no interference or spoofing waveforms in the scene (the
+  separate `spectrum` kind writes analytic jammer IQ snapshots, and `spoof_capture` models a
+  spoofer replica in memory), nothing that drives radio hardware.
 
 ## CHANGELOG entry (for integration to merge)
 
