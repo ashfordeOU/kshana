@@ -73,9 +73,15 @@ pfa = 1e-3
   (orders, bandwidths > 0, spacing in (0, 2], thresholds), the kind-dependent keys (`pll_*` with
   `kind = "fll"` is an error), and `coherent_periods` dividing the bit length (checked per signal
   at run time).
-* **Design hash**: SHA-256 of the canonical JSON of the fully resolved design. Keys are sorted,
-  `name` and `description` are excluded, and `schema` is included. It goes into every track,
-  sweep and campaign output, so two runs prove they used the same loops.
+* **Design hash**: SHA-256 (lower-case hex) of the canonical JSON of the fully resolved
+  design. `name` and `description` are excluded, and `schema` is included. It goes into every
+  track, sweep and campaign output, so two runs prove they used the same loops. The canonical
+  form has no whitespace, sorts object keys by their UTF-8 bytes at every level, keeps arrays
+  in order, writes `"auto"` for an automatic value, unused kind-dependent keys as `null`,
+  integers in decimal and floats in the shortest form that round-trips, always with a `.` or
+  an exponent (`15.0`, `0.001`). So it does not depend on field order in the file or in the
+  code. The built-in default hashes to
+  `0773c7ee07e0fc22835ad563c4d87be2a95d584c6cf3ed94b479f573fdf094ff`, which is pinned by a test.
 * **Precedence on the CLI**: an explicit flag (`--pll-bw`, ...) overrides the selected design.
   The hash is taken after overrides, and the output records which keys were overridden.
 * **Front end is not part of a loop design.** The campaign runner treats front-end chains as a

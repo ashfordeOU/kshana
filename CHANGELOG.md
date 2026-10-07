@@ -69,7 +69,9 @@ breaking changes are called out explicitly.
     - the hand-off acquisition (`"auto"` or explicit).
 
     Designs may `extends` one another. Unknown keys are refused. Each resolved design has a
-    SHA-256 hash that every output records. Surfaces:
+    SHA-256 hash over a canonical JSON form (keys sorted at every level, fixed number
+    formatting), so the hash does not depend on field order; every output records it.
+    Surfaces:
     - `kshana iq track --design <file> [--design-name]`, where explicit flags override the
       design and are recorded;
     - `kshana iq sweep --design <file>`, which runs every design in the file;
