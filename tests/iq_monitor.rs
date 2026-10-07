@@ -1,0 +1,595 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! Reference tests for the IQ-path detection monitors (`kshana::iq::monitor`).
+//!
+//! Every monitor is checked against the closed form its threshold rests on, by seeded
+//! simulation (`iq::monitor::stats` states the closed forms and their sources):
+//!
+//! * block power of complex white Gaussian noise: the per-block exceedance rate equals
+//!   the Gamma-tail probability `power_block_pfa`; a +3 dB step in the input power is
+//!   flagged within the confirmation blocks and the AGC gain series reads −3 dB;
+//! * complex kurtosis of Gaussian noise: mean 2 and spread `2/√N`; the fraction of samples
+//!   with `|x|² > tσ²` equals `e^{−t}`; a narrowband tone added to the input is flagged
+//!   by the spectral-excess test at the tone's frequency, and sparse high-amplitude test
+//!   samples by the pulse and kurtosis tests (generic DSP test inputs, as in
+//!   `tests/iq_frontend.rs`; nothing here models an interference source);
+//! * CUSUM on independent Gaussian C/N0 values: the mean run length to a false alarm and
+//!   the mean delay to detect a step match Siegmund's approximation;
+//! * the phase lock indicator of the crate's lock detector on a constant phasor in noise:
+//!   the Rician-phase mean `1 − (1 − e^{−γ})/γ`;
+//! * the SQM delta and ratio tests on a tracked GPS L1 C/A signal: their per-update spread
+//!   matches the first-order closed forms at the injected C/N0, the ratio sits at the ideal
+//!   triangle's `1 − d/2`, and a clean signal raises no event;
+//! * end to end on tracked signals: a 6 dB drop in signal amplitude is flagged by the C/N0
+//!   CUSUM, a reflected copy of the signal (a specular multipath path) appearing mid-way is
+//!   flagged by the ratio test, and a signal outage opens a loss-of-lock event at the
+//!   outage.
+//!
+//! The tracked IQ is generated here (point-sampled C/A at 2.048 MHz with complex white
+//! noise of unit power per sample), in chunks, so no test holds the whole recording.
+
+use kshana::iq::monitor::cn0::{Cn0Monitor, Cn0Settings};
+use kshana::iq::monitor::lock::LockMonitor;
+use kshana::iq::monitor::power::{PowerMonitor, PowerSettings};
+use kshana::iq::monitor::spectral::{SpectralMonitor, SpectralSettings};
+use kshana::iq::monitor::sqm::{SqmMonitor, SqmSettings};
+use kshana::iq::monitor::{stats, EpochMonitorSettings, EpochMonitors, MonitorReport};
+use kshana::iq::track::cn0::phase_lock_indicator;
+use kshana::iq::track::{ChannelInit, EpochOutput, LoopConfig, TrackingBank};
+use kshana::iq::{Cf64, SampleSpec, SpreadingCode};
+use kshana::sdr::CaCode;
+use rand::{Rng, SeedableRng};
+use rand_chacha::ChaCha8Rng;
+use rand_distr::StandardNormal;
+use std::f64::consts::TAU;
+use std::sync::Arc;
+
+const L1: f64 = 1_575_420_000.0;
+const CHIP: f64 = 1_023_000.0;
+const FS: f64 = 2_048_000.0;
+
+fn gauss(rng: &mut ChaCha8Rng) -> f64 {
+    rng.sample::<f64, _>(StandardNormal)
+}
+
+fn noise(n: usize, rng: &mut ChaCha8Rng) -> Vec<Cf64> {
+    let s = 0.5f64.sqrt();
+    (0..n)
+        .map(|_| Cf64::new(s * gauss(rng), s * gauss(rng)))
+        .collect()
+}
+
+fn mean_sd(v: &[f64]) -> (f64, f64) {
+    let m = v.iter().sum::<f64>() / v.len() as f64;
+    let var = v.iter().map(|x| (x - m) * (x - m)).sum::<f64>() / (v.len() - 1) as f64;
+    (m, var.sqrt())
+}
+
+// ── Pre-correlation: power ─────────────────────────────────────────────────────────────
+
+/// On unit-power complex white noise, the fraction of 64-sample blocks whose power departs
+/// from the baseline by more than 0.75 dB equals the Gamma-tail probability, within four
+/// binomial standard deviations.
+#[test]
+fn block_power_exceedances_follow_the_gamma_tail() {
+    let fs = 64_000.0;
+    let settings = PowerSettings {
+        block_s: 0.001,
+        baseline_s: 2.0,
+        threshold_db: 0.75,
+        min_blocks: 1,
+    };
+    let mut m = PowerMonitor::new(fs, settings);
+    assert_eq!(m.block_len(), 64);
+    let mut rng = ChaCha8Rng::seed_from_u64(1);
+    for _ in 0..42 {
+        m.push(&noise(64_000, &mut rng));
+    }
+    let r = m.reference_db().unwrap();
+    // The baseline is the mean of 128 000 samples: its own error is 0.012 dB (1σ).
+    assert!(r.abs() < 0.05, "baseline {r} dB");
+    let report = m.report();
+    let p = report.series_named("power_db", None).unwrap();
+    let after: Vec<f64> = p.value[2000..].to_vec();
+    let n = after.len() as f64;
+    let hits = after.iter().filter(|v| (*v - r).abs() > 0.75).count() as f64;
+    let pfa = stats::power_block_pfa(64, 0.75);
+    let sd = (n * pfa * (1.0 - pfa)).sqrt();
+    assert!(
+        (hits - n * pfa).abs() < 4.0 * sd,
+        "{hits} exceedances, expected {:.1} ± {sd:.1} (pfa {pfa:.4})",
+        n * pfa
+    );
+    // Single-block events are exactly those exceedances (rise or drop spans).
+    assert!(!report.events.is_empty());
+}
+
+/// A +3 dB step in the input power is flagged as a `power_rise` starting at the step
+/// (within one block), and the ideal-AGC gain series reads −3 dB after it.
+#[test]
+fn power_step_is_flagged_and_agc_gain_follows() {
+    let fs = 1_000_000.0;
+    let mut m = PowerMonitor::new(fs, PowerSettings::default());
+    let mut rng = ChaCha8Rng::seed_from_u64(2);
+    for _ in 0..2 {
+        m.push(&noise(1_000_000, &mut rng));
+    }
+    let g = 10f64.powf(3.0 / 20.0);
+    let louder: Vec<Cf64> = noise(1_000_000, &mut rng)
+        .into_iter()
+        .map(|s| s * g)
+        .collect();
+    m.push(&louder);
+    let r = m.report();
+    let ev = r.events_of("power_rise");
+    assert_eq!(ev.len(), 1, "{:?}", r.events);
+    assert!((ev[0].t_start_s - 2.0).abs() <= 0.01, "{:?}", ev[0]);
+    assert!(ev[0].t_alarm_s - ev[0].t_start_s <= 0.0101);
+    assert!((ev[0].peak - 3.0).abs() < 0.1);
+    assert!(r.events_of("power_drop").is_empty());
+    let gain = r.series_named("agc_gain_db", None).unwrap();
+    let late: Vec<f64> = gain
+        .t_s
+        .iter()
+        .zip(&gain.value)
+        .filter(|(t, _)| **t > 2.1)
+        .map(|(_, v)| *v)
+        .collect();
+    let (gm, _) = mean_sd(&late);
+    assert!((gm + 3.0).abs() < 0.02, "AGC gain {gm} dB");
+}
+
+// ── Pre-correlation: spectrum, kurtosis, pulses ─────────────────────────────────────────
+
+/// On white noise: the kurtosis series has mean 2 and spread 2/√N (within 10 %), the pulse
+/// fraction averages `e^{−t}` (t = 4), and nothing is flagged.
+#[test]
+fn kurtosis_and_pulse_statistics_match_gaussian_closed_forms() {
+    let fs = 409_600.0;
+    let settings = SpectralSettings {
+        block_s: 0.01,
+        baseline_s: 0.5,
+        pulse_t: 4.0,
+        ..SpectralSettings::default()
+    };
+    let mut m = SpectralMonitor::new(fs, settings);
+    assert_eq!(m.block_len(), 4096);
+    let mut rng = ChaCha8Rng::seed_from_u64(3);
+    for _ in 0..8 {
+        m.push(&noise(409_600, &mut rng));
+    }
+    let r = m.report();
+    let k = &r.series_named("kurtosis", None).unwrap().value;
+    let (km, ks) = mean_sd(k);
+    let sd = stats::complex_kurtosis_sd(4096);
+    assert!(
+        (km - 2.0).abs() < 4.0 * sd / (k.len() as f64).sqrt() + 1e-3,
+        "{km}"
+    );
+    assert!((ks / sd - 1.0).abs() < 0.1, "kurtosis spread {ks} vs {sd}");
+    let pf = &r.series_named("pulse_fraction", None).unwrap().value;
+    let (pm, _) = mean_sd(pf);
+    // The threshold is 4σ̂² with σ̂² the learned baseline power (true power 1), so the
+    // expected fraction is e^{−4σ̂²}.
+    let sigma2: f64 = r
+        .notes
+        .iter()
+        .find(|(k, _)| k == "spectral.baseline_power")
+        .unwrap()
+        .1
+        .parse()
+        .unwrap();
+    let p = stats::pulse_pfa(4.0 * sigma2);
+    let tol = 4.0 * (p * (1.0 - p) / (4096.0 * pf.len() as f64)).sqrt();
+    assert!((pm - p).abs() < tol, "pulse fraction {pm} vs {p}");
+    assert!(r.events.is_empty(), "{:?}", r.events);
+    let ex = &r.series_named("psd_excess_db", None).unwrap().value;
+    assert!(ex.iter().all(|v| *v < 3.0));
+}
+
+/// A tone at +50 kHz, 10 dB below the noise, added after the baseline raises a
+/// `spectral_excess` event located at the tone's bin; sparse high-amplitude samples raise
+/// `pulses` and `kurtosis` events.
+#[test]
+fn spectral_excess_and_pulses_are_flagged() {
+    let fs = 1_024_000.0;
+    let mut m = SpectralMonitor::new(fs, SpectralSettings::default());
+    let mut rng = ChaCha8Rng::seed_from_u64(4);
+    m.push(&noise(1_024_000, &mut rng));
+    let a = 0.1f64.sqrt();
+    let n0 = 1_024_000usize;
+    let toned: Vec<Cf64> = noise(512_000, &mut rng)
+        .into_iter()
+        .enumerate()
+        .map(|(i, s)| {
+            let ph = TAU * 50_000.0 * (n0 + i) as f64 / fs;
+            s + Cf64::new(a * ph.cos(), a * ph.sin())
+        })
+        .collect();
+    m.push(&toned);
+    let mut spiky = noise(512_000, &mut rng);
+    for s in spiky.iter_mut().step_by(500) {
+        *s = Cf64::new(8.0, 0.0);
+    }
+    m.push(&spiky);
+    let r = m.report();
+    let ex = r.events_of("spectral_excess");
+    assert_eq!(ex.len(), 1, "{:?}", r.events);
+    assert!((ex[0].t_start_s - 1.025).abs() < 0.03, "{:?}", ex[0]);
+    assert!(ex[0].t_end_s.unwrap() <= 1.53);
+    let f = r.series_named("psd_excess_freq_hz", None).unwrap();
+    let i = f.t_s.iter().position(|t| *t > 1.1).unwrap();
+    assert!(
+        (f.value[i] - 50_000.0).abs() <= fs / 256.0,
+        "{}",
+        f.value[i]
+    );
+    let pu = r.events_of("pulses");
+    assert_eq!(pu.len(), 1, "{:?}", r.events);
+    assert!((pu[0].t_start_s - 1.525).abs() < 0.03);
+    assert!(r.events_of("kurtosis").iter().any(|e| e.t_start_s > 1.5));
+    let hold = r
+        .spectra
+        .iter()
+        .find(|s| s.name == "psd_excess_max_hold_db")
+        .unwrap();
+    let (bi, _) = hold
+        .value_db
+        .iter()
+        .enumerate()
+        .max_by(|a, b| a.1.total_cmp(b.1))
+        .unwrap();
+    assert!((hold.freq_hz[bi] - 50_000.0).abs() <= fs / 256.0);
+}
+
+// ── C/N0 CUSUM ──────────────────────────────────────────────────────────────────────────
+
+/// Independent Gaussian C/N0 values (σ = 1 dB) into a CUSUM tuned to 1 dB with h = 4: the
+/// mean run length to a false alarm and the mean delay to detect a 1 dB drop match
+/// Siegmund's approximation within 15 % over 300 trials each.
+#[test]
+fn cusum_run_lengths_match_siegmund() {
+    let settings = Cn0Settings {
+        baseline_s: 20.0,
+        stride: 1,
+        shift_db: 1.0,
+        h: 4.0,
+        sigma_floor_db: 0.01,
+    };
+    let mut rng = ChaCha8Rng::seed_from_u64(5);
+    let run = |rng: &mut ChaCha8Rng, shift: f64| -> f64 {
+        let mut m = Cn0Monitor::new("G01", settings);
+        let mut t = 0.0;
+        for _ in 0..=20_000 {
+            m.push(t, 40.0 + gauss(rng));
+            t += 1e-3;
+        }
+        let start = t;
+        loop {
+            m.push(t, 40.0 - shift + gauss(rng));
+            if let Some(e) = m.events().iter().find(|e| e.kind == "cn0_drop") {
+                return (e.t_alarm_s - start) / 1e-3 + 1.0;
+            }
+            t += 1e-3;
+            assert!(t - start < 100.0, "no alarm");
+        }
+    };
+    let arl0: Vec<f64> = (0..300).map(|_| run(&mut rng, 0.0)).collect();
+    let arl1: Vec<f64> = (0..300).map(|_| run(&mut rng, 1.0)).collect();
+    let (a0, _) = mean_sd(&arl0);
+    let (a1, _) = mean_sd(&arl1);
+    let e0 = stats::cusum_arl0(0.5, 4.0);
+    let e1 = stats::cusum_arl(0.5, 4.0, 1.0);
+    println!("ARL0 {a0:.1} (Siegmund {e0:.1}); ARL1 {a1:.2} (Siegmund {e1:.2})");
+    assert!((a0 / e0 - 1.0).abs() < 0.15, "ARL0 {a0} vs {e0}");
+    assert!((a1 / e1 - 1.0).abs() < 0.15, "ARL1 {a1} vs {e1}");
+}
+
+// ── Lock indicator closed form ──────────────────────────────────────────────────────────
+
+/// The crate's phase lock indicator on single prompts `A + n` (no phase error) averages
+/// the Rician-phase mean of `cos 2θ` at γ = 0.5, 2 and 10, within 0.005.
+#[test]
+fn phase_lock_indicator_matches_the_rician_phase_mean() {
+    let mut rng = ChaCha8Rng::seed_from_u64(6);
+    for gamma in [0.5f64, 2.0, 10.0] {
+        let a = gamma.sqrt();
+        let s = 0.5f64.sqrt();
+        let n = 200_000;
+        let mean = (0..n)
+            .map(|_| {
+                let p = Cf64::new(a + s * gauss(&mut rng), s * gauss(&mut rng));
+                phase_lock_indicator(&[p])
+            })
+            .sum::<f64>()
+            / n as f64;
+        let want = stats::pli_mean(gamma);
+        assert!((mean - want).abs() < 0.005, "γ {gamma}: {mean} vs {want}");
+    }
+    // The frequency lock indicator is 1 for a constant phasor and −1 at a 90° step.
+    let p = Cf64::new(0.3, 0.4);
+    assert!((LockMonitor::instantaneous_fli(p, p) - 1.0).abs() < 1e-12);
+    assert!((LockMonitor::instantaneous_fli(p, Cf64::new(-0.4, 0.3)) + 1.0).abs() < 1e-12);
+}
+
+// ── Tracked signals ─────────────────────────────────────────────────────────────────────
+
+struct Ca(CaCode);
+
+impl SpreadingCode for Ca {
+    fn name(&self) -> String {
+        format!("GPS L1 C/A PRN {}", self.0.prn)
+    }
+    fn chip_rate_hz(&self) -> f64 {
+        CHIP
+    }
+    fn len_chips(&self) -> usize {
+        1023
+    }
+    fn carrier_hz(&self) -> f64 {
+        L1
+    }
+    fn value_at(&self, code_phase_chips: f64) -> f64 {
+        self.0.bipolar[(code_phase_chips.floor() as i64).rem_euclid(1023) as usize]
+    }
+}
+
+/// A data-free C/A signal in unit-power noise, generated in chunks: amplitude scale
+/// `gain(t)` on the direct path, and an optional reflected copy delayed by `delay_chips`
+/// at relative amplitude `rel` (in phase with the direct path) from `refl_from_s` on.
+struct Gen {
+    code: CaCode,
+    cn0_dbhz: f64,
+    phase0: f64,
+    doppler: f64,
+    gain: Box<dyn Fn(f64) -> f64>,
+    reflection: Option<(f64, f64, f64)>,
+    n: u64,
+    rng: ChaCha8Rng,
+}
+
+impl Gen {
+    fn chunk(&mut self, len: usize) -> Vec<Cf64> {
+        let a0 = (10f64.powf(self.cn0_dbhz / 10.0) / FS).sqrt();
+        let rate = CHIP * (1.0 + self.doppler / L1);
+        let s = 0.5f64.sqrt();
+        (0..len)
+            .map(|_| {
+                let x = self.n as f64;
+                let t = x / FS;
+                self.n += 1;
+                let cp = self.phase0 + x * rate / FS;
+                let chip = |p: f64| self.code.bipolar[(p.floor() as i64).rem_euclid(1023) as usize];
+                let mut c = a0 * (self.gain)(t) * chip(cp);
+                if let Some((d, rel, from)) = self.reflection {
+                    if t >= from {
+                        c += a0 * (self.gain)(t) * rel * chip(cp - d);
+                    }
+                }
+                let ph = TAU * self.doppler * t;
+                Cf64::new(
+                    c * ph.cos() + s * gauss(&mut self.rng),
+                    c * ph.sin() + s * gauss(&mut self.rng),
+                )
+            })
+            .collect()
+    }
+}
+
+fn spec() -> SampleSpec {
+    SampleSpec {
+        fs_hz: FS,
+        center_hz: L1,
+        if_hz: 0.0,
+    }
+}
+
+/// Track `seconds` of `gen` with `cfg`, returning every loop update.
+fn track(gen: &mut Gen, cfg: &LoopConfig, seconds: f64) -> Vec<EpochOutput> {
+    let init = ChannelInit {
+        code: Arc::new(Ca(CaCode::new(gen.code.prn).unwrap())),
+        code_phase_chips: gen.phase0,
+        doppler_hz: gen.doppler,
+        periods_per_bit: None,
+    };
+    let mut bank = TrackingBank::new(spec(), &[(init, cfg.clone())]).unwrap();
+    let mut out = Vec::new();
+    let total = (seconds * FS) as usize;
+    let mut done = 0;
+    while done < total {
+        let k = (total - done).min(1 << 16);
+        let x = gen.chunk(k);
+        bank.process(&x, &mut out);
+        done += k;
+    }
+    out.into_iter().next().unwrap()
+}
+
+fn gen(prn: u8, cn0: f64, seed: u64) -> Gen {
+    Gen {
+        code: CaCode::new(prn).unwrap(),
+        cn0_dbhz: cn0,
+        phase0: 211.3,
+        doppler: 1234.0,
+        gain: Box::new(|_| 1.0),
+        reflection: None,
+        n: 0,
+        rng: ChaCha8Rng::seed_from_u64(seed),
+    }
+}
+
+/// The SQM delta and ratio tests on 6 s of a tracked 45 dB-Hz C/A signal (d = 0.5 chip,
+/// T = 1 ms): per-update spreads within 12 % of the first-order closed forms, the ratio's
+/// mean within 0.01 of `1 − d/2`, and no event on the clean signal.
+#[test]
+fn sqm_statistics_on_a_tracked_signal_match_closed_forms() {
+    let cfg = LoopConfig::default();
+    let mut g = gen(3, 45.0, 7);
+    let epochs = track(&mut g, &cfg, 6.0);
+    let mut m = SqmMonitor::new("G03", cfg.spacing_chips, SqmSettings::default());
+    for e in &epochs {
+        m.push(
+            e.code_epoch_s,
+            e.t_coh_s,
+            e.early,
+            e.prompt,
+            e.late,
+            e.cn0_nwpr_dbhz,
+            &[],
+        );
+    }
+    let r = m.report();
+    let steady = |name: &str| -> Vec<f64> {
+        let s = r.series_named(name, Some("G03")).unwrap();
+        s.t_s
+            .iter()
+            .zip(&s.value)
+            .filter(|(t, _)| **t > 1.0)
+            .map(|(_, v)| *v)
+            .collect()
+    };
+    let cn0t = 10f64.powf(4.5) * 1e-3;
+    let d = cfg.spacing_chips;
+    let (dm, ds) = mean_sd(&steady("sqm_delta"));
+    let (rm, rs) = mean_sd(&steady("sqm_ratio"));
+    let (ed, er) = (stats::sqm_delta_sd(d, cn0t), stats::sqm_ratio_sd(d, cn0t));
+    println!("delta {dm:.4} ± {ds:.4} (closed form {ed:.4}); ratio {rm:.4} ± {rs:.4} ({er:.4})");
+    assert!((ds / ed - 1.0).abs() < 0.12, "delta spread {ds} vs {ed}");
+    assert!((rs / er - 1.0).abs() < 0.12, "ratio spread {rs} vs {er}");
+    assert!((rm - (1.0 - d / 2.0)).abs() < 0.01, "ratio mean {rm}");
+    assert!(dm.abs() < 0.02, "delta mean {dm}");
+    assert!(r.events.is_empty(), "{:?}", r.events);
+}
+
+/// Extra correlators at ±x feed an asymmetry test whose departure is flagged; unpaired taps
+/// are ignored.
+#[test]
+fn extra_correlator_pairs_feed_an_asymmetry_test() {
+    let settings = SqmSettings {
+        avg_epochs: 10,
+        baseline_s: 1.0,
+        k_sigma: 6.0,
+        min_count: 3,
+    };
+    let mut m = SqmMonitor::new("G09", 0.5, settings);
+    let mut rng = ChaCha8Rng::seed_from_u64(8);
+    let v = |x: f64, rng: &mut ChaCha8Rng| Cf64::new(x + 0.01 * gauss(rng), 0.0);
+    for k in 0..3000 {
+        let t = k as f64 * 1e-3;
+        let skew = if t > 2.0 { 0.1 } else { 0.0 };
+        let taps = [
+            (0.1, v(0.9 + skew, &mut rng)),
+            (-0.1, v(0.9, &mut rng)),
+            (0.37, v(0.5, &mut rng)),
+        ];
+        let (e, p, l) = (v(0.75, &mut rng), v(1.0, &mut rng), v(0.75, &mut rng));
+        // No C/N0 given: the spread comes from the baseline alone.
+        m.push(t, 1e-3, e, p, l, None, &taps);
+    }
+    let r = m.report();
+    assert!(r.series_named("sqm_pair_0.1", Some("G09")).is_some());
+    assert!(r.series_named("sqm_pair_0.37", Some("G09")).is_none());
+    let ev = r.events_of("sqm_pair");
+    assert_eq!(ev.len(), 1, "{:?}", r.events);
+    assert!(
+        ev[0].t_start_s > 2.0 && ev[0].t_start_s < 2.02,
+        "{:?}",
+        ev[0]
+    );
+    assert!(r.events_of("sqm_delta").is_empty() && r.events_of("sqm_ratio").is_empty());
+}
+
+fn monitor_epochs(
+    epochs: &[EpochOutput],
+    cfg: &LoopConfig,
+    s: EpochMonitorSettings,
+) -> MonitorReport {
+    let mut m = EpochMonitors::new("G05", cfg.spacing_chips, &s);
+    for e in epochs {
+        m.push_epoch(e);
+    }
+    m.report()
+}
+
+/// A 6 dB drop in signal amplitude at 4 s (45 → 39 dB-Hz) on a tracked signal: the C/N0
+/// CUSUM (fed independent 200 ms estimates) flags a `cn0_drop` whose change-time estimate
+/// is within 0.4 s of the step and whose alarm follows within 1 s; no `cn0_rise`, and the
+/// step itself does not break phase lock. (With this seed the default FLL-assisted loop
+/// slips half a cycle at 6.1 s, at 39 dB-Hz; the lock monitor flags that, which is
+/// correct, so lock is only asserted around the step.)
+#[test]
+fn tracked_cn0_drop_is_flagged_near_the_step() {
+    let cfg = LoopConfig {
+        cn0_windows: 10,
+        cn0_window_periods: 20,
+        ..LoopConfig::default()
+    };
+    let mut g = gen(5, 45.0, 9);
+    g.gain = Box::new(|t| if t < 4.0 { 1.0 } else { 0.5 });
+    let epochs = track(&mut g, &cfg, 7.0);
+    let s = EpochMonitorSettings {
+        cn0: Cn0Settings {
+            baseline_s: 2.5,
+            stride: 200,
+            ..Cn0Settings::default()
+        },
+        ..EpochMonitorSettings::default()
+    };
+    let r = monitor_epochs(&epochs, &cfg, s);
+    let drops = r.events_of("cn0_drop");
+    assert_eq!(drops.len(), 1, "{:?}", r.events);
+    let e = drops[0];
+    println!("cn0_drop {e:?}");
+    assert!((e.t_start_s - 4.0).abs() < 0.4, "{e:?}");
+    assert!(e.t_alarm_s - 4.0 < 1.0 && e.t_alarm_s > 4.0, "{e:?}");
+    assert!(r.events_of("cn0_rise").is_empty(), "{:?}", r.events);
+    assert!(
+        r.events_of("loss_of_phase_lock")
+            .iter()
+            .all(|e| e.t_start_s > 5.0),
+        "{:?}",
+        r.events
+    );
+}
+
+/// A reflected copy of the signal (0.3 chip later, half the amplitude, in phase) appears at
+/// 3 s: the ratio test flags it; the clean first half raises nothing.
+#[test]
+fn reflected_path_appearing_is_flagged_by_the_ratio_test() {
+    let cfg = LoopConfig::default();
+    let mut g = gen(11, 45.0, 10);
+    g.reflection = Some((0.3, 0.5, 3.0));
+    let epochs = track(&mut g, &cfg, 6.0);
+    let r = monitor_epochs(&epochs, &cfg, EpochMonitorSettings::default());
+    let ratio = r.events_of("sqm_ratio");
+    println!("events {:?}", r.events);
+    assert!(!ratio.is_empty(), "{:?}", r.events);
+    assert!(
+        ratio[0].t_start_s > 3.0 && ratio[0].t_alarm_s < 3.5,
+        "{:?}",
+        ratio[0]
+    );
+    assert!(r.events.iter().all(|e| e.t_start_s > 3.0), "{:?}", r.events);
+}
+
+/// The signal is absent from 3.0 s to 3.5 s: a `loss_of_phase_lock` opens at the outage
+/// (within 0.2 s) and the lock series show it.
+#[test]
+fn signal_outage_opens_a_loss_of_lock_event() {
+    let cfg = LoopConfig::default();
+    let mut g = gen(14, 45.0, 11);
+    g.gain = Box::new(|t| if (3.0..3.5).contains(&t) { 0.0 } else { 1.0 });
+    let epochs = track(&mut g, &cfg, 6.0);
+    let r = monitor_epochs(&epochs, &cfg, EpochMonitorSettings::default());
+    let ev = r.events_of("loss_of_phase_lock");
+    println!("lock events {ev:?}");
+    assert!(!ev.is_empty(), "{:?}", r.events);
+    assert!((ev[0].t_start_s - 3.0).abs() < 0.2, "{:?}", ev[0]);
+    let pl = r.series_named("phase_lock", Some("G05")).unwrap();
+    let locked_before = pl
+        .t_s
+        .iter()
+        .zip(&pl.value)
+        .filter(|(t, _)| (1.0..3.0).contains(*t))
+        .all(|(_, v)| *v == 1.0);
+    assert!(locked_before);
+}
