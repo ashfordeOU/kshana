@@ -17,6 +17,7 @@
 //! in [`crate::cr3bp`]); the LANS signal-in-space error budget, the physical libration /
 //! precessing lunar pole (DE421/SPICE), and wiring real NRHO relays in are follow-ons.
 
+use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 use crate::raim::{araim_raim, AraimResult, FaultPriors, IntegrityBudget};
 use serde::{Deserialize, Serialize};
 use std::f64::consts::{FRAC_PI_2, TAU};
@@ -852,10 +853,10 @@ pub fn lunar_report_svg(r: &LunarReport) -> String {
     let yof = |v: f64| mt + ph - (v.min(y_max) / y_max) * ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar south-pole HPL ({:.0}% available, AL {:.0} m, σ_URE {:.0} m)</text>",
@@ -865,7 +866,7 @@ pub fn lunar_report_svg(r: &LunarReport) -> String {
     ));
     // Alert-limit line.
     svg.push_str(&format!(
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"4 3\"/>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"4 3\"/>",
         xof(0.0),
         yof(r.alert_limit_m),
         xof(t_max),
@@ -879,16 +880,16 @@ pub fn lunar_report_svg(r: &LunarReport) -> String {
         .collect();
     if pts.len() > 1 {
         svg.push_str(&format!(
-            "<polyline fill=\"none\" stroke=\"#e0bd84\" points=\"{}\"/>",
+            "<polyline fill=\"none\" stroke=\"{CYAN}\" points=\"{}\"/>",
             pts.join(" ")
         ));
     }
     let axis_y = mt + ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str("</svg>");
