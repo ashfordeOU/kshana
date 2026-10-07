@@ -638,7 +638,13 @@ fn lock_indicators_fall_during_a_signal_outage() {
 #[test]
 fn iq_monitor_cli_writes_series_and_events() {
     use kshana::iq::cli::run;
-    let dir = std::env::temp_dir().join(format!("kshana-iq-monitor-cli-{}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-iq-monitor-cli-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Ordering::Relaxed)
+    ));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     let p = |s: &str| dir.join(s).display().to_string();
