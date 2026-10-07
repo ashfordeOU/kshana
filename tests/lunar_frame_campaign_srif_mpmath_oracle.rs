@@ -246,8 +246,9 @@ fn engine_inputs(name: &str, sc: &LunarFrameCampaignScenario) -> J {
     })
 }
 
-/// The committed inputs are exactly what the engine builds now (the solver does not change
-/// them). With `KSHANA_WRITE_MPMATH_FIXTURE=1` it writes them instead (the fixture generator).
+/// The committed inputs are what the engine builds now, to 1e-12 of each row's scale (the
+/// solver does not change them). With `KSHANA_WRITE_MPMATH_FIXTURE=1` it writes them instead
+/// (the fixture generator).
 #[test]
 fn engine_inputs_match_the_committed_fixture() {
     let built: Vec<J> = scenarios(false)
