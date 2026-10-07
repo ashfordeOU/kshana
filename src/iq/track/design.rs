@@ -1088,7 +1088,7 @@ mod tests {
         );
         assert_eq!(
             d.hash(),
-            "0773c7ee07e0fc22835ad563c4d87be2a95d584c6cf3ed94b479f573fdf094ff"
+            "c6c25a274a8e768097b04750cf43c2ca60adf645efb201617a21b38df3dd3d2c"
         );
     }
 
