@@ -475,6 +475,32 @@ fn track_converges_to_injected_doppler() {
     assert!(last["phase_lock"].as_bool().unwrap(), "{last}");
 }
 
+/// `scene --data` is refused on a pilot component with a usage error naming it, and is
+/// accepted on the matching data component.
+#[test]
+fn scene_data_is_refused_on_a_pilot() {
+    let dir = scratch("pilot-data");
+    let out = dir.join("s.cf32").display().to_string();
+    let scene = |signal: &str| {
+        run(&args(&[
+            "scene",
+            &out,
+            "--rate",
+            "4092000",
+            "--duration",
+            "0.01",
+            "--signal",
+            signal,
+            "--prn",
+            "11",
+            "--data",
+        ]))
+    };
+    assert_eq!(scene("galileo-e1c"), 2);
+    assert_eq!(scene("gps-l2c"), 2);
+    assert_eq!(scene("galileo-e1b"), 0);
+}
+
 /// `sweep` reports one row per (design, PRN), and a wider carrier loop locks at least as
 /// often as a narrower one on the same recording.
 #[test]
