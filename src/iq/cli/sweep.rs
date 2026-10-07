@@ -13,7 +13,7 @@
 //! `--epochs`/`--events` stream the per-epoch records and lock events as `iq track` does.
 
 use super::acquire::codes_from_args;
-use super::track::{acquire_inits, create, design_from_args, epochs_writer, TRACK_SWITCHES};
+use super::track::{acquire_inits, create, epochs_writer, handoff_from_args, TRACK_SWITCHES};
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::io::inventory::open_recording;
 use crate::iq::track::design::{Design, DesignFile};
@@ -32,7 +32,13 @@ fn axis(a: &Args, key: &str, default: f64) -> Result<Vec<f64>, Fail> {
 /// the `--pll-bw`, `--dll-bw`, `--spacing` and `--coherent` lists on the built-in default.
 pub(crate) fn designs(a: &Args) -> Result<Vec<Design>, Fail> {
     if let Some(p) = a.get("--design") {
-        for k in ["--pll-bw", "--dll-bw", "--spacing", "--coherent", "--design-name"] {
+        for k in [
+            "--pll-bw",
+            "--dll-bw",
+            "--spacing",
+            "--coherent",
+            "--design-name",
+        ] {
             if a.get(k).is_some() {
                 return Err(Fail::Usage(format!(
                     "{k} cannot be combined with --design: sweep runs every design in the file"
@@ -102,10 +108,16 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let handoff = if a.get("--design").is_some() {
         designs[0].clone()
     } else {
-        design_from_args(&a)?.0
+        handoff_from_args(&a)?
     };
     let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
-    let inits = acquire_inits(&handoff, periods_per_bit, &spec, &codes, opened.source.as_mut())?;
+    let inits = acquire_inits(
+        &handoff,
+        periods_per_bit,
+        &spec,
+        &codes,
+        opened.source.as_mut(),
+    )?;
 
     let max_samples = a
         .num::<f64>("--max-seconds")
@@ -119,7 +131,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let mut infos = Vec::new();
     for d in &designs {
         let d = if a.has("--reacquire") {
-            d.with_overrides("[lock]\nreacquire = true\n").map_err(Fail::Usage)?
+            d.with_overrides("[lock]\nreacquire = true\n")
+                .map_err(Fail::Usage)?
         } else {
             d.clone()
         };

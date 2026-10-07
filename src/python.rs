@@ -560,13 +560,22 @@ fn iq_track<'py>(
     };
     let f = |v: Option<f64>| v.map(|x| format!("{x:?}"));
     let n = |v: Option<usize>| v.map(|x| x.max(1).to_string());
-    section("carrier", vec![("pll_bw_hz", f(pll_bw)), ("fll_bw_hz", f(fll_bw))]);
+    section(
+        "carrier",
+        vec![("pll_bw_hz", f(pll_bw)), ("fll_bw_hz", f(fll_bw))],
+    );
     section("code", vec![("bw_hz", f(dll_bw))]);
     section(
         "integration",
-        vec![("spacing_chips", f(spacing)), ("coherent_periods", n(coherent))],
+        vec![
+            ("spacing_chips", f(spacing)),
+            ("coherent_periods", n(coherent)),
+        ],
     );
-    section("lock", vec![("reacquire", reacquire.map(|b| b.to_string()))]);
+    section(
+        "lock",
+        vec![("reacquire", reacquire.map(|b| b.to_string()))],
+    );
     section(
         "acquisition",
         vec![
@@ -660,8 +669,7 @@ fn iq_loop_designs<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAn
     } else {
         toml.to_string()
     };
-    let file =
-        crate::iq::track::design::DesignFile::parse(&text).map_err(PyValueError::new_err)?;
+    let file = crate::iq::track::design::DesignFile::parse(&text).map_err(PyValueError::new_err)?;
     let v: Vec<serde_json::Value> = file.designs().iter().map(|d| d.to_json()).collect();
     json_to_py(py, &serde_json::Value::Array(v))
 }
@@ -683,7 +691,10 @@ fn iq_read_epochs<'py>(py: Python<'py>, path: &str) -> PyResult<Bound<'py, PyAny
                 .map_err(|e| PyValueError::new_err(e.to_string()))
         })
         .collect::<PyResult<Vec<_>>>()?;
-    json_to_py(py, &serde_json::json!({ "header": header, "records": records }))
+    json_to_py(
+        py,
+        &serde_json::json!({ "header": header, "records": records }),
+    )
 }
 
 /// One tracking epoch as a JSON value for the Python surface.
