@@ -24,6 +24,10 @@ pub(crate) const PROTECTION_K: f64 = 3.0;
 /// well under a millisecond per clock.
 const HEALTH_STEPS: usize = 200;
 const HEALTH_SEEDS: usize = 64;
+/// The flicker-aware check runs a 24-state filter, so its ensemble is smaller (960 pooled
+/// samples; the NIS band is about +-9 %) to keep an ensemble of runs cheap.
+const HEALTH_STEPS_FLICKER: usize = 60;
+const HEALTH_SEEDS_FLICKER: usize = 16;
 /// Decorrelate the health ensemble's seed stream from the scenario's run seed.
 const HEALTH_SEED_SALT: u64 = 0x0F11_7E12_8EA1_7777;
 
@@ -44,11 +48,14 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     // Raw clock phase over the whole run, for the Allan-deviation curve.
     let mut phase = Vec::with_capacity(n + 1);
     let (mut outage_samples, mut contained) = (0u64, 0u64);
+    // Steps since the predictor was last anchored to the observed phase.
+    let mut steps_since_sync = 0usize;
     for i in 0..=n {
         let t = i as f64 * dt;
         if i > 0 {
             clock.step(dt, &mut rng);
             kf.predict(dt);
+            steps_since_sync += 1;
         }
         let gnss = scn.gnss.state_at(t);
         let ph = clock.phase();
@@ -57,9 +64,16 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
         if gnss == GnssState::Nominal {
             // Truth is observed: the timing error is zero and the filter re-syncs.
             kf.update(0.0);
+            steps_since_sync = 0;
         } else {
             outage_samples += 1;
-            if err_s.abs() <= PROTECTION_K * kf.phase_sigma() {
+            // The series is the deterministic predictor's error, which knows nothing of the
+            // flicker frequency, so the bound adds the flicker phase variance accumulated
+            // since the last anchor (unconditional: the 2-state filter's own variance plus
+            // the truth bank's). Zero without a flicker floor.
+            let var = kf.phase_sigma().powi(2)
+                + clock.flicker_phase_variance_after_steps(steps_since_sync, dt);
+            if err_s.abs() <= PROTECTION_K * var.sqrt() {
                 contained += 1;
             }
         }
@@ -86,18 +100,30 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
     ));
     // Filter-consistency health: a Monte-Carlo NIS/NEES check that the deployed
     // Kalman tuning (Q matched to the truth model, q_factor = 1) is self-consistent.
-    let filter_health = Some(crate::filter_health::assess(
-        crate::filter_health::HealthConfig {
-            q_wf: cfg.q_wf,
-            q_rw: cfg.q_rw,
-            r: PHASE_MEAS_VAR_S2,
-            dt,
-            steps: HEALTH_STEPS,
-            seeds: HEALTH_SEEDS,
-            q_factor: 1.0,
-            base_seed: seed ^ HEALTH_SEED_SALT,
-        },
-    ));
+    let health_cfg = crate::filter_health::HealthConfig {
+        q_wf: cfg.q_wf,
+        q_rw: cfg.q_rw,
+        r: PHASE_MEAS_VAR_S2,
+        dt,
+        steps: HEALTH_STEPS,
+        seeds: HEALTH_SEEDS,
+        q_factor: 1.0,
+        base_seed: seed ^ HEALTH_SEED_SALT,
+    };
+    // With a flicker floor the truth the check draws includes the same flicker bank as the
+    // clock above, and the filter is the matched extended filter; without one, the
+    // two-state check as before.
+    let filter_health = Some(match clock.flicker_bank() {
+        Some(bank) => crate::filter_health::assess_with_flicker(
+            crate::filter_health::HealthConfig {
+                steps: HEALTH_STEPS_FLICKER,
+                seeds: HEALTH_SEEDS_FLICKER,
+                ..health_cfg
+            },
+            &bank,
+        ),
+        None => crate::filter_health::assess(health_cfg),
+    });
     ClockRun {
         spec: clock.spec(),
         series,
