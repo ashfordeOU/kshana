@@ -54,7 +54,9 @@ pub struct SpectralSettings {
     pub kurtosis_sigma: f64,
     /// Pulse threshold on `|x|²/σ²`.
     pub pulse_t: f64,
-    /// Per-block false-event probability of the pulse count (exact binomial upper tail).
+    /// Per-block false-event probability of the pulse count (exact binomial upper tail). A
+    /// ceiling, not the realised rate: counts are integers, so the realised rate is lower
+    /// (for N = 4096 and p = 6.1e-6 an event needs a count of 3, tail 2.6e-6).
     pub pulse_pfa: f64,
 }
 
