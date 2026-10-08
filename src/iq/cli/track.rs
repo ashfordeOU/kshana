@@ -260,6 +260,21 @@ pub(crate) fn run_extra_taps<'a>(
     Ok(found.map(|(_, t)| t).unwrap_or_default())
 }
 
+/// `--threads <N|auto>`: threads for the per-chunk channel correlation (default 1). The
+/// output does not depend on it.
+pub(crate) fn threads_from_args(a: &Args) -> Result<usize, Fail> {
+    match a.get("--threads") {
+        None => Ok(1),
+        Some("auto") => Ok(std::thread::available_parallelism().map_or(1, |n| n.get())),
+        Some(_) => match a.num::<usize>("--threads").map_err(Fail::Usage)? {
+            Some(n) if n >= 1 => Ok(n),
+            _ => Err(Fail::Usage(
+                "--threads must be a positive integer or auto".into(),
+            )),
+        },
+    }
+}
+
 /// The `--epochs` writer the flags ask for, if any.
 pub(crate) fn epochs_writer(
     a: &Args,
@@ -358,7 +373,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .into_iter()
         .map(|i| SessionChannel::from_design(i, &design))
         .collect();
-    let mut session = TrackSession::new(spec, channels).map_err(Fail::Usage)?;
+    let mut session = TrackSession::new(spec, channels)
+        .map_err(Fail::Usage)?
+        .with_threads(threads_from_args(&a)?);
     let names: Vec<String> = codes.iter().map(SignalCode::name).collect();
     let header = EpochHeader::new(
         names

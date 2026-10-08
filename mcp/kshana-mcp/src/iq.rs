@@ -689,6 +689,9 @@ pub struct IqTrackRequest {
     /// written to `epochs_out` only; the loops do not use them.
     #[serde(default)]
     pub extra_taps_chips: Option<Vec<f64>>,
+    /// Threads for the channels (default 1); the output does not depend on it.
+    #[serde(default)]
+    pub threads: Option<usize>,
     /// Coherent integration, in code periods.
     #[serde(default)]
     pub coherent: Option<usize>,
@@ -1170,6 +1173,7 @@ impl KshanaServer {
                     .filter(|t| !t.is_empty())
                     .map(list),
             )
+            .opt("--threads", r.threads.filter(|&n| n >= 1))
             .opt("--coherent", r.coherent)
             .switch("--reacquire", r.reacquire)
             .opt("--periods-per-bit", r.periods_per_bit)
