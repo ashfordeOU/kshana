@@ -691,7 +691,9 @@ pub struct IqTrackRequest {
     /// Track only the first `max_seconds` of the recording.
     #[serde(default)]
     pub max_seconds: Option<f64>,
-    /// Coherent periods of the initialising acquisition; default 1.
+    /// Coherent periods of the initialising acquisition; default auto (≈4 ms coherent: 4
+    /// periods of an untiered 1 ms code such as GPS L1 C/A, 1 period of a code whose full,
+    /// overlay-included period is 4 ms or longer). 1 restores the 0.32 one-period search.
     #[serde(default)]
     pub acq_coherent: Option<usize>,
     /// Non-coherent sums of the initialising acquisition; default 1.
