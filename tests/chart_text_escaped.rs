@@ -134,18 +134,31 @@ fn scenario_text_reaches_charts_only_as_escaped_text() {
     );
 }
 
-/// Scenarios that take more than a few seconds in a debug build (measured), left out to keep this
-/// test to a few minutes. Their charts are written by the same helpers (`chart::frame_open`,
-/// `y_axis`, `panel_axes`, `esc`) as the quicker scenarios of their family.
+/// Scenarios that take more than five seconds in a debug build (measured; `clock-ensemble` is
+/// kept, it is the only user of its chart), left out to keep this test to a couple of minutes.
+/// Their charts are written by the same helpers (`chart::frame_open`, `y_axis`, `panel_axes`,
+/// `esc`) as the quicker scenarios of their family.
 const SKIPPED: &[&str] = &[
+    "campaign-jam-spoof-holdover-integrity.toml",
     "campaign-monte-carlo-clock-holdover.toml",
     "cislunar-arc-recovery.toml",
     "cislunar-observability.toml",
     "hybrid-ukf.toml",
+    "ins-trn-coast.toml",
+    "leo-focus-data-services.toml",
     "leo-focus-ppp-altitude.toml",
     "leo-navmsg-celeste-iod.toml",
     "leo-navmsg-fit-interval-trade.toml",
     "leo-navmsg-midpass-update.toml",
     "leo-navmsg-model-comparison.toml",
+    "leo-pnt-end-to-end.toml",
+    "leo-ppp-convergence.toml",
+    "leo-resilience-spoof-monitors.toml",
+    "leo-vertical-rail-maritime.toml",
+    "maritime-port-approach-coast.toml",
+    "mars-pnt-lmo.toml",
+    "mars-pnt-surface.toml",
     "mars-pnt-transfer.toml",
+    "rail-tunnel-coast.toml",
+    "xona-pulsar-end-to-end.toml",
 ];
