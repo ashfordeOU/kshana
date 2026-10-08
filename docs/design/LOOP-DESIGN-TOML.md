@@ -38,6 +38,8 @@ fll_assist = "pull-in"                   # "pull-in" | "always"   (fll-assisted-
 fll_off_pli = 0.8                        # pull-in: FLL hands over once the smoothed PLI
 fll_on_pli = 0.6                         #   held >= off for the dwell; back once < on
 fll_gate_dwell_s = 0.1                   #   for the dwell (on < off: hysteresis)
+bn_t_max = 0.1                           # Bn·T limit when T > 4 ms (0 = off); omitted from the
+                                         #   hash at this default (see Rules)
 
 [design.code]
 order = 1                                # DLL order 1..2
@@ -72,7 +74,7 @@ ratio = 3.0
 coherent_periods = "auto"                # "auto" = ceil(4 ms / full code period), or an integer
 noncoherent = 1
 doppler_max_hz = 5000.0
-doppler_step_hz = "auto"                 # "auto" = min(2 / (3 · N · T_code), 0.4 / T_track), or Hz
+doppler_step_hz = "auto"                 # "auto" = min(2 / (3 · N · T_code), 0.2 / T_track), or Hz
 pfa = 1e-3
 ```
 
@@ -90,17 +92,28 @@ pfa = 1e-3
   an exponent (`15.0`, `0.001`). So it does not depend on field order in the file or in the
   code. The built-in default hashes to
   `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80`, which is pinned by a test.
-* **`doppler_step_hz = "auto"`** is `min(2 / (3 · N · T_code), 0.4 / T_track)`, where `N` is
+* **`doppler_step_hz = "auto"`** is `min(2 / (3 · N · T_code), 0.2 / T_track)`, where `N` is
   the acquisition's coherent periods, `T_code` the full code period and `T_track` the loop
   update time (`integration.coherent_periods × T_code`), in `kshana::iq::acq::default_step_hz`.
-  The second term keeps the worst-case hand-off residual (half a step, at most
-  `0.2 / T_track`) inside the default two-quadrant FLL's pull-in of `1 / (4 T_track)`: with
-  the textbook step alone, every code of 4 ms or longer (`N = 1`) left `1 / (3 T_code)`, so
-  Galileo E1-B/E1-C false-locked 125 Hz away. It binds for those codes (E1-B: 100 Hz instead of
-  166.7 Hz) and not for the 1 ms codes (`N = 4`, 166.7 Hz either way). An explicit
-  `doppler_step_hz` is used as written. `"auto"` is hashed as the literal, so the default
-  hash is unchanged; the resolved step is a function of the design, the signal and the engine
-  version, and each run records it (next rule).
+  The second term keeps the hand-off residual inside the default two-quadrant FLL's pull-in of
+  `1 / (4 T_track)`: the step is at most 0.8 of it, so even when the neighbouring bin wins
+  (a short coherent time makes the main lobe wider than a bin, so noise can pick the
+  neighbour, leaving up to a whole step) the loop still pulls in. With the textbook step alone,
+  every code of 4 ms or longer (`N = 1`) left `1 / (3 T_code)`, so Galileo E1-B/E1-C
+  false-locked 125 Hz away. The cap binds for those codes (E1-B: 50 Hz instead of 166.7 Hz,
+  201 bins over ±5 kHz instead of 61) and not for the 1 ms codes (`N = 4`: 166.7 Hz, below the
+  200 Hz cap). An explicit `doppler_step_hz` is used as written. `"auto"` is hashed as the
+  literal, so the default hash is unchanged; the resolved step is a function of the design, the
+  signal and the engine version, and each run records it (next rule).
+* **`carrier.bn_t_max`** (default `0.1`) limits the PLL and FLL noise bandwidths to
+  `bn_t_max / T` when the loop update time `T` is longer than 4 ms, so `Bn · T ≤ 0.1`
+  (`Design::loop_config_for(code_period_s)`). A 15 Hz PLL and 10 Hz FLL at the 20 ms of GPS L2C
+  CM have `Bn · T` of 0.3 and 0.2, which does not hold lock; the clamp gives 5 Hz and 5 Hz.
+  The 1 ms and 4 ms codes keep 15 / 10 Hz, BeiDou B1C (10 ms) gets 10 / 10 Hz. The clamp
+  applies to explicit bandwidths too; `bn_t_max = 0` turns it off. The key is omitted from the
+  canonical JSON at its default, so a design that does not set it keeps its hash (the default
+  stays `33261cd1…8e80`); any other value, 0 included, is part of the hash. `loop_config()` is
+  the design as written, unclamped.
 * **Resolved values are recorded.** The epoch header (`resolved`, one entry per channel, absent
   in older files) and the `--summary` channel entries (`resolved`) carry what the design resolved
   to for that signal: `acq_coherent_periods`, `acq_doppler_step_hz`, `t_track_s`, `pll_bn_hz`
@@ -113,7 +126,7 @@ pfa = 1e-3
 ### Surfaces
 * Rust: `kshana::iq::track::design::{DesignFile, Design}` with
   `DesignFile::parse(&str) -> Result<DesignFile, String>`,
-  `Design::{loop_config(), acq_config(code_period_s), lock_config(), hash(), name()}` and
+  `Design::{loop_config(), loop_config_for(code_period_s), acq_config(code_period_s), resolved_run(code_period_s), lock_config(), hash(), name()}` and
   `DesignFile::designs()`. The campaign runner uses exactly this.
 * CLI: `kshana iq track <rec> --design <file.toml> [--design-name <n>]`, with the first design
   as the default. `kshana iq sweep <rec> --design <file.toml>` runs every design in the file,
