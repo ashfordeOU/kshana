@@ -107,6 +107,14 @@ breaking changes are called out explicitly.
   in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
   Float output is unchanged.
 
+- **`kshana iq track` and `kshana iq sweep` apply the front-end flags.** The usage text
+  advertised `--bandpass`/`--notch`/`--blank`/`--excise`/`--agc`/`--bits` on `track`, but
+  `track` and `sweep` never built the chain: the flags were silently ignored, and a
+  value-less one such as `--notch` swallowed the flag after it. Both commands now parse
+  them as `iq acquire` does and put a fresh front-end chain in front of the acquisition
+  pass and the tracking pass. The output equals running the command on the file
+  `iq frontend` writes for the same flags.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added
