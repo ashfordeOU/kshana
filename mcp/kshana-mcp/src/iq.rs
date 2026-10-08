@@ -726,6 +726,10 @@ pub struct IqTrackRequest {
     /// Early-late correlator spacing (chips).
     #[serde(default)]
     pub spacing_chips: Option<f64>,
+    /// Extra correlator taps: offsets (chips) from the prompt, positive early. They are
+    /// written to `epochs_out` only; the loops do not use them.
+    #[serde(default)]
+    pub extra_taps_chips: Option<Vec<f64>>,
     /// Coherent integration, in code periods.
     #[serde(default)]
     pub coherent: Option<usize>,
@@ -1237,6 +1241,13 @@ impl KshanaServer {
             .opt("--fll-bw", r.fll_bw_hz)
             .opt("--dll-bw", r.dll_bw_hz)
             .opt("--spacing", r.spacing_chips)
+            .opt(
+                "--extra-taps",
+                r.extra_taps_chips
+                    .as_deref()
+                    .filter(|t| !t.is_empty())
+                    .map(list),
+            )
             .opt("--coherent", r.coherent)
             .switch("--reacquire", r.reacquire)
             .opt("--periods-per-bit", r.periods_per_bit)

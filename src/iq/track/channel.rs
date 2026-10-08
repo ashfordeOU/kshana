@@ -119,7 +119,17 @@ pub struct EpochOutput {
     pub cn0_m2m4_dbhz: Option<f64>,
     /// Whether the FLL path fed this update (see [`FllAssist`]).
     pub fll_active: bool,
+    /// The extra correlator taps (`extra_taps_chips`), as `(offset, value)` in design
+    /// order: the correlation with the replica `offset` chips ahead of the prompt (a
+    /// positive offset is early), over the same span as `early`/`prompt`/`late`. Empty
+    /// when the design has no taps.
+    pub extra: Vec<(f64, Cf64)>,
 }
+
+/// The most extra correlator taps a design may ask for.
+pub const MAX_EXTRA_TAPS: usize = 16;
+/// The largest extra-tap offset magnitude (chips).
+pub const MAX_TAP_OFFSET_CHIPS: f64 = 2.0;
 
 /// One tracking channel.
 pub struct Channel {
@@ -131,6 +141,9 @@ pub struct Channel {
     if_hz: f64,
     len: f64,
     half_d: f64,
+    taps: Vec<f64>,
+    extra_acc: Vec<Cf64>,
+    extra_block: Vec<Cf64>,
     ppb: Option<usize>,
     // NCOs.
     code_phase: f64,
@@ -197,6 +210,21 @@ impl Channel {
                 ));
             }
         }
+        if cfg.extra_taps_chips.len() > MAX_EXTRA_TAPS {
+            return Err(format!(
+                "at most {MAX_EXTRA_TAPS} extra taps are supported (got {})",
+                cfg.extra_taps_chips.len()
+            ));
+        }
+        if let Some(t) = cfg
+            .extra_taps_chips
+            .iter()
+            .find(|t| !(t.is_finite() && t.abs() <= MAX_TAP_OFFSET_CHIPS))
+        {
+            return Err(format!(
+                "extra tap offsets must be finite and within ±{MAX_TAP_OFFSET_CHIPS} chips (got {t})"
+            ));
+        }
         let core = LoopCore::new(cfg, code.chip_rate_hz(), code.carrier_hz(), init.doppler_hz)?;
         let len = code.len_chips() as f64;
         let window_len = match init.periods_per_bit {
@@ -212,6 +240,9 @@ impl Channel {
             if_hz: spec.baseband_hz(code.carrier_hz()),
             len,
             half_d: 0.5 * cfg.spacing_chips,
+            taps: cfg.extra_taps_chips.clone(),
+            extra_acc: vec![Cf64::default(); cfg.extra_taps_chips.len()],
+            extra_block: vec![Cf64::default(); cfg.extra_taps_chips.len()],
             ppb: init.periods_per_bit.filter(|&p| p > 1),
             code_phase: init.code_phase_chips.rem_euclid(len),
             dcode: 0.0,
@@ -305,6 +336,9 @@ impl Channel {
             self.acc[0] = self.acc[0] + x * ce;
             self.acc[1] = self.acc[1] + x * cp;
             self.acc[2] = self.acc[2] + x * cl;
+            for (a, &off) in self.extra_acc.iter_mut().zip(&self.taps) {
+                *a = *a + x * self.code.value_at(p + off);
+            }
             self.lo = self.lo * self.lo_step;
             self.code_phase += self.dcode;
             self.n_in_period += 1;
@@ -320,8 +354,12 @@ impl Channel {
         self.n_in_period = 0;
         if self.partial {
             self.partial = false;
+            self.extra_acc.fill(Cf64::default());
             self.set_ncos();
             return;
+        }
+        for (b, a) in self.extra_block.iter_mut().zip(self.extra_acc.iter_mut()) {
+            *b = *b + std::mem::take(a);
         }
         for (b, v) in self.block.iter_mut().zip([e, p, l]) {
             *b = *b + v;
@@ -359,6 +397,12 @@ impl Channel {
             let t = self.block_samples as f64 / self.fs;
             let code_epoch_s = (self.sample_index as f64 - self.code_phase / self.dcode) / self.fs;
             let [be, bp, bl] = std::mem::take(&mut self.block);
+            let extra: Vec<(f64, Cf64)> = self
+                .taps
+                .iter()
+                .zip(self.extra_block.iter_mut())
+                .map(|(&off, b)| (off, std::mem::take(b)))
+                .collect();
             self.fll_gate_step();
             let fll_active = self.core.fll_enabled();
             let disc = self.core.update(be, bp, bl, t);
@@ -386,6 +430,7 @@ impl Channel {
                 bit_edge: edge,
                 bit: self.pending_bit.take(),
                 fll_active,
+                extra,
             });
             self.epoch += 1;
             self.block_periods = 0;
