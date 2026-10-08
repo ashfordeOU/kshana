@@ -480,8 +480,9 @@ fn track_converges_to_injected_doppler() {
 /// is handed off ~267 Hz off, outside the FLL's pull-in: it false-locks ~500 Hz away while
 /// reporting a clean track. The default is now auto (≈4 ms coherent, 4 periods for this
 /// 1 ms code, ~167 Hz bins), which locks it. Both halves are asserted, so the test fails if
-/// the default ever reverts to one period, and `--acq-coherent 1` is pinned as the opt-out
-/// that reproduces the old behaviour. (`docs/design/evidence/iq-track-acq-default/` has
+/// the default ever reverts to one period. `--acq-coherent 1` with the explicit textbook step
+/// (667 Hz) reproduces the old behaviour; with the default step, capped at 0.2/T_track since
+/// D8, the same opt-out now locks too. (`docs/design/evidence/iq-track-acq-default/` has
 /// the seeded 180-channel sweep behind the change.)
 #[test]
 fn track_default_handoff_does_not_false_lock_where_one_period_did() {
@@ -525,11 +526,23 @@ fn track_default_handoff_does_not_false_lock_where_one_period_did() {
         (auto + 2400.0).abs() < 25.0,
         "default hand-off: final Doppler {auto} Hz, injected -2400 Hz"
     );
-    let one = final_doppler(&["--acq-coherent", "1"], "one.json");
+    // One coherent period with the default step: since D8 the step is capped at 0.2/T_track
+    // (200 Hz here), so even this opt-out hands off inside the FLL's pull-in and locks.
+    let one_capped = final_doppler(&["--acq-coherent", "1"], "one-capped.json");
+    assert!(
+        (one_capped + 2400.0).abs() < 25.0,
+        "--acq-coherent 1 with the capped default step: final {one_capped} Hz, injected -2400 Hz"
+    );
+    // The old behaviour, reproduced with the textbook step stated explicitly: ~667 Hz bins
+    // hand PRN 17 off ~267 Hz off, outside the pull-in, and it false-locks.
+    let one = final_doppler(
+        &["--acq-coherent", "1", "--doppler-step", "666.6666667"],
+        "one.json",
+    );
     assert!(
         (one + 2400.0).abs() > 400.0,
-        "--acq-coherent 1 no longer false-locks this channel (final {one} Hz); the scene no \
-         longer exercises the regression"
+        "--acq-coherent 1 with a 667 Hz step no longer false-locks this channel (final {one} Hz); \
+         the scene no longer exercises the regression"
     );
 }
 
