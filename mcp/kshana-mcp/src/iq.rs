@@ -682,6 +682,9 @@ pub struct IqTrackRequest {
     /// Early-late correlator spacing (chips).
     #[serde(default)]
     pub spacing_chips: Option<f64>,
+    /// Threads for the channels (default 1); the output does not depend on it.
+    #[serde(default)]
+    pub threads: Option<usize>,
     /// Coherent integration, in code periods.
     #[serde(default)]
     pub coherent: Option<usize>,
@@ -1156,6 +1159,7 @@ impl KshanaServer {
             .opt("--fll-bw", r.fll_bw_hz)
             .opt("--dll-bw", r.dll_bw_hz)
             .opt("--spacing", r.spacing_chips)
+            .opt("--threads", r.threads.filter(|&n| n >= 1))
             .opt("--coherent", r.coherent)
             .switch("--reacquire", r.reacquire)
             .opt("--periods-per-bit", r.periods_per_bit)
