@@ -9,7 +9,9 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Fixed
+## [0.33.1] - 2026-10-08
+
+### Security
 
 - **Text a scenario carries into a chart is escaped, and the Studio adopts only drawing.**
   Strings from a scenario (a clock's `id`, a sweep's `scale`, titles) were written into chart
