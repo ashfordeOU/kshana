@@ -99,8 +99,8 @@ breaking changes are called out explicitly.
   - CUSUM run lengths against Siegmund's approximation (measured 330 and 8.46 samples
     against 338 and 8.34);
   - the phase lock indicator against the Rician-phase mean;
-  - on a tracked C/A signal, SQM delta and ratio spreads within 6 % of the first-order
-    closed forms.
+  - on a tracked C/A signal, SQM delta and ratio spreads about 6 % from the first-order
+    closed forms (measured 5.97 %; test bar 12 %).
   
   The spectral-excess false-alarm formula is an approximation; the measured rate was 1.3×
   the formula. End to end, the monitors flag:
