@@ -32,6 +32,18 @@ const HEALTH_SEEDS_FLICKER: usize = 16;
 const HEALTH_SEED_SALT: u64 = 0x0F11_7E12_8EA1_7777;
 
 pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
+    run_clock_probed(scn, cfg, seed, &mut |_, _| {})
+}
+
+/// [`run_clock`] with a probe called for every outage sample with the predictor's timing
+/// error (s) and the 1-sigma bound (s) the integrity check scales by [`PROTECTION_K`]. The
+/// probe only observes; `run_clock` passes a no-op, so the result is the same.
+pub(crate) fn run_clock_probed(
+    scn: &Scenario,
+    cfg: &ClockCfg,
+    seed: u64,
+    probe: &mut dyn FnMut(f64, f64),
+) -> ClockRun {
     let mut rng = ChaCha8Rng::seed_from_u64(seed);
     let mut clock = ClockModel::new(&cfg.id, &cfg.provenance, cfg.y0, cfg.q_wf, cfg.q_rw)
         .with_drift(cfg.drift)
@@ -73,6 +85,7 @@ pub(crate) fn run_clock(scn: &Scenario, cfg: &ClockCfg, seed: u64) -> ClockRun {
             // the truth bank's). Zero without a flicker floor.
             let var = kf.phase_sigma().powi(2)
                 + clock.flicker_phase_variance_after_steps(steps_since_sync, dt);
+            probe(err_s, var.sqrt());
             if err_s.abs() <= PROTECTION_K * var.sqrt() {
                 contained += 1;
             }
@@ -412,5 +425,52 @@ q_rw = 1.0e-28
     fn non_orbit_run_has_no_eci_track() {
         let r = run(&demo());
         assert!(r.eci_track.is_none(), "clock run carries no eci_track");
+    }
+
+    /// D11 / B4' (replacement for the withdrawn B4, fixed by the coordinator BEFORE any
+    /// computation): the pooled RMS of `error / 1-sigma bound` over all outage samples and
+    /// all runs lies in `[0.8, 1.2]` for EACH clock, on BOTH the shipped scenario (seed 42)
+    /// and a fresh seed (7), 200 runs each.
+    ///
+    /// Basis, a priori: the flicker error within a run is nearly a constant random
+    /// frequency, so each run contributes about one chi-square(1) draw; over 200 runs the mean
+    /// square has a standard deviation of about sqrt(2/200) = 0.10 and the RMS about 0.05, so
+    /// [0.8, 1.2] is about +-4 sigma. It still catches a bound inflated by more than 1.25x.
+    /// B4 itself (coverage <= 0.9995) is withdrawn: it sits inside the metric's own sampling
+    /// noise (std about 0.0037 against a 0.0022 margin below 1) and the exploratory prototype's
+    /// 0.99968 would have failed it. If this test fails, report it; do not adjust the band.
+    #[test]
+    fn the_bound_is_not_inflated_pooled_rms_of_error_over_sigma() {
+        let src = include_str!("../scenarios/clock-ensemble.toml");
+        for seed in [42u64, 7] {
+            let mut scn: Scenario = toml::from_str(src).expect("shipped scenario parses");
+            scn.seed = seed;
+            assert_eq!(scn.runs, 200);
+            for (name, quantum) in [("quantum", true), ("classical", false)] {
+                let cfg = if quantum {
+                    &scn.clock_quantum
+                } else {
+                    &scn.clock_classical
+                };
+                let (mut sum_sq, mut n) = (0.0f64, 0u64);
+                for k in 0..scn.runs as u64 {
+                    let mut s = scn.seed.wrapping_add(k);
+                    if !quantum {
+                        s = s.wrapping_add(crate::ensemble::GOLDEN);
+                    }
+                    run_clock_probed(&scn, cfg, s, &mut |err, sigma| {
+                        let z = err / sigma;
+                        sum_sq += z * z;
+                        n += 1;
+                    });
+                }
+                assert!(n > 0);
+                let rms = (sum_sq / n as f64).sqrt();
+                assert!(
+                    (0.8..=1.2).contains(&rms),
+                    "seed {seed}, {name}: pooled RMS(error / 1-sigma bound) = {rms:.4}, band [0.8, 1.2]"
+                );
+            }
+        }
     }
 }
