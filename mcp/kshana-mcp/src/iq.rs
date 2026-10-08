@@ -655,6 +655,11 @@ pub struct IqAcquireRequest {
     /// Also write the acquisition table as CSV at this path in the work directory.
     #[serde(default)]
     pub csv_out: Option<String>,
+    /// Also write the whole Doppler × code-phase correlation-power surface, with the peak and
+    /// its fine-Doppler refinements (`kshana.acq-surface/1`), at this path in the work
+    /// directory: `.csv`, `.json` or `.bin`. Needs exactly one PRN.
+    #[serde(default)]
+    pub surface_out: Option<String>,
     /// Replace output files that already exist. Default false.
     #[serde(default)]
     pub overwrite: bool,
@@ -1012,7 +1017,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "FFT acquisition of one or more PRNs over an IQ recording in the work directory (`kshana iq acquire`). Reads only the samples one search needs (coherent × noncoherent code periods), which must fit the sample budget. Optional `frontend` stages (band-pass, notch, blanking, excision, AGC, quantiser) run first. Replies with one detection per PRN: `acquired`, `doppler_hz`, `code_phase_chips`, the normalised peak `statistic`, its detection `threshold` and the `peak_ratio`; `json_out` / `csv_out` also keep the full result as files."
+        description = "FFT acquisition of one or more PRNs over an IQ recording in the work directory (`kshana iq acquire`). Reads only the samples one search needs (coherent × noncoherent code periods), which must fit the sample budget. Optional `frontend` stages (band-pass, notch, blanking, excision, AGC, quantiser) run first. Replies with one detection per PRN: `acquired`, `doppler_hz`, `code_phase_chips`, the normalised peak `statistic`, its detection `threshold` and the `peak_ratio`; `json_out` / `csv_out` also keep the full result as files, and `surface_out` (one PRN; .csv, .json or .bin) keeps the whole Doppler × code-phase correlation-power surface with the peak and its parabolic and fine-search Doppler refinements."
     )]
     fn iq_acquire(
         &self,
@@ -1043,6 +1048,21 @@ impl KshanaServer {
             .as_deref()
             .map(|p| iq.output(p, r.overwrite))
             .transpose()?;
+        let surface_out = r
+            .surface_out
+            .as_deref()
+            .map(|p| iq.output(p, r.overwrite))
+            .transpose()?;
+        if let Some(p) = &surface_out {
+            if r.prns.len() != 1 {
+                return Err(bad("surface_out exports one surface: give exactly one PRN".into()));
+            }
+            if kshana::iq::acq_surface::SurfaceFormat::from_path(&p.display().to_string())
+                .is_none()
+            {
+                return Err(bad("surface_out must end in .csv, .json or .bin".into()));
+            }
+        }
         let (json_path, scratch) = match &json_out {
             Some(p) => (p.clone(), false),
             None => (iq.scratch("json")?, true),
@@ -1059,7 +1079,8 @@ impl KshanaServer {
             .opt("--pfa", r.pfa)
             .raw(r.raw.as_ref())
             .opt("--json", Some(json_path.display()))
-            .opt("--csv", csv_out.as_ref().map(|p| p.display()));
+            .opt("--csv", csv_out.as_ref().map(|p| p.display()))
+            .opt("--surface", surface_out.as_ref().map(|p| p.display()));
         if let Some(fe) = &r.frontend {
             fe.push(&mut a);
         }
@@ -1078,7 +1099,11 @@ impl KshanaServer {
             .iter()
             .filter(|d| d["acquired"].as_bool() == Some(true))
             .count();
-        let files: Vec<PathBuf> = json_out.into_iter().chain(csv_out).collect();
+        let files: Vec<PathBuf> = json_out
+            .into_iter()
+            .chain(csv_out)
+            .chain(surface_out)
+            .collect();
         reply(serde_json::json!({
             "recording": iq.rel(&rec),
             "sample_rate_hz": spec.fs_hz,
