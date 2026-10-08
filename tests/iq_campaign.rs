@@ -686,6 +686,45 @@ fn resuming_after_a_partial_single_worker_run_gives_identical_cells_and_digest()
     assert!(s.rows_failed > 0);
 }
 
+/// The canonical hash of every cell's scored results (`satellites`), taken in (recording,
+/// front end, design) order. It leaves out the keys, hashes and provenance fields, so it is
+/// unchanged by anything that does not change a result.
+fn metrics_digest(out: &Path) -> String {
+    use kshana::iq::campaign::hash::canonical_hash;
+    let mut rows: Vec<(String, serde_json::Value)> = cells(out)
+        .values()
+        .map(|(_, c)| {
+            (
+                format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
+                serde_json::to_value(&c.satellites).unwrap(),
+            )
+        })
+        .collect();
+    rows.sort_by(|a, b| a.0.cmp(&b.0));
+    canonical_hash(&serde_json::Value::Array(
+        rows.into_iter()
+            .map(|(k, v)| serde_json::json!([k, v]))
+            .collect(),
+    ))
+    .to_string()
+}
+
+/// Pre-registered before the `cn0_estimator` change: the scored results of the 12 reference
+/// cells at the tree that carries #45 `010b30b9`, #64 `21210183` and main `51dce137`, where
+/// the only C/N0 estimator is NWPR. The reference DIGEST at that tree is
+/// `64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`.
+const PRE_M2M4_METRICS: &str = "b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b";
+
+#[test]
+fn the_reference_results_are_pinned_before_the_estimator_change() {
+    let f = fixture();
+    assert_eq!(
+        f.reference.digest.as_deref(),
+        Some("64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734")
+    );
+    assert_eq!(metrics_digest(&f.reference_out), PRE_M2M4_METRICS);
+}
+
 /// How many cells a dry run against a copy of the reference output would run. The copy keeps
 /// the shared reference untouched, since a run rewrites `campaign.json` and the digest.
 fn pending_against_reference(campaign_text: &str, base: &Path) -> (usize, usize) {
