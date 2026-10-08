@@ -8,9 +8,11 @@
 //! spacing and the integration length; a list on any axis is expanded into the full product
 //! of designs. Per design and PRN the command reports the steady-state carrier-phase and
 //! code jitter (over the second half of the run), the phase- and code-lock fractions and the
-//! mean C/N0.
+//! mean C/N0. The front-end flags (as `iq track` takes them) filter the recording before
+//! both the acquisition and the replay, so every design sees the same front end.
 
 use super::acquire::codes_from_args;
+use super::frontend::through_frontend;
 use super::track::{acquire_inits, frac};
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::io::inventory::open_recording;
@@ -122,14 +124,17 @@ fn collect(codes: &[SignalCode], results: &[ReplayResult]) -> Vec<Metrics> {
 
 /// Run `kshana iq sweep <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, &[]).map_err(Fail::Usage)?;
+    let a = Args::parse(args, super::frontend::FRONTEND_SWITCHES).map_err(Fail::Usage)?;
     a.need_pos(1, "sweep")?;
+    // Optional receiver front end, applied to both passes as `iq acquire` applies it.
+    let fe = super::frontend::FrontendParams::from_args(&a)?;
     let path = Path::new(&a.pos[0]);
     let codes = codes_from_args(&a)?;
 
-    let mut opened = open_recording(path, raw_sidecar(&a)?)?;
+    let opened = open_recording(path, raw_sidecar(&a)?)?;
     let spec = opened.source.spec();
-    let inits = acquire_inits(&a, &spec, &codes, opened.source.as_mut())?;
+    let mut acq_src = through_frontend(&fe, opened.source)?;
+    let inits = acquire_inits(&a, &spec, &codes, acq_src.as_mut())?;
 
     let designs = designs(&a)?;
     let max_samples = a
@@ -137,8 +142,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
 
-    let mut track_src = open_recording(path, raw_sidecar(&a)?)?;
-    let results = replay(track_src.source.as_mut(), &inits, &designs, max_samples)?;
+    let mut track_src = through_frontend(&fe, open_recording(path, raw_sidecar(&a)?)?.source)?;
+    let results = replay(track_src.as_mut(), &inits, &designs, max_samples)?;
     let rows = collect(&codes, &results);
 
     write_outputs(&a, &rows)?;
