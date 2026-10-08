@@ -144,6 +144,16 @@ breaking changes are called out explicitly.
   `web/capabilities.json`, it reads 46 capabilities across 8 domains (17 validated, 29
   modelled).
 
+- **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
+  module the Observatory palette revision left on its own colours while the jammer-Q work
+  landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
+  kind scenarios) now reads `src/palette.rs`, and the allowlist in `tests/palette_sync.rs` is
+  empty. Colours and font only: the `jamming-demo` and `maritime-strait-jamming` charts are
+  equal to their previously recorded renders once colour, `font-family` and the version
+  footer are normalised. No plotted value moved. The recorded Studio copies under
+  `web/studio/recorded/` still carry the old paint and are re-recorded at the 0.33.0
+  re-port.
+
 ### Fixed
 
 - **CW/narrowband jammer Q is now 1.0, not 1.5.** The textbook value for a tone on the
