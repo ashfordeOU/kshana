@@ -93,6 +93,14 @@ breaking changes are called out explicitly.
     - `kshana iq sweep --design <file>`, which runs every design in the file;
     - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
     - MCP `iq_track` `design`/`design_name`.
+  - *Parallel channels* (`iq track` / `iq sweep --threads <N|auto>`; Rust
+    `TrackSession::with_threads`). Each chunk's channels run on up to N threads
+    (`std::thread::scope`; `wasm32` stays serial). A channel's correlation and lock state machine
+    touch only that channel; its epochs and events are buffered and written to the sinks in
+    channel order, so the output (CSV, JSONL, binary, events, summary) is byte-identical to the
+    serial run for any N. The default stays 1 thread. Measured on a 12-channel, 4 s, 4.092 MHz
+    recording on 4 cores: 19.5 s serial, 11.5 s at 2 threads, 6.3 s at 4 (3.1×; the initial
+    acquisition is serial).
   - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
     carries:
     - the early/prompt/late correlators;

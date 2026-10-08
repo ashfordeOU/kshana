@@ -191,6 +191,8 @@ struct Managed {
     last_t: f64,
     loop_t: f64,
     collect: Option<Collect>,
+    /// This channel's loop updates of the chunk being processed.
+    scratch: Vec<EpochOutput>,
 }
 
 /// A set of channels run over one stream in bounded memory, with the lock state machine.
@@ -198,7 +200,7 @@ pub struct TrackSession {
     spec: SampleSpec,
     chans: Vec<Managed>,
     consumed: u64,
-    scratch: Vec<EpochOutput>,
+    threads: usize,
 }
 
 impl TrackSession {
@@ -227,6 +229,7 @@ impl TrackSession {
                     last_t: 0.0,
                     loop_t: 0.0,
                     collect: None,
+                    scratch: Vec::new(),
                 })
             })
             .collect::<Result<Vec<_>, String>>()?;
@@ -234,23 +237,18 @@ impl TrackSession {
             spec,
             chans,
             consumed: 0,
-            scratch: Vec::new(),
+            threads: 1,
         })
     }
 
-    /// The stream's sampling.
-    pub fn spec(&self) -> SampleSpec {
-        self.spec
-    }
-
-    /// Stream samples consumed so far.
-    pub fn samples_consumed(&self) -> u64 {
-        self.consumed
-    }
-
-    /// Each channel's current lock state.
-    pub fn states(&self) -> Vec<LockState> {
-        self.chans.iter().map(|m| m.state).collect()
+    /// Run the channels of each chunk on up to `n` threads (`n` ≤ 1: one thread, the
+    /// default; ignored on `wasm32`). A channel's correlation and state machine touch
+    /// nothing but that channel, so they run in parallel; each channel's epochs and events
+    /// are buffered and written to the sink on the calling thread in channel order, exactly
+    /// the order of a serial run, so the output is bit-identical for any `n`.
+    pub fn with_threads(mut self, n: usize) -> Self {
+        self.threads = n.max(1);
+        self
     }
 
     /// Feed the next `samples` of the stream to every channel, writing every loop update
@@ -258,33 +256,66 @@ impl TrackSession {
     pub fn process(&mut self, samples: &[Cf64], sink: &mut dyn EpochSink) -> Result<(), IqError> {
         let chunk_start = self.consumed;
         let chunk_end = chunk_start + samples.len() as u64;
+        let spec = self.spec;
+        #[cfg(not(target_arch = "wasm32"))]
+        if self.threads > 1 && self.chans.len() > 1 {
+            self.process_parallel(samples, chunk_start, chunk_end, sink)?;
+            self.consumed = chunk_end;
+            return Ok(());
+        }
         for (idx, m) in self.chans.iter_mut().enumerate() {
-            if let Some(ch) = m.ch.as_mut() {
-                self.scratch.clear();
-                ch.process(samples, &mut self.scratch);
-                for e in &self.scratch {
-                    m.on_epoch(idx, e, chunk_end, &self.spec, sink)?;
-                    sink.epoch(idx, e, m.state)?;
-                }
-            }
-            // Gather samples for a pending search; a search requested during this chunk
-            // starts at the next one.
-            if let Some(c) = m.collect.as_mut() {
-                if c.start >= chunk_start && c.start < chunk_end {
-                    let from = (c.start - chunk_start) as usize;
-                    let take = (c.need - c.buf.len()).min(samples.len() - from);
-                    c.buf.extend_from_slice(&samples[from..from + take]);
-                } else if c.start < chunk_start && c.buf.len() < c.need {
-                    let take = (c.need - c.buf.len()).min(samples.len());
-                    c.buf.extend_from_slice(&samples[..take]);
-                }
-            }
-            if m.collect.as_ref().is_some_and(|c| c.buf.len() >= c.need) {
-                let c = m.collect.take().expect("checked above");
-                m.on_search(idx, c, chunk_end, &self.spec, sink)?;
-            }
+            m.advance(idx, samples, chunk_start, chunk_end, &spec, sink)?;
         }
         self.consumed = chunk_end;
+        Ok(())
+    }
+
+    #[cfg(not(target_arch = "wasm32"))]
+    fn process_parallel(
+        &mut self,
+        samples: &[Cf64],
+        chunk_start: u64,
+        chunk_end: u64,
+        sink: &mut dyn EpochSink,
+    ) -> Result<(), IqError> {
+        let spec = self.spec;
+        let n = self.threads.min(self.chans.len());
+        let mut groups: Vec<Vec<(usize, &mut Managed)>> = (0..n).map(|_| Vec::new()).collect();
+        for (idx, m) in self.chans.iter_mut().enumerate() {
+            groups[idx % n].push((idx, m));
+        }
+        let mut done: Vec<(usize, Buffered, Result<(), IqError>)> = std::thread::scope(|sc| {
+            let handles: Vec<_> = groups
+                .into_iter()
+                .map(|g| {
+                    sc.spawn(move || {
+                        g.into_iter()
+                            .map(|(idx, m)| {
+                                let mut buf = Buffered::default();
+                                let r = m.advance(
+                                    idx,
+                                    samples,
+                                    chunk_start,
+                                    chunk_end,
+                                    &spec,
+                                    &mut buf,
+                                );
+                                (idx, buf, r)
+                            })
+                            .collect::<Vec<_>>()
+                    })
+                })
+                .collect();
+            handles
+                .into_iter()
+                .flat_map(|h| h.join().expect("a tracking thread panicked"))
+                .collect()
+        });
+        done.sort_by_key(|d| d.0);
+        for (_, buf, r) in done {
+            buf.replay(sink)?;
+            r?;
+        }
         Ok(())
     }
 
@@ -316,7 +347,80 @@ impl TrackSession {
     }
 }
 
+/// One channel's output of a chunk, held until it can be written in channel order.
+#[derive(Default)]
+struct Buffered(Vec<Item>);
+
+enum Item {
+    Epoch(usize, Box<EpochOutput>, LockState),
+    Event(Box<LockEvent>),
+}
+
+impl Buffered {
+    fn replay(self, sink: &mut dyn EpochSink) -> Result<(), IqError> {
+        for it in self.0 {
+            match it {
+                Item::Epoch(ch, e, st) => sink.epoch(ch, &e, st)?,
+                Item::Event(ev) => sink.event(&ev)?,
+            }
+        }
+        Ok(())
+    }
+}
+
+impl EpochSink for Buffered {
+    fn epoch(&mut self, ch: usize, e: &EpochOutput, state: LockState) -> Result<(), IqError> {
+        self.0.push(Item::Epoch(ch, Box::new(e.clone()), state));
+        Ok(())
+    }
+    fn event(&mut self, ev: &LockEvent) -> Result<(), IqError> {
+        self.0.push(Item::Event(Box::new(ev.clone())));
+        Ok(())
+    }
+}
+
 impl Managed {
+    /// Run this channel over one chunk: correlate, step the state machine on every loop
+    /// update, gather the samples a pending search needs and run it once they are in.
+    fn advance(
+        &mut self,
+        idx: usize,
+        samples: &[Cf64],
+        chunk_start: u64,
+        chunk_end: u64,
+        spec: &SampleSpec,
+        sink: &mut dyn EpochSink,
+    ) -> Result<(), IqError> {
+        let m = self;
+        if let Some(ch) = m.ch.as_mut() {
+            m.scratch.clear();
+            ch.process(samples, &mut m.scratch);
+            let epochs = std::mem::take(&mut m.scratch);
+            for e in &epochs {
+                m.on_epoch(idx, e, chunk_end, spec, sink)?;
+                sink.epoch(idx, e, m.state)?;
+            }
+            m.scratch = epochs;
+        }
+        // Gather samples for a pending search; a search requested during this chunk starts
+        // at the next one.
+        if let Some(c) = m.collect.as_mut() {
+            if c.start >= chunk_start && c.start < chunk_end {
+                let from = (c.start - chunk_start) as usize;
+                let take = (c.need - c.buf.len()).min(samples.len() - from);
+                c.buf.extend_from_slice(&samples[from..from + take]);
+            } else if c.start < chunk_start && c.buf.len() < c.need {
+                let take = (c.need - c.buf.len()).min(samples.len());
+                c.buf.extend_from_slice(&samples[..take]);
+            }
+        }
+        if m.collect.as_ref().is_some_and(|c| c.buf.len() >= c.need) {
+            let c = m.collect.take().expect("checked above");
+            m.on_search(idx, c, chunk_end, spec, sink)?;
+        }
+        Ok(())
+    }
+
     #[allow(clippy::too_many_arguments)]
     fn transition(
         &mut self,

@@ -1059,3 +1059,56 @@ fn fll_handover_survey() {
         }
     }
 }
+
+/// Threads change the speed and nothing else: with a good channel, a false-locking one
+/// (hand-off 500 Hz off, repaired by re-acquisition) and a channel on an absent PRN (lost,
+/// searching, retired), every epoch, state and event, and their interleaving into the
+/// sink, equals the serial run.
+#[test]
+fn threads_leave_epochs_states_and_events_unchanged() {
+    #[derive(Default)]
+    struct Log(Vec<String>);
+    impl kshana::iq::track::sink::EpochSink for Log {
+        fn epoch(
+            &mut self,
+            ch: usize,
+            e: &kshana::iq::track::EpochOutput,
+            s: LockState,
+        ) -> Result<(), IqError> {
+            self.0.push(format!("E{ch} {e:?} {s:?}"));
+            Ok(())
+        }
+        fn event(&mut self, ev: &kshana::iq::track::LockEvent) -> Result<(), IqError> {
+            self.0.push(format!("V {ev:?}"));
+            Ok(())
+        }
+    }
+    let design = DesignFile::parse(
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"d\"\n[design.lock]\n\
+         reacquire = true\nreacq_window_s = 1.0\nmax_reacq_attempts = 3\n",
+    )
+    .unwrap();
+    let run = |threads: usize| {
+        let truth = 1500.0;
+        let mut src = Synth::new(17, truth, 45.0, 3.0, vec![]);
+        let good = src.init(truth + 20.0);
+        let off = src.init(truth - 500.0);
+        let mut absent = src.init(300.0);
+        absent.code = Arc::new(build_code("gps-l1ca", 25).unwrap());
+        let chans = [good, off, absent]
+            .into_iter()
+            .map(|i| SessionChannel::from_design(i, &design.designs()[0]))
+            .collect();
+        let mut s = TrackSession::new(src.spec(), chans)
+            .unwrap()
+            .with_threads(threads);
+        let mut log = Log::default();
+        s.run(&mut src, None, &mut log).unwrap();
+        log.0
+    };
+    let serial = run(1);
+    assert!(serial.iter().any(|l| l.starts_with("V ")), "events occur");
+    for n in [2, 3, 8] {
+        assert!(run(n) == serial, "--threads {n} differs from serial");
+    }
+}
