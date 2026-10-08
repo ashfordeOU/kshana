@@ -163,7 +163,6 @@ const SKIPPED: &[&str] = &[
     "ins-trn-coast.toml",
     "leo-focus-data-services.toml",
     "leo-focus-ppp-altitude.toml",
-    "leo-navmsg-celeste-iod.toml",
     "leo-navmsg-fit-interval-trade.toml",
     "leo-navmsg-midpass-update.toml",
     "leo-navmsg-model-comparison.toml",
