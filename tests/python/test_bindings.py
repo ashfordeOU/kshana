@@ -208,6 +208,24 @@ def test_iq_scene_then_acquire_recovers_the_injected_signals():
         assert abs(det["doppler_hz"] - truth0[prn]["doppler_hz"]) <= 250.0
 
 
+def test_iq_acq_surface_peak_matches_iq_acquire():
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.05, signal="gps-l1ca", prns=[5], dopplers=[1200.0], seed=2
+    )
+    args = (scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca")
+    det = kshana.iq_acquire(*args, [5], coherent=4, doppler_max=4000.0)[0]
+    surf = kshana.iq_acq_surface(*args, 5, coherent=4, doppler_max=4000.0)
+    h = surf["header"]
+    assert h["schema"] == "kshana.acq-surface/1"
+    assert h["peak"]["doppler_hz"] == det["doppler_hz"]
+    assert h["peak"]["delay_samples"] == det["delay_samples"]
+    rows = surf["rows"]
+    assert len(rows) == len(h["doppler_bins_hz"])
+    assert len(rows[0]) == h["samples_per_period"]
+    assert rows[h["peak"]["doppler_index"]][h["peak"]["delay_samples"]] == det["statistic"]
+    assert abs(h["fine_search"]["correction_hz"]) <= h["doppler_step_hz"]
+
+
 def test_iq_scene_arrays_are_numpy_float64_and_finite():
     import numpy as np
 

@@ -480,6 +480,52 @@ fn iq_acquire<'py>(
     json_to_py(py, &serde_json::Value::Array(out))
 }
 
+/// The whole acquisition surface of one PRN over complex samples (`kshana.acq-surface/1`):
+/// a dict with `header` (the search, the Doppler bins, the peak, and the `parabolic` and
+/// `fine_search` Doppler refinements) and `rows` (`rows[doppler_index][lag]`, the normalised
+/// correlation power). Raises `ValueError` on a bad search.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, signal, prn, if_hz=0.0, center_hz=None, coherent=1, noncoherent=1, doppler_max=5000.0, doppler_step=None, pfa=1e-3))]
+#[allow(clippy::too_many_arguments)]
+fn iq_acq_surface<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    signal: String,
+    prn: i64,
+    if_hz: f64,
+    center_hz: Option<f64>,
+    coherent: usize,
+    noncoherent: usize,
+    doppler_max: f64,
+    doppler_step: Option<f64>,
+    pfa: f64,
+) -> PyResult<Bound<'py, PyAny>> {
+    let codes = codes_for(&signal, &[prn])?;
+    let samples = samples_from(&i, &q)?;
+    let spec = SampleSpec {
+        fs_hz,
+        center_hz: center_hz.unwrap_or_else(|| codes[0].carrier_hz()),
+        if_hz,
+    };
+    let coherent = coherent.max(1);
+    let cfg = AcqConfig {
+        coherent_periods: coherent,
+        noncoherent: noncoherent.max(1),
+        doppler_max_hz: doppler_max,
+        doppler_step_hz: doppler_step
+            .unwrap_or(2.0 / (3.0 * coherent as f64 * codes[0].period_s())),
+        pfa,
+    };
+    let surface = crate::iq::acq_surface::Surface::compute(&samples, &spec, &codes[0], &cfg)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({ "header": surface.header, "rows": surface.grid }),
+    )
+}
+
 /// Acquire then track each PRN over complex samples. Returns a dict with `fs_hz`, the
 /// resolved loop `design` (every field, with its `hash`), the lock-state `events`, any
 /// `warnings` (`commensurate_sampling` when `fs_hz` is a multiple of half the chip rate:
@@ -867,6 +913,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene_broadcast, m)?)?;
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_acq_surface, m)?)?;
     m.add_function(wrap_pyfunction!(iq_track, m)?)?;
     m.add_function(wrap_pyfunction!(iq_loop_designs, m)?)?;
     m.add_function(wrap_pyfunction!(iq_read_epochs, m)?)?;

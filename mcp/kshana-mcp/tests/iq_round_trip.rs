@@ -163,6 +163,39 @@ async fn scene_acquire_track_frontend_round_trip() {
         acq["files"].as_array().unwrap().is_empty(),
         "nothing kept unless asked"
     );
+    // The whole surface of one PRN goes to a file in the work directory.
+    let one = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3], "coherent": 2,
+                "surface_out": "surface.csv" }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(one["files"].as_array().unwrap().len(), 1, "{one:#}");
+    let text = std::fs::read_to_string(dir.join("surface.csv")).unwrap();
+    assert!(text.starts_with("# kshana.acq-surface/1"));
+    let many = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
+                "surface_out": "surface2.csv" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(many.contains("exactly one PRN"), "{many}");
+    // A surface that would not fit the cap is refused, naming surface_out.
+    let big = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3],
+                "doppler_max_hz": 200000.0, "doppler_step_hz": 100.0,
+                "surface_out": "surface3.bin" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(big.contains("surface_out") && big.contains("cells"), "{big}");
+    assert!(!dir.join("surface3.bin").exists());
     for (det, t) in acq["detections"].as_array().unwrap().iter().zip(truth) {
         let dd = det["doppler_hz"].as_f64().unwrap() - t["doppler_hz"].as_f64().unwrap();
         assert!(dd.abs() <= 250.0, "Doppler off by {dd} Hz: {det} vs {t}");
