@@ -187,12 +187,78 @@ fn vlbi_jacobian_pins_reject_a_real_change() {
     assert_eq!(found, 9, "the committed VLBI Jacobians");
 }
 
-/// The launch-azimuth pin: about 3e-12 rad for a pair near pi, and a 1e-6 change fails.
+/// The launch-azimuth pin (`check_azimuths`): a host-sized difference is accepted, including the
+/// 3.18e-9 rad one the ill-conditioned tangent row showed on macOS; a 1e-6 change, an
+/// ascending/descending swap and a quadrant error on a non-tangent row are rejected.
 #[test]
 fn launch_azimuth_pin_rejects_a_real_change() {
-    let fed = [2.0943951023931957, 1.0471975511965976];
+    use fixture_pin::check_azimuths;
+    let fed = [2.0943951023931957, 1.0471975511965976]; // asc, desc at lat 0, i 60 deg: not tangent
     let noisy = [fed[0] + 4.0 * f64::EPSILON, fed[1] - 4.0 * f64::EPSILON];
-    fixture_pin::check_scaled(&noisy, &fed, NEAR_BIT, "azimuths").expect("host-sized noise");
+    check_azimuths(&noisy, &fed, NEAR_BIT, "az").expect("host-sized noise");
     let changed = [fed[0], fed[1] * (1.0 + 1e-6)];
-    assert!(fixture_pin::check_scaled(&changed, &fed, NEAR_BIT, "azimuths").is_err());
+    assert!(check_azimuths(&changed, &fed, NEAR_BIT, "az").is_err());
+    let swapped = [fed[1], fed[0]];
+    assert!(check_azimuths(&swapped, &fed, NEAR_BIT, "az").is_err());
+    let reflected = [std::f64::consts::TAU - fed[0], fed[1]];
+    assert!(check_azimuths(&reflected, &fed, NEAR_BIT, "az").is_err());
+    let wrapped = [fed[0] + std::f64::consts::TAU, fed[1]];
+    assert!(check_azimuths(&wrapped, &fed, NEAR_BIT, "az").is_err());
+    assert!(check_azimuths(&fed[..1], &fed, NEAR_BIT, "az").is_err());
+
+    // The tangent row of issue #36 (lat -60, i 120): the Linux fixture and the macOS values.
+    let linux = [4.712389016884931, 4.712388943884449];
+    let mac = [4.7123890137046995, 4.71238894706468];
+    check_azimuths(&mac, &linux, NEAR_BIT, "tangent").expect("one ulp of s on a tangent row");
+}
+
+/// Over every committed `INC` row: the engine-free parts of the pin. Each fixture pair is
+/// accepted against itself and against 4 ulp of noise; a swapped pair is rejected exactly where
+/// the branches differ (|cos az| above the branch threshold); a 1e-6 rad change of an
+/// azimuth is rejected wherever it changes `sin az` by more than the bar (|cos az| above 1e-5).
+#[test]
+fn launch_azimuth_pin_on_every_committed_row() {
+    use fixture_pin::{check_azimuths, BRANCH_COS_MIN};
+    let text = std::fs::read_to_string(
+        "tests/fixtures/launch_geometry_orekit_oracle/launch_geometry_orekit_oracle.txt",
+    )
+    .expect("fixture");
+    let (mut rows, mut swap_checked, mut tangent) = (0, 0, 0);
+    for line in text.lines().filter(|l| l.starts_with("INC ")) {
+        let az: Vec<f64> = line
+            .split('|')
+            .nth(1)
+            .expect("azimuth field")
+            .split_whitespace()
+            .map(|t| t.parse().expect("f64"))
+            .collect();
+        let fed = [az[0], az[1]];
+        rows += 1;
+        check_azimuths(&fed, &fed, NEAR_BIT, "row").expect("identical");
+        let noisy = [fed[0] + 4.0 * f64::EPSILON, fed[1] - 4.0 * f64::EPSILON];
+        check_azimuths(&noisy, &fed, NEAR_BIT, "row").expect("host-sized noise");
+        let swapped = [fed[1], fed[0]];
+        let branches_differ = fed[0].cos().abs() > BRANCH_COS_MIN;
+        if branches_differ {
+            swap_checked += 1;
+            assert!(
+                check_azimuths(&swapped, &fed, NEAR_BIT, "row").is_err(),
+                "swapped asc/desc accepted: {line}"
+            );
+            // sin is shared by az and pi - az, so only the branch check can reject this.
+            assert!((swapped[0].sin() - fed[0].sin()).abs() < 1e-12);
+            if fed[0].cos().abs() > 1e-5 {
+                // 1e-6 rad moves sin az by cos az * 1e-6, above the 1e-12 bar from |cos az| = 1e-5.
+                let changed = [fed[0] + 1e-6, fed[1]];
+                assert!(
+                    check_azimuths(&changed, &fed, NEAR_BIT, "row").is_err(),
+                    "1e-6 rad change accepted: {line}"
+                );
+            }
+        } else {
+            tangent += 1;
+        }
+    }
+    assert!(rows > 100, "rows {rows}");
+    assert!(swap_checked > 0 && tangent > 0, "{swap_checked} {tangent}");
 }
