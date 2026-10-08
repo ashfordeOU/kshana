@@ -127,7 +127,7 @@ pub struct AcquisitionDesign {
     /// Doppler search half-width (Hz).
     pub doppler_max_hz: f64,
     /// Doppler bin (Hz), or auto ([`default_step_hz`]: `2 / (3 · N · T_code)`, capped at
-    /// `0.4 / T_track` so the hand-off residual stays inside the FLL's pull-in).
+    /// `0.2 / T_track` so the hand-off residual stays inside the FLL's pull-in).
     pub doppler_step_hz: Auto<f64>,
     /// Search-wide false-alarm probability.
     pub pfa: f64,
@@ -1203,14 +1203,14 @@ mod tests {
     #[test]
     fn the_auto_step_follows_the_signal_and_is_recorded() {
         // A 1 ms code searches 4 ms with the textbook 166.7 Hz step; E1-B (4 ms) gets the
-        // pull-in cap, 0.4 / T_track = 100 Hz, instead of 166.7 Hz.
+        // pull-in cap, 0.2 / T_track = 50 Hz, instead of 166.7 Hz.
         let d = Design::builtin_default();
         let ca = d.resolved_run(1e-3);
         assert_eq!(ca.acq_coherent_periods, 4);
         assert!((ca.acq_doppler_step_hz - 2.0 / 0.012).abs() < 1e-9);
         let e1b = d.resolved_run(4e-3);
         assert_eq!(e1b.acq_coherent_periods, 1);
-        assert!((e1b.acq_doppler_step_hz - 100.0).abs() < 1e-9);
+        assert!((e1b.acq_doppler_step_hz - 50.0).abs() < 1e-9);
         assert!((e1b.t_track_s - 4e-3).abs() < 1e-15);
         // An explicit step is used as written.
         let fixed = d
