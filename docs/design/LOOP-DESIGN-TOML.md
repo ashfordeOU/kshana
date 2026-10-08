@@ -105,6 +105,14 @@ pfa = 1e-3
   200 Hz cap). An explicit `doppler_step_hz` is used as written. `"auto"` is hashed as the
   literal, so the default hash is unchanged; the resolved step is a function of the design, the
   signal and the engine version, and each run records it (next rule).
+* **Primary-only acquisition.** A caller that acquires with a primary-only replica at one
+  coherent period (the matrix harness did, for the tiered signals) searches a main lobe
+  `1 / (N · T_code)` wide with bins of at most `0.2 / T_track`, so noise can make the
+  neighbouring bin win and the acquired Doppler can sit one bin off the truth. That is a
+  property of the search, not a defect: the neighbour's residual is one step, at most 0.8 of
+  the FLL's pull-in, so tracking still locks on the true Doppler. A caller that needs the
+  nearest bin should integrate longer (`coherent_periods`) or refine the Doppler after the
+  search.
 * **`carrier.bn_t_max`** (default `0.1`) limits the PLL and FLL noise bandwidths to
   `bn_t_max / T` when the loop update time `T` is longer than 4 ms, so `Bn · T ≤ 0.1`
   (`Design::loop_config_for(code_period_s)`). A 15 Hz PLL and 10 Hz FLL at the 20 ms of GPS L2C
