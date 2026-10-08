@@ -53,7 +53,7 @@ pub mod lock;
 pub mod sink;
 
 pub use bank::{replay, ReplayResult, TrackingBank};
-pub use channel::{Channel, ChannelInit, EpochOutput};
+pub use channel::{Channel, ChannelInit, EpochOutput, MAX_EXTRA_TAPS, MAX_TAP_OFFSET_CHIPS};
 pub use lock::{LockEvent, LockState, SessionChannel, TrackSession};
 
 use self::cn0::BitSyncConfig;
@@ -192,6 +192,11 @@ pub struct LoopConfig {
     /// Early-late correlator spacing `d` (chips); the early and late replicas sit `d/2`
     /// either side of the prompt.
     pub spacing_chips: f64,
+    /// Extra correlator taps: offsets (chips) relative to the prompt, a positive offset
+    /// being early. Each is correlated alongside E/P/L and returned in
+    /// `EpochOutput::extra`; the loops never use them.
+    /// Empty by default.
+    pub extra_taps_chips: Vec<f64>,
     /// Code discriminator.
     pub dll: DllDiscriminator,
     /// Code loop order (1 or 2).
@@ -232,6 +237,7 @@ impl Default for LoopConfig {
             label: "default".into(),
             coherent_periods: 1,
             spacing_chips: 0.5,
+            extra_taps_chips: Vec::new(),
             dll: DllDiscriminator::EarlyMinusLatePower,
             dll_order: 1,
             dll_bn_hz: 2.0,

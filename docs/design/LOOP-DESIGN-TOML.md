@@ -25,6 +25,12 @@ name = "baseline"                        # required, unique in the file; the lab
 coherent_periods = 1                     # code periods per loop update once bit-synchronised
                                          #   (must divide the bit length on a data signal)
 spacing_chips = 0.5                      # early-late spacing d (E and L sit d/2 either side)
+# extra_taps_chips = [0.25, -0.25, 0.75] # optional extra correlator taps (SQM / multi-correlator):
+                                         #   offsets in chips from the prompt, positive = early;
+                                         #   at most 16, each within ±2. Default: none. They are
+                                         #   output only (the loops never use them) and are left
+                                         #   out of the hashed document when empty, so a design
+                                         #   without taps keeps its hash
 
 [design.carrier]
 kind = "fll-assisted-pll"                # "pll" | "fll" | "fll-assisted-pll"
@@ -151,6 +157,24 @@ independent of the recording length. All three formats carry the same fields:
   C/N0 estimate).
   `iq::track::sink::BinaryEpochReader` (Rust) and `kshana.iq_read_epochs` (Python) read
   it back.
+
+**Extra correlator taps.** A design with `[design.integration] extra_taps_chips = [..]`
+adds, to every record, the correlation with the replica `offset` chips ahead of the prompt
+(`+` early, `−` late), over the same span as E/P/L (Rust `EpochOutput.extra`, a list of
+`(offset, value)` in design order). A tap at `+d/2` equals E and a tap at `−d/2` equals L
+bit for bit. One output file has one column set, so every design of a run must list the
+same taps (`iq sweep` refuses a file whose designs differ). Without taps nothing below
+changes: no key, the same fields, 184-byte records.
+* **CSV**: after the usual columns, `x<k>_offset_chips,x<k>_i,x<k>_q` per tap `k`.
+* **JSON Lines**: the header gains `extra_taps_chips` and `fields` lists the tap columns; a
+  record gains `extra`, a list of `{offset_chips, i, q}`.
+* **Binary**: the header gains `extra_taps_chips`, `record_bytes` becomes
+  `184 + 16 × taps`, and each record is followed by `i`, `q` (two little-endian f64) per
+  tap; the offsets are in the header only. A reader checks `record_bytes` against the tap
+  count and an older reader (which expects 184) refuses the file instead of misparsing it.
+CLI: `--extra-taps <chips,...>` on `iq track` (overrides the design); Python
+`iq_track(..., extra_taps=[..])` puts `extra` in each epoch dict; MCP `iq_track`
+`extra_taps_chips` writes them to `epochs_out`.
 
 The fields:
 
