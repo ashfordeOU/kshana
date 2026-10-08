@@ -4,7 +4,7 @@
    The Pro windows are "space" surfaces: dark in both themes, like the site's other consoles,
    so their colours are fixed here rather than taken from the page theme. */
 .pw{--pw-bg:var(--space);--pw-bg2:var(--space-2);--pw-ink:var(--space-ink);--pw-ink2:var(--space-ink-2);--pw-ink3:var(--space-ink-3);--pw-line:var(--space-line);
-  --pw-p:#C3A6FF;--pw-p2:rgba(195,166,255,.2);--pw-a:#FFB224;--pw-g:#3DDC84;--pw-r:#FF6B63;--pw-b:#7FA6FF;--pw-b2:rgba(127,166,255,.3)}
+  --pw-p:#F45CCB;--pw-p2:rgba(244,92,203,.2);--pw-a:#FFB547;--pw-g:#A8EE5E;--pw-r:#FF6A5C;--pw-b:#6A98FF;--pw-b2:rgba(106,152,255,.3)}
 
 /* ---- the section frame */
 .pw-head{display:grid;gap:14px;max-width:920px;margin-bottom:clamp(26px,3vw,40px)}
@@ -70,7 +70,7 @@
 .pw svg .t-v{fill:var(--pw-ink);font-weight:600}
 .pw svg .g{stroke:rgba(255,255,255,.08);stroke-width:1}
 .pw svg .ax{stroke:rgba(255,255,255,.22);stroke-width:1}
-.pw svg .ev{fill:rgba(238,240,250,.3)}
+.pw svg .ev{fill:rgba(234,240,255,.3)}
 .pw svg .fl{fill:none;stroke:var(--pw-p);stroke-width:2.2;stroke-linejoin:round}
 .pw svg .fa{fill:var(--pw-p2)}
 .pw-pt{fill:var(--pw-p);stroke:var(--pw-bg);stroke-width:2;cursor:pointer}
@@ -79,7 +79,7 @@
 .pw svg .ref{fill:var(--pw-b);stroke:var(--pw-bg);stroke-width:1.5}
 .pw svg .band{fill:var(--pw-b2)}
 .pw svg .med{fill:none;stroke:var(--pw-b);stroke-width:2}
-.pw svg .nom{fill:none;stroke:rgba(238,240,250,.75);stroke-width:1.2;stroke-dasharray:3 3}
+.pw svg .nom{fill:none;stroke:rgba(234,240,255,.75);stroke-width:1.2;stroke-dasharray:3 3}
 .pw svg .lim{stroke:var(--pw-r);stroke-width:1.3;stroke-dasharray:6 4}
 .pw svg .share{fill:none;stroke:var(--pw-g);stroke-width:2}
 .pw svg .scrub{stroke:var(--pw-a);stroke-width:1.2}
@@ -171,7 +171,7 @@
 @media (max-width:560px){.cw-cols,.cw-row{grid-template-columns:repeat(var(--n),minmax(0,1fr))}.cw-cols{justify-content:stretch}}
 .cx-map svg{border-radius:8px}
 .pw svg .cx-sea{fill:rgba(255,255,255,.035)}
-.pw svg .cx-land{fill:none;stroke:rgba(238,240,250,.55);stroke-width:.8;stroke-linejoin:round}
+.pw svg .cx-land{fill:none;stroke:rgba(234,240,255,.55);stroke-width:.8;stroke-linejoin:round}
 .cx-ramp{display:inline-flex}.pw-legend .cx-ramp i{width:14px;height:9px;border-radius:0}
 /* job service: the recorded session */
 .sj{list-style:none;margin:12px 12px 0;padding:0;border-radius:10px;border:1px solid var(--pw-line);overflow:hidden}
@@ -236,3 +236,33 @@
 @media (min-width:981px){.pw-amp>div:first-child{position:sticky;top:96px}}
 @media (max-width:640px){.pw svg text{font-size:20px}.pw svg .t-lab{font-size:18px}.pw-tile svg text{font-size:12px}}
 .pw-tile .pw-tiles{align-self:end}.pw-tile .pw-tiles div{min-height:0}
+
+/* ---- Editions #pro on the Observatory page theme (2026-10-07). The section frame follows the page
+   (light or dark ground, panels, ink), as the Home Pro band already does; only the Pro windows,
+   which are charts, stay on the instrument-dark surface. The frame re-points the space and Pro
+   colours to the page's; .pw-win restores them. */
+.pro-band.pw{background:none;color:var(--ink);
+  --space-ink:var(--ink);--space-ink-2:var(--ink-2);--space-ink-3:var(--ink-3);--space-line:var(--line);
+  --pw-ink:var(--ink);--pw-ink2:var(--ink-2);--pw-ink3:var(--ink-3);--pw-line:var(--line);
+  --pw-p:var(--magenta);--pw-p2:var(--magenta-soft);--pw-a:var(--amber);--pw-g:var(--lime);--pw-r:var(--coral);--pw-b:var(--tim);
+  --s-int:var(--coral);--s-spf:var(--magenta);--s-tim:var(--tim);--s-orb:var(--cyan);--s-itg:var(--lime);--s-nav:var(--amber)}
+.pro-band.pw .pw-win{color:#EAF0FF;
+  --space-ink:#EAF0FF;--space-ink-2:#A7B4D2;--space-ink-3:#8190B0;--space-line:rgba(150,175,230,.14);
+  --pw-ink:#EAF0FF;--pw-ink2:#A7B4D2;--pw-ink3:#8190B0;--pw-line:rgba(150,175,230,.14);
+  --pw-p:#F45CCB;--pw-p2:rgba(244,92,203,.2);--pw-a:#FFB547;--pw-g:#A8EE5E;--pw-r:#FF6A5C;--pw-b:#6A98FF;--pw-b2:rgba(106,152,255,.3);
+  --s-int:#FF6A5C;--s-spf:#F45CCB;--s-tim:#6A98FF;--s-orb:#3DDCF7;--s-itg:#A8EE5E;--s-nav:#FFB547}
+.pro-band.pw .pw-principles li,.pro-band.pw .pw-more article{background:var(--panel);border-color:var(--line);border-radius:var(--r);box-shadow:var(--shadow)}
+.pro-band.pw .pw-amp,.pro-band.pw .pw-trio{border-top-color:var(--line)}
+.pro-band.pw .pw-not{border-color:var(--line-2)}
+.pro-band.pw .pw-ladder .fr .pw-ed{background:var(--lime-soft);color:var(--lime);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--lime) 35%,transparent)}
+.pro-band.pw .pw-ladder .pr .pw-ed{background:var(--magenta-soft);box-shadow:inset 0 0 0 1px color-mix(in oklab,var(--magenta) 35%,transparent)}
+.pro-band.pw .pw-trio-tabs button{border-color:var(--line);background:var(--panel);color:var(--ink)}
+.pro-band.pw .pw-trio-tabs button:hover{border-color:color-mix(in oklab,var(--magenta) 45%,var(--line))}
+.pro-band.pw .pw-trio-tabs button[aria-selected="true"]{border-color:var(--magenta);background:var(--magenta-soft);box-shadow:inset 0 -3px 0 var(--magenta)}
+.pro-band.pw .pw-terms{border-color:color-mix(in oklab,var(--magenta) 35%,var(--line));background:linear-gradient(180deg,var(--magenta-soft),var(--panel) 70%)}
+.pro-band.pw .pw-cs{border-left-color:var(--line)}
+.pro-band.pw .pw-cs-h{color:var(--cyan)}
+.pro-band.pw .pw-cs li::before{background:var(--cyan)}
+.pro-band.pw .file-chip{background:var(--panel-2);border-color:var(--line-2)}
+.pro-band.pw .prov-x{border-color:var(--line-2);color:var(--ink-2)}
+@media (max-width:900px){.pro-band.pw .pw-cs{border-top-color:var(--line)}}
