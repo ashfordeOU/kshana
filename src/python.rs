@@ -213,7 +213,7 @@ fn version() -> &'static str {
 // acquisition and tracking engines and the loop designs are the crate's own
 // (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
 
-use crate::iq::acq::{acquire, AcqConfig};
+use crate::iq::acq::{acquire_peak, AcqConfig};
 use crate::iq::cli::{
     build_broadcast_scene, build_chain, build_channel, build_code, build_scene, BroadcastParams,
     ChannelParams, FrontendParams, SceneParams,
@@ -462,8 +462,7 @@ fn iq_acquire<'py>(
     };
     let mut out = Vec::new();
     for code in &codes {
-        let grid = acquire(&samples, &spec, code, &cfg).map_err(PyValueError::new_err)?;
-        let r = grid.result;
+        let r = acquire_peak(&samples, &spec, code, &cfg).map_err(PyValueError::new_err)?;
         out.push(serde_json::json!({
             "code": r.code_name,
             "acquired": r.acquired,
@@ -655,20 +654,20 @@ fn iq_track<'py>(
     let acq = design.acq_config(codes[0].period_s());
     let mut inits = Vec::new();
     for code in &codes {
-        let grid = acquire(&samples, &spec, code, &acq).map_err(PyValueError::new_err)?;
-        if !grid.result.acquired {
+        let found = acquire_peak(&samples, &spec, code, &acq).map_err(PyValueError::new_err)?;
+        if !found.acquired {
             return Err(PyValueError::new_err(format!(
                 "{}: not acquired (statistic {:.2} < threshold {:.2})",
                 code.name(),
-                grid.result.statistic,
-                grid.result.threshold
+                found.statistic,
+                found.threshold
             )));
         }
         let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
             std::sync::Arc::new(code.clone());
         inits.push(ChannelInit::from_acquisition(
             arc,
-            &grid.result,
+            &found,
             &spec,
             0,
             periods_per_bit,
