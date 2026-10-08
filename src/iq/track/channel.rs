@@ -121,6 +121,8 @@ pub struct Channel {
     code: Arc<dyn SpreadingCode + Send + Sync>,
     core: LoopCore,
     fs: f64,
+    /// Where the code's carrier sits in the baseband before Doppler
+    /// ([`SampleSpec::baseband_hz`]).
     if_hz: f64,
     len: f64,
     half_d: f64,
@@ -200,7 +202,7 @@ impl Channel {
         let mut ch = Self {
             core,
             fs: spec.fs_hz,
-            if_hz: spec.if_hz,
+            if_hz: spec.baseband_hz(code.carrier_hz()),
             len,
             half_d: 0.5 * cfg.spacing_chips,
             ppb: init.periods_per_bit.filter(|&p| p > 1),
