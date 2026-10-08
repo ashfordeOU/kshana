@@ -42,6 +42,7 @@
 
 use crate::field_schema::FieldUnit;
 use crate::models::{ClockModel, ErrorModel};
+use crate::palette::chart::{AMBER, BLUE, GRID, INK_3, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -2070,15 +2071,15 @@ pub fn to_svg(r: &TelecomRun) -> String {
         })
         .collect();
     s.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#e0a458\" stroke-width=\"1.2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"1.2\" points=\"{}\"/>",
         pts.join(" ")
     ));
     for b in &r.budgets {
         if b.max_abs_te_ns <= y_max {
             let y = top + ph - ph * b.max_abs_te_ns / y_max;
             s.push_str(&format!(
-                "<line x1=\"{lx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#8c8273\" stroke-dasharray=\"4 3\"/>\
-                 <text x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" fill=\"#8c8273\" text-anchor=\"end\">{:.0} ns</text>",
+                "<line x1=\"{lx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{INK_3}\" stroke-dasharray=\"4 3\"/>\
+                 <text x=\"{:.0}\" y=\"{:.1}\" font-size=\"10\" fill=\"{MUTED}\" text-anchor=\"end\">{:.0} ns</text>",
                 lx + pw,
                 lx + pw - 4.0,
                 y - 3.0,
@@ -2089,15 +2090,15 @@ pub fn to_svg(r: &TelecomRun) -> String {
     if let Some(t0) = r.holdover_start_s {
         let x = lx + pw * (t0 - rec.t0_s) / t_span;
         s.push_str(&format!(
-            "<line x1=\"{x:.1}\" y1=\"{top:.0}\" x2=\"{x:.1}\" y2=\"{:.0}\" stroke=\"#5b8def\" stroke-dasharray=\"2 3\"/>\
-             <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"#5b8def\">holdover</text>",
+            "<line x1=\"{x:.1}\" y1=\"{top:.0}\" x2=\"{x:.1}\" y2=\"{:.0}\" stroke=\"{BLUE}\" stroke-dasharray=\"2 3\"/>\
+             <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{BLUE}\">holdover</text>",
             top + ph,
             x + 3.0,
             top + 12.0
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8c8273\">time ({:.1} h record)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">time ({:.1} h record)</text>",
         lx + pw / 2.0,
         top + ph + 28.0,
         t_span / 3600.0
@@ -2154,8 +2155,8 @@ pub fn to_svg(r: &TelecomRun) -> String {
         while d <= yhi as i32 {
             let y = py(10f64.powi(d));
             s.push_str(&format!(
-                "<line x1=\"{rx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#262019\"/>\
-                 <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#8c8273\" font-size=\"11\">1e{d}</text>",
+                "<line x1=\"{rx:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/>\
+                 <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"11\">1e{d}</text>",
                 rx + rw,
                 rx - 6.0,
                 y + 4.0
@@ -2166,7 +2167,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
         while e <= thi as i32 {
             let x = px(10f64.powi(e));
             s.push_str(&format!(
-                "<text x=\"{x:.1}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8c8273\" font-size=\"11\">1e{e} s</text>",
+                "<text x=\"{x:.1}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"11\">1e{e} s</text>",
                 top + ph + 16.0
             ));
             e += 1;
@@ -2183,12 +2184,12 @@ pub fn to_svg(r: &TelecomRun) -> String {
             )
         };
         if let Some(mc) = &mask_curve {
-            s.push_str(&line(mc, "#8c8273", ""));
+            s.push_str(&line(mc, INK_3, ""));
         }
         let m: Vec<(f64, f64)> = r.mtie.iter().map(|p| (p.tau_s, p.value_ns)).collect();
         let t: Vec<(f64, f64)> = r.tdev.iter().map(|p| (p.tau_s, p.value_ns)).collect();
-        s.push_str(&line(&m, "#e0a458", ""));
-        s.push_str(&line(&t, "#5b8def", " stroke-dasharray=\"5 3\""));
+        s.push_str(&line(&m, AMBER, ""));
+        s.push_str(&line(&t, BLUE, " stroke-dasharray=\"5 3\""));
     }
     s.push_str("</svg>");
     s

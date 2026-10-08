@@ -2753,12 +2753,28 @@ impl Report {
 // HTML rendering
 // ---------------------------------------------------------------------------------------
 
+/// The report stylesheet: the Observatory page theme ([`crate::palette::page_css`]) and
+/// [`STYLE`] with the shared fonts and the print palette filled in.
+fn style() -> String {
+    use crate::palette::{chart, print};
+    let print_vars = format!(
+        "--bg:{p};--fg:{i};--muted:{m};--line:{r};--card:{c};--accent:{i};--val:{i};--mod:{i};--par:{i};",
+        p = print::PAPER,
+        i = print::INK,
+        m = print::MUTED,
+        r = print::RULE,
+        c = print::CARD,
+    );
+    crate::palette::page_css()
+        + &STYLE
+            .replace("__FONT_SANS__", chart::FONT_SANS)
+            .replace("__FONT_MONO__", chart::FONT_MONO)
+            .replace("__PRINT_VARS__", &print_vars)
+}
+
 const STYLE: &str = r#"
-:root{--bg:#fbfaf7;--fg:#1d1a15;--muted:#62594b;--line:#d9d2c5;--card:#f3efe7;--accent:#9a5b22;--val:#1f6f43;--mod:#8a5a00;--par:#5a4f8a;color-scheme:light}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){--bg:#12100c;--fg:#ece6da;--muted:#a79d8c;--line:#3a3328;--card:#1c1914;--accent:#e0a36a;--val:#6fd39b;--mod:#f0c060;--par:#b3a8ee;color-scheme:dark}}
-:root[data-theme="dark"]{--bg:#12100c;--fg:#ece6da;--muted:#a79d8c;--line:#3a3328;--card:#1c1914;--accent:#e0a36a;--val:#6fd39b;--mod:#f0c060;--par:#b3a8ee;color-scheme:dark}
 *{box-sizing:border-box}
-body{margin:0 auto;max-width:980px;padding:24px 16px 48px;background:var(--bg);color:var(--fg);font:15px/1.55 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
+body{margin:0 auto;max-width:980px;padding:24px 16px 48px;background:var(--bg);color:var(--fg);font:15px/1.55 __FONT_SANS__}
 header.top{border-bottom:2px solid var(--accent);padding-bottom:12px;margin-bottom:8px}
 .eyebrow{letter-spacing:.16em;text-transform:uppercase;font-size:.72rem;color:var(--muted);margin:0}
 h1{font-size:1.9rem;line-height:1.2;margin:.2rem 0 .3rem}
@@ -2770,7 +2786,7 @@ h2{font-size:1.25rem;border-bottom:1px solid var(--line);padding-bottom:4px;marg
 h3{font-size:1rem;margin:18px 0 6px}
 p{margin:.4rem 0}
 .note{color:var(--muted);font-size:.85rem}
-.summary{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.84rem;background:var(--card);border-left:3px solid var(--accent);padding:10px 12px;white-space:pre-wrap;overflow-wrap:anywhere}
+.summary{font-family:__FONT_MONO__;font-size:.84rem;background:var(--card);border-left:3px solid var(--accent);padding:10px 12px;white-space:pre-wrap;overflow-wrap:anywhere}
 .cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(170px,1fr));gap:8px;margin:10px 0}
 .card{background:var(--card);border:1px solid var(--line);border-radius:6px;padding:8px 10px}
 .card .k{font-size:.72rem;color:var(--muted);overflow-wrap:anywhere}
@@ -2782,19 +2798,19 @@ td .note,td.note{font-size:inherit}
 th,td{border:1px solid var(--line);padding:4px 7px;text-align:left;vertical-align:top;overflow-wrap:anywhere}
 th{background:var(--card);font-weight:600}
 td.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
-code,.mono{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.8rem;overflow-wrap:anywhere}
+code,.mono{font-family:__FONT_MONO__;font-size:.8rem;overflow-wrap:anywhere}
 .tag{display:inline-block;font-size:.7rem;font-weight:700;letter-spacing:.05em;padding:1px 6px;border-radius:4px;border:1px solid currentColor;white-space:nowrap}
 .tag.VALIDATED{color:var(--val)}.tag.MODELLED{color:var(--mod)}.tag.PARTNER{color:var(--par)}.tag.PARTIAL{color:var(--mod)}
 figure{margin:12px 0;text-align:center}
 figure img{max-width:100%;height:auto;border:1px solid var(--line);border-radius:6px}
 figure svg{max-width:100%;height:auto}
 figcaption{font-size:.8rem;color:var(--muted)}
-svg .ax{stroke:var(--line)}svg .bar{fill:var(--accent);opacity:.8}svg .pt{fill:var(--fg)}svg text{fill:var(--muted);font:11px system-ui,sans-serif}svg .p{stroke:var(--fg);stroke-dasharray:4 3}
+svg .ax{stroke:var(--line)}svg .bar{fill:var(--accent);opacity:.8}svg .pt{fill:var(--fg)}svg text{fill:var(--muted);font:11px __FONT_SANS__}svg .p{stroke:var(--fg);stroke-dasharray:4 3}
 footer{margin-top:36px;padding-top:10px;border-top:1px solid var(--line);font-size:.8rem;color:var(--muted)}
 @page{margin:15mm 14mm 16mm}
 @media print{
-:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{--bg:#fff;--fg:#000;--muted:#444;--line:#999;--card:#f2f2f2;--accent:#000;--val:#000;--mod:#000;--par:#000;color-scheme:light}
-body{max-width:none;padding:0 1px;font-size:9.5pt;background:#fff}
+:root,:root:not([data-theme="light"]),:root[data-theme="dark"]{__PRINT_VARS__color-scheme:light}
+body{max-width:none;padding:0 1px;font-size:9.5pt;background:var(--bg)}
 nav.toc{display:none}
 h1{font-size:18pt}h2{font-size:12.5pt;break-after:avoid-page;page-break-after:avoid}h3{break-after:avoid-page;page-break-after:avoid}
 section{margin-top:14pt}
@@ -2803,7 +2819,7 @@ table{font-size:7.8pt}
 thead{display:table-header-group}
 tr,figure,.card,.summary{break-inside:avoid;page-break-inside:avoid}
 .wrap{overflow:visible}
-figure img{max-height:110mm;border-color:#999}
+figure img{max-height:110mm;border-color:var(--line)}
 a{color:inherit;text-decoration:none}
 }
 "#;
@@ -2974,7 +2990,7 @@ fn render_html(r: &Report, chart_svg: &str) -> String {
     h.push_str("<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n<meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n");
     h.push_str(&format!("<title>{}</title>\n", esc(&page_title)));
     h.push_str("<style>");
-    h.push_str(STYLE);
+    h.push_str(&style());
     h.push_str("</style>\n</head>\n<body>\n");
 
     // Header.
@@ -3435,7 +3451,8 @@ mod tests {
     fn the_print_palette_overrides_the_dark_palette() {
         // The dark palette's selector is `:root:not([data-theme="light"])`; a print rule
         // with a lower specificity would print light text on the white print background.
-        let print = &STYLE[STYLE.find("@media print").expect("print block")..];
+        let style = style();
+        let print = &style[style.find("@media print").expect("print block")..];
         assert!(print.contains(r#":root:not([data-theme="light"])"#));
     }
 
