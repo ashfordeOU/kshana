@@ -36,12 +36,11 @@ for (const m of ['<svg xmlns="http://www.w3.org/2000/svg"><text>a &amp; b</text>
   const root = el("svg", { viewBox: "0 0 10 10", width: "10", style: "fill:#fff", class: "c-bg" }, [
     el("g", { transform: "translate(1 2)" }, [el("path", { d: "M0 0L1 1", stroke: "var(--s-tim)" }), el("text", { x: "1", y: "2" }, [], "label")]),
     el("use", { href: "#icon", "xlink:href": "#icon" }),
-    el("style", {}, [], ".c-line{fill:none}.g{fill:url(#grad)}"),
     el("animate", { attributeName: "opacity", values: "0;1", dur: "1s" }),
     el("path", { style: "fill:url( '#grad' )", d: "M0 0" }),
   ]);
   assert.equal(sanitizeSvg(root), 0);
-  assert.deepEqual(names(root), ["g", "use", "style", "animate", "path"]);
+  assert.deepEqual(names(root), ["g", "use", "animate", "path"]);
   assert.deepEqual(attrNames(root), ["viewBox", "width", "style", "class"]);
   assert.deepEqual(attrNames(root.children[1]), ["href", "xlink:href"]);
 }
@@ -51,10 +50,10 @@ for (const m of ['<svg xmlns="http://www.w3.org/2000/svg"><text>a &amp; b</text>
   const root = el("svg", {}, [
     el("script", {}, [], "x()"),
     el("g", {}, [el("foreignObject", {}, [el("iframe", {})]), el("path", { d: "M0 0" })]),
-    ...["object", "embed", "audio", "video", "canvas", "link", "meta", "base"].map((n) => el(n, {})),
+    ...["object", "embed", "audio", "video", "canvas", "link", "meta", "base", "style"].map((n) => el(n, {})),
     el("SCRIPT", {}),
   ]);
-  assert.equal(sanitizeSvg(root), 11);
+  assert.equal(sanitizeSvg(root), 12);
   assert.deepEqual(names(root), ["g"]);
   assert.deepEqual(names(root.children[0]), ["path"]);
 }
@@ -99,7 +98,40 @@ for (const m of ['<svg xmlns="http://www.w3.org/2000/svg"><text>a &amp; b</text>
     assert.deepEqual(attrNames(r.children[0]), ["id"]);
   }
   const ok = el("svg", {}, [el("g", { style: "fill:url(#g);stroke:var(--s-tim)" }), el("style", {}, [], ".a{fill:url('#g')}")]);
-  assert.equal(sanitizeSvg(ok), 0);
+  assert.equal(sanitizeSvg(ok), 1, "the style element goes even when harmless, the attribute stays");
+  assert.deepEqual(names(ok), ["g"]);
+  assert.deepEqual(attrNames(ok.children[0]), ["style"]);
+}
+
+// Any attribute that names a url( keeps only url(#id): paint, filters, masks, clips, markers, cursors,
+// animated values.
+{
+  const names_ = ["fill", "stroke", "filter", "mask", "clip-path", "marker-start", "marker-mid", "marker-end", "cursor", "values", "to", "from", "by", "data-x"];
+  const outside = ["url(https://other.example/x)", "url( 'http://other.example/x' )", 'url("//other.example/x")', "url(data:image/png;base64,AA)", "url(x.svg#a)", "url(a.cur), auto", "URL(https://other.example/x)", "url(#a) url(https://other.example/x)", "url(#a", "url("];
+  const inside = ["url(#a)", "url( '#a' )", 'url("#a")', "URL(#a)", "url(#a) url(#b)"];
+  for (const n of names_) {
+    for (const v of outside) {
+      const r = el("svg", {}, [el("rect", { [n]: v, id: "k" })]);
+      assert.equal(sanitizeSvg(r), 1, `${n}=${v}`);
+      assert.deepEqual(attrNames(r.children[0]), ["id"], `${n}=${v}`);
+    }
+    for (const v of inside) {
+      const r = el("svg", {}, [el("rect", { [n]: v, id: "k" })]);
+      assert.equal(sanitizeSvg(r), 0, `${n}=${v}`);
+    }
+  }
+  // Animated values go through the same rule.
+  const a = el("svg", {}, [el("animate", { attributeName: "fill", values: "url(#a);url(https://other.example/x)" })]);
+  assert.equal(sanitizeSvg(a), 1);
+  assert.deepEqual(attrNames(a.children[0]), ["attributeName"]);
+}
+
+// A style element is never adopted, whatever it holds.
+for (const css of [".a{fill:none}", "", ".a{fill:url(#g)}", "@import 'x'", ".a{background:url(https://other.example/x)}"]) {
+  const r = el("svg", {}, [el("style", {}, [], css), el("g", {}, [el("style", {}, [], css)]), el("path", { d: "M0 0" })]);
+  assert.equal(sanitizeSvg(r), 2, css);
+  assert.deepEqual(names(r), ["g", "path"]);
+  assert.deepEqual(names(r.children[0]), []);
 }
 
 // Animation that aims at a handler, a link or a style is removed; animation of drawing is kept.

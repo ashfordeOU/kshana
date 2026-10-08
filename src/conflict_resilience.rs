@@ -1541,7 +1541,7 @@ fn svg(c: &Computed) -> String {
         w,
         h,
         "Layered-PNT conflict resilience (P7)",
-        "total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · MODELLED priors, VALIDATED MC-&gt;closed-form / copula marginals",
+        "total-loss vs threat intensity (MC vs closed form) · resilience ratio vs denial correlation · MODELLED priors, VALIDATED MC->closed-form / copula marginals",
     ));
 
     // ── Left panel: total-loss probability vs intensity ──
