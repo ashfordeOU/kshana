@@ -112,7 +112,43 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     }
 
     write_outputs(&a, &spec, &cfg, &results)?;
+    if let Some(p) = a.get("--surface") {
+        write_surface(&a, p, &samples, &spec, &codes, &cfg)?;
+    }
     Ok(table(&spec, &cfg, &results))
+}
+
+/// Write the acquisition surface (`--surface`, with `--surface-format csv|json|bin`, else the
+/// path's suffix) of the one code searched.
+fn write_surface(
+    a: &Args,
+    path: &str,
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    codes: &[SignalCode],
+    cfg: &AcqConfig,
+) -> Result<(), Fail> {
+    use crate::iq::acq_surface::{Surface, SurfaceFormat};
+    if codes.len() != 1 {
+        return Err(Fail::Usage(
+            "--surface exports one search surface: give exactly one --prn".into(),
+        ));
+    }
+    let fmt = match a.get("--surface-format") {
+        Some(f) => SurfaceFormat::parse(f).map_err(Fail::Usage)?,
+        None => SurfaceFormat::from_path(path).ok_or_else(|| {
+            Fail::Usage(format!(
+                "--surface {path}: name the format with --surface-format csv|json|bin, or end \
+                 the path in .csv, .json or .bin"
+            ))
+        })?,
+    };
+    let surface = Surface::compute(samples, spec, &codes[0], cfg).map_err(Fail::Run)?;
+    let mut w = std::io::BufWriter::new(
+        std::fs::File::create(path).map_err(|e| Fail::Run(format!("{path}: {e}")))?,
+    );
+    surface.write(&mut w, fmt)?;
+    Ok(())
 }
 
 /// Write the optional `--json` and `--csv` artifacts.
