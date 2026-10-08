@@ -24,6 +24,15 @@ breaking changes are called out explicitly.
   hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
   design notes now say so; the released entries are left as they were published. No
   behaviour changes.
+- **Known limitation: commensurate sampling.** At a sample rate that is an integer or
+  half-integer multiple of the chip rate, the samples sit on the same chip phases in every
+  chip, and the code discriminator becomes a staircase. On a synthetic GPS L1 C/A signal at
+  45 dB-Hz with 0.5-chip spacing, 2.046 MHz (2 samples/chip) gives ≈ 0.09 chip (≈ 26 m)
+  RMS code error and a −0.09 chip bias, against ≈ 0.003 chip at an incommensurate rate. The
+  NWPR C/N0 reads ≈ 2.4 dB low there. At 4.092 MHz it depends on the spacing and the code
+  Doppler. At 0.5 chip it is harmless at 1500 Hz Doppler but 2× with a 0.011 chip bias at
+  0 Hz, and at 0.25 or 0.1 chip it is 8–10× the code error. Carrier tracking is unaffected.
+  `docs/design/iq-notes/receiver.md` has the measurements.
 
 ### Added
 
@@ -42,9 +51,9 @@ breaking changes are called out explicitly.
   goes only to files the caller names. The tools run the same code path as the CLI through a
   new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
   printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
-  `iq::cli::signal_names` are now public too. Software-only and additive: no transmit, no
-  interference or spoofing waveform synthesis, no new dependencies. `server.json` declares
-  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  `iq::cli::signal_names` are now public too. Software-only and additive: the IQ layer adds no
+  interference or spoofer synthesis, nothing is ever transmitted, and there are no new
+  dependencies. `server.json` declares the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
   generate a short two-satellite scene and check acquisition against the scene's own truth
   sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
   and the disabled state.
