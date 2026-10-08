@@ -1334,3 +1334,92 @@ fn rinex_text(tl: &kshana::receiver_trust::Timeline) -> String {
     }
     s
 }
+
+/// `--extra-taps` adds correlator taps to the epoch output (CSV columns here), changes the
+/// design's hash, and leaves the tapless output as it was; a sweep whose designs disagree
+/// on taps is refused.
+#[test]
+fn extra_taps_reach_the_epoch_output_and_a_disagreeing_sweep_is_refused() {
+    let dir = scratch("taps");
+    let iq = dir.join("s.cf32").display().to_string();
+    let p = |n: &str| dir.join(n).display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.6",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--doppler",
+            "800",
+            "--cn0",
+            "46",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    let (plain, tapped, summary) = (p("plain.csv"), p("tapped.csv"), p("sum.json"));
+    let track = |extra: &[&str], out: &str| {
+        let mut v = vec![
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--epochs",
+            out,
+            "--summary",
+            &summary,
+        ];
+        v.extend_from_slice(extra);
+        run(&args(&v))
+    };
+    assert_eq!(track(&[], &plain), 0);
+    let hash_plain = std::fs::read_to_string(&summary).unwrap();
+    assert_eq!(track(&["--extra-taps", "0.25,-0.25,0.75"], &tapped), 0);
+    let hash_tapped = std::fs::read_to_string(&summary).unwrap();
+    assert_ne!(hash_plain, hash_tapped, "the design hash covers the taps");
+
+    let (a, b) = (
+        std::fs::read_to_string(&plain).unwrap(),
+        std::fs::read_to_string(&tapped).unwrap(),
+    );
+    let (ha, hb) = (a.lines().next().unwrap(), b.lines().next().unwrap());
+    let n = kshana::iq::track::sink::EPOCH_FIELDS.len();
+    assert_eq!(ha.split(',').count(), n);
+    assert_eq!(hb.split(',').count(), n + 9);
+    assert!(hb.ends_with("x2_offset_chips,x2_i,x2_q"));
+    // The tapped rows start with the tapless row's columns, and the +0.25 tap is E.
+    for (ra, rb) in a.lines().skip(1).zip(b.lines().skip(1)) {
+        let (ca, cb): (Vec<&str>, Vec<&str>) = (ra.split(',').collect(), rb.split(',').collect());
+        assert_eq!(ca[..], cb[..n]);
+        assert_eq!(cb[n], "0.25");
+        assert_eq!((cb[n + 1], cb[n + 2]), (cb[6], cb[7]), "tap +0.25 is early");
+        assert_eq!(
+            (cb[n + 4], cb[n + 5]),
+            (cb[10], cb[11]),
+            "tap -0.25 is late"
+        );
+    }
+
+    let designs = p("d.toml");
+    std::fs::write(
+        &designs,
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"a\"\n\
+         [[design]]\nname = \"b\"\n[design.integration]\nextra_taps_chips = [0.3]\n",
+    )
+    .unwrap();
+    assert_ne!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs,
+        ])),
+        0
+    );
+}

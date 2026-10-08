@@ -1059,3 +1059,212 @@ fn fll_handover_survey() {
         }
     }
 }
+
+// ---- Extra correlator taps (`extra_taps_chips`). ----
+
+fn tap_run(
+    taps: &[f64],
+    doppler: f64,
+    coherent: usize,
+    noise: bool,
+    seconds: f64,
+) -> Vec<kshana::iq::track::EpochOutput> {
+    tap_run_at(FS, taps, doppler, coherent, noise, seconds)
+}
+
+fn tap_run_at(
+    fs: f64,
+    taps: &[f64],
+    doppler: f64,
+    coherent: usize,
+    noise: bool,
+    seconds: f64,
+) -> Vec<kshana::iq::track::EpochOutput> {
+    let mut src = Synth::at(fs, 11, doppler, 46.0, seconds, vec![]);
+    src.noise = noise;
+    let init = src.init(doppler + 40.0);
+    let cfg = LoopConfig {
+        coherent_periods: coherent,
+        extra_taps_chips: taps.to_vec(),
+        ..LoopConfig::default()
+    };
+    let mut session =
+        TrackSession::new(src.spec(), vec![SessionChannel::from_config(init, cfg)]).unwrap();
+    let mut collect = CollectSink::default();
+    session.run(&mut src, None, &mut collect).unwrap();
+    collect.channels[0].iter().map(|(e, _)| e.clone()).collect()
+}
+
+/// A tap at +d/2 is the early correlator and a tap at −d/2 the late one, bit for bit, also
+/// with a non-zero Doppler (so a non-zero code rate that drifts across the period) and a
+/// multi-period integration.
+#[test]
+fn taps_at_half_the_spacing_equal_early_and_late_bit_for_bit() {
+    for (doppler, coherent) in [(0.0, 1), (2600.0, 1), (-3100.0, 4)] {
+        let epochs = tap_run(&[0.25, -0.25], doppler, coherent, true, 0.8);
+        assert!(epochs.len() > 40, "{} epochs", epochs.len());
+        for e in &epochs {
+            assert_eq!(e.extra.len(), 2);
+            assert_eq!(e.extra[0], (0.25, e.early), "doppler {doppler}");
+            assert_eq!(e.extra[1], (-0.25, e.late), "doppler {doppler}");
+        }
+        assert!(epochs.iter().any(|e| e.code_rate_hz != 1.023e6) || doppler == 0.0);
+    }
+}
+
+/// Taps change nothing the loops see: E/P/L, discriminators and NCO state are identical
+/// with and without them.
+#[test]
+fn taps_do_not_disturb_the_loops() {
+    let with = tap_run(&[0.1, 0.9, -1.4], 1700.0, 1, true, 0.6);
+    let without = tap_run(&[], 1700.0, 1, true, 0.6);
+    assert_eq!(with.len(), without.len());
+    for (a, b) in with.iter().zip(&without) {
+        let mut a = a.clone();
+        assert_eq!(a.extra.len(), 3);
+        a.extra.clear();
+        assert_eq!(&a, b);
+        assert!(b.extra.is_empty());
+    }
+}
+
+/// On a noise-free signal the loops hold the prompt on the correlation peak, so a
+/// symmetric pair of taps sees equal magnitude. (At 7.8 samples per chip: at 2 the replica
+/// is a staircase and a tap at ±0.3 chip need not straddle the peak, the commensurate
+/// sampling limitation in `docs/design/iq-notes/receiver.md`.)
+#[test]
+fn a_symmetric_pair_on_a_clean_signal_is_balanced() {
+    let epochs = tap_run_at(8.0e6, &[0.3, -0.3], 900.0, 1, false, 0.6);
+    let tail = &epochs[epochs.len() / 2..];
+    for e in tail {
+        let (a, b) = (e.extra[0].1.abs(), e.extra[1].1.abs());
+        let p = e.prompt.abs();
+        assert!(p > 0.0);
+        assert!((a - b).abs() / p < 0.02, "{a} vs {b} (prompt {p})");
+    }
+}
+
+fn tap_header(taps: &[f64]) -> EpochHeader {
+    header(1).with_extra_taps(taps)
+}
+
+#[test]
+fn the_writers_carry_the_taps_and_binary_reads_them_back() {
+    let taps = [0.2, -0.2, 0.75];
+    let epochs = tap_run(&taps, -500.0, 1, true, 0.5);
+    let h = tap_header(&taps);
+    assert_eq!(h.record_bytes, 184 + 16 * 3);
+    let (mut csv, mut jsonl, mut bin) = (Vec::new(), Vec::new(), Vec::new());
+    {
+        let mut w1 = CsvEpochWriter::with_extra_taps(&mut csv, 3).unwrap();
+        let mut w2 = JsonlEpochWriter::new(&mut jsonl, &h).unwrap();
+        let mut w3 = BinaryEpochWriter::new(&mut bin, &h).unwrap();
+        use kshana::iq::track::sink::EpochSink;
+        for e in &epochs {
+            w1.epoch(0, e, LockState::Locked).unwrap();
+            w2.epoch(0, e, LockState::Locked).unwrap();
+            w3.epoch(0, e, LockState::Locked).unwrap();
+        }
+        w1.finish().unwrap();
+        w2.finish().unwrap();
+        w3.finish().unwrap();
+    }
+    let want: Vec<EpochRecord> = epochs
+        .iter()
+        .map(|e| EpochRecord::new(0, e, LockState::Locked))
+        .collect();
+    assert_eq!(want[0].extra.len(), 3);
+
+    let reader = BinaryEpochReader::new(std::io::Cursor::new(&bin)).unwrap();
+    assert_eq!(reader.header().extra_taps_chips, taps);
+    let back: Vec<EpochRecord> = reader.map(Result::unwrap).collect();
+    assert_eq!(back, want, "binary round trip with taps is exact");
+
+    let lines: Vec<&str> = std::str::from_utf8(&jsonl).unwrap().lines().collect();
+    assert!(lines[0].contains("\"extra_taps_chips\":[0.2,-0.2,0.75]"));
+    let from_json: Vec<EpochRecord> = lines[1..]
+        .iter()
+        .map(|l| serde_json::from_str(l).unwrap())
+        .collect();
+    assert_eq!(from_json, want);
+
+    let csv = String::from_utf8(csv).unwrap();
+    let mut rows = csv.lines();
+    let cols: Vec<&str> = rows.next().unwrap().split(',').collect();
+    let n = kshana::iq::track::sink::EPOCH_FIELDS.len();
+    assert_eq!(cols.len(), n + 9);
+    assert_eq!(&cols[n..n + 3], ["x0_offset_chips", "x0_i", "x0_q"]);
+    for r in rows {
+        assert_eq!(r.split(',').count(), cols.len());
+    }
+}
+
+/// A header without taps is unchanged: no key, 184-byte records, the 0.34 field list.
+#[test]
+fn a_tapless_header_is_the_old_header() {
+    let h = header(1);
+    assert_eq!(h.record_bytes, 184);
+    assert!(h.extra_taps_chips.is_empty());
+    assert!(!serde_json::to_string(&h).unwrap().contains("extra_taps"));
+    assert_eq!(h.fields, kshana::iq::track::sink::EPOCH_FIELDS);
+}
+
+/// The reader fails loudly on a header whose tap list and record size disagree, which is
+/// what a file from before taps (or a hand-edited one) looks like to the new reader, and
+/// what a tapped file looks like to an old reader (record size ≠ 184).
+#[test]
+fn the_reader_refuses_a_header_whose_record_size_ignores_its_taps() {
+    let mut h = tap_header(&[0.25]);
+    let mut bin = Vec::new();
+    {
+        use kshana::iq::track::sink::EpochSink;
+        let e = tap_run(&[0.25], 0.0, 1, true, 0.1).remove(0);
+        let mut w = BinaryEpochWriter::new(&mut bin, &h).unwrap();
+        w.epoch(0, &e, LockState::Locked).unwrap();
+    }
+    assert!(BinaryEpochReader::new(std::io::Cursor::new(&bin)).is_ok());
+    // The same file with the record size an old reader accepts.
+    h.record_bytes = 184;
+    let mut bad = serde_json::to_vec(&h).unwrap();
+    bad.push(b'\n');
+    let body = &bin[bin.iter().position(|&b| b == b'\n').unwrap() + 1..];
+    bad.extend_from_slice(body);
+    let err = BinaryEpochReader::new(std::io::Cursor::new(&bad))
+        .err()
+        .unwrap();
+    assert!(err.to_string().contains("200"), "{err}");
+    // And the tapped record size is not 184, so an old reader's size check refuses it.
+    assert_ne!(tap_header(&[0.25]).record_bytes, 184);
+}
+
+/// A writer set up for taps refuses an epoch that carries a different number.
+#[test]
+fn a_writer_refuses_an_epoch_with_the_wrong_number_of_taps() {
+    use kshana::iq::track::sink::EpochSink;
+    let e = tap_run(&[], 0.0, 1, true, 0.1).remove(0);
+    let mut bin = Vec::new();
+    let mut w = BinaryEpochWriter::new(&mut bin, &tap_header(&[0.1, 0.2])).unwrap();
+    assert!(w.epoch(0, &e, LockState::Locked).is_err());
+    let mut csv = Vec::new();
+    let mut w = CsvEpochWriter::with_extra_taps(&mut csv, 1).unwrap();
+    assert!(w.epoch(0, &e, LockState::Locked).is_err());
+}
+
+#[test]
+fn bad_taps_are_refused_by_the_channel() {
+    for taps in [vec![f64::NAN], vec![2.5], vec![0.1; 17]] {
+        let src = Synth::new(11, 0.0, 46.0, 0.1, vec![]);
+        let cfg = LoopConfig {
+            extra_taps_chips: taps.clone(),
+            ..LoopConfig::default()
+        };
+        assert!(
+            TrackSession::new(
+                src.spec(),
+                vec![SessionChannel::from_config(src.init(0.0), cfg)]
+            )
+            .is_err(),
+            "{taps:?}"
+        );
+    }
+}

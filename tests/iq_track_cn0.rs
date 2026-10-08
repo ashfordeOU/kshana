@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Streaming M2M4 C/N0 in the tracking channel (`EpochOutput.cn0_m2m4_dbhz`). Bars M1-M4 are
 //! pre-registered in `docs/design/evidence/cn0-m2m4/PREREGISTRATION.md` (commit 3cd91504).
-//! Release mode: `cargo test --release --test iq_track_cn0 -- --ignored --nocapture`.
+//! All four bars run in the normal suite (about 90 s in a debug build, under 10 s in release).
 
 use kshana::iq::cli::build_code;
 use kshana::iq::signals::SignalCode;
@@ -139,9 +139,8 @@ fn l1ca_45() -> Vec<EpochOutput> {
 const NWPR_BASELINE_EPOCHS: usize = 5999;
 const NWPR_BASELINE_CHECKSUM: u64 = 0x05b3caf744da2a2d;
 
-/// M2 and M3. Release (6 s of a 2.5 MS/s stream through the default design).
+/// M2 and M3 (6 s of a 2.5 MS/s stream through the default design).
 #[test]
-#[ignore = "release"]
 fn m2_m3_l1ca_45_dbhz_m2m4_is_nominal_and_nwpr_is_unchanged() {
     let e = l1ca_45();
     assert_eq!(e.len(), NWPR_BASELINE_EPOCHS);
@@ -160,7 +159,6 @@ fn m2_m3_l1ca_45_dbhz_m2m4_is_nominal_and_nwpr_is_unchanged() {
 
 /// M1: GPS L2C CM (20 ms), nominal 40 dB-Hz, PLL 1, 2.5, 5, 10 Hz.
 #[test]
-#[ignore = "release, about a minute"]
 fn m1_l2c_20_ms_m2m4_is_nominal_at_every_pll_bandwidth() {
     let mut worst = 0.0_f64;
     for bw in [1.0, 2.5, 5.0, 10.0] {
