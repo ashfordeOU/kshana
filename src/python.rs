@@ -918,6 +918,77 @@ fn iq_labfit<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
     json_to_py(py, &v)
 }
 
+/// Validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON) given as
+/// a path or as text. Returns the resolved conditions as a dict, with the condition hash
+/// under `hash`. Raises `ValueError` on an invalid file.
+#[pyfunction]
+fn iq_test_conditions<'py>(py: Python<'py>, conditions: &str) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::campaign::TestConditions;
+    let path = std::path::Path::new(conditions);
+    let tc = if !conditions.contains('\n') && path.is_file() {
+        TestConditions::load(path)
+    } else {
+        TestConditions::parse(conditions)
+    }
+    .map_err(PyValueError::new_err)?;
+    let mut v = serde_json::to_value(&tc).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    if let Some(m) = v.as_object_mut() {
+        m.insert("hash".into(), tc.hash().into());
+    }
+    json_to_py(py, &v)
+}
+
+/// Run a lab-replay campaign (`kshana.campaign/1`, a path or TOML text; relative paths in
+/// text resolve against the working directory) into `out_dir`, exactly as
+/// `kshana iq campaign` does: cells already done are skipped unless `resume` is false,
+/// `max_cells` bounds how many pending cells run now, and `dry_run` only plans. Returns the
+/// run summary as a dict (cell counts, failures, and the `digest` once every cell is
+/// done). The GIL is released while the campaign runs. Raises `ValueError` on an invalid
+/// campaign and `RuntimeError` when the run cannot proceed.
+#[pyfunction]
+#[pyo3(signature = (campaign, out_dir, workers=0, resume=true, max_cells=None, dry_run=false))]
+fn iq_campaign<'py>(
+    py: Python<'py>,
+    campaign: &str,
+    out_dir: &str,
+    workers: usize,
+    resume: bool,
+    max_cells: Option<usize>,
+    dry_run: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::campaign::{run, LoadedCampaign, RunOptions};
+    let path = std::path::Path::new(campaign);
+    let loaded = if !campaign.contains('\n') && path.is_file() {
+        LoadedCampaign::load(path)
+    } else {
+        LoadedCampaign::load_text(campaign, std::path::Path::new("./campaign.toml"))
+    }
+    .map_err(PyValueError::new_err)?;
+    let opts = RunOptions {
+        workers,
+        no_resume: !resume,
+        max_cells,
+        dry_run,
+    };
+    let out = std::path::PathBuf::from(out_dir);
+    let summary = py
+        .detach(|| run(&loaded, &out, &opts))
+        .map_err(pyo3::exceptions::PyRuntimeError::new_err)?;
+    let v = serde_json::to_value(&summary).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Rebuild a campaign's scorecards, HTML report and digest from the cells in `out_dir`.
+/// Returns a dict with the cell and row counts, the rows failing a bar, and the `digest`
+/// (None until every cell is done). Raises `RuntimeError` when `out_dir` holds no campaign.
+#[pyfunction]
+fn iq_campaign_report<'py>(py: Python<'py>, out_dir: &str) -> PyResult<Bound<'py, PyAny>> {
+    let s = crate::iq::campaign::report::build(std::path::Path::new(out_dir))
+        .map_err(pyo3::exceptions::PyRuntimeError::new_err)?;
+    let v = serde_json::to_value(&s).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
 /// Apply a receiver front-end / interference-mitigation chain to complex samples
 /// (`i`/`q` lists sampled at `fs_hz`) and return the filtered samples as `samples_i` /
 /// `samples_q`. The stages mirror `kshana iq frontend`: an optional band-pass
@@ -1018,6 +1089,9 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(iq_frontend, m)?)?;
     m.add_function(wrap_pyfunction!(iq_monitor, m)?)?;
     m.add_function(wrap_pyfunction!(iq_signals, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_test_conditions, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_campaign, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_campaign_report, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
 }
