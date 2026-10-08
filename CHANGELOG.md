@@ -291,6 +291,15 @@ breaking changes are called out explicitly.
   sidecar writes `k = -7` as `sat_id` 4294967289 (`k + 2^32`). Read it back as `k` with an
   `i32` cast.
 
+### Known limitations
+
+- **The NWPR C/N0 reads low at high per-prompt C/N0·T, and BOC(1,1) at 5 MS/s loses about
+  1 dB.** NWPR is unbiased on ideal prompts, but the loop's own PLL jitter costs about
+  8 dB × Bn·T (−0.24/−0.44/−0.77/−1.58 dB at 1/2.5/5/10 Hz and 20 ms; about −1 dB at the
+  default `bn_t_max = 0.1`); M2M4 is insensitive. BeiDou B1C data at 5 MS/s also loses about
+  1 dB of prompt power to band-limiting (use 10 MS/s or more). Neither is an estimator defect;
+  the signal-matrix T5 rows for GPS L2C and BeiDou B1C stay ignored findings with these causes.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added

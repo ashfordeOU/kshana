@@ -122,6 +122,10 @@ pfa = 1e-3
   canonical JSON at its default, so a design that does not set it keeps its hash (the default
   stays `33261cd1…8e80`); any other value, 0 included, is part of the hash. `loop_config()` is
   the design as written, unclamped.
+  The clamp has a reporting side effect: the NWPR C/N0 reads low by about 8 dB × Bn·T under the
+  loop's own PLL jitter (−0.24/−0.44/−0.77/−1.58 dB at 1/2.5/5/10 Hz and T = 20 ms), so at
+  `Bn·T = 0.1` it reads about 1 dB low; M2M4 is insensitive to it
+  (`docs/design/iq-notes/receiver.md`, C/N0 estimator limits).
 * **Resolved values are recorded.** The epoch header (`resolved`, one entry per channel, absent
   in older files) and the `--summary` channel entries (`resolved`) carry what the design resolved
   to for that signal: `acq_coherent_periods`, `acq_doppler_step_hz`, `t_track_s`, `pll_bn_hz`

@@ -78,6 +78,35 @@ In-module unit tests (`cargo test --lib iq::`): Ward natural frequencies, DLL di
 slopes on the ideal triangle, Costas/atan2 bit-flip behaviour, FLL on a known rotation,
 NWPR/PLI limits, histogram bit sync on clean data.
 
+## C/N0 estimator limits (stated)
+
+- **NWPR is unbiased on ideal prompts at any per-prompt SNR** `ρ = C/N0 · T` (Monte Carlo,
+  K = 20: bias +0.02 dB, standard deviation 0.32 dB at 10 windows and 0.14 dB at the default 50).
+  It reads low when the K-prompt coherent sum loses coherence, and its sensitivity grows with
+  `ρ`: a 1° RMS phase wobble costs 0.06 dB at `ρ` = 32 (GPS L1 C/A) and 0.40 dB at `ρ` = 316
+  (GPS L2C at 20 ms, BeiDou B1C at 10 ms). The tracking loop's own PLL jitter is such a wobble,
+  so NWPR reads low by about **8 dB × Bn·T** (the ideal-loop value is 4.6 dB × Bn·T; the digital
+  loop peaks more at Bn·T ≈ 0.1). Measured on the GPS L2C CM scene at 45 dB-Hz, T = 20 ms, with a
+  pure second-order PLL (nominal 41.99 dB-Hz):
+
+  | PLL Bn (Hz) | Bn·T | NWPR error (dB) |
+  |---|---|---|
+  | 1 | 0.02 | −0.24 |
+  | 2.5 | 0.05 | −0.44 |
+  | 5 | 0.1 | −0.77 |
+  | 10 | 0.2 | −1.58 |
+
+  The DLL bandwidth does not matter (0.5 and 2 Hz: 41.27 and 41.22 dB-Hz at 5 Hz PLL), and the
+  M2M4 estimate does not move (42.71 to 42.72 dB-Hz in every row). A single 10-window estimate
+  also scatters by about 0.3 dB. At the default `bn_t_max = 0.1` the NWPR therefore reads about
+  1 dB low on a 10 to 20 ms code at 45 dB-Hz. The code-lock decision uses the NWPR C/N0 at
+  26 dB-Hz, where the effect is negligible; a reader who wants an unbiased high-C/N0 figure
+  should use M2M4, or the NWPR with a narrower PLL.
+- **BOC(1,1) at 5 MS/s loses about 1 dB of prompt power to band-limiting.** For BeiDou B1C data
+  the acquisition statistic is 413, 451, 508 and 523 at 5, 7.3, 10 and 20 MS/s, and M2M4 reads
+  43.66, 44.25, 44.65 and 44.18 dB-Hz against 45 nominal. Both estimators see it. It is
+  physical, not an estimator defect: use a higher rate (10 MS/s or more) to judge BOC C/N0.
+
 ## Limitations (stated)
 
 - Point-sampled replica, no front-end filter or quantisation (stream 4); DLL scalings
