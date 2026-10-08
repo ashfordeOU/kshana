@@ -280,6 +280,22 @@ breaking changes are called out explicitly.
   gps-sdr-sim's integer sine table, gains, zero initial carrier phase and truncated LNAV
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
+- **C/N0 profiles in synthetic scenes (0.34.0).** `iq::channel::cn0_profile` schedules
+  time-varying C/N0 per satellite in Kshana's own scenes, as dB offsets relative to the
+  scene's C/N0. Shapes: step, ramp, piecewise linear, and seeded scintillation-like Rice
+  fades with a stated S4 and decorrelation time. They are applied through the existing scene
+  channel hook (`Cn0ProfileChannel`, composing with the ionosphere, troposphere,
+  scintillation and multipath effects), with no change to the scene core. The truth
+  sidecar's `cn0_dbhz` follows the profile.
+  - Surfaces: `kshana iq scene … --cn0-profile <toml>` and
+    `kshana.iq_scene(…, cn0_profile="<toml>")`.
+  - What it is for: loops, monitors and campaign scoring can be stress-tested against a
+    known truth. It changes the strength of the legitimate signals only.
+  - Checks (`tests/iq_cn0_profile.rs`). Bars: fade mean intensity within 5 % of 1, S4 within
+    8 % of target (at S4 = 0.3, 0.7 and 1), intensity correlation above 0.9 at 0.05 τ and
+    below 0.05 at 5 τ; truth exactly the stated C/N0 plus the profile; a tracked NWPR C/N0
+    drop within 0.7 dB of a 6 dB step. Measured: S4 within 1.3 % of target, and a tracked
+    drop of 6.26 dB.
 
 ### Changed
 
