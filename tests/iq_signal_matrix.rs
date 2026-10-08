@@ -316,24 +316,35 @@ fn run(case: &Case) -> Outcome {
     scene.generate(&mut sink, &mut truth).unwrap();
     let samples = sink.samples;
 
-    // Acquisition over the first replica period.
+    // The engine's default hand-off search. A code with a secondary code is acquired with
+    // its FULL tiered replica (what `iq track` and the loop designs do), one coherent block of
+    // `auto_coherent_periods` of the full period; a plain code is acquired as transmitted.
+    // The step is `default_step_hz` for the one-period loop update the track below runs at
+    // (the primary period for a tiered code, which the loops track primary-only).
+    // Exception: the 100 ms tiered codes (Galileo E1-C, E5a-Q) keep the primary-only replica.
+    // The default search on a 100 ms full period keeps the whole Doppler x code-phase grid,
+    // about 2.4 GB for E1-C and 12 GB for E5a-Q at 25 MS/s (601 bins), minutes of FFT time and
+    // more memory than the test machine has (defect D12, with W1b's grid work).
     let period = case.rx.period_s();
-    // The engine's default hand-off search: the coherent length is `auto_coherent_periods`
-    // of the FULL code period (4 periods for a 1 ms code, 1 for 4 ms and longer) and the step
-    // is `default_step_hz` for the one-period loop update the track below uses.
+    let tiered = !case.secondary.is_empty();
+    let full_replica = tiered && case.tx.period_s() <= 0.025;
+    let acq_code: &SignalCode = if full_replica { &case.tx } else { &case.rx };
     let n_coh = auto_coherent_periods(case.tx.period_s());
-    let step = default_step_hz(period, n_coh, period);
+    let step = default_step_hz(acq_code.period_s(), n_coh, period);
     let acq_cfg = AcqConfig {
         coherent_periods: n_coh,
-        // Amendment v2 (a): tiered codes sum 4 blocks so a secondary flip cannot sink them all.
-        noncoherent: if case.secondary.is_empty() { 1 } else { 4 },
+        // Amendment v2 (a): a primary-only replica of a tiered code sums 4 blocks so a
+        // secondary flip cannot sink them all; the full replica contains the secondary code.
+        noncoherent: if tiered && !full_replica { 4 } else { 1 },
         doppler_max_hz: 2000.0,
         doppler_step_hz: step,
         pfa: 1e-3,
     };
-    let grid = acquire(&samples, &spec, &case.rx, &acq_cfg).unwrap();
-    let r = grid.result.clone();
+    let grid = acquire(&samples, &spec, acq_code, &acq_cfg).unwrap();
+    let mut r = grid.result.clone();
     let rx_len = case.rx.len_chips() as f64;
+    // The tracker's replica is the primary code: the full-code phase modulo its length.
+    r.code_phase_chips = r.code_phase_chips.rem_euclid(rx_len);
     let t0 = truth.iter().find(|t| t.t_s == 0.0).unwrap();
     let doppler_err_hz = r.doppler_hz - t0.doppler_hz;
     let code_err_chips = wrap_diff(r.code_phase_chips, t0.code_phase_chips, rx_len);
