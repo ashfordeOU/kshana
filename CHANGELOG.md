@@ -13,20 +13,7 @@ breaking changes are called out explicitly.
 
 ### Security
 
-- **Text a scenario carries into a chart is escaped, and the Studio adopts only drawing.**
-  Strings from a scenario (a clock's `id`, a sweep's `scale`, titles) were written into chart
-  SVG as they stood in several chart builders. One `chart::esc` now escapes `&`, `<`, `>` and
-  both quote marks, the `frame_open`, `y_axis` and `panel_axes` helpers escape the text they are
-  given (callers pass plain text), the clock-id and sweep sites use it, and seven private
-  copies that escaped fewer characters are gone. Chart bytes change only where text contains
-  one of those characters; no bundled chart, recorded result or published number moves.
-  `tests/chart_text_escaped.rs` runs the bundled scenarios with markup in each string that
-  reaches a chart, and checks that no bundled chart is escaped twice. In the Studio,
-  `lib/svgsafe.mjs` reduces chart markup to drawing before it is adopted (no scripts, embedded
-  documents, event handlers, outside links or `url()` values, `<style>` elements or
-  declarations), the address keeps only the parameters the Studio reads, lookups keyed by a
-  scenario's `kind` answer only for their own keys, and a scenario's text is fetched only for
-  a name in the catalogue.
+- **Chart text and Studio chart adoption hardened.** Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
 
 ## [0.33.0] - 2026-10-08
 
