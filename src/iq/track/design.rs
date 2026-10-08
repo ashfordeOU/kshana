@@ -30,6 +30,7 @@
 //! This module is the stable interface the campaign runner builds on:
 //! [`DesignFile::parse`], [`DesignFile::designs`] and [`Design`]'s accessors.
 
+use super::channel::{MAX_EXTRA_TAPS, MAX_TAP_OFFSET_CHIPS};
 use super::cn0::BitSyncConfig;
 use super::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};
 use super::{CarrierLoop, FllAssist, FllGate, LoopConfig};
@@ -220,6 +221,7 @@ struct RawDesign {
 struct RawIntegration {
     coherent_periods: Option<usize>,
     spacing_chips: Option<f64>,
+    extra_taps_chips: Option<Vec<f64>>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -289,6 +291,10 @@ struct RawAcquisition {
 struct Integration {
     coherent_periods: usize,
     spacing_chips: f64,
+    /// Omitted from the canonical form when empty, so a design without taps hashes as
+    /// it did before taps existed.
+    #[serde(skip_serializing_if = "Vec::is_empty")]
+    extra_taps_chips: Vec<f64>,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
@@ -428,6 +434,7 @@ impl Resolved {
             integration: Integration {
                 coherent_periods: c.coherent_periods,
                 spacing_chips: c.spacing_chips,
+                extra_taps_chips: c.extra_taps_chips.clone(),
             },
             carrier: Carrier {
                 kind: kind.into(),
@@ -471,6 +478,9 @@ impl Resolved {
         let i = &raw.integration;
         set(&mut self.integration.coherent_periods, i.coherent_periods);
         set(&mut self.integration.spacing_chips, i.spacing_chips);
+        if let Some(t) = &i.extra_taps_chips {
+            self.integration.extra_taps_chips = t.clone();
+        }
 
         let c = &raw.carrier;
         if let Some(k) = &c.kind {
@@ -618,6 +628,22 @@ impl Resolved {
         if !(d.is_finite() && d > 0.0 && d <= 2.0) {
             return Err(format!(
                 "integration.spacing_chips must lie in (0, 2] (got {d})"
+            ));
+        }
+        let taps = &self.integration.extra_taps_chips;
+        if taps.len() > MAX_EXTRA_TAPS {
+            return Err(format!(
+                "integration.extra_taps_chips holds at most {MAX_EXTRA_TAPS} offsets (got {})",
+                taps.len()
+            ));
+        }
+        if let Some(t) = taps
+            .iter()
+            .find(|t| !(t.is_finite() && t.abs() <= MAX_TAP_OFFSET_CHIPS))
+        {
+            return Err(format!(
+                "integration.extra_taps_chips offsets must be finite and within \
+                 ±{MAX_TAP_OFFSET_CHIPS} chips (got {t})"
             ));
         }
         if let (Some(off), Some(on)) = (self.carrier.fll_off_pli, self.carrier.fll_on_pli) {
@@ -861,6 +887,7 @@ impl Design {
             label: self.name.clone(),
             coherent_periods: r.integration.coherent_periods,
             spacing_chips: r.integration.spacing_chips,
+            extra_taps_chips: r.integration.extra_taps_chips.clone(),
             dll: dll_disc(&r.code.discriminator).unwrap_or(DllDiscriminator::EarlyMinusLatePower),
             dll_order: r.code.order,
             dll_bn_hz: r.code.bw_hz,
@@ -1095,6 +1122,48 @@ mod tests {
             d.hash(),
             "33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80"
         );
+    }
+
+    #[test]
+    fn extra_taps_join_the_hash_only_when_set() {
+        let base = format!("{HEAD}[[design]]\nname = \"a\"\n");
+        let plain = DesignFile::parse(&base).unwrap();
+        let empty = DesignFile::parse(&format!(
+            "{base}[design.integration]\nextra_taps_chips = []\n"
+        ))
+        .unwrap();
+        let tapped = DesignFile::parse(&format!(
+            "{base}[design.integration]\nextra_taps_chips = [0.25, -0.25]\n"
+        ))
+        .unwrap();
+        assert_eq!(plain.designs()[0].hash(), empty.designs()[0].hash());
+        assert_eq!(
+            plain.designs()[0].hash(),
+            Design::builtin_default().hash(),
+            "an empty tap list leaves the default's hash alone"
+        );
+        assert_ne!(plain.designs()[0].hash(), tapped.designs()[0].hash());
+        assert_eq!(
+            tapped.designs()[0].loop_config().extra_taps_chips,
+            vec![0.25, -0.25]
+        );
+        let canon = |d: &Design| canonical_json(&serde_json::to_value(&d.resolved).unwrap());
+        assert!(!canon(&plain.designs()[0]).contains("extra_taps_chips"));
+        assert!(canon(&tapped.designs()[0]).contains("\"extra_taps_chips\":[0.25,-0.25]"));
+    }
+
+    #[test]
+    fn bad_extra_taps_are_refused() {
+        let bad = |t: &str| {
+            DesignFile::parse(&format!(
+                "{HEAD}[[design]]\nname = \"a\"\n[design.integration]\nextra_taps_chips = {t}\n"
+            ))
+            .unwrap_err()
+        };
+        assert!(bad("[3.0]").contains("extra_taps_chips"));
+        assert!(bad("[nan]").contains("extra_taps_chips"));
+        let many = format!("[{}]", vec!["0.1"; 17].join(","));
+        assert!(bad(&many).contains("at most 16"));
     }
 
     #[test]
