@@ -146,6 +146,14 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **CW/narrowband jammer Q is now 1.0, not 1.5.** The textbook value for a tone on the
+  carrier is 1 (a tone keeps the signal's spectral peak, `κ = T_c`, `Q = 1/(R_c κ)`); the
+  old 1.5 made a tone less damaging than broadband noise at equal J/S. Output change:
+  about −1.8 dB effective C/N0 under CW/narrowband jammers at high J/S in the `jamming`,
+  `lunar-jamming` and interop kinds (the bundled `spectrum` example's tone: 17.98 dB-Hz
+  from the table, was 19.74). Broadband Q stays 1.0 (conservative, about 3 dB below the
+  textbook ~2) pending 0.34 review. Set `q_override` to keep the old 1.5.
+
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
   a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
   had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
