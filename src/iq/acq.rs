@@ -80,6 +80,37 @@ pub fn auto_coherent_periods(code_period_s: f64) -> usize {
     ((AUTO_COHERENT_S / code_period_s - 1e-9).ceil() as usize).max(1)
 }
 
+/// The default Doppler step is capped at `PULL_IN_STEP_MARGIN / T_track`: `0.2 / T_track`,
+/// which is 0.8 of the default Atan2 FLL's pull-in `1 / (4 T_track)`. The cap is a step, not a
+/// half step, because the acquisition's winning bin is not always the nearest one: with a
+/// short coherent time the main lobe (`1 / (N T_code)` wide) is much wider than a bin, and
+/// noise can make the neighbouring bin win, leaving a residual of up to a whole step.
+/// 0.4 (half-step residual at 80 % of pull-in) was tried first; on Galileo E1-B it false-locked
+/// in 1 of 42 noisy runs, and with 1 ms coherent GPS L1 C/A a neighbouring bin 350 Hz off won
+/// and tracking locked at +500 Hz. 0.25 and 0.2 gave no false lock in the same 42 runs.
+pub const PULL_IN_STEP_MARGIN: f64 = 0.2;
+
+/// The default Doppler step (Hz) for the acquisition that hands a channel to tracking.
+///
+/// The textbook step `2 / (3 · N · T_code)` leaves a worst-case residual of half a step,
+/// `1 / (3 · N · T_code)`, and up to a whole step when the neighbouring bin wins. The default
+/// carrier FLL (two-quadrant `atan2`) pulls in only `±1 / (4 T_track)`, so with `N = 1`
+/// (every code of 4 ms or longer) the residual is outside the pull-in and the loop can lock
+/// `1 / T_track` away. The step is therefore also capped at [`PULL_IN_STEP_MARGIN`]
+/// `/ T_track`. For the 1 ms codes (`N = 4`, 166.7 Hz against a 200 Hz cap) the textbook step
+/// is already the smaller and is returned unchanged.
+///
+/// `t_track_s` is the tracking loop's integration time (code periods per loop update times
+/// the full code period); a non-positive or non-finite value gives the textbook step.
+pub fn default_step_hz(code_period_s: f64, n_coh: usize, t_track_s: f64) -> f64 {
+    let textbook = 2.0 / (3.0 * n_coh.max(1) as f64 * code_period_s);
+    if t_track_s.is_finite() && t_track_s > 0.0 {
+        textbook.min(PULL_IN_STEP_MARGIN / t_track_s)
+    } else {
+        textbook
+    }
+}
+
 impl AcqConfig {
     /// The Doppler grid (Hz), ascending.
     pub fn doppler_bins(&self) -> Vec<f64> {
@@ -456,7 +487,7 @@ pub fn predicted_pd(cfg: &AcqConfig, period_s: f64, cn0_dbhz: f64, pfa_cell: f64
 
 #[cfg(test)]
 mod tests {
-    use super::auto_coherent_periods;
+    use super::{auto_coherent_periods, default_step_hz, PULL_IN_STEP_MARGIN};
 
     #[test]
     fn the_auto_coherent_length_is_about_four_milliseconds() {
@@ -466,5 +497,64 @@ mod tests {
         assert_eq!(auto_coherent_periods(100.0e-3), 1); // Galileo E1-C, E5a-Q (tiered)
         assert_eq!(auto_coherent_periods(1.5e-3), 3);
         assert_eq!(auto_coherent_periods(0.0), 1);
+    }
+
+    /// Pre-registered bars (D8): for every signal, the hand-off residual is at most 0.8 of the
+    /// default Atan2 FLL's pull-in, 1 / (4 T), both when the nearest bin wins (half the default
+    /// step) and when the neighbouring bin wins (a whole step), for
+    /// the full-period code and for the primary-only replica, with the default one-period
+    /// loop update and with five periods per update.
+    #[test]
+    fn the_default_step_leaves_a_residual_inside_the_fll_pull_in() {
+        use crate::iq::signals::{beidou, galileo, glonass, gps};
+        use crate::iq::SpreadingCode;
+        let codes = [
+            gps::l1ca(3).unwrap(),
+            gps::l5_i5(3).unwrap(),
+            gps::l5_q5(3).unwrap(),
+            gps::l2c_cm(3).unwrap(),
+            galileo::e1b(3).unwrap(),
+            galileo::e1c(3).unwrap(),
+            galileo::e5a_i(3).unwrap(),
+            galileo::e5a_q(3).unwrap(),
+            beidou::b1i(6).unwrap(),
+            beidou::b1c_data(19).unwrap(),
+            glonass::l1of(1).unwrap(),
+        ];
+        let mut worst: f64 = 0.0;
+        for code in &codes {
+            for rx in [code.clone(), code.primary_only()] {
+                let t_code = rx.period_s();
+                let n = auto_coherent_periods(t_code);
+                for periods in [1usize, 5] {
+                    let t_track = periods as f64 * t_code;
+                    let step = default_step_hz(t_code, n, t_track);
+                    let pull_in = 1.0 / (4.0 * t_track);
+                    // Bar 1: the nearest bin wins, residual half a step.
+                    // Bar 2: the neighbouring bin wins, residual a whole step.
+                    worst = worst.max(step / pull_in);
+                    for (what, residual) in [("half-step", step / 2.0), ("neighbour", step)] {
+                        assert!(
+                            residual <= 0.8 * pull_in + 1e-9,
+                            "{} ({periods} period(s)): {what} residual {residual} Hz vs pull-in {pull_in} Hz",
+                            rx.name()
+                        );
+                    }
+                }
+            }
+        }
+        assert!(worst > 0.0);
+    }
+
+    #[test]
+    fn the_cap_changes_nothing_for_the_one_millisecond_codes() {
+        // 1 ms codes: N = 4, the textbook 166.7 Hz step is already below 0.2 / T = 200 Hz.
+        let t = 1.0e-3;
+        assert_eq!(default_step_hz(t, 4, t), 2.0 / (3.0 * 4.0 * t));
+        // E1-B: N = 1, T = 4 ms: the cap (50 Hz) replaces the textbook 166.7 Hz.
+        assert!((default_step_hz(4.0e-3, 1, 4.0e-3) - 50.0).abs() < 1e-9);
+        assert_eq!(PULL_IN_STEP_MARGIN, 0.2);
+        // No usable tracking time: the textbook step.
+        assert_eq!(default_step_hz(4.0e-3, 1, 0.0), 2.0 / (3.0 * 4.0e-3));
     }
 }

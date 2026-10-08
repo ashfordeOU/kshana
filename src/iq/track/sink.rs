@@ -89,6 +89,23 @@ pub struct ChannelInfo {
     pub design_hash: String,
 }
 
+/// What a design resolved to for one signal: the values the run actually used where the
+/// design says `auto` or a rule depends on the signal. Recorded so a run can be reproduced
+/// from its output alone.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ResolvedRun {
+    /// Coherent code periods of the acquisition that handed the channel to tracking.
+    pub acq_coherent_periods: usize,
+    /// The acquisition Doppler step (Hz) ([`crate::iq::acq::default_step_hz`] for `auto`).
+    pub acq_doppler_step_hz: f64,
+    /// The tracking loops' integration time (s).
+    pub t_track_s: f64,
+    /// The PLL noise bandwidth (Hz) the loops used, when the carrier loop has a PLL.
+    pub pll_bn_hz: Option<f64>,
+    /// The FLL noise bandwidth (Hz) the loops used, when the carrier loop has an FLL.
+    pub fll_bn_hz: Option<f64>,
+}
+
 /// The header of an epoch output: the first line of the binary form, and the first line
 /// (`{"header": …}`) of the JSON-Lines form. The CSV form has only a column row; its
 /// records carry the channel index, and the channel list is in the run's `--summary`.
@@ -113,6 +130,10 @@ pub struct EpochHeader {
     /// fields; empty (and absent from the header) when the run has none.
     #[serde(default, skip_serializing_if = "Vec::is_empty")]
     pub extra_taps_chips: Vec<f64>,
+    /// What each channel's design resolved to, by channel index (absent when the caller
+    /// does not supply it, and in files written before it existed).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub resolved: Vec<ResolvedRun>,
 }
 
 impl EpochHeader {
@@ -127,6 +148,7 @@ impl EpochHeader {
             engine_version: env!("CARGO_PKG_VERSION").into(),
             recording_sha256: None,
             extra_taps_chips: Vec::new(),
+            resolved: Vec::new(),
         }
     }
 
@@ -141,6 +163,12 @@ impl EpochHeader {
             .chain(tap_fields(taps.len()))
             .collect();
         self.record_bytes = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * taps.len();
+        self
+    }
+
+    /// This header with the per-channel resolved values.
+    pub fn with_resolved(mut self, resolved: Vec<ResolvedRun>) -> Self {
+        self.resolved = resolved;
         self
     }
 }

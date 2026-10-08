@@ -134,6 +134,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     // One channel per (design, PRN), design-major, all on one read of the recording.
     let mut channels = Vec::new();
     let mut infos = Vec::new();
+    let mut resolved = Vec::new();
     for d in &designs {
         let d = if a.has("--reacquire") {
             d.with_overrides("[lock]\nreacquire = true\n")
@@ -143,6 +144,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         };
         for (init, code) in inits.iter().zip(&codes) {
             channels.push(SessionChannel::from_design(init.clone(), &d));
+            resolved.push(d.resolved_run(code.period_s()));
             infos.push(ChannelInfo {
                 code: code.name(),
                 design: d.name().to_string(),
@@ -154,7 +156,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Usage)?
         .with_threads(super::track::threads_from_args(&a)?);
     let header = EpochHeader::new(infos.clone(), spec.fs_hz)
-        .with_extra_taps(&super::track::run_extra_taps(&designs)?);
+        .with_extra_taps(&super::track::run_extra_taps(&designs)?)
+        .with_resolved(resolved);
     let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);
     let mut epochs = epochs_writer(&a, &header)?;
     let mut events = a

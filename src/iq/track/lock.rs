@@ -132,9 +132,10 @@ pub struct SessionChannel {
 impl SessionChannel {
     /// A channel tracking `init` with loop design `d`.
     pub fn from_design(init: ChannelInit, d: &Design) -> Self {
+        let config = d.loop_config_for(init.code.period_s());
         Self {
             init,
-            config: d.loop_config(),
+            config,
             lock: d.lock_config(),
             acquisition: d.acquisition().clone(),
         }
@@ -639,7 +640,8 @@ impl Managed {
     fn start(&mut self, purpose: Purpose, start: u64, spec: &SampleSpec) -> Result<bool, IqError> {
         let code = self.setup.init.code.as_ref();
         let period = code.period_s();
-        let base = self.setup.acquisition.acq_config(period);
+        let t_track_s = self.setup.config.coherent_periods as f64 * period;
+        let base = self.setup.acquisition.acq_config(period, t_track_s);
         let cfg = match purpose {
             Purpose::Reacq { .. } => AcqConfig {
                 doppler_max_hz: self.setup.lock.reacq_doppler_window_hz,
