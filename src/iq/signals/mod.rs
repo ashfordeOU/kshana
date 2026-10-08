@@ -57,7 +57,7 @@ pub mod glonass;
 pub mod gps;
 pub mod tables;
 
-use super::{Cf64, SpreadingCode};
+use super::{Cf64, DataModulation, SpreadingCode};
 
 /// Errors from building a spreading code.
 #[derive(Clone, Debug, PartialEq, Eq)]
@@ -190,6 +190,7 @@ pub struct SignalCode {
     primary: Vec<i8>,
     secondary: Vec<i8>,
     modulation: Modulation,
+    data: DataModulation,
 }
 
 impl SignalCode {
@@ -222,7 +223,15 @@ impl SignalCode {
             primary,
             secondary,
             modulation,
+            data: DataModulation::Lnav,
         }
+    }
+
+    /// The same code with its navigation-data timing set to `data` ([`SignalCode::new`]
+    /// starts at [`DataModulation::Lnav`]).
+    pub fn with_data_modulation(mut self, data: DataModulation) -> Self {
+        self.data = data;
+        self
     }
 
     /// The primary-code chips as signal levels (`±1`).
@@ -296,6 +305,9 @@ impl SpreadingCode for SignalCode {
     }
     fn carrier_hz(&self) -> f64 {
         self.carrier_hz
+    }
+    fn data_modulation(&self) -> DataModulation {
+        self.data
     }
     fn value_at(&self, code_phase_chips: f64) -> f64 {
         let (k, frac) = split_phase(code_phase_chips, self.len_chips());
