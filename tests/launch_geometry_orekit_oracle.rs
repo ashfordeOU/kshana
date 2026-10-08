@@ -58,6 +58,22 @@
 //! also runs the same seven latitudes through the scenario, at the same epoch, rows and 1e-6.
 //! This adds a path to the comparison; it changes neither the oracle values nor the tolerance.
 //!
+//! FIXTURE-PIN NOTE (2026-10-08, issue #36): the check that today's Kshana azimuths equal the ones the
+//! fixture was generated from is a drift guard, not one of the comparisons or tolerances above, and
+//! none of those changed. It compared the azimuths bit for bit; it now compares `sin az` within 1e-12
+//! and the branch (the sign of `cos az` wherever the fixture has |cos az| > 1e-6), so an ascending
+//! azimuth cannot be swapped for a descending one. Reason: where `s = cos i / cos lat` is within ulps
+//! of -1 or 1 the azimuth `asin s` is ill-conditioned (slope `1 / sqrt(1 - s^2)`). At lat -60, i 120
+//! `s` is mathematically -1; it is -1 + 6 ulps here and -1 + 5 ulps on macOS arm64, and that one ulp
+//! of `s` moves the azimuth from 4.712389016884931 to 4.7123890137046995 (3.18e-9 rad), while the
+//! inclination Orekit recovers does not move (d i / d az = cos lat cos az, about 0 at az = 3 pi / 2).
+//! `sin az` differs there by about 1e-16. Blind spot, by design: at a tangent row (|cos az| below
+//! about 1e-5) an azimuth change of 1e-6 rad moves `sin az` by `cos az` * 1e-6, under the 1e-12 bar,
+//! so the pin does not see it; it is equally invisible to the inclination Orekit recovers, so it is
+//! irrelevant to the Orekit bar. The branch mask comes from the fixture's azimuth, never the engine's.
+//! The two lunar numpy-oracle tests (joint OD, observability) are not touched by this note and remain
+//! open findings of issue #36.
+//!
 //! ROUND 2, third step: NEW PRE-REGISTRATION (written 2026-10-02, before the Orekit run below).
 //! The round-2 change above redefined comparison 5 (a new function with new inputs) after a hand
 //! prototype had been evaluated against the fixture, without a new pre-registration, and its
@@ -95,6 +111,9 @@
 //! (x_p, +y_p, 1)) gives 8.2e-6 at 62.9 deg, longitude 90, red; the pole on the z axis gives
 //! 4.4e-6, red.
 //! Fixture, driver, generator and provenance: `tests/fixtures/launch_geometry_orekit_oracle/`.
+
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
 
 use kshana::eop::EopSeries;
 use kshana::launch::{
@@ -184,10 +203,22 @@ fn burnout_azimuth_reproduces_the_target_inclination_in_orekit() {
                 let (lat, lon, i) = (f[0][0], f[0][1], f[0][2]);
                 let (asc_fed, desc_fed) = (f[1][0], f[1][1]);
                 let (asc, desc) = launch_azimuth(lat.to_radians(), i.to_radians()).unwrap();
-                assert!(
-                    (asc - asc_fed).abs() <= 1e-15 && (desc - desc_fed).abs() <= 1e-15,
-                    "fixture azimuths for lat {lat} i {i} are not today's Kshana output: regenerate"
-                );
+                // Compared as sin az within 1e-12, plus the branch (sign of cos az), rather than
+                // az bit for bit (issue #36). At lat -60, i 120, sin az = cos i / cos lat is -1 to
+                // within ulps, asin's slope is 1 / sqrt(1 - s^2) there, and one ulp of s (-1 + 6
+                // ulps here, -1 + 5 on macOS arm64) moves the azimuth by 2.9e-9 rad; the
+                // inclination Orekit reads back does not move (d i / d az ~ cos az ~ 0). The Orekit
+                // comparison below runs on the fed azimuths and keeps its own bar.
+                if let Err(e) = fixture_pin::check_azimuths(
+                    &[asc, desc],
+                    &[asc_fed, desc_fed],
+                    fixture_pin::NEAR_BIT,
+                    "azimuths (asc, desc)",
+                ) {
+                    panic!(
+                        "fixture azimuths for lat {lat} i {i} are not today's Kshana output: regenerate: {e}"
+                    );
+                }
                 assert_eq!(
                     expected[n_inc].0.to_bits(),
                     lat.to_bits(),
