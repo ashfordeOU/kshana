@@ -350,6 +350,8 @@ jobs:
         run: node web/legacy-urls.test.mjs
       - name: Test the Git LFS pointer guards (site test and port refusal)
         run: node web/tools/lfs-pointer.test.mjs
+      - name: Test the inline-JSON guard (corrupt page data, unescaped version bumps)
+        run: node web/tools/inline-json.test.mjs
       - name: Test the share-link codec
         run: node web/studio/lib/share.test.mjs
       - name: Test the chart-download helpers
