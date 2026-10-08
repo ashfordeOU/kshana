@@ -351,10 +351,12 @@ first-principles layer — Mach–Zehnder phase, projection noise, contrast deca
 vibration coupling, plus Coriolis and light-shift systematics — but wavefront systematics and
 fringe-ambiguity resolution remain a **P2** (roadmap phase 2, the quantum physics layer)
 roadmap layer, see [`ROADMAP.md`](ROADMAP.md) and [`docs/QUANTUM-MODELS.md`](docs/QUANTUM-MODELS.md));
-a full GNSS *signal-acquisition* receiver (it now solves a single-point **PVT** (position, velocity and time) position
+a certified or hardware GNSS receiver (it solves a single-point **PVT** (position, velocity and time) position
 fix from real RINEX (Receiver Independent Exchange Format) code observations — validated
-on real IGS (International GNSS Service) data — but does **not**
-acquire or track raw signal); or a full mission-design suite (it has Lambert / porkchop /
+on real IGS (International GNSS Service) data — and its IQ layer (`kshana iq`, since 0.31.0)
+acquires and tracks recorded or generated baseband samples in software, as an analysis
+receiver: it does not drive radio hardware or transmit, is not a certified receiver, and does
+no carrier-phase positioning (RTK or PPP)); or a full mission-design suite (it has Lambert / porkchop /
 maneuver / orbit-determination building blocks, but is the performance-simulation layer
 *above* GMAT (General Mission Analysis Tool)/Orekit, not a replacement). Owning this scope is deliberate. If you need first-principles cold-atom
 interferometer error budgets (e.g. CARIOQA-PMP-grade — Cold Atom Rubidium Interferometry
