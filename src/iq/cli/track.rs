@@ -114,6 +114,16 @@ pub(crate) fn overrides_from_args(a: &Args, acq_only: bool) -> Result<(String, V
         if let Some(v) = f("--spacing")? {
             put("integration", "spacing_chips", float(v), "--spacing");
         }
+        if a.get("--extra-taps").is_some() {
+            let taps = a.list::<f64>("--extra-taps").map_err(Fail::Usage)?;
+            let body: Vec<String> = taps.iter().map(|v| float(*v)).collect();
+            put(
+                "integration",
+                "extra_taps_chips",
+                format!("[{}]", body.join(", ")),
+                "--extra-taps",
+            );
+        }
         if let Some(v) = u("--coherent")? {
             put(
                 "integration",
@@ -213,6 +223,29 @@ pub(crate) fn create(p: &str) -> Result<BufWriter<File>, Fail> {
     File::create(p)
         .map(BufWriter::new)
         .map_err(|e| Fail::Run(format!("{p}: {e}")))
+}
+
+/// The extra correlator taps every design of a run asks for. One output file has one
+/// column set, so the designs must agree.
+pub(crate) fn run_extra_taps<'a>(
+    designs: impl IntoIterator<Item = &'a Design>,
+) -> Result<Vec<f64>, Fail> {
+    let mut found: Option<(String, Vec<f64>)> = None;
+    for d in designs {
+        let taps = d.loop_config().extra_taps_chips;
+        match &found {
+            None => found = Some((d.name().to_string(), taps)),
+            Some((first, t)) if *t != taps => {
+                return Err(Fail::Usage(format!(
+                    "designs {first:?} and {:?} differ in integration.extra_taps_chips; the \
+                     designs of one run must agree so every output record has the same columns",
+                    d.name()
+                )))
+            }
+            Some(_) => {}
+        }
+    }
+    Ok(found.map(|(_, t)| t).unwrap_or_default())
 }
 
 /// The `--epochs` writer the flags ask for, if any.
@@ -327,7 +360,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             })
             .collect(),
         spec.fs_hz,
-    );
+    )
+    .with_extra_taps(&run_extra_taps([&design])?);
 
     let warnings = sampling_warnings(&spec, &codes);
     let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);

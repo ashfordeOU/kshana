@@ -496,7 +496,7 @@ fn iq_acquire<'py>(
 /// and `acq_coherent=1` restores the 0.32 one-period search. Raises `ValueError` if a PRN
 /// is not acquired or the design is invalid.
 #[pyfunction]
-#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=None, doppler_max=None, max_seconds=None, design=None, design_name=None, reacquire=None))]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=None, doppler_max=None, max_seconds=None, design=None, design_name=None, reacquire=None, extra_taps=None))]
 #[allow(clippy::too_many_arguments)]
 fn iq_track<'py>(
     py: Python<'py>,
@@ -520,6 +520,7 @@ fn iq_track<'py>(
     design: Option<String>,
     design_name: Option<String>,
     reacquire: Option<bool>,
+    extra_taps: Option<Vec<f64>>,
 ) -> PyResult<Bound<'py, PyAny>> {
     use crate::iq::track::design::{Design, DesignFile};
     use crate::iq::track::sink::CollectSink;
@@ -572,6 +573,18 @@ fn iq_track<'py>(
         vec![
             ("spacing_chips", f(spacing)),
             ("coherent_periods", n(coherent)),
+            (
+                "extra_taps_chips",
+                extra_taps.map(|t| {
+                    format!(
+                        "[{}]",
+                        t.iter()
+                            .map(|v| format!("{v:?}"))
+                            .collect::<Vec<_>>()
+                            .join(", ")
+                    )
+                }),
+            ),
         ],
     );
     section(
@@ -702,7 +715,7 @@ fn iq_read_epochs<'py>(py: Python<'py>, path: &str) -> PyResult<Bound<'py, PyAny
 
 /// One tracking epoch as a JSON value for the Python surface.
 fn epoch_value(e: &EpochOutput) -> serde_json::Value {
-    serde_json::json!({
+    let mut v = serde_json::json!({
         "epoch": e.epoch,
         "sample_index": e.sample_index,
         "code_epoch_s": e.code_epoch_s,
@@ -728,7 +741,17 @@ fn epoch_value(e: &EpochOutput) -> serde_json::Value {
         "code_lock": e.code_lock,
         "cn0_nwpr_dbhz": e.cn0_nwpr_dbhz,
         "cn0_beaulieu_dbhz": e.cn0_beaulieu_dbhz,
-    })
+    });
+    if !e.extra.is_empty() {
+        v["extra"] = e
+            .extra
+            .iter()
+            .map(|&(offset_chips, c)| {
+                serde_json::json!({ "offset_chips": offset_chips, "i": c.re, "q": c.im })
+            })
+            .collect();
+    }
+    v
 }
 
 /// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
