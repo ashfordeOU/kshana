@@ -9,24 +9,36 @@
 //!   600 s), and `integrity.p05 >= 0.9`. Before the fix: 0.40866 / 0.33026 and p05 0.017 / 0.027.
 //! * **B2 no change at floor 0.** The same scenario with both flicker floors set to 0 (the
 //!   control: scenario before commit 67fed19e added the floor) reproduces the pre-fix figures
-//!   exactly: integrity 0.99759 / 0.99869, NIS / NEES 1.0217 / 1.9722 (classical) and
+//!   to within 6e-5 relative: integrity 0.99759 / 0.99869, NIS / NEES 1.0217 / 1.9722 (classical) and
 //!   0.9812 / 2.2078 (quantum), holdover 4050.5 s / 6600 s. The code path without a flicker
-//!   floor is untouched; this pins its figures.
+//!   floor is not changed; this pins its figures (the check below is within 6e-5 relative).
 //! * **B3 health sees the truth.** With the shipped floors the pooled NIS and NEES of the
 //!   matched extended filter fall inside their chi-square bands (`filter_health::tests`), and
 //!   the two-state filter against the classical flicker truth reports `consistent = false`.
 //!   (The quantum floor, 1e-16, is far below the 0.1 ns phase measurement noise during sync,
 //!   so the two-state filter is not distinguishable from the matched one there; only the
 //!   matched case is asserted for it.)
-//! * **B4 not trivially inflated.** Proposed replacement, pending sign-off:
-//!   `RMS(error / 1-sigma bound)` over all outage samples and runs lies in `[0.7, 1.3]` for
-//!   both clocks (1.0 for a matched bound). The original "coverage <= 0.9995" cannot be
-//!   asserted: within a run the flicker error is nearly a constant random frequency, so the
-//!   200-run mean of the coverage has a sampling standard deviation of about 0.004 even for a
-//!   perfectly matched bound (expected 0.9973).
+//! * **B4 withdrawn; B4' replaces it.** B4 as first written was "coverage <= 0.9995 (the
+//!   bound is not trivially inflated)". It is withdrawn, as a post-hoc change: coverage on the
+//!   shipped 200-run ensemble has a sampling standard deviation of about 0.004 even for a
+//!   perfectly matched bound (within a run the flicker error is nearly a constant random
+//!   frequency, so the samples are almost fully correlated), and a correct bound has
+//!   P(no run outside 3 sigma) = 0.9973^200 = 0.58, i.e. B4 would fail a correct
+//!   implementation more than half the time. An exploratory prototype run before these bars
+//!   were in this header gave classical 0.99968, and the final implementation gives classical
+//!   0.99970 and quantum 1.0, so the FINAL results fail B4 as written. B4' was fixed by the
+//!   coordinator before anyone computed it: the pooled `RMS(error / 1-sigma bound)` over all
+//!   outage samples and runs lies in `[0.8, 1.2]` for EACH clock, on the shipped scenario
+//!   (seed 42) AND on a fresh seed (7), 200 runs each (`run::tests::
+//!   the_bound_is_not_inflated_pooled_rms_of_error_over_sigma`, committed in 1752c032 before it
+//!   was first run). A priori basis: about one chi-square(1) draw per run, so the RMS over 200
+//!   runs has a standard deviation of about 0.05 and the band is about +-4 sigma; it still
+//!   catches a bound inflated by more than 1.25x. If it fails, report it; do not adjust it.
 //! * **B5 truth untouched.** `timing_p95_ns.mean` and `holdover_s.mean` of the shipped
 //!   scenario equal the pre-fix values: 167.03 / 8.78e-4 ns and 844.1 / 6600 s.
 //! * **B6 report-only.** Any golden or matrix value that moves is reported, not re-pinned.
+//!   (Full test run: nothing pinned moved. `scenarios/orbit-gnss-challenged.toml` also changes
+//!   output; see the CHANGELOG.)
 
 use kshana::api::run_toml;
 
