@@ -2092,31 +2092,42 @@ mod tests {
         // re-baseline was ONLY the version substitution is checkable and was checked:
         // every length fell by exactly one byte ("v0.27.1" -> "vX.Y.Z") and the value
         // count and absolute sum are identical across all three scenarios.
+        // RE-BASELINED AGAIN AT the 0.33 palette revision, and paint-independent from here:
+        // colours and font stacks are normalised before hashing (`test_support::without_paint`),
+        // so a repaint no longer moves these. That this re-baseline was ONLY paint is checkable
+        // and was checked: the same normalisation applied to the pre-revision engine gives
+        // these exact skeletons, lengths and hashes (every length falls by 22 bytes, the value
+        // count and absolute sum are unchanged). The pre-revision raw hashes of the first and
+        // third scenarios on Linux equal their pinned baseline-host values, so their new exact
+        // pins carry over to the baseline host. The second scenario's exact hash is
+        // host-dependent, so it was taken on the baseline host (aarch64 macOS) with
+        // `cargo test --lib zzz_emit_emission_pins -- --ignored --nocapture`; that run also
+        // printed the first and third scenarios' pinned values and length 2912 for the second.
         // The first two are the ORIGINAL pins and are asserted only on the host they were
         // taken on. The last three are platform-independent by construction: the skeleton
         // has had every digit removed, so a last-ulp difference cannot reach it.
         for (src, expect, expect_len, skel_fnv, n_numbers, abs_sum) in [
             (
                 "kind = \"lunar-frame-realisation\"\n",
-                0x0135_f8fb_7db0_642f_u64,
-                2937_usize,
-                0x982d_8926_f0e9_f97e_u64,
+                0x1e88_1045_69a8_abe2_u64,
+                2915_usize,
+                0xc75a_319e_e2d7_768b_u64,
                 121_usize,
                 17_578.163_792_326_643_f64,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
-                0x11e6_9d87_96d7_a02e,
-                2934,
-                0x69dd_a9e4_a0e9_0e4d,
+                0x3945_6eef_9ebd_d3c3,
+                2912,
+                0x8417_c494_2759_b4a0,
                 121,
                 15_179.742_553_962_893,
             ),
             (
                 "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
-                0x470b_02e4_73b6_742e,
-                2963,
-                0xc546_7339_8434_454f,
+                0x556a_4c1d_055f_d815,
+                2941,
+                0x9085_27d2_d1ab_e5b8,
                 121,
                 14_926.000_030_141_684,
             ),
@@ -2222,6 +2233,30 @@ mod tests {
     /// Nothing is lost by normalising it. That the emission states the running version is
     /// asserted here directly, which is a sharper check than a hash that merely changes
     /// when it does: a hash cannot tell a version bump from a corrupted footer.
+    /// Prints the pins of the injected-transform scenarios. Run with
+    /// `cargo test --lib zzz_emit_emission_pins -- --ignored --nocapture` after a deliberate
+    /// change, on the baseline host for the exact layer.
+    #[test]
+    #[ignore]
+    fn zzz_emit_emission_pins() {
+        for src in [
+            "kind = \"lunar-frame-realisation\"\n",
+            "kind = \"lunar-frame-realisation\"\nn_points = 12\nnoise_sigma_m = 0.5\nseed = 7\n",
+            "kind = \"lunar-frame-realisation\"\nnoise_sigma_m = 0.0\n",
+        ] {
+            let out = crate::api::run_toml(src).unwrap();
+            let buf = version_normalised_emission(&out);
+            let (skel, n, sum) =
+                crate::test_support::numeric_skeleton(&String::from_utf8_lossy(&buf));
+            println!(
+                "{src:?}: exact 0x{:016x} len {} | skeleton 0x{:016x} n {n} |sum| {sum:?}",
+                crate::test_support::fnv1a64(&buf),
+                buf.len(),
+                crate::test_support::fnv1a64(skel.as_bytes()),
+            );
+        }
+    }
+
     fn version_normalised_emission(out: &crate::api::RunOutput) -> Vec<u8> {
         let json = strip_top_level_units(&out.json);
         let mut buf = Vec::new();
@@ -2238,7 +2273,9 @@ mod tests {
             "the lunar-frame-realisation emission no longer states the engine version \
              ({marker}); the footer changed shape, so normalising it is no longer safe"
         );
-        text.replace(&marker, "vX.Y.Z").into_bytes()
+        // Paint and type are not emission data (see `test_support::without_paint`); the
+        // 0.33 Observatory palette revision repainted this chart and moved nothing else.
+        crate::test_support::without_paint(&text.replace(&marker, "vX.Y.Z")).into_bytes()
     }
 
     /// Remove the top-level `units` object from a pretty-printed report document.

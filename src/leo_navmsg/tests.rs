@@ -583,7 +583,7 @@ const PLATFORM_METHODS: [&str; 27] = [
 /// listed is the optional workshop preset's, registered behind [`PRESET_GATE`]: it is a
 /// table of message defaults (read, no mathematics), it is absent from a release that
 /// withholds the preset, and naming it here would break that withholding.
-const REVIEWED_CRATE_PATHS: [&str; 15] = [
+const REVIEWED_CRATE_PATHS: [&str; 16] = [
     "crate::portable_math::PortableFloat",
     "crate::portable_math",
     "crate::gravity_sh::SphericalHarmonicField",
@@ -599,6 +599,8 @@ const REVIEWED_CRATE_PATHS: [&str; 15] = [
     "crate::solar_system::units_block_from",
     "crate::chart::frame_open",
     "crate::chart::panel_axes",
+    // Colour and font string constants only; no arithmetic.
+    "crate::palette::chart",
 ];
 
 /// The attribute that compiles the optional workshop preset in.

@@ -77,6 +77,21 @@ fn counts_between(body: &str, prefix: &str, suffix: &str) -> Vec<(usize, String)
     out
 }
 
+/// The text content of an SVG: every tag removed, the text runs left in order.
+fn svg_text(svg: &str) -> String {
+    let mut out = String::with_capacity(svg.len() / 4);
+    let mut in_tag = false;
+    for c in svg.chars() {
+        match c {
+            '<' => in_tag = true,
+            '>' => in_tag = false,
+            _ if !in_tag => out.push(c),
+            _ => {}
+        }
+    }
+    out
+}
+
 /// A single-line excerpt around `[start, end)`, trimmed, for the failure message.
 fn context(body: &str, start: usize, end: usize) -> String {
     let lo = body[..start].rfind('\n').map(|i| i + 1).unwrap_or(0);
@@ -207,7 +222,11 @@ fn no_published_surface_states_a_stale_status_count() {
         .count();
 
     let mmd = include_str!("../docs/diagrams/validation-provenance.mmd");
-    let svg = include_str!("../docs/assets/diagrams/validation-provenance.svg");
+    // The diagram draws native SVG <text> labels (one <tspan> per word or run), so the
+    // rendered label is read as its text content: "VALIDATED" then "124" then " rows".
+    let svg = svg_text(include_str!(
+        "../docs/assets/diagrams/validation-provenance.svg"
+    ));
 
     // (surface, body, mermaid-source prefix, rendered-SVG prefix, expected count)
     let cases = [
@@ -228,9 +247,9 @@ fn no_published_surface_states_a_stale_status_count() {
             ),
             (
                 "docs/assets/diagrams/validation-provenance.svg",
-                svg,
-                format!("<p>{label}<br />"),
-                " rows</p>".to_string(),
+                svg.as_str(),
+                label.to_string(),
+                " rows".to_string(),
             ),
         ] {
             let hits = counts_between(body, &prefix, &suffix);
@@ -255,9 +274,9 @@ fn no_published_surface_states_a_stale_status_count() {
         stale.is_empty(),
         "The provenance diagram states a per-status count that is not the live one \
          (matrix: {validated} VALIDATED / {modelled} MODELLED / {partner} PARTNER):\n{}\n\n\
-         Fix the .mmd AND the .svg, then re-render the PNG — the README embeds the PNG, \
-         and rsvg-convert silently drops this diagram's <foreignObject> text, so use a \
-         browser engine to render it (see docs note on tools/render-diagram.sh).",
+         Fix the .mmd, re-render the .svg with mermaid-cli and the tracked \
+         docs/diagrams/mermaid-config.json, then re-render the PNG with \
+         tools/render-diagram.sh — the README embeds the PNG.",
         stale.join("\n")
     );
     assert_eq!(

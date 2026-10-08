@@ -73,6 +73,7 @@ use crate::observability_gramian::{
     GramianSpectrum, Mat, ObsEpoch, RankArcPoint, RankLever, WhitenedPosterior, N_PLANAR,
     N_SPATIAL,
 };
+use crate::palette::chart::{AMBER, BLUE, CYAN, GRID, MUTED, TITLE};
 use serde::Deserialize;
 use std::sync::{Mutex, OnceLock};
 
@@ -1423,11 +1424,11 @@ fn svg(c: &Computed) -> String {
     for g in 0..=c.state_dim {
         let gy = yof(g as f64);
         s.push_str(&format!(
-            "<line x1=\"{lx:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"#241d15\" stroke-dasharray=\"3 4\"/>",
+            "<line x1=\"{lx:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"{GRID}\" stroke-dasharray=\"3 4\"/>",
             lx + lw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#6b6355\">{g}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{g}</text>",
             lx - 6.0,
             gy + 4.0
         ));
@@ -1448,18 +1449,18 @@ fn svg(c: &Computed) -> String {
         ));
     }
     s.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
         pts.trim_end()
     ));
     for p in &c.rank_arc {
         s.push_str(&format!(
-            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"2.4\" fill=\"#e0bd84\"/>",
+            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"2.4\" fill=\"{CYAN}\"/>",
             xof(p.arc_time),
             yof(p.rank as f64)
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8a8172\">arc length (rotating-frame time units, {:.1} h total)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">arc length (rotating-frame time units, {:.1} h total)</text>",
         lx + lw / 2.0,
         axis_y + 26.0,
         c.arc_hours
@@ -1494,10 +1495,10 @@ fn svg(c: &Computed) -> String {
         let bx = rx + slot * (i as f64 + 0.5) - bw / 2.0;
         let by = raxis_y - bh;
         s.push_str(&format!(
-            "<rect x=\"{bx:.1}\" y=\"{by:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"#5fb0c9\"/>"
+            "<rect x=\"{bx:.1}\" y=\"{by:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{BLUE}\"/>"
         ));
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"#e6ddcb\">{:.1}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{TITLE}\">{:.1}</text>",
             rx + slot * (i as f64 + 0.5),
             by - 4.0,
             lg
@@ -1510,7 +1511,7 @@ fn svg(c: &Computed) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8a8172\">condition κ = {}</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">condition κ = {}</text>",
         rx + rw / 2.0,
         raxis_y + 34.0,
         condition_str(c.spectrum.condition)
@@ -2052,10 +2053,21 @@ mod tests {
             0x7030_ab72_7e57_edbc,
             "released summary byte drift"
         );
+        // Re-baselined at the 0.33 Observatory palette revision, which repainted the chart.
+        // The pin below it keeps that honest the way the units pin does for the JSON: the
+        // SVG with its colours and font stacks normalised, frozen from the pre-revision
+        // engine, so a re-baselined hash cannot hide a moved coordinate or label.
         assert_eq!(
             fnv1a64(&svg),
-            0xf75e_0fa5_ef14_755c,
+            0xf092_4c32_d811_9a18,
             "released SVG byte drift"
+        );
+        const RELEASED_SVG_WITHOUT_PAINT_FNV: u64 = 0x1c89_82ef_1fd0_462f;
+        assert_eq!(
+            fnv1a64(&crate::test_support::without_paint(&svg)),
+            RELEASED_SVG_WITHOUT_PAINT_FNV,
+            "a RELEASED coordinate, label or value in the SVG moved: the chart minus its \
+             paint no longer matches the pre-revision engine's"
         );
 
         // Every extension field named at its released default is a no-op.
