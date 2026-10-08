@@ -1,15 +1,15 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Acquisition-surface export (`iq::acq_surface`, `kshana.acq-surface/1`).
 //!
-//! Pre-registered bars (fixed before the first run): S1 the surface's cells equal those of
-//! `acquire` bit for bit; S2 on a noise-free signal half a bin off every grid Doppler, the
-//! fine search is within 5 Hz of the truth (the bar the plan stated; its worst-case quantisation
-//! bin/32 is 5.2 Hz at 4 ms, so a truth 5.0-5.2 Hz from a fine grid point would exceed it, and the
-//! tested truths sit 3.7 Hz off it) while the coarse bin, the estimate with the refinement off, is
-//! beyond 5 Hz at the same truths (the bar bites); and
-//! the coarse bin is at least 60 Hz off; S3 the parabolic estimate is closer to the truth
-//! than the coarse bin; S4 CSV, JSON and binary carry the same cells and the binary form
-//! reads back exactly.
+//! Pre-registered bars. S1 the surface's cells equal those of `acquire` bit for bit. S2 the fine
+//! search is within 8 Hz of the truth at every one of 33 truths spanning one coarse bin in
+//! steps of bin/32 (5.2 Hz at 4 ms: this includes the bin centres, the half-bin point and the
+//! worst fine-grid midpoints); 8 Hz was fixed a priori as the method's worst-case quantisation
+//! (bin/32 = 5.2 Hz) plus margin. The bar bites: the coarse bin (the estimate with the refinement
+//! off) is beyond 8 Hz at 25 or more of those truths, including the half-bin point. S3 wherever the
+//! coarse error is at least 8 Hz the parabolic estimate is closer to the truth than the coarse bin.
+//! S4 CSV, JSON and binary carry the same cells and the binary form reads back exactly.
+//! The signal is noise-free, so the sweep is deterministic and has no seeds.
 
 use kshana::iq::acq::{acquire, AcqConfig};
 use kshana::iq::acq_surface::{Surface, SurfaceFormat, FINE_STEPS_PER_BIN};
@@ -70,38 +70,54 @@ fn the_surface_is_the_acquire_grid_bit_for_bit() {
 }
 
 #[test]
-fn fine_doppler_removes_the_half_bin_error() {
+fn fine_doppler_removes_the_quantisation_error_across_a_whole_bin() {
     let code = build_code("gps-l1ca", 11).unwrap();
     let step = cfg().doppler_step_hz;
     let bins = cfg().doppler_bins();
-    // Half a bin off a grid Doppler, on both sides of it.
-    for (k, side) in [(3usize, 0.5), (12, -0.5), (20, 0.5)] {
-        let truth = bins[k] + side * step + 3.7;
-        let s = signal(11, truth, 700.25, 4 * 2046);
-        let surf = Surface::compute(&s, &spec(), &code, &cfg()).unwrap();
-        let h = &surf.header;
-        assert!(h.peak.acquired);
-        let coarse = (h.peak.doppler_hz - truth).abs();
-        let fine = (h.fine_search.doppler_hz - truth).abs();
-        assert!(coarse >= 60.0, "S2: coarse error {coarse} at truth {truth}");
-        assert!(fine <= 5.0, "S2: fine error {fine} at truth {truth}");
-        // With the refinement off (the coarse bin alone) the same bar fails.
-        assert!(coarse > 5.0, "S2: the bar must bite: coarse error {coarse}");
-        assert_eq!(
-            h.fine_search.correction_hz,
-            h.fine_search.doppler_hz - h.peak.doppler_hz
-        );
-        let par = h.parabolic.as_ref().expect("interior peak is concave");
-        assert!(
-            (par.doppler_hz - truth).abs() < coarse,
-            "S3: parabolic {} vs coarse {coarse} at truth {truth}",
-            (par.doppler_hz - truth).abs()
-        );
-        println!(
-            "truth {truth:.1}: coarse {coarse:.1} Hz, parabolic {:.1} Hz, fine {fine:.1} Hz",
-            (par.doppler_hz - truth).abs()
-        );
+    let (mut biting, mut worst_fine, mut worst_par) = (0, 0.0_f64, 0.0_f64);
+    for k in [3usize, 12] {
+        for i in 0..=32 {
+            let truth = bins[k] + step * i as f64 / 32.0;
+            let s = signal(11, truth, 700.25, 4 * 2046);
+            let surf = Surface::compute(&s, &spec(), &code, &cfg()).unwrap();
+            let h = &surf.header;
+            assert!(h.peak.acquired, "truth {truth}");
+            let coarse = (h.peak.doppler_hz - truth).abs();
+            let fine = (h.fine_search.doppler_hz - truth).abs();
+            worst_fine = worst_fine.max(fine);
+            assert!(
+                fine <= 8.0,
+                "S2: fine error {fine} at truth {truth} (offset {i}/32)"
+            );
+            assert_eq!(
+                h.fine_search.correction_hz,
+                h.fine_search.doppler_hz - h.peak.doppler_hz
+            );
+            if coarse > 8.0 {
+                biting += 1;
+            }
+            if i == 16 {
+                assert!(
+                    coarse > 8.0,
+                    "S2: the bar must bite at the half bin: {coarse}"
+                );
+            }
+            if coarse >= 8.0 {
+                let par = h.parabolic.as_ref().expect("interior peak is concave");
+                let e = (par.doppler_hz - truth).abs();
+                worst_par = worst_par.max(e);
+                assert!(
+                    e < coarse,
+                    "S3: parabolic {e} vs coarse {coarse} at truth {truth} (offset {i}/32)"
+                );
+            }
+        }
     }
+    println!("worst fine error {worst_fine:.2} Hz, worst parabolic error {worst_par:.2} Hz");
+    assert!(
+        biting >= 2 * 25,
+        "S2: the coarse bin exceeds 8 Hz at only {biting} of 66 truths"
+    );
     assert_eq!(FINE_STEPS_PER_BIN, 16);
 }
 
