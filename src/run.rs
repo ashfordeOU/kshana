@@ -466,6 +466,7 @@ q_rw = 1.0e-28
                 }
                 assert!(n > 0);
                 let rms = (sum_sq / n as f64).sqrt();
+                eprintln!("B4' seed {seed} {name}: pooled RMS {rms:.4} over {n} samples");
                 assert!(
                     (0.8..=1.2).contains(&rms),
                     "seed {seed}, {name}: pooled RMS(error / 1-sigma bound) = {rms:.4}, band [0.8, 1.2]"
