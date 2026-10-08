@@ -190,7 +190,7 @@ async fn scene_acquire_track_frontend_round_trip() {
         "iq_track",
         json!({
             "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
-            "design": "loops.toml", "dll_bw_hz": 1.5,
+            "design": "loops.toml", "dll_bw_hz": 1.5, "threads": 2,
             "epochs_out": "track.bin", "events_out": "track.events.jsonl",
             // No acq_coherent: the default hand-off (auto, ≈4 ms coherent) locks both
             // channels. A one-period search false-locked PRN 17 ~500 Hz off on this scene

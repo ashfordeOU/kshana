@@ -150,7 +150,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             });
         }
     }
-    let mut session = TrackSession::new(spec, channels).map_err(Fail::Usage)?;
+    let mut session = TrackSession::new(spec, channels)
+        .map_err(Fail::Usage)?
+        .with_threads(super::track::threads_from_args(&a)?);
     let header = EpochHeader::new(infos.clone(), spec.fs_hz)
         .with_extra_taps(&super::track::run_extra_taps(&designs)?);
     let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);

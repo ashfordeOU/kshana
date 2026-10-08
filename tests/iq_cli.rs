@@ -1514,3 +1514,157 @@ fn extra_taps_reach_the_epoch_output_and_a_disagreeing_sweep_is_refused() {
         0
     );
 }
+
+/// One `iq track` run with `extra` flags; the epochs (binary), events and summary bytes.
+fn track_bytes(
+    iq: &str,
+    dir: &std::path::Path,
+    tag: &str,
+    prns: &str,
+    extra: &[&str],
+) -> [Vec<u8>; 3] {
+    let p = |n: &str| dir.join(format!("{tag}-{n}")).display().to_string();
+    let (e, ev, s) = (p("e.bin"), p("ev.jsonl"), p("s.json"));
+    let mut v = vec![
+        "track",
+        iq,
+        "--signal",
+        "gps-l1ca",
+        "--prn",
+        prns,
+        "--epochs",
+        &e,
+        "--events",
+        &ev,
+        "--summary",
+        &s,
+    ];
+    v.extend_from_slice(extra);
+    assert_eq!(run(&args(&v)), 0, "{tag}");
+    [e, ev, s].map(|f| std::fs::read(f).unwrap())
+}
+
+/// `--threads` changes how fast the channels are correlated and nothing else: the binary
+/// epochs, the events and the summary are byte-identical to the serial run.
+#[test]
+fn threads_leave_the_output_bit_identical() {
+    let dir = scratch("threads");
+    let iq = dir.join("s.cf32").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "1.5",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "3,6,11,14,19",
+            "--doppler",
+            "800,-1300,2100,-600,0",
+            "--cn0",
+            "44",
+            "--seed",
+            "9",
+        ])),
+        0
+    );
+    let prns = "3,6,11,14,19";
+    let serial = track_bytes(&iq, &dir, "t1", prns, &[]);
+    assert!(serial[0].len() > 10_000);
+    // The comparison below must have something to compare: every channel reaches LOCKED
+    // within the run, so the serial events file holds five `locked` events.
+    let events = String::from_utf8(serial[1].clone()).unwrap();
+    assert_eq!(
+        events.matches("\"reason\":\"locked\"").count(),
+        5,
+        "{events}"
+    );
+    for n in ["2", "7", "auto"] {
+        let got = track_bytes(&iq, &dir, &format!("n{n}"), prns, &["--threads", n]);
+        assert_eq!(got[0], serial[0], "epochs with --threads {n}");
+        assert_eq!(got[1], serial[1], "events with --threads {n}");
+        assert_eq!(got[2], serial[2], "summary with --threads {n}");
+    }
+    // With re-acquisition and a hand-off 500 Hz off (a false lock to repair), the state
+    // machine's events are identical too.
+    let off = track_bytes(
+        &iq,
+        &dir,
+        "r1",
+        "6,11",
+        &["--reacquire", "--acq-coherent", "1"],
+    );
+    let off4 = track_bytes(
+        &iq,
+        &dir,
+        "r4",
+        "6,11",
+        &["--reacquire", "--acq-coherent", "1", "--threads", "4"],
+    );
+    assert!(!off[1].is_empty(), "the re-acquisition run emits events");
+    assert_eq!(off, off4);
+    assert_ne!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--threads",
+            "0"
+        ])),
+        0
+    );
+}
+
+/// Speed-up of `--threads` on a 12-channel recording. Prints; run with
+/// `cargo test --release --test iq_cli threads_speed -- --ignored --nocapture`.
+#[test]
+#[ignore = "timing survey (release)"]
+fn threads_speed_up_the_correlation() {
+    let dir = scratch("threads-speed");
+    let iq = dir.join("s.cf32").display().to_string();
+    let prns = "1,3,5,7,9,11,13,15,17,19,21,23";
+    let dop = "100,-1300,2100,-600,0,3300,-2500,900,-1700,1200,-300,2700";
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "4092000",
+            "--duration",
+            "4",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            prns,
+            "--doppler",
+            dop,
+            "--cn0",
+            "44",
+            "--seed",
+            "2",
+        ])),
+        0
+    );
+    let time = |tag: &str, extra: &[&str]| {
+        let t = std::time::Instant::now();
+        let b = track_bytes(&iq, &dir, tag, prns, extra);
+        (t.elapsed().as_secs_f64(), b)
+    };
+    let (t1, b1) = time("s1", &[]);
+    let n = std::thread::available_parallelism().map_or(1, |n| n.get());
+    println!("cores available: {n}");
+    for k in ["2", "4", "8"] {
+        let (tk, bk) = time(&format!("s{k}"), &["--threads", k]);
+        assert_eq!(bk, b1, "--threads {k} is bit-identical");
+        println!(
+            "threads {k}: {tk:.2} s vs serial {t1:.2} s: {:.2}x",
+            t1 / tk
+        );
+    }
+}
