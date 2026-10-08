@@ -143,6 +143,9 @@
 //! the 1e-9 bar there. The bar is not loosened after the fact: the strict test stays ignored and
 //! `lunar_frame_campaign_finding_stations_estimated_p2_precision` pins the gap.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::lunar_frame_campaign::{BeaconInput, LunarFrameCampaignScenario};
 use kshana::lunar_vlbi_fim::{schedule_jacobian, LunarVlbiFimScenario, StateLayout};
 
@@ -454,11 +457,16 @@ fn lunar_vlbi_fim_matches_spice_geometry_and_numpy() {
             .map(u)
             .collect();
         let layout = StateLayout::new(geoms[0].stations_inertial.len(), &held, false);
-        assert_eq!(
-            schedule_jacobian(&geoms, &obs, &layout),
-            mat(&inp["engine_jacobian"]),
-            "{name}: Jacobian drifted from the fixture"
-        );
+        // Within 1e-12 of each row's scale: the Jacobian moves in the last bits between hosts'
+        // libms (issue #36). See `support/fixture_pin.rs`.
+        if let Err(e) = fixture_pin::check_rows_scaled(
+            &schedule_jacobian(&geoms, &obs, &layout),
+            &mat(&inp["engine_jacobian"]),
+            fixture_pin::NEAR_BIT,
+            "engine_jacobian",
+        ) {
+            panic!("{name}: Jacobian drifted from the fixture: {e}");
+        }
     }
 }
 
@@ -647,11 +655,15 @@ fn campaign_checks(p2_exempt: &[&str]) {
             s["sub_earth_sweep_deg"]
         );
         // Last, so a changed Jacobian is reported through the comparisons first.
-        assert_eq!(
-            jac,
-            mat(&inp["engine_jacobian"]),
-            "{name}: Jacobian drifted from the fixture"
-        );
+        // Within 1e-12 of each row's scale, as above (issue #36).
+        if let Err(e) = fixture_pin::check_rows_scaled(
+            &jac,
+            &mat(&inp["engine_jacobian"]),
+            fixture_pin::NEAR_BIT,
+            "engine_jacobian",
+        ) {
+            panic!("{name}: Jacobian drifted from the fixture: {e}");
+        }
         by_name.insert(
             name.to_string(),
             (

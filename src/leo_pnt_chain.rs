@@ -44,6 +44,7 @@ use crate::leo_fusion::system::DllCfg;
 use crate::leo_navmsg::LeoNavmsgScenario;
 use crate::leo_pass::{LeoPassReport, LeoPassScenario};
 use crate::leo_signal::{LeoSignalScenario, SignalDesign};
+use crate::palette::chart::{BLUE, CYAN};
 use serde::Deserialize;
 use serde_json::{json, Value};
 
@@ -683,7 +684,7 @@ fn to_svg(doc: &Value, name: &str) -> String {
         .collect();
     if pts.len() > 1 {
         s.push_str(&format!(
-            "<polyline fill=\"none\" stroke=\"#c79e63\" stroke-width=\"2\" points=\"{}\"/>",
+            "<polyline fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"2\" points=\"{}\"/>",
             pts.join(" ")
         ));
     }
@@ -710,7 +711,7 @@ fn to_svg(doc: &Value, name: &str) -> String {
         .collect();
     if pts.len() > 1 {
         s.push_str(&format!(
-            "<polyline fill=\"none\" stroke=\"#7fb2d6\" stroke-width=\"2\" points=\"{}\"/>",
+            "<polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"2\" points=\"{}\"/>",
             pts.join(" ")
         ));
     }

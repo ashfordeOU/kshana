@@ -96,6 +96,9 @@
 //! stopping its Jacobi sweeps at 1e-6 off-diagonal mass: stays green, because no decided item lies
 //! close enough to the threshold for that error to move it. Recorded as a limit of the check.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::lunar_frame_campaign::{
     campaign_jacobian_row, helmert_design, LunarFrameCampaignScenario,
 };
@@ -198,7 +201,7 @@ fn engine_inputs(name: &str, sc: &LunarFrameCampaignScenario) -> J {
     })
 }
 
-/// The committed inputs are exactly what the engine builds now. With
+/// The committed inputs are what the engine builds now, to 1e-12 of each row's scale. With
 /// `KSHANA_WRITE_MPMATH_FIXTURE=1` it writes them instead (the fixture generator).
 #[test]
 fn engine_inputs_match_the_committed_fixture() {
@@ -219,11 +222,16 @@ fn engine_inputs_match_the_committed_fixture() {
         .unwrap_or_else(|e| panic!("write {path}: {e}"));
         return;
     }
-    assert_eq!(
-        fixture("inputs.json")["scenarios"],
-        doc["scenarios"],
-        "the engine no longer builds the committed inputs"
-    );
+    // Within 1e-12 of each row's scale rather than bit for bit: the inputs move in the last
+    // bits between hosts' libms (issue #36). See `support/fixture_pin.rs`.
+    if let Err(e) = fixture_pin::check_json(
+        &doc["scenarios"],
+        &fixture("inputs.json")["scenarios"],
+        fixture_pin::NEAR_BIT,
+        "scenarios",
+    ) {
+        panic!("the engine no longer builds the committed inputs: {e}");
+    }
 }
 
 /// The decision on one exact eigenvalue: `Some(true)` decided observable, `Some(false)` decided
