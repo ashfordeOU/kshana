@@ -79,8 +79,10 @@
 //!
 //! The engine findings are kept as ignored tests, with their run-2 numbers: **D8** (default
 //! acquisition step against the decision-directed FLL pull-in: Galileo E1-B and E1-C),
-//! **D9** (GPS L2C CM at 20 ms integration with the default loop) and **D10** (BeiDou B1C
-//! below nominal C/N0). The fix for each must un-ignore its test. `galileo_e1b_on_grid_doppler`
+//! **D9** (GPS L2C CM at 20 ms integration with the default loop) and **D10** (the NWPR C/N0
+//! reading low at high per-prompt C/N0·T: GPS L2C at 20 ms and BeiDou B1C at 10 ms; cause in
+//! the `#[ignore]` texts below). The fix for D8 and D9 un-ignored their tests; D10 is a
+//! documented estimator limit and stays an ignored finding. `galileo_e1b_on_grid_doppler`
 //! is the D8 control: the same E1-B scene with a zero acquisition residual passes every bar
 //! (run 1 with a 1.0 s scene measured it 43.42 dB-Hz; run 2 with 1.5 s, 44.41 dB-Hz).
 
@@ -505,10 +507,13 @@ fn gps_l2c_holds_lock_with_the_default_design() {
 
 /// The full matrix row for GPS L2C. With D9 fixed it holds lock but misses T5.
 #[test]
-#[ignore = "FINDING D10 family (found while fixing D9): GPS L2C CM at T = 20 ms holds lock with \
-            the default design (PLI 0.996, Doppler error 0.00 Hz, M2M4 42.71 dB-Hz) but the NWPR \
-            C/N0 reads 40.23 dB-Hz against 41.99 (-1.76 dB, T5 band +-1.5); NWPR reads low at \
-            high per-prompt C/N0*T, as on BeiDou B1C at 10 ms"]
+#[ignore = "FINDING D10 (estimator limit, not a defect fix): GPS L2C CM at T = 20 ms holds lock \
+            with the default design (PLI 0.996, Doppler error 0.00 Hz, M2M4 42.71 dB-Hz) but the \
+            NWPR C/N0 reads about 1.0 +- 0.3 dB low (40.23 to 41.17 dB-Hz against 41.99 over \
+            4.5 to 14 s scenes; the 4.5 s scene sits at the low end, -1.76 dB, T5 band +-1.5). \
+            NWPR is unbiased on ideal prompts; it reads low by about 8 dB x Bn*T under the \
+            loop's own PLL jitter (pure PLL at 20 ms: 1/2.5/5/10 Hz give -0.24/-0.44/-0.77/\
+            -1.58 dB) and M2M4 does not move"]
 fn gps_l2c() {
     check(l2c_cm_case(3));
 }
@@ -552,9 +557,13 @@ fn beidou_b1i() {
 }
 
 #[test]
-#[ignore = "FINDING D10: BeiDou B1C (BOC(1,1), 10 ms) measures below nominal: engine NWPR \
-            42.55 dB-Hz (T5, -2.45 dB), M2M4 43.68 dB-Hz (-1.32 dB, in band); lock, code \
-            and Doppler bars pass"]
+#[ignore = "FINDING D10 (estimator limit and band-limiting, not a defect fix): BeiDou B1C \
+            (BOC(1,1), 10 ms) measures below nominal at 5 MS/s. Two causes: (1) NWPR reads low \
+            under the loop's own PLL jitter (about 8 dB x Bn*T), the same mechanism as GPS L2C; \
+            the D9 clamp (10 Hz at 10 ms) moved it from 42.55 to 43.31 dB-Hz; (2) BOC(1,1) at \
+            5 MS/s loses about 1 dB of prompt power to band-limiting (acquisition statistic 413, \
+            451, 508, 523 at 5, 7.3, 10, 20 MS/s; M2M4 43.66, 44.25, 44.65, 44.18 dB-Hz), which \
+            is physical, not an estimator defect. Lock, code and Doppler bars pass"]
 fn beidou_b1c() {
     check(plain("beidou-b1c", beidou::b1c_data(3).unwrap(), 5e6, 2.5));
 }
