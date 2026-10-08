@@ -9,6 +9,8 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.33.0] - 2026-10-08
+
 ### Documentation
 
 - **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
