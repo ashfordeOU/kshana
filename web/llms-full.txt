@@ -7448,7 +7448,7 @@ Title: Overview · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Continuous integration status on main Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration 124 of 251 capabilities VALIDATED against an independent external oracle, from the verification matrix SonarQube Cloud quality gate status Release v0.33.0 Licence: AGPL-3.0-only
+Continuous integration status on main Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration 124 of 251 capabilities VALIDATED against an independent external oracle, from the verification matrix SonarQube Cloud quality gate status Release v0.33.1 Licence: AGPL-3.0-only
 DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release A commercial licence is available from Ashforde® OÜ, see Editions kshana on crates.io, the current published version kshana on PyPI, the current published version kshana on npm, the current published version
 
 Open Kshana Studio · Install · Capabilities · Evidence · Research · Documentation · Cite
@@ -7459,7 +7459,7 @@ Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation
 
 Every run is reproducible bit for bit from the scenario, the seed and the engine version. Every capability carries one of three labels in a machine-checked ledger: VALIDATED (an independent external oracle agrees), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it).
 
-Status: v0.33.0. A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the plain-language primer and the glossary.
+Status: v0.33.1. A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the plain-language primer and the glossary.
 
 ## Kshana Studio#
 
@@ -7809,7 +7809,7 @@ Top: every Validated row is backed by an external dataset, by construction. Bott
 
 ## Install#
 
-One line gets the command-line tool: cargo install kshana. Every channel ships v0.33.0 from the same tagged commit.
+One line gets the command-line tool: cargo install kshana. Every channel ships v0.33.1 from the same tagged commit.
 
 Channel |  Install |  Guide |
 
@@ -7831,7 +7831,7 @@ JetBrains IDE plugin |  Settings → Plugins → Marketplace → "Kshana" |  Jet
 
 Kshana on the JetBrains Marketplace Builds with Rust 1.85 or newer, the rust-version in Cargo.toml
 
-MCP is the Model Context Protocol. Pin a release with cargo install kshana --version 0.33.0, pip install kshana==0.33.0 or npm install kshana@0.33.0. To build from source, see Install and build under Reference.
+MCP is the Model Context Protocol. Pin a release with cargo install kshana --version 0.33.1, pip install kshana==0.33.1 or npm install kshana@0.33.1. To build from source, see Install and build under Reference.
 
 Run a scenario from Python and from WebAssembly
 
@@ -7841,7 +7841,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.33.0 6600.0 2610.0
+# 0.33.1 6600.0 2610.0
 ```
 
 Beyond run, the module exposes run_full (JSON, SVG and the one-line summary at once), run_typed, validate_toml, list_kinds / scenario_kinds and error_kind; see docs/PYTHON_API.md.
@@ -7859,7 +7859,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.33.0 6600 2610
+// 0.33.1 6600 2610
 console.log(summary(toml));
 ```
 
@@ -21267,7 +21267,7 @@ Title: npm and WebAssembly · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Release v0.33.0 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
+Release v0.33.1 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
 
 ## Rehearse the minute GNSS goes dark#
 
@@ -21411,7 +21411,7 @@ Title: Rust crate · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Release v0.33.0 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
+Release v0.33.1 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
 
 ## Rehearse the minute GNSS goes dark#
 
@@ -22538,6 +22538,12 @@ All notable changes to Kshana are documented here.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning. While the project is pre-1.0, the public scenario/result schema may still change; breaking changes are called out explicitly.
 
 ## Unreleased#
+
+## [0.33.1] - 2026-10-08#
+
+### Security#
+
+- Text a scenario carries into a chart is escaped, and the Studio adopts only drawing. Strings from a scenario (a clock's id, a sweep's scale, titles) were written into chart SVG as they stood in several chart builders. One chart::esc now escapes &, <, > and both quote marks, the frame_open, y_axis and panel_axes helpers escape the text they are given (callers pass plain text), the clock-id and sweep sites use it, and seven private copies that escaped fewer characters are gone. Chart bytes change only where text contains one of those characters; no bundled chart, recorded result or published number moves. tests/chart_text_escaped.rs runs the bundled scenarios with markup in each string that reaches a chart, and checks that no bundled chart is escaped twice. In the Studio, lib/svgsafe.mjs reduces chart markup to drawing before it is adopted (no scripts, embedded documents, event handlers, outside links or url() values, <style> elements or declarations), the address keeps only the parameters the Studio reads, lookups keyed by a scenario's kind answer only for their own keys, and a scenario's text is fetched only for a name in the catalogue.
 
 ## [0.33.0] - 2026-10-08#
 
