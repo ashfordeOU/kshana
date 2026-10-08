@@ -1211,42 +1211,62 @@ impl Layout {
 // SVG (animated and per-frame)
 // ---------------------------------------------------------------------------
 
-const DARK_CSS: &str = ".bg{fill:#0c0b08}.fg{fill:#bcb3a3}.mu{fill:#8a8172}.gr{stroke:#262019}\
-.ax{stroke:#342c21}.ph0{fill:#17130e}.ph1{fill:#211b14}.phl{fill:#bcb3a3}\
-.ev{stroke:#8a8172}.eva{stroke:#e5645a}.evt{fill:#8a8172}.evta{fill:#e5645a}.cur{stroke:#f2e6cf}\
-.s0{stroke:#e0bd84}.s1{stroke:#e5645a}.s2{stroke:#6fb3a8}.s3{stroke:#8fa3d9}.s4{stroke:#d2925e}.s5{stroke:#b58ad0}\
-.f0{fill:#e0bd84}.f1{fill:#e5645a}.f2{fill:#6fb3a8}.f3{fill:#8fa3d9}.f4{fill:#d2925e}.f5{fill:#b58ad0}";
-
-const LIGHT_CSS: &str = ".bg{fill:#faf7f1}.fg{fill:#2a241c}.mu{fill:#6b6255}.gr{stroke:#e8e1d5}\
-.ax{stroke:#cbbfae}.ph0{fill:#f1ebe1}.ph1{fill:#e7dfd1}.phl{fill:#2a241c}\
-.ev{stroke:#6b6255}.eva{stroke:#b3261e}.evt{fill:#6b6255}.evta{fill:#b3261e}.cur{stroke:#2a241c}\
-.s0{stroke:#9a6b1f}.s1{stroke:#b3261e}.s2{stroke:#2f7f73}.s3{stroke:#3d5aa8}.s4{stroke:#a4521c}.s5{stroke:#7a4a9a}\
-.f0{fill:#9a6b1f}.f1{fill:#b3261e}.f2{fill:#2f7f73}.f3{fill:#3d5aa8}.f4{fill:#a4521c}.f5{fill:#7a4a9a}";
-
-const COMMON_CSS: &str = "text{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif}\
-.tr{fill:none;stroke-width:1.6;stroke-linejoin:round}.ev,.eva{stroke-dasharray:3 3}.cur{stroke-width:1.4}";
-
-/// Waterfall colour for a normalised level in [0, 1] (dark to warm).
-fn wf_colour(x: f64) -> String {
-    const STOPS: [(f64, [f64; 3]); 5] = [
-        (0.0, [20.0, 14.0, 28.0]),
-        (0.35, [90.0, 31.0, 74.0]),
-        (0.65, [200.0, 85.0, 61.0]),
-        (0.85, [224.0, 164.0, 88.0]),
-        (1.0, [247.0, 231.0, 180.0]),
-    ];
-    let x = x.clamp(0.0, 1.0);
-    let mut i = 0;
-    while i + 2 < STOPS.len() && x > STOPS[i + 1].0 {
-        i += 1;
+/// The SVG classes for one theme: ground, text, grid, axes, phase bands, events, the
+/// cursor, and six series (`.s0`-`.s5` strokes, `.f0`-`.f5` fills).
+fn theme_classes(t: &[&str; 18]) -> String {
+    let [bg, fg, mu, gr, ax, ph0, ph1, phl, cur, alarm, s0, s1, s2, s3, s4, s5, ..] = *t;
+    let mut css = format!(
+        ".bg{{fill:{bg}}}.fg{{fill:{fg}}}.mu{{fill:{mu}}}.gr{{stroke:{gr}}}\
+         .ax{{stroke:{ax}}}.ph0{{fill:{ph0}}}.ph1{{fill:{ph1}}}.phl{{fill:{phl}}}\
+         .ev{{stroke:{mu}}}.eva{{stroke:{alarm}}}.evt{{fill:{mu}}}.evta{{fill:{alarm}}}.cur{{stroke:{cur}}}"
+    );
+    for (i, c) in [s0, s1, s2, s3, s4, s5].iter().enumerate() {
+        let _ = write!(css, ".s{i}{{stroke:{c}}}");
     }
-    let (a, ca) = STOPS[i];
-    let (b, cb) = STOPS[i + 1];
-    let f = ((x - a) / (b - a)).clamp(0.0, 1.0);
-    let c: Vec<u8> = (0..3)
-        .map(|k| (ca[k] + (cb[k] - ca[k]) * f).round() as u8)
-        .collect();
-    format!("#{:02x}{:02x}{:02x}", c[0], c[1], c[2])
+    for (i, c) in [s0, s1, s2, s3, s4, s5].iter().enumerate() {
+        let _ = write!(css, ".f{i}{{fill:{c}}}");
+    }
+    css
+}
+
+/// The dark theme's colours, in [`theme_classes`] order (then the player's panel and
+/// muted-ink pair).
+const DARK: [&str; 18] = {
+    use crate::palette::dark::*;
+    [
+        BG, INK_2, INK_3, GRID, AXIS, PANEL, PANEL_2, INK_2, INK, CORAL, CYAN, CORAL, LIME, BLUE,
+        AMBER, MAGENTA, BG_2, INK_3,
+    ]
+};
+
+/// The light theme's colours, in [`theme_classes`] order.
+const LIGHT: [&str; 18] = {
+    use crate::palette::light::*;
+    [
+        BG, INK, INK_3, GRID, AXIS, PANEL_2, BG_2, INK, INK, CORAL, CYAN, CORAL, LIME, BLUE, AMBER,
+        MAGENTA, PANEL, INK_3,
+    ]
+};
+
+fn dark_css() -> String {
+    theme_classes(&DARK)
+}
+
+fn light_css() -> String {
+    theme_classes(&LIGHT)
+}
+
+fn common_css() -> String {
+    format!(
+        "text{{font-family:{}}}\
+         .tr{{fill:none;stroke-width:1.6;stroke-linejoin:round}}.ev,.eva{{stroke-dasharray:3 3}}.cur{{stroke-width:1.4}}",
+        crate::palette::chart::FONT_SANS
+    )
+}
+
+/// Waterfall colour for a normalised level in [0, 1] (the shared sequential ramp).
+fn wf_colour(x: f64) -> String {
+    crate::palette::ramp(x)
 }
 
 const WF_LEVELS: f64 = 24.0;
@@ -1545,11 +1565,12 @@ pub fn render_svg(tl: &Timeline, opts: &AnimationOptions) -> String {
     let cycle = opts.duration_s + hold;
     let p_end = opts.duration_s / cycle;
     let mut css = String::new();
-    css.push_str(COMMON_CSS);
-    css.push_str(DARK_CSS);
+    css.push_str(&common_css());
+    css.push_str(&dark_css());
+    let light = light_css();
     let _ = write!(
         css,
-        "@media (prefers-color-scheme: light){{{LIGHT_CSS}}}\
+        "@media (prefers-color-scheme: light){{{light}}}\
          .kx-anim{{animation-duration:{cycle:.3}s;animation-iteration-count:infinite;animation-timing-function:linear;animation-fill-mode:both}}\
          .kx-reveal{{transform-box:view-box;transform-origin:{ml:.1}px 0px;animation-name:kx-reveal}}\
          @keyframes kx-reveal{{0%{{transform:scaleX(0)}}{pe}{{transform:scaleX(1)}}100%{{transform:scaleX(1)}}}}\
@@ -1708,8 +1729,8 @@ fn render_frame(tl: &Timeline, lay: &Layout, tc: f64, css: &str) -> String {
 /// timeline end to end, plus `manifest.json`.
 pub fn render_frames(tl: &Timeline, opts: &AnimationOptions) -> Vec<AnimationFile> {
     let lay = Layout::new(tl, opts.width);
-    let mut css = String::from(COMMON_CSS);
-    css.push_str(DARK_CSS);
+    let mut css = common_css();
+    css.push_str(&dark_css());
     let n = opts.frame_count().max(2);
     let mut files = Vec::with_capacity(n + 1);
     let mut times = Vec::with_capacity(n);
@@ -1805,10 +1826,28 @@ fn player_data(tl: &Timeline, opts: &AnimationOptions) -> Value {
     })
 }
 
-const PLAYER_CSS: &str = r#":root{color-scheme:light dark;--bg:#faf7f1;--panel:#fffdf9;--fg:#2a241c;--mu:#6b6255;--grid:#e8e1d5;--axis:#cbbfae;--ph0:#f1ebe1;--ph1:#e7dfd1;--cur:#2a241c;--alarm:#b3261e;--s0:#9a6b1f;--s1:#b3261e;--s2:#2f7f73;--s3:#3d5aa8;--s4:#a4521c;--s5:#7a4a9a}
-@media (prefers-color-scheme: dark){:root{--bg:#0c0b08;--panel:#12100c;--fg:#bcb3a3;--mu:#8a8172;--grid:#262019;--axis:#342c21;--ph0:#17130e;--ph1:#211b14;--cur:#f2e6cf;--alarm:#e5645a;--s0:#e0bd84;--s1:#e5645a;--s2:#6fb3a8;--s3:#8fa3d9;--s4:#d2925e;--s5:#b58ad0}}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--fg);font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.45}
+/// The player's custom properties for both themes, from [`LIGHT`] and [`DARK`].
+fn player_vars() -> String {
+    let vars = |t: &[&str; 18]| {
+        format!(
+            "--bg:{};--panel:{};--fg:{};--mu:{};--grid:{};--axis:{};--ph0:{};--ph1:{};--cur:{};--alarm:{};--s0:{};--s1:{};--s2:{};--s3:{};--s4:{};--s5:{}",
+            t[0], t[16], t[7], t[17], t[3], t[4], t[5], t[6], t[8], t[9], t[10], t[11], t[12], t[13], t[14], t[15]
+        )
+    };
+    format!(
+        ":root{{color-scheme:light dark;{}}}\n@media (prefers-color-scheme: dark){{:root{{{}}}}}\n",
+        vars(&LIGHT),
+        vars(&DARK)
+    )
+}
+
+/// The player's stylesheet: [`player_vars`], then [`PLAYER_CSS`] with the shared font.
+fn player_css() -> String {
+    player_vars() + &PLAYER_CSS.replace("__FONT_SANS__", crate::palette::chart::FONT_SANS)
+}
+
+const PLAYER_CSS: &str = r#"*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--fg);font-family:__FONT_SANS__;line-height:1.45}
 main{max-width:1100px;margin:0 auto;padding:20px 16px 40px}
 h1{font-size:1.25rem;margin:0 0 2px}
 .sub{color:var(--mu);font-size:.82rem;margin:0 0 14px}
@@ -1854,7 +1893,7 @@ function valueAt(tr,t){var lo=0,hi=tr.t.length-1;if(t<tr.t[0])return null;while(
 function events(g,w,h,tc){D.events.forEach(function(e){if(e.t>tc)return;var x=X(e.t,w);g.strokeStyle=e.alarm?css("--alarm"):css("--mu");g.setLineDash([3,3]);g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.stroke();g.setLineDash([]);});}
 function cursor(g,w,h,tc){var x=X(tc,w);g.strokeStyle=css("--cur");g.lineWidth=1.4;g.beginPath();g.moveTo(x,0);g.lineTo(x,h);g.stroke();g.lineWidth=1;}
 function draw(){var tc=D.t0+frac*span;var ph=null;
-figs.forEach(function(F){var s=size(F.f.cv,F.f.h),g=s.g,w=s.w,h=s.h;g.fillStyle=css("--panel");g.fillRect(0,0,w,h);g.font="11px system-ui,sans-serif";
+figs.forEach(function(F){var s=size(F.f.cv,F.f.h),g=s.g,w=s.w,h=s.h;g.fillStyle=css("--panel");g.fillRect(0,0,w,h);g.font="11px "+getComputedStyle(document.body).fontFamily;
 if(F.kind==="strip"){D.phases.forEach(function(p,i){var x0=X(p.t0,w),x1=X(p.t1,w);g.fillStyle=css(i%2?"--ph1":"--ph0");g.fillRect(x0,6,Math.max(1,x1-x0),h-12);if(tc>=p.t0&&tc<=p.t1){ph=p.name;g.strokeStyle=css("--s0");g.strokeRect(x0+.5,6.5,Math.max(1,x1-x0)-1,h-13);}g.fillStyle=css("--fg");if(x1-x0>40){g.save();g.beginPath();g.rect(x0,0,x1-x0-4,h);g.clip();g.fillText(p.name,x0+5,h/2+4);g.restore();}});
 D.events.forEach(function(e){var x=X(e.t,w);g.fillStyle=e.t<=tc?(e.alarm?css("--alarm"):css("--mu")):css("--grid");g.beginPath();g.moveTo(x-5,2);g.lineTo(x+5,2);g.lineTo(x,10);g.fill();});cursor(g,w,h,tc);return;}
 if(F.kind==="chart"){var c=F.c,ph2=h-18,Y=function(v){v=Math.max(c.lo,Math.min(c.hi,v));return 4+(ph2-4)-(v-c.lo)/(c.hi-c.lo)*(ph2-4);};
@@ -1899,10 +1938,11 @@ pub fn render_html(tl: &Timeline, opts: &AnimationOptions) -> String {
             tl.omitted.len()
         )
     };
+    let css = player_css();
     format!(
         "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n\
          <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n\
-         <title>{title} \u{2014} Kshana animation</title>\n<style>\n{PLAYER_CSS}\n</style>\n</head>\n<body>\n<main>\n\
+         <title>{title} \u{2014} Kshana animation</title>\n<style>\n{css}\n</style>\n</head>\n<body>\n<main>\n\
          <h1>{title}</h1>\n\
          <p class=\"sub\">kind {kind} \u{b7} {n} series from result.json, drawn without resampling \u{b7} Kshana {version}</p>\n\
          <div class=\"bar\" role=\"group\" aria-label=\"Playback\">\

@@ -3,23 +3,23 @@
   "rendered": {
     "distribution.png": {
       "svg": "distribution.svg",
-      "svg_sha256": "50a6f36d4a01632842c33734536a98ee1e2f2fcf981525728b7e91f11c1b05a3"
+      "svg_sha256": "a9ab987bda8bf4376673741198a353e053eb9ddad99122570524e77829dfd64e"
     },
     "engine-flow.png": {
       "svg": "engine-flow.svg",
-      "svg_sha256": "41c1ce46431614065b544027f24352d3d47d63379bce7e5cf2be228208028ecd"
+      "svg_sha256": "830edf77c68fb01ba4cc0dc8c8a34eca3f8ebdc7fec6e2559f3559abfd404630"
     },
     "module-map.png": {
       "svg": "module-map.svg",
-      "svg_sha256": "865eecd9a3df21a2109be4362bda04ebd0ce818a02ae5ef251a2d78a4811e4f5"
+      "svg_sha256": "cd631cfca2e42287a0d01caaf97b139efaf70f48bd7b568eb889085f21194513"
     },
     "system-overview.png": {
       "svg": "system-overview.svg",
-      "svg_sha256": "fc3fb86c995afaefc7dc6bc333179fe5d6e82b850d38ddd2dbd0a305119f1150"
+      "svg_sha256": "bd29b60ea6672f2461abcaa1f6db2c09bc55aa278a66cee93a34383e82f85824"
     },
     "validation-provenance.png": {
       "svg": "validation-provenance.svg",
-      "svg_sha256": "85fca1c89c9a76f9e60bfd780fd281b45731a27c962edd5f264eb4705c8cd00a"
+      "svg_sha256": "5e8d97d9c6bcc7e6f5cb8f1c9b4b1c08d8bd6718261aee6096d7bd1b42f53990"
     }
   }
 }
