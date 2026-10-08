@@ -3,7 +3,7 @@
 //! `sweep`, `labfit` and `frontend`.
 //!
 //! [`run`] takes the arguments after `iq` and returns a process exit code (0 success,
-//! 1 failure, 2 usage error). It owns the five signal-processing commands and hands every
+//! 1 failure, 2 usage error). It owns the signal-processing commands and hands every
 //! other command (the data-handling `inventory`, `info`, `extract`, `convert`, `decimate`)
 //! straight to [`super::io::cli::run`], so the two halves share one `kshana iq` namespace
 //! and one help screen. The commands expose, without a line of Rust:
@@ -18,7 +18,9 @@
 //! * `labfit` — fit the tracking-loop loss-of-lock model to a receiver-trust timeline
 //!   ([`labfit`]);
 //! * `frontend` — apply receiver front-end and interference-mitigation DSP to a recording
-//!   ([`frontend`]).
+//!   ([`frontend`]);
+//! * `monitor` — run the interference and spoofing detection monitors over a recording
+//!   and write their time series and events ([`monitor`]).
 //!
 //! The parsing style, the exit codes and the `--format`/`--rate`/`--center` raw-input flags
 //! mirror [`super::io::cli`] exactly.
@@ -27,6 +29,7 @@ mod acquire;
 mod channel;
 mod frontend;
 mod labfit;
+mod monitor;
 mod scene;
 mod signal;
 mod sweep;
@@ -39,9 +42,13 @@ pub(crate) use channel::{build_channel, ChannelParams};
 #[cfg(feature = "python")]
 pub(crate) use frontend::{build_chain, FrontendParams};
 #[cfg(feature = "python")]
+pub(crate) use monitor::{parse_args as monitor_parse_args, report_from_args as monitor_report};
+#[cfg(feature = "python")]
 pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
 #[cfg(feature = "python")]
 pub(crate) use track::sampling_warnings;
+#[cfg(feature = "python")]
+pub(crate) use Fail as CliFail;
 
 use std::collections::HashMap;
 
@@ -53,6 +60,7 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
    or: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
    or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
    or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+   or: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--json <out>] [--csv <prefix>]
  loop designs: a kshana.loop-design/1 TOML file (docs/design/LOOP-DESIGN-TOML.md); explicit loop/acquisition flags override the selected design
  acquire/track/sweep also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing (to the acquisition and the tracking pass alike)
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
@@ -201,9 +209,10 @@ pub fn execute(args: &[String]) -> Result<String, CommandError> {
         Some("sweep") => sweep::run(rest),
         Some("labfit") => labfit::run(rest),
         Some("frontend") => frontend::run(rest),
+        Some("monitor") => monitor::run(rest),
         Some(other) => Err(Fail::Usage(format!(
             "unknown iq processing command {other:?}; expected scene, acquire, track, sweep, \
-             labfit or frontend"
+             labfit, frontend or monitor"
         ))),
         None => Err(Fail::Usage("no iq processing command given".into())),
     };
@@ -225,7 +234,7 @@ pub fn run(args: &[String]) -> i32 {
             println!("{USAGE}\n{}", super::io::cli::USAGE);
             0
         }
-        Some("scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend") => {
+        Some("scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend" | "monitor") => {
             finish(execute(args))
         }
         // Every data-handling command belongs to the io half of the group.

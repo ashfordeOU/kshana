@@ -28,6 +28,7 @@ __all__ = [
     "iq_loop_designs",
     "iq_read_epochs",
     "iq_frontend",
+    "iq_monitor",
     "iq_labfit",
     "iq_signals",
     "__version__",
@@ -280,6 +281,39 @@ def iq_read_epochs(path: str) -> dict[str, Any]:
     --epochs <path>.bin`` writes it). Returns a dict with the ``header`` (schema, fields,
     channels with their code, design and design hash, sample rate, engine version) and the
     ``records``, one dict per epoch. Raises ``ValueError`` on a file that is not one."""
+
+def iq_monitor(
+    path: str,
+    signal: Optional[str] = ...,
+    prns: Optional[list[int]] = ...,
+    power: bool = ...,
+    spectral: bool = ...,
+    settings: Optional[str] = ...,
+    baseline: Optional[float] = ...,
+    max_seconds: Optional[float] = ...,
+    spacing: Optional[float] = ...,
+    pll_bw: Optional[float] = ...,
+    fll_bw: Optional[float] = ...,
+    dll_bw: Optional[float] = ...,
+    coherent: Optional[int] = ...,
+    cn0_windows: Optional[int] = ...,
+    doppler_max: Optional[float] = ...,
+    periods_per_bit: Optional[int] = ...,
+    format: Optional[str] = ...,
+    rate: Optional[float] = ...,
+    center_hz: Optional[float] = ...,
+    if_hz: Optional[float] = ...,
+    header_bytes: Optional[int] = ...,
+) -> dict[str, Any]:
+    """Run the IQ detection monitors over a recording file in one streaming pass.
+
+    Returns a dict with ``series`` (``name``, ``unit``, ``channel``, ``t_s``, ``value``),
+    ``events`` (``kind``, ``channel``, ``t_start_s``, ``t_alarm_s``, ``t_end_s``,
+    ``peak``, ``threshold``), ``spectra`` and ``notes``. Mirrors ``kshana iq monitor``:
+    ``power`` / ``spectral`` pick the pre-correlation monitors (both when neither is set),
+    ``settings`` is TOML or JSON monitor-settings text, and ``signal`` + ``prns`` add
+    tracked channels with C/N0, SQM and lock monitors. Raw files without a sidecar take
+    ``format`` and ``rate``. Raises ``ValueError`` on a bad argument or unreadable file."""
 
 def iq_frontend(
     i: list[float],

@@ -333,3 +333,32 @@ def test_iq_scene_cn0_profile_sets_the_truth_cn0():
             fs_hz=2_046_000, duration_s=0.1, signal="gps-l1ca", prns=[9],
             cn0_profile="[[segment]]\nkind = \"fade\"\ns4 = 3.0\ntau_s = 1.0\n",
         )
+
+def test_iq_monitor_reads_a_recording_file_and_reports_series(tmp_path):
+    import numpy as np
+    import pytest
+
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=1.5, signal="gps-l1ca", prns=[9],
+        dopplers=[1200.0], cn0_dbhz=47.0, seed=3,
+    )
+    x = np.empty(2 * len(scene["samples_i"]), dtype="<f4")
+    x[0::2] = scene["samples_i"]
+    x[1::2] = scene["samples_q"]
+    path = tmp_path / "s.bin"
+    x.tofile(path)
+    settings = (
+        "[power]\nbaseline_s = 0.5\n[spectral]\nbaseline_s = 0.5\n"
+        "[epoch.cn0]\nbaseline_s = 0.5\n[epoch.sqm]\nbaseline_s = 0.5\n"
+    )
+    rep = kshana.iq_monitor(
+        str(path), format="cf32_le", rate=2_046_000, signal="gps-l1ca", prns=[9],
+        settings=settings,
+    )
+    names = {s["name"] for s in rep["series"]}
+    assert {"power_db", "kurtosis", "cn0_dbhz", "sqm_ratio", "pli"} <= names
+    assert rep["events"] == []
+    only_power = kshana.iq_monitor(str(path), format="cf32_le", rate=2_046_000, power=True)
+    assert {s["name"] for s in only_power["series"]} == {"power_db", "agc_gain_db"}
+    with pytest.raises(ValueError):
+        kshana.iq_monitor(str(tmp_path / "missing.bin"))
