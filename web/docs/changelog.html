@@ -93,20 +93,7 @@ breaking changes are called out explicitly.</p>
 <h2 id="0331---2026-10-08">[0.33.1] - 2026-10-08<a class="anchor" href="#0331---2026-10-08" aria-label="Link to this section">#</a></h2>
 <h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
 <ul>
-<li><strong>Text a scenario carries into a chart is escaped, and the Studio adopts only drawing.</strong>
-Strings from a scenario (a clock&#39;s <code>id</code>, a sweep&#39;s <code>scale</code>, titles) were written into chart
-SVG as they stood in several chart builders. One <code>chart::esc</code> now escapes <code>&amp;</code>, <code>&lt;</code>, <code>&gt;</code> and
-both quote marks, the <code>frame_open</code>, <code>y_axis</code> and <code>panel_axes</code> helpers escape the text they are
-given (callers pass plain text), the clock-id and sweep sites use it, and seven private
-copies that escaped fewer characters are gone. Chart bytes change only where text contains
-one of those characters; no bundled chart, recorded result or published number moves.
-<code>tests/chart_text_escaped.rs</code> runs the bundled scenarios with markup in each string that
-reaches a chart, and checks that no bundled chart is escaped twice. In the Studio,
-<code>lib/svgsafe.mjs</code> reduces chart markup to drawing before it is adopted (no scripts, embedded
-documents, event handlers, outside links or <code>url()</code> values, <code>&lt;style&gt;</code> elements or
-declarations), the address keeps only the parameters the Studio reads, lookups keyed by a
-scenario&#39;s <code>kind</code> answer only for their own keys, and a scenario&#39;s text is fetched only for
-a name in the catalogue.</li>
+<li><strong>Chart text and Studio chart adoption hardened.</strong> Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio&#39;s address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.</li>
 </ul>
 <h2 id="0330---2026-10-08">[0.33.0] - 2026-10-08<a class="anchor" href="#0330---2026-10-08" aria-label="Link to this section">#</a></h2>
 <h3 id="documentation">Documentation<a class="anchor" href="#documentation" aria-label="Link to this section">#</a></h3>
