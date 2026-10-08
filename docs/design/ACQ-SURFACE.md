@@ -47,6 +47,7 @@ for.
 * Python: `iq_acq_surface(i, q, fs_hz, signal, prn, **options) -> {"header", "rows"}`.
 * MCP: `iq_acquire` `surface_out` (one PRN; `.csv`, `.json` or `.bin` in the work directory).
 
-Evidence (pre-registered bars S1–S4, `tests/iq_acq_surface.rs`): on a noise-free signal half a
-bin off the grid the coarse Doppler is 79.6 Hz off, the parabolic estimate 2.0 Hz and the fine
-search 3.7 Hz.
+Evidence (pre-registered bars S1–S4, `tests/iq_acq_surface.rs`): over 66 noise-free truths spanning
+whole coarse bins in steps of bin/32, the fine search is within 5.21 Hz of the truth at worst
+(bar 8 Hz; its worst-case quantisation is bin/32 = 5.2 Hz) and the parabolic estimate within 7.74 Hz,
+against a coarse bin up to 83 Hz off.
