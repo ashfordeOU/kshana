@@ -222,6 +222,17 @@ fn kurtosis_and_pulse_statistics_match_gaussian_closed_forms() {
 /// `P(N > k) <= 0.001`. A run that exceeds it fails and is reported, not adjusted. Seeds
 /// were chosen before running and are not used elsewhere in the suite. A contiguous
 /// exceedance is one event, so counting events is no looser than counting blocks.
+///
+/// The same noise run also asserts no kurtosis or pulse events at all. That assertion was
+/// written before the first run and failed on it (24 pulse events at seed 20261008): the
+/// pulse detector's z-score on a count of mean 0.025 per block fired on a single sample.
+/// Fix, designed and bar written here before it was implemented: the pulse detector uses the
+/// exact binomial upper tail `P(X >= count)`, `X ~ Binomial(N, e^{-pulse_t})`, and raises an
+/// event when it is at most the configured per-block `pulse_pfa` (default 1e-4, as
+/// `excess_pfa`), so the false-event probability per noise block is at most `pulse_pfa`.
+/// Its bar is the spectral one, applied to pulses: false pulse events on noise are at most
+/// the Poisson 99.9 % quantile of `blocks x pulse_pfa x 2`. This test keeps the stricter,
+/// original assertion that there are none.
 #[test]
 fn spectral_false_events_stay_under_an_a_priori_poisson_bar() {
     let fs = 409_600.0;
