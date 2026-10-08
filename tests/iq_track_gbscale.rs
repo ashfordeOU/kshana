@@ -26,7 +26,7 @@
 //! * G3  the channel is LOCKED at the end, and the run wrote at least 99% of the one epoch
 //!   per millisecond the recording's length implies;
 //! * G4  the `.bin` epoch file reads back end to end with strictly increasing epoch indices
-//!   and a last sample index within one code period of the recording's length.
+//!   and a last sample index within two code periods of the recording's length.
 
 use kshana::iq::cli::{build_code, run};
 use kshana::iq::track::sink::BinaryEpochReader;
