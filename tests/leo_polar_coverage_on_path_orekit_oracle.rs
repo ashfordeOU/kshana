@@ -44,6 +44,9 @@
 //! 2 (`earth_orbit_path_sgp4_erfa_oracle.rs`) this validates the full claim from the element sets.
 //! Pre-registration commit 72ea9eb0. Fixture: `tests/fixtures/leo_polar_coverage_on_path_orekit_oracle/`.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::jd2::Jd2;
 use kshana::leo_fusion::polar::{
     element_sets, latitude_samples, latitude_sweep_on_states, polar_epoch, satellite_states_at,
@@ -165,6 +168,105 @@ fn gcrs_csv(c: &Config) -> String {
     csv
 }
 
+/// The engine's GCRS state table against the committed one. The header and the epoch and
+/// satellite indices compare exactly; each position and velocity triple within 1e-12 of the
+/// committed triple's magnitude, not bit for bit, because the states move in the last bits
+/// between hosts' libms (issue #36). See `support/fixture_pin.rs`.
+fn states_match(now: &str, committed: &str) -> Result<(), String> {
+    let (a, b): (Vec<&str>, Vec<&str>) = (now.lines().collect(), committed.lines().collect());
+    if a.len() != b.len() {
+        return Err(format!("{} lines vs committed {}", a.len(), b.len()));
+    }
+    for (n, (x, y)) in a.iter().zip(&b).enumerate() {
+        let (fx, fy): (Vec<&str>, Vec<&str>) = (x.split(',').collect(), y.split(',').collect());
+        if x.starts_with('#') || fx.len() != 8 || fy.len() != 8 || fx[..2] != fy[..2] {
+            if x != y {
+                return Err(format!("line {n}: {x:?} vs committed {y:?}"));
+            }
+            continue;
+        }
+        let num = |f: &[&str]| -> Result<Vec<f64>, String> {
+            f.iter()
+                .map(|t| {
+                    t.parse::<f64>()
+                        .map_err(|e| format!("line {n}: {t:?}: {e}"))
+                })
+                .collect()
+        };
+        let (vx, vy) = (num(&fx[2..])?, num(&fy[2..])?);
+        fixture_pin::check_scaled(
+            &vx[..3],
+            &vy[..3],
+            fixture_pin::NEAR_BIT,
+            &format!("line {n} r"),
+        )?;
+        fixture_pin::check_scaled(
+            &vx[3..],
+            &vy[3..],
+            fixture_pin::NEAR_BIT,
+            &format!("line {n} v"),
+        )?;
+    }
+    Ok(())
+}
+
+/// `states_match` accepts a host difference of the size issue #36 measured (233 units in the
+/// last place) and still rejects a 1e-6 relative change of one coordinate, a changed index and a
+/// missing line.
+#[test]
+fn the_state_comparison_rejects_a_real_change() {
+    let committed = std::fs::read_to_string(format!("{DIR}/states_gcrs_A.csv")).unwrap();
+    let edit = |f: &dyn Fn(usize, f64) -> f64| -> String {
+        committed
+            .lines()
+            .map(|l| {
+                let p: Vec<&str> = l.split(',').collect();
+                if l.starts_with('#') || p.len() != 8 {
+                    return format!("{l}\n");
+                }
+                let mut o: Vec<String> = p[..2].iter().map(|s| s.to_string()).collect();
+                for (i, t) in p[2..].iter().enumerate() {
+                    o.push(format!("{:?}", f(i, t.parse::<f64>().unwrap())));
+                }
+                o.join(",") + "\n"
+            })
+            .collect()
+    };
+    assert_eq!(edit(&|_, x| x), committed, "the edit round-trips");
+    let ulps = |x: f64, n: i64| f64::from_bits((x.to_bits() as i64 + n) as u64);
+    states_match(
+        &edit(&|i, x| ulps(x, if i % 2 == 0 { 233 } else { -233 })),
+        &committed,
+    )
+    .expect("a host-sized difference");
+    let once = std::cell::Cell::new(false);
+    let changed = edit(&|i, x| {
+        if i == 4 && !once.replace(true) {
+            x * (1.0 + 1e-6)
+        } else {
+            x
+        }
+    });
+    assert!(
+        states_match(&changed, &committed).is_err(),
+        "vy x (1 + 1e-6)"
+    );
+    let reindexed = committed.replacen("\n0,1,", "\n0,2,", 1);
+    assert!(
+        states_match(&reindexed, &committed).is_err(),
+        "satellite index"
+    );
+    let shorter: String = committed
+        .lines()
+        .skip(1)
+        .map(|l| format!("{l}\n"))
+        .collect();
+    assert!(
+        states_match(&shorter, &committed).is_err(),
+        "a missing line"
+    );
+}
+
 /// Writes the engine's GCRS states; run by `generate.sh` before the oracle.
 #[test]
 #[ignore = "fixture generator: run by tests/fixtures/leo_polar_coverage_on_path_orekit_oracle/generate.sh"]
@@ -180,7 +282,9 @@ fn the_committed_states_are_the_engines_and_the_grid_is_round_1s() {
     for c in configs() {
         let committed =
             std::fs::read_to_string(format!("{DIR}/states_gcrs_{}.csv", c.name)).unwrap();
-        assert_eq!(gcrs_csv(&c), committed, "config {}", c.name);
+        if let Err(e) = states_match(&gcrs_csv(&c), &committed) {
+            panic!("config {}: {e}", c.name);
+        }
         // The configurations, grids and element sets are round 1's, unchanged.
         let inputs: Value = serde_json::from_str(
             &std::fs::read_to_string(format!("{ROUND1}/inputs_{}.json", c.name)).unwrap(),
