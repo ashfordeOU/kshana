@@ -29,6 +29,7 @@
 
 use super::terrain::{deg_offset_to_m, Altimeter, DemGrid};
 use crate::mapmatch::field_likelihood;
+use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, MUTED, TEXT};
 use crate::particle_filter::ParticleFilter;
 use rand::{RngCore, SeedableRng};
 use rand_chacha::ChaCha8Rng;
@@ -396,14 +397,15 @@ pub fn sequential_trn_svg(r: &SequentialTrnResult) -> String {
     let match_pts = poly(&|e| e.matched_m);
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" \
-         viewBox=\"0 0 {w} {h}\" font-family=\"sans-serif\">\
+         viewBox=\"0 0 {w} {h}\" font-family=\"{FONT_SANS}\" fill=\"{TEXT}\">\
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"16\" y=\"24\" font-size=\"16\" font-weight=\"bold\">\
          Sequential terrain-referenced navigation (recursive SITAN)</text>\
-         <polyline fill=\"none\" stroke=\"#c0392b\" stroke-width=\"2\" points=\"{free_pts}\"/>\
-         <polyline fill=\"none\" stroke=\"#27ae60\" stroke-width=\"2\" points=\"{match_pts}\"/>\
-         <text x=\"{lx}\" y=\"{ly1}\" font-size=\"12\" fill=\"#c0392b\">free-inertial drift (grows)</text>\
-         <text x=\"{lx}\" y=\"{ly2}\" font-size=\"12\" fill=\"#27ae60\">terrain-matched (bounded)</text>\
-         <text x=\"16\" y=\"{yb}\" font-size=\"11\" fill=\"#555\">waypoint \u{2192}    full scale {maxv:.0} m</text>\
+         <polyline fill=\"none\" stroke=\"{CORAL}\" stroke-width=\"2\" points=\"{free_pts}\"/>\
+         <polyline fill=\"none\" stroke=\"{LIME}\" stroke-width=\"2\" points=\"{match_pts}\"/>\
+         <text x=\"{lx}\" y=\"{ly1}\" font-size=\"12\" fill=\"{CORAL}\">free-inertial drift (grows)</text>\
+         <text x=\"{lx}\" y=\"{ly2}\" font-size=\"12\" fill=\"{LIME}\">terrain-matched (bounded)</text>\
+         <text x=\"16\" y=\"{yb}\" font-size=\"11\" fill=\"{MUTED}\">waypoint \u{2192}    full scale {maxv:.0} m</text>\
          </svg>",
         lx = x0 + 12.0,
         ly1 = y0 + 16.0,
