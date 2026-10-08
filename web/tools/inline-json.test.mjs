@@ -33,6 +33,19 @@ assert.ok(inlineJsonProblems(page(next)).length >= 2, "the 0.33.0 -> 0.33.1 bump
 // The signature alone, in data that still happens to parse (a string value).
 assert.ok(inlineJsonProblems(page(`{"note":"3090.0.32.0.0.32.0.0.32.0"}`)).some((p) => p.includes("signature")));
 
+// 2b. An end tag the HTML parser accepts but a plain `</script>` match misses: whitespace, a
+// different case, or attributes before `>`. A corrupt block closed that way, with no later
+// `</script>` to rescue the match, must still be found.
+const corrupt = '{"t":[3090.0.32.0.0.32.0.0.32.0]}';
+for (const end of ["</script >", "</SCRIPT>", "</Script\t>", "</script\n>", '</script foo="bar">', "</script/>"]) {
+  const html = `<html><body><script type="application/json" id="kpage">${corrupt}${end}</body></html>`;
+  assert.equal(dataBlocks(html).length, 1, `the block closed by ${JSON.stringify(end)} is found`);
+  assert.ok(inlineJsonProblems(html, "p.html").some((p) => p.includes("does not parse")), `corrupt data closed by ${JSON.stringify(end)} is reported`);
+}
+// Two blocks, the first closed by `</script >`: neither swallows the other.
+const two = `<script type="application/json" id="a">{"ok":1}</script ><script type="application/json" id="b">{bad</SCRIPT\n>`;
+assert.deepEqual(dataBlocks(two).map((b) => b.body), ['{"ok":1}', "{bad"]);
+
 // 3. Every page of this tree is clean.
 const walk = (d) => readdirSync(join(WEB, d), { withFileTypes: true }).flatMap((e) => (e.isDirectory() ? walk(join(d, e.name)) : [join(d, e.name)]));
 const pages = walk(".").filter((f) => f.endsWith(".html") && !/^(pkg|scenarios|studio[\\/]pkg)[\\/]/.test(f));
