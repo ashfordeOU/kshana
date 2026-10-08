@@ -954,7 +954,7 @@ offset_s = 10.0
             dir.join("d.toml"),
             "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"observe\"\n\
              [[design]]\nname = \"reacq\"\n[design.lock]\nreacquire = true\n\
-             max_reacq_attempts = 60\n",
+             reacq_window_s = 5.0\n",
         )
         .unwrap();
         std::fs::write(
@@ -994,6 +994,7 @@ fn with_reacquire_on_every_channel_is_back_within_two_seconds_of_the_gap() {
             assert!(lost, "{fe} PRN {id}: a 2 s noise-only gap must lose lock");
             assert!(reacquired, "{fe} PRN {id}: not re-acquired");
             let t = t.unwrap();
+            eprintln!("reacq {fe} PRN {id}: {t:.3} s after the gap");
             assert!(
                 (0.0..=2.0).contains(&t),
                 "{fe} PRN {id}: re-acquired {t} s after the gap"
@@ -1021,12 +1022,13 @@ fn with_reacquire_off_the_observe_only_outcome_is_pinned() {
     }
 }
 
-// Observe-only (reacquire off): PRNs 3 and 11 recover once the signal returns; PRN 22's
-// loops drift during the gap and it never does, in either front end.
+// Observe-only (reacquire off): all three PRNs recover once the signal returns, in both front
+// ends. Re-pinned at #45 f3a8ca8b (FLL assist gated to pull-in): PRN 22, whose loops drifted
+// during the gap and never relocked before, now does.
 const PINNED_OBSERVE_RAW: [(i64, bool, bool); 3] =
-    [(3, true, true), (11, true, true), (22, true, false)];
+    [(3, true, true), (11, true, true), (22, true, true)];
 const PINNED_OBSERVE_Q3: [(i64, bool, bool); 3] =
-    [(3, true, true), (11, true, true), (22, true, false)];
+    [(3, true, true), (11, true, true), (22, true, true)];
 
 /// GB scale: a single recording of at least 4 GB (200 s of `cf32_le` at 2.5 MHz, one
 /// satellite) through one design. Run it with
