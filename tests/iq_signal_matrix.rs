@@ -81,7 +81,7 @@
 //! is the D8 control: the same E1-B scene with a zero acquisition residual passes every bar
 //! (run 1 with a 1.0 s scene measured it 43.42 dB-Hz; run 2 with 1.5 s, 44.41 dB-Hz).
 
-use kshana::iq::acq::{acquire, AcqConfig};
+use kshana::iq::acq::{acquire, default_step_hz, AcqConfig};
 use kshana::iq::scene::{
     NavData, RangeProfile, SatGeometry, Scene, SceneConfig, SceneSatellite, TruthRecord,
 };
@@ -317,7 +317,8 @@ fn run(case: &Case) -> Outcome {
 
     // Acquisition over the first replica period.
     let period = case.rx.period_s();
-    let step = 2.0 / (3.0 * period);
+    // The default step for the loop update the track below uses (one code period).
+    let step = default_step_hz(period, 1, period);
     let acq_cfg = AcqConfig {
         coherent_periods: 1,
         // Amendment v2 (a): tiered codes sum 4 blocks so a secondary flip cannot sink them all.
@@ -450,17 +451,14 @@ fn gps_l2c() {
     check(l2c_cm_case(3));
 }
 
+/// D8 (fixed): the default acquisition step is capped at 0.4 / T_track, so the hand-off
+/// residual (50 Hz here, the worst case for 1250 Hz on a 100 Hz grid) is inside the FLL.
 #[test]
-#[ignore = "FINDING D8: default acquisition step 2/(3T) leaves +83.3 Hz, beyond the default \
-            Atan2 FLL pull-in of 1/(4T) = 62.5 Hz; tracking false-locks at +125.02 Hz \
-            (T3), C/N0 M2M4 40.16 dB-Hz (T4); PLI 0.970 hides it"]
 fn galileo_e1b() {
     check(plain("galileo-e1b", galileo::e1b(3).unwrap(), 5e6, 1.5));
 }
 
 #[test]
-#[ignore = "FINDING D8: as galileo_e1b; +83.3 Hz acquisition residual, tracking false-locks \
-            at +125.02 Hz (T3), C/N0 M2M4 40.24 dB-Hz (T4), secondary agreement 51.87 % (T6)"]
 fn galileo_e1c() {
     check(tiered("galileo-e1c", galileo::e1c(3).unwrap(), 5e6, 1.5));
 }
