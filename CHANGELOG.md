@@ -11,6 +11,111 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lab replay: test conditions, campaign runner and scoring (0.34.0).** `kshana iq campaign
+  <campaign.toml>` replays recordings × front-end chains × loop designs (`kshana.loop-design/1`)
+  and scores every cell against a per-recording test-condition file (`kshana.test-conditions/1`,
+  TOML or JSON). That file states what a lab knows about the recording: the expected satellites,
+  and for each event its type label, onset and offset, affected satellites and stated J/S or
+  jammer-power profile. It is metadata only. The scores per satellite, for the whole run and per
+  event, are:
+  - availability, time to loss of lock and the stated J/S at the loss;
+  - re-acquisition time, from the event offset and from the loss;
+  - measured C/N0 degradation per stated-J/S bin;
+  - false-lock episodes per locked hour (the tracker's flag, or Doppler against a truth sidecar);
+  - PLL and DLL discriminator jitter.
+
+  Next to each measured degradation curve, an analytic spectral-separation reference
+  (`jamming::effective_cn0_dbhz` with the type's `Q`) is drawn and labelled MODELLED wherever it
+  appears.
+
+  Cells run in parallel through the tracking session's lock state machine, and each is
+  written atomically under a content-hash key. The key covers the recording's SHA-256, the
+  condition, front-end, design, run and scoring hashes, the required `data_class`
+  (`synthetic` | `client-confidential`) and the engine version. With `run.epochs` set, each
+  cell's `kshana.track-epoch/1` stream and lock events are also kept, named by cell key and
+  hashed into the cell. `cell_key` and `report::digest` are public, so a consumer can
+  re-derive every key and the digest. A rerun therefore skips finished cells, and outputs never depend on the worker
+  count. The run writes `scorecard.csv`/`.json`, a self-contained `report.html` and a `DIGEST`.
+  Pass/fail bars (`[scoring.bars]`, overridable per recording) are applied when the report is
+  built.
+
+  - `[scoring] cn0_estimator = "m2m4" | "nwpr"` (default `"m2m4"`, part of the scoring hash) picks the
+    C/N0 behind the reported C/N0 and the degradation curve. Both estimates are always scored and
+    reported (whole-run and baseline medians, and per J/S bin), and the cell and scorecard record
+    the estimator. NWPR reads low by about 8 dB × Bn·T under the loop's own jitter; M2M4 does not.
+
+  Also new:
+  - `kshana iq campaign report <dir>` rebuilds the scorecards, report and digest from the cells;
+  - `kshana iq conditions <file>` validates a test-condition file;
+  - `events_from_sigmf = true` imports a SigMF recording's `kshana:test_event` annotations as
+    events;
+  - Python gains `iq_test_conditions`, `iq_campaign` and `iq_campaign_report`;
+  - `kshana-mcp` gains `iq_campaign`, which is incremental and resumable under the per-call
+    sample budget with every file confined to the work directory, and `iq_campaign_status`.
+
+  Tests: `tests/iq_campaign.rs` runs a synthetic campaign of 3 recordings × 2 front ends × 2
+  designs. Its scenes carry stated C/N0 profiles, and it covers:
+  - every metric checked against the injected truth;
+  - resume after a partial single-worker run with a corrupt cell, byte-identical to an
+    uninterrupted four-worker run;
+  - per-cell epoch files;
+  - a 20 s three-satellite re-acquisition regression: with `reacquire` on, every channel is
+    back within 2 s of a 2 s gap; the `reacquire` off outcome is pinned;
+  - bars re-judged without re-running;
+  - the CLI;
+  - ignored release-mode throughput and memory checks, including a 4 GB recording (5.45× real
+    time, peak memory 2 MB above the starting RSS; one-machine measurements, not bars).
+
+  Software only: nothing transmits, and no interference or spoofing waveform is synthesised.
+  Design and as-built notes: `docs/design/LAB-CAMPAIGN.md`.
+
+- **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
+  the `kshana iq` layer from an agent: `iq_signals` (the accepted signal names and the IQ
+  set-up), `iq_info` (describe a recording), `iq_scene` (generate a stated-profile or
+  broadcast-ephemeris scene, with the optional signal-level channel), `iq_acquire` (FFT
+  acquisition, optionally behind front-end stages), `iq_track` (acquire, then the DLL/PLL/FLL
+  bank) and `iq_frontend` (band-pass, notch, blanking, excision, AGC, quantiser). IQ samples
+  never cross the protocol: every tool takes file paths inside one work directory set by
+  `KSHANA_MCP_IQ_DIR` (unset leaves the IQ file tools off and every other tool unaffected),
+  refuses paths that resolve outside it and outputs that already exist unless `overwrite`
+  is set, enforces a per-call sample budget (`KSHANA_MCP_IQ_MAX_SAMPLES`, default 50 000 000)
+  before any work, refuses unknown arguments, and replies with a compact JSON summary
+  (detections, C/N0, lock state, and each file written with its byte count). Per-epoch output
+  goes only to files the caller names. The tools run the same code path as the CLI through a
+  new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
+  printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
+  `iq::cli::signal_names` are now public too. Software-only and additive: no transmit, no
+  interference or spoofing waveform synthesis, no new dependencies. `server.json` declares
+  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  generate a short two-satellite scene and check acquisition against the scene's own truth
+  sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
+  and the disabled state.
+
+- **The GNSS IQ layer in the validation ledger.** A pre-registered cross-check against
+  gps-sdr-sim (an independent GPS L1 C/A baseband generator, MIT, commit 28ca29a6) is now part
+  of the always-on test suite (`tests/iq_gpssdrsim_cross_generator.rs`). Its committed
+  reference output (`tests/fixtures/iq_gpssdrsim_cross_generator/`: 20 ms of gps-sdr-sim's own
+  8-bit I/Q, its channel listing, and the channel state behind it from a harness linked
+  against the same build) is regenerated by `scripts/gen_iq_gpssdrsim_ref.sh`. Nothing at test
+  time needs network or the external tool. Two ledger rows are added (251 rows: 124 Validated,
+  123 Modelled, 4 Partner):
+  - *GNSS IQ scene signal geometry against an independent baseband generator*: **Validated**.
+    The scene's truth (visible set, pseudorange, code phase, Doppler, look angles) for a
+    broadcast-ephemeris scene matches gps-sdr-sim's channel state on all 11 channels: worst
+    1.6 mm, 5.5e-6 chip, 7.4e-5 Hz, 4e-9 degree, against bars of 0.05 m, 2e-4 chip,
+    0.02 Hz and 1e-4 degree fixed before the run.
+  - *GNSS IQ acquisition on independently generated I/Q samples*: **Modelled, with a
+    finding**. `iq::acq` finds every simulated satellite in gps-sdr-sim's samples within the
+    registered bars (code phase within 0.195 chip, Doppler within 72 Hz). The registered
+    "no other PRN detected" bar fails, though: on gps-sdr-sim's noise-free output the
+    Gaussian-noise threshold is crossed by the other satellites' cross-correlation for all
+    21 absent PRNs. The strict test is kept, ignored with the finding, and a pinned test
+    records it.
+  No engine code or public API changes. The sample I/Q is not compared sample for sample:
+  gps-sdr-sim's integer sine table, gains, zero initial carrier phase and truncated LNAV
+  fields are not quantities a receiver needs to agree on. The comparison is made at the
+  observables a receiver measures.
+
 - **Tracking engine for lab replay (0.34.0: B3.1, B3.2, B3.3, B6.1).**
   - *Loop-design files*: `kshana.loop-design/1` TOML (`docs/design/LOOP-DESIGN-TOML.md`;
     parser `iq::track::design`). One or more named designs set every loop field:

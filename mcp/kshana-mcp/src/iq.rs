@@ -204,9 +204,14 @@ impl IqConfig {
     /// Open `path` (already resolved), check every data file it reads lies inside the work
     /// directory, and return its spec and length in samples.
     fn open(&self, path: &Path, raw: Option<&RawInput>) -> Result<Opened, McpError> {
+        self.open_sidecar(path, raw.map(RawInput::sidecar))
+    }
+
+    /// [`Self::open`] with the raw description already as a sidecar.
+    fn open_sidecar(&self, path: &Path, raw: Option<RawSidecar>) -> Result<Opened, McpError> {
         let root = self.root()?;
-        let opened = open_recording(path, raw.map(RawInput::sidecar))
-            .map_err(|e| bad(format!("{}: {e}", self.rel(path))))?;
+        let opened =
+            open_recording(path, raw).map_err(|e| bad(format!("{}: {e}", self.rel(path))))?;
         for (data, _) in &opened.data_files {
             let canon = data
                 .canonicalize()
@@ -223,6 +228,45 @@ impl IqConfig {
             samples: opened.n_samples,
             format: opened.format.name(),
         })
+    }
+
+    /// Resolve a file a campaign names (already joined to its base) and refuse it unless it
+    /// lies inside the work directory.
+    fn contained(&self, path: &Path) -> Result<PathBuf, McpError> {
+        let root = self.root()?;
+        let canon = path
+            .canonicalize()
+            .map_err(|e| bad(format!("{}: {e}", path.display())))?;
+        if !canon.starts_with(root) {
+            return Err(bad(format!(
+                "{} lies outside the IQ work directory",
+                path.display()
+            )));
+        }
+        Ok(canon)
+    }
+
+    /// Resolve a campaign output folder inside the work directory, creating it (one level)
+    /// when it does not exist yet.
+    fn out_dir(&self, rel: &str) -> Result<PathBuf, McpError> {
+        let root = self.root()?;
+        let joined = join(root, rel)?;
+        if joined.exists() {
+            let canon = self.contained(&joined)?;
+            if !canon.is_dir() {
+                return Err(bad(format!("out_dir `{rel}` is not a folder")));
+            }
+            return Ok(canon);
+        }
+        let name = joined
+            .file_name()
+            .filter(|n| *n != "." && *n != "..")
+            .ok_or_else(|| bad(format!("out_dir `{rel}` does not name a folder")))?
+            .to_owned();
+        let parent = self.contained(joined.parent().unwrap_or(root))?;
+        let full = parent.join(name);
+        std::fs::create_dir(&full).map_err(|e| bad(format!("out_dir `{rel}`: {e}")))?;
+        Ok(full)
     }
 
     /// Refuse a call that would touch more than the budget.
@@ -846,6 +890,43 @@ fn detection(d: &serde_json::Value) -> serde_json::Value {
     })
 }
 
+/// Run a lab-replay campaign held in the work directory.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct IqCampaignRequest {
+    /// The campaign file (`kshana.campaign/1`), relative to the IQ work directory. Every file
+    /// it names (test conditions, recordings, truth sidecars, the loop-design file) must lie
+    /// inside the work directory too.
+    pub campaign: String,
+    /// The output folder, relative to the work directory; created if it does not exist.
+    pub out_dir: String,
+    /// Run at most this many pending cells in this call. Omitted: as many as fit the
+    /// sample budget. Call again to continue; finished cells are skipped.
+    #[serde(default)]
+    pub max_cells: Option<usize>,
+    /// Worker threads (0 = the campaign's setting, or every core).
+    #[serde(default)]
+    pub workers: usize,
+    /// Skip cells already done (default true).
+    #[serde(default = "yes")]
+    pub resume: bool,
+    /// Only plan: report what would run.
+    #[serde(default)]
+    pub dry_run: bool,
+}
+
+fn yes() -> bool {
+    true
+}
+
+/// Report the progress of a campaign output folder.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct IqCampaignStatusRequest {
+    /// The campaign's output folder, relative to the IQ work directory.
+    pub out_dir: String,
+}
+
 #[tool_router(router = iq_tool_router, vis = "pub(crate)")]
 impl KshanaServer {
     #[tool(
@@ -1326,6 +1407,147 @@ impl KshanaServer {
             "samples": n,
             "sample_rate_hz": spec.fs_hz,
             "files": iq.written(&[out, sidecar]),
+        }))
+    }
+
+    #[tool(
+        description = "Run a lab-replay campaign held in the work directory (`kshana iq campaign`): recordings (each described by a `kshana.test-conditions/1` file stating the lab's known truth) x front-end chains x loop designs, each cell tracked and scored against the stated conditions (time to loss of lock, re-acquisition time, C/N0 degradation against the stated J/S beside an analytic reference labelled MODELLED, false-lock rate, PLL/DLL jitter, availability). Incremental: one call runs the pending cells that fit the sample budget (or `max_cells`), every finished cell is kept, and the next call resumes. Replies with the cell counts, failures, the files written, and the `digest` once every cell is done. Scores recorded data only; it synthesises no interference."
+    )]
+    fn iq_campaign(
+        &self,
+        Parameters(r): Parameters<IqCampaignRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        use kshana::iq::campaign::conditions::resolve;
+        use kshana::iq::campaign::runner::{cell_done, plan};
+        use kshana::iq::campaign::{LoadedCampaign, RunOptions, run};
+        let iq = &self.iq;
+        let path = iq.input(&r.campaign)?;
+        // Every file the campaign names is checked against the work directory before it is
+        // read, so a path outside it never reaches a parser (whose error would quote it).
+        let loaded = LoadedCampaign::load_checked(&path, &|p| {
+            iq.contained(p)
+                .map(|_| ())
+                .map_err(|e| e.message.to_string())
+        })
+        .map_err(bad)?;
+        if let Some(d) = &loaded.spec.inputs.designs {
+            iq.contained(&resolve(&path, d))?;
+        }
+        let mut lengths = std::collections::BTreeMap::new();
+        for (file, tc) in &loaded.conditions {
+            iq.contained(file)?;
+            for g in &tc.expected {
+                if let Some(t) = &g.truth {
+                    iq.contained(&resolve(file, t))?;
+                }
+            }
+            let rec = iq.contained(&tc.recording_path(file))?;
+            // Events imported from SigMF were read from the recording's metadata, which
+            // sits beside the data file; it must be inside the work directory too.
+            if let Some(base) = rec.to_string_lossy().strip_suffix(".sigmf-data") {
+                let meta = PathBuf::from(format!("{base}.sigmf-meta"));
+                if meta.exists() {
+                    iq.contained(&meta)?;
+                }
+            }
+            let raw = tc.recording.raw_sidecar().map_err(bad)?;
+            let o = iq.open_sidecar(&rec, raw)?;
+            let span = if loaded.spec.run.max_seconds > 0.0 {
+                ((loaded.spec.run.max_seconds * o.spec.fs_hz).round() as u64).min(o.samples)
+            } else {
+                o.samples
+            };
+            lengths.insert(tc.recording.id.clone(), span);
+        }
+        let out = iq.out_dir(&r.out_dir)?;
+        let p = plan(&loaded, &out, r.workers).map_err(bad)?;
+        // The cells this call may run: pending cells in plan order while their samples fit.
+        let mut used = 0u64;
+        let mut n = 0usize;
+        let cap = r.max_cells.unwrap_or(usize::MAX);
+        let mut first_pending = None;
+        for c in &p.cells {
+            if r.resume && cell_done(&out, &c.key) {
+                continue;
+            }
+            let s = lengths[&p.recordings[c.recording].id];
+            first_pending.get_or_insert(s);
+            if n >= cap || used + s > iq.max_samples() {
+                break;
+            }
+            used += s;
+            n += 1;
+        }
+        if n == 0
+            && let Some(s) = first_pending
+            && cap > 0
+        {
+            iq.budget(
+                s,
+                "the next cell's recording",
+                "raise the budget or set run.max_seconds in the campaign",
+            )?;
+        }
+        let opts = RunOptions {
+            workers: r.workers,
+            no_resume: !r.resume,
+            max_cells: Some(n),
+            dry_run: r.dry_run,
+        };
+        let s = run(&loaded, &out, &opts).map_err(bad)?;
+        let files: Vec<PathBuf> = [
+            "campaign.json",
+            "scorecard.csv",
+            "scorecard.json",
+            "report.html",
+            "DIGEST",
+        ]
+        .iter()
+        .map(|f| out.join(f))
+        .collect();
+        reply(serde_json::json!({
+            "campaign": s.name,
+            "out_dir": iq.rel(&out),
+            "cells_total": s.cells_total,
+            "cells_skipped": s.cells_skipped,
+            "cells_run": s.cells_run,
+            "cells_failed": s.cells_failed.iter().map(|(k, e)| serde_json::json!({"cell": k, "error": e})).collect::<Vec<_>>(),
+            "cells_pending": s.cells_pending,
+            "samples_budgeted": if r.dry_run { 0 } else { used },
+            "dry_run": r.dry_run,
+            "digest": s.digest,
+            "files": iq.written(&files),
+        }))
+    }
+
+    #[tool(
+        description = "Report a lab-replay campaign's progress from its output folder in the work directory, reading files only: cells done and pending, the recordings, front ends and designs in the plan, and the `digest` once every cell is done."
+    )]
+    fn iq_campaign_status(
+        &self,
+        Parameters(r): Parameters<IqCampaignStatusRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        use kshana::iq::campaign::Plan;
+        use kshana::iq::campaign::runner::cell_done;
+        let iq = &self.iq;
+        let out = iq.contained(&join(iq.root()?, &r.out_dir)?)?;
+        let text = std::fs::read_to_string(out.join("campaign.json"))
+            .map_err(|e| bad(format!("{}: no campaign here ({e})", r.out_dir)))?;
+        let p: Plan = serde_json::from_str(&text).map_err(|e| bad(e.to_string()))?;
+        let done = p.cells.iter().filter(|c| cell_done(&out, &c.key)).count();
+        let digest = std::fs::read_to_string(out.join("DIGEST"))
+            .ok()
+            .map(|d| d.trim().to_string());
+        reply(serde_json::json!({
+            "campaign": p.name,
+            "engine_version": p.engine_version,
+            "cells_total": p.cells.len(),
+            "cells_done": done,
+            "cells_pending": p.cells.len() - done,
+            "recordings": p.recordings.iter().map(|r| r.id.clone()).collect::<Vec<_>>(),
+            "frontends": p.frontends.iter().map(|f| f.0.name.clone()).collect::<Vec<_>>(),
+            "designs": p.designs.iter().filter_map(|d| d.get("name").cloned()).collect::<Vec<_>>(),
+            "digest": digest,
         }))
     }
 }
