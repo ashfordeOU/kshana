@@ -122,6 +122,9 @@
 //! gives a y sigma of 0.078174 m, 3.9 % below this oracle, which is why the analytic row stays
 //! MODELLED.
 
+#[path = "support/fixture_pin.rs"]
+mod fixture_pin;
+
 use kshana::lunar_vlbi_fim::{schedule_jacobian, Datum, LunarVlbiFimScenario, StateLayout};
 
 type J = serde_json::Value;
@@ -242,10 +245,13 @@ fn surface_point_covariance_kernel_path_matches_spice_geometry_and_numpy() {
         .iter()
         .map(fv)
         .collect();
-    assert_eq!(
-        jac, committed,
-        "the engine no longer builds the committed Jacobian"
-    );
+    // Within 1e-12 of each row's scale: the Jacobian moves in the last bits between hosts'
+    // libms (issue #36). See `support/fixture_pin.rs`.
+    if let Err(e) =
+        fixture_pin::check_rows_scaled(&jac, &committed, fixture_pin::NEAR_BIT, "engine_jacobian")
+    {
+        panic!("the engine no longer builds the committed Jacobian: {e}");
+    }
 
     // SPICE leg (binding).
     let s = &reference["spice"];
