@@ -9,7 +9,7 @@
 //! normalised peak statistic, the detection threshold and whether the peak cleared it.
 
 use super::{build_code, open_input, Args, Fail};
-use crate::iq::acq::{acquire, samples_needed, AcqConfig, AcqResult};
+use crate::iq::acq::{acquire_peak, samples_needed, AcqConfig, AcqResult};
 use crate::iq::signals::SignalCode;
 use crate::iq::{Cf64, IqSource, SampleSpec, SpreadingCode};
 
@@ -107,8 +107,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
                 samples.len()
             )));
         }
-        let grid = acquire(&samples, &spec, code, &cfg).map_err(Fail::Run)?;
-        results.push(grid.result);
+        results.push(acquire_peak(&samples, &spec, code, &cfg).map_err(Fail::Run)?);
     }
 
     write_outputs(&a, &spec, &cfg, &results)?;

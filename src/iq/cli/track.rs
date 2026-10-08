@@ -25,7 +25,7 @@
 use super::acquire::{codes_from_args, read_samples};
 use super::frontend::through_frontend;
 use super::{open_input, Args, Fail};
-use crate::iq::acq::acquire;
+use crate::iq::acq::acquire_peak;
 use crate::iq::acq::samples_needed;
 use crate::iq::signals::SignalCode;
 use crate::iq::track::design::{Design, DesignFile};
@@ -208,20 +208,20 @@ pub(crate) fn acquire_inits(
                 samples.len()
             )));
         }
-        let grid = acquire(&samples, spec, code, &cfg).map_err(Fail::Run)?;
-        if !grid.result.acquired {
+        let found = acquire_peak(&samples, spec, code, &cfg).map_err(Fail::Run)?;
+        if !found.acquired {
             return Err(Fail::Run(format!(
                 "{}: not acquired (statistic {:.2} < threshold {:.2}); raise --doppler-max, \
                  --acq-coherent or --acq-noncoherent, or check the recording",
                 code.name(),
-                grid.result.statistic,
-                grid.result.threshold
+                found.statistic,
+                found.threshold
             )));
         }
         let arc: Arc<dyn SpreadingCode + Send + Sync> = Arc::new(code.clone());
         inits.push(ChannelInit::from_acquisition(
             arc,
-            &grid.result,
+            &found,
             spec,
             0,
             periods_per_bit,
