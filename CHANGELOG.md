@@ -220,13 +220,28 @@ breaking changes are called out explicitly.
   For every code of 4 ms or longer (`N = 1`), including Galileo E1-B and E1-C, the residual
   (83.3 Hz at 4 ms) was outside the 62.5 Hz pull-in and tracking false-locked at +125 Hz, with
   a phase-lock indicator of 0.97 that hid it. The default step is now also capped at
-  `0.4 / T_track` (`kshana::iq::acq::default_step_hz`), so the worst-case residual is 80 % of
-  the pull-in: E1-B/E1-C 166.7 → 100 Hz, and the 1 ms codes (166.7 Hz, `N = 4`) are unchanged.
-  `"auto"` in a loop design means this; an explicit `doppler_step_hz` or `--doppler-step` is used
-  as written, and `iq acquire` (no tracking hand-off) keeps the textbook step. The epoch header
-  and `--summary` now record the resolved step and loop bandwidths for each channel (`resolved`).
-  The default design hash is unchanged. Output change: acquisition on 4 ms-and-longer codes searches
-  a 1.67× finer Doppler grid, so detections can land on different bins.
+  `0.2 / T_track` (`kshana::iq::acq::default_step_hz`), 0.8 of the pull-in, so the hand-off
+  stays inside it even when the neighbouring bin wins. (0.4 was tried first: it false-locked 1 run
+  in 42 on E1-B, and a 1 ms coherent GPS L1 C/A search picked a bin 350 Hz off and locked at
+  +500 Hz; 0.25 and 0.2 had none in the same runs.) Cost: Galileo E1-B/E1-C go from 166.7 Hz to
+  50 Hz bins, 201 bins over ±5 kHz instead of 61; the 1 ms codes (166.7 Hz, `N = 4`) are
+  unchanged. `"auto"` in a loop design means this; an explicit `doppler_step_hz` or
+  `--doppler-step` is used as written, and `iq acquire` (no tracking hand-off) keeps the
+  textbook step. The epoch header and `--summary` now record the resolved step and loop
+  bandwidths for each channel (`resolved`). The default design hash is unchanged. Output change:
+  detections on 4 ms-and-longer codes can land on different Doppler bins.
+
+- **GPS L2C CM (20 ms loop update) holds lock with the default design.** The default 15 Hz PLL
+  and 10 Hz FLL have `Bn · T` of 0.3 and 0.2 at T = 20 ms, and the loop lost lock even from a
+  perfect start (PLI −0.08, M2M4 15.8 dB-Hz). New design key `carrier.bn_t_max` (default 0.1)
+  clamps the PLL and FLL noise bandwidths to `bn_t_max / T` when the loop update time is
+  longer than 4 ms (`Design::loop_config_for`): 5 Hz and 5 Hz at 20 ms, 10 Hz and 10 Hz at
+  BeiDou B1C's 10 ms; the 1 ms and 4 ms codes keep 15 and 10 Hz. It applies to explicit
+  bandwidths too; `bn_t_max = 0` turns it off. The key is omitted from the canonical form at its
+  default, so the default hash is unchanged; a design that sets any other value has a different
+  hash. At 45 dB-Hz L2C CM now gives PLI 0.996, Doppler error 0.00 Hz and M2M4 42.71 dB-Hz.
+  Known open item: the NWPR C/N0 reads 1.76 dB low there (and 2.45 dB low on B1C at 10 ms),
+  so the matrix's T5 for L2C stays an ignored finding.
 
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
   a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
