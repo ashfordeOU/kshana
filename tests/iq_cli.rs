@@ -1377,7 +1377,7 @@ fn threads_leave_the_output_bit_identical() {
             "--rate",
             "2046000",
             "--duration",
-            "0.7",
+            "1.5",
             "--signal",
             "gps-l1ca",
             "--prn",
@@ -1394,6 +1394,14 @@ fn threads_leave_the_output_bit_identical() {
     let prns = "3,6,11,14,19";
     let serial = track_bytes(&iq, &dir, "t1", prns, &[]);
     assert!(serial[0].len() > 10_000);
+    // The comparison below must have something to compare: every channel reaches LOCKED
+    // within the run, so the serial events file holds five `locked` events.
+    let events = String::from_utf8(serial[1].clone()).unwrap();
+    assert_eq!(
+        events.matches("\"reason\":\"locked\"").count(),
+        5,
+        "{events}"
+    );
     for n in ["2", "7", "auto"] {
         let got = track_bytes(&iq, &dir, &format!("n{n}"), prns, &["--threads", n]);
         assert_eq!(got[0], serial[0], "epochs with --threads {n}");
@@ -1416,6 +1424,7 @@ fn threads_leave_the_output_bit_identical() {
         "6,11",
         &["--reacquire", "--acq-coherent", "1", "--threads", "4"],
     );
+    assert!(!off[1].is_empty(), "the re-acquisition run emits events");
     assert_eq!(off, off4);
     assert_ne!(
         run(&args(&[
