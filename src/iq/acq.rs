@@ -155,6 +155,111 @@ pub struct AcqGrid {
     pub grid: Vec<Vec<f64>>,
 }
 
+/// The per-search state the correlation rows share: the FFT plan, the conjugated code
+/// spectrum and the normalisation. One [`RowEngine::row`] is one Doppler bin's lag
+/// profile, so a caller can keep every row (the grid) or only a running best.
+struct RowEngine<'a> {
+    samples: &'a [Cf64],
+    fs: f64,
+    base_hz: f64,
+    spc: usize,
+    block: usize,
+    noncoherent: usize,
+    plan: FftPlan,
+    code_fft: Vec<(f64, f64)>,
+    norm: f64,
+    sigma2: f64,
+}
+
+impl<'a> RowEngine<'a> {
+    /// `samples` must hold [`samples_needed`] samples.
+    fn new(
+        samples: &'a [Cf64],
+        spec: &SampleSpec,
+        code: &dyn SpreadingCode,
+        cfg: &AcqConfig,
+    ) -> Result<Self, String> {
+        let spc = samples_per_period(spec, code)?;
+        let block = spc * cfg.coherent_periods;
+        let needed = block * cfg.noncoherent;
+        if samples.len() < needed {
+            return Err(format!(
+                "{} samples supplied, {needed} needed",
+                samples.len()
+            ));
+        }
+        let fs = spec.fs_hz;
+        // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
+        let base_hz = spec.baseband_hz(code.carrier_hz());
+        let chips_per_sample = code.chip_rate_hz() / fs;
+
+        let plan = FftPlan::new(spc);
+        let code_fft: Vec<(f64, f64)> = {
+            let rep: Vec<(f64, f64)> = (0..spc)
+                .map(|i| (code.value_at(i as f64 * chips_per_sample), 0.0))
+                .collect();
+            plan.forward(&rep)
+                .into_iter()
+                .map(|(r, i)| (r, -i))
+                .collect()
+        };
+
+        let power: f64 = samples[..needed]
+            .iter()
+            .map(|x| x.re * x.re + x.im * x.im)
+            .sum();
+        let sigma2 = power / needed as f64;
+        if sigma2.is_nan() || sigma2 <= 0.0 {
+            return Err("the samples carry no power".into());
+        }
+        Ok(Self {
+            samples,
+            fs,
+            base_hz,
+            spc,
+            block,
+            noncoherent: cfg.noncoherent,
+            plan,
+            code_fft,
+            norm: 2.0 / (block as f64 * sigma2),
+            sigma2,
+        })
+    }
+
+    /// The normalised power at every lag for Doppler `d` (Hz).
+    fn row(&self, d: f64) -> Vec<f64> {
+        let (spc, block, fs) = (self.spc, self.block, self.fs);
+        let f = self.base_hz + d;
+        let mut row = vec![0.0_f64; spc];
+        for m in 0..self.noncoherent {
+            let start = m * block;
+            let mut fold = vec![(0.0_f64, 0.0_f64); spc];
+            for i in 0..block {
+                let n = start + i;
+                let cyc = (f * n as f64 / fs).fract();
+                let (sn, cs) = (-core::f64::consts::TAU * cyc).psin_cos();
+                let s = self.samples[n];
+                let r = &mut fold[i % spc];
+                r.0 += s.re * cs - s.im * sn;
+                r.1 += s.re * sn + s.im * cs;
+            }
+            let mut y = self.plan.forward(&fold);
+            drop(fold);
+            for (v, &(c, e)) in y.iter_mut().zip(&self.code_fft) {
+                let (a, b) = *v;
+                *v = (a * c - b * e, a * e + b * c);
+            }
+            for (cell, (re, im)) in row.iter_mut().zip(self.plan.inverse(&y)) {
+                *cell += re * re + im * im;
+            }
+        }
+        for cell in &mut row {
+            *cell *= self.norm;
+        }
+        row
+    }
+}
+
 /// The normalised correlation power `2·G/(L·σ²)` of `samples` against `code` at every
 /// Doppler in `dopplers` (Hz, relative to the carrier's place in the baseband) and every
 /// lag: `rows[doppler][lag]`, with the mean sample power `σ²`. [`acquire`] searches
@@ -167,82 +272,12 @@ pub(crate) fn power_rows(
     cfg: &AcqConfig,
     dopplers: &[f64],
 ) -> Result<(Vec<Vec<f64>>, f64), String> {
-    let spc = samples_per_period(spec, code)?;
-    let block = spc * cfg.coherent_periods;
-    let needed = block * cfg.noncoherent;
-    if samples.len() < needed {
-        return Err(format!(
-            "{} samples supplied, {needed} needed",
-            samples.len()
-        ));
-    }
-    let fs = spec.fs_hz;
-    // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
-    let base_hz = spec.baseband_hz(code.carrier_hz());
-    let chips_per_sample = code.chip_rate_hz() / fs;
-
-    let plan = FftPlan::new(spc);
-    let rep: Vec<(f64, f64)> = (0..spc)
-        .map(|i| (code.value_at(i as f64 * chips_per_sample), 0.0))
-        .collect();
-    let code_fft: Vec<(f64, f64)> = plan
-        .forward(&rep)
-        .into_iter()
-        .map(|(r, i)| (r, -i))
-        .collect();
-
-    let power: f64 = samples[..needed]
-        .iter()
-        .map(|x| x.re * x.re + x.im * x.im)
-        .sum();
-    let sigma2 = power / needed as f64;
-    if sigma2.is_nan() || sigma2 <= 0.0 {
-        return Err("the samples carry no power".into());
-    }
-
-    let mut grid = vec![vec![0.0_f64; spc]; dopplers.len()];
-    for (row, &d) in grid.iter_mut().zip(dopplers) {
-        let f = base_hz + d;
-        for m in 0..cfg.noncoherent {
-            let start = m * block;
-            let mut fold = vec![(0.0_f64, 0.0_f64); spc];
-            for i in 0..block {
-                let n = start + i;
-                let cyc = (f * n as f64 / fs).fract();
-                let (sn, cs) = (-core::f64::consts::TAU * cyc).psin_cos();
-                let s = samples[n];
-                let r = &mut fold[i % spc];
-                r.0 += s.re * cs - s.im * sn;
-                r.1 += s.re * sn + s.im * cs;
-            }
-            let y = plan.forward(&fold);
-            let prod: Vec<(f64, f64)> = y
-                .iter()
-                .zip(&code_fft)
-                .map(|(&(a, b), &(c, e))| (a * c - b * e, a * e + b * c))
-                .collect();
-            for (cell, (re, im)) in row.iter_mut().zip(plan.inverse(&prod)) {
-                *cell += re * re + im * im;
-            }
-        }
-    }
-    let norm = 2.0 / (block as f64 * sigma2);
-    for row in &mut grid {
-        for cell in row.iter_mut() {
-            *cell *= norm;
-        }
-    }
-    Ok((grid, sigma2))
+    let eng = RowEngine::new(samples, spec, code, cfg)?;
+    let grid = dopplers.iter().map(|&d| eng.row(d)).collect();
+    Ok((grid, eng.sigma2))
 }
 
-/// Search `samples` (at least [`samples_needed`] long; the first that many are used),
-/// sampled as `spec`, for `code`.
-pub fn acquire(
-    samples: &[Cf64],
-    spec: &SampleSpec,
-    code: &dyn SpreadingCode,
-    cfg: &AcqConfig,
-) -> Result<AcqGrid, String> {
+fn check_cfg(cfg: &AcqConfig) -> Result<(), String> {
     if cfg.coherent_periods == 0 || cfg.noncoherent == 0 {
         return Err("coherent_periods and noncoherent must be positive".into());
     }
@@ -252,30 +287,24 @@ pub fn acquire(
     if !(cfg.pfa > 0.0 && cfg.pfa < 1.0) {
         return Err("pfa must lie in (0, 1)".into());
     }
-    let spc = samples_per_period(spec, code)?;
-    let block = spc * cfg.coherent_periods;
-    let needed = block * cfg.noncoherent;
-    if samples.len() < needed {
-        return Err(format!(
-            "{} samples supplied, {needed} needed",
-            samples.len()
-        ));
-    }
-    let bins = cfg.doppler_bins();
-    let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
-    let (grid, sigma2) = power_rows(samples, spec, code, cfg, &bins)?;
+    Ok(())
+}
 
-    let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
-    for (j, row) in grid.iter().enumerate() {
-        for (t, &cell) in row.iter().enumerate() {
-            if cell > best.0 {
-                best = (cell, j, t);
-            }
-        }
-    }
+/// The result from the peak `(power, doppler index, lag)` and the peak's row.
+#[allow(clippy::too_many_arguments)]
+fn result_from_peak(
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+    bins: &[f64],
+    spc: usize,
+    sigma2: f64,
+    chips_per_sample: f64,
+    best: (f64, usize, usize),
+    peak_row: &[f64],
+) -> AcqResult {
     let (peak, jb, tb) = best;
     let guard = (1.0 / chips_per_sample).ceil() as usize + 1;
-    let second_peak = grid[jb]
+    let second_peak = peak_row
         .iter()
         .enumerate()
         .filter(|&(t, _)| {
@@ -291,29 +320,109 @@ pub fn acquire(
     let threshold = threshold_for_pfa(pfa_cell, cfg.noncoherent as f64);
     let len = code.len_chips() as f64;
     let code_phase_chips = (-(tb as f64) * chips_per_sample).rem_euclid(len);
-    Ok(AcqGrid {
-        result: AcqResult {
-            code_name: code.name(),
-            doppler_hz: bins[jb],
-            doppler_index: jb,
-            delay_samples: tb,
-            code_phase_chips,
-            statistic: peak,
-            second_peak,
-            peak_ratio: if second_peak > 0.0 {
-                peak / second_peak
-            } else {
-                f64::INFINITY
-            },
-            pfa_cell,
-            threshold,
-            acquired: peak > threshold,
-            samples_per_period: spc,
-            n_doppler_bins: bins.len(),
-            sample_power: sigma2,
+    AcqResult {
+        code_name: code.name(),
+        doppler_hz: bins[jb],
+        doppler_index: jb,
+        delay_samples: tb,
+        code_phase_chips,
+        statistic: peak,
+        second_peak,
+        peak_ratio: if second_peak > 0.0 {
+            peak / second_peak
+        } else {
+            f64::INFINITY
         },
-        grid,
-    })
+        pfa_cell,
+        threshold,
+        acquired: peak > threshold,
+        samples_per_period: spc,
+        n_doppler_bins: bins.len(),
+        sample_power: sigma2,
+    }
+}
+
+/// Search `samples` (at least [`samples_needed`] long; the first that many are used),
+/// sampled as `spec`, for `code`, keeping the whole grid. The grid is
+/// `Doppler bins × samples per period` f64 cells, which is gigabytes for the long tiered
+/// codes at high rates: use [`acquire_peak`] when only the result is needed.
+pub fn acquire(
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+) -> Result<AcqGrid, String> {
+    check_cfg(cfg)?;
+    let bins = cfg.doppler_bins();
+    let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
+    let (grid, sigma2) = power_rows(samples, spec, code, cfg, &bins)?;
+    let spc = samples_per_period(spec, code)?;
+
+    let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
+    for (j, row) in grid.iter().enumerate() {
+        for (t, &cell) in row.iter().enumerate() {
+            if cell > best.0 {
+                best = (cell, j, t);
+            }
+        }
+    }
+    let result = result_from_peak(
+        code,
+        cfg,
+        &bins,
+        spc,
+        sigma2,
+        chips_per_sample,
+        best,
+        &grid[best.1],
+    );
+    Ok(AcqGrid { result, grid })
+}
+
+/// The same search as [`acquire`] without keeping the grid: a running best and the row it
+/// lies in, so memory is O(samples + samples per period), not O(bins × samples). The result
+/// is bit-identical to `acquire(..).result` (the cells come from the same arithmetic and ties
+/// resolve to the first cell in the same order).
+pub fn acquire_peak(
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+) -> Result<AcqResult, String> {
+    check_cfg(cfg)?;
+    let bins = cfg.doppler_bins();
+    let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
+    let eng = RowEngine::new(samples, spec, code, cfg)?;
+    let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
+    let mut best_row: Vec<f64> = Vec::new();
+    for (j, &d) in bins.iter().enumerate() {
+        let row = eng.row(d);
+        let mut here = (best.0, 0usize);
+        let mut found = false;
+        for (t, &cell) in row.iter().enumerate() {
+            if cell > here.0 {
+                here = (cell, t);
+                found = true;
+            }
+        }
+        if found {
+            best = (here.0, j, here.1);
+            best_row = row;
+        }
+    }
+    if best_row.is_empty() {
+        best_row = eng.row(bins[0]);
+    }
+    Ok(result_from_peak(
+        code,
+        cfg,
+        &bins,
+        eng.spc,
+        eng.sigma2,
+        chips_per_sample,
+        best,
+        &best_row,
+    ))
 }
 
 /// Read [`samples_needed`] samples from `src` and search them for `code`. The search is
