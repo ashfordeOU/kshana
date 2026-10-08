@@ -5983,6 +5983,8 @@ Figure
 
 ModelledEngine v0.33.0 · lunar-joint-od-clock.toml · seed 42Open in Kshana Studio
 
+Recorded on macOS as published. A fresh Linux x86-64 run gives 2184 m / 3.541 m (solver iterate host dependence, issue #36 row 6).
+
 Key findings
 
 - Ranging inside the lunar network leaves the cluster free to shift and rotate unseen; the clocks stay observable, so the defect is purely positional.
