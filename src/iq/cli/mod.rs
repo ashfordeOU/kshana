@@ -56,6 +56,7 @@ pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --dur
  loop designs: a kshana.loop-design/1 TOML file (docs/design/LOOP-DESIGN-TOML.md); explicit loop/acquisition flags override the selected design
  acquire/track/sweep also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing (to the acquisition and the tracking pass alike)
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
+ scene C/N0 profile: [--cn0-profile <toml>] time-varying C/N0 offsets per satellite (step, ramp, points, fade), applied over the channel; the truth's cn0_dbhz follows it
  recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; multi-stream inputs take --channel <k>
  signals: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of
  <list> is a comma-separated list (one per --prn, or a single value applied to all)";

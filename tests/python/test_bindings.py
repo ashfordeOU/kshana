@@ -316,3 +316,20 @@ def test_iq_acquire_raises_on_an_unknown_signal():
 
     with pytest.raises(ValueError):
         kshana.iq_acquire([0.0, 0.0], [0.0, 0.0], 2_046_000, "not-a-signal", [1])
+
+
+def test_iq_scene_cn0_profile_sets_the_truth_cn0():
+    import pytest
+
+    prof = "[[segment]]\nkind = \"step\"\nat_s = 0.2\ndelta_db = -6.0\n"
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.4, signal="gps-l1ca", prns=[9],
+        cn0_dbhz=45.0, noise=False, cn0_profile=prof,
+    )
+    cn0 = {round(r["t_s"], 6): r["cn0_dbhz"] for r in scene["truth"]}
+    assert all(abs(v - (39.0 if t >= 0.2 else 45.0)) < 1e-9 for t, v in cn0.items())
+    with pytest.raises(ValueError):
+        kshana.iq_scene(
+            fs_hz=2_046_000, duration_s=0.1, signal="gps-l1ca", prns=[9],
+            cn0_profile="[[segment]]\nkind = \"fade\"\ns4 = 3.0\ntau_s = 1.0\n",
+        )

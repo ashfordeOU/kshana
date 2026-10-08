@@ -256,9 +256,11 @@ fn samples_from(i: &[f64], q: &[f64]) -> PyResult<Vec<Cf64>> {
 /// every satellite through the channel knobs: `iono_stec`/`iono_vtec` (TECU) or
 /// `iono_klobuchar`, `tropo` (with `tropo_doy`), scintillation `s4`/`scint_tau0`/`sigma_phi`,
 /// `multipath_height` (m) with `multipath_ground` (`dry`/`wet`/`sea`), `land_mobile`, and
-/// `nlos`. Raises `ValueError` on an invalid scene or channel.
+/// `nlos`. `cn0_profile` is a C/N0 profile file's text ([`crate::iq::channel::cn0_profile`]):
+/// time-varying C/N0 offsets per satellite applied over the channel, with the truth's
+/// `cn0_dbhz` following them. Raises `ValueError` on an invalid scene, channel or profile.
 #[pyfunction]
-#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1, iono_stec=None, iono_vtec=None, iono_klobuchar=false, tropo=false, tropo_doy=180.0, s4=None, scint_tau0=1.0, sigma_phi=0.0, multipath_height=None, multipath_ground="dry".to_string(), land_mobile=false, nlos=false))]
+#[pyo3(signature = (fs_hz, duration_s, signal, prns, dopplers=None, cn0_dbhz=None, center_hz=None, if_hz=0.0, noise=true, noise_figure_db=2.0, seed=1, data=false, threads=1, iono_stec=None, iono_vtec=None, iono_klobuchar=false, tropo=false, tropo_doy=180.0, s4=None, scint_tau0=1.0, sigma_phi=0.0, multipath_height=None, multipath_ground="dry".to_string(), land_mobile=false, nlos=false, cn0_profile=None))]
 #[allow(clippy::too_many_arguments)]
 fn iq_scene<'py>(
     py: Python<'py>,
@@ -287,7 +289,12 @@ fn iq_scene<'py>(
     multipath_ground: String,
     land_mobile: bool,
     nlos: bool,
+    cn0_profile: Option<String>,
 ) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::channel::cn0_profile::{Cn0Profile, Cn0ProfileChannel, ProfiledTruth};
+    let profile = cn0_profile
+        .map(|t| Cn0Profile::parse(&t).map_err(|e| PyValueError::new_err(e.to_string())))
+        .transpose()?;
     let params = SceneParams {
         fs_hz,
         duration_s,
@@ -320,6 +327,7 @@ fn iq_scene<'py>(
         land_mobile,
         nlos,
     };
+    let mut inner = None;
     if chan.any() {
         let carrier = scene
             .satellites()
@@ -327,17 +335,22 @@ fn iq_scene<'py>(
             .map(|s| s.code.carrier_hz())
             .unwrap_or(spec.center_hz);
         let start_tow = scene.config().start_tow_s;
-        if let Some(ch) =
-            build_channel(&chan, carrier, params.seed, start_tow).map_err(PyValueError::new_err)?
-        {
-            scene.set_channel(ch);
-        }
+        inner =
+            build_channel(&chan, carrier, params.seed, start_tow).map_err(PyValueError::new_err)?;
+    }
+    match (&profile, inner) {
+        (Some(p), inner) => scene.set_channel(Box::new(Cn0ProfileChannel::new(p.clone(), inner))),
+        (None, Some(ch)) => scene.set_channel(ch),
+        (None, None) => {}
     }
     let mut sink = VecSink::default();
     let mut truth: Vec<TruthRecord> = Vec::new();
-    scene
-        .generate(&mut sink, &mut truth)
-        .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    match profile {
+        // The truth states the profiled C/N0.
+        Some(p) => scene.generate(&mut sink, &mut ProfiledTruth::new(p, &mut truth)),
+        None => scene.generate(&mut sink, &mut truth),
+    }
+    .map_err(|e| PyValueError::new_err(e.to_string()))?;
     let i: Vec<f64> = sink.samples.iter().map(|s| s.re).collect();
     let q: Vec<f64> = sink.samples.iter().map(|s| s.im).collect();
     let truth_json: Vec<serde_json::Value> = truth
