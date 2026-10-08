@@ -296,6 +296,46 @@ breaking changes are called out explicitly.
     below 0.05 at 5 τ; truth exactly the stated C/N0 plus the profile; a tracked NWPR C/N0
     drop within 0.7 dB of a 6 dB step. Measured: S4 within 1.3 % of target, and a tracked
     drop of 6.26 dB.
+- **IQ-path detection monitors (0.34.0 "Lab replay").** New `iq::monitor` module,
+  `kshana iq monitor` command and `kshana.iq_monitor(path, ...)` binding. They observe a
+  recording and report time series plus flagged events (start, alarm and end times, peak,
+  threshold). They detect and measure only; nothing here generates a signal.
+  - **Total power / AGC**: block power and the gain an ideal AGC would apply; flags rises
+    and drops.
+  - **Pre-correlation spectrum**: Welch PSD per block against a learned baseline. The excess
+    threshold comes from a false-alarm target. Also complex kurtosis and a pulse detector.
+    The pulse detector counts samples over a threshold in each block and raises an event when the exact binomial upper tail of that
+    count is below `pulse_pfa` (default 1e-4 per block), not when a z-score passes a limit: at
+    the small expected counts of short blocks a single sample is already several sigma.
+  - **Per-channel C/N0**: two one-sided CUSUM change detectors (drop and rise), fed
+    independent estimates (the stride is set from the loop's C/N0 window).
+  - **SQM from the correlators**: delta `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)`,
+    plus asymmetry tests from extra correlators when a channel supplies them.
+  - **Lock-indicator series**: PLI and a frequency lock indicator from successive
+    prompts, as raw signals. Lock and loss-of-lock decisions stay with the tracking
+    engine's lock state machine.
+  
+  One streaming pass (`iq::monitor::run::run_monitors`) runs everything, with a TOML/JSON
+  settings file (`MonitorConfig`); the campaign runner uses the same entry point.
+  All MODELLED. Each statistic is checked against its closed form by seeded simulation
+  (`tests/iq_monitor.rs`):
+  - block-power exceedances against the Gamma tail;
+  - kurtosis mean 2 and spread `2/√N`;
+  - pulse fraction `e^{−t}`;
+  - CUSUM run lengths against Siegmund's approximation (measured 330 and 8.46 samples
+    against 338 and 8.34);
+  - the phase lock indicator against the Rician-phase mean;
+  - on a tracked C/A signal, SQM delta and ratio spreads about 6 % from the first-order
+    closed forms (measured 5.97 %; test bar 12 %).
+  
+  The spectral-excess false-alarm formula is an approximation; the measured rate was 1.3×
+  the formula. End to end, the monitors flag:
+  - a 6 dB C/N0 step (change time within one estimate);
+  - a reflected path appearing mid-recording (ratio test);
+  - a signal outage (PLI falls from 0.999 to −0.3 and FLI from 0.93 to 0.03 during
+    it);
+  - a narrowband tone and sparse high-amplitude samples (spectral, pulse and kurtosis
+    tests). These are generic DSP test inputs, not interference models.
 
 ### Changed
 
