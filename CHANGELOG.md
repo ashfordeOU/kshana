@@ -163,6 +163,12 @@ breaking changes are called out explicitly.
     serial run for any N. The default stays 1 thread. Measured on a 12-channel, 4 s, 4.092 MHz
     recording on 4 cores: 19.5 s serial, 11.5 s at 2 threads, 6.3 s at 4 (3.1×; the initial
     acquisition is serial).
+  - *Acquisition-surface export* (`kshana.acq-surface/1`; `iq::acq_surface`,
+    `docs/design/ACQ-SURFACE.md`). `iq acquire --surface <path>` (one PRN; CSV, JSON or binary),
+    Python `iq_acq_surface` and MCP `iq_acquire` `surface_out` write the whole Doppler × code-phase
+    correlation-power surface the search computes (its cells are `acquire`'s, bit for bit) with the
+    peak and two fine-Doppler refinements: a parabolic estimate and a 1/16-bin fine search (≈5 Hz
+    at 4 ms coherent, against 167 Hz bins). `acquire` itself and every default are unchanged.
   - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
     carries:
     - the early/prompt/late correlators;

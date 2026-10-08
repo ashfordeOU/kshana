@@ -23,6 +23,7 @@ __all__ = [
     "iq_scene",
     "iq_scene_broadcast",
     "iq_acquire",
+    "iq_acq_surface",
     "iq_track",
     "iq_loop_designs",
     "iq_read_epochs",
@@ -197,6 +198,28 @@ def iq_acquire(
     Returns a list of detection dicts (``code``, ``acquired``, ``doppler_hz``,
     ``code_phase_chips``, ``statistic``, ``threshold``, ``peak_ratio``, ...). Raises
     ``ValueError`` on a bad search (e.g. an unknown signal)."""
+
+def iq_acq_surface(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prn: int,
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    coherent: int = ...,
+    noncoherent: int = ...,
+    doppler_max: float = ...,
+    doppler_step: Optional[float] = ...,
+    pfa: float = ...,
+) -> dict[str, Any]:
+    """The whole acquisition surface of one PRN (``kshana.acq-surface/1``).
+
+    Returns ``{"header": ..., "rows": ...}``: ``rows[doppler_index][lag]`` is the normalised
+    correlation power of the search (the cells ``iq_acquire`` compares with its threshold), and
+    ``header`` holds the search, ``doppler_bins_hz``, the ``peak`` and two fine-Doppler
+    refinements next to the coarse bin: ``parabolic`` (may be ``None``) and ``fine_search``. Raises
+    ``ValueError`` on a bad search."""
 
 def iq_track(
     i: list[float],

@@ -155,6 +155,86 @@ pub struct AcqGrid {
     pub grid: Vec<Vec<f64>>,
 }
 
+/// The normalised correlation power `2·G/(L·σ²)` of `samples` against `code` at every
+/// Doppler in `dopplers` (Hz, relative to the carrier's place in the baseband) and every
+/// lag: `rows[doppler][lag]`, with the mean sample power `σ²`. [`acquire`] searches
+/// `cfg.doppler_bins()` with it; the surface export evaluates finer Dopplers with the same
+/// arithmetic. `samples` must hold [`samples_needed`] samples.
+pub(crate) fn power_rows(
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+    dopplers: &[f64],
+) -> Result<(Vec<Vec<f64>>, f64), String> {
+    let spc = samples_per_period(spec, code)?;
+    let block = spc * cfg.coherent_periods;
+    let needed = block * cfg.noncoherent;
+    if samples.len() < needed {
+        return Err(format!(
+            "{} samples supplied, {needed} needed",
+            samples.len()
+        ));
+    }
+    let fs = spec.fs_hz;
+    // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
+    let base_hz = spec.baseband_hz(code.carrier_hz());
+    let chips_per_sample = code.chip_rate_hz() / fs;
+
+    let plan = FftPlan::new(spc);
+    let rep: Vec<(f64, f64)> = (0..spc)
+        .map(|i| (code.value_at(i as f64 * chips_per_sample), 0.0))
+        .collect();
+    let code_fft: Vec<(f64, f64)> = plan
+        .forward(&rep)
+        .into_iter()
+        .map(|(r, i)| (r, -i))
+        .collect();
+
+    let power: f64 = samples[..needed]
+        .iter()
+        .map(|x| x.re * x.re + x.im * x.im)
+        .sum();
+    let sigma2 = power / needed as f64;
+    if sigma2.is_nan() || sigma2 <= 0.0 {
+        return Err("the samples carry no power".into());
+    }
+
+    let mut grid = vec![vec![0.0_f64; spc]; dopplers.len()];
+    for (row, &d) in grid.iter_mut().zip(dopplers) {
+        let f = base_hz + d;
+        for m in 0..cfg.noncoherent {
+            let start = m * block;
+            let mut fold = vec![(0.0_f64, 0.0_f64); spc];
+            for i in 0..block {
+                let n = start + i;
+                let cyc = (f * n as f64 / fs).fract();
+                let (sn, cs) = (-core::f64::consts::TAU * cyc).psin_cos();
+                let s = samples[n];
+                let r = &mut fold[i % spc];
+                r.0 += s.re * cs - s.im * sn;
+                r.1 += s.re * sn + s.im * cs;
+            }
+            let y = plan.forward(&fold);
+            let prod: Vec<(f64, f64)> = y
+                .iter()
+                .zip(&code_fft)
+                .map(|(&(a, b), &(c, e))| (a * c - b * e, a * e + b * c))
+                .collect();
+            for (cell, (re, im)) in row.iter_mut().zip(plan.inverse(&prod)) {
+                *cell += re * re + im * im;
+            }
+        }
+    }
+    let norm = 2.0 / (block as f64 * sigma2);
+    for row in &mut grid {
+        for cell in row.iter_mut() {
+            *cell *= norm;
+        }
+    }
+    Ok((grid, sigma2))
+}
+
 /// Search `samples` (at least [`samples_needed`] long; the first that many are used),
 /// sampled as `spec`, for `code`.
 pub fn acquire(
@@ -182,64 +262,14 @@ pub fn acquire(
         ));
     }
     let bins = cfg.doppler_bins();
-    let fs = spec.fs_hz;
-    // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
-    let base_hz = spec.baseband_hz(code.carrier_hz());
-    let chips_per_sample = code.chip_rate_hz() / fs;
+    let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
+    let (grid, sigma2) = power_rows(samples, spec, code, cfg, &bins)?;
 
-    let plan = FftPlan::new(spc);
-    let rep: Vec<(f64, f64)> = (0..spc)
-        .map(|i| (code.value_at(i as f64 * chips_per_sample), 0.0))
-        .collect();
-    let code_fft: Vec<(f64, f64)> = plan
-        .forward(&rep)
-        .into_iter()
-        .map(|(r, i)| (r, -i))
-        .collect();
-
-    let power: f64 = samples[..needed]
-        .iter()
-        .map(|x| x.re * x.re + x.im * x.im)
-        .sum();
-    let sigma2 = power / needed as f64;
-    if sigma2.is_nan() || sigma2 <= 0.0 {
-        return Err("the samples carry no power".into());
-    }
-
-    let mut grid = vec![vec![0.0_f64; spc]; bins.len()];
-    for (row, &d) in grid.iter_mut().zip(&bins) {
-        let f = base_hz + d;
-        for m in 0..cfg.noncoherent {
-            let start = m * block;
-            let mut fold = vec![(0.0_f64, 0.0_f64); spc];
-            for i in 0..block {
-                let n = start + i;
-                let cyc = (f * n as f64 / fs).fract();
-                let (sn, cs) = (-core::f64::consts::TAU * cyc).psin_cos();
-                let s = samples[n];
-                let r = &mut fold[i % spc];
-                r.0 += s.re * cs - s.im * sn;
-                r.1 += s.re * sn + s.im * cs;
-            }
-            let y = plan.forward(&fold);
-            let prod: Vec<(f64, f64)> = y
-                .iter()
-                .zip(&code_fft)
-                .map(|(&(a, b), &(c, e))| (a * c - b * e, a * e + b * c))
-                .collect();
-            for (cell, (re, im)) in row.iter_mut().zip(plan.inverse(&prod)) {
-                *cell += re * re + im * im;
-            }
-        }
-    }
-
-    let norm = 2.0 / (block as f64 * sigma2);
     let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
-    for (j, row) in grid.iter_mut().enumerate() {
-        for (t, cell) in row.iter_mut().enumerate() {
-            *cell *= norm;
-            if *cell > best.0 {
-                best = (*cell, j, t);
+    for (j, row) in grid.iter().enumerate() {
+        for (t, &cell) in row.iter().enumerate() {
+            if cell > best.0 {
+                best = (cell, j, t);
             }
         }
     }
