@@ -362,3 +362,47 @@ def test_iq_monitor_reads_a_recording_file_and_reports_series(tmp_path):
     assert {s["name"] for s in only_power["series"]} == {"power_db", "agc_gain_db"}
     with pytest.raises(ValueError):
         kshana.iq_monitor(str(tmp_path / "missing.bin"))
+
+
+def test_iq_campaign_runs_resumes_and_reports(tmp_path):
+    # One synthetic recording stands in for a lab capture: a 3 s scene written as raw
+    # interleaved float32 with its sample description in the test-condition file.
+    import numpy as np
+    import pytest
+
+    fs = 2_046_000
+    scene = kshana.iq_scene(
+        fs_hz=fs, duration_s=3.0, signal="gps-l1ca", prns=[9], dopplers=[1200.0], cn0_dbhz=45.0
+    )
+    iq = np.empty(2 * len(scene["samples_i"]), dtype="<f4")
+    iq[0::2] = scene["samples_i"]
+    iq[1::2] = scene["samples_q"]
+    iq.tofile(tmp_path / "rec.cf32")
+    (tmp_path / "rec.toml").write_text(
+        'schema = "kshana.test-conditions/1"\n'
+        '[recording]\nid = "rec"\npath = "rec.cf32"\nformat = "cf32_le"\n'
+        f"sample_rate_hz = {fs}.0\nsettle_s = 1.0\n"
+        '[[expected]]\nsignal = "gps-l1ca"\nids = [9]\n'
+        '[[event]]\nid = "e1"\nkind = "interference"\ntype = "cw"\n'
+        "onset_s = 2.0\noffset_s = 2.5\n"
+        '[event.power]\nquantity = "js_db"\npoints = [[2.0, 10.0]]\n'
+    )
+    tc = kshana.iq_test_conditions(str(tmp_path / "rec.toml"))
+    assert tc["recording"]["id"] == "rec" and len(tc["hash"]) == 64
+    with pytest.raises(ValueError):
+        kshana.iq_test_conditions('schema = "kshana.test-conditions/1"\n')
+
+    campaign = tmp_path / "c.toml"
+    campaign.write_text(
+        'schema = "kshana.campaign/1"\nname = "py"\ndata_class = "synthetic"\n[inputs]\nconditions = ["rec.toml"]\n'
+    )
+    out = str(tmp_path / "out")
+    first = kshana.iq_campaign(str(campaign), out, workers=1)
+    assert first["cells_total"] == 1 and first["cells_run"] == 1, first
+    assert first["cells_failed"] == [] and len(first["digest"]) == 64
+    again = kshana.iq_campaign(str(campaign), out)
+    assert again["cells_run"] == 0 and again["cells_skipped"] == 1
+    assert again["digest"] == first["digest"]
+    rep = kshana.iq_campaign_report(out)
+    assert rep["digest"] == first["digest"] and rep["rows"] == 2
+    assert (tmp_path / "out" / "report.html").read_text().count("MODELLED") >= 1
