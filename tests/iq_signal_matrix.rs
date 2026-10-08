@@ -86,7 +86,8 @@ use kshana::iq::scene::{
     NavData, RangeProfile, SatGeometry, Scene, SceneConfig, SceneSatellite, TruthRecord,
 };
 use kshana::iq::signals::{beidou, galileo, glonass, gps, Modulation, SignalCode};
-use kshana::iq::track::{replay, ChannelInit, EpochOutput, LoopConfig};
+use kshana::iq::track::design::Design;
+use kshana::iq::track::{replay, ChannelInit, EpochOutput};
 use kshana::iq::{Cf64, SampleSpec, SpreadingCode, VecSink, VecSource, C_M_PER_S};
 use std::sync::Arc;
 
@@ -337,11 +338,11 @@ fn run(case: &Case) -> Outcome {
     // Tracking over the whole scene.
     let rx: Arc<dyn SpreadingCode + Send + Sync> = Arc::new(case.rx.clone());
     let init = ChannelInit::from_acquisition(rx, &r, &spec, 0, None);
-    let loop_cfg = LoopConfig {
-        label: case.signal.into(),
-        cn0_windows: 10,
-        ..LoopConfig::default()
-    };
+    // The engine's default design for this signal (bandwidths clamped to Bn·T <= 0.1 above
+    // a 4 ms loop update, D9), with the harness's 10 C/N0 windows.
+    let mut loop_cfg = Design::builtin_default().loop_config_for(period);
+    loop_cfg.label = case.signal.into();
+    loop_cfg.cn0_windows = 10;
     let mut src = VecSource::new(spec, samples);
     let out = replay(&mut src, &[init], &[loop_cfg], None).unwrap();
     let epochs = &out[0].channels[0];
@@ -392,7 +393,7 @@ fn run(case: &Case) -> Outcome {
 }
 
 /// Run `case` and check every pre-registered bar, failing with every number on a miss.
-fn check(case: Case) {
+fn check(case: Case) -> Outcome {
     let o = run(&case);
     let msg = format!("{} ({}): {o}", case.signal, case.rx.name());
     eprintln!("{msg}");
@@ -426,6 +427,7 @@ fn check(case: Case) {
         fails.push("T6");
     }
     assert!(fails.is_empty(), "bars {fails:?} missed: {msg}");
+    o
 }
 
 #[test]
@@ -443,12 +445,14 @@ fn gps_l5q() {
     check(tiered("gps-l5q", gps::l5_q5(3).unwrap(), 25e6, 0.6));
 }
 
+/// D9 (fixed): at the 20 ms CM period the default design's bandwidths are clamped to
+/// Bn·T <= 0.1 (5 Hz PLL and FLL). Pre-registered bar for the fix, on top of the matrix
+/// bars: acquires and holds phase lock, mean PLI >= 0.9 over the scored window (which starts
+/// after 2 s of a 4.5 s scene).
 #[test]
-#[ignore = "FINDING D9: default loop (15 Hz PLL, 10 Hz FLL) at 20 ms CM integration does not \
-            hold lock: PLI mean -0.084 (T1), Doppler -99.71 Hz (T3), C/N0 M2M4 15.77 dB-Hz \
-            (T4); also from a zero-residual start in run 1 (PLI 0.02, -17.0 Hz)"]
 fn gps_l2c() {
-    check(l2c_cm_case(3));
+    let o = check(l2c_cm_case(3));
+    assert!(o.pli_mean >= 0.9, "D9 bar: PLI mean {} < 0.9", o.pli_mean);
 }
 
 /// D8 (fixed): the default acquisition step is capped at 0.4 / T_track, so the hand-off

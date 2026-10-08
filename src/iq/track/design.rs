@@ -239,6 +239,7 @@ struct RawCarrier {
     fll_off_pli: Option<f64>,
     fll_on_pli: Option<f64>,
     fll_gate_dwell_s: Option<f64>,
+    bn_t_max: Option<f64>,
 }
 
 #[derive(Clone, Debug, Default, Deserialize)]
@@ -307,6 +308,11 @@ struct Carrier {
     fll_off_pli: Option<f64>,
     fll_on_pli: Option<f64>,
     fll_gate_dwell_s: Option<f64>,
+    /// Largest `Bn · T` the PLL and FLL bandwidths may have when the loop update time
+    /// exceeds [`BN_CLAMP_ABOVE_T_S`]; 0 disables. Omitted from the canonical form at its
+    /// default, so a design that does not set it keeps its hash.
+    #[serde(skip_serializing_if = "is_default_bn_t_max")]
+    bn_t_max: f64,
 }
 
 #[derive(Clone, Debug, PartialEq, Serialize)]
@@ -444,6 +450,7 @@ impl Resolved {
                 fll_off_pli: assisted.then_some(gate.off_pli),
                 fll_on_pli: assisted.then_some(gate.on_pli),
                 fll_gate_dwell_s: assisted.then_some(gate.dwell_s),
+                bn_t_max: BN_T_MAX_DEFAULT,
             },
             code: Code {
                 order: c.dll_order,
@@ -564,6 +571,14 @@ impl Resolved {
         set_some(&mut self.carrier.fll_off_pli, c.fll_off_pli);
         set_some(&mut self.carrier.fll_on_pli, c.fll_on_pli);
         set_some(&mut self.carrier.fll_gate_dwell_s, c.fll_gate_dwell_s);
+        if let Some(v) = c.bn_t_max {
+            if !(v.is_finite() && v >= 0.0) {
+                return Err(at(format!(
+                    "carrier.bn_t_max {v}: expected a number >= 0 (0 disables the clamp)"
+                )));
+            }
+            self.carrier.bn_t_max = v;
+        }
 
         let k = &raw.code;
         set(&mut self.code.order, k.order);
@@ -710,6 +725,17 @@ impl Resolved {
     }
 }
 
+/// Loop update times above this (s) get their PLL and FLL bandwidths clamped to
+/// `bn_t_max / T`. The 1 ms and 4 ms codes are below or at it and keep their bandwidths.
+pub const BN_CLAMP_ABOVE_T_S: f64 = 4.0e-3;
+
+/// The default `carrier.bn_t_max`: `Bn · T ≤ 0.1`.
+pub const BN_T_MAX_DEFAULT: f64 = 0.1;
+
+fn is_default_bn_t_max(v: &f64) -> bool {
+    *v == BN_T_MAX_DEFAULT
+}
+
 fn set_some<T>(slot: &mut Option<T>, v: Option<T>) {
     if v.is_some() {
         *slot = v;
@@ -843,7 +869,7 @@ impl Design {
     /// acquisition step and the loop bandwidths the run uses.
     pub fn resolved_run(&self, code_period_s: f64) -> ResolvedRun {
         let acq = self.acq_config(code_period_s);
-        let cfg = self.loop_config();
+        let cfg = self.loop_config_for(code_period_s);
         let (pll_bn_hz, fll_bn_hz) = match cfg.carrier {
             CarrierLoop::Pll { bn_hz, .. } => (Some(bn_hz), None),
             CarrierLoop::Fll { bn_hz, .. } => (None, Some(bn_hz)),
@@ -860,6 +886,36 @@ impl Design {
             pll_bn_hz,
             fll_bn_hz,
         }
+    }
+
+    /// The loop configuration for a code whose full period is `code_period_s`: as
+    /// [`Design::loop_config`], with the PLL and FLL noise bandwidths clamped to
+    /// `carrier.bn_t_max / T` when the loop update time `T = integration.coherent_periods ×
+    /// code_period_s` is longer than 4 ms ([`BN_CLAMP_ABOVE_T_S`]) and `bn_t_max > 0`. At a
+    /// 20 ms update (GPS L2C CM) the 15 Hz PLL and 10 Hz FLL have `Bn · T` of 0.3 and 0.2,
+    /// beyond what the loops hold; the clamp gives 5 Hz and 5 Hz. The clamp applies to the
+    /// design's explicit bandwidths too; `bn_t_max = 0` turns it off.
+    pub fn loop_config_for(&self, code_period_s: f64) -> LoopConfig {
+        let mut cfg = self.loop_config();
+        let t = cfg.coherent_periods as f64 * code_period_s;
+        let k = self.resolved.carrier.bn_t_max;
+        if k > 0.0 && t.is_finite() && t > BN_CLAMP_ABOVE_T_S * (1.0 + 1e-9) {
+            let cap = k / t;
+            match &mut cfg.carrier {
+                CarrierLoop::Pll { bn_hz, .. } | CarrierLoop::Fll { bn_hz, .. } => {
+                    *bn_hz = bn_hz.min(cap)
+                }
+                CarrierLoop::FllAssistedPll {
+                    pll_bn_hz,
+                    fll_bn_hz,
+                    ..
+                } => {
+                    *pll_bn_hz = pll_bn_hz.min(cap);
+                    *fll_bn_hz = fll_bn_hz.min(cap);
+                }
+            }
+        }
+        cfg
     }
 
     /// The tracking-loop configuration, labelled with the design's name.
@@ -1161,6 +1217,77 @@ mod tests {
             .with_overrides("[acquisition]\ndoppler_step_hz = 250.0\n")
             .unwrap();
         assert_eq!(fixed.resolved_run(4e-3).acq_doppler_step_hz, 250.0);
+    }
+
+    fn bws(c: &LoopConfig) -> (f64, f64) {
+        match c.carrier {
+            CarrierLoop::FllAssistedPll {
+                pll_bn_hz,
+                fll_bn_hz,
+                ..
+            } => (pll_bn_hz, fll_bn_hz),
+            ref other => panic!("not fll-assisted: {other:?}"),
+        }
+    }
+
+    /// Pre-registered (D9): at a loop update longer than 4 ms the PLL and FLL bandwidths
+    /// are clamped to `bn_t_max / T` (default 0.1), so Bn·T <= 0.1 on every signal; the 1 ms
+    /// and 4 ms codes keep 15 / 10 Hz.
+    #[test]
+    fn the_default_clamps_bn_times_t_above_4_ms_only() {
+        let d = Design::builtin_default();
+        assert_eq!(bws(&d.loop_config_for(1e-3)), (15.0, 10.0));
+        assert_eq!(bws(&d.loop_config_for(4e-3)), (15.0, 10.0));
+        // BeiDou B1C (10 ms): 0.1 / 10 ms = 10 Hz; the 10 Hz FLL is already at it.
+        assert_eq!(bws(&d.loop_config_for(10e-3)), (10.0, 10.0));
+        // GPS L2C CM (20 ms): 5 Hz and 5 Hz, Bn·T = 0.1.
+        let (pll, fll) = bws(&d.loop_config_for(20e-3));
+        assert!((pll - 5.0).abs() < 1e-12 && (fll - 5.0).abs() < 1e-12);
+        for t in [5e-3, 10e-3, 20e-3, 100e-3] {
+            let (p, f) = bws(&d.loop_config_for(t));
+            assert!(p * t <= 0.1 + 1e-12 && f * t <= 0.1 + 1e-12, "T = {t}");
+        }
+        // The run records what it used.
+        let r = d.resolved_run(20e-3);
+        assert_eq!((r.pll_bn_hz.unwrap(), r.fll_bn_hz.unwrap()), (pll, fll));
+        assert_eq!(d.resolved_run(1e-3).pll_bn_hz, Some(15.0));
+        // loop_config() itself is the unclamped design.
+        assert_eq!(bws(&d.loop_config()), (15.0, 10.0));
+    }
+
+    /// `bn_t_max` is omitted from the canonical form at its default, so the default hash
+    /// holds (the pin test is untouched), and any other value, 0 included, is a different
+    /// design with a different hash.
+    #[test]
+    fn bn_t_max_zero_disables_the_clamp_and_changes_the_hash() {
+        let d = Design::builtin_default();
+        let same = d.with_overrides("[carrier]\nbn_t_max = 0.1\n").unwrap();
+        assert_eq!(
+            same.hash(),
+            d.hash(),
+            "the default value is omitted from the hash"
+        );
+        assert!(!same.to_json()["carrier"]
+            .as_object()
+            .unwrap()
+            .contains_key("bn_t_max"));
+        let off = d.with_overrides("[carrier]\nbn_t_max = 0.0\n").unwrap();
+        assert_ne!(off.hash(), d.hash());
+        assert_eq!(
+            bws(&off.loop_config_for(20e-3)),
+            (15.0, 10.0),
+            "0 disables the clamp"
+        );
+        assert_eq!(off.to_json()["carrier"]["bn_t_max"], 0.0);
+        let loose = d.with_overrides("[carrier]\nbn_t_max = 0.3\n").unwrap();
+        assert_ne!(loose.hash(), d.hash());
+        assert_ne!(loose.hash(), off.hash());
+        assert_eq!(bws(&loose.loop_config_for(20e-3)), (15.0, 10.0));
+        // An explicit bandwidth is clamped too, unless bn_t_max is 0.
+        let explicit = d.with_overrides("[carrier]\npll_bw_hz = 15.0\n").unwrap();
+        assert_eq!(explicit.hash(), d.hash());
+        assert_eq!(bws(&explicit.loop_config_for(20e-3)).0, 5.0);
+        assert!(d.with_overrides("[carrier]\nbn_t_max = -1.0\n").is_err());
     }
 
     #[test]
