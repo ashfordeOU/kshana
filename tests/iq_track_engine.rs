@@ -712,14 +712,14 @@ fn carrier_measured(
 }
 
 /// Bars B1–B3 of `docs/design/evidence/carrier-lock/PREREGISTRATION.md` for the default
-/// design at 35 and 37 dB-Hz, with and without data bits, plus no FLL/PLL gate toggling
+/// design at every C/N0 from 35 dB-Hz up (35, 37, 39, 42 and 45), with and without data bits, plus no FLL/PLL gate toggling
 /// in the steady state. Release mode: `cargo test --release --test iq_track_engine
 /// carrier_lock_bars -- --ignored`.
 #[test]
 #[ignore]
 fn carrier_lock_bars() {
     for data in [false, true] {
-        for cn0 in [35.0, 37.0] {
+        for cn0 in [35.0, 37.0, 39.0, 42.0, 45.0] {
             let r = carrier_measured(4.1e6, cn0, LoopConfig::default(), 8.0, data, 2.0);
             assert!(r.phase_lock >= 0.95, "B1 {cn0} data={data}: {r}");
             assert_eq!(r.slips, 0, "B2 {cn0} data={data}: {r}");

@@ -21,7 +21,7 @@ use crate::iq::frontend::{Chain, Stage};
 use crate::iq::io::inventory::{open_recording, write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
 use crate::iq::io::SampleFormat;
-use crate::iq::{Cf64, IqSink};
+use crate::iq::{Cf64, IqError, IqSink, IqSource, SampleSpec};
 use std::path::Path;
 
 /// The front-end chain a command applies, collected from the CLI or Python surface.
@@ -199,6 +199,40 @@ pub(crate) fn build_chain(p: &FrontendParams, fs_hz: f64) -> Result<Chain, Strin
 /// Apply the front-end chain `chain` to `samples` in place.
 pub(crate) fn apply_chain(chain: &mut Chain, samples: &mut [Cf64]) {
     chain.process(samples);
+}
+
+/// A recording read through a front-end chain: every block read from the inner source is
+/// filtered by the chain before it is returned. Stages carry their state from one read to
+/// the next ([`Stage`]), so the samples do not depend on the read sizes and equal those
+/// `kshana iq frontend` writes for the same flags.
+pub(crate) struct FrontendSource {
+    inner: Box<dyn IqSource + Send>,
+    chain: Chain,
+}
+
+impl IqSource for FrontendSource {
+    fn spec(&self) -> SampleSpec {
+        self.inner.spec()
+    }
+    fn read(&mut self, buf: &mut [Cf64]) -> Result<usize, IqError> {
+        let n = self.inner.read(buf)?;
+        self.chain.process(&mut buf[..n]);
+        Ok(n)
+    }
+}
+
+/// `src` read through a fresh chain built from `p`, or `src` itself when `p` enables no
+/// stage. Each call builds its own chain, so two passes over one recording (acquisition,
+/// then tracking) each start the front end from its initial state.
+pub(crate) fn through_frontend(
+    p: &FrontendParams,
+    src: Box<dyn IqSource + Send>,
+) -> Result<Box<dyn IqSource>, Fail> {
+    if !p.any() {
+        return Ok(src);
+    }
+    let chain = build_chain(p, src.spec().fs_hz).map_err(Fail::Usage)?;
+    Ok(Box::new(FrontendSource { inner: src, chain }))
 }
 
 /// Run `kshana iq frontend <in> <out> [flags]`.
