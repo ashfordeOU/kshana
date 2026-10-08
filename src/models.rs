@@ -191,8 +191,6 @@ impl ClockModel {
         }
         self
     }
-    /// Builder: add a flicker FM floor at `sigma_floor` over a default 5-decade
-    /// band (1 s to 1e5 s) at 4 components per decade. Ignored when non-positive.
     /// The flicker bank as a filter model, or `None` without a flicker floor. Built from the
     /// truth's own bank, so the two cannot drift apart.
     pub(crate) fn flicker_bank(&self) -> Option<crate::clock_state::FlickerFmBank> {
@@ -207,6 +205,8 @@ impl ClockModel {
             .map_or(0.0, |f| f.phase_variance_after_steps(n, dt))
     }
 
+    /// Builder: add a flicker FM floor at `sigma_floor` over a default 5-decade
+    /// band (1 s to 1e5 s) at 4 components per decade. Ignored when non-positive.
     pub fn with_flicker(self, sigma_floor: f64) -> Self {
         self.with_flicker_band(sigma_floor, 1.0, 1e5, 4)
     }
