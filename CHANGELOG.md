@@ -115,6 +115,17 @@ breaking changes are called out explicitly.
   pass and the tracking pass. The output equals running the command on the file
   `iq frontend` writes for the same flags.
 
+- **IQ scene data is placed per signal.** `kshana iq scene --data` (and `NavData::Seeded`)
+  put 50 bit/s bits on every signal, pilots included, and at the GPS LNAV rate on
+  Galileo and BeiDou. Data now follows each signal's own symbol timing, stated by the new
+  `SpreadingCode::data_modulation()` (`DataModulation`, set by every constructor in
+  `iq::signals`). That is 10 ms on L5-I5, 4 ms on E1-B, 2 ms on BeiDou B1I GEO (D2),
+  and 20 ms bits with a 10 ms meander on GLONASS L1OF. Data is refused on pilots, on
+  GPS L2C as one CM/CL stream, and `NavData::Lnav` on anything but L1 C/A. Custom codes
+  keep the previous 20 ms timing by default. A programmatic `Scene` that asked for
+  `NavData::Lnav` on a non-L1 C/A code, or `NavData::Seeded` on a pilot, used to generate
+  silently and now returns an error on the first read.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added
