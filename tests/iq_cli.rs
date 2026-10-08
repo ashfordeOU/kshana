@@ -1334,3 +1334,88 @@ fn rinex_text(tl: &kshana::receiver_trust::Timeline) -> String {
     }
     s
 }
+
+/// `iq acquire --surface` writes the surface in the format the suffix (or flag) names; the
+/// peak equals the detection `--json` reports; several PRNs or an unknown suffix are refused.
+#[test]
+fn acquire_exports_the_acquisition_surface() {
+    use kshana::iq::acq_surface::Surface;
+    let dir = scratch("surface");
+    let iq = dir.join("s.cf32").display().to_string();
+    let p = |n: &str| dir.join(n).display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.05",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6,21",
+            "--doppler",
+            "800,-1300",
+            "--cn0",
+            "46",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    let (bin, csv, json, det) = (p("s.bin"), p("s.csv"), p("s.json"), p("det.json"));
+    let base = |prn: &'static str| {
+        vec![
+            "acquire",
+            &iq as &str,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            prn,
+            "--coherent",
+            "4",
+            "--doppler-max",
+            "3000",
+        ]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<Vec<_>>()
+    };
+    let go = |prn: &'static str, extra: &[&str]| {
+        let mut v = base(prn);
+        v.extend(extra.iter().map(|s| s.to_string()));
+        run(&v)
+    };
+    assert_eq!(go("6", &["--json", &det, "--surface", &bin]), 0);
+    assert_eq!(go("6", &["--surface", &csv]), 0);
+    assert_eq!(go("6", &["--surface", &json]), 0);
+    let d: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&det).unwrap()).unwrap();
+    let surf =
+        Surface::read_binary(std::io::BufReader::new(std::fs::File::open(&bin).unwrap())).unwrap();
+    let h = &surf.header;
+    assert_eq!(
+        h.peak.doppler_hz,
+        d["detections"][0]["doppler_hz"].as_f64().unwrap()
+    );
+    assert_eq!(
+        h.peak.statistic,
+        d["detections"][0]["statistic"].as_f64().unwrap()
+    );
+    assert!(h.peak.acquired);
+    assert!((h.peak.doppler_hz - 800.0).abs() < 200.0);
+    assert!((h.fine_search.doppler_hz - 800.0).abs() < (h.peak.doppler_hz - 800.0).abs() + 1.0);
+    let text = std::fs::read_to_string(&csv).unwrap();
+    assert!(text.starts_with("# kshana.acq-surface/1"));
+    let j: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&json).unwrap()).unwrap();
+    assert_eq!(j["header"]["peak"]["delay_samples"], h.peak.delay_samples);
+
+    assert_ne!(go("6,21", &["--surface", &bin]), 0, "one PRN only");
+    assert_ne!(go("6", &["--surface", &p("s.dat")]), 0, "unknown suffix");
+    assert_eq!(
+        go("6", &["--surface", &p("s.dat"), "--surface-format", "csv"]),
+        0
+    );
+}

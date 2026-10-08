@@ -55,6 +55,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `iq_scene` | `(fs_hz, duration_s, signal, prns, **options) -> dict` | a multi-satellite GNSS IQ scene in memory: `samples_i` / `samples_q` and per-epoch `truth` |
 | `iq_scene_broadcast` | `(fs_hz, window_s, nav_text, rx_lat, rx_lon, rx_alt, **options) -> dict` | the same, with each GPS satellite at its broadcast-ephemeris geometry from a RINEX (Receiver Independent Exchange Format) navigation message |
 | `iq_acquire` | `(i, q, fs_hz, signal, prns, **options) -> list[dict]` | FFT (fast Fourier transform) acquisition of each PRN (pseudorandom noise code): Doppler, code phase, statistic, threshold |
+| `iq_acq_surface` | `(i, q, fs_hz, signal, prn, **options) -> dict` | the whole acquisition surface of one PRN (`kshana.acq-surface/1`): `rows[doppler][lag]` correlation power, the peak and two fine-Doppler refinements (`parabolic`, `fine_search`) |
 | `iq_track` | `(i, q, fs_hz, signal, prns, **options) -> dict` | acquire, then track each PRN: per-epoch Doppler, code phase, lock indicators, C/N0, prompt correlator |
 | `iq_frontend` | `(i, q, fs_hz, **options) -> dict` | the receiver front-end chain (band-pass, notch, blanking, excision, AGC (automatic gain control), quantiser) over complex samples |
 | `iq_labfit` | `(toml: str) -> dict` | fit the tracking-loop loss-of-lock model to a receiver-trust timeline (an `iq-labfit` scenario) |
@@ -132,6 +133,21 @@ def iq_acquire(
     doppler_step: Optional[float] = ...,
     pfa: float = ...,
 ) -> list[dict[str, Any]]: ...
+
+def iq_acq_surface(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prn: int,
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    coherent: int = ...,
+    noncoherent: int = ...,
+    doppler_max: float = ...,
+    doppler_step: Optional[float] = ...,
+    pfa: float = ...,
+) -> dict[str, Any]: ...
 
 def iq_track(
     i: list[float],
