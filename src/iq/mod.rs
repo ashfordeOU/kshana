@@ -57,6 +57,18 @@ pub struct SampleSpec {
 }
 
 impl SampleSpec {
+    /// Frequency (Hz) at which a signal on carrier `carrier_hz` sits in this baseband before
+    /// Doppler: `if_hz + (carrier_hz − center_hz)`. The carrier term places an FDMA channel
+    /// (GLONASS L1OF `k`) or any signal recorded off-centre; it is zero when the baseband is
+    /// centred on the signal's own carrier and is omitted when the centre is unknown
+    /// (`center_hz` 0, as for a raw file without a sidecar or `--center`).
+    pub fn baseband_hz(&self, carrier_hz: f64) -> f64 {
+        if self.center_hz > 0.0 {
+            self.if_hz + (carrier_hz - self.center_hz)
+        } else {
+            self.if_hz
+        }
+    }
     /// Number of whole samples in `seconds` of signal.
     pub fn samples_in(&self, seconds: f64) -> usize {
         (seconds * self.fs_hz).round().max(0.0) as usize
