@@ -5,7 +5,7 @@
     {
       "strip": "site-strip-light.jpg",
       "position": 1,
-      "site_url": "http://127.0.0.1:8936/index.html",
+      "site_url": "http://127.0.0.1:8861/index.html",
       "section": "#top",
       "view": "Home hero: the mission console and the name line, Kshana · क्षण · the precise instant",
       "theme": "light",
@@ -21,12 +21,12 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "strip": "site-strip-light.jpg",
       "position": 2,
-      "site_url": "http://127.0.0.1:8936/evidence.html",
+      "site_url": "http://127.0.0.1:8861/evidence.html",
       "section": "#cite",
       "view": "Evidence, Published research: the arXiv papers built on the open engine",
       "theme": "light",
@@ -42,12 +42,12 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "strip": "site-strip-light.jpg",
       "position": 3,
-      "site_url": "http://127.0.0.1:8936/editions.html",
+      "site_url": "http://127.0.0.1:8861/editions.html",
       "section": "#pro",
       "view": "Editions, Same engine, amplified: what Kshana Pro adds to the open engine",
       "theme": "light",
@@ -63,12 +63,12 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "strip": "site-strip-dark.jpg",
       "position": 1,
-      "site_url": "http://127.0.0.1:8936/index.html",
+      "site_url": "http://127.0.0.1:8861/index.html",
       "section": "#top",
       "view": "Home hero: the mission console and the name line, Kshana · क्षण · the precise instant",
       "theme": "dark",
@@ -84,12 +84,12 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "strip": "site-strip-dark.jpg",
       "position": 2,
-      "site_url": "http://127.0.0.1:8936/evidence.html",
+      "site_url": "http://127.0.0.1:8861/evidence.html",
       "section": "#cite",
       "view": "Evidence, Published research: the arXiv papers built on the open engine",
       "theme": "dark",
@@ -105,12 +105,12 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "strip": "site-strip-dark.jpg",
       "position": 3,
-      "site_url": "http://127.0.0.1:8936/editions.html",
+      "site_url": "http://127.0.0.1:8861/editions.html",
       "section": "#pro",
       "view": "Editions, Same engine, amplified: what Kshana Pro adds to the open engine",
       "theme": "dark",
@@ -126,7 +126,7 @@
         "height": 820
       },
       "output": "three shots side by side, each scaled to 501 px wide and cut to a common 285 px height, on a 1600 px strip; JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     }
   ]
 }
