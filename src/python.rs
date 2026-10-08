@@ -213,7 +213,7 @@ fn version() -> &'static str {
 // acquisition and tracking engines and the loop designs are the crate's own
 // (`kshana::iq`), so a Python caller gets the same bits as the CLI and the Rust tests.
 
-use crate::iq::acq::{acquire, AcqConfig};
+use crate::iq::acq::{acquire, auto_coherent_periods, AcqConfig};
 use crate::iq::cli::{
     build_broadcast_scene, build_chain, build_channel, build_code, build_scene, BroadcastParams,
     ChannelParams, FrontendParams, SceneParams,
@@ -497,9 +497,13 @@ fn iq_acquire<'py>(
 /// channel (`code` and a list of per-epoch dicts: `doppler_hz`, `code_phase_chips`, `pli`,
 /// `phase_lock`, `cn0_nwpr_dbhz`, the prompt `i_prompt`/`q_prompt`, ...). The loop design
 /// starts from the GPS-L1-C/A-like default; any of `pll_bw`, `fll_bw`, `dll_bw`, `spacing`,
-/// `coherent` overrides it. Raises `ValueError` if a PRN is not acquired.
+/// `coherent` overrides it. The initialising acquisition integrates `acq_coherent` code
+/// periods coherently; the default `None` is auto (≈4 ms coherent: 4 periods of an untiered
+/// 1 ms code such as GPS L1 C/A, 1 period of a code whose full, overlay-included period is
+/// 4 ms or longer), and `acq_coherent=1` restores the 0.32 one-period search. Raises
+/// `ValueError` if a PRN is not acquired.
 #[pyfunction]
-#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=1, acq_noncoherent=1, doppler_max=5000.0, max_seconds=None))]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=1, doppler_max=5000.0, max_seconds=None))]
 #[allow(clippy::too_many_arguments)]
 fn iq_track<'py>(
     py: Python<'py>,
@@ -516,7 +520,7 @@ fn iq_track<'py>(
     spacing: Option<f64>,
     coherent: Option<usize>,
     periods_per_bit: Option<usize>,
-    acq_coherent: usize,
+    acq_coherent: Option<usize>,
     acq_noncoherent: usize,
     doppler_max: f64,
     max_seconds: Option<f64>,
@@ -529,7 +533,10 @@ fn iq_track<'py>(
         if_hz,
     };
     // Acquisition to initialise each channel.
-    let acq_coherent = acq_coherent.max(1);
+    // Default auto (≈4 ms coherent); `acq_coherent=1` restores the 0.32 one-period search.
+    let acq_coherent = acq_coherent
+        .unwrap_or_else(|| auto_coherent_periods(codes[0].period_s()))
+        .max(1);
     let acq = AcqConfig {
         coherent_periods: acq_coherent,
         noncoherent: acq_noncoherent.max(1),
