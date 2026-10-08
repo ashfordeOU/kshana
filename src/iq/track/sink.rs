@@ -27,7 +27,12 @@ pub const EPOCH_SCHEMA: &str = "kshana.track-epoch/1";
 /// Size of one binary record (bytes).
 pub const BINARY_RECORD_BYTES: usize = 184;
 
-/// The record's columns, in CSV/JSONL order.
+/// Bytes per extra correlator tap in the binary tail: the in-phase and quadrature values
+/// as little-endian `f64`. The tap's offset is in the header, not repeated per record.
+pub const BINARY_TAP_BYTES: usize = 16;
+
+/// The record's columns, in CSV/JSONL order (the extra-tap columns, when a run has taps,
+/// follow: see [`tap_fields`]).
 pub const EPOCH_FIELDS: &[&str] = &[
     "channel",
     "epoch",
@@ -57,6 +62,19 @@ pub const EPOCH_FIELDS: &[&str] = &[
     "bit",
     "state",
 ];
+
+/// The CSV column names of `n` extra taps: `x<k>_offset_chips,x<k>_i,x<k>_q` per tap.
+pub fn tap_fields(n: usize) -> Vec<String> {
+    (0..n)
+        .flat_map(|k| {
+            [
+                format!("x{k}_offset_chips"),
+                format!("x{k}_i"),
+                format!("x{k}_q"),
+            ]
+        })
+        .collect()
+}
 
 /// Who a channel index refers to.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
@@ -90,6 +108,10 @@ pub struct EpochHeader {
     /// SHA-256 of the recording, when the caller supplies it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub recording_sha256: Option<String>,
+    /// The extra correlator tap offsets (chips) every record carries after the E/P/L
+    /// fields; empty (and absent from the header) when the run has none.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub extra_taps_chips: Vec<f64>,
 }
 
 impl EpochHeader {
@@ -103,7 +125,22 @@ impl EpochHeader {
             sample_rate_hz,
             engine_version: env!("CARGO_PKG_VERSION").into(),
             recording_sha256: None,
+            extra_taps_chips: Vec::new(),
         }
+    }
+
+    /// This header for a run whose every channel carries the extra taps `taps` (chips):
+    /// the field list and the binary record size grow with them. An empty list leaves the
+    /// header as [`new`](Self::new) made it.
+    pub fn with_extra_taps(mut self, taps: &[f64]) -> Self {
+        self.extra_taps_chips = taps.to_vec();
+        self.fields = EPOCH_FIELDS
+            .iter()
+            .map(|s| s.to_string())
+            .chain(tap_fields(taps.len()))
+            .collect();
+        self.record_bytes = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * taps.len();
+        self
     }
 }
 
@@ -121,8 +158,32 @@ pub trait EpochSink {
     }
 }
 
+/// An epoch must carry exactly the taps its output was set up for.
+fn check_taps(e: &EpochOutput, n: usize) -> Result<(), IqError> {
+    if e.extra.len() == n {
+        Ok(())
+    } else {
+        Err(IqError::Format(format!(
+            "an epoch carries {} extra taps but the output was set up for {n}: every channel \
+             of a run must use the same extra_taps_chips",
+            e.extra.len()
+        )))
+    }
+}
+
 fn io(e: std::io::Error) -> IqError {
     IqError::Io(e.to_string())
+}
+
+/// One extra correlator tap's value in an [`EpochRecord`].
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct TapValue {
+    /// The tap's offset from the prompt (chips; positive is early).
+    pub offset_chips: f64,
+    /// In-phase correlation.
+    pub i: f64,
+    /// Quadrature correlation.
+    pub q: f64,
 }
 
 /// One epoch as an owned, flat record: what every writer serialises and what
@@ -183,6 +244,9 @@ pub struct EpochRecord {
     pub bit: Option<i8>,
     /// Lock state.
     pub state: LockState,
+    /// The extra correlator taps, in design order; absent from JSON when empty.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub extra: Vec<TapValue>,
 }
 
 impl EpochRecord {
@@ -216,6 +280,15 @@ impl EpochRecord {
             bit_edge: e.bit_edge.map(|b| b as u32),
             bit: e.bit,
             state,
+            extra: e
+                .extra
+                .iter()
+                .map(|&(offset_chips, v)| TapValue {
+                    offset_chips,
+                    i: v.re,
+                    q: v.im,
+                })
+                .collect(),
         }
     }
 
@@ -225,6 +298,14 @@ impl EpochRecord {
     }
 
     fn csv_row(&self) -> String {
+        let mut row = self.csv_base_row();
+        for t in &self.extra {
+            row.push_str(&format!(",{},{},{}", t.offset_chips, t.i, t.q));
+        }
+        row
+    }
+
+    fn csv_base_row(&self) -> String {
         let o = |v: Option<f64>| v.map(|x| x.to_string()).unwrap_or_default();
         format!(
             "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
@@ -314,6 +395,46 @@ impl EpochRecord {
         b
     }
 
+    /// The binary form with the extra-tap tail: [`to_bytes`](Self::to_bytes) then
+    /// [`BINARY_TAP_BYTES`] per tap (`i`, `q`).
+    pub fn to_vec(&self) -> Vec<u8> {
+        let mut v = self.to_bytes().to_vec();
+        for t in &self.extra {
+            v.extend_from_slice(&t.i.to_le_bytes());
+            v.extend_from_slice(&t.q.to_le_bytes());
+        }
+        v
+    }
+
+    /// Parse the binary form of a record with the extra taps at offsets `taps`.
+    pub fn from_slice(b: &[u8], taps: &[f64]) -> Result<Self, IqError> {
+        let want = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * taps.len();
+        if b.len() != want {
+            return Err(IqError::Format(format!(
+                "a record is {} bytes; expected {want}",
+                b.len()
+            )));
+        }
+        let head: &[u8; BINARY_RECORD_BYTES] = b[..BINARY_RECORD_BYTES]
+            .try_into()
+            .map_err(|_| IqError::Format("short record".into()))?;
+        let mut r = Self::from_bytes(head)?;
+        let f = |at: usize| f64::from_le_bytes(b[at..at + 8].try_into().unwrap_or([0; 8]));
+        r.extra = taps
+            .iter()
+            .enumerate()
+            .map(|(k, &offset_chips)| {
+                let at = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * k;
+                TapValue {
+                    offset_chips,
+                    i: f(at),
+                    q: f(at + 8),
+                }
+            })
+            .collect();
+        Ok(r)
+    }
+
     /// Parse the binary form.
     pub fn from_bytes(b: &[u8; BINARY_RECORD_BYTES]) -> Result<Self, IqError> {
         let u32_at = |at: usize| u32::from_le_bytes(b[at..at + 4].try_into().unwrap_or([0; 4]));
@@ -354,6 +475,7 @@ impl EpochRecord {
             bit_edge: has(4).then(|| u32_at(28)),
             bit: has(5).then_some(b[6] as i8),
             state,
+            extra: Vec::new(),
         })
     }
 }
@@ -361,18 +483,31 @@ impl EpochRecord {
 /// Writes epochs as CSV: a header row of [`EPOCH_FIELDS`], then one row per epoch.
 pub struct CsvEpochWriter<W: Write> {
     w: W,
+    n_taps: usize,
 }
 
 impl<W: Write> CsvEpochWriter<W> {
     /// A writer on `w`; writes the header row at once.
-    pub fn new(mut w: W) -> Result<Self, IqError> {
-        writeln!(w, "{}", EPOCH_FIELDS.join(",")).map_err(io)?;
-        Ok(Self { w })
+    pub fn new(w: W) -> Result<Self, IqError> {
+        Self::with_extra_taps(w, 0)
+    }
+
+    /// A writer for records with `n_taps` extra correlator taps: the header row gains the
+    /// columns of [`tap_fields`].
+    pub fn with_extra_taps(mut w: W, n_taps: usize) -> Result<Self, IqError> {
+        let cols: Vec<String> = EPOCH_FIELDS
+            .iter()
+            .map(|s| s.to_string())
+            .chain(tap_fields(n_taps))
+            .collect();
+        writeln!(w, "{}", cols.join(",")).map_err(io)?;
+        Ok(Self { w, n_taps })
     }
 }
 
 impl<W: Write> EpochSink for CsvEpochWriter<W> {
     fn epoch(&mut self, channel: usize, e: &EpochOutput, state: LockState) -> Result<(), IqError> {
+        check_taps(e, self.n_taps)?;
         writeln!(self.w, "{}", EpochRecord::new(channel, e, state).csv_row()).map_err(io)
     }
     fn finish(&mut self) -> Result<(), IqError> {
@@ -384,6 +519,7 @@ impl<W: Write> EpochSink for CsvEpochWriter<W> {
 /// `{"header": ...}`), then one [`EpochRecord`] object per line.
 pub struct JsonlEpochWriter<W: Write> {
     w: W,
+    n_taps: usize,
 }
 
 impl<W: Write> JsonlEpochWriter<W> {
@@ -392,12 +528,16 @@ impl<W: Write> JsonlEpochWriter<W> {
         let line = serde_json::to_string(&serde_json::json!({ "header": header }))
             .map_err(|e| IqError::Format(e.to_string()))?;
         writeln!(w, "{line}").map_err(io)?;
-        Ok(Self { w })
+        Ok(Self {
+            w,
+            n_taps: header.extra_taps_chips.len(),
+        })
     }
 }
 
 impl<W: Write> EpochSink for JsonlEpochWriter<W> {
     fn epoch(&mut self, channel: usize, e: &EpochOutput, state: LockState) -> Result<(), IqError> {
+        check_taps(e, self.n_taps)?;
         let line = serde_json::to_string(&EpochRecord::new(channel, e, state))
             .map_err(|e| IqError::Format(e.to_string()))?;
         writeln!(self.w, "{line}").map_err(io)
@@ -411,6 +551,7 @@ impl<W: Write> EpochSink for JsonlEpochWriter<W> {
 /// [`BINARY_RECORD_BYTES`]-byte records.
 pub struct BinaryEpochWriter<W: Write> {
     w: W,
+    n_taps: usize,
 }
 
 impl<W: Write> BinaryEpochWriter<W> {
@@ -418,15 +559,22 @@ impl<W: Write> BinaryEpochWriter<W> {
     pub fn new(mut w: W, header: &EpochHeader) -> Result<Self, IqError> {
         let line = serde_json::to_string(header).map_err(|e| IqError::Format(e.to_string()))?;
         writeln!(w, "{line}").map_err(io)?;
-        Ok(Self { w })
+        Ok(Self {
+            w,
+            n_taps: header.extra_taps_chips.len(),
+        })
     }
 }
 
 impl<W: Write> EpochSink for BinaryEpochWriter<W> {
     fn epoch(&mut self, channel: usize, e: &EpochOutput, state: LockState) -> Result<(), IqError> {
-        self.w
-            .write_all(&EpochRecord::new(channel, e, state).to_bytes())
-            .map_err(io)
+        check_taps(e, self.n_taps)?;
+        let rec = EpochRecord::new(channel, e, state);
+        if self.n_taps == 0 {
+            self.w.write_all(&rec.to_bytes()).map_err(io)
+        } else {
+            self.w.write_all(&rec.to_vec()).map_err(io)
+        }
     }
     fn finish(&mut self) -> Result<(), IqError> {
         self.w.flush().map_err(io)
@@ -452,9 +600,11 @@ impl<R: BufRead> BinaryEpochReader<R> {
                 header.schema
             )));
         }
-        if header.record_bytes != BINARY_RECORD_BYTES {
+        let want = BINARY_RECORD_BYTES + BINARY_TAP_BYTES * header.extra_taps_chips.len();
+        if header.record_bytes != want {
             return Err(IqError::Format(format!(
-                "epoch file records are {} bytes; this reader expects {BINARY_RECORD_BYTES}",
+                "epoch file records are {} bytes; this reader expects {want} \
+                 ({BINARY_RECORD_BYTES} plus {BINARY_TAP_BYTES} per extra tap)",
                 header.record_bytes
             )));
         }
@@ -470,21 +620,22 @@ impl<R: BufRead> BinaryEpochReader<R> {
 impl<R: BufRead> Iterator for BinaryEpochReader<R> {
     type Item = Result<EpochRecord, IqError>;
     fn next(&mut self) -> Option<Self::Item> {
-        let mut b = [0u8; BINARY_RECORD_BYTES];
+        let size = self.header.record_bytes;
+        let mut b = vec![0u8; size];
         let mut got = 0;
         while got < b.len() {
             match self.r.read(&mut b[got..]) {
                 Ok(0) if got == 0 => return None,
                 Ok(0) => {
                     return Some(Err(IqError::Format(format!(
-                        "epoch file ends inside a record ({got} of {BINARY_RECORD_BYTES} bytes)"
+                        "epoch file ends inside a record ({got} of {size} bytes)"
                     ))))
                 }
                 Ok(n) => got += n,
                 Err(e) => return Some(Err(io(e))),
             }
         }
-        Some(EpochRecord::from_bytes(&b))
+        Some(EpochRecord::from_slice(&b, &self.header.extra_taps_chips))
     }
 }
 
@@ -764,7 +915,10 @@ impl EpochFormat {
         header: &EpochHeader,
     ) -> Result<Box<dyn EpochSink + 'w>, IqError> {
         Ok(match self {
-            Self::Csv => Box::new(CsvEpochWriter::new(w)?),
+            Self::Csv => Box::new(CsvEpochWriter::with_extra_taps(
+                w,
+                header.extra_taps_chips.len(),
+            )?),
             Self::Jsonl => Box::new(JsonlEpochWriter::new(w, header)?),
             Self::Binary => Box::new(BinaryEpochWriter::new(w, header)?),
         })
