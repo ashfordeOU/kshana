@@ -75,7 +75,8 @@ pub use truth::{
 
 use crate::gps_lnav::LnavConventions;
 use crate::iq::{
-    ChannelSnapshot, IqError, IqSink, IqSource, PathState, SampleSpec, SpreadingCode, C_M_PER_S,
+    ChannelSnapshot, DataModulation, IqError, IqSink, IqSource, PathState, SampleSpec,
+    SpreadingCode, C_M_PER_S,
 };
 use crate::rinex::RinexEphemeris;
 use nav::{BitWindow, NavState};
@@ -444,6 +445,10 @@ struct SatConst {
     code_offset: f64,
     /// Time from bit 0's start to `t_tx = 0` (s).
     bit_offset: f64,
+    /// Duration of one data bit or symbol (s), from the code's [`DataModulation`].
+    bit_s: f64,
+    /// Each bit is split into two half-bit symbols of opposite sign (GLONASS meander).
+    meander: bool,
 }
 
 /// A streaming source over a scene's samples ([`IqSource`]); the truth records of each
@@ -456,6 +461,8 @@ pub struct SceneStream {
     windows: Vec<KnotWindow>,
     consts: Vec<SatConst>,
     nav: Vec<NavState>,
+    /// Per satellite, why its navigation data does not fit its signal (refused on read).
+    nav_errors: Vec<Option<String>>,
     gain: f64,
     noise_sigma: f64,
     truth: Vec<TruthRecord>,
@@ -476,6 +483,14 @@ impl SceneStream {
             .sats
             .iter()
             .map(|s| {
+                let (bit_s, meander) = match s.code.data_modulation() {
+                    DataModulation::Symbols { symbol_s } => (symbol_s, false),
+                    // The meander is part of the data: a data-free scene has neither.
+                    DataModulation::Meander { bit_s } => (bit_s, s.nav != NavData::None),
+                    DataModulation::Lnav | DataModulation::Pilot | DataModulation::NotModelled => {
+                        (LNAV_BIT_S, false)
+                    }
+                };
                 let chip_rate = s.code.chip_rate_hz();
                 let len = s.code.len_chips() as f64;
                 SatConst {
@@ -485,6 +500,8 @@ impl SceneStream {
                     len,
                     code_offset: (cfg.start_tow_s * chip_rate).rem_euclid(len),
                     bit_offset: cfg.start_tow_s - frame0,
+                    bit_s,
+                    meander,
                 }
             })
             .collect();
@@ -493,11 +510,23 @@ impl SceneStream {
             .iter()
             .map(|s| NavState::new(s.nav.clone(), frame0))
             .collect();
+        // Data a satellite's signal cannot carry is refused on the first read.
+        let nav_errors = scene
+            .sats
+            .iter()
+            .map(|s| {
+                s.nav
+                    .check_modulation(s.code.data_modulation())
+                    .err()
+                    .map(|e| format!("satellite {} ({}) {e}", s.id, s.code.name()))
+            })
+            .collect();
         Self {
             total: cfg.total_samples(),
             windows: vec![KnotWindow::default(); scene.sats.len()],
             consts,
             nav,
+            nav_errors,
             gain,
             noise_sigma: (n0 * fs / 2.0).sqrt() * gain,
             truth: Vec::new(),
@@ -602,9 +631,12 @@ impl SceneStream {
                 tmin = tmin.min(base);
                 tmax = tmax.max(base);
             }
-            let off = self.consts[i].bit_offset;
-            let first = ((off + tmin) / LNAV_BIT_S).floor() as i64 - 1;
-            let last = ((off + tmax) / LNAV_BIT_S).floor() as i64 + 1;
+            if let Some(e) = &self.nav_errors[i] {
+                return Err(IqError::Format(e.clone()));
+            }
+            let (off, bit_s) = (self.consts[i].bit_offset, self.consts[i].bit_s);
+            let first = ((off + tmin) / bit_s).floor() as i64 - 1;
+            let last = ((off + tmax) / bit_s).floor() as i64 + 1;
             out.push(self.nav[i].window(first, last).map_err(|e| {
                 IqError::Format(format!("satellite {}: {e}", self.scene.sats[i].id))
             })?);
@@ -754,8 +786,13 @@ impl Synth<'_> {
                     }
                     let t_tx = t_geo - path.group_delay_s;
                     let chip = sat.code.value_at(c.code_offset + c.chip_rate * t_tx);
-                    let bit =
-                        self.bits[i].sign(((c.bit_offset + t_tx) / LNAV_BIT_S).floor() as i64);
+                    let u = (c.bit_offset + t_tx) / c.bit_s;
+                    let bit = self.bits[i].sign(u.floor() as i64)
+                        * if c.meander && u - u.floor() >= 0.5 {
+                            -1.0
+                        } else {
+                            1.0
+                        };
                     let cyc = geo_cycles
                         + path.carrier_phase_rad / TAU
                         + path.extra_doppler_hz * (t - j as f64 * h);

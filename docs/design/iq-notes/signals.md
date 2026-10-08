@@ -89,6 +89,14 @@ PDFs above (no hand edits); each table states its ICD issue and table number.
   first and last 24 chips of all 189 codes. The Galileo E1 memory codes ship under
   `data/galileo-os-sis-icd/` with provenance and are used under the EU's Annex H
   authorisation, not the repository licence.
+- Acquisition and tracking mix each code down from `SampleSpec::baseband_hz(carrier)`,
+  `if_hz + (carrier − center_hz)`, so every GLONASS L1OF channel of one recording is
+  searched and tracked on its own FDMA carrier (all channels share one ranging code). The
+  carrier term is zero for a recording centred on the signal and is omitted when the
+  centre is unknown (`center_hz` 0).
+- Known limitation: a GLONASS scene uses the frequency channel `k` as the satellite id,
+  which is `u32` (`SceneSatellite::id`, `TruthRecord::sat_id`). A negative channel wraps:
+  `k = -7` is written as 4294967289 (`k + 2^32`), and an `i32` cast recovers it.
 
 ### docs/VALIDATION.md
 
