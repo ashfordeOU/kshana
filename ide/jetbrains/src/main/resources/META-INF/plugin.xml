@@ -19,6 +19,12 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.33.0</b> — the plugin itself is unchanged; this release fixes GNSS IQ defects
+        (front-end flags, per-signal data timing, GLONASS FDMA carriers, integer scaling) and
+        changes the <code>iq track</code> default hand-off. Update the engine with
+        <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.32.0</b> — the plugin itself is unchanged; this release surfaces the GNSS IQ
         signal layer on the engine's command line and Python API. Update the engine with
         <code>cargo install kshana</code> and see the release notes at
