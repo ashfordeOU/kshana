@@ -130,6 +130,11 @@ pfa = 1e-3
 
 ## 2. Tracking epoch record (`kshana.track-epoch/1`) — streamed, B3.2 + B6.1
 
+`cn0_m2m4_dbhz` follows `cn0_beaulieu_dbhz`: the M2M4 C/N0 over the same windows as NWPR (the
+last `cn0_windows` windows of `cn0_window_periods` prompts, or the bit length), from prompt power
+only, so it does not read low under carrier phase jitter the way NWPR does (D10). Empty until
+`cn0_windows` windows are in. The format is unreleased, so this extends `/1`.
+
 One record per loop update per channel, written as it happens, so memory is O(channels) and
 independent of the recording length. All three formats carry the same fields:
 * **CSV**: a header row of the field names.
@@ -139,10 +144,11 @@ independent of the recording length. All three formats carry the same fields:
   and `design_hash`), `sample_rate_hz`, `engine_version` and an optional
   `recording_sha256`. The record layout is: `channel` u32, `state` u8 (0 PULL_IN … 4
   RETIRED), a flags u8 (bit 0 phase_lock, 1 code_lock, 2 NWPR present, 3 Beaulieu
-  present, 4 bit_edge present, 5 bit present), `bit` i8, one reserved byte, `epoch` u64,
+  present, 4 bit_edge present, 5 bit present, 6 M2M4 present), `bit` i8, one reserved byte, `epoch` u64,
   `sample_index` u64, `periods` u32, `bit_edge` u32, then 19 f64 (`code_epoch_s`,
   `t_coh_s`, E/P/L I+Q, the three discriminators, `doppler_hz`, `carrier_phase_cycles`,
-  `code_rate_hz`, `code_phase_chips`, `pli`, the two C/N0 estimates, one reserved).
+  `code_rate_hz`, `code_phase_chips`, `pli`, the NWPR and Beaulieu C/N0 estimates, the M2M4
+  C/N0 estimate).
   `iq::track::sink::BinaryEpochReader` (Rust) and `kshana.iq_read_epochs` (Python) read
   it back.
 

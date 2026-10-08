@@ -53,6 +53,7 @@ pub const EPOCH_FIELDS: &[&str] = &[
     "code_lock",
     "cn0_nwpr_dbhz",
     "cn0_beaulieu_dbhz",
+    "cn0_m2m4_dbhz",
     "bit_edge",
     "bit",
     "state",
@@ -177,6 +178,8 @@ pub struct EpochRecord {
     pub cn0_nwpr_dbhz: Option<f64>,
     /// Beaulieu C/N0 (dB-Hz), once available.
     pub cn0_beaulieu_dbhz: Option<f64>,
+    /// M2M4 C/N0 (dB-Hz), once available.
+    pub cn0_m2m4_dbhz: Option<f64>,
     /// Bit edge phase, once synchronised.
     pub bit_edge: Option<u32>,
     /// Sign of a bit completed since the previous update.
@@ -213,6 +216,7 @@ impl EpochRecord {
             code_lock: e.code_lock,
             cn0_nwpr_dbhz: e.cn0_nwpr_dbhz,
             cn0_beaulieu_dbhz: e.cn0_beaulieu_dbhz,
+            cn0_m2m4_dbhz: e.cn0_m2m4_dbhz,
             bit_edge: e.bit_edge.map(|b| b as u32),
             bit: e.bit,
             state,
@@ -227,7 +231,7 @@ impl EpochRecord {
     fn csv_row(&self) -> String {
         let o = |v: Option<f64>| v.map(|x| x.to_string()).unwrap_or_default();
         format!(
-            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
+            "{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{},{}",
             self.channel,
             self.epoch,
             self.sample_index,
@@ -252,6 +256,7 @@ impl EpochRecord {
             self.code_lock,
             o(self.cn0_nwpr_dbhz),
             o(self.cn0_beaulieu_dbhz),
+            o(self.cn0_m2m4_dbhz),
             self.bit_edge.map(|b| b.to_string()).unwrap_or_default(),
             self.bit.map(|b| b.to_string()).unwrap_or_default(),
             self.state.as_str(),
@@ -269,6 +274,7 @@ impl EpochRecord {
             self.cn0_beaulieu_dbhz.is_some(),
             self.bit_edge.is_some(),
             self.bit.is_some(),
+            self.cn0_m2m4_dbhz.is_some(),
         ]
         .into_iter()
         .enumerate()
@@ -305,7 +311,7 @@ impl EpochRecord {
             self.pli,
             self.cn0_nwpr_dbhz.unwrap_or(0.0),
             self.cn0_beaulieu_dbhz.unwrap_or(0.0),
-            0.0,
+            self.cn0_m2m4_dbhz.unwrap_or(0.0),
         ];
         for (i, v) in floats.iter().enumerate() {
             let at = 32 + 8 * i;
@@ -353,6 +359,7 @@ impl EpochRecord {
             cn0_beaulieu_dbhz: has(3).then(|| f(17)),
             bit_edge: has(4).then(|| u32_at(28)),
             bit: has(5).then_some(b[6] as i8),
+            cn0_m2m4_dbhz: has(6).then(|| f(18)),
             state,
         })
     }

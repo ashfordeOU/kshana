@@ -7,6 +7,7 @@ use super::cn0::{
     phase_lock_indicator, BitSync,
 };
 use super::{Discriminators, FllAssist, LoopConfig, LoopCore};
+use crate::acquisition::m2m4_cn0_from_moments;
 use crate::iq::acq::AcqResult;
 use crate::iq::{Cf64, SampleSpec, SpreadingCode};
 use crate::portable_math::PortableFloat;
@@ -112,6 +113,10 @@ pub struct EpochOutput {
     /// The sign of a data bit completed since the previous update (`±1`, with the Costas
     /// loop's 180° ambiguity).
     pub bit: Option<i8>,
+    /// Latest M2M4 C/N0 estimate (dB-Hz) over the same windows as NWPR, once `M` windows
+    /// are in. It uses only prompt power, so it does not read low under carrier phase
+    /// jitter the way NWPR does.
+    pub cn0_m2m4_dbhz: Option<f64>,
     /// Whether the FLL path fed this update (see [`FllAssist`]).
     pub fll_active: bool,
 }
@@ -155,6 +160,8 @@ pub struct Channel {
     prev_window_sum: Option<Cf64>,
     cn0_nwpr: Option<f64>,
     cn0_beaulieu: Option<f64>,
+    m2m4: VecDeque<(f64, f64)>,
+    cn0_m2m4: Option<f64>,
     pending_bit: Option<i8>,
 }
 
@@ -233,6 +240,8 @@ impl Channel {
             prev_window_sum: None,
             cn0_nwpr: None,
             cn0_beaulieu: None,
+            m2m4: VecDeque::new(),
+            cn0_m2m4: None,
             pending_bit: None,
             code,
         };
@@ -331,6 +340,7 @@ impl Channel {
                     self.window.clear();
                     self.nwpr.clear();
                     self.beaulieu.clear();
+                    self.m2m4.clear();
                     self.prev_window_sum = None;
                 }
             }
@@ -372,6 +382,7 @@ impl Channel {
                 code_lock: self.cn0_nwpr.is_some_and(|c| c >= cfg.code_lock_cn0_dbhz),
                 cn0_nwpr_dbhz: self.cn0_nwpr,
                 cn0_beaulieu_dbhz: self.cn0_beaulieu,
+                cn0_m2m4_dbhz: self.cn0_m2m4,
                 bit_edge: edge,
                 bit: self.pending_bit.take(),
                 fll_active,
@@ -445,6 +456,23 @@ impl Channel {
                     let mu = self.nwpr.iter().sum::<f64>() / m as f64;
                     self.cn0_nwpr = nwpr_cn0_from_ratio(mu, self.window_len, period_s);
                 }
+            }
+            // M2M4: per-window sums of |P|² and |P|⁴ over the last M windows.
+            let (s2, s4) = self.window.iter().fold((0.0, 0.0), |(a, b), p| {
+                let e = p.re * p.re + p.im * p.im;
+                (a + e, b + e * e)
+            });
+            self.m2m4.push_back((s2, s4));
+            if self.m2m4.len() > m {
+                self.m2m4.pop_front();
+            }
+            if self.m2m4.len() == m {
+                let n = (m * self.window_len) as f64;
+                let (t2, t4) = self
+                    .m2m4
+                    .iter()
+                    .fold((0.0, 0.0), |(a, b), &(x, y)| (a + x, b + y));
+                self.cn0_m2m4 = m2m4_cn0_from_moments(t2 / n, t4 / n, period_s);
             }
             let sum = self.window.iter().fold(Cf64::default(), |a, &v| a + v);
             if let Some(prev) = self.prev_window_sum {
