@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.33.0</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.33.1</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -103,7 +103,7 @@
   <a href="/docs/line-coverage"><span class="img-alt">Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration</span></a>
   <a href="#evidence"><span class="img-alt">124 of 251 capabilities VALIDATED against an independent external oracle, from the verification matrix</span></a>
   <a href="https://sonarcloud.io/summary/overall?id=ashfordeOU_kshana"><span class="img-alt">SonarQube Cloud quality gate status</span></a>
-  <a href="https://github.com/ashfordeOU/kshana/releases"><span class="img-alt">Release v0.33.0</span></a>
+  <a href="https://github.com/ashfordeOU/kshana/releases"><span class="img-alt">Release v0.33.1</span></a>
   <a href="https://github.com/ashfordeOU/kshana/blob/main/LICENSE"><span class="img-alt">Licence: AGPL-3.0-only</span></a>
   <br>
   <a href="https://doi.org/10.5281/zenodo.20528627"><span class="img-alt">DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release</span></a>
@@ -136,7 +136,7 @@ Every capability carries one of three labels in a machine-checked ledger: <stron
 independent external oracle agrees), <strong>MODELLED</strong> (internally consistent, and said out loud)
 or <strong>PARTNER</strong> (a hardware partner owns it).</p>
 <blockquote>
-<p><strong>Status: v0.33.0.</strong> A validated, reproducible simulation substrate for PNT resilience.
+<p><strong>Status: v0.33.1.</strong> A validated, reproducible simulation substrate for PNT resilience.
 Timing and holdover come first, because that domain is the best validated. Kshana is a
 study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it
 drives no radio and transmits nothing; its signal-level output is baseband IQ sample files
@@ -49329,7 +49329,7 @@ AADAASEJAAAAgANCEgAAAAAHhCQAAAAADghJAAAAABz+D8Q3RPC/IRySAAAAAElFTkSuQmCC" alt="V
 
 <h2 id="install">Install<a class="anchor" href="#install" aria-label="Link to this section">#</a></h2>
 <p>One line gets the command-line tool: <strong><code>cargo install kshana</code></strong>. Every channel ships
-v0.33.0 from the same tagged commit.</p>
+v0.33.1 from the same tagged commit.</p>
 <div class="tbl"><table><thead><tr>
 <th>Channel</th>
 <th>Install</th>
@@ -49378,8 +49378,8 @@ v0.33.0 from the same tagged commit.</p>
 </tbody></table></div>
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><span class="img-alt">Kshana on the JetBrains Marketplace</span></a> <a href="https://github.com/ashfordeOU/kshana/blob/main/Cargo.toml"><span class="img-alt">Builds with Rust 1.85 or newer, the rust-version in Cargo.toml</span></a></p>
 
-<p>MCP is the Model Context Protocol. Pin a release with <code>cargo install kshana --version 0.33.0</code>,
-<code>pip install kshana==0.33.0</code> or <code>npm install kshana@0.33.0</code>. To build from source, see
+<p>MCP is the Model Context Protocol. Pin a release with <code>cargo install kshana --version 0.33.1</code>,
+<code>pip install kshana==0.33.1</code> or <code>npm install kshana@0.33.1</code>. To build from source, see
 <a href="#install--build">Install and build</a> under Reference.</p>
 <details>
 <summary>Run a scenario from Python and from WebAssembly</summary>
@@ -49391,7 +49391,7 @@ v0.33.0 from the same tagged commit.</p>
 toml = <span class="hljs-built_in">open</span>(<span class="hljs-string">&quot;clock-holdover.toml&quot;</span>).read()
 result = json.loads(kshana.run(toml))
 <span class="hljs-built_in">print</span>(kshana.version(), result[<span class="hljs-string">&quot;quantum&quot;</span>][<span class="hljs-string">&quot;fom&quot;</span>][<span class="hljs-string">&quot;holdover_s&quot;</span>], result[<span class="hljs-string">&quot;classical&quot;</span>][<span class="hljs-string">&quot;fom&quot;</span>][<span class="hljs-string">&quot;holdover_s&quot;</span>])
-<span class="hljs-comment"># 0.33.0 6600.0 2610.0</span></code></pre>
+<span class="hljs-comment"># 0.33.1 6600.0 2610.0</span></code></pre>
 <p>Beyond <code>run</code>, the module exposes <code>run_full</code> (JSON, SVG and the one-line summary at once),
 <code>run_typed</code>, <code>validate_toml</code>, <code>list_kinds</code> / <code>scenario_kinds</code> and <code>error_kind</code>; see
 <a href="/docs/python-api"><code>docs/PYTHON_API.md</code></a>.</p>
@@ -49407,7 +49407,7 @@ result = json.loads(kshana.run(toml))
 <span class="hljs-keyword">const</span> toml = <span class="hljs-title function_">readFileSync</span>(<span class="hljs-string">&quot;clock-holdover.toml&quot;</span>, <span class="hljs-string">&quot;utf8&quot;</span>);
 <span class="hljs-keyword">const</span> result = <span class="hljs-title class_">JSON</span>.<span class="hljs-title function_">parse</span>(<span class="hljs-title function_">run</span>(toml));
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">version</span>(), result.<span class="hljs-property">quantum</span>.<span class="hljs-property">fom</span>.<span class="hljs-property">holdover_s</span>, result.<span class="hljs-property">classical</span>.<span class="hljs-property">fom</span>.<span class="hljs-property">holdover_s</span>);
-<span class="hljs-comment">// 0.33.0 6600 2610</span>
+<span class="hljs-comment">// 0.33.1 6600 2610</span>
 <span class="hljs-variable language_">console</span>.<span class="hljs-title function_">log</span>(<span class="hljs-title function_">summary</span>(toml));</code></pre>
 </details>
 
@@ -50639,7 +50639,7 @@ entry for every user-visible change. Participation is governed by our
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.33.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Kshana v0.33.1 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
       <span>Every chart is drawn from a recorded run of engine v0.33.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
