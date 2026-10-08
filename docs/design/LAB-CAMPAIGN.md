@@ -125,6 +125,9 @@ js_bin_db = 1.0                     # J/S bin width for the degradation curve
 false_lock_min_epochs = 50          # consecutive off-truth locked updates per episode
 reacq_grace_s = 30.0                # how long after offset re-acquisition is looked for
 reference_curve = true              # draw the MODELLED SSC reference curve
+cn0_estimator = "m2m4"              # "m2m4" (default) | "nwpr": the C/N0 behind the reported C/N0
+                                    # and the degradation curve. Both are always scored and
+                                    # reported. Part of the scoring hash.
 
 [scoring.bars]                      # optional pass/fail bars; omitted -> no verdict
 min_time_to_loss_s = 30.0           # lock must hold this long after onset (holding passes)
@@ -186,6 +189,7 @@ rounded and hashes shortened):
 
 ```json
 {
+  "cn0_estimator": "m2m4",
   "data_class": "synthetic",
   "design": {
     "hash": "db9708c2…",
@@ -196,7 +200,7 @@ rounded and hashes shortened):
     "hash": "e015d238…",
     "name": "raw"
   },
-  "key": "6f33d888…",
+  "key": "fd6fdee7…",
   "lock_source": "track-session",
   "recording": {
     "conditions_hash": "9b094d27…",
@@ -211,26 +215,32 @@ rounded and hashes shortened):
       "events": [
         {
           "availability": 1.0,
-          "baseline_cn0_dbhz": 44.68,
+          "baseline_cn0_dbhz": 44.83,
+          "baseline_cn0_m2m4_dbhz": 44.83,
+          "baseline_cn0_nwpr_dbhz": 44.68,
           "baseline_dll_jitter_chips": 0.06376,
           "baseline_pll_jitter_deg": 7.628,
           "baseline_source": "measured",
           "cn0_curve": [
             {
               "js_db": 20.0,
-              "measured_cn0_dbhz": 38.68,
-              "measured_degradation_db": 6.0,
-              "modelled_cn0_dbhz": 38.8,
-              "modelled_degradation_db": 5.875,
+              "measured_cn0_dbhz": 38.53,
+              "measured_cn0_m2m4_dbhz": 38.53,
+              "measured_cn0_nwpr_dbhz": 38.68,
+              "measured_degradation_db": 6.3,
+              "modelled_cn0_dbhz": 38.84,
+              "modelled_degradation_db": 5.987,
               "n": 3000
             },
             {
               "js_db": 30.0,
-              "measured_cn0_dbhz": 29.98,
-              "measured_degradation_db": 14.7,
+              "measured_cn0_dbhz": 29.73,
+              "measured_cn0_m2m4_dbhz": 29.73,
+              "measured_cn0_nwpr_dbhz": 29.98,
+              "measured_degradation_db": 15.1,
               "modelled_cn0_dbhz": 29.95,
-              "modelled_degradation_db": 14.73,
-              "n": 3000
+              "modelled_degradation_db": 14.87,
+              "n": 2760
             }
           ],
           "dll_jitter_chips": 0.1597,
@@ -274,7 +284,9 @@ rounded and hashes shortened):
         "false_lock_per_hour": 0.0,
         "locked_s": 8.799,
         "loss_count": 0,
-        "median_cn0_dbhz": 44.58,
+        "median_cn0_dbhz": 44.78,
+        "median_cn0_m2m4_dbhz": 44.78,
+        "median_cn0_nwpr_dbhz": 44.58,
         "phase_lock_frac": 0.9911,
         "pll_jitter_deg": 7.674,
         "reacq_count": 0,
@@ -283,7 +295,7 @@ rounded and hashes shortened):
     }
   ],
   "schema": "kshana.campaign-cell/1",
-  "scoring_hash": "3bc6ac68…"
+  "scoring_hash": "81c8c23d…"
 }
 ```
 
@@ -298,8 +310,8 @@ Lock is the tracking session's lock state machine (`LOCKED` against everything e
 | time to loss of lock | first `LOCKED → LOST` transition in `[onset, offset + reacq_grace]` minus `onset`; `null` = held lock |
 | J/S at loss | stated J/S (from `[event.power]`) at the moment of loss |
 | re-acquisition time | first return to `LOCKED` at or after `max(offset, t_loss)` minus `offset`; `null` = not within grace |
-| baseline C/N0 | median NWPR C/N0 over locked epochs in `[onset − baseline_window_s, onset)` (else the stated `nominal_cn0_dbhz`) |
-| C/N0 degradation vs J/S | per `js_bin_db` bin of stated J/S during the event: `n`, median measured C/N0 over locked epochs, degradation = baseline − measured |
+| baseline C/N0 | median C/N0 (by `cn0_estimator`) over locked epochs in `[onset − baseline_window_s, onset)` (else the stated `nominal_cn0_dbhz`) |
+| C/N0 degradation vs J/S | per `js_bin_db` bin of stated J/S during the event: `n`, median measured C/N0 (by `cn0_estimator`) over locked epochs, degradation = baseline − measured. Both estimators' medians are reported per bin and as baselines |
 | MODELLED reference | per bin: `effective_cn0_dbhz(baseline, js, Q(type), Rc)` from `jamming`, with Q from `jamming::q_factor` for the stated type or the event's `q` |
 | false-lock rate | episodes per hour of locked time. An episode is a `false-lock` event of the tracking session or, with a truth sidecar, ≥ `false_lock_min_epochs` consecutive locked epochs with \|Doppler − truth\| > threshold |
 | PLL / DLL jitter | sample std of `pll_disc_rad` (deg) and `dll_disc_chips` over locked epochs: baseline window and per event |
@@ -392,9 +404,19 @@ expected to agree. The tests cover:
 
 ### Observations from the synthetic campaign (`tests/iq_campaign.rs`)
 
-* The NWPR C/N0 reads about 2 dB under a scene's stated C/N0. Degradation is measured from the
-  measured baseline, so this offset cancels. The MODELLED reference is drawn from the same
-  baseline.
+* **C/N0 estimator.** Two estimates are scored and reported: NWPR and M2M4 (`cn0_estimator` picks
+  the primary one, default `"m2m4"`). Under the loop's own jitter NWPR reads low by about
+  `8 dB × Bn_PLL × T` (about −1 dB at `Bn·T = 0.1`), so its readings, and the baseline it
+  subtracts, depend on the loop design; M2M4 is insensitive to it
+  (`docs/design/evidence/cn0-m2m4/PREREGISTRATION.md`, #64). The degradation is baseline minus
+  measured, so a constant bias cancels, but the part of it that grows with the stress does not:
+  the NWPR curve over-reads the degradation. On the reference ramp (stated J/S 20 and 30 dB, raw
+  front end, stated nominal 45 dB-Hz) the measured degradation at J/S 20 / 30 dB was, NWPR then
+  M2M4, 6.0 / 14.7 then 6.3 / 15.1 dB for PRN 3 and 5.75 / 14.8 then 5.8 / 14.9 dB for PRN 11,
+  against a MODELLED 5.88 / 14.73 and 5.84 / 14.68 dB; baselines 44.68 and 44.62 (NWPR), 44.83
+  and 44.62 (M2M4). With `cn0_estimator = "nwpr"` every other scored result is identical to a run
+  with `"m2m4"` (`tests/iq_campaign.rs`, `m2m4_changes_only_the_cn0_derived_fields`), and an NWPR
+  run reproduces the results from before M2M4 existed (`nwpr_reproduces_the_pre_m2m4_results_exactly`).
 * A hand-off at the ±1/(2T) Costas alias never declares code lock: the coherent sum of the NWPR
   estimator cancels there. The false-lock test therefore scores a correct track against a
   shifted truth sidecar. That checks the scoring path, not the tracker's false-lock behaviour.

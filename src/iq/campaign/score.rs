@@ -60,7 +60,9 @@ pub struct ScoreEpoch {
     /// Code-lock indicator flag.
     pub code_lock: bool,
     /// NWPR C/N0 estimate (dB-Hz), once available.
-    pub cn0_dbhz: Option<f64>,
+    pub cn0_nwpr_dbhz: Option<f64>,
+    /// M2M4 C/N0 estimate (dB-Hz), once available.
+    pub cn0_m2m4_dbhz: Option<f64>,
     /// Carrier-phase discriminator output (rad).
     pub pll_rad: f64,
     /// Code discriminator output (chips).
@@ -69,6 +71,69 @@ pub struct ScoreEpoch {
     pub doppler_hz: f64,
     /// Whether the tracker's own false-lock detector fired on this update.
     pub false_lock_flag: bool,
+}
+
+impl ScoreEpoch {
+    /// The C/N0 estimate of `est` (dB-Hz), once available.
+    pub fn cn0(&self, est: Cn0Estimator) -> Option<f64> {
+        match est {
+            Cn0Estimator::Nwpr => self.cn0_nwpr_dbhz,
+            Cn0Estimator::M2m4 => self.cn0_m2m4_dbhz,
+        }
+    }
+}
+
+/// Which C/N0 estimate drives the reported C/N0 and the degradation curve. Both estimates are
+/// always scored and reported; this picks the primary one. NWPR reads low by about
+/// `8 dB * Bn_PLL * T` under the loop's own jitter, so its readings carry a design-dependent
+/// bias; M2M4 does not (`docs/design/evidence/cn0-m2m4/PREREGISTRATION.md`).
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "lowercase")]
+pub enum Cn0Estimator {
+    /// Narrowband-wideband power ratio.
+    Nwpr,
+    /// Second- and fourth-moment estimator.
+    #[default]
+    M2m4,
+}
+
+impl Cn0Estimator {
+    /// The name used in the campaign file and in outputs.
+    pub fn name(self) -> &'static str {
+        match self {
+            Self::Nwpr => "nwpr",
+            Self::M2m4 => "m2m4",
+        }
+    }
+}
+
+/// One histogram per estimator, fed together.
+struct Cn0Hists {
+    nwpr: Hist,
+    m2m4: Hist,
+}
+
+impl Cn0Hists {
+    fn new() -> Self {
+        Self {
+            nwpr: Hist::new(),
+            m2m4: Hist::new(),
+        }
+    }
+    fn push(&mut self, e: &ScoreEpoch) {
+        if let Some(c) = e.cn0_nwpr_dbhz {
+            self.nwpr.push(c);
+        }
+        if let Some(c) = e.cn0_m2m4_dbhz {
+            self.m2m4.push(c);
+        }
+    }
+    fn get(&self, est: Cn0Estimator) -> &Hist {
+        match est {
+            Cn0Estimator::Nwpr => &self.nwpr,
+            Cn0Estimator::M2m4 => &self.m2m4,
+        }
+    }
 }
 
 /// Scoring settings (the campaign's `[scoring]` table).
@@ -94,6 +159,10 @@ pub struct ScoringConfig {
     /// Whether to compute the MODELLED reference curve.
     #[serde(default = "d_true")]
     pub reference_curve: bool,
+    /// The C/N0 estimate behind the reported C/N0 and the degradation curve (`"m2m4"` or
+    /// `"nwpr"`). Both are scored; part of the scoring hash.
+    #[serde(default)]
+    pub cn0_estimator: Cn0Estimator,
     /// Pass/fail bars, applied when the report is built (not by the scorer).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub bars: Option<Bars>,
@@ -124,6 +193,7 @@ impl Default for ScoringConfig {
             false_lock_min_epochs: d_fl_epochs(),
             reacq_grace_s: d_grace(),
             reference_curve: true,
+            cn0_estimator: Cn0Estimator::default(),
             bars: None,
         }
     }
@@ -346,8 +416,13 @@ pub struct WholeRunScore {
     pub phase_lock_frac: Option<f64>,
     /// Fraction of scored time with the code-lock flag up.
     pub code_lock_frac: Option<f64>,
-    /// Median C/N0 over locked updates outside events (dB-Hz).
+    /// Median C/N0 over locked updates outside events (dB-Hz), by the campaign's
+    /// `cn0_estimator`.
     pub median_cn0_dbhz: Option<f64>,
+    /// The same median by NWPR (dB-Hz).
+    pub median_cn0_nwpr_dbhz: Option<f64>,
+    /// The same median by M2M4 (dB-Hz).
+    pub median_cn0_m2m4_dbhz: Option<f64>,
     /// Carrier-phase discriminator std over locked updates outside events (deg).
     pub pll_jitter_deg: Option<f64>,
     /// Code discriminator std over locked updates outside events (chips).
@@ -367,10 +442,14 @@ pub struct WholeRunScore {
 pub struct Cn0Bin {
     /// Centre of the stated-J/S bin (dB).
     pub js_db: f64,
-    /// Locked updates in the bin.
+    /// Locked updates in the bin that carry the campaign's `cn0_estimator`.
     pub n: u64,
-    /// Median measured C/N0 (dB-Hz).
+    /// Median measured C/N0 by the campaign's `cn0_estimator` (dB-Hz).
     pub measured_cn0_dbhz: Option<f64>,
+    /// Median measured C/N0 by NWPR (dB-Hz).
+    pub measured_cn0_nwpr_dbhz: Option<f64>,
+    /// Median measured C/N0 by M2M4 (dB-Hz).
+    pub measured_cn0_m2m4_dbhz: Option<f64>,
     /// Baseline minus measured (dB).
     pub measured_degradation_db: Option<f64>,
     /// MODELLED C/N0 at the bin's J/S (dB-Hz).
@@ -424,8 +503,12 @@ pub struct EventScore {
     pub outage_s: Option<f64>,
     /// Locked fraction of the event window.
     pub availability: Option<f64>,
-    /// Baseline C/N0 (dB-Hz).
+    /// Baseline C/N0 by the campaign's `cn0_estimator` (dB-Hz).
     pub baseline_cn0_dbhz: Option<f64>,
+    /// Measured baseline C/N0 by NWPR (dB-Hz).
+    pub baseline_cn0_nwpr_dbhz: Option<f64>,
+    /// Measured baseline C/N0 by M2M4 (dB-Hz).
+    pub baseline_cn0_m2m4_dbhz: Option<f64>,
     /// Where the baseline came from: `"measured"` or `"stated-nominal"`.
     pub baseline_source: Option<String>,
     /// Baseline-window carrier jitter (deg).
@@ -460,7 +543,7 @@ pub struct SatScore {
 /// Running state for one event.
 struct EventAcc {
     ev: Event,
-    baseline_hist: Hist,
+    baseline_hist: Cn0Hists,
     baseline_pll: Welford,
     baseline_dll: Welford,
     locked_at_onset: Option<bool>,
@@ -471,7 +554,7 @@ struct EventAcc {
     pll: Welford,
     dll: Welford,
     false_locks: u32,
-    bins: BTreeMap<i64, Hist>,
+    bins: BTreeMap<i64, Cn0Hists>,
 }
 
 /// The online scorer for one satellite.
@@ -488,7 +571,7 @@ pub struct SatScorer {
     locked_s: f64,
     phase_s: f64,
     code_s: f64,
-    hist: Hist,
+    hist: Cn0Hists,
     pll: Welford,
     dll: Welford,
     prev_locked: Option<bool>,
@@ -521,7 +604,7 @@ impl SatScorer {
             .into_iter()
             .map(|ev| EventAcc {
                 ev: ev.clone(),
-                baseline_hist: Hist::new(),
+                baseline_hist: Cn0Hists::new(),
                 baseline_pll: Welford::default(),
                 baseline_dll: Welford::default(),
                 locked_at_onset: None,
@@ -547,7 +630,7 @@ impl SatScorer {
             locked_s: 0.0,
             phase_s: 0.0,
             code_s: 0.0,
-            hist: Hist::new(),
+            hist: Cn0Hists::new(),
             pll: Welford::default(),
             dll: Welford::default(),
             prev_locked: None,
@@ -593,9 +676,7 @@ impl SatScorer {
                 self.code_s += dt;
             }
             if e.locked && !in_any_event {
-                if let Some(c) = e.cn0_dbhz {
-                    self.hist.push(c);
-                }
+                self.hist.push(e);
                 self.pll.push(e.pll_rad.to_degrees());
                 self.dll.push(e.dll_chips);
             }
@@ -610,9 +691,7 @@ impl SatScorer {
             let (on, off) = (a.ev.onset_s, a.ev.offset_s);
             // Baseline window.
             if t >= on - bw && t < on && t >= self.settle_s && e.locked {
-                if let Some(c) = e.cn0_dbhz {
-                    a.baseline_hist.push(c);
-                }
+                a.baseline_hist.push(e);
                 a.baseline_pll.push(e.pll_rad.to_degrees());
                 a.baseline_dll.push(e.dll_chips);
             }
@@ -645,10 +724,14 @@ impl SatScorer {
                     a.in_locked_s += dt;
                     a.pll.push(e.pll_rad.to_degrees());
                     a.dll.push(e.dll_chips);
-                    if let (Some(c), Some(js)) = (e.cn0_dbhz, a.ev.js_db_at(t)) {
+                    // Each estimator is binned on its own readings, so its per-bin median does
+                    // not depend on which estimator is primary. A bin with no reading from the
+                    // primary estimator is left out of the curve when it is finished.
+                    let any = e.cn0_nwpr_dbhz.is_some() || e.cn0_m2m4_dbhz.is_some();
+                    if let (true, Some(js)) = (any, a.ev.js_db_at(t)) {
                         if js.is_finite() {
                             let k = (js / bin_w).round() as i64;
-                            a.bins.entry(k).or_insert_with(Hist::new).push(c);
+                            a.bins.entry(k).or_insert_with(Cn0Hists::new).push(e);
                         }
                     }
                 }
@@ -711,7 +794,9 @@ impl SatScorer {
             availability: ratio(self.locked_s, self.scored_s),
             phase_lock_frac: ratio(self.phase_s, self.scored_s),
             code_lock_frac: ratio(self.code_s, self.scored_s),
-            median_cn0_dbhz: self.hist.median(),
+            median_cn0_dbhz: self.hist.get(self.cfg.cn0_estimator).median(),
+            median_cn0_nwpr_dbhz: self.hist.nwpr.median(),
+            median_cn0_m2m4_dbhz: self.hist.m2m4.median(),
             pll_jitter_deg: self.pll.std(),
             dll_jitter_chips: self.dll.std(),
             false_lock_episodes: self.fl_episodes,
@@ -756,7 +841,7 @@ fn finish_event(
     nominal: Option<f64>,
     cfg: &ScoringConfig,
 ) -> EventScore {
-    let measured_base = a.baseline_hist.median();
+    let measured_base = a.baseline_hist.get(cfg.cn0_estimator).median();
     let (baseline, source) = match (measured_base, nominal) {
         (Some(b), _) => (Some(b), Some("measured".to_string())),
         (None, Some(n)) => (Some(n), Some("stated-nominal".to_string())),
@@ -770,9 +855,10 @@ fn finish_event(
     let cn0_curve = a
         .bins
         .iter()
+        .filter(|(_, h)| h.get(cfg.cn0_estimator).n > 0)
         .map(|(&k, h)| {
             let js = k as f64 * cfg.js_bin_db;
-            let measured = h.median();
+            let measured = h.get(cfg.cn0_estimator).median();
             let modelled = match (model, baseline) {
                 (Some((q, _)), Some(b)) => Some(effective_cn0_dbhz(b, js, q, chip_rate_hz)),
                 _ => None,
@@ -780,8 +866,10 @@ fn finish_event(
             let deg = |x: Option<f64>| baseline.zip(x).map(|(b, x)| b - x);
             Cn0Bin {
                 js_db: js,
-                n: h.n,
+                n: h.get(cfg.cn0_estimator).n,
                 measured_cn0_dbhz: measured,
+                measured_cn0_nwpr_dbhz: h.nwpr.median(),
+                measured_cn0_m2m4_dbhz: h.m2m4.median(),
                 measured_degradation_db: deg(measured),
                 modelled_cn0_dbhz: modelled,
                 modelled_degradation_db: deg(modelled),
@@ -804,6 +892,8 @@ fn finish_event(
         outage_s: a.relock_t.zip(a.loss_t).map(|(r, l)| r - l),
         availability: (a.in_s > 0.0).then(|| a.in_locked_s / a.in_s),
         baseline_cn0_dbhz: baseline,
+        baseline_cn0_nwpr_dbhz: a.baseline_hist.nwpr.median(),
+        baseline_cn0_m2m4_dbhz: a.baseline_hist.m2m4.median(),
         baseline_source: source,
         baseline_pll_jitter_deg: a.baseline_pll.std(),
         baseline_dll_jitter_chips: a.baseline_dll.std(),
@@ -861,7 +951,8 @@ points = [[20.0, 30.0], [30.0, 40.0]]
             locked,
             phase_lock: locked,
             code_lock: locked,
-            cn0_dbhz: Some(cn0),
+            cn0_nwpr_dbhz: Some(cn0),
+            cn0_m2m4_dbhz: Some(cn0),
             pll_rad: 0.0,
             dll_chips: 0.0,
             doppler_hz: 0.0,
@@ -891,6 +982,57 @@ points = [[20.0, 30.0], [30.0, 40.0]]
         assert_eq!(r.whole_run.reacq_count, 1);
         assert!((r.whole_run.availability.unwrap() - (59.0 - 9.5) / 59.0).abs() < 1e-3);
         assert_eq!(e.baseline_source.as_deref(), Some("measured"));
+    }
+
+    #[test]
+    fn the_estimator_setting_picks_the_primary_and_both_are_reported() {
+        // NWPR reads 1.5 dB under M2M4 throughout, and falls a further 0.5 dB inside the event
+        // (a loop-jitter bias that grows with the stress).
+        let feed = |est: Cn0Estimator| {
+            let cfg = ScoringConfig {
+                cn0_estimator: est,
+                ..ScoringConfig::default()
+            };
+            let mut s = SatScorer::new(&tc(), "gps-l1ca", 5, 1.023e6, &cfg);
+            for i in 0..50_000 {
+                let t = i as f64 * 1e-3;
+                let inside = (20.0..40.0).contains(&t);
+                let m2m4 = if inside { 35.0 } else { 45.0 };
+                let nwpr = m2m4 - 1.5 - if inside { 0.5 } else { 0.0 };
+                s.push(
+                    &ScoreEpoch {
+                        cn0_nwpr_dbhz: Some(nwpr),
+                        cn0_m2m4_dbhz: Some(m2m4),
+                        ..ep(t, true, 0.0)
+                    },
+                    None,
+                );
+            }
+            s.finish(60.0)
+        };
+        let (m, n) = (feed(Cn0Estimator::M2m4), feed(Cn0Estimator::Nwpr));
+        let tol = HIST_RES_DB;
+        for r in [&m, &n] {
+            // Both estimates are always reported, whichever one is primary.
+            let w = &r.whole_run;
+            assert!((w.median_cn0_nwpr_dbhz.unwrap() - 43.5).abs() <= tol);
+            assert!((w.median_cn0_m2m4_dbhz.unwrap() - 45.0).abs() <= tol);
+            let e = &r.events[0];
+            assert!((e.baseline_cn0_nwpr_dbhz.unwrap() - 43.5).abs() <= tol);
+            assert!((e.baseline_cn0_m2m4_dbhz.unwrap() - 45.0).abs() <= tol);
+            for b in &e.cn0_curve {
+                assert!((b.measured_cn0_nwpr_dbhz.unwrap() - 33.0).abs() <= tol);
+                assert!((b.measured_cn0_m2m4_dbhz.unwrap() - 35.0).abs() <= tol);
+            }
+        }
+        // The primary fields follow the setting; the NWPR curve over-reads the degradation.
+        assert!((m.whole_run.median_cn0_dbhz.unwrap() - 45.0).abs() <= tol);
+        assert!((n.whole_run.median_cn0_dbhz.unwrap() - 43.5).abs() <= tol);
+        for (r, want) in [(&m, 10.0), (&n, 10.5)] {
+            for b in &r.events[0].cn0_curve {
+                assert!((b.measured_degradation_db.unwrap() - want).abs() <= 2.0 * tol);
+            }
+        }
     }
 
     #[test]

@@ -146,6 +146,9 @@ pub struct CellResult {
     pub scoring_hash: String,
     /// How lock was derived ([`LOCK_SOURCE`]).
     pub lock_source: String,
+    /// The C/N0 estimator behind the reported C/N0 and the degradation curve (`"m2m4"` or
+    /// `"nwpr"`, the campaign's `[scoring] cn0_estimator`). Both estimates are in the cell.
+    pub cn0_estimator: String,
     /// Sample rate (Hz).
     pub sample_rate_hz: f64,
     /// Samples processed.
@@ -714,7 +717,8 @@ impl EpochSink for ScoreSink<'_> {
             locked: state == LockState::Locked,
             phase_lock: e.phase_lock,
             code_lock: e.code_lock,
-            cn0_dbhz: e.cn0_nwpr_dbhz,
+            cn0_nwpr_dbhz: e.cn0_nwpr_dbhz,
+            cn0_m2m4_dbhz: e.cn0_m2m4_dbhz,
             pll_rad: e.disc.pll_rad,
             dll_chips: e.disc.dll_chips,
             doppler_hz: e.doppler_hz,
@@ -1027,6 +1031,7 @@ fn run_item(
             run_hash: plan.run_hash.clone(),
             scoring_hash: plan.scoring_hash.clone(),
             lock_source: LOCK_SOURCE.into(),
+            cn0_estimator: scoring.cn0_estimator.name().into(),
             sample_rate_hz: spec.fs_hz,
             samples_processed: done,
             satellites,
