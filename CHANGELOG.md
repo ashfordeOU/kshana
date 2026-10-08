@@ -55,6 +55,11 @@ breaking changes are called out explicitly.
   Pass/fail bars (`[scoring.bars]`, overridable per recording) are applied when the report is
   built.
 
+  - `[scoring] cn0_estimator = "m2m4" | "nwpr"` (default `"m2m4"`, part of the scoring hash) picks the
+    C/N0 behind the reported C/N0 and the degradation curve. Both estimates are always scored and
+    reported (whole-run and baseline medians, and per J/S bin), and the cell and scorecard record
+    the estimator. NWPR reads low by about 8 dB × Bn·T under the loop's own jitter; M2M4 does not.
+
   Also new:
   - `kshana iq campaign report <dir>` rebuilds the scorecards, report and digest from the cells;
   - `kshana iq conditions <file>` validates a test-condition file;

@@ -689,14 +689,20 @@ fn resuming_after_a_partial_single_worker_run_gives_identical_cells_and_digest()
 /// The canonical hash of every cell's scored results (`satellites`), taken in (recording,
 /// front end, design) order. It leaves out the keys, hashes and provenance fields, so it is
 /// unchanged by anything that does not change a result.
-fn metrics_digest(out: &Path) -> String {
+fn metrics_digest(out: &Path, strip_added: bool) -> String {
     use kshana::iq::campaign::hash::canonical_hash;
     let mut rows: Vec<(String, serde_json::Value)> = cells(out)
         .values()
         .map(|(_, c)| {
             (
                 format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
-                serde_json::to_value(&c.satellites).unwrap(),
+                {
+                    let mut v = serde_json::to_value(&c.satellites).unwrap();
+                    if strip_added {
+                        without_added(&mut v);
+                    }
+                    v
+                },
             )
         })
         .collect();
@@ -709,20 +715,165 @@ fn metrics_digest(out: &Path) -> String {
     .to_string()
 }
 
-/// Pre-registered before the `cn0_estimator` change: the scored results of the 12 reference
-/// cells at the tree that carries #45 `010b30b9`, #64 `21210183` and main `51dce137`, where
-/// the only C/N0 estimator is NWPR. The reference DIGEST at that tree is
-/// `64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`.
+/// Pre-registered before the `cn0_estimator` change (commit `b6cf9766`): the scored results of
+/// the 12 reference cells at the tree that carries #45 `010b30b9`, #64 `21210183` and main
+/// `51dce137`, where the only C/N0 estimator the scorer read was NWPR. The reference DIGEST at
+/// that tree was `64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`.
 const PRE_M2M4_METRICS: &str = "b3c2d8a01164760899341692e3bc7d552c5a38ddfd7a947873c6b4aa915c340b";
 
+/// The per-estimator fields the `cn0_estimator` change added to the scored results.
+const ADDED_FIELDS: [&str; 6] = [
+    "median_cn0_nwpr_dbhz",
+    "median_cn0_m2m4_dbhz",
+    "baseline_cn0_nwpr_dbhz",
+    "baseline_cn0_m2m4_dbhz",
+    "measured_cn0_nwpr_dbhz",
+    "measured_cn0_m2m4_dbhz",
+];
+
+fn without_added(v: &mut serde_json::Value) {
+    match v {
+        serde_json::Value::Object(m) => {
+            for k in ADDED_FIELDS {
+                m.remove(k);
+            }
+            m.values_mut().for_each(without_added);
+        }
+        serde_json::Value::Array(a) => a.iter_mut().for_each(without_added),
+        _ => {}
+    }
+}
+
+/// The reference campaign run with `cn0_estimator = "nwpr"`.
+fn nwpr_out() -> &'static PathBuf {
+    static OUT: OnceLock<PathBuf> = OnceLock::new();
+    OUT.get_or_init(|| {
+        let f = fixture();
+        let text = std::fs::read_to_string(&f.campaign)
+            .unwrap()
+            .replace("[scoring]\n", "[scoring]\ncn0_estimator = \"nwpr\"\n");
+        assert!(text.contains("cn0_estimator = \"nwpr\""));
+        let c = LoadedCampaign::load_text(&text, &f.campaign).unwrap();
+        let out = f.dir.join("out-nwpr");
+        let _ = std::fs::remove_dir_all(&out);
+        let s = run(
+            &c,
+            &out,
+            &RunOptions {
+                workers: 4,
+                ..Default::default()
+            },
+        )
+        .unwrap();
+        assert_eq!(s.cells_run, 12);
+        out
+    })
+}
+
 #[test]
-fn the_reference_results_are_pinned_before_the_estimator_change() {
+fn nwpr_reproduces_the_pre_m2m4_results_exactly() {
+    let out = nwpr_out();
+    // Every scored result, minus the per-estimator fields this change added, hashes to the
+    // value pinned before the change.
+    assert_eq!(metrics_digest(out, true), PRE_M2M4_METRICS);
+    // In an NWPR run the primary C/N0 fields are the NWPR ones.
+    for (_, c) in cells(out).values() {
+        assert_eq!(c.cn0_estimator, "nwpr");
+        for s in &c.satellites {
+            let w = &s.score.whole_run;
+            assert_eq!(w.median_cn0_dbhz, w.median_cn0_nwpr_dbhz);
+            for e in &s.score.events {
+                assert_eq!(e.baseline_cn0_dbhz, e.baseline_cn0_nwpr_dbhz);
+                for b in &e.cn0_curve {
+                    assert_eq!(b.measured_cn0_dbhz, b.measured_cn0_nwpr_dbhz);
+                }
+            }
+        }
+    }
+}
+
+/// Record where `a` and `b` differ, skipping the keys in `allowed`.
+fn differences(
+    a: &serde_json::Value,
+    b: &serde_json::Value,
+    at: &str,
+    allowed: &[&str],
+    out: &mut Vec<String>,
+) {
+    use serde_json::Value as V;
+    match (a, b) {
+        (V::Object(x), V::Object(y)) => {
+            let keys: std::collections::BTreeSet<&String> = x.keys().chain(y.keys()).collect();
+            for k in keys {
+                if allowed.contains(&k.as_str()) {
+                    continue;
+                }
+                match (x.get(k), y.get(k)) {
+                    (Some(p), Some(q)) => differences(p, q, &format!("{at}.{k}"), allowed, out),
+                    _ => out.push(format!("{at}.{k} present in one run only")),
+                }
+            }
+        }
+        (V::Array(x), V::Array(y)) if x.len() == y.len() => {
+            for (i, (p, q)) in x.iter().zip(y).enumerate() {
+                differences(p, q, &format!("{at}[{i}]"), allowed, out);
+            }
+        }
+        _ if a == b => {}
+        _ => out.push(at.to_string()),
+    }
+}
+
+#[test]
+fn m2m4_changes_only_the_cn0_derived_fields() {
     let f = fixture();
-    assert_eq!(
-        f.reference.digest.as_deref(),
-        Some("64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734")
-    );
-    assert_eq!(metrics_digest(&f.reference_out), PRE_M2M4_METRICS);
+    let (nwpr, m2m4) = (cells(nwpr_out()), cells(&f.reference_out));
+    assert_eq!(nwpr.len(), 12);
+    assert_eq!(m2m4.len(), 12);
+    // What may differ between the two runs: the cell's identity (the estimator is in the scoring
+    // hash, so the key moves) and the figures that follow the primary estimator. Everything else
+    // (lock, loss, re-acquisition, availability, jitter, false locks, hand-off, the per-estimator
+    // figures themselves) must be identical.
+    let allowed = [
+        "key",
+        "scoring_hash",
+        "cn0_estimator",
+        "median_cn0_dbhz",
+        "baseline_cn0_dbhz",
+        "measured_cn0_dbhz",
+        "measured_degradation_db",
+        "modelled_cn0_dbhz",
+        "modelled_degradation_db",
+        "n",
+    ];
+    let by_name = |m: &BTreeMap<String, (String, CellResult)>| {
+        m.values()
+            .map(|(_, c)| {
+                (
+                    format!("{}/{}/{}", c.recording.id, c.frontend.name, c.design.name),
+                    serde_json::to_value(c).unwrap(),
+                )
+            })
+            .collect::<BTreeMap<_, _>>()
+    };
+    let (a, b) = (by_name(&nwpr), by_name(&m2m4));
+    let mut diffs = Vec::new();
+    for (k, v) in &a {
+        differences(v, &b[k], k, &allowed, &mut diffs);
+    }
+    assert!(diffs.is_empty(), "{diffs:#?}");
+    // The two runs really did use different estimators, and the figures moved.
+    let mut moved = 0;
+    for (k, v) in &a {
+        assert_eq!(v["cn0_estimator"], "nwpr");
+        assert_eq!(b[k]["cn0_estimator"], "m2m4");
+        let at =
+            |x: &serde_json::Value| x["satellites"][0]["whole_run"]["median_cn0_dbhz"].as_f64();
+        if at(v) != at(&b[k]) {
+            moved += 1;
+        }
+    }
+    assert!(moved > 0, "the estimators gave identical medians");
 }
 
 /// How many cells a dry run against a copy of the reference output would run. The copy keeps
