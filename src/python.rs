@@ -816,6 +816,90 @@ fn epoch_value(e: &EpochOutput) -> serde_json::Value {
     v
 }
 
+/// Run the IQ detection monitors over a recording file (`path`: SigMF, collection, `.sdrx`
+/// or a raw file with a sidecar, or raw with `format`/`rate`) in one streaming pass, and
+/// return the report as a dict: `series` (name, unit, channel, `t_s`, `value`), `events`
+/// (kind, channel, `t_start_s`, `t_alarm_s`, `t_end_s`, peak, threshold), `spectra` and
+/// `notes`. Mirrors `kshana iq monitor`: `power` / `spectral` pick the pre-correlation
+/// monitors (both when neither is set), `settings` is a TOML or JSON monitor-settings text,
+/// and `signal` + `prns` add tracked channels with C/N0, SQM and lock monitors. Raises
+/// `ValueError` on a bad argument or an unreadable recording.
+#[pyfunction]
+#[pyo3(signature = (path, signal=None, prns=None, power=false, spectral=false, settings=None, baseline=None, max_seconds=None, spacing=None, pll_bw=None, fll_bw=None, dll_bw=None, coherent=None, cn0_windows=None, doppler_max=None, periods_per_bit=None, format=None, rate=None, center_hz=None, if_hz=None, header_bytes=None))]
+#[allow(clippy::too_many_arguments)]
+fn iq_monitor<'py>(
+    py: Python<'py>,
+    path: String,
+    signal: Option<String>,
+    prns: Option<Vec<i64>>,
+    power: bool,
+    spectral: bool,
+    settings: Option<String>,
+    baseline: Option<f64>,
+    max_seconds: Option<f64>,
+    spacing: Option<f64>,
+    pll_bw: Option<f64>,
+    fll_bw: Option<f64>,
+    dll_bw: Option<f64>,
+    coherent: Option<usize>,
+    cn0_windows: Option<usize>,
+    doppler_max: Option<f64>,
+    periods_per_bit: Option<usize>,
+    format: Option<String>,
+    rate: Option<f64>,
+    center_hz: Option<f64>,
+    if_hz: Option<f64>,
+    header_bytes: Option<u64>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let mut args = vec![path];
+    let mut opt = |k: &str, v: Option<String>| {
+        if let Some(v) = v {
+            args.push(k.to_string());
+            args.push(v);
+        }
+    };
+    opt("--signal", signal);
+    opt(
+        "--prn",
+        prns.map(|p| {
+            p.iter()
+                .map(|x| x.to_string())
+                .collect::<Vec<_>>()
+                .join(",")
+        }),
+    );
+    opt("--baseline", baseline.map(|v| v.to_string()));
+    opt("--max-seconds", max_seconds.map(|v| v.to_string()));
+    opt("--spacing", spacing.map(|v| v.to_string()));
+    opt("--pll-bw", pll_bw.map(|v| v.to_string()));
+    opt("--fll-bw", fll_bw.map(|v| v.to_string()));
+    opt("--dll-bw", dll_bw.map(|v| v.to_string()));
+    opt("--coherent", coherent.map(|v| v.to_string()));
+    opt("--cn0-windows", cn0_windows.map(|v| v.to_string()));
+    opt("--doppler-max", doppler_max.map(|v| v.to_string()));
+    opt("--periods-per-bit", periods_per_bit.map(|v| v.to_string()));
+    opt("--format", format);
+    opt("--rate", rate.map(|v| v.to_string()));
+    opt("--center", center_hz.map(|v| v.to_string()));
+    opt("--if", if_hz.map(|v| v.to_string()));
+    opt("--header", header_bytes.map(|v| v.to_string()));
+    if power {
+        args.push("--power".into());
+    }
+    if spectral {
+        args.push("--spectral".into());
+    }
+    let fail = |f: crate::iq::cli::CliFail| match f {
+        crate::iq::cli::CliFail::Usage(m) | crate::iq::cli::CliFail::Run(m) => {
+            PyValueError::new_err(m)
+        }
+    };
+    let a = crate::iq::cli::monitor_parse_args(&args).map_err(fail)?;
+    let report = crate::iq::cli::monitor_report(&a, settings.as_deref()).map_err(fail)?;
+    let v = serde_json::to_value(&report).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
 /// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
 /// `iq-labfit` TOML scenario. Returns a dict with the parsed `report`, the `residuals_csv`
 /// and `predictions_csv` tables and the `markdown`. Relative log paths are resolved against
@@ -932,6 +1016,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(iq_read_epochs, m)?)?;
     m.add_function(wrap_pyfunction!(iq_labfit, m)?)?;
     m.add_function(wrap_pyfunction!(iq_frontend, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_monitor, m)?)?;
     m.add_function(wrap_pyfunction!(iq_signals, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
