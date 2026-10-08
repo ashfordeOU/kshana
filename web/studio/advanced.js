@@ -10,6 +10,7 @@
 // through textContent, or through an escaping SVG builder whose markup is parsed as XML
 // (never assigned as HTML).
 import { encodeFragment, decodeFragment, patchScalar } from "./lib/share.mjs";
+import { hasDeclaration, sanitizeSvg } from "./lib/svgsafe.mjs";
 import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./lib/chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./lib/hover.mjs";
 import { knobsForToml, readKnob, patchSectionScalar } from "./lib/guided.mjs";
@@ -24,7 +25,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
@@ -58,12 +59,15 @@ const icon = (id) => {
   s.append(u);
   return s;
 };
-// Parse builder-made SVG markup as XML and adopt the element. XML parsing runs no
-// script and the builders escape every string they embed.
+// Parse chart markup as XML, reduce it to drawing (lib/svgsafe.mjs: no scripts, handlers, outside
+// links or declarations) and adopt the element.
 function svgNode(markup) {
+  const undrawable = () => h("p", { class: "card-note", text: "This chart could not be drawn." });
+  if (hasDeclaration(markup)) return undrawable();
   const doc = new DOMParser().parseFromString(markup, "image/svg+xml");
   const root = doc.documentElement;
-  if (!root || root.nodeName !== "svg") return h("p", { class: "card-note", text: "This chart could not be drawn." });
+  if (!root || root.nodeName !== "svg") return undrawable();
+  sanitizeSvg(root);
   return document.importNode(root, true);
 }
 function setSvg(box, markup) { box.replaceChildren(svgNode(markup)); }
@@ -658,7 +662,7 @@ function bindHover(box, hover) {
 
 // A downloadable, self-contained copy of an inline chart: theme colours resolved,
 // styles embedded, a title band and the provenance line added.
-const CHART_CSS = `svg{font-family:ui-monospace,Menlo,monospace;font-size:10.5px}.c-bg{fill:var(--space)}.c-grid{stroke:rgba(255,255,255,.08)}.c-eq{stroke:rgba(255,255,255,.18);stroke-dasharray:4 4}.c-tick{fill:var(--space-ink-3)}.c-axis{fill:var(--space-ink-2);font-size:11px}.c-note{fill:var(--space-ink-3);font-size:10px}.c-outage{fill:rgba(255,91,84,.08)}.c-line{fill:none;stroke-width:1.8}.c-legend text{fill:var(--space-ink-2);font-size:11px}.c-thr{stroke:var(--s-int);stroke-dasharray:6 4}.c-thr-bg{fill:var(--space);fill-opacity:.88}.c-thr-t{fill:var(--s-int);paint-order:stroke;stroke:var(--space);stroke-width:3.5px;stroke-linejoin:round}.c-mark{fill:none;stroke-width:1.6}.c-mark-t{fill:var(--space-ink-2);font-size:10px}.c-lost{stroke:rgba(0,0,0,.55);stroke-dasharray:2 2}.c-land{fill:rgba(106,152,255,.10);stroke:rgba(163,170,194,.72);stroke-width:.7}.c-track{fill:none;stroke:var(--s-orb);stroke-width:1.6}.c-track-vis{fill:none;stroke:var(--s-nav);stroke-width:3}.c-band{fill:rgba(255,255,255,.035)}.c-band.alt{fill:rgba(255,255,255,0)}.c-vline{stroke:var(--space-ink-2);stroke-dasharray:3 3}.c-vline.alarm{stroke:var(--s-int)}.c-tickm{stroke:var(--space-ink-3)}.wf-band{fill:var(--space-ink-2)}.wf-curtain,.wf-cursor,.play-cursor{display:none}.or-track{fill:none;stroke-width:1.1;opacity:.7}.or-ring{stroke-dasharray:2 4}.or-link{stroke:var(--s-nav);stroke-dasharray:4 3}.or-centre{fill:var(--s-nav)}.or-name{fill:var(--space-ink);font-size:11px}.cov-trail{fill:none;stroke-width:1;opacity:.6}.cov-sat{stroke:var(--space);stroke-width:.6}.h-bar{fill:var(--s-tim)}.gj-line{fill:none;stroke-width:1.4}.gj-pt{fill:var(--s-nav)}`;
+const CHART_CSS = `svg{font-family:ui-monospace,Menlo,monospace;font-size:10.5px}.c-bg{fill:var(--space)}.c-grid{stroke:rgba(255,255,255,.08)}.c-eq{stroke:rgba(255,255,255,.18);stroke-dasharray:4 4}.c-tick{fill:var(--space-ink-3)}.c-axis{fill:var(--space-ink-2);font-size:11px}.c-note{fill:var(--space-ink-3);font-size:10px}.c-outage{fill:rgba(255,91,84,.08)}.c-line{fill:none;stroke-width:1.8}.c-legend text{fill:var(--space-ink-2);font-size:11px}.c-thr{stroke:var(--s-int);stroke-dasharray:6 4}.c-thr-bg{fill:var(--space);fill-opacity:.88}.c-thr-t{fill:var(--s-int);paint-order:stroke;stroke:var(--space);stroke-width:3.5px;stroke-linejoin:round}.c-mark{fill:none;stroke-width:1.6}.c-mark-t{fill:var(--space-ink-2);font-size:10px}.c-lost{stroke:rgba(0,0,0,.55);stroke-dasharray:2 2}.c-land{fill:rgba(106,152,255,.10);stroke:rgba(167,180,210,.72);stroke-width:.7}.c-track{fill:none;stroke:var(--s-orb);stroke-width:1.6}.c-track-vis{fill:none;stroke:var(--s-nav);stroke-width:3}.c-band{fill:rgba(255,255,255,.035)}.c-band.alt{fill:rgba(255,255,255,0)}.c-vline{stroke:var(--space-ink-2);stroke-dasharray:3 3}.c-vline.alarm{stroke:var(--s-int)}.c-tickm{stroke:var(--space-ink-3)}.wf-band{fill:var(--space-ink-2)}.wf-curtain,.wf-cursor,.play-cursor{display:none}.or-track{fill:none;stroke-width:1.1;opacity:.7}.or-ring{stroke-dasharray:2 4}.or-link{stroke:var(--s-nav);stroke-dasharray:4 3}.or-centre{fill:var(--s-nav)}.or-name{fill:var(--space-ink);font-size:11px}.cov-trail{fill:none;stroke-width:1;opacity:.6}.cov-sat{stroke:var(--space);stroke-width:.6}.h-bar{fill:var(--s-tim)}.gj-line{fill:none;stroke-width:1.4}.gj-pt{fill:var(--s-nav)}`;
 function tokenValue(name) { return getComputedStyle(document.documentElement).getPropertyValue(name).trim(); }
 function exportSvg(svg, title) {
   const vb = (svg.match(/viewBox="0 0 ([\d.]+) ([\d.]+)"/) || []).slice(1).map(Number);
@@ -1114,7 +1118,7 @@ function heatGridSvg(xs, ys, grid, xl, yl, ml) {
     const t = v === null ? 0 : hi > lo ? (v - lo) / (hi - lo) : 1;
     const X = L + i * cw, Y = T + (ys.length - 1 - j) * ch;
     s += `<rect x="${X.toFixed(1)}" y="${Y.toFixed(1)}" width="${(cw - 2).toFixed(1)}" height="${(ch - 2).toFixed(1)}" rx="4" style="fill:${v === null ? "#222" : V.heat(t)}"><title>${V.esc(xl)} ${V.esc(V.fmt(x))} · ${V.esc(yl)} ${V.esc(V.fmt(y))} · ${V.esc(ml)} ${V.esc(V.fmt(v))}</title></rect>`;
-    if (cw > 58) s += `<text x="${(X + cw / 2 - 1).toFixed(1)}" y="${(Y + ch / 2 + 4).toFixed(1)}" text-anchor="middle" style="fill:#05060c;font-size:10px">${V.esc(V.fmt(v))}</text>`;
+    if (cw > 58) s += `<text x="${(X + cw / 2 - 1).toFixed(1)}" y="${(Y + ch / 2 + 4).toFixed(1)}" text-anchor="middle" style="fill:#060A14;font-size:10px">${V.esc(V.fmt(v))}</text>`;
   }));
   xs.forEach((x, i) => { s += `<text class="c-tick" x="${(L + i * cw + cw / 2).toFixed(1)}" y="${H - B + 16}" text-anchor="middle">${V.esc(V.fmt(x))}</text>`; });
   ys.forEach((y, j) => { s += `<text class="c-tick" x="${L - 8}" y="${(T + (ys.length - 1 - j) * ch + ch / 2 + 4).toFixed(1)}" text-anchor="end">${V.esc(V.fmt(y))}</text>`; });
@@ -1901,8 +1905,7 @@ async function loadScenario(file, { run = true } = {}) {
   let text = null;
   const bundle = await scenarioBundle();
   if (bundle && typeof bundle[file] === "string") text = bundle[file];
-  const dir = dirOf(file);
-  if (text === null) try { const res = await fetch(dir ? `${dir}${file}` : `scenarios/${file}`, { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
+  if (text === null) try { const res = await fetch(scenarioPath(file), { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
   if (text === null) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
   if (text === null) { showError(`Could not load ${file}.`); return; }
   S.baseToml = text;
@@ -2003,7 +2006,7 @@ async function restoreRun(run) {
   if (run.file) {
     const bundle = await scenarioBundle();
     if (bundle && typeof bundle[run.file] === "string") S.baseToml = bundle[run.file];
-    else try { const res = await fetch(dirOf(run.file) ? `${dirOf(run.file)}${run.file}` : `scenarios/${run.file}`); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
+    else if (scenarioPath(run.file)) try { const res = await fetch(scenarioPath(run.file)); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
     const rec = S.recCache.get(run.file);
     if (rec) S.baseToml = rec.toml;
   }
