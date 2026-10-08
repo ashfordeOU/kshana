@@ -174,7 +174,7 @@ function init(d) {
       const box = [nm.right ? x : x - w, y - 7, w, 14];
       if (placed.some((o) => box[0] < o[0] + o[2] + 3 && o[0] < box[0] + box[2] + 3 && box[1] < o[1] + o[3] && o[1] < box[1] + box[3])) continue;
       placed.push(box);
-      g.textAlign = nm.right ? "left" : "right"; g.fillStyle = nm.on ? "#EEF0FA" : "#A3AAC2";
+      g.textAlign = nm.right ? "left" : "right"; g.fillStyle = nm.on ? "#EAF0FF" : "#A7B4D2";
       g.fillText(nm.b.name, x, y);
     }
     const dt = new Date(ep.getTime() + days * 86400000);
