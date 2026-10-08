@@ -33,7 +33,7 @@
 use super::cn0::BitSyncConfig;
 use super::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};
 use super::{CarrierLoop, FllAssist, FllGate, LoopConfig};
-use crate::iq::acq::{auto_coherent_periods, AcqConfig};
+use crate::iq::acq::{auto_coherent_periods, default_step_hz, AcqConfig};
 use serde::{Deserialize, Serialize};
 use std::collections::BTreeMap;
 
@@ -125,7 +125,8 @@ pub struct AcquisitionDesign {
     pub noncoherent: usize,
     /// Doppler search half-width (Hz).
     pub doppler_max_hz: f64,
-    /// Doppler bin (Hz), or auto (`2 / (3 · N · T_code)`).
+    /// Doppler bin (Hz), or auto ([`default_step_hz`]: `2 / (3 · N · T_code)`, capped at
+    /// `0.4 / T_track` so the hand-off residual stays inside the FLL's pull-in).
     pub doppler_step_hz: Auto<f64>,
     /// Search-wide false-alarm probability.
     pub pfa: f64,
@@ -144,8 +145,9 @@ impl Default for AcquisitionDesign {
 }
 
 impl AcquisitionDesign {
-    /// The search for a code whose full period is `code_period_s`.
-    pub fn acq_config(&self, code_period_s: f64) -> AcqConfig {
+    /// The search for a code whose full period is `code_period_s`, handing over to loops
+    /// that integrate for `t_track_s`.
+    pub fn acq_config(&self, code_period_s: f64, t_track_s: f64) -> AcqConfig {
         let n = self
             .coherent_periods
             .value()
@@ -158,7 +160,7 @@ impl AcquisitionDesign {
             doppler_step_hz: self
                 .doppler_step_hz
                 .value()
-                .unwrap_or(2.0 / (3.0 * n as f64 * code_period_s)),
+                .unwrap_or_else(|| default_step_hz(code_period_s, n, t_track_s)),
             pfa: self.pfa,
         }
     }
@@ -903,7 +905,10 @@ impl Design {
 
     /// The hand-off search for a code whose full period is `code_period_s`.
     pub fn acq_config(&self, code_period_s: f64) -> AcqConfig {
-        self.resolved.acquisition.acq_config(code_period_s)
+        let t_track_s = self.resolved.integration.coherent_periods as f64 * code_period_s;
+        self.resolved
+            .acquisition
+            .acq_config(code_period_s, t_track_s)
     }
 
     /// The same design under another name (the hash does not change).
