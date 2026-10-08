@@ -33,7 +33,12 @@ replaces the coarse result, and neither is a detection: `peak.acquired` is the s
 * **Binary**: the header as one JSON line, then `len(doppler_bins_hz) × samples_per_period`
   little-endian `f64`, row-major. `iq::acq_surface::Surface::read_binary` reads it.
 
-At most 20 000 000 cells (a wider Doppler step or range is refused).
+**Size.** A surface is `Doppler bins × samples_per_period` cells at 8 bytes each in the binary
+form (a 201-bin × 16 384-lag surface is 3.3M cells, about 26 MB; CSV and JSON take several times
+that). The library refuses more than 20 000 000 cells (160 MB binary), and the MCP `surface_out`
+more than 4 000 000 (32 MB binary), each with a message that names the remedy (widen the Doppler
+step or narrow the range). Compute holds the full grid in memory only when a surface is asked
+for.
 
 ## Surfaces
 * CLI: `kshana iq acquire <rec> --signal <s> --prn <one> … --surface <path>

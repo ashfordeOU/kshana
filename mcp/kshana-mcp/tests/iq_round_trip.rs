@@ -184,6 +184,18 @@ async fn scene_acquire_track_frontend_round_trip() {
     .await
     .unwrap_err();
     assert!(many.contains("exactly one PRN"), "{many}");
+    // A surface that would not fit the cap is refused, naming surface_out.
+    let big = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3],
+                "doppler_max_hz": 200000.0, "doppler_step_hz": 100.0,
+                "surface_out": "surface3.bin" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(big.contains("surface_out") && big.contains("cells"), "{big}");
+    assert!(!dir.join("surface3.bin").exists());
     for (det, t) in acq["detections"].as_array().unwrap().iter().zip(truth) {
         let dd = det["doppler_hz"].as_f64().unwrap() - t["doppler_hz"].as_f64().unwrap();
         assert!(dd.abs() <= 250.0, "Doppler off by {dd} Hz: {det} vs {t}");
