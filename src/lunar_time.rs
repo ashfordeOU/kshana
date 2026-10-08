@@ -23,6 +23,8 @@
 //! `[56.0, 59.0]` µs/day rather than as a single certified number. Nothing here is validated
 //! to sub-nanosecond absolute accuracy or certified for operational timekeeping.
 
+use crate::palette::chart::{AXIS, BG, CYAN, FONT_SANS, INK_2};
+
 /// IAU defining constant `L_G` — the rate of TT with respect to TCG. `W0_earth = L_G · c²`.
 pub const L_G: f64 = 6.969_290_134e-10;
 /// Speed of light squared, `c²` (m²/s²).
@@ -413,10 +415,10 @@ pub fn lunar_time_svg(r: &LunarTimeReport) -> String {
     let yof = |v: f64| mt + ph - (v / y_max) * ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar coordinate time LTC−TT (rate {:.2} µs/day, band {:.0}–{:.0})</text>",
@@ -424,7 +426,7 @@ pub fn lunar_time_svg(r: &LunarTimeReport) -> String {
     ));
     // Accumulated-offset line from the origin to the horizon.
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#e0bd84\" points=\"{:.1},{:.1} {:.1},{:.1}\"/>",
+        "<polyline fill=\"none\" stroke=\"{CYAN}\" points=\"{:.1},{:.1} {:.1},{:.1}\"/>",
         xof(0.0),
         yof(0.0),
         xof(r.horizon_days),
@@ -439,10 +441,10 @@ pub fn lunar_time_svg(r: &LunarTimeReport) -> String {
     ));
     let axis_y = mt + ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str("</svg>");

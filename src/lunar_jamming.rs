@@ -106,6 +106,7 @@ use crate::jamming::{
 };
 use crate::lunar::{selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{topocentric, LunarConstellation, LunarSat};
+use crate::palette::chart::{AMBER, AXIS, BG, CORAL, FONT_SANS, INK_2, LIME, MUTED};
 use serde::{Deserialize, Serialize};
 
 // ---------------------------------------------------------------------------
@@ -1739,8 +1740,8 @@ pub fn to_svg(r: &LunarJammingReport) -> String {
     let mut svg = String::new();
     svg.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">\
-         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+         font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
+         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"20\" font-size=\"15\" font-weight=\"bold\">\
@@ -1767,8 +1768,8 @@ pub fn to_svg(r: &LunarJammingReport) -> String {
     let (y_lo, y_hi) = (js_lo - pad, js_hi + pad);
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_hi, "J/S (dB)"));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>\
-         <line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>\
+         <line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     for l in &r.links {
@@ -1778,32 +1779,32 @@ pub fn to_svg(r: &LunarJammingReport) -> String {
         let x = ml + (l.el_deg.clamp(0.0, 90.0) / 90.0) * pw;
         let y = mt + ph - ((l.js_db - y_lo) / (y_hi - y_lo)).clamp(0.0, 1.0) * ph;
         let fill = if l.status == "LOST" {
-            "#e5645a"
+            CORAL
         } else if l.status == "DEGRADED" {
-            "#d6a73b"
+            AMBER
         } else {
-            "#46b67e"
+            LIME
         };
         svg.push_str(&format!(
             "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3.5\" fill=\"{fill}\" fill-opacity=\"0.85\"/>"
         ));
     }
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8c8273\">\
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">\
          satellite elevation (deg)</text>",
         ml + pw / 2.0,
         axis_y + 34.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"42\" fill=\"#46b67e\">LOCKED</text>\
-         <text x=\"{:.0}\" y=\"58\" fill=\"#d6a73b\">DEGRADED</text>\
-         <text x=\"{:.0}\" y=\"74\" fill=\"#e5645a\">LOST</text>",
+        "<text x=\"{:.0}\" y=\"42\" fill=\"{LIME}\">LOCKED</text>\
+         <text x=\"{:.0}\" y=\"58\" fill=\"{AMBER}\">DEGRADED</text>\
+         <text x=\"{:.0}\" y=\"74\" fill=\"{CORAL}\">LOST</text>",
         ml + 10.0,
         ml + 10.0,
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"#8c8273\">{} links</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\">{} links</text>",
         ml + pw,
         mt + 14.0,
         r.fom.n_links

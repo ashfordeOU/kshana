@@ -241,6 +241,49 @@ pub(crate) fn numeric_skeleton(s: &str) -> (String, usize, f64) {
     (skel, count, abs_sum)
 }
 
+/// Replace every six-digit `#rrggbb` colour, and the value of every SVG `font-family`
+/// attribute, with fixed tokens.
+///
+/// Paint and type are not released data: a palette revision (`src/palette.rs`) changes
+/// every chart's colours and font stack while every coordinate, label and value stays put.
+/// A byte-identity guard that means to pin the data hashes the emission through this, so a
+/// repaint cannot move it and a moved value still does.
+pub(crate) fn without_paint(s: &str) -> String {
+    let b = s.as_bytes();
+    let mut out = String::with_capacity(s.len());
+    let mut i = 0;
+    while i < b.len() {
+        if b[i] == b'#'
+            && i + 7 <= b.len()
+            && b[i + 1..i + 7].iter().all(u8::is_ascii_hexdigit)
+            && !b.get(i + 7).is_some_and(u8::is_ascii_hexdigit)
+        {
+            out.push_str("#PAINT");
+            i += 7;
+            continue;
+        }
+        // (opener, closer): a double- or single-quoted attribute, or one inside a JSON
+        // string where its quotes are escaped.
+        const FONT: [(&str, &str); 3] = [
+            ("font-family=\"", "\""),
+            ("font-family='", "'"),
+            ("font-family=\\\"", "\\\""),
+        ];
+        if let Some((open, close)) = FONT.iter().find(|(o, _)| s[i..].starts_with(o)) {
+            let start = i + open.len();
+            let end = s[start..].find(close).map_or(s.len(), |o| start + o);
+            out.push_str(open);
+            out.push_str("FONT");
+            i = end;
+            continue;
+        }
+        let c = s[i..].chars().next().expect("in bounds");
+        out.push(c);
+        i += c.len_utf8();
+    }
+    out
+}
+
 /// FNV-1a over bytes. Small, dependency-free, and stable across platforms and releases —
 /// the properties a pin needs. Not a cryptographic hash and not used as one.
 pub(crate) fn fnv1a64(bytes: &[u8]) -> u64 {
