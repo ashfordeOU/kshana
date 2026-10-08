@@ -38,8 +38,14 @@ Status: built on `claude/gnss-iq-scene`. Module: `src/iq/scene/` (`mod.rs`, `cod
   phase and frequency, exact for quadratic range).
 - Navigation data: `NavData::Lnav` encodes subframes 1 to 3 with `gps_lnav` (ephemeris from
   `lnav_from_rinex`), subframes 4 and 5 with a valid TLM/HOW and zero data words (MODELLED:
-  no almanac pages); `NavData::Seeded` is a seeded random 50 bit/s stream (MODELLED);
-  `NavData::None` is data-free.
+  no almanac pages); `NavData::Seeded` is a seeded random symbol stream at the signal's
+  own timing (MODELLED); `NavData::None` is data-free. The timing is the code's
+  `SpreadingCode::data_modulation()`: L1 C/A 20 ms (LNAV), L5-I5 10 ms, L2 CM 20 ms,
+  E1-B 4 ms, E5a-I 20 ms, B1I 20 ms (D1) or 2 ms (D2, GEO PRNs), B1C data 10 ms, GLONASS
+  L1OF 20 ms bits with the 10 ms meander (no 2 s time mark). Pilots (L5-Q5, L2 CL, E1-C,
+  E5a-Q, B1C pilot) and GPS L2C as one CM/CL chip stream (data on CM chips only, not
+  modelled) refuse data, and `NavData::Lnav` is accepted only on L1 C/A; the refusal is an
+  error on the first read (and up front in `kshana iq scene --data`).
 - Channel hook: `SceneChannel` trait (blanket-implemented for
   `FnMut(sat_id, t_s) -> ChannelSnapshot`), called once per satellite per knot in time-major
   order; each `PathState` is a separate copy of the signal (extra group delay on code and

@@ -87,6 +87,42 @@ pub trait SpreadingCode {
     fn period_s(&self) -> f64 {
         self.len_chips() as f64 / self.chip_rate_hz()
     }
+    /// How navigation data modulates this signal. The default, [`DataModulation::Lnav`],
+    /// is the GPS L1 C/A timing (20 ms bits), so a code that does not say keeps that
+    /// behaviour; every signal in [`signals`] states its own.
+    fn data_modulation(&self) -> DataModulation {
+        DataModulation::Lnav
+    }
+}
+
+/// How navigation data modulates a signal component: the symbol timing a scene puts data
+/// on and that a receiver strips.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum DataModulation {
+    /// A pilot (data-free) component: GPS L5-Q5 and L2 CL, Galileo E1-C and E5a-Q,
+    /// BeiDou B1C pilot.
+    Pilot,
+    /// GPS LNAV on L1 C/A: 50 bit/s, 20 ms bits (IS-GPS-200). The only timing a decodable
+    /// LNAV message is sent on.
+    Lnav,
+    /// Data symbols of `symbol_s` seconds each, at the over-the-air symbol rate (after any
+    /// forward error correction): GPS L5-I5 10 ms and L2 CM 20 ms (IS-GPS-705/-200 CNAV),
+    /// Galileo E1-B 4 ms (I/NAV) and E5a-I 20 ms (F/NAV), BeiDou B1I 20 ms (D1) or 2 ms
+    /// (D2, GEO satellites) and B1C data 10 ms (B-CNAV1).
+    Symbols {
+        /// Symbol duration (s).
+        symbol_s: f64,
+    },
+    /// GLONASS L1OF: bits of `bit_s` seconds, each modulo-2 added to a meander of period
+    /// `bit_s` (two half-bit symbols of opposite sign; GLONASS ICD 5.1, the 100 Hz meander
+    /// on the 50 bit/s data). The 2 s string time mark is not modelled.
+    Meander {
+        /// Bit duration (s).
+        bit_s: f64,
+    },
+    /// The signal carries data the scene does not model, for example GPS L2C as one chip
+    /// stream (data on the CM chips only); a scene refuses data on it.
+    NotModelled,
 }
 
 /// The propagation state of one path of one signal at one instant.
