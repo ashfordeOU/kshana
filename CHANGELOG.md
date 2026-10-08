@@ -146,6 +146,13 @@ breaking changes are called out explicitly.
     - `kshana iq sweep --design <file>`, which runs every design in the file;
     - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
     - MCP `iq_track` `design`/`design_name`.
+  - *M2M4 C/N0* (`EpochOutput.cn0_m2m4_dbhz`, the track-epoch column `cn0_m2m4_dbhz` after
+    `cn0_beaulieu_dbhz`; Python epoch dicts). The second-and-fourth-moment estimate over the same
+    windows as NWPR, from prompt power only: NWPR reads low under the loop's own carrier jitter
+    (about 8 dB × Bn_PLL·T) and M2M4 does not. On GPS L2C CM (20 ms, nominal 40 dB-Hz, PLL 1 to
+    10 Hz) it reads 39.93 dB-Hz at every bandwidth while NWPR falls from 39.55 to 38.22; on L1 C/A
+    at 45 dB-Hz it reads 45.34. NWPR and every other output are unchanged (a bit-for-bit pin).
+    The binary record stays 184 bytes (the value takes the reserved float and flag bit 6).
   - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
     carries:
     - the early/prompt/late correlators;
