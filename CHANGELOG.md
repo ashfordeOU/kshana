@@ -9,6 +9,32 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Fixed
+
+- **The clock-ensemble 3-sigma bound now covers the flicker floor, and the filter-health check sees it.**
+  With a `flicker_floor` the truth clock carried flicker FM but the two-state filter that
+  supplies the integrity bound did not, so the shipped `clock-ensemble` scenario's 3-sigma
+  coverage was 0.41 (classical) and 0.33 (quantum), and the NIS/NEES check, which drew its own
+  truth from the filter's model, reported identical values with and without the floor. The
+  bound is now the two-state variance plus the exact variance of the flicker phase accumulated
+  since the last sync, computed from the same bank the truth clock uses; the NIS/NEES check
+  draws its truth from the extended model with that bank and runs the matched extended filter
+  (and the two-state filter against flicker truth reports `consistent = false`). Output change,
+  only for clocks with a nonzero `flicker_floor`: `integrity` on `clock-ensemble` goes from
+  0.40866 / 0.33026 to 0.99970 / 1.0 (classical / quantum) and `filter_health` NIS/NEES now
+  include the flicker; the timing error, `holdover_s` and `timing_p95_ns` are unchanged, and
+  scenarios without a floor are byte-identical. `scenarios/orbit-gnss-challenged.toml` (orbit
+  kind, seed 7, floors 1e-16 / 2e-11) also moves: `fom.integrity` classical 0.7734 to 1.0 and
+  quantum 0.9796 to 1.0, and the `filter_health` NIS/NEES and their bands change. Its quantum
+  `filter_health.consistent` flips from `true` to `false`: a sampling event of the 16-seed by
+  60-step flicker ensemble (NIS 0.8815 against a band of [0.9125, 1.0914]), not a defect. The
+  band is a 95 % band, so about 5 % of seeds flag a matched filter by construction (40 fresh
+  seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
+  inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
+  same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+
+## [0.33.0] - 2026-10-08
+
 ### Documentation
 
 - **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
@@ -24,6 +50,15 @@ breaking changes are called out explicitly.
   hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
   design notes now say so; the released entries are left as they were published. No
   behaviour changes.
+- **Known limitation: commensurate sampling.** At a sample rate that is an integer or
+  half-integer multiple of the chip rate, the samples sit on the same chip phases in every
+  chip, and the code discriminator becomes a staircase. On a synthetic GPS L1 C/A signal at
+  45 dB-Hz with 0.5-chip spacing, 2.046 MHz (2 samples/chip) gives ≈ 0.09 chip (≈ 26 m)
+  RMS code error and a −0.09 chip bias, against ≈ 0.003 chip at an incommensurate rate. The
+  NWPR C/N0 reads ≈ 2.4 dB low there. At 4.092 MHz it depends on the spacing and the code
+  Doppler. At 0.5 chip it is harmless at 1500 Hz Doppler but 2× with a 0.011 chip bias at
+  0 Hz, and at 0.25 or 0.1 chip it is 8–10× the code error. Carrier tracking is unaffected.
+  `docs/design/iq-notes/receiver.md` has the measurements.
 
 ### Added
 
@@ -42,9 +77,9 @@ breaking changes are called out explicitly.
   goes only to files the caller names. The tools run the same code path as the CLI through a
   new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
   printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
-  `iq::cli::signal_names` are now public too. Software-only and additive: no transmit, no
-  interference or spoofing waveform synthesis, no new dependencies. `server.json` declares
-  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  `iq::cli::signal_names` are now public too. Software-only and additive: the IQ layer adds no
+  interference or spoofer synthesis, nothing is ever transmitted, and there are no new
+  dependencies. `server.json` declares the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
   generate a short two-satellite scene and check acquisition against the scene's own truth
   sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
   and the disabled state.
@@ -137,27 +172,13 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
-- **The clock-ensemble 3-sigma bound now covers the flicker floor, and the filter-health check sees it.**
-  With a `flicker_floor` the truth clock carried flicker FM but the two-state filter that
-  supplies the integrity bound did not, so the shipped `clock-ensemble` scenario's 3-sigma
-  coverage was 0.41 (classical) and 0.33 (quantum), and the NIS/NEES check, which drew its own
-  truth from the filter's model, reported identical values with and without the floor. The
-  bound is now the two-state variance plus the exact variance of the flicker phase accumulated
-  since the last sync, computed from the same bank the truth clock uses; the NIS/NEES check
-  draws its truth from the extended model with that bank and runs the matched extended filter
-  (and the two-state filter against flicker truth reports `consistent = false`). Output change,
-  only for clocks with a nonzero `flicker_floor`: `integrity` on `clock-ensemble` goes from
-  0.40866 / 0.33026 to 0.99970 / 1.0 (classical / quantum) and `filter_health` NIS/NEES now
-  include the flicker; the timing error, `holdover_s` and `timing_p95_ns` are unchanged, and
-  scenarios without a floor are byte-identical. `scenarios/orbit-gnss-challenged.toml` (orbit
-  kind, seed 7, floors 1e-16 / 2e-11) also moves: `fom.integrity` classical 0.7734 to 1.0 and
-  quantum 0.9796 to 1.0, and the `filter_health` NIS/NEES and their bands change. Its quantum
-  `filter_health.consistent` flips from `true` to `false`: a sampling event of the 16-seed by
-  60-step flicker ensemble (NIS 0.8815 against a band of [0.9125, 1.0914]), not a defect. The
-  band is a 95 % band, so about 5 % of seeds flag a matched filter by construction (40 fresh
-  seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
-  inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
-  same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+- **CW/narrowband jammer Q is now 1.0, not 1.5.** The textbook value for a tone on the
+  carrier is 1 (a tone keeps the signal's spectral peak, `κ = T_c`, `Q = 1/(R_c κ)`); the
+  old 1.5 made a tone less damaging than broadband noise at equal J/S. Output change:
+  about −1.8 dB effective C/N0 under CW/narrowband jammers at high J/S in the `jamming`,
+  `lunar-jamming` and interop kinds (the bundled `spectrum` example's tone: 17.98 dB-Hz
+  from the table, was 19.74). Broadband Q stays 1.0 (conservative, about 3 dB below the
+  textbook ~2) pending 0.34 review. Set `q_override` to keep the old 1.5.
 
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
   a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
@@ -165,6 +186,18 @@ breaking changes are called out explicitly.
   per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
   in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
   Float output is unchanged.
+- **Eight fixture pins in seven test files no longer fail on macOS from last-bit differences**
+  (part of issue #36). The pins that check the engine still builds an oracle's
+  committed inputs (Jacobians, a state table, launch azimuths) compared bit for bit and
+  failed on macOS arm64 by 2 to a few thousand units in the last place. They now compare
+  within 1e-12 of a scale taken from the fixture; integers, keys and lengths still compare
+  exactly, and a mutation test shows a 1e-6 relative change still fails. The launch-azimuth
+  pin compares `sin az` and the ascending/descending branch instead of the azimuth itself, because
+  `asin` amplifies one ulp of its argument to about 3e-9 rad where an inclination equals a site's
+  colatitude. No oracle tolerance
+  or pre-registered bar changed. Two tests (lunar joint OD, lunar observability) are not
+  covered: on macOS their pre-registered comparisons themselves move, and that is left to a
+  follow-up.
 
 - **`kshana iq track` and `kshana iq sweep` apply the front-end flags.** The usage text
   advertised `--bandpass`/`--notch`/`--blank`/`--excise`/`--agc`/`--bits` on `track`, but

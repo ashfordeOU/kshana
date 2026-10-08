@@ -147,7 +147,7 @@ def iq_track(
     spacing: Optional[float] = ...,
     coherent: Optional[int] = ...,
     periods_per_bit: Optional[int] = ...,
-    acq_coherent: int = ...,
+    acq_coherent: Optional[int] = ...,
     acq_noncoherent: int = ...,
     doppler_max: float = ...,
     max_seconds: Optional[float] = ...,
