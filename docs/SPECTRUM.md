@@ -184,7 +184,8 @@ the model's own density; a tone and a chirp are drawn as real waveforms. With on
 noise-like jammers the Welch estimate sits within 0.1 dB of the model (median). A
 periodic chirp is a line spectrum at its sweep rate, with ripple and tails past its band
 edges that the smooth model omits: in the bundled example total power agrees within 0.02 %
-and the median bin differs by 0.5 dB.
+and the median bin differs by 0.5 dB. The snapshot is a file written for analysis; nothing
+is transmitted and no radio hardware is driven.
 
 `[recording]` (native builds only) reads a real SigMF recording from `meta_path` (the
 data file defaults to the same stem with `.sigmf-data`), estimates its PSD and prints it

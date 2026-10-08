@@ -9,7 +9,45 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Documentation
+
+- **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
+  0.32.0 entries below say the IQ layer adds "no interference or spoofing waveform
+  synthesis". That is true of the IQ layer itself (`iq::scene` generates legitimate GNSS
+  signals only), but it read as a statement about the whole engine, and it is not one:
+  since 0.29.0 the `spectrum` kind's `[iq]` section writes a SigMF snapshot of its analytic
+  model with the configured jammers in it (noise-like jammers bin by bin, tones and chirps
+  as waveforms), and `spoof_capture` sums an authentic and a spoofer replica signal in
+  memory to test loop capture (the composite is never written out). The engine has also
+  carried a software GNSS receiver since 0.20.0 (`sdr`: acquisition and tracking; since
+  0.31.0 also `iq::acq` and `iq::track`). Nothing in Kshana transmits or drives radio
+  hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
+  design notes now say so; the released entries are left as they were published. No
+  behaviour changes.
+
 ### Added
+
+- **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
+  the `kshana iq` layer from an agent: `iq_signals` (the accepted signal names and the IQ
+  set-up), `iq_info` (describe a recording), `iq_scene` (generate a stated-profile or
+  broadcast-ephemeris scene, with the optional signal-level channel), `iq_acquire` (FFT
+  acquisition, optionally behind front-end stages), `iq_track` (acquire, then the DLL/PLL/FLL
+  bank) and `iq_frontend` (band-pass, notch, blanking, excision, AGC, quantiser). IQ samples
+  never cross the protocol: every tool takes file paths inside one work directory set by
+  `KSHANA_MCP_IQ_DIR` (unset leaves the IQ file tools off and every other tool unaffected),
+  refuses paths that resolve outside it and outputs that already exist unless `overwrite`
+  is set, enforces a per-call sample budget (`KSHANA_MCP_IQ_MAX_SAMPLES`, default 50 000 000)
+  before any work, refuses unknown arguments, and replies with a compact JSON summary
+  (detections, C/N0, lock state, and each file written with its byte count). Per-epoch output
+  goes only to files the caller names. The tools run the same code path as the CLI through a
+  new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
+  printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
+  `iq::cli::signal_names` are now public too. Software-only and additive: no transmit, no
+  interference or spoofing waveform synthesis, no new dependencies. `server.json` declares
+  the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  generate a short two-satellite scene and check acquisition against the scene's own truth
+  sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
+  and the disabled state.
 
 - **The GNSS IQ layer in the validation ledger.** A pre-registered cross-check against
   gps-sdr-sim (an independent GPS L1 C/A baseband generator, MIT, commit 28ca29a6) is now part
@@ -68,6 +106,73 @@ breaking changes are called out explicitly.
   `format_label` and `channels`, `InventoryEntry` gains `channels`, `RecordingKind` gains
   `Sdrx`, and `Encoding` gains five variants; code that builds these structs literally or
   matches `Encoding`/`RecordingKind` exhaustively needs the new fields or arms.
+
+### Changed
+
+- **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
+  acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`
+  code periods coherently instead of one, where `T_code` is the code's full period (primary
+  times secondary length for a tiered code, the unit acquisition integrates over). The
+  untiered 1 ms codes (GPS L1 C/A, BeiDou B1I, GLONASS L1OF) now search 4 periods (4 ms), so
+  the default Doppler step `2 / (3 · N · T_code)` is ~167 Hz instead of ~667 Hz. Every code
+  whose full period is already 4 ms or longer keeps 1 period: Galileo E1-B (4 ms), BeiDou
+  B1C (10 ms), and the tiered GPS L5-I/L5-Q, Galileo E5a-I/E5a-Q and E1-C (10 to 100 ms with
+  their overlay codes), and GPS L2C. Every signal therefore integrates at least ~4 ms. A
+  one-period search could hand a channel off up to ~333 Hz off, outside the FLL's pull-in,
+  and it then tracked a false lock ~500 Hz away while reporting a clean track. On a seeded
+  sweep of 180 GPS L1 C/A channels (Doppler across ±5 kHz, 38 to 47 dB-Hz, half with
+  navigation data; `docs/design/evidence/iq-track-acq-default/`, re-runnable) false locks
+  fall from 27 of 180 to 1 of 180 and missed acquisitions from 102 to 11, for ~40 ms more
+  search per PRN on GPS L1 (11 → 52 ms). The one residual false lock is at 38 dB-Hz, 36 Hz
+  off. Every surface agrees: `kshana iq track` and `kshana iq sweep` (`--acq-coherent`),
+  Python `kshana.iq_track` (`acq_coherent=None` is now auto; stub updated) and the MCP
+  `iq_track` tool. Users who relied on the old default can pass `acq_coherent=1`
+  (`--acq-coherent 1`). `kshana iq acquire`'s own `--coherent` default stays 1. New public
+  `iq::acq::auto_coherent_periods` and `iq::acq::AUTO_COHERENT_S`; regression test
+  `tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`.
+
+### Fixed
+
+- **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
+  a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
+  had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
+  per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
+  in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
+  Float output is unchanged.
+
+- **`kshana iq track` and `kshana iq sweep` apply the front-end flags.** The usage text
+  advertised `--bandpass`/`--notch`/`--blank`/`--excise`/`--agc`/`--bits` on `track`, but
+  `track` and `sweep` never built the chain: the flags were silently ignored, and a
+  value-less one such as `--notch` swallowed the flag after it. Both commands now parse
+  them as `iq acquire` does and put a fresh front-end chain in front of the acquisition
+  pass and the tracking pass. The output equals running the command on the file
+  `iq frontend` writes for the same flags.
+
+- **IQ scene data is placed per signal.** `kshana iq scene --data` (and `NavData::Seeded`)
+  put 50 bit/s bits on every signal, pilots included, and at the GPS LNAV rate on
+  Galileo and BeiDou. Data now follows each signal's own symbol timing, stated by the new
+  `SpreadingCode::data_modulation()` (`DataModulation`, set by every constructor in
+  `iq::signals`). That is 10 ms on L5-I5, 4 ms on E1-B, 2 ms on BeiDou B1I GEO (D2),
+  and 20 ms bits with a 10 ms meander on GLONASS L1OF. Data is refused on pilots, on
+  GPS L2C as one CM/CL stream, and `NavData::Lnav` on anything but L1 C/A. Custom codes
+  keep the previous 20 ms timing by default. A programmatic `Scene` that asked for
+  `NavData::Lnav` on a non-L1 C/A code, or `NavData::Seeded` on a pilot, used to generate
+  silently and now returns an error on the first read.
+
+- **GLONASS L1OF channels are acquired and tracked on their own FDMA carrier.**
+  `iq::acq::acquire` and the tracking channels mixed every code down from `if_hz` alone.
+  In a multi-channel GLONASS recording, a search for channel +3 therefore found channel
+  0's signal (all channels share one ranging code) and never looked 1.6875 MHz higher.
+  Both now use `SampleSpec::baseband_hz(carrier) = if_hz + (carrier − center_hz)`. The
+  carrier term is zero for any recording centred on the signal's own carrier and is
+  omitted when the centre is unknown, so CDMA processing is unchanged. If you worked
+  around the old behaviour by folding `carrier − center` into the sidecar's `if_hz`,
+  remove that term: the offset is now applied from the carrier and the centre, so
+  leaving it in applies it twice.
+  Known limitation, unchanged here: a GLONASS scene identifies each satellite by its
+  frequency channel `k`, and the `u32` satellite id wraps a negative channel. The truth
+  sidecar writes `k = -7` as `sat_id` 4294967289 (`k + 2^32`). Read it back as `k` with an
+  `i32` cast.
 
 ## [0.32.0] - 2026-10-05
 

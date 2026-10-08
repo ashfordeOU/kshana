@@ -532,24 +532,43 @@ fn site_visible_text(html: &str) -> String {
 /// nobody calls.
 ///
 /// Both sides are read as TEXT: `mcp/kshana-mcp` is not a dependency of this crate and its
-/// items cannot be enumerated from here.
+/// items cannot be enumerated from here. The tools live in two files, each with its own
+/// `#[tool_router]`: the core tools in `src/server.rs` and the GNSS IQ tools in `src/iq.rs`
+/// (`iq_tool_router`). Both are scanned, and the server source is checked to merge the IQ
+/// router into the router it serves, so a tool in either file counts as served only when
+/// it really is.
 #[test]
 fn the_mcp_readme_lists_exactly_the_tools_the_server_serves() {
     let server = include_str!("../mcp/kshana-mcp/src/server.rs");
+    let iq = include_str!("../mcp/kshana-mcp/src/iq.rs");
     let readme = include_str!("../mcp/kshana-mcp/README.md");
+
+    // `iq.rs`'s tools are served only because `server.rs` merges `iq_tool_router` into the
+    // `tool_router` field and dispatches through that field (rmcp's default would rebuild
+    // the core router alone and silently drop the IQ tools).
+    let collapsed = collapse_ws(server);
+    assert!(
+        iq.contains("#[tool_router(router = iq_tool_router")
+            && collapsed.contains("Self::tool_router() + Self::iq_tool_router()")
+            && collapsed.contains("#[tool_handler(router = self.tool_router)]"),
+        "mcp/kshana-mcp/src/server.rs no longer visibly merges iq_tool_router (from src/iq.rs) \
+         into the router it serves, so this guard cannot count iq.rs's tools as served"
+    );
 
     // A tool is a `fn` carrying the `#[tool(...)]` attribute. The attribute spans several
     // lines (it holds the whole description), so take the first `fn` after each one.
     let mut served: Vec<&str> = Vec::new();
-    let mut in_attr = false;
-    for line in server.lines() {
-        let t = line.trim_start();
-        if t.starts_with("#[tool(") {
-            in_attr = true;
-        } else if in_attr {
-            if let Some(rest) = t.strip_prefix("fn ") {
-                served.push(rest.split('(').next().unwrap_or(rest));
-                in_attr = false;
+    for source in [server, iq] {
+        let mut in_attr = false;
+        for line in source.lines() {
+            let t = line.trim_start();
+            if t.starts_with("#[tool(") {
+                in_attr = true;
+            } else if in_attr {
+                if let Some(rest) = t.strip_prefix("fn ") {
+                    served.push(rest.split('(').next().unwrap_or(rest));
+                    in_attr = false;
+                }
             }
         }
     }
@@ -558,8 +577,8 @@ fn the_mcp_readme_lists_exactly_the_tools_the_server_serves() {
     // the floor: run/list/validate plus the SP3 and OMM exports have shipped since v0.16.0.
     assert!(
         served.len() >= 5,
-        "parsed only {served:?} from mcp/kshana-mcp/src/server.rs — the scan is broken, \
-         not the server"
+        "parsed only {served:?} from mcp/kshana-mcp/src/server.rs and src/iq.rs — the scan \
+         is broken, not the server"
     );
 
     // The README's `## Tools` table: one row per tool, each opening "| `name` |". The
@@ -582,7 +601,7 @@ fn the_mcp_readme_lists_exactly_the_tools_the_server_serves() {
     assert!(
         undocumented.is_empty() && unserved.is_empty(),
         "mcp/kshana-mcp/README.md's Tools table is out of step with what \
-         mcp/kshana-mcp/src/server.rs serves. Served but undocumented: {undocumented:?}. \
+         mcp/kshana-mcp/src/server.rs and src/iq.rs serve. Served but undocumented: {undocumented:?}. \
          Documented but not served: {unserved:?}. Add or remove the table row; the README \
          is what an agent operator reads to know what the server can do."
     );
