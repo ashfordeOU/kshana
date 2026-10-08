@@ -1,0 +1,5 @@
+N1-default(667Hz)    ok  51  false_lock  27  not_acq 102  other  0  / 180   acq 11.20 ms/PRN (1.0x)
+N2-default(333Hz)    ok 128  false_lock   0  not_acq  52  other  0  / 180   acq 23.05 ms/PRN (2.1x)
+N4-default(167Hz)    ok 168  false_lock   1  not_acq  11  other  0  / 180   acq 51.73 ms/PRN (4.6x)
+N1-step167           ok  81  false_lock   0  not_acq  99  other  0  / 180   acq 40.39 ms/PRN (3.6x)
+N2-step167           ok 131  false_lock   0  not_acq  49  other  0  / 180   acq 43.41 ms/PRN (3.9x)

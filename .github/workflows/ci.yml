@@ -348,6 +348,8 @@ jobs:
         run: node web/site.test.mjs
       - name: Test that every old kshana.dev address still resolves
         run: node web/legacy-urls.test.mjs
+      - name: Test the Git LFS pointer guards (site test and port refusal)
+        run: node web/tools/lfs-pointer.test.mjs
       - name: Test the share-link codec
         run: node web/studio/lib/share.test.mjs
       - name: Test the chart-download helpers

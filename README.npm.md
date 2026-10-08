@@ -146,8 +146,12 @@ shareable-link (URL, uniform resource locator) codec [Kshana Studio](https://ksh
 scenario through the address-bar fragment — and `export_sp3` / `export_omm` /
 `export_oem`, the SP3-c (revision c of the Standard Product 3 format) and CCSDS
 (Consultative Committee for Space Data Systems) ephemeris artifacts — OMM, the Orbit
-Mean-elements Message, and OEM, the Orbit Ephemeris Message — the CLI writes. There is no
-one-call `run_full` here; that binding exists only on the Python wheel.
+Mean-elements Message, and OEM, the Orbit Ephemeris Message — the CLI writes — and
+`receiver_trust`, which assesses a real receiver log described by a `receiver-trust`
+scenario and returns `{json, csv, svg, summary}` as a JSON string (the browser has no file
+system, so the log, and any navigation file, must be inline in the scenario as `text` or
+`base64`). There is no one-call `run_full` here; that binding exists only on the Python
+wheel.
 
 Every capability in the verification matrix is labelled **validated** (checked against
 an independent external oracle), **modelled** or **partner-owned**; optical-clock figures
