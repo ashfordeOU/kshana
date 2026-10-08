@@ -137,6 +137,21 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **The clock-ensemble 3-sigma bound now covers the flicker floor, and the filter-health check sees it.**
+  With a `flicker_floor` the truth clock carried flicker FM but the two-state filter that
+  supplies the integrity bound did not, so the shipped `clock-ensemble` scenario's 3-sigma
+  coverage was 0.41 (classical) and 0.33 (quantum), and the NIS/NEES check, which drew its own
+  truth from the filter's model, reported identical values with and without the floor. The
+  bound is now the two-state variance plus the exact variance of the flicker phase accumulated
+  since the last sync, computed from the same bank the truth clock uses; the NIS/NEES check
+  draws its truth from the extended model with that bank and runs the matched extended filter
+  (and the two-state filter against flicker truth reports `consistent = false`). Output change,
+  only for clocks with a nonzero `flicker_floor`: `integrity` on `clock-ensemble` goes from
+  0.40866 / 0.33026 to 0.99970 / 1.0 (classical / quantum) and `filter_health` NIS/NEES now
+  include the flicker; the timing error, `holdover_s` and `timing_p95_ns` are unchanged, and
+  scenarios without a floor are byte-identical. Known follow-up: the fusion kind has the same
+  gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
   a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
   had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
