@@ -17,8 +17,13 @@
 //! * `--summary <path>` — per-channel metrics, the resolved design and its hash, as JSON;
 //! * `--csv <path>` — the 0.32 per-epoch CSV (streamed);
 //! * `--json <path>` — the 0.32 per-epoch JSON (held in memory: prefer `--epochs`).
+//!
+//! The front-end flags (`--bandpass`, `--notch`, `--blank`, `--excise`, `--agc`, `--bits`, as
+//! `iq acquire` and `iq frontend` take them) put a fresh front-end chain in front of the
+//! acquisition pass and of the tracking pass.
 
 use super::acquire::{codes_from_args, read_samples};
+use super::frontend::through_frontend;
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::acq::acquire;
 use crate::iq::acq::samples_needed;
@@ -41,6 +46,15 @@ use std::sync::Arc;
 
 /// The switches `track` and `sweep` take.
 pub(crate) const TRACK_SWITCHES: &[&str] = &["--reacquire"];
+
+/// Every value-less switch `iq track` and `iq sweep` take: their own and the front end's.
+pub(crate) fn track_switches() -> Vec<&'static str> {
+    TRACK_SWITCHES
+        .iter()
+        .chain(super::frontend::FRONTEND_SWITCHES)
+        .copied()
+        .collect()
+}
 
 /// The loop design the flags select: `--design` (and `--design-name`) or the built-in
 /// default, with every explicit loop and acquisition flag applied on top. Returns the
@@ -286,30 +300,29 @@ fn epoch_row(code: &str, e: &EpochOutput) -> String {
 
 /// Run `kshana iq track <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, TRACK_SWITCHES).map_err(Fail::Usage)?;
+    let a = Args::parse(args, &track_switches()).map_err(Fail::Usage)?;
     a.need_pos(1, "track")?;
+    // Optional receiver front end: a fresh chain in front of each pass, as `iq acquire`
+    // applies it.
+    let fe = super::frontend::FrontendParams::from_args(&a)?;
     let path = Path::new(&a.pos[0]);
     let codes = codes_from_args(&a)?;
     let (design, overridden) = design_from_args(&a)?;
 
     // One pass to acquire, a fresh pass to track the whole recording.
-    let mut opened = open_recording(path, raw_sidecar(&a)?)?;
+    let opened = open_recording(path, raw_sidecar(&a)?)?;
     let spec = opened.source.spec();
+    let mut acq_src = through_frontend(&fe, opened.source)?;
     let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
-    let inits = acquire_inits(
-        &design,
-        periods_per_bit,
-        &spec,
-        &codes,
-        opened.source.as_mut(),
-    )?;
+    let inits = acquire_inits(&design, periods_per_bit, &spec, &codes, acq_src.as_mut())?;
 
     let max_samples = a
         .num::<f64>("--max-seconds")
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
-    let mut track_src = open_recording(path, raw_sidecar(&a)?)?;
-    let tracked = max_samples.map_or(track_src.n_samples, |m| m.min(track_src.n_samples));
+    let track_rec = open_recording(path, raw_sidecar(&a)?)?;
+    let tracked = max_samples.map_or(track_rec.n_samples, |m| m.min(track_rec.n_samples));
+    let mut track_src = through_frontend(&fe, track_rec.source)?;
 
     let channels: Vec<SessionChannel> = inits
         .into_iter()
@@ -363,7 +376,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         if let Some(c) = collect.as_mut() {
             fan.push(c);
         }
-        session.run(track_src.source.as_mut(), max_samples, &mut fan)?;
+        session.run(track_src.as_mut(), max_samples, &mut fan)?;
     }
 
     if let (Some(p), Some(c)) = (a.get("--json"), collect) {
