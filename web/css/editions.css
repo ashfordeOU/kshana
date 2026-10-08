@@ -39,8 +39,8 @@
 .ed-pro .lic i,.ed-pro li::before{background:var(--magenta)}
 .ed-pro .ed-why{border-color:color-mix(in oklab,var(--magenta) 40%,var(--line));background:var(--magenta-soft)}
 .ed-pro .ed-why .ed-l{color:color-mix(in oklab,var(--magenta) 72%,var(--ink))}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ed-pro{background:radial-gradient(120% 70% at 20% 0%,#1E1446 0%,var(--space) 70%);border-color:rgba(244,92,203,.35)}}
-:root[data-theme="dark"] .ed-pro{background:radial-gradient(120% 70% at 20% 0%,#1E1446 0%,var(--space) 70%);border-color:rgba(244,92,203,.35)}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .ed-pro{background:radial-gradient(120% 70% at 20% 0%,var(--space-3) 0%,var(--space) 70%);border-color:rgba(244,92,203,.35)}}
+:root[data-theme="dark"] .ed-pro{background:radial-gradient(120% 70% at 20% 0%,var(--space-3) 0%,var(--space) 70%);border-color:rgba(244,92,203,.35)}
 .ed-pro .btn-white{background:var(--btn-bg);color:var(--btn-ink)}
 
 @media (min-width:700px) and (max-width:1099.98px){
