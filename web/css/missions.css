@@ -305,7 +305,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 .mx-chart .mx-cone{fill-opacity:.28;stroke-width:1.4}
 .mx-chart .mx-track{stroke:var(--space-ink-2);stroke-width:1;stroke-dasharray:6 4}
 .mx-chart .mx-land{fill:rgba(255,255,255,.07);stroke:rgba(255,255,255,.28);stroke-width:.8}
-.mx-chart .mx-cell{stroke:rgba(5,6,12,.35);stroke-width:.4;cursor:pointer}
+.mx-chart .mx-cell{stroke:rgba(6,10,20,.35);stroke-width:.4;cursor:pointer}
 .mx-chart .mx-cell.den{stroke:var(--s-int);stroke-opacity:.6;stroke-width:.8}
 .mx-chart .mx-jam{fill:var(--s-int);stroke:#fff;stroke-width:2}
 .mx-chart .mx-ship{fill:var(--space-ink);stroke:var(--space);stroke-width:1}
@@ -386,7 +386,7 @@ a.sc:hover,a.sc:focus-visible{border-color:color-mix(in oklab,var(--c) 55%,trans
 }
 .m-swipe{display:none}
 @media (max-width:700px){.m-swipe{display:block;margin:0 0 -6px;font:500 11px/1.3 var(--mono);letter-spacing:.06em;color:var(--ink-3)}.m-swipe span{color:var(--ink-2)}}
-#fails .viz-plot .c-land{stroke:rgb(163,170,194);stroke-opacity:.72}
+#fails .viz-plot .c-land{stroke:rgb(167,180,210);stroke-opacity:.72}
 :root[data-theme="light"] .ro .v .dot:not(.bad){background:color-mix(in oklab,var(--lime) 62%,#000)}
 @media (prefers-color-scheme:light){:root:not([data-theme="dark"]) .ro .v .dot:not(.bad){background:color-mix(in oklab,var(--lime) 62%,#000)}}
 .ro .v .dot[hidden]{display:none}
