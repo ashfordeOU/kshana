@@ -66,6 +66,9 @@ use crate::navsignal::{
     dll_jitter_small_spacing_limit_s, panels_for, parse_modulation, simpson, EarlyLate, Modulation,
     C_LIGHT_M_PER_S, F0_HZ,
 };
+use crate::palette::chart::{
+    AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK_2, INK_3, LIME, MAGENTA, MUTED,
+};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 use std::f64::consts::PI;
@@ -2090,9 +2093,7 @@ fn esc(s: &str) -> String {
         .replace('>', "&gt;")
 }
 
-const PALETTE: [&str; 8] = [
-    "#e0a64a", "#46b67e", "#5aa5e5", "#e5645a", "#b58ce0", "#d9d06a", "#6ad9c9", "#e58cb5",
-];
+const PALETTE: [&str; 8] = [AMBER, LIME, BLUE, CORAL, MAGENTA, INK_2, CYAN, INK_3];
 
 /// Left: each signal's band-limited composite PSD (dB below its own peak, offset across
 /// its own transmit band). Right: code jitter against C/N₀ at the reference spacing, on a
@@ -2123,7 +2124,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             .fold(f64::NEG_INFINITY, f64::max);
         s.push_str(&format!(
             "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{colour}\">{}</text>\
-             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"#8a8172\">{:.3} MHz, {} MHz</text>",
+             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"9\" fill=\"{MUTED}\">{:.3} MHz, {} MHz</text>",
             lx - 8.0,
             top + ph / 2.0,
             esc(&run.design.name),
@@ -2133,7 +2134,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
             run.design.tx_bandwidth_hz / 1e6
         ));
         s.push_str(&format!(
-            "<rect x=\"{lx:.1}\" y=\"{top:.1}\" width=\"{lw:.1}\" height=\"{ph:.1}\" fill=\"none\" stroke=\"#342c21\"/>"
+            "<rect x=\"{lx:.1}\" y=\"{top:.1}\" width=\"{lw:.1}\" height=\"{ph:.1}\" fill=\"none\" stroke=\"{AXIS}\"/>"
         ));
         let span = run.psd_off.last().copied().unwrap_or(1.0).max(1.0);
         let mut pts = String::new();
@@ -2149,7 +2150,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"#8a8172\">offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">offset across ±0.6 × transmit bandwidth; 0 to −50 dB below each peak</text>",
         lx + lw / 2.0,
         70.0 + n as f64 * row_h + 4.0
     ));
@@ -2200,8 +2201,8 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
     while dec <= hi + 1e-9 {
         let y = py + ph - (dec - lo) / (hi - lo) * ph;
         s.push_str(&format!(
-            "<line x1=\"{px:.1}\" y1=\"{y:.1}\" x2=\"{:.1}\" y2=\"{y:.1}\" stroke=\"#262019\"/>\
-             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"#8a8172\">{}</text>",
+            "<line x1=\"{px:.1}\" y1=\"{y:.1}\" x2=\"{:.1}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/>\
+             <text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
             px + pw,
             px - 5.0,
             y + 3.0,
@@ -2215,7 +2216,7 @@ fn chart(runs: &[SignalRun], r: &ReceiverCfg) -> String {
     }
     for c in cn0s {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"#8a8172\">{c:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{MUTED}\">{c:.0}</text>",
             xc(*c),
             py + ph + 14.0
         ));
