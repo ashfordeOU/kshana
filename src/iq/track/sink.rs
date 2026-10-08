@@ -70,6 +70,23 @@ pub struct ChannelInfo {
     pub design_hash: String,
 }
 
+/// What a design resolved to for one signal: the values the run actually used where the
+/// design says `auto` or a rule depends on the signal. Recorded so a run can be reproduced
+/// from its output alone.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ResolvedRun {
+    /// Coherent code periods of the acquisition that handed the channel to tracking.
+    pub acq_coherent_periods: usize,
+    /// The acquisition Doppler step (Hz) ([`crate::iq::acq::default_step_hz`] for `auto`).
+    pub acq_doppler_step_hz: f64,
+    /// The tracking loops' integration time (s).
+    pub t_track_s: f64,
+    /// The PLL noise bandwidth (Hz) the loops used, when the carrier loop has a PLL.
+    pub pll_bn_hz: Option<f64>,
+    /// The FLL noise bandwidth (Hz) the loops used, when the carrier loop has an FLL.
+    pub fll_bn_hz: Option<f64>,
+}
+
 /// The header of an epoch output: the first line of the binary form, and the first line
 /// (`{"header": …}`) of the JSON-Lines form. The CSV form has only a column row; its
 /// records carry the channel index, and the channel list is in the run's `--summary`.
@@ -90,6 +107,10 @@ pub struct EpochHeader {
     /// SHA-256 of the recording, when the caller supplies it.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub recording_sha256: Option<String>,
+    /// What each channel's design resolved to, by channel index (absent when the caller
+    /// does not supply it, and in files written before it existed).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub resolved: Vec<ResolvedRun>,
 }
 
 impl EpochHeader {
@@ -103,7 +124,14 @@ impl EpochHeader {
             sample_rate_hz,
             engine_version: env!("CARGO_PKG_VERSION").into(),
             recording_sha256: None,
+            resolved: Vec::new(),
         }
+    }
+
+    /// This header with the per-channel resolved values.
+    pub fn with_resolved(mut self, resolved: Vec<ResolvedRun>) -> Self {
+        self.resolved = resolved;
+        self
     }
 }
 

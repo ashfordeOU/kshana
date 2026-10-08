@@ -32,6 +32,7 @@
 
 use super::cn0::BitSyncConfig;
 use super::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};
+use super::sink::ResolvedRun;
 use super::{CarrierLoop, FllAssist, FllGate, LoopConfig};
 use crate::iq::acq::{auto_coherent_periods, default_step_hz, AcqConfig};
 use serde::{Deserialize, Serialize};
@@ -838,6 +839,29 @@ impl Design {
         v
     }
 
+    /// What this design resolves to for a code whose full period is `code_period_s`: the
+    /// acquisition step and the loop bandwidths the run uses.
+    pub fn resolved_run(&self, code_period_s: f64) -> ResolvedRun {
+        let acq = self.acq_config(code_period_s);
+        let cfg = self.loop_config();
+        let (pll_bn_hz, fll_bn_hz) = match cfg.carrier {
+            CarrierLoop::Pll { bn_hz, .. } => (Some(bn_hz), None),
+            CarrierLoop::Fll { bn_hz, .. } => (None, Some(bn_hz)),
+            CarrierLoop::FllAssistedPll {
+                pll_bn_hz,
+                fll_bn_hz,
+                ..
+            } => (Some(pll_bn_hz), Some(fll_bn_hz)),
+        };
+        ResolvedRun {
+            acq_coherent_periods: acq.coherent_periods,
+            acq_doppler_step_hz: acq.doppler_step_hz,
+            t_track_s: cfg.coherent_periods as f64 * code_period_s,
+            pll_bn_hz,
+            fll_bn_hz,
+        }
+    }
+
     /// The tracking-loop configuration, labelled with the design's name.
     pub fn loop_config(&self) -> LoopConfig {
         let r = &self.resolved;
@@ -1118,6 +1142,25 @@ mod tests {
         );
         assert_eq!(d.hash(), Design::builtin_default().hash());
         assert_eq!(d.acq_config(1e-3).coherent_periods, 4);
+    }
+
+    #[test]
+    fn the_auto_step_follows_the_signal_and_is_recorded() {
+        // A 1 ms code searches 4 ms with the textbook 166.7 Hz step; E1-B (4 ms) gets the
+        // pull-in cap, 0.4 / T_track = 100 Hz, instead of 166.7 Hz.
+        let d = Design::builtin_default();
+        let ca = d.resolved_run(1e-3);
+        assert_eq!(ca.acq_coherent_periods, 4);
+        assert!((ca.acq_doppler_step_hz - 2.0 / 0.012).abs() < 1e-9);
+        let e1b = d.resolved_run(4e-3);
+        assert_eq!(e1b.acq_coherent_periods, 1);
+        assert!((e1b.acq_doppler_step_hz - 100.0).abs() < 1e-9);
+        assert!((e1b.t_track_s - 4e-3).abs() < 1e-15);
+        // An explicit step is used as written.
+        let fixed = d
+            .with_overrides("[acquisition]\ndoppler_step_hz = 250.0\n")
+            .unwrap();
+        assert_eq!(fixed.resolved_run(4e-3).acq_doppler_step_hz, 250.0);
     }
 
     #[test]

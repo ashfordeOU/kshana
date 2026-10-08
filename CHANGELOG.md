@@ -214,6 +214,20 @@ breaking changes are called out explicitly.
 
 ### Fixed
 
+- **The default acquisition step no longer hands Galileo E1 tracking a residual the FLL
+  cannot pull in.** The step `2 / (3 · N · T_code)` leaves up to `1 / (3 · N · T_code)` of
+  Doppler error at hand-off, but the default two-quadrant FLL pulls in only `1 / (4 T_track)`.
+  For every code of 4 ms or longer (`N = 1`), including Galileo E1-B and E1-C, the residual
+  (83.3 Hz at 4 ms) was outside the 62.5 Hz pull-in and tracking false-locked at +125 Hz, with
+  a phase-lock indicator of 0.97 that hid it. The default step is now also capped at
+  `0.4 / T_track` (`kshana::iq::acq::default_step_hz`), so the worst-case residual is 80 % of
+  the pull-in: E1-B/E1-C 166.7 → 100 Hz, and the 1 ms codes (166.7 Hz, `N = 4`) are unchanged.
+  `"auto"` in a loop design means this; an explicit `doppler_step_hz` or `--doppler-step` is used
+  as written, and `iq acquire` (no tracking hand-off) keeps the textbook step. The epoch header
+  and `--summary` now record the resolved step and loop bandwidths for each channel (`resolved`).
+  The default design hash is unchanged. Output change: acquisition on 4 ms-and-longer codes searches
+  a 1.67× finer Doppler grid, so detections can land on different bins.
+
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
   a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
   had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
