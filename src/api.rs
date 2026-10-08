@@ -6,6 +6,7 @@
 //! SVG chart and a one-line summary. The CLI, the Python binding, and the
 //! WebAssembly binding all go through this one entry point so they never drift.
 
+use crate::palette::chart::{BG, FONT_MONO, FONT_SANS, INK, MUTED};
 use crate::scenario::GnssState;
 use serde::Deserialize;
 use sha2::{Digest, Sha256};
@@ -71,7 +72,7 @@ fn with_provenance(svg: String, hash12: &str) -> String {
     let w = parse_svg_dim(&svg, "width").unwrap_or(800.0);
     let h = parse_svg_dim(&svg, "height").unwrap_or(420.0);
     let footer = format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"#62594b\" font-size=\"10\" font-family=\"sans-serif\">Kshana v{} \u{00b7} scenario {} \u{00b7} kshana.dev</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"10\" font-family=\"{FONT_SANS}\">Kshana v{} \u{00b7} scenario {} \u{00b7} kshana.dev</text>",
         w - 8.0,
         h - 6.0,
         env!("CARGO_PKG_VERSION"),
@@ -284,33 +285,34 @@ impl RunOutput {
             Some(ts) => format!(" Study generated {}.", html_escape(&ts)),
             None => String::new(),
         };
+        let theme = crate::palette::page_css();
         format!(
             "<!doctype html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\"/>\n\
              <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\"/>\n\
              <title>{title}</title>\n<style>\n\
-             :root{{color-scheme:light dark}}\
-             body{{font-family:system-ui,-apple-system,Segoe UI,Roboto,sans-serif;line-height:1.55;\
+             {theme}\
+             body{{font-family:{FONT_SANS};background:var(--bg);color:var(--fg);line-height:1.55;\
              max-width:900px;margin:0 auto;padding:2rem 1.25rem 3rem}}\
              .eyebrow{{letter-spacing:.18em;text-transform:uppercase;font-size:.72rem;opacity:.6;text-align:center}}\
              h1{{text-align:center;font-size:2.4rem;margin:.1rem 0;\
-             background:linear-gradient(135deg,#2dd4bf,#6366f1,#a855f7);-webkit-background-clip:text;\
+             background:linear-gradient(135deg,var(--cyan),var(--blue),var(--magenta));-webkit-background-clip:text;\
              background-clip:text;color:transparent}}\
              .tag{{text-align:center;opacity:.7;margin-top:0}}\
-             .summary{{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.86rem;\
-             border-left:3px solid #6366f1;padding:.7rem .9rem;background:rgba(99,102,241,.08);\
+             .summary{{font-family:{FONT_MONO};font-size:.86rem;\
+             border-left:3px solid var(--accent);padding:.7rem .9rem;background:var(--card);\
              border-radius:8px;overflow-x:auto;white-space:pre-wrap;word-break:break-word}}\
              .chart{{text-align:center;margin:1.2rem 0}}\
-             .chart img{{max-width:100%;height:auto;border:1px solid #8884;border-radius:8px;background:#fff}}\
-             details{{border:1px solid #8884;border-radius:8px;padding:.5rem .9rem}}\
+             .chart img{{max-width:100%;height:auto;border:1px solid var(--line);border-radius:8px}}\
+             details{{border:1px solid var(--line);border-radius:8px;padding:.5rem .9rem}}\
              summary{{cursor:pointer;font-weight:600}}\
-             pre{{font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.78rem;overflow:auto;max-height:520px}}\
-             h2.fom-h{{font-size:1.15rem;margin:1.6rem 0 .6rem;border-bottom:1px solid #8884;padding-bottom:.2rem}}\
+             pre{{font-family:{FONT_MONO};font-size:.78rem;overflow:auto;max-height:520px}}\
+             h2.fom-h{{font-size:1.15rem;margin:1.6rem 0 .6rem;border-bottom:1px solid var(--line);padding-bottom:.2rem}}\
              table.fom{{border-collapse:collapse;width:100%;font-size:.9rem}}\
-             table.fom th,table.fom td{{border:1px solid #8884;padding:.35rem .6rem;text-align:left}}\
+             table.fom th,table.fom td{{border:1px solid var(--line);padding:.35rem .6rem;text-align:left}}\
              table.fom .num{{text-align:right;font-variant-numeric:tabular-nums}}\
-             .tier{{font-size:.72rem;letter-spacing:.06em;font-weight:600;padding:.05rem .4rem;border:1px solid #8886;border-radius:4px;white-space:nowrap}}\
+             .tier{{font-size:.72rem;letter-spacing:.06em;font-weight:600;padding:.05rem .4rem;border:1px solid var(--line);border-radius:4px;white-space:nowrap}}\
              .tier-note{{font-size:.8rem;opacity:.75;margin:.5rem 0 1rem}}\
-             footer{{margin-top:2rem;padding-top:1rem;border-top:1px solid #8884;font-size:.85rem;opacity:.75}}\
+             footer{{margin-top:2rem;padding-top:1rem;border-top:1px solid var(--line);font-size:.85rem;opacity:.75}}\
              </style>\n</head>\n<body>\n\
              <p class=\"eyebrow\">क्षण · the precise instant</p>\n\
              <h1>Kshana</h1>\n\
@@ -447,8 +449,8 @@ fn minimal_svg(summary: &str) -> String {
         .replace('>', "&gt;");
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"1180\" height=\"40\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#e6edf3\">\
-         <rect width=\"1180\" height=\"40\" fill=\"#0b0e14\"/>\
+         font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK}\">\
+         <rect width=\"1180\" height=\"40\" fill=\"{BG}\"/>\
          <text x=\"10\" y=\"24\">{esc}</text></svg>"
     )
 }

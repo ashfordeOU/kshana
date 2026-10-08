@@ -40,6 +40,7 @@
 use crate::interchange::Envelope;
 use crate::lunar_service::LunarConstellation;
 use crate::oem::{OemFile, OemMetadata, OemSegment, OemStateLine};
+use crate::palette::chart::{BG, CORAL, FONT_SANS, INK_2, LIME, MUTED, TITLE};
 use crate::rinex::EpochUtc;
 use serde::{Deserialize, Serialize};
 
@@ -643,22 +644,18 @@ impl LunarInteropScenario {
 /// A small "artifacts / conformance" summary card for a [`LunarInteropReport`].
 pub fn lunar_interop_svg(r: &LunarInteropReport) -> String {
     let (w, h) = (820.0_f64, 220.0_f64);
-    let pass_colour = if r.conformance.pass {
-        "#7fd18a"
-    } else {
-        "#e5645a"
-    };
+    let pass_colour = if r.conformance.pass { LIME } else { CORAL };
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
-    svg.push_str(
-        "<text x=\"24\" y=\"30\" font-size=\"15\" font-weight=\"bold\" fill=\"#e0bd84\">\
-         Lunar interoperability export — CCSDS OEM + KIF (LunaNet/IOAG-aligned)</text>",
-    );
+    svg.push_str(&format!(
+        "<text x=\"24\" y=\"30\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">\
+         Lunar interoperability export — CCSDS OEM + KIF (LunaNet/IOAG-aligned)</text>"
+    ));
     svg.push_str(&format!(
         "<text x=\"24\" y=\"58\">REF_FRAME = {} | TIME_SYSTEM = {} | {} states | OEM {} lines</text>",
         r.frame, r.time_system, r.n_states, r.oem_line_count
@@ -681,9 +678,9 @@ pub fn lunar_interop_svg(r: &LunarInteropReport) -> String {
         r.kif_bytes,
     ));
     svg.push_str(
-        "<text x=\"24\" y=\"170\" font-size=\"11\" fill=\"#9a9080\">Round-trip / field conformance vs \
+        &format!("<text x=\"24\" y=\"170\" font-size=\"11\" fill=\"{MUTED}\">Round-trip / field conformance vs \
          CCSDS OEM + published LunaNet/IOAG field semantics. MODELLED — not a certified \
-         interoperability conformance test; no agency endorsement.</text>",
+         interoperability conformance test; no agency endorsement.</text>"),
     );
     svg.push_str("</svg>");
     svg

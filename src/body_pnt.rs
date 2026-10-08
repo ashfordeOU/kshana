@@ -38,6 +38,7 @@ use crate::body::Body;
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
 use crate::mars_frame::bodyfixed_to_inertial;
 use crate::mars_pnt::chord_clears_sphere;
+use crate::palette::chart::{BLUE, CYAN, MUTED};
 use crate::solar_system::{link, parse_table, resolve_epoch, EpochOut, LinkOut};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
@@ -819,7 +820,7 @@ pub fn to_svg(r: &BodyPntReport) -> String {
     for e in &r.epochs {
         let hgt = ph1 * e.n_relays_visible as f64 / n_max;
         s.push_str(&format!(
-            "<rect x=\"{:.1}\" y=\"{:.1}\" width=\"{bw:.1}\" height=\"{hgt:.1}\" fill=\"#5b7fa6\"/>",
+            "<rect x=\"{:.1}\" y=\"{:.1}\" width=\"{bw:.1}\" height=\"{hgt:.1}\" fill=\"{BLUE}\"/>",
             x(e.t_s),
             top1 + ph1 - hgt
         ));
@@ -854,7 +855,7 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         .max(lo + 1.0)
         .ceil();
     let y = |v: f64| top2 + ph2 - ph2 * (v.log10() - lo) / (hi - lo);
-    for (sel, colour) in [(0, "#5b7fa6"), (1, "#c79e63")] {
+    for (sel, colour) in [(0, BLUE), (1, CYAN)] {
         let pts: Vec<String> = r
             .epochs
             .iter()
@@ -875,15 +876,15 @@ pub fn to_svg(r: &BodyPntReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10^{lo:.0} m</text>\
-         <text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10^{hi:.0} m</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0} m</text>\
+         <text x=\"{:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0} m</text>",
         ml - 60.0,
         top2 + ph2,
         ml - 60.0,
         top2 + 10.0
     ));
     s.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"470\" font-size=\"10\" fill=\"#8a8172\">time since epoch, 0 to {:.0} s</text></svg>",
+        "<text x=\"{ml:.0}\" y=\"470\" font-size=\"10\" fill=\"{MUTED}\">time since epoch, 0 to {:.0} s</text></svg>",
         t_max
     ));
     s
