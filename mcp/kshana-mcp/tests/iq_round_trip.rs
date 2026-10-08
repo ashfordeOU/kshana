@@ -178,11 +178,20 @@ async fn scene_acquire_track_frontend_round_trip() {
 
     // Track: both channels locked at the end, C/N0 near what went in; per-epoch files kept.
     // C/N0 is the NWPR estimate (dB-Hz) the loop bank reports once its 50 windows fill.
+    // A loop design from a file in the work directory, with an argument overriding it.
+    std::fs::write(
+        dir.join("loops.toml"),
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"wide\"\n\
+         [design.carrier]\npll_bw_hz = 18.0\n",
+    )
+    .unwrap();
     let trk = call(
         &client,
         "iq_track",
         json!({
             "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
+            "design": "loops.toml", "dll_bw_hz": 1.5,
+            "epochs_out": "track.bin", "events_out": "track.events.jsonl",
             // No acq_coherent: the default hand-off (auto, ≈4 ms coherent) locks both
             // channels. A one-period search false-locked PRN 17 ~500 Hz off on this scene
             // (`tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`).
@@ -192,8 +201,16 @@ async fn scene_acquire_track_frontend_round_trip() {
     .await
     .unwrap();
     assert_eq!(trk["samples_tracked"], 3_069_000);
+    assert_eq!(trk["design"]["name"], "wide");
+    assert_eq!(
+        trk["warnings"][0]["kind"], "commensurate_sampling",
+        "2.046 MHz is 2 samples/chip"
+    );
+    assert_eq!(trk["design"]["hash"].as_str().unwrap().len(), 64);
     for ch in trk["channels"].as_array().unwrap() {
         assert_eq!(ch["locked_at_end"], true, "{ch}");
+        assert_eq!(ch["final_state"], "LOCKED", "{ch}");
+        assert_eq!(ch["false_locks"], 0, "{ch}");
         assert!(ch["epochs"].as_u64().unwrap() >= 1_400, "{ch}");
         let cn0 = ch["mean_cn0_dbhz"].as_f64().unwrap();
         assert!((cn0 - 45.0).abs() < 4.0, "mean C/N0 {cn0}: {ch}");
@@ -204,9 +221,32 @@ async fn scene_acquire_track_frontend_round_trip() {
         .iter()
         .map(|f| f["path"].as_str().unwrap())
         .collect();
-    assert_eq!(kept, ["track.json", "track.csv"]);
+    assert_eq!(
+        kept,
+        ["track.bin", "track.events.jsonl", "track.json", "track.csv"]
+    );
     let csv = std::fs::read_to_string(dir.join("track.csv")).unwrap();
     assert!(csv.starts_with("code,epoch,"));
+    // The streamed binary epochs read back, carrying the design's hash per channel.
+    let epochs = kshana::iq::track::sink::BinaryEpochReader::new(std::io::BufReader::new(
+        std::fs::File::open(dir.join("track.bin")).unwrap(),
+    ))
+    .unwrap();
+    assert_eq!(epochs.header().channels.len(), 2);
+    assert_eq!(
+        epochs.header().channels[0].design_hash,
+        trk["design"]["hash"]
+    );
+    let n = epochs.map(Result::unwrap).count() as u64;
+    let total: u64 = trk["channels"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c["epochs"].as_u64().unwrap())
+        .sum();
+    assert_eq!(n, total);
+    let events = std::fs::read_to_string(dir.join("track.events.jsonl")).unwrap();
+    assert!(events.contains("\"reason\":\"locked\""), "{events}");
 
     // Front end: a 2-bit quantiser, written as a new recording that acquires again.
     let fe = call(

@@ -234,6 +234,65 @@ def test_iq_track_converges_to_the_injected_doppler_and_locks():
     assert last["phase_lock"] is True
 
 
+DESIGNS = """
+schema = "kshana.loop-design/1"
+[[design]]
+name = "narrow"
+[design.carrier]
+pll_bw_hz = 8.0
+[[design]]
+name = "fll-only"
+[design.carrier]
+kind = "fll"
+fll_bw_hz = 5.0
+"""
+
+
+def test_iq_loop_designs_resolves_every_field_and_hashes():
+    designs = kshana.iq_loop_designs(DESIGNS)
+    assert [d["name"] for d in designs] == ["narrow", "fll-only"]
+    assert designs[0]["carrier"]["pll_bw_hz"] == 8.0
+    assert designs[1]["carrier"]["pll_order"] is None
+    assert len(designs[0]["hash"]) == 64 and designs[0]["hash"] != designs[1]["hash"]
+    assert designs[0]["lock"]["reacquire"] is False
+
+
+def test_iq_track_takes_a_design_and_reports_states_and_the_design():
+    import pytest
+
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.8, signal="gps-l1ca", prns=[9],
+        dopplers=[1200.0], cn0_dbhz=50.0, noise=False,
+    )
+    out = kshana.iq_track(
+        scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [9],
+        design=DESIGNS, design_name="narrow", dll_bw=3.0,
+    )
+    assert out["design"]["name"] == "narrow"
+    assert out["design"]["carrier"]["pll_bw_hz"] == 8.0
+    assert out["design"]["code"]["bw_hz"] == 3.0  # the argument overrides the design
+    epochs = out["channels"][0]["epochs"]
+    assert epochs[0]["state"] == "PULL_IN"
+    assert {"i_early", "q_late", "carrier_phase_cycles"} <= set(epochs[0])
+    assert abs(epochs[-1]["doppler_hz"] - 1200.0) < 5.0
+    # 2.046 MHz is exactly 2 samples per chip: the result warns.
+    assert out["warnings"][0]["kind"] == "commensurate_sampling"
+    with pytest.raises(ValueError):
+        kshana.iq_track(
+            scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [9],
+            design=DESIGNS, design_name="missing",
+        )
+
+
+def test_iq_read_epochs_refuses_a_file_that_is_not_one(tmp_path):
+    import pytest
+
+    p = tmp_path / "x.bin"
+    p.write_bytes(b"not an epoch file\n")
+    with pytest.raises(ValueError):
+        kshana.iq_read_epochs(str(p))
+
+
 def test_iq_acquire_raises_on_an_unknown_signal():
     import pytest
 
