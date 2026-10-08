@@ -1,0 +1,17 @@
+{
+    "global": {
+        "core:datatype": "cu8",
+        "core:num_channels": 1,
+        "core:offset": 0,
+        "core:sample_rate": 2048000.0,
+        "core:sha512": "7503dc40c56f035d01981e524e8be981d0e8190e79da634bef6e2bb643827efbdd2619e1c32d21d922bf380e3b84936d20d6e597b8bf8c8085ed010f5847e191",
+        "core:version": "1.2.6"
+    },
+    "captures": [
+        {
+            "core:frequency": 1575420000.0,
+            "core:sample_start": 0
+        }
+    ],
+    "annotations": []
+}

@@ -14,12 +14,10 @@
 use super::acquire::codes_from_args;
 use super::frontend::through_frontend;
 use super::track::{acquire_inits, frac};
-use super::{raw_sidecar, Args, Fail};
-use crate::iq::io::inventory::open_recording;
+use super::{open_input, Args, Fail};
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, EpochOutput, LoopConfig, ReplayResult};
 use crate::iq::SpreadingCode;
-use std::path::Path;
 
 /// A list flag, or a single default value when the flag is absent.
 fn axis(a: &Args, key: &str, default: f64) -> Result<Vec<f64>, Fail> {
@@ -128,10 +126,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     a.need_pos(1, "sweep")?;
     // Optional receiver front end, applied to both passes as `iq acquire` applies it.
     let fe = super::frontend::FrontendParams::from_args(&a)?;
-    let path = Path::new(&a.pos[0]);
     let codes = codes_from_args(&a)?;
 
-    let opened = open_recording(path, raw_sidecar(&a)?)?;
+    let opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
     let mut acq_src = through_frontend(&fe, opened.source)?;
     let inits = acquire_inits(&a, &spec, &codes, acq_src.as_mut())?;
@@ -142,7 +139,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
 
-    let mut track_src = through_frontend(&fe, open_recording(path, raw_sidecar(&a)?)?.source)?;
+    let mut track_src = through_frontend(&fe, open_input(&a, 0)?.source)?;
     let results = replay(track_src.as_mut(), &inits, &designs, max_samples)?;
     let rows = collect(&codes, &results);
 

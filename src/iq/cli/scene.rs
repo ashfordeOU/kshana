@@ -424,6 +424,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             center_hz: Some(spec.center_hz),
             if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
             header_bytes: None,
+            channels: None,
+            channel: None,
             datetime: None,
             description: Some(format!("written by kshana iq scene{scale_note}")),
         };
@@ -454,14 +456,24 @@ const INTEGER_RMS_FRACTION: f64 = 0.25;
 /// float formats, which keep the scene's own (noise-normalised) units.
 ///
 /// 8- and 16-bit encodings place the RMS at [`INTEGER_RMS_FRACTION`] of full scale
-/// (127 and 32767). The 2-bit encodings (levels ±1, ±3, thresholds 0 and ±2) place it at
+/// (127 and 32767); the other integer widths do the same against their own decoded full
+/// scale. The 2-bit encodings (levels ±1, ±3, thresholds 0 and ±2) place it at
 /// 2 LSB, so the ±2 thresholds sit at one standard deviation: the near-optimal 2-bit
 /// quantiser for Gaussian input (threshold ≈ 1.0 σ).
 pub(crate) fn integer_target_rms(format: SampleFormat) -> Option<f64> {
     match format.encoding {
         Encoding::I8 => Some(INTEGER_RMS_FRACTION * f64::from(i8::MAX)),
         Encoding::I16Le | Encoding::I16Be => Some(INTEGER_RMS_FRACTION * f64::from(i16::MAX)),
-        Encoding::TwoBit { .. } => Some(2.0),
+        Encoding::TwoBit { .. } | Encoding::TwoBitPerByte { .. } => Some(2.0),
+        // The other integer encodings follow the same rule against their decoded full
+        // scale: ±(2ⁿ − 1) for the offset-binary codes (levels `2c − (2ⁿ − 1)`), −2ⁿ⁻¹…2ⁿ⁻¹ − 1
+        // for the two's-complement ones.
+        Encoding::I4 { .. } => Some(INTEGER_RMS_FRACTION * 7.0),
+        Encoding::U4 { .. } => Some(INTEGER_RMS_FRACTION * 15.0),
+        Encoding::U8 => Some(INTEGER_RMS_FRACTION * 255.0),
+        Encoding::I12 { .. } => Some(INTEGER_RMS_FRACTION * 2047.0),
+        Encoding::U12 { .. } => Some(INTEGER_RMS_FRACTION * 4095.0),
+        Encoding::U16 { .. } => Some(INTEGER_RMS_FRACTION * 65535.0),
         Encoding::F32Le | Encoding::F32Be => None,
     }
 }
