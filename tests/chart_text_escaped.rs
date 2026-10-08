@@ -101,6 +101,7 @@ fn scenario_text_reaches_charts_only_as_escaped_text() {
     let (mut ran, mut probed) = (0usize, 0usize);
     let mut seen: BTreeSet<(String, String)> = BTreeSet::new();
     let mut offenders = Vec::new();
+    let mut doubled = Vec::new();
     for path in &files {
         let name = path.file_name().unwrap().to_string_lossy().to_string();
         if SKIPPED.contains(&name.as_str()) {
@@ -109,6 +110,11 @@ fn scenario_text_reaches_charts_only_as_escaped_text() {
         let src = std::fs::read_to_string(path).expect("scenario text");
         let Ok(base) = run_toml(&src) else { continue };
         ran += 1;
+        for pat in DOUBLE_ESCAPES {
+            if base.svg.contains(pat) {
+                doubled.push(format!("{name}: the chart contains {pat:?}"));
+            }
+        }
         // The same text under the same kind goes through the same code: probe it once.
         let kind = kind_of(&src);
         let lits: Vec<String> = literals(&src)
@@ -128,11 +134,21 @@ fn scenario_text_reaches_charts_only_as_escaped_text() {
         "text reached charts often enough to be tested ({probed})"
     );
     assert!(
+        doubled.is_empty(),
+        "text was escaped twice on its way into a chart (a caller escaped what a `chart::` helper \
+         escapes again; pass the plain text):\n  {}",
+        doubled.join("\n  ")
+    );
+    assert!(
         offenders.is_empty(),
         "scenario text is written into chart markup without escaping:\n  {}",
         offenders.join("\n  ")
     );
 }
+
+/// What an entity looks like after a second pass of escaping. No bundled scenario writes an
+/// entity in its text, so none of these belongs in a bundled chart.
+const DOUBLE_ESCAPES: &[&str] = &["&amp;amp;", "&amp;lt;", "&amp;gt;", "&amp;quot;", "&amp;#"];
 
 /// Scenarios that take more than five seconds in a debug build (measured; `clock-ensemble` is
 /// kept, it is the only user of its chart), left out to keep this test to a couple of minutes.

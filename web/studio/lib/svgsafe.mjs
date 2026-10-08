@@ -8,7 +8,8 @@
 // document in the browser and on a plain stand-in tree in Node. Tested in svgsafe.test.mjs.
 
 // Elements that are never drawing.
-const DROPPED = new Set(["script", "foreignobject", "iframe", "object", "embed", "audio", "video", "canvas", "link", "meta", "base"]);
+// A style element goes too: the page carries the chart rules, and no chart needs its own.
+const DROPPED = new Set(["script", "foreignobject", "iframe", "object", "embed", "audio", "video", "canvas", "link", "meta", "base", "style"]);
 // Elements that change an attribute over time: dropped when they aim at a handler or a link.
 const ANIMATING = new Set(["animate", "set", "animatetransform", "animatemotion"]);
 
@@ -41,6 +42,8 @@ function keepAttribute(a) {
   if (name.startsWith("on") || local.startsWith("on")) return false;
   if (local === "href" && !localRef(a.value)) return false;
   if (local === "src") return false;
+  // Any value that names a url( (fill, filter, mask, clip-path, marker-*, cursor, style, animated values): only url(#id) stays.
+  if (/url\(/i.test(a.value) && reachingStyle(a.value)) return false;
   if (local === "style" && reachingStyle(a.value)) return false;
   if (scripted(a.value)) return false;
   return true;
@@ -49,7 +52,6 @@ function keepAttribute(a) {
 function keepElement(el) {
   const local = lower(el.localName);
   if (DROPPED.has(local)) return false;
-  if (local === "style" && reachingStyle(el.textContent || "")) return false;
   if (ANIMATING.has(local)) {
     const target = lower(el.getAttribute ? el.getAttribute("attributeName") : "");
     if (target.startsWith("on") || target.endsWith("href") || target === "style" || target === "src") return false;
