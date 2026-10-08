@@ -81,6 +81,9 @@ breaking changes are called out explicitly.
     and drops.
   - **Pre-correlation spectrum**: Welch PSD per block against a learned baseline. The excess
     threshold comes from a false-alarm target. Also complex kurtosis and a pulse detector.
+    The pulse detector counts samples over a threshold in each block and raises an event when the exact binomial upper tail of that
+    count is below `pulse_pfa` (default 1e-4 per block), not when a z-score passes a limit: at
+    the small expected counts of short blocks a single sample is already several sigma.
   - **Per-channel C/N0**: two one-sided CUSUM change detectors (drop and rise), fed
     independent estimates (the stride is set from the loop's C/N0 window).
   - **SQM from the correlators**: delta `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)`,

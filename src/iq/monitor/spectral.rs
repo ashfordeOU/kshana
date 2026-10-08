@@ -20,8 +20,12 @@
 //!   `kurtosis` event.
 //! * the **pulse detector** counts samples with `|x|² > pulse_t·σ²` (σ² the baseline
 //!   power); for Gaussian noise each does so with probability `p = e^{−pulse_t}`
-//!   ([`super::stats::pulse_pfa`]), so the count's z-score is
-//!   `(count − Np)/√(Np(1 − p))`; above `pulse_sigma` raises a `pulses` event.
+//!   ([`super::stats::pulse_pfa`]), so the count is Binomial(`N`, `p`). A block raises a
+//!   `pulses` event when the exact upper tail `P(X ≥ count)`
+//!   ([`super::stats::binomial_upper_tail`]) is below `pulse_pfa`, the per-block
+//!   false-event probability. (A z-score of the count is not used: at the small expected
+//!   counts of short blocks one sample over threshold is already several "sigma".) The
+//!   event's `peak` and `threshold` are `−ln` of the tail and of `pulse_pfa`.
 //!   `pulse_fraction` is the fraction of samples over the threshold.
 
 use super::{stats, Baseline, MonitorEvent, MonitorReport, Series, Side, SpanDetector, Spectrum};
@@ -50,14 +54,14 @@ pub struct SpectralSettings {
     pub kurtosis_sigma: f64,
     /// Pulse threshold on `|x|²/σ²`.
     pub pulse_t: f64,
-    /// Pulse-count z-score that counts.
-    pub pulse_sigma: f64,
+    /// Per-block false-event probability of the pulse count (exact binomial upper tail).
+    pub pulse_pfa: f64,
 }
 
 impl Default for SpectralSettings {
     /// 50 ms blocks, 1 s baseline, 256-point Welch with 50 % overlap, the excess threshold
-    /// set for a false-alarm probability of 1e-4 per block, kurtosis and pulse z-scores of
-    /// 6, pulse threshold 12 (`p = 6.1e-6`).
+    /// set for a false-alarm probability of 1e-4 per block, a kurtosis z-score of 6, pulse
+    /// threshold 12 (`p = 6.1e-6`) and a pulse false-event probability of 1e-4 per block.
     fn default() -> Self {
         SpectralSettings {
             block_s: 0.05,
@@ -68,7 +72,7 @@ impl Default for SpectralSettings {
             excess_pfa: 1e-4,
             kurtosis_sigma: 6.0,
             pulse_t: 12.0,
-            pulse_sigma: 6.0,
+            pulse_pfa: 1e-4,
         }
     }
 }
@@ -247,7 +251,7 @@ impl SpectralMonitor {
                         "pulses",
                         None,
                         Side::Above,
-                        st.pulse_sigma,
+                        -st.pulse_pfa.ln(),
                         1,
                     ));
                 }
@@ -270,7 +274,8 @@ impl SpectralMonitor {
                 let count = b.iter().filter(|s| super::norm_sqr(**s) > thr).count() as f64;
                 self.pulse.push(t, count / n);
                 let p = stats::pulse_pfa(self.settings.pulse_t);
-                let z_pulse = (count - n * p) / (n * p * (1.0 - p)).sqrt();
+                let tail = stats::binomial_upper_tail(b.len() as u64, p, count as u64);
+                let surprise = -tail.max(1e-300).ln();
                 let z_kurt = ((kurt - k0) / sd_k).abs();
                 if let Some(d) = self.det_excess.as_mut() {
                     d.push(t, best);
@@ -279,7 +284,7 @@ impl SpectralMonitor {
                     d.push(t, z_kurt);
                 }
                 if let Some(d) = self.det_pulse.as_mut() {
-                    d.push(t, z_pulse);
+                    d.push(t, surprise);
                 }
             }
         }
