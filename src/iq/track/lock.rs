@@ -132,9 +132,10 @@ pub struct SessionChannel {
 impl SessionChannel {
     /// A channel tracking `init` with loop design `d`.
     pub fn from_design(init: ChannelInit, d: &Design) -> Self {
+        let config = d.loop_config_for(init.code.period_s());
         Self {
             init,
-            config: d.loop_config(),
+            config,
             lock: d.lock_config(),
             acquisition: d.acquisition().clone(),
         }
