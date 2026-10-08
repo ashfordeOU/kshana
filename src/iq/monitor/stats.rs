@@ -132,6 +132,38 @@ pub fn pulse_pfa(t: f64) -> f64 {
     (-t).exp()
 }
 
+/// Exact upper tail `P(X >= c)` of `X ~ Binomial(n, p)`: the pulse count in a block of `n`
+/// samples when each exceeds the threshold with probability `p` ([`pulse_pfa`]). Summed
+/// directly from `c` upward, so a small tail keeps its relative accuracy.
+pub fn binomial_upper_tail(n: u64, p: f64, c: u64) -> f64 {
+    if c == 0 {
+        return 1.0;
+    }
+    if c > n || p <= 0.0 {
+        return 0.0;
+    }
+    if p >= 1.0 {
+        return 1.0;
+    }
+    let (nf, cf) = (n as f64, c as f64);
+    let ln_pmf = ln_gamma(nf + 1.0) - ln_gamma(cf + 1.0) - ln_gamma(nf - cf + 1.0)
+        + cf * p.ln()
+        + (nf - cf) * (-p).ln_1p();
+    let ratio = p / (1.0 - p);
+    let mut term = ln_pmf.exp();
+    let mut sum = term;
+    let mut k = c;
+    while k < n {
+        term *= (nf - k as f64) / (k as f64 + 1.0) * ratio;
+        k += 1;
+        sum += term;
+        if (k as f64) > nf * p && term < sum * 1e-17 {
+            break;
+        }
+    }
+    sum.min(1.0)
+}
+
 /// Siegmund's approximation of the average run length of a one-sided CUSUM
 /// `g ← max(0, g + z − k)`, alarm at `g > h`, on independent unit-variance Gaussian `z` of
 /// mean `mu`: with `Δ = mu − k` and `b = h + 1.166`, `(e^{−2Δb} + 2Δb − 1)/(2Δ²)` (`b²`
@@ -240,6 +272,21 @@ mod tests {
         // Q(3, 7) = e^{−7}(1 + 7 + 24.5).
         let q37 = (-7.0f64).exp() * (1.0 + 7.0 + 24.5);
         assert!((gamma_pq(3.0, 7.0).1 - q37).abs() < 1e-14);
+    }
+
+    #[test]
+    fn binomial_tail_matches_direct_sums_and_limits() {
+        // Binomial(10, 0.5): P(X >= 8) = (45 + 10 + 1)/1024.
+        assert!((binomial_upper_tail(10, 0.5, 8) - 56.0 / 1024.0).abs() < 1e-14);
+        assert_eq!(binomial_upper_tail(10, 0.5, 0), 1.0);
+        assert_eq!(binomial_upper_tail(10, 0.5, 11), 0.0);
+        // P(X >= 1) = 1 - (1 - p)^n, in a regime where the tail is small.
+        let (n, p): (u64, f64) = (4096, 6.1e-6);
+        let want = -(n as f64 * (-p).ln_1p()).exp_m1();
+        assert!((binomial_upper_tail(n, p, 1) / want - 1.0).abs() < 1e-9);
+        // A count of 1 at mean 0.025 is ordinary (tail 0.025), 3 is not (about 3e-6).
+        assert!(binomial_upper_tail(n, p, 1) > 0.02);
+        assert!(binomial_upper_tail(n, p, 3) < 1e-5);
     }
 
     #[test]
