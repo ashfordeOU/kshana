@@ -20,7 +20,9 @@ default wherever only the result is needed (`iq acquire` without `--surface`, `i
   (every field, `PartialEq`) on GPS L1 C/A, Galileo E1-B and Galileo E5a-I.
 * **A2** the peak resident set size (`VmHWM`) of a process that runs the default hand-off
   acquisition of Galileo E5a-Q at 25 MS/s (the default design's acquisition config) is at
-  most **256 MB**, including its 2.5M-sample input.
+  most **256 000 KiB (about 250 MiB)**, including its 2.5M-sample input. (The test
+  asserts `VmHWM ≤ 256 * 1000` with `VmHWM` in KiB, written before any run; this note states the
+  unit and does not change the assertion.)
 * **A3** existing acquisition and tracking tests pass unchanged (no test edited to fit).
 
 A bar is not relaxed after a result. If A2 fails, the result is reported with the number and
