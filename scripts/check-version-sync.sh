@@ -181,14 +181,14 @@ done
 #     These pages are written by the site build and ported in by web/tools/port_site.py,
 #     so the fix is a re-port, not a hand-edit. KSHANA_VERSION_SYNC_SITE selects how a
 #     mismatch is reported: "warn" prints WARN lines and does not fail; "strict" fails.
-#     The default is warn until the release that re-ports the site at its bump commit
-#     flips it to strict (docs/RELEASING.md). Run it strict at any time with
-#     KSHANA_VERSION_SYNC_SITE=strict scripts/check-version-sync.sh
+#     The default is strict since 0.33.0, the release that re-ported the site at its bump
+#     commit (docs/RELEASING.md). Set KSHANA_VERSION_SYNC_SITE=warn to see the issues
+#     without failing, for example while preparing a bump before the re-port.
 #
 #     Not checked, deliberately: "engine vX" / "Engine vX" run-provenance stamps (an
 #     accurate record of the engine a figure was drawn with) and alt text describing an
 #     image.
-SITE_VERSION_MODE="${KSHANA_VERSION_SYNC_SITE:-warn}"
+SITE_VERSION_MODE="${KSHANA_VERSION_SYNC_SITE:-strict}"
 case "$SITE_VERSION_MODE" in
   warn|strict) ;;
   *) echo "FAIL: KSHANA_VERSION_SYNC_SITE must be warn or strict, not '${SITE_VERSION_MODE}'." >&2; exit 1 ;;
