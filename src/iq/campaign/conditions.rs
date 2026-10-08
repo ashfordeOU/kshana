@@ -717,7 +717,11 @@ points = [[10.0, 20.0], [20.0, 40.0]]
 
     #[test]
     fn sigmf_annotations_import_as_the_same_events_as_a_written_table() {
-        let dir = std::env::temp_dir().join(format!("kshana-cond-sigmf-{}", std::process::id()));
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static SEQ: AtomicU64 = AtomicU64::new(0);
+        let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+        let dir =
+            std::env::temp_dir().join(format!("kshana-cond-sigmf-{}-{uniq}", std::process::id()));
         std::fs::create_dir_all(&dir).unwrap();
         let meta = serde_json::json!({
             "global": {"core:datatype": "cf32_le", "core:sample_rate": 4.0e6, "core:version": "1.0.0"},
