@@ -39,6 +39,7 @@
 //! [`icrf_orientation_tie`]) reporting the realised small rotation about the ICRF axes.
 
 use crate::batch_ls::gauss_newton;
+use crate::palette::chart::{BG, FONT_SANS, INK_2, LIME};
 use crate::precession::{mat_vec, matmul, rx, ry, rz, transpose, Mat3};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
@@ -665,10 +666,10 @@ pub fn lunar_frame_realise_svg(r: &LunarFrameRealiseReport) -> String {
     let ml = 70.0_f64;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\">Lunar reference-frame realisation — 7-parameter Helmert recovery</text>"
@@ -734,7 +735,7 @@ pub fn lunar_frame_realise_svg(r: &LunarFrameRealiseReport) -> String {
         // A thin bar whose length encodes |recovered| relative to |injected| (visual cue only).
         let bar = ((rec.abs() / inj.abs().max(1e-9)).min(2.0)) * 120.0;
         svg.push_str(&format!(
-            "<rect x=\"{:.0}\" y=\"{:.0}\" width=\"{bar:.1}\" height=\"6\" fill=\"#7fbf7f\"/>",
+            "<rect x=\"{:.0}\" y=\"{:.0}\" width=\"{bar:.1}\" height=\"6\" fill=\"{LIME}\"/>",
             ml + 560.0,
             y - 9.0,
         ));
