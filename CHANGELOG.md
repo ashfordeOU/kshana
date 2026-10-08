@@ -85,6 +85,14 @@ breaking changes are called out explicitly.
     reader already use (so a `cu8` sample `c` reads `2c − 255`, a `cu12*` one `2c − 4095`, a `cu16_*` one `2c − 65535`; `--gain 0.5` on conversion
     gives the familiar `c − 127.5`). SigMF `cu16_le`/`cu16_be` metadata, refused until now, is
     accepted.
+  - **Integer scene output scale for every encoding.** `iq scene --format <integer format>`
+    scales the scene so the expected per-component RMS sits at a quarter of the decoded full
+    scale, the rule `ci8` and `ci16_le` already follow: 7 (`ci4`), 15 (`cu4`), 255 (`cu8`),
+    2047 (`ci12*`), 4095 (`cu12*`) and 65535 (`cu16_*`) LSB, with the offset-binary codes
+    taken at their decoded levels `2c − (2ⁿ − 1)`; one 2-bit code per byte follows the
+    packed 2-bit rule (RMS 2 LSB, ±3 levels on about 0.317 of elements). Checked on a scene
+    in `tests/iq_cli.rs`: bars are RMS within 5 % of the target and under 5e-4 of components
+    at full scale.
   - **Multi-stream files**: sample-interleaved raw files (`channels`/`channel` in the
     sidecar, or `--channels <n> --channel <k>`) and **multi-channel SigMF**
     (`core:num_channels` > 1, formerly refused) read one stream at a time; sample indices,

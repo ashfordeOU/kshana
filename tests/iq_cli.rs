@@ -1170,3 +1170,99 @@ fn rinex_text(tl: &kshana::receiver_trust::Timeline) -> String {
     }
     s
 }
+
+/// The integer scene scale places the expected per-component RMS at a quarter of each
+/// encoding's decoded full scale (the rule of `ci8`/`ci16_le`): ±7 for `ci4`, ±15 for `cu4`,
+/// ±255 for `cu8`, ±2047 for `ci12`, ±4095 for `cu12`, ±65535 for `cu16`. The 2-bit
+/// one-code-per-byte format puts the ±3 levels on the same ~0.317 of elements as the packed
+/// 2-bit ones. Bars: measured RMS within 5 % of the target, and under 5e-4 of components at
+/// full scale (the Gaussian tail beyond 4 σ is 6.3e-5; the rest is rounding to the coarse
+/// grid).
+#[test]
+fn integer_scene_scale_pins_the_rms_target_and_saturation_for_every_integer_encoding() {
+    use kshana::iq::io::{decode_samples, SampleFormat};
+    let dir = scratch("intscale-all");
+    // (format, decoded full scale)
+    let cases = [
+        ("ci4_msb", 7.0),
+        ("cu4_msb", 15.0),
+        ("cu8", 255.0),
+        ("ci12r_le", 2047.0),
+        ("ci12l_be", 2047.0),
+        ("cu12r_le", 4095.0),
+        ("cu12l_be", 4095.0),
+        ("cu16_le", 65535.0),
+        ("cu16_be", 65535.0),
+    ];
+    for (fmt, full) in cases {
+        let iq = dir.join(format!("s.{fmt}")).display().to_string();
+        assert_eq!(
+            run(&args(&[
+                "scene",
+                &iq,
+                "--rate",
+                "2046000",
+                "--duration",
+                "0.4",
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "9",
+                "--doppler",
+                "1200",
+                "--cn0",
+                "50",
+                "--seed",
+                "3",
+                "--format",
+                fmt,
+            ])),
+            0,
+            "{fmt}"
+        );
+        let bytes = std::fs::read(&iq).unwrap();
+        let samples = decode_samples(SampleFormat::parse(fmt).unwrap(), &bytes, 1.0);
+        let vals: Vec<f64> = samples.iter().flat_map(|s| [s.re, s.im]).collect();
+        let n = vals.len() as f64;
+        let rms = (vals.iter().map(|v| v * v).sum::<f64>() / n).sqrt();
+        let target = full / 4.0;
+        assert!(
+            (rms / target - 1.0).abs() < 0.05,
+            "{fmt}: rms {rms:.3}, want {target:.3}"
+        );
+        let clipped = vals.iter().filter(|v| v.abs() >= full).count() as f64 / n;
+        assert!(clipped < 5e-4, "{fmt}: clipped fraction {clipped:.2e}");
+    }
+
+    // One 2-bit code per byte, sign-magnitude: codes 01 and 11 are the ±3 levels.
+    let iq = dir.join("s.c2sm_byte").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.4",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "9",
+            "--doppler",
+            "1200",
+            "--cn0",
+            "50",
+            "--seed",
+            "3",
+            "--format",
+            "c2sm_byte",
+        ])),
+        0
+    );
+    let bytes = std::fs::read(&iq).unwrap();
+    let outer = bytes.iter().filter(|&&b| (b & 3) & 1 == 1).count() as f64 / bytes.len() as f64;
+    assert!(
+        (outer - 0.317).abs() < 0.03,
+        "c2sm_byte: |level| = 3 on {outer:.3} of elements, want ~0.317"
+    );
+}
