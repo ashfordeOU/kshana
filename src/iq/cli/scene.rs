@@ -49,7 +49,9 @@ pub(crate) struct SceneParams {
     pub(crate) noise: bool,
     /// Noise seed.
     pub(crate) seed: u64,
-    /// Modulate seeded pseudo-random 50 bit/s data (false leaves the code data-free).
+    /// Modulate seeded pseudo-random data at the signal's own symbol timing (false leaves
+    /// the code data-free). Refused on pilot components and on signals whose data the scene
+    /// does not model.
     pub(crate) data: bool,
     /// Synthesis threads per chunk.
     pub(crate) threads: usize,
@@ -112,6 +114,8 @@ pub(crate) fn build_scene(p: &SceneParams) -> Result<Scene, String> {
         } else {
             NavData::None
         };
+        nav.check_modulation(code.data_modulation())
+            .map_err(|e| format!("--data: {} {e}", code.name()))?;
         scene.add_satellite(SceneSatellite {
             id: *id as u32,
             code: Box::new(code),
