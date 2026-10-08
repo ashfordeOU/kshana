@@ -9,6 +9,18 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+
+- **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
+  module the Observatory palette revision left on its own colours while the jammer-Q work
+  landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
+  kind scenarios) now reads `src/palette.rs`, and the allowlist in `tests/palette_sync.rs` is
+  empty. Colours and font only: the `jamming-demo` and `maritime-strait-jamming` charts are
+  equal to their previously recorded renders once colour, `font-family` and the version
+  footer are normalised. No plotted value moved. The recorded Studio copies under
+  `web/studio/recorded/` were re-recorded at the 0.33.0 re-port (version stamp only): they still
+  carry the jamming chart's old paint, and take the palette paint at the next re-port.
+
 ## [0.33.0] - 2026-10-08
 
 ### Documentation
@@ -145,16 +157,6 @@ breaking changes are called out explicitly.
   modelled), stale against its own stated source; drawn now by its new generator from
   `web/capabilities.json`, it reads 46 capabilities across 8 domains (17 validated, 29
   modelled).
-
-- **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
-  module the Observatory palette revision left on its own colours while the jammer-Q work
-  landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
-  kind scenarios) now reads `src/palette.rs`, and the allowlist in `tests/palette_sync.rs` is
-  empty. Colours and font only: the `jamming-demo` and `maritime-strait-jamming` charts are
-  equal to their previously recorded renders once colour, `font-family` and the version
-  footer are normalised. No plotted value moved. The recorded Studio copies under
-  `web/studio/recorded/` still carry the old paint and are re-recorded at the 0.33.0
-  re-port.
 
 ### Fixed
 
