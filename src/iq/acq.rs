@@ -249,7 +249,7 @@ impl<'a> RowEngine<'a> {
                 let (a, b) = *v;
                 *v = (a * c - b * e, a * e + b * c);
             }
-            for (cell, (re, im)) in row.iter_mut().zip(self.plan.inverse(&y)) {
+            for (cell, (re, im)) in row.iter_mut().zip(self.plan.inverse_owned(y)) {
                 *cell += re * re + im * im;
             }
         }
@@ -380,7 +380,8 @@ pub fn acquire(
 }
 
 /// The same search as [`acquire`] without keeping the grid: a running best and the row it
-/// lies in, so memory is O(samples + samples per period), not O(bins × samples). The result
+/// lies in (recomputed at the end), so memory is O(samples + samples per period), not
+/// O(bins × samples). The result
 /// is bit-identical to `acquire(..).result` (the cells come from the same arithmetic and ties
 /// resolve to the first cell in the same order).
 pub fn acquire_peak(
@@ -394,25 +395,17 @@ pub fn acquire_peak(
     let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
     let eng = RowEngine::new(samples, spec, code, cfg)?;
     let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
-    let mut best_row: Vec<f64> = Vec::new();
     for (j, &d) in bins.iter().enumerate() {
         let row = eng.row(d);
-        let mut here = (best.0, 0usize);
-        let mut found = false;
         for (t, &cell) in row.iter().enumerate() {
-            if cell > here.0 {
-                here = (cell, t);
-                found = true;
+            if cell > best.0 {
+                best = (cell, j, t);
             }
         }
-        if found {
-            best = (here.0, j, here.1);
-            best_row = row;
-        }
     }
-    if best_row.is_empty() {
-        best_row = eng.row(bins[0]);
-    }
+    // The peak's row is recomputed (the arithmetic is deterministic) rather than held for
+    // the whole search: one more row of work instead of one more row of memory.
+    let best_row = eng.row(bins[best.1]);
     Ok(result_from_peak(
         code,
         cfg,
