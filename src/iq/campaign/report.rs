@@ -377,13 +377,32 @@ fn fmt(x: Option<f64>, digits: usize) -> String {
 /// Categorical series slots defined in the page style (`--s1`..`--s8`).
 const SERIES_SLOTS: usize = 8;
 
-const STYLE: &str = r#"
-:root{color-scheme:light;--surface:#fcfcfb;--ink:#0b0b0b;--ink2:#52514e;--grid:#e4e3df;--rule:#d0cfca;--pass:#1a7f37;--fail:#c62828;
---s1:#2a78d6;--s2:#eb6834;--s3:#1baf7a;--s4:#eda100;--s5:#e87ba4;--s6:#008300;--s7:#4a3aa7;--s8:#e34948}
-@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){color-scheme:dark;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--grid:#2f2f2d;--rule:#454542;--pass:#5cc172;--fail:#ff7b72;
---s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767}}
-:root[data-theme="dark"]{color-scheme:dark;--surface:#1a1a19;--ink:#fff;--ink2:#c3c2b7;--grid:#2f2f2d;--rule:#454542;--pass:#5cc172;--fail:#ff7b72;
---s1:#3987e5;--s2:#d95926;--s3:#199e70;--s4:#c98500;--s5:#d55181;--s6:#008300;--s7:#9085e9;--s8:#e66767}
+/// The page style: the custom properties come from the Observatory palette
+/// ([`crate::palette::theme_css`]), the rest is layout.
+fn style() -> String {
+    use crate::palette::{dark, light, theme_css};
+    let mut css = theme_css(&[
+        ("surface", light::BG, dark::BG),
+        ("ink", light::INK, dark::INK),
+        ("ink2", light::INK_2, dark::INK_2),
+        ("grid", light::GRID, dark::GRID),
+        ("rule", light::RULE, dark::RULE),
+        ("pass", light::LIME, dark::LIME),
+        ("fail", light::CORAL, dark::CORAL),
+        ("s1", light::CYAN, dark::CYAN),
+        ("s2", light::AMBER, dark::AMBER),
+        ("s3", light::MAGENTA, dark::MAGENTA),
+        ("s4", light::LIME, dark::LIME),
+        ("s5", light::CORAL, dark::CORAL),
+        ("s6", light::BLUE, dark::BLUE),
+        ("s7", light::INK_2, dark::INK_2),
+        ("s8", light::INK_3, dark::INK_3),
+    ]);
+    css.push_str(LAYOUT);
+    css
+}
+
+const LAYOUT: &str = r#"
 body{margin:0;background:var(--surface);color:var(--ink);font:14px/1.45 system-ui,-apple-system,"Segoe UI",sans-serif}
 main{max-width:1100px;margin:0 auto;padding:24px 16px 64px}
 h1{font-size:22px;margin:0 0 4px}h2{font-size:17px;margin:32px 0 8px}h3{font-size:15px;margin:20px 0 6px}
@@ -409,8 +428,9 @@ fn html(
     let mut h = String::new();
     let _ = write!(
         h,
-        "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Campaign {}</title><style>{STYLE}</style></head><body><main>",
-        esc(&plan.name)
+        "<!doctype html><html lang=\"en\"><head><meta charset=\"utf-8\"><meta name=\"viewport\" content=\"width=device-width,initial-scale=1\"><title>Campaign {}</title><style>{}</style></head><body><main>",
+        esc(&plan.name),
+        style()
     );
     let _ = write!(
         h,
