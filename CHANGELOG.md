@@ -74,6 +74,30 @@ breaking changes are called out explicitly.
   fields are not quantities a receiver needs to agree on. The comparison is made at the
   observables a receiver measures.
 
+### Changed
+
+- **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
+  acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`
+  code periods coherently instead of one, where `T_code` is the code's full period (primary
+  times secondary length for a tiered code, the unit acquisition integrates over). The
+  untiered 1 ms codes (GPS L1 C/A, BeiDou B1I, GLONASS L1OF) now search 4 periods (4 ms), so
+  the default Doppler step `2 / (3 · N · T_code)` is ~167 Hz instead of ~667 Hz. Every code
+  whose full period is already 4 ms or longer keeps 1 period: Galileo E1-B (4 ms), BeiDou
+  B1C (10 ms), and the tiered GPS L5-I/L5-Q, Galileo E5a-I/E5a-Q and E1-C (10 to 100 ms with
+  their overlay codes), and GPS L2C. Every signal therefore integrates at least ~4 ms. A
+  one-period search could hand a channel off up to ~333 Hz off, outside the FLL's pull-in,
+  and it then tracked a false lock ~500 Hz away while reporting a clean track. On a seeded
+  sweep of 180 GPS L1 C/A channels (Doppler across ±5 kHz, 38 to 47 dB-Hz, half with
+  navigation data; `docs/design/evidence/iq-track-acq-default/`, re-runnable) false locks
+  fall from 27 of 180 to 1 of 180 and missed acquisitions from 102 to 11, for ~40 ms more
+  search per PRN on GPS L1 (11 → 52 ms). The one residual false lock is at 38 dB-Hz, 36 Hz
+  off. Every surface agrees: `kshana iq track` and `kshana iq sweep` (`--acq-coherent`),
+  Python `kshana.iq_track` (`acq_coherent=None` is now auto; stub updated) and the MCP
+  `iq_track` tool. Users who relied on the old default can pass `acq_coherent=1`
+  (`--acq-coherent 1`). `kshana iq acquire`'s own `--coherent` default stays 1. New public
+  `iq::acq::auto_coherent_periods` and `iq::acq::AUTO_COHERENT_S`; regression test
+  `tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`.
+
 ### Fixed
 
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
