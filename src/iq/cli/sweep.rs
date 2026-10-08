@@ -154,7 +154,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             });
         }
     }
-    let mut session = TrackSession::new(spec, channels).map_err(Fail::Usage)?;
+    let mut session = TrackSession::new(spec, channels)
+        .map_err(Fail::Usage)?
+        .with_threads(super::track::threads_from_args(&a)?);
     let header = EpochHeader::new(infos.clone(), spec.fs_hz);
     let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);
     let mut epochs = epochs_writer(&a, &header)?;
