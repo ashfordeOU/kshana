@@ -618,6 +618,10 @@ pub struct IqSceneRequest {
     pub overwrite: bool,
 }
 
+/// The most cells (Doppler bins × samples per code period) an `iq_acquire` `surface_out` may
+/// hold: 4M cells, 32 MB as binary.
+const SURFACE_MAX_CELLS: usize = 4_000_000;
+
 /// Parameters for [`KshanaServer::iq_acquire`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 #[serde(deny_unknown_fields)]
@@ -1056,6 +1060,24 @@ impl KshanaServer {
         if let Some(p) = &surface_out {
             if r.prns.len() != 1 {
                 return Err(bad("surface_out exports one surface: give exactly one PRN".into()));
+            }
+            let step = r
+                .doppler_step_hz
+                .unwrap_or(2.0 / (3.0 * r.coherent.unwrap_or(1).max(1) as f64 * code.period_s()));
+            let max = r.doppler_max_hz.unwrap_or(5000.0);
+            let bins = if step > 0.0 && max >= 0.0 {
+                2.0 * (max / step + 1e-9).floor() + 1.0
+            } else {
+                f64::INFINITY
+            };
+            let cells = bins * (spec.fs_hz * code.period_s()).ceil();
+            if cells > SURFACE_MAX_CELLS as f64 {
+                return Err(bad(format!(
+                    "surface_out would hold about {cells:.0} cells (Doppler bins × samples per \
+                     code period; limit {SURFACE_MAX_CELLS}, about {} MB as binary): widen \
+                     doppler_step_hz or narrow doppler_max_hz",
+                    SURFACE_MAX_CELLS * 8 / 1_000_000
+                )));
             }
             if kshana::iq::acq_surface::SurfaceFormat::from_path(&p.display().to_string())
                 .is_none()

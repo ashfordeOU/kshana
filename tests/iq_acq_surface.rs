@@ -3,7 +3,10 @@
 //!
 //! Pre-registered bars (fixed before the first run): S1 the surface's cells equal those of
 //! `acquire` bit for bit; S2 on a noise-free signal half a bin off every grid Doppler, the
-//! fine search is within 8 Hz of the truth (its quantisation is bin/32, 5.2 Hz at 4 ms) and
+//! fine search is within 5 Hz of the truth (the bar the plan stated; its worst-case quantisation
+//! bin/32 is 5.2 Hz at 4 ms, so a truth 5.0-5.2 Hz from a fine grid point would exceed it, and the
+//! tested truths sit 3.7 Hz off it) while the coarse bin, the estimate with the refinement off, is
+//! beyond 5 Hz at the same truths (the bar bites); and
 //! the coarse bin is at least 60 Hz off; S3 the parabolic estimate is closer to the truth
 //! than the coarse bin; S4 CSV, JSON and binary carry the same cells and the binary form
 //! reads back exactly.
@@ -81,7 +84,9 @@ fn fine_doppler_removes_the_half_bin_error() {
         let coarse = (h.peak.doppler_hz - truth).abs();
         let fine = (h.fine_search.doppler_hz - truth).abs();
         assert!(coarse >= 60.0, "S2: coarse error {coarse} at truth {truth}");
-        assert!(fine <= 8.0, "S2: fine error {fine} at truth {truth}");
+        assert!(fine <= 5.0, "S2: fine error {fine} at truth {truth}");
+        // With the refinement off (the coarse bin alone) the same bar fails.
+        assert!(coarse > 5.0, "S2: the bar must bite: coarse error {coarse}");
         assert_eq!(
             h.fine_search.correction_hz,
             h.fine_search.doppler_hz - h.peak.doppler_hz
