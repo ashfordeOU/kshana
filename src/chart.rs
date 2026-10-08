@@ -3,6 +3,27 @@
 
 use crate::palette::chart::{AXIS, BG, FONT_SANS, GRID, INK_2, MUTED};
 
+/// Escape text for an SVG text node or a quoted attribute value: `&`, `<`, `>` and both quote
+/// marks become entities, and characters XML cannot carry at all (control characters other than
+/// tab, newline and carriage return) are dropped. Every string that came from a scenario, a
+/// data file or a library entry (a clock's id, a title, a parameter name) goes through this
+/// before it is written into chart markup; the helpers below do it for the text they are given.
+pub fn esc(s: &str) -> String {
+    let mut out = String::with_capacity(s.len());
+    for c in s.chars() {
+        match c {
+            '&' => out.push_str("&amp;"),
+            '<' => out.push_str("&lt;"),
+            '>' => out.push_str("&gt;"),
+            '"' => out.push_str("&quot;"),
+            '\'' => out.push_str("&#39;"),
+            c if c.is_control() && !matches!(c, '\t' | '\n' | '\r') => {}
+            c => out.push(c),
+        }
+    }
+    out
+}
+
 /// Format a y-axis tick value at a precision sensible for its magnitude.
 fn fmt_tick(v: f64) -> String {
     let a = v.abs();
@@ -40,6 +61,7 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
         ));
     }
     let yc = mt + ph / 2.0;
+    let title = esc(title);
     s.push_str(&format!(
         "<text x=\"16\" y=\"{yc:.1}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"12\" transform=\"rotate(-90 16 {yc:.1})\">{title}</text>"
     ));
@@ -47,9 +69,10 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
 }
 
 /// Opening of a dark two-panel chart: the `<svg>` element, its background, a bold title
-/// and a one-line subtitle. Both strings are written verbatim, so any markup in them must
-/// already be escaped.
+/// and a one-line subtitle. Both are plain text: they are escaped here, so a caller passes them
+/// as they are (not already escaped).
 pub fn frame_open(w: f64, h: f64, title: &str, subtitle: &str) -> String {
+    let (title, subtitle) = (esc(title), esc(subtitle));
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
          font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
@@ -63,6 +86,7 @@ pub fn frame_open(w: f64, h: f64, title: &str, subtitle: &str) -> String {
 /// lines. The panel's left edge is `x`, it spans `width`, and its axes run from `top`
 /// down to `bottom`.
 pub fn panel_axes(x: f64, top: f64, width: f64, bottom: f64, caption: &str) -> String {
+    let caption = esc(caption);
     format!(
         "<text x=\"{x:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">{caption}</text>\
          <line x1=\"{x:.0}\" y1=\"{top:.0}\" x2=\"{x:.0}\" y2=\"{bottom:.0}\" stroke=\"{AXIS}\"/>\

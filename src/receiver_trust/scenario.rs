@@ -8,6 +8,7 @@
 //! the log is to be compared with. Every tolerance is part of the scenario, so it is
 //! stated before the run and hashed into the result with the log's own SHA-256.
 
+use crate::chart::esc;
 use crate::palette::chart::{AMBER, BG, BLUE, CORAL, FONT_SANS, INK, LIME, MUTED, RULE, TITLE};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -580,13 +581,6 @@ pub fn to_csv(r: &ReceiverTrustResult) -> String {
     s
 }
 
-fn xml_escape(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-        .replace('"', "&quot;")
-}
-
 /// A self-contained chart: mean C/N0 over time, the trust state as a band underneath,
 /// and each stated event's onset as a vertical marker.
 pub fn to_svg(r: &ReceiverTrustResult) -> String {
@@ -615,7 +609,7 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>\
          <text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\" transform=\"rotate(-90 12 {})\">mean C/N0, dB-Hz</text>",
-        xml_escape(&r.verdict.chars().take(110).collect::<String>()),
+        esc(&r.verdict.chars().take(110).collect::<String>()),
         (y0 + y1) / 2.0 + 40.0,
         (y0 + y1) / 2.0 + 40.0
     );
@@ -662,7 +656,7 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
             band_y + 12.0,
             x + 3.0,
             y0 + 10.0,
-            xml_escape(&ev.label)
+            esc(&ev.label)
         ));
     }
     svg.push_str(&format!(
