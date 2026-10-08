@@ -386,6 +386,8 @@ impl RawInput {
             header_bytes: self.header_bytes,
             datetime: None,
             description: None,
+            channels: None,
+            channel: None,
         }
     }
 }
