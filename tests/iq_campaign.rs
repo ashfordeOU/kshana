@@ -2,6 +2,13 @@
 //! The lab-replay campaign runner and scoring engine (`kshana::iq::campaign`), end to end
 //! on a synthetic campaign whose truth is known.
 //!
+//! PIN-SCOPE: the three 64-character pins below. `PRE_M2M4_METRICS` covers the per-satellite
+//! scored results of the 12 reference cells (canonical hash of their `satellites` arrays).
+//! `DIGEST_M2M4` and `DIGEST_NWPR` cover every cell file of the reference campaign and of
+//! its NWPR twin, so they include each cell's `engine_version` and key.
+//! PIN-EXCLUDES: `PRE_M2M4_METRICS` strips the per-estimator fields added with
+//! `cn0_estimator`; the DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
+//!
 //! Kshana scenes stand in for lab recordings. Each satellite's C/N0 follows a stated
 //! profile, applied as a per-satellite amplitude through the scene's channel hook. That is
 //! a signal-power profile, not an interference waveform: nothing here synthesises a jammer
@@ -52,7 +59,13 @@ const RC: f64 = 1.023e6;
 
 /// A fresh scratch folder.
 fn scratch(name: &str) -> PathBuf {
-    let d = std::env::temp_dir().join(format!("kshana-iq-campaign-{}-{name}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let d = std::env::temp_dir().join(format!(
+        "kshana-iq-campaign-{}-{uniq}-{name}",
+        std::process::id()
+    ));
     let _ = std::fs::remove_dir_all(&d);
     std::fs::create_dir_all(&d).unwrap();
     d
