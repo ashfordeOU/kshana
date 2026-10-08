@@ -61,6 +61,50 @@ pub fn check_scaled(now: &[f64], fixture: &[f64], k: f64, what: &str) -> Result<
     Ok(())
 }
 
+/// An azimuth with `|cos az|` at or below this in the fixture is tangent (az near 90 or 270 deg),
+/// where the ascending and descending branches coincide and the sign of the cosine is not a
+/// property of the azimuth.
+pub const BRANCH_COS_MIN: f64 = 1e-6;
+
+/// Launch azimuths (rad, in `[0, 2π)`) from `asin(cos i / cos lat)` against the fixture's.
+///
+/// An azimuth is not compared directly. `asin` has slope `1 / sqrt(1 - s²)`, so where
+/// `s = cos i / cos lat` is within a few ulps of ±1 (an inclination equal to the site's
+/// colatitude, az = 90 or 270 deg) one ulp of `s`, from a host's libm, moves the azimuth by
+/// about 3e-9 rad (issue #36: lat -60, i 120). The pin therefore compares what the formula
+/// defines, `sin az`, within `k` (the sine is bounded by 1, so `k` is also its relative scale),
+/// and the branch separately: wherever the fixture has `|cos az| > BRANCH_COS_MIN`, the sign of
+/// `cos az` must match, which tells an ascending azimuth from a descending one and catches a
+/// quadrant error that `sin az` alone cannot. Each azimuth must also lie in `[0, 2π)`.
+pub fn check_azimuths(now: &[f64], fixture: &[f64], k: f64, what: &str) -> Result<(), String> {
+    if now.len() != fixture.len() {
+        return Err(format!(
+            "{what}: length {} vs fixture {}",
+            now.len(),
+            fixture.len()
+        ));
+    }
+    for (i, (&a, &b)) in now.iter().zip(fixture).enumerate() {
+        if !(0.0..std::f64::consts::TAU).contains(&a) {
+            return Err(format!("{what}[{i}]: {a:e} is outside [0, 2π)"));
+        }
+        let (sa, sb) = (a.sin(), b.sin());
+        if !within(sa, sb, k) {
+            return Err(format!(
+                "{what}[{i}]: sin az {sa:e} vs fixture {sb:e}, |Δ| {:e} > {k:e}",
+                (sa - sb).abs()
+            ));
+        }
+        let (ca, cb) = (a.cos(), b.cos());
+        if cb.abs() > BRANCH_COS_MIN && ca.signum() != cb.signum() {
+            return Err(format!(
+                "{what}[{i}]: cos az {ca:e} has the opposite sign to the fixture's {cb:e} (branch)"
+            ));
+        }
+    }
+    Ok(())
+}
+
 /// Every row of `now` within `k` of the fixture's row scale ([`check_scaled`] per row).
 pub fn check_rows_scaled(
     now: &[Vec<f64>],
