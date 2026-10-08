@@ -8,7 +8,7 @@ use super::tables::{WeilRow, B1C_DATA, B1C_PILOT, B1C_PILOT_SECONDARY, B1I_G2_TA
 use super::{
     bipolar, square_subcarrier, ComplexSpreadingCode, Modulation, SignalCode, SignalError,
 };
-use crate::iq::{Cf64, SpreadingCode};
+use crate::iq::{Cf64, DataModulation, SpreadingCode};
 
 /// B1C carrier frequency (Hz).
 pub const B1C_HZ: f64 = 1_575_420_000.0;
@@ -109,7 +109,8 @@ pub fn b1c_data(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&b1c_data_bits(prn)?),
         vec![],
         Modulation::SineBoc { n: 1 },
-    ))
+    )
+    .with_data_modulation(DataModulation::Symbols { symbol_s: 0.01 }))
 }
 
 /// Which part of the B1C pilot's QMBOC(6,1,4/33) subcarrier `value_at` returns.
@@ -185,6 +186,9 @@ impl SpreadingCode for B1cPilot {
     fn carrier_hz(&self) -> f64 {
         self.code.carrier_hz()
     }
+    fn data_modulation(&self) -> DataModulation {
+        self.code.data_modulation()
+    }
     fn value_at(&self, code_phase_chips: f64) -> f64 {
         let (k, frac) = split(code_phase_chips, self.len_chips());
         let n = match self.part {
@@ -218,7 +222,8 @@ pub fn b1c_pilot(prn: u16) -> Result<B1cPilot, SignalError> {
             bipolar(&b1c_pilot_bits(prn)?),
             bipolar(&b1c_pilot_secondary_bits(prn)?),
             Modulation::SineBoc { n: 1 },
-        ),
+        )
+        .with_data_modulation(DataModulation::Pilot),
         part: QmbocPart::Boc11,
     })
 }
@@ -288,7 +293,10 @@ pub fn b1i(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&bits),
         secondary,
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Symbols {
+        symbol_s: if b1i_is_geo(prn) { 0.002 } else { 0.02 },
+    }))
 }
 
 #[cfg(test)]

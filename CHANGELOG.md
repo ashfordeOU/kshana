@@ -220,7 +220,14 @@ breaking changes are called out explicitly.
       `docs/design/evidence/dll-jitter/`. At exactly 2 samples per chip with 0.5-chip
       spacing, the DLL S-curve is a single step and the loop dithers: ≈ 0.09 chip RMS code
       error (≈ 26 m) at 45 dB-Hz, against ≈ 0.004 chip at an incommensurate rate. The
-      ~2 dB low NWPR C/N0 at that rate has the same cause.
+      ~2 dB low NWPR C/N0 at that rate has the same cause. At exactly 0 Hz code Doppler and
+      4 samples per chip the code never crosses the ±0.21-chip dead zone, so a code-phase bias
+      of up to about 0.2 chip can persist without showing in the jitter (measured: 0.5-chip
+      spacing gives 2.0× the control's code error with a +0.011 chip mean; 0.25-chip spacing
+      gives +0.125 chip); the warning covers the rate.
+    - **Known limit: the default design does not hand over FLL→PLL below about 35 dB-Hz**
+      (a ~35 dB-Hz pull-in floor; see FLL assistance above and
+      `docs/design/evidence/carrier-lock/`).
     - A false-lock or re-acquisition search that cannot run (a rate with no whole number of
       samples per code period) no longer stops tracking.
     - Tests: `tests/iq_track_engine.rs`, `tests/iq_cli.rs`, `iq::track::design::tests`,
@@ -273,6 +280,40 @@ breaking changes are called out explicitly.
   per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
   in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
   Float output is unchanged.
+
+- **`kshana iq track` and `kshana iq sweep` apply the front-end flags.** The usage text
+  advertised `--bandpass`/`--notch`/`--blank`/`--excise`/`--agc`/`--bits` on `track`, but
+  `track` and `sweep` never built the chain: the flags were silently ignored, and a
+  value-less one such as `--notch` swallowed the flag after it. Both commands now parse
+  them as `iq acquire` does and put a fresh front-end chain in front of the acquisition
+  pass and the tracking pass. The output equals running the command on the file
+  `iq frontend` writes for the same flags.
+
+- **IQ scene data is placed per signal.** `kshana iq scene --data` (and `NavData::Seeded`)
+  put 50 bit/s bits on every signal, pilots included, and at the GPS LNAV rate on
+  Galileo and BeiDou. Data now follows each signal's own symbol timing, stated by the new
+  `SpreadingCode::data_modulation()` (`DataModulation`, set by every constructor in
+  `iq::signals`). That is 10 ms on L5-I5, 4 ms on E1-B, 2 ms on BeiDou B1I GEO (D2),
+  and 20 ms bits with a 10 ms meander on GLONASS L1OF. Data is refused on pilots, on
+  GPS L2C as one CM/CL stream, and `NavData::Lnav` on anything but L1 C/A. Custom codes
+  keep the previous 20 ms timing by default. A programmatic `Scene` that asked for
+  `NavData::Lnav` on a non-L1 C/A code, or `NavData::Seeded` on a pilot, used to generate
+  silently and now returns an error on the first read.
+
+- **GLONASS L1OF channels are acquired and tracked on their own FDMA carrier.**
+  `iq::acq::acquire` and the tracking channels mixed every code down from `if_hz` alone.
+  In a multi-channel GLONASS recording, a search for channel +3 therefore found channel
+  0's signal (all channels share one ranging code) and never looked 1.6875 MHz higher.
+  Both now use `SampleSpec::baseband_hz(carrier) = if_hz + (carrier − center_hz)`. The
+  carrier term is zero for any recording centred on the signal's own carrier and is
+  omitted when the centre is unknown, so CDMA processing is unchanged. If you worked
+  around the old behaviour by folding `carrier − center` into the sidecar's `if_hz`,
+  remove that term: the offset is now applied from the carrier and the centre, so
+  leaving it in applies it twice.
+  Known limitation, unchanged here: a GLONASS scene identifies each satellite by its
+  frequency channel `k`, and the `u32` satellite id wraps a negative channel. The truth
+  sidecar writes `k = -7` as `sat_id` 4294967289 (`k + 2^32`). Read it back as `k` with an
+  `i32` cast.
 
 ## [0.32.0] - 2026-10-05
 
