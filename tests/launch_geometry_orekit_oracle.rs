@@ -67,7 +67,12 @@
 //! `s` is mathematically -1; it is -1 + 6 ulps here and -1 + 5 ulps on macOS arm64, and that one ulp
 //! of `s` moves the azimuth from 4.712389016884931 to 4.7123890137046995 (3.18e-9 rad), while the
 //! inclination Orekit recovers does not move (d i / d az = cos lat cos az, about 0 at az = 3 pi / 2).
-//! `sin az` differs there by about 1e-16.
+//! `sin az` differs there by about 1e-16. Blind spot, by design: at a tangent row (|cos az| below
+//! about 1e-5) an azimuth change of 1e-6 rad moves `sin az` by `cos az` * 1e-6, under the 1e-12 bar,
+//! so the pin does not see it; it is equally invisible to the inclination Orekit recovers, so it is
+//! irrelevant to the Orekit bar. The branch mask comes from the fixture's azimuth, never the engine's.
+//! The two lunar numpy-oracle tests (joint OD, observability) are not touched by this note and remain
+//! open findings of issue #36.
 //!
 //! ROUND 2, third step: NEW PRE-REGISTRATION (written 2026-10-02, before the Orekit run below).
 //! The round-2 change above redefined comparison 5 (a new function with new inputs) after a hand
