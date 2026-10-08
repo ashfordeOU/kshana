@@ -24,6 +24,8 @@ __all__ = [
     "iq_scene_broadcast",
     "iq_acquire",
     "iq_track",
+    "iq_loop_designs",
+    "iq_read_epochs",
     "iq_frontend",
     "iq_labfit",
     "iq_signals",
@@ -211,21 +213,41 @@ def iq_track(
     coherent: Optional[int] = ...,
     periods_per_bit: Optional[int] = ...,
     acq_coherent: Optional[int] = ...,
-    acq_noncoherent: int = ...,
-    doppler_max: float = ...,
+    acq_noncoherent: Optional[int] = ...,
+    doppler_max: Optional[float] = ...,
     max_seconds: Optional[float] = ...,
+    design: Optional[str] = ...,
+    design_name: Optional[str] = ...,
+    reacquire: Optional[bool] = ...,
 ) -> dict[str, Any]:
     """Acquire then track each PRN over complex samples.
 
-    Returns a dict with ``fs_hz`` and one entry per channel (``code`` and a list of
+    Returns a dict with ``fs_hz``, the resolved loop ``design`` (every field, with its
+    ``hash``), the lock-state ``events``, any ``warnings`` (``commensurate_sampling`` when
+    ``fs_hz`` is a multiple of half the chip rate: code-loop jitter and bias are then not
+    representative) and one entry per channel (``code`` and a list of
     per-epoch dicts: ``doppler_hz``, ``code_phase_chips``, ``pli``, ``phase_lock``,
-    ``cn0_nwpr_dbhz``, the prompt ``i_prompt``/``q_prompt``, ...). The loop design starts
-    from the GPS-L1-C/A-like default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``,
-    ``spacing``, ``coherent`` overrides it. The initialising acquisition integrates
-    ``acq_coherent`` code periods coherently; the default ``None`` is auto (≈4 ms coherent:
-    4 periods of an untiered 1 ms code such as GPS L1 C/A, 1 period of a code whose full,
-    overlay-included period is 4 ms or longer), and ``acq_coherent=1`` restores the 0.32
-    one-period search. Raises ``ValueError`` if a PRN is not acquired."""
+    ``cn0_nwpr_dbhz``, the early/prompt/late correlators, the discriminators, ``state``,
+    ...). The loop design is ``design`` (a path to a ``kshana.loop-design/1`` TOML file,
+    or its text; ``design_name`` picks one, the first by default) or the GPS-L1-C/A-like
+    built-in default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``, ``spacing``,
+    ``coherent``, ``reacquire`` and the acquisition arguments overrides it. The
+    initialising acquisition integrates ``acq_coherent`` code periods coherently; the
+    default ``None`` is the design's (auto: ≈4 ms coherent, 4 periods of an untiered 1 ms
+    code such as GPS L1 C/A, 1 period of a code whose full, overlay-included period is
+    4 ms or longer), and ``acq_coherent=1`` restores the 0.32 one-period search. Raises
+    ``ValueError`` if a PRN is not acquired or the design is invalid."""
+
+def iq_loop_designs(toml: str) -> list[dict[str, Any]]:
+    """Parse a ``kshana.loop-design/1`` TOML text (or a path to one) and return its
+    designs, resolved: a list of dicts with every field set, the ``name`` and the
+    ``hash``. Raises ``ValueError`` on an invalid file."""
+
+def iq_read_epochs(path: str) -> dict[str, Any]:
+    """Read a binary tracking-epoch file (``kshana.track-epoch/1``, as ``kshana iq track
+    --epochs <path>.bin`` writes it). Returns a dict with the ``header`` (schema, fields,
+    channels with their code, design and design hash, sample rate, engine version) and the
+    ``records``, one dict per epoch. Raises ``ValueError`` on a file that is not one."""
 
 def iq_frontend(
     i: list[float],

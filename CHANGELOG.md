@@ -126,7 +126,128 @@ breaking changes are called out explicitly.
   `Sdrx`, and `Encoding` gains five variants; code that builds these structs literally or
   matches `Encoding`/`RecordingKind` exhaustively needs the new fields or arms.
 
+- **Tracking engine for lab replay (0.34.0: B3.1, B3.2, B3.3, B6.1).**
+  - *Loop-design files*: `kshana.loop-design/1` TOML (`docs/design/LOOP-DESIGN-TOML.md`;
+    parser `iq::track::design`). One or more named designs set every loop field:
+    - carrier kind (PLL, FLL or FLL-assisted PLL), orders and bandwidths;
+    - PLL/FLL/DLL discriminators and carrier aiding;
+    - spacing and integration;
+    - lock thresholds and C/N0 windows, and bit sync;
+    - the lock state machine;
+    - the hand-off acquisition (`"auto"` or explicit).
+
+    Designs may `extends` one another. Unknown keys are refused. Each resolved design has a
+    SHA-256 hash over a canonical JSON form (keys sorted at every level, fixed number
+    formatting), so the hash does not depend on field order; every output records it.
+    Surfaces:
+    - `kshana iq track --design <file> [--design-name]`, where explicit flags override the
+      design and are recorded;
+    - `kshana iq sweep --design <file>`, which runs every design in the file;
+    - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
+    - MCP `iq_track` `design`/`design_name`.
+  - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
+    carries:
+    - the early/prompt/late correlators;
+    - all three discriminator outputs;
+    - the PLL/FLL/DLL NCO states and the carrier phase;
+    - the PLI and lock flags;
+    - both C/N0 estimates and the bits;
+    - the lock state.
+
+    It is written as it happens, as CSV, JSON Lines or a versioned binary form with readers
+    in Rust (`BinaryEpochReader`) and Python (`iq_read_epochs`).
+    - `iq track` gains `--epochs`, `--events` and `--summary` (`kshana.track-summary/1`),
+      and `iq sweep` gains `--epochs` and `--events`. MCP `iq_track` gains `epochs_out`/`events_out` and builds
+      its reply from the bounded-memory summary.
+    - A run's heap no longer grows with the recording's length:
+      `tests/iq_track_memory.rs` measures it with a counting allocator (6× the length,
+      same peak within 64 KiB), with a control showing that the in-memory path does grow.
+    - Streamed output is bit-identical to the in-memory replay.
+  - *Lock state machine* (`iq::track::lock`, `TrackSession`): pull-in → locked → lost →
+    re-acquisition → pull-in, or retired once a loss outlasts `reacq_window_s` (default
+    30 s). Failed searches are retried every `reacq_interval_s` (0.1 s), evenly spaced, so
+    the retry schedule adds at most 0.1 s to a measured re-acquisition time. An optional
+    back-off (`reacq_max_interval_s` above `reacq_interval_s`) is off by default, and
+    `max_reacq_attempts` is an optional cap (0, none, by default). A 2 s outage on three
+    PRNs at 4.092 MS/s now ends with every channel re-acquired and locked. Under a
+    3-attempt budget, every channel was retired within 0.2 s of the loss.
+    - Thresholds (`loss_dwell_s`, `pull_in_max_s`, the re-acquisition Doppler window) come
+      from the design. Every transition is an event with its reason.
+    - The false-lock check searches the tracked Doppler against its ±1/(2T) FLL/PLL
+      alias. It catches the false lock PR #38 measured (−2400 Hz tracked 500 Hz off).
+      With re-acquisition on, the channel ends locked at the injected Doppler.
+    - A 0.8 s signal gap is declared lost and re-acquired within 0.3 s of the signal's
+      return.
+    - `--summary` `final_state` (and the table's column) is the state after the last
+      transition, so a channel retired after its last loop update reads `RETIRED`.
+    - **FLL assistance only during pull-in** (`[design.carrier] fll_assist = "pull-in"`,
+      the default; `"always"` keeps the earlier behaviour bit for bit). The FLL hands over
+      to the PLL once the smoothed PLI has held at or above `fll_off_pli` (0.8) for
+      `fll_gate_dwell_s` (0.1 s), and returns below `fll_on_pli` (0.6). Left on, the 10 Hz
+      FLL path broke phase lock below about 38 dB-Hz on clean signals: at 35 dB-Hz the
+      phase-lock fraction was 10–16 %, with a true phase error of 38–41°. Gated, the
+      default holds 100 % at 35 dB-Hz with 4.5°, the same as a PLL alone. Pull-in from a
+      100 Hz hand-off error is unchanged. Evidence with pre-registered bars:
+      `docs/design/evidence/carrier-lock/`. **The default loops are therefore not bit for
+      bit with earlier runs of the default design.** Use `fll_assist = "always"` to
+      reproduce them. Known limit: at 35 dB-Hz the hand-over comes 1.9–2.6 s into the
+      track, and at 33 dB-Hz the 10 Hz FLL keeps the PLI below the hand-over threshold, so
+      pull-in never completes.
+    - New loop-design keys and API, listed:
+      - `[design.carrier]`: `fll_assist`, `fll_off_pli`, `fll_on_pli`, `fll_gate_dwell_s`;
+      - `[design.lock]`: `reacq_window_s`, `reacq_interval_s`, `reacq_max_interval_s`, with
+        `max_reacq_attempts` changed from a default of 3 to an optional cap (default 0);
+      - Rust: `LoopConfig.fll_assist` (`FllAssist`, `FllGate`), `LoopCore::set_fll_enabled`,
+        `EpochOutput.fll_active`, `ChannelSummary.final_state`.
+    - The design hash is over a canonical JSON form, and the built-in default's hash is
+      `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80` (pinned by a test).
+    - Output compatibility notes:
+      - the `iq track` table has a trailing `final_state` column;
+      - the `iq sweep` CSV has a trailing `design_hash` column, and its JSON has
+        `design_hash` and `warnings`;
+      - the sweep's `mean_cn0_dbhz` is now the mean over every update that has an NWPR
+        estimate (bounded-memory summary), no longer over the second half of the run.
+    - Re-acquisition is **off in the built-in default**, where the state machine only
+      observes and the loops run bit for bit as they do without it. (The default loops
+      themselves changed, though: see FLL assistance above.) Turn it on per design
+      (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
+    - A **`commensurate_sampling` warning**: when fs is within 1e-6 of a multiple of half
+      the chip rate (`iq::track::commensurate_samples_per_chip`), `iq track`/`iq sweep`
+      (output, `--summary`, sweep JSON), the MCP `iq_track` reply and the Python
+      `iq_track` result warn that code-loop jitter and bias are not representative. The
+      root cause is documented with pre-registered bars in
+      `docs/design/evidence/dll-jitter/`. At exactly 2 samples per chip with 0.5-chip
+      spacing, the DLL S-curve is a single step and the loop dithers: ≈ 0.09 chip RMS code
+      error (≈ 26 m) at 45 dB-Hz, against ≈ 0.004 chip at an incommensurate rate. The
+      ~2 dB low NWPR C/N0 at that rate has the same cause. At exactly 0 Hz code Doppler and
+      4 samples per chip the code never crosses the ±0.21-chip dead zone, so a code-phase bias
+      of up to about 0.2 chip can persist without showing in the jitter (measured: 0.5-chip
+      spacing gives 2.0× the control's code error with a +0.011 chip mean; 0.25-chip spacing
+      gives +0.125 chip); the warning covers the rate.
+    - **Known limit: the default design does not hand over FLL→PLL below about 35 dB-Hz**
+      (a ~35 dB-Hz pull-in floor; see FLL assistance above and
+      `docs/design/evidence/carrier-lock/`).
+    - A false-lock or re-acquisition search that cannot run (a rate with no whole number of
+      samples per code period) no longer stops tracking.
+    - Tests: `tests/iq_track_engine.rs`, `tests/iq_cli.rs`, `iq::track::design::tests`,
+      `tests/python`, and the MCP IQ round trip.
+
 ### Changed
+
+- **`iq track`/`iq sweep` stream through the new session (see Added).**
+  - `--csv` keeps its 0.32 columns but is now streamed, so rows of several channels
+    interleave in time order instead of being grouped by channel. `--json` keeps its 0.32
+    shape and still holds every epoch in memory: use `--epochs` for long recordings.
+  - `iq sweep` measures jitter over the updates in the second half of the run's duration
+    (previously the second half of the update count), and its CSV/JSON gain a
+    `design_hash` column.
+  - The track table gains a `final_state` column.
+  - The usage text no longer claims `iq track` takes the front-end flags; only
+    `iq acquire` applies them.
+  - Python `iq_track`'s `acq_noncoherent` and `doppler_max` now default to `None` (the
+    design's values, 1 and 5000 Hz in the built-in design). Its epochs gain the
+    early/late correlators, `carrier_phase_cycles`, `bit_edge`, `bit` and `state`, and
+    the result gains `design` and `events`.
 
 - **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
   acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`
