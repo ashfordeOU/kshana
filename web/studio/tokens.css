@@ -2,12 +2,11 @@
    Single source: explorations/2026-09-27-combo/src/tokens.css. build.py copies it to the site
    root and to the playground, so the two stay byte-identical. Edit here, then run build.py.
    Text colours are chosen for WCAG AA (4.5:1) on the ground they sit on, in both themes.
-   Fonts: --f-display here is Bricolage Grotesque, and the Studio uses it as is; its page loads
-   <link href="../fonts/bricolage-grotesque-geist-geist-mono.css" rel="stylesheet">
-   (the port serves it locally as fonts/bricolage-grotesque-geist-geist-mono.css). The public pages load
-   Unbounded, Geist and Geist Mono instead (src/shell.html; locally fonts/geist-geist-mono-unbounded.css):
-   theme.css, loaded after this file, sets --f-display to Geist and --display to Unbounded, which only
-   the wordmark and index numerals use. Both sets are by design.
+   Fonts: --f-display here is Bricolage Grotesque, but no page uses it any more: every site page and
+   the Studio load theme.css after this file (the Observatory system), which sets --f-display to
+   Geist and --display to Unbounded (the wordmark and index numerals), and load Geist, Geist Mono and
+   Unbounded (src/shell.html; locally fonts/geist-geist-mono-unbounded.css). theme.css also re-points
+   this file's domain, series and space colours onto the Observatory palette.
    Theme: bare :root = light; prefers-color-scheme dark applies unless data-theme="light";
    data-theme="dark" | "light" on <html> forces a theme. "space" tokens stay dark in both themes.
    Type scale (used by the landing page):
