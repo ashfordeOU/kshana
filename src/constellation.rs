@@ -49,6 +49,7 @@
 //! any real date.
 
 use crate::body::Body;
+use crate::palette::chart::{BG, MUTED, PANEL};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
 use std::f64::consts::{PI, TAU};
@@ -1946,7 +1947,7 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
         &esc(head),
     );
     s.push_str(&format!(
-        "<text x=\"24\" y=\"54\" font-size=\"11\" fill=\"#8a8172\">{}</text>",
+        "<text x=\"24\" y=\"54\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
         esc(tail)
     ));
     let (lat_lo, lat_hi) = (
@@ -2015,7 +2016,7 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
                 let (x, y) = proj(lo - dlon / 2.0, la + dlat / 2.0);
                 let fill = match val(a, o) {
                     Some(t) => lerp_colour(*c_lo, *c_hi, t),
-                    None => "#15120d".to_string(),
+                    None => PANEL.to_string(),
                 };
                 s.push_str(&format!(
                     "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{:.2}\" height=\"{:.2}\" fill=\"{fill}\"/>",
@@ -2045,7 +2046,7 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
                 }
                 if !d.is_empty() {
                     s.push_str(&format!(
-                        "<path d=\"{d}\" fill=\"none\" stroke=\"#0c0b08\" stroke-width=\"0.8\" opacity=\"0.8\"/>"
+                        "<path d=\"{d}\" fill=\"none\" stroke=\"{BG}\" stroke-width=\"0.8\" opacity=\"0.8\"/>"
                     ));
                 }
             }
@@ -2076,7 +2077,7 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
             if lat > la0 && lat < la1 {
                 let (_, y) = proj(lo0, lat);
                 s.push_str(&format!(
-                    "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"#8c8273\">{lat:.0}</text>",
+                    "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{lat:.0}</text>",
                     x0 - 6.0,
                     y + 3.0
                 ));

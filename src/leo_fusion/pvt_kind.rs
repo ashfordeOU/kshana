@@ -25,6 +25,7 @@ use super::joint_pvt::{self, PseudorangeObs, SystemClock};
 use super::polar::{self, PolarRow};
 use super::system::{build_all, in_view, DllCfg, System, SystemCfg};
 use super::timing::{self, TimeTransferStats, UtcParams};
+use crate::palette::chart::{BLUE, CORAL, CYAN, INK_3, LIME, MAGENTA, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -1107,7 +1108,7 @@ fn svg(r: &LeoPvtReport) -> String {
                 .iter()
                 .filter_map(|x| Some((x.window_s, x.error_3d_m?)))
                 .collect(),
-            "#5b7fa6",
+            BLUE,
         ));
         (
             "3D Doppler-fix error (log10 m) against window length",
@@ -1119,14 +1120,14 @@ fn svg(r: &LeoPvtReport) -> String {
                 .iter()
                 .filter_map(|x| Some((x.n_leo as f64, x.median_pdop?)))
                 .collect(),
-            "#5b7fa6",
+            BLUE,
         ));
         series.push((
             j.dop_sweep
                 .iter()
                 .filter_map(|x| Some((x.n_leo as f64, x.median_vdop?)))
                 .collect(),
-            "#c79e63",
+            CYAN,
         ));
         (
             "median PDOP (blue) and VDOP (amber), log10, against LEO satellites added",
@@ -1138,21 +1139,21 @@ fn svg(r: &LeoPvtReport) -> String {
                 .iter()
                 .filter_map(|x| Some((x.lat_deg, x.gnss.median_vdop?)))
                 .collect(),
-            "#8a8172",
+            INK_3,
         ));
         series.push((
             p.rows
                 .iter()
                 .filter_map(|x| Some((x.lat_deg, x.leo.median_vdop?)))
                 .collect(),
-            "#5b7fa6",
+            BLUE,
         ));
         series.push((
             p.rows
                 .iter()
                 .filter_map(|x| Some((x.lat_deg, x.fused.median_vdop?)))
                 .collect(),
-            "#c79e63",
+            CYAN,
         ));
         (
             "median VDOP (log10): grey GNSS, blue LEO, amber fused",
@@ -1161,9 +1162,7 @@ fn svg(r: &LeoPvtReport) -> String {
     } else if let Some(t) = &r.timing {
         let mut clocks: Vec<&str> = t.rows.iter().map(|x| x.clock.as_str()).collect();
         clocks.dedup();
-        let pal = [
-            "#8a8172", "#5b7fa6", "#c79e63", "#6b9e78", "#a65b5b", "#7a5ba6",
-        ];
+        let pal = [INK_3, BLUE, CYAN, LIME, CORAL, MAGENTA];
         for (k, c) in clocks.iter().enumerate() {
             series.push((
                 t.rows
@@ -1221,8 +1220,8 @@ fn svg(r: &LeoPvtReport) -> String {
             ));
         }
         s.push_str(&format!(
-            "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10^{hi:.0}</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10^{lo:.0}</text>\
-             <text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">{xlab}: {x0:.0} to {x1:.0}</text>",
+            "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0}</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0}</text>\
+             <text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">{xlab}: {x0:.0} to {x1:.0}</text>",
             top + 10.0,
             top + ph,
             top + ph + 24.0

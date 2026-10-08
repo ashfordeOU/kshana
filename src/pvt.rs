@@ -27,6 +27,7 @@ use crate::chart::y_axis;
 use crate::frames::{ecef_to_geodetic, look_angles, Geodetic, Vec3};
 use crate::gnss_sim::{klobuchar_delay_m, tropo_delay_m, KlobucharCoeffs, Meteo, C_M_PER_S};
 use crate::orbit::{invert4, los_unit};
+use crate::palette::chart::{AXIS, BG, CYAN, FONT_SANS, INK_2};
 use crate::rinex::{parse_nav, RinexEphemeris};
 use crate::rinex_obs::{parse_obs, RinexObs};
 use serde::{Deserialize, Serialize};
@@ -1070,10 +1071,10 @@ pub fn pvt_svg(r: &PvtResult) -> String {
 
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"14\" font-weight=\"bold\">{title}</text>"
@@ -1087,12 +1088,12 @@ pub fn pvt_svg(r: &PvtResult) -> String {
         let bh = (v.min(y_max) / y_max) * ph;
         let y = mt + ph - bh;
         svg.push_str(&format!(
-            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"#5fb0a8\"/>"
+            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{CYAN}\"/>"
         ));
     }
     let axis_y = mt + ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str("</svg>");

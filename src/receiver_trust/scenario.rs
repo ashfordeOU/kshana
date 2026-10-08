@@ -8,6 +8,7 @@
 //! the log is to be compared with. Every tolerance is part of the scenario, so it is
 //! stated before the run and hashed into the result with the log's own SHA-256.
 
+use crate::palette::chart::{AMBER, BG, BLUE, CORAL, FONT_SANS, INK, LIME, MUTED, RULE, TITLE};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -611,17 +612,17 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
     let sy = |c: f64| y1 - (y1 - y0) * (c - lo) / (hi - lo).max(1.0);
     let mut svg = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
-         <rect width=\"{w}\" height=\"{h}\" fill=\"#0b0f14\"/>\
-         <text x=\"12\" y=\"22\" fill=\"#e6edf3\" font-family=\"sans-serif\" font-size=\"13\">{}</text>\
-         <text x=\"12\" y=\"{}\" fill=\"#8b949e\" font-family=\"sans-serif\" font-size=\"11\" transform=\"rotate(-90 12 {})\">mean C/N0, dB-Hz</text>",
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>\
+         <text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\" transform=\"rotate(-90 12 {})\">mean C/N0, dB-Hz</text>",
         xml_escape(&r.verdict.chars().take(110).collect::<String>()),
         (y0 + y1) / 2.0 + 40.0,
         (y0 + y1) / 2.0 + 40.0
     );
     for c in [lo, (lo + hi) / 2.0, hi] {
         svg.push_str(&format!(
-            "<line x1=\"{x0}\" x2=\"{x1}\" y1=\"{y}\" y2=\"{y}\" stroke=\"#30363d\"/>\
-             <text x=\"{tx}\" y=\"{ty}\" fill=\"#8b949e\" font-family=\"sans-serif\" font-size=\"10\" text-anchor=\"end\">{c:.0}</text>",
+            "<line x1=\"{x0}\" x2=\"{x1}\" y1=\"{y}\" y2=\"{y}\" stroke=\"{RULE}\"/>\
+             <text x=\"{tx}\" y=\"{ty}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{c:.0}</text>",
             y = sy(c),
             tx = x0 - 4.0,
             ty = sy(c) + 3.0
@@ -633,7 +634,7 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
             .map(|(t, c)| format!("{:.1},{:.1}", sx(*t), sy(*c)))
             .collect();
         svg.push_str(&format!(
-            "<polyline fill=\"none\" stroke=\"#58a6ff\" stroke-width=\"1.5\" points=\"{}\"/>",
+            "<polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"1.5\" points=\"{}\"/>",
             pts.join(" ")
         ));
     }
@@ -642,10 +643,10 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
     for (i, e) in r.epochs.iter().enumerate() {
         let next = r.epochs.get(i + 1).map(|n| n.t_s).unwrap_or(e.t_s + 1.0);
         let colour = match e.state {
-            TrustState::Calibrating => "#30363d",
-            TrustState::Nominal => "#3fb950",
-            TrustState::Degraded => "#d29922",
-            TrustState::Untrusted => "#f85149",
+            TrustState::Calibrating => RULE,
+            TrustState::Nominal => LIME,
+            TrustState::Degraded => AMBER,
+            TrustState::Untrusted => CORAL,
         };
         svg.push_str(&format!(
             "<rect x=\"{:.1}\" y=\"{band_y}\" width=\"{:.2}\" height=\"12\" fill=\"{colour}\"/>",
@@ -656,8 +657,8 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
     for ev in &r.events {
         let x = sx(ev.onset_s);
         svg.push_str(&format!(
-            "<line x1=\"{x:.1}\" x2=\"{x:.1}\" y1=\"{y0}\" y2=\"{}\" stroke=\"#e6edf3\" stroke-dasharray=\"3 3\"/>\
-             <text x=\"{:.1}\" y=\"{}\" fill=\"#e6edf3\" font-family=\"sans-serif\" font-size=\"10\">{}</text>",
+            "<line x1=\"{x:.1}\" x2=\"{x:.1}\" y1=\"{y0}\" y2=\"{}\" stroke=\"{INK}\" stroke-dasharray=\"3 3\"/>\
+             <text x=\"{:.1}\" y=\"{}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>",
             band_y + 12.0,
             x + 3.0,
             y0 + 10.0,
@@ -665,9 +666,9 @@ pub fn to_svg(r: &ReceiverTrustResult) -> String {
         ));
     }
     svg.push_str(&format!(
-        "<text x=\"{x0}\" y=\"{}\" fill=\"#8b949e\" font-family=\"sans-serif\" font-size=\"10\">0 s</text>\
-         <text x=\"{x1}\" y=\"{}\" fill=\"#8b949e\" font-family=\"sans-serif\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"#8b949e\" font-family=\"sans-serif\" font-size=\"10\">trust: green nominal, amber degraded, red untrusted, grey calibrating</text></svg>",
+        "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
+         <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal, amber degraded, red untrusted, grey calibrating</text></svg>",
         band_y + 26.0,
         band_y + 26.0,
         band_y + 40.0

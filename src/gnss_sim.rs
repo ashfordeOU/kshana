@@ -25,6 +25,7 @@
 //! sub-millimetre.
 
 use crate::frames::{geodetic_to_ecef, is_visible, look_angles, teme_to_ecef, Geodetic, Vec3};
+use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, MAGENTA};
 use crate::portable_math::{Maths, Platform, Portable};
 use crate::scenario::TimeCfg;
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
@@ -884,7 +885,7 @@ pub fn to_svg(result: &GnssSimResult, alert_h_m: f64, alert_v_m: f64) -> String 
     };
     let axis_y = mt + ph;
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"));
     svg.push_str(&format!("<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">RAIM protection levels vs alert limits</text>"));
     svg.push_str(&crate::chart::y_axis(
         ml,
@@ -894,21 +895,21 @@ pub fn to_svg(result: &GnssSimResult, alert_h_m: f64, alert_v_m: f64) -> String 
         y_max,
         "protection level (m)",
     ));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>", ml + pw));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>", ml + pw));
     let right = ml + pw;
     let val_y = yof(alert_v_m);
     let val_label_x = ml + 4.0;
     let val_label_y = val_y - 4.0;
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{val_y:.1}\" x2=\"{right:.0}\" y2=\"{val_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/><text x=\"{val_label_x:.0}\" y=\"{val_label_y:.1}\" fill=\"#e5645a\">VAL {alert_v_m:.0} m</text>"));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{val_y:.1}\" x2=\"{right:.0}\" y2=\"{val_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/><text x=\"{val_label_x:.0}\" y=\"{val_label_y:.1}\" fill=\"{CORAL}\">VAL {alert_v_m:.0} m</text>"));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"2\" points=\"{}\"/>",
         poly(&|r| r.hpl_m)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#c79e63\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{MAGENTA}\" stroke-width=\"2\" points=\"{}\"/>",
         poly(&|r| r.vpl_m)
     ));
-    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"#e0bd84\">HPL</text><text x=\"{:.0}\" y=\"60\" fill=\"#c79e63\">VPL</text>", ml + 10.0, ml + 10.0));
+    svg.push_str(&format!("<text x=\"{:.0}\" y=\"44\" fill=\"{CYAN}\">HPL</text><text x=\"{:.0}\" y=\"60\" fill=\"{MAGENTA}\">VPL</text>", ml + 10.0, ml + 10.0));
     svg.push_str("</svg>");
     svg
 }
