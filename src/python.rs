@@ -496,7 +496,7 @@ fn iq_acquire<'py>(
 /// and `acq_coherent=1` restores the 0.32 one-period search. Raises `ValueError` if a PRN
 /// is not acquired or the design is invalid.
 #[pyfunction]
-#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=None, doppler_max=None, max_seconds=None, design=None, design_name=None, reacquire=None))]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bw=None, fll_bw=None, dll_bw=None, spacing=None, coherent=None, periods_per_bit=None, acq_coherent=None, acq_noncoherent=None, doppler_max=None, max_seconds=None, design=None, design_name=None, reacquire=None, threads=1))]
 #[allow(clippy::too_many_arguments)]
 fn iq_track<'py>(
     py: Python<'py>,
@@ -520,6 +520,7 @@ fn iq_track<'py>(
     design: Option<String>,
     design_name: Option<String>,
     reacquire: Option<bool>,
+    threads: usize,
 ) -> PyResult<Bound<'py, PyAny>> {
     use crate::iq::track::design::{Design, DesignFile};
     use crate::iq::track::sink::CollectSink;
@@ -618,7 +619,9 @@ fn iq_track<'py>(
         .into_iter()
         .map(|init| SessionChannel::from_design(init, &design))
         .collect();
-    let mut session = TrackSession::new(spec, channels).map_err(PyValueError::new_err)?;
+    let mut session = TrackSession::new(spec, channels)
+        .map_err(PyValueError::new_err)?
+        .with_threads(threads);
     let max_samples = max_seconds.map(|s| (s * fs_hz).round() as u64);
     let mut src = crate::iq::VecSource::new(spec, samples);
     let mut sink = CollectSink::default();
