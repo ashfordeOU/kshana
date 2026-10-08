@@ -4,7 +4,7 @@
   "shots": [
     {
       "file": "studio-home-light.jpg",
-      "studio_url": "http://127.0.0.1:8936/studio/",
+      "studio_url": "http://127.0.0.1:8861/studio/",
       "scenario": null,
       "view": "Simple view, opening screen: four questions, a recorded result on the map, and every area of the engine with its evidence mix",
       "tab": null,
@@ -22,11 +22,11 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "file": "studio-task-light.jpg",
-      "studio_url": "http://127.0.0.1:8936/studio/?scenario=integrity-raim",
+      "studio_url": "http://127.0.0.1:8861/studio/?scenario=integrity-raim",
       "scenario": "integrity-raim",
       "view": "Simple view on integrity-raim: the answer first in one plain sentence, its key figures, at most five settings, and the folded sections Advanced settings, How this is computed and For researchers",
       "tab": null,
@@ -44,11 +44,11 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "file": "studio-advanced-light.jpg",
-      "studio_url": "http://127.0.0.1:8936/studio/advanced/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "studio_url": "http://127.0.0.1:8861/studio/advanced/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
       "view": "Advanced view (the full dashboard) after a run of constellation-multi-gnss-coverage: the scenario library, the five steps, key figures with PASS chips, the panel row and the coverage map",
       "tab": "coverage",
@@ -66,11 +66,11 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "file": "studio-home-dark.jpg",
-      "studio_url": "http://127.0.0.1:8936/studio/",
+      "studio_url": "http://127.0.0.1:8861/studio/",
       "scenario": null,
       "view": "Simple view, opening screen: four questions, a recorded result on the map, and every area of the engine with its evidence mix",
       "tab": null,
@@ -88,11 +88,11 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "file": "studio-task-dark.jpg",
-      "studio_url": "http://127.0.0.1:8936/studio/?scenario=integrity-raim",
+      "studio_url": "http://127.0.0.1:8861/studio/?scenario=integrity-raim",
       "scenario": "integrity-raim",
       "view": "Simple view on integrity-raim: the answer first in one plain sentence, its key figures, at most five settings, and the folded sections Advanced settings, How this is computed and For researchers",
       "tab": null,
@@ -110,11 +110,11 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     },
     {
       "file": "studio-advanced-dark.jpg",
-      "studio_url": "http://127.0.0.1:8936/studio/advanced/?scenario=constellation-multi-gnss-coverage&tab=coverage",
+      "studio_url": "http://127.0.0.1:8861/studio/advanced/?scenario=constellation-multi-gnss-coverage&tab=coverage",
       "scenario": "constellation-multi-gnss-coverage",
       "view": "Advanced view (the full dashboard) after a run of constellation-multi-gnss-coverage: the scenario library, the five steps, key figures with PASS chips, the panel row and the coverage map",
       "tab": "coverage",
@@ -132,7 +132,7 @@
         "height": 1000
       },
       "output": "scaled to at most 1600 px wide, JPEG quality 82, no metadata",
-      "captured": "2026-10-04"
+      "captured": "2026-10-08"
     }
   ]
 }
