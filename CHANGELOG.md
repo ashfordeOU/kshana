@@ -87,7 +87,10 @@ breaking changes are called out explicitly.
   committed inputs (Jacobians, a state table, launch azimuths) compared bit for bit and
   failed on macOS arm64 by 2 to a few thousand units in the last place. They now compare
   within 1e-12 of a scale taken from the fixture; integers, keys and lengths still compare
-  exactly, and a mutation test shows a 1e-6 relative change still fails. No oracle tolerance
+  exactly, and a mutation test shows a 1e-6 relative change still fails. The launch-azimuth
+  pin compares `sin az` and the ascending/descending branch instead of the azimuth itself, because
+  `asin` amplifies one ulp of its argument to about 3e-9 rad where an inclination equals a site's
+  colatitude. No oracle tolerance
   or pre-registered bar changed. Two tests (lunar joint OD, lunar observability) are not
   covered: on macOS their pre-registered comparisons themselves move, and that is left to a
   follow-up.
