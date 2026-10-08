@@ -11,6 +11,7 @@ use std::sync::OnceLock;
 
 use super::tables::{CS100, E5A_ROWS};
 use super::{bipolar, hex_to_bits, Modulation, SignalCode, SignalError};
+use crate::iq::DataModulation;
 
 /// Galileo E1 carrier frequency (Hz).
 pub const E1_HZ: f64 = 1_575_420_000.0;
@@ -119,7 +120,8 @@ pub fn e1b_from_table(table: &MemoryCodeTable, prn: u16) -> Result<SignalCode, S
         bipolar(bits),
         vec![],
         Modulation::Cboc { plus: true },
-    ))
+    )
+    .with_data_modulation(DataModulation::Symbols { symbol_s: 0.004 }))
 }
 
 /// Galileo E1-C (pilot) code for `prn` 1..=50 from `table`, with the anti-phase CBOC
@@ -136,7 +138,8 @@ pub fn e1c_from_table(table: &MemoryCodeTable, prn: u16) -> Result<SignalCode, S
         bipolar(bits),
         bipolar(&hex_to_bits(CS25, 25)?),
         Modulation::Cboc { plus: false },
-    ))
+    )
+    .with_data_modulation(DataModulation::Pilot))
 }
 
 /// Galileo E1-B code for `prn` 1..=50 from the committed ICD Annex C.7 table. The chips
@@ -216,7 +219,8 @@ pub fn e5a_i(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&bits),
         bipolar(&hex_to_bits(CS20, 20)?),
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Symbols { symbol_s: 0.02 }))
 }
 
 /// Galileo E5a-Q (pilot) code for `prn` 1..=50, tiered with CS100_prn (100 ms period).
@@ -236,7 +240,8 @@ pub fn e5a_q(prn: u16) -> Result<SignalCode, SignalError> {
         bipolar(&bits),
         bipolar(&hex_to_bits(CS100[prn as usize - 1], 100)?),
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Pilot))
 }
 
 #[cfg(test)]

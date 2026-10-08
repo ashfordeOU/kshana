@@ -101,6 +101,14 @@ where noise dithers the dead zone). The warning therefore covers any fs/chip_rat
 `commensurate_sampling` in the `iq track`/`iq sweep` output and summary, the MCP `iq_track`
 reply and the Python `iq_track` result.
 
+Doppler matters at 4 samples/chip. The 45 dB-Hz figures above are at 1500 Hz Doppler, where code
+Doppler slides the sampling pattern and the dead zone is crossed. At exactly 0 Hz code
+Doppler the code never crosses the ±0.21-chip dead zone, so a code-phase bias of up to about
+0.2 chip can persist without showing in the jitter. Measured (`spacing_ratio_survey`, 4 samples
+per chip, 0 Hz): d = 0.5 gives 2.0× the incommensurate control's code error with a +0.011 chip
+mean, and d = 0.25 gives a +0.125 chip bias. The `commensurate_sampling` warning covers the
+rate, so it fires at 4.092 MHz whatever the Doppler.
+
 Found on the way: at 2.5 samples/chip a GPS L1 C/A period is not a whole number of samples
 (2557.5), so no acquisition search can run there. The false-lock check's search used to abort
 the whole tracking session. Now it switches the check off for that channel; re-acquisition

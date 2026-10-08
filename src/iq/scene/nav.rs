@@ -9,6 +9,7 @@
 use crate::gps_lnav::{
     data_words, encode_subframe, encode_subframes, LnavConventions, LnavEphemeris,
 };
+use crate::iq::DataModulation;
 use crate::rinex::RinexEphemeris;
 use rand::RngCore;
 use rand::SeedableRng;
@@ -37,12 +38,36 @@ pub enum NavData {
         /// The operator fields IS-GPS-200 leaves open.
         conv: LnavConventions,
     },
-    /// Seeded pseudo-random bits at 50 bit/s (ChaCha8 stream of `seed`). MODELLED: random
-    /// data with LNAV timing, not a decodable message.
+    /// Seeded pseudo-random data (ChaCha8 stream of `seed`) at the signal's own symbol
+    /// timing ([`crate::iq::SpreadingCode::data_modulation`]: 20 ms bits on GPS L1 C/A,
+    /// 4 ms symbols on Galileo E1-B, and so on). MODELLED: random symbols with the
+    /// signal's timing, not a decodable message.
     Seeded {
         /// Seed of the bit stream.
         seed: u64,
     },
+}
+
+impl NavData {
+    /// Check that this data can be sent on a signal whose data timing is `m`: no data on a
+    /// pilot or on a signal whose data the scene does not model, and a decodable LNAV
+    /// message only on LNAV timing (GPS L1 C/A). [`NavData::None`] fits every signal.
+    pub fn check_modulation(&self, m: DataModulation) -> Result<(), String> {
+        match (self, m) {
+            (NavData::None, _) => Ok(()),
+            (_, DataModulation::Pilot) => {
+                Err("is a pilot (data-free) component and carries no navigation data".into())
+            }
+            (_, DataModulation::NotModelled) => {
+                Err("carries data the scene does not model; generate it without data".into())
+            }
+            (NavData::Lnav { .. }, DataModulation::Lnav) => Ok(()),
+            (NavData::Lnav { .. }, _) => {
+                Err("does not carry GPS LNAV (only GPS L1 C/A does); use seeded data".into())
+            }
+            (NavData::Seeded { .. }, _) => Ok(()),
+        }
+    }
 }
 
 /// The LNAV ephemeris fields of a RINEX broadcast record (`toc` as GPS time of week, the
