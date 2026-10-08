@@ -92,6 +92,18 @@ pfa = 1e-3
   `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80`, which is pinned by a test.
 * **Precedence on the CLI**: an explicit flag (`--pll-bw`, ...) overrides the selected design.
   The hash is taken after overrides, and the output records which keys were overridden.
+* **Known limits of the default design.**
+  * *FLL→PLL hand-over floor.* The default (`fll_assist = "pull-in"`) does not hand over from
+    the FLL to the PLL below about 35 dB-Hz: at 35 dB-Hz the hand-over comes 1.9–2.6 s into
+    the track, and at 33 dB-Hz the FLL keeps the phase lock indicator below `fll_off_pli`, so
+    pull-in never completes. Treat about 35 dB-Hz as the pull-in floor. Evidence:
+    `docs/design/evidence/carrier-lock/`.
+  * *Commensurate sampling.* At a sample rate that is a multiple of half the chip rate the
+    code discriminator is a staircase, and at exactly 0 Hz code Doppler and 4 samples/chip the
+    code never crosses the ±0.21-chip dead zone, so a code-phase bias of up to about 0.2 chip
+    can persist without showing in the jitter (measured: d = 0.5 gives 2.0× the control's code
+    error with a +0.011 chip mean; d = 0.25 gives +0.125 chip). The `commensurate_sampling`
+    warning covers the rate. Evidence: `docs/design/evidence/dll-jitter/`.
 * **Front end is not part of a loop design.** The campaign runner treats front-end chains as a
   separate axis (B4.1).
 

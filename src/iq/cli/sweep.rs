@@ -13,9 +13,10 @@
 //! `--epochs`/`--events` stream the per-epoch records and lock events as `iq track` does.
 
 use super::acquire::codes_from_args;
+use super::frontend::through_frontend;
 use super::track::{
     acquire_inits, create, epochs_writer, handoff_from_args, overrides_from_args,
-    sampling_warnings, warning_lines, TRACK_SWITCHES,
+    sampling_warnings, warning_lines,
 };
 use super::{raw_sidecar, Args, Fail};
 use crate::iq::io::inventory::open_recording;
@@ -99,15 +100,18 @@ pub(crate) struct Metrics {
 
 /// Run `kshana iq sweep <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, TRACK_SWITCHES).map_err(Fail::Usage)?;
+    let a = Args::parse(args, &super::track::track_switches()).map_err(Fail::Usage)?;
     a.need_pos(1, "sweep")?;
+    // Optional receiver front end, applied to both passes so every design sees the same one.
+    let fe = super::frontend::FrontendParams::from_args(&a)?;
     let path = Path::new(&a.pos[0]);
     let codes = codes_from_args(&a)?;
     let designs = designs(&a)?;
 
     // The hand-off uses the first design's acquisition (with any acquisition flags).
-    let mut opened = open_recording(path, raw_sidecar(&a)?)?;
+    let opened = open_recording(path, raw_sidecar(&a)?)?;
     let spec = opened.source.spec();
+    let mut acq_src = through_frontend(&fe, opened.source)?;
     let handoff = if a.get("--design").is_some() {
         // The acquisition flags apply on top of the first design's hand-off.
         let (toml, overridden) = overrides_from_args(&a, true)?;
@@ -120,20 +124,15 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         handoff_from_args(&a)?
     };
     let periods_per_bit: Option<usize> = a.num("--periods-per-bit").map_err(Fail::Usage)?;
-    let inits = acquire_inits(
-        &handoff,
-        periods_per_bit,
-        &spec,
-        &codes,
-        opened.source.as_mut(),
-    )?;
+    let inits = acquire_inits(&handoff, periods_per_bit, &spec, &codes, acq_src.as_mut())?;
 
     let max_samples = a
         .num::<f64>("--max-seconds")
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
-    let mut track_src = open_recording(path, raw_sidecar(&a)?)?;
-    let tracked = max_samples.map_or(track_src.n_samples, |m| m.min(track_src.n_samples));
+    let track_rec = open_recording(path, raw_sidecar(&a)?)?;
+    let tracked = max_samples.map_or(track_rec.n_samples, |m| m.min(track_rec.n_samples));
+    let mut track_src = through_frontend(&fe, track_rec.source)?;
 
     // One channel per (design, PRN), design-major, all on one read of the recording.
     let mut channels = Vec::new();
@@ -173,7 +172,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         if let Some(w) = events.as_mut() {
             fan.push(w);
         }
-        session.run(track_src.source.as_mut(), max_samples, &mut fan)?;
+        session.run(track_src.as_mut(), max_samples, &mut fan)?;
     }
 
     let rows: Vec<Metrics> = infos
