@@ -149,8 +149,15 @@ breaking changes are called out explicitly.
   only for clocks with a nonzero `flicker_floor`: `integrity` on `clock-ensemble` goes from
   0.40866 / 0.33026 to 0.99970 / 1.0 (classical / quantum) and `filter_health` NIS/NEES now
   include the flicker; the timing error, `holdover_s` and `timing_p95_ns` are unchanged, and
-  scenarios without a floor are byte-identical. Known follow-up: the fusion kind has the same
-  gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+  scenarios without a floor are byte-identical. `scenarios/orbit-gnss-challenged.toml` (orbit
+  kind, seed 7, floors 1e-16 / 2e-11) also moves: `fom.integrity` classical 0.7734 to 1.0 and
+  quantum 0.9796 to 1.0, and the `filter_health` NIS/NEES and their bands change. Its quantum
+  `filter_health.consistent` flips from `true` to `false`: a sampling event of the 16-seed by
+  60-step flicker ensemble (NIS 0.8815 against a band of [0.9125, 1.0914]), not a defect. The
+  band is a 95 % band, so about 5 % of seeds flag a matched filter by construction (40 fresh
+  seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
+  inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
+  same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
 
 - **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
   a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
