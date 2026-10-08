@@ -407,16 +407,26 @@ expected to agree. The tests cover:
 * **C/N0 estimator.** Two estimates are scored and reported: NWPR and M2M4 (`cn0_estimator` picks
   the primary one, default `"m2m4"`). Under the loop's own jitter NWPR reads low by about
   `8 dB × Bn_PLL × T` (about −1 dB at `Bn·T = 0.1`), so its readings, and the baseline it
-  subtracts, depend on the loop design; M2M4 is insensitive to it
-  (`docs/design/evidence/cn0-m2m4/PREREGISTRATION.md`, #64). The degradation is baseline minus
-  measured, so a constant bias cancels, but the part of it that grows with the stress does not:
-  the NWPR curve over-reads the degradation. On the reference ramp (stated J/S 20 and 30 dB, raw
-  front end, stated nominal 45 dB-Hz) the measured degradation at J/S 20 / 30 dB was, NWPR then
-  M2M4, 6.0 / 14.7 then 6.3 / 15.1 dB for PRN 3 and 5.75 / 14.8 then 5.8 / 14.9 dB for PRN 11,
-  against a MODELLED 5.88 / 14.73 and 5.84 / 14.68 dB; baselines 44.68 and 44.62 (NWPR), 44.83
-  and 44.62 (M2M4). With `cn0_estimator = "nwpr"` every other scored result is identical to a run
-  with `"m2m4"` (`tests/iq_campaign.rs`, `m2m4_changes_only_the_cn0_derived_fields`), and an NWPR
-  run reproduces the results from before M2M4 existed (`nwpr_reproduces_the_pre_m2m4_results_exactly`).
+  subtracts, depend on the loop design; M2M4 does not carry that bias
+  (`docs/design/evidence/cn0-m2m4/PREREGISTRATION.md`, #64). M2M4 has a limit of its own: a
+  window whose moments give no estimate (`2·m2² − m4 ≤ 0`) returns nothing and is left out of
+  the median. On the reference ramp at J/S 30 dB that is 8 % and 9 % of the windows (`n` = 2760
+  and 2720 of 3000 for PRN 3 and PRN 11, against NWPR's 3000); at J/S 20 dB none. The degradation
+  is baseline minus measured, so a constant bias cancels, but the part that grows with the stress
+  does not: the NWPR curve over-reads the degradation. On the reference ramp (stated J/S 20 and
+  30 dB, raw front end, stated nominal 45 dB-Hz), each estimator's measured degradation against
+  the MODELLED value drawn from its own baseline, at J/S 20 / 30 dB:
+
+  | | baseline (dB-Hz) | measured (dB) | MODELLED (dB) |
+  |---|---|---|---|
+  | PRN 3, NWPR | 44.68 | 6.0 / 14.7 | 5.88 / 14.73 |
+  | PRN 3, M2M4 | 44.83 | 6.3 / 15.1 | 5.99 / 14.87 |
+  | PRN 11, NWPR | 44.62 | 5.75 / 14.8 | 5.84 / 14.68 |
+  | PRN 11, M2M4 | 44.62 | 5.8 / 14.9 | 5.84 / 14.68 |
+
+  With `cn0_estimator = "nwpr"` every other scored result is identical to a run with `"m2m4"`
+  (`tests/iq_campaign.rs`, `m2m4_changes_only_the_cn0_derived_fields`), and an NWPR run reproduces
+  the results from before M2M4 existed (`nwpr_reproduces_the_pre_m2m4_results_exactly`).
 * A hand-off at the ±1/(2T) Costas alias never declares code lock: the coherent sum of the NWPR
   estimator cancels there. The false-lock test therefore scores a correct track against a
   shifted truth sidecar. That checks the scoring path, not the tracker's false-lock behaviour.

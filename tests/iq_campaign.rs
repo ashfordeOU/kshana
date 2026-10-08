@@ -475,8 +475,8 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
                 assert!(e.availability.unwrap() < 1.0);
             }
         }
-        // The NWPR estimate reads about 2 dB under the scene's stated C/N0; degradation is
-        // measured from the measured baseline, so that offset cancels.
+        // The measured baseline sits within a few tenths of a dB of the scene's stated C/N0 on
+        // these scenes; degradation is measured from it, so a constant offset cancels.
         let base = e.baseline_cn0_dbhz.unwrap();
         assert!((base - NOMINAL).abs() < 3.0, "baseline {base}");
         assert_eq!(e.baseline_source.as_deref(), Some("measured"));
@@ -498,7 +498,7 @@ fn ramp_degradation_follows_the_stated_js_and_sits_on_the_modelled_reference() {
                 s.score.id,
                 b.js_db
             );
-            // The reference is drawn from the measured baseline (about 2 dB under the
+            // The reference is drawn from the measured baseline (a few tenths of a dB from the
             // scene's), which moves it by up to that much at high J/S.
             assert!(
                 (modelled - truth).abs() < 2.5,
@@ -770,6 +770,19 @@ fn nwpr_out() -> &'static PathBuf {
     })
 }
 
+/// The reference DIGESTs after the `cn0_estimator` change, pinned the way the pre-change one was
+/// (`64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`).
+const DIGEST_M2M4: &str = "48a64a85f7ba97ccf286495a9d58a14fbf3c9bf61f2da06b9bf92734a84c090f";
+const DIGEST_NWPR: &str = "57c52a06e9727ec1cc159302e48fd215ca1247a8b0edb8df4915565c0977b890";
+
+#[test]
+fn the_reference_digests_are_pinned() {
+    let f = fixture();
+    assert_eq!(f.reference.digest.as_deref(), Some(DIGEST_M2M4));
+    let nwpr = std::fs::read_to_string(nwpr_out().join("DIGEST")).unwrap();
+    assert_eq!(nwpr.trim(), DIGEST_NWPR);
+}
+
 #[test]
 fn nwpr_reproduces_the_pre_m2m4_results_exactly() {
     let out = nwpr_out();
@@ -805,7 +818,8 @@ fn differences(
         (V::Object(x), V::Object(y)) => {
             let keys: std::collections::BTreeSet<&String> = x.keys().chain(y.keys()).collect();
             for k in keys {
-                if allowed.contains(&k.as_str()) {
+                // `n` is allowed to differ only as a curve bin's count.
+                if allowed.contains(&k.as_str()) || (k == "n" && at.contains(".cn0_curve[")) {
                     continue;
                 }
                 match (x.get(k), y.get(k)) {
@@ -844,7 +858,6 @@ fn m2m4_changes_only_the_cn0_derived_fields() {
         "measured_degradation_db",
         "modelled_cn0_dbhz",
         "modelled_degradation_db",
-        "n",
     ];
     let by_name = |m: &BTreeMap<String, (String, CellResult)>| {
         m.values()
