@@ -219,6 +219,7 @@ def iq_track(
     design: Optional[str] = ...,
     design_name: Optional[str] = ...,
     reacquire: Optional[bool] = ...,
+    extra_taps: Optional[list[float]] = ...,
 ) -> dict[str, Any]:
     """Acquire then track each PRN over complex samples.
 
@@ -231,7 +232,9 @@ def iq_track(
     ...). The loop design is ``design`` (a path to a ``kshana.loop-design/1`` TOML file,
     or its text; ``design_name`` picks one, the first by default) or the GPS-L1-C/A-like
     built-in default; any of ``pll_bw``, ``fll_bw``, ``dll_bw``, ``spacing``,
-    ``coherent``, ``reacquire`` and the acquisition arguments overrides it. The
+    ``coherent``, ``reacquire`` and the acquisition arguments overrides it.
+    ``extra_taps`` (offsets in chips from the prompt, positive early) adds correlator taps:
+    each epoch dict then has an ``extra`` list of ``offset_chips``/``i``/``q``. The
     initialising acquisition integrates ``acq_coherent`` code periods coherently; the
     default ``None`` is the design's (auto: ≈4 ms coherent, 4 periods of an untiered 1 ms
     code such as GPS L1 C/A, 1 period of a code whose full, overlay-included period is
