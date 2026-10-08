@@ -125,7 +125,10 @@ breaking changes are called out explicitly.
     `scenario-fom`, `sgp4-regime-bars`), with real text elements, from
     `web/capabilities.json`, the `clock-holdover` result and
     `tests/fixtures/sgp4_comparison.md`. `tools/gen_readme_assets.py` reads the same
-    palette, which corrects its light-theme drift from the site.
+    palette, which corrects its light-theme drift from the site. The `sgp4-regime-bars`
+    values are the `kshana↔ref` worst-case column of that fixture (7.31e-9, 8.05e-9,
+    8.18e-9 and 4.12e-6 km), unchanged from the Matplotlib figure, and
+    `tests/figures_doc_sync.rs` now fails if the committed figure and the fixture disagree.
 - **`docs/assets/figures/domain-coverage-map` refreshed to current data (a data change, not
   a repaint).** The figure stated 28 capabilities across 8 domains (11 validated, 17
   modelled), stale against its own stated source; drawn now by its new generator from
