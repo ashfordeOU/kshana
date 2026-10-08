@@ -13,6 +13,7 @@
 //! as `tests/spoof_texbat_validation.rs`), not raw IQ — kshana is a simulator, not an SDR
 //! receiver.
 
+use crate::palette::chart::{BG, CORAL, FONT_SANS, INK_3, LIME, MUTED, TITLE};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -403,8 +404,8 @@ pub fn to_svg(r: &SpoofDetectResult) -> String {
     ];
     let mut svg = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
-         <rect width=\"{w}\" height=\"{h}\" fill=\"#0b0f14\"/>\
-         <text x=\"12\" y=\"24\" fill=\"#e6edf3\" font-family=\"sans-serif\" font-size=\"15\">{}</text>",
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         <text x=\"12\" y=\"24\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"15\">{}</text>",
         xml_escape(&r.verdict)
     );
     let x0 = 70.0;
@@ -412,14 +413,14 @@ pub fn to_svg(r: &SpoofDetectResult) -> String {
     for (i, (label, ratio, fired)) in bars.iter().enumerate() {
         let y = 48.0 + i as f64 * 44.0;
         let bar = (ratio.min(2.0) / 2.0 * max_w).max(2.0);
-        let colour = if *fired { "#f85149" } else { "#3fb950" };
+        let colour = if *fired { CORAL } else { LIME };
         // The decision threshold marker sits at ratio = 1 (half the 0..2 scale).
         let thr_x = x0 + 0.5 * max_w;
         svg.push_str(&format!(
-            "<text x=\"12\" y=\"{ty}\" fill=\"#e6edf3\" font-family=\"sans-serif\" font-size=\"13\">{label}</text>\
+            "<text x=\"12\" y=\"{ty}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{label}</text>\
              <rect x=\"{x0}\" y=\"{y}\" width=\"{bar}\" height=\"20\" fill=\"{colour}\"/>\
-             <line x1=\"{thr_x}\" y1=\"{ly}\" x2=\"{thr_x}\" y2=\"{ly2}\" stroke=\"#8b949e\" stroke-dasharray=\"3,3\"/>\
-             <text x=\"{vx}\" y=\"{ty}\" fill=\"#8b949e\" font-family=\"sans-serif\" font-size=\"11\">{ratio:.2}x</text>",
+             <line x1=\"{thr_x}\" y1=\"{ly}\" x2=\"{thr_x}\" y2=\"{ly2}\" stroke=\"{INK_3}\" stroke-dasharray=\"3,3\"/>\
+             <text x=\"{vx}\" y=\"{ty}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">{ratio:.2}x</text>",
             ty = y + 15.0,
             ly = y - 3.0,
             ly2 = y + 23.0,

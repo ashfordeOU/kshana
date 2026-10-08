@@ -1,71 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://kshana.dev/</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/capabilities</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/developers</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/editions</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/evidence</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/missions</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/studio/</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/capabilities</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/developers</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/editions</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/evidence</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/missions</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/studio/</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/agency-orbit-validation</loc><lastmod>2026-09-30</lastmod></url>
-  <url><loc>https://kshana.dev/docs/animation</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/animation</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/araim-reference</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/architecture</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://kshana.dev/docs/campaigns</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/capability-map</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/capability-reference</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/changelog</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/capability-map</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/capability-reference</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/changelog</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/claims-vs-reality</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/code-of-conduct</loc><lastmod>2026-06-01</lastmod></url>
   <url><loc>https://kshana.dev/docs/compliance</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/concepts</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/constellation-design</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/constellation-design</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/contributing</loc><lastmod>2026-10-03</lastmod></url>
   <url><loc>https://kshana.dev/docs/deceived-time</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/deployment-targets</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/example-multi-tool</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/example-multi-tool</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/glossary</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/governance</loc><lastmod>2026-06-18</lastmod></url>
-  <url><loc>https://kshana.dev/docs/</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/integrity</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/integrity</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/interop</loc><lastmod>2026-09-30</lastmod></url>
   <url><loc>https://kshana.dev/docs/jetbrains</loc><lastmod>2026-06-18</lastmod></url>
   <url><loc>https://kshana.dev/docs/leo-navmsg</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://kshana.dev/docs/leo-pass</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/leo-pnt-fusion</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/leo-pass</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/leo-pnt-fusion</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/leo-pnt</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/leo-signal</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/licensing</loc><lastmod>2026-06-18</lastmod></url>
   <url><loc>https://kshana.dev/docs/line-coverage</loc><lastmod>2026-10-01</lastmod></url>
-  <url><loc>https://kshana.dev/docs/mcp</loc><lastmod>2026-10-03</lastmod></url>
-  <url><loc>https://kshana.dev/docs/modelled-rationale</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://kshana.dev/docs/npm</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/overview</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/positioning</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://kshana.dev/docs/mcp</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://kshana.dev/docs/modelled-rationale</loc><lastmod>2026-10-07</lastmod></url>
+  <url><loc>https://kshana.dev/docs/npm</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/overview</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/positioning</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://kshana.dev/docs/provenance</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/python-api</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://kshana.dev/docs/python-api</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://kshana.dev/docs/quantum-models</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/quantum-physics</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/real-tle-guide</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/reports</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://kshana.dev/docs/reproducibility</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://kshana.dev/docs/resilience-crosswalk</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/rust</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/scenario-reference</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/rust</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/scenario-reference</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/scenarios</loc><lastmod>2026-10-02</lastmod></url>
   <url><loc>https://kshana.dev/docs/schema</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/security</loc><lastmod>2026-09-24</lastmod></url>
   <url><loc>https://kshana.dev/docs/sgp4-validation</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/slot-timing</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/solar-system</loc><lastmod>2026-10-04</lastmod></url>
-  <url><loc>https://kshana.dev/docs/spectrum</loc><lastmod>2026-09-29</lastmod></url>
+  <url><loc>https://kshana.dev/docs/solar-system</loc><lastmod>2026-10-08</lastmod></url>
+  <url><loc>https://kshana.dev/docs/spectrum</loc><lastmod>2026-10-07</lastmod></url>
   <url><loc>https://kshana.dev/docs/standards</loc><lastmod>2026-09-30</lastmod></url>
   <url><loc>https://kshana.dev/docs/studio</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://kshana.dev/docs/telecom-timing</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/tutorial-clock-holdover</loc><lastmod>2026-09-29</lastmod></url>
   <url><loc>https://kshana.dev/docs/tutorial-first-orbit</loc><lastmod>2026-10-01</lastmod></url>
   <url><loc>https://kshana.dev/docs/tutorial-quantum-vs-classical</loc><lastmod>2026-09-29</lastmod></url>
-  <url><loc>https://kshana.dev/docs/tutorials</loc><lastmod>2026-10-04</lastmod></url>
+  <url><loc>https://kshana.dev/docs/tutorials</loc><lastmod>2026-10-08</lastmod></url>
   <url><loc>https://kshana.dev/docs/validation</loc><lastmod>2026-10-02</lastmod></url>
-  <url><loc>https://kshana.dev/docs/verification-matrix</loc><lastmod>2026-10-02</lastmod></url>
+  <url><loc>https://kshana.dev/docs/verification-matrix</loc><lastmod>2026-10-07</lastmod></url>
 </urlset>

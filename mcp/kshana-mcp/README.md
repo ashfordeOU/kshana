@@ -81,8 +81,9 @@ protocol. They follow one contract:
 - **Unknown arguments are refused**, not ignored, so a misspelt option is an error.
 
 Each tool runs the same code path as `kshana iq` on the command line, in process. The layer
-is software only: it writes files for software receivers, drives no radio hardware, and
-synthesises no interference or spoofing waveform.
+is software only: it writes files for software receivers and drives no radio hardware. The IQ
+layer adds no interference or spoofer synthesis, and nothing is ever transmitted. (The separate
+`spectrum` scenario kind can write analytic jammer IQ snapshots to a file.)
 
 ```json
 {
