@@ -93,6 +93,12 @@ breaking changes are called out explicitly.
     - `kshana iq sweep --design <file>`, which runs every design in the file;
     - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
     - MCP `iq_track` `design`/`design_name`.
+  - *Acquisition-surface export* (`kshana.acq-surface/1`; `iq::acq_surface`,
+    `docs/design/ACQ-SURFACE.md`). `iq acquire --surface <path>` (one PRN; CSV, JSON or binary),
+    Python `iq_acq_surface` and MCP `iq_acquire` `surface_out` write the whole Doppler × code-phase
+    correlation-power surface the search computes (its cells are `acquire`'s, bit for bit) with the
+    peak and two fine-Doppler refinements: a parabolic estimate and a 1/16-bin fine search (≈5 Hz
+    at 4 ms coherent, against 167 Hz bins). `acquire` itself and every default are unchanged.
   - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
     carries:
     - the early/prompt/late correlators;
