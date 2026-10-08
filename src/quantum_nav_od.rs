@@ -18,6 +18,7 @@
 //! class; no TRL/flight/certification claimed.
 
 use crate::inertial::quantum_imu::{CaiAccelerometer, QuantumNavBudget, RB87_D2_WAVELENGTH_M};
+use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, TEXT};
 use crate::qtrade::{TradeEvidence, TradeFom, TradeFrame};
 use crate::quantum_trade::{ClassicalInsBudget, PositionDrift};
 use crate::representativeness::{Gap, Representativeness};
@@ -269,12 +270,12 @@ pub fn to_svg(r: &QuantumNavOdReport) -> String {
     let qh = (r.quantum_pos_err_m / max * 180.0).min(180.0);
     let ch = (r.classical_pos_err_m / max * 180.0).min(180.0);
     format!(
-        "<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220'>\
-         <rect width='320' height='220' fill='white'/>\
+        "<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220' font-family='{FONT_SANS}' fill='{TEXT}'>\
+         <rect width='320' height='220' fill='{BG}'/>\
          <text x='10' y='20' font-size='12'>quantum-gnss-free-nav (MODELLED)</text>\
-         <rect x='60' y='{:.1}' width='60' height='{:.1}' fill='#3a6'/>\
+         <rect x='60' y='{:.1}' width='60' height='{:.1}' fill='{LIME}'/>\
          <text x='62' y='210' font-size='10'>quantum</text>\
-         <rect x='180' y='{:.1}' width='60' height='{:.1}' fill='#c44'/>\
+         <rect x='180' y='{:.1}' width='60' height='{:.1}' fill='{CORAL}'/>\
          <text x='182' y='210' font-size='10'>classical</text></svg>",
         200.0 - qh,
         qh,

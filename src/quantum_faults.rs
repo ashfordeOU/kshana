@@ -18,6 +18,7 @@
 
 use crate::detection::{normal_cdf, normal_inv_cdf};
 use crate::eval_stats::bootstrap_auc_ci;
+use crate::palette::chart::{BG, CORAL, FONT_SANS, LIME, TEXT};
 use crate::qtrade::{TradeEvidence, TradeFom, TradeFrame};
 use crate::representativeness::{Gap, Representativeness};
 use crate::verification::VerificationStatus;
@@ -340,12 +341,12 @@ pub fn to_svg(r: &QuantumAnomalyReport) -> String {
     let qh = (r.quantum_auc * 180.0).min(180.0);
     let ch = (r.classical_auc * 180.0).min(180.0);
     format!(
-        "<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220'>\
-         <rect width='320' height='220' fill='white'/>\
+        "<svg xmlns='http://www.w3.org/2000/svg' width='320' height='220' font-family='{FONT_SANS}' fill='{TEXT}'>\
+         <rect width='320' height='220' fill='{BG}'/>\
          <text x='10' y='20' font-size='12'>quantum-anomaly-detect AUC (MODELLED)</text>\
-         <rect x='60' y='{:.1}' width='60' height='{:.1}' fill='#3a6'/>\
+         <rect x='60' y='{:.1}' width='60' height='{:.1}' fill='{LIME}'/>\
          <text x='62' y='210' font-size='10'>quantum</text>\
-         <rect x='180' y='{:.1}' width='60' height='{:.1}' fill='#c44'/>\
+         <rect x='180' y='{:.1}' width='60' height='{:.1}' fill='{CORAL}'/>\
          <text x='182' y='210' font-size='10'>classical</text></svg>",
         200.0 - qh,
         qh,

@@ -39,6 +39,7 @@ use crate::deepspace_od::{
 use crate::integrator::Tolerance;
 use crate::mars_atmos::{mars_drag_accel, MARS_RE};
 use crate::mars_frame::{bodyfixed_to_inertial, iau_mars_rotation, inertial_to_bodyfixed};
+use crate::palette::chart::{AMBER, AXIS, BG, CYAN, FONT_SANS, INK_2};
 use crate::precession::{mat_vec, transpose};
 use crate::precise_od::{empirical_accel, propagate, EmpiricalAccel, ForceModel};
 use crate::timescales::SECONDS_PER_DAY;
@@ -1178,10 +1179,10 @@ pub fn to_svg(result: &MarsPntResult) -> String {
 
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"14\" font-weight=\"bold\">{title}</text>"
@@ -1191,11 +1192,11 @@ pub fn to_svg(result: &MarsPntResult) -> String {
     // The 3σ covariance bound as a horizontal reference line (labelled a covariance bound, not a PL).
     let y3 = mt + ph - (sigma3.min(y_max) / y_max) * ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{y3:.1}\" x2=\"{:.1}\" y2=\"{y3:.1}\" stroke=\"#c98a3a\" stroke-dasharray=\"6 4\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{y3:.1}\" x2=\"{:.1}\" y2=\"{y3:.1}\" stroke=\"{AMBER}\" stroke-dasharray=\"6 4\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#c98a3a\" font-size=\"10\">formal 3σ (covariance, not a certified PL)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{AMBER}\" font-size=\"10\">formal 3σ (covariance, not a certified PL)</text>",
         ml + pw,
         y3 - 4.0
     ));
@@ -1208,12 +1209,12 @@ pub fn to_svg(result: &MarsPntResult) -> String {
         let bh = (v.min(y_max) / y_max) * ph;
         let y = mt + ph - bh;
         svg.push_str(&format!(
-            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"#5fb0a8\"/>"
+            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{CYAN}\"/>"
         ));
     }
     let axis_y = mt + ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str("</svg>");

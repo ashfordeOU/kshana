@@ -55,6 +55,7 @@
 use crate::eop::{
     parse_all_predicted, parse_bulletin_b_pm, parse_bulletin_b_ut1, parse_measured, EopRecord,
 };
+use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, LIME, MUTED, TITLE};
 use crate::timescales::{ERA_TURNS_PER_UT1_DAY, SECONDS_PER_DAY};
 
 /// Speed of light in vacuum, m/s (defining constant).
@@ -1989,13 +1990,13 @@ pub fn growth_annotation(curve: &[HorizonError]) -> Option<(f64, f64)> {
 pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
     let mut s = String::new();
     s.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{SVG_W:.0}\" height=\"{SVG_H:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{SVG_W:.0}\" height=\"{SVG_H:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     s.push_str(&format!(
-        "<rect width=\"{SVG_W:.0}\" height=\"{SVG_H:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{SVG_W:.0}\" height=\"{SVG_H:.0}\" fill=\"{BG}\"/>"
     ));
     s.push_str(&format!(
-        "<text x=\"{ML:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\" fill=\"#e0bd84\">Real-time frame / EOP prediction budget for lunar timing</text>"
+        "<text x=\"{ML:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\" fill=\"{TITLE}\">Real-time frame / EOP prediction budget for lunar timing</text>"
     ));
 
     // --- shared horizon (x) axis helpers ---
@@ -2013,14 +2014,14 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
     ));
     // axes
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{PANEL_A_TOP:.0}\" x2=\"{ML:.0}\" y2=\"{a_axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ML:.0}\" y1=\"{PANEL_A_TOP:.0}\" x2=\"{ML:.0}\" y2=\"{a_axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{a_axis_y:.0}\" x2=\"{:.0}\" y2=\"{a_axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ML:.0}\" y1=\"{a_axis_y:.0}\" x2=\"{:.0}\" y2=\"{a_axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{ML:.0}\" y=\"40\" fill=\"#8c8273\">(a)</text>"
+        "<text x=\"{ML:.0}\" y=\"40\" fill=\"{MUTED}\">(a)</text>"
     ));
     // IERS final floor line (from the measured Final horizon, else the ~0.02 ms floor).
     let floor_ms = curve
@@ -2030,32 +2031,32 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         .unwrap_or(0.02);
     let floor_y = a_y_of_ms(floor_ms);
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{floor_y:.1}\" x2=\"{:.0}\" y2=\"{floor_y:.1}\" stroke=\"#6fae7a\" stroke-dasharray=\"4 3\"/>",
+        "<line x1=\"{ML:.0}\" y1=\"{floor_y:.1}\" x2=\"{:.0}\" y2=\"{floor_y:.1}\" stroke=\"{LIME}\" stroke-dasharray=\"4 3\"/>",
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#6fae7a\">IERS final floor {floor_ms:.3} ms</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">IERS final floor {floor_ms:.3} ms</text>",
         ML + 6.0,
         floor_y - 4.0
     ));
     // ~0.5 ms / 15 m marker line.
     let mark_y = a_y_of_ms(MARKER_UT1_MS);
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{mark_y:.1}\" x2=\"{:.0}\" y2=\"{mark_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/>",
+        "<line x1=\"{ML:.0}\" y1=\"{mark_y:.1}\" x2=\"{:.0}\" y2=\"{mark_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>",
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">~{MARKER_UT1_MS} ms = ~{MARKER_POS_M:.0} m at Moon</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">~{MARKER_UT1_MS} ms = ~{MARKER_POS_M:.0} m at Moon</text>",
         ML + 6.0,
         mark_y - 4.0
     ));
     // ~5-day vertical marker.
     let mark_x = x_of_days(MARKER_HORIZON_DAYS);
     s.push_str(&format!(
-        "<line x1=\"{mark_x:.1}\" y1=\"{PANEL_A_TOP:.0}\" x2=\"{mark_x:.1}\" y2=\"{a_axis_y:.0}\" stroke=\"#d2925e\" stroke-dasharray=\"3 3\"/>"
+        "<line x1=\"{mark_x:.1}\" y1=\"{PANEL_A_TOP:.0}\" x2=\"{mark_x:.1}\" y2=\"{a_axis_y:.0}\" stroke=\"{AMBER}\" stroke-dasharray=\"3 3\"/>"
     ));
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"#d2925e\">~{MARKER_HORIZON_DAYS:.0} d</text>",
+        "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"{AMBER}\">~{MARKER_HORIZON_DAYS:.0} d</text>",
         mark_x + 4.0,
         PANEL_A_TOP + 14.0
     ));
@@ -2064,10 +2065,10 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         .iter()
         .map(|h| (x_of_days(h.horizon.days()), a_y_of_ms(h.rms_ms())))
         .collect();
-    s.push_str(&polyline(&a_pts, "#e0bd84"));
+    s.push_str(&polyline(&a_pts, CYAN));
     for (x, y) in &a_pts {
         s.push_str(&format!(
-            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3\" fill=\"#e0bd84\"/>"
+            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3\" fill=\"{CYAN}\"/>"
         ));
     }
 
@@ -2081,14 +2082,14 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         "position at Moon (m)",
     ));
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{PANEL_B_TOP:.0}\" x2=\"{ML:.0}\" y2=\"{b_axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ML:.0}\" y1=\"{PANEL_B_TOP:.0}\" x2=\"{ML:.0}\" y2=\"{b_axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{b_axis_y:.0}\" x2=\"{:.0}\" y2=\"{b_axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ML:.0}\" y1=\"{b_axis_y:.0}\" x2=\"{:.0}\" y2=\"{b_axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{ML:.0}\" y=\"{:.0}\" fill=\"#8c8273\">(b)</text>",
+        "<text x=\"{ML:.0}\" y=\"{:.0}\" fill=\"{MUTED}\">(b)</text>",
         PANEL_B_TOP - 8.0
     ));
     // right-hand equivalent-timing (ns) axis: position/c.
@@ -2099,42 +2100,42 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
         let pos_m = B_Y_MAX_M * frac;
         let ns = pos_m / C_M_S * 1e9;
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"start\" fill=\"#8c8273\" font-size=\"11\">{ns:.0} ns</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"start\" fill=\"{MUTED}\" font-size=\"11\">{ns:.0} ns</text>",
             right_x + 6.0,
             y + 4.0
         ));
     }
     let rc = PANEL_B_TOP + PANEL_H / 2.0;
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{rc:.1}\" text-anchor=\"middle\" fill=\"#8c8273\" font-size=\"12\" transform=\"rotate(90 {:.0} {rc:.1})\">equiv. timing (ns)</text>",
+        "<text x=\"{:.0}\" y=\"{rc:.1}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"12\" transform=\"rotate(90 {:.0} {rc:.1})\">equiv. timing (ns)</text>",
         SVG_W - 16.0,
         SVG_W - 16.0
     ));
     // 15 m marker line.
     let m15_y = b_y_of_m(MARKER_POS_M);
     s.push_str(&format!(
-        "<line x1=\"{ML:.0}\" y1=\"{m15_y:.1}\" x2=\"{:.0}\" y2=\"{m15_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/>",
+        "<line x1=\"{ML:.0}\" y1=\"{m15_y:.1}\" x2=\"{:.0}\" y2=\"{m15_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>",
         ML + PW
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">{MARKER_POS_M:.0} m ({:.1} ns)</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">{MARKER_POS_M:.0} m ({:.1} ns)</text>",
         ML + 6.0,
         m15_y - 4.0,
         MARKER_POS_M / C_M_S * 1e9
     ));
     // ~5-day vertical marker.
     s.push_str(&format!(
-        "<line x1=\"{mark_x:.1}\" y1=\"{PANEL_B_TOP:.0}\" x2=\"{mark_x:.1}\" y2=\"{b_axis_y:.0}\" stroke=\"#d2925e\" stroke-dasharray=\"3 3\"/>"
+        "<line x1=\"{mark_x:.1}\" y1=\"{PANEL_B_TOP:.0}\" x2=\"{mark_x:.1}\" y2=\"{b_axis_y:.0}\" stroke=\"{AMBER}\" stroke-dasharray=\"3 3\"/>"
     ));
     // measured position curve + growth annotation (1-day horizon → longest real horizon).
     let b_pts: Vec<(f64, f64)> = curve
         .iter()
         .map(|h| (x_of_days(h.horizon.days()), b_y_of_m(h.rms_position_m())))
         .collect();
-    s.push_str(&polyline(&b_pts, "#e0bd84"));
+    s.push_str(&polyline(&b_pts, CYAN));
     for (x, y) in &b_pts {
         s.push_str(&format!(
-            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3\" fill=\"#e0bd84\"/>"
+            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3\" fill=\"{CYAN}\"/>"
         ));
     }
     // Growth-factor annotation, GENUINE and self-describing: the RMS position at the
@@ -2146,14 +2147,14 @@ pub fn frame_eop_svg(curve: &[HorizonError]) -> String {
     // horizon shown are whatever the real data produce (see [`growth_annotation`]).
     if let Some((factor, far_days)) = growth_annotation(curve) {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"#d2925e\">~{factor:.1}x, 1 d\u{2192}{far_days:.0} d</text>",
+            "<text x=\"{:.1}\" y=\"{:.0}\" fill=\"{AMBER}\">~{factor:.1}x, 1 d\u{2192}{far_days:.0} d</text>",
             mark_x + 4.0,
             PANEL_B_TOP + 16.0,
         ));
     }
     // horizon axis label.
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8c8273\">prediction horizon (days)</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">prediction horizon (days)</text>",
         ML + PW / 2.0,
         SVG_H - 12.0
     ));
