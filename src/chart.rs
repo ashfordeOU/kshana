@@ -1,6 +1,8 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Shared SVG charting helpers used by the per-pack chart renderers.
 
+use crate::palette::chart::{AXIS, BG, FONT_SANS, GRID, INK_2, MUTED};
+
 /// Format a y-axis tick value at a precision sensible for its magnitude.
 fn fmt_tick(v: f64) -> String {
     let a = v.abs();
@@ -27,11 +29,11 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
         let y = mt + ph - frac * ph;
         let val = y_max * frac;
         s.push_str(&format!(
-            "<line x1=\"{ml:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#262019\"/>",
+            "<line x1=\"{ml:.0}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/>",
             ml + pw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#8c8273\" font-size=\"11\">{}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\" font-size=\"11\">{}</text>",
             ml - 6.0,
             y + 4.0,
             fmt_tick(val)
@@ -39,7 +41,7 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
     }
     let yc = mt + ph / 2.0;
     s.push_str(&format!(
-        "<text x=\"16\" y=\"{yc:.1}\" text-anchor=\"middle\" fill=\"#8c8273\" font-size=\"12\" transform=\"rotate(-90 16 {yc:.1})\">{title}</text>"
+        "<text x=\"16\" y=\"{yc:.1}\" text-anchor=\"middle\" fill=\"{MUTED}\" font-size=\"12\" transform=\"rotate(-90 16 {yc:.1})\">{title}</text>"
     ));
     s
 }
@@ -50,10 +52,10 @@ pub fn y_axis(ml: f64, mt: f64, pw: f64, ph: f64, y_max: f64, title: &str) -> St
 pub fn frame_open(w: f64, h: f64, title: &str, subtitle: &str) -> String {
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">\
-         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>\
+         font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
+         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>\
          <text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">{title}</text>\
-         <text x=\"24\" y=\"40\" font-size=\"11\" fill=\"#8a8172\">{subtitle}</text>"
+         <text x=\"24\" y=\"40\" font-size=\"11\" fill=\"{MUTED}\">{subtitle}</text>"
     )
 }
 
@@ -62,9 +64,9 @@ pub fn frame_open(w: f64, h: f64, title: &str, subtitle: &str) -> String {
 /// down to `bottom`.
 pub fn panel_axes(x: f64, top: f64, width: f64, bottom: f64, caption: &str) -> String {
     format!(
-        "<text x=\"{x:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">{caption}</text>\
-         <line x1=\"{x:.0}\" y1=\"{top:.0}\" x2=\"{x:.0}\" y2=\"{bottom:.0}\" stroke=\"#342c21\"/>\
-         <line x1=\"{x:.0}\" y1=\"{bottom:.0}\" x2=\"{:.0}\" y2=\"{bottom:.0}\" stroke=\"#342c21\"/>",
+        "<text x=\"{x:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">{caption}</text>\
+         <line x1=\"{x:.0}\" y1=\"{top:.0}\" x2=\"{x:.0}\" y2=\"{bottom:.0}\" stroke=\"{AXIS}\"/>\
+         <line x1=\"{x:.0}\" y1=\"{bottom:.0}\" x2=\"{:.0}\" y2=\"{bottom:.0}\" stroke=\"{AXIS}\"/>",
         top - 8.0,
         x + width
     )

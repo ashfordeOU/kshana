@@ -65,6 +65,7 @@
 use crate::antenna::{boresight_gain_dbi, pattern_gain_dbi, GainPattern2D};
 use crate::jamming::{free_space_path_loss_db, nominal_cn0_dbhz, L1_HZ};
 use crate::orbit::{dop, Dop, R_EARTH_EQUATORIAL_M};
+use crate::palette::chart::{AMBER, BG, CORAL, FONT_SANS, INK_2, INK_4, MUTED, RULE, TITLE};
 use crate::walker::WalkerSgp4;
 use serde::{Deserialize, Serialize};
 
@@ -753,9 +754,9 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
     let (w, h) = (900.0_f64, 420.0_f64);
     let mut s = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">\
-         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>\
-         <text x=\"24\" y=\"30\" font-size=\"15\" fill=\"#e8e0d0\">\
+         font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
+         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>\
+         <text x=\"24\" y=\"30\" font-size=\"15\" fill=\"{TITLE}\">\
          Earth-GNSS at lunar distance — C/N0 against off-boresight angle</text>"
     );
     let (ml, mt, pw, ph) = (70.0_f64, 56.0_f64, w - 110.0, h - 110.0);
@@ -781,8 +782,8 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
 
     // Axes.
     s.push_str(&format!(
-        "<line x1=\"{ml}\" y1=\"{}\" x2=\"{}\" y2=\"{}\" stroke=\"#3a352c\"/>\
-         <line x1=\"{ml}\" y1=\"{mt}\" x2=\"{ml}\" y2=\"{}\" stroke=\"#3a352c\"/>",
+        "<line x1=\"{ml}\" y1=\"{}\" x2=\"{}\" y2=\"{}\" stroke=\"{RULE}\"/>\
+         <line x1=\"{ml}\" y1=\"{mt}\" x2=\"{ml}\" y2=\"{}\" stroke=\"{RULE}\"/>",
         mt + ph,
         ml + pw,
         mt + ph,
@@ -791,9 +792,9 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
     // Threshold line.
     let ty = mt + ph - (r.tracking_threshold_dbhz - lo) / span * ph;
     s.push_str(&format!(
-        "<line x1=\"{ml}\" y1=\"{ty:.1}\" x2=\"{:.1}\" y2=\"{ty:.1}\" stroke=\"#b4553c\" \
+        "<line x1=\"{ml}\" y1=\"{ty:.1}\" x2=\"{:.1}\" y2=\"{ty:.1}\" stroke=\"{CORAL}\" \
          stroke-dasharray=\"5,4\"/>\
-         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"#b4553c\">track {:.0} dB-Hz</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{CORAL}\">track {:.0} dB-Hz</text>",
         ml + pw,
         ml + pw - 96.0,
         ty - 5.0,
@@ -802,9 +803,9 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
     // Earth-limb line.
     let lx = ml + (r.earth_limb_half_angle_deg / max_ang) * pw;
     s.push_str(&format!(
-        "<line x1=\"{lx:.1}\" y1=\"{mt}\" x2=\"{lx:.1}\" y2=\"{:.1}\" stroke=\"#6f6858\" \
+        "<line x1=\"{lx:.1}\" y1=\"{mt}\" x2=\"{lx:.1}\" y2=\"{:.1}\" stroke=\"{INK_4}\" \
          stroke-dasharray=\"3,3\"/>\
-         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"#6f6858\">Earth limb {:.1}°</text>",
+         <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{MUTED}\">Earth limb {:.1}°</text>",
         mt + ph,
         lx + 6.0,
         mt + 14.0,
@@ -815,20 +816,20 @@ fn egl_svg(r: &EarthGnssLunarReport) -> String {
         let x = ml + (l.off_boresight_deg / max_ang) * pw;
         let y = mt + ph - (l.cn0_dbhz - lo) / span * ph;
         let (fill, rad) = if l.earth_occulted {
-            ("#6f6858", 3.0)
+            (INK_4, 3.0)
         } else if l.trackable {
-            ("#c9a227", 4.5)
+            (AMBER, 4.5)
         } else {
-            ("#b4553c", 3.5)
+            (CORAL, 3.5)
         };
         s.push_str(&format!(
             "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"{rad}\" fill=\"{fill}\"/>"
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"#8d8577\">off-boresight angle (deg)</text>\
-         <text x=\"20\" y=\"{:.0}\" fill=\"#8d8577\">C/N0 (dB-Hz)</text>\
-         <text x=\"24\" y=\"{:.0}\" fill=\"#8d8577\">gold = trackable · red = too weak · \
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{MUTED}\">off-boresight angle (deg)</text>\
+         <text x=\"20\" y=\"{:.0}\" fill=\"{MUTED}\">C/N0 (dB-Hz)</text>\
+         <text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">gold = trackable · red = too weak · \
          grey = Earth-occulted · MODELLED transmit pattern</text></svg>",
         ml + pw / 2.0 - 70.0,
         mt + ph + 34.0,

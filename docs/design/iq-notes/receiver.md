@@ -85,7 +85,7 @@ NWPR/PLI limits, histogram bit sync on clean data.
   It reads low when the K-prompt coherent sum loses coherence, and its sensitivity grows with
   `ρ`: a 1° RMS phase wobble costs 0.06 dB at `ρ` = 32 (GPS L1 C/A) and 0.40 dB at `ρ` = 316
   (GPS L2C at 20 ms, BeiDou B1C at 10 ms). The tracking loop's own PLL jitter is such a wobble,
-  so NWPR reads low by about **8 dB × Bn·T** (the ideal-loop value is 4.6 dB × Bn·T; the digital
+  so NWPR reads low by about **8 dB × Bn·T (fitted on one scene, four points)** (the ideal-loop value is 4.6 dB × Bn·T; the digital
   loop peaks more at Bn·T ≈ 0.1). Measured on the GPS L2C CM scene at 45 dB-Hz, T = 20 ms, with a
   pure second-order PLL (nominal 41.99 dB-Hz):
 
@@ -123,3 +123,30 @@ NWPR/PLI limits, histogram bit sync on clean data.
 - `TrackingBank::run` and `replay` keep every `EpochOutput` in memory; use
   `TrackingBank::process` on chunks to stream hours-long recordings.
 - No CLI/Python/WASM/MCP surface yet (integration's job per the plan).
+
+### Known limitation: commensurate sampling
+
+When the sample rate is an integer or half-integer multiple of the chip rate (2.046,
+3.069 or 4.092 MHz for GPS L1 C/A), the samples fall on the same few chip phases in every
+chip. The early and late correlators then see a staircase instead of the correlation
+triangle, and the code discriminator's S-curve has flat steps. How much this hurts depends
+on the early-late spacing `d`. Measured on a synthetic GPS L1 C/A signal at 45 dB-Hz
+(1500 Hz Doppler, first-order 2 Hz DLL, 1 ms updates), against an incommensurate rate with
+the same `d`:
+
+- 2 samples/chip, d = 0.5: the S-curve is a single step and the DLL dithers bang-bang.
+  Code tracking error is ≈ 0.09 chip RMS (≈ 26 m) with a −0.09 chip bias, against
+  ≈ 0.003 chip at an incommensurate rate (about 30×). The correlation loss also makes the
+  NWPR C/N0 read ≈ 2.4 dB low (42.6 for an injected 45 dB-Hz).
+- 4 samples/chip depends on the code Doppler, which slides the sampling pattern along the
+  chips. With d = 0.5 it matches the control at 1500 and 4000 Hz Doppler (0.88×, 1.0×). At
+  0 Hz it is 2.0× with a +0.011 chip bias. With d = 0.25 or 0.1 the code error is
+  8–10× the control at 1500 Hz, and at 0 Hz d = 0.25 holds a +0.125 chip bias.
+- 8 and 16 samples/chip with d = 0.5 or 0.25 match the control at 1500 Hz. 6
+  samples/chip is about 4×, and d = 0.1 is still 4–7× at 6 and 8 samples/chip.
+- 2.5, 3 and 5 samples/chip are 4–8× the control at d = 0.5. At d = 0.1, every integer and
+  half-integer rate from 2 to 5 is 6–12× the control.
+
+The carrier loop is not affected. Recordings at such rates still acquire and track, but
+their code-loop jitter, code bias and C/N0 should not be used to judge a design. Use a rate
+that is not a multiple of half the chip rate for that, as real front ends usually do.

@@ -38,6 +38,7 @@
 
 use crate::conflict_threat_params::{conflict_baseline, VectorProfile, THREAT_VECTORS};
 use crate::mcda::sensitivity::{tornado, TornadoBar};
+use crate::palette::chart::{AMBER, BLUE, CORAL, CYAN, GRID, INK_4, MUTED};
 use crate::resilience::stats::{dirichlet_weights, percentile_ci};
 use rand::Rng;
 use rand::SeedableRng;
@@ -1558,11 +1559,11 @@ fn svg(c: &Computed) -> String {
         let frac = g as f64 / 4.0;
         let gy = axis_y - frac * lh;
         s.push_str(&format!(
-            "<line x1=\"{lx:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"#241d15\" stroke-dasharray=\"3 4\"/>",
+            "<line x1=\"{lx:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"{GRID}\" stroke-dasharray=\"3 4\"/>",
             lx + lw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#6b6355\">{:.2}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{:.2}</text>",
             lx - 6.0,
             gy + 4.0,
             frac
@@ -1598,29 +1599,29 @@ fn svg(c: &Computed) -> String {
         ));
     }
     s.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#7a7161\" stroke-width=\"3\" stroke-dasharray=\"2 4\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{INK_4}\" stroke-width=\"3\" stroke-dasharray=\"2 4\" points=\"{}\"/>",
         cf.trim_end()
     ));
     s.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
         mc.trim_end()
     ));
     s.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#c05a4d\" stroke-width=\"1.5\" stroke-dasharray=\"5 3\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{CORAL}\" stroke-width=\"1.5\" stroke-dasharray=\"5 3\" points=\"{}\"/>",
         single.trim_end()
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8a8172\">threat intensity</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">threat intensity</text>",
         lx + lw / 2.0,
         axis_y + 26.0
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"#d2925e\" font-size=\"10\">layered MC</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{AMBER}\" font-size=\"10\">layered MC</text>",
         lx + 8.0,
         ly + 12.0
     ));
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"#c05a4d\" font-size=\"10\">single layer</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" fill=\"{CORAL}\" font-size=\"10\">single layer</text>",
         lx + 8.0,
         ly + 26.0
     ));
@@ -1647,11 +1648,11 @@ fn svg(c: &Computed) -> String {
         let gy = raxis_y - frac * rh;
         let val = frac * ratio_max;
         s.push_str(&format!(
-            "<line x1=\"{rx:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"#241d15\" stroke-dasharray=\"3 4\"/>",
+            "<line x1=\"{rx:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"{GRID}\" stroke-dasharray=\"3 4\"/>",
             rx + rw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#6b6355\">{:.1}x</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{:.1}x</text>",
             rx - 6.0,
             gy + 4.0,
             val
@@ -1670,20 +1671,20 @@ fn svg(c: &Computed) -> String {
         }
     }
     s.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#5fb0c9\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"2\" points=\"{}\"/>",
         rpts.trim_end()
     ));
     for s2 in &c.correlation_sweep {
         if s2.resilience_ratio.is_finite() {
             s.push_str(&format!(
-                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"2.6\" fill=\"#e0bd84\"/>",
+                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"2.6\" fill=\"{CYAN}\"/>",
                 rxof(s2.rho),
                 ryof(s2.resilience_ratio)
             ));
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"#8a8172\">denial correlation ρ</text>",
+        "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\" fill=\"{MUTED}\">denial correlation ρ</text>",
         rx + rw / 2.0,
         raxis_y + 26.0
     ));
