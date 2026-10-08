@@ -7,23 +7,28 @@
 //! once ([`crate::iq::track::replay`]) through one loop design built from the loop flags
 //! (noise bandwidths, integration time, correlator spacing). Each loop update
 //! ([`crate::iq::track::EpochOutput`]) is written to the `--csv`/`--json` artifact and a
-//! last-epoch summary is printed.
+//! last-epoch summary is printed. The front-end flags (`--bandpass`, `--notch`, `--blank`,
+//! `--excise`, `--agc`, `--bits`, as `iq acquire` and `iq frontend` take them) put a fresh
+//! front-end chain in front of each pass.
 
 use super::acquire::{codes_from_args, read_samples};
+use super::frontend::through_frontend;
 use super::{open_input, Args, Fail};
 use crate::iq::acq::acquire;
-use crate::iq::acq::{samples_needed, AcqConfig};
+use crate::iq::acq::{auto_coherent_periods, samples_needed, AcqConfig};
 use crate::iq::signals::SignalCode;
 use crate::iq::track::{replay, CarrierLoop, ChannelInit, EpochOutput, LoopConfig};
 use crate::iq::{IqSource, SampleSpec, SpreadingCode};
 use std::sync::Arc;
 
-/// Build the acquisition config used to initialise tracking from the `--acq-*` flags.
+/// Build the acquisition config used to initialise tracking from the `--acq-*` flags. The
+/// coherent length defaults to auto (≈4 ms, [`auto_coherent_periods`]); `--acq-coherent 1`
+/// restores the one-period search of 0.32 and earlier.
 pub(crate) fn init_acq_config(a: &Args, period_s: f64) -> Result<AcqConfig, Fail> {
     let coherent_periods = a
         .num("--acq-coherent")
         .map_err(Fail::Usage)?
-        .unwrap_or(1usize)
+        .unwrap_or_else(|| auto_coherent_periods(period_s))
         .max(1);
     let noncoherent = a
         .num("--acq-noncoherent")
@@ -124,14 +129,17 @@ pub(crate) fn loop_config_from(a: &Args, label: &str) -> Result<LoopConfig, Fail
 
 /// Run `kshana iq track <args>`.
 pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
-    let a = Args::parse(args, &[]).map_err(Fail::Usage)?;
+    let a = Args::parse(args, super::frontend::FRONTEND_SWITCHES).map_err(Fail::Usage)?;
     a.need_pos(1, "track")?;
+    // Optional receiver front end, applied to both passes as `iq acquire` applies it.
+    let fe = super::frontend::FrontendParams::from_args(&a)?;
     let codes = codes_from_args(&a)?;
 
     // One pass to acquire, a fresh pass to track the whole recording.
-    let mut opened = open_input(&a, 0)?;
+    let opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
-    let inits = acquire_inits(&a, &spec, &codes, opened.source.as_mut())?;
+    let mut acq_src = through_frontend(&fe, opened.source)?;
+    let inits = acquire_inits(&a, &spec, &codes, acq_src.as_mut())?;
 
     let cfg = loop_config_from(&a, "track")?;
     let max_samples = a
@@ -139,9 +147,9 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Usage)?
         .map(|s| (s * spec.fs_hz).round() as u64);
 
-    let mut track_src = open_input(&a, 0)?;
+    let mut track_src = through_frontend(&fe, open_input(&a, 0)?.source)?;
     let results = replay(
-        track_src.source.as_mut(),
+        track_src.as_mut(),
         &inits,
         std::slice::from_ref(&cfg),
         max_samples,
