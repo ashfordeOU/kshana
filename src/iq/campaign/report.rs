@@ -60,8 +60,14 @@ pub struct Row {
     pub reacq_time_s: Option<f64>,
     /// Re-acquisition time from the loss of lock (s).
     pub outage_s: Option<f64>,
-    /// Baseline C/N0 (event rows) or median C/N0 (run rows) (dB-Hz).
+    /// Baseline C/N0 (event rows) or median C/N0 (run rows) (dB-Hz), by `cn0_estimator`.
     pub cn0_dbhz: Option<f64>,
+    /// The estimator behind `cn0_dbhz`: `"m2m4"` or `"nwpr"`.
+    pub cn0_estimator: String,
+    /// The same figure by NWPR (dB-Hz).
+    pub cn0_nwpr_dbhz: Option<f64>,
+    /// The same figure by M2M4 (dB-Hz).
+    pub cn0_m2m4_dbhz: Option<f64>,
     /// Carrier jitter (deg).
     pub pll_jitter_deg: Option<f64>,
     /// Code jitter (chips).
@@ -223,6 +229,9 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
                 reacq_time_s: None,
                 outage_s: None,
                 cn0_dbhz: w.median_cn0_dbhz,
+                cn0_estimator: c.cn0_estimator.clone(),
+                cn0_nwpr_dbhz: w.median_cn0_nwpr_dbhz,
+                cn0_m2m4_dbhz: w.median_cn0_m2m4_dbhz,
                 pll_jitter_deg: w.pll_jitter_deg,
                 dll_jitter_chips: w.dll_jitter_chips,
                 false_lock_episodes: w.false_lock_episodes,
@@ -249,6 +258,9 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
                     reacq_time_s: e.reacq_time_s,
                     outage_s: e.outage_s,
                     cn0_dbhz: e.baseline_cn0_dbhz,
+                    cn0_estimator: c.cn0_estimator.clone(),
+                    cn0_nwpr_dbhz: e.baseline_cn0_nwpr_dbhz,
+                    cn0_m2m4_dbhz: e.baseline_cn0_m2m4_dbhz,
                     pll_jitter_deg: e.pll_jitter_deg,
                     dll_jitter_chips: e.dll_jitter_chips,
                     false_lock_episodes: e.false_lock_episodes,
@@ -274,7 +286,7 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
 
     // CSV.
     let mut csv = String::from(
-        "recording,frontend,design,signal,sat,scope,event_id,event_type,handoff,availability,time_to_loss_s,js_at_loss_db,reacq_time_s,outage_s,cn0_dbhz,pll_jitter_deg,dll_jitter_chips,false_lock_episodes,false_lock_per_hour,verdict,failed_bars,cell\n",
+        "recording,frontend,design,signal,sat,scope,event_id,event_type,handoff,availability,time_to_loss_s,js_at_loss_db,reacq_time_s,outage_s,cn0_dbhz,cn0_estimator,cn0_nwpr_dbhz,cn0_m2m4_dbhz,pll_jitter_deg,dll_jitter_chips,false_lock_episodes,false_lock_per_hour,verdict,failed_bars,cell\n",
     );
     for r in &rows {
         let fields = [
@@ -293,6 +305,9 @@ pub fn build(out_dir: &Path) -> Result<ReportSummary, String> {
             opt(r.reacq_time_s),
             opt(r.outage_s),
             opt(r.cn0_dbhz),
+            r.cn0_estimator.clone(),
+            opt(r.cn0_nwpr_dbhz),
+            opt(r.cn0_m2m4_dbhz),
             opt(r.pll_jitter_deg),
             opt(r.dll_jitter_chips),
             r.false_lock_episodes.to_string(),
@@ -466,7 +481,11 @@ fn html(
     }
 
     // Full scorecard.
-    h.push_str("<h2>Scorecard</h2><p class=\"meta\">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock.</p><div class=\"wrap\"><table><thead><tr><th class=\"l\">Recording</th><th class=\"l\">Front end</th><th class=\"l\">Design</th><th>Sat</th><th class=\"l\">Scope</th><th class=\"l\">Event</th><th>Avail.</th><th>Loss (s)</th><th>J/S at loss</th><th>Re-acq (s)</th><th>Outage (s)</th><th>C/N0</th><th>PLL σ (°)</th><th>DLL σ (chip)</th><th>False locks</th><th class=\"l\">Verdict</th></tr></thead><tbody>");
+    let note = match plan.scoring.cn0_estimator.name() {
+        "nwpr" => "NWPR (reads low by about 8 dB \u{b7} Bn\u{b7}T under the loop's own jitter, so its readings depend on the loop design)",
+        _ => "M2M4 (insensitive to the loop's own jitter)",
+    };
+    let _ = write!(h, "<h2>Scorecard</h2><p class=\"meta\">The same rows as <code>scorecard.csv</code>. Re-acquisition is measured from the event offset; outage is measured from the loss of lock. The C/N0 column and the degradation curves use the {note} estimate; both estimates are in <code>scorecard.json</code>.</p><div class=\"wrap\"><table><thead><tr><th class=\"l\">Recording</th><th class=\"l\">Front end</th><th class=\"l\">Design</th><th>Sat</th><th class=\"l\">Scope</th><th class=\"l\">Event</th><th>Avail.</th><th>Loss (s)</th><th>J/S at loss</th><th>Re-acq (s)</th><th>Outage (s)</th><th>C/N0</th><th>PLL σ (°)</th><th>DLL σ (chip)</th><th>False locks</th><th class=\"l\">Verdict</th></tr></thead><tbody>");
     for r in rows {
         let ev = if r.scope == "event" {
             format!("{} ({})", esc(&r.event_id), esc(&r.event_type))
