@@ -188,7 +188,7 @@ rounded and hashes shortened):
 {
   "data_class": "synthetic",
   "design": {
-    "hash": "f23475dc…",
+    "hash": "db9708c2…",
     "name": "pll-only"
   },
   "engine_version": "0.32.0",
@@ -196,7 +196,7 @@ rounded and hashes shortened):
     "hash": "e015d238…",
     "name": "raw"
   },
-  "key": "e2a43882…",
+  "key": "6f33d888…",
   "lock_source": "track-session",
   "recording": {
     "conditions_hash": "9b094d27…",
@@ -402,14 +402,24 @@ expected to agree. The tests cover:
   deviation sits near 0.2 chip at every C/N0. Commensurate sampling turns the S-curve into a step
   (`docs/design/evidence/dll-jitter/RESULTS.md`). The synthetic campaign therefore samples at
   2.5 MHz, where DLL jitter grows with falling C/N0 as theory expects.
-* Under the session's rule (phase *or* code lock down for `loss_dwell_s`), the default
-  FLL-assisted design loses lock at about 39 dB-Hz on these scenes, while the PLL-only design
-  mostly holds. The scorer reports what the state machine decides. It does not second-guess it.
-* With `reacquire = true`, the session's re-acquisition searches run back to back, about 50 ms
-  each. The built-in limit of 3 failed searches therefore retires a channel about 0.2 s into a
-  noise-only gap, and it never returns. `tests/iq_campaign.rs` uses `max_reacq_attempts = 60`
-  to span a 2 s gap. A re-acquired channel is LOCKED again about 1.2 s after the signal
-  returns: one search, then the C/N0 estimator refilling (50 × 20 ms), then the 0.2 s dwell.
-  With `reacquire = false`, two of three channels recover about 0.5 s after the gap (relock is
-  `recovered`), and the third, whose loops drift during the gap, never does. That outcome is
-  pinned.
+* The default design's FLL assist runs only during pull-in (`fll_assist = "pull-in"`, the
+  default from #45 `f3a8ca8b`; `"always"` restores the old behaviour). On the synthetic ramp
+  (J/S 20 then 30 dB, about 30 dB-Hz at the end) the default design and the PLL-only design now
+  score the same: no loss, availability 0.978 for PRN 3 and 0.978 for PRN 11. Before that change
+  the always-on 10 Hz FLL injected frequency noise, and under the session's rule (phase *or*
+  code lock down for `loss_dwell_s`) the default design lost lock at about 39 dB-Hz on these
+  scenes while the PLL-only design held. The scorer reports what the state machine decides. It
+  does not second-guess it.
+* Re-acquisition is time-based. With `reacquire = true`, the session searches every
+  `reacq_interval_s` (0.1 s, fixed by default; an optional back-off doubles it up to
+  `reacq_max_interval_s`) and retires a channel only when the loss has lasted `reacq_window_s`
+  (30 s by default) or, if set, `max_reacq_attempts` searches have failed (0 means no cap). The
+  earlier fixed count of 3 back-to-back searches retired a channel about 0.2 s into a gap, so the
+  `gap20` design in `tests/iq_campaign.rs` now sets `reacq_window_s = 5.0` in place of
+  `max_reacq_attempts = 60`. Every channel is LOCKED again about 1.24 s after the gap in both
+  front ends: one search, then the C/N0 estimator refilling (50 × 20 ms), then the 0.2 s dwell.
+  With `reacquire = false`, PRNs 3 and 11 relock after the gap on both front ends
+  (relock is `recovered`). PRN 22, whose loops drift during the gap, relocks on the raw chain and
+  still does not on the 3-bit AGC chain. That outcome is pinned per front end
+  (`PINNED_OBSERVE_RAW`, `PINNED_OBSERVE_Q3`); before #45 `f3a8ca8b` PRN 22 did not relock on
+  either.

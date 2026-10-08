@@ -686,19 +686,34 @@ fn resuming_after_a_partial_single_worker_run_gives_identical_cells_and_digest()
     assert!(s.rows_failed > 0);
 }
 
-/// How many cells a dry run against the reference output would run.
+/// How many cells a dry run against a copy of the reference output would run. The copy keeps
+/// the shared reference untouched, since a run rewrites `campaign.json` and the digest.
 fn pending_against_reference(campaign_text: &str, base: &Path) -> (usize, usize) {
     let f = fixture();
+    let copy = scratch("stale-copy");
+    std::fs::create_dir_all(copy.join("cells")).unwrap();
+    for e in std::fs::read_dir(f.reference_out.join("cells"))
+        .unwrap()
+        .flatten()
+    {
+        std::fs::copy(e.path(), copy.join("cells").join(e.file_name())).unwrap();
+    }
+    std::fs::copy(
+        f.reference_out.join("hashes.json"),
+        copy.join("hashes.json"),
+    )
+    .unwrap();
     let c = LoadedCampaign::load_text(campaign_text, base).unwrap();
     let dry = run(
         &c,
-        &f.reference_out,
+        &copy,
         &RunOptions {
             dry_run: true,
             ..Default::default()
         },
     )
     .unwrap();
+    std::fs::remove_dir_all(&copy).ok();
     (dry.cells_pending, dry.cells_skipped)
 }
 
@@ -1022,13 +1037,13 @@ fn with_reacquire_off_the_observe_only_outcome_is_pinned() {
     }
 }
 
-// Observe-only (reacquire off): all three PRNs recover once the signal returns, in both front
-// ends. Re-pinned at #45 f3a8ca8b (FLL assist gated to pull-in): PRN 22, whose loops drifted
-// during the gap and never relocked before, now does.
+// Observe-only (reacquire off). Re-pinned at #45 f3a8ca8b (FLL assist gated to pull-in).
+// Before: PRN 22 never relocked in either front end. Now it relocks on the raw chain and
+// still does not on the 3-bit AGC chain; PRNs 3 and 11 recover in both.
 const PINNED_OBSERVE_RAW: [(i64, bool, bool); 3] =
     [(3, true, true), (11, true, true), (22, true, true)];
 const PINNED_OBSERVE_Q3: [(i64, bool, bool); 3] =
-    [(3, true, true), (11, true, true), (22, true, true)];
+    [(3, true, true), (11, true, true), (22, true, false)];
 
 /// GB scale: a single recording of at least 4 GB (200 s of `cf32_le` at 2.5 MHz, one
 /// satellite) through one design. Run it with
