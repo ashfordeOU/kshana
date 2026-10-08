@@ -1,0 +1,93 @@
+/* Kshana site theme: the Observatory system (founder's choice, 2026-09-28), site pages only.
+   Loaded after tokens.css (which the Studio shares and keeps unchanged) and before site.css.
+   It sets the Observatory colour, type and surface tokens, and re-points the shared token names
+   (--bg, --ink, --line, --surface, --f-display ...) so pages not yet rebuilt follow the same base.
+   Three theme states: no data-theme follows the system; data-theme="light" | "dark" forces one.
+   Text colours keep WCAG AA (4.5:1) on the ground they sit on, in both themes. */
+:root{
+  color-scheme:light;
+  --bg:#E8ECF3; --bg-2:#DEE4EE; --bg-3:#D3DBE8; /* 0.29.2: a soft blue-grey ground, no near-white */
+  --panel:rgba(247,249,252,.9); --panel-2:rgba(238,242,248,.86); --panel-solid:#F5F7FB;
+  --line:rgba(28,44,84,.12); --line-2:rgba(28,44,84,.2); --line-3:rgba(28,44,84,.32);
+  --ink:#182033; --ink-2:#3A455E; --ink-3:#4E5971; --ink-4:#66718A;
+  --cyan:#066A86; --magenta:#A8247F; --lime:#2F6E0A; --amber:#764600; --coral:#B42D1B;
+  --cyan-soft:rgba(7,130,163,.12); --lime-soft:rgba(47,110,10,.12); --amber-soft:rgba(158,95,0,.12); --coral-soft:rgba(180,45,27,.11); --magenta-soft:rgba(168,36,127,.11);
+  --modelled:#7389BF;
+  --nav-glass:90%; /* scrolled nav opacity: high enough in light that links keep 4.5:1 over a dark instrument */
+  --btn-bg:#182033; --btn-ink:#FFFFFF;
+  --shadow:0 1px 0 rgba(255,255,255,.7) inset, 0 18px 40px -28px rgba(24,40,80,.3), 0 1px 3px rgba(24,40,80,.08);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.7) inset, 0 44px 90px -50px rgba(24,40,80,.38), 0 6px 18px -10px rgba(24,40,80,.16);
+  --dot:rgba(28,44,84,.065);
+  --scrim:rgba(232,236,243,.84);
+  --gloss:linear-gradient(180deg, rgba(255,255,255,.4), transparent 46%);
+  --sans:"Geist", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+  --mono:"Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+  --display:"Unbounded", "Geist", sans-serif;
+  --r:14px;
+  --obs-ease:cubic-bezier(.22,.9,.24,1);
+  /* shared names used by pages that are not rebuilt yet */
+  --surface:#F5F7FB; --surface-2:#EDF1F7;
+  --f-display:var(--sans); --f-text:var(--sans); --f-mono:var(--mono);
+  --max:1360px; --gut:clamp(16px,3vw,40px);
+  --tim:#1C4FE0;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    color-scheme:dark;
+    --bg:#060A14; --bg-2:#0A1122; --bg-3:#0E1730;
+    --panel:rgba(16,24,44,.62); --panel-2:rgba(22,33,60,.55); --panel-solid:#0D1528;
+    --line:rgba(150,175,230,.11); --line-2:rgba(150,175,230,.2); --line-3:rgba(150,175,230,.32);
+    --ink:#EAF0FF; --ink-2:#A7B4D2; --ink-3:#8190B0; --ink-4:#56637F;
+    --cyan:#3DDCF7; --magenta:#F45CCB; --lime:#A8EE5E; --amber:#FFB547; --coral:#FF6A5C;
+    --cyan-soft:rgba(61,220,247,.14); --lime-soft:rgba(168,238,94,.14); --amber-soft:rgba(255,181,71,.14); --coral-soft:rgba(255,106,92,.14); --magenta-soft:rgba(244,92,203,.14);
+    --modelled:#4F6FB0; --nav-glass:72%;
+    --btn-bg:#EAF0FF; --btn-ink:#070B16;
+    --shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -28px rgba(0,0,0,.75), 0 2px 8px -2px rgba(0,0,0,.35);
+    --shadow-lg:0 1px 0 rgba(255,255,255,.06) inset, 0 50px 120px -40px rgba(0,0,0,.85), 0 8px 30px -10px rgba(0,0,0,.5);
+    --dot:rgba(150,175,230,.075);
+    --scrim:rgba(6,10,20,.78);
+    --gloss:linear-gradient(180deg, rgba(255,255,255,.045), transparent 40%);
+    --surface:#0D1528; --surface-2:#111B33;
+    --tim:#6A98FF;
+  }
+}
+:root[data-theme="dark"]{
+  color-scheme:dark;
+  --bg:#060A14; --bg-2:#0A1122; --bg-3:#0E1730;
+  --panel:rgba(16,24,44,.62); --panel-2:rgba(22,33,60,.55); --panel-solid:#0D1528;
+  --line:rgba(150,175,230,.11); --line-2:rgba(150,175,230,.2); --line-3:rgba(150,175,230,.32);
+  --ink:#EAF0FF; --ink-2:#A7B4D2; --ink-3:#8190B0; --ink-4:#56637F;
+  --cyan:#3DDCF7; --magenta:#F45CCB; --lime:#A8EE5E; --amber:#FFB547; --coral:#FF6A5C;
+  --cyan-soft:rgba(61,220,247,.14); --lime-soft:rgba(168,238,94,.14); --amber-soft:rgba(255,181,71,.14); --coral-soft:rgba(255,106,92,.14); --magenta-soft:rgba(244,92,203,.14);
+  --modelled:#4F6FB0; --nav-glass:72%;
+  --btn-bg:#EAF0FF; --btn-ink:#070B16;
+  --shadow:0 1px 0 rgba(255,255,255,.05) inset, 0 24px 60px -28px rgba(0,0,0,.75), 0 2px 8px -2px rgba(0,0,0,.35);
+  --shadow-lg:0 1px 0 rgba(255,255,255,.06) inset, 0 50px 120px -40px rgba(0,0,0,.85), 0 8px 30px -10px rgba(0,0,0,.5);
+  --dot:rgba(150,175,230,.075);
+  --scrim:rgba(6,10,20,.78);
+  --gloss:linear-gradient(180deg, rgba(255,255,255,.045), transparent 40%);
+  --surface:#0D1528; --surface-2:#111B33;
+  --tim:#6A98FF;
+}
+:root[data-theme="light"]{color-scheme:light}
+/* Observatory mapping of the shared tokens.css names (2026-10-07). Sections built before the
+   Observatory rebuild style themselves with the tokens.css palette: the six failure-domain
+   colours, the dark "space" panels and the series colours drawn on them. Pointing those names at
+   the Observatory values here brings every such section onto this theme without touching its
+   rules, and the Studio (which loads this file too) follows the same way.
+   Instrument-dark: --space* are the dark panels that stay dark in both themes (charts, consoles,
+   terminals); they take the Observatory dark ground, ink and line. Series (--s-*) sit on those
+   panels, so they take the bright (dark-theme) accents in both themes. Domain colours take the
+   accent of their family: interference coral, spoofing magenta, timing blue (--tim, kept),
+   orbits cyan, integrity lime, navigation amber. */
+:root{
+  --space:#060A14; --space-2:#0A1122; --space-3:#0E1730;
+  --space-ink:#EAF0FF; --space-ink-2:#A7B4D2; --space-ink-3:#8190B0; --space-line:rgba(150,175,230,.14);
+  --s-int:#FF6A5C; --s-spf:#F45CCB; --s-tim:#6A98FF; --s-orb:#3DDCF7; --s-itg:#A8EE5E; --s-nav:#FFB547;
+  --int-card:#FF6A5C; --spf-card:#F45CCB; --tim-card:#6A98FF; --orb-card:#3DDCF7; --itg-card:#A8EE5E; --nav-card:#FFB547;
+  --int:var(--coral); --spf:var(--magenta); --orb:var(--cyan); --itg:var(--lime); --nav:var(--amber);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--int:var(--coral); --spf:var(--magenta); --orb:var(--cyan); --itg:var(--lime); --nav:var(--amber)}
+}
+:root[data-theme="dark"]{--int:var(--coral); --spf:var(--magenta); --orb:var(--cyan); --itg:var(--lime); --nav:var(--amber)}

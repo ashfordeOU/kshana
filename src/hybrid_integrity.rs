@@ -82,6 +82,9 @@ use crate::optical_linkbudget::{
     detected_photons, optical_link_budget, photon_limited_range_crlb_m, photon_limited_toa_crlb_s,
     OpticalLinkParams, OpticalLinkResult,
 };
+use crate::palette::chart::{
+    AMBER, AXIS, BG, BLUE, CYAN, FONT_SANS, GRID, INK_2, LIME, MAGENTA, MUTED, TITLE,
+};
 use crate::radiometric::Band;
 use crate::raim::{chi2_cdf, noncentral_chi2_cdf, normal_quantile, pbias};
 use crate::timegeo::C_M_PER_S;
@@ -3044,11 +3047,11 @@ impl HybridOpticalRfScenario {
         let ph = h - mt - mb;
         let axis_y = mt + ph;
         let bars = [
-            ("availability", c.fom.availability, "#5fb0c9"),
-            ("precision", c.fom.precision_grade, "#d2925e"),
-            ("integrity", c.fom.integrity_assured, "#8fbf6f"),
-            ("joint (indep)", c.fom.joint_independent, "#9a8fd0"),
-            ("joint (corr)", c.fom.joint_correlated, "#e0bd84"),
+            ("availability", c.fom.availability, BLUE),
+            ("precision", c.fom.precision_grade, AMBER),
+            ("integrity", c.fom.integrity_assured, LIME),
+            ("joint (indep)", c.fom.joint_independent, MAGENTA),
+            ("joint (corr)", c.fom.joint_correlated, CYAN),
         ];
         let n = bars.len() as f64;
         let slot = pw / n;
@@ -3057,33 +3060,33 @@ impl HybridOpticalRfScenario {
         let mut svg = String::new();
         svg.push_str(&format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-             font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+             font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
         ));
         svg.push_str(&format!(
-            "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+            "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
         ));
         svg.push_str(&format!(
             "<text x=\"{ml:.0}\" y=\"22\" font-size=\"15\" font-weight=\"bold\">Hybrid optical + RF PNT joint figure of merit</text>"
         ));
         svg.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"38\" font-size=\"11\" fill=\"#8a8172\">P(available AND precision-grade AND integrity-assured)</text>"
+            "<text x=\"{ml:.0}\" y=\"38\" font-size=\"11\" fill=\"{MUTED}\">P(available AND precision-grade AND integrity-assured)</text>"
         ));
         // Axes and 0.25/0.5/0.75/1.0 gridlines.
         svg.push_str(&format!(
-            "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+            "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
         ));
         svg.push_str(&format!(
-            "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+            "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
             ml + pw
         ));
         for g in [0.25, 0.5, 0.75, 1.0] {
             let gy = yof(g);
             svg.push_str(&format!(
-                "<line x1=\"{ml:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"#241d15\" stroke-dasharray=\"3 4\"/>",
+                "<line x1=\"{ml:.0}\" y1=\"{gy:.1}\" x2=\"{:.0}\" y2=\"{gy:.1}\" stroke=\"{GRID}\" stroke-dasharray=\"3 4\"/>",
                 ml + pw
             ));
             svg.push_str(&format!(
-                "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"#6b6355\">{g:.2}</text>",
+                "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" fill=\"{MUTED}\">{g:.2}</text>",
                 ml - 6.0,
                 gy + 4.0
             ));
@@ -3097,7 +3100,7 @@ impl HybridOpticalRfScenario {
                 "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{color}\"/>"
             ));
             svg.push_str(&format!(
-                "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"#e6ddcb\">{value:.3}</text>",
+                "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"{TITLE}\">{value:.3}</text>",
                 y - 5.0
             ));
             svg.push_str(&format!(

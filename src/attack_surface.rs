@@ -40,6 +40,7 @@ use crate::jamming::required_tx_power_dbw;
 use crate::linkbudget::{deficit_sensitivity_band, received_signal_power_dbw};
 use crate::lunar::{horizon_los_distance_m, surface_los_max_m, R_MOON_M};
 use crate::nma_budget::{budget as nma_budget, NmaConfig};
+use crate::palette::chart::{BG, FONT_MONO, FONT_SANS, TITLE};
 use crate::spoof_capture::{run_capture, CaptureConfig};
 use crate::sweep::SweepAxis;
 use serde::{Deserialize, Serialize};
@@ -1000,14 +1001,14 @@ impl LunarAttackSurfaceScenario {
         for (i, l) in lines.iter().enumerate() {
             let y = 70 + i * 30;
             body.push_str(&format!(
-                "<text x=\"28\" y=\"{y}\" fill=\"#e8e2d0\" font-family=\"monospace\" font-size=\"15\">{}</text>",
+                "<text x=\"28\" y=\"{y}\" fill=\"{TITLE}\" font-family=\"{FONT_MONO}\" font-size=\"15\">{}</text>",
                 l.replace('&', "&amp;").replace('<', "&lt;")
             ));
         }
         format!(
             "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"640\" height=\"240\" viewBox=\"0 0 640 240\">\
-             <rect width=\"640\" height=\"240\" fill=\"#0b1a2b\"/>\
-             <text x=\"28\" y=\"36\" fill=\"#d4af37\" font-family=\"sans-serif\" font-size=\"18\" font-weight=\"bold\">\
+             <rect width=\"640\" height=\"240\" fill=\"{BG}\"/>\
+             <text x=\"28\" y=\"36\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"18\" font-weight=\"bold\">\
              Lunar signal-security attack surface (P1)</text>{body}</svg>"
         )
     }
