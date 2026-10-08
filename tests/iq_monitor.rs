@@ -199,7 +199,11 @@ fn kurtosis_and_pulse_statistics_match_gaussian_closed_forms() {
     );
     assert!(hits > 0.5 * want && hits < 2.0 * want, "{hits} vs {want}");
     // At the automatic threshold (1e-4 per block by the closed form) the 750 noise blocks
-    // raise at most one spectral-excess event, and no kurtosis or pulse event.
+    // raise at most one spectral-excess event, and no kurtosis or pulse event. NOTE: the
+    // 0.5x-2x band above and this "at most one event" were set post hoc, after seeing the
+    // measured 1.3x and the one event this seed produces; the test
+    // `spectral_false_events_stay_under_an_a_priori_poisson_bar` below is the one whose bar
+    // was fixed before any run.
     println!(
         "auto threshold {:.2} dB; events {:?}",
         m.excess_threshold_db(),
@@ -207,6 +211,50 @@ fn kurtosis_and_pulse_statistics_match_gaussian_closed_forms() {
     );
     assert!(r.events_of("spectral_excess").len() <= 1, "{:?}", r.events);
     assert!(r.events_of("kurtosis").is_empty() && r.events_of("pulses").is_empty());
+}
+
+/// False spectral-excess events on white noise, against a bar fixed before the test was run.
+///
+/// Rule (written down before the first run): the expected number of false events is
+/// `blocks × excess_pfa × 2`, the factor 2 being the stated allowance for the
+/// independent-bin closed form's documented roughness (the measured max-excess rate is 1.3×
+/// the formula). The bar is the Poisson 99.9 % quantile of that mean: the smallest `k` with
+/// `P(N > k) <= 0.001`. A run that exceeds it fails and is reported, not adjusted. Seeds
+/// were chosen before running and are not used elsewhere in the suite. A contiguous
+/// exceedance is one event, so counting events is no looser than counting blocks.
+#[test]
+fn spectral_false_events_stay_under_an_a_priori_poisson_bar() {
+    let fs = 409_600.0;
+    let settings = SpectralSettings {
+        block_s: 0.01,
+        baseline_s: 0.5,
+        ..SpectralSettings::default()
+    };
+    for seed in [20_261_008u64, 31_337_007, 918_273_645] {
+        let mut m = SpectralMonitor::new(fs, settings);
+        let mut rng = ChaCha8Rng::seed_from_u64(seed);
+        for _ in 0..8 {
+            m.push(&noise(409_600, &mut rng));
+        }
+        let r = m.report();
+        let blocks = r.series_named("psd_excess_db", None).unwrap().value.len() as f64;
+        let mean = blocks * settings.excess_pfa * 2.0;
+        // Smallest k with P(N > k) <= 0.001 for N ~ Poisson(mean).
+        let (mut k, mut pmf, mut cdf) = (0u32, (-mean).exp(), (-mean).exp());
+        while 1.0 - cdf > 0.001 {
+            k += 1;
+            pmf *= mean / f64::from(k);
+            cdf += pmf;
+        }
+        let events = r.events_of("spectral_excess").len() as u32;
+        println!("seed {seed}: {events} false spectral-excess events over {blocks} blocks; bar {k} (mean {mean:.3})");
+        assert!(events <= k, "seed {seed}: {events} events > bar {k}");
+        assert!(
+            r.events_of("kurtosis").is_empty() && r.events_of("pulses").is_empty(),
+            "seed {seed}: {:?}",
+            r.events
+        );
+    }
 }
 
 /// A tone at +50 kHz, 10 dB below the noise, added after the baseline raises a
