@@ -7,7 +7,7 @@ states plainly what they are today, what they are *not*, and what the roadmap
 adds. If you are evaluating Kshana for a safety-of-life or certification context,
 read this first.
 
-## Today (v0.31.0)
+## Today (v0.33.0)
 
 ### Integrity FoM — filter self-consistency
 The Integrity FoM is the fraction of outage samples whose true timing error stays
