@@ -97,6 +97,43 @@ breaking changes are called out explicitly.
   (`--acq-coherent 1`). `kshana iq acquire`'s own `--coherent` default stays 1. New public
   `iq::acq::auto_coherent_periods` and `iq::acq::AUTO_COHERENT_S`; regression test
   `tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`.
+- **Every generated graphic now follows the site's Observatory theme: every chart's bytes
+  change.** This is a deliberate revision of the published figures, colours and fonts only;
+  no plotted value, coordinate or label moved. Every scenario's `*.chart.svg` (and so the
+  Studio's chart exports and the README demo charts), the run report HTML
+  (`*.report.html`), the timeline animation (`--animate`), the scenario-result and study
+  HTML pages, the validation summary and the docs figures and diagrams used the warm-dark
+  July palette (`#0c0b08` ground, `#e0bd84` gold) and a warm-paper report theme. They now
+  take every colour and font from one module, `src/palette.rs`, which mirrors
+  `web/theme.css`: charts are drawn instrument-dark on the Observatory ground (`#060A14`)
+  in the Geist type stack; the report, animation player and result pages follow the
+  viewer's light/dark preference with the Observatory light and dark tokens. The six
+  failure domains keep one colour each (interference coral, spoofing magenta, timing
+  blue, orbits cyan, integrity lime, navigation amber), and the evidence tiers read
+  validated lime, modelled amber, partner magenta. The waterfall ramps keep their
+  perceptual (inferno) ordering, re-anchored at the new ground.
+  - `tests/palette_sync.rs` holds the module to `web/theme.css` in both themes, checks
+    that `docs/assets/palette.json` and `docs/diagrams/mermaid-config.json` (both
+    generated from the module, for the Python figure tools and mermaid-cli) are current,
+    and fails if a hex colour literal appears in `src/` outside the palette.
+  - `tests/published_figures_still_reproduce.rs` gains a third diagnosis, "only colours
+    and fonts moved", so a palette revision is told apart from a moved plotted value.
+    Every re-rendered README chart was checked equal to its predecessor under that
+    normaliser.
+  - `tools/gen_validation_figures.py` reads the palette and now also generates the three
+    README result figures that had no committed generator (`domain-coverage-map`,
+    `scenario-fom`, `sgp4-regime-bars`), with real text elements, from
+    `web/capabilities.json`, the `clock-holdover` result and
+    `tests/fixtures/sgp4_comparison.md`. `tools/gen_readme_assets.py` reads the same
+    palette, which corrects its light-theme drift from the site. The `sgp4-regime-bars`
+    values are the `kshana↔ref` worst-case column of that fixture (7.31e-9, 8.05e-9,
+    8.18e-9 and 4.12e-6 km), unchanged from the Matplotlib figure, and
+    `tests/figures_doc_sync.rs` now fails if the committed figure and the fixture disagree.
+- **`docs/assets/figures/domain-coverage-map` refreshed to current data (a data change, not
+  a repaint).** The figure stated 28 capabilities across 8 domains (11 validated, 17
+  modelled), stale against its own stated source; drawn now by its new generator from
+  `web/capabilities.json`, it reads 46 capabilities across 8 domains (17 validated, 29
+  modelled).
 
 ### Fixed
 
