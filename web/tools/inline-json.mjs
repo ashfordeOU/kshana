@@ -15,7 +15,9 @@
 import { readFileSync } from "node:fs";
 import { fileURLToPath } from "node:url";
 
-const BLOCK = /<script\b([^>]*)>([\s\S]*?)<\/script>/gi;
+// The end tag is matched the way an HTML parser reads it: `</script`, then anything but `>`
+// (whitespace, attributes, a slash), then `>`, in any case.
+const BLOCK = /<script\b([^>]*)>([\s\S]*?)<\/script[^>]*>/gi;
 const DATA_TYPE = /\btype\s*=\s*["']application\/(?:ld\+)?json["']/i;
 // The same dotted triple three times running ("3090" + ".0.32.0" x 3): what a version
 // replacement leaves where it matched a run of data. Legitimate dotted numbers (a section
