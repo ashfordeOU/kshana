@@ -31,7 +31,7 @@ use crate::iq::signals::SignalCode;
 use crate::iq::track::design::{Design, DesignFile};
 use crate::iq::track::sink::{
     ChannelInfo, ChannelSummary, CollectSink, EpochFormat, EpochHeader, EpochSink, EventsWriter,
-    Fanout, Summary,
+    Fanout, ResolvedRun, Summary,
 };
 use crate::iq::track::{
     commensurate_samples_per_chip, ChannelInit, EpochOutput, LockState, SessionChannel,
@@ -377,6 +377,10 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
         .map_err(Fail::Usage)?
         .with_threads(threads_from_args(&a)?);
     let names: Vec<String> = codes.iter().map(SignalCode::name).collect();
+    let resolved: Vec<ResolvedRun> = codes
+        .iter()
+        .map(|c| design.resolved_run(c.period_s()))
+        .collect();
     let header = EpochHeader::new(
         names
             .iter()
@@ -388,7 +392,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             .collect(),
         spec.fs_hz,
     )
-    .with_extra_taps(&run_extra_taps([&design])?);
+    .with_extra_taps(&run_extra_taps([&design])?)
+    .with_resolved(resolved.clone());
 
     let warnings = sampling_warnings(&spec, &codes);
     let mut summary = Summary::new(0.5 * tracked as f64 / spec.fs_hz);
@@ -436,6 +441,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             &spec,
             tracked,
             &[(&design, &names)],
+            &resolved,
             &overridden,
             &summary,
             &warnings,
@@ -492,6 +498,7 @@ pub(crate) fn channel_json(
     channel: usize,
     code: &str,
     design: &Design,
+    resolved: Option<&ResolvedRun>,
     c: &ChannelSummary,
 ) -> serde_json::Value {
     let last = c.last.as_ref();
@@ -500,6 +507,7 @@ pub(crate) fn channel_json(
         "code": code,
         "design": design.name(),
         "design_hash": design.hash(),
+        "resolved": resolved,
         "epochs": c.epochs,
         "tracked_s": last.map(|l| l.code_epoch_s),
         "final_doppler_hz": last.map(|l| l.doppler_hz),
@@ -525,6 +533,7 @@ pub(crate) fn summary_json(
     spec: &SampleSpec,
     tracked: u64,
     groups: &[(&Design, &[String])],
+    resolved: &[ResolvedRun],
     overridden: &[String],
     summary: &Summary,
     warnings: &[serde_json::Value],
@@ -534,7 +543,7 @@ pub(crate) fn summary_json(
     for (design, codes) in groups {
         for code in codes.iter() {
             let c = summary.channels.get(idx).cloned().unwrap_or_default();
-            chans.push(channel_json(idx, code, design, &c));
+            chans.push(channel_json(idx, code, design, resolved.get(idx), &c));
             idx += 1;
         }
     }
