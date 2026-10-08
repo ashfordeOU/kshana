@@ -145,6 +145,16 @@ breaking changes are called out explicitly.
     - `kshana iq sweep --design <file>`, which runs every design in the file;
     - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
     - MCP `iq_track` `design`/`design_name`.
+  - *Extra correlator taps (multi-correlator / SQM).* `[design.integration]
+    extra_taps_chips = [..]` (offsets in chips from the prompt, positive early; at most 16, each
+    within ±2) correlates extra replicas alongside E/P/L and returns them as
+    `EpochOutput.extra` (`(offset, value)` in design order). The loops never use them. The
+    key is left out of the canonical JSON when empty, so the default design's hash and every
+    tapless output are unchanged (`kshana.track-epoch/1` stays; the no-tap CSV/JSONL/binary
+    are bit-identical). With taps: CSV/JSONL columns, and a binary record of
+    `184 + 16 × taps` bytes whose header carries `extra_taps_chips`, so an old reader refuses
+    the file rather than misparse it. `--extra-taps` (CLI), `extra_taps` (Python) and
+    `extra_taps_chips` (MCP `iq_track`). The designs of one run must agree on taps.
   - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
     carries:
     - the early/prompt/late correlators;
