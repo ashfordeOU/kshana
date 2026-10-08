@@ -1488,16 +1488,21 @@ fn extra_taps_reach_the_epoch_output_and_a_disagreeing_sweep_is_refused() {
         std::fs::read_to_string(&tapped).unwrap(),
     );
     let (ha, hb) = (a.lines().next().unwrap(), b.lines().next().unwrap());
-    assert_eq!(ha.split(',').count(), 27);
-    assert_eq!(hb.split(',').count(), 27 + 9);
+    let n = kshana::iq::track::sink::EPOCH_FIELDS.len();
+    assert_eq!(ha.split(',').count(), n);
+    assert_eq!(hb.split(',').count(), n + 9);
     assert!(hb.ends_with("x2_offset_chips,x2_i,x2_q"));
     // The tapped rows start with the tapless row's columns, and the +0.25 tap is E.
     for (ra, rb) in a.lines().skip(1).zip(b.lines().skip(1)) {
         let (ca, cb): (Vec<&str>, Vec<&str>) = (ra.split(',').collect(), rb.split(',').collect());
-        assert_eq!(ca[..], cb[..27]);
-        assert_eq!(cb[27], "0.25");
-        assert_eq!((cb[28], cb[29]), (cb[6], cb[7]), "tap +0.25 is early");
-        assert_eq!((cb[31], cb[32]), (cb[10], cb[11]), "tap -0.25 is late");
+        assert_eq!(ca[..], cb[..n]);
+        assert_eq!(cb[n], "0.25");
+        assert_eq!((cb[n + 1], cb[n + 2]), (cb[6], cb[7]), "tap +0.25 is early");
+        assert_eq!(
+            (cb[n + 4], cb[n + 5]),
+            (cb[10], cb[11]),
+            "tap -0.25 is late"
+        );
     }
 
     let designs = p("d.toml");

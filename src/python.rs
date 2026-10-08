@@ -790,6 +790,7 @@ fn epoch_value(e: &EpochOutput) -> serde_json::Value {
         "code_lock": e.code_lock,
         "cn0_nwpr_dbhz": e.cn0_nwpr_dbhz,
         "cn0_beaulieu_dbhz": e.cn0_beaulieu_dbhz,
+        "cn0_m2m4_dbhz": e.cn0_m2m4_dbhz,
     });
     if !e.extra.is_empty() {
         v["extra"] = e

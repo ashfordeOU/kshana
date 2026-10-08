@@ -1191,8 +1191,9 @@ fn the_writers_carry_the_taps_and_binary_reads_them_back() {
     let csv = String::from_utf8(csv).unwrap();
     let mut rows = csv.lines();
     let cols: Vec<&str> = rows.next().unwrap().split(',').collect();
-    assert_eq!(cols.len(), 27 + 9);
-    assert_eq!(&cols[27..30], ["x0_offset_chips", "x0_i", "x0_q"]);
+    let n = kshana::iq::track::sink::EPOCH_FIELDS.len();
+    assert_eq!(cols.len(), n + 9);
+    assert_eq!(&cols[n..n + 3], ["x0_offset_chips", "x0_i", "x0_q"]);
     for r in rows {
         assert_eq!(r.split(',').count(), cols.len());
     }
