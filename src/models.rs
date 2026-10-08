@@ -42,6 +42,7 @@ pub trait ErrorModel {
 pub(crate) struct Flicker {
     sigma_floor: f64,
     comp_var: f64,
+    log_ratio: f64,
     taus: Vec<f64>,
     states: Vec<f64>,
     initialized: bool,
@@ -60,10 +61,45 @@ impl Flicker {
         Self {
             sigma_floor,
             comp_var,
+            log_ratio: ln_rho,
             states: vec![0.0; taus.len()],
             taus,
             initialized: false,
         }
+    }
+
+    /// The same bank as a filter model: `h_-1 = comp_var / ln(rho)` and the same correlation
+    /// times, so a filter built from it models exactly the process this truth draws.
+    pub(crate) fn bank(&self) -> crate::clock_state::FlickerFmBank {
+        crate::clock_state::FlickerFmBank {
+            h_minus1: self.comp_var / self.log_ratio,
+            taus: self.taus.clone(),
+            log_ratio: self.log_ratio,
+        }
+    }
+
+    /// Variance (s^2) of the phase this bank adds over `n` steps of `dt` seconds when the
+    /// first step starts from the (stationary) state at an unknown instant: the variance of
+    /// `dt * sum_{k=1..n} y_k` for each component's AR(1) sequence `y_k = a y_{k-1} + w`,
+    /// `a = exp(-dt/tau)`, stationary variance `comp_var`, summed over components.
+    /// This is exactly the process [`step`](Self::step) generates; it tends to the
+    /// continuous-time integral as `dt -> 0`.
+    pub(crate) fn phase_variance_after_steps(&self, n: usize, dt: f64) -> f64 {
+        let nf = n as f64;
+        self.taus
+            .iter()
+            .map(|&tau| {
+                let a = (-dt / tau).exp();
+                let one_minus_a = -(-dt / tau).exp_m1();
+                // sum_{m=1}^{n-1} (n - m) a^m, with the n(n-1)/2 limit as a -> 1.
+                let cross = if one_minus_a < 1e-7 {
+                    nf * (nf - 1.0) / 2.0
+                } else {
+                    a * (nf - 1.0 - nf * a + a.powi(n as i32)) / (one_minus_a * one_minus_a)
+                };
+                dt * dt * self.comp_var * (nf + 2.0 * cross)
+            })
+            .sum()
     }
 
     /// Reset to an unseeded zero state (re-seeds on the next [`step`]).
@@ -157,6 +193,20 @@ impl ClockModel {
     }
     /// Builder: add a flicker FM floor at `sigma_floor` over a default 5-decade
     /// band (1 s to 1e5 s) at 4 components per decade. Ignored when non-positive.
+    /// The flicker bank as a filter model, or `None` without a flicker floor. Built from the
+    /// truth's own bank, so the two cannot drift apart.
+    pub(crate) fn flicker_bank(&self) -> Option<crate::clock_state::FlickerFmBank> {
+        self.flicker.as_ref().map(Flicker::bank)
+    }
+
+    /// Variance (s^2) of the flicker phase accumulated over `n` steps of `dt` seconds, `0`
+    /// without a flicker floor ([`Flicker::phase_variance_after_steps`]).
+    pub(crate) fn flicker_phase_variance_after_steps(&self, n: usize, dt: f64) -> f64 {
+        self.flicker
+            .as_ref()
+            .map_or(0.0, |f| f.phase_variance_after_steps(n, dt))
+    }
+
     pub fn with_flicker(self, sigma_floor: f64) -> Self {
         self.with_flicker_band(sigma_floor, 1.0, 1e5, 4)
     }
@@ -332,5 +382,72 @@ mod tests {
             ratio > 0.65 && ratio < 1.55,
             "flicker not flat: ratio={ratio}"
         );
+    }
+
+    /// The filter's flicker bank is built from the truth's own bank: same correlation times,
+    /// same per-process variance, and `h_-1` equal to `sigma^2 / (2 ln 2)`.
+    #[test]
+    fn the_filter_bank_is_the_truth_bank() {
+        use crate::clock_state::FlickerFmBank;
+        let sigma = 2.0e-11;
+        let c = ClockModel::new("c", "unit", 0.0, 0.0, 0.0).with_flicker(sigma);
+        let bank = c.flicker_bank().expect("floor > 0 has a bank");
+        let direct =
+            FlickerFmBank::log_spaced(sigma * sigma / (2.0 * std::f64::consts::LN_2), 1.0, 1e5, 4);
+        assert_eq!(bank.taus.len(), direct.taus.len());
+        for (a, b) in bank.taus.iter().zip(&direct.taus) {
+            assert!((a / b - 1.0).abs() < 1e-12, "{a} vs {b}");
+        }
+        assert!((bank.h_minus1 / direct.h_minus1 - 1.0).abs() < 1e-12);
+        assert!((bank.log_ratio - direct.log_ratio).abs() < 1e-15);
+        assert!(ClockModel::new("c", "unit", 0.0, 0.0, 0.0)
+            .flicker_bank()
+            .is_none());
+        assert_eq!(
+            ClockModel::new("c", "unit", 0.0, 0.0, 0.0)
+                .flicker_phase_variance_after_steps(100, 10.0),
+            0.0
+        );
+    }
+
+    /// The closed-form phase variance equals the empirical variance of the phase the truth
+    /// clock accumulates, from the stationary start, over `n` steps (all other noise off).
+    #[test]
+    fn the_flicker_phase_variance_matches_the_simulated_clock() {
+        use rand::SeedableRng;
+        use rand_chacha::ChaCha8Rng;
+        let (sigma, dt) = (2.0e-11, 10.0);
+        for n in [1usize, 5, 60, 660] {
+            let model = ClockModel::new("c", "unit", 0.0, 0.0, 0.0).with_flicker(sigma);
+            let want = model.flicker_phase_variance_after_steps(n, dt);
+            let runs = 4000;
+            let mut acc = 0.0;
+            for seed in 0..runs {
+                let mut rng = ChaCha8Rng::seed_from_u64(1000 + seed);
+                let mut c = model.clone();
+                c.step(dt, &mut rng); // the first step seeds the stationary state
+                                      // Anchor after a burn-in, as at a GNSS sync: the state is stationary and the
+                                      // predictor knows nothing of it.
+                for _ in 0..50 {
+                    c.step(dt, &mut rng);
+                }
+                let p0 = c.phase();
+                for _ in 0..n {
+                    c.step(dt, &mut rng);
+                }
+                let e = c.phase() - p0;
+                acc += e * e;
+            }
+            let got = acc / runs as f64;
+            assert!(
+                (got / want - 1.0).abs() < 0.1,
+                "n = {n}: simulated {got:e} vs closed form {want:e}"
+            );
+        }
+        // The continuous-time limit: dt -> 0 with n dt fixed approaches the integral formula.
+        let m = ClockModel::new("c", "unit", 0.0, 0.0, 0.0).with_flicker(sigma);
+        let coarse = m.flicker_phase_variance_after_steps(10, 100.0);
+        let fine = m.flicker_phase_variance_after_steps(1000, 1.0);
+        assert!((coarse / fine - 1.0).abs() < 0.2, "{coarse:e} vs {fine:e}");
     }
 }

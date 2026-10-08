@@ -713,12 +713,24 @@ impl ClockStateExt {
                 }
             }
         }
+        // (F P) F^T over the non-zeros of F only, in ascending order: the skipped terms are
+        // exact zeros, so the sums are bit-identical to the dense loop.
+        let f_nz: Vec<Vec<(usize, f64)>> = (0..n)
+            .map(|j| {
+                (0..n)
+                    .filter_map(|k| {
+                        let v = f[j * n + k];
+                        (v != 0.0).then_some((k, v))
+                    })
+                    .collect()
+            })
+            .collect();
         let mut np = q;
         for i in 0..n {
             for j in 0..n {
                 let mut s = 0.0;
-                for k in 0..n {
-                    s += fp[i * n + k] * f[j * n + k];
+                for &(k, fjk) in &f_nz[j] {
+                    s += fp[i * n + k] * fjk;
                 }
                 np[i * n + j] += s;
             }
@@ -789,12 +801,24 @@ impl ClockStateExt {
                 }
             }
         }
+        // A^T over its non-zeros only (identity plus the gain column), ascending: the skipped
+        // terms are exact zeros, so the result is bit-identical to the dense loop.
+        let a_nz: Vec<Vec<(usize, f64)>> = (0..n)
+            .map(|j| {
+                (0..n)
+                    .filter_map(|kk| {
+                        let v = a[j * n + kk];
+                        (v != 0.0).then_some((kk, v))
+                    })
+                    .collect()
+            })
+            .collect();
         let mut np = vec![0.0; n * n];
         for i in 0..n {
             for j in 0..n {
                 let mut v = r * k[i] * k[j];
-                for kk in 0..n {
-                    v += ap[i * n + kk] * a[j * n + kk];
+                for &(kk, ajk) in &a_nz[j] {
+                    v += ap[i * n + kk] * ajk;
                 }
                 np[i * n + j] = v;
             }
