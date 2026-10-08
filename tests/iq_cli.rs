@@ -582,8 +582,9 @@ fn track_and_sweep_apply_the_front_end_flags() {
 /// is handed off ~267 Hz off, outside the FLL's pull-in: it false-locks ~500 Hz away while
 /// reporting a clean track. The default is now auto (≈4 ms coherent, 4 periods for this
 /// 1 ms code, ~167 Hz bins), which locks it. Both halves are asserted, so the test fails if
-/// the default ever reverts to one period, and `--acq-coherent 1` is pinned as the opt-out
-/// that reproduces the old behaviour. (`docs/design/evidence/iq-track-acq-default/` has
+/// the default ever reverts to one period. `--acq-coherent 1` with the explicit textbook step
+/// (667 Hz) reproduces the old behaviour; with the default step, capped at 0.2/T_track since
+/// D8, the same opt-out now locks too. (`docs/design/evidence/iq-track-acq-default/` has
 /// the seeded 180-channel sweep behind the change.)
 #[test]
 fn track_default_handoff_does_not_false_lock_where_one_period_did() {
@@ -627,11 +628,23 @@ fn track_default_handoff_does_not_false_lock_where_one_period_did() {
         (auto + 2400.0).abs() < 25.0,
         "default hand-off: final Doppler {auto} Hz, injected -2400 Hz"
     );
-    let one = final_doppler(&["--acq-coherent", "1"], "one.json");
+    // One coherent period with the default step: since D8 the step is capped at 0.2/T_track
+    // (200 Hz here), so even this opt-out hands off inside the FLL's pull-in and locks.
+    let one_capped = final_doppler(&["--acq-coherent", "1"], "one-capped.json");
+    assert!(
+        (one_capped + 2400.0).abs() < 25.0,
+        "--acq-coherent 1 with the capped default step: final {one_capped} Hz, injected -2400 Hz"
+    );
+    // The old behaviour, reproduced with the textbook step stated explicitly: ~667 Hz bins
+    // hand PRN 17 off ~267 Hz off, outside the pull-in, and it false-locks.
+    let one = final_doppler(
+        &["--acq-coherent", "1", "--doppler-step", "666.6666667"],
+        "one.json",
+    );
     assert!(
         (one + 2400.0).abs() > 400.0,
-        "--acq-coherent 1 no longer false-locks this channel (final {one} Hz); the scene no \
-         longer exercises the regression"
+        "--acq-coherent 1 with a 667 Hz step no longer false-locks this channel (final {one} Hz); \
+         the scene no longer exercises the regression"
     );
 }
 
@@ -1048,6 +1061,14 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
     for ch in s["channels"].as_array().unwrap() {
         assert_eq!(ch["final_state"], "LOCKED", "{ch}");
         assert_eq!(ch["design_hash"], d["hash"]);
+        // What the run actually used: the auto step for a 1 ms code and 4 ms of acquisition
+        // (2/(3*4 ms)), the design's PLL bandwidth, the FLL default, a 1 ms loop update.
+        let r = &ch["resolved"];
+        assert_eq!(r["acq_coherent_periods"], 4, "{ch}");
+        assert!((r["acq_doppler_step_hz"].as_f64().unwrap() - 2.0 / 0.012).abs() < 1e-9);
+        assert_eq!(r["pll_bn_hz"], 20.0);
+        assert_eq!(r["fll_bn_hz"], 10.0);
+        assert!((r["t_track_s"].as_f64().unwrap() - 1e-3).abs() < 1e-12);
         total += ch["epochs"].as_u64().unwrap();
     }
     let lines: Vec<String> = std::fs::read_to_string(&epochs)
@@ -1056,6 +1077,11 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
         .map(str::to_string)
         .collect();
     assert!(lines[0].contains("\"kshana.track-epoch/1\""));
+    assert!(
+        lines[0].contains("\"acq_doppler_step_hz\""),
+        "the epoch header records the resolved values: {}",
+        lines[0]
+    );
     assert_eq!(lines.len() as u64 - 1, total, "one record per epoch");
     let first: serde_json::Value = serde_json::from_str(&lines[1]).unwrap();
     for k in [
