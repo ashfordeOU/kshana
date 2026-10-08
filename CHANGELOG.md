@@ -167,7 +167,14 @@ breaking changes are called out explicitly.
       `docs/design/evidence/dll-jitter/`. At exactly 2 samples per chip with 0.5-chip
       spacing, the DLL S-curve is a single step and the loop dithers: ≈ 0.09 chip RMS code
       error (≈ 26 m) at 45 dB-Hz, against ≈ 0.004 chip at an incommensurate rate. The
-      ~2 dB low NWPR C/N0 at that rate has the same cause.
+      ~2 dB low NWPR C/N0 at that rate has the same cause. At exactly 0 Hz code Doppler and
+      4 samples per chip the code never crosses the ±0.21-chip dead zone, so a code-phase bias
+      of up to about 0.2 chip can persist without showing in the jitter (measured: 0.5-chip
+      spacing gives 2.0× the control's code error with a +0.011 chip mean; 0.25-chip spacing
+      gives +0.125 chip); the warning covers the rate.
+    - **Known limit: the default design does not hand over FLL→PLL below about 35 dB-Hz**
+      (a ~35 dB-Hz pull-in floor; see FLL assistance above and
+      `docs/design/evidence/carrier-lock/`).
     - A false-lock or re-acquisition search that cannot run (a rate with no whole number of
       samples per code period) no longer stops tracking.
     - Tests: `tests/iq_track_engine.rs`, `tests/iq_cli.rs`, `iq::track::design::tests`,
