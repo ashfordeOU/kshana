@@ -850,6 +850,14 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
     for ch in s["channels"].as_array().unwrap() {
         assert_eq!(ch["final_state"], "LOCKED", "{ch}");
         assert_eq!(ch["design_hash"], d["hash"]);
+        // What the run actually used: the auto step for a 1 ms code and 4 ms of acquisition
+        // (2/(3*4 ms)), the design's PLL bandwidth, the FLL default, a 1 ms loop update.
+        let r = &ch["resolved"];
+        assert_eq!(r["acq_coherent_periods"], 4, "{ch}");
+        assert!((r["acq_doppler_step_hz"].as_f64().unwrap() - 2.0 / 0.012).abs() < 1e-9);
+        assert_eq!(r["pll_bn_hz"], 20.0);
+        assert_eq!(r["fll_bn_hz"], 10.0);
+        assert!((r["t_track_s"].as_f64().unwrap() - 1e-3).abs() < 1e-12);
         total += ch["epochs"].as_u64().unwrap();
     }
     let lines: Vec<String> = std::fs::read_to_string(&epochs)
@@ -858,6 +866,11 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
         .map(str::to_string)
         .collect();
     assert!(lines[0].contains("\"kshana.track-epoch/1\""));
+    assert!(
+        lines[0].contains("\"acq_doppler_step_hz\""),
+        "the epoch header records the resolved values: {}",
+        lines[0]
+    );
     assert_eq!(lines.len() as u64 - 1, total, "one record per epoch");
     let first: serde_json::Value = serde_json::from_str(&lines[1]).unwrap();
     for k in [

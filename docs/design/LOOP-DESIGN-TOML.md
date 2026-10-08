@@ -72,7 +72,7 @@ ratio = 3.0
 coherent_periods = "auto"                # "auto" = ceil(4 ms / full code period), or an integer
 noncoherent = 1
 doppler_max_hz = 5000.0
-doppler_step_hz = "auto"                 # "auto" = 2 / (3 · N · T_code), or Hz
+doppler_step_hz = "auto"                 # "auto" = min(2 / (3 · N · T_code), 0.4 / T_track), or Hz
 pfa = 1e-3
 ```
 
@@ -90,6 +90,21 @@ pfa = 1e-3
   an exponent (`15.0`, `0.001`). So it does not depend on field order in the file or in the
   code. The built-in default hashes to
   `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80`, which is pinned by a test.
+* **`doppler_step_hz = "auto"`** is `min(2 / (3 · N · T_code), 0.4 / T_track)`, where `N` is
+  the acquisition's coherent periods, `T_code` the full code period and `T_track` the loop
+  update time (`integration.coherent_periods × T_code`), in `kshana::iq::acq::default_step_hz`.
+  The second term keeps the worst-case hand-off residual (half a step, at most
+  `0.2 / T_track`) inside the default two-quadrant FLL's pull-in of `1 / (4 T_track)`: with
+  the textbook step alone, every code of 4 ms or longer (`N = 1`) left `1 / (3 T_code)`, so
+  Galileo E1-B/E1-C false-locked 125 Hz away. It binds for those codes (E1-B: 100 Hz instead of
+  166.7 Hz) and not for the 1 ms codes (`N = 4`, 166.7 Hz either way). An explicit
+  `doppler_step_hz` is used as written. `"auto"` is hashed as the literal, so the default
+  hash is unchanged; the resolved step is a function of the design, the signal and the engine
+  version, and each run records it (next rule).
+* **Resolved values are recorded.** The epoch header (`resolved`, one entry per channel, absent
+  in older files) and the `--summary` channel entries (`resolved`) carry what the design resolved
+  to for that signal: `acq_coherent_periods`, `acq_doppler_step_hz`, `t_track_s`, `pll_bn_hz`
+  and `fll_bn_hz` (null when the carrier loop has no such loop).
 * **Precedence on the CLI**: an explicit flag (`--pll-bw`, ...) overrides the selected design.
   The hash is taken after overrides, and the output records which keys were overridden.
 * **Front end is not part of a loop design.** The campaign runner treats front-end chains as a
