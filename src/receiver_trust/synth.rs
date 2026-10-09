@@ -86,6 +86,43 @@ impl Default for VoyageSpec {
     }
 }
 
+/// The synthetic Baltic demo of `examples/maritime-trust/`: a one-hour excerpt of a passage
+/// from Gdynia towards Klaipeda at about 15 kn, with a position drag-off partway through.
+/// The parameters were written down before the log was generated and are not tuned.
+///
+/// The route is approximate and illustrative; nothing here is a chart or a measurement.
+/// The drag-off starts at 1500 s, speeds up at 0.01 m/s² to 2.5 m/s and heads 40 degrees to
+/// starboard of the course; the receiver's speed and course follow the counterfeit track, its
+/// fix stays flagged valid, and the C/N0 of every satellite is pulled towards 46 dB-Hz over
+/// two minutes (one transmitter arriving at near-equal power).
+pub fn baltic_demo_spec() -> VoyageSpec {
+    VoyageSpec {
+        route: vec![
+            (54.530, 18.580), // Gdynia outer fairway
+            (54.548, 18.880), // south-east of the Hel peninsula
+            (54.700, 19.350),
+            (55.000, 20.000),
+        ],
+        duration_s: 3000.0,
+        date: (2025, 6, 14),
+        start_tod_s: 8.0 * 3600.0,
+        sog_kn: 15.0,
+        turn_rate_dps: 0.4,
+        current_mps: (0.2, -0.1),
+        antenna_height_m: 18.0,
+        geoid_sep_m: 26.5,
+        seed: 20_250_614,
+        drag: Some(DragSpec {
+            onset_s: 1500.0,
+            accel_mps2: 0.01,
+            speed_mps: 2.5,
+            bearing_rel_deg: 40.0,
+            cn0_common_dbhz: Some(46.0),
+            cn0_ramp_s: 120.0,
+        }),
+    }
+}
+
 /// SplitMix64 with a Box-Muller normal.
 struct Rng(u64);
 
