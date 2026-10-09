@@ -13,7 +13,7 @@ breaking changes are called out explicitly.
 
 - **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
   (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
-  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*`, and raises
+  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
   a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
   the config schema). No npm dependencies. Tested on recorded synthetic output.
 - **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a

@@ -63,3 +63,19 @@ test('calibrating never alarms; stale data warns once', () => {
   assert.ok(staleDelta(t))
   assert.strictEqual(staleDelta(t), null)
 })
+
+test('reportedPosition is trust context only: published under the kshana namespace, never navigation.position', () => {
+  const t = new AlarmTracker({})
+  const withPos = fs
+    .readFileSync(path.join(__dirname, 'fixtures', 'trust-position-excerpt.jsonl'), 'utf8')
+    .split('\n')
+    .filter(Boolean)
+    .map(parseJsonLine)
+  const paths = []
+  for (const e of withPos) paths.push(...deltaFor(e, t).updates[0].values.map((v) => v.path))
+  assert.ok(paths.includes(`${NS}.reportedPosition`))
+  assert.ok(!paths.some((p) => p === 'navigation.position' || p.startsWith('navigation.position.')))
+  // no position in the epoch: the path is not published at all
+  const none = deltaFor(epochs[10], new AlarmTracker({})).updates[0].values.map((v) => v.path)
+  assert.ok(!none.includes(`${NS}.reportedPosition`))
+})
