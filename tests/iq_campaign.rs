@@ -5,7 +5,8 @@
 //! PIN-SCOPE: the three 64-character pins below. `PRE_M2M4_METRICS` covers the per-satellite
 //! scored results of the 12 reference cells (canonical hash of their `satellites` arrays).
 //! `DIGEST_M2M4` and `DIGEST_NWPR` cover every cell file of the reference campaign and of
-//! its NWPR twin, so they include each cell's `engine_version` and key.
+//! its NWPR twin, so they include each cell's `engine_version` and key: they move at every
+//! version bump, by design, and are re-pinned in the bump commit.
 //! PIN-EXCLUDES: `PRE_M2M4_METRICS` strips the per-estimator fields added with
 //! `cn0_estimator`; the DIGESTs exclude the HTML report, the scorecards and `hashes.json`.
 //!
@@ -787,8 +788,8 @@ fn nwpr_out() -> &'static PathBuf {
 
 /// The reference DIGESTs after the `cn0_estimator` change, pinned the way the pre-change one was
 /// (`64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`).
-const DIGEST_M2M4: &str = "48a64a85f7ba97ccf286495a9d58a14fbf3c9bf61f2da06b9bf92734a84c090f";
-const DIGEST_NWPR: &str = "57c52a06e9727ec1cc159302e48fd215ca1247a8b0edb8df4915565c0977b890";
+const DIGEST_M2M4: &str = "f0b7bd97c884d2eca2e02a11d9397777718bc4bf27b4c16db01cee870169c229";
+const DIGEST_NWPR: &str = "7a1d5f315fed6afd3523e7ae8273db007ead8a869438c6d5f72cb0bc67364bf2";
 
 #[test]
 fn the_reference_digests_are_pinned() {
