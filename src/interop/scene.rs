@@ -183,7 +183,7 @@ impl Scene {
     }
 }
 
-fn short_hash(src: &str) -> String {
+pub(super) fn short_hash(src: &str) -> String {
     use sha2::{Digest, Sha256};
     let mut h = Sha256::new();
     h.update(src.as_bytes());
