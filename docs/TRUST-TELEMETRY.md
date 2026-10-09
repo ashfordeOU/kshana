@@ -19,9 +19,11 @@ kshana trust-telemetry --result session.result.json --print-syslog --format leef
 kshana trust-telemetry --input stream.jsonl --syslog-udp siem.example:514 --format cef --host ops-gw1
 ```
 
-Input lines are JSON objects: `t_s`, `score` (0-100, optional), `band`
-(`calibrating|nominal|degraded|untrusted`), `reasons` (array of names), `time_label`
-(optional). A line that does not parse is counted in `kshana_trust_input_errors_total` and
+Input is the live JSON-lines schema v1 documented in `docs/MARITIME-TRUST.md`. Read:
+`t_s`; `state` (`calibrating|nominal|degraded|untrusted`, the band); `score` (0-100 or
+null); `time` (the epoch's time as stated); `gate` (`off|passed|withheld`); reasons are the
+monitors in `deductions`, then any further ones in `alarms`. Other keys are ignored, since
+the schema only grows by appended keys. A line that does not parse is counted in `kshana_trust_input_errors_total` and
 skipped; scores outside 0-100 are rejected, not clamped, so a format change is noticed.
 The only code that knows this format is `src/telemetry/sample.rs`.
 
@@ -35,6 +37,7 @@ elsewhere prints a warning; put it behind your own access control.
 | `kshana_build_info` | gauge | `version` | constant 1 |
 | `kshana_trust_score` | gauge | | latest score 0-100; absent if the source gives none |
 | `kshana_trust_band` | gauge | `band` | 1 for the current band, 0 for the others |
+| `kshana_trust_gate` | gauge | `gate` | 1 for the live stream's current gate state; absent without a gate |
 | `kshana_trust_reason_active` | gauge | `reason` | 1 if present at the latest epoch |
 | `kshana_trust_epochs_total` | counter | `band` | epochs received |
 | `kshana_trust_reason_epochs_total` | counter | `reason` | epochs in which the reason was present |
@@ -43,8 +46,8 @@ elsewhere prints a warning; put it behind your own access control.
 | `kshana_trust_last_sample_timestamp_seconds` | gauge | | wall-clock receipt time; alert on its age |
 
 `band` is one of `calibrating`, `nominal`, `degraded`, `untrusted`, `unknown`. Reason
-names are those of the trust stream (for the batch result, the monitor names such as
-`cn0-drop`, `agc`, `raim`).
+names are the monitor names of the stream (`kinematic`, `heading-course`, ...; for the batch
+result, `cn0-drop`, `agc`, `raim`).
 
 A sample dashboard is in `deploy/grafana/kshana-gnss-trust.json` (import it and pick your
 Prometheus data source).
@@ -76,6 +79,7 @@ Field mapping (event id is `gnss-trust.<band>`):
 | score | `cn1` (`trustScore`), omitted if none | `trustScore` |
 | epoch offset, s | `cn2` (`epochOffsetSeconds`) | `epochOffsetSeconds` |
 | log time label | `cs4` (`logTime`) | `logTime` |
+| gate state | `cs5` (`gate`) | `gate` |
 
 CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
 LEEF values have `^` and line breaks replaced by spaces.
