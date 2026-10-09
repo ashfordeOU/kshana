@@ -2,7 +2,7 @@
  "engine_version": "0.34.0",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-10-09T07:47:39.887Z",
+ "recorded_utc": "2026-10-09T11:10:49.385Z",
  "runs": {
   "celeste-iod-classical-pilot-signals.toml": {
    "file": "celeste-iod-classical-pilot-signals.json.gz",

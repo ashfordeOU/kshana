@@ -26,9 +26,9 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.34.0, build 9a19f85 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.34.0, build 10071a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.34.0, build 9a19f85 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.34.0, build 10071a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
@@ -142,7 +142,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.34.0, build 9a19f85 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.34.0, build 10071a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -198,7 +198,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.34.0, build 9a19f85 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.34.0, build 10071a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -382,9 +382,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.34.0, build 9a19f85 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.34.0, build 10071a1 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.34.0, build 9a19f85 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.34.0, build 10071a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -965,7 +965,7 @@ Orbit view
 
 engine v0.34.0t = 0 sReal engine run, replayed
 
-Engine v0.34.0, build 9a19f85 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.34.0, build 10071a1 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2203,7 +2203,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.34.0, build 9a19f85 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.34.0, build 10071a1 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2219,7 +2219,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.34.0, build 9a19f85 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.34.0, build 10071a1 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2235,7 +2235,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.34.0, build 9a19f85 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.34.0, build 10071a1 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2249,7 +2249,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.34.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 9a19f85 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.34.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 10071a1 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2263,7 +2263,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.34.0, build 9a19f85 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.34.0, build 10071a1 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2279,7 +2279,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.34.0, build 9a19f85 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.34.0, build 10071a1 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -6202,7 +6202,7 @@ Terminal · kshana v0.34.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.34.0 (build 9a19f85):
+A recorded command-line session, engine v0.34.0 (build 10071a1):
 
 - $ kshana --version: kshana 0.34.0
 
@@ -10012,7 +10012,8 @@ Without the WASM toolchain, KSHANA_WASM_PKG=<a built pkg folder> ./web/build.sh 
 
 ```
 node web/smoke.mjs                 # the WASM bindings (needs web/pkg)
-node web/site.test.mjs             # the ported tree: manifest, version, counts, links
+node web/site.test.mjs             # the ported tree: manifest, version, counts, links, inline JSON
+node web/tools/inline-json.test.mjs  # the guard for corrupt inline page data (an unescaped version bump)
 node web/legacy-urls.test.mjs      # every old kshana.dev address still resolves
 for f in web/studio/lib/*.test.mjs; do node "$f"; done   # the Studio's modules
 ```
@@ -22801,6 +22802,9 @@ The default acquisition step no longer hands Galileo E1 tracking a residual the 
 -
 GPS L2C CM (20 ms loop update) holds lock with the default design. The default 15 Hz PLL and 10 Hz FLL have Bn · T of 0.3 and 0.2 at T = 20 ms, and the loop lost lock even from a perfect start (PLI −0.08, M2M4 15.8 dB-Hz). New design key carrier.bn_t_max (default 0.1) clamps the PLL and FLL noise bandwidths to bn_t_max / T when the loop update time is longer than 4 ms (Design::loop_config_for): 5 Hz and 5 Hz at 20 ms, 10 Hz and 10 Hz at BeiDou B1C's 10 ms; the 1 ms and 4 ms codes keep 15 and 10 Hz. It applies to explicit bandwidths too; bn_t_max = 0 turns it off. The key is omitted from the canonical form at its default, so the default hash is unchanged; a design that sets any other value has a different hash. At 45 dB-Hz L2C CM now gives PLI 0.996, Doppler error 0.00 Hz and M2M4 42.71 dB-Hz. Known open item: the NWPR C/N0 reads 1.76 dB low there (and 2.45 dB low on B1C at 10 ms), so the matrix's T5 for L2C stays an ignored finding.
 
+-
+docs/assets/clock-ensemble-band.svg regenerated: the committed figure was stale against its own scenario (a data change, not a repaint). The chart was drawn on 2026-06-02 from scenarios/clock-ensemble.toml; two days later 67fed19e set the flicker-FM floors in that scenario (quantum flicker_floor = 1e-16, CSAC flicker_floor = 2e-11) and the figure was never redrawn. It showed the pre-floor run: y axis 0 to 47 ns, CSAC per-run outage p95 of 10.5 to 47.6 ns (mean 25.2 ns), classical holdover 4050 s mean. The scenario as shipped (and as the tutorial and the CLI summary already state) gives y axis 0 to 407 ns, CSAC per-run p95 40.8 to 374.0 ns (mean 167.0 ns), classical holdover 844 s [220 to 2130 s]; the 20 ns spec line sits at the same 20 ns on a roughly nine-times taller axis. The engine is unchanged: today's engine on the June scenario file reproduces the old figure's axis exactly. The figure is not referenced from the README or the docs.
+
 ### Known limitations#
 
 - The NWPR C/N0 reads low at high per-prompt C/N0·T, and BOC(1,1) at 5 MS/s loses about 1 dB. NWPR is unbiased on ideal prompts, but the loop's own PLL jitter costs about a fitted 8 dB × Bn·T (one scene, four points: −0.24/−0.44/−0.77/−1.58 dB at 1/2.5/5/10 Hz and 20 ms; about −1 dB at the default bn_t_max = 0.1); M2M4 is insensitive. BeiDou B1C data at 5 MS/s also loses about 1 dB of prompt power to band-limiting (use 10 MS/s or more). Neither is an estimator defect; the signal-matrix T5 rows for GPS L2C and BeiDou B1C stay ignored findings with these causes.
@@ -22809,7 +22813,7 @@ GPS L2C CM (20 ms loop update) holds lock with the default design. The default 1
 
 ### Security#
 
-- Chart text and Studio chart adoption hardened. Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
+- Chart text and Studio chart adoption hardened. Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages. Advisory: GHSA-h25h-cg9f-v2cg.
 
 ## [0.33.0] - 2026-10-08#
 
