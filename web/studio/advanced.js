@@ -10,6 +10,7 @@
 // through textContent, or through an escaping SVG builder whose markup is parsed as XML
 // (never assigned as HTML).
 import { encodeFragment, decodeFragment, patchScalar } from "./lib/share.mjs";
+import { hasDeclaration, sanitizeSvg } from "./lib/svgsafe.mjs";
 import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./lib/chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./lib/hover.mjs";
 import { knobsForToml, readKnob, patchSectionScalar } from "./lib/guided.mjs";
@@ -24,7 +25,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
@@ -58,12 +59,15 @@ const icon = (id) => {
   s.append(u);
   return s;
 };
-// Parse builder-made SVG markup as XML and adopt the element. XML parsing runs no
-// script and the builders escape every string they embed.
+// Parse chart markup as XML, reduce it to drawing (lib/svgsafe.mjs: no scripts, handlers, outside
+// links or declarations) and adopt the element.
 function svgNode(markup) {
+  const undrawable = () => h("p", { class: "card-note", text: "This chart could not be drawn." });
+  if (hasDeclaration(markup)) return undrawable();
   const doc = new DOMParser().parseFromString(markup, "image/svg+xml");
   const root = doc.documentElement;
-  if (!root || root.nodeName !== "svg") return h("p", { class: "card-note", text: "This chart could not be drawn." });
+  if (!root || root.nodeName !== "svg") return undrawable();
+  sanitizeSvg(root);
   return document.importNode(root, true);
 }
 function setSvg(box, markup) { box.replaceChildren(svgNode(markup)); }
@@ -1901,8 +1905,7 @@ async function loadScenario(file, { run = true } = {}) {
   let text = null;
   const bundle = await scenarioBundle();
   if (bundle && typeof bundle[file] === "string") text = bundle[file];
-  const dir = dirOf(file);
-  if (text === null) try { const res = await fetch(dir ? `${dir}${file}` : `scenarios/${file}`, { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
+  if (text === null) try { const res = await fetch(scenarioPath(file), { cache: "no-store" }); if (res.ok) text = await res.text(); } catch { /* offline host */ }
   if (text === null) { const rec = await loadRecorded(file); if (rec) text = rec.toml; }
   if (text === null) { showError(`Could not load ${file}.`); return; }
   S.baseToml = text;
@@ -2003,7 +2006,7 @@ async function restoreRun(run) {
   if (run.file) {
     const bundle = await scenarioBundle();
     if (bundle && typeof bundle[run.file] === "string") S.baseToml = bundle[run.file];
-    else try { const res = await fetch(dirOf(run.file) ? `${dirOf(run.file)}${run.file}` : `scenarios/${run.file}`); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
+    else if (scenarioPath(run.file)) try { const res = await fetch(scenarioPath(run.file)); if (res.ok) S.baseToml = await res.text(); } catch { /* keep */ }
     const rec = S.recCache.get(run.file);
     if (rec) S.baseToml = rec.toml;
   }
