@@ -1,0 +1,518 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -60.5,
+              20.0
+            ],
+            [
+              -60.0,
+              20.0
+            ],
+            [
+              -60.0,
+              20.5
+            ],
+            [
+              -60.5,
+              20.5
+            ],
+            [
+              -60.5,
+              20.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 28,
+        "aircraft_sampled": 0,
+        "cell_i": 220,
+        "cell_j": 239,
+        "degraded": false,
+        "status": "insufficient_sample"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -60.5,
+              22.0
+            ],
+            [
+              -60.0,
+              22.0
+            ],
+            [
+              -60.0,
+              22.5
+            ],
+            [
+              -60.5,
+              22.5
+            ],
+            [
+              -60.5,
+              22.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 28,
+        "aircraft_sampled": 0,
+        "cell_i": 224,
+        "cell_j": 239,
+        "degraded": false,
+        "status": "insufficient_sample"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -60.5,
+              24.0
+            ],
+            [
+              -60.0,
+              24.0
+            ],
+            [
+              -60.0,
+              24.5
+            ],
+            [
+              -60.5,
+              24.5
+            ],
+            [
+              -60.5,
+              24.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 28,
+        "aircraft_sampled": 0,
+        "cell_i": 228,
+        "cell_j": 239,
+        "degraded": false,
+        "status": "insufficient_sample"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -50.5,
+              30.0
+            ],
+            [
+              -50.0,
+              30.0
+            ],
+            [
+              -50.0,
+              30.5
+            ],
+            [
+              -50.5,
+              30.5
+            ],
+            [
+              -50.5,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 259,
+        "degraded": false,
+        "status": "not_degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -50.0,
+              30.0
+            ],
+            [
+              -49.5,
+              30.0
+            ],
+            [
+              -49.5,
+              30.5
+            ],
+            [
+              -50.0,
+              30.5
+            ],
+            [
+              -50.0,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 260,
+        "degraded": false,
+        "status": "not_degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -49.5,
+              30.0
+            ],
+            [
+              -49.0,
+              30.0
+            ],
+            [
+              -49.0,
+              30.5
+            ],
+            [
+              -49.5,
+              30.5
+            ],
+            [
+              -49.5,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.5833,
+        "aircraft_affected": 7,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 261,
+        "degraded": true,
+        "status": "degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -49.0,
+              30.0
+            ],
+            [
+              -48.5,
+              30.0
+            ],
+            [
+              -48.5,
+              30.5
+            ],
+            [
+              -49.0,
+              30.5
+            ],
+            [
+              -49.0,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 262,
+        "degraded": false,
+        "status": "not_degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -48.5,
+              30.0
+            ],
+            [
+              -48.0,
+              30.0
+            ],
+            [
+              -48.0,
+              30.5
+            ],
+            [
+              -48.5,
+              30.5
+            ],
+            [
+              -48.5,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 263,
+        "degraded": false,
+        "status": "not_degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -48.0,
+              30.0
+            ],
+            [
+              -47.5,
+              30.0
+            ],
+            [
+              -47.5,
+              30.5
+            ],
+            [
+              -48.0,
+              30.5
+            ],
+            [
+              -48.0,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 264,
+        "degraded": false,
+        "status": "not_degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -47.5,
+              30.0
+            ],
+            [
+              -47.0,
+              30.0
+            ],
+            [
+              -47.0,
+              30.5
+            ],
+            [
+              -47.5,
+              30.5
+            ],
+            [
+              -47.5,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 12,
+        "aircraft_sampled": 12,
+        "cell_i": 240,
+        "cell_j": 265,
+        "degraded": false,
+        "status": "not_degraded"
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -50.5,
+              31.0
+            ],
+            [
+              -50.0,
+              31.0
+            ],
+            [
+              -50.0,
+              31.5
+            ],
+            [
+              -50.5,
+              31.5
+            ],
+            [
+              -50.5,
+              31.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "affected_share": 0.0,
+        "aircraft_affected": 0,
+        "aircraft_observed": 7,
+        "aircraft_sampled": 0,
+        "cell_i": 242,
+        "cell_j": 259,
+        "degraded": false,
+        "status": "insufficient_sample"
+      },
+      "type": "Feature"
+    }
+  ],
+  "kshana_interference_map": {
+    "data": {
+      "attribution": "Synthetic data generated for Kshana documentation. Not real observations.",
+      "coverage_notes": [
+        "Coverage of a user-supplied dataset is not described by Kshana."
+      ],
+      "dataset": "custom",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "name": "user-supplied dataset"
+    },
+    "date": "2026-03-01",
+    "day": {
+      "background_evaluated": true,
+      "background_share": 0.0,
+      "cells_published": 11,
+      "cells_suppressed_below_min_distinct": 1,
+      "day_confounded": false
+    },
+    "format_version": 1,
+    "grid": {
+      "cell_deg": 0.5,
+      "type": "fixed_lat_lon"
+    },
+    "kshana_version": "0.33.1",
+    "method": {
+      "caveats": [
+        "A degraded cell means a high share of aircraft reported low navigation accuracy there that day. It does not identify interference as the cause.",
+        "Other causes include satellite constellation or augmentation outages, space-weather effects, and receiver or transponder faults.",
+        "Conservative by construction: aircraft that fly only inside an affected region all day have no baseline and are not counted.",
+        "Cells with no published entry were not observed by enough aircraft, which is not the same as clear."
+      ],
+      "guards": [
+        "airborne reports above the altitude floor only",
+        "distinct aircraft are counted, not reports, so one aircraft cannot dominate a cell",
+        "an aircraft counts only if it sent good-accuracy reports elsewhere the same day (excludes equipment that never reports accuracy)",
+        "the cell share must exceed the day's median cell share by a margin",
+        "a day whose median cell share is itself high is marked confounded and no cell is declared degraded",
+        "cells with fewer than the minimum distinct aircraft are not published"
+      ],
+      "id": "kshana-interference-map/adsb/v1",
+      "input_stats": {
+        "excluded_ground_or_below_altitude_floor": 0,
+        "excluded_no_accuracy_field": 0,
+        "excluded_non_adsb_source": 0,
+        "rejected_malformed": 0,
+        "rows": 880,
+        "trace_files": 0,
+        "trace_files_unreadable": 0,
+        "used": 880
+      },
+      "parameters": {
+        "affected_report_share": 0.5,
+        "background_margin": 0.15,
+        "day_confound_background": 0.15,
+        "degraded_share": 0.3,
+        "good_nacp_min": 8,
+        "good_nic_min": 7,
+        "low_nacp_max": 6,
+        "low_nic_max": 5,
+        "min_aircraft_sampled": 10,
+        "min_alt_ft": 5000.0,
+        "min_baseline_good_reports": 5,
+        "min_cells_for_background": 5,
+        "min_reports_per_aircraft_in_cell": 3,
+        "publication_min_distinct": 5
+      },
+      "summary": "Share of distinct aircraft whose NIC/NACp reports are low-accuracy within a fixed grid cell, per UTC day."
+    },
+    "notice": "Aggregate only: no aircraft or vessel identifiers appear in this file. Cells with fewer than the minimum number of distinct aircraft or vessels are omitted. A missing cell was not observed and is not evidence of a clear cell.",
+    "schema": "kshana-interference-map/v1",
+    "source_kind": "adsb"
+  },
+  "type": "FeatureCollection"
+}
