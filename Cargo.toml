@@ -43,6 +43,10 @@ exclude = [
     # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
     "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
     "/tests/igs_real_data.rs",
+    # The interference-map sample outputs are documentation inputs for the Studio; the test
+    # that pins them reads them from a checkout.
+    "/examples/interference-map",
+    "/tests/interference_map_examples.rs",
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
