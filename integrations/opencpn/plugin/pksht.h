@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // $PKSHT parser for the Kshana score panel. Header-only, C++11, no wxWidgets and no OpenCPN
 // headers, so it builds and is tested on its own. Advisory software, not type-approved equipment.
 #pragma once
