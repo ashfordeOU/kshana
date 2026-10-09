@@ -38,7 +38,7 @@ module.exports = function (app) {
       },
       inputArgs: {
         type: 'array',
-        title: 'Input arguments (spawn-args), e.g. ["--tcp","192.0.2.10:10110"]',
+        title: 'Input arguments for kshana (spawn modes): the input for spawn-args, e.g. ["--tcp","192.0.2.10:10110"]; extra flags for spawn-signalk-nmea, e.g. ["--replay"] for a stored log fed faster than real time',
         items: { type: 'string' },
         default: []
       },
@@ -153,7 +153,7 @@ module.exports = function (app) {
       const launch = () => {
         if (stopped) return
         const args = ['receiver-trust', 'live', o.sessionFile || '/etc/kshana/session.toml']
-        if (o.source === 'spawn-args') args.push(...(o.inputArgs || []))
+        args.push(...(o.inputArgs || []))
         child = spawn(o.command, args, { stdio: ['pipe', 'pipe', 'pipe'] })
         const sp = jsonSplitter()
         child.stdout.on('data', (d) => sp.push(d))

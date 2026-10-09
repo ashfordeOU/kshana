@@ -75,3 +75,22 @@ test('spawn-signalk-nmea: server NMEA goes to the child, its JSON comes back', a
   assert.deepStrictEqual(alarmStates(app).slice(0, 2), ['warn', 'alarm'])
   assert.strictEqual(app.signalk.listenerCount('nmea0183'), 0)
 })
+
+test('inputArgs are passed to kshana in both spawn modes', async () => {
+  const argsFile = path.join(require('os').tmpdir(), `kshana-args-${process.pid}.json`)
+  process.env.FAKE_ARGS_FILE = argsFile
+  try {
+    for (const [source, extra] of [['spawn-signalk-nmea', ['--replay']], ['spawn-args', ['--udp', '10110']]]) {
+      fs.rmSync(argsFile, { force: true })
+      const app = mockApp()
+      const p = makePlugin(app)
+      p.start({ source, command: path.join(__dirname, 'fake-kshana.js'), sessionFile: 's.toml', inputArgs: extra, staleAfterS: 0 })
+      await waitFor(() => fs.existsSync(argsFile))
+      p.stop()
+      assert.deepStrictEqual(JSON.parse(fs.readFileSync(argsFile, 'utf8')), ['receiver-trust', 'live', 's.toml', ...extra])
+    }
+  } finally {
+    delete process.env.FAKE_ARGS_FILE
+    fs.rmSync(argsFile, { force: true })
+  }
+})
