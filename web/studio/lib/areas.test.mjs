@@ -73,4 +73,6 @@ assert.equal(kindOfToml("seed = 1"), "holdover");
   const hm = plainMeaning(JSON.parse(hd.json), hd.toml);
   assert.equal(home.hero.answer, spellOut(`${hm.big} ${hm.line}`, new Set()), "the opening screen's first paint matches the Studio's");
 }
+// Names a plain object inherits are not kinds.
+for (const k of ["constructor", "__proto__", "toString", "hasOwnProperty"]) assert.deepEqual(rowsForKind(k, []), [], k);
 console.log("areas.test.mjs: ok");

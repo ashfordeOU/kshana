@@ -10,6 +10,7 @@
 // the result's own `units` block. Pure; tested in kinds.test.mjs against real engine output.
 import { fmt, humanKey, SERIES_COLORS, seriesModel, signalModel, holdoverModel, masksModel, adevCurves, orbitTrackKm, groundTrack } from "./views.mjs";
 import { readScalar } from "./share.mjs";
+import { own } from "./own.mjs";
 
 // ---------------------------------------------------------------- paths, units, quantities
 
@@ -559,7 +560,7 @@ export const CAPABILITIES = {
 
 // The kind a run was made with: the result's own `kind` when it states one, else the scenario's.
 export function kindOfRun(result, toml = "") {
-  if (result && typeof result.kind === "string" && CAPABILITIES[result.kind]) return result.kind;
+  if (result && typeof result.kind === "string" && own(CAPABILITIES, result.kind)) return result.kind;
   const k = readScalar(toml, "kind");
   return k ? k.replace(/^"|"$/g, "") : (result && typeof result.kind === "string" ? result.kind : null);
 }
@@ -569,7 +570,7 @@ export function kindOfRun(result, toml = "") {
 export function capabilityView(result, toml = "") {
   if (!result || typeof result !== "object") return null;
   const kind = kindOfRun(result, toml);
-  const cap = kind && CAPABILITIES[kind];
+  const cap = kind && own(CAPABILITIES, kind);
   if (!cap) return null;
   let stage = cap.stage;
   if (kind === "campaign" && !result.timeline) stage = null;
@@ -653,7 +654,7 @@ const FIGURES = {
 // `max`, each read from the result at `path`. [] when the kind has no capability view.
 export function capabilityFigures(result, toml = "", max = 8) {
   const kind = kindOfRun(result, toml);
-  const make = kind && FIGURES[kind];
+  const make = kind && own(FIGURES, kind);
   if (!make || !result) return [];
   const out = [];
   for (const f of make(result)) {
@@ -761,7 +762,7 @@ const GUIDED = {
 // entries whose field the scenario has (fields = params.mjs numericFields(toml)), at most six.
 export function guidedFor(kind, fields) {
   const out = [];
-  for (const [id, label, hint, min, max, step] of GUIDED[kind] || []) {
+  for (const [id, label, hint, min, max, step] of own(GUIDED, kind) || []) {
     const field = fields.find((f) => f.id === id);
     if (!field) continue;
     out.push({ id, label, hint, step, field, min: Math.min(min, field.value), max: Math.max(max, field.value) });
@@ -769,4 +770,4 @@ export function guidedFor(kind, fields) {
   }
   return out;
 }
-export const hasCapability = (kind) => !!CAPABILITIES[kind];
+export const hasCapability = (kind) => !!own(CAPABILITIES, kind);
