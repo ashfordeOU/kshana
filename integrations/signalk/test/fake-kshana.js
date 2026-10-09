@@ -1,0 +1,14 @@
+#!/usr/bin/env node
+'use strict'
+// Test stand-in for `kshana receiver-trust live`: after it has read one NMEA line on stdin it
+// prints the recorded synthetic JSON lines, then exits when stdin closes. Nothing else.
+const fs = require('fs')
+const path = require('path')
+let done = false
+process.stdin.on('data', () => {
+  if (done) return
+  done = true
+  process.stdout.write(fs.readFileSync(path.join(__dirname, 'fixtures', 'trust-excerpt.jsonl')))
+})
+process.stdin.on('end', () => process.exit(0))
+setTimeout(() => process.exit(0), 20000).unref()
