@@ -430,6 +430,18 @@ hash. At 45 dB-Hz L2C CM now gives PLI 0.996, Doppler error 0.00 Hz and M2M4 42.
 Known open item: the NWPR C/N0 reads 1.76 dB low there (and 2.45 dB low on B1C at 10 ms),
 so the matrix&#39;s T5 for L2C stays an ignored finding.</p>
 </li>
+<li><p><strong><code>docs/assets/clock-ensemble-band.svg</code> regenerated: the committed figure was stale
+against its own scenario (a data change, not a repaint).</strong> The chart was drawn on
+2026-06-02 from <code>scenarios/clock-ensemble.toml</code>; two days later 67fed19e set the flicker-FM
+floors in that scenario (quantum <code>flicker_floor = 1e-16</code>, CSAC <code>flicker_floor = 2e-11</code>)
+and the figure was never redrawn. It showed the pre-floor run: y axis 0 to 47 ns, CSAC
+per-run outage p95 of 10.5 to 47.6 ns (mean 25.2 ns), classical holdover 4050 s mean. The scenario as shipped (and as the tutorial and
+the CLI summary already state) gives y axis 0 to 407 ns, CSAC per-run p95 40.8 to 374.0 ns
+(mean 167.0 ns), classical holdover 844 s [220 to 2130 s]; the 20 ns spec line sits at the
+same 20 ns on a roughly nine-times taller axis. The engine is unchanged: today&#39;s engine
+on the June scenario file reproduces the old figure&#39;s axis exactly. The figure is not
+referenced from the README or the docs.</p>
+</li>
 </ul>
 <h3 id="known-limitations">Known limitations<a class="anchor" href="#known-limitations" aria-label="Link to this section">#</a></h3>
 <ul>
@@ -443,7 +455,8 @@ the signal-matrix T5 rows for GPS L2C and BeiDou B1C stay ignored findings with 
 <h2 id="0331---2026-10-08">[0.33.1] - 2026-10-08<a class="anchor" href="#0331---2026-10-08" aria-label="Link to this section">#</a></h2>
 <h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
 <ul>
-<li><strong>Chart text and Studio chart adoption hardened.</strong> Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio&#39;s address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.</li>
+<li><strong>Chart text and Studio chart adoption hardened.</strong> Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio&#39;s address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
+Advisory: <a href="https://github.com/ashfordeOU/kshana/security/advisories/GHSA-h25h-cg9f-v2cg">GHSA-h25h-cg9f-v2cg</a>.</li>
 </ul>
 <h2 id="0330---2026-10-08">[0.33.0] - 2026-10-08<a class="anchor" href="#0330---2026-10-08" aria-label="Link to this section">#</a></h2>
 <h3 id="documentation">Documentation<a class="anchor" href="#documentation" aria-label="Link to this section">#</a></h3>
