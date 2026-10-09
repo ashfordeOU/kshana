@@ -43,6 +43,10 @@ exclude = [
     # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
     "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
     "/tests/igs_real_data.rs",
+    # The interference-map sample outputs are documentation inputs for the Studio; the test
+    # that pins them reads them from a checkout.
+    "/examples/interference-map",
+    "/tests/interference_map_examples.rs",
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
@@ -139,6 +143,10 @@ libm = "0.2"
 # dependency-audit gate never compile or scan these unless the feature is enabled.
 pyo3 = { version = "0.29", features = ["extension-module", "abi3-py39"], optional = true }
 wasm-bindgen = { version = "0.2", optional = true }
+# gzip decoding for the adsb.lol readsb history files read by `kshana interference-map adsb`.
+# Pure-Rust miniz_oxide backend only (no zlib-sys, no C), so it builds on wasm32 and keeps the
+# permissive-licence gate: flate2 is MIT OR Apache-2.0, miniz_oxide MIT OR Zlib OR Apache-2.0.
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
 
 # On wasm32 the (transitive) getrandom must use the browser/JS entropy source.
 # Target-gated, so native builds and the dependency-audit gate are unaffected.
