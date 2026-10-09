@@ -370,6 +370,10 @@ jobs:
         run: node web/studio/lib/overlay.test.mjs
       - name: Test the tabbed-output model
         run: node web/studio/lib/tabs.test.mjs
+      - name: Test the own-key lookup
+        run: node web/studio/lib/own.test.mjs
+      - name: Test what chart markup the Studio adopts
+        run: node web/studio/lib/svgsafe.test.mjs
       - name: Test the embed-mode helpers
         run: node web/studio/lib/embed.test.mjs
       - name: Test the HTML-report builder

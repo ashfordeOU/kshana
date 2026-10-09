@@ -19,94 +19,82 @@
 //! pre-composited over the theme's `--bg`, rounded to the nearest 8-bit channel. The
 //! sync test re-derives the composites from the CSS.
 
-/// The dark Observatory theme (`web/theme.css`, `prefers-color-scheme: dark`).
-pub mod dark {
-    /// `--bg`: the page and chart ground.
-    pub const BG: &str = "#060A14";
-    /// `--bg-2`.
-    pub const BG_2: &str = "#0A1122";
-    /// `--bg-3`.
-    pub const BG_3: &str = "#0E1730";
-    /// `--panel-solid` / `--surface`: a card or plot-panel fill one step above the ground.
-    pub const PANEL: &str = "#0D1528";
-    /// `--surface-2`: an alternate band one step above [`PANEL`].
-    pub const PANEL_2: &str = "#111B33";
-    /// `--line` composited over [`BG`]: gridlines.
-    pub const GRID: &str = "#161C2B";
-    /// `--line-2` composited over [`BG`]: rules and secondary strokes.
-    pub const RULE: &str = "#232B3E";
-    /// `--line-3` composited over [`BG`]: axes and outlines.
-    pub const AXIS: &str = "#343F57";
-    /// `--ink`: titles and the strongest text.
-    pub const INK: &str = "#EAF0FF";
-    /// `--ink-2`: body text and labels.
-    pub const INK_2: &str = "#A7B4D2";
-    /// `--ink-3`: muted text (ticks, captions, subtitles).
-    pub const INK_3: &str = "#8190B0";
-    /// `--ink-4`: faint non-text strokes (reference lines). Not for text.
-    pub const INK_4: &str = "#56637F";
-    /// `--cyan`: the primary accent and the orbit domain.
-    pub const CYAN: &str = "#3DDCF7";
-    /// `--magenta`: the spoofing domain.
-    pub const MAGENTA: &str = "#F45CCB";
-    /// `--lime`: the integrity domain and "ok / validated".
-    pub const LIME: &str = "#A8EE5E";
-    /// `--amber`: the navigation domain and "warning / modelled".
-    pub const AMBER: &str = "#FFB547";
-    /// `--coral`: the interference domain and "fault / threshold".
-    pub const CORAL: &str = "#FF6A5C";
-    /// `--tim`: the timing-domain blue (the theme has five accents for six domains, so
-    /// timing takes this sixth hue).
-    pub const BLUE: &str = "#6A98FF";
-    /// The colour of the translucent `--line` tokens, for art that flattens them over
-    /// surfaces other than [`BG`].
-    pub const LINE_RGB: &str = "#96AFE6";
-    /// The alphas of `--line`, `--line-2` and `--line-3`.
-    pub const LINE_ALPHA: [f64; 3] = [0.11, 0.2, 0.32];
+/// Generates the [`dark`] and [`light`] modules from one table, so the two themes cannot
+/// drift apart in their set of tokens: a row is `NAME = ("#dark", "#light");` after its
+/// doc comment (the `line_alpha` pair comes first), and the macro writes `dark::NAME` and
+/// `light::NAME`.
+macro_rules! observatory_themes {
+    (
+        line_alpha: ($dark_alpha:expr, $light_alpha:expr);
+        $(
+            $(#[$meta:meta])*
+            $name:ident = ($dark:literal, $light:literal);
+        )+
+    ) => {
+        /// The dark Observatory theme (`web/theme.css`, `prefers-color-scheme: dark`).
+        pub mod dark {
+            $(
+                $(#[$meta])*
+                pub const $name: &str = $dark;
+            )+
+            /// The alphas of `--line`, `--line-2` and `--line-3`.
+            pub const LINE_ALPHA: [f64; 3] = $dark_alpha;
+        }
+
+        /// The light Observatory theme (`web/theme.css`, bare `:root`).
+        pub mod light {
+            $(
+                $(#[$meta])*
+                pub const $name: &str = $light;
+            )+
+            /// The alphas of `--line`, `--line-2` and `--line-3`.
+            pub const LINE_ALPHA: [f64; 3] = $light_alpha;
+        }
+    };
 }
 
-/// The light Observatory theme (`web/theme.css`, bare `:root`).
-pub mod light {
-    /// `--bg`.
-    pub const BG: &str = "#E8ECF3";
+observatory_themes! {
+    line_alpha: ([0.11, 0.2, 0.32], [0.12, 0.2, 0.32]);
+    /// `--bg`: the page and chart ground.
+    BG = ("#060A14", "#E8ECF3");
     /// `--bg-2`.
-    pub const BG_2: &str = "#DEE4EE";
+    BG_2 = ("#0A1122", "#DEE4EE");
     /// `--bg-3`.
-    pub const BG_3: &str = "#D3DBE8";
-    /// `--panel-solid` / `--surface`.
-    pub const PANEL: &str = "#F5F7FB";
-    /// `--surface-2`.
-    pub const PANEL_2: &str = "#EDF1F7";
-    /// `--line` composited over [`BG`].
-    pub const GRID: &str = "#D0D5E0";
-    /// `--line-2` composited over [`BG`].
-    pub const RULE: &str = "#BFC6D3";
-    /// `--line-3` composited over [`BG`].
-    pub const AXIS: &str = "#A7AFC0";
-    /// `--ink`.
-    pub const INK: &str = "#182033";
-    /// `--ink-2`.
-    pub const INK_2: &str = "#3A455E";
-    /// `--ink-3`.
-    pub const INK_3: &str = "#4E5971";
-    /// `--ink-4`. Not for text.
-    pub const INK_4: &str = "#66718A";
-    /// `--cyan`.
-    pub const CYAN: &str = "#066A86";
-    /// `--magenta`.
-    pub const MAGENTA: &str = "#A8247F";
-    /// `--lime`.
-    pub const LIME: &str = "#2F6E0A";
-    /// `--amber`.
-    pub const AMBER: &str = "#764600";
-    /// `--coral`.
-    pub const CORAL: &str = "#B42D1B";
-    /// `--tim`: the timing-domain blue.
-    pub const BLUE: &str = "#1C4FE0";
-    /// The colour of the translucent `--line` tokens.
-    pub const LINE_RGB: &str = "#1C2C54";
-    /// The alphas of `--line`, `--line-2` and `--line-3`.
-    pub const LINE_ALPHA: [f64; 3] = [0.12, 0.2, 0.32];
+    BG_3 = ("#0E1730", "#D3DBE8");
+    /// `--panel-solid` / `--surface`: a card or plot-panel fill one step above the ground.
+    PANEL = ("#0D1528", "#F5F7FB");
+    /// `--surface-2`: an alternate band one step above [`PANEL`].
+    PANEL_2 = ("#111B33", "#EDF1F7");
+    /// `--line` composited over [`BG`]: gridlines.
+    GRID = ("#161C2B", "#D0D5E0");
+    /// `--line-2` composited over [`BG`]: rules and secondary strokes.
+    RULE = ("#232B3E", "#BFC6D3");
+    /// `--line-3` composited over [`BG`]: axes and outlines.
+    AXIS = ("#343F57", "#A7AFC0");
+    /// `--ink`: titles and the strongest text.
+    INK = ("#EAF0FF", "#182033");
+    /// `--ink-2`: body text and labels.
+    INK_2 = ("#A7B4D2", "#3A455E");
+    /// `--ink-3`: muted text (ticks, captions, subtitles).
+    INK_3 = ("#8190B0", "#4E5971");
+    /// `--ink-4`: faint non-text strokes (reference lines). Not for text.
+    INK_4 = ("#56637F", "#66718A");
+    /// `--cyan`: the primary accent and the orbit domain.
+    CYAN = ("#3DDCF7", "#066A86");
+    /// `--magenta`: the spoofing domain.
+    MAGENTA = ("#F45CCB", "#A8247F");
+    /// `--lime`: the integrity domain and "ok / validated".
+    LIME = ("#A8EE5E", "#2F6E0A");
+    /// `--amber`: the navigation domain and "warning / modelled".
+    AMBER = ("#FFB547", "#764600");
+    /// `--coral`: the interference domain and "fault / threshold".
+    CORAL = ("#FF6A5C", "#B42D1B");
+    /// `--tim`: the timing-domain blue (the theme has five accents for six domains, so
+    /// timing takes this sixth hue).
+    BLUE = ("#6A98FF", "#1C4FE0");
+    /// The colour of the translucent `--line` tokens, for art that flattens them over
+    /// surfaces other than [`BG`].
+    LINE_RGB = ("#96AFE6", "#1C2C54");
 }
 
 /// The print palette: generated pages print black on white whatever the screen theme.

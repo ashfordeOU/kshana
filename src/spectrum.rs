@@ -51,6 +51,7 @@
 //! or antenna pattern acts on the jammer. Intra-system (multiple-access) interference
 //! between satellites of the same band is not included.
 
+use crate::chart::esc;
 use crate::jamming::{
     effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status, q_factor,
     BOLTZMANN_J_PER_K,
@@ -1979,12 +1980,6 @@ pub const NOT_MODELLED: &[&str] = &[
 /// Colour for a normalised value `u ∈ [0, 1]` on the shared sequential ramp.
 fn ramp_colour(u: f64) -> String {
     crate::palette::ramp(u)
-}
-
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
 }
 
 /// The waterfall (frequency across, time down, colour = PSD) with band markers, and a

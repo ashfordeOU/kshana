@@ -248,7 +248,10 @@ pub fn to_svg(result: &SweepResult) -> String {
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{} vs {} ({} scale)</text>",
-        ml, result.metric, result.parameter, result.scale
+        ml,
+        crate::chart::esc(&result.metric),
+        crate::chart::esc(&result.parameter),
+        crate::chart::esc(&result.scale)
     ));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, &result.metric));
     svg.push_str(&format!(
@@ -284,7 +287,7 @@ pub fn to_svg(result: &SweepResult) -> String {
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
         h - 10.0,
-        result.parameter
+        crate::chart::esc(&result.parameter)
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical</text>",
@@ -815,17 +818,17 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
         svg.push_str(&format!(
             "<text x=\"40\" y=\"40\" font-size=\"15\" font-weight=\"bold\">{}-D sweep of `{}` — {} nodes</text>",
             result.shape.len(),
-            result.kind,
+            crate::chart::esc(&result.kind),
             result.points.len()
         ));
         svg.push_str(&format!(
             "<text x=\"40\" y=\"66\">axes: {} (shape {:?})</text>",
-            result.keys.join(" × "),
+            crate::chart::esc(&result.keys.join(" × ")),
             result.shape
         ));
         svg.push_str(&format!(
             "<text x=\"40\" y=\"88\">metrics: {} — full grid in JSON</text>",
-            result.metrics.join(", ")
+            crate::chart::esc(&result.metrics.join(", "))
         ));
         svg.push_str("</svg>");
         return svg;
@@ -853,7 +856,8 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
     svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">sweep of `{}` over {}</text>",
-        result.kind, result.keys[0]
+        crate::chart::esc(&result.kind),
+        crate::chart::esc(&result.keys[0])
     ));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, "metric"));
     svg.push_str(&format!(
@@ -891,7 +895,7 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
         h - 10.0,
-        result.keys[0]
+        crate::chart::esc(&result.keys[0])
     ));
     svg.push_str("</svg>");
     svg
