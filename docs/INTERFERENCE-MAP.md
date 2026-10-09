@@ -300,6 +300,25 @@ first: a route with a low degraded share and a high not-observed share has not b
 to be clear. ADS-B and AIS rows are reported separately and never combined. Each row
 carries the map's licence and attribution.
 
+## Library functions
+
+For callers that hold data in memory (bindings, the MCP server, the browser build), the
+module `kshana::interference_map::api` exposes the same methods with text or bytes in and
+JSON out, touching no file and no network:
+
+| Function | In | Out |
+|---|---|---|
+| `adsb_maps_from_csv(csv, &DatasetSpec, cell_deg)` | ADS-B CSV text | `Vec<DayMap>` |
+| `adsb_maps_from_readsb_traces(&[&[u8]], &DatasetSpec, cell_deg)` | one byte slice per readsb trace file (gzip or plain) | `Vec<DayMap>` |
+| `ais_maps_from_csv(csv, &DatasetSpec, cell_deg, Option<&str>)` | AIS CSV text, optional land GeoJSON text | `Vec<DayMap>` |
+| `route_exposure(route_text, &[&str], from, to)` | route text, map GeoJSON texts, optional `YYYY-MM-DD` bounds | `kshana-route-exposure/v1` JSON |
+
+A `DayMap` has `file_name`, `date` and `geojson` (the v1 document). `DatasetSpec` is
+`Preset("adsb-lol" | "noaa-marinecadastre" | "kystverket")` or
+`Custom { licence, licence_url, attribution }`; `DEFAULT_CELL_DEG` is 0.5. Errors are
+`MapError`. The dataset rules (approved presets, licence text required, kind must match)
+apply exactly as on the command line.
+
 ## Tests
 
 All tests use synthetic generated data and no network: unit tests in
