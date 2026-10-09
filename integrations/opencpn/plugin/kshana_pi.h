@@ -45,6 +45,8 @@ class kshana_pi : public opencpn_plugin_118 {
   kshana::PanelConfig cfg_;
   bool sound_ = true;
   bool auto_show_ = true;
+  bool seen_pksht_ = false;
+  char last_logged_band_ = 0;
   wxStopWatch clock_;
   friend class KshanaPanel;
 };

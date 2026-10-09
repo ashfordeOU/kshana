@@ -16,10 +16,11 @@ connection at the gate output (see [`docs/MARINE-INTEGRATIONS.md`](../../../docs
   OpenCPN host's.
 * The panel's logic (`trust_state.h`) and the `$PKSHT` parser (`pksht.h`) are wx-free and unit-tested on sentences
   recorded from the synthetic demo.
-* **Not yet run inside OpenCPN.** Nothing here loads it into a running OpenCPN, so the toolbar tool, the panel's
-  appearance, preferences, and in particular that OpenCPN hands a proprietary `$PKSHT` sentence to
-  `SetNMEASentence`, are unverified. Packaging for OpenCPN's plugin manager (catalog XML, per-platform builds) is
-  not done. It ships only after it has been run in OpenCPN and has passed review.
+* **Run inside OpenCPN 5.8.4** (Ubuntu package, under a virtual display) on the synthetic gated stream: the plugin loads,
+  `Init` runs, OpenCPN hands the proprietary `$PKSHT` sentences to `SetNMEASentence`, and the panel goes red on the
+  untrusted band. See [`../evidence/`](../evidence/README.md) for the screenshots, the log and the script. Not exercised
+  there: the toolbar button, the preferences dialog, the stale state, other OpenCPN versions and other platforms.
+  Packaging for OpenCPN's plugin manager (catalog XML, per-platform builds) is not done. It ships only after review.
 
 ## Build and test
 

@@ -165,6 +165,7 @@ int kshana_pi::Init() {
   tool_id_ = InsertPlugInTool("", &icon_, &icon_, wxITEM_NORMAL, "Kshana trust",
                               "Kshana GNSS trust score (advisory)", nullptr, -1, 0, this);
   panel_ = new KshanaPanel(GetOCPNCanvasWindow(), this);
+  wxLogMessage("kshana_pi: initialised (plugin API 1.18); waiting for $PKSHT from the NMEA stream");
   return WANTS_NMEA_SENTENCES | WANTS_PREFERENCES | INSTALLS_TOOLBAR_TOOL | WANTS_CONFIG;
 }
 
@@ -186,6 +187,14 @@ void kshana_pi::OnToolbarToolCallback(int) {
 void kshana_pi::SetNMEASentence(wxString& sentence) {
   if (!sentence.StartsWith("$PKSHT")) return;
   if (!state_.feed(std::string(sentence.mb_str()), Now())) return;
+  const kshana::Trust& t = state_.last();
+  if (!seen_pksht_ || t.band != last_logged_band_) {
+    // one line on the first sentence and on every band change, so the OpenCPN log shows delivery
+    wxLogMessage("kshana_pi: $PKSHT received, band %c, gate %c, score %s", t.band, t.gate,
+                 t.has_score ? wxString::Format("%.1f", t.score) : wxString("none"));
+    seen_pksht_ = true;
+    last_logged_band_ = t.band;
+  }
   if (state_.take_alarm_edge()) {
     if (sound_) wxBell();
     if (panel_ && auto_show_) panel_->Show();
