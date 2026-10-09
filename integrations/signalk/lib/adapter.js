@@ -1,7 +1,8 @@
 'use strict'
 // The ONLY file that knows Kshana's wire formats. If `kshana receiver-trust live` changes its
 // JSON line or its $PKSHT sentence, edit this file; everything else reads the normalised epoch:
-//   { seq, t, time, band, score, reasons:[{monitor, points}], alarms:[string], gate, note }
+//   { seq, t, time, band, score, reasons:[{monitor, points}], alarms:[string], gate, note,
+//     position: {latitude, longitude, altitude} | null }   (position: JSON schema 1.1 and later only)
 // band: 'calibrating' | 'nominal' | 'degraded' | 'untrusted'
 // gate: 'off' | 'passed' | 'withheld' | null
 
@@ -11,6 +12,17 @@ const PKSHT_GATE = { '-': 'off', P: 'passed', W: 'withheld' }
 
 function num(x) {
   return typeof x === 'number' && Number.isFinite(x) ? x : null
+}
+
+// The receiver-reported position of schema 1.1 ({lat_deg, lon_deg, height_m}) as a Signal K position
+// object. Null when absent (older kshana, no fix, calibrating without a fix) or not numeric.
+function parsePosition(p) {
+  if (!p || typeof p !== 'object') return null
+  const latitude = num(p.lat_deg)
+  const longitude = num(p.lon_deg)
+  if (latitude === null || longitude === null) return null
+  const altitude = num(p.height_m)
+  return altitude === null ? { latitude, longitude } : { latitude, longitude, altitude }
 }
 
 // One JSON line as written by `kshana receiver-trust live` (stdout or --json). Returns null for
@@ -38,7 +50,8 @@ function parseJsonLine(line) {
       : [],
     alarms: Array.isArray(o.alarms) ? o.alarms.filter((a) => typeof a === 'string') : [],
     gate: typeof o.gate === 'string' ? o.gate : null,
-    note: typeof o.note === 'string' ? o.note : null
+    note: typeof o.note === 'string' ? o.note : null,
+    position: parsePosition(o.position)
   }
 }
 
@@ -77,7 +90,8 @@ function parsePksht(sentence) {
     reasons,
     alarms: [],
     gate: PKSHT_GATE[f[4]] || null,
-    note: null
+    note: null,
+    position: null
   }
 }
 

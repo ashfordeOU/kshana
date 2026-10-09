@@ -51,3 +51,20 @@ test('$PKSHT: bad checksum, wrong version and other sentences are rejected', () 
   assert.strictEqual(parsePksht(`$${v2}*${nmeaChecksum(v2)}`), null)
   assert.strictEqual(parsePksht('$GPGGA,1,2*00'), null)
 })
+
+test('schema 1.1 position becomes a Signal K position object; absent or malformed stays null', () => {
+  const eps = fx('trust-position-excerpt.jsonl').map(parseJsonLine)
+  assert.ok(eps.every((e) => e && e.position))
+  const p = eps[0].position
+  assert.deepStrictEqual(Object.keys(p).sort(), ['altitude', 'latitude', 'longitude'])
+  assert.ok(p.latitude > 59 && p.latitude < 60 && p.longitude > 24 && p.longitude < 25)
+  // older output (no position key), a null position and a malformed one
+  const base = JSON.parse(fx('trust-excerpt.jsonl')[10])
+  assert.strictEqual(parseJsonLine(JSON.stringify(base)).position, null)
+  assert.strictEqual(parseJsonLine(JSON.stringify({ ...base, position: null })).position, null)
+  assert.strictEqual(parseJsonLine(JSON.stringify({ ...base, position: { lat_deg: 'x', lon_deg: 1 } })).position, null)
+  assert.deepStrictEqual(parseJsonLine(JSON.stringify({ ...base, position: { lat_deg: 1, lon_deg: 2 } })).position, {
+    latitude: 1,
+    longitude: 2
+  })
+})
