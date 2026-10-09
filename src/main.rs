@@ -14,6 +14,8 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
    or: kshana receiver-trust <scenario.toml>
+   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
    or: kshana iq <scene|acquire|track|sweep|labfit|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
@@ -71,6 +73,14 @@ fn main() -> ExitCode {
     // describing a simulation.
     if args.get(1).map(String::as_str) == Some("receiver-trust") {
         return run_receiver_trust_cli(&args[2..]);
+    }
+    // `kshana interference-map ...` and `kshana route-exposure ...` work on local files only
+    // (see docs/INTERFERENCE-MAP.md); both are terminal subcommands.
+    if args.get(1).map(String::as_str) == Some("interference-map") {
+        return ExitCode::from(kshana::interference_map::cli::run_map(&args[2..]) as u8);
+    }
+    if args.get(1).map(String::as_str) == Some("route-exposure") {
+        return ExitCode::from(kshana::interference_map::cli::run_route(&args[2..]) as u8);
     }
     // `kshana iq <command>` handles the GNSS IQ layer: the signal-processing commands
     // (scene, acquire, track, sweep, labfit) in `kshana::iq::cli`, which hands the

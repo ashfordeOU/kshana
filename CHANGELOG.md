@@ -9,6 +9,25 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Interference map
+
+- **`kshana interference-map` and `kshana route-exposure`: a public picture of where
+  aircraft and ships reported degraded navigation data, and how much of a route it touches.**
+  Inputs are local CSV files made from openly licensed ADS-B (adsb.lol, ODbL 1.0) and AIS
+  (NOAA MarineCadastre, Kystverket under NLOD 2.0) data; each output file is one source and
+  one UTC day of GeoJSON carrying the method, its thresholds, the data licence, the
+  attribution and the source's coverage bias. The ADS-B method aggregates NIC and NACp onto
+  a fixed grid and calls a cell degraded from the share of distinct aircraft, with guards for
+  equipment that never reports accuracy, low altitude, and wide-area causes. The AIS method
+  runs five detectors: positions on land (against a user-supplied coastline), circular
+  tracks, implausible jumps, implausible speeds, and many vessels at one position. Thresholds
+  are pre-registered constants of a named method version. Aggregates only: identifiers are
+  hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
+  vessels are not published. A degraded cell is not a finding of interference. The default
+  commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
+  Earth land polygons. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
+
 ### Fixed
 
 - **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale

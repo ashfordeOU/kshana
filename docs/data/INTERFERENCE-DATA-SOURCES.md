@@ -1,7 +1,6 @@
 # Interference map: data source licence review
 
-Status: **DRAFT, awaiting coordinator approval.** No ingest code exists for any source
-below. Reviewed 2026-10-09 from the publishers' own pages where reachable. This is an
+Status: **APPROVED by the coordinator on 2026-10-09 with the decisions recorded at the end.** Reviewed 2026-10-09 from the publishers' own pages where reachable. This is an
 engineering review, not legal advice; items marked *unverified* must be confirmed
 against the live licence text before any ingest helper is written.
 
@@ -92,3 +91,19 @@ explicit flag, send an identifying User-Agent, and download one file at a time.
 - Coastline: Natural Earth.
 - Excluded: OpenSky, ADS-B Exchange, commercial AIS vendors; pending: airplanes.live,
   Danish Maritime Authority, Digitraffic.
+
+## Decisions (coordinator, 2026-10-09)
+
+1. adsb.lol approved. Published per-cell ADS-B GeoJSON is released under ODbL 1.0 with the
+   licence and attribution embedded in the file; Kshana code stays AGPL; commercial editions
+   carry the same notice on such files.
+2. ADS-B and AIS outputs are separate files, each with its own licence field, never merged.
+3. Approved AIS: NOAA MarineCadastre and Kystverket (coverage bias stated in the output).
+   airplanes.live and the Danish Maritime Authority are out of 0.35. Digitraffic: a second
+   attempt read its published API instructions (rate limits and a request for an identifying
+   `Digitraffic-User` header) but no licence text or attribution wording, so it is **left
+   out**; it can be added once its licence is read and cited.
+4. The Natural Earth land file is not vendored. The CLI takes a user-supplied land polygon
+   file; an opt-in helper (`interference-map fetch-land --allow-network`) downloads it.
+5. Identifiers are parsed in memory only, hashed with a per-run salt, never written or logged.
+6. Added rule: a cell with fewer than 5 distinct aircraft or vessels is not published.
