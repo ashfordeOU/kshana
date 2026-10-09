@@ -10,7 +10,7 @@ FROM debian:bookworm-slim
 # The version below is the one place the image's version is written (read by the version-sync check).
 LABEL org.opencontainers.image.version="0.35.0" \
       org.opencontainers.image.title="kshana-trust-gate" \
-      org.opencontainers.image.description="Kshana receiver-trust gate: serves gated NMEA 0183 with a $PKSHT trust sentence over TCP. Advisory software, not type-approved equipment." \
+      org.opencontainers.image.description="Kshana receiver-trust gate: serves gated NMEA 0183 with a \$PKSHT trust sentence over TCP. Advisory software, not type-approved equipment." \
       org.opencontainers.image.source="https://github.com/ashfordeOU/kshana" \
       org.opencontainers.image.licenses="AGPL-3.0-only"
 COPY --from=build /src/target/release/kshana /usr/local/bin/kshana
