@@ -19,6 +19,13 @@ on:
         description: "Version label for a dry run (default: Cargo.toml's)"
         required: false
         type: string
+  # A dry run on the release-channels branch when this file or the image's sources change
+  # (not a tag, so nothing is pushed).
+  push:
+    branches: [ci/release-0.35-channels]
+    paths:
+      - ".github/workflows/reference-image.yml"
+      - "deploy/reference-build/**"
 permissions:
   contents: read
 jobs:
