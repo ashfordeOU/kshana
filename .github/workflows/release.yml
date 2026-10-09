@@ -95,7 +95,10 @@ jobs:
       # (check-doc-coverage.sh is deliberately NOT here: it is a full library compile
       # ratcheting a hand-pinned doc-warning ceiling, which has no bearing on whether a
       # release is safe to publish.)
-      - run: ./scripts/check-version-sync.sh
+      # In a dry run a branch that has not been bumped yet shows its drift as a failed step
+      # but the run goes on to build and stage; a real release run stops here.
+      - continue-on-error: ${{ inputs.dry_run == true }}
+        run: ./scripts/check-version-sync.sh
       # A dry run (workflow_dispatch with dry_run) skips the three long steps below: it
       # builds and checks the release assets and publishes nothing. A real release, tag
       # push or a re-run for a tag, always runs them.
