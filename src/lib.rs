@@ -222,7 +222,6 @@ pub mod optical_linkbudget;
 pub mod orbit;
 pub mod orbit_determination;
 pub mod orbital_timing;
-pub mod osnma;
 pub mod palette;
 pub mod particle_filter;
 pub mod passes;
