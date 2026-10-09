@@ -57,6 +57,11 @@ same time.
 
 ## What is **not** covered by this dual-license
 
+- **The native OpenCPN plugin** (`integrations/opencpn/plugin/`) is licensed **GPL-3.0-or-later** (see the `LICENSE` file in
+  that directory), not AGPL-3.0, and is **not** offered under the commercial licence. It is loaded into OpenCPN and built
+  against its GPL-2.0-or-later plugin API header, which is the usual basis for OpenCPN plugins. The rest of
+  `integrations/` (the Signal K plugin and the OpenCPN TCP relay) stays AGPL-3.0-only.
+
 - **Kshana Pro** and other proprietary overlays are **separate, closed-source**
   products under their own commercial terms. They are not part of this repository
   and are not offered under the AGPL.
