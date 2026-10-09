@@ -60,6 +60,7 @@ pub mod geojson;
 pub mod kml;
 pub mod scene;
 pub mod stk;
+pub mod testbench;
 mod time;
 
 pub use time::UtcEpoch;
