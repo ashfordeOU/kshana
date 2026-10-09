@@ -81,6 +81,22 @@ and never alarm.
 | `solve-failure` | the engine's single-point fix fails with five or more satellites | RINEX log with `nav` |
 | `clock` | the receiver clock departs from its predicted line by more than the minimum detectable offset of its calibration noise | RINEX log with `nav` |
 
+For a `vessel` platform the moving-platform monitors also run (thresholds in a top-level
+`[maritime]` table, every default documented in `src/receiver_trust/maritime.rs`); each
+needs its data and is listed in `monitors_run` only when it decided:
+
+| Monitor | Alarms when | Needs |
+|---|---|---|
+| `kinematic` | position change disagrees with the reported speed and course, or implies a speed, acceleration or turn rate above the vessel limits | fixes; speed and course (RMC or VTG) for the dead-reckoning part |
+| `heading-course` | gyro heading and course over ground differ by more than `hdg_cog_tol_deg` (speed above `min_speed_kn`) | HDT, THS or VHW heading, `heading_sensor = true` |
+| `speed-log` | speed through the water and speed over ground differ by more than `stw_sog_tol_kn` | VHW or VBW, and speed over ground |
+| `sea-level` | GGA altitude differs from `antenna_height_m` by more than `sea_level_tol_m` | GGA altitude, `antenna_height_m` |
+| `cn0-spread` | the spread of C/N0 across satellites falls to `cn0_spread_frac` of its calibration median | GSV |
+| `cn0-rise` | C/N0 of the common satellites rose by `cn0_rise_db` on average and `cn0_rise_frac` of them rose | GSV |
+| `time-consistency` | consecutive epoch times step irregularly, run backwards, or leave the host clock | NMEA time; host clock for the last part |
+| `sec-jam`, `sec-spoof` | the receiver's own u-blox UBX-SEC-SIG state is at warning or indicated | UBX log |
+| `osnma` | the receiver reports an OSNMA authentication failure (a reported status is read; nothing is verified) | `$PKSOS` status sentence |
+
 An epoch is **untrusted** when RAIM, the clock monitor, a solve failure or a position jump
 alarms, or the C/N0 drop reaches twice its threshold; **degraded** on any other alarm; and
 **nominal** otherwise.

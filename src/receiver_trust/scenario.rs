@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::ingest::read_log;
+use super::maritime::MaritimeConfig;
 use super::monitors::{
     run_monitors, AlarmRun, Baseline, EngineFixInput, EpochTrust, Monitor, MonitorConfig,
     TrustState,
@@ -155,12 +156,15 @@ struct RawScenario {
     compare: CompareCfg,
     #[serde(default)]
     platform: PlatformCfg,
+    #[serde(default)]
+    maritime: MaritimeConfig,
 }
 
 impl From<RawScenario> for ReceiverTrustScenario {
     fn from(r: RawScenario) -> Self {
         let mut monitors = r.monitors;
         monitors.platform = r.platform;
+        monitors.maritime = r.maritime;
         Self {
             kind: r.kind,
             name: r.name,
@@ -524,7 +528,17 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
             epochs: timeline.epochs.len(),
             duration_s: timeline.epochs.last().map(|e| e.t_s).unwrap_or(0.0),
             start_label: timeline.start_label.clone(),
-            observables: timeline.observables.clone(),
+            observables: {
+                // The moving-platform sentences are an observable only where the scenario
+                // declares a vessel, so a static run reports exactly what it always did.
+                let mut o = timeline.observables.clone();
+                if scn.monitors.platform.is_vessel()
+                    && timeline.epochs.iter().any(|e| e.marine.is_some())
+                {
+                    o.push("marine".to_string());
+                }
+                o
+            },
             skipped_records: timeline.skipped_records,
             engine_fix: engine_inputs.is_some(),
         },
@@ -577,6 +591,16 @@ fn monitor_name(m: Monitor) -> &'static str {
         Monitor::Raim => "raim",
         Monitor::Clock => "clock",
         Monitor::SolveFailure => "solve-failure",
+        Monitor::Kinematic => "kinematic",
+        Monitor::HeadingCourse => "heading-course",
+        Monitor::SpeedLog => "speed-log",
+        Monitor::SeaLevel => "sea-level",
+        Monitor::Cn0Spread => "cn0-spread",
+        Monitor::Cn0Rise => "cn0-rise",
+        Monitor::TimeConsistency => "time-consistency",
+        Monitor::SecJam => "sec-jam",
+        Monitor::SecSpoof => "sec-spoof",
+        Monitor::Osnma => "osnma",
     }
 }
 
