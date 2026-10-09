@@ -16,6 +16,7 @@
 
 pub mod ingest;
 pub mod monitors;
+pub mod platform;
 pub mod scenario;
 
 use serde::{Deserialize, Serialize};

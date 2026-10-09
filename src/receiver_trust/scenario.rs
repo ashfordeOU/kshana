@@ -18,6 +18,7 @@ use super::monitors::{
     run_monitors, AlarmRun, Baseline, EngineFixInput, EpochTrust, Monitor, MonitorConfig,
     TrustState,
 };
+use super::platform::PlatformCfg;
 use super::LogFormat;
 
 /// Where a file's bytes come from: exactly one of `path` (native builds only), `text`
@@ -111,8 +112,12 @@ impl Default for CompareCfg {
 }
 
 /// A `receiver-trust` scenario.
+///
+/// The platform of a `[platform]` table is held in [`MonitorConfig::platform`] (the
+/// scenario struct keeps its original fields, so code that builds one field by field is
+/// unaffected); a static scenario serialises, and so hashes, exactly as before.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
-#[serde(deny_unknown_fields)]
+#[serde(from = "RawScenario")]
 pub struct ReceiverTrustScenario {
     /// The scenario kind tag (`receiver-trust`); ignored by the runner.
     #[serde(default)]
@@ -131,6 +136,40 @@ pub struct ReceiverTrustScenario {
     /// Comparison rules.
     #[serde(default)]
     pub compare: CompareCfg,
+}
+
+/// The scenario as written in TOML: the scenario's fields plus the top-level `[platform]`.
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RawScenario {
+    #[serde(default)]
+    kind: Option<String>,
+    #[serde(default)]
+    name: Option<String>,
+    log: LogCfg,
+    #[serde(default)]
+    monitors: MonitorConfig,
+    #[serde(default)]
+    events: Vec<EventCfg>,
+    #[serde(default)]
+    compare: CompareCfg,
+    #[serde(default)]
+    platform: PlatformCfg,
+}
+
+impl From<RawScenario> for ReceiverTrustScenario {
+    fn from(r: RawScenario) -> Self {
+        let mut monitors = r.monitors;
+        monitors.platform = r.platform;
+        Self {
+            kind: r.kind,
+            name: r.name,
+            log: r.log,
+            monitors,
+            events: r.events,
+            compare: r.compare,
+        }
+    }
 }
 
 /// What was read from the log.
@@ -299,6 +338,7 @@ fn median(mut v: Vec<f64>) -> Option<f64> {
 
 /// Validate the parts of a scenario that serde cannot.
 fn validate(scn: &ReceiverTrustScenario) -> Result<(), String> {
+    scn.monitors.platform.validate()?;
     let c = &scn.compare;
     for (name, v) in [
         ("compare.detect_tol_s", c.detect_tol_s),
@@ -725,5 +765,47 @@ pub fn resolve_paths(scn: &mut ReceiverTrustScenario, base: &std::path::Path) {
     fix(&mut scn.log.source.path);
     if let Some(nav) = scn.log.nav.as_mut() {
         fix(&mut nav.path);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const LOG: &str = "log = { format = \"nmea\", text = \"$GPGGA,000000,,,,,0,00,,,,,,,*00\" }";
+
+    #[test]
+    fn platform_table_is_read_into_the_monitor_config() {
+        let scn: ReceiverTrustScenario = toml::from_str(&format!(
+            "{LOG}\n[platform]\nkind = \"vessel\"\nmax_speed_kn = 18.0\n"
+        ))
+        .unwrap();
+        assert!(scn.monitors.platform.is_vessel());
+        assert_eq!(scn.monitors.platform.max_speed_kn, Some(18.0));
+    }
+
+    #[test]
+    fn static_scenarios_serialise_without_a_platform() {
+        let scn: ReceiverTrustScenario = toml::from_str(LOG).unwrap();
+        assert!(scn.monitors.platform.is_static());
+        let json = serde_json::to_string(&scn).unwrap();
+        assert!(!json.contains("platform"), "{json}");
+        let explicit: ReceiverTrustScenario =
+            toml::from_str(&format!("{LOG}\n[platform]\nkind = \"static\"\n")).unwrap();
+        assert_eq!(scn, explicit);
+    }
+
+    #[test]
+    fn platform_under_monitors_is_rejected_and_bad_limits_error_at_run() {
+        assert!(toml::from_str::<ReceiverTrustScenario>(&format!(
+            "{LOG}\n[monitors.platform]\nkind = \"vessel\"\n"
+        ))
+        .is_err());
+        let scn: ReceiverTrustScenario = toml::from_str(&format!(
+            "{LOG}\n[platform]\nkind = \"vessel\"\nmax_speed_kn = -1.0\n"
+        ))
+        .unwrap();
+        let e = run_receiver_trust(&scn).unwrap_err();
+        assert!(e.contains("max_speed_kn"), "{e}");
     }
 }
