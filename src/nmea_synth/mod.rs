@@ -28,3 +28,33 @@ pub mod track;
 
 pub use config::TrainingScenario;
 pub use gen::{generate, Generated};
+
+/// Parse a scenario from TOML text and generate the run: the one call a binding needs.
+/// `seed` replaces the scenario's seed when given. The result holds the NMEA text
+/// ([`Generated::nmea_text`]) and the instructor log ([`log::InstructorLog::to_json`],
+/// [`log::InstructorLog::to_text`]).
+pub fn generate_from_toml(toml_text: &str, seed: Option<u64>) -> Result<Generated, String> {
+    let mut scn = TrainingScenario::parse(toml_text)?;
+    if let Some(s) = seed {
+        scn.scenario.seed = s;
+    }
+    generate(&scn)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn text_entry_point_matches_the_struct_path_and_honours_the_seed() {
+        let text = include_str!("../../scenarios/training/open-sea-jamming.toml");
+        let a = generate_from_toml(text, None).unwrap();
+        let b = generate(&TrainingScenario::parse(text).unwrap()).unwrap();
+        assert_eq!(a.nmea_text(), b.nmea_text());
+        assert_ne!(
+            a.nmea_text(),
+            generate_from_toml(text, Some(99)).unwrap().nmea_text()
+        );
+        assert!(generate_from_toml("[scenario]", None).is_err());
+    }
+}
