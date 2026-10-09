@@ -15,8 +15,12 @@
 //! data was examined. Changing one means a new method version.
 
 pub mod adsb;
+pub mod ais;
+pub mod cli;
 pub mod grid;
+pub mod land;
 pub mod output;
+pub mod route;
 pub mod sources;
 pub mod time;
 
