@@ -87,12 +87,81 @@ fn cap_len(what: &str, len: usize, max: usize) -> Result<(), String> {
     Ok(())
 }
 
+/// Scenario fields that make the engine read a file or a folder by name, wherever they
+/// appear in a scenario (a campaign nests scenarios). A surface that takes scenario text from
+/// an untrusted party refuses a scenario that sets any of them: give the content inline, or
+/// run the scenario where the files are (the command line, or Python in your own process).
+/// `tests/scenario_file_sources_guard.rs` fails when a scenario type gains a field that
+/// looks like a file source and is neither listed here nor explained there.
+pub const FILE_SOURCE_KEYS: &[&str] = &[
+    "csv_path",
+    "data_dir",
+    "data_path",
+    "earth_orientation_kernel_path",
+    "ephemeris_path",
+    "meta_path",
+    "moon_orientation_kernel_path",
+    "normal_points_dir",
+    "planetary_kernel_path",
+    "reflectors_path",
+    "stations_path",
+];
+
+/// Fields that are file names only for one scenario kind (elsewhere they carry the file's
+/// body inline).
+pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[(
+    "realtime-frame-eop",
+    &["eop_finals2000a", "eop_finals2000a_later"],
+)];
+
+/// Tables whose `path` key names a receiver log or its navigation file.
+const FILE_SOURCE_TABLES: &[&str] = &["log", "nav"];
+
+/// Refuse a scenario that names a file or folder to read, and one over `max_bytes`.
+///
+/// For the surfaces that run scenario text from an untrusted party (the MCP server): they
+/// accept inline content only. A text that is not valid TOML passes, because the engine
+/// refuses it with its own message.
+pub fn reject_file_sources(toml_text: &str, max_bytes: usize) -> Result<(), String> {
+    cap("scenario", toml_text, max_bytes)?;
+    let Ok(v) = toml_text.parse::<toml::Table>() else {
+        return Ok(());
+    };
+    fn walk(t: &toml::Table, kind: &str, table_name: &str) -> Result<(), String> {
+        let kind = t.get("kind").and_then(toml::Value::as_str).unwrap_or(kind);
+        for (k, v) in t {
+            let by_kind = FILE_SOURCE_KEYS_BY_KIND
+                .iter()
+                .any(|(kd, keys)| *kd == kind && keys.contains(&k.as_str()));
+            let in_table = k == "path" && FILE_SOURCE_TABLES.contains(&table_name);
+            if FILE_SOURCE_KEYS.contains(&k.as_str()) || by_kind || in_table {
+                return Err(format!(
+                    "the field `{k}` names a file: this surface accepts inline content only"
+                ));
+            }
+            match v {
+                toml::Value::Table(inner) => walk(inner, kind, k)?,
+                toml::Value::Array(items) => {
+                    for item in items {
+                        if let toml::Value::Table(inner) = item {
+                            walk(inner, kind, k)?;
+                        }
+                    }
+                }
+                _ => {}
+            }
+        }
+        Ok(())
+    }
+    walk(&v, "", "")
+}
+
 /// Assess a receiver log from a `receiver-trust` scenario whose log and navigation bytes are
 /// **inline** (`text` or `base64`). A scenario that names a `path` is refused, so a caller
 /// that takes the TOML from an untrusted party (a network service, an AI agent) cannot read
 /// the host's files. `max_bytes` caps the TOML, and therefore the inline log.
 pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustOutput, String> {
-    cap("scenario", toml, max_bytes)?;
+    reject_file_sources(toml, max_bytes)?;
     let scn: ReceiverTrustScenario =
         toml::from_str(toml).map_err(|e| format!("invalid receiver-trust scenario: {e}"))?;
     if scn.log.source.path.is_some() || scn.log.nav.as_ref().is_some_and(|n| n.path.is_some()) {
@@ -694,6 +763,46 @@ mod tests {
             .files
             .values()
             .all(|b| !String::from_utf8_lossy(b).contains(&hex_seed)));
+    }
+
+    #[test]
+    fn scenarios_naming_files_are_refused_and_bundled_ones_pass() {
+        let refused = |t: &str| reject_file_sources(t, MAX_INPUT_BYTES).unwrap_err();
+        assert!(refused("kind = \"telecom-timing\"\ncsv_path = \"x.csv\"").contains("csv_path"));
+        assert!(
+            refused("kind = \"spectrum\"\n[recording]\nmeta_path = \"a.sigmf-meta\"")
+                .contains("meta_path")
+        );
+        assert!(
+            refused("kind = \"realtime-frame-eop\"\neop_finals2000a = \"/etc/x\"")
+                .contains("eop_finals2000a")
+        );
+        assert!(
+            refused("kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"x\"")
+                .contains("path")
+        );
+        assert!(refused("[log.nav]\npath = \"x\"").contains("path"));
+        // Nested in a campaign member.
+        assert!(refused(
+            "kind = \"campaign\"\n[[phases]]\n[phases.scenario]\nplanetary_kernel_path = \"k.bsp\""
+        )
+        .contains("planetary_kernel_path"));
+        // Inline bodies and result paths are fine.
+        reject_file_sources(
+            "kind = \"ephemeris\"\neop_finals2000a = \"inline body\"",
+            MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        reject_file_sources(
+            "kind = \"campaign\"\n[[metrics]]\nname = \"a\"\npath = \"quantum.fom.x\"",
+            MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        // Not TOML: left to the engine's own message. Over the cap: refused.
+        reject_file_sources("not toml {{", MAX_INPUT_BYTES).unwrap();
+        assert!(reject_file_sources("x = 1", 2)
+            .unwrap_err()
+            .contains("limit"));
     }
 
     #[test]
