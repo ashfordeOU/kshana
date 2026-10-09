@@ -16,6 +16,7 @@ const USAGE: &str = "usage: kshana trust-telemetry [options]
     --listen <addr:port>     serve /metrics (default 127.0.0.1:9464 when no other output is chosen)
     --print-metrics          print the final exposition to stdout at end of input
     --hold                   keep serving after the input ends
+    --expose-position        also publish the receiver-reported position as gauges (off by default)
   syslog (CEF or LEEF in an RFC 5424 envelope):
     --syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
     --format cef|leef        payload dialect (default cef)
@@ -31,6 +32,7 @@ struct Opts {
     listen: Option<String>,
     print_metrics: bool,
     hold: bool,
+    expose_position: bool,
     syslog_udp: Option<String>,
     syslog_tcp: Option<String>,
     print_syslog: bool,
@@ -56,6 +58,7 @@ fn parse(args: &[String]) -> Result<Opts, String> {
             "--listen" => o.listen = Some(val("--listen")?),
             "--print-metrics" => o.print_metrics = true,
             "--hold" => o.hold = true,
+            "--expose-position" => o.expose_position = true,
             "--syslog-udp" => o.syslog_udp = Some(val("--syslog-udp")?),
             "--syslog-tcp" => o.syslog_tcp = Some(val("--syslog-tcp")?),
             "--print-syslog" => o.print_syslog = true,
@@ -117,6 +120,9 @@ pub fn run(args: &[String]) -> i32 {
 fn run_inner(o: &Opts) -> Result<(), String> {
     let version = env!("CARGO_PKG_VERSION");
     let reg = Arc::new(Mutex::new(Registry::new(version)));
+    if let Ok(mut r) = reg.lock() {
+        r.set_expose_position(o.expose_position);
+    }
 
     // Serve metrics by default only when nothing else was asked for.
     let any_other = o.print_metrics
