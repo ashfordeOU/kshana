@@ -10,9 +10,81 @@ receiver, it does not replace one, and it does not make a fix more accurate.
 > gate are aids to the navigator's judgement. The operator stays responsible for the safe
 > navigation of the vessel and for any decision to rely on, or to stop relying on, a fix.
 
-This page covers running it live and what the gate does. (The platform model, the monitors,
-the score and the synthetic demo are described in
-[`RECEIVER-TRUST.md`](RECEIVER-TRUST.md).)
+This page says what the checks look at, what each one can and cannot catch, how to run it
+live and what the gate does. The score mapping and every default are in
+[`RECEIVER-TRUST.md`](RECEIVER-TRUST.md).
+
+## What it reads
+
+A vessel is declared in the session file, with its limits stated before the run:
+
+```toml
+[platform]
+kind = "vessel"
+max_speed_kn = 20.0        # includes any current you want to allow for: it limits speed over ground
+max_accel_mps2 = 0.2
+max_turn_rate_dps = 2.0
+antenna_height_m = 18.0    # antenna above the waterline
+heading_sensor = true      # the stream carries a gyro or compass heading
+```
+
+| Sentence | Read |
+|---|---|
+| GGA | position, fix quality (0 = no fix), altitude above mean sea level, geoid separation, HDOP |
+| RMC | status (`A` valid, `V` not), speed and course over ground, date, mode |
+| VTG | speed and course over ground, where RMC has none |
+| HDT, THS | heading (THS only when its mode is not `V`) |
+| VHW, VBW | speed through the water (VBW only when its status is `A`) |
+| ZDA | time |
+| GSV | per-satellite signal strength (dB-Hz) |
+| `$PKSOS,<A/F/N>` | an OSNMA status a receiver reported, translated into this sentence by the adapter that reads the receiver: `A` authenticated, `F` failed, `N` no result |
+
+A u-blox UBX log also gives UBX-SEC-SIG (the receiver's own jamming and spoofing state; layout
+version 1, other versions are skipped and counted). Epochs the receiver itself flags invalid (GGA
+quality 0 or RMC status `V`) are not used for the position checks: the receiver has already said so.
+
+The first `calibration_s` seconds form the baseline and are never scored. Every monitor looks only
+at the current and earlier epochs, so a decision at an epoch does not change when later data
+arrives, and a live stream gives the same score as the same text read as a file.
+
+## What each check catches, and what it cannot
+
+A counterfeit position has to agree with a ship's physics and with the ship's other sensors. Each
+check compares the fix with one of them. A check is only as independent as its other source: a
+heading from a GNSS compass, or a "speed through the water" derived from GNSS, is not independent
+of the receiver under test and adds nothing.
+
+| Check | Catches | Cannot |
+|---|---|---|
+| `kinematic` | a position step; a track whose movement the reported speed and course do not explain; an implied speed, acceleration or turn rate above the stated vessel limits | a drag whose reported speed and course follow the counterfeit track and stays inside the limits (the receiver derives them from its own solution, so they agree with each other); a speed limit stated too high |
+| `heading-course` | a track that departs from where the ship points by more than the stated crab angle | a drag along the course (the course does not change); a heading from the same receiver or a GNSS compass; a cross-set above the tolerance (false alarm); speeds below `min_speed_kn` |
+| `speed-log` | a drag that changes speed over ground against speed through the water | a log that is GNSS-derived; a current above the allowance (false alarm); a drag slower than the allowance |
+| `sea-level` | an altitude that is not where the sea surface and the stated antenna height put it | a spoofer that keeps the altitude plausible; the tolerance is wide because standalone vertical error is large; the geoid separation is recorded but not checked, because there is no geoid model in the engine |
+| `cn0-spread`, `cn0-rise` | the signature of one transmitter: C/N0 across the satellites collapsing together, or rising together, against the calibration baseline | a spoofer that shapes power per satellite; anything while the baseline itself is spoofed; a GSV cadence too slow to follow |
+| `time-consistency` | the receiver's time stepping irregularly or running backwards; against this computer's clock, the receiver's time drifting from it (real-time streams only) | a counterfeit time that is consistent and steady; a clock that is wrong from the start |
+| `sec-jam`, `sec-spoof` | the receiver's own detector at warning or "indicated" | anything its detector does not see |
+| `osnma` | a reported OSNMA authentication failure | the status is read, not verified; a spoofer that suppresses the report is not seen |
+| `cn0-drop`, `loss-of-lock`, `agc`, `jam-ind` | power denial and loss of satellites, as in the static case | they say the environment is hostile, not that the fix is wrong |
+
+**What NMEA-only monitors cannot do.** A spoofer that reproduces the whole constellation with a
+self-consistent position, velocity, heading-compatible course, plausible per-satellite power and a
+matching clock is invisible to every check above: nothing in the sentences distinguishes its fix
+from a real one. Neither does a replay of recorded real signals. Authentication (OSNMA, or a
+receiver with its own anti-spoofing) and independent navigation sensors are what close that gap;
+this layer can only use their reported status. A stream that is already being spoofed while the
+baseline forms has no clean baseline. Absence of an alarm is not evidence of a good fix.
+
+## Trust score
+
+Each epoch after calibration gets a score from 0 to 100 and the reasons it is not 100: which
+checks deducted, their statistic against threshold, and their points. Bands (edges stated in the
+session): `nominal` at 90 or above, `degraded` at 55 or above, `untrusted` below. The mapping,
+every weight and its reason are in [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md#trust-score-vessel-platform);
+it is deterministic and fixed before a log is scored, with no learning and nothing fitted to events.
+
+Outputs of a batch run: `session.result.json` (with the score model and every epoch's deductions),
+`session.trust.csv` (with `score` and `score_reasons` columns) and `session.trust.svg`, which for a
+vessel is the receiver-reported track coloured by trust band above the score over time.
 
 ## A synthetic demo
 

@@ -230,6 +230,10 @@ pub struct MarineStats {
 /// What the moving-platform monitors say about one epoch.
 #[derive(Clone, Debug, Default, PartialEq, Serialize, Deserialize)]
 pub struct MarineEpoch {
+    /// The receiver's reported position `[latitude, longitude]`, degrees, where the epoch
+    /// has a fix (for the track of the chart).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub position: Option<[f64; 2]>,
     /// The statistics.
     pub stats: MarineStats,
     /// Alarm statistic of every monitor that decided, as `statistic / threshold` (alarm at
@@ -404,7 +408,10 @@ impl MarineMonitors {
         if post {
             self.freeze_baseline();
         }
-        let mut out = MarineEpoch::default();
+        let mut out = MarineEpoch {
+            position: e.fix.map(|f| [f.lat_deg, f.lon_deg]),
+            ..MarineEpoch::default()
+        };
         let mut ratios: BTreeMap<Monitor, f64> = BTreeMap::new();
         let marine = e.marine.as_ref();
         let valid = marine.is_none_or(|m| m.fix_valid != Some(false));
