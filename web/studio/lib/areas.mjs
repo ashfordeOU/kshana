@@ -16,6 +16,7 @@
 import * as V from "./views.mjs";
 import * as K from "./kinds.mjs";
 import * as G from "./stages.mjs";
+import { own } from "./own.mjs";
 
 export const DEFAULT_KIND = "holdover";
 
@@ -67,7 +68,7 @@ const moduleMatch = (row, t) => tokenRe(t).test(row.module || "") || tokenRe(t).
 
 // Indices of the matrix rows that belong to a kind.
 export function rowsForKind(kind, rows) {
-  const names = [kind, kind.replace(/-/g, "_"), ...(KIND_MODULES[kind] || [])];
+  const names = [kind, kind.replace(/-/g, "_"), ...(own(KIND_MODULES, kind) || [])];
   const out = [];
   rows.forEach((r, i) => { if (names.some((n) => moduleMatch(r, n))) out.push(i); });
   return out;
