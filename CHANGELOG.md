@@ -9,6 +9,17 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (trust telemetry)
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. No new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
 ### Fixed
 
 - **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale
