@@ -168,3 +168,25 @@ fn the_chart_shows_the_reported_track_by_band_and_the_score() {
         "{last}"
     );
 }
+
+#[test]
+fn the_truth_file_shows_the_reported_track_leaving_the_real_one_only_after_the_onset() {
+    use kshana::receiver_trust::maritime::en_offset_m;
+    let truth = std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.truth.csv")).unwrap();
+    let rows: Vec<Vec<f64>> = truth
+        .lines()
+        .skip(1)
+        .map(|l| l.split(',').map(|v| v.parse().unwrap()).collect())
+        .collect();
+    assert_eq!(rows.len(), 3001);
+    let text = std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.nmea")).unwrap();
+    let tl = read_nmea(&text).unwrap();
+    let off = |i: usize| {
+        let f = tl.epochs[i].fix.unwrap();
+        let (e, n) = en_offset_m(rows[i][1], rows[i][2], f.lat_deg, f.lon_deg);
+        e.hypot(n)
+    };
+    // Before the onset the receiver's own error (a few metres); at the end, far from the vessel.
+    assert!((0..1500).all(|i| off(i) < 20.0));
+    assert!(off(3000) > 1000.0, "{}", off(3000));
+}
