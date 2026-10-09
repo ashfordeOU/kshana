@@ -73,15 +73,29 @@ deploy/reference-build/check-units.sh
 
 ## Container option
 
+The image runs the **gate** (the opt-in service above) with its input and session taken from environment variables; the gated
+stream is served on port 10110 inside the container. Read "Gate mode" in [`MARITIME-TRUST.md`](../../docs/MARITIME-TRUST.md) first.
+
 ```sh
-docker build -f deploy/reference-build/Dockerfile -t kshana-trust .
+docker build -f deploy/reference-build/Dockerfile -t kshana-trust-gate .
 cp examples/maritime-trust/session.toml deploy/reference-build/session.toml    # then edit [platform]
+# edit KSHANA_INPUT in docker-compose.yml, then:
 docker compose -f deploy/reference-build/docker-compose.yml up -d
 ```
 
-The compose file reads the receiver at `/dev/ttyGNSS` (set the speed on the host first with `stty`) and serves the JSON
-epochs on `127.0.0.1:10111`, which the Signal K plugin reads with source `tcp-json`. The Dockerfile and compose file
-are not built by the project's CI; they are provided as a starting point.
+| Variable | Default | Meaning |
+|---|---|---|
+| `KSHANA_INPUT` | `stdin` | `stdin` (`docker run -i ... < device`), `tcp:<host>:<port>`, `udp:<port>` or `file:<path>` |
+| `KSHANA_SESSION` | `/etc/kshana/session.toml` | the vessel's limits, thresholds and score weights |
+| `KSHANA_LISTEN` | `tcp:0.0.0.0:10110` | where the gated stream is served inside the container |
+| `KSHANA_REPLAY` | unset | `1` for a stored log fed faster than real time |
+
+**Publish the port to loopback on the host** (`-p 127.0.0.1:10110:10110`, as the compose file does): anyone who can reach the
+port can read the stream, and the container listens on all its own addresses. OpenCPN then connects to `127.0.0.1:10110`. A
+serial receiver is best bridged to TCP on the host (a serial-to-network bridge, or `stty` plus a pipe); the image does not open
+serial ports itself. The image carries its version in the `org.opencontainers.image.version` label. The Dockerfile and compose
+file are not built by the project's CI (no container build is run there); `test-entrypoint.sh` checks the entrypoint's argument
+handling without Docker.
 
 ## Signal K wiring
 
@@ -89,7 +103,7 @@ are not built by the project's CI; they are provided as a starting point.
 2. The monitor reads the same receiver, in one of two ways:
    * the plugin runs it for you: source `spawn-signalk-nmea` feeds the server's own NMEA input to `kshana receiver-trust live`
      (nothing else needs to open the serial port); or
-   * the monitor runs as a service (above) and the plugin connects to it: source `tcp-json` (container) or `tcp-pksht` (gate stream).
+   * the monitor runs as a service (above) and the plugin connects to it: source `tcp-pksht` against the gate's port (the container's, or `kshana-gate.service`'s), or `tcp-json` against a JSON-lines feed.
 3. Install the plugin from `integrations/signalk/`, enable "Kshana GNSS trust", pick the source, and set the thresholds.
 4. The score, band, reasons and gate state appear under `navigation.gnss.kshana.*` and a notification at
    `notifications.navigation.gnss.kshanaTrust` is raised in the `warn` and `alarm` states.

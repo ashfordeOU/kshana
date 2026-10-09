@@ -7,7 +7,7 @@ Signal K notification when trust collapses. Full guide, paths and wiring:
 > **Advisory software.** Not type-approved navigation equipment. The operator stays responsible
 > for the safe navigation of the vessel.
 
-No npm dependencies. Not published to npm. Install by copying or linking this directory into the
+No npm dependencies. Package name `signalk-kshana-trust` (proposed; not yet published to npm, which is the founder's call). Until then install by copying or linking this directory into the
 server's `node_modules` (or `~/.signalk/node_modules`) and enabling "Kshana GNSS trust" in the
 server's plugin configuration.
 

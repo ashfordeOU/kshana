@@ -23,7 +23,7 @@ them in one file, `integrations/signalk/lib/adapter.js`; a format change is a on
 ## Signal K plugin
 
 No npm dependencies; Node 18 or newer. Copy or link `integrations/signalk/` into the server's `node_modules`
-(for example `~/.signalk/node_modules/kshana-signalk-trust`), restart the server and enable **Kshana GNSS trust**
+(for example `~/.signalk/node_modules/signalk-kshana-trust`), restart the server and enable **Kshana GNSS trust**
 under Server, Plugin Config.
 
 ### Where the epochs come from (`source`)
@@ -32,8 +32,8 @@ under Server, Plugin Config.
 |---|---|
 | `spawn-signalk-nmea` (default) | Runs `kshana receiver-trust live <sessionFile>` and writes every raw NMEA 0183 sentence the server receives (the server's `nmea0183` event) to its standard input. Restarts it, with back-off, if it exits |
 | `spawn-args` | Runs `kshana receiver-trust live <sessionFile> <inputArgs...>`, for example `["--tcp","192.0.2.10:10110"]` or `["--udp","10110"]` |
-| `tcp-json` | Connects to a feed of the JSON lines `kshana` writes (the container in the reference build serves one on port 10111) |
-| `tcp-pksht` | Connects to an NMEA stream (such as the gate output) and reads only its `$PKSHT` sentences |
+| `tcp-json` | Connects to a feed of the JSON lines `kshana` writes (for example from the relay in `integrations/opencpn/`) |
+| `tcp-pksht` | Connects to an NMEA stream (such as the gate output of the service or container in the reference build, port 10110) and reads only its `$PKSHT` sentences |
 
 A stream that is already being spoofed when the monitor first connects has no clean baseline (the first
 `calibration_s` seconds are never scored). Start it before the voyage.
@@ -66,7 +66,7 @@ the band, score and the top two reasons only).
 | `command` | `kshana` | the executable (spawn modes) |
 | `sessionFile` | `/etc/kshana/session.toml` | the vessel's limits, thresholds and score weights (spawn modes) |
 | `inputArgs` | `[]` | extra input arguments (`spawn-args`) |
-| `host`, `port` | `127.0.0.1`, `10111` | TCP modes |
+| `host`, `port` | `127.0.0.1`, `10111` | TCP modes (the gate serves on 10110: set the port for `tcp-pksht`) |
 | `thresholdMode` | `band` | `band`: the band Kshana reports, with the edges in the session file. `score`: the two scores below |
 | `warnBelowScore` | `90` | `score` mode: below this the state is `degradedState` (Kshana's default edge for nominal) |
 | `alarmBelowScore` | `55` | `score` mode: below this the state is `alarm` (Kshana's default edge for degraded) |
