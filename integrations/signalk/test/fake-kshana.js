@@ -4,6 +4,7 @@
 // prints the recorded synthetic JSON lines, then exits when stdin closes. Nothing else.
 const fs = require('fs')
 const path = require('path')
+if (process.env.FAKE_ARGS_FILE) fs.writeFileSync(process.env.FAKE_ARGS_FILE, JSON.stringify(process.argv.slice(2)))
 let done = false
 process.stdin.on('data', () => {
   if (done) return

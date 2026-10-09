@@ -65,7 +65,7 @@ the band, score and the top two reasons only).
 | `source` | `spawn-signalk-nmea` | see above |
 | `command` | `kshana` | the executable (spawn modes) |
 | `sessionFile` | `/etc/kshana/session.toml` | the vessel's limits, thresholds and score weights (spawn modes) |
-| `inputArgs` | `[]` | extra input arguments (`spawn-args`) |
+| `inputArgs` | `[]` | arguments added to `kshana receiver-trust live <sessionFile>` in both spawn modes: the input for `spawn-args`, extra flags such as `--replay` (a stored log fed faster than real time) for `spawn-signalk-nmea` |
 | `host`, `port` | `127.0.0.1`, `10111` | TCP modes (the gate serves on 10110: set the port for `tcp-pksht`) |
 | `thresholdMode` | `band` | `band`: the band Kshana reports, with the edges in the session file. `score`: the two scores below |
 | `warnBelowScore` | `90` | `score` mode: below this the state is `degradedState` (Kshana's default edge for nominal) |
@@ -87,9 +87,15 @@ cd integrations/signalk && npm test
 `node:test`, no dependencies, no network beyond `127.0.0.1`. The tests parse and replay a 66-epoch excerpt of the
 JSON lines and `$PKSHT` sentences that `kshana receiver-trust live` wrote for the synthetic Baltic
 demo (made-up data, text only), check agreement between the two formats, the hold and clear behaviour, score mode,
-staleness, and the three input paths against a local feed and a stand-in child process. They do not start a real
-Signal K server; the use of the server's `nmea0183` event and the `handleMessage` and notification conventions
-follows the server's published plugin interface and should be confirmed on first install.
+staleness, and the three input paths against a local feed and a stand-in child process. Those tests do not start a real Signal K server; a separate scripted run does, see below.
+
+### Run in a real Signal K server
+
+`integrations/signalk/evidence/` holds a script that loads the plugin into the pinned `signalk-server` 2.33.0 package (in a
+private loopback-only network namespace) and records what the server's own REST and WebSocket APIs show. The trust paths appear,
+the notification goes warn, alarm, normal (after the hold) and warn again when the data stops, and with the real `kshana` fed by
+the server's own NMEA input it also published `reportedPosition`, never `navigation.position`. One server version, one run, no
+real vessel; limits and reproduction in the evidence README.
 
 ## OpenCPN
 
