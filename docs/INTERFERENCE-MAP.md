@@ -61,12 +61,27 @@ ADS-B (`kshana interference-map adsb`):
 | `timestamp` | yes | report time |
 | `aircraft_id` | yes | opaque identifier (hashed, never stored) |
 | `lat`, `lon` | yes | degrees |
-| `alt_baro_ft` | yes | barometric altitude in feet; `ground` or empty excludes the row |
+| `alt_baro_ft` | yes | altitude in feet; `ground` or empty excludes the row |
 | `nic`, `nacp` | at least one | integers 0 to 11; empty means not reported |
 | `source_type` | no | if present, only values starting `adsb` are used (MLAT, TIS-B and the like are excluded) |
 
-adsb.lol publishes gzip-compressed readsb JSON. Extract the fields above to CSV first; Kshana
-does not read that format directly, to avoid a decompression dependency.
+**adsb.lol readsb history, read directly.** The daily archives are a split tar of readsb
+trace files. Extract one as the publisher describes (concatenate the parts, `tar -xf -`),
+then give Kshana the extracted directory, a single `trace_full_*.json` file, or a CSV:
+
+```
+kshana interference-map adsb extracted-day/ --dataset adsb-lol --out maps/
+```
+
+A directory is searched recursively for `trace_full_*` files (other files, such as
+`trace_recent_*`, are ignored and symbolic links are not followed). Each file is
+gzip-compressed or plain JSON, detected by its first bytes, because readsb writes gzip
+under a `.json` name; decompression is capped at 512 MiB per file. From each trace entry
+Kshana reads the time offset, latitude, longitude, altitude (the `ground` marker excludes
+the entry), the `nic` and `nac_p` fields of the aircraft details object, and the position
+source string (entries from anything other than ADS-B are excluded). An entry with no
+details object has no accuracy fields and is counted as excluded. A file that cannot be
+read is counted in `trace_files_unreadable` in the output metadata and skipped.
 
 AIS (`kshana interference-map ais`):
 
@@ -86,8 +101,11 @@ access in this feature):
 kshana interference-map fetch-land --out ne_10m_land.geojson --allow-network
 ```
 
-This runs the system `curl` over HTTPS, once, for one file. Nothing is bundled in the
-repository.
+This runs the system `curl` (as an argument list, not through a shell) over HTTPS, once,
+for one file at a fixed address that names a single commit of the upstream repository. The
+download is kept only if its SHA-256 equals the value pinned in the code; a mismatch deletes
+it and fails. If `curl` is not installed the command says so and gives the address and the
+checksum so the file can be fetched by hand. Nothing is bundled in the repository.
 
 ## Output
 
