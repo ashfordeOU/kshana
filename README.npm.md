@@ -151,13 +151,13 @@ Mean-elements Message, and OEM, the Orbit Ephemeris Message â€” the CLI writes â
 scenario and returns `{json, csv, svg, summary}` as a JSON string (the browser has no file
 system, so the log, and any navigation file, must be inline in the scenario as `text` or
 `base64`; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust
-score, advisory only), `receiver_trust_replay` (an NMEA excerpt through the live trust engine, with the gate's output returned as text), and `interference_map` (ADS-B or AIS CSV text to a
+score, advisory only), `receiver_trust_replay` (a bounded NMEA excerpt scored the way live mode scores it; no gate), `assess_vessel_log` (a vessel's NMEA log as a batch run), `evidence_verify` (check a signed evidence pack; nothing is uploaded; packs are made with the CLI, Python or MCP), and `interference_map` (ADS-B or AIS CSV text to a
 `kshana-interference-map/v1` GeoJSON per UTC day; aggregate only), `route_exposure` (a route's
 share through degraded cells of those maps; not a forecast) and `nmea_training` (synthetic
 bridge NMEA and an instructor log for crew training; text only, never for a vessel's live
 navigation systems). Not in the browser build: `receiver-trust live` with its gate and TCP
-listener, and streamed training NMEA, are long-running network processes and stay in the
-command-line tool. There is no one-call `run_full` here; that binding exists only on the Python
+listener, streamed training NMEA, and the telemetry exporters (Prometheus, OpenTelemetry, syslog) are long-running network processes and stay in the
+command-line tool; creating an evidence pack needs a signing key, which belongs with the CLI or Python. There is no one-call `run_full` here; that binding exists only on the Python
 wheel.
 
 Every capability in the verification matrix is labelled **validated** (checked against

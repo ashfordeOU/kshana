@@ -234,34 +234,57 @@ pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
     )
 }
 
-/// Replay an NMEA excerpt through the engine behind `kshana receiver-trust live`, with the
-/// gate on or off. `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a
-/// JSON object `{reports_jsonl, gated_nmea, epochs, calibrating, nominal, degraded,
-/// untrusted, withheld, min_score}` (`gated_nmea` is null when `gate` is false). The bounded
-/// form of the live command: it opens no socket. Advisory only.
+/// Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust
+/// live` scores it (at most 2 MiB and 20,000 epochs; it must hold the calibration window).
+/// `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a JSON object
+/// `{schema, epochs, last_pksht, summary}`: one report per epoch (`state`, `score`,
+/// `deductions`, `alarms`, ...) and counts by state. The bounded form of the live command: no
+/// socket is opened and the gate is not applied (both are command-line only). Advisory only.
 #[wasm_bindgen]
-pub fn receiver_trust_replay(
-    session_toml: &str,
-    nmea: &str,
-    gate: bool,
-) -> Result<String, JsValue> {
-    let r = crate::surface::assess_vessel_stream(
+pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, JsValue> {
+    let r = crate::surface::assess_vessel_excerpt(
         session_toml,
-        nmea,
-        gate,
+        nmea.as_bytes(),
         crate::surface::MAX_INPUT_BYTES,
     )
     .map_err(|e| JsValue::from_str(&e))?;
-    Ok(serde_json::json!({
-        "reports_jsonl": r.reports_jsonl,
-        "gated_nmea": r.gated_nmea,
-        "epochs": r.epochs,
-        "calibrating": r.calibrating,
-        "nominal": r.nominal,
-        "degraded": r.degraded,
-        "untrusted": r.untrusted,
-        "withheld": r.withheld,
-        "min_score": r.min_score,
-    })
-    .to_string())
+    serde_json::to_string(&r).map_err(|e| JsValue::from_str(&e.to_string()))
+}
+
+/// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
+/// "vessel"`, no `[log]` needed) and the log text. Returns the result document as JSON, the
+/// same as `kshana receiver-trust` writes to `result.json`. Advisory only.
+#[wasm_bindgen]
+pub fn assess_vessel_log(session_toml: &str, log: &str) -> Result<String, JsValue> {
+    crate::surface::assess_vessel_log_json(
+        session_toml,
+        log.as_bytes(),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Verify an evidence pack. `files_json` is a JSON object of file name to content: a string,
+/// `{"utf8": text}` or `{"base64": bytes}`. `public_key` is the signer's key as 64 hex digits,
+/// obtained from the signer by another route (empty for none: the signature then proves only
+/// that the pack is intact against the key it names itself). `full_log` is the full log text
+/// (empty for none). Returns the report as JSON: `ok`, `failures`, `checks`,
+/// `signer_fingerprint`, `signer_pinned`, `notes`. Nothing is uploaded; packs are made with the
+/// command line, Python or the MCP server.
+#[wasm_bindgen]
+pub fn evidence_verify(
+    files_json: &str,
+    public_key: &str,
+    full_log: &str,
+) -> Result<String, JsValue> {
+    let v: serde_json::Value = serde_json::from_str(files_json)
+        .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
+    let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
+    let report = crate::surface::evidence_verify(
+        &files,
+        (!public_key.is_empty()).then_some(public_key),
+        (!full_log.is_empty()).then_some(full_log.as_bytes()),
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    serde_json::to_string(&report).map_err(|e| JsValue::from_str(&e.to_string()))
 }

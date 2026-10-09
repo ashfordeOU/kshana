@@ -2,24 +2,27 @@
 //! String-in, string-out entry points for the 0.35 capabilities, shared by the Python
 //! bindings, the WebAssembly build and the Model Context Protocol (MCP) server.
 //!
-//! The command-line code of [`crate::interference_map`] works on files and prints; the
-//! surfaces that have no file system, or that must not read the server's, need the same
-//! methods on text held in memory. These functions are that layer. They add no method of
-//! their own: every threshold, the privacy rule and the output schema are the feature
-//! modules', called unchanged.
+//! The feature modules own their methods and expose in-memory functions
+//! ([`crate::receiver_trust::assess`], [`crate::interference_map::api`],
+//! [`crate::nmea_synth::generate_from_toml`], [`crate::evidence`]); this layer adds what a
+//! surface needs on top and nothing else: a size cap on every text input, the refusal of a
+//! `path` source where the caller must not read the host's files, JSON shaping, and the
+//! assembly of an evidence pack from a receiver-trust run (which the command line does from
+//! files). It adds no method of its own: every threshold, the privacy rule and the output
+//! schemas are the feature modules', called unchanged.
 //!
-//! Every input is size-capped by [`MAX_INPUT_BYTES`] unless the caller passes a tighter
-//! cap, so a surface that accepts uploads cannot be made to allocate without bound.
+//! Every input is capped by [`MAX_INPUT_BYTES`] unless the caller passes a tighter cap, so a
+//! surface that accepts uploads cannot be made to allocate without bound.
 
-use crate::interference_map::adsb::{self, AdsbAggregator, AdsbParams};
-use crate::interference_map::ais::{self, AisAggregator, AisParams};
-use crate::interference_map::grid::Grid;
-use crate::interference_map::land::LandMask;
-use crate::interference_map::output::{file_name, to_geojson};
-use crate::interference_map::sources::{self, Dataset, Kind};
-use crate::interference_map::time::parse_day;
-use crate::interference_map::{route, IdHasher};
+use crate::evidence::{
+    create_bundle, generate_seed, public_key_hex, slice_for_window, verify_bundle, EvidenceInput,
+    Files, VerifyOptions, VerifyReport, Window,
+};
+use crate::interference_map::api::{self, DatasetSpec, DEFAULT_CELL_DEG};
+use crate::receiver_trust::assess::{self, ExcerptAssessment};
+use crate::receiver_trust::live::parse_live_scenario;
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario, TrustOutput};
+use serde_json::{json, Value};
 
 /// Largest single text input any function here accepts (64 MiB).
 pub const MAX_INPUT_BYTES: usize = 64 * 1024 * 1024;
@@ -71,11 +74,14 @@ pub struct MapDay {
 }
 
 fn cap(what: &str, text: &str, max: usize) -> Result<(), String> {
+    cap_len(what, text.len(), max)
+}
+
+fn cap_len(what: &str, len: usize, max: usize) -> Result<(), String> {
     let limit = max.min(MAX_INPUT_BYTES);
-    if text.len() > limit {
+    if len > limit {
         return Err(format!(
-            "{what} is {} bytes, over the {limit}-byte limit",
-            text.len()
+            "{what} is {len} bytes, over the {limit}-byte limit"
         ));
     }
     Ok(())
@@ -98,29 +104,52 @@ pub fn assess_receiver_log_inline(toml: &str, max_bytes: usize) -> Result<TrustO
     scenario::run_scenario(&scn)
 }
 
-fn dataset_for(key: &str, kind: Kind, custom: Option<&CustomDataset>) -> Result<Dataset, String> {
-    let ds = if key == "custom" {
+/// Assess a vessel's NMEA 0183 log: the session TOML (`[platform] kind = "vessel"`; no `[log]`
+/// needed) and the log's bytes, scored as a batch run. Returns the result document as JSON,
+/// the same as `kshana receiver-trust <session.toml>` writes to `result.json`.
+pub fn assess_vessel_log_json(
+    session_toml: &str,
+    log: &[u8],
+    max_bytes: usize,
+) -> Result<String, String> {
+    cap("session", session_toml, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    let r = assess::assess_vessel_log(session_toml, log)?;
+    serde_json::to_string_pretty(&r).map_err(|e| e.to_string())
+}
+
+/// Score a bounded excerpt of a vessel's NMEA 0183 stream the way live mode scores it:
+/// per-epoch trust state and 0-100 score with reasons (live JSON-lines schema 1.1), the last
+/// `$PKSHT` sentence and a summary. The excerpt must hold the calibration window. Bounded to
+/// 2 MiB and 20,000 epochs by the engine, and to `max_bytes` here. The gate, sockets and
+/// the long-running process are command-line only.
+pub fn assess_vessel_excerpt(
+    session_toml: &str,
+    excerpt: &[u8],
+    max_bytes: usize,
+) -> Result<ExcerptAssessment, String> {
+    cap("session", session_toml, max_bytes)?;
+    cap_len("excerpt", excerpt.len(), max_bytes)?;
+    assess::assess_stream_excerpt(session_toml, excerpt)
+}
+
+fn dataset_spec<'a>(
+    key: &'a str,
+    custom: Option<&'a CustomDataset>,
+) -> Result<DatasetSpec<'a>, String> {
+    if key == "custom" {
         let c = custom.ok_or("dataset `custom` needs licence, licence_url and attribution")?;
         if c.licence.is_empty() || c.licence_url.is_empty() || c.attribution.is_empty() {
             return Err("dataset `custom` needs licence, licence_url and attribution".into());
         }
-        sources::custom(kind, &c.licence, &c.licence_url, &c.attribution)
+        Ok(DatasetSpec::Custom {
+            licence: &c.licence,
+            licence_url: &c.licence_url,
+            attribution: &c.attribution,
+        })
     } else {
-        sources::preset(key).ok_or_else(|| {
-            format!(
-                "unknown dataset `{key}`; approved: {}, or `custom`",
-                sources::preset_keys().join(", ")
-            )
-        })?
-    };
-    if ds.kind != kind {
-        return Err(format!(
-            "dataset `{key}` is {} data but the input is {}",
-            ds.kind.as_str(),
-            kind.as_str()
-        ));
+        Ok(DatasetSpec::Preset(key))
     }
-    Ok(ds)
 }
 
 /// Build an interference map from CSV text (the formats of `docs/INTERFERENCE-MAP.md`).
@@ -140,41 +169,28 @@ pub fn interference_map(
     if let Some(l) = land_geojson {
         cap("land file", l, max_bytes)?;
     }
-    let grid = Grid::new(cell_deg.unwrap_or(0.5)).ok_or("cell_deg must be between 0.01 and 10")?;
-    let (days, method, ds) = match source {
-        MapSource::Adsb => {
-            let ds = dataset_for(dataset, Kind::Adsb, custom)?;
-            let mut agg = AdsbAggregator::new(grid, AdsbParams::PREREGISTERED_V1, IdHasher::new());
-            agg.read_csv(csv).map_err(|e| e.to_string())?;
-            let stats = agg.stats.clone();
-            (
-                agg.finish(),
-                adsb::method_json(&AdsbParams::PREREGISTERED_V1, &stats),
-                ds,
-            )
-        }
-        MapSource::Ais => {
-            let ds = dataset_for(dataset, Kind::Ais, custom)?;
-            let params = AisParams::PREREGISTERED_V1;
-            let land = land_geojson
-                .map(|t| LandMask::from_geojson_str(t, params.land_buffer_m))
-                .transpose()
-                .map_err(|e| e.to_string())?;
-            let mut agg = AisAggregator::new(grid, params.clone(), IdHasher::new(), land);
-            agg.read_csv(csv).map_err(|e| e.to_string())?;
-            let (stats, land_on) = (agg.stats.clone(), agg.land_enabled());
-            (agg.finish(), ais::method_json(&params, &stats, land_on), ds)
-        }
-    };
-    days.iter()
+    let spec = dataset_spec(dataset, custom)?;
+    let cell = cell_deg.unwrap_or(DEFAULT_CELL_DEG);
+    let days = match source {
+        MapSource::Adsb => api::adsb_maps_from_csv(csv, &spec, cell),
+        MapSource::Ais => api::ais_maps_from_csv(csv, &spec, cell, land_geojson),
+    }
+    .map_err(|e| e.to_string())?;
+    days.into_iter()
         .map(|d| {
-            let doc = to_geojson(d, &grid, method.clone(), &ds);
+            let features = d.geojson["features"]
+                .as_array()
+                .map_or(&[][..], Vec::as_slice);
+            let flagged = features
+                .iter()
+                .filter(|f| f["properties"]["degraded"] == Value::Bool(true))
+                .count();
             Ok(MapDay {
-                file_name: file_name(d),
-                date: d.date.clone(),
-                cells_published: d.cells.len(),
-                cells_flagged: d.cells.iter().filter(|c| c.degraded).count(),
-                geojson: serde_json::to_string_pretty(&doc).map_err(|e| e.to_string())?,
+                file_name: d.file_name,
+                date: d.date,
+                cells_published: features.len(),
+                cells_flagged: flagged,
+                geojson: serde_json::to_string_pretty(&d.geojson).map_err(|e| e.to_string())?,
             })
         })
         .collect()
@@ -182,8 +198,8 @@ pub fn interference_map(
 
 /// Share of a route through degraded cells, for each map in `maps` (GeoJSON text from
 /// [`interference_map`] or `kshana interference-map`) inside the optional `from`/`to`
-/// dates (`YYYY-MM-DD`). Returns the `kshana-interference-map` route report as JSON.
-/// Cells not observed are not evidence of a clear route, and the report is not a forecast.
+/// dates (`YYYY-MM-DD`). Returns the `kshana-route-exposure/v1` report as JSON. Cells not
+/// observed are not evidence of a clear route, and the report is not a forecast.
 pub fn route_exposure(
     route_text: &str,
     maps: &[&str],
@@ -192,119 +208,14 @@ pub fn route_exposure(
     max_bytes: usize,
 ) -> Result<String, String> {
     cap("route", route_text, max_bytes)?;
-    let pts = route::parse_route(route_text).map_err(|e| e.to_string())?;
-    let day = |s: Option<&str>, n: &str| -> Result<Option<i64>, String> {
-        s.map(|s| parse_day(s).ok_or_else(|| format!("{n} is not a YYYY-MM-DD date")))
-            .transpose()
-    };
-    let (from_d, to_d) = (day(from, "from")?, day(to, "to")?);
     if maps.is_empty() {
         return Err("at least one map is required".into());
     }
-    let mut loaded = Vec::new();
-    for (i, text) in maps.iter().enumerate() {
-        cap(&format!("map {}", i + 1), text, max_bytes)?;
-        let m = route::load_map(text).map_err(|e| format!("map {}: {e}", i + 1))?;
-        let d = parse_day(&m.date).ok_or_else(|| format!("map {}: bad map date", i + 1))?;
-        if from_d.is_none_or(|x| d >= x) && to_d.is_none_or(|x| d <= x) {
-            loaded.push(m);
-        }
+    for (i, m) in maps.iter().enumerate() {
+        cap(&format!("map {}", i + 1), m, max_bytes)?;
     }
-    loaded.sort_by(|a, b| {
-        (a.date.as_str(), a.source_kind.as_str()).cmp(&(b.date.as_str(), b.source_kind.as_str()))
-    });
-    if loaded.is_empty() {
-        return Err("no map falls in the date range".into());
-    }
-    let rows: Vec<_> = loaded
-        .iter()
-        .map(|m| (route::exposure(&pts, m), m))
-        .collect();
-    let report = route::report_json(&rows, from, to);
-    serde_json::to_string_pretty(&report).map_err(|e| e.to_string())
-}
-
-/// The result of replaying a bounded stream excerpt through the live trust engine.
-#[derive(Clone, Debug, Default)]
-pub struct VesselStream {
-    /// One JSON line per completed epoch (schema 1.1 of `docs/MARITIME-TRUST.md`).
-    pub reports_jsonl: String,
-    /// The stream the gate would have forwarded, when the gate was asked for.
-    pub gated_nmea: Option<String>,
-    /// Epochs reported, by state.
-    pub epochs: usize,
-    /// Epochs in the calibration window.
-    pub calibrating: usize,
-    /// Epochs in the `nominal` band.
-    pub nominal: usize,
-    /// Epochs in the `degraded` band.
-    pub degraded: usize,
-    /// Epochs in the `untrusted` band.
-    pub untrusted: usize,
-    /// Epochs whose fix the gate marked invalid.
-    pub withheld: usize,
-    /// Lowest score reached after calibration.
-    pub min_score: Option<f64>,
-}
-
-/// Replay an NMEA excerpt through the same engine as `kshana receiver-trust live`, with
-/// the gate on or off, and return what a live run would have written. `session_toml` is a
-/// live session (`[platform] kind = "vessel"`; its `[log]` is not needed). The excerpt is
-/// read as fast as it can be, so the host clock plays no part. This is the bounded form of
-/// the live command for surfaces that cannot run a process: it opens no socket, and the
-/// gate's output is returned as text, never written to a port. Advisory only: the operator
-/// remains responsible for the vessel.
-pub fn assess_vessel_stream(
-    session_toml: &str,
-    nmea: &str,
-    gate: bool,
-    max_bytes: usize,
-) -> Result<VesselStream, String> {
-    use crate::receiver_trust::live::{parse_live_scenario, GateAction, LiveEngine, LiveOut};
-    cap("session", session_toml, max_bytes)?;
-    cap("NMEA excerpt", nmea, max_bytes)?;
-    let scn = parse_live_scenario(session_toml)?;
-    let mut eng = LiveEngine::new(&scn, gate)?;
-    eng.set_host_clock(false);
-    let mut out = VesselStream::default();
-    let mut gated = Vec::<u8>::new();
-    let mut take = |o: LiveOut, out: &mut VesselStream| {
-        for l in o.forward {
-            gated.extend_from_slice(&l);
-        }
-        for r in o.reports {
-            out.epochs += 1;
-            match serde_json::to_value(r.state)
-                .ok()
-                .as_ref()
-                .and_then(|v| v.as_str())
-            {
-                Some("calibrating") => out.calibrating += 1,
-                Some("nominal") => out.nominal += 1,
-                Some("degraded") => out.degraded += 1,
-                Some("untrusted") => out.untrusted += 1,
-                _ => {}
-            }
-            if r.gate == GateAction::Withheld {
-                out.withheld += 1;
-            }
-            if let Some(sc) = r.score {
-                out.min_score = Some(out.min_score.map_or(sc, |m| m.min(sc)));
-            }
-            out.reports_jsonl.push_str(&r.to_json_line());
-            out.reports_jsonl.push('\n');
-        }
-    };
-    for line in nmea.split_inclusive('\n') {
-        let o = eng.feed_line(line.as_bytes(), 0.0);
-        take(o, &mut out);
-    }
-    let o = eng.finish();
-    take(o, &mut out);
-    if gate {
-        out.gated_nmea = Some(String::from_utf8_lossy(&gated).into_owned());
-    }
-    Ok(out)
+    let v = api::route_exposure(route_text, maps, from, to).map_err(|e| e.to_string())?;
+    serde_json::to_string_pretty(&v).map_err(|e| e.to_string())
 }
 
 /// Result of a training-scenario run: text only, nothing is transmitted.
@@ -312,7 +223,7 @@ pub fn assess_vessel_stream(
 pub struct NmeaTraining {
     /// The synthetic bridge NMEA 0183 stream, CRLF line ends, with the training marker.
     pub nmea: String,
-    /// Instructor log as JSON (`kshana-nmea-training/1`): what was injected, when, true track.
+    /// Instructor log as JSON (`kshana-nmea-training/1`): what was injected when, true track.
     pub log_json: String,
     /// Instructor log as text.
     pub log_text: String,
@@ -334,9 +245,201 @@ pub fn nmea_training(
     })
 }
 
+/// A signed evidence pack built in memory, and the key that signed it.
+#[derive(Clone, Debug)]
+pub struct EvidencePack {
+    /// The pack's files by name (`log-slice.bin`, `config.json`, `epochs.json`,
+    /// `summary.html`, `manifest.json`, `manifest.sig`).
+    pub files: Files,
+    /// The signer's public key, 64 lower-case hex digits.
+    pub public_key: String,
+    /// The Ed25519 signing-key seed that was used. A caller that generated it must keep or
+    /// discard it deliberately; a service must never return or log it.
+    pub seed: [u8; 32],
+    /// Epochs of the log inside the window.
+    pub epochs_in_window: usize,
+    /// The log byte range bundled, or `None` when the whole log is (the log gives no range).
+    pub slice: Option<(usize, usize)>,
+}
+
+/// Parse a 64-hex-digit Ed25519 key or seed.
+pub fn hex32(what: &str, s: &str) -> Result<[u8; 32], String> {
+    let s = s.trim();
+    if s.len() != 64 || !s.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f')) {
+        return Err(format!("{what} must be 64 lower-case hex digits"));
+    }
+    let v = hex::decode(s).map_err(|e| format!("{what}: {e}"))?;
+    <[u8; 32]>::try_from(v.as_slice()).map_err(|_| format!("{what} must be 32 bytes"))
+}
+
+/// The current UTC time as RFC 3339, for a pack's creation time.
+pub fn now_rfc3339_utc() -> String {
+    let secs = std::time::SystemTime::now()
+        .duration_since(std::time::UNIX_EPOCH)
+        .map_or(0, |d| d.as_secs()) as i64;
+    let (y, m, d) = crate::interference_map::time::civil_from_days(secs.div_euclid(86_400));
+    let r = secs.rem_euclid(86_400);
+    format!(
+        "{y:04}-{m:02}-{d:02}T{:02}:{:02}:{:02}Z",
+        r / 3600,
+        r % 3600 / 60,
+        r % 60
+    )
+}
+
+/// Build a signed evidence pack for a window of a vessel's NMEA log, in memory.
+///
+/// `session_toml` is a receiver-trust session (`[platform]`, `[monitors]`, `[score]`; no
+/// `[log]` needed) and `log` the receiver log's bytes. The window is `from_s`..`to_s` in
+/// seconds since the log's first epoch. `seed` is the signer's key seed; `None` generates
+/// one from the operating system's randomness (returned in [`EvidencePack::seed`]).
+/// `created_utc` is the creation time, RFC 3339 UTC, or `None` to leave it out (which makes
+/// the pack reproducible). A pack is a technical record of what the engine computed from a
+/// log; it is not a legal opinion, a finding of fact or a certification.
+#[allow(clippy::too_many_arguments)]
+pub fn evidence_create(
+    session_toml: &str,
+    log: &[u8],
+    from_s: f64,
+    to_s: f64,
+    title: Option<&str>,
+    created_utc: Option<&str>,
+    seed: Option<[u8; 32]>,
+    max_bytes: usize,
+) -> Result<EvidencePack, String> {
+    cap("session", session_toml, max_bytes)?;
+    cap_len("log", log.len(), max_bytes)?;
+    let scn = parse_live_scenario(session_toml)?;
+    let result = scenario::run_receiver_trust_bytes(&scn, log, None)?;
+    let epochs: Vec<Value> = result
+        .epochs
+        .iter()
+        .filter(|e| e.t_s >= from_s && e.t_s <= to_s)
+        .map(|e| serde_json::to_value(e).map_err(|e| e.to_string()))
+        .collect::<Result<_, _>>()?;
+    if epochs.is_empty() {
+        return Err(format!(
+            "no epoch of the log falls between {from_s} s and {to_s} s (the log spans 0 to {} s)",
+            result.log.duration_s
+        ));
+    }
+    let mut scn_v = serde_json::to_value(&scn).map_err(|e| e.to_string())?;
+    scn_v["log"] = json!({"format": result.log.format, "source": "supplied in memory"});
+    let config = json!({
+        "scenario": scn_v,
+        "scenario_hash": result.scenario_hash,
+        "monitors_run": result.monitors_run,
+        "baseline": result.baseline,
+        "honesty_label": scenario::LABEL,
+    });
+    let slice = crate::receiver_trust::ingest::read_log(scn.log.format, log)
+        .ok()
+        .and_then(|tl| {
+            slice_for_window(
+                tl.epochs.iter().map(|e| (e.t_s, e.source_span)),
+                from_s,
+                to_s,
+            )
+        });
+    let log_format = serde_json::to_value(result.log.format)
+        .map_err(|e| e.to_string())?
+        .as_str()
+        .unwrap_or("unknown")
+        .to_string();
+    let seed = seed.unwrap_or_else(generate_seed);
+    let n = epochs.len();
+    let input = EvidenceInput {
+        title: title.unwrap_or("GNSS trust evidence pack"),
+        engine_version: env!("CARGO_PKG_VERSION"),
+        log_format: &log_format,
+        log_file_name: "inline",
+        log_bytes: log,
+        start_label: result.log.start_label.as_deref(),
+        slice,
+        window: Window { from_s, to_s },
+        config,
+        epochs,
+        created_utc,
+    };
+    let files = create_bundle(&input, &seed, None).map_err(|e| e.to_string())?;
+    Ok(EvidencePack {
+        files,
+        public_key: public_key_hex(&seed),
+        seed,
+        epochs_in_window: n,
+        slice,
+    })
+}
+
+/// Verify an evidence pack held in memory: every hash, the chain, the signature, and with
+/// `public_key` (hex, obtained from the signer by another route) that the signer is the one
+/// you expect, and with `full_log` that the log you hold is the one recorded. Without a
+/// public key the signature proves only that the pack is intact against the key it names
+/// itself, which anyone can generate; the report says so.
+pub fn evidence_verify(
+    files: &Files,
+    public_key: Option<&str>,
+    full_log: Option<&[u8]>,
+) -> Result<VerifyReport, String> {
+    let expected = public_key.map(|k| hex32("public key", k)).transpose()?;
+    Ok(verify_bundle(
+        files,
+        &VerifyOptions {
+            expected_public_key: expected,
+            full_log,
+        },
+    ))
+}
+
+/// A pack's files as JSON, for surfaces that carry text: each file is `{"utf8": text}`, or
+/// `{"base64": bytes}` when it is not valid UTF-8.
+pub fn files_to_json(files: &Files) -> Value {
+    Value::Object(
+        files
+            .iter()
+            .map(|(k, v)| {
+                let body = match std::str::from_utf8(v) {
+                    Ok(t) => json!({"utf8": t}),
+                    Err(_) => json!({"base64": crate::permalink::base64_encode(v)}),
+                };
+                (k.clone(), body)
+            })
+            .collect(),
+    )
+}
+
+/// The inverse of [`files_to_json`]; a bare string is taken as UTF-8 text. At most 64 files.
+pub fn files_from_json(v: &Value) -> Result<Files, String> {
+    let o = v
+        .as_object()
+        .ok_or("files must be a JSON object of name to content")?;
+    if o.len() > 64 {
+        return Err("a pack has at most 64 files".into());
+    }
+    o.iter()
+        .map(|(k, c)| {
+            if k.contains(['/', '\\']) || k.is_empty() {
+                return Err(format!("file name `{k}` must be a plain name"));
+            }
+            let bytes = if let Some(t) = c.as_str().or_else(|| c["utf8"].as_str()) {
+                t.as_bytes().to_vec()
+            } else if let Some(b) = c["base64"].as_str() {
+                crate::permalink::base64_decode(b)
+                    .ok_or_else(|| format!("{k}: `base64` is not valid standard base64"))?
+            } else {
+                return Err(format!(
+                    "{k}: give a string, {{\"utf8\": ...}} or {{\"base64\": ...}}"
+                ));
+            };
+            Ok((k.clone(), bytes))
+        })
+        .collect()
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;
+    use crate::evidence::public_key_hex;
 
     const ADSB: &str = include_str!("../examples/interference-map/input/adsb.csv");
     const AIS: &str = include_str!("../examples/interference-map/input/ais.csv");
@@ -479,36 +582,127 @@ mod tests {
             .contains("limit"));
     }
 
-    #[test]
-    fn vessel_stream_replay_scores_and_gates_the_synthetic_drag_off() {
-        let session = SESSION.replace("path = \"tallinn-helsinki.nmea\"", "");
-        // Seconds 1400 to 1800 of the 3000-second log (the drag-off starts at 1500 s), with
-        // a 60 s calibration window instead of 300 s: the same engine, in a fraction of the
-        // debug-build runtime.
+    /// Seconds 1400 to 1800 of the synthetic 3000-second ferry log (the drag-off starts at
+    /// 1500 s) and a session with a 60 s calibration window: the same engine, in a fraction
+    /// of the debug-build runtime.
+    fn excerpt() -> (String, &'static str) {
         let at = |t: usize| NMEA[..NMEA.len() * t / 3000].rfind('\n').unwrap() + 1;
-        let nmea = &NMEA[at(1400)..at(1800)];
-        let session = session.replace("calibration_s = 300.0", "calibration_s = 60.0");
-        let r = assess_vessel_stream(&session, nmea, true, MAX_INPUT_BYTES).unwrap();
+        let session = SESSION
+            .replace("path = \"tallinn-helsinki.nmea\"", "")
+            .replace("calibration_s = 300.0", "calibration_s = 60.0");
+        (session, &NMEA[at(1400)..at(1800)])
+    }
+
+    #[test]
+    fn vessel_excerpt_scores_the_synthetic_drag_off_and_is_bounded() {
+        let (session, nmea) = excerpt();
+        let r = assess_vessel_excerpt(&session, nmea.as_bytes(), MAX_INPUT_BYTES).unwrap();
+        assert!(r.summary.epochs > 300 && r.summary.calibrating > 0 && r.summary.nominal > 0);
         assert!(
-            r.epochs > 300 && r.calibrating > 0 && r.nominal > 0,
-            "{r:?}"
+            r.summary.untrusted > 0,
+            "the drag-off must be flagged: {:?}",
+            r.summary
         );
+        assert!(r.summary.lowest_score.unwrap() < 55.0);
+        assert!(assess_vessel_excerpt(&session, nmea.as_bytes(), 1000).is_err());
+        let static_session = "[platform]\nkind = \"static\"";
+        assert!(assess_vessel_excerpt(static_session, nmea.as_bytes(), MAX_INPUT_BYTES).is_err());
+    }
+
+    #[test]
+    fn vessel_log_batch_matches_the_excerpt_json_shape() {
+        let (session, nmea) = excerpt();
+        let j = assess_vessel_log_json(&session, nmea.as_bytes(), MAX_INPUT_BYTES).unwrap();
+        let v: Value = serde_json::from_str(&j).unwrap();
+        assert!(v["epochs"].as_array().unwrap().len() > 300);
+        assert!(assess_vessel_log_json(&session, nmea.as_bytes(), 1000).is_err());
+    }
+
+    #[test]
+    fn evidence_pack_round_trips_and_detects_tampering() {
+        let (session, nmea) = excerpt();
+        let seed = [7u8; 32];
+        let p = evidence_create(
+            &session,
+            nmea.as_bytes(),
+            100.0,
+            300.0,
+            Some("test pack"),
+            None,
+            Some(seed),
+            MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        assert!(p.epochs_in_window > 100 && p.slice.is_some());
+        for f in [
+            "manifest.json",
+            "manifest.sig",
+            "epochs.json",
+            "summary.html",
+            "log-slice.bin",
+        ] {
+            assert!(p.files.contains_key(f), "{f}");
+        }
+        // Reproducible: no creation time, same seed, same bytes.
+        let again = evidence_create(
+            &session,
+            nmea.as_bytes(),
+            100.0,
+            300.0,
+            Some("test pack"),
+            None,
+            Some(seed),
+            MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        assert_eq!(p.files, again.files);
+
+        let ok = evidence_verify(&p.files, Some(&p.public_key), Some(nmea.as_bytes())).unwrap();
+        assert!(ok.ok, "{:?}", ok.failures);
+        assert!(ok.signer_pinned);
+        // Through JSON and back (how the browser and MCP surfaces carry it).
+        let back = files_from_json(&files_to_json(&p.files)).unwrap();
+        assert_eq!(back, p.files);
+        // One changed byte fails; a different trusted key fails; the wrong log fails.
+        let mut bad = p.files.clone();
+        bad.get_mut("epochs.json").unwrap()[10] ^= 1;
+        assert!(!evidence_verify(&bad, Some(&p.public_key), None).unwrap().ok);
+        let other = public_key_hex(&[9u8; 32]);
+        assert!(!evidence_verify(&p.files, Some(&other), None).unwrap().ok);
         assert!(
-            r.untrusted > 0 && r.withheld > 0,
-            "the drag-off must be flagged: {r:?}"
+            !evidence_verify(&p.files, None, Some(b"not the log"))
+                .unwrap()
+                .ok
         );
-        assert!(r.min_score.unwrap() < 55.0);
-        assert!(r.gated_nmea.as_ref().unwrap().len() > 1000);
-        let off = assess_vessel_stream(&session, nmea, false, MAX_INPUT_BYTES).unwrap();
-        assert!(off.gated_nmea.is_none() && off.withheld == 0);
-        assert!(assess_vessel_stream(&session, nmea, false, 1000).is_err());
-        assert!(assess_vessel_stream(
-            "[platform]\nkind = \"static\"",
-            NMEA,
-            false,
+        // Without a trusted key the report says the signer is not pinned.
+        assert!(!evidence_verify(&p.files, None, None).unwrap().signer_pinned);
+        assert!(evidence_verify(&p.files, Some("zz"), None).is_err());
+        // An empty window is refused; the seed is not part of the files.
+        assert!(evidence_create(
+            &session,
+            nmea.as_bytes(),
+            9000.0,
+            9100.0,
+            None,
+            None,
+            None,
             MAX_INPUT_BYTES
         )
         .is_err());
+        let hex_seed = hex::encode(seed);
+        assert!(p
+            .files
+            .values()
+            .all(|b| !String::from_utf8_lossy(b).contains(&hex_seed)));
+    }
+
+    #[test]
+    fn files_json_refuses_paths_and_junk() {
+        assert!(files_from_json(&json!({"../x": "a"})).is_err());
+        assert!(files_from_json(&json!({"a": 5})).is_err());
+        assert!(files_from_json(&json!({"a": {"base64": "!!"}})).is_err());
+        assert!(files_from_json(&json!([1])).is_err());
+        assert_eq!(files_from_json(&json!({"a": "hi"})).unwrap()["a"], b"hi");
     }
 
     #[test]

@@ -9,6 +9,31 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (surfaces)
+
+- **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
+  `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
+  `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing
+  key does not belong in a page). MCP server: `assess_vessel_stream`, `assess_vessel_log`,
+  `create_evidence_pack`, `verify_evidence_pack`, `generate_training_nmea`,
+  `build_interference_map`, `route_exposure`, each with input caps and round-trip tests. Claude
+  Code plugin: slash commands `/kshana-assess-receiver`, `/kshana-training-scenario`,
+  `/kshana-interference-map`, `/kshana-evidence-pack` and the matching skills. JetBrains plugin:
+  Assess Receiver Trust, Generate Training NMEA, Build Interference Map and Route Exposure
+  actions. Notebooks: `vessel-trust-and-training`, `interference-map-route-exposure`. Docs:
+  `docs/AGENTS.md` and `docs/SURFACES.md`, which states, for every cell, why a surface cannot
+  carry a capability (a running process: `receiver-trust live`, its gate and listener, the
+  telemetry exporters, streamed training NMEA; the land download). The in-memory entry points
+  share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
+  modules' own functions.
+
+### Fixed (surfaces)
+
+- **The MCP tool `assess_receiver_log` no longer reads files named by the caller.** A
+  scenario with `[log] path = ...` made the server read that file; the tool now refuses a `path`
+  source (give the log inline as `text` or `base64`) and caps its input at 4 MiB. The Python
+  function `receiver_trust`, which runs in the caller's own process, still accepts a `path`.
+
 ### Added (evidence packs)
 
 - **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable

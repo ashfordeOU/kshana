@@ -95,12 +95,12 @@ lines = data("examples/maritime-trust/tallinn-helsinki.nmea").splitlines(keepend
 n = len(lines)
 excerpt = "".join(lines[n * 1400 // 3000 : n * 1800 // 3000])   # the drag-off starts at 1500 s
 
-r = kshana.receiver_trust_replay(session, excerpt, gate=True)
-print({k: r[k] for k in ("epochs", "calibrating", "nominal", "degraded", "untrusted", "withheld", "min_score")})
-reports = [json.loads(l) for l in r["reports_jsonl"].splitlines()]
+r = kshana.receiver_trust_replay(session, excerpt)
+print(r["summary"])
+reports = r["epochs"]
 first_bad = next(x for x in reports if x["state"] in ("degraded", "untrusted"))
 print("score first fell at t =", first_bad["t_s"], "s; reasons:", first_bad["deductions"])
-assert r["untrusted"] > 0 and r["withheld"] > 0
+assert r["summary"]["untrusted"] > 0
 ```
 
 ## Cell 6 — plot the score (optional) (code)
@@ -123,9 +123,28 @@ if plt is not None:
     plt.tight_layout(); plt.show()
 ```
 
+## Cell 7 — a signed evidence pack for a window, then verify it (code)
+
+```python
+# A pack is a technical record of what the engine computed from this log, with every hash and
+# a signature over them. It is not a legal opinion and not a finding of fact.
+pack = kshana.evidence_create(session, excerpt, 100.0, 300.0,
+                              title="Synthetic drag-off", created_utc="none")
+print("signer public key:", pack["public_key"], "| epochs in window:", pack["epochs_in_window"])
+# Keep pack["seed_hex"] private; a throwaway key is fine for a demo. Verify against the public
+# key you trust (obtained from the signer by another route), and against the log you hold.
+report = kshana.evidence_verify(pack["files"], pack["public_key"], excerpt)
+print("verified:", report["ok"], "| signer pinned:", report["signer_pinned"])
+tampered = dict(pack["files"]); tampered["epochs.json"] = tampered["epochs.json"].replace(b"nominal", b"NOMINAL", 1)
+print("after editing one file:", kshana.evidence_verify(tampered, pack["public_key"])["ok"])
+assert report["ok"] and not kshana.evidence_verify(tampered, pack["public_key"])["ok"]
+```
+
 ## What this does not show
 
 The ferry log is made up: it shows the format and the monitors, not a measurement, and the
 route is illustrative, not a chart. The same engine runs behind `kshana receiver-trust live`
 (with `--gate` and `--listen`), the MCP server's `assess_vessel_stream` tool and the browser
-build's `receiver_trust_replay`. Details: `docs/MARITIME-TRUST.md`.
+build's `receiver_trust_replay`. A signed evidence pack of a window of this log is one call
+away (`kshana.evidence_create`), and `kshana.evidence_verify` checks it; see
+`docs/EVIDENCE-PACKS.md`. Details: `docs/MARITIME-TRUST.md`.
