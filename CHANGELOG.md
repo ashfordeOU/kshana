@@ -38,6 +38,27 @@ breaking changes are called out explicitly.
   a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
   consistent with everything on the bus; the guide says so.
 
+### Interference map
+
+- **`kshana interference-map` and `kshana route-exposure`: a public picture of where
+  aircraft and ships reported degraded navigation data, and how much of a route it touches.**
+  Inputs are local CSV files made from openly licensed ADS-B (adsb.lol, ODbL 1.0) and AIS
+  (NOAA MarineCadastre, Kystverket under NLOD 2.0) data; each output file is one source and
+  one UTC day of GeoJSON carrying the method, its thresholds, the data licence, the
+  attribution and the source's coverage bias. The ADS-B method aggregates NIC and NACp onto
+  a fixed grid and calls a cell degraded from the share of distinct aircraft, with guards for
+  equipment that never reports accuracy, low altitude, and wide-area causes. The AIS method
+  runs five detectors: positions on land (against a user-supplied coastline), circular
+  tracks, implausible jumps, implausible speeds, and many vessels at one position. Thresholds
+  are pre-registered constants of a named method version. Aggregates only: identifiers are
+  hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
+  vessels are not published. A degraded cell is not a finding of interference. The default
+  commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
+  Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
+  matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
+  dependency: `flate2` with its pure-Rust backend, for gzip). Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
+
 ## [0.34.0] - 2026-10-09
 
 Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
