@@ -9,6 +9,30 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added: compliance mapping and test-bench export
+
+- **`docs/compliance/` and `kshana compliance-report`.** A mapping from Kshana outputs to
+  five public resilience frameworks (the US DHS Resilient PNT Conformance Framework v2.0,
+  IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803 by part and
+  public clause number), one table per framework: the reference, what it asks in our
+  paraphrase, the outputs that support evidence for it, and the gap. Source versions, URLs and
+  what was and was not read are recorded. `kshana compliance-report <result.json>...` fills
+  the mapping from the runs given and marks each row `evidenced`, `partly-evidenced`,
+  `not-evidenced` or `out-of-scope`, as Markdown and JSON, with the gap kept on every row. The
+  wording is "supports evidence for"; nothing is certified. Tests use synthetic runs and fail
+  when a committed table drifts from the code.
+- **`kshana bench-export <scenario.toml>`.** Writes a `gnss-ins`, `jamming` or `gnss-sim`
+  scenario's vehicle motion and events for a laboratory GNSS simulator: a user-motion CSV
+  with documented frames and a metadata sidecar, NMEA 0183 `GGA`/`RMC`, waypoint text, and the
+  events as CSV and as `receiver-trust` `[[events]]` blocks (`src/interop/testbench.rs`).
+  Motion and events only: no signal is written. Every file is read back in
+  `tests/interop_testbench.rs` and compared within its stated tolerance.
+  [`docs/TEST-BENCH.md`](docs/TEST-BENCH.md) gives the method for replaying the export
+  through a simulator and scoring the receiver's log with `kshana receiver-trust`.
+- `fusion::pack::truth_trajectory` exposes the `gnss-ins` driving profile's true state
+  history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
+  time fields.
+
 ### Fixed
 
 - **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale
