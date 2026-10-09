@@ -96,6 +96,7 @@ pub mod cislunar_srif;
 pub mod clock_library;
 pub mod clock_specs;
 pub mod clock_state;
+pub mod compliance;
 pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;

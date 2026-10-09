@@ -77,6 +77,11 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("bench-export") {
         return run_bench_export_cli(&args[2..]);
     }
+    // `kshana compliance-report <result.json>...` fills the public-framework mapping from
+    // the runs given (docs/compliance/README.md). Terminal, like the others.
+    if args.get(1).map(String::as_str) == Some("compliance-report") {
+        return run_compliance_report_cli(&args[2..]);
+    }
     // `kshana iq <command>` handles the GNSS IQ layer: the signal-processing commands
     // (scene, acquire, track, sweep, labfit) in `kshana::iq::cli`, which hands the
     // data-handling ones (inventory, info, extract, convert, decimate) on to
@@ -1045,6 +1050,74 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
         }
         println!("wrote {}", target.display());
     }
+    ExitCode::SUCCESS
+}
+
+/// `kshana compliance-report [--out <base>] <result.json>...`: write `<base>.compliance.md`
+/// and `<base>.compliance.json` (default base `compliance-report`). `--mapping` prints the
+/// static mapping tables only, `--sources` the source documents.
+fn run_compliance_report_cli(args: &[String]) -> ExitCode {
+    use kshana::compliance::{self, mapping};
+    let mut out = String::from("compliance-report");
+    let mut paths: Vec<PathBuf> = Vec::new();
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--mapping" => {
+                for fw in mapping::Framework::ALL {
+                    println!("## {}\n\n{}", fw.title(), mapping::framework_table_md(fw));
+                }
+                return ExitCode::SUCCESS;
+            }
+            "--sources" => {
+                for fw in mapping::Framework::ALL {
+                    println!("## {}\n\n{}", fw.title(), mapping::sources_md(fw));
+                }
+                return ExitCode::SUCCESS;
+            }
+            "--out" if i + 1 < args.len() => {
+                out = args[i + 1].clone();
+                i += 1;
+            }
+            "--out" => {
+                eprintln!("error: --out needs a value");
+                return ExitCode::from(2);
+            }
+            a if a.starts_with("--") => {
+                eprintln!("error: unknown compliance-report option {a}");
+                return ExitCode::from(2);
+            }
+            a => paths.push(PathBuf::from(a)),
+        }
+        i += 1;
+    }
+    if paths.is_empty() {
+        eprintln!("error: compliance-report needs at least one result .json file");
+        return ExitCode::from(2);
+    }
+    let (runs, bad) = compliance::load_runs(&paths);
+    let report = compliance::assess(&runs, bad);
+    for (ext, body) in [
+        ("compliance.md", report.to_markdown()),
+        ("compliance.json", report.to_json()),
+    ] {
+        let target = PathBuf::from(format!("{out}.{ext}"));
+        if let Err(e) = std::fs::write(&target, body) {
+            eprintln!("error: cannot write {}: {e}", target.display());
+            return ExitCode::FAILURE;
+        }
+        println!("wrote {}", target.display());
+    }
+    let n = |s: compliance::Status| report.rows.iter().filter(|r| r.status == s).count();
+    println!(
+        "{} runs read, {} not used; rows: {} evidenced, {} partly, {} not evidenced, {} out of scope",
+        runs.len(),
+        report.unrecognised.len(),
+        n(compliance::Status::Evidenced),
+        n(compliance::Status::PartlyEvidenced),
+        n(compliance::Status::NotEvidenced),
+        n(compliance::Status::OutOfScope)
+    );
     ExitCode::SUCCESS
 }
 
