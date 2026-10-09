@@ -32,4 +32,46 @@ class KshanaCliTest {
         assertFalse(KshanaCli.isScenarioFile("README.md"))
         assertFalse(KshanaCli.isScenarioFile("Cargo.toml.bak"))
     }
+
+    @Test
+    fun receiverTrustAndTrainingCommandsUseTheSubcommands() {
+        assertEquals(
+            listOf("kshana", "receiver-trust", "/p/session.toml"),
+            KshanaCli.receiverTrustCommand("kshana", "/p/session.toml"),
+        )
+        assertEquals(
+            listOf("kshana", "nmea-scenario", "/p/drill.toml"),
+            KshanaCli.nmeaScenarioCommand("kshana", "/p/drill.toml"),
+        )
+    }
+
+    @Test
+    fun interferenceMapCommandNamesTheSourceTheDatasetImplies() {
+        assertEquals(
+            listOf("kshana", "interference-map", "adsb", "/d/a.csv", "--dataset", "adsb-lol", "--out", "/d/out"),
+            KshanaCli.interferenceMapCommand("kshana", "/d/a.csv", KshanaCli.MapDataset.ADSB_LOL, "/d/out"),
+        )
+        assertEquals("ais", KshanaCli.MapDataset.NOAA.source)
+        assertEquals("ais", KshanaCli.MapDataset.KYSTVERKET.source)
+    }
+
+    @Test
+    fun routeExposureCommandTakesARouteAndAMapFolder() {
+        assertEquals(
+            listOf("kshana", "route-exposure", "--route", "/r.geojson", "--map", "/maps"),
+            KshanaCli.routeExposureCommand("kshana", "/r.geojson", "/maps"),
+        )
+        assertTrue(KshanaCli.isRouteFile("route.GeoJSON"))
+        assertTrue(KshanaCli.isRouteFile("route.csv"))
+        assertFalse(KshanaCli.isRouteFile("notes.md"))
+        assertTrue(KshanaCli.isMapInputFile("day.CSV"))
+        assertFalse(KshanaCli.isMapInputFile("day.toml"))
+    }
+
+    @Test
+    fun noticesCarryTheCaveats() {
+        assertTrue(KshanaCli.TRAINING_NOTICE.contains("Never feed"))
+        assertTrue(KshanaCli.ADVISORY_NOTICE.contains("Advisory only"))
+        assertTrue(KshanaCli.MAP_NOTICE.contains("not a forecast"))
+    }
 }
