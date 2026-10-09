@@ -8,6 +8,7 @@ import { fmt } from "./views.mjs";
 import { kpis } from "./kpi.mjs";
 import { KIND_TEMPLATES } from "./meaning-kinds.mjs";
 import { spellOut } from "./abbr.mjs";
+import { own } from "./own.mjs";
 
 const num = (x) => typeof x === "number" && Number.isFinite(x);
 const pct = (a, b) => (b > 0 ? (100 * a) / b : NaN);
@@ -235,7 +236,7 @@ export function plainMeaning(result, toml = "") {
   if (!result || typeof result !== "object") return null;
   const kind = K.kindOfRun(result, toml) || "";
   const cards = kpis(result, toml, 6);
-  const t = TEMPLATES[kind] || KIND_TEMPLATES[kind] || (PAIR_KINDS.includes(kind) ? pairOrEnsemble : () => null);
+  const t = own(TEMPLATES, kind) || own(KIND_TEMPLATES, kind) || (PAIR_KINDS.includes(kind) ? pairOrEnsemble : () => null);
   let out = null;
   try { out = t(result, toml, cards); } catch { out = null; }
   // A kind template states the meaning; the cards stay the run's own headline strip unless it gives its own.
