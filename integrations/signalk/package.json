@@ -1,11 +1,18 @@
 {
-  "name": "kshana-signalk-trust",
+  "name": "signalk-kshana-trust",
   "version": "0.35.0",
   "description": "Signal K server plugin: publishes the Kshana receiver-trust score, band and reasons and raises a notification when trust collapses. Advisory software, not type-approved equipment.",
   "main": "index.js",
   "license": "AGPL-3.0-only",
-  "private": true,
   "keywords": ["signalk-node-server-plugin", "signalk-category-utility", "gnss", "kshana"],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashfordeOU/kshana.git",
+    "directory": "integrations/signalk"
+  },
+  "homepage": "https://github.com/ashfordeOU/kshana/blob/main/docs/MARINE-INTEGRATIONS.md",
+  "bugs": { "url": "https://github.com/ashfordeOU/kshana/issues" },
+  "files": ["index.js", "lib/", "README.md"],
   "engines": { "node": ">=18" },
   "scripts": { "test": "node --test \"test/*.test.js\"" }
 }
