@@ -9,6 +9,22 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Marine integrations (0.35.0, workstream B)
+
+- **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
+  (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
+  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*`, and raises
+  a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
+  the config schema). No npm dependencies. Tested on recorded synthetic output.
+- **OpenCPN**: a dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) serves gate-mode NMEA so OpenCPN
+  sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
+  through a real TCP socket and check what a consumer receives. A native score-panel plugin is **follow-on**, not in
+  0.35: only its wx-free `$PKSHT` parser is built and tested.
+- **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
+  the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
+  only: nothing transmits, and no detection or false-alarm figure is claimed.
+
 ## [0.32.0] - 2026-10-05
 
 ### Added
