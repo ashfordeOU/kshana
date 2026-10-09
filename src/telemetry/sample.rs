@@ -6,8 +6,9 @@
 //! changes, [`parse_live_line`] is the only function that has to change.
 //!
 //! Two sources feed it:
-//! * the live stream, one JSON object per line (`score` 0-100, `band`, `reasons`), parsed
-//!   tolerantly by [`parse_live_line`];
+//! * the live stream (JSON-lines schema v1 of `docs/MARITIME-TRUST.md`: `seq`, `t_s`,
+//!   `time`, `state`, `score`, `deductions`, `alarms`, `gate`, `note`), parsed by
+//!   [`parse_live_line`]; unknown extra keys are ignored, as the schema only grows;
 //! * the batch result of `kshana receiver-trust`, whose per-epoch records carry a trust
 //!   state and the monitors that alarmed but no numeric score ([`from_epoch_trust`]).
 //!   A score is never invented for them: the sample's `score` is `None`.
@@ -81,15 +82,18 @@ pub struct TrustSample {
     pub band: Band,
     /// Why the epoch is not nominal: monitor or reason names, in the source's order.
     pub reasons: Vec<String>,
+    /// The live stream's gate state (`off`, `passed`, `withheld`), where it reports one.
+    pub gate: Option<String>,
 }
 
 /// Parse one line of the live stream.
 ///
-/// Accepted keys: `t_s` (or `t`) seconds; `score` number in 0..=100; `band` string;
-/// `reasons` array of strings (objects are read through their `monitor`, `name` or
-/// `reason` string); `time_label` (or `time`) string. Missing `band` is an error: a
-/// sample with no verdict says nothing. Out-of-range or non-finite numbers are errors
-/// rather than being clamped, so a format change is noticed instead of hidden.
+/// Keys read: `t_s` seconds; `score` number in 0..=100 or null; `state` (also accepted as
+/// `band`) string; `time` string or null; `gate` string. Reasons are the monitors named
+/// in `deductions` (largest points first), then any further monitors in `alarms`; a
+/// `reasons` array of strings is also accepted. Missing `state` is an error: a sample with
+/// no verdict says nothing. Out-of-range or non-finite numbers are errors rather than
+/// being clamped, so a format change is noticed instead of hidden.
 pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
     let v: Value = serde_json::from_str(line.trim()).map_err(|e| format!("not JSON: {e}"))?;
     let obj = v.as_object().ok_or("not a JSON object")?;
@@ -116,13 +120,26 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
         }
     }
     let band = Band::parse(
-        obj.get("band")
+        obj.get("state")
+            .or_else(|| obj.get("band"))
             .and_then(Value::as_str)
-            .ok_or("missing `band`")?,
+            .ok_or("missing `state`")?,
     );
-    let mut reasons = Vec::new();
-    if let Some(r) = obj.get("reasons") {
-        for item in r.as_array().ok_or("`reasons` is not an array")? {
+    let mut reasons: Vec<String> = Vec::new();
+    let mut push = |name: &str| {
+        if !reasons.iter().any(|r| r == name) {
+            reasons.push(name.to_string());
+        }
+    };
+    for key in ["deductions", "alarms", "reasons"] {
+        let Some(r) = obj.get(key) else { continue };
+        if r.is_null() {
+            continue;
+        }
+        for item in r
+            .as_array()
+            .ok_or_else(|| format!("`{key}` is not an array"))?
+        {
             let name = match item {
                 Value::String(s) => Some(s.as_str()),
                 Value::Object(o) => ["monitor", "name", "reason"]
@@ -130,10 +147,11 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                     .find_map(|k| o.get(*k).and_then(Value::as_str)),
                 _ => None,
             };
-            reasons.push(name.ok_or("a `reasons` entry has no name")?.to_string());
+            push(name.ok_or_else(|| format!("a `{key}` entry has no name"))?);
         }
     }
-    let time_label = ["time_label", "time"]
+    let gate = obj.get("gate").and_then(Value::as_str).map(str::to_string);
+    let time_label = ["time", "time_label"]
         .iter()
         .find_map(|k| obj.get(*k).and_then(Value::as_str))
         .map(str::to_string);
@@ -143,6 +161,7 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
         score,
         band,
         reasons,
+        gate,
     })
 }
 
@@ -170,6 +189,7 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
                     .unwrap_or_else(|| format!("{m:?}"))
             })
             .collect(),
+        gate: None,
     }
 }
 
@@ -189,28 +209,42 @@ mod tests {
     #[test]
     fn parses_a_full_line() {
         let s = parse_live_line(
-            r#"{"t_s":12.5,"score":62.5,"band":"Degraded","reasons":["cn0-drop",{"monitor":"agc"}],"time_label":"2026-01-01T00:00:12Z"}"#,
+            r#"{"seq":13,"t_s":12.5,"time":"2026-01-01T00:00:12Z","state":"degraded","score":62.5,"deductions":[{"monitor":"kinematic","ratio":1.5,"points":20.0}],"alarms":["kinematic","heading-course"],"gate":"withheld","note":null,"future_key":1}"#,
         )
         .unwrap();
         assert_eq!(s.t_s, 12.5);
         assert_eq!(s.score, Some(62.5));
         assert_eq!(s.band, Band::Degraded);
-        assert_eq!(s.reasons, ["cn0-drop", "agc"]);
+        assert_eq!(s.reasons, ["kinematic", "heading-course"]);
+        assert_eq!(s.gate.as_deref(), Some("withheld"));
         assert_eq!(s.time_label.as_deref(), Some("2026-01-01T00:00:12Z"));
     }
 
     #[test]
     fn rejects_format_drift_instead_of_hiding_it() {
         assert!(parse_live_line("garbage").is_err());
-        assert!(parse_live_line(r#"{"t_s":1,"score":140,"band":"nominal"}"#).is_err());
+        assert!(parse_live_line(r#"{"t_s":1,"score":140,"state":"nominal"}"#).is_err());
         assert!(parse_live_line(r#"{"t_s":1,"score":50}"#).is_err());
-        assert!(parse_live_line(r#"{"score":50,"band":"nominal"}"#).is_err());
-        assert!(parse_live_line(r#"{"t_s":1,"band":"nominal","reasons":[3]}"#).is_err());
+        assert!(parse_live_line(r#"{"score":50,"state":"nominal"}"#).is_err());
+        assert!(parse_live_line(r#"{"t_s":1,"state":"nominal","reasons":[3]}"#).is_err());
+    }
+
+    #[test]
+    fn calibrating_line_has_null_score_and_empty_arrays() {
+        let s = parse_live_line(
+            r#"{"seq":1,"t_s":0.0,"time":null,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off","note":null}"#,
+        )
+        .unwrap();
+        assert_eq!(
+            (s.band, s.score, s.reasons.len()),
+            (Band::Calibrating, None, 0)
+        );
+        assert_eq!(s.time_label, None);
     }
 
     #[test]
     fn unknown_band_is_labelled_not_guessed() {
-        let s = parse_live_line(r#"{"t_s":1,"band":"purple"}"#).unwrap();
+        let s = parse_live_line(r#"{"t_s":1,"state":"purple"}"#).unwrap();
         assert_eq!(s.band, Band::Unknown);
         assert_eq!(s.score, None);
     }

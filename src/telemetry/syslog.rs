@@ -73,7 +73,7 @@ fn num(x: f64) -> String {
 ///
 /// `CEF:0|Ashforde OU|Kshana|<version>|gnss-trust.<band>|GNSS trust <band>|<sev>|ext`
 /// where the extension carries `cat`, `cs1` band, `cs2` reasons (comma-separated), `cs3`
-/// the previous band, `cn1` trust score and `cn2` epoch offset in seconds. `cn1` is left
+/// the previous band, `cn1` trust score and `cn2` epoch offset in seconds, `cs4` log time and `cs5` gate state. `cn1` is left
 /// out when the source gives no score. `dvchost` is the sending host.
 pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
     let mut ext = format!(
@@ -91,6 +91,9 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
     ext.push_str(&format!(" cn2Label=epochOffsetSeconds cn2={}", num(s.t_s)));
     if let Some(l) = &s.time_label {
         ext.push_str(&format!(" cs4Label=logTime cs4={}", cef_ext_escape(l)));
+    }
+    if let Some(g) = &s.gate {
+        ext.push_str(&format!(" cs5Label=gate cs5={}", cef_ext_escape(g)));
     }
     format!(
         "CEF:0|{}|{}|{}|{EVENT_PREFIX}.{}|GNSS trust {}|{}|{ext}",
@@ -124,6 +127,9 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
     a.push(format!("epochOffsetSeconds={}", num(s.t_s)));
     if let Some(l) = &s.time_label {
         a.push(format!("logTime={}", leef_escape(l)));
+    }
+    if let Some(g) = &s.gate {
+        a.push(format!("gate={}", leef_escape(g)));
     }
     format!(
         "LEEF:2.0|{}|{}|{}|{EVENT_PREFIX}.{}|^|{}",
@@ -214,6 +220,7 @@ mod tests {
             score: Some(41.5),
             band: Band::Degraded,
             reasons: vec!["cn0-drop".into(), "agc".into()],
+            gate: Some("withheld".into()),
         }
     }
 
@@ -225,7 +232,7 @@ mod tests {
              cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded \
              cs2Label=reasons cs2=cn0-drop,agc cs3Label=previousBand cs3=nominal \
              cn1Label=trustScore cn1=41.5 cn2Label=epochOffsetSeconds cn2=130.5 \
-             cs4Label=logTime cs4=2026-01-01T00:02:10Z"
+             cs4Label=logTime cs4=2026-01-01T00:02:10Z cs5Label=gate cs5=withheld"
         );
     }
 
@@ -236,7 +243,7 @@ mod tests {
             "LEEF:2.0|Ashforde OU|Kshana|0.35.0|gnss-trust.degraded|^|\
              cat=gnss-trust^sev=5^devHost=ops-gw1^band=degraded^previousBand=nominal^\
              trustScore=41.5^reasons=cn0-drop,agc^epochOffsetSeconds=130.5^\
-             logTime=2026-01-01T00:02:10Z"
+             logTime=2026-01-01T00:02:10Z^gate=withheld"
         );
     }
 

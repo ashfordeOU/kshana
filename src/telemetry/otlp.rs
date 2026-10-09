@@ -142,6 +142,7 @@ mod tests {
                 score: Some(55.0),
                 band: Band::Degraded,
                 reasons: vec!["agc".into()],
+                gate: None,
             },
             None,
         );
