@@ -58,6 +58,13 @@ pub struct MaritimeConfig {
     /// quantisation. Default 0.02: a 2 % speed error, larger than the 0.1-0.2 kn a
     /// receiver's speed over ground carries.
     pub kin_sog_frac: f64,
+    /// Guard band of the vessel-limit checks (implied speed, acceleration, turn rate): the
+    /// ratio of such a check is 0 up to this fraction of the stated limit and 1 at the limit
+    /// itself. Default 0.8: a vessel under way is routinely at half or more of its stated
+    /// limits (a 15 kn ship against a 20 kn limit), which is no evidence of anything; only the
+    /// last fifth of the limit counts as approaching it. The alarm (ratio 1) is at the limit
+    /// itself either way.
+    pub kin_limit_guard: f64,
     /// Below this speed over ground the course over ground and the track bearing carry no
     /// meaning and the turn-rate and heading checks are skipped, kn. Default 3: where a
     /// receiver's course noise stops dominating the actual course.
@@ -115,6 +122,7 @@ impl Default for MaritimeConfig {
             kin_window_s: 30.0,
             kin_pos_tol_m: 12.0,
             kin_sog_frac: 0.02,
+            kin_limit_guard: 0.8,
             min_speed_kn: 3.0,
             hdg_cog_tol_deg: 10.0,
             stw_sog_tol_kn: 2.0,
@@ -157,6 +165,15 @@ impl MaritimeConfig {
             if !(v.is_finite() && v > 0.0) {
                 return Err(format!("maritime: {name} must be finite and > 0 (got {v})"));
             }
+        }
+        if !(self.kin_limit_guard.is_finite()
+            && self.kin_limit_guard > 0.0
+            && self.kin_limit_guard < 1.0)
+        {
+            return Err(format!(
+                "maritime: kin_limit_guard must be in (0, 1) (got {})",
+                self.kin_limit_guard
+            ));
         }
         if !(self.kin_sog_frac.is_finite() && (0.0..=1.0).contains(&self.kin_sog_frac)) {
             return Err(format!(
@@ -248,6 +265,12 @@ pub fn en_offset_m(lat0: f64, lon0: f64, lat1: f64, lon1: f64) -> (f64, f64) {
 /// Smallest signed angle from `b` to `a`, degrees in `[-180, 180)`.
 fn ang_diff_deg(a: f64, b: f64) -> f64 {
     (a - b + 540.0).rem_euclid(360.0) - 180.0
+}
+
+/// The alarm ratio of a limit-type check: 0 up to `guard` times the limit, 1 at the limit,
+/// rising linearly beyond. Alarms exactly when `x >= limit`.
+fn limit_ratio(x: f64, limit: f64, guard: f64) -> f64 {
+    ((x / limit - guard) / (1.0 - guard)).max(0.0)
 }
 
 fn median(v: &[f64]) -> Option<f64> {
@@ -561,7 +584,11 @@ impl MarineMonitors {
             if age == w {
                 stats.kin_speed_mps = Some(speed);
             }
-            let over = ((dist - c.kin_pos_tol_m) / dt).max(0.0) / vmax;
+            let over = limit_ratio(
+                ((dist - c.kin_pos_tol_m) / dt).max(0.0),
+                vmax,
+                c.kin_limit_guard,
+            );
             r_speed = Some(r_speed.map_or(over, |x: f64| x.max(over)));
 
             // Dead reckoning from the reported velocities of the fixes in the interval.
@@ -606,7 +633,7 @@ impl MarineMonitors {
                 let span = 0.5 * (dt1 + dt2);
                 let accel = (dv - unc).max(0.0) / span;
                 stats.kin_accel_mps2 = Some(accel);
-                let r_acc = accel / self.limits.max_accel_mps2;
+                let r_acc = limit_ratio(accel, self.limits.max_accel_mps2, c.kin_limit_guard);
                 let (s1, s2) = (v1.0.hypot(v1.1), v2.0.hypot(v2.1));
                 let min_v = c.min_speed_kn * KN_TO_MPS;
                 let mut r_turn = None;
@@ -618,7 +645,11 @@ impl MarineMonitors {
                         .to_degrees();
                     let rate = (ang_diff_deg(b2, b1).abs() - unc_deg).max(0.0) / span;
                     stats.kin_turn_dps = Some(rate);
-                    r_turn = Some(rate / self.limits.max_turn_rate_dps);
+                    r_turn = Some(limit_ratio(
+                        rate,
+                        self.limits.max_turn_rate_dps,
+                        c.kin_limit_guard,
+                    ));
                 }
                 let r = [Some(r_acc), r_turn, r_speed, r_resid]
                     .into_iter()
