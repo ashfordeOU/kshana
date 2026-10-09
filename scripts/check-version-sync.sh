@@ -292,6 +292,11 @@ elif ! grep -qE "^LABEL +org\.opencontainers\.image\.version=\"?${ver//./\\.}\"?
   fail=1
 fi
 
+# The Studio's recorded runs carry the engine version that wrote them (the wasm's own
+# version() when the recordings are made), the best runtime marker of which engine the
+# Studio shows. web/studio/channels.json (install strings) is checked in section 5 above.
+check_json_version web/studio/recorded/index.json 'd["engine_version"]' "engine_version (Studio recordings)"
+
 # The Studio's packaged wasm (web/pkg, copied to web/studio/pkg by web/build.sh) is a build
 # output, gitignored, and its package.json is generated from Cargo.toml by wasm-pack. It does
 # not exist in a fresh checkout, so it is checked only where a build has produced it (a
