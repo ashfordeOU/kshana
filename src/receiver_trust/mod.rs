@@ -85,7 +85,7 @@ pub struct LogEpoch {
     /// The receiver's own position, where the log carries one.
     pub fix: Option<ReportedFix>,
     /// Navigation sentences and security reports of a moving platform (NMEA VTG, HDT, VHW
-    /// and the like, UBX-SEC-SIG); `None` when the log carries none of them.
+    /// and the like, an authentication status); `None` when the log carries none of them.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub marine: Option<MarineObs>,
 }
@@ -131,11 +131,6 @@ pub struct MarineObs {
     /// Arrival time of the epoch's first timed sentence on the host's monotonic clock, s
     /// (live input only).
     pub arrival_s: Option<f64>,
-    /// u-blox UBX-SEC-SIG jamming state: 0 unknown or off, 1 ok, 2 warning, 3 critical.
-    pub sec_jam_state: Option<u8>,
-    /// u-blox UBX-SEC-SIG spoofing state: 0 unknown or off, 1 none indicated, 2 indicated,
-    /// 3 multiple indications.
-    pub sec_spoof_state: Option<u8>,
     /// OSNMA status as the receiver reports it.
     pub osnma: Option<OsnmaStatus>,
     /// Per-satellite authentication status, `(satellite id in RINEX style, status)`, as an

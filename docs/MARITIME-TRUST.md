@@ -39,8 +39,7 @@ heading_sensor = true      # the stream carries a gyro or compass heading
 | GSV | per-satellite signal strength (dB-Hz) |
 | `$PKSOS,<A/F/N>` | an OSNMA status a receiver reported, translated into this sentence by the adapter that reads the receiver: `A` authenticated, `F` failed, `N` no result |
 
-A u-blox UBX log also gives UBX-SEC-SIG (the receiver's own jamming and spoofing state; layout
-version 1, other versions are skipped and counted). Epochs the receiver itself flags invalid (GGA
+Epochs the receiver itself flags invalid (GGA
 quality 0 or RMC status `V`) are not used for the position checks: the receiver has already said so.
 
 The first `calibration_s` seconds form the baseline and are never scored. Every monitor looks only
@@ -62,7 +61,6 @@ of the receiver under test and adds nothing.
 | `sea-level` | an altitude that is not where the sea surface and the stated antenna height put it | a spoofer that keeps the altitude plausible; the tolerance is wide because standalone vertical error is large; the geoid separation is recorded but not checked, because there is no geoid model in the engine |
 | `cn0-spread`, `cn0-rise` | the signature of one transmitter: C/N0 across the satellites collapsing together, or rising together, against the calibration baseline | a spoofer that shapes power per satellite; anything while the baseline itself is spoofed; a GSV cadence too slow to follow |
 | `time-consistency` | the receiver's time stepping irregularly or running backwards; against this computer's clock, the receiver's time drifting from it (real-time streams only) | a counterfeit time that is consistent and steady; a clock that is wrong from the start |
-| `sec-jam`, `sec-spoof` | the receiver's own detector at warning or "indicated" | anything its detector does not see |
 | `osnma` | a reported OSNMA authentication failure | the status is read, not verified; a spoofer that suppresses the report is not seen |
 | `cn0-drop`, `loss-of-lock`, `agc`, `jam-ind` | power denial and loss of satellites, as in the static case | they say the environment is hostile, not that the fix is wrong |
 
@@ -153,9 +151,9 @@ One JSON object per completed epoch, keys in this order:
 | `gate` | string | `off`, `passed` or `withheld` |
 | `note` | string or null | why no score was produced (for example a declared heading sensor that is absent) |
 
-Monitor names (kebab-case): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
+Monitor names (kebab-case; 16): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
 `clock`, `solve-failure`, `kinematic`, `heading-course`, `speed-log`, `sea-level`, `cn0-spread`,
-`cn0-rise`, `time-consistency`, `sec-jam`, `sec-spoof`, `osnma`. New names may be added in later
+`cn0-rise`, `time-consistency`, `osnma`. New names may be added in later
 versions; consumers should treat an unknown monitor name as a monitor. The `$PKSHT` layout below
 carries a format version in its first field; this JSON schema is version 1 and changes only by
 adding keys at the end.

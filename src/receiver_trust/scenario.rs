@@ -650,8 +650,6 @@ fn monitor_name(m: Monitor) -> &'static str {
         Monitor::Cn0Spread => "cn0-spread",
         Monitor::Cn0Rise => "cn0-rise",
         Monitor::TimeConsistency => "time-consistency",
-        Monitor::SecJam => "sec-jam",
-        Monitor::SecSpoof => "sec-spoof",
         Monitor::Osnma => "osnma",
     }
 }

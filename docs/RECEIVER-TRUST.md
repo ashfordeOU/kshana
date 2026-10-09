@@ -97,7 +97,6 @@ needs its data and is listed in `monitors_run` only when it decided:
 | `cn0-spread` | the spread of C/N0 across satellites falls to `cn0_spread_frac` of its calibration median | GSV |
 | `cn0-rise` | C/N0 of the common satellites rose by `cn0_rise_db` on average and `cn0_rise_frac` of them rose | GSV |
 | `time-consistency` | consecutive epoch times step irregularly, run backwards, or leave the host clock | NMEA time; host clock for the last part |
-| `sec-jam`, `sec-spoof` | the receiver's own u-blox UBX-SEC-SIG state is at warning or indicated | UBX log |
 | `osnma` | the receiver reports an OSNMA authentication failure (a reported status is read; nothing is verified) | `$PKSOS` status sentence |
 
 An epoch is **untrusted** when RAIM, the clock monitor, a solve failure or a position jump
@@ -141,9 +140,9 @@ sea-level = 30.0
 | Weight (points) | Monitors | Why |
 |---|---|---|
 | 70 | `osnma` | an authentication failure is a statement, not a statistic |
-| 60 | `kinematic`, `sec-spoof`, `raim`, `clock`, `position-jump` | a counterfeit position has to contradict physics or the receiver's own checks; one clear violation leaves the degraded band |
+| 60 | `kinematic`, `raim`, `clock`, `position-jump` | a counterfeit position has to contradict physics or the receiver's own checks; one clear violation leaves the degraded band |
 | 40 | `heading-course`, `speed-log`, `time-consistency`, `solve-failure` | one independent sensor disagreeing is degraded; two at full strength are untrusted |
-| 30 | `sea-level`, `cn0-spread`, `cn0-rise`, `cn0-drop`, `sec-jam` | the signal environment, or a weakly informative check |
+| 30 | `sea-level`, `cn0-spread`, `cn0-rise`, `cn0-drop` | the signal environment, or a weakly informative check |
 | 25 | `loss-of-lock`, `agc`, `jam-ind` | the environment is hostile; that alone does not show the fix is wrong |
 
 The band edges follow from the weights: the lightest monitor at its threshold costs 12.5
