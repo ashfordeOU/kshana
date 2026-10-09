@@ -108,6 +108,20 @@ pub struct EpochReport {
     pub gate: GateAction,
     /// Why no score was produced, when none could be.
     pub note: Option<String>,
+    /// The position the receiver reported at this epoch (schema 1.1), `null` when it gave none.
+    pub position: Option<ReportedPosition>,
+}
+
+/// The receiver-reported position of an epoch.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct ReportedPosition {
+    /// Geodetic latitude, degrees.
+    pub lat_deg: f64,
+    /// Geodetic longitude, degrees.
+    pub lon_deg: f64,
+    /// Height, m (ellipsoidal where the sentence gives the geoid separation, else above mean
+    /// sea level).
+    pub height_m: f64,
 }
 
 impl EpochReport {
@@ -318,6 +332,11 @@ impl LiveEngine {
                     alarms,
                     gate: GateAction::Off,
                     note,
+                    position: e.fix.map(|f| ReportedPosition {
+                        lat_deg: f.lat_deg,
+                        lon_deg: f.lon_deg,
+                        height_m: f.height_m,
+                    }),
                 },
                 e.t_s,
             ));
@@ -578,6 +597,7 @@ mod tests {
             alarms: vec![],
             gate: GateAction::Withheld,
             note: None,
+            position: None,
         };
         let s = r.pksht();
         let body = "PKSHT,1,080140.25,23.4,U,W,heading-course:40.0/cn0-spread:30.0";
