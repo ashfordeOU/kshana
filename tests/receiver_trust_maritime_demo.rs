@@ -134,7 +134,7 @@ fn every_threshold_the_run_used_is_in_the_session_file() {
         m.maritime,
         kshana::receiver_trust::maritime::MaritimeConfig::default()
     );
-    assert_eq!(m.score.weights.len(), 18, "every weight is written out");
+    assert_eq!(m.score.weights.len(), 16, "every weight is written out");
     for (mon, w) in &m.score.weights {
         assert_eq!(
             *w,

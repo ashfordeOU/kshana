@@ -46,7 +46,6 @@ pub fn default_weight(m: Monitor) -> f64 {
         Monitor::SpeedLog => 40.0,
         Monitor::SeaLevel => 30.0,
         Monitor::TimeConsistency => 40.0,
-        Monitor::SecSpoof => 60.0,
         Monitor::Osnma => 70.0,
         Monitor::Raim => 60.0,
         Monitor::Clock => 60.0,
@@ -58,12 +57,11 @@ pub fn default_weight(m: Monitor) -> f64 {
         Monitor::LossOfLock => 25.0,
         Monitor::Agc => 25.0,
         Monitor::JamInd => 25.0,
-        Monitor::SecJam => 30.0,
     }
 }
 
 /// Every monitor, for listing the effective weights.
-pub const ALL_MONITORS: [Monitor; 18] = [
+pub const ALL_MONITORS: [Monitor; 16] = [
     Monitor::Cn0Drop,
     Monitor::Agc,
     Monitor::JamInd,
@@ -79,8 +77,6 @@ pub const ALL_MONITORS: [Monitor; 18] = [
     Monitor::Cn0Spread,
     Monitor::Cn0Rise,
     Monitor::TimeConsistency,
-    Monitor::SecJam,
-    Monitor::SecSpoof,
     Monitor::Osnma,
 ];
 

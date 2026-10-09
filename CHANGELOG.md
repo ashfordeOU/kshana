@@ -21,9 +21,8 @@ breaking changes are called out explicitly.
   course and against the vessel limits, gyro heading against course over ground, speed log against
   speed over ground, antenna altitude against the stated height above the waterline, C/N0 spread
   collapsing and rising together against the calibration baseline, and time consistency (against
-  this computer's clock too, in live mode). It also reads the receiver's own u-blox UBX-SEC-SIG
-  jamming and spoofing states and a reported OSNMA status (a reported status only: no OSNMA
-  cryptography). Every threshold is stated in a `[maritime]` table before the run. Each epoch then
+  this computer's clock too, in live mode). It also reads a reported authentication status, overall or per satellite
+  (a reported status only: no OSNMA cryptography). Every threshold is stated in a `[maritime]` table before the run. Each epoch then
   gets a score from 0 to 100 by a deterministic, pre-registered mapping (no learning, nothing fitted
   to events; weights, band edges and the evidence hold in a `[score]` table), mapped onto the
   existing trust states, with the monitors that deducted and their points. Static scenarios are

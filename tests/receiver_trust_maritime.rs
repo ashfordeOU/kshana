@@ -70,8 +70,8 @@ fn a_clean_voyage_raises_no_alarm_and_runs_every_moving_platform_monitor() {
     }
     // The static monitor that assumes a fixed antenna does not run on a ship.
     assert!(!r.monitors_run.contains(&Monitor::PositionJump));
-    // Not run: needs the receiver's security reports or an OSNMA status.
-    assert!(!r.monitors_run.contains(&Monitor::SecSpoof));
+    // Not run: needs an authentication status.
+    assert!(!r.monitors_run.contains(&Monitor::Osnma));
 }
 
 #[test]
@@ -138,24 +138,18 @@ fn every_satellite_rising_together_is_caught_but_one_satellite_is_not() {
 }
 
 #[test]
-fn receiver_security_reports_and_a_failed_osnma_status_are_extra_monitors() {
+fn a_failed_osnma_status_is_an_extra_monitor() {
     use kshana::receiver_trust::OsnmaStatus;
     let r = edited(900.0, |e| {
-        let m = e.marine.as_mut().unwrap();
-        // Spoofing indicated from 500 s, jamming at warning from 600 s, OSNMA failure
-        // from 700 s; before that the receiver reports all clear.
-        m.sec_spoof_state = Some(if e.t_s >= 500.0 { 2 } else { 1 });
-        m.sec_jam_state = Some(if e.t_s >= 600.0 { 2 } else { 1 });
-        m.osnma = Some(if e.t_s >= 700.0 {
+        // Authenticated until 700 s, then a reported failure.
+        e.marine.as_mut().unwrap().osnma = Some(if e.t_s >= 700.0 {
             OsnmaStatus::Failed
         } else {
             OsnmaStatus::Authenticated
         });
     });
-    assert_eq!(first_alarm(&r, Monitor::SecSpoof), Some(500.0));
-    assert_eq!(first_alarm(&r, Monitor::SecJam), Some(600.0));
     assert_eq!(first_alarm(&r, Monitor::Osnma), Some(700.0));
-    // Not reporting at all is not an alarm and the monitors are then not run.
+    // Not reporting at all is not an alarm and the monitor is then not run.
     let r = edited(900.0, |_| {});
     assert!(!r.monitors_run.contains(&Monitor::Osnma));
 }
