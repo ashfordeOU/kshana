@@ -228,6 +228,7 @@ pub mod passes;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
+pub mod nmea_synth;
 mod portable_math;
 pub mod powerlaw;
 pub mod precession;
