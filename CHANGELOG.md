@@ -33,6 +33,18 @@ breaking changes are called out explicitly.
   inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
   same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
 
+- **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale
+  against its own scenario (a data change, not a repaint).** The chart was drawn on
+  2026-06-02 from `scenarios/clock-ensemble.toml`; two days later 67fed19e set the flicker-FM
+  floors in that scenario (quantum `flicker_floor = 1e-16`, CSAC `flicker_floor = 2e-11`)
+  and the figure was never redrawn. It showed the pre-floor run: y axis 0 to 47 ns, CSAC
+  per-run outage p95 of 10.5 to 47.6 ns (mean 25.2 ns), classical holdover 4050 s mean. The scenario as shipped (and as the tutorial and
+  the CLI summary already state) gives y axis 0 to 407 ns, CSAC per-run p95 40.8 to 374.0 ns
+  (mean 167.0 ns), classical holdover 844 s [220 to 2130 s]; the 20 ns spec line sits at the
+  same 20 ns on a roughly nine-times taller axis. The engine is unchanged: today's engine
+  on the June scenario file reproduces the old figure's axis exactly. The figure is not
+  referenced from the README or the docs.
+
 ## [0.33.1] - 2026-10-08
 
 ### Security

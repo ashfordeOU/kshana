@@ -350,6 +350,12 @@ jobs:
         run: node web/legacy-urls.test.mjs
       - name: Test the Git LFS pointer guards (site test and port refusal)
         run: node web/tools/lfs-pointer.test.mjs
+      - name: Fetch the v0.32.0 tag for the inline-JSON guard test
+        # The guard's test also checks the shipped v0.32.0 home page; fetch just that tag's
+        # commit. A failed fetch only skips that one check.
+        run: git fetch --no-tags --depth=1 origin tag v0.32.0 || echo "v0.32.0 not fetched; shipped-page check will skip"
+      - name: Test the inline-JSON guard (corrupt page data, unescaped version bumps)
+        run: node web/tools/inline-json.test.mjs
       - name: Test the share-link codec
         run: node web/studio/lib/share.test.mjs
       - name: Test the chart-download helpers
