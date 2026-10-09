@@ -21,11 +21,22 @@ not shown; preferences, the toolbar button and the stale state were not exercise
 OpenCPN reacts to the gated fix, not that any alarm is timely or correct for a real vessel. Advisory software, not
 type-approved equipment; the operator stays responsible.
 
+## Direct connection (`--listen`)
+
+The same script, with `KSHANA_BIN` and `KSHANA_DEMO` set, feeds OpenCPN from a real
+`kshana receiver-trust live --gate --listen tcp:10110` (the recommended setup) instead of the relay, from the one-hour demo log:
+the first 1600 epochs at once (baseline and lead-up), then one epoch per second. `direct-listen-plugin-log.txt` shows OpenCPN
+handing the plugin the `$PKSHT` of that stream (calibrating, then degraded, then untrusted/withheld), and
+`direct-listen-after-collapse.png` the red panel. That run does **not** support the position-freeze observation above: OpenCPN
+was still working through the 1600-epoch burst when the early shot was taken, so its status bar was not a clean before/after.
+
 Reproduce (needs `opencpn`, `xvfb`, `xdotool`, `scrot`, `node`):
 
 ```sh
 cmake -S integrations/opencpn/plugin -B build-pi && cmake --build build-pi
 integrations/opencpn/evidence/run-in-opencpn.sh build-pi/libkshana_pi.so /tmp/evidence-out
+# direct --listen variant:
+KSHANA_BIN=target/release/kshana KSHANA_DEMO=examples/maritime-trust integrations/opencpn/evidence/run-in-opencpn.sh build-pi/libkshana_pi.so /tmp/evidence-out-direct
 ```
 
 The script uses a fresh temporary HOME, a private X display (`:98`) and changes nothing else. Screen coordinates for the
