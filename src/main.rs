@@ -66,6 +66,18 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("example") {
         return print_example(&args[2..]);
     }
+    // `kshana evidence <keygen|verify|attach-timestamp>` and `kshana receiver-trust
+    // evidence` make and check signed evidence packs (`kshana::evidence`).
+    if args.get(1).map(String::as_str) == Some("evidence") {
+        return ExitCode::from(kshana::evidence::cli::run_evidence(&args[2..]) as u8);
+    }
+    if args.get(1).map(String::as_str) == Some("receiver-trust")
+        && args.get(2).map(String::as_str) == Some("evidence")
+    {
+        return ExitCode::from(
+            kshana::evidence::cli::run_receiver_trust_evidence(&args[3..]) as u8,
+        );
+    }
     // `kshana trust-telemetry` feeds the per-epoch trust stream to Prometheus, syslog
     // (CEF/LEEF) and, with the `otlp` feature, OpenTelemetry.
     if args.get(1).map(String::as_str) == Some("trust-telemetry") {
