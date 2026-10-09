@@ -139,3 +139,129 @@ pub fn receiver_trust(toml: &str) -> Result<String, JsValue> {
     })
     .to_string())
 }
+
+/// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; formats in
+/// `docs/INTERFERENCE-MAP.md`). `dataset` is an approved preset or `"custom"`, which also
+/// needs `licence`, `licence_url` and `attribution`; pass an empty string for any field
+/// that does not apply, and `NaN` for the default 0.5 degree cell. `land_geojson` (AIS only,
+/// empty for none) is a land-polygon file. Returns a JSON array of
+/// `{file_name, date, cells_published, cells_flagged, geojson}`, one per UTC day. Aggregate
+/// only; a degraded cell does not name interference as the cause. Nothing is uploaded.
+#[wasm_bindgen]
+#[allow(clippy::too_many_arguments)]
+pub fn interference_map(
+    source: &str,
+    csv: &str,
+    dataset: &str,
+    cell_deg: f64,
+    licence: &str,
+    licence_url: &str,
+    attribution: &str,
+    land_geojson: &str,
+) -> Result<String, JsValue> {
+    use crate::surface::{interference_map as build, CustomDataset, MapSource, MAX_INPUT_BYTES};
+    let custom =
+        (!licence.is_empty() || !licence_url.is_empty() || !attribution.is_empty()).then(|| {
+            CustomDataset {
+                licence: licence.into(),
+                licence_url: licence_url.into(),
+                attribution: attribution.into(),
+            }
+        });
+    let days = build(
+        MapSource::parse(source).map_err(|e| JsValue::from_str(&e))?,
+        csv,
+        dataset,
+        (!cell_deg.is_nan()).then_some(cell_deg),
+        custom.as_ref(),
+        (!land_geojson.is_empty()).then_some(land_geojson),
+        MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::Value::Array(
+        days.into_iter()
+            .map(|d| {
+                serde_json::json!({
+                    "file_name": d.file_name,
+                    "date": d.date,
+                    "cells_published": d.cells_published,
+                    "cells_flagged": d.cells_flagged,
+                    "geojson": d.geojson,
+                })
+            })
+            .collect(),
+    )
+    .to_string())
+}
+
+/// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of the
+/// maps in `maps_json` (a JSON array of map GeoJSON strings, as `interference_map` returns),
+/// optionally limited to `date_from`..`date_to` (`YYYY-MM-DD`, empty for no limit). Returns
+/// the report as JSON text. Not a forecast; unobserved cells are not evidence of a clear
+/// route.
+#[wasm_bindgen]
+pub fn route_exposure(
+    route: &str,
+    maps_json: &str,
+    date_from: &str,
+    date_to: &str,
+) -> Result<String, JsValue> {
+    let maps: Vec<String> = serde_json::from_str(maps_json).map_err(|e| {
+        JsValue::from_str(&format!("maps_json must be a JSON array of strings: {e}"))
+    })?;
+    let refs: Vec<&str> = maps.iter().map(String::as_str).collect();
+    crate::surface::route_exposure(
+        route,
+        &refs,
+        (!date_from.is_empty()).then_some(date_from),
+        (!date_to.is_empty()).then_some(date_to),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Generate synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML.
+/// `seed` replaces the scenario's seed unless it is `NaN` or negative. Returns a JSON object
+/// `{nmea, log_json, log_text}`. Text only; never for a vessel's live navigation systems.
+#[wasm_bindgen]
+pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
+    let seed = (seed.is_finite() && seed >= 0.0).then_some(seed as u64);
+    let t = crate::surface::nmea_training(toml, seed, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))?;
+    Ok(
+        serde_json::json!({"nmea": t.nmea, "log_json": t.log_json, "log_text": t.log_text})
+            .to_string(),
+    )
+}
+
+/// Replay an NMEA excerpt through the engine behind `kshana receiver-trust live`, with the
+/// gate on or off. `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a
+/// JSON object `{reports_jsonl, gated_nmea, epochs, calibrating, nominal, degraded,
+/// untrusted, withheld, min_score}` (`gated_nmea` is null when `gate` is false). The bounded
+/// form of the live command: it opens no socket. Advisory only.
+#[wasm_bindgen]
+pub fn receiver_trust_replay(
+    session_toml: &str,
+    nmea: &str,
+    gate: bool,
+) -> Result<String, JsValue> {
+    let r = crate::surface::assess_vessel_stream(
+        session_toml,
+        nmea,
+        gate,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({
+        "reports_jsonl": r.reports_jsonl,
+        "gated_nmea": r.gated_nmea,
+        "epochs": r.epochs,
+        "calibrating": r.calibrating,
+        "nominal": r.nominal,
+        "degraded": r.degraded,
+        "untrusted": r.untrusted,
+        "withheld": r.withheld,
+        "min_score": r.min_score,
+    })
+    .to_string())
+}

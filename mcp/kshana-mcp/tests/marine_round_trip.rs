@@ -1,0 +1,316 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! End-to-end MCP round-trip for the maritime-trust, training-NMEA and interference-map
+//! tools, over an in-memory duplex pipe, on the repository's synthetic examples only (no
+//! network, no file access by the server). Also pins the input caps and the refusal of a
+//! `path` source in `assess_receiver_log`.
+
+use kshana_mcp::marine::{MAX_REPLY_LINES, MAX_UPLOAD_BYTES};
+use kshana_mcp::server::KshanaServer;
+use rmcp::ServiceExt;
+use rmcp::model::CallToolRequestParams;
+use serde_json::{Value, json};
+use std::path::{Path, PathBuf};
+
+type Client = rmcp::service::RunningService<rmcp::RoleClient, ()>;
+
+async fn connect() -> Client {
+    let (server_t, client_t) = tokio::io::duplex(64 * 1024);
+    tokio::spawn(async move {
+        let svc = KshanaServer::new()
+            .serve(server_t)
+            .await
+            .expect("server serve");
+        let _ = svc.waiting().await;
+    });
+    ().serve(client_t).await.expect("client connect")
+}
+
+fn root() -> PathBuf {
+    Path::new(env!("CARGO_MANIFEST_DIR")).join("../..")
+}
+
+fn read(rel: &str) -> String {
+    std::fs::read_to_string(root().join(rel)).unwrap_or_else(|e| panic!("{rel}: {e}"))
+}
+
+/// Call a tool; the texts of a successful reply, or the error message.
+async fn call(client: &Client, name: &'static str, args: Value) -> Result<Vec<String>, String> {
+    let params = CallToolRequestParams::new(name).with_arguments(args.as_object().unwrap().clone());
+    match client.call_tool(params).await {
+        Err(e) => Err(e.to_string()),
+        Ok(r) if r.is_error == Some(true) => Err(format!("{:?}", r.content)),
+        Ok(r) => Ok(r
+            .content
+            .iter()
+            .filter_map(|c| c.as_text().map(|t| t.text.clone()))
+            .collect()),
+    }
+}
+
+/// Seconds 1400 to 1800 of the synthetic 3000-second ferry log (the drag-off starts at
+/// 1500 s), and a session with a 60 s calibration window.
+fn excerpt_and_session() -> (String, String) {
+    let nmea = read("examples/maritime-trust/tallinn-helsinki.nmea");
+    let at = |t: usize| nmea[..nmea.len() * t / 3000].rfind('\n').unwrap() + 1;
+    let session = read("examples/maritime-trust/session.toml")
+        .replace("path = \"tallinn-helsinki.nmea\"", "")
+        .replace("calibration_s = 300.0", "calibration_s = 60.0");
+    (nmea[at(1400)..at(1800)].to_string(), session)
+}
+
+fn custom() -> Value {
+    json!({
+        "dataset": "custom",
+        "licence": "CC0-1.0",
+        "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+        "attribution": "Synthetic data generated for Kshana documentation. Not real observations.",
+    })
+}
+
+#[tokio::test]
+async fn the_new_tools_are_listed_with_their_caveats() {
+    let client = connect().await;
+    let tools = client.list_all_tools().await.expect("list tools");
+    let desc = |n: &str| {
+        tools
+            .iter()
+            .find(|t| t.name == n)
+            .unwrap_or_else(|| panic!("tool {n} not served"))
+            .description
+            .clone()
+            .unwrap_or_default()
+            .to_string()
+    };
+    assert!(desc("assess_vessel_stream").contains("Advisory only"));
+    assert!(desc("assess_vessel_stream").contains("MODELLED"));
+    assert!(desc("generate_training_nmea").contains("TEXT ONLY"));
+    assert!(desc("generate_training_nmea").contains("never for a vessel's live navigation"));
+    assert!(desc("build_interference_map").contains("does not identify interference as the cause"));
+    assert!(desc("route_exposure").contains("not a forecast"));
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn vessel_stream_excerpt_is_scored_and_gated() {
+    let (nmea, session) = excerpt_and_session();
+    let client = connect().await;
+    let t = call(
+        &client,
+        "assess_vessel_stream",
+        json!({"session_toml": session, "nmea": nmea, "gate": true}),
+    )
+    .await
+    .expect("assess_vessel_stream");
+    let v: Value = serde_json::from_str(&t[0]).unwrap();
+    assert!(v["epochs"].as_u64().unwrap() > 300, "{v}");
+    assert!(v["untrusted"].as_u64().unwrap() > 0 && v["withheld"].as_u64().unwrap() > 0);
+    assert!(v["min_score"].as_f64().unwrap() < 55.0);
+    assert!(v["notice"].as_str().unwrap().contains("Advisory only"));
+    assert!(v["gated_nmea"].as_str().unwrap().lines().count() <= MAX_REPLY_LINES);
+    assert_eq!(v["gated_nmea_truncated"], true);
+    let first: Value = serde_json::from_str(
+        v["first_non_nominal_epochs_jsonl"]
+            .as_str()
+            .unwrap()
+            .lines()
+            .next()
+            .unwrap(),
+    )
+    .unwrap();
+    assert!(first["score"].is_number() && first["state"] != "nominal");
+    // Gate off: no gated stream in the reply.
+    let off = call(
+        &client,
+        "assess_vessel_stream",
+        json!({"session_toml": session, "nmea": nmea}),
+    )
+    .await
+    .unwrap();
+    assert!(serde_json::from_str::<Value>(&off[0]).unwrap()["gated_nmea"].is_null());
+    // A static platform is refused with the reason.
+    let e = call(
+        &client,
+        "assess_vessel_stream",
+        json!({"session_toml": "[platform]\nkind = \"static\"", "nmea": nmea}),
+    )
+    .await
+    .unwrap_err();
+    assert!(e.contains("vessel"), "{e}");
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn oversize_inputs_are_refused() {
+    let client = connect().await;
+    let big = "x".repeat(MAX_UPLOAD_BYTES + 1);
+    for (tool, args) in [
+        (
+            "assess_vessel_stream",
+            json!({"session_toml": "[platform]\nkind = \"vessel\"", "nmea": big}),
+        ),
+        ("generate_training_nmea", json!({"toml": big})),
+        (
+            "build_interference_map",
+            json!({"source": "adsb", "csv": big, "dataset": "adsb-lol"}),
+        ),
+        ("route_exposure", json!({"route": big, "maps": ["{}"]})),
+        ("assess_receiver_log", json!({"toml": big})),
+    ] {
+        let e = call(&client, tool, args).await.unwrap_err();
+        assert!(e.contains("limit"), "{tool}: {e}");
+    }
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn assess_receiver_log_refuses_a_path_so_the_server_reads_no_files() {
+    let client = connect().await;
+    let toml = "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"/etc/passwd\"\n";
+    let e = call(&client, "assess_receiver_log", json!({"toml": toml}))
+        .await
+        .unwrap_err();
+    assert!(e.contains("path"), "{e}");
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn training_nmea_is_deterministic_text_with_an_instructor_log() {
+    let toml = read("scenarios/training/open-sea-jamming.toml");
+    let client = connect().await;
+    let a = call(&client, "generate_training_nmea", json!({"toml": toml}))
+        .await
+        .expect("generate_training_nmea");
+    let b = call(&client, "generate_training_nmea", json!({"toml": toml}))
+        .await
+        .unwrap();
+    assert_eq!(a[0], b[0], "deterministic per seed");
+    let v: Value = serde_json::from_str(&a[0]).unwrap();
+    assert_eq!(v["instructor_log"]["schema"], "kshana-nmea-training/1");
+    assert!(
+        v["nmea"].as_str().unwrap().contains("$GP") || v["nmea"].as_str().unwrap().contains("$GN")
+    );
+    assert!(v["nmea"].as_str().unwrap().lines().count() <= MAX_REPLY_LINES);
+    assert!(v["notice"].as_str().unwrap().contains("never feed"));
+    let seeded = call(
+        &client,
+        "generate_training_nmea",
+        json!({"toml": toml, "seed": 7}),
+    )
+    .await
+    .unwrap();
+    assert_ne!(
+        serde_json::from_str::<Value>(&seeded[0]).unwrap()["nmea"],
+        v["nmea"]
+    );
+    let log_only = call(
+        &client,
+        "generate_training_nmea",
+        json!({"toml": toml, "include_nmea": false}),
+    )
+    .await
+    .unwrap();
+    assert!(
+        serde_json::from_str::<Value>(&log_only[0])
+            .unwrap()
+            .get("nmea")
+            .is_none()
+    );
+    assert!(
+        call(
+            &client,
+            "generate_training_nmea",
+            json!({"toml": "[scenario]"})
+        )
+        .await
+        .is_err()
+    );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn interference_map_then_route_exposure_round_trip() {
+    let client = connect().await;
+    let mut args = custom();
+    args["source"] = "adsb".into();
+    args["csv"] = read("examples/interference-map/input/adsb.csv").into();
+    let t = call(&client, "build_interference_map", args)
+        .await
+        .expect("build_interference_map");
+    let head: Value = serde_json::from_str(&t[0]).unwrap();
+    assert_eq!(head["days"][0]["date"], "2026-03-01");
+    assert!(head["days"][0]["cells_flagged"].as_u64().unwrap() >= 1);
+    assert!(head["caveats"].as_str().unwrap().contains("MODELLED"));
+    let doc: Value = serde_json::from_str(&t[1]).unwrap();
+    assert_eq!(
+        doc["kshana_interference_map"]["schema"],
+        "kshana-interference-map/v1"
+    );
+    // The sample the CLI wrote, normalised for the engine version.
+    let mut sample: Value = serde_json::from_str(&read(
+        "examples/interference-map/output/adsb-2026-03-01.geojson",
+    ))
+    .unwrap();
+    let mut got = doc.clone();
+    for v in [&mut got, &mut sample] {
+        v["kshana_interference_map"]["kshana_version"] = "X".into();
+    }
+    assert_eq!(got, sample);
+
+    let route = r#"{"type":"LineString","coordinates":[[-50.0,30.2],[-47.0,30.2]]}"#;
+    let r = call(
+        &client,
+        "route_exposure",
+        json!({"route": route, "maps": [t[1]]}),
+    )
+    .await
+    .expect("route_exposure");
+    let rep: Value = serde_json::from_str(&r[0]).unwrap();
+    assert!(rep.is_object());
+    let e = call(
+        &client,
+        "route_exposure",
+        json!({"route": route, "maps": [t[1]], "date_from": "2030-01-01"}),
+    )
+    .await
+    .unwrap_err();
+    assert!(e.contains("no map"), "{e}");
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn interference_map_checks_the_dataset_and_the_source() {
+    let client = connect().await;
+    let csv = read("examples/interference-map/input/ais.csv");
+    let e = call(
+        &client,
+        "build_interference_map",
+        json!({"source": "ais", "csv": csv, "dataset": "custom"}),
+    )
+    .await
+    .unwrap_err();
+    assert!(e.contains("licence"), "{e}");
+    let e = call(
+        &client,
+        "build_interference_map",
+        json!({"source": "ais", "csv": csv, "dataset": "adsb-lol"}),
+    )
+    .await
+    .unwrap_err();
+    assert!(e.contains("data"), "{e}");
+    let e = call(
+        &client,
+        "build_interference_map",
+        json!({"source": "radar", "csv": "", "dataset": "custom"}),
+    )
+    .await
+    .unwrap_err();
+    assert!(e.contains("adsb"), "{e}");
+    // AIS with the synthetic land file works and is labelled by source.
+    let mut args = custom();
+    args["source"] = "ais".into();
+    args["csv"] = csv.into();
+    args["land_geojson"] = read("examples/interference-map/input/land.geojson").into();
+    let t = call(&client, "build_interference_map", args).await.unwrap();
+    assert!(t[0].contains("ais-2026-03-01"));
+    client.cancel().await.ok();
+}
