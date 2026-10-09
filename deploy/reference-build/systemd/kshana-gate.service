@@ -1,0 +1,37 @@
+# OPT-IN gate: sits between the receiver and OpenCPN. The fix is marked invalid in the forwarded
+# stream while trust is collapsed, and $PKSHT is added. Read "Gate mode" in docs/MARITIME-TRUST.md
+# first: it adds latency, it is a single point in the chain, and it can withhold a good fix.
+# Do not enable this together with kshana-trust.service on the same serial port.
+# Advisory software, not type-approved equipment: the operator stays responsible for navigation.
+[Unit]
+Description=Kshana receiver-trust gate to TCP for OpenCPN (opt-in)
+Documentation=https://github.com/ashfordeOU/kshana/blob/main/docs/MARINE-INTEGRATIONS.md
+After=local-fs.target
+ConditionPathExists=/etc/kshana/session.toml
+
+[Service]
+Type=simple
+User=kshana
+Group=kshana
+SupplementaryGroups=dialout
+ExecStartPre=/bin/stty -F /dev/ttyGNSS 115200 raw -echo -hupcl
+StandardInput=file:/dev/ttyGNSS
+ExecStart=/bin/sh -c 'set -o pipefail 2>/dev/null; /usr/local/bin/kshana receiver-trust live /etc/kshana/session.toml --gate --json /var/lib/kshana/trust.jsonl | /usr/bin/node /opt/kshana/nmea-tcp-relay.mjs --listen 10110 --host 127.0.0.1'
+StandardOutput=journal
+StandardError=journal
+Restart=on-failure
+RestartSec=5
+StateDirectory=kshana
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=no
+DevicePolicy=closed
+DeviceAllow=/dev/ttyGNSS r
+RestrictAddressFamilies=AF_UNIX AF_INET
+CapabilityBoundingSet=
+SystemCallFilter=@system-service
+
+[Install]
+WantedBy=multi-user.target
