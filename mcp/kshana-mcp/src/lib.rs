@@ -5,7 +5,8 @@
 //! JetBrains AI Assistant / Junie, and any other MCP-compatible assistant — over stdio.
 //! The library exposes [`server::KshanaServer`] so it can be driven directly in tests;
 //! the `kshana-mcp` binary serves it over stdio. The GNSS IQ tools and their file-path and
-//! sample-budget contract are in [`iq`].
+//! sample-budget contract are in [`iq`]; the maritime-trust, training-NMEA and interference-map tools, with their input caps, are in [`marine`].
 
 pub mod iq;
+pub mod marine;
 pub mod server;

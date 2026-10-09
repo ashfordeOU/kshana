@@ -20,7 +20,11 @@
 //! - `export_omm`             — export an `orbit` scenario's elements as CCSDS OMM.
 //! - `export_oem`             — export an `orbit` scenario's state series as CCSDS OEM.
 //! - `export_table_csv`       — run a scenario and return its reproducibility table as CSV.
-//! - `assess_receiver_log`    — assess a real GNSS receiver log for trust.
+//! - `assess_receiver_log`    — assess a real GNSS receiver log for trust (vessel score included).
+//!
+//! The maritime-trust, training-NMEA and interference-map tools (`assess_vessel_stream`,
+//! `generate_training_nmea`, `build_interference_map`, `route_exposure`) are in
+//! [`crate::marine`].
 //!
 //! The GNSS IQ tools (`iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
 //! `iq_frontend`, `iq_campaign`, `iq_campaign_status`) live in [`crate::iq`], with their file-path and sample-budget contract.
@@ -49,7 +53,7 @@ pub struct RunScenarioRequest {
 pub struct ReceiverTrustRequest {
     /// A `receiver-trust` scenario as TOML: `[log]` names the receiver log's `format`
     /// (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or
-    /// `base64` (a `path` is read by the server process); optional `[monitors]`,
+    /// `base64` (a `path` is refused: the server reads no files for this tool; at most 4 MiB); optional `[monitors]`,
     /// `[[events]]` and `[compare]` sections state thresholds, known events and
     /// tolerances before the run.
     pub toml: String,
@@ -228,7 +232,7 @@ const CSV_TABLE_KINDS: &str = "`realtime-frame-eop`, `lunar-time-budget`, `lunar
 /// The Kshana MCP server handle.
 #[derive(Clone)]
 pub struct KshanaServer {
-    /// The core tools plus the IQ tools; the `#[tool_handler]`-generated `ServerHandler`
+    /// The core tools plus the IQ and maritime tools; the `#[tool_handler]`-generated `ServerHandler`
     /// impl lists and dispatches through it.
     tool_router: ToolRouter<KshanaServer>,
     /// Where the IQ tools may read and write, and their per-call sample budget.
@@ -252,7 +256,7 @@ impl KshanaServer {
     /// Construct the server with an explicit IQ configuration.
     pub fn with_iq_config(iq: IqConfig) -> Self {
         Self {
-            tool_router: Self::tool_router() + Self::iq_tool_router(),
+            tool_router: Self::tool_router() + Self::iq_tool_router() + Self::marine_tool_router(),
             iq,
         }
     }
@@ -313,7 +317,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request). The log's bytes go inline in the TOML as `text` or `base64`."
+        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request). The log's bytes go inline in the TOML as `text` or `base64` (at most 4 MiB; a `path` is refused). A `[platform] kind = \"vessel\"` table selects the maritime monitors (kinematic consistency, heading against course, speed log, antenna height, C/N0 spread, time consistency) and adds a 0-100 trust score per epoch with the monitors that deducted; for a stream excerpt with the gate use `assess_vessel_stream`. Advisory only; evidence tier MODELLED."
     )]
     fn assess_receiver_log(
         &self,
@@ -323,7 +327,7 @@ impl KshanaServer {
             include_csv,
         }): Parameters<ReceiverTrustRequest>,
     ) -> Result<CallToolResult, McpError> {
-        match kshana::receiver_trust::scenario::run_toml(&toml) {
+        match kshana::surface::assess_receiver_log_inline(&toml, crate::marine::MAX_UPLOAD_BYTES) {
             Ok(out) => {
                 let mut contents = vec![
                     ContentBlock::text(out.summary),

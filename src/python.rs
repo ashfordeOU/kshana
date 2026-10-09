@@ -130,7 +130,11 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
 /// (name, description, required/optional fields) — introspectable without source.
 /// Assess a real receiver log described by a `receiver-trust` scenario (TOML text). The
 /// log must be given inline (`text` or `base64`) or by a path the Python process can
-/// read. Returns the result document, the trust-timeline CSV, the chart and a summary.
+/// read. A `[platform]` table with `kind = "vessel"` selects the maritime monitors and the
+/// 0-100 trust score with its reasons (`docs/MARITIME-TRUST.md`); the output is advisory.
+/// `receiver-trust live` (a long-running stream process with an optional TCP listener) is
+/// command-line only. Returns the result document, the trust-timeline CSV, the chart and a
+/// summary.
 #[pyfunction]
 fn receiver_trust(toml: &str) -> PyResult<PyRunOutput> {
     crate::receiver_trust::scenario::run_toml(toml)
@@ -1057,6 +1061,145 @@ fn iq_frontend<'py>(
     json_to_py(py, &serde_json::json!({ "samples_i": oi, "samples_q": oq }))
 }
 
+/// Replay an NMEA excerpt through the engine behind `kshana receiver-trust live`, with the
+/// gate on or off, and return what a live run would have written: a dict with
+/// `reports_jsonl` (one JSON line per epoch, schema 1.1), `gated_nmea` (the stream the gate
+/// would forward, `None` when `gate` is false), `epochs`, `calibrating`, `nominal`,
+/// `degraded`, `untrusted`, `withheld` and `min_score`. `session_toml` declares a vessel
+/// (`[platform] kind = "vessel"`). This is the bounded form of the live command: it opens no
+/// socket and writes to no port. Advisory only. Raises `ValueError` on an invalid session.
+#[pyfunction]
+#[pyo3(signature = (session_toml, nmea, gate=false))]
+fn receiver_trust_replay<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    nmea: &str,
+    gate: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    let r = crate::surface::assess_vessel_stream(
+        session_toml,
+        nmea,
+        gate,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "reports_jsonl": r.reports_jsonl,
+            "gated_nmea": r.gated_nmea,
+            "epochs": r.epochs,
+            "calibrating": r.calibrating,
+            "nominal": r.nominal,
+            "degraded": r.degraded,
+            "untrusted": r.untrusted,
+            "withheld": r.withheld,
+            "min_score": r.min_score,
+        }),
+    )
+}
+
+/// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; the input
+/// formats are in `docs/INTERFERENCE-MAP.md`). `dataset` is an approved preset
+/// (`adsb-lol`, `noaa-marinecadastre`, `kystverket`) or `"custom"`, which also needs
+/// `licence`, `licence_url` and `attribution` so the output carries them. `land_geojson`
+/// (AIS only) is an optional land-polygon file. Returns one dict per UTC day with
+/// `file_name`, `date`, `cells_published`, `cells_flagged` and the
+/// `kshana-interference-map/v1` GeoJSON text in `geojson`. Aggregate only: identifiers are
+/// never returned, and a degraded cell does not name interference as the cause. Raises
+/// `ValueError` on bad input.
+#[pyfunction]
+#[pyo3(signature = (source, csv, dataset, cell_deg=None, licence=None, licence_url=None, attribution=None, land_geojson=None))]
+#[allow(clippy::too_many_arguments)]
+fn interference_map<'py>(
+    py: Python<'py>,
+    source: &str,
+    csv: &str,
+    dataset: &str,
+    cell_deg: Option<f64>,
+    licence: Option<String>,
+    licence_url: Option<String>,
+    attribution: Option<String>,
+    land_geojson: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{interference_map as build, CustomDataset, MapSource, MAX_INPUT_BYTES};
+    let custom = (licence.is_some() || licence_url.is_some() || attribution.is_some()).then(|| {
+        CustomDataset {
+            licence: licence.unwrap_or_default(),
+            licence_url: licence_url.unwrap_or_default(),
+            attribution: attribution.unwrap_or_default(),
+        }
+    });
+    let days = build(
+        MapSource::parse(source).map_err(PyValueError::new_err)?,
+        csv,
+        dataset,
+        cell_deg,
+        custom.as_ref(),
+        land_geojson.as_deref(),
+        MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v = serde_json::Value::Array(
+        days.into_iter()
+            .map(|d| {
+                serde_json::json!({
+                    "file_name": d.file_name,
+                    "date": d.date,
+                    "cells_published": d.cells_published,
+                    "cells_flagged": d.cells_flagged,
+                    "geojson": d.geojson,
+                })
+            })
+            .collect(),
+    );
+    json_to_py(py, &v)
+}
+
+/// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
+/// one or more interference maps (the `geojson` of [`interference_map`]), optionally limited
+/// to `date_from`..`date_to` (`YYYY-MM-DD`). Returns the report as JSON text. Cells not
+/// observed are not evidence of a clear route, and this is not a forecast. Raises
+/// `ValueError` on bad input.
+#[pyfunction]
+#[pyo3(signature = (route, maps, date_from=None, date_to=None))]
+fn route_exposure(
+    route: &str,
+    maps: Vec<String>,
+    date_from: Option<String>,
+    date_to: Option<String>,
+) -> PyResult<String> {
+    let refs: Vec<&str> = maps.iter().map(String::as_str).collect();
+    crate::surface::route_exposure(
+        route,
+        &refs,
+        date_from.as_deref(),
+        date_to.as_deref(),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)
+}
+
+/// Generate synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML.
+/// Returns a dict with `nmea` (CRLF text), `log_json` (the instructor log,
+/// `kshana-nmea-training/1`) and `log_text`. `seed` replaces the scenario's seed. Text
+/// only: it is for training and testing, never for a vessel's live navigation systems.
+/// Raises `ValueError` on an invalid scenario.
+#[pyfunction]
+#[pyo3(signature = (toml, seed=None))]
+fn nmea_training<'py>(
+    py: Python<'py>,
+    toml: &str,
+    seed: Option<u64>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let t = crate::surface::nmea_training(toml, seed, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({"nmea": t.nmea, "log_json": t.log_json, "log_text": t.log_text}),
+    )
+}
+
 /// The GNSS IQ signal names [`iq_scene`], [`iq_acquire`] and [`iq_track`] accept.
 #[pyfunction]
 fn iq_signals() -> Vec<String> {
@@ -1078,6 +1221,10 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
+    m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
+    m.add_function(wrap_pyfunction!(interference_map, m)?)?;
+    m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
+    m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene_broadcast, m)?)?;
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;

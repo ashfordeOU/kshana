@@ -228,6 +228,8 @@ pub mod passes;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
+pub mod interference_map;
+pub mod nmea_synth;
 mod portable_math;
 pub mod powerlaw;
 pub mod precession;
@@ -273,6 +275,7 @@ pub mod spoof_detect;
 pub mod spoof_monitors;
 pub mod study;
 pub mod suite;
+pub mod surface;
 pub mod sweep;
 pub mod telecom_timing;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
