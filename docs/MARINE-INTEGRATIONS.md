@@ -92,17 +92,28 @@ follows the server's published plugin interface and should be confirmed on first
 
 ## OpenCPN
 
-OpenCPN reads NMEA from the network. `kshana receiver-trust live --gate` writes the gated stream to standard
-output, so a small relay serves it on a TCP port that OpenCPN connects to:
+OpenCPN reads NMEA from the network, and `kshana receiver-trust live --gate` can serve the gated stream on a TCP port itself.
+
+**Recommended: the direct connection.**
+
+```sh
+some-nmea-source | kshana receiver-trust live session.toml --gate --listen tcp:10110
+```
+
+(`some-nmea-source` is the receiver's serial port read with `stty` and `cat`, a multiplexer, or the `--tcp`/`--udp` inputs of
+`kshana` itself; the reference build's `kshana-gate.service` does this under systemd.) `--listen tcp:<port>` binds the loopback
+address; any number of read-only clients may connect, and one that cannot keep up is dropped without delaying the others.
+
+**Alternative: the relay.** `integrations/opencpn/nmea-tcp-relay.mjs` is a dependency-free Node fan-out that does the same for
+a `kshana` without `--listen`, or serves any other line stream (the container option uses it for the JSON epochs):
 
 ```sh
 some-nmea-source | kshana receiver-trust live session.toml --gate --json trust.jsonl \
   | node integrations/opencpn/nmea-tcp-relay.mjs --listen 10110
 ```
 
-(`some-nmea-source` is the receiver's serial port read with `stty` and `cat`, a multiplexer, or `--tcp`/`--udp`
-inputs to `kshana` itself; the reference build's `kshana-gate.service` does this under systemd.) The relay is a
-fan-out: any number of clients, whole lines only, bytes unchanged, one slow client cannot stall the rest.
+It forwards bytes unchanged, whole lines only, and drops a client that does not read. Prefer the direct connection: one process
+fewer in the chain.
 
 In OpenCPN: Options, Connections, Add Connection, **Network**, protocol **TCP**, address `127.0.0.1`, port `10110`,
 direction **Input**. While trust is not collapsed the stream is the receiver's own, plus a `$PKSHT` sentence per
@@ -131,8 +142,11 @@ checks the stream OpenCPN is given, not OpenCPN's own screen.
 An end-to-end check with the real binary, not part of the default tests (it needs a built `kshana`):
 
 ```sh
-KSHANA_BIN=target/release/kshana npm run e2e      # runs the 1 h synthetic demo: kshana --gate | relay | TCP consumer
+KSHANA_BIN=target/release/kshana npm run e2e            # kshana --gate --listen | TCP consumer; the consumer's bytes must equal the gate's stdout
+KSHANA_BIN=target/release/kshana npm run e2e -- relay   # kshana --gate | relay | TCP consumer
 ```
+
+Both run the one-hour synthetic demo and check the fix goes valid, then invalid, with a `$PKSHT` per epoch.
 
 ### Native plugin
 
