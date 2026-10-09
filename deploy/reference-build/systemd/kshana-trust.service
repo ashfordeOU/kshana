@@ -1,0 +1,34 @@
+# Advisory trust monitor: reads the receiver's NMEA from a serial port, writes one JSON line per
+# epoch to the journal and to /var/lib/kshana/trust.jsonl. It does not alter the NMEA stream.
+# Advisory software, not type-approved equipment: the operator stays responsible for navigation.
+[Unit]
+Description=Kshana receiver-trust monitor (advisory)
+Documentation=https://github.com/ashfordeOU/kshana/blob/main/docs/MARINE-INTEGRATIONS.md
+After=local-fs.target
+ConditionPathExists=/etc/kshana/session.toml
+
+[Service]
+Type=simple
+User=kshana
+Group=kshana
+SupplementaryGroups=dialout
+# Set the port once; adjust the device and speed to the receiver.
+ExecStartPre=/bin/stty -F /dev/ttyGNSS 115200 raw -echo -hupcl
+StandardInput=file:/dev/ttyGNSS
+ExecStart=/usr/local/bin/kshana receiver-trust live /etc/kshana/session.toml --json /var/lib/kshana/trust.jsonl
+StandardOutput=journal
+StandardError=journal
+Restart=on-failure
+RestartSec=5
+StateDirectory=kshana
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=no
+RestrictAddressFamilies=AF_UNIX
+CapabilityBoundingSet=
+SystemCallFilter=@system-service
+
+[Install]
+WantedBy=multi-user.target
