@@ -14,6 +14,7 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::ingest::read_log;
+use super::live::LiveCfg;
 use super::maritime::MaritimeConfig;
 use super::monitors::{
     run_monitors, AlarmRun, Baseline, EngineFixInput, EpochTrust, Monitor, MonitorConfig,
@@ -161,6 +162,8 @@ struct RawScenario {
     maritime: MaritimeConfig,
     #[serde(default)]
     score: ScoreCfg,
+    #[serde(default)]
+    live: LiveCfg,
 }
 
 impl From<RawScenario> for ReceiverTrustScenario {
@@ -169,6 +172,7 @@ impl From<RawScenario> for ReceiverTrustScenario {
         monitors.platform = r.platform;
         monitors.maritime = r.maritime;
         monitors.score = r.score;
+        monitors.live = r.live;
         Self {
             kind: r.kind,
             name: r.name,
