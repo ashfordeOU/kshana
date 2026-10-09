@@ -116,7 +116,7 @@ jobs:
         run: |
           set -euo pipefail
           cp ../../LICENSE LICENSE
-          mkdir -p assets
+          mkdir -p ../../assets
           npm pack --pack-destination ../../assets --silent
           ls -l ../../assets
         working-directory: integrations/signalk
