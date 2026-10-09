@@ -335,3 +335,34 @@ fn test_bench_export_scores_through_receiver_trust_and_into_the_report() {
     assert_eq!(ev["onset_s"].as_f64().unwrap(), t.events[0].onset_s);
     assert!(ev["outcome"].is_string());
 }
+
+#[test]
+fn run_from_text_and_assess_texts_need_no_files() {
+    use kshana::compliance::{assess_texts, run_from_text, RunInput};
+    let r = run_from_text(&RunInput {
+        label: "a.result.json",
+        result_json: "{\"samples_total\": 3}",
+        scenario_toml: Some("kind = \"integrity\"\n"),
+    })
+    .unwrap();
+    assert_eq!(r.kind, "integrity");
+    let report = assess_texts(&[
+        RunInput {
+            label: "a.result.json",
+            result_json: "{\"samples_total\": 3}",
+            scenario_toml: Some("kind = \"integrity\"\n"),
+        },
+        RunInput {
+            label: "bad.result.json",
+            result_json: "not json",
+            scenario_toml: None,
+        },
+        RunInput {
+            label: "orphan.result.json",
+            result_json: "{\"x\": 1}",
+            scenario_toml: None,
+        },
+    ]);
+    assert_eq!(report.runs.len(), 1);
+    assert_eq!(report.unrecognised.len(), 2, "{:?}", report.unrecognised);
+}
