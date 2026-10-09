@@ -26,7 +26,7 @@ being spoofed when the monitor starts has no clean baseline: start the monitor b
 ## OS setup (Debian-family Linux)
 
 ```sh
-sudo apt update && sudo apt install -y nodejs        # node 18 or newer, for the relay and the Signal K plugin
+sudo apt update && sudo apt install -y nodejs        # node 18 or newer, for the Signal K plugin (and the container's relay)
 sudo useradd --system --create-home --home-dir /var/lib/kshana kshana
 sudo usermod -aG dialout kshana                      # serial port access
 sudo install -m 0755 kshana /usr/local/bin/kshana    # a release binary, or: cargo install --locked --path .
@@ -52,7 +52,7 @@ Two units in [`systemd/`](systemd/); enable **one** of them per serial port.
 * `kshana-trust.service`: the advisory monitor. Reads the receiver, writes JSON lines to the journal and
   `/var/lib/kshana/trust.jsonl`. The NMEA stream is untouched.
 * `kshana-gate.service`: opt-in. Reads the receiver, forwards the NMEA stream with the fix marked invalid while
-  trust is collapsed and a `$PKSHT` per cycle, and serves it on `127.0.0.1:10110` for OpenCPN. Read "Gate mode" in
+  trust is collapsed and a `$PKSHT` per cycle, and serves it itself (`--listen tcp:10110`, loopback) for OpenCPN: no relay is needed. Read "Gate mode" in
   [`MARITIME-TRUST.md`](../../docs/MARITIME-TRUST.md) first.
 
 ```sh
@@ -61,8 +61,9 @@ sudo systemctl daemon-reload && sudo systemctl enable --now kshana-trust
 journalctl -u kshana-trust -f
 ```
 
-The serial speed in `ExecStartPre` and the `/dev/ttyGNSS` name are the two things to adjust. The gate unit expects
-`nmea-tcp-relay.mjs` in `/opt/kshana/` (copy it from `integrations/opencpn/`).
+The serial speed in `ExecStartPre` and the `/dev/ttyGNSS` name are the two things to adjust. The gate unit needs a `kshana` with `--listen`
+(0.35 or newer). The Node relay in `integrations/opencpn/` is only for older builds or special setups; the container option still uses it
+to serve the JSON epochs.
 
 Dry-run check (no service is started, nothing outside a temp directory is touched; needs `systemd-analyze`):
 

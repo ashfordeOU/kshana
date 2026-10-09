@@ -16,7 +16,7 @@ Group=kshana
 SupplementaryGroups=dialout
 ExecStartPre=/bin/stty -F /dev/ttyGNSS 115200 raw -echo -hupcl
 StandardInput=file:/dev/ttyGNSS
-ExecStart=/bin/sh -c 'set -o pipefail 2>/dev/null; /usr/local/bin/kshana receiver-trust live /etc/kshana/session.toml --gate --json /var/lib/kshana/trust.jsonl | /usr/bin/node /opt/kshana/nmea-tcp-relay.mjs --listen 10110 --host 127.0.0.1'
+ExecStart=/usr/local/bin/kshana receiver-trust live /etc/kshana/session.toml --gate --listen tcp:10110 --json /var/lib/kshana/trust.jsonl
 StandardOutput=journal
 StandardError=journal
 Restart=on-failure
@@ -27,7 +27,7 @@ ProtectSystem=strict
 ProtectHome=yes
 PrivateTmp=yes
 PrivateDevices=no
-RestrictAddressFamilies=AF_UNIX AF_INET
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
 CapabilityBoundingSet=
 SystemCallFilter=@system-service
 
