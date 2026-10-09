@@ -1,0 +1,36 @@
+# Coastal position drag-off: the receiver keeps a valid, healthy-looking fix that walks
+# towards the shore. Synthetic NMEA for bridge-simulator training only.
+[scenario]
+name = "coastal-drag-off"
+description = "Coastal passage; a counterfeit signal drags the reported position 1.4 km towards the land while the fix stays valid."
+trainer_note = "Nothing alarms: GGA quality stays 1 and HDOP stays low. The clues are (a) every GSV SNR collapses to one raised, uniform level, (b) COG/SOG from the receiver drift away from HDT and from the VBW ground speed, and (c) the plotter position crosses the radar and visual picture. At release the position steps back."
+seed = 22
+start_utc = "2026-06-03T14:30:00Z"
+duration_s = 1500
+rate_hz = 1
+
+[vessel]
+lat_deg = 51.00
+lon_deg = 1.40
+speed_kn = 12
+
+[[waypoint]]
+lat_deg = 51.25
+lon_deg = 2.10
+speed_kn = 12
+
+[environment]
+current_speed_kn = 1.2
+current_set_deg = 40
+magnetic_variation_deg = 0.5
+
+[[event]]
+kind = "drag-off"
+label = "Drag towards the coast"
+start_s = 420
+duration_s = 720
+ramp_s = 360
+recovery_s = 0
+final_offset_m = 1400
+bearing_deg = 330
+counterfeit_cn0_dbhz = 46
