@@ -9,11 +9,12 @@ use std::path::{Path, PathBuf};
 
 use super::adsb::{self, AdsbAggregator, AdsbParams};
 use super::ais::{self, AisAggregator, AisParams};
+use super::api;
 use super::grid::Grid;
 use super::land::LandMask;
 use super::output::{file_name, to_geojson};
 use super::route;
-use super::sources::{self, Dataset, Kind};
+use super::sources::{Dataset, Kind};
 use super::time::parse_day;
 use super::{IdHasher, MapError};
 
@@ -31,8 +32,7 @@ pub const NATURAL_EARTH_LAND_URL: &str = "https://raw.githubusercontent.com/nvke
 pub const NATURAL_EARTH_LAND_SHA256: &str =
     "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416";
 
-/// Decompression limit for one readsb trace file (bytes).
-const MAX_TRACE_BYTES: u64 = 512 * 1024 * 1024;
+use super::api::MAX_TRACE_BYTES;
 
 fn flag_value<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, MapError> {
     match args.iter().position(|a| a == name) {
@@ -89,33 +89,20 @@ fn dataset_from(args: &[String], kind: Kind) -> Result<Dataset, MapError> {
     let key = flag_value(args, "--dataset")?.ok_or_else(|| {
         MapError::Format("--dataset is required so the licence and attribution are embedded".into())
     })?;
-    let ds = if key == "custom" {
+    let spec = if key == "custom" {
         let need = |n: &str| {
             flag_value(args, n)?
                 .ok_or_else(|| MapError::Format(format!("--dataset custom needs {n}")))
         };
-        sources::custom(
-            kind,
-            need("--licence")?,
-            need("--licence-url")?,
-            need("--attribution")?,
-        )
+        api::DatasetSpec::Custom {
+            licence: need("--licence")?,
+            licence_url: need("--licence-url")?,
+            attribution: need("--attribution")?,
+        }
     } else {
-        sources::preset(key).ok_or_else(|| {
-            MapError::Format(format!(
-                "unknown dataset `{key}`; approved: {}, or `custom`",
-                sources::preset_keys().join(", ")
-            ))
-        })?
+        api::DatasetSpec::Preset(key)
     };
-    if ds.kind != kind {
-        return Err(MapError::Format(format!(
-            "dataset `{key}` is {} data but the input kind is {}",
-            ds.kind.as_str(),
-            kind.as_str()
-        )));
-    }
-    Ok(ds)
+    api::resolve_dataset(&spec, kind)
 }
 
 fn grid_from(args: &[String]) -> Result<Grid, MapError> {
