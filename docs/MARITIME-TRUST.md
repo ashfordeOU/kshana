@@ -137,6 +137,38 @@ Each completed epoch writes one JSON line on stdout:
 the edges in the session's `[score]` table); `score` is absent while calibrating; `deductions`
 list which checks took points off and how many, largest first.
 
+### JSON-lines schema (version 1)
+
+One JSON object per completed epoch, keys in this order:
+
+| Key | Type | Meaning |
+|---|---|---|
+| `seq` | integer | count of epochs reported, from 1 |
+| `t_s` | number | seconds since the first epoch of the stream |
+| `time` | string or null | the epoch's time as the stream states it (ISO-8601 UTC with a date once an RMC was seen, else `hh:mm:ss.mmm UTC (date not in log)`) |
+| `state` | string | `calibrating`, `nominal`, `degraded` or `untrusted` |
+| `score` | number or null | 0 to 100, one decimal; null while calibrating or when `note` says why none could be produced |
+| `deductions` | array | `{"monitor": string, "ratio": number, "points": number}`, largest points first; `ratio` is statistic over threshold (alarm at 1 or more); only monitors that cost points are listed |
+| `alarms` | array of string | monitors at or above their threshold |
+| `gate` | string | `off`, `passed` or `withheld` |
+| `note` | string or null | why no score was produced (for example a declared heading sensor that is absent) |
+
+Monitor names (kebab-case): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
+`clock`, `solve-failure`, `kinematic`, `heading-course`, `speed-log`, `sea-level`, `cn0-spread`,
+`cn0-rise`, `time-consistency`, `sec-jam`, `sec-spoof`, `osnma`. New names may be added in later
+versions; consumers should treat an unknown monitor name as a monitor. The `$PKSHT` layout below
+carries a format version in its first field; this JSON schema is version 1 and changes only by
+adding keys at the end.
+
+### Authentication input
+
+The `osnma` monitor takes per-satellite authentication status from an authentication source
+through `MarineObs::sat_auth` (a list of `(satellite, status)`, status `Authenticated`, `Failed`
+or `Unavailable`), next to the overall `MarineObs::osnma`. On the NMEA side the same is carried by
+`$PKSOS,<A|F|N>[,<sat>:<A|F|N>...]`, for example `$PKSOS,A,E11:A,E19:F`. Any failure, overall or on
+one satellite, alarms the monitor and costs its whole weight; success is no evidence. Kshana
+verifies nothing here: the source that does is responsible for the status it reports.
+
 An epoch is complete when the next timed sentence arrives, or when the stream has been quiet
 for `[live] idle_flush_s` (default 0.35 s). The first `calibration_s` seconds of the stream
 form the baseline and are never scored, so **a stream that is already being spoofed when it

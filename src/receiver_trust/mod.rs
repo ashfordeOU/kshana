@@ -138,6 +138,12 @@ pub struct MarineObs {
     pub sec_spoof_state: Option<u8>,
     /// OSNMA status as the receiver reports it.
     pub osnma: Option<OsnmaStatus>,
+    /// Per-satellite authentication status, `(satellite id in RINEX style, status)`, as an
+    /// authentication source reports it. This is the input hook of the `osnma` monitor: a
+    /// source that verifies navigation-message authentication fills it (`$PKSOS` carries it
+    /// on the NMEA side). Nothing in `receiver_trust` verifies a signature.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub sat_auth: Vec<(String, OsnmaStatus)>,
 }
 
 /// A receiver log read into time order.

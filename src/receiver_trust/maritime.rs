@@ -549,15 +549,18 @@ impl MarineMonitors {
             if let Some(s) = m.sec_spoof_state {
                 ratios.insert(Monitor::SecSpoof, f64::from(s) / 2.0);
             }
-            match m.osnma {
-                Some(OsnmaStatus::Failed) => {
-                    // A failure is a statement, not a statistic: it costs the whole weight.
-                    ratios.insert(Monitor::Osnma, 1.5);
-                }
-                Some(OsnmaStatus::Authenticated) => {
-                    ratios.insert(Monitor::Osnma, 0.0);
-                }
-                Some(OsnmaStatus::Unavailable) | None => {}
+            // Authentication: any failure, overall or on one satellite, is a statement, not a
+            // statistic, and costs the whole weight; a reported success is no evidence.
+            let any_failed = m.osnma == Some(OsnmaStatus::Failed)
+                || m.sat_auth.iter().any(|(_, s)| *s == OsnmaStatus::Failed);
+            let any_ok = m.osnma == Some(OsnmaStatus::Authenticated)
+                || m.sat_auth
+                    .iter()
+                    .any(|(_, s)| *s == OsnmaStatus::Authenticated);
+            if any_failed {
+                ratios.insert(Monitor::Osnma, 1.5);
+            } else if any_ok {
+                ratios.insert(Monitor::Osnma, 0.0);
             }
         }
 
