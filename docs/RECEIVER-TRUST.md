@@ -10,6 +10,9 @@ The observables are the receiver's own; the monitors and their thresholds are th
 and yours. Every result carries that label, the SHA-256 of the log, and every threshold it
 ran with, so a run can be repeated and audited.
 
+For a vessel under way, with a live score and an optional gate in front of a chart system, see
+[`MARITIME-TRUST.md`](MARITIME-TRUST.md).
+
 ## Run it
 
 ```sh

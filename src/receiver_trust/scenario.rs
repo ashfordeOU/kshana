@@ -717,9 +717,204 @@ pub fn to_csv(r: &ReceiverTrustResult) -> String {
     s
 }
 
+/// The chart of a vessel run: the receiver-reported track coloured by the trust band of
+/// each epoch (north up, one scale on both axes), and underneath the trust score over time
+/// with the band edges. Self-contained SVG.
+fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
+    use super::maritime::en_offset_m;
+    let (w, h) = (760.0_f64, 520.0_f64);
+    let (x0, x1) = (56.0_f64, w - 16.0);
+    let colour = |s: TrustState| match s {
+        TrustState::Calibrating => RULE,
+        TrustState::Nominal => LIME,
+        TrustState::Degraded => AMBER,
+        TrustState::Untrusted => CORAL,
+    };
+    let model = r.score_model.as_ref();
+    let (nominal_min, degraded_min) =
+        model.map_or((90.0, 55.0), |m| (m.nominal_min, m.degraded_min));
+    let mut svg = format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",
+        esc(&r.verdict.chars().take(110).collect::<String>())
+    );
+
+    // --- track: reported position, coloured by band -------------------------------------
+    let pts: Vec<(f64, f64, TrustState)> = {
+        let origin = r
+            .epochs
+            .iter()
+            .find_map(|e| e.marine.as_ref().and_then(|m| m.position));
+        match origin {
+            Some([lat0, lon0]) => r
+                .epochs
+                .iter()
+                .filter_map(|e| {
+                    let [la, lo] = e.marine.as_ref()?.position?;
+                    let (east, north) = en_offset_m(lat0, lon0, la, lo);
+                    Some((east, north, e.state))
+                })
+                .collect(),
+            None => Vec::new(),
+        }
+    };
+    let (ty0, ty1) = (46.0_f64, 292.0_f64);
+    svg.push_str(&format!(
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">receiver-reported track, north up</text>",
+        ty0 - 6.0
+    ));
+    if pts.len() >= 2 {
+        let (mut e_lo, mut e_hi, mut n_lo, mut n_hi) = (f64::MAX, f64::MIN, f64::MAX, f64::MIN);
+        for (e, n, _) in &pts {
+            e_lo = e_lo.min(*e);
+            e_hi = e_hi.max(*e);
+            n_lo = n_lo.min(*n);
+            n_hi = n_hi.max(*n);
+        }
+        // One scale on both axes, at least 500 m across so a short track is not blown up.
+        let span_e = (e_hi - e_lo).max(500.0);
+        let span_n = (n_hi - n_lo).max(500.0);
+        let scale = ((x1 - x0) / span_e).min((ty1 - ty0) / span_n);
+        let (cx, cy) = ((x0 + x1) / 2.0, (ty0 + ty1) / 2.0);
+        let px = |e: f64| cx + (e - (e_lo + e_hi) / 2.0) * scale;
+        let py = |n: f64| cy - (n - (n_lo + n_hi) / 2.0) * scale;
+        // One polyline per run of equal band, each sharing its end point with the next run.
+        let mut i = 0;
+        while i < pts.len() {
+            let band = pts[i].2;
+            let mut j = i;
+            while j + 1 < pts.len() && pts[j + 1].2 == band {
+                j += 1;
+            }
+            let end = (j + 1).min(pts.len() - 1);
+            let path: Vec<String> = pts[i..=end]
+                .iter()
+                .map(|(e, n, _)| format!("{:.1},{:.1}", px(*e), py(*n)))
+                .collect();
+            svg.push_str(&format!(
+                "<polyline fill=\"none\" stroke=\"{}\" stroke-width=\"2\" stroke-linejoin=\"round\" points=\"{}\"/>",
+                colour(band),
+                path.join(" ")
+            ));
+            i = j + 1;
+        }
+        let (first, last) = (pts[0], pts[pts.len() - 1]);
+        svg.push_str(&format!(
+            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"{INK}\"/>\
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">start</text>\
+             <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"none\" stroke=\"{INK}\" stroke-width=\"1.5\"/>\
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">end of log</text>",
+            px(first.0), py(first.1), px(first.0) + 7.0, py(first.1) + 3.0,
+            px(last.0), py(last.1), px(last.0) - 52.0, py(last.1) - 8.0,
+        ));
+        // A scale bar of a round length.
+        let target = 0.2 * (x1 - x0) / scale;
+        let mag = 10f64.powf(target.log10().floor());
+        let bar_m = [1.0, 2.0, 5.0, 10.0]
+            .iter()
+            .map(|m| m * mag)
+            .filter(|b| *b <= target)
+            .fold(mag, f64::max);
+        let label = if bar_m >= 1000.0 {
+            format!("{:.0} km", bar_m / 1000.0)
+        } else {
+            format!("{bar_m:.0} m")
+        };
+        svg.push_str(&format!(
+            "<line x1=\"{x0}\" x2=\"{:.1}\" y1=\"{}\" y2=\"{}\" stroke=\"{INK}\"/>\
+             <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{label}</text>",
+            x0 + bar_m * scale,
+            ty1 + 2.0,
+            ty1 + 2.0,
+            ty1 + 14.0
+        ));
+    } else {
+        svg.push_str(&format!(
+            "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">no positions in the log</text>",
+            (ty0 + ty1) / 2.0
+        ));
+    }
+
+    // --- score over time ---------------------------------------------------------------
+    let (sy0, sy1) = (338.0_f64, 462.0_f64);
+    let t_max = r.epochs.last().map(|e| e.t_s).unwrap_or(1.0).max(1.0);
+    let sx = |t: f64| x0 + (x1 - x0) * t / t_max;
+    let sc = |v: f64| sy1 - (sy1 - sy0) * v / 100.0;
+    svg.push_str(&format!(
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">trust score, 0 to 100</text>",
+        sy0 - 8.0
+    ));
+    for (v, label) in [
+        (100.0, "100"),
+        (nominal_min, ""),
+        (degraded_min, ""),
+        (0.0, "0"),
+    ] {
+        svg.push_str(&format!(
+            "<line x1=\"{x0}\" x2=\"{x1}\" y1=\"{y:.1}\" y2=\"{y:.1}\" stroke=\"{RULE}\" stroke-dasharray=\"{}\"/>\
+             <text x=\"{}\" y=\"{:.1}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{}</text>",
+            if label.is_empty() { "4 3" } else { "0" },
+            x0 - 4.0,
+            sc(v) + 3.0,
+            if label.is_empty() { format!("{v:.0}") } else { label.to_string() },
+            y = sc(v)
+        ));
+    }
+    let line: Vec<String> = r
+        .epochs
+        .iter()
+        .filter_map(|e| {
+            e.score
+                .as_ref()
+                .map(|s| format!("{:.1},{:.1}", sx(e.t_s), sc(s.score)))
+        })
+        .collect();
+    if !line.is_empty() {
+        svg.push_str(&format!(
+            "<polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"1.5\" points=\"{}\"/>",
+            line.join(" ")
+        ));
+    }
+    let band_y = sy1 + 12.0;
+    for (i, e) in r.epochs.iter().enumerate() {
+        let next = r.epochs.get(i + 1).map(|n| n.t_s).unwrap_or(e.t_s + 1.0);
+        svg.push_str(&format!(
+            "<rect x=\"{:.1}\" y=\"{band_y}\" width=\"{:.2}\" height=\"12\" fill=\"{}\"/>",
+            sx(e.t_s),
+            (sx(next) - sx(e.t_s)).max(0.5),
+            colour(e.state)
+        ));
+    }
+    for ev in &r.events {
+        let x = sx(ev.onset_s);
+        svg.push_str(&format!(
+            "<line x1=\"{x:.1}\" x2=\"{x:.1}\" y1=\"{sy0}\" y2=\"{}\" stroke=\"{INK}\" stroke-dasharray=\"3 3\"/>\
+             <text x=\"{:.1}\" y=\"{}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>",
+            band_y + 12.0,
+            x + 3.0,
+            sy0 + 10.0,
+            esc(&ev.label)
+        ));
+    }
+    svg.push_str(&format!(
+        "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
+         <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal (score at or above {nominal_min:.0}), amber degraded (at or above {degraded_min:.0}), red untrusted, grey calibrating</text></svg>",
+        band_y + 26.0,
+        band_y + 26.0,
+        band_y + 42.0
+    ));
+    svg
+}
+
 /// A self-contained chart: mean C/N0 over time, the trust state as a band underneath,
-/// and each stated event's onset as a vertical marker.
+/// and each stated event's onset as a vertical marker. For a vessel platform, the track and
+/// the trust score instead.
 pub fn to_svg(r: &ReceiverTrustResult) -> String {
+    if r.score_model.is_some() {
+        return to_svg_vessel(r);
+    }
     let (w, h) = (760.0_f64, 300.0_f64);
     let (x0, x1, y0, y1) = (56.0, w - 16.0, 40.0, h - 70.0);
     let t_max = r.epochs.last().map(|e| e.t_s).unwrap_or(1.0).max(1.0);
