@@ -29,7 +29,6 @@ pub mod mapping;
 use mapping::{Capability, Framework, CAPABILITIES};
 use serde::Serialize;
 use serde_json::{json, Value};
-use std::path::Path;
 
 /// One run in the set: a label (usually the file name), its scenario kind, its result.
 #[derive(Clone, Debug)]
@@ -282,8 +281,52 @@ pub fn assess(runs: &[Run], unrecognised: Vec<String>) -> Report {
     }
 }
 
-/// Read result files into runs. Returns the runs and a reason for each file that could not
-/// be used. See the module notes for how the kind is found.
+/// One result file as text, with the scenario file that produced it when there is one.
+/// Nothing here touches the file system, so Python, WASM and MCP callers can pass texts.
+#[derive(Debug, Clone)]
+pub struct RunInput<'a> {
+    /// Name shown in the report (usually the file name).
+    pub label: &'a str,
+    /// The result JSON text.
+    pub result_json: &'a str,
+    /// The sibling scenario TOML text, used to find the scenario kind.
+    pub scenario_toml: Option<&'a str>,
+}
+
+/// Read one result from text. The error is the reason it cannot be used. See the module
+/// notes for how the kind is found.
+pub fn run_from_text(input: &RunInput<'_>) -> Result<Run, String> {
+    let label = input.label;
+    let json: Value =
+        serde_json::from_str(input.result_json).map_err(|e| format!("{label}: not JSON: {e}"))?;
+    let kind = kind_of(input.scenario_toml, &json).ok_or_else(|| {
+        format!(
+            "{label}: scenario kind not found (no sibling scenario file, not a \
+             receiver-trust result, no top-level `kind`)"
+        )
+    })?;
+    Ok(Run {
+        label: label.to_string(),
+        kind,
+        json,
+    })
+}
+
+/// Fill the mapping from result texts: unusable inputs are listed in the report as not used.
+pub fn assess_texts(inputs: &[RunInput<'_>]) -> Report {
+    let mut runs = Vec::new();
+    let mut bad = Vec::new();
+    for i in inputs {
+        match run_from_text(i) {
+            Ok(r) => runs.push(r),
+            Err(e) => bad.push(e),
+        }
+    }
+    assess(&runs, bad)
+}
+
+/// Read result files into runs (a thin file-system wrapper over [`run_from_text`]).
+/// Returns the runs and a reason for each file that could not be used.
 pub fn load_runs(paths: &[std::path::PathBuf]) -> (Vec<Run>, Vec<String>) {
     let mut runs = Vec::new();
     let mut bad = Vec::new();
@@ -299,36 +342,29 @@ pub fn load_runs(paths: &[std::path::PathBuf]) -> (Vec<Run>, Vec<String>) {
                 continue;
             }
         };
-        let json: Value = match serde_json::from_str(&text) {
-            Ok(j) => j,
-            Err(e) => {
-                bad.push(format!("{label}: not JSON: {e}"));
-                continue;
-            }
-        };
-        match kind_of(p, &json) {
-            Some(kind) => runs.push(Run { label, kind, json }),
-            None => bad.push(format!(
-                "{label}: scenario kind not found (no sibling scenario file, not a \
-                 receiver-trust result, no top-level `kind`)"
-            )),
+        // foo.result.json -> foo.toml
+        let sibling = label.strip_suffix(".result.json").and_then(|stem| {
+            std::fs::read_to_string(p.with_file_name(format!("{stem}.toml"))).ok()
+        });
+        match run_from_text(&RunInput {
+            label: &label,
+            result_json: &text,
+            scenario_toml: sibling.as_deref(),
+        }) {
+            Ok(r) => runs.push(r),
+            Err(e) => bad.push(e),
         }
     }
     (runs, bad)
 }
 
-fn kind_of(path: &Path, json: &Value) -> Option<String> {
+fn kind_of(scenario_toml: Option<&str>, json: &Value) -> Option<String> {
     if is_receiver_trust(json) {
         return Some("receiver-trust".into());
     }
-    // foo.result.json -> foo.toml
-    let name = path.file_name()?.to_string_lossy().into_owned();
-    if let Some(stem) = name.strip_suffix(".result.json") {
-        let sibling = path.with_file_name(format!("{stem}.toml"));
-        if let Ok(src) = std::fs::read_to_string(sibling) {
-            if let Ok(k) = crate::api::ScenarioKind::classify(&src) {
-                return Some(k.as_str().to_string());
-            }
+    if let Some(src) = scenario_toml {
+        if let Ok(k) = crate::api::ScenarioKind::classify(src) {
+            return Some(k.as_str().to_string());
         }
     }
     json.get("kind").and_then(Value::as_str).map(str::to_string)
