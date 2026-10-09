@@ -653,7 +653,7 @@ fn to_svg(doc: &Value, name: &str) -> String {
     let mut s = crate::chart::frame_open(
         w,
         h,
-        &esc(name),
+        name,
         "signal design -> pass C/N0 and code jitter -> message SISRE -> fused fix · MODELLED",
     );
     let (ml, pw) = (70.0, 800.0);
