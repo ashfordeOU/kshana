@@ -23,6 +23,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
+use super::maritime::{MarineEpoch, MarineMonitors, MaritimeConfig};
 use super::platform::PlatformCfg;
 use super::{LogEpoch, ReportedFix, Timeline};
 use crate::allan::overlapping_adev;
@@ -102,6 +103,10 @@ pub struct MonitorConfig {
     /// moving antenna).
     #[serde(skip_deserializing, skip_serializing_if = "PlatformCfg::is_static")]
     pub platform: PlatformCfg,
+    /// Thresholds of the moving-platform monitors, from the scenario's top-level
+    /// `[maritime]` table; used only when the platform is a vessel.
+    #[serde(skip_deserializing, skip_serializing_if = "MaritimeConfig::is_default")]
+    pub maritime: MaritimeConfig,
 }
 
 impl Default for MonitorConfig {
@@ -119,6 +124,7 @@ impl Default for MonitorConfig {
             raim_pfa: 1e-5,
             clock_monitor: true,
             platform: PlatformCfg::default(),
+            maritime: MaritimeConfig::default(),
         }
     }
 }
@@ -127,6 +133,7 @@ impl MonitorConfig {
     /// Reject parameters no monitor can use (non-finite, non-positive, out of range).
     pub fn validate(&self) -> Result<(), String> {
         self.platform.validate()?;
+        self.maritime.validate()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -190,6 +197,32 @@ pub enum Monitor {
     Clock,
     /// Five or more usable satellites but the engine solve (or its RAIM test) failed.
     SolveFailure,
+    /// Moving platform: the position change disagrees with the reported speed and course,
+    /// or implies a speed, acceleration or turn rate the vessel cannot make.
+    Kinematic,
+    /// Moving platform: gyro heading and course over ground disagree beyond the stated
+    /// tolerance.
+    HeadingCourse,
+    /// Moving platform: speed through the water and speed over ground disagree beyond the
+    /// stated current allowance.
+    SpeedLog,
+    /// Moving platform: the antenna altitude is not where the sea surface and the stated
+    /// antenna height put it.
+    SeaLevel,
+    /// Moving platform: the spread of C/N0 across tracked satellites collapsed against the
+    /// calibration baseline.
+    Cn0Spread,
+    /// Moving platform: C/N0 of (nearly) all satellites rose together against the baseline.
+    Cn0Rise,
+    /// Moving platform: the receiver's time stepped irregularly, ran backwards, or departed
+    /// from the host's monotonic clock.
+    TimeConsistency,
+    /// The receiver's own jamming indication (u-blox UBX-SEC-SIG) is at warning or worse.
+    SecJam,
+    /// The receiver's own spoofing indication (u-blox UBX-SEC-SIG) is raised.
+    SecSpoof,
+    /// The receiver reports an OSNMA authentication failure.
+    Osnma,
 }
 
 /// The trust verdict for one epoch.
@@ -237,6 +270,9 @@ pub struct EpochTrust {
     pub clock_innov_ns: Option<f64>,
     /// Clock-aided monitor bound, ns (present where the monitor decided).
     pub clock_bound_ns: Option<f64>,
+    /// The moving-platform monitors' statistics and alarm ratios (vessel platforms only).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub marine: Option<MarineEpoch>,
     /// Monitors that alarmed at this epoch, in [`Monitor`] order.
     pub alarms: Vec<Monitor>,
     /// The epoch's trust verdict.
@@ -741,10 +777,40 @@ pub fn run_monitors(
         }
     }
 
+    // Moving platform: the causal monitors run over the timeline in time order; the
+    // monitors that decided at least once join the run set.
+    let mut marine_of: Vec<Option<MarineEpoch>> = vec![None; slots.len()];
+    if let Some(limits) = cfg.platform.limits() {
+        if limits.heading_sensor
+            && !tl
+                .epochs
+                .iter()
+                .any(|e| e.marine.as_ref().is_some_and(|m| m.heading_deg.is_some()))
+        {
+            return Err(
+                "platform declares heading_sensor = true but the log carries no HDT, THS or VHW \
+                 heading"
+                    .into(),
+            );
+        }
+        let mut mm = MarineMonitors::new(&cfg.maritime, limits, cal_s);
+        for (slot, out) in slots.iter().zip(marine_of.iter_mut()) {
+            if let Some(i) = slot.tl {
+                let m = mm.push(&tl.epochs[i]);
+                if slot.t_s >= cal_s {
+                    for (mon, _) in &m.ratios {
+                        run_set.insert(*mon);
+                    }
+                }
+                *out = Some(m);
+            }
+        }
+    }
+
     // Per-epoch statistics, decisions and alarms.
     let mut epochs = Vec::with_capacity(slots.len());
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
-    for s in &slots {
+    for (slot_index, s) in slots.iter().enumerate() {
         let post = s.t_s >= cal_s;
         let mut alarms = BTreeSet::new();
         let mut dec = BTreeSet::new();
@@ -761,6 +827,7 @@ pub fn run_monitors(
             raim_thr: None,
             clock_innov_ns: None,
             clock_bound_ns: None,
+            marine: None,
             alarms: Vec::new(),
             state: TrustState::Calibrating,
         };
@@ -836,11 +903,29 @@ pub fn run_monitors(
                 decide(Monitor::Clock, e.clock_alarm, &mut alarms);
             }
         }
+        if let Some(Some(me)) = marine_of.get(slot_index) {
+            if post {
+                for (mon, r) in &me.ratios {
+                    decide(*mon, *r >= 1.0, &mut alarms);
+                }
+            }
+            et.marine = Some(me.clone());
+        }
         if post {
             let fix_alarm = alarms.iter().any(|m| {
                 matches!(
                     m,
-                    Monitor::Raim | Monitor::Clock | Monitor::SolveFailure | Monitor::PositionJump
+                    Monitor::Raim
+                        | Monitor::Clock
+                        | Monitor::SolveFailure
+                        | Monitor::PositionJump
+                        | Monitor::Kinematic
+                        | Monitor::HeadingCourse
+                        | Monitor::SpeedLog
+                        | Monitor::SeaLevel
+                        | Monitor::TimeConsistency
+                        | Monitor::SecSpoof
+                        | Monitor::Osnma
                 )
             });
             let severe_cn0 = run_set.contains(&Monitor::Cn0Drop)
