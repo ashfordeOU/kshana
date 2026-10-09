@@ -14,6 +14,7 @@
 //! clock-aided bound of [`crate::security`]). Nothing is fitted to the events being
 //! scored: every monitor parameter is an input stated in the scenario.
 
+pub mod assess;
 pub mod ingest;
 pub mod live;
 pub mod maritime;
