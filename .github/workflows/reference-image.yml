@@ -76,6 +76,32 @@ jobs:
           registry: ghcr.io
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
+      # The first thing run against the image: build the amd64 half into the local daemon and
+      # run the engine inside it. The CLI has no --version flag; with no arguments it prints its
+      # usage banner (the same smoke test release.yml runs on the binaries). The multi-arch
+      # build below reuses this one's layers from the cache.
+      - name: Build the amd64 image locally for a smoke test
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: deploy/reference-build/Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: kshana-reference-build:smoke
+          cache-from: type=gha,scope=reference-build
+          cache-to: type=gha,mode=max,scope=reference-build
+      - name: Smoke test - the engine runs inside the image, and the version label is the release's
+        env:
+          VERSION: ${{ steps.mode.outputs.version }}
+        run: |
+          set -uo pipefail
+          out="$(docker run --rm --entrypoint /usr/local/bin/kshana kshana-reference-build:smoke 2>&1)" || true
+          printf '%s\n' "$out"
+          printf '%s\n' "$out" | grep -q "usage: kshana" \
+            || { echo "::error::kshana did not run / print its usage banner inside the image"; exit 1; }
+          label="$(docker inspect --format '{{ index .Config.Labels "org.opencontainers.image.version" }}' kshana-reference-build:smoke)"
+          [ "$label" = "$VERSION" ] || { echo "::error::image version label '$label' != $VERSION"; exit 1; }
+          echo "OK: kshana runs in the image; label $label"
       - id: build
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
         with:
@@ -87,7 +113,6 @@ jobs:
             ghcr.io/${{ steps.mode.outputs.owner }}/kshana-reference-build:${{ steps.mode.outputs.version }}
             ghcr.io/${{ steps.mode.outputs.owner }}/kshana-reference-build:latest
           labels: |
-            org.opencontainers.image.title=kshana-reference-build
             org.opencontainers.image.version=${{ steps.mode.outputs.version }}
             org.opencontainers.image.revision=${{ github.sha }}
             org.opencontainers.image.source=https://github.com/${{ github.repository }}
