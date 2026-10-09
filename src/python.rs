@@ -1061,6 +1061,44 @@ fn iq_frontend<'py>(
     json_to_py(py, &serde_json::json!({ "samples_i": oi, "samples_q": oq }))
 }
 
+/// Replay an NMEA excerpt through the engine behind `kshana receiver-trust live`, with the
+/// gate on or off, and return what a live run would have written: a dict with
+/// `reports_jsonl` (one JSON line per epoch, schema 1.1), `gated_nmea` (the stream the gate
+/// would forward, `None` when `gate` is false), `epochs`, `calibrating`, `nominal`,
+/// `degraded`, `untrusted`, `withheld` and `min_score`. `session_toml` declares a vessel
+/// (`[platform] kind = "vessel"`). This is the bounded form of the live command: it opens no
+/// socket and writes to no port. Advisory only. Raises `ValueError` on an invalid session.
+#[pyfunction]
+#[pyo3(signature = (session_toml, nmea, gate=false))]
+fn receiver_trust_replay<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    nmea: &str,
+    gate: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    let r = crate::surface::assess_vessel_stream(
+        session_toml,
+        nmea,
+        gate,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "reports_jsonl": r.reports_jsonl,
+            "gated_nmea": r.gated_nmea,
+            "epochs": r.epochs,
+            "calibrating": r.calibrating,
+            "nominal": r.nominal,
+            "degraded": r.degraded,
+            "untrusted": r.untrusted,
+            "withheld": r.withheld,
+            "min_score": r.min_score,
+        }),
+    )
+}
+
 /// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; the input
 /// formats are in `docs/INTERFERENCE-MAP.md`). `dataset` is an approved preset
 /// (`adsb-lol`, `noaa-marinecadastre`, `kystverket`) or `"custom"`, which also needs
@@ -1183,6 +1221,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
+    m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
