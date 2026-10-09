@@ -464,6 +464,35 @@ jobs:
     uses: ./.github/workflows/jetbrains-plugin.yml
     secrets: inherit
 
+  # Dry-run-only checks of the other shipped surfaces, so a dry run covers every channel the
+  # release publishes. Neither publishes anything. (A real release builds the JetBrains plugin
+  # in `jetbrains` below, and ci.yml runs `mcp-deny` on main.)
+  dry-jetbrains:
+    name: JetBrains plugin build + test (dry run)
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/jetbrains-plugin.yml
+
+  dry-mcp-deny:
+    name: cargo-deny over the MCP server's lockfile (dry run)
+    if: ${{ inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: mcp/kshana-mcp
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      # Same install and command as ci.yml's `mcp-deny`: the crate has its own Cargo.lock.
+      - uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
+        with:
+          tool: cargo-deny
+      - run: cargo deny check advisories licenses bans sources
+
   # The reference-build container on ghcr.io: same arches, tags and provenance as the
   # kshana-mcp image, after crates.io, PyPI and npm like it.
   reference-image:
