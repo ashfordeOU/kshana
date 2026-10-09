@@ -6,7 +6,7 @@ description: Assess whether a vessel's GNSS fix can be trusted from its NMEA 018
 # Vessel receiver trust
 
 Use the `kshana` MCP server's `assess_receiver_log` (a whole log) or `assess_vessel_stream`
-(an excerpt, with an optional gate). See `/kshana-assess-receiver` for the step list.
+(an excerpt), or `assess_vessel_log` (a vessel's NMEA log). See `/kshana-assess-receiver` for the step list.
 
 Rules that apply every time:
 
@@ -18,7 +18,8 @@ Rules that apply every time:
 - **Advisory only**: not type-approved navigation equipment (IEC 61108, IEC 61162); the
   operator is responsible. The monitors are **MODELLED**. A high score is not proof of a
   genuine fix: the checks cannot see a spoofer consistent with every other sensor on the bus.
-- `receiver-trust live` with a gate or `--listen` is a long-running command-line process;
-  the MCP tool replays a bounded excerpt and writes to no port.
+- `receiver-trust live` with a gate or `--listen`, and the telemetry exporters, are long-running
+  command-line processes; the MCP tool scores a bounded excerpt, applies no gate and writes to
+  no port.
 - Inputs go inline (4 MiB cap); a `path` is refused.
 - Synthetic or user-owned data only. Do not name vessels or people in outputs.

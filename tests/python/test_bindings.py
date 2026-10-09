@@ -472,17 +472,50 @@ def test_receiver_trust_scores_a_vessel_log_inline():
     assert out.data()
 
 
-def test_receiver_trust_replay_returns_the_gated_stream_for_an_excerpt():
+def _excerpt():
     ex = REPO / "examples" / "maritime-trust"
     session = (ex / "session.toml").read_text().replace(
         'path = "tallinn-helsinki.nmea"', ""
     ).replace("calibration_s = 300.0", "calibration_s = 60.0")
     lines = (ex / "tallinn-helsinki.nmea").read_text().splitlines(keepends=True)
-    excerpt = "".join(lines[len(lines) * 1400 // 3000 : len(lines) * 1800 // 3000])
-    r = kshana.receiver_trust_replay(session, excerpt, gate=True)
-    assert r["epochs"] > 300 and r["untrusted"] > 0 and r["withheld"] > 0
-    assert r["gated_nmea"] and kshana.receiver_trust_replay(session, excerpt)["gated_nmea"] is None
+    return session, "".join(lines[len(lines) * 1400 // 3000 : len(lines) * 1800 // 3000])
+
+
+def test_receiver_trust_replay_scores_an_excerpt():
     import pytest
 
+    session, excerpt = _excerpt()
+    r = kshana.receiver_trust_replay(session, excerpt)
+    assert r["schema"] == "1.1" and r["summary"]["untrusted"] > 0
+    assert r["summary"]["lowest_score"] < 55 and r["epochs"][-1]["state"]
+    assert kshana.receiver_trust_replay(session, excerpt.encode())["summary"] == r["summary"]
     with pytest.raises(ValueError):
         kshana.receiver_trust_replay('[platform]\nkind = "static"', excerpt)
+
+
+def test_assess_vessel_log_returns_the_batch_result():
+    session, excerpt = _excerpt()
+    r = kshana.assess_vessel_log(session, excerpt)
+    assert len(r["epochs"]) > 300
+
+
+def test_evidence_pack_round_trip_in_memory():
+    import pytest
+
+    session, excerpt = _excerpt()
+    seed = "07" * 32
+    p = kshana.evidence_create(session, excerpt, 100.0, 300.0, title="t", created_utc="none", seed_hex=seed)
+    assert p["seed_hex"] == seed and len(p["public_key"]) == 64 and p["epochs_in_window"] > 100
+    assert {"manifest.json", "manifest.sig", "epochs.json", "summary.html", "log-slice.bin"} <= set(p["files"])
+    again = kshana.evidence_create(session, excerpt, 100.0, 300.0, title="t", created_utc="none", seed_hex=seed)
+    assert again["files"] == p["files"]  # reproducible without a creation time
+    ok = kshana.evidence_verify(p["files"], p["public_key"], excerpt)
+    assert ok["ok"] and ok["signer_pinned"]
+    bad = dict(p["files"])
+    bad["epochs.json"] = bad["epochs.json"][:-3] + b"xx\n"
+    assert not kshana.evidence_verify(bad, p["public_key"])["ok"]
+    assert not kshana.evidence_verify(p["files"], "09" * 32)["ok"]
+    with pytest.raises(ValueError):
+        kshana.evidence_verify(p["files"], "not-a-key")
+    generated = kshana.evidence_create(session, excerpt, 100.0, 300.0)
+    assert len(generated["seed_hex"]) == 64 and generated["seed_hex"] != seed
