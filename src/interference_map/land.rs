@@ -18,6 +18,7 @@ struct Poly {
     bbox: (f64, f64, f64, f64), // min lon, min lat, max lon, max lat
 }
 
+/// Land polygons with an inland buffer, for the on-land detector.
 pub struct LandMask {
     polys: Vec<Poly>,
     buffer_m: f64,
@@ -137,6 +138,7 @@ fn seg_dist_m(lon: f64, lat: f64, a: (f64, f64), b: (f64, f64)) -> f64 {
 }
 
 impl LandMask {
+    /// Read Polygon or MultiPolygon GeoJSON text; positions count as inland only beyond `buffer_m` metres from the coast.
     pub fn from_geojson_str(text: &str, buffer_m: f64) -> Result<Self, MapError> {
         let v: Value = serde_json::from_str(text)
             .map_err(|e| MapError::Format(format!("land polygons: invalid JSON: {e}")))?;
@@ -154,6 +156,7 @@ impl LandMask {
         })
     }
 
+    /// Number of polygons read.
     pub fn polygon_count(&self) -> usize {
         self.polys.len()
     }

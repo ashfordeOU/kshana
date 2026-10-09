@@ -15,6 +15,7 @@ use super::output::{CellOut, DayOut};
 use super::time::{day_of, parse_timestamp};
 use super::{CsvTable, IdHasher, MapError, PUBLICATION_MIN_DISTINCT};
 
+/// Identifier of the ADS-B method version, written into every ADS-B output file.
 pub const METHOD_ID: &str = "kshana-interference-map/adsb/v1";
 
 /// Pre-registered parameters. Fixed from the definitions of the NIC and NACp codes and from
@@ -54,6 +55,7 @@ pub struct AdsbParams {
 }
 
 impl AdsbParams {
+    /// The pre-registered version 1 parameters. Changing a value means a new method version.
     pub const PREREGISTERED_V1: AdsbParams = AdsbParams {
         min_alt_ft: 5000.0,
         low_nacp_max: 6,
@@ -70,6 +72,7 @@ impl AdsbParams {
         min_cells_for_background: 5,
     };
 
+    /// The parameters as the JSON object embedded in output files.
     pub fn to_json(&self) -> Value {
         json!({
             "min_alt_ft": self.min_alt_ft,
@@ -106,14 +109,21 @@ struct DayAcc {
 /// Counters for rows that were read but not used, written into the output metadata.
 #[derive(Debug, Default, Clone, PartialEq)]
 pub struct AdsbReadStats {
+    /// Rows read (CSV rows or trace entries).
     pub rows: u64,
+    /// Rows that passed every exclusion and were aggregated.
     pub used: u64,
+    /// Rows with an unparseable time, position or identifier.
     pub rejected_malformed: u64,
+    /// Rows on the ground, without an altitude, or below the altitude floor.
     pub excluded_ground_or_low: u64,
+    /// Rows whose source is not ADS-B (for example multilateration).
     pub excluded_non_adsb_source: u64,
+    /// Rows carrying neither NIC nor NACp.
     pub excluded_no_accuracy_field: u64,
     /// readsb trace files read, and files that could not be parsed or decompressed.
     pub trace_files: u64,
+    /// readsb trace files that could not be decompressed or parsed.
     pub trace_files_unreadable: u64,
 }
 
@@ -123,6 +133,7 @@ pub struct AdsbAggregator {
     params: AdsbParams,
     hasher: IdHasher,
     days: BTreeMap<String, DayAcc>,
+    /// Counters for rows read and excluded so far.
     pub stats: AdsbReadStats,
 }
 
@@ -136,6 +147,7 @@ fn parse_u8_field(s: &str) -> Option<u8> {
 }
 
 impl AdsbAggregator {
+    /// An empty aggregator for the given grid, parameters and identifier hasher.
     pub fn new(grid: Grid, params: AdsbParams, hasher: IdHasher) -> Self {
         Self {
             grid,

@@ -32,7 +32,9 @@ pub const PUBLICATION_MIN_DISTINCT: usize = 5;
 /// Errors from reading inputs and writing outputs.
 #[derive(Debug)]
 pub enum MapError {
+    /// Reading or writing a file failed; the message names the file.
     Io(String),
+    /// An input or argument is malformed; the message says what to fix.
     Format(String),
 }
 
@@ -59,6 +61,7 @@ impl Default for IdHasher {
 }
 
 impl IdHasher {
+    /// A hasher with a fresh random salt.
     pub fn new() -> Self {
         Self {
             salt: rand::random::<[u8; 16]>(),
@@ -70,6 +73,7 @@ impl IdHasher {
         Self { salt }
     }
 
+    /// Hash an identifier (trimmed, upper-cased) to a number used only for distinct-counting.
     pub fn hash(&self, id: &str) -> u64 {
         use sha2::{Digest, Sha256};
         let mut h = Sha256::new();

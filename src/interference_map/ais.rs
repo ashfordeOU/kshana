@@ -17,11 +17,13 @@ use super::output::{CellOut, DayOut};
 use super::time::{day_of, parse_timestamp};
 use super::{CsvTable, IdHasher, MapError, PUBLICATION_MIN_DISTINCT};
 
+/// Identifier of the AIS method version, written into every AIS output file.
 pub const METHOD_ID: &str = "kshana-interference-map/ais/v1";
 
 const KN_PER_MS: f64 = 1.943_844_492;
 
 #[derive(Debug, Clone, PartialEq)]
+/// Pre-registered AIS detector parameters; see the field docs and `docs/INTERFERENCE-MAP.md`.
 pub struct AisParams {
     /// Speed above which a reported speed or an implied speed is implausible (knots).
     pub max_speed_kn: f64,
@@ -47,13 +49,21 @@ pub struct AisParams {
     /// radius coefficient of variation, maximum angular step (degrees), minimum total
     /// winding (degrees), minimum mean speed (knots), maximum gap between reports (seconds).
     pub circle_window: usize,
+    /// Circle detector: reports between successive windows.
     pub circle_stride: usize,
+    /// Circle detector: smallest mean radius that counts (metres).
     pub circle_min_radius_m: f64,
+    /// Circle detector: largest mean radius that counts (metres).
     pub circle_max_radius_m: f64,
+    /// Circle detector: largest radius coefficient of variation.
     pub circle_max_cv: f64,
+    /// Circle detector: largest angular step between consecutive reports (degrees).
     pub circle_max_step_deg: f64,
+    /// Circle detector: smallest net winding around the centroid (degrees).
     pub circle_min_winding_deg: f64,
+    /// Circle detector: smallest mean speed (knots), which excludes anchor swinging.
     pub circle_min_mean_speed_kn: f64,
+    /// Circle detector: largest time gap between consecutive reports in a window (seconds).
     pub circle_max_dt_s: f64,
     /// A detector qualifies in a cell with at least this many flagged vessels ...
     pub min_flagged_vessels: usize,
@@ -62,6 +72,7 @@ pub struct AisParams {
 }
 
 impl AisParams {
+    /// The pre-registered version 1 parameters. Changing a value means a new method version.
     pub const PREREGISTERED_V1: AisParams = AisParams {
         max_speed_kn: 70.0,
         min_speed_reports: 3,
@@ -86,6 +97,7 @@ impl AisParams {
         min_flagged_share: 0.2,
     };
 
+    /// The parameters as the JSON object embedded in output files.
     pub fn to_json(&self) -> Value {
         json!({
             "max_speed_kn": self.max_speed_kn,
@@ -115,15 +127,22 @@ impl AisParams {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+/// The five AIS anomaly detectors.
 pub enum Detector {
+    /// Positions inland of the supplied coastline by more than the buffer.
     OnLand,
+    /// A track that circles at a near-constant radius.
     Circle,
+    /// Consecutive positions implying an implausible speed.
     Jump,
+    /// Reported speeds above the plausible maximum.
     Speed,
+    /// Many distinct vessels at one position in one time window.
     SamePosition,
 }
 
 impl Detector {
+    /// Every detector, in output order.
     pub const ALL: [Detector; 5] = [
         Detector::OnLand,
         Detector::Circle,
@@ -132,6 +151,7 @@ impl Detector {
         Detector::SamePosition,
     ];
 
+    /// The detector's name as written in output files.
     pub fn name(self) -> &'static str {
         match self {
             Detector::OnLand => "on_land",
@@ -144,10 +164,15 @@ impl Detector {
 }
 
 #[derive(Debug, Default, Clone, PartialEq)]
+/// Counters for AIS rows read and rejected.
 pub struct AisReadStats {
+    /// Rows read.
     pub rows: u64,
+    /// Rows aggregated.
     pub used: u64,
+    /// Rows with an unparseable time, position or identifier.
     pub rejected_malformed: u64,
+    /// Rows with a not-available or default position.
     pub rejected_invalid_position: u64,
 }
 
@@ -159,16 +184,19 @@ struct Rep {
     sog: Option<f64>,
 }
 
+/// Aggregates AIS reports per vessel per UTC day, then evaluates the detectors per cell.
 pub struct AisAggregator {
     grid: Grid,
     params: AisParams,
     hasher: IdHasher,
     land: Option<LandMask>,
     days: BTreeMap<String, HashMap<u64, Vec<Rep>>>,
+    /// Counters for rows read and rejected so far.
     pub stats: AisReadStats,
 }
 
 impl AisAggregator {
+    /// An empty aggregator; `land` enables the on-land detector.
     pub fn new(grid: Grid, params: AisParams, hasher: IdHasher, land: Option<LandMask>) -> Self {
         Self {
             grid,
@@ -180,6 +208,7 @@ impl AisAggregator {
         }
     }
 
+    /// Whether the on-land detector has a land mask.
     pub fn land_enabled(&self) -> bool {
         self.land.is_some()
     }
@@ -241,6 +270,7 @@ impl AisAggregator {
         Ok(())
     }
 
+    /// Evaluate every day seen, one `DayOut` per UTC day.
     pub fn finish(mut self) -> Vec<DayOut> {
         let days = std::mem::take(&mut self.days);
         days.into_iter()
@@ -467,6 +497,7 @@ fn circle_fit(p: &AisParams, w: &[Rep]) -> Option<(f64, f64)> {
     (mean_speed >= p.circle_min_mean_speed_kn).then_some((lat0, lon0))
 }
 
+/// Method metadata embedded in every AIS output file.
 pub fn method_json(p: &AisParams, stats: &AisReadStats, land_enabled: bool) -> Value {
     json!({
         "id": METHOD_ID,

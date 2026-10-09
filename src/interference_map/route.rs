@@ -17,10 +17,15 @@ use super::MapError;
 
 /// A loaded per-day map: cell status by cell index.
 pub struct LoadedMap {
+    /// UTC date of the map, `YYYY-MM-DD`.
     pub date: String,
+    /// `adsb` or `ais`.
     pub source_kind: String,
+    /// The map's grid.
     pub grid: Grid,
+    /// The data licence named in the map.
     pub licence: String,
+    /// The attribution text named in the map.
     pub attribution: String,
     cells: HashMap<(i32, i32), Class>,
 }
@@ -32,6 +37,7 @@ enum Class {
     Unassessed,
 }
 
+/// Read a v1 map document from GeoJSON text.
 pub fn load_map(text: &str) -> Result<LoadedMap, MapError> {
     let v: Value = serde_json::from_str(text)
         .map_err(|e| MapError::Format(format!("map is not valid JSON: {e}")))?;
@@ -149,11 +155,17 @@ fn find_line(v: &Value) -> Option<&Vec<Value>> {
 pub const STEP_M: f64 = 250.0;
 
 #[derive(Debug, Clone, PartialEq)]
+/// Shares of a route's length by cell state, for one map.
 pub struct Exposure {
+    /// UTC date of the map.
     pub date: String,
+    /// `adsb` or `ais`.
     pub source_kind: String,
+    /// Route length in kilometres.
     pub route_km: f64,
+    /// Share of length in degraded or anomalous cells.
     pub share_degraded: f64,
+    /// Share of length in cells observed and not flagged.
     pub share_not_degraded: f64,
     /// Cells present in the map but without a call (too few aircraft or vessels sampled,
     /// or a confounded day).
@@ -162,6 +174,7 @@ pub struct Exposure {
     pub share_not_observed: f64,
 }
 
+/// Split the route into short pieces and total them by the state of the cell each lies in.
 pub fn exposure(route: &[(f64, f64)], map: &LoadedMap) -> Exposure {
     let mut tot = 0.0;
     let mut by = [0.0_f64; 4]; // degraded, not degraded, unassessed, not observed
@@ -203,6 +216,7 @@ fn r4(x: f64) -> f64 {
     (x * 1e4).round() / 1e4
 }
 
+/// The `kshana-route-exposure/v1` report for the given rows.
 pub fn report_json(rows: &[(Exposure, &LoadedMap)], from: Option<&str>, to: Option<&str>) -> Value {
     json!({
         "kshana_route_exposure": {

@@ -24,8 +24,11 @@ pub const MAX_TRACE_BYTES: u64 = 512 * 1024 * 1024;
 /// One day's map: the file name the CLI would use, the UTC date, and the v1 GeoJSON.
 #[derive(Debug, Clone, PartialEq)]
 pub struct DayMap {
+    /// File name the CLI would write: `<source>-<YYYY-MM-DD>.geojson`.
     pub file_name: String,
+    /// UTC date of the reports, `YYYY-MM-DD`.
     pub date: String,
+    /// The map as a v1 GeoJSON document.
     pub geojson: Value,
 }
 
@@ -33,10 +36,15 @@ pub struct DayMap {
 /// `noaa-marinecadastre`, `kystverket`) or the user's own text.
 #[derive(Debug, Clone, PartialEq)]
 pub enum DatasetSpec<'a> {
+    /// One of the approved dataset keys.
     Preset(&'a str),
+    /// A dataset described entirely by the caller.
     Custom {
+        /// Licence name, for example `CC0-1.0`.
         licence: &'a str,
+        /// Address of the licence text.
         licence_url: &'a str,
+        /// Attribution text embedded in every output file.
         attribution: &'a str,
     },
 }

@@ -7,24 +7,35 @@
 use serde_json::{json, Value};
 
 #[derive(Debug, Clone, PartialEq)]
+/// A data source with the licence and attribution its output files must carry.
 pub struct Dataset {
+    /// Short key, for example `adsb-lol`.
     pub key: String,
+    /// Whether the source is ADS-B or AIS.
     pub kind: Kind,
+    /// Human-readable name.
     pub name: String,
+    /// Licence name.
     pub licence: String,
+    /// Address of the licence text.
     pub licence_url: String,
+    /// Attribution text required by the licence.
     pub attribution: String,
     /// Coverage limits of the source that bias the map. Embedded in the output.
     pub coverage_notes: Vec<String>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// The kind of tracking data.
 pub enum Kind {
+    /// Aircraft reports.
     Adsb,
+    /// Vessel reports.
     Ais,
 }
 
 impl Kind {
+    /// `adsb` or `ais`.
     pub fn as_str(self) -> &'static str {
         match self {
             Kind::Adsb => "adsb",
@@ -33,10 +44,14 @@ impl Kind {
     }
 }
 
+/// Key of the adsb.lol preset.
 pub const ADSB_LOL: &str = "adsb-lol";
+/// Key of the NOAA MarineCadastre preset.
 pub const NOAA_MARINECADASTRE: &str = "noaa-marinecadastre";
+/// Key of the Kystverket preset.
 pub const KYSTVERKET: &str = "kystverket";
 
+/// The approved preset for a key, or `None`.
 pub fn preset(key: &str) -> Option<Dataset> {
     match key {
         ADSB_LOL => Some(Dataset {
@@ -79,6 +94,7 @@ pub fn preset(key: &str) -> Option<Dataset> {
     }
 }
 
+/// The approved preset keys.
 pub fn preset_keys() -> [&'static str; 3] {
     [ADSB_LOL, NOAA_MARINECADASTRE, KYSTVERKET]
 }
@@ -100,6 +116,7 @@ pub fn custom(kind: Kind, licence: &str, licence_url: &str, attribution: &str) -
 }
 
 impl Dataset {
+    /// The dataset block as JSON, embedded in output files.
     pub fn to_json(&self) -> Value {
         json!({
             "dataset": self.key,
