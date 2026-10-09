@@ -263,3 +263,85 @@ fn help_and_unknown_subcommand() {
     let r = kshana(&["route-exposure", "--help"]);
     assert!(r.status.success());
 }
+
+/// A synthetic readsb history trace (the layout of an extracted adsb.lol daily archive).
+fn trace(icao: &str, lon: f64, nic: u8, nacp: u8) -> String {
+    let e = |k: u32, lat: f64, lon: f64, nic: u8, nacp: u8| {
+        format!(
+            "[{}, {lat}, {lon}, 33000, 450.0, 90.0, 0, 0, {{\"nic\": {nic}, \"nac_p\": {nacp}}}, \"adsb_icao\", 33100, null, null, null]",
+            k * 10
+        )
+    };
+    let mut v: Vec<String> = (0..6).map(|k| e(k, 40.1, 5.1, 10, 11)).collect();
+    v.extend((6..10).map(|k| e(k, 50.2, lon, nic, nacp)));
+    format!(
+        "{{\"icao\": \"{icao}\", \"timestamp\": 1772359200.0, \"trace\": [{}]}}",
+        v.join(",")
+    )
+}
+
+#[test]
+fn adsb_reads_an_extracted_readsb_archive_directory() {
+    use std::io::Write;
+    let dir = scratch("readsb");
+    let tree = dir.join("traces");
+    for cell in 0..7 {
+        let lon = 10.2 + 0.5 * cell as f64;
+        for a in 0..12 {
+            let id = format!("syn{cell}x{a:02}");
+            let (nic, nacp) = if cell == 2 && a < 7 { (0, 0) } else { (9, 10) };
+            let sub = tree.join(&id[..5]);
+            std::fs::create_dir_all(&sub).unwrap();
+            // readsb writes gzip under a plain .json name.
+            let mut e = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
+            e.write_all(trace(&id, lon, nic, nacp).as_bytes()).unwrap();
+            std::fs::write(
+                sub.join(format!("trace_full_{id}.json")),
+                e.finish().unwrap(),
+            )
+            .unwrap();
+        }
+    }
+    // Files the reader must ignore or count: a recent-trace file, and a corrupt full trace.
+    std::fs::write(tree.join("trace_recent_x.json"), "ignored").unwrap();
+    std::fs::write(tree.join("trace_full_corrupt.json"), [0x1f, 0x8b, 1, 2, 3]).unwrap();
+
+    let out = dir.join("out");
+    let r = kshana(&[
+        "interference-map",
+        "adsb",
+        p(&tree),
+        "--dataset",
+        "adsb-lol",
+        "--out",
+        p(&out),
+    ]);
+    assert!(r.status.success(), "{}", String::from_utf8_lossy(&r.stderr));
+    let text = std::fs::read_to_string(out.join("adsb-2026-03-01.geojson")).unwrap();
+    let v: serde_json::Value = serde_json::from_str(&text).unwrap();
+    let stats = &v["kshana_interference_map"]["method"]["input_stats"];
+    assert_eq!(stats["trace_files"], 84);
+    assert_eq!(stats["trace_files_unreadable"], 1);
+    let degraded = v["features"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .filter(|f| f["properties"]["degraded"] == true)
+        .count();
+    assert_eq!(degraded, 1);
+    assert!(!text.contains("syn"), "no identifier may reach the output");
+
+    // An empty directory is an error, not an empty success.
+    let empty = dir.join("empty");
+    std::fs::create_dir_all(&empty).unwrap();
+    let r = kshana(&[
+        "interference-map",
+        "adsb",
+        p(&empty),
+        "--dataset",
+        "adsb-lol",
+        "--out",
+        p(&dir.join("o2")),
+    ]);
+    assert_eq!(r.status.code(), Some(2));
+}

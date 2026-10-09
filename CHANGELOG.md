@@ -25,7 +25,9 @@ breaking changes are called out explicitly.
   hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
   vessels are not published. A degraded cell is not a finding of interference. The default
   commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
-  Earth land polygons. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
+  matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
+  dependency: `flate2` with its pure-Rust backend, for gzip). Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
   licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
 
 ### Fixed

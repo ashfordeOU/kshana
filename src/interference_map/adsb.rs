@@ -112,6 +112,9 @@ pub struct AdsbReadStats {
     pub excluded_ground_or_low: u64,
     pub excluded_non_adsb_source: u64,
     pub excluded_no_accuracy_field: u64,
+    /// readsb trace files read, and files that could not be parsed or decompressed.
+    pub trace_files: u64,
+    pub trace_files_unreadable: u64,
 }
 
 /// Aggregation state across one input (which may span several UTC days).
@@ -161,44 +164,129 @@ impl AdsbAggregator {
             ));
         }
         for row in &t.rows {
-            self.stats.rows += 1;
             let get = |c: usize| row.get(c).copied().unwrap_or("");
-            if let Some(cs) = c_src {
-                if !get(cs).to_ascii_lowercase().starts_with("adsb") {
-                    self.stats.excluded_non_adsb_source += 1;
-                    continue;
-                }
-            }
-            let (Some(ts), Some(lat), Some(lon)) = (
-                parse_timestamp(get(c_t)),
-                get(c_lat).parse::<f64>().ok(),
-                get(c_lon).parse::<f64>().ok(),
-            ) else {
-                self.stats.rejected_malformed += 1;
-                continue;
-            };
-            let id = get(c_id);
-            if id.is_empty() || !(-90.0..=90.0).contains(&lat) || !(-180.0..=180.0).contains(&lon) {
-                self.stats.rejected_malformed += 1;
-                continue;
-            }
-            // "ground" or a missing altitude cannot be shown to be airborne above the floor.
-            let Some(alt) = get(c_alt).parse::<f64>().ok().filter(|a| a.is_finite()) else {
-                self.stats.excluded_ground_or_low += 1;
-                continue;
-            };
-            if alt < self.params.min_alt_ft {
-                self.stats.excluded_ground_or_low += 1;
-                continue;
-            }
+            let src = c_src.map(get);
+            let alt = get(c_alt).parse::<f64>().ok();
             let nic = c_nic.and_then(|c| parse_u8_field(get(c)));
             let nacp = c_nacp.and_then(|c| parse_u8_field(get(c)));
-            if nic.is_none() && nacp.is_none() {
-                self.stats.excluded_no_accuracy_field += 1;
-                continue;
-            }
-            self.add_report(ts, id, lat, lon, nic, nacp);
+            self.add_row(
+                parse_timestamp(get(c_t)),
+                get(c_id),
+                get(c_lat).parse::<f64>().ok(),
+                get(c_lon).parse::<f64>().ok(),
+                alt,
+                (nic, nacp),
+                src,
+            );
         }
+        Ok(())
+    }
+
+    /// One input row, from either format: applies the exclusions, counts them, and adds
+    /// the report to the day's aggregates.
+    #[allow(clippy::too_many_arguments)]
+    fn add_row(
+        &mut self,
+        ts: Option<f64>,
+        id: &str,
+        lat: Option<f64>,
+        lon: Option<f64>,
+        alt_ft: Option<f64>,
+        (nic, nacp): (Option<u8>, Option<u8>),
+        source_type: Option<&str>,
+    ) {
+        self.stats.rows += 1;
+        if source_type.is_some_and(|s| !s.to_ascii_lowercase().starts_with("adsb")) {
+            self.stats.excluded_non_adsb_source += 1;
+            return;
+        }
+        let (Some(ts), Some(lat), Some(lon)) = (ts, lat, lon) else {
+            self.stats.rejected_malformed += 1;
+            return;
+        };
+        if id.is_empty() || !(-90.0..=90.0).contains(&lat) || !(-180.0..=180.0).contains(&lon) {
+            self.stats.rejected_malformed += 1;
+            return;
+        }
+        // "ground" or a missing altitude cannot be shown to be airborne above the floor.
+        match alt_ft.filter(|a| a.is_finite()) {
+            Some(a) if a >= self.params.min_alt_ft => {}
+            _ => {
+                self.stats.excluded_ground_or_low += 1;
+                return;
+            }
+        }
+        if nic.is_none() && nacp.is_none() {
+            self.stats.excluded_no_accuracy_field += 1;
+            return;
+        }
+        self.add_report(ts, id, lat, lon, nic, nacp);
+    }
+
+    /// Read one readsb history trace file (`trace_full_<address>.json`, as in the adsb.lol
+    /// daily archives after extraction): gzip-compressed or plain JSON. Detected by the gzip
+    /// magic bytes, not the file name, because readsb writes gzip under a `.json` name.
+    /// Decompression stops at `max_decompressed` bytes.
+    pub fn read_readsb_trace(
+        &mut self,
+        bytes: &[u8],
+        max_decompressed: u64,
+    ) -> Result<(), MapError> {
+        use std::io::Read;
+        let text: Vec<u8> = if bytes.starts_with(&[0x1f, 0x8b]) {
+            let mut out = Vec::new();
+            flate2::read::GzDecoder::new(bytes)
+                .take(max_decompressed + 1)
+                .read_to_end(&mut out)
+                .map_err(|e| MapError::Format(format!("gzip: {e}")))?;
+            if out.len() as u64 > max_decompressed {
+                return Err(MapError::Format(
+                    "gzip: decompressed size over the limit".into(),
+                ));
+            }
+            out
+        } else {
+            bytes.to_vec()
+        };
+        let v: Value = serde_json::from_slice(&text)
+            .map_err(|e| MapError::Format(format!("trace JSON: {e}")))?;
+        let id = v
+            .get("icao")
+            .and_then(Value::as_str)
+            .filter(|s| !s.is_empty());
+        let base = v.get("timestamp").and_then(Value::as_f64);
+        let (Some(id), Some(base), Some(trace)) =
+            (id, base, v.get("trace").and_then(Value::as_array))
+        else {
+            return Err(MapError::Format(
+                "trace JSON lacks icao, timestamp or trace".into(),
+            ));
+        };
+        for e in trace {
+            let Some(e) = e.as_array() else {
+                self.stats.rows += 1;
+                self.stats.rejected_malformed += 1;
+                continue;
+            };
+            let f = |k: usize| e.get(k).and_then(Value::as_f64);
+            let field = |name: &str| {
+                e.get(8)
+                    .and_then(|d| d.get(name))
+                    .and_then(Value::as_u64)
+                    .and_then(|n| u8::try_from(n).ok())
+                    .filter(|n| *n <= 11)
+            };
+            self.add_row(
+                f(0).map(|o| base + o),
+                id,
+                f(1),
+                f(2),
+                f(3),
+                (field("nic"), field("nac_p")),
+                e.get(9).and_then(Value::as_str),
+            );
+        }
+        self.stats.trace_files += 1;
         Ok(())
     }
 
@@ -364,6 +452,8 @@ pub fn method_json(p: &AdsbParams, stats: &AdsbReadStats) -> Value {
             "excluded_ground_or_below_altitude_floor": stats.excluded_ground_or_low,
             "excluded_non_adsb_source": stats.excluded_non_adsb_source,
             "excluded_no_accuracy_field": stats.excluded_no_accuracy_field,
+            "trace_files": stats.trace_files,
+            "trace_files_unreadable": stats.trace_files_unreadable,
         },
         "caveats": [
             "A degraded cell means a high share of aircraft reported low navigation accuracy there that day. It does not identify interference as the cause.",
@@ -541,6 +631,131 @@ mod tests {
             .read_csv("timestamp,aircraft_id,lat,lon,alt_baro_ft\n")
             .is_err());
         assert!(g.read_csv("timestamp,lat,lon,alt_baro_ft,nic\n").is_err());
+    }
+
+    /// A synthetic readsb trace: `n` entries at 33000 ft, every one carrying nic/nac_p.
+    fn trace_json(icao: &str, lat: f64, lon: f64, n: usize, nic: u8, nacp: u8) -> String {
+        let entries: Vec<String> = (0..n)
+            .map(|k| {
+                format!(
+                    "[{}, {lat}, {lon}, 33000, 450.0, 90.0, 0, 0, {{\"nic\": {nic}, \"nac_p\": {nacp}}}, \"adsb_icao\", 33100, null, null, null]",
+                    k * 10
+                )
+            })
+            .collect();
+        format!(
+            "{{\"icao\": \"{icao}\", \"timestamp\": 1772359200.0, \"trace\": [{}]}}",
+            entries.join(",")
+        )
+    }
+
+    fn gzip(text: &str) -> Vec<u8> {
+        use std::io::Write;
+        let mut e = flate2::write::GzEncoder::new(Vec::new(), flate2::Compression::fast());
+        e.write_all(text.as_bytes()).unwrap();
+        e.finish().unwrap()
+    }
+
+    #[test]
+    fn readsb_trace_plain_and_gzip_agree() {
+        let t = trace_json("abc123", 50.2, 12.2, 5, 9, 10);
+        let (mut a, mut b) = (agg(), agg());
+        a.read_readsb_trace(t.as_bytes(), 1 << 20).unwrap();
+        b.read_readsb_trace(&gzip(&t), 1 << 20).unwrap();
+        assert_eq!(a.stats, b.stats);
+        assert_eq!((a.stats.used, a.stats.trace_files), (5, 1));
+        // 1772359200 is 2026-03-01T10:00:00Z.
+        let days = a.finish();
+        assert_eq!(days[0].date, "2026-03-01");
+        assert!(
+            days[0].cells.is_empty(),
+            "one aircraft is below the publication minimum"
+        );
+    }
+
+    #[test]
+    fn readsb_entries_are_filtered_like_csv_rows() {
+        let t = r#"{"icao":"abc123","timestamp":1772359200.0,"trace":[
+            [0, 50.2, 12.2, "ground", 10, 90, 0, 0, {"nic":9,"nac_p":10}, "adsb_icao"],
+            [1, 50.2, 12.2, 1000, 10, 90, 0, 0, {"nic":9,"nac_p":10}, "adsb_icao"],
+            [2, 50.2, 12.2, 33000, 10, 90, 0, 0, {"nic":9,"nac_p":10}, "mlat"],
+            [3, 50.2, 12.2, 33000, 10, 90, 0, 0, null, "adsb_icao"],
+            [4, 50.2, 12.2, 33000, 10, 90, 0, 0, {"nic":9,"nac_p":10}, "adsb_icao"],
+            [5, 50.2, 12.2, 33000, 10, 90, 0, 0, {"nic":9,"nac_p":10}],
+            "junk"
+        ]}"#;
+        let mut a = agg();
+        a.read_readsb_trace(t.as_bytes(), 1 << 20).unwrap();
+        let s = &a.stats;
+        assert_eq!(
+            (
+                s.rows,
+                s.used,
+                s.excluded_ground_or_low,
+                s.excluded_non_adsb_source,
+                s.excluded_no_accuracy_field,
+                s.rejected_malformed
+            ),
+            (7, 2, 2, 1, 1, 1)
+        );
+    }
+
+    #[test]
+    fn readsb_bad_input_is_an_error_and_size_is_bounded() {
+        let mut a = agg();
+        assert!(a.read_readsb_trace(b"not json", 1 << 20).is_err());
+        assert!(a.read_readsb_trace(br#"{"icao":"x"}"#, 1 << 20).is_err());
+        let t = trace_json("abc123", 50.2, 12.2, 50, 9, 10);
+        assert!(
+            a.read_readsb_trace(&gzip(&t), 100).is_err(),
+            "over the decompression limit"
+        );
+        assert!(
+            a.read_readsb_trace(&[0x1f, 0x8b, 0, 0], 1 << 20).is_err(),
+            "truncated gzip"
+        );
+    }
+
+    #[test]
+    fn readsb_traces_produce_the_same_map_as_the_equivalent_csv() {
+        // Seven cells, 12 aircraft each, cell 2 with 7 affected, as in the CSV tests.
+        let (mut via_trace, mut via_csv) = (agg(), agg());
+        let mut csv = String::from("timestamp,aircraft_id,lat,lon,alt_baro_ft,nic,nacp\n");
+        for cell in 0..7 {
+            let lon = 10.2 + 0.5 * cell as f64;
+            for a in 0..12 {
+                let id = format!("syn{cell}x{a}");
+                let (nic, nacp) = if cell == 2 && a < 7 { (0, 0) } else { (9, 10) };
+                via_trace
+                    .read_readsb_trace(trace_json(&id, 40.1, 5.1, 6, 10, 11).as_bytes(), 1 << 20)
+                    .unwrap();
+                via_trace
+                    .read_readsb_trace(&gzip(&trace_json(&id, 50.2, lon, 4, nic, nacp)), 1 << 20)
+                    .unwrap();
+                for k in 0..6 {
+                    csv.push_str(&format!(
+                        "{},{id},40.1,5.1,33000,10,11\n",
+                        1_772_359_200 + k * 10
+                    ));
+                }
+                for k in 0..4 {
+                    csv.push_str(&format!(
+                        "{},{id},50.2,{lon},33000,{nic},{nacp}\n",
+                        1_772_359_200 + k * 10
+                    ));
+                }
+            }
+        }
+        via_csv.read_csv(&csv).unwrap();
+        let (a, b) = (via_trace.finish(), via_csv.finish());
+        let key = |d: &DayOut| {
+            d.cells
+                .iter()
+                .map(|c| (c.id, c.status.clone()))
+                .collect::<Vec<_>>()
+        };
+        assert_eq!(key(&a[0]), key(&b[0]));
+        assert_eq!(a[0].cells.iter().filter(|c| c.degraded).count(), 1);
     }
 
     #[test]
