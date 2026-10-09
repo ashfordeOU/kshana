@@ -22,6 +22,8 @@ fn traj() -> Trajectory {
 #[test]
 fn gnss_ins_trajectory_moves_turns_and_has_one_outage_event() {
     let t = traj();
+    // PIN-SCOPE:    the sample count of the bundled gnss-ins scenario's trajectory
+    // PIN-EXCLUDES: the sample values, which are checked by range and tolerance below
     assert_eq!(t.samples.len(), 1601);
     let last = t.samples.last().unwrap();
     let first = &t.samples[0];

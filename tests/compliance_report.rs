@@ -220,8 +220,7 @@ fn json_report_parses_and_carries_the_statement() {
 
 #[test]
 fn load_runs_finds_kinds_and_reports_what_it_cannot_use() {
-    let dir = std::env::temp_dir().join(format!("kshana-compliance-{}", std::process::id()));
-    std::fs::create_dir_all(&dir).unwrap();
+    let dir = temp_workdir("compliance");
     let w = |name: &str, body: &str| {
         let p = dir.join(name);
         std::fs::write(&p, body).unwrap();
@@ -297,8 +296,7 @@ fn engine_runs_feed_the_report_end_to_end() {
     assert_eq!(r.receiver_trust.len(), 1);
     assert!(r.receiver_trust[0].epochs > 0);
     // The receiver-trust result is recognised from its content alone.
-    let dir = std::env::temp_dir().join(format!("kshana-compliance-e2e-{}", std::process::id()));
-    std::fs::create_dir_all(&dir).unwrap();
+    let dir = temp_workdir("compliance-e2e");
     let p = dir.join("session.result.json");
     std::fs::write(&p, &t.json).unwrap();
     let (loaded, bad) = load_runs(&[p]);
@@ -365,4 +363,14 @@ fn run_from_text_and_assess_texts_need_no_files() {
     ]);
     assert_eq!(report.runs.len(), 1);
     assert_eq!(report.unrecognised.len(), 2, "{:?}", report.unrecognised);
+}
+
+/// A fresh directory per call: every test in this binary shares the process id.
+fn temp_workdir(label: &str) -> std::path::PathBuf {
+    static SEQ: std::sync::atomic::AtomicU64 = std::sync::atomic::AtomicU64::new(0);
+    let seq = SEQ.fetch_add(1, std::sync::atomic::Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!("kshana-{label}-{}-{seq}", std::process::id()));
+    let _ = std::fs::remove_dir_all(&dir);
+    std::fs::create_dir_all(&dir).unwrap();
+    dir
 }
