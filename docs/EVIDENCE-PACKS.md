@@ -102,7 +102,8 @@ openssl ts -verify -in response.tsr -data pack/manifest.json -CAfile authority-c
 
 `kshana evidence verify` reads the token (a bare token or a full response), checks that it
 was granted and that its message imprint equals the hash of `manifest.json`, and prints
-the time it states. **It does not check the authority's signature or certificate chain**;
+the time it states, always followed by the words "timestamp authority signature not verified
+by Kshana". **It does not check the authority's signature or certificate chain**;
 this build carries no RSA, ECDSA or X.509 code. The report says so each time
 (`authority_signature_verified: false`). Run the `openssl ts -verify` line above for that
 part. A token whose imprint differs, or one that does not parse, is a failure.
