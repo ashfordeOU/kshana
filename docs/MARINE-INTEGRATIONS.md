@@ -109,7 +109,7 @@ direction **Input**. While trust is not collapsed the stream is the receiver's o
 cycle. While it is collapsed the forwarded GGA has quality `0`, RMC status `V`, and the mode indicators say no
 fix, with checksums recomputed: the equipment sees the receiver itself declare the fix invalid and raises its own
 alarm. The `$PKSHT` sentences are visible in OpenCPN's NMEA debug window (Options, Connections, "NMEA debug
-window"; or Tools in recent versions). The position fields are left as received.
+window"). The position fields are left as received.
 
 Read "Gate mode" in [`MARITIME-TRUST.md`](MARITIME-TRUST.md) before relying on this: it is opt-in, adds latency
 (a cycle is held until its epoch is scored), is a single point in the chain, and can withhold a good fix as well
