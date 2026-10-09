@@ -86,8 +86,8 @@ vessel is the receiver-reported track coloured by trust band above the score ove
 
 ## A synthetic demo
 
-`examples/maritime-trust/` holds a made-up NMEA log of a vessel on a Gdynia to Klaipeda route (a
-one-hour excerpt, about 15 kn, 1 Hz: GGA, RMC, VTG, a gyro heading, a speed log, GSV with a plausible
+`examples/maritime-trust/` holds a made-up NMEA log of a ferry on a Tallinn to Helsinki route (a
+50-minute excerpt, about 17 kn, 1 Hz: GGA, RMC, VTG, a gyro heading, a speed log, GSV with a plausible
 sky) in which a position drag-off pulls the *reported* position away from the vessel's real one
 from 1500 s. The receiver keeps reporting a **valid** fix throughout; the trust score is what falls,
 through the degraded band into the untrusted one. `session.toml` states every threshold, the
@@ -96,7 +96,7 @@ vessel's limits and every score weight before the run.
 ```sh
 kshana receiver-trust examples/maritime-trust/session.toml
 kshana receiver-trust live examples/maritime-trust/session.toml \
-  --file examples/maritime-trust/gdynia-klaipeda.nmea --gate --json trust.jsonl > gated.nmea
+  --file examples/maritime-trust/tallinn-helsinki.nmea --gate --json trust.jsonl > gated.nmea
 ```
 
 The log is **text written to a file** by `cargo run --example gen_maritime_trust_demo`: it models no
