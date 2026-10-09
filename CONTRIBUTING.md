@@ -146,5 +146,9 @@ This lightweight dual-licence grant — not a copyright assignment — is what l
 project stay open *and* offer a commercial edition. If you cannot grant (2) (for
 example, employer-owned code), say so in your pull request before contributing.
 
+**Exception: `integrations/opencpn/plugin/`.** That directory is licensed **GPL-3.0-or-later** (see its `LICENSE`) and is
+outside the commercial licence. Contributions to it are licensed inbound under GPL-3.0-or-later **only**; grant (2)
+does not apply to them.
+
 Sign off each commit to certify the [Developer Certificate of Origin](https://developercertificate.org/):
 `git commit -s` (adds a `Signed-off-by` line).

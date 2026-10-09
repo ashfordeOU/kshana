@@ -1,0 +1,7 @@
+plugin_loader.cpp:271 Checking plugin candidate: <tmp>/.local/lib/opencpn/libkshana_pi.so
+plugin_loader.cpp:336 Checking plugin compatibility: <tmp>/.local/lib/opencpn/libkshana_pi.so
+plugin_loader.cpp:1206 PluginLoader: Loading PlugIn: <tmp>/.local/lib/opencpn/libkshana_pi.so
+kshana_pi.cpp:168 kshana_pi: initialised (plugin API 1.18); waiting for $PKSHT from the NMEA stream
+kshana_pi.cpp:193 kshana_pi: $PKSHT received, band C, gate P, score none
+kshana_pi.cpp:193 kshana_pi: $PKSHT received, band D, gate P, score 62.0
+kshana_pi.cpp:193 kshana_pi: $PKSHT received, band U, gate W, score 54.4

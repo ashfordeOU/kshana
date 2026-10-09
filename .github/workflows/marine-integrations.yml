@@ -1,0 +1,54 @@
+# Marine integrations (integrations/ and deploy/reference-build/): Signal K plugin tests, OpenCPN TCP relay
+# tests, the native OpenCPN plugin build check, and the dry-run check of the systemd units. Separate from the
+# Rust CI so it runs in parallel and only when those paths change. No network beyond package installs; nothing
+# here publishes anything.
+name: Marine integrations
+on:
+  push:
+    branches: [main]
+    paths:
+      - "integrations/**"
+      - "deploy/reference-build/**"
+      - ".github/workflows/marine-integrations.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "integrations/**"
+      - "deploy/reference-build/**"
+      - ".github/workflows/marine-integrations.yml"
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: node --version
+      - name: Signal K plugin
+        run: npm test
+        working-directory: integrations/signalk
+      - name: OpenCPN TCP relay
+        run: npm test
+        working-directory: integrations/opencpn
+  opencpn-plugin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends cmake g++ libwxgtk3.2-dev
+      - name: Configure, build and test (core tests and the plugin build check)
+        run: |
+          cmake -S integrations/opencpn/plugin -B build-pi -DCMAKE_BUILD_TYPE=Release
+          cmake --build build-pi
+          ctest --test-dir build-pi --output-on-failure
+  systemd-units:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: deploy/reference-build/check-units.sh
