@@ -155,6 +155,9 @@ wasm = ["dep:wasm-bindgen"]
 # module do not carry the scenario text; the MCP (Model Context Protocol) server turns it
 # on to hand an agent a runnable example of every kind.
 bundled-scenarios = []
+# OpenTelemetry OTLP/HTTP export of the GNSS-trust metrics (`kshana trust-telemetry --otlp`).
+# Off by default. Adds no crate: the exporter is plain `std::net` HTTP with a JSON body.
+otlp = []
 
 [dev-dependencies]
 # Independent SGP4 implementation for the head-to-head accuracy cross-check
