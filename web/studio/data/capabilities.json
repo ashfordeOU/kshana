@@ -370,7 +370,7 @@
       "group": "Resilience",
       "status": "modelled",
       "name": "PNT-resilience scoring & decision-instability",
-      "summary": "A framework-aligned scoring engine (Kshana's own seven resilience categories, not DHS terms) that maps an architecture's simulated behaviour to per-dimension sub-scores, then asks whether any single composite score or maturity Level is a stable basis for a decision \u2014 via a Dirichlet weighting simplex, Kendall-tau rank instability, a top-1 winner flip rate, and common-mode diversity collapse (Hill-N2) \u2014 with an integrity-hashed assurance report. Reproducible via cargo run --example resilience_report. Modelled synthetic architectures aligned to RPCF v2.0; a self-assessment, not a certification.",
+      "summary": "A framework-aligned scoring engine (DHS RPCF categories) that maps an architecture's simulated behaviour to per-dimension sub-scores, then asks whether any single composite score or maturity Level is a stable basis for a decision \u2014 via a Dirichlet weighting simplex, Kendall-tau rank instability, a top-1 winner flip rate, and common-mode diversity collapse (Hill-N2) \u2014 with an integrity-hashed assurance report. Reproducible via cargo run --example resilience_report. Modelled synthetic architectures aligned to RPCF v2.0; a self-assessment, not a certification.",
       "proof": "35 hand-derived oracle tests; byte-deterministic study artifact (fixed seed); aligned to DHS RPCF v2.0",
       "run": "conflict-resilience.toml"
     },
