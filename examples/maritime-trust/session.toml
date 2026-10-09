@@ -65,7 +65,6 @@ evidence_hold_s = 10.0
 [score.weights]
 osnma = 70.0
 kinematic = 60.0
-sec-spoof = 60.0
 raim = 60.0
 clock = 60.0
 position-jump = 60.0
@@ -77,7 +76,6 @@ sea-level = 30.0
 cn0-spread = 30.0
 cn0-rise = 30.0
 cn0-drop = 30.0
-sec-jam = 30.0
 loss-of-lock = 25.0
 agc = 25.0
 jam-ind = 25.0

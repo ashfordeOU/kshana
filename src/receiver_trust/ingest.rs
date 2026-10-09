@@ -228,8 +228,6 @@ const ID_NAV_TIMEGPS: u8 = 0x20;
 const ID_NAV_SAT: u8 = 0x35;
 const CLASS_MON: u8 = 0x0A;
 const ID_MON_RF: u8 = 0x38;
-const CLASS_SEC: u8 = 0x27;
-const ID_SEC_SIG: u8 = 0x09;
 
 /// Label ranks: a UTC date from NAV-PVT outranks a GPS week from NAV-TIMEGPS.
 const RANK_GPS_WEEK: u8 = 1;
@@ -272,8 +270,6 @@ struct UbxState {
     cur_key: Option<i64>,
     /// MON-RF blocks `(agcCnt, jamInd)` read before any iTOW, held for the first epoch.
     pending_rf: Vec<(f64, f64)>,
-    /// A SEC-SIG `(jamming state, spoofing state)` read before any iTOW.
-    pending_sec: Option<(u8, u8)>,
     /// A GPS week number and the key-week index it belongs to (from NAV-TIMEGPS), used
     /// to label epochs that carry no date of their own.
     week_ref: Option<(i64, i64)>,
@@ -303,10 +299,6 @@ impl UbxState {
         for (agc, jam) in self.pending_rf.drain(..) {
             acc.add_agc(agc);
             acc.add_jam(jam);
-        }
-        if let Some((j, sp)) = self.pending_sec.take() {
-            acc.marine.sec_jam_state = Some(j);
-            acc.marine.sec_spoof_state = Some(sp);
         }
         Some(key)
     }
@@ -405,29 +397,6 @@ impl UbxState {
         true
     }
 
-    /// UBX-SEC-SIG, layout version 1: version u1 @0 (must be 1), 3 reserved, jamFlags x1 @4
-    /// (bit 0 detection enabled, bits 1-2 jamming state: 0 unknown or off, 1 ok, 2 warning,
-    /// 3 critical), spfFlags x1 @5 (bit 0 detection enabled, bits 1-3 spoofing state: 0
-    /// unknown or off, 1 none indicated, 2 indicated, 3 multiple indications). A state of a
-    /// detector that is not enabled is read as 0. Other layout versions count as skipped.
-    /// No time field of its own.
-    fn sec_sig(&mut self, p: &[u8]) -> bool {
-        if p.len() < 6 || p[0] != 1 {
-            return false;
-        }
-        let jam = if p[4] & 1 == 1 { (p[4] >> 1) & 3 } else { 0 };
-        let spf = if p[5] & 1 == 1 { (p[5] >> 1) & 7 } else { 0 };
-        match self.cur_key {
-            Some(k) => {
-                let m = &mut self.map.entry(k).or_default().marine;
-                m.sec_jam_state = Some(jam);
-                m.sec_spoof_state = Some(spf);
-            }
-            None => self.pending_sec = Some((jam, spf)),
-        }
-        true
-    }
-
     /// UBX-MON-RF: version @0, nBlocks @1, 2 reserved, then 24-byte blocks from @4 with
     /// agcCnt u2 @14 (0-8191) and jamInd u1 @16 (0-255). No time field of its own.
     fn mon_rf(&mut self, p: &[u8]) -> bool {
@@ -519,7 +488,6 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
             (CLASS_NAV, ID_NAV_TIMEGPS) => st.nav_timegps(payload),
             (CLASS_NAV, ID_NAV_SAT) => st.nav_sat(payload),
             (CLASS_MON, ID_MON_RF) => st.mon_rf(payload),
-            (CLASS_SEC, ID_SEC_SIG) => st.sec_sig(payload),
             _ => true, // a valid frame of a message this reader does not use
         };
         if !ok {
@@ -1931,34 +1899,6 @@ Status,1,2,3
         }
         assert_eq!(feed.take_epochs(), whole.epochs);
         assert!(!epochs.is_empty());
-    }
-
-    #[test]
-    fn ubx_sec_sig_v1_is_read_and_other_versions_are_skipped() {
-        let sig = |ver: u8, jam: u8, spf: u8| {
-            frame(CLASS_SEC, ID_SEC_SIG, &[ver, 0, 0, 0, jam, spf, 0, 0])
-        };
-        let mut bytes = Vec::new();
-        bytes.extend(frame(CLASS_NAV, ID_NAV_PVT, &pvt(100_000, 1, 3)));
-        // jamming enabled, state 2 (warning); spoofing enabled, state 2 (indicated).
-        bytes.extend(sig(1, 0b101, 0b101));
-        bytes.extend(frame(CLASS_NAV, ID_NAV_PVT, &pvt(101_000, 2, 3)));
-        // Detectors disabled: the state bits are not a statement.
-        bytes.extend(sig(1, 0b110, 0b1100));
-        bytes.extend(frame(CLASS_NAV, ID_NAV_PVT, &pvt(102_000, 3, 3)));
-        bytes.extend(sig(2, 0b101, 0b101));
-        let tl = read_ubx(&bytes);
-        let m = |i: usize| tl.epochs[i].marine.clone().unwrap_or_default();
-        assert_eq!(
-            (m(0).sec_jam_state, m(0).sec_spoof_state),
-            (Some(2), Some(2))
-        );
-        assert_eq!(
-            (m(1).sec_jam_state, m(1).sec_spoof_state),
-            (Some(0), Some(0))
-        );
-        assert_eq!(m(2).sec_jam_state, None);
-        assert_eq!(tl.skipped_records, 1, "layout version 2");
     }
 
     // ---- shared ----

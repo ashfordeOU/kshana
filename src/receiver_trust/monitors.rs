@@ -230,10 +230,6 @@ pub enum Monitor {
     /// Moving platform: the receiver's time stepped irregularly, ran backwards, or departed
     /// from the host's monotonic clock.
     TimeConsistency,
-    /// The receiver's own jamming indication (u-blox UBX-SEC-SIG) is at warning or worse.
-    SecJam,
-    /// The receiver's own spoofing indication (u-blox UBX-SEC-SIG) is raised.
-    SecSpoof,
     /// The receiver reports an OSNMA authentication failure.
     Osnma,
 }
@@ -945,7 +941,6 @@ pub fn run_monitors(
                         | Monitor::SpeedLog
                         | Monitor::SeaLevel
                         | Monitor::TimeConsistency
-                        | Monitor::SecSpoof
                         | Monitor::Osnma
                 )
             });

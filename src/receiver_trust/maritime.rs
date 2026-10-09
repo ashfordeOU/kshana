@@ -4,7 +4,7 @@
 //! These monitors run on what a vessel's receiver and instruments already put on an NMEA
 //! 0183 bus (position, speed and course over ground, gyro heading, speed through the water,
 //! antenna altitude, per-satellite C/N0, the time), plus the receiver's own security
-//! reports where it gives them (u-blox UBX-SEC-SIG, a reported OSNMA status). They look
+//! reports where it gives them (a reported authentication status). They look
 //! for disagreement between independent sources: a counterfeit position has to be
 //! consistent with a ship's physics and with the ship's other sensors, and a spoofer
 //! that is not consistent with all of them leaves a trace.
@@ -543,12 +543,6 @@ impl MarineMonitors {
 
         // ---- receiver security reports ------------------------------------------------
         if let (true, Some(m)) = (post, marine) {
-            if let Some(j) = m.sec_jam_state {
-                ratios.insert(Monitor::SecJam, f64::from(j) / 2.0);
-            }
-            if let Some(s) = m.sec_spoof_state {
-                ratios.insert(Monitor::SecSpoof, f64::from(s) / 2.0);
-            }
             // Authentication: any failure, overall or on one satellite, is a statement, not a
             // statistic, and costs the whole weight; a reported success is no evidence.
             let any_failed = m.osnma == Some(OsnmaStatus::Failed)
