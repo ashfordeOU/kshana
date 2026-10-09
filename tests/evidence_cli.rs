@@ -113,6 +113,12 @@ fn make_verify_and_tamper() {
     ]);
     assert!(o.status.success(), "{}", text(&o));
 
+    // The NMEA reader reports source spans, so the slice is the window's bytes, not the log.
+    let manifest = std::fs::read_to_string(pack.join("manifest.json")).unwrap();
+    assert!(manifest.contains("\"byte-range\""), "{manifest}");
+    let slice = std::fs::read(pack.join("log-slice.bin")).unwrap();
+    assert!(slice.len() < std::fs::read(&log).unwrap().len());
+
     // One changed byte in epochs.json.
     let p = pack.join("epochs.json");
     let mut b = std::fs::read(&p).unwrap();
