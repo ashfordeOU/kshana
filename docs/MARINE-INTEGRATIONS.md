@@ -84,7 +84,7 @@ cd integrations/signalk && npm test
 ```
 
 `node:test`, no dependencies, no network beyond `127.0.0.1`. The tests parse and replay a 66-epoch excerpt of the
-JSON lines and `$PKSHT` sentences that `kshana receiver-trust live` wrote for the synthetic Gdynia to Klaipeda
+JSON lines and `$PKSHT` sentences that `kshana receiver-trust live` wrote for the synthetic Baltic
 demo (made-up data, text only), check agreement between the two formats, the hold and clear behaviour, score mode,
 staleness, and the three input paths against a local feed and a stand-in child process. They do not start a real
 Signal K server; the use of the server's `nmea0183` event and the `handleMessage` and notification conventions
