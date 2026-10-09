@@ -9,6 +9,9 @@ use super::grid::{CellId, Grid};
 use super::sources::Dataset;
 
 pub const SCHEMA: &str = "kshana-interference-map/v1";
+/// Integer form of the schema version. A change that removes or renames a field, or changes
+/// the meaning of one, raises it; adding a field does not.
+pub const FORMAT_VERSION: u32 = 1;
 
 pub struct CellOut {
     pub id: CellId,
@@ -52,6 +55,7 @@ pub fn to_geojson(day: &DayOut, grid: &Grid, method: Value, dataset: &Dataset) -
         "type": "FeatureCollection",
         "kshana_interference_map": {
             "schema": SCHEMA,
+            "format_version": FORMAT_VERSION,
             "source_kind": day.source_kind,
             "date": day.date,
             "grid": { "type": "fixed_lat_lon", "cell_deg": grid.cell_deg },
@@ -93,6 +97,8 @@ mod tests {
         let ds = sources::preset(sources::ADSB_LOL).unwrap();
         let v = to_geojson(&day, &Grid::new(0.5).unwrap(), json!({"id": "m"}), &ds);
         let m = &v["kshana_interference_map"];
+        assert_eq!(m["schema"], "kshana-interference-map/v1");
+        assert_eq!(m["format_version"], 1);
         assert_eq!(m["data"]["licence"], "ODbL-1.0");
         assert!(m["data"]["attribution"]
             .as_str()
