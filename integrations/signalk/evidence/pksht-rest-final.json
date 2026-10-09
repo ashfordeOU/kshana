@@ -1,0 +1,65 @@
+{
+  "navigation/gnss/kshana/band": {
+    "status": 200,
+    "body": {
+      "value": "nominal",
+      "$source": "kshana-trust",
+      "timestamp": "2026-10-09T19:56:44.176Z"
+    }
+  },
+  "navigation/gnss/kshana/score": {
+    "status": 200,
+    "body": {
+      "value": 100,
+      "$source": "kshana-trust",
+      "timestamp": "2026-10-09T19:56:44.176Z"
+    }
+  },
+  "navigation/gnss/kshana/reasons": {
+    "status": 200,
+    "body": {
+      "value": [],
+      "$source": "kshana-trust",
+      "timestamp": "2026-10-09T19:56:44.176Z"
+    }
+  },
+  "navigation/gnss/kshana/gate": {
+    "status": 200,
+    "body": {
+      "value": "passed",
+      "$source": "kshana-trust",
+      "timestamp": "2026-10-09T19:56:44.176Z"
+    }
+  },
+  "navigation/gnss/kshana/reportedPosition": {
+    "status": 404,
+    "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /signalk/v1/api/vessels/self/navigation/gnss/kshana/reportedPosition</pre>\n</body>\n</html>\n"
+  },
+  "notifications/navigation/gnss/kshanaTrust": {
+    "status": 200,
+    "body": {
+      "value": {
+        "state": "warn",
+        "method": [
+          "visual",
+          "sound"
+        ],
+        "message": "No Kshana trust data received; the trust score is not being updated.",
+        "id": "0a5a092f-30cb-40f4-abfb-9c1d5200e7f3",
+        "status": {
+          "silenced": false,
+          "acknowledged": false,
+          "canSilence": true,
+          "canAcknowledge": true,
+          "canClear": false
+        }
+      },
+      "$source": "kshana-trust",
+      "timestamp": "2026-10-09T19:56:48.255Z"
+    }
+  },
+  "navigation/position": {
+    "status": 404,
+    "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /signalk/v1/api/vessels/self/navigation/position</pre>\n</body>\n</html>\n"
+  }
+}

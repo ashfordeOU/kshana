@@ -131,6 +131,25 @@ breaking changes are called out explicitly.
   RF, IQ or waveform output; streams are for training and testing and must never be fed
   to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
 
+### Marine integrations (0.35.0, workstream B)
+
+- **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
+  (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
+  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
+  a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
+  the config schema). No npm dependencies. Tested on recorded synthetic output.
+- **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a
+  dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) is the optional alternative. Either way OpenCPN
+  sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
+  through a real TCP socket and check what a consumer receives. A native score-panel plugin
+  (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
+  on the untrusted band; it builds, its logic is unit-tested, and it was run inside OpenCPN 5.8.4 under a virtual display (evidence
+  and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
+- **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
+  the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
+  only: nothing transmits, and no detection or false-alarm figure is claimed.
+
 ## [0.34.0] - 2026-10-09
 
 Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
