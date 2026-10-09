@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! The 0.35 maritime and interference-map tools: a bounded stream-excerpt assessment, the
-//! training-NMEA generator, the interference map and the route-exposure summary.
+//! The 0.35 maritime, evidence and interference-map tools: a vessel log and a bounded
+//! stream-excerpt assessment, the training-NMEA generator, evidence-pack creation and
+//! verification, the interference map and the route-exposure summary.
 //!
 //! Each tool wraps [`kshana::surface`], which calls the same code the command line runs.
 //! Nothing here reads or writes a file, opens a socket or transmits anything: inputs are
@@ -47,22 +48,59 @@ fn head_lines(text: &str, max: usize) -> (String, bool) {
     (head, it.next().is_some())
 }
 
-/// Parameters for [`KshanaServer::assess_vessel_stream`].
+/// Parameters for [`KshanaServer::assess_vessel_stream`] and [`KshanaServer::assess_vessel_log`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
-pub struct VesselStreamRequest {
-    /// A live session as TOML: `[platform] kind = "vessel"` with the vessel's limits
+pub struct VesselNmeaRequest {
+    /// A session as TOML: `[platform] kind = "vessel"` with the vessel's limits
     /// (`max_speed_kn`, `max_accel_mps2`, `max_turn_rate_dps`, `antenna_height_m`,
-    /// `heading_sensor`), optional `[monitors]`, `[maritime]` and `[score]` tables. Its
-    /// `[log]` table is not needed. See docs/MARITIME-TRUST.md.
+    /// `heading_sensor`), optional `[monitors]`, `[maritime]` and `[score]` tables. No `[log]`
+    /// table is needed. See docs/MARITIME-TRUST.md.
     pub session_toml: String,
-    /// The NMEA 0183 excerpt (GGA, RMC, VTG, HDT, VBW, GSV and so on), at most 4 MiB. The
-    /// first `calibration_s` seconds of it (default 300) form the baseline and are not scored.
+    /// The NMEA 0183 text (GGA, RMC, VTG, HDT, VBW, GSV and so on), at most 4 MiB. The first
+    /// `calibration_s` seconds of it (default 60 for a stream excerpt) form the baseline and
+    /// are not scored.
     pub nmea: String,
-    /// When true, also return the stream the gate would have forwarded (fix marked invalid
-    /// while untrusted), the first 2000 lines. Default false. The gate's output is returned
-    /// as text and is never written to a port.
+}
+
+/// Parameters for [`KshanaServer::create_evidence_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct CreateEvidenceRequest {
+    /// The session as for `assess_vessel_log`.
+    pub session_toml: String,
+    /// The vessel's NMEA 0183 log, at most 4 MiB.
+    pub nmea: String,
+    /// Start of the window, seconds since the log's first epoch.
+    pub from_s: f64,
+    /// End of the window, seconds since the log's first epoch.
+    pub to_s: f64,
+    /// Title shown in the pack's summary and manifest.
     #[serde(default)]
-    pub gate: bool,
+    pub title: Option<String>,
+    /// The Ed25519 signing-key seed, 64 lower-case hex digits. Optional: omitted, a one-time
+    /// key is generated for this call and discarded, so the signature proves only that the
+    /// pack is intact against the key it names itself. A seed passed here travels through
+    /// the conversation: for a key that matters, make the pack with `kshana receiver-trust
+    /// evidence` on the command line instead.
+    #[serde(default)]
+    pub signing_key_seed_hex: Option<String>,
+}
+
+/// Parameters for [`KshanaServer::verify_evidence_pack`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct VerifyEvidenceRequest {
+    /// The pack's files as a JSON object of file name to content: a string, `{"utf8": text}`
+    /// or `{"base64": bytes}` (what `create_evidence_pack` returns under `files`). At most 4
+    /// MiB in all.
+    pub files: serde_json::Value,
+    /// The signer's public key, 64 lower-case hex digits, obtained from the signer by another
+    /// route. Without it the signature proves only that the pack is intact against the key it
+    /// names itself, which anyone can generate.
+    #[serde(default)]
+    pub public_key: Option<String>,
+    /// The full original log, to check that it is the one the pack records and that the slice
+    /// came from it. At most 4 MiB.
+    #[serde(default)]
+    pub full_log: Option<String>,
 }
 
 /// Parameters for [`KshanaServer::generate_training_nmea`].
@@ -133,44 +171,63 @@ pub struct RouteExposureRequest {
 #[tool_router(router = marine_tool_router, vis = "pub(crate)")]
 impl KshanaServer {
     #[tool(
-        description = "Replay a bounded NMEA 0183 excerpt through the engine behind `kshana receiver-trust live` and return what a live run would have written: per-epoch trust state (calibrating, nominal, degraded, untrusted) and 0-100 score with the monitors that deducted, counts of epochs by state, the lowest score, and with `gate` true the stream the gate would have forwarded (fix marked invalid while untrusted). `session_toml` declares the vessel (`[platform] kind = \"vessel\"`, its speed, acceleration and turn-rate limits, antenna height, whether a heading sensor is on the bus). Input is capped at 4 MiB; the reply carries at most 200 non-nominal epoch lines and 2000 gated lines. This is the bounded form of the live command: no socket is opened and nothing is written to a port (the long-running process and its `--listen` server are command-line only). The checks cannot see a spoofer whose fix is consistent with everything on the bus. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
+        description = "Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust live` scores it, and return per-epoch trust state (calibrating, nominal, degraded, untrusted) and 0-100 score with the monitors that deducted (live JSON-lines schema 1.1), the summary (counts by state, lowest and final score, when the first untrusted epoch came) and the last `$PKSHT` sentence. `session_toml` declares the vessel (`[platform] kind = \"vessel\"`, its speed, acceleration and turn-rate limits, antenna height, whether a heading sensor is on the bus). The excerpt must hold the calibration window; input is capped at 2 MiB and 20,000 epochs, and the reply carries at most 200 degraded or untrusted epoch lines. This is the bounded form of the live command: no socket is opened and nothing is written to a port, and the gate and the telemetry exporters (the long-running process and its `--listen` server) are command-line only. The checks cannot see a spoofer whose fix is consistent with everything on the bus. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
     )]
     fn assess_vessel_stream(
         &self,
-        Parameters(VesselStreamRequest {
-            session_toml,
-            nmea,
-            gate,
-        }): Parameters<VesselStreamRequest>,
+        Parameters(VesselNmeaRequest { session_toml, nmea }): Parameters<VesselNmeaRequest>,
     ) -> Result<CallToolResult, McpError> {
-        let r = surface::assess_vessel_stream(&session_toml, &nmea, gate, MAX_UPLOAD_BYTES)
+        let r = surface::assess_vessel_excerpt(&session_toml, nmea.as_bytes(), MAX_UPLOAD_BYTES)
             .map_err(|e| bad(format!("vessel stream assessment failed: {e}")))?;
         let notable: String = r
-            .reports_jsonl
-            .lines()
-            .filter(|l| {
-                l.contains("\"state\":\"degraded\"") || l.contains("\"state\":\"untrusted\"")
+            .epochs
+            .iter()
+            .filter(|e| {
+                matches!(
+                    serde_json::to_value(e.state)
+                        .ok()
+                        .as_ref()
+                        .and_then(|v| v.as_str()),
+                    Some("degraded" | "untrusted")
+                )
             })
             .take(MAX_REPORT_LINES)
-            .map(|l| format!("{l}\n"))
+            .map(|e| format!("{}\n", e.to_json_line()))
             .collect();
-        let mut v = serde_json::json!({
-            "epochs": r.epochs,
-            "calibrating": r.calibrating,
-            "nominal": r.nominal,
-            "degraded": r.degraded,
-            "untrusted": r.untrusted,
-            "withheld": r.withheld,
-            "min_score": r.min_score,
+        reply(serde_json::json!({
+            "summary": r.summary,
             "first_non_nominal_epochs_jsonl": notable,
+            "last_pksht": r.last_pksht,
             "report_schema": "JSON lines, version 1.1 (docs/MARITIME-TRUST.md)",
             "notice": ADVISORY,
-        });
-        if let Some(g) = &r.gated_nmea {
-            let (head, cut) = head_lines(g, MAX_REPLY_LINES);
-            v["gated_nmea"] = head.into();
-            v["gated_nmea_truncated"] = cut.into();
+        }))
+    }
+
+    #[tool(
+        description = "Assess a vessel's NMEA 0183 log as a batch run (`kshana receiver-trust` with `[platform] kind = \"vessel\"`): the score model, the monitors that ran and every epoch's 0-100 score with its deductions. `session_toml` states the vessel's limits and any monitor or score settings (no `[log]` table needed) and `nmea` is the log text, which avoids pasting it inside a TOML string. Input is capped at 4 MiB; the reply carries the document with `epochs` cut to counts by state and at most 200 degraded or untrusted epochs. For a log in another format, or with `[[events]]` to score, use `assess_receiver_log`. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
+    )]
+    fn assess_vessel_log(
+        &self,
+        Parameters(VesselNmeaRequest { session_toml, nmea }): Parameters<VesselNmeaRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let j = surface::assess_vessel_log_json(&session_toml, nmea.as_bytes(), MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("vessel log assessment failed: {e}")))?;
+        let mut v: serde_json::Value =
+            serde_json::from_str(&j).map_err(|e| bad(format!("result is not JSON: {e}")))?;
+        let epochs = v["epochs"].as_array().cloned().unwrap_or_default();
+        let state = |e: &serde_json::Value| e["state"].as_str().unwrap_or("").to_string();
+        let mut counts = std::collections::BTreeMap::<String, usize>::new();
+        for e in &epochs {
+            *counts.entry(state(e)).or_default() += 1;
         }
+        let notable: Vec<serde_json::Value> = epochs
+            .into_iter()
+            .filter(|e| matches!(state(e).as_str(), "degraded" | "untrusted"))
+            .take(MAX_REPORT_LINES)
+            .collect();
+        v["epochs"] =
+            serde_json::json!({"counts_by_state": counts, "first_degraded_or_untrusted": notable});
+        v["notice"] = ADVISORY.into();
         reply(v)
     }
 
@@ -201,6 +258,85 @@ impl KshanaServer {
             v["nmea_truncated"] = cut.into();
         }
         reply(v)
+    }
+
+    #[tool(
+        description = "Create a signed evidence pack for a window of a vessel's NMEA 0183 log (`kshana receiver-trust evidence`): the raw log bytes for the window, the configuration with every threshold, the per-epoch results and reasons, a self-contained summary page, and a manifest listing every file's SHA-256 with the full log's hash and a hash chain, signed with Ed25519. `from_s`/`to_s` are seconds since the log's first epoch. Returns the files as JSON (feed them to `verify_evidence_pack`), the signer's public key and fingerprint. The signing seed is never returned or logged; if `signing_key_seed_hex` is omitted a one-time key is used and discarded, so the pack proves integrity against the key it names itself, not who signed it: for a key that matters, create the pack on the command line (a seed passed here travels through the conversation). Input is capped at 4 MiB and the reply at 4 MiB (narrow the window). A pack is a technical record of what the engine computed from a log under stated settings; it is not a legal opinion, a finding of fact about any event, or a certification. Evidence tier: MODELLED."
+    )]
+    fn create_evidence_pack(
+        &self,
+        Parameters(r): Parameters<CreateEvidenceRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let seed = r
+            .signing_key_seed_hex
+            .as_deref()
+            .map(|h| surface::hex32("signing_key_seed_hex", h))
+            .transpose()
+            .map_err(bad)?;
+        let created = surface::now_rfc3339_utc();
+        let p = surface::evidence_create(
+            &r.session_toml,
+            r.nmea.as_bytes(),
+            r.from_s,
+            r.to_s,
+            r.title.as_deref(),
+            Some(&created),
+            seed,
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(|e| bad(format!("evidence pack failed: {e}")))?;
+        let files = surface::files_to_json(&p.files);
+        let size = files.to_string().len();
+        if size > MAX_MAP_REPLY_BYTES {
+            return Err(bad(format!(
+                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana receiver-trust evidence` on the command line"
+            )));
+        }
+        // The 16-digit fingerprint the manifest itself states.
+        let fingerprint = p
+            .files
+            .get("manifest.json")
+            .and_then(|m| serde_json::from_slice::<serde_json::Value>(m).ok())
+            .and_then(|m| m["signer"]["fingerprint"].as_str().map(str::to_string));
+        reply(serde_json::json!({
+            "files": files,
+            "public_key": p.public_key,
+            "signer_fingerprint": fingerprint,
+            "epochs_in_window": p.epochs_in_window,
+            "log_slice_bytes": p.slice.map(|(a, b)| [a, b]),
+            "signing_key": if seed.is_some() { "the caller's seed (not returned)" } else { "one-time key, discarded: proves integrity, not identity" },
+            "notice": "A pack is a technical record, not a legal opinion, a finding of fact or a certification.",
+        }))
+    }
+
+    #[tool(
+        description = "Verify a signed evidence pack (`kshana evidence verify`): every file's SHA-256 against the manifest, the hash chain, the Ed25519 signature, and with `public_key` (the signer's key, from the signer by another route) that the signer is the one expected, and with `full_log` that the log you hold is the one the pack records and that the slice came from it. Returns the report: `ok`, each failure by code and file, every check, `signer_pinned` and notes. Without `public_key` a pass proves only that the pack is intact against the key it names itself, which anyone can generate. Inputs are capped at 4 MiB. A pass says the record is unchanged; it does not say what caused any event, who is responsible, or that the log shows what the receiver really received."
+    )]
+    fn verify_evidence_pack(
+        &self,
+        Parameters(r): Parameters<VerifyEvidenceRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        if r.files.to_string().len() > MAX_UPLOAD_BYTES {
+            return Err(bad(format!(
+                "files are over the {MAX_UPLOAD_BYTES}-byte limit"
+            )));
+        }
+        if r.full_log
+            .as_ref()
+            .is_some_and(|l| l.len() > MAX_UPLOAD_BYTES)
+        {
+            return Err(bad(format!(
+                "full_log is over the {MAX_UPLOAD_BYTES}-byte limit"
+            )));
+        }
+        let files = surface::files_from_json(&r.files).map_err(bad)?;
+        let report = surface::evidence_verify(
+            &files,
+            r.public_key.as_deref(),
+            r.full_log.as_deref().map(str::as_bytes),
+        )
+        .map_err(bad)?;
+        reply(serde_json::to_value(&report).map_err(|e| bad(e.to_string()))?)
     }
 
     #[tool(

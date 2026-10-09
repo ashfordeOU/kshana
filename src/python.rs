@@ -1061,42 +1061,152 @@ fn iq_frontend<'py>(
     json_to_py(py, &serde_json::json!({ "samples_i": oi, "samples_q": oq }))
 }
 
-/// Replay an NMEA excerpt through the engine behind `kshana receiver-trust live`, with the
-/// gate on or off, and return what a live run would have written: a dict with
-/// `reports_jsonl` (one JSON line per epoch, schema 1.1), `gated_nmea` (the stream the gate
-/// would forward, `None` when `gate` is false), `epochs`, `calibrating`, `nominal`,
-/// `degraded`, `untrusted`, `withheld` and `min_score`. `session_toml` declares a vessel
-/// (`[platform] kind = "vessel"`). This is the bounded form of the live command: it opens no
-/// socket and writes to no port. Advisory only. Raises `ValueError` on an invalid session.
+/// A text or bytes argument: a Python `str` is taken as UTF-8.
+#[derive(FromPyObject)]
+enum TextOrBytes {
+    Text(String),
+    Bytes(Vec<u8>),
+}
+
+impl TextOrBytes {
+    fn bytes(&self) -> &[u8] {
+        match self {
+            Self::Text(t) => t.as_bytes(),
+            Self::Bytes(b) => b,
+        }
+    }
+}
+
+/// Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust
+/// live` scores it. `session_toml` declares the vessel (`[platform] kind = "vessel"`);
+/// `nmea` is the excerpt (`str` or `bytes`, at most 2 MiB and 20,000 epochs, and it must hold
+/// the calibration window). Returns a dict with `schema` (`"1.1"`), `epochs` (one dict per
+/// epoch: `state`, `score`, `deductions`, `alarms`, `position`, ...), `last_pksht` and
+/// `summary` (counts by state, `lowest_score`, `final_score`, `first_untrusted_t_s`). The
+/// bounded form of the live command: no socket is opened and the gate is not applied (both
+/// are command-line only). Advisory only. Raises `ValueError` on an invalid session or
+/// excerpt.
 #[pyfunction]
-#[pyo3(signature = (session_toml, nmea, gate=false))]
 fn receiver_trust_replay<'py>(
     py: Python<'py>,
     session_toml: &str,
-    nmea: &str,
-    gate: bool,
+    nmea: TextOrBytes,
 ) -> PyResult<Bound<'py, PyAny>> {
-    let r = crate::surface::assess_vessel_stream(
+    let r = crate::surface::assess_vessel_excerpt(
         session_toml,
-        nmea,
-        gate,
+        nmea.bytes(),
         crate::surface::MAX_INPUT_BYTES,
     )
     .map_err(PyValueError::new_err)?;
-    json_to_py(
-        py,
-        &serde_json::json!({
-            "reports_jsonl": r.reports_jsonl,
-            "gated_nmea": r.gated_nmea,
-            "epochs": r.epochs,
-            "calibrating": r.calibrating,
-            "nominal": r.nominal,
-            "degraded": r.degraded,
-            "untrusted": r.untrusted,
-            "withheld": r.withheld,
-            "min_score": r.min_score,
-        }),
+    let v = serde_json::to_value(&r).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
+/// "vessel"`, no `[log]` needed) and the log (`str` or `bytes`). Returns the result document
+/// as a dict, the same as `kshana receiver-trust` writes to `result.json`: the score model,
+/// the monitors that ran and every epoch's 0-100 score with its deductions. Advisory only.
+/// Raises `ValueError` on an invalid session or log.
+#[pyfunction]
+fn assess_vessel_log<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    log: TextOrBytes,
+) -> PyResult<Bound<'py, PyAny>> {
+    let j = crate::surface::assess_vessel_log_json(
+        session_toml,
+        log.bytes(),
+        crate::surface::MAX_INPUT_BYTES,
     )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&j).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Build a signed evidence pack for a window of a vessel's NMEA log (`kshana receiver-trust
+/// evidence`, in memory). `from_s`/`to_s` are seconds since the log's first epoch.
+/// `seed_hex` is the Ed25519 signing-key seed (64 hex digits); omitted, one is generated
+/// from the operating system's randomness and returned. `created_utc` is RFC 3339 UTC; `None`
+/// is now, `"none"` leaves it out (a reproducible pack). Returns a dict: `files` (name to
+/// `bytes`), `public_key`, `seed_hex` (the seed used: keep it private), `epochs_in_window`
+/// and `slice` (`[start, end]` of the log bytes bundled, or `None` for the whole log). A
+/// pack is a technical record, not a legal opinion. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None))]
+#[allow(clippy::too_many_arguments)]
+fn evidence_create<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    log: TextOrBytes,
+    from_s: f64,
+    to_s: f64,
+    title: Option<String>,
+    created_utc: Option<String>,
+    seed_hex: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use pyo3::types::{PyBytes, PyDict};
+    let seed = seed_hex
+        .as_deref()
+        .map(|h| crate::surface::hex32("seed_hex", h))
+        .transpose()
+        .map_err(PyValueError::new_err)?;
+    let created = match created_utc.as_deref() {
+        None => Some(crate::surface::now_rfc3339_utc()),
+        Some("none") => None,
+        Some(t) => Some(t.to_string()),
+    };
+    let p = crate::surface::evidence_create(
+        session_toml,
+        log.bytes(),
+        from_s,
+        to_s,
+        title.as_deref(),
+        created.as_deref(),
+        seed,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let files = PyDict::new(py);
+    for (k, v) in &p.files {
+        files.set_item(k, PyBytes::new(py, v))?;
+    }
+    let out = PyDict::new(py);
+    out.set_item("files", files)?;
+    out.set_item("public_key", p.public_key)?;
+    out.set_item("seed_hex", hex::encode(p.seed))?;
+    out.set_item("epochs_in_window", p.epochs_in_window)?;
+    out.set_item("slice", p.slice.map(|(a, b)| vec![a, b]))?;
+    Ok(out.into_any())
+}
+
+/// Verify an evidence pack: `files` maps names to `bytes` (or `str`). Checks every hash, the
+/// chain and the signature; with `public_key` (64 hex digits, obtained from the signer by
+/// another route) also that the signer is the one expected, and with `full_log` that the log
+/// you hold is the one recorded. Returns the report as a dict: `ok`, `failures`, `checks`,
+/// `signer_fingerprint`, `signer_pinned`, `notes`. Without a public key the signature proves
+/// only that the pack is intact against the key it names itself. Raises `ValueError` on a
+/// malformed key.
+#[pyfunction]
+#[pyo3(signature = (files, public_key=None, full_log=None))]
+fn evidence_verify<'py>(
+    py: Python<'py>,
+    files: std::collections::BTreeMap<String, TextOrBytes>,
+    public_key: Option<String>,
+    full_log: Option<TextOrBytes>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let files: crate::evidence::Files = files
+        .into_iter()
+        .map(|(k, v)| (k, v.bytes().to_vec()))
+        .collect();
+    let r = crate::surface::evidence_verify(
+        &files,
+        public_key.as_deref(),
+        full_log.as_ref().map(TextOrBytes::bytes),
+    )
+    .map_err(PyValueError::new_err)?;
+    let v = serde_json::to_value(&r).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
 }
 
 /// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; the input
@@ -1222,6 +1332,9 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
+    m.add_function(wrap_pyfunction!(assess_vessel_log, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;

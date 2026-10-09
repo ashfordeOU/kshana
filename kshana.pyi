@@ -21,6 +21,9 @@ __all__ = [
     "version",
     "receiver_trust",
     "receiver_trust_replay",
+    "assess_vessel_log",
+    "evidence_create",
+    "evidence_verify",
     "interference_map",
     "route_exposure",
     "nmea_training",
@@ -96,14 +99,47 @@ def receiver_trust(toml: str) -> RunOutput:
     Raises ``ValueError`` on an invalid scenario or an unreadable log."""
     ...
 
-def receiver_trust_replay(session_toml: str, nmea: str, gate: bool = False) -> dict[str, Any]:
-    """Replay an NMEA excerpt through the engine behind ``kshana receiver-trust live``.
+def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any]:
+    """Score a bounded excerpt of a vessel's NMEA stream the way ``kshana receiver-trust live``
+    does (at most 2 MiB and 20,000 epochs; it must hold the calibration window).
 
-    ``session_toml`` declares a vessel (``[platform] kind = "vessel"``). Keys: ``reports_jsonl``
-    (one JSON line per epoch, schema 1.1), ``gated_nmea`` (what the gate would forward, ``None``
-    when ``gate`` is false), ``epochs``, ``calibrating``, ``nominal``, ``degraded``,
-    ``untrusted``, ``withheld``, ``min_score``. Opens no socket; advisory only. Raises
+    ``session_toml`` declares a vessel (``[platform] kind = "vessel"``). Keys: ``schema``
+    (``"1.1"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
+    ``alarms``, ``position``, ...), ``last_pksht`` and ``summary`` (counts by state,
+    ``lowest_score``, ``final_score``, ``first_untrusted_t_s``). Opens no socket and does not
+    apply the gate (both are command-line only); advisory only. Raises ``ValueError``."""
+
+def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
+    """Assess a vessel's NMEA log as a batch run: the ``result.json`` of
+    ``kshana receiver-trust`` (score model, monitors run, every epoch's 0-100 score with its
+    deductions). ``session_toml`` needs no ``[log]`` table. Advisory only. Raises
     ``ValueError``."""
+
+def evidence_create(
+    session_toml: str,
+    log: str | bytes,
+    from_s: float,
+    to_s: float,
+    title: Optional[str] = None,
+    created_utc: Optional[str] = None,
+    seed_hex: Optional[str] = None,
+) -> dict[str, Any]:
+    """Build a signed evidence pack for a window (seconds since the first epoch) of a vessel's
+    NMEA log. ``seed_hex`` is the Ed25519 signing-key seed (64 hex digits); omitted, one is
+    generated. ``created_utc``: ``None`` is now, ``"none"`` leaves it out. Keys: ``files``
+    (name to ``bytes``), ``public_key``, ``seed_hex`` (keep it private), ``epochs_in_window``,
+    ``slice`` (``[start, end]`` or ``None`` for the whole log). A technical record, not a legal
+    opinion. Raises ``ValueError``."""
+
+def evidence_verify(
+    files: dict[str, str | bytes],
+    public_key: Optional[str] = None,
+    full_log: Optional[str | bytes] = None,
+) -> dict[str, Any]:
+    """Verify an evidence pack: hashes, chain and signature; with ``public_key`` (64 hex digits
+    from the signer, by another route) that the signer is the one expected; with ``full_log``
+    that it is the log recorded. Keys: ``ok``, ``failures``, ``checks``, ``signer_fingerprint``,
+    ``signer_pinned``, ``notes``. Raises ``ValueError`` on a malformed key."""
 
 def interference_map(
     source: str,

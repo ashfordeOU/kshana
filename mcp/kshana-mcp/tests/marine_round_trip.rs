@@ -4,7 +4,7 @@
 //! network, no file access by the server). Also pins the input caps and the refusal of a
 //! `path` source in `assess_receiver_log`.
 
-use kshana_mcp::marine::{MAX_REPLY_LINES, MAX_UPLOAD_BYTES};
+use kshana_mcp::marine::{MAX_REPLY_LINES, MAX_REPORT_LINES, MAX_UPLOAD_BYTES};
 use kshana_mcp::server::KshanaServer;
 use rmcp::ServiceExt;
 use rmcp::model::CallToolRequestParams;
@@ -82,6 +82,10 @@ async fn the_new_tools_are_listed_with_their_caveats() {
             .to_string()
     };
     assert!(desc("assess_vessel_stream").contains("Advisory only"));
+    assert!(desc("assess_vessel_log").contains("Advisory only"));
+    assert!(desc("create_evidence_pack").contains("not a legal opinion"));
+    assert!(desc("create_evidence_pack").contains("never returned or logged"));
+    assert!(desc("verify_evidence_pack").contains("does not say what caused"));
     assert!(desc("assess_vessel_stream").contains("MODELLED"));
     assert!(desc("generate_training_nmea").contains("TEXT ONLY"));
     assert!(desc("generate_training_nmea").contains("never for a vessel's live navigation"));
@@ -91,42 +95,30 @@ async fn the_new_tools_are_listed_with_their_caveats() {
 }
 
 #[tokio::test]
-async fn vessel_stream_excerpt_is_scored_and_gated() {
+async fn vessel_stream_excerpt_is_scored() {
     let (nmea, session) = excerpt_and_session();
     let client = connect().await;
     let t = call(
         &client,
         "assess_vessel_stream",
-        json!({"session_toml": session, "nmea": nmea, "gate": true}),
+        json!({"session_toml": session, "nmea": nmea}),
     )
     .await
     .expect("assess_vessel_stream");
     let v: Value = serde_json::from_str(&t[0]).unwrap();
-    assert!(v["epochs"].as_u64().unwrap() > 300, "{v}");
-    assert!(v["untrusted"].as_u64().unwrap() > 0 && v["withheld"].as_u64().unwrap() > 0);
-    assert!(v["min_score"].as_f64().unwrap() < 55.0);
+    assert!(v["summary"]["epochs"].as_u64().unwrap() > 300, "{v}");
+    assert!(v["summary"]["untrusted"].as_u64().unwrap() > 0);
+    assert!(v["summary"]["lowest_score"].as_f64().unwrap() < 55.0);
     assert!(v["notice"].as_str().unwrap().contains("Advisory only"));
-    assert!(v["gated_nmea"].as_str().unwrap().lines().count() <= MAX_REPLY_LINES);
-    assert_eq!(v["gated_nmea_truncated"], true);
-    let first: Value = serde_json::from_str(
-        v["first_non_nominal_epochs_jsonl"]
-            .as_str()
-            .unwrap()
-            .lines()
-            .next()
-            .unwrap(),
-    )
-    .unwrap();
+    assert!(v["last_pksht"].as_str().unwrap().starts_with("$PKSHT"));
+    let lines: Vec<&str> = v["first_non_nominal_epochs_jsonl"]
+        .as_str()
+        .unwrap()
+        .lines()
+        .collect();
+    assert!(!lines.is_empty() && lines.len() <= MAX_REPORT_LINES);
+    let first: Value = serde_json::from_str(lines[0]).unwrap();
     assert!(first["score"].is_number() && first["state"] != "nominal");
-    // Gate off: no gated stream in the reply.
-    let off = call(
-        &client,
-        "assess_vessel_stream",
-        json!({"session_toml": session, "nmea": nmea}),
-    )
-    .await
-    .unwrap();
-    assert!(serde_json::from_str::<Value>(&off[0]).unwrap()["gated_nmea"].is_null());
     // A static platform is refused with the reason.
     let e = call(
         &client,
@@ -140,6 +132,140 @@ async fn vessel_stream_excerpt_is_scored_and_gated() {
 }
 
 #[tokio::test]
+async fn vessel_log_batch_is_trimmed_to_counts_and_notable_epochs() {
+    let (nmea, session) = excerpt_and_session();
+    let client = connect().await;
+    let t = call(
+        &client,
+        "assess_vessel_log",
+        json!({"session_toml": session, "nmea": nmea}),
+    )
+    .await
+    .expect("assess_vessel_log");
+    let v: Value = serde_json::from_str(&t[0]).unwrap();
+    let counts = &v["epochs"]["counts_by_state"];
+    assert!(counts["untrusted"].as_u64().unwrap() > 0, "{counts}");
+    let notable = v["epochs"]["first_degraded_or_untrusted"]
+        .as_array()
+        .unwrap();
+    assert!(!notable.is_empty() && notable.len() <= MAX_REPORT_LINES);
+    assert!(v["notice"].as_str().unwrap().contains("Advisory only"));
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn evidence_pack_is_created_then_verified_and_tampering_is_caught() {
+    let (nmea, session) = excerpt_and_session();
+    let seed = "07".repeat(32);
+    let client = connect().await;
+    let t = call(
+        &client,
+        "create_evidence_pack",
+        json!({"session_toml": session, "nmea": nmea, "from_s": 100.0, "to_s": 300.0,
+               "title": "synthetic", "signing_key_seed_hex": seed}),
+    )
+    .await
+    .expect("create_evidence_pack");
+    // The seed is never in the reply.
+    assert!(
+        !t[0].contains(&seed),
+        "the signing seed must not be returned"
+    );
+    let v: Value = serde_json::from_str(&t[0]).unwrap();
+    assert!(
+        v["notice"]
+            .as_str()
+            .unwrap()
+            .contains("not a legal opinion")
+    );
+    let pk = v["public_key"].as_str().unwrap().to_string();
+    assert_eq!(pk.len(), 64);
+    assert!(v["epochs_in_window"].as_u64().unwrap() > 100);
+    for f in [
+        "manifest.json",
+        "manifest.sig",
+        "epochs.json",
+        "summary.html",
+        "log-slice.bin",
+    ] {
+        assert!(v["files"].get(f).is_some(), "{f}");
+    }
+    let ok = call(
+        &client,
+        "verify_evidence_pack",
+        json!({"files": v["files"], "public_key": pk, "full_log": nmea}),
+    )
+    .await
+    .expect("verify_evidence_pack");
+    let rep: Value = serde_json::from_str(&ok[0]).unwrap();
+    assert_eq!(rep["ok"], true, "{rep}");
+    assert_eq!(rep["signer_pinned"], true);
+    // One changed byte in epochs.json fails, naming the file.
+    let mut files = v["files"].clone();
+    let e = files["epochs.json"]["utf8"]
+        .as_str()
+        .unwrap()
+        .replacen("nominal", "NOMINAL", 1);
+    files["epochs.json"] = json!({"utf8": e});
+    let bad = call(
+        &client,
+        "verify_evidence_pack",
+        json!({"files": files, "public_key": pk}),
+    )
+    .await
+    .unwrap();
+    let rep: Value = serde_json::from_str(&bad[0]).unwrap();
+    assert_eq!(rep["ok"], false);
+    assert!(bad[0].contains("epochs.json"), "{}", bad[0]);
+    // A different trusted key fails too.
+    let other = call(
+        &client,
+        "verify_evidence_pack",
+        json!({"files": v["files"], "public_key": "09".repeat(32)}),
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        serde_json::from_str::<Value>(&other[0]).unwrap()["ok"],
+        false
+    );
+    // Malformed input is an error, not a panic.
+    assert!(
+        call(&client, "verify_evidence_pack", json!({"files": [1]}))
+            .await
+            .is_err()
+    );
+    assert!(
+        call(
+            &client,
+            "verify_evidence_pack",
+            json!({"files": v["files"], "public_key": "zz"})
+        )
+        .await
+        .is_err()
+    );
+    // Without a seed a one-time key is used and the reply says so; an empty window is refused.
+    let t = call(
+        &client,
+        "create_evidence_pack",
+        json!({"session_toml": session, "nmea": nmea, "from_s": 100.0, "to_s": 300.0}),
+    )
+    .await
+    .unwrap();
+    assert!(t[0].contains("one-time key"));
+    assert!(
+        call(
+            &client,
+            "create_evidence_pack",
+            json!({"session_toml": session, "nmea": nmea, "from_s": 9000.0, "to_s": 9100.0})
+        )
+        .await
+        .is_err()
+    );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
 async fn oversize_inputs_are_refused() {
     let client = connect().await;
     let big = "x".repeat(MAX_UPLOAD_BYTES + 1);
@@ -149,6 +275,15 @@ async fn oversize_inputs_are_refused() {
             json!({"session_toml": "[platform]\nkind = \"vessel\"", "nmea": big}),
         ),
         ("generate_training_nmea", json!({"toml": big})),
+        (
+            "assess_vessel_log",
+            json!({"session_toml": "[platform]\nkind = \"vessel\"", "nmea": big}),
+        ),
+        (
+            "create_evidence_pack",
+            json!({"session_toml": "[platform]\nkind = \"vessel\"", "nmea": big, "from_s": 0.0, "to_s": 1.0}),
+        ),
+        ("verify_evidence_pack", json!({"files": {"a": big}})),
         (
             "build_interference_map",
             json!({"source": "adsb", "csv": big, "dataset": "adsb-lol"}),

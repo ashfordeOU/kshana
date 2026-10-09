@@ -20,10 +20,13 @@ Do this:
      `[platform] kind = "vessel"` with the vessel's own limits (`max_speed_kn`,
      `max_accel_mps2`, `max_turn_rate_dps`, `antenna_height_m`, `heading_sensor`) for the
      moving-vessel monitors and the 0-100 trust score with the monitors that took points off.
-   - A stream excerpt, with or without the gate: **`assess_vessel_stream`** (a live session
-     TOML with `[platform] kind = "vessel"`, plus the NMEA text). It replays the excerpt through
-     the engine behind `kshana receiver-trust live`; with `gate: true` it also returns the stream
-     the gate would have forwarded (fix marked invalid while untrusted).
+   - A vessel's NMEA log without a `[log]` table to paste it into: **`assess_vessel_log`**
+     (`session_toml` + `nmea`), which keeps counts by state and the first degraded or untrusted
+     epochs in the reply.
+   - A stream excerpt: **`assess_vessel_stream`** (`session_toml` + `nmea`, at most 2 MiB and
+     20,000 epochs, holding the calibration window). It scores the excerpt the way
+     `kshana receiver-trust live` does and returns per-epoch state, score and reasons. The gate
+     is not applied.
 2. State the vessel's limits before the run and do not tune a threshold after seeing the result.
    If the user has not given the limits, ask, or use the documented defaults and say so.
 3. Report: the epoch counts by state (calibrating, nominal, degraded, untrusted), the lowest
@@ -36,8 +39,10 @@ Do this:
    monitors are **MODELLED**. The checks cannot see a spoofer whose fix is consistent with
    everything else on the bus (the vessel's other sensors); say so when the score stays high.
 5. `receiver-trust live` as a running process (stdin, a followed file, TCP or UDP, the gate on
-   a live stream, `--listen`) is command-line only: `kshana receiver-trust live session.toml
-   --file log.nmea --gate`. Point the user at `docs/MARITIME-TRUST.md` for it.
+   a live stream, `--listen`) and the telemetry exporters (`kshana trust-telemetry`: Prometheus,
+   syslog, OTLP) are command-line only: `kshana receiver-trust live session.toml --file log.nmea
+   --gate`. Point the user at `docs/MARITIME-TRUST.md` and `docs/TRUST-TELEMETRY.md`.
+6. To keep a tamper-evident record of a window, use `/kshana-evidence-pack`.
 
 If the `kshana` MCP tools aren't available, tell the user the server isn't connected and point
 them at installation: `cargo install kshana-mcp` (or the `ghcr.io/ashfordeou/kshana-mcp` Docker

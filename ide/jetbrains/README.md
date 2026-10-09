@@ -25,7 +25,7 @@ access to Kshana): this plugin is the *human*, point-and-click path.
   A degraded cell does not identify interference as the cause; not a forecast.
 - A bottom **Kshana** tool window hosting the run console.
 - Not in the plugin: `kshana receiver-trust live` (a long-running stream process with a gate
-  and an optional TCP listener) stays on the command line, because an IDE action runs a
+  and an optional TCP listener) and `kshana trust-telemetry` stay on the command line, because an IDE action runs a
   command to completion and shows its output; see `docs/MARITIME-TRUST.md`.
 - **Settings → Tools → Kshana** to point at the `kshana` binary (blank → resolved from
   `PATH`; install with `cargo install kshana`).
