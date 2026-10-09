@@ -1,0 +1,27 @@
+# Advisory monitor reading the receiver's NMEA from a serial device and serving the JSON epochs to
+# Signal K over TCP (plugin source "tcp-json", port 10111). Edit the device path and session file.
+# Advisory software, not type-approved equipment: the operator stays responsible for navigation.
+services:
+  kshana-trust:
+    build:
+      context: ../..
+      dockerfile: deploy/reference-build/Dockerfile
+    image: kshana-trust:local
+    restart: unless-stopped
+    group_add: ["dialout"]
+    devices:
+      - /dev/ttyGNSS:/dev/ttyGNSS:r
+    volumes:
+      - ./session.toml:/etc/kshana/session.toml:ro
+      - kshana-data:/var/lib/kshana
+    # Serial speed is set on the host first: stty -F /dev/ttyGNSS 115200 raw -echo
+    entrypoint: ["/bin/sh", "-c"]
+    command:
+      - >
+        kshana receiver-trust live /etc/kshana/session.toml --json /var/lib/kshana/trust.jsonl
+        < /dev/ttyGNSS
+        | node /opt/kshana/nmea-tcp-relay.mjs --listen 10111 --host 0.0.0.0
+    ports:
+      - "127.0.0.1:10111:10111"
+volumes:
+  kshana-data: {}
