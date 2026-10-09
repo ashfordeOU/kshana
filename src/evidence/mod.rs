@@ -27,7 +27,7 @@ pub mod tsr;
 pub mod verify;
 
 pub use bundle::{
-    create_bundle, generate_seed, public_key_hex, EvidenceError, EvidenceInput, Files, Manifest,
-    Window, DISCLAIMER, FORMAT,
+    create_bundle, generate_seed, public_key_hex, slice_for_window, EvidenceError, EvidenceInput,
+    Files, Manifest, Window, DISCLAIMER, FORMAT,
 };
 pub use verify::{verify_bundle, Failure, VerifyOptions, VerifyReport};

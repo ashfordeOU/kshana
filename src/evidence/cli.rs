@@ -380,6 +380,17 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         None => Some(now_rfc3339()),
     };
     let title = flag_value(args, "--title")?.unwrap_or_else(|| "GNSS trust evidence pack".into());
+    // The window's bytes, where every epoch in it reports its source span; otherwise the
+    // whole log is bundled and the manifest says so.
+    let slice = crate::receiver_trust::ingest::read_log(scn.log.format, &log_bytes)
+        .ok()
+        .and_then(|tl| {
+            super::bundle::slice_for_window(
+                tl.epochs.iter().map(|e| (e.t_s, e.source_span)),
+                t0,
+                t1,
+            )
+        });
     let log_format = serde_json::to_value(result.log.format)
         .map_err(|e| e.to_string())?
         .as_str()
@@ -392,10 +403,7 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         log_file_name: &file_name,
         log_bytes: &log_bytes,
         start_label: result.log.start_label.as_deref(),
-        // The reader does not yet report each epoch's byte range in the source, so the whole
-        // log is bundled and the manifest says so. When `LogEpoch` carries the range, pass
-        // `Some((start, end))` of the window here and nothing else changes.
-        slice: None,
+        slice,
         window: Window {
             from_s: t0,
             to_s: t1,
@@ -420,9 +428,10 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         fingerprint(&hex::decode(public_key_hex(&seed)).unwrap_or_default())
     );
     println!("  SHA-256 of manifest.json (what an RFC 3161 authority should stamp): {manifest}");
-    println!(
-        "  log slice: whole log (byte-range slicing is not available from this log reader yet)"
-    );
+    match slice {
+        Some((a, b)) => println!("  log slice: bytes {a} to {b} of {}", log_bytes.len()),
+        None => println!("  log slice: whole log (this log gives no byte range for the window)"),
+    }
     println!("verify with: kshana evidence verify {out} --pubkey <signer public key>");
     println!("A pack is a technical record, not a legal opinion.");
     Ok(())
