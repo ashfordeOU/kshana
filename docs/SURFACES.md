@@ -22,9 +22,14 @@ actions that run the CLI), **Notebook** (`notebooks/`).
 | Training NMEA streamed to a TCP or UDP address | `nmea-scenario --tcp/--udp` | `nmea_synth::stream` | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 | Interference map (ADS-B, AIS) | `interference-map adsb\|ais` | `interference_map::api` | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map`, skill `interference-map-route-exposure` | Build Interference Map | `interference-map-route-exposure` |
 | Route exposure | `route-exposure` | `interference_map::api::route_exposure` | `route_exposure` | `route_exposure` | `route_exposure` | same | Route Exposure | `interference-map-route-exposure` |
+| Signal K plugin and OpenCPN gate feed (`docs/MARINE-INTEGRATIONS.md`) | `integrations/`, `receiver-trust live --gate --listen` | **N/A** (processes) | **N/A** | **N/A** | **N/A** | how-to only: `/kshana-marine-integrations`, skill `marine-integrations` | **N/A** | **N/A** |
 | Land-polygon download (`interference-map fetch-land`) | `--allow-network` | CLI code | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 
 ## Why the N/A cells are N/A
+
+- **Signal K and OpenCPN.** They are consumers of the running live process and of its TCP gate, so
+  they are command-line deployments; the plugin carries a how-to command and a skill that point to
+  `docs/MARINE-INTEGRATIONS.md` and call no tool.
 
 - **A running process.** `receiver-trust live` holds a stream open, can serve the gated stream
   to any number of TCP clients and runs until it is stopped. A Python call, a browser call, an
@@ -54,7 +59,7 @@ actions that run the CLI), **Notebook** (`notebooks/`).
 
 | Surface | Input limit | Files |
 |---|---|---|
-| MCP | 4 MiB per text input (2 MiB and 20,000 epochs for a stream excerpt); replies carry at most 2000 NMEA lines, 200 non-nominal epoch lines and 4 MiB of GeoJSON or pack files | reads and writes none for these tools; `assess_receiver_log` refuses a `path` source |
+| MCP | 4 MiB per text input (2 MiB and 20,000 epochs for a stream excerpt); replies carry at most 2000 NMEA lines, 200 non-nominal epoch lines and 4 MiB of GeoJSON or pack files | inline content only: a scenario field that names a file is refused; the `iq_*` tools use one opt-in work directory, with every path confined to it |
 | Python, Rust | 64 MiB per text input | `receiver_trust` may name a `path` the process can read |
 | WASM | 64 MiB per text input, inside the browser's own memory | none: the browser has no file system, nothing is uploaded |
 

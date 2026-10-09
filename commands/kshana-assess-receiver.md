@@ -16,7 +16,7 @@ Do this:
 1. Decide which tool fits.
    - A whole log in a static or vessel setting (u-blox UBX, RINEX 3, Android GnssLogger or
      NMEA): **`assess_receiver_log`**. Build a `receiver-trust` scenario in TOML with the log
-     inline (`text` or `base64`; a `path` is refused, and the input is capped at 4 MiB). Add
+     inline (`text` or `base64`; the input is capped at 4 MiB). Add
      `[platform] kind = "vessel"` with the vessel's own limits (`max_speed_kn`,
      `max_accel_mps2`, `max_turn_rate_dps`, `antenna_height_m`, `heading_sensor`) for the
      moving-vessel monitors and the 0-100 trust score with the monitors that took points off.

@@ -27,12 +27,15 @@ breaking changes are called out explicitly.
   share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
   modules' own functions.
 
-### Fixed (surfaces)
+### Changed (surfaces)
 
-- **The MCP tool `assess_receiver_log` no longer reads files named by the caller.** A
-  scenario with `[log] path = ...` made the server read that file; the tool now refuses a `path`
-  source (give the log inline as `text` or `base64`) and caps its input at 4 MiB. The Python
-  function `receiver_trust`, which runs in the caller's own process, still accepts a `path`.
+- **The MCP server's tools take inline content only.** A scenario that sets a field naming a
+  file or folder for the engine to read (`csv_path`, `meta_path`, `ephemeris_path`, the kernel,
+  data-folder and EOP-file fields) is refused with the field's name, and every scenario and
+  upload is capped at 4 MiB. `assess_receiver_log` takes the log as `text` or `base64`. The GNSS
+  IQ tools keep their opt-in work directory, with every path confined to it. A test lists the
+  fields and fails when a scenario type gains one that is not covered. The Python function
+  `receiver_trust`, which runs in the caller's own process, still accepts a `path`.
 
 ### Added (evidence packs)
 
