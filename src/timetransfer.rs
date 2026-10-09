@@ -487,12 +487,12 @@ pub fn to_svg(result: &TimeTransferResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">RF: {}</text>",
         ml + 10.0,
-        result.classical.spec.id
+        crate::chart::esc(&result.classical.spec.id)
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">optical: {}</text>",
         ml + 10.0,
-        result.quantum.spec.id
+        crate::chart::esc(&result.quantum.spec.id)
     ));
     svg.push_str("</svg>");
     svg

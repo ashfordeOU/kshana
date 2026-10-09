@@ -2,7 +2,7 @@
 // Runs against the real engine output in recorded/ (and the optional group when present).
 import assert from "node:assert/strict";
 import { readFileSync, readdirSync, existsSync } from "node:fs";
-import { resolve, genericPath, unitOf, quantity, leafText, keyLabel, capabilityView, capabilityTabs, capabilityFigures, guidedFor, kindOfRun, CAPABILITIES } from "./kinds.mjs";
+import { resolve, genericPath, unitOf, quantity, leafText, keyLabel, capabilityView, capabilityTabs, capabilityFigures, guidedFor, kindOfRun, hasCapability, CAPABILITIES } from "./kinds.mjs";
 import { numericFields } from "./params.mjs";
 
 // Paths.
@@ -121,5 +121,17 @@ assert.equal(leafText(sp, "x", 12.5, "dB-Hz"), "12.5 dB-Hz");
   const wf = all.find((x) => x.file === "l-band-waterfall-jamming.toml");
   assert.ok(resultTabs(wf.r, wf.toml).includes("spectrum"));
   assert.ok(!resultTabs(wf.r, wf.toml).includes("holdover"), "a spectrum run has no holdover view");
+}
+// A scenario's kind is the reader's text. Names a plain object inherits are not kinds: they get no
+// capability view, no figures, no guided knobs, and nothing throws.
+{
+  for (const k of ["constructor", "__proto__", "toString", "hasOwnProperty", "valueOf"]) {
+    const toml = `kind = "${k}"\n`;
+    assert.equal(hasCapability(k), false, k);
+    assert.equal(capabilityView({ kind: k }, toml), null, k);
+    assert.deepEqual(capabilityFigures({ kind: k, a: 1 }, toml), [], k);
+    assert.deepEqual(guidedFor(k, []), [], k);
+    assert.equal(kindOfRun({ kind: k }, ""), k, "the text is still reported as written");
+  }
 }
 console.log(`kinds.test.mjs: ${seenKinds.size} kinds, ${panels} panels, ${values} values traced to the result; all assertions passed`);
