@@ -37,9 +37,9 @@ carry the rules below for agents that load skills.
 
 ## What each tool will not do
 
-- **Read or write files** (the 0.35 tools). Inputs are text in the request, capped at 4 MiB;
-  `assess_receiver_log` refuses a `path` source. Only the `iq_*` tools touch a folder, and only the
-  one named by `KSHANA_MCP_IQ_DIR`.
+- **Read or write files.** Content is inline: inputs are text in the request, capped at 4 MiB, and
+  a scenario field that names a file is refused. Only the `iq_*` tools touch a folder, and only the
+  one named by `KSHANA_MCP_IQ_DIR`, with every path confined to it.
 - **Run a process.** `receiver-trust live` as a running stream (with a gate and `--listen`), the
   telemetry exporters (`trust-telemetry`: Prometheus, syslog, OTLP) and streaming training NMEA to
   an address are command-line only. `assess_vessel_stream` scores an excerpt with the same engine

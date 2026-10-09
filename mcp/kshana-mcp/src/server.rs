@@ -53,7 +53,7 @@ pub struct RunScenarioRequest {
 pub struct ReceiverTrustRequest {
     /// A `receiver-trust` scenario as TOML: `[log]` names the receiver log's `format`
     /// (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or
-    /// `base64` (a `path` is refused: the server reads no files for this tool; at most 4 MiB); optional `[monitors]`,
+    /// `base64` (inline only, at most 4 MiB); optional `[monitors]`,
     /// `[[events]]` and `[compare]` sections state thresholds, known events and
     /// tolerances before the run.
     pub toml: String,
@@ -209,6 +209,13 @@ fn first_comment_sentence(toml: &str) -> String {
     paragraph
 }
 
+/// Refuse a scenario that names a file or folder for the engine to read, and one over the
+/// upload limit: the server runs scenario text from the client and accepts inline content only.
+fn inline_only(toml: &str) -> Result<(), McpError> {
+    kshana::surface::reject_file_sources(toml, crate::marine::MAX_UPLOAD_BYTES)
+        .map_err(|e| McpError::invalid_params(e, None))
+}
+
 /// The detected kind of a scenario, as the name `list_scenario_kinds` uses.
 fn kind_of(toml: &str) -> &'static str {
     kshana::api::ScenarioKind::classify(toml)
@@ -262,7 +269,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Run a Kshana PNT-resilience scenario from a TOML definition and return its figures of merit. Returns the human-readable summary followed by the full result JSON (FoMs, curves). Kshana validates SGP4/SDP4, IAU reference frames, Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models against published references. Every kind runs through this one tool, including `spectrum` (radio-frequency spectrum and waterfall), `solar-system`, `constellation-design` and `body-pnt` (constellations around any body), `campaign` (chained phases, parameter sweeps, Monte Carlo ensembles and composed scenarios) and the low-Earth-orbit navigation kinds `leo-signal`, `leo-pass`, `leo-navmsg`, `leo-pvt`, `leo-ppp`, `ntn-positioning` and `leo-pnt-chain`. Call list_scenario_kinds first to discover scenario types and their fields, and list_example_scenarios / get_example_scenario for a complete runnable scenario of a kind."
+        description = "Run a Kshana PNT-resilience scenario from a TOML definition and return its figures of merit. Returns the human-readable summary followed by the full result JSON (FoMs, curves). Kshana validates SGP4/SDP4, IAU reference frames, Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models against published references. Every kind runs through this one tool, including `spectrum` (radio-frequency spectrum and waterfall), `solar-system`, `constellation-design` and `body-pnt` (constellations around any body), `campaign` (chained phases, parameter sweeps, Monte Carlo ensembles and composed scenarios) and the low-Earth-orbit navigation kinds `leo-signal`, `leo-pass`, `leo-navmsg`, `leo-pvt`, `leo-ppp`, `ntn-positioning` and `leo-pnt-chain`. Content is inline: a scenario field that names a file is refused, and a scenario is at most 4 MiB. Call list_scenario_kinds first to discover scenario types and their fields, and list_example_scenarios / get_example_scenario for a complete runnable scenario of a kind."
     )]
     fn run_scenario(
         &self,
@@ -271,6 +278,7 @@ impl KshanaServer {
             include_chart,
         }): Parameters<RunScenarioRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::run_toml(&toml) {
             Ok(out) => {
                 let mut contents = vec![
@@ -305,6 +313,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         // `classify` is permissive by design (unknown/unparseable input falls back to the
         // clock pack), so do a strict TOML parse here to actually catch malformed input.
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
@@ -317,7 +326,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request). The log's bytes go inline in the TOML as `text` or `base64` (at most 4 MiB; a `path` is refused). A `[platform] kind = \"vessel\"` table selects the maritime monitors (kinematic consistency, heading against course, speed log, antenna height, C/N0 spread, time consistency) and adds a 0-100 trust score per epoch with the monitors that deducted; for a stream excerpt with the gate use `assess_vessel_stream`. Advisory only; evidence tier MODELLED."
+        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request). The log's bytes go inline in the TOML as `text` or `base64` (inline only, at most 4 MiB). A `[platform] kind = \"vessel\"` table selects the maritime monitors (kinematic consistency, heading against course, speed log, antenna height, C/N0 spread, time consistency) and adds a 0-100 trust score per epoch with the monitors that deducted; for a stream excerpt with the gate use `assess_vessel_stream`. Advisory only; evidence tier MODELLED."
     )]
     fn assess_receiver_log(
         &self,
@@ -415,6 +424,7 @@ impl KshanaServer {
             scenario_file,
         }): Parameters<ReportRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         let format = format
             .as_deref()
             .map(|f| f.trim().to_ascii_lowercase())
@@ -459,6 +469,7 @@ impl KshanaServer {
             width,
         }): Parameters<AnimateRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         use kshana::animation::{AnimationFormat, AnimationOptions};
         let bad = |m: String| McpError::invalid_params(format!("animation failed: {m}"), None);
         let format = AnimationFormat::parse(format.as_deref().unwrap_or("svg")).map_err(bad)?;
@@ -508,6 +519,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
             return Err(McpError::invalid_params(format!("invalid TOML: {e}"), None));
         }
@@ -534,6 +546,7 @@ impl KshanaServer {
         &self,
         Parameters(ExportInteropRequest { toml, format }): Parameters<ExportInteropRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         let bad = |m: String| McpError::invalid_params(format!("export failed: {m}"), None);
         let fmt = kshana::interop::Format::parse(format.trim()).map_err(|_| {
             bad(format!(
@@ -576,6 +589,7 @@ impl KshanaServer {
         &self,
         Parameters(ImportRouteRequest { toml, geojson }): Parameters<ImportRouteRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::interop::geojson::apply_route(&toml, &geojson) {
             Ok(merged) => Ok(CallToolResult::success(vec![ContentBlock::text(merged)])),
             Err(e) => Err(McpError::invalid_params(
@@ -592,6 +606,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::export_sp3(&toml) {
             Ok(sp3) => Ok(CallToolResult::success(vec![ContentBlock::text(sp3)])),
             Err(e) => Err(McpError::invalid_params(
@@ -608,6 +623,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::export_omm(&toml) {
             Ok(omm) => Ok(CallToolResult::success(vec![ContentBlock::text(omm)])),
             Err(e) => Err(McpError::invalid_params(
@@ -624,6 +640,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::export_oem(&toml) {
             Ok(oem) => Ok(CallToolResult::success(vec![ContentBlock::text(oem)])),
             Err(e) => Err(McpError::invalid_params(
@@ -640,6 +657,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         let out = kshana::api::run_toml(&toml)
             .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
         match out.csv {

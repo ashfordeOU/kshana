@@ -21,5 +21,5 @@ Rules that apply every time:
 - `receiver-trust live` with a gate or `--listen`, and the telemetry exporters, are long-running
   command-line processes; the MCP tool scores a bounded excerpt, applies no gate and writes to
   no port.
-- Inputs go inline (4 MiB cap); a `path` is refused.
+- Inputs go inline (4 MiB cap).
 - Synthetic or user-owned data only. Do not name vessels or people in outputs.
