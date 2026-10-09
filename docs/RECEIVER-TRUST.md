@@ -37,6 +37,14 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 | `android` | Android GnssLogger CSV | `Raw` rows: C/N0 and `AgcDb` per satellite; `Fix` rows: position |
 | `nmea` | NMEA 0183 text | GSV signal-to-noise per satellite (dB-Hz, with or without the 4.10 signal ID), GGA and RMC time and position |
 
+Each epoch the readers produce also carries `source_span`, `[start, end)` byte offsets into the
+input: the smallest contiguous range holding the records that contributed to it, so the exact raw
+slice can be hashed for an event window. NMEA: every line read while the epoch is current (a
+superset where an unrelated line sits between its sentences). UBX: the frames of the epoch.
+RINEX 3: the epoch records from each `>` line to the next. Android: the epoch's `Raw` rows (a
+`Fix` row only for an epoch with no `Raw` rows). Absent for a live stream and wherever it is not
+well defined (RINEX 2).
+
 The file goes in by `path` (resolved against the scenario's own folder), or inline as
 `text` or `base64` (the only choices in a browser).
 
