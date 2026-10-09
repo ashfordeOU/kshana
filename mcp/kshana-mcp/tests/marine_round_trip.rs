@@ -298,7 +298,7 @@ async fn oversize_inputs_are_refused() {
 }
 
 #[tokio::test]
-async fn assess_receiver_log_refuses_a_path_so_the_server_reads_no_files() {
+async fn assess_receiver_log_takes_inline_content_only() {
     let client = connect().await;
     let toml = "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\npath = \"/etc/passwd\"\n";
     let e = call(&client, "assess_receiver_log", json!({"toml": toml}))
@@ -447,5 +447,50 @@ async fn interference_map_checks_the_dataset_and_the_source() {
     args["land_geojson"] = read("examples/interference-map/input/land.geojson").into();
     let t = call(&client, "build_interference_map", args).await.unwrap();
     assert!(t[0].contains("ais-2026-03-01"));
+    client.cancel().await.ok();
+}
+
+/// Every tool that takes scenario text refuses a scenario that names a file for the engine to
+/// read, before anything runs; the server accepts inline content only. The refusal comes from
+/// the check, not from the engine failing to find the file: the message names the field.
+#[tokio::test]
+async fn every_scenario_tool_accepts_inline_content_only() {
+    let with_file = [
+        "kind = \"telecom-timing\"\ncsv_path = \"/definitely/not/a/file.csv\"\n",
+        "kind = \"spectrum\"\n[recording]\nmeta_path = \"/definitely/not/a/file.sigmf-meta\"\n",
+        "kind = \"realtime-frame-eop\"\neop_finals2000a = \"/definitely/not/a/file\"\n",
+        "kind = \"lunar-service\"\nephemeris_path = \"/definitely/not/a/file\"\n",
+        "kind = \"lunar-llr\"\ndata_dir = \"/definitely/not/a/dir\"\n",
+    ];
+    let route = r#"{"type":"LineString","coordinates":[[0,0],[1,1]]}"#;
+    let client = connect().await;
+    for toml in with_file {
+        for (tool, args) in [
+            ("run_scenario", json!({"toml": toml})),
+            ("validate_scenario", json!({"toml": toml})),
+            ("report_scenario", json!({"toml": toml})),
+            ("animate_scenario", json!({"toml": toml})),
+            ("list_export_formats", json!({"toml": toml})),
+            ("export_interop", json!({"toml": toml, "format": "czml"})),
+            ("import_route", json!({"toml": toml, "geojson": route})),
+            ("export_sp3", json!({"toml": toml})),
+            ("export_omm", json!({"toml": toml})),
+            ("export_oem", json!({"toml": toml})),
+            ("export_table_csv", json!({"toml": toml})),
+            ("assess_receiver_log", json!({"toml": toml})),
+        ] {
+            let e = call(&client, tool, args).await.unwrap_err();
+            assert!(
+                e.contains("accepts inline content only"),
+                "{tool} on {toml:?}: {e}"
+            );
+        }
+    }
+    // An over-size scenario is refused by every one of them too.
+    let big = format!("kind = \"clock\"\n# {}\n", "x".repeat(MAX_UPLOAD_BYTES));
+    for tool in ["run_scenario", "report_scenario", "export_sp3"] {
+        let e = call(&client, tool, json!({"toml": big})).await.unwrap_err();
+        assert!(e.contains("limit"), "{tool}: {e}");
+    }
     client.cancel().await.ok();
 }
