@@ -17,7 +17,7 @@ use super::sources::{self, Dataset, Kind};
 use super::time::parse_day;
 use super::{IdHasher, MapError};
 
-pub const MAP_USAGE: &str = "usage: kshana interference-map adsb <input.csv> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
+pub const MAP_USAGE: &str = "usage: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
    or: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
    or: kshana interference-map fetch-land --out <land.geojson> --allow-network
    (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)";
@@ -25,7 +25,14 @@ pub const MAP_USAGE: &str = "usage: kshana interference-map adsb <input.csv> --d
 pub const ROUTE_USAGE: &str = "usage: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]";
 
 /// Natural Earth land polygons (public domain), the intended coastline for the AIS detector.
-pub const NATURAL_EARTH_LAND_URL: &str = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/master/geojson/ne_10m_land.geojson";
+/// The URL names one commit of the upstream repository, and the download is checked against
+/// the SHA-256 below before it is kept, so the file cannot change under the command.
+pub const NATURAL_EARTH_LAND_URL: &str = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_10m_land.geojson";
+pub const NATURAL_EARTH_LAND_SHA256: &str =
+    "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416";
+
+/// Decompression limit for one readsb trace file (bytes).
+const MAX_TRACE_BYTES: u64 = 512 * 1024 * 1024;
 
 fn flag_value<'a>(args: &'a [String], name: &str) -> Result<Option<&'a str>, MapError> {
     match args.iter().position(|a| a == name) {
@@ -191,7 +198,7 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                     .ok_or_else(|| MapError::Format("--out is required".into()))?,
             );
             let mut agg = AdsbAggregator::new(grid, AdsbParams::PREREGISTERED_V1, IdHasher::new());
-            agg.read_csv(&read(input)?)?;
+            read_adsb_input(&mut agg, Path::new(input))?;
             let stats = agg.stats.clone();
             let days = agg.finish();
             write_days(
@@ -269,29 +276,125 @@ fn positional<'a>(args: &'a [String], valued: &[&str]) -> Option<&'a str> {
     None
 }
 
-/// Opt-in download of Natural Earth land polygons with the system `curl` (no HTTP crate is
-/// linked into Kshana). HTTPS only; one file; nothing is read from it here.
+/// SHA-256 of a file as lowercase hex.
+fn file_sha256(path: &Path) -> Result<String, MapError> {
+    use sha2::{Digest, Sha256};
+    use std::io::Read;
+    let mut f = std::fs::File::open(path)
+        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+    let mut h = Sha256::new();
+    let mut buf = [0u8; 64 * 1024];
+    loop {
+        let n = f
+            .read(&mut buf)
+            .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+        if n == 0 {
+            break;
+        }
+        h.update(&buf[..n]);
+    }
+    Ok(hex::encode(h.finalize()))
+}
+
+/// Move `part` to `dest` only if its SHA-256 equals `expected`; otherwise delete it.
+fn verify_and_keep(part: &Path, dest: &Path, expected: &str) -> Result<(), MapError> {
+    let got = file_sha256(part)?;
+    if got != expected {
+        let _ = std::fs::remove_file(part);
+        return Err(MapError::Io(format!(
+            "the downloaded file's SHA-256 ({got}) does not match the pinned value ({expected}); it was discarded"
+        )));
+    }
+    std::fs::rename(part, dest)
+        .map_err(|e| MapError::Io(format!("cannot write {}: {e}", dest.display())))
+}
+
+/// Opt-in download of Natural Earth land polygons with the system `curl`, run with an
+/// argument vector (no shell), a fixed HTTPS URL, and the result checked against a pinned
+/// SHA-256 before it is kept. No HTTP crate is linked into Kshana.
 fn fetch_land(out: &str) -> Result<(), MapError> {
+    let dest = PathBuf::from(out);
+    let mut part_name = dest.as_os_str().to_os_string();
+    part_name.push(".part");
+    let part = PathBuf::from(part_name);
     let status = std::process::Command::new("curl")
-        .args([
-            "--fail",
-            "--silent",
-            "--show-error",
-            "--location",
-            "--proto",
-            "=https",
-            "--output",
-            out,
-            NATURAL_EARTH_LAND_URL,
-        ])
+        .args(["--fail", "--silent", "--show-error", "--location", "--proto", "=https", "--output"])
+        .arg(&part)
+        .arg(NATURAL_EARTH_LAND_URL)
         .status()
-        .map_err(|e| MapError::Io(format!("cannot run curl: {e}")))?;
+        .map_err(|e| {
+            if e.kind() == std::io::ErrorKind::NotFound {
+                MapError::Io(format!(
+                    "curl was not found on PATH. Install curl, or download {NATURAL_EARTH_LAND_URL} yourself and check that its SHA-256 is {NATURAL_EARTH_LAND_SHA256}"
+                ))
+            } else {
+                MapError::Io(format!("cannot run curl: {e}"))
+            }
+        })?;
     if !status.success() {
+        let _ = std::fs::remove_file(&part);
         return Err(MapError::Io(
             "curl failed to download the land polygons".into(),
         ));
     }
-    println!("wrote {out}: Natural Earth land polygons (public domain, https://www.naturalearthdata.com/about/terms-of-use/)");
+    verify_and_keep(&part, &dest, NATURAL_EARTH_LAND_SHA256)?;
+    println!("wrote {out}: Natural Earth land polygons, SHA-256 verified (public domain, https://www.naturalearthdata.com/about/terms-of-use/)");
+    Ok(())
+}
+
+/// Read ADS-B input from a path: a `.csv` file; a readsb trace file (`.json`, gzip or plain);
+/// or a directory, searched recursively for `trace_full_*` files (an extracted adsb.lol
+/// daily archive). A trace file that cannot be read is counted in the output metadata and
+/// skipped; it does not stop the run.
+fn read_adsb_input(agg: &mut AdsbAggregator, path: &Path) -> Result<(), MapError> {
+    if path.is_dir() {
+        let mut files = Vec::new();
+        collect_trace_files(path, &mut files)?;
+        files.sort();
+        if files.is_empty() {
+            return Err(MapError::Format(format!(
+                "no trace_full_* files under {}",
+                path.display()
+            )));
+        }
+        for f in files {
+            read_trace_file(agg, &f);
+        }
+        return Ok(());
+    }
+    if path
+        .extension()
+        .is_some_and(|e| e.eq_ignore_ascii_case("csv"))
+    {
+        return agg.read_csv(&read(&path.to_string_lossy())?);
+    }
+    let bytes = std::fs::read(path)
+        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+    agg.read_readsb_trace(&bytes, MAX_TRACE_BYTES)
+}
+
+fn read_trace_file(agg: &mut AdsbAggregator, f: &Path) {
+    let ok = std::fs::read(f)
+        .ok()
+        .is_some_and(|b| agg.read_readsb_trace(&b, MAX_TRACE_BYTES).is_ok());
+    if !ok {
+        agg.stats.trace_files_unreadable += 1;
+    }
+}
+
+fn collect_trace_files(dir: &Path, out: &mut Vec<PathBuf>) -> Result<(), MapError> {
+    let rd = std::fs::read_dir(dir)
+        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", dir.display())))?;
+    for e in rd.filter_map(Result::ok) {
+        let p = e.path();
+        // `file_type` does not follow symlinks, so a link cannot lead the walk out of the tree.
+        let Ok(t) = e.file_type() else { continue };
+        if t.is_dir() {
+            collect_trace_files(&p, out)?;
+        } else if t.is_file() && e.file_name().to_string_lossy().starts_with("trace_full_") {
+            out.push(p);
+        }
+    }
     Ok(())
 }
 
@@ -399,4 +502,45 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
         println!("Caveats: a degraded cell does not identify interference as the cause; cells not observed are not evidence of a clear route; this is not a forecast.");
     }
     Ok(())
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    fn scratch(name: &str) -> PathBuf {
+        let d =
+            std::env::temp_dir().join(format!("kshana-imap-unit-{}-{name}", std::process::id()));
+        let _ = std::fs::remove_dir_all(&d);
+        std::fs::create_dir_all(&d).unwrap();
+        d
+    }
+
+    #[test]
+    fn download_is_kept_only_when_the_hash_matches() {
+        let d = scratch("hash");
+        let (part, dest) = (d.join("f.part"), d.join("f"));
+        std::fs::write(&part, b"abc").unwrap();
+        // SHA-256 of "abc" (FIPS 180-2 test vector).
+        let abc = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
+        verify_and_keep(&part, &dest, abc).unwrap();
+        assert!(dest.exists() && !part.exists());
+
+        std::fs::write(&part, b"abd").unwrap();
+        let e = verify_and_keep(&part, &d.join("g"), abc)
+            .unwrap_err()
+            .to_string();
+        assert!(e.contains("does not match"), "{e}");
+        assert!(
+            !part.exists() && !d.join("g").exists(),
+            "a mismatching download is discarded"
+        );
+    }
+
+    #[test]
+    fn pinned_download_address_is_https_and_commit_pinned() {
+        assert!(NATURAL_EARTH_LAND_URL.starts_with("https://"));
+        assert!(NATURAL_EARTH_LAND_URL.contains("ca96624a56bd078437bca8184e78163e5039ad19"));
+        assert_eq!(NATURAL_EARTH_LAND_SHA256.len(), 64);
+    }
 }
