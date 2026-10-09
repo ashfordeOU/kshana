@@ -84,6 +84,11 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("route-exposure") {
         return ExitCode::from(kshana::interference_map::cli::run_route(&args[2..]) as u8);
     }
+    // `kshana nmea-scenario <scenario.toml>` writes or streams synthetic bridge NMEA for
+    // crew training (kshana::nmea_synth). Terminal, text output only.
+    if args.get(1).map(String::as_str) == Some("nmea-scenario") {
+        return kshana::nmea_synth::cli::run_cli(&args[2..]);
+    }
     // `kshana iq <command>` handles the GNSS IQ layer: the signal-processing commands
     // (scene, acquire, track, sweep, labfit) in `kshana::iq::cli`, which hands the
     // data-handling ones (inventory, info, extract, convert, decimate) on to

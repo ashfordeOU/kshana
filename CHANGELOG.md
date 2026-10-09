@@ -59,6 +59,21 @@ breaking changes are called out explicitly.
   dependency: `flate2` with its pure-Rust backend, for gzip). Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
   licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
 
+- **`kshana nmea-scenario`: synthetic bridge NMEA 0183 for crew training in GNSS jamming
+  and spoofing recognition.** From a scenario TOML it writes a file, or streams over TCP
+  or UDP (unicast or broadcast; real time, accelerated or as fast as possible), the full
+  bridge set GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT and VBW for a vessel track with
+  rate-of-turn, acceleration and current limits, with satellite geometry from the engine's
+  own nominal constellations. Scripted events on a timeline: jamming, position drag-off
+  (a valid fix that walks away), time spoof and a replay delay, each with onset and
+  recovery ramps. An instructor log (JSON and text) records what was injected when with the
+  true track against the reported one. A library in `scenarios/training/` (open-sea
+  jamming, coastal drag-off, port-approach time spoof, combined) carries trainer notes.
+  Output is checksum-valid and deterministic per seed; tests pin a golden excerpt per
+  scenario and read every sentence with the `receiver-trust` NMEA reader. Text only: no
+  RF, IQ or waveform output; streams are for training and testing and must never be fed
+  to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
+
 ## [0.34.0] - 2026-10-09
 
 Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
