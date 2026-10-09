@@ -106,6 +106,49 @@ JammerTest 2024 spoofing oracle in `tests/jammertest_spoof_oracle_support`:
 `tests/receiver_trust_jammertest.rs` checks that, on all eight published onsets, the first
 alarm falls on the same epoch and is of the same kind.
 
+## Trust score (vessel platform)
+
+For a vessel every epoch after calibration also gets a score from 0 to 100 and the reasons
+it is not 100. The mapping is deterministic and fixed before any log is scored: no learning,
+nothing fitted to events. Each monitor reduces its evidence to a ratio `statistic /
+threshold` (an alarm at 1 or more); a ratio costs the score
+
+```text
+points = weight * clamp((ratio - onset_ratio) / (full_ratio - onset_ratio), 0, 1)
+score  = round_to_0.1( clamp(100 - sum of points, 0, 100) )
+```
+
+so a monitor costs nothing while below `onset_ratio` of its threshold (default 0.5), half its
+weight at its threshold, and all of it at `full_ratio` times the threshold (default 1.5); the
+score is non-increasing in every statistic. A source that does not report at an epoch keeps its
+last statistic for `evidence_hold_s` (default 10 s: two cycles of a C/N0 sentence sent every
+5 s), as an alarm and as a deduction alike.
+
+```toml
+[score]
+nominal_min = 90.0         # score >= 90: nominal
+degraded_min = 55.0        # 55 <= score < 90: degraded; below 55: untrusted
+onset_ratio = 0.5
+full_ratio = 1.5
+evidence_hold_s = 10.0
+[score.weights]            # overrides; a monitor not listed keeps its default
+sea-level = 30.0
+```
+
+| Weight (points) | Monitors | Why |
+|---|---|---|
+| 70 | `osnma` | an authentication failure is a statement, not a statistic |
+| 60 | `kinematic`, `sec-spoof`, `raim`, `clock`, `position-jump` | a counterfeit position has to contradict physics or the receiver's own checks; one clear violation leaves the degraded band |
+| 40 | `heading-course`, `speed-log`, `time-consistency`, `solve-failure` | one independent sensor disagreeing is degraded; two at full strength are untrusted |
+| 30 | `sea-level`, `cn0-spread`, `cn0-rise`, `cn0-drop`, `sec-jam` | the signal environment, or a weakly informative check |
+| 25 | `loss-of-lock`, `agc`, `jam-ind` | the environment is hostile; that alone does not show the fix is wrong |
+
+The band edges follow from the weights: the lightest monitor at its threshold costs 12.5
+points, so any alarm leaves the nominal band; no single monitor under 60 points can reach the
+untrusted band alone (several together can). The result records the score model
+(`score_model`) and each epoch carries `score.deductions`: which monitors deducted, their
+ratios and their points. For a vessel the epoch's state is the band of its score.
+
 ## Stating events and predictions
 
 ```toml

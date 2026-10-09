@@ -521,7 +521,8 @@ impl MarineMonitors {
             }
             match m.osnma {
                 Some(OsnmaStatus::Failed) => {
-                    ratios.insert(Monitor::Osnma, 1.0);
+                    // A failure is a statement, not a statistic: it costs the whole weight.
+                    ratios.insert(Monitor::Osnma, 1.5);
                 }
                 Some(OsnmaStatus::Authenticated) => {
                     ratios.insert(Monitor::Osnma, 0.0);
