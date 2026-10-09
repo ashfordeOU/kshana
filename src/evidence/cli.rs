@@ -232,6 +232,9 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                         Status::Skipped => "skip",
                     };
                     println!("{tag}  {:<18} {}", c.name, c.detail);
+                    if c.name == "timestamp" && rep.timestamp.is_some() {
+                        println!("      timestamp authority signature not verified by Kshana");
+                    }
                 }
                 for f in &rep.failures {
                     println!(

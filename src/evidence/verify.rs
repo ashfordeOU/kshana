@@ -171,8 +171,8 @@ pub struct TimestampReport {
     pub imprint_matches: bool,
     /// The time the authority stated, if the token parsed.
     pub gen_time: Option<String>,
-    /// Always false in this build: the authority's signature and certificate chain are not
-    /// checked here. Use `openssl ts -verify`.
+    /// Always false in this build: timestamp authority signature not verified by Kshana (nor
+    /// its certificate chain). Use `openssl ts -verify`.
     pub authority_signature_verified: bool,
 }
 
@@ -530,7 +530,7 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                         });
                     }
                     r.notes.push(format!(
-                        "timestamp token states {}; its imprint {} manifest.json. The authority's signature and certificate chain are NOT checked by this tool: verify with `openssl ts -verify`.",
+                        "timestamp token states {}; its imprint {} manifest.json. Timestamp authority signature not verified by Kshana: check it with `openssl ts -verify`.",
                         info.gen_time,
                         if matches { "matches" } else { "does NOT match" }
                     ));
@@ -596,7 +596,10 @@ mod tests {
         let t = r.timestamp.unwrap();
         assert!(t.imprint_matches && !t.authority_signature_verified);
         assert_eq!(t.gen_time.as_deref(), Some("2026-01-02T03:04:05Z"));
-        assert!(r.notes.iter().any(|n| n.contains("NOT checked")));
+        assert!(r
+            .notes
+            .iter()
+            .any(|n| n.contains("Timestamp authority signature not verified by Kshana")));
     }
 
     #[test]
