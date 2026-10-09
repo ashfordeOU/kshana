@@ -20,12 +20,14 @@
 //! **A pack is a technical record of what the engine computed from a log. It is not a legal
 //! opinion, not a finding of fact about any event, and not a certification.**
 
+pub mod assemble;
 pub mod bundle;
 pub mod cli;
 pub mod html;
 pub mod tsr;
 pub mod verify;
 
+pub use assemble::{build_receiver_trust_pack, PackRequest, PackSummary};
 pub use bundle::{
     create_bundle, generate_seed, public_key_hex, slice_for_window, EvidenceError, EvidenceInput,
     Files, Manifest, Window, DISCLAIMER, FORMAT,
