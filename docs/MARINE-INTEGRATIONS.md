@@ -13,7 +13,7 @@ puts it on a small computer next to the receiver.
 |---|---|---|
 | Signal K plugin | `integrations/signalk/` | shipped, unit-tested on recorded synthetic output; not published to npm |
 | OpenCPN via gate-mode NMEA over TCP | `integrations/opencpn/` | shipped and tested (consumer-side replay); the OpenCPN user interface itself is not driven by any test |
-| OpenCPN native score-panel plugin | `integrations/opencpn/plugin/` | built and build-checked against the plugin API header, logic unit-tested; **not yet run inside OpenCPN**; ships only after that and review |
+| OpenCPN native score-panel plugin | `integrations/opencpn/plugin/` | built, logic unit-tested, and run inside OpenCPN 5.8.4 under a virtual display (evidence in `integrations/opencpn/evidence/`); not packaged for the plugin manager; ships only after review |
 | Reference build | `deploy/reference-build/` | parts, OS steps, systemd units (dry-run checked), a container option; not tested on a vessel |
 
 All of it reads one thing: the output of `kshana receiver-trust live` (JSON lines, the `$PKSHT` sentence, the
@@ -140,8 +140,9 @@ KSHANA_BIN=target/release/kshana npm run e2e      # runs the 1 h synthetic demo:
 trust becomes untrusted) that reads `$PKSHT` from OpenCPN's own NMEA stream, so it needs no connection beyond the
 one above. It is built with CMake against the OpenCPN plugin API header (vendored, with its source commit) and
 wxWidgets; `ctest` runs the wx-free logic tests and checks that the library exports the entry points OpenCPN looks
-up. It has **not been run inside OpenCPN**, so the panel's appearance and OpenCPN handing `$PKSHT` to a plugin are
-unverified, and it is not packaged for OpenCPN's plugin manager. See the plugin's
+up. It has been run inside OpenCPN 5.8.4 under a virtual display on the synthetic gated stream (OpenCPN handed `$PKSHT` to the
+plugin, the panel went red, and OpenCPN's own position froze when the gate engaged; screenshots, log and script in
+`integrations/opencpn/evidence/`), but not on a real desktop, other versions or platforms, and it is not packaged for OpenCPN's plugin manager. See the plugin's
 [`README.md`](../../integrations/opencpn/plugin/README.md).
 
 ## Reference build
