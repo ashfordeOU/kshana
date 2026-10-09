@@ -1,0 +1,35 @@
+# Open-sea jamming: C/N0 falls across every satellite, the receiver drops them one by one
+# and loses its fix, then recovers. Synthetic NMEA for bridge-simulator training only.
+[scenario]
+name = "open-sea-jamming"
+description = "Open-sea passage; a jammer degrades reception until the fix is lost, then clears."
+trainer_note = "Watch the GSV SNR fall together and satellites vanish from the lowest elevation up before GGA quality drops to 0 and RMC goes to V. Heading (HDT) and water speed (VBW) stay healthy throughout: the fall-back is dead reckoning on those. After the jammer clears the fix returns only after the receiver has re-acquired."
+seed = 11
+start_utc = "2026-05-14T06:00:00Z"
+duration_s = 1200
+rate_hz = 1
+
+[vessel]
+lat_deg = 55.20
+lon_deg = 2.50
+speed_kn = 14
+
+[[waypoint]]
+lat_deg = 55.42
+lon_deg = 3.40
+speed_kn = 14
+
+[environment]
+current_speed_kn = 0.8
+current_set_deg = 200
+magnetic_variation_deg = 1.5
+
+[[event]]
+kind = "jamming"
+label = "Jammer ahead"
+start_s = 300
+duration_s = 420
+ramp_s = 90
+recovery_s = 60
+cn0_drop_db = 34
+spread_db = 6
