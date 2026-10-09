@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Plain-assert test of the $PKSHT parser against sentences recorded from the synthetic demo.
 #include "check.h"
 #include <fstream>

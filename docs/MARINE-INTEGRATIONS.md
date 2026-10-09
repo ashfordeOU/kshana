@@ -157,7 +157,8 @@ wxWidgets; `ctest` runs the wx-free logic tests and checks that the library expo
 up. It has been run inside OpenCPN 5.8.4 under a virtual display on the synthetic gated stream (OpenCPN handed `$PKSHT` to the
 plugin, the panel went red, and OpenCPN's own position froze when the gate engaged; screenshots, log and script in
 `integrations/opencpn/evidence/`), but not on a real desktop, other versions or platforms, and it is not packaged for OpenCPN's plugin manager. See the plugin's
-[`README.md`](../../integrations/opencpn/plugin/README.md).
+[`README.md`](../integrations/opencpn/plugin/README.md). It is licensed GPL-3.0-or-later, unlike the rest of the repository
+([`LICENSING.md`](../LICENSING.md)).
 
 ## Reference build
 

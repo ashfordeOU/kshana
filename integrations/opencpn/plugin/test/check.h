@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Always-on check: unlike assert, it is not compiled out by NDEBUG, and its argument is always evaluated.
 #pragma once
 #include <cstdio>

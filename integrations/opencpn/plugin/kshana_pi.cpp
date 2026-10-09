@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 #include "kshana_pi.h"
 #include <wx/dcbuffer.h>
 #include <wx/fileconf.h>
