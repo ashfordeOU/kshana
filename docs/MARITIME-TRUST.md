@@ -14,6 +14,26 @@ This page covers running it live and what the gate does. (The platform model, th
 the score and the synthetic demo are described in
 [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md).)
 
+## A synthetic demo
+
+`examples/maritime-trust/` holds a made-up NMEA log of a vessel on a Gdynia to Klaipeda route (a
+one-hour excerpt, about 15 kn, 1 Hz: GGA, RMC, VTG, a gyro heading, a speed log, GSV with a plausible
+sky) in which a position drag-off pulls the *reported* position away from the vessel's real one
+from 1500 s. The receiver keeps reporting a **valid** fix throughout; the trust score is what falls,
+through the degraded band into the untrusted one. `session.toml` states every threshold, the
+vessel's limits and every score weight before the run.
+
+```sh
+kshana receiver-trust examples/maritime-trust/session.toml
+kshana receiver-trust live examples/maritime-trust/session.toml \
+  --file examples/maritime-trust/gdynia-klaipeda.nmea --gate --json trust.jsonl > gated.nmea
+```
+
+The log is **text written to a file** by `cargo run --example gen_maritime_trust_demo`: it models no
+radio signal and transmits nothing. It is not a measurement and the route is illustrative, not a
+chart. `tests/receiver_trust_maritime_demo.rs` pins the log and the expected output as regression
+guards on the synthetic data; they say nothing about how any monitor does on real interference.
+
 ## Run it live
 
 ```sh
