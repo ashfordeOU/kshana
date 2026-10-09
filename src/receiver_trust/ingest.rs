@@ -1233,19 +1233,35 @@ fn nmea_zda(st: &mut NmeaState, f: &[&str]) -> Sentence {
     Sentence::Used
 }
 
-/// The Kshana OSNMA-status input sentence `$PKSOS,<status>`: `A` authenticated, `F`
-/// failed, `N` no result. A receiver's own report is translated into this by whatever
+/// The Kshana OSNMA-status input sentence `$PKSOS,<status>[,<sat>:<status>...]`: `A`
+/// authenticated, `F` failed, `N` no result, overall and optionally per satellite (`E11:A`). A receiver's own report is translated into this by whatever
 /// adapter reads the receiver; Kshana does not verify OSNMA.
 fn nmea_osnma(st: &mut NmeaState, f: &[&str]) -> Sentence {
     let Some(m) = cur_marine(st) else {
         return Sentence::Ignored;
     };
-    m.osnma = match f.get(1).map(|s| s.trim()) {
-        Some("A") => Some(OsnmaStatus::Authenticated),
-        Some("F") => Some(OsnmaStatus::Failed),
-        Some("N") => Some(OsnmaStatus::Unavailable),
-        _ => return Sentence::Corrupt,
+    let status = |c: &str| match c.trim() {
+        "A" => Some(OsnmaStatus::Authenticated),
+        "F" => Some(OsnmaStatus::Failed),
+        "N" => Some(OsnmaStatus::Unavailable),
+        _ => None,
     };
+    let Some(overall) = f.get(1).and_then(|c| status(c)) else {
+        return Sentence::Corrupt;
+    };
+    // Optional per-satellite fields `E11:A`, `E19:F`.
+    let mut sats = Vec::new();
+    for field in f.iter().skip(2).filter(|x| !x.trim().is_empty()) {
+        match field.split_once(':').and_then(|(id, c)| {
+            let ok = id.len() == 3 && id.is_ascii() && id[1..].chars().all(|d| d.is_ascii_digit());
+            ok.then(|| status(c).map(|s| (id.to_string(), s))).flatten()
+        }) {
+            Some(x) => sats.push(x),
+            None => return Sentence::Corrupt,
+        }
+    }
+    m.osnma = Some(overall);
+    m.sat_auth = sats;
     Sentence::Used
 }
 
@@ -1873,6 +1889,8 @@ Status,1,2,3
             nmea("GPGGA,100001.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
             nmea("PKSOS,F"),
             nmea("PKSOS,X"),
+            nmea("GPGGA,100002.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("PKSOS,A,E11:A,E19:F"),
         ]
         .join("\n");
         let tl = read_nmea(&text).expect("reads");
@@ -1885,6 +1903,14 @@ Status,1,2,3
             Some(OsnmaStatus::Failed)
         );
         assert_eq!(tl.skipped_records, 1, "unknown status");
+        let m2 = tl.epochs[2].marine.as_ref().unwrap();
+        assert_eq!(
+            m2.sat_auth,
+            [
+                ("E11".to_string(), OsnmaStatus::Authenticated),
+                ("E19".to_string(), OsnmaStatus::Failed)
+            ]
+        );
     }
 
     #[test]
