@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Framework-aligned resilience scoring: reduce a per-architecture, per-scenario
-//! behaviour summary to per-dimension sub-scores across the DHS RPCF categories,
+//! behaviour summary to per-dimension sub-scores across Kshana's own seven resilience categories (not DHS terms),
 //! the RethinkPNT RDRR functions, and Yang's criteria, then to a single
 //! (deliberately fragile) composite and a tentative RPCF Level.
 //!
