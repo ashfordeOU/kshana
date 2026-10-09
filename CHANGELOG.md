@@ -18,8 +18,10 @@ breaking changes are called out explicitly.
   the config schema). No npm dependencies. Tested on recorded synthetic output.
 - **OpenCPN**: a dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) serves gate-mode NMEA so OpenCPN
   sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
-  through a real TCP socket and check what a consumer receives. A native score-panel plugin is **follow-on**, not in
-  0.35: only its wx-free `$PKSHT` parser is built and tested.
+  through a real TCP socket and check what a consumer receives. A native score-panel plugin
+  (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
+  on the untrusted band; it builds and its logic is unit-tested, but it has not been run inside OpenCPN and is not
+  packaged for the plugin manager.
 - **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
   the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
 - `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
