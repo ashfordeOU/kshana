@@ -9,6 +9,35 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (evidence packs)
+
+- **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable
+  evidence packs for a GNSS trust event.** A pack bundles the raw log slice and the full
+  log's SHA-256, the configuration with every threshold, the per-epoch results and
+  reasons, the engine version, a hash-chained manifest and a self-contained HTML summary,
+  signed with Ed25519 (a key from `kshana evidence keygen` or your own file; keys are never
+  stored in a pack and `*.evidence-key` is git-ignored). `verify` checks every hash, the
+  chain and the signature and names exactly what fails; with `--pubkey` it pins the signer.
+  An RFC 3161 token can be attached and is read and bound to the manifest (the authority's
+  own signature is not checked by this build; `openssl ts -verify` covers it). The log slice is the
+  window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
+  otherwise the whole log, and the manifest says which.
+  Creation and verification are pure public functions (`kshana::evidence`) that build for
+  `wasm32`. The packs state that they are a technical record, not a legal opinion. One new
+  dependency, `ed25519-dalek` (BSD-3-Clause, minimal features). See
+  `docs/EVIDENCE-PACKS.md`.
+
+### Added (trust telemetry)
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. No new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
 ### Added
 
 - **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
