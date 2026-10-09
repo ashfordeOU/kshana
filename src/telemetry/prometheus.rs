@@ -6,7 +6,7 @@
 //! Metric names and labels are listed in `docs/TRUST-TELEMETRY.md`; the golden test in
 //! this module pins the exact output.
 
-use super::sample::{Band, TrustSample};
+use super::sample::{Band, Position, TrustSample};
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
@@ -20,6 +20,8 @@ pub struct Registry {
     score: Option<f64>,
     band: Option<Band>,
     gate: Option<String>,
+    position: Option<Position>,
+    expose_position: bool,
     t_s: Option<f64>,
     epochs_by_band: [u64; 5],
     reason_active: BTreeMap<String, bool>,
@@ -46,6 +48,7 @@ impl Registry {
         self.score = s.score;
         self.band = Some(s.band);
         self.gate = s.gate.clone();
+        self.position = s.position;
         self.t_s = Some(s.t_s);
         self.epochs_by_band[s.band.index()] += 1;
         for v in self.reason_active.values_mut() {
@@ -58,6 +61,12 @@ impl Registry {
         if now_unix.is_some() {
             self.last_sample_unix = now_unix;
         }
+    }
+
+    /// Publish the receiver-reported position as gauges. Off by default: `/metrics` is
+    /// unauthenticated and a position can identify a site or a vessel.
+    pub fn set_expose_position(&mut self, on: bool) {
+        self.expose_position = on;
     }
 
     /// Latest score, if the source gave one.
@@ -136,6 +145,28 @@ impl Registry {
                 "kshana_trust_gate{{gate=\"{}\"}} 1\n",
                 escape_label(g)
             ));
+        }
+        if let (true, Some(p)) = (self.expose_position, self.position) {
+            for (name, help, v) in [
+                (
+                    "kshana_trust_position_latitude_degrees",
+                    "Latitude the receiver reported at the latest epoch, degrees.",
+                    p.lat_deg,
+                ),
+                (
+                    "kshana_trust_position_longitude_degrees",
+                    "Longitude the receiver reported at the latest epoch, degrees.",
+                    p.lon_deg,
+                ),
+                (
+                    "kshana_trust_position_height_meters",
+                    "Height the receiver reported at the latest epoch, metres.",
+                    p.height_m,
+                ),
+            ] {
+                header(&mut o, name, help, "gauge");
+                o.push_str(&format!("{name} {}\n", fmt_f64(v)));
+            }
         }
         header(
             &mut o,
@@ -310,6 +341,7 @@ mod tests {
             band,
             reasons: reasons.iter().map(|s| s.to_string()).collect(),
             gate: None,
+            position: None,
         }
     }
 
@@ -328,6 +360,23 @@ mod tests {
         r.observe_input_error();
         let want = include_str!("../../tests/fixtures/telemetry/golden_metrics.prom");
         assert_eq!(r.render(), want);
+    }
+
+    #[test]
+    fn position_gauges_are_opt_in() {
+        let mut s = sample(1.0, Some(90.0), Band::Nominal, &[]);
+        s.position = Some(Position {
+            lat_deg: 59.5,
+            lon_deg: 24.25,
+            height_m: 39.4,
+        });
+        let mut r = Registry::new("t");
+        r.observe(&s, None);
+        assert!(!r.render().contains("position"));
+        r.set_expose_position(true);
+        let t = r.render();
+        assert!(t.contains("kshana_trust_position_latitude_degrees 59.5\n"));
+        assert!(t.contains("kshana_trust_position_height_meters 39.4\n"));
     }
 
     #[test]

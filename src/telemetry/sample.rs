@@ -69,6 +69,17 @@ impl Band {
     }
 }
 
+/// A position the receiver reported (schema v1.1 `position`).
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct Position {
+    /// Geodetic latitude, degrees.
+    pub lat_deg: f64,
+    /// Geodetic longitude, degrees.
+    pub lon_deg: f64,
+    /// Height, m.
+    pub height_m: f64,
+}
+
 /// One epoch of the trust stream, as the sinks see it.
 #[derive(Clone, Debug, PartialEq)]
 pub struct TrustSample {
@@ -84,6 +95,8 @@ pub struct TrustSample {
     pub reasons: Vec<String>,
     /// The live stream's gate state (`off`, `passed`, `withheld`), where it reports one.
     pub gate: Option<String>,
+    /// The receiver-reported position, where the stream carries one (schema v1.1).
+    pub position: Option<Position>,
 }
 
 /// Parse one line of the live stream.
@@ -150,6 +163,23 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
             push(name.ok_or_else(|| format!("a `{key}` entry has no name"))?);
         }
     }
+    let position = match obj.get("position") {
+        None | Some(Value::Null) => None,
+        Some(Value::Object(o)) => {
+            let f = |k: &str| {
+                o.get(k)
+                    .and_then(Value::as_f64)
+                    .filter(|x| x.is_finite())
+                    .ok_or_else(|| format!("`position.{k}` is missing or not a finite number"))
+            };
+            Some(Position {
+                lat_deg: f("lat_deg")?,
+                lon_deg: f("lon_deg")?,
+                height_m: f("height_m")?,
+            })
+        }
+        Some(_) => return Err("`position` is not an object or null".into()),
+    };
     let gate = obj.get("gate").and_then(Value::as_str).map(str::to_string);
     let time_label = ["time", "time_label"]
         .iter()
@@ -162,6 +192,7 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
         band,
         reasons,
         gate,
+        position,
     })
 }
 
@@ -190,6 +221,7 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
             })
             .collect(),
         gate: None,
+        position: None,
     }
 }
 
@@ -209,7 +241,7 @@ mod tests {
     #[test]
     fn parses_a_full_line() {
         let s = parse_live_line(
-            r#"{"seq":13,"t_s":12.5,"time":"2026-01-01T00:00:12Z","state":"degraded","score":62.5,"deductions":[{"monitor":"kinematic","ratio":1.5,"points":20.0}],"alarms":["kinematic","heading-course"],"gate":"withheld","note":null,"future_key":1}"#,
+            r#"{"seq":13,"t_s":12.5,"time":"2026-01-01T00:00:12Z","state":"degraded","score":62.5,"deductions":[{"monitor":"kinematic","ratio":1.5,"points":20.0}],"alarms":["kinematic","heading-course"],"gate":"withheld","note":null,"position":{"lat_deg":59.5,"lon_deg":24.25,"height_m":39.4},"future_key":1}"#,
         )
         .unwrap();
         assert_eq!(s.t_s, 12.5);
@@ -217,6 +249,14 @@ mod tests {
         assert_eq!(s.band, Band::Degraded);
         assert_eq!(s.reasons, ["kinematic", "heading-course"]);
         assert_eq!(s.gate.as_deref(), Some("withheld"));
+        assert_eq!(
+            s.position,
+            Some(Position {
+                lat_deg: 59.5,
+                lon_deg: 24.25,
+                height_m: 39.4
+            })
+        );
         assert_eq!(s.time_label.as_deref(), Some("2026-01-01T00:00:12Z"));
     }
 
@@ -227,6 +267,9 @@ mod tests {
         assert!(parse_live_line(r#"{"t_s":1,"score":50}"#).is_err());
         assert!(parse_live_line(r#"{"score":50,"state":"nominal"}"#).is_err());
         assert!(parse_live_line(r#"{"t_s":1,"state":"nominal","reasons":[3]}"#).is_err());
+        assert!(
+            parse_live_line(r#"{"t_s":1,"state":"nominal","position":{"lat_deg":1}}"#).is_err()
+        );
     }
 
     #[test]
