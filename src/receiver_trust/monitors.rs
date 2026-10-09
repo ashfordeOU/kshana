@@ -23,6 +23,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
+use super::live::LiveCfg;
 use super::maritime::{MarineEpoch, MarineMonitors, MaritimeConfig};
 use super::platform::PlatformCfg;
 use super::score::{score_from_ratios, ScoreCfg, TrustScore};
@@ -112,6 +113,9 @@ pub struct MonitorConfig {
     /// table; used only when the platform is a vessel.
     #[serde(skip_deserializing, skip_serializing_if = "ScoreCfg::is_default")]
     pub score: ScoreCfg,
+    /// Live-mode timing and gate hold, from the scenario's top-level `[live]` table.
+    #[serde(skip_deserializing, skip_serializing_if = "LiveCfg::is_default")]
+    pub live: LiveCfg,
 }
 
 impl Default for MonitorConfig {
@@ -131,6 +135,7 @@ impl Default for MonitorConfig {
             platform: PlatformCfg::default(),
             maritime: MaritimeConfig::default(),
             score: ScoreCfg::default(),
+            live: LiveCfg::default(),
         }
     }
 }
@@ -141,6 +146,7 @@ impl MonitorConfig {
         self.platform.validate()?;
         self.maritime.validate()?;
         self.score.validate()?;
+        self.live.validate()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())

@@ -1323,6 +1323,26 @@ impl NmeaFeed {
         }
     }
 
+    /// Epochs gathered and not yet taken, the one still being filled included.
+    pub fn open_epochs(&self) -> usize {
+        self.st.map.len()
+    }
+
+    /// Take every epoch except the one the most recent timed sentence opened or joined: the
+    /// epochs a newer timed sentence has closed.
+    pub fn take_closed_epochs(&mut self) -> Vec<LogEpoch> {
+        let Some(cur) = self.st.cur_key else {
+            return Vec::new();
+        };
+        let keep = self.st.map.remove(&cur);
+        let closed = self.take_epochs();
+        self.st.cur_key = Some(cur);
+        if let Some(acc) = keep {
+            self.st.map.insert(cur, acc);
+        }
+        closed
+    }
+
     /// Take every epoch gathered so far, in time order, labelled; `t_s` counts from the
     /// first epoch this reader ever produced.
     pub fn take_epochs(&mut self) -> Vec<LogEpoch> {
@@ -1347,6 +1367,8 @@ impl NmeaFeed {
             };
             acc.set_label(1, label);
         }
+        // Everything gathered is out: a late sentence must not reopen a taken epoch.
+        self.st.cur_key = None;
         epochs_from(map, self.first_key.unwrap_or(0))
     }
 }

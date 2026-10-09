@@ -15,6 +15,7 @@
 //! scored: every monitor parameter is an input stated in the scenario.
 
 pub mod ingest;
+pub mod live;
 pub mod maritime;
 pub mod monitors;
 pub mod platform;
