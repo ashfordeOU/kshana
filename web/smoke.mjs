@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, interference_map, route_exposure } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, interference_map, route_exposure } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -189,6 +189,16 @@ const training = await readFile(new URL("scenarios/training/open-sea-jamming.tom
 const nm = JSON.parse(nmea_training(training, NaN));
 if (!nm.nmea.includes("\r\n") || JSON.parse(nm.log_json).schema !== "kshana-nmea-training/1") {
   console.error("wasm nmea_training() produced no NMEA or no instructor log");
+  process.exit(1);
+}
+const sessionToml = (await readFile(new URL("examples/maritime-trust/session.toml", rootDir), "utf8"))
+  .replace('path = "tallinn-helsinki.nmea"', "").replace("calibration_s = 300.0", "calibration_s = 60.0");
+const nmeaLines = (await readFile(new URL("examples/maritime-trust/tallinn-helsinki.nmea", rootDir), "utf8")).split(/(?<=\n)/);
+const replay = JSON.parse(
+  receiver_trust_replay(sessionToml, nmeaLines.slice(Math.floor(nmeaLines.length * 1400 / 3000), Math.floor(nmeaLines.length * 1800 / 3000)).join(""), true),
+);
+if (replay.epochs < 300 || replay.untrusted < 1 || replay.withheld < 1 || !replay.gated_nmea) {
+  console.error("wasm receiver_trust_replay() did not flag the synthetic drag-off");
   process.exit(1);
 }
 const adsbCsv = await readFile(new URL("examples/interference-map/input/adsb.csv", rootDir), "utf8");

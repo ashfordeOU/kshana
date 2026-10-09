@@ -224,6 +224,89 @@ pub fn route_exposure(
     serde_json::to_string_pretty(&report).map_err(|e| e.to_string())
 }
 
+/// The result of replaying a bounded stream excerpt through the live trust engine.
+#[derive(Clone, Debug, Default)]
+pub struct VesselStream {
+    /// One JSON line per completed epoch (schema 1.1 of `docs/MARITIME-TRUST.md`).
+    pub reports_jsonl: String,
+    /// The stream the gate would have forwarded, when the gate was asked for.
+    pub gated_nmea: Option<String>,
+    /// Epochs reported, by state.
+    pub epochs: usize,
+    /// Epochs in the calibration window.
+    pub calibrating: usize,
+    /// Epochs in the `nominal` band.
+    pub nominal: usize,
+    /// Epochs in the `degraded` band.
+    pub degraded: usize,
+    /// Epochs in the `untrusted` band.
+    pub untrusted: usize,
+    /// Epochs whose fix the gate marked invalid.
+    pub withheld: usize,
+    /// Lowest score reached after calibration.
+    pub min_score: Option<f64>,
+}
+
+/// Replay an NMEA excerpt through the same engine as `kshana receiver-trust live`, with
+/// the gate on or off, and return what a live run would have written. `session_toml` is a
+/// live session (`[platform] kind = "vessel"`; its `[log]` is not needed). The excerpt is
+/// read as fast as it can be, so the host clock plays no part. This is the bounded form of
+/// the live command for surfaces that cannot run a process: it opens no socket, and the
+/// gate's output is returned as text, never written to a port. Advisory only: the operator
+/// remains responsible for the vessel.
+pub fn assess_vessel_stream(
+    session_toml: &str,
+    nmea: &str,
+    gate: bool,
+    max_bytes: usize,
+) -> Result<VesselStream, String> {
+    use crate::receiver_trust::live::{parse_live_scenario, GateAction, LiveEngine, LiveOut};
+    cap("session", session_toml, max_bytes)?;
+    cap("NMEA excerpt", nmea, max_bytes)?;
+    let scn = parse_live_scenario(session_toml)?;
+    let mut eng = LiveEngine::new(&scn, gate)?;
+    eng.set_host_clock(false);
+    let mut out = VesselStream::default();
+    let mut gated = Vec::<u8>::new();
+    let mut take = |o: LiveOut, out: &mut VesselStream| {
+        for l in o.forward {
+            gated.extend_from_slice(&l);
+        }
+        for r in o.reports {
+            out.epochs += 1;
+            match serde_json::to_value(r.state)
+                .ok()
+                .as_ref()
+                .and_then(|v| v.as_str())
+            {
+                Some("calibrating") => out.calibrating += 1,
+                Some("nominal") => out.nominal += 1,
+                Some("degraded") => out.degraded += 1,
+                Some("untrusted") => out.untrusted += 1,
+                _ => {}
+            }
+            if r.gate == GateAction::Withheld {
+                out.withheld += 1;
+            }
+            if let Some(sc) = r.score {
+                out.min_score = Some(out.min_score.map_or(sc, |m| m.min(sc)));
+            }
+            out.reports_jsonl.push_str(&r.to_json_line());
+            out.reports_jsonl.push('\n');
+        }
+    };
+    for line in nmea.split_inclusive('\n') {
+        let o = eng.feed_line(line.as_bytes(), 0.0);
+        take(o, &mut out);
+    }
+    let o = eng.finish();
+    take(o, &mut out);
+    if gate {
+        out.gated_nmea = Some(String::from_utf8_lossy(&gated).into_owned());
+    }
+    Ok(out)
+}
+
 /// Result of a training-scenario run: text only, nothing is transmitted.
 #[derive(Clone, Debug)]
 pub struct NmeaTraining {
@@ -394,6 +477,38 @@ mod tests {
         assert!(assess_receiver_log_inline(&inline, 1000)
             .unwrap_err()
             .contains("limit"));
+    }
+
+    #[test]
+    fn vessel_stream_replay_scores_and_gates_the_synthetic_drag_off() {
+        let session = SESSION.replace("path = \"tallinn-helsinki.nmea\"", "");
+        // Seconds 1400 to 1800 of the 3000-second log (the drag-off starts at 1500 s), with
+        // a 60 s calibration window instead of 300 s: the same engine, in a fraction of the
+        // debug-build runtime.
+        let at = |t: usize| NMEA[..NMEA.len() * t / 3000].rfind('\n').unwrap() + 1;
+        let nmea = &NMEA[at(1400)..at(1800)];
+        let session = session.replace("calibration_s = 300.0", "calibration_s = 60.0");
+        let r = assess_vessel_stream(&session, nmea, true, MAX_INPUT_BYTES).unwrap();
+        assert!(
+            r.epochs > 300 && r.calibrating > 0 && r.nominal > 0,
+            "{r:?}"
+        );
+        assert!(
+            r.untrusted > 0 && r.withheld > 0,
+            "the drag-off must be flagged: {r:?}"
+        );
+        assert!(r.min_score.unwrap() < 55.0);
+        assert!(r.gated_nmea.as_ref().unwrap().len() > 1000);
+        let off = assess_vessel_stream(&session, nmea, false, MAX_INPUT_BYTES).unwrap();
+        assert!(off.gated_nmea.is_none() && off.withheld == 0);
+        assert!(assess_vessel_stream(&session, nmea, false, 1000).is_err());
+        assert!(assess_vessel_stream(
+            "[platform]\nkind = \"static\"",
+            NMEA,
+            false,
+            MAX_INPUT_BYTES
+        )
+        .is_err());
     }
 
     #[test]

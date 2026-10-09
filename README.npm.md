@@ -151,7 +151,7 @@ Mean-elements Message, and OEM, the Orbit Ephemeris Message â€” the CLI writes â
 scenario and returns `{json, csv, svg, summary}` as a JSON string (the browser has no file
 system, so the log, and any navigation file, must be inline in the scenario as `text` or
 `base64`; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust
-score, advisory only), and `interference_map` (ADS-B or AIS CSV text to a
+score, advisory only), `receiver_trust_replay` (an NMEA excerpt through the live trust engine, with the gate's output returned as text), and `interference_map` (ADS-B or AIS CSV text to a
 `kshana-interference-map/v1` GeoJSON per UTC day; aggregate only), `route_exposure` (a route's
 share through degraded cells of those maps; not a forecast) and `nmea_training` (synthetic
 bridge NMEA and an instructor log for crew training; text only, never for a vessel's live

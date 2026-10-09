@@ -51,6 +51,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `error_kind` | `(toml: str) -> str \| None` | failure-category tag (`invalid_input`, `non_convergence`, `unsupported` or `io_error`), or `None` on success |
 | `version` / `__version__` | `() -> str` / `str` | engine version |
 | `receiver_trust` | `(toml: str) -> RunOutput` | assess a real receiver log described by a `receiver-trust` scenario: result document, per-epoch trust CSV, chart and summary; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust score with reasons (advisory) |
+| `receiver_trust_replay` | `(session_toml, nmea, gate=False) -> dict` | an NMEA excerpt replayed through the live trust engine: per-epoch JSON lines, the stream the gate would forward, and counts by state (no socket is opened; advisory) |
 | `interference_map` | `(source, csv, dataset, cell_deg=None, licence=None, licence_url=None, attribution=None, land_geojson=None) -> list[dict]` | a GNSS interference map from ADS-B or AIS CSV text: one dict per UTC day with `kshana-interference-map/v1` GeoJSON (aggregate only; a degraded cell does not name interference as the cause) |
 | `route_exposure` | `(route, maps, date_from=None, date_to=None) -> str` | share of a route through degraded cells of those maps, as JSON text (not a forecast; unobserved cells are not evidence of a clear route) |
 | `nmea_training` | `(toml, seed=None) -> dict` | synthetic bridge NMEA for crew training plus the instructor log (`nmea`, `log_json`, `log_text`); text only, never for a vessel's live navigation systems |
@@ -73,6 +74,7 @@ arrays.
 ```python
 def receiver_trust(toml: str) -> RunOutput: ...
 
+def receiver_trust_replay(session_toml: str, nmea: str, gate: bool = False) -> dict: ...
 def interference_map(source: str, csv: str, dataset: str, cell_deg: float | None = None,
                      licence: str | None = None, licence_url: str | None = None,
                      attribution: str | None = None, land_geojson: str | None = None) -> list[dict]: ...
@@ -271,4 +273,5 @@ guide is [`SCHEMA.md`](SCHEMA.md).
 `kshana receiver-trust live` (a stream process with a gate and an optional `--listen` TCP
 server) and `kshana nmea-scenario --tcp/--udp` streaming are command-line only: a binding
 returns when the call returns and does not hold a socket open. Python covers the batch
-form of each: `receiver_trust` for a log, `nmea_training` for the generated text.
+form of each: `receiver_trust` for a log, `receiver_trust_replay` for a stream excerpt with
+the gate's output returned as text, `nmea_training` for the generated text.
