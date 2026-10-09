@@ -19,6 +19,7 @@ pub struct Registry {
     version: String,
     score: Option<f64>,
     band: Option<Band>,
+    gate: Option<String>,
     t_s: Option<f64>,
     epochs_by_band: [u64; 5],
     reason_active: BTreeMap<String, bool>,
@@ -44,6 +45,7 @@ impl Registry {
     pub fn observe(&mut self, s: &TrustSample, now_unix: Option<f64>) {
         self.score = s.score;
         self.band = Some(s.band);
+        self.gate = s.gate.clone();
         self.t_s = Some(s.t_s);
         self.epochs_by_band[s.band.index()] += 1;
         for v in self.reason_active.values_mut() {
@@ -121,6 +123,18 @@ impl Registry {
             o.push_str(&format!(
                 "kshana_trust_band{{band=\"{}\"}} {on}\n",
                 b.label()
+            ));
+        }
+        if let Some(g) = &self.gate {
+            header(
+                &mut o,
+                "kshana_trust_gate",
+                "Latest gate state of the live stream: 1 for the current state (off, passed or withheld).",
+                "gauge",
+            );
+            o.push_str(&format!(
+                "kshana_trust_gate{{gate=\"{}\"}} 1\n",
+                escape_label(g)
             ));
         }
         header(
@@ -295,6 +309,7 @@ mod tests {
             score,
             band,
             reasons: reasons.iter().map(|s| s.to_string()).collect(),
+            gate: None,
         }
     }
 
