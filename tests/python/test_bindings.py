@@ -470,3 +470,19 @@ def test_receiver_trust_scores_a_vessel_log_inline():
     out = kshana.receiver_trust(toml)
     assert "trust" in out.summary.lower() or out.summary
     assert out.data()
+
+
+def test_receiver_trust_replay_returns_the_gated_stream_for_an_excerpt():
+    ex = REPO / "examples" / "maritime-trust"
+    session = (ex / "session.toml").read_text().replace(
+        'path = "tallinn-helsinki.nmea"', ""
+    ).replace("calibration_s = 300.0", "calibration_s = 60.0")
+    lines = (ex / "tallinn-helsinki.nmea").read_text().splitlines(keepends=True)
+    excerpt = "".join(lines[len(lines) * 1400 // 3000 : len(lines) * 1800 // 3000])
+    r = kshana.receiver_trust_replay(session, excerpt, gate=True)
+    assert r["epochs"] > 300 and r["untrusted"] > 0 and r["withheld"] > 0
+    assert r["gated_nmea"] and kshana.receiver_trust_replay(session, excerpt)["gated_nmea"] is None
+    import pytest
+
+    with pytest.raises(ValueError):
+        kshana.receiver_trust_replay('[platform]\nkind = "static"', excerpt)

@@ -233,3 +233,35 @@ pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
             .to_string(),
     )
 }
+
+/// Replay an NMEA excerpt through the engine behind `kshana receiver-trust live`, with the
+/// gate on or off. `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a
+/// JSON object `{reports_jsonl, gated_nmea, epochs, calibrating, nominal, degraded,
+/// untrusted, withheld, min_score}` (`gated_nmea` is null when `gate` is false). The bounded
+/// form of the live command: it opens no socket. Advisory only.
+#[wasm_bindgen]
+pub fn receiver_trust_replay(
+    session_toml: &str,
+    nmea: &str,
+    gate: bool,
+) -> Result<String, JsValue> {
+    let r = crate::surface::assess_vessel_stream(
+        session_toml,
+        nmea,
+        gate,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({
+        "reports_jsonl": r.reports_jsonl,
+        "gated_nmea": r.gated_nmea,
+        "epochs": r.epochs,
+        "calibrating": r.calibrating,
+        "nominal": r.nominal,
+        "degraded": r.degraded,
+        "untrusted": r.untrusted,
+        "withheld": r.withheld,
+        "min_score": r.min_score,
+    })
+    .to_string())
+}
