@@ -109,8 +109,11 @@ checksum so the file can be fetched by hand. Nothing is bundled in the repositor
 
 ## Output
 
-One GeoJSON file per source per UTC day, named `adsb-YYYY-MM-DD.geojson` or
-`ais-YYYY-MM-DD.geojson`, in the `--out` directory. A top-level `kshana_interference_map`
+One GeoJSON file per source per UTC day, in the `--out` directory, named
+`<source>-<YYYY-MM-DD>.geojson` where `<source>` is `adsb` or `ais` and the date is the UTC
+day of the reports (`adsb-2026-03-01.geojson`). The CLI prints one line per file it writes.
+Synthetic sample files, one per source, are in `examples/interference-map/output/`, with the
+command that regenerates them, for building and testing a viewer. A top-level `kshana_interference_map`
 member holds the schema name, date, grid, method id and every parameter, the day-level
 figures, the data licence and attribution, and a notice. Each feature is a cell polygon
 with `cell_i`, `cell_j`, `status`, `degraded` and the aggregate counts.
