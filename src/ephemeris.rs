@@ -31,6 +31,7 @@
 //! scalars. The data is inlined in the scenario, so the run stays reproducible from
 //! the scenario alone and needs no filesystem (it works in the WASM playground).
 
+use crate::chart::esc;
 use crate::frames::{
     arcsec, ecef_to_geodetic, geodetic_to_ecef, itrf_to_teme, look_angles, teme_to_itrf, Geodetic,
 };
@@ -552,12 +553,6 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
         peak_doppler_hz: peak_dopp,
         samples,
     })
-}
-
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
 }
 
 /// A self-contained ground-track SVG: an equirectangular world map (lon −180..180,
