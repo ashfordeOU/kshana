@@ -16,7 +16,8 @@ breaking changes are called out explicitly.
   stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*`, and raises
   a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
   the config schema). No npm dependencies. Tested on recorded synthetic output.
-- **OpenCPN**: a dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) serves gate-mode NMEA so OpenCPN
+- **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a
+  dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) is the optional alternative. Either way OpenCPN
   sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
   through a real TCP socket and check what a consumer receives. A native score-panel plugin
   (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
