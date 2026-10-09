@@ -7448,7 +7448,7 @@ Title: Overview · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Continuous integration status on main Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration 124 of 251 capabilities VALIDATED against an independent external oracle, from the verification matrix SonarQube Cloud quality gate status Release v0.33.0 Licence: AGPL-3.0-only
+Continuous integration status on main Line coverage near 95 % of src/, measured in docs/COVERAGE.md and gated at 85 % in continuous integration 124 of 251 capabilities VALIDATED against an independent external oracle, from the verification matrix SonarQube Cloud quality gate status Release v0.33.1 Licence: AGPL-3.0-only
 DOI 10.5281/zenodo.20528627, the Zenodo concept record of every release A commercial licence is available from Ashforde® OÜ, see Editions kshana on crates.io, the current published version kshana on PyPI, the current published version kshana on npm, the current published version
 
 Open Kshana Studio · Install · Capabilities · Evidence · Research · Documentation · Cite
@@ -7459,7 +7459,7 @@ Kshana replays jamming, spoofing and clock holdover when GNSS (Global Navigation
 
 Every run is reproducible bit for bit from the scenario, the seed and the engine version. Every capability carries one of three labels in a machine-checked ledger: VALIDATED (an independent external oracle agrees), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner owns it).
 
-Status: v0.33.0. A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the plain-language primer and the glossary.
+Status: v0.33.1. A validated, reproducible simulation substrate for PNT resilience. Timing and holdover come first, because that domain is the best validated. Kshana is a study and trade-off instrument: not radio-frequency (RF) signal-generator hardware (it drives no radio and transmits nothing; its signal-level output is baseband IQ sample files for software receivers), not a hardware or certified GNSS receiver (its software receiver is an analysis tool) and not a flight product. New to the field? Start with the plain-language primer and the glossary.
 
 ## Kshana Studio#
 
@@ -7579,7 +7579,7 @@ The four sensor packs, as first published (results)
 
 Each scenario compares a quantum sensor against its classical counterpart through a ~1.8 h GNSS outage. Numbers are reproducible (scenario + seed + version).
 
-What quantum sensors buy when GNSS is gone — clock-holdover · seed 42 · drawn at engine 0.33.0, and every figure above re-checked against the current engine on each build by tests/published_figures_still_reproduce.rs · SVG
+What quantum sensors buy when GNSS is gone — clock-holdover · seed 42 · drawn at engine 0.33.1, and every figure above re-checked against the current engine on each build by tests/published_figures_still_reproduce.rs · SVG
 
 The advantage is outage- and vibration-dependent, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
 
@@ -7809,7 +7809,7 @@ Top: every Validated row is backed by an external dataset, by construction. Bott
 
 ## Install#
 
-One line gets the command-line tool: cargo install kshana. Every channel ships v0.33.0 from the same tagged commit.
+One line gets the command-line tool: cargo install kshana. Every channel ships v0.33.1 from the same tagged commit.
 
 Channel |  Install |  Guide |
 
@@ -7831,7 +7831,7 @@ JetBrains IDE plugin |  Settings → Plugins → Marketplace → "Kshana" |  Jet
 
 Kshana on the JetBrains Marketplace Builds with Rust 1.85 or newer, the rust-version in Cargo.toml
 
-MCP is the Model Context Protocol. Pin a release with cargo install kshana --version 0.33.0, pip install kshana==0.33.0 or npm install kshana@0.33.0. To build from source, see Install and build under Reference.
+MCP is the Model Context Protocol. Pin a release with cargo install kshana --version 0.33.1, pip install kshana==0.33.1 or npm install kshana@0.33.1. To build from source, see Install and build under Reference.
 
 Run a scenario from Python and from WebAssembly
 
@@ -7841,7 +7841,7 @@ import json, kshana
 toml = open("clock-holdover.toml").read()
 result = json.loads(kshana.run(toml))
 print(kshana.version(), result["quantum"]["fom"]["holdover_s"], result["classical"]["fom"]["holdover_s"])
-# 0.33.0 6600.0 2610.0
+# 0.33.1 6600.0 2610.0
 ```
 
 Beyond run, the module exposes run_full (JSON, SVG and the one-line summary at once), run_typed, validate_toml, list_kinds / scenario_kinds and error_kind; see docs/PYTHON_API.md.
@@ -7859,7 +7859,7 @@ initSync({ module: readFileSync(wasm) });
 const toml = readFileSync("clock-holdover.toml", "utf8");
 const result = JSON.parse(run(toml));
 console.log(version(), result.quantum.fom.holdover_s, result.classical.fom.holdover_s);
-// 0.33.0 6600 2610
+// 0.33.1 6600 2610
 console.log(summary(toml));
 ```
 
@@ -21267,7 +21267,7 @@ Title: npm and WebAssembly · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Release v0.33.0 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
+Release v0.33.1 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
 
 ## Rehearse the minute GNSS goes dark#
 
@@ -21411,7 +21411,7 @@ Title: Rust crate · Kshana docs
 Kshana · क्षण · the precise instant
 An open-source simulator for PNT (positioning, navigation and timing) resilience.
 
-Release v0.33.0 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
+Release v0.33.1 124 of 251 capabilities validated against independent external oracles About 95% line coverage, gated at 85% in continuous integration Licence: AGPL-3.0-only, or a commercial licence DOI 10.5281/zenodo.20528627
 
 ## Rehearse the minute GNSS goes dark#
 
@@ -22538,6 +22538,12 @@ All notable changes to Kshana are documented here.
 The format is based on Keep a Changelog, and this project adheres to Semantic Versioning. While the project is pre-1.0, the public scenario/result schema may still change; breaking changes are called out explicitly.
 
 ## Unreleased#
+
+## [0.33.1] - 2026-10-08#
+
+### Security#
+
+- Chart text and Studio chart adoption hardened. Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
 
 ## [0.33.0] - 2026-10-08#
 
