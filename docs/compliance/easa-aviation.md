@@ -1,0 +1,25 @@
+<!-- SPDX-License-Identifier: AGPL-3.0-only -->
+# EASA guidance on GNSS interference for aviation: what Kshana supports evidence for
+
+EASA's Safety Information Bulletin is informational, not mandatory, and addressed to authorities, air traffic providers, operators and manufacturers. It does not number its recommendations, so the references below are its section headings. Conflict Zone Information Bulletins were not opened and are not mapped.
+
+Every row says which Kshana outputs **support evidence for** the requirement and what is
+left over. Nothing here says a framework is met, that a product conforms to it, or that
+anything is certified. Run `kshana compliance-report` on your own result files to see which
+rows your runs actually evidence; see [README.md](README.md).
+
+## Source documents
+
+- **Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation**: EASA Safety Information Bulletin SIB 2022-02R4, issued 3 July 2026, corrected 22 July 2026 (informational, not mandatory). <https://ad.easa.europa.eu/ad/2022-02R4>. Read 2026-10-09: revision 4 read in full; sections are cited by heading because the bulletin does not number its recommendations. Conflict Zone Information Bulletins were not opened.
+
+## Mapping
+
+<!-- mapping:start -->
+| Reference | What it asks (paraphrased) | Kshana outputs that support evidence for it | Gap |
+|---|---|---|---|
+| SIB 2022-02R4, Description | Spoofing is harder to detect and more hazardous than jamming; there is no cockpit alert that tells the two apart; effects range from false terrain alerts to corrupted surveillance data and can persist after leaving the area. | Jamming link-budget effects; Spoofing and meaconing detection | Kshana models detector and link effects; cockpit alerting is an equipment property. |
+| SIB 2022-02R4, Recommendations to aircraft and equipment manufacturers | Assess jamming and spoofing effects on the product, including cumulative effects, and give operators guidance on spotting suspected spoofing and on operating limits when GNSS is lost. | Receiver-log trust assessment; Jamming link-budget effects; Spoofing and meaconing detection; Holdover and coasting | The assessment of the product itself is the manufacturer's; Kshana supplies a repeatable scenario and a scored receiver log as evidence in it. |
+| SIB 2022-02R4, Recommendations to air operators (spoofing) | Compare GNSS position and time against non-GNSS sources and watch the position-uncertainty figure and navigation aids to notice spoofing. | Spoofing and meaconing detection; Receiver-log trust assessment; Alternative and diverse PNT sources | Operational procedure and training are outside simulation outputs. |
+| SIB 2022-02R4, Recommendations to ATM/ANS providers and equipment designers | Assess the effect of GNSS timing loss on communication, navigation and surveillance systems, keep ground navigation aids, and help detect interference. | Holdover and coasting; Jamming link-budget effects | Timing-holdover runs speak to the timing-loss assessment; ground-system design and procedures are not covered. |
+| SIB 2022-02R4, Reporting | Report events affecting safety under the occurrence-reporting regulation, and report suspected spoofing and higher-risk jamming to the manufacturer. | none | A reporting duty; no output speaks to it. |
+<!-- mapping:end -->
