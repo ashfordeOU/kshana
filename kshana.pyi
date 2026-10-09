@@ -20,6 +20,9 @@ __all__ = [
     "error_kind",
     "version",
     "receiver_trust",
+    "interference_map",
+    "route_exposure",
+    "nmea_training",
     "iq_scene",
     "iq_scene_broadcast",
     "iq_acquire",
@@ -84,9 +87,45 @@ def run_typed(toml: str) -> RunOutput:
 def receiver_trust(toml: str) -> RunOutput:
     """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
 
+    A ``[platform]`` table with ``kind = "vessel"`` selects the maritime monitors and the
+    0-100 trust score with its reasons; the output is advisory (docs/MARITIME-TRUST.md).
+    ``receiver-trust live`` (a long-running stream process) is command-line only.
+
     Returns the result document, the per-epoch trust CSV, the chart and a summary.
     Raises ``ValueError`` on an invalid scenario or an unreadable log."""
     ...
+
+def interference_map(
+    source: str,
+    csv: str,
+    dataset: str,
+    cell_deg: Optional[float] = None,
+    licence: Optional[str] = None,
+    licence_url: Optional[str] = None,
+    attribution: Optional[str] = None,
+    land_geojson: Optional[str] = None,
+) -> list[dict[str, Any]]:
+    """Build a GNSS interference map from ``"adsb"`` or ``"ais"`` CSV text.
+
+    ``dataset`` is an approved preset or ``"custom"`` (which needs ``licence``,
+    ``licence_url`` and ``attribution``). One dict per UTC day: ``file_name``, ``date``,
+    ``cells_published``, ``cells_flagged`` and ``geojson`` (``kshana-interference-map/v1``
+    text). Aggregate only; a degraded cell does not name interference as the cause.
+    Raises ``ValueError`` on bad input."""
+
+def route_exposure(
+    route: str,
+    maps: list[str],
+    date_from: Optional[str] = None,
+    date_to: Optional[str] = None,
+) -> str:
+    """Share of a route through degraded cells of the given maps, as JSON text. Cells not
+    observed are not evidence of a clear route; not a forecast. Raises ``ValueError``."""
+
+def nmea_training(toml: str, seed: Optional[int] = None) -> dict[str, str]:
+    """Synthetic bridge NMEA for crew training from a ``nmea-scenario`` TOML. Keys:
+    ``nmea``, ``log_json`` (instructor log, ``kshana-nmea-training/1``), ``log_text``.
+    Text only; never for a vessel's live navigation systems. Raises ``ValueError``."""
 
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required
