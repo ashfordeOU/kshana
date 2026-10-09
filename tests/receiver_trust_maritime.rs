@@ -412,3 +412,23 @@ fn a_slow_source_holds_its_statistic_for_the_stated_time_and_no_longer() {
         .filter(|e| e.t_s >= 680.0)
         .any(|e| !e.alarms.contains(&Monitor::Cn0Spread)));
 }
+
+#[test]
+fn a_per_satellite_authentication_failure_alarms_the_osnma_monitor() {
+    use kshana::receiver_trust::OsnmaStatus;
+    let r = edited(900.0, |e| {
+        let m = e.marine.as_mut().unwrap();
+        m.sat_auth = vec![
+            ("E11".into(), OsnmaStatus::Authenticated),
+            (
+                "E19".into(),
+                if e.t_s >= 600.0 {
+                    OsnmaStatus::Failed
+                } else {
+                    OsnmaStatus::Authenticated
+                },
+            ),
+        ];
+    });
+    assert_eq!(first_alarm(&r, Monitor::Osnma), Some(600.0));
+}
