@@ -30,7 +30,10 @@ if(KSHANA_BUILD_PLUGIN)
   add_library(kshana_pi SHARED kshana_pi.cpp)
   target_compile_features(kshana_pi PRIVATE cxx_std_14)
   target_include_directories(kshana_pi PRIVATE ${OCPN_PLUGIN_HEADER_DIR} ${CMAKE_CURRENT_SOURCE_DIR})
-  target_compile_definitions(kshana_pi PRIVATE DECL_EXP=)
+  target_compile_definitions(kshana_pi PRIVATE DECL_EXP=
+    KSHANA_PI_VERSION_MAJOR=${PROJECT_VERSION_MAJOR}
+    KSHANA_PI_VERSION_MINOR=${PROJECT_VERSION_MINOR}
+    KSHANA_PI_VERSION_PATCH=${PROJECT_VERSION_PATCH})
   target_link_libraries(kshana_pi PRIVATE ${wxWidgets_LIBRARIES})
   set_target_properties(kshana_pi PROPERTIES PREFIX "lib" OUTPUT_NAME "kshana_pi")
   # Build check: the shared library must export the two entry points OpenCPN looks up.

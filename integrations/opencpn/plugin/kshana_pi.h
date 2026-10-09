@@ -18,8 +18,10 @@ class kshana_pi : public opencpn_plugin_118 {
   bool DeInit() override;
   int GetAPIVersionMajor() override { return 1; }
   int GetAPIVersionMinor() override { return 18; }
-  int GetPlugInVersionMajor() override { return 0; }
-  int GetPlugInVersionMinor() override { return 35; }
+  // from project(VERSION) in CMakeLists.txt, the one place the plugin's version is written
+  int GetPlugInVersionMajor() override { return KSHANA_PI_VERSION_MAJOR; }
+  int GetPlugInVersionMinor() override { return KSHANA_PI_VERSION_MINOR; }
+  int GetPlugInVersionPatch() override { return KSHANA_PI_VERSION_PATCH; }
   wxBitmap* GetPlugInBitmap() override { return &icon_; }
   wxString GetCommonName() override { return "Kshana trust"; }
   wxString GetShortDescription() override {
