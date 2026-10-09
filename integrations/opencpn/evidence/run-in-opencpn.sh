@@ -6,6 +6,10 @@
 #
 #   integrations/opencpn/evidence/run-in-opencpn.sh <path/to/libkshana_pi.so> <out_dir>
 #
+# Two ways to feed OpenCPN. By default the recorded gated excerpt is served by the relay (no kshana needed).
+# With KSHANA_BIN and KSHANA_DEMO (a directory with session.toml and the demo .nmea) set, a real
+# `kshana receiver-trust live --gate --listen tcp:10110` serves the gated stream itself, the recommended setup.
+#
 # Advisory software, not type-approved equipment. Nothing here transmits.
 set -eu
 lib="$1"; out="$2"
@@ -25,14 +29,27 @@ sed -i 's#^DataConnections=#DataConnections=1;0;127.0.0.1;10110;0;;4800;1;0;1;;1
 sed -i 's#^\[PlugIns\]#[PlugIns]\n[PlugIns/libkshana_pi.so]\nbEnabled=1#' "$conf"
 mkdir -p "$home/.local/lib/opencpn" && cp "$lib" "$home/.local/lib/opencpn/"
 rm -f "$home/.opencpn/_OpenCPN_SILock"
-node "$here/feeder.mjs" "$stream" 1000 10110 >"$out/feeder.log" 2>&1 & feed=$!
+if [ -n "${KSHANA_BIN:-}" ] && [ -n "${KSHANA_DEMO:-}" ]; then
+  nmea="$(ls "$KSHANA_DEMO"/*.nmea | head -1)"
+  node "$here/feeder-direct.mjs" "$KSHANA_BIN" "$KSHANA_DEMO/session.toml" "$nmea" "$home/go" 1600 1000 10110 >"$out/feeder.log" 2>&1 & feed=$!
+  mode=direct
+else
+  node "$here/feeder.mjs" "$stream" 1000 10110 >"$out/feeder.log" 2>&1 & feed=$!
+  mode=relay
+fi
 opencpn >"$out/opencpn.stdout" 2>&1 & ocpn=$!
 sleep 12
 # the killed first run makes OpenCPN ask about safe mode: answer No, then OK on the welcome dialog
 xdotool mousemove 594 480 click 1
 sleep 12
 xdotool mousemove 815 566 click 1
-until grep -q "client connected" "$out/feeder.log"; do sleep 1; done
+if [ "$mode" = direct ]; then
+  until grep -q "connection established" "$home/.opencpn/opencpn.log" 2>/dev/null; do sleep 1; done
+  touch "$home/go"
+  until grep -q "^paced" "$out/feeder.log"; do sleep 1; done
+else
+  until grep -q "client connected" "$out/feeder.log"; do sleep 1; done
+fi
 sleep 2;  scrot -o "$out/1-early.png"
 until grep -q "^done" "$out/feeder.log"; do sleep 1; done
 sleep 1;  scrot -o "$out/2-after-collapse.png"

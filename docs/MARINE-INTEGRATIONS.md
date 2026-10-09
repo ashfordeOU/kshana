@@ -49,6 +49,7 @@ Every epoch updates (source `kshana-trust`):
 | `navigation.gnss.kshana.reasons` | `[{monitor, points}]`, largest first: which checks reduced the score |
 | `navigation.gnss.kshana.alarms` | the monitors currently over their threshold |
 | `navigation.gnss.kshana.gate` | `off`, `passed` or `withheld` (when a gate is running elsewhere; `null` from `$PKSHT` when absent) |
+| `navigation.gnss.kshana.reportedPosition` | `{latitude, longitude, altitude}`: the position the receiver under test reported at that epoch (JSON schema 1.1 or later; not published when the stream carries none, for example from `$PKSHT` or an older `kshana`). **Trust context only**: the plugin never writes `navigation.position`, so the vessel's own position path is untouched |
 | `notifications.navigation.gnss.kshanaTrust` | raised when the state changes: `{state, method, message}` |
 
 The notification is `normal`, `alert`, `warn` or `alarm`. By default the **degraded** band gives `warn` and the

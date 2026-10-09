@@ -100,6 +100,9 @@ function valuesFor(epoch) {
     { path: `${NS}.alarms`, value: epoch.alarms },
     { path: `${NS}.gate`, value: epoch.gate }
   ]
+  // Context only: the position the receiver under test reported, NOT the vessel's navigation.position,
+  // which this plugin never writes. Published only when the stream carries one.
+  if (epoch.position) v.push({ path: `${NS}.reportedPosition`, value: epoch.position })
   return v
 }
 
