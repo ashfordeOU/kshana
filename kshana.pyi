@@ -20,6 +20,7 @@ __all__ = [
     "error_kind",
     "version",
     "receiver_trust",
+    "receiver_trust_replay",
     "interference_map",
     "route_exposure",
     "nmea_training",
@@ -94,6 +95,15 @@ def receiver_trust(toml: str) -> RunOutput:
     Returns the result document, the per-epoch trust CSV, the chart and a summary.
     Raises ``ValueError`` on an invalid scenario or an unreadable log."""
     ...
+
+def receiver_trust_replay(session_toml: str, nmea: str, gate: bool = False) -> dict[str, Any]:
+    """Replay an NMEA excerpt through the engine behind ``kshana receiver-trust live``.
+
+    ``session_toml`` declares a vessel (``[platform] kind = "vessel"``). Keys: ``reports_jsonl``
+    (one JSON line per epoch, schema 1.1), ``gated_nmea`` (what the gate would forward, ``None``
+    when ``gate`` is false), ``epochs``, ``calibrating``, ``nominal``, ``degraded``,
+    ``untrusted``, ``withheld``, ``min_score``. Opens no socket; advisory only. Raises
+    ``ValueError``."""
 
 def interference_map(
     source: str,
