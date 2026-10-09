@@ -249,3 +249,66 @@ fn udp_datagrams_are_read() {
     assert_eq!(v.len(), 30);
     assert_eq!(v[29]["state"], "nominal");
 }
+
+#[test]
+fn gate_serves_the_stream_to_several_tcp_clients_on_localhost() {
+    let probe = TcpListener::bind("127.0.0.1:0").unwrap();
+    let port = probe.local_addr().unwrap().port();
+    drop(probe);
+    let mut child = Command::new(BIN)
+        .args(["receiver-trust", "live"])
+        .arg(session("listen"))
+        .args(["--replay", "--gate", "--listen", &format!("tcp:{port}")])
+        .stdin(Stdio::piped())
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let mut err = BufReader::new(child.stderr.take().unwrap());
+    let mut l = String::new();
+    while !l.contains("listening on tcp") {
+        l.clear();
+        assert!(
+            err.read_line(&mut l).unwrap() > 0,
+            "exited before listening"
+        );
+    }
+    // Two readers, and a third that connects and never reads.
+    let addr = format!("127.0.0.1:{port}");
+    let readers: Vec<_> = (0..2)
+        .map(|_| {
+            let mut s = std::net::TcpStream::connect(&addr).unwrap();
+            std::thread::spawn(move || {
+                let mut out = String::new();
+                s.read_to_string(&mut out).unwrap();
+                out
+            })
+        })
+        .collect();
+    let _idle = std::net::TcpStream::connect(&addr).unwrap();
+    std::thread::sleep(std::time::Duration::from_millis(300));
+    let input = text(30.0);
+    child
+        .stdin
+        .take()
+        .unwrap()
+        .write_all(input.as_bytes())
+        .unwrap();
+    let status = child.wait().unwrap();
+    assert!(status.success());
+    // stdout carries nothing of the stream while it is served over TCP.
+    let mut so = String::new();
+    child
+        .stdout
+        .take()
+        .unwrap()
+        .read_to_string(&mut so)
+        .unwrap();
+    assert!(so.is_empty(), "{so}");
+    for r in readers {
+        let got = r.join().unwrap();
+        let fwd: Vec<&str> = got.lines().filter(|l| !l.starts_with("$PKSHT")).collect();
+        assert_eq!(fwd, input.lines().collect::<Vec<_>>());
+        assert_eq!(got.matches("$PKSHT,").count(), 31);
+    }
+}

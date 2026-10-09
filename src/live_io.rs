@@ -5,21 +5,27 @@
 
 use std::fs::{File, OpenOptions};
 use std::io::{BufRead, BufReader, Seek, SeekFrom, Write};
-use std::net::{TcpStream, UdpSocket};
+use std::net::{TcpListener, TcpStream, UdpSocket};
 use std::path::PathBuf;
 use std::process::ExitCode;
 use std::sync::mpsc::{self, RecvTimeoutError, Sender};
+use std::sync::mpsc::{sync_channel, SyncSender, TrySendError};
+use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
 
 use kshana::receiver_trust::live::{parse_live_scenario, LiveEngine, LiveOut};
 
-pub const LIVE_USAGE: &str = "usage: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port>] [--replay] [--gate] [--json <path|->] [--pksht <path|->]
+pub const LIVE_USAGE: &str = "usage: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] [--from-end] | --tcp <host:port> | --udp <[addr:]port>] [--replay] [--gate [--listen tcp:[<addr>:]<port>]] [--json <path|->] [--pksht <path|->]
 
 Reads NMEA 0183 (stdin by default), scores every epoch of a vessel's fix 0-100 and writes one
 JSON line per epoch (stdout by default). With --gate the NMEA stream is passed through on stdout
 instead, unchanged while the fix is trusted and with the fix marked invalid while it is not, each
 cycle followed by a $PKSHT sentence; the JSON then goes only where --json says. The session is a
 scenario .toml with a [platform] kind = \"vessel\"; its [log] table is not needed.
+
+--listen (with --gate) serves the gated stream to any number of TCP clients (a chart plotter,
+for example) instead of writing it to stdout; the default address is loopback. A client that
+cannot keep up is dropped, so it never holds up the others or the input.
 
 The receiver's time is also checked against this computer's clock, which only means something for
 a stream arriving in real time; for a stored log fed in faster than that (stdin, tcp, udp) pass
@@ -39,10 +45,120 @@ enum Source {
     Udp(String),
 }
 
+/// Fan-out of the forwarded stream to TCP clients. Every client has its own bounded queue and
+/// its own writer thread, so one that cannot keep up is dropped (its connection closed)
+/// instead of holding up the other clients or the input.
+type ClientQueue = SyncSender<Arc<Vec<u8>>>;
+
+#[derive(Clone)]
+struct Broadcaster {
+    clients: Arc<Mutex<Vec<ClientQueue>>>,
+    writers: Arc<Mutex<Vec<std::thread::JoinHandle<()>>>>,
+}
+
+/// Messages a client may fall behind by before it is dropped.
+const CLIENT_QUEUE: usize = 256;
+
+impl Broadcaster {
+    fn new() -> Self {
+        Self {
+            clients: Arc::new(Mutex::new(Vec::new())),
+            writers: Arc::new(Mutex::new(Vec::new())),
+        }
+    }
+
+    /// Add a client's queue.
+    fn add(&self, tx: ClientQueue) {
+        if let Ok(mut c) = self.clients.lock() {
+            c.push(tx);
+        }
+    }
+
+    /// Queue `bytes` for every client without blocking; a full or closed queue drops that
+    /// client. Returns how many were dropped.
+    fn send(&self, bytes: Vec<u8>) -> usize {
+        let msg = Arc::new(bytes);
+        let Ok(mut c) = self.clients.lock() else {
+            return 0;
+        };
+        let before = c.len();
+        c.retain(|tx| match tx.try_send(Arc::clone(&msg)) {
+            Ok(()) => true,
+            Err(TrySendError::Full(_)) | Err(TrySendError::Disconnected(_)) => false,
+        });
+        before - c.len()
+    }
+
+    /// The stream has ended: let every client's queue drain (each write is bounded by the
+    /// write timeout), then close.
+    fn close(&self) {
+        if let Ok(mut c) = self.clients.lock() {
+            c.clear(); // the writers finish what is queued, then stop
+        }
+        let handles: Vec<_> = self
+            .writers
+            .lock()
+            .map(|mut w| w.drain(..).collect())
+            .unwrap_or_default();
+        for h in handles {
+            let _ = h.join();
+        }
+    }
+
+    /// Accept clients on `addr` in a background thread.
+    fn listen(&self, addr: &str) -> Result<(), String> {
+        let l = TcpListener::bind(addr).map_err(|e| format!("cannot listen on {addr}: {e}"))?;
+        eprintln!("kshana live: listening on tcp {addr}");
+        let b = self.clone();
+        std::thread::spawn(move || {
+            for conn in l.incoming().flatten() {
+                let (tx, rx) = sync_channel::<Arc<Vec<u8>>>(CLIENT_QUEUE);
+                let _ = conn.set_nodelay(true);
+                let _ = conn.set_write_timeout(Some(Duration::from_secs(5)));
+                b.add(tx);
+                let h = std::thread::spawn(move || {
+                    let mut conn = conn;
+                    // Ends when the queue is dropped (client too slow) or a write fails.
+                    while let Ok(m) = rx.recv() {
+                        if conn.write_all(&m).is_err() {
+                            break;
+                        }
+                    }
+                });
+                if let Ok(mut w) = b.writers.lock() {
+                    w.push(h);
+                }
+            }
+        });
+        Ok(())
+    }
+}
+
+/// Parse `--listen tcp:<port>` (loopback) or `tcp:<addr>:<port>`.
+fn listen_addr(spec: &str) -> Result<String, String> {
+    let rest = spec
+        .strip_prefix("tcp:")
+        .ok_or("--listen takes tcp:<port> or tcp:<addr>:<port>")?;
+    let addr = if rest.contains(':') {
+        rest.to_string()
+    } else {
+        format!("127.0.0.1:{rest}")
+    };
+    let host = addr.rsplit_once(':').map_or("", |(h, _)| h);
+    if !(host == "127.0.0.1" || host == "localhost" || host == "[::1]") {
+        eprintln!(
+            "kshana live: warning: {addr} is not a loopback address; anything that can reach it \
+             can read the stream"
+        );
+    }
+    Ok(addr)
+}
+
 enum Sink {
     None,
     Stdout,
     File(File),
+    Tcp(Broadcaster),
 }
 
 impl Sink {
@@ -63,6 +179,12 @@ impl Sink {
             Sink::None => Ok(()),
             Sink::Stdout => std::io::stdout().lock().write_all(bytes),
             Sink::File(f) => f.write_all(bytes),
+            Sink::Tcp(b) => {
+                if b.send(bytes.to_vec()) > 0 {
+                    eprintln!("kshana live: dropped a tcp client that could not keep up");
+                }
+                Ok(())
+            }
         }
     }
 
@@ -71,6 +193,7 @@ impl Sink {
             Sink::None => Ok(()),
             Sink::Stdout => std::io::stdout().lock().flush(),
             Sink::File(f) => f.flush(),
+            Sink::Tcp(_) => Ok(()),
         }
     }
 
@@ -216,6 +339,8 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     let mut source = Source::Stdin;
     let (mut follow, mut from_end, mut gate, mut replay) = (false, false, false, false);
     let (mut json_spec, mut pksht_spec): (Option<String>, Option<String>) = (None, None);
+    let mut listen: Option<String> = None;
+    let mut tcp: Option<Broadcaster> = None;
     let mut it = args.iter();
     while let Some(a) = it.next() {
         let mut value = |name: &str| -> Result<String, (String, u8)> {
@@ -245,6 +370,7 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             }
             "--gate" => gate = true,
             "--replay" => replay = true,
+            "--listen" => listen = Some(value("--listen")?),
             "--json" => json_spec = Some(value("--json")?),
             "--pksht" => pksht_spec = Some(value("--pksht")?),
             s if s.starts_with("--") => return Err(usage(format!("unknown option {s}"))),
@@ -288,6 +414,16 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
         None => Sink::None,
     };
     let mut stream = if gate { Sink::Stdout } else { Sink::None };
+    if let Some(spec) = &listen {
+        if !gate {
+            return Err(usage("--listen serves the gated stream: add --gate".into()));
+        }
+        let addr = listen_addr(spec).map_err(&usage)?;
+        let b = Broadcaster::new();
+        b.listen(&addr).map_err(|e| (e, 2))?;
+        tcp = Some(b.clone());
+        stream = Sink::Tcp(b);
+    }
     let stdout_users = [&json, &pksht, &stream]
         .iter()
         .filter(|s| s.is_stdout())
@@ -337,15 +473,50 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             Ok(Msg::Line(l, t)) => emit(engine.feed_line(&l, t))?,
             Ok(Msg::End) | Err(RecvTimeoutError::Disconnected) => {
                 emit(engine.finish())?;
+                if let Some(b) = &tcp {
+                    b.close();
+                }
                 return Ok(());
             }
             Ok(Msg::Fail(e)) => {
                 emit(engine.finish())?;
+                if let Some(b) = &tcp {
+                    b.close();
+                }
                 return Err((e, 1));
             }
             Err(RecvTimeoutError::Timeout) => {
                 emit(engine.idle(start.elapsed().as_secs_f64()))?;
             }
         }
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn a_client_that_cannot_keep_up_is_dropped_without_blocking_the_others() {
+        let b = Broadcaster::new();
+        let (slow_tx, _slow_rx) = sync_channel(2); // never read
+        let (fast_tx, fast_rx) = sync_channel(CLIENT_QUEUE);
+        b.add(slow_tx);
+        b.add(fast_tx);
+        let mut dropped = 0;
+        for i in 0..50u8 {
+            dropped += b.send(vec![i]); // returns at once whatever the slow client does
+        }
+        assert_eq!(dropped, 1);
+        let got: Vec<u8> = (0..50).map(|_| fast_rx.recv().unwrap()[0]).collect();
+        assert_eq!(got, (0..50).collect::<Vec<u8>>());
+        assert_eq!(b.clients.lock().unwrap().len(), 1);
+    }
+
+    #[test]
+    fn listen_addresses() {
+        assert_eq!(listen_addr("tcp:10110").unwrap(), "127.0.0.1:10110");
+        assert_eq!(listen_addr("tcp:127.0.0.1:2000").unwrap(), "127.0.0.1:2000");
+        assert!(listen_addr("udp:1").is_err());
     }
 }
