@@ -18,17 +18,20 @@ use super::sources::{Dataset, Kind};
 use super::time::parse_day;
 use super::{IdHasher, MapError};
 
+/// Usage text for `kshana interference-map`.
 pub const MAP_USAGE: &str = "usage: kshana interference-map adsb <input.csv|trace.json[.gz]|dir> --dataset <adsb-lol|custom> --out <dir> [--cell-deg <deg>]
    or: kshana interference-map ais <input.csv> --dataset <noaa-marinecadastre|kystverket|custom> --out <dir> [--land <land.geojson>] [--cell-deg <deg>]
    or: kshana interference-map fetch-land --out <land.geojson> --allow-network
    (--dataset custom also needs --licence <text> --licence-url <url> --attribution <text>)";
 
+/// Usage text for `kshana route-exposure`.
 pub const ROUTE_USAGE: &str = "usage: kshana route-exposure --route <route.geojson|route.csv> --map <map.geojson|dir> [--map ...] [--from <YYYY-MM-DD>] [--to <YYYY-MM-DD>] [--out <report.json>] [--json]";
 
 /// Natural Earth land polygons (public domain), the intended coastline for the AIS detector.
 /// The URL names one commit of the upstream repository, and the download is checked against
 /// the SHA-256 below before it is kept, so the file cannot change under the command.
 pub const NATURAL_EARTH_LAND_URL: &str = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_10m_land.geojson";
+/// The SHA-256 the downloaded land file must have (lowercase hex).
 pub const NATURAL_EARTH_LAND_SHA256: &str =
     "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416";
 

@@ -8,24 +8,34 @@ use serde_json::{json, Map, Value};
 use super::grid::{CellId, Grid};
 use super::sources::Dataset;
 
+/// Name of the output schema, version 1.
 pub const SCHEMA: &str = "kshana-interference-map/v1";
 /// Integer form of the schema version. A change that removes or renames a field, or changes
 /// the meaning of one, raises it; adding a field does not.
 pub const FORMAT_VERSION: u32 = 1;
 
+/// One published cell.
 pub struct CellOut {
+    /// The cell's grid index.
     pub id: CellId,
     /// One of `degraded`, `not_degraded`, `insufficient_sample`, `withheld_day_confounded`
     /// (ADS-B) or `anomalous`, `not_anomalous` (AIS).
     pub status: String,
+    /// True when the status is `degraded` or `anomalous`.
     pub degraded: bool,
+    /// Aggregate counts for the cell, written as feature properties.
     pub props: Map<String, Value>,
 }
 
+/// One source's results for one UTC day.
 pub struct DayOut {
+    /// `adsb` or `ais`.
     pub source_kind: &'static str,
+    /// UTC date, `YYYY-MM-DD`.
     pub date: String,
+    /// Published cells; cells below the publication minimum are absent.
     pub cells: Vec<CellOut>,
+    /// Day-level figures written under `day`.
     pub day_meta: Map<String, Value>,
 }
 

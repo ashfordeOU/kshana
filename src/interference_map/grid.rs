@@ -8,18 +8,24 @@
 /// Integer cell index: `i` counts latitude cells up from -90, `j` longitude cells up from -180.
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
 pub struct CellId {
+    /// Latitude cell index, counted up from -90 degrees.
     pub i: i32,
+    /// Longitude cell index, counted up from -180 degrees.
     pub j: i32,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq)]
+/// A fixed latitude/longitude grid of square cells.
 pub struct Grid {
+    /// Cell side in degrees.
     pub cell_deg: f64,
 }
 
+/// Mean Earth radius in metres.
 pub const EARTH_RADIUS_M: f64 = 6_371_008.8;
 
 impl Grid {
+    /// A grid of the given cell size, or `None` outside 0.01 to 10 degrees.
     pub fn new(cell_deg: f64) -> Option<Self> {
         if cell_deg.is_finite() && (0.01..=10.0).contains(&cell_deg) {
             Some(Self { cell_deg })
@@ -28,6 +34,7 @@ impl Grid {
         }
     }
 
+    /// The cell containing a latitude and longitude (degrees).
     pub fn cell_of(&self, lat: f64, lon: f64) -> CellId {
         CellId {
             i: ((lat + 90.0) / self.cell_deg).floor() as i32,
@@ -42,6 +49,7 @@ impl Grid {
         (s, w, s + self.cell_deg, w + self.cell_deg)
     }
 
+    /// The `(lat, lon)` centre of a cell.
     pub fn center(&self, c: CellId) -> (f64, f64) {
         let (s, w, n, e) = self.bounds(c);
         ((s + n) / 2.0, (w + e) / 2.0)
