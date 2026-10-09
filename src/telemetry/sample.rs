@@ -196,8 +196,16 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
     })
 }
 
-/// The sample for one epoch of a batch `receiver-trust` result. No score: the batch result
-/// has a trust state, not a number.
+fn monitor_name(m: &crate::receiver_trust::monitors::Monitor) -> String {
+    serde_json::to_value(m)
+        .ok()
+        .and_then(|v| v.as_str().map(str::to_string))
+        .unwrap_or_else(|| format!("{m:?}"))
+}
+
+/// The sample for one epoch of a batch `receiver-trust` result. The score is the epoch's own
+/// trust score for a vessel platform and `None` otherwise: a state is never turned into a
+/// number here.
 pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
     let band = match e.state {
         TrustState::Calibrating => Band::Calibrating,
@@ -205,21 +213,24 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
         TrustState::Degraded => Band::Degraded,
         TrustState::Untrusted => Band::Untrusted,
     };
+    let mut reasons: Vec<String> = Vec::new();
+    let named = e
+        .score
+        .iter()
+        .flat_map(|s| s.deductions.iter().map(|d| &d.monitor))
+        .chain(e.alarms.iter());
+    for m in named {
+        let n = monitor_name(m);
+        if !reasons.contains(&n) {
+            reasons.push(n);
+        }
+    }
     TrustSample {
         t_s: e.t_s,
         time_label: None,
-        score: None,
+        score: e.score.as_ref().map(|s| s.score),
         band,
-        reasons: e
-            .alarms
-            .iter()
-            .map(|m| {
-                serde_json::to_value(m)
-                    .ok()
-                    .and_then(|v| v.as_str().map(str::to_string))
-                    .unwrap_or_else(|| format!("{m:?}"))
-            })
-            .collect(),
+        reasons,
         gate: None,
         position: None,
     }
@@ -293,7 +304,7 @@ mod tests {
     }
 
     #[test]
-    fn batch_epoch_has_no_invented_score() {
+    fn batch_epoch_without_a_score_gets_none() {
         let e = EpochTrust {
             t_s: 70.0,
             n_sats: 8,
@@ -309,6 +320,8 @@ mod tests {
             clock_bound_ns: None,
             alarms: vec![crate::receiver_trust::monitors::Monitor::Cn0Drop],
             state: TrustState::Degraded,
+            marine: None,
+            score: None,
         };
         let s = from_epoch_trust(&e);
         assert_eq!(s.score, None);

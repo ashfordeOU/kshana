@@ -181,6 +181,29 @@ pub struct EvidenceInput<'a> {
     pub created_utc: Option<&'a str>,
 }
 
+/// The byte range of the log that holds every epoch in `[from_s, to_s]`, from the epochs'
+/// source spans (`(t_s, [start, end))`, as `LogEpoch` reports them). `None` when no epoch
+/// falls in the window or any of them has no span (a live feed, RINEX 2): the caller then
+/// bundles the whole log and the manifest says so.
+pub fn slice_for_window(
+    epochs: impl IntoIterator<Item = (f64, Option<[usize; 2]>)>,
+    from_s: f64,
+    to_s: f64,
+) -> Option<(usize, usize)> {
+    let mut range: Option<(usize, usize)> = None;
+    for (t, span) in epochs {
+        if t < from_s || t > to_s {
+            continue;
+        }
+        let [a, b] = span?;
+        range = Some(match range {
+            None => (a, b),
+            Some((x, y)) => (x.min(a), y.max(b)),
+        });
+    }
+    range
+}
+
 /// SHA-256 as lower-case hex.
 pub fn sha256_hex(b: &[u8]) -> String {
     hex::encode(Sha256::digest(b))
@@ -338,4 +361,33 @@ pub fn create_bundle(
         files.insert("timestamp.tsr".into(), t.to_vec());
     }
     Ok(files)
+}
+
+#[cfg(test)]
+mod tests {
+    use super::slice_for_window;
+
+    #[test]
+    fn window_slice_spans_the_epochs_inside_it() {
+        let e = [
+            (0.0, Some([0, 10])),
+            (1.0, Some([10, 25])),
+            (2.0, Some([25, 31])),
+            (3.0, Some([31, 40])),
+        ];
+        assert_eq!(slice_for_window(e, 1.0, 2.0), Some((10, 31)));
+        assert_eq!(
+            slice_for_window(e, 0.5, 0.9),
+            None,
+            "no epoch in the window"
+        );
+    }
+
+    #[test]
+    fn a_missing_span_inside_the_window_forces_the_whole_log() {
+        let e = [(0.0, Some([0, 10])), (1.0, None), (2.0, Some([20, 30]))];
+        assert_eq!(slice_for_window(e, 0.0, 2.0), None);
+        // A missing span outside the window does not matter.
+        assert_eq!(slice_for_window(e, 2.0, 2.0), Some((20, 30)));
+    }
 }

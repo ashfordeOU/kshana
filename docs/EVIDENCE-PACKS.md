@@ -43,10 +43,13 @@ way if it lives in a checkout.
 | `manifest.sig` | Ed25519 signature over the exact bytes of `manifest.json` |
 | `timestamp.tsr` | optional RFC 3161 timestamp token |
 
-**Log slice.** When the log reader can report each epoch's byte range in the source, the
-slice is exactly the window's bytes (`byte-range`). Where it cannot, the whole log is
-bundled and the manifest says `whole-log`: the window then limits which epochs are
-reported, not which bytes are included. The summary states which applies.
+**Log slice.** The reader reports the source byte span of each epoch, so the slice is the
+smallest byte range that holds every epoch in the window (`byte-range`): NMEA, u-blox UBX,
+RINEX 3 observations and Android logs. It is hashed as raw bytes, never as decoded text.
+For a live feed or RINEX 2 there is no span; the whole log is then bundled and the manifest
+says `whole-log` (the window limits which epochs are reported, not which bytes are
+included). The summary states which applies. A slice is a record of the window's bytes,
+not a stand-alone log: for example a RINEX slice has no file header.
 
 **Hash chain.** The manifest lists the files in a fixed order. `link₀ = SHA-256("kshana-
 evidence-chain/1")`; for each file, `linkᵢ = SHA-256(linkᵢ₋₁ ‖ SHA-256(file) ‖ len(name) ‖

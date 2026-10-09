@@ -11,7 +11,7 @@ never changes the trust assessment and transmits nothing but telemetry.
 # live stream on stdin -> /metrics on localhost:9464
 kshana receiver-trust live <args> | kshana trust-telemetry
 
-# replay a batch result (no score: the batch result has a state, not a number)
+# replay a batch result (the score is the epoch's own for a vessel platform, absent otherwise)
 kshana trust-telemetry --result session.result.json --print-metrics
 kshana trust-telemetry --result session.result.json --print-syslog --format leef
 
