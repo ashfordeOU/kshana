@@ -104,6 +104,60 @@ radio signal and transmits nothing. It is not a measurement and the route is ill
 chart. `tests/receiver_trust_maritime_demo.rs` pins the log and the expected output as regression
 guards on the synthetic data; they say nothing about how any monitor does on real interference.
 
+## Studio view specification
+
+For whoever builds the Studio view of a vessel run. Nothing in this section is implemented in the
+Studio yet; the engine side (the data below) is.
+
+**Inputs.** Either of:
+
+* a batch run's result JSON (`kshana receiver-trust <session.toml>`, or the same through
+  `receiver_trust(toml)` in the WebAssembly package with the log inline): `score_model` (band
+  edges, ramp, evidence hold, every weight), `monitors_run`, `states`, and `epochs[]`, each with
+  `t_s`, `state`, `alarms`, `score.{score,band,deductions[]}` and
+  `marine.{position:[lat,lon], stats, ratios}`; or
+* the live JSON lines (schema above), one object per epoch, appended as the stream runs. The live
+  lines carry no position: a live view takes the track from the same stream it reads, or from a
+  second source, and joins on `t_s`.
+
+The demo set is `examples/maritime-trust/`: `session.toml`, `tallinn-helsinki.nmea` (the log) and
+`tallinn-helsinki.truth.csv` (`t_s,true_lat_deg,true_lon_deg`: where the vessel really was, which
+no real log has). A view should run the session and read the truth file alongside.
+
+**What to draw.**
+
+1. *Track*, north up, one scale on both axes: the receiver-reported positions as a line coloured by
+   the epoch's band (grey calibrating, green nominal, amber degraded, red untrusted), start and end
+   marked, a scale bar. For the demo, the true track as a thin neutral line under it, so the drag-off
+   shows as the two separating; a toggle for the true track and an offset-in-metres readout at the
+   cursor's time.
+2. *Score timeline*: the score from 0 to 100 against time, the band edges (`nominal_min`,
+   `degraded_min` from `score_model`) as dashed lines, the band as a strip underneath, and the
+   onset of any stated event as a marker. The time axis is shared with the track.
+3. *Reasons*: for the epoch under the cursor, the deductions (monitor, ratio against threshold,
+   points) as horizontal bars, largest first, with the weight each monitor carries from
+   `score_model.weights`; monitors that ran and cost nothing shown faint, monitors that did not run
+   (not in `monitors_run`) listed as "not run", never as passing.
+4. *Monitor strips*: one thin strip per monitor in `monitors_run` showing its ratio over time
+   (alarm at 1), so a reader sees which check moved first.
+5. *Gate state*: in a live view, the `gate` of each epoch (`off`, `passed`, `withheld`) as a strip
+   under the band strip, and the latest `$PKSHT`. In a batch view, the epochs a gate would have
+   withheld are those whose band is untrusted, with the release hold applied.
+6. *Receiver-reported fix*: the demo's receiver reports a valid fix throughout (GGA quality 1, RMC
+   status A); say so in the legend, because that is the point of the view.
+
+**Interactions.** One time cursor shared by every panel (drag, arrow keys, and a play button that
+replays at 1x to 60x); hovering the track or any strip moves it. Clicking a deduction highlights the
+epochs in which that monitor was above its onset. A band filter (show only degraded and untrusted
+epochs) and a jump to the first deduction and to the first untrusted epoch. Hover text on every
+monitor name giving the one-line description from this page. The session's thresholds and weights
+are shown, read-only, beside the chart, so what the score used is on screen.
+
+**Wording to keep.** The page must say it is advisory software and not type-approved navigation
+equipment, that the demo is synthetic text with a made-up drag-off, and that a fix with no alarm is
+not thereby a good fix (see the limits above). No figure on the page should read as a measure of how
+the checks do on real interference.
+
 ## Run it live
 
 ```sh

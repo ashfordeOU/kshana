@@ -271,6 +271,13 @@ fn displace(lat: f64, lon: f64, east: f64, north: f64) -> (f64, f64) {
 
 /// The generated log as NMEA 0183 text, one cycle per second.
 pub fn synth_voyage(spec: &VoyageSpec) -> String {
+    synth_voyage_with_truth(spec).0
+}
+
+/// The log and the vessel's true position `[latitude, longitude]` at each epoch, which a
+/// real log never has: it is what the drag-off is measured against in the demo.
+pub fn synth_voyage_with_truth(spec: &VoyageSpec) -> (String, Vec<[f64; 2]>) {
+    let mut truth = Vec::new();
     let mut rng = Rng(spec.seed ^ 0xA5A5_5A5A_1234_5678);
     let sats = constellation();
     let (mut lat, mut lon) = spec.route[0];
@@ -410,12 +417,13 @@ pub fn synth_voyage(spec: &VoyageSpec) -> String {
             )));
         }
 
+        truth.push([lat, lon]);
         // --- advance the vessel -------------------------------------------------------
         let (nl, no) = displace(lat, lon, g.0, g.1);
         lat = nl;
         lon = no;
     }
-    out
+    (out, truth)
 }
 
 #[cfg(test)]
