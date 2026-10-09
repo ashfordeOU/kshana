@@ -130,7 +130,10 @@ code{{font:13px ui-monospace,monospace;word-break:break-all}}\n\
         h,
         "<p>A slice of kind <code>WholeLog</code> means the source could not give a byte range \
 for the window, so the whole log is bundled and the window limits only which epochs are \
-reported. Check this pack with <code>kshana evidence verify</code>; compare the signer \
+reported. A timestamp token, if one is attached later, is not part of this page; \
+its time is shown only by <code>kshana evidence verify</code>, and <strong>timestamp authority \
+signature not verified by Kshana</strong>: check it with <code>openssl ts -verify</code>. \
+Check this pack with <code>kshana evidence verify</code>; compare the signer \
 fingerprint with one you obtained from the signer by another route.</p>"
     );
 
