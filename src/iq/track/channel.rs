@@ -6,7 +6,8 @@ use super::cn0::{
     beaulieu_cn0_from_term, beaulieu_term, nwpr_cn0_from_ratio, nwpr_power_ratio,
     phase_lock_indicator, BitSync,
 };
-use super::{Discriminators, LoopConfig, LoopCore};
+use super::{Discriminators, FllAssist, LoopConfig, LoopCore};
+use crate::acquisition::m2m4_cn0_from_moments;
 use crate::iq::acq::AcqResult;
 use crate::iq::{Cf64, SampleSpec, SpreadingCode};
 use crate::portable_math::PortableFloat;
@@ -112,7 +113,23 @@ pub struct EpochOutput {
     /// The sign of a data bit completed since the previous update (`±1`, with the Costas
     /// loop's 180° ambiguity).
     pub bit: Option<i8>,
+    /// Latest M2M4 C/N0 estimate (dB-Hz) over the same windows as NWPR, once `M` windows
+    /// are in. It uses only prompt power, so it does not read low under carrier phase
+    /// jitter the way NWPR does.
+    pub cn0_m2m4_dbhz: Option<f64>,
+    /// Whether the FLL path fed this update (see [`FllAssist`]).
+    pub fll_active: bool,
+    /// The extra correlator taps (`extra_taps_chips`), as `(offset, value)` in design
+    /// order: the correlation with the replica `offset` chips ahead of the prompt (a
+    /// positive offset is early), over the same span as `early`/`prompt`/`late`. Empty
+    /// when the design has no taps.
+    pub extra: Vec<(f64, Cf64)>,
 }
+
+/// The most extra correlator taps a design may ask for.
+pub const MAX_EXTRA_TAPS: usize = 16;
+/// The largest extra-tap offset magnitude (chips).
+pub const MAX_TAP_OFFSET_CHIPS: f64 = 2.0;
 
 /// One tracking channel.
 pub struct Channel {
@@ -124,6 +141,9 @@ pub struct Channel {
     if_hz: f64,
     len: f64,
     half_d: f64,
+    taps: Vec<f64>,
+    extra_acc: Vec<Cf64>,
+    extra_block: Vec<Cf64>,
     ppb: Option<usize>,
     // NCOs.
     code_phase: f64,
@@ -147,11 +167,14 @@ pub struct Channel {
     window: Vec<Cf64>,
     window_len: usize,
     pli: f64,
+    fll_gate_since: Option<f64>,
     nwpr: VecDeque<f64>,
     beaulieu: VecDeque<f64>,
     prev_window_sum: Option<Cf64>,
     cn0_nwpr: Option<f64>,
     cn0_beaulieu: Option<f64>,
+    m2m4: VecDeque<(f64, f64)>,
+    cn0_m2m4: Option<f64>,
     pending_bit: Option<i8>,
 }
 
@@ -187,6 +210,21 @@ impl Channel {
                 ));
             }
         }
+        if cfg.extra_taps_chips.len() > MAX_EXTRA_TAPS {
+            return Err(format!(
+                "at most {MAX_EXTRA_TAPS} extra taps are supported (got {})",
+                cfg.extra_taps_chips.len()
+            ));
+        }
+        if let Some(t) = cfg
+            .extra_taps_chips
+            .iter()
+            .find(|t| !(t.is_finite() && t.abs() <= MAX_TAP_OFFSET_CHIPS))
+        {
+            return Err(format!(
+                "extra tap offsets must be finite and within ±{MAX_TAP_OFFSET_CHIPS} chips (got {t})"
+            ));
+        }
         let core = LoopCore::new(cfg, code.chip_rate_hz(), code.carrier_hz(), init.doppler_hz)?;
         let len = code.len_chips() as f64;
         let window_len = match init.periods_per_bit {
@@ -202,6 +240,9 @@ impl Channel {
             if_hz: spec.baseband_hz(code.carrier_hz()),
             len,
             half_d: 0.5 * cfg.spacing_chips,
+            taps: cfg.extra_taps_chips.clone(),
+            extra_acc: vec![Cf64::default(); cfg.extra_taps_chips.len()],
+            extra_block: vec![Cf64::default(); cfg.extra_taps_chips.len()],
             ppb: init.periods_per_bit.filter(|&p| p > 1),
             code_phase: init.code_phase_chips.rem_euclid(len),
             dcode: 0.0,
@@ -224,15 +265,39 @@ impl Channel {
             window: Vec::with_capacity(window_len),
             window_len,
             pli: 0.0,
+            fll_gate_since: None,
             nwpr: VecDeque::new(),
             beaulieu: VecDeque::new(),
             prev_window_sum: None,
             cn0_nwpr: None,
             cn0_beaulieu: None,
+            m2m4: VecDeque::new(),
+            cn0_m2m4: None,
             pending_bit: None,
             code,
         };
         ch.set_ncos();
+        Ok(ch)
+    }
+
+    /// A channel that joins the stream at absolute sample `start_sample` (its first loop
+    /// update numbered `first_epoch`), tracking `init`, whose code phase is given at stream
+    /// sample 0 (as [`ChannelInit::from_acquisition`] returns it). The code phase is carried
+    /// forward to `start_sample` at the hand-off Doppler's code rate; the carrier NCO starts
+    /// at phase 0 there. Re-acquisition uses it to restart a channel mid-stream.
+    pub fn new_at(
+        spec: &SampleSpec,
+        init: &ChannelInit,
+        cfg: &LoopConfig,
+        start_sample: u64,
+        first_epoch: u64,
+    ) -> Result<Self, String> {
+        let mut ch = Self::new(spec, init, cfg)?;
+        let rate = ch.code.chip_rate_hz() * (1.0 + init.doppler_hz / ch.code.carrier_hz());
+        ch.code_phase =
+            (init.code_phase_chips + start_sample as f64 * rate / spec.fs_hz).rem_euclid(ch.len);
+        ch.sample_index = start_sample;
+        ch.epoch = first_epoch;
         Ok(ch)
     }
 
@@ -271,6 +336,9 @@ impl Channel {
             self.acc[0] = self.acc[0] + x * ce;
             self.acc[1] = self.acc[1] + x * cp;
             self.acc[2] = self.acc[2] + x * cl;
+            for (a, &off) in self.extra_acc.iter_mut().zip(&self.taps) {
+                *a = *a + x * self.code.value_at(p + off);
+            }
             self.lo = self.lo * self.lo_step;
             self.code_phase += self.dcode;
             self.n_in_period += 1;
@@ -286,8 +354,12 @@ impl Channel {
         self.n_in_period = 0;
         if self.partial {
             self.partial = false;
+            self.extra_acc.fill(Cf64::default());
             self.set_ncos();
             return;
+        }
+        for (b, a) in self.extra_block.iter_mut().zip(self.extra_acc.iter_mut()) {
+            *b = *b + std::mem::take(a);
         }
         for (b, v) in self.block.iter_mut().zip([e, p, l]) {
             *b = *b + v;
@@ -306,6 +378,7 @@ impl Channel {
                     self.window.clear();
                     self.nwpr.clear();
                     self.beaulieu.clear();
+                    self.m2m4.clear();
                     self.prev_window_sum = None;
                 }
             }
@@ -324,6 +397,14 @@ impl Channel {
             let t = self.block_samples as f64 / self.fs;
             let code_epoch_s = (self.sample_index as f64 - self.code_phase / self.dcode) / self.fs;
             let [be, bp, bl] = std::mem::take(&mut self.block);
+            let extra: Vec<(f64, Cf64)> = self
+                .taps
+                .iter()
+                .zip(self.extra_block.iter_mut())
+                .map(|(&off, b)| (off, std::mem::take(b)))
+                .collect();
+            self.fll_gate_step();
+            let fll_active = self.core.fll_enabled();
             let disc = self.core.update(be, bp, bl, t);
             let cfg = self.core.config();
             out.push(EpochOutput {
@@ -345,14 +426,46 @@ impl Channel {
                 code_lock: self.cn0_nwpr.is_some_and(|c| c >= cfg.code_lock_cn0_dbhz),
                 cn0_nwpr_dbhz: self.cn0_nwpr,
                 cn0_beaulieu_dbhz: self.cn0_beaulieu,
+                cn0_m2m4_dbhz: self.cn0_m2m4,
                 bit_edge: edge,
                 bit: self.pending_bit.take(),
+                fll_active,
+                extra,
             });
             self.epoch += 1;
             self.block_periods = 0;
             self.block_samples = 0;
         }
         self.set_ncos();
+    }
+
+    /// The FLL/PLL hand-over of [`FllAssist::PullIn`] on an FLL-assisted PLL: switch the
+    /// FLL path off once the smoothed PLI has held at or above `off_pli` for the dwell, back
+    /// on once it has held below `on_pli` for the dwell.
+    fn fll_gate_step(&mut self) {
+        let gate = match self.core.config().fll_assist {
+            FllAssist::PullIn(g) => g,
+            FllAssist::Always => return,
+        };
+        if !(self.core.config().carrier.has_pll() && self.core.config().carrier.has_fll()) {
+            return;
+        }
+        let now = self.sample_index as f64 / self.fs;
+        let on = self.core.fll_enabled();
+        let wants_change = if on {
+            self.pli >= gate.off_pli
+        } else {
+            self.pli < gate.on_pli
+        };
+        if !wants_change {
+            self.fll_gate_since = None;
+            return;
+        }
+        let since = *self.fll_gate_since.get_or_insert(now);
+        if now - since >= gate.dwell_s {
+            self.core.set_fll_enabled(!on);
+            self.fll_gate_since = None;
+        }
     }
 
     /// Window bookkeeping for the lock indicator, the C/N0 estimators and the bits.
@@ -388,6 +501,23 @@ impl Channel {
                     let mu = self.nwpr.iter().sum::<f64>() / m as f64;
                     self.cn0_nwpr = nwpr_cn0_from_ratio(mu, self.window_len, period_s);
                 }
+            }
+            // M2M4: per-window sums of |P|² and |P|⁴ over the last M windows.
+            let (s2, s4) = self.window.iter().fold((0.0, 0.0), |(a, b), p| {
+                let e = p.re * p.re + p.im * p.im;
+                (a + e, b + e * e)
+            });
+            self.m2m4.push_back((s2, s4));
+            if self.m2m4.len() > m {
+                self.m2m4.pop_front();
+            }
+            if self.m2m4.len() == m {
+                let n = (m * self.window_len) as f64;
+                let (t2, t4) = self
+                    .m2m4
+                    .iter()
+                    .fold((0.0, 0.0), |(a, b), &(x, y)| (a + x, b + y));
+                self.cn0_m2m4 = m2m4_cn0_from_moments(t2 / n, t4 / n, period_s);
             }
             let sum = self.window.iter().fold(Cf64::default(), |a, &v| a + v);
             if let Some(prev) = self.prev_window_sum {
