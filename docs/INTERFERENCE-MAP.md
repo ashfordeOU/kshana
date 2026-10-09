@@ -119,6 +119,92 @@ The grid is fixed: square cells of `--cell-deg` degrees (default 0.5) in latitud
 longitude, indexed from (-90, -180). East-west width shrinks with latitude: about 55 km at
 the equator and about 28 km at 60 degrees for the default.
 
+### Format version and fields
+
+The format is settled as `schema: "kshana-interference-map/v1"`, `format_version: 1`. A
+change that removes or renames a field, or changes what one means, raises the version;
+adding a field does not, so a reader must ignore fields it does not know.
+
+```
+FeatureCollection
+  kshana_interference_map
+    schema, format_version, kshana_version, notice
+    source_kind            "adsb" | "ais"
+    date                   "YYYY-MM-DD" (UTC)
+    grid                   { type: "fixed_lat_lon", cell_deg }
+    method                 { id, summary, parameters{...}, guards[], input_stats{...}, caveats[] }
+    day                    day-level figures (ADS-B: background_evaluated, background_share,
+                           day_confounded, cells_published, cells_suppressed_below_min_distinct;
+                           AIS: on_land_detector, cells_published, cells_suppressed_...)
+    data                   { dataset, name, licence, licence_url, attribution, coverage_notes[] }
+  features[]               Polygon (one closed ring, [lon, lat], counter-clockwise)
+    properties             cell_i, cell_j, status, degraded,
+                           ADS-B: aircraft_observed, aircraft_sampled, aircraft_affected, affected_share
+                           AIS:   vessels_observed, vessels_flagged{detector: n|null}, detectors[]
+```
+
+`status` values: ADS-B `degraded`, `not_degraded`, `insufficient_sample`,
+`withheld_day_confounded`; AIS `anomalous`, `not_anomalous`. `degraded` is true for
+`degraded` and `anomalous` only. The route-exposure report has its own
+`kshana-route-exposure/v1` schema.
+
+## Studio map page specification
+
+For the Studio's map page, which loads a GeoJSON file the user provides (the page is built
+in the Studio source, not in this repository). Nothing is uploaded: the file is read in the
+browser, and the page makes no request to any data source.
+
+**Reading a file.** Accept a file only if `kshana_interference_map.schema` starts with
+`kshana-interference-map/` and `format_version` is a number the page supports; otherwise say
+the file is not a supported Kshana interference map. Read the fields listed above; ignore
+unknown ones. A file holds one source and one day. Several files may be loaded.
+
+**Cells.** Draw each feature's polygon. Colour by `status`, and always say what each colour
+means in a legend. Four states, none of which may be hidden or merged:
+
+| State | Meaning | Where it comes from |
+|---|---|---|
+| Degraded (or anomalous for AIS) | a high share of aircraft reported low accuracy, or vessels showed anomalies, that day | `degraded` is true |
+| Clear | observed with enough aircraft or vessels and not flagged | `status` is `not_degraded` or `not_anomalous` |
+| Unassessed | observed but not enough sampled aircraft, or the day was confounded | `status` is `insufficient_sample` or `withheld_day_confounded` |
+| Not observed | too few aircraft or vessels, so the cell was not published | no feature for that cell |
+
+"Not observed" is the absence of a feature: draw it neutrally (no fill, or a hatch), never
+in the colour of "clear". Use a colour scheme that does not rely on red against green alone.
+Cell details on hover or selection show the counts in `properties` as given, and the
+`withheld`/null flagged counts as "withheld (fewer than 3)", not as zero.
+
+**Layers.** ADS-B and AIS are separate layers with their own toggles, legends and licence
+lines. Never merge them into one colour field or one count, never draw them as one
+combined cell, and never sum their cells. Different days are different files: show one day
+at a time, with a day picker, rather than overlaying days.
+
+**Licence and attribution.** For every visible layer show, on the map and in any export or
+screenshot, the `data.attribution` text verbatim, the `data.licence` with a link to
+`data.licence_url`, and the `data.coverage_notes`. If an ADS-B layer is shown, its ODbL
+licence applies to that layer only. Do not offer to export a combined file.
+
+**Method.** Offer the method id and parameters (`method.id`, `method.parameters`) and the
+`day` figures in a details panel, including `day_confounded` (say plainly that no cell was
+called degraded because of the day's background) and `input_stats`.
+
+**Caveats to keep** (show the file's own `method.caveats` and `notice`, and keep this
+wording or its equivalent visible with the map):
+
+- A degraded or anomalous cell is not a finding of interference. Other causes exist.
+- A cell with no colour was not observed. It is not evidence that the area was clear.
+- This is a description of past position reports, not a forecast and not a measurement of
+  any receiver.
+- Coverage follows the data source; read the coverage notes.
+
+The page must not name or show any individual aircraft or vessel, and the files contain
+none.
+
+**Route exposure.** If the page also loads a `kshana-route-exposure/v1` report, show its
+rows per day and source with the four shares (degraded, clear, unassessed, not observed)
+together, never the degraded share alone, plus the report's `caveats`, and each row's
+`map_licence` and `map_attribution`.
+
 ## ADS-B method (`kshana-interference-map/adsb/v1`)
 
 Each airborne ADS-B report carries two self-assessed navigation quality fields: NIC (the
