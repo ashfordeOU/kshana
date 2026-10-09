@@ -319,6 +319,18 @@ layer: nothing here synthesises a jammer or spoofer waveform, and nothing transm
   Known open item: the NWPR C/N0 reads 1.76 dB low there (and 2.45 dB low on B1C at 10 ms),
   so the matrix's T5 for L2C stays an ignored finding.
 
+- **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale
+  against its own scenario (a data change, not a repaint).** The chart was drawn on
+  2026-06-02 from `scenarios/clock-ensemble.toml`; two days later 67fed19e set the flicker-FM
+  floors in that scenario (quantum `flicker_floor = 1e-16`, CSAC `flicker_floor = 2e-11`)
+  and the figure was never redrawn. It showed the pre-floor run: y axis 0 to 47 ns, CSAC
+  per-run outage p95 of 10.5 to 47.6 ns (mean 25.2 ns), classical holdover 4050 s mean. The scenario as shipped (and as the tutorial and
+  the CLI summary already state) gives y axis 0 to 407 ns, CSAC per-run p95 40.8 to 374.0 ns
+  (mean 167.0 ns), classical holdover 844 s [220 to 2130 s]; the 20 ns spec line sits at the
+  same 20 ns on a roughly nine-times taller axis. The engine is unchanged: today's engine
+  on the June scenario file reproduces the old figure's axis exactly. The figure is not
+  referenced from the README or the docs.
+
 ### Known limitations
 
 - **The NWPR C/N0 reads low at high per-prompt C/N0·T, and BOC(1,1) at 5 MS/s loses about
@@ -333,6 +345,7 @@ layer: nothing here synthesises a jammer or spoofer waveform, and nothing transm
 ### Security
 
 - **Chart text and Studio chart adoption hardened.** Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
+  Advisory: [GHSA-h25h-cg9f-v2cg](https://github.com/ashfordeOU/kshana/security/advisories/GHSA-h25h-cg9f-v2cg).
 
 ## [0.33.0] - 2026-10-08
 
