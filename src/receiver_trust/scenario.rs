@@ -20,6 +20,7 @@ use super::monitors::{
     TrustState,
 };
 use super::platform::PlatformCfg;
+use super::score::ScoreCfg;
 use super::LogFormat;
 
 /// Where a file's bytes come from: exactly one of `path` (native builds only), `text`
@@ -158,6 +159,8 @@ struct RawScenario {
     platform: PlatformCfg,
     #[serde(default)]
     maritime: MaritimeConfig,
+    #[serde(default)]
+    score: ScoreCfg,
 }
 
 impl From<RawScenario> for ReceiverTrustScenario {
@@ -165,6 +168,7 @@ impl From<RawScenario> for ReceiverTrustScenario {
         let mut monitors = r.monitors;
         monitors.platform = r.platform;
         monitors.maritime = r.maritime;
+        monitors.score = r.score;
         Self {
             kind: r.kind,
             name: r.name,
@@ -281,10 +285,31 @@ pub struct ReceiverTrustResult {
     pub predictions_agreeing: usize,
     /// Predictions that could be scored.
     pub predictions_evaluable: usize,
+    /// The score mapping a vessel's epochs were scored with: band edges, ramp and every
+    /// monitor's weight. Present for a vessel platform only.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub score_model: Option<ScoreModel>,
     /// One sentence on the session.
     pub verdict: String,
     /// The per-epoch trust timeline.
     pub epochs: Vec<EpochTrust>,
+}
+
+/// The pre-registered trust-score mapping a run used, as recorded in its result.
+#[derive(Clone, Debug, Serialize, PartialEq)]
+pub struct ScoreModel {
+    /// Score at or above which an epoch is nominal.
+    pub nominal_min: f64,
+    /// Score at or above which an epoch is degraded; below it, untrusted.
+    pub degraded_min: f64,
+    /// Ratio below which a monitor costs nothing.
+    pub onset_ratio: f64,
+    /// Ratio at which a monitor costs its whole weight.
+    pub full_ratio: f64,
+    /// How long a monitor's last statistic stands when its input does not arrive, s.
+    pub evidence_hold_s: f64,
+    /// Every monitor's weight, points.
+    pub weights: std::collections::BTreeMap<Monitor, f64>,
 }
 
 /// The honesty label every `receiver-trust` result carries.
@@ -517,6 +542,28 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
         ));
     }
 
+    let score_model = scn.monitors.platform.is_vessel().then(|| ScoreModel {
+        nominal_min: scn.monitors.score.nominal_min,
+        degraded_min: scn.monitors.score.degraded_min,
+        onset_ratio: scn.monitors.score.onset_ratio,
+        full_ratio: scn.monitors.score.full_ratio,
+        evidence_hold_s: scn.monitors.score.evidence_hold_s,
+        weights: scn.monitors.score.effective_weights(),
+    });
+    if score_model.is_some() {
+        let scores: Vec<f64> = trust
+            .epochs
+            .iter()
+            .filter_map(|e| e.score.as_ref().map(|s| s.score))
+            .collect();
+        if let (Some(min), Some(last)) = (
+            scores.iter().copied().min_by(f64::total_cmp),
+            scores.last().copied(),
+        ) {
+            verdict.push_str(&format!("; trust score lowest {min:.1}, final {last:.1}"));
+        }
+    }
+
     Ok(ReceiverTrustResult {
         scenario_hash,
         label: LABEL.into(),
@@ -554,6 +601,7 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
         events_evaluable,
         predictions_agreeing,
         predictions_evaluable,
+        score_model,
         verdict,
         epochs: trust.epochs,
     })
@@ -619,9 +667,14 @@ fn opt(v: Option<f64>) -> String {
 
 /// The per-epoch trust timeline as CSV.
 pub fn to_csv(r: &ReceiverTrustResult) -> String {
+    let vessel = r.score_model.is_some();
     let mut s = String::from(
-        "t_s,state,n_sats,cn0_mean_dbhz,cn0_drop_db,agc,agc_z,jam_ind,position_offset_m,raim_stat,raim_thr,clock_innov_ns,clock_bound_ns,alarms\n",
+        "t_s,state,n_sats,cn0_mean_dbhz,cn0_drop_db,agc,agc_z,jam_ind,position_offset_m,raim_stat,raim_thr,clock_innov_ns,clock_bound_ns,alarms",
     );
+    if vessel {
+        s.push_str(",score,score_reasons");
+    }
+    s.push('\n');
     for e in &r.epochs {
         let alarms: Vec<&str> = e.alarms.iter().map(|m| monitor_name(*m)).collect();
         s.push_str(&format!(
@@ -641,6 +694,21 @@ pub fn to_csv(r: &ReceiverTrustResult) -> String {
             opt(e.clock_bound_ns),
             alarms.join(";")
         ));
+        if vessel {
+            s.pop(); // the newline, to add the vessel columns
+            let (score, reasons) = match &e.score {
+                Some(sc) => (
+                    format!("{:.1}", sc.score),
+                    sc.deductions
+                        .iter()
+                        .map(|d| format!("{}:{:.1}", monitor_name(d.monitor), d.points))
+                        .collect::<Vec<_>>()
+                        .join(";"),
+                ),
+                None => (String::new(), String::new()),
+            };
+            s.push_str(&format!(",{score},{reasons}\n"));
+        }
     }
     s
 }
