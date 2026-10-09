@@ -275,6 +275,7 @@ pub mod spoof_detect;
 pub mod spoof_monitors;
 pub mod study;
 pub mod suite;
+pub mod surface;
 pub mod sweep;
 pub mod telecom_timing;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
