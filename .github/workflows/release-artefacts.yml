@@ -111,8 +111,11 @@ jobs:
         run: npm test
         working-directory: integrations/signalk
       - name: Pack the exact tarball a publish would upload
+        # The repository LICENSE (AGPL-3.0-only) goes into the package: npm packs a LICENSE
+        # file regardless of the `files` list.
         run: |
           set -euo pipefail
+          cp ../../LICENSE LICENSE
           mkdir -p assets
           npm pack --pack-destination ../../assets --silent
           ls -l ../../assets
