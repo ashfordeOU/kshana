@@ -37,6 +37,33 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 The file goes in by `path` (resolved against the scenario's own folder), or inline as
 `text` or `base64` (the only choices in a browser).
 
+## Platform: static or vessel
+
+The monitors above assume a fixed antenna. A scenario states the platform before the run in
+a top-level `[platform]` table; without one the platform is `static` and nothing changes.
+
+```toml
+[platform]
+kind = "vessel"            # "static" (default) or "vessel"
+max_speed_kn = 30.0        # default 30
+max_accel_mps2 = 0.5       # default 0.5
+max_turn_rate_dps = 6.0    # default 6
+antenna_height_m = 18.0    # no default: without it the sea-level monitor does not run
+heading_sensor = false     # true: the stream carries a gyro heading (HDT or THS)
+```
+
+| Key | Default | Why that value |
+|---|---|---|
+| `max_speed_kn` | 30 | Above the service speed of merchant hulls and most passenger craft, so a real vessel never reaches it; far below the speed a position drag-off implies. A slower vessel should state a lower limit: the lower the limit, the earlier a drag is caught. |
+| `max_accel_mps2` | 0.5 | A large ship changes speed by well under 0.1 m/s²; a small fast craft reaches a few tenths on a hard throttle change. |
+| `max_turn_rate_dps` | 6 | A large ship turns at well under 1 deg/s and a small craft in a hard turn at a few. |
+| `antenna_height_m` | none | A property of the installation; a guess would be a hidden threshold. |
+| `heading_sensor` | false | Declared `true` and absent from the log is an error, so a missing sensor cannot pass as a clean check. |
+
+The vessel keys are rejected under `kind = "static"`. For a vessel the `position-jump`
+monitor does not run, because it measures distance from the calibration mean, which is wrong
+on a moving antenna; the result's `monitor_config` records the platform and the limits used.
+
 ## Monitors
 
 Each monitor needs its data; a monitor whose data is not in the log is not run and not
