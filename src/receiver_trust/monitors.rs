@@ -23,6 +23,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
+use super::platform::PlatformCfg;
 use super::{LogEpoch, ReportedFix, Timeline};
 use crate::allan::overlapping_adev;
 use crate::frames::{geodetic_to_ecef, Geodetic};
@@ -95,6 +96,12 @@ pub struct MonitorConfig {
     /// Run the clock-aided monitor (only when the engine fix runs). Default true: the
     /// receiver clock is the observable a consistent spoofer moves that RAIM cannot see.
     pub clock_monitor: bool,
+    /// The platform the receiver is on. Not read from `[monitors]`: a scenario states it in
+    /// its own top-level `[platform]` table. For a vessel the static position-jump monitor
+    /// does not run (it measures distance from the calibration mean, which is wrong on a
+    /// moving antenna).
+    #[serde(skip_deserializing, skip_serializing_if = "PlatformCfg::is_static")]
+    pub platform: PlatformCfg,
 }
 
 impl Default for MonitorConfig {
@@ -111,6 +118,7 @@ impl Default for MonitorConfig {
             raim_sigma_m: 3.0,
             raim_pfa: 1e-5,
             clock_monitor: true,
+            platform: PlatformCfg::default(),
         }
     }
 }
@@ -118,6 +126,7 @@ impl Default for MonitorConfig {
 impl MonitorConfig {
     /// Reject parameters no monitor can use (non-finite, non-positive, out of range).
     pub fn validate(&self) -> Result<(), String> {
+        self.platform.validate()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -721,7 +730,7 @@ pub fn run_monitors(
     if has_jam {
         run_set.insert(Monitor::JamInd);
     }
-    if fix_ref.is_some() {
+    if fix_ref.is_some() && !cfg.platform.is_vessel() {
         run_set.insert(Monitor::PositionJump);
     }
     if engine.is_some() {
@@ -801,7 +810,9 @@ pub fn run_monitors(
             if let Some(j) = e.jam_ind {
                 decide(Monitor::JamInd, j > cfg.jam_ind_threshold, &mut alarms);
             }
-            if let (Some(f), Some(r)) = (e.fix, fix_ref) {
+            if let (Some(f), Some(r), true) =
+                (e.fix, fix_ref, run_set.contains(&Monitor::PositionJump))
+            {
                 let off = horizontal_offset_m(r, &f);
                 et.position_offset_m = Some(off);
                 decide(
@@ -1194,5 +1205,32 @@ mod tests {
             ..Default::default()
         };
         assert!(bad.validate().is_err());
+    }
+
+    #[test]
+    fn a_declared_vessel_does_not_run_the_static_position_jump_monitor() {
+        // A fix that moves 2 km north during the log: a jump for a static receiver, normal
+        // for a ship under way.
+        let moving = |t: usize| {
+            let mut e = clean(t);
+            e.fix = Some(fix(t as f64 * 8.0));
+            e
+        };
+        let tl = timeline((0..240).map(moving).collect());
+        let st = run_monitors(&tl, None, &MonitorConfig::default()).unwrap();
+        assert!(st.monitors_run.contains(&Monitor::PositionJump));
+        assert!(!runs_of(&st, Monitor::PositionJump).is_empty());
+
+        let cfg = MonitorConfig {
+            platform: PlatformCfg {
+                kind: super::super::platform::PlatformKind::Vessel,
+                ..Default::default()
+            },
+            ..MonitorConfig::default()
+        };
+        let v = run_monitors(&tl, None, &cfg).unwrap();
+        assert!(!v.monitors_run.contains(&Monitor::PositionJump));
+        assert!(v.epochs.iter().all(|e| e.position_offset_m.is_none()));
+        assert!(v.runs.is_empty(), "{:?}", v.runs);
     }
 }
