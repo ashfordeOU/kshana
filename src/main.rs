@@ -72,6 +72,11 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("receiver-trust") {
         return run_receiver_trust_cli(&args[2..]);
     }
+    // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
+    // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
+    if args.get(1).map(String::as_str) == Some("bench-export") {
+        return run_bench_export_cli(&args[2..]);
+    }
     // `kshana iq <command>` handles the GNSS IQ layer: the signal-processing commands
     // (scene, acquire, track, sweep, labfit) in `kshana::iq::cli`, which hands the
     // data-handling ones (inventory, info, extract, convert, decimate) on to
@@ -958,6 +963,89 @@ fn stamp_study_generated(json: &str, stamp: &str) -> String {
         }
         Err(_) => json.to_string(),
     }
+}
+
+/// `kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]`:
+/// write the test-bench files (`<base>.motion.csv`, `.nmea`, `.events.csv`, ...). The
+/// default base is the scenario path without its extension; the default epoch is
+/// 2024-01-01T00:00:00Z.
+fn run_bench_export_cli(args: &[String]) -> ExitCode {
+    let mut path: Option<PathBuf> = None;
+    let mut out: Option<String> = None;
+    let mut epoch: Option<kshana::interop::UtcEpoch> = None;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" | "--epoch" if i + 1 >= args.len() => {
+                eprintln!("error: {} needs a value", args[i]);
+                return ExitCode::from(2);
+            }
+            "--out" => {
+                out = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--epoch" => {
+                let v = &args[i + 1];
+                // YYYY-MM-DDTHH:MM:SS[Z], UTC.
+                let t = v.trim_end_matches('Z');
+                let parsed = (|| {
+                    let (d, tm) = t.split_once('T')?;
+                    let mut dp = d.split('-');
+                    let mut tp = tm.split(':');
+                    Some(kshana::interop::UtcEpoch::from_calendar(
+                        dp.next()?.parse().ok()?,
+                        dp.next()?.parse().ok()?,
+                        dp.next()?.parse().ok()?,
+                        tp.next()?.parse().ok()?,
+                        tp.next()?.parse().ok()?,
+                        tp.next()?.parse().ok()?,
+                    ))
+                })();
+                match parsed {
+                    Some(e) => epoch = Some(e),
+                    None => {
+                        eprintln!("error: --epoch wants YYYY-MM-DDTHH:MM:SS (UTC), got {v}");
+                        return ExitCode::from(2);
+                    }
+                }
+                i += 1;
+            }
+            a if a.starts_with("--") => {
+                eprintln!("error: unknown bench-export option {a}");
+                return ExitCode::from(2);
+            }
+            a => path = Some(PathBuf::from(a)),
+        }
+        i += 1;
+    }
+    let Some(path) = path else {
+        eprintln!("error: bench-export needs a scenario path");
+        return ExitCode::from(2);
+    };
+    let src = match std::fs::read_to_string(&path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: cannot read {}: {e}", path.display());
+            return ExitCode::from(2);
+        }
+    };
+    let files = match kshana::interop::testbench::export(&src, epoch) {
+        Ok(f) => f,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return ExitCode::FAILURE;
+        }
+    };
+    let base = out.unwrap_or_else(|| path.with_extension("").display().to_string());
+    for f in files {
+        let target = PathBuf::from(format!("{base}{}", f.suffix));
+        if let Err(e) = std::fs::write(&target, &f.bytes) {
+            eprintln!("error: cannot write {}: {e}", target.display());
+            return ExitCode::FAILURE;
+        }
+        println!("wrote {}", target.display());
+    }
+    ExitCode::SUCCESS
 }
 
 /// `kshana receiver-trust <scenario.toml>`: read the receiver log the scenario names, run

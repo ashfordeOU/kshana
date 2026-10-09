@@ -124,6 +124,33 @@ impl UtcEpoch {
         )
     }
 
+    /// The NMEA 0183 time and date fields, to the millisecond: `("123519.250",
+    /// "230394")` for 12:35:19.250 on 23 March 1994 (`hhmmss.sss`, `ddmmyy`).
+    pub fn nmea(&self, offset_s: f64) -> (String, String) {
+        // Rounded to the millisecond first, so a carry into the next second is a carry.
+        let c = self.civil((offset_s * 1000.0).round() / 1000.0);
+        (
+            format!("{:02}{:02}{:02}.{:03}", c.h, c.mi, c.s, c.us / 1000),
+            format!("{:02}{:02}{:02}", c.d, c.mo, c.y.rem_euclid(100)),
+        )
+    }
+
+    /// Seconds from this epoch to a calendar instant (UTC), the inverse of the
+    /// calendar fields [`UtcEpoch::from_calendar`] takes.
+    pub fn offset_to_calendar(
+        &self,
+        year: i32,
+        month: u32,
+        day: u32,
+        hour: u32,
+        minute: u32,
+        second: f64,
+    ) -> f64 {
+        let days = days_from_civil(year as i64, month, day) - self.days;
+        days as f64 * 86_400.0 + hour as f64 * 3600.0 + minute as f64 * 60.0 + second
+            - self.sec_of_day
+    }
+
     /// The STK date form (`UTCG`), to the microsecond: `6 Jun 2018 00:00:00.000000`.
     pub fn stk(&self, offset_s: f64) -> String {
         let c = self.civil(offset_s);
@@ -151,6 +178,15 @@ mod tests {
         assert_eq!(e.iso(0.5), "2024-03-01T00:00:00.000000Z");
         assert_eq!(e.stk(0.5), "1 Mar 2024 00:00:00.000000");
         assert_eq!(e.iso(-86_400.0), "2024-02-28T23:59:59.500000Z");
+    }
+
+    #[test]
+    fn nmea_fields_and_calendar_offset_agree() {
+        let e = UtcEpoch::from_calendar(2024, 12, 31, 23, 59, 59.0);
+        assert_eq!(e.nmea(0.25), ("235959.250".into(), "311224".into()));
+        assert_eq!(e.nmea(1.0), ("000000.000".into(), "010125".into()));
+        assert_eq!(e.nmea(0.9996), ("000000.000".into(), "010125".into()));
+        assert!((e.offset_to_calendar(2025, 1, 1, 0, 0, 0.0) - 1.0).abs() < 1e-9);
     }
 
     #[test]
