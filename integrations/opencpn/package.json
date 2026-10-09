@@ -1,0 +1,12 @@
+{
+  "name": "kshana-opencpn-integration",
+  "version": "0.35.0",
+  "private": true,
+  "type": "module",
+  "description": "TCP relay and tests for feeding Kshana gate-mode NMEA to OpenCPN. Advisory software, not type-approved equipment.",
+  "license": "AGPL-3.0-only",
+  "scripts": {
+    "test": "node --test \"test/*.test.mjs\"",
+    "e2e": "node test/e2e-live.mjs"
+  }
+}
