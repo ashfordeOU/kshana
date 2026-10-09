@@ -8,6 +8,9 @@
 // are kept as they are. Pure; tested in urlstate.test.mjs.
 
 const SCREEN_KEYS = ["scenario", "tab", "domain", "browse", "q", "start"];
+// The other parameters the Studio reads, and only those: any other name in the address is dropped,
+// so a name taken from the address is never written onto an object as a property.
+const EXTRA_KEYS = ["play", "view", "field", "frame", "embed", "engine", "theme", "seed"];
 
 // Old names of views still open the matching panel.
 const TAB_ALIAS = { fom: "overview", figures: "overview", chart: "timeseries", "engine-chart": "timeseries", export: "exports", animations: "animation" };
@@ -21,7 +24,7 @@ export const scenarioName = (file) => String(file || "").replace(/\.toml$/, "");
 export function parseState(search) {
   const p = new URLSearchParams(search || "");
   const extra = {};
-  for (const [k, v] of p) if (!SCREEN_KEYS.includes(k)) extra[k] = v;
+  for (const [k, v] of p) if (EXTRA_KEYS.includes(k)) extra[k] = v;
   const scenario = scenarioFile(p.get("scenario"));
   if (scenario && p.get("start") !== "1") return { screen: "task", scenario, tab: tabFromLink(p.get("tab")), domain: null, q: "", extra };
   if (p.get("domain")) return { screen: "domain", scenario: null, tab: null, domain: p.get("domain"), q: "", extra };
