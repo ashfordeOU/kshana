@@ -15,8 +15,8 @@
 //! surface that accepts uploads cannot be made to allocate without bound.
 
 use crate::evidence::{
-    create_bundle, generate_seed, public_key_hex, slice_for_window, verify_bundle, EvidenceInput,
-    Files, VerifyOptions, VerifyReport, Window,
+    build_receiver_trust_pack, generate_seed, public_key_hex, verify_bundle, Files, PackRequest,
+    VerifyOptions, VerifyReport,
 };
 use crate::interference_map::api::{self, DatasetSpec, DEFAULT_CELL_DEG};
 use crate::receiver_trust::assess::{self, ExcerptAssessment};
@@ -379,64 +379,28 @@ pub fn evidence_create(
     cap("session", session_toml, max_bytes)?;
     cap_len("log", log.len(), max_bytes)?;
     let scn = parse_live_scenario(session_toml)?;
-    let result = scenario::run_receiver_trust_bytes(&scn, log, None)?;
-    let epochs: Vec<Value> = result
-        .epochs
-        .iter()
-        .filter(|e| e.t_s >= from_s && e.t_s <= to_s)
-        .map(|e| serde_json::to_value(e).map_err(|e| e.to_string()))
-        .collect::<Result<_, _>>()?;
-    if epochs.is_empty() {
-        return Err(format!(
-            "no epoch of the log falls between {from_s} s and {to_s} s (the log spans 0 to {} s)",
-            result.log.duration_s
-        ));
-    }
-    let mut scn_v = serde_json::to_value(&scn).map_err(|e| e.to_string())?;
-    scn_v["log"] = json!({"format": result.log.format, "source": "supplied in memory"});
-    let config = json!({
-        "scenario": scn_v,
-        "scenario_hash": result.scenario_hash,
-        "monitors_run": result.monitors_run,
-        "baseline": result.baseline,
-        "honesty_label": scenario::LABEL,
-    });
-    let slice = crate::receiver_trust::ingest::read_log(scn.log.format, log)
-        .ok()
-        .and_then(|tl| {
-            slice_for_window(
-                tl.epochs.iter().map(|e| (e.t_s, e.source_span)),
-                from_s,
-                to_s,
-            )
-        });
-    let log_format = serde_json::to_value(result.log.format)
-        .map_err(|e| e.to_string())?
-        .as_str()
-        .unwrap_or("unknown")
-        .to_string();
     let seed = seed.unwrap_or_else(generate_seed);
-    let n = epochs.len();
-    let input = EvidenceInput {
-        title: title.unwrap_or("GNSS trust evidence pack"),
-        engine_version: env!("CARGO_PKG_VERSION"),
-        log_format: &log_format,
-        log_file_name: "inline",
-        log_bytes: log,
-        start_label: result.log.start_label.as_deref(),
-        slice,
-        window: Window { from_s, to_s },
-        config,
-        epochs,
-        created_utc,
-    };
-    let files = create_bundle(&input, &seed, None).map_err(|e| e.to_string())?;
+    let (from, to) = (from_s.to_string(), to_s.to_string());
+    let summary = build_receiver_trust_pack(
+        &PackRequest {
+            scenario: &scn,
+            log_bytes: log,
+            nav_bytes: None,
+            log_file_name: "inline",
+            from: &from,
+            to: &to,
+            title: title.unwrap_or("GNSS trust evidence pack"),
+            created_utc,
+        },
+        &seed,
+        None,
+    )?;
     Ok(EvidencePack {
-        files,
         public_key: public_key_hex(&seed),
         seed,
-        epochs_in_window: n,
-        slice,
+        epochs_in_window: summary.epochs_in_window,
+        slice: summary.slice,
+        files: summary.files,
     })
 }
 
