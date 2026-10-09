@@ -7579,7 +7579,7 @@ The four sensor packs, as first published (results)
 
 Each scenario compares a quantum sensor against its classical counterpart through a ~1.8 h GNSS outage. Numbers are reproducible (scenario + seed + version).
 
-What quantum sensors buy when GNSS is gone — clock-holdover · seed 42 · drawn at engine 0.33.0, and every figure above re-checked against the current engine on each build by tests/published_figures_still_reproduce.rs · SVG
+What quantum sensors buy when GNSS is gone — clock-holdover · seed 42 · drawn at engine 0.33.1, and every figure above re-checked against the current engine on each build by tests/published_figures_still_reproduce.rs · SVG
 
 The advantage is outage- and vibration-dependent, with an explicit break-even where classical wins — shown honestly across the technology-readiness ladder (optical-clock figures are ground-demonstrator targets; no strontium optical clock has flown):
 
