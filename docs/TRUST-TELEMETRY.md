@@ -19,9 +19,9 @@ kshana trust-telemetry --result session.result.json --print-syslog --format leef
 kshana trust-telemetry --input stream.jsonl --syslog-udp siem.example:514 --format cef --host ops-gw1
 ```
 
-Input is the live JSON-lines schema v1 documented in `docs/MARITIME-TRUST.md`. Read:
+Input is the live JSON-lines schema v1.1 documented in `docs/MARITIME-TRUST.md`. Read:
 `t_s`; `state` (`calibrating|nominal|degraded|untrusted`, the band); `score` (0-100 or
-null); `time` (the epoch's time as stated); `gate` (`off|passed|withheld`); reasons are the
+null); `time` (the epoch's time as stated); `gate` (`off|passed|withheld`); `position` (`lat_deg`, `lon_deg`, `height_m`, or null); reasons are the
 monitors in `deductions`, then any further ones in `alarms`. Other keys are ignored, since
 the schema only grows by appended keys. A line that does not parse is counted in `kshana_trust_input_errors_total` and
 skipped; scores outside 0-100 are rejected, not clamped, so a format change is noticed.
@@ -38,6 +38,7 @@ elsewhere prints a warning; put it behind your own access control.
 | `kshana_trust_score` | gauge | | latest score 0-100; absent if the source gives none |
 | `kshana_trust_band` | gauge | `band` | 1 for the current band, 0 for the others |
 | `kshana_trust_gate` | gauge | `gate` | 1 for the live stream's current gate state; absent without a gate |
+| `kshana_trust_position_latitude_degrees`, `..._longitude_degrees`, `..._height_meters` | gauge | | receiver-reported position; **only with `--expose-position`** (the endpoint is unauthenticated and a position can identify a site or vessel) |
 | `kshana_trust_reason_active` | gauge | `reason` | 1 if present at the latest epoch |
 | `kshana_trust_epochs_total` | counter | `band` | epochs received |
 | `kshana_trust_reason_epochs_total` | counter | `reason` | epochs in which the reason was present |
