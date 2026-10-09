@@ -20,14 +20,19 @@ REQUIRED channels (the run fails without them):
   PyPI       kshana at the version, with the source distribution AND a wheel for each
              of the six platforms the release builds (docs/WHEEL_TAGS.md), so a
              release that lost one platform does not read as complete
-  ghcr.io    the kshana-mcp container image tagged with the version
+  ghcr.io    the kshana-mcp container image tagged with the version, and the
+             kshana-reference-build image (the gate service) tagged with it
+
+OPTIONAL channels, required only when switched on (the release job sets the environment):
+  npm        the Signal K plugin, when PARITY_SIGNALK_PACKAGE names the package (the release
+             passes it only when SIGNALK_NPM_PUBLISH is true)
 
 BEST-EFFORT channels (reported, never fatal):
   docs.rs       builds documentation on its own queue, which can take hours
   MCP registry  publishing there is opt-in (the MCP_REGISTRY_PUBLISH repository variable)
 
 Knobs (environment): PARITY_TIMEOUT_SECONDS (default 2700), PARITY_INTERVAL_SECONDS
-(default 30). A registry that cannot be reached counts as "not yet", never as a pass.
+(default 30), PARITY_SIGNALK_PACKAGE (unset or empty: the Signal K channel is not checked). A registry that cannot be reached counts as "not yet", never as a pass.
 """
 
 from __future__ import annotations
@@ -38,11 +43,13 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 # crates.io rejects requests without an identifying User-Agent (its crawler policy).
 USER_AGENT = "kshana-release-parity (https://github.com/ashfordeOU/kshana)"
 GHCR_IMAGE = "ashfordeou/kshana-mcp"
+GHCR_REFERENCE_IMAGE = "ashfordeou/kshana-reference-build"
 MCP_SERVER = "io.github.ashfordeOU%2Fkshana-mcp"
 
 # One pattern per platform wheel the release builds (wheels.yml matrix).
@@ -90,8 +97,11 @@ def crates(name: str, version: str) -> tuple[bool, str]:
     return True, "served"
 
 
-def npm(version: str) -> tuple[bool, str]:
-    status, doc = fetch_json(f"https://registry.npmjs.org/kshana/{version}")
+def npm(version: str, package: str = "kshana") -> tuple[bool, str]:
+    # A scoped name keeps its "@"; the "/" must be percent-encoded in the registry path.
+    status, doc = fetch_json(
+        f"https://registry.npmjs.org/{urllib.parse.quote(package, safe='@')}/{version}"
+    )
     if doc is None:
         return False, f"HTTP {status}"
     if doc.get("version") != version:
@@ -118,8 +128,8 @@ def pypi(version: str) -> tuple[bool, str]:
     return True, f"served ({len(files)} files)"
 
 
-def ghcr(version: str) -> tuple[bool, str]:
-    status, body = fetch(f"https://ghcr.io/token?scope=repository:{GHCR_IMAGE}:pull")
+def ghcr(version: str, image: str = GHCR_IMAGE) -> tuple[bool, str]:
+    status, body = fetch(f"https://ghcr.io/token?scope=repository:{image}:pull")
     if status != 200:
         return False, f"token HTTP {status}"
     try:
@@ -135,7 +145,7 @@ def ghcr(version: str) -> tuple[bool, str]:
         ]
     )
     status, _ = fetch(
-        f"https://ghcr.io/v2/{GHCR_IMAGE}/manifests/{version}",
+        f"https://ghcr.io/v2/{image}/manifests/{version}",
         {"Authorization": f"Bearer {token}", "Accept": accept},
     )
     return (status == 200), ("served" if status == 200 else f"HTTP {status}")
@@ -170,9 +180,13 @@ def main(argv: list[str]) -> int:
         "npm kshana": (lambda: npm(version), True),
         "PyPI kshana": (lambda: pypi(version), True),
         "ghcr.io kshana-mcp": (lambda: ghcr(version), True),
+        "ghcr.io kshana-reference-build": (lambda: ghcr(version, GHCR_REFERENCE_IMAGE), True),
         "docs.rs kshana": (lambda: docs_rs(version), False),
         "MCP registry kshana-mcp": (lambda: mcp_registry(version), False),
     }
+    signalk = os.environ.get("PARITY_SIGNALK_PACKAGE", "").strip()
+    if signalk:
+        checks[f"npm {signalk}"] = ((lambda: npm(version, signalk)), True)
     state: dict[str, tuple[bool, str]] = {name: (False, "not checked") for name in checks}
     deadline = time.monotonic() + timeout
     round_no = 0
@@ -184,7 +198,7 @@ def main(argv: list[str]) -> int:
         print(f"-- round {round_no} --")
         for name, (ok, detail) in state.items():
             tag = "required" if checks[name][1] else "best-effort"
-            print(f"  {'OK  ' if ok else 'WAIT'} {name:<26} {detail} [{tag}]")
+            print(f"  {'OK  ' if ok else 'WAIT'} {name:<32} {detail} [{tag}]")
         pending = [n for n, (ok, _) in state.items() if not ok and checks[n][1]]
         optional = [n for n, (ok, _) in state.items() if not ok and not checks[n][1]]
         if not pending and not optional:
