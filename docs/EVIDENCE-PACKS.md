@@ -110,7 +110,12 @@ part. A token whose imprint differs, or one that does not parse, is a failure.
 
 ## From code
 
-`kshana::evidence::create_bundle` and `verify_bundle` are pure functions: bytes in
+`kshana::evidence::build_receiver_trust_pack` is the one entry point the command line and
+every other surface call to make a pack: a scenario, the log's bytes (and the navigation
+file's, for RINEX), the window as text, a title and an optional creation time, plus the
+signing seed, in; the files, the epoch count, the slice, the manifest hash and the signer
+fingerprint out. It reads no files and no clock, so the same inputs give the same bytes.
+Below it, `create_bundle` and `verify_bundle` are pure functions: bytes in
 (`EvidenceInput`, a 32-byte seed, a `BTreeMap<String, Vec<u8>>` of files), serialisable
 results out (`Files`, `VerifyReport`). They use no files, clock or process state, and
 build for `wasm32`, so the Python, WebAssembly and server surfaces call them unchanged.
