@@ -143,3 +143,28 @@ fn every_threshold_the_run_used_is_in_the_session_file() {
         );
     }
 }
+
+#[test]
+fn the_chart_shows_the_reported_track_by_band_and_the_score() {
+    use kshana::palette::chart::{AMBER, CORAL, LIME};
+    let out = kshana::receiver_trust::scenario::run_scenario(&load()).unwrap();
+    let svg = &out.svg;
+    assert!(svg.starts_with("<svg ") && svg.ends_with("</svg>"));
+    assert!(svg.contains("receiver-reported track") && svg.contains("trust score, 0 to 100"));
+    // The track has a run in each band the log passes through; the score is one more line.
+    for c in [LIME, AMBER, CORAL] {
+        assert!(
+            svg.contains(&format!("stroke=\"{c}\" stroke-width=\"2\"")),
+            "{c}"
+        );
+    }
+    assert!(svg.matches("<polyline").count() >= 4);
+    // The CSV of a vessel carries the score and its reasons.
+    let header = out.csv.lines().next().unwrap();
+    assert!(header.ends_with(",alarms,score,score_reasons"));
+    let last = out.csv.lines().last().unwrap();
+    assert!(
+        last.contains(",4.5,speed-log:40.0;cn0-spread:30.0;heading-course:23.2;kinematic:2.3"),
+        "{last}"
+    );
+}
