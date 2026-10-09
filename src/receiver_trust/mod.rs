@@ -19,6 +19,7 @@ pub mod maritime;
 pub mod monitors;
 pub mod platform;
 pub mod scenario;
+pub mod score;
 pub mod synth;
 
 use serde::{Deserialize, Serialize};

@@ -25,6 +25,7 @@ use serde::{Deserialize, Serialize};
 
 use super::maritime::{MarineEpoch, MarineMonitors, MaritimeConfig};
 use super::platform::PlatformCfg;
+use super::score::{score_from_ratios, ScoreCfg, TrustScore};
 use super::{LogEpoch, ReportedFix, Timeline};
 use crate::allan::overlapping_adev;
 use crate::frames::{geodetic_to_ecef, Geodetic};
@@ -107,6 +108,10 @@ pub struct MonitorConfig {
     /// `[maritime]` table; used only when the platform is a vessel.
     #[serde(skip_deserializing, skip_serializing_if = "MaritimeConfig::is_default")]
     pub maritime: MaritimeConfig,
+    /// The trust-score mapping and its band edges, from the scenario's top-level `[score]`
+    /// table; used only when the platform is a vessel.
+    #[serde(skip_deserializing, skip_serializing_if = "ScoreCfg::is_default")]
+    pub score: ScoreCfg,
 }
 
 impl Default for MonitorConfig {
@@ -125,6 +130,7 @@ impl Default for MonitorConfig {
             clock_monitor: true,
             platform: PlatformCfg::default(),
             maritime: MaritimeConfig::default(),
+            score: ScoreCfg::default(),
         }
     }
 }
@@ -134,6 +140,7 @@ impl MonitorConfig {
     pub fn validate(&self) -> Result<(), String> {
         self.platform.validate()?;
         self.maritime.validate()?;
+        self.score.validate()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -273,6 +280,10 @@ pub struct EpochTrust {
     /// The moving-platform monitors' statistics and alarm ratios (vessel platforms only).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub marine: Option<MarineEpoch>,
+    /// The trust score of a moving platform, with the reasons for each deduction; `None`
+    /// for a static platform and during calibration.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub score: Option<TrustScore>,
     /// Monitors that alarmed at this epoch, in [`Monitor`] order.
     pub alarms: Vec<Monitor>,
     /// The epoch's trust verdict.
@@ -810,10 +821,12 @@ pub fn run_monitors(
     // Per-epoch statistics, decisions and alarms.
     let mut epochs = Vec::with_capacity(slots.len());
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
+    let mut held: BTreeMap<Monitor, (f64, f64)> = BTreeMap::new();
     for (slot_index, s) in slots.iter().enumerate() {
         let post = s.t_s >= cal_s;
         let mut alarms = BTreeSet::new();
         let mut dec = BTreeSet::new();
+        let mut lost_ratio: Option<f64> = None;
         let mut et = EpochTrust {
             t_s: s.t_s,
             n_sats: 0,
@@ -828,6 +841,7 @@ pub fn run_monitors(
             clock_innov_ns: None,
             clock_bound_ns: None,
             marine: None,
+            score: None,
             alarms: Vec::new(),
             state: TrustState::Calibrating,
         };
@@ -860,6 +874,7 @@ pub fn run_monitors(
             if let Some(med) = baseline.tracked_median {
                 if tracks_satellites(e) {
                     let lost = med - et.n_sats as f64;
+                    lost_ratio = Some(lost / cfg.sats_lost as f64);
                     decide(
                         Monitor::LossOfLock,
                         lost >= cfg.sats_lost as f64,
@@ -928,15 +943,42 @@ pub fn run_monitors(
                         | Monitor::Osnma
                 )
             });
-            let severe_cn0 = run_set.contains(&Monitor::Cn0Drop)
-                && et.cn0_drop_db.is_some_and(|d| d >= 2.0 * cfg.cn0_drop_db);
-            et.state = if fix_alarm || severe_cn0 {
-                TrustState::Untrusted
-            } else if !alarms.is_empty() {
-                TrustState::Degraded
+            if cfg.platform.is_vessel() {
+                // A vessel's verdict is its trust score's band.
+                let mut ratios = core_ratios(&et, cfg, lost_ratio, &alarms, &run_set);
+                if let Some(me) = &et.marine {
+                    ratios.extend(me.ratios.iter().copied());
+                }
+                // A source that did not report at this epoch keeps its last statistic for
+                // the stated hold, so slow sentences (GSV) do not blink in and out.
+                for (m, r) in &ratios {
+                    held.insert(*m, (et.t_s, *r));
+                }
+                for (m, (t, r)) in &held {
+                    if !ratios.contains_key(m) && et.t_s - t <= cfg.score.evidence_hold_s {
+                        ratios.insert(*m, *r);
+                    }
+                }
+                for (m, r) in &ratios {
+                    dec.insert(*m);
+                    if *r >= 1.0 {
+                        alarms.insert(*m);
+                    }
+                }
+                let sc = score_from_ratios(&ratios, &cfg.score);
+                et.state = sc.band;
+                et.score = Some(sc);
             } else {
-                TrustState::Nominal
-            };
+                let severe_cn0 = run_set.contains(&Monitor::Cn0Drop)
+                    && et.cn0_drop_db.is_some_and(|d| d >= 2.0 * cfg.cn0_drop_db);
+                et.state = if fix_alarm || severe_cn0 {
+                    TrustState::Untrusted
+                } else if !alarms.is_empty() {
+                    TrustState::Degraded
+                } else {
+                    TrustState::Nominal
+                };
+            }
         }
         et.alarms = alarms.into_iter().collect();
         epochs.push(et);
@@ -955,6 +997,54 @@ pub fn run_monitors(
         runs,
         first_alarm_s,
     })
+}
+
+/// The alarm statistic of each measurement- and engine-domain monitor that decided at this
+/// epoch, as `statistic / threshold` (an alarm at 1 or more), for the trust score. A monitor
+/// whose test is pass or fail (a failed solve) counts as 1.5, the ratio at which a monitor
+/// costs its whole weight.
+fn core_ratios(
+    et: &EpochTrust,
+    cfg: &MonitorConfig,
+    lost_ratio: Option<f64>,
+    alarms: &BTreeSet<Monitor>,
+    run_set: &BTreeSet<Monitor>,
+) -> BTreeMap<Monitor, f64> {
+    let mut r = BTreeMap::new();
+    let mut put = |m: Monitor, v: Option<f64>| {
+        if let (true, Some(v)) = (run_set.contains(&m), v) {
+            r.insert(m, v);
+        }
+    };
+    put(
+        Monitor::Cn0Drop,
+        et.cn0_drop_db.map(|d| d / cfg.cn0_drop_db),
+    );
+    put(Monitor::LossOfLock, lost_ratio);
+    put(Monitor::Agc, et.agc_z.map(|z| z.abs() / cfg.agc_k_sigma));
+    put(
+        Monitor::JamInd,
+        et.jam_ind.map(|j| j / cfg.jam_ind_threshold),
+    );
+    put(
+        Monitor::Raim,
+        match (et.raim_stat, et.raim_thr) {
+            (Some(s), Some(t)) if t > 0.0 => Some(s / t),
+            _ => None,
+        },
+    );
+    put(
+        Monitor::Clock,
+        match (et.clock_innov_ns, et.clock_bound_ns) {
+            (Some(i), Some(b)) if b > 0.0 => Some(i.abs() / b),
+            _ => None,
+        },
+    );
+    put(
+        Monitor::SolveFailure,
+        alarms.contains(&Monitor::SolveFailure).then_some(1.5),
+    );
+    r
 }
 
 /// Contiguous alarm runs per monitor over that monitor's own decisions. A decision without

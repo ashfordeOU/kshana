@@ -3,7 +3,9 @@
 //! `receiver_trust::synth`; no measurement, no radio signal).
 
 use kshana::receiver_trust::ingest::read_nmea;
-use kshana::receiver_trust::monitors::{run_monitors, Monitor, MonitorConfig, TrustResult};
+use kshana::receiver_trust::monitors::{
+    run_monitors, Monitor, MonitorConfig, TrustResult, TrustState,
+};
 use kshana::receiver_trust::platform::{PlatformCfg, PlatformKind};
 use kshana::receiver_trust::synth::{synth_voyage, DragSpec, VoyageSpec};
 
@@ -258,4 +260,155 @@ fn decisions_are_causal_truncating_a_log_never_changes_earlier_epochs() {
         assert_eq!(r.epochs.len(), cut);
         assert_eq!(r.epochs[..], full.epochs[..cut], "cut at {cut}");
     }
+}
+
+fn scores(r: &TrustResult) -> Vec<(f64, f64, TrustState)> {
+    r.epochs
+        .iter()
+        .filter_map(|e| e.score.as_ref().map(|s| (e.t_s, s.score, s.band)))
+        .collect()
+}
+
+#[test]
+fn a_clean_voyage_scores_in_the_top_band_at_every_epoch() {
+    let r = run_text(&voyage(1500.0, None), &vessel());
+    let sc = scores(&r);
+    assert_eq!(sc.len(), 1441, "every epoch after the 60 s calibration");
+    for (t, s, band) in sc {
+        assert_eq!((s, band), (100.0, TrustState::Nominal), "t = {t}");
+    }
+    assert!(r
+        .epochs
+        .iter()
+        .all(|e| e.score.as_ref().is_none_or(|s| s.deductions.is_empty())));
+}
+
+#[test]
+fn a_drag_off_that_the_receiver_calls_valid_takes_the_score_down_through_the_bands() {
+    let mut d = drag(600.0);
+    d.cn0_common_dbhz = Some(46.0);
+    let r = run_text(&voyage(1500.0, Some(d)), &vessel());
+    let sc = scores(&r);
+    // Nothing deducted before the onset; nominal until the first deduction, then degraded,
+    // then untrusted, in that order.
+    assert!(sc
+        .iter()
+        .filter(|(t, ..)| *t < 600.0)
+        .all(|(_, s, b)| *s == 100.0 && *b == TrustState::Nominal));
+    let first = |band: TrustState| sc.iter().find(|(_, _, b)| *b == band).map(|x| x.0);
+    let (deg, unt) = (
+        first(TrustState::Degraded).unwrap(),
+        first(TrustState::Untrusted).unwrap(),
+    );
+    assert!(600.0 < deg && deg < unt, "{deg} {unt}");
+    assert!(unt < 700.0, "{unt}");
+    // There is no hysteresis, so the score can touch the edge as it crosses; half a minute
+    // on it stays below the degraded edge for the rest of the log.
+    assert!(sc
+        .iter()
+        .filter(|(t, ..)| *t >= unt + 30.0)
+        .all(|(_, s, _)| *s < 55.0));
+    // The receiver never said the fix was bad.
+    assert!(read_nmea(&voyage(1500.0, Some(drag(600.0))))
+        .unwrap()
+        .epochs
+        .iter()
+        .all(|e| e.marine.as_ref().unwrap().fix_valid == Some(true)));
+}
+
+#[test]
+fn every_score_is_explained_by_its_deductions() {
+    let mut d = drag(600.0);
+    d.cn0_common_dbhz = Some(46.0);
+    let r = run_text(&voyage(1500.0, Some(d)), &vessel());
+    let cfg = &vessel().score;
+    let mut saw_reasons = false;
+    for e in &r.epochs {
+        let Some(sc) = &e.score else { continue };
+        let total: f64 = sc.deductions.iter().map(|d| d.points).sum();
+        assert!(
+            (sc.score - ((100.0 - total).clamp(0.0, 100.0) * 10.0).round() / 10.0).abs() < 1e-9
+        );
+        assert_eq!(sc.band, cfg.band(sc.score));
+        assert_eq!(e.state, sc.band, "a vessel's state is its score's band");
+        // Largest first, and every deducting monitor has a ratio of at least the onset.
+        assert!(sc.deductions.windows(2).all(|w| w[0].points >= w[1].points));
+        assert!(sc
+            .deductions
+            .iter()
+            .all(|d| d.points > 0.0 && d.ratio > cfg.onset_ratio));
+        assert_eq!(sc.score < 100.0, !sc.deductions.is_empty());
+        saw_reasons |= !sc.deductions.is_empty();
+    }
+    assert!(saw_reasons);
+}
+
+#[test]
+fn static_epochs_carry_no_score() {
+    let r = run_text(&voyage(300.0, None), &MonitorConfig::default());
+    assert!(r
+        .epochs
+        .iter()
+        .all(|e| e.score.is_none() && e.marine.is_none()));
+}
+
+#[test]
+fn the_scenario_result_records_the_score_model_and_the_csv_the_reasons() {
+    let text = voyage(400.0, None);
+    let toml = format!(
+        "kind = \"receiver-trust\"\n[log]\nformat = \"nmea\"\ntext = {text:?}\n\
+         [platform]\nkind = \"vessel\"\nantenna_height_m = 18.0\nheading_sensor = true\n\
+         [score]\nnominal_min = 92.0\n[score.weights]\nsea-level = 10.0\n"
+    );
+    let out = kshana::receiver_trust::scenario::run_toml(&toml).unwrap();
+    let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+    let m = &v["score_model"];
+    assert_eq!(m["nominal_min"], 92.0);
+    assert_eq!(m["degraded_min"], 55.0);
+    assert_eq!(m["evidence_hold_s"], 10.0);
+    assert_eq!(m["weights"]["sea-level"], 10.0);
+    assert_eq!(m["weights"]["kinematic"], 60.0);
+    assert!(v["verdict"]
+        .as_str()
+        .unwrap()
+        .contains("trust score lowest 100.0, final 100.0"));
+    assert!(v["log"]["observables"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .any(|o| o == "marine"));
+    let header = out.csv.lines().next().unwrap();
+    assert!(header.ends_with(",alarms,score,score_reasons"), "{header}");
+    assert!(out.csv.lines().nth(100).unwrap().contains(",100.0,"));
+}
+
+#[test]
+fn a_slow_source_holds_its_statistic_for_the_stated_time_and_no_longer() {
+    // C/N0 arrives every 5 s on the synthetic bus; the collapsed spread must count at the
+    // epochs between, up to the hold, so the score does not blink back up.
+    let mut d = drag(600.0);
+    d.cn0_common_dbhz = Some(46.0);
+    d.speed_mps = 0.0; // only the C/N0 changes: no other monitor can cover the gaps
+    let text = voyage(1000.0, Some(d));
+    let r = run_text(&text, &vessel());
+    for e in r.epochs.iter().filter(|e| e.t_s >= 680.0) {
+        let sc = e.score.as_ref().unwrap();
+        assert!(
+            sc.deductions
+                .iter()
+                .any(|d| d.monitor == Monitor::Cn0Spread),
+            "t = {}",
+            e.t_s
+        );
+        assert!(e.alarms.contains(&Monitor::Cn0Spread), "t = {}", e.t_s);
+    }
+    // With no hold the same evidence blinks.
+    let mut cfg = vessel();
+    cfg.score.evidence_hold_s = 0.0;
+    let r0 = run_text(&text, &cfg);
+    assert!(r0
+        .epochs
+        .iter()
+        .filter(|e| e.t_s >= 680.0)
+        .any(|e| !e.alarms.contains(&Monitor::Cn0Spread)));
 }
