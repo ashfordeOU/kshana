@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Kshana trust score panel for OpenCPN. Reads the $PKSHT sentence from OpenCPN's NMEA stream,
 // so it needs no connection of its own. Advisory software, not type-approved equipment:
 // the operator stays responsible for the safe navigation of the vessel.

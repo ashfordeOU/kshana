@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Panel state for the Kshana score panel: wx-free so it is unit-tested on its own.
 // Advisory software, not type-approved equipment: the operator stays responsible.
 #pragma once
