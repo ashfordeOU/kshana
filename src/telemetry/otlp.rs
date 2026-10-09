@@ -143,6 +143,7 @@ mod tests {
                 band: Band::Degraded,
                 reasons: vec!["agc".into()],
                 gate: None,
+                position: None,
             },
             None,
         );

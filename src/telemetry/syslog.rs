@@ -221,6 +221,7 @@ mod tests {
             band: Band::Degraded,
             reasons: vec!["cn0-drop".into(), "agc".into()],
             gate: Some("withheld".into()),
+            position: None,
         }
     }
 
