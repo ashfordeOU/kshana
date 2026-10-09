@@ -116,9 +116,8 @@ Studio yet; the engine side (the data below) is.
   edges, ramp, evidence hold, every weight), `monitors_run`, `states`, and `epochs[]`, each with
   `t_s`, `state`, `alarms`, `score.{score,band,deductions[]}` and
   `marine.{position:[lat,lon], stats, ratios}`; or
-* the live JSON lines (schema above), one object per epoch, appended as the stream runs. The live
-  lines carry no position: a live view takes the track from the same stream it reads, or from a
-  second source, and joins on `t_s`.
+* the live JSON lines (schema above), one object per epoch, appended as the stream runs. Each
+  line carries the receiver-reported `position` (schema 1.1).
 
 The demo set is `examples/maritime-trust/`: `session.toml`, `tallinn-helsinki.nmea` (the log) and
 `tallinn-helsinki.truth.csv` (`t_s,true_lat_deg,true_lon_deg`: where the vessel really was, which
@@ -182,14 +181,15 @@ Each completed epoch writes one JSON line on stdout:
 ```json
 {"seq":941,"t_s":940.0,"time":"2025-06-14T08:15:40.000Z","state":"untrusted","score":23.4,
  "deductions":[{"monitor":"heading-course","ratio":2.0,"points":40.0}],
- "alarms":["heading-course"],"gate":"off","note":null}
+ "alarms":["heading-course"],"gate":"off","note":null,
+ "position":{"lat_deg":59.8123456,"lon_deg":24.9012345,"height_m":39.4}}
 ```
 
 `state` is `calibrating`, `nominal`, `degraded` or `untrusted` (the band of the score, with
 the edges in the session's `[score]` table); `score` is absent while calibrating; `deductions`
 list which checks took points off and how many, largest first.
 
-### JSON-lines schema (version 1)
+### JSON-lines schema (version 1.1)
 
 One JSON object per completed epoch, keys in this order:
 
@@ -204,12 +204,13 @@ One JSON object per completed epoch, keys in this order:
 | `alarms` | array of string | monitors at or above their threshold |
 | `gate` | string | `off`, `passed` or `withheld` |
 | `note` | string or null | why no score was produced (for example a declared heading sensor that is absent) |
+| `position` | object or null | *(added in 1.1)* the position the receiver reported at this epoch, `{"lat_deg", "lon_deg", "height_m"}` (height ellipsoidal where the sentence gives the geoid separation, else above mean sea level); null when the receiver gave none, including calibrating epochs without a fix |
 
 Monitor names (kebab-case; 16): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
 `clock`, `solve-failure`, `kinematic`, `heading-course`, `speed-log`, `sea-level`, `cn0-spread`,
 `cn0-rise`, `time-consistency`, `osnma`. New names may be added in later
 versions; consumers should treat an unknown monitor name as a monitor. The `$PKSHT` layout below
-carries a format version in its first field; this JSON schema is version 1 and changes only by
+carries a format version in its first field; this JSON schema is version 1.1: 1.1 added `position` at the end, and it changes only by
 adding keys at the end.
 
 ### Authentication input
