@@ -32,7 +32,7 @@ breaking changes are called out explicitly.
   marks the fix invalid (GGA quality 0, RMC and GLL status `V`, GNS and VTG mode `N`) while it is
   not. The gate is off unless asked for. This is advisory software, not type-approved navigation
   equipment (IEC 61108, IEC 61162); the operator remains responsible. `examples/maritime-trust/`
-  is a synthetic Gdynia to Klaipeda log, written as text only, with a position drag-off partway
+  is a synthetic Tallinn to Helsinki log, written as text only, with a position drag-off partway
   through during which the receiver keeps reporting a valid fix; its expected output is pinned by
   a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
   consistent with everything on the bus; the guide says so.
