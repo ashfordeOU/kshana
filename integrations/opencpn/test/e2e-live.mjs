@@ -4,6 +4,7 @@
 import { spawn } from 'node:child_process'
 import net from 'node:net'
 import assert from 'node:assert'
+import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
 import { startRelay } from '../nmea-tcp-relay.mjs'
@@ -12,6 +13,9 @@ const here = path.dirname(fileURLToPath(import.meta.url))
 const root = path.resolve(here, '../../..')
 const bin = process.env.KSHANA_BIN || path.join(root, 'target/release/kshana')
 const demo = process.env.KSHANA_DEMO || path.join(root, 'examples/maritime-trust')
+
+const log = fs.readdirSync(demo).filter((f) => f.endsWith('.nmea')).sort()[0]
+assert.ok(log, `no .nmea log in ${demo}`)
 
 const relay = startRelay({ port: 0, waitClients: 1 })
 const port = await relay.listen()
@@ -22,7 +26,7 @@ const consumer = new Promise((res) => {
   s.on('end', res)
 })
 await relay.ready()
-const k = spawn(bin, ['receiver-trust', 'live', `${demo}/session.toml`, '--file', `${demo}/gdynia-klaipeda.nmea`, '--gate'], {
+const k = spawn(bin, ['receiver-trust', 'live', `${demo}/session.toml`, '--file', `${demo}/${log}`, '--gate'], {
   stdio: ['ignore', 'pipe', 'inherit']
 })
 k.stdout.on('data', (d) => relay.write(d))
