@@ -96,6 +96,7 @@ jobs:
       - name: Smoke test - the engine runs inside the image, and the version label is the release's
         env:
           VERSION: ${{ steps.mode.outputs.version }}
+          PUSH: ${{ steps.mode.outputs.push }}
         run: |
           set -uo pipefail
           out="$(docker run --rm --entrypoint /usr/local/bin/kshana kshana-reference-build:smoke 2>&1)" || true
@@ -103,7 +104,12 @@ jobs:
           printf '%s\n' "$out" | grep -q "usage: kshana" \
             || { echo "::error::kshana did not run / print its usage banner inside the image"; exit 1; }
           label="$(docker inspect --format '{{ index .Config.Labels "org.opencontainers.image.version" }}' kshana-reference-build:smoke)"
-          [ "$label" = "$VERSION" ] || { echo "::error::image version label '$label' != $VERSION"; exit 1; }
+          if [ "$label" != "$VERSION" ]; then
+            # A tag run must carry the release's label. On a branch dry run the label may be ahead
+            # of Cargo.toml (the 0.35 sources before the version bump): shown, not fatal.
+            if [ "$PUSH" = "true" ]; then echo "::error::image version label '$label' != $VERSION"; exit 1; fi
+            echo "::warning::image version label '$label' != Cargo.toml $VERSION (dry run on a branch that is not bumped yet)"
+          fi
           echo "OK: kshana runs in the image; label $label"
       - id: build
         uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
