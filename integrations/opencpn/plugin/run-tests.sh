@@ -1,8 +1,10 @@
 #!/bin/sh
-# Build and run the wx-free $PKSHT core test. Needs only a C++11 compiler.
+# Build and run the wx-free core tests (needs only CMake and a C++11 compiler). To build the plugin
+# as well, run cmake yourself with KSHANA_BUILD_PLUGIN=ON (the default); see CMakeLists.txt.
 set -eu
-cd "$(dirname "$0")"
-out="${TMPDIR:-/tmp}/kshana_pksht_test.$$"
-${CXX:-c++} -std=c++11 -Wall -Wextra -o "$out" test/pksht_test.cpp
-"$out" ../../signalk/test/fixtures/pksht-excerpt.nmea
-rm -f "$out"
+here="$(cd "$(dirname "$0")" && pwd)"
+build="$(mktemp -d)"
+trap 'rm -rf "$build"' EXIT
+cmake -S "$here" -B "$build" -DKSHANA_BUILD_PLUGIN=OFF >/dev/null
+cmake --build "$build" >/dev/null
+ctest --test-dir "$build" --output-on-failure
