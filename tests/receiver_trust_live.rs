@@ -248,8 +248,19 @@ fn json_lines_carry_the_score_the_reasons_and_the_gate() {
     assert_eq!(v["state"], "nominal");
     assert_eq!(v["score"], 100.0);
     assert_eq!(v["gate"], "off");
+    assert!(v["note"].is_null());
+    // Schema 1.1: the receiver-reported position, appended after `note`.
+    let line = out.reports[80].to_json_line();
+    assert!(line.find("\"note\"").unwrap() < line.find("\"position\"").unwrap());
+    assert!(line.ends_with("}}"), "position is the last key");
+    assert!((v["position"]["lat_deg"].as_f64().unwrap() - 54.6).abs() < 0.1);
+    assert!(v["position"]["lon_deg"].is_number() && v["position"]["height_m"].is_number());
     assert!(v["deductions"].as_array().unwrap().is_empty());
     let c: serde_json::Value = serde_json::from_str(&out.reports[3].to_json_line()).unwrap();
     assert_eq!(c["state"], "calibrating");
     assert!(c["score"].is_null());
+    assert!(
+        c["position"]["lat_deg"].is_number(),
+        "calibrating epochs carry it too"
+    );
 }
