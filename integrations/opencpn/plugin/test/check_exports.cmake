@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Fails unless the plugin library exports create_pi and destroy_pi (nm -D).
 execute_process(COMMAND nm -D --defined-only ${LIB} OUTPUT_VARIABLE out RESULT_VARIABLE rc)
 if(NOT rc EQUAL 0)

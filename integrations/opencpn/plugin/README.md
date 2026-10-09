@@ -41,4 +41,7 @@ Needs CMake 3.16 or newer, a C++14 compiler and wxWidgets 3.0 or newer (Debian-f
 * Calibration shows as calibrating and never alarms. The alert sounds once per entry into the alarm level.
 * The plugin never changes a fix and never transmits. Marking a fix invalid is the gate, not this panel.
 
-Licence: AGPL-3.0-only (the repository's), combined with the GPL-2.0-or-later OpenCPN plugin API header.
+Licence: **GPL-3.0-or-later** (see `LICENSE` in this directory), unlike the rest of the repository (AGPL-3.0-only, with a
+commercial option). The plugin is linked into OpenCPN and built against its GPL-2.0-or-later plugin API header, the usual
+basis for OpenCPN plugins, and it is not offered under the commercial licence. `third_party/opencpn/ocpn_plugin.h` keeps its
+own notice. See [`LICENSING.md`](../../../LICENSING.md).
