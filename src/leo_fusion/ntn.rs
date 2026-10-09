@@ -36,6 +36,7 @@ use super::geom::{median, norm, rms, sub, Site};
 use super::joint_pvt::{self, PseudorangeObs, SystemClock};
 use super::system::{in_view, SystemCfg};
 use super::C_LIGHT;
+use crate::chart::esc;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
 use crate::palette::chart::{BLUE, CYAN, MUTED};
 use rand::SeedableRng;
@@ -695,7 +696,7 @@ fn ntn_svg(r: &NtnReport) -> String {
             "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\" text-anchor=\"middle\">{}</text>",
             x,
             top + ph + 18.0,
-            xml_escape(&sig.name)
+            esc(&sig.name)
         ));
     }
     s.push_str(&format!(
@@ -704,12 +705,6 @@ fn ntn_svg(r: &NtnReport) -> String {
         top + ph
     ));
     s
-}
-
-fn xml_escape(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
 }
 
 /// Units of the `ntn-positioning` report.

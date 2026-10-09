@@ -134,4 +134,9 @@ assert.equal(map.total, feats.length);
 assert.equal(map.features, feats.filter((x) => ["LineString", "MultiLineString", "Point"].includes(x.geometry.type)).length);
 assert.equal(G.geojsonSvg("not json"), null);
 assert.equal(G.geojsonSvg('{"type":"FeatureCollection","features":[]}'), null);
+// A stage named like something a plain object inherits is shown by its own text, with no items.
+{
+  const m = G.chainModel({ handoffs: [{ from: "constructor", to: "toString" }] });
+  assert.deepEqual(m.map((s) => [s.kind, s.name, s.items.length]), [["constructor", "constructor", 0], ["toString", "toString", 0]]);
+}
 console.log("stages.test.mjs: all assertions passed");

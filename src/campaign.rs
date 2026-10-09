@@ -57,6 +57,7 @@
 //! JSON (JavaScript Object Notation) documents. Every hash is SHA-256 (Secure Hash
 //! Algorithm 2 with a 256-bit digest), written as lowercase hexadecimal.
 
+use crate::chart::esc;
 use crate::field_schema::{lookup, ProvenanceClass};
 use crate::palette::chart::{
     AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK, LIME, MAGENTA, MUTED, PANEL,
@@ -2457,12 +2458,6 @@ pub fn summary(r: &CampaignResult) -> String {
 // Chart
 // ---------------------------------------------------------------------------
 
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-}
-
 fn fmt_num(v: f64) -> String {
     let a = v.abs();
     if a == 0.0 {
@@ -2628,13 +2623,7 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
         let pad = 0.06 * (hi - lo);
         let (lo, hi) = (lo - pad, hi + pad);
         let y = |v: f64| bottom - (v - lo) / (hi - lo) * ph;
-        s.push_str(&crate::chart::panel_axes(
-            ml,
-            ptop,
-            pw,
-            bottom,
-            &esc(p.title),
-        ));
+        s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, p.title));
         for k in 0..=2 {
             let v = lo + (hi - lo) * f64::from(k) / 2.0;
             s.push_str(&format!(
@@ -2751,13 +2740,7 @@ fn sweep_svg(sw: &SweepOut, top: f64, w: f64) -> (String, f64) {
     );
     let ptop = top + 20.0;
     let bottom = ptop + ph;
-    s.push_str(&crate::chart::panel_axes(
-        ml,
-        ptop,
-        pw,
-        bottom,
-        &esc(&caption),
-    ));
+    s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, &caption));
     // Lines along the last axis, one per metric (and per leading-axis value).
     let last = sw.shape.len() - 1;
     let lane = sw.shape[last];
@@ -2956,7 +2939,7 @@ pub fn to_svg(r: &CampaignResult) -> String {
     let mut svg = crate::chart::frame_open(
         w,
         h,
-        &esc(&r.title),
+        &r.title,
         &format!(
             "campaign {} | MODELLED composition; every value read from a real run of the named kind",
             &r.scenario_hash[..12]
