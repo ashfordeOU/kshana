@@ -23,7 +23,7 @@
 //! survive hostile input: truncated buffers, corrupt frames and garbage lines are
 //! skipped and counted in [`Timeline::skipped_records`], never a panic.
 
-use super::{LogEpoch, LogFormat, ReportedFix, SatCn0, Timeline};
+use super::{LogEpoch, LogFormat, MarineObs, OsnmaStatus, ReportedFix, SatCn0, Timeline};
 use crate::rinex_obs::parse_obs;
 use std::collections::BTreeMap;
 
@@ -73,6 +73,7 @@ struct Acc {
     agc_n: u32,
     jam: Option<f64>,
     fix: Option<ReportedFix>,
+    marine: MarineObs,
 }
 
 impl Acc {
@@ -113,12 +114,9 @@ impl Acc {
     }
 }
 
-/// Turn the keyed accumulators into a [`Timeline`]: `t_s` from the first key, the
-/// start label from the first epoch, and the observables actually present.
-fn finalize(map: BTreeMap<i64, Acc>, skipped: usize) -> Timeline {
-    let first = map.keys().next().copied().unwrap_or(0);
-    let epochs: Vec<LogEpoch> = map
-        .into_iter()
+/// The epochs of the keyed accumulators: `t_s` counted from `first` (a key).
+fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
+    map.into_iter()
         .map(|(k, a)| LogEpoch {
             t_s: (k - first) as f64 / 1000.0,
             time_label: a.label.map(|(_, s)| s),
@@ -126,8 +124,13 @@ fn finalize(map: BTreeMap<i64, Acc>, skipped: usize) -> Timeline {
             agc: (a.agc_n > 0).then(|| a.agc_sum / a.agc_n as f64),
             jam_ind: a.jam,
             fix: a.fix,
+            marine: (a.marine != MarineObs::default()).then_some(a.marine),
         })
-        .collect();
+        .collect()
+}
+
+/// A [`Timeline`] from epochs: the start label and the observables actually present.
+fn timeline_from(epochs: Vec<LogEpoch>, skipped: usize) -> Timeline {
     let mut observables = Vec::new();
     if epochs.iter().any(|e| !e.cn0.is_empty()) {
         observables.push("cn0".to_string());
@@ -147,6 +150,13 @@ fn finalize(map: BTreeMap<i64, Acc>, skipped: usize) -> Timeline {
         observables,
         skipped_records: skipped,
     }
+}
+
+/// Turn the keyed accumulators into a [`Timeline`]: `t_s` from the first key, the
+/// start label from the first epoch, and the observables actually present.
+fn finalize(map: BTreeMap<i64, Acc>, skipped: usize) -> Timeline {
+    let first = map.keys().next().copied().unwrap_or(0);
+    timeline_from(epochs_from(map, first), skipped)
 }
 
 /// RINEX-style satellite id: system letter and two-digit number (`G05`).
@@ -925,6 +935,10 @@ struct NmeaState {
     pending: Vec<(String, String, f64)>,
     /// Days since 1970 of day offset 0, once an RMC date is seen.
     base_day: Option<i64>,
+    /// Arrival time of the line being parsed (live input), s.
+    arrival: Option<f64>,
+    /// Key of the previous timed sentence, in arrival order.
+    prev_key: Option<i64>,
 }
 
 impl NmeaState {
@@ -938,7 +952,16 @@ impl NmeaState {
         self.last_tod = Some(tod);
         let key = self.day_off * DAY_MS + tod;
         self.cur_key = Some(key);
+        let step = self.prev_key.map(|p| key - p).filter(|d| *d != 0);
+        self.prev_key = Some(key);
+        let arrival = self.arrival;
         let acc = self.map.entry(key).or_default();
+        if let Some(d) = step {
+            acc.marine.time_step_s = Some(d as f64 / 1000.0);
+        }
+        if acc.marine.arrival_s.is_none() {
+            acc.marine.arrival_s = arrival;
+        }
         for (sat, band, snr) in self.pending.drain(..) {
             acc.add_cn0(sat, band, snr);
         }
@@ -953,8 +976,32 @@ enum Sentence {
     Corrupt,
 }
 
+/// A finite number from an NMEA field, `None` when empty or malformed.
+fn num(s: &str) -> Option<f64> {
+    s.trim().parse::<f64>().ok().filter(|v| v.is_finite())
+}
+
+/// Fold one validity statement into an epoch: valid only if every sentence says so.
+fn and_valid(m: &mut MarineObs, v: bool) {
+    m.fix_valid = Some(m.fix_valid.is_none_or(|o| o) && v);
+}
+
+/// A heading or course in degrees, accepted in `[0, 360]` and wrapped to `[0, 360)`.
+fn bearing(s: &str) -> Option<f64> {
+    num(s)
+        .filter(|v| (0.0..=360.0).contains(v))
+        .map(|v| v % 360.0)
+}
+
+/// The accumulator of the epoch NMEA sentences without a time of their own attach to
+/// (the most recent timed sentence's), or `None` before any timed sentence.
+fn cur_marine(st: &mut NmeaState) -> Option<&mut MarineObs> {
+    let k = st.cur_key?;
+    Some(&mut st.map.entry(k).or_default().marine)
+}
+
 /// GGA: 1 time, 2-3 latitude, 4-5 longitude, 6 fix quality (0 = no fix), 7 satellites
-/// used, 9 altitude above mean sea level, 11 geoid separation. The height reported is
+/// used, 8 HDOP, 9 altitude above mean sea level, 11 geoid separation. The height reported is
 /// ellipsoidal (altitude + separation) when the separation is given, else MSL.
 fn nmea_gga(st: &mut NmeaState, f: &[&str]) -> Sentence {
     let t = f.get(1).copied().unwrap_or("").trim();
@@ -966,10 +1013,19 @@ fn nmea_gga(st: &mut NmeaState, f: &[&str]) -> Sentence {
     };
     let key = st.epoch_key(tod);
     let quality: u32 = f.get(6).and_then(|s| s.trim().parse().ok()).unwrap_or(0);
+    let get = |i: usize| f.get(i).copied().unwrap_or("");
+    {
+        let m = &mut st.map.entry(key).or_default().marine;
+        and_valid(m, quality > 0);
+        if quality > 0 {
+            m.hdop = num(get(8));
+            m.alt_msl_m = num(get(9));
+            m.geoid_sep_m = num(get(11));
+        }
+    }
     if quality == 0 {
         return Sentence::Used;
     }
-    let get = |i: usize| f.get(i).copied().unwrap_or("");
     let lat = nmea_angle(get(2), get(3), "S", 90.0);
     let lon = nmea_angle(get(4), get(5), "W", 180.0);
     let alt: Option<f64> = get(9).trim().parse().ok().filter(|v: &f64| v.is_finite());
@@ -990,7 +1046,8 @@ fn nmea_gga(st: &mut NmeaState, f: &[&str]) -> Sentence {
     Sentence::Used
 }
 
-/// RMC: 1 time, 9 date `ddmmyy` (years 80-99 are 19xx, else 20xx).
+/// RMC: 1 time, 2 status, 7 speed over ground, 8 course over ground, 9 date `ddmmyy`
+/// (years 80-99 are 19xx, else 20xx), 12 mode.
 fn nmea_rmc(st: &mut NmeaState, f: &[&str]) -> Sentence {
     let t = f.get(1).copied().unwrap_or("").trim();
     if t.is_empty() {
@@ -999,7 +1056,19 @@ fn nmea_rmc(st: &mut NmeaState, f: &[&str]) -> Sentence {
     let Some(tod) = nmea_tod_ms(t) else {
         return Sentence::Corrupt;
     };
-    st.epoch_key(tod);
+    let key = st.epoch_key(tod);
+    {
+        // 2 status (A valid, V warning), 7 speed over ground (kn), 8 course over ground
+        // (deg true), 12 mode indicator (N = not valid).
+        let get = |i: usize| f.get(i).copied().unwrap_or("");
+        let valid = get(2).trim() == "A" && get(12).trim() != "N";
+        let m = &mut st.map.entry(key).or_default().marine;
+        and_valid(m, valid);
+        if valid {
+            m.sog_kn = num(get(7)).filter(|v| *v >= 0.0);
+            m.cog_deg = bearing(get(8));
+        }
+    }
     let date = f.get(9).copied().unwrap_or("").trim();
     if st.base_day.is_none() && date.len() == 6 {
         let num = |a: usize| date.get(a..a + 2).and_then(|s| s.parse::<i64>().ok());
@@ -1052,23 +1121,151 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
     Sentence::Used
 }
 
-/// Read NMEA 0183 text. A sentence whose `*hh` checksum does not match, a line with no
-/// `$`, or a GGA/RMC/GSV with malformed fields counts as skipped. Epochs are keyed by
-/// the GGA/RMC time of day (rolling over at midnight); GSV satellites attach to the
-/// most recent time (those before the first time wait for it). Labels are ISO-8601 UTC
-/// once an RMC date is seen, else the time of day alone. Other sentence types are
-/// ignored.
-pub fn read_nmea(text: &str) -> Result<Timeline, String> {
-    let mut st = NmeaState::default();
-    let mut skipped = 0usize;
-    for line in text.lines() {
+/// VTG: 1 course over ground (deg true), 5 speed over ground (kn), 9 mode (N = not
+/// valid). Fills the speed and course only where RMC has not.
+fn nmea_vtg(st: &mut NmeaState, f: &[&str]) -> Sentence {
+    let get = |i: usize| f.get(i).copied().unwrap_or("");
+    let Some(m) = cur_marine(st) else {
+        return Sentence::Ignored;
+    };
+    if get(9).trim() == "N" {
+        return Sentence::Used;
+    }
+    if m.cog_deg.is_none() {
+        m.cog_deg = bearing(get(1));
+    }
+    if m.sog_kn.is_none() {
+        m.sog_kn = num(get(5)).filter(|v| *v >= 0.0);
+    }
+    Sentence::Used
+}
+
+/// HDT: 1 heading (deg true). THS: 1 heading (deg true), 2 mode (V = not valid).
+fn nmea_heading(st: &mut NmeaState, f: &[&str], ths: bool) -> Sentence {
+    let get = |i: usize| f.get(i).copied().unwrap_or("");
+    let Some(m) = cur_marine(st) else {
+        return Sentence::Ignored;
+    };
+    if ths && get(2).trim() == "V" {
+        return Sentence::Used;
+    }
+    if let Some(h) = bearing(get(1)) {
+        m.heading_deg = Some(h);
+    }
+    Sentence::Used
+}
+
+/// VHW: 1 heading true, 5 speed through the water (kn), 7 the same in km/h. The heading is
+/// used only where no HDT or THS gave one.
+fn nmea_vhw(st: &mut NmeaState, f: &[&str]) -> Sentence {
+    let get = |i: usize| f.get(i).copied().unwrap_or("");
+    let Some(m) = cur_marine(st) else {
+        return Sentence::Ignored;
+    };
+    let stw = num(get(5)).or_else(|| num(get(7)).map(|k| k / 1.852));
+    if let Some(v) = stw.filter(|v| *v >= 0.0) {
+        m.stw_kn = Some(v);
+    }
+    if m.heading_deg.is_none() {
+        m.heading_deg = bearing(get(1));
+    }
+    Sentence::Used
+}
+
+/// VBW: 1 longitudinal water speed (kn), 3 its status (A valid).
+fn nmea_vbw(st: &mut NmeaState, f: &[&str]) -> Sentence {
+    let get = |i: usize| f.get(i).copied().unwrap_or("");
+    let Some(m) = cur_marine(st) else {
+        return Sentence::Ignored;
+    };
+    if get(3).trim() == "A" {
+        if let Some(v) = num(get(1)) {
+            m.stw_kn = Some(v);
+        }
+    }
+    Sentence::Used
+}
+
+/// ZDA: 1 time, 2-4 day, month, year. A timed sentence like GGA and RMC: it opens or joins
+/// the epoch of its time, so a clock that disagrees with the other sentences shows as a
+/// step in [`MarineObs::time_step_s`].
+fn nmea_zda(st: &mut NmeaState, f: &[&str]) -> Sentence {
+    let t = f.get(1).copied().unwrap_or("").trim();
+    if t.is_empty() {
+        return Sentence::Ignored;
+    }
+    let Some(tod) = nmea_tod_ms(t) else {
+        return Sentence::Corrupt;
+    };
+    st.epoch_key(tod);
+    Sentence::Used
+}
+
+/// The Kshana OSNMA-status input sentence `$PKSOS,<status>[,<sat>:<status>...]`: `A`
+/// authenticated, `F` failed, `N` no result, overall and optionally per satellite (`E11:A`). A receiver's own report is translated into this by whatever
+/// adapter reads the receiver; Kshana does not verify OSNMA.
+fn nmea_osnma(st: &mut NmeaState, f: &[&str]) -> Sentence {
+    let Some(m) = cur_marine(st) else {
+        return Sentence::Ignored;
+    };
+    let status = |c: &str| match c.trim() {
+        "A" => Some(OsnmaStatus::Authenticated),
+        "F" => Some(OsnmaStatus::Failed),
+        "N" => Some(OsnmaStatus::Unavailable),
+        _ => None,
+    };
+    let Some(overall) = f.get(1).and_then(|c| status(c)) else {
+        return Sentence::Corrupt;
+    };
+    // Optional per-satellite fields `E11:A`, `E19:F`.
+    let mut sats = Vec::new();
+    for field in f.iter().skip(2).filter(|x| !x.trim().is_empty()) {
+        match field.split_once(':').and_then(|(id, c)| {
+            let ok = id.len() == 3 && id.is_ascii() && id[1..].chars().all(|d| d.is_ascii_digit());
+            ok.then(|| status(c).map(|s| (id.to_string(), s))).flatten()
+        }) {
+            Some(x) => sats.push(x),
+            None => return Sentence::Corrupt,
+        }
+    }
+    m.osnma = Some(overall);
+    m.sat_auth = sats;
+    Sentence::Used
+}
+
+/// Incremental NMEA 0183 reader: lines are fed one at a time (with, for live input, their
+/// arrival time on a monotonic clock) and the epochs gathered so far are taken out whenever
+/// the caller decides a cycle of sentences is complete. [`read_nmea`] is this reader run
+/// over a whole text, so a file and a live stream parse identically.
+#[derive(Default)]
+pub struct NmeaFeed {
+    st: NmeaState,
+    skipped: usize,
+    first_key: Option<i64>,
+}
+
+impl NmeaFeed {
+    /// An empty reader.
+    pub fn new() -> Self {
+        Self::default()
+    }
+
+    /// Records skipped so far (bad checksum, no `$`, malformed fields).
+    pub fn skipped(&self) -> usize {
+        self.skipped
+    }
+
+    /// Parse one line. `arrival_s` is its arrival on a monotonic clock, kept on the epoch
+    /// it opens.
+    pub fn feed(&mut self, line: &str, arrival_s: Option<f64>) {
+        self.st.arrival = arrival_s;
         let line = line.trim();
         if line.is_empty() {
-            continue;
+            return;
         }
         let Some(start) = line.find('$') else {
-            skipped += 1;
-            continue;
+            self.skipped += 1;
+            return;
         };
         let s = &line[start + 1..];
         let body = match s.find('*') {
@@ -1078,8 +1275,8 @@ pub fn read_nmea(text: &str) -> Result<Timeline, String> {
                     .and_then(|h| u8::from_str_radix(h, 16).ok());
                 let body = &s[..p];
                 if want != Some(nmea_xor(body)) {
-                    skipped += 1;
-                    continue;
+                    self.skipped += 1;
+                    return;
                 }
                 body
             }
@@ -1088,37 +1285,91 @@ pub fn read_nmea(text: &str) -> Result<Timeline, String> {
         let f: Vec<&str> = body.split(',').collect();
         let addr = f[0];
         if addr.len() != 5 || !addr.is_ascii() {
-            continue; // proprietary ($P...) or unknown sentence
+            return; // proprietary ($P...) or unknown sentence
         }
+        let st = &mut self.st;
         let (talker, kind) = (&addr[0..2], &addr[2..5]);
-        let outcome = match kind {
-            "GGA" => nmea_gga(&mut st, &f),
-            "RMC" => nmea_rmc(&mut st, &f),
-            "GSV" => nmea_gsv(&mut st, talker, &f),
+        let outcome = match (talker, kind) {
+            ("PK", "SOS") => nmea_osnma(st, &f),
+            (_, "GGA") => nmea_gga(st, &f),
+            (_, "RMC") => nmea_rmc(st, &f),
+            (_, "GSV") => nmea_gsv(st, talker, &f),
+            (_, "VTG") => nmea_vtg(st, &f),
+            (_, "HDT") => nmea_heading(st, &f, false),
+            (_, "THS") => nmea_heading(st, &f, true),
+            (_, "VHW") => nmea_vhw(st, &f),
+            (_, "VBW") => nmea_vbw(st, &f),
+            (_, "ZDA") => nmea_zda(st, &f),
             _ => Sentence::Ignored,
         };
         if matches!(outcome, Sentence::Corrupt) {
-            skipped += 1;
+            self.skipped += 1;
         }
     }
-    let base = st.base_day;
-    for (k, acc) in st.map.iter_mut() {
-        let label = match base {
-            Some(b) => iso_utc_ms(b * DAY_MS + k),
-            None => {
-                let r = k.rem_euclid(DAY_MS);
-                format!(
-                    "{:02}:{:02}:{:02}.{:03} UTC (date not in log)",
-                    r / 3_600_000,
-                    r / 60_000 % 60,
-                    r / 1000 % 60,
-                    r % 1000
-                )
-            }
-        };
-        acc.set_label(1, label);
+
+    /// Epochs gathered and not yet taken, the one still being filled included.
+    pub fn open_epochs(&self) -> usize {
+        self.st.map.len()
     }
-    Ok(finalize(st.map, skipped))
+
+    /// Take every epoch except the one the most recent timed sentence opened or joined: the
+    /// epochs a newer timed sentence has closed.
+    pub fn take_closed_epochs(&mut self) -> Vec<LogEpoch> {
+        let Some(cur) = self.st.cur_key else {
+            return Vec::new();
+        };
+        let keep = self.st.map.remove(&cur);
+        let closed = self.take_epochs();
+        self.st.cur_key = Some(cur);
+        if let Some(acc) = keep {
+            self.st.map.insert(cur, acc);
+        }
+        closed
+    }
+
+    /// Take every epoch gathered so far, in time order, labelled; `t_s` counts from the
+    /// first epoch this reader ever produced.
+    pub fn take_epochs(&mut self) -> Vec<LogEpoch> {
+        let mut map = std::mem::take(&mut self.st.map);
+        if self.first_key.is_none() {
+            self.first_key = map.keys().next().copied();
+        }
+        let base = self.st.base_day;
+        for (k, acc) in map.iter_mut() {
+            let label = match base {
+                Some(b) => iso_utc_ms(b * DAY_MS + k),
+                None => {
+                    let r = k.rem_euclid(DAY_MS);
+                    format!(
+                        "{:02}:{:02}:{:02}.{:03} UTC (date not in log)",
+                        r / 3_600_000,
+                        r / 60_000 % 60,
+                        r / 1000 % 60,
+                        r % 1000
+                    )
+                }
+            };
+            acc.set_label(1, label);
+        }
+        // Everything gathered is out: a late sentence must not reopen a taken epoch.
+        self.st.cur_key = None;
+        epochs_from(map, self.first_key.unwrap_or(0))
+    }
+}
+
+/// Read NMEA 0183 text. A sentence whose `*hh` checksum does not match, a line with no
+/// `$`, or a GGA/RMC/GSV with malformed fields counts as skipped. Epochs are keyed by
+/// the GGA/RMC time of day (rolling over at midnight); GSV satellites attach to the
+/// most recent time (those before the first time wait for it). Labels are ISO-8601 UTC
+/// once an RMC date is seen, else the time of day alone. Other sentence types are
+/// ignored.
+pub fn read_nmea(text: &str) -> Result<Timeline, String> {
+    let mut feed = NmeaFeed::new();
+    for line in text.lines() {
+        feed.feed(line, None);
+    }
+    let skipped = feed.skipped();
+    Ok(timeline_from(feed.take_epochs(), skipped))
 }
 
 #[cfg(test)]
@@ -1520,6 +1771,134 @@ Status,1,2,3
             Some("2025-01-01T00:00:00.500Z")
         );
         assert_eq!(tl.epochs[1].fix.map(|f| f.height_m), Some(10.0));
+    }
+
+    #[test]
+    fn nmea_marine_sentences_attach_to_the_current_epoch() {
+        let text = [
+            nmea("GPGGA,100000.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("GPRMC,100000.00,A,5430.0000,N,01830.0000,E,15.2,45.5,140625,,,A"),
+            nmea("GPVTG,99.0,T,,M,9.9,N,18.3,K,A"),
+            nmea("HEHDT,52.5,T"),
+            nmea("VWVHW,52.5,T,,M,14.6,N,27.0,K"),
+            nmea("GPZDA,100000.00,14,06,2025,00,00"),
+            nmea("GPGGA,100001.00,5430.0000,N,01830.0000,E,0,00,,,M,,M,,"),
+            nmea("GPRMC,100001.00,V,,,,,,,140625,,,N"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&text).expect("reads");
+        assert_eq!(tl.epochs.len(), 2);
+        let m = tl.epochs[0].marine.as_ref().unwrap();
+        assert_eq!(m.fix_valid, Some(true));
+        // RMC speed and course win over VTG's.
+        assert_eq!((m.sog_kn, m.cog_deg), (Some(15.2), Some(45.5)));
+        assert_eq!((m.heading_deg, m.stw_kn), (Some(52.5), Some(14.6)));
+        assert_eq!(
+            (m.alt_msl_m, m.geoid_sep_m, m.hdop),
+            (Some(18.4), Some(26.5), Some(0.9))
+        );
+        assert_eq!(m.time_step_s, None);
+        let m1 = tl.epochs[1].marine.as_ref().unwrap();
+        assert_eq!(m1.fix_valid, Some(false), "GGA quality 0 and RMC V");
+        assert_eq!(m1.time_step_s, Some(1.0));
+        assert_eq!(m1.sog_kn, None);
+    }
+
+    #[test]
+    fn nmea_vtg_ths_vbw_and_the_invalid_flags() {
+        let text = [
+            nmea("GPGGA,100000.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("GPVTG,99.0,T,,M,9.9,N,18.3,K,A"),
+            nmea("HETHS,52.5,V"),
+            nmea("VWVBW,13.5,0.2,A,13.9,0.1,A"),
+            nmea("GPGGA,100001.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("GPVTG,99.0,T,,M,9.9,N,18.3,K,N"),
+            nmea("HETHS,53.5,A"),
+            nmea("VWVBW,13.5,0.2,V,13.9,0.1,A"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&text).expect("reads");
+        let (a, b) = (
+            tl.epochs[0].marine.as_ref().unwrap(),
+            tl.epochs[1].marine.as_ref().unwrap(),
+        );
+        assert_eq!((a.sog_kn, a.cog_deg), (Some(9.9), Some(99.0)));
+        assert_eq!(a.heading_deg, None, "THS mode V is not a heading");
+        assert_eq!(a.stw_kn, Some(13.5));
+        assert_eq!((b.sog_kn, b.cog_deg), (None, None), "VTG mode N");
+        assert_eq!(b.heading_deg, Some(53.5));
+        assert_eq!(b.stw_kn, None, "VBW status V");
+    }
+
+    #[test]
+    fn nmea_time_step_flags_a_clock_that_disagrees_across_sentences() {
+        // GGA at :00 and :01, but an RMC stamped :07 in between: the epoch at :01 opens
+        // with a step of -6 s (back from :07) and the epoch at :07 with +7 s (from :00).
+        let text = [
+            nmea("GPGGA,100000.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("GPRMC,100007.00,A,5430.0000,N,01830.0000,E,15.2,45.5,140625,,,A"),
+            nmea("GPGGA,100001.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&text).expect("reads");
+        let steps: Vec<Option<f64>> = tl
+            .epochs
+            .iter()
+            .map(|e| e.marine.as_ref().and_then(|m| m.time_step_s))
+            .collect();
+        assert_eq!(steps, [None, Some(-6.0), Some(7.0)]);
+    }
+
+    #[test]
+    fn nmea_osnma_status_sentence() {
+        let text = [
+            nmea("GPGGA,100000.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("PKSOS,A"),
+            nmea("GPGGA,100001.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("PKSOS,F"),
+            nmea("PKSOS,X"),
+            nmea("GPGGA,100002.00,5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,"),
+            nmea("PKSOS,A,E11:A,E19:F"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&text).expect("reads");
+        assert_eq!(
+            tl.epochs[0].marine.as_ref().unwrap().osnma,
+            Some(OsnmaStatus::Authenticated)
+        );
+        assert_eq!(
+            tl.epochs[1].marine.as_ref().unwrap().osnma,
+            Some(OsnmaStatus::Failed)
+        );
+        assert_eq!(tl.skipped_records, 1, "unknown status");
+        let m2 = tl.epochs[2].marine.as_ref().unwrap();
+        assert_eq!(
+            m2.sat_auth,
+            [
+                ("E11".to_string(), OsnmaStatus::Authenticated),
+                ("E19".to_string(), OsnmaStatus::Failed)
+            ]
+        );
+    }
+
+    #[test]
+    fn nmea_feed_in_cycles_gives_the_epochs_of_the_whole_text() {
+        let text = nmea_text();
+        let whole = read_nmea(&text).unwrap();
+        let mut feed = NmeaFeed::new();
+        let mut epochs = Vec::new();
+        for line in text.lines() {
+            feed.feed(line, Some(1.0));
+            epochs.extend(feed.take_epochs());
+        }
+        // Taking after every line splits an epoch whose sentences arrive apart into two
+        // pieces; taking at cycle ends (here: once at the end) matches the whole read.
+        let mut feed = NmeaFeed::new();
+        for line in text.lines() {
+            feed.feed(line, None);
+        }
+        assert_eq!(feed.take_epochs(), whole.epochs);
+        assert!(!epochs.is_empty());
     }
 
     // ---- shared ----
