@@ -28,6 +28,17 @@ breaking changes are called out explicitly.
 - `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
   only: nothing transmits, and no detection or false-alarm figure is claimed.
 
+### Added (trust telemetry)
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. No new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
 ## [0.34.0] - 2026-10-09
 
 Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ

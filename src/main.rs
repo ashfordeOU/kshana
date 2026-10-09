@@ -66,6 +66,11 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("example") {
         return print_example(&args[2..]);
     }
+    // `kshana trust-telemetry` feeds the per-epoch trust stream to Prometheus, syslog
+    // (CEF/LEEF) and, with the `otlp` feature, OpenTelemetry.
+    if args.get(1).map(String::as_str) == Some("trust-telemetry") {
+        return ExitCode::from(kshana::telemetry::cli::run(&args[2..]) as u8);
+    }
     // `kshana receiver-trust <scenario.toml>` assesses a real receiver log. It is terminal
     // and outside the scenario-kind dispatch: its scenario names a log file instead of
     // describing a simulation.
