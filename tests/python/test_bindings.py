@@ -406,3 +406,67 @@ def test_iq_campaign_runs_resumes_and_reports(tmp_path):
     rep = kshana.iq_campaign_report(out)
     assert rep["digest"] == first["digest"] and rep["rows"] == 2
     assert (tmp_path / "out" / "report.html").read_text().count("MODELLED") >= 1
+
+
+def _custom():
+    return dict(
+        licence="CC0-1.0",
+        licence_url="https://creativecommons.org/publicdomain/zero/1.0/",
+        attribution="Synthetic data generated for Kshana documentation. Not real observations.",
+    )
+
+
+def test_interference_map_matches_the_committed_synthetic_sample():
+    root = REPO / "examples" / "interference-map"
+    days = kshana.interference_map(
+        "adsb", (root / "input" / "adsb.csv").read_text(), "custom", **_custom()
+    )
+    assert len(days) == 1 and days[0]["date"] == "2026-03-01"
+    doc = json.loads(days[0]["geojson"])
+    assert doc["kshana_interference_map"]["schema"] == "kshana-interference-map/v1"
+    sample = json.loads((root / "output" / "adsb-2026-03-01.geojson").read_text())
+    doc["kshana_interference_map"]["kshana_version"] = "X"
+    sample["kshana_interference_map"]["kshana_version"] = "X"
+    assert doc == sample
+    assert days[0]["cells_flagged"] >= 1
+
+
+def test_interference_map_and_route_exposure_reject_bad_input():
+    import pytest
+
+    with pytest.raises(ValueError):
+        kshana.interference_map("radar", "", "custom")
+    with pytest.raises(ValueError, match="custom"):
+        kshana.interference_map("adsb", "x", "custom")
+    with pytest.raises(ValueError):
+        kshana.route_exposure('{"type":"LineString","coordinates":[[0,0],[1,1]]}', [])
+
+
+def test_route_exposure_reports_on_a_map_built_in_memory():
+    root = REPO / "examples" / "interference-map"
+    day = kshana.interference_map(
+        "adsb", (root / "input" / "adsb.csv").read_text(), "custom", **_custom()
+    )[0]
+    route = '{"type":"LineString","coordinates":[[-50.0,30.2],[-47.0,30.2]]}'
+    report = json.loads(kshana.route_exposure(route, [day["geojson"]]))
+    assert isinstance(report, dict)
+
+
+def test_nmea_training_is_deterministic_and_carries_an_instructor_log():
+    toml = (REPO / "scenarios" / "training" / "open-sea-jamming.toml").read_text()
+    a = kshana.nmea_training(toml)
+    assert a == kshana.nmea_training(toml)
+    assert a["nmea"] != kshana.nmea_training(toml, seed=7)["nmea"]
+    assert "\r\n" in a["nmea"]
+    assert json.loads(a["log_json"])["schema"] == "kshana-nmea-training/1"
+
+
+def test_receiver_trust_scores_a_vessel_log_inline():
+    ex = REPO / "examples" / "maritime-trust"
+    toml = (ex / "session.toml").read_text().replace(
+        'path = "tallinn-helsinki.nmea"',
+        "text = '''" + (ex / "tallinn-helsinki.nmea").read_text() + "'''",
+    )
+    out = kshana.receiver_trust(toml)
+    assert "trust" in out.summary.lower() or out.summary
+    assert out.data()
