@@ -1,3 +1,4 @@
+# SPDX-License-Identifier: GPL-3.0-or-later
 # Kshana trust score panel for OpenCPN (plugin API 1.18, header vendored from the OpenCPN source
 # tree at the commit recorded in third_party/opencpn/README.txt).
 #

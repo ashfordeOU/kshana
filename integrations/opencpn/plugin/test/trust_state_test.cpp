@@ -1,3 +1,4 @@
+// SPDX-License-Identifier: GPL-3.0-or-later
 // Panel state over the recorded synthetic $PKSHT excerpt (calibrating, nominal, degraded, untrusted).
 #include "check.h"
 #include <fstream>
