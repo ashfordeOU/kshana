@@ -233,6 +233,15 @@ export function domainOf(id) {
   return DOMAINS.find((d) => d.id === id) || null;
 }
 
+// Where a bundled scenario's text is served from, relative to the page: the group's own folder or
+// scenarios/. null for a name that is not in the catalogue, so a name from the address or from
+// saved state can never become a request path.
+export function scenarioPath(file) {
+  if (!entryFor(file)) return null;
+  const dir = dirOf(file);
+  return dir ? `${dir}${file}` : `scenarios/${file}`;
+}
+
 export function entryFor(file) {
   const s = SCENARIOS.find((x) => x[0] === file);
   return s ? { file: s[0], domain: s[1], title: s[2], question: s[3] } : null;

@@ -2018,12 +2018,6 @@ fn csv_table(r: &TelecomRun) -> String {
 // Chart
 // ---------------------------------------------------------------------------------------
 
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-}
-
 /// Two panels: |TE| against time with the budgets, and MTIE and TDEV on log-log axes
 /// with the first selected mask's MTIE limit.
 pub fn to_svg(r: &TelecomRun) -> String {
@@ -2032,7 +2026,7 @@ pub fn to_svg(r: &TelecomRun) -> String {
         w,
         h,
         "Telecom timing: time error, MTIE and TDEV",
-        &esc(&summary_line(r)),
+        &summary_line(r),
     );
     // Left panel: |TE| (ns) vs time (h).
     let (lx, top, pw, ph) = (80.0, 80.0, 470.0, 320.0);
