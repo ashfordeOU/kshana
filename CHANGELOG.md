@@ -9,6 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.33.1] - 2026-10-08
+
+### Security
+
+- **Chart text and Studio chart adoption hardened.** Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
+
 ## [0.33.0] - 2026-10-08
 
 ### Documentation

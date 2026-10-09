@@ -49,6 +49,7 @@
 //! any real date.
 
 use crate::body::Body;
+use crate::chart::esc;
 use crate::palette::chart::{BG, MUTED, PANEL};
 use serde::{Deserialize, Serialize};
 use serde_json::{json, Value};
@@ -1924,12 +1925,6 @@ fn lerp_colour(a: [u8; 3], b: [u8; 3], t: f64) -> String {
     format!("#{:02x}{:02x}{:02x}", c(0), c(1), c(2))
 }
 
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-}
-
 /// Two stacked map panels (availability and mean PDOP) in an equirectangular projection,
 /// with the Natural Earth land outline when the body is the Earth.
 fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String {
@@ -1944,7 +1939,7 @@ fn to_svg(cov: &CoverageResult, body: &Body, summary: &str, thr: f64) -> String 
         w,
         h,
         &format!("Constellation coverage over the {}", body.name),
-        &esc(head),
+        head,
     );
     s.push_str(&format!(
         "<text x=\"24\" y=\"54\" font-size=\"11\" fill=\"{MUTED}\">{}</text>",
