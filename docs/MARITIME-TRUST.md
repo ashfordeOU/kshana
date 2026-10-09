@@ -221,6 +221,19 @@ stdout).
 receiver-nmea-source | kshana receiver-trust live session.toml --gate --json trust.jsonl | downstream-equipment
 ```
 
+To let a chart plotter connect directly, serve the gated stream over TCP instead of stdout:
+
+```sh
+receiver-nmea-source | kshana receiver-trust live session.toml --gate --listen tcp:10110
+```
+
+`--listen tcp:<port>` listens on the loopback address; `tcp:<addr>:<port>` listens elsewhere (a
+warning is printed, because anyone who can reach the address can read the stream). Any number of
+clients may connect; each gets the same stream from the moment it connects, and clients only read.
+Every client has its own bounded queue and writer, so one that cannot keep up is dropped (its
+connection closed, a line on stderr) and never delays the others or the input. `--listen` needs
+`--gate`; stdout then carries nothing of the stream, so `--json -` is free.
+
 What the gate does not do, and what to know before using it:
 
 * It is **opt-in**. Nothing marks a fix invalid unless `--gate` is given.
