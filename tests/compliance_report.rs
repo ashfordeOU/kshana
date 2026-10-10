@@ -10,8 +10,22 @@ fn repo() -> PathBuf {
     PathBuf::from(env!("CARGO_MANIFEST_DIR"))
 }
 
-/// Words the wording rule forbids anywhere in generated or committed mapping text.
-const BANNED: [&str; 4] = ["certifies", "complies", "compliant", "conformant"];
+/// Word stems the wording rule forbids anywhere in generated or committed mapping text, even
+/// negated: the text says what Kshana outputs support evidence for, in other words.
+const BANNED: [&str; 4] = ["certif", "complies", "compliant", "conform"];
+
+/// The proper noun that contains a banned stem.
+const ALLOWED_NOUNS: [&str; 2] = ["conformance framework", "conformance_framework"];
+
+fn assert_no_banned(name: &str, text: &str) {
+    let mut low = text.to_lowercase();
+    for n in ALLOWED_NOUNS {
+        low = low.replace(n, "");
+    }
+    for b in BANNED {
+        assert!(!low.contains(b), "{name}: forbidden stem {b:?}");
+    }
+}
 
 fn run(label: &str, kind: &str, json: serde_json::Value) -> Run {
     Run {
@@ -71,20 +85,42 @@ fn mapping_is_well_formed() {
 #[test]
 fn wording_rule_holds_in_mapping_report_and_docs() {
     let r = assess(&[run("a", "spoof-detect", json!({"x": 1}))], vec![]);
-    let mut texts = vec![r.to_markdown(), r.to_json()];
+    let mut texts = vec![
+        ("report.md".to_string(), r.to_markdown()),
+        ("report.json".to_string(), r.to_json()),
+        ("STATEMENT".to_string(), STATEMENT.to_string()),
+    ];
     for fw in Framework::ALL {
-        texts.push(mapping::framework_table_md(fw));
-        texts.push(mapping::sources_md(fw));
-        texts.push(
-            std::fs::read_to_string(repo().join(format!("docs/compliance/{}.md", fw.id())))
-                .expect("framework doc"),
-        );
+        texts.push((format!("{fw:?} table"), mapping::framework_table_md(fw)));
+        texts.push((format!("{fw:?} sources"), mapping::sources_md(fw)));
     }
-    for t in &texts {
-        let low = t.to_lowercase();
-        for b in BANNED {
-            assert!(!low.contains(b), "forbidden word {b:?}");
+    // Every file under docs/compliance/, not only the per-framework ones, plus the test-bench
+    // method and the CHANGELOG section that announces both.
+    let dir = repo().join("docs/compliance");
+    let mut n = 0;
+    for e in std::fs::read_dir(&dir).expect("docs/compliance") {
+        let p = e.unwrap().path();
+        if p.extension().and_then(|x| x.to_str()) == Some("md") {
+            texts.push((
+                p.display().to_string(),
+                std::fs::read_to_string(&p).unwrap(),
+            ));
+            n += 1;
         }
+    }
+    assert!(n >= 6, "the scan found only {n} docs/compliance files");
+    texts.push((
+        "docs/TEST-BENCH.md".into(),
+        std::fs::read_to_string(repo().join("docs/TEST-BENCH.md")).unwrap(),
+    ));
+    let log = std::fs::read_to_string(repo().join("CHANGELOG.md")).unwrap();
+    let h = "### Added: compliance mapping and test-bench export";
+    let at = log.find(h).expect("the CHANGELOG section for this feature");
+    let rest = &log[at + h.len()..];
+    let end = rest.find("\n## ").unwrap_or(rest.len());
+    texts.push(("CHANGELOG section".into(), rest[..end].to_string()));
+    for (name, t) in &texts {
+        assert_no_banned(name, t);
     }
     assert!(r.to_markdown().contains("support evidence for"));
 }
@@ -100,6 +136,12 @@ fn committed_tables_and_sources_are_current() {
             &doc[a..b],
             mapping::framework_table_md(fw),
             "docs/compliance/{}.md is stale; regenerate with `kshana compliance-report --mapping`",
+            fw.id()
+        );
+        // The whole "Source documents" list, not only each url and version.
+        assert!(
+            doc.contains(&mapping::sources_md(fw)),
+            "docs/compliance/{}.md source list is stale; regenerate with `kshana compliance-report --sources`",
             fw.id()
         );
         for s in mapping::SOURCES.iter().filter(|s| s.framework == fw) {
@@ -131,7 +173,7 @@ fn statuses_follow_the_runs_present() {
         run(
             "integrity.result.json",
             "integrity",
-            json!({"samples_total": 10}),
+            json!({"samples_total": 10, "samples_available": 9}),
         ),
         run(
             "trust.result.json",
@@ -141,7 +183,7 @@ fn statuses_follow_the_runs_present() {
         run(
             "detect.result.json",
             "spoof-detect",
-            json!({"scenario_hash": "abcdefabcdef1234", "verdict": "x"}),
+            json!({"scenario_hash": "abcdefabcdef1234", "verdict": "x", "decision": {"alarm": true}}),
         ),
     ];
     let r = assess(&runs, vec![]);
@@ -373,4 +415,156 @@ fn temp_workdir(label: &str) -> std::path::PathBuf {
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     dir
+}
+
+fn runs_for(r: &kshana::compliance::Report, cap: &str) -> Vec<String> {
+    r.capabilities
+        .iter()
+        .find(|c| c.id == cap)
+        .unwrap()
+        .runs
+        .clone()
+}
+
+#[test]
+fn a_kind_label_alone_is_not_evidence() {
+    // The label says `jamming` but the result carries no per-satellite figure.
+    let bare = run("bare.json", "jamming", json!({"kind": "jamming"}));
+    let real = run(
+        "real.json",
+        "jamming",
+        json!({"jammer_present": true, "fom": {"mean_js_db": 72.2}, "epochs": [{"t": 0.0, "sats": []}]}),
+    );
+    let r = assess(std::slice::from_ref(&bare), vec![]);
+    assert!(runs_for(&r, "jamming-effects").is_empty());
+    assert_eq!(status_of(&r, "DHS-S5.5"), Status::NotEvidenced);
+    let r = assess(&[bare, real], vec![]);
+    assert_eq!(runs_for(&r, "jamming-effects"), ["real.json"]);
+    // Empty arrays and nulls do not count as carrying a field.
+    let hollow = run(
+        "hollow.json",
+        "jamming",
+        json!({"fom": {"x": 1}, "epochs": []}),
+    );
+    assert!(runs_for(&assess(&[hollow], vec![]), "jamming-effects").is_empty());
+}
+
+#[test]
+fn every_kind_a_capability_names_has_required_fields() {
+    for c in CAPABILITIES {
+        for k in c.kinds {
+            assert!(
+                mapping::required_fields(k).is_some(),
+                "{} names kind {k} with no required fields",
+                c.id
+            );
+        }
+    }
+    // And every one of those kinds is a kind the engine knows (or receiver-trust).
+    let known: Vec<&str> = kshana::api::list_scenario_kinds()
+        .iter()
+        .map(|m| m.name)
+        .collect();
+    for (k, _) in mapping::KIND_FIELDS {
+        assert!(
+            *k == "receiver-trust" || known.contains(k),
+            "{k} is not a kind"
+        );
+    }
+}
+
+#[test]
+fn malformed_receiver_trust_counts_are_excluded_not_reported() {
+    let mut bad = trust_result(100, 9, 3); // detected 9 > evaluable 3
+    let over = run("over.json", "receiver-trust", bad.clone());
+    bad["events_evaluable"] = json!("three");
+    let text = run("text.json", "receiver-trust", bad);
+    let good = run("good.json", "receiver-trust", trust_result(100, 2, 3));
+    let r = assess(&[over, text, good], vec![]);
+    assert_eq!(r.receiver_trust.len(), 1);
+    assert_eq!(r.receiver_trust[0].run, "good.json");
+    assert_eq!(r.runs.len(), 1);
+    assert_eq!(r.unrecognised.len(), 2, "{:?}", r.unrecognised);
+    assert!(r
+        .unrecognised
+        .iter()
+        .any(|u| u.contains("over.json") && u.contains("exceeds")));
+    assert!(r
+        .unrecognised
+        .iter()
+        .any(|u| u.contains("text.json") && u.contains("not a non-negative integer")));
+    assert_eq!(runs_for(&r, "receiver-log-trust"), ["good.json"]);
+}
+
+#[test]
+fn a_hash_that_is_not_hex_is_not_provenance_and_cannot_panic_the_report() {
+    let odd = run(
+        "odd.json",
+        "integrity",
+        json!({"samples_total": 1, "samples_available": 1, "scenario_hash": "ééééééééééééééé"}),
+    );
+    let ok = run(
+        "ok.json",
+        "integrity",
+        json!({"samples_total": 1, "samples_available": 1, "scenario_hash": "0123456789abcdef"}),
+    );
+    let r = assess(&[odd, ok], vec![]);
+    assert_eq!(runs_for(&r, "run-provenance"), ["ok.json"]);
+    let md = r.to_markdown(); // would slice mid-character on a non-ASCII hash
+    assert!(md.contains("0123456789ab"));
+}
+
+#[test]
+fn unknown_kinds_and_disagreeing_siblings_are_refused_with_the_reason() {
+    use kshana::compliance::{assess_texts, RunInput};
+    let report = assess_texts(&[
+        RunInput {
+            label: "nonsense.json",
+            result_json: "{\"kind\": \"no-such-kind\", \"x\": 1}",
+            scenario_toml: None,
+        },
+        RunInput {
+            label: "disagree.result.json",
+            result_json: "{\"kind\": \"jamming\", \"x\": 1}",
+            scenario_toml: Some("kind = \"integrity\"\n"),
+        },
+        RunInput {
+            label: "badsibling.result.json",
+            result_json: "{\"x\": 1}",
+            scenario_toml: Some("kind = \"no-such-kind\"\n"),
+        },
+        RunInput {
+            label: "agree.result.json",
+            result_json:
+                "{\"kind\": \"integrity\", \"samples_total\": 1, \"samples_available\": 1}",
+            scenario_toml: Some("kind = \"integrity\"\n"),
+        },
+    ]);
+    assert_eq!(report.runs.len(), 1);
+    assert_eq!(report.runs[0].label, "agree.result.json");
+    let u = report.unrecognised.join("\n");
+    assert!(
+        u.contains("nonsense.json") && u.contains("not a scenario kind the engine knows"),
+        "{u}"
+    );
+    assert!(
+        u.contains("disagree.result.json") && u.contains("sibling scenario says kind `integrity`"),
+        "{u}"
+    );
+    assert!(u.contains("badsibling.result.json"), "{u}");
+}
+
+#[test]
+fn markdown_cells_are_escaped() {
+    let r = assess(
+        &[run(
+            "a|b.json",
+            "integrity",
+            json!({"samples_total": 1, "samples_available": 1}),
+        )],
+        vec!["x|y: bad\nline".into()],
+    );
+    let md = r.to_markdown();
+    assert!(md.contains("a\\|b.json"));
+    assert!(md.contains("x\\|y: bad line"));
 }
