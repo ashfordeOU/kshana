@@ -16,6 +16,32 @@ const SURFACES: &[(&str, &str)] = &[
     ("README.md", include_str!("../README.md")),
     ("docs/CAPABILITY.md", include_str!("../docs/CAPABILITY.md")),
     ("docs/GLOSSARY.md", include_str!("../docs/GLOSSARY.md")),
+    // The compliance mapping and the test-bench method are public-facing too.
+    ("docs/TEST-BENCH.md", include_str!("../docs/TEST-BENCH.md")),
+    (
+        "docs/compliance/README.md",
+        include_str!("../docs/compliance/README.md"),
+    ),
+    (
+        "docs/compliance/dhs-rpcf.md",
+        include_str!("../docs/compliance/dhs-rpcf.md"),
+    ),
+    (
+        "docs/compliance/easa-aviation.md",
+        include_str!("../docs/compliance/easa-aviation.md"),
+    ),
+    (
+        "docs/compliance/en-16803.md",
+        include_str!("../docs/compliance/en-16803.md"),
+    ),
+    (
+        "docs/compliance/imo-ships.md",
+        include_str!("../docs/compliance/imo-ships.md"),
+    ),
+    (
+        "docs/compliance/nis2-art21.md",
+        include_str!("../docs/compliance/nis2-art21.md"),
+    ),
     (
         "web/capabilities.json",
         include_str!("../web/capabilities.json"),
