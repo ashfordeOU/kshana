@@ -969,7 +969,10 @@ pub fn run_monitors(
                 }
                 for (m, r) in &ratios {
                     dec.insert(*m);
-                    if *r >= 1.0 {
+                    // The alarm is at the threshold itself, except that the AGC and the jamming
+                    // indicator alarm strictly above it, as they do for a static platform.
+                    let strict = matches!(m, Monitor::Agc | Monitor::JamInd);
+                    if *r > 1.0 || (*r == 1.0 && !strict) {
                         alarms.insert(*m);
                     }
                 }

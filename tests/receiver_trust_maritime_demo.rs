@@ -74,26 +74,30 @@ fn the_score_falls_through_the_bands_after_the_drag_off_starts() {
     let first = |pred: &dyn Fn(&kshana::receiver_trust::monitors::EpochTrust) -> bool| {
         r.epochs.iter().find(|e| pred(e)).map(|e| e.t_s)
     };
-    assert_eq!(
+    // The score moves smoothly through its band edges, so a last-digit difference in a
+    // transcendental function between platforms can move a crossing by an epoch: two epochs
+    // are allowed on each crossing, and three on the counts.
+    let near = |got: Option<f64>, want: f64| got.is_some_and(|g| (g - want).abs() <= 2.0);
+    assert!(near(
         first(&|e| e.score.as_ref().is_some_and(|s| s.score < 100.0)),
-        Some(1535.0)
-    );
-    assert_eq!(first(&|e| e.state == TrustState::Degraded), Some(1550.0));
-    assert_eq!(first(&|e| e.state == TrustState::Untrusted), Some(1619.0));
+        1535.0
+    ));
+    assert!(near(first(&|e| e.state == TrustState::Degraded), 1550.0));
+    let untrusted = first(&|e| e.state == TrustState::Untrusted);
+    assert!(near(untrusted, 1619.0), "{untrusted:?}");
     assert!(r
         .epochs
         .iter()
-        .filter(|e| e.t_s >= 1619.0)
+        .filter(|e| e.t_s >= untrusted.unwrap() + 2.0)
         .all(|e| e.state == TrustState::Untrusted));
-    assert_eq!(
-        (
-            r.states.nominal_epochs,
-            r.states.degraded_epochs,
-            r.states.untrusted_epochs
-        ),
-        (1250, 69, 1382)
-    );
-    assert_eq!(r.first_alarm_s, Some(1560.0));
+    for (got, want) in [
+        (r.states.nominal_epochs, 1250usize),
+        (r.states.degraded_epochs, 69),
+        (r.states.untrusted_epochs, 1382),
+    ] {
+        assert!(got.abs_diff(want) <= 3, "{got} vs {want}");
+    }
+    assert!(near(r.first_alarm_s, 1560.0));
 
     // Scores at stated epochs (rounding to 0.1 is the score's own; allow one step for
     // platform differences in the last digit of a transcendental function).
@@ -160,8 +164,16 @@ fn the_chart_shows_the_reported_track_by_band_and_the_score() {
     }
     assert!(svg.matches("<polyline").count() >= 4);
     // The CSV of a vessel carries the score and its reasons.
-    let header = out.csv.lines().next().unwrap();
+    let mut lines = out.csv.lines();
+    assert!(lines
+        .next()
+        .unwrap()
+        .starts_with("# Advisory software, not type-approved"));
+    let header = lines.next().unwrap();
     assert!(header.ends_with(",alarms,score,score_reasons"));
+    assert!(svg.contains("not type-approved navigation equipment"));
+    let v: serde_json::Value = serde_json::from_str(&out.json).unwrap();
+    assert!(v["advisory"].as_str().unwrap().contains("IEC 61108"));
     let last = out.csv.lines().last().unwrap();
     assert!(
         last.contains(",5.9,speed-log:40.0;cn0-spread:30.0;heading-course:19.6;kinematic:4.5"),
@@ -189,4 +201,27 @@ fn the_truth_file_shows_the_reported_track_leaving_the_real_one_only_after_the_o
     // Before the onset the receiver's own error (a few metres); at the end, far from the vessel.
     assert!((0..1500).all(|i| off(i) < 20.0));
     assert!(off(3000) > 1000.0, "{}", off(3000));
+}
+
+#[test]
+fn the_committed_log_and_truth_are_what_the_generator_writes() {
+    // Directly, not through a hash: the generator is the source of the files.
+    use kshana::receiver_trust::synth::{gulf_of_finland_demo_spec, synth_voyage_with_truth};
+    let (log, truth) = synth_voyage_with_truth(&gulf_of_finland_demo_spec());
+    let committed = std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.nmea")).unwrap();
+    let norm = |s: &str| s.lines().collect::<Vec<_>>().join("\n");
+    assert_eq!(
+        norm(&committed),
+        norm(&log),
+        "regenerate with the example generator"
+    );
+    let committed_truth =
+        std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.truth.csv")).unwrap();
+    let expected: Vec<String> = truth
+        .iter()
+        .enumerate()
+        .map(|(t, p)| format!("{t},{:.7},{:.7}", p[0], p[1]))
+        .collect();
+    let got: Vec<&str> = committed_truth.lines().skip(1).collect();
+    assert_eq!(got, expected.iter().map(String::as_str).collect::<Vec<_>>());
 }

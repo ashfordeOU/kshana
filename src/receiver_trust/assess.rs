@@ -59,6 +59,8 @@ pub struct ExcerptSummary {
 pub struct ExcerptAssessment {
     /// Version of the per-epoch schema (the live JSON-lines schema).
     pub schema: &'static str,
+    /// What this software is and is not.
+    pub advisory: &'static str,
     /// One report per epoch, as live mode writes them (the gate is off).
     pub epochs: Vec<EpochReport>,
     /// The `$PKSHT` sentence of the last epoch.
@@ -129,7 +131,8 @@ pub fn assess_stream_excerpt(
     };
     let last_pksht = epochs.last().map(EpochReport::pksht);
     Ok(ExcerptAssessment {
-        schema: "1.1",
+        schema: "1.2",
+        advisory: super::ADVISORY,
         epochs,
         last_pksht,
         summary,
@@ -175,7 +178,7 @@ mod tests {
         let text = voyage(240.0, true);
         let ex = assess_stream_excerpt(SESSION, text.as_bytes()).unwrap();
         let batch = assess_vessel_log(SESSION, text.as_bytes()).unwrap();
-        assert_eq!(ex.schema, "1.1");
+        assert_eq!(ex.schema, "1.2");
         assert_eq!(ex.epochs.len(), batch.epochs.len());
         for (l, b) in ex.epochs.iter().zip(&batch.epochs) {
             assert_eq!((l.t_s, l.state), (b.t_s, b.state));
