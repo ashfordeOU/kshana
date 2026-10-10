@@ -89,6 +89,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "route_exposure",
         "compliance_report",
         "compliance_mapping",
+        "export_test_bench",
         "iq_signals",
         "iq_info",
         "iq_scene",

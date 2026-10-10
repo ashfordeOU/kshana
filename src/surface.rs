@@ -314,6 +314,54 @@ pub fn nmea_training(
     })
 }
 
+/// What a test-bench export is and is not, carried with every export.
+pub const BENCH_NOTICE: &str =
+    "Vehicle motion and labelled event intervals only. Nothing exported \
+    here is, models or drives a radio-frequency or baseband signal, and an event is a time \
+    interval, not a recipe for producing interference. The laboratory simulator and its operator \
+    supply the signals and are responsible for running them only where that is authorised \
+    (conducted or shielded, per the simulator's own safety instructions). Kshana publishes no \
+    results from such runs.";
+
+/// A test-bench export held in memory.
+#[derive(Clone, Debug)]
+pub struct BenchExport {
+    /// Each file as `(suffix, text)`, in the fixed order the command line writes them. Every
+    /// file is UTF-8 text (CSV, JSON, NMEA, waypoint text, TOML).
+    pub files: Vec<(String, String)>,
+    /// Why any file was left out (today only the waypoint text, which needs a
+    /// millisecond-regular sample grid).
+    pub notes: Vec<String>,
+}
+
+/// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
+/// (`kshana bench-export`, `docs/TEST-BENCH.md`), in memory: nothing is written to disk.
+/// `epoch` is the UTC instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an optional
+/// trailing `Z` (default 2024-01-01T00:00:00Z). The output is byte-identical for the same
+/// scenario and epoch. [`BENCH_NOTICE`] belongs with it wherever it is shown.
+pub fn bench_export(
+    toml: &str,
+    epoch: Option<&str>,
+    max_bytes: usize,
+) -> Result<BenchExport, String> {
+    cap("scenario", toml, max_bytes)?;
+    let epoch = epoch
+        .map(crate::interop::UtcEpoch::parse_iso)
+        .transpose()
+        .map_err(|e| format!("epoch: {e}"))?;
+    let (files, notes) =
+        crate::interop::testbench::export_with_notes(toml, epoch).map_err(|e| e.to_string())?;
+    let files = files
+        .into_iter()
+        .map(|f| {
+            String::from_utf8(f.bytes)
+                .map(|t| (f.suffix.clone(), t))
+                .map_err(|_| format!("{}: not UTF-8", f.suffix))
+        })
+        .collect::<Result<Vec<_>, _>>()?;
+    Ok(BenchExport { files, notes })
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 
@@ -972,6 +1020,33 @@ mod tests {
             for banned in ["certif", "complies", "compliant", "conform"] {
                 assert!(!low.contains(banned), "{banned}");
             }
+        }
+    }
+
+    #[test]
+    fn bench_export_is_in_memory_deterministic_and_checks_its_epoch() {
+        let toml = std::fs::read_to_string(
+            std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("scenarios/gnss-ins.toml"),
+        )
+        .or_else(|_| {
+            std::fs::read_to_string(
+                std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+                    .join("scenarios/automotive-urban-canyon.toml"),
+            )
+        })
+        .unwrap();
+        let a = bench_export(&toml, Some("2025-03-01T10:00:00Z"), MAX_INPUT_BYTES).unwrap();
+        let b = bench_export(&toml, Some("2025-03-01T10:00:00"), MAX_INPUT_BYTES).unwrap();
+        assert_eq!(a.files, b.files);
+        let suffixes: Vec<&str> = a.files.iter().map(|f| f.0.as_str()).collect();
+        assert!(suffixes.contains(&".motion.csv") && suffixes.contains(&".events.toml"));
+        assert!(a.files[0].1.contains("2025-03-01"));
+        assert!(bench_export(&toml, Some("2025-13-01T00:00:00"), MAX_INPUT_BYTES).is_err());
+        assert!(bench_export(&toml, None, 10).is_err());
+        assert!(bench_export("kind = \"orbit\"\n", None, MAX_INPUT_BYTES).is_err());
+        let low = BENCH_NOTICE.to_lowercase();
+        for banned in ["certif", "complies", "compliant", "conform"] {
+            assert!(!low.contains(banned));
         }
     }
 }
