@@ -109,12 +109,34 @@ class KshanaCliTest {
     @Test
     fun noPluginTextUsesTheBannedClaimWords() {
         val banned = Regex("certif|complies|compliant|conform", RegexOption.IGNORE_CASE)
-        val texts = mutableListOf(
-            KshanaCli.TRAINING_NOTICE, KshanaCli.ADVISORY_NOTICE, KshanaCli.MAP_NOTICE,
-            KshanaCli.BENCH_NOTICE, KshanaCli.COMPLIANCE_STATEMENT,
-        )
         val xml = javaClass.getResourceAsStream("/META-INF/plugin.xml")!!.bufferedReader().readText()
-        texts.add(xml)
+        val texts = listOf(
+            KshanaCli.TRAINING_NOTICE, KshanaCli.ADVISORY_NOTICE, KshanaCli.MAP_NOTICE,
+            KshanaCli.BENCH_NOTICE, KshanaCli.COMPLIANCE_STATEMENT, KshanaCli.EVIDENCE_NOTICE,
+        ) + (0..4).map { KshanaCli.evidenceVerdict(it) } + xml
         for (t in texts) assertFalse("banned word in: ${banned.find(t)?.value}", banned.containsMatchIn(t))
+    }
+
+    @Test
+    fun evidenceVerifyPinsTheKeyAndNeverAllowsAnUnpinnedSigner() {
+        assertEquals(
+            listOf("kshana", "evidence", "verify", "/p", "--pubkey", "ab", "--json"),
+            KshanaCli.evidenceVerifyCommand("kshana", "/p", "ab", null),
+        )
+        assertEquals(
+            listOf("kshana", "evidence", "verify", "/p", "--pubkey", "ab", "--log", "/s.nmea", "--json"),
+            KshanaCli.evidenceVerifyCommand("kshana", "/p", "ab", "/s.nmea"),
+        )
+        assertFalse(KshanaCli.evidenceVerifyCommand("kshana", "/p", "ab", "/s").contains("--allow-unpinned"))
+    }
+
+    @Test
+    fun onlyExitZeroReadsAsVerified() {
+        assertTrue(KshanaCli.evidenceVerdict(0).startsWith("VERIFIED"))
+        for (code in listOf(1, 2, 3, 4, 137)) {
+            assertTrue("exit $code", KshanaCli.evidenceVerdict(code).startsWith("NOT "))
+        }
+        assertTrue(KshanaCli.evidenceVerdict(3).contains("INTACT, BUT THE SIGNER IS NOT PINNED"))
+        assertTrue(KshanaCli.EVIDENCE_NOTICE.contains("does not show the log is genuine"))
     }
 }
