@@ -80,6 +80,37 @@ pub fn auto_coherent_periods(code_period_s: f64) -> usize {
     ((AUTO_COHERENT_S / code_period_s - 1e-9).ceil() as usize).max(1)
 }
 
+/// The default Doppler step is capped at `PULL_IN_STEP_MARGIN / T_track`: `0.2 / T_track`,
+/// which is 0.8 of the default Atan2 FLL's pull-in `1 / (4 T_track)`. The cap is a step, not a
+/// half step, because the acquisition's winning bin is not always the nearest one: with a
+/// short coherent time the main lobe (`1 / (N T_code)` wide) is much wider than a bin, and
+/// noise can make the neighbouring bin win, leaving a residual of up to a whole step.
+/// 0.4 (half-step residual at 80 % of pull-in) was tried first; on Galileo E1-B it false-locked
+/// in 1 of 42 noisy runs, and with 1 ms coherent GPS L1 C/A a neighbouring bin 350 Hz off won
+/// and tracking locked at +500 Hz. 0.25 and 0.2 gave no false lock in the same 42 runs.
+pub const PULL_IN_STEP_MARGIN: f64 = 0.2;
+
+/// The default Doppler step (Hz) for the acquisition that hands a channel to tracking.
+///
+/// The textbook step `2 / (3 · N · T_code)` leaves a worst-case residual of half a step,
+/// `1 / (3 · N · T_code)`, and up to a whole step when the neighbouring bin wins. The default
+/// carrier FLL (two-quadrant `atan2`) pulls in only `±1 / (4 T_track)`, so with `N = 1`
+/// (every code of 4 ms or longer) the residual is outside the pull-in and the loop can lock
+/// `1 / T_track` away. The step is therefore also capped at [`PULL_IN_STEP_MARGIN`]
+/// `/ T_track`. For the 1 ms codes (`N = 4`, 166.7 Hz against a 200 Hz cap) the textbook step
+/// is already the smaller and is returned unchanged.
+///
+/// `t_track_s` is the tracking loop's integration time (code periods per loop update times
+/// the full code period); a non-positive or non-finite value gives the textbook step.
+pub fn default_step_hz(code_period_s: f64, n_coh: usize, t_track_s: f64) -> f64 {
+    let textbook = 2.0 / (3.0 * n_coh.max(1) as f64 * code_period_s);
+    if t_track_s.is_finite() && t_track_s > 0.0 {
+        textbook.min(PULL_IN_STEP_MARGIN / t_track_s)
+    } else {
+        textbook
+    }
+}
+
 impl AcqConfig {
     /// The Doppler grid (Hz), ascending.
     pub fn doppler_bins(&self) -> Vec<f64> {
@@ -155,14 +186,129 @@ pub struct AcqGrid {
     pub grid: Vec<Vec<f64>>,
 }
 
-/// Search `samples` (at least [`samples_needed`] long; the first that many are used),
-/// sampled as `spec`, for `code`.
-pub fn acquire(
+/// The per-search state the correlation rows share: the FFT plan, the conjugated code
+/// spectrum and the normalisation. One [`RowEngine::row`] is one Doppler bin's lag
+/// profile, so a caller can keep every row (the grid) or only a running best.
+struct RowEngine<'a> {
+    samples: &'a [Cf64],
+    fs: f64,
+    base_hz: f64,
+    spc: usize,
+    block: usize,
+    noncoherent: usize,
+    plan: FftPlan,
+    code_fft: Vec<(f64, f64)>,
+    norm: f64,
+    sigma2: f64,
+}
+
+impl<'a> RowEngine<'a> {
+    /// `samples` must hold [`samples_needed`] samples.
+    fn new(
+        samples: &'a [Cf64],
+        spec: &SampleSpec,
+        code: &dyn SpreadingCode,
+        cfg: &AcqConfig,
+    ) -> Result<Self, String> {
+        let spc = samples_per_period(spec, code)?;
+        let block = spc * cfg.coherent_periods;
+        let needed = block * cfg.noncoherent;
+        if samples.len() < needed {
+            return Err(format!(
+                "{} samples supplied, {needed} needed",
+                samples.len()
+            ));
+        }
+        let fs = spec.fs_hz;
+        // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
+        let base_hz = spec.baseband_hz(code.carrier_hz());
+        let chips_per_sample = code.chip_rate_hz() / fs;
+
+        let plan = FftPlan::new(spc);
+        let code_fft: Vec<(f64, f64)> = {
+            let rep: Vec<(f64, f64)> = (0..spc)
+                .map(|i| (code.value_at(i as f64 * chips_per_sample), 0.0))
+                .collect();
+            plan.forward(&rep)
+                .into_iter()
+                .map(|(r, i)| (r, -i))
+                .collect()
+        };
+
+        let power: f64 = samples[..needed]
+            .iter()
+            .map(|x| x.re * x.re + x.im * x.im)
+            .sum();
+        let sigma2 = power / needed as f64;
+        if sigma2.is_nan() || sigma2 <= 0.0 {
+            return Err("the samples carry no power".into());
+        }
+        Ok(Self {
+            samples,
+            fs,
+            base_hz,
+            spc,
+            block,
+            noncoherent: cfg.noncoherent,
+            plan,
+            code_fft,
+            norm: 2.0 / (block as f64 * sigma2),
+            sigma2,
+        })
+    }
+
+    /// The normalised power at every lag for Doppler `d` (Hz).
+    fn row(&self, d: f64) -> Vec<f64> {
+        let (spc, block, fs) = (self.spc, self.block, self.fs);
+        let f = self.base_hz + d;
+        let mut row = vec![0.0_f64; spc];
+        for m in 0..self.noncoherent {
+            let start = m * block;
+            let mut fold = vec![(0.0_f64, 0.0_f64); spc];
+            for i in 0..block {
+                let n = start + i;
+                let cyc = (f * n as f64 / fs).fract();
+                let (sn, cs) = (-core::f64::consts::TAU * cyc).psin_cos();
+                let s = self.samples[n];
+                let r = &mut fold[i % spc];
+                r.0 += s.re * cs - s.im * sn;
+                r.1 += s.re * sn + s.im * cs;
+            }
+            let mut y = self.plan.forward(&fold);
+            drop(fold);
+            for (v, &(c, e)) in y.iter_mut().zip(&self.code_fft) {
+                let (a, b) = *v;
+                *v = (a * c - b * e, a * e + b * c);
+            }
+            for (cell, (re, im)) in row.iter_mut().zip(self.plan.inverse_owned(y)) {
+                *cell += re * re + im * im;
+            }
+        }
+        for cell in &mut row {
+            *cell *= self.norm;
+        }
+        row
+    }
+}
+
+/// The normalised correlation power `2·G/(L·σ²)` of `samples` against `code` at every
+/// Doppler in `dopplers` (Hz, relative to the carrier's place in the baseband) and every
+/// lag: `rows[doppler][lag]`, with the mean sample power `σ²`. [`acquire`] searches
+/// `cfg.doppler_bins()` with it; the surface export evaluates finer Dopplers with the same
+/// arithmetic. `samples` must hold [`samples_needed`] samples.
+pub(crate) fn power_rows(
     samples: &[Cf64],
     spec: &SampleSpec,
     code: &dyn SpreadingCode,
     cfg: &AcqConfig,
-) -> Result<AcqGrid, String> {
+    dopplers: &[f64],
+) -> Result<(Vec<Vec<f64>>, f64), String> {
+    let eng = RowEngine::new(samples, spec, code, cfg)?;
+    let grid = dopplers.iter().map(|&d| eng.row(d)).collect();
+    Ok((grid, eng.sigma2))
+}
+
+fn check_cfg(cfg: &AcqConfig) -> Result<(), String> {
     if cfg.coherent_periods == 0 || cfg.noncoherent == 0 {
         return Err("coherent_periods and noncoherent must be positive".into());
     }
@@ -172,80 +318,24 @@ pub fn acquire(
     if !(cfg.pfa > 0.0 && cfg.pfa < 1.0) {
         return Err("pfa must lie in (0, 1)".into());
     }
-    let spc = samples_per_period(spec, code)?;
-    let block = spc * cfg.coherent_periods;
-    let needed = block * cfg.noncoherent;
-    if samples.len() < needed {
-        return Err(format!(
-            "{} samples supplied, {needed} needed",
-            samples.len()
-        ));
-    }
-    let bins = cfg.doppler_bins();
-    let fs = spec.fs_hz;
-    // Where the code's carrier sits in this baseband (an FDMA channel's offset included).
-    let base_hz = spec.baseband_hz(code.carrier_hz());
-    let chips_per_sample = code.chip_rate_hz() / fs;
+    Ok(())
+}
 
-    let plan = FftPlan::new(spc);
-    let rep: Vec<(f64, f64)> = (0..spc)
-        .map(|i| (code.value_at(i as f64 * chips_per_sample), 0.0))
-        .collect();
-    let code_fft: Vec<(f64, f64)> = plan
-        .forward(&rep)
-        .into_iter()
-        .map(|(r, i)| (r, -i))
-        .collect();
-
-    let power: f64 = samples[..needed]
-        .iter()
-        .map(|x| x.re * x.re + x.im * x.im)
-        .sum();
-    let sigma2 = power / needed as f64;
-    if sigma2.is_nan() || sigma2 <= 0.0 {
-        return Err("the samples carry no power".into());
-    }
-
-    let mut grid = vec![vec![0.0_f64; spc]; bins.len()];
-    for (row, &d) in grid.iter_mut().zip(&bins) {
-        let f = base_hz + d;
-        for m in 0..cfg.noncoherent {
-            let start = m * block;
-            let mut fold = vec![(0.0_f64, 0.0_f64); spc];
-            for i in 0..block {
-                let n = start + i;
-                let cyc = (f * n as f64 / fs).fract();
-                let (sn, cs) = (-core::f64::consts::TAU * cyc).psin_cos();
-                let s = samples[n];
-                let r = &mut fold[i % spc];
-                r.0 += s.re * cs - s.im * sn;
-                r.1 += s.re * sn + s.im * cs;
-            }
-            let y = plan.forward(&fold);
-            let prod: Vec<(f64, f64)> = y
-                .iter()
-                .zip(&code_fft)
-                .map(|(&(a, b), &(c, e))| (a * c - b * e, a * e + b * c))
-                .collect();
-            for (cell, (re, im)) in row.iter_mut().zip(plan.inverse(&prod)) {
-                *cell += re * re + im * im;
-            }
-        }
-    }
-
-    let norm = 2.0 / (block as f64 * sigma2);
-    let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
-    for (j, row) in grid.iter_mut().enumerate() {
-        for (t, cell) in row.iter_mut().enumerate() {
-            *cell *= norm;
-            if *cell > best.0 {
-                best = (*cell, j, t);
-            }
-        }
-    }
+/// The result from the peak `(power, doppler index, lag)` and the peak's row.
+#[allow(clippy::too_many_arguments)]
+fn result_from_peak(
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+    bins: &[f64],
+    spc: usize,
+    sigma2: f64,
+    chips_per_sample: f64,
+    best: (f64, usize, usize),
+    peak_row: &[f64],
+) -> AcqResult {
     let (peak, jb, tb) = best;
     let guard = (1.0 / chips_per_sample).ceil() as usize + 1;
-    let second_peak = grid[jb]
+    let second_peak = peak_row
         .iter()
         .enumerate()
         .filter(|&(t, _)| {
@@ -261,29 +351,102 @@ pub fn acquire(
     let threshold = threshold_for_pfa(pfa_cell, cfg.noncoherent as f64);
     let len = code.len_chips() as f64;
     let code_phase_chips = (-(tb as f64) * chips_per_sample).rem_euclid(len);
-    Ok(AcqGrid {
-        result: AcqResult {
-            code_name: code.name(),
-            doppler_hz: bins[jb],
-            doppler_index: jb,
-            delay_samples: tb,
-            code_phase_chips,
-            statistic: peak,
-            second_peak,
-            peak_ratio: if second_peak > 0.0 {
-                peak / second_peak
-            } else {
-                f64::INFINITY
-            },
-            pfa_cell,
-            threshold,
-            acquired: peak > threshold,
-            samples_per_period: spc,
-            n_doppler_bins: bins.len(),
-            sample_power: sigma2,
+    AcqResult {
+        code_name: code.name(),
+        doppler_hz: bins[jb],
+        doppler_index: jb,
+        delay_samples: tb,
+        code_phase_chips,
+        statistic: peak,
+        second_peak,
+        peak_ratio: if second_peak > 0.0 {
+            peak / second_peak
+        } else {
+            f64::INFINITY
         },
-        grid,
-    })
+        pfa_cell,
+        threshold,
+        acquired: peak > threshold,
+        samples_per_period: spc,
+        n_doppler_bins: bins.len(),
+        sample_power: sigma2,
+    }
+}
+
+/// Search `samples` (at least [`samples_needed`] long; the first that many are used),
+/// sampled as `spec`, for `code`, keeping the whole grid. The grid is
+/// `Doppler bins × samples per period` f64 cells, which is gigabytes for the long tiered
+/// codes at high rates: use [`acquire_peak`] when only the result is needed.
+pub fn acquire(
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+) -> Result<AcqGrid, String> {
+    check_cfg(cfg)?;
+    let bins = cfg.doppler_bins();
+    let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
+    let (grid, sigma2) = power_rows(samples, spec, code, cfg, &bins)?;
+    let spc = samples_per_period(spec, code)?;
+
+    let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
+    for (j, row) in grid.iter().enumerate() {
+        for (t, &cell) in row.iter().enumerate() {
+            if cell > best.0 {
+                best = (cell, j, t);
+            }
+        }
+    }
+    let result = result_from_peak(
+        code,
+        cfg,
+        &bins,
+        spc,
+        sigma2,
+        chips_per_sample,
+        best,
+        &grid[best.1],
+    );
+    Ok(AcqGrid { result, grid })
+}
+
+/// The same search as [`acquire`] without keeping the grid: a running best and the row it
+/// lies in (recomputed at the end), so memory is O(samples + samples per period), not
+/// O(bins × samples). The result
+/// is bit-identical to `acquire(..).result` (the cells come from the same arithmetic and ties
+/// resolve to the first cell in the same order).
+pub fn acquire_peak(
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    code: &dyn SpreadingCode,
+    cfg: &AcqConfig,
+) -> Result<AcqResult, String> {
+    check_cfg(cfg)?;
+    let bins = cfg.doppler_bins();
+    let chips_per_sample = code.chip_rate_hz() / spec.fs_hz;
+    let eng = RowEngine::new(samples, spec, code, cfg)?;
+    let mut best = (f64::NEG_INFINITY, 0usize, 0usize);
+    for (j, &d) in bins.iter().enumerate() {
+        let row = eng.row(d);
+        for (t, &cell) in row.iter().enumerate() {
+            if cell > best.0 {
+                best = (cell, j, t);
+            }
+        }
+    }
+    // The peak's row is recomputed (the arithmetic is deterministic) rather than held for
+    // the whole search: one more row of work instead of one more row of memory.
+    let best_row = eng.row(bins[best.1]);
+    Ok(result_from_peak(
+        code,
+        cfg,
+        &bins,
+        eng.spc,
+        eng.sigma2,
+        chips_per_sample,
+        best,
+        &best_row,
+    ))
 }
 
 /// Read [`samples_needed`] samples from `src` and search them for `code`. The search is
@@ -324,7 +487,7 @@ pub fn predicted_pd(cfg: &AcqConfig, period_s: f64, cn0_dbhz: f64, pfa_cell: f64
 
 #[cfg(test)]
 mod tests {
-    use super::auto_coherent_periods;
+    use super::{auto_coherent_periods, default_step_hz, PULL_IN_STEP_MARGIN};
 
     #[test]
     fn the_auto_coherent_length_is_about_four_milliseconds() {
@@ -334,5 +497,64 @@ mod tests {
         assert_eq!(auto_coherent_periods(100.0e-3), 1); // Galileo E1-C, E5a-Q (tiered)
         assert_eq!(auto_coherent_periods(1.5e-3), 3);
         assert_eq!(auto_coherent_periods(0.0), 1);
+    }
+
+    /// Pre-registered bars (D8): for every signal, the hand-off residual is at most 0.8 of the
+    /// default Atan2 FLL's pull-in, 1 / (4 T), both when the nearest bin wins (half the default
+    /// step) and when the neighbouring bin wins (a whole step), for
+    /// the full-period code and for the primary-only replica, with the default one-period
+    /// loop update and with five periods per update.
+    #[test]
+    fn the_default_step_leaves_a_residual_inside_the_fll_pull_in() {
+        use crate::iq::signals::{beidou, galileo, glonass, gps};
+        use crate::iq::SpreadingCode;
+        let codes = [
+            gps::l1ca(3).unwrap(),
+            gps::l5_i5(3).unwrap(),
+            gps::l5_q5(3).unwrap(),
+            gps::l2c_cm(3).unwrap(),
+            galileo::e1b(3).unwrap(),
+            galileo::e1c(3).unwrap(),
+            galileo::e5a_i(3).unwrap(),
+            galileo::e5a_q(3).unwrap(),
+            beidou::b1i(6).unwrap(),
+            beidou::b1c_data(19).unwrap(),
+            glonass::l1of(1).unwrap(),
+        ];
+        let mut worst: f64 = 0.0;
+        for code in &codes {
+            for rx in [code.clone(), code.primary_only()] {
+                let t_code = rx.period_s();
+                let n = auto_coherent_periods(t_code);
+                for periods in [1usize, 5] {
+                    let t_track = periods as f64 * t_code;
+                    let step = default_step_hz(t_code, n, t_track);
+                    let pull_in = 1.0 / (4.0 * t_track);
+                    // Bar 1: the nearest bin wins, residual half a step.
+                    // Bar 2: the neighbouring bin wins, residual a whole step.
+                    worst = worst.max(step / pull_in);
+                    for (what, residual) in [("half-step", step / 2.0), ("neighbour", step)] {
+                        assert!(
+                            residual <= 0.8 * pull_in + 1e-9,
+                            "{} ({periods} period(s)): {what} residual {residual} Hz vs pull-in {pull_in} Hz",
+                            rx.name()
+                        );
+                    }
+                }
+            }
+        }
+        assert!(worst > 0.0);
+    }
+
+    #[test]
+    fn the_cap_changes_nothing_for_the_one_millisecond_codes() {
+        // 1 ms codes: N = 4, the textbook 166.7 Hz step is already below 0.2 / T = 200 Hz.
+        let t = 1.0e-3;
+        assert_eq!(default_step_hz(t, 4, t), 2.0 / (3.0 * 4.0 * t));
+        // E1-B: N = 1, T = 4 ms: the cap (50 Hz) replaces the textbook 166.7 Hz.
+        assert!((default_step_hz(4.0e-3, 1, 4.0e-3) - 50.0).abs() < 1e-9);
+        assert_eq!(PULL_IN_STEP_MARGIN, 0.2);
+        // No usable tracking time: the textbook step.
+        assert_eq!(default_step_hz(4.0e-3, 1, 0.0), 2.0 / (3.0 * 4.0e-3));
     }
 }

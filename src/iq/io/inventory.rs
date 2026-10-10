@@ -2,9 +2,29 @@
 //! Dataset inventory and a single opener for every recording kind.
 //!
 //! A dataset folder holds SigMF recordings (`.sigmf-meta` + `.sigmf-data`), SigMF
-//! collections (`.sigmf-collection`) and raw sample files (`.bin`, `.dat`, `.raw`) whose
-//! format is given by a sidecar ([`RawSidecar`]) named `<file>.json`, `<file>.toml`,
-//! `<stem>.json` or `<stem>.toml`. [`scan_dir`] reports, per recording, its format,
+//! collections (`.sigmf-collection`), ION GNSS SDR metadata files (`.sdrx`, read through
+//! [`super::sdrx`]) and raw sample files (`.bin`, `.dat`, `.raw`) whose format is given by
+//! a sidecar ([`RawSidecar`]) named `<file>.json`, `<file>.toml`, `<stem>.json` or
+//! `<stem>.toml`.
+//!
+//! ## The raw sidecar
+//!
+//! The simplest description of a lab recording is a TOML file next to it, for example
+//! `capture.bin.toml`:
+//!
+//! ```toml
+//! format = "ci12r_le"        # any SampleFormat name: ci8, cu8, ci16_le, ci4_msb, c2sm_byte, ...
+//! sample_rate_hz = 20e6
+//! center_hz = 1575.42e6      # optional
+//! if_hz = 0.0                # optional; needed for real-IF data
+//! header_bytes = 512         # optional: bytes before the first sample
+//! channels = 2               # optional: sample-interleaved streams in the file (default 1)
+//! channel = 1                # optional: the stream to read, from 0 (default 0)
+//! datetime = "2026-10-01T12:00:00Z"   # optional
+//! description = "free text"           # optional
+//! ```
+//!
+//! The same keys work as JSON (`capture.bin.json`). [`scan_dir`] reports, per recording, its format,
 //! sample rate, sample count, duration, data size, the SHA-256 of the data file (streamed
 //! in 64 KiB blocks, never held whole) and its capture boundaries. Hashing runs on the
 //! [`super::batch`] worker pool. [`open_recording`] opens any of the three kinds as one
@@ -12,6 +32,7 @@
 
 use super::batch::run_batch;
 use super::format::SampleFormat;
+use super::sdrx::{layout_label, open_sdrx, read_sdrx};
 use super::sigmf_stream::{
     open_sigmf_collection, open_sigmf_files, sigmf_paths, CaptureBoundary, SigmfStream,
 };
@@ -37,6 +58,13 @@ pub struct RawSidecar {
     /// Bytes of header before the first sample.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub header_bytes: Option<u64>,
+    /// Number of sample-interleaved streams in the file (1 when absent): sample 0 of
+    /// stream 0, sample 0 of stream 1, …, then sample 1 of stream 0, ….
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub channels: Option<usize>,
+    /// The stream to read, from 0 (0 when absent).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub channel: Option<usize>,
     /// ISO-8601 time of the first sample.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub datetime: Option<String>,
@@ -139,6 +167,8 @@ pub enum RecordingKind {
     SigmfCollection,
     /// A raw sample file described by a sidecar.
     Raw,
+    /// An ION GNSS SDR Metadata Standard `.sdrx` file and the data file it names.
+    Sdrx,
 }
 
 /// Classify a path by extension, or `None` if it is not a recording this module reads.
@@ -148,6 +178,8 @@ pub fn recording_kind(path: &Path) -> Option<RecordingKind> {
         Some(RecordingKind::Sigmf)
     } else if name.ends_with(".sigmf-collection") {
         Some(RecordingKind::SigmfCollection)
+    } else if name.ends_with(".sdrx") {
+        Some(RecordingKind::Sdrx)
     } else if [".bin", ".dat", ".raw"].iter().any(|e| name.ends_with(e)) {
         Some(RecordingKind::Raw)
     } else {
@@ -159,8 +191,15 @@ pub fn recording_kind(path: &Path) -> Option<RecordingKind> {
 pub struct OpenedRecording {
     /// The samples.
     pub source: Box<dyn IqSource + Send>,
-    /// Their format.
+    /// Their format. For an `.sdrx` recording, whose layout need not be one of
+    /// [`SampleFormat`]'s, this is `cf32_le` (the samples are decoded by
+    /// [`super::sdrx::SdrxSource`]) and [`OpenedRecording::format_label`] describes the
+    /// layout.
     pub format: SampleFormat,
+    /// The format as listings show it: [`SampleFormat::name`], or the `.sdrx` layout.
+    pub format_label: String,
+    /// Interleaved streams in the data and the one read (`(1, 0)` for a single stream).
+    pub channels: (usize, usize),
     /// Total samples.
     pub n_samples: u64,
     /// Capture boundaries (one at 0 for a raw file).
@@ -171,15 +210,25 @@ pub struct OpenedRecording {
     pub data_files: Vec<(PathBuf, u64)>,
 }
 
-fn from_stream(s: SigmfStream, data_files: Vec<(PathBuf, u64)>) -> OpenedRecording {
-    OpenedRecording {
+fn from_stream(
+    s: SigmfStream,
+    data_files: Vec<(PathBuf, u64)>,
+    channel: Option<usize>,
+) -> Result<OpenedRecording, IqError> {
+    let s = match channel {
+        Some(c) => s.select_channel(c)?,
+        None => s,
+    };
+    Ok(OpenedRecording {
         format: s.format(),
+        format_label: s.format().name(),
+        channels: s.channels(),
         n_samples: s.total_samples(),
         boundaries: s.boundaries().to_vec(),
         n_annotations: s.annotations().len(),
         source: Box::new(s),
         data_files,
-    }
+    })
 }
 
 fn file_len(p: &Path) -> Result<u64, IqError> {
@@ -188,15 +237,58 @@ fn file_len(p: &Path) -> Result<u64, IqError> {
         .map_err(|e| IqError::Io(format!("{}: {e}", p.display())))
 }
 
-/// Open a SigMF recording, SigMF collection or raw file as one stream. A raw file is
-/// described by `raw` when given, otherwise by its sidecar.
+/// Open a SigMF recording, SigMF collection, `.sdrx` recording or raw file as one stream.
+/// A raw file is described by `raw` when given, otherwise by its sidecar. A multi-channel
+/// recording yields channel 0, or the sidecar's `channel`; see [`open_recording_with`] to
+/// choose.
 pub fn open_recording(path: &Path, raw: Option<RawSidecar>) -> Result<OpenedRecording, IqError> {
+    open_recording_with(path, raw, None)
+}
+
+/// [`open_recording`], reading stream `channel` (from 0) of a multi-channel recording: a
+/// SigMF recording with `core:num_channels` above one, or a raw file whose sidecar states
+/// `channels`. `channel` overrides the sidecar's `channel`. Asking for a channel the
+/// recording does not have is an error; so is asking for any channel but 0 of an `.sdrx`
+/// recording (one stream is all that format's reader takes).
+pub fn open_recording_with(
+    path: &Path,
+    raw: Option<RawSidecar>,
+    channel: Option<usize>,
+) -> Result<OpenedRecording, IqError> {
     match recording_kind(path) {
         Some(RecordingKind::Sigmf) => {
             let (_, dp) = sigmf_paths(path);
             let len = file_len(&dp)?;
             let s = open_sigmf_files(&[path], DEFAULT_CHUNK_BYTES)?;
-            Ok(from_stream(s, vec![(dp, len)]))
+            from_stream(s, vec![(dp, len)], channel)
+        }
+        Some(RecordingKind::Sdrx) => {
+            if channel.is_some_and(|c| c != 0) {
+                return Err(IqError::Format(format!(
+                    "{}: .sdrx recordings hold one stream; channel {} does not exist",
+                    path.display(),
+                    channel.unwrap_or(0)
+                )));
+            }
+            let (src, data, len) = open_sdrx(path)?;
+            let label = layout_label(src.layout());
+            let spec = src.spec();
+            Ok(OpenedRecording {
+                format: SampleFormat::CF32_LE,
+                format_label: label,
+                channels: (1, 0),
+                n_samples: src.remaining(),
+                boundaries: vec![CaptureBoundary {
+                    sample: 0,
+                    file_index: 0,
+                    file_sample: 0,
+                    frequency_hz: Some(spec.center_hz),
+                    datetime: None,
+                }],
+                n_annotations: 0,
+                source: Box::new(src),
+                data_files: vec![(data, len)],
+            })
         }
         Some(RecordingKind::SigmfCollection) => {
             let s = open_sigmf_collection(path, DEFAULT_CHUNK_BYTES)?;
@@ -209,7 +301,7 @@ pub fn open_recording(path: &Path, raw: Option<RawSidecar>) -> Result<OpenedReco
                 let len = file_len(&dp)?;
                 files.push((dp, len));
             }
-            Ok(from_stream(s, files))
+            from_stream(s, files, channel)
         }
         _ => {
             let sc = match raw {
@@ -225,11 +317,15 @@ pub fn open_recording(path: &Path, raw: Option<RawSidecar>) -> Result<OpenedReco
             let (format, spec) = sc.resolve()?;
             let header = sc.header_bytes.unwrap_or(0);
             let len = file_len(path)?;
-            let n = format.samples_in_bytes(len.saturating_sub(header));
-            let r = open_raw(path, format, spec, header)?;
+            let channels = sc.channels.unwrap_or(1);
+            let select = channel.or(sc.channel).unwrap_or(0);
+            let r = open_raw(path, format, spec, header)?.with_channels(channels, select)?;
+            let n = format.samples_in_bytes(len.saturating_sub(header)) / channels as u64;
             Ok(OpenedRecording {
                 source: Box::new(r),
                 format,
+                format_label: format.name(),
+                channels: (channels, select),
                 n_samples: n,
                 boundaries: vec![CaptureBoundary {
                     sample: 0,
@@ -258,8 +354,11 @@ pub struct InventoryEntry {
     pub sample_rate_hz: Option<f64>,
     /// Centre frequency of the first capture (Hz), when stated.
     pub center_hz: Option<f64>,
-    /// Total samples, when the format is known.
+    /// Total samples, when the format is known (per stream for a multi-stream file).
     pub n_samples: Option<u64>,
+    /// Interleaved streams (channels) in the data; 1 for a single-stream recording.
+    #[serde(default = "one")]
+    pub channels: usize,
     /// `n_samples / sample_rate_hz` (s).
     pub duration_s: Option<f64>,
     /// Total size of the data file(s) in bytes.
@@ -275,6 +374,10 @@ pub struct InventoryEntry {
     pub n_annotations: usize,
     /// Why the recording could not be read, if it could not.
     pub error: Option<String>,
+}
+
+fn one() -> usize {
+    1
 }
 
 /// Options for [`scan_dir`].
@@ -312,6 +415,7 @@ pub fn inventory_entry(path: &Path, hash: bool) -> InventoryEntry {
         sample_rate_hz: None,
         center_hz: None,
         n_samples: None,
+        channels: 1,
         duration_s: None,
         size_bytes: 0,
         sha256: Vec::new(),
@@ -335,10 +439,11 @@ pub fn inventory_entry(path: &Path, hash: bool) -> InventoryEntry {
         }
     };
     let spec = opened.source.spec();
-    e.format = Some(opened.format.name());
+    e.format = Some(opened.format_label.clone());
     e.sample_rate_hz = Some(spec.fs_hz);
     e.center_hz = opened.boundaries.first().and_then(|b| b.frequency_hz);
     e.n_samples = Some(opened.n_samples);
+    e.channels = opened.channels.0;
     e.duration_s = Some(opened.n_samples as f64 / spec.fs_hz);
     e.size_bytes = opened.data_files.iter().map(|(_, n)| n).sum();
     e.data_files = opened
@@ -362,8 +467,9 @@ pub fn inventory_entry(path: &Path, hash: bool) -> InventoryEntry {
     e
 }
 
-/// The recordings in `dir`, sorted by path: every `.sigmf-meta`, `.sigmf-collection` and
-/// raw `.bin` / `.dat` / `.raw` file (a `.sigmf-data` is listed through its meta file).
+/// The recordings in `dir`, sorted by path: every `.sigmf-meta`, `.sigmf-collection`,
+/// `.sdrx` and raw `.bin` / `.dat` / `.raw` file (a `.sigmf-data` is listed through its
+/// meta file, and the data file an `.sdrx` names through the `.sdrx`).
 pub fn list_recordings(dir: &Path, recursive: bool) -> Result<Vec<PathBuf>, IqError> {
     let mut out = Vec::new();
     let mut stack = vec![dir.to_path_buf()];
@@ -383,6 +489,14 @@ pub fn list_recordings(dir: &Path, recursive: bool) -> Result<Vec<PathBuf>, IqEr
             }
         }
     }
+    // The data file an `.sdrx` names is read through the `.sdrx`; do not list it again
+    // as a raw file with no sidecar.
+    let sdrx_data: std::collections::HashSet<PathBuf> = out
+        .iter()
+        .filter(|p| recording_kind(p) == Some(RecordingKind::Sdrx))
+        .filter_map(|p| read_sdrx(p).ok().map(|(_, d)| d))
+        .collect();
+    out.retain(|p| !sdrx_data.contains(p));
     out.sort();
     Ok(out)
 }
