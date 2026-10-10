@@ -9,6 +9,35 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
+  the receiver already outputs, with an opt-in gate.** `kshana receiver-trust` takes a
+  `[platform]` table (`kind = "static"` or `"vessel"`, the vessel's maximum speed, acceleration
+  and turn rate, antenna height above the waterline and an optional heading sensor; every default
+  documented with its reason). For a vessel the static position-jump monitor, which measures
+  distance from the calibration mean and is wrong on a ship under way, is replaced by causal
+  moving-platform monitors: kinematic consistency of the position against the reported speed and
+  course and against the vessel limits, gyro heading against course over ground, speed log against
+  speed over ground, antenna altitude against the stated height above the waterline, C/N0 spread
+  collapsing and rising together against the calibration baseline, and time consistency (against
+  this computer's clock too, in live mode). It also reads a reported authentication status, overall or per satellite
+  (a reported status only: no OSNMA cryptography). Every threshold is stated in a `[maritime]` table before the run. Each epoch then
+  gets a score from 0 to 100 by a deterministic, pre-registered mapping (no learning, nothing fitted
+  to events; weights, band edges and the evidence hold in a `[score]` table), mapped onto the
+  existing trust states, with the monitors that deducted and their points. Static scenarios are
+  unchanged and hash as before. `kshana receiver-trust live <session.toml>` reads stdin, a file
+  being appended, TCP or UDP and writes one JSON line per epoch and a proprietary `$PKSHT`
+  sentence; with `--gate` it passes the stream through unchanged while the fix is trusted and
+  marks the fix invalid (GGA quality 0, RMC and GLL status `V`, GNS and VTG mode `N`) while it is
+  not. The gate is off unless asked for; `--listen tcp:<port>` serves the gated stream to any number of
+  TCP clients (loopback by default, a slow client is dropped rather than blocking the others). This is advisory software, not type-approved navigation
+  equipment (IEC 61108, IEC 61162); the operator remains responsible. `examples/maritime-trust/`
+  is a synthetic Tallinn to Helsinki log, written as text only, with a position drag-off partway
+  through during which the receiver keeps reporting a valid fix; its expected output is pinned by
+  a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
+  consistent with everything on the bus; the guide says so.
+
 ### Changed
 
 - **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
