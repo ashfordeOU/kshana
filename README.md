@@ -576,16 +576,35 @@ The **Status** column states the *kind* of evidence, matching the validation lad
 One line gets the command-line tool: **`cargo install kshana`**. Every channel ships
 v0.35.0 from the same tagged commit.
 
+<!-- channels:begin -->
 | Channel | Install | Guide |
 |---|---|---|
-| Browser | open [kshana.dev](https://kshana.dev) | [Kshana Studio](web/README.md) |
-| Command line | `cargo install kshana` | [Scenarios](docs/SCENARIOS.md) |
-| Rust library | `cargo add kshana` | [API reference](https://docs.rs/kshana) |
-| Python | `pip install kshana` | [Python API](docs/PYTHON_API.md) |
-| JavaScript and WebAssembly | `npm install kshana` | [npm guide](README.npm.md) |
-| AI assistant (MCP server) | `cargo install kshana-mcp` | [MCP server](mcp/kshana-mcp/README.md) |
-| Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server](mcp/kshana-mcp/README.md) |
-| JetBrains IDE plugin | Settings → Plugins → Marketplace → "Kshana" | [JetBrains plugin](ide/jetbrains/README.md) |
+| Try in the browser | open https://kshana.dev | [Studio guide](docs/studio.html) |
+| Command line (Rust) | `cargo install kshana` | [Command-line usage](docs/rust.html#usage--cli) |
+| Rust library | `cargo add kshana` | [API reference on docs.rs](https://docs.rs/kshana) |
+| Python | `pip install kshana` | [Python API guide](docs/python-api.html) |
+| JavaScript and WebAssembly | `npm install kshana` | [npm and WebAssembly guide](docs/npm.html) |
+| AI assistant (MCP server, cargo) | `cargo install kshana-mcp` | [MCP server guide](docs/mcp.html) |
+| Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server guide: Docker](docs/mcp.html#install) |
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Cursor (one click) | [Add to Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNS4wIl19) · [Add to Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM1LjAiXX0%3D) · `npx -y kshana-mcp@0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| VS Code (one click) | [Install in VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) · [Install in VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.35.0%2522%255D%257D) · `npx -y kshana-mcp@0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| npx | `npx -y kshana-mcp@0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| uvx / pipx | `uvx kshana-mcp==0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| winget | `winget install AshfordeOU.KshanaMcp` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Prebuilt binary | download kshana-mcp-<target> from the release and check it against SHA256SUMS | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Official MCP registry | search io.github.ashfordeOU/kshana-mcp | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
+| Remote (streamable HTTP), self-hosted | `kshana-mcp --http 127.0.0.1:8080` | [Self-hosting guide](https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md) |
+| Claude Code plugin marketplace | `/plugin marketplace add ashfordeOU/kshana` | [Using Kshana from an agent](https://github.com/ashfordeOU/kshana/blob/main/docs/AGENTS.md) |
+| JetBrains IDE plugin | Settings → Plugins → Marketplace → search "Kshana" (plugin ID dev.kshana.ide) | [Plugin guide](docs/jetbrains.html) |
+| Signal K plugin | `npm install signalk-kshana-trust` | [Signal K plugin guide](https://github.com/ashfordeOU/kshana/blob/main/integrations/signalk/README.md) |
+| OpenCPN plugin | download the plugin tarball from the release | [OpenCPN catalogue submission](https://github.com/ashfordeOU/kshana/blob/main/packaging/opencpn/SUBMITTING.md) |
+| Grafana dashboard | import kshana-grafana-*.json from the release | [Dashboard source](https://github.com/ashfordeOU/kshana/blob/main/deploy/grafana/kshana-gnss-trust.json) |
+| Reference-build image | `docker pull ghcr.io/ashfordeou/kshana-reference-build` | [Marine integrations](https://github.com/ashfordeOU/kshana/blob/main/docs/MARINE-INTEGRATIONS.md) |
+<!-- channels:end -->
 
 <p><a href="https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator"><img src="https://img.shields.io/badge/JetBrains-Marketplace-066A86?style=flat-square&labelColor=0A1226" alt="Kshana on the JetBrains Marketplace"></a> <a href="Cargo.toml"><img src="https://img.shields.io/badge/rust-1.85%2B-3F4B67?style=flat-square&labelColor=0A1226" alt="Builds with Rust 1.85 or newer, the rust-version in Cargo.toml"></a></p>
 
