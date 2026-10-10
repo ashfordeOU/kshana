@@ -13,6 +13,8 @@ server.
 
 Request: **$ARGUMENTS**
 
+**Timestamp** (`attach_evidence_timestamp`): with a `.tsr` token from a timestamp authority (base64 of its bytes), bind it to a pack you hold. The reply is the updated `files`; verify them with `require_timestamp` to insist it is present. The tool does **not** check the authority's signature: tell the user to run `openssl ts -verify`. Make the token yourself with `openssl ts -query` and a timestamp authority; do not invent one.
+
 **Create** (`create_evidence_pack`)
 
 1. Have the session TOML (`[platform] kind = "vessel"` with the vessel's limits, as for

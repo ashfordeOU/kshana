@@ -98,6 +98,7 @@ async fn the_new_tools_are_listed_with_their_caveats() {
         assert!(d.contains("rated or approved by anyone"), "{t}");
     }
     assert!(desc("export_test_bench").contains("NO SIGNAL"));
+    assert!(desc("attach_evidence_timestamp").contains("does NOT verify the timestamp authority"));
     client.cancel().await.ok();
 }
 
@@ -157,6 +158,91 @@ async fn vessel_log_batch_is_trimmed_to_counts_and_notable_epochs() {
         .unwrap();
     assert!(!notable.is_empty() && notable.len() <= MAX_REPORT_LINES);
     assert!(v["notice"].as_str().unwrap().contains("Advisory only"));
+    client.cancel().await.ok();
+}
+
+/// An unsigned, synthetic RFC 3161 response over `digest` (not a real authority's output).
+fn synthetic_tsr(digest: &[u8]) -> Vec<u8> {
+    fn enc(tag: u8, content: &[u8]) -> Vec<u8> {
+        let mut o = vec![tag];
+        if content.len() < 0x80 {
+            o.push(content.len() as u8);
+        } else {
+            o.extend([0x82, (content.len() >> 8) as u8, content.len() as u8]);
+        }
+        o.extend(content);
+        o
+    }
+    let sha256 = [0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01];
+    let imprint = enc(0x30, &[enc(0x30, &enc(0x06, &sha256)), enc(0x04, digest)].concat());
+    let tst = enc(
+        0x30,
+        &[
+            enc(0x02, &[1]),
+            enc(0x06, &[0x2a, 0x03]),
+            imprint,
+            enc(0x02, &[7]),
+            enc(0x18, b"20260102030405Z"),
+        ]
+        .concat(),
+    );
+    let tst_oid = [0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x09, 0x10, 0x01, 0x04];
+    let signed_oid = [0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x07, 0x02];
+    let encap = enc(0x30, &[enc(0x06, &tst_oid), enc(0xA0, &enc(0x04, &tst))].concat());
+    let signed = enc(0x30, &[enc(0x02, &[3]), enc(0x31, &[]), encap].concat());
+    let ci = [enc(0x06, &signed_oid), enc(0xA0, &signed)].concat();
+    enc(0x30, &[enc(0x30, &enc(0x02, &[0])), enc(0x30, &ci)].concat())
+}
+
+#[tokio::test]
+async fn a_timestamp_token_attaches_in_memory_and_the_notice_says_the_authority_is_unchecked() {
+    let (nmea, session) = excerpt_and_session();
+    let client = connect().await;
+    let t = call(
+        &client,
+        "create_evidence_pack",
+        json!({"session_toml": session, "nmea": nmea, "from_s": 100.0, "to_s": 300.0,
+               "signing_key_seed_hex": "07".repeat(32)}),
+    )
+    .await
+    .unwrap();
+    let v: Value = serde_json::from_str(&t[0]).unwrap();
+    let manifest = v["files"]["manifest.json"]["utf8"].as_str().unwrap().to_string();
+    let digest = kshana::advanced_report::sha256_hex(manifest.as_bytes());
+    let digest_bytes: Vec<u8> = (0..32)
+        .map(|i| u8::from_str_radix(&digest[2 * i..2 * i + 2], 16).unwrap())
+        .collect();
+    let tsr = synthetic_tsr(&digest_bytes);
+    let b64 = kshana::permalink::base64_encode(&tsr);
+    let out = call(
+        &client,
+        "attach_evidence_timestamp",
+        json!({"files": v["files"], "token_base64": b64}),
+    )
+    .await
+    .unwrap();
+    let o: Value = serde_json::from_str(&out[0]).unwrap();
+    assert!(o["files"].get("timestamp.tsr").is_some());
+    assert!(o["notice"].as_str().unwrap().contains("NOT verified"));
+    // Required and found.
+    let ver = call(
+        &client,
+        "verify_evidence_pack",
+        json!({"files": o["files"], "public_key": v["public_key"], "require_timestamp": true}),
+    )
+    .await
+    .unwrap();
+    assert_eq!(serde_json::from_str::<Value>(&ver[0]).unwrap()["verdict"], "verified");
+    // A second token is refused unless replaced; a token over something else, bad base64 too.
+    assert!(call(&client, "attach_evidence_timestamp",
+        json!({"files": o["files"], "token_base64": b64})).await.is_err());
+    assert!(call(&client, "attach_evidence_timestamp",
+        json!({"files": o["files"], "token_base64": b64, "replace": true})).await.is_ok());
+    let wrong = kshana::permalink::base64_encode(&synthetic_tsr(&[0u8; 32]));
+    assert!(call(&client, "attach_evidence_timestamp",
+        json!({"files": v["files"], "token_base64": wrong})).await.is_err());
+    assert!(call(&client, "attach_evidence_timestamp",
+        json!({"files": v["files"], "token_base64": "not base64!!"})).await.is_err());
     client.cancel().await.ok();
 }
 

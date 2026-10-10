@@ -32,4 +32,4 @@ pub use bundle::{
     create_bundle, generate_seed, public_key_hex, slice_for_window, EvidenceError, EvidenceInput,
     Files, Manifest, Window, DISCLAIMER, FORMAT,
 };
-pub use verify::{verify_bundle, Failure, VerifyOptions, VerifyReport};
+pub use verify::{attach_timestamp, verify_bundle, Failure, VerifyOptions, VerifyReport};

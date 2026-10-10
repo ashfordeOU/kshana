@@ -211,6 +211,35 @@ pub fn get_example(name: &str) -> Result<String, JsValue> {
         .map_err(|e| JsValue::from_str(&e))
 }
 
+/// Bind an RFC 3161 timestamp token to an evidence pack, in memory. `files_json` is the pack's
+/// files as JSON (name to text or `{"base64": ...}`); `token_base64` is the `.tsr` file's bytes
+/// as base64; `replace` allows replacing an existing token. The pack with the token must still
+/// verify or this throws. Returns JSON `{files, notes}`. This does NOT verify the timestamp
+/// authority's signature or certificate chain (use `openssl ts -verify`). Nothing is uploaded.
+#[wasm_bindgen]
+pub fn evidence_attach_timestamp(
+    files_json: &str,
+    token_base64: &str,
+    replace: bool,
+) -> Result<String, JsValue> {
+    let v: serde_json::Value = serde_json::from_str(files_json)
+        .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
+    let files = crate::surface::files_from_json(&v).map_err(|e| JsValue::from_str(&e))?;
+    let token = crate::permalink::base64_decode(token_base64.trim())
+        .ok_or_else(|| JsValue::from_str("token_base64 is not base64"))?;
+    let t = crate::surface::evidence_attach_timestamp(
+        &files,
+        &token,
+        replace,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    Ok(
+        serde_json::json!({"files": crate::surface::files_to_json(&t.files), "notes": t.notes})
+            .to_string(),
+    )
+}
+
 /// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
 /// (`docs/TEST-BENCH.md`), in memory: nothing is uploaded or written. `epoch` is the UTC
 /// instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an optional `Z` (empty for the
