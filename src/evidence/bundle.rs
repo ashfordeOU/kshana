@@ -244,6 +244,13 @@ pub fn generate_seed() -> [u8; 32] {
     s
 }
 
+/// Ed25519 signature (RFC 8032, pure Ed25519) of `msg` by the key whose 32-byte seed is
+/// `seed`. The signing step of [`create_bundle`], exposed so published test vectors can be
+/// run through the same function.
+pub fn sign_detached(seed: &[u8; 32], msg: &[u8]) -> [u8; 64] {
+    SigningKey::from_bytes(seed).sign(msg).to_bytes()
+}
+
 /// The public key (hex) for a seed.
 pub fn public_key_hex(seed: &[u8; 32]) -> String {
     hex::encode(SigningKey::from_bytes(seed).verifying_key().to_bytes())
@@ -372,7 +379,7 @@ pub fn create_bundle(
             ));
         }
     }
-    let sig = key.sign(&manifest_bytes);
+    let sig = sign_detached(seed, &manifest_bytes);
 
     let mut files = Files::new();
     for ((name, _), bytes) in ARTIFACTS.iter().zip(contents) {
@@ -381,7 +388,7 @@ pub fn create_bundle(
     files.insert("manifest.json".into(), manifest_bytes);
     files.insert(
         "manifest.sig".into(),
-        format!("{}\n", hex::encode(sig.to_bytes())).into_bytes(),
+        format!("{}\n", hex::encode(sig)).into_bytes(),
     );
     if let Some(t) = timestamp_token {
         files.insert("timestamp.tsr".into(), t.to_vec());

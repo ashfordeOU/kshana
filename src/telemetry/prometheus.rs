@@ -126,6 +126,31 @@ impl Registry {
         self.reason_epochs.iter().map(|(k, v)| (k.as_str(), *v))
     }
 
+    /// (reason, active at the latest epoch) pairs in name order.
+    pub fn reasons_active(&self) -> impl Iterator<Item = (&str, bool)> {
+        self.reason_active.iter().map(|(k, v)| (k.as_str(), *v))
+    }
+
+    /// Input lines that could not be parsed.
+    pub fn input_errors(&self) -> u64 {
+        self.input_errors
+    }
+
+    /// Reason occurrences folded into `other`.
+    pub fn reason_overflow(&self) -> u64 {
+        self.reason_overflow
+    }
+
+    /// Offset of the latest epoch from the start of the stream, seconds.
+    pub fn epoch_offset_s(&self) -> Option<f64> {
+        self.t_s
+    }
+
+    /// Wall-clock receipt time of the latest epoch, Unix seconds.
+    pub fn last_sample_unix(&self) -> Option<f64> {
+        self.last_sample_unix
+    }
+
     /// The engine version the registry reports.
     pub fn version(&self) -> &str {
         &self.version
