@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.35.0] - 2026-10-10
+
+Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
+output already installed, with the tooling around it: live and gate modes, Signal K and
+OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
+exporters, signed evidence packs, a compliance mapping, a test-bench export, and the same
+capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
+class: everything below is **MODELLED** or checked for internal consistency; none of it adds a
+VALIDATED row, and the verification ledger is unchanged (251 rows: 124 Validated, 123 Modelled,
+4 Partner). The scores are advisory: this is not type-approved equipment and the operator stays
+responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
+generated NMEA text is for training. Galileo OSNMA verification is not in this release.
+
 ### Added (surfaces)
 
 - **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
