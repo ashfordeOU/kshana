@@ -1,7 +1,7 @@
 # OPT-IN gate: sits between the receiver and OpenCPN. The fix is marked invalid in the forwarded
-# stream while trust is collapsed, and $PKSHT is added. Read "Gate mode" in docs/MARITIME-TRUST.md
-# first: it adds latency, it is a single point in the chain, and it can withhold a good fix.
-# Do not enable this together with kshana-trust.service on the same serial port.
+# stream while trust is collapsed, and $PKSHT is added. It serves the gated stream itself on 127.0.0.1:10110.
+# Read "Gate mode" in docs/MARITIME-TRUST.md first: it adds latency, it is a single point in the chain, and it can
+# withhold a good fix. Do not enable this together with kshana-trust.service on the same serial port.
 # Advisory software, not type-approved equipment: the operator stays responsible for navigation.
 [Unit]
 Description=Kshana receiver-trust gate to TCP for OpenCPN (opt-in)
@@ -16,20 +16,44 @@ Group=kshana
 SupplementaryGroups=dialout
 ExecStartPre=/bin/stty -F /dev/ttyGNSS 115200 raw -echo -hupcl
 StandardInput=file:/dev/ttyGNSS
+# No shell and no pipeline: kshana serves the TCP port itself (--listen), loopback by default.
 ExecStart=/usr/local/bin/kshana receiver-trust live /etc/kshana/session.toml --gate --listen tcp:10110 --json /var/lib/kshana/trust.jsonl
 StandardOutput=journal
 StandardError=journal
-Restart=on-failure
-RestartSec=5
+# Always: if the gate is down the stream is down, so it must come back whatever the exit status.
+Restart=always
+RestartSec=2
 StateDirectory=kshana
+# Only loopback is needed for the default. To read the NMEA from a host on the boat LAN (--tcp) or to serve a
+# non-loopback address, add that address to IPAddressAllow= and drop the restriction accordingly.
+IPAddressDeny=any
+IPAddressAllow=localhost
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+# Sandbox. Nothing here needs more than reading a serial device and writing /var/lib/kshana.
+# ProtectClock= is deliberately absent: the empty CapabilityBoundingSet below already removes CAP_SYS_TIME, and
+# ProtectClock= implies a device allow-list that can block the serial device.
 NoNewPrivileges=yes
 ProtectSystem=strict
 ProtectHome=yes
 PrivateTmp=yes
 PrivateDevices=no
-RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
-CapabilityBoundingSet=
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
 SystemCallFilter=@system-service
+CapabilityBoundingSet=
+RemoveIPC=yes
+UMask=0077
 
 [Install]
 WantedBy=multi-user.target

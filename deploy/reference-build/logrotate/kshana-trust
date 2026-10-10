@@ -1,0 +1,12 @@
+# /etc/logrotate.d/kshana-trust: rotate the monitor's JSON-lines file. copytruncate because kshana keeps the
+# file open while it runs. Measured on the synthetic demo, a line is about 380 bytes: about 33 MB a day at 1 Hz.
+/var/lib/kshana/trust.jsonl {
+    daily
+    rotate 14
+    compress
+    delaycompress
+    missingok
+    notifempty
+    copytruncate
+    su kshana kshana
+}

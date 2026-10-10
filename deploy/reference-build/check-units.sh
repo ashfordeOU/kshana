@@ -8,21 +8,26 @@ command -v systemd-analyze >/dev/null || { echo "FAIL: systemd-analyze not found
 tmp="$(mktemp -d)"
 trap 'rm -rf "$tmp"' EXIT
 mkdir -p "$tmp/bin" "$tmp/etc"
-for b in kshana node stty sh; do printf '#!/bin/sh\nexit 0\n' > "$tmp/bin/$b"; chmod +x "$tmp/bin/$b"; done
+for b in kshana stty; do printf '#!/bin/sh\nexit 0\n' > "$tmp/bin/$b"; chmod +x "$tmp/bin/$b"; done
 : > "$tmp/etc/session.toml"; : > "$tmp/etc/relay.mjs"
 fail=0
 for u in "$here"/systemd/*.service; do
   n="$(basename "$u")"
   sed -e "s#/usr/local/bin/kshana#$tmp/bin/kshana#g" \
-      -e "s#/usr/bin/node#$tmp/bin/node#g" \
       -e "s#/bin/stty#$tmp/bin/stty#g" \
-      -e "s#ExecStart=/bin/sh#ExecStart=$tmp/bin/sh#" \
-      -e "s#/opt/kshana/nmea-tcp-relay.mjs#$tmp/etc/relay.mjs#g" \
       -e "s#/etc/kshana/session.toml#$tmp/etc/session.toml#g" "$u" > "$tmp/$n"
-  # the unit's user, group and serial device do not exist on a CI machine: those are the only
-  # findings tolerated, everything else (syntax, unknown keys, bad values, dependencies) fails.
+  # every finding fails: syntax, unknown keys, bad values, dependencies. Nothing is filtered out.
   out="$(systemd-analyze verify "$tmp/$n" 2>&1 || true)"
-  bad="$(printf '%s\n' "$out" | grep -v -i -E "user .*kshana|group .*kshana|dialout|ttyGNSS|Unit .* is not loaded|^$" || true)"
-  if [ -n "$bad" ]; then echo "FAIL $n"; printf '%s\n' "$bad"; fail=1; else echo "ok   $n"; fi
+  if [ -n "$out" ]; then echo "FAIL $n"; printf '%s\n' "$out"; fail=1; else echo "ok   $n"; fi
+  # guards that verify cannot give: no shell in ExecStart (a pipeline under /bin/sh is dash on Debian, where
+  # `set -o pipefail` aborts), the restart policy, and the sandbox keys
+  if grep -E '^ExecStart(Pre)?=.*(/bin/)?(ba)?sh( |$)' "$u" >/dev/null; then echo "FAIL $n: ExecStart runs a shell"; fail=1; fi
+  grep -q '^Restart=always' "$u" || { echo "FAIL $n: Restart=always missing"; fail=1; }
+  for k in NoNewPrivileges ProtectSystem ProtectKernelTunables ProtectKernelModules ProtectKernelLogs ProtectControlGroups \
+           ProtectHostname ProtectProc RestrictNamespaces RestrictRealtime RestrictSUIDSGID LockPersonality \
+           MemoryDenyWriteExecute SystemCallArchitectures UMask; do
+    grep -q "^$k=" "$u" || { echo "FAIL $n: $k= missing"; fail=1; }
+  done
+  grep -q '^PrivateNetwork=yes' "$u" || grep -q '^IPAddressDeny=any' "$u" || { echo "FAIL $n: no network restriction"; fail=1; }
 done
 exit $fail
