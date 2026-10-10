@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.34.0</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.34.1</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -90,6 +90,12 @@ and this project adheres to <a href="https://semver.org/spec/v2.0.0.html">Semant
 While the project is pre-1.0, the public scenario/result schema may still change;
 breaking changes are called out explicitly.</p>
 <h2 id="unreleased"><a href="https://github.com/AshfordeOU/kshana/compare/v0.30.0...HEAD">Unreleased</a><a class="anchor" href="#unreleased" aria-label="Link to this section">#</a></h2>
+<h2 id="0341---2026-10-10">[0.34.1] - 2026-10-10<a class="anchor" href="#0341---2026-10-10" aria-label="Link to this section">#</a></h2>
+<h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
+<ul>
+<li><strong>MCP server input hardened.</strong> The MCP server&#39;s scenario tools now accept inline content only
+and refuse file-source fields; input size is capped.</li>
+</ul>
 <h2 id="0340---2026-10-09">[0.34.0] - 2026-10-09<a class="anchor" href="#0340---2026-10-09" aria-label="Link to this section">#</a></h2>
 <p>Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
 recordings, with the loop designs, C/N0 estimators and scores that go with them. Evidence
@@ -453,7 +459,7 @@ default <code>bn_t_max = 0.1</code>); M2M4 is insensitive. BeiDou B1C data at 5 
 the signal-matrix T5 rows for GPS L2C and BeiDou B1C stay ignored findings with these causes.</li>
 </ul>
 <h2 id="0331---2026-10-08">[0.33.1] - 2026-10-08<a class="anchor" href="#0331---2026-10-08" aria-label="Link to this section">#</a></h2>
-<h3 id="security">Security<a class="anchor" href="#security" aria-label="Link to this section">#</a></h3>
+<h3 id="security-1">Security<a class="anchor" href="#security-1" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Chart text and Studio chart adoption hardened.</strong> Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio&#39;s address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
 Advisory: <a href="https://github.com/ashfordeOU/kshana/security/advisories/GHSA-h25h-cg9f-v2cg">GHSA-h25h-cg9f-v2cg</a>.</li>
@@ -3653,7 +3659,7 @@ shell. No verification job, golden pin or local gate script was removed or loose
 </ul>
 </li>
 </ul>
-<h3 id="security-1">Security<a class="anchor" href="#security-1" aria-label="Link to this section">#</a></h3>
+<h3 id="security-2">Security<a class="anchor" href="#security-2" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><p><strong>Every third-party GitHub Action is pinned by commit SHA</strong> — 93 references across
 15 workflows, 92 of them newly — with the tag kept as a trailing comment for
@@ -4584,7 +4590,7 @@ Apache-2.0 permissive terms can continue using the last Apache-2.0 release
 </ul>
 </li>
 </ul>
-<h3 id="security-2">Security<a class="anchor" href="#security-2" aria-label="Link to this section">#</a></h3>
+<h3 id="security-3">Security<a class="anchor" href="#security-3" aria-label="Link to this section">#</a></h3>
 <ul>
 <li><strong>Bumped <code>pyo3</code> 0.24 → 0.29</strong> to clear RUSTSEC-2026-0176 / RUSTSEC-2026-0177
 (GHSA-36hh-v3qg-5jq4 / GHSA-chgr-c6px-7xpp) from external OSV/dependency scans.
@@ -6703,7 +6709,7 @@ services, not license fees.</li>
 </div>
     <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/positioning"><small>Previous</small>Where Kshana sits</a><a class="next" href="/docs/licensing"><small>Next</small>Licensing</a></nav>
   </article>
-  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l2" href="#0340---2026-10-09">[0.34.0] - 2026-10-09</a><a class="l3" href="#added">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed">Fixed</a><a class="l3" href="#known-limitations">Known limitations</a><a class="l2" href="#0331---2026-10-08">[0.33.1] - 2026-10-08</a><a class="l3" href="#security">Security</a><a class="l2" href="#0330---2026-10-08">[0.33.0] - 2026-10-08</a><a class="l3" href="#documentation">Documentation</a><a class="l3" href="#added-1">Added</a><a class="l3" href="#changed-1">Changed</a><a class="l3" href="#fixed-1">Fixed</a><a class="l2" href="#0320---2026-10-05">[0.32.0] - 2026-10-05</a><a class="l3" href="#added-2">Added</a><a class="l2" href="#0310---2026-10-04">[0.31.0] - 2026-10-04</a><a class="l3" href="#added-3">Added</a><a class="l2" href="#0300---2026-10-03">0.30.0 - 2026-10-03</a><a class="l3" href="#validated">Validated</a><a class="l3" href="#findings">Findings</a><a class="l3" href="#validation-round-2">Validation round 2</a><a class="l3" href="#validation-packages">Validation packages</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#added-4">Added</a><a class="l2" href="#0293---2026-10-01">[0.29.3] - 2026-10-01</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#fixed-3">Fixed</a><a class="l2" href="#0292---2026-10-01">0.29.2 - 2026-10-01</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#changed-3">Changed</a><a class="l3" href="#fixed-4">Fixed</a><a class="l2" href="#0291---2026-10-01">0.29.1 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers">Revisions to published numbers</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-4">Changed</a><a class="l2" href="#0290---2026-10-01">0.29.0 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers-1">Revisions to published numbers</a><a class="l3" href="#added-7">Added</a><a class="l3" href="#changed-5">Changed</a><a class="l3" href="#fixed-5">Fixed</a><a class="l2" href="#0280---2026-09-26">0.28.0 - 2026-09-26</a><a class="l3" href="#added-8">Added</a><a class="l2" href="#0274---2026-09-26">0.27.4 - 2026-09-26</a><a class="l3" href="#fixed-6">Fixed</a><a class="l3" href="#changed-6">Changed</a><a class="l2" href="#0273---2026-09-25">0.27.3 - 2026-09-25</a><a class="l3" href="#added-9">Added</a><a class="l3" href="#fixed-7">Fixed</a><a class="l3" href="#changed-7">Changed</a><a class="l3" href="#security-1">Security</a><a class="l2" href="#0272---2026-09-22">0.27.2 - 2026-09-22</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#fixed-8">Fixed</a><a class="l3" href="#changed-8">Changed</a><a class="l2" href="#0271---2026-09-22">0.27.1 - 2026-09-22</a><a class="l3" href="#fixed-9">Fixed</a><a class="l3" href="#changed-9">Changed</a><a class="l2" href="#0270---2026-09-22">0.27.0 - 2026-09-22</a><a class="l3" href="#added-11">Added</a><a class="l3" href="#changed-10">Changed</a></nav>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#unreleased">Unreleased</a><a class="l2" href="#0341---2026-10-10">[0.34.1] - 2026-10-10</a><a class="l3" href="#security">Security</a><a class="l2" href="#0340---2026-10-09">[0.34.0] - 2026-10-09</a><a class="l3" href="#added">Added</a><a class="l3" href="#changed">Changed</a><a class="l3" href="#fixed">Fixed</a><a class="l3" href="#known-limitations">Known limitations</a><a class="l2" href="#0331---2026-10-08">[0.33.1] - 2026-10-08</a><a class="l3" href="#security-1">Security</a><a class="l2" href="#0330---2026-10-08">[0.33.0] - 2026-10-08</a><a class="l3" href="#documentation">Documentation</a><a class="l3" href="#added-1">Added</a><a class="l3" href="#changed-1">Changed</a><a class="l3" href="#fixed-1">Fixed</a><a class="l2" href="#0320---2026-10-05">[0.32.0] - 2026-10-05</a><a class="l3" href="#added-2">Added</a><a class="l2" href="#0310---2026-10-04">[0.31.0] - 2026-10-04</a><a class="l3" href="#added-3">Added</a><a class="l2" href="#0300---2026-10-03">0.30.0 - 2026-10-03</a><a class="l3" href="#validated">Validated</a><a class="l3" href="#findings">Findings</a><a class="l3" href="#validation-round-2">Validation round 2</a><a class="l3" href="#validation-packages">Validation packages</a><a class="l3" href="#fixed-2">Fixed</a><a class="l3" href="#added-4">Added</a><a class="l2" href="#0293---2026-10-01">[0.29.3] - 2026-10-01</a><a class="l3" href="#changed-2">Changed</a><a class="l3" href="#fixed-3">Fixed</a><a class="l2" href="#0292---2026-10-01">0.29.2 - 2026-10-01</a><a class="l3" href="#added-5">Added</a><a class="l3" href="#changed-3">Changed</a><a class="l3" href="#fixed-4">Fixed</a><a class="l2" href="#0291---2026-10-01">0.29.1 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers">Revisions to published numbers</a><a class="l3" href="#added-6">Added</a><a class="l3" href="#changed-4">Changed</a><a class="l2" href="#0290---2026-10-01">0.29.0 - 2026-10-01</a><a class="l3" href="#revisions-to-published-numbers-1">Revisions to published numbers</a><a class="l3" href="#added-7">Added</a><a class="l3" href="#changed-5">Changed</a><a class="l3" href="#fixed-5">Fixed</a><a class="l2" href="#0280---2026-09-26">0.28.0 - 2026-09-26</a><a class="l3" href="#added-8">Added</a><a class="l2" href="#0274---2026-09-26">0.27.4 - 2026-09-26</a><a class="l3" href="#fixed-6">Fixed</a><a class="l3" href="#changed-6">Changed</a><a class="l2" href="#0273---2026-09-25">0.27.3 - 2026-09-25</a><a class="l3" href="#added-9">Added</a><a class="l3" href="#fixed-7">Fixed</a><a class="l3" href="#changed-7">Changed</a><a class="l3" href="#security-2">Security</a><a class="l2" href="#0272---2026-09-22">0.27.2 - 2026-09-22</a><a class="l3" href="#added-10">Added</a><a class="l3" href="#fixed-8">Fixed</a><a class="l3" href="#changed-8">Changed</a><a class="l2" href="#0271---2026-09-22">0.27.1 - 2026-09-22</a><a class="l3" href="#fixed-9">Fixed</a><a class="l3" href="#changed-9">Changed</a><a class="l2" href="#0270---2026-09-22">0.27.0 - 2026-09-22</a></nav>
 </div>
 </main>
 
@@ -6716,7 +6722,7 @@ services, not license fees.</li>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.34.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Kshana v0.34.1 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
       <span>Every chart is drawn from a recorded run of engine v0.34.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>

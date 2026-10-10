@@ -472,7 +472,7 @@ dependencies = [
 
 [[package]]
 name = "kshana"
-version = "0.34.0"
+version = "0.34.1"
 dependencies = [
  "ed25519-dalek",
  "flate2",
@@ -491,7 +491,7 @@ dependencies = [
 
 [[package]]
 name = "kshana-mcp"
-version = "0.34.0"
+version = "0.34.1"
 dependencies = [
  "anyhow",
  "kshana",
