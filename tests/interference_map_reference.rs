@@ -40,11 +40,24 @@ const NIC_LOW_RC_MIN_M: f64 = 1851.0;
 const NIC_GOOD_RC_MAX_M: f64 = 371.0;
 /// b2: decoded speed equality.
 const AIS_SPEED_TOL: f64 = 1e-9;
-/// d1, d2: relative tolerance on route length (sphere radius 6371.0088 km against the WGS84
-/// ellipsoid; the largest difference is 0.57%).
+/// d1, d2: relative tolerance on route length.
+///
+/// Derivation (from the geometry, fixed before any result was seen). Kshana measures length on a
+/// sphere of radius R = 6371.0088 km; the oracle measures it on the WGS84 ellipsoid. A short arc
+/// of length s along a meridian is s * R / M(lat) times its ellipsoidal length, where M is the
+/// meridional radius of curvature, which runs from 6335.4 km at the equator to 6399.6 km at the
+/// pole; along a parallel the radius is the prime-vertical radius N(lat), 6378.1 km at the equator
+/// down to 6356.8 km at the pole in the limit. The relative difference |R - r| / r is therefore at
+/// most max(|6371.0088 - 6335.4|, |6371.0088 - 6399.6|, |6371.0088 - 6378.1|) / 6335.4 = 0.56%
+/// (0.57% with the polar value). 0.6% is that bound rounded up.
 const ROUTE_REL_TOL: f64 = 0.006;
-/// d2: metres per oracle piece (Kshana assigns 250 m pieces by midpoint, so one cell boundary can
-/// misassign at most half a piece).
+/// d2: metres per oracle piece.
+///
+/// Derivation. Kshana cuts each leg into pieces of at most 250 m and gives each piece to the cell
+/// holding its midpoint. A cell boundary falls somewhere inside one piece, and the piece is given
+/// whole to one side, so at most half a piece (125 m) is attributed to the wrong cell per
+/// boundary crossing. An oracle piece is a leg inside one cell, so the number of crossings is
+/// bounded by the number of oracle pieces, and the per-state length error by 125 m per piece.
 const ROUTE_PIECE_TOL_M: f64 = 125.0;
 /// e: inland buffer, metres.
 const LAND_BUFFER_M: f64 = 2000.0;
