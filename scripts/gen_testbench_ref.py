@@ -9,9 +9,7 @@ Oracles (dev-only; pinned versions, none of them shares authors or code with ksh
                                           topocentric (local east-north-up) rotation
     geographiclib   2.1     geodesic distance between the NMEA and CSV positions
     pynmea2         1.19.0  NMEA 0183 parsing: checksum validation and decoded values
-    scipy           see TESTBENCH_SCIPY below
-                                          scipy.spatial.transform.Rotation: quaternion to
-                                          yaw-pitch-roll
+    scipy           1.18.1  scipy.spatial.transform.Rotation: quaternion to yaw-pitch-roll
     numpy           2.5.3
 
 What it does, on SYNTHETIC scenarios only (the bundled `gnss-ins`, `automotive-urban-canyon`,
@@ -56,6 +54,7 @@ PINS = {
     "pyproj": "3.8.0",
     "geographiclib": "2.1",
     "pynmea2": "1.19.0",
+    "scipy": "1.18.1",
 }
 
 HERE = os.path.dirname(os.path.abspath(__file__))
@@ -143,7 +142,11 @@ def main():
     args = ap.parse_args()
 
     for mod, want in PINS.items():
-        have = {"pyproj": pyproj.__version__, "pynmea2": pynmea2.__version__}.get(mod)
+        have = {
+            "pyproj": pyproj.__version__,
+            "pynmea2": pynmea2.__version__,
+            "scipy": scipy.__version__,
+        }.get(mod)
         if mod == "geographiclib":
             import geographiclib
 
@@ -159,7 +162,6 @@ def main():
         "generated_by": "scripts/gen_testbench_ref.py",
         "oracles": {
             **PINS,
-            "scipy": scipy.__version__,
             "numpy": np.__version__,
             "proj": pyproj.proj_version_str,
         },

@@ -149,8 +149,9 @@ fn oracle_versions_are_the_pinned_ones() {
     let o = &r["oracles"];
     assert_eq!(o["pyproj"], "3.8.0");
     assert_eq!(o["geographiclib"], "2.1");
+    assert_eq!(o["scipy"], "1.18.1");
     assert_eq!(o["pynmea2"], "1.19.0");
-    assert!(o["scipy"].as_str().is_some() && o["numpy"].as_str().is_some());
+    assert!(o["numpy"].as_str().is_some());
 }
 
 #[test]
