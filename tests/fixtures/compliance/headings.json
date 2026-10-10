@@ -1,0 +1,531 @@
+{
+ "generated_by": "scripts/gen_compliance_refs.py",
+ "read_on": "2026-10-10",
+ "note": "Headings, section numbers, paragraph numbers and list letters only; no body text.",
+ "documents": {
+  "dhs-rpcf": {
+   "read_from": "https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf (a copy fetched with the Claude Code WebFetch tool; the publisher answers a scripted client with HTTP 403)",
+   "sha256": "f9e55aa93f9c0c7d1d51a06fbb1cb541504cb631df1ced61349d609ef9463070",
+   "bytes": 2045376,
+   "entries": [
+    {
+     "id": "1.0",
+     "heading": "INTRODUCTION AND BACKGROUND"
+    },
+    {
+     "id": "2.0",
+     "heading": "FRAMEWORK OBJECTIVES"
+    },
+    {
+     "id": "3.0",
+     "heading": "EXPECTED USAGE"
+    },
+    {
+     "id": "3.1",
+     "heading": "Guidance and Standards"
+    },
+    {
+     "id": "4.0",
+     "heading": "PNT USER EQUIPMENT BOUNDARIES"
+    },
+    {
+     "id": "5.0",
+     "heading": "KEY CONCEPTS OF THE FRAMEWORK"
+    },
+    {
+     "id": "5.2",
+     "heading": "Core Functions"
+    },
+    {
+     "id": "5.3",
+     "heading": "Resilience Levels"
+    },
+    {
+     "id": "5.4",
+     "heading": "Rationale for Resilience Levels"
+    },
+    {
+     "id": "5.5",
+     "heading": "Minimum Requirements for Resilience Levels"
+    },
+    {
+     "id": "5.5",
+     "heading": "Common Mode"
+    },
+    {
+     "id": "6.0",
+     "heading": "REFERENCE ARCHITECTURE EXAMPLES"
+    },
+    {
+     "id": "6.4",
+     "heading": "Additional Observables"
+    },
+    {
+     "id": "7.0",
+     "heading": "SOFTWARE ASSURANCE"
+    },
+    {
+     "id": "8.0",
+     "heading": "EVALUATION"
+    },
+    {
+     "id": "8.1",
+     "heading": "Evaluation Coverage"
+    },
+    {
+     "id": "8.2",
+     "heading": "Static Analysis"
+    },
+    {
+     "id": "8.3",
+     "heading": "Dynamic Analysis"
+    },
+    {
+     "id": "8.4",
+     "heading": "Evaluation Process"
+    },
+    {
+     "id": "8.5",
+     "heading": "Evaluation Methods"
+    },
+    {
+     "id": "8.6",
+     "heading": "Test Plans"
+    },
+    {
+     "id": "8.7",
+     "heading": "Other Analysis and Documentation"
+    },
+    {
+     "id": "L0",
+     "heading": "Level 0"
+    },
+    {
+     "id": "L1",
+     "heading": "Level 1"
+    },
+    {
+     "id": "L1R1",
+     "heading": ""
+    },
+    {
+     "id": "L1R2",
+     "heading": ""
+    },
+    {
+     "id": "L1R3",
+     "heading": ""
+    },
+    {
+     "id": "L2",
+     "heading": "Level 2"
+    },
+    {
+     "id": "L2R4",
+     "heading": ""
+    },
+    {
+     "id": "L2R5",
+     "heading": ""
+    },
+    {
+     "id": "L3",
+     "heading": "Level 3"
+    },
+    {
+     "id": "L3R6",
+     "heading": ""
+    },
+    {
+     "id": "L3R7",
+     "heading": ""
+    },
+    {
+     "id": "L4",
+     "heading": "Level 4"
+    },
+    {
+     "id": "L4R8",
+     "heading": ""
+    }
+   ]
+  },
+  "imo-1644": {
+   "read_from": "https://rntfnd.org/wp-content/uploads/IMO-Circular-MSC.1-Circ.1644-Deliberate-Interference-With-The-United-States-Global-Positioning-System-Gps-And-Other...-Secretariat.pdf_safe.pdf (third-party mirror of the circular)",
+   "sha256": "4eb5a910be7e501494b8eb26af20b0475c77b6f90efe753767bfe2462c0b38e0",
+   "bytes": 100343,
+   "entries": [
+    {
+     "id": "1",
+     "heading": ""
+    },
+    {
+     "id": "2",
+     "heading": ""
+    },
+    {
+     "id": "3",
+     "heading": ""
+    },
+    {
+     "id": "4",
+     "heading": ""
+    },
+    {
+     "id": "5",
+     "heading": ""
+    },
+    {
+     "id": "6",
+     "heading": ""
+    }
+   ]
+  },
+  "imo-a1046": {
+   "read_from": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/AssemblyDocuments/A.1046(27).pdf",
+   "sha256": "b8ecb4655f53853537241e42e5b9dbdd82e308dcca741ff30f8a7fc0b2096e14",
+   "bytes": 566225,
+   "entries": [
+    {
+     "id": "1",
+     "heading": "INTRODUCTION"
+    },
+    {
+     "id": "2",
+     "heading": "PROCEDURES AND RESPONSIBILITIES CONCERNING THE RECOGNITION OF SYSTEMS"
+    },
+    {
+     "id": "3",
+     "heading": "SHIPBORNE RECEIVING EQUIPMENT"
+    },
+    {
+     "id": "1",
+     "heading": "INTRODUCTION"
+    },
+    {
+     "id": "2",
+     "heading": "NAVIGATION IN OCEAN WATERS"
+    },
+    {
+     "id": "3",
+     "heading": "NAVIGATION IN HARBOUR ENTRANCES, HARBOUR APPROACHES AND"
+    }
+   ]
+  },
+  "imo-401": {
+   "read_from": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MSCResolutions/MSC.401(95).pdf",
+   "sha256": "5462f7317a4ab37f1ff4b08856c1f6ad1438b5cb5745c2a2221f54ceaf4af6ea",
+   "bytes": 643779,
+   "entries": [
+    {
+     "id": "1.1",
+     "heading": ""
+    },
+    {
+     "id": "1.2",
+     "heading": ""
+    },
+    {
+     "id": "1.3",
+     "heading": ""
+    },
+    {
+     "id": "1.4",
+     "heading": ""
+    },
+    {
+     "id": "1.5",
+     "heading": ""
+    },
+    {
+     "id": "1.6",
+     "heading": ""
+    },
+    {
+     "id": "1.7",
+     "heading": ""
+    },
+    {
+     "id": "1.8",
+     "heading": ""
+    },
+    {
+     "id": "1.9",
+     "heading": ""
+    },
+    {
+     "id": "2.1",
+     "heading": ""
+    },
+    {
+     "id": "2.2",
+     "heading": ""
+    },
+    {
+     "id": "2.3",
+     "heading": ""
+    },
+    {
+     "id": "3.1",
+     "heading": ""
+    },
+    {
+     "id": "3.2",
+     "heading": ""
+    },
+    {
+     "id": "3.3",
+     "heading": ""
+    },
+    {
+     "id": "3.4",
+     "heading": ""
+    },
+    {
+     "id": "3.5",
+     "heading": ""
+    },
+    {
+     "id": "3.6",
+     "heading": ""
+    },
+    {
+     "id": "3.7",
+     "heading": ""
+    },
+    {
+     "id": "3.8",
+     "heading": ""
+    },
+    {
+     "id": "3.9",
+     "heading": ""
+    },
+    {
+     "id": "3.10",
+     "heading": ""
+    },
+    {
+     "id": "3.11",
+     "heading": ""
+    },
+    {
+     "id": "3.12",
+     "heading": ""
+    },
+    {
+     "id": "3.13",
+     "heading": ""
+    },
+    {
+     "id": "3.14",
+     "heading": ""
+    },
+    {
+     "id": "3.15",
+     "heading": ""
+    },
+    {
+     "id": "3.16",
+     "heading": ""
+    },
+    {
+     "id": "4.1",
+     "heading": ""
+    },
+    {
+     "id": "4.2",
+     "heading": ""
+    },
+    {
+     "id": "4.3",
+     "heading": ""
+    },
+    {
+     "id": "5.1",
+     "heading": ""
+    },
+    {
+     "id": "5.2",
+     "heading": ""
+    },
+    {
+     "id": "5.3",
+     "heading": ""
+    },
+    {
+     "id": "5.4",
+     "heading": ""
+    },
+    {
+     "id": "5.5",
+     "heading": ""
+    }
+   ]
+  },
+  "easa-sib": {
+   "read_from": "https://ad.easa.europa.eu/ad/2022-02R4 (the bulletin PDF behind that page, https://ad.easa.europa.eu/blob/EASA_SIB_2022_02R4.pdf/SIB_2022-02R4_1)",
+   "sha256": "4a194f935f9ba5ee2f65f8397e502e3017693d5c79519b4e531b19b7c6144508",
+   "bytes": 534415,
+   "entries": [
+    {
+     "id": "Revision",
+     "heading": "Revision"
+    },
+    {
+     "id": "Applicability",
+     "heading": "Applicability"
+    },
+    {
+     "id": "Description",
+     "heading": "Description"
+    },
+    {
+     "id": "The list of affected flight information regions (FIR) is published on the EASA website at",
+     "heading": "The list of affected flight information regions (FIR) is published on the EASA website at"
+    },
+    {
+     "id": "Ground Based Augmentation Systems (GBAS))",
+     "heading": "Ground Based Augmentation Systems (GBAS))"
+    },
+    {
+     "id": "Recommendation(s)",
+     "heading": "Recommendation(s)"
+    },
+    {
+     "id": "NCAs should",
+     "heading": "NCAs should"
+    },
+    {
+     "id": "ATM/ANS providers should",
+     "heading": "ATM/ANS providers should"
+    },
+    {
+     "id": "Air operators should",
+     "heading": "Air operators should"
+    },
+    {
+     "id": "Aircraft and equipment manufacturers, should",
+     "heading": "Aircraft and equipment manufacturers, should"
+    },
+    {
+     "id": "Organisations involved in the design or production of ATM/ANS equipment, should",
+     "heading": "Organisations involved in the design or production of ATM/ANS equipment, should"
+    },
+    {
+     "id": "Contact(s)",
+     "heading": "Contact(s)"
+    }
+   ]
+  },
+  "nis2": {
+   "read_from": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022L2555 (read as https://publications.europa.eu/resource/celex/32022L2555, the act as XHTML from the EU Publications Office; the cited EUR-Lex page answers a scripted client with an HTTP 202 challenge)",
+   "sha256": "6ee66d5c419d9a056fb98d94083cacf9b818803bd6b416435718e0d4919cb589",
+   "bytes": 702913,
+   "entries": [
+    {
+     "id": "21",
+     "heading": "Cybersecurity risk-management measures"
+    },
+    {
+     "id": "21(1)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)",
+     "heading": ""
+    },
+    {
+     "id": "21(3)",
+     "heading": ""
+    },
+    {
+     "id": "21(4)",
+     "heading": ""
+    },
+    {
+     "id": "21(5)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(a)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(b)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(c)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(d)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(e)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(f)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(g)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(h)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(i)",
+     "heading": ""
+    },
+    {
+     "id": "21(2)(j)",
+     "heading": ""
+    }
+   ]
+  },
+  "en16803-1": {
+   "read_from": "https://www.evs.ee/en/evs-en-16803-1-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
+   "sha256": "3e27ef87f48c14b4597b0990308237fc2896edbcff07ba2af48f4379f96f07d5",
+   "bytes": 67132,
+   "entries": [],
+   "catalogue": {
+    "title": "EVS-EN 16803-1:2020 - EVS standard evs.ee | en",
+    "mentions": [
+     "Part 1"
+    ]
+   }
+  },
+  "en16803-2": {
+   "read_from": "https://www.evs.ee/en/evs-en-16803-2-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
+   "sha256": "18447fda3a7596146ebc0d76e1a922e2f1530e140cc1825b735d6f0209891179",
+   "bytes": 68894,
+   "entries": [],
+   "catalogue": {
+    "title": "EVS-EN 16803-2:2020 - EVS standard evs.ee | en",
+    "mentions": [
+     "Part 2"
+    ]
+   }
+  },
+  "en16803-3": {
+   "read_from": "https://www.evs.ee/en/evs-en-16803-3-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
+   "sha256": "c980238fbb6023b5cefed68230f14a2f3a3cfebdb6d887b5054fbe3f7b353c75",
+   "bytes": 67226,
+   "entries": [],
+   "catalogue": {
+    "title": "EVS-EN 16803-3:2020 - EVS standard evs.ee | en",
+    "mentions": [
+     "Part 3",
+     "Clause 6",
+     "Annex A"
+    ]
+   }
+  }
+ }
+}
