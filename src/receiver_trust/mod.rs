@@ -26,6 +26,10 @@ pub mod synth;
 
 use serde::{Deserialize, Serialize};
 
+/// The statement every vessel output carries: what this software is and is not.
+pub const ADVISORY: &str = "Advisory software, not type-approved navigation equipment \
+(IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.";
+
 /// The receiver-log formats the kind reads.
 #[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize, Deserialize)]
 #[serde(rename_all = "kebab-case")]
@@ -137,6 +141,11 @@ pub struct MarineObs {
     /// sentence, in arrival order, s (midnight-aware). Negative when the receiver's time
     /// ran backwards. `None` for the first epoch and for a repeat of the same time.
     pub time_step_s: Option<f64>,
+    /// This epoch's time is earlier than a time already seen earlier in the stream: the
+    /// receiver's time ran backwards or a stretch of the stream was replayed. Such an epoch is
+    /// never part of the calibration window, whatever its time says.
+    #[serde(default, skip_serializing_if = "std::ops::Not::not")]
+    pub time_rewound: bool,
     /// Arrival time of the epoch's first timed sentence on the host's monotonic clock, s
     /// (live input only).
     pub arrival_s: Option<f64>,
