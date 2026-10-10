@@ -41,7 +41,14 @@ fn normalised(path: &Path) -> serde_json::Value {
 #[test]
 fn committed_samples_match_the_regeneration_command() {
     let r = root();
-    let out = std::env::temp_dir().join(format!("kshana-imap-examples-{}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let out = std::env::temp_dir().join(format!(
+        "kshana-imap-examples-{}-{}",
+        std::process::id(),
+        uniq
+    ));
     let _ = std::fs::remove_dir_all(&out);
     struct Cleanup(PathBuf);
     impl Drop for Cleanup {

@@ -254,6 +254,8 @@ speed_kn = 12
     fn steady_course_matches_speed_and_heading() {
         let s = scn("heading_deg = 90\n");
         let t = generate(&s);
+        // PIN-SCOPE:    the number of track points of a 1200 s scenario at 1 Hz, both ends included
+        // PIN-EXCLUDES: every point's value, which the assertions below check separately
         assert_eq!(t.len(), 1201);
         let last = t.last().unwrap();
         // 12 kn due east for 1200 s is 7408 m.

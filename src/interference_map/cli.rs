@@ -31,6 +31,8 @@ pub const ROUTE_USAGE: &str = "usage: kshana route-exposure --route <route.geojs
 /// The URL names one commit of the upstream repository, and the download is checked against
 /// the SHA-256 below before it is kept, so the file cannot change under the command.
 pub const NATURAL_EARTH_LAND_URL: &str = "https://raw.githubusercontent.com/nvkelso/natural-earth-vector/ca96624a56bd078437bca8184e78163e5039ad19/geojson/ne_10m_land.geojson";
+// PIN-SCOPE:    the SHA-256 of every byte of the Natural Earth land file at the commit named in the URL above
+// PIN-EXCLUDES: nothing; any change to the file or to the commit fails the download check by design
 /// The SHA-256 the downloaded land file must have (lowercase hex).
 pub const NATURAL_EARTH_LAND_SHA256: &str =
     "1ac90796408bc6ad6911d69448485d3c4dbf2190370080368a09976e1c9f7416";
@@ -548,11 +550,17 @@ mod tests {
     }
 
     fn scratch(name: &str) -> Scratch {
-        let d =
-            std::env::temp_dir().join(format!("kshana-imap-unit-{}-{name}", std::process::id()));
-        let _ = std::fs::remove_dir_all(&d);
-        std::fs::create_dir_all(&d).unwrap();
-        Scratch(d)
+        use std::sync::atomic::{AtomicU64, Ordering};
+        static SEQ: AtomicU64 = AtomicU64::new(0);
+        let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+        let dir = std::env::temp_dir().join(format!(
+            "kshana-imap-unit-{}-{name}-{}",
+            std::process::id(),
+            uniq
+        ));
+        let _ = std::fs::remove_dir_all(&dir);
+        std::fs::create_dir_all(&dir).unwrap();
+        Scratch(dir)
     }
 
     #[test]
@@ -561,6 +569,8 @@ mod tests {
         let (part, dest) = (d.join("f.part"), d.join("f"));
         std::fs::write(&part, b"abc").unwrap();
         // SHA-256 of "abc" (FIPS 180-2 test vector).
+        // PIN-SCOPE:    the SHA-256 of the three bytes `abc`, the FIPS 180-2 test vector
+        // PIN-EXCLUDES: any downloaded content; this is a standard vector, not a recorded result
         let abc = "ba7816bf8f01cfea414140de5dae2223b00361a396177a9cb410ff61f20015ad";
         verify_and_keep(&part, &dest, abc).unwrap();
         assert!(dest.exists() && !part.exists());
@@ -579,6 +589,8 @@ mod tests {
     #[test]
     fn pinned_download_address_is_https_and_commit_pinned() {
         assert!(NATURAL_EARTH_LAND_URL.starts_with("https://"));
+        // PIN-SCOPE:    the upstream commit id inside NATURAL_EARTH_LAND_URL
+        // PIN-EXCLUDES: the file content, which NATURAL_EARTH_LAND_SHA256 covers
         assert!(NATURAL_EARTH_LAND_URL.contains("ca96624a56bd078437bca8184e78163e5039ad19"));
         assert_eq!(NATURAL_EARTH_LAND_SHA256.len(), 64);
     }

@@ -62,6 +62,7 @@ fn names(v: Option<&Value>) -> Vec<String> {
 
 /// Render the summary.
 pub fn render(i: &SummaryInput<'_>) -> String {
+    use crate::palette::{dark, light};
     let mut h = String::new();
     let _ = writeln!(
         h,
@@ -69,15 +70,27 @@ pub fn render(i: &SummaryInput<'_>) -> String {
 <meta http-equiv=\"Content-Security-Policy\" content=\"default-src 'none'; style-src 'unsafe-inline'\">\n\
 <meta name=\"viewport\" content=\"width=device-width, initial-scale=1\">\n\
 <title>{t}</title>\n<style>\n\
-body{{font:15px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem;color:#1b1f24;background:#fff}}\n\
+body{{font:15px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem;color:{l_ink};background:{l_bg}}}\n\
 h1{{font-size:1.5rem}}h2{{font-size:1.1rem;margin-top:2rem}}\n\
-.box{{border:2px solid #8a5a00;background:#fff7e6;padding:.75rem 1rem;border-radius:6px}}\n\
-table{{border-collapse:collapse;width:100%}}td,th{{border-bottom:1px solid #d0d7de;padding:.25rem .5rem;text-align:left;vertical-align:top}}\n\
+.box{{border:2px solid {l_amber};background:{l_panel};padding:.75rem 1rem;border-radius:6px}}\n\
+table{{border-collapse:collapse;width:100%}}td,th{{border-bottom:1px solid {l_rule};padding:.25rem .5rem;text-align:left;vertical-align:top}}\n\
 code{{font:13px ui-monospace,monospace;word-break:break-all}}\n\
-.s-untrusted{{color:#b42318;font-weight:600}}.s-degraded{{color:#8a5a00;font-weight:600}}\n\
-@media (prefers-color-scheme:dark){{body{{background:#0d1117;color:#e6edf3}}.box{{background:#2b2110;border-color:#d29922}}td,th{{border-color:#30363d}}.s-untrusted{{color:#ff7b72}}.s-degraded{{color:#e3b341}}}}\n\
+.s-untrusted{{color:{l_coral};font-weight:600}}.s-degraded{{color:{l_amber};font-weight:600}}\n\
+@media (prefers-color-scheme:dark){{body{{background:{d_bg};color:{d_ink}}}.box{{background:{d_panel};border-color:{d_amber}}}td,th{{border-color:{d_rule}}}.s-untrusted{{color:{d_coral}}}.s-degraded{{color:{d_amber}}}}}\n\
 </style></head><body>",
-        t = esc(i.title)
+        t = esc(i.title),
+        l_ink = light::INK,
+        l_bg = light::BG,
+        l_amber = light::AMBER,
+        l_panel = light::PANEL,
+        l_rule = light::RULE,
+        l_coral = light::CORAL,
+        d_bg = dark::BG,
+        d_ink = dark::INK,
+        d_panel = dark::PANEL_2,
+        d_amber = dark::AMBER,
+        d_rule = dark::RULE,
+        d_coral = dark::CORAL
     );
     let _ = writeln!(h, "<h1>{}</h1>", esc(i.title));
     let _ = writeln!(

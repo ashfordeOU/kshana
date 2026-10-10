@@ -218,6 +218,8 @@ mod tests {
 
     #[test]
     fn payload_shape() {
+        // PIN-SCOPE:    a fixed Unix-nanosecond timestamp passed in, so the payload is deterministic
+        // PIN-EXCLUDES: the wall clock, which the exporter reads only outside this function
         let p = build_payload(&reg(), 1_700_000_000_000_000_000);
         let m = &p["resourceMetrics"][0]["scopeMetrics"][0]["metrics"];
         let names: Vec<&str> = m
@@ -303,6 +305,8 @@ mod tests {
             },
             Some(1_700_000_000.0),
         );
+        // PIN-SCOPE:    a fixed Unix-nanosecond timestamp passed in, and the start time derived from the sample
+        // PIN-EXCLUDES: the wall clock, which the exporter reads only outside this function
         let p = build_payload(&r, 1_700_000_100_000_000_000);
         let m = &p["resourceMetrics"][0]["scopeMetrics"][0]["metrics"];
         let sum = m
