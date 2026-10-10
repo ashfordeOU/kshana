@@ -10,6 +10,7 @@ use super::sample::{Band, Position, TrustSample};
 use std::collections::BTreeMap;
 use std::io::{Read, Write};
 use std::net::{SocketAddr, TcpListener, TcpStream};
+use std::sync::atomic::{AtomicU64, Ordering};
 use std::sync::{Arc, Mutex};
 use std::time::Duration;
 
@@ -27,8 +28,19 @@ pub struct Registry {
     reason_active: BTreeMap<String, bool>,
     reason_epochs: BTreeMap<String, u64>,
     input_errors: u64,
+    reason_overflow: u64,
+    syslog_failures: Arc<AtomicU64>,
+    started_unix: Option<f64>,
     last_sample_unix: Option<f64>,
 }
+
+/// Most distinct reason names kept as label values; later ones are folded into `other`.
+/// Bounds the series count a hostile or buggy input can create.
+pub const MAX_REASONS: usize = 64;
+/// Longest reason name kept, in characters.
+pub const MAX_REASON_LEN: usize = 128;
+/// The gate states the live stream defines, plus a catch-all.
+const GATES: [&str; 4] = ["off", "passed", "withheld", "unknown"];
 
 /// A registry shared between the ingest loop and the HTTP thread.
 pub type SharedRegistry = Arc<Mutex<Registry>>;
@@ -55,12 +67,37 @@ impl Registry {
             *v = false;
         }
         for r in &s.reasons {
-            self.reason_active.insert(r.clone(), true);
-            *self.reason_epochs.entry(r.clone()).or_insert(0) += 1;
+            let name = self.reason_key(r);
+            self.reason_active.insert(name.clone(), true);
+            *self.reason_epochs.entry(name).or_insert(0) += 1;
         }
         if now_unix.is_some() {
             self.last_sample_unix = now_unix;
+            self.started_unix
+                .get_or_insert(now_unix.unwrap_or_default());
         }
+    }
+
+    /// The label value a reason is recorded under: truncated, and folded into `other` once
+    /// [`MAX_REASONS`] distinct names are in use.
+    fn reason_key(&mut self, r: &str) -> String {
+        let name: String = r.chars().take(MAX_REASON_LEN).collect();
+        if self.reason_epochs.contains_key(&name) || self.reason_epochs.len() < MAX_REASONS {
+            return name;
+        }
+        self.reason_overflow += 1;
+        "other".to_string()
+    }
+
+    /// The shared counter of syslog messages that were not delivered; hand it to
+    /// [`super::syslog::SyslogSink::start`].
+    pub fn syslog_failure_counter(&self) -> Arc<AtomicU64> {
+        Arc::clone(&self.syslog_failures)
+    }
+
+    /// Wall-clock time of the first epoch, Unix nanoseconds (the start of cumulative sums).
+    pub fn started_unix_nano(&self) -> Option<u64> {
+        self.started_unix.map(|t| (t * 1e9) as u64)
     }
 
     /// Publish the receiver-reported position as gauges. Off by default: `/metrics` is
@@ -138,13 +175,20 @@ impl Registry {
             header(
                 &mut o,
                 "kshana_trust_gate",
-                "Latest gate state of the live stream: 1 for the current state (off, passed or withheld).",
+                "Latest gate state of the live stream: 1 for the current state, 0 for the others.",
                 "gauge",
             );
-            o.push_str(&format!(
-                "kshana_trust_gate{{gate=\"{}\"}} 1\n",
-                escape_label(g)
-            ));
+            let cur = if GATES[..3].contains(&g.as_str()) {
+                g.as_str()
+            } else {
+                "unknown"
+            };
+            for st in GATES {
+                o.push_str(&format!(
+                    "kshana_trust_gate{{gate=\"{st}\"}} {}\n",
+                    u8::from(st == cur)
+                ));
+            }
         }
         if let (true, Some(p)) = (self.expose_position, self.position) {
             for (name, help, v) in [
@@ -216,6 +260,26 @@ impl Registry {
             "kshana_trust_input_errors_total {}\n",
             self.input_errors
         ));
+        header(
+            &mut o,
+            "kshana_trust_reason_overflow_total",
+            "Reason occurrences folded into reason=\"other\" because 64 distinct reasons were already in use.",
+            "counter",
+        );
+        o.push_str(&format!(
+            "kshana_trust_reason_overflow_total {}\n",
+            self.reason_overflow
+        ));
+        header(
+            &mut o,
+            "kshana_trust_syslog_send_failures_total",
+            "Syslog events not delivered (queue full, collector down or stalled).",
+            "counter",
+        );
+        o.push_str(&format!(
+            "kshana_trust_syslog_send_failures_total {}\n",
+            self.syslog_failures.load(Ordering::Relaxed)
+        ));
         if let Some(t) = self.t_s {
             header(
                 &mut o,
@@ -273,8 +337,9 @@ fn fmt_f64(x: f64) -> String {
 }
 
 /// Serve `GET /metrics` (and `GET /healthz`) on `addr` from a background thread. Returns
-/// the bound address (useful with port 0). Requests are handled one at a time with a short
-/// read timeout; the request head is capped at 8 KiB.
+/// the bound address (useful with port 0). Requests are handled one at a time with a 2 s
+/// read timeout, so an idle client can delay a scrape by up to that long; the request head is
+/// capped at 8 KiB. Meant for one scraper, not the open network.
 pub fn serve(addr: SocketAddr, reg: SharedRegistry) -> std::io::Result<SocketAddr> {
     let listener = TcpListener::bind(addr)?;
     let bound = listener.local_addr()?;
@@ -377,6 +442,66 @@ mod tests {
         let t = r.render();
         assert!(t.contains("kshana_trust_position_latitude_degrees 59.5\n"));
         assert!(t.contains("kshana_trust_position_height_meters 39.4\n"));
+    }
+
+    #[test]
+    fn reason_cardinality_is_capped_and_overflow_counted() {
+        let mut r = Registry::new("t");
+        for i in 0..(MAX_REASONS + 10) {
+            r.observe(
+                &sample(i as f64, None, Band::Degraded, &[&format!("r{i}")]),
+                None,
+            );
+        }
+        // An existing reason keeps its own series after the cap is reached.
+        r.observe(&sample(999.0, None, Band::Degraded, &["r0"]), None);
+        let t = r.render();
+        let series = t
+            .lines()
+            .filter(|l| l.starts_with("kshana_trust_reason_epochs_total{"))
+            .count();
+        assert_eq!(series, MAX_REASONS + 1, "64 named reasons plus `other`");
+        assert!(t.contains("kshana_trust_reason_epochs_total{reason=\"other\"} 10\n"));
+        assert!(t.contains("kshana_trust_reason_overflow_total 10\n"));
+        assert!(t.contains("kshana_trust_reason_epochs_total{reason=\"r0\"} 2\n"));
+    }
+
+    #[test]
+    fn long_reason_names_are_truncated() {
+        let mut r = Registry::new("t");
+        let long = "x".repeat(10_000);
+        r.observe(&sample(1.0, None, Band::Degraded, &[long.as_str()]), None);
+        let t = r.render();
+        assert!(t.len() < 5_000 && t.contains(&"x".repeat(MAX_REASON_LEN)));
+    }
+
+    #[test]
+    fn gate_emits_every_state_like_band() {
+        let mut s = sample(1.0, Some(50.0), Band::Degraded, &[]);
+        s.gate = Some("withheld".into());
+        let mut r = Registry::new("t");
+        r.observe(&s, None);
+        let t = r.render();
+        for (g, v) in [("off", 0), ("passed", 0), ("withheld", 1), ("unknown", 0)] {
+            assert!(
+                t.contains(&format!("kshana_trust_gate{{gate=\"{g}\"}} {v}\n")),
+                "{g}"
+            );
+        }
+        s.gate = Some("something-new".into());
+        r.observe(&s, None);
+        assert!(r
+            .render()
+            .contains("kshana_trust_gate{gate=\"unknown\"} 1\n"));
+    }
+
+    #[test]
+    fn syslog_failures_are_exposed() {
+        let r = Registry::new("t");
+        r.syslog_failure_counter().fetch_add(3, Ordering::Relaxed);
+        assert!(r
+            .render()
+            .contains("kshana_trust_syslog_send_failures_total 3\n"));
     }
 
     #[test]

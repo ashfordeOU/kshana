@@ -28,7 +28,25 @@ skipped; scores outside 0-100 are rejected, not clamped, so a format change is n
 The only code that knows this format is `src/telemetry/sample.rs`.
 
 `/metrics` is served without authentication and defaults to `127.0.0.1:9464`. Binding
-elsewhere prints a warning; put it behind your own access control.
+elsewhere prints a warning; put it behind your own access control. The endpoint handles one
+connection at a time with a 2 s read limit, so an idle client can delay a scrape by up to
+that long; it is meant for one scraper, not for the open network.
+
+## Delivery never stalls the assessment
+
+Syslog and OpenTelemetry delivery run on their own threads. The ingest loop only hands them
+a message or a snapshot and never waits, so a dead, slow or non-reading collector cannot
+back-pressure the live stream or freeze `/metrics`:
+
+* every connect and write has a 2 s limit; a failed connection is dropped and reconnected
+  lazily, with exponential backoff from 1 s up to 60 s;
+* a message that cannot be delivered (collector down, write timed out, queue of 1024 full) is
+  dropped and counted in `kshana_trust_syslog_send_failures_total`; alert on its rate;
+* the OpenTelemetry exporter is handed a copy of the registry, so no lock is held during
+  network I/O; if an export is still in flight the new snapshot is skipped (the next one
+  carries the same cumulative totals).
+
+At end of input the sender threads are given their remaining time limits to finish.
 
 ## Prometheus metrics
 
@@ -37,14 +55,18 @@ elsewhere prints a warning; put it behind your own access control.
 | `kshana_build_info` | gauge | `version` | constant 1 |
 | `kshana_trust_score` | gauge | | latest score 0-100; absent if the source gives none |
 | `kshana_trust_band` | gauge | `band` | 1 for the current band, 0 for the others |
-| `kshana_trust_gate` | gauge | `gate` | 1 for the live stream's current gate state; absent without a gate |
+| `kshana_trust_gate` | gauge | `gate` | `off`, `passed`, `withheld`, `unknown`: 1 for the current state, 0 for the others; absent without a gate |
 | `kshana_trust_position_latitude_degrees`, `..._longitude_degrees`, `..._height_meters` | gauge | | receiver-reported position; **only with `--expose-position`** (the endpoint is unauthenticated and a position can identify a site or vessel) |
 | `kshana_trust_reason_active` | gauge | `reason` | 1 if present at the latest epoch |
 | `kshana_trust_epochs_total` | counter | `band` | epochs received |
 | `kshana_trust_reason_epochs_total` | counter | `reason` | epochs in which the reason was present |
 | `kshana_trust_input_errors_total` | counter | | unparsable input lines |
+| `kshana_trust_reason_overflow_total` | counter | | reason occurrences folded into `reason="other"` (see below) |
+| `kshana_trust_syslog_send_failures_total` | counter | | syslog events not delivered |
 | `kshana_trust_epoch_offset_seconds` | gauge | | latest epoch's offset from stream start |
 | `kshana_trust_last_sample_timestamp_seconds` | gauge | | wall-clock receipt time; alert on its age |
+
+Reason names are cut to 128 characters, and at most 64 distinct reasons get their own series; later ones are counted under `reason="other"` and in `kshana_trust_reason_overflow_total`, so a hostile or buggy input cannot create unbounded label cardinality.
 
 `band` is one of `calibrating`, `nominal`, `degraded`, `untrusted`, `unknown`. Reason
 names are the monitor names of the stream (`kinematic`, `heading-course`, ...; for the batch
@@ -56,7 +78,8 @@ Prometheus data source).
 ## Syslog: CEF and LEEF
 
 Events are sent in an RFC 5424 envelope (facility local0, app `kshana`, message id
-`GNSSTRUST`) over UDP (one datagram each) or TCP (newline-terminated). By default one event
+`GNSSTRUST`) over UDP (one datagram each; IPv4 or IPv6) or TCP, newline-terminated by
+default or, with `--syslog-octet-counting`, framed `<length> <message>` as in RFC 6587. By default one event
 is sent per band change; `--syslog-all` sends one per epoch. The vendor is written
 `Ashforde OU` (ASCII) so no SIEM mis-decodes it.
 
@@ -82,13 +105,14 @@ Field mapping (event id is `gnss-trust.<band>`):
 | log time label | `cs4` (`logTime`) | `logTime` |
 | gate state | `cs5` (`gate`) | `gate` |
 
-CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
+Empty fields are left out (no `cs2=` without reasons). The host name is cut to 255
+characters. CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
 LEEF values have `^` and line breaks replaced by spaces.
 
 ## OpenTelemetry (off by default)
 
 Build with `--features otlp` and pass `--otlp http://host:4318/v1/metrics`. The exporter
 posts OTLP/HTTP JSON (`kshana.trust.score`, `kshana.trust.band`, `kshana.trust.epochs`,
-`kshana.trust.reason.epochs`) every `--otlp-every` epochs (default 10) and at end of
+`kshana.trust.reason.epochs`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. `https://` endpoints are refused.
