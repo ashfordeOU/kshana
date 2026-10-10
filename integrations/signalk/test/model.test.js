@@ -79,3 +79,27 @@ test('reportedPosition is trust context only: published under the kshana namespa
   const none = deltaFor(epochs[10], new AlarmTracker({})).updates[0].values.map((v) => v.path)
   assert.ok(!none.includes(`${NS}.reportedPosition`))
 })
+
+test('after stale, the first epoch republishes the notification (warn stays warn but the stale text is replaced)', () => {
+  const t = new AlarmTracker({})
+  const degraded = epochs.find((e) => e.band === 'degraded')
+  deltaFor(degraded, t) // warn
+  assert.ok(staleDelta(t)) // warn again, stale text
+  const d = deltaFor(degraded, t)
+  const n = d.updates[0].values.find((v) => v.path === NOTIFICATION_PATH)
+  assert.ok(n, 'republished')
+  assert.strictEqual(n.value.state, 'warn')
+  assert.match(n.value.message, /degraded/)
+  assert.doesNotMatch(n.value.message, /No Kshana trust data/)
+  // the data came back nominal after stale: back to normal at once, not after the hold
+  const nominal = epochs.find((e) => e.band === 'nominal')
+  const t2 = new AlarmTracker({})
+  deltaFor(nominal, t2)
+  staleDelta(t2)
+  const n2 = deltaFor(nominal, t2).updates[0].values.find((v) => v.path === NOTIFICATION_PATH)
+  assert.strictEqual(n2.value.state, 'normal')
+})
+
+test('the notification path mirrors the published subtree', () => {
+  assert.strictEqual(NOTIFICATION_PATH, 'notifications.navigation.gnss.kshana.trust')
+})

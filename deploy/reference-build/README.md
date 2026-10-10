@@ -26,7 +26,7 @@ being spoofed when the monitor starts has no clean baseline: start the monitor b
 ## OS setup (Debian-family Linux)
 
 ```sh
-sudo apt update && sudo apt install -y nodejs        # node 18 or newer, for the Signal K plugin (and the container's relay)
+sudo apt update && sudo apt install -y nodejs        # node 18 or newer, for the Signal K plugin 
 sudo useradd --system --create-home --home-dir /var/lib/kshana kshana
 sudo usermod -aG dialout kshana                      # serial port access
 sudo install -m 0755 kshana /usr/local/bin/kshana    # a release binary, or: cargo install --locked --path .
@@ -119,6 +119,6 @@ handling without Docker.
      (`kshana-gate.service`, or the container). Marking fixes invalid then happens in that stream, not in Signal K.
 3. Install the plugin from `integrations/signalk/`, enable "Kshana GNSS trust", pick the source, and set the thresholds.
 4. The score, band, reasons and gate state appear under `navigation.gnss.kshana.*` and a notification at
-   `notifications.navigation.gnss.kshanaTrust` is raised in the `warn` and `alarm` states.
+   `notifications.navigation.gnss.kshana.trust` is raised in the `warn` and `alarm` states.
 
 Details, paths and the OpenCPN setup: [`docs/MARINE-INTEGRATIONS.md`](../../docs/MARINE-INTEGRATIONS.md).
