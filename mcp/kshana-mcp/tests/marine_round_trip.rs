@@ -92,6 +92,11 @@ async fn the_new_tools_are_listed_with_their_caveats() {
     assert!(desc("generate_training_nmea").contains("never for a vessel's live navigation"));
     assert!(desc("build_interference_map").contains("does not identify interference as the cause"));
     assert!(desc("route_exposure").contains("not a forecast"));
+    for t in ["compliance_report", "compliance_mapping"] {
+        let d = desc(t);
+        assert!(d.contains("not a finding that a framework is met"), "{t}");
+        assert!(d.contains("rated or approved by anyone"), "{t}");
+    }
     client.cancel().await.ok();
 }
 
@@ -518,5 +523,65 @@ async fn every_scenario_tool_accepts_inline_content_only() {
         let e = call(&client, tool, json!({"toml": big})).await.unwrap_err();
         assert!(e.contains("limit"), "{tool}: {e}");
     }
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn compliance_report_fills_the_mapping_and_keeps_the_statement() {
+    let client = connect().await;
+    let result = json!({
+        "scenario_hash": "0123456789abcdef0123",
+        "log": {"format": "nmea", "epochs": 10},
+        "monitors_run": ["cn0"],
+        "events_evaluable": 2, "events_detected": 2,
+        "predictions_evaluable": 1, "predictions_agreeing": 1,
+    })
+    .to_string();
+    let out = call(
+        &client,
+        "compliance_report",
+        json!({"runs": [
+            {"label": "trust.result.json", "result": result},
+            {"label": "bad.json", "result": "not json"},
+        ]}),
+    )
+    .await
+    .unwrap();
+    let v: Value = serde_json::from_str(&out[0]).unwrap();
+    let statement = v["statement"].as_str().unwrap();
+    assert!(statement.contains("is not a finding that a framework is met"));
+    assert!(v["markdown"].as_str().unwrap().contains(statement));
+    assert_eq!(v["runs"].as_array().unwrap().len(), 1);
+    assert_eq!(v["unrecognised"].as_array().unwrap().len(), 1);
+    assert!(
+        v["rows"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|r| !r["gap"].as_str().unwrap().is_empty())
+    );
+    let low = out[0]
+        .to_lowercase()
+        .replace("conformance framework", "")
+        .replace("conformance_framework", "");
+    for banned in ["certif", "complies", "compliant", "conform"] {
+        assert!(!low.contains(banned), "{banned}");
+    }
+    // The static tables and the sources.
+    for sources in [false, true] {
+        let m = call(&client, "compliance_mapping", json!({"sources": sources}))
+            .await
+            .unwrap();
+        assert!(m[0].starts_with("> A row marked evidenced"));
+    }
+    // A run list over the cap is refused.
+    let many: Vec<Value> = (0..65)
+        .map(|i| json!({"label": format!("r{i}"), "result": "{}"}))
+        .collect();
+    assert!(
+        call(&client, "compliance_report", json!({"runs": many}))
+            .await
+            .is_err()
+    );
     client.cancel().await.ok();
 }

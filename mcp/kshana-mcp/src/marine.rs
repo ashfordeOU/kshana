@@ -127,6 +127,34 @@ fn yes() -> bool {
     true
 }
 
+/// One run offered to [`KshanaServer::compliance_report`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ComplianceRunRequest {
+    /// The name to show for the run (usually the result's file name).
+    pub label: String,
+    /// The result JSON text a Kshana run wrote.
+    pub result: String,
+    /// The scenario TOML that produced it, when there is one. A result does not name its
+    /// scenario kind; the scenario does. A `receiver-trust` result is recognised without it.
+    #[serde(default)]
+    pub scenario: Option<String>,
+}
+
+/// Parameters for [`KshanaServer::compliance_report`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ComplianceReportRequest {
+    /// The runs to read, at most 64, 4 MiB in all.
+    pub runs: Vec<ComplianceRunRequest>,
+}
+
+/// Parameters for [`KshanaServer::compliance_mapping`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct ComplianceMappingRequest {
+    /// False (default): the mapping tables. True: the source documents they cite.
+    #[serde(default)]
+    pub sources: bool,
+}
+
 /// Parameters for [`KshanaServer::build_interference_map`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct InterferenceMapRequest {
@@ -410,5 +438,40 @@ impl KshanaServer {
         )
         .map_err(|e| bad(format!("route exposure failed: {e}")))?;
         Ok(CallToolResult::success(vec![ContentBlock::text(report)]))
+    }
+
+    #[tool(
+        description = "Fill the public-framework mapping from Kshana result documents (`kshana compliance-report`): which rows of five resilience frameworks and standards (the US DHS Resilient PNT framework v2.0, IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803) the runs given support evidence for, which they do not, and the gap each row keeps. Pass each run as `label`, `result` (the result JSON text) and, when you have it, `scenario` (the scenario TOML, which names the kind a result does not; a receiver-trust result needs none). At most 64 runs and 4 MiB in all; nothing is read from disk. Each row's `status` is `evidenced`, `partly-evidenced`, `not-evidenced` or `out-of-scope`, and every row keeps its `gap` even when evidenced; inputs that could not be used are listed in `unrecognised` and count for nothing. Show the report's `statement` with any result, verbatim: a status means a run supports evidence for the capabilities the row names; it is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. Do not describe the output in any stronger terms. Evidence tier: MODELLED."
+    )]
+    fn compliance_report(
+        &self,
+        Parameters(r): Parameters<ComplianceReportRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let runs: Vec<surface::ComplianceRunText> = r
+            .runs
+            .into_iter()
+            .map(|x| surface::ComplianceRunText {
+                label: x.label,
+                result_json: x.result,
+                scenario_toml: x.scenario,
+            })
+            .collect();
+        let out = surface::compliance_report(&runs, MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("compliance report failed: {e}")))?;
+        let mut v = out.report;
+        v["markdown"] = out.markdown.into();
+        reply(v)
+    }
+
+    #[tool(
+        description = "The static public-framework mapping (`kshana compliance-report --mapping` / `--sources`) as Markdown: one table per framework with each row's paraphrased ask, the Kshana outputs that support evidence for it and the gap the outputs do not close; or, with `sources` true, the source documents the tables cite with versions and URLs. Led by the statement every report carries, which stays with any excerpt: a row marked evidenced means a run supports evidence for the capabilities the row names; it is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. Needs no runs."
+    )]
+    fn compliance_mapping(
+        &self,
+        Parameters(r): Parameters<ComplianceMappingRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        Ok(CallToolResult::success(vec![ContentBlock::text(
+            surface::compliance_mapping(r.sources),
+        )]))
     }
 }

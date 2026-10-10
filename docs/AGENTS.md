@@ -29,10 +29,11 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 | Was this receiver log, or this vessel's NMEA, trustworthy, and when did it stop being? | `assess_receiver_log` (any log format), `assess_vessel_log` (vessel NMEA, batch), `assess_vessel_stream` (bounded excerpt) | `/kshana-assess-receiver` |
 | I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training | `generate_training_nmea` | `/kshana-training-scenario` |
 | Make a tamper-evident record of what the engine said about a window of a vessel's log, or check one | `create_evidence_pack`, `verify_evidence_pack` | `/kshana-evidence-pack` |
+| Which public-framework requirement rows do these runs support evidence for, and what is the gap? | `compliance_report` (from result text), `compliance_mapping` (the tables, no runs) | `/kshana-compliance-report` |
 | Where has GNSS looked degraded, and how much of this route is in it? | `build_interference_map`, then `route_exposure` | `/kshana-interference-map` |
 | GNSS IQ recordings (scene, acquire, track, front-end, campaigns) | `iq_signals` first, then the `iq_*` tools | |
 
-The skills `vessel-receiver-trust`, `training-nmea-scenario` and `interference-map-route-exposure`
+The skills `vessel-receiver-trust`, `training-nmea-scenario`, `compliance-mapping` and `interference-map-route-exposure`
 carry the rules below for agents that load skills.
 
 ## What each tool will not do
@@ -44,6 +45,7 @@ carry the rules below for agents that load skills.
   telemetry exporters (`trust-telemetry`: Prometheus, syslog, OTLP) and streaming training NMEA to
   an address are command-line only. `assess_vessel_stream` scores an excerpt with the same engine
   and writes to no port. The excerpt tools return live JSON-lines schema 1.2 (an `advisory` statement on every epoch); a vessel run's CSV begins with a `#` comment line carrying the same statement, so read it with a comment option. `--udp` and `--listen tcp:` bind the loopback address unless told otherwise.
+- **Say more than the mapping says.** `compliance_report` states which framework rows a set of runs supports evidence for, with each row's gap. It never says a framework is met or a product is rated or approved; carry its `statement` verbatim and say "supports evidence for", nothing stronger. It reads result and scenario text you pass in, never a path.
 - **Fetch data.** The land-polygon download is command-line only and needs `--allow-network`.
   Pass the land file, if wanted, as text. Use only data the user is licensed to use.
 - **Transmit anything or synthesise RF.** The training generator writes NMEA text; the IQ layer

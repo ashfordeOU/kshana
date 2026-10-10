@@ -1269,6 +1269,49 @@ fn interference_map<'py>(
     json_to_py(py, &v)
 }
 
+/// Fill the public-framework mapping from result documents given as text: which rows of
+/// five resilience frameworks and standards (`docs/compliance/`) the runs support evidence
+/// for, which they do not, and the gap each row keeps. `runs` is a list of dicts with
+/// `label` (the name to show), `result` (the result JSON text) and optionally `scenario`
+/// (the scenario TOML text, which names the scenario kind a result does not). At most 64
+/// runs; nothing is read from disk. Returns `{"report": dict, "markdown": str}`; the report
+/// carries `statement` verbatim and lists every unusable input in `unrecognised`. A status
+/// says the runs support evidence for a row's capabilities; it is not a finding that a
+/// framework is met. Raises `ValueError` on a missing key or an over-size input.
+#[pyfunction]
+fn compliance_report<'py>(
+    py: Python<'py>,
+    runs: Vec<std::collections::BTreeMap<String, String>>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{ComplianceRunText, MAX_INPUT_BYTES};
+    let mut texts = Vec::with_capacity(runs.len());
+    for (i, r) in runs.iter().enumerate() {
+        let get = |k: &str| r.get(k).cloned();
+        texts.push(ComplianceRunText {
+            label: get("label")
+                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `label`")))?,
+            result_json: get("result")
+                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `result`")))?,
+            scenario_toml: get("scenario"),
+        });
+    }
+    let out = crate::surface::compliance_report(&texts, MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({"report": out.report, "markdown": out.markdown}),
+    )
+}
+
+/// The static public-framework mapping as Markdown, led by the statement every report
+/// carries: one table per framework (`sources=False`) or the source documents they cite,
+/// with versions and URLs (`sources=True`).
+#[pyfunction]
+#[pyo3(signature = (sources=false))]
+fn compliance_mapping(sources: bool) -> String {
+    crate::surface::compliance_mapping(sources)
+}
+
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
 /// one or more interference maps (the `geojson` of [`interference_map`]), optionally limited
 /// to `date_from`..`date_to` (`YYYY-MM-DD`). Returns the report as JSON text. Cells not
@@ -1339,6 +1382,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
+    m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
+    m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;

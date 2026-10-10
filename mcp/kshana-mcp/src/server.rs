@@ -22,8 +22,9 @@
 //! - `export_table_csv`       — run a scenario and return its reproducibility table as CSV.
 //! - `assess_receiver_log`    — assess a real GNSS receiver log for trust (vessel score included).
 //!
-//! The maritime-trust, training-NMEA and interference-map tools (`assess_vessel_stream`,
-//! `generate_training_nmea`, `build_interference_map`, `route_exposure`) are in
+//! The maritime-trust, training-NMEA, interference-map and compliance-mapping tools
+//! (`assess_vessel_stream`, `generate_training_nmea`, `build_interference_map`,
+//! `route_exposure`, `compliance_report`, `compliance_mapping`) are in
 //! [`crate::marine`].
 //!
 //! The GNSS IQ tools (`iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
