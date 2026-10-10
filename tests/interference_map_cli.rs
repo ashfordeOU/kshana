@@ -30,7 +30,14 @@ impl Drop for Scratch {
 }
 
 fn scratch(name: &str) -> Scratch {
-    let d = std::env::temp_dir().join(format!("kshana-imap-{}-{name}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let d = std::env::temp_dir().join(format!(
+        "kshana-imap-{}-{name}-{}",
+        std::process::id(),
+        uniq
+    ));
     let _ = std::fs::remove_dir_all(&d);
     std::fs::create_dir_all(&d).unwrap();
     Scratch(d)

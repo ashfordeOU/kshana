@@ -30,6 +30,8 @@ fn the_committed_log_is_the_one_the_pins_were_taken_on() {
     let text = std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.nmea")).unwrap();
     // Line endings are normalised so a checkout that rewrites them hashes the same.
     let normal: String = text.lines().map(|l| format!("{l}\n")).collect();
+    // PIN-SCOPE:    every line of the committed tallinn-helsinki.nmea, after line-ending normalisation
+    // PIN-EXCLUDES: line endings only, which a checkout may rewrite
     assert_eq!(normal.lines().count(), 18_010);
     assert_eq!(
         format!("{:x}", Sha256::digest(normal.as_bytes())),
@@ -42,6 +44,8 @@ fn the_receiver_reports_a_valid_fix_at_every_epoch_of_the_log() {
     let text = std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.nmea")).unwrap();
     let tl = read_nmea(&text).unwrap();
     assert_eq!(tl.skipped_records, 0);
+    // PIN-SCOPE:    the number of epochs the reader finds in the committed log
+    // PIN-EXCLUDES: the epochs' contents, checked by the assertions that follow
     assert_eq!(tl.epochs.len(), 3001);
     assert!(tl
         .epochs
@@ -190,6 +194,8 @@ fn the_truth_file_shows_the_reported_track_leaving_the_real_one_only_after_the_o
         .skip(1)
         .map(|l| l.split(',').map(|v| v.parse().unwrap()).collect())
         .collect();
+    // PIN-SCOPE:    the number of data rows of the committed truth file
+    // PIN-EXCLUDES: the rows' values, used below
     assert_eq!(rows.len(), 3001);
     let text = std::fs::read_to_string(Path::new(DIR).join("tallinn-helsinki.nmea")).unwrap();
     let tl = read_nmea(&text).unwrap();
