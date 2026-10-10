@@ -656,6 +656,7 @@ pub fn iq_labfit_inline(toml_text: &str, max_bytes: usize) -> Result<Value, Stri
 /// Validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON) given as
 /// text, in memory: the resolved conditions with their `hash`. Nothing is read from disk (a
 /// recording path the file names is not opened).
+#[cfg(not(target_arch = "wasm32"))]
 pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, String> {
     cap("test conditions", text, max_bytes)?;
     let tc = crate::iq::campaign::TestConditions::parse(text)?;
