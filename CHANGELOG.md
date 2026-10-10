@@ -113,7 +113,12 @@ breaking changes are called out explicitly.
   commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
   Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
   matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
-  dependency: `flate2` with its pure-Rust backend, for gzip). Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  dependency: `flate2` with its pure-Rust backend, for gzip). Both methods are version 2:
+  a degraded or anomalous call needs at least 5 aircraft or vessels (the publication
+  minimum), every per-cell count below 5 is withheld as `null`, and a day whose background
+  cannot be estimated withholds its calls. Output files are named
+  `<source>-<dataset>-<date>.geojson` and are never overwritten; input is streamed line by
+  line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
   licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
 
 ### Added (training streams)

@@ -8,11 +8,12 @@ files say so in their `data.attribution`. They show nothing about any real place
 
 | File | What it shows |
 |---|---|
-| `output/adsb-2026-03-01.geojson` | 11 published cells: one `degraded`, several `not_degraded`, and `insufficient_sample` cells. One further cell (3 aircraft) is below the publication minimum and is absent: a "not observed" cell |
-| `output/ais-2026-03-01.geojson` | 7 published cells: `anomalous` by the circle detector, `anomalous` by the on-land detector, `not_anomalous` cells, and one cell where the implausible-speed count is withheld (`null`). One further cell (3 vessels) is absent |
+| `output/adsb-custom-2026-03-01.geojson` | 11 published cells: one `degraded`, several `not_degraded`, and `insufficient_sample` cells. One further cell (3 aircraft) is below the publication minimum and is absent: a "not observed" cell |
+| `output/ais-custom-2026-03-01.geojson` | 7 published cells: `anomalous` by the circle detector, `anomalous` by the on-land detector, `not_anomalous` cells, and one cell where the implausible-speed count (2 vessels) is withheld (`null`). One further cell (3 vessels) is absent |
 
-Output files are named `<source>-<YYYY-MM-DD>.geojson`, where `<source>` is `adsb` or
-`ais` and the date is the UTC day of the reports.
+Output files are named `<source>-<dataset>-<YYYY-MM-DD>.geojson`: `<source>` is `adsb` or
+`ais`, `<dataset>` is the `--dataset` key (here `custom`) and the date is the UTC day of the
+reports. Counts below 5 are `null` (withheld), zero included.
 
 Regenerate (from the repository root, with a built binary):
 
