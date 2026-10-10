@@ -143,16 +143,19 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Constellations around any body](docs/CONSTELLATION-DESIGN.md) | coverage, dilution of precision and availability around the Earth, the Moon or Mars |
 | [Solar system](docs/SOLAR-SYSTEM.md) | where every planet is, and the light time of any link |
 | [Low-Earth-orbit navigation](docs/LEO-PNT.md) | a pass, a link, a navigation message and a fused fix, stage by stage |
-| [Maritime trust](docs/MARITIME-TRUST.md) | can the bridge trust this vessel's fix: a 0-100 score with reasons, from the NMEA the receiver already outputs (advisory) |
-| [Training streams and interference maps](docs/NMEA-TRAINING.md) | synthetic bridge NMEA with an instructor log for crew training; and [where GNSS has looked degraded](docs/INTERFERENCE-MAP.md), with a route's exposure |
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |
-| [NMEA training streams](docs/NMEA-TRAINING.md) | synthetic bridge NMEA with scripted jamming and spoofing events and an instructor log, for crew training |
 | [Interoperability exports](docs/INTEROP.md) | orbits and geometry for other tools: SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF |
-| [Maritime trust](docs/MARITIME-TRUST.md) | can the bridge trust this fix: a 0-100 score and reasons for a vessel's NMEA, live or from a log (advisory) |
-| [NMEA training streams](docs/NMEA-TRAINING.md) | synthetic bridge NMEA with scripted jamming and spoofing and an instructor log, for crew training (text only) |
+| [Maritime trust](docs/MARITIME-TRUST.md) | can the bridge trust this fix: a 0-100 score and reasons for a vessel's NMEA, live or from a log (advisory, not type-approved navigation equipment) |
+| [NMEA training streams](docs/NMEA-TRAINING.md) | synthetic bridge NMEA with scripted jamming and spoofing and an instructor log, for crew training (text only; never for a vessel's live navigation systems; advisory, not type-approved navigation equipment) |
 | [Interference map](docs/INTERFERENCE-MAP.md) | where aircraft and ships reported degraded navigation data, and how much of a route it touches |
+| [Evidence packs](docs/EVIDENCE-PACKS.md) | a signed, offline-verifiable technical record of a vessel's log window and what the engine computed from it, for an incident report (advisory, not type-approved navigation equipment) |
+| [Trust telemetry](docs/TRUST-TELEMETRY.md) | the trust stream as Prometheus metrics, SIEM events and optional OpenTelemetry, with a sample Grafana dashboard (`deploy/grafana/kshana-gnss-trust.json`) |
+| [Signal K and OpenCPN](docs/MARINE-INTEGRATIONS.md) | the trust score on a boat's Signal K server and in OpenCPN, with a reference build for a small computer next to the receiver (advisory, not type-approved navigation equipment) |
+| [Test-bench export](docs/TEST-BENCH.md) | `kshana bench-export`: a scenario's vehicle motion and events for a laboratory GNSS simulator (no signal is written), and how to score the receiver's log afterwards |
+| [Compliance mapping and report](docs/compliance/README.md) | `kshana compliance-report`: which rows of public resilience frameworks a set of runs supports evidence for, and the gap that is left |
+| [Notebooks](notebooks/README.md) | runnable tutorials: vessel trust and training streams, an interference-map route exposure, quantum against classical GDOP |
 
 The export formats in full: SP3 is Standard Product 3; CCSDS OMM and OEM are the Orbit
 Mean-elements and Orbit Ephemeris Messages of the Consultative Committee for Space Data
@@ -1636,6 +1639,15 @@ entry for every user-visible change. Participation is governed by our
 | [ARAIM reference](docs/ARAIM_REFERENCE.md) | reviewers / integrators | the open MHSS ARAIM protection-level implementation — the `b_k` nominal-bias projection, σ_URA vs σ_URE, and the fault-mode priors |
 | [Quantum models](docs/QUANTUM.md) · [details](docs/QUANTUM-MODELS.md) | reviewers | the cold-atom-interferometer physics layer, and where coefficients are still looked up |
 | [Compliance](docs/COMPLIANCE.md) | evaluators | DO-229E / DO-316 algorithm scope, and what is **not** a conformance claim |
+| [Maritime trust](docs/MARITIME-TRUST.md) | mariners / integrators | the 0-100 GNSS trust score for a vessel's NMEA, its monitors and its limits (advisory, not type-approved navigation equipment) |
+| [NMEA training streams](docs/NMEA-TRAINING.md) | maritime trainers | synthetic bridge NMEA with scripted jamming and spoofing and an instructor log; text only, never for live navigation |
+| [Interference map](docs/INTERFERENCE-MAP.md) | analysts / mariners | where aircraft and ships reported degraded navigation data, and how much of a route it touches |
+| [Evidence packs](docs/EVIDENCE-PACKS.md) | operators / insurers | signed technical records of a trust event and how to verify one |
+| [Trust telemetry](docs/TRUST-TELEMETRY.md) | operations / security teams | the trust stream as Prometheus metrics, SIEM events and OpenTelemetry, with a Grafana dashboard |
+| [Marine integrations](docs/MARINE-INTEGRATIONS.md) | boat owners / integrators | the Signal K plugin, OpenCPN gate mode and the reference build |
+| [Test bench](docs/TEST-BENCH.md) | receiver makers | replaying an exported scenario through a laboratory simulator and scoring the receiver's log |
+| [Compliance mapping](docs/compliance/README.md) | evaluators | public resilience frameworks mapped to Kshana outputs, with sources and gaps; `kshana compliance-report` |
+| [Notebooks](notebooks/README.md) | users | runnable tutorials with their rendered text |
 | [Standards &amp; interoperability](docs/STANDARDS.md) | integrators | the GNSS / flight-dynamics / agency interchange formats Kshana reads and writes (RINEX, SP3, CCSDS OEM/OMM/TDM/Space-Packet, …) |
 | [LEO PNT fusion](docs/LEO-PNT-FUSION.md) | users / evaluators | fused MEO + LEO positioning, navigation and timing: Doppler, joint pseudorange, PPP convergence, 5G NTN, polar coverage and LEO time transfer over any constellation; the optional presets and their public sources |
 | [Campaigns](docs/CAMPAIGNS.md) | users / evaluators | composing scenarios: chained mission timelines, parameter sweeps, Monte Carlo ensembles and shared-condition runs, with the composition identities the tests pin |

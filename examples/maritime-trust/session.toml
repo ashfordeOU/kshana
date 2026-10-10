@@ -5,7 +5,8 @@
 # position drag-off pulls the receiver's reported position away from the vessel's real one. The
 # receiver keeps reporting a VALID fix throughout (GGA quality 1, RMC status A); the score is what
 # falls. The log is made up to show the format and the monitors; it is not a measurement, and the
-# route is illustrative, not a chart.
+# route is illustrative, not a chart. Kshana is advisory, not type-approved navigation equipment:
+# never use this score for navigation, and never feed a synthetic log to a live system.
 #
 # Run it with:   kshana receiver-trust examples/maritime-trust/session.toml
 # Or live:       kshana receiver-trust live examples/maritime-trust/session.toml \

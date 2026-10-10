@@ -37,6 +37,29 @@ All fourteen rows are **GREEN**.
 | OC-12 | the "SGP4 (Simplified General Perturbations 4) GPS (Global Positioning System) constellation" scenario used synthetic placeholder TLEs (two-line element sets) | **Superseded** — the scenario now embeds a genuine date-stamped Celestrak `gps-ops` snapshot with strict checksums | 🟢 | `scenarios/orbit-sgp4-gps.toml` (real `gps-ops`, `strict_checksum`); `tests/scenario_coverage.rs` |
 | OC-13 | README version string drifted from `Cargo.toml` | **De-claimed** — a CI gate asserts the README status badge matches `Cargo.toml` | 🟢 | `scripts/check-version-sync.sh` |
 
+## 0.35: claims kept narrow, and one correction
+
+The 0.35 features were written with their limits stated beside the claim, and the same
+guards (`tests/no_overclaims.rs`, and the wording guard in `tests/compliance_report.rs`) scan
+the pages that describe them. This table is not part of the fourteen-row ledger above; it records, for the
+new surfaces, what is claimed and what is not.
+
+| Surface | What is claimed | What is not |
+|---|---|---|
+| Vessel trust score (`receiver_trust`, `$PKSHT`, gate, Signal K, OpenCPN) | a 0-100 score and reasons from a receiver's own NMEA, MODELLED | advisory, not type-approved navigation equipment; a score for one log is not a statement about other receivers; it does not make a fix more accurate |
+| Crew-training NMEA streams | synthetic bridge NMEA with scripted events and an instructor log | text only, no radio-frequency output; never for a vessel's live navigation systems; advisory, not type-approved navigation equipment |
+| Evidence packs | a signed technical record that can be verified offline | not a legal opinion; does not say what caused an event, who was responsible, or that the log shows what the receiver really received |
+| Interference map | aggregate degraded-navigation cells from openly licensed reports | not a forecast; a route's exposure is a share of cells, not a risk |
+| Test-bench export | a scenario's vehicle motion and events in files a laboratory simulator can read | no signal is written; no simulator or receiver performance is claimed |
+| Public-framework compliance mapping | which rows a set of runs supports evidence for, with a gap on every row | never that a framework is met or a product approved; a kind label alone is not evidence |
+
+**Correction recorded in 0.35.** An earlier version of `docs/RESILIENCE-CROSSWALK.md` and of
+the resilience module's comments described seven "technique categories" of the DHS Resilient
+PNT Conformance Framework. Version 2.0 of that framework defines core functions (Prevent,
+Respond, Recover), levels 0 to 4 and eight numbered requirements, and no list of seven
+categories. The seven sub-score names the scoring engine emits are Kshana's own, and the
+crosswalk now says so.
+
 ## How a row stays GREEN
 
 The strong claims (OC-0/2/7/8 and the superseded halves of OC-1/3/4/12) are GREEN because
