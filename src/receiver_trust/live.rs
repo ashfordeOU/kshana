@@ -19,23 +19,29 @@
 //! changes nothing else. It is advisory software and not type-approved navigation
 //! equipment; see `docs/MARITIME-TRUST.md`.
 
-use std::collections::VecDeque;
+use std::collections::{BTreeMap, VecDeque};
 
 use serde::{Deserialize, Serialize};
 
 use super::ingest::NmeaFeed;
+use super::maritime::REWIND_RATIO;
 use super::monitors::{run_monitors, Monitor, TrustState};
 use super::scenario::ReceiverTrustScenario;
+use super::score::score_from_ratios;
 use super::score::Deduction;
-use super::{LogEpoch, Timeline};
+use super::{LogEpoch, Timeline, ADVISORY};
 
 /// The `[live]` table of a scenario.
 #[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
 #[serde(deny_unknown_fields, default)]
 pub struct LiveCfg {
-    /// A cycle of sentences is complete when the stream has been quiet this long, s.
-    /// Default 0.35: longer than the pause between sentences of one burst at 4800 baud or
-    /// more, shorter than a 1 Hz cycle.
+    /// A cycle of sentences is complete when the next timed sentence arrives; when the stream
+    /// goes quiet for this long, s, the cycle in progress is completed as it stands (a stall).
+    /// Default 1.5: longer than the gap between consecutive timed sentences of a 1 Hz receiver
+    /// with jitter, and than the delay of an instrument whose sentences are not synchronous
+    /// with the receiver's (a gyro a few tenths of a second behind), so a healthy cycle is
+    /// never cut short. Set it above the longest gap between timed sentences your receiver
+    /// makes; a stall flush forwards what has arrived and scores the epoch with it.
     pub idle_flush_s: f64,
     /// Gate: after withholding the fix, it is released only after the epochs have been out
     /// of the untrusted band for this long, s. Default 30: so a score that touches the band
@@ -46,7 +52,7 @@ pub struct LiveCfg {
 impl Default for LiveCfg {
     fn default() -> Self {
         Self {
-            idle_flush_s: 0.35,
+            idle_flush_s: 1.5,
             gate_release_s: 30.0,
         }
     }
@@ -110,6 +116,8 @@ pub struct EpochReport {
     pub note: Option<String>,
     /// The position the receiver reported at this epoch (schema 1.1), `null` when it gave none.
     pub position: Option<ReportedPosition>,
+    /// What this software is and is not (schema 1.2).
+    pub advisory: &'static str,
 }
 
 /// The receiver-reported position of an epoch.
@@ -174,16 +182,27 @@ fn xor(body: &str) -> u8 {
     body.bytes().fold(0, |a, b| a ^ b)
 }
 
-/// `hhmmss.ss` from an epoch label (`...T08:00:01.250Z` or `08:00:01.250 UTC ...`).
+/// `hhmmss.ss` from an epoch label (`2025-06-14T08:00:01.250Z`, `08:00:01.250 UTC (date not in
+/// log)`): the first `hh:mm:ss` by position, not by splitting on a letter.
 fn label_tod(label: &str) -> Option<String> {
-    let t = label.split('T').next_back()?;
-    let hms = t.get(0..8)?;
-    let ms = t
-        .get(9..12)
+    let b = label.as_bytes();
+    let at = (0..b.len().saturating_sub(7)).find(|&i| {
+        let d = |k: usize| b[i + k].is_ascii_digit();
+        d(0) && d(1) && b[i + 2] == b':' && d(3) && d(4) && b[i + 5] == b':' && d(6) && d(7)
+    })?;
+    let hms = &label[at..at + 8];
+    let ms = label
+        .get(at + 9..at + 12)
+        .filter(|_| b.get(at + 8) == Some(&b'.'))
         .and_then(|m| m.parse::<u32>().ok())
         .unwrap_or(0);
-    let (h, m, s) = (hms.get(0..2)?, hms.get(3..5)?, hms.get(6..8)?);
-    Some(format!("{h}{m}{s}.{:02}", ms / 10))
+    Some(format!(
+        "{}{}{}.{:02}",
+        &hms[0..2],
+        &hms[3..5],
+        &hms[6..8],
+        ms / 10
+    ))
 }
 
 /// Parse a live session: the same TOML as a batch scenario, except that `[log]` is not
@@ -210,7 +229,19 @@ pub struct LiveOut {
     pub reports: Vec<EpochReport>,
 }
 
+/// Longest cycle of lines held before it is completed as it stands.
+const MAX_CYCLE_LINES: usize = 5_000;
+/// Most calibration epochs kept.
+const MAX_CAL_EPOCHS: usize = 20_000;
+/// Most recent epochs kept after calibration.
+const MAX_RECENT_EPOCHS: usize = 20_000;
+
 /// The live trust engine.
+///
+/// Each epoch after calibration is scored by the batch monitors over the calibration epochs
+/// and the last minute or so of the stream, so the cost of an epoch grows with the number of
+/// calibration epochs (about `calibration_s` times the epoch rate); a short calibration window
+/// keeps it small.
 pub struct LiveEngine {
     scn: ReceiverTrustScenario,
     gate: bool,
@@ -278,6 +309,10 @@ impl LiveEngine {
     pub fn feed_line(&mut self, raw: &[u8], arrival_s: f64) -> LiveOut {
         self.pending.push(raw.to_vec());
         self.last_arrival = Some(arrival_s);
+        if self.pending.len() >= MAX_CYCLE_LINES {
+            // A cycle this long is not a cycle (no timed sentence, or a flood): complete it.
+            return self.finish();
+        }
         let host = self.host_clock.then_some(arrival_s);
         self.feed.feed(&String::from_utf8_lossy(raw), host);
         if self.feed.open_epochs() > 1 {
@@ -287,7 +322,7 @@ impl LiveEngine {
             let last = self.pending.pop().unwrap_or_default();
             let lines = std::mem::take(&mut self.pending);
             self.pending.push(last);
-            return self.cycle(closed, lines);
+            return self.cycle(closed, lines, arrival_s);
         }
         LiveOut::default()
     }
@@ -299,7 +334,9 @@ impl LiveEngine {
             Some(t)
                 if !self.pending.is_empty() && now_s - t >= self.scn.monitors.live.idle_flush_s =>
             {
-                self.finish()
+                let epochs = self.feed.take_epochs();
+                let lines = std::mem::take(&mut self.pending);
+                self.cycle(epochs, lines, now_s)
             }
             _ => LiveOut::default(),
         }
@@ -309,11 +346,12 @@ impl LiveEngine {
     pub fn finish(&mut self) -> LiveOut {
         let epochs = self.feed.take_epochs();
         let lines = std::mem::take(&mut self.pending);
-        self.cycle(epochs, lines)
+        let now = self.last_arrival.unwrap_or(0.0);
+        self.cycle(epochs, lines, now)
     }
 
     /// Score the epochs of a completed cycle and build what to forward.
-    fn cycle(&mut self, epochs: Vec<LogEpoch>, lines: Vec<Vec<u8>>) -> LiveOut {
+    fn cycle(&mut self, epochs: Vec<LogEpoch>, lines: Vec<Vec<u8>>, now_s: f64) -> LiveOut {
         let mut out = LiveOut::default();
         let mut any_untrusted = false;
         let mut reports = Vec::new();
@@ -337,19 +375,23 @@ impl LiveEngine {
                         lon_deg: f.lon_deg,
                         height_m: f.height_m,
                     }),
+                    advisory: ADVISORY,
                 },
                 e.t_s,
             ));
         }
         // The gate: withhold on an untrusted epoch; release only after the stated time
-        // out of the untrusted band.
+        // out of the untrusted band. The release is timed on this computer's clock when the
+        // stream is arriving in real time, never on the receiver's time, which is what a
+        // spoofer controls; for a replay (no host clock) the receiver's time is all there is.
         let t_now = reports.last().map(|(_, t)| *t);
         if self.gate {
             if any_untrusted {
                 self.withheld = true;
                 self.clear_since = None;
             } else if self.withheld {
-                if let Some(t) = t_now {
+                let clock = if self.host_clock { Some(now_s) } else { t_now };
+                if let Some(t) = clock {
                     let since = *self.clear_since.get_or_insert(t);
                     if t - since >= self.scn.monitors.live.gate_release_s {
                         self.withheld = false;
@@ -395,12 +437,32 @@ impl LiveEngine {
         Option<String>,
     ) {
         let cal_s = self.scn.monitors.calibration_s;
+        // An epoch whose time ran backwards (a replay, a rewind) is never calibration and
+        // never joins the history the monitors look back on: it is scored for what it is.
+        if e.marine.as_ref().is_some_and(|m| m.time_rewound) {
+            let sc = score_from_ratios(
+                &BTreeMap::from([(Monitor::TimeConsistency, REWIND_RATIO)]),
+                &self.scn.monitors.score,
+            );
+            return (
+                sc.band,
+                Some(sc.score),
+                sc.deductions,
+                vec![Monitor::TimeConsistency],
+                Some("the receiver's time ran backwards: a replay or a clock fault".into()),
+            );
+        }
         if e.t_s < cal_s {
-            self.cal.push(e);
+            if self.cal.len() < MAX_CAL_EPOCHS {
+                self.cal.push(e);
+            }
             return (TrustState::Calibrating, None, Vec::new(), Vec::new(), None);
         }
         let t = e.t_s;
         self.recent.push_back(e);
+        if self.recent.len() > MAX_RECENT_EPOCHS {
+            self.recent.pop_front();
+        }
         while self
             .recent
             .front()
@@ -422,14 +484,23 @@ impl LiveEngine {
                         .unwrap_or((None, Vec::new()));
                     (last.state, score, ded, last.alarms.clone(), None)
                 }
-                None => (TrustState::Calibrating, None, Vec::new(), Vec::new(), None),
+                None => (
+                    TrustState::Untrusted,
+                    None,
+                    Vec::new(),
+                    Vec::new(),
+                    Some("no result for the epoch".into()),
+                ),
             },
+            // After calibration an error is a fault in what is being assessed or how it is set
+            // up (a declared heading sensor that sends nothing, too few calibration epochs):
+            // the layer cannot vouch for the fix, so it fails closed.
             Err(msg) => (
-                TrustState::Calibrating,
+                TrustState::Untrusted,
                 None,
                 Vec::new(),
                 Vec::new(),
-                Some(msg),
+                Some(format!("no score could be produced: {msg}")),
             ),
         }
     }
@@ -453,8 +524,15 @@ pub fn withhold_line(raw: &[u8]) -> Vec<u8> {
     let had_checksum = rest[end..].starts_with('*');
     let mut f: Vec<String> = rest[..end].split(',').map(str::to_string).collect();
     let tail_start = if had_checksum {
-        // '*' and two hex digits, then whatever follows (the line ending).
-        end + 3.min(rest.len() - end)
+        // '*' and exactly two hex digits that match the sentence: otherwise it is corrupt, and
+        // rewriting it would give it a valid checksum it never had.
+        let hex = rest
+            .get(end + 1..end + 3)
+            .filter(|h| h.bytes().all(|c| c.is_ascii_hexdigit()));
+        match hex.and_then(|h| u8::from_str_radix(h, 16).ok()) {
+            Some(want) if want == xor(&rest[..end]) => end + 3,
+            _ => return raw.to_vec(),
+        }
     } else {
         end
     };
@@ -547,6 +625,28 @@ mod tests {
     }
 
     #[test]
+    fn withhold_does_not_launder_a_corrupt_or_malformed_checksum() {
+        // A wrong checksum is left wrong; a short one is left alone with its line ending.
+        for line in [
+            "$GPGGA,100000.00,5430.0,N,01830.0,E,1,10,0.9,18.4,M,26.5,M,,*00\r\n",
+            "$GPGGA,100000.00,5430.0,N,01830.0,E,1,10,0.9,18.4,M,26.5,M,,*5\r\n",
+            "$GPGGA,100000.00,5430.0,N,01830.0,E,1,10,0.9,18.4,M,26.5,M,,*+5\r\n",
+        ] {
+            assert_eq!(withhold_line(line.as_bytes()), line.as_bytes(), "{line:?}");
+        }
+    }
+
+    #[test]
+    fn label_time_is_taken_by_position() {
+        assert_eq!(label_tod("2025-06-14T08:01:40.250Z").unwrap(), "080140.25");
+        assert_eq!(
+            label_tod("12:35:19.000 UTC (date not in log)").unwrap(),
+            "123519.00"
+        );
+        assert_eq!(label_tod("no time here"), None);
+    }
+
+    #[test]
     fn withhold_leaves_every_other_line_byte_for_byte() {
         for line in [
             nmea("HEHDT,52.5,T"),
@@ -598,6 +698,7 @@ mod tests {
             gate: GateAction::Withheld,
             note: None,
             position: None,
+            advisory: ADVISORY,
         };
         let s = r.pksht();
         let body = "PKSHT,1,080140.25,23.4,U,W,heading-course:40.0/cn0-spread:30.0";
