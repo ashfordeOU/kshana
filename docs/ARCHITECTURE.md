@@ -415,6 +415,28 @@ The per-kind detail is in [LEO-PNT](LEO-PNT.md), [LEO-SIGNAL](LEO-SIGNAL.md),
 [CAMPAIGNS](CAMPAIGNS.md), [REPORTS](REPORTS.md), [ANIMATION](ANIMATION.md) and
 [INTEROP](INTEROP.md).
 
+## 1e. Receiver trust, evidence, telemetry, training and compliance layers (0.35)
+
+These layers read a receiver's own log or write files for other tools; none of them
+synthesises or transmits a radio-frequency signal. They sit beside `api` rather than under
+the scenario kinds, apart from `receiver-trust` itself, which is a scenario kind. All are
+MODELLED unless a matrix row names an external oracle, and the maritime outputs are advisory,
+not type-approved navigation equipment.
+
+| Module | What it does | Documented in |
+|---|---|---|
+| `receiver_trust` | scores a receiver log epoch by epoch with the trust monitors; a vessel platform adds the maritime monitors and the 0-100 score with reasons | [RECEIVER-TRUST](RECEIVER-TRUST.md), [MARITIME-TRUST](MARITIME-TRUST.md) |
+| `receiver_trust::live` | the same scoring on a stream as it arrives (stdin, a file being appended, TCP or UDP), the `$PKSHT` sentence and the optional gate; `LiveEngine` is the whole of it with no input or output | [MARITIME-TRUST](MARITIME-TRUST.md) |
+| `evidence` | a signed, hash-chained pack of a log window, its configuration and the engine's result, verifiable offline; optional RFC 3161 timestamp token | [EVIDENCE-PACKS](EVIDENCE-PACKS.md) |
+| `telemetry` | the trust stream as Prometheus metrics, syslog events (CEF or LEEF) and optional OpenTelemetry (`otlp` feature, off by default) | [TRUST-TELEMETRY](TRUST-TELEMETRY.md) |
+| `nmea_synth` | synthetic bridge NMEA 0183 with scripted jamming, drag-off, time spoof and replay events and an instructor log, for crew training (text only) | [NMEA-TRAINING](NMEA-TRAINING.md) |
+| `interference_map` | aggregate degraded-navigation maps from openly licensed aircraft and ship reports, and a route's exposure to them; local files only | [INTERFERENCE-MAP](INTERFERENCE-MAP.md) |
+| `compliance` | maps Kshana outputs to public resilience frameworks and fills the mapping from result documents; `run_from_text` and `assess_texts` take texts, not paths | [compliance/](compliance/README.md) |
+| `interop::testbench` | a scenario's vehicle motion and events as a motion CSV, NMEA, waypoint text and events files for a laboratory GNSS simulator; no signal is written | [TEST-BENCH](TEST-BENCH.md) |
+
+Integrations for boats (the Signal K plugin, OpenCPN gate mode and the reference build) call
+the command-line tool; see [MARINE-INTEGRATIONS](MARINE-INTEGRATIONS.md).
+
 ## 2. Engine pipeline (per run)
 
 Each run steps a single sensor model through the time grid, disciplining it whenever

@@ -17,7 +17,7 @@
 
 <p align="center">
   <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.35.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.35.0"></a>
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-124%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="124 of 258 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-130%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="130 of 260 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" alt="About 95% line coverage, gated at 85% in continuous integration"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -40,7 +40,7 @@ engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 ## Evidence
 
-**124 of 258** capabilities validated against independent external oracles; 130 honestly labelled Modelled, 4 partner-owned.
+**130 of 260** capabilities validated against independent external oracles; 126 honestly labelled Modelled, 4 partner-owned.
 Each capability carries one label in a machine-checked ledger: VALIDATED (an independent
 external oracle agrees: real data, an independent implementation or published reference
 vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner
@@ -51,7 +51,7 @@ Cowell force model to 0.08 m against Orekit 12.2.
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 258 capabilities: 124 Validated, 130 Modelled, 4 Partner-owned" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 260 capabilities: 130 Validated, 126 Modelled, 4 Partner-owned" width="100%">
 </picture>
 </p>
 
@@ -155,6 +155,33 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
   drawing of a run; SP3 (Standard Product 3), CCSDS (Consultative Committee for Space Data
   Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON,
   STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
+- **Vessel GNSS trust** (advisory, not type-approved navigation equipment): `receiver_trust`
+  scores a receiver log described by a scenario; `receiver_trust_replay` scores a bounded NMEA
+  excerpt the way the live command does; `assess_vessel_log` scores a vessel's NMEA log as a
+  batch run. A 0-100 score with its reasons.
+- **Evidence packs**: `evidence_create` and `evidence_verify` make and check a signed technical
+  record of a log window; `evidence_keygen` makes a signing key (Python only, so the private
+  key stays out of a page or an agent conversation); `evidence_attach_timestamp` binds an RFC 3161
+  timestamp token. A record, not a legal opinion.
+- **Training streams**: `nmea_training` writes synthetic bridge NMEA and an instructor log for
+  crew training. Text only; never for a vessel's live navigation systems; advisory, not
+  type-approved navigation equipment.
+- **Interference map**: `interference_map` builds aggregate degraded-navigation maps from
+  public reports; `route_exposure` measures how much of a route falls inside them.
+- **Test bench and compliance mapping**: `bench_export` writes a scenario's vehicle motion and
+  events for a laboratory GNSS simulator (no signal is written); `compliance_report` fills the
+  public-framework mapping from result documents and `compliance_mapping` returns the static
+  tables.
+- **Examples, exports, animation and routes**: `list_examples` and `get_example` (the bundled
+  scenarios), `export_formats`, `export_scenario`, `export_sp3`, `export_omm` and `export_oem`,
+  `animate_scenario` (an animated drawing, a player or frames) and `import_route` (a GeoJSON
+  route into a terrain, gravity or combined scenario).
+- **GNSS IQ lab**: `iq_signals`, `iq_scene`, `iq_scene_broadcast`, `iq_acquire`,
+  `iq_acq_surface`, `iq_info`, `iq_inventory`, `iq_sweep`, `iq_track`, `iq_loop_designs`,
+  `iq_read_epochs`, `iq_monitor`, `iq_frontend`, `iq_test_conditions`, `iq_campaign`,
+  `iq_campaign_report` and `iq_labfit` for recorded and synthetic GNSS IQ.
+- **Core calls**: `run`, `run_full`, `run_typed`, `validate_toml`, `scenario_kinds`,
+  `list_kinds`, `error_kind` and `version`.
 
 ## Architecture
 
