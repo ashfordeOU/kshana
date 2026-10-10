@@ -627,3 +627,93 @@ async fn a_campaign_names_nothing_outside_the_work_dir_before_it_is_read() {
     std::fs::remove_dir_all(&dir).ok();
     std::fs::remove_dir_all(&outside).ok();
 }
+
+#[tokio::test]
+async fn sweep_and_monitor_run_in_the_work_directory_and_labfit_refuses_log_paths() {
+    let dir = work_dir("sweep-monitor");
+    let client = connect(IqConfig::new(&dir, 5_000_000).unwrap()).await;
+    let mut args = scene_args("scene.bin");
+    args["duration_s"] = json!(0.5);
+    call(&client, "iq_scene", args).await.unwrap();
+
+    // Sweep: two PLL bandwidths x two PRNs is four channels on one pass.
+    let sw = call(
+        &client,
+        "iq_sweep",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
+                "pll_bws_hz": [10.0, 20.0], "spacings_chips": [0.5],
+                "json_out": "sweep.json", "csv_out": "sweep.csv" }),
+    )
+    .await
+    .unwrap();
+    let rows = sw["designs"].as_array().unwrap();
+    assert_eq!(rows.len(), 4, "{sw:#}");
+    assert!(rows.iter().all(|r| r["epochs"].as_u64().unwrap() > 100));
+    let names: std::collections::BTreeSet<&str> =
+        rows.iter().map(|r| r["design"].as_str().unwrap()).collect();
+    assert_eq!(names.len(), 2);
+    let written = files(&sw);
+    assert_eq!(written.len(), 2);
+    for (p, n) in &written {
+        assert_eq!(*n, bytes_of(&dir, p));
+    }
+    // Refused: no overwrite without asking, designs and lists together, too many channels,
+    // an escape from the work directory, a PRN list that is empty.
+    let again = call(
+        &client,
+        "iq_sweep",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3], "json_out": "sweep.json" }),
+    )
+    .await;
+    assert!(again.is_err());
+    for bad in [
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3],
+                "design": "scene.bin.json", "pll_bws_hz": [10.0] }),
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
+                "pll_bws_hz": vec![10.0; 200] }),
+        json!({ "recording": "../outside.bin", "signal": "gps-l1ca", "prns": [3] }),
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [] }),
+    ] {
+        assert!(call(&client, "iq_sweep", bad).await.is_err());
+    }
+
+    // Monitor: wideband monitors and the per-satellite ones, bounded reply, files on request.
+    let mon = call(
+        &client,
+        "iq_monitor",
+        json!({ "recording": "scene.bin", "power": true, "spectral": true, "baseline_s": 0.1,
+                "signal": "gps-l1ca", "prns": [3, 17],
+                "json_out": "monitor.json", "csv_prefix": "monitor" }),
+    )
+    .await
+    .unwrap();
+    assert!(!mon["series"].as_array().unwrap().is_empty(), "{mon:#}");
+    assert!(mon["events"].as_array().unwrap().len() <= 200);
+    assert_eq!(files(&mon).len(), 3);
+    for p in ["monitor.json", "monitor.series.csv", "monitor.events.csv"] {
+        assert!(dir.join(p).is_file(), "{p}");
+    }
+    assert!(
+        call(
+            &client,
+            "iq_monitor",
+            json!({ "recording": "scene.bin", "signal": "gps-l1ca" })
+        )
+        .await
+        .is_err(),
+        "signal needs prns"
+    );
+
+    // Labfit: inline only; a log that names a file is refused, with or without a work dir.
+    let named = "[[runs]]\nlabel = \"a\"\n[runs.log]\nformat = \"rinex\"\npath = \"/etc/hostname\"\n";
+    let e = call(&client, "iq_labfit", json!({ "toml": named })).await.unwrap_err();
+    assert!(e.contains("path"), "{e}");
+    assert!(call(&client, "iq_labfit", json!({ "toml": "not toml [" })).await.is_err());
+    // Test conditions: validated inline, hashed, and an invalid file is refused with the reason.
+    let tc = "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"rec\"\npath = \"/etc/hostname\"\n\
+              settle_s = 0.5\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [3, 17]\n";
+    let v = call(&client, "iq_test_conditions", json!({ "conditions": tc })).await.unwrap();
+    assert_eq!(v["hash"].as_str().unwrap().len(), 64, "{v:#}");
+    assert!(call(&client, "iq_test_conditions", json!({ "conditions": "schema = 1" })).await.is_err());
+    client.cancel().await.ok();
+}

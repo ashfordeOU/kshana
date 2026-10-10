@@ -904,6 +904,227 @@ fn iq_monitor<'py>(
     json_to_py(py, &v)
 }
 
+/// Replay one recording across several tracking-loop designs and report the steady-state
+/// metrics per design and PRN (`kshana iq sweep`), on complex samples. The designs are every
+/// design of `design` (a `kshana.loop-design/1` TOML file's text or path), or the full product
+/// of the `pll_bws`, `dll_bws`, `spacings` (chips) and `coherents` (code periods) lists on the
+/// built-in default (a list left out keeps the default's value). Each PRN is acquired once
+/// (with the first design's acquisition) and every (design, PRN) channel then tracks the same
+/// samples, so each result is exactly that of running the design alone. Returns
+/// `{"designs": [...], "warnings": [...]}`: per design and PRN `design`, `code`, `epochs`,
+/// `phase_jitter_deg`, `code_jitter_chips` (steady state, over the second half of the run),
+/// `phase_lock_frac`, `code_lock_frac`, `mean_cn0_dbhz` and `design_hash`. `reacquire`,
+/// `periods_per_bit`, `max_seconds` and `threads` are as for `iq_track`. Raises `ValueError`
+/// if a PRN is not acquired or a design is invalid.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bws=None, dll_bws=None, spacings=None, coherents=None, design=None, reacquire=None, periods_per_bit=None, max_seconds=None, threads=1))]
+#[allow(clippy::too_many_arguments)]
+fn iq_sweep<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    signal: String,
+    prns: Vec<i64>,
+    if_hz: f64,
+    center_hz: Option<f64>,
+    pll_bws: Option<Vec<f64>>,
+    dll_bws: Option<Vec<f64>>,
+    spacings: Option<Vec<f64>>,
+    coherents: Option<Vec<usize>>,
+    design: Option<String>,
+    reacquire: Option<bool>,
+    periods_per_bit: Option<usize>,
+    max_seconds: Option<f64>,
+    threads: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::track::design::{Design, DesignFile};
+    use crate::iq::track::sink::{Fanout, Summary};
+    use crate::iq::track::{SessionChannel, TrackSession};
+    let codes = codes_for(&signal, &prns)?;
+    let samples = samples_from(&i, &q)?;
+    let spec = SampleSpec {
+        fs_hz,
+        center_hz: center_hz.unwrap_or_else(|| codes[0].carrier_hz()),
+        if_hz,
+    };
+    let bad = |e: String| PyValueError::new_err(e);
+    // The designs to sweep.
+    let designs: Vec<Design> = match design {
+        Some(d) => {
+            if pll_bws.is_some() || dll_bws.is_some() || spacings.is_some() || coherents.is_some() {
+                return Err(bad(
+                    "pll_bws, dll_bws, spacings and coherents cannot be combined with design: \
+                     the sweep runs every design in the file"
+                        .into(),
+                ));
+            }
+            let text = if std::path::Path::new(&d).is_file() {
+                std::fs::read_to_string(&d).map_err(|e| bad(e.to_string()))?
+            } else {
+                d
+            };
+            DesignFile::parse(&text).map_err(bad)?.designs().to_vec()
+        }
+        None => {
+            let base = Design::builtin_default();
+            let pll = pll_bws
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![15.0]);
+            let dll = dll_bws
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![base.loop_config().dll_bn_hz]);
+            let sp = spacings
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![base.loop_config().spacing_chips]);
+            let coh = coherents
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![base.loop_config().coherent_periods]);
+            let mut out = Vec::new();
+            for &p in &pll {
+                for &d in &dll {
+                    for &s in &sp {
+                        for &c in &coh {
+                            let c = c.max(1);
+                            let dd = base
+                                .with_overrides(&format!(
+                                    "[carrier]\npll_bw_hz = {p:?}\n[code]\nbw_hz = {d:?}\n\
+                                     [integration]\nspacing_chips = {s:?}\ncoherent_periods = {c}\n"
+                                ))
+                                .map_err(bad)?;
+                            out.push(dd.renamed(&format!("pll{p}_dll{d}_sp{s}_coh{c}")));
+                        }
+                    }
+                }
+            }
+            out
+        }
+    };
+    if designs.is_empty() {
+        return Err(bad("no designs to sweep".into()));
+    }
+    if designs.len() * codes.len() > 256 {
+        return Err(bad(format!(
+            "{} (design, PRN) channels; at most 256 per sweep",
+            designs.len() * codes.len()
+        )));
+    }
+    // Acquire each PRN once, with the first design's acquisition.
+    let acq = designs[0].acq_config(codes[0].period_s());
+    let mut inits = Vec::new();
+    for code in &codes {
+        let found = acquire_peak(&samples, &spec, code, &acq).map_err(bad)?;
+        if !found.acquired {
+            return Err(bad(format!(
+                "{}: not acquired (statistic {:.2} < threshold {:.2})",
+                code.name(),
+                found.statistic,
+                found.threshold
+            )));
+        }
+        let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
+            std::sync::Arc::new(code.clone());
+        inits.push(ChannelInit::from_acquisition(
+            arc,
+            &found,
+            &spec,
+            0,
+            periods_per_bit,
+        ));
+    }
+    let n_total = samples.len() as u64;
+    let max_samples = max_seconds.map(|s| (s * fs_hz).round() as u64);
+    let tracked = max_samples.map_or(n_total, |m| m.min(n_total));
+    // One channel per (design, PRN), design-major, all on one pass over the samples.
+    let mut channels = Vec::new();
+    let mut meta = Vec::new();
+    for d in &designs {
+        let d = if reacquire.unwrap_or(false) {
+            d.with_overrides("[lock]\nreacquire = true\n")
+                .map_err(bad)?
+        } else {
+            d.clone()
+        };
+        for (init, code) in inits.iter().zip(&codes) {
+            channels.push(SessionChannel::from_design(init.clone(), &d));
+            meta.push((d.name().to_string(), d.hash().to_string(), code.name()));
+        }
+    }
+    let mut session = TrackSession::new(spec, channels)
+        .map_err(bad)?
+        .with_threads(threads);
+    let mut summary = Summary::new(0.5 * tracked as f64 / fs_hz);
+    let mut src = crate::iq::VecSource::new(spec, samples);
+    {
+        let mut fan = Fanout::new();
+        fan.push(&mut summary);
+        session
+            .run(&mut src, max_samples, &mut fan)
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    }
+    let rows: Vec<serde_json::Value> = meta
+        .iter()
+        .enumerate()
+        .map(|(k, (name, hash, code))| {
+            let c = summary.channels.get(k).cloned().unwrap_or_default();
+            serde_json::json!({
+                "design": name,
+                "code": code,
+                "epochs": c.epochs,
+                "phase_jitter_deg": c.phase_jitter_deg,
+                "code_jitter_chips": c.code_jitter_chips,
+                "phase_lock_frac": c.phase_lock_fraction(),
+                "code_lock_frac": c.code_lock_fraction(),
+                "mean_cn0_dbhz": c.mean_cn0_dbhz,
+                "design_hash": hash,
+            })
+        })
+        .collect();
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "designs": rows,
+            "warnings": crate::iq::cli::sampling_warnings(&spec, &codes),
+        }),
+    )
+}
+
+/// Describe one IQ recording without processing it (`kshana iq info`): kind (raw with sidecar,
+/// SigMF, SigMF collection), sample format, rate, centre frequency, total samples, duration,
+/// data files and their sizes, as a dict. `hash=True` adds each data file's SHA-256 (reads the
+/// whole file). Reads the file at `path`; nothing is written.
+#[pyfunction]
+#[pyo3(signature = (path, hash=false))]
+fn iq_info<'py>(py: Python<'py>, path: &str, hash: bool) -> PyResult<Bound<'py, PyAny>> {
+    let e = crate::iq::io::inventory::inventory_entry(std::path::Path::new(path), hash);
+    let v = serde_json::to_value(&e).map_err(|err| PyValueError::new_err(err.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// List the IQ recordings under `directory` and describe each (`kshana iq inventory`): a list
+/// of the dicts `iq_info` returns, in path order. `recursive=True` descends into
+/// sub-folders; `hash=True` adds SHA-256 digests (reads every data file). Reads only.
+#[pyfunction]
+#[pyo3(signature = (directory, recursive=false, hash=false))]
+fn iq_inventory<'py>(
+    py: Python<'py>,
+    directory: &str,
+    recursive: bool,
+    hash: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    let paths =
+        crate::iq::io::inventory::list_recordings(std::path::Path::new(directory), recursive)
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let rows: Vec<serde_json::Value> = paths
+        .iter()
+        .map(|p| {
+            serde_json::to_value(crate::iq::io::inventory::inventory_entry(p, hash))
+                .unwrap_or(serde_json::Value::Null)
+        })
+        .collect();
+    json_to_py(py, &serde_json::Value::Array(rows))
+}
+
 /// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
 /// `iq-labfit` TOML scenario. Returns a dict with the parsed `report`, the `residuals_csv`
 /// and `predictions_csv` tables and the `markdown`. Relative log paths are resolved against
@@ -1577,6 +1798,9 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
     m.add_function(wrap_pyfunction!(bench_export, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_sweep, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_info, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_inventory, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_attach_timestamp, m)?)?;
     m.add_function(wrap_pyfunction!(evidence_keygen, m)?)?;
     m.add_function(wrap_pyfunction!(export_sp3, m)?)?;
