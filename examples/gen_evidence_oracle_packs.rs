@@ -248,6 +248,12 @@ fn main() {
         &forged["manifest.json"],
     );
     write(&root, "attacks/forged_sig.txt", &forged["manifest.sig"]);
+    // The summary page names the signer, so a coherent re-signed pack carries it too.
+    write(
+        &root,
+        "attacks/forged_summary.html",
+        &forged["summary.html"],
+    );
 
     let d256 = Sha256::digest(&manifest);
     write(
@@ -660,6 +666,7 @@ fn main() {
         vec![
             rep("manifest.json", "attacks/forged_manifest.json"),
             rep("manifest.sig", "attacks/forged_sig.txt"),
+            rep("summary.html", "attacks/forged_summary.html"),
         ],
         right.clone(),
         none.clone(),
@@ -672,6 +679,7 @@ fn main() {
         vec![
             rep("manifest.json", "attacks/forged_manifest.json"),
             rep("manifest.sig", "attacks/forged_sig.txt"),
+            rep("summary.html", "attacks/forged_summary.html"),
         ],
         none.clone(),
         none.clone(),
