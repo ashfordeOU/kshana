@@ -44,6 +44,9 @@ pub fn parse_vector_csv(text: &str, start_gst: u32) -> Result<Vec<InavPage>, Str
             .parse()
             .map_err(|_| format!("line {}: bad bit count", n + 1))?;
         let hex = f[2].trim();
+        if !hex.is_ascii() {
+            return Err(format!("line {}: data is not hex", n + 1));
+        }
         if hex.len() * 4 < nbits || nbits % PAGE_BITS != 0 {
             return Err(format!("line {}: bit count does not match the data", n + 1));
         }
