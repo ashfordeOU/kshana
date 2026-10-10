@@ -58,10 +58,12 @@ skips when its public data is absent says so when it skips.
   scenario. There is no external truth for a choice.
 - **An internal identity**: a numeric integral against its own analytic form, a round
   trip, an inversion, a property or monotonicity test.
-- **An integration run against a real host**: loading a plugin into a real Signal K server or OpenCPN, or feeding a real
+- **An integration run against a real host** (`IntegrationRun`): loading a plugin into a real Signal K server or OpenCPN, or feeding a real
   gate's output to a TCP consumer, and checking that the host accepts the input and shows the expected state. It shows
   that the plumbing works. The host is not an oracle for any value the integration carries, so there is nothing external to
-  compare against and such a row (the marine integrations row) is MODELLED, not VALIDATED.
+  compare against and such a row (the marine integrations row) is MODELLED, not VALIDATED. `IntegrationRun` is its own oracle
+  kind, allowed only on MODELLED rows: `integration_run_only_on_modelled_rows` in `src/verification.rs` fails if a VALIDATED
+  row carries it, and `validated_rows_require_an_external_oracle` already requires every VALIDATED row to be `ExternalDataset`.
 - **Plausibility on real inputs**: real data used only as an input, with assertions of
   scale rather than a comparison against an external value.
 - **A tolerance chosen after seeing the comparison.**
