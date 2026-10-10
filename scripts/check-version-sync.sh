@@ -235,6 +235,79 @@ if [ "$site_issues" -gt 0 ] && [ "$SITE_VERSION_MODE" = warn ]; then
   echo "WARN: ${site_issues} site version issue(s) above are warnings (KSHANA_VERSION_SYNC_SITE=warn); re-port the site from this checkout to clear them." >&2
 fi
 
+# 12. The 0.35 channels: the Claude Code plugin manifests, the Signal K plugin, the OpenCPN
+#     plugin and its relay, the reference-build image and the Studio's packaged wasm.
+#
+#     Each is a versioned artefact the release ships (release.yml: release-artefacts.yml,
+#     reference-image.yml, signalk-publish.yml), and each carries its own version string that
+#     nothing compared to the engine's. .claude-plugin/plugin.json sat at 0.30.0 and
+#     marketplace.json at 0.26.0 through four releases. A file that does not exist is a
+#     failure here too: a release that is meant to carry the artefact must not ship without it.
+json_version() { # json_version <file> <python expression on d>
+  python3 - "$1" "$2" <<'PY'
+import json, sys
+d = json.load(open(sys.argv[1], encoding="utf-8"))
+print(eval(sys.argv[2]))
+PY
+}
+check_json_version() { # check_json_version <file> <python expression on d> <label>
+  if [ ! -f "$1" ]; then
+    echo "FAIL: $1 is missing ($3 must ship at v${ver})." >&2
+    fail=1
+    return
+  fi
+  got="$(json_version "$1" "$2")"
+  if [ "$got" != "$ver" ]; then
+    echo "FAIL: $1 $3 is ${got}, engine is ${ver}." >&2
+    fail=1
+  fi
+}
+check_json_version .claude-plugin/plugin.json 'd["version"]' version
+check_json_version .claude-plugin/marketplace.json 'd["plugins"][0]["version"]' "plugins[0].version"
+check_json_version integrations/signalk/package.json 'd["version"]' version
+check_json_version integrations/opencpn/package.json 'd["version"]' version
+
+cmake_file="integrations/opencpn/plugin/CMakeLists.txt"
+if [ ! -f "$cmake_file" ]; then
+  echo "FAIL: $cmake_file is missing (the OpenCPN plugin must ship at v${ver})." >&2
+  fail=1
+else
+  pi_ver="$(grep -m1 -E '^project\(kshana_pi VERSION' "$cmake_file" | sed -E 's/.*VERSION ([0-9.]+).*/\1/')"
+  if [ "$pi_ver" != "$ver" ]; then
+    echo "FAIL: $cmake_file project VERSION (${pi_ver:-<none>}) != engine ($ver)." >&2
+    fail=1
+  fi
+fi
+
+# The reference-build image states its version in an OCI label in the Dockerfile; the release
+# workflow stamps the same label from the tag at build time (reference-image.yml), so a
+# committed label that disagrees would be overridden silently and read wrong in the source.
+dockerfile="deploy/reference-build/Dockerfile"
+if [ ! -f "$dockerfile" ]; then
+  echo "FAIL: $dockerfile is missing (the reference-build image must ship at v${ver})." >&2
+  fail=1
+elif ! grep -qE "^LABEL +org\.opencontainers\.image\.version=\"?${ver//./\\.}\"?( |\$)" "$dockerfile"; then
+  echo "FAIL: $dockerfile has no 'LABEL org.opencontainers.image.version=\"${ver}\"'." >&2
+  grep -n 'org.opencontainers.image.version' "$dockerfile" >&2 || note "(no version label in the Dockerfile)"
+  fail=1
+fi
+
+# The Studio's recorded runs carry the engine version that wrote them (the wasm's own
+# version() when the recordings are made), the best runtime marker of which engine the
+# Studio shows. web/studio/channels.json (install strings) is checked in section 5 above.
+check_json_version web/studio/recorded/index.json 'd["engine_version"]' "engine_version (Studio recordings)"
+
+# The Studio's packaged wasm (web/pkg, copied to web/studio/pkg by web/build.sh) is a build
+# output, gitignored, and its package.json is generated from Cargo.toml by wasm-pack. It does
+# not exist in a fresh checkout, so it is checked only where a build has produced it (a
+# release or Pages job after build.sh, or a developer machine): a stale marker there is the
+# Studio running an old engine under a new version chip.
+for wasm_pkg in web/pkg/package.json web/studio/pkg/package.json; do
+  if [ -f "$wasm_pkg" ]; then
+    check_json_version "$wasm_pkg" 'd["version"]' "packaged wasm version"
+  fi
+done
+
 # 7. The release TAG against the manifest.
 #
 #    Checks 1-6 compare files in the tree to each other, so a tree that is internally
@@ -285,6 +358,8 @@ mcp/kshana-mcp version and its kshana dependency requirement; JetBrains pluginVe
 and the newest Marketplace change-notes entry; \
 web/index.html JSON-LD and version chip, the Studio's channels.json and the port manifest; \
 mcp/kshana-mcp/server.json version and image tag; the README example output; \
+the Claude Code plugin manifests, the Signal K and OpenCPN plugin versions, the \
+reference-build image label and, where built, the Studio's packaged wasm; \
 site chips, footers, llms.txt and changelog page (${SITE_VERSION_MODE}, ${site_issues} issue(s)); ${tag_checked}."
 echo "    Not checked here, and not drifting: crates.io / PyPI / npm read the version out \
 of Cargo.toml at build time; CITATION.cff, codemeta.json and .zenodo.json are pinned to \
