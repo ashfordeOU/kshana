@@ -482,6 +482,19 @@ jobs:
       contents: read
     uses: ./.github/workflows/marine-integrations.yml
 
+  dry-signalk:
+    name: Signal K package check (dry run)
+    needs: artefacts
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/signalk-publish.yml
+    with:
+      dry_run: true
+    secrets: inherit
+
   dry-mcp-deny:
     name: cargo-deny over the MCP server's lockfile (dry run)
     if: ${{ inputs.dry_run }}
@@ -514,8 +527,8 @@ jobs:
     uses: ./.github/workflows/reference-image.yml
     secrets: inherit
 
-  # The Signal K plugin on npm. Inert unless the repository variable SIGNALK_NPM_PUBLISH is
-  # 'true' (founder approval of the package name and first publish; see signalk-publish.yml).
+  # The Signal K plugin on npm (`signalk-kshana-trust`, approved by the founder): published for real on a
+  # tag push. SIGNALK_NPM_PUBLISH=false switches it off; a missing NPM_TOKEN fails it with a clear message.
   signalk:
     needs: [verify, publish, artefacts]
     if: github.event_name == 'push'
@@ -541,8 +554,8 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
           PARITY_TIMEOUT_SECONDS: "2700"
-          # The Signal K channel is checked only when it is switched on.
-          PARITY_SIGNALK_PACKAGE: ${{ vars.SIGNALK_NPM_PUBLISH == 'true' && vars.SIGNALK_NPM_PACKAGE || '' }}
+          # The Signal K channel is checked unless it is switched off (SIGNALK_NPM_PUBLISH=false).
+          PARITY_SIGNALK_PACKAGE: ${{ vars.SIGNALK_NPM_PUBLISH != 'false' && 'signalk-kshana-trust' || '' }}
         run: python3 scripts/check_channel_parity.py "${TAG#v}"
 
   # kshana.dev is rebuilt from this tag only after every channel serves it, so the site

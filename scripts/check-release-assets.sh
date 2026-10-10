@@ -9,13 +9,15 @@
 # dry run) and again on the assets downloaded back from the published release.
 set -euo pipefail
 dir="${1:?usage: check-release-assets.sh <dir> <version>}"; ver="${2:?version}"
+here="$(cd "$(dirname "$0")" && pwd)"
 cd "$dir"
 
 required=(
   kshana kshana-mcp
   kshana-sbom.cdx.json kshana-channels-sbom.cdx.json kshana-validation-summary.html
   kshana-aarch64-apple-darwin kshana-x86_64-apple-darwin kshana-x86_64-pc-windows-msvc.exe
-  "kshana-opencpn-plugin-${ver}-linux-x86_64.tar.gz"
+  "kshana_pi-${ver}-1_ubuntu-wx32-24.04-x86_64.tar.gz"
+  "kshana_pi-${ver}-ubuntu-wx32-x86_64-24.04.xml"
   "kshana-opencpn-plugin-${ver}-source.tar.gz"
   SHA256SUMS
 )
@@ -37,4 +39,7 @@ sha256sum --strict -c SHA256SUMS
 listed="$(awk '{print $2}' SHA256SUMS | sed 's/^\*//' | LC_ALL=C sort)"
 want="$(echo "$present" | grep -vx SHA256SUMS)"
 [ "$listed" = "$want" ] || { echo "::error::SHA256SUMS does not list exactly the assets"; diff <(echo "$listed") <(echo "$want") || true; exit 1; }
+# The OpenCPN catalogue metadata names the tarball and carries its SHA-256: they must agree.
+python3 -I "$here/check-opencpn-metadata.py" "kshana_pi-${ver}-ubuntu-wx32-x86_64-24.04.xml" \
+  --tarball "kshana_pi-${ver}-1_ubuntu-wx32-24.04-x86_64.tar.gz"
 echo "OK: $(echo "$present" | wc -l | tr -d ' ') assets present, SHA256SUMS matches"

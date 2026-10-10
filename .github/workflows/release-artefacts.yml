@@ -14,8 +14,9 @@
 # from any branch): it builds everything and uploads the artifacts, and does nothing else.
 # It also runs on a push to the release-channels branch when this file or its scripts change.
 #
-# The OpenCPN catalogue metadata it writes (kshana-opencpn-catalogue-draft.xml) is a draft
-# for review, uploaded as a build artifact and never attached to a release or submitted.
+# The OpenCPN plugin is packaged in the catalogue's tarball layout with its catalogue metadata XML
+# (scripts/package-opencpn-plugin.sh). Both are release assets. Nothing is submitted to OpenCPN's
+# catalogue: that is a pull request the maintainer opens by hand (packaging/opencpn/SUBMITTING.md).
 name: release artefacts
 on:
   workflow_call:
@@ -78,13 +79,13 @@ jobs:
           cmake -S integrations/opencpn/plugin -B build-pi -DCMAKE_BUILD_TYPE=Release
           cmake --build build-pi
           ctest --test-dir build-pi --output-on-failure
-      - name: Package (plugin tarball, GPL source tarball, catalogue draft)
-        run: scripts/package-opencpn-plugin.sh "${{ steps.v.outputs.version }}" build-pi/libkshana_pi.so linux-x86_64 opencpn-out
-      - name: Stage the release assets and the draft separately
+      - name: Package (catalogue-format tarball, its metadata XML, GPL source tarball)
+        run: scripts/package-opencpn-plugin.sh "${{ steps.v.outputs.version }}" build-pi/libkshana_pi.so opencpn-out
+      - name: Stage the release assets (the tarball, its catalogue metadata and the GPL source)
         run: |
           mkdir -p assets draft
-          cp opencpn-out/*.tar.gz assets/
-          cp opencpn-out/kshana-opencpn-catalogue-draft.xml toolchain.txt draft/
+          cp opencpn-out/*.tar.gz opencpn-out/*.xml assets/
+          cp toolchain.txt draft/
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: channel-opencpn
@@ -92,7 +93,7 @@ jobs:
           if-no-files-found: error
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: draft-opencpn-catalogue
+          name: draft-opencpn-toolchain
           path: draft
           if-no-files-found: error
 
