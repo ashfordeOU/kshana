@@ -71,6 +71,68 @@ impl UtcEpoch {
         Self::normalised(days, hour as f64 * 3600.0 + minute as f64 * 60.0 + second)
     }
 
+    /// Parse `YYYY-MM-DDTHH:MM:SS[.fff][Z]` (UTC) with every field range-checked: the year in
+    /// 2000 to 2099 (the range the two-digit NMEA year can carry), a real month and a day that
+    /// exists in it (leap years included), hour below 24, minute below 60 and seconds in
+    /// [0, 60). A leap second (`:60`) is refused because leap seconds are not modelled.
+    pub fn parse_iso(text: &str) -> Result<Self, String> {
+        let bad = |why: &str| format!("not a UTC time `YYYY-MM-DDTHH:MM:SS`: {why}: {text:?}");
+        let t = text.trim().trim_end_matches('Z');
+        let (d, tm) = t.split_once('T').ok_or_else(|| bad("no `T`"))?;
+        let mut dp = d.split('-');
+        let mut tp = tm.split(':');
+        let int = |it: &mut dyn Iterator<Item = &str>, what: &str| -> Result<u32, String> {
+            it.next()
+                .and_then(|x| x.parse::<u32>().ok())
+                .ok_or_else(|| bad(what))
+        };
+        let year = int(&mut dp, "year")?;
+        let month = int(&mut dp, "month")?;
+        let day = int(&mut dp, "day")?;
+        let hour = int(&mut tp, "hour")?;
+        let minute = int(&mut tp, "minute")?;
+        let second: f64 = tp
+            .next()
+            .and_then(|x| x.parse().ok())
+            .ok_or_else(|| bad("seconds"))?;
+        if dp.next().is_some() || tp.next().is_some() {
+            return Err(bad("extra fields"));
+        }
+        if !(2000..=2099).contains(&year) {
+            return Err(bad("year outside 2000 to 2099"));
+        }
+        if !(1..=12).contains(&month) {
+            return Err(bad("month outside 1 to 12"));
+        }
+        let leap = year % 4 == 0 && (year % 100 != 0 || year % 400 == 0);
+        let dim = match month {
+            2 if leap => 29,
+            2 => 28,
+            4 | 6 | 9 | 11 => 30,
+            _ => 31,
+        };
+        if day < 1 || day > dim {
+            return Err(bad("day does not exist in that month"));
+        }
+        if hour > 23 {
+            return Err(bad("hour above 23"));
+        }
+        if minute > 59 {
+            return Err(bad("minute above 59"));
+        }
+        if !second.is_finite() || !(0.0..60.0).contains(&second) {
+            return Err(bad("seconds outside [0, 60)"));
+        }
+        Ok(Self::from_calendar(
+            year as i32,
+            month,
+            day,
+            hour,
+            minute,
+            second,
+        ))
+    }
+
     /// From the engine's calendar epoch type.
     pub fn from_epoch_utc(e: &crate::rinex::EpochUtc) -> Self {
         Self::from_calendar(e.year, e.month, e.day, e.hour, e.minute, e.second)
@@ -169,6 +231,32 @@ impl UtcEpoch {
 
 #[cfg(test)]
 mod tests {
+    #[test]
+    fn parse_iso_checks_every_range() {
+        let ok = UtcEpoch::parse_iso("2024-02-29T23:59:59.5Z").unwrap();
+        assert_eq!(ok, UtcEpoch::from_calendar(2024, 2, 29, 23, 59, 59.5));
+        for bad in [
+            "2024-13-45T25:61:00",
+            "2024-02-30T00:00:00",
+            "2023-02-29T00:00:00",
+            "2024-04-31T00:00:00",
+            "2024-01-01T24:00:00",
+            "2024-01-01T00:60:00",
+            "2024-01-01T00:00:60",
+            "1999-12-31T00:00:00",
+            "2100-01-01T00:00:00",
+            "2024-01-01",
+            "2024-01-01T00:00",
+            "2024-01-01T00:00:00:00",
+            "2024-1-1-1T00:00:00",
+            "x",
+        ] {
+            assert!(UtcEpoch::parse_iso(bad).is_err(), "{bad} must be refused");
+        }
+        assert!(UtcEpoch::parse_iso("2000-02-29T00:00:00").is_ok());
+        assert!(UtcEpoch::parse_iso("2100-02-29T00:00:00").is_err());
+    }
+
     use super::*;
 
     #[test]

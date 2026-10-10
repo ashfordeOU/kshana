@@ -5,10 +5,9 @@ Buyers and receiver makers answer to public resilience frameworks. This folder m
 Kshana computes and records to those frameworks, row by row, and `kshana compliance-report`
 fills the mapping from the runs you actually have.
 
-**Wording.** Kshana outputs *support evidence for* a requirement. They do not certify a
-product, show that it complies with a framework, or make it conformant. Kshana is not a
-conformity-assessment body and none of these files is a statement from one. Requirement
-text is paraphrased, never reproduced.
+**Wording.** Kshana outputs *support evidence for* a requirement. They are not a rating
+or approval of any product, and none of these files is a statement from an assessment
+body; Kshana is not one. Requirement text is paraphrased, never reproduced.
 
 | Framework | File |
 |---|---|
@@ -16,10 +15,10 @@ text is paraphrased, never reproduced.
 | IMO guidance on GNSS interference for ships | [imo-ships.md](imo-ships.md) |
 | EASA guidance on GNSS interference for aviation | [easa-aviation.md](easa-aviation.md) |
 | EU NIS2 Directive, Article 21 | [nis2-art21.md](nis2-art21.md) |
-| EN 16803 (by part and public clause number only) | [en-16803.md](en-16803.md) |
+| EN 16803 (paid standard; by part and catalogue-visible clause numbers only) | [en-16803.md](en-16803.md) |
 
 Each file lists its source documents with version, URL, date read and what was and was not
-checked. Sources were read on 2026-10-09. Where a source could only be read through a
+checked. Sources were read on 2026-10-09 (the EASA bulletin and the EN 16803 catalogue pages were checked again on 2026-10-10). Where a source could only be read through a
 mirror or a catalogue page, the file says so.
 
 ## The report
@@ -32,8 +31,20 @@ writes `compliance-report.compliance.md` and `compliance-report.compliance.json`
 <base>` changes the name). The inputs are result files from earlier runs: a scenario run
 writes `<name>.result.json` beside `<name>.toml`, and `kshana receiver-trust` writes its
 own. The kind of each run is read from the scenario file beside the result, from the content
-of a receiver-trust result, or from a top-level `kind`; a result whose kind cannot be found
-is listed as not used and counts for nothing.
+of a receiver-trust result, or from a top-level `kind`, and must be a kind the engine knows.
+A result is listed as not used, with the reason, and counts for nothing when its kind cannot
+be found, is not a known kind, or the sibling scenario and the result's own `kind` disagree.
+(The result's `scenario_hash` and a hash of the scenario file are not compared: the engine
+computes the first over its parsed scenario and a file hash is over the text, so they are
+different quantities.)
+
+**A kind label alone is not evidence.** A run counts for a capability only when its result
+also carries the fields that kind writes (for example a `jamming` result needs its figures of
+merit and per-epoch rows; an `integrity` result needs its sample counts). The fields are
+listed in `src/compliance/mapping.rs` (`KIND_FIELDS`) and a result missing one is not counted.
+A hash that is not hexadecimal is not reported as a hash. A receiver-trust result whose counts
+are not whole numbers, or whose detected or agreeing count exceeds its evaluable count, is
+excluded and listed as not used.
 
 For each row the report gives one of:
 
