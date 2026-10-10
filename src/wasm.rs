@@ -378,6 +378,7 @@ pub fn route_exposure(
 /// Generate synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML.
 /// `seed` replaces the scenario's seed unless it is `NaN` or negative. Returns a JSON object
 /// `{nmea, log_json, log_text}`. Text only; never for a vessel's live navigation systems.
+/// Advisory, not type-approved navigation equipment.
 #[wasm_bindgen]
 pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
     let seed = (seed.is_finite() && seed >= 0.0).then_some(seed as u64);

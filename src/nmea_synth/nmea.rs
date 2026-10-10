@@ -266,7 +266,8 @@ pub fn gsa(
     frame(&body)
 }
 
-/// The synthetic-data marker (proprietary sentence; receivers ignore it).
+/// The synthetic-data marker (proprietary sentence; receivers ignore it). The stream it marks
+/// is training data. Advisory, not type-approved navigation equipment.
 pub fn marker() -> String {
     frame("PKSHT,TRAINING,SYNTHETIC,NOT-FOR-NAVIGATION")
 }

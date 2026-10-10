@@ -13,6 +13,16 @@ entry was simply not observed.
 Everything runs on local files. The default commands never open a network connection; the
 single optional download helper needs an explicit flag.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/interference-map-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/readme/interference-map-light.svg">
+  <img src="assets/readme/interference-map-light.svg" alt="Two synthetic interference-map days drawn from the committed samples in examples/interference-map/output, each with its own synthetic route and the route-exposure shares the engine reports. Left, an ADS-B day: 1 degraded cell, 6 not degraded, 4 unassessed (hatched) and cells with no entry, drawn empty, which were not observed. The route is 525 km: 11.5% of its length in degraded cells, 38.3% not degraded, 9.1% unassessed and 41.1% not observed. Right, an AIS day: cells flagged by the circle and on-land detectors, not-anomalous cells and empty cells; the route is 454 km with 10.5% in anomalous cells, 21.2% not anomalous, 0.0% unassessed and 68.3% not observed. ADS-B and AIS are separate layers, never combined. A flagged cell is not a finding of interference, and a cell with no colour was not observed, which is not the same as clear. All data are made up, in the open mid-Atlantic, and not a measurement." width="100%">
+</picture>
+
+Both days are the synthetic samples in `examples/interference-map/output/`, each with a synthetic route
+in `examples/interference-map/input/`; the route-exposure shares are what `kshana route-exposure` prints for
+them. Nothing in them is a real place, aircraft or vessel.
+
 ## Data and licences
 
 Only the sources reviewed in [`data/INTERFERENCE-DATA-SOURCES.md`](data/INTERFERENCE-DATA-SOURCES.md)

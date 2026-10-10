@@ -170,6 +170,15 @@ plugin, the panel went red, and OpenCPN's own position froze when the gate engag
 [`README.md`](../integrations/opencpn/plugin/README.md). It is licensed GPL-3.0-or-later, unlike the rest of the repository
 ([`LICENSING.md`](../LICENSING.md)).
 
+Screenshots from that run, in `integrations/opencpn/evidence/` (one run, OpenCPN 5.8.4 under a virtual display, synthetic data; [`README.md`](../integrations/opencpn/evidence/README.md) gives the limits):
+
+<img src="../integrations/opencpn/evidence/1-early.png" alt="The OpenCPN chart window running the Kshana score panel plugin on the synthetic gated stream, before the trust collapse: no panel is open (it opens itself on the alarm), the ship position in the status bar reads 54 32.4659 N 018 46.1670 E with speed 16.48 kn and course 088, and the fix indicator at top right shows three bars." width="48%">
+<img src="../integrations/opencpn/evidence/2-after-collapse.png" alt="The same OpenCPN window after the collapse: the Kshana panel is open in red with the score 47 and the word UNTRUSTED, the lines gate: fix marked invalid, cn0-spread -30.0, speed-log -21.0 and age 2 s, and the statement that this is advisory software, not type-approved navigation equipment and that the operator stays responsible. The status bar still reads 54 32.4672 N 018 46.2227 E, and the fix indicator has dropped to two bars." width="48%">
+<img src="../integrations/opencpn/evidence/direct-listen-after-collapse.png" alt="OpenCPN fed directly by kshana receiver-trust live --gate --listen: the Kshana panel is open in red with the score 44 and UNTRUSTED, the lines gate: fix marked invalid, cn0-spread -30.0, speed-log -18.8 and age 1 s, and the advisory statement. This run does not support the position-freeze observation: OpenCPN was still working through the initial burst of epochs." width="48%">
+
+These show the plumbing and the gated fix reaching OpenCPN, not that any alarm is timely or correct for a real vessel. Advisory software, not type-approved equipment.
+
+
 ## Reference build
 
 [`deploy/reference-build/`](../deploy/reference-build/README.md): a generic parts list, OS setup, two systemd units
