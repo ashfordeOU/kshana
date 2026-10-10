@@ -140,6 +140,22 @@ pub fn receiver_trust(toml: &str) -> Result<String, JsValue> {
     .to_string())
 }
 
+/// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
+/// (`docs/TEST-BENCH.md`), in memory: nothing is uploaded or written. `epoch` is the UTC
+/// instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an optional `Z` (empty for the
+/// default 2024-01-01T00:00:00Z). Returns JSON `{files: {suffix: text}, notes, notice}`; keep
+/// `notice` with the files. No radio-frequency or baseband signal is written.
+#[wasm_bindgen]
+pub fn bench_export(toml: &str, epoch: &str) -> Result<String, JsValue> {
+    use crate::surface::{BENCH_NOTICE, MAX_INPUT_BYTES};
+    let e =
+        crate::surface::bench_export(toml, (!epoch.is_empty()).then_some(epoch), MAX_INPUT_BYTES)
+            .map_err(|e| JsValue::from_str(&e))?;
+    let files: serde_json::Map<String, serde_json::Value> =
+        e.files.into_iter().map(|(k, v)| (k, v.into())).collect();
+    Ok(serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}).to_string())
+}
+
 /// Fill the public-framework mapping from result documents: which rows of five resilience
 /// frameworks and standards (`docs/compliance/`) the runs support evidence for, which they
 /// do not, and the gap each row keeps. `runs_json` is a JSON array of `{label, result,

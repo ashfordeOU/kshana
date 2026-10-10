@@ -1269,6 +1269,33 @@ fn interference_map<'py>(
     json_to_py(py, &v)
 }
 
+/// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
+/// (`kshana bench-export`, `docs/TEST-BENCH.md`), in memory: nothing is written to disk.
+/// Applies to the `gnss-ins`, `jamming` and `gnss-sim` kinds; others raise `ValueError` with
+/// the reason. `epoch` is the UTC instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an
+/// optional `Z` (default 2024-01-01T00:00:00Z); the output is byte-identical for the same
+/// scenario and epoch. Returns `{"files": {suffix: text}, "notes": [str], "notice": str}`:
+/// `files` holds `.motion.csv`, `.motion.json`, `.nmea`, `.events.csv`, `.events.toml` and,
+/// when the sample grid is millisecond-regular, `.waypoints.txt`; `notes` says why a file was
+/// left out; keep `notice` with the files. No radio-frequency or baseband signal is written.
+#[pyfunction]
+#[pyo3(signature = (toml, epoch=None))]
+fn bench_export<'py>(
+    py: Python<'py>,
+    toml: &str,
+    epoch: Option<&str>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{BENCH_NOTICE, MAX_INPUT_BYTES};
+    let e = crate::surface::bench_export(toml, epoch, MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    let files: serde_json::Map<String, serde_json::Value> =
+        e.files.into_iter().map(|(k, v)| (k, v.into())).collect();
+    json_to_py(
+        py,
+        &serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}),
+    )
+}
+
 /// Fill the public-framework mapping from result documents given as text: which rows of
 /// five resilience frameworks and standards (`docs/compliance/`) the runs support evidence
 /// for, which they do not, and the gap each row keeps. `runs` is a list of dicts with
@@ -1383,6 +1410,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
+    m.add_function(wrap_pyfunction!(bench_export, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;

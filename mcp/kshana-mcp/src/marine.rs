@@ -127,6 +127,17 @@ fn yes() -> bool {
     true
 }
 
+/// Parameters for [`KshanaServer::export_test_bench`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct TestBenchRequest {
+    /// The scenario TOML (kind `gnss-ins`, `jamming` or `gnss-sim`), at most 4 MiB.
+    pub toml: String,
+    /// UTC instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an optional `Z`. Default
+    /// 2024-01-01T00:00:00Z.
+    #[serde(default)]
+    pub epoch: Option<String>,
+}
+
 /// One run offered to [`KshanaServer::compliance_report`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct ComplianceRunRequest {
@@ -473,5 +484,40 @@ impl KshanaServer {
         Ok(CallToolResult::success(vec![ContentBlock::text(
             surface::compliance_mapping(r.sources),
         )]))
+    }
+
+    #[tool(
+        description = "Export a scenario's vehicle motion and events for a laboratory GNSS simulator (`kshana bench-export`, docs/TEST-BENCH.md): a motion CSV and its JSON description (Earth-fixed and geodetic position, velocity, attitude, UTC), NMEA 0183 GGA/RMC sentences, a waypoint text when the sample grid is millisecond-regular, and the scenario's events as CSV and as `[[events]]` TOML for a `receiver-trust` scenario. Applies to `gnss-ins` (its navigation-state outages are the events), `jamming` and `gnss-sim`; another kind is refused with the reason. `epoch` is the UTC instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` (default 2024-01-01T00:00:00Z). Nothing is written to disk: the first content item is a JSON index (`files` with `suffix`, `bytes`, `sha256`; `notes` on any file left out; `notice`), followed by each file's text in index order. The same scenario and epoch give byte-identical files. NO SIGNAL: nothing exported is, models or drives a radio-frequency or baseband signal, and an event is a labelled interval, not a recipe for producing interference; the simulator and its operator supply the signals and are responsible for running them only where authorised. Keep the notice with the files. Kshana publishes no results from such runs. Evidence tier: MODELLED."
+    )]
+    fn export_test_bench(
+        &self,
+        Parameters(r): Parameters<TestBenchRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        surface::reject_file_sources(&r.toml, MAX_UPLOAD_BYTES)
+            .map_err(|e| McpError::invalid_params(e, None))?;
+        let e = surface::bench_export(&r.toml, r.epoch.as_deref(), MAX_UPLOAD_BYTES)
+            .map_err(|e| bad(format!("test-bench export failed: {e}")))?;
+        let index: Vec<serde_json::Value> = e
+            .files
+            .iter()
+            .map(|(suffix, text)| {
+                serde_json::json!({
+                    "suffix": suffix,
+                    "bytes": text.len(),
+                    "sha256": kshana::advanced_report::sha256_hex(text.as_bytes()),
+                    "encoding": "utf-8",
+                })
+            })
+            .collect();
+        let mut contents = vec![ContentBlock::text(
+            serde_json::to_string_pretty(&serde_json::json!({
+                "files": index,
+                "notes": e.notes,
+                "notice": surface::BENCH_NOTICE,
+            }))
+            .unwrap_or_default(),
+        )];
+        contents.extend(e.files.into_iter().map(|(_, t)| ContentBlock::text(t)));
+        Ok(CallToolResult::success(contents))
     }
 }
