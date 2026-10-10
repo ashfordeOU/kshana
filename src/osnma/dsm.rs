@@ -145,7 +145,7 @@ impl DsmKroot {
 
     /// GST seconds of the chain's time of applicability, `GST_0` (ICD 5.5.1).
     pub fn gst0(&self) -> u32 {
-        (u32::from(self.wnk) << 20) | (u32::from(self.towhk) * 3600)
+        super::gst_secs(u32::from(self.wnk), u32::from(self.towhk) * 3600)
     }
 
     /// The message that the digital signature covers (Eq. 14).
@@ -263,7 +263,7 @@ mod tests {
         assert_eq!(k.alpha, [1, 2, 3, 4, 5, 6]);
         assert_eq!(k.kroot[0], 0xA0);
         assert_eq!(k.signature.len(), 64);
-        assert_eq!(k.gst0(), (0x4E0 << 20) | (0x6B * 3600));
+        assert_eq!(k.gst0(), crate::osnma::gst_secs(0x4E0, 0x6B * 3600));
         let m = k.signed_message(0x72);
         assert_eq!(m.len(), 1 + 28);
         assert_eq!(m[0], 0x72);

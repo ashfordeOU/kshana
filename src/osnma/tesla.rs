@@ -31,8 +31,8 @@ fn digest(hf: HashFn, data: &[u8]) -> Result<Vec<u8>, KeyError> {
 }
 
 /// One step of the chain: `F(K) = trunc(lk, hash(K || GST || alpha))`, where `gst` is
-/// the 32-bit time (week number in the upper 12 bits, time of week in the lower 20) of
-/// the sub-frame that carries the *derived* key.
+/// the time in GST seconds of the sub-frame that carries the *derived* key; it is
+/// packed into the 32-bit message form here.
 pub fn step(
     hf: HashFn,
     key: &[u8],
@@ -42,7 +42,7 @@ pub fn step(
 ) -> Result<Vec<u8>, KeyError> {
     let mut m = Vec::with_capacity(key.len() + 10);
     m.extend_from_slice(key);
-    m.extend_from_slice(&gst.to_be_bytes());
+    m.extend_from_slice(&super::gst_pack(gst).to_be_bytes());
     m.extend_from_slice(alpha);
     let mut out = digest(hf, &m)?;
     out.truncate(key_bits / 8);
@@ -103,7 +103,7 @@ mod tests {
     }
 
     const ALPHA: [u8; 6] = [0xA1, 0xB2, 0xC3, 0xD4, 0xE5, 0xF6];
-    const GST0: u32 = (1248 << 20) | 345_600;
+    const GST0: u32 = 1248 * crate::osnma::WEEK_S + 345_600;
 
     #[test]
     fn chain_keys_verify_back_to_root_and_to_each_other() {

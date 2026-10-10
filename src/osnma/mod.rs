@@ -41,3 +41,30 @@ impl OsnmaStatus {
         }
     }
 }
+
+/// Seconds in a GST week.
+pub const WEEK_S: u32 = 604_800;
+
+/// Galileo System Time in this module is plain seconds, `week * 604800 + time of week`.
+/// Messages carry it packed in 32 bits: the week number (12 bits) above the time of
+/// week (20 bits). These convert between the two.
+pub fn gst_pack(secs: u32) -> u32 {
+    (((secs / WEEK_S) & 0xFFF) << 20) | (secs % WEEK_S)
+}
+
+/// Seconds from a week number and a time of week.
+pub fn gst_secs(wn: u32, tow: u32) -> u32 {
+    wn * WEEK_S + tow
+}
+
+#[cfg(test)]
+mod gst_tests {
+    use super::*;
+
+    #[test]
+    fn pack_puts_week_above_time_of_week() {
+        let s = gst_secs(1248, 345_660);
+        assert_eq!(gst_pack(s), (1248 << 20) | 345_660);
+        assert_eq!(gst_pack(gst_secs(4097, 5)), (1 << 20) | 5); // week rolls over at 4096
+    }
+}
