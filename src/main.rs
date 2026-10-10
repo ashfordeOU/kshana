@@ -79,6 +79,10 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("iq") {
         return ExitCode::from(kshana::iq::cli::run(&args[2..]) as u8);
     }
+    // `kshana osnma verify <input>` checks Galileo OSNMA authentication of I/NAV pages.
+    if args.get(1).map(String::as_str) == Some("osnma") {
+        return ExitCode::from(kshana::osnma::cli::run(&args[2..]) as u8);
+    }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
     let mut export_omm_path: Option<PathBuf> = None;
