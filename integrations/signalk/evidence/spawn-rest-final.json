@@ -2,22 +2,58 @@
   "navigation/gnss/kshana/band": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "calibrating, nominal, degraded or untrusted",
+        "displayName": "GNSS trust band"
+      },
       "value": "untrusted",
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:59:04.527Z"
+      "timestamp": "2026-10-10T10:56:06.067Z"
     }
   },
   "navigation/gnss/kshana/score": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory only.",
+        "displayName": "GNSS trust score",
+        "displayScale": {
+          "lower": 0,
+          "upper": 100
+        },
+        "zones": [
+          {
+            "lower": 0,
+            "upper": 55,
+            "state": "alarm",
+            "message": "untrusted"
+          },
+          {
+            "lower": 55,
+            "upper": 90,
+            "state": "warn",
+            "message": "degraded"
+          },
+          {
+            "lower": 90,
+            "upper": 100,
+            "state": "nominal",
+            "message": "nominal"
+          }
+        ]
+      },
       "value": 44.4,
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:59:04.527Z"
+      "timestamp": "2026-10-10T10:56:06.067Z"
     }
   },
   "navigation/gnss/kshana/reasons": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "The checks that lowered the score, largest first: [{monitor, points}]. points are score points taken off the 0-100 score.",
+        "displayName": "GNSS trust deductions"
+      },
       "value": [
         {
           "monitor": "cn0-spread",
@@ -33,30 +69,69 @@
         }
       ],
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:59:04.527Z"
+      "timestamp": "2026-10-10T10:56:06.067Z"
     }
   },
   "navigation/gnss/kshana/gate": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "off, passed or withheld: what a Kshana gate did with the fix (null from $PKSHT without one).",
+        "displayName": "GNSS trust gate"
+      },
       "value": "off",
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:59:04.527Z"
+      "timestamp": "2026-10-10T10:56:06.067Z"
+    }
+  },
+  "navigation/gnss/kshana/score/meta": {
+    "status": 200,
+    "body": {
+      "description": "Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory only.",
+      "displayName": "GNSS trust score",
+      "displayScale": {
+        "lower": 0,
+        "upper": 100
+      },
+      "zones": [
+        {
+          "lower": 0,
+          "upper": 55,
+          "state": "alarm",
+          "message": "untrusted"
+        },
+        {
+          "lower": 55,
+          "upper": 90,
+          "state": "warn",
+          "message": "degraded"
+        },
+        {
+          "lower": 90,
+          "upper": 100,
+          "state": "nominal",
+          "message": "nominal"
+        }
+      ]
     }
   },
   "navigation/gnss/kshana/reportedPosition": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "The position the receiver under test reported. Trust context only; not the vessel position (navigation.position).",
+        "displayName": "Receiver-reported position"
+      },
       "value": {
         "latitude": 59.58029283333334,
         "longitude": 24.836459833333333,
         "altitude": 38
       },
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:59:04.527Z"
+      "timestamp": "2026-10-10T10:56:06.067Z"
     }
   },
-  "notifications/navigation/gnss/kshanaTrust": {
+  "notifications/navigation/gnss/kshana/trust": {
     "status": 200,
     "body": {
       "value": {
@@ -66,7 +141,7 @@
           "sound"
         ],
         "message": "GNSS fix trust untrusted (score 54.4): cn0-spread -30.0, speed-log -12.8, heading-course -2.8. Advisory only; check position by other means.",
-        "id": "0fb109f7-ce4f-4a0e-b7dc-4cd664a14ac5",
+        "id": "d1b8dc36-4d66-43b9-81aa-b429735ecccb",
         "status": {
           "silenced": false,
           "acknowledged": false,
@@ -76,7 +151,7 @@
         }
       },
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:58:39.512Z"
+      "timestamp": "2026-10-10T10:55:41.049Z"
     }
   },
   "navigation/position": {

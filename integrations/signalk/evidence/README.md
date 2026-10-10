@@ -1,6 +1,6 @@
 # Evidence: the plugin inside a real Signal K server
 
-One run on 2026-10-09 of `run-with-signalk-server.sh`: the pinned `signalk-server` 2.33.0 npm package (installed outside the
+One run (re-run on 2026-10-10, after the notification moved to `notifications.navigation.gnss.kshana.trust` and metadata was added) of `run-with-signalk-server.sh`: the pinned `signalk-server` 2.33.0 npm package (installed outside the
 repository), this plugin loaded from its `node_modules`, fed synthetic data. The server, the feed and the driver run in a private
 network namespace with only a loopback interface (`unshare -rn`), so nothing is reachable from outside and nothing leaves. What
 is recorded is what the **server's own REST and WebSocket APIs** show.
@@ -8,19 +8,19 @@ is recorded is what the **server's own REST and WebSocket APIs** show.
 ## `pksht` scenario (plugin source `tcp-pksht`, staleAfterS 3)
 
 A synthetic `$PKSHT` text stream, 4 epochs a second: 8 nominal, 4 degraded, 6 untrusted (gate withheld), 14 nominal.
-`pksht-notification-timeline.json` (REST polling of `notifications/navigation/gnss/kshanaTrust`):
+`pksht-notification-timeline.json` (REST polling of `notifications/navigation/gnss/kshana/trust`):
 
 | t (s) | state | why |
 |---|---|---|
 | 0 | absent | nothing yet |
 | 3.1 | warn | first degraded epoch |
 | 4.6 | alarm | first untrusted epoch |
-| 10.6 | normal | cleared after 10 consecutive nominal epochs (`clearAfterEpochs`) |
-| 16.1 | warn | the stream ended; no epoch for `staleAfterS` |
+| 10.7 | normal | cleared after 10 consecutive nominal epochs (`clearAfterEpochs`) |
+| 16.4 | warn | the stream ended; no epoch for `staleAfterS` |
 
 `pksht-ws-summary.json`: the WebSocket saw `navigation.gnss.kshana.{band,score,reasons,alarms,gate}` and the notification
 (the server adds `id` and `status` to it); band sequence nominal, degraded, untrusted, nominal. `pksht-rest-final.json`: the
-REST values. The `reportedPosition` path is absent here (a `$PKSHT` source carries no position) and `navigation.position` was not
+REST values, including the metadata of `navigation.gnss.kshana.score` (range 0 to 100, description, zones). The `reportedPosition` path is absent here (a `$PKSHT` source carries no position) and `navigation.position` was not
 written by the plugin.
 
 ## `spawn` scenario (plugin source `spawn-signalk-nmea`, `inputArgs ["--replay"]`)

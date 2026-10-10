@@ -149,13 +149,15 @@ breaking changes are called out explicitly.
   and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
 - **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
   the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- Review fixes: the systemd units restart always and run sandboxed (no shell, no network where none is needed), a logrotate
+  snippet, `check-units.sh` fails on any finding; the container runs the gate from environment variables with a health check
+  and digest-pinned base images; Signal K score metadata, the stale notification is replaced when data resumes, child-process
+  errors are kept and kills escalate, unsafe `inputArgs` are refused, and the notification is at
+  `notifications.navigation.gnss.kshana.trust`; the relay caps a held partial line; the `$PKSHT` parsers reject scores outside
+  0 to 100; a documentation link check; a CI workflow (`marine-integrations.yml`) running all of it, including the real binary
+  end to end.
 - `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
   only: nothing transmits, and no detection or false-alarm figure is claimed.
-
-  scenario and run every stream through the `receiver-trust` NMEA reader. Text only: no
-  RF, IQ or waveform output; streams are for training and testing and must never be fed
-  to a vessel's live navigation systems. A bare `--tcp`/`--udp` port means this machine
-  only; the TCP server has no authentication. See `docs/NMEA-TRAINING.md`.
 
 ## [0.34.0] - 2026-10-09
 

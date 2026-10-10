@@ -75,11 +75,11 @@ for (let i = 0; i < 120; i++) {
   await sleep(500)
 }
 
-// WebSocket: every delta whose path is under navigation.gnss.kshana or notifications...kshanaTrust
+// WebSocket: every delta whose path is under navigation.gnss.kshana or notifications.navigation.gnss.kshana.trust
 const deltas = []
 const ws = new WebSocket(`ws://127.0.0.1:${PORT}/signalk/v1/stream?subscribe=none`)
 await new Promise((r) => ws.on('open', r))
-ws.send(JSON.stringify({ context: 'vessels.self', subscribe: [{ path: 'navigation.gnss.kshana.*' }, { path: 'notifications.navigation.gnss.kshanaTrust' }] }))
+ws.send(JSON.stringify({ context: 'vessels.self', subscribe: [{ path: 'navigation.gnss.kshana.*' }, { path: 'notifications.navigation.gnss.kshana.trust' }] }))
 ws.on('message', (m) => {
   let d
   try {
@@ -98,7 +98,7 @@ const t0 = Date.now()
 const deadline = t0 + (scenario === 'spawn' ? 150000 : 60000)
 let doneAt = 0
 while (Date.now() < deadline) {
-  const n = await get(`${NS}/notifications/navigation/gnss/kshanaTrust`)
+  const n = await get(`${NS}/notifications/navigation/gnss/kshana/trust`)
   let st = 'absent'
   try {
     st = JSON.parse(n.body).value.state
@@ -112,7 +112,7 @@ while (Date.now() < deadline) {
   await sleep(300)
 }
 const api = {}
-for (const p of ['navigation/gnss/kshana/band', 'navigation/gnss/kshana/score', 'navigation/gnss/kshana/reasons', 'navigation/gnss/kshana/gate', 'navigation/gnss/kshana/reportedPosition', 'notifications/navigation/gnss/kshanaTrust', 'navigation/position']) {
+for (const p of ['navigation/gnss/kshana/band', 'navigation/gnss/kshana/score', 'navigation/gnss/kshana/reasons', 'navigation/gnss/kshana/gate', 'navigation/gnss/kshana/score/meta', 'navigation/gnss/kshana/reportedPosition', 'notifications/navigation/gnss/kshana/trust', 'navigation/position']) {
   const r = await get(`${NS}/${p}`)
   api[p] = { status: r.status, body: r.body.length > 1500 ? '(long)' : (() => { try { return JSON.parse(r.body) } catch (e) { return r.body } })() }
 }
