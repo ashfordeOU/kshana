@@ -5,19 +5,21 @@
 //! published Walker patterns, GLONASS from its interface control document, all through
 //! [`crate::constellation`], and positions are propagated by
 //! [`crate::constellation::satellite_positions_fixed`] (two-body plus secular J2, Earth
-//! rotation). The geometry is therefore the *nominal* constellation, not an ephemeris of
-//! the stream's date: each constellation sits at its own published reference epoch and
-//! the time since that epoch is wrapped to one sidereal day, so the sky repeats daily and
-//! the visible counts, elevations and azimuths are plausible for the place and the time
-//! of day, but a satellite's identity and exact position are not those of the real sky on
-//! that date. PRNs are assigned in slot order.
+//! rotation) from the GPS slot-table epoch, continuously, with no wrapping. The geometry
+//! is the *nominal* constellation, not an ephemeris of the stream's date: each
+//! constellation keeps its published slot layout and moves as a whole under J2, so the
+//! visible counts, elevations and azimuths are plausible for the place and the time, but
+//! a satellite's identity and exact position are not those of the real sky on that date.
+//! PRNs are assigned in slot order.
+//!
+//! Satellite positions and look angles come from engine functions that use the host's
+//! mathematics library, so the elevation and azimuth rounded into GSV can differ in a rare
+//! borderline digit between platforms; on one platform the output is byte-identical.
 
 use crate::body::Body;
 use crate::constellation::{
     beidou_slots, galileo_walker, glonass_slots, gps_slots, satellite_positions_fixed, Elements,
 };
-use crate::forces::EARTH_ROTATION_RATE;
-use std::f64::consts::TAU;
 
 /// Unix time of the GPS slot-table epoch, 2016-12-31 23:59:43 UTC, seconds.
 pub const EPOCH_UNIX_S: f64 = 1_483_228_783.0;
@@ -140,9 +142,7 @@ impl SkyModel {
 
     /// Earth-fixed satellite positions at the given Unix time (seconds), in `sats` order.
     pub fn positions(&self, unix_s: f64) -> Vec<[f64; 3]> {
-        let day = TAU / EARTH_ROTATION_RATE;
-        let t = (unix_s - EPOCH_UNIX_S).rem_euclid(day);
-        satellite_positions_fixed(&self.earth, &self.groups, true, t)
+        satellite_positions_fixed(&self.earth, &self.groups, true, unix_s - EPOCH_UNIX_S)
     }
 }
 
@@ -179,14 +179,36 @@ mod tests {
         }
     }
 
+    /// The sky is continuous in time: across the instants where the old sidereal-day wrap
+    /// sat, and across ordinary instants, the second difference of every satellite's
+    /// position over a one-second span is a few metres (the orbital acceleration), where a
+    /// jump of any size would show as kilometres.
     #[test]
-    fn geometry_repeats_daily() {
-        let m = SkyModel::new(&[System::Gps]).unwrap();
-        let a = m.positions(1_780_000_000.0);
-        let b = m.positions(1_780_000_000.0 + TAU / EARTH_ROTATION_RATE);
-        for (p, q) in a.iter().zip(&b) {
-            let d: f64 = (0..3).map(|i| (p[i] - q[i]).powi(2)).sum::<f64>().sqrt();
-            assert!(d < 1.0, "{d}");
+    fn positions_are_continuous_through_former_wrap_instants() {
+        let m = SkyModel::new(&[
+            System::Gps,
+            System::Glonass,
+            System::Galileo,
+            System::Beidou,
+        ])
+        .unwrap();
+        let day = std::f64::consts::TAU / crate::forces::EARTH_ROTATION_RATE;
+        let mut instants: Vec<f64> = (1..=3)
+            .map(|k| EPOCH_UNIX_S + 3.0e8 + k as f64 * day)
+            .collect();
+        instants.extend((0..5).map(|k| 1_780_000_000.0 + k as f64 * 5000.0));
+        // The wrap instants of the old model: whole sidereal days after the epoch.
+        let n0 = ((1_780_000_000.0 - EPOCH_UNIX_S) / day).floor();
+        instants.extend((0..3).map(|k| EPOCH_UNIX_S + (n0 + k as f64) * day));
+        for t in instants {
+            let (a, b, c) = (m.positions(t - 0.5), m.positions(t), m.positions(t + 0.5));
+            for i in 0..a.len() {
+                let d2: f64 = (0..3)
+                    .map(|j| (a[i][j] + c[i][j] - 2.0 * b[i][j]).powi(2))
+                    .sum::<f64>()
+                    .sqrt();
+                assert!(d2 < 100.0, "sat {i} at {t}: second difference {d2} m");
+            }
         }
     }
 }

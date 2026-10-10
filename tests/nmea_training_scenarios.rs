@@ -1,14 +1,16 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The training scenarios in `scenarios/training/`: determinism, checksum validity, every
-//! sentence read back by the receiver-trust NMEA reader, a golden excerpt per scenario,
-//! the injected events visible in the output, and the stream sinks on localhost.
+//! sentence accepted by the receiver-trust NMEA reader (which interprets GGA, RMC and GSV
+//! and passes over the other types), a golden excerpt per scenario, the injected events
+//! visible in the output, and the stream sinks on localhost.
 //!
 //! To rewrite a golden excerpt after an intended change, run with `KSHANA_BLESS_GOLDEN=1`
 //! and review the diff.
 
-use kshana::nmea_synth::config::TrainingScenario;
+use kshana::nmea_synth::config::{TrainingScenario, KN_MPS};
 use kshana::nmea_synth::gen::{generate, Generated};
 use kshana::nmea_synth::stream::{self, Pace, Sink, TcpServer, UdpSink, WriterSink};
+use kshana::nmea_synth::track;
 use kshana::receiver_trust::ingest::read_nmea;
 use std::io::Read;
 use std::net::{TcpStream, UdpSocket};
@@ -272,7 +274,13 @@ fn combined_event_runs_in_sequence() {
     assert!(!row_at(&g, 400.0).fix_valid, "jammed");
     let r = row_at(&g, 600.0);
     assert!(r.fix_valid, "re-acquired on the counterfeit signal");
-    assert!(r.position_error_m.unwrap() > 300.0);
+    // 100 s into a 400 s smoothstep ramp of 1600 m: 1600 * (3x^2 - 2x^3) at x = 0.25.
+    let want = 1600.0 * (3.0 * 0.0625 - 2.0 * 0.015_625);
+    assert!(
+        (r.position_error_m.unwrap() - want).abs() < 25.0,
+        "{:?}",
+        r.position_error_m
+    );
     assert!((row_at(&g, 1000.0).time_offset_s - 20.0).abs() < 1e-9);
     assert_eq!(row_at(&g, 1500.0).time_offset_s, -30.0);
     assert!(
@@ -296,10 +304,204 @@ fn reader_fix_matches_the_instructor_log() {
 }
 
 #[test]
-fn track_respects_the_vessel_limits() {
+fn track_respects_the_vessel_limits_in_every_library_scenario() {
+    for (name, _) in SCENARIOS {
+        let scn = load(name);
+        let t = track::generate(&scn);
+        let v = &scn.vessel;
+        let max_rot = t
+            .iter()
+            .map(|s| s.rot_deg_per_min.abs())
+            .fold(0.0, f64::max);
+        assert!(
+            max_rot <= v.max_rot_deg_per_min + 1e-6,
+            "{name}: rate of turn {max_rot}"
+        );
+        let dt = 1.0 / scn.scenario.rate_hz;
+        let max_rot_acc = t
+            .windows(2)
+            .map(|w| ((w[1].rot_deg_per_min - w[0].rot_deg_per_min) / 60.0 / dt).abs())
+            .fold(0.0, f64::max);
+        assert!(
+            max_rot_acc <= v.max_rot_accel_deg_per_s2 + 1e-6,
+            "{name}: {max_rot_acc} deg/s^2"
+        );
+        let max_acc = t
+            .windows(2)
+            .map(|w| ((w[1].stw_mps - w[0].stw_mps) / KN_MPS * 60.0 / dt).abs())
+            .fold(0.0, f64::max);
+        assert!(
+            max_acc <= v.max_accel_kn_per_min + 1e-6,
+            "{name}: {max_acc} kn/min"
+        );
+        assert!(
+            t.iter().all(|s| s.stw_mps > 0.0),
+            "{name}: the vessel stopped"
+        );
+    }
+}
+
+fn rmc_sog(g: &Generated, t: usize) -> f64 {
+    let l = g.epochs[t]
+        .lines
+        .iter()
+        .find(|l| l.contains("RMC"))
+        .unwrap();
+    l.split(',').nth(7).unwrap().parse::<f64>().unwrap()
+}
+
+#[test]
+fn drag_off_velocity_is_smooth_and_its_peaks_are_logged() {
+    let g = run("coastal-drag-off");
+    let s = &g.log.summary;
+    let e = &g.log.events[0];
+    let peak_a = e.peak_drag_accel_mps2.unwrap();
+    assert!((peak_a - 6.0 * 1400.0 / (360.0 * 360.0)).abs() < 1e-9);
+    assert!((e.peak_drag_speed_mps.unwrap() - 1.5 * 1400.0 / 360.0).abs() < 1e-9);
+    // The reported velocity never changes faster than the true track's own change plus the
+    // stated drag acceleration.
+    assert!(
+        s.reported_peak_accel_mps2 <= s.true_peak_accel_mps2 + peak_a + 1e-3,
+        "reported {} true {} drag {}",
+        s.reported_peak_accel_mps2,
+        s.true_peak_accel_mps2,
+        peak_a
+    );
+    assert!(g.log.to_json().contains("peak_drag_accel_mps2"));
+    // No step in SOG across the onset and across full strength.
+    for k in [419usize, 420, 421, 422, 779, 780, 781] {
+        let (a, b) = (rmc_sog(&g, k), rmc_sog(&g, k + 1));
+        assert!((b - a).abs() < 0.25, "SOG steps {a} -> {b} at {k}");
+    }
+}
+
+#[test]
+fn relative_bearing_is_latched_at_onset_and_logged() {
     let g = run("combined-event");
-    let sog: Vec<f64> = g.log.track.iter().map(|r| r.true_sog_kn).collect();
-    assert!(sog.iter().all(|s| *s > 5.0 && *s < 20.0));
+    let e = &g.log.events[1];
+    let b = e.resolved_bearing_deg.unwrap();
+    assert!(g
+        .log
+        .to_text()
+        .contains(&format!("towards {b:.0} deg true (90 deg relative")));
+    // The drag direction holds although the vessel's course changes during the drag.
+    let dir = |t: f64| {
+        let r = row_at(&g, t);
+        let (dn, de) = track::ne_offset_m(
+            r.true_lat_deg.to_radians(),
+            r.true_lon_deg.to_radians(),
+            r.reported_lat_deg.unwrap().to_radians(),
+            r.reported_lon_deg.unwrap().to_radians(),
+        );
+        de.atan2(dn).to_degrees().rem_euclid(360.0)
+    };
+    for t in [900.0, 1000.0, 1100.0, 1190.0] {
+        assert!(
+            (dir(t) - b).abs() < 8.0,
+            "t={t}: offset points {} not {b}",
+            dir(t)
+        );
+    }
+}
+
+#[test]
+fn replay_delay_scales_the_reported_speed() {
+    let g = run("combined-event");
+    // Mid-ramp the delay is growing, so the vessel is seen to move slower than it does.
+    assert!(
+        rmc_sog(&g, 1330) < rmc_sog(&g, 1280) - 3.0,
+        "{} vs {}",
+        rmc_sog(&g, 1330),
+        rmc_sog(&g, 1280)
+    );
+    // At a steady delay the speed is the true speed again.
+    assert!((rmc_sog(&g, 1400) - rmc_sog(&g, 1280)).abs() < 1.0);
+    // And it changes gradually: no jump in a single second.
+    for k in 1299..1362 {
+        assert!(
+            (rmc_sog(&g, k + 1) - rmc_sog(&g, k)).abs() < 1.0,
+            "step at {k}"
+        );
+    }
+}
+
+#[test]
+fn timeline_onset_is_the_first_affected_epoch() {
+    let g = run("coastal-drag-off");
+    let onset = g.log.timeline.iter().find(|t| t.what == "onset").unwrap();
+    // Scripted onset T+420 s with a ramp: the first epoch with any effect is the next.
+    assert_eq!(onset.t_s, 421.0);
+    assert!(row_at(&g, 420.0).position_error_m.unwrap() < 10.0);
+}
+
+#[test]
+fn scenario_names_cannot_escape_the_output_directory() {
+    let base =
+        std::fs::read_to_string(root().join("scenarios/training/open-sea-jamming.toml")).unwrap();
+    for bad in ["../evil", "a/b", ".hidden", "", "x y", "a\\\\b"] {
+        let t = base.replace("name = \"open-sea-jamming\"", &format!("name = \"{bad}\""));
+        assert!(
+            TrainingScenario::parse(&t)
+                .unwrap_err()
+                .contains("scenario.name"),
+            "{bad:?}"
+        );
+    }
+}
+
+#[test]
+fn a_bare_port_means_localhost() {
+    use kshana::nmea_synth::cli::localise_addr;
+    assert_eq!(localise_addr("10110"), "127.0.0.1:10110");
+    assert_eq!(localise_addr("0.0.0.0:10110"), "0.0.0.0:10110");
+    assert_eq!(localise_addr("192.168.1.5:4001"), "192.168.1.5:4001");
+}
+
+#[test]
+fn a_stalled_tcp_client_does_not_wedge_the_stream() {
+    use kshana::nmea_synth::gen::Epoch;
+    let server = TcpServer::bind("127.0.0.1:0").unwrap();
+    server.set_write_timeout(Duration::from_millis(300));
+    let addr = server.local_addr();
+    // One client that never reads, one that reads everything.
+    let _stalled = TcpStream::connect(addr).unwrap();
+    let reader = std::thread::spawn(move || {
+        let mut s = TcpStream::connect(addr).unwrap();
+        s.set_read_timeout(Some(Duration::from_secs(30))).unwrap();
+        let mut n = 0usize;
+        let mut b = vec![0u8; 1 << 16];
+        loop {
+            match s.read(&mut b) {
+                Ok(0) | Err(_) => break,
+                Ok(k) => n += k,
+            }
+        }
+        n
+    });
+    assert!(server.wait_for_clients(2, Some(Duration::from_secs(10))));
+    // About 40 MB: far more than the stalled client's socket buffers can hold.
+    let line = format!("${}*00", "X".repeat(70));
+    let epochs: Vec<Epoch> = (0..80)
+        .map(|k| Epoch {
+            t_s: k as f64,
+            lines: vec![line.clone(); 6000],
+        })
+        .collect();
+    let want = 80 * 6000 * (line.len() + 2);
+    let t0 = std::time::Instant::now();
+    {
+        let mut sinks: Vec<Box<dyn Sink>> = vec![Box::new(server)];
+        stream::run(&epochs, &mut sinks, Pace::Max).unwrap();
+    }
+    assert!(
+        t0.elapsed() < Duration::from_secs(20),
+        "the stalled client held the stream up"
+    );
+    assert_eq!(
+        reader.join().unwrap(),
+        want,
+        "the healthy client must get every byte"
+    );
 }
 
 #[test]
@@ -326,6 +528,16 @@ fn invalid_scenarios_are_refused_with_a_reason() {
     assert!(TrainingScenario::parse(&format!("{base}\n{dr}"))
         .unwrap_err()
         .contains("exactly one"));
+    let acc = "[[event]]\nkind = \"drag-off\"\nstart_s = 10\nduration_s = 100\nramp_s = 20\nfinal_offset_m = 500\nbearing_deg = 10\nmax_accel_mps2 = 0.5\n";
+    let e = TrainingScenario::parse(&format!("{base}\n{acc}")).unwrap_err();
+    assert!(
+        e.contains("max_accel_mps2") && e.contains("lengthen"),
+        "{e}"
+    );
+    let rp = "[[event]]\nkind = \"replay-delay\"\nstart_s = 10\nduration_s = 100\nramp_s = 30\ndelay_s = 25\n";
+    assert!(TrainingScenario::parse(&format!("{base}\n{rp}"))
+        .unwrap_err()
+        .contains("run backwards"));
 }
 
 #[test]
