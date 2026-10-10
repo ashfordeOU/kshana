@@ -137,6 +137,9 @@ libm = "0.2"
 # Ed25519 signatures for evidence packs (`kshana::evidence`). Minimal features: no
 # precomputed-table "fast" build, no serde, no pkcs8, no rand_core (a key seed is drawn
 # with the `rand` already in the tree). Pure Rust, builds for wasm32.
+# Already in the tree through ed25519-dalek; named so key material read by the command line is
+# wiped on drop.
+zeroize = { version = "1", default-features = false, features = ["alloc"] }
 ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
 
 # Optional bindings. Off by default: the core library, CLI, tests, and the

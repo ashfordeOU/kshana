@@ -3,7 +3,7 @@
 
 use super::prometheus::{self, Registry};
 use super::sample::{self, Band, TrustSample};
-use super::syslog::{self, Format, Transport};
+use super::syslog::{self, Format, Proto, SinkConfig, SyslogSink};
 use std::io::{BufRead, Write};
 use std::net::{SocketAddr, ToSocketAddrs};
 use std::sync::{Arc, Mutex};
@@ -19,6 +19,7 @@ const USAGE: &str = "usage: kshana trust-telemetry [options]
     --expose-position        also publish the receiver-reported position as gauges (off by default)
   syslog (CEF or LEEF in an RFC 5424 envelope):
     --syslog-udp <host:port> | --syslog-tcp <host:port> | --print-syslog
+    --syslog-octet-counting  frame TCP messages with octet counting (RFC 6587), not one per line
     --format cef|leef        payload dialect (default cef)
     --syslog-all             one event per epoch (default: one per band change)
     --host <name>            device host name in events (default `kshana`)
@@ -38,6 +39,7 @@ struct Opts {
     print_syslog: bool,
     cef: Option<bool>,
     syslog_all: bool,
+    octet_counting: bool,
     host: Option<String>,
     otlp: Option<String>,
     otlp_every: Option<usize>,
@@ -70,6 +72,7 @@ fn parse(args: &[String]) -> Result<Opts, String> {
                 })
             }
             "--syslog-all" => o.syslog_all = true,
+            "--syslog-octet-counting" => o.octet_counting = true,
             "--host" => o.host = Some(val("--host")?),
             "--otlp" => o.otlp = Some(val("--otlp")?),
             "--otlp-every" => {
@@ -155,21 +158,41 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     let host = o.host.clone().unwrap_or_else(|| "kshana".into());
     let cef = o.cef.unwrap_or(true);
     let fmt = if cef { Format::Cef } else { Format::Leef };
-    let mut transport = match (&o.syslog_udp, &o.syslog_tcp) {
-        (Some(a), None) => Some(Transport::udp(a).map_err(|e| format!("--syslog-udp: {e}"))?),
-        (None, Some(a)) => Some(Transport::tcp(a).map_err(|e| format!("--syslog-tcp: {e}"))?),
+    let failures = reg
+        .lock()
+        .map(|r| r.syslog_failure_counter())
+        .map_err(|_| "registry poisoned".to_string())?;
+    let sink = match (&o.syslog_udp, &o.syslog_tcp) {
         (Some(_), Some(_)) => return Err("--syslog-udp and --syslog-tcp are alternatives".into()),
+        (Some(a), None) => Some(SyslogSink::start(
+            a,
+            Proto::Udp,
+            SinkConfig::default(),
+            failures,
+        )),
+        (None, Some(a)) => {
+            let proto = if o.octet_counting {
+                Proto::TcpOctetCounting
+            } else {
+                Proto::Tcp
+            };
+            Some(SyslogSink::start(a, proto, SinkConfig::default(), failures))
+        }
         (None, None) => None,
     };
+    if o.octet_counting && o.syslog_tcp.is_none() {
+        return Err("--syslog-octet-counting applies to --syslog-tcp".into());
+    }
 
     #[cfg(not(feature = "otlp"))]
     if o.otlp.is_some() {
         return Err("--otlp needs a build with `--features otlp`".into());
     }
     #[cfg(feature = "otlp")]
-    if let Some(u) = &o.otlp {
-        super::otlp::parse_endpoint(u)?;
-    }
+    let exporter = match &o.otlp {
+        Some(u) => Some(super::otlp::Exporter::start(u)?),
+        None => None,
+    };
 
     let mut prev: Option<Band> = None;
     let mut n_epochs = 0usize;
@@ -187,7 +210,7 @@ fn run_inner(o: &Opts) -> Result<(), String> {
             }
             n_epochs += 1;
             let emit = o.syslog_all || prev != Some(s.band);
-            if emit && (transport.is_some() || o.print_syslog) {
+            if emit && (sink.is_some() || o.print_syslog) {
                 let payload = match fmt {
                     Format::Cef => syslog::cef(&s, prev, &host, version),
                     Format::Leef => syslog::leef(&s, prev, &host, version),
@@ -201,20 +224,18 @@ fn run_inner(o: &Opts) -> Result<(), String> {
                 if o.print_syslog {
                     println!("{line}");
                 }
-                if let Some(t) = transport.as_mut() {
-                    if let Err(e) = t.send(&line) {
-                        eprintln!("warning: syslog send failed: {e}");
-                    }
+                if let Some(t) = &sink {
+                    t.send(line);
                 }
             }
             prev = Some(s.band);
             #[cfg(feature = "otlp")]
-            if let Some(u) = &o.otlp {
+            if let Some(x) = &exporter {
                 if n_epochs % o.otlp_every.unwrap_or(10).max(1) == 0 {
-                    if let Ok(r) = reg.lock() {
-                        if let Err(e) = super::otlp::export(u, &r, (now * 1e9) as u64) {
-                            eprintln!("warning: otlp export failed: {e}");
-                        }
+                    // Clone under the lock, export without it.
+                    let snap = reg.lock().map(|r| r.clone()).ok();
+                    if let Some(snap) = snap {
+                        x.submit(snap, (now * 1e9) as u64);
                     }
                 }
             }
@@ -243,12 +264,14 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     }
 
     #[cfg(feature = "otlp")]
-    if let Some(u) = &o.otlp {
-        if let Ok(r) = reg.lock() {
-            if let Err(e) = super::otlp::export(u, &r, (now_unix() * 1e9) as u64) {
-                eprintln!("warning: otlp export failed: {e}");
-            }
+    if let Some(x) = exporter {
+        if let Ok(snap) = reg.lock().map(|r| r.clone()) {
+            x.submit(snap, (now_unix() * 1e9) as u64);
         }
+        x.finish();
+    }
+    if let Some(t) = sink {
+        t.finish();
     }
     let _ = n_epochs;
     if o.print_metrics {

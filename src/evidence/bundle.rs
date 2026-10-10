@@ -85,7 +85,7 @@ pub struct SignerRecord {
     pub algorithm: String,
     /// The public key, hex (32 bytes).
     pub public_key: String,
-    /// First 16 hex digits of the SHA-256 of the public key.
+    /// First 32 hex digits of the SHA-256 of the public key.
     pub fingerprint: String,
 }
 
@@ -138,6 +138,10 @@ pub enum EvidenceError {
     BadSlice(String),
     /// The window is empty or inverted.
     BadWindow(String),
+    /// The creation time is not an RFC 3339 UTC time (`YYYY-MM-DDTHH:MM:SSZ`).
+    BadCreated(String),
+    /// The timestamp token is not usable for this pack.
+    BadTimestamp(String),
     /// A value could not be serialised.
     Serialise(String),
 }
@@ -147,6 +151,8 @@ impl std::fmt::Display for EvidenceError {
         match self {
             EvidenceError::BadSlice(s) => write!(f, "bad log slice: {s}"),
             EvidenceError::BadWindow(s) => write!(f, "bad window: {s}"),
+            EvidenceError::BadCreated(s) => write!(f, "bad creation time: {s}"),
+            EvidenceError::BadTimestamp(s) => write!(f, "bad timestamp token: {s}"),
             EvidenceError::Serialise(s) => write!(f, "cannot serialise: {s}"),
         }
     }
@@ -224,9 +230,10 @@ pub fn chain_start() -> [u8; 32] {
     Sha256::digest(CHAIN_DOMAIN).into()
 }
 
-/// SHA-256 of a public key, first 16 hex digits.
+/// SHA-256 of a public key, first 32 hex digits (128 bits): short enough to compare by eye,
+/// long enough that a look-alike key cannot be ground out for it.
 pub fn fingerprint(public_key: &[u8]) -> String {
-    sha256_hex(public_key)[..16].to_string()
+    sha256_hex(public_key)[..32].to_string()
 }
 
 /// A fresh 32-byte signing-key seed from the operating system's random source.
@@ -263,6 +270,13 @@ pub fn create_bundle(
             "from {} to {}",
             input.window.from_s, input.window.to_s
         )));
+    }
+    if let Some(c) = input.created_utc {
+        if !crate::telemetry::time::is_rfc3339_utc_z(c) {
+            return Err(EvidenceError::BadCreated(format!(
+                "`{c}` is not a UTC time like 2026-01-02T03:04:05Z"
+            )));
+        }
     }
     let (kind, start, end) = match input.slice {
         Some((s, e)) => {
@@ -346,6 +360,18 @@ pub fn create_bundle(
         chain_head: hex::encode(prev),
     };
     let manifest_bytes = json_bytes(&manifest)?;
+    if let Some(t) = timestamp_token {
+        // A token that is not over this manifest would only fail at verification time.
+        let info = super::tsr::parse_token(t).map_err(EvidenceError::BadTimestamp)?;
+        let want = super::tsr::imprint_of(&info.hash_alg, &manifest_bytes).unwrap_or_default();
+        if want != info.imprint {
+            return Err(EvidenceError::BadTimestamp(
+                "its imprint is not the hash of this pack's manifest.json (a token can only be \
+                 obtained after the pack exists: use `kshana evidence attach-timestamp`)"
+                    .into(),
+            ));
+        }
+    }
     let sig = key.sign(&manifest_bytes);
 
     let mut files = Files::new();
