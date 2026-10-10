@@ -72,16 +72,16 @@ without a submission.
    can edit it. Glama then reads `glama.json` and rescans.
 3. If the score card asks for a Dockerfile or a tool-schema scan, point it at `mcp/kshana-mcp/Dockerfile`.
 
-### Anthropic Claude Code plugin directory
+### Claude Code plugin directory (the Claude maker's own listing)
 
 The plugin is `.claude-plugin/marketplace.json` (marketplace `ashforde`, plugin `kshana`). Anyone can use
-it today with `/plugin marketplace add ashfordeOU/kshana`. To be listed in Anthropic's own directory:
+it today with `/plugin marketplace add ashfordeOU/kshana`. To be listed in the official Claude Code plugin directory:
 
 1. Run `claude plugin validate .` in the repository root and fix anything it reports.
-2. Submit the plugin through Anthropic's plugin directory submission form (linked from the Claude Code
+2. Submit the plugin through the plugin directory's submission form (linked from the Claude Code
    plugin documentation, "Submit your plugin"), with the repository URL, the plugin name `kshana`, the
    licence (AGPL-3.0-only, commercial licence available) and the advisory sentence.
-3. The submission needs the founder's Anthropic account. Keep the plugin version equal to the release tag.
+3. The submission needs the founder's Claude account. Keep the plugin version equal to the release tag.
 
 ### Cursor
 
