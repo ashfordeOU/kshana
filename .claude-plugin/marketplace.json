@@ -14,8 +14,8 @@
       "name": "kshana",
       "source": "./",
       "displayName": "Kshana PNT-resilience simulator",
-      "description": "Run the validated Kshana PNT-resilience engine (orbits, GNSS, timing, fusion, quantum sensors) from an AI agent, over the kshana-mcp stdio server.",
-      "version": "0.26.0",
+      "description": "Run the validated Kshana PNT-resilience engine (orbits, GNSS, timing, fusion, quantum sensors, receiver trust, training NMEA, interference maps) from an AI agent, over the kshana-mcp stdio server.",
+      "version": "0.34.0",
       "author": {
         "name": "Ashforde OÜ",
         "email": "contact@ashforde.org"
@@ -23,7 +23,17 @@
       "homepage": "https://kshana.dev",
       "repository": "https://github.com/ashfordeOU/kshana",
       "license": "AGPL-3.0-only",
-      "keywords": ["pnt", "gnss", "orbit", "timing", "navigation", "mcp"]
+      "keywords": [
+        "pnt",
+        "gnss",
+        "orbit",
+        "timing",
+        "navigation",
+        "mcp",
+        "receiver-trust",
+        "maritime",
+        "interference-map"
+      ]
     }
   ]
 }

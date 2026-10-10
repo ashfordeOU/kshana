@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 
 import kshana
+import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 
@@ -406,3 +407,276 @@ def test_iq_campaign_runs_resumes_and_reports(tmp_path):
     rep = kshana.iq_campaign_report(out)
     assert rep["digest"] == first["digest"] and rep["rows"] == 2
     assert (tmp_path / "out" / "report.html").read_text().count("MODELLED") >= 1
+
+
+def _custom():
+    return dict(
+        licence="CC0-1.0",
+        licence_url="https://creativecommons.org/publicdomain/zero/1.0/",
+        attribution="Synthetic data generated for Kshana documentation. Not real observations.",
+    )
+
+
+def test_interference_map_matches_the_committed_synthetic_sample():
+    root = REPO / "examples" / "interference-map"
+    days = kshana.interference_map(
+        "adsb", (root / "input" / "adsb.csv").read_text(), "custom", **_custom()
+    )
+    assert len(days) == 1 and days[0]["date"] == "2026-03-01"
+    doc = json.loads(days[0]["geojson"])
+    assert doc["kshana_interference_map"]["schema"] == "kshana-interference-map/v1"
+    sample = json.loads((root / "output" / "adsb-custom-2026-03-01.geojson").read_text())
+    doc["kshana_interference_map"]["kshana_version"] = "X"
+    sample["kshana_interference_map"]["kshana_version"] = "X"
+    assert doc == sample
+    assert days[0]["cells_flagged"] >= 1
+
+
+def test_interference_map_and_route_exposure_reject_bad_input():
+    import pytest
+
+    with pytest.raises(ValueError):
+        kshana.interference_map("radar", "", "custom")
+    with pytest.raises(ValueError, match="custom"):
+        kshana.interference_map("adsb", "x", "custom")
+    with pytest.raises(ValueError):
+        kshana.route_exposure('{"type":"LineString","coordinates":[[0,0],[1,1]]}', [])
+
+
+def test_route_exposure_reports_on_a_map_built_in_memory():
+    root = REPO / "examples" / "interference-map"
+    day = kshana.interference_map(
+        "adsb", (root / "input" / "adsb.csv").read_text(), "custom", **_custom()
+    )[0]
+    route = '{"type":"LineString","coordinates":[[-50.0,30.2],[-47.0,30.2]]}'
+    report = json.loads(kshana.route_exposure(route, [day["geojson"]]))
+    assert isinstance(report, dict)
+
+
+def test_nmea_training_is_deterministic_and_carries_an_instructor_log():
+    toml = (REPO / "scenarios" / "training" / "open-sea-jamming.toml").read_text()
+    a = kshana.nmea_training(toml)
+    assert a == kshana.nmea_training(toml)
+    assert a["nmea"] != kshana.nmea_training(toml, seed=7)["nmea"]
+    assert "\r\n" in a["nmea"]
+    assert json.loads(a["log_json"])["schema"] == "kshana-nmea-training/1"
+
+
+def test_receiver_trust_scores_a_vessel_log_inline():
+    ex = REPO / "examples" / "maritime-trust"
+    toml = (ex / "session.toml").read_text().replace(
+        'path = "tallinn-helsinki.nmea"',
+        "text = '''" + (ex / "tallinn-helsinki.nmea").read_text() + "'''",
+    )
+    out = kshana.receiver_trust(toml)
+    assert "trust" in out.summary.lower() or out.summary
+    assert out.data()
+
+
+def _excerpt():
+    ex = REPO / "examples" / "maritime-trust"
+    session = (ex / "session.toml").read_text().replace(
+        'path = "tallinn-helsinki.nmea"', ""
+    ).replace("calibration_s = 300.0", "calibration_s = 60.0")
+    lines = (ex / "tallinn-helsinki.nmea").read_text().splitlines(keepends=True)
+    return session, "".join(lines[len(lines) * 1400 // 3000 : len(lines) * 1800 // 3000])
+
+
+def test_receiver_trust_replay_scores_an_excerpt():
+    import pytest
+
+    session, excerpt = _excerpt()
+    r = kshana.receiver_trust_replay(session, excerpt)
+    assert r["schema"] == "1.2" and "advisory" in r["epochs"][0] and r["summary"]["untrusted"] > 0
+    assert r["summary"]["lowest_score"] < 55 and r["epochs"][-1]["state"]
+    assert kshana.receiver_trust_replay(session, excerpt.encode())["summary"] == r["summary"]
+    with pytest.raises(ValueError):
+        kshana.receiver_trust_replay('[platform]\nkind = "static"', excerpt)
+
+
+def test_assess_vessel_log_returns_the_batch_result():
+    session, excerpt = _excerpt()
+    r = kshana.assess_vessel_log(session, excerpt)
+    assert len(r["epochs"]) > 300
+
+
+def test_evidence_pack_round_trip_in_memory():
+    import pytest
+
+    session, excerpt = _excerpt()
+    seed = "07" * 32
+    p = kshana.evidence_create(session, excerpt, 100.0, 300.0, title="t", created_utc="none", seed_hex=seed)
+    assert p["seed_hex"] == seed and len(p["public_key"]) == 64 and p["epochs_in_window"] > 100
+    assert {"manifest.json", "manifest.sig", "epochs.json", "summary.html", "log-slice.bin"} <= set(p["files"])
+    again = kshana.evidence_create(session, excerpt, 100.0, 300.0, title="t", created_utc="none", seed_hex=seed)
+    assert again["files"] == p["files"]  # reproducible without a creation time
+    ok = kshana.evidence_verify(p["files"], p["public_key"], excerpt)
+    assert ok["ok"] and ok["signer_pinned"] and ok["verdict"] == "verified"
+    unpinned = kshana.evidence_verify(p["files"])
+    assert unpinned["verdict"] == "intact-signer-not-pinned" and not unpinned["signer_pinned"]
+    assert "NOT PINNED" in unpinned["message"]
+    assert kshana.evidence_verify(p["files"], p["public_key"], require_timestamp=True)["verdict"] == "failed"
+    bad = dict(p["files"])
+    bad["epochs.json"] = bad["epochs.json"][:-3] + b"xx\n"
+    assert kshana.evidence_verify(bad, p["public_key"])["verdict"] == "failed"
+    assert not kshana.evidence_verify(p["files"], "09" * 32)["ok"]
+    with pytest.raises(ValueError):
+        kshana.evidence_verify(p["files"], "not-a-key")
+    generated = kshana.evidence_create(session, excerpt, 100.0, 300.0)
+    assert len(generated["seed_hex"]) == 64 and generated["seed_hex"] != seed
+
+
+def test_compliance_report_fills_the_mapping_and_keeps_the_statement():
+    result = json.dumps({
+        "scenario_hash": "0123456789abcdef0123",
+        "log": {"format": "nmea", "epochs": 10},
+        "monitors_run": ["cn0"],
+        "events_evaluable": 2, "events_detected": 2,
+        "predictions_evaluable": 1, "predictions_agreeing": 1,
+    })
+    out = kshana.compliance_report([
+        {"label": "trust.result.json", "result": result},
+        {"label": "bad.json", "result": "not json"},
+    ])
+    rep = out["report"]
+    assert "is not a finding that a framework is met" in rep["statement"]
+    assert rep["statement"] in out["markdown"]
+    assert len(rep["runs"]) == 1 and len(rep["unrecognised"]) == 1
+    assert all(r["gap"] for r in rep["rows"])
+    assert {r["status"] for r in rep["rows"]} <= {
+        "evidenced", "partly-evidenced", "not-evidenced", "out-of-scope"}
+    low = json.dumps(out).lower().replace("conformance framework", "").replace("conformance_framework", "")
+    for banned in ("certif", "complies", "compliant", "conform"):
+        assert banned not in low
+    for sources in (False, True):
+        assert kshana.compliance_mapping(sources).startswith("> A row marked evidenced")
+    with pytest.raises(ValueError):
+        kshana.compliance_report([{"result": "{}"}])
+    with pytest.raises(ValueError):
+        kshana.compliance_report([{"label": f"r{i}", "result": "{}"} for i in range(65)])
+
+
+def test_bench_export_is_in_memory_text_with_the_no_signal_notice():
+    toml = (Path(__file__).resolve().parents[2] / "scenarios" / "automotive-urban-canyon.toml").read_text()
+    a = kshana.bench_export(toml, "2025-03-01T10:00:00Z")
+    assert a == kshana.bench_export(toml, "2025-03-01T10:00:00")
+    assert {".motion.csv", ".motion.json", ".nmea", ".events.csv", ".events.toml"} <= set(a["files"])
+    assert "2025-03-01" in a["files"][".motion.csv"]
+    assert "radio-frequency or baseband signal" in a["notice"]
+    with pytest.raises(ValueError):
+        kshana.bench_export(toml, "not a time")
+    with pytest.raises(ValueError):
+        kshana.bench_export('kind = "orbit"\n')
+
+
+def test_scenario_exports_animation_routes_and_examples_in_memory():
+    ex = kshana.list_examples()
+    assert ex["count"] > 50 and {"name", "kind", "about"} <= set(ex["scenarios"][0])
+    assert all(e["kind"] == "orbit" for e in kshana.list_examples("orbit")["scenarios"])
+    with pytest.raises(ValueError):
+        kshana.list_examples("no-such-kind")
+    clock = kshana.get_example("clock-holdover")
+    orbit = kshana.get_example("orbit-multignss")
+    with pytest.raises(ValueError):
+        kshana.get_example("no-such-example")
+    assert kshana.export_sp3(orbit).startswith("#")
+    with pytest.raises(ValueError):
+        kshana.export_omm(clock)
+    assert "CCSDS_OEM" in kshana.export_oem(orbit) or "CCSDS" in kshana.export_oem(orbit)
+    with pytest.raises(ValueError):
+        kshana.export_sp3(clock)
+    plan = kshana.export_formats(clock)
+    assert [p["format"] for p in plan] == ["czml", "kml", "geojson", "stk", "sigmf"]
+    czml = kshana.export_scenario(orbit, "czml")
+    f = czml["files"][0]
+    assert czml["format"] == "czml" and f["encoding"] == "utf-8" and len(f["sha256"]) == 64
+    assert czml == kshana.export_scenario(orbit, "czml")
+    with pytest.raises(ValueError):
+        kshana.export_scenario(clock, "czml")
+    route = '{"type":"LineString","coordinates":[[10.0,50.0],[10.5,50.0]]}'
+    assert "start_lat_deg = 50" in kshana.import_route(kshana.get_example("terrain-nav"), route)
+    with pytest.raises(ValueError):
+        kshana.import_route(clock, route)
+    a = kshana.animate_scenario(clock)
+    assert list(a["files"]) == ["animation.svg"] and "<svg" in a["files"]["animation.svg"]
+    fr = kshana.animate_scenario(clock, "frames", fps=10, duration_s=3.0)
+    assert "manifest.json" in fr["files"]
+    with pytest.raises(ValueError):
+        kshana.animate_scenario(clock, "frames", fps=60, duration_s=600.0)
+
+
+def _synthetic_tsr(digest: bytes, gen_time: str = "20260102030405Z") -> bytes:
+    """An unsigned, synthetic RFC 3161 response over `digest` (not a real authority's output)."""
+    def enc(tag, content):
+        n = len(content)
+        head = bytes([tag, n]) if n < 0x80 else bytes([tag, 0x82, n >> 8, n & 0xFF])
+        return head + content
+    sha256 = bytes([0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01])
+    imprint = enc(0x30, enc(0x30, enc(0x06, sha256)) + enc(0x04, digest))
+    tst = enc(0x30, enc(0x02, b"\x01") + enc(0x06, b"\x2a\x03") + imprint + enc(0x02, b"\x07")
+              + enc(0x18, gen_time.encode()))
+    tst_oid = bytes([0x2a, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x09, 0x10, 0x01, 0x04])
+    signed_oid = bytes([0x2a, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x07, 0x02])
+    encap = enc(0x30, enc(0x06, tst_oid) + enc(0xA0, enc(0x04, tst)))
+    signed = enc(0x30, enc(0x02, b"\x03") + enc(0x31, b"") + encap)
+    ci = enc(0x06, signed_oid) + enc(0xA0, signed)
+    return enc(0x30, enc(0x30, enc(0x02, b"\x00")) + enc(0x30, ci))
+
+
+def test_evidence_timestamp_attaches_in_memory_and_keygen_returns_a_warned_key():
+    import base64, hashlib
+    session, nmea = _excerpt()
+    key = kshana.evidence_keygen()
+    assert len(key["seed_hex"]) == 64 and len(key["public_key"]) == 64
+    assert len(key["fingerprint"]) == 32 and "PRIVATE" in key["warning"]
+    assert kshana.evidence_keygen()["seed_hex"] != key["seed_hex"]
+    pack = kshana.evidence_create(session, nmea, 100.0, 300.0, seed_hex=key["seed_hex"])
+    assert pack["public_key"] == key["public_key"]
+    tsr = _synthetic_tsr(hashlib.sha256(pack["files"]["manifest.json"]).digest())
+    for token in (tsr, base64.b64encode(tsr).decode()):
+        out = kshana.evidence_attach_timestamp(pack["files"], token)
+        assert "timestamp.tsr" in out["files"]
+        v = kshana.evidence_verify(out["files"], pack["public_key"], require_timestamp=True)
+        assert v["verdict"] == "verified"
+    stamped = kshana.evidence_attach_timestamp(pack["files"], tsr)["files"]
+    with pytest.raises(ValueError):
+        kshana.evidence_attach_timestamp(stamped, tsr)
+    assert "timestamp.tsr" in kshana.evidence_attach_timestamp(stamped, tsr, replace=True)["files"]
+    with pytest.raises(ValueError):
+        kshana.evidence_attach_timestamp(pack["files"], _synthetic_tsr(b"\x00" * 32))
+    with pytest.raises(ValueError):
+        kshana.evidence_attach_timestamp(pack["files"], "not base64!!")
+
+
+def test_iq_sweep_matches_a_single_track_per_design():
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.3, signal="gps-l1ca", prns=[5], dopplers=[1200.0],
+        cn0_dbhz=50.0, seed=3,
+    )
+    args = (scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [5])
+    sw = kshana.iq_sweep(*args, pll_bws=[10.0, 20.0], spacings=[0.5])
+    rows = sw["designs"]
+    assert len(rows) == 2 and {r["code"] for r in rows} == {rows[0]["code"]}
+    assert rows[0]["design"] != rows[1]["design"] and rows[0]["design_hash"] != rows[1]["design_hash"]
+    assert all(r["epochs"] > 100 and 0.0 <= r["phase_lock_frac"] <= 1.0 for r in rows)
+    # One design on its own is the same result as that design inside a sweep of two.
+    one = kshana.iq_sweep(*args, pll_bws=[10.0], spacings=[0.5])["designs"][0]
+    assert one == rows[0]
+    with pytest.raises(ValueError):
+        kshana.iq_sweep(*args, design="[design]\nname = \"x\"\n", pll_bws=[10.0])
+
+
+def test_iq_info_and_inventory_describe_a_recording_on_disk(tmp_path):
+    import numpy as np
+    scene = kshana.iq_scene(fs_hz=2_046_000, duration_s=0.02, signal="gps-l1ca", prns=[1], noise=False)
+    iq = np.empty(2 * len(scene["samples_i"]), dtype="<f4")
+    iq[0::2], iq[1::2] = scene["samples_i"], scene["samples_q"]
+    rec = tmp_path / "rec.bin"
+    rec.write_bytes(iq.tobytes())
+    (tmp_path / "rec.bin.json").write_text(
+        '{"format": "cf32_le", "sample_rate_hz": 2046000.0, "center_hz": 1575420000.0}'
+    )
+    info = kshana.iq_info(str(rec), hash=True)
+    assert info["format"] == "cf32_le" and info["n_samples"] == len(scene["samples_i"])
+    rows = kshana.iq_inventory(str(tmp_path))
+    assert len(rows) == 1 and rows[0]["n_samples"] == info["n_samples"]

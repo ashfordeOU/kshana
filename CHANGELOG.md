@@ -175,6 +175,32 @@ breaking changes are called out explicitly.
 - `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
   only: nothing transmits, and no detection or false-alarm figure is claimed.
 
+- **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
+  `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
+  `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing
+  key does not belong in a page). MCP server: `assess_vessel_stream`, `assess_vessel_log`,
+  `create_evidence_pack`, `verify_evidence_pack`, `generate_training_nmea`,
+  `build_interference_map`, `route_exposure`, each with input caps and round-trip tests. Claude
+  Code plugin: slash commands `/kshana-assess-receiver`, `/kshana-training-scenario`,
+  `/kshana-interference-map`, `/kshana-evidence-pack` and the matching skills. JetBrains plugin:
+  Assess Receiver Trust, Generate Training NMEA, Build Interference Map and Route Exposure
+  actions. Notebooks: `vessel-trust-and-training`, `interference-map-route-exposure`. Docs:
+  `docs/AGENTS.md` and `docs/SURFACES.md`, which states, for every cell, why a surface cannot
+  carry a capability (a running process: `receiver-trust live`, its gate and listener, the
+  telemetry exporters, streamed training NMEA; the land download). The in-memory entry points
+  share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
+  modules' own functions.
+
+### Changed
+
+- **The MCP server's tools take inline content only.** A scenario that sets a field naming a
+  file or folder for the engine to read (`csv_path`, `meta_path`, `ephemeris_path`, the kernel,
+  data-folder and EOP-file fields) is refused with the field's name, and every scenario and
+  upload is capped at 4 MiB. `assess_receiver_log` takes the log as `text` or `base64`. The GNSS
+  IQ tools keep their opt-in work directory, with every path confined to it. A test lists the
+  fields and fails when a scenario type gains one that is not covered. The Python function
+  `receiver_trust`, which runs in the caller's own process, still accepts a `path`.
+
 
 ## [0.34.1] - 2026-10-10
 
