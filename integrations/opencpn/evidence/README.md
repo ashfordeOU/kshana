@@ -28,7 +28,7 @@ The same script, with `KSHANA_BIN` and `KSHANA_DEMO` set, feeds OpenCPN from a r
 the first 1600 epochs at once (baseline and lead-up), then one epoch per second. `direct-listen-plugin-log.txt` shows OpenCPN
 handing the plugin the `$PKSHT` of that stream (calibrating, then degraded, then untrusted/withheld), and
 `direct-listen-after-collapse.png` the red panel. That run does **not** support the position-freeze observation above: OpenCPN
-was still working through the 1600-epoch burst when the early shot was taken, so its status bar was not a clean before/after.
+was still working through the 1600-epoch burst when the early shot was taken, so its status bar was not a clean before/after. The log also shows no nominal band before the degraded one, which is consistent with the gate (which gives each client a bounded queue and drops one that cannot keep up) having dropped OpenCPN during the burst and OpenCPN reconnecting; this is the likely explanation and was not verified. A paced feed does not do this: the end-to-end test feeds in modest chunks for the same reason.
 
 Reproduce (needs `opencpn`, `xvfb`, `xdotool`, `scrot`, `node`):
 
