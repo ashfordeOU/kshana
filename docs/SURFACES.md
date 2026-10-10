@@ -77,7 +77,7 @@ exists yet.
 | `--study <suite.toml>` | no | no | no | no | CLI only | | A suite names sibling files on disk; run each member as a scenario |
 | `--export-sp3/-omm/-oem` | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `/kshana-run` | CLI only | | |
 | `--export <czml,kml,geojson,stk,sigmf>` | `export_scenario`, `export_formats` | `export_scenario`, `export_formats` | `export_interop`, `list_export_formats` | `/kshana-run` | CLI only | | Files come back as text (`utf-8`) or base64 (the SigMF samples) |
-| `--import-route` | `import_route` | `import_route` | `import_route` | no | CLI only | | Plugin gap |
+| `--import-route` | `import_route` | `import_route` | `import_route` | `/kshana-import-route` | CLI only | | |
 | `--animate <svg,html,frames>` | `animate_scenario` | `animate_scenario` | `animate_scenario` | `/kshana-run` | CLI only | | At most 120 frames per call; longer sequences use the CLI |
 | `kinds [--json]` | `scenario_kinds`, `list_kinds` | `list_kinds` | `list_scenario_kinds` | `/kshana-run` | CLI only | | |
 | `example [<name>]` | `list_examples`, `get_example` | `list_examples`, `get_example` | `list_example_scenarios`, `get_example_scenario` | `/kshana-run` | CLI only | | The `python` and `wasm` features compile the example text in (about 0.7 MB) |
@@ -86,8 +86,8 @@ exists yet.
 | `trust-telemetry` | N/A | N/A | N/A | how-to | N/A | | A process (N/A above) |
 | `receiver-trust evidence` (create a pack) | `evidence_create` | N/A | `create_evidence_pack` | `/kshana-evidence-pack` | CLI only | `vessel-trust-and-training` | No signing key in a browser |
 | `evidence verify` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | `/kshana-evidence-pack` | CLI only | `vessel-trust-and-training` | |
-| `evidence keygen` | no | N/A | N/A | N/A | CLI only | | A private key should not pass through a conversation or a page |
-| `evidence attach-timestamp` | no | no | no | no | CLI only | | Reads an RFC 3161 token file; a gap |
+| `evidence keygen` | `evidence_keygen` | N/A | N/A | N/A | CLI only | | Python returns the key in memory with a warning; a private key should not pass through a conversation or a page |
+| `evidence attach-timestamp` | `evidence_attach_timestamp` | `evidence_attach_timestamp` | `attach_evidence_timestamp` | `/kshana-evidence-pack` | CLI only | | Token as bytes or base64, updated pack returned in memory; the authority's signature is not checked (`openssl ts -verify`) |
 | `nmea-scenario <scenario.toml>` | `nmea_training` | `nmea_training` | `generate_training_nmea` | `/kshana-training-scenario` | Generate Training NMEA | `vessel-trust-and-training` | |
 | `nmea-scenario --tcp/--udp` | N/A | N/A | N/A | N/A | CLI only | | Sends to an address (N/A above) |
 | `interference-map adsb\|ais` (CSV) | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map` | Build Interference Map | `interference-map-route-exposure` | |
@@ -97,18 +97,18 @@ exists yet.
 | `bench-export` | `bench_export` | `bench_export` | `export_test_bench` | `/kshana-bench-export` | no action yet | | Returns text, writes nothing; no signal |
 | `compliance-report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report` | no action yet | | |
 | `compliance-report --mapping`, `--sources` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `/kshana-compliance-report` | no action yet | | |
-| `iq scene` | `iq_scene`, `iq_scene_broadcast` | no | `iq_scene` | no | CLI only | | WASM: recordings are files |
-| `iq acquire` | `iq_acquire`, `iq_acq_surface` | no | `iq_acquire` | no | CLI only | | |
-| `iq track` | `iq_track`, `iq_loop_designs` | no | `iq_track` | no | CLI only | | |
+| `iq scene` | `iq_scene`, `iq_scene_broadcast` | no | `iq_scene` | `/kshana-iq` | CLI only | | WASM: recordings are files |
+| `iq acquire` | `iq_acquire`, `iq_acq_surface` | no | `iq_acquire` | `/kshana-iq` | CLI only | | |
+| `iq track` | `iq_track`, `iq_loop_designs` | no | `iq_track` | `/kshana-iq` | CLI only | | |
 | `iq sweep` | no | no | no | no | CLI only | | Gap on Python and MCP |
 | `iq labfit` | `iq_labfit` | no | no | no | CLI only | | MCP gap |
-| `iq frontend` | `iq_frontend` | no | `iq_frontend` | no | CLI only | | |
+| `iq frontend` | `iq_frontend` | no | `iq_frontend` | `/kshana-iq` | CLI only | | |
 | `iq monitor` | `iq_monitor` | no | no | no | CLI only | | MCP gap |
-| `iq campaign`, `iq campaign report` | `iq_campaign`, `iq_campaign_report` | no | `iq_campaign`, `iq_campaign_status` | no | CLI only | | |
+| `iq campaign`, `iq campaign report` | `iq_campaign`, `iq_campaign_report` | no | `iq_campaign`, `iq_campaign_status` | `/kshana-iq` | CLI only | | |
 | `iq conditions` | `iq_test_conditions` | no | no (a campaign resolves its conditions) | no | CLI only | | |
-| `iq inventory`, `info` | no | no | `iq_info` | no | CLI only | | Python gap |
+| `iq inventory`, `info` | no | no | `iq_info` | `/kshana-iq` | CLI only | | Python gap |
 | `iq extract`, `convert`, `decimate` | no | no | no | no | CLI only | | Gap on Python and MCP; these rewrite recordings on disk |
-| the signal list (`iq --help`) | `iq_signals` | no | `iq_signals` | no | CLI only | | |
+| the signal list (`iq --help`) | `iq_signals` | no | `iq_signals` | `/kshana-iq` | CLI only | | |
 
 ## Limits that differ by surface
 

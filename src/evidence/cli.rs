@@ -5,7 +5,7 @@
 
 use super::assemble::{build_receiver_trust_pack, PackRequest};
 use super::bundle::{fingerprint, generate_seed, public_key_hex, Files};
-use super::verify::{verify_bundle, Status, VerifyOptions};
+use super::verify::{attach_timestamp, verify_bundle, Status, VerifyOptions};
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
 use std::path::{Path, PathBuf};
 use zeroize::Zeroizing;
@@ -277,19 +277,7 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             let replace = args.iter().any(|a| a == "--replace");
             let bytes = std::fs::read(tok).map_err(|e| format!("cannot read {tok}: {e}"))?;
             let mut files = read_dir(Path::new(dir))?;
-            if files.contains_key("timestamp.tsr") && !replace {
-                return Err(
-                    "the pack already has a timestamp token; pass --replace to replace it".into(),
-                );
-            }
-            files.insert("timestamp.tsr".into(), bytes.clone());
-            let rep = verify_bundle(&files, &VerifyOptions::default());
-            if !rep.ok {
-                return Err(format!(
-                    "not attached: the pack with this token does not verify ({})",
-                    serde_json::to_string(&rep.failures).unwrap_or_default()
-                ));
-            }
+            let notes = attach_timestamp(&mut files, &bytes, replace)?;
             let target = Path::new(dir).join("timestamp.tsr");
             if replace {
                 std::fs::write(&target, bytes)
@@ -298,7 +286,7 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 write_new_file(&target, &bytes, false)?;
             }
             println!("attached {}", target.display());
-            for n in &rep.notes {
+            for n in &notes {
                 println!("note: {n}");
             }
             println!("note: the token sits beside the signed manifest, not inside it; verify with --require-timestamp to insist on it.");

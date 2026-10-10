@@ -26,6 +26,8 @@ __all__ = [
     "evidence_verify",
     "interference_map",
     "bench_export",
+    "evidence_attach_timestamp",
+    "evidence_keygen",
     "export_sp3",
     "export_omm",
     "export_oem",
@@ -207,6 +209,23 @@ def list_examples(kind: Optional[str] = None) -> dict[str, Any]:
 def get_example(name: str) -> str:
     """The TOML text of one bundled reference scenario, byte for byte the repository's file.
     Raises ``ValueError`` for an unknown or unbundled name."""
+
+def evidence_attach_timestamp(
+    files: dict[str, str | bytes],
+    token: str | bytes,
+    replace: bool = False,
+) -> dict[str, Any]:
+    """Bind an RFC 3161 timestamp token to an evidence pack, in memory. ``token`` is the raw
+    bytes of the ``.tsr`` file or its base64 text. It is stored as ``timestamp.tsr`` beside the
+    signed manifest, and the pack with the token must still verify (else ``ValueError``). An
+    existing token is kept unless ``replace=True``. This does NOT verify the timestamp
+    authority's signature or certificate chain: use ``openssl ts -verify``. Returns
+    ``{"files": {name: bytes}, "notes": [...]}``."""
+
+def evidence_keygen() -> dict[str, str]:
+    """Generate an Ed25519 signing key for evidence packs, in memory: ``seed_hex`` (the PRIVATE
+    key; keep it secret), ``public_key``, ``fingerprint`` and a ``warning``. Python only: a
+    private key should not pass through a web page or an agent conversation."""
 
 def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
     """Export a scenario's vehicle motion and events for a laboratory GNSS simulator
