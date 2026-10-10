@@ -475,6 +475,13 @@ jobs:
       actions: read
     uses: ./.github/workflows/jetbrains-plugin.yml
 
+  dry-marine:
+    name: marine integrations (dry run)
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/marine-integrations.yml
+
   dry-mcp-deny:
     name: cargo-deny over the MCP server's lockfile (dry run)
     if: ${{ inputs.dry_run }}
