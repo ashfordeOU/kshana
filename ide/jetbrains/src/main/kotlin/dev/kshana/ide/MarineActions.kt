@@ -110,3 +110,109 @@ class RouteExposureAction : KshanaFileAction() {
         )
     }
 }
+
+/** Right-click a scenario `.toml` → "Export Test-Bench Files (Kshana)": writes the motion, NMEA
+ *  and event files for a laboratory simulator next to the scenario. */
+class BenchExportAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isScenarioFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val out = (file.parent?.path ?: ".") + "/bench-" + file.nameWithoutExtension
+        KshanaRunner.run(
+            project,
+            "Exporting test-bench files",
+            KshanaCli.benchExportCommand(binary(), file.path, out),
+            file.parent?.path,
+            KshanaCli.BENCH_NOTICE,
+        )
+    }
+}
+
+/** Right-click a run result `.json` → "Build Compliance Report (Kshana)": fills the public-framework
+ *  mapping from that result. The engine's statement is printed with it, word for word. */
+class ComplianceReportAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isResultFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val out = (file.parent?.path ?: ".") + "/compliance-" + file.nameWithoutExtension
+        KshanaRunner.run(
+            project,
+            "Building compliance report",
+            KshanaCli.complianceReportCommand(binary(), out, listOf(file.path)),
+            file.parent?.path,
+            KshanaCli.COMPLIANCE_STATEMENT,
+        )
+    }
+}
+
+/** Tools menu → "Show Compliance Mapping (Kshana)": the static mapping tables, no run needed. */
+class ComplianceMappingAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabledAndVisible = e.project != null
+    }
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val bin = KshanaCli.resolveBinary(KshanaSettings.getInstance().state.binaryPath)
+        KshanaRunner.run(
+            project,
+            "Showing compliance mapping",
+            KshanaCli.complianceMappingCommand(bin),
+            project.basePath,
+            KshanaCli.COMPLIANCE_STATEMENT,
+        )
+    }
+}
+
+/** Right-click an evidence-pack folder → "Verify Evidence Pack (Kshana)": asks for the signer's public
+ *  key (always pinned) and, optionally, the full session log, then runs `kshana evidence verify`. */
+class VerifyEvidencePackAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
+    override fun update(e: AnActionEvent) {
+        val dir = e.getData(CommonDataKeys.VIRTUAL_FILE)
+        e.presentation.isEnabledAndVisible =
+            e.project != null && dir != null && dir.isDirectory && dir.findChild("manifest.json") != null
+    }
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val dir = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val key = Messages.showInputDialog(
+            project,
+            "The signer's public key: 64 hex digits, or the path to the .pub file. Get it from the signer, not from the pack.",
+            "Verify Evidence Pack",
+            Messages.getQuestionIcon(),
+        )?.trim()
+        if (key.isNullOrEmpty()) return
+        var log: String? = null
+        val withLog = Messages.showYesNoDialog(
+            project,
+            "Also check the pack against the full session log you hold?",
+            "Verify Evidence Pack",
+            Messages.getQuestionIcon(),
+        )
+        if (withLog == Messages.YES) {
+            log = FileChooser.chooseFile(
+                FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("Full session log"),
+                project,
+                dir.parent,
+            )?.path
+        }
+        val bin = KshanaCli.resolveBinary(KshanaSettings.getInstance().state.binaryPath)
+        KshanaRunner.run(
+            project,
+            "Verifying evidence pack",
+            KshanaCli.evidenceVerifyCommand(bin, dir.path, key, log),
+            dir.parent?.path,
+            KshanaCli.EVIDENCE_NOTICE,
+            KshanaCli::evidenceVerdict,
+        )
+    }
+}
