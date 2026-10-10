@@ -23,8 +23,11 @@ kshana receiver-trust evidence session.toml \
 ```
 
 `--from` and `--to` are seconds since the first epoch of the log, or an ISO-8601 UTC time
-when the log states its own start time. `--out` must not already hold files. `--created-utc
-none` leaves the creation time out, which makes the pack byte-for-byte reproducible.
+when the log states its own start time. `--out` must not already hold files.
+`--created-utc` takes a real UTC time such as `2026-01-02T03:04:05Z` (anything else is
+refused) or `none`, which leaves the creation time out and makes the pack byte-for-byte
+reproducible. The creation time is whatever the signer states; nothing checks it against a
+clock, which is what the optional timestamp token is for.
 
 The key file holds a 32-byte Ed25519 seed as 64 hex digits; supply your own (for example
 one kept in your key-management system) or let `keygen` make one. `kshana` warns if the
@@ -59,11 +62,13 @@ removing or substituting a file changes the chain; the signature covers the chai
 ## Verify a pack
 
 ```sh
-kshana evidence verify pack/ --pubkey signer.key.pub [--log session.nmea] [--json]
+kshana evidence verify pack/ --pubkey signer.key.pub [--log session.nmea] \
+    [--require-timestamp] [--allow-unpinned] [--json]
 ```
 
-Exit status 0 means verified; 1 means something failed; 2 means a usage error. Every check
-reports pass, fail or skipped, and every failure is named:
+Exit status 0 means verified; 1 means something failed; 2 means a usage error; 3 means the
+pack is intact but its signer was not pinned (see below). Every check reports pass, fail or
+skipped, and every failure is named:
 
 | Failure code | Meaning |
 |---|---|
@@ -75,7 +80,7 @@ reports pass, fail or skipped, and every failure is named:
 | `chain-mismatch`, `chain-head-mismatch` | a link is not what its inputs give; the file is named |
 | `artifact-list-malformed`, `slice-record-inconsistent`, `epoch-count-mismatch` | the manifest contradicts itself or `epochs.json` |
 | `full-log-hash-mismatch`, `slice-not-from-full-log` | with `--log`: the log you hold is not the one recorded, or the slice is not that range of it |
-| `timestamp-malformed`, `timestamp-imprint-mismatch` | see below |
+| `timestamp-missing`, `timestamp-malformed`, `timestamp-imprint-mismatch` | see below |
 
 Changing one byte of any file fails verification with the matching reason: a changed
 artifact is reported as that file's hash mismatch and nothing else; a changed manifest
@@ -83,15 +88,21 @@ fails the signature. Re-computing hashes and the chain after editing a file does
 without the signing key; only the signature then fails.
 
 **Pin the key.** Without `--pubkey`, a pack proves only that it is intact against the key
-it names itself, which anyone can generate; verification says so in a note and prints the
-fingerprint. Get the signer's public key from the signer by a route you trust (not from
-the pack) and pass it with `--pubkey`.
+it names itself, which anyone can generate. So verification then exits 3 and says "INTACT,
+BUT THE SIGNER IS NOT PINNED" rather than "VERIFIED"; `--allow-unpinned` accepts the
+pack's own key knowingly and prints "VERIFIED against the key the pack names itself
+(signer NOT pinned; pass --pubkey)". Get the signer's public key from the signer by a
+route you trust (not from the pack) and pass it with `--pubkey`: 64 hex digits or the
+`.pub` file. Passing the private key by mistake is recognised and refused. The
+fingerprint (first 128 bits of the key's SHA-256, 32 hex digits) is printed for comparing
+by eye; pinning the full key is the reliable path.
 
 ## RFC 3161 timestamp (optional)
 
 A timestamp token from a timestamping authority shows the manifest existed at a time the
 authority attests. The token is over `manifest.json`, so it is requested after the pack is
-made:
+made (there is no way to supply one when the pack is created, and `create_bundle` refuses a
+token that is not over that exact manifest):
 
 ```sh
 openssl ts -query -data pack/manifest.json -sha256 -cert -out req.tsq
@@ -106,7 +117,16 @@ the time it states, always followed by the words "timestamp authority signature 
 by Kshana". **It does not check the authority's signature or certificate chain**;
 this build carries no RSA, ECDSA or X.509 code. The report says so each time
 (`authority_signature_verified: false`). Run the `openssl ts -verify` line above for that
-part. A token whose imprint differs, or one that does not parse, is a failure.
+part. A token whose imprint differs, or one that does not parse, is a failure. The token's
+content types, imprint length and generation time are checked for sense.
+
+**The token sits beside the signed manifest, not inside it.** Nothing in the signature or
+the chain covers it, so a token can be removed, or a different valid token substituted,
+without the signature failing. `verify` therefore notes when a pack has none, and
+`--require-timestamp` makes a missing token a failure (`timestamp-missing`); a substituted
+token is caught only if it does not match the manifest. `attach-timestamp` refuses to
+overwrite an existing token unless you pass `--replace`. If a timestamp matters to you,
+keep the token and the verification result with your own records, and require it.
 
 ## From code
 

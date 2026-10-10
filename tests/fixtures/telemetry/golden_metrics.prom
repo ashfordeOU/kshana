@@ -29,6 +29,12 @@ kshana_trust_reason_epochs_total{reason="cn0-drop"} 2
 # HELP kshana_trust_input_errors_total Input lines that could not be parsed as trust samples.
 # TYPE kshana_trust_input_errors_total counter
 kshana_trust_input_errors_total 1
+# HELP kshana_trust_reason_overflow_total Reason occurrences folded into reason="other" because 64 distinct reasons were already in use.
+# TYPE kshana_trust_reason_overflow_total counter
+kshana_trust_reason_overflow_total 0
+# HELP kshana_trust_syslog_send_failures_total Syslog events not delivered (queue full, collector down or stalled).
+# TYPE kshana_trust_syslog_send_failures_total counter
+kshana_trust_syslog_send_failures_total 0
 # HELP kshana_trust_epoch_offset_seconds Offset of the latest epoch from the start of the log or session, seconds.
 # TYPE kshana_trust_epoch_offset_seconds gauge
 kshana_trust_epoch_offset_seconds 3

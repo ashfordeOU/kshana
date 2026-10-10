@@ -24,6 +24,10 @@ pub struct TokenInfo {
     pub gen_time: String,
 }
 
+const OID_SIGNED_DATA: &[u8] = &[0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x07, 0x02];
+const OID_TST_INFO: &[u8] = &[
+    0x2a, 0x86, 0x48, 0x86, 0xf7, 0x0d, 0x01, 0x09, 0x10, 0x01, 0x04,
+];
 const OID_SHA256: &[u8] = &[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01];
 const OID_SHA384: &[u8] = &[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x02];
 const OID_SHA512: &[u8] = &[0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x03];
@@ -85,13 +89,19 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
         return Err("not a timestamp token".into());
     };
     // ContentInfo: OID, [0] SignedData
-    let (_, rest) = expect(content_info, 0x06, "contentType")?;
+    let (ct, rest) = expect(content_info, 0x06, "contentType")?;
+    if ct != OID_SIGNED_DATA {
+        return Err("the token's content type is not CMS SignedData".into());
+    }
     let (wrapped, _) = expect(rest, 0xA0, "[0] content")?;
     let (signed, _) = expect(wrapped, 0x30, "SignedData")?;
     let (_, rest) = expect(signed, 0x02, "version")?;
     let (_, rest) = expect(rest, 0x31, "digestAlgorithms")?;
     let (encap, _) = expect(rest, 0x30, "encapContentInfo")?;
-    let (_, rest) = expect(encap, 0x06, "eContentType")?;
+    let (ect, rest) = expect(encap, 0x06, "eContentType")?;
+    if ect != OID_TST_INFO {
+        return Err("the token does not carry a TSTInfo".into());
+    }
     let (e0, _) = expect(rest, 0xA0, "[0] eContent")?;
     let (tst, _) = expect(e0, 0x04, "eContent OCTET STRING")?;
     // TSTInfo
@@ -108,6 +118,17 @@ pub fn parse_token(der: &[u8]) -> Result<TokenInfo, String> {
         o if o == OID_SHA512 => "sha512",
         _ => return Err("message imprint uses an unsupported hash algorithm".into()),
     };
+    let want_len = match hash_alg {
+        "sha256" => 32,
+        "sha384" => 48,
+        _ => 64,
+    };
+    if digest.len() != want_len {
+        return Err(format!(
+            "the imprint is {} bytes, not the {want_len} {hash_alg} gives",
+            digest.len()
+        ));
+    }
     let (_, rest) = expect(rest, 0x02, "serialNumber")?;
     let (gt, _) = expect(rest, 0x18, "genTime")?;
     Ok(TokenInfo {
@@ -145,6 +166,9 @@ fn general_time(b: &[u8]) -> Result<String, String> {
         o.push_str(f);
     }
     o.push('Z');
+    if crate::telemetry::time::parse_rfc3339_utc(&o).is_none() {
+        return Err("genTime is not a real calendar time".into());
+    }
     Ok(o)
 }
 
@@ -189,10 +213,10 @@ pub(crate) mod test_token {
         );
         let encap = enc(
             0x30,
-            &[enc(0x06, &[0x2a, 0x04]), enc(0xA0, &enc(0x04, &tst))].concat(),
+            &[enc(0x06, super::OID_TST_INFO), enc(0xA0, &enc(0x04, &tst))].concat(),
         );
         let signed = enc(0x30, &[enc(0x02, &[3]), enc(0x31, &[]), encap].concat());
-        let ci = [enc(0x06, &[0x2a, 0x05]), enc(0xA0, &signed)].concat();
+        let ci = [enc(0x06, super::OID_SIGNED_DATA), enc(0xA0, &signed)].concat();
         if wrap_resp {
             let status = enc(0x30, &enc(0x02, &[0]));
             enc(0x30, &[status, enc(0x30, &ci)].concat())
@@ -226,6 +250,29 @@ mod tests {
         for n in [1, 5, t.len() / 2, t.len() - 1] {
             assert!(parse_token(&t[..n]).is_err(), "prefix {n}");
         }
+    }
+
+    #[test]
+    fn rejects_wrong_oids_bad_times_and_wrong_imprint_length() {
+        let t = token(&[1u8; 32], "20260102030405Z", false);
+        // contentType and eContentType OIDs sit in the output verbatim.
+        for oid in [super::OID_SIGNED_DATA, super::OID_TST_INFO] {
+            let mut bad = t.clone();
+            let at = bad.windows(oid.len()).position(|w| w == oid).unwrap();
+            bad[at + oid.len() - 1] ^= 1;
+            assert!(parse_token(&bad).is_err());
+        }
+        assert!(
+            parse_token(&token(&[1u8; 32], "20261302030405Z", false)).is_err(),
+            "month 13"
+        );
+        assert!(
+            parse_token(&token(&[1u8; 32], "20260230030405Z", false)).is_err(),
+            "Feb 30"
+        );
+        assert!(parse_token(&token(&[1u8; 20], "20260102030405Z", false))
+            .unwrap_err()
+            .contains("imprint is 20 bytes"));
     }
 
     #[test]
