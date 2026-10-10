@@ -149,6 +149,25 @@ for needle in \
   fi
 done
 
+# 9b. The kshana-mcp launchers (npm and PyPI) and the registry manifest's npm and PyPI
+#     package entries. mcp-launchers.yml checks them against the tag at release time; this
+#     catches the drift in a pull request, before the tag.
+for needle in \
+  "packaging/mcp/npm/package.json|\"version\": \"${ver}\"" \
+  "packaging/mcp/pypi/pyproject.toml|version = \"${ver}\"" \
+  "packaging/mcp/pypi/src/kshana_mcp/__init__.py|\"${ver}\"" \
+  "$SERVER_JSON|\"identifier\": \"kshana-mcp\"" ; do
+  f="${needle%%|*}"; pat="${needle#*|}"
+  if ! grep -qF -- "$pat" "$f"; then
+    echo "FAIL: $f is not at ${ver} — missing: ${pat}" >&2
+    fail=1
+  fi
+done
+if [ "$(grep -cF "\"version\": \"${ver}\"" "$SERVER_JSON")" -lt 3 ]; then
+  echo "FAIL: $SERVER_JSON must carry ${ver} on the server and on its npm and PyPI packages." >&2
+  fail=1
+fi
+
 # 10. The README's worked example prints `kshana.version()` (Python) and `version()`
 #     (JavaScript) as the first token of its expected-output comment. Every version
 #     token on those two lines must be the engine's; the holdover numbers beside them
