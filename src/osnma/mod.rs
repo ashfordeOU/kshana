@@ -9,6 +9,7 @@
 pub mod bits;
 pub mod dsm;
 pub mod merkle;
+pub mod navdata;
 pub mod page;
 pub mod subframe;
 pub mod tables;
