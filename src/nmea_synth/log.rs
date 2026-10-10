@@ -21,6 +21,27 @@ pub struct EventRecord {
     pub start_utc: String,
     /// The parameters exactly as written in the scenario.
     pub parameters: EventCfg,
+    /// drag-off: the direction of the drag as applied, degrees true (a relative bearing
+    /// is fixed against the vessel's course at onset).
+    pub resolved_bearing_deg: Option<f64>,
+    /// drag-off: peak speed the drag adds to the false track, m/s.
+    pub peak_drag_speed_mps: Option<f64>,
+    /// drag-off: peak acceleration the drag adds to the false track, m/s squared.
+    pub peak_drag_accel_mps2: Option<f64>,
+}
+
+/// Peak speed and acceleration of the true and the reported track over the run.
+#[derive(Clone, Debug, Default, Serialize)]
+pub struct TrackSummary {
+    /// Highest true speed over ground, knots.
+    pub true_peak_sog_kn: f64,
+    /// Largest true change of velocity per second, m/s squared.
+    pub true_peak_accel_mps2: f64,
+    /// Highest reported speed over ground, knots.
+    pub reported_peak_sog_kn: f64,
+    /// Largest reported change of velocity per second between consecutive fixes, m/s
+    /// squared.
+    pub reported_peak_accel_mps2: f64,
 }
 
 /// One moment worth debriefing.
@@ -100,14 +121,32 @@ pub struct InstructorLog {
     pub duration_s: f64,
     /// Scripted events.
     pub events: Vec<EventRecord>,
+    /// Peak speed and acceleration, true and reported.
+    pub summary: TrackSummary,
     /// Debrief timeline.
     pub timeline: Vec<TimelineEntry>,
     /// True and reported track rows.
     pub track: Vec<TrackRow>,
 }
 
+/// Peak speed and acceleration a drag-off adds, from its smoothstep ramps: a ramp of
+/// `T` seconds over `D` metres peaks at `1.5 D / T` and `6 D / T^2`. A step adds none
+/// (the position jumps; the velocity does not).
+pub fn drag_peaks(e: &EventCfg) -> (f64, f64) {
+    let d = e.final_offset_m.unwrap_or(0.0);
+    let one = |t: f64| {
+        if t > 0.0 {
+            (1.5 * d / t, 6.0 * d / (t * t))
+        } else {
+            (0.0, 0.0)
+        }
+    };
+    let (a, b) = (one(e.ramp_s), one(e.recovery_s));
+    (a.0.max(b.0), a.1.max(b.1))
+}
+
 /// Plain-language description of an event with its parameters.
-pub fn describe(e: &EventCfg) -> String {
+pub fn describe(e: &EventCfg, bearing: Option<f64>) -> String {
     let when = format!(
         "from T+{:.0} s for {:.0} s (onset ramp {:.0} s, recovery ramp {:.0} s)",
         e.start_s, e.duration_s, e.ramp_s, e.recovery_s
@@ -124,14 +163,19 @@ pub fn describe(e: &EventCfg) -> String {
             e.spread_db.unwrap_or(6.0)
         ),
         EventKind::DragOff => {
-            let dir = match (e.bearing_deg, e.relative_bearing_deg) {
-                (Some(b), _) => format!("towards {b:.0} deg true"),
-                (_, Some(r)) => format!("{r:.0} deg relative to the vessel's course"),
+            let dir = match (e.bearing_deg, e.relative_bearing_deg, bearing) {
+                (Some(b), _, _) => format!("towards {b:.0} deg true"),
+                (_, Some(r), Some(t)) => format!(
+                    "towards {t:.0} deg true ({r:.0} deg relative to the course at onset, then \
+                     held)"
+                ),
                 _ => String::new(),
             };
+            let (pv, pa) = drag_peaks(e);
             format!(
                 "position drag-off: the reported position walks {:.0} m away {dir} while the \
-                 receiver keeps a valid fix{cf}",
+                 receiver keeps a valid fix (false track peaks at {pv:.2} m/s and \
+                 {pa:.4} m/s^2){cf}",
                 e.final_offset_m.unwrap_or(0.0)
             )
         }
@@ -157,7 +201,7 @@ pub fn describe(e: &EventCfg) -> String {
 
 impl InstructorLog {
     /// Create an empty log for a scenario.
-    pub fn new(scn: &TrainingScenario, start_ms: i64) -> Self {
+    pub fn new(scn: &TrainingScenario, start_ms: i64, bearings: &[Option<f64>]) -> Self {
         let m = &scn.scenario;
         Self {
             schema: "kshana-nmea-training/1",
@@ -174,11 +218,15 @@ impl InstructorLog {
                 .enumerate()
                 .map(|(i, e)| EventRecord {
                     id: i + 1,
-                    description: describe(e),
+                    description: describe(e, bearings.get(i).copied().flatten()),
                     start_utc: iso(start_ms + (e.start_s * 1000.0).round() as i64),
                     parameters: e.clone(),
+                    resolved_bearing_deg: bearings.get(i).copied().flatten(),
+                    peak_drag_speed_mps: (e.kind == EventKind::DragOff).then(|| drag_peaks(e).0),
+                    peak_drag_accel_mps2: (e.kind == EventKind::DragOff).then(|| drag_peaks(e).1),
                 })
                 .collect(),
+            summary: TrackSummary::default(),
             timeline: Vec::new(),
             track: Vec::new(),
         }
@@ -216,6 +264,14 @@ impl InstructorLog {
                 e.id, e.description, e.start_utc
             ));
         }
+        let s = &self.summary;
+        o.push_str(&format!(
+            "\nPEAKS  true: {:.1} kn, {:.4} m/s^2   reported: {:.1} kn, {:.4} m/s^2\n",
+            s.true_peak_sog_kn,
+            s.true_peak_accel_mps2,
+            s.reported_peak_sog_kn,
+            s.reported_peak_accel_mps2
+        ));
         o.push_str("\nTIMELINE\n");
         for t in &self.timeline {
             let id = t.event.map_or("  ".to_string(), |i| format!("[{i}]"));
