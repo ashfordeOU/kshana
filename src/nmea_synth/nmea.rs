@@ -25,7 +25,9 @@ pub fn date_field(u: &Utc) -> String {
     format!("{:02}{:02}{:02}", u.day, u.month, u.year % 100)
 }
 
-fn dm(deg: f64, width: usize) -> String {
+/// Degrees and minutes of `deg`, rounded to four decimals of a minute, and whether the
+/// rounded value is zero (so a hemisphere is never given to nothing).
+fn dm(deg: f64, width: usize) -> (String, bool) {
     let a = deg.abs();
     let mut d = a.trunc();
     let mut m = ((a - d) * 60.0 * 1e4).round() / 1e4;
@@ -33,17 +35,41 @@ fn dm(deg: f64, width: usize) -> String {
         m -= 60.0;
         d += 1.0;
     }
-    format!("{:0w$}{:07.4}", d as u32, m, w = width)
+    (
+        format!("{:0w$}{:07.4}", d as u32, m, w = width),
+        d == 0.0 && m == 0.0,
+    )
 }
 
-/// `(ddmm.mmmm, N|S)`.
+/// `(ddmm.mmmm, N|S)`; the hemisphere is chosen after rounding.
 pub fn lat_field(deg: f64) -> (String, char) {
-    (dm(deg, 2), if deg < 0.0 { 'S' } else { 'N' })
+    let (s, zero) = dm(deg, 2);
+    (s, if deg < 0.0 && !zero { 'S' } else { 'N' })
 }
 
-/// `(dddmm.mmmm, E|W)`.
+/// `(dddmm.mmmm, E|W)`; the hemisphere is chosen after rounding, and 180 degrees is
+/// written as east.
 pub fn lon_field(deg: f64) -> (String, char) {
-    (dm(deg, 3), if deg < 0.0 { 'W' } else { 'E' })
+    let (s, zero) = dm(deg, 3);
+    let half_turn = s == "18000.0000";
+    (
+        s,
+        if deg < 0.0 && !zero && !half_turn {
+            'W'
+        } else {
+            'E'
+        },
+    )
+}
+
+/// A fixed-point number that never prints as negative zero.
+pub fn num(x: f64, decimals: usize) -> String {
+    let s = format!("{x:.decimals$}");
+    if s.starts_with('-') && s[1..].bytes().all(|b| b == b'0' || b == b'.') {
+        s[1..].to_string()
+    } else {
+        s
+    }
 }
 
 /// The constellation of one fix attempt, as the position sentences need it.
@@ -72,16 +98,16 @@ pub fn gga(talker: &str, t: &Utc, fix: Option<&FixView>, sep_m: f64) -> String {
             let (la, ns) = lat_field(f.lat_deg);
             let (lo, ew) = lon_field(f.lon_deg);
             frame(&format!(
-                "{talker}GGA,{},{la},{ns},{lo},{ew},1,{:02},{:.1},{:.1},M,{:.1},M,,",
+                "{talker}GGA,{},{la},{ns},{lo},{ew},1,{:02},{:.1},{},M,{},M,,",
                 time_field(t),
                 f.n_used,
                 f.hdop,
-                f.alt_msl_m,
-                sep_m
+                num(f.alt_msl_m, 1),
+                num(sep_m, 1)
             ))
         }
         None => frame(&format!(
-            "{talker}GGA,{},,,,,0,00,99.99,,,,,,",
+            "{talker}GGA,{},,,,,0,00,99.99,,M,,M,,",
             time_field(t)
         )),
     }
@@ -138,12 +164,12 @@ pub fn gns(talker: &str, t: &Utc, fix: Option<&FixView>, modes: &str, sep_m: f64
             let (la, ns) = lat_field(f.lat_deg);
             let (lo, ew) = lon_field(f.lon_deg);
             frame(&format!(
-                "{talker}GNS,{},{la},{ns},{lo},{ew},{modes},{:02},{:.1},{:.1},{:.1},,,V",
+                "{talker}GNS,{},{la},{ns},{lo},{ew},{modes},{:02},{:.1},{},{},,,V",
                 time_field(t),
                 f.n_used,
                 f.hdop,
-                f.alt_msl_m,
-                sep_m
+                num(f.alt_msl_m, 1),
+                num(sep_m, 1)
             ))
         }
         None => frame(&format!(
@@ -172,7 +198,11 @@ pub fn hdt(heading_deg: f64) -> String {
 /// VBW: water speeds from the log, ground speeds from the Doppler log, knots.
 pub fn vbw(water_long: f64, water_trans: f64, ground_long: f64, ground_trans: f64) -> String {
     frame(&format!(
-        "VDVBW,{water_long:.2},{water_trans:.2},A,{ground_long:.2},{ground_trans:.2},A,,,,"
+        "VDVBW,{},{},A,{},{},A,,,,",
+        num(water_long, 2),
+        num(water_trans, 2),
+        num(ground_long, 2),
+        num(ground_trans, 2)
     ))
 }
 
@@ -261,6 +291,19 @@ mod tests {
         assert_eq!(lat_field(55.999_999_99).0, "5600.0000");
         assert_eq!(lon_field(-3.5), ("00330.0000".to_string(), 'W'));
         assert_eq!(lat_field(-0.25), ("0015.0000".to_string(), 'S'));
+        // The hemisphere follows the rounded value: nothing rounds to "0 degrees south".
+        assert_eq!(lat_field(-1e-7), ("0000.0000".to_string(), 'N'));
+        assert_eq!(lon_field(-1e-8), ("00000.0000".to_string(), 'E'));
+        assert_eq!(lon_field(179.999_999_9), ("18000.0000".to_string(), 'E'));
+        assert_eq!(lon_field(-179.999_999_9), ("18000.0000".to_string(), 'E'));
+    }
+
+    #[test]
+    fn numbers_never_print_negative_zero() {
+        assert_eq!(num(-0.001, 2), "0.00");
+        assert_eq!(num(-0.0, 1), "0.0");
+        assert_eq!(num(-0.5, 1), "-0.5");
+        assert_eq!(num(12.345, 2), "12.35");
     }
 
     #[test]
@@ -284,7 +327,7 @@ mod tests {
         let t = split(1_780_000_000_000);
         let g = gga("GN", &t, None, 0.0);
         assert!(g.starts_with("$GNGGA,"), "{g}");
-        assert!(g.contains(",,,,,0,00,99.99,"));
+        assert!(g.contains(",,,,,0,00,99.99,,M,,M,,"), "{g}");
         assert!(rmc("GN", &t, None, None).contains(",V,,,,,,,"));
     }
 }

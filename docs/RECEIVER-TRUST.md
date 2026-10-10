@@ -37,6 +37,9 @@ package (`receiver_trust(toml)`, with the log inline) and from the Model Context
 The file goes in by `path` (resolved against the scenario's own folder), or inline as
 `text` or `base64` (the only choices in a browser).
 
+The synthetic NMEA streams from [`kshana nmea-scenario`](NMEA-TRAINING.md), made for crew
+training, are accepted by the NMEA reader and can be run through this kind like any NMEA log.
+
 ## Monitors
 
 Each monitor needs its data; a monitor whose data is not in the log is not run and not

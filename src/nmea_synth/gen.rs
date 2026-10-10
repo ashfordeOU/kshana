@@ -1,13 +1,20 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Epoch-by-epoch generation: receiver state, scripted events, NMEA sentences.
 //!
+//! Modelling choices, not measurements (there is no external oracle for a training
+//! generator; the docs list them): the C/N0 elevation slope (14 dB from zenith to
+//! horizon), the per-satellite offset (+/-1.5 dB), the two slow fading terms (0.8 dB over
+//! 97 s, 0.5 dB over 31 s), the 0.3 dB jitter, the 0.03 kn leeway noise, the 0.05 degree
+//! gyro noise, and the vertical noise at twice the horizontal. They are chosen to look
+//! like an ordinary receiver log, and no number here is a claim about any real receiver.
+//!
 //! The whole run is generated up front, then written or streamed. Every random draw is a
 //! hash of the seed and the draw's own coordinates (epoch, satellite, axis), so the output
 //! does not depend on evaluation order and is the same for the same seed.
 
 use super::clock::{iso, parse_utc, split};
 use super::config::{EventCfg, EventKind, Phase, TrainingScenario, KN_MPS};
-use super::log::{InstructorLog, TimelineEntry, TrackRow};
+use super::log::{InstructorLog, TimelineEntry, TrackRow, TrackSummary};
 use super::nmea::{self, FixView, GsvSat};
 use super::sky::{SkyModel, System};
 use super::track::{self, ne_offset_m};
@@ -122,7 +129,19 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
     let want = |name: &str| scn.output.sentences.iter().any(|s| s == name);
     let evs: Vec<&EventCfg> = scn.events.iter().collect();
 
-    let mut log = InstructorLog::new(scn, start_ms);
+    // A drag-off's direction is fixed at its onset: a relative bearing is taken against
+    // the course the vessel has then, not followed as the vessel turns.
+    let bearings: Vec<Option<f64>> = evs
+        .iter()
+        .map(|e| {
+            (e.kind == EventKind::DragOff).then(|| match (e.bearing_deg, e.relative_bearing_deg) {
+                (Some(b), _) => track::wrap360(b),
+                (_, Some(r)) => track::wrap360(track::at(&truth, e.start_s).cog_deg() + r),
+                _ => 0.0,
+            })
+        })
+        .collect();
+    let mut log = InstructorLog::new(scn, start_ms, &bearings);
     let mut epochs = Vec::with_capacity(n);
     let log_every = ((scn.output.log_interval_s * rate).round() as usize).max(1);
 
@@ -130,8 +149,11 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
     let mut reacq = 0usize;
     let mut prev_phase = vec![Phase::Idle; evs.len()];
     let (mut ne, mut nn, mut nu) = (0.0_f64, 0.0_f64, 0.0_f64);
-    let rho = (-(1.0 / rate) / rc.noise_corr_s).exp();
+    let rho = (-(1.0 / rate) / rc.noise_corr_s).pexp();
     let mut geo_valid_pos: Option<(f64, f64)> = None;
+    let mut prev_rep_v: Option<(f64, f64)> = None;
+    let mut prev_true_v: Option<(f64, f64)> = None;
+    let mut sum = TrackSummary::default();
 
     for k in 0..n {
         let t = k as f64 / rate;
@@ -141,6 +163,7 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
         // ---- scripted events at this instant ----
         let mut jam: Option<(f64, f64, usize)> = None; // (drop dB, spread dB, event idx)
         let (mut off_n, mut off_e, mut off_rate_n, mut off_rate_e) = (0.0, 0.0, 0.0, 0.0);
+        let mut delay_rate = 0.0;
         let mut time_off_s = 0.0;
         let mut delay_s = 0.0;
         let mut locked = false;
@@ -185,23 +208,22 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
                     }
                 }
                 EventKind::DragOff => {
-                    let b = match (e.bearing_deg, e.relative_bearing_deg) {
-                        (Some(b), _) => b,
-                        (_, Some(r)) => tr.cog_deg() + r,
-                        _ => 0.0,
-                    } * DEG;
+                    let b = bearings[i].unwrap_or(0.0) * DEG;
                     let m = e.final_offset_m.unwrap_or(0.0);
                     let (sb, cb) = b.psin_cos();
-                    off_n += m * s * cb;
-                    off_e += m * s * sb;
-                    let sr = w.strength_rate(t);
+                    let (ss, sr) = (w.strength_smooth(t), w.strength_smooth_rate(t));
+                    off_n += m * ss * cb;
+                    off_e += m * ss * sb;
                     off_rate_n += m * sr * cb;
                     off_rate_e += m * sr * sb;
                 }
                 EventKind::TimeSpoof => time_off_s += e.offset_s.unwrap_or(0.0) * s,
                 EventKind::ReplayDelay => {
-                    let d = e.delay_s.unwrap_or(0.0) * s;
+                    // Smoothstep ramps, so the delay's rate (and with it the reported
+                    // speed) changes gradually rather than in one step.
+                    let d = e.delay_s.unwrap_or(0.0) * w.strength_smooth(t);
                     delay_s += d;
+                    delay_rate += e.delay_s.unwrap_or(0.0) * w.strength_smooth_rate(t);
                     if e.affect_time.unwrap_or(true) {
                         time_off_s -= d;
                     }
@@ -284,22 +306,36 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
                 pos: positions[def.idx],
             });
         }
-        // Used set: highest elevations first within each system.
-        for sys in &systems {
-            let mut idx: Vec<usize> = (0..seen.len())
-                .filter(|&i| {
-                    seen[i].sys == *sys && seen[i].tracked && seen[i].cn0 >= rc.use_threshold_dbhz
-                })
-                .collect();
-            idx.sort_by(|&a, &b| {
-                seen[b]
-                    .el_deg
-                    .total_cmp(&seen[a].el_deg)
-                    .then(seen[a].num.cmp(&seen[b].num))
-            });
-            for &i in idx.iter().take(rc.max_used_per_system) {
-                seen[i].used = true;
+        // Used set, up to `max_used` in all, chosen for geometry the way a receiver does: the
+        // highest satellite in each 30 degree azimuth sector first, then the remainder by
+        // elevation. (A modelling choice; picking by elevation alone bunches the used
+        // satellites overhead and gives a poor HDOP.)
+        let mut idx: Vec<usize> = (0..seen.len())
+            .filter(|&i| seen[i].tracked && seen[i].cn0 >= rc.use_threshold_dbhz)
+            .collect();
+        idx.sort_by(|&a, &b| {
+            seen[b]
+                .el_deg
+                .total_cmp(&seen[a].el_deg)
+                .then(seen[a].sys.cmp(&seen[b].sys))
+                .then(seen[a].num.cmp(&seen[b].num))
+        });
+        let mut chosen: Vec<usize> = Vec::new();
+        let mut taken_sector = [false; 12];
+        for &i in &idx {
+            let sector = ((seen[i].az_deg / 30.0) as usize).min(11);
+            if !taken_sector[sector] && chosen.len() < rc.max_used {
+                taken_sector[sector] = true;
+                chosen.push(i);
             }
+        }
+        for &i in &idx {
+            if chosen.len() < rc.max_used && !chosen.contains(&i) {
+                chosen.push(i);
+            }
+        }
+        for i in chosen {
+            seen[i].used = true;
         }
         let n_used = seen.iter().filter(|s| s.used).count();
         let n_tracked = seen.iter().filter(|s| s.tracked).count();
@@ -350,7 +386,7 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
             .map(|s| (s.pos, systems.iter().position(|x| *x == s.sys).unwrap_or(0)))
             .collect();
         let dop = dop_at(user_ecef, &used_pos);
-        let (hdop, pdop, vdop) = dop.map_or((9.9, 9.9, 9.9), |d| (d.hdop.max(0.5), d.pdop, d.vdop));
+        let (hdop, pdop, vdop) = dop.map_or((9.9, 9.9, 9.9), |d| (d.hdop, d.pdop, d.vdop));
         let sigma = rc.position_noise_m * hdop.clamp(0.8, 10.0);
         let q = (1.0 - rho * rho).sqrt();
         let kk = k as u64;
@@ -361,7 +397,13 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
         let fix = if fix_valid {
             let (la, lo) = track::move_ne(base.lat_rad, base.lon_rad, off_n + nn, off_e + ne);
             geo_valid_pos = Some((geo_lat, geo_lon));
-            let (vn, ve) = (base.vn_mps + off_rate_n, base.ve_mps + off_rate_e);
+            // The replayed vessel is seen through a delay that is itself changing, which
+            // stretches its velocity by (1 - d delay/dt).
+            let vscale = 1.0 - delay_rate;
+            let (vn, ve) = (
+                base.vn_mps * vscale + off_rate_n,
+                base.ve_mps * vscale + off_rate_e,
+            );
             let sog = vn.phypot(ve) / KN_MPS;
             let cog = if sog < 0.04 {
                 base.heading_deg
@@ -380,6 +422,30 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
         } else {
             None
         };
+
+        // ---- peaks of the true and the reported track ----
+        let tv = (tr.vn_mps, tr.ve_mps);
+        sum.true_peak_sog_kn = sum.true_peak_sog_kn.max(tr.sog_kn());
+        if let Some(p) = prev_true_v {
+            sum.true_peak_accel_mps2 = sum
+                .true_peak_accel_mps2
+                .max((tv.0 - p.0).phypot(tv.1 - p.1) * rate);
+        }
+        prev_true_v = Some(tv);
+        match &fix {
+            Some(f) => {
+                let (sc, cc) = (f.cog_deg * DEG).psin_cos();
+                let v = (f.sog_kn * KN_MPS * cc, f.sog_kn * KN_MPS * sc);
+                sum.reported_peak_sog_kn = sum.reported_peak_sog_kn.max(f.sog_kn);
+                if let Some(p) = prev_rep_v {
+                    sum.reported_peak_accel_mps2 = sum
+                        .reported_peak_accel_mps2
+                        .max((v.0 - p.0).phypot(v.1 - p.1) * rate);
+                }
+                prev_rep_v = Some(v);
+            }
+            None => prev_rep_v = None,
+        }
 
         // ---- sentences ----
         let mut lines: Vec<String> = Vec::new();
@@ -521,5 +587,6 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
             });
         }
     }
+    log.summary = sum;
     Ok(Generated { epochs, log })
 }
