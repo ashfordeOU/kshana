@@ -33,6 +33,16 @@ access to Kshana): this plugin is the *human*, point-and-click path.
   asks for the signer's public key (64 hex digits or a `.pub` file; always pinned, the plugin never
   accepts an unpinned signer) and optionally the full session log. Only a verified result reads as
   verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+- **Insert Example Scenario** (project view folder or Tools menu; `kshana example`): pick a bundled
+  scenario and it is written as a new `.toml` (never over a file). **Export Scenario** on a `.toml`
+  (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), **Animate Scenario** (HTML
+  or SVG, opened in the browser) and **Import Route** on a route `.geojson` (asks which scenario).
+- **Create Evidence Pack** on a receiver-trust session `.toml` (`kshana receiver-trust evidence`): asks
+  the window, a signing key file you already have, and the output folder. The plugin never makes,
+  reads or stores a key (`kshana evidence keygen` stays on the command line). **Attach Timestamp** on a
+  pack folder (`kshana evidence attach-timestamp`): Kshana does not check the timestamp authority's
+  signature; run `openssl ts -verify` yourself.
+- Still on the command line only: the IQ commands, `evidence keygen` and `receiver-trust live`.
 - A bottom **Kshana** tool window hosting the run console.
 - Not in the plugin: `kshana receiver-trust live` (a long-running stream process with a gate
   and an optional TCP listener) stays on the command line, because an IDE action runs a
