@@ -97,6 +97,113 @@ route you trust (not from the pack) and pass it with `--pubkey`: 64 hex digits o
 fingerprint (first 128 bits of the key's SHA-256, 32 hex digits) is printed for comparing
 by eye; pinning the full key is the reliable path.
 
+## Pack format and verification procedure (normative)
+
+This section is the specification an independent verifier is written from. Words in
+capitals are requirements. A pack is a directory (or any map from file name to bytes) of
+files named exactly as below; a verifier works on the bytes of each file as stored and
+never re-serialises anything.
+
+**Files.** The artifact files, in this fixed order, are `log-slice.bin`, `config.json`,
+`epochs.json`, `summary.html`. A pack also has `manifest.json` and `manifest.sig`, and
+MAY have `timestamp.tsr`. Any other name is an *unlisted file*.
+
+**Hex.** Every hex string is lower-case `0-9a-f` only, with no whitespace; upper case is
+not accepted. SHA-256 values are 64 digits, the public key is 64 digits, the signature
+is 128 digits.
+
+**`manifest.sig`.** The 128-digit lower-case hex of the 64-byte Ed25519 signature (RFC
+8032, the pure Ed25519 scheme) over the exact bytes of `manifest.json`, followed by
+exactly one `\n` and nothing else. The signature MUST be checked strictly: a signature
+whose S value is not less than the group order L is invalid.
+
+**`manifest.json`.** A UTF-8 JSON object. Its members (a verifier MUST find each with
+the stated JSON type; additional members are ignored):
+
+| member | type | meaning |
+|---|---|---|
+| `format` | string | MUST equal `kshana-evidence/1` |
+| `title`, `engine_version`, `disclaimer` | string | descriptive |
+| `created_utc` | string or null | creation time, descriptive |
+| `window` | object `{from_s, to_s}` | numbers, seconds |
+| `epochs_in_window` | non-negative integer | the number of entries of the JSON array in `epochs.json` |
+| `log` | object | `format` string, `file_name` string, `full_sha256` hex, `full_bytes` non-negative integer, `start_label` string or null, and `slice` |
+| `log.slice` | object | `kind` (exactly `byte-range` or `whole-log`; any other value makes the manifest malformed), `start` and `end` non-negative integers (byte offsets, end exclusive), `sha256` hex |
+| `signer` | object | `algorithm` string (`ed25519`), `public_key` hex (32 bytes), `fingerprint` string |
+| `artifacts` | array of objects | one per artifact file, in the fixed order: `name` string, `role` string, `bytes` non-negative integer, `sha256` hex, `link` hex |
+| `chain_head` | hex | the last link |
+
+`signer.fingerprint` is the first 32 hex digits of SHA-256 over the 32 public-key bytes.
+
+**Hash chain.** `link0` is SHA-256 of the 23 ASCII bytes `kshana-evidence-chain/1`. For
+each artifact in order, `link = SHA-256( previous_link (32 bytes) ‖ SHA-256(file)
+(32 bytes) ‖ len(name) as 4 bytes big-endian ‖ name as UTF-8 )`, where `SHA-256(file)`
+is taken from the manifest's recorded `sha256` for that artifact (so the chain is a
+property of the manifest and is checked against it, not against the files).
+
+**Procedure.** A verifier performs these steps in order and collects every failure; the
+result is the *set* of failures, each a `code` and, where stated, the file `name`. It
+MUST NOT stop at the first failure except where stated. `pin` is the public key the
+verifier was told to trust, if any.
+
+1. No `manifest.json`: failure `manifest-missing`; stop.
+2. If `manifest.json` is not a JSON object with every member above in the stated types
+   (including `artifacts` entries with every member, and `log.slice`): failure
+   `manifest-malformed`. Otherwise, if `format` is not the value above:
+   `unsupported-format`.
+3. Signature phase. If the manifest was readable: the *named key* is `signer.public_key`;
+   if it is not 64 lower-case hex digits, failure `public-key-malformed` (no named key);
+   otherwise if `signer.fingerprint` is not the fingerprint of it, failure
+   `public-key-malformed` (the key stays usable). If both a `pin` and a named key exist
+   and differ: failure `public-key-mismatch`. The *check key* is `pin` if given, else the
+   named key. If there is no `manifest.sig`: `signature-missing`. Else if the file is not
+   exactly 128 lower-case hex digits plus one `\n`: `signature-malformed`. Else if there
+   is a check key that is not a valid Ed25519 public key encoding: `public-key-malformed`.
+   Else if there is a check key and the signature does not verify strictly over the bytes
+   of `manifest.json`: `signature-invalid`. (With no check key the signature is not
+   checked and no failure is raised for that.)
+4. If the manifest was not readable (step 2 gave `manifest-malformed`): stop here.
+5. Artifacts. If the `artifacts` names are not exactly the four above in order:
+   `artifact-list-malformed`. Then for every manifest entry, in order: if the pack has no
+   file of that name, `file-missing` (name); else if its length differs from `bytes`,
+   `file-size-mismatch` (name); and, independently, if SHA-256 of the file differs from
+   `sha256`, `file-hash-mismatch` (name).
+6. Unlisted files: for every file in the pack other than `manifest.json`,
+   `manifest.sig`, `timestamp.tsr` and the names in the manifest's `artifacts`:
+   `unlisted-file` (name).
+7. Chain. Walk the manifest's `artifacts` in order from `link0`. If an entry's `sha256`
+   is not 64 lower-case hex digits: `manifest-malformed` and the chain is abandoned (no
+   head check). Otherwise compute the link; if it differs from the entry's `link`:
+   `chain-mismatch` (name). After the walk, if the chain was not abandoned and the last
+   link differs from `chain_head`: `chain-head-mismatch`.
+8. Slice and epochs. Raise `slice-record-inconsistent` (at most once per reason, and a
+   verifier reports the code once however many reasons apply) if any of: `start > end`;
+   `end > full_bytes`; the `log-slice.bin` entry's `sha256` differs from `slice.sha256`;
+   that entry's `bytes` differs from `end - start`; or `kind` is `whole-log` and any of
+   `start != 0`, `end != full_bytes`, `slice.sha256 != full_sha256`. If `epochs.json`
+   exists and parses as a JSON array whose length differs from `epochs_in_window`:
+   `epoch-count-mismatch`.
+9. Full log. Only if the verifier was given the original log bytes: if their SHA-256
+   differs from `log.full_sha256`, `full-log-hash-mismatch`; otherwise if the range
+   `start..end` is not inside the log or the log's bytes there differ from
+   `log-slice.bin`, `slice-not-from-full-log`.
+10. Timestamp. With no `timestamp.tsr`: if the verifier was told to require one,
+    `timestamp-missing`; otherwise nothing. With one: if it cannot be read as an RFC 3161
+    token or response (see below), `timestamp-malformed`; otherwise if its message
+    imprint is not the hash, in the imprint's own algorithm (SHA-256, SHA-384 or
+    SHA-512), of the bytes of `manifest.json`: `timestamp-imprint-mismatch`.
+
+The pack is verified exactly when the failure set is empty. Whether the signer was pinned
+is reported separately and does not change the failure set.
+
+**Timestamp token.** A token is a DER `ContentInfo` whose content type is CMS SignedData
+(1.2.840.113549.1.7.2) and whose encapsulated content type is `id-ct-TSTInfo`
+(1.2.840.113549.1.9.16.1.4); a response is a DER `TimeStampResp` (a `PKIStatusInfo`
+followed by the token) whose status is 0 or 1. The `TSTInfo`'s message imprint algorithm
+must be SHA-256, SHA-384 or SHA-512 with a digest of that algorithm's length, and its
+`genTime` a real UTC calendar time. Indefinite-length BER is not accepted. The
+authority's signature and certificate chain are NOT checked.
+
 ## RFC 3161 timestamp (optional)
 
 A timestamp token from a timestamping authority shows the manifest existed at a time the
