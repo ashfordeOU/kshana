@@ -582,8 +582,9 @@ fn track_and_sweep_apply_the_front_end_flags() {
 /// is handed off ~267 Hz off, outside the FLL's pull-in: it false-locks ~500 Hz away while
 /// reporting a clean track. The default is now auto (≈4 ms coherent, 4 periods for this
 /// 1 ms code, ~167 Hz bins), which locks it. Both halves are asserted, so the test fails if
-/// the default ever reverts to one period, and `--acq-coherent 1` is pinned as the opt-out
-/// that reproduces the old behaviour. (`docs/design/evidence/iq-track-acq-default/` has
+/// the default ever reverts to one period. `--acq-coherent 1` with the explicit textbook step
+/// (667 Hz) reproduces the old behaviour; with the default step, capped at 0.2/T_track since
+/// D8, the same opt-out now locks too. (`docs/design/evidence/iq-track-acq-default/` has
 /// the seeded 180-channel sweep behind the change.)
 #[test]
 fn track_default_handoff_does_not_false_lock_where_one_period_did() {
@@ -627,11 +628,23 @@ fn track_default_handoff_does_not_false_lock_where_one_period_did() {
         (auto + 2400.0).abs() < 25.0,
         "default hand-off: final Doppler {auto} Hz, injected -2400 Hz"
     );
-    let one = final_doppler(&["--acq-coherent", "1"], "one.json");
+    // One coherent period with the default step: since D8 the step is capped at 0.2/T_track
+    // (200 Hz here), so even this opt-out hands off inside the FLL's pull-in and locks.
+    let one_capped = final_doppler(&["--acq-coherent", "1"], "one-capped.json");
+    assert!(
+        (one_capped + 2400.0).abs() < 25.0,
+        "--acq-coherent 1 with the capped default step: final {one_capped} Hz, injected -2400 Hz"
+    );
+    // The old behaviour, reproduced with the textbook step stated explicitly: ~667 Hz bins
+    // hand PRN 17 off ~267 Hz off, outside the pull-in, and it false-locks.
+    let one = final_doppler(
+        &["--acq-coherent", "1", "--doppler-step", "666.6666667"],
+        "one.json",
+    );
     assert!(
         (one + 2400.0).abs() > 400.0,
-        "--acq-coherent 1 no longer false-locks this channel (final {one} Hz); the scene no \
-         longer exercises the regression"
+        "--acq-coherent 1 with a 667 Hz step no longer false-locks this channel (final {one} Hz); \
+         the scene no longer exercises the regression"
     );
 }
 
@@ -970,16 +983,191 @@ fn sweep_orders_lock_fraction_with_carrier_bandwidth() {
     assert!(lock(&rows[1]) >= lock(&rows[0]), "{rows:?}");
 }
 
-/// `labfit` runs end to end from a synthetic RINEX scenario and writes its four reports.
+/// Loop designs and streamed outputs on `track` and `sweep`: a design file selects the
+/// loops, an explicit flag overrides it (and is recorded), `--epochs` streams the full
+/// per-epoch record, `--events` the lock events and `--summary` the metrics with the
+/// design's hash; `sweep --design` runs every design in the file.
 #[test]
-fn labfit_runs_from_a_synthetic_rinex_scenario() {
+fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
+    let dir = scratch("designs");
+    let iq = dir.join("s.cf32").display().to_string();
+    let p = |n: &str| dir.join(n).display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "1.5",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6,21",
+            "--doppler",
+            "800,-1300",
+            "--cn0",
+            "46",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    let designs = p("loops.toml");
+    std::fs::write(
+        &designs,
+        "schema = \"kshana.loop-design/1\"\n\
+         [[design]]\nname = \"narrow\"\n[design.carrier]\npll_bw_hz = 6.0\n\
+         [[design]]\nname = \"wide\"\nextends = \"narrow\"\n[design.carrier]\npll_bw_hz = 20.0\n",
+    )
+    .unwrap();
+
+    let (epochs, events, summary) = (p("e.jsonl"), p("ev.jsonl"), p("summary.json"));
+    assert_eq!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6,21",
+            "--design",
+            &designs,
+            "--design-name",
+            "wide",
+            "--dll-bw",
+            "1.0",
+            "--epochs",
+            &epochs,
+            "--events",
+            &events,
+            "--summary",
+            &summary,
+        ])),
+        0
+    );
+    let s: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&summary).unwrap()).unwrap();
+    assert_eq!(s["schema"], "kshana.track-summary/1");
+    let d = &s["designs"][0];
+    assert_eq!(d["name"], "wide");
+    assert_eq!(d["carrier"]["pll_bw_hz"], 20.0);
+    assert_eq!(d["code"]["bw_hz"], 1.0, "the flag overrides the design");
+    assert_eq!(s["overridden_by_flags"][0], "--dll-bw");
+    // 2.046 MHz is exactly 2 samples per chip: the summary warns.
+    assert_eq!(s["warnings"][0]["kind"], "commensurate_sampling");
+    assert_eq!(s["warnings"][0]["samples_per_chip"], 2.0);
+    let mut total = 0;
+    for ch in s["channels"].as_array().unwrap() {
+        assert_eq!(ch["final_state"], "LOCKED", "{ch}");
+        assert_eq!(ch["design_hash"], d["hash"]);
+        // What the run actually used: the auto step for a 1 ms code and 4 ms of acquisition
+        // (2/(3*4 ms)), the design's PLL bandwidth, the FLL default, a 1 ms loop update.
+        let r = &ch["resolved"];
+        assert_eq!(r["acq_coherent_periods"], 4, "{ch}");
+        assert!((r["acq_doppler_step_hz"].as_f64().unwrap() - 2.0 / 0.012).abs() < 1e-9);
+        assert_eq!(r["pll_bn_hz"], 20.0);
+        assert_eq!(r["fll_bn_hz"], 10.0);
+        assert!((r["t_track_s"].as_f64().unwrap() - 1e-3).abs() < 1e-12);
+        total += ch["epochs"].as_u64().unwrap();
+    }
+    let lines: Vec<String> = std::fs::read_to_string(&epochs)
+        .unwrap()
+        .lines()
+        .map(str::to_string)
+        .collect();
+    assert!(lines[0].contains("\"kshana.track-epoch/1\""));
+    assert!(
+        lines[0].contains("\"acq_doppler_step_hz\""),
+        "the epoch header records the resolved values: {}",
+        lines[0]
+    );
+    assert_eq!(lines.len() as u64 - 1, total, "one record per epoch");
+    let first: serde_json::Value = serde_json::from_str(&lines[1]).unwrap();
+    for k in [
+        "e_i",
+        "l_q",
+        "pll_disc_rad",
+        "code_rate_hz",
+        "cn0_beaulieu_dbhz",
+        "state",
+    ] {
+        assert!(first.get(k).is_some(), "{k} missing from {first}");
+    }
+    let ev = std::fs::read_to_string(&events).unwrap();
+    assert_eq!(ev.matches("\"reason\":\"locked\"").count(), 2, "{ev}");
+
+    // sweep --design: every design in the file, with its hash.
+    let csv = p("sweep.csv");
+    assert_eq!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--csv",
+            &csv,
+        ])),
+        0
+    );
+    let rows: Vec<Vec<String>> = std::fs::read_to_string(&csv)
+        .unwrap()
+        .lines()
+        .skip(1)
+        .map(|l| l.split(',').map(str::to_string).collect())
+        .collect();
+    assert_eq!(rows.len(), 2);
+    assert_eq!(
+        (rows[0][0].as_str(), rows[1][0].as_str()),
+        ("narrow", "wide")
+    );
+    assert_ne!(rows[0][8], rows[1][8], "each row carries its design's hash");
+
+    // Mistakes are usage errors.
+    let bad = p("bad.toml");
+    std::fs::write(&bad, "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"x\"\n[design.code]\nbandwidth = 1\n").unwrap();
+    assert_eq!(
+        run(&args(&[
+            "track", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &bad
+        ])),
+        2
+    );
+    assert_eq!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--pll-bw",
+            "5,9",
+        ])),
+        2
+    );
+    assert_eq!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--epochs",
+            &p("e.unknown"),
+        ])),
+        2
+    );
+
+    // sweep --design applies the acquisition flags to the hand-off rather than ignoring
+    // them: an invalid one is refused.
+    assert_ne!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs, "--pfa",
+            "2.0",
+        ])),
+        0
+    );
+}
+
+/// A synthetic `iq-labfit` scenario (three RINEX runs with their logs inline) as TOML.
+fn synthetic_labfit_toml() -> String {
     use kshana::iq::labfit::schema::{Conditions, FitCfg, LabFitScenario};
     use kshana::iq::labfit::synth::{synthesize_timeline, SynthSpec};
     use kshana::iq::labfit::{model::ModelKind, schema::RunCfg};
     use kshana::receiver_trust::scenario::{FileSource, LogCfg};
     use kshana::receiver_trust::LogFormat;
 
-    let dir = scratch("labfit");
     let sats: Vec<(String, f64)> = [(0usize, 42.0), (1, 45.0), (2, 48.0)]
         .iter()
         .map(|&(i, n)| (format!("G{:02}", i + 3), n))
@@ -1029,8 +1217,15 @@ fn labfit_runs_from_a_synthetic_rinex_scenario() {
         runs,
         ..LabFitScenario::default()
     };
+    toml::to_string(&scenario).unwrap()
+}
+
+/// `labfit` runs end to end from a synthetic RINEX scenario and writes its four reports.
+#[test]
+fn labfit_runs_from_a_synthetic_rinex_scenario() {
+    let dir = scratch("labfit");
     let toml_path = dir.join("labfit.toml");
-    std::fs::write(&toml_path, toml::to_string(&scenario).unwrap()).unwrap();
+    std::fs::write(&toml_path, synthetic_labfit_toml()).unwrap();
 
     assert_eq!(run(&args(&["labfit", &toml_path.display().to_string()])), 0);
     for ext in [
@@ -1169,4 +1364,463 @@ fn rinex_text(tl: &kshana::receiver_trust::Timeline) -> String {
         }
     }
     s
+}
+
+/// The integer scene scale places the expected per-component RMS at a quarter of each
+/// encoding's decoded full scale (the rule of `ci8`/`ci16_le`): ±7 for `ci4`, ±15 for `cu4`,
+/// ±255 for `cu8`, ±2047 for `ci12`, ±4095 for `cu12`, ±65535 for `cu16`. The 2-bit
+/// one-code-per-byte format puts the ±3 levels on the same ~0.317 of elements as the packed
+/// 2-bit ones. Bars: measured RMS within 5 % of the target, and under 5e-4 of components at
+/// full scale (the Gaussian tail beyond 4 σ is 6.3e-5; the rest is rounding to the coarse
+/// grid).
+#[test]
+fn integer_scene_scale_pins_the_rms_target_and_saturation_for_every_integer_encoding() {
+    use kshana::iq::io::{decode_samples, SampleFormat};
+    let dir = scratch("intscale-all");
+    // (format, decoded full scale)
+    let cases = [
+        ("ci4_msb", 7.0),
+        ("cu4_msb", 15.0),
+        ("cu8", 255.0),
+        ("ci12r_le", 2047.0),
+        ("ci12l_be", 2047.0),
+        ("cu12r_le", 4095.0),
+        ("cu12l_be", 4095.0),
+        ("cu16_le", 65535.0),
+        ("cu16_be", 65535.0),
+    ];
+    for (fmt, full) in cases {
+        let iq = dir.join(format!("s.{fmt}")).display().to_string();
+        assert_eq!(
+            run(&args(&[
+                "scene",
+                &iq,
+                "--rate",
+                "2046000",
+                "--duration",
+                "0.4",
+                "--signal",
+                "gps-l1ca",
+                "--prn",
+                "9",
+                "--doppler",
+                "1200",
+                "--cn0",
+                "50",
+                "--seed",
+                "3",
+                "--format",
+                fmt,
+            ])),
+            0,
+            "{fmt}"
+        );
+        let bytes = std::fs::read(&iq).unwrap();
+        let samples = decode_samples(SampleFormat::parse(fmt).unwrap(), &bytes, 1.0);
+        let vals: Vec<f64> = samples.iter().flat_map(|s| [s.re, s.im]).collect();
+        let n = vals.len() as f64;
+        let rms = (vals.iter().map(|v| v * v).sum::<f64>() / n).sqrt();
+        let target = full / 4.0;
+        assert!(
+            (rms / target - 1.0).abs() < 0.05,
+            "{fmt}: rms {rms:.3}, want {target:.3}"
+        );
+        let clipped = vals.iter().filter(|v| v.abs() >= full).count() as f64 / n;
+        assert!(clipped < 5e-4, "{fmt}: clipped fraction {clipped:.2e}");
+    }
+
+    // One 2-bit code per byte, sign-magnitude: codes 01 and 11 are the ±3 levels.
+    let iq = dir.join("s.c2sm_byte").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.4",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "9",
+            "--doppler",
+            "1200",
+            "--cn0",
+            "50",
+            "--seed",
+            "3",
+            "--format",
+            "c2sm_byte",
+        ])),
+        0
+    );
+    let bytes = std::fs::read(&iq).unwrap();
+    let outer = bytes.iter().filter(|&&b| (b & 3) & 1 == 1).count() as f64 / bytes.len() as f64;
+    assert!(
+        (outer - 0.317).abs() < 0.03,
+        "c2sm_byte: |level| = 3 on {outer:.3} of elements, want ~0.317"
+    );
+}
+
+/// `--extra-taps` adds correlator taps to the epoch output (CSV columns here), changes the
+/// design's hash, and leaves the tapless output as it was; a sweep whose designs disagree
+/// on taps is refused.
+#[test]
+fn extra_taps_reach_the_epoch_output_and_a_disagreeing_sweep_is_refused() {
+    let dir = scratch("taps");
+    let iq = dir.join("s.cf32").display().to_string();
+    let p = |n: &str| dir.join(n).display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.6",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--doppler",
+            "800",
+            "--cn0",
+            "46",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    let (plain, tapped, summary) = (p("plain.csv"), p("tapped.csv"), p("sum.json"));
+    let track = |extra: &[&str], out: &str| {
+        let mut v = vec![
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--epochs",
+            out,
+            "--summary",
+            &summary,
+        ];
+        v.extend_from_slice(extra);
+        run(&args(&v))
+    };
+    assert_eq!(track(&[], &plain), 0);
+    let hash_plain = std::fs::read_to_string(&summary).unwrap();
+    assert_eq!(track(&["--extra-taps", "0.25,-0.25,0.75"], &tapped), 0);
+    let hash_tapped = std::fs::read_to_string(&summary).unwrap();
+    assert_ne!(hash_plain, hash_tapped, "the design hash covers the taps");
+
+    let (a, b) = (
+        std::fs::read_to_string(&plain).unwrap(),
+        std::fs::read_to_string(&tapped).unwrap(),
+    );
+    let (ha, hb) = (a.lines().next().unwrap(), b.lines().next().unwrap());
+    let n = kshana::iq::track::sink::EPOCH_FIELDS.len();
+    assert_eq!(ha.split(',').count(), n);
+    assert_eq!(hb.split(',').count(), n + 9);
+    assert!(hb.ends_with("x2_offset_chips,x2_i,x2_q"));
+    // The tapped rows start with the tapless row's columns, and the +0.25 tap is E.
+    for (ra, rb) in a.lines().skip(1).zip(b.lines().skip(1)) {
+        let (ca, cb): (Vec<&str>, Vec<&str>) = (ra.split(',').collect(), rb.split(',').collect());
+        assert_eq!(ca[..], cb[..n]);
+        assert_eq!(cb[n], "0.25");
+        assert_eq!((cb[n + 1], cb[n + 2]), (cb[6], cb[7]), "tap +0.25 is early");
+        assert_eq!(
+            (cb[n + 4], cb[n + 5]),
+            (cb[10], cb[11]),
+            "tap -0.25 is late"
+        );
+    }
+
+    let designs = p("d.toml");
+    std::fs::write(
+        &designs,
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"a\"\n\
+         [[design]]\nname = \"b\"\n[design.integration]\nextra_taps_chips = [0.3]\n",
+    )
+    .unwrap();
+    assert_ne!(
+        run(&args(&[
+            "sweep", &iq, "--signal", "gps-l1ca", "--prn", "6", "--design", &designs,
+        ])),
+        0
+    );
+}
+
+/// One `iq track` run with `extra` flags; the epochs (binary), events and summary bytes.
+fn track_bytes(
+    iq: &str,
+    dir: &std::path::Path,
+    tag: &str,
+    prns: &str,
+    extra: &[&str],
+) -> [Vec<u8>; 3] {
+    let p = |n: &str| dir.join(format!("{tag}-{n}")).display().to_string();
+    let (e, ev, s) = (p("e.bin"), p("ev.jsonl"), p("s.json"));
+    let mut v = vec![
+        "track",
+        iq,
+        "--signal",
+        "gps-l1ca",
+        "--prn",
+        prns,
+        "--epochs",
+        &e,
+        "--events",
+        &ev,
+        "--summary",
+        &s,
+    ];
+    v.extend_from_slice(extra);
+    assert_eq!(run(&args(&v)), 0, "{tag}");
+    [e, ev, s].map(|f| std::fs::read(f).unwrap())
+}
+
+/// `--threads` changes how fast the channels are correlated and nothing else: the binary
+/// epochs, the events and the summary are byte-identical to the serial run.
+#[test]
+fn threads_leave_the_output_bit_identical() {
+    let dir = scratch("threads");
+    let iq = dir.join("s.cf32").display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "1.5",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "3,6,11,14,19",
+            "--doppler",
+            "800,-1300,2100,-600,0",
+            "--cn0",
+            "44",
+            "--seed",
+            "9",
+        ])),
+        0
+    );
+    let prns = "3,6,11,14,19";
+    let serial = track_bytes(&iq, &dir, "t1", prns, &[]);
+    assert!(serial[0].len() > 10_000);
+    // The comparison below must have something to compare: every channel reaches LOCKED
+    // within the run, so the serial events file holds five `locked` events.
+    let events = String::from_utf8(serial[1].clone()).unwrap();
+    assert_eq!(
+        events.matches("\"reason\":\"locked\"").count(),
+        5,
+        "{events}"
+    );
+    for n in ["2", "7", "auto"] {
+        let got = track_bytes(&iq, &dir, &format!("n{n}"), prns, &["--threads", n]);
+        assert_eq!(got[0], serial[0], "epochs with --threads {n}");
+        assert_eq!(got[1], serial[1], "events with --threads {n}");
+        assert_eq!(got[2], serial[2], "summary with --threads {n}");
+    }
+    // With re-acquisition and a hand-off 500 Hz off (a false lock to repair), the state
+    // machine's events are identical too.
+    let off = track_bytes(
+        &iq,
+        &dir,
+        "r1",
+        "6,11",
+        &["--reacquire", "--acq-coherent", "1"],
+    );
+    let off4 = track_bytes(
+        &iq,
+        &dir,
+        "r4",
+        "6,11",
+        &["--reacquire", "--acq-coherent", "1", "--threads", "4"],
+    );
+    assert!(!off[1].is_empty(), "the re-acquisition run emits events");
+    assert_eq!(off, off4);
+    assert_ne!(
+        run(&args(&[
+            "track",
+            &iq,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6",
+            "--threads",
+            "0"
+        ])),
+        0
+    );
+}
+
+/// Speed-up of `--threads` on a 12-channel recording. Prints; run with
+/// `cargo test --release --test iq_cli threads_speed -- --ignored --nocapture`.
+#[test]
+#[ignore = "timing survey (release)"]
+fn threads_speed_up_the_correlation() {
+    let dir = scratch("threads-speed");
+    let iq = dir.join("s.cf32").display().to_string();
+    let prns = "1,3,5,7,9,11,13,15,17,19,21,23";
+    let dop = "100,-1300,2100,-600,0,3300,-2500,900,-1700,1200,-300,2700";
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "4092000",
+            "--duration",
+            "4",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            prns,
+            "--doppler",
+            dop,
+            "--cn0",
+            "44",
+            "--seed",
+            "2",
+        ])),
+        0
+    );
+    let time = |tag: &str, extra: &[&str]| {
+        let t = std::time::Instant::now();
+        let b = track_bytes(&iq, &dir, tag, prns, extra);
+        (t.elapsed().as_secs_f64(), b)
+    };
+    let (t1, b1) = time("s1", &[]);
+    let n = std::thread::available_parallelism().map_or(1, |n| n.get());
+    println!("cores available: {n}");
+    for k in ["2", "4", "8"] {
+        let (tk, bk) = time(&format!("s{k}"), &["--threads", k]);
+        assert_eq!(bk, b1, "--threads {k} is bit-identical");
+        println!(
+            "threads {k}: {tk:.2} s vs serial {t1:.2} s: {:.2}x",
+            t1 / tk
+        );
+    }
+}
+
+/// `iq acquire --surface` writes the surface in the format the suffix (or flag) names; the
+/// peak equals the detection `--json` reports; several PRNs or an unknown suffix are refused.
+#[test]
+fn acquire_exports_the_acquisition_surface() {
+    use kshana::iq::acq_surface::Surface;
+    let dir = scratch("surface");
+    let iq = dir.join("s.cf32").display().to_string();
+    let p = |n: &str| dir.join(n).display().to_string();
+    assert_eq!(
+        run(&args(&[
+            "scene",
+            &iq,
+            "--rate",
+            "2046000",
+            "--duration",
+            "0.05",
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            "6,21",
+            "--doppler",
+            "800,-1300",
+            "--cn0",
+            "46",
+            "--seed",
+            "4",
+        ])),
+        0
+    );
+    let (bin, csv, json, det) = (p("s.bin"), p("s.csv"), p("s.json"), p("det.json"));
+    let base = |prn: &'static str| {
+        vec![
+            "acquire",
+            &iq as &str,
+            "--signal",
+            "gps-l1ca",
+            "--prn",
+            prn,
+            "--coherent",
+            "4",
+            "--doppler-max",
+            "3000",
+        ]
+        .into_iter()
+        .map(str::to_string)
+        .collect::<Vec<_>>()
+    };
+    let go = |prn: &'static str, extra: &[&str]| {
+        let mut v = base(prn);
+        v.extend(extra.iter().map(|s| s.to_string()));
+        run(&v)
+    };
+    assert_eq!(go("6", &["--json", &det, "--surface", &bin]), 0);
+    assert_eq!(go("6", &["--surface", &csv]), 0);
+    assert_eq!(go("6", &["--surface", &json]), 0);
+    let d: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&det).unwrap()).unwrap();
+    let surf =
+        Surface::read_binary(std::io::BufReader::new(std::fs::File::open(&bin).unwrap())).unwrap();
+    let h = &surf.header;
+    assert_eq!(
+        h.peak.doppler_hz,
+        d["detections"][0]["doppler_hz"].as_f64().unwrap()
+    );
+    assert_eq!(
+        h.peak.statistic,
+        d["detections"][0]["statistic"].as_f64().unwrap()
+    );
+    assert!(h.peak.acquired);
+    assert!((h.peak.doppler_hz - 800.0).abs() < 200.0);
+    assert!((h.fine_search.doppler_hz - 800.0).abs() < (h.peak.doppler_hz - 800.0).abs() + 1.0);
+    let text = std::fs::read_to_string(&csv).unwrap();
+    assert!(text.starts_with("# kshana.acq-surface/1"));
+    let j: serde_json::Value =
+        serde_json::from_str(&std::fs::read_to_string(&json).unwrap()).unwrap();
+    assert_eq!(j["header"]["peak"]["delay_samples"], h.peak.delay_samples);
+
+    assert_ne!(go("6,21", &["--surface", &bin]), 0, "one PRN only");
+    assert_ne!(go("6", &["--surface", &p("s.dat")]), 0, "unknown suffix");
+    assert_eq!(
+        go("6", &["--surface", &p("s.dat"), "--surface-format", "csv"]),
+        0
+    );
+}
+
+/// The surface form of `labfit` takes the logs inline, returns the report in memory, and
+/// refuses a log that names a file.
+#[test]
+fn labfit_inline_returns_the_report_and_refuses_log_paths() {
+    let toml = synthetic_labfit_toml();
+    let v = kshana::surface::iq_labfit_inline(&toml, 64 * 1024 * 1024).unwrap();
+    assert!(v["report"].is_object() && v["markdown"].as_str().unwrap().len() > 100);
+    assert!(v["residuals_csv"].as_str().unwrap().contains(','));
+    assert!(v["predictions_csv"].is_string());
+    // Over the cap is refused.
+    assert!(kshana::surface::iq_labfit_inline(&toml, 100).is_err());
+    // A log that names a file is refused, whether or not the file exists.
+    let mut doc: toml::Value = toml::from_str(&toml).unwrap();
+    let log = doc["runs"][0]["log"].as_table_mut().unwrap();
+    log.remove("text");
+    log.insert("path".into(), "/etc/hostname".into());
+    let named = toml::to_string(&doc).unwrap();
+    let e = kshana::surface::iq_labfit_inline(&named, 64 * 1024 * 1024).unwrap_err();
+    assert!(e.contains("runs[0].log") && e.contains("path"), "{e}");
+    let mut doc2: toml::Value = toml::from_str(&toml).unwrap();
+    let nav = toml::Value::try_from(std::collections::BTreeMap::from([(
+        "path".to_string(),
+        "/etc/hostname".to_string(),
+    )]))
+    .unwrap();
+    doc2["runs"][1]["log"]
+        .as_table_mut()
+        .unwrap()
+        .insert("nav".into(), nav);
+    assert!(
+        kshana::surface::iq_labfit_inline(&toml::to_string(&doc2).unwrap(), 64 * 1024 * 1024)
+            .is_err()
+    );
 }

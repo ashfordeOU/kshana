@@ -16,8 +16,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.33.1-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.33.1"></a>
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-124%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="124 of 251 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.35.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.35.0"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-130%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="130 of 260 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" alt="About 95% line coverage, gated at 85% in continuous integration"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -40,7 +40,7 @@ engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 ## Evidence
 
-**124 of 251** capabilities validated against independent external oracles; 123 honestly labelled Modelled, 4 partner-owned.
+**130 of 260** capabilities validated against independent external oracles; 126 honestly labelled Modelled, 4 partner-owned.
 Each capability carries one label in a machine-checked ledger: VALIDATED (an independent
 external oracle agrees: real data, an independent implementation or published reference
 vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner
@@ -51,7 +51,7 @@ Cowell force model to 0.08 m against Orekit 12.2.
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 251 capabilities: 124 Validated, 123 Modelled, 4 Partner-owned" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 260 capabilities: 130 Validated, 126 Modelled, 4 Partner-owned" width="100%">
 </picture>
 </p>
 
@@ -175,12 +175,27 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
   drawing of a run; SP3 (Standard Product 3), CCSDS (Consultative Committee for Space Data
   Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON,
   STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
+- **Vessel GNSS trust** (`receiver_trust`, including `receiver_trust::live`): a 0-100 score with
+  reasons from a receiver's NMEA, live or from a log; advisory, not type-approved navigation
+  equipment.
+- **Evidence packs** (`evidence`): a signed technical record of a log window, verifiable offline.
+- **Trust telemetry** (`telemetry`): the trust stream as Prometheus metrics, SIEM events and
+  optional OpenTelemetry.
+- **Training streams** (`nmea_synth`): synthetic bridge NMEA with scripted jamming and spoofing
+  and an instructor log. Text only; never for a vessel's live navigation systems.
+- **Interference map** (`interference_map`): aggregate degraded-navigation maps and route
+  exposure.
+- **Test bench and compliance mapping** (`interop::testbench`, `compliance`): a scenario's
+  vehicle motion and events for a laboratory GNSS simulator, and the public-framework mapping
+  filled from result documents.
+- **GNSS IQ lab** (`iq`): scenes, acquisition, tracking, monitors and campaigns on recorded and
+  synthetic IQ.
 
 ## Architecture
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.33.1, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.35.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
 </picture>
 
 The same scenario file gives the same bytes on every surface. MCP is the Model Context

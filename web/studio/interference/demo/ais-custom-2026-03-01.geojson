@@ -1,0 +1,410 @@
+{
+  "features": [
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.5,
+              30.0
+            ],
+            [
+              -40.0,
+              30.0
+            ],
+            [
+              -40.0,
+              30.5
+            ],
+            [
+              -40.5,
+              30.5
+            ],
+            [
+              -40.5,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 240,
+        "cell_j": 279,
+        "degraded": false,
+        "detectors": [],
+        "status": "not_anomalous",
+        "vessels_flagged": {
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
+        },
+        "vessels_observed": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.0,
+              30.0
+            ],
+            [
+              -39.5,
+              30.0
+            ],
+            [
+              -39.5,
+              30.5
+            ],
+            [
+              -40.0,
+              30.5
+            ],
+            [
+              -40.0,
+              30.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 240,
+        "cell_j": 280,
+        "degraded": true,
+        "detectors": [
+          "circle"
+        ],
+        "status": "anomalous",
+        "vessels_flagged": {
+          "circle": 6,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
+        },
+        "vessels_observed": 6
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.5,
+              30.5
+            ],
+            [
+              -40.0,
+              30.5
+            ],
+            [
+              -40.0,
+              31.0
+            ],
+            [
+              -40.5,
+              31.0
+            ],
+            [
+              -40.5,
+              30.5
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 241,
+        "cell_j": 279,
+        "degraded": false,
+        "detectors": [],
+        "status": "not_anomalous",
+        "vessels_flagged": {
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
+        },
+        "vessels_observed": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.5,
+              31.0
+            ],
+            [
+              -40.0,
+              31.0
+            ],
+            [
+              -40.0,
+              31.5
+            ],
+            [
+              -40.5,
+              31.5
+            ],
+            [
+              -40.5,
+              31.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 242,
+        "cell_j": 279,
+        "degraded": false,
+        "detectors": [],
+        "status": "not_anomalous",
+        "vessels_flagged": {
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
+        },
+        "vessels_observed": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.0,
+              31.0
+            ],
+            [
+              -39.5,
+              31.0
+            ],
+            [
+              -39.5,
+              31.5
+            ],
+            [
+              -40.0,
+              31.5
+            ],
+            [
+              -40.0,
+              31.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 242,
+        "cell_j": 280,
+        "degraded": true,
+        "detectors": [
+          "on_land"
+        ],
+        "status": "anomalous",
+        "vessels_flagged": {
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": 6,
+          "same_position": null
+        },
+        "vessels_observed": 6
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.5,
+              31.5
+            ],
+            [
+              -40.0,
+              31.5
+            ],
+            [
+              -40.0,
+              32.0
+            ],
+            [
+              -40.5,
+              32.0
+            ],
+            [
+              -40.5,
+              31.5
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 243,
+        "cell_j": 279,
+        "degraded": false,
+        "detectors": [],
+        "status": "not_anomalous",
+        "vessels_flagged": {
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
+        },
+        "vessels_observed": 8
+      },
+      "type": "Feature"
+    },
+    {
+      "geometry": {
+        "coordinates": [
+          [
+            [
+              -40.0,
+              32.0
+            ],
+            [
+              -39.5,
+              32.0
+            ],
+            [
+              -39.5,
+              32.5
+            ],
+            [
+              -40.0,
+              32.5
+            ],
+            [
+              -40.0,
+              32.0
+            ]
+          ]
+        ],
+        "type": "Polygon"
+      },
+      "properties": {
+        "cell_i": 244,
+        "cell_j": 280,
+        "degraded": false,
+        "detectors": [],
+        "status": "not_anomalous",
+        "vessels_flagged": {
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
+        },
+        "vessels_observed": 6
+      },
+      "type": "Feature"
+    }
+  ],
+  "kshana_interference_map": {
+    "data": {
+      "attribution": "Synthetic data generated for Kshana documentation. Not real observations.",
+      "coverage_notes": [
+        "Coverage of a user-supplied dataset is not described by Kshana."
+      ],
+      "dataset": "custom",
+      "licence": "CC0-1.0",
+      "licence_url": "https://creativecommons.org/publicdomain/zero/1.0/",
+      "name": "user-supplied dataset"
+    },
+    "date": "2026-03-01",
+    "day": {
+      "cells_published": 7,
+      "cells_suppressed_below_min_distinct": 1,
+      "on_land_detector": "enabled"
+    },
+    "format_version": 1,
+    "grid": {
+      "cell_deg": 0.5,
+      "is_preregistered": true,
+      "preregistered_cell_deg": 0.5,
+      "type": "fixed_lat_lon"
+    },
+    "kshana_version": "0.34.0",
+    "method": {
+      "caveats": [
+        "An anomalous cell means vessels reported implausible positions or motion there that day. It does not identify interference as the cause.",
+        "Other causes include vessels in rivers, canals and ports near the coastline, shared or duplicated identifiers, transponder faults, test equipment and legitimate loitering patterns.",
+        "AIS covers only vessels that carry and use a transponder, and each source excludes some vessel classes.",
+        "Cells with no published entry were not observed by enough vessels, which is not the same as clear."
+      ],
+      "detectors": [
+        "on_land",
+        "circle",
+        "implausible_jump",
+        "implausible_speed",
+        "same_position"
+      ],
+      "guards": [
+        "distinct vessels are counted, not reports",
+        "a detector qualifies in a cell only with a minimum number and share of flagged vessels",
+        "on-land requires a buffer inland of a coastline that is only accurate to about a kilometre",
+        "circles must be a consistent direction of travel at more than anchor-swing speed",
+        "the AIS 'not available' position and speed values are discarded before any detector runs",
+        "cells with fewer than the minimum distinct vessels are not published; every per-cell count below the minimum is withheld, zero included",
+        "a detector qualifies only if at least the publication minimum of vessels are flagged"
+      ],
+      "id": "kshana-interference-map/ais/v2",
+      "input_stats": {
+        "rejected_invalid_position": 0,
+        "rejected_malformed": 0,
+        "rows": 401,
+        "used": 401
+      },
+      "on_land_detector_enabled": true,
+      "parameters": {
+        "circle_max_gap_s": 1800.0,
+        "circle_max_radius_cv": 0.15,
+        "circle_max_radius_m": 20000.0,
+        "circle_max_step_deg": 90.0,
+        "circle_min_mean_speed_kn": 2.0,
+        "circle_min_radius_m": 500.0,
+        "circle_min_winding_deg": 270.0,
+        "circle_stride_reports": 10,
+        "circle_window_reports": 20,
+        "jump_max_dt_s": 3600.0,
+        "jump_min_dist_m": 1000.0,
+        "land_buffer_m": 2000.0,
+        "max_speed_kn": 70.0,
+        "min_flagged_share": 0.2,
+        "min_flagged_vessels": 5,
+        "min_jumps": 2,
+        "min_land_reports": 3,
+        "min_speed_reports": 3,
+        "publication_min_distinct": 5,
+        "same_position_min_vessels": 5,
+        "same_position_round_deg": 0.0001,
+        "same_position_window_s": 600.0
+      },
+      "summary": "Anomaly detectors on AIS position reports per fixed grid cell and UTC day: positions on land, circular tracks, implausible jumps, implausible speeds, and many vessels at one position."
+    },
+    "notice": "Aggregate only: no aircraft or vessel identifiers appear in this file. Cells with fewer than the minimum number of distinct aircraft or vessels are omitted. A missing cell was not observed and is not evidence of a clear cell.",
+    "schema": "kshana-interference-map/v1",
+    "source_kind": "ais"
+  },
+  "type": "FeatureCollection"
+}

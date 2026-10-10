@@ -198,6 +198,10 @@ struct Counts {
 /// Run the subcommand; returns the process exit code.
 pub fn run(args: &[String]) -> i32 {
     // The advisory goes first on every path, errors included.
+    if matches!(args.first().map(String::as_str), Some("--help" | "-h")) {
+        println!("{ADVISORY}\n\n{USAGE}");
+        return 0;
+    }
     if args.first().map(String::as_str) != Some("verify") {
         eprintln!("{ADVISORY}\n\n{USAGE}");
         return 2;

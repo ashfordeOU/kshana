@@ -30,7 +30,7 @@ const MOVED = Object.keys(JSON.parse(text("tools/legacy-urls.json")).redirects.p
 // The Studio's Advanced view (the full dashboard) is a second page of the Studio app: a view of
 // /studio/, noindex, so it is not a page of the site map either. Its <base href="../"> makes its
 // relative addresses resolve from the Studio's own folder.
-const VIEWS = ["studio/advanced/index.html"];
+const VIEWS = ["studio/advanced/index.html", "studio/trust/index.html", "studio/interference/index.html", "studio/training/index.html"];
 const pages = ported.filter((rel) => isPage(rel) && rel !== NOT_FOUND && !MOVED.includes(rel) && !VIEWS.includes(rel));
 const indexed = pages;
 for (const rel of MOVED) {

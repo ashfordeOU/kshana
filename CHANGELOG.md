@@ -32,7 +32,590 @@ breaking changes are called out explicitly.
   out of the satellite status, keeps chains by CID with revocation and renewal, checks
   the KROOT padding hash, and caps UBX frame lengths and TESLA verification work.
 
+## [0.35.0] - 2026-10-10
+
+Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
+output already installed, with the tooling around it: live and gate modes, Signal K and
+OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
+exporters, signed evidence packs, a compliance mapping, a test-bench export, and the same
+capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
+class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Partner). Six are
+**VALIDATED**, each against an independent implementation or published vectors on synthetic inputs
+and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
+for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
+responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
+generated NMEA text is for training. Galileo OSNMA verification is not in this release.
+
+### Added (surfaces)
+
+- **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
+  `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
+  `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing
+  key does not belong in a page). MCP server: `assess_vessel_stream`, `assess_vessel_log`,
+  `create_evidence_pack`, `verify_evidence_pack`, `generate_training_nmea`,
+  `build_interference_map`, `route_exposure`, each with input caps and round-trip tests. Claude
+  Code plugin: slash commands `/kshana-assess-receiver`, `/kshana-training-scenario`,
+  `/kshana-interference-map`, `/kshana-evidence-pack` and the matching skills. JetBrains plugin:
+  Assess Receiver Trust, Generate Training NMEA, Build Interference Map and Route Exposure
+  actions. Notebooks: `vessel-trust-and-training`, `interference-map-route-exposure`. Docs:
+  `docs/AGENTS.md` and `docs/SURFACES.md`, which states, for every cell, why a surface cannot
+  carry a capability (a running process: `receiver-trust live`, its gate and listener, the
+  telemetry exporters, streamed training NMEA; the land download). The in-memory entry points
+  share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
+  modules' own functions.
+
+### Added (evidence packs)
+
+- **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable
+  evidence packs for a GNSS trust event.** A pack bundles the raw log slice and the full
+  log's SHA-256, the configuration with every threshold, the per-epoch results and
+  reasons, the engine version, a hash-chained manifest and a self-contained HTML summary,
+  signed with Ed25519 (a key from `kshana evidence keygen` or your own file; keys are never
+  stored in a pack and `*.evidence-key` is git-ignored). `verify` checks every hash, the
+  chain and the signature and names exactly what fails; with `--pubkey` it pins the signer.
+  An RFC 3161 token can be attached and is read and bound to the manifest (the authority's
+  own signature is not checked by this build; `openssl ts -verify` covers it). The log slice is the
+  window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
+  otherwise the whole log, and the manifest says which.
+  Creation and verification are pure public functions (`kshana::evidence`) that build for
+  `wasm32`. The packs state that they are a technical record, not a legal opinion. The new dependencies are
+  the `ed25519-dalek` tree (BSD-3-Clause and Apache-2.0/MIT, minimal features) and a direct
+  `zeroize` (already in that tree) to wipe key material. See
+  `docs/EVIDENCE-PACKS.md`.
+
+### Added (trust telemetry)
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. Delivery runs on worker
+  threads with connect and write time limits, capped reconnect backoff and a
+  `kshana_trust_syslog_send_failures_total` counter, so a dead or stalled collector cannot
+  stall the live assessment or freeze `/metrics`; reason labels are capped at 64 series. No
+  new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
+### Added
+
+- **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
+  the receiver already outputs, with an opt-in gate.** `kshana receiver-trust` takes a
+  `[platform]` table (`kind = "static"` or `"vessel"`, the vessel's maximum speed, acceleration
+  and turn rate, antenna height above the waterline and an optional heading sensor; every default
+  documented with its reason). For a vessel the static position-jump monitor, which measures
+  distance from the calibration mean and is wrong on a ship under way, is replaced by causal
+  moving-platform monitors: kinematic consistency of the position against the reported speed and
+  course and against the vessel limits, gyro heading against course over ground, speed log against
+  speed over ground, antenna altitude against the stated height above the waterline, C/N0 spread
+  collapsing and rising together against the calibration baseline, and time consistency (against
+  this computer's clock too, in live mode). It also reads a reported authentication status, overall or per satellite
+  (a reported status only: no OSNMA cryptography). Every threshold is stated in a `[maritime]` table before the run. Each epoch then
+  gets a score from 0 to 100 by a deterministic, pre-registered mapping (no learning, nothing fitted
+  to events; weights, band edges and the evidence hold in a `[score]` table), mapped onto the
+  existing trust states, with the monitors that deducted and their points. Static scenarios are
+  unchanged and hash as before. `kshana receiver-trust live <session.toml>` reads stdin, a file
+  being appended, TCP or UDP and writes one JSON line per epoch and a proprietary `$PKSHT`
+  sentence; with `--gate` it passes the stream through unchanged while the fix is trusted and
+  marks the fix invalid (GGA quality 0, RMC and GLL status `V`, GNS and VTG mode `N`) while it is
+  not. The gate is off unless asked for; `--listen tcp:<port>` serves the gated stream to any number of
+  TCP clients (loopback by default, a slow client is dropped rather than blocking the others). This is advisory software, not type-approved navigation
+  equipment (IEC 61108, IEC 61162); the operator remains responsible. `examples/maritime-trust/`
+  is a synthetic Tallinn to Helsinki log, written as text only, with a position drag-off partway
+  through during which the receiver keeps reporting a valid fix; its expected output is pinned by
+  a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
+  consistent with everything on the bus; the guide says so.
+
+### Interference map
+
+- **`kshana interference-map` and `kshana route-exposure`: a public picture of where
+  aircraft and ships reported degraded navigation data, and how much of a route it touches.**
+  Inputs are local CSV files made from openly licensed ADS-B (adsb.lol, ODbL 1.0) and AIS
+  (NOAA MarineCadastre, Kystverket under NLOD 2.0) data; each output file is one source and
+  one UTC day of GeoJSON carrying the method, its thresholds, the data licence, the
+  attribution and the source's coverage bias. The ADS-B method aggregates NIC and NACp onto
+  a fixed grid and calls a cell degraded from the share of distinct aircraft, with guards for
+  equipment that never reports accuracy, low altitude, and wide-area causes. The AIS method
+  runs five detectors: positions on land (against a user-supplied coastline), circular
+  tracks, implausible jumps, implausible speeds, and many vessels at one position. Thresholds
+  are pre-registered constants of a named method version. Aggregates only: identifiers are
+  hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
+  vessels are not published. A degraded cell is not a finding of interference. The default
+  commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
+  Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
+  matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
+  dependency: `flate2` with its pure-Rust backend, for gzip). Both methods are version 2:
+  a degraded or anomalous call needs at least 5 aircraft or vessels (the publication
+  minimum), every per-cell count below 5 is withheld as `null`, and a day whose background
+  cannot be estimated withholds its calls. Output files are named
+  `<source>-<dataset>-<date>.geojson` and are never overwritten; input is streamed line by
+  line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
+
+### Added (training streams)
+
+- **`kshana nmea-scenario`: synthetic bridge NMEA 0183 for crew training in GNSS jamming
+  and spoofing recognition.** From a scenario TOML it writes a file, or streams over TCP
+  or UDP (unicast or broadcast; real time, accelerated or as fast as possible), the full
+  bridge set GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT and VBW for a vessel track with
+  rate-of-turn, acceleration and current limits, with satellite geometry from the engine's
+  own nominal constellations. Scripted events on a timeline: jamming, position drag-off
+  (a valid fix that walks away), time spoof and a replay delay, each with onset and
+  recovery ramps. An instructor log (JSON and text) records what was injected when with the
+  true track against the reported one. A library in `scenarios/training/` (open-sea
+  jamming, coastal drag-off, port-approach time spoof, combined) carries trainer notes.
+  Output is checksum-valid and deterministic per seed; tests pin a golden excerpt per
+  scenario and read every sentence with the `receiver-trust` NMEA reader. Text only: no
+  RF, IQ or waveform output; streams are for training and testing and must never be fed
+  to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
+
+### Marine integrations (0.35.0, workstream B)
+
+- **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
+  (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
+  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
+  a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
+  the config schema). No npm dependencies. Tested on recorded synthetic output.
+- **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a
+  dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) is the optional alternative. Either way OpenCPN
+  sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
+  through a real TCP socket and check what a consumer receives. A native score-panel plugin
+  (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
+  on the untrusted band; it builds, its logic is unit-tested, and it was run inside OpenCPN 5.8.4 under a virtual display (evidence
+  and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
+- **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
+  the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- The Signal K plugin accepts the live JSON schema 1.2 (a `position` then an `advisory` key appended; unknown appended keys are ignored), checked on real 1.2 output and against a real signalk-server.
+- Review fixes: the systemd units restart always and run sandboxed (no shell, no network where none is needed), a logrotate
+  snippet, `check-units.sh` fails on any finding; the container runs the gate from environment variables with a health check
+  and digest-pinned base images; Signal K score metadata, the stale notification is replaced when data resumes, child-process
+  errors are kept and kills escalate, unsafe `inputArgs` are refused, and the notification is at
+  `notifications.navigation.gnss.kshana.trust`; the relay caps a held partial line; the `$PKSHT` parsers reject scores outside
+  0 to 100; a documentation link check; a CI workflow (`marine-integrations.yml`) running all of it, including the real binary
+  end to end.
+- `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
+  only: nothing transmits, and no detection or false-alarm figure is claimed.
+
+### Added: compliance mapping and test-bench export
+
+- **`docs/compliance/` and `kshana compliance-report`.** A mapping from Kshana outputs to
+  five resilience frameworks and standards (the US DHS Resilient PNT Conformance Framework v2.0,
+  IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803, a paid standard
+  cited by part and by the few clause numbers visible in catalogue text), one table per framework: the reference, what it asks in our
+  paraphrase, the outputs that support evidence for it, and the gap. Source versions, URLs and
+  what was and was not read are recorded. `kshana compliance-report <result.json>...` fills
+  the mapping from the runs given and marks each row `evidenced`, `partly-evidenced`,
+  `not-evidenced` or `out-of-scope`, as Markdown and JSON, with the gap kept on every row. The
+  wording is "supports evidence for"; nothing is rated or approved. Tests use synthetic runs and fail
+  when a committed table drifts from the code.
+- **`kshana bench-export <scenario.toml>`.** Writes a `gnss-ins`, `jamming` or `gnss-sim`
+  scenario's vehicle motion and events for a laboratory GNSS simulator: a user-motion CSV
+  with documented frames and a metadata sidecar, NMEA 0183 `GGA`/`RMC`, waypoint text, and the
+  events as CSV and as `receiver-trust` `[[events]]` blocks (`src/interop/testbench.rs`).
+  Motion and events only: no signal is written. Every file is read back in
+  `tests/interop_testbench.rs` and compared within its stated tolerance.
+  [`docs/TEST-BENCH.md`](docs/TEST-BENCH.md) gives the method for replaying the export
+  through a simulator and scoring the receiver's log with `kshana receiver-trust`.
+- **What counts as evidence.** A result counts for a capability only when it carries the
+  fields its kind writes; a kind label alone counts for nothing. Unknown kinds, a result
+  that disagrees with its sibling scenario, non-hex hashes and malformed receiver-trust
+  counts are listed as not used, with the reason. The report escapes Markdown cells and
+  cannot panic on a non-ASCII hash. `compliance::run_from_text` and `assess_texts` take
+  texts, not paths.
+- **Test-bench export.** `--epoch` is range-checked (`UtcEpoch::parse_iso`); the waypoint
+  file checks every interval and the command says why when it is left out; the docs state
+  that `gnss-ins` heading is the body yaw and not the course, the `GGA` placeholder fields,
+  and the scenario's own height change. `bench-export` and `compliance-report` are in the
+  usage text.
+- `fusion::pack::truth_trajectory` exposes the `gnss-ins` driving profile's true state
+  history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
+  time fields.
+
+### Interference map validation
+
+- **The interference map's decoding semantics and geometry are checked against independent
+  implementations on synthetic inputs.** NIC and NACp code meanings against pyModeS decoding of
+  synthetic ADS-B frames, the AIS not-available values against pyais decoding of synthetic AIVDM
+  sentences, grid cell assignment against shapely, route length per cell state against shapely and
+  GeographicLib, and inland masking against shapely and pyproj, each to a tolerance fixed before the
+  first comparison (`tests/fixtures/interference_map_ref/PREREGISTRATION.md`). This validates how
+  codes and field values are read and the geometry, not that a flagged cell is interference. The
+  land-polygon reader now closes a ring that does not repeat its first vertex, which it used to read
+  without its last edge. The docs state the NACp and NIC low-accuracy thresholds as the bound each
+  code stands for (NACp 6 is a 556 m EPU bound, NIC 5 a 1 NM containment bound).
+
+### Added (validation of the telemetry formats and evidence packs)
+
+- **External checks of the evidence-pack cryptography, the pack verifier and the telemetry
+  wire formats.** The RFC 8032 section 7.1 Ed25519 test vectors (1, 2, 3 and 1024) and the
+  FIPS 180-4 SHA-256 examples run through the pack's own signing, verifying and hashing
+  functions, to exact equality. A verifier written in Python from the normative section of
+  `docs/EVIDENCE-PACKS.md` alone (hashlib and `cryptography`) agrees with the Rust verifier
+  on 71 intact and tampered packs: verdict, failure set, signature verdict and both chain
+  heads. Our Prometheus exposition is read by the official Python client's parser and our
+  OTLP JSON by the official `opentelemetry-proto` message, strictly, and both agree with the
+  state they were made from. CEF and LEEF have no independent open validator and stay
+  modelled. `docs/EVIDENCE-PACKS.md` gained the normative pack format and verification
+  procedure the clean-room verifier was written from; `VerifyReport` gained
+  `signature_valid`. Oracles and fixtures: `scripts/gen_ed25519_rfc8032_ref.py`,
+  `scripts/gen_evidence_pack_ref.py` with `scripts/evidence_verify_cleanroom.py`,
+  `scripts/gen_telemetry_formats_ref.py`; tests `evidence_crypto_reference`,
+  `evidence_pack_reference` and `telemetry_formats_reference`. CI needs no Python.
+
+### Changed
+
+- **MCP: `assess_receiver_log` accepts the log as `text` or `base64`; tool input is capped at 4 MiB.**
+- **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
+  module the Observatory palette revision left on its own colours while the jammer-Q work
+  landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
+  kind scenarios) now reads `src/palette.rs`, and the allowlist in `tests/palette_sync.rs` is
+  empty. Colours and font only: the `jamming-demo` and `maritime-strait-jamming` charts are
+  equal to their previously recorded renders once colour, `font-family` and the version
+  footer are normalised. No plotted value moved. The recorded Studio copies under
+  `web/studio/recorded/` were re-recorded at the 0.33.0 and 0.34.0 re-ports (version stamp only):
+  they still carry the jamming chart's old paint, and take the palette paint at the next re-port.
+
 ### Fixed
+
+- **The clock-ensemble 3-sigma bound now covers the flicker floor, and the filter-health check sees it.**
+  With a `flicker_floor` the truth clock carried flicker FM but the two-state filter that
+  supplies the integrity bound did not, so the shipped `clock-ensemble` scenario's 3-sigma
+  coverage was 0.41 (classical) and 0.33 (quantum), and the NIS/NEES check, which drew its own
+  truth from the filter's model, reported identical values with and without the floor. The
+  bound is now the two-state variance plus the exact variance of the flicker phase accumulated
+  since the last sync, computed from the same bank the truth clock uses; the NIS/NEES check
+  draws its truth from the extended model with that bank and runs the matched extended filter
+  (and the two-state filter against flicker truth reports `consistent = false`). Output change,
+  only for clocks with a nonzero `flicker_floor`: `integrity` on `clock-ensemble` goes from
+  0.40866 / 0.33026 to 0.99970 / 1.0 (classical / quantum) and `filter_health` NIS/NEES now
+  include the flicker; the timing error, `holdover_s` and `timing_p95_ns` are unchanged, and
+  scenarios without a floor are byte-identical. `scenarios/orbit-gnss-challenged.toml` (orbit
+  kind, seed 7, floors 1e-16 / 2e-11) also moves: `fom.integrity` classical 0.7734 to 1.0 and
+  quantum 0.9796 to 1.0, and the `filter_health` NIS/NEES and their bands change. Its quantum
+  `filter_health.consistent` flips from `true` to `false`: a sampling event of the 16-seed by
+  60-step flicker ensemble (NIS 0.8815 against a band of [0.9125, 1.0914]), not a defect. The
+  band is a 95 % band, so about 5 % of seeds flag a matched filter by construction (40 fresh
+  seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
+  inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
+  same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+
+## [0.34.1] - 2026-10-10
+
+### Security
+
+- **MCP server input hardened.** The MCP server's scenario tools now accept inline content only
+  and refuse file-source fields; input size is capped.
+
+## [0.34.0] - 2026-10-09
+
+Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
+recordings, with the loop designs, C/N0 estimators and scores that go with them. Evidence
+class: everything below is **MODELLED** or checked for internal consistency against closed
+forms and seeded simulation; none of it adds a VALIDATED row, and the verification ledger is
+unchanged (251 rows: 124 Validated, 123 Modelled, 4 Partner). It is a software analysis
+layer: nothing here synthesises a jammer or spoofer waveform, and nothing transmits.
+
+### Added
+
+- **Lab replay: test conditions, campaign runner and scoring (0.34.0).** `kshana iq campaign
+  <campaign.toml>` replays recordings × front-end chains × loop designs (`kshana.loop-design/1`)
+  and scores every cell against a per-recording test-condition file (`kshana.test-conditions/1`,
+  TOML or JSON). That file states what a lab knows about the recording: the expected satellites,
+  and for each event its type label, onset and offset, affected satellites and stated J/S or
+  jammer-power profile. It is metadata only. The scores per satellite, for the whole run and per
+  event, are:
+  - availability, time to loss of lock and the stated J/S at the loss;
+  - re-acquisition time, from the event offset and from the loss;
+  - measured C/N0 degradation per stated-J/S bin;
+  - false-lock episodes per locked hour (the tracker's flag, or Doppler against a truth sidecar);
+  - PLL and DLL discriminator jitter.
+
+  Next to each measured degradation curve, an analytic spectral-separation reference
+  (`jamming::effective_cn0_dbhz` with the type's `Q`) is drawn and labelled MODELLED wherever it
+  appears.
+
+  Cells run in parallel through the tracking session's lock state machine, and each is
+  written atomically under a content-hash key. The key covers the recording's SHA-256, the
+  condition, front-end, design, run and scoring hashes, the required `data_class`
+  (`synthetic` | `client-confidential`) and the engine version. With `run.epochs` set, each
+  cell's `kshana.track-epoch/1` stream and lock events are also kept, named by cell key and
+  hashed into the cell. `cell_key` and `report::digest` are public, so a consumer can
+  re-derive every key and the digest. A rerun therefore skips finished cells, and outputs never depend on the worker
+  count. The run writes `scorecard.csv`/`.json`, a self-contained `report.html` and a `DIGEST`.
+  Pass/fail bars (`[scoring.bars]`, overridable per recording) are applied when the report is
+  built.
+
+  - `[scoring] cn0_estimator = "m2m4" | "nwpr"` (default `"m2m4"`, part of the scoring hash) picks the
+    C/N0 behind the reported C/N0 and the degradation curve. Both estimates are always scored and
+    reported (whole-run and baseline medians, and per J/S bin), and the cell and scorecard record
+    the estimator. NWPR reads low by about 8 dB × Bn·T under the loop's own jitter; M2M4 does not.
+
+  Also new:
+  - `kshana iq campaign report <dir>` rebuilds the scorecards, report and digest from the cells;
+  - `kshana iq conditions <file>` checks a test-condition file against its schema;
+  - `events_from_sigmf = true` imports a SigMF recording's `kshana:test_event` annotations as
+    events;
+  - Python gains `iq_test_conditions`, `iq_campaign` and `iq_campaign_report`;
+  - `kshana-mcp` gains `iq_campaign`, which is incremental and resumable under the per-call
+    sample budget with every file confined to the work directory, and `iq_campaign_status`.
+
+  Tests: `tests/iq_campaign.rs` runs a synthetic campaign of 3 recordings × 2 front ends × 2
+  designs. Its scenes carry stated C/N0 profiles, and it covers:
+  - every metric checked against the injected truth;
+  - resume after a partial single-worker run with a corrupt cell, byte-identical to an
+    uninterrupted four-worker run;
+  - per-cell epoch files;
+  - a 20 s three-satellite re-acquisition regression: with `reacquire` on, every channel is
+    back within 2 s of a 2 s gap; the `reacquire` off outcome is pinned;
+  - bars re-judged without re-running;
+  - the CLI;
+  - ignored release-mode throughput and memory checks, including a 4 GB recording (5.45× real
+    time, peak memory 2 MB above the starting RSS; one-machine measurements, not bars).
+
+  Software only: nothing transmits, and no interference or spoofing waveform is synthesised.
+  Design and as-built notes: `docs/design/LAB-CAMPAIGN.md`.
+
+- **Tracking engine for lab replay (0.34.0: B3.1, B3.2, B3.3, B6.1).**
+  - *Loop-design files*: `kshana.loop-design/1` TOML (`docs/design/LOOP-DESIGN-TOML.md`;
+    parser `iq::track::design`). One or more named designs set every loop field:
+    - carrier kind (PLL, FLL or FLL-assisted PLL), orders and bandwidths;
+    - PLL/FLL/DLL discriminators and carrier aiding;
+    - spacing and integration;
+    - lock thresholds and C/N0 windows, and bit sync;
+    - the lock state machine;
+    - the hand-off acquisition (`"auto"` or explicit).
+
+    Designs may `extends` one another. Unknown keys are refused. Each resolved design has a
+    SHA-256 hash over a canonical JSON form (keys sorted at every level, fixed number
+    formatting), so the hash does not depend on field order; every output records it.
+    Surfaces:
+    - `kshana iq track --design <file> [--design-name]`, where explicit flags override the
+      design and are recorded;
+    - `kshana iq sweep --design <file>`, which runs every design in the file;
+    - Python `iq_track(design=, design_name=, reacquire=)`, `iq_loop_designs`;
+    - MCP `iq_track` `design`/`design_name`.
+  - *M2M4 C/N0* (`EpochOutput.cn0_m2m4_dbhz`, the track-epoch column `cn0_m2m4_dbhz` after
+    `cn0_beaulieu_dbhz`; Python epoch dicts). The second-and-fourth-moment estimate over the same
+    windows as NWPR, from prompt power only: NWPR reads low under the loop's own carrier jitter
+    (about 8 dB × Bn_PLL·T) and M2M4 does not. On GPS L2C CM (20 ms, nominal 40 dB-Hz, PLL 1 to
+    10 Hz) it reads 39.93 dB-Hz at every bandwidth while NWPR falls from 39.55 to 38.22; on L1 C/A
+    at 45 dB-Hz it reads 45.34. NWPR and every other output are unchanged (a bit-for-bit pin).
+    The binary record stays 184 bytes (the value takes the reserved float and flag bit 6).
+  - *Extra correlator taps (multi-correlator / SQM).* `[design.integration]
+    extra_taps_chips = [..]` (offsets in chips from the prompt, positive early; at most 16, each
+    within ±2) correlates extra replicas alongside E/P/L and returns them as
+    `EpochOutput.extra` (`(offset, value)` in design order). The loops never use them. The
+    key is left out of the canonical JSON when empty, so the default design's hash and every
+    tapless output are unchanged (`kshana.track-epoch/1` stays; the no-tap CSV/JSONL/binary
+    are bit-identical). With taps: CSV/JSONL columns, and a binary record of
+    `184 + 16 × taps` bytes whose header carries `extra_taps_chips`, so an old reader refuses
+    the file rather than misparse it. `--extra-taps` (CLI), `extra_taps` (Python) and
+    `extra_taps_chips` (MCP `iq_track`). The designs of one run must agree on taps.
+  - *Parallel channels* (`iq track` / `iq sweep --threads <N|auto>`; Rust
+    `TrackSession::with_threads`). Each chunk's channels run on up to N threads
+    (`std::thread::scope`; `wasm32` stays serial). A channel's correlation and lock state machine
+    touch only that channel; its epochs and events are buffered and written to the sinks in
+    channel order, so the output (CSV, JSONL, binary, events, summary) is byte-identical to the
+    serial run for any N. The default stays 1 thread. Measured on a 12-channel, 4 s, 4.092 MHz
+    recording on 4 cores: 19.5 s serial, 11.5 s at 2 threads, 6.3 s at 4 (3.1×; the initial
+    acquisition is serial).
+  - *Acquisition-surface export* (`kshana.acq-surface/1`; `iq::acq_surface`,
+    `docs/design/ACQ-SURFACE.md`). `iq acquire --surface <path>` (one PRN; CSV, JSON or binary),
+    Python `iq_acq_surface` and MCP `iq_acquire` `surface_out` write the whole Doppler × code-phase
+    correlation-power surface the search computes (its cells are `acquire`'s, bit for bit) with the
+    peak and two fine-Doppler refinements: a parabolic estimate and a 1/16-bin fine search (≈5 Hz
+    at 4 ms coherent, against 167 Hz bins). `acquire` itself and every default are unchanged.
+  - *Streaming epoch output* (`kshana.track-epoch/1`; `iq::track::sink`). Every loop update
+    carries:
+    - the early/prompt/late correlators;
+    - all three discriminator outputs;
+    - the PLL/FLL/DLL NCO states and the carrier phase;
+    - the PLI and lock flags;
+    - both C/N0 estimates and the bits;
+    - the lock state.
+
+    It is written as it happens, as CSV, JSON Lines or a versioned binary form with readers
+    in Rust (`BinaryEpochReader`) and Python (`iq_read_epochs`).
+    - `iq track` gains `--epochs`, `--events` and `--summary` (`kshana.track-summary/1`),
+      and `iq sweep` gains `--epochs` and `--events`. MCP `iq_track` gains `epochs_out`/`events_out` and builds
+      its reply from the bounded-memory summary.
+    - A run's heap no longer grows with the recording's length:
+      `tests/iq_track_memory.rs` measures it with a counting allocator (6× the length,
+      same peak within 64 KiB), with a control showing that the in-memory path does grow.
+    - Streamed output is bit-identical to the in-memory replay.
+  - *Lock state machine* (`iq::track::lock`, `TrackSession`): pull-in → locked → lost →
+    re-acquisition → pull-in, or retired once a loss outlasts `reacq_window_s` (default
+    30 s). Failed searches are retried every `reacq_interval_s` (0.1 s), evenly spaced, so
+    the retry schedule adds at most 0.1 s to a measured re-acquisition time. An optional
+    back-off (`reacq_max_interval_s` above `reacq_interval_s`) is off by default, and
+    `max_reacq_attempts` is an optional cap (0, none, by default). A 2 s outage on three
+    PRNs at 4.092 MS/s now ends with every channel re-acquired and locked. Under a
+    3-attempt budget, every channel was retired within 0.2 s of the loss.
+    - Thresholds (`loss_dwell_s`, `pull_in_max_s`, the re-acquisition Doppler window) come
+      from the design. Every transition is an event with its reason.
+    - The false-lock check searches the tracked Doppler against its ±1/(2T) FLL/PLL
+      alias. It catches the false lock PR #38 measured (−2400 Hz tracked 500 Hz off).
+      With re-acquisition on, the channel ends locked at the injected Doppler.
+    - A 0.8 s signal gap is declared lost and re-acquired within 0.3 s of the signal's
+      return.
+    - `--summary` `final_state` (and the table's column) is the state after the last
+      transition, so a channel retired after its last loop update reads `RETIRED`.
+    - **FLL assistance only during pull-in** (`[design.carrier] fll_assist = "pull-in"`,
+      the default; `"always"` keeps the earlier behaviour bit for bit). The FLL hands over
+      to the PLL once the smoothed PLI has held at or above `fll_off_pli` (0.8) for
+      `fll_gate_dwell_s` (0.1 s), and returns below `fll_on_pli` (0.6). Left on, the 10 Hz
+      FLL path broke phase lock below about 38 dB-Hz on clean signals: at 35 dB-Hz the
+      phase-lock fraction was 10–16 %, with a true phase error of 38–41°. Gated, the
+      default holds 100 % at 35 dB-Hz with 4.5°, the same as a PLL alone. Pull-in from a
+      100 Hz hand-off error is unchanged. Evidence with pre-registered bars:
+      `docs/design/evidence/carrier-lock/`. **The default loops are therefore not bit for
+      bit with earlier runs of the default design.** Use `fll_assist = "always"` to
+      reproduce them. Known limit: at 35 dB-Hz the hand-over comes 1.9–2.6 s into the
+      track, and at 33 dB-Hz the 10 Hz FLL keeps the PLI below the hand-over threshold, so
+      pull-in never completes.
+    - New loop-design keys and API, listed:
+      - `[design.carrier]`: `fll_assist`, `fll_off_pli`, `fll_on_pli`, `fll_gate_dwell_s`;
+      - `[design.lock]`: `reacq_window_s`, `reacq_interval_s`, `reacq_max_interval_s`, with
+        `max_reacq_attempts` changed from a default of 3 to an optional cap (default 0);
+      - Rust: `LoopConfig.fll_assist` (`FllAssist`, `FllGate`), `LoopCore::set_fll_enabled`,
+        `EpochOutput.fll_active`, `ChannelSummary.final_state`.
+    - The design hash is over a canonical JSON form, and the built-in default's hash is
+      `33261cd171a53803a6c262686e878e01f37d902a93d5918c20a44297b8ef8e80` (pinned by a test).
+    - Output compatibility notes:
+      - the `iq track` table has a trailing `final_state` column;
+      - the `iq sweep` CSV has a trailing `design_hash` column, and its JSON has
+        `design_hash` and `warnings`;
+      - the sweep's `mean_cn0_dbhz` is now the mean over every update that has an NWPR
+        estimate (bounded-memory summary), no longer over the second half of the run.
+    - Re-acquisition is **off in the built-in default**, where the state machine only
+      observes and the loops run bit for bit as they do without it. (The default loops
+      themselves changed, though: see FLL assistance above.) Turn it on per design
+      (`[design.lock] reacquire = true`), with `--reacquire`, or with `reacquire=True`.
+    - A **`commensurate_sampling` warning**: when fs is within 1e-6 of a multiple of half
+      the chip rate (`iq::track::commensurate_samples_per_chip`), `iq track`/`iq sweep`
+      (output, `--summary`, sweep JSON), the MCP `iq_track` reply and the Python
+      `iq_track` result warn that code-loop jitter and bias are not representative. The
+      root cause is documented with pre-registered bars in
+      `docs/design/evidence/dll-jitter/`. At exactly 2 samples per chip with 0.5-chip
+      spacing, the DLL S-curve is a single step and the loop dithers: ≈ 0.09 chip RMS code
+      error (≈ 26 m) at 45 dB-Hz, against ≈ 0.004 chip at an incommensurate rate. The
+      ~2 dB low NWPR C/N0 at that rate has the same cause. At exactly 0 Hz code Doppler and
+      4 samples per chip the code never crosses the ±0.21-chip dead zone, so a code-phase bias
+      of up to about 0.2 chip can persist without showing in the jitter (measured: 0.5-chip
+      spacing gives 2.0× the control's code error with a +0.011 chip mean; 0.25-chip spacing
+      gives +0.125 chip); the warning covers the rate.
+    - **Known limit: the default design does not hand over FLL→PLL below about 35 dB-Hz**
+      (a ~35 dB-Hz pull-in floor; see FLL assistance above and
+      `docs/design/evidence/carrier-lock/`).
+    - A false-lock or re-acquisition search that cannot run (a rate with no whole number of
+      samples per code period) no longer stops tracking.
+    - Tests: `tests/iq_track_engine.rs`, `tests/iq_cli.rs`, `iq::track::design::tests`,
+      `tests/python`, and the MCP IQ round trip.
+- **C/N0 profiles in synthetic scenes (0.34.0).** `iq::channel::cn0_profile` schedules
+  time-varying C/N0 per satellite in Kshana's own scenes, as dB offsets relative to the
+  scene's C/N0. Shapes: step, ramp, piecewise linear, and seeded scintillation-like Rice
+  fades with a stated S4 and decorrelation time. They are applied through the existing scene
+  channel hook (`Cn0ProfileChannel`, composing with the ionosphere, troposphere,
+  scintillation and multipath effects), with no change to the scene core. The truth
+  sidecar's `cn0_dbhz` follows the profile.
+  - Surfaces: `kshana iq scene … --cn0-profile <toml>` and
+    `kshana.iq_scene(…, cn0_profile="<toml>")`.
+  - What it is for: loops, monitors and campaign scoring can be stress-tested against a
+    known truth. It changes the strength of the legitimate signals only.
+  - Checks (`tests/iq_cn0_profile.rs`). Bars: fade mean intensity within 5 % of 1, S4 within
+    8 % of target (at S4 = 0.3, 0.7 and 1), intensity correlation above 0.9 at 0.05 τ and
+    below 0.05 at 5 τ; truth exactly the stated C/N0 plus the profile; a tracked NWPR C/N0
+    drop within 0.7 dB of a 6 dB step. Measured: S4 within 1.3 % of target, and a tracked
+    drop of 6.26 dB.
+- **IQ-path detection monitors (0.34.0 "Lab replay").** New `iq::monitor` module,
+  `kshana iq monitor` command and `kshana.iq_monitor(path, ...)` binding. They observe a
+  recording and report time series plus flagged events (start, alarm and end times, peak,
+  threshold). They detect and measure only; nothing here generates a signal.
+  - **Total power / AGC**: block power and the gain an ideal AGC would apply; flags rises
+    and drops.
+  - **Pre-correlation spectrum**: Welch PSD per block against a learned baseline. The excess
+    threshold comes from a false-alarm target. Also complex kurtosis and a pulse detector.
+    The pulse detector counts samples over a threshold in each block and raises an event when the exact binomial upper tail of that
+    count is below `pulse_pfa` (default 1e-4 per block), not when a z-score passes a limit: at
+    the small expected counts of short blocks a single sample is already several sigma.
+  - **Per-channel C/N0**: two one-sided CUSUM change detectors (drop and rise), fed
+    independent estimates (the stride is set from the loop's C/N0 window).
+  - **SQM from the correlators**: delta `(I_E − I_L)/I_P` and ratio `(I_E + I_L)/(2 I_P)`,
+    plus asymmetry tests from extra correlators when a channel supplies them.
+  - **Lock-indicator series**: PLI and a frequency lock indicator from successive
+    prompts, as raw signals. Lock and loss-of-lock decisions stay with the tracking
+    engine's lock state machine.
+  
+  One streaming pass (`iq::monitor::run::run_monitors`) runs everything, with a TOML/JSON
+  settings file (`MonitorConfig`); the campaign runner uses the same entry point.
+  All MODELLED. Each statistic is checked against its closed form by seeded simulation
+  (`tests/iq_monitor.rs`):
+  - block-power exceedances against the Gamma tail;
+  - kurtosis mean 2 and spread `2/√N`;
+  - pulse fraction `e^{−t}`;
+  - CUSUM run lengths against Siegmund's approximation (measured 330 and 8.46 samples
+    against 338 and 8.34);
+  - the phase lock indicator against the Rician-phase mean;
+  - on a tracked C/A signal, SQM delta and ratio spreads about 6 % from the first-order
+    closed forms (measured 5.97 %; test bar 12 %).
+  
+  The spectral-excess false-alarm formula is an approximation; the measured rate was 1.3×
+  the formula. End to end, the monitors flag:
+  - a 6 dB C/N0 step (change time within one estimate);
+  - a reflected path appearing mid-recording (ratio test);
+  - a signal outage (PLI falls from 0.999 to −0.3 and FLI from 0.93 to 0.03 during
+    it);
+  - a narrowband tone and sparse high-amplitude samples (spectral, pulse and kurtosis
+    tests). These are generic DSP test inputs, not interference models.
+
+### Changed
+
+- **`iq track`/`iq sweep` stream through the new session (see Added).**
+  - `--csv` keeps its 0.32 columns but is now streamed, so rows of several channels
+    interleave in time order instead of being grouped by channel. `--json` keeps its 0.32
+    shape and still holds every epoch in memory: use `--epochs` for long recordings.
+  - `iq sweep` measures jitter over the updates in the second half of the run's duration
+    (previously the second half of the update count), and its CSV/JSON gain a
+    `design_hash` column.
+  - The track table gains a `final_state` column.
+  - The usage text no longer claims `iq track` takes the front-end flags; only
+    `iq acquire` applies them.
+  - Python `iq_track`'s `acq_noncoherent` and `doppler_max` now default to `None` (the
+    design's values, 1 and 5000 Hz in the built-in design). Its epochs gain the
+    early/late correlators, `carrier_phase_cycles`, `bit_edge`, `bit` and `state`, and
+    the result gains `design` and `events`.
+
+### Fixed
+
+- **The default acquisition step no longer hands Galileo E1 tracking a residual the FLL
+  cannot pull in.** The step `2 / (3 · N · T_code)` leaves up to `1 / (3 · N · T_code)` of
+  Doppler error at hand-off, but the default two-quadrant FLL pulls in only `1 / (4 T_track)`.
+  For every code of 4 ms or longer (`N = 1`), including Galileo E1-B and E1-C, the residual
+  (83.3 Hz at 4 ms) was outside the 62.5 Hz pull-in and tracking false-locked at +125 Hz, with
+  a phase-lock indicator of 0.97 that hid it. The default step is now also capped at
+  `0.2 / T_track` (`kshana::iq::acq::default_step_hz`), 0.8 of the pull-in, so the hand-off
+  stays inside it even when the neighbouring bin wins. (0.4 was tried first: it false-locked 1 run
+  in 42 on E1-B, and a 1 ms coherent GPS L1 C/A search picked a bin 350 Hz off and locked at
+  +500 Hz; 0.25 and 0.2 had none in the same runs.) Cost: Galileo E1-B/E1-C go from 166.7 Hz to
+  50 Hz bins, 201 bins over ±5 kHz instead of 61; the 1 ms codes (166.7 Hz, `N = 4`) are
+  unchanged. `"auto"` in a loop design means this; an explicit `doppler_step_hz` or
+  `--doppler-step` is used as written, and `iq acquire` (no tracking hand-off) keeps the
+  textbook step. The epoch header and `--summary` now record the resolved step and loop
+  bandwidths for each channel (`resolved`). The default design hash is unchanged. Output change:
+  detections on 4 ms-and-longer codes can land on different Doppler bins.
+
+- **GPS L2C CM (20 ms loop update) holds lock with the default design.** The default 15 Hz PLL
+  and 10 Hz FLL have `Bn · T` of 0.3 and 0.2 at T = 20 ms, and the loop lost lock even from a
+  perfect start (PLI −0.08, M2M4 15.8 dB-Hz). New design key `carrier.bn_t_max` (default 0.1)
+  clamps the PLL and FLL noise bandwidths to `bn_t_max / T` when the loop update time is
+  longer than 4 ms (`Design::loop_config_for`): 5 Hz and 5 Hz at 20 ms, 10 Hz and 10 Hz at
+  BeiDou B1C's 10 ms; the 1 ms and 4 ms codes keep 15 and 10 Hz. It applies to explicit
+  bandwidths too; `bn_t_max = 0` turns it off. The key is omitted from the canonical form at its
+  default, so the default hash is unchanged; a design that sets any other value has a different
+  hash. At 45 dB-Hz L2C CM now gives PLI 0.996, Doppler error 0.00 Hz and M2M4 42.71 dB-Hz.
+  Known open item: the NWPR C/N0 reads 1.76 dB low there (and 2.45 dB low on B1C at 10 ms),
+  so the matrix's T5 for L2C stays an ignored finding.
 
 - **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale
   against its own scenario (a data change, not a repaint).** The chart was drawn on
@@ -46,11 +629,21 @@ breaking changes are called out explicitly.
   on the June scenario file reproduces the old figure's axis exactly. The figure is not
   referenced from the README or the docs.
 
+### Known limitations
+
+- **The NWPR C/N0 reads low at high per-prompt C/N0·T, and BOC(1,1) at 5 MS/s loses about
+  1 dB.** NWPR is unbiased on ideal prompts, but the loop's own PLL jitter costs about
+  a fitted 8 dB × Bn·T (one scene, four points: −0.24/−0.44/−0.77/−1.58 dB at 1/2.5/5/10 Hz and 20 ms; about −1 dB at the
+  default `bn_t_max = 0.1`); M2M4 is insensitive. BeiDou B1C data at 5 MS/s also loses about
+  1 dB of prompt power to band-limiting (use 10 MS/s or more). Neither is an estimator defect;
+  the signal-matrix T5 rows for GPS L2C and BeiDou B1C stay ignored findings with these causes.
+
 ## [0.33.1] - 2026-10-08
 
 ### Security
 
 - **Chart text and Studio chart adoption hardened.** Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
+  Advisory: [GHSA-h25h-cg9f-v2cg](https://github.com/ashfordeOU/kshana/security/advisories/GHSA-h25h-cg9f-v2cg).
 
 ## [0.33.0] - 2026-10-08
 

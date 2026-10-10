@@ -1663,3 +1663,112 @@ fn a_ubx_stream_authenticates_like_the_page_file() {
     assert!(c.json["ubx"]["inav_pages"].as_u64().unwrap() > 0);
     let _ = std::fs::remove_dir_all(&dir);
 }
+
+// -------------------------------------------------------- the sample files for the Studio ---
+
+fn render_pages(title: &str, pages: &[InavPage]) -> String {
+    let mut out = format!(
+        "# {title}\n# Synthetic: made by tests/osnma_synthetic.rs, not a recording of any signal.\n# <svid> <gst_seconds> <240 page bits as hex>\n"
+    );
+    for p in pages {
+        out.push_str(&format!(
+            "{} {} {}\n",
+            p.svid,
+            p.gst,
+            hex::encode(p.bytes())
+        ));
+    }
+    out
+}
+
+fn sample_ubx(pages: &[InavPage]) -> Vec<u8> {
+    pages.iter().flat_map(sfrbx_frame).collect()
+}
+
+/// The four sample inputs and the public key argument that goes with them. The chain
+/// and the signing key are made up; a flipped bit in satellite 5's data is the
+/// corruption.
+fn samples() -> (Vec<(&'static str, Vec<u8>)>, String) {
+    let ctx = Ctx::std();
+    let chain = ctx.chain(40);
+    let sk = Signer::p256(0x11);
+    let dsm = dsm_kroot(&ctx, &chain[0], &sk, ctx.header(1));
+    let good = run_signed(signed_cfg(sk.public(PKID)), &dsm, no_tamper()).pages;
+    let target = GST0 + 30 * 12;
+    let bad = run_signed(
+        signed_cfg(sk.public(PKID)),
+        &dsm,
+        |gst: u32, svid: u8, pgs: &mut Vec<InavPage>| {
+            if gst == target && svid == PRN_X {
+                pgs[0] = edit_page(&pgs[0], |raw| raw[3] ^= 0x10);
+            }
+        },
+    )
+    .pages;
+    let key_arg = format!("{PKID}:p256:{}", hex::encode(sk.public(PKID).bytes));
+    let files = vec![
+        ("public-key.txt", format!("{key_arg}\n").into_bytes()),
+        (
+            "pages-good.txt",
+            render_pages("Good chain: every tag verifies", &good).into_bytes(),
+        ),
+        (
+            "pages-corrupt.txt",
+            render_pages(
+                "One flipped bit in E05's navigation data at sub-frame 12",
+                &bad,
+            )
+            .into_bytes(),
+        ),
+        ("stream-good.ubx", sample_ubx(&good)),
+        ("stream-corrupt.ubx", sample_ubx(&bad)),
+    ];
+    (files, key_arg)
+}
+
+fn cli_from_root(args: &[&str]) -> String {
+    let out = std::process::Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .current_dir(env!("CARGO_MANIFEST_DIR"))
+        .args(["osnma", "verify"])
+        .args(args)
+        .output()
+        .unwrap();
+    String::from_utf8(out.stdout).unwrap()
+}
+
+/// With `KSHANA_WRITE_OSNMA_EXAMPLES` set this writes `examples/osnma/`; otherwise it
+/// fails if the committed files differ from what the code makes today, and if the
+/// expected outputs differ from what the command prints for them.
+#[test]
+fn the_osnma_sample_files_are_current() {
+    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("examples/osnma");
+    let write = std::env::var_os("KSHANA_WRITE_OSNMA_EXAMPLES").is_some();
+    let (files, key_arg) = samples();
+    if write {
+        std::fs::create_dir_all(dir.join("expected")).unwrap();
+        for (name, bytes) in &files {
+            std::fs::write(dir.join(name), bytes).unwrap();
+        }
+    }
+    for (name, bytes) in &files {
+        assert_eq!(
+            &std::fs::read(dir.join(name)).unwrap_or_default(),
+            bytes,
+            "{name} is out of date: run examples/osnma/regenerate.sh"
+        );
+        if name.ends_with("key.txt") {
+            continue;
+        }
+        let rel = format!("examples/osnma/{name}");
+        let json = cli_from_root(&[&rel, "--public-key", &key_arg, "--json"]);
+        let expected = dir.join("expected").join(format!("{name}.json"));
+        if write {
+            std::fs::write(&expected, &json).unwrap();
+        }
+        assert_eq!(
+            std::fs::read_to_string(&expected).unwrap_or_default(),
+            json,
+            "expected output of {name} is out of date: run examples/osnma/regenerate.sh"
+        );
+    }
+}

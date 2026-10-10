@@ -7,16 +7,26 @@
 #             verification-matrix guards included) and the script guards, on the tagged
 #             commit. This is THE verdict; nothing below it runs unless it is green.
 #   release   the GitHub Release: Linux, macOS and Windows command-line binaries, the MCP
-#             server, the SBOM, the validation summary and a SHA256SUMS file, every one
-#             attested; `verify-release*` then pull them back down and check them.
+#             server, the SBOM, the validation summary, the OpenCPN plugin package and its
+#             GPL source, the Signal K plugin tarball, the Grafana dashboard, the channels
+#             SBOM and a SHA256SUMS file, every one attested; `verify-release*` then pull
+#             them back down and check them. The last four are built by
+#             release-artefacts.yml (`artefacts`).
 #   publish   crates.io, PyPI, npm (publish.yml), then the ghcr.io image and the MCP
 #             registry (mcp-publish.yml) and the JetBrains Marketplace
-#             (jetbrains-plugin.yml). Each is a reusable workflow called from here, so
+#             (jetbrains-plugin.yml), the reference-build image on ghcr.io
+#             (reference-image.yml) and, only when the founder has switched it on, the Signal K
+#             plugin on npm (signalk-publish.yml). Each is a reusable workflow called from here, so
 #             `needs: verify` holds them: before this, they were separate workflows on
 #             the same tag push and published while `verify` was still running.
 #   parity    asks crates.io, npm, PyPI and ghcr.io whether they really serve the version
 #             (scripts/check_channel_parity.py) and fails the run if one does not.
 #   site      redeploys kshana.dev from this tag (pages.yml), once every channel serves it.
+#
+# DRY RUN: dispatch this workflow with `dry_run` on any branch. It builds and stages every
+# asset, runs scripts/check-release-assets.sh on them and uploads them as a workflow artifact;
+# it attests nothing, creates no release and publishes nothing (every publishing job is
+# `push`-only). release-artefacts.yml and reference-image.yml also dispatch by hand.
 #
 # docs/RELEASING.md is the human-facing version of this, including how to retry.
 name: Release
@@ -29,13 +39,18 @@ on:
   workflow_dispatch:
     inputs:
       tag:
-        description: "Tag to (re)build the release for, e.g. v0.19.0"
-        required: true
+        description: "Tag to (re)build the release for, e.g. v0.19.0 (leave empty for a dry run of the selected branch)"
+        required: false
         type: string
+      dry_run:
+        description: "Dry run: build and stage every asset and check them, attest and upload nothing, publish nothing (also skips the long cargo test suite)"
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: read
 concurrency:
-  group: release-${{ inputs.tag || github.ref }}
+  group: release-${{ inputs.tag || github.ref }}${{ inputs.dry_run && '-dry' || '' }}
   cancel-in-progress: false
 jobs:
   verify:
@@ -80,10 +95,22 @@ jobs:
       # (check-doc-coverage.sh is deliberately NOT here: it is a full library compile
       # ratcheting a hand-pinned doc-warning ceiling, which has no bearing on whether a
       # release is safe to publish.)
-      - run: ./scripts/check-version-sync.sh
-      - run: cargo fmt --all -- --check
-      - run: cargo clippy --all-targets -- -D warnings
-      - run: cargo test --all
+      # In a dry run a branch that has not been bumped yet shows its drift as a failed step
+      # but the run goes on to build and stage; a real release run stops here.
+      - continue-on-error: ${{ inputs.dry_run == true }}
+        run: ./scripts/check-version-sync.sh
+      # A dry run (workflow_dispatch with dry_run) skips the three long steps below: it
+      # builds and checks the release assets and publishes nothing. A real release, tag
+      # push or a re-run for a tag, always runs them.
+      - if: ${{ !inputs.dry_run }}
+        run: cargo fmt --all -- --check
+      - if: ${{ !inputs.dry_run }}
+        run: cargo clippy --all-targets -- -D warnings
+      - if: ${{ !inputs.dry_run }}
+        run: cargo test --all
+      - name: A real release run needs a tag
+        if: ${{ github.event_name == 'workflow_dispatch' && !inputs.dry_run && inputs.tag == '' }}
+        run: echo "::error::dispatch without a tag is only valid as a dry run"; exit 1
       - run: ./scripts/check-reproducible.sh
       - run: ./scripts/check-no-attribution.sh
   # Prebuilt command-line binaries for the platforms the Linux `release` job cannot build:
@@ -158,8 +185,17 @@ jobs:
           path: out
           if-no-files-found: error
 
+  # The OpenCPN plugin package, the Signal K tarball, the Grafana dashboard and the channels
+  # SBOM, built in parallel with `verify` like `binaries`; only `release` attaches them.
+  artefacts:
+    permissions:
+      contents: read
+    uses: ./.github/workflows/release-artefacts.yml
+    with:
+      ref: ${{ inputs.tag || github.ref }}
+
   release:
-    needs: [verify, binaries]
+    needs: [verify, binaries, artefacts]
     runs-on: ubuntu-latest
     timeout-minutes: 90
     permissions:
@@ -186,11 +222,26 @@ jobs:
       - name: Generate release notes from CHANGELOG
         env:
           TAG: ${{ inputs.tag || github.ref_name }}
-        run: bash scripts/changelog-extract.sh "${TAG#v}" > RELEASE_NOTES.md
+          DRY: ${{ inputs.dry_run }}
+          INPUT_TAG: ${{ inputs.tag }}
+        run: |
+          set -euo pipefail
+          ver="${TAG#v}"
+          if [ "$DRY" = "true" ] && [ -z "$INPUT_TAG" ]; then
+            ver="$(grep -m1 '^version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')"
+          fi
+          echo "VERSION=$ver" >> "$GITHUB_ENV"
+          bash scripts/changelog-extract.sh "$ver" > RELEASE_NOTES.md
       - name: Collect the macOS and Windows binaries
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
           pattern: cli-*
+          path: assets
+          merge-multiple: true
+      - name: Collect the OpenCPN plugin, Signal K tarball, Grafana dashboard and channels SBOM
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: channel-*
           path: assets
           merge-multiple: true
       - name: Stage every asset and write SHA256SUMS
@@ -206,13 +257,25 @@ jobs:
           mv SHA256SUMS assets/SHA256SUMS
           ls -l assets
           cat assets/SHA256SUMS
+          # The same check verify-release runs on the published bytes, here on the staged
+          # ones: the required set is present, nothing else is, SHA256SUMS matches.
+          ./scripts/check-release-assets.sh assets "$VERSION"
+      - name: Dry run - keep the staged assets as a workflow artifact, attest and upload nothing
+        if: ${{ inputs.dry_run }}
+        uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: dry-run-release-assets
+          path: assets
+          if-no-files-found: error
       # Cryptographic build provenance (SLSA) for every asset, so a consumer can verify
       # the artifacts were produced by this workflow.
       - name: Attest build provenance
+        if: ${{ !inputs.dry_run }}
         uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
         with:
           subject-path: "assets/*"
-      - uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
+      - if: ${{ !inputs.dry_run }}
+        uses: softprops/action-gh-release@3bb12739c298aeb8a4eeaf626c5b8d85266b0e65 # v2
         with:
           # Explicit so a workflow_dispatch run (whose github.ref is the branch) still
           # attaches to the right tag; on a tag push this equals the pushed tag.
@@ -229,6 +292,7 @@ jobs:
   # broken/un-attested asset is caught immediately rather than by a downstream user.
   verify-release:
     needs: release
+    if: ${{ !inputs.dry_run }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     permissions:
@@ -240,6 +304,9 @@ jobs:
       TAG: ${{ inputs.tag || github.ref_name }}
       REPO: ${{ github.repository }}
     steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
       - name: Download the published release assets
         run: |
           set -euo pipefail
@@ -250,56 +317,38 @@ jobs:
       - name: Verify SBOM is well-formed CycloneDX
         run: |
           set -euo pipefail
-          python3 - verify/kshana-sbom.cdx.json <<'PY'
+          python3 - verify/kshana-sbom.cdx.json verify/kshana-channels-sbom.cdx.json <<'PY'
           import json, sys
-          with open(sys.argv[1]) as fh:
-              doc = json.load(fh)
-          assert doc.get("bomFormat") == "CycloneDX", "not a CycloneDX SBOM"
-          assert doc.get("specVersion"), "missing specVersion"
-          assert isinstance(doc.get("components"), list) and doc["components"], "no components"
-          print(f"OK: CycloneDX {doc['specVersion']} with {len(doc['components'])} components")
+          for path in sys.argv[1:]:
+              with open(path) as fh:
+                  doc = json.load(fh)
+              assert doc.get("bomFormat") == "CycloneDX", f"{path}: not a CycloneDX SBOM"
+              assert doc.get("specVersion"), f"{path}: missing specVersion"
+              assert isinstance(doc.get("components"), list) and doc["components"], f"{path}: no components"
+              print(f"OK: {path}: CycloneDX {doc['specVersion']} with {len(doc['components'])} components")
           PY
-      - name: Verify every asset against SHA256SUMS
-        # --strict: a malformed line fails; every asset but SHA256SUMS itself must be
-        # listed, so a file that dropped out of the checksum list fails too.
-        run: |
-          set -euo pipefail
-          cd verify
-          sha256sum --strict -c SHA256SUMS
-          listed="$(awk '{print $2}' SHA256SUMS | sed 's/^\*//' | sort)"
-          present="$(find . -maxdepth 1 -type f ! -name SHA256SUMS | sed 's|^\./||' | sort)"
-          [ "$listed" = "$present" ] || { echo "::error::SHA256SUMS does not list exactly the published assets"; diff <(echo "$listed") <(echo "$present") || true; exit 1; }
-          echo "OK: $(echo "$listed" | wc -l | tr -d ' ') assets match SHA256SUMS"
+      - name: Verify the asset set and every asset against SHA256SUMS
+        # The required files are all there, nothing else is, and SHA256SUMS (--strict: a
+        # malformed line fails) lists exactly the files present and matches their bytes.
+        run: ./scripts/check-release-assets.sh verify "${TAG#v}"
       - name: Verify SLSA build-provenance attestation of every published asset
+        # Every file in the release, SHA256SUMS included, must carry a valid attestation.
         # An absent asset used to emit `::warning::` and continue, which does not fail a
-        # step — so this job could verify two, one or zero assets and still report that
-        # every asset carries provenance. Nothing upstream would have caught the gap
-        # either: softprops/action-gh-release defaults fail_on_unmatched_files to false,
-        # and attest-build-provenance globs all its subject-paths together and errors only
-        # when the total is empty, so one missing subject is silently dropped from the
-        # attestation. Absence is now fatal, and the count is asserted so a shortened list
-        # cannot read as a full pass.
-        #
-        # The list must stay equal to what the `release` job stages into assets/.
-        # kshana-validation-summary.html was uploaded, attested and named in the release
-        # notes' provenance claim (scripts/changelog-extract.sh) but verified by no step;
-        # kshana-mcp is the only asset with no other check in this job (the SBOM has the
-        # CycloneDX step, the CLI has the smoke-run). The macOS and Windows binaries are
+        # step; absence is fatal (check-release-assets.sh above names the required set), and
+        # the count is asserted so a shortened list cannot read as a full pass. The list is
+        # what is actually in the release directory, which the step above proved equal to
+        # the required set plus the Grafana dashboards. The macOS and Windows binaries are
         # also run on their own operating systems by `verify-release-binaries`.
         run: |
           set -euo pipefail
           cd verify
-          expected=8
           n=0
-          for f in kshana kshana-mcp kshana-sbom.cdx.json kshana-validation-summary.html \
-                   kshana-aarch64-apple-darwin kshana-x86_64-apple-darwin \
-                   kshana-x86_64-pc-windows-msvc.exe SHA256SUMS; do
-            [ -f "$f" ] || { echo "::error::$f is not among the published release assets"; exit 1; }
+          for f in $(find . -maxdepth 1 -type f | sed 's|^\./||' | LC_ALL=C sort); do
             echo "== gh attestation verify $f =="
             gh attestation verify "$f" --repo "$REPO"
             n=$((n+1))
           done
-          [ "$n" -eq "$expected" ] || { echo "::error::verified $n assets, expected $expected"; exit 1; }
+          [ "$n" -ge 12 ] || { echo "::error::verified only $n assets"; exit 1; }
           echo "OK: $n published assets verified"
       - name: Smoke-run the verified binary
         # The CLI has no --version flag; run it with no args and assert it executes and
@@ -321,6 +370,7 @@ jobs:
   verify-release-binaries:
     name: verify-release (${{ matrix.target }})
     needs: release
+    if: ${{ !inputs.dry_run }}
     runs-on: ${{ matrix.os }}
     timeout-minutes: 20
     strategy:
@@ -414,12 +464,87 @@ jobs:
     uses: ./.github/workflows/jetbrains-plugin.yml
     secrets: inherit
 
+  # Dry-run-only checks of the other shipped surfaces, so a dry run covers every channel the
+  # release publishes. Neither publishes anything. (A real release builds the JetBrains plugin
+  # in `jetbrains` below, and ci.yml runs `mcp-deny` on main.)
+  dry-jetbrains:
+    name: JetBrains plugin build + test (dry run)
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+      actions: read
+    uses: ./.github/workflows/jetbrains-plugin.yml
+
+  dry-marine:
+    name: marine integrations (dry run)
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/marine-integrations.yml
+
+  dry-signalk:
+    name: Signal K package check (dry run)
+    needs: artefacts
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/signalk-publish.yml
+    with:
+      dry_run: true
+    secrets: inherit
+
+  dry-mcp-deny:
+    name: cargo-deny over the MCP server's lockfile (dry run)
+    if: ${{ inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    defaults:
+      run:
+        working-directory: mcp/kshana-mcp
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      # Same install and command as ci.yml's `mcp-deny`: the crate has its own Cargo.lock.
+      - uses: taiki-e/install-action@4cef1412cce204788f482e778a0b9187f9626a29 # v2
+        with:
+          tool: cargo-deny
+      - run: cargo deny check advisories licenses bans sources
+
+  # The reference-build container on ghcr.io: same arches, tags and provenance as the
+  # kshana-mcp image, after crates.io, PyPI and npm like it.
+  reference-image:
+    needs: [verify, publish]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+      packages: write
+      id-token: write
+      attestations: write
+    uses: ./.github/workflows/reference-image.yml
+    secrets: inherit
+
+  # The Signal K plugin on npm (`signalk-kshana-trust`, approved by the founder): published for real on a
+  # tag push. SIGNALK_NPM_PUBLISH=false switches it off; a missing NPM_TOKEN fails it with a clear message.
+  signalk:
+    needs: [verify, publish, artefacts]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/signalk-publish.yml
+    secrets: inherit
+
   # Every channel serves the version, or the run fails. The registries answer on their
   # own schedule (crates.io's index, PyPI's CDN), so this polls until a deadline rather
   # than reading once. docs.rs and the MCP registry are reported but never fatal.
   parity:
     name: channel parity
-    needs: [publish, mcp-publish]
+    needs: [publish, mcp-publish, reference-image, signalk]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 60
@@ -429,6 +554,8 @@ jobs:
         env:
           TAG: ${{ github.ref_name }}
           PARITY_TIMEOUT_SECONDS: "2700"
+          # The Signal K channel is checked unless it is switched off (SIGNALK_NPM_PUBLISH=false).
+          PARITY_SIGNALK_PACKAGE: ${{ vars.SIGNALK_NPM_PUBLISH != 'false' && 'signalk-kshana-trust' || '' }}
         run: python3 scripts/check_channel_parity.py "${TAG#v}"
 
   # kshana.dev is rebuilt from this tag only after every channel serves it, so the site

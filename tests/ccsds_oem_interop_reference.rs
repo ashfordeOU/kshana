@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Externally validate kshana's general (Earth / EME2000) CCSDS OEM **export** and
 //! **import** against an independent third-party authority: the **oem** library
-//! (Brad Sease <bradsease@gmail.com>, MIT), the astropy-backed CCSDS 502.0-B
+//! (MIT, <https://github.com/bradsease/oem>), the astropy-backed CCSDS 502.0-B
 //! `OrbitEphemerisMessage` parser (https://pypi.org/project/oem/).
 //!
 //! `oem` is a completely separate codebase from kshana's `src/oem.rs`: its own KVN

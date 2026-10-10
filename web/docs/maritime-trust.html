@@ -1,0 +1,544 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Maritime trust: can the bridge trust this fix? · Kshana docs</title>
+<meta name="description" content="kshana receiver-trust can score, for a moving vessel, a live 0-100 trust figure for every position fix, from what any receiver already puts on the bus…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/maritime-trust">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/maritime-trust">
+<meta property="og:title" content="Maritime trust: can the bridge trust this fix? · Kshana docs">
+<meta property="og:description" content="kshana receiver-trust can score, for a moving vessel, a live 0-100 trust figure for every position fix, from what any receiver already puts on the bus…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Maritime trust: can the bridge trust this fix? · Kshana docs">
+<meta name="twitter:description" content="kshana receiver-trust can score, for a moving vessel, a live 0-100 trust figure for every position fix, from what any receiver already puts on the bus…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Maritime trust: can the bridge trust this fix?", "item": "https://kshana.dev/docs/maritime-trust"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.35.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust" aria-current="page">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/trust-telemetry">Trust as security telemetry</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Receiver trust and maritime</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/MARITIME-TRUST.md</code></span></div>
+    <div class="prose"><h1 id="maritime-trust-can-the-bridge-trust-this-fix">Maritime trust: can the bridge trust this fix?</h1>
+<p><code>kshana receiver-trust</code> can score, for a <strong>moving vessel</strong>, a live 0-100 trust figure for
+every position fix, from what any receiver already puts on the bus (NMEA 0183 first), and say
+which checks reduced it. It is a software layer that sits next to a receiver. It is not a
+receiver, it does not replace one, and it does not make a fix more accurate.</p>
+<blockquote>
+<p><strong>Advisory software.</strong> Kshana is not type-approved navigation equipment (IEC 61108,
+IEC 61162) and has not been assessed against any performance standard. Its score and its
+gate are aids to the navigator&#39;s judgement. The operator stays responsible for the safe
+navigation of the vessel and for any decision to rely on, or to stop relying on, a fix.</p>
+</blockquote>
+<p>This page says what the checks look at, what each one can and cannot catch, how to run it
+live and what the gate does. The score mapping and every default are in
+<a href="/docs/receiver-trust"><code>RECEIVER-TRUST.md</code></a>.</p>
+<h2 id="what-it-reads">What it reads<a class="anchor" href="#what-it-reads" aria-label="Link to this section">#</a></h2>
+<p>A vessel is declared in the session file, with its limits stated before the run:</p>
+<pre data-lang="toml"><code class="hljs language-ini"><span class="hljs-section">[platform]</span>
+<span class="hljs-attr">kind</span> = <span class="hljs-string">&quot;vessel&quot;</span>
+<span class="hljs-attr">max_speed_kn</span> = <span class="hljs-number">20.0</span>        <span class="hljs-comment"># includes any current you want to allow for: it limits speed over ground</span>
+<span class="hljs-attr">max_accel_mps2</span> = <span class="hljs-number">0.2</span>
+<span class="hljs-attr">max_turn_rate_dps</span> = <span class="hljs-number">2.0</span>
+<span class="hljs-attr">antenna_height_m</span> = <span class="hljs-number">18.0</span>    <span class="hljs-comment"># antenna above the waterline</span>
+<span class="hljs-attr">heading_sensor</span> = <span class="hljs-literal">true</span>      <span class="hljs-comment"># the stream carries a gyro or compass heading</span></code></pre>
+<div class="tbl"><table><thead><tr>
+<th>Sentence</th>
+<th>Read</th>
+</tr>
+</thead><tbody><tr>
+<td>GGA</td>
+<td>position, fix quality (0 = no fix), altitude above mean sea level, geoid separation, HDOP</td>
+</tr>
+<tr>
+<td>RMC</td>
+<td>status (<code>A</code> valid, <code>V</code> not), speed and course over ground, date, mode</td>
+</tr>
+<tr>
+<td>VTG</td>
+<td>speed and course over ground, where RMC has none</td>
+</tr>
+<tr>
+<td>HDT, THS</td>
+<td>heading (THS only when its mode is not <code>V</code>)</td>
+</tr>
+<tr>
+<td>VHW, VBW</td>
+<td>speed through the water (VBW only when its status is <code>A</code>)</td>
+</tr>
+<tr>
+<td>ZDA</td>
+<td>time</td>
+</tr>
+<tr>
+<td>GSV</td>
+<td>per-satellite signal strength (dB-Hz)</td>
+</tr>
+<tr>
+<td><code>$PKSOS,&lt;A/F/N&gt;</code></td>
+<td>an OSNMA status a receiver reported, translated into this sentence by the adapter that reads the receiver: <code>A</code> authenticated, <code>F</code> failed, <code>N</code> no result</td>
+</tr>
+</tbody></table></div>
+<p>Epochs the receiver itself says are not a satellite fix (GGA quality 0, or 6 to 8: estimated, manual,
+simulator; RMC status <code>V</code>, or mode <code>E</code>, <code>M</code>, <code>S</code>, <code>N</code>) are not used for the position checks and carry
+no evidence either way: the receiver has already said so.</p>
+<p>The first <code>calibration_s</code> seconds form the baseline and are never scored. Every monitor looks only
+at the current and earlier epochs, so a decision at an epoch does not change when later data
+arrives, and a live stream gives the same score as the same text read as a file.</p>
+<h2 id="what-each-check-catches-and-what-it-cannot">What each check catches, and what it cannot<a class="anchor" href="#what-each-check-catches-and-what-it-cannot" aria-label="Link to this section">#</a></h2>
+<p>Directions between fixes (the track bearing used by the turn-rate check, the course implied by two
+positions) are the direction of the chord between them, which is the geodesic&#39;s <strong>mean azimuth</strong>
+between the fixes, not the forward azimuth at the first fix; the two differ by about half the
+convergence of the meridians between the fixes (0.001 degrees for a 260 m baseline at 59.5 degrees
+latitude).</p>
+<p>A counterfeit position has to agree with a ship&#39;s physics and with the ship&#39;s other sensors. Each
+check compares the fix with one of them. A check is only as independent as its other source: a
+heading from a GNSS compass, or a &quot;speed through the water&quot; derived from GNSS, is not independent
+of the receiver under test and adds nothing.</p>
+<div class="tbl"><table><thead><tr>
+<th>Check</th>
+<th>Catches</th>
+<th>Cannot</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kinematic</code></td>
+<td>a position step; a track whose movement the reported speed and course do not explain; an implied speed, acceleration or turn rate above the stated vessel limits</td>
+<td>a drag whose reported speed and course follow the counterfeit track and stays inside the limits (the receiver derives them from its own solution, so they agree with each other); a speed limit stated too high</td>
+</tr>
+<tr>
+<td><code>heading-course</code></td>
+<td>a track that departs from where the ship points by more than the stated crab angle</td>
+<td>a drag along the course (the course does not change); a heading from the same receiver or a GNSS compass; a cross-set above the tolerance (false alarm); speeds below <code>min_speed_kn</code></td>
+</tr>
+<tr>
+<td><code>speed-log</code></td>
+<td>a drag that changes speed over ground against speed through the water</td>
+<td>a log that is GNSS-derived; a current above the allowance (false alarm); a drag slower than the allowance</td>
+</tr>
+<tr>
+<td><code>sea-level</code></td>
+<td>an altitude that is not where the sea surface and the stated antenna height put it</td>
+<td>a spoofer that keeps the altitude plausible; the tolerance is wide because standalone vertical error is large; the geoid separation is recorded but not checked, because there is no geoid model in the engine</td>
+</tr>
+<tr>
+<td><code>cn0-spread</code>, <code>cn0-rise</code></td>
+<td>the signature of one transmitter: C/N0 across the satellites collapsing together, or rising together, against the calibration baseline</td>
+<td>a spoofer that shapes power per satellite; anything while the baseline itself is spoofed; a GSV cadence too slow to follow</td>
+</tr>
+<tr>
+<td><code>time-consistency</code></td>
+<td>the receiver&#39;s time stepping irregularly or running backwards; against this computer&#39;s clock, the receiver&#39;s time drifting from it (real-time streams only)</td>
+<td>a counterfeit time that is consistent and steady; a clock that is wrong from the start</td>
+</tr>
+<tr>
+<td><code>osnma</code></td>
+<td>a reported OSNMA authentication failure</td>
+<td>the status is read, not verified; a spoofer that suppresses the report is not seen</td>
+</tr>
+<tr>
+<td><code>cn0-drop</code>, <code>loss-of-lock</code>, <code>agc</code>, <code>jam-ind</code></td>
+<td>power denial and loss of satellites, as in the static case</td>
+<td>they say the environment is hostile, not that the fix is wrong</td>
+</tr>
+</tbody></table></div>
+<p><strong>What NMEA-only monitors cannot do.</strong> A spoofer that reproduces the whole constellation with a
+self-consistent position, velocity, heading-compatible course, plausible per-satellite power and a
+matching clock is invisible to every check above: nothing in the sentences distinguishes its fix
+from a real one. Neither does a replay of recorded real signals. Authentication (OSNMA, or a
+receiver with its own anti-spoofing) and independent navigation sensors are what close that gap;
+this layer can only use their reported status. A stream that is already being spoofed while the
+baseline forms has no clean baseline. Absence of an alarm is not evidence of a good fix.</p>
+<h2 id="trust-score">Trust score<a class="anchor" href="#trust-score" aria-label="Link to this section">#</a></h2>
+<p>Each epoch after calibration gets a score from 0 to 100 and the reasons it is not 100: which
+checks deducted, their statistic against threshold, and their points. Bands (edges stated in the
+session): <code>nominal</code> at 90 or above, <code>degraded</code> at 55 or above, <code>untrusted</code> below. The mapping,
+every weight and its reason are in <a href="/docs/receiver-trust#trust-score-vessel-platform"><code>RECEIVER-TRUST.md</code></a>;
+it is deterministic and fixed before a log is scored, with no learning and nothing fitted to events.</p>
+<p>Every vessel output carries the advisory statement: the <code>advisory</code> key of the result JSON and of each
+live line, a first <code>#</code> comment line of the CSV (readers skip it with their comment option), the <code>&lt;desc&gt;</code>
+and a footer of the SVG. Outputs of a batch run: <code>session.result.json</code> (with the score model and every epoch&#39;s deductions),
+<code>session.trust.csv</code> (with <code>score</code> and <code>score_reasons</code> columns) and <code>session.trust.svg</code>, which for a
+vessel is the receiver-reported track coloured by trust band above the score over time.</p>
+<h2 id="a-synthetic-demo">A synthetic demo<a class="anchor" href="#a-synthetic-demo" aria-label="Link to this section">#</a></h2>
+<p><code>examples/maritime-trust/</code> holds a made-up NMEA log of a ferry on a Tallinn to Helsinki route (a
+50-minute excerpt, about 17 kn, 1 Hz: GGA, RMC, VTG, a gyro heading, a speed log, GSV with a plausible
+sky) in which a position drag-off pulls the <em>reported</em> position away from the vessel&#39;s real one
+from 1500 s. The receiver keeps reporting a <strong>valid</strong> fix throughout; the trust score is what falls,
+through the degraded band into the untrusted one. <code>session.toml</code> states every threshold, the
+vessel&#39;s limits and every score weight before the run.</p>
+<pre data-lang="shell"><code class="hljs language-bash">kshana receiver-trust examples/maritime-trust/session.toml
+kshana receiver-trust live examples/maritime-trust/session.toml \
+  --file examples/maritime-trust/tallinn-helsinki.nmea --gate --json trust.jsonl &gt; gated.nmea</code></pre>
+<p>The log is <strong>text written to a file</strong> by <code>cargo run --example gen_maritime_trust_demo</code>: it models no
+radio signal and transmits nothing. It is not a measurement and the route is illustrative, not a
+chart. <code>tests/receiver_trust_maritime_demo.rs</code> pins the log and the expected output as regression
+guards on the synthetic data; they say nothing about how any monitor does on real interference.</p>
+<h2 id="studio-view-specification">Studio view specification<a class="anchor" href="#studio-view-specification" aria-label="Link to this section">#</a></h2>
+<p>For whoever builds the Studio view of a vessel run. Nothing in this section is implemented in the
+Studio yet; the engine side (the data below) is.</p>
+<p><strong>Inputs.</strong> Either of:</p>
+<ul>
+<li>a batch run&#39;s result JSON (<code>kshana receiver-trust &lt;session.toml&gt;</code>, or the same through
+<code>receiver_trust(toml)</code> in the WebAssembly package with the log inline): <code>score_model</code> (band
+edges, ramp, evidence hold, every weight), <code>monitors_run</code>, <code>states</code>, and <code>epochs[]</code>, each with
+<code>t_s</code>, <code>state</code>, <code>alarms</code>, <code>score.{score,band,deductions[]}</code> and
+<code>marine.{position:[lat,lon], stats, ratios}</code>; or</li>
+<li>the live JSON lines (schema above), one object per epoch, appended as the stream runs. Each
+line carries the receiver-reported <code>position</code> (schema 1.1).</li>
+</ul>
+<p>The demo set is <code>examples/maritime-trust/</code>: <code>session.toml</code>, <code>tallinn-helsinki.nmea</code> (the log) and
+<code>tallinn-helsinki.truth.csv</code> (<code>t_s,true_lat_deg,true_lon_deg</code>: where the vessel really was, which
+no real log has). A view should run the session and read the truth file alongside.</p>
+<p><strong>What to draw.</strong></p>
+<ol>
+<li><em>Track</em>, north up, one scale on both axes: the receiver-reported positions as a line coloured by
+the epoch&#39;s band (grey calibrating, green nominal, amber degraded, red untrusted), start and end
+marked, a scale bar. For the demo, the true track as a thin neutral line under it, so the drag-off
+shows as the two separating; a toggle for the true track and an offset-in-metres readout at the
+cursor&#39;s time.</li>
+<li><em>Score timeline</em>: the score from 0 to 100 against time, the band edges (<code>nominal_min</code>,
+<code>degraded_min</code> from <code>score_model</code>) as dashed lines, the band as a strip underneath, and the
+onset of any stated event as a marker. The time axis is shared with the track.</li>
+<li><em>Reasons</em>: for the epoch under the cursor, the deductions (monitor, ratio against threshold,
+points) as horizontal bars, largest first, with the weight each monitor carries from
+<code>score_model.weights</code>; monitors that ran and cost nothing shown faint, monitors that did not run
+(not in <code>monitors_run</code>) listed as &quot;not run&quot;, never as passing.</li>
+<li><em>Monitor strips</em>: one thin strip per monitor in <code>monitors_run</code> showing its ratio over time
+(alarm at 1), so a reader sees which check moved first.</li>
+<li><em>Gate state</em>: in a live view, the <code>gate</code> of each epoch (<code>off</code>, <code>passed</code>, <code>withheld</code>) as a strip
+under the band strip, and the latest <code>$PKSHT</code>. In a batch view, the epochs a gate would have
+withheld are those whose band is untrusted, with the release hold applied.</li>
+<li><em>Receiver-reported fix</em>: the demo&#39;s receiver reports a valid fix throughout (GGA quality 1, RMC
+status A); say so in the legend, because that is the point of the view.</li>
+</ol>
+<p><strong>Interactions.</strong> One time cursor shared by every panel (drag, arrow keys, and a play button that
+replays at 1x to 60x); hovering the track or any strip moves it. Clicking a deduction highlights the
+epochs in which that monitor was above its onset. A band filter (show only degraded and untrusted
+epochs) and a jump to the first deduction and to the first untrusted epoch. Hover text on every
+monitor name giving the one-line description from this page. The session&#39;s thresholds and weights
+are shown, read-only, beside the chart, so what the score used is on screen.</p>
+<p><strong>Wording to keep.</strong> The page must say it is advisory software and not type-approved navigation
+equipment, that the demo is synthetic text with a made-up drag-off, and that a fix with no alarm is
+not thereby a good fix (see the limits above). No figure on the page should read as a measure of how
+the checks do on real interference.</p>
+<h2 id="from-code">From code<a class="anchor" href="#from-code" aria-label="Link to this section">#</a></h2>
+<p>For callers that hold the session and the bytes in memory (no files, no clock, no sockets; safe
+for WebAssembly), <code>kshana::receiver_trust::assess</code> has:</p>
+<ul>
+<li><code>assess_vessel_log(session_toml, log_bytes) -&gt; Result&lt;ReceiverTrustResult, String&gt;</code>: a whole
+log, scored as a batch run; the same result as <code>kshana receiver-trust &lt;session.toml&gt;</code>, which
+serialises to the result JSON (<code>score_model</code>, <code>monitors_run</code>, <code>epochs[]</code> with scores and
+deductions).</li>
+<li><code>assess_stream_excerpt(session_toml, excerpt_bytes) -&gt; Result&lt;ExcerptAssessment, String&gt;</code>: a
+bounded piece of a stream (at most 2 MiB and 20,000 epochs, and long enough to hold the
+calibration window), scored as live mode scores it and returned in the live JSON-lines schema
+(<code>epochs[]</code>, the last <code>$PKSHT</code>, a summary of band counts, lowest and final score, first
+untrusted time). The receiver&#39;s time is not compared with a host clock. The long-running live
+mode (sockets, a file being appended, the gate) is the binary&#39;s.</li>
+</ul>
+<p>Both need a session with <code>[platform] kind = &quot;vessel&quot;</code>; its <code>[log]</code> table is optional.</p>
+<h2 id="run-it-live">Run it live<a class="anchor" href="#run-it-live" aria-label="Link to this section">#</a></h2>
+<pre data-lang="shell"><code class="hljs language-bash"><span class="hljs-comment"># stdin: a serial port read by another tool, or a multiplexer&#x27;s output</span>
+some-nmea-source | kshana receiver-trust live session.toml
+
+<span class="hljs-comment"># a log file that is being appended to (it starts at the beginning; --from-end skips what is there)</span>
+kshana receiver-trust live session.toml --file /var/log/nmea.log --follow
+
+<span class="hljs-comment"># a TCP server (a multiplexer or a terminal server) or UDP datagrams (a bridge network)</span>
+kshana receiver-trust live session.toml --tcp 192.0.2.10:10110
+kshana receiver-trust live session.toml --udp 10110</code></pre>
+<p>The session is the same <code>session.toml</code> as a batch run, with a <code>[platform]</code> table that declares
+<code>kind = &quot;vessel&quot;</code>; its <code>[log]</code> table is not needed. Serial ports are not opened directly yet:
+read the port with the tool you already use (<code>stty</code> and <code>cat</code>, a terminal server, a
+multiplexer) and pipe or forward it. Direct serial input can come later.</p>
+<p>Each completed epoch writes one JSON line on stdout:</p>
+<pre data-lang="json"><code class="hljs language-json"><span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;seq&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">941</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;t_s&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">940.0</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;time&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;2025-06-14T08:15:40.000Z&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;state&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;degraded&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;score&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">60.0</span><span class="hljs-punctuation">,</span>
+ <span class="hljs-attr">&quot;deductions&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;monitor&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;heading-course&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;ratio&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">1.5</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;points&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">40.0</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span>
+ <span class="hljs-attr">&quot;alarms&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">[</span><span class="hljs-string">&quot;heading-course&quot;</span><span class="hljs-punctuation">]</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;gate&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-string">&quot;off&quot;</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;note&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-literal"><span class="hljs-keyword">null</span></span><span class="hljs-punctuation">,</span>
+ <span class="hljs-attr">&quot;position&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-punctuation">{</span><span class="hljs-attr">&quot;lat_deg&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">59.8123456</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;lon_deg&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">24.9012345</span><span class="hljs-punctuation">,</span><span class="hljs-attr">&quot;height_m&quot;</span><span class="hljs-punctuation">:</span><span class="hljs-number">39.4</span><span class="hljs-punctuation">}</span><span class="hljs-punctuation">}</span></code></pre>
+<p><code>state</code> is <code>calibrating</code>, <code>nominal</code>, <code>degraded</code> or <code>untrusted</code> (the band of the score, with
+the edges in the session&#39;s <code>[score]</code> table); <code>score</code> is absent while calibrating; <code>deductions</code>
+list which checks took points off and how many, largest first.</p>
+<h3 id="json-lines-schema-version-11">JSON-lines schema (version 1.1)<a class="anchor" href="#json-lines-schema-version-11" aria-label="Link to this section">#</a></h3>
+<p>One JSON object per completed epoch, keys in this order:</p>
+<div class="tbl"><table><thead><tr>
+<th>Key</th>
+<th>Type</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>seq</code></td>
+<td>integer</td>
+<td>count of epochs reported, from 1</td>
+</tr>
+<tr>
+<td><code>t_s</code></td>
+<td>number</td>
+<td>seconds since the first epoch of the stream</td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>string or null</td>
+<td>the epoch&#39;s time as the stream states it (ISO-8601 UTC with a date once an RMC was seen, else <code>hh:mm:ss.mmm UTC (date not in log)</code>)</td>
+</tr>
+<tr>
+<td><code>state</code></td>
+<td>string</td>
+<td><code>calibrating</code>, <code>nominal</code>, <code>degraded</code> or <code>untrusted</code></td>
+</tr>
+<tr>
+<td><code>score</code></td>
+<td>number or null</td>
+<td>0 to 100, one decimal; null while calibrating or when <code>note</code> says why none could be produced</td>
+</tr>
+<tr>
+<td><code>deductions</code></td>
+<td>array</td>
+<td><code>{&quot;monitor&quot;: string, &quot;ratio&quot;: number, &quot;points&quot;: number}</code>, largest points first; <code>ratio</code> is statistic over threshold (alarm at 1 or more); only monitors that cost points are listed</td>
+</tr>
+<tr>
+<td><code>alarms</code></td>
+<td>array of string</td>
+<td>monitors at or above their threshold</td>
+</tr>
+<tr>
+<td><code>gate</code></td>
+<td>string</td>
+<td><code>off</code>, <code>passed</code> or <code>withheld</code></td>
+</tr>
+<tr>
+<td><code>note</code></td>
+<td>string or null</td>
+<td>why no score was produced (for example a declared heading sensor that is absent)</td>
+</tr>
+<tr>
+<td><code>position</code></td>
+<td>object or null</td>
+<td><em>(added in 1.1)</em> the position the receiver reported at this epoch, <code>{&quot;lat_deg&quot;, &quot;lon_deg&quot;, &quot;height_m&quot;}</code> (height ellipsoidal where the sentence gives the geoid separation, else above mean sea level); null when the receiver gave none, including calibrating epochs without a fix</td>
+</tr>
+<tr>
+<td><code>advisory</code></td>
+<td>string</td>
+<td><em>(added in 1.2)</em> what this software is and is not: advisory, not type-approved navigation equipment, the operator remains responsible</td>
+</tr>
+</tbody></table></div>
+<p>Monitor names (kebab-case; 16): <code>cn0-drop</code>, <code>agc</code>, <code>jam-ind</code>, <code>loss-of-lock</code>, <code>position-jump</code>, <code>raim</code>,
+<code>clock</code>, <code>solve-failure</code>, <code>kinematic</code>, <code>heading-course</code>, <code>speed-log</code>, <code>sea-level</code>, <code>cn0-spread</code>,
+<code>cn0-rise</code>, <code>time-consistency</code>, <code>osnma</code>. New names may be added in later
+versions; consumers should treat an unknown monitor name as a monitor. The <code>$PKSHT</code> layout below
+carries a format version in its first field; this JSON schema is version 1.2: 1.1 added <code>position</code>, 1.2 <code>advisory</code>, each at the end, and it changes
+only by adding keys at the end.</p>
+<h3 id="authentication-input">Authentication input<a class="anchor" href="#authentication-input" aria-label="Link to this section">#</a></h3>
+<p>The <code>osnma</code> monitor takes per-satellite authentication status from an authentication source
+through <code>MarineObs::sat_auth</code> (a list of <code>(satellite, status)</code>, status <code>Authenticated</code>, <code>Failed</code>
+or <code>Unavailable</code>), next to the overall <code>MarineObs::osnma</code>. On the NMEA side the same is carried by
+<code>$PKSOS,&lt;A|F|N&gt;[,&lt;sat&gt;:&lt;A|F|N&gt;...]</code>, for example <code>$PKSOS,A,E11:A,E19:F</code>. Any failure, overall or on
+one satellite, alarms the monitor and costs its whole weight (it is given the ratio 1.5); success is no evidence. Kshana
+verifies nothing here: the source that does is responsible for the status it reports.</p>
+<p>An epoch is complete when the next timed sentence arrives; sentences of slower or unsynchronised
+instruments (a gyro a few tenths of a second behind the receiver) that arrive before then belong
+to it. If the stream stalls for <code>[live] idle_flush_s</code> (default 1.5 s, set it above the longest gap
+between your receiver&#39;s timed sentences) the epoch is completed as it stands. The first
+<code>calibration_s</code> seconds of the stream form the baseline and are never scored, so <strong>a stream that is
+already being spoofed when it is first connected has no clean baseline</strong>: start the layer before
+the voyage, or while the fix is known to be good. The calibration window closes once, by arrival:
+an epoch whose time is earlier than a time already seen (a rewind, a replay of the stream&#39;s start)
+is never calibration whatever its time says; it is scored with a full <code>time-consistency</code> deduction,
+which is untrusted. The live engine scores each epoch over the calibration epochs and the last minute
+or so of the stream, so its cost per epoch grows with <code>calibration_s</code> times the epoch rate; keep the
+window short on a fast receiver. Its buffers are bounded (a flood of lines without a timed sentence
+is completed every 5,000 lines, calibration and history are capped at 20,000 epochs).</p>
+<p>The receiver&#39;s time is also compared with this computer&#39;s monotonic clock, which only means
+something for a stream arriving in real time. A stored log fed in at full speed through stdin,
+TCP or UDP trips that check by construction: pass <code>--replay</code>. (<code>--file</code> without <code>--follow</code>
+already implies it.) A <code>--file ... --follow</code> is read as a replay until it has been read to its end
+and the host clock is engaged from then on, so a backlog does not read as a clock fault; the check
+then needs the calibration window to still be open (otherwise it has no baseline and does not run).</p>
+<p>Stream ends and faults: stdin and a file read to its end finish normally (exit 0). A TCP connection
+closed by the peer is not a normal end for a stream that should go on: the layer exits non-zero
+after scoring and writing everything it had received and does not reconnect, so run it under a
+supervisor that restarts it. UDP datagrams that split a sentence are joined; the readers of
+stdin, a file and TCP are backed by a bounded queue that pushes back on the sender (nothing is
+lost), while UDP, which cannot push back, drops datagrams the engine cannot take and says so on
+stderr. <code>--udp &lt;port&gt;</code> binds the loopback address; give <code>--udp &lt;addr&gt;:&lt;port&gt;</code> to listen elsewhere
+(a warning is printed).</p>
+<h2 id="pksht-the-proprietary-sentence"><code>$PKSHT</code>: the proprietary sentence<a class="anchor" href="#pksht-the-proprietary-sentence" aria-label="Link to this section">#</a></h2>
+<p>Every epoch also produces one NMEA 0183 sentence, with a valid checksum, which <code>--pksht &lt;path|-&gt;</code>
+writes to a file or stdout and which the gate inserts into the forwarded stream:</p>
+<pre data-lang="text"><code class="hljs">$PKSHT,1,080140.25,30.0,U,W,heading-course:40.0/cn0-spread:30.0*2F</code></pre>
+<div class="tbl"><table><thead><tr>
+<th>Field</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td>1</td>
+<td><code>1</code>: the format version</td>
+</tr>
+<tr>
+<td>2</td>
+<td>UTC time of the epoch, <code>hhmmss.ss</code>; empty if the stream gave none</td>
+</tr>
+<tr>
+<td>3</td>
+<td>trust score 0 to 100, one decimal; empty while calibrating or when none could be produced</td>
+</tr>
+<tr>
+<td>4</td>
+<td>band: <code>C</code> calibrating, <code>N</code> nominal, <code>D</code> degraded, <code>U</code> untrusted</td>
+</tr>
+<tr>
+<td>5</td>
+<td>gate: <code>-</code> off, <code>P</code> passed, <code>W</code> withheld (the fix was marked invalid in the forwarded cycle)</td>
+</tr>
+<tr>
+<td>6</td>
+<td>up to two reasons, <code>monitor:points</code> joined by <code>/</code>; empty when nothing was deducted</td>
+</tr>
+</tbody></table></div>
+<p>The address is <code>P</code> + the manufacturer mnemonic <code>KSH</code> + <code>T</code>. Equipment that does not know a
+proprietary sentence ignores it. Kshana ignores its own <code>$PKSHT</code> on input.</p>
+<h2 id="gate-mode">Gate mode<a class="anchor" href="#gate-mode" aria-label="Link to this section">#</a></h2>
+<p><code>--gate</code> puts Kshana between the receiver and the equipment that uses its fix (a chart system,
+a track control system). The NMEA stream goes in, comes out on stdout, and is:</p>
+<ul>
+<li><strong>passed through unchanged</strong> while the epoch is not untrusted (and during calibration), with a
+<code>$PKSHT</code> after each cycle of sentences; and</li>
+<li><strong>marked invalid</strong> while it is untrusted: GGA quality <code>0</code>; RMC status <code>V</code> (and its mode
+indicator <code>N</code> and navigational status <code>V</code> where present); GNS mode <code>N</code> in every position; GLL
+status <code>V</code> and mode <code>N</code>; VTG mode <code>N</code> where it has one. The position fields are left as they
+were: the point is that the equipment sees the receiver itself declare the fix invalid and
+raises its own alarm. Every rewritten sentence has its checksum recomputed.</li>
+</ul>
+<p>Once withheld, the fix is released only after the epochs have been out of the untrusted band for
+<code>[live] gate_release_s</code> (default 30 s), so a score at the band edge cannot make the fix flicker.
+The JSON lines go only where <code>--json &lt;path&gt;</code> says (by default nowhere, because the stream has
+stdout).</p>
+<pre data-lang="shell"><code class="hljs language-bash">receiver-nmea-source | kshana receiver-trust live session.toml --gate --json trust.jsonl | downstream-equipment</code></pre>
+<p>To let a chart plotter connect directly, serve the gated stream over TCP instead of stdout:</p>
+<pre data-lang="shell"><code class="hljs language-bash">receiver-nmea-source | kshana receiver-trust live session.toml --gate --listen tcp:10110</code></pre>
+<p><code>--listen tcp:&lt;port&gt;</code> listens on the loopback address; <code>tcp:&lt;addr&gt;:&lt;port&gt;</code> listens elsewhere (a
+warning is printed, because anyone who can reach the address can read the stream). Any number of
+clients may connect; each gets the same stream from the moment it connects, and clients only read.
+Every client has its own bounded queue and writer, so one that cannot keep up is dropped (its
+connection closed, a line on stderr) and never delays the others or the input. <code>--listen</code> needs
+<code>--gate</code>; stdout then carries nothing of the stream, so <code>--json -</code> is free.</p>
+<p>What the gate does not do, and what to know before using it:</p>
+<ul>
+<li>It is <strong>opt-in</strong>. Nothing marks a fix invalid unless <code>--gate</code> is given.</li>
+<li>It <strong>adds latency</strong>: a cycle is held until its epoch is scored, which is the time to the next
+timed sentence (about one cycle: a second for a 1 Hz receiver), or <code>idle_flush_s</code> after the last
+one when the stream stalls. Equipment that needs a sentence within a
+few tens of milliseconds of the receiver&#39;s output must not sit behind it.</li>
+<li>It is <strong>a single point in the chain</strong>: if it stops, the stream stops. Run it supervised, and
+decide in advance what the downstream equipment does without a stream.</li>
+<li>It <strong>fails closed on its own faults</strong>: if the monitors cannot produce a score after calibration (a
+declared heading sensor that sends nothing, too few calibration epochs), the epoch is untrusted,
+carries a <code>note</code>, and is withheld; the release hold is timed on this computer&#39;s clock, not on the
+receiver&#39;s time, which is what a spoofer controls (for a replay there is only the receiver&#39;s time).</li>
+<li>It can <strong>withhold a good fix</strong> (a false alarm) as well as pass a spoofed one (a miss). The
+monitors check a fix against a ship&#39;s physics and its other sensors; a counterfeit that is
+consistent with all of them is not seen (see the limits below).</li>
+<li>It expects a <strong>pure NMEA 0183 text stream</strong>. Binary frames mixed into the stream are forwarded
+unchanged, but a <code>$PKSHT</code> can then land between the bytes of a frame.</li>
+<li>It is <strong>not type-approved</strong> and nothing in it has been assessed against IEC 61108 or IEC 61162.
+The operator remains responsible for the navigation of the vessel.</li>
+</ul>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/receiver-trust"><small>Previous</small>Receiver trust</a><a class="next" href="/docs/nmea-training"><small>Next</small>NMEA training streams</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#what-it-reads">What it reads</a><a class="l2" href="#what-each-check-catches-and-what-it-cannot">What each check catches, and what it cannot</a><a class="l2" href="#trust-score">Trust score</a><a class="l2" href="#a-synthetic-demo">A synthetic demo</a><a class="l2" href="#studio-view-specification">Studio view specification</a><a class="l2" href="#from-code">From code</a><a class="l2" href="#run-it-live">Run it live</a><a class="l3" href="#json-lines-schema-version-11">JSON-lines schema (version 1.1)</a><a class="l3" href="#authentication-input">Authentication input</a><a class="l2" href="#pksht-the-proprietary-sentence">$PKSHT: the proprietary sentence</a><a class="l2" href="#gate-mode">Gate mode</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.35.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.35.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.35.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

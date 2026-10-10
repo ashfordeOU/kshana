@@ -23,8 +23,10 @@
 //! * A [`VerificationStatus::Modelled`] row implements published or
 //!   first-principles physics with tests, and its oracle is honestly one of
 //!   external (but loose), a same-codebase [`OracleKind::ReferenceImpl`]
-//!   cross-check, or an [`OracleKind::InternalConsistency`] closed-form / algebraic
-//!   identity. It is a model, not an external validation.
+//!   cross-check, an [`OracleKind::InternalConsistency`] closed-form / algebraic
+//!   identity, or an [`OracleKind::IntegrationRun`] against a real host application
+//!   (which shows the plumbing works and is allowed only on Modelled rows). It is a
+//!   model, not an external validation.
 //! * A [`VerificationStatus::PartnerOwned`] row is a capability Kshana does **not**
 //!   provide (spacecraft-bus, RF-payload, quantum-hardware and flight-PA
 //!   engineering): no module, no test, no oracle, by design.
@@ -61,6 +63,13 @@ pub enum OracleKind {
     /// (e.g. a numeric integral vs its own analytic form). Catches transcription
     /// and coefficient errors; is **not** an external validation.
     InternalConsistency,
+    /// The capability was exercised against a real host application it is written
+    /// for (a server it was loaded into, a program it feeds), and the host accepted the
+    /// input and showed the expected state. Shows that the plumbing works; the host is not
+    /// an oracle for any value the capability carries. Allowed only on
+    /// [`VerificationStatus::Modelled`] rows (`validated_rows_require_an_external_oracle`
+    /// and `integration_run_only_on_modelled_rows`).
+    IntegrationRun,
     /// No oracle — a partner-owned gap with no implementation.
     NoneKind,
 }
@@ -82,6 +91,10 @@ impl OracleKind {
             OracleKind::ExternalDataset => {
                 "a sub-claim is externally checked, but the whole capability composes \
                  modelled pieces, so the capability stays Modelled"
+            }
+            OracleKind::IntegrationRun => {
+                "exercised against a real host application; an integration run is not an \
+                 independent oracle"
             }
             OracleKind::NoneKind => "no oracle",
         }
@@ -1253,7 +1266,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         // ── Resilience scoring & instability study ────────────────────────────
         VerificationItem {
             requirement: "PNT-resilience framework-aligned scoring",
-            capability: "Per-dimension sub-scores over DHS RPCF categories, RethinkPNT RDRR functions and Yang criteria, each tagged Modelled with its driver; tentative RPCF Level with a bounded-degradation gate. Simulation-derived self-assessment, never certification.",
+            capability: "Per-dimension sub-scores over Kshana's own seven resilience categories (not DHS terms), RethinkPNT RDRR functions and Yang criteria, each tagged Modelled with its driver; tentative RPCF Level with a bounded-degradation gate. Simulation-derived self-assessment, never certification.",
             module: "resilience::arch, resilience::score, resilience::diversity, resilience::timeline",
             tests: "resilience::score::tests (monotonicity, composite bounds, level cap, modelled-provenance); resilience::diversity::tests (inverse-Simpson, common-mode, SPOF)",
             oracle: "Hand-derived per-metric formulas: inverse-Simpson diversity, weighted-mean composite, bounded/unbounded timeline durations, weakest-link Level ladder",
@@ -1589,7 +1602,7 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             capability: "A machine-readable schema giving unit, provenance class and definition for every numeric field of every scenario report, plus a single global gate that runs every registered scenario kind and fails if an emitted numeric field lacks either. The provenance vocabulary is closed and each class carries an evidence tier, with two classes deliberately mapped to `inherits-scenario-label` and `depends-on-input` rather than being assigned a tier the class does not determine",
             module: "field_schema",
             tests: "tests/field_units_global.rs (all 61 registered kinds run, one document shape each: every numeric leaf must resolve to an entry in that document's own units block; a malformed entry counts as missing for EVERY kind, exempt or not, so a placeholder buys no coverage; the exemption list may not exceed its pinned ceiling, a listed kind that turns out to be fully covered FAILS the gate so the list cannot be padded, and a registered kind absent from the runner table fails so a new pack cannot slip in unexamined — which it did, catching both kinds added after this work began; a one-way ratchet on the described-but-undefined backlog; and a staleness check on the committed schema document); field_schema::tests",
-            oracle: "The emitted document itself: every numeric leaf must resolve to an entry in that document's own units block. There is no external unit registry to check a DECLARED unit against, so a declared unit is a reviewed assertion and not a verified one — the gate verifies COMPLETENESS and WELL-FORMEDNESS, not truth, and Validated would be wrong because nothing external confirms that `m` is the right unit for a field named `_m`. An independent name-suffix cross-check was run over the 1,434 fields described AT THAT TIME: of the 691 carrying a unit-bearing suffix, 40 disagree with the declared unit and all 40 are explained (per-second suffixes, minima, aperture-seconds, newton-metres against a nanometre-looking suffix), so no wrong unit surfaced. That cross-check has not been re-run since, and coverage has grown past it — the figure is left at what was actually measured rather than restated at the current total. COVERAGE MOVED 7 of 56 kinds to 60 of 61, and 389 of 1354 fields to 1,742 of 1,744 (docs/field-units-schema.json, which a staleness check keeps current). ONE kind remains uncovered and is named with its reason rather than hidden behind a wildcard: `sweep-nd`, two of whose columns are caller-keyed so their units are data. `cislunar-observability` was the second, and came off the list when its released document gained a units block: the additivity pin that had named `units` as a forbidden key now PROVES the addition is additive instead — strip the block back off and the document still hashes to the two constants frozen before it existed, so a released value that moved underneath the addition still fails. The work also surfaced twelve unit or documentation defects in existing code, reported rather than fixed under R1",
+            oracle: "The emitted document itself: every numeric leaf must resolve to an entry in that document's own units block. There is no external unit registry to check a DECLARED unit against, so a declared unit is a reviewed assertion and not a verified one — the gate verifies COMPLETENESS and WELL-FORMEDNESS, not truth, and Validated would be wrong because nothing external confirms that `m` is the right unit for a field named `_m`. An independent name-suffix cross-check was run over the 1,434 fields described AT THAT TIME: of the 691 carrying a unit-bearing suffix, 40 disagree with the declared unit and all 40 are explained (per-second suffixes, minima, aperture-seconds, newton-metres against a nanometre-looking suffix), so no wrong unit surfaced. That cross-check has not been re-run since, and coverage has grown past it — the figure is left at what was actually measured rather than restated at the current total. At the time of that change, coverage moved from 7 of 56 kinds to 60 of 61, and from 389 of 1354 fields to 1,742 of 1,744 (docs/field-units-schema.json, which a staleness check keeps current). ONE kind remains uncovered and is named with its reason rather than hidden behind a wildcard: `sweep-nd`, two of whose columns are caller-keyed so their units are data. `cislunar-observability` was the second, and came off the list when its released document gained a units block: the additivity pin that had named `units` as a forbidden key now PROVES the addition is additive instead — strip the block back off and the document still hashes to the two constants frozen before it existed, so a released value that moved underneath the addition still fails. The work also surfaced twelve unit or documentation defects in existing code, reported rather than fixed under R1",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -2416,6 +2429,97 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle: "mpmath 1.3.0 (BSD-3-Clause) at 50 significant digits, self-checked at 80 (agreement 1.4e-43 or better), on the engine's committed Jacobian, weights and Helmert design (P2, an independent numerical library: mpmath's own LU solve, inverse, Cholesky and Jacobi eigen-decomposition). Pre-registered b41908c9 before the solver was written, with bars from a first-order backward-error bound in square-root form: Householder QR constant mn plus (3n+1)n times the unit roundoff (Higham, Accuracy and Stability of Numerical Algorithms, Theorem 19.4 and Chapter 8) times exact sensitivities. Measured: datum sigmas within 3.0e-13 on 2026-06-09 (bars 4.1e-7 to 5.3e-7), 1.9e-15 with the stations fixed (bars down to 4.8e-12), 3.8e-13 on 2026-03-18 and 2.3e-13 on 2024-01-01, where the default spectral solver is off by 4.8e-6 and 9.7e-6; condition number within 4.9e-13; weakest direction within 1.4e-13 rad (control 1.7e-16 against 5.1e-10). LIMIT OF THE CHECK: the bars certify only datum errors below about 2e-7 relative; the measured 1e-13 figures are observations, not what the bars certify. The check rejects the default spectral solver (sigmas 9.7e-6 against 2.9e-7 on 2024-01-01; on the binding date 1.3e-6 against 4.9e-7, a margin of 1.3 to 2.6) and a mis-taken triangular inverse (column norms: red), but a flipped Householder sign, an uncompensated dot product, and sigmas from a spectral inverse of the H formed from the square-root factor (3.7e-9) all pass, so it does not show that each square-root step is needed. Validates the opt-in solver's linear algebra on committed inputs, not the Jacobian and not the default solver; bit-reproducibility across platforms is argued from the operations used and tested only as rerun identity on one platform",
             oracle_kind: ExternalDataset,
             status: Validated,
+        },
+        // ── 0.35 workstreams: synthetic or round-trip evidence only ─────────────
+        VerificationItem {
+            requirement: "Maritime trust monitors: the arithmetic they rest on (NMEA decoding, geodesic offsets, the kinematic and sensor-residual statistics)",
+            capability: "For a vessel, `receiver_trust` decodes the NMEA 0183 sentences a receiver and its instruments emit (GGA, RMC, VTG, HDT, VHW, VBW, ZDA, GSV), forms the east-north offset between fixes (`maritime::en_offset_m`), and from these the statistics its monitors decide on: the implied speed, dead-reckoning residual, implied acceleration and implied turn rate over 30 s windows, the heading-versus-course, speed-log-versus-ground-speed and antenna-altitude residuals (10 s medians), and the spread and rise of the satellite signal-to-noise.",
+            module: "receiver_trust (ingest, maritime)",
+            tests: "tests/maritime_trust_reference.rs (t1_nmea_decoding_matches_pynmea2, t2_east_north_offsets_match_the_wgs84_geodesic, t3_t4_monitor_input_statistics_match_the_oracle) against tests/fixtures/maritime_trust/reference.json, regenerated by scripts/gen_maritime_trust_ref.py from the synthetic NMEA written by examples/gen_maritime_trust_ref_inputs.rs; tolerances pre-registered in tests/fixtures/maritime_trust/PREREGISTRATION.md",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: (1) the decoding of every field the monitors read, against pynmea2 1.19.0 (MIT) on 8 synthetic logs (1,086 epochs), to 1e-9 in the field's unit (latitude and longitude, altitude, geoid separation, HDOP, speeds, course, heading, signal-to-noise; integers and dates exactly; time of day to 1e-6 s), largest differences at the level of the last digit of a double; (2) the east-north offset between two fixes, as distance and bearing, against the WGS84 geodesic of geographiclib 2.1 (MIT) on 223 pairs of fixes with baselines up to 2 km, from -45 to 70 degrees latitude and across the antimeridian, to 0.01 m and 0.001 degrees (the bearing against the geodesic's mean azimuth, the direction of the chord); (3) the monitors' input statistics at 341 scored epochs of a 400 s synthetic voyage with a turn and a position step, against Python recomputations that use geographiclib for distance and azimuth, pynmea2 for decoding and numpy for medians and standard deviations: implied speed to 0.005 m/s, dead-reckoning residual to 0.02 m, acceleration to 5e-4 m/s^2, turn rate to 1e-3 deg/s, the residual medians and the signal-to-noise spread and rise to 1e-6. WHAT IS NOT: the window lengths, allowances and thresholds of the monitors are this project's own rules; the Python reproduces them from the same documentation, so agreement corroborates the implementation of the arithmetic, not the rules. The THS sentence has no pynmea2 class and the ROT sentence is not read; neither is covered. The table from an NMEA talker and satellite number to a RINEX-style satellite id is this project's own (only the number, the talker and the value are compared). The time-step, host-clock and authentication-status inputs have no oracle. All data are synthetic text from receiver_trust::synth; nothing here is a measurement and no statement is made about how any monitor performs on real interference. Bearing: compared with the geodesic mean azimuth. The pre-registered comparison against the forward azimuth at fix 1 failed at 0.001 degrees (77 of 223 pairs, worst 8.3e-3 degrees) because of a definitional mismatch, not arithmetic; the amendment was made after the first run and both results are recorded (the forward-azimuth comparison stays in the test as a descriptive, non-pre-registered bound of 0.01 degrees). Disclosed: the first runs found inputs that exercised too little (acceleration and turn rate were clamped to zero at every epoch, and the antimeridian track never crossed it), a bug in the synthetic generator (no longitude wrap) and, for the bearing, that the registered oracle quantity (the geodesic's forward azimuth at the first fix) differs from the chord direction by about half the meridian convergence (77 of 223 pairs outside 0.001 degrees, worst 8.3e-3); the inputs were corrected and the bearing compared against the mean azimuth at the same tolerance (amendments 1 to 3 in the pre-registration, made after seeing the results and so not blind); the course and heading comparisons were made circular (360 and 0 degrees are one course, amendment 5). Mutation: a 1e-4 scaling of the east offset fails the geodesy comparison.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Maritime trust score: the aggregation of the monitors' evidence into a 0-100 score and its three bands",
+            capability: "Each monitor reduces its evidence to a ratio of statistic to threshold; the score is 100 minus the sum over monitors of weight times a clamped linear ramp of the ratio (0 up to 0.5, 1 at 1.5), clamped to 0 to 100 and rounded to 0.1, with bands at 90 and 55; each epoch lists the monitors that deducted and their points.",
+            module: "receiver_trust (score, monitors, live)",
+            tests: "tests/maritime_trust_reference.rs::t5_score_matches_the_clean_room_reading_of_the_documented_rule; receiver_trust::score::tests (monotone in every statistic, adding a monitor never raises the score, healthy statistics stay at 100)",
+            oracle: "Implementation against specification, NOT an external oracle: a clean-room Python re-implementation (scripts/maritime_score_cleanroom.py), written by a reader given only docs/RECEIVER-TRUST.md and docs/MARITIME-TRUST.md and not the Rust source, agrees with score_from_ratios on 600 ratio vectors (score, band, points and the order of deductions, difference 0), after the documentation was completed where the first reader found it silent or inconsistent (tie order, rounding, the ratio of a pass-or-fail monitor, two examples whose numbers did not match the formula). That shows the documentation is sufficient and the code does what it says. WHAT IS NOT CHECKED, and why the row stays MODELLED: the rule itself (the weights, the ramp, the band edges, the evidence hold) is this project's own, pre-registered but with no external source, and nothing here shows that a score of 80 or 40 means what a navigator would want it to mean on real interference; no figure of that kind is given. The monitors' thresholds are likewise this project's own (Row A checks only their arithmetic).",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "NMEA 0183 training-stream conformance and decoded values",
+            capability: "Synthetic bridge NMEA 0183 streams for crew training (kshana nmea-scenario): GGA, RMC, VTG, ZDA, GNS, GSA, GSV, HDT, VBW and the PKSHT marker, generated from a truth track with modelled receiver, sky, jamming and spoofing effects. Text output only; nothing is transmitted.",
+            module: "nmea_synth (track, sentences, scenarios); cli nmea-scenario",
+            tests: "tests/nmea_training_reference.rs (pynmea2 oracle comparison); tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it, ::every_sentence_type_is_present_each_epoch, ::deterministic_per_seed_and_sensitive_to_it",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: all 225,227 sentences of eight synthetic training streams (four library scenarios, seeds 1 and 7; GGA, RMC, VTG, ZDA, GNS, GSA, GSV, HDT, VBW and the PKSHT marker) parse in pynmea2 1.19.0, an independent NMEA parser, with a valid checksum and the expected talker and type. The position, speed over ground, course over ground, heading, UTC time and date, fix status and GGA satellite count it decodes equal the generator's truth track within tolerances fixed before the first comparison (1.5e-6 deg, 0.06 kn, 0.07 km/h, 0.11 deg course, 0.5 deg heading, 0.02 s), run by scripts/gen_nmea_training_ref.py with the fixture in tests/fixtures/nmea_training_ref/. The GGA satellite-count expectation was corrected after the first run to the NMEA convention (00 without a fix); numeric tolerances unchanged from the pre-registration commit. WHAT IS NOT: that any receiver, chart plotter or bridge system accepts the streams; the realism of the receiver, sky, jamming or spoofing models (nominal sky, modelled noise, drag and replay profiles, all MODELLED); HDOP, altitude, and the DOP and GSA/GSV content beyond syntax and counts; the instructor log. Nothing is transmitted, and no anti-jam or anti-spoof performance is claimed.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Interference map: accuracy-code meanings, AIS not-available values, grid cell assignment, route length per cell state, and inland masking",
+            capability: "The reading of the ADS-B navigation accuracy and integrity codes the map uses (the EPU bound a NACp code stands for, the containment-radius bound a NIC code stands for, and the low and good classes the method derives from them); the AIS position and speed not-available values the AIS reader discards; the fixed latitude/longitude grid cell a position falls in; the route length, and its split by cell state (degraded, not degraded, unassessed, not observed), that route exposure reports; and whether a position lies inland of a land polygon by more than a buffer. A cell flagged degraded or anomalous is a statement about reported accuracy fields or implausible positions, not a finding of interference, and nothing here checks that.",
+            module: "interference_map (adsb::nacp_epu_bound_m, adsb::nic_rc_bound_range_m, adsb::AdsbParams::classify, ais::ais_position_is_valid, ais::ais_speed_kn, grid::Grid::cell_of, route::exposure, land::LandMask::is_inland)",
+            tests: "tests/interference_map_reference.rs::adsb_accuracy_and_integrity_codes_agree_with_pymodes (12 NACp codes, 59 NIC rows); tests/interference_map_reference.rs::ais_field_rules_agree_with_pyais_decoding (94 frames); tests/interference_map_reference.rs::grid_cell_assignment_agrees_with_shapely (1770 points, four cell sizes); tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib (8 routes, 420 pieces, 11634 km); tests/interference_map_reference.rs::land_masking_agrees_with_shapely_and_pyproj (996 points); interference_map unit tests",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: five independent implementations read the same synthetic inputs. (1) pyModeS 2.21 decodes synthetic DF17 operational-status and airborne-position frames; Kshana's NACp EPU bounds agree to 0.5 m (largest difference 0.4 m), its NIC containment bounds for codes 5 to 11 agree to 1 m, and its low and good classes put all 12 NACp codes and every NIC code the oracle produces (0 to 11) on the same side of the thresholds the oracle's bounds imply (0 disagreements). (2) pyais 3.3.0 decodes AIVDM type 1 sentences whose payload bits the script packs from the raw ITU-R M.1371 field values; Kshana refuses exactly the decoded not-available positions (latitude 91, longitude 181) and speed (102.3 kn), and keeps 0 to 102.2 kn as decoded (0 disagreements over 94 frames). (3) shapely 2.2.0 covers() on cell polygons agrees with grid::Grid::cell_of for 1770 points over cell sizes 0.5, 0.25, 1 and 0.07 degrees, including near-edge points, both poles and the antimeridian (0 disagreements). (4) shapely 2.2.0 route/cell intersection with GeographicLib 2.1 WGS84 geodesic lengths agrees with route exposure on 8 synthetic routes, including two that cross the antimeridian: total length to 0.6% (largest difference 0.49%, the sphere against the ellipsoid) and each cell state's length to 0.6% plus 125 m per piece (largest 21% of that tolerance). (5) shapely 2.2.0 contains() with pyproj azimuthal-equidistant distance to the coastline agrees with the 2000 m inland mask on 992 lattice-centre points around four synthetic islands, one with a lake (0 disagreements; 4 points within 20 m of the buffer were excluded and counted). The tolerances were fixed in tests/fixtures/interference_map_ref/PREREGISTRATION.md before any comparison, and not changed after; two defects in the synthetic inputs found by the first run are recorded there. WHAT IS NOT: Kshana does not decode raw Mode S frames or AIVDM sentences, so this validates its reading of already-decoded values, not a decoder. The oracle's NIC containment radii for codes 1, 2 and 4 differ from DO-260B (20, 8 and 2 NM), so only codes 5 to 11 are compared numerically. The (0, 0) position rule, the altitude floor, the source-type filter, the identifier hashing, the thresholds and statistics of the method, and the cell size choice are Kshana's own and are not checked against anything. The route comparison uses the same straight-in-latitude-and-longitude path definition on both sides, so it checks lengths and cell assignment, not that this path is the right one for a vessel or aircraft. Nothing here shows that a flagged cell is interference. Inputs are synthetic; the oracle fixtures are written by scripts/gen_interference_map_ref.py (pyModeS is GPL-3.0 and is used in that offline script only; CI needs no Python).",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Trust telemetry wire formats: Prometheus text exposition and OpenTelemetry OTLP/HTTP JSON",
+            capability: "GNSS trust (score, band, reasons, gate and, on request, position) as Prometheus text exposition served on /metrics and as OTLP/HTTP JSON metrics, with a cap on reason label cardinality.",
+            module: "telemetry (prometheus: Registry, render; otlp: build_payload, Exporter (feature otlp); sample)",
+            tests: "tests/telemetry_formats_reference.rs (prometheus_client_reads_our_exposition_as_the_registry_implies, the_official_otlp_proto_reads_our_json_as_the_registry_implies, awkward_reason_text_survives_the_parser, the_committed_outputs_are_what_this_crate_produces); tests/telemetry_cli.rs; telemetry::prometheus::tests (golden exposition)",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: our Prometheus text exposition for an 84-line synthetic stream (label values with quotes, backslashes, line feeds and non-ASCII text, 64 reason series plus an 'other' fold, gate and position gauges) is accepted by prometheus_client 0.26.0's text parser, and the metric families, types, help text, label sets and values it reads equal the registry's state exactly (values by f64 equality). Our OTLP/HTTP JSON for the same registry parses with protobuf 7.36.2 json_format.Parse(ignore_unknown_fields=False) into opentelemetry-proto 1.45.1's ExportMetricsServiceRequest, and every metric name, description, unit, kind, monotonicity, aggregation temporality, attribute, value, start time and time equals the registry's state exactly. Both parsers were shown to reject an unknown field, a mistyped value and a malformed line (scripts/gen_telemetry_formats_ref.py). WHAT IS NOT: promtool check metrics was not run (not available offline); the HTTP endpoint, delivery, timeouts and reconnection, and a real collector, are not checked by an oracle; the registry is read through accessors, so a fault in the registry state itself would not be caught; the OTLP 'committed output is current' check runs only with the otlp feature; the metric names and their usefulness to an operations centre are not validated. CEF and LEEF are not covered (see the next row).",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Trust telemetry SIEM events: CEF and LEEF over syslog",
+            capability: "Band-change (or per-epoch) events as Common Event Format and Log Event Extended Format 2.0 payloads in an RFC 5424 envelope over UDP or TCP, with a documented field mapping.",
+            module: "telemetry (syslog: cef, leef, rfc5424, SyslogSink; time)",
+            tests: "telemetry::syslog::tests (exact CEF and LEEF strings, escaping, severity, RFC 5424 envelope, delivery timeouts and reconnection); tests/telemetry_cli.rs",
+            oracle: "WHAT IS CHECKED: this crate's own exact-string tests of the documented field mapping, and the RFC 5424 envelope fields; no independent open-source CEF or LEEF validator is available, so the format is checked against its own specification read by the same author, not against an external oracle. WHAT IS NOT: whether the CEF and LEEF payloads are accepted by any vendor's parser or SIEM; the escaping rules beyond the documented ones; behaviour of a real syslog collector.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Evidence pack integrity: signature, hash chain and verification procedure",
+            capability: "A signed, hash-chained evidence pack of a GNSS trust event: SHA-256 over every file and a chain over the manifest, an Ed25519 signature over the exact manifest bytes, and a verifier that names every failure (a changed, removed, renamed, swapped or added file, a reordered or edited manifest, a manifest re-hashed without the key, a re-signed pack, a wrong pinned key, and a timestamp token that is stripped, replaced, junk or over another document).",
+            module: "evidence (bundle: create_bundle, sign_detached, chain_link, sha256_hex; verify: verify_bundle, verify_detached; tsr; assemble; cli)",
+            tests: "tests/evidence_crypto_reference.rs (RFC 8032 section 7.1 vectors 1, 2, 3 and 1024; FIPS 180-4 SHA-256 examples; exact); tests/evidence_pack_reference.rs::kshana_and_the_clean_room_verifier_agree_on_every_case (71 cases); tests/evidence_pack.rs (tamper tests)",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: (1) the Ed25519 functions the pack uses to sign and to verify strictly (evidence::sign_detached, evidence::verify_detached) reproduce the public keys and signatures of RFC 8032 section 7.1 test vectors 1, 2, 3 and 1024 byte for byte, accept them, and reject every flipped bit of vector 1 and every seventh bit of the others and a non-canonical S+L signature; the vectors are parsed from the RFC text and reproduced by two independent implementations (cryptography/OpenSSL and PyNaCl/libsodium) in scripts/gen_ed25519_rfc8032_ref.py. (2) evidence::sha256_hex, the hash behind every pack hash and the chain, reproduces the FIPS 180-4 SHA-256 examples (abc; the 448-bit message; one million a), the empty message and hashlib digests of a 0 to 130 byte ladder across the padding boundaries, exactly. (3) A verifier written in Python from docs/EVIDENCE-PACKS.md alone (scripts/evidence_verify_cleanroom.py: hashlib and cryptography; its author read no Rust code) agrees with the Rust verifier on 71 synthetic intact and tampered packs, exactly, on the verdict, the set of failures with file names, the signature verdict, and the chain head recomputed from the files and the one the manifest records. First run 64 of 71 agreed; the disagreements were one specification ambiguity (checking a pinned key against an unreadable manifest), one oracle interface deviation and one incompletely built case; the specification sentence was clarified, the oracle re-implemented from the text and the case completed, with no tolerance or expectation changed (recorded in commit d54e14c6). WHAT IS NOT: the clean-room verifier is an independent implementation by a different author, not a third-party authority, and it shares the specification's choices, so it corroborates this implementation of the rules, not the rules; the vectors validate the primitives, not the pack format's design. The RFC 3161 token is read for its message imprint only: the timestamp authority's signature and chain of trust are verified neither by Kshana nor by the oracle, and the test tokens are synthetic and unsigned. The tamper cases are synthetic. Nothing here is a legal opinion on, or an attestation of, any pack.",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Test-bench export (kshana bench-export): Earth-fixed, geodetic and local-velocity columns, attitude columns and NMEA 0183 output",
+            capability: "The motion CSV's Earth-fixed position, geodetic position, Earth-fixed velocity, heading/pitch/roll and UTC columns, and the NMEA GGA/RMC sentences, written from synthetic scenarios (gnss-ins including automotive-urban-canyon, jamming, gnss-sim). Motion and events only; no signal is written and no simulator or receiver performance is claimed.",
+            module: "interop::testbench (write_motion_csv, write_nmea, trajectory_of, export); fusion::pack::truth_trajectory",
+            tests: "tests/testbench_reference.rs (7 tests: oracle pins, export bytes, worst case over every row, position columns, local velocity vs true NED velocity, Euler angles vs scipy, NMEA vs pynmea2); tests/interop_testbench.rs (the writer's own round trips)",
+            oracle: "WHAT IS EXTERNALLY CHECKED, stated narrowly: against pyproj 3.8.0 (PROJ 9.8.1), geographiclib 2.1, pynmea2 1.19.0 and scipy 1.18.1, run by scripts/gen_testbench_ref.py on 4 synthetic scenarios, with tolerances fixed before the first comparison (each the writer's rounding worst case): the Earth-fixed columns equal the WGS 84 conversion of the geodetic columns (worst 1.3e-4 m, bar 3e-4) and the reverse (1.3e-9 deg, bar 2e-9; height 1.3e-4 m, bar 3e-4) on every row; the Earth-fixed velocity rotated to north-east-down by PROJ's topocentric operation equals the engine's true NED velocity (7.5e-5 m/s, bar 2e-4); heading, pitch and roll equal scipy's yaw-pitch-roll of the engine's true quaternion (5.0e-7 deg, bar 1e-6); every NMEA sentence parses in pynmea2 with a valid checksum and its decoded position (1.2e-3 m, bar 5e-3), height, speed, course (5.0e-4 deg, bar 1e-3) and time equal the motion values; the UTC column equals independent date-time arithmetic. The SHA-256 of the exact CSV and NMEA bytes checked is pinned. WHAT IS NOT: the scenario's truth trajectory itself (the driving profile and its integration); the conventions (heading is the body yaw, not the course, and differs from it by up to about 77 degrees on automotive-urban-canyon; GGA quality, satellite count and HDOP are placeholders); whether any laboratory simulator reads the files as intended; any simulator or receiver performance. The oracles check conversions and encodings, not the physics of the scenario. Local-frame handling is checked through the velocity rotation and the NMEA speed and course only (the CSV has no local position column).",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Compliance mapping to public frameworks",
+            capability: "compliance (kshana compliance-report): a mapping from Kshana outputs to clauses of public frameworks by number only, filled from the runs given; a result counts for a capability only when it carries the evidence the mapping names, an empty set evidences nothing, and the wording is \"supports evidence for\"; the report is not a finding that any framework is met and not a rating or approval by anyone.",
+            module: "compliance",
+            tests: "tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present; tests/compliance_references.rs",
+            oracle: "References checked against a script-extracted heading index of the cited public documents read 2026-10-10 (tests/compliance_references.rs). WHAT IS CHECKED: 49 cited clause, section, paragraph or heading references exist in the cited document, and 7 cited URLs resolved on the recorded date (2 via a second route); negative controls fail. WHAT IS NOT: that any paraphrase, mapping or gap is correct; EN 16803 clauses (paid, catalogue text only); later revisions; the index is not an independent implementation.",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Marine integrations: Signal K plugin, OpenCPN gate stream and score panel, reference build",
+            capability: "The trust score, band, reasons, gate state and receiver-reported position published under navigation.gnss.kshana in a Signal K server with a warn, alarm and normal notification (integrations/signalk); the gated NMEA stream, with the fix marked invalid while trust is collapsed and a PKSHT sentence per cycle, served to OpenCPN over TCP by the gate itself or by a small relay, and a native OpenCPN score panel that reads the PKSHT sentence (integrations/opencpn); and systemd units and a container that run the gate (deploy/reference-build). Where these show output they carry the advisory statement: Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.",
+            module: "receiver_trust (live: the gate, its TCP listener, PKSHT); outside the crate: integrations/signalk (JavaScript), integrations/opencpn (JavaScript relay, C++ native plugin), deploy/reference-build (systemd units, container)",
+            tests: "tests/receiver_trust_live_cli.rs (the gate and its TCP listener, Rust side); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js and integrations/signalk/test/plugin.test.js (24 Node tests on recorded synthetic output); integrations/opencpn/test/relay.test.mjs (5 Node tests); integrations/opencpn/test/e2e-live.mjs (the real binary to a TCP consumer, run by hand and in CI); integrations/opencpn/plugin/test/pksht_test.cpp and integrations/opencpn/plugin/test/trust_state_test.cpp (C++ checks of the PKSHT parser and the panel state); deploy/reference-build/check-units.sh and deploy/reference-build/test-entrypoint.sh",
+            oracle: "WHAT IS CHECKED, stated narrowly: that these integrations work against the real software they are written for. EVIDENCE is committed at integrations/signalk/evidence/README.md (with its JSON files) and integrations/opencpn/evidence/README.md (with its screenshots and logs), each with the script that reproduces it. (1) Signal K: the plugin loaded into the pinned signalk-server 2.33.0 npm package, in a private loopback-only network namespace, fed synthetic data. The server's own REST and WebSocket interfaces showed the published paths, the score metadata, and a notification that went absent, warn, alarm, normal (after the hold) and warn again when the data stopped. With the real kshana run by the plugin on the NMEA the server itself received, the notification went warn then alarm and the reported position was published; the server's own navigation.position was written by its NMEA provider, never by the plugin. Re-run against live JSON schema 1.2. (2) OpenCPN: the plugin built against the OpenCPN plugin API header and wxWidgets 3.2.4, loaded into the Ubuntu 24.04 package of OpenCPN 5.8.4 under a virtual display; OpenCPN loaded it, ran its initialisation and handed it the PKSHT sentences of the gated stream, and the panel turned red on the untrusted band. In one clean run, OpenCPN's own ship position stopped updating, and its fix indicator dropped, when the gate marked the fix invalid. A second run fed directly by the gate's TCP listener showed delivery to the plugin but not a clean before-and-after. (3) The relay tests replay a recorded excerpt of the gated stream through a real TCP socket and check what a consumer receives (the bytes unchanged, valid checksums on every sentence including the rewritten ones, GGA and RMC agreeing, one PKSHT per cycle with the gate field where the fix is invalid), and the end-to-end script checks that a consumer of the gate's listener receives exactly the bytes the same gate writes to standard output. (4) The PKSHT parsers (JavaScript and C++) are run over sentences recorded from kshana output and reject a wrong checksum, version or a score outside 0 to 100. (5) The systemd units are checked with systemd-analyze verify (systemd 255, binaries stubbed) and with guards for a shell in ExecStart, the restart policy and the sandbox keys; the container entrypoint's argument handling is checked with a stub binary. WHAT IS NOT: there is no external oracle for any value these integrations show. The trust values themselves are the rows above, and an integration run shows only that the plumbing carries them; that is why this row is MODELLED and not VALIDATED (docs/VALIDATION.md). No real vessel, receiver, long run, other version of either host, other operating system or desktop was used; all data are synthetic text and nothing here is a measurement. The notification's sound and visual handling by a real Signal K client, OpenCPN's toolbar button, preferences and stale state, and packaging for the OpenCPN plugin manager were not exercised. The systemd sandbox keys were checked for syntax only, not run under a live systemd, and the container image build and its health check have no committed evidence here. No detection or false-alarm figure is claimed. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.",
+            oracle_kind: IntegrationRun,
+            status: Modelled,
         },
     ]
 }
@@ -3341,6 +3445,48 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             source: "gps-sdr-sim (T. Ebinuma, MIT, commit 28ca29a6)",
             flag: "",
         },
+        OracleBasisEntry {
+            requirement: "NMEA 0183 training-stream conformance and decoded values",
+            basis: Library,
+            oracle_test: "tests/nmea_training_reference.rs",
+            source: "pynmea2 1.19.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Interference map: accuracy-code meanings, AIS not-available values, grid cell assignment, route length per cell state, and inland masking",
+            basis: Library,
+            oracle_test: "tests/interference_map_reference.rs::route_exposure_geometry_agrees_with_shapely_and_geographiclib",
+            source: "shapely 2.2.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Maritime trust monitors: the arithmetic they rest on (NMEA decoding, geodesic offsets, the kinematic and sensor-residual statistics)",
+            basis: Library,
+            oracle_test: "tests/maritime_trust_reference.rs::t2_east_north_offsets_match_the_wgs84_geodesic",
+            source: "geographiclib 2.1",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Evidence pack integrity: signature, hash chain and verification procedure",
+            basis: Reference,
+            oracle_test: "tests/evidence_crypto_reference.rs",
+            source: "RFC 8032 section 7.1 test vectors 1, 2, 3 and 1024",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Trust telemetry wire formats: Prometheus text exposition and OpenTelemetry OTLP/HTTP JSON",
+            basis: Library,
+            oracle_test: "tests/telemetry_formats_reference.rs",
+            source: "prometheus_client 0.26.0",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Test-bench export (kshana bench-export): Earth-fixed, geodetic and local-velocity columns, attitude columns and NMEA 0183 output",
+            basis: Library,
+            oracle_test: "tests/testbench_reference.rs",
+            source: "pyproj 3.8.0 (PROJ 9.8.1)",
+            flag: "",
+        },
     ]
 }
 
@@ -3786,6 +3932,29 @@ mod tests {
                 assert_eq!(it.oracle_kind, OracleKind::NoneKind);
             }
         }
+    }
+
+    // ── An integration run is not an oracle: Modelled rows only ──────────────
+    #[test]
+    fn integration_run_only_on_modelled_rows() {
+        let mut n = 0;
+        for it in verification_matrix() {
+            if it.oracle_kind == OracleKind::IntegrationRun {
+                n += 1;
+                assert_eq!(
+                    it.status,
+                    VerificationStatus::Modelled,
+                    "row '{}' carries IntegrationRun but is not Modelled: running against a real \
+                     host is not an independent oracle, so it can never justify Validated",
+                    it.requirement
+                );
+            }
+        }
+        assert!(n >= 1, "the marine integrations row carries IntegrationRun");
+        // and the reason text must say so, so the rationale page never implies otherwise
+        assert!(OracleKind::IntegrationRun
+            .modelled_reason()
+            .contains("not an independent oracle"));
     }
 
     // ── Only partner rows may use the None oracle kind ────────────────────────

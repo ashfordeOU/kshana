@@ -50,14 +50,41 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `validate_toml` | `(toml: str) -> list[str]` | error messages (empty if valid) |
 | `error_kind` | `(toml: str) -> str \| None` | failure-category tag (`invalid_input`, `non_convergence`, `unsupported` or `io_error`), or `None` on success |
 | `version` / `__version__` | `() -> str` / `str` | engine version |
-| `receiver_trust` | `(toml: str) -> RunOutput` | assess a real receiver log described by a `receiver-trust` scenario: result document, per-epoch trust CSV, chart and summary |
+| `receiver_trust` | `(toml: str) -> RunOutput` | assess a real receiver log described by a `receiver-trust` scenario: result document, per-epoch trust CSV, chart and summary; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust score with reasons (advisory) |
+| `receiver_trust_replay` | `(session_toml, nmea) -> dict` | a bounded NMEA excerpt scored the way live mode scores it: per-epoch state, 0-100 score and reasons, a summary (no socket, no gate; advisory) |
+| `assess_vessel_log` | `(session_toml, log) -> dict` | a vessel's NMEA log as a batch run: the score model and every epoch's score with its deductions (advisory) |
+| `evidence_create` | `(session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None) -> dict` | a signed evidence pack for a window of the log, in memory: `files`, `public_key`, `seed_hex` (keep it private); a technical record, not a legal opinion |
+| `evidence_verify` | `(files, public_key=None, full_log=None, require_timestamp=False) -> dict` | verify a pack: hashes, chain, signature, optionally the trusted signer, the full log and a timestamp; `verdict` is `verified`, `intact-signer-not-pinned` (no public key given: intact, signer not established) or `failed` |
+| `export_sp3`, `export_omm`, `export_oem` | `(toml) -> str` | the CLI's `--export-sp3/-omm/-oem` artifacts as text |
+| `export_formats` | `(toml) -> list[dict]` | which interoperability formats apply to a scenario, without running it |
+| `export_scenario` | `(toml, format) -> dict` | `czml`, `kml`, `geojson`, `stk` or `sigmf` in memory: `{format, spec_url, files}`, each file `{suffix, bytes, sha256, encoding, content}` (`utf-8` text or `base64`) |
+| `import_route` | `(toml, geojson) -> str` | a GeoJSON route written into a waypoint-track scenario (`--import-route`) |
+| `animate_scenario` | `(toml, format="svg", fps=None, duration_s=None, width=None) -> dict` | the run's time series as an animated SVG, an HTML player or up to 120 SVG frames: `{summary, files}` |
+| `list_examples`, `get_example` | `(kind=None) -> dict`, `(name) -> str` | the bundled reference scenarios and their TOML |
+| `evidence_attach_timestamp` | `(files, token, replace=False) -> dict` | bind an RFC 3161 token (bytes or base64) to a pack in memory: `{files, notes}`; the pack must still verify; the authority's signature is not checked |
+| `evidence_keygen` | `() -> dict` | a new signing key in memory: `seed_hex` (PRIVATE), `public_key`, `fingerprint`, `warning`; Python only |
+| `iq_sweep` | `(i, q, fs_hz, signal, prns, ..., pll_bws=None, dll_bws=None, spacings=None, coherents=None, design=None) -> dict` | replay one recording across loop designs (`iq sweep`): per design and PRN steady-state jitter, lock fractions and C/N0; one acquisition per PRN, every channel on the same samples |
+| `iq_info`, `iq_inventory` | `(path, hash=False) -> dict`, `(directory, recursive=False, hash=False) -> list` | describe one recording, or every recording in a folder (reads files; `hash` reads them fully) |
+| `bench_export` | `(toml, epoch=None) -> dict` | a scenario's vehicle motion and events for a laboratory GNSS simulator, in memory: `{files: {suffix: text}, notes, notice}`; kinds `gnss-ins`, `jamming`, `gnss-sim`; no signal is written, keep `notice` with the files |
+| `compliance_report` | `(runs) -> dict` | the public-framework mapping filled from result texts: `runs` is a list of `{label, result, scenario?}` dicts (text, at most 64); returns `{report, markdown}`; each row's `status` says the runs support evidence for its capabilities, not that a framework is met; carry `report["statement"]` with any display |
+| `compliance_mapping` | `(sources=False) -> str` | the static mapping tables (or the source documents) as Markdown, led by the statement |
+| `interference_map` | `(source, csv, dataset, cell_deg=None, licence=None, licence_url=None, attribution=None, land_geojson=None) -> list[dict]` | a GNSS interference map from ADS-B or AIS CSV text: one dict per UTC day with `kshana-interference-map/v1` GeoJSON (aggregate only; a degraded cell does not name interference as the cause) |
+| `route_exposure` | `(route, maps, date_from=None, date_to=None) -> str` | share of a route through degraded cells of those maps, as JSON text (not a forecast; unobserved cells are not evidence of a clear route) |
+| `nmea_training` | `(toml, seed=None) -> dict` | synthetic bridge NMEA for crew training plus the instructor log (`nmea`, `log_json`, `log_text`); text only, never for a vessel's live navigation systems |
 | `iq_signals` | `() -> list[str]` | the GNSS IQ signal names `iq_scene`, `iq_acquire` and `iq_track` accept (`gps-l1ca`, `galileo-e1b`, `glonass-l1of`, ...) |
 | `iq_scene` | `(fs_hz, duration_s, signal, prns, **options) -> dict` | a multi-satellite GNSS IQ scene in memory: `samples_i` / `samples_q` and per-epoch `truth` |
 | `iq_scene_broadcast` | `(fs_hz, window_s, nav_text, rx_lat, rx_lon, rx_alt, **options) -> dict` | the same, with each GPS satellite at its broadcast-ephemeris geometry from a RINEX (Receiver Independent Exchange Format) navigation message |
 | `iq_acquire` | `(i, q, fs_hz, signal, prns, **options) -> list[dict]` | FFT (fast Fourier transform) acquisition of each PRN (pseudorandom noise code): Doppler, code phase, statistic, threshold |
+| `iq_acq_surface` | `(i, q, fs_hz, signal, prn, **options) -> dict` | the whole acquisition surface of one PRN (`kshana.acq-surface/1`): `rows[doppler][lag]` correlation power, the peak and two fine-Doppler refinements (`parabolic`, `fine_search`) |
 | `iq_track` | `(i, q, fs_hz, signal, prns, **options) -> dict` | acquire, then track each PRN: per-epoch Doppler, code phase, lock indicators, C/N0, prompt correlator |
 | `iq_frontend` | `(i, q, fs_hz, **options) -> dict` | the receiver front-end chain (band-pass, notch, blanking, excision, AGC (automatic gain control), quantiser) over complex samples |
 | `iq_labfit` | `(toml: str) -> dict` | fit the tracking-loop loss-of-lock model to a receiver-trust timeline (an `iq-labfit` scenario) |
+| `iq_loop_designs` | `(toml) -> list[dict]` | parse a `kshana.loop-design/1` file (a path or TOML text) into its resolved designs, each with its `name` and `hash`; `ValueError` on an invalid file |
+| `iq_read_epochs` | `(path) -> dict` | read a binary tracking-epoch file (`kshana.track-epoch/1`, as `kshana iq track --epochs` writes it): the `header` and one dict per epoch in `records` |
+| `iq_monitor` | `(path, signal=None, prns=None, power=False, spectral=False, settings=None, ...) -> dict` | the IQ detection monitors over a recording in one streaming pass (`iq monitor`): `series`, `events`, `spectra` and `notes`; reads a file |
+| `iq_test_conditions` | `(conditions) -> dict` | validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON, a path or text) and return it resolved, with its `hash` |
+| `iq_campaign` | `(campaign, out_dir, workers=0, resume=True, max_cells=None, dry_run=False) -> dict` | run a lab-replay campaign (`kshana.campaign/1`) into `out_dir` as `kshana iq campaign` does; finished cells are skipped; returns the cell counts, failures and the `digest` once every cell is done |
+| `iq_campaign_report` | `(out_dir) -> dict` | rebuild a campaign's scorecards, HTML report and digest from its cells: the cell and row counts, the rows failing a bar and the `digest` |
 
 ### GNSS IQ and receiver-trust signatures
 
@@ -68,6 +95,41 @@ arrays.
 
 ```python
 def receiver_trust(toml: str) -> RunOutput: ...
+
+def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict: ...
+def assess_vessel_log(session_toml: str, log: str | bytes) -> dict: ...
+def evidence_create(session_toml: str, log: str | bytes, from_s: float, to_s: float,
+                    title: str | None = None, created_utc: str | None = None,
+                    seed_hex: str | None = None) -> dict: ...
+def evidence_verify(files: dict[str, str | bytes], public_key: str | None = None,
+                    full_log: str | bytes | None = None,
+                    require_timestamp: bool = False) -> dict: ...
+def interference_map(source: str, csv: str, dataset: str, cell_deg: float | None = None,
+                     licence: str | None = None, licence_url: str | None = None,
+                     attribution: str | None = None, land_geojson: str | None = None) -> list[dict]: ...
+def route_exposure(route: str, maps: list[str], date_from: str | None = None,
+                   date_to: str | None = None) -> str: ...
+def export_sp3(toml: str) -> str: ...
+def export_omm(toml: str) -> str: ...
+def export_oem(toml: str) -> str: ...
+def export_formats(toml: str) -> list[dict]: ...
+def export_scenario(toml: str, format: str) -> dict: ...
+def import_route(toml: str, geojson: str) -> str: ...
+def animate_scenario(toml: str, format: str = "svg", fps: int | None = None,
+                     duration_s: float | None = None, width: int | None = None) -> dict: ...
+def list_examples(kind: str | None = None) -> dict: ...
+def get_example(name: str) -> str: ...
+def evidence_attach_timestamp(files: dict[str, str | bytes], token: str | bytes,
+                              replace: bool = False) -> dict: ...
+def evidence_keygen() -> dict: ...
+def iq_sweep(i: list[float], q: list[float], fs_hz: float, signal: str, prns: list[int],
+             **options) -> dict: ...
+def iq_info(path: str, hash: bool = False) -> dict: ...
+def iq_inventory(directory: str, recursive: bool = False, hash: bool = False) -> list[dict]: ...
+def bench_export(toml: str, epoch: str | None = None) -> dict: ...
+def compliance_report(runs: list[dict[str, str]]) -> dict: ...
+def compliance_mapping(sources: bool = False) -> str: ...
+def nmea_training(toml: str, seed: int | None = None) -> dict[str, str]: ...
 
 def iq_signals() -> list[str]: ...
 
@@ -133,6 +195,21 @@ def iq_acquire(
     pfa: float = ...,
 ) -> list[dict[str, Any]]: ...
 
+def iq_acq_surface(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prn: int,
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    coherent: int = ...,
+    noncoherent: int = ...,
+    doppler_max: float = ...,
+    doppler_step: Optional[float] = ...,
+    pfa: float = ...,
+) -> dict[str, Any]: ...
+
 def iq_track(
     i: list[float],
     q: list[float],
@@ -177,6 +254,27 @@ def iq_frontend(
 ) -> dict[str, Any]: ...
 
 def iq_labfit(toml: str) -> dict[str, Any]: ...
+def iq_loop_designs(toml: str) -> list[dict[str, Any]]: ...
+def iq_read_epochs(path: str) -> dict[str, Any]: ...
+def iq_monitor(path: str, signal: Optional[str] = ..., prns: Optional[list[int]] = ...,
+               power: bool = ..., spectral: bool = ..., settings: Optional[str] = ...,
+               **options) -> dict[str, Any]: ...
+def iq_test_conditions(conditions: str) -> dict[str, Any]: ...
+def iq_campaign(campaign: str, out_dir: str, workers: int = 0, resume: bool = True,
+                max_cells: Optional[int] = None, dry_run: bool = False) -> dict[str, Any]: ...
+def iq_campaign_report(out_dir: str) -> dict[str, Any]: ...
+```
+
+A lab-replay campaign from Python, then its report (the campaign file and its recordings
+are yours; a finished cell is skipped on the next call; `iq_read_epochs` reads a tracking-epoch file a
+`kshana iq track --epochs` run wrote):
+
+```python
+import kshana
+
+summary = kshana.iq_campaign("lab.campaign.toml", "campaign-out", workers=4)
+report = kshana.iq_campaign_report("campaign-out")
+print(report["digest"])          # None until every cell is done
 ```
 
 `iq_track`'s `acq_coherent` sets how many code periods the hand-off acquisition
@@ -239,3 +337,10 @@ guide is [`SCHEMA.md`](SCHEMA.md).
 - A first-class NumPy return type (`RunOutput` exposing `np.ndarray` time series
   directly, rather than via `np.asarray(out.data()[...])`) and a published Colab
   notebook are planned follow-ons.
+
+## Not in Python: long-running processes
+
+`kshana receiver-trust live` (a stream process with a gate and an optional `--listen` TCP
+server) and the telemetry exporters (Prometheus, OTLP, syslog; `docs/TRUST-TELEMETRY.md`) and `kshana nmea-scenario --tcp/--udp` streaming are command-line only: a binding
+returns when the call returns and does not hold a socket open. Python covers the batch
+form of each: `receiver_trust` for a log, `receiver_trust_replay` for a stream excerpt (scores and states; the gate is not applied), `nmea_training` for the generated text.
