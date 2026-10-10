@@ -163,6 +163,20 @@ impl Detector {
     }
 }
 
+/// Whether a decoded AIS position is usable: latitude in [-90, 90] and longitude in
+/// [-180, 180] (so the AIS "not available" values, latitude 91 and longitude 181, are
+/// refused), and not exactly (0, 0), the usual default of a transponder without a fix.
+pub fn ais_position_is_valid(lat: f64, lon: f64) -> bool {
+    (-90.0..=90.0).contains(&lat) && (-180.0..=180.0).contains(&lon) && !(lat == 0.0 && lon == 0.0)
+}
+
+/// A decoded AIS speed over ground in knots, or `None` when it is the "not available" value
+/// 102.3 or outside the 0 to 102.2 range. The value 102.2 means "102.2 knots or higher" and
+/// is kept.
+pub fn ais_speed_kn(sog: f64) -> Option<f64> {
+    (sog.is_finite() && (0.0..102.3).contains(&sog)).then_some(sog)
+}
+
 #[derive(Debug, Default, Clone, PartialEq)]
 /// Counters for AIS rows read and rejected.
 pub struct AisReadStats {
@@ -271,16 +285,13 @@ impl AisAggregator {
             self.stats.rejected_malformed += 1;
             return;
         }
-        // Not-available sentinels (91, 181) fall outside these ranges; (0, 0) is the usual
+        // Not-available sentinels (91, 181) fall outside the valid ranges; (0, 0) is the usual
         // default of a transponder without a fix.
-        if !(-90.0..=90.0).contains(&lat)
-            || !(-180.0..=180.0).contains(&lon)
-            || (lat == 0.0 && lon == 0.0)
-        {
+        if !ais_position_is_valid(lat, lon) {
             self.stats.rejected_invalid_position += 1;
             return;
         }
-        let sog = sog.filter(|s| s.is_finite() && (0.0..102.3).contains(s));
+        let sog = sog.and_then(ais_speed_kn);
         let vid = self.hasher.hash(id);
         self.days
             .entry(day_of(ts))
