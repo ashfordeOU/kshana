@@ -240,16 +240,35 @@ or `Unavailable`), next to the overall `MarineObs::osnma`. On the NMEA side the 
 one satellite, alarms the monitor and costs its whole weight; success is no evidence. Kshana
 verifies nothing here: the source that does is responsible for the status it reports.
 
-An epoch is complete when the next timed sentence arrives, or when the stream has been quiet
-for `[live] idle_flush_s` (default 0.35 s). The first `calibration_s` seconds of the stream
-form the baseline and are never scored, so **a stream that is already being spoofed when it
-is first connected has no clean baseline**: start the layer before the voyage, or
-while the fix is known to be good.
+An epoch is complete when the next timed sentence arrives; sentences of slower or unsynchronised
+instruments (a gyro a few tenths of a second behind the receiver) that arrive before then belong
+to it. If the stream stalls for `[live] idle_flush_s` (default 1.5 s, set it above the longest gap
+between your receiver's timed sentences) the epoch is completed as it stands. The first
+`calibration_s` seconds of the stream form the baseline and are never scored, so **a stream that is
+already being spoofed when it is first connected has no clean baseline**: start the layer before
+the voyage, or while the fix is known to be good. The calibration window closes once, by arrival:
+an epoch whose time is earlier than a time already seen (a rewind, a replay of the stream's start)
+is never calibration whatever its time says; it is scored with a full `time-consistency` deduction,
+which is untrusted. The live engine scores each epoch over the calibration epochs and the last minute
+or so of the stream, so its cost per epoch grows with `calibration_s` times the epoch rate; keep the
+window short on a fast receiver. Its buffers are bounded (a flood of lines without a timed sentence
+is completed every 5,000 lines, calibration and history are capped at 20,000 epochs).
 
 The receiver's time is also compared with this computer's monotonic clock, which only means
 something for a stream arriving in real time. A stored log fed in at full speed through stdin,
 TCP or UDP trips that check by construction: pass `--replay`. (`--file` without `--follow`
-already implies it.)
+already implies it.) A `--file ... --follow` is read as a replay until it has been read to its end
+and the host clock is engaged from then on, so a backlog does not read as a clock fault; the check
+then needs the calibration window to still be open (otherwise it has no baseline and does not run).
+
+Stream ends and faults: stdin and a file read to its end finish normally (exit 0). A TCP connection
+closed by the peer is not a normal end for a stream that should go on: the layer exits non-zero
+after scoring and writing everything it had received and does not reconnect, so run it under a
+supervisor that restarts it. UDP datagrams that split a sentence are joined; the readers of
+stdin, a file and TCP are backed by a bounded queue that pushes back on the sender (nothing is
+lost), while UDP, which cannot push back, drops datagrams the engine cannot take and says so on
+stderr. `--udp <port>` binds the loopback address; give `--udp <addr>:<port>` to listen elsewhere
+(a warning is printed).
 
 ## `$PKSHT`: the proprietary sentence
 
@@ -311,10 +330,15 @@ What the gate does not do, and what to know before using it:
 
 * It is **opt-in**. Nothing marks a fix invalid unless `--gate` is given.
 * It **adds latency**: a cycle is held until its epoch is scored, which is the time to the next
-  timed sentence, or `idle_flush_s` after the last one. Equipment that needs a sentence within a
+  timed sentence (about one cycle: a second for a 1 Hz receiver), or `idle_flush_s` after the last
+  one when the stream stalls. Equipment that needs a sentence within a
   few tens of milliseconds of the receiver's output must not sit behind it.
 * It is **a single point in the chain**: if it stops, the stream stops. Run it supervised, and
   decide in advance what the downstream equipment does without a stream.
+* It **fails closed on its own faults**: if the monitors cannot produce a score after calibration (a
+  declared heading sensor that sends nothing, too few calibration epochs), the epoch is untrusted,
+  carries a `note`, and is withheld; the release hold is timed on this computer's clock, not on the
+  receiver's time, which is what a spoofer controls (for a replay there is only the receiver's time).
 * It can **withhold a good fix** (a false alarm) as well as pass a spoofed one (a miss). The
   monitors check a fix against a ship's physics and its other sensors; a counterfeit that is
   consistent with all of them is not seen (see the limits below).
