@@ -80,6 +80,17 @@ async fn serves_exactly_the_expected_tool_set() {
         "export_oem",
         "export_table_csv",
         "assess_receiver_log",
+        "assess_vessel_stream",
+        "assess_vessel_log",
+        "create_evidence_pack",
+        "verify_evidence_pack",
+        "attach_evidence_timestamp",
+        "generate_training_nmea",
+        "build_interference_map",
+        "route_exposure",
+        "compliance_report",
+        "compliance_mapping",
+        "export_test_bench",
         "iq_signals",
         "iq_info",
         "iq_scene",
@@ -88,6 +99,10 @@ async fn serves_exactly_the_expected_tool_set() {
         "iq_frontend",
         "iq_campaign",
         "iq_campaign_status",
+        "iq_sweep",
+        "iq_monitor",
+        "iq_labfit",
+        "iq_test_conditions",
     ]
     .into_iter()
     .collect();
