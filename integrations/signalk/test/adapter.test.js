@@ -82,3 +82,15 @@ test('out-of-range or non-numeric scores are rejected, not clamped', () => {
   assert.strictEqual(parsePksht(mk('100.0')).score, 100)
   assert.strictEqual(parsePksht(mk('0.0')).score, 0)
 })
+
+test('schema 1.2 lines (position, then advisory appended) parse; unknown appended keys are ignored', () => {
+  const eps = fx('trust-v12-excerpt.jsonl').map(parseJsonLine)
+  assert.ok(eps.every(Boolean))
+  assert.deepStrictEqual(new Set(eps.map((e) => e.band)), new Set(['nominal', 'degraded', 'untrusted']))
+  assert.ok(eps.every((e) => e.position && e.score !== null))
+  // the advisory key really is on these lines, and nothing breaks if a later schema appends more keys
+  const raw = JSON.parse(fx('trust-v12-excerpt.jsonl')[0])
+  assert.match(raw.advisory, /not type-approved/)
+  const later = JSON.stringify({ ...raw, some_future_key: { a: 1 } })
+  assert.deepStrictEqual(parseJsonLine(later), parseJsonLine(JSON.stringify(raw)))
+})
