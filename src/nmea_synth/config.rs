@@ -150,9 +150,9 @@ pub struct ReceiverCfg {
     /// Below this C/N0 a tracked satellite is not used in the fix, dB-Hz.
     #[serde(default = "d_use")]
     pub use_threshold_dbhz: f64,
-    /// Most satellites of one constellation used in the fix.
-    #[serde(default = "d_per_sys")]
-    pub max_used_per_system: usize,
+    /// Most satellites used in the fix, across all constellations (NMEA GGA counts to 12).
+    #[serde(default = "d_max_used")]
+    pub max_used: usize,
     /// Seconds of usable signal needed before a lost fix is declared again.
     #[serde(default = "d_reacq")]
     pub reacquire_s: f64,
@@ -175,7 +175,7 @@ impl Default for ReceiverCfg {
             nominal_cn0_zenith_dbhz: d_zenith(),
             track_threshold_dbhz: d_track(),
             use_threshold_dbhz: d_use(),
-            max_used_per_system: d_per_sys(),
+            max_used: d_max_used(),
             reacquire_s: d_reacq(),
             position_noise_m: d_noise(),
             noise_corr_s: d_corr(),
@@ -202,8 +202,8 @@ fn d_track() -> f64 {
 fn d_use() -> f64 {
     28.0
 }
-fn d_per_sys() -> usize {
-    8
+fn d_max_used() -> usize {
+    12
 }
 fn d_reacq() -> f64 {
     8.0
@@ -317,6 +317,11 @@ pub struct EventCfg {
     /// drag-off: final offset of the reported position, metres.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub final_offset_m: Option<f64>,
+    /// drag-off: largest acceleration of the false track allowed, m/s squared. The drag is
+    /// smoothed (smoothstep) over `ramp_s` and `recovery_s`, whose peak acceleration is
+    /// `6 * final_offset_m / ramp_s^2`; a scenario that would exceed this is refused.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub max_accel_mps2: Option<f64>,
     /// drag-off: direction of the offset, degrees true.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub bearing_deg: Option<f64>,
@@ -396,10 +401,11 @@ impl Window {
         }
     }
 
-    /// Phase at `t`.
+    /// Phase at `t`: idle while the strength is zero, so the onset is the first epoch at
+    /// which the event has an effect.
     pub fn phase(&self, t: f64) -> Phase {
         let end = self.start_s + self.duration_s;
-        if t < self.start_s || t >= end + self.recovery_s {
+        if self.strength(t) <= 0.0 {
             Phase::Idle
         } else if t < self.start_s + self.ramp_s {
             Phase::Ramping
@@ -408,6 +414,19 @@ impl Window {
         } else {
             Phase::Recovering
         }
+    }
+
+    /// Strength shaped by smoothstep on the ramps (`3x^2 - 2x^3`), so a quantity that
+    /// follows it starts and stops with zero velocity.
+    pub fn strength_smooth(&self, t: f64) -> f64 {
+        let x = self.strength(t);
+        x * x * (3.0 - 2.0 * x)
+    }
+
+    /// Time derivative of [`Window::strength_smooth`], 1/s.
+    pub fn strength_smooth_rate(&self, t: f64) -> f64 {
+        let x = self.strength(t);
+        6.0 * x * (1.0 - x) * self.strength_rate(t)
     }
 }
 
@@ -442,8 +461,18 @@ impl TrainingScenario {
     /// Check every range and every event's parameter set.
     pub fn validate(&self) -> Result<(), String> {
         let m = &self.scenario;
-        if m.name.trim().is_empty() {
-            return Err("scenario.name must not be empty".into());
+        let name_ok = !m.name.is_empty()
+            && m.name.len() <= 64
+            && !m.name.starts_with('.')
+            && m.name
+                .bytes()
+                .all(|b| b.is_ascii_alphanumeric() || b == b'.' || b == b'_' || b == b'-');
+        if !name_ok {
+            return Err(
+                "scenario.name must be 1 to 64 characters from A-Z a-z 0-9 . _ - and must not \
+                 start with a dot (it names the output files)"
+                    .into(),
+            );
         }
         super::clock::parse_utc(&m.start_utc)
             .map_err(|e| format!("scenario.start_utc {:?}: {e}", m.start_utc))?;
@@ -498,17 +527,17 @@ impl TrainingScenario {
         for s in &r.systems {
             super::sky::System::parse(s)?;
         }
-        if !(0.0..=45.0).contains(&r.elevation_mask_deg)
-            || r.track_threshold_dbhz > r.use_threshold_dbhz
-            || r.max_used_per_system == 0
-            || r.max_used_per_system > 12
-            || !(r.position_noise_m.is_finite() && r.position_noise_m >= 0.0)
-            || !pos(r.noise_corr_s)
-            || !(r.reacquire_s.is_finite() && r.reacquire_s >= 0.0)
-        {
+        let nonneg = |x: f64| x.is_finite() && x >= 0.0;
+        let receiver_ok = (0.0..=45.0).contains(&r.elevation_mask_deg)
+            && r.track_threshold_dbhz <= r.use_threshold_dbhz
+            && (4..=12).contains(&r.max_used)
+            && nonneg(r.position_noise_m)
+            && pos(r.noise_corr_s)
+            && nonneg(r.reacquire_s);
+        if !receiver_ok {
             return Err(
                 "receiver parameters out of range (mask 0-45 deg, track <= use \
-                        threshold, 1-12 used per system, noise >= 0, corr > 0, reacquire >= 0)"
+                        threshold, 4-12 used satellites, noise >= 0, corr > 0, reacquire >= 0)"
                     .into(),
             );
         }
@@ -565,6 +594,10 @@ impl EventCfg {
                 self.final_offset_m.is_some() && self.kind != EventKind::DragOff,
             ),
             (
+                "max_accel_mps2",
+                self.max_accel_mps2.is_some() && self.kind != EventKind::DragOff,
+            ),
+            (
                 "bearing_deg",
                 self.bearing_deg.is_some() && self.kind != EventKind::DragOff,
             ),
@@ -598,9 +631,9 @@ impl EventCfg {
             }
         }
         // A time ramp must not make reported time stand still or run backwards.
-        let monotone = |total: f64| -> Result<(), String> {
+        let monotone = |total: f64, shape: f64| -> Result<(), String> {
             for r in [self.ramp_s, self.recovery_s] {
-                if r > 0.0 && total.abs() / r >= 1.0 {
+                if r > 0.0 && shape * total.abs() / r >= 1.0 {
                     return Err(
                         "the time change per second reaches 1, so reported time would \
                                 stop or run backwards; lengthen ramp_s/recovery_s or use a \
@@ -630,6 +663,23 @@ impl EventCfg {
                 if !(0.0..=500_000.0).contains(&d) {
                     return Err("final_offset_m must lie in 0 to 500000".into());
                 }
+                let peak = |ramp: f64| {
+                    if ramp > 0.0 {
+                        6.0 * d / (ramp * ramp)
+                    } else {
+                        0.0
+                    }
+                };
+                if let Some(a) = self.max_accel_mps2 {
+                    fin("max_accel_mps2", a)?;
+                    let need = peak(self.ramp_s).max(peak(self.recovery_s));
+                    if a <= 0.0 || need > a {
+                        return Err(format!(
+                            "the drag would accelerate the false track at up to {need:.3} m/s^2, \
+                             above max_accel_mps2 = {a}; lengthen ramp_s/recovery_s"
+                        ));
+                    }
+                }
                 match (self.bearing_deg, self.relative_bearing_deg) {
                     (Some(b), None) | (None, Some(b)) => fin("bearing", b)?,
                     _ => return Err("give exactly one of bearing_deg, relative_bearing_deg".into()),
@@ -641,7 +691,7 @@ impl EventCfg {
                 if o == 0.0 || o.abs() > 86_400.0 {
                     return Err("offset_s must be non-zero and within a day".into());
                 }
-                monotone(o)?;
+                monotone(o, 1.0)?;
             }
             EventKind::ReplayDelay => {
                 let d = self.delay_s.ok_or("delay_s is required")?;
@@ -650,7 +700,9 @@ impl EventCfg {
                     return Err("delay_s must lie in 0 to 3600".into());
                 }
                 if self.affect_time.unwrap_or(true) {
-                    monotone(d)?;
+                    // The delay ramps follow smoothstep, whose steepest slope is 1.5 times
+                    // the straight-line one.
+                    monotone(d, 1.5)?;
                 }
             }
         }

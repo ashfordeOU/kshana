@@ -22,9 +22,10 @@ breaking changes are called out explicitly.
   true track against the reported one. A library in `scenarios/training/` (open-sea
   jamming, coastal drag-off, port-approach time spoof, combined) carries trainer notes.
   Output is checksum-valid and deterministic per seed; tests pin a golden excerpt per
-  scenario and read every sentence with the `receiver-trust` NMEA reader. Text only: no
+  scenario and run every stream through the `receiver-trust` NMEA reader. Text only: no
   RF, IQ or waveform output; streams are for training and testing and must never be fed
-  to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
+  to a vessel's live navigation systems. A bare `--tcp`/`--udp` port means this machine
+  only; the TCP server has no authentication. See `docs/NMEA-TRAINING.md`.
 
 ## [0.34.0] - 2026-10-09
 
