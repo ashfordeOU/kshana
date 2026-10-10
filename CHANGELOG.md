@@ -145,8 +145,6 @@ breaking changes are called out explicitly.
   history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
   time fields.
 
-### Marine integrations (0.35.0, workstream B)
-
 - **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
   (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
   stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
