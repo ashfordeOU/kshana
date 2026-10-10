@@ -8,6 +8,8 @@
 
 pub mod bits;
 pub mod dsm;
+pub mod maclt;
+pub mod maclt_data;
 pub mod merkle;
 pub mod navdata;
 pub mod page;
