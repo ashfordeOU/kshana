@@ -1,6 +1,6 @@
 [package]
 name = "kshana"
-version = "0.33.1"
+version = "0.35.0"
 edition = "2021"
 description = "Open, reproducible PNT-resilience simulator with quantum-sensor performance models"
 # Dual-licensed: GNU AGPL-3.0-only for open use, OR a commercial licence from
@@ -43,6 +43,11 @@ exclude = [
     # crate fail to compile — which is exactly what happened to the v0.27.0 publish.
     "!/tests/fixtures/llr_geometry/de440_moon_pa.csv",
     "/tests/igs_real_data.rs",
+    # The interference-map sample outputs are documentation inputs for the Studio; the test
+    # that pins them reads them from a checkout.
+    "/examples/interference-map",
+    "/tests/interference_map_examples.rs",
+    "/tests/interference_map_reference.rs",
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with
@@ -143,11 +148,22 @@ p521 = { version = "0.13", default-features = false, features = ["ecdsa"] }
 # `src/portable_math.rs` calls it directly for the outputs that must not depend on the
 # host's own library. `Cargo.lock` pins the exact version.
 libm = "0.2"
+# Ed25519 signatures for evidence packs (`kshana::evidence`). Minimal features: no
+# precomputed-table "fast" build, no serde, no pkcs8, no rand_core (a key seed is drawn
+# with the `rand` already in the tree). Pure Rust, builds for wasm32.
+# Already in the tree through ed25519-dalek; named so key material read by the command line is
+# wiped on drop.
+zeroize = { version = "1", default-features = false, features = ["alloc"] }
+ed25519-dalek = { version = "2", default-features = false, features = ["std"] }
 
 # Optional bindings. Off by default: the core library, CLI, tests, and the
 # dependency-audit gate never compile or scan these unless the feature is enabled.
 pyo3 = { version = "0.29", features = ["extension-module", "abi3-py39"], optional = true }
 wasm-bindgen = { version = "0.2", optional = true }
+# gzip decoding for the adsb.lol readsb history files read by `kshana interference-map adsb`.
+# Pure-Rust miniz_oxide backend only (no zlib-sys, no C), so it builds on wasm32 and keeps the
+# permissive-licence gate: flate2 is MIT OR Apache-2.0, miniz_oxide MIT OR Zlib OR Apache-2.0.
+flate2 = { version = "1", default-features = false, features = ["rust_backend"] }
 
 # On wasm32 the (transitive) getrandom must use the browser/JS entropy source.
 # Target-gated, so native builds and the dependency-audit gate are unaffected.
@@ -156,20 +172,34 @@ getrandom = { version = "0.2", features = ["js"] }
 
 [features]
 # Python extension module, built with maturin (`maturin build --features python`).
-python = ["dep:pyo3"]
+python = ["dep:pyo3", "bundled-scenarios"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
-wasm = ["dep:wasm-bindgen"]
+wasm = ["dep:wasm-bindgen", "bundled-scenarios"]
 # The bundled reference scenarios (`kshana example`) as a library module,
 # `kshana::bundled_scenarios`. Off by default, so the Python wheel and the WebAssembly
-# module do not carry the scenario text; the MCP (Model Context Protocol) server turns it
-# on to hand an agent a runnable example of every kind.
+# module do not carry the scenario text unless they ask for it; the `python` and `wasm`
+# features and the MCP (Model Context Protocol) server turn it on, so every surface can list
+# and fetch a runnable example of every kind (about 0.7 MB of text).
 bundled-scenarios = []
+# OpenTelemetry OTLP/HTTP export of the GNSS-trust metrics (`kshana trust-telemetry --otlp`).
+# Off by default. Adds no crate: the exporter is plain `std::net` HTTP with a JSON body.
+otlp = []
 
 [dev-dependencies]
 # Independent SGP4 implementation for the head-to-head accuracy cross-check
 # (tests/sgp4_crate_comparison.rs). Test-only: never compiled into the library,
 # CLI, or the published bindings; the package excludes the test that uses it.
 sgp4 = "2.4"
+
+# Unoptimised curve arithmetic makes an Ed25519 verification take milliseconds, and the
+# evidence tests run thousands of them (every flipped bit of the published test vectors).
+# Optimising just these two crates in the dev and test profiles cuts the test time and
+# changes no result; the release profile is untouched.
+[profile.dev.package.curve25519-dalek]
+opt-level = 3
+
+[profile.dev.package.ed25519-dalek]
+opt-level = 3
 
 [profile.release]
 # Reproducible release builds. A single codegen unit removes the parallel-codegen

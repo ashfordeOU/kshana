@@ -20,7 +20,7 @@ use serde::Serialize;
 
 /// Decorrelation offset between the paired quantum and classical realizations
 /// (golden-ratio constant), matching the single-run convention in [`crate::run`].
-const GOLDEN: u64 = 0x9e37_79b9_7f4a_7c15;
+pub(crate) const GOLDEN: u64 = 0x9e37_79b9_7f4a_7c15;
 
 /// Unit and provenance class for every numeric field the Monte Carlo `clock` report
 /// ([`EnsembleResult`], emitted when the scenario asks for `runs > 1`) carries.

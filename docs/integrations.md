@@ -139,6 +139,14 @@ Ask the agent something the engine is validated for, e.g.:
 The agent calls `list_scenario_kinds` → builds the TOML (Tom's Obvious Minimal Language) → `run_scenario`, and reports figures
 of merit with a `scenario + seed + engine version` provenance line — reproducible, not guessed.
 
+## Beyond AI agents: boats
+
+The maritime trust score is also reachable from software boaters already run: a Signal K
+server plugin, and OpenCPN through gate-mode NMEA over TCP, with a reference build for a small
+computer next to the receiver. These call the command-line tool, not the MCP server. They are
+advisory, not type-approved navigation equipment; the operator stays responsible. See
+[`MARINE-INTEGRATIONS.md`](MARINE-INTEGRATIONS.md).
+
 ## Notes
 
 - **Absolute paths:** if a host can't find `kshana-mcp`, give the full path from

@@ -419,3 +419,31 @@ body.embed .embed-only{display:block}
   .engine-chip[data-mode="loading"]{width:32px;padding:0;justify-content:center}
   .bar{overflow:hidden}
 }
+
+/* The three extra views in the header (Receiver trust, Interference map, Training debrief): icon only below 1380 px; below 760 px
+   they collapse behind one Views menu, so Search, the theme button and the view switch stay on screen. */
+@media (max-width:1380px){
+  #trust-link,#imap-link,#train-link{width:32px;min-width:32px;padding:0;justify-content:center}
+  #trust-link .lbl,#imap-link .lbl,#train-link .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+}
+@media (max-width:760px){#trust-link,#imap-link,#train-link{width:44px;min-width:44px;height:44px}}
+@media (min-width:761px) and (max-width:900px){.bar{gap:10px}.bar-right{gap:5px}.bar .k-btn kbd{display:none}}
+@media (min-width:761px) and (max-width:900px){.bar .k-btn .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}.bar .k-btn{padding:0 10px}}
+
+.views-menu{display:none;position:relative}
+.views-menu summary{list-style:none;width:44px;height:44px;border-radius:999px;border:1px solid var(--line-2);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.views-menu summary::-webkit-details-marker{display:none}
+.views-menu summary:hover{background:var(--line)}
+.views-menu summary svg{width:18px;height:18px}
+.views-menu summary .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.vm-pop{position:absolute;right:0;top:50px;z-index:60;min-width:220px;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--line-2);box-shadow:var(--sh-3)}
+.vm-pop a{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink)}
+.vm-pop a:hover{background:var(--line)}
+.vm-pop svg{width:16px;height:16px}
+@media (max-width:760px){
+  .views-menu{display:block}
+  #trust-link,#imap-link,#train-link{display:none}
+  .bar{overflow:visible}
+}
+@media (max-width:430px){.bar{gap:8px;padding:0 10px}.bar-right{gap:4px}}
+@media (max-width:430px){.bar .brand-tag{display:none}}

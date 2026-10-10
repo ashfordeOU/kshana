@@ -23,6 +23,16 @@ New to the project? Read the [concepts primer](../CONCEPTS.md) and the
 | 2 | [Clock holdover: how long can you coast](02-clock-holdover.md) | run a GNSS-denied clock holdover, read the timing figure of merit, and understand the √(q_wf·T) growth law behind it | `clock` | beginner | 20 min |
 | 3 | [Quantum vs classical GNSS resilience](03-quantum-vs-classical.md) | the capstone: a spoofing detector (`spoof`) and a full fused PNT suite (`hybrid`), and how to read security / integrity / dead-reckoning together | `spoof` + `hybrid` | intermediate | 35 min |
 
+## Notebooks
+
+Runnable Jupyter notebooks, on synthetic data only, are in [`notebooks/`](../../notebooks/README.md):
+
+| Notebook | What you learn |
+|---|---|
+| [Vessel trust and training](../../notebooks/vessel-trust-and-training.md) | generate a synthetic bridge NMEA stream with a scripted event, then score it with the vessel trust monitors (advisory, not type-approved navigation equipment) |
+| [Interference map and route exposure](../../notebooks/interference-map-route-exposure.md) | where navigation data has looked degraded, and how much of a route it touches |
+| [Quantum vs classical GDOP](../../notebooks/quantum-vs-classical-gdop.md) | the same constellation geometry with a quantum and a classical sensor, compared by dilution of precision |
+
 ## How to run a tutorial
 
 Every tutorial runs the same scenario three ways; pick whichever fits you. They
@@ -137,7 +147,7 @@ that does not exist.
 The three tutorials stay on the classic clock, orbit and security packs. The engine
 has grown well past them. Each row below is a shipped scenario you can run as it
 stands (`cargo run -- <file>` or `kshana <file>`); the summary is the first line
-kshana 0.33.0 printed for it on 2026-10-08. Unlike the tutorial figures, these lines
+kshana 0.35.0 printed for it on 2026-10-10. Unlike the tutorial figures, these lines
 are a record of one run, not pinned by `tests/tutorials.rs`: rerun the scenario for
 the current value. Results state their own scope (most carry a `label`), and the
 [verification matrix](../VERIFICATION-MATRIX.md) states which capabilities are

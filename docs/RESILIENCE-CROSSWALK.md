@@ -1,10 +1,10 @@
 # PNT-resilience framework cross-walk
 
-**Aligned to, not certified.** This maps Kshana's simulated capabilities to the
+**Aligned to, not rated or approved.** This maps Kshana's simulated capabilities to the
 published PNT-resilience (PNT: positioning, navigation and timing) frameworks. It is a *simulation-derived self-assessment
 aligned to* the DHS/CISA (DHS: Department of Homeland Security; CISA: Cybersecurity and Infrastructure Security Agency) Resilient PNT Conformance Framework (RPCF) v2.0, the
 RethinkPNT/Firesmith Resist-Detect-Respond-Recover (RDRR) model, and Yang
-Yuanxi's resilient-PNT criteria. It is **not** a certification, accreditation, or
+Yuanxi's resilient-PNT criteria. It is **not** a rating, an approval, an accreditation, or a
 compliance statement, and it carries no endorsement from DHS, IEEE (Institute of Electrical and Electronics Engineers), or any
 authority. Every row is labelled with its honest verification status
 (`VALIDATED` against an external oracle, or `MODELLED` from first principles with
@@ -17,17 +17,35 @@ The scoring engine (`src/resilience/`) consumes these capabilities and emits
 per-dimension sub-scores, never a single phantom number. See
 `src/verification.rs` for the machine-checked status invariants.
 
-## DHS RPCF v2.0 technique categories (the seven; "OLVIDMR", from their initials, is our mnemonic)
+## DHS RPCF v2.0: what the framework defines, and Kshana's own sub-score categories
 
-| Category | Kshana capability used as the sub-score driver | Module | Status |
-|---|---|---|---|
-| Obfuscate | Declared technique × source quality (no direct behavioural driver) | `resilience::score` | MODELLED |
-| Limit | Declared technique × source quality | `resilience::score` | MODELLED |
-| Verify | Impairment-detector AUC (area under the curve) under the scenario (spoof/jam/meacon monitors) | `impairment_eval`, `resilience::score` | MODELLED |
-| Isolate | Declared technique × source quality | `resilience::score` | MODELLED |
-| Diversify | Independent-group count → inverse-Simpson effective diversity | `resilience::diversity` | MODELLED |
-| Mitigate | Availability under denial | `fom`, `resilience::score` | MODELLED |
-| Recover | Holdover coast × bounded-degradation gate | `fom`, `holdover`, `resilience::timeline` | MODELLED |
+The published framework (Resilient PNT Conformance Framework, Version 2.0, 26 April 2022,
+DHS Science and Technology Directorate with CISA) defines three **core functions** (section 5.2:
+Prevent, Respond, Recover), **resilience levels 0 to 4** (section 5.3) and **eight numbered
+minimum requirements** spread over Levels 1 to 4 (section 5.3, restated in 5.5), plus an
+evaluation approach (section 8). It does **not** define a list of seven technique categories.
+An earlier version of this page, and the resilience module comments, described seven
+"RPCF technique categories"; the words Obfuscate and Diversify do not appear in v2.0. The
+text of that document was re-read on 2026-10-09 and no such list was found.
+
+The seven sub-score names the scoring engine emits (Obfuscate, Limit, Verify, Isolate,
+Diversify, Mitigate, Recover; "OLVIDMR" is our mnemonic) are therefore **Kshana's own
+scoring categories**, kept for output stability. They are not DHS terms and the rows below
+do not say DHS requires them. Where a category lines up with a framework requirement the
+last column says so; where it does not, it says "none".
+
+| Kshana sub-score category | Kshana capability used as the driver | Module | Status | Nearest RPCF v2.0 reference |
+|---|---|---|---|---|
+| Obfuscate | Declared technique × source quality (no direct behavioural driver) | `resilience::score` | MODELLED | none (a prevention technique; section 5.2, Prevent) |
+| Limit | Declared technique × source quality | `resilience::score` | MODELLED | none (a prevention technique; section 5.2, Prevent) |
+| Verify | Impairment-detector AUC (area under the curve) under the scenario (spoof/jam/meacon monitors) | `impairment_eval`, `resilience::score` | MODELLED | Level 2 requirement 4; Level 3 requirement 7 |
+| Isolate | Declared technique × source quality | `resilience::score` | MODELLED | Level 3 requirement 6 |
+| Diversify | Independent-group count → inverse-Simpson effective diversity | `resilience::diversity` | MODELLED | Level 4 requirement 8; section 5.5 (common mode) |
+| Mitigate | Availability under denial | `fom`, `resilience::score` | MODELLED | section 5.2, Respond |
+| Recover | Holdover coast × bounded-degradation gate | `fom`, `holdover`, `resilience::timeline` | MODELLED | Level 2 requirement 5; section 5.2, Recover |
+
+The per-requirement mapping to the real framework, with what Kshana outputs support
+evidence for and what is left over, is in [compliance/dhs-rpcf.md](compliance/dhs-rpcf.md).
 
 ## RethinkPNT / Firesmith RDRR functions
 
@@ -49,7 +67,7 @@ per-dimension sub-scores, never a single phantom number. See
 
 ## What this cross-walk does not claim
 
-- No certified RPCF Level. The assigned Level is a *tentative, simulation-derived*
+- No conferred RPCF Level. The assigned Level is a *tentative, simulation-derived*
   reading with an explicit bounded-degradation gate, not a conferred maturity.
 - No position-domain accuracy in the score. The resilience sub-scores are built from
   timing-domain and detection metrics. The engine does compute positions elsewhere (the
@@ -63,7 +81,7 @@ The companion study (`resilience::study`) exists precisely to show that collapsi
 these dimensions into one composite score or one Level produces a rating whose
 architecture ranking is unstable under defensible weighting and threat choices —
 so this cross-walk is a measurement layer to be read per-dimension, not a single
-grade to certify against.
+grade to rate a product against.
 
 ## Resilience and vertical scenarios that exercise these layers
 

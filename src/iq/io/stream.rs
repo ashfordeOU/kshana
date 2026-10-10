@@ -51,12 +51,14 @@ pub struct IqReader<R> {
     spec: SampleSpec,
     scale: f64,
     staging: Vec<u8>,
-    carry: [f64; 4],
-    carry_len: usize,
+    carry: Vec<f64>,
     carry_pos: usize,
     samples_read: u64,
     data_offset: u64,
     eof: bool,
+    channels: usize,
+    select: usize,
+    frame_pos: usize,
 }
 
 impl<R: Read> IqReader<R> {
@@ -79,13 +81,38 @@ impl<R: Read> IqReader<R> {
             spec,
             scale: 1.0,
             staging: vec![0; chunk_for(format, chunk_bytes)],
-            carry: [0.0; 4],
-            carry_len: 0,
+            carry: Vec::with_capacity(8),
             carry_pos: 0,
             samples_read: 0,
             data_offset: 0,
             eof: false,
+            channels: 1,
+            select: 0,
+            frame_pos: 0,
         }
+    }
+
+    /// Read one stream of a file holding `channels` sample-interleaved streams (sample 0
+    /// of stream 0, sample 0 of stream 1, …, sample 1 of stream 0, …): only stream
+    /// `select` (from 0) is returned, and sample indices ([`IqReader::samples_read`],
+    /// [`IqReader::seek_to_sample`]) count that stream's samples. This is the layout of a
+    /// SigMF recording with `core:num_channels` above one and of multi-channel raw lab
+    /// recordings. Call it before the first read.
+    pub fn with_channels(mut self, channels: usize, select: usize) -> Result<Self, IqError> {
+        if channels == 0 || select >= channels {
+            return Err(IqError::Format(format!(
+                "stream {select} of {channels} interleaved streams does not exist \
+                 (streams count from 0)"
+            )));
+        }
+        self.channels = channels;
+        self.select = select;
+        Ok(self)
+    }
+
+    /// The number of interleaved streams and the one being read.
+    pub fn channels(&self) -> (usize, usize) {
+        (self.channels, self.select)
     }
 
     /// Multiply every decoded value by `scale` (for example `1/32767` to normalise int16).
@@ -126,7 +153,7 @@ impl<R: Read + Seek> IqReader<R> {
     /// Jump to sample `k` without reading the samples before it. The sample must start on
     /// a byte boundary (always true except for some packed 2-bit positions).
     pub fn seek_to_sample(&mut self, k: u64) -> Result<(), IqError> {
-        let bits = k * self.format.bits_per_sample() as u64;
+        let bits = k * self.channels as u64 * self.format.bits_per_sample() as u64;
         if bits % 8 != 0 {
             return Err(IqError::Format(format!(
                 "sample {k} of {} does not start on a byte boundary",
@@ -136,8 +163,9 @@ impl<R: Read + Seek> IqReader<R> {
         self.inner
             .seek(SeekFrom::Start(self.data_offset + bits / 8))
             .map_err(io_err)?;
-        self.carry_len = 0;
+        self.carry.clear();
         self.carry_pos = 0;
+        self.frame_pos = 0;
         self.eof = false;
         self.samples_read = k;
         Ok(())
@@ -163,9 +191,11 @@ impl<R: Read> IqSource for IqReader<R> {
                 _ => s.im = v,
             }
         };
+        let frame = self.channels * eps;
+        let select = self.select;
         let mut k = 0usize;
         while k < target {
-            if self.carry_pos < self.carry_len {
+            if self.carry_pos < self.carry.len() {
                 place(buf, k, self.carry[self.carry_pos]);
                 self.carry_pos += 1;
                 k += 1;
@@ -174,7 +204,7 @@ impl<R: Read> IqSource for IqReader<R> {
             if self.eof {
                 break;
             }
-            let need = target - k;
+            let need = (target - k) * self.channels;
             let enc = self.format.encoding;
             let want = (need * enc.bits()).div_ceil(8);
             let want = want.min(self.staging.len());
@@ -183,17 +213,24 @@ impl<R: Read> IqSource for IqReader<R> {
             if got < want {
                 self.eof = true;
             }
-            self.carry_len = 0;
+            self.carry.clear();
             self.carry_pos = 0;
-            let (staging, carry, carry_len) =
-                (&self.staging[..got], &mut self.carry, &mut self.carry_len);
+            let (staging, carry, frame_pos) =
+                (&self.staging[..got], &mut self.carry, &mut self.frame_pos);
             for_each_element(enc, staging, |v| {
+                let selected = *frame_pos / eps == select;
+                *frame_pos += 1;
+                if *frame_pos == frame {
+                    *frame_pos = 0;
+                }
+                if !selected {
+                    return;
+                }
                 if k < target {
                     place(buf, k, v);
                     k += 1;
                 } else {
-                    carry[*carry_len] = v;
-                    *carry_len += 1;
+                    carry.push(v);
                 }
             });
         }
@@ -209,8 +246,8 @@ impl<R: Read> IqSource for IqReader<R> {
 /// and, for integer encodings, rounded half away from zero and saturated; the number of
 /// saturated elements is [`IqWriter::clipped`]. 2-bit encodings quantise to the nearest
 /// level (thresholds −2, 0, +2). Real formats store `re` only. Call
-/// [`IqSink::finish`] at the end: it writes any partly filled 2-bit byte (padding its
-/// unused slots with code `00`) and flushes the writer.
+/// [`IqSink::finish`] at the end: it writes any partly filled 2- or 4-bit byte (padding its
+/// unused slots with code `0`) and flushes the writer.
 #[derive(Debug)]
 pub struct IqWriter<W: Write> {
     inner: W,
@@ -265,8 +302,8 @@ impl<W: Write> IqWriter<W> {
         self.samples_written
     }
 
-    /// 2-bit slots padded with code `00` by [`IqSink::finish`] (0 when the element
-    /// count filled the last byte).
+    /// Packed 2- or 4-bit slots padded with code `0` by [`IqSink::finish`] (0 when the
+    /// element count filled the last byte).
     pub fn padded_elements(&self) -> u64 {
         self.padded_elements
     }
@@ -292,7 +329,6 @@ impl<W: Write> IqWriter<W> {
 
 impl<W: Write> IqSink for IqWriter<W> {
     fn write(&mut self, block: &[Cf64]) -> Result<(), IqError> {
-        use super::format::Encoding;
         let enc = self.format.encoding;
         for &s in block {
             let (els, n) = sample_elements(self.format.components, s);
@@ -301,17 +337,19 @@ impl<W: Write> IqSink for IqWriter<W> {
                 if self.staging.len() + enc.unit_bytes() > self.chunk {
                     self.flush_staging()?;
                 }
-                match enc {
-                    Encoding::TwoBit { code, order } => {
-                        self.acc |= code.code(v) << order.shift(self.acc_slots);
+                match enc.packed_bits() {
+                    Some(bits) => {
+                        let (code, clipped) = enc.packed_code(v);
+                        self.clipped += clipped as u64;
+                        self.acc |= code << enc.packed_shift(self.acc_slots);
                         self.acc_slots += 1;
-                        if self.acc_slots == 4 {
+                        if self.acc_slots == 8 / bits {
                             self.staging.push(self.acc);
                             self.acc = 0;
                             self.acc_slots = 0;
                         }
                     }
-                    _ => {
+                    None => {
                         if push_element(enc, v, &mut self.staging) {
                             self.clipped += 1;
                         }
@@ -325,7 +363,8 @@ impl<W: Write> IqSink for IqWriter<W> {
 
     fn finish(&mut self) -> Result<(), IqError> {
         if self.acc_slots > 0 {
-            self.padded_elements += 4 - self.acc_slots as u64;
+            let per_byte = 8 / self.format.encoding.packed_bits().unwrap_or(8);
+            self.padded_elements += (per_byte - self.acc_slots) as u64;
             if self.staging.len() + 1 > self.chunk {
                 self.flush_staging()?;
             }

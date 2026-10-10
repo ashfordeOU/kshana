@@ -20,10 +20,15 @@
 //! - `export_omm`             — export an `orbit` scenario's elements as CCSDS OMM.
 //! - `export_oem`             — export an `orbit` scenario's state series as CCSDS OEM.
 //! - `export_table_csv`       — run a scenario and return its reproducibility table as CSV.
-//! - `assess_receiver_log`    — assess a real GNSS receiver log for trust.
+//! - `assess_receiver_log`    — assess a real GNSS receiver log for trust (vessel score included).
+//!
+//! The maritime-trust, training-NMEA, interference-map and compliance-mapping tools
+//! (`assess_vessel_stream`, `generate_training_nmea`, `build_interference_map`,
+//! `route_exposure`, `compliance_report`, `compliance_mapping`, `export_test_bench`) are in
+//! [`crate::marine`].
 //!
 //! The GNSS IQ tools (`iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
-//! `iq_frontend`) live in [`crate::iq`], with their file-path and sample-budget contract.
+//! `iq_frontend`, `iq_campaign`, `iq_campaign_status`) live in [`crate::iq`], with their file-path and sample-budget contract.
 
 use crate::iq::IqConfig;
 use rmcp::handler::server::router::tool::ToolRouter;
@@ -49,7 +54,7 @@ pub struct RunScenarioRequest {
 pub struct ReceiverTrustRequest {
     /// A `receiver-trust` scenario as TOML: `[log]` names the receiver log's `format`
     /// (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or
-    /// `base64` (a `path` is read by the server process); optional `[monitors]`,
+    /// `base64` (inline only, at most 4 MiB); optional `[monitors]`,
     /// `[[events]]` and `[compare]` sections state thresholds, known events and
     /// tolerances before the run.
     pub toml: String,
@@ -171,38 +176,16 @@ fn base64(bytes: &[u8]) -> String {
     out
 }
 
-/// Abbreviations whose full stop does not end a sentence in a scenario header.
-const ABBREVIATIONS: [&str; 5] = ["et al", "e.g", "i.e", "vs", "cf"];
+use kshana::surface::first_comment_sentence;
 
-/// The first sentence of a scenario file's header comment: what the example shows.
-///
-/// The header is the first block of `#` lines in the file, which one bundled scenario
-/// carries below its `kind` line rather than above it. A full stop that closes one of the
-/// [`ABBREVIATIONS`] does not end the sentence, so "Liu et al. 2025" stays whole.
-fn first_comment_sentence(toml: &str) -> String {
-    let paragraph = toml
-        .lines()
-        .skip_while(|l| !l.starts_with('#'))
-        .map_while(|l| l.strip_prefix('#'))
-        .map(str::trim)
-        .take_while(|l| !l.is_empty())
-        .collect::<Vec<_>>()
-        .join(" ");
-    let mut from = 0;
-    while let Some(i) = paragraph[from..].find(". ") {
-        let stop = from + i;
-        let before = &paragraph[..stop];
-        let abbreviated = ABBREVIATIONS.iter().any(|a| {
-            before
-                .strip_suffix(a)
-                .is_some_and(|head| !head.ends_with(|c: char| c.is_alphanumeric()))
-        });
-        if !abbreviated {
-            return paragraph[..=stop].to_string();
-        }
-        from = stop + 2;
-    }
-    paragraph
+/// The most bytes of scenario text or uploaded content any tool accepts (4 MiB).
+pub const MAX_INPUT_BYTES: usize = 4 * 1024 * 1024;
+
+/// MCP tools accept inline content only: refuse a scenario that names a file or folder for the
+/// engine to read, and one over the size limit.
+fn inline_only(toml: &str) -> Result<(), McpError> {
+    kshana::inline_only::reject_file_sources(toml, MAX_INPUT_BYTES)
+        .map_err(|e| McpError::invalid_params(e, None))
 }
 
 /// The detected kind of a scenario, as the name `list_scenario_kinds` uses.
@@ -228,7 +211,7 @@ const CSV_TABLE_KINDS: &str = "`realtime-frame-eop`, `lunar-time-budget`, `lunar
 /// The Kshana MCP server handle.
 #[derive(Clone)]
 pub struct KshanaServer {
-    /// The core tools plus the IQ tools; the `#[tool_handler]`-generated `ServerHandler`
+    /// The core tools plus the IQ and maritime tools; the `#[tool_handler]`-generated `ServerHandler`
     /// impl lists and dispatches through it.
     tool_router: ToolRouter<KshanaServer>,
     /// Where the IQ tools may read and write, and their per-call sample budget.
@@ -252,13 +235,13 @@ impl KshanaServer {
     /// Construct the server with an explicit IQ configuration.
     pub fn with_iq_config(iq: IqConfig) -> Self {
         Self {
-            tool_router: Self::tool_router() + Self::iq_tool_router(),
+            tool_router: Self::tool_router() + Self::iq_tool_router() + Self::marine_tool_router(),
             iq,
         }
     }
 
     #[tool(
-        description = "Run a Kshana PNT-resilience scenario from a TOML definition and return its figures of merit. Returns the human-readable summary followed by the full result JSON (FoMs, curves). Kshana validates SGP4/SDP4, IAU reference frames, Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models against published references. Every kind runs through this one tool, including `spectrum` (radio-frequency spectrum and waterfall), `solar-system`, `constellation-design` and `body-pnt` (constellations around any body), `campaign` (chained phases, parameter sweeps, Monte Carlo ensembles and composed scenarios) and the low-Earth-orbit navigation kinds `leo-signal`, `leo-pass`, `leo-navmsg`, `leo-pvt`, `leo-ppp`, `ntn-positioning` and `leo-pnt-chain`. Call list_scenario_kinds first to discover scenario types and their fields, and list_example_scenarios / get_example_scenario for a complete runnable scenario of a kind."
+        description = "Run a Kshana PNT-resilience scenario from a TOML definition and return its figures of merit. Returns the human-readable summary followed by the full result JSON (FoMs, curves). Kshana validates SGP4/SDP4, IAU reference frames, Allan deviations, GNSS availability/DOP, ARAIM protection levels, GNSS/INS fusion, and quantum-sensor models against published references. Every kind runs through this one tool, including `spectrum` (radio-frequency spectrum and waterfall), `solar-system`, `constellation-design` and `body-pnt` (constellations around any body), `campaign` (chained phases, parameter sweeps, Monte Carlo ensembles and composed scenarios) and the low-Earth-orbit navigation kinds `leo-signal`, `leo-pass`, `leo-navmsg`, `leo-pvt`, `leo-ppp`, `ntn-positioning` and `leo-pnt-chain`. Content is inline: a scenario field that names a file is refused, and a scenario is at most 4 MiB. Call list_scenario_kinds first to discover scenario types and their fields, and list_example_scenarios / get_example_scenario for a complete runnable scenario of a kind."
     )]
     fn run_scenario(
         &self,
@@ -267,6 +250,7 @@ impl KshanaServer {
             include_chart,
         }): Parameters<RunScenarioRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::run_toml(&toml) {
             Ok(out) => {
                 let mut contents = vec![
@@ -301,6 +285,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         // `classify` is permissive by design (unknown/unparseable input falls back to the
         // clock pack), so do a strict TOML parse here to actually catch malformed input.
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
@@ -313,7 +298,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request). The log's bytes go inline in the TOML as `text` or `base64`."
+        description = "Assess a real GNSS receiver log for trust: read a u-blox UBX, RINEX 3 (optionally with broadcast navigation, which adds the engine's own fix, RAIM and a clock-aided monitor), Android GnssLogger or NMEA log, run the trust monitors (carrier-to-noise density drop, AGC, jamming indicator, loss of lock, position jump, RAIM, clock) against a calibration baseline, and return when and why the receiver stopped being trustworthy. Optional `[[events]]` with onsets and predicted C/N0 drops are scored against tolerances stated in the scenario: detected, late or missed, and agree or disagree. Returns the summary and the full result JSON (chart and CSV on request; a vessel run's CSV begins with a `#` comment line carrying the advisory statement, which CSV readers skip with their comment option). The log's bytes go inline in the TOML as `text` or `base64` (inline only, at most 4 MiB). A `[platform] kind = \"vessel\"` table selects the maritime monitors (kinematic consistency, heading against course, speed log, antenna height, C/N0 spread, time consistency) and adds a 0-100 trust score per epoch with the monitors that deducted; for a stream excerpt with the gate use `assess_vessel_stream`. Advisory only; evidence tier MODELLED."
     )]
     fn assess_receiver_log(
         &self,
@@ -323,7 +308,7 @@ impl KshanaServer {
             include_csv,
         }): Parameters<ReceiverTrustRequest>,
     ) -> Result<CallToolResult, McpError> {
-        match kshana::receiver_trust::scenario::run_toml(&toml) {
+        match kshana::surface::assess_receiver_log_inline(&toml, crate::marine::MAX_UPLOAD_BYTES) {
             Ok(out) => {
                 let mut contents = vec![
                     ContentBlock::text(out.summary),
@@ -411,6 +396,7 @@ impl KshanaServer {
             scenario_file,
         }): Parameters<ReportRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         let format = format
             .as_deref()
             .map(|f| f.trim().to_ascii_lowercase())
@@ -455,6 +441,7 @@ impl KshanaServer {
             width,
         }): Parameters<AnimateRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         use kshana::animation::{AnimationFormat, AnimationOptions};
         let bad = |m: String| McpError::invalid_params(format!("animation failed: {m}"), None);
         let format = AnimationFormat::parse(format.as_deref().unwrap_or("svg")).map_err(bad)?;
@@ -504,6 +491,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
             return Err(McpError::invalid_params(format!("invalid TOML: {e}"), None));
         }
@@ -530,6 +518,7 @@ impl KshanaServer {
         &self,
         Parameters(ExportInteropRequest { toml, format }): Parameters<ExportInteropRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         let bad = |m: String| McpError::invalid_params(format!("export failed: {m}"), None);
         let fmt = kshana::interop::Format::parse(format.trim()).map_err(|_| {
             bad(format!(
@@ -572,6 +561,7 @@ impl KshanaServer {
         &self,
         Parameters(ImportRouteRequest { toml, geojson }): Parameters<ImportRouteRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::interop::geojson::apply_route(&toml, &geojson) {
             Ok(merged) => Ok(CallToolResult::success(vec![ContentBlock::text(merged)])),
             Err(e) => Err(McpError::invalid_params(
@@ -588,6 +578,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::export_sp3(&toml) {
             Ok(sp3) => Ok(CallToolResult::success(vec![ContentBlock::text(sp3)])),
             Err(e) => Err(McpError::invalid_params(
@@ -604,6 +595,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::export_omm(&toml) {
             Ok(omm) => Ok(CallToolResult::success(vec![ContentBlock::text(omm)])),
             Err(e) => Err(McpError::invalid_params(
@@ -620,6 +612,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         match kshana::api::export_oem(&toml) {
             Ok(oem) => Ok(CallToolResult::success(vec![ContentBlock::text(oem)])),
             Err(e) => Err(McpError::invalid_params(
@@ -636,6 +629,7 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
+        inline_only(&toml)?;
         let out = kshana::api::run_toml(&toml)
             .map_err(|e| McpError::invalid_params(format!("scenario run failed: {e}"), None))?;
         match out.csv {
@@ -692,8 +686,10 @@ impl ServerHandler for KshanaServer {
                  an orbit scenario (export_oem is the one carrying velocity); export_table_csv \
                  returns the CSV reproducibility table for the kinds that publish one; \
                  assess_receiver_log assesses a real receiver log for trust. The GNSS IQ \
-                 tools (iq_signals first, then iq_info, iq_scene, iq_acquire, iq_track and \
-                 iq_frontend) generate and process signal-level IQ recordings as FILES in a \
+                 tools (iq_signals first, then iq_info, iq_scene, iq_acquire, iq_track, \
+                 iq_frontend, and iq_campaign / iq_campaign_status for lab-replay campaigns \
+                 scored against stated test conditions) generate and process signal-level \
+                 IQ recordings as FILES in a \
                  configured work directory: pass paths relative to it; samples never travel \
                  through the protocol, and replies are compact JSON summaries. Spectrum \
                  and waterfall, solar-system, constellation-design, campaign and the \

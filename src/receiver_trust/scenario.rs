@@ -14,10 +14,14 @@ use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
 use super::ingest::read_log;
+use super::live::LiveCfg;
+use super::maritime::MaritimeConfig;
 use super::monitors::{
     run_monitors, AlarmRun, Baseline, EngineFixInput, EpochTrust, Monitor, MonitorConfig,
     TrustState,
 };
+use super::platform::PlatformCfg;
+use super::score::ScoreCfg;
 use super::LogFormat;
 
 /// Where a file's bytes come from: exactly one of `path` (native builds only), `text`
@@ -111,8 +115,12 @@ impl Default for CompareCfg {
 }
 
 /// A `receiver-trust` scenario.
+///
+/// The platform of a `[platform]` table is held in [`MonitorConfig::platform`] (the
+/// scenario struct keeps its original fields, so code that builds one field by field is
+/// unaffected); a static scenario serialises, and so hashes, exactly as before.
 #[derive(Clone, Debug, Serialize, Deserialize, PartialEq)]
-#[serde(deny_unknown_fields)]
+#[serde(from = "RawScenario")]
 pub struct ReceiverTrustScenario {
     /// The scenario kind tag (`receiver-trust`); ignored by the runner.
     #[serde(default)]
@@ -131,6 +139,49 @@ pub struct ReceiverTrustScenario {
     /// Comparison rules.
     #[serde(default)]
     pub compare: CompareCfg,
+}
+
+/// The scenario as written in TOML: the scenario's fields plus the top-level `[platform]`.
+#[derive(Deserialize)]
+#[serde(deny_unknown_fields)]
+struct RawScenario {
+    #[serde(default)]
+    kind: Option<String>,
+    #[serde(default)]
+    name: Option<String>,
+    log: LogCfg,
+    #[serde(default)]
+    monitors: MonitorConfig,
+    #[serde(default)]
+    events: Vec<EventCfg>,
+    #[serde(default)]
+    compare: CompareCfg,
+    #[serde(default)]
+    platform: PlatformCfg,
+    #[serde(default)]
+    maritime: MaritimeConfig,
+    #[serde(default)]
+    score: ScoreCfg,
+    #[serde(default)]
+    live: LiveCfg,
+}
+
+impl From<RawScenario> for ReceiverTrustScenario {
+    fn from(r: RawScenario) -> Self {
+        let mut monitors = r.monitors;
+        monitors.platform = r.platform;
+        monitors.maritime = r.maritime;
+        monitors.score = r.score;
+        monitors.live = r.live;
+        Self {
+            kind: r.kind,
+            name: r.name,
+            log: r.log,
+            monitors,
+            events: r.events,
+            compare: r.compare,
+        }
+    }
 }
 
 /// What was read from the log.
@@ -210,6 +261,10 @@ pub struct ReceiverTrustResult {
     pub scenario_hash: String,
     /// The honesty label: what this result is and is not.
     pub label: String,
+    /// For a vessel: what this software is and is not (advisory, not type-approved navigation
+    /// equipment).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub advisory: Option<&'static str>,
     /// Session name, if given.
     pub name: Option<String>,
     /// What was read.
@@ -238,10 +293,31 @@ pub struct ReceiverTrustResult {
     pub predictions_agreeing: usize,
     /// Predictions that could be scored.
     pub predictions_evaluable: usize,
+    /// The score mapping a vessel's epochs were scored with: band edges, ramp and every
+    /// monitor's weight. Present for a vessel platform only.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub score_model: Option<ScoreModel>,
     /// One sentence on the session.
     pub verdict: String,
     /// The per-epoch trust timeline.
     pub epochs: Vec<EpochTrust>,
+}
+
+/// The pre-registered trust-score mapping a run used, as recorded in its result.
+#[derive(Clone, Debug, Serialize, PartialEq)]
+pub struct ScoreModel {
+    /// Score at or above which an epoch is nominal.
+    pub nominal_min: f64,
+    /// Score at or above which an epoch is degraded; below it, untrusted.
+    pub degraded_min: f64,
+    /// Ratio below which a monitor costs nothing.
+    pub onset_ratio: f64,
+    /// Ratio at which a monitor costs its whole weight.
+    pub full_ratio: f64,
+    /// How long a monitor's last statistic stands when its input does not arrive, s.
+    pub evidence_hold_s: f64,
+    /// Every monitor's weight, points.
+    pub weights: std::collections::BTreeMap<Monitor, f64>,
 }
 
 /// The honesty label every `receiver-trust` result carries.
@@ -299,6 +375,7 @@ fn median(mut v: Vec<f64>) -> Option<f64> {
 
 /// Validate the parts of a scenario that serde cannot.
 fn validate(scn: &ReceiverTrustScenario) -> Result<(), String> {
+    scn.monitors.platform.validate()?;
     let c = &scn.compare;
     for (name, v) in [
         ("compare.detect_tol_s", c.detect_tol_s),
@@ -329,13 +406,25 @@ fn validate(scn: &ReceiverTrustScenario) -> Result<(), String> {
 pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustResult, String> {
     validate(scn)?;
     let log_bytes = load_source(&scn.log.source, "log")?;
-    let timeline = read_log(scn.log.format, &log_bytes)?;
-
-    // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     let nav_bytes = match &scn.log.nav {
         Some(src) => Some(load_source(src, "log.nav")?),
         None => None,
     };
+    run_receiver_trust_bytes(scn, &log_bytes, nav_bytes.as_deref())
+}
+
+/// Run a `receiver-trust` scenario on log bytes the caller already holds: the scenario's own
+/// `[log]` source is not read (its `format` still says how to read the bytes). `nav` is the
+/// RINEX broadcast navigation file for a `rinex` log.
+pub fn run_receiver_trust_bytes(
+    scn: &ReceiverTrustScenario,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
+    validate(scn)?;
+    let timeline = read_log(scn.log.format, log_bytes)?;
+
+    // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
         return Err(
             "log.nav applies only to a `rinex` log: the engine fix needs its pseudoranges".into(),
@@ -343,7 +432,7 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
     }
     let engine_inputs = match &nav_bytes {
         Some(nav) => {
-            let obs = crate::rinex_obs::parse_obs(&String::from_utf8_lossy(&log_bytes))?;
+            let obs = crate::rinex_obs::parse_obs(&String::from_utf8_lossy(log_bytes))?;
             let ephs = crate::rinex::parse_nav(&String::from_utf8_lossy(nav))?;
             Some((obs, ephs))
         }
@@ -356,9 +445,9 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
 
     let mut hasher = Sha256::new();
     hasher.update(serde_json::to_string(scn).unwrap_or_default().as_bytes());
-    hasher.update(log_bytes.as_slice());
-    if let Some(nav) = &nav_bytes {
-        hasher.update(nav.as_slice());
+    hasher.update(log_bytes);
+    if let Some(nav) = nav_bytes {
+        hasher.update(nav);
     }
     let scenario_hash = format!("{:x}", hasher.finalize());
 
@@ -473,18 +562,51 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
         ));
     }
 
+    let score_model = scn.monitors.platform.is_vessel().then(|| ScoreModel {
+        nominal_min: scn.monitors.score.nominal_min,
+        degraded_min: scn.monitors.score.degraded_min,
+        onset_ratio: scn.monitors.score.onset_ratio,
+        full_ratio: scn.monitors.score.full_ratio,
+        evidence_hold_s: scn.monitors.score.evidence_hold_s,
+        weights: scn.monitors.score.effective_weights(),
+    });
+    if score_model.is_some() {
+        let scores: Vec<f64> = trust
+            .epochs
+            .iter()
+            .filter_map(|e| e.score.as_ref().map(|s| s.score))
+            .collect();
+        if let (Some(min), Some(last)) = (
+            scores.iter().copied().min_by(f64::total_cmp),
+            scores.last().copied(),
+        ) {
+            verdict.push_str(&format!("; trust score lowest {min:.1}, final {last:.1}"));
+        }
+    }
+
     Ok(ReceiverTrustResult {
         scenario_hash,
         label: LABEL.into(),
+        advisory: scn.monitors.platform.is_vessel().then_some(super::ADVISORY),
         name: scn.name.clone(),
         log: LogSummary {
             format: scn.log.format,
-            sha256: sha256_hex(&log_bytes),
+            sha256: sha256_hex(log_bytes),
             bytes: log_bytes.len(),
             epochs: timeline.epochs.len(),
             duration_s: timeline.epochs.last().map(|e| e.t_s).unwrap_or(0.0),
             start_label: timeline.start_label.clone(),
-            observables: timeline.observables.clone(),
+            observables: {
+                // The moving-platform sentences are an observable only where the scenario
+                // declares a vessel, so a static run reports exactly what it always did.
+                let mut o = timeline.observables.clone();
+                if scn.monitors.platform.is_vessel()
+                    && timeline.epochs.iter().any(|e| e.marine.is_some())
+                {
+                    o.push("marine".to_string());
+                }
+                o
+            },
             skipped_records: timeline.skipped_records,
             engine_fix: engine_inputs.is_some(),
         },
@@ -500,6 +622,7 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
         events_evaluable,
         predictions_agreeing,
         predictions_evaluable,
+        score_model,
         verdict,
         epochs: trust.epochs,
     })
@@ -537,6 +660,14 @@ fn monitor_name(m: Monitor) -> &'static str {
         Monitor::Raim => "raim",
         Monitor::Clock => "clock",
         Monitor::SolveFailure => "solve-failure",
+        Monitor::Kinematic => "kinematic",
+        Monitor::HeadingCourse => "heading-course",
+        Monitor::SpeedLog => "speed-log",
+        Monitor::SeaLevel => "sea-level",
+        Monitor::Cn0Spread => "cn0-spread",
+        Monitor::Cn0Rise => "cn0-rise",
+        Monitor::TimeConsistency => "time-consistency",
+        Monitor::Osnma => "osnma",
     }
 }
 
@@ -555,9 +686,19 @@ fn opt(v: Option<f64>) -> String {
 
 /// The per-epoch trust timeline as CSV.
 pub fn to_csv(r: &ReceiverTrustResult) -> String {
-    let mut s = String::from(
-        "t_s,state,n_sats,cn0_mean_dbhz,cn0_drop_db,agc,agc_z,jam_ind,position_offset_m,raim_stat,raim_thr,clock_innov_ns,clock_bound_ns,alarms\n",
+    let vessel = r.score_model.is_some();
+    let mut s = String::new();
+    if vessel {
+        // A comment line, which CSV readers skip with their comment option (`#`).
+        s.push_str(&format!("# {}\n", super::ADVISORY));
+    }
+    s.push_str(
+        "t_s,state,n_sats,cn0_mean_dbhz,cn0_drop_db,agc,agc_z,jam_ind,position_offset_m,raim_stat,raim_thr,clock_innov_ns,clock_bound_ns,alarms",
     );
+    if vessel {
+        s.push_str(",score,score_reasons");
+    }
+    s.push('\n');
     for e in &r.epochs {
         let alarms: Vec<&str> = e.alarms.iter().map(|m| monitor_name(*m)).collect();
         s.push_str(&format!(
@@ -577,13 +718,227 @@ pub fn to_csv(r: &ReceiverTrustResult) -> String {
             opt(e.clock_bound_ns),
             alarms.join(";")
         ));
+        if vessel {
+            s.pop(); // the newline, to add the vessel columns
+            let (score, reasons) = match &e.score {
+                Some(sc) => (
+                    format!("{:.1}", sc.score),
+                    sc.deductions
+                        .iter()
+                        .map(|d| format!("{}:{:.1}", monitor_name(d.monitor), d.points))
+                        .collect::<Vec<_>>()
+                        .join(";"),
+                ),
+                None => (String::new(), String::new()),
+            };
+            s.push_str(&format!(",{score},{reasons}\n"));
+        }
     }
     s
 }
 
+/// The chart of a vessel run: the receiver-reported track coloured by the trust band of
+/// each epoch (north up, one scale on both axes), and underneath the trust score over time
+/// with the band edges. Self-contained SVG.
+fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
+    use super::maritime::en_offset_m;
+    let (w, h) = (760.0_f64, 540.0_f64);
+    let (x0, x1) = (56.0_f64, w - 16.0);
+    let colour = |s: TrustState| match s {
+        TrustState::Calibrating => RULE,
+        TrustState::Nominal => LIME,
+        TrustState::Degraded => AMBER,
+        TrustState::Untrusted => CORAL,
+    };
+    let model = r.score_model.as_ref();
+    let (nominal_min, degraded_min) =
+        model.map_or((90.0, 55.0), |m| (m.nominal_min, m.degraded_min));
+    let mut svg = format!(
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
+         <desc>{}</desc>\
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",
+        esc(super::ADVISORY),
+        esc(&r.verdict.chars().take(110).collect::<String>())
+    );
+
+    // --- track: reported position, coloured by band -------------------------------------
+    let pts: Vec<(f64, f64, TrustState)> = {
+        let origin = r
+            .epochs
+            .iter()
+            .find_map(|e| e.marine.as_ref().and_then(|m| m.position));
+        match origin {
+            Some([lat0, lon0]) => r
+                .epochs
+                .iter()
+                .filter_map(|e| {
+                    let [la, lo] = e.marine.as_ref()?.position?;
+                    let (east, north) = en_offset_m(lat0, lon0, la, lo);
+                    Some((east, north, e.state))
+                })
+                .collect(),
+            None => Vec::new(),
+        }
+    };
+    let (ty0, ty1) = (46.0_f64, 292.0_f64);
+    svg.push_str(&format!(
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">receiver-reported track, north up</text>",
+        ty0 - 6.0
+    ));
+    if pts.len() >= 2 {
+        let (mut e_lo, mut e_hi, mut n_lo, mut n_hi) = (f64::MAX, f64::MIN, f64::MAX, f64::MIN);
+        for (e, n, _) in &pts {
+            e_lo = e_lo.min(*e);
+            e_hi = e_hi.max(*e);
+            n_lo = n_lo.min(*n);
+            n_hi = n_hi.max(*n);
+        }
+        // One scale on both axes, at least 500 m across so a short track is not blown up.
+        let span_e = (e_hi - e_lo).max(500.0);
+        let span_n = (n_hi - n_lo).max(500.0);
+        let scale = ((x1 - x0) / span_e).min((ty1 - ty0) / span_n);
+        let (cx, cy) = ((x0 + x1) / 2.0, (ty0 + ty1) / 2.0);
+        let px = |e: f64| cx + (e - (e_lo + e_hi) / 2.0) * scale;
+        let py = |n: f64| cy - (n - (n_lo + n_hi) / 2.0) * scale;
+        // One polyline per run of equal band, each sharing its end point with the next run.
+        let mut i = 0;
+        while i < pts.len() {
+            let band = pts[i].2;
+            let mut j = i;
+            while j + 1 < pts.len() && pts[j + 1].2 == band {
+                j += 1;
+            }
+            let end = (j + 1).min(pts.len() - 1);
+            let path: Vec<String> = pts[i..=end]
+                .iter()
+                .map(|(e, n, _)| format!("{:.1},{:.1}", px(*e), py(*n)))
+                .collect();
+            svg.push_str(&format!(
+                "<polyline fill=\"none\" stroke=\"{}\" stroke-width=\"2\" stroke-linejoin=\"round\" points=\"{}\"/>",
+                colour(band),
+                path.join(" ")
+            ));
+            i = j + 1;
+        }
+        let (first, last) = (pts[0], pts[pts.len() - 1]);
+        svg.push_str(&format!(
+            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"{INK}\"/>\
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">start</text>\
+             <circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"4\" fill=\"none\" stroke=\"{INK}\" stroke-width=\"1.5\"/>\
+             <text x=\"{:.1}\" y=\"{:.1}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">end of log</text>",
+            px(first.0), py(first.1), px(first.0) + 7.0, py(first.1) + 3.0,
+            px(last.0), py(last.1), px(last.0) - 52.0, py(last.1) - 8.0,
+        ));
+        // A scale bar of a round length.
+        let target = 0.2 * (x1 - x0) / scale;
+        let mag = 10f64.powf(target.log10().floor());
+        let bar_m = [1.0, 2.0, 5.0, 10.0]
+            .iter()
+            .map(|m| m * mag)
+            .filter(|b| *b <= target)
+            .fold(mag, f64::max);
+        let label = if bar_m >= 1000.0 {
+            format!("{:.0} km", bar_m / 1000.0)
+        } else {
+            format!("{bar_m:.0} m")
+        };
+        svg.push_str(&format!(
+            "<line x1=\"{x0}\" x2=\"{:.1}\" y1=\"{}\" y2=\"{}\" stroke=\"{INK}\"/>\
+             <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{label}</text>",
+            x0 + bar_m * scale,
+            ty1 + 2.0,
+            ty1 + 2.0,
+            ty1 + 14.0
+        ));
+    } else {
+        svg.push_str(&format!(
+            "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">no positions in the log</text>",
+            (ty0 + ty1) / 2.0
+        ));
+    }
+
+    // --- score over time ---------------------------------------------------------------
+    let (sy0, sy1) = (338.0_f64, 462.0_f64);
+    let t_max = r.epochs.last().map(|e| e.t_s).unwrap_or(1.0).max(1.0);
+    let sx = |t: f64| x0 + (x1 - x0) * t / t_max;
+    let sc = |v: f64| sy1 - (sy1 - sy0) * v / 100.0;
+    svg.push_str(&format!(
+        "<text x=\"12\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"11\">trust score, 0 to 100</text>",
+        sy0 - 8.0
+    ));
+    for (v, label) in [
+        (100.0, "100"),
+        (nominal_min, ""),
+        (degraded_min, ""),
+        (0.0, "0"),
+    ] {
+        svg.push_str(&format!(
+            "<line x1=\"{x0}\" x2=\"{x1}\" y1=\"{y:.1}\" y2=\"{y:.1}\" stroke=\"{RULE}\" stroke-dasharray=\"{}\"/>\
+             <text x=\"{}\" y=\"{:.1}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{}</text>",
+            if label.is_empty() { "4 3" } else { "0" },
+            x0 - 4.0,
+            sc(v) + 3.0,
+            if label.is_empty() { format!("{v:.0}") } else { label.to_string() },
+            y = sc(v)
+        ));
+    }
+    let line: Vec<String> = r
+        .epochs
+        .iter()
+        .filter_map(|e| {
+            e.score
+                .as_ref()
+                .map(|s| format!("{:.1},{:.1}", sx(e.t_s), sc(s.score)))
+        })
+        .collect();
+    if !line.is_empty() {
+        svg.push_str(&format!(
+            "<polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"1.5\" points=\"{}\"/>",
+            line.join(" ")
+        ));
+    }
+    let band_y = sy1 + 12.0;
+    for (i, e) in r.epochs.iter().enumerate() {
+        let next = r.epochs.get(i + 1).map(|n| n.t_s).unwrap_or(e.t_s + 1.0);
+        svg.push_str(&format!(
+            "<rect x=\"{:.1}\" y=\"{band_y}\" width=\"{:.2}\" height=\"12\" fill=\"{}\"/>",
+            sx(e.t_s),
+            (sx(next) - sx(e.t_s)).max(0.5),
+            colour(e.state)
+        ));
+    }
+    for ev in &r.events {
+        let x = sx(ev.onset_s);
+        svg.push_str(&format!(
+            "<line x1=\"{x:.1}\" x2=\"{x:.1}\" y1=\"{sy0}\" y2=\"{}\" stroke=\"{INK}\" stroke-dasharray=\"3 3\"/>\
+             <text x=\"{:.1}\" y=\"{}\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"10\">{}</text>",
+            band_y + 12.0,
+            x + 3.0,
+            sy0 + 10.0,
+            esc(&ev.label)
+        ));
+    }
+    svg.push_str(&format!(
+        "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
+         <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal (score at or above {nominal_min:.0}), amber degraded (at or above {degraded_min:.0}), red untrusted, grey calibrating</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"9\">Advisory software, not type-approved navigation equipment; the operator remains responsible.</text></svg>",
+        band_y + 26.0,
+        band_y + 26.0,
+        band_y + 42.0,
+        band_y + 56.0
+    ));
+    svg
+}
+
 /// A self-contained chart: mean C/N0 over time, the trust state as a band underneath,
-/// and each stated event's onset as a vertical marker.
+/// and each stated event's onset as a vertical marker. For a vessel platform, the track and
+/// the trust score instead.
 pub fn to_svg(r: &ReceiverTrustResult) -> String {
+    if r.score_model.is_some() {
+        return to_svg_vessel(r);
+    }
     let (w, h) = (760.0_f64, 300.0_f64);
     let (x0, x1, y0, y1) = (56.0, w - 16.0, 40.0, h - 70.0);
     let t_max = r.epochs.last().map(|e| e.t_s).unwrap_or(1.0).max(1.0);
@@ -725,5 +1080,47 @@ pub fn resolve_paths(scn: &mut ReceiverTrustScenario, base: &std::path::Path) {
     fix(&mut scn.log.source.path);
     if let Some(nav) = scn.log.nav.as_mut() {
         fix(&mut nav.path);
+    }
+}
+
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    const LOG: &str = "log = { format = \"nmea\", text = \"$GPGGA,000000,,,,,0,00,,,,,,,*00\" }";
+
+    #[test]
+    fn platform_table_is_read_into_the_monitor_config() {
+        let scn: ReceiverTrustScenario = toml::from_str(&format!(
+            "{LOG}\n[platform]\nkind = \"vessel\"\nmax_speed_kn = 18.0\n"
+        ))
+        .unwrap();
+        assert!(scn.monitors.platform.is_vessel());
+        assert_eq!(scn.monitors.platform.max_speed_kn, Some(18.0));
+    }
+
+    #[test]
+    fn static_scenarios_serialise_without_a_platform() {
+        let scn: ReceiverTrustScenario = toml::from_str(LOG).unwrap();
+        assert!(scn.monitors.platform.is_static());
+        let json = serde_json::to_string(&scn).unwrap();
+        assert!(!json.contains("platform"), "{json}");
+        let explicit: ReceiverTrustScenario =
+            toml::from_str(&format!("{LOG}\n[platform]\nkind = \"static\"\n")).unwrap();
+        assert_eq!(scn, explicit);
+    }
+
+    #[test]
+    fn platform_under_monitors_is_rejected_and_bad_limits_error_at_run() {
+        assert!(toml::from_str::<ReceiverTrustScenario>(&format!(
+            "{LOG}\n[monitors.platform]\nkind = \"vessel\"\n"
+        ))
+        .is_err());
+        let scn: ReceiverTrustScenario = toml::from_str(&format!(
+            "{LOG}\n[platform]\nkind = \"vessel\"\nmax_speed_kn = -1.0\n"
+        ))
+        .unwrap();
+        let e = run_receiver_trust(&scn).unwrap_err();
+        assert!(e.contains("max_speed_kn"), "{e}");
     }
 }

@@ -18,7 +18,7 @@ the new version.
 2. Bump `version` in `Cargo.toml`, and every surface `scripts/check-version-sync.sh`
    lists (the Model Context Protocol (MCP) server crate and its `kshana` dependency, the
    JetBrains plugin and its newest change-notes entry, the README status line and release
-   badge, the three registry front pages, and the kshana.dev site under `web/`: its
+   badge, the three registry front pages, the Claude Code plugin manifests (`.claude-plugin/`), the Signal K and OpenCPN plugin versions (`integrations/`), the reference-build image's version label, any built Studio wasm package, and the kshana.dev site under `web/`: its
    front page, the Studio's install panel and the port manifest). The site's version is
    written by the site build, so rebuild the site from the bumped checkout and rerun
    `web/tools/port_site.py` rather than editing `web/` by hand. Run the script; it must
@@ -43,10 +43,30 @@ All of it runs inside one run of the Release workflow (`.github/workflows/releas
 | Stage | Where | What it does | If it fails |
 | --- | --- | --- | --- |
 | verify | `release.yml` job `verify` | Formatting, lint (clippy), the full `cargo test --all` suite (golden pins and verification-matrix guards included), the reproducibility guard and the script guards, on the tagged commit | Nothing is published. Fix, re-tag. |
-| release | `release.yml` jobs `binaries`, `release`, `verify-release*` | Builds the command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the MCP server binary, the software bill of materials (SBOM) and the validation summary; writes `SHA256SUMS`; attests every file with SLSA (Supply-chain Levels for Software Artifacts) build provenance; attaches them to the GitHub Release; then downloads them again and checks each one, running the macOS and Windows binaries on their own systems | The GitHub Release is incomplete; the registries are unaffected |
-| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container image on ghcr.io (the GitHub Container Registry) and the MCP registry, and the JetBrains Marketplace | See "Retrying" below |
-| parity | `release.yml` job `parity` | Polls crates.io (`kshana`, `kshana-mcp`), npm, PyPI (the source distribution and one wheel for each of the six platforms) and ghcr.io until each serves the version, for up to 45 minutes. docs.rs and the MCP registry are reported but never fatal | The run is red and names the channel that is missing |
+| release | `release.yml` jobs `binaries`, `release`, `verify-release*` | Builds the command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the MCP server binary, the software bill of materials (SBOM) and the validation summary, and (`release-artefacts.yml`) the OpenCPN plugin package for Linux x86-64 with its GPL source tarball, the Signal K plugin tarball, the Grafana dashboard and the channels SBOM; writes `SHA256SUMS`; attests every file with SLSA (Supply-chain Levels for Software Artifacts) build provenance; attaches them to the GitHub Release; then downloads them again and checks each one, running the macOS and Windows binaries on their own systems | The GitHub Release is incomplete; the registries are unaffected |
+| publish | `publish.yml`, then `mcp-publish.yml` and `jetbrains-plugin.yml`, all called from `release.yml` | Builds every artifact first (the six Python wheels and the source distribution through `wheels.yml`, the npm package), then publishes crates.io, then the Python Package Index (PyPI), npm and `kshana-mcp` on crates.io, then the container images on ghcr.io (the GitHub Container Registry: `kshana-mcp` and `kshana-reference-build`) and the MCP registry, the JetBrains Marketplace and, only when switched on, the Signal K plugin on npm (`signalk-publish.yml`) | See "Retrying" below |
+| parity | `release.yml` job `parity` | Polls crates.io (`kshana`, `kshana-mcp`), npm, PyPI (the source distribution and one wheel for each of the six platforms) and ghcr.io (both images) until each serves the version, and the Signal K npm package when it is switched on, for up to 45 minutes. docs.rs and the MCP registry are reported but never fatal | The run is red and names the channel that is missing |
 | site | `release.yml` job `site` | Dispatches `pages.yml`, which rebuilds kshana.dev from the tag | The site still shows the previous release |
+
+### Dry run, and the channels that are off by default
+
+- **Dry run.** Dispatch `release.yml` from any branch with `dry_run` ticked (leave `tag`
+  empty). It builds and stages every asset, runs `scripts/check-release-assets.sh` on them and
+  uploads them as the `dry-run-release-assets` artifact. It skips the long `cargo test`
+  steps, attests nothing, creates no release and publishes nothing. `release-artefacts.yml`
+  and `reference-image.yml` also dispatch by hand (the image build is a dry run on a branch:
+  both architectures build, nothing is pushed).
+- **Signal K plugin on npm: ON.** The package `signalk-kshana-trust` publishes on a tag push (approved by the
+  founder). `signalk-publish.yml` refuses to run unless `integrations/signalk/package.json` has exactly that
+  name, is not `private`, and keeps the `signalk-node-server-plugin` keyword, and it **fails if `NPM_TOKEN` is
+  missing**: the first publish of a new npm package cannot use trusted publishing. Set the repository variable
+  `SIGNALK_NPM_PUBLISH=false` to switch it off. A dry run checks the secret is visible (without printing it)
+  and runs `npm publish --dry-run`.
+- **OpenCPN catalogue: prepared, not submitted.** The release carries the plugin tarball in the catalogue's
+  layout and its catalogue metadata XML. Adding it to OpenCPN's catalogue is a pull request the maintainer opens
+  by hand: `packaging/opencpn/SUBMITTING.md`.
+- The new `ghcr.io/ashfordeou/kshana-reference-build` package is private when first pushed;
+  make it public so the parity job's anonymous check can read it.
 
 ### Why this order
 

@@ -1,0 +1,40 @@
+# HELP kshana_build_info Engine version; constant 1.
+# TYPE kshana_build_info gauge
+kshana_build_info{version="0.0.0-test"} 1
+# HELP kshana_trust_score Latest GNSS trust score, 0 (no trust) to 100 (full trust). Absent when the source computes none.
+# TYPE kshana_trust_score gauge
+kshana_trust_score 12
+# HELP kshana_trust_band Latest GNSS trust band: 1 for the current band, 0 for the others.
+# TYPE kshana_trust_band gauge
+kshana_trust_band{band="calibrating"} 0
+kshana_trust_band{band="nominal"} 0
+kshana_trust_band{band="degraded"} 0
+kshana_trust_band{band="untrusted"} 1
+kshana_trust_band{band="unknown"} 0
+# HELP kshana_trust_reason_active 1 if the reason was present at the latest epoch, 0 if it was seen earlier but is not now.
+# TYPE kshana_trust_reason_active gauge
+kshana_trust_reason_active{reason="agc"} 0
+kshana_trust_reason_active{reason="cn0-drop"} 1
+# HELP kshana_trust_epochs_total Epochs received, by trust band.
+# TYPE kshana_trust_epochs_total counter
+kshana_trust_epochs_total{band="calibrating"} 0
+kshana_trust_epochs_total{band="nominal"} 1
+kshana_trust_epochs_total{band="degraded"} 1
+kshana_trust_epochs_total{band="untrusted"} 1
+kshana_trust_epochs_total{band="unknown"} 0
+# HELP kshana_trust_reason_epochs_total Epochs in which a reason was present, by reason.
+# TYPE kshana_trust_reason_epochs_total counter
+kshana_trust_reason_epochs_total{reason="agc"} 1
+kshana_trust_reason_epochs_total{reason="cn0-drop"} 2
+# HELP kshana_trust_input_errors_total Input lines that could not be parsed as trust samples.
+# TYPE kshana_trust_input_errors_total counter
+kshana_trust_input_errors_total 1
+# HELP kshana_trust_reason_overflow_total Reason occurrences folded into reason="other" because 64 distinct reasons were already in use.
+# TYPE kshana_trust_reason_overflow_total counter
+kshana_trust_reason_overflow_total 0
+# HELP kshana_trust_syslog_send_failures_total Syslog events not delivered (queue full, collector down or stalled).
+# TYPE kshana_trust_syslog_send_failures_total counter
+kshana_trust_syslog_send_failures_total 0
+# HELP kshana_trust_epoch_offset_seconds Offset of the latest epoch from the start of the log or session, seconds.
+# TYPE kshana_trust_epoch_offset_seconds gauge
+kshana_trust_epoch_offset_seconds 3

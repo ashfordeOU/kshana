@@ -1,0 +1,981 @@
+{
+ "cases": {
+  "add_unlisted": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "unlisted-file",
+     "name": "extra.txt"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "append_epochs": {
+   "chain_head_of_files": "4f63fc13389399ec540103b178b27d3cf4869797ef68958720954db4753f6b8b",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "epochs.json"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "append_sig": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "flip_config.json_first": {
+   "chain_head_of_files": "05bb94c0357ae9cffcfeb849d6ddc8ce3ba2cd165bb545a8665a505b525d4ee3",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "config.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_config.json_last": {
+   "chain_head_of_files": "264eac4e819b7e83dd93d639ffa53ef24f4140cd8ecc7563e805ea0ae2b224b6",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "config.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_config.json_mid": {
+   "chain_head_of_files": "06148a31bac59e3ba600e09bfdb0d8d6c9a3cde923933360622cd2c015ec8f85",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "config.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_epochs.json_first": {
+   "chain_head_of_files": "7fd012ebb6587acec6e0121b04c660f1dbf5e87c90f1d2314715ef0e76b11845",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_epochs.json_last": {
+   "chain_head_of_files": "cd8a634d8813e904ed02136167acdf76d62a9f2ed780cf818838e3528db68ea3",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_epochs.json_mid": {
+   "chain_head_of_files": "4e6ed84ddded82165704543ce2e8634e9eef0fa135e9d5478e557689f2f42472",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_log-slice.bin_first": {
+   "chain_head_of_files": "091674405ff5f6a8f4f2683b046d6e964e8554f5004941a7a033b47b77a7e60a",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "log-slice.bin"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_log-slice.bin_last": {
+   "chain_head_of_files": "154900c60544121311e5f5e85e99098bbed305114a3cce775b507091e90b46d7",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "log-slice.bin"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_log-slice.bin_mid": {
+   "chain_head_of_files": "20840e39f61cc9f4f9a325addc73a829b5016f672598e270732c0de36e195144",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "log-slice.bin"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_summary.html_first": {
+   "chain_head_of_files": "822d85d050ff758d787b610525e7d9165fa9273daabb178ef0878e90802b3666",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "summary.html"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_summary.html_last": {
+   "chain_head_of_files": "3ec63187254db4227f984b4b5ebd53cd92d8fcbb1447429d4c2878837ed83d12",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "summary.html"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "flip_summary.html_mid": {
+   "chain_head_of_files": "1fc8c98f7aa7983677967adae4bc2b5d7cebb919f17f254401c3ea7a65dac239",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "summary.html"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "forged_resigned_pinned": {
+   "chain_head_of_files": "9df42e5db991845730bfe7d5d831ee6bc83616673b466dd34d60ff1041fbfa70",
+   "failures": [
+    {
+     "code": "public-key-mismatch",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "9df42e5db991845730bfe7d5d831ee6bc83616673b466dd34d60ff1041fbfa70",
+   "ok": false,
+   "signature_valid": false
+  },
+  "forged_resigned_unpinned": {
+   "chain_head_of_files": "9df42e5db991845730bfe7d5d831ee6bc83616673b466dd34d60ff1041fbfa70",
+   "failures": [],
+   "manifest_chain_head": "9df42e5db991845730bfe7d5d831ee6bc83616673b466dd34d60ff1041fbfa70",
+   "ok": true,
+   "signature_valid": true
+  },
+  "full_log_modified": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "full-log-hash-mismatch",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "manifest_artifact_link": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "chain-mismatch",
+     "name": "epochs.json"
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_artifact_sha": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "chain-head-mismatch",
+     "name": null
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "config.json"
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "epochs.json"
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "summary.html"
+    },
+    {
+     "code": "file-hash-mismatch",
+     "name": "config.json"
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_bad_kind": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_chain_head": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "chain-mismatch",
+     "name": "summary.html"
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_chain_wrong": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "chain-head-mismatch",
+     "name": null
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "config.json"
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1111111111111111111111111111111111111111111111111111111111111111",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_epoch_count": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "epoch-count-mismatch",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_first_byte": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": null,
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_format": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    },
+    {
+     "code": "unsupported-format",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_format_v2": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    },
+    {
+     "code": "unsupported-format",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_last_byte": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": null,
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_missing_slice": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_missing_slice_unpinned": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "manifest_negative_bytes": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_public_key": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "public-key-malformed",
+     "name": null
+    },
+    {
+     "code": "public-key-mismatch",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_reordered": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "artifact-list-malformed",
+     "name": null
+    },
+    {
+     "code": "chain-head-mismatch",
+     "name": null
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "config.json"
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "epochs.json"
+    },
+    {
+     "code": "chain-mismatch",
+     "name": "summary.html"
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_slice_end": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    },
+    {
+     "code": "slice-record-inconsistent",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_title": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_uppercase_key": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "public-key-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "manifest_window": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "rehash_without_key": {
+   "chain_head_of_files": "ecd9e5a08f11591064c645a67b713589f98f4ecb406961c00c5f42a88d6b407c",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "ecd9e5a08f11591064c645a67b713589f98f4ecb406961c00c5f42a88d6b407c",
+   "ok": false,
+   "signature_valid": false
+  },
+  "remove_epochs": {
+   "chain_head_of_files": null,
+   "failures": [
+    {
+     "code": "file-missing",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "remove_manifest": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-missing",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": null,
+   "ok": false,
+   "signature_valid": null
+  },
+  "remove_sig": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-missing",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "remove_sig_unpinned": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-missing",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "rename_epochs": {
+   "chain_head_of_files": null,
+   "failures": [
+    {
+     "code": "file-missing",
+     "name": "epochs.json"
+    },
+    {
+     "code": "unlisted-file",
+     "name": "epochs2.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "sig_case_fold": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "sig_first": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "sig_flip_unpinned": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "sig_last_newline": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "sig_mid": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "slice_bytes_not_from_log": {
+   "chain_head_of_files": "8a47df8476a9d4a47dc3ed8848fe0b94eac8761d1b6a2ca8ee3335f2f968750d",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "log-slice.bin"
+    },
+    {
+     "code": "slice-not-from-full-log",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "stamped_intact_required": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": true,
+   "signature_valid": true
+  },
+  "stamped_manifest_edited_after": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-invalid",
+     "name": null
+    },
+    {
+     "code": "timestamp-imprint-mismatch",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  },
+  "stamped_stripped_not_required": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": true,
+   "signature_valid": true
+  },
+  "stamped_stripped_required": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-missing",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "static_full_log_ok": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": true,
+   "signature_valid": true
+  },
+  "static_intact_pinned": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": true,
+   "signature_valid": true
+  },
+  "static_intact_unpinned": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": true,
+   "signature_valid": true
+  },
+  "static_no_token_required": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-missing",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "swap_config_epochs": {
+   "chain_head_of_files": "dddea9449607fe733673c0fc13f26c857b58af882f81017d867e2c09ffa98e75",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "config.json"
+    },
+    {
+     "code": "file-hash-mismatch",
+     "name": "epochs.json"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "config.json"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "swap_slice_summary": {
+   "chain_head_of_files": "72ce61e32efc7787ea4d3d20c9daa4e709f1f6448aadfe03451c5d3a5c4d8600",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "log-slice.bin"
+    },
+    {
+     "code": "file-hash-mismatch",
+     "name": "summary.html"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "log-slice.bin"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "summary.html"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "token_bad_content_type": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "token_bad_gentime": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "token_junk": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "token_other_document": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-imprint-mismatch",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "token_sha384_valid": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": true,
+   "signature_valid": true
+  },
+  "token_short_imprint": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "timestamp-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "truncate_epochs": {
+   "chain_head_of_files": "8b35e9fa5045324bf86552f4f2da0b5e7ba6ba3f2484ad6bb1cda416a6e0ed1d",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "epochs.json"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "epochs.json"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "truncate_manifest_half": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "manifest-malformed",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": null,
+   "ok": false,
+   "signature_valid": false
+  },
+  "truncate_sig_newline": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "signature-malformed",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": null
+  },
+  "truncate_summary_to_zero": {
+   "chain_head_of_files": "b105684d9775a8d2faf0f757a401e50f05efc71744f9bc2642cfd0059f34d0c2",
+   "failures": [
+    {
+     "code": "file-hash-mismatch",
+     "name": "summary.html"
+    },
+    {
+     "code": "file-size-mismatch",
+     "name": "summary.html"
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": true
+  },
+  "whole_intact_pinned": {
+   "chain_head_of_files": "b6577441c5ad80187ff592fcba20ed2b24167fc4dd6ea50cf573df6aa7c6762d",
+   "failures": [],
+   "manifest_chain_head": "b6577441c5ad80187ff592fcba20ed2b24167fc4dd6ea50cf573df6aa7c6762d",
+   "ok": true,
+   "signature_valid": true
+  },
+  "wrong_pin_on_intact": {
+   "chain_head_of_files": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "failures": [
+    {
+     "code": "public-key-mismatch",
+     "name": null
+    },
+    {
+     "code": "signature-invalid",
+     "name": null
+    }
+   ],
+   "manifest_chain_head": "1001c0d69292ce412188c0440bd39a99e9b6b42602294d222a896a44c16917ed",
+   "ok": false,
+   "signature_valid": false
+  }
+ },
+ "oracle": "scripts/evidence_verify_cleanroom.py (clean-room, hashlib + cryptography==50.0.2 Ed25519)"
+}

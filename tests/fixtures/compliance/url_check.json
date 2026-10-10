@@ -1,0 +1,88 @@
+{
+ "generated_by": "scripts/gen_compliance_refs.py",
+ "checked": "2026-10-10",
+ "urls": [
+  {
+   "url": "https://ad.easa.europa.eu/ad/2022-02R4",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "text/html; charset=UTF-8",
+   "bytes": 20501
+  },
+  {
+   "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022L2555",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 202,
+   "content_type": "text/html; charset=UTF-8",
+   "bytes": 0,
+   "second_route": {
+    "method": "EU Publications Office XHTML of the same act, https://publications.europa.eu/resource/celex/32022L2555",
+    "checked": "2026-10-10",
+    "result": "HTTP 200, 702913 bytes, sha256 6ee66d5c419d9a05..., the document indexed in headings.json"
+   }
+  },
+  {
+   "url": "https://rntfnd.org/wp-content/uploads/IMO-Circular-MSC.1-Circ.1644-Deliberate-Interference-With-The-United-States-Global-Positioning-System-Gps-And-Other...-Secretariat.pdf_safe.pdf",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "application/pdf",
+   "bytes": 100343
+  },
+  {
+   "url": "https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 403,
+   "content_type": null,
+   "bytes": 0,
+   "second_route": {
+    "method": "a copy of the PDF fetched over HTTPS with a different client",
+    "checked": "2026-10-10",
+    "result": "returned the PDF (2045376 bytes, sha256 f9e55aa93f9c0c7d...) which is the document indexed in headings.json"
+   }
+  },
+  {
+   "url": "https://www.evs.ee/en/evs-en-16803-1-2020",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 67132
+  },
+  {
+   "url": "https://www.evs.ee/en/evs-en-16803-2-2020",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 68898
+  },
+  {
+   "url": "https://www.evs.ee/en/evs-en-16803-3-2020",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "text/html; charset=utf-8",
+   "bytes": 67230
+  },
+  {
+   "url": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/AssemblyDocuments/A.1046(27).pdf",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "application/pdf",
+   "bytes": 566225
+  },
+  {
+   "url": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/MSCResolutions/MSC.401(95).pdf",
+   "checked": "2026-10-10",
+   "method": "python urllib, browser-like headers",
+   "status": 200,
+   "content_type": "application/pdf",
+   "bytes": 643779
+  }
+ ]
+}

@@ -86,7 +86,9 @@ STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md"}
 STUDIO_SKIP_DIRS = {"REVIEW"}
 # The Studio's pages: the Simple view, and the Advanced view (the full dashboard), which has
 # <base href="../"> so it shares the Simple view's engine, worker, modules and data.
-STUDIO_PAGES = ("index.html", "advanced/index.html")
+# Since 0.35.0 it also has three views: the maritime trust view, the interference map and the training debrief
+# (each with <base href="../">, noindex, and a demo/ folder of synthetic data its test reads).
+STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
