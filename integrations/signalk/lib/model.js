@@ -48,7 +48,7 @@ function messageFor(state, epoch) {
   const sc = epoch.score === null ? 'n/a' : epoch.score.toFixed(1)
   if (state === 'normal') return `GNSS trust ${sc} (${epoch.band})`
   const why = reasonText(epoch.reasons)
-  return `GNSS fix trust ${epoch.band} (score ${sc})${why ? ': ' + why : ''}. Advisory only; check position by other means.`
+  return `GNSS fix trust ${epoch.band} (score ${sc})${why ? ': ' + why : ''}. Advisory, not type-approved navigation equipment; check position by other means.`
 }
 
 class AlarmTracker {
@@ -119,7 +119,7 @@ function metaDelta(opts) {
       value: {
         displayName: 'GNSS trust score',
         description:
-          'Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory only.',
+          'Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory, not type-approved navigation equipment.',
         displayScale: { lower: 0, upper: 100 },
         zones: [
           { lower: 0, upper: lo, state: 'alarm', message: 'untrusted' },

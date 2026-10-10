@@ -1,5 +1,7 @@
 # Open-sea jamming: C/N0 falls across every satellite, the receiver drops them one by one
 # and loses its fix, then recovers. Synthetic NMEA for bridge-simulator training only.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
 [scenario]
 name = "open-sea-jamming"
 description = "Open-sea passage; a jammer degrades reception until the fix is lost, then clears."
