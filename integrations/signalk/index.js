@@ -3,9 +3,19 @@ const net = require('net')
 const { spawn } = require('child_process')
 const { parseJsonLine, parsePksht } = require('./lib/adapter')
 const { lineSplitter } = require('./lib/lines')
-const { AlarmTracker, deltaFor, staleDelta, DEFAULTS, NS, NOTIFICATION_PATH } = require('./lib/model')
+const { AlarmTracker, deltaFor, staleDelta, metaDelta, DEFAULTS, NS, NOTIFICATION_PATH } = require('./lib/model')
 
 const PLUGIN_ID = 'kshana-trust'
+
+// Arguments the plugin must own: it reads kshana's JSON lines on standard output, so a gate, a listener, or a JSON or
+// $PKSHT destination would break (or empty) that stream. For spawn-signalk-nmea the input is the server's own NMEA on
+// standard input, so an input flag would replace it.
+const FORBIDDEN_ARGS = ['--gate', '--listen', '--json', '--pksht']
+const INPUT_ARGS = ['--stdin', '--file', '--tcp', '--udp', '--follow', '--from-end']
+function badInputArg(source, args) {
+  const bad = (args || []).find((a) => FORBIDDEN_ARGS.includes(a) || (source === 'spawn-signalk-nmea' && INPUT_ARGS.includes(a)))
+  return bad
+}
 
 module.exports = function (app) {
   const plugin = { id: PLUGIN_ID, name: 'Kshana GNSS trust', started: false }
@@ -38,7 +48,7 @@ module.exports = function (app) {
       },
       inputArgs: {
         type: 'array',
-        title: 'Input arguments (spawn-args), e.g. ["--tcp","192.0.2.10:10110"]',
+        title: 'Input arguments for kshana (spawn modes): the input for spawn-args, e.g. ["--tcp","192.0.2.10:10110"]; extra flags for spawn-signalk-nmea, e.g. ["--replay"] for a stored log fed faster than real time',
         items: { type: 'string' },
         default: []
       },
@@ -100,9 +110,18 @@ module.exports = function (app) {
 
   function start(options) {
     const o = Object.assign({ source: 'spawn-signalk-nmea', command: 'kshana', host: '127.0.0.1', port: 10111 }, options || {})
+    if (o.source === 'spawn-signalk-nmea' || o.source === 'spawn-args') {
+      const bad = badInputArg(o.source, o.inputArgs)
+      if (bad) {
+        app.setPluginError(`inputArgs must not contain ${bad} (the plugin owns kshana's output${o.source === 'spawn-signalk-nmea' ? ' and input' : ''})`)
+        return
+      }
+    }
     const tracker = new AlarmTracker(o)
+    app.handleMessage(plugin.id, metaDelta(o))
     let lastEpochMs = Date.now()
     let stopped = false
+    let onFirstEpoch = () => {}
     stops.push(() => {
       stopped = true
     })
@@ -110,6 +129,7 @@ module.exports = function (app) {
     function onEpoch(epoch) {
       if (!epoch) return
       lastEpochMs = Date.now()
+      onFirstEpoch()
       app.handleMessage(plugin.id, deltaFor(epoch, tracker))
       app.setPluginStatus(`trust ${epoch.band}${epoch.score === null ? '' : ' ' + epoch.score.toFixed(1)}`)
     }
@@ -150,27 +170,39 @@ module.exports = function (app) {
       let timer = null
       let delay = 1000
       let detach = () => {}
+      let spawnError = null
+      onFirstEpoch = () => {
+        delay = 1000 // a child that produced data is healthy: the next restart starts from the short back-off
+      }
       const launch = () => {
         if (stopped) return
+        spawnError = null
         const args = ['receiver-trust', 'live', o.sessionFile || '/etc/kshana/session.toml']
-        if (o.source === 'spawn-args') args.push(...(o.inputArgs || []))
-        child = spawn(o.command, args, { stdio: ['pipe', 'pipe', 'pipe'] })
+        args.push(...(o.inputArgs || []))
+        const me = spawn(o.command, args, { stdio: ['pipe', 'pipe', 'pipe'] })
+        child = me
+        me.exited = false
         const sp = jsonSplitter()
-        child.stdout.on('data', (d) => sp.push(d))
-        child.stderr.on('data', (d) => app.debug('kshana: ' + String(d).trim()))
-        child.stdin.on('error', () => {})
-        child.on('error', (e) => app.setPluginError(`cannot run ${o.command}: ${e.message}`))
-        child.on('close', (code) => {
+        me.stdout.on('data', (d) => sp.push(d))
+        me.stderr.on('data', (d) => app.debug('kshana: ' + String(d).trim()))
+        me.stdin.on('error', () => {})
+        me.on('error', (e) => {
+          spawnError = `cannot run ${o.command}: ${e.message}`
+          app.setPluginError(spawnError)
+        })
+        me.on('close', (code) => {
+          me.exited = true
           detach()
           if (stopped) return
-          app.setPluginError(`kshana exited (${code}); restarting`)
+          // keep the real reason (for example ENOENT) on screen; only a clean spawn that later exits gets the exit text
+          if (!spawnError) app.setPluginError(`kshana exited (${code}); restarting`)
           timer = setTimeout(launch, delay)
           delay = Math.min(delay * 2, 30000)
         })
         if (o.source === 'spawn-signalk-nmea') {
           // The server emits each raw NMEA 0183 sentence it receives on app.signalk as 'nmea0183'.
           const feed = (s) => {
-            if (child && child.stdin.writable) child.stdin.write(String(s).replace(/\r?\n?$/, '\n'))
+            if (me.stdin.writable) me.stdin.write(String(s).replace(/\r?\n?$/, '\n'))
           }
           app.signalk.on('nmea0183', feed)
           detach = () => app.signalk.removeListener('nmea0183', feed)
@@ -180,7 +212,15 @@ module.exports = function (app) {
       return () => {
         clearTimeout(timer)
         detach()
-        if (child) child.kill()
+        const c = child
+        if (c && !c.exited) {
+          c.kill('SIGTERM')
+          // a child that ignores SIGTERM is killed, not left running
+          const k = setTimeout(() => {
+            if (!c.exited) c.kill('SIGKILL')
+          }, 2000)
+          k.unref()
+        }
       }
     }
 
