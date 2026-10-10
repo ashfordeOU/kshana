@@ -16,7 +16,7 @@ access to Kshana): this plugin is the *human*, point-and-click path.
 - **Run Kshana Scenario** action on any `.toml` (editor + project-view context menus) —
   runs `kshana <file>` and shows the output in the Kshana tool window.
 - **Assess Receiver Trust** on a `receiver-trust` scenario `.toml` (`kshana receiver-trust`):
-  the trust timeline, with a 0-100 score and reasons for a vessel. Advisory only.
+  the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 - **Generate Training NMEA** on a `nmea-scenario` `.toml` (`kshana nmea-scenario`): synthetic
   bridge NMEA and an instructor log, written next to the scenario. Text only; for training,
   never for a vessel's live navigation systems.
