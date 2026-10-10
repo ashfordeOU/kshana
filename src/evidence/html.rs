@@ -86,6 +86,13 @@ code{{font:13px ui-monospace,monospace;word-break:break-all}}\n\
         esc(DISCLAIMER)
     );
 
+    if let Some(a) = i.config.get("advisory").and_then(Value::as_str) {
+        let _ = writeln!(
+            h,
+            "<p class=\"box\"><strong>Advisory.</strong> {}</p>",
+            esc(a)
+        );
+    }
     h.push_str("<h2>Identification</h2>\n<table>\n");
     let mut row = |k: &str, v: &str| {
         let _ = writeln!(
