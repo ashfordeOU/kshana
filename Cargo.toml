@@ -47,6 +47,7 @@ exclude = [
     # that pins them reads them from a checkout.
     "/examples/interference-map",
     "/tests/interference_map_examples.rs",
+    "/tests/interference_map_reference.rs",
     "/tests/sgp4_crate_comparison.rs",
     "/tests/terrain_nav_validation.rs",
     # The ANISE frame cross-validation is a standalone, workspace-excluded crate with

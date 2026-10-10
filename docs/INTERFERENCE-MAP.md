@@ -243,7 +243,7 @@ means a new method version):
 | Parameter | Value |
 |---|---|
 | Altitude floor | barometric altitude of at least 5000 ft |
-| Low-accuracy report | NACp at most 6 (EPU of 185 m or worse) or NIC at most 5 (containment radius not shown to be better than 0.6 NM) |
+| Low-accuracy report | NACp at most 6 (the reported EPU bound is 556 m, 0.3 NM, or larger, or unknown) or NIC at most 5 (the reported containment-radius bound is 1852 m, 1 NM, or larger, or unknown) |
 | Good report | NACp at least 8 and NIC at least 7; judged on the fields the input has (both when both are present, the one present otherwise) |
 | Equipment baseline | an aircraft counts in a cell only with at least 5 good reports outside that cell the same day |
 | Aircraft sampled in a cell | at least 3 reports in the cell |
@@ -364,6 +364,18 @@ document). `DatasetSpec` is
 `Custom { licence, licence_url, attribution }`; `DEFAULT_CELL_DEG` is 0.5. Errors are
 `MapError`. The dataset rules (approved presets, licence text required, kind must match)
 apply exactly as on the command line.
+
+## External validation
+
+`tests/interference_map_reference.rs` compares Kshana with independent implementations on
+synthetic inputs, with tolerances pre-registered in
+`tests/fixtures/interference_map_ref/PREREGISTRATION.md`: NIC and NACp code meanings against
+pyModeS decoding of synthetic ADS-B frames, AIS not-available values against pyais decoding of
+synthetic AIVDM sentences, grid cell assignment against shapely, route length per cell state
+against shapely and GeographicLib, and inland masking against shapely and pyproj. The fixtures
+are made by `scripts/gen_interference_map_ref.py`; CI needs no Python. This validates how the
+codes and field values are read and the geometry. It does not validate that a flagged cell is
+interference.
 
 ## Tests
 
