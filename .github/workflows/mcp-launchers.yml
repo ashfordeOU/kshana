@@ -1,0 +1,199 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# The `kshana-mcp` launchers: a thin npm package (`npx kshana-mcp`) and a thin PyPI package
+# (`uvx kshana-mcp`, `pipx run kshana-mcp`). Neither holds server code: each downloads the prebuilt kshana-mcp
+# binary of its own version from the GitHub release and checks it against the release's SHA256SUMS before it
+# runs (packaging/mcp/npm, packaging/mcp/pypi).
+#
+# Called by release.yml, after the GitHub release exists (`needs: release`), because a launcher published before its
+# binary is downloadable would fail for every user who tried it in the gap. `dry_run` builds and tests both packages
+# and runs `npm publish --dry-run`, `twine check` and the token checks, and publishes nothing.
+#
+# FIRST PUBLISH OF A NEW NAME. `kshana-mcp` is a new project on both registries (the engine is `kshana`):
+#   npm   NPM_TOKEN must be able to create a package: a classic "Automation" token, or a granular token with
+#         read and write on ALL packages (a granular token limited to existing packages cannot create one).
+#         Trusted publishing can be attached afterwards (npmjs.com, kshana-mcp, Settings), and only then.
+#   PyPI  PYPI_API_TOKEN must be an ACCOUNT-scoped token (a token limited to the `kshana` project cannot create
+#         `kshana-mcp`), or the founder adds a "pending publisher" for `kshana-mcp` on pypi.org (Account,
+#         Publishing: owner ashfordeOU, repository kshana, workflow release.yml, environment pypi). This workflow
+#         uses the token path, like publish.yml does for `kshana`.
+# A missing token fails the job with that text; nothing is published.
+name: publish MCP launchers
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: "Build and check both launchers; publish nothing"
+        required: false
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  build:
+    name: build and test the launchers
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - id: v
+        env:
+          REF_TYPE: ${{ github.ref_type }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          cargo_ver="$(grep -m1 '^version' mcp/kshana-mcp/Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')"
+          npm_ver="$(python3 -c 'import json;print(json.load(open("packaging/mcp/npm/package.json"))["version"])')"
+          py_ver="$(sed -nE 's/^version = "([^"]+)"/\1/p' packaging/mcp/pypi/pyproject.toml | head -1)"
+          init_ver="$(sed -nE 's/^__version__ = "([^"]+)"/\1/p' packaging/mcp/pypi/src/kshana_mcp/__init__.py)"
+          for v in "$npm_ver" "$py_ver" "$init_ver"; do
+            [ "$v" = "$cargo_ver" ] || { echo "::error::launcher version $v != kshana-mcp $cargo_ver"; exit 1; }
+          done
+          if [ "$REF_TYPE" = "tag" ]; then
+            [ "${REF_NAME#v}" = "$cargo_ver" ] || { echo "::error::tag $REF_NAME != kshana-mcp $cargo_ver"; exit 1; }
+          fi
+          echo "version=$cargo_ver" >> "$GITHUB_OUTPUT"
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Test and pack the npm launcher
+        working-directory: packaging/mcp/npm
+        run: |
+          set -euo pipefail
+          npm test
+          mkdir -p ../../../dist/npm
+          npm pack --pack-destination ../../../dist/npm --silent
+      - name: Test and build the PyPI launcher
+        working-directory: packaging/mcp/pypi
+        run: |
+          set -euo pipefail
+          python -m unittest discover -s tests
+          python -m pip install --quiet build twine
+          python -m build --outdir ../../../dist/pypi
+          python -m twine check ../../../dist/pypi/*
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcp-launchers
+          path: dist
+          if-no-files-found: error
+
+  dry-run:
+    name: dry run (npm publish --dry-run, token check)
+    needs: build
+    if: inputs.dry_run
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-launchers
+          path: dist
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: npm publish --dry-run (no registry write)
+        run: npm publish ./dist/npm/kshana-mcp-*.tgz --access public --dry-run
+      - name: Are the registry tokens visible to this workflow? (never printed)
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+          PYPI_API_TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          for n in NPM_TOKEN PYPI_API_TOKEN; do
+            if [ -n "${!n}" ]; then echo "OK: $n is visible to this workflow (value not printed)"
+            else echo "::warning::$n is NOT visible to this workflow at repository level"; fi
+          done
+
+  npm:
+    name: npm (kshana-mcp launcher)
+    needs: build
+    if: ${{ !inputs.dry_run && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: npm
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Require a green release verdict for this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/check-release-verdict.sh "$GITHUB_SHA"
+      - name: NPM_TOKEN must be set (the first publish of a new package cannot use trusted publishing)
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::NPM_TOKEN is not set, so the npm package kshana-mcp cannot be published. The first publish of a new package needs a token that can create packages (a classic Automation token, or a granular token with write access to all packages). Add it and Re-run failed jobs; nothing was published."
+            exit 1
+          fi
+          echo "NPM_TOKEN is set (value not printed)"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-launchers
+          path: dist
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+          registry-url: "https://registry.npmjs.org"
+      - run: npm install -g npm@^11.5.1
+      - name: Publish (an already-published version counts as success)
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          set +e
+          if [ -n "$NPM_TOKEN" ]; then export NODE_AUTH_TOKEN="$NPM_TOKEN"; fi
+          tarball="$(ls ./dist/npm/kshana-mcp-*.tgz)"
+          [ "$(printf '%s\n' "$tarball" | wc -l)" -eq 1 ] || { echo "::error::expected one tarball, found: $tarball"; exit 1; }
+          out="$(npm publish "$tarball" --access public --provenance 2>&1)"; rc=$?
+          printf '%s\n' "$out"
+          if [ "$rc" -ne 0 ]; then
+            printf '%s\n' "$out" | grep -qiE "cannot publish over|previously published|EPUBLISHCONFLICT|cannot modify pre-existing version" \
+              && { echo "::notice::this version is already on npm — treating as success"; exit 0; }
+            exit "$rc"
+          fi
+
+  pypi:
+    name: PyPI (kshana-mcp launcher)
+    needs: build
+    if: ${{ !inputs.dry_run && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    environment:
+      name: pypi
+    permissions:
+      contents: read
+      actions: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Require a green release verdict for this exact commit
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/check-release-verdict.sh "$GITHUB_SHA"
+      - name: PYPI_API_TOKEN must be set, and be able to create a new project
+        env:
+          TOKEN: ${{ secrets.PYPI_API_TOKEN }}
+        run: |
+          if [ -z "$TOKEN" ]; then
+            echo "::error::PYPI_API_TOKEN is not set, so the PyPI project kshana-mcp cannot be published. A new project needs an ACCOUNT-scoped token (one limited to the kshana project cannot create it), or a pending trusted publisher for kshana-mcp on pypi.org. Nothing was published."
+            exit 1
+          fi
+          echo "PYPI_API_TOKEN is set (value not printed)"
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-launchers
+          path: dist
+      - name: Publish to PyPI (an already-published version counts as success)
+        uses: pypa/gh-action-pypi-publish@dc37677b2e1c63e2034f94d8a5b11f265b73ba33 # v1.14.2 (release/v1 as of 2026-09-23)
+        with:
+          packages-dir: dist/pypi
+          password: ${{ secrets.PYPI_API_TOKEN }}
+          skip-existing: true
+          attestations: false
+          verbose: true

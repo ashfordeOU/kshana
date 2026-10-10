@@ -16,6 +16,11 @@ required=(
   kshana kshana-mcp
   kshana-sbom.cdx.json kshana-channels-sbom.cdx.json kshana-validation-summary.html
   kshana-aarch64-apple-darwin kshana-x86_64-apple-darwin kshana-x86_64-pc-windows-msvc.exe
+  kshana-aarch64-unknown-linux-gnu
+  kshana-mcp-aarch64-apple-darwin kshana-mcp-x86_64-apple-darwin kshana-mcp-x86_64-pc-windows-msvc.exe
+  kshana-mcp-aarch64-unknown-linux-gnu
+  kshana-mcp-x86_64-unknown-linux-gnu.mcpb kshana-mcp-aarch64-unknown-linux-gnu.mcpb
+  kshana-mcp-aarch64-apple-darwin.mcpb kshana-mcp-x86_64-apple-darwin.mcpb kshana-mcp-x86_64-pc-windows-msvc.mcpb
   "kshana_pi-${ver}-1_ubuntu-wx32-24.04-x86_64.tar.gz"
   "kshana_pi-${ver}-ubuntu-wx32-x86_64-24.04.xml"
   "kshana-opencpn-plugin-${ver}-source.tar.gz"
