@@ -137,6 +137,15 @@ score is non-increasing in every statistic. A source that does not report at an 
 last statistic for `evidence_hold_s` (default 10 s: two cycles of a C/N0 sentence sent every
 5 s), as an alarm and as a deduction alike.
 
+The rounding is half up (`floor(x * 10 + 0.5) / 10`), the band is that of the rounded score, and
+the clamp comes before the rounding. Only monitors whose points are above zero are listed in the
+deductions, with their ratio and unrounded points, largest points first; deductions with equal
+points are listed in the order of the monitor names `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`,
+`position-jump`, `raim`, `clock`, `solve-failure`, `kinematic`, `heading-course`, `speed-log`,
+`sea-level`, `cn0-spread`, `cn0-rise`, `time-consistency`, `osnma`. A monitor whose test is pass or
+fail (a failed solve, a failed authentication) is given the ratio 1.5, the full weight. The listed
+points are those before the clamp at 0.
+
 ```toml
 [score]
 nominal_min = 90.0         # score >= 90: nominal
@@ -151,7 +160,7 @@ sea-level = 30.0
 | Weight (points) | Monitors | Why |
 |---|---|---|
 | 70 | `osnma` | an authentication failure is a statement, not a statistic |
-| 60 | `kinematic`, `raim`, `clock`, `position-jump`, `time-consistency` | a counterfeit position has to contradict physics or the receiver's own checks, and time cannot run backwards; one clear violation leaves the degraded band |
+| 60 | `kinematic`, `raim`, `clock`, `position-jump`, `time-consistency` | a counterfeit position has to contradict physics or the receiver's own checks, and time cannot run backwards; one violation at full strength (1.5 times its threshold: 60 points, score 40) is untrusted, and at its threshold (30 points, score 70) degraded |
 | 40 | `heading-course`, `speed-log`, `solve-failure` | one independent sensor disagreeing is degraded; two at full strength are untrusted |
 | 30 | `sea-level`, `cn0-spread`, `cn0-rise`, `cn0-drop` | the signal environment, or a weakly informative check |
 | 25 | `loss-of-lock`, `agc`, `jam-ind` | the environment is hostile; that alone does not show the fix is wrong |
