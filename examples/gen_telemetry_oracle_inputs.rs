@@ -4,6 +4,10 @@
 //! and `otlp.json` (OTLP/HTTP JSON; needs `--features otlp`). It writes no oracle output;
 //! that is `scripts/gen_telemetry_formats_ref.py`'s job.
 //!
+//! PIN-SCOPE:    the fixed wall-clock inputs (`NOW`, `NOW_NANO`) that make the two committed outputs
+//!               reproducible; they are inputs to the generator, not expected results.
+//! PIN-EXCLUDES: everything the generator writes: it is derived from the stream and the registry.
+//!
 //! Run: `cargo run --example gen_telemetry_oracle_inputs --features otlp`
 
 use kshana::telemetry::prometheus::Registry;
