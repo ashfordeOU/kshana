@@ -253,6 +253,12 @@ impl MarineEpoch {
 
 /// East and north metres from the first point to the second (local tangent plane, WGS84
 /// radii at the mid-latitude; good to well under a metre over tens of kilometres).
+///
+/// The bearing of the offset, `atan2(east, north)`, is the direction of the chord between the
+/// two fixes, which is the geodesic's MEAN azimuth between them. It is not the forward azimuth at
+/// the first fix: that differs from it by about half the convergence of the meridians between the
+/// fixes (about 0.001 degrees for a 260 m baseline at 59.5 degrees latitude, 8e-3 degrees at
+/// 1.75 km and 70 degrees).
 pub fn en_offset_m(lat0: f64, lon0: f64, lat1: f64, lon1: f64) -> (f64, f64) {
     let phi = ((lat0 + lat1) / 2.0).to_radians();
     let s2 = phi.sin().powi(2);
