@@ -544,7 +544,7 @@ jobs:
           python3 scripts/test_gen_mcp_install.py
           python3 scripts/test_gen_pkg_manifests.py
           python3 scripts/test_check_channel_parity.py
-          python3 -m pip install --quiet jsonschema==4.23.0
+          python3 -m pip install --quiet --require-hashes --only-binary=:all: -r packaging/mcp/mcpb/requirements.txt
           python3 scripts/test_build_mcpb.py
       - name: npm launcher tests
         working-directory: packaging/mcp/npm

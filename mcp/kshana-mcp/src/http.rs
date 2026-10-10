@@ -204,6 +204,22 @@ pub fn harden(router: Router, cfg: &HttpConfig) -> Router {
                 );
                 return r;
             }
+            // A body whose length is declared over the cap is refused before it can take a slot
+            // of the concurrency gate. (A chunked body declares nothing; it is read, up to the
+            // cap, below and gets the same 413.)
+            let declared = req
+                .headers()
+                .get(header::CONTENT_LENGTH)
+                .and_then(|v| v.to_str().ok())
+                .and_then(|v| v.parse::<usize>().ok())
+                .or_else(|| {
+                    axum::body::HttpBody::size_hint(req.body())
+                        .exact()
+                        .map(|n| n as usize)
+                });
+            if declared.is_some_and(|n| n > max_body) {
+                return (StatusCode::PAYLOAD_TOO_LARGE, "request body too large").into_response();
+            }
             let Ok(_slot) = gate.try_acquire_owned() else {
                 let mut r = (
                     StatusCode::SERVICE_UNAVAILABLE,
@@ -528,5 +544,38 @@ mod tests {
         let mut codes = [a.unwrap().status(), b.unwrap().status()];
         codes.sort();
         assert_eq!(codes, [StatusCode::OK, StatusCode::SERVICE_UNAVAILABLE]);
+    }
+
+    #[tokio::test]
+    async fn a_declared_oversize_body_is_413_and_never_takes_a_gate_slot() {
+        let mut c = cfg();
+        c.max_concurrent = 1;
+        c.max_body_bytes = 64;
+        let slow = Router::new().route(
+            "/slow",
+            axum::routing::post(|| async {
+                tokio::time::sleep(Duration::from_millis(400)).await;
+                "ok"
+            }),
+        );
+        let app = harden(slow, &c);
+        let post = |len: usize| {
+            Request::builder()
+                .method(Method::POST)
+                .uri("/slow")
+                .header(header::CONTENT_LENGTH, len.to_string())
+                .body(Body::from(vec![b'x'; len.min(8)]))
+                .unwrap()
+        };
+        // One small request holds the only slot; meanwhile an oversize declared body must be
+        // refused with 413 (not 503: it never asks for a slot).
+        let holder = tokio::spawn({
+            let a = app.clone();
+            async move { a.oneshot(post(8)).await.unwrap().status() }
+        });
+        tokio::time::sleep(Duration::from_millis(100)).await;
+        let big = app.clone().oneshot(post(1_000_000)).await.unwrap();
+        assert_eq!(big.status(), StatusCode::PAYLOAD_TOO_LARGE);
+        assert_eq!(holder.await.unwrap(), StatusCode::OK);
     }
 }

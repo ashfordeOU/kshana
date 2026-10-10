@@ -21,11 +21,22 @@ pub const MAX_MEMBER_RUNS: i64 = 5_000;
 /// Most simulated epochs on one time grid (`duration_s / step_s`).
 pub const MAX_EPOCHS: f64 = 2_000_000.0;
 
+/// Most entries any one repeated table (`[[phases]]`, `[[phases.runs]]`, ...) may have.
+pub const MAX_TABLE_ARRAY: usize = 5_000;
+
 #[derive(Default)]
 struct Tally {
     nodes: i64,
     runs: i64,
     worst_epochs: f64,
+    /// Member scenarios listed one by one: every `[[phases]]` entry counts its `runs` array
+    /// (at least one), and any other repeated table that holds scenarios counts its length.
+    listed_members: i64,
+}
+
+/// Whether a table is a scenario or holds one (what a repeated-table array multiplies the work by).
+fn is_scenario_like(tbl: &toml::Table) -> bool {
+    tbl.contains_key("kind") || tbl.contains_key("scenario") || tbl.contains_key("runs")
 }
 
 fn walk(v: &toml::Value, t: &mut Tally, errors: &mut Vec<String>) {
@@ -54,11 +65,43 @@ fn walk(v: &toml::Value, t: &mut Tally, errors: &mut Vec<String>) {
             {
                 t.worst_epochs = d / s;
             }
+            if let Some(toml::Value::Array(phases)) = tbl.get("phases") {
+                for phase in phases.iter().filter_map(toml::Value::as_table) {
+                    let members = match phase.get("runs") {
+                        Some(toml::Value::Array(runs)) => runs.len() as i64,
+                        _ => 1,
+                    };
+                    t.listed_members = t.listed_members.saturating_add(members.max(1));
+                }
+            } else {
+                // Any other repeated table of scenario-like entries (a composed campaign's members).
+                for (k, v) in tbl {
+                    if k == "phases" {
+                        continue;
+                    }
+                    if let toml::Value::Array(items) = v {
+                        let scen = items
+                            .iter()
+                            .filter_map(toml::Value::as_table)
+                            .filter(|i| is_scenario_like(i) && !i.contains_key("start"))
+                            .count() as i64;
+                        if scen > 1 {
+                            t.listed_members = t.listed_members.saturating_add(scen);
+                        }
+                    }
+                }
+            }
             for child in tbl.values() {
                 walk(child, t, errors);
             }
         }
         toml::Value::Array(items) => {
+            let tables = items.iter().filter(|i| i.is_table()).count();
+            if tables > MAX_TABLE_ARRAY {
+                errors.push(format!(
+                    "a repeated table has {tables} entries, over the {MAX_TABLE_ARRAY} cap"
+                ));
+            }
             for item in items {
                 walk(item, t, errors);
             }
@@ -95,7 +138,10 @@ pub fn check(text: &str) -> Result<(), String> {
             t.worst_epochs
         ));
     }
-    let members = t.nodes.saturating_mul(t.runs.max(1));
+    let members = t
+        .nodes
+        .saturating_mul(t.runs.max(1))
+        .saturating_mul(t.listed_members.max(1));
     if members > MAX_MEMBER_RUNS {
         errors.push(format!(
             "the scenario implies {members} member runs (grid nodes times realisations), over the \
@@ -145,6 +191,34 @@ mod tests {
     fn an_absurd_time_grid_is_refused() {
         let t = "[time]\nstep_s = 0.001\nduration_s = 100000.0\n";
         assert!(check(t).unwrap_err().contains("epochs"));
+    }
+
+    #[test]
+    fn thousands_of_phases_are_counted_toward_the_member_run_cap() {
+        let mut t = String::from("kind = \"campaign\"\n");
+        for i in 0..6000 {
+            t.push_str(&format!(
+                "[[phases]]\nname = \"p{i}\"\n[[phases.runs]]\nkind = \"clock\"\n"
+            ));
+        }
+        let e = check(&t).unwrap_err();
+        assert!(
+            e.contains("member runs") || e.contains("repeated table"),
+            "{e}"
+        );
+        // fewer phases but many runs inside each one count too
+        let mut t = String::from("kind = \"campaign\"\n");
+        for i in 0..50 {
+            t.push_str(&format!("[[phases]]\nname = \"p{i}\"\n"));
+            for _ in 0..120 {
+                t.push_str("[[phases.runs]]\nkind = \"clock\"\n");
+            }
+        }
+        assert!(check(&t).unwrap_err().contains("member runs"));
+        // a handful of phases is fine
+        let ok =
+            "kind = \"campaign\"\n[[phases]]\nname = \"a\"\n[[phases.runs]]\nkind = \"clock\"\n";
+        assert!(check(ok).is_ok());
     }
 
     #[test]
