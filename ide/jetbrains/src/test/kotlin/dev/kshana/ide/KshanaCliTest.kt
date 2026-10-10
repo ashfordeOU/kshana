@@ -207,4 +207,15 @@ class KshanaCliTest {
         assertTrue(KshanaCli.isNmeaLogFile("bridge.NMEA"))
         assertFalse(KshanaCli.isNmeaLogFile("scenario.toml"))
     }
+
+    @Test
+    fun trustTelemetryCommandPrintsAndNeverListens() {
+        assertEquals(
+            listOf("kshana", "trust-telemetry", "--result", "/p/r.json", "--print-syslog", "--format", "leef"),
+            KshanaCli.trustTelemetryCommand("kshana", "/p/r.json", KshanaCli.TelemetryFormat.LEEF),
+        )
+        for (f in KshanaCli.TelemetryFormat.values()) {
+            assertTrue(f.args.any { it.startsWith("--print-") })
+        }
+    }
 }

@@ -25,10 +25,12 @@ generated NMEA text is for training. Galileo OSNMA verification is not in this r
 
 ### Added (surfaces)
 
-- **WebAssembly `trust_telemetry`.** Renders a trust stream or a `receiver-trust` result as Prometheus
-  text, CEF or LEEF syslog lines or an OTLP JSON payload, with the encoders `kshana trust-telemetry`
-  uses (`kshana::surface::trust_telemetry`); no socket and no clock. The `wasm` feature now also enables
-  `otlp`, which adds no crate.
+- **`trust_telemetry` on WebAssembly, Python and MCP, with a plugin command and a JetBrains action.**
+  Renders a trust stream or a `receiver-trust` result as Prometheus text, CEF or LEEF syslog lines or an
+  OTLP JSON payload, with the encoders `kshana trust-telemetry` uses (`kshana::surface::trust_telemetry`);
+  no socket and no clock. Plugin: `/kshana-trust-telemetry` and the `trust-telemetry` skill. JetBrains:
+  Render Trust Telemetry. The `wasm` and `python` features and the MCP server now also enable `otlp`,
+  which adds no crate.
 
 - **Parity sweep.** JetBrains actions Validate Scenario, List Scenario Kinds and Assess Receiver Stream;
   `kshana --help` now lists `receiver-trust evidence`, `evidence`, `trust-telemetry` and `nmea-scenario`;

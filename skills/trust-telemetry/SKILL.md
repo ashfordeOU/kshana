@@ -1,0 +1,19 @@
+---
+name: trust-telemetry
+description: Render a Kshana GNSS trust stream or receiver-trust result as security telemetry text (Prometheus, CEF or LEEF syslog, OTLP). Use when someone wants the trust score in a monitoring or SIEM format, or a sample of what the exporters emit.
+---
+
+# Trust telemetry
+
+Use the `kshana` MCP server's `trust_telemetry`. See `/kshana-trust-telemetry` for the step list
+and `docs/TRUST-TELEMETRY.md` for the metric names, labels and the CEF/LEEF field mapping.
+
+Rules that apply every time:
+
+- The tool returns text and sends nothing. It does not serve `/metrics`, open a syslog or OTLP
+  connection, or read a clock (syslog lines carry no timestamp). For a running exporter give the
+  user the `kshana trust-telemetry` command instead; do not claim the tool delivered anything.
+- The receiver-reported position stays out unless the user asks for `expose_position`.
+- Carry the caveat: advisory only, not type-approved navigation equipment (IEC 61108,
+  IEC 61162), the operator remains responsible; a high score is not proof of a genuine fix.
+  Evidence tier: MODELLED.
