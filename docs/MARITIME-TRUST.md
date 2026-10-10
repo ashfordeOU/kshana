@@ -257,7 +257,18 @@ is completed every 5,000 lines, calibration and history are capped at 20,000 epo
 The receiver's time is also compared with this computer's monotonic clock, which only means
 something for a stream arriving in real time. A stored log fed in at full speed through stdin,
 TCP or UDP trips that check by construction: pass `--replay`. (`--file` without `--follow`
-already implies it.)
+already implies it.) A `--file ... --follow` is read as a replay until it has been read to its end
+and the host clock is engaged from then on, so a backlog does not read as a clock fault; the check
+then needs the calibration window to still be open (otherwise it has no baseline and does not run).
+
+Stream ends and faults: stdin and a file read to its end finish normally (exit 0). A TCP connection
+closed by the peer is not a normal end for a stream that should go on: the layer exits non-zero
+after scoring and writing everything it had received and does not reconnect, so run it under a
+supervisor that restarts it. UDP datagrams that split a sentence are joined; the readers of
+stdin, a file and TCP are backed by a bounded queue that pushes back on the sender (nothing is
+lost), while UDP, which cannot push back, drops datagrams the engine cannot take and says so on
+stderr. `--udp <port>` binds the loopback address; give `--udp <addr>:<port>` to listen elsewhere
+(a warning is printed).
 
 ## `$PKSHT`: the proprietary sentence
 
