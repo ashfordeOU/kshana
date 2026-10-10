@@ -71,6 +71,18 @@ jobs:
         # as a failed step but goes on to build; a tag run stops here.
         continue-on-error: ${{ steps.mode.outputs.push != 'true' }}
         run: ./scripts/check-version-sync.sh
+      - name: Base images are pinned by digest - do the tags still resolve to the pinned digests?
+        # Informational, never fatal: a newer base image than the pin is a reason to re-pin, not
+        # a failed release. The build below pulls each base by its digest, so a digest that the
+        # registry does not have fails there.
+        run: |
+          set -uo pipefail
+          grep -E '^FROM +[^ ]+@sha256:' deploy/reference-build/Dockerfile | awk '{print $2}' | while read -r ref; do
+            name="${ref%%@*}"; pinned="${ref##*@}"
+            now="$(docker buildx imagetools inspect "$name" --format '{{.Manifest.Digest}}' 2>&1)"
+            if [ "$now" = "$pinned" ]; then echo "OK: $name still resolves to $pinned"
+            else echo "::warning::$name resolves to '$now' now; the Dockerfile pins $pinned"; fi
+          done
       - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
       - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
       - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
