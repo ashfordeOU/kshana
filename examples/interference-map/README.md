@@ -24,3 +24,8 @@ examples/interference-map/regenerate.sh [path/to/kshana]
 `input/` holds the synthetic inputs (made by `generate_inputs.py`, which uses no random
 numbers). `tests/interference_map_examples.rs` fails if `output/` differs from what the
 command produces, apart from the `kshana_version` field.
+
+`input/route-adsb.geojson` and `input/route-ais.geojson` are synthetic routes over the two sample
+days. `kshana route-exposure --route input/route-adsb.geojson --map output/adsb-custom-2026-03-01.geojson`
+gives the route-exposure shares drawn in `docs/assets/readme/interference-map-*.svg`, which
+`tools/gen_readme_assets.py` makes from these files.

@@ -113,6 +113,15 @@ radio signal and transmits nothing. It is not a measurement and the route is ill
 chart. `tests/receiver_trust_maritime_demo.rs` pins the log and the expected output as regression
 guards on the synthetic data; they say nothing about how any monitor does on real interference.
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/trust-timeline-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/readme/trust-timeline-light.svg">
+  <img src="assets/readme/trust-timeline-light.svg" alt="Trust score over one synthetic passage, from a real run of engine v0.35.0 on examples/maritime-trust (a made-up NMEA log of a ferry on a Tallinn to Helsinki route, 3001 epochs at 1 Hz). Three lanes share one time axis. Top: the distance between the position the receiver reports and the vessel's real position, which stays within a few metres until about 1576 s, when the log's scripted position drag-off pulls it away, while the receiver keeps reporting a valid fix. Middle: the trust score from 0 to 100, not computed during the first 300 s of calibration, in the nominal band (at least 90) until the drag-off, then falling through the degraded band (at least 55) into the untrusted band. Bottom: the band of each epoch as a coloured ribbon with its name. The score is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. The log is made up to show the format and the monitors; it is not a measurement and says nothing about how any receiver would perform." width="100%">
+</picture>
+
+The figure is drawn by `tools/gen_readme_assets.py` from a real run of this demo (`kshana receiver-trust
+examples/maritime-trust/session.toml`); the score is advisory, and the log is made up.
+
 ## Studio view specification
 
 For whoever builds the Studio view of a vessel run. Nothing in this section is implemented in the
