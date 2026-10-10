@@ -124,6 +124,7 @@ exists yet.
 | Surface | Input limit | Files |
 |---|---|---|
 | MCP | 4 MiB per text input (2 MiB and 20,000 epochs for a stream excerpt); replies carry at most 2000 NMEA lines, 200 non-nominal epoch lines and 4 MiB of GeoJSON or pack files | inline content only: a scenario field that names a file is refused; the `iq_*` tools use one opt-in work directory, with every path confined to it |
+| MCP over HTTP (`--http`, self-hosted) | as MCP, with a 5 MiB request body, 120 s per request and 8 requests at once by default | none: the `iq_*` file tools are off; every other tool takes inline content |
 | Python, Rust | 64 MiB per text input | `receiver_trust` may name a `path` the process can read |
 | WASM | 64 MiB per text input, inside the browser's own memory | none: the browser has no file system, nothing is uploaded |
 

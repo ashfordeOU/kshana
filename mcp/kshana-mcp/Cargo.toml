@@ -47,8 +47,8 @@ path = "src/main.rs"
 # `list_example_scenarios` / `get_example_scenario` can hand an agent a runnable scenario
 # of a kind: a registry or image install has no `scenarios/` directory to read.
 kshana = { path = "../..", version = "0.35.0", features = ["bundled-scenarios"] }
-rmcp = { version = "2.1", features = ["server", "macros", "transport-io"] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
+rmcp = { version = "2.1", features = ["server", "macros", "transport-io", "transport-streamable-http-server"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util", "net", "signal", "time"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 toml = "0.8"
@@ -56,7 +56,13 @@ schemars = "1"
 anyhow = "1"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
+tower-http = { version = "0.6", default-features = false, features = ["timeout"] }
+tokio-util = "0.7"
+subtle = "2"
 
 [dev-dependencies]
+tower = { version = "0.5", default-features = false, features = ["util"] }
 # The MCP client side, for the in-process (duplex) round-trip integration test.
 rmcp = { version = "2.1", features = ["client"] }
+futures-util = { version = "0.3", default-features = false }

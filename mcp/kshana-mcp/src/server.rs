@@ -37,6 +37,8 @@ use rmcp::model::{
     CallToolResult, ContentBlock, Implementation, ProtocolVersion, ServerCapabilities, ServerInfo,
 };
 use rmcp::{ErrorData as McpError, ServerHandler, schemars, tool, tool_handler, tool_router};
+use std::sync::Arc;
+use tokio::sync::Semaphore;
 
 /// Parameters for [`KshanaServer::run_scenario`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
@@ -185,7 +187,8 @@ pub const MAX_INPUT_BYTES: usize = 4 * 1024 * 1024;
 /// engine to read, and one over the size limit.
 fn inline_only(toml: &str) -> Result<(), McpError> {
     kshana::inline_only::reject_file_sources(toml, MAX_INPUT_BYTES)
-        .map_err(|e| McpError::invalid_params(e, None))
+        .map_err(|e| McpError::invalid_params(e, None))?;
+    crate::budget::check_tool(toml)
 }
 
 /// The detected kind of a scenario, as the name `list_scenario_kinds` uses.
@@ -216,6 +219,41 @@ pub struct KshanaServer {
     tool_router: ToolRouter<KshanaServer>,
     /// Where the IQ tools may read and write, and their per-call sample budget.
     pub(crate) iq: IqConfig,
+    /// How many tool calls may run at once, and what a call does when they are all busy.
+    pool: WorkPool,
+}
+
+/// The bounded pool every tool call runs in.
+///
+/// Tools are synchronous, CPU-bound functions of the engine. A call runs on a blocking thread
+/// (`spawn_blocking`), never on an async worker, so a long run cannot starve the server's
+/// ability to answer. The permit is moved into the blocking task and released only when that
+/// task finishes: a caller that gave up (an HTTP timeout, a dropped client) does not free the
+/// slot while the work is still running, so abandoned calls cannot pile up past the pool size.
+#[derive(Clone)]
+struct WorkPool {
+    permits: Arc<Semaphore>,
+    /// `true`: a call arriving when every slot is busy is refused at once ("busy"), which is
+    /// what a network server wants. `false`: it waits for a slot, which is what a
+    /// single-client stdio session wants.
+    shed: bool,
+}
+
+impl WorkPool {
+    fn new(size: usize, shed: bool) -> Self {
+        Self {
+            permits: Arc::new(Semaphore::new(size.max(1))),
+            shed,
+        }
+    }
+}
+
+/// The pool size when none is configured: one slot per available core, at least two.
+fn default_pool_size() -> usize {
+    std::thread::available_parallelism()
+        .map(|n| n.get())
+        .unwrap_or(2)
+        .max(2)
 }
 
 impl Default for KshanaServer {
@@ -232,12 +270,32 @@ impl KshanaServer {
         Self::with_iq_config(IqConfig::from_env())
     }
 
+    /// The IQ configuration this server was built with (for tests of the HTTP transport).
+    #[doc(hidden)]
+    pub fn iq_config_for_test(&self) -> &IqConfig {
+        &self.iq
+    }
+
     /// Construct the server with an explicit IQ configuration.
     pub fn with_iq_config(iq: IqConfig) -> Self {
         Self {
             tool_router: Self::tool_router() + Self::iq_tool_router() + Self::marine_tool_router(),
             iq,
+            pool: WorkPool::new(default_pool_size(), false),
         }
+    }
+
+    /// Bound the number of tool calls running at once to `size`. With `shed`, a call that
+    /// finds every slot busy is refused immediately instead of waiting (see [`WorkPool`]).
+    #[must_use]
+    pub fn with_work_pool(mut self, size: usize, shed: bool) -> Self {
+        self.pool = WorkPool::new(size, shed);
+        self
+    }
+
+    /// Slots of the work pool free right now (for tests and for the HTTP transport's log).
+    pub fn free_work_slots(&self) -> usize {
+        self.pool.permits.available_permits()
     }
 
     #[tool(
@@ -285,7 +343,8 @@ impl KshanaServer {
         &self,
         Parameters(TomlRequest { toml }): Parameters<TomlRequest>,
     ) -> Result<CallToolResult, McpError> {
-        inline_only(&toml)?;
+        kshana::inline_only::reject_file_fields(&toml, MAX_INPUT_BYTES)
+            .map_err(|e| McpError::invalid_params(e, None))?;
         // `classify` is permissive by design (unknown/unparseable input falls back to the
         // clock pack), so do a strict TOML parse here to actually catch malformed input.
         if let Err(e) = toml::from_str::<toml::Value>(&toml) {
@@ -651,6 +710,39 @@ impl KshanaServer {
 // only the core tools and miss the IQ router merged in by `with_iq_config`.
 #[tool_handler(router = self.tool_router)]
 impl ServerHandler for KshanaServer {
+    /// Run the call on a blocking thread inside the bounded pool. The permit travels with the
+    /// blocking task, so it is released when the work ends, not when the caller stops waiting.
+    async fn call_tool(
+        &self,
+        request: rmcp::model::CallToolRequestParams,
+        context: rmcp::service::RequestContext<rmcp::RoleServer>,
+    ) -> Result<CallToolResult, McpError> {
+        let permits = self.pool.permits.clone();
+        let permit = if self.pool.shed {
+            permits.try_acquire_owned().map_err(|_| {
+                McpError::internal_error(
+                    "the server is at its concurrent-work limit (earlier calls are still running); \
+                     retry shortly",
+                    None,
+                )
+            })?
+        } else {
+            permits
+                .acquire_owned()
+                .await
+                .map_err(|_| McpError::internal_error("the work pool is closed", None))?
+        };
+        let this = self.clone();
+        let runtime = tokio::runtime::Handle::current();
+        tokio::task::spawn_blocking(move || {
+            let _permit = permit;
+            let tcc = rmcp::handler::server::tool::ToolCallContext::new(&this, request, context);
+            runtime.block_on(this.tool_router.call(tcc))
+        })
+        .await
+        .map_err(|e| McpError::internal_error(format!("the tool call did not finish: {e}"), None))?
+    }
+
     fn get_info(&self) -> ServerInfo {
         // Set the identity explicitly: rmcp's `Implementation::from_build_env()` reports
         // `env!("CARGO_CRATE_NAME")` from *within rmcp* (i.e. "rmcp"), not this crate.

@@ -1,0 +1,206 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Publish kshana-mcp to Homebrew, Scoop and winget, from the release's own SHA256SUMS.
+#
+#   manifests   scripts/gen_pkg_manifests.py writes the Homebrew formula, the Scoop manifest and the winget
+#               manifests from SHA256SUMS (the published release's, or a dry run's staged copy), and
+#               scripts/test_gen_pkg_manifests.py checks every URL and checksum in them. Always runs.
+#   homebrew    pushes Formula/kshana-mcp.rb to ashfordeOU/homebrew-tap         needs the secret HOMEBREW_TAP_TOKEN
+#   scoop       pushes bucket/kshana-mcp.json to ashfordeOU/scoop-bucket        needs the secret SCOOP_BUCKET_TOKEN
+#   winget      opens a pull request to microsoft/winget-pkgs from a fork       needs the secret WINGET_TOKEN
+#
+# Each of the three SKIPS, with a notice and a green result, when its secret is missing, so a release never waits on
+# an account that has not been set up. (docs: packaging/mcp/SUBMITTING.md lists the repositories and tokens to create.)
+# Called by release.yml after the GitHub release exists. `dry_run` runs `manifests` only and says which secrets are
+# visible.
+name: publish MCP distribution
+on:
+  workflow_call:
+    inputs:
+      dry_run:
+        description: "Generate and check the manifests; push and submit nothing"
+        required: false
+        type: boolean
+        default: false
+permissions:
+  contents: read
+jobs:
+  manifests:
+    name: generate and check the manifests
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    outputs:
+      version: ${{ steps.v.outputs.version }}
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - id: v
+        run: |
+          set -euo pipefail
+          echo "version=$(grep -m1 '^version' mcp/kshana-mcp/Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')" >> "$GITHUB_OUTPUT"
+      - name: SHA256SUMS of this dry run's staged assets
+        if: inputs.dry_run
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dry-run-release-assets
+          path: staged
+      - name: SHA256SUMS of the published release
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          TAG: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          mkdir -p staged
+          gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern SHA256SUMS --dir staged
+      - name: Generate and check
+        run: |
+          set -euo pipefail
+          python3 scripts/test_gen_pkg_manifests.py
+          python3 scripts/gen_pkg_manifests.py "${{ steps.v.outputs.version }}" staged/SHA256SUMS manifests
+          find manifests -type f | sort
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcp-package-manifests
+          path: manifests
+          if-no-files-found: error
+      - name: Are the account tokens visible? (never printed)
+        if: inputs.dry_run
+        env:
+          HOMEBREW_TAP_TOKEN: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          SCOOP_BUCKET_TOKEN: ${{ secrets.SCOOP_BUCKET_TOKEN }}
+          WINGET_TOKEN: ${{ secrets.WINGET_TOKEN }}
+        run: |
+          for n in HOMEBREW_TAP_TOKEN SCOOP_BUCKET_TOKEN WINGET_TOKEN; do
+            if [ -n "${!n}" ]; then echo "OK: $n is visible to this workflow (value not printed)"
+            else echo "::notice::$n is not set: the matching publish step would be SKIPPED, not failed"; fi
+          done
+
+  homebrew:
+    name: Homebrew tap
+    needs: manifests
+    if: ${{ !inputs.dry_run && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - id: s
+        env:
+          T: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+        run: |
+          if [ -n "$T" ]; then echo "have=true" >> "$GITHUB_OUTPUT"
+          else echo "have=false" >> "$GITHUB_OUTPUT"; echo "::notice::HOMEBREW_TAP_TOKEN is not set: the Homebrew tap is NOT updated (create ashfordeOU/homebrew-tap and the secret; see packaging/mcp/SUBMITTING.md)"; fi
+      - if: steps.s.outputs.have == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-package-manifests
+          path: manifests
+      - if: steps.s.outputs.have == 'true'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: ashfordeOU/homebrew-tap
+          token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
+          path: tap
+      - name: Commit the formula
+        if: steps.s.outputs.have == 'true'
+        env:
+          VERSION: ${{ needs.manifests.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p tap/Formula
+          cp manifests/homebrew/Formula/kshana-mcp.rb tap/Formula/kshana-mcp.rb
+          cd tap
+          git config user.name "Ashforde OÜ"
+          git config user.email "contact@ashforde.org"
+          git add Formula/kshana-mcp.rb
+          if git diff --cached --quiet; then echo "the tap already has this formula"; exit 0; fi
+          git commit -m "kshana-mcp ${VERSION}"
+          git push
+
+  scoop:
+    name: Scoop bucket
+    needs: manifests
+    if: ${{ !inputs.dry_run && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - id: s
+        env:
+          T: ${{ secrets.SCOOP_BUCKET_TOKEN }}
+        run: |
+          if [ -n "$T" ]; then echo "have=true" >> "$GITHUB_OUTPUT"
+          else echo "have=false" >> "$GITHUB_OUTPUT"; echo "::notice::SCOOP_BUCKET_TOKEN is not set: the Scoop bucket is NOT updated (create ashfordeOU/scoop-bucket and the secret; see packaging/mcp/SUBMITTING.md)"; fi
+      - if: steps.s.outputs.have == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-package-manifests
+          path: manifests
+      - if: steps.s.outputs.have == 'true'
+        uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          repository: ashfordeOU/scoop-bucket
+          token: ${{ secrets.SCOOP_BUCKET_TOKEN }}
+          path: bucket-repo
+      - name: Commit the manifest
+        if: steps.s.outputs.have == 'true'
+        env:
+          VERSION: ${{ needs.manifests.outputs.version }}
+        run: |
+          set -euo pipefail
+          mkdir -p bucket-repo/bucket
+          cp manifests/scoop/bucket/kshana-mcp.json bucket-repo/bucket/kshana-mcp.json
+          cd bucket-repo
+          git config user.name "Ashforde OÜ"
+          git config user.email "contact@ashforde.org"
+          git add bucket/kshana-mcp.json
+          if git diff --cached --quiet; then echo "the bucket already has this manifest"; exit 0; fi
+          git commit -m "kshana-mcp ${VERSION}"
+          git push
+
+  winget:
+    name: winget (pull request to microsoft/winget-pkgs)
+    needs: manifests
+    if: ${{ !inputs.dry_run && startsWith(github.ref, 'refs/tags/v') }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - id: s
+        env:
+          T: ${{ secrets.WINGET_TOKEN }}
+        run: |
+          if [ -n "$T" ]; then echo "have=true" >> "$GITHUB_OUTPUT"
+          else echo "have=false" >> "$GITHUB_OUTPUT"; echo "::notice::WINGET_TOKEN is not set: NO winget pull request is opened (see packaging/mcp/SUBMITTING.md)"; fi
+      - if: steps.s.outputs.have == 'true'
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-package-manifests
+          path: manifests
+      - name: Open the pull request
+        if: steps.s.outputs.have == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.WINGET_TOKEN }}
+          VERSION: ${{ needs.manifests.outputs.version }}
+        run: |
+          set -euo pipefail
+          me="$(gh api user --jq .login)"
+          gh repo fork microsoft/winget-pkgs --clone=false || true
+          gh repo sync "$me/winget-pkgs" --force
+          # The repository is very large: fetch no file contents but the directory we write.
+          # The token goes in an HTTP header set through the environment, never into the clone URL
+          # (which would be stored in .git/config and shown in process listings).
+          auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::$auth"
+          export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="http.https://github.com/.extraheader" GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $auth"
+          git clone --depth 1 --filter=blob:none --sparse "https://github.com/$me/winget-pkgs.git" winget
+          cd winget
+          git sparse-checkout set manifests/a/AshfordeOU/KshanaMcp
+          git config user.name "Ashforde OÜ"
+          git config user.email "contact@ashforde.org"
+          branch="kshana-mcp-${VERSION}"
+          git checkout -b "$branch"
+          mkdir -p "manifests/a/AshfordeOU/KshanaMcp/${VERSION}"
+          cp ../manifests/winget/manifests/a/AshfordeOU/KshanaMcp/"${VERSION}"/* "manifests/a/AshfordeOU/KshanaMcp/${VERSION}/"
+          git add manifests
+          git commit -m "New version: AshfordeOU.KshanaMcp version ${VERSION}"
+          git push --force origin "$branch"
+          if gh api "repos/microsoft/winget-pkgs/contents/manifests/a/AshfordeOU/KshanaMcp" >/dev/null 2>&1; then kind="New version"; else kind="New package"; fi
+          gh pr create --repo microsoft/winget-pkgs --base master --head "$me:$branch" \
+            --title "${kind}: AshfordeOU.KshanaMcp version ${VERSION}" \
+            --body "Kshana MCP server ${VERSION}, a portable binary from https://github.com/ashfordeOU/kshana/releases/tag/v${VERSION}. The manifests are generated from the release's SHA256SUMS. Advisory software, not type-approved navigation equipment."
