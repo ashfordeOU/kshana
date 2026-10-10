@@ -208,6 +208,24 @@ def test_iq_scene_then_acquire_recovers_the_injected_signals():
         assert abs(det["doppler_hz"] - truth0[prn]["doppler_hz"]) <= 250.0
 
 
+def test_iq_acq_surface_peak_matches_iq_acquire():
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.05, signal="gps-l1ca", prns=[5], dopplers=[1200.0], seed=2
+    )
+    args = (scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca")
+    det = kshana.iq_acquire(*args, [5], coherent=4, doppler_max=4000.0)[0]
+    surf = kshana.iq_acq_surface(*args, 5, coherent=4, doppler_max=4000.0)
+    h = surf["header"]
+    assert h["schema"] == "kshana.acq-surface/1"
+    assert h["peak"]["doppler_hz"] == det["doppler_hz"]
+    assert h["peak"]["delay_samples"] == det["delay_samples"]
+    rows = surf["rows"]
+    assert len(rows) == len(h["doppler_bins_hz"])
+    assert len(rows[0]) == h["samples_per_period"]
+    assert rows[h["peak"]["doppler_index"]][h["peak"]["delay_samples"]] == det["statistic"]
+    assert abs(h["fine_search"]["correction_hz"]) <= h["doppler_step_hz"]
+
+
 def test_iq_scene_arrays_are_numpy_float64_and_finite():
     import numpy as np
 
@@ -234,8 +252,157 @@ def test_iq_track_converges_to_the_injected_doppler_and_locks():
     assert last["phase_lock"] is True
 
 
+DESIGNS = """
+schema = "kshana.loop-design/1"
+[[design]]
+name = "narrow"
+[design.carrier]
+pll_bw_hz = 8.0
+[[design]]
+name = "fll-only"
+[design.carrier]
+kind = "fll"
+fll_bw_hz = 5.0
+"""
+
+
+def test_iq_loop_designs_resolves_every_field_and_hashes():
+    designs = kshana.iq_loop_designs(DESIGNS)
+    assert [d["name"] for d in designs] == ["narrow", "fll-only"]
+    assert designs[0]["carrier"]["pll_bw_hz"] == 8.0
+    assert designs[1]["carrier"]["pll_order"] is None
+    assert len(designs[0]["hash"]) == 64 and designs[0]["hash"] != designs[1]["hash"]
+    assert designs[0]["lock"]["reacquire"] is False
+
+
+def test_iq_track_takes_a_design_and_reports_states_and_the_design():
+    import pytest
+
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.8, signal="gps-l1ca", prns=[9],
+        dopplers=[1200.0], cn0_dbhz=50.0, noise=False,
+    )
+    out = kshana.iq_track(
+        scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [9],
+        design=DESIGNS, design_name="narrow", dll_bw=3.0,
+    )
+    assert out["design"]["name"] == "narrow"
+    assert out["design"]["carrier"]["pll_bw_hz"] == 8.0
+    assert out["design"]["code"]["bw_hz"] == 3.0  # the argument overrides the design
+    epochs = out["channels"][0]["epochs"]
+    assert epochs[0]["state"] == "PULL_IN"
+    assert {"i_early", "q_late", "carrier_phase_cycles"} <= set(epochs[0])
+    assert abs(epochs[-1]["doppler_hz"] - 1200.0) < 5.0
+    # 2.046 MHz is exactly 2 samples per chip: the result warns.
+    assert out["warnings"][0]["kind"] == "commensurate_sampling"
+    with pytest.raises(ValueError):
+        kshana.iq_track(
+            scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [9],
+            design=DESIGNS, design_name="missing",
+        )
+
+
+def test_iq_read_epochs_refuses_a_file_that_is_not_one(tmp_path):
+    import pytest
+
+    p = tmp_path / "x.bin"
+    p.write_bytes(b"not an epoch file\n")
+    with pytest.raises(ValueError):
+        kshana.iq_read_epochs(str(p))
+
+
 def test_iq_acquire_raises_on_an_unknown_signal():
     import pytest
 
     with pytest.raises(ValueError):
         kshana.iq_acquire([0.0, 0.0], [0.0, 0.0], 2_046_000, "not-a-signal", [1])
+
+
+def test_iq_scene_cn0_profile_sets_the_truth_cn0():
+    import pytest
+
+    prof = "[[segment]]\nkind = \"step\"\nat_s = 0.2\ndelta_db = -6.0\n"
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.4, signal="gps-l1ca", prns=[9],
+        cn0_dbhz=45.0, noise=False, cn0_profile=prof,
+    )
+    cn0 = {round(r["t_s"], 6): r["cn0_dbhz"] for r in scene["truth"]}
+    assert all(abs(v - (39.0 if t >= 0.2 else 45.0)) < 1e-9 for t, v in cn0.items())
+    with pytest.raises(ValueError):
+        kshana.iq_scene(
+            fs_hz=2_046_000, duration_s=0.1, signal="gps-l1ca", prns=[9],
+            cn0_profile="[[segment]]\nkind = \"fade\"\ns4 = 3.0\ntau_s = 1.0\n",
+        )
+
+def test_iq_monitor_reads_a_recording_file_and_reports_series(tmp_path):
+    import numpy as np
+    import pytest
+
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=1.5, signal="gps-l1ca", prns=[9],
+        dopplers=[1200.0], cn0_dbhz=47.0, seed=3,
+    )
+    x = np.empty(2 * len(scene["samples_i"]), dtype="<f4")
+    x[0::2] = scene["samples_i"]
+    x[1::2] = scene["samples_q"]
+    path = tmp_path / "s.bin"
+    x.tofile(path)
+    settings = (
+        "[power]\nbaseline_s = 0.5\n[spectral]\nbaseline_s = 0.5\n"
+        "[epoch.cn0]\nbaseline_s = 0.5\n[epoch.sqm]\nbaseline_s = 0.5\n"
+    )
+    rep = kshana.iq_monitor(
+        str(path), format="cf32_le", rate=2_046_000, signal="gps-l1ca", prns=[9],
+        settings=settings,
+    )
+    names = {s["name"] for s in rep["series"]}
+    assert {"power_db", "kurtosis", "cn0_dbhz", "sqm_ratio", "pli"} <= names
+    assert rep["events"] == []
+    only_power = kshana.iq_monitor(str(path), format="cf32_le", rate=2_046_000, power=True)
+    assert {s["name"] for s in only_power["series"]} == {"power_db", "agc_gain_db"}
+    with pytest.raises(ValueError):
+        kshana.iq_monitor(str(tmp_path / "missing.bin"))
+
+
+def test_iq_campaign_runs_resumes_and_reports(tmp_path):
+    # One synthetic recording stands in for a lab capture: a 3 s scene written as raw
+    # interleaved float32 with its sample description in the test-condition file.
+    import numpy as np
+    import pytest
+
+    fs = 2_046_000
+    scene = kshana.iq_scene(
+        fs_hz=fs, duration_s=3.0, signal="gps-l1ca", prns=[9], dopplers=[1200.0], cn0_dbhz=45.0
+    )
+    iq = np.empty(2 * len(scene["samples_i"]), dtype="<f4")
+    iq[0::2] = scene["samples_i"]
+    iq[1::2] = scene["samples_q"]
+    iq.tofile(tmp_path / "rec.cf32")
+    (tmp_path / "rec.toml").write_text(
+        'schema = "kshana.test-conditions/1"\n'
+        '[recording]\nid = "rec"\npath = "rec.cf32"\nformat = "cf32_le"\n'
+        f"sample_rate_hz = {fs}.0\nsettle_s = 1.0\n"
+        '[[expected]]\nsignal = "gps-l1ca"\nids = [9]\n'
+        '[[event]]\nid = "e1"\nkind = "interference"\ntype = "cw"\n'
+        "onset_s = 2.0\noffset_s = 2.5\n"
+        '[event.power]\nquantity = "js_db"\npoints = [[2.0, 10.0]]\n'
+    )
+    tc = kshana.iq_test_conditions(str(tmp_path / "rec.toml"))
+    assert tc["recording"]["id"] == "rec" and len(tc["hash"]) == 64
+    with pytest.raises(ValueError):
+        kshana.iq_test_conditions('schema = "kshana.test-conditions/1"\n')
+
+    campaign = tmp_path / "c.toml"
+    campaign.write_text(
+        'schema = "kshana.campaign/1"\nname = "py"\ndata_class = "synthetic"\n[inputs]\nconditions = ["rec.toml"]\n'
+    )
+    out = str(tmp_path / "out")
+    first = kshana.iq_campaign(str(campaign), out, workers=1)
+    assert first["cells_total"] == 1 and first["cells_run"] == 1, first
+    assert first["cells_failed"] == [] and len(first["digest"]) == 64
+    again = kshana.iq_campaign(str(campaign), out)
+    assert again["cells_run"] == 0 and again["cells_skipped"] == 1
+    assert again["digest"] == first["digest"]
+    rep = kshana.iq_campaign_report(out)
+    assert rep["digest"] == first["digest"] and rep["rows"] == 2
+    assert (tmp_path / "out" / "report.html").read_text().count("MODELLED") >= 1

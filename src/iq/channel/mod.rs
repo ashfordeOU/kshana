@@ -19,6 +19,9 @@
 //!   with Fresnel reflection coefficients.
 //! * [`land_mobile::LandMobile`] - a three-state (line-of-sight / shadowed / blocked) Markov
 //!   land-mobile channel with Loo-distributed amplitude (ITU-R P.681 style).
+//! * [`cn0_profile::Cn0Profile`] - time-varying C/N0 schedules per satellite (step, ramp,
+//!   piecewise linear, seeded Rice fades), applied through the scene's channel hook by
+//!   [`cn0_profile::Cn0ProfileChannel`] over any of the effects above.
 //!
 //! # Convention
 //!
@@ -40,6 +43,7 @@
 use super::{ChannelSnapshot, PathState, C_M_PER_S};
 use std::f64::consts::PI;
 
+pub mod cn0_profile;
 pub mod iono;
 pub mod land_mobile;
 pub mod multipath;
