@@ -1,14 +1,39 @@
 {
   "name": "kshana-mcp",
   "version": "0.35.0",
+  "mcpName": "io.github.ashfordeOU/kshana-mcp",
   "description": "Launcher for the Kshana MCP server: downloads the prebuilt kshana-mcp binary of the same version from the GitHub release, checks it against SHA256SUMS and runs it. Advisory, not type-approved navigation equipment.",
-  "bin": { "kshana-mcp": "bin/kshana-mcp.js" },
-  "files": ["bin/", "lib/", "README.md", "LICENSE"],
-  "keywords": ["mcp", "model-context-protocol", "pnt", "gnss", "navigation", "kshana"],
+  "bin": {
+    "kshana-mcp": "bin/kshana-mcp.js"
+  },
+  "files": [
+    "bin/",
+    "lib/",
+    "README.md",
+    "LICENSE"
+  ],
+  "keywords": [
+    "mcp",
+    "model-context-protocol",
+    "pnt",
+    "gnss",
+    "navigation",
+    "kshana"
+  ],
   "license": "AGPL-3.0-only",
-  "repository": { "type": "git", "url": "git+https://github.com/ashfordeOU/kshana.git", "directory": "packaging/mcp/npm" },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ashfordeOU/kshana.git",
+    "directory": "packaging/mcp/npm"
+  },
   "homepage": "https://kshana.dev",
-  "bugs": { "url": "https://github.com/ashfordeOU/kshana/issues" },
-  "engines": { "node": ">=18" },
-  "scripts": { "test": "node --test \"test/*.test.js\"" }
+  "bugs": {
+    "url": "https://github.com/ashfordeOU/kshana/issues"
+  },
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "test": "node --test \"test/*.test.js\""
+  }
 }
