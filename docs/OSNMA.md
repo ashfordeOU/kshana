@@ -86,6 +86,11 @@ sentence; `kshana::osnma::pksos_sentence` builds it.
   as the streams of the published vectors exercise it. It does not implement every
   case the ICD allows, and a chain renewal replaces the chain in force rather than
   running two in parallel.
+* **Merkle tree hash.** DSM-PKR messages are checked with a SHA-256 tree. A SHA3-256
+  tree, which the ICD allows in future, is not supported. The chain hash function can
+  be SHA-256 or SHA3-256.
+* **Key status lists.** Revocation is followed through the NMA status and the messages
+  in the stream; certificate revocation lists are not read.
 * **Signal and data quality.** Pages are taken as already CRC-checked. Reed-Solomon
   recovery of I/NAV words 1 to 4 is not used: data must be received directly.
 * **Not a position integrity service.** Authentication says the data came from the
@@ -124,7 +129,23 @@ caught: a flipped navigation bit, a flipped key bit, replayed tags, wrong time s
 a time outside the reference, missing data. Because that data comes from our own
 reading of the ICD, it shows self-consistency, not conformance.
 
+The primitives are checked against published known-answer tests, none taken from the
+ICD: RFC 4231 (HMAC-SHA-256), RFC 4493 (CMAC-AES-128), FIPS 197 (AES), FIPS 202
+(SHA3-256) and RFC 6979 (ECDSA P-256). P-521 signatures are checked for encoding and
+hash selection with a throwaway key made in the test; the curve arithmetic is the
+library's.
+
 Conformance is checked by `tests/osnma_official_vectors.rs`, which is opt-in: it reads a
 copy of the official test-vector archive that you download yourself, from the
 directory named by `KSHANA_OSNMA_VECTORS`, and does nothing when the variable is unset.
-It stores and redistributes nothing, and default test runs use no network.
+It stores and redistributes nothing, and default test runs use no network. It gives the
+verifier only a Merkle root and the public keys of one tree, as a receiver would have,
+so chains are established from the signed DSM-KROOT in the stream and the whole path
+runs: Merkle, signature, key chain, MACSEQ and tags.
+
+## Dependencies
+
+RustCrypto crates, pure Rust, MIT OR Apache-2.0, built without default features:
+`hmac`, `cmac`, `aes`, `sha3`, `p256` and `p521` (the `ecdsa` feature, used for
+verification only), alongside `sha2` already in the tree. They build for
+`wasm32-unknown-unknown` and pass `cargo deny`.

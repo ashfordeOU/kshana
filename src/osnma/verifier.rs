@@ -21,7 +21,7 @@ use super::page::InavPage;
 use super::signature::{self, PublicKey, SigError};
 use super::subframe::{Mack, MackLayout, NmaHeader, Subframe, SubframeAssembler, SUBFRAME_S};
 use super::tables::{HashFn, KeyType, MacFn};
-use super::tesla::{self, KeyError};
+use super::tesla;
 use super::OsnmaStatus;
 use serde::Serialize;
 use std::collections::BTreeMap;
@@ -455,7 +455,6 @@ impl Verifier {
                 self.keys.insert(gst, key.to_vec());
                 ev.push(Event::KeyVerified { gst });
             }
-            Err(KeyError::UnsupportedHash) => {}
             Err(_) => ev.push(Event::KeyRejected {
                 gst,
                 reason: FailReason::KeyChainMismatch,

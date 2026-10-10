@@ -4,6 +4,7 @@
 
 use super::tables::HashFn;
 use sha2::{Digest, Sha256};
+use sha3::Sha3_256;
 
 pub const SUBFRAME_S: u32 = 30;
 /// Most one-way steps a single verification may take: bounds the work a forged, far
@@ -13,8 +14,6 @@ pub const MAX_STEPS: u32 = 100_000;
 /// Why a TESLA key did not verify.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum KeyError {
-    /// The chain's hash function is not available in this build.
-    UnsupportedHash,
     /// The key is not later than the trusted key, or the times are not sub-frame aligned.
     BadTiming,
     /// Applying the one-way function did not lead to the trusted key.
@@ -23,30 +22,24 @@ pub enum KeyError {
     BadLength,
 }
 
-fn digest(hf: HashFn, data: &[u8]) -> Result<Vec<u8>, KeyError> {
+fn digest(hf: HashFn, data: &[u8]) -> Vec<u8> {
     match hf {
-        HashFn::Sha256 => Ok(Sha256::digest(data).to_vec()),
-        HashFn::Sha3_256 => Err(KeyError::UnsupportedHash),
+        HashFn::Sha256 => Sha256::digest(data).to_vec(),
+        HashFn::Sha3_256 => Sha3_256::digest(data).to_vec(),
     }
 }
 
 /// One step of the chain: `F(K) = trunc(lk, hash(K || GST || alpha))`, where `gst` is
 /// the time in GST seconds of the sub-frame that carries the *derived* key; it is
 /// packed into the 32-bit message form here.
-pub fn step(
-    hf: HashFn,
-    key: &[u8],
-    gst: u32,
-    alpha: &[u8; 6],
-    key_bits: usize,
-) -> Result<Vec<u8>, KeyError> {
+pub fn step(hf: HashFn, key: &[u8], gst: u32, alpha: &[u8; 6], key_bits: usize) -> Vec<u8> {
     let mut m = Vec::with_capacity(key.len() + 10);
     m.extend_from_slice(key);
     m.extend_from_slice(&super::gst_pack(gst).to_be_bytes());
     m.extend_from_slice(alpha);
-    let mut out = digest(hf, &m)?;
+    let mut out = digest(hf, &m);
     out.truncate(key_bits / 8);
-    Ok(out)
+    out
 }
 
 /// Verify `key`, broadcast in the sub-frame starting at `key_gst`, against `trusted`,
@@ -75,7 +68,7 @@ pub fn verify_key(
     let mut gst = key_gst;
     while gst > trusted_gst {
         gst -= SUBFRAME_S;
-        cur = step(hf, &cur, gst, alpha, key_bits)?;
+        cur = step(hf, &cur, gst, alpha, key_bits);
     }
     if cur == trusted {
         Ok(())
@@ -95,7 +88,7 @@ mod tests {
         let mut seq = vec![seed];
         for i in (0..n).rev() {
             let gst = gst0 + 30 * i - 30;
-            let next = step(HashFn::Sha256, seq.last().unwrap(), gst, alpha, bits).unwrap();
+            let next = step(HashFn::Sha256, seq.last().unwrap(), gst, alpha, bits);
             seq.push(next);
         }
         seq.reverse(); // seq[0] = K0 (root) .. seq[n] = seed
@@ -151,9 +144,57 @@ mod tests {
         assert_eq!(ok(&c[5], kgst + 1, &ALPHA), Err(KeyError::BadTiming));
         assert_eq!(ok(&c[5], root_gst, &ALPHA), Err(KeyError::BadTiming));
         assert_eq!(ok(&c[5][..15], kgst, &ALPHA), Err(KeyError::BadLength));
+    }
+
+    // FIPS 202 example messages for SHA3-256.
+    #[test]
+    fn sha3_256_known_answers() {
         assert_eq!(
-            verify_key(HashFn::Sha3_256, &c[5], kgst, &c[0], root_gst, &ALPHA),
-            Err(KeyError::UnsupportedHash)
+            hex::encode(digest(HashFn::Sha3_256, b"")),
+            "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a"
+        );
+        assert_eq!(
+            hex::encode(digest(HashFn::Sha3_256, b"abc")),
+            "3a985da74fe225b2045c172d6bd390bd855f086e3e9d525b46bfe24511431532"
+        );
+    }
+
+    #[test]
+    fn sha3_chains_verify_and_differ_from_sha2_chains() {
+        let seed: Vec<u8> = (0..16u8).collect();
+        let mut keys = vec![seed];
+        for i in (0..6u32).rev() {
+            let k = step(
+                HashFn::Sha3_256,
+                keys.last().unwrap(),
+                GST0 + 30 * i - 30,
+                &ALPHA,
+                128,
+            );
+            keys.push(k);
+        }
+        keys.reverse();
+        assert_eq!(
+            verify_key(
+                HashFn::Sha3_256,
+                &keys[4],
+                GST0 + 90,
+                &keys[0],
+                GST0 - 30,
+                &ALPHA
+            ),
+            Ok(())
+        );
+        assert_eq!(
+            verify_key(
+                HashFn::Sha256,
+                &keys[4],
+                GST0 + 90,
+                &keys[0],
+                GST0 - 30,
+                &ALPHA
+            ),
+            Err(KeyError::ChainMismatch)
         );
     }
 }
