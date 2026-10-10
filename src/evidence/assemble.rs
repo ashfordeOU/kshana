@@ -122,6 +122,8 @@ pub fn build_receiver_trust_pack(
         "monitors_run": result.monitors_run,
         "baseline": result.baseline,
         "honesty_label": scenario::LABEL,
+        // A vessel's outputs all carry the advisory statement; so does its evidence pack.
+        "advisory": result.advisory,
     });
     // The window's bytes, where every epoch in it reports its source span; otherwise the
     // whole log is bundled and the manifest says so.
