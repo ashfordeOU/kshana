@@ -89,14 +89,14 @@ exists yet.
 | `--import-route` | `import_route` | `import_route` | `import_route` | `/kshana-import-route` | Import Route | | |
 | `--animate <svg,html,frames>` | `animate_scenario` | `animate_scenario` | `animate_scenario` | `/kshana-run` | Animate Scenario | | At most 120 frames per call; longer sequences use the CLI |
 | `kinds [--json]` | `scenario_kinds`, `list_kinds` | `list_kinds` | `list_scenario_kinds` | `/kshana-run` | CLI only | | |
-| `example [<name>]` | `list_examples`, `get_example` | `list_examples`, `get_example` | `list_example_scenarios`, `get_example_scenario` | `/kshana-run` | Show Example Scenario | | The `python` and `wasm` features compile the example text in (about 0.7 MB) |
+| `example [<name>]` | `list_examples`, `get_example` | `list_examples`, `get_example` | `list_example_scenarios`, `get_example_scenario` | `/kshana-run` | Insert Example Scenario | | The `python` and `wasm` features compile the example text in (about 0.7 MB) |
 | `receiver-trust <scenario.toml>` (batch) | `receiver_trust`, `assess_vessel_log` | `receiver_trust`, `assess_vessel_log` | `assess_receiver_log`, `assess_vessel_log` | `/kshana-assess-receiver` | Assess Receiver Trust | `vessel-trust-and-training` | |
 | `receiver-trust live` | excerpt: `receiver_trust_replay` | excerpt: `receiver_trust_replay` | excerpt: `assess_vessel_stream` | excerpt | CLI only | | A running process; the excerpt has no socket and no gate (N/A above) |
 | `trust-telemetry` | N/A | N/A | N/A | how-to | N/A | | A process (N/A above) |
 | `receiver-trust evidence` (create a pack) | `evidence_create` | N/A | `create_evidence_pack` | `/kshana-evidence-pack` | Create Evidence Pack | `vessel-trust-and-training` | No signing key in a browser |
 | `evidence verify` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | `/kshana-evidence-pack` | Verify Evidence Pack (pinned key only) | `vessel-trust-and-training` | |
 | `evidence keygen` | `evidence_keygen` | N/A | N/A | N/A | CLI only | | Python returns the key in memory with a warning; a private key should not pass through a conversation or a page |
-| `evidence attach-timestamp` | `evidence_attach_timestamp` | `evidence_attach_timestamp` | `attach_evidence_timestamp` | `/kshana-evidence-pack` | Attach Evidence Timestamp | | Token as bytes or base64, updated pack returned in memory; the authority's signature is not checked (`openssl ts -verify`) |
+| `evidence attach-timestamp` | `evidence_attach_timestamp` | `evidence_attach_timestamp` | `attach_evidence_timestamp` | `/kshana-evidence-pack` | Attach Timestamp | | Token as bytes or base64, updated pack returned in memory; the authority's signature is not checked (`openssl ts -verify`) |
 | `nmea-scenario <scenario.toml>` | `nmea_training` | `nmea_training` | `generate_training_nmea` | `/kshana-training-scenario` | Generate Training NMEA | `vessel-trust-and-training` | |
 | `nmea-scenario --tcp/--udp` | N/A | N/A | N/A | N/A | CLI only | | Sends to an address (N/A above) |
 | `interference-map adsb\|ais` (CSV) | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map` | Build Interference Map | `interference-map-route-exposure` | |
