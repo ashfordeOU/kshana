@@ -20,7 +20,10 @@ class ParityTests(unittest.TestCase):
         self.assertIn(parity.MCP_BINARIES[-1], detail)
 
     def test_release_assets_ok_when_all_present(self):
-        have = [{"name": n} for n in parity.MCP_BINARIES]
+        have = [{"name": n} for n in parity.MCP_BINARIES] + [
+            {"name": "kshana_pi-0.35.0-1_ubuntu-wx32-24.04-x86_64.tar.gz"},
+            {"name": "kshana_pi-0.35.0-ubuntu-wx32-x86_64-24.04.xml"},
+            {"name": "kshana-grafana-0.35.0.json"}, {"name": "signalk-kshana-trust-0.35.0.tgz"}]
         parity.fetch_json = lambda url: (200, {"assets": have})
         self.assertTrue(parity.release_assets("0.35.0")[0])
 
@@ -40,6 +43,12 @@ class ParityTests(unittest.TestCase):
         parity.fetch = lambda url, headers=None: (200, b'{"version": "0.35.0"}')
         self.assertTrue(parity.scoop("0.35.0")[0])
         self.assertFalse(parity.scoop("0.36.0")[0])
+
+    def test_every_channel_names_a_real_probe(self):
+        import subprocess, sys
+        r = subprocess.run([sys.executable, str(pathlib.Path(__file__).with_name("gen_channels.py")), "--check"],
+                           capture_output=True, text=True)
+        self.assertEqual(r.returncode, 0, r.stderr)
 
 
 if __name__ == "__main__":
