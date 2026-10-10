@@ -97,8 +97,10 @@ fn a_cycle_is_complete_when_the_stream_goes_quiet_and_not_before() {
         assert!(out.reports.is_empty() && out.forward.is_empty());
     }
     let last = 10.0 + 0.01 * (first_cycle.len() - 1) as f64;
-    assert_eq!(engine.idle(last + 0.2), LiveOut::default(), "not yet quiet");
-    let out = engine.idle(last + 0.4);
+    // A cycle is cut short only by a stall, not by the pause before a slower instrument's
+    // sentence (a gyro a few tenths of a second behind the receiver).
+    assert_eq!(engine.idle(last + 0.8), LiveOut::default(), "not yet quiet");
+    let out = engine.idle(last + 1.6);
     assert_eq!(out.reports.len(), 1);
     // Calibrating: forwarded unchanged, then the $PKSHT for the epoch.
     assert_eq!(out.forward.len(), first_cycle.len() + 1);
@@ -252,7 +254,9 @@ fn json_lines_carry_the_score_the_reasons_and_the_gate() {
     // Schema 1.1: the receiver-reported position, appended after `note`.
     let line = out.reports[80].to_json_line();
     assert!(line.find("\"note\"").unwrap() < line.find("\"position\"").unwrap());
-    assert!(line.ends_with("}}"), "position is the last key");
+    assert!(line.find("\"position\"").unwrap() < line.find("\"advisory\"").unwrap());
+    assert!(line.contains("not type-approved navigation equipment"));
+    assert!(v["advisory"].as_str().unwrap().contains("IEC 61108"));
     assert!((v["position"]["lat_deg"].as_f64().unwrap() - 54.6).abs() < 0.1);
     assert!(v["position"]["lon_deg"].is_number() && v["position"]["height_m"].is_number());
     assert!(v["deductions"].as_array().unwrap().is_empty());
@@ -263,4 +267,112 @@ fn json_lines_carry_the_score_the_reasons_and_the_gate() {
         c["position"]["lat_deg"].is_number(),
         "calibrating epochs carry it too"
     );
+}
+
+fn stream_with_arrival(engine: &mut LiveEngine, text: &str, from_second: f64) -> LiveOut {
+    // Like `stream`, but the arrival clock starts at `from_second` (a continuing stream).
+    let mut all = LiveOut::default();
+    let mut second = from_second - 1.0;
+    let mut n = 0u32;
+    for line in text.lines() {
+        if line.contains("GGA") {
+            second += 1.0;
+            n = 0;
+        }
+        n += 1;
+        let out = engine.feed_line(
+            format!("{line}\r\n").as_bytes(),
+            second + 0.01 * f64::from(n),
+        );
+        all.forward.extend(out.forward);
+        all.reports.extend(out.reports);
+    }
+    all
+}
+
+const SHORT_CAL: &str = "kind = \"receiver-trust\"\n[monitors]\ncalibration_s = 20.0\n\
+    [platform]\nkind = \"vessel\"\nantenna_height_m = 18.0\nheading_sensor = true\n";
+
+#[test]
+fn a_replay_of_receiver_time_into_the_calibration_window_is_never_calibration() {
+    let scn = parse_live_scenario(SHORT_CAL).unwrap();
+    let mut engine = LiveEngine::new(&scn, true).unwrap();
+    let first = voyage(60.0, None);
+    let mut all = stream(&mut engine, &first);
+    // The first 20 s are sent again: the receiver's time has gone back into the window.
+    let replay = voyage(20.0, None);
+    let more = stream_with_arrival(&mut engine, &replay, 70.0);
+    all.reports.extend(more.reports);
+    let tail = engine.finish();
+    all.reports.extend(tail.reports);
+    let replayed: Vec<&EpochReport> = all.reports.iter().skip(61).collect();
+    assert!(replayed.len() >= 20, "{}", replayed.len());
+    // Epochs the replay reopened are flagged, scored and withheld, never calibrating or passed.
+    let flagged: Vec<&&EpochReport> = replayed
+        .iter()
+        .filter(|r| {
+            r.alarms
+                .contains(&kshana::receiver_trust::monitors::Monitor::TimeConsistency)
+        })
+        .collect();
+    assert!(!flagged.is_empty());
+    assert!(replayed.iter().all(|r| r.state != TrustState::Calibrating));
+    assert!(replayed.iter().all(|r| r.state == TrustState::Untrusted));
+    assert!(replayed.iter().all(|r| r.gate == GateAction::Withheld));
+    assert!(flagged[0].note.as_deref().unwrap().contains("backwards"));
+}
+
+#[test]
+fn a_monitor_error_after_calibration_fails_closed_and_the_gate_withholds() {
+    // A declared heading sensor that the stream never sends.
+    let scn = parse_live_scenario(SHORT_CAL).unwrap();
+    let mut engine = LiveEngine::new(&scn, true).unwrap();
+    let text: String = voyage(60.0, None)
+        .lines()
+        .filter(|l| !l.contains("HDT") && !l.contains("VHW"))
+        .map(|l| format!("{l}\n"))
+        .collect();
+    let out = stream(&mut engine, &text);
+    let after: Vec<&EpochReport> = out.reports.iter().filter(|r| r.t_s >= 20.0).collect();
+    assert!(!after.is_empty());
+    for r in &after {
+        assert_eq!(r.state, TrustState::Untrusted, "t = {}", r.t_s);
+        assert_eq!(r.gate, GateAction::Withheld);
+        assert_eq!(r.score, None);
+        assert!(r.note.as_deref().unwrap().contains("heading_sensor"));
+    }
+    let fwd = String::from_utf8(out.forward.concat()).unwrap();
+    assert!(
+        fwd.contains("$PKSHT,1,080040.00,,U,W,*"),
+        "band U, no score"
+    );
+}
+
+#[test]
+fn the_pksht_time_is_right_whether_or_not_the_stream_gave_a_date() {
+    // GGA only: the label has no date and reads "... UTC (date not in log)".
+    let scn = parse_live_scenario(SESSION).unwrap();
+    let mut engine = LiveEngine::new(&scn, true).unwrap();
+    let gga = |t: &str| {
+        let body = format!("GPGGA,{t},5430.0000,N,01830.0000,E,1,10,0.9,18.4,M,26.5,M,,");
+        let ck = body.bytes().fold(0u8, |a, b| a ^ b);
+        format!("${body}*{ck:02X}\r\n")
+    };
+    engine.feed_line(gga("123519.00").as_bytes(), 0.0);
+    let out = engine.feed_line(gga("123520.00").as_bytes(), 1.0);
+    let fwd = String::from_utf8(out.forward.concat()).unwrap();
+    assert!(fwd.contains("$PKSHT,1,123519.00,,C,P,*"), "{fwd}");
+}
+
+#[test]
+fn a_flood_of_lines_with_no_timed_sentence_cannot_grow_the_engine_without_bound() {
+    let scn = parse_live_scenario(SESSION).unwrap();
+    let mut engine = LiveEngine::new(&scn, true).unwrap();
+    let mut forwarded = 0usize;
+    for i in 0..12_000u32 {
+        let l = format!("$GPGSV,1,1,01,03,62,040,45*{:02X}\r\n", i % 256);
+        forwarded += engine.feed_line(l.as_bytes(), 0.0).forward.len();
+    }
+    // Cycles of at most 5,000 lines are completed and forwarded as they fill.
+    assert!(forwarded >= 10_000, "{forwarded}");
 }

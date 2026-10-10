@@ -371,9 +371,15 @@ fn the_scenario_result_records_the_score_model_and_the_csv_the_reasons() {
         .unwrap()
         .iter()
         .any(|o| o == "marine"));
-    let header = out.csv.lines().next().unwrap();
+    let header = out.csv.lines().nth(1).unwrap();
     assert!(header.ends_with(",alarms,score,score_reasons"), "{header}");
-    assert!(out.csv.lines().nth(100).unwrap().contains(",100.0,"));
+    assert!(out
+        .csv
+        .lines()
+        .next()
+        .unwrap()
+        .starts_with("# Advisory software"));
+    assert!(out.csv.lines().nth(101).unwrap().contains(",100.0,"));
 }
 
 #[test]
@@ -425,4 +431,40 @@ fn a_per_satellite_authentication_failure_alarms_the_osnma_monitor() {
         ];
     });
     assert_eq!(first_alarm(&r, Monitor::Osnma), Some(600.0));
+}
+
+#[test]
+fn a_replay_into_the_calibration_window_is_scored_not_calibration_in_a_file_too() {
+    // 120 s of stream, then the first 25 s again: the receiver's time went back into the
+    // 60 s calibration window.
+    let first = voyage(120.0, None);
+    let replay = voyage(25.0, None);
+    let text = format!("{first}{replay}");
+    let r = run_text(&text, &vessel());
+    let replayed: Vec<_> = r
+        .epochs
+        .iter()
+        .filter(|e| e.t_s < 60.0 && e.alarms.contains(&Monitor::TimeConsistency))
+        .collect();
+    assert!(!replayed.is_empty(), "replayed epochs are flagged");
+    for e in replayed {
+        assert_ne!(e.state, TrustState::Calibrating, "t = {}", e.t_s);
+        assert_eq!(e.state, TrustState::Untrusted, "t = {}", e.t_s);
+    }
+}
+
+#[test]
+fn an_estimated_manual_or_simulated_fix_is_not_a_satellite_fix_and_carries_no_evidence() {
+    // GGA qualities 6 to 8 and RMC modes E, M, S are what the receiver says is not a satellite
+    // fix: the position checks skip them, so even a wild position there costs nothing.
+    let text = voyage(300.0, None);
+    let mut tl = read_nmea(&text).unwrap();
+    for e in tl.epochs.iter_mut().filter(|e| e.t_s >= 100.0) {
+        if let Some(f) = e.fix.as_mut() {
+            f.lat_deg += 0.01;
+        }
+        e.marine.as_mut().unwrap().fix_valid = Some(false);
+    }
+    let r = run_monitors(&tl, None, &vessel()).unwrap();
+    assert!(r.runs.is_empty(), "{:?}", r.runs);
 }

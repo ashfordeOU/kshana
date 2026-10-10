@@ -27,6 +27,10 @@ use super::{LogEpoch, LogFormat, MarineObs, OsnmaStatus, ReportedFix, SatCn0, Ti
 use crate::rinex_obs::parse_obs;
 use std::collections::BTreeMap;
 
+/// Most GSV satellites held while waiting for the first timed sentence; later ones are
+/// dropped, so a stream with no time cannot grow the reader without bound.
+const MAX_PENDING_GSV: usize = 512;
+
 /// Milliseconds in one day.
 const DAY_MS: i64 = 86_400_000;
 /// Milliseconds in one GPS week.
@@ -991,6 +995,8 @@ struct NmeaState {
     arrival: Option<f64>,
     /// Key of the previous timed sentence, in arrival order.
     prev_key: Option<i64>,
+    /// The latest time seen so far, in arrival order.
+    max_key: Option<i64>,
     /// Span of lines read before any timed sentence, for the first epoch.
     pending_span: Option<(usize, usize)>,
 }
@@ -1010,7 +1016,12 @@ impl NmeaState {
         self.prev_key = Some(key);
         let arrival = self.arrival;
         let pending_span = self.pending_span.take();
+        let rewound = self.max_key.is_some_and(|m| key < m);
+        self.max_key = Some(self.max_key.map_or(key, |m| m.max(key)));
         let acc = self.map.entry(key).or_default();
+        if rewound {
+            acc.marine.time_rewound = true;
+        }
         if let Some(sp) = pending_span {
             acc.span = Some(union_span(acc.span, sp));
         }
@@ -1074,7 +1085,9 @@ fn nmea_gga(st: &mut NmeaState, f: &[&str]) -> Sentence {
     let get = |i: usize| f.get(i).copied().unwrap_or("");
     {
         let m = &mut st.map.entry(key).or_default().marine;
-        and_valid(m, quality > 0);
+        // Only qualities 1 to 5 (GPS, differential, PPS, RTK, float RTK) are satellite fixes; 6
+        // to 8 (estimated, manual, simulator) are what the receiver itself says is not one.
+        and_valid(m, (1..=5).contains(&quality));
         if quality > 0 {
             m.hdop = num(get(8));
             m.alt_msl_m = num(get(9));
@@ -1119,7 +1132,9 @@ fn nmea_rmc(st: &mut NmeaState, f: &[&str]) -> Sentence {
         // 2 status (A valid, V warning), 7 speed over ground (kn), 8 course over ground
         // (deg true), 12 mode indicator (N = not valid).
         let get = |i: usize| f.get(i).copied().unwrap_or("");
-        let valid = get(2).trim() == "A" && get(12).trim() != "N";
+        // Mode indicator: A, D, F, P, R are satellite fixes; E (estimated), M (manual), S
+        // (simulator) and N (not valid) are what the receiver itself says is not one.
+        let valid = get(2).trim() == "A" && !matches!(get(12).trim(), "N" | "E" | "M" | "S");
         let m = &mut st.map.entry(key).or_default().marine;
         and_valid(m, valid);
         if valid {
@@ -1173,7 +1188,8 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
         let band = nmea_band(&sat, sig);
         match st.cur_key {
             Some(k) => st.map.entry(k).or_default().add_cn0(sat, band, snr),
-            None => st.pending.push((sat, band, snr)),
+            None if st.pending.len() < MAX_PENDING_GSV => st.pending.push((sat, band, snr)),
+            None => {}
         }
     }
     Sentence::Used
@@ -2052,6 +2068,37 @@ Status,1,2,3
         assert!(e0.starts_with("Raw,") && !e0.contains("Fix,"), "{e0}");
         let e2 = String::from_utf8(slice(ANDROID.as_bytes(), &tl.epochs[2])).unwrap();
         assert!(e2.starts_with("Fix,"), "{e2}");
+    }
+
+    #[test]
+    fn only_satellite_fixes_are_valid_fixes() {
+        for (q, mode, valid) in [
+            ("1", "A", true),
+            ("2", "D", true),
+            ("5", "F", true),
+            ("6", "E", false),
+            ("7", "M", false),
+            ("8", "S", false),
+            ("1", "N", false),
+        ] {
+            let text = [
+                nmea(&format!(
+                    "GPGGA,100000.00,5430.0000,N,01830.0000,E,{q},10,0.9,18.4,M,26.5,M,,"
+                )),
+                nmea(&format!(
+                    "GPRMC,100000.00,A,5430.0000,N,01830.0000,E,15.2,45.5,140625,,,{mode}"
+                )),
+            ]
+            .join("\n");
+            let tl = read_nmea(&text).unwrap();
+            let want = valid;
+            let got = tl.epochs[0].marine.as_ref().unwrap().fix_valid;
+            // GGA quality and RMC mode both speak: valid only if both say so.
+            let gga_ok = matches!(q, "1" | "2" | "5");
+            let rmc_ok = !matches!(mode, "E" | "M" | "S" | "N");
+            assert_eq!(got, Some(gga_ok && rmc_ok), "q={q} mode={mode}");
+            assert_eq!(gga_ok && rmc_ok, want, "q={q} mode={mode}");
+        }
     }
 
     // ---- shared ----
