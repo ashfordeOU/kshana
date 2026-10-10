@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Sample encodings on disk: how the bytes of a recording map to sample values.
 //!
-//! A [`SampleFormat`] is an element [`Encoding`] (8- or 16-bit signed integer, 32-bit
-//! float, or packed 2-bit) plus the [`Components`] layout (I then Q, Q then I, or a single
+//! A [`SampleFormat`] is an element [`Encoding`] (8- or 16-bit signed integer, unsigned
+//! 8-bit, 12-bit in a 16-bit word, 32-bit float, packed 4-bit, packed 2-bit or one 2-bit
+//! code per byte) plus the [`Components`] layout (I then Q, Q then I, or a single
 //! real-valued component per sample). Decoded values are the stored codes as `f64`
 //! (integers are *not* normalised), multiplied by the reader's scale; this matches
 //! [`crate::realdata::iqif::load_iq`], whose decoder [`decode_samples`] reuses for `ci8`
@@ -30,8 +31,30 @@
 //! byte holds four. Check the mapping against the front end's datasheet: picking the
 //! wrong one flips the sign of a component or swaps the inner and outer levels.
 //!
-//! Layouts that store one 2-bit sample per byte (sign and magnitude in separate bit
-//! positions of a byte) are not covered; convert them to `ci8` first.
+//! [`Encoding::TwoBitPerByte`] stores one 2-bit code per byte, in bits 1–0 (bit 1 the high
+//! bit of the code, so sign for [`TwoBitCode::SignMagnitude`]); the upper six bits are
+//! ignored on reading and written as zero. Recorders that put sign and magnitude in other
+//! bit positions need converting first.
+//!
+//! ## Other integer layouts
+//!
+//! * **4-bit** ([`Encoding::I4`], [`Encoding::U4`]): two elements per byte, the first in
+//!   bits 7–4 ([`BitOrder::MsbFirst`]) or bits 3–0 ([`BitOrder::LsbFirst`]).
+//! * **Unsigned (offset-binary)** codes ([`Encoding::U4`], [`Encoding::U8`],
+//!   [`Encoding::U12`], [`Encoding::U16`]) decode to the
+//!   odd symmetric levels `2c − (2ⁿ − 1)` (−255, −253, …, +255 for 8 bits), the convention
+//!   of the 2-bit offset-binary mapping above and of the ION SDR reader
+//!   ([`crate::realdata::ion_sdr`]). These are the mid-rise levels of the converter, so a
+//!   zero-mean input stays zero-mean (an RTL-style `cu8` file read as `c − 128` carries a
+//!   −½ LSB DC term); the factor two keeps every level an integer. Halve them
+//!   (`iq convert --gain 0.5`) to get the familiar `c − 127.5`.
+//! * **12-bit in 16** ([`Encoding::I12`]): a two's-complement 12-bit value in a 16-bit word
+//!   of either byte order, either right-justified (bits 11–0, the upper four bits ignored on
+//!   reading and written as sign extension) or left-justified (bits 15–4, the low four bits
+//!   ignored on reading and written as zero). Values decode to −2048…2047 either way.
+//! * **Unsigned 12-bit in 16** ([`Encoding::U12`]): the same four layouts with an unsigned
+//!   code, decoded to `2c − 4095`; the unused four bits are ignored on reading and written
+//!   as zero. **Unsigned 16-bit** ([`Encoding::U16`]) decodes to `2c − 65535`.
 
 use crate::iq::{Cf64, IqError};
 
@@ -99,13 +122,43 @@ pub enum BitOrder {
 }
 
 impl BitOrder {
-    /// The bit shift of element `slot` (0..4) of a byte.
+    /// The bit shift of 2-bit element `slot` (0..4) of a byte.
     pub fn shift(self, slot: u8) -> u8 {
+        self.shift_for(2, slot)
+    }
+
+    /// The bit shift of element `slot` (0..8/bits) of a byte packing `bits`-bit elements.
+    pub fn shift_for(self, bits: u8, slot: u8) -> u8 {
         match self {
-            BitOrder::MsbFirst => 6 - 2 * slot,
-            BitOrder::LsbFirst => 2 * slot,
+            BitOrder::MsbFirst => 8 - bits * (slot + 1),
+            BitOrder::LsbFirst => bits * slot,
         }
     }
+
+    fn tag(self) -> &'static str {
+        match self {
+            BitOrder::MsbFirst => "msb",
+            BitOrder::LsbFirst => "lsb",
+        }
+    }
+}
+
+/// Byte order of a 16-bit word.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum Endian {
+    /// Least significant byte first.
+    Little,
+    /// Most significant byte first.
+    Big,
+}
+
+/// Where a 12-bit value sits in its 16-bit word.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Hash)]
+pub enum Justify {
+    /// Bits 15–4 (the value times 16; low four bits ignored).
+    Left,
+    /// Bits 11–0 (upper four bits ignored; written as sign extension).
+    Right,
 }
 
 /// How one element (one component of one sample) is stored.
@@ -128,6 +181,42 @@ pub enum Encoding {
         /// Position of the first element within a byte.
         order: BitOrder,
     },
+    /// One 2-bit code per byte, in bits 1–0.
+    TwoBitPerByte {
+        /// Code-to-level mapping.
+        code: TwoBitCode,
+    },
+    /// Packed 4-bit two's-complement elements (−8…7), two per byte.
+    I4 {
+        /// Position of the first element within a byte.
+        order: BitOrder,
+    },
+    /// Packed 4-bit offset-binary elements, two per byte, decoded to `2c − 15`.
+    U4 {
+        /// Position of the first element within a byte.
+        order: BitOrder,
+    },
+    /// 8-bit offset-binary (unsigned) elements, decoded to `2c − 255`.
+    U8,
+    /// A 12-bit two's-complement value in a 16-bit word.
+    I12 {
+        /// Byte order of the word.
+        endian: Endian,
+        /// Where the value sits in the word.
+        justify: Justify,
+    },
+    /// 16-bit offset-binary (unsigned) elements, decoded to `2c − 65535`.
+    U16 {
+        /// Byte order of the word.
+        endian: Endian,
+    },
+    /// A 12-bit offset-binary (unsigned) value in a 16-bit word, decoded to `2c − 4095`.
+    U12 {
+        /// Byte order of the word.
+        endian: Endian,
+        /// Where the value sits in the word.
+        justify: Justify,
+    },
 }
 
 impl Encoding {
@@ -138,12 +227,63 @@ impl Encoding {
             Encoding::I16Le | Encoding::I16Be => 16,
             Encoding::F32Le | Encoding::F32Be => 32,
             Encoding::TwoBit { .. } => 2,
+            Encoding::I4 { .. } | Encoding::U4 { .. } => 4,
+            Encoding::TwoBitPerByte { .. } | Encoding::U8 => 8,
+            Encoding::I12 { .. } | Encoding::U16 { .. } | Encoding::U12 { .. } => 16,
         }
     }
 
-    /// Bytes read or written as one unit: the element size, or one byte for 2-bit.
+    /// Bytes read or written as one unit: the element size, or one byte for the packed
+    /// sub-byte encodings.
     pub fn unit_bytes(self) -> usize {
         self.bits().div_ceil(8)
+    }
+
+    /// For the packed sub-byte encodings (2- and 4-bit), the element width in bits;
+    /// `None` for the byte-aligned ones.
+    pub(crate) fn packed_bits(self) -> Option<u8> {
+        match self {
+            Encoding::TwoBit { .. } => Some(2),
+            Encoding::I4 { .. } | Encoding::U4 { .. } => Some(4),
+            _ => None,
+        }
+    }
+
+    /// The bit shift of element `slot` of a byte, for a packed encoding.
+    pub(crate) fn packed_shift(self, slot: u8) -> u8 {
+        match self {
+            Encoding::TwoBit { order, .. } => order.shift_for(2, slot),
+            Encoding::I4 { order } | Encoding::U4 { order } => order.shift_for(4, slot),
+            _ => unreachable!("only packed encodings have slots"),
+        }
+    }
+
+    /// The level of packed code `c` (low bits used), for a packed encoding.
+    fn packed_level(self, c: u8) -> f64 {
+        match self {
+            Encoding::TwoBit { code, .. } => code.level(c) as f64,
+            Encoding::I4 { .. } => (((c & 0x0f) << 4) as i8 >> 4) as f64,
+            Encoding::U4 { .. } => 2.0 * (c & 0x0f) as f64 - 15.0,
+            _ => unreachable!("only packed encodings have codes"),
+        }
+    }
+
+    /// The packed code nearest `v` and whether it saturated, for a packed encoding.
+    /// 2-bit quantisation never counts as saturation (its outer levels are decision
+    /// regions, see [`TwoBitCode::code`]).
+    pub(crate) fn packed_code(self, v: f64) -> (u8, bool) {
+        match self {
+            Encoding::TwoBit { code, .. } => (code.code(v), false),
+            Encoding::I4 { .. } => {
+                let (q, c) = quantise(v, -8.0, 7.0);
+                ((q as i8 as u8) & 0x0f, c)
+            }
+            Encoding::U4 { .. } => {
+                let (q, c) = quantise((v + 15.0) / 2.0, 0.0, 15.0);
+                (q as u8, c)
+            }
+            _ => unreachable!("only packed encodings have codes"),
+        }
     }
 }
 
@@ -220,9 +360,12 @@ impl SampleFormat {
     }
 
     /// The format's name. Complex formats start with `c`, real with `r`; then `i8`,
-    /// `i16_le`, `i16_be`, `f32_le`, `f32_be`, or `2<code>_<order>` for packed 2-bit
-    /// (`<code>` = `tc`, `sm` or `ob`, `<order>` = `msb` or `lsb`); a Q-first complex
-    /// format ends in `_qi`. The byte-aligned names equal the SigMF `core:datatype`.
+    /// `u8`, `i16_le`, `i16_be`, `u16_le`, `u16_be`, `f32_le`, `f32_be`, `i12<j>_<e>` or
+    /// `u12<j>_<e>` for 12-bit in 16 (`<j>` = `l` or `r` justified, `<e>` = `le` or `be`), `i4_<order>` / `u4_<order>`
+    /// for packed 4-bit, `2<code>_<order>` for packed 2-bit (`<code>` = `tc`, `sm` or `ob`,
+    /// `<order>` = `msb` or `lsb`), or `2<code>_byte` for one 2-bit code per byte; a
+    /// Q-first complex format ends in `_qi`. The names of the 8-, 16- and 32-bit formats
+    /// equal the SigMF `core:datatype`.
     pub fn name(self) -> String {
         let p = if self.is_complex() { "c" } else { "r" };
         let e = match self.encoding {
@@ -231,14 +374,23 @@ impl SampleFormat {
             Encoding::I16Be => "i16_be".to_string(),
             Encoding::F32Le => "f32_le".to_string(),
             Encoding::F32Be => "f32_be".to_string(),
-            Encoding::TwoBit { code, order } => format!(
-                "2{}_{}",
-                code.tag(),
-                if order == BitOrder::MsbFirst {
-                    "msb"
-                } else {
-                    "lsb"
-                }
+            Encoding::TwoBit { code, order } => format!("2{}_{}", code.tag(), order.tag()),
+            Encoding::TwoBitPerByte { code } => format!("2{}_byte", code.tag()),
+            Encoding::I4 { order } => format!("i4_{}", order.tag()),
+            Encoding::U4 { order } => format!("u4_{}", order.tag()),
+            Encoding::U8 => "u8".to_string(),
+            Encoding::I12 { endian, justify } => format!(
+                "i12{}_{}",
+                if justify == Justify::Left { "l" } else { "r" },
+                if endian == Endian::Little { "le" } else { "be" }
+            ),
+            Encoding::U16 { endian } => {
+                format!("u16_{}", if endian == Endian::Little { "le" } else { "be" })
+            }
+            Encoding::U12 { endian, justify } => format!(
+                "u12{}_{}",
+                if justify == Justify::Left { "l" } else { "r" },
+                if endian == Endian::Little { "le" } else { "be" }
             ),
         };
         let s = if self.components == Components::Qi {
@@ -253,8 +405,9 @@ impl SampleFormat {
     pub fn parse(name: &str) -> Result<Self, IqError> {
         let bad = || {
             IqError::Format(format!(
-                "unknown sample format {name:?}: expected e.g. ci8, ci16_le, ci16_be, cf32_le, \
-                 cf32_be, ri16_le, c2tc_msb, r2sm_lsb, optionally ending _qi for complex"
+                "unknown sample format {name:?}: expected e.g. ci8, cu8, ci16_le, ci16_be, \
+                 cf32_le, cf32_be, ri16_le, ci12r_le, ci12l_be, cu16_le, cu12r_be, ci4_msb, cu4_lsb, c2tc_msb, \
+                 r2sm_lsb, c2sm_byte, optionally ending _qi for complex"
             ))
         };
         let (body, qi) = match name.strip_suffix("_qi") {
@@ -272,21 +425,69 @@ impl SampleFormat {
             "i16_be" => Encoding::I16Be,
             "f32_le" => Encoding::F32Le,
             "f32_be" => Encoding::F32Be,
-            two => {
-                let t = two.strip_prefix('2').ok_or_else(bad)?;
-                let (c, o) = t.split_once('_').ok_or_else(bad)?;
-                let code = match c {
-                    "tc" => TwoBitCode::TwosComplement,
-                    "sm" => TwoBitCode::SignMagnitude,
-                    "ob" => TwoBitCode::OffsetBinary,
-                    _ => return Err(bad()),
+            "u8" => Encoding::U8,
+            "i12l_le" | "i12l_be" | "i12r_le" | "i12r_be" => Encoding::I12 {
+                justify: if &rest[3..4] == "l" {
+                    Justify::Left
+                } else {
+                    Justify::Right
+                },
+                endian: if rest.ends_with("le") {
+                    Endian::Little
+                } else {
+                    Endian::Big
+                },
+            },
+            "u16_le" => Encoding::U16 {
+                endian: Endian::Little,
+            },
+            "u16_be" => Encoding::U16 {
+                endian: Endian::Big,
+            },
+            "u12l_le" | "u12l_be" | "u12r_le" | "u12r_be" => Encoding::U12 {
+                justify: if &rest[3..4] == "l" {
+                    Justify::Left
+                } else {
+                    Justify::Right
+                },
+                endian: if rest.ends_with("le") {
+                    Endian::Little
+                } else {
+                    Endian::Big
+                },
+            },
+            other => {
+                let order_of = |o: &str| match o {
+                    "msb" => Some(BitOrder::MsbFirst),
+                    "lsb" => Some(BitOrder::LsbFirst),
+                    _ => None,
                 };
-                let order = match o {
-                    "msb" => BitOrder::MsbFirst,
-                    "lsb" => BitOrder::LsbFirst,
-                    _ => return Err(bad()),
-                };
-                Encoding::TwoBit { code, order }
+                if let Some(o) = other.strip_prefix("i4_") {
+                    Encoding::I4 {
+                        order: order_of(o).ok_or_else(bad)?,
+                    }
+                } else if let Some(o) = other.strip_prefix("u4_") {
+                    Encoding::U4 {
+                        order: order_of(o).ok_or_else(bad)?,
+                    }
+                } else {
+                    let t = other.strip_prefix('2').ok_or_else(bad)?;
+                    let (c, o) = t.split_once('_').ok_or_else(bad)?;
+                    let code = match c {
+                        "tc" => TwoBitCode::TwosComplement,
+                        "sm" => TwoBitCode::SignMagnitude,
+                        "ob" => TwoBitCode::OffsetBinary,
+                        _ => return Err(bad()),
+                    };
+                    if o == "byte" {
+                        Encoding::TwoBitPerByte { code }
+                    } else {
+                        Encoding::TwoBit {
+                            code,
+                            order: order_of(o).ok_or_else(bad)?,
+                        }
+                    }
+                }
             }
         };
         Ok(SampleFormat {
@@ -296,15 +497,24 @@ impl SampleFormat {
     }
 
     /// Every format this module reads and writes, for tests and listings (each 2-bit
-    /// mapping and order, complex I/Q, complex Q/I and real).
+    /// mapping and order, each 4-bit order, each 12-bit justification and byte order,
+    /// complex I/Q, complex Q/I and real).
     pub fn all() -> Vec<SampleFormat> {
         let mut encs = vec![
             Encoding::I8,
+            Encoding::U8,
             Encoding::I16Le,
             Encoding::I16Be,
             Encoding::F32Le,
             Encoding::F32Be,
         ];
+        for endian in [Endian::Little, Endian::Big] {
+            for justify in [Justify::Left, Justify::Right] {
+                encs.push(Encoding::I12 { endian, justify });
+                encs.push(Encoding::U12 { endian, justify });
+            }
+            encs.push(Encoding::U16 { endian });
+        }
         for code in [
             TwoBitCode::TwosComplement,
             TwoBitCode::SignMagnitude,
@@ -313,6 +523,11 @@ impl SampleFormat {
             for order in [BitOrder::MsbFirst, BitOrder::LsbFirst] {
                 encs.push(Encoding::TwoBit { code, order });
             }
+            encs.push(Encoding::TwoBitPerByte { code });
+        }
+        for order in [BitOrder::MsbFirst, BitOrder::LsbFirst] {
+            encs.push(Encoding::I4 { order });
+            encs.push(Encoding::U4 { order });
         }
         let mut out = Vec::new();
         for e in encs {
@@ -333,6 +548,14 @@ impl std::fmt::Display for SampleFormat {
     }
 }
 
+/// The 16-bit word in the first two bytes of `c`.
+fn word(endian: Endian, c: &[u8]) -> u16 {
+    match endian {
+        Endian::Little => u16::from_le_bytes([c[0], c[1]]),
+        Endian::Big => u16::from_be_bytes([c[0], c[1]]),
+    }
+}
+
 /// Call `f` with each element value stored in `bytes` (a trailing partial element of a
 /// multi-byte encoding is ignored).
 pub(crate) fn for_each_element(enc: Encoding, bytes: &[u8], mut f: impl FnMut(f64)) {
@@ -350,10 +573,32 @@ pub(crate) fn for_each_element(enc: Encoding, bytes: &[u8], mut f: impl FnMut(f6
         Encoding::F32Be => bytes
             .chunks_exact(4)
             .for_each(|c| f(f32::from_be_bytes([c[0], c[1], c[2], c[3]]) as f64)),
-        Encoding::TwoBit { code, order } => {
+        Encoding::TwoBitPerByte { code } => bytes.iter().for_each(|&b| f(code.level(b) as f64)),
+        Encoding::U8 => bytes.iter().for_each(|&b| f(2.0 * b as f64 - 255.0)),
+        Encoding::U16 { endian } => bytes
+            .chunks_exact(2)
+            .for_each(|c| f(2.0 * word(endian, c) as f64 - 65_535.0)),
+        Encoding::U12 { endian, justify } => bytes.chunks_exact(2).for_each(|c| {
+            let w = word(endian, c);
+            let code = match justify {
+                Justify::Left => w >> 4,
+                Justify::Right => w & 0x0fff,
+            };
+            f(2.0 * code as f64 - 4_095.0)
+        }),
+        Encoding::I12 { endian, justify } => bytes.chunks_exact(2).for_each(|c| {
+            let w = word(endian, c);
+            let v = match justify {
+                Justify::Left => (w as i16) >> 4,
+                Justify::Right => ((w << 4) as i16) >> 4,
+            };
+            f(v as f64)
+        }),
+        Encoding::TwoBit { .. } | Encoding::I4 { .. } | Encoding::U4 { .. } => {
+            let bits = enc.packed_bits().expect("packed");
             for &b in bytes {
-                for slot in 0..4 {
-                    f(code.level(b >> order.shift(slot)) as f64);
+                for slot in 0..8 / bits {
+                    f(enc.packed_level(b >> enc.packed_shift(slot)));
                 }
             }
         }
@@ -371,7 +616,7 @@ fn quantise(v: f64, lo: f64, hi: f64) -> (f64, bool) {
 }
 
 /// Append one byte-aligned element to `out`; returns true if it saturated. Panics on a
-/// 2-bit encoding, which the writers pack themselves.
+/// packed 2- or 4-bit encoding, which the writers pack themselves.
 pub(crate) fn push_element(enc: Encoding, v: f64, out: &mut Vec<u8>) -> bool {
     match enc {
         Encoding::I8 => {
@@ -397,7 +642,51 @@ pub(crate) fn push_element(enc: Encoding, v: f64, out: &mut Vec<u8>) -> bool {
             out.extend_from_slice(&(v as f32).to_be_bytes());
             false
         }
-        Encoding::TwoBit { .. } => unreachable!("2-bit elements are packed by the caller"),
+        Encoding::U8 => {
+            let (q, c) = quantise((v + 255.0) / 2.0, 0.0, 255.0);
+            out.push(q as u8);
+            c
+        }
+        Encoding::TwoBitPerByte { code } => {
+            out.push(code.code(v));
+            false
+        }
+        Encoding::I12 { endian, justify } => {
+            let (q, c) = quantise(v, -2048.0, 2047.0);
+            let w = match justify {
+                Justify::Left => ((q as i16) << 4) as u16,
+                Justify::Right => q as i16 as u16,
+            };
+            out.extend_from_slice(&match endian {
+                Endian::Little => w.to_le_bytes(),
+                Endian::Big => w.to_be_bytes(),
+            });
+            c
+        }
+        Encoding::U16 { endian } => {
+            let (q, c) = quantise((v + 65_535.0) / 2.0, 0.0, 65_535.0);
+            let w = q as u16;
+            out.extend_from_slice(&match endian {
+                Endian::Little => w.to_le_bytes(),
+                Endian::Big => w.to_be_bytes(),
+            });
+            c
+        }
+        Encoding::U12 { endian, justify } => {
+            let (q, c) = quantise((v + 4_095.0) / 2.0, 0.0, 4_095.0);
+            let w = match justify {
+                Justify::Left => (q as u16) << 4,
+                Justify::Right => q as u16,
+            };
+            out.extend_from_slice(&match endian {
+                Endian::Little => w.to_le_bytes(),
+                Endian::Big => w.to_be_bytes(),
+            });
+            c
+        }
+        Encoding::TwoBit { .. } | Encoding::I4 { .. } | Encoding::U4 { .. } => {
+            unreachable!("packed sub-byte elements are packed by the caller")
+        }
     }
 }
 
@@ -440,8 +729,8 @@ pub fn decode_samples(format: SampleFormat, bytes: &[u8], scale: f64) -> Vec<Cf6
 }
 
 /// Encode a whole in-memory sample block at once (values divided by `scale`), returning
-/// the bytes and the number of saturated integer elements. A 2-bit stream whose element
-/// count is not a multiple of four is padded with code `00` in the last byte.
+/// the bytes and the number of saturated integer elements. A packed 2- or 4-bit stream
+/// whose elements do not fill the last byte is padded with code `0` in it.
 pub fn encode_samples(format: SampleFormat, samples: &[Cf64], scale: f64) -> (Vec<u8>, u64) {
     let mut w = super::stream::IqWriter::new(Vec::new(), format).with_scale(scale);
     crate::iq::IqSink::write(&mut w, samples).expect("writing to a Vec cannot fail");
@@ -461,7 +750,10 @@ mod tests {
         }
         assert_eq!(SampleFormat::CI16_LE.name(), "ci16_le");
         assert!(SampleFormat::parse("ri8_qi").is_err());
-        assert!(SampleFormat::parse("cu8").is_err());
+        assert!(SampleFormat::parse("cu16_x").is_err());
+        assert!(SampleFormat::parse("cu12x_le").is_err());
+        assert!(SampleFormat::parse("ci4_mid").is_err());
+        assert!(SampleFormat::parse("ci12x_le").is_err());
     }
 
     #[test]
