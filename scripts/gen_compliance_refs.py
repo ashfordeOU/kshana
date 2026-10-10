@@ -89,7 +89,10 @@ CITATIONS = {
     "EASA-DESC": ("easa-sib", ["Description"]),
     "EASA-MFR": ("easa-sib", ["Aircraft and equipment manufacturers, should"]),
     "EASA-OPS-SPOOF": ("easa-sib", ["Air operators should"]),
-    "EASA-ANSP": ("easa-sib", ["ATM/ANS providers should"]),
+    "EASA-ANSP": (
+        "easa-sib",
+        ["ATM/ANS providers should", "Organisations involved in the design or production of ATM/ANS equipment, should"],
+    ),
     "EASA-REPORT": ("easa-sib", ["Recommendation(s)"]),
     "NIS2-21-1": ("nis2", ["21(1)"]),
     "NIS2-21-2-a": ("nis2", ["21(2)(a)"]),
@@ -116,7 +119,11 @@ def sha(b):
 
 
 def fetch(url):
-    req = urllib.request.Request(url, headers=UA)
+    headers = dict(UA)
+    if "publications.europa.eu" in url:
+        # Content negotiation: the same act as XHTML.
+        headers["Accept"] = "application/xhtml+xml;q=1.0, text/html;q=0.8"
+    req = urllib.request.Request(url, headers=headers)
     with urllib.request.urlopen(req, timeout=90) as r:
         return r.status, r.headers.get("content-type"), r.read(), r.geturl()
 
