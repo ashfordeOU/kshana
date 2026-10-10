@@ -8,7 +8,7 @@ is recorded is what the **server's own REST and WebSocket APIs** show.
 ## `pksht` scenario (plugin source `tcp-pksht`, staleAfterS 3)
 
 A synthetic `$PKSHT` text stream, 4 epochs a second: 8 nominal, 4 degraded, 6 untrusted (gate withheld), 14 nominal.
-`pksht-notification-timeline.json` (REST polling of `notifications/navigation/gnss/kshanaTrust`):
+`pksht-notification-timeline.json` (REST polling of `notifications/navigation/gnss/kshana/trust`):
 
 | t (s) | state | why |
 |---|---|---|

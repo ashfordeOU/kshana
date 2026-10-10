@@ -26,8 +26,9 @@ const waitFor = async (f, ms = 5000) => {
     await new Promise((r) => setTimeout(r, 10))
   }
 }
+const epochDeltas = (app) => app.deltas.filter((d) => d.updates[0].values)
 const alarmStates = (app) =>
-  app.deltas.flatMap((d) => d.updates[0].values).filter((v) => v.path === NOTIFICATION_PATH).map((v) => v.value.state)
+  epochDeltas(app).flatMap((d) => d.updates[0].values).filter((v) => v.path === NOTIFICATION_PATH).map((v) => v.value.state)
 
 test('schema shows every threshold with a default', () => {
   const p = makePlugin(mockApp())
@@ -44,7 +45,7 @@ test('tcp-json: replays the recorded stream from a local feed and raises the ala
   const app = mockApp()
   const p = makePlugin(app)
   p.start({ source: 'tcp-json', host: '127.0.0.1', port: srv.address().port, staleAfterS: 0 })
-  await waitFor(() => app.deltas.length >= N)
+  await waitFor(() => epochDeltas(app).length >= N)
   p.stop()
   srv.close()
   assert.deepStrictEqual(alarmStates(app).slice(0, 2), ['warn', 'alarm'])
@@ -58,10 +59,10 @@ test('tcp-pksht: reads only $PKSHT from a mixed NMEA stream', async () => {
   const app = mockApp()
   const p = makePlugin(app)
   p.start({ source: 'tcp-pksht', host: '127.0.0.1', port: srv.address().port, staleAfterS: 0 })
-  await waitFor(() => app.deltas.length >= N)
+  await waitFor(() => epochDeltas(app).length >= N)
   p.stop()
   srv.close()
-  assert.strictEqual(app.deltas.length, N)
+  assert.strictEqual(epochDeltas(app).length, N)
   assert.deepStrictEqual(alarmStates(app).slice(0, 2), ['warn', 'alarm'])
 })
 
@@ -70,7 +71,7 @@ test('spawn-signalk-nmea: server NMEA goes to the child, its JSON comes back', a
   const p = makePlugin(app)
   p.start({ source: 'spawn-signalk-nmea', command: path.join(__dirname, 'fake-kshana.js'), sessionFile: 'unused.toml', staleAfterS: 0 })
   app.signalk.emit('nmea0183', '$GPGGA,082640.00,5432.46891,N,01846.38384,E,1,12,1.1,18.1,M,26.5,M,,*5B')
-  await waitFor(() => app.deltas.length >= N)
+  await waitFor(() => epochDeltas(app).length >= N)
   p.stop()
   assert.deepStrictEqual(alarmStates(app).slice(0, 2), ['warn', 'alarm'])
   assert.strictEqual(app.signalk.listenerCount('nmea0183'), 0)
@@ -93,4 +94,55 @@ test('inputArgs are passed to kshana in both spawn modes', async () => {
     delete process.env.FAKE_ARGS_FILE
     fs.rmSync(argsFile, { force: true })
   }
+})
+
+test('meta for the published paths is sent once at start, with zones from the thresholds', () => {
+  const app = mockApp()
+  const p = makePlugin(app)
+  p.start({ source: 'tcp-json', host: '127.0.0.1', port: 9, staleAfterS: 0, warnBelowScore: 80, alarmBelowScore: 30 })
+  p.stop()
+  const metas = app.deltas.filter((d) => d.updates[0].meta)
+  assert.strictEqual(metas.length, 1)
+  const byPath = Object.fromEntries(metas[0].updates[0].meta.map((m) => [m.path, m.value]))
+  const score = byPath['navigation.gnss.kshana.score']
+  assert.match(score.description, /0 \(no trust\) to 100/)
+  assert.deepStrictEqual(score.displayScale, { lower: 0, upper: 100 })
+  assert.deepStrictEqual(score.zones.map((z) => [z.lower, z.upper, z.state]), [[0, 30, 'alarm'], [30, 80, 'warn'], [80, 100, 'nominal']])
+  assert.match(byPath['navigation.gnss.kshana.reasons'].description, /points/)
+})
+
+test('inputArgs that would break the JSON stream, or replace the server NMEA, are refused', () => {
+  for (const [source, bad] of [['spawn-args', '--gate'], ['spawn-args', '--json'], ['spawn-args', '--pksht'], ['spawn-args', '--listen'], ['spawn-signalk-nmea', '--tcp'], ['spawn-signalk-nmea', '--gate']]) {
+    const app = mockApp()
+    const p = makePlugin(app)
+    p.start({ source, command: path.join(__dirname, 'fake-kshana.js'), inputArgs: [bad, 'x'], staleAfterS: 0 })
+    assert.match(app.errors[0], new RegExp(`must not contain ${bad}`))
+    assert.strictEqual(app.deltas.length, 0, `${source} ${bad} must not start`)
+    p.stop()
+  }
+})
+
+test('a spawn error keeps its message (not overwritten by the exit text) and the child is not left running', async () => {
+  const app = mockApp()
+  const p = makePlugin(app)
+  p.start({ source: 'spawn-args', command: path.join(__dirname, 'no-such-kshana'), staleAfterS: 0 })
+  await waitFor(() => app.errors.length > 0)
+  await new Promise((r) => setTimeout(r, 200))
+  p.stop()
+  assert.ok(app.errors.length >= 1 && app.errors.every((e) => /cannot run .*no-such-kshana.*ENOENT/.test(e)), app.errors.join(' | '))
+})
+
+test('stop() escalates to SIGKILL for a child that ignores SIGTERM', async () => {
+  const pidFile = path.join(require('os').tmpdir(), `kshana-pid-${process.pid}`)
+  process.env.FAKE_IGNORE_TERM = pidFile
+  const app = mockApp()
+  const p = makePlugin(app)
+  p.start({ source: 'spawn-args', command: path.join(__dirname, 'fake-kshana.js'), staleAfterS: 0 })
+  await waitFor(() => fs.existsSync(pidFile))
+  const pid = Number(fs.readFileSync(pidFile, 'utf8'))
+  p.stop()
+  const alive = () => { try { process.kill(pid, 0); return true } catch (e) { return false } }
+  await waitFor(() => !alive(), 6000)
+  delete process.env.FAKE_IGNORE_TERM
+  fs.rmSync(pidFile, { force: true })
 })

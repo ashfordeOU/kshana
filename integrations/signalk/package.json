@@ -14,5 +14,5 @@
   "bugs": { "url": "https://github.com/ashfordeOU/kshana/issues" },
   "files": ["index.js", "lib/", "README.md"],
   "engines": { "node": ">=18" },
-  "scripts": { "test": "node --test \"test/*.test.js\"" }
+  "scripts": { "test": "node --test test/adapter.test.js test/model.test.js test/plugin.test.js" }
 }

@@ -2,7 +2,8 @@
 // Normalised epoch -> Signal K deltas, and the alarm state machine. No I/O, no timers.
 
 const NS = 'navigation.gnss.kshana'
-const NOTIFICATION_PATH = 'notifications.navigation.gnss.kshanaTrust'
+// mirrors navigation.gnss.kshana.*: the notification for that subtree is notifications.navigation.gnss.kshana.trust
+const NOTIFICATION_PATH = 'notifications.navigation.gnss.kshana.trust'
 
 const DEFAULTS = {
   thresholdMode: 'band', // 'band': use the band Kshana reports; 'score': use the two scores below
@@ -54,6 +55,7 @@ class AlarmTracker {
   constructor(opts) {
     this.o = withDefaults(opts)
     this.state = 'normal' // the state currently published
+    this.wasStale = false // the published notification is the "no data" one
     this.pending = null // candidate state and how many epochs it has held
     this.pendingCount = 0
   }
@@ -61,6 +63,16 @@ class AlarmTracker {
   // Feed an epoch; returns { state, changed } where changed means a notification delta is due.
   update(epoch) {
     const want = wantedState(epoch, this.o)
+    if (this.wasStale) {
+      // Data is back. The "no data" warning is not a trust state, so it is replaced at once by the state the
+      // epoch asks for (no hold), and always republished: warn -> warn would otherwise keep the stale text.
+      this.wasStale = false
+      this.state = want
+      this.pending = null
+      this.pendingCount = 0
+      if (want === 'alarm') this.alarmEdge = true
+      return { state: this.state, changed: true }
+    }
     if (want === this.state) {
       this.pending = null
       this.pendingCount = 0
@@ -84,12 +96,67 @@ class AlarmTracker {
 
   // The stream went quiet (see staleAfterS).
   stale() {
-    if (SEVERITY[this.state] >= SEVERITY.warn) return { state: this.state, changed: false }
+    // an alarm stays an alarm (the last known state is the worse one); a warn or normal becomes the "no data" warning once
+    if (SEVERITY[this.state] >= SEVERITY.alarm || this.wasStale) return { state: this.state, changed: false }
     this.state = 'warn'
+    this.wasStale = true
     this.pending = null
     this.pendingCount = 0
     return { state: this.state, changed: true }
   }
+}
+
+// Signal K metadata for the published paths, sent once when the plugin starts. The score is Kshana's 0-100 trust
+// score (a score, not a ratio or a probability), so it carries no SI unit; the zones follow the notification thresholds
+// (the defaults are Kshana's own band edges, nominal from 90 and degraded from 55).
+function metaDelta(opts) {
+  const o = withDefaults(opts)
+  const lo = o.alarmBelowScore
+  const mid = o.warnBelowScore
+  const meta = [
+    {
+      path: `${NS}.score`,
+      value: {
+        displayName: 'GNSS trust score',
+        description:
+          'Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory only.',
+        displayScale: { lower: 0, upper: 100 },
+        zones: [
+          { lower: 0, upper: lo, state: 'alarm', message: 'untrusted' },
+          { lower: lo, upper: mid, state: o.degradedState === 'normal' ? 'nominal' : o.degradedState, message: 'degraded' },
+          { lower: mid, upper: 100, state: 'nominal', message: 'nominal' }
+        ]
+      }
+    },
+    {
+      path: `${NS}.band`,
+      value: { displayName: 'GNSS trust band', description: 'calibrating, nominal, degraded or untrusted' }
+    },
+    {
+      path: `${NS}.reasons`,
+      value: {
+        displayName: 'GNSS trust deductions',
+        description:
+          'The checks that lowered the score, largest first: [{monitor, points}]. points are score points taken off the 0-100 score.'
+      }
+    },
+    {
+      path: `${NS}.alarms`,
+      value: { displayName: 'GNSS trust alarms', description: 'The monitors currently at or above their threshold.' }
+    },
+    {
+      path: `${NS}.gate`,
+      value: { displayName: 'GNSS trust gate', description: 'off, passed or withheld: what a Kshana gate did with the fix (null from $PKSHT without one).' }
+    },
+    {
+      path: `${NS}.reportedPosition`,
+      value: {
+        displayName: 'Receiver-reported position',
+        description: 'The position the receiver under test reported. Trust context only; not the vessel position (navigation.position).'
+      }
+    }
+  ]
+  return { updates: [{ meta }] }
 }
 
 function valuesFor(epoch) {
@@ -139,6 +206,7 @@ module.exports = {
   AlarmTracker,
   deltaFor,
   staleDelta,
+  metaDelta,
   wantedState,
   withDefaults
 }
