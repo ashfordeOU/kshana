@@ -14,6 +14,9 @@ function num(x) {
   return typeof x === 'number' && Number.isFinite(x) ? x : null
 }
 
+// The score is 0 to 100 by definition; anything else is a malformed epoch, not a number to clamp and publish.
+const scoreInRange = (x) => x === null || (x >= 0 && x <= 100)
+
 // The receiver-reported position of schema 1.1 ({lat_deg, lon_deg, height_m}) as a Signal K position
 // object. Null when absent (older kshana, no fix, calibrating without a fix) or not numeric.
 function parsePosition(p) {
@@ -37,6 +40,7 @@ function parseJsonLine(line) {
     return null
   }
   if (!o || typeof o !== 'object' || !BANDS.includes(o.state)) return null
+  if (!scoreInRange(num(o.score)) || (o.score !== null && o.score !== undefined && num(o.score) === null)) return null
   return {
     seq: num(o.seq),
     t: num(o.t_s),
@@ -74,6 +78,7 @@ function parsePksht(sentence) {
   const band = PKSHT_BAND[f[3]]
   if (!band) return null
   const score = f[2] === '' ? null : Number(f[2])
+  if (score !== null && !(Number.isFinite(score) && score >= 0 && score <= 100)) return null
   const reasons = (f[5] || '')
     .split('/')
     .filter(Boolean)
@@ -86,7 +91,7 @@ function parsePksht(sentence) {
     t: null,
     time: f[1] === '' ? null : f[1],
     band,
-    score: score !== null && Number.isFinite(score) ? score : null,
+    score,
     reasons,
     alarms: [],
     gate: PKSHT_GATE[f[4]] || null,

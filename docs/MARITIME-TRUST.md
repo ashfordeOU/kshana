@@ -157,6 +157,24 @@ equipment, that the demo is synthetic text with a made-up drag-off, and that a f
 not thereby a good fix (see the limits above). No figure on the page should read as a measure of how
 the checks do on real interference.
 
+## From code
+
+For callers that hold the session and the bytes in memory (no files, no clock, no sockets; safe
+for WebAssembly), `kshana::receiver_trust::assess` has:
+
+* `assess_vessel_log(session_toml, log_bytes) -> Result<ReceiverTrustResult, String>`: a whole
+  log, scored as a batch run; the same result as `kshana receiver-trust <session.toml>`, which
+  serialises to the result JSON (`score_model`, `monitors_run`, `epochs[]` with scores and
+  deductions).
+* `assess_stream_excerpt(session_toml, excerpt_bytes) -> Result<ExcerptAssessment, String>`: a
+  bounded piece of a stream (at most 2 MiB and 20,000 epochs, and long enough to hold the
+  calibration window), scored as live mode scores it and returned in the live JSON-lines schema
+  (`epochs[]`, the last `$PKSHT`, a summary of band counts, lowest and final score, first
+  untrusted time). The receiver's time is not compared with a host clock. The long-running live
+  mode (sockets, a file being appended, the gate) is the binary's.
+
+Both need a session with `[platform] kind = "vessel"`; its `[log]` table is optional.
+
 ## Run it live
 
 ```sh
