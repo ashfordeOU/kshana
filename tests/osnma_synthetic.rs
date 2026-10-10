@@ -61,7 +61,9 @@ fn word(wt: u8, iod: u64, seed: u8) -> [u8; 16] {
 /// The 15 words of a sub-frame of satellite `prn`; the content depends on the sub-frame.
 fn words(prn: u8, gst: u32) -> [[u8; 16]; 15] {
     let seed = prn.wrapping_mul(31).wrapping_add((gst / 30) as u8);
-    let iod = u64::from(gst / 30 % 1024);
+    // As in broadcast data the IODnav holds for ten minutes while the content of the
+    // words (the seed) still differs from one sub-frame to the next.
+    let iod = u64::from(gst / 600 % 1024);
     let mut ws = [[0u8; 16]; 15];
     for (i, wt) in [1u8, 2, 3, 4, 5, 6, 10].iter().enumerate() {
         ws[i] = word(*wt, iod, seed);
@@ -265,6 +267,7 @@ fn config() -> Config {
             tag_bits: TAG_BITS,
             maclt: 34,
             alpha: ALPHA,
+            pkid: PKID,
             gst0: GST0,
             root_key: chain[0].clone(),
         }),
@@ -336,7 +339,10 @@ fn flipped_navigation_bit_fails_that_satellite_only() {
         }
     });
     let s: std::collections::BTreeMap<_, _> = v.sat_status().into_iter().collect();
-    assert_eq!(s["E02"], OsnmaStatus::Authenticated);
+    // The mismatching cross tag is charged to the satellite whose data it covers and to
+    // the one that transmitted it: either could be the forger.
+    assert_eq!(s["E05"], OsnmaStatus::Failed);
+    assert_eq!(s["E02"], OsnmaStatus::Failed);
     assert!(tags(&events)
         .iter()
         .any(|t| t.prnd == PRN_X && t.status == TagStatus::Failed(FailReason::TagMismatch)));
@@ -481,7 +487,17 @@ fn dsm_kroot(chain: &[Vec<u8>], sk: &SigningKey) -> Vec<u8> {
     m.extend_from_slice(&d[1..29]);
     let sig: Signature = sk.sign(&m);
     d[29..93].copy_from_slice(&sig.to_bytes());
+    reseal(&mut d);
     d
+}
+
+/// Set the padding field to `trunc(hash(M || DS))`, as the broadcast message has it.
+fn reseal(d: &mut [u8]) {
+    let mut m = vec![nma_byte()];
+    m.extend_from_slice(&d[1..29]);
+    m.extend_from_slice(&d[29..93]);
+    let h = Sha256::digest(&m);
+    d[93..104].copy_from_slice(&h[..11]);
 }
 
 fn run_signed(
@@ -532,9 +548,14 @@ fn signed_kroot_establishes_the_chain_and_everything_authenticates() {
         &dsm_kroot(&chain, &sk),
         |_, _, _| {},
     );
-    assert!(events
-        .iter()
-        .any(|e| matches!(e, Event::KrootVerified { cid: 3, pkid: 1 })));
+    assert!(events.iter().any(|e| matches!(
+        e,
+        Event::KrootVerified {
+            cid: 3,
+            pkid: 1,
+            ..
+        }
+    )));
     assert!(!tags(&events)
         .iter()
         .any(|t| matches!(t.status, TagStatus::Failed(_))));
@@ -552,6 +573,7 @@ fn a_bad_signature_or_wrong_key_authenticates_nothing() {
     // One bit of the signature flipped in transit.
     let mut bad_sig = good.clone();
     bad_sig[40] ^= 0x01;
+    reseal(&mut bad_sig); // the padding of a forged message can be made to match
     let (v, events, _) = run_signed(signed_cfg(public_key(&sk)), &bad_sig, |_, _, _| {});
     assert!(events.iter().any(|e| matches!(
         e,
@@ -565,6 +587,7 @@ fn a_bad_signature_or_wrong_key_authenticates_nothing() {
     // The root key altered after signing.
     let mut bad_root = good.clone();
     bad_root[20] ^= 0x80;
+    reseal(&mut bad_root);
     let (_, events, _) = run_signed(signed_cfg(public_key(&sk)), &bad_root, |_, _, _| {});
     assert!(!tags(&events)
         .iter()

@@ -177,7 +177,9 @@ pub struct MackLayout {
 pub struct TagInfo {
     /// Tag, left-aligned in the low `tag_bits` bits.
     pub tag: u64,
-    /// PRN of the satellite whose data the tag authenticates (255 = see ICD 4.2.1.1).
+    /// PRN of the satellite whose data the tag authenticates. 255 is defined (ICD Table 12)
+    /// as Galileo constellation-related information, but no ADKD of Table 14 uses it, so
+    /// such tags are discarded like any reserved value.
     pub prn_d: u8,
     pub adkd: u8,
     pub cop: u8,

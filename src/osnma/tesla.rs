@@ -8,8 +8,8 @@ use sha3::Sha3_256;
 
 pub const SUBFRAME_S: u32 = 30;
 /// Most one-way steps a single verification may take: bounds the work a forged, far
-/// future key can cause. A week of sub-frames is 20160.
-pub const MAX_STEPS: u32 = 100_000;
+/// future key can cause. One day of sub-frames is 2880; a longer gap needs a fresh KROOT.
+pub const MAX_STEPS: u32 = 2880;
 
 /// Why a TESLA key did not verify.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]

@@ -22,6 +22,9 @@ const CLASS_RXM: u8 = 0x02;
 const ID_SFRBX: u8 = 0x13;
 const GNSS_GALILEO: u8 = 2;
 const PAGE_BYTES: usize = PAGE_BITS / 8;
+/// Longest SFRBX payload accepted (8 header bytes and up to 64 words), so a false sync
+/// with a large length field cannot hold the reader back.
+const MAX_PAYLOAD: usize = 8 + 4 * 64;
 
 /// What the reader saw.
 #[derive(Debug, Clone, Default, PartialEq, Eq)]
@@ -99,6 +102,12 @@ impl UbxReader {
                 continue;
             }
             let len = usize::from(u16::from_le_bytes([self.buf[i + 4], self.buf[i + 5]]));
+            if len > MAX_PAYLOAD {
+                // Not a real frame (a stray sync pair): resume scanning after it.
+                i += 1;
+                self.stats.skipped_bytes += 1;
+                continue;
+            }
             let end = i + 6 + len + 2;
             if end > self.buf.len() {
                 break; // wait for the rest of the frame

@@ -17,6 +17,8 @@ use super::bits::read_bits;
 /// Bits in a nominal I/NAV page pair (even + odd, 120 each).
 pub const PAGE_BITS: usize = 240;
 const ODD_START: usize = 120;
+/// Galileo week numbers are 12 bits: times at or past 4096 weeks are not valid input.
+pub const GST_LIMIT: u32 = 4096 * super::WEEK_S;
 /// Offset of the OSNMA field inside the odd half: even/odd flag (1), page type
 /// (1), data(2/2) (16).
 const OSNMA_OFFSET: usize = ODD_START + 18;
@@ -24,6 +26,7 @@ const OSNMA_OFFSET: usize = ODD_START + 18;
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum PageError {
     BadHex,
+    BadTime,
     BadLength(usize),
     BadFields(String),
 }
@@ -32,6 +35,10 @@ impl std::fmt::Display for PageError {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         match self {
             Self::BadHex => write!(f, "page is not valid hex"),
+            Self::BadTime => write!(
+                f,
+                "page time is outside the 4096 weeks of a Galileo week number"
+            ),
             Self::BadLength(n) => write!(f, "page has {n} hex digits, expected 60"),
             Self::BadFields(s) => write!(f, "malformed page line: {s}"),
         }
@@ -49,8 +56,27 @@ pub struct InavPage {
     bits: [u8; PAGE_BITS / 8],
 }
 
+/// CRC-24Q (generator 0x864CFB, zero initial value) over a bit sequence, MSB first.
+pub(crate) fn crc24q(bits: impl Iterator<Item = u32>) -> u32 {
+    let mut crc = 0u32;
+    for bit in bits {
+        let fb = ((crc >> 23) & 1) ^ bit;
+        crc = (crc << 1) & 0x00FF_FFFF;
+        if fb == 1 {
+            crc ^= 0x0086_4CFB;
+        }
+    }
+    crc
+}
+
 impl InavPage {
     pub fn from_hex(svid: u8, gst: u32, hex_digits: &str) -> Result<Self, PageError> {
+        if gst >= GST_LIMIT {
+            return Err(PageError::BadTime);
+        }
+        if !hex_digits.is_ascii() {
+            return Err(PageError::BadHex);
+        }
         if hex_digits.len() != PAGE_BITS / 4 {
             return Err(PageError::BadLength(hex_digits.len()));
         }
@@ -76,17 +102,14 @@ impl InavPage {
     }
 
     fn computed_crc(&self) -> u32 {
-        let mut crc = 0u32;
         let covered = (0..114).chain(ODD_START..ODD_START + 82);
-        for i in covered {
-            let bit = u32::from((self.bits[i / 8] >> (7 - i % 8)) & 1);
-            let fb = ((crc >> 23) & 1) ^ bit;
-            crc = (crc << 1) & 0x00FF_FFFF;
-            if fb == 1 {
-                crc ^= 0x0086_4CFB;
-            }
-        }
-        crc
+        crc24q(covered.map(|i| u32::from((self.bits[i / 8] >> (7 - i % 8)) & 1)))
+    }
+
+    /// A nominal page pair: an even half (flag 0) then an odd half (flag 1), both of
+    /// page type 0. Alert pages (type 1) carry no nominal word and are not used.
+    pub fn is_nominal(&self) -> bool {
+        self.bits[0] & 0xC0 == 0 && self.bits[ODD_START / 8] & 0xC0 == 0x80
     }
 
     /// The same page with its CRC field set to the correct value. For building pages
@@ -182,6 +205,15 @@ mod tests {
         assert_eq!(p.mack_section(), 0x7A12_5EE9);
         assert!(p.has_osnma());
         assert!(!synth(2, 0, 0).has_osnma());
+    }
+
+    #[test]
+    fn crc24q_known_answer() {
+        // The standard check value of CRC-24Q over the ASCII string "123456789".
+        let bits = b"123456789"
+            .iter()
+            .flat_map(|b| (0..8).rev().map(move |k| u32::from((b >> k) & 1)));
+        assert_eq!(crc24q(bits), 0xCDE703);
     }
 
     #[test]

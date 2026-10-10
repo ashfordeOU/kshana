@@ -86,6 +86,8 @@ pub struct DsmKroot {
     /// DSM bytes from the CIDKR byte up to and including KROOT (the body of the signed
     /// message M, Eq. 14, without the leading NMA header byte).
     pub signed_body: Vec<u8>,
+    /// The padding bits after the signature, which are a hash of message and signature.
+    pub padding: Vec<u8>,
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -140,12 +142,29 @@ impl DsmKroot {
             kroot: dsm[kroot_off..sig_off].to_vec(),
             signature: dsm[sig_off..sig_off + sig_bytes].to_vec(),
             signed_body: dsm[1..sig_off].to_vec(),
+            padding: dsm[sig_off + sig_bytes..].to_vec(),
         })
     }
 
     /// GST seconds of the chain's time of applicability, `GST_0` (ICD 5.5.1).
     pub fn gst0(&self) -> u32 {
         super::gst_secs(u32::from(self.wnk), u32::from(self.towhk) * 3600)
+    }
+
+    /// Whether the padding field matches `trunc(hash(M || DS))` for the message built
+    /// with this NMA header (ICD 3.2.3.13, Eq. 7). `None` when there is no padding to
+    /// check. A cheap test that needs no signature check and tells which NMA header the
+    /// signed message used.
+    pub fn padding_matches(&self, nma_header: u8) -> Option<bool> {
+        use sha2::{Digest, Sha256};
+        if self.padding.is_empty() || self.padding.len() > 32 {
+            return None;
+        }
+        let mut h = Sha256::new();
+        h.update(self.signed_message(nma_header));
+        h.update(&self.signature);
+        let d = h.finalize();
+        Some(d[..self.padding.len()] == self.padding[..])
     }
 
     /// The message that the digital signature covers (Eq. 14).
@@ -180,8 +199,10 @@ impl DsmPkr {
         }
         let npkt = dsm[129] >> 4;
         let npkid = dsm[129] & 0x0F;
+        // In an alert message the NPK field is random bits that fill the DSM (ICD 3.2.2.6,
+        // Eq. 2); they are part of the Merkle leaf like a key would be.
         let npk_len = if npkt == tables::NPKT_ALERT {
-            0
+            dsm.len().saturating_sub(130)
         } else {
             KeyType::from_npkt(npkt)
                 .ok_or(DsmError::Reserved("NPKT"))?

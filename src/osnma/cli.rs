@@ -21,8 +21,11 @@ const USAGE: &str = "usage: kshana osnma verify <input> [options]
                              (default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)
   --merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks
   --public-key ID:TYPE:HEX   trusted public key, TYPE p256 or p521, compressed point
-  --reference-time SECONDS   present time in GST seconds from an independent source
-  --max-time-error SECONDS   largest distance of a sub-frame from the reference time
+  --reference-time SECONDS   present time in GST seconds from an independent source. A single
+                             instant: sub-frames further from it than the tolerance are set
+                             aside, so use it for live or just-recorded data
+  --max-time-error SECONDS   largest distance of a sub-frame from the reference time, below
+                             30 (default 29); needs --reference-time
   --epochs                   also print every tag result
   --json                     print JSON instead of text
 
@@ -75,6 +78,14 @@ fn parse_args(args: &[String]) -> Result<Options, String> {
     if o.input.is_empty() {
         return Err("missing input file".into());
     }
+    if o.max_err.is_some() && o.reference.is_none() {
+        return Err("--max-time-error has no effect without --reference-time".into());
+    }
+    let cfg = Config {
+        max_time_error_s: o.max_err,
+        ..Config::default()
+    };
+    cfg.validate()?;
     Ok(o)
 }
 
@@ -130,9 +141,19 @@ fn event_json(e: &Event) -> serde_json::Value {
             json!({"kind":"public_key_rejected","reason":format!("{r:?}")})
         }
         Event::AlertMessage { verified } => json!({"kind":"alert_message","verified":verified}),
-        Event::KrootVerified { cid, pkid } => {
-            json!({"kind":"kroot_verified","cid":cid,"pkid":pkid})
-        }
+        Event::KrootVerified {
+            cid,
+            pkid,
+            hash,
+            mac,
+            key_bits,
+            tag_bits,
+            maclt,
+        } => json!({"kind":"kroot_verified","cid":cid,"pkid":pkid,
+            "hash":format!("{hash:?}"),"mac":format!("{mac:?}"),
+            "key_bits":key_bits,"tag_bits":tag_bits,"maclt":maclt}),
+        Event::ChainRevoked { cid } => json!({"kind":"chain_revoked","cid":cid}),
+        Event::PublicKeyRevoked { pkid } => json!({"kind":"public_key_revoked","pkid":pkid}),
         Event::KrootRejected(r) => json!({"kind":"kroot_rejected","reason":format!("{r:?}")}),
         Event::KeyVerified { gst } => json!({"kind":"key_verified","gst":gst}),
         Event::KeyRejected { gst, reason } => {
@@ -176,28 +197,29 @@ struct Counts {
 
 /// Run the subcommand; returns the process exit code.
 pub fn run(args: &[String]) -> i32 {
+    // The advisory goes first on every path, errors included.
     if args.first().map(String::as_str) != Some("verify") {
-        eprintln!("{USAGE}");
+        eprintln!("{ADVISORY}\n\n{USAGE}");
         return 2;
     }
     let o = match parse_args(&args[1..]) {
         Ok(o) => o,
         Err(e) => {
-            eprintln!("error: {e}\n\n{USAGE}");
+            eprintln!("{ADVISORY}\n\nerror: {e}\n\n{USAGE}");
             return 2;
         }
     };
     let raw = match std::fs::read(&o.input) {
         Ok(t) => t,
         Err(e) => {
-            eprintln!("error: cannot read {}: {e}", o.input);
+            eprintln!("{ADVISORY}\n\nerror: cannot read {}: {e}", o.input);
             return 2;
         }
     };
     let layout = match o.format.as_deref() {
         Some(f @ ("vector-csv" | "pages" | "ubx")) => f,
         Some(f) => {
-            eprintln!("error: unknown format {f}");
+            eprintln!("{ADVISORY}\n\nerror: unknown format {f}");
             return 2;
         }
         None if raw.starts_with(&[0xB5, 0x62]) || std::str::from_utf8(&raw).is_err() => "ubx",
@@ -219,14 +241,16 @@ pub fn run(args: &[String]) -> i32 {
     } else {
         let Ok(text) = String::from_utf8(raw) else {
             eprintln!(
-                "error: {} is not text; use --format ubx for a UBX stream",
+                "{ADVISORY}\n\nerror: {} is not text; use --format ubx for a UBX stream",
                 o.input
             );
             return 2;
         };
         if layout == "vector-csv" {
             let Some(start) = o.start_gst.or_else(|| input::start_from_filename(&o.input)) else {
-                eprintln!("error: a vector CSV needs --start-gst or a dated file name");
+                eprintln!(
+                    "{ADVISORY}\n\nerror: a vector CSV needs --start-gst or a dated file name"
+                );
                 return 2;
             };
             input::parse_vector_csv(&text, start)
@@ -237,14 +261,15 @@ pub fn run(args: &[String]) -> i32 {
     let pages = match pages {
         Ok(p) => p,
         Err(e) => {
-            eprintln!("error: {e}");
+            eprintln!("{ADVISORY}\n\nerror: {e}");
             return 2;
         }
     };
     let mut v = Verifier::new(Config {
         merkle_root: o.merkle_root,
         public_keys: o.keys.clone(),
-        max_time_error_s: o.max_err,
+        // A reference time brings a tolerance with it, the widest allowed by default.
+        max_time_error_s: o.reference.map(|_| o.max_err.unwrap_or(29)),
         ..Config::default()
     });
     if let Some(r) = o.reference {
@@ -296,6 +321,8 @@ pub fn run(args: &[String]) -> i32 {
             "overall": status_word(overall),
             "nma_status": v.nma_status(),
             "alert": v.alert(),
+            "freshness_enforced": o.reference.is_some(),
+            "reference_time": o.reference,
             "satellites": sat_json,
             "events": grouped_events(&events),
             "tags": tags,
@@ -310,7 +337,7 @@ pub fn run(args: &[String]) -> i32 {
         match serde_json::to_string_pretty(&out) {
             Ok(s) => println!("{s}"),
             Err(e) => {
-                eprintln!("error: {e}");
+                eprintln!("{ADVISORY}\n\nerror: {e}");
                 return 2;
             }
         }
@@ -328,6 +355,25 @@ pub fn run(args: &[String]) -> i32 {
             status_word(overall),
             v.nma_status()
         );
+        if v.alert() {
+            println!("ALERT: a verified OSNMA alert message was received. Stop using OSNMA data; nothing is reported as authenticated.");
+        }
+        match o.reference {
+            None => println!(
+                "freshness: NOT enforced. No reference time was given, so sub-frame times are taken from the input and a replay of old data would authenticate."
+            ),
+            Some(r) => {
+                let set_aside = events
+                    .iter()
+                    .filter(|e| matches!(e, Event::TimeRejected { .. }))
+                    .count();
+                println!(
+                    "freshness: sub-frames within {} s of the reference time {} are used; {set_aside} were set aside. A reference time is a single instant.",
+                    o.max_err.unwrap_or(29),
+                    input::label(r)
+                );
+            }
+        }
         let mut kinds: BTreeMap<String, u32> = BTreeMap::new();
         for e in &events {
             let j = event_json(e);
