@@ -646,3 +646,37 @@ def test_evidence_timestamp_attaches_in_memory_and_keygen_returns_a_warned_key()
         kshana.evidence_attach_timestamp(pack["files"], _synthetic_tsr(b"\x00" * 32))
     with pytest.raises(ValueError):
         kshana.evidence_attach_timestamp(pack["files"], "not base64!!")
+
+
+def test_iq_sweep_matches_a_single_track_per_design():
+    scene = kshana.iq_scene(
+        fs_hz=2_046_000, duration_s=0.3, signal="gps-l1ca", prns=[5], dopplers=[1200.0],
+        cn0_dbhz=50.0, seed=3,
+    )
+    args = (scene["samples_i"], scene["samples_q"], 2_046_000, "gps-l1ca", [5])
+    sw = kshana.iq_sweep(*args, pll_bws=[10.0, 20.0], spacings=[0.5])
+    rows = sw["designs"]
+    assert len(rows) == 2 and {r["code"] for r in rows} == {rows[0]["code"]}
+    assert rows[0]["design"] != rows[1]["design"] and rows[0]["design_hash"] != rows[1]["design_hash"]
+    assert all(r["epochs"] > 100 and 0.0 <= r["phase_lock_frac"] <= 1.0 for r in rows)
+    # One design on its own is the same result as that design inside a sweep of two.
+    one = kshana.iq_sweep(*args, pll_bws=[10.0], spacings=[0.5])["designs"][0]
+    assert one == rows[0]
+    with pytest.raises(ValueError):
+        kshana.iq_sweep(*args, design="[design]\nname = \"x\"\n", pll_bws=[10.0])
+
+
+def test_iq_info_and_inventory_describe_a_recording_on_disk(tmp_path):
+    import numpy as np
+    scene = kshana.iq_scene(fs_hz=2_046_000, duration_s=0.02, signal="gps-l1ca", prns=[1], noise=False)
+    iq = np.empty(2 * len(scene["samples_i"]), dtype="<f4")
+    iq[0::2], iq[1::2] = scene["samples_i"], scene["samples_q"]
+    rec = tmp_path / "rec.bin"
+    rec.write_bytes(iq.tobytes())
+    (tmp_path / "rec.bin.json").write_text(
+        '{"format": "cf32_le", "sample_rate_hz": 2046000.0, "center_hz": 1575420000.0}'
+    )
+    info = kshana.iq_info(str(rec), hash=True)
+    assert info["format"] == "cf32_le" and info["n_samples"] == len(scene["samples_i"])
+    rows = kshana.iq_inventory(str(tmp_path))
+    assert len(rows) == 1 and rows[0]["n_samples"] == info["n_samples"]

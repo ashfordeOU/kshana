@@ -56,6 +56,15 @@ actions that run the CLI), **Notebook** (`notebooks/`).
   signs with a one-time key (integrity, not identity); for a key that matters, use the CLI.
   The same holds for streaming training NMEA to an address: Python, WASM and MCP return the
   generated text, and the CLI sends it.
+- **Study suites.** `--study <suite.toml>` runs a manifest that names sibling scenario files on
+  disk. The in-memory surfaces take scenario text, not a folder of files, so they run each member
+  as a scenario instead (`run`, `run_scenario`, `run_all`).
+- **GNSS IQ in the browser, and recordings that are rewritten.** A recording is gigabytes of
+  samples, which a page cannot hold and the MCP protocol must not carry, so WASM has no IQ
+  functions and the MCP tools read and write one work directory only (`KSHANA_MCP_IQ_DIR`, with a
+  per-call sample budget). `iq extract`, `convert` and `decimate` exist to rewrite recordings on
+  disk and stay command-line only. `iq labfit` and `iq conditions` carry text, so MCP takes them
+  inline (a log that names a file is refused).
 - **The land download.** It is the only command that opens a network connection, it needs the
   system `curl` and an explicit `--allow-network`, and it checks a pinned SHA-256. The browser
   has no `curl`, and an AI agent should not fetch data on a user's behalf; the other surfaces
@@ -74,7 +83,7 @@ exists yet.
 |---|---|---|---|---|---|---|---|
 | `kshana <scenario.toml>` (run, chart, table) | `run`, `run_full`, `run_typed` | `run`, `chart_svg`, `summary`, `table_csv`, `run_all` | `run_scenario`, `report_scenario`, `export_table_csv` | `/kshana-run` | Run Kshana Scenario | `quantum-vs-classical-gdop` | |
 | `--validate <scenario.toml>` | `validate_toml` | `error_kind` (a run throws on an invalid scenario) | `validate_scenario` | `/kshana-run` | CLI only | | |
-| `--study <suite.toml>` | no | no | no | no | CLI only | | A suite names sibling files on disk; run each member as a scenario |
+| `--study <suite.toml>` | N/A | N/A | N/A | N/A | CLI only | | A suite names sibling scenario files on disk (N/A above); run each member as a scenario |
 | `--export-sp3/-omm/-oem` | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `/kshana-run` | CLI only | | |
 | `--export <czml,kml,geojson,stk,sigmf>` | `export_scenario`, `export_formats` | `export_scenario`, `export_formats` | `export_interop`, `list_export_formats` | `/kshana-run` | CLI only | | Files come back as text (`utf-8`) or base64 (the SigMF samples) |
 | `--import-route` | `import_route` | `import_route` | `import_route` | `/kshana-import-route` | CLI only | | |
@@ -97,18 +106,18 @@ exists yet.
 | `bench-export` | `bench_export` | `bench_export` | `export_test_bench` | `/kshana-bench-export` | no action yet | | Returns text, writes nothing; no signal |
 | `compliance-report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report` | no action yet | | |
 | `compliance-report --mapping`, `--sources` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `/kshana-compliance-report` | no action yet | | |
-| `iq scene` | `iq_scene`, `iq_scene_broadcast` | no | `iq_scene` | `/kshana-iq` | CLI only | | WASM: recordings are files |
-| `iq acquire` | `iq_acquire`, `iq_acq_surface` | no | `iq_acquire` | `/kshana-iq` | CLI only | | |
-| `iq track` | `iq_track`, `iq_loop_designs` | no | `iq_track` | `/kshana-iq` | CLI only | | |
-| `iq sweep` | no | no | no | no | CLI only | | Gap on Python and MCP |
-| `iq labfit` | `iq_labfit` | no | no | no | CLI only | | MCP gap |
-| `iq frontend` | `iq_frontend` | no | `iq_frontend` | `/kshana-iq` | CLI only | | |
-| `iq monitor` | `iq_monitor` | no | no | no | CLI only | | MCP gap |
-| `iq campaign`, `iq campaign report` | `iq_campaign`, `iq_campaign_report` | no | `iq_campaign`, `iq_campaign_status` | `/kshana-iq` | CLI only | | |
-| `iq conditions` | `iq_test_conditions` | no | no (a campaign resolves its conditions) | no | CLI only | | |
-| `iq inventory`, `info` | no | no | `iq_info` | `/kshana-iq` | CLI only | | Python gap |
-| `iq extract`, `convert`, `decimate` | no | no | no | no | CLI only | | Gap on Python and MCP; these rewrite recordings on disk |
-| the signal list (`iq --help`) | `iq_signals` | no | `iq_signals` | `/kshana-iq` | CLI only | | |
+| `iq scene` | `iq_scene`, `iq_scene_broadcast` | N/A | `iq_scene` | `/kshana-iq` | CLI only | | Samples are files |
+| `iq acquire` | `iq_acquire`, `iq_acq_surface` | N/A | `iq_acquire` | `/kshana-iq` | CLI only | | |
+| `iq track` | `iq_track`, `iq_loop_designs` | N/A | `iq_track` | `/kshana-iq` | CLI only | | |
+| `iq sweep` | `iq_sweep` | N/A | `iq_sweep` | `/kshana-iq` | CLI only | | |
+| `iq labfit` | `iq_labfit` | N/A | `iq_labfit` (logs inline, no files) | `/kshana-iq` | CLI only | | |
+| `iq frontend` | `iq_frontend` | N/A | `iq_frontend` | `/kshana-iq` | CLI only | | |
+| `iq monitor` | `iq_monitor` | N/A | `iq_monitor` | `/kshana-iq` | CLI only | | |
+| `iq campaign`, `iq campaign report` | `iq_campaign`, `iq_campaign_report` | N/A | `iq_campaign`, `iq_campaign_status` | `/kshana-iq` | CLI only | | |
+| `iq conditions` | `iq_test_conditions` | N/A | `iq_test_conditions` (text, inline) | `/kshana-iq` | CLI only | | |
+| `iq inventory`, `info` | `iq_inventory`, `iq_info` | N/A | `iq_info` | `/kshana-iq` | CLI only | | Inventory of a folder is Python and CLI; the MCP server reads one work directory |
+| `iq extract`, `convert`, `decimate` | N/A | N/A | N/A | N/A | CLI only | | They rewrite recordings on disk (N/A above) |
+| the signal list (`iq --help`) | `iq_signals` | N/A | `iq_signals` | `/kshana-iq` | CLI only | | |
 
 ## Limits that differ by surface
 
