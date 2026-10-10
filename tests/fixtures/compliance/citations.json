@@ -1,0 +1,319 @@
+{
+ "generated_by": "scripts/gen_compliance_refs.py",
+ "rows": [
+  {
+   "row": "DHS-S5.2",
+   "reference": "Section 5.2 (Prevent, Respond, Recover)",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "5.2|Core Functions"
+   ]
+  },
+  {
+   "row": "DHS-L1-R1",
+   "reference": "Level 1, requirement 1",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L1R1"
+   ]
+  },
+  {
+   "row": "DHS-L1-R2",
+   "reference": "Level 1, requirement 2",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L1R2"
+   ]
+  },
+  {
+   "row": "DHS-L1-R3",
+   "reference": "Level 1, requirement 3",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L1R3"
+   ]
+  },
+  {
+   "row": "DHS-L2-R4",
+   "reference": "Level 2, requirement 4",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L2R4"
+   ]
+  },
+  {
+   "row": "DHS-L2-R5",
+   "reference": "Level 2, requirement 5",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L2R5"
+   ]
+  },
+  {
+   "row": "DHS-L3-R6",
+   "reference": "Level 3, requirement 6",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L3R6"
+   ]
+  },
+  {
+   "row": "DHS-L3-R7",
+   "reference": "Level 3, requirement 7",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L3R7"
+   ]
+  },
+  {
+   "row": "DHS-L4-R8",
+   "reference": "Level 4, requirement 8",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "L4R8"
+   ]
+  },
+  {
+   "row": "DHS-S5.5",
+   "reference": "Section 5.5 (common mode)",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "5.5|Common Mode"
+   ]
+  },
+  {
+   "row": "DHS-S8.1-8.3",
+   "reference": "Sections 8.1 to 8.3 (evaluation)",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "8.1|Evaluation Coverage",
+    "8.2|Static Analysis",
+    "8.3|Dynamic Analysis"
+   ]
+  },
+  {
+   "row": "DHS-S8.6",
+   "reference": "Section 8.6 (test-plan elements)",
+   "document": "dhs-rpcf",
+   "anchors": [
+    "8.6|Test Plans"
+   ]
+  },
+  {
+   "row": "IMO-1644-3",
+   "reference": "MSC.1/Circ.1644, paragraph 3",
+   "document": "imo-1644",
+   "anchors": [
+    "3"
+   ]
+  },
+  {
+   "row": "IMO-1644-5",
+   "reference": "MSC.1/Circ.1644, paragraph 5",
+   "document": "imo-1644",
+   "anchors": [
+    "5"
+   ]
+  },
+  {
+   "row": "IMO-A1046-3",
+   "reference": "Resolution A.1046(27), harbour entrance, approach and coastal requirements",
+   "document": "imo-a1046",
+   "anchors": [
+    "3|HARBOUR"
+   ]
+  },
+  {
+   "row": "IMO-A1046-2",
+   "reference": "Resolution A.1046(27), ocean requirements",
+   "document": "imo-a1046",
+   "anchors": [
+    "2|OCEAN"
+   ]
+  },
+  {
+   "row": "IMO-401-3.1",
+   "reference": "MSC.401(95), 3.1 to 3.2",
+   "document": "imo-401",
+   "anchors": [
+    "3.1",
+    "3.2"
+   ]
+  },
+  {
+   "row": "IMO-401-3.11",
+   "reference": "MSC.401(95), 3.11 to 3.14",
+   "document": "imo-401",
+   "anchors": [
+    "3.11",
+    "3.12",
+    "3.13",
+    "3.14"
+   ]
+  },
+  {
+   "row": "IMO-401-3.16",
+   "reference": "MSC.401(95), 3.15 to 3.16",
+   "document": "imo-401",
+   "anchors": [
+    "3.15",
+    "3.16"
+   ]
+  },
+  {
+   "row": "IMO-401-4.2",
+   "reference": "MSC.401(95), 4.2",
+   "document": "imo-401",
+   "anchors": [
+    "4.2"
+   ]
+  },
+  {
+   "row": "EASA-DESC",
+   "reference": "SIB 2022-02R4, Description",
+   "document": "easa-sib",
+   "anchors": [
+    "Description"
+   ]
+  },
+  {
+   "row": "EASA-MFR",
+   "reference": "SIB 2022-02R4, Recommendations to aircraft and equipment manufacturers",
+   "document": "easa-sib",
+   "anchors": [
+    "Aircraft and equipment manufacturers, should"
+   ]
+  },
+  {
+   "row": "EASA-OPS-SPOOF",
+   "reference": "SIB 2022-02R4, Recommendations to air operators (spoofing)",
+   "document": "easa-sib",
+   "anchors": [
+    "Air operators should"
+   ]
+  },
+  {
+   "row": "EASA-ANSP",
+   "reference": "SIB 2022-02R4, Recommendations to ATM/ANS providers and equipment designers",
+   "document": "easa-sib",
+   "anchors": [
+    "ATM/ANS providers should"
+   ]
+  },
+  {
+   "row": "EASA-REPORT",
+   "reference": "SIB 2022-02R4, Reporting",
+   "document": "easa-sib",
+   "anchors": [
+    "Recommendation(s)"
+   ]
+  },
+  {
+   "row": "NIS2-21-1",
+   "reference": "Article 21(1)",
+   "document": "nis2",
+   "anchors": [
+    "21(1)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-a",
+   "reference": "Article 21(2)(a)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(a)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-b",
+   "reference": "Article 21(2)(b)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(b)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-c",
+   "reference": "Article 21(2)(c)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(c)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-d",
+   "reference": "Article 21(2)(d)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(d)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-e",
+   "reference": "Article 21(2)(e)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(e)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-f",
+   "reference": "Article 21(2)(f)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(f)"
+   ]
+  },
+  {
+   "row": "NIS2-21-2-ghij",
+   "reference": "Article 21(2)(g) to (j)",
+   "document": "nis2",
+   "anchors": [
+    "21(2)(g)",
+    "21(2)(h)",
+    "21(2)(i)",
+    "21(2)(j)"
+   ]
+  },
+  {
+   "row": "NIS2-21-3",
+   "reference": "Article 21(3)",
+   "document": "nis2",
+   "anchors": [
+    "21(3)"
+   ]
+  },
+  {
+   "row": "EN16803-1",
+   "reference": "EN 16803-1 (definitions and system engineering procedures)",
+   "document": "en16803-1",
+   "anchors": [
+    "catalogue:Part 1"
+   ]
+  },
+  {
+   "row": "EN16803-2",
+   "reference": "EN 16803-2 (basic performance of GNSS-based terminals)",
+   "document": "en16803-2",
+   "anchors": [
+    "catalogue:Part 2"
+   ]
+  },
+  {
+   "row": "EN16803-3-6",
+   "reference": "EN 16803-3, clause 6",
+   "document": "en16803-3",
+   "anchors": [
+    "catalogue:Clause 6"
+   ]
+  },
+  {
+   "row": "EN16803-3-A",
+   "reference": "EN 16803-3, Annex A",
+   "document": "en16803-3",
+   "anchors": [
+    "catalogue:Annex A"
+   ]
+  }
+ ]
+}
