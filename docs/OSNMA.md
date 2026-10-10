@@ -59,6 +59,9 @@ A tag that names a reserved value, or whose ADKD does not match the MAC look-up 
 slot, is set aside (the Receiver Guidelines say to discard it) and reported as
 `discarded`, not as a failure.
 
+Pages are checked against their CRC (the Galileo CRC-24Q) before anything else; a page
+that fails is dropped and reported (`bad_crc`).
+
 ## Status values
 
 Per tag: `authenticated`, `failed` with a reason (`tag_mismatch`, `macseq_mismatch`,
@@ -104,13 +107,18 @@ sentence; `kshana::osnma::pksos_sentence` builds it.
   (tails included), most significant bit first.
 * **Test-vector CSV.** The layout of the published vectors (`SVID,NumNavBits,NavBitsHEX`).
   The start time comes from `--start-gst` or from a dated file name.
-* **UBX-RXM-SFRBX.** Planned: reading Galileo I/NAV words from u-blox receivers,
-  added to `src/receiver_trust/ingest.rs` once agreed with its owner.
+* **u-blox UBX-RXM-SFRBX.** A raw UBX byte stream (`--format ubx`, detected
+  automatically). Galileo E1-B I/NAV messages are rebuilt into page pairs (`src/osnma/ubx.rs`);
+  other systems, E5b, alert pages and frames with a bad checksum are ignored. SFRBX carries
+  no time, so each page is stamped from the time inside its own data (word types 5 and 0)
+  and accepted only if consecutive time-bearing pages agree with the number of pages
+  received between them; pages that cannot be placed are dropped, never guessed. That
+  time comes from the data itself and gives no freshness protection (see Time above).
 
 ## Command line
 
 ```text
-kshana osnma verify <input> [--format pages|vector-csv] [--start-gst SECONDS]
+kshana osnma verify <input> [--format pages|vector-csv|ubx] [--start-gst SECONDS]
     [--merkle-root HEX] [--public-key ID:TYPE:HEX]
     [--reference-time SECONDS --max-time-error SECONDS] [--epochs] [--json]
 ```
