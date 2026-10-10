@@ -78,6 +78,36 @@ breaking changes are called out explicitly.
   line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
   licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
 
+- **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable
+  evidence packs for a GNSS trust event.** A pack bundles the raw log slice and the full
+  log's SHA-256, the configuration with every threshold, the per-epoch results and
+  reasons, the engine version, a hash-chained manifest and a self-contained HTML summary,
+  signed with Ed25519 (a key from `kshana evidence keygen` or your own file; keys are never
+  stored in a pack and `*.evidence-key` is git-ignored). `verify` checks every hash, the
+  chain and the signature and names exactly what fails; with `--pubkey` it pins the signer.
+  An RFC 3161 token can be attached and is read and bound to the manifest (the authority's
+  own signature is not checked by this build; `openssl ts -verify` covers it). The log slice is the
+  window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
+  otherwise the whole log, and the manifest says which.
+  Creation and verification are pure public functions (`kshana::evidence`) that build for
+  `wasm32`. The packs state that they are a technical record, not a legal opinion. The new dependencies are
+  the `ed25519-dalek` tree (BSD-3-Clause and Apache-2.0/MIT, minimal features) and a direct
+  `zeroize` (already in that tree) to wipe key material. See
+  `docs/EVIDENCE-PACKS.md`.
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. Delivery runs on worker
+  threads with connect and write time limits, capped reconnect backoff and a
+  `kshana_trust_syslog_send_failures_total` counter, so a dead or stalled collector cannot
+  stall the live assessment or freeze `/metrics`; reason labels are capped at 64 series. No
+  new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
 
 ## [0.34.1] - 2026-10-10
 
