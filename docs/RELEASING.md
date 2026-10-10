@@ -55,15 +55,16 @@ All of it runs inside one run of the Release workflow (`.github/workflows/releas
   uploads them as the `dry-run-release-assets` artifact. It skips the long `cargo test`
   steps, attests nothing, creates no release and publishes nothing. `release-artefacts.yml`
   and `reference-image.yml` also dispatch by hand (the image build is a dry run on a branch:
-  both architectures build, nothing is pushed). The OpenCPN catalogue metadata draft is the
-  `draft-opencpn-catalogue` artifact of those runs; it is never attached to a release.
-- **Signal K plugin on npm: OFF.** Set the repository variables `SIGNALK_NPM_PUBLISH=true`
-  and `SIGNALK_NPM_PACKAGE=<approved name>` to enable it. `signalk-publish.yml` refuses to run
-  unless `integrations/signalk/package.json` has exactly that name, is not `private`, and keeps
-  the `signalk-node-server-plugin` keyword. The first publish of a new npm package needs
-  `NPM_TOKEN`; trusted publishing can be attached afterwards.
-- **OpenCPN catalogue: not submitted.** The release carries the plugin package; adding it to
-  OpenCPN's plugin catalogue is a separate, approved step (`packaging/opencpn/`).
+  both architectures build, nothing is pushed).
+- **Signal K plugin on npm: ON.** The package `signalk-kshana-trust` publishes on a tag push (approved by the
+  founder). `signalk-publish.yml` refuses to run unless `integrations/signalk/package.json` has exactly that
+  name, is not `private`, and keeps the `signalk-node-server-plugin` keyword, and it **fails if `NPM_TOKEN` is
+  missing**: the first publish of a new npm package cannot use trusted publishing. Set the repository variable
+  `SIGNALK_NPM_PUBLISH=false` to switch it off. A dry run checks the secret is visible (without printing it)
+  and runs `npm publish --dry-run`.
+- **OpenCPN catalogue: prepared, not submitted.** The release carries the plugin tarball in the catalogue's
+  layout and its catalogue metadata XML. Adding it to OpenCPN's catalogue is a pull request the maintainer opens
+  by hand: `packaging/opencpn/SUBMITTING.md`.
 - The new `ghcr.io/ashfordeou/kshana-reference-build` package is private when first pushed;
   make it public so the parity job's anonymous check can read it.
 

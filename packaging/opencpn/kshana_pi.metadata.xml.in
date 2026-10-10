@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Catalogue metadata for the Kshana OpenCPN plugin (kshana_pi), in the format of the OpenCPN plugins
+  project (OpenCPN/plugins, ocpn-plugin.xsd: root <opencpn-plugin>, elements in the schema's order).
+  scripts/package-opencpn-plugin.sh fills the @...@ fields from a real build. The same text, without
+  the checksum, is the metadata.xml inside the tarball. Nothing here is submitted anywhere: see
+  SUBMITTING.md.
+-->
+<opencpn-plugin version="1">
+  <name>kshana_pi</name>
+  <version>@VERSION@</version>
+  <release>@RELEASE@</release>
+  <summary>Kshana GNSS receiver-trust score panel (advisory)</summary>
+  <api-version>1.18</api-version>
+  <open-source>yes</open-source>
+  <author>Ashforde OÜ</author>
+  <source>https://github.com/ashfordeOU/kshana</source>
+  <info-url>https://kshana.dev</info-url>
+  <description>A floating panel with the Kshana GNSS receiver-trust score (0-100), band, gate state and top reasons, read from the $PKSHT sentence on OpenCPN's own NMEA stream, with an alert when trust collapses. It never changes a fix and never transmits. Advisory software, not type-approved navigation equipment: the operator stays responsible for the safe navigation of the vessel. Licence: GPL-3.0-or-later. Needs a Kshana gate (kshana receiver-trust live --gate) feeding OpenCPN; see https://kshana.dev.</description>
+  <target>@TARGET@</target>
+  <target-version>@TARGET_VERSION@</target-version>
+  <target-arch>@TARGET_ARCH@</target-arch>
+  <tarball-url>@TARBALL_URL@</tarball-url>
+@CHECKSUM_LINE@
+</opencpn-plugin>
