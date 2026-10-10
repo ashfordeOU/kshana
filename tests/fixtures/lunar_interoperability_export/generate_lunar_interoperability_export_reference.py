@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 """Generate external-oracle reference vectors for kshana's lunar OEM export.
 
-The oracle is **oem 0.4.5** (MIT, https://github.com/bradsease/oem) — an
+The oracle is **oem 0.4.5** (MIT, https://pypi.org/project/oem/) — an
 independent, third-party, astropy-backed implementation of the CCSDS 502.0-B
 Orbit Ephemeris Message standard (https://pypi.org/project/oem/). It is a
 *completely separate codebase* from kshana's `src/oem.rs`: it implements its own
@@ -47,7 +47,7 @@ Reproduce (offline, no kshana code involved):
     /tmp/oemvenv/bin/python generate_lunar_interoperability_export_reference.py \
         > lunar_interoperability_export_reference.txt
 
-Generated with oem 0.4.5 (MIT, https://github.com/bradsease/oem) + astropy + numpy.
+Generated with oem 0.4.5 (MIT, https://pypi.org/project/oem/) + astropy + numpy.
 """
 
 import os
@@ -81,7 +81,7 @@ def parse_with_oracle(path):
 
 def main():
     print("# External-oracle reference for kshana's lunar CCSDS OEM export.")
-    print("# Oracle: oem 0.4.5 (MIT, https://github.com/bradsease/oem) + astropy + numpy.")
+    print("# Oracle: oem 0.4.5 (MIT, https://pypi.org/project/oem/) + astropy + numpy.")
     print("# Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.")
     print("# Consumed by tests/lunar_interoperability_export_reference.rs.")
     print("# See generate_lunar_interoperability_export_reference.py for provenance/scope.")
