@@ -163,6 +163,39 @@ async fn scene_acquire_track_frontend_round_trip() {
         acq["files"].as_array().unwrap().is_empty(),
         "nothing kept unless asked"
     );
+    // The whole surface of one PRN goes to a file in the work directory.
+    let one = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3], "coherent": 2,
+                "surface_out": "surface.csv" }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(one["files"].as_array().unwrap().len(), 1, "{one:#}");
+    let text = std::fs::read_to_string(dir.join("surface.csv")).unwrap();
+    assert!(text.starts_with("# kshana.acq-surface/1"));
+    let many = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
+                "surface_out": "surface2.csv" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(many.contains("exactly one PRN"), "{many}");
+    // A surface that would not fit the cap is refused, naming surface_out.
+    let big = call(
+        &client,
+        "iq_acquire",
+        json!({ "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3],
+                "doppler_max_hz": 200000.0, "doppler_step_hz": 100.0,
+                "surface_out": "surface3.bin" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(big.contains("surface_out") && big.contains("cells"), "{big}");
+    assert!(!dir.join("surface3.bin").exists());
     for (det, t) in acq["detections"].as_array().unwrap().iter().zip(truth) {
         let dd = det["doppler_hz"].as_f64().unwrap() - t["doppler_hz"].as_f64().unwrap();
         assert!(dd.abs() <= 250.0, "Doppler off by {dd} Hz: {det} vs {t}");
@@ -178,11 +211,20 @@ async fn scene_acquire_track_frontend_round_trip() {
 
     // Track: both channels locked at the end, C/N0 near what went in; per-epoch files kept.
     // C/N0 is the NWPR estimate (dB-Hz) the loop bank reports once its 50 windows fill.
+    // A loop design from a file in the work directory, with an argument overriding it.
+    std::fs::write(
+        dir.join("loops.toml"),
+        "schema = \"kshana.loop-design/1\"\n[[design]]\nname = \"wide\"\n\
+         [design.carrier]\npll_bw_hz = 18.0\n",
+    )
+    .unwrap();
     let trk = call(
         &client,
         "iq_track",
         json!({
             "recording": "scene.bin", "signal": "gps-l1ca", "prns": [3, 17],
+            "design": "loops.toml", "dll_bw_hz": 1.5, "threads": 2,
+            "epochs_out": "track.bin", "events_out": "track.events.jsonl",
             // No acq_coherent: the default hand-off (auto, ≈4 ms coherent) locks both
             // channels. A one-period search false-locked PRN 17 ~500 Hz off on this scene
             // (`tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`).
@@ -192,8 +234,16 @@ async fn scene_acquire_track_frontend_round_trip() {
     .await
     .unwrap();
     assert_eq!(trk["samples_tracked"], 3_069_000);
+    assert_eq!(trk["design"]["name"], "wide");
+    assert_eq!(
+        trk["warnings"][0]["kind"], "commensurate_sampling",
+        "2.046 MHz is 2 samples/chip"
+    );
+    assert_eq!(trk["design"]["hash"].as_str().unwrap().len(), 64);
     for ch in trk["channels"].as_array().unwrap() {
         assert_eq!(ch["locked_at_end"], true, "{ch}");
+        assert_eq!(ch["final_state"], "LOCKED", "{ch}");
+        assert_eq!(ch["false_locks"], 0, "{ch}");
         assert!(ch["epochs"].as_u64().unwrap() >= 1_400, "{ch}");
         let cn0 = ch["mean_cn0_dbhz"].as_f64().unwrap();
         assert!((cn0 - 45.0).abs() < 4.0, "mean C/N0 {cn0}: {ch}");
@@ -204,9 +254,32 @@ async fn scene_acquire_track_frontend_round_trip() {
         .iter()
         .map(|f| f["path"].as_str().unwrap())
         .collect();
-    assert_eq!(kept, ["track.json", "track.csv"]);
+    assert_eq!(
+        kept,
+        ["track.bin", "track.events.jsonl", "track.json", "track.csv"]
+    );
     let csv = std::fs::read_to_string(dir.join("track.csv")).unwrap();
     assert!(csv.starts_with("code,epoch,"));
+    // The streamed binary epochs read back, carrying the design's hash per channel.
+    let epochs = kshana::iq::track::sink::BinaryEpochReader::new(std::io::BufReader::new(
+        std::fs::File::open(dir.join("track.bin")).unwrap(),
+    ))
+    .unwrap();
+    assert_eq!(epochs.header().channels.len(), 2);
+    assert_eq!(
+        epochs.header().channels[0].design_hash,
+        trk["design"]["hash"]
+    );
+    let n = epochs.map(Result::unwrap).count() as u64;
+    let total: u64 = trk["channels"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|c| c["epochs"].as_u64().unwrap())
+        .sum();
+    assert_eq!(n, total);
+    let events = std::fs::read_to_string(dir.join("track.events.jsonl")).unwrap();
+    assert!(events.contains("\"reason\":\"locked\""), "{events}");
 
     // Front end: a 2-bit quantiser, written as a new recording that acquires again.
     let fe = call(
@@ -369,4 +442,188 @@ async fn without_a_work_dir_the_file_tools_say_how_to_enable_them() {
         .unwrap_err();
     assert!(err.contains("KSHANA_MCP_IQ_DIR"), "{err}");
     client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn a_campaign_runs_incrementally_within_the_budget_and_reports_its_status() {
+    let dir = work_dir("campaign");
+    // A 1.5 s scene: 3_069_000 samples. The budget fits one cell per call.
+    let client = connect(IqConfig::new(&dir, 3_100_000).unwrap()).await;
+    let mut args = scene_args("rec.bin");
+    args["duration_s"] = json!(1.5);
+    call(&client, "iq_scene", args).await.unwrap();
+    std::fs::write(
+        dir.join("rec.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"rec\"\npath = \"rec.bin\"\n\
+         settle_s = 0.5\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [3, 17]\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("c.toml"),
+        "schema = \"kshana.campaign/1\"\nname = \"mcp\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"rec.toml\"]\n\
+         [[frontend]]\nname = \"raw\"\n[[frontend]]\nname = \"q2\"\nbits = 2\n",
+    )
+    .unwrap();
+
+    let dry = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "c.toml", "out_dir": "out", "dry_run": true }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        (dry["cells_total"].as_u64(), dry["cells_run"].as_u64()),
+        (Some(2), Some(0))
+    );
+
+    let first = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "c.toml", "out_dir": "out" }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(first["cells_run"], 1, "{first:#}");
+    assert_eq!(first["cells_pending"], 1);
+    assert_eq!(first["samples_budgeted"], 3_069_000);
+    assert!(first["digest"].is_null());
+    let status = call(&client, "iq_campaign_status", json!({ "out_dir": "out" }))
+        .await
+        .unwrap();
+    assert_eq!(
+        (
+            status["cells_done"].as_u64(),
+            status["cells_pending"].as_u64()
+        ),
+        (Some(1), Some(1))
+    );
+
+    let second = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "c.toml", "out_dir": "out" }),
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        (
+            second["cells_run"].as_u64(),
+            second["cells_skipped"].as_u64()
+        ),
+        (Some(1), Some(1))
+    );
+    let digest = second["digest"].as_str().unwrap().to_string();
+    assert_eq!(digest.len(), 64);
+    let names: Vec<String> = files(&second).into_iter().map(|(p, _)| p).collect();
+    assert!(names.contains(&"out/report.html".to_string()), "{names:?}");
+    let status = call(&client, "iq_campaign_status", json!({ "out_dir": "out" }))
+        .await
+        .unwrap();
+    assert_eq!(status["digest"], json!(digest));
+
+    // A campaign naming a recording outside the work directory is refused.
+    std::fs::write(
+        dir.join("escape.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"x\"\npath = \"/etc/hostname\"\n\
+         format = \"ci8\"\nsample_rate_hz = 1e6\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [1]\n",
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("bad.toml"),
+        "schema = \"kshana.campaign/1\"\nname = \"bad\"\ndata_class = \"synthetic\"\n[inputs]\nconditions = [\"escape.toml\"]\n",
+    )
+    .unwrap();
+    let err = call(
+        &client,
+        "iq_campaign",
+        json!({ "campaign": "bad.toml", "out_dir": "out2" }),
+    )
+    .await
+    .unwrap_err();
+    assert!(err.contains("outside the IQ work directory"), "{err}");
+    assert!(
+        !dir.join("out2").exists(),
+        "nothing created for a refused campaign"
+    );
+    client.cancel().await.ok();
+    std::fs::remove_dir_all(&dir).ok();
+}
+
+#[tokio::test]
+async fn a_campaign_names_nothing_outside_the_work_dir_before_it_is_read() {
+    let dir = work_dir("campaign-contain");
+    // Files outside the work dir whose content is a marker and is not valid TOML or JSON, so
+    // that a parser which read one would quote it in its error.
+    let outside = dir
+        .parent()
+        .unwrap()
+        .join(format!("kshana-outside-{}", std::process::id()));
+    std::fs::create_dir_all(&outside).unwrap();
+    let marker = "SECRET-MARKER-9f3c";
+    let cond_out = outside.join("cond.toml");
+    let design_out = outside.join("design.toml");
+    let meta_out = outside.join("rec.sigmf-meta");
+    for f in [&cond_out, &design_out, &meta_out] {
+        std::fs::write(f, format!("{marker} = = =\n")).unwrap();
+    }
+    let client = connect(IqConfig::new(&dir, 3_100_000).unwrap()).await;
+    let campaign = |inputs: &str| {
+        format!(
+            "schema = \"kshana.campaign/1\"\nname = \"c\"\ndata_class = \"synthetic\"\n[inputs]\n{inputs}\n"
+        )
+    };
+
+    // A conditions path, a design path and a SigMF metadata path that escape the work dir.
+    std::fs::write(
+        dir.join("in-dir.toml"),
+        format!(
+            "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"x\"\n\
+             path = \"{}/rec.sigmf-data\"\nevents_from_sigmf = true\n\
+             [[expected]]\nsignal = \"gps-l1ca\"\nids = [1]\n",
+            outside.display()
+        ),
+    )
+    .unwrap();
+    std::fs::write(
+        dir.join("ok-cond.toml"),
+        "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"y\"\npath = \"y.bin\"\n\
+         format = \"ci8\"\nsample_rate_hz = 1e6\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [1]\n",
+    )
+    .unwrap();
+    let cases = [
+        (
+            "conditions",
+            campaign(&format!("conditions = [\"{}\"]", cond_out.display())),
+        ),
+        (
+            "design",
+            campaign(&format!(
+                "conditions = [\"ok-cond.toml\"]\ndesigns = \"{}\"",
+                design_out.display()
+            )),
+        ),
+        ("sigmf-meta", campaign("conditions = [\"in-dir.toml\"]")),
+    ];
+    for (what, text) in cases {
+        std::fs::write(dir.join("c.toml"), text).unwrap();
+        let err = call(
+            &client,
+            "iq_campaign",
+            json!({ "campaign": "c.toml", "out_dir": "out" }),
+        )
+        .await
+        .unwrap_err();
+        assert!(
+            err.contains("outside the IQ work directory"),
+            "{what}: {err}"
+        );
+        assert!(
+            !err.contains(marker),
+            "{what}: error quotes file content: {err}"
+        );
+    }
+    client.cancel().await.ok();
+    std::fs::remove_dir_all(&dir).ok();
+    std::fs::remove_dir_all(&outside).ok();
 }

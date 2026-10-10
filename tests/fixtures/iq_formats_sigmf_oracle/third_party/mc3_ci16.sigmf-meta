@@ -1,0 +1,27 @@
+{
+    "global": {
+        "core:datatype": "ci16_le",
+        "core:num_channels": 3,
+        "core:offset": 0,
+        "core:sample_rate": 4000000.0,
+        "core:sha512": "0cb58a1c10e28fc454496cb3dce3c94553078da811feb44ef2d2da61628bbe4653d11e471011c345c747219110c08ff0bd4ff192ddbb7010c6851a7635b37c1b",
+        "core:version": "1.2.6"
+    },
+    "captures": [
+        {
+            "core:frequency": 1575420000.0,
+            "core:sample_start": 0
+        },
+        {
+            "core:frequency": 1176450000.0,
+            "core:sample_start": 16
+        }
+    ],
+    "annotations": [
+        {
+            "core:comment": "marked span",
+            "core:sample_count": 10,
+            "core:sample_start": 20
+        }
+    ]
+}
