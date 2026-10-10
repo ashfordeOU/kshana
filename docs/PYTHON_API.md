@@ -54,7 +54,7 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `receiver_trust_replay` | `(session_toml, nmea) -> dict` | a bounded NMEA excerpt scored the way live mode scores it: per-epoch state, 0-100 score and reasons, a summary (no socket, no gate; advisory) |
 | `assess_vessel_log` | `(session_toml, log) -> dict` | a vessel's NMEA log as a batch run: the score model and every epoch's score with its deductions (advisory) |
 | `evidence_create` | `(session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None) -> dict` | a signed evidence pack for a window of the log, in memory: `files`, `public_key`, `seed_hex` (keep it private); a technical record, not a legal opinion |
-| `evidence_verify` | `(files, public_key=None, full_log=None) -> dict` | verify a pack: hashes, chain, signature, optionally the trusted signer and the full log |
+| `evidence_verify` | `(files, public_key=None, full_log=None, require_timestamp=False) -> dict` | verify a pack: hashes, chain, signature, optionally the trusted signer, the full log and a timestamp; `verdict` is `verified`, `intact-signer-not-pinned` (no public key given: intact, signer not established) or `failed` |
 | `interference_map` | `(source, csv, dataset, cell_deg=None, licence=None, licence_url=None, attribution=None, land_geojson=None) -> list[dict]` | a GNSS interference map from ADS-B or AIS CSV text: one dict per UTC day with `kshana-interference-map/v1` GeoJSON (aggregate only; a degraded cell does not name interference as the cause) |
 | `route_exposure` | `(route, maps, date_from=None, date_to=None) -> str` | share of a route through degraded cells of those maps, as JSON text (not a forecast; unobserved cells are not evidence of a clear route) |
 | `nmea_training` | `(toml, seed=None) -> dict` | synthetic bridge NMEA for crew training plus the instructor log (`nmea`, `log_json`, `log_text`); text only, never for a vessel's live navigation systems |
@@ -83,7 +83,8 @@ def evidence_create(session_toml: str, log: str | bytes, from_s: float, to_s: fl
                     title: str | None = None, created_utc: str | None = None,
                     seed_hex: str | None = None) -> dict: ...
 def evidence_verify(files: dict[str, str | bytes], public_key: str | None = None,
-                    full_log: str | bytes | None = None) -> dict: ...
+                    full_log: str | bytes | None = None,
+                    require_timestamp: bool = False) -> dict: ...
 def interference_map(source: str, csv: str, dataset: str, cell_deg: float | None = None,
                      licence: str | None = None, licence_url: str | None = None,
                      attribution: str | None = None, land_geojson: str | None = None) -> list[dict]: ...

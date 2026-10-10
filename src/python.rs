@@ -1182,18 +1182,21 @@ fn evidence_create<'py>(
 
 /// Verify an evidence pack: `files` maps names to `bytes` (or `str`). Checks every hash, the
 /// chain and the signature; with `public_key` (64 hex digits, obtained from the signer by
-/// another route) also that the signer is the one expected, and with `full_log` that the log
-/// you hold is the one recorded. Returns the report as a dict: `ok`, `failures`, `checks`,
-/// `signer_fingerprint`, `signer_pinned`, `notes`. Without a public key the signature proves
-/// only that the pack is intact against the key it names itself. Raises `ValueError` on a
-/// malformed key.
+/// another route) also that the signer is the one expected, with `full_log` that the log
+/// you hold is the one recorded, and with `require_timestamp` that a timestamp token is
+/// present. Returns the report as a dict: `ok`, `failures`, `checks`, `signer_fingerprint`,
+/// `signer_pinned`, `notes`, plus `verdict` (`"verified"`, `"intact-signer-not-pinned"` or
+/// `"failed"`) and `message`. Without a public key a pass is only `"intact-signer-not-pinned"`:
+/// the signature proves the pack is intact against the key it names itself, which anyone can
+/// generate. Raises `ValueError` on a malformed key.
 #[pyfunction]
-#[pyo3(signature = (files, public_key=None, full_log=None))]
+#[pyo3(signature = (files, public_key=None, full_log=None, require_timestamp=false))]
 fn evidence_verify<'py>(
     py: Python<'py>,
     files: std::collections::BTreeMap<String, TextOrBytes>,
     public_key: Option<String>,
     full_log: Option<TextOrBytes>,
+    require_timestamp: bool,
 ) -> PyResult<Bound<'py, PyAny>> {
     let files: crate::evidence::Files = files
         .into_iter()
@@ -1203,10 +1206,10 @@ fn evidence_verify<'py>(
         &files,
         public_key.as_deref(),
         full_log.as_ref().map(TextOrBytes::bytes),
+        require_timestamp,
     )
     .map_err(PyValueError::new_err)?;
-    let v = serde_json::to_value(&r).map_err(|e| PyValueError::new_err(e.to_string()))?;
-    json_to_py(py, &v)
+    json_to_py(py, &r)
 }
 
 /// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; the input

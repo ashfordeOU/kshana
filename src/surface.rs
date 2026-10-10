@@ -16,7 +16,7 @@
 
 use crate::evidence::{
     build_receiver_trust_pack, generate_seed, public_key_hex, verify_bundle, Files, PackRequest,
-    VerifyOptions, VerifyReport,
+    VerifyOptions,
 };
 use crate::interference_map::api::{self, DatasetSpec, DEFAULT_CELL_DEG};
 use crate::receiver_trust::assess::{self, ExcerptAssessment};
@@ -406,22 +406,52 @@ pub fn evidence_create(
 
 /// Verify an evidence pack held in memory: every hash, the chain, the signature, and with
 /// `public_key` (hex, obtained from the signer by another route) that the signer is the one
-/// you expect, and with `full_log` that the log you hold is the one recorded. Without a
-/// public key the signature proves only that the pack is intact against the key it names
-/// itself, which anyone can generate; the report says so.
+/// you expect, with `full_log` that the log you hold is the one recorded, and with
+/// `require_timestamp` that the pack carries a timestamp token.
+///
+/// Returns the report as JSON with two added fields that say plainly what a pass means:
+/// `verdict` is `"verified"` (everything checks and the signer is the pinned key),
+/// `"intact-signer-not-pinned"` (everything checks, but with no trusted public key the
+/// signature proves only that the pack is intact against the key it names itself, which
+/// anyone can generate) or `"failed"`; `message` is the sentence to show a person.
 pub fn evidence_verify(
     files: &Files,
     public_key: Option<&str>,
     full_log: Option<&[u8]>,
-) -> Result<VerifyReport, String> {
+    require_timestamp: bool,
+) -> Result<Value, String> {
     let expected = public_key.map(|k| hex32("public key", k)).transpose()?;
-    Ok(verify_bundle(
+    let r = verify_bundle(
         files,
         &VerifyOptions {
             expected_public_key: expected,
             full_log,
+            require_timestamp,
         },
-    ))
+    );
+    let fp = r.signer_fingerprint.clone().unwrap_or_default();
+    let (verdict, message) = if !r.ok {
+        (
+            "failed",
+            "NOT VERIFIED: at least one check failed; see `failures`.".to_string(),
+        )
+    } else if r.signer_pinned {
+        (
+            "verified",
+            format!("VERIFIED against the public key you supplied (signer fingerprint {fp})."),
+        )
+    } else {
+        (
+            "intact-signer-not-pinned",
+            format!(
+                "INTACT, BUT THE SIGNER IS NOT PINNED: the hashes and signature are consistent with key {fp}, which the pack names itself. Supply the signer's public key, obtained from the signer by another route, to establish who signed it."
+            ),
+        )
+    };
+    let mut v = serde_json::to_value(&r).map_err(|e| e.to_string())?;
+    v["verdict"] = verdict.into();
+    v["message"] = message.into();
+    Ok(v)
 }
 
 /// A pack's files as JSON, for surfaces that carry text: each file is `{"utf8": text}`, or
@@ -497,13 +527,13 @@ mod tests {
                 MapSource::Adsb,
                 ADSB,
                 None,
-                include_str!("../examples/interference-map/output/adsb-2026-03-01.geojson"),
+                include_str!("../examples/interference-map/output/adsb-custom-2026-03-01.geojson"),
             ),
             (
                 MapSource::Ais,
                 AIS,
                 Some(LAND),
-                include_str!("../examples/interference-map/output/ais-2026-03-01.geojson"),
+                include_str!("../examples/interference-map/output/ais-custom-2026-03-01.geojson"),
             ),
         ] {
             let days = interference_map(
@@ -690,26 +720,36 @@ mod tests {
         .unwrap();
         assert_eq!(p.files, again.files);
 
-        let ok = evidence_verify(&p.files, Some(&p.public_key), Some(nmea.as_bytes())).unwrap();
-        assert!(ok.ok, "{:?}", ok.failures);
-        assert!(ok.signer_pinned);
+        let ok =
+            evidence_verify(&p.files, Some(&p.public_key), Some(nmea.as_bytes()), false).unwrap();
+        assert_eq!(ok["ok"], true, "{}", ok["failures"]);
+        assert_eq!(ok["verdict"], "verified");
+        assert_eq!(ok["signer_pinned"], true);
         // Through JSON and back (how the browser and MCP surfaces carry it).
         let back = files_from_json(&files_to_json(&p.files)).unwrap();
         assert_eq!(back, p.files);
         // One changed byte fails; a different trusted key fails; the wrong log fails.
+        let verdict = |files: &Files, key: Option<&str>, log: Option<&[u8]>| {
+            evidence_verify(files, key, log, false).unwrap()["verdict"].clone()
+        };
         let mut bad = p.files.clone();
         bad.get_mut("epochs.json").unwrap()[10] ^= 1;
-        assert!(!evidence_verify(&bad, Some(&p.public_key), None).unwrap().ok);
+        assert_eq!(verdict(&bad, Some(&p.public_key), None), "failed");
         let other = public_key_hex(&[9u8; 32]);
-        assert!(!evidence_verify(&p.files, Some(&other), None).unwrap().ok);
-        assert!(
-            !evidence_verify(&p.files, None, Some(b"not the log"))
-                .unwrap()
-                .ok
+        assert_eq!(verdict(&p.files, Some(&other), None), "failed");
+        assert_eq!(verdict(&p.files, None, Some(b"not the log")), "failed");
+        // Without a trusted key an intact pack is reported as intact with the signer NOT
+        // pinned, never as plainly verified.
+        let unpinned = evidence_verify(&p.files, None, None, false).unwrap();
+        assert_eq!(unpinned["verdict"], "intact-signer-not-pinned");
+        assert_eq!(unpinned["signer_pinned"], false);
+        assert!(unpinned["message"].as_str().unwrap().contains("NOT PINNED"));
+        // A timestamp can be demanded; this pack has none.
+        assert_eq!(
+            evidence_verify(&p.files, Some(&p.public_key), None, true).unwrap()["verdict"],
+            "failed"
         );
-        // Without a trusted key the report says the signer is not pinned.
-        assert!(!evidence_verify(&p.files, None, None).unwrap().signer_pinned);
-        assert!(evidence_verify(&p.files, Some("zz"), None).is_err());
+        assert!(evidence_verify(&p.files, Some("zz"), None, false).is_err());
         // An empty window is refused; the seed is not part of the files.
         assert!(evidence_create(
             &session,

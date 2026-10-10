@@ -34,9 +34,12 @@ Request: **$ARGUMENTS**
 1. Pass the pack's `files` (a string, `{"utf8": ...}` or `{"base64": ...}` per file), the
    signer's **public key** (64 hex digits, obtained from the signer by another route) and, if
    held, the full log text.
-2. Report `ok`, each failure by code and file, and `signer_pinned`. Without a public key a
-   pass proves only that the pack is intact against the key it names itself, which anyone can
-   generate; say so.
+2. Report the `verdict` and its `message`, each failure by code and file, and `signer_pinned`.
+   `verified` means everything checks against the public key you supplied.
+   `intact-signer-not-pinned` means everything checks but no public key was given, so the pass
+   proves only that the pack is intact against the key it names itself, which anyone can
+   generate: say "intact, signer not established", never "verified". `require_timestamp` fails a
+   pack with no timestamp token.
 
 **Always say** a pack is a **technical record** of what the engine computed from a log under
 stated settings. It is not a legal opinion, not a finding of fact about any event, and not a

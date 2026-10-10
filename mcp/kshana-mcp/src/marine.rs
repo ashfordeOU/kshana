@@ -101,6 +101,10 @@ pub struct VerifyEvidenceRequest {
     /// came from it. At most 4 MiB.
     #[serde(default)]
     pub full_log: Option<String>,
+    /// Fail unless the pack carries a timestamp token (a token sits beside the signed
+    /// manifest, so removing one cannot otherwise be detected). Default false.
+    #[serde(default)]
+    pub require_timestamp: bool,
 }
 
 /// Parameters for [`KshanaServer::generate_training_nmea`].
@@ -232,7 +236,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Generate synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML (`kshana nmea-scenario`): a vessel track and a timeline of scripted events (jamming, position drag-off, time spoof, replay delay, with recovery). Returns the checksum-valid sentence set (GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT, VBW; the first 2000 lines) and the instructor log (what was injected when, with the true track; schema kshana-nmea-training/1) as JSON and text. Deterministic per `seed`. TEXT ONLY: nothing here synthesises RF, IQ or any waveform, nothing is transmitted, and the output is for training and testing, never for a vessel's live navigation systems (a marker sentence in the stream says so). Streaming to a TCP or UDP address is command-line only. Four example scenarios ship in scenarios/training/."
+        description = "Generate synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML (`kshana nmea-scenario`): a vessel track and a timeline of scripted events (jamming, position drag-off, time spoof, replay delay, with recovery). Returns the checksum-valid sentence set (GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT, VBW; the first 2000 lines) and the instructor log (what was injected when, with the true track and a top-level `summary` of peak speeds and accelerations; drag-off events carry their peak drag speed and acceleration; schema kshana-nmea-training/1) as JSON and text. The receiver's visible-satellite ceiling is `receiver.max_used` (default 12). Deterministic per `seed`. TEXT ONLY: nothing here synthesises RF, IQ or any waveform, nothing is transmitted, and the output is for training and testing, never for a vessel's live navigation systems (a marker sentence in the stream says so). Streaming to a TCP or UDP address is command-line only. Four example scenarios ship in scenarios/training/."
     )]
     fn generate_training_nmea(
         &self,
@@ -310,7 +314,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Verify a signed evidence pack (`kshana evidence verify`): every file's SHA-256 against the manifest, the hash chain, the Ed25519 signature, and with `public_key` (the signer's key, from the signer by another route) that the signer is the one expected, and with `full_log` that the log you hold is the one the pack records and that the slice came from it. Returns the report: `ok`, each failure by code and file, every check, `signer_pinned` and notes. Without `public_key` a pass proves only that the pack is intact against the key it names itself, which anyone can generate. Inputs are capped at 4 MiB. A pass says the record is unchanged; it does not say what caused any event, who is responsible, or that the log shows what the receiver really received."
+        description = "Verify a signed evidence pack (`kshana evidence verify`): every file's SHA-256 against the manifest, the hash chain, the Ed25519 signature, and with `public_key` (the signer's key, from the signer by another route) that the signer is the one expected, and with `full_log` that the log you hold is the one the pack records and that the slice came from it. Returns the report: `ok`, each failure by code and file, every check, `signer_pinned`, notes, and a `verdict`: `verified` (signer pinned), `intact-signer-not-pinned` (everything checks but no trusted `public_key` was given, so the signature proves only that the pack is intact against the key it names itself, which anyone can generate; say so, do not call it verified) or `failed`, with a `message` to show the user. `require_timestamp` fails a pack that carries no timestamp token. Inputs are capped at 4 MiB. A verified pass says the record is unchanged and who signed it (the key you supplied); it does not say what caused any event, who is responsible, or that the log shows what the receiver really received."
     )]
     fn verify_evidence_pack(
         &self,
@@ -334,13 +338,14 @@ impl KshanaServer {
             &files,
             r.public_key.as_deref(),
             r.full_log.as_deref().map(str::as_bytes),
+            r.require_timestamp,
         )
         .map_err(bad)?;
-        reply(serde_json::to_value(&report).map_err(|e| bad(e.to_string()))?)
+        reply(report)
     }
 
     #[tool(
-        description = "Build a GNSS interference map from openly licensed aircraft (ADS-B NIC/NACp) or ship (AIS) position reports given as CSV text (`kshana interference-map adsb|ais`). Returns one GeoJSON document per UTC day (schema kshana-interference-map/v1) in which each published grid cell is `degraded`/`not_degraded` (ADS-B) or `anomalous`/`not_anomalous` (AIS), with the method, its pre-registered thresholds, the dataset licence and attribution embedded. Aggregate only: identifiers are hashed in memory and never returned, and a cell with fewer than 5 distinct aircraft or vessels is not published. `dataset` is an approved preset or `custom` (with licence, licence_url, attribution). Input is capped at 4 MiB and the reply at 4 MiB (use a coarser `cell_deg` or the command line for more). Nothing is fetched: land polygons, if wanted for AIS, are passed in. A degraded cell does not identify interference as the cause; an unpublished cell is not evidence of a clear cell; this is not a forecast. Evidence tier: MODELLED."
+        description = "Build a GNSS interference map from openly licensed aircraft (ADS-B NIC/NACp) or ship (AIS) position reports given as CSV text (`kshana interference-map adsb|ais`). Returns one GeoJSON document per UTC day (schema kshana-interference-map/v1) (file names `<source>-<dataset>-<date>.geojson`; method version 2) in which each published grid cell is `degraded`, `not_degraded`, `insufficient_sample`, `withheld_day_confounded` or `withheld_no_background` (ADS-B) or `anomalous`/`not_anomalous` (AIS), with the method, its pre-registered thresholds, the dataset licence and attribution embedded. Every per-cell count below the publication minimum (5) is `null` (withheld, never zero), and a day whose background cannot be estimated withholds its calls. Aggregate only: identifiers are hashed in memory and never returned, and a cell with fewer than 5 distinct aircraft or vessels is not published. `dataset` is an approved preset or `custom` (with licence, licence_url, attribution). Input is capped at 4 MiB and the reply at 4 MiB (use a coarser `cell_deg` or the command line for more). Nothing is fetched: land polygons, if wanted for AIS, are passed in. A degraded cell does not identify interference as the cause; an unpublished cell is not evidence of a clear cell; this is not a forecast. Evidence tier: MODELLED."
     )]
     fn build_interference_map(
         &self,

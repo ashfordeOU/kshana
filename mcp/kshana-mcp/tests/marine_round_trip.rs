@@ -86,6 +86,7 @@ async fn the_new_tools_are_listed_with_their_caveats() {
     assert!(desc("create_evidence_pack").contains("not a legal opinion"));
     assert!(desc("create_evidence_pack").contains("never returned or logged"));
     assert!(desc("verify_evidence_pack").contains("does not say what caused"));
+    assert!(desc("verify_evidence_pack").contains("intact-signer-not-pinned"));
     assert!(desc("assess_vessel_stream").contains("MODELLED"));
     assert!(desc("generate_training_nmea").contains("TEXT ONLY"));
     assert!(desc("generate_training_nmea").contains("never for a vessel's live navigation"));
@@ -200,6 +201,31 @@ async fn evidence_pack_is_created_then_verified_and_tampering_is_caught() {
     let rep: Value = serde_json::from_str(&ok[0]).unwrap();
     assert_eq!(rep["ok"], true, "{rep}");
     assert_eq!(rep["signer_pinned"], true);
+    assert_eq!(rep["verdict"], "verified");
+    // With no trusted key the pack is intact but the signer is not pinned: never "verified".
+    let unpinned = call(
+        &client,
+        "verify_evidence_pack",
+        json!({"files": v["files"]}),
+    )
+    .await
+    .unwrap();
+    let u: Value = serde_json::from_str(&unpinned[0]).unwrap();
+    assert_eq!(u["verdict"], "intact-signer-not-pinned", "{u}");
+    assert_eq!(u["signer_pinned"], false);
+    assert!(u["message"].as_str().unwrap().contains("NOT PINNED"));
+    // A timestamp can be required; this pack has none.
+    let need = call(
+        &client,
+        "verify_evidence_pack",
+        json!({"files": v["files"], "public_key": pk, "require_timestamp": true}),
+    )
+    .await
+    .unwrap();
+    assert_eq!(
+        serde_json::from_str::<Value>(&need[0]).unwrap()["verdict"],
+        "failed"
+    );
     // One changed byte in epochs.json fails, naming the file.
     let mut files = v["files"].clone();
     let e = files["epochs.json"]["utf8"]
@@ -382,7 +408,7 @@ async fn interference_map_then_route_exposure_round_trip() {
     );
     // The sample the CLI wrote, normalised for the engine version.
     let mut sample: Value = serde_json::from_str(&read(
-        "examples/interference-map/output/adsb-2026-03-01.geojson",
+        "examples/interference-map/output/adsb-custom-2026-03-01.geojson",
     ))
     .unwrap();
     let mut got = doc.clone();
@@ -446,7 +472,7 @@ async fn interference_map_checks_the_dataset_and_the_source() {
     args["csv"] = csv.into();
     args["land_geojson"] = read("examples/interference-map/input/land.geojson").into();
     let t = call(&client, "build_interference_map", args).await.unwrap();
-    assert!(t[0].contains("ais-2026-03-01"));
+    assert!(t[0].contains("ais-custom-2026-03-01"));
     client.cancel().await.ok();
 }
 
