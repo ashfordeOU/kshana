@@ -22,8 +22,10 @@
 //! defensible weighting and threat-mix choices (see [`study`]).
 //!
 //! "OLVIDMR" (Obfuscate/Limit/Verify/Isolate/Diversify/Mitigate/Recover) is a
-//! Kshana mnemonic for the seven DHS RPCF technique categories; DHS names the
-//! categories, not the acronym.
+//! Kshana mnemonic for the seven sub-score categories this engine emits. They are
+//! Kshana's own scoring categories, not DHS terms: RPCF v2.0 defines core functions
+//! (Prevent, Respond, Recover), levels 0 to 4 and eight requirements, and no list of
+//! technique categories (see `docs/RESILIENCE-CROSSWALK.md`).
 
 pub mod arch;
 pub mod diversity;
