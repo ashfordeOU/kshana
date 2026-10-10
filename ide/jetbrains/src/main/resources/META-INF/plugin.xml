@@ -216,5 +216,28 @@
             description="Run kshana compliance-report --mapping: the static public-framework mapping tables.">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
+        <action
+            id="dev.kshana.ide.AssessReceiverStream"
+            class="dev.kshana.ide.AssessReceiverStreamAction"
+            text="Assess Receiver Stream (Kshana)"
+            description="Run kshana receiver-trust live --file: score a stored NMEA log epoch by epoch against the selected vessel session TOML. No socket and no gate. Advisory only.">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.ValidateScenario"
+            class="dev.kshana.ide.ValidateScenarioAction"
+            text="Validate Scenario (Kshana)"
+            description="Run kshana --validate on the selected scenario TOML without running it.">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.ListScenarioKinds"
+            class="dev.kshana.ide.ListScenarioKindsAction"
+            text="List Scenario Kinds (Kshana)"
+            description="Run kshana kinds: the scenario kinds the engine supports.">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

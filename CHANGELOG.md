@@ -25,6 +25,11 @@ generated NMEA text is for training. Galileo OSNMA verification is not in this r
 
 ### Added (surfaces)
 
+- **Parity sweep.** JetBrains actions Validate Scenario, List Scenario Kinds and Assess Receiver Stream;
+  `kshana --help` now lists `receiver-trust evidence`, `evidence`, `trust-telemetry` and `nmea-scenario`;
+  the notebook `compliance-and-test-bench` (compliance mapping and test-bench export); and every
+  remaining JetBrains "CLI only" cell in `docs/SURFACES.md` is now an explicit N/A with its reason.
+
 - **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
   `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
   `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing

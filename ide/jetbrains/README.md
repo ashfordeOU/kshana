@@ -33,6 +33,9 @@ access to Kshana): this plugin is the *human*, point-and-click path.
   asks for the signer's public key (64 hex digits or a `.pub` file; always pinned, the plugin never
   accepts an unpinned signer) and optionally the full session log. Only a verified result reads as
   verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+- **Validate Scenario** (`kshana --validate`), **List Scenario Kinds** (Tools menu; `kshana kinds`) and
+  **Assess Receiver Stream** (a vessel session `.toml` plus a stored NMEA log you choose; `kshana
+  receiver-trust live --file`, scored once with no socket and no gate).
 - **Insert Example Scenario** (project view folder or Tools menu; `kshana example`): pick a bundled
   scenario and it is written as a new `.toml` (never over a file). **Export Scenario** on a `.toml`
   (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), **Animate Scenario** (HTML

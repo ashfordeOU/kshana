@@ -216,3 +216,27 @@ class VerifyEvidencePackAction : AnAction() {
         )
     }
 }
+
+/** Right-click a vessel session `.toml` → "Assess Receiver Stream (Kshana)": asks for a stored NMEA log
+ *  and scores it epoch by epoch (`receiver-trust live --file`), the bounded form of the live command.
+ *  The running process (a socket, `--gate`) stays on the command line. */
+class AssessReceiverStreamAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isScenarioFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val log = FileChooser.chooseFile(
+            FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("NMEA log to score"),
+            project,
+            null,
+        ) ?: return
+        KshanaRunner.run(
+            project,
+            "Scoring receiver stream",
+            KshanaCli.receiverTrustExcerptCommand(binary(), file.path, log.path),
+            file.parent?.path,
+            KshanaCli.ADVISORY_NOTICE,
+        )
+    }
+}

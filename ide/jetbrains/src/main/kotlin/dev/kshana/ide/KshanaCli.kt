@@ -28,6 +28,23 @@ object KshanaCli {
     fun nmeaScenarioCommand(binary: String, scenarioPath: String): List<String> =
         listOf(binary, "nmea-scenario", scenarioPath)
 
+    /** `<binary> --validate <scenario.toml>`: check a scenario without running it. */
+    fun validateCommand(binary: String, scenarioPath: String): List<String> =
+        listOf(binary, "--validate", scenarioPath)
+
+    /** `<binary> kinds`: the scenario kinds the engine knows, one per line. */
+    fun kindsCommand(binary: String): List<String> = listOf(binary, "kinds")
+
+    /** `<binary> receiver-trust live <session.toml> --file <log>`: score one stored NMEA log, epoch by
+     *  epoch, in the live schema. A plain `--file` is read once and replayed (no follow, no socket, no
+     *  gate), which is the same bounded form the Python, WebAssembly and MCP excerpt tools carry. */
+    fun receiverTrustExcerptCommand(binary: String, sessionPath: String, logPath: String): List<String> =
+        listOf(binary, "receiver-trust", "live", sessionPath, "--file", logPath)
+
+    /** True for the NMEA log a stream excerpt reads (any plain-text capture the user selects). */
+    fun isNmeaLogFile(fileName: String): Boolean =
+        listOf(".nmea", ".log", ".txt", ".nma").any { fileName.endsWith(it, ignoreCase = true) }
+
     /** The approved interference-map datasets and the input kind each one is. */
     enum class MapDataset(val key: String, val source: String, val label: String) {
         ADSB_LOL("adsb-lol", "adsb", "adsb-lol (ADS-B aircraft reports)"),
