@@ -685,7 +685,7 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 ## AI assistant
 
 [`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
-reads back its JSON, instead of guessing the maths. Each of its fifteen tools is a thin wrapper
+reads back its JSON, instead of guessing the maths. Each of its 38 tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
 ### Install the MCP server
@@ -719,27 +719,83 @@ Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI and Co
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama, its MCP server quality score"></a></p>
 
+In Claude Code the same server arrives as a plugin: `/plugin marketplace add ashfordeOU/kshana`, then
+`/plugin install kshana@ashforde`. The plugin adds slash commands over the tools: `/kshana-run`,
+`/kshana-assess-receiver`, `/kshana-evidence-pack`, `/kshana-interference-map`,
+`/kshana-training-scenario`, `/kshana-bench-export`, `/kshana-compliance-report`, `/kshana-iq`,
+`/kshana-import-route` and `/kshana-marine-integrations`. The vessel-trust tools feed the Signal K and
+OpenCPN integrations: [`docs/MARINE-INTEGRATIONS.md`](docs/MARINE-INTEGRATIONS.md).
+
 Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The server is listed
 in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>The fifteen tools</summary>
+<summary>The 38 tools</summary>
 
 <br>
 
+**Scenarios and reports**
+
 | Tool | What it does |
 |---|---|
-| `run_scenario` | run a scenario from its TOML; returns the summary and the full result JSON, and the chart on request |
-| `list_scenario_kinds` | the 75 built-in scenario kinds, with their required and optional fields |
-| `validate_scenario` | parse a TOML and detect its kind, without running |
-| `list_example_scenarios` · `get_example_scenario` | the bundled reference scenarios with what each shows, and the TOML of one, so an assistant starts from a scenario that runs |
-| `report_scenario` | a run's report: every figure with its unit and its VALIDATED or MODELLED label, the events and a reproducibility record, as JSON or a printable HTML (HyperText Markup Language) page |
-| `animate_scenario` | a run's time series as an animated SVG (Scalable Vector Graphics) drawing, an HTML player or numbered frames |
-| `list_export_formats` · `export_interop` | which interoperability formats apply to a scenario, and the export as CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, an STK (Systems Tool Kit) ephemeris or SigMF (Signal Metadata Format) |
-| `import_route` | a GeoJSON route written into a scenario that flies a waypoint track |
-| `export_sp3` · `export_omm` · `export_oem` | an orbit scenario as SP3-c (Standard Product 3), a CCSDS (Consultative Committee for Space Data Systems) Orbit Mean-elements Message, or an Orbit Ephemeris Message |
-| `export_table_csv` | a run's reproducibility table as CSV (comma-separated values), for the kinds that define one |
-| `assess_receiver_log` | a real receiver log (UBX, RINEX, Android or NMEA) assessed for trust: when and why the fix stopped being trustworthy, and stated events scored against stated tolerances |
+| `run_scenario` | Run a scenario from a TOML (Tom's Obvious, Minimal Language) definition |
+| `list_scenario_kinds` | The 75 built-in scenario kinds with descriptions + required/optional fields — so the agent can construct a valid scenario |
+| `validate_scenario` | Pre-flight check: parse the TOML and detect its kind, without running |
+| `list_example_scenarios` | The bundled reference scenarios as JSON |
+| `get_example_scenario` | The TOML text of one bundled reference scenario, byte for byte the file under `scenarios/` |
+| `report_scenario` | Run a scenario and return its report |
+| `animate_scenario` | Run a scenario and return its time series as an animation |
+
+**Export and interoperability**
+
+| Tool | What it does |
+|---|---|
+| `list_export_formats` | Which interoperability formats apply to a scenario (`czml`, `kml`, `geojson`, `stk`, `sigmf`), the reason when one does not, and the specification each writer follows |
+| `export_interop` | Export a scenario as CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON, STK (Systems Tool Kit) ephemeris `.e`, or SigMF (Signal Metadata  |
+| `import_route` | Write a GeoJSON `LineString` route into a scenario that flies a waypoint track (`terrain-nav`, `terrain-slam`, `gravity-map`, `combined-altpnt`) and return the new TOML |
+| `export_sp3` | Export an `orbit` scenario's constellation as SP3-c (Standard Product 3, revision c) precise ephemeris |
+| `export_omm` | Export an `orbit` scenario's elements as a CCSDS (Consultative Committee for Space Data Systems) 502.0-B-2 OMM (Orbit Mean-elements Message) catalogue |
+| `export_oem` | Export an `orbit` scenario's state series as CCSDS OEM (Orbit Ephemeris Message) 2.0 ephemeris — the TEME (true equator, mean equinox) position *and*  |
+| `export_table_csv` | Run a scenario and return its reproducibility table as CSV (comma-separated values) — the byte-stable table the CLI (command-line interface) writes as `<scenario>.table.csv` |
+| `export_test_bench` | A scenario's vehicle motion and events for a laboratory GNSS simulator (`kshana bench-export`) |
+
+**Receiver and vessel trust**
+
+| Tool | What it does |
+|---|---|
+| `assess_receiver_log` | Assess a real GNSS (global navigation satellite system) receiver log for trust |
+| `assess_vessel_stream` | Score a bounded NMEA 0183 excerpt (at most 2 MiB and 20,000 epochs |
+| `assess_vessel_log` | A vessel's NMEA 0183 log (at most 4 MiB) as a batch run, with the session TOML stating the vessel's limits |
+| `create_evidence_pack` | A signed evidence pack for a window of a vessel's log (`kshana receiver-trust evidence`) |
+| `attach_evidence_timestamp` | Bind an RFC 3161 timestamp token (base64 of the `.tsr` bytes) to a pack, in memory (`kshana evidence attach-timestamp`) |
+| `verify_evidence_pack` | Verify a pack (`kshana evidence verify`) |
+| `generate_training_nmea` | Synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML (jamming, position drag-off, time spoof, replay delay) with the instructor log (`kshana-nmea-training/1`) |
+| `build_interference_map` | A GNSS interference map from ADS-B or AIS position reports as CSV text (at most 4 MiB) |
+| `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range |
+
+**GNSS IQ (work-directory files; off in HTTP mode)**
+
+| Tool | What it does |
+|---|---|
+| `iq_signals` | The GNSS IQ layer's set-up |
+| `iq_info` | Describe one IQ (in-phase and quadrature) recording in the work directory without processing it |
+| `iq_scene` | Generate a multi-satellite GNSS IQ scene into the work directory (`kshana iq scene`) |
+| `iq_acquire` | FFT (fast Fourier transform) acquisition of one or more PRNs (pseudo-random noise codes) over a recording (`kshana iq acquire`), optionally behind front-end stages |
+| `iq_track` | Acquire, then track with the DLL/PLL/FLL (delay-, phase- and frequency-locked loop) bank (`kshana iq track`), with the loops from a `kshana.loop-desig |
+| `iq_frontend` | Apply receiver front-end and interference-mitigation DSP (digital signal processing |
+| `iq_sweep` | Replay one IQ recording in the work directory across several tracking-loop designs (`kshana iq sweep`) |
+| `iq_monitor` | Run the interference and spoofing detection monitors over an IQ recording in the work directory (`kshana iq monitor`) |
+| `iq_labfit` | Fit the tracking-loop loss-of-lock model to lab runs (`kshana iq labfit`) from an `iq-labfit` scenario whose logs are inline (`text` or `base64` |
+| `iq_test_conditions` | Validate a `kshana.test-conditions/1` file given as text and return the resolved conditions with their hash |
+| `iq_campaign` | Run a lab-replay campaign (`kshana iq campaign`) |
+| `iq_campaign_status` | A campaign output folder's progress |
+
+**Compliance mapping**
+
+| Tool | What it does |
+|---|---|
+| `compliance_report` | The public-framework mapping filled from result documents given as text (`kshana compliance-report`) |
+| `compliance_mapping` | The static mapping tables (or, with `sources`, the source documents they cite with versions and URLs) as Markdown, led by the same statement |
 
 </details>
 
