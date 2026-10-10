@@ -2,7 +2,7 @@
 # SPDX-License-Identifier: AGPL-3.0-only
 """Two independent readers of Kshana's lunar CCSDS OEM export.
 
-Reader 1: oem 0.4.5 (MIT, https://github.com/bradsease/oem).
+Reader 1: oem 0.4.5 (MIT, https://pypi.org/project/oem/).
 Reader 2: Orekit 12.2 (Apache-2.0) OemParser, strict defaults, via OrekitOemReader.java.
 
 Inputs are the Kshana-written files committed under

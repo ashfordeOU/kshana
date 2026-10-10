@@ -1,0 +1,79 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Interference map: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Where aircraft and ships reported degraded navigation data on a past day, from openly licensed tracking files turned into per-day maps by kshana interference-map. Files stay in your browser. A description of what reports looked like, not a measurement of any receiver.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="interference/interference.css">
+<link rel="modulepreload" href="lib/interference.mjs">
+<link rel="modulepreload" href="lib/geojson-layer.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Interference map</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap im">
+  <p class="kicker"><i style="--c:var(--int)"></i>Interference map</p>
+  <h1 id="im-h">Where did position reports look degraded?</h1>
+  <p class="lede">Open the per-day GeoJSON files that <code>kshana interference-map</code> writes from openly licensed aircraft (ADS-B) and ship (AIS) tracking data. Each file is drawn as its own map, with its licence, attribution and method shown beside it. Files you open here are read in this page and never uploaded.</p>
+
+  <p class="im-advice" role="note"><b>What this is, and is not.</b> A description of what published position reports looked like on a past day. It is not a measurement of any receiver, not a forecast and not proof of interference: a degraded or anomalous cell has several possible causes, listed under each map. <b>A cell that is not drawn was not observed. That is not evidence of a clear cell.</b> Advisory information only.</p>
+
+  <section class="card im-load" aria-labelledby="im-load-h">
+    <div class="card-head"><h2 id="im-load-h" class="h3">Open map files</h2>
+      <p class="card-note">Choose one or more <code>adsb-&lt;dataset&gt;-YYYY-MM-DD.geojson</code> or <code>ais-&lt;dataset&gt;-YYYY-MM-DD.geojson</code> files. ADS-B and AIS files are always shown as separate maps and never combined: their licences differ (an ADS-B file carries its source's licence, ODbL 1.0 for the built-in source; AIS files are public domain or NLOD 2.0) and so does what a cell means.</p></div>
+    <div class="im-drop" id="im-drop">
+      <label class="im-file btn-primary">Choose files…<input id="im-files" type="file" multiple accept=".geojson,.json,application/geo+json,application/json"></label>
+      <span class="im-or">or drop them here</span>
+      <button class="im-demo" id="im-demo" type="button">Open the synthetic demo</button>
+      <button class="im-demo" id="im-clear" type="button" hidden>Close all maps</button>
+    </div>
+    <p class="im-status" id="im-status" role="status" aria-live="polite">Nothing open yet.</p>
+    <ul class="im-notes" id="im-notes"></ul>
+  </section>
+
+  <div id="im-maps"></div>
+
+  <section class="im-fine" aria-label="About this page">
+    <h2 class="h3">Reading these maps</h2>
+    <ul>
+      <li>The demo files are <b>synthetic</b>: every count is made up, on a made-up region, with no tracking source, partner data or real day behind them. Their data block says so.</li>
+      <li>Maps inherit the coverage of their source: volunteer ADS-B receivers leave open sea sparse, and open AIS data omits some vessel classes. Read the coverage notes in each file.</li>
+      <li>No coastline or basemap is drawn and nothing is fetched from any server; the grid is latitude and longitude only.</li>
+      <li>No identifier of any aircraft or vessel is in these files; cells with too few distinct aircraft or vessels are not published at all, and an AIS count of one or two is withheld.</li>
+    </ul>
+  </section>
+</div>
+</main>
+<script type="module" src="interference/interference.js"></script>
+</body>
+</html>

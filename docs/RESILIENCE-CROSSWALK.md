@@ -1,10 +1,10 @@
 # PNT-resilience framework cross-walk
 
-**Aligned to, not certified.** This maps Kshana's simulated capabilities to the
+**Aligned to, not rated or approved.** This maps Kshana's simulated capabilities to the
 published PNT-resilience (PNT: positioning, navigation and timing) frameworks. It is a *simulation-derived self-assessment
 aligned to* the DHS/CISA (DHS: Department of Homeland Security; CISA: Cybersecurity and Infrastructure Security Agency) Resilient PNT Conformance Framework (RPCF) v2.0, the
 RethinkPNT/Firesmith Resist-Detect-Respond-Recover (RDRR) model, and Yang
-Yuanxi's resilient-PNT criteria. It is **not** a certification, accreditation, or
+Yuanxi's resilient-PNT criteria. It is **not** a rating, an approval, an accreditation, or a
 compliance statement, and it carries no endorsement from DHS, IEEE (Institute of Electrical and Electronics Engineers), or any
 authority. Every row is labelled with its honest verification status
 (`VALIDATED` against an external oracle, or `MODELLED` from first principles with
@@ -67,7 +67,7 @@ evidence for and what is left over, is in [compliance/dhs-rpcf.md](compliance/dh
 
 ## What this cross-walk does not claim
 
-- No certified RPCF Level. The assigned Level is a *tentative, simulation-derived*
+- No conferred RPCF Level. The assigned Level is a *tentative, simulation-derived*
   reading with an explicit bounded-degradation gate, not a conferred maturity.
 - No position-domain accuracy in the score. The resilience sub-scores are built from
   timing-domain and detection metrics. The engine does compute positions elsewhere (the
@@ -81,7 +81,7 @@ The companion study (`resilience::study`) exists precisely to show that collapsi
 these dimensions into one composite score or one Level produces a rating whose
 architecture ranking is unstable under defensible weighting and threat choices —
 so this cross-walk is a measurement layer to be read per-dimension, not a single
-grade to certify against.
+grade to rate a product against.
 
 ## Resilience and vertical scenarios that exercise these layers
 

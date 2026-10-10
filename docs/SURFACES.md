@@ -132,7 +132,7 @@ exists yet.
 
 - An evidence pack is a **technical record** of what the engine computed from a log under stated
   settings, with every hash and a signature over them. It is not a legal opinion, a finding of
-  fact about any event or a certification. A pass of verify says the record is unchanged; with no
+  fact about any event or an approval. A pass of verify says the record is unchanged; with no
   trusted public key it proves only integrity against the key the pack names itself.
 - The receiver-trust monitors and the trust score are **MODELLED**: thresholds are stated
   inputs and nothing asserts how they perform against real interference. The output is

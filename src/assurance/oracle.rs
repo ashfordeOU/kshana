@@ -18,7 +18,7 @@
 //! an external validation. [`justifies_validated`] encodes that distinction: it
 //! returns `true` only when the report passed **and** the oracle's
 //! [`OracleKind`] is [`ExternalDataset`]. Every other kind — [`ReferenceImpl`],
-//! [`InternalConsistency`], [`NoneKind`] — stays Modelled no matter how clean the
+//! [`InternalConsistency`], [`IntegrationRun`], [`NoneKind`] — stays Modelled no matter how clean the
 //! match. This mirrors the per-status evidence invariant the verification matrix
 //! already enforces, so the harness cannot be used to launder a self-consistency
 //! check into a validation halo.
@@ -26,6 +26,7 @@
 //! [`ExternalDataset`]: crate::verification::OracleKind::ExternalDataset
 //! [`ReferenceImpl`]: crate::verification::OracleKind::ReferenceImpl
 //! [`InternalConsistency`]: crate::verification::OracleKind::InternalConsistency
+//! [`IntegrationRun`]: crate::verification::OracleKind::IntegrationRun
 //! [`NoneKind`]: crate::verification::OracleKind::NoneKind
 //!
 //! This module is `wasm32`-safe: it uses only `f64` math and owned strings, never
@@ -154,6 +155,7 @@ mod tests {
         for kind in [
             OracleKind::ReferenceImpl,
             OracleKind::InternalConsistency,
+            OracleKind::IntegrationRun,
             OracleKind::NoneKind,
         ] {
             let o = Oracle {

@@ -18,6 +18,10 @@ A synthetic `$PKSHT` text stream, 4 epochs a second: 8 nominal, 4 degraded, 6 un
 | 10.7 | normal | cleared after 10 consecutive nominal epochs (`clearAfterEpochs`) |
 | 16.4 | warn | the stream ended; no epoch for `staleAfterS` |
 
+The 3.1 s and 4.6 s figures are the timing of this scripted feed (when its degraded and untrusted epochs were sent and polled), not a detection latency of the monitors.
+
+These captures predate the 0.35 wording change: the notification messages and the score description recorded here end "Advisory only", and the plugin now shows the full statement, "advisory, not type-approved navigation equipment". The files are the recorded output of the run and are not edited.
+
 `pksht-ws-summary.json`: the WebSocket saw `navigation.gnss.kshana.{band,score,reasons,alarms,gate}` and the notification
 (the server adds `id` and `status` to it); band sequence nominal, degraded, untrusted, nominal. `pksht-rest-final.json`: the
 REST values, including the metadata of `navigation.gnss.kshana.score` (range 0 to 100, description, zones). The `reportedPosition` path is absent here (a `$PKSHT` source carries no position) and `navigation.position` was not
