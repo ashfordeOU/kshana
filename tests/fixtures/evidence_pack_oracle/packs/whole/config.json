@@ -1,0 +1,7 @@
+{
+  "monitors": {
+    "cn0_drop_db": 6.0,
+    "sats_lost": 4
+  },
+  "note": "synthetic"
+}
