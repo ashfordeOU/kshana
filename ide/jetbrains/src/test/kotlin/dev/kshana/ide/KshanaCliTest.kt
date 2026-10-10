@@ -74,4 +74,47 @@ class KshanaCliTest {
         assertTrue(KshanaCli.ADVISORY_NOTICE.contains("Advisory only"))
         assertTrue(KshanaCli.MAP_NOTICE.contains("not a forecast"))
     }
+
+    @Test
+    fun benchExportAndComplianceCommandsUseTheSubcommands() {
+        assertEquals(
+            listOf("kshana", "bench-export", "/s.toml", "--out", "/bench-s"),
+            KshanaCli.benchExportCommand("kshana", "/s.toml", "/bench-s"),
+        )
+        assertEquals(
+            listOf("kshana", "compliance-report", "--out", "/c", "/r.json"),
+            KshanaCli.complianceReportCommand("kshana", "/c", listOf("/r.json")),
+        )
+        assertEquals(
+            listOf("kshana", "compliance-report", "--mapping"),
+            KshanaCli.complianceMappingCommand("kshana"),
+        )
+        assertTrue(KshanaCli.isResultFile("run.result.JSON"))
+        assertFalse(KshanaCli.isResultFile("run.toml"))
+    }
+
+    @Test
+    fun complianceStatementIsTheEnginesWordForWord() {
+        // compliance::STATEMENT in src/compliance/mod.rs; scripts/check-jetbrains-statement.sh
+        // compares the two once that module is on this branch.
+        assertEquals(
+            "A row marked evidenced means a run in this set supports evidence for the capabilities the row names. " +
+                "It is not a finding that a framework is met, and it does not mean any product has been rated or " +
+                "approved by anyone. The gap column states what the runs do not show.",
+            KshanaCli.COMPLIANCE_STATEMENT,
+        )
+        assertTrue(KshanaCli.BENCH_NOTICE.contains("writes no signal"))
+    }
+
+    @Test
+    fun noPluginTextUsesTheBannedClaimWords() {
+        val banned = Regex("certif|complies|compliant|conform", RegexOption.IGNORE_CASE)
+        val texts = mutableListOf(
+            KshanaCli.TRAINING_NOTICE, KshanaCli.ADVISORY_NOTICE, KshanaCli.MAP_NOTICE,
+            KshanaCli.BENCH_NOTICE, KshanaCli.COMPLIANCE_STATEMENT,
+        )
+        val xml = javaClass.getResourceAsStream("/META-INF/plugin.xml")!!.bufferedReader().readText()
+        texts.add(xml)
+        for (t in texts) assertFalse("banned word in: ${banned.find(t)?.value}", banned.containsMatchIn(t))
+    }
 }
