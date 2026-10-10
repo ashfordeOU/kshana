@@ -118,6 +118,16 @@ last column. JetBrains actions run the command line, so an **N/A** there states 
 | `iq extract`, `convert`, `decimate` | N/A | N/A | N/A | N/A | **N/A** (see Note) | | They rewrite recordings on disk (N/A above) |
 | the signal list (`iq --help`) | `iq_signals` | N/A | `iq_signals` | `/kshana-iq` | **N/A** (a list; run `kshana iq --help`) | | |
 
+## Utility functions
+
+Small entry points that are not a capability row, and where each lives:
+
+| Function | Surface | What it is |
+|---|---|---|
+| `version` | Python (`kshana.version()`, `kshana.__version__`), WASM (`version`), CLI (`--version`), MCP (the server info) | The engine version |
+| `iq_read_epochs` | Python | Reads a `kshana.track-epoch/1` binary file that `kshana iq track --epochs` wrote. **N/A** elsewhere: it reads a file from disk (WASM has no file system, MCP reads one work directory only through the `iq_*` tools) |
+| `encode_permalink`, `decode_permalink` | WASM | The `?s=` share-link codec of the browser playground (scenario TOML to a URL-safe token and back). **N/A** elsewhere: a link to a web page has no meaning for a command line, a Python call or an agent |
+
 ## Limits that differ by surface
 
 | Surface | Input limit | Files |

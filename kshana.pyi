@@ -109,7 +109,8 @@ def receiver_trust(toml: str) -> RunOutput:
     """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
 
     A ``[platform]`` table with ``kind = "vessel"`` selects the maritime monitors and the
-    0-100 trust score with its reasons; the output is advisory (docs/MARITIME-TRUST.md).
+    0-100 trust score with its reasons; the output is advisory
+    (docs/MARITIME-TRUST.md). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
     ``receiver-trust live`` (a long-running stream process) is command-line only.
 
     Returns the result document, the per-epoch trust CSV, the chart and a summary.
@@ -124,13 +125,13 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     (``"1.2"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
     ``alarms``, ``position``, ``advisory``, ...), ``last_pksht`` and ``summary`` (counts by state,
     ``lowest_score``, ``final_score``, ``first_untrusted_t_s``). Opens no socket and does not
-    apply the gate (both are command-line only); advisory only. Raises ``ValueError``."""
+    apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
 
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
     """Assess a vessel's NMEA log as a batch run: the ``result.json`` of
     ``kshana receiver-trust`` (score model, monitors run, every epoch's 0-100 score with its
-    deductions). ``session_toml`` needs no ``[log]`` table. Advisory only. Raises
-    ``ValueError``."""
+    deductions). ``session_toml`` needs no ``[log]`` table. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
+    Raises ``ValueError``."""
 
 def evidence_create(
     session_toml: str,
