@@ -3,7 +3,7 @@
 //! `sweep`, `labfit` and `frontend`.
 //!
 //! [`run`] takes the arguments after `iq` and returns a process exit code (0 success,
-//! 1 failure, 2 usage error). It owns the five signal-processing commands and hands every
+//! 1 failure, 2 usage error). It owns the signal-processing commands and hands every
 //! other command (the data-handling `inventory`, `info`, `extract`, `convert`, `decimate`)
 //! straight to [`super::io::cli::run`], so the two halves share one `kshana iq` namespace
 //! and one help screen. The commands expose, without a line of Rust:
@@ -18,15 +18,19 @@
 //! * `labfit` — fit the tracking-loop loss-of-lock model to a receiver-trust timeline
 //!   ([`labfit`]);
 //! * `frontend` — apply receiver front-end and interference-mitigation DSP to a recording
-//!   ([`frontend`]).
+//!   ([`frontend`]);
+//! * `monitor` — run the interference and spoofing detection monitors over a recording
+//!   and write their time series and events ([`monitor`]).
 //!
 //! The parsing style, the exit codes and the `--format`/`--rate`/`--center` raw-input flags
 //! mirror [`super::io::cli`] exactly.
 
 mod acquire;
+mod campaign;
 mod channel;
 mod frontend;
 mod labfit;
+mod monitor;
 mod scene;
 mod signal;
 mod sweep;
@@ -36,24 +40,36 @@ pub use signal::build_code;
 // Re-exported for the Python bindings, which build and generate a scene in-process.
 #[cfg(feature = "python")]
 pub(crate) use channel::{build_channel, ChannelParams};
+// Also used by the campaign runner, which applies the same front-end chains.
+pub(crate) use frontend::{apply_chain, build_chain, FrontendParams};
 #[cfg(feature = "python")]
-pub(crate) use frontend::{build_chain, FrontendParams};
+pub(crate) use monitor::{parse_args as monitor_parse_args, report_from_args as monitor_report};
 #[cfg(feature = "python")]
 pub(crate) use scene::{build_broadcast_scene, build_scene, BroadcastParams, SceneParams};
+#[cfg(feature = "python")]
+pub(crate) use track::sampling_warnings;
+#[cfg(feature = "python")]
+pub(crate) use Fail as CliFail;
 
 use std::collections::HashMap;
 
 /// Usage text of the processing commands, printed above [`super::io::cli::USAGE`].
 pub(crate) const USAGE: &str = "usage: kshana iq scene   <out> --rate <hz> --duration <s> --signal <name> --prn <list> [--doppler <list>] [--cn0 <dbhz>] [--noise-figure <db> | --no-noise] [--seed <n>] [--data] [--center <hz>] [--if <hz>] [--format <fmt>|sigmf] [--truth <path>] [--truth-format csv|jsonl] [--threads <n>]
    or: kshana iq scene   <out> --rate <hz> --window <s> --nav <rinex_nav> --rx-pos lat,lon,alt [--start <tow_s>] [--prn <list>] [--mask <deg>] [--cn0 <dbhz>] [--no-noise] [--format <fmt>|sigmf]
-   or: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>]
-   or: kshana iq track   <recording> --signal <name> --prn <list> [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--coherent <N>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
-   or: kshana iq sweep   <recording> --signal <name> --prn <list> [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>] [--max-seconds <s>] [--doppler-max <hz>] [--json <out>] [--csv <out>]
+   or: kshana iq acquire <recording> --signal <name> --prn <list> [--coherent <N>] [--noncoherent <M>] [--doppler-max <hz>] [--doppler-step <hz>] [--pfa <p>] [--json <out>] [--csv <out>] [--surface <path> [--surface-format csv|json|bin]]
+   or: kshana iq track   <recording> --signal <name> --prn <list> [--design <file.toml> [--design-name <n>]] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--spacing <chips>] [--extra-taps <chips,...>] [--coherent <N>] [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--acq-coherent <N> (default auto, ≈4 ms coherent)] [--acq-noncoherent <M>] [--doppler-max <hz>] [--epochs <path> [--epochs-format csv|jsonl|bin]] [--events <path>] [--summary <path>] [--json <out>] [--csv <out>]
+   or: kshana iq sweep   <recording> --signal <name> --prn <list> (--design <file.toml> | [--pll-bw <list>] [--dll-bw <list>] [--spacing <list>] [--coherent <list>]) [--reacquire] [--threads <N|auto>] [--max-seconds <s>] [--doppler-max <hz>] [--epochs <path>] [--events <path>] [--json <out>] [--csv <out>]
    or: kshana iq labfit  <scenario.toml> [--out-prefix <prefix>]
+   or: kshana iq campaign <campaign.toml> [--out <dir>] [--workers <n>] [--no-resume] [--max-cells <n>] [--dry-run] [--json <out>]
+   or: kshana iq campaign report <out-dir>
+   or: kshana iq conditions <test-conditions.toml|json>
    or: kshana iq frontend <in> <out> [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>] [--out-format <fmt>]
+   or: kshana iq monitor <recording> [--power] [--spectral] [--settings <toml|json>] [--baseline <s>] [--signal <name> --prn <list> [--spacing <chips>] [--pll-bw <hz>] [--fll-bw <hz>] [--dll-bw <hz>] [--coherent <N>] [--cn0-windows <M>] [--doppler-max <hz>]] [--max-seconds <s>] [--json <out>] [--csv <prefix>]
+ loop designs: a kshana.loop-design/1 TOML file (docs/design/LOOP-DESIGN-TOML.md); explicit loop/acquisition flags override the selected design
  acquire/track/sweep also take the front-end flags [--bandpass lo,hi] [--notch] [--blank <thr>] [--excise] [--agc] [--bits <n>], applied before processing (to the acquisition and the tracking pass alike)
  scene channel knobs: [--iono-stec <tecu> | --iono-vtec <tecu> | --iono-klobuchar] [--tropo [--tropo-doy <n>]] [--s4 <v> [--scint-tau0 <s>]] [--sigma-phi <rad>] [--multipath-height <m> [--multipath-ground dry|wet|sea]] [--land-mobile] [--nlos]
- recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>]
+ scene C/N0 profile: [--cn0-profile <toml>] time-varying C/N0 offsets per satellite (step, ramp, points, fade), applied over the channel; the truth's cn0_dbhz follows it
+ recording/raw inputs without a sidecar also take: --format <format> --rate <hz> [--center <hz>] [--if <hz>] [--header <bytes>] [--channels <n>]; multi-stream inputs take --channel <k>
  signals: gps-l1ca gps-l5i gps-l5q gps-l2c galileo-e1b galileo-e1c galileo-e5a-i galileo-e5a-q beidou-b1i beidou-b1c glonass-l1of
  <list> is a comma-separated list (one per --prn, or a single value applied to all)";
 
@@ -179,8 +195,8 @@ impl std::fmt::Display for CommandError {
 
 impl std::error::Error for CommandError {}
 
-/// Run one processing command (`scene`, `acquire`, `track`, `sweep`, `labfit` or
-/// `frontend`, then its arguments exactly as the CLI takes them) in-process, and return
+/// Run one processing command (`scene`, `acquire`, `track`, `sweep`, `labfit`, `frontend`,
+/// `campaign` or `conditions`, then its arguments exactly as the CLI takes them) in-process, and return
 /// the message the CLI would print instead of printing it. Files are written exactly as
 /// the CLI writes them. This is the seam an embedding surface (the MCP server) drives, so
 /// it runs the same code path as `kshana iq` with nothing on stdout or stderr.
@@ -197,9 +213,12 @@ pub fn execute(args: &[String]) -> Result<String, CommandError> {
         Some("sweep") => sweep::run(rest),
         Some("labfit") => labfit::run(rest),
         Some("frontend") => frontend::run(rest),
+        Some("monitor") => monitor::run(rest),
+        Some("campaign") => campaign::run(rest),
+        Some("conditions") => campaign::conditions(rest),
         Some(other) => Err(Fail::Usage(format!(
             "unknown iq processing command {other:?}; expected scene, acquire, track, sweep, \
-             labfit or frontend"
+             labfit, frontend, monitor, campaign or conditions"
         ))),
         None => Err(Fail::Usage("no iq processing command given".into())),
     };
@@ -221,9 +240,10 @@ pub fn run(args: &[String]) -> i32 {
             println!("{USAGE}\n{}", super::io::cli::USAGE);
             0
         }
-        Some("scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend") => {
-            finish(execute(args))
-        }
+        Some(
+            "scene" | "acquire" | "track" | "sweep" | "labfit" | "frontend" | "monitor"
+            | "campaign" | "conditions",
+        ) => finish(execute(args)),
         // Every data-handling command belongs to the io half of the group.
         Some(_) => super::io::cli::run(args),
     }
@@ -262,7 +282,26 @@ pub(crate) fn raw_sidecar(a: &Args) -> Result<Option<crate::iq::io::inventory::R
         center_hz: a.num("--center").map_err(Fail::Usage)?,
         if_hz: a.num("--if").map_err(Fail::Usage)?,
         header_bytes: a.num("--header").map_err(Fail::Usage)?,
+        channels: a.num("--channels").map_err(Fail::Usage)?,
+        channel: None,
         datetime: None,
         description: None,
     }))
+}
+
+/// Open the recording named by positional argument `pos`, honouring the raw-input flags
+/// ([`raw_sidecar`]) and `--channel <k>` (the stream of a multi-channel recording).
+pub(crate) fn open_input(
+    a: &Args,
+    pos: usize,
+) -> Result<crate::iq::io::inventory::OpenedRecording, Fail> {
+    let path = a
+        .pos
+        .get(pos)
+        .ok_or_else(|| Fail::Usage("missing recording path".into()))?;
+    Ok(crate::iq::io::inventory::open_recording_with(
+        std::path::Path::new(path),
+        raw_sidecar(a)?,
+        a.num("--channel").map_err(Fail::Usage)?,
+    )?)
 }
