@@ -16,7 +16,8 @@
 //! (default 0.5, above the wander of a healthy log), costs half its weight when it reaches
 //! its threshold, and its whole weight at `full_ratio` times the threshold (default 1.5).
 //! The score is therefore non-increasing in every alarm statistic, and the per-monitor
-//! points are reported with each epoch.
+//! points are reported with each epoch. The listed points are those before the score is
+//! clamped at 0, so they can sum to more than `100 - score` when it is.
 //!
 //! The score maps onto the existing [`TrustState`] by two band edges: `nominal` at or above
 //! `nominal_min` (default 90), `degraded` at or above `degraded_min` (default 55),
