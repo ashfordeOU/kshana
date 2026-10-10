@@ -245,7 +245,7 @@ jobs:
           REF_NAME: ${{ github.ref_name }}
         run: |
           set -euo pipefail
-          python3 -m pip install --quiet jsonschema==4.23.0
+          python3 -m pip install --quiet --require-hashes --only-binary=:all: -r packaging/mcp/mcpb/requirements.txt
           python3 scripts/test_build_mcpb.py
           if [ "$DRY" = "true" ] && [ -z "$INPUT_TAG" ]; then
             ver="$(grep -m1 '^version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')"
@@ -327,6 +327,13 @@ jobs:
           pattern: channel-*
           path: assets
           merge-multiple: true
+      - name: Collect the Linux x86-64 binaries built once, in the matrix
+        # The bare `kshana` and `kshana-mcp` assets are the very files the Claude Desktop extension
+        # carries, so the two are the same build by construction (and checked below).
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcpb-input-x86_64-unknown-linux-gnu
+          path: linux-x64
       - name: Collect the Claude Desktop extensions (packed in the read-only `mcpb` job)
         uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
@@ -338,9 +345,12 @@ jobs:
         # written outside the directory first, so it never lists itself.
         run: |
           set -euo pipefail
-          cp target/release/kshana assets/kshana
-          cp mcp/kshana-mcp/target/release/kshana-mcp assets/kshana-mcp
+          cp linux-x64/kshana-x86_64-unknown-linux-gnu assets/kshana
+          cp linux-x64/kshana-mcp-x86_64-unknown-linux-gnu assets/kshana-mcp
           cp kshana-sbom.cdx.json kshana-validation-summary.html assets/
+          # The binary inside each extension must be the standalone asset of the same target, byte
+          # for byte, before anything is checksummed or attested.
+          python3 scripts/check_mcpb_binaries.py assets
           ( cd assets && sha256sum -- * > ../SHA256SUMS )
           mv SHA256SUMS assets/SHA256SUMS
           ls -l assets

@@ -111,6 +111,24 @@ for line in sys.stdin:
             self.assertNotEqual(r.returncode, 0)
             self.assertIn("entry point", r.stderr + r.stdout)
 
+    def test_the_binary_inside_each_bundle_must_equal_the_standalone_asset(self):
+        import check_mcpb_binaries as C
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            b = fake_binary(d)
+            assets = d / "assets"
+            assets.mkdir()
+            for target, (asset, _member) in C.TARGETS.items():
+                B.build("0.35.0", target, b, assets)
+                (assets / asset).write_bytes(FAKE)
+            self.assertEqual(C.check(assets), [])
+            (assets / "kshana-mcp").write_bytes(FAKE + b"x")   # the bare Linux asset drifts from its bundle
+            problems = C.check(assets)
+            self.assertEqual(len(problems), 1)
+            self.assertIn("x86_64-unknown-linux-gnu", problems[0])
+            (assets / "kshana-mcp-aarch64-apple-darwin").unlink()
+            self.assertTrue(any("missing" in p for p in C.check(assets)))
+
 
 if __name__ == "__main__":
     unittest.main()
