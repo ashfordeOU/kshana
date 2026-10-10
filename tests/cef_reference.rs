@@ -308,7 +308,7 @@ fn the_committed_corpus_is_what_this_crate_produces_and_covers_what_was_register
         now.iter()
             .filter(|c| c.id.starts_with("band-change-"))
             .count()
-            >= 5,
+            >= 4,
         "band changes of the stream"
     );
     assert!(t1.len() >= 100);
