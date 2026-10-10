@@ -41,7 +41,7 @@ pub struct Chain {
     pub tag_bits: usize,
     pub maclt: u8,
     pub alpha: [u8; 6],
-    /// Time of applicability, 32-bit GST (week in the upper 12 bits).
+    /// Time of applicability `GST_0`, in GST seconds.
     pub gst0: u32,
     pub root_key: Vec<u8>,
 }
@@ -74,6 +74,9 @@ pub struct Config {
     pub maclt: MacLookup,
     /// Largest accepted difference between a sub-frame's time and the reference time.
     pub max_time_error_s: Option<u32>,
+    /// How long a failed check keeps a satellite at `Failed`, even if later data
+    /// verifies: a mismatch is evidence worth remembering. Defaults to 600 s.
+    pub failure_memory_s: Option<u32>,
 }
 
 /// Why a tag, key or message was rejected. These mean the data did not check out.
@@ -535,7 +538,7 @@ impl Verifier {
         }
         let mut m = BitWriter::new();
         m.push(u64::from(p.prna), 8);
-        m.push(u64::from(p.gst), 32);
+        m.push(u64::from(super::gst_pack(p.gst)), 32);
         for f in flex {
             m.push(u64::from(f), 16);
         }
@@ -579,7 +582,7 @@ impl Verifier {
                 m.push(u64::from(prnd), 8);
             }
             m.push(u64::from(p.prna), 8);
-            m.push(u64::from(p.gst), 32);
+            m.push(u64::from(super::gst_pack(p.gst)), 32);
             m.push(u64::from(ctr), 8);
             m.push(u64::from(p.nmas), 2);
             for chunk in 0..nav.bits.div_ceil(32) {
@@ -663,18 +666,20 @@ impl Verifier {
     }
 
     /// Per-satellite status in the form the receiver-trust monitor consumes:
-    /// `Authenticated` when the satellite's ephemeris and clock data most recently
-    /// verified, `Failed` when a check on its data failed and nothing later verified,
-    /// `Unavailable` otherwise.
+    /// `Failed` when a check on the satellite's data failed within the failure memory,
+    /// else `Authenticated` when its ephemeris and clock data has verified, else
+    /// `Unavailable`.
     pub fn sat_status(&self) -> Vec<(String, OsnmaStatus)> {
+        let memory = self.cfg.failure_memory_s.unwrap_or(600);
         self.sats
             .iter()
             .map(|(prn, r)| {
-                let s = match (r.last_ok, r.last_fail) {
-                    (_, Some((fg, _))) if r.last_ok.is_none_or(|ok| fg >= ok) => {
-                        OsnmaStatus::Failed
-                    }
-                    (Some(_), _) => OsnmaStatus::Authenticated,
+                let recent_fail = r
+                    .last_fail
+                    .is_some_and(|(fg, _)| fg.saturating_add(memory) >= self.latest_gst);
+                let s = match (r.last_ok, recent_fail) {
+                    (_, true) => OsnmaStatus::Failed,
+                    (Some(_), false) => OsnmaStatus::Authenticated,
                     _ => OsnmaStatus::Unavailable,
                 };
                 (format!("E{prn:02}"), s)
