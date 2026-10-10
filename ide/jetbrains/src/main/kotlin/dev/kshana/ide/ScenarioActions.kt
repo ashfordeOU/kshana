@@ -258,3 +258,28 @@ class AttachTimestampAction : AnAction() {
         )
     }
 }
+
+/** Right-click a scenario `.toml` → "Validate Scenario (Kshana)": `kshana --validate`, no run. */
+class ValidateScenarioAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isScenarioFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        KshanaRunner.run(project, "Validating scenario", KshanaCli.validateCommand(binary(), file.path), file.parent?.path)
+    }
+}
+
+/** Tools menu → "List Scenario Kinds (Kshana)": `kshana kinds`. */
+class ListScenarioKindsAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabledAndVisible = e.project != null
+    }
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        KshanaRunner.run(project, "Listing scenario kinds", KshanaCli.kindsCommand(kshanaBinary()), project.basePath)
+    }
+}
