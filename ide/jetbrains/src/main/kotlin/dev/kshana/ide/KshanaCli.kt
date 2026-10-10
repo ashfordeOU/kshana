@@ -57,6 +57,32 @@ object KshanaCli {
             fileName.endsWith(".json", ignoreCase = true) ||
             fileName.endsWith(".csv", ignoreCase = true)
 
+    /** `<binary> bench-export <scenario.toml> --out <base>`: write a scenario's vehicle motion,
+     *  NMEA and labelled events as files a laboratory GNSS simulator can replay. No signal. */
+    fun benchExportCommand(binary: String, scenarioPath: String, outBase: String): List<String> =
+        listOf(binary, "bench-export", scenarioPath, "--out", outBase)
+
+    /** `<binary> compliance-report --out <base> <result.json>...`: the public-framework mapping
+     *  filled from run results, written as `<base>.compliance.md` and `<base>.compliance.json`. */
+    fun complianceReportCommand(binary: String, outBase: String, resultPaths: List<String>): List<String> =
+        listOf(binary, "compliance-report", "--out", outBase) + resultPaths
+
+    /** `<binary> compliance-report --mapping`: the static mapping tables only (no run needed). */
+    fun complianceMappingCommand(binary: String): List<String> =
+        listOf(binary, "compliance-report", "--mapping")
+
+    /** True for a run result file `compliance-report` reads. */
+    fun isResultFile(fileName: String): Boolean = fileName.endsWith(".json", ignoreCase = true)
+
+    /** Printed before a bench export: what the files are, and that no signal is written. */
+    const val BENCH_NOTICE: String =
+        "Writes vehicle motion, NMEA and labelled events for a laboratory GNSS simulator. It writes no signal: an event is a time interval, not a recipe for producing interference. Run a simulator only where authorised. Evidence tier: MODELLED."
+
+    /** The engine's own statement printed with every compliance mapping, copied word for word
+     *  from `compliance::STATEMENT` in the engine (src/compliance/mod.rs). Do not reword it. */
+    const val COMPLIANCE_STATEMENT: String =
+        "A row marked evidenced means a run in this set supports evidence for the capabilities the row names. It is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. The gap column states what the runs do not show."
+
     /** Printed before a training run: the stream is synthetic and never for live navigation. */
     const val TRAINING_NOTICE: String =
         "Synthetic training data, text only. Never feed this stream to a vessel's live navigation systems."
