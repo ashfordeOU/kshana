@@ -1,0 +1,731 @@
+{
+ "oracle": "opentelemetry-proto==1.45.1 ExportMetricsServiceRequest via protobuf==7.36.2 json_format.Parse(ignore_unknown_fields=False)",
+ "parsed_strictly": true,
+ "request": {
+  "metrics": [
+   {
+    "description": "Latest GNSS trust score, 0 to 100.",
+    "kind": "gauge",
+    "name": "kshana.trust.score",
+    "points": [
+     {
+      "attributes": {},
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 23.4,
+      "value_kind": "double"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "1 for the current trust band, 0 for the others.",
+    "kind": "gauge",
+    "name": "kshana.trust.band",
+    "points": [
+     {
+      "attributes": {
+       "band": "calibrating"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "nominal"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "degraded"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "untrusted"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "unknown"
+      },
+      "start": null,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     }
+    ],
+    "unit": "1"
+   },
+   {
+    "description": "Epochs received, by trust band.",
+    "is_monotonic": true,
+    "kind": "sum",
+    "name": "kshana.trust.epochs",
+    "points": [
+     {
+      "attributes": {
+       "band": "calibrating"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 3,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "nominal"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 5,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "degraded"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 73,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "untrusted"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "band": "unknown"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 0,
+      "value_kind": "int"
+     }
+    ],
+    "temporality": 2,
+    "unit": "1"
+   },
+   {
+    "description": "Epochs in which a reason was present, by reason.",
+    "is_monotonic": true,
+    "kind": "sum",
+    "name": "kshana.trust.reason.epochs",
+    "points": [
+     {
+      "attributes": {
+       "reason": "agc"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "back\\slash"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "cn0-drop"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 2,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "kinematic"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 2,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "line\nfeed"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "other"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 13,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "quote\"inside"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 2,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "réason ✓"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-00"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-01"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-02"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-03"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-04"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-05"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-06"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-07"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-08"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-09"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-10"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-11"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-12"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-13"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-14"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-15"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-16"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-17"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-18"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-19"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-20"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-21"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-22"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-23"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-24"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-25"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-26"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-27"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-28"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-29"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-30"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-31"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-32"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-33"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-34"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-35"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-36"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-37"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-38"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-39"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-40"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-41"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-42"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-43"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-44"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-45"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-46"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-47"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-48"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-49"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-50"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-51"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-52"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-53"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-54"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-55"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     },
+     {
+      "attributes": {
+       "reason": "synthetic-reason-56"
+      },
+      "start": 1790000000000000000,
+      "time": 1790000100000000000,
+      "value": 1,
+      "value_kind": "int"
+     }
+    ],
+    "temporality": 2,
+    "unit": "1"
+   }
+  ],
+  "resource": {
+   "service.name": "kshana",
+   "service.version": "9.9.9-oracle"
+  },
+  "scope": "kshana.telemetry"
+ }
+}

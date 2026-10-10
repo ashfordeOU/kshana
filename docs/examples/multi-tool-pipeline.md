@@ -40,7 +40,7 @@ for example) by editing the next file. The `campaign` kind can hold several kind
 one run under shared conditions; see [CAMPAIGNS.md](../CAMPAIGNS.md).
 
 Each command below is run from the repository root, and the summary under it is the
-first line kshana 0.33.0 prints for the shipped scenario.
+first line kshana 0.35.0 prints for the shipped scenario.
 
 ## 1. Ingest the trajectory a designer produced (`oem-interop`)
 

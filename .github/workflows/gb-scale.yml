@@ -1,0 +1,36 @@
+# Stream a multi-gigabyte synthetic recording through `kshana iq track --epochs run.bin`
+# and check the heap bound, the throughput floor and the epoch file (bars G1-G4 in
+# tests/iq_track_gbscale.rs, fixed before the first run).
+#
+# MANUAL ONLY (`workflow_dispatch`): never triggered by push or pull_request, so it can
+# never block `main`. The recording is synthetic and is deleted when the test ends.
+name: IQ track GB-scale run
+on:
+  workflow_dispatch:
+    inputs:
+      gigabytes:
+        description: "Recording size in decimal gigabytes (disk needed: about this plus 100 MB)"
+        required: true
+        default: "8"
+permissions:
+  contents: read
+jobs:
+  gb-scale:
+    runs-on: ubuntu-latest
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - name: Check the size input
+        env:
+          GB: ${{ inputs.gigabytes }}
+        run: |
+          case "$GB" in
+            ''|*[!0-9.]*) echo "gigabytes must be a number"; exit 1 ;;
+          esac
+          df -h .
+      - name: Stream the recording through iq track
+        env:
+          KSHANA_GB_SCALE_GB: ${{ inputs.gigabytes }}
+        run: cargo test --release --test iq_track_gbscale -- --ignored --nocapture

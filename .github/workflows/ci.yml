@@ -180,8 +180,18 @@ jobs:
     # which runs the per-scenario work on every core, so each walk takes about as long
     # as its slowest scenarios (leo-ppp-convergence first) instead of the sum.
     #
+    # 2026-10-09, the 0.34.0 cut: the GNSS IQ test suite (tracking engine, campaign runner,
+    # monitors) lengthened the run to 3h51m on 220c18f, and on f3e5a6b the job was cancelled
+    # at the 240 cap (11:21 to 15:22) while `verification_rows_name_a_test_that_exists` was
+    # running. The cap is raised to 330, under GitHub's 360 limit for hosted runners; the
+    # follow-up is to bring the run back toward its ~94 min. No test is skipped, reduced or
+    # ignored.
+    #
+    # 2026-10-09: opt-level 1 for the coverage step only; measured 62 min vs 3h09m on the same
+    # code, line coverage 94.44% vs 94.50%. The 330 cap stays.
+    #
     # The measurement and the --fail-under 85 floor below are unchanged.
-    timeout-minutes: 240
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
@@ -221,6 +231,8 @@ jobs:
         # it is not a comment — it comments out the REST OF THE COMMAND. That mistake
         # shipped once here, silently dropping --timeout and --fail-under and leaving
         # an unmatched apostrophe from the word "tarpaulin's". It parsed as valid YAML.
+        env:
+          CARGO_PROFILE_DEV_OPT_LEVEL: "1"
         run: >
           cargo tarpaulin --engine llvm --out Lcov --output-dir coverage
           --exclude-files 'src/*_data.rs'
@@ -414,6 +426,14 @@ jobs:
         run: node web/studio/lib/areas.test.mjs
       - name: Test the first-use expansion of abbreviations
         run: node web/studio/lib/abbr.test.mjs
+      - name: Test the maritime trust view's logic
+        run: node web/studio/lib/trust.test.mjs
+      - name: Test the interference map's logic
+        run: node web/studio/lib/interference.test.mjs
+      - name: Test the GeoJSON layer helpers
+        run: node web/studio/lib/geojson-layer.test.mjs
+      - name: Test the training debrief's logic
+        run: node web/studio/lib/training.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
@@ -484,11 +504,15 @@ jobs:
       # Pinned to the repo toolchain like every other job. The crate is edition 2024
       # (the rmcp SDK); rmcp 2.x needs >= 1.88 (darling 0.23); 1.93.0 satisfies both.
       - uses: dtolnay/rust-toolchain@1.93.0
+        with:
+          components: rustfmt
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
           # The crate sits outside the root package and has its own lockfile and target
           # dir, so the cache key has to name it or every run is a cold build.
           workspaces: mcp/kshana-mcp
+      - name: Format (the crate is outside the root workspace, so the root `cargo fmt --all` never reaches it)
+        run: cargo fmt --all -- --check
       - name: Test the MCP server (protocol round-trip over an in-memory duplex)
         # tests/round_trip.rs drives the real server with an in-process rmcp client and
         # asserts the served tool set EXACTLY, in both directions — that is the check

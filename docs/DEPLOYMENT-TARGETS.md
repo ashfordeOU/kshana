@@ -16,6 +16,9 @@ AI, artificial intelligence; JSON, JavaScript Object Notation.
 | Python 3.9 or newer | the `kshana` wheel on PyPI (`--features python`) | wheels for Linux, macOS and Windows, x86-64 and 64-bit ARM |
 | MCP clients (AI agents) | the `kshana-mcp` server: `cargo install kshana-mcp`, or the container image | image for linux/amd64 and linux/arm64 |
 | Browsers and JavaScript runtimes | the WebAssembly package on npm (`--features wasm`) | the same engine, compiled to WebAssembly |
+| A small computer on a boat, next to the receiver | the reference build in `deploy/reference-build/`: `kshana receiver-trust live` with the gate, publishing to Signal K and, opt in, to OpenCPN | advisory, not type-approved navigation equipment; not tested on a vessel by the project; see [`MARINE-INTEGRATIONS.md`](MARINE-INTEGRATIONS.md) |
+| Signal K servers | the plugin in `integrations/signalk/` | shipped and unit-tested on recorded synthetic output; not published to npm |
+| OpenCPN | gate-mode NMEA 0183 over TCP from the monitor | opt in; see [`MARINE-INTEGRATIONS.md`](MARINE-INTEGRATIONS.md) |
 | Linux-class payload computers | the Rust crate or the binary, cross-compiled | OPS-SAT-class payload computers and similar |
 | Edge nodes with a GPU, NPU or FPGA beside a Linux CPU | on the Linux CPU | Kshana uses none of the accelerators; it runs beside them |
 

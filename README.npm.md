@@ -17,8 +17,8 @@
 </p>
 
 <p align="center">
-  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.33.1-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.33.1"></a>
-  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-124%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="124 of 251 capabilities validated against independent external oracles"></a>
+  <a href="https://github.com/AshfordeOU/kshana/releases"><img src="https://img.shields.io/badge/release-v0.35.0-066A86?style=flat-square&labelColor=0A1226" alt="Release v0.35.0"></a>
+  <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/VERIFICATION-MATRIX.md"><img src="https://img.shields.io/badge/validated-130%20external%20oracles-377D0C?style=flat-square&labelColor=0A1226" alt="130 of 260 capabilities validated against independent external oracles"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/docs/COVERAGE.md"><img src="https://img.shields.io/badge/coverage-~95%25-377D0C?style=flat-square&labelColor=0A1226" alt="About 95% line coverage, gated at 85% in continuous integration"></a>
   <a href="https://github.com/AshfordeOU/kshana/blob/main/LICENSE"><img src="https://img.shields.io/badge/licence-AGPL--3.0--only-3F4B67?style=flat-square&labelColor=0A1226" alt="Licence: AGPL-3.0-only, or a commercial licence"></a>
   <a href="https://doi.org/10.5281/zenodo.20528627"><img src="https://img.shields.io/badge/DOI-10.5281%2Fzenodo.20528627-7E4B00?style=flat-square&labelColor=0A1226" alt="DOI 10.5281/zenodo.20528627"></a>
@@ -41,7 +41,7 @@ engine in your browser, compiled to WebAssembly, and uploads nothing.
 
 ## Evidence
 
-**124 of 251** capabilities validated against independent external oracles; 123 honestly labelled Modelled, 4 partner-owned.
+**130 of 260** capabilities validated against independent external oracles; 126 honestly labelled Modelled, 4 partner-owned.
 Each capability carries one label in a machine-checked ledger: VALIDATED (an independent
 external oracle agrees: real data, an independent implementation or published reference
 vectors), MODELLED (internally consistent, and said out loud) or PARTNER (a hardware partner
@@ -52,7 +52,7 @@ Cowell force model to 0.08 m against Orekit 12.2.
 <p align="center">
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 251 capabilities: 124 Validated, 123 Modelled, 4 Partner-owned" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/flow-verification-light.svg" alt="How a capability earns its label: capability, oracle, test, ledger label. The verification status across all 260 capabilities: 130 Validated, 126 Modelled, 4 Partner-owned" width="100%">
 </picture>
 </p>
 
@@ -135,6 +135,15 @@ console.log(summary(toml));                     // the one-line result string
 const svg = chart_svg(toml);                    // the same chart the command-line interface (CLI) writes
 ```
 
+```js
+import { list_examples, get_example, export_scenario, animate_scenario } from "kshana";
+
+const names = JSON.parse(list_examples("")).scenarios.map((s) => s.name);   // the bundled scenarios
+const toml = get_example("orbit-gnss-challenged");                           // its TOML, byte for byte
+const czml = JSON.parse(export_scenario(toml, "czml")).files[0].content;      // a CZML file, in memory
+const player = JSON.parse(animate_scenario(toml, "html", 0, NaN, 0)).files;   // {name: html text}
+```
+
 On the WebAssembly face every entry point is a separate call: `run` (the result
 document as a JSON string), `summary`, `chart_svg`, `table_csv` (the scenario's CSV
 (comma-separated values) table as a string, or `undefined` for kinds that publish no table; it throws on an
@@ -150,7 +159,14 @@ Mean-elements Message, and OEM, the Orbit Ephemeris Message â€” the CLI writes â
 `receiver_trust`, which assesses a real receiver log described by a `receiver-trust`
 scenario and returns `{json, csv, svg, summary}` as a JSON string (the browser has no file
 system, so the log, and any navigation file, must be inline in the scenario as `text` or
-`base64`). There is no one-call `run_full` here; that binding exists only on the Python
+`base64`; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust
+score, advisory only), `export_formats` / `export_scenario` (which interoperability formats a scenario supports, without running it, and one export in memory: `czml`, `kml`, `geojson`, `stk` or `sigmf` as JSON `{format, spec_url, files}`, byte-identical for the same scenario, nothing uploaded), `import_route` (a GeoJSON route written into a waypoint-track scenario, the command line's `--import-route`), `animate_scenario` (the run's time series as an animated SVG, a single HTML player or SVG frames), `list_examples` / `get_example` (the bundled reference scenarios and their TOML), `evidence_attach_timestamp` (bind an RFC 3161 token to an evidence pack in memory; the pack must still verify, and the timestamp authority's signature is not checked), `receiver_trust_replay` (a bounded NMEA excerpt scored the way live mode scores it; no gate), `assess_vessel_log` (a vessel's NMEA log as a batch run), `evidence_verify` (check a signed evidence pack; nothing is uploaded; packs are made with the CLI, Python or MCP), `bench_export` (a scenario's motion and events as text for a laboratory simulator; no signal is written), `compliance_report` and `compliance_mapping` (which public-framework requirement rows result documents support evidence for, with each row's gap; not a finding that a framework is met), and `interference_map` (ADS-B or AIS CSV text to a
+`kshana-interference-map/v1` GeoJSON per UTC day; aggregate only), `route_exposure` (a route's
+share through degraded cells of those maps; not a forecast) and `nmea_training` (synthetic
+bridge NMEA and an instructor log for crew training; text only, never for a vessel's live
+navigation systems). Not in the browser build: `receiver-trust live` with its gate and TCP
+listener, streamed training NMEA, and the telemetry exporters (Prometheus, OpenTelemetry, syslog) are long-running network processes and stay in the
+command-line tool; creating an evidence pack needs a signing key, which belongs with the CLI or Python. There is no one-call `run_full` here; that binding exists only on the Python
 wheel.
 
 Every capability in the verification matrix is labelled **validated** (checked against
@@ -183,7 +199,7 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
 
 <picture>
   <source media="(prefers-color-scheme: dark)" srcset="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-dark.svg">
-  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.33.1, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
+  <img src="https://raw.githubusercontent.com/AshfordeOU/kshana/main/docs/assets/readme/architecture-light.svg" alt="One open engine at the centre, kshana 0.35.0, with a typed dispatch over 75 kinds; around it the command line, the Rust library, Python, WebAssembly and Kshana Studio, the MCP server, the Docker image and the JetBrains plugin; below it Kshana Pro, a proprietary overlay that depends on the open engine and never forks it" width="100%">
 </picture>
 
 The same scenario file gives the same bytes on every surface. MCP is the Model Context

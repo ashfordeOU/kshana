@@ -1,0 +1,14 @@
+[
+  {
+    "t_s": 0,
+    "notification_state": "absent"
+  },
+  {
+    "t_s": 1.8,
+    "notification_state": "warn"
+  },
+  {
+    "t_s": 19.2,
+    "notification_state": "alarm"
+  }
+]

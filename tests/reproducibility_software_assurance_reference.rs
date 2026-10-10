@@ -20,7 +20,7 @@
 //! WHAT THIS ASSERTS (live, on every CI run; no Python/Java/network needed)
 //! ----------------------------------------------------------------------
 //!   1. `scripts/gen-sbom.sh` runs and emits a CycloneDX 1.5 document.
-//!   2. component_count >= 50 (66 here: the shipped graph, i.e. normal + build
+//!   2. component_count >= 50 (86 here: the shipped graph, i.e. normal + build
 //!      edges from the root under the default, `python` and `wasm` feature
 //!      union, dev-dependencies excluded — see the SCOPE block in the script).
 //!   3. Every ATOMIC `license.id` the SBOM reports is a member of the official

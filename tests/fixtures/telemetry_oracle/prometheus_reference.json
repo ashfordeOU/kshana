@@ -1,0 +1,1170 @@
+{
+ "families": [
+  {
+   "help": "Engine version; constant 1.",
+   "name": "kshana_build_info",
+   "samples": [
+    {
+     "labels": {
+      "version": "9.9.9-oracle"
+     },
+     "name": "kshana_build_info",
+     "value": 1
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Latest GNSS trust score, 0 (no trust) to 100 (full trust). Absent when the source computes none.",
+   "name": "kshana_trust_score",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_score",
+     "value": 23.4
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Latest GNSS trust band: 1 for the current band, 0 for the others.",
+   "name": "kshana_trust_band",
+   "samples": [
+    {
+     "labels": {
+      "band": "calibrating"
+     },
+     "name": "kshana_trust_band",
+     "value": 0
+    },
+    {
+     "labels": {
+      "band": "nominal"
+     },
+     "name": "kshana_trust_band",
+     "value": 0
+    },
+    {
+     "labels": {
+      "band": "degraded"
+     },
+     "name": "kshana_trust_band",
+     "value": 0
+    },
+    {
+     "labels": {
+      "band": "untrusted"
+     },
+     "name": "kshana_trust_band",
+     "value": 1
+    },
+    {
+     "labels": {
+      "band": "unknown"
+     },
+     "name": "kshana_trust_band",
+     "value": 0
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Latest gate state of the live stream: 1 for the current state, 0 for the others.",
+   "name": "kshana_trust_gate",
+   "samples": [
+    {
+     "labels": {
+      "gate": "off"
+     },
+     "name": "kshana_trust_gate",
+     "value": 0
+    },
+    {
+     "labels": {
+      "gate": "passed"
+     },
+     "name": "kshana_trust_gate",
+     "value": 0
+    },
+    {
+     "labels": {
+      "gate": "withheld"
+     },
+     "name": "kshana_trust_gate",
+     "value": 1
+    },
+    {
+     "labels": {
+      "gate": "unknown"
+     },
+     "name": "kshana_trust_gate",
+     "value": 0
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Latitude the receiver reported at the latest epoch, degrees.",
+   "name": "kshana_trust_position_latitude_degrees",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_position_latitude_degrees",
+     "value": 59.8123456
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Longitude the receiver reported at the latest epoch, degrees.",
+   "name": "kshana_trust_position_longitude_degrees",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_position_longitude_degrees",
+     "value": 24.9012345
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Height the receiver reported at the latest epoch, metres.",
+   "name": "kshana_trust_position_height_meters",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_position_height_meters",
+     "value": 39.4
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "1 if the reason was present at the latest epoch, 0 if it was seen earlier but is not now.",
+   "name": "kshana_trust_reason_active",
+   "samples": [
+    {
+     "labels": {
+      "reason": "agc"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "back\\slash"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "cn0-drop"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "kinematic"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "line\nfeed"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "other"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "quote\"inside"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "réason ✓"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-00"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-01"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-02"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-03"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-04"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-05"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-06"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-07"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-08"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-09"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-10"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-11"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-12"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-13"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-14"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-15"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-16"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-17"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-18"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-19"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-20"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-21"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-22"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-23"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-24"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-25"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-26"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-27"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-28"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-29"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-30"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-31"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-32"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-33"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-34"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-35"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-36"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-37"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-38"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-39"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-40"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-41"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-42"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-43"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-44"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-45"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-46"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-47"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-48"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-49"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-50"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-51"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-52"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-53"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-54"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-55"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-56"
+     },
+     "name": "kshana_trust_reason_active",
+     "value": 0
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Epochs received, by trust band.",
+   "name": "kshana_trust_epochs_total",
+   "samples": [
+    {
+     "labels": {
+      "band": "calibrating"
+     },
+     "name": "kshana_trust_epochs_total",
+     "value": 3
+    },
+    {
+     "labels": {
+      "band": "nominal"
+     },
+     "name": "kshana_trust_epochs_total",
+     "value": 5
+    },
+    {
+     "labels": {
+      "band": "degraded"
+     },
+     "name": "kshana_trust_epochs_total",
+     "value": 73
+    },
+    {
+     "labels": {
+      "band": "untrusted"
+     },
+     "name": "kshana_trust_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "band": "unknown"
+     },
+     "name": "kshana_trust_epochs_total",
+     "value": 0
+    }
+   ],
+   "type": "counter"
+  },
+  {
+   "help": "Epochs in which a reason was present, by reason.",
+   "name": "kshana_trust_reason_epochs_total",
+   "samples": [
+    {
+     "labels": {
+      "reason": "agc"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "back\\slash"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "cn0-drop"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 2
+    },
+    {
+     "labels": {
+      "reason": "kinematic"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 2
+    },
+    {
+     "labels": {
+      "reason": "line\nfeed"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "other"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 13
+    },
+    {
+     "labels": {
+      "reason": "quote\"inside"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 2
+    },
+    {
+     "labels": {
+      "reason": "réason ✓"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-00"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-01"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-02"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-03"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-04"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-05"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-06"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-07"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-08"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-09"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-10"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-11"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-12"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-13"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-14"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-15"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-16"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-17"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-18"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-19"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-20"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-21"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-22"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-23"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-24"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-25"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-26"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-27"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-28"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-29"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-30"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-31"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-32"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-33"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-34"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-35"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-36"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-37"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-38"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-39"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-40"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-41"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-42"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-43"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-44"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-45"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-46"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-47"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-48"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-49"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-50"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-51"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-52"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-53"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-54"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-55"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    },
+    {
+     "labels": {
+      "reason": "synthetic-reason-56"
+     },
+     "name": "kshana_trust_reason_epochs_total",
+     "value": 1
+    }
+   ],
+   "type": "counter"
+  },
+  {
+   "help": "Input lines that could not be parsed as trust samples.",
+   "name": "kshana_trust_input_errors_total",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_input_errors_total",
+     "value": 2
+    }
+   ],
+   "type": "counter"
+  },
+  {
+   "help": "Reason occurrences folded into reason=\"other\" because 64 distinct reasons were already in use.",
+   "name": "kshana_trust_reason_overflow_total",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_reason_overflow_total",
+     "value": 13
+    }
+   ],
+   "type": "counter"
+  },
+  {
+   "help": "Syslog events not delivered (queue full, collector down or stalled).",
+   "name": "kshana_trust_syslog_send_failures_total",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_syslog_send_failures_total",
+     "value": 0
+    }
+   ],
+   "type": "counter"
+  },
+  {
+   "help": "Offset of the latest epoch from the start of the log or session, seconds.",
+   "name": "kshana_trust_epoch_offset_seconds",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_epoch_offset_seconds",
+     "value": 200
+    }
+   ],
+   "type": "gauge"
+  },
+  {
+   "help": "Wall-clock time the latest epoch was received, Unix seconds. Alert on its age to detect a stalled stream.",
+   "name": "kshana_trust_last_sample_timestamp_seconds",
+   "samples": [
+    {
+     "labels": {},
+     "name": "kshana_trust_last_sample_timestamp_seconds",
+     "value": 1790000000
+    }
+   ],
+   "type": "gauge"
+  }
+ ],
+ "oracle": "prometheus_client==0.26.0 parser.text_string_to_metric_families"
+}

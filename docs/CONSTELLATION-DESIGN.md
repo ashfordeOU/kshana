@@ -106,7 +106,7 @@ phase in one run is not a snapshot of any date.
 
 ## Bundled scenarios
 
-Each line gives what the run prints with kshana 0.33.0.
+Each line gives what the run prints with kshana 0.35.0.
 
 - `scenarios/constellation-multi-gnss-coverage.toml`: GPS, Galileo, BeiDou and GLONASS
   (102 satellites) over one day above a 10 deg mask, one clock per system. Availability

@@ -204,9 +204,14 @@ impl IqConfig {
     /// Open `path` (already resolved), check every data file it reads lies inside the work
     /// directory, and return its spec and length in samples.
     fn open(&self, path: &Path, raw: Option<&RawInput>) -> Result<Opened, McpError> {
+        self.open_sidecar(path, raw.map(RawInput::sidecar))
+    }
+
+    /// [`Self::open`] with the raw description already as a sidecar.
+    fn open_sidecar(&self, path: &Path, raw: Option<RawSidecar>) -> Result<Opened, McpError> {
         let root = self.root()?;
-        let opened = open_recording(path, raw.map(RawInput::sidecar))
-            .map_err(|e| bad(format!("{}: {e}", self.rel(path))))?;
+        let opened =
+            open_recording(path, raw).map_err(|e| bad(format!("{}: {e}", self.rel(path))))?;
         for (data, _) in &opened.data_files {
             let canon = data
                 .canonicalize()
@@ -223,6 +228,45 @@ impl IqConfig {
             samples: opened.n_samples,
             format: opened.format.name(),
         })
+    }
+
+    /// Resolve a file a campaign names (already joined to its base) and refuse it unless it
+    /// lies inside the work directory.
+    fn contained(&self, path: &Path) -> Result<PathBuf, McpError> {
+        let root = self.root()?;
+        let canon = path
+            .canonicalize()
+            .map_err(|e| bad(format!("{}: {e}", path.display())))?;
+        if !canon.starts_with(root) {
+            return Err(bad(format!(
+                "{} lies outside the IQ work directory",
+                path.display()
+            )));
+        }
+        Ok(canon)
+    }
+
+    /// Resolve a campaign output folder inside the work directory, creating it (one level)
+    /// when it does not exist yet.
+    fn out_dir(&self, rel: &str) -> Result<PathBuf, McpError> {
+        let root = self.root()?;
+        let joined = join(root, rel)?;
+        if joined.exists() {
+            let canon = self.contained(&joined)?;
+            if !canon.is_dir() {
+                return Err(bad(format!("out_dir `{rel}` is not a folder")));
+            }
+            return Ok(canon);
+        }
+        let name = joined
+            .file_name()
+            .filter(|n| *n != "." && *n != "..")
+            .ok_or_else(|| bad(format!("out_dir `{rel}` does not name a folder")))?
+            .to_owned();
+        let parent = self.contained(joined.parent().unwrap_or(root))?;
+        let full = parent.join(name);
+        std::fs::create_dir(&full).map_err(|e| bad(format!("out_dir `{rel}`: {e}")))?;
+        Ok(full)
     }
 
     /// Refuse a call that would touch more than the budget.
@@ -386,6 +430,8 @@ impl RawInput {
             header_bytes: self.header_bytes,
             datetime: None,
             description: None,
+            channels: None,
+            channel: None,
         }
     }
 }
@@ -619,6 +665,10 @@ pub struct IqSceneRequest {
     pub overwrite: bool,
 }
 
+/// The most cells (Doppler bins × samples per code period) an `iq_acquire` `surface_out` may
+/// hold: 4M cells, 32 MB as binary.
+const SURFACE_MAX_CELLS: usize = 4_000_000;
+
 /// Parameters for [`KshanaServer::iq_acquire`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 #[serde(deny_unknown_fields)]
@@ -656,6 +706,11 @@ pub struct IqAcquireRequest {
     /// Also write the acquisition table as CSV at this path in the work directory.
     #[serde(default)]
     pub csv_out: Option<String>,
+    /// Also write the whole Doppler × code-phase correlation-power surface, with the peak and
+    /// its fine-Doppler refinements (`kshana.acq-surface/1`), at this path in the work
+    /// directory: `.csv`, `.json` or `.bin`. Needs exactly one PRN.
+    #[serde(default)]
+    pub surface_out: Option<String>,
     /// Replace output files that already exist. Default false.
     #[serde(default)]
     pub overwrite: bool,
@@ -683,6 +738,13 @@ pub struct IqTrackRequest {
     /// Early-late correlator spacing (chips).
     #[serde(default)]
     pub spacing_chips: Option<f64>,
+    /// Extra correlator taps: offsets (chips) from the prompt, positive early. They are
+    /// written to `epochs_out` only; the loops do not use them.
+    #[serde(default)]
+    pub extra_taps_chips: Option<Vec<f64>>,
+    /// Threads for the channels (default 1); the output does not depend on it.
+    #[serde(default)]
+    pub threads: Option<usize>,
     /// Coherent integration, in code periods.
     #[serde(default)]
     pub coherent: Option<usize>,
@@ -706,10 +768,32 @@ pub struct IqTrackRequest {
     /// How to read a raw file with no sidecar.
     #[serde(default)]
     pub raw: Option<RawInput>,
-    /// Also keep the per-epoch output as JSON at this path in the work directory.
+    /// A `kshana.loop-design/1` TOML file in the work directory (see
+    /// `docs/design/LOOP-DESIGN-TOML.md`); the loop arguments above override it. Default:
+    /// the built-in design.
+    #[serde(default)]
+    pub design: Option<String>,
+    /// Which design of the file; default its first.
+    #[serde(default)]
+    pub design_name: Option<String>,
+    /// Re-acquire a channel that loses lock (or false-locks) around its last Doppler.
+    /// Default false.
+    #[serde(default)]
+    pub reacquire: bool,
+    /// Stream every epoch (`kshana.track-epoch/1`: E/P/L, discriminators, loop states,
+    /// C/N0, lock state) to this path in the work directory; the format follows the suffix
+    /// (`.csv`, `.jsonl`, `.bin`). Bounded memory, whatever the recording's length.
+    #[serde(default)]
+    pub epochs_out: Option<String>,
+    /// Write the lock-state events (JSON Lines) to this path in the work directory.
+    #[serde(default)]
+    pub events_out: Option<String>,
+    /// Also keep the per-epoch output as JSON (the 0.32 shape, built in memory) at this
+    /// path in the work directory.
     #[serde(default)]
     pub json_out: Option<String>,
-    /// Also write the per-epoch output as CSV at this path in the work directory.
+    /// Also write the per-epoch output as CSV (the 0.32 columns, streamed) at this path in
+    /// the work directory.
     #[serde(default)]
     pub csv_out: Option<String>,
     /// Replace output files that already exist. Default false.
@@ -806,44 +890,182 @@ fn detection(d: &serde_json::Value) -> serde_json::Value {
     })
 }
 
-/// One tracking channel's per-epoch output reduced to its lock state and C/N0.
-fn channel_summary(ch: &serde_json::Value) -> serde_json::Value {
-    let epochs = ch
-        .get("epochs")
-        .and_then(serde_json::Value::as_array)
-        .map(Vec::as_slice)
-        .unwrap_or_default();
-    let f = |e: &serde_json::Value, k: &str| e.get(k).and_then(serde_json::Value::as_f64);
-    let b = |e: &serde_json::Value, k: &str| {
-        e.get(k)
-            .and_then(serde_json::Value::as_bool)
-            .unwrap_or(false)
-    };
-    let frac = |k: &str| {
-        if epochs.is_empty() {
-            0.0
-        } else {
-            epochs.iter().filter(|e| b(e, k)).count() as f64 / epochs.len() as f64
-        }
-    };
-    let cn0: Vec<f64> = epochs
-        .iter()
-        .filter_map(|e| f(e, "cn0_nwpr_dbhz"))
-        .collect();
-    let mean_cn0 = (!cn0.is_empty()).then(|| cn0.iter().sum::<f64>() / cn0.len() as f64);
-    let last = epochs.last();
-    serde_json::json!({
-        "code": ch.get("code").cloned().unwrap_or_default(),
-        "epochs": epochs.len(),
-        "tracked_s": last.and_then(|e| f(e, "code_epoch_s")),
-        "final_doppler_hz": last.and_then(|e| f(e, "doppler_hz")),
-        "final_code_phase_chips": last.and_then(|e| f(e, "code_phase_chips")),
-        "final_cn0_dbhz": last.and_then(|e| f(e, "cn0_nwpr_dbhz")),
-        "mean_cn0_dbhz": mean_cn0,
-        "phase_lock_fraction": frac("phase_lock"),
-        "code_lock_fraction": frac("code_lock"),
-        "locked_at_end": last.is_some_and(|e| b(e, "phase_lock") && b(e, "code_lock")),
-    })
+/// Replay one recording across several tracking-loop designs.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct IqSweepRequest {
+    /// The recording, relative to the IQ work directory.
+    pub recording: String,
+    /// Signal name (see `iq_signals`).
+    pub signal: String,
+    /// PRNs to acquire and track.
+    pub prns: Vec<i64>,
+    /// PLL noise bandwidths (Hz) to sweep; default `[15]`.
+    #[serde(default)]
+    pub pll_bws_hz: Option<Vec<f64>>,
+    /// DLL noise bandwidths (Hz) to sweep; default the built-in design's.
+    #[serde(default)]
+    pub dll_bws_hz: Option<Vec<f64>>,
+    /// Early-late spacings (chips) to sweep; default the built-in design's.
+    #[serde(default)]
+    pub spacings_chips: Option<Vec<f64>>,
+    /// Coherent integration lengths (code periods) to sweep; default the built-in design's.
+    #[serde(default)]
+    pub coherents: Option<Vec<usize>>,
+    /// A `kshana.loop-design/1` TOML file in the work directory: the sweep runs every design in
+    /// it. Cannot be combined with the lists above.
+    #[serde(default)]
+    pub design: Option<String>,
+    /// Re-acquire a channel that loses lock. Default false.
+    #[serde(default)]
+    pub reacquire: bool,
+    /// Code periods per navigation bit (omit for a data-free signal).
+    #[serde(default)]
+    pub periods_per_bit: Option<usize>,
+    /// Track only the first `max_seconds` of the recording.
+    #[serde(default)]
+    pub max_seconds: Option<f64>,
+    /// Threads for the channels (default 1); the output does not depend on it.
+    #[serde(default)]
+    pub threads: Option<usize>,
+    /// Coherent periods of the initialising acquisition; default auto.
+    #[serde(default)]
+    pub acq_coherent: Option<usize>,
+    /// Non-coherent sums of the initialising acquisition; default 1.
+    #[serde(default)]
+    pub acq_noncoherent: Option<usize>,
+    /// Doppler search half-width of the initialising acquisition (Hz); default 5000.
+    #[serde(default)]
+    pub doppler_max_hz: Option<f64>,
+    /// How to read a raw file with no sidecar.
+    #[serde(default)]
+    pub raw: Option<RawInput>,
+    /// Front-end stages applied to the samples before acquisition and tracking.
+    #[serde(default)]
+    pub frontend: Option<FrontendStages>,
+    /// Also keep the per-design results as JSON at this path in the work directory.
+    #[serde(default)]
+    pub json_out: Option<String>,
+    /// Also write the per-design results as CSV at this path in the work directory.
+    #[serde(default)]
+    pub csv_out: Option<String>,
+    /// Replace output files that already exist. Default false.
+    #[serde(default)]
+    pub overwrite: bool,
+}
+
+/// Run the interference and spoofing detection monitors over a recording.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct IqMonitorRequest {
+    /// The recording, relative to the IQ work directory.
+    pub recording: String,
+    /// Run the wideband power monitor.
+    #[serde(default)]
+    pub power: bool,
+    /// Run the spectral monitor.
+    #[serde(default)]
+    pub spectral: bool,
+    /// A monitor settings file (TOML or JSON) in the work directory.
+    #[serde(default)]
+    pub settings: Option<String>,
+    /// Baseline length in seconds (the span the monitors learn "normal" from).
+    #[serde(default)]
+    pub baseline_s: Option<f64>,
+    /// Signal name for the per-satellite epoch monitors (C/N0, signal quality); needs `prns`.
+    #[serde(default)]
+    pub signal: Option<String>,
+    /// PRNs for the per-satellite monitors; needs `signal`.
+    #[serde(default)]
+    pub prns: Option<Vec<i64>>,
+    /// Early-late spacing (chips).
+    #[serde(default)]
+    pub spacing_chips: Option<f64>,
+    /// PLL noise bandwidth (Hz).
+    #[serde(default)]
+    pub pll_bw_hz: Option<f64>,
+    /// FLL noise bandwidth (Hz).
+    #[serde(default)]
+    pub fll_bw_hz: Option<f64>,
+    /// DLL noise bandwidth (Hz).
+    #[serde(default)]
+    pub dll_bw_hz: Option<f64>,
+    /// Coherent integration, in code periods.
+    #[serde(default)]
+    pub coherent: Option<usize>,
+    /// C/N0 windows per estimate.
+    #[serde(default)]
+    pub cn0_windows: Option<usize>,
+    /// Doppler search half-width of the initialising acquisition (Hz).
+    #[serde(default)]
+    pub doppler_max_hz: Option<f64>,
+    /// Monitor only the first `max_seconds` of the recording.
+    #[serde(default)]
+    pub max_seconds: Option<f64>,
+    /// How to read a raw file with no sidecar.
+    #[serde(default)]
+    pub raw: Option<RawInput>,
+    /// Keep the whole report (every series, event and spectrum) as JSON at this path in the
+    /// work directory.
+    #[serde(default)]
+    pub json_out: Option<String>,
+    /// Write the series and events as `<prefix>.series.csv` and `<prefix>.events.csv` in the
+    /// work directory.
+    #[serde(default)]
+    pub csv_prefix: Option<String>,
+    /// Replace output files that already exist. Default false.
+    #[serde(default)]
+    pub overwrite: bool,
+}
+
+/// Validate a lab test-condition file given inline.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct IqConditionsRequest {
+    /// A `kshana.test-conditions/1` file as TOML or JSON text. At most 4 MiB.
+    pub conditions: String,
+}
+
+/// Fit the tracking-loop loss-of-lock model to lab runs given inline.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct IqLabfitRequest {
+    /// An `iq-labfit` scenario TOML with its logs inline: each run's `log` gives `text` or
+    /// `base64` (a `path` is refused). At most 4 MiB in all.
+    pub toml: String,
+}
+
+/// Run a lab-replay campaign held in the work directory.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct IqCampaignRequest {
+    /// The campaign file (`kshana.campaign/1`), relative to the IQ work directory. Every file
+    /// it names (test conditions, recordings, truth sidecars, the loop-design file) must lie
+    /// inside the work directory too.
+    pub campaign: String,
+    /// The output folder, relative to the work directory; created if it does not exist.
+    pub out_dir: String,
+    /// Run at most this many pending cells in this call. Omitted: as many as fit the
+    /// sample budget. Call again to continue; finished cells are skipped.
+    #[serde(default)]
+    pub max_cells: Option<usize>,
+    /// Worker threads (0 = the campaign's setting, or every core).
+    #[serde(default)]
+    pub workers: usize,
+    /// Skip cells already done (default true).
+    #[serde(default = "yes")]
+    pub resume: bool,
+    /// Only plan: report what would run.
+    #[serde(default)]
+    pub dry_run: bool,
+}
+
+fn yes() -> bool {
+    true
+}
+
+/// Report the progress of a campaign output folder.
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+#[serde(deny_unknown_fields)]
+pub struct IqCampaignStatusRequest {
+    /// The campaign's output folder, relative to the IQ work directory.
+    pub out_dir: String,
 }
 
 #[tool_router(router = iq_tool_router, vis = "pub(crate)")]
@@ -1031,7 +1253,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "FFT acquisition of one or more PRNs over an IQ recording in the work directory (`kshana iq acquire`). Reads only the samples one search needs (coherent × noncoherent code periods), which must fit the sample budget. Optional `frontend` stages (band-pass, notch, blanking, excision, AGC, quantiser) run first. Replies with one detection per PRN: `acquired`, `doppler_hz`, `code_phase_chips`, the normalised peak `statistic`, its detection `threshold` and the `peak_ratio`; `json_out` / `csv_out` also keep the full result as files."
+        description = "FFT acquisition of one or more PRNs over an IQ recording in the work directory (`kshana iq acquire`). Reads only the samples one search needs (coherent × noncoherent code periods), which must fit the sample budget. Optional `frontend` stages (band-pass, notch, blanking, excision, AGC, quantiser) run first. Replies with one detection per PRN: `acquired`, `doppler_hz`, `code_phase_chips`, the normalised peak `statistic`, its detection `threshold` and the `peak_ratio`; `json_out` / `csv_out` also keep the full result as files, and `surface_out` (one PRN; .csv, .json or .bin) keeps the whole Doppler × code-phase correlation-power surface with the peak and its parabolic and fine-search Doppler refinements."
     )]
     fn iq_acquire(
         &self,
@@ -1062,6 +1284,40 @@ impl KshanaServer {
             .as_deref()
             .map(|p| iq.output(p, r.overwrite))
             .transpose()?;
+        let surface_out = r
+            .surface_out
+            .as_deref()
+            .map(|p| iq.output(p, r.overwrite))
+            .transpose()?;
+        if let Some(p) = &surface_out {
+            if r.prns.len() != 1 {
+                return Err(bad(
+                    "surface_out exports one surface: give exactly one PRN".into()
+                ));
+            }
+            let step = r
+                .doppler_step_hz
+                .unwrap_or(2.0 / (3.0 * r.coherent.unwrap_or(1).max(1) as f64 * code.period_s()));
+            let max = r.doppler_max_hz.unwrap_or(5000.0);
+            let bins = if step > 0.0 && max >= 0.0 {
+                2.0 * (max / step + 1e-9).floor() + 1.0
+            } else {
+                f64::INFINITY
+            };
+            let cells = bins * (spec.fs_hz * code.period_s()).ceil();
+            if cells > SURFACE_MAX_CELLS as f64 {
+                return Err(bad(format!(
+                    "surface_out would hold about {cells:.0} cells (Doppler bins × samples per \
+                     code period; limit {SURFACE_MAX_CELLS}, about {} MB as binary): widen \
+                     doppler_step_hz or narrow doppler_max_hz",
+                    SURFACE_MAX_CELLS * 8 / 1_000_000
+                )));
+            }
+            if kshana::iq::acq_surface::SurfaceFormat::from_path(&p.display().to_string()).is_none()
+            {
+                return Err(bad("surface_out must end in .csv, .json or .bin".into()));
+            }
+        }
         let (json_path, scratch) = match &json_out {
             Some(p) => (p.clone(), false),
             None => (iq.scratch("json")?, true),
@@ -1078,7 +1334,8 @@ impl KshanaServer {
             .opt("--pfa", r.pfa)
             .raw(r.raw.as_ref())
             .opt("--json", Some(json_path.display()))
-            .opt("--csv", csv_out.as_ref().map(|p| p.display()));
+            .opt("--csv", csv_out.as_ref().map(|p| p.display()))
+            .opt("--surface", surface_out.as_ref().map(|p| p.display()));
         if let Some(fe) = &r.frontend {
             fe.push(&mut a);
         }
@@ -1097,7 +1354,11 @@ impl KshanaServer {
             .iter()
             .filter(|d| d["acquired"].as_bool() == Some(true))
             .count();
-        let files: Vec<PathBuf> = json_out.into_iter().chain(csv_out).collect();
+        let files: Vec<PathBuf> = json_out
+            .into_iter()
+            .chain(csv_out)
+            .chain(surface_out)
+            .collect();
         reply(serde_json::json!({
             "recording": iq.rel(&rec),
             "sample_rate_hz": spec.fs_hz,
@@ -1112,7 +1373,7 @@ impl KshanaServer {
     }
 
     #[tool(
-        description = "Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once. The samples tracked (the whole recording, or its first `max_seconds`) must fit the sample budget. Replies per channel with the epoch count, seconds tracked, final Doppler and code phase, final and mean C/N0 (dB-Hz), the fraction of epochs in phase lock and in code lock, and `locked_at_end`. The per-epoch output goes to files only: `json_out` / `csv_out`. A PRN that is not acquired is refused with its statistic and threshold."
+        description = "Acquire then track one or more PRNs over an IQ recording in the work directory (`kshana iq track`): acquisition initialises each channel, then the DLL/PLL (optionally FLL-assisted) loop bank replays the recording once. The samples tracked (the whole recording, or its first `max_seconds`) must fit the sample budget. The loops come from `design` (a `kshana.loop-design/1` TOML file in the work directory, `design_name` to pick one) or the built-in design, with the loop arguments overriding it; `reacquire` re-acquires a channel that loses lock or false-locks. Tracking streams, so memory does not grow with the recording. Replies with the design's name and hash, any `warnings` (`commensurate_sampling`: a sample rate that is a multiple of half the chip rate makes code-loop jitter and bias unrepresentative) and, per channel, the epoch count, seconds tracked, final Doppler and code phase, final and mean C/N0 (dB-Hz), the fractions of epochs in phase and code lock, `locked_at_end`, the final lock state, false locks detected and re-acquisitions. Per-epoch output goes to files only: `epochs_out` (E/P/L, discriminators, loop states, C/N0, lock state; .csv/.jsonl/.bin), `events_out`, `json_out` / `csv_out`. A PRN that is not acquired is refused with its statistic and threshold."
     )]
     fn iq_track(
         &self,
@@ -1143,54 +1404,109 @@ impl KshanaServer {
                 iq.max_samples() as f64 / spec.fs_hz
             ),
         )?;
-        let json_out = r
-            .json_out
-            .as_deref()
-            .map(|p| iq.output(p, r.overwrite))
-            .transpose()?;
-        let csv_out = r
-            .csv_out
-            .as_deref()
-            .map(|p| iq.output(p, r.overwrite))
-            .transpose()?;
-        let (json_path, scratch) = match &json_out {
-            Some(p) => (p.clone(), false),
-            None => (iq.scratch("json")?, true),
+        let out = |p: &Option<String>| -> Result<Option<PathBuf>, McpError> {
+            p.as_deref().map(|p| iq.output(p, r.overwrite)).transpose()
         };
+        let json_out = out(&r.json_out)?;
+        let csv_out = out(&r.csv_out)?;
+        let epochs_out = out(&r.epochs_out)?;
+        let events_out = out(&r.events_out)?;
+        if let Some(p) = &epochs_out
+            && kshana::iq::track::sink::EpochFormat::from_path(&p.display().to_string()).is_none()
+        {
+            return Err(bad(
+                "epochs_out must end in .csv, .jsonl or .bin (the format follows the suffix)"
+                    .into(),
+            ));
+        }
+        let design = r.design.as_deref().map(|p| iq.input(p)).transpose()?;
+        if r.design_name.is_some() && design.is_none() {
+            return Err(bad("design_name needs design".into()));
+        }
+        // The summary comes from the run's own bounded-memory accumulators.
+        let summary_path = iq.scratch("json")?;
 
         let mut a = Argv::new("track");
         a.pos(&rec)
             .opt("--signal", Some(&r.signal))
             .opt("--prn", Some(list(&r.prns)))
+            .opt("--design", design.as_ref().map(|p| p.display()))
+            .opt("--design-name", r.design_name.as_deref())
             .opt("--pll-bw", r.pll_bw_hz)
             .opt("--fll-bw", r.fll_bw_hz)
             .opt("--dll-bw", r.dll_bw_hz)
             .opt("--spacing", r.spacing_chips)
+            .opt(
+                "--extra-taps",
+                r.extra_taps_chips
+                    .as_deref()
+                    .filter(|t| !t.is_empty())
+                    .map(list),
+            )
+            .opt("--threads", r.threads.filter(|&n| n >= 1))
             .opt("--coherent", r.coherent)
+            .switch("--reacquire", r.reacquire)
             .opt("--periods-per-bit", r.periods_per_bit)
             .opt("--max-seconds", r.max_seconds)
             .opt("--acq-coherent", r.acq_coherent)
             .opt("--acq-noncoherent", r.acq_noncoherent)
             .opt("--doppler-max", r.doppler_max_hz)
             .raw(r.raw.as_ref())
-            .opt("--json", Some(json_path.display()))
+            .opt("--summary", Some(summary_path.display()))
+            .opt("--epochs", epochs_out.as_ref().map(|p| p.display()))
+            .opt("--events", events_out.as_ref().map(|p| p.display()))
+            .opt("--json", json_out.as_ref().map(|p| p.display()))
             .opt("--csv", csv_out.as_ref().map(|p| p.display()));
         let run = run_cli(a.0);
-        if run.is_err() && scratch {
-            let _ = std::fs::remove_file(&json_path);
+        if run.is_err() {
+            let _ = std::fs::remove_file(&summary_path);
         }
         run?;
-        let full = read_json(&json_path, scratch)?;
-        let channels: Vec<serde_json::Value> = full
+        let summary = read_json(&summary_path, true)?;
+        let keep = [
+            "code",
+            "epochs",
+            "tracked_s",
+            "final_doppler_hz",
+            "final_code_phase_chips",
+            "final_cn0_dbhz",
+            "mean_cn0_dbhz",
+            "phase_lock_fraction",
+            "code_lock_fraction",
+            "locked_at_end",
+            "final_state",
+            "false_locks",
+            "reacquisitions",
+        ];
+        let channels: Vec<serde_json::Value> = summary
             .get("channels")
             .and_then(serde_json::Value::as_array)
-            .map(|c| c.iter().map(channel_summary).collect())
+            .map(|c| {
+                c.iter()
+                    .map(|ch| {
+                        serde_json::Value::Object(
+                            keep.iter()
+                                .filter_map(|k| ch.get(*k).map(|v| (k.to_string(), v.clone())))
+                                .collect(),
+                        )
+                    })
+                    .collect()
+            })
             .unwrap_or_default();
-        let files: Vec<PathBuf> = json_out.into_iter().chain(csv_out).collect();
+        let design_info = summary
+            .get("designs")
+            .and_then(|d| d.get(0))
+            .map(|d| serde_json::json!({ "name": d.get("name"), "hash": d.get("hash") }));
+        let files: Vec<PathBuf> = [epochs_out, events_out, json_out, csv_out]
+            .into_iter()
+            .flatten()
+            .collect();
         reply(serde_json::json!({
             "recording": iq.rel(&rec),
             "sample_rate_hz": spec.fs_hz,
             "samples_tracked": tracked,
+            "design": design_info,
+            "warnings": summary.get("warnings").cloned().unwrap_or_default(),
             "channels": channels,
             "files": iq.written(&files),
         }))
@@ -1234,6 +1550,419 @@ impl KshanaServer {
             "sample_rate_hz": spec.fs_hz,
             "files": iq.written(&[out, sidecar]),
         }))
+    }
+
+    #[tool(
+        description = "Run a lab-replay campaign held in the work directory (`kshana iq campaign`): recordings (each described by a `kshana.test-conditions/1` file stating the lab's known truth) x front-end chains x loop designs, each cell tracked and scored against the stated conditions (time to loss of lock, re-acquisition time, C/N0 degradation against the stated J/S beside an analytic reference labelled MODELLED, false-lock rate, PLL/DLL jitter, availability). Incremental: one call runs the pending cells that fit the sample budget (or `max_cells`), every finished cell is kept, and the next call resumes. Replies with the cell counts, failures, the files written, and the `digest` once every cell is done. Scores recorded data only; it synthesises no interference."
+    )]
+    fn iq_campaign(
+        &self,
+        Parameters(r): Parameters<IqCampaignRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        use kshana::iq::campaign::conditions::resolve;
+        use kshana::iq::campaign::runner::{cell_done, plan};
+        use kshana::iq::campaign::{LoadedCampaign, RunOptions, run};
+        let iq = &self.iq;
+        let path = iq.input(&r.campaign)?;
+        // Every file the campaign names is checked against the work directory before it is
+        // read, so a path outside it never reaches a parser (whose error would quote it).
+        let loaded = LoadedCampaign::load_checked(&path, &|p| {
+            iq.contained(p)
+                .map(|_| ())
+                .map_err(|e| e.message.to_string())
+        })
+        .map_err(bad)?;
+        if let Some(d) = &loaded.spec.inputs.designs {
+            iq.contained(&resolve(&path, d))?;
+        }
+        let mut lengths = std::collections::BTreeMap::new();
+        for (file, tc) in &loaded.conditions {
+            iq.contained(file)?;
+            for g in &tc.expected {
+                if let Some(t) = &g.truth {
+                    iq.contained(&resolve(file, t))?;
+                }
+            }
+            let rec = iq.contained(&tc.recording_path(file))?;
+            // Events imported from SigMF were read from the recording's metadata, which
+            // sits beside the data file; it must be inside the work directory too.
+            if let Some(base) = rec.to_string_lossy().strip_suffix(".sigmf-data") {
+                let meta = PathBuf::from(format!("{base}.sigmf-meta"));
+                if meta.exists() {
+                    iq.contained(&meta)?;
+                }
+            }
+            let raw = tc.recording.raw_sidecar().map_err(bad)?;
+            let o = iq.open_sidecar(&rec, raw)?;
+            let span = if loaded.spec.run.max_seconds > 0.0 {
+                ((loaded.spec.run.max_seconds * o.spec.fs_hz).round() as u64).min(o.samples)
+            } else {
+                o.samples
+            };
+            lengths.insert(tc.recording.id.clone(), span);
+        }
+        let out = iq.out_dir(&r.out_dir)?;
+        let p = plan(&loaded, &out, r.workers).map_err(bad)?;
+        // The cells this call may run: pending cells in plan order while their samples fit.
+        let mut used = 0u64;
+        let mut n = 0usize;
+        let cap = r.max_cells.unwrap_or(usize::MAX);
+        let mut first_pending = None;
+        for c in &p.cells {
+            if r.resume && cell_done(&out, &c.key) {
+                continue;
+            }
+            let s = lengths[&p.recordings[c.recording].id];
+            first_pending.get_or_insert(s);
+            if n >= cap || used + s > iq.max_samples() {
+                break;
+            }
+            used += s;
+            n += 1;
+        }
+        if n == 0
+            && let Some(s) = first_pending
+            && cap > 0
+        {
+            iq.budget(
+                s,
+                "the next cell's recording",
+                "raise the budget or set run.max_seconds in the campaign",
+            )?;
+        }
+        let opts = RunOptions {
+            workers: r.workers,
+            no_resume: !r.resume,
+            max_cells: Some(n),
+            dry_run: r.dry_run,
+        };
+        let s = run(&loaded, &out, &opts).map_err(bad)?;
+        let files: Vec<PathBuf> = [
+            "campaign.json",
+            "scorecard.csv",
+            "scorecard.json",
+            "report.html",
+            "DIGEST",
+        ]
+        .iter()
+        .map(|f| out.join(f))
+        .collect();
+        reply(serde_json::json!({
+            "campaign": s.name,
+            "out_dir": iq.rel(&out),
+            "cells_total": s.cells_total,
+            "cells_skipped": s.cells_skipped,
+            "cells_run": s.cells_run,
+            "cells_failed": s.cells_failed.iter().map(|(k, e)| serde_json::json!({"cell": k, "error": e})).collect::<Vec<_>>(),
+            "cells_pending": s.cells_pending,
+            "samples_budgeted": if r.dry_run { 0 } else { used },
+            "dry_run": r.dry_run,
+            "digest": s.digest,
+            "files": iq.written(&files),
+        }))
+    }
+
+    #[tool(
+        description = "Report a lab-replay campaign's progress from its output folder in the work directory, reading files only: cells done and pending, the recordings, front ends and designs in the plan, and the `digest` once every cell is done."
+    )]
+    fn iq_campaign_status(
+        &self,
+        Parameters(r): Parameters<IqCampaignStatusRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        use kshana::iq::campaign::Plan;
+        use kshana::iq::campaign::runner::cell_done;
+        let iq = &self.iq;
+        let out = iq.contained(&join(iq.root()?, &r.out_dir)?)?;
+        let text = std::fs::read_to_string(out.join("campaign.json"))
+            .map_err(|e| bad(format!("{}: no campaign here ({e})", r.out_dir)))?;
+        let p: Plan = serde_json::from_str(&text).map_err(|e| bad(e.to_string()))?;
+        let done = p.cells.iter().filter(|c| cell_done(&out, &c.key)).count();
+        let digest = std::fs::read_to_string(out.join("DIGEST"))
+            .ok()
+            .map(|d| d.trim().to_string());
+        reply(serde_json::json!({
+            "campaign": p.name,
+            "engine_version": p.engine_version,
+            "cells_total": p.cells.len(),
+            "cells_done": done,
+            "cells_pending": p.cells.len() - done,
+            "recordings": p.recordings.iter().map(|r| r.id.clone()).collect::<Vec<_>>(),
+            "frontends": p.frontends.iter().map(|f| f.0.name.clone()).collect::<Vec<_>>(),
+            "designs": p.designs.iter().filter_map(|d| d.get("name").cloned()).collect::<Vec<_>>(),
+            "digest": digest,
+        }))
+    }
+
+    #[tool(
+        description = "Replay one IQ recording in the work directory across several tracking-loop designs and report each design's steady-state result (`kshana iq sweep`): the designs are every design of a `kshana.loop-design/1` file (`design`), or the product of the `pll_bws_hz`, `dll_bws_hz`, `spacings_chips` and `coherents` lists on the built-in design. Each PRN is acquired once and every (design, PRN) channel tracks the same samples, so each result is exactly that of running the design alone. Replies with, per design and PRN, `epochs`, `phase_jitter_deg` and `code_jitter_chips` (over the second half of the run), `phase_lock_frac`, `code_lock_frac`, `mean_cn0_dbhz` and the design's hash; `json_out` / `csv_out` keep the table as files. The span tracked must fit the sample budget (`max_seconds` narrows it) and at most 256 (design, PRN) channels run per call. This processes a recording; it synthesises nothing."
+    )]
+    fn iq_sweep(
+        &self,
+        Parameters(r): Parameters<IqSweepRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let iq = &self.iq;
+        if r.prns.is_empty() {
+            return Err(bad("prns must list at least one PRN".into()));
+        }
+        let lists = r.pll_bws_hz.is_some()
+            || r.dll_bws_hz.is_some()
+            || r.spacings_chips.is_some()
+            || r.coherents.is_some();
+        if r.design.is_some() && lists {
+            return Err(bad(
+                "pll_bws_hz, dll_bws_hz, spacings_chips and coherents cannot be combined with design: the sweep runs every design in the file".into(),
+            ));
+        }
+        if r.design.is_none() {
+            let n = |l: Option<usize>| l.filter(|&n| n > 0).unwrap_or(1);
+            let designs = n(r.pll_bws_hz.as_ref().map(Vec::len))
+                * n(r.dll_bws_hz.as_ref().map(Vec::len))
+                * n(r.spacings_chips.as_ref().map(Vec::len))
+                * n(r.coherents.as_ref().map(Vec::len));
+            if designs * r.prns.len() > 256 {
+                return Err(bad(format!(
+                    "{} (design, PRN) channels; at most 256 per sweep",
+                    designs * r.prns.len()
+                )));
+            }
+        }
+        let rec = iq.input(&r.recording)?;
+        let Opened {
+            spec, samples: n, ..
+        } = iq.open(&rec, r.raw.as_ref())?;
+        if let Some(s) = r.max_seconds
+            && !(s.is_finite() && s > 0.0)
+        {
+            return Err(bad("max_seconds must be a positive number".into()));
+        }
+        let tracked = r
+            .max_seconds
+            .map(|s| ((s * spec.fs_hz).round() as u64).min(n))
+            .unwrap_or(n);
+        iq.budget(
+            tracked,
+            "the span to sweep",
+            &format!(
+                "set max_seconds to at most {:.6} s",
+                iq.max_samples() as f64 / spec.fs_hz
+            ),
+        )?;
+        let design = r.design.as_deref().map(|p| iq.input(p)).transpose()?;
+        let json_out = r
+            .json_out
+            .as_deref()
+            .map(|p| iq.output(p, r.overwrite))
+            .transpose()?;
+        let csv_out = r
+            .csv_out
+            .as_deref()
+            .map(|p| iq.output(p, r.overwrite))
+            .transpose()?;
+        let (json_path, scratch) = match &json_out {
+            Some(p) => (p.clone(), false),
+            None => (iq.scratch("json")?, true),
+        };
+        let mut a = Argv::new("sweep");
+        a.pos(&rec)
+            .opt("--signal", Some(&r.signal))
+            .opt("--prn", Some(list(&r.prns)))
+            .opt("--design", design.as_ref().map(|p| p.display()))
+            .opt(
+                "--pll-bw",
+                r.pll_bws_hz.as_deref().filter(|v| !v.is_empty()).map(list),
+            )
+            .opt(
+                "--dll-bw",
+                r.dll_bws_hz.as_deref().filter(|v| !v.is_empty()).map(list),
+            )
+            .opt(
+                "--spacing",
+                r.spacings_chips
+                    .as_deref()
+                    .filter(|v| !v.is_empty())
+                    .map(list),
+            )
+            .opt(
+                "--coherent",
+                r.coherents.as_deref().filter(|v| !v.is_empty()).map(list),
+            )
+            .switch("--reacquire", r.reacquire)
+            .opt("--periods-per-bit", r.periods_per_bit)
+            .opt("--max-seconds", r.max_seconds)
+            .opt("--threads", r.threads.filter(|&n| n >= 1))
+            .opt("--acq-coherent", r.acq_coherent)
+            .opt("--acq-noncoherent", r.acq_noncoherent)
+            .opt("--doppler-max", r.doppler_max_hz)
+            .raw(r.raw.as_ref())
+            .opt("--json", Some(json_path.display()))
+            .opt("--csv", csv_out.as_ref().map(|p| p.display()));
+        if let Some(fe) = &r.frontend {
+            fe.push(&mut a);
+        }
+        let run = run_cli(a.0);
+        if run.is_err() && scratch {
+            let _ = std::fs::remove_file(&json_path);
+        }
+        run?;
+        let full = read_json(&json_path, scratch)?;
+        let files: Vec<PathBuf> = json_out.into_iter().chain(csv_out).collect();
+        reply(serde_json::json!({
+            "recording": iq.rel(&rec),
+            "sample_rate_hz": spec.fs_hz,
+            "samples_tracked": tracked,
+            "designs": full.get("designs").cloned().unwrap_or_default(),
+            "warnings": full.get("warnings").cloned().unwrap_or_default(),
+            "files": iq.written(&files),
+        }))
+    }
+
+    #[tool(
+        description = "Run the interference and spoofing detection monitors over an IQ recording in the work directory (`kshana iq monitor`): the wideband `power` and `spectral` monitors, and, given `signal` + `prns`, the per-satellite C/N0 and signal-quality monitors, each against a baseline learned from the first `baseline_s` seconds (or from a settings file). Replies with the series (name and length), every event the monitors raised (start, end, monitor, what changed; at most 200 in the reply), and the settings and baselines the monitors learned; `json_out` keeps the whole report (every series, event and spectrum) and `csv_prefix` writes `<prefix>.series.csv` and `<prefix>.events.csv`. The span must fit the sample budget (`max_seconds` narrows it). A monitor event says a measured quantity left its learned baseline; it does not identify a cause or a source. This scores recorded data only; it synthesises nothing. Evidence tier: MODELLED."
+    )]
+    fn iq_monitor(
+        &self,
+        Parameters(r): Parameters<IqMonitorRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let iq = &self.iq;
+        if r.signal.is_some() != r.prns.is_some() {
+            return Err(bad("signal and prns go together".into()));
+        }
+        if r.prns.as_ref().is_some_and(Vec::is_empty) {
+            return Err(bad("prns must list at least one PRN".into()));
+        }
+        let rec = iq.input(&r.recording)?;
+        let Opened {
+            spec, samples: n, ..
+        } = iq.open(&rec, r.raw.as_ref())?;
+        if let Some(s) = r.max_seconds
+            && !(s.is_finite() && s > 0.0)
+        {
+            return Err(bad("max_seconds must be a positive number".into()));
+        }
+        let covered = r
+            .max_seconds
+            .map(|s| ((s * spec.fs_hz).round() as u64).min(n))
+            .unwrap_or(n);
+        iq.budget(
+            covered,
+            "the span to monitor",
+            &format!(
+                "set max_seconds to at most {:.6} s",
+                iq.max_samples() as f64 / spec.fs_hz
+            ),
+        )?;
+        let settings = r.settings.as_deref().map(|p| iq.input(p)).transpose()?;
+        let json_out = r
+            .json_out
+            .as_deref()
+            .map(|p| iq.output(p, r.overwrite))
+            .transpose()?;
+        // The CSV prefix names two files; both must be creatable.
+        let csv_files = match r.csv_prefix.as_deref() {
+            Some(p) => Some((
+                iq.output(&format!("{p}.series.csv"), r.overwrite)?,
+                iq.output(&format!("{p}.events.csv"), r.overwrite)?,
+            )),
+            None => None,
+        };
+        let (json_path, scratch) = match &json_out {
+            Some(p) => (p.clone(), false),
+            None => (iq.scratch("json")?, true),
+        };
+        let mut a = Argv::new("monitor");
+        a.pos(&rec)
+            .switch("--power", r.power)
+            .switch("--spectral", r.spectral)
+            .opt("--settings", settings.as_ref().map(|p| p.display()))
+            .opt("--baseline", r.baseline_s)
+            .opt("--signal", r.signal.as_deref())
+            .opt("--prn", r.prns.as_deref().map(list))
+            .opt("--spacing", r.spacing_chips)
+            .opt("--pll-bw", r.pll_bw_hz)
+            .opt("--fll-bw", r.fll_bw_hz)
+            .opt("--dll-bw", r.dll_bw_hz)
+            .opt("--coherent", r.coherent)
+            .opt("--cn0-windows", r.cn0_windows)
+            .opt("--doppler-max", r.doppler_max_hz)
+            .opt("--max-seconds", r.max_seconds)
+            .raw(r.raw.as_ref())
+            .opt("--json", Some(json_path.display()));
+        if let Some((series, _)) = &csv_files {
+            // The CLI appends `.series.csv` / `.events.csv` to the prefix.
+            let prefix = series
+                .display()
+                .to_string()
+                .trim_end_matches(".series.csv")
+                .to_string();
+            a.opt("--csv", Some(prefix));
+        }
+        let run = run_cli(a.0);
+        if run.is_err() && scratch {
+            let _ = std::fs::remove_file(&json_path);
+        }
+        run?;
+        let full = read_json(&json_path, scratch)?;
+        let series: Vec<serde_json::Value> = full
+            .get("series")
+            .and_then(serde_json::Value::as_array)
+            .map(|s| {
+                s.iter()
+                    .map(|x| {
+                        let len = ["t_s", "values", "value"]
+                            .iter()
+                            .find_map(|k| x.get(*k).and_then(serde_json::Value::as_array))
+                            .map(Vec::len);
+                        serde_json::json!({"name": x.get("name"), "points": len})
+                    })
+                    .collect()
+            })
+            .unwrap_or_default();
+        let events_all = full
+            .get("events")
+            .and_then(serde_json::Value::as_array)
+            .cloned()
+            .unwrap_or_default();
+        let events: Vec<serde_json::Value> = events_all.iter().take(200).cloned().collect();
+        let mut files: Vec<PathBuf> = json_out.into_iter().collect();
+        if let Some((s, e)) = csv_files {
+            files.push(s);
+            files.push(e);
+        }
+        reply(serde_json::json!({
+            "recording": iq.rel(&rec),
+            "sample_rate_hz": spec.fs_hz,
+            "samples_monitored": covered,
+            "series": series,
+            "events_total": events_all.len(),
+            "events": events,
+            "events_truncated": events_all.len() > events.len(),
+            "notes": full.get("notes").cloned().unwrap_or_default(),
+            "files": iq.written(&files),
+        }))
+    }
+
+    #[tool(
+        description = "Validate a lab test-condition file (`kshana iq conditions`): a `kshana.test-conditions/1` file, TOML or JSON text, stating the lab's known truth for a recording (the satellites expected, the settle time, the stated jamming or interference schedule). Replies with the resolved conditions and their `hash`, or the reason the file is invalid. Inline only: nothing is read from disk, and a recording path the file names is not opened (a campaign resolves those inside the work directory). Input is capped at 4 MiB."
+    )]
+    fn iq_test_conditions(
+        &self,
+        Parameters(r): Parameters<IqConditionsRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let v = kshana::surface::iq_test_conditions_inline(&r.conditions, 4 * 1024 * 1024)
+            .map_err(|e| bad(format!("test conditions invalid: {e}")))?;
+        reply(v)
+    }
+
+    #[tool(
+        description = "Fit the tracking-loop loss-of-lock model to lab runs (`kshana iq labfit`): an `iq-labfit` scenario TOML names one or more runs, each a receiver log plus its stated test conditions; the engine loads each log, fits the loop and empirical models, bootstraps the uncertainty and computes the hold-out error. Everything is inline: each run's `log` gives `text` or `base64` (a `path` is refused) and the tool reads and writes no file, so it does not need the IQ work directory. Replies with the parsed `report`, the residuals and predictions as CSV text and a Markdown summary. Input is capped at 4 MiB. The fit describes the lab runs given; it is not a prediction for other receivers or conditions beyond what the report states. Evidence tier: MODELLED."
+    )]
+    fn iq_labfit(
+        &self,
+        Parameters(r): Parameters<IqLabfitRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let v = kshana::surface::iq_labfit_inline(&r.toml, 4 * 1024 * 1024)
+            .map_err(|e| bad(format!("labfit failed: {e}")))?;
+        reply(v)
     }
 }
 

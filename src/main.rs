@@ -4,6 +4,7 @@ use std::process::ExitCode;
 use std::time::{SystemTime, UNIX_EPOCH};
 
 mod bundled_scenarios;
+mod live_io;
 
 /// The one usage text. Both the no-argument path and `--help` print this, so the two
 /// cannot drift apart (they were two separate copies before, one of them a comment).
@@ -14,6 +15,12 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
    or: kshana receiver-trust <scenario.toml>
+   or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+   or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
+   or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
+   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
@@ -66,11 +73,51 @@ fn main() -> ExitCode {
     if args.get(1).map(String::as_str) == Some("example") {
         return print_example(&args[2..]);
     }
+    // `kshana evidence <keygen|verify|attach-timestamp>` and `kshana receiver-trust
+    // evidence` make and check signed evidence packs (`kshana::evidence`).
+    if args.get(1).map(String::as_str) == Some("evidence") {
+        return ExitCode::from(kshana::evidence::cli::run_evidence(&args[2..]) as u8);
+    }
+    if args.get(1).map(String::as_str) == Some("receiver-trust")
+        && args.get(2).map(String::as_str) == Some("evidence")
+    {
+        return ExitCode::from(
+            kshana::evidence::cli::run_receiver_trust_evidence(&args[3..]) as u8,
+        );
+    }
+    // `kshana trust-telemetry` feeds the per-epoch trust stream to Prometheus, syslog
+    // (CEF/LEEF) and, with the `otlp` feature, OpenTelemetry.
+    if args.get(1).map(String::as_str) == Some("trust-telemetry") {
+        return ExitCode::from(kshana::telemetry::cli::run(&args[2..]) as u8);
+    }
     // `kshana receiver-trust <scenario.toml>` assesses a real receiver log. It is terminal
     // and outside the scenario-kind dispatch: its scenario names a log file instead of
     // describing a simulation.
     if args.get(1).map(String::as_str) == Some("receiver-trust") {
         return run_receiver_trust_cli(&args[2..]);
+    }
+    // `kshana nmea-scenario <scenario.toml>` writes or streams synthetic bridge NMEA for
+    // crew training (kshana::nmea_synth). Terminal, text output only.
+    if args.get(1).map(String::as_str) == Some("nmea-scenario") {
+        return kshana::nmea_synth::cli::run_cli(&args[2..]);
+    }
+    // `kshana interference-map ...` and `kshana route-exposure ...` work on local files only
+    // (see docs/INTERFERENCE-MAP.md); both are terminal subcommands.
+    if args.get(1).map(String::as_str) == Some("interference-map") {
+        return ExitCode::from(kshana::interference_map::cli::run_map(&args[2..]) as u8);
+    }
+    if args.get(1).map(String::as_str) == Some("route-exposure") {
+        return ExitCode::from(kshana::interference_map::cli::run_route(&args[2..]) as u8);
+    }
+    // `kshana bench-export <scenario.toml>` writes a scenario's vehicle motion and events
+    // for a laboratory GNSS simulator (docs/TEST-BENCH.md). Terminal, like the others.
+    if args.get(1).map(String::as_str) == Some("bench-export") {
+        return run_bench_export_cli(&args[2..]);
+    }
+    // `kshana compliance-report <result.json>...` fills the public-framework mapping from
+    // the runs given (docs/compliance/README.md). Terminal, like the others.
+    if args.get(1).map(String::as_str) == Some("compliance-report") {
+        return run_compliance_report_cli(&args[2..]);
     }
     // `kshana iq <command>` handles the GNSS IQ layer: the signal-processing commands
     // (scene, acquire, track, sweep, labfit) in `kshana::iq::cli`, which hands the
@@ -964,10 +1011,154 @@ fn stamp_study_generated(json: &str, stamp: &str) -> String {
     }
 }
 
+/// `kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]`:
+/// write the test-bench files (`<base>.motion.csv`, `.nmea`, `.events.csv`, ...). The
+/// default base is the scenario path without its extension; the default epoch is
+/// 2024-01-01T00:00:00Z.
+fn run_bench_export_cli(args: &[String]) -> ExitCode {
+    let mut path: Option<PathBuf> = None;
+    let mut out: Option<String> = None;
+    let mut epoch: Option<kshana::interop::UtcEpoch> = None;
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--out" | "--epoch" if i + 1 >= args.len() => {
+                eprintln!("error: {} needs a value", args[i]);
+                return ExitCode::from(2);
+            }
+            "--out" => {
+                out = Some(args[i + 1].clone());
+                i += 1;
+            }
+            "--epoch" => {
+                // YYYY-MM-DDTHH:MM:SS[Z], UTC, every field range-checked.
+                match kshana::interop::UtcEpoch::parse_iso(&args[i + 1]) {
+                    Ok(e) => epoch = Some(e),
+                    Err(e) => {
+                        eprintln!("error: --epoch: {e}");
+                        return ExitCode::from(2);
+                    }
+                }
+                i += 1;
+            }
+            a if a.starts_with("--") => {
+                eprintln!("error: unknown bench-export option {a}");
+                return ExitCode::from(2);
+            }
+            a => path = Some(PathBuf::from(a)),
+        }
+        i += 1;
+    }
+    let Some(path) = path else {
+        eprintln!("error: bench-export needs a scenario path");
+        return ExitCode::from(2);
+    };
+    let src = match std::fs::read_to_string(&path) {
+        Ok(s) => s,
+        Err(e) => {
+            eprintln!("error: cannot read {}: {e}", path.display());
+            return ExitCode::from(2);
+        }
+    };
+    let (files, notes) = match kshana::interop::testbench::export_with_notes(&src, epoch) {
+        Ok(f) => f,
+        Err(e) => {
+            eprintln!("error: {e}");
+            return ExitCode::FAILURE;
+        }
+    };
+    let base = out.unwrap_or_else(|| path.with_extension("").display().to_string());
+    for f in files {
+        let target = PathBuf::from(format!("{base}{}", f.suffix));
+        if let Err(e) = std::fs::write(&target, &f.bytes) {
+            eprintln!("error: cannot write {}: {e}", target.display());
+            return ExitCode::FAILURE;
+        }
+        println!("wrote {}", target.display());
+    }
+    for n in notes {
+        eprintln!("note: {n}");
+    }
+    ExitCode::SUCCESS
+}
+
+/// `kshana compliance-report [--out <base>] <result.json>...`: write `<base>.compliance.md`
+/// and `<base>.compliance.json` (default base `compliance-report`). `--mapping` prints the
+/// static mapping tables only, `--sources` the source documents.
+fn run_compliance_report_cli(args: &[String]) -> ExitCode {
+    use kshana::compliance::{self, mapping};
+    let mut out = String::from("compliance-report");
+    let mut paths: Vec<PathBuf> = Vec::new();
+    let mut i = 0;
+    while i < args.len() {
+        match args[i].as_str() {
+            "--mapping" => {
+                println!("> {}\n", compliance::STATEMENT);
+                for fw in mapping::Framework::ALL {
+                    println!("## {}\n\n{}", fw.title(), mapping::framework_table_md(fw));
+                }
+                return ExitCode::SUCCESS;
+            }
+            "--sources" => {
+                println!("> {}\n", compliance::STATEMENT);
+                for fw in mapping::Framework::ALL {
+                    println!("## {}\n\n{}", fw.title(), mapping::sources_md(fw));
+                }
+                return ExitCode::SUCCESS;
+            }
+            "--out" if i + 1 < args.len() => {
+                out = args[i + 1].clone();
+                i += 1;
+            }
+            "--out" => {
+                eprintln!("error: --out needs a value");
+                return ExitCode::from(2);
+            }
+            a if a.starts_with("--") => {
+                eprintln!("error: unknown compliance-report option {a}");
+                return ExitCode::from(2);
+            }
+            a => paths.push(PathBuf::from(a)),
+        }
+        i += 1;
+    }
+    if paths.is_empty() {
+        eprintln!("error: compliance-report needs at least one result .json file");
+        return ExitCode::from(2);
+    }
+    let (runs, bad) = compliance::load_runs(&paths);
+    let report = compliance::assess(&runs, bad);
+    for (ext, body) in [
+        ("compliance.md", report.to_markdown()),
+        ("compliance.json", report.to_json()),
+    ] {
+        let target = PathBuf::from(format!("{out}.{ext}"));
+        if let Err(e) = std::fs::write(&target, body) {
+            eprintln!("error: cannot write {}: {e}", target.display());
+            return ExitCode::FAILURE;
+        }
+        println!("wrote {}", target.display());
+    }
+    let n = |s: compliance::Status| report.rows.iter().filter(|r| r.status == s).count();
+    println!(
+        "{} runs read, {} not used; rows: {} evidenced, {} partly, {} not evidenced, {} out of scope",
+        runs.len(),
+        report.unrecognised.len(),
+        n(compliance::Status::Evidenced),
+        n(compliance::Status::PartlyEvidenced),
+        n(compliance::Status::NotEvidenced),
+        n(compliance::Status::OutOfScope)
+    );
+    ExitCode::SUCCESS
+}
+
 /// `kshana receiver-trust <scenario.toml>`: read the receiver log the scenario names, run
 /// the trust monitors, and write `<stem>.result.json`, `<stem>.trust.csv` and
 /// `<stem>.trust.svg` next to the scenario.
 fn run_receiver_trust_cli(args: &[String]) -> ExitCode {
+    if args.first().map(String::as_str) == Some("live") {
+        return live_io::run(&args[1..]);
+    }
     let Some(path) = args.first() else {
         eprintln!("error: receiver-trust needs a scenario path");
         return ExitCode::from(2);

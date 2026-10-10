@@ -4,22 +4,26 @@
 # Lines are KEY value. See generator docstring for the honest scope.
 bom_format CycloneDX
 spec_version 1.5
-component_count 66
+component_count 86
 spdx_enum_size 613
-raw_schema_errors 60
+raw_schema_errors 76
 normalized_schema_errors 0
-compound_count 60
-atomic_id_count 6
+compound_count 76
+atomic_id_count 10
 atomic_ids_invalid_count 0
 atomic_ids_all_valid_spdx 1
-sbom_sha256 aa3a5fadd7474d10351744a723efbe1bc7f522797383370fadc6d77a3fad5cfa
+sbom_sha256 8610ee6cea6b3d7898233d22a2552db79188e8c8315ffa1a4e16e5f45eae71be
 atomic_id VALID AGPL-3.0-only
+atomic_id VALID BSD-3-Clause
 atomic_id VALID MIT
+compound_id 0BSD OR MIT OR Apache-2.0
 compound_id Apache-2.0 OR MIT
 compound_id MIT OR Apache-2.0
+compound_id MIT/Apache-2.0
+compound_id MIT OR Apache-2.0 OR BSD-1-Clause
 compound_id Unlicense OR MIT
+compound_id MIT OR Zlib OR Apache-2.0
 compound_id Apache-2.0 WITH LLVM-exception
 compound_id (MIT OR Apache-2.0) AND Unicode-3.0
-compound_id MIT/Apache-2.0
 compound_id Apache-2.0 WITH LLVM-exception OR Apache-2.0 OR MIT
 compound_id BSD-2-Clause OR Apache-2.0 OR MIT

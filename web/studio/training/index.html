@@ -1,0 +1,129 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Training debrief: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="A trainer debrief for the instructor log that kshana nmea-scenario writes: the true track against the receiver-reported one, the events that were injected, and the fix, signal, satellite and time-offset strips. Training only. Files stay in your browser.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="training/training.css">
+<link rel="modulepreload" href="lib/training.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Training debrief</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap tr">
+  <p class="kicker"><i style="--c:var(--spf)"></i>Training debrief</p>
+  <h1 id="tr-h">What did the crew see, and what was really happening?</h1>
+  <p class="lede">Open the instructor log (<code>*.instructor.json</code>) that <code>kshana nmea-scenario</code> writes next to a training stream. It shows the true track against the receiver-reported one, the events that were injected and when, and what the receiver said about its fix, signal, satellites and time. Files you open here are read in this page and never uploaded.</p>
+
+  <p class="tr-advice" role="note"><b>Training and testing only.</b> The streams this log belongs to are synthetic. They must never be fed to a vessel's live navigation systems. <b>Show this log only at the debrief:</b> it tells the crew what was injected. It is not type-approved equipment and says nothing about how any receiver or system would perform against real interference.</p>
+
+  <section class="card tr-load" aria-labelledby="tr-load-h">
+    <div class="card-head"><h2 id="tr-load-h" class="h3">Open a log</h2>
+      <p class="card-note">Choose an instructor log, or open one of the four synthetic library scenarios written by the CLI.</p></div>
+    <div class="tr-drop" id="tr-drop">
+      <label class="tr-file btn-primary">Choose a file…<input id="tr-files" type="file" accept=".json,application/json"></label>
+      <span class="tr-or">or drop it here, or open a library scenario:</span>
+      <span class="tr-demos" id="tr-demos" role="group" aria-label="Synthetic library scenarios"></span>
+    </div>
+    <p class="tr-status" id="tr-status" role="status" aria-live="polite">Nothing open yet.</p>
+    <ul class="tr-notes" id="tr-notes"></ul>
+  </section>
+
+  <div id="tr-run" hidden>
+    <p class="tr-warning" id="tr-warning" role="note"></p>
+    <section class="card tr-intro" aria-labelledby="tr-name">
+      <div class="card-head"><h2 id="tr-name" class="h3"></h2><p class="card-note" id="tr-desc"></p></div>
+      <div id="tr-note" class="tr-trainer"></div>
+      <dl class="tr-facts" id="tr-facts"></dl>
+    </section>
+
+    <section class="tr-bar card" aria-label="Time cursor">
+      <button class="tr-play" id="tr-play" type="button" aria-label="Play"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+      <label class="tr-speed">Speed <select id="tr-speed" aria-label="Replay speed"><option>1</option><option>2</option><option>5</option><option selected>10</option><option>30</option><option>60</option></select>×</label>
+      <input class="tr-slider" id="tr-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Time cursor, in log rows">
+      <output class="tr-readout" id="tr-readout" for="tr-slider"></output>
+      <div class="tr-tools">
+        <button type="button" id="tr-prev" class="tr-chip">Previous moment</button>
+        <button type="button" id="tr-next" class="tr-chip">Next moment</button>
+        <label class="tr-chip chk"><input type="checkbox" id="tr-truth" checked> True track</label>
+      </div>
+      <p class="tr-live" id="tr-live" aria-live="polite" aria-atomic="true"></p>
+    </section>
+
+    <div class="tr-grid">
+      <section class="card tr-track" aria-labelledby="tr-track-h">
+        <div class="card-head"><h3 id="tr-track-h">True track against reported</h3>
+          <p class="card-note">North up, one scale on both axes. The thin grey line is where the vessel really was. The coloured line is what the receiver reported, coloured by how far it was from the truth. Where the receiver reported no fix, nothing is drawn for it.</p></div>
+        <div class="tr-svgbox"><svg id="tr-track-svg" role="img" aria-labelledby="tr-track-h tr-track-desc"></svg></div>
+        <p class="sr" id="tr-track-desc"></p>
+        <ul class="tr-legend" id="tr-legend" aria-label="Legend"></ul>
+      </section>
+
+      <section class="card tr-time" aria-labelledby="tr-time-h">
+        <div class="card-head"><h3 id="tr-time-h">Events and what the receiver said</h3>
+          <p class="card-note">One shared time axis. Drag or click to move the cursor; the arrow keys step it. Event bars show the strength of each injected event over time.</p></div>
+        <div class="tr-svgbox"><svg id="tr-time-svg" tabindex="0" role="slider" aria-label="Debrief timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></svg></div>
+      </section>
+
+      <section class="card tr-now" aria-labelledby="tr-now-h">
+        <div class="card-head"><h3 id="tr-now-h">At the cursor</h3><p class="card-note" id="tr-now-note"></p></div>
+        <div id="tr-now"></div>
+      </section>
+
+      <section class="card tr-events" aria-labelledby="tr-ev-h">
+        <div class="card-head"><h3 id="tr-ev-h">Events injected</h3><p class="card-note">As the instructor log states them, with every parameter.</p></div>
+        <div id="tr-events"></div>
+      </section>
+
+      <section class="card tr-tl" aria-labelledby="tr-tl-h">
+        <div class="card-head"><h3 id="tr-tl-h">Debrief timeline</h3><p class="card-note">Choose a moment to move the cursor to it.</p></div>
+        <p class="tr-none" id="tr-tl-cap"></p>
+        <ol class="tr-tlist" id="tr-tlist"></ol>
+      </section>
+    </div>
+  </div>
+
+  <section class="tr-fine" aria-label="About this page">
+    <h2 class="h3">What this page does and does not show</h2>
+    <ul>
+      <li>The library scenarios are <b>synthetic text</b> with invented positions, dates and tracks. No real vessel, operator or recording is behind them.</li>
+      <li>Heading and log speed (HDT and VBW) stand in for a gyro compass and a Doppler log. <b>No event touches them</b>, so a gap between what GNSS reports and what they say is a debrief cue.</li>
+      <li>The satellite sky is a nominal constellation, not an ephemeris for the stream's date.</li>
+      <li>Nothing here is a measure of how any receiver or system performs against interference.</li>
+    </ul>
+  </section>
+</div>
+</main>
+<script type="module" src="training/training.js"></script>
+</body>
+</html>
