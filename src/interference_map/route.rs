@@ -17,10 +17,15 @@ use super::MapError;
 
 /// A loaded per-day map: cell status by cell index.
 pub struct LoadedMap {
+    /// UTC date of the map, `YYYY-MM-DD`.
     pub date: String,
+    /// `adsb` or `ais`.
     pub source_kind: String,
+    /// The map's grid.
     pub grid: Grid,
+    /// The data licence named in the map.
     pub licence: String,
+    /// The attribution text named in the map.
     pub attribution: String,
     cells: HashMap<(i32, i32), Class>,
 }
@@ -32,6 +37,7 @@ enum Class {
     Unassessed,
 }
 
+/// Read a v1 map document from GeoJSON text.
 pub fn load_map(text: &str) -> Result<LoadedMap, MapError> {
     let v: Value = serde_json::from_str(text)
         .map_err(|e| MapError::Format(format!("map is not valid JSON: {e}")))?;
@@ -149,11 +155,17 @@ fn find_line(v: &Value) -> Option<&Vec<Value>> {
 pub const STEP_M: f64 = 250.0;
 
 #[derive(Debug, Clone, PartialEq)]
+/// Shares of a route's length by cell state, for one map.
 pub struct Exposure {
+    /// UTC date of the map.
     pub date: String,
+    /// `adsb` or `ais`.
     pub source_kind: String,
+    /// Route length in kilometres.
     pub route_km: f64,
+    /// Share of length in degraded or anomalous cells.
     pub share_degraded: f64,
+    /// Share of length in cells observed and not flagged.
     pub share_not_degraded: f64,
     /// Cells present in the map but without a call (too few aircraft or vessels sampled,
     /// or a confounded day).
@@ -162,6 +174,7 @@ pub struct Exposure {
     pub share_not_observed: f64,
 }
 
+/// Split the route into short pieces and total them by the state of the cell each lies in.
 pub fn exposure(route: &[(f64, f64)], map: &LoadedMap) -> Exposure {
     let mut tot = 0.0;
     let mut by = [0.0_f64; 4]; // degraded, not degraded, unassessed, not observed
@@ -171,12 +184,31 @@ pub fn exposure(route: &[(f64, f64)], map: &LoadedMap) -> Exposure {
         if d <= 0.0 {
             continue;
         }
+        // The longitude difference is taken the short way round, so a leg from 179.5 E to
+        // 179.5 W crosses the antimeridian instead of walking the long way across the map.
+        let mut dlon = b.1 - a.1;
+        dlon -= 360.0 * ((dlon + 180.0) / 360.0).floor();
+        if dlon == -180.0 {
+            dlon = 180.0;
+        }
         let n = (d / STEP_M).ceil().max(1.0) as usize;
-        let piece = d / n as f64;
+        let at = |f: f64| {
+            let mut lon = a.1 + dlon * f;
+            if lon >= 180.0 {
+                lon -= 360.0;
+            } else if lon < -180.0 {
+                lon += 360.0;
+            }
+            (a.0 + (b.0 - a.0) * f, lon)
+        };
+        // Each piece is measured between its own two end points, along the same path that
+        // decides which cell it lies in.
+        let mut prev = at(0.0);
         for k in 0..n {
-            let f = (k as f64 + 0.5) / n as f64;
-            let (lat, lon) = (a.0 + (b.0 - a.0) * f, a.1 + (b.1 - a.1) * f);
-            let c = map.grid.cell_of(lat, lon);
+            let next = at((k as f64 + 1.0) / n as f64);
+            let piece = haversine_m(prev.0, prev.1, next.0, next.1);
+            let mid = at((k as f64 + 0.5) / n as f64);
+            let c = map.grid.cell_of(mid.0, mid.1);
             let idx = match map.cells.get(&(c.i, c.j)) {
                 Some(Class::Degraded) => 0,
                 Some(Class::NotDegraded) => 1,
@@ -185,6 +217,7 @@ pub fn exposure(route: &[(f64, f64)], map: &LoadedMap) -> Exposure {
             };
             by[idx] += piece;
             tot += piece;
+            prev = next;
         }
     }
     let share = |x: f64| if tot > 0.0 { x / tot } else { 0.0 };
@@ -203,6 +236,7 @@ fn r4(x: f64) -> f64 {
     (x * 1e4).round() / 1e4
 }
 
+/// The `kshana-route-exposure/v1` report for the given rows.
 pub fn report_json(rows: &[(Exposure, &LoadedMap)], from: Option<&str>, to: Option<&str>) -> Value {
     json!({
         "kshana_route_exposure": {
@@ -282,6 +316,48 @@ mod tests {
         let sum =
             e.share_degraded + e.share_not_degraded + e.share_unassessed + e.share_not_observed;
         assert!((sum - 1.0).abs() < 1e-9);
+    }
+
+    #[test]
+    fn a_route_across_the_antimeridian_takes_the_short_way() {
+        // 179.25 E to 179.25 W along 10.25 N is 1.5 degrees of longitude, crossing the 180
+        // meridian: pieces in the cells 179.0-179.5 E (not in the map), 179.5-180 E
+        // (degraded), 180-179.5 W (not degraded) and 179.5-179.0 W (not in the map).
+        let g = Grid::new(0.5).unwrap();
+        let east = g.cell_of(10.25, 179.75);
+        let west = g.cell_of(10.25, -179.75);
+        assert_eq!(west.j, 0);
+        let m = map_with(
+            &g,
+            &[(east, "degraded", true), (west, "not_degraded", false)],
+        );
+        let e = exposure(&[(10.25, 179.25), (10.25, -179.25)], &m);
+        // 1.5 degrees of longitude at 10.25 N is about 164 km; the long way round would be
+        // about 358.5 degrees' worth.
+        assert!((e.route_km - 164.1).abs() < 1.5, "{}", e.route_km);
+        assert!((e.share_degraded - 1.0 / 3.0).abs() < 0.02, "{e:?}");
+        assert!((e.share_not_degraded - 1.0 / 3.0).abs() < 0.02, "{e:?}");
+        assert!((e.share_not_observed - 1.0 / 3.0).abs() < 0.02, "{e:?}");
+        // The reverse direction agrees.
+        let r = exposure(&[(10.25, -179.25), (10.25, 179.25)], &m);
+        assert!((r.route_km - e.route_km).abs() < 0.01);
+        assert!((r.share_degraded - e.share_degraded).abs() < 0.02);
+    }
+
+    #[test]
+    fn route_length_follows_the_path_that_is_classified() {
+        // A long diagonal leg: the total is the sum of its pieces and stays near the
+        // great-circle length of the leg.
+        let g = Grid::new(0.5).unwrap();
+        let m = map_with(&g, &[]);
+        let leg = [(40.0, 0.0), (50.0, 10.0)];
+        let e = exposure(&leg, &m);
+        let gc = haversine_m(40.0, 0.0, 50.0, 10.0) / 1000.0;
+        assert!(
+            (e.route_km - gc).abs() / gc < 0.01,
+            "{} vs {gc}",
+            e.route_km
+        );
     }
 
     #[test]

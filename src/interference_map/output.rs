@@ -5,27 +5,37 @@
 
 use serde_json::{json, Map, Value};
 
-use super::grid::{CellId, Grid};
+use super::grid::{CellId, Grid, PREREGISTERED_CELL_DEG};
 use super::sources::Dataset;
 
+/// Name of the output schema, version 1.
 pub const SCHEMA: &str = "kshana-interference-map/v1";
 /// Integer form of the schema version. A change that removes or renames a field, or changes
 /// the meaning of one, raises it; adding a field does not.
 pub const FORMAT_VERSION: u32 = 1;
 
+/// One published cell.
 pub struct CellOut {
+    /// The cell's grid index.
     pub id: CellId,
     /// One of `degraded`, `not_degraded`, `insufficient_sample`, `withheld_day_confounded`
     /// (ADS-B) or `anomalous`, `not_anomalous` (AIS).
     pub status: String,
+    /// True when the status is `degraded` or `anomalous`.
     pub degraded: bool,
+    /// Aggregate counts for the cell, written as feature properties.
     pub props: Map<String, Value>,
 }
 
+/// One source's results for one UTC day.
 pub struct DayOut {
+    /// `adsb` or `ais`.
     pub source_kind: &'static str,
+    /// UTC date, `YYYY-MM-DD`.
     pub date: String,
+    /// Published cells; cells below the publication minimum are absent.
     pub cells: Vec<CellOut>,
+    /// Day-level figures written under `day`.
     pub day_meta: Map<String, Value>,
 }
 
@@ -58,7 +68,12 @@ pub fn to_geojson(day: &DayOut, grid: &Grid, method: Value, dataset: &Dataset) -
             "format_version": FORMAT_VERSION,
             "source_kind": day.source_kind,
             "date": day.date,
-            "grid": { "type": "fixed_lat_lon", "cell_deg": grid.cell_deg },
+            "grid": {
+                "type": "fixed_lat_lon",
+                "cell_deg": grid.cell_deg,
+                "preregistered_cell_deg": PREREGISTERED_CELL_DEG,
+                "is_preregistered": grid.cell_deg == PREREGISTERED_CELL_DEG,
+            },
             "method": method,
             "day": day.day_meta,
             "data": dataset.to_json(),
@@ -69,9 +84,11 @@ pub fn to_geojson(day: &DayOut, grid: &Grid, method: Value, dataset: &Dataset) -
     })
 }
 
-/// File name for a day's output: `<source>-<date>.geojson`.
-pub fn file_name(day: &DayOut) -> String {
-    format!("{}-{}.geojson", day.source_kind, day.date)
+/// File name for a day's output: `<source>-<dataset>-<YYYY-MM-DD>.geojson`, for example
+/// `ais-kystverket-2026-03-01.geojson`. The dataset key is in the name so that two datasets
+/// of the same kind and day cannot overwrite each other.
+pub fn file_name(day: &DayOut, dataset_key: &str) -> String {
+    format!("{}-{}-{}.geojson", day.source_kind, dataset_key, day.date)
 }
 
 #[cfg(test)]
@@ -113,6 +130,10 @@ mod tests {
                 .len(),
             5
         );
-        assert_eq!(file_name(&day), "adsb-2026-03-01.geojson");
+        assert_eq!(
+            file_name(&day, "adsb-lol"),
+            "adsb-adsb-lol-2026-03-01.geojson"
+        );
+        assert_eq!(m["grid"]["is_preregistered"], true);
     }
 }
