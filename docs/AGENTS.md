@@ -43,7 +43,7 @@ carry the rules below for agents that load skills.
 - **Run a process.** `receiver-trust live` as a running stream (with a gate and `--listen`), the
   telemetry exporters (`trust-telemetry`: Prometheus, syslog, OTLP) and streaming training NMEA to
   an address are command-line only. `assess_vessel_stream` scores an excerpt with the same engine
-  and writes to no port.
+  and writes to no port. The excerpt tools return live JSON-lines schema 1.2 (an `advisory` statement on every epoch); a vessel run's CSV begins with a `#` comment line carrying the same statement, so read it with a comment option. `--udp` and `--listen tcp:` bind the loopback address unless told otherwise.
 - **Fetch data.** The land-polygon download is command-line only and needs `--allow-network`.
   Pass the land file, if wanted, as text. Use only data the user is licensed to use.
 - **Transmit anything or synthesise RF.** The training generator writes NMEA text; the IQ layer

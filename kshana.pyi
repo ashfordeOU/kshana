@@ -104,8 +104,8 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     does (at most 2 MiB and 20,000 epochs; it must hold the calibration window).
 
     ``session_toml`` declares a vessel (``[platform] kind = "vessel"``). Keys: ``schema``
-    (``"1.1"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
-    ``alarms``, ``position``, ...), ``last_pksht`` and ``summary`` (counts by state,
+    (``"1.2"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
+    ``alarms``, ``position``, ``advisory``, ...), ``last_pksht`` and ``summary`` (counts by state,
     ``lowest_score``, ``final_score``, ``first_untrusted_t_s``). Opens no socket and does not
     apply the gate (both are command-line only); advisory only. Raises ``ValueError``."""
 
