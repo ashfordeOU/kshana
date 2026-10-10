@@ -27,6 +27,9 @@
 pub use crate::sdr::Cf64;
 
 pub mod acq;
+pub mod acq_surface;
+#[cfg(not(target_arch = "wasm32"))]
+pub mod campaign;
 pub mod channel;
 // The `iq` CLI command group reads and writes recordings through `iq::io`, whose
 // filesystem-backed modules (`inventory`, `stream`, `cli`) are gated off the wasm32
@@ -36,6 +39,7 @@ pub mod cli;
 pub mod frontend;
 pub mod io;
 pub mod labfit;
+pub mod monitor;
 pub mod scene;
 pub mod signals;
 pub(crate) mod simrng;

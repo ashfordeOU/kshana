@@ -8,12 +8,10 @@
 //! each requested code. It reports, per PRN, the detected Doppler, code phase, the
 //! normalised peak statistic, the detection threshold and whether the peak cleared it.
 
-use super::{build_code, raw_sidecar, Args, Fail};
-use crate::iq::acq::{acquire, samples_needed, AcqConfig, AcqResult};
-use crate::iq::io::inventory::open_recording;
+use super::{build_code, open_input, Args, Fail};
+use crate::iq::acq::{acquire_peak, samples_needed, AcqConfig, AcqResult};
 use crate::iq::signals::SignalCode;
 use crate::iq::{Cf64, IqSource, SampleSpec, SpreadingCode};
-use std::path::Path;
 
 /// Parse the shared `--signal`/`--prn` arguments into one spreading code per PRN.
 pub(crate) fn codes_from_args(a: &Args) -> Result<Vec<SignalCode>, Fail> {
@@ -80,7 +78,7 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let a = Args::parse(args, &switches).map_err(Fail::Usage)?;
     a.need_pos(1, "acquire")?;
     let codes = codes_from_args(&a)?;
-    let opened = open_recording(Path::new(&a.pos[0]), raw_sidecar(&a)?)?;
+    let opened = open_input(&a, 0)?;
     let spec = opened.source.spec();
     let cfg = acq_config(&a, codes[0].period_s())?;
 
@@ -109,12 +107,47 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
                 samples.len()
             )));
         }
-        let grid = acquire(&samples, &spec, code, &cfg).map_err(Fail::Run)?;
-        results.push(grid.result);
+        results.push(acquire_peak(&samples, &spec, code, &cfg).map_err(Fail::Run)?);
     }
 
     write_outputs(&a, &spec, &cfg, &results)?;
+    if let Some(p) = a.get("--surface") {
+        write_surface(&a, p, &samples, &spec, &codes, &cfg)?;
+    }
     Ok(table(&spec, &cfg, &results))
+}
+
+/// Write the acquisition surface (`--surface`, with `--surface-format csv|json|bin`, else the
+/// path's suffix) of the one code searched.
+fn write_surface(
+    a: &Args,
+    path: &str,
+    samples: &[Cf64],
+    spec: &SampleSpec,
+    codes: &[SignalCode],
+    cfg: &AcqConfig,
+) -> Result<(), Fail> {
+    use crate::iq::acq_surface::{Surface, SurfaceFormat};
+    if codes.len() != 1 {
+        return Err(Fail::Usage(
+            "--surface exports one search surface: give exactly one --prn".into(),
+        ));
+    }
+    let fmt = match a.get("--surface-format") {
+        Some(f) => SurfaceFormat::parse(f).map_err(Fail::Usage)?,
+        None => SurfaceFormat::from_path(path).ok_or_else(|| {
+            Fail::Usage(format!(
+                "--surface {path}: name the format with --surface-format csv|json|bin, or end \
+                 the path in .csv, .json or .bin"
+            ))
+        })?,
+    };
+    let surface = Surface::compute(samples, spec, &codes[0], cfg).map_err(Fail::Run)?;
+    let mut w = std::io::BufWriter::new(
+        std::fs::File::create(path).map_err(|e| Fail::Run(format!("{path}: {e}")))?,
+    );
+    surface.write(&mut w, fmt)?;
+    Ok(())
 }
 
 /// Write the optional `--json` and `--csv` artifacts.
