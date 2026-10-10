@@ -25,9 +25,9 @@ pub struct AdsbParams {
     /// Reports below this barometric altitude (feet) are ignored: low and surface reports
     /// have legitimate accuracy loss (terrain masking, surface position format).
     pub min_alt_ft: f64,
-    /// A report is low-accuracy if NACp is at or below this (EPU of 185 m or worse).
+    /// A report is low-accuracy if NACp is at or below this (the reported EPU bound is 556 m or larger, or unknown).
     pub low_nacp_max: u8,
-    /// ... or if NIC is at or below this (containment radius not shown to be better than 0.6 NM).
+    /// ... or if NIC is at or below this (the reported containment-radius bound is 1852 m or larger, or unknown).
     pub low_nic_max: u8,
     /// A report is "good" (evidence the aircraft's own equipment can report accuracy) if
     /// NACp is at or above this ...
@@ -95,6 +95,66 @@ impl AdsbParams {
             "min_cells_for_background": self.min_cells_for_background,
             "publication_min_distinct": PUBLICATION_MIN_DISTINCT,
         })
+    }
+}
+
+impl AdsbParams {
+    /// Classify one report from its accuracy codes: `(low, good)`.
+    ///
+    /// *Low* when NACp is at or below `low_nacp_max` or NIC is at or below `low_nic_max`
+    /// (judged on whichever field is present). *Good* when every present field is at or above
+    /// its `good_*_min`, with at least one present: an input with only one of the two columns
+    /// still establishes an equipment baseline.
+    pub fn classify(&self, nic: Option<u8>, nacp: Option<u8>) -> (bool, bool) {
+        let low = nacp.is_some_and(|v| v <= self.low_nacp_max)
+            || nic.is_some_and(|v| v <= self.low_nic_max);
+        let good = (nacp.is_some() || nic.is_some())
+            && nacp.is_none_or(|v| v >= self.good_nacp_min)
+            && nic.is_none_or(|v| v >= self.good_nic_min);
+        (low, good)
+    }
+}
+
+/// The 95% horizontal position accuracy bound (EPU, metres) that a NACp code stands for:
+/// the true position is within this distance with 95% probability. `None` for code 0 (the
+/// bound is 10 NM or worse, or unknown) and for codes above 11. Values are the DO-260B
+/// table in metres (0.05 NM is 92.6 m, 0.1 NM is 185.2 m, 0.3 NM is 555.6 m, and so on).
+pub fn nacp_epu_bound_m(code: u8) -> Option<f64> {
+    match code {
+        1 => Some(18_520.0),
+        2 => Some(7_408.0),
+        3 => Some(3_704.0),
+        4 => Some(1_852.0),
+        5 => Some(926.0),
+        6 => Some(555.6),
+        7 => Some(185.2),
+        8 => Some(92.6),
+        9 => Some(30.0),
+        10 => Some(10.0),
+        11 => Some(3.0),
+        _ => None,
+    }
+}
+
+/// The horizontal containment radius bound (Rc, metres) that a NIC code stands for, as
+/// `(smallest, largest)` over the ADS-B versions and supplement bits that can produce the
+/// code: NIC 6, for example, stands for 0.3 NM (555.6 m) or 0.6 NM (1111.2 m) depending on
+/// the supplement. `None` for code 0 (unknown or 20 NM or worse) and for codes above 11.
+/// Values are the DO-260B table in metres.
+pub fn nic_rc_bound_range_m(code: u8) -> Option<(f64, f64)> {
+    match code {
+        1 => Some((37_040.0, 37_040.0)),
+        2 => Some((14_816.0, 14_816.0)),
+        3 => Some((7_408.0, 7_408.0)),
+        4 => Some((3_704.0, 3_704.0)),
+        5 => Some((1_852.0, 1_852.0)),
+        6 => Some((555.6, 1_111.2)),
+        7 => Some((370.4, 370.4)),
+        8 => Some((185.2, 185.2)),
+        9 => Some((75.0, 75.0)),
+        10 => Some((25.0, 25.0)),
+        11 => Some((7.5, 7.5)),
+        _ => None,
     }
 }
 
@@ -337,15 +397,7 @@ impl AdsbAggregator {
         nic: Option<u8>,
         nacp: Option<u8>,
     ) {
-        let p = &self.params;
-        let low =
-            nacp.is_some_and(|v| v <= p.low_nacp_max) || nic.is_some_and(|v| v <= p.low_nic_max);
-        // "Good" is judged on the fields the input has: both when both are present, the one
-        // that is present otherwise. An input with only one of the two columns still
-        // establishes an equipment baseline.
-        let good = (nacp.is_some() || nic.is_some())
-            && nacp.is_none_or(|v| v >= p.good_nacp_min)
-            && nic.is_none_or(|v| v >= p.good_nic_min);
+        let (low, good) = self.params.classify(nic, nacp);
         let aid = self.hasher.hash(id);
         let cell = self.grid.cell_of(lat, lon);
         let day = self.days.entry(day_of(ts)).or_default();
