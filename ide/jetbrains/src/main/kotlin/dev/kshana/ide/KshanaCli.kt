@@ -83,6 +83,27 @@ object KshanaCli {
     const val COMPLIANCE_STATEMENT: String =
         "A row marked evidenced means a run in this set supports evidence for the capabilities the row names. It is not a finding that a framework is met, and it does not mean any product has been rated or approved by anyone. The gap column states what the runs do not show."
 
+    /** `<binary> evidence verify <pack-dir> --pubkey <key> [--log <session log>] --json`. The key is
+     *  always pinned: the plugin never passes `--allow-unpinned`. */
+    fun evidenceVerifyCommand(binary: String, packDir: String, pubKey: String, logPath: String?): List<String> =
+        listOf(binary, "evidence", "verify", packDir, "--pubkey", pubKey) +
+            (if (logPath.isNullOrBlank()) emptyList() else listOf("--log", logPath)) +
+            listOf("--json")
+
+    /** The plain verdict for an `evidence verify` exit status. Only 0 reads as verified; 3 (intact
+     *  but the signer is not pinned) is never shown as verified. */
+    fun evidenceVerdict(exitCode: Int): String = when (exitCode) {
+        0 -> "VERIFIED: the pack is intact and signed by the public key you supplied."
+        1 -> "NOT VERIFIED: at least one check failed; the failure codes are in the report above."
+        2 -> "NOT RUN: usage error. Check the pack folder and the public key."
+        3 -> "NOT VERIFIED: INTACT, BUT THE SIGNER IS NOT PINNED."
+        else -> "NOT VERIFIED: unexpected exit status $exitCode."
+    }
+
+    /** Printed before an evidence verification: what a verified pack does and does not show. */
+    const val EVIDENCE_NOTICE: String =
+        "A verified pack shows its files are the ones recorded and signed by the key you supplied. It does not show the log is genuine or complete, and it does not re-run the assessment."
+
     /** Printed before a training run: the stream is synthetic and never for live navigation. */
     const val TRAINING_NOTICE: String =
         "Synthetic training data, text only. Never feed this stream to a vessel's live navigation systems."

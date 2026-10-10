@@ -18,7 +18,8 @@
         <b>Build Interference Map</b> (ADS-B or AIS CSV to GeoJSON), <b>Route Exposure</b>,
         <b>Export Test-Bench Files</b> (motion, NMEA and events for a laboratory simulator; no
         signal is written) and <b>Build Compliance Report</b> / <b>Show Compliance Mapping</b>
-        (the public-framework mapping, shown with the engine's own statement).
+        (the public-framework mapping, shown with the engine's own statement) and
+        <b>Verify Evidence Pack</b> (against the signer's public key you supply).
         The long-running <code>receiver-trust live</code> process stays on the command line.
         <br/><br/>
         Scenarios cover SGP4/SDP4 orbits, IAU reference frames, Allan deviations, GNSS
@@ -30,8 +31,8 @@
     <change-notes><![CDATA[
         <b>0.35.0</b> — new context-menu actions: <b>Assess Receiver Trust</b>,
         <b>Generate Training NMEA</b>, <b>Build Interference Map</b>, <b>Route Exposure</b>,
-        <b>Export Test-Bench Files</b> and <b>Build Compliance Report</b>, and
-        <i>Tools → Show Compliance Mapping</i>. Each runs the engine's command line and shows its
+        <b>Export Test-Bench Files</b>, <b>Build Compliance Report</b> and
+        <b>Verify Evidence Pack</b>, and <i>Tools → Show Compliance Mapping</i>. Each runs the engine's command line and shows its
         output with the caveat that belongs with it; advisory use only. The plugin needs a
         <code>kshana</code> engine 0.35.0 or newer for these actions. Update the engine with
         <code>cargo install kshana</code> and see the release notes at
@@ -145,6 +146,13 @@
             class="dev.kshana.ide.ComplianceReportAction"
             text="Build Compliance Report (Kshana)"
             description="Run kshana compliance-report on the selected run result JSON: the public-framework mapping filled from the run, with its gap column.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.VerifyEvidencePack"
+            class="dev.kshana.ide.VerifyEvidencePackAction"
+            text="Verify Evidence Pack (Kshana)"
+            description="Run kshana evidence verify on the selected evidence-pack folder against the signer's public key you supply. Never accepts an unpinned signer.">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
         <action

@@ -29,6 +29,10 @@ access to Kshana): this plugin is the *human*, point-and-click path.
 - **Build Compliance Report** on a run result `.json` (`kshana compliance-report`) and
   **Tools → Show Compliance Mapping** (`kshana compliance-report --mapping`): the public-framework
   mapping, shown with the engine's own statement word for word.
+- **Verify Evidence Pack** on an evidence-pack folder (project view; `kshana evidence verify`):
+  asks for the signer's public key (64 hex digits or a `.pub` file; always pinned, the plugin never
+  accepts an unpinned signer) and optionally the full session log. Only a verified result reads as
+  verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
 - A bottom **Kshana** tool window hosting the run console.
 - Not in the plugin: `kshana receiver-trust live` (a long-running stream process with a gate
   and an optional TCP listener) stays on the command line, because an IDE action runs a
