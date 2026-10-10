@@ -426,6 +426,14 @@ jobs:
         run: node web/studio/lib/areas.test.mjs
       - name: Test the first-use expansion of abbreviations
         run: node web/studio/lib/abbr.test.mjs
+      - name: Test the maritime trust view's logic
+        run: node web/studio/lib/trust.test.mjs
+      - name: Test the interference map's logic
+        run: node web/studio/lib/interference.test.mjs
+      - name: Test the GeoJSON layer helpers
+        run: node web/studio/lib/geojson-layer.test.mjs
+      - name: Test the training debrief's logic
+        run: node web/studio/lib/training.test.mjs
   # ---------------------------------------------------------------------------
   # Overlay-registry assurance gates (Phase 0).
   #
