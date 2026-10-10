@@ -273,7 +273,7 @@ dependencies = [
 
 [[package]]
 name = "kshana"
-version = "0.34.1"
+version = "0.35.0"
 dependencies = [
  "ed25519-dalek",
  "flate2",
