@@ -13,6 +13,8 @@ use std::path::Path;
 const VERSION: &str = "9.9.9-oracle";
 const NOW: f64 = 1_790_000_000.0;
 #[cfg(feature = "otlp")]
+// PIN-SCOPE:    a fixed Unix-nanosecond timestamp (the registry's clock is injected) so the committed oracle outputs are reproducible
+// PIN-EXCLUDES: the wall clock, which the exporter reads only outside this code
 const NOW_NANO: u64 = 1_790_000_100_000_000_000;
 
 fn main() {
