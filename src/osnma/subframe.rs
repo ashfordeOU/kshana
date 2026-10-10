@@ -64,6 +64,9 @@ pub struct Subframe {
     pub mack: [u8; MACK_BYTES],
     /// The 128-bit I/NAV word of each of the 15 pages, in transmission order.
     pub words: [[u8; 16]; PAGES_PER_SUBFRAME],
+    /// False when any page carried an all-zero OSNMA field (a satellite that does not
+    /// transmit OSNMA, or a gap); then `hkroot` and `mack` must not be used.
+    pub has_osnma: bool,
 }
 
 impl Subframe {
@@ -82,8 +85,9 @@ impl Subframe {
 }
 
 /// Collects pages into sub-frames. Pages are placed by GST (page index is
-/// `(gst mod 30) / 2`); a sub-frame is emitted only when all 15 pages arrived,
-/// each carrying a non-zero OSNMA field.
+/// `(gst mod 30) / 2`); a sub-frame is emitted when all 15 pages arrived. Its
+/// navigation data is always kept, because a tag from another satellite may cover it;
+/// the OSNMA sections count only when every page carried a non-zero OSNMA field.
 #[derive(Debug, Default)]
 pub struct SubframeAssembler {
     open: BTreeMap<u8, Partial>,
@@ -95,6 +99,8 @@ struct Partial {
     hk: [Option<u8>; PAGES_PER_SUBFRAME],
     mk: [Option<u32>; PAGES_PER_SUBFRAME],
     wd: [[u8; 16]; PAGES_PER_SUBFRAME],
+    seen: [bool; PAGES_PER_SUBFRAME],
+    osnma: [bool; PAGES_PER_SUBFRAME],
 }
 
 impl Partial {
@@ -104,15 +110,20 @@ impl Partial {
             hk: [None; PAGES_PER_SUBFRAME],
             mk: [None; PAGES_PER_SUBFRAME],
             wd: [[0; 16]; PAGES_PER_SUBFRAME],
+            seen: [false; PAGES_PER_SUBFRAME],
+            osnma: [false; PAGES_PER_SUBFRAME],
         }
     }
 
     fn finish(&self, svid: u8) -> Option<Subframe> {
+        if !self.seen.iter().all(|s| *s) {
+            return None;
+        }
         let mut hkroot = [0u8; HKROOT_BYTES];
         let mut mack = [0u8; MACK_BYTES];
         for i in 0..PAGES_PER_SUBFRAME {
-            hkroot[i] = self.hk[i]?;
-            mack[i * 4..i * 4 + 4].copy_from_slice(&self.mk[i]?.to_be_bytes());
+            hkroot[i] = self.hk[i].unwrap_or(0);
+            mack[i * 4..i * 4 + 4].copy_from_slice(&self.mk[i].unwrap_or(0).to_be_bytes());
         }
         Some(Subframe {
             svid,
@@ -120,6 +131,7 @@ impl Partial {
             hkroot,
             mack,
             words: self.wd,
+            has_osnma: self.osnma.iter().all(|o| *o),
         })
     }
 }
@@ -132,9 +144,6 @@ impl SubframeAssembler {
     /// Feed one page; returns the sub-frame this page completed, if any. A page
     /// from a new sub-frame discards an incomplete one for the same satellite.
     pub fn push(&mut self, page: &InavPage) -> Option<Subframe> {
-        if !page.has_osnma() {
-            return None;
-        }
         let idx = ((page.gst % SUBFRAME_S) / PAGE_S) as usize;
         let gst_sf = page.gst - page.gst % SUBFRAME_S;
         let entry = self
@@ -147,6 +156,8 @@ impl SubframeAssembler {
         entry.hk[idx] = Some(page.hkroot_section());
         entry.mk[idx] = Some(page.mack_section());
         entry.wd[idx] = page.data_word();
+        entry.seen[idx] = true;
+        entry.osnma[idx] = page.has_osnma();
         let done = entry.finish(page.svid)?;
         self.open.remove(&page.svid);
         Some(done)
@@ -284,7 +295,7 @@ mod tests {
     }
 
     #[test]
-    fn missing_or_empty_pages_do_not_complete() {
+    fn missing_pages_do_not_complete_and_empty_fields_clear_the_osnma_flag() {
         let mut asm = SubframeAssembler::new();
         for i in 0..15u32 {
             if i == 4 {
@@ -292,8 +303,16 @@ mod tests {
             }
             assert!(asm.push(&page(7, 600 + 2 * i, 1 << 33)).is_none());
         }
-        // An all-zero OSNMA field is discarded, so it cannot fill the gap.
-        assert!(asm.push(&page(7, 608, 0)).is_none());
+        // An all-zero OSNMA field still fills the gap (the navigation data is kept),
+        // but the sub-frame is marked as carrying no usable OSNMA data.
+        let sf = asm.push(&page(7, 608, 0)).expect("complete");
+        assert!(!sf.has_osnma);
+        let mut asm = SubframeAssembler::new();
+        let mut last = None;
+        for i in 0..15u32 {
+            last = asm.push(&page(7, 600 + 2 * i, 1 << 33));
+        }
+        assert!(last.expect("complete").has_osnma);
     }
 
     #[test]
