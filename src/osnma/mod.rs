@@ -34,7 +34,7 @@ pub enum OsnmaStatus {
 }
 
 /// Statement carried with every output that could reach a navigation decision.
-pub const ADVISORY: &str = "Advisory: the authentication status reported here is information for monitoring and analysis. It is not a navigation integrity service and must not be the sole basis for any navigation or safety decision.";
+pub const ADVISORY: &str = "Advisory: this is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision.";
 
 impl OsnmaStatus {
     /// Single-letter form used in the `$PKSOS` sentence.
