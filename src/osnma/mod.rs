@@ -8,6 +8,7 @@
 
 pub mod bits;
 pub mod dsm;
+pub mod input;
 pub mod mac;
 pub mod maclt;
 pub mod maclt_data;

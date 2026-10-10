@@ -87,10 +87,6 @@ pub enum FailReason {
     TagMismatch,
     /// The MACSEQ that covers the flexible Tag-Info fields does not verify.
     MacseqMismatch,
-    /// The Tag-Info disagrees with the fixed look-up table slot.
-    AdkdMismatch,
-    /// The tag names a reserved satellite or ADKD value.
-    ReservedField,
     /// The key does not lead back to the trusted chain key.
     KeyChainMismatch,
     /// Two satellites sent different keys for the same slot.
@@ -115,12 +111,23 @@ pub enum PendingReason {
     ServiceNotUsable,
 }
 
+/// Why a tag was set aside without being checked, as the Receiver Guidelines direct.
+#[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "snake_case")]
+pub enum DiscardReason {
+    /// The Tag-Info ADKD (or satellite role) differs from the look-up table slot.
+    AdkdNotInTable,
+    /// The tag names a reserved satellite or ADKD value.
+    ReservedField,
+}
+
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(tag = "state", content = "reason", rename_all = "snake_case")]
 pub enum TagStatus {
     Authenticated,
     Failed(FailReason),
     Pending(PendingReason),
+    Discarded(DiscardReason),
 }
 
 /// The outcome for one tag.
@@ -459,6 +466,13 @@ impl Verifier {
     fn process_pending(&mut self, chain: &Chain, ev: &mut Vec<Event>) {
         let mut pending = std::mem::take(&mut self.pending);
         for p in &mut pending {
+            // The chain's root key (stamped GST_0 - 30) is never a tag key, and a MACK
+            // sent before GST_0 - 30 belongs to the previous chain: leave it alone.
+            if p.gst + SUBFRAME_S < chain.gst0 {
+                p.fast_done = true;
+                p.slow_done = true;
+                continue;
+            }
             let fast_key = self.keys.get(&(p.gst + SUBFRAME_S)).cloned();
             if let (Some(k), false) = (fast_key, p.fast_done) {
                 self.run_mack(chain, p, &k, false, ev);
@@ -569,12 +583,12 @@ impl Verifier {
             },
             Slot::Fixed { adkd: want, own } => {
                 if adkd != want || (own && prnd != p.prna) {
-                    return TagStatus::Failed(FailReason::AdkdMismatch);
+                    return TagStatus::Discarded(DiscardReason::AdkdNotInTable);
                 }
             }
         }
         if !matches!(adkd, 0 | 4 | 12) || !(1..=36).contains(&prnd) {
-            return TagStatus::Failed(FailReason::ReservedField);
+            return TagStatus::Discarded(DiscardReason::ReservedField);
         }
         let build = |nav: &BitString| {
             let mut m = BitWriter::new();
