@@ -101,7 +101,10 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
     if let Some(sc) = s.score {
         ext.push_str(&format!(" cfp1Label=trustScore cfp1={}", num(sc)));
     }
-    ext.push_str(&format!(" cfp2Label=epochOffsetSeconds cfp2={}", num(s.t_s)));
+    ext.push_str(&format!(
+        " cfp2Label=epochOffsetSeconds cfp2={}",
+        num(s.t_s)
+    ));
     if let Some(l) = &s.time_label {
         ext.push_str(&format!(" cs4Label=logTime cs4={}", cef_ext_escape(l)));
     }
