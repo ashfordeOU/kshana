@@ -491,7 +491,7 @@
   },
   "en16803-1": {
    "read_from": "https://www.evs.ee/en/evs-en-16803-1-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
-   "sha256": "0ed6b5497edfd898ffc056a46f6cc211e9ba7734b7db3467a66bcea6c143b8bb",
+   "sha256": "3e27ef87f48c14b4597b0990308237fc2896edbcff07ba2af48f4379f96f07d5",
    "bytes": 67132,
    "entries": [],
    "catalogue": {
@@ -503,8 +503,8 @@
   },
   "en16803-2": {
    "read_from": "https://www.evs.ee/en/evs-en-16803-2-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
-   "sha256": "25770320a72ab6d17c38775df0f4481bf1524bb7cf8e06b9234d492719089493",
-   "bytes": 68898,
+   "sha256": "18447fda3a7596146ebc0d76e1a922e2f1530e140cc1825b735d6f0209891179",
+   "bytes": 68894,
    "entries": [],
    "catalogue": {
     "title": "EVS-EN 16803-2:2020 - EVS standard evs.ee | en",
@@ -515,8 +515,8 @@
   },
   "en16803-3": {
    "read_from": "https://www.evs.ee/en/evs-en-16803-3-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
-   "sha256": "979b73028c9ac49bf8b0133928e1a010f1c6733ae61b808eb99c1ce5ebbbd0ae",
-   "bytes": 67230,
+   "sha256": "c980238fbb6023b5cefed68230f14a2f3a3cfebdb6d887b5054fbe3f7b353c75",
+   "bytes": 67226,
    "entries": [],
    "catalogue": {
     "title": "EVS-EN 16803-3:2020 - EVS standard evs.ee | en",

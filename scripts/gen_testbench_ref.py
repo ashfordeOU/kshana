@@ -89,7 +89,7 @@ def ned_of_ecef_velocity(ecef, v):
     (east-north-up) operation: the difference of two points is the rotated velocity exactly."""
     pipe = (
         "+proj=pipeline +step +proj=topocentric +ellps=WGS84 "
-        f"+X_0={ecef[0]!r} +Y_0={ecef[1]!r} +Z_0={ecef[2]!r}"
+        f"+X_0={float(ecef[0])!r} +Y_0={float(ecef[1])!r} +Z_0={float(ecef[2])!r}"
     )
     t = Transformer.from_pipeline(pipe)
     e, n, u = t.transform(ecef[0] + v[0], ecef[1] + v[1], ecef[2] + v[2])
