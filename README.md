@@ -147,6 +147,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |
 | [Interoperability exports](docs/INTEROP.md) | orbits and geometry for other tools: SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF |
+| [Galileo OSNMA verifier](docs/OSNMA.md) | which satellites' navigation data a receiver can cryptographically authenticate, and why a check fails; Kshana grants no rights under the EU's OSNMA ICD IPRs (see the NOTICE in the page) |
 
 The export formats in full: SP3 is Standard Product 3; CCSDS OMM and OEM are the Orbit
 Mean-elements and Orbit Ephemeris Messages of the Consultative Committee for Space Data
