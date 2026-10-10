@@ -189,3 +189,32 @@ fn each_indexed_document_is_one_the_mapping_cites() {
         );
     }
 }
+
+#[test]
+fn a_reference_that_is_not_in_the_document_does_not_resolve() {
+    // Negative controls: the check can fail. Each of these is a plausible wrong citation,
+    // including the labels an earlier version of the mapping used for the EASA bulletin, which
+    // are descriptive names, not the bulletin's headings.
+    let h = fixture("headings.json");
+    let docs = h["documents"].as_object().unwrap();
+    let bad = [
+        ("dhs-rpcf", "9.9|Anything"),
+        ("dhs-rpcf", "L5R9"),
+        ("dhs-rpcf", "5.2|Common Mode"), // right number, wrong heading
+        ("easa-sib", "Recommendations to air operators (spoofing)"),
+        ("easa-sib", "Reporting"),
+        ("imo-401", "4.9"),
+        ("imo-1644", "9"),
+        ("nis2", "21(2)(k)"),
+        ("nis2", "22(1)"),
+        ("en16803-3", "catalogue:Clause 9"),
+    ];
+    for (doc, a) in bad {
+        assert!(
+            !anchor_resolves(&docs[doc], a),
+            "{doc}: {a:?} must not resolve"
+        );
+    }
+    // And a good one does, so the control is not vacuous.
+    assert!(anchor_resolves(&docs["dhs-rpcf"], "5.2|Core Functions"));
+}
