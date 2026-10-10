@@ -9,6 +9,14 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+
+- **MCP tools accept inline content only.** File-source fields (`csv_path`, `meta_path`,
+  `ephemeris_path`, the kernel, data-folder and EOP-file fields, and a receiver log's `path`)
+  are refused by every tool that takes scenario text, and scenario text and uploads are
+  capped at 4 MiB. A test lists the fields and fails when a scenario type gains one that is
+  not covered.
+
 ## [0.34.0] - 2026-10-09
 
 Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
