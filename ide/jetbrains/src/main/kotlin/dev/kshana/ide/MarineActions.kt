@@ -169,3 +169,50 @@ class ComplianceMappingAction : AnAction() {
         )
     }
 }
+
+/** Right-click an evidence-pack folder → "Verify Evidence Pack (Kshana)": asks for the signer's public
+ *  key (always pinned) and, optionally, the full session log, then runs `kshana evidence verify`. */
+class VerifyEvidencePackAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
+    override fun update(e: AnActionEvent) {
+        val dir = e.getData(CommonDataKeys.VIRTUAL_FILE)
+        e.presentation.isEnabledAndVisible =
+            e.project != null && dir != null && dir.isDirectory && dir.findChild("manifest.json") != null
+    }
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val dir = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val key = Messages.showInputDialog(
+            project,
+            "The signer's public key: 64 hex digits, or the path to the .pub file. Get it from the signer, not from the pack.",
+            "Verify Evidence Pack",
+            Messages.getQuestionIcon(),
+        )?.trim()
+        if (key.isNullOrEmpty()) return
+        var log: String? = null
+        val withLog = Messages.showYesNoDialog(
+            project,
+            "Also check the pack against the full session log you hold?",
+            "Verify Evidence Pack",
+            Messages.getQuestionIcon(),
+        )
+        if (withLog == Messages.YES) {
+            log = FileChooser.chooseFile(
+                FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("Full session log"),
+                project,
+                dir.parent,
+            )?.path
+        }
+        val bin = KshanaCli.resolveBinary(KshanaSettings.getInstance().state.binaryPath)
+        KshanaRunner.run(
+            project,
+            "Verifying evidence pack",
+            KshanaCli.evidenceVerifyCommand(bin, dir.path, key, log),
+            dir.parent?.path,
+            KshanaCli.EVIDENCE_NOTICE,
+            KshanaCli::evidenceVerdict,
+        )
+    }
+}
