@@ -15,3 +15,4 @@ pub mod otlp;
 pub mod prometheus;
 pub mod sample;
 pub mod syslog;
+pub mod time;

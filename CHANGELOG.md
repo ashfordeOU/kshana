@@ -51,8 +51,9 @@ breaking changes are called out explicitly.
   window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
   otherwise the whole log, and the manifest says which.
   Creation and verification are pure public functions (`kshana::evidence`) that build for
-  `wasm32`. The packs state that they are a technical record, not a legal opinion. One new
-  dependency, `ed25519-dalek` (BSD-3-Clause, minimal features). See
+  `wasm32`. The packs state that they are a technical record, not a legal opinion. The new dependencies are
+  the `ed25519-dalek` tree (BSD-3-Clause and Apache-2.0/MIT, minimal features) and a direct
+  `zeroize` (already in that tree) to wipe key material. See
   `docs/EVIDENCE-PACKS.md`.
 
 ### Added (trust telemetry)
@@ -61,7 +62,11 @@ breaking changes are called out explicitly.
   per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
   `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
   default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
-  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. No new dependencies.
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. Delivery runs on worker
+  threads with connect and write time limits, capped reconnect backoff and a
+  `kshana_trust_syslog_send_failures_total` counter, so a dead or stalled collector cannot
+  stall the live assessment or freeze `/metrics`; reason labels are capped at 64 series. No
+  new dependencies.
   A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
   CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
   in `src/telemetry/sample.rs`.
