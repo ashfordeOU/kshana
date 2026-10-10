@@ -23,6 +23,12 @@ access to Kshana): this plugin is the *human*, point-and-click path.
 - **Build Interference Map** on an ADS-B or AIS `.csv` (project view; asks which approved
   dataset it is) and **Route Exposure** on a route file (asks for the folder of maps).
   A degraded cell does not identify interference as the cause; not a forecast.
+- **Export Test-Bench Files** on a scenario `.toml` (`kshana bench-export`): vehicle motion, NMEA
+  and labelled events for a laboratory GNSS simulator, written next to the scenario. It writes
+  no signal; run a simulator only where authorised.
+- **Build Compliance Report** on a run result `.json` (`kshana compliance-report`) and
+  **Tools → Show Compliance Mapping** (`kshana compliance-report --mapping`): the public-framework
+  mapping, shown with the engine's own statement word for word.
 - A bottom **Kshana** tool window hosting the run console.
 - Not in the plugin: `kshana receiver-trust live` (a long-running stream process with a gate
   and an optional TCP listener) stays on the command line, because an IDE action runs a
