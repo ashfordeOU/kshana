@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3 } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -179,6 +179,91 @@ if (!s0.station_view || typeof s0.station_view.doppler_hz !== "number" || !isFin
 const ephSvg = chart_svg(ISS_EPHEMERIS);
 if (typeof ephSvg !== "string" || !ephSvg.includes("<svg") || ephSvg.length < 200) {
   console.error("ephemeris chart_svg() produced no ground-track SVG");
+  process.exit(1);
+}
+
+// 0.35 surfaces: the training-NMEA generator and the interference map run in the browser
+// build on the repository's synthetic inputs, and say what they are.
+const rootDir = new URL("../", import.meta.url);
+const training = await readFile(new URL("scenarios/training/open-sea-jamming.toml", rootDir), "utf8");
+const nm = JSON.parse(nmea_training(training, NaN));
+if (!nm.nmea.includes("\r\n") || JSON.parse(nm.log_json).schema !== "kshana-nmea-training/1") {
+  console.error("wasm nmea_training() produced no NMEA or no instructor log");
+  process.exit(1);
+}
+const sessionToml = (await readFile(new URL("examples/maritime-trust/session.toml", rootDir), "utf8"))
+  .replace('path = "tallinn-helsinki.nmea"', "").replace("calibration_s = 300.0", "calibration_s = 60.0");
+const nmeaLines = (await readFile(new URL("examples/maritime-trust/tallinn-helsinki.nmea", rootDir), "utf8")).split(/(?<=\n)/);
+const excerpt = nmeaLines
+  .slice(Math.floor((nmeaLines.length * 1400) / 3000), Math.floor((nmeaLines.length * 1800) / 3000))
+  .join("");
+const replay = JSON.parse(receiver_trust_replay(sessionToml, excerpt));
+if (replay.summary.epochs < 300 || replay.summary.untrusted < 1 || replay.summary.lowest_score >= 55) {
+  console.error("wasm receiver_trust_replay() did not flag the synthetic drag-off");
+  process.exit(1);
+}
+if (JSON.parse(assess_vessel_log(sessionToml, excerpt)).epochs.length < 300) {
+  console.error("wasm assess_vessel_log() returned no epochs");
+  process.exit(1);
+}
+const adsbCsv = await readFile(new URL("examples/interference-map/input/adsb.csv", rootDir), "utf8");
+const days = JSON.parse(
+  interference_map("adsb", adsbCsv, "custom", NaN, "CC0-1.0",
+    "https://creativecommons.org/publicdomain/zero/1.0/", "Synthetic data for Kshana tests", ""),
+);
+const doc = JSON.parse(days[0].geojson);
+if (days.length !== 1 || doc.kshana_interference_map.schema !== "kshana-interference-map/v1") {
+  console.error("wasm interference_map() produced no kshana-interference-map/v1 document");
+  process.exit(1);
+}
+const exposure = JSON.parse(
+  route_exposure('{"type":"LineString","coordinates":[[-50,30.2],[-47,30.2]]}', JSON.stringify([days[0].geojson]), "", ""),
+);
+if (typeof exposure !== "object") {
+  console.error("wasm route_exposure() produced no report");
+  process.exit(1);
+}
+
+// Test-bench export and the compliance mapping: in memory, with their notices.
+const canyon = await readFile(new URL("scenarios/automotive-urban-canyon.toml", rootDir), "utf8");
+const bench = JSON.parse(bench_export(canyon, "2025-03-01T10:00:00Z"));
+if (!bench.files[".motion.csv"]?.includes("2025-03-01") || !bench.notice.includes("radio-frequency or baseband signal")) {
+  console.error("wasm bench_export() produced no motion file or no notice");
+  process.exit(1);
+}
+const comp = JSON.parse(
+  compliance_report(JSON.stringify([
+    { label: "trust.result.json", result: JSON.stringify({ scenario_hash: "0123456789abcdef0123", log: { format: "nmea", epochs: 10 }, monitors_run: ["cn0"], events_evaluable: 2, events_detected: 2, predictions_evaluable: 1, predictions_agreeing: 1 }) },
+    { label: "bad.json", result: "not json" },
+  ])),
+);
+if (!comp.report.statement.includes("is not a finding that a framework is met") || comp.report.runs.length !== 1 ||
+    comp.report.unrecognised.length !== 1 || !comp.markdown.includes(comp.report.statement) ||
+    !compliance_mapping(false).startsWith("> " + comp.report.statement)) {
+  console.error("wasm compliance_report() or compliance_mapping() lost the statement or the run accounting");
+  process.exit(1);
+}
+
+// Examples, interoperability exports, route import and animation, in memory.
+const examples = JSON.parse(list_examples(""));
+const orbitToml = get_example("orbit-multignss");
+const clockToml = get_example("clock-holdover");
+const czml = JSON.parse(export_scenario(orbitToml, "czml"));
+const anim = JSON.parse(animate_scenario(clockToml, "svg", 0, NaN, 0));
+const moved = import_route(
+  get_example("terrain-nav"),
+  '{"type":"LineString","coordinates":[[10.0,50.0],[10.5,50.0]]}',
+);
+if (examples.count < 50 || JSON.parse(export_formats(clockToml)).length !== 5 ||
+    czml.format !== "czml" || czml.files[0].encoding !== "utf-8" || !export_sp3(orbitToml).startsWith("#") ||
+    !anim.files["animation.svg"].includes("<svg") || !moved.includes("start_lat_deg = 50")) {
+  console.error("wasm examples, exports, route import or animation produced unexpected output");
+  process.exit(1);
+}
+let refused = false;
+try { export_scenario(clockToml, "czml"); } catch (_) { refused = true; }
+if (!refused) {
+  console.error("wasm export_scenario() accepted a format that does not apply");
   process.exit(1);
 }
 
