@@ -129,6 +129,15 @@ serde_json = { version = "1", features = ["float_roundtrip"] }
 toml = "0.8"
 sha2 = "0.10"
 hex = "0.4"
+# Galileo OSNMA verifier (src/osnma): MAC functions, SHA3-256 for the key chain and ECDSA
+# verification of the signed root key. RustCrypto, pure Rust, MIT OR Apache-2.0, built
+# without default features so only what the verifier uses is compiled.
+hmac = { version = "0.12", default-features = false }
+cmac = { version = "0.7", default-features = false }
+aes = { version = "0.8", default-features = false }
+sha3 = { version = "0.10", default-features = false }
+p256 = { version = "0.13", default-features = false, features = ["ecdsa"] }
+p521 = { version = "0.13", default-features = false, features = ["ecdsa"] }
 # Pure-Rust mathematics library: the same source, and so the same bits, on every target.
 # Already in the dependency tree (rand_distr draws through it); named here because
 # `src/portable_math.rs` calls it directly for the outputs that must not depend on the
