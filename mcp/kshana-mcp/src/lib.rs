@@ -7,6 +7,7 @@
 //! the `kshana-mcp` binary serves it over stdio. The GNSS IQ tools and their file-path and
 //! sample-budget contract are in [`iq`]; the maritime-trust, training-NMEA and interference-map tools, with their input caps, are in [`marine`].
 
+pub mod http;
 pub mod iq;
 pub mod marine;
 pub mod server;

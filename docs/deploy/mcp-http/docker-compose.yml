@@ -1,0 +1,21 @@
+# Self-hosted kshana-mcp over streamable HTTP. Kshana does not host this for you.
+# Usage: export KSHANA_MCP_HTTP_TOKEN="$(openssl rand -hex 32)" && docker compose up
+services:
+  kshana-mcp:
+    image: ghcr.io/ashfordeou/kshana-mcp:0.35.0
+    command:
+      - --http
+      - 0.0.0.0:8080
+      - --allow-remote
+      - --allowed-host
+      - localhost:8080
+      - --allowed-host
+      - 127.0.0.1:8080
+    environment:
+      KSHANA_MCP_HTTP_TOKEN: ${KSHANA_MCP_HTTP_TOKEN:?set a long random token}
+    ports:
+      - "127.0.0.1:8080:8080"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped

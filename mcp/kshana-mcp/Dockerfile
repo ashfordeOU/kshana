@@ -35,7 +35,8 @@ RUN cargo build --release && strip target/release/kshana-mcp
 
 # ---- runtime stage ---------------------------------------------------------------
 # bookworm-slim matches the builder's glibc (2.36), so the dynamically linked binary
-# runs as-is. No extra packages: the server makes no network calls.
+# runs as-is. No extra packages: over stdio the server makes no network calls; with
+# `--http` it only listens (see docs/deploy/mcp-http.md).
 FROM debian:bookworm-slim@sha256:3783cc01769c7b2b1b83a5c5ad96c815348e28ed7da68e2e3687004faa906251 AS runtime
 
 # Ownership marker that links this image to its entry in the official MCP registry.
@@ -49,7 +50,14 @@ LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
 
 COPY --from=build /src/mcp/kshana-mcp/target/release/kshana-mcp /usr/local/bin/kshana-mcp
 
-# Run as an unprivileged user; the server needs no network access, and touches the
+# HTTP mode (self-hosted; Kshana runs no endpoint): the container must listen on 0.0.0.0,
+# which needs the explicit flag and a bearer token:
+#   docker run --rm -p 127.0.0.1:8080:8080 -e KSHANA_MCP_HTTP_TOKEN \
+#     ghcr.io/ashfordeou/kshana-mcp --http 0.0.0.0:8080 --allow-remote \
+#     --allowed-host localhost:8080
+# The IQ file tools are always off in HTTP mode.
+#
+# Run as an unprivileged user; the server needs no network access over stdio, and touches the
 # filesystem only for the GNSS IQ tools, inside the folder KSHANA_MCP_IQ_DIR names (unset by
 # default, which leaves those tools off). To enable them, mount a volume and point the
 # variable at it: `docker run --rm -i -v "$PWD/iq:/iq" -e KSHANA_MCP_IQ_DIR=/iq ...`.
