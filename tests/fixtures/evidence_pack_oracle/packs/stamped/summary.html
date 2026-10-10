@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; style-src 'unsafe-inline'">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Static pack</title>
+<style>
+body{font:15px/1.5 system-ui,sans-serif;max-width:60rem;margin:2rem auto;padding:0 1rem;color:#1b1f24;background:#fff}
+h1{font-size:1.5rem}h2{font-size:1.1rem;margin-top:2rem}
+.box{border:2px solid #8a5a00;background:#fff7e6;padding:.75rem 1rem;border-radius:6px}
+table{border-collapse:collapse;width:100%}td,th{border-bottom:1px solid #d0d7de;padding:.25rem .5rem;text-align:left;vertical-align:top}
+code{font:13px ui-monospace,monospace;word-break:break-all}
+.s-untrusted{color:#b42318;font-weight:600}.s-degraded{color:#8a5a00;font-weight:600}
+@media (prefers-color-scheme:dark){body{background:#0d1117;color:#e6edf3}.box{background:#2b2110;border-color:#d29922}td,th{border-color:#30363d}.s-untrusted{color:#ff7b72}.s-degraded{color:#e3b341}}
+</style></head><body>
+<h1>Static pack</h1>
+<p class="box"><strong>Technical record, not a legal opinion.</strong> This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.</p>
+<h2>Identification</h2>
+<table>
+<tr><th>Engine version</th><td><code>0.0.0-oracle</code></td></tr>
+<tr><th>Created (UTC)</th><td><code>2026-01-02T03:04:05Z</code></td></tr>
+<tr><th>Window</th><td><code>0 s to 59 s after the first epoch of the log</code></td></tr>
+<tr><th>First epoch of the log</th><td><code>2026-01-02T03:04:05Z</code></td></tr>
+<tr><th>Log format</th><td><code>nmea</code></td></tr>
+<tr><th>Log file name</th><td><code>synthetic.log</code></td></tr>
+<tr><th>Full log SHA-256</th><td><code>15aba5224d5c0f7f0cbe25fa20a298182c1c042a8322b5f299961d37b4581792</code></td></tr>
+<tr><th>Full log size (bytes)</th><td><code>5370</code></td></tr>
+<tr><th>Log slice in this pack</th><td><code>ByteRange, bytes 400 to 3000</code></td></tr>
+<tr><th>Log slice SHA-256</th><td><code>b9eaad1d586a079cfadffd72230c19f1e3fda6d64b4f309612f31fd783f3f0bd</code></td></tr>
+<tr><th>Signer (Ed25519) fingerprint</th><td><code>9a92d2b54a9a5402de3e65a07a5cb12a</code></td></tr>
+<tr><th>Signer public key</th><td><code>db995fe25169d141cab9bbba92baa01f9f2e1ece7df4cb2ac05190f37fcc1f9d</code></td></tr>
+</table>
+<p>A slice of kind <code>WholeLog</code> means the source could not give a byte range for the window, so the whole log is bundled and the window limits only which epochs are reported. A timestamp token, if one is attached later, is not part of this page; its time is shown only by <code>kshana evidence verify</code>, and <strong>timestamp authority signature not verified by Kshana</strong>: check it with <code>openssl ts -verify</code>. Check this pack with <code>kshana evidence verify</code>; compare the signer fingerprint with one you obtained from the signer by another route.</p>
+<h2>Results in the window</h2>
+<p>60 epochs.</p>
+<table>
+<tr><th>degraded</th><td>20 epochs</td></tr>
+<tr><th>nominal</th><td>40 epochs</td></tr>
+</table>
+<p>First epoch not nominal in the window: <code>40</code> s, state <code>degraded</code>.</p>
+<h3>Reasons (monitors that alarmed), epochs each</h3>
+<table>
+<tr><th>cn0-drop</th><td>20</td></tr>
+</table>
+<h2>Configuration and thresholds</h2>
+<p>Complete in <code>config.json</code>; the values below are the run's own.</p>
+<table>
+<tr><th>monitors.cn0_drop_db</th><td><code>6.0</code></td></tr>
+<tr><th>monitors.sats_lost</th><td><code>4</code></td></tr>
+<tr><th>note</th><td><code>synthetic</code></td></tr>
+</table>
+<h2>Per-epoch results</h2>
+<table>
+<tr><th>t (s)</th><th>state</th><th>score</th><th>reasons</th><th>reported position (lat, lon, height m)</th></tr>
+<tr><td>0.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>1.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>2.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>3.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>4.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>5.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>6.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>7.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>8.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>9.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>10.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>11.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>12.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>13.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>14.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>15.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>16.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>17.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>18.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>19.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>20.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>21.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>22.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>23.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>24.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>25.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>26.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>27.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>28.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>29.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>30.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>31.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>32.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>33.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>34.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>35.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>36.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>37.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>38.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>39.0</td><td class="s-nominal">nominal</td><td>-</td><td></td><td>-</td></tr>
+<tr><td>40.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>41.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>42.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>43.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>44.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>45.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>46.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>47.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>48.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>49.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>50.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>51.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>52.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>53.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>54.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>55.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>56.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>57.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>58.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+<tr><td>59.0</td><td class="s-degraded">degraded</td><td>-</td><td>cn0-drop</td><td>-</td></tr>
+</table>
+<h2>Limits of this record</h2>
+<p>It shows what the engine computed from the stated log bytes under the stated configuration. It does not say what caused any event, who was responsible, or whether any obligation was met. It cannot show that the log reflects what the receiver actually received. Integrity and authorship are checked with <code>kshana evidence verify</code>, not by reading this page.</p>
+</body></html>
