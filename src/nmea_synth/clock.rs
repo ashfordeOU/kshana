@@ -1,7 +1,9 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! UTC arithmetic on integer milliseconds since the Unix epoch.
 
-/// Days since 1970-01-01 for a proleptic-Gregorian date (Hinnant's algorithm).
+/// Days since 1970-01-01 for a proleptic-Gregorian date: years are counted from March so
+/// the leap day is the last of the year, and whole 400-year cycles (146 097 days) are
+/// removed first.
 pub fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
     let y = if m <= 2 { y - 1 } else { y };
     let era = if y >= 0 { y } else { y - 399 } / 400;
@@ -12,7 +14,8 @@ pub fn days_from_civil(y: i64, m: i64, d: i64) -> i64 {
     era * 146_097 + doe - 719_468
 }
 
-/// Proleptic-Gregorian `(year, month, day)` for days since 1970-01-01.
+/// Proleptic-Gregorian `(year, month, day)` for days since 1970-01-01: the inverse of
+/// [`days_from_civil`], by the same March-based 400-year-cycle arithmetic.
 pub fn civil_from_days(z: i64) -> (i64, i64, i64) {
     let z = z + 719_468;
     let era = if z >= 0 { z } else { z - 146_096 } / 146_097;

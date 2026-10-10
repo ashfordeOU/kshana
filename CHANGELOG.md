@@ -116,6 +116,8 @@ breaking changes are called out explicitly.
   dependency: `flate2` with its pure-Rust backend, for gzip). Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
   licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
 
+### Added (training streams)
+
 - **`kshana nmea-scenario`: synthetic bridge NMEA 0183 for crew training in GNSS jamming
   and spoofing recognition.** From a scenario TOML it writes a file, or streams over TCP
   or UDP (unicast or broadcast; real time, accelerated or as fast as possible), the full
@@ -149,6 +151,11 @@ breaking changes are called out explicitly.
   the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
 - `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
   only: nothing transmits, and no detection or false-alarm figure is claimed.
+
+  scenario and run every stream through the `receiver-trust` NMEA reader. Text only: no
+  RF, IQ or waveform output; streams are for training and testing and must never be fed
+  to a vessel's live navigation systems. A bare `--tcp`/`--udp` port means this machine
+  only; the TCP server has no authentication. See `docs/NMEA-TRAINING.md`.
 
 ## [0.34.0] - 2026-10-09
 
