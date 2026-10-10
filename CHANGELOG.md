@@ -193,19 +193,6 @@ breaking changes are called out explicitly.
 
 ### Changed
 
-- **The MCP server's tools take inline content only.** A scenario that sets a field naming a
-  file or folder for the engine to read (`csv_path`, `meta_path`, `ephemeris_path`, the kernel,
-  data-folder and EOP-file fields) is refused with the field's name, and every scenario and
-  upload is capped at 4 MiB. `assess_receiver_log` takes the log as `text` or `base64`. The GNSS
-  IQ tools keep their opt-in work directory, with every path confined to it. A test lists the
-  fields and fails when a scenario type gains one that is not covered. The Python function
-  `receiver_trust`, which runs in the caller's own process, still accepts a `path`.
-
-
-## [0.34.1] - 2026-10-10
-
-### Changed
-
 - **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
   module the Observatory palette revision left on its own colours while the jammer-Q work
   landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
@@ -239,6 +226,8 @@ breaking changes are called out explicitly.
   seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
   inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
   same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+
+## [0.34.1] - 2026-10-10
 
 ### Security
 
