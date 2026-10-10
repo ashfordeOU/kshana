@@ -284,6 +284,17 @@ mod tests {
     }
 
     #[test]
+    fn schema_1_2_line_with_advisory_is_read() {
+        let s = parse_live_line(
+            r#"{"seq":941,"t_s":940.0,"time":"2025-06-14T08:15:40.000Z","state":"untrusted","score":23.4,"deductions":[{"monitor":"heading-course","ratio":2.0,"points":40.0}],"alarms":["heading-course"],"gate":"off","note":null,"position":{"lat_deg":59.8123456,"lon_deg":24.9012345,"height_m":39.4},"advisory":"Advisory software, not type-approved navigation equipment."}"#,
+        )
+        .unwrap();
+        assert_eq!((s.band, s.score), (Band::Untrusted, Some(23.4)));
+        assert_eq!(s.reasons, ["heading-course"]);
+        assert!(s.position.is_some());
+    }
+
+    #[test]
     fn calibrating_line_has_null_score_and_empty_arrays() {
         let s = parse_live_line(
             r#"{"seq":1,"t_s":0.0,"time":null,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off","note":null}"#,

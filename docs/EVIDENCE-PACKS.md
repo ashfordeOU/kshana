@@ -39,7 +39,7 @@ way if it lives in a checkout.
 | File | Content |
 |---|---|
 | `log-slice.bin` | the raw receiver-log bytes for the window |
-| `config.json` | the scenario as run (every monitor threshold, event and comparison rule), the monitors that ran, the calibration baseline, and the scenario hash. Directory names and inline payloads are removed. |
+| `config.json` | the scenario as run (every monitor threshold, event and comparison rule), the monitors that ran, the calibration baseline, and the scenario hash; for a vessel also the advisory statement every vessel output carries (advisory software, not type-approved navigation equipment). Directory names and inline payloads are removed. |
 | `epochs.json` | every epoch in the window with the engine's statistics, the alarms (the reasons) and the trust state |
 | `summary.html` | a self-contained, script-free summary: identification, hashes, results, reasons, every threshold, the per-epoch table, and the limits of the record |
 | `manifest.json` | engine version, window, creation time, the log's format and name, **the SHA-256 of the full log**, the slice's range and SHA-256, the signer's public key and fingerprint, every file's size and SHA-256, and a hash chain over the files |

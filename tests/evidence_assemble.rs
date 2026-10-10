@@ -67,3 +67,33 @@ fn window_outside_the_log_is_an_error_not_an_empty_pack() {
         build_receiver_trust_pack(&req(&scn, &log, "soon", "later"), &[3u8; 32], None).is_err()
     );
 }
+
+#[test]
+fn a_vessel_pack_carries_the_advisory_statement_and_a_static_one_does_not() {
+    let root = Path::new(env!("CARGO_MANIFEST_DIR"));
+    let dir = root.join("examples/maritime-trust");
+    let scn: ReceiverTrustScenario =
+        toml::from_str(&std::fs::read_to_string(dir.join("session.toml")).unwrap()).unwrap();
+    let log = std::fs::read(dir.join("tallinn-helsinki.nmea")).unwrap();
+    let p = build_receiver_trust_pack(&req(&scn, &log, "1000", "1100"), &[3u8; 32], None).unwrap();
+    let cfg: serde_json::Value = serde_json::from_slice(&p.files["config.json"]).unwrap();
+    let adv = cfg["advisory"]
+        .as_str()
+        .expect("vessel pack states the advisory");
+    assert!(
+        adv.contains("not type-approved navigation equipment"),
+        "{adv}"
+    );
+    let html = String::from_utf8(p.files["summary.html"].clone()).unwrap();
+    assert!(html.contains("not type-approved navigation equipment"));
+    let r = verify_bundle(&p.files, &VerifyOptions::default());
+    assert!(r.ok, "{:?}", r.failures);
+
+    let (scn, log) = example();
+    let p = build_receiver_trust_pack(&req(&scn, &log, "100", "130"), &[3u8; 32], None).unwrap();
+    let cfg: serde_json::Value = serde_json::from_slice(&p.files["config.json"]).unwrap();
+    assert!(
+        cfg["advisory"].is_null(),
+        "a static-platform pack has no advisory"
+    );
+}
