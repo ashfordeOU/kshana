@@ -66,6 +66,17 @@ fn words(prn: u8, gst: u32) -> [[u8; 16]; 15] {
     for (i, wt) in [1u8, 2, 3, 4, 5, 6, 10].iter().enumerate() {
         ws[i] = word(*wt, iod, seed);
     }
+    // Word type 5 carries the week and time of week of its page (index 4, labelled one
+    // second after the sub-frame start as in broadcast data), after its 73 data bits.
+    let label = gst + 2 * 4 + 1;
+    let mut t = BitWriter::new();
+    for k in 0..73 {
+        t.push(read_bits(&ws[4], k, 1).unwrap(), 1);
+    }
+    t.push(u64::from(label / kshana::osnma::WEEK_S), 12);
+    t.push(u64::from(label % kshana::osnma::WEEK_S), 20);
+    t.push(0, 23);
+    ws[4].copy_from_slice(&t.into_bytes());
     ws
 }
 
@@ -236,7 +247,9 @@ fn pages_hk(
             }
             b.push(0, 240 - b.bit_len());
             // The page time carries the one-second E1 offset, as in broadcast data.
-            InavPage::from_hex(svid, gst + 2 * i as u32 + 1, &hex::encode(b.into_bytes())).unwrap()
+            InavPage::from_hex(svid, gst + 2 * i as u32 + 1, &hex::encode(b.into_bytes()))
+                .unwrap()
+                .with_valid_crc()
         })
         .collect()
 }
@@ -317,7 +330,9 @@ fn flipped_navigation_bit_fails_that_satellite_only() {
             let mut raw = hex::decode(&hexs).unwrap();
             raw[3] ^= 0x10;
             hexs = hex::encode(raw);
-            pgs[0] = InavPage::from_hex(p.svid, p.gst, &hexs).unwrap();
+            pgs[0] = InavPage::from_hex(p.svid, p.gst, &hexs)
+                .unwrap()
+                .with_valid_crc();
         }
     });
     let s: std::collections::BTreeMap<_, _> = v.sat_status().into_iter().collect();
@@ -640,7 +655,9 @@ fn command_line_reports_status_per_satellite_and_exit_code() {
         if gst == target && svid == PRN_X {
             let mut raw = pgs[0].bytes().to_vec();
             raw[3] ^= 0x10;
-            pgs[0] = InavPage::from_hex(pgs[0].svid, pgs[0].gst, &hex::encode(raw)).unwrap();
+            pgs[0] = InavPage::from_hex(pgs[0].svid, pgs[0].gst, &hex::encode(raw))
+                .unwrap()
+                .with_valid_crc();
         }
     });
     let f = dir.join("bad.txt");
@@ -657,5 +674,71 @@ fn command_line_reports_status_per_satellite_and_exit_code() {
     // Usage errors.
     assert_eq!(cli(&[]).0, 2);
     assert_eq!(cli(&["/nonexistent/file"]).0, 2);
+    let _ = std::fs::remove_dir_all(&dir);
+}
+
+// ---- The same signed stream delivered as a u-blox UBX-RXM-SFRBX byte stream. ----
+
+fn sfrbx_frame(p: &InavPage) -> Vec<u8> {
+    let mut stream = [0u8; 32];
+    stream[..15].copy_from_slice(&p.bytes()[..15]);
+    stream[16..31].copy_from_slice(&p.bytes()[15..]);
+    let mut payload = vec![2, p.svid, 1, 0, 8, 0, 2, 0];
+    for w in 0..8 {
+        let be = u32::from_be_bytes(stream[4 * w..4 * w + 4].try_into().unwrap());
+        payload.extend_from_slice(&be.to_le_bytes());
+    }
+    let mut f = vec![0xB5, 0x62, 0x02, 0x13];
+    f.extend_from_slice(&(payload.len() as u16).to_le_bytes());
+    f.extend_from_slice(&payload);
+    let (mut a, mut b) = (0u8, 0u8);
+    for x in &f[2..] {
+        a = a.wrapping_add(*x);
+        b = b.wrapping_add(a);
+    }
+    f.extend_from_slice(&[a, b]);
+    f
+}
+
+#[test]
+fn a_ubx_stream_authenticates_like_the_page_file() {
+    let chain = make_chain(40);
+    let sk = throwaway_key(0x11);
+    let (_, _, all) = run_signed(
+        signed_cfg(public_key(&sk)),
+        &dsm_kroot(&chain, &sk),
+        |_, _, _| {},
+    );
+    let mut bytes = vec![0x00, 0xB5, 0x62, 0x01]; // leading noise
+    for p in &all {
+        bytes.extend(sfrbx_frame(p));
+    }
+    let (pages, stats) = kshana::osnma::ubx::pages_from_ubx(&bytes);
+    assert_eq!(stats.bad_crc, 0);
+    assert_eq!(stats.time_conflicts, 0);
+    assert!(
+        pages.len() > all.len() * 9 / 10,
+        "{} of {}",
+        pages.len(),
+        all.len()
+    );
+    let mut v = Verifier::new(signed_cfg(public_key(&sk)));
+    for p in &pages {
+        v.push_page(p);
+    }
+    let s: std::collections::BTreeMap<_, _> = v.sat_status().into_iter().collect();
+    assert_eq!(s["E02"], OsnmaStatus::Authenticated);
+    assert_eq!(s["E05"], OsnmaStatus::Authenticated);
+
+    // Through the command line, auto-detected as UBX.
+    let dir = std::env::temp_dir().join(format!("kshana-osnma-ubx-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let f = dir.join("stream.ubx");
+    std::fs::write(&f, &bytes).unwrap();
+    let key_arg = format!("{PKID}:p256:{}", hex::encode(public_key(&sk).bytes));
+    let (code, j) = cli(&[f.to_str().unwrap(), "--public-key", &key_arg, "--json"]);
+    assert_eq!(code, 0);
+    assert_eq!(j["overall"], "authenticated");
+    assert!(j["ubx"]["inav_pages"].as_u64().unwrap() > 0);
     let _ = std::fs::remove_dir_all(&dir);
 }

@@ -60,6 +60,47 @@ impl InavPage {
         Ok(Self { svid, gst, bits })
     }
 
+    /// Build from the 30 bytes of a page pair.
+    pub fn from_bytes(svid: u8, gst: u32, bytes: &[u8; PAGE_BITS / 8]) -> Self {
+        Self {
+            svid,
+            gst,
+            bits: *bytes,
+        }
+    }
+
+    /// Whether the page's CRC-24Q matches: the Galileo CRC over the 114 bits of the even
+    /// half and the first 82 bits of the odd half, carried in the next 24 bits of the odd half.
+    pub fn crc_ok(&self) -> bool {
+        self.computed_crc() == read_bits(&self.bits, ODD_START + 82, 24).unwrap_or(u64::MAX) as u32
+    }
+
+    fn computed_crc(&self) -> u32 {
+        let mut crc = 0u32;
+        let covered = (0..114).chain(ODD_START..ODD_START + 82);
+        for i in covered {
+            let bit = u32::from((self.bits[i / 8] >> (7 - i % 8)) & 1);
+            let fb = ((crc >> 23) & 1) ^ bit;
+            crc = (crc << 1) & 0x00FF_FFFF;
+            if fb == 1 {
+                crc ^= 0x0086_4CFB;
+            }
+        }
+        crc
+    }
+
+    /// The same page with its CRC field set to the correct value. For building pages
+    /// from synthetic data; the CRC is an error check, not authentication.
+    pub fn with_valid_crc(mut self) -> Self {
+        let crc = self.computed_crc();
+        for k in 0..24 {
+            let i = ODD_START + 82 + k;
+            let bit = ((crc >> (23 - k)) & 1) as u8;
+            self.bits[i / 8] = (self.bits[i / 8] & !(1 << (7 - i % 8))) | (bit << (7 - i % 8));
+        }
+        self
+    }
+
     /// Parse one line of the plain page format; blank and comment lines give `None`.
     pub fn parse_line(line: &str) -> Result<Option<Self>, PageError> {
         let line = line.split('#').next().unwrap_or("").trim();
@@ -141,6 +182,19 @@ mod tests {
         assert_eq!(p.mack_section(), 0x7A12_5EE9);
         assert!(p.has_osnma());
         assert!(!synth(2, 0, 0).has_osnma());
+    }
+
+    #[test]
+    fn crc_round_trip_and_corruption() {
+        let p = synth(2, 0, 0x72_7A12_5EE9);
+        assert!(!p.crc_ok()); // a zero CRC field does not match this content
+        let q = p.clone().with_valid_crc();
+        assert!(q.crc_ok());
+        assert_eq!(q.osnma_field(), p.osnma_field());
+        let mut raw = q.bytes().to_vec();
+        raw[20] ^= 0x01; // a bit inside the covered odd half
+        let bad = InavPage::from_hex(2, 0, &hex::encode(raw)).unwrap();
+        assert!(!bad.crc_ok());
     }
 
     #[test]
