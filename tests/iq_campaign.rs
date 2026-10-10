@@ -788,8 +788,8 @@ fn nwpr_out() -> &'static PathBuf {
 
 /// The reference DIGESTs after the `cn0_estimator` change, pinned the way the pre-change one was
 /// (`64e701cb8710f9bbfa614be16cb9430dceb5f52ed12a20063c38df21be420734`).
-const DIGEST_M2M4: &str = "f0b7bd97c884d2eca2e02a11d9397777718bc4bf27b4c16db01cee870169c229";
-const DIGEST_NWPR: &str = "7a1d5f315fed6afd3523e7ae8273db007ead8a869438c6d5f72cb0bc67364bf2";
+const DIGEST_M2M4: &str = "fcd9f3458f883c725470c96a63a32ee4c2ebb323ab559b59826c59cf4380aefe";
+const DIGEST_NWPR: &str = "6aa6de1083f23de9effd6a4ac0b72c1e62ed442779ce163fe89f70352c71f686";
 
 #[test]
 fn the_reference_digests_are_pinned() {

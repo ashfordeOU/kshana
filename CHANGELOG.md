@@ -9,6 +9,13 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.34.1] - 2026-10-10
+
+### Security
+
+- **MCP server input hardened.** The MCP server's scenario tools now accept inline content only
+  and refuse file-source fields; input size is capped.
+
 ## [0.34.0] - 2026-10-09
 
 Lab replay: a tracking engine, detection monitors and a campaign runner for GNSS IQ
