@@ -87,10 +87,9 @@ mod tests {
 
     /// Generate the chain forward from a seed, the way a provider would.
     fn chain(n: u32, gst0: u32, alpha: &[u8; 6], bits: usize) -> Vec<Vec<u8>> {
-        let mut keys = vec![vec![0u8; bits / 8]];
-        keys[0] = (0..bits / 8).map(|i| (i * 31 + 7) as u8).collect();
-        // keys[n] is the seed; walk toward the root.
-        let mut seq = vec![keys[0].clone()];
+        // The seed is the last key; walk toward the root.
+        let seed: Vec<u8> = (0..bits / 8).map(|i| (i * 31 + 7) as u8).collect();
+        let mut seq = vec![seed];
         for i in (0..n).rev() {
             let gst = gst0 + 30 * i - 30;
             let next = step(HashFn::Sha256, seq.last().unwrap(), gst, alpha, bits).unwrap();
