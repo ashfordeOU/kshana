@@ -20,7 +20,10 @@ breaking changes are called out explicitly.
   `pycef` cannot. The bar was registered before either parser was run
   (`tests/cef_reference.rs`); fixtures in `tests/fixtures/cef/`, oracle scripts
   `scripts/gen_cef_ref.py` and `scripts/gen_cef_logstash_ref.py`; CI needs neither Python nor
-  Logstash. LEEF has no maintained open parser and stays modelled.
+  Logstash. LEEF has no maintained open parser and stays modelled. The CEF events now carry the
+  trust score and the epoch offset in the CEF dictionary's floating-point custom fields
+  (`cfp1`, `cfp2`) instead of the integer fields `cn1` and `cn2`, which suited neither value; CEF
+  is new in this release, so nothing that shipped changes.
 
 ## [0.35.0] - 2026-10-10
 

@@ -78,8 +78,11 @@ fn num(x: f64) -> String {
 ///
 /// `CEF:0|Ashforde OU|Kshana|<version>|gnss-trust.<band>|GNSS trust <band>|<sev>|ext`
 /// where the extension carries `cat`, `cs1` band, `cs2` reasons (comma-separated), `cs3`
-/// the previous band, `cn1` trust score and `cn2` epoch offset in seconds, `cs4` log time and `cs5` gate state. `cn1` is left
-/// out when the source gives no score. `dvchost` is the sending host.
+/// the previous band, `cfp1` trust score and `cfp2` epoch offset in seconds, `cs4` log time and
+/// `cs5` gate state. `cfp1` and `cfp2` are the CEF dictionary's floating-point custom fields
+/// (deviceCustomFloatingPoint); the integer fields `cn1` to `cn3` are not used, because the score
+/// and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
+/// is the sending host.
 pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
     let mut ext = format!(
         "cat=gnss-trust dvchost={} cs1Label=band cs1={}",
@@ -96,9 +99,9 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
         ext.push_str(&format!(" cs3Label=previousBand cs3={}", p.label()));
     }
     if let Some(sc) = s.score {
-        ext.push_str(&format!(" cn1Label=trustScore cn1={}", num(sc)));
+        ext.push_str(&format!(" cfp1Label=trustScore cfp1={}", num(sc)));
     }
-    ext.push_str(&format!(" cn2Label=epochOffsetSeconds cn2={}", num(s.t_s)));
+    ext.push_str(&format!(" cfp2Label=epochOffsetSeconds cfp2={}", num(s.t_s)));
     if let Some(l) = &s.time_label {
         ext.push_str(&format!(" cs4Label=logTime cs4={}", cef_ext_escape(l)));
     }
@@ -362,7 +365,7 @@ mod tests {
             "CEF:0|Ashforde OU|Kshana|0.35.0|gnss-trust.degraded|GNSS trust degraded|5|\
              cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded \
              cs2Label=reasons cs2=cn0-drop,agc cs3Label=previousBand cs3=nominal \
-             cn1Label=trustScore cn1=41.5 cn2Label=epochOffsetSeconds cn2=130.5 \
+             cfp1Label=trustScore cfp1=41.5 cfp2Label=epochOffsetSeconds cfp2=130.5 \
              cs4Label=logTime cs4=2026-01-01T00:02:10Z cs5Label=gate cs5=withheld"
         );
     }
@@ -388,7 +391,7 @@ mod tests {
         assert!(line.starts_with("CEF:0|Ashforde OU|Kshana|1\\|0|"));
         assert!(line.contains("cs2=a\\=b,c\\nd"));
         assert!(!line.contains('\n'));
-        assert!(!line.contains("cn1"));
+        assert!(!line.contains("cfp1"));
         assert!(!line.contains("previousBand"));
     }
 
