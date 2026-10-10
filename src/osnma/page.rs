@@ -208,6 +208,36 @@ mod tests {
     }
 
     #[test]
+    fn only_nominal_pages_and_valid_times_are_accepted() {
+        let p = synth(2, 0, 0x72_7A12_5EE9);
+        assert!(p.is_nominal());
+        // Even flag set, odd flag clear, or an alert page (type bit set): not nominal.
+        for (byte, bit) in [(0usize, 0x80u8), (0, 0x40), (15, 0x80), (15, 0x40)] {
+            let mut raw = p.bytes().to_vec();
+            raw[byte] ^= bit;
+            let q = InavPage::from_hex(2, 0, &hex::encode(raw)).unwrap();
+            assert!(!q.is_nominal(), "byte {byte} bit {bit:#x}");
+        }
+        // All-zero pages carry a zero CRC but are not nominal pages.
+        assert!(!InavPage::from_hex(2, 0, &"00".repeat(30))
+            .unwrap()
+            .is_nominal());
+        // Times need to fit the 12-bit week number.
+        let hexd = hex::encode(p.bytes());
+        assert!(InavPage::from_hex(2, GST_LIMIT - 1, &hexd).is_ok());
+        assert!(matches!(
+            InavPage::from_hex(2, GST_LIMIT, &hexd),
+            Err(PageError::BadTime)
+        ));
+        assert!(matches!(
+            InavPage::from_hex(2, u32::MAX, &hexd),
+            Err(PageError::BadTime)
+        ));
+        // Not hex, including multi-byte characters, is an error and never a panic.
+        assert!(InavPage::from_hex(2, 0, &"é".repeat(30)).is_err());
+    }
+
+    #[test]
     fn crc24q_known_answer() {
         // The standard check value of CRC-24Q over the ASCII string "123456789".
         let bits = b"123456789"

@@ -134,6 +134,17 @@ mod tests {
     }
 
     #[test]
+    fn non_ascii_csv_data_is_an_error_not_a_panic() {
+        let line = format!("02,240,{}\n", "é".repeat(30));
+        assert!(parse_vector_csv(&line, 0).unwrap_err().contains("not hex"));
+        let page = format!("2 100 {}\n", "é".repeat(30));
+        assert!(parse_pages(&page).is_err());
+        // A time past the 4096 weeks is refused, not wrapped.
+        let ok = "00".repeat(30);
+        assert!(parse_vector_csv(&format!("02,240,{ok}\n"), u32::MAX - 1).is_err());
+    }
+
+    #[test]
     fn plain_pages_report_the_failing_line() {
         let ok = format!("2 100 {}\n# c\n", "00".repeat(30));
         assert_eq!(parse_pages(&ok).unwrap().len(), 1);

@@ -18,9 +18,10 @@ software based on this module relies on that authorisation directly and must rea
 accept its terms themselves. Kshana's licence (AGPL-3.0-only, or the commercial
 licence) covers Kshana's own code only.
 
-This module implements the algorithms the documents below describe. It does not
-reproduce their text or tables. The ICD and the Receiver Guidelines are © European
-Union; the source is acknowledged here. Kshana is not developed by, used by,
+This module implements the algorithms the documents below describe. The ICD text is
+not reproduced; numeric values (field layouts, enumerations, the MAC look-up table) are
+re-expressed in Kshana's own notation, with the source cited in the code. The ICD and
+the Receiver Guidelines are © European Union; the source is acknowledged here. Kshana is not developed by, used by,
 approved by or endorsed by the European Union, the European Commission, EUSPA or any
 other body.
 
@@ -67,34 +68,101 @@ that fails is dropped and reported (`bad_crc`).
 Per tag: `authenticated`, `failed` with a reason (`tag_mismatch`, `macseq_mismatch`,
 `key_chain_mismatch`, `key_conflict`), `pending` with a reason (`no_chain`,
 `awaiting_key`, `no_nav_data`, `unknown_maclt`, `unsupported_function`,
-`service_not_usable`), or `discarded`.
+`service_not_usable`, `chain_mismatch`), or `discarded`. A dummy tag (COP 0) shows as
+`authenticated` at tag level, since it proves the key, but it covers no navigation data
+and never counts for a satellite.
 
-Per satellite, in the form the receiver-trust monitor consumes: `Authenticated`,
-`Failed` (a check on that satellite's data failed within the failure memory, 600 s by
-default, even if later data verifies) or `Unavailable`. The overall value is `Failed`
-if any satellite failed, `Authenticated` if at least one is authenticated and none
-failed, otherwise `Unavailable`. `$PKSOS,<A|F|N>[,<sat>:<A|F|N>...]` is the matching
-sentence; `kshana::osnma::pksos_sentence` builds it.
+Per satellite, in the form the receiver-trust monitor consumes:
+
+* `Authenticated` only while the newest verified ephemeris and clock data (ADKD 0 or
+  12) of that satellite is recent (within 600 s of the verifier's time by default) and
+  is still the data in use: when the satellite broadcasts another IODnav that has not
+  verified yet, it reads `Unavailable` until it does. Tags of another satellite (cross
+  authentication) count for the satellite whose data they cover.
+* `Failed` when a check on the satellite's data failed within the failure memory (600 s
+  by default of the verifier's time), even if later data verifies. A mismatch is charged
+  to the satellite whose data the tag covers and to the satellite that transmitted the
+  tag, since either could be at fault; a MACSEQ mismatch is charged to the transmitting
+  satellite.
+* `Unavailable` otherwise, and for every satellite after a verified alert message, with
+  NMA status "don't use" or a reserved status, and until the first key has verified.
+
+The overall value is `Failed` if any satellite failed, `Authenticated` if at least one
+is authenticated and none failed, otherwise `Unavailable`.
+`$PKSOS,<A|F|N>[,<sat>:<A|F|N>...]` is the matching sentence;
+`kshana::osnma::pksos_sentence` builds it.
+
+## Time
+
+The key chain shows that a key belongs to a given sub-frame, not that the sub-frame is
+the present one. The verifier therefore never takes "now" from an unverified page.
+Its time is the later of the reference time given with `set_reference_time`
+(`--reference-time`) and the sub-frame of the latest TESLA key that verified (a key
+cannot be known before its slot, so it proves the time is no earlier). Failure
+memory, the validity window of an authentication and the eviction of old data run on
+that time. A sub-frame stamped more than three sub-frames past the latest verified key
+is set aside unless its own key proves its time; key and alert messages in it are still
+processed, since they carry their own proof (a signature or the Merkle root).
+
+What this does not give is freshness. Without a reference time from a source an
+attacker cannot move, a replay of old authentic data under old stamps authenticates
+and the page stamps are only as good as their source: the CLI says so
+(`freshness: NOT enforced`) whenever no reference time is given. With a reference time
+the tolerance is below one sub-frame (default 29 s; larger values are refused). A
+reference time is a single instant: sub-frames further from it than the tolerance are
+set aside and counted, so it suits live or just-recorded data, not a long recording.
+For a recording, leave the reference time out and read the result as "authentic, not
+necessarily fresh". The Receiver Guidelines give the formal requirement.
+
+The page stamps of a u-blox stream come from the unauthenticated data itself (see
+Input), so they provide no freshness protection either.
+
+## Chains, keys and alerts
+
+Verified chains are kept by chain id (CID); tags are checked with the chain the NMA
+header names, and a header naming a chain that was not verified leaves the sub-frame's
+tags unchecked (`chain_mismatch`). A second KROOT of a chain in force adds an anchor;
+a KROOT of another chain is kept alongside, so announcing the old chain again after a
+renewal does not undo the new one.
+
+The NMA header's status and CPKS value drive revocation. With NMA status "don't use",
+CPKS "chain revoked" drops the chain the header names and refuses its KROOT from then
+on; CPKS "public key revoked" drops the public key that signed that chain, and every
+chain signed with it. The same CPKS values with status operational mark the transition
+to the replacement and revoke nothing. The header is not itself authenticated, so a
+forged revocation can only take authentication away, and it is final until the verifier
+is restarted.
+
+A DSM-PKR with NPKT 4 is the alert message; it is verified through the Merkle tree like
+a key, its random NPK field being part of the leaf. A verified alert clears all chains
+and public keys, refuses every later KROOT and public key, and makes every satellite
+`Unavailable`, as the Receiver Guidelines direct, until the verifier is restarted.
+
+A DSM-KROOT's padding field is a hash of the signed message and the signature. It is
+checked before the signature, and it also says which NMA header the signed message was
+built with when the header changed while the message was being assembled.
 
 ## What is not verified, or not exercised
 
-* **Time.** Every check is relative to the time stamps of the pages given to the
-  verifier. The key chain shows that a key belongs to a given sub-frame, not that the
-  sub-frame is the present one: an attacker who can move the receiver's clock, or
-  replay old authentic data under old time stamps, defeats freshness. Use time that
-  such an attacker cannot move, or give the verifier one with `set_reference_time` and
-  `max_time_error_s` (`--reference-time`, `--max-time-error` on the CLI), and treat
-  the result accordingly. The Receiver Guidelines give the formal requirement.
-* **Renewal and revocation.** The verifier follows a change of chain or public key
-  as the streams of the published vectors exercise it. It does not implement every
-  case the ICD allows, and a chain renewal replaces the chain in force rather than
-  running two in parallel.
+* **Freshness.** See Time above: it needs a reference time from outside.
+* **Renewal and revocation.** Chains and keys are followed as the streams of the
+  published vectors exercise them (renewal, end of chain, chain and key revocation,
+  new public key, new Merkle tree, alert), not every case the ICD allows. A revocation
+  announced by the unauthenticated header is taken at its word and is final for the
+  session. A new Merkle tree is picked up only through the Merkle root the verifier is
+  given.
 * **Merkle tree hash.** DSM-PKR messages are checked with a SHA-256 tree. A SHA3-256
   tree, which the ICD allows in future, is not supported. The chain hash function can
   be SHA-256 or SHA3-256.
-* **Key status lists.** Revocation is followed through the NMA status and the messages
+* **Key status lists.** Revocation is followed through the NMA header and the messages
   in the stream; certificate revocation lists are not read.
-* **Signal and data quality.** Pages are taken as already CRC-checked. Reed-Solomon
+* **Authenticated data coverage.** ADKD 4 with COP 1 sent in an odd sub-frame cannot
+  authenticate (Word Type 10 may be sent one or two sub-frames earlier); this costs
+  availability only, never correctness.
+* **Constant-time operation.** Not provided and not needed: the verifier holds no
+  secrets (public keys, published chain keys and received data only).
+* **Signal and data quality.** Pages are CRC-checked and alert pages dropped, but
+  nothing is known of the signal they arrived on. Reed-Solomon
   recovery of I/NAV words 1 to 4 is not used: data must be received directly.
 * **Not a position integrity service.** Authentication says the data came from the
   system. It says nothing about the signal it arrived on or the quality of the fix.
@@ -114,18 +182,25 @@ sentence; `kshana::osnma::pksos_sentence` builds it.
   and accepted only if consecutive time-bearing pages agree with the number of pages
   received between them; pages that cannot be placed are dropped, never guessed. That
   time comes from the data itself and gives no freshness protection (see Time above).
+  Signal id 0 (E1-C) carries no data, so accepting it alongside E1-B is harmless. A
+  stray sync pair with an absurd length does not hold the reader back. The framing code
+  is a third copy of the UBX framing in the tree (`src/realdata/ubx.rs`, the receiver-trust
+  ingest); it is kept apart so that receiver-trust behaviour is unchanged, and the three
+  could share one reader later. The word layout of an SFRBX message is taken from public
+  descriptions and checked on synthetic frames only, not on a live receiver.
 
 ## Command line
 
 ```text
 kshana osnma verify <input> [--format pages|vector-csv|ubx] [--start-gst SECONDS]
     [--merkle-root HEX] [--public-key ID:TYPE:HEX]
-    [--reference-time SECONDS --max-time-error SECONDS] [--epochs] [--json]
+    [--reference-time SECONDS [--max-time-error SECONDS]] [--epochs] [--json]
 ```
 
 Text output gives the status per satellite and, with `--epochs`, per tag and epoch;
 `--json` gives the same with the tag list. Exit status 3 means a check on some
-satellite's data failed. The advisory above is printed with every result.
+satellite's data failed, 2 means a usage or input error. The advisory above is printed
+first on every path, errors and usage included.
 
 ## Tests and test data
 
@@ -134,7 +209,12 @@ Guidelines vectors, worked examples or key material are stored in this repositor
 The default tests (`tests/osnma_synthetic.rs` and the unit tests) build a chain, pages
 and tags from the equations and check consistency and that deliberate corruption is
 caught: a flipped navigation bit, a flipped key bit, replayed tags, wrong time stamps,
-a time outside the reference, missing data. Because that data comes from our own
+a time outside the reference, missing data, and the attacks the review found (a
+spoofed far-future sub-frame that must not erase a failure, authentication that must
+expire and follow the IODnav, an alert, NMA status "don't use", dummy tags, MACSEQ
+mismatch, conflicting keys, chain revocation and renewal, a bad padding or signature),
+with CMAC-AES, a SHA3-256 chain and a P-521 signature carried through the verifier.
+Because that data comes from our own
 reading of the ICD, it shows self-consistency, not conformance.
 
 The primitives are checked against published known-answer tests, none taken from the
@@ -149,7 +229,14 @@ directory named by `KSHANA_OSNMA_VECTORS`, and does nothing when the variable is
 It stores and redistributes nothing, and default test runs use no network. It gives the
 verifier only a Merkle root and the public keys of one tree, as a receiver would have,
 so chains are established from the signed DSM-KROOT in the stream and the whole path
-runs: Merkle, signature, key chain, MACSEQ and tags.
+runs: Merkle, signature, key chain, MACSEQ and tags. It asserts, per vector set, a
+floor on the authenticated tags, none failed, which chains and keys the stream
+announces, authenticated tags of ADKD 0, 4 and 12, that authentication resumes after
+chain end, chain revocation, key revocation and new public key, that the alert
+message verifies and leaves nothing authenticated, and that every vector uses only
+HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries 33 and 34.
+Other algorithm and parameter choices of the ICD are therefore covered only by the
+known-answer and synthetic tests above.
 
 ## Dependencies
 

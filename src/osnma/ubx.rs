@@ -354,6 +354,21 @@ mod tests {
     }
 
     #[test]
+    fn a_false_sync_with_a_large_length_does_not_stall_the_reader() {
+        // A stray sync pair claiming a 60 000-byte payload, then real frames.
+        let src = run(7);
+        let mut bytes = vec![0xB5, 0x62, 0x02, 0x13, 0x60, 0xEA];
+        bytes.extend(src.iter().flat_map(|p| sfrbx(p, 2, 1)));
+        let (got, stats) = pages_from_ubx(&bytes);
+        assert_eq!(got.len(), 16);
+        assert!(stats.skipped_bytes >= 6);
+        // Fed in small chunks the pages still come out as they arrive.
+        let mut r = UbxReader::new();
+        let n: usize = bytes.chunks(5).map(|c| r.feed(c).len()).sum();
+        assert_eq!(n, 16);
+    }
+
+    #[test]
     fn independent_satellites_are_tracked_separately() {
         let bytes: Vec<u8> = (0..20)
             .flat_map(|i| {
