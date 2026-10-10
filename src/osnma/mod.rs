@@ -8,14 +8,17 @@
 
 pub mod bits;
 pub mod dsm;
+pub mod mac;
 pub mod maclt;
 pub mod maclt_data;
 pub mod merkle;
 pub mod navdata;
 pub mod page;
+pub mod signature;
 pub mod subframe;
 pub mod tables;
 pub mod tesla;
+pub mod verifier;
 
 pub use page::{InavPage, PageError, PAGE_BITS};
 pub use subframe::{DsmHeader, MackLayout, NmaHeader, Subframe, SubframeAssembler};

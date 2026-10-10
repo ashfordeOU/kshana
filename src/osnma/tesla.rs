@@ -6,6 +6,9 @@ use super::tables::HashFn;
 use sha2::{Digest, Sha256};
 
 pub const SUBFRAME_S: u32 = 30;
+/// Most one-way steps a single verification may take: bounds the work a forged, far
+/// future key can cause. A week of sub-frames is 20160.
+pub const MAX_STEPS: u32 = 100_000;
 
 /// Why a TESLA key did not verify.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
@@ -65,7 +68,7 @@ pub fn verify_key(
     let span = key_gst
         .checked_sub(trusted_gst)
         .ok_or(KeyError::BadTiming)?;
-    if span == 0 || span % SUBFRAME_S != 0 {
+    if span == 0 || span % SUBFRAME_S != 0 || span / SUBFRAME_S > MAX_STEPS {
         return Err(KeyError::BadTiming);
     }
     let mut cur = key.to_vec();
