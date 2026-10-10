@@ -1,0 +1,944 @@
+[
+  {
+    "id": "band-change-00",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cn2Label=epochOffsetSeconds cn2=0 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-000",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cn2Label=epochOffsetSeconds cn2=0 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-001",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs3Label=previousBand cs3=calibrating cn2Label=epochOffsetSeconds cn2=1 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-002",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs3Label=previousBand cs3=calibrating cn2Label=epochOffsetSeconds cn2=2 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "band-change-01",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=97.2 cn2Label=epochOffsetSeconds cn2=3 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-003",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=97.2 cn2Label=epochOffsetSeconds cn2=3 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-004",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=97.1 cn2Label=epochOffsetSeconds cn2=4 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-005",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=97 cn2Label=epochOffsetSeconds cn2=5 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-006",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=96.9 cn2Label=epochOffsetSeconds cn2=6 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-007",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=96.8 cn2Label=epochOffsetSeconds cn2=7 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "band-change-02",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=61 cn2Label=epochOffsetSeconds cn2=8 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-008",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=61 cn2Label=epochOffsetSeconds cn2=8 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-009",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop,agc cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=58.5 cn2Label=epochOffsetSeconds cn2=9 cs5Label=gate cs5=passed",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-010",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=kinematic,quote\"inside,back\\\\slash,line\\nfeed,réason ✓ cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=55 cn2Label=epochOffsetSeconds cn2=10 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-011",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-00 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=11 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-012",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-01 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=12 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-013",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-02 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=13 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-014",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-03 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=14 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-015",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-04 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=15 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-016",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-05 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=16 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-017",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-06 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=17 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-018",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-07 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=18 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-019",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-08 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=19 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-020",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-09 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=20 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-021",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-10 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=21 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-022",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-11 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=22 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-023",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-12 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=23 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-024",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-13 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=24 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-025",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-14 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=25 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-026",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-15 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=26 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-027",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-16 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=27 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-028",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-17 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=28 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-029",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-18 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=29 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-030",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-19 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=30 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-031",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-20 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=31 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-032",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-21 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=32 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-033",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-22 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=33 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-034",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-23 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=34 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-035",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-24 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=35 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-036",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-25 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=36 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-037",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-26 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=37 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-038",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-27 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=38 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-039",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-28 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=39 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-040",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-29 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=40 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-041",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-30 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=41 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-042",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-31 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=42 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-043",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-32 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=43 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-044",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-33 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=44 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-045",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-34 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=45 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-046",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-35 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=46 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-047",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-36 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=47 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-048",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-37 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=48 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-049",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-38 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=49 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-050",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-39 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=50 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-051",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-40 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=51 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-052",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-41 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=52 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-053",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-42 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=53 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-054",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-43 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=54 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-055",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-44 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=55 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-056",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-45 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=56 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-057",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-46 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=57 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-058",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-47 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=58 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-059",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-48 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=59 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-060",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-49 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=60 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-061",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-50 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=61 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-062",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-51 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=62 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-063",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-52 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=63 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-064",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-53 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=64 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-065",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-54 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=65 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-066",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-55 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=66 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-067",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-56 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=67 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-068",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-57 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=68 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-069",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-58 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=69 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-070",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-59 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=70 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-071",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-60 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=71 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-072",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-61 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=72 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-073",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-62 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=73 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-074",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-63 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=74 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-075",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-64 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=75 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-076",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-65 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=76 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-077",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-66 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=77 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-078",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-67 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=78 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-079",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-68 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=79 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-080",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=synthetic-reason-69 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=80 cs5Label=gate cs5=off",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "band-change-03",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=kinematic,quote\"inside cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=200 cs4Label=logTime cs4=2026-01-02T03:04:05.000Z cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "epoch-081",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=kinematic,quote\"inside cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=200 cs4Label=logTime cs4=2026-01-02T03:04:05.000Z cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-equals",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=a\\=b cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=40 cn2Label=epochOffsetSeconds cn2=10 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-backslash",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=back\\\\slash cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=41 cn2Label=epochOffsetSeconds cn2=11 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-backslash-equals",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=x\\\\\\=y cs3Label=previousBand cs3=untrusted cn1Label=trustScore cn1=42 cn2Label=epochOffsetSeconds cn2=12 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-trailing-backslash",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=ends-with\\\\ cs3Label=previousBand cs3=unknown cn1Label=trustScore cn1=43 cn2Label=epochOffsetSeconds cn2=13 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-line-feed",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=line\\nfeed cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=44 cn2Label=epochOffsetSeconds cn2=14 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-carriage-return",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=cr\\rhere cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=45 cn2Label=epochOffsetSeconds cn2=15 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-crlf",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=crlf\\r\\nboth cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=46 cn2Label=epochOffsetSeconds cn2=16 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-pipe",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=pipe|inside,a|b|c cs3Label=previousBand cs3=untrusted cn1Label=trustScore cn1=47 cn2Label=epochOffsetSeconds cn2=17 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-tab",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=tab\there cs3Label=previousBand cs3=unknown cn1Label=trustScore cn1=48 cn2Label=epochOffsetSeconds cn2=18 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-spaces",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=multi word reason,two  spaces  inside cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=49 cn2Label=epochOffsetSeconds cn2=19 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-key-lookalike",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=looks like key\\=value,cs1\\=fake cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=20 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-unicode",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=réason ✓,🛰 satellite,日本語 cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=51 cn2Label=epochOffsetSeconds cn2=21 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-many",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=r00,r01,r02,r03,r04,r05,r06,r07,r08,r09,r10,r11,r12,r13,r14,r15,r16,r17,r18,r19 cs3Label=previousBand cs3=untrusted cn1Label=trustScore cn1=52 cn2Label=epochOffsetSeconds cn2=22 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-reasons-comma-in-reason",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=a,b,c cs3Label=previousBand cs3=unknown cn1Label=trustScore cn1=53 cn2Label=epochOffsetSeconds cn2=23 cs5Label=gate cs5=withheld",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=host\\=name cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ho\\\\st cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=a\\\\\\=b cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=host with spaces cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=hôst-✓ cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=multi\\nline cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-6",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=pipe|host cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-host-7",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=k\\=v k2\\=v2 cs1Label=band cs1=nominal cn1Label=trustScore cn1=90 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-time-label-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn2Label=epochOffsetSeconds cn2=2 cs4Label=logTime cs4=2026-01-01T00:00:00Z",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-time-label-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn2Label=epochOffsetSeconds cn2=2 cs4Label=logTime cs4=hh:mm:ss.mmm UTC (date not in log)",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-time-label-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn2Label=epochOffsetSeconds cn2=2 cs4Label=logTime cs4=a\\=b c\\=d",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-time-label-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn2Label=epochOffsetSeconds cn2=2 cs4Label=logTime cs4=back\\\\slash",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-time-label-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn2Label=epochOffsetSeconds cn2=2 cs4Label=logTime cs4=new\\nline",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-time-label-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=cn0-drop cs3Label=previousBand cs3=nominal cn2Label=epochOffsetSeconds cn2=2 cs4Label=logTime cs4=x  y",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-gate-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=kinematic cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=3 cs5Label=gate cs5=a b",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-gate-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=kinematic cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=3 cs5Label=gate cs5=x\\=y",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-gate-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=kinematic cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=3 cs5Label=gate cs5=g\\\\h",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "nasty-gate-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=kinematic cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=50 cn2Label=epochOffsetSeconds cn2=3 cs5Label=gate cs5=g\\nh",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cn1Label=trustScore cn1=0 cn2Label=epochOffsetSeconds cn2=0",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=100 cn2Label=epochOffsetSeconds cn2=0.001",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=86400.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cs3Label=previousBand cs3=untrusted cn1Label=trustScore cn1=0.30000000000000004 cn2Label=epochOffsetSeconds cn2=1000000000000000",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cn1Label=trustScore cn1=0.0000001 cn2Label=epochOffsetSeconds cn2=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=123456789.125 cn2Label=epochOffsetSeconds cn2=123.456",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-calibrating-6",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.calibrating|GNSS trust calibrating|0|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=calibrating cs2Label=reasons cs2=m cn1Label=trustScore cn1=99.99999999999999 cn2Label=epochOffsetSeconds cn2=0",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cn1Label=trustScore cn1=0 cn2Label=epochOffsetSeconds cn2=0.001",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=100 cn2Label=epochOffsetSeconds cn2=86400.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=1000000000000000",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cs3Label=previousBand cs3=unknown cn1Label=trustScore cn1=0.30000000000000004 cn2Label=epochOffsetSeconds cn2=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cn1Label=trustScore cn1=0.0000001 cn2Label=epochOffsetSeconds cn2=123.456",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=123456789.125 cn2Label=epochOffsetSeconds cn2=0",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-nominal-6",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cs2Label=reasons cs2=m cn1Label=trustScore cn1=99.99999999999999 cn2Label=epochOffsetSeconds cn2=0.001",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cn1Label=trustScore cn1=0 cn2Label=epochOffsetSeconds cn2=86400.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cs3Label=previousBand cs3=untrusted cn1Label=trustScore cn1=100 cn2Label=epochOffsetSeconds cn2=1000000000000000",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=0.30000000000000004 cn2Label=epochOffsetSeconds cn2=123.456",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cn1Label=trustScore cn1=0.0000001 cn2Label=epochOffsetSeconds cn2=0",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=123456789.125 cn2Label=epochOffsetSeconds cn2=0.001",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-degraded-6",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.degraded|GNSS trust degraded|5|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=degraded cs2Label=reasons cs2=m cn1Label=trustScore cn1=99.99999999999999 cn2Label=epochOffsetSeconds cn2=86400.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cn1Label=trustScore cn1=0 cn2Label=epochOffsetSeconds cn2=1000000000000000",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cs3Label=previousBand cs3=unknown cn1Label=trustScore cn1=100 cn2Label=epochOffsetSeconds cn2=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=123.456",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cs3Label=previousBand cs3=nominal cn1Label=trustScore cn1=0.30000000000000004 cn2Label=epochOffsetSeconds cn2=0",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cn1Label=trustScore cn1=0.0000001 cn2Label=epochOffsetSeconds cn2=0.001",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cs3Label=previousBand cs3=untrusted cn1Label=trustScore cn1=123456789.125 cn2Label=epochOffsetSeconds cn2=86400.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-untrusted-6",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.untrusted|GNSS trust untrusted|9|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=untrusted cs2Label=reasons cs2=m cn1Label=trustScore cn1=99.99999999999999 cn2Label=epochOffsetSeconds cn2=1000000000000000",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-0",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cn1Label=trustScore cn1=0 cn2Label=epochOffsetSeconds cn2=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-1",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cs3Label=previousBand cs3=calibrating cn1Label=trustScore cn1=100 cn2Label=epochOffsetSeconds cn2=123.456",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-2",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cn1Label=trustScore cn1=23.4 cn2Label=epochOffsetSeconds cn2=0",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-3",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cs3Label=previousBand cs3=degraded cn1Label=trustScore cn1=0.30000000000000004 cn2Label=epochOffsetSeconds cn2=0.001",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-4",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cn1Label=trustScore cn1=0.0000001 cn2Label=epochOffsetSeconds cn2=86400.5",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-5",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cs3Label=previousBand cs3=unknown cn1Label=trustScore cn1=123456789.125 cn2Label=epochOffsetSeconds cn2=1000000000000000",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "numbers-unknown-6",
+    "line": "CEF:0|Ashforde OU|Kshana|9.9.9-oracle|gnss-trust.unknown|GNSS trust unknown|3|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=unknown cs2Label=reasons cs2=m cn1Label=trustScore cn1=99.99999999999999 cn2Label=epochOffsetSeconds cn2=0.30000000000000004",
+    "tier": 1,
+    "version": "9.9.9-oracle"
+  },
+  {
+    "id": "header-0",
+    "line": "CEF:0|Ashforde OU|Kshana|1\\|0|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cn1Label=trustScore cn1=80 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 2,
+    "version": "1|0"
+  },
+  {
+    "id": "header-1",
+    "line": "CEF:0|Ashforde OU|Kshana|a\\\\b|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cn1Label=trustScore cn1=80 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 2,
+    "version": "a\\b"
+  },
+  {
+    "id": "header-2",
+    "line": "CEF:0|Ashforde OU|Kshana|x=y|gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cn1Label=trustScore cn1=80 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 2,
+    "version": "x=y"
+  },
+  {
+    "id": "header-3",
+    "line": "CEF:0|Ashforde OU|Kshana|v\\|\\\\=\\||gnss-trust.nominal|GNSS trust nominal|1|cat=gnss-trust dvchost=ops-gw1 cs1Label=band cs1=nominal cn1Label=trustScore cn1=80 cn2Label=epochOffsetSeconds cn2=1",
+    "tier": 2,
+    "version": "v|\\=|"
+  }
+]
