@@ -9,6 +9,7 @@ import json
 from pathlib import Path
 
 import kshana
+import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 
@@ -523,3 +524,33 @@ def test_evidence_pack_round_trip_in_memory():
         kshana.evidence_verify(p["files"], "not-a-key")
     generated = kshana.evidence_create(session, excerpt, 100.0, 300.0)
     assert len(generated["seed_hex"]) == 64 and generated["seed_hex"] != seed
+
+
+def test_compliance_report_fills_the_mapping_and_keeps_the_statement():
+    result = json.dumps({
+        "scenario_hash": "0123456789abcdef0123",
+        "log": {"format": "nmea", "epochs": 10},
+        "monitors_run": ["cn0"],
+        "events_evaluable": 2, "events_detected": 2,
+        "predictions_evaluable": 1, "predictions_agreeing": 1,
+    })
+    out = kshana.compliance_report([
+        {"label": "trust.result.json", "result": result},
+        {"label": "bad.json", "result": "not json"},
+    ])
+    rep = out["report"]
+    assert "is not a finding that a framework is met" in rep["statement"]
+    assert rep["statement"] in out["markdown"]
+    assert len(rep["runs"]) == 1 and len(rep["unrecognised"]) == 1
+    assert all(r["gap"] for r in rep["rows"])
+    assert {r["status"] for r in rep["rows"]} <= {
+        "evidenced", "partly-evidenced", "not-evidenced", "out-of-scope"}
+    low = json.dumps(out).lower().replace("conformance framework", "").replace("conformance_framework", "")
+    for banned in ("certif", "complies", "compliant", "conform"):
+        assert banned not in low
+    for sources in (False, True):
+        assert kshana.compliance_mapping(sources).startswith("> A row marked evidenced")
+    with pytest.raises(ValueError):
+        kshana.compliance_report([{"result": "{}"}])
+    with pytest.raises(ValueError):
+        kshana.compliance_report([{"label": f"r{i}", "result": "{}"} for i in range(65)])
