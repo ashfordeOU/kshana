@@ -56,7 +56,7 @@ PREFIX = {"String": "cs", "Number": "cn", "FloatingPoint": "cfp"}
 KNOWN_EVENT_FIELDS = {"@timestamp", "@version", "event", "host", "message", "tags", "log"}
 
 CONFIG = r'''
-input { stdin { codec => cef { ecs_compatibility => disabled delimiter => "\\n" } } }
+input { stdin { codec => cef { ecs_compatibility => disabled delimiter => "\n" } } }
 output { file { path => "%s" codec => json_lines } }
 '''
 
