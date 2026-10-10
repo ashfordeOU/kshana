@@ -1,0 +1,615 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Interference map and route exposure · Kshana docs</title>
+<meta name="description" content="kshana interference-map builds a per-day picture of where aircraft and ships reported degraded navigation data, from openly licensed tracking files you…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/interference-map">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/interference-map">
+<meta property="og:title" content="Interference map and route exposure · Kshana docs">
+<meta property="og:description" content="kshana interference-map builds a per-day picture of where aircraft and ships reported degraded navigation data, from openly licensed tracking files you…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Interference map and route exposure · Kshana docs">
+<meta name="twitter:description" content="kshana interference-map builds a per-day picture of where aircraft and ships reported degraded navigation data, from openly licensed tracking files you…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Interference map and route exposure", "item": "https://kshana.dev/docs/interference-map"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.35.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map" aria-current="page">Interference map and route exposure</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/trust-telemetry">Trust as security telemetry</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Receiver trust and maritime</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/INTERFERENCE-MAP.md</code></span></div>
+    <div class="prose"><h1 id="interference-map-and-route-exposure">Interference map and route exposure</h1>
+<p><code>kshana interference-map</code> builds a per-day picture of where aircraft and ships reported
+degraded navigation data, from openly licensed tracking files you supply. <code>kshana route-exposure</code> then says how much of a planned route lay inside the affected cells on each
+day.</p>
+<p>What this is: a description of what published position reports looked like on past days.
+What it is not: a measurement of any receiver, a forecast, or proof of interference. A
+degraded or anomalous cell has several possible causes (listed below), and a cell with no
+entry was simply not observed.</p>
+<p>Everything runs on local files. The default commands never open a network connection; the
+single optional download helper needs an explicit flag.</p>
+<h2 id="data-and-licences">Data and licences<a class="anchor" href="#data-and-licences" aria-label="Link to this section">#</a></h2>
+<p>Only the sources reviewed in <span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>data/INTERFERENCE-DATA-SOURCES.md</code></span>
+are built in, selected with <code>--dataset</code>:</p>
+<div class="tbl"><table><thead><tr>
+<th><code>--dataset</code></th>
+<th>Kind</th>
+<th>Licence</th>
+<th>Output licence field</th>
+</tr>
+</thead><tbody><tr>
+<td><code>adsb-lol</code></td>
+<td>ADS-B</td>
+<td>ODbL 1.0</td>
+<td><code>ODbL-1.0</code></td>
+</tr>
+<tr>
+<td><code>noaa-marinecadastre</code></td>
+<td>AIS</td>
+<td>US public domain (CC0 1.0 per the publisher)</td>
+<td>public domain</td>
+</tr>
+<tr>
+<td><code>kystverket</code></td>
+<td>AIS</td>
+<td>NLOD 2.0</td>
+<td><code>NLOD-2.0</code></td>
+</tr>
+<tr>
+<td><code>custom</code></td>
+<td>either</td>
+<td>whatever you state</td>
+<td><code>--licence</code>, <code>--licence-url</code>, <code>--attribution</code> required</td>
+</tr>
+</tbody></table></div>
+<p>Every output file embeds the licence, the licence URL, the required attribution and the
+source&#39;s coverage limits. There is no built-in entry for sources whose terms forbid
+commercial use or redistribution of derived maps.</p>
+<p><strong>ODbL and Kshana editions.</strong> A per-cell ADS-B file made from adsb.lol data is a Derived
+Database and is released under ODbL 1.0; its <code>licence</code> field says so. Kshana&#39;s own code
+stays AGPL-3.0. Commercial editions of Kshana that write such files carry the same notice,
+and anyone who republishes the file must keep it. ADS-B and AIS results are never combined
+in one file, so the ODbL does not attach to the AIS layer.</p>
+<p><strong>Coverage bias.</strong> Maps inherit the coverage of their source. adsb.lol follows volunteer
+receivers, so open sea and thinly covered regions are sparse. Kystverket&#39;s open data omits
+fishing vessels under 15 m and recreational craft under 45 m, so its map reflects larger
+ships. MarineCadastre covers US waters only.</p>
+<p><strong>Identifiers.</strong> Input rows carry an aircraft or vessel identifier. It is hashed in memory
+with a random per-run salt, used only to count distinct aircraft or vessels, and never
+written, logged or printed. Outputs are aggregate: no identifier appears anywhere in them.</p>
+<p><strong>Suppression.</strong> A cell with fewer than <strong>5</strong> distinct aircraft or vessels observed that day
+is not published at all, and for AIS a flagged count of one or two in a published cell is
+reported as <code>null</code>. No published value can single out an aircraft or a vessel.</p>
+<h2 id="input-formats">Input formats<a class="anchor" href="#input-formats" aria-label="Link to this section">#</a></h2>
+<p>Plain CSV with a header row, comma-separated, no quoting, UTC times. Column order is free;
+unknown columns are ignored. A timestamp is Unix seconds or <code>YYYY-MM-DDTHH:MM:SS[.fff]Z</code>.
+Rows that cannot be parsed are counted in the output metadata, not silently dropped.</p>
+<p>ADS-B (<code>kshana interference-map adsb</code>):</p>
+<div class="tbl"><table><thead><tr>
+<th>Column</th>
+<th>Required</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>timestamp</code></td>
+<td>yes</td>
+<td>report time</td>
+</tr>
+<tr>
+<td><code>aircraft_id</code></td>
+<td>yes</td>
+<td>opaque identifier (hashed, never stored)</td>
+</tr>
+<tr>
+<td><code>lat</code>, <code>lon</code></td>
+<td>yes</td>
+<td>degrees</td>
+</tr>
+<tr>
+<td><code>alt_baro_ft</code></td>
+<td>yes</td>
+<td>altitude in feet; <code>ground</code> or empty excludes the row</td>
+</tr>
+<tr>
+<td><code>nic</code>, <code>nacp</code></td>
+<td>at least one</td>
+<td>integers 0 to 11; empty means not reported</td>
+</tr>
+<tr>
+<td><code>source_type</code></td>
+<td>no</td>
+<td>if present, only values starting <code>adsb</code> are used (MLAT, TIS-B and the like are excluded)</td>
+</tr>
+</tbody></table></div>
+<p><strong>adsb.lol readsb history, read directly.</strong> The daily archives are a split tar of readsb
+trace files. Extract one as the publisher describes (concatenate the parts, <code>tar -xf -</code>),
+then give Kshana the extracted directory, a single <code>trace_full_*.json</code> file, or a CSV:</p>
+<pre data-lang="text"><code class="hljs">kshana interference-map adsb extracted-day/ --dataset adsb-lol --out maps/</code></pre>
+<p>A directory is searched recursively for <code>trace_full_*</code> files (other files, such as
+<code>trace_recent_*</code>, are ignored and symbolic links are not followed). Each file is
+gzip-compressed or plain JSON, detected by its first bytes, because readsb writes gzip
+under a <code>.json</code> name; decompression is capped at 512 MiB per file. From each trace entry
+Kshana reads the time offset, latitude, longitude, altitude (the <code>ground</code> marker excludes
+the entry), the <code>nic</code> and <code>nac_p</code> fields of the aircraft details object, and the position
+source string (entries from anything other than ADS-B are excluded). An entry with no
+details object has no accuracy fields and is counted as excluded. A file that cannot be
+read is counted in <code>trace_files_unreadable</code> in the output metadata and skipped.</p>
+<p>AIS (<code>kshana interference-map ais</code>):</p>
+<div class="tbl"><table><thead><tr>
+<th>Column</th>
+<th>Required</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>timestamp</code></td>
+<td>yes</td>
+<td>report time</td>
+</tr>
+<tr>
+<td><code>vessel_id</code></td>
+<td>yes</td>
+<td>opaque identifier (hashed, never stored)</td>
+</tr>
+<tr>
+<td><code>lat</code>, <code>lon</code></td>
+<td>yes</td>
+<td>degrees; the AIS &quot;not available&quot; values and (0, 0) are discarded</td>
+</tr>
+<tr>
+<td><code>sog_kn</code></td>
+<td>no</td>
+<td>speed over ground in knots; 102.3 (not available) is treated as missing</td>
+</tr>
+</tbody></table></div>
+<p>The on-land detector needs a land polygon file (<code>--land</code>): GeoJSON Polygon or MultiPolygon.
+Natural Earth&#39;s 1:10 million land layer (public domain) is the intended file. Without
+<code>--land</code> the detector is off and the output says so. To download it (the only network
+access in this feature):</p>
+<pre data-lang="text"><code class="hljs">kshana interference-map fetch-land --out ne_10m_land.geojson --allow-network</code></pre>
+<p>This runs the system <code>curl</code> (as an argument list, not through a shell) over HTTPS, once,
+for one file at a fixed address that names a single commit of the upstream repository. The
+download is kept only if its SHA-256 equals the value pinned in the code; a mismatch deletes
+it and fails. If <code>curl</code> is not installed the command says so and gives the address and the
+checksum so the file can be fetched by hand. Nothing is bundled in the repository.</p>
+<h2 id="output">Output<a class="anchor" href="#output" aria-label="Link to this section">#</a></h2>
+<p>One GeoJSON file per source per UTC day, in the <code>--out</code> directory, named
+<code>&lt;source&gt;-&lt;dataset&gt;-&lt;YYYY-MM-DD&gt;.geojson</code>, where <code>&lt;source&gt;</code> is <code>adsb</code> or <code>ais</code>, <code>&lt;dataset&gt;</code>
+is the <code>--dataset</code> key (<code>adsb-lol</code>, <code>noaa-marinecadastre</code>, <code>kystverket</code>, or <code>custom</code>) and
+the date is the UTC day of the reports: <code>adsb-adsb-lol-2026-03-01.geojson</code>,
+<code>ais-kystverket-2026-03-01.geojson</code>. The dataset is in the name so two datasets of one kind
+cannot share a file, and <strong>Kshana never overwrites a file</strong>: if any target exists the command
+fails before writing anything. The CLI prints one line per file it writes. A reader can
+recover the three parts with <code>^(adsb|ais)-(.+)-(\d{4}-\d{2}-\d{2})\.geojson$</code>; the same
+information is inside the file (<code>source_kind</code>, <code>data.dataset</code>, <code>date</code>).
+Synthetic sample files, one per source, are in <code>examples/interference-map/output/</code>, with the
+command that regenerates them, for building and testing a viewer. A top-level <code>kshana_interference_map</code>
+member holds the schema name, date, grid, method id and every parameter, the day-level
+figures, the data licence and attribution, and a notice. Each feature is a cell polygon
+with <code>cell_i</code>, <code>cell_j</code>, <code>status</code>, <code>degraded</code> and the aggregate counts.</p>
+<p>The grid is fixed: square cells of <code>--cell-deg</code> degrees (default 0.5) in latitude and
+longitude, indexed from (-90, -180). East-west width shrinks with latitude: about 55 km at
+the equator and about 28 km at 60 degrees for the default. Latitude 90 belongs to the last
+row and longitude 180 is the same meridian as -180. <strong>The pre-registered methods are defined
+on the 0.5 degree grid.</strong> Another <code>--cell-deg</code> runs, but is not the pre-registered method:
+the CLI says so, and the file records <code>grid.preregistered_cell_deg</code> and
+<code>grid.is_preregistered</code> (false) so a viewer can say it too.</p>
+<p><strong>Withheld counts.</strong> Every per-cell count below the publication minimum (5) is <code>null</code>, zero
+included, so <code>null</code> never means &quot;none&quot; and no published number can single out an aircraft
+or a vessel. The <code>status</code> and <code>degraded</code> fields are still given. In ADS-B files
+<code>aircraft_observed</code> is always at least 5 for a published cell; <code>aircraft_sampled</code> and
+<code>aircraft_affected</code> are <code>null</code> below 5, and <code>affected_share</code> is <code>null</code> unless both are at
+least 5 (a share would reveal a withheld count). In AIS files each entry of
+<code>vessels_flagged</code> is <code>null</code> below 5.</p>
+<h3 id="format-version-and-fields">Format version and fields<a class="anchor" href="#format-version-and-fields" aria-label="Link to this section">#</a></h3>
+<p>The format is settled as <code>schema: &quot;kshana-interference-map/v1&quot;</code>, <code>format_version: 1</code>. A
+change that removes or renames a field, or changes what one means, raises the version;
+adding a field does not, so a reader must ignore fields it does not know. A count that is
+<code>null</code> is withheld, not zero.</p>
+<pre data-lang="text"><code class="hljs">FeatureCollection
+  kshana_interference_map
+    schema, format_version, kshana_version, notice
+    source_kind            &quot;adsb&quot; | &quot;ais&quot;
+    date                   &quot;YYYY-MM-DD&quot; (UTC)
+    grid                   { type: &quot;fixed_lat_lon&quot;, cell_deg, preregistered_cell_deg, is_preregistered }
+    method                 { id, summary, parameters{...}, guards[], input_stats{...}, caveats[] }
+    day                    day-level figures (ADS-B: background_evaluated, background_share,
+                           day_confounded, cells_published, cells_suppressed_below_min_distinct;
+                           AIS: on_land_detector, cells_published, cells_suppressed_...)
+    data                   { dataset, name, licence, licence_url, attribution, coverage_notes[] }
+  features[]               Polygon (one closed ring, [lon, lat], counter-clockwise)
+    properties             cell_i, cell_j, status, degraded,
+                           ADS-B: aircraft_observed, aircraft_sampled|null, aircraft_affected|null,
+                                  affected_share|null
+                           AIS:   vessels_observed, vessels_flagged{detector: n|null}, detectors[]</code></pre>
+<p><code>status</code> values: ADS-B <code>degraded</code>, <code>not_degraded</code>, <code>insufficient_sample</code>,
+<code>withheld_day_confounded</code>, <code>withheld_no_background</code>; AIS <code>anomalous</code>, <code>not_anomalous</code>. <code>degraded</code> is true for
+<code>degraded</code> and <code>anomalous</code> only. The route-exposure report has its own
+<code>kshana-route-exposure/v1</code> schema.</p>
+<h2 id="studio-map-page-specification">Studio map page specification<a class="anchor" href="#studio-map-page-specification" aria-label="Link to this section">#</a></h2>
+<p>For the Studio&#39;s map page, which loads a GeoJSON file the user provides (the page is built
+in the Studio source, not in this repository). Nothing is uploaded: the file is read in the
+browser, and the page makes no request to any data source.</p>
+<p><strong>Reading a file.</strong> Accept a file only if <code>kshana_interference_map.schema</code> starts with
+<code>kshana-interference-map/</code> and <code>format_version</code> is a number the page supports; otherwise say
+the file is not a supported Kshana interference map. Read the fields listed above; ignore
+unknown ones. A file holds one source and one day. Several files may be loaded.</p>
+<p><strong>Cells.</strong> Draw each feature&#39;s polygon. Colour by <code>status</code>, and always say what each colour
+means in a legend. Four states, none of which may be hidden or merged:</p>
+<div class="tbl"><table><thead><tr>
+<th>State</th>
+<th>Meaning</th>
+<th>Where it comes from</th>
+</tr>
+</thead><tbody><tr>
+<td>Degraded (or anomalous for AIS)</td>
+<td>a high share of aircraft reported low accuracy, or vessels showed anomalies, that day</td>
+<td><code>degraded</code> is true</td>
+</tr>
+<tr>
+<td>Clear</td>
+<td>observed with enough aircraft or vessels and not flagged</td>
+<td><code>status</code> is <code>not_degraded</code> or <code>not_anomalous</code></td>
+</tr>
+<tr>
+<td>Unassessed</td>
+<td>observed but not enough sampled aircraft, the day was confounded, or the day&#39;s background could not be estimated</td>
+<td><code>status</code> is <code>insufficient_sample</code>, <code>withheld_day_confounded</code> or <code>withheld_no_background</code></td>
+</tr>
+<tr>
+<td>Not observed</td>
+<td>too few aircraft or vessels, so the cell was not published</td>
+<td>no feature for that cell</td>
+</tr>
+</tbody></table></div>
+<p>&quot;Not observed&quot; is the absence of a feature: draw it neutrally (no fill, or a hatch), never
+in the colour of &quot;clear&quot;. Use a colour scheme that does not rely on red against green alone.
+Cell details on hover or selection show the counts in <code>properties</code> as given, and every
+<code>null</code> count as &quot;withheld (fewer than 5)&quot;, never as zero. A viewer should also say when
+<code>grid.is_preregistered</code> is false that the file uses a cell size outside the pre-registered
+method.</p>
+<p><strong>Layers.</strong> ADS-B and AIS are separate layers with their own toggles, legends and licence
+lines. Never merge them into one colour field or one count, never draw them as one
+combined cell, and never sum their cells. Different days are different files: show one day
+at a time, with a day picker, rather than overlaying days.</p>
+<p><strong>Licence and attribution.</strong> For every visible layer show, on the map and in any export or
+screenshot, the <code>data.attribution</code> text verbatim, the <code>data.licence</code> with a link to
+<code>data.licence_url</code>, and the <code>data.coverage_notes</code>. If an ADS-B layer is shown, its ODbL
+licence applies to that layer only. Do not offer to export a combined file.</p>
+<p><strong>Method.</strong> Offer the method id and parameters (<code>method.id</code>, <code>method.parameters</code>) and the
+<code>day</code> figures in a details panel, including <code>day_confounded</code> (say plainly that no cell was
+called degraded because of the day&#39;s background) and <code>input_stats</code>.</p>
+<p><strong>Caveats to keep</strong> (show the file&#39;s own <code>method.caveats</code> and <code>notice</code>, and keep this
+wording or its equivalent visible with the map):</p>
+<ul>
+<li>A degraded or anomalous cell is not a finding of interference. Other causes exist.</li>
+<li>A cell with no colour was not observed. It is not evidence that the area was clear.</li>
+<li>This is a description of past position reports, not a forecast and not a measurement of
+any receiver.</li>
+<li>Coverage follows the data source; read the coverage notes.</li>
+</ul>
+<p>The page must not name or show any individual aircraft or vessel, and the files contain
+none.</p>
+<p><strong>Route exposure.</strong> If the page also loads a <code>kshana-route-exposure/v1</code> report, show its
+rows per day and source with the four shares (degraded, clear, unassessed, not observed)
+together, never the degraded share alone, plus the report&#39;s <code>caveats</code>, and each row&#39;s
+<code>map_licence</code> and <code>map_attribution</code>.</p>
+<h2 id="ads-b-method-kshana-interference-mapadsbv2">ADS-B method (<code>kshana-interference-map/adsb/v2</code>)<a class="anchor" href="#ads-b-method-kshana-interference-mapadsbv2" aria-label="Link to this section">#</a></h2>
+<p>Each airborne ADS-B report carries two self-assessed navigation quality fields: NIC (the
+containment radius of the position) and NACp (the 95% accuracy bound, EPU). When the
+receiver on board loses or distrusts its satellite fix, both drop, which is why they carry
+a signature of interference. They also drop for other reasons.</p>
+<p><strong>Pre-registered parameters</strong> (constants in the code, written into every file; a change
+means a new method version):</p>
+<div class="tbl"><table><thead><tr>
+<th>Parameter</th>
+<th>Value</th>
+</tr>
+</thead><tbody><tr>
+<td>Altitude floor</td>
+<td>barometric altitude of at least 5000 ft</td>
+</tr>
+<tr>
+<td>Low-accuracy report</td>
+<td>NACp at most 6 (the reported EPU bound is 556 m, 0.3 NM, or larger, or unknown) or NIC at most 5 (the reported containment-radius bound is 1852 m, 1 NM, or larger, or unknown)</td>
+</tr>
+<tr>
+<td>Good report</td>
+<td>NACp at least 8 and NIC at least 7; judged on the fields the input has (both when both are present, the one present otherwise)</td>
+</tr>
+<tr>
+<td>Equipment baseline</td>
+<td>an aircraft counts in a cell only with at least 5 good reports outside that cell the same day</td>
+</tr>
+<tr>
+<td>Aircraft sampled in a cell</td>
+<td>at least 3 reports in the cell</td>
+</tr>
+<tr>
+<td>Aircraft affected in a cell</td>
+<td>at least 50% of its in-cell reports are low-accuracy</td>
+</tr>
+<tr>
+<td>Minimum sample</td>
+<td>at least 10 sampled aircraft</td>
+</tr>
+<tr>
+<td>Degraded</td>
+<td>at least 5 affected aircraft, an affected share of sampled aircraft of at least 0.30, and at least 0.15 above the day&#39;s median cell share</td>
+</tr>
+<tr>
+<td>Confounded day</td>
+<td>median cell share (over at least 5 cells with a full sample) at least 0.15: no cell is declared degraded</td>
+</tr>
+<tr>
+<td>No background</td>
+<td>fewer than 5 cells with a full sample, so the median cannot be estimated: a cell that meets the thresholds is <code>withheld_no_background</code>, not degraded</td>
+</tr>
+<tr>
+<td>Publication minimum</td>
+<td>at least 5 distinct aircraft observed</td>
+</tr>
+</tbody></table></div>
+<p>These values were set from the definitions of the NIC and NACp codes and from the privacy
+rule before any data was looked at. They were not tuned on real data, and the tests use
+synthetic data only. Cell statuses: <code>degraded</code>, <code>not_degraded</code>, <code>insufficient_sample</code>
+(published but fewer than 10 sampled aircraft), <code>withheld_day_confounded</code> and
+<code>withheld_no_background</code>.</p>
+<p><strong>Version 2.</strong> Version 1 declared a cell degraded from as few as 3 affected aircraft, fewer
+than the 5-aircraft publication minimum, and skipped the day-background check without saying
+so when fewer than 5 cells were fully sampled. Version 2 requires at least 5 affected
+aircraft and withholds the call (<code>withheld_no_background</code>) when the background cannot be
+estimated. Both changes tighten the method (nothing that was not degraded in version 1 is
+degraded in version 2); the reason is that a published call must never rest on fewer
+aircraft than the number below which counts are withheld. Version 1 files were not released.</p>
+<p><strong>Why accuracy fields drop for reasons other than interference, and the guard for each:</strong></p>
+<div class="tbl"><table><thead><tr>
+<th>Cause</th>
+<th>Guard</th>
+</tr>
+</thead><tbody><tr>
+<td>Older transponders that never report NIC or NACp, or report them at a fixed low value</td>
+<td>the equipment baseline: an aircraft with no good reports elsewhere that day is not counted</td>
+</tr>
+<tr>
+<td>Low altitude and surface operations (terrain masking, different position formats)</td>
+<td>altitude floor; rows marked <code>ground</code> excluded</td>
+</tr>
+<tr>
+<td>MLAT or other non-GNSS positions</td>
+<td><code>source_type</code> filter when the column is present</td>
+</tr>
+<tr>
+<td>One aircraft sending many reports</td>
+<td>distinct aircraft are counted, not reports</td>
+</tr>
+<tr>
+<td>A constellation or augmentation outage, or a space-weather event, lowering accuracy over a wide area</td>
+<td>the cell must exceed the day&#39;s median cell share by a margin, and a day whose median is itself high is marked confounded and declares no cell</td>
+</tr>
+<tr>
+<td>A fault in one aircraft&#39;s equipment</td>
+<td>needs a share of many distinct aircraft, with a minimum sample</td>
+</tr>
+<tr>
+<td>Few aircraft in the cell</td>
+<td>minimum sample; below 5 observed the cell is not published</td>
+</tr>
+</tbody></table></div>
+<p>What remains: the method cannot tell interference from a regional cause that is local
+rather than wide (a local satellite-geometry effect or ground-based augmentation outage
+would look the same), and it is conservative in one direction: an aircraft that flies only
+inside an affected region all day has no baseline and is not counted, so persistent large
+areas are under-reported.</p>
+<h2 id="ais-method-kshana-interference-mapaisv2">AIS method (<code>kshana-interference-map/ais/v2</code>)<a class="anchor" href="#ais-method-kshana-interference-mapaisv2" aria-label="Link to this section">#</a></h2>
+<p>Per vessel per day, five detectors. A detector <strong>qualifies</strong> in a cell when it flags at
+least 5 distinct vessels making up at least 20% of the vessels observed there; the cell is
+<code>anomalous</code> if any detector qualifies.</p>
+<div class="tbl"><table><thead><tr>
+<th>Detector</th>
+<th>Rule (pre-registered)</th>
+</tr>
+</thead><tbody><tr>
+<td><code>on_land</code></td>
+<td>at least 3 reports in the cell more than 2000 m inland of the supplied coastline</td>
+</tr>
+<tr>
+<td><code>circle</code></td>
+<td>a window of 20 consecutive reports (stride 10, gaps at most 30 min) whose mean radius from the centroid is 500 m to 20 km, radius coefficient of variation at most 0.15, one direction of travel with total winding of at least 270 degrees (steps at most 90 degrees, net at least 80% of total), and mean speed at least 2 kn</td>
+</tr>
+<tr>
+<td><code>implausible_jump</code></td>
+<td>at least 2 jumps arriving in the cell: consecutive reports at least 1000 m apart, at most 1 h apart, implying more than 70 kn (the implied speed uses at least 1 s between the reports, so two reports with the same time stamp and positions 1 km or more apart count as a jump)</td>
+</tr>
+<tr>
+<td><code>implausible_speed</code></td>
+<td>at least 3 reported speeds above 70 kn in the cell</td>
+</tr>
+<tr>
+<td><code>same_position</code></td>
+<td>at least 5 distinct vessels reporting the same position (rounded to 1e-4 degrees, about 11 m) in the same 10-minute window</td>
+</tr>
+</tbody></table></div>
+<p>Cells with fewer than 5 distinct vessels are not published; every flagged count below 5,
+zero included, is reported as <code>null</code>.</p>
+<p><strong>Version 2.</strong> Version 1 qualified a detector from 3 flagged vessels and published counts of
+3 and 4. Version 2 raises the flagged-vessel minimum to 5, the publication minimum, so an
+<code>anomalous</code> call never rests on fewer vessels than the number below which counts are
+withheld. This tightens the method and no version 1 file was released.</p>
+<p><strong>Known causes of false positives</strong>, which the share rule and the thresholds reduce but do
+not remove: vessels in rivers, canals and ports close to a coarse coastline (the 2 km
+inland buffer exists for this); two vessels sharing one identifier, which looks like jumps;
+transponders with a bad fix or test equipment; and loitering by pilot boats and search
+vessels, which can resemble circles. A coastline file at 1:10 million is accurate to about
+a kilometre.</p>
+<p>The jump and speed detectors compare reports within one input file; a track split across
+files or days is not stitched.</p>
+<p><strong>Memory.</strong> Input is read line by line and never held whole. ADS-B keeps only per-aircraft
+per-cell counters. AIS keeps each accepted report in a compact record (about 40 bytes) until
+its day is evaluated, so memory grows with the number of AIS reports in the input; split a
+very large AIS input by day.</p>
+<h2 id="route-exposure">Route exposure<a class="anchor" href="#route-exposure" aria-label="Link to this section">#</a></h2>
+<pre data-lang="text"><code class="hljs">kshana route-exposure --route route.geojson --map out/ [--map other/] \
+    [--from 2026-03-01] [--to 2026-03-07] [--out report.json] [--json]</code></pre>
+<p><code>--route</code> is a GeoJSON LineString (bare, in a Feature, or in a FeatureCollection) or a CSV
+of <code>lat,lon</code> lines. <code>--map</code> takes map files or directories of them, and may be repeated.
+Waypoints are joined by straight lines in latitude and longitude, so densify long legs; a
+leg takes the short way round in longitude, so one that crosses the antimeridian (179.5 E to
+179.5 W) crosses it. The route is split into pieces of about 250 m. Each piece is measured
+between its own two end points on a sphere of radius 6371.0088 km (the same path that
+decides which cell it lies in) and assigned to the cell holding its midpoint.</p>
+<p>Per day and per source the report gives the route length and four shares that sum to 1:
+<code>share_degraded</code>, <code>share_not_degraded</code>, <code>share_unassessed</code> (cell present but without a
+call) and <code>share_not_observed</code> (cell absent from the map). Read the last two with the
+first: a route with a low degraded share and a high not-observed share has not been shown
+to be clear. ADS-B and AIS rows are reported separately and never combined. Each row
+carries the map&#39;s licence and attribution.</p>
+<h2 id="library-functions">Library functions<a class="anchor" href="#library-functions" aria-label="Link to this section">#</a></h2>
+<p>For callers that hold data in memory (bindings, the MCP server, the browser build), the
+module <code>kshana::interference_map::api</code> exposes the same methods with text or bytes in and
+JSON out, touching no file and no network:</p>
+<div class="tbl"><table><thead><tr>
+<th>Function</th>
+<th>In</th>
+<th>Out</th>
+</tr>
+</thead><tbody><tr>
+<td><code>adsb_maps_from_csv(csv, &amp;DatasetSpec, cell_deg)</code></td>
+<td>ADS-B CSV text</td>
+<td><code>Vec&lt;DayMap&gt;</code></td>
+</tr>
+<tr>
+<td><code>adsb_maps_from_readsb_traces(&amp;[&amp;[u8]], &amp;DatasetSpec, cell_deg)</code></td>
+<td>one byte slice per readsb trace file (gzip or plain)</td>
+<td><code>Vec&lt;DayMap&gt;</code></td>
+</tr>
+<tr>
+<td><code>ais_maps_from_csv(csv, &amp;DatasetSpec, cell_deg, Option&lt;&amp;str&gt;)</code></td>
+<td>AIS CSV text, optional land GeoJSON text</td>
+<td><code>Vec&lt;DayMap&gt;</code></td>
+</tr>
+<tr>
+<td><code>route_exposure(route_text, &amp;[&amp;str], from, to)</code></td>
+<td>route text, map GeoJSON texts, optional <code>YYYY-MM-DD</code> bounds</td>
+<td><code>kshana-route-exposure/v1</code> JSON</td>
+</tr>
+</tbody></table></div>
+<p>A <code>DayMap</code> has <code>file_name</code> (<code>&lt;source&gt;-&lt;dataset&gt;-&lt;date&gt;.geojson</code>), <code>date</code> and <code>geojson</code> (the v1
+document). <code>DatasetSpec</code> is
+<code>Preset(&quot;adsb-lol&quot; | &quot;noaa-marinecadastre&quot; | &quot;kystverket&quot;)</code> or
+<code>Custom { licence, licence_url, attribution }</code>; <code>DEFAULT_CELL_DEG</code> is 0.5. Errors are
+<code>MapError</code>. The dataset rules (approved presets, licence text required, kind must match)
+apply exactly as on the command line.</p>
+<h2 id="external-validation">External validation<a class="anchor" href="#external-validation" aria-label="Link to this section">#</a></h2>
+<p><code>tests/interference_map_reference.rs</code> compares Kshana with independent implementations on
+synthetic inputs, with tolerances pre-registered in
+<code>tests/fixtures/interference_map_ref/PREREGISTRATION.md</code>: NIC and NACp code meanings against
+pyModeS decoding of synthetic ADS-B frames, AIS not-available values against pyais decoding of
+synthetic AIVDM sentences, grid cell assignment against shapely, route length per cell state
+against shapely and GeographicLib, and inland masking against shapely and pyproj. The fixtures
+are made by <code>scripts/gen_interference_map_ref.py</code>; CI needs no Python. This validates how the
+codes and field values are read and the geometry. It does not validate that a flagged cell is
+interference.</p>
+<h2 id="tests">Tests<a class="anchor" href="#tests" aria-label="Link to this section">#</a></h2>
+<p>All tests use synthetic generated data and no network: unit tests in
+<code>src/interference_map/</code>, and <code>tests/interference_map_cli.rs</code> for the commands end to end,
+including that no identifier reaches an output and that refusals leave no files behind.</p>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/nmea-training"><small>Previous</small>NMEA training streams</a><a class="next" href="/docs/marine-integrations"><small>Next</small>Marine integrations</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#data-and-licences">Data and licences</a><a class="l2" href="#input-formats">Input formats</a><a class="l2" href="#output">Output</a><a class="l3" href="#format-version-and-fields">Format version and fields</a><a class="l2" href="#studio-map-page-specification">Studio map page specification</a><a class="l2" href="#ads-b-method-kshana-interference-mapadsbv2">ADS-B method (kshana-interference-map/adsb/v2)</a><a class="l2" href="#ais-method-kshana-interference-mapaisv2">AIS method (kshana-interference-map/ais/v2)</a><a class="l2" href="#route-exposure">Route exposure</a><a class="l2" href="#library-functions">Library functions</a><a class="l2" href="#external-validation">External validation</a><a class="l2" href="#tests">Tests</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.35.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.35.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.35.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>
