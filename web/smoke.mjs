@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -221,6 +221,26 @@ const exposure = JSON.parse(
 );
 if (typeof exposure !== "object") {
   console.error("wasm route_exposure() produced no report");
+  process.exit(1);
+}
+
+// Test-bench export and the compliance mapping: in memory, with their notices.
+const canyon = await readFile(new URL("scenarios/automotive-urban-canyon.toml", rootDir), "utf8");
+const bench = JSON.parse(bench_export(canyon, "2025-03-01T10:00:00Z"));
+if (!bench.files[".motion.csv"]?.includes("2025-03-01") || !bench.notice.includes("radio-frequency or baseband signal")) {
+  console.error("wasm bench_export() produced no motion file or no notice");
+  process.exit(1);
+}
+const comp = JSON.parse(
+  compliance_report(JSON.stringify([
+    { label: "trust.result.json", result: JSON.stringify({ scenario_hash: "0123456789abcdef0123", log: { format: "nmea", epochs: 10 }, monitors_run: ["cn0"], events_evaluable: 2, events_detected: 2, predictions_evaluable: 1, predictions_agreeing: 1 }) },
+    { label: "bad.json", result: "not json" },
+  ])),
+);
+if (!comp.report.statement.includes("is not a finding that a framework is met") || comp.report.runs.length !== 1 ||
+    comp.report.unrecognised.length !== 1 || !comp.markdown.includes(comp.report.statement) ||
+    !compliance_mapping(false).startsWith("> " + comp.report.statement)) {
+  console.error("wasm compliance_report() or compliance_mapping() lost the statement or the run accounting");
   process.exit(1);
 }
 
