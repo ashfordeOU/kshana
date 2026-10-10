@@ -8,13 +8,17 @@ use super::bundle::{fingerprint, generate_seed, public_key_hex, Files};
 use super::verify::{verify_bundle, Status, VerifyOptions};
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
 use std::path::{Path, PathBuf};
+use zeroize::Zeroizing;
 
 const USAGE: &str = "usage:
   kshana evidence keygen --out <keyfile>
-  kshana evidence verify <bundle-dir> [--pubkey <hex|file>] [--log <full-log>] [--json]
-  kshana evidence attach-timestamp <bundle-dir> <token.tsr>
+  kshana evidence verify <bundle-dir> --pubkey <hex|file> [--log <full-log>] [--require-timestamp]
+      [--allow-unpinned] [--json]      exit 0 verified, 1 failed, 3 intact but signer not pinned
+  kshana evidence attach-timestamp <bundle-dir> <token.tsr> [--replace]
+      (reads the RFC 3161 token and binds it to the manifest; it does NOT verify the timestamp
+      authority's signature: use `openssl ts -verify`)
   kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir>
-      [--title <text>] [--timestamp-token <token.tsr>] [--created-utc <rfc3339|none>]
+      [--title <text>] [--created-utc <YYYY-MM-DDTHH:MM:SSZ|none>]
   <t0>/<t1>: seconds since the first epoch of the log, or an ISO-8601 UTC time when the log
   states its start time. A pack is a technical record, not a legal opinion.";
 
@@ -34,7 +38,7 @@ fn now_rfc3339() -> String {
         .duration_since(std::time::UNIX_EPOCH)
         .map(|d| d.as_secs() as i64)
         .unwrap_or(0);
-    crate::telemetry::syslog::rfc3339_utc(s)
+    crate::telemetry::time::rfc3339_utc(s)
 }
 
 fn write_new_file(path: &Path, bytes: &[u8], private: bool) -> Result<(), String> {
@@ -55,7 +59,7 @@ fn write_new_file(path: &Path, bytes: &[u8], private: bool) -> Result<(), String
         .map_err(|e| format!("cannot write {}: {e}", path.display()))
 }
 
-fn read_seed(path: &str) -> Result<[u8; 32], String> {
+fn read_seed(path: &str) -> Result<Zeroizing<[u8; 32]>, String> {
     #[cfg(unix)]
     {
         use std::os::unix::fs::PermissionsExt;
@@ -65,9 +69,12 @@ fn read_seed(path: &str) -> Result<[u8; 32], String> {
             }
         }
     }
-    let t = std::fs::read_to_string(path).map_err(|e| format!("cannot read key {path}: {e}"))?;
-    let v = hex::decode(t.trim()).map_err(|_| format!("{path} is not a hex key"))?;
+    let t = Zeroizing::new(
+        std::fs::read_to_string(path).map_err(|e| format!("cannot read key {path}: {e}"))?,
+    );
+    let v = Zeroizing::new(hex::decode(t.trim()).map_err(|_| format!("{path} is not a hex key"))?);
     <[u8; 32]>::try_from(v.as_slice())
+        .map(Zeroizing::new)
         .map_err(|_| format!("{path} must hold a 32-byte key as 64 hex digits"))
 }
 
@@ -119,16 +126,56 @@ pub fn run_evidence(args: &[String]) -> i32 {
     }
 }
 
+/// The signer's public key from `--pubkey`: 64 hex digits given directly, or a file holding
+/// them. A private key passed by mistake is recognised against the pack and refused.
+fn read_pubkey(arg: &str, files: &Files) -> Result<[u8; 32], String> {
+    let is_hex = arg.len() == 64 && arg.bytes().all(|b| b.is_ascii_hexdigit());
+    let text = if is_hex {
+        arg.to_string()
+    } else {
+        #[cfg(unix)]
+        {
+            use std::os::unix::fs::PermissionsExt;
+            if let Ok(md) = std::fs::metadata(arg) {
+                if md.permissions().mode() & 0o077 == 0 && !arg.ends_with(".pub") {
+                    eprintln!(
+                        "warning: {arg} is owner-only (mode 600) and not named *.pub: \
+                         it may be a private key. Pass the public key file."
+                    );
+                }
+            }
+        }
+        std::fs::read_to_string(arg).map_err(|e| {
+            format!("--pubkey `{arg}` is neither 64 hex digits nor a readable file ({e})")
+        })?
+    };
+    let bytes = hex::decode(text.trim())
+        .map_err(|_| format!("--pubkey `{arg}` does not hold hex digits"))?;
+    let key = <[u8; 32]>::try_from(bytes.as_slice())
+        .map_err(|_| "--pubkey must be 32 bytes (64 hex digits)".to_string())?;
+    // Is this actually the private seed of the key the pack names?
+    let named = files
+        .get("manifest.json")
+        .and_then(|m| serde_json::from_slice::<super::bundle::Manifest>(m).ok())
+        .map(|m| m.signer.public_key);
+    if named.as_deref() == Some(public_key_hex(&key).as_str())
+        && hex::encode(key) != named.unwrap_or_default()
+    {
+        return Err(
+            "that is the PRIVATE key of the signer. Never share it; pass the public key (the .pub file)"
+                .into(),
+        );
+    }
+    Ok(key)
+}
+
 fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
     match args.first().map(String::as_str) {
         Some("keygen") => {
             let out = flag_value(args, "--out")?.ok_or("keygen needs --out <keyfile>")?;
-            let seed = generate_seed();
-            write_new_file(
-                Path::new(&out),
-                format!("{}\n", hex::encode(seed)).as_bytes(),
-                true,
-            )?;
+            let seed = Zeroizing::new(generate_seed());
+            let text = Zeroizing::new(format!("{}\n", hex::encode(*seed)));
+            write_new_file(Path::new(&out), text.as_bytes(), true)?;
             let pk = public_key_hex(&seed);
             write_new_file(
                 Path::new(&format!("{out}.pub")),
@@ -137,9 +184,13 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             )?;
             println!("private key: {out}  (keep it secret; never commit it)");
             println!("public key:  {out}.pub");
+            println!("public key (hex): {pk}");
             println!(
                 "fingerprint: {}",
                 fingerprint(&hex::decode(&pk).unwrap_or_default())
+            );
+            println!(
+                "Give verifiers the public key by a route they trust; they pin it with --pubkey."
             );
             Ok(0)
         }
@@ -151,15 +202,7 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
             let files = read_dir(Path::new(dir))?;
             let pin = match flag_value(args, "--pubkey")? {
                 None => None,
-                Some(v) => {
-                    let text = std::fs::read_to_string(&v).unwrap_or(v);
-                    let b =
-                        hex::decode(text.trim()).map_err(|_| "--pubkey is not hex".to_string())?;
-                    Some(
-                        <[u8; 32]>::try_from(b.as_slice())
-                            .map_err(|_| "--pubkey must be 32 bytes (64 hex digits)".to_string())?,
-                    )
-                }
+                Some(v) => Some(read_pubkey(&v, &files)?),
             };
             let full = match flag_value(args, "--log")? {
                 None => None,
@@ -170,8 +213,19 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 &VerifyOptions {
                     expected_public_key: pin,
                     full_log: full.as_deref(),
+                    require_timestamp: args.iter().any(|a| a == "--require-timestamp"),
                 },
             );
+            let allow_unpinned = args.iter().any(|a| a == "--allow-unpinned");
+            // 0 verified and pinned (or unpinned by choice), 1 something failed,
+            // 3 intact but the signer was not pinned.
+            let code = if !rep.ok {
+                1
+            } else if !rep.signer_pinned && !allow_unpinned {
+                3
+            } else {
+                0
+            };
             if args.iter().any(|a| a == "--json") {
                 println!(
                     "{}",
@@ -198,25 +252,36 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 for n in &rep.notes {
                     println!("  note: {n}");
                 }
+                let fp = rep.signer_fingerprint.as_deref().unwrap_or("(none)");
                 println!(
                     "{}",
-                    if rep.ok {
-                        "VERIFIED: every hash, the chain and the signature check out."
-                    } else {
-                        "NOT VERIFIED: see the failures above."
+                    match code {
+                        0 if rep.signer_pinned => {
+                            "VERIFIED: every hash, the chain and the signature check out, for the key you supplied."
+                                .to_string()
+                        }
+                        0 => format!("VERIFIED against the key the pack names itself, fingerprint {fp} (signer NOT pinned; pass --pubkey)."),
+                        3 => format!("INTACT, BUT THE SIGNER IS NOT PINNED: the hashes and signature are consistent with key {fp}, which the pack names itself. Pass --pubkey <signer public key> to establish who signed it (or --allow-unpinned to accept this knowingly)."),
+                        _ => "NOT VERIFIED: see the failures above.".to_string(),
                     }
                 );
                 println!("This is a technical record, not a legal opinion.");
             }
-            Ok(i32::from(!rep.ok))
+            Ok(code)
         }
         Some("attach-timestamp") => {
             let dir = args
                 .get(1)
                 .ok_or("attach-timestamp needs a bundle directory")?;
             let tok = args.get(2).ok_or("attach-timestamp needs a token file")?;
+            let replace = args.iter().any(|a| a == "--replace");
             let bytes = std::fs::read(tok).map_err(|e| format!("cannot read {tok}: {e}"))?;
             let mut files = read_dir(Path::new(dir))?;
+            if files.contains_key("timestamp.tsr") && !replace {
+                return Err(
+                    "the pack already has a timestamp token; pass --replace to replace it".into(),
+                );
+            }
             files.insert("timestamp.tsr".into(), bytes.clone());
             let rep = verify_bundle(&files, &VerifyOptions::default());
             if !rep.ok {
@@ -226,12 +291,17 @@ fn run_evidence_inner(args: &[String]) -> Result<i32, String> {
                 ));
             }
             let target = Path::new(dir).join("timestamp.tsr");
-            std::fs::write(&target, bytes)
-                .map_err(|e| format!("cannot write {}: {e}", target.display()))?;
+            if replace {
+                std::fs::write(&target, bytes)
+                    .map_err(|e| format!("cannot write {}: {e}", target.display()))?;
+            } else {
+                write_new_file(&target, &bytes, false)?;
+            }
             println!("attached {}", target.display());
             for n in &rep.notes {
                 println!("note: {n}");
             }
+            println!("note: the token sits beside the signed manifest, not inside it; verify with --require-timestamp to insist on it.");
             Ok(0)
         }
         _ => Err(String::new()),
@@ -262,10 +332,6 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
         .ok_or("needs --key <keyfile> (make one with `kshana evidence keygen`)")?;
     let out = flag_value(args, "--out")?.ok_or("needs --out <dir>")?;
     let seed = read_seed(&key)?;
-    let token = match flag_value(args, "--timestamp-token")? {
-        None => None,
-        Some(p) => Some(std::fs::read(&p).map_err(|e| format!("cannot read {p}: {e}"))?),
-    };
     let created = match flag_value(args, "--created-utc")?.as_deref() {
         Some("none") => None,
         Some(v) => Some(v.to_string()),
@@ -301,7 +367,7 @@ fn receiver_trust_evidence(args: &[String]) -> Result<(), String> {
             created_utc: created.as_deref(),
         },
         &seed,
-        token.as_deref(),
+        None,
     )?;
     write_dir(Path::new(&out), &pack.files)?;
     println!("evidence pack written to {out}");

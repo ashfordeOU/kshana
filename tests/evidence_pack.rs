@@ -70,6 +70,7 @@ fn pinned_key_is_checked() {
         &VerifyOptions {
             expected_public_key: Some(good),
             full_log: None,
+            ..Default::default()
         },
     );
     assert!(r.ok && r.signer_pinned);
@@ -82,6 +83,7 @@ fn pinned_key_is_checked() {
         &VerifyOptions {
             expected_public_key: Some(other),
             full_log: None,
+            ..Default::default()
         },
     );
     assert!(r
@@ -105,6 +107,7 @@ fn a_pack_re_signed_by_someone_else_is_caught_by_pinning() {
         &VerifyOptions {
             expected_public_key: Some(good),
             full_log: None,
+            ..Default::default()
         },
     );
     assert!(!r.ok);
@@ -274,6 +277,7 @@ fn full_log_check_and_byte_range_slices() {
     let opt = |l: &'static [u8]| VerifyOptions {
         expected_public_key: None,
         full_log: Some(l),
+        ..Default::default()
     };
     let leaked: &'static [u8] = Box::leak(log.clone().into_boxed_slice());
     assert!(verify_bundle(&f, &opt(leaked)).ok);
@@ -328,4 +332,103 @@ fn summary_escapes_hostile_text() {
     let html = String::from_utf8(f["summary.html"].clone()).unwrap();
     assert!(!html.contains("<script>") && !html.contains("<img") && !html.contains("<b>x"));
     assert!(html.contains("&lt;script&gt;"));
+}
+
+#[test]
+fn renaming_a_file_is_a_missing_file_and_an_unlisted_one() {
+    let mut f = pack();
+    let b = f.remove("epochs.json").unwrap();
+    f.insert("epochs-renamed.json".into(), b);
+    let got = failures(&f);
+    assert!(got.contains(&Failure::FileMissing {
+        name: "epochs.json".into()
+    }));
+    assert!(got.contains(&Failure::UnlistedFile {
+        name: "epochs-renamed.json".into()
+    }));
+    assert_eq!(got.len(), 2, "{got:?}");
+}
+
+#[test]
+fn swapping_two_files_contents_names_both() {
+    let mut f = pack();
+    let a = f["config.json"].clone();
+    let b = f["epochs.json"].clone();
+    f.insert("config.json".into(), b);
+    f.insert("epochs.json".into(), a);
+    let got = failures(&f);
+    for name in ["config.json", "epochs.json"] {
+        assert!(
+            got.iter()
+                .any(|x| matches!(x, Failure::FileHashMismatch { name: n, .. } if n == name)),
+            "{name}: {got:?}"
+        );
+    }
+    assert!(
+        !got.contains(&Failure::SignatureInvalid),
+        "the manifest itself is untouched"
+    );
+}
+
+#[test]
+fn reordering_the_manifest_entries_fails_the_signature_and_the_list_check() {
+    let mut f = pack();
+    let mut m: Manifest = serde_json::from_slice(&f["manifest.json"]).unwrap();
+    m.artifacts.swap(1, 2);
+    f.insert(
+        "manifest.json".into(),
+        serde_json::to_vec_pretty(&m).unwrap(),
+    );
+    let got = failures(&f);
+    assert!(got.contains(&Failure::SignatureInvalid));
+    assert!(got
+        .iter()
+        .any(|x| matches!(x, Failure::ArtifactListMalformed { .. })));
+}
+
+#[test]
+fn the_fingerprint_is_128_bits() {
+    let m: Manifest = serde_json::from_slice(&pack()["manifest.json"]).unwrap();
+    assert_eq!(m.signer.fingerprint.len(), 32);
+    assert!(m.signer.fingerprint.bytes().all(|b| b.is_ascii_hexdigit()));
+}
+
+#[test]
+fn the_creation_time_must_be_a_real_utc_time() {
+    let l = log();
+    for bad in [
+        "yesterday-ish",
+        "2026-02-30T00:00:00Z",
+        "2026-01-01T00:00:00",
+        "",
+        "99999-01-01T00:00:00Z",
+    ] {
+        let mut i = input(&l, None);
+        i.created_utc = Some(bad);
+        assert!(
+            create_bundle(&i, &SEED, None).is_err(),
+            "{bad:?} was accepted"
+        );
+    }
+    let mut i = input(&l, None);
+    i.created_utc = Some("2026-01-02T03:04:05Z");
+    assert!(create_bundle(&i, &SEED, None).is_ok());
+}
+
+#[test]
+fn a_junk_token_is_refused_at_creation() {
+    let l = log();
+    let e = create_bundle(&input(&l, None), &SEED, Some(b"junk")).unwrap_err();
+    assert!(e.to_string().contains("timestamp token"), "{e}");
+}
+
+#[test]
+fn a_signature_without_its_newline_says_so() {
+    let mut f = pack();
+    f.get_mut("manifest.sig").unwrap().pop();
+    let got = failures(&f);
+    assert!(
+        matches!(got.as_slice(), [Failure::SignatureMalformed { detail }] if detail.contains("newline")),
+        "{got:?}"
+    );
 }

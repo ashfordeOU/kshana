@@ -18,6 +18,9 @@ pub struct VerifyOptions<'a> {
     pub expected_public_key: Option<[u8; 32]>,
     /// The full original log, to check its hash and that the slice came from it.
     pub full_log: Option<&'a [u8]>,
+    /// Fail unless the pack carries a timestamp token. A token is stored beside the signed
+    /// manifest, not inside it, so removing one cannot be detected without this.
+    pub require_timestamp: bool,
 }
 
 /// One thing that is wrong.
@@ -127,6 +130,8 @@ pub enum Failure {
     },
     /// The slice bytes are not the stated range of the full log supplied.
     SliceNotFromFullLog,
+    /// A timestamp token was required and the pack has none.
+    TimestampMissing,
     /// `timestamp.tsr` could not be read.
     TimestampMalformed {
         /// What is wrong.
@@ -293,11 +298,10 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
     match files.get("manifest.sig") {
         None => r.failures.push(Failure::SignatureMissing),
         Some(sb) => match (
-            hex_fixed::<64>(
-                String::from_utf8_lossy(sb)
-                    .strip_suffix('\n')
-                    .unwrap_or("not newline-terminated"),
-            ),
+            match String::from_utf8_lossy(sb).strip_suffix('\n') {
+                Some(h) => hex_fixed::<64>(h),
+                None => Err("the signature file does not end with a newline".into()),
+            },
             key_bytes.map(|k| VerifyingKey::from_bytes(&k)),
         ) {
             (Err(e), _) => r.failures.push(Failure::SignatureMalformed { detail: e }),
@@ -488,8 +492,9 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                     actual: h,
                 });
             } else if let Some(slice) = files.get("log-slice.bin") {
-                let (a, b) = (s.start as usize, s.end as usize);
-                if b > full.len() || a > b || &full[a..b] != slice.as_slice() {
+                // Check in u64 before narrowing: `as usize` would truncate on 32-bit targets.
+                let in_range = s.start <= s.end && s.end <= full.len() as u64;
+                if !in_range || full[s.start as usize..s.end as usize] != slice[..] {
                     r.failures.push(Failure::SliceNotFromFullLog);
                 }
             }
@@ -504,11 +509,24 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
 
     // Timestamp.
     match files.get("timestamp.tsr") {
-        None => r.checks.push(Check {
-            name: "timestamp",
-            status: Status::Skipped,
-            detail: "no timestamp token in the pack".into(),
-        }),
+        None if opts.require_timestamp => {
+            r.failures.push(Failure::TimestampMissing);
+            r.checks.push(Check {
+                name: "timestamp",
+                status: Status::Fail,
+                detail: "a timestamp token was required and the pack has none".into(),
+            });
+        }
+        None => {
+            r.notes.push(
+                "no timestamp token: a token sits beside the signed manifest, so its absence cannot show whether one was ever attached; pass --require-timestamp to insist on one".into(),
+            );
+            r.checks.push(Check {
+                name: "timestamp",
+                status: Status::Skipped,
+                detail: "no timestamp token in the pack".into(),
+            })
+        }
         Some(tok) => {
             let from = r.failures.len();
             match tsr::parse_token(tok) {
@@ -637,5 +655,67 @@ mod tests {
             .failures
             .iter()
             .any(|x| matches!(x, Failure::TimestampImprintMismatch { .. })));
+    }
+
+    #[test]
+    fn a_stripped_token_is_noticed_only_when_one_is_required() {
+        let mut f = pack();
+        let m = f["manifest.json"].clone();
+        stamped(&mut f, &m);
+        assert!(verify_bundle(&f, &VerifyOptions::default()).ok);
+        f.remove("timestamp.tsr");
+        // The token sits beside the signed manifest, so by default its absence is a note...
+        let r = verify_bundle(&f, &VerifyOptions::default());
+        assert!(r.ok);
+        assert!(r.notes.iter().any(|n| n.contains("--require-timestamp")));
+        // ...and a failure when the verifier insists on one.
+        let r = verify_bundle(
+            &f,
+            &VerifyOptions {
+                require_timestamp: true,
+                ..Default::default()
+            },
+        );
+        assert_eq!(r.failures, vec![Failure::TimestampMissing]);
+    }
+
+    #[test]
+    fn a_replaced_token_over_other_bytes_is_caught() {
+        let mut f = pack();
+        let m = f["manifest.json"].clone();
+        stamped(&mut f, &m);
+        stamped(&mut f, b"a different document");
+        let r = verify_bundle(&f, &VerifyOptions::default());
+        assert!(matches!(
+            r.failures.as_slice(),
+            [Failure::TimestampImprintMismatch { .. }]
+        ));
+    }
+
+    #[test]
+    fn creation_accepts_only_a_token_over_the_same_manifest() {
+        let input = || EvidenceInput {
+            title: "t",
+            engine_version: "0.0.0-test",
+            log_format: "nmea",
+            log_file_name: "x.nmea",
+            log_bytes: b"abc",
+            start_label: None,
+            slice: None,
+            window: Window {
+                from_s: 0.0,
+                to_s: 1.0,
+            },
+            config: serde_json::json!({}),
+            epochs: vec![serde_json::json!({"t_s": 0.0})],
+            created_utc: None,
+        };
+        let plain = create_bundle(&input(), &[9u8; 32], None).unwrap();
+        let d = <sha2::Sha256 as sha2::Digest>::digest(&plain["manifest.json"]);
+        let good = token(&d, "20260102030405Z", true);
+        let stamped = create_bundle(&input(), &[9u8; 32], Some(&good)).unwrap();
+        assert!(verify_bundle(&stamped, &VerifyOptions::default()).ok);
+        let other = token(&[0u8; 32], "20260102030405Z", true);
+        assert!(create_bundle(&input(), &[9u8; 32], Some(&other)).is_err());
     }
 }

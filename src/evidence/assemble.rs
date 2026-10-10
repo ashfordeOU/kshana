@@ -11,6 +11,7 @@ use super::bundle::{
 };
 use crate::receiver_trust::ingest::read_log;
 use crate::receiver_trust::scenario::{self, ReceiverTrustScenario};
+use crate::telemetry::time::parse_rfc3339_utc;
 use serde::Serialize;
 use serde_json::{json, Value};
 
@@ -51,36 +52,6 @@ pub struct PackSummary {
     pub manifest_sha256: String,
     /// Fingerprint of the signing key.
     pub signer_fingerprint: String,
-}
-
-/// Seconds since 1970 for `YYYY-MM-DDTHH:MM:SS[.f][Z]` (UTC only).
-fn parse_rfc3339_utc(s: &str) -> Option<f64> {
-    let s = s.trim().strip_suffix('Z').unwrap_or(s.trim());
-    let (d, t) = s.split_once('T')?;
-    let mut dp = d.split('-');
-    let (y, m, day): (i64, i64, i64) = (
-        dp.next()?.parse().ok()?,
-        dp.next()?.parse().ok()?,
-        dp.next()?.parse().ok()?,
-    );
-    let mut tp = t.split(':');
-    let (hh, mm): (f64, f64) = (tp.next()?.parse().ok()?, tp.next()?.parse().ok()?);
-    let ss: f64 = tp.next()?.parse().ok()?;
-    if dp.next().is_some()
-        || tp.next().is_some()
-        || !(1..=12).contains(&m)
-        || !(1..=31).contains(&day)
-    {
-        return None;
-    }
-    // Howard Hinnant's days-from-civil.
-    let y = if m <= 2 { y - 1 } else { y };
-    let era = y.div_euclid(400);
-    let yoe = y.rem_euclid(400);
-    let doy = (153 * ((m + 9) % 12) + 2) / 5 + day - 1;
-    let doe = yoe * 365 + yoe / 4 - yoe / 100 + doy;
-    let days = era * 146_097 + doe - 719_468;
-    Some(days as f64 * 86_400.0 + hh * 3600.0 + mm * 60.0 + ss)
 }
 
 fn parse_time(arg: &str, start_label: Option<&str>) -> Result<f64, String> {
@@ -197,24 +168,6 @@ pub fn build_receiver_trust_pack(
 #[cfg(test)]
 mod tests {
     use super::*;
-
-    #[test]
-    fn rfc3339_parsing() {
-        assert_eq!(parse_rfc3339_utc("1970-01-01T00:00:00Z"), Some(0.0));
-        assert_eq!(
-            parse_rfc3339_utc("2000-02-29T00:00:00Z"),
-            Some(951_782_400.0)
-        );
-        assert_eq!(
-            parse_rfc3339_utc("2025-12-31T23:59:59.5Z"),
-            Some(1_767_225_599.5)
-        );
-        assert_eq!(
-            parse_rfc3339_utc("hh:mm:ss.mmm UTC (date not in log)"),
-            None
-        );
-        assert_eq!(parse_rfc3339_utc("2025-13-01T00:00:00Z"), None);
-    }
 
     #[test]
     fn time_arguments() {

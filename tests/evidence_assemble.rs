@@ -47,6 +47,7 @@ fn builds_a_verifiable_reproducible_pack_from_bytes_alone() {
         &VerifyOptions {
             expected_public_key: None,
             full_log: Some(&log),
+            ..Default::default()
         },
     );
     assert!(r.ok, "{:?}", r.failures);
