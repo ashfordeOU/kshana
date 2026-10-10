@@ -283,7 +283,7 @@ jobs:
           # Retry briefly: the `kshana` version this depends on may still be propagating
           # through the crates.io sparse index right after the `crates` job published it.
           for attempt in 1 2 3 4 5; do
-            out="$(cargo publish 2>&1)"; rc=$?
+            out="$(cargo publish --locked 2>&1)"; rc=$?
             printf '%s\n' "$out"
             [ "$rc" -eq 0 ] && exit 0
             printf '%s\n' "$out" | grep -qiE "already (exists|uploaded)|already been published|is already uploaded" \
