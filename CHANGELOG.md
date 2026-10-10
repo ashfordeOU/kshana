@@ -227,6 +227,7 @@ breaking changes are called out explicitly.
   inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
   same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
 
+
 ## [0.34.1] - 2026-10-10
 
 ### Security

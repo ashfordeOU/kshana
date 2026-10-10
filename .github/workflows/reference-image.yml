@@ -1,0 +1,149 @@
+# SPDX-License-Identifier: AGPL-3.0-only
+# Build and push the reference-build container (the Kshana gate / trust monitor,
+# deploy/reference-build) to ghcr.io, the same way mcp-publish.yml pushes kshana-mcp:
+# multi-arch (linux/amd64 + linux/arm64), tagged <version> and latest, with SLSA
+# build-provenance attested by digest and pushed into the registry.
+#
+# Called by release.yml AFTER `verify` and `publish` (so never for an unverified commit and
+# never ahead of crates.io). A manual dispatch is a DRY RUN: it builds both architectures
+# and pushes nothing, from any ref. The push path runs only on a tag.
+#
+# The OCI labels (version, revision, source, licence) are stamped from the tag at build
+# time, so the image's own version label cannot drift from the release.
+name: reference image
+on:
+  workflow_call:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: "Version label for a dry run (default: Cargo.toml's)"
+        required: false
+        type: string
+  # A dry run on the release-channels branch when this file or the image's sources change
+  # (not a tag, so nothing is pushed).
+  push:
+    branches: [ci/release-0.35-channels]
+    paths:
+      - ".github/workflows/reference-image.yml"
+      - "deploy/reference-build/**"
+permissions:
+  contents: read
+jobs:
+  image:
+    name: OCI image (ghcr.io)
+    runs-on: ubuntu-latest
+    # arm64 builds under emulation; the engine compiles from source in the Dockerfile.
+    # Same cap as the kshana-mcp image (see mcp-publish.yml).
+    timeout-minutes: 90
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+      attestations: write
+      actions: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Decide push or dry run
+        id: mode
+        env:
+          REF: ${{ github.ref }}
+          INPUT: ${{ inputs.version }}
+          OWNER: ${{ github.repository_owner }}
+        run: |
+          set -euo pipefail
+          if [[ "$REF" == refs/tags/v* ]]; then
+            echo "push=true" >> "$GITHUB_OUTPUT"
+            echo "version=${REF#refs/tags/v}" >> "$GITHUB_OUTPUT"
+          else
+            echo "push=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::not a tag ref: DRY RUN, the image is built for both architectures and nothing is pushed"
+            v="${INPUT:-$(grep -m1 '^version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')}"
+            echo "version=$v" >> "$GITHUB_OUTPUT"
+          fi
+          echo "owner=$(echo "$OWNER" | tr '[:upper:]' '[:lower:]')" >> "$GITHUB_OUTPUT"
+      - name: Require a green release verdict for this exact commit
+        if: steps.mode.outputs.push == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: ./scripts/check-release-verdict.sh "$GITHUB_SHA"
+      - name: Version sync (tag == manifest)
+        # A dry run on a branch shows version drift (a branch that has not been bumped yet)
+        # as a failed step but goes on to build; a tag run stops here.
+        continue-on-error: ${{ steps.mode.outputs.push != 'true' }}
+        run: ./scripts/check-version-sync.sh
+      - name: Base images are pinned by digest - do the tags still resolve to the pinned digests?
+        # Informational, never fatal: a newer base image than the pin is a reason to re-pin, not
+        # a failed release. The build below pulls each base by its digest, so a digest that the
+        # registry does not have fails there.
+        run: |
+          set -uo pipefail
+          grep -E '^FROM +[^ ]+@sha256:' deploy/reference-build/Dockerfile | awk '{print $2}' | while read -r ref; do
+            name="${ref%%@*}"; pinned="${ref##*@}"
+            now="$(docker buildx imagetools inspect "$name" --format '{{.Manifest.Digest}}' 2>&1)"
+            if [ "$now" = "$pinned" ]; then echo "OK: $name still resolves to $pinned"
+            else echo "::warning::$name resolves to '$now' now; the Dockerfile pins $pinned"; fi
+          done
+      - uses: docker/setup-qemu-action@c7c53464625b32c7a7e944ae62b3e17d2b600130 # v3
+      - uses: docker/setup-buildx-action@8d2750c68a42422c14e847fe6c8ac0403b4cbd6f # v3
+      - uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3
+        if: steps.mode.outputs.push == 'true'
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+      # The first thing run against the image: build the amd64 half into the local daemon and
+      # run the engine inside it. The CLI has no --version flag; with no arguments it prints its
+      # usage banner (the same smoke test release.yml runs on the binaries). The multi-arch
+      # build below reuses this one's layers from the cache.
+      - name: Build the amd64 image locally for a smoke test
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: deploy/reference-build/Dockerfile
+          platforms: linux/amd64
+          load: true
+          tags: kshana-reference-build:smoke
+          cache-from: type=gha,scope=reference-build
+          cache-to: type=gha,mode=max,scope=reference-build
+      - name: Smoke test - the engine runs inside the image, and the version label is the release's
+        env:
+          VERSION: ${{ steps.mode.outputs.version }}
+          PUSH: ${{ steps.mode.outputs.push }}
+        run: |
+          set -uo pipefail
+          out="$(docker run --rm --entrypoint /usr/local/bin/kshana kshana-reference-build:smoke 2>&1)" || true
+          printf '%s\n' "$out"
+          printf '%s\n' "$out" | grep -q "usage: kshana" \
+            || { echo "::error::kshana did not run / print its usage banner inside the image"; exit 1; }
+          label="$(docker inspect --format '{{ index .Config.Labels "org.opencontainers.image.version" }}' kshana-reference-build:smoke)"
+          if [ "$label" != "$VERSION" ]; then
+            # A tag run must carry the release's label. On a branch dry run the label may be ahead
+            # of Cargo.toml (the 0.35 sources before the version bump): shown, not fatal.
+            if [ "$PUSH" = "true" ]; then echo "::error::image version label '$label' != $VERSION"; exit 1; fi
+            echo "::warning::image version label '$label' != Cargo.toml $VERSION (dry run on a branch that is not bumped yet)"
+          fi
+          echo "OK: kshana runs in the image; label $label"
+      - id: build
+        uses: docker/build-push-action@10e90e3645eae34f1e60eeb005ba3a3d33f178e8 # v6
+        with:
+          context: .
+          file: deploy/reference-build/Dockerfile
+          platforms: linux/amd64,linux/arm64
+          push: ${{ steps.mode.outputs.push == 'true' }}
+          tags: |
+            ghcr.io/${{ steps.mode.outputs.owner }}/kshana-reference-build:${{ steps.mode.outputs.version }}
+            ghcr.io/${{ steps.mode.outputs.owner }}/kshana-reference-build:latest
+          labels: |
+            org.opencontainers.image.version=${{ steps.mode.outputs.version }}
+            org.opencontainers.image.revision=${{ github.sha }}
+            org.opencontainers.image.source=https://github.com/${{ github.repository }}
+            org.opencontainers.image.licenses=AGPL-3.0-only
+          cache-from: type=gha,scope=reference-build
+          cache-to: type=gha,mode=max,scope=reference-build
+      - name: Attest image build provenance
+        if: steps.mode.outputs.push == 'true'
+        uses: actions/attest-build-provenance@ef244123eb79f2f7a7e75d99086184180e6d0018 # v1
+        with:
+          subject-name: ghcr.io/${{ steps.mode.outputs.owner }}/kshana-reference-build
+          subject-digest: ${{ steps.build.outputs.digest }}
+          push-to-registry: true
