@@ -43,7 +43,11 @@ pub struct TcpServer {
     listener_addr: SocketAddr,
     clients: Arc<Mutex<Vec<TcpStream>>>,
     stop: Arc<AtomicBool>,
+    write_timeout: Arc<Mutex<Duration>>,
 }
+
+/// How long a write to one client may take before that client is dropped.
+pub const DEFAULT_WRITE_TIMEOUT: Duration = Duration::from_secs(2);
 
 impl TcpServer {
     /// Bind and start accepting in the background.
@@ -53,13 +57,16 @@ impl TcpServer {
         let listener_addr = listener.local_addr()?;
         let clients: Arc<Mutex<Vec<TcpStream>>> = Arc::default();
         let stop = Arc::new(AtomicBool::new(false));
-        let (c2, s2) = (clients.clone(), stop.clone());
+        let write_timeout = Arc::new(Mutex::new(DEFAULT_WRITE_TIMEOUT));
+        let (c2, s2, w2) = (clients.clone(), stop.clone(), write_timeout.clone());
         std::thread::spawn(move || {
             while !s2.load(Ordering::Relaxed) {
                 match listener.accept() {
                     Ok((s, _)) => {
                         let _ = s.set_nodelay(true);
                         let _ = s.set_nonblocking(false);
+                        let to = *w2.lock().unwrap_or_else(PoisonError::into_inner);
+                        let _ = s.set_write_timeout(Some(to));
                         c2.lock().unwrap_or_else(PoisonError::into_inner).push(s);
                     }
                     Err(e) if e.kind() == io::ErrorKind::WouldBlock => {
@@ -73,7 +80,17 @@ impl TcpServer {
             listener_addr,
             clients,
             stop,
+            write_timeout,
         })
+    }
+
+    /// Set how long a write to one client may take before the client is dropped (for
+    /// clients that connect after this call; default [`DEFAULT_WRITE_TIMEOUT`]).
+    pub fn set_write_timeout(&self, timeout: Duration) {
+        *self
+            .write_timeout
+            .lock()
+            .unwrap_or_else(PoisonError::into_inner) = timeout;
     }
 
     /// The bound address (useful after binding port 0).
@@ -115,11 +132,15 @@ impl Sink for TcpServer {
             block.push_str(l);
             block.push_str("\r\n");
         }
-        // A client that went away is dropped; the stream carries on for the others.
-        self.clients
-            .lock()
-            .unwrap_or_else(PoisonError::into_inner)
-            .retain_mut(|c| c.write_all(block.as_bytes()).is_ok());
+        // The client list is taken out of the lock while writing, so a slow client cannot
+        // hold up the accept thread. A client that went away, or that does not take a
+        // write within the timeout, is dropped; the stream carries on for the others.
+        let mut current =
+            std::mem::take(&mut *self.clients.lock().unwrap_or_else(PoisonError::into_inner));
+        current.retain_mut(|c| c.write_all(block.as_bytes()).is_ok());
+        let mut shared = self.clients.lock().unwrap_or_else(PoisonError::into_inner);
+        current.append(&mut shared);
+        *shared = current;
         Ok(())
     }
     fn finish(&mut self) -> io::Result<()> {

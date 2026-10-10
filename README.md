@@ -148,6 +148,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Campaigns](docs/CAMPAIGNS.md) | a chained mission, a sweep or a Monte Carlo ensemble in one scenario |
 | [Animation](docs/ANIMATION.md) | a run's time series as an animated drawing, a player or frames |
 | [Reports](docs/REPORTS.md) | every figure with its unit and its label, in HTML (HyperText Markup Language) and JSON (JavaScript Object Notation) |
+| [NMEA training streams](docs/NMEA-TRAINING.md) | synthetic bridge NMEA with scripted jamming and spoofing events and an instructor log, for crew training |
 | [Interoperability exports](docs/INTEROP.md) | orbits and geometry for other tools: SP3, CCSDS OMM and OEM, CZML, KML, GeoJSON, STK and SigMF |
 | [Maritime trust](docs/MARITIME-TRUST.md) | can the bridge trust this fix: a 0-100 score and reasons for a vessel's NMEA, live or from a log (advisory) |
 | [NMEA training streams](docs/NMEA-TRAINING.md) | synthetic bridge NMEA with scripted jamming and spoofing and an instructor log, for crew training (text only) |

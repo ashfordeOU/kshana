@@ -22,8 +22,11 @@ options:
                              network output is given)
   --instructor-log <prefix>  write <prefix>.json and <prefix>.txt (default: next to the
                              file, else <name> in the current directory)
-  --tcp <addr:port>          serve the stream over TCP (waits for a client first)
-  --udp <addr:port>          send one sentence per UDP datagram to this address
+  --tcp <addr:port|port>     serve the stream over TCP (waits for a client first); a bare
+                             port listens on 127.0.0.1 only. There is no authentication:
+                             anyone who can reach the address can read the stream
+  --udp <addr:port|port>     send one sentence per UDP datagram to this address; a bare
+                             port sends to 127.0.0.1
   --broadcast                allow --udp to use a broadcast address
   --wait-clients <n>         clients to wait for before the TCP stream starts (default 1)
   --realtime                 pace at real time (default for network output)
@@ -31,6 +34,16 @@ options:
                              (default for files)
   --seed <n>                 replace the scenario seed
   --no-marker                omit the synthetic-data marker sentence";
+
+/// A bare port means this machine only (`127.0.0.1:<port>`); a wider address, such as
+/// `0.0.0.0:10110`, has to be asked for in full.
+pub fn localise_addr(a: &str) -> String {
+    if !a.is_empty() && a.bytes().all(|b| b.is_ascii_digit()) {
+        format!("127.0.0.1:{a}")
+    } else {
+        a.to_string()
+    }
+}
 
 fn fail(msg: impl std::fmt::Display) -> ExitCode {
     eprintln!("error: {msg}");
@@ -120,6 +133,10 @@ pub fn run_cli(args: &[String]) -> ExitCode {
         Err(e) => return fail(e),
     };
 
+    let (tcp, udp) = (
+        tcp.map(|a| localise_addr(&a)),
+        udp.map(|a| localise_addr(&a)),
+    );
     let networked = tcp.is_some() || udp.is_some();
     let mut sinks: Vec<Box<dyn Sink>> = Vec::new();
     let file_path = match (&out, networked) {

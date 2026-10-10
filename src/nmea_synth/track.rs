@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! The true vessel track: waypoint steering with a rate-of-turn limit, a limit on how
 //! quickly the rate of turn builds, a speed change limit, and a current.
+//!
+//! Modelling choices, not measurements: the 20 s steering time constant (a heading error
+//! of 10 degrees or less asks for less than the full rate of turn), the arrival radii
+//! (0.7 turning radius, at least 100 m, for an intermediate waypoint; 30 m or a tenth of
+//! a turning radius at the last) and the 30 m stopping margin.
 
 use super::config::{TrainingScenario, KN_MPS};
 use crate::frames::{wgs84_e2, WGS84_A};
