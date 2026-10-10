@@ -117,7 +117,7 @@
   },
   {
    "row": "IMO-A1046-3",
-   "reference": "Resolution A.1046(27), harbour entrance, approach and coastal requirements",
+   "reference": "Resolution A.1046(27), annex paragraph 3 (harbour entrances, harbour approaches and coastal waters)",
    "document": "imo-a1046",
    "anchors": [
     "3|HARBOUR"
@@ -125,7 +125,7 @@
   },
   {
    "row": "IMO-A1046-2",
-   "reference": "Resolution A.1046(27), ocean requirements",
+   "reference": "Resolution A.1046(27), annex paragraph 2 (ocean waters)",
    "document": "imo-a1046",
    "anchors": [
     "2|OCEAN"
@@ -178,7 +178,7 @@
   },
   {
    "row": "EASA-MFR",
-   "reference": "SIB 2022-02R4, Recommendations to aircraft and equipment manufacturers",
+   "reference": "SIB 2022-02R4, Recommendation(s): aircraft and equipment manufacturers, should",
    "document": "easa-sib",
    "anchors": [
     "Aircraft and equipment manufacturers, should"
@@ -186,7 +186,7 @@
   },
   {
    "row": "EASA-OPS-SPOOF",
-   "reference": "SIB 2022-02R4, Recommendations to air operators (spoofing)",
+   "reference": "SIB 2022-02R4, Recommendation(s): air operators should (spoofing)",
    "document": "easa-sib",
    "anchors": [
     "Air operators should"
@@ -194,15 +194,16 @@
   },
   {
    "row": "EASA-ANSP",
-   "reference": "SIB 2022-02R4, Recommendations to ATM/ANS providers and equipment designers",
+   "reference": "SIB 2022-02R4, Recommendation(s): ATM/ANS providers should; organisations involved in the design or production of ATM/ANS equipment, should",
    "document": "easa-sib",
    "anchors": [
-    "ATM/ANS providers should"
+    "ATM/ANS providers should",
+    "Organisations involved in the design or production of ATM/ANS equipment, should"
    ]
   },
   {
    "row": "EASA-REPORT",
-   "reference": "SIB 2022-02R4, Reporting",
+   "reference": "SIB 2022-02R4, Recommendation(s): closing reminders on reporting",
    "document": "easa-sib",
    "anchors": [
     "Recommendation(s)"
