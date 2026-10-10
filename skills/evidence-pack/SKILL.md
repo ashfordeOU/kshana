@@ -16,7 +16,8 @@ Rules that apply every time:
 - Never ask for, return or log a signing seed. Without one the tool signs with a throwaway key
   (integrity, not identity). For a key that matters, make the pack with the command line.
 - Verify against the signer's public key obtained by another route, and the full log if held.
-  Without the key a pass proves only integrity against the key the pack names itself.
+  Without the key the verdict is `intact-signer-not-pinned`: integrity only, against the key the
+  pack names itself. Say "intact, signer not established", never "verified".
 - Inputs are capped at 4 MiB; narrow the window if the reply is too large.
 - Telemetry export (Prometheus, syslog, OpenTelemetry) is a command-line process
   (`kshana trust-telemetry`, `docs/TRUST-TELEMETRY.md`), not an MCP tool.

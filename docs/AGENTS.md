@@ -54,7 +54,7 @@ carry the rules below for agents that load skills.
 | Output | Keep |
 |---|---|
 | Receiver trust score | **Advisory**: not type-approved navigation equipment (IEC 61108, IEC 61162); the operator remains responsible. **MODELLED**. State the vessel's limits before the run and do not tune a threshold to a result. A high score is not proof of a genuine fix; the checks cannot see a spoofer consistent with every other sensor. |
-| Evidence pack | A **technical record**, not a legal opinion, a finding of fact or a certification. Verify with the signer's public key obtained by another route; without it a pass proves only integrity against the key the pack names itself. Never return, log or ask for a signing seed in a conversation if the key matters: use the CLI. |
+| Evidence pack | A **technical record**, not a legal opinion, a finding of fact or a certification. Verify with the signer's public key obtained by another route; without it the verdict is `intact-signer-not-pinned`, which proves only integrity against the key the pack names itself: say "intact, signer not established", never "verified". Never return, log or ask for a signing seed in a conversation if the key matters: use the CLI. |
 | Training NMEA | **Text only**, for training and testing, **never** for a vessel's live navigation systems. Return the seed and the instructor log. |
 | Interference map, route exposure | A degraded cell does **not** identify interference as the cause. A cell not observed is **not** evidence of a clear route. Past reports, **not a forecast**. **MODELLED**. Aggregate only: do not try to recover identifiers. ADS-B and AIS maps stay separate. |
 | Any scenario result | The `figure_tiers` or `label` it states, and the provenance line. |

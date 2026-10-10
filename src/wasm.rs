@@ -268,14 +268,16 @@ pub fn assess_vessel_log(session_toml: &str, log: &str) -> Result<String, JsValu
 /// `{"utf8": text}` or `{"base64": bytes}`. `public_key` is the signer's key as 64 hex digits,
 /// obtained from the signer by another route (empty for none: the signature then proves only
 /// that the pack is intact against the key it names itself). `full_log` is the full log text
-/// (empty for none). Returns the report as JSON: `ok`, `failures`, `checks`,
-/// `signer_fingerprint`, `signer_pinned`, `notes`. Nothing is uploaded; packs are made with the
+/// (empty for none). `require_timestamp` fails a pack without a timestamp token. Returns the
+/// report as JSON: `ok`, `failures`, `checks`, `signer_fingerprint`, `signer_pinned`, `notes`,
+/// plus `verdict` (`"verified"`, `"intact-signer-not-pinned"` or `"failed"`) and `message`. Nothing is uploaded; packs are made with the
 /// command line, Python or the MCP server.
 #[wasm_bindgen]
 pub fn evidence_verify(
     files_json: &str,
     public_key: &str,
     full_log: &str,
+    require_timestamp: bool,
 ) -> Result<String, JsValue> {
     let v: serde_json::Value = serde_json::from_str(files_json)
         .map_err(|e| JsValue::from_str(&format!("files_json is not JSON: {e}")))?;
@@ -284,7 +286,8 @@ pub fn evidence_verify(
         &files,
         (!public_key.is_empty()).then_some(public_key),
         (!full_log.is_empty()).then_some(full_log.as_bytes()),
+        require_timestamp,
     )
     .map_err(|e| JsValue::from_str(&e))?;
-    serde_json::to_string(&report).map_err(|e| JsValue::from_str(&e.to_string()))
+    Ok(report.to_string())
 }
