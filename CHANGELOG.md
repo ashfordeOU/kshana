@@ -9,6 +9,18 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Changed
+
+- **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
+  module the Observatory palette revision left on its own colours while the jammer-Q work
+  landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
+  kind scenarios) now reads `src/palette.rs`, and the allowlist in `tests/palette_sync.rs` is
+  empty. Colours and font only: the `jamming-demo` and `maritime-strait-jamming` charts are
+  equal to their previously recorded renders once colour, `font-family` and the version
+  footer are normalised. No plotted value moved. The recorded Studio copies under
+  `web/studio/recorded/` were re-recorded at the 0.33.0 and 0.34.0 re-ports (version stamp only):
+  they still carry the jamming chart's old paint, and take the palette paint at the next re-port.
+
 ### Fixed
 
 - **The clock-ensemble 3-sigma bound now covers the flicker floor, and the filter-health check sees it.**
@@ -32,6 +44,7 @@ breaking changes are called out explicitly.
   seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
   inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
   same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
+
 
 ## [0.34.1] - 2026-10-10
 
