@@ -68,6 +68,7 @@ breaking changes are called out explicitly.
   and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
 - **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
   the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- The Signal K plugin accepts the live JSON schema 1.2 (a `position` then an `advisory` key appended; unknown appended keys are ignored), checked on real 1.2 output and against a real signalk-server.
 - Review fixes: the systemd units restart always and run sandboxed (no shell, no network where none is needed), a logrotate
   snippet, `check-units.sh` fails on any finding; the container runs the gate from environment variables with a health check
   and digest-pinned base images; Signal K score metadata, the stale notification is replaced when data resumes, child-process
