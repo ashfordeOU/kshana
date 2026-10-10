@@ -49,9 +49,55 @@ figures of merit with their provenance and their VALIDATED or MODELLED label.
 | `export_oem` | Export an `orbit` scenario's state series as CCSDS OEM (Orbit Ephemeris Message) 2.0 ephemeris — the TEME (true equator, mean equinox) position *and* velocity series flight-dynamics tools (GMAT, the General Mission Analysis Tool; Orekit; STK, the Systems Tool Kit) read; the velocity-carrying complement of the position-only `export_sp3`. |
 | `export_table_csv` | Run a scenario and return its reproducibility table as CSV (comma-separated values) — the byte-stable table the CLI (command-line interface) writes as `<scenario>.table.csv`. Only `realtime-frame-eop`, `lunar-time-budget`, `lunar-jamming`, `telecom-timing`, `leo-navmsg` (its `encode-decode` analysis on a `kepler16` or `kepler-rac` message model) and `moonlight-service-volume` with `export_site_lat_deg` + `export_site_lon_deg` set emit one; any other kind returns an error naming these. |
 | `assess_receiver_log` | Assess a real GNSS (global navigation satellite system) receiver log for trust. The TOML names the log's `format` (`ubx`, `rinex`, `android` or `nmea`) and gives its bytes inline as `text` or `base64`; the tool runs the trust monitors (carrier-to-noise density drop, loss of lock, AGC (automatic gain control), jamming indicator, position jump and, with RINEX plus broadcast navigation, RAIM (receiver autonomous integrity monitoring) and a clock-aided monitor) and returns when and why the fix stopped being trustworthy. Optional `[[events]]` and `[compare]` sections score stated events and predicted C/N0 drops against stated tolerances. Chart and per-epoch CSV on request. See [`docs/RECEIVER-TRUST.md`](../../docs/RECEIVER-TRUST.md). |
+| `iq_signals` | The GNSS IQ layer's set-up: the signal names the IQ tools accept, whether the IQ file tools are on, the work directory and the per-call sample budget. Call it first. |
+| `iq_info` | Describe one IQ (in-phase and quadrature) recording in the work directory without processing it: format, sample rate, centre frequency, samples, duration, data files and sizes (`kshana iq info`). |
+| `iq_scene` | Generate a multi-satellite GNSS IQ scene into the work directory (`kshana iq scene`): stated Doppler/C/N0 profiles, or true broadcast-ephemeris geometry from a RINEX navigation file, with an optional signal-level propagation channel. Replies with the files written and their byte counts and the truth's first epoch per satellite. |
+| `iq_acquire` | FFT (fast Fourier transform) acquisition of one or more PRNs (pseudo-random noise codes) over a recording (`kshana iq acquire`), optionally behind front-end stages: per PRN, acquired or not, Doppler, code phase, peak statistic and threshold. |
+| `iq_track` | Acquire, then track with the DLL/PLL/FLL (delay-, phase- and frequency-locked loop) bank (`kshana iq track`): per channel, epochs, final Doppler, final and mean C/N0, phase- and code-lock fractions, locked at the end. Per-epoch output goes to files only. |
+| `iq_frontend` | Apply receiver front-end and interference-mitigation DSP (digital signal processing: band-pass, notch, blanking, excision, AGC, quantiser) to a recording and write a new one (`kshana iq frontend`). |
 
 Each tool is a thin, faithful wrapper over a public function of the `kshana` library — no
 new simulation logic lives here, so an agent runs exactly the validated engine.
+
+### The GNSS IQ tools: files in, compact JSON out
+
+IQ recordings run to gigabytes, so the `iq_*` tools never pass samples through the
+protocol. They follow one contract:
+
+- **A work directory.** The server reads and writes IQ files only inside the folder named
+  by `KSHANA_MCP_IQ_DIR`. Every path argument is relative to it (an absolute path must
+  resolve inside it); inputs are resolved through symlinks before the check, an output's
+  folder must already exist inside it, and an existing output is replaced only with
+  `overwrite: true`. Unset, the IQ file tools are off and say how to enable them; every
+  other tool is unaffected.
+- **A sample budget.** One call generates or processes at most `KSHANA_MCP_IQ_MAX_SAMPLES`
+  complex samples (default 50 000 000). In bytes that is 400 MB as `cf32_le` (8 bytes a
+  complex sample), 200 MB as `ci16_le` (4 bytes) and 100 MB as `ci8` (2 bytes); a scene is
+  written as `cf32_le` unless `format` says otherwise. The check runs before any work, and
+  the refusal names the duration or `max_seconds` that fits.
+- **Compact replies.** Each tool answers with one JSON summary: acquisition peaks, C/N0,
+  lock state, and every file written with its path and byte count. Per-epoch tables go to
+  the `json_out` / `csv_out` files you name.
+- **Unknown arguments are refused**, not ignored, so a misspelt option is an error.
+
+Each tool runs the same code path as `kshana iq` on the command line, in process. The layer
+is software only: it writes files for software receivers and drives no radio hardware. The IQ
+layer adds no interference or spoofer synthesis, and nothing is ever transmitted. (The separate
+`spectrum` scenario kind can write analytic jammer IQ snapshots to a file.)
+
+```json
+{
+  "mcpServers": {
+    "kshana": {
+      "command": "/Users/you/.cargo/bin/kshana-mcp",
+      "env": { "KSHANA_MCP_IQ_DIR": "/Users/you/iq" }
+    }
+  }
+}
+```
+
+With the Docker image, mount the folder and point the variable at it:
+`docker run --rm -i -v "$PWD/iq:/iq" -e KSHANA_MCP_IQ_DIR=/iq ghcr.io/ashfordeou/kshana-mcp`.
 
 ### Every kind is reachable
 
@@ -76,7 +122,8 @@ and `animate_scenario`, `report_scenario` and `export_interop` return them for a
 scenario they apply to.
 
 Not served: study suites (`kshana --study <suite.toml>`), because a suite names sibling
-scenario files on disk and this server reads no file. Run each member with `run_scenario`.
+scenario files on disk and the scenario tools read no file. Run each member with
+`run_scenario`. (The IQ tools do read and write files, inside their work directory only.)
 
 ## Install
 
@@ -159,6 +206,8 @@ Once registered, ask your assistant things like:
 - *"Put that Iridium pass on a Cesium globe."* → `list_export_formats`, `export_interop`
 - *"Animate the jamming campaign."* → `animate_scenario`
 - *"Give me the report for that run, with its reproducibility record."* → `report_scenario`
+- *"Make a one-second GPS L1 scene with PRNs 3 and 17, then acquire and track it."* →
+  `iq_signals`, `iq_scene`, `iq_acquire`, `iq_track`
 
 ## Design note — why a separate crate
 

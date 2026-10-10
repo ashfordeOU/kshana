@@ -51,11 +51,13 @@
 //! or antenna pattern acts on the jammer. Intra-system (multiple-access) interference
 //! between satellites of the same band is not included.
 
+use crate::chart::esc;
 use crate::jamming::{
     effective_cn0_dbhz, free_space_path_loss_db, j_over_s_db, lock_status, q_factor,
     BOLTZMANN_J_PER_K,
 };
 use crate::navsignal::{q_from_ssc, simpson, spectral_separation_coeff_offset, Modulation, F0_HZ};
+use crate::palette::chart::{AMBER, AXIS, CORAL, INK_2, LIME, MUTED, TEXT};
 use crate::sdr::Cf64;
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
@@ -1975,33 +1977,9 @@ pub const NOT_MODELLED: &[&str] = &[
 
 // ───────────────────────────── chart ─────────────────────────────
 
-/// Colour for a normalised value `u ∈ [0, 1]` on a dark-to-bright sequential ramp.
+/// Colour for a normalised value `u ∈ [0, 1]` on the shared sequential ramp.
 fn ramp_colour(u: f64) -> String {
-    const STOPS: [(f64, [f64; 3]); 5] = [
-        (0.0, [12.0, 11.0, 8.0]),
-        (0.25, [66.0, 10.0, 104.0]),
-        (0.5, [147.0, 38.0, 103.0]),
-        (0.75, [221.0, 81.0, 58.0]),
-        (1.0, [252.0, 255.0, 164.0]),
-    ];
-    let u = u.clamp(0.0, 1.0);
-    let mut i = 0;
-    while i + 1 < STOPS.len() - 1 && u > STOPS[i + 1].0 {
-        i += 1;
-    }
-    let (a, ca) = STOPS[i];
-    let (b, cb) = STOPS[i + 1];
-    let t = ((u - a) / (b - a)).clamp(0.0, 1.0);
-    let c: Vec<u8> = (0..3)
-        .map(|k| (ca[k] + t * (cb[k] - ca[k])).round() as u8)
-        .collect();
-    format!("#{:02x}{:02x}{:02x}", c[0], c[1], c[2])
-}
-
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
+    crate::palette::ramp(u)
 }
 
 /// The waterfall (frequency across, time down, colour = PSD) with band markers, and a
@@ -2073,14 +2051,14 @@ fn waterfall_svg(
     for k in 0..=5 {
         let f = fa + (fb - fa) * k as f64 / 5.0;
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"#8a8172\">{:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{:.0}</text>",
             xf(f),
             y0 + ph + 16.0,
             f / 1e6
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#8a8172\">frequency (MHz)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">frequency (MHz)</text>",
         x0 + pw / 2.0,
         y0 + ph + 34.0
     ));
@@ -2096,8 +2074,8 @@ fn waterfall_svg(
             .count();
         seen.push(b.centre_hz);
         s.push_str(&format!(
-            "<line x1=\"{x:.1}\" y1=\"{:.1}\" x2=\"{x:.1}\" y2=\"{y0:.1}\" stroke=\"#bcb3a3\"/>\
-             <text x=\"{x:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"#bcb3a3\">{}</text>",
+            "<line x1=\"{x:.1}\" y1=\"{:.1}\" x2=\"{x:.1}\" y2=\"{y0:.1}\" stroke=\"{INK_2}\"/>\
+             <text x=\"{x:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{TEXT}\">{}</text>",
             y0 - 6.0,
             y0 - 9.0 - 11.0 * dup as f64,
             esc(&b.name)
@@ -2139,14 +2117,14 @@ fn time_axis(s: &mut String, t_rows: &[f64], x0: f64, y0: f64, ph: f64) {
     for k in 0..=4 {
         let t = t_end * k as f64 / 4.0;
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"#8a8172\">{:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{MUTED}\">{:.0}</text>",
             x0 - 6.0,
             y0 + ph * k as f64 / 4.0 + 4.0,
             t
         ));
     }
     s.push_str(&format!(
-        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#8a8172\" transform=\"rotate(-90 16 {:.1})\">time (s)</text>",
+        "<text x=\"16\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\" transform=\"rotate(-90 16 {:.1})\">time (s)</text>",
         y0 + ph / 2.0,
         y0 + ph / 2.0
     ));
@@ -2173,8 +2151,8 @@ fn colour_bar(
         ));
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{lo_db:.0}</text>\
-         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\">{hi_db:.0} dBW/Hz</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{lo_db:.0}</text>\
+         <text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\">{hi_db:.0} dBW/Hz</text>",
         lo_x,
         label_y,
         bx + bw_ + 4.0,
@@ -2220,16 +2198,16 @@ fn cn0_bars(
         let nom = b.nominal_cn0_dbhz(n0_db);
         let min_c = timeline_bands[i]["min_cn0_dbhz"].as_f64().unwrap_or(nom);
         let col = if min_c < thr {
-            "#e5645a"
+            CORAL
         } else if min_c < thr + 6.0 {
-            "#e0a64a"
+            AMBER
         } else {
-            "#46b67e"
+            LIME
         };
         s.push_str(&format!(
-            "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"#5a5245\"/>\
+            "<rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{AXIS}\"/>\
              <rect x=\"{bx0:.1}\" y=\"{:.1}\" width=\"{:.1}\" height=\"{bar_h}\" fill=\"{col}\"/>\
-             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"#bcb3a3\">{} {:.1} / {:.1}</text>",
+             <text x=\"{bx0:.1}\" y=\"{:.1}\" font-size=\"{font}\" fill=\"{TEXT}\">{} {:.1} / {:.1}</text>",
             yc - st.bar_dy,
             (xb(nom) - bx0).max(0.5),
             yc,
@@ -2242,8 +2220,8 @@ fn cn0_bars(
     }
     let xt = xb(thr);
     s.push_str(&format!(
-        "<line x1=\"{xt:.1}\" y1=\"{y0:.1}\" x2=\"{xt:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"5 4\"/>\
-         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"#e5645a\">threshold {thr:.0}</text>",
+        "<line x1=\"{xt:.1}\" y1=\"{y0:.1}\" x2=\"{xt:.1}\" y2=\"{:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"5 4\"/>\
+         <text x=\"{xt:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{CORAL}\">threshold {thr:.0}</text>",
         y0 + ph,
         y0 + ph + 16.0
     ));
@@ -2251,7 +2229,7 @@ fn cn0_bars(
         for k in 0..=3 {
             let c = cmax * k as f64 / 3.0;
             s.push_str(&format!(
-                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"#8a8172\">{c:.0}</text>",
+                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"10\" fill=\"{MUTED}\">{c:.0}</text>",
                 xb(c),
                 y0 + ph + 30.0
             ));
@@ -2348,7 +2326,7 @@ fn multi_band_svg(
         let (fa, fb) = (freq[0] - step / 2.0, freq[cols - 1] + step / 2.0);
         let xf = |f: f64| px + (f - fa) / (fb - fa) * pw;
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#bcb3a3\">{}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{TEXT}\">{}</text>",
             px + pw / 2.0,
             y0 + ph + 34.0,
             esc(name)
@@ -2356,7 +2334,7 @@ fn multi_band_svg(
         for (t, anchor) in ["start", "middle", "end"].iter().enumerate() {
             let f = fa + (fb - fa) * t as f64 / 2.0;
             s.push_str(&format!(
-                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"#8a8172\">{:.1}</text>",
+                "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"{anchor}\" font-size=\"10\" fill=\"{MUTED}\">{:.1}</text>",
                 xf(f),
                 y0 + ph + 16.0,
                 f / 1e6
@@ -2369,8 +2347,8 @@ fn multi_band_svg(
             }
             let x = xf(b.centre_hz);
             s.push_str(&format!(
-                "<line x1=\"{x:.1}\" y1=\"{:.1}\" x2=\"{x:.1}\" y2=\"{y0:.1}\" stroke=\"#bcb3a3\"/>\
-                 <text x=\"{x:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"9\" fill=\"#bcb3a3\">{}</text>",
+                "<line x1=\"{x:.1}\" y1=\"{:.1}\" x2=\"{x:.1}\" y2=\"{y0:.1}\" stroke=\"{INK_2}\"/>\
+                 <text x=\"{x:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"9\" fill=\"{TEXT}\">{}</text>",
                 y0 - 4.0,
                 y0 - 7.0 - 10.0 * (row % 3) as f64,
                 esc(&b.name)
@@ -2379,7 +2357,7 @@ fn multi_band_svg(
         }
     }
     s.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"#8a8172\">frequency (MHz)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" text-anchor=\"middle\" font-size=\"12\" fill=\"{MUTED}\">frequency (MHz)</text>",
         x0 + total_w / 2.0,
         y0 + ph + 52.0
     ));

@@ -36,7 +36,9 @@ use super::geom::{median, norm, rms, sub, Site};
 use super::joint_pvt::{self, PseudorangeObs, SystemClock};
 use super::system::{in_view, SystemCfg};
 use super::C_LIGHT;
+use crate::chart::esc;
 use crate::field_schema::{FieldUnit, ProvenanceClass::*};
+use crate::palette::chart::{BLUE, CYAN, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -678,37 +680,31 @@ fn ntn_svg(r: &NtnReport) -> String {
     for (k, sig) in r.signals.iter().enumerate() {
         let x = ml + pw * (k as f64 + 0.5) / n;
         s.push_str(&format!(
-            "<rect x=\"{:.1}\" y=\"{:.1}\" width=\"30\" height=\"{:.1}\" fill=\"#5b7fa6\"/>",
+            "<rect x=\"{:.1}\" y=\"{:.1}\" width=\"30\" height=\"{:.1}\" fill=\"{BLUE}\"/>",
             x - 15.0,
             y(sig.range_sigma_mask_m),
             (y(sig.range_sigma_zenith_m) - y(sig.range_sigma_mask_m)).max(1.0)
         ));
         if let Some(e) = sig.toa_rms_error_3d_m {
             s.push_str(&format!(
-                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"5\" fill=\"#c79e63\"/>",
+                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"5\" fill=\"{CYAN}\"/>",
                 x + 30.0,
                 y(e)
             ));
         }
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"#8a8172\" text-anchor=\"middle\">{}</text>",
+            "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" fill=\"{MUTED}\" text-anchor=\"middle\">{}</text>",
             x,
             top + ph + 18.0,
-            xml_escape(&sig.name)
+            esc(&sig.name)
         ));
     }
     s.push_str(&format!(
-        "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10^{hi:.0} m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a8172\">10^{lo:.0} m</text></svg>",
+        "<text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{hi:.0} m</text><text x=\"10\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">10^{lo:.0} m</text></svg>",
         top + 10.0,
         top + ph
     ));
     s
-}
-
-fn xml_escape(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
 }
 
 /// Units of the `ntn-positioning` report.

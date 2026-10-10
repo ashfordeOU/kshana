@@ -213,7 +213,7 @@ function initWaterfall(d) {
       if (sig >= VMIN && p.w >= 150) {
         const lx = fx(p, p.g.fc) + 6, t = `signal +${n(sig, 2)} dB`;
         const g2 = S("g", { class: "cw-sig" }, ov);
-        S("rect", { x: lx, y: p.y + p.h - 22, width: t.length * 6.1 + 10, height: 16, rx: 4, fill: "rgba(5,6,12,.78)", stroke: "rgba(61,220,247,.35)" }, g2);
+        S("rect", { x: lx, y: p.y + p.h - 22, width: t.length * 6.1 + 10, height: 16, rx: 4, fill: "rgba(6,10,20,.78)", stroke: "rgba(61,220,247,.35)" }, g2);
         S("text", { x: lx + 5, y: p.y + p.h - 11, fill: "#9fe9fa", "font-size": 9.5, "font-family": "var(--mono)" }, g2, t);
       }
     }
@@ -249,11 +249,11 @@ function initWaterfall(d) {
     if (document.fullscreenElement === oc) {
       // the overview in full screen shows the whole instrument, not a stretched strip
       const sv = [W, H, panes]; W = ow; H = oh2; panes = panesFor(W, H); paintMain(o, od); [W, H, panes] = sv;
-    } else if (of) { o.setTransform(od, 0, 0, od, 0, 0); o.fillStyle = "#05060c"; o.fillRect(0, 0, ow, oh2); o.imageSmoothingEnabled = false; o.drawImage(offAll, 0, 0, NF, NT, of.ox0, 16, of.ox1 - of.ox0, of.oh - 30); }
+    } else if (of) { o.setTransform(od, 0, 0, od, 0, 0); o.fillStyle = "#060A14"; o.fillRect(0, 0, ow, oh2); o.imageSmoothingEnabled = false; o.drawImage(offAll, 0, 0, NF, NT, of.ox0, 16, of.ox1 - of.ox0, of.oh - 30); }
     drawCursor(); readout();
   }
   function paintMain(c, dpr) {
-    c.setTransform(dpr, 0, 0, dpr, 0, 0); c.fillStyle = "#05060c"; c.fillRect(0, 0, W, H);
+    c.setTransform(dpr, 0, 0, dpr, 0, 0); c.fillStyle = "#060A14"; c.fillRect(0, 0, W, H);
     // frequency is interpolated between the 3 MHz cells (the rows stay crisp: they were repeated offscreen)
     c.imageSmoothingEnabled = true; c.imageSmoothingQuality = "high";
     panes.forEach((p, i) => c.drawImage(offG[i], 0, 0, p.g.n, NT * ROWPX, p.x, p.y, p.w, p.h));
@@ -261,7 +261,7 @@ function initWaterfall(d) {
     { const gr = c.createLinearGradient(0, GT, 0, GT + 10); gr.addColorStop(0, "rgba(61,220,247,.55)"); gr.addColorStop(1, "rgba(61,220,247,0)"); c.fillStyle = gr; for (const p of panes) c.fillRect(p.x, p.y, p.w, 10); }
     if (k < NT - 1) {
       const yR = GT + ((k + 1) / NT) * (H - GT - GB); c.strokeStyle = "rgba(61,220,247,.85)"; c.lineWidth = 1; c.beginPath(); for (const p of panes) { c.moveTo(p.x, yR); c.lineTo(p.x + p.w, yR); } c.stroke();
-      if (yR < H - GB - 20) { c.font = "500 10px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace"); const p0 = panes[0], lab = p0.w < 240 ? "replay start" : "replay start · previous pass below", tw = c.measureText(lab).width + 10; c.fillStyle = "rgba(5,6,12,.86)"; c.fillRect(p0.x + 4, yR + 3, tw, 14); c.fillStyle = "#9fe9fa"; c.fillText(lab, p0.x + 9, yR + 13.5); }
+      if (yR < H - GB - 20) { c.font = "500 10px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace"); const p0 = panes[0], lab = p0.w < 240 ? "replay start" : "replay start · previous pass below", tw = c.measureText(lab).width + 10; c.fillStyle = "rgba(6,10,20,.86)"; c.fillRect(p0.x + 4, yR + 3, tw, 14); c.fillStyle = "#9fe9fa"; c.fillText(lab, p0.x + 9, yR + 13.5); }
     }
     // each jammer switching on or off, where its row sits now, in the windows it lands in
     c.font = "500 10px " + (getComputedStyle(scope).getPropertyValue("--mono").trim() || "monospace");
@@ -272,7 +272,7 @@ function initWaterfall(d) {
       for (const p of panes) if (j.centre_hz >= F[p.g.i0] - s.bin_hz && j.centre_hz <= F[p.g.i1] + s.bin_hz) {
         c.strokeStyle = "rgba(255,255,255,.7)"; c.setLineDash([4, 3]); c.beginPath(); c.moveTo(p.x, y); c.lineTo(p.x + p.w, y); c.stroke(); c.setLineDash([]);
         const lab = `${JNAME[j.waveform] || j.waveform} ${verb}`, tw = c.measureText(lab).width + 10;
-        const ly = y - 16 < GT + 12 ? y + 2 : y - 16; c.fillStyle = "rgba(5,6,12,.86)"; c.fillRect(p.x + 4, ly, tw, 14); c.fillStyle = "#eaf0ff"; c.fillText(lab, p.x + 9, ly + 10.5);
+        const ly = y - 16 < GT + 12 ? y + 2 : y - 16; c.fillStyle = "rgba(6,10,20,.86)"; c.fillRect(p.x + 4, ly, tw, 14); c.fillStyle = "#eaf0ff"; c.fillText(lab, p.x + 9, ly + 10.5);
       }
     }
 

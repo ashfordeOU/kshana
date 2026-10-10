@@ -91,10 +91,12 @@ this is exactly the `jamming` kind's anti-jam equation with `Q = 1/(R_c κ)`; th
 inputs and prints the difference, which is zero to rounding.
 
 The report also prints the C/N₀ the `jamming` kind gives with its representative Q table.
-That table (broadband 1.0, CW 1.5) is not what the spectra give: a CW tone on the C/A
-carrier has `κ = T_c`, so `Q = 1`, and noise matched to C/A has `κ = 2/(3R_c)`, so
-`Q = 1.5`, the textbook values. In the bundled example the difference is 1.8 dB of C/N₀
-for the tone (17.98 against 19.74 dB-Hz).
+For a CW tone the table and the spectra now agree: a CW tone on the C/A carrier has
+`κ = T_c`, so `Q = 1`, the textbook value, and the table's CW/narrowband entry is 1.0
+(it was 1.5). In the bundled example the tone gives 17.98 dB-Hz from both the table and
+the spectrum (the old table gave 19.74). The table's broadband entry stays 1.0, a
+conservative value about 3 dB below the textbook figure of about 2 for noise matched to
+C/A (`κ = 2/(3R_c)`, `Q = 1.5` in the spectrum model), pending the 0.34 review.
 
 Each waterfall cell is the PSD averaged over its frequency bin and its row. A chirp is
 averaged exactly over the row, whole sweeps plus the partial one; a jammer switching on
@@ -184,7 +186,8 @@ the model's own density; a tone and a chirp are drawn as real waveforms. With on
 noise-like jammers the Welch estimate sits within 0.1 dB of the model (median). A
 periodic chirp is a line spectrum at its sweep rate, with ripple and tails past its band
 edges that the smooth model omits: in the bundled example total power agrees within 0.02 %
-and the median bin differs by 0.5 dB.
+and the median bin differs by 0.5 dB. The snapshot is a file written for analysis; nothing
+is transmitted and no radio hardware is driven.
 
 `[recording]` (native builds only) reads a real SigMF recording from `meta_path` (the
 data file defaults to the same stem with `.sigmf-data`), estimates its PSD and prints it
@@ -198,7 +201,7 @@ In the WebAssembly build the file reads are unavailable; `kshana::sigmf::read` a
 
 | Claim | Label | Oracle |
 |---|---|---|
-| Signal PSDs and SSCs | VALIDATED | BPSK(n) main lobe 2n × 1.023 MHz null to null; BOC(1,1) lobes centred at ±1.023 MHz (Betz 2001); SSCs −61.86 / −64.87 / −67.88 dB/Hz for C/A×C/A, BOC(1,1)×BOC(1,1), C/A×BOC(1,1) from their Parseval closed forms, the values behind the published −61.8 / −64.8 / −67.8 dB/Hz; Q = 1 (CW) and 1.5 (matched) (Kaplan & Hegarty §9.4) |
+| Signal PSDs and SSCs | VALIDATED | BPSK(n) main lobe 2n × 1.023 MHz null to null; BOC(1,1) lobes centred at ±1.023 MHz (Betz 2001); SSCs −61.86 / −64.87 / −67.88 dB/Hz for C/A×C/A, BOC(1,1)×BOC(1,1), C/A×BOC(1,1) from their Parseval closed forms, the values behind the published −61.8 / −64.8 / −67.8 dB/Hz; Q = 1 (CW) and 1.5 (matched) (Kaplan & Hegarty §9.4); the `jamming` kind's CW table entry equals the CW closed form (Q = 1), broadband stays 1.0 pending 0.34 |
 | Waterfall, J/S and C/N₀ timeline | MODELLED | Reduces exactly to the `jamming` kind's chain; the jammer powers, timeline and bandwidths are inputs |
 | SigMF codec and Welch estimate | MODELLED | Round trips, a direct discrete Fourier transform, white-noise and Parseval identities; no third-party recording is in the repository |
 | Multi-band waterfall with designed signals and per-band jammers | MODELLED | Reduces to the L-band chain (a single-component band gives the same numbers as before the extension) and to the validated signal spectra; the designed signals, jammers and bandwidths are inputs |
