@@ -1080,8 +1080,8 @@ impl TextOrBytes {
 /// Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust
 /// live` scores it. `session_toml` declares the vessel (`[platform] kind = "vessel"`);
 /// `nmea` is the excerpt (`str` or `bytes`, at most 2 MiB and 20,000 epochs, and it must hold
-/// the calibration window). Returns a dict with `schema` (`"1.1"`), `epochs` (one dict per
-/// epoch: `state`, `score`, `deductions`, `alarms`, `position`, ...), `last_pksht` and
+/// the calibration window). Returns a dict with `schema` (`"1.2"`), `epochs` (one dict per
+/// epoch: `state`, `score`, `deductions`, `alarms`, `position`, `advisory`, ...), `last_pksht` and
 /// `summary` (counts by state, `lowest_score`, `final_score`, `first_untrusted_t_s`). The
 /// bounded form of the live command: no socket is opened and the gate is not applied (both
 /// are command-line only). Advisory only. Raises `ValueError` on an invalid session or

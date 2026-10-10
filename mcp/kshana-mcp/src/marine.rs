@@ -175,7 +175,7 @@ pub struct RouteExposureRequest {
 #[tool_router(router = marine_tool_router, vis = "pub(crate)")]
 impl KshanaServer {
     #[tool(
-        description = "Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust live` scores it, and return per-epoch trust state (calibrating, nominal, degraded, untrusted) and 0-100 score with the monitors that deducted (live JSON-lines schema 1.1), the summary (counts by state, lowest and final score, when the first untrusted epoch came) and the last `$PKSHT` sentence. `session_toml` declares the vessel (`[platform] kind = \"vessel\"`, its speed, acceleration and turn-rate limits, antenna height, whether a heading sensor is on the bus). The excerpt must hold the calibration window; input is capped at 2 MiB and 20,000 epochs, and the reply carries at most 200 degraded or untrusted epoch lines. This is the bounded form of the live command: no socket is opened and nothing is written to a port, and the gate and the telemetry exporters (the long-running process and its `--listen` server) are command-line only. The checks cannot see a spoofer whose fix is consistent with everything on the bus. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
+        description = "Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust live` scores it, and return per-epoch trust state (calibrating, nominal, degraded, untrusted) and 0-100 score with the monitors that deducted (live JSON-lines schema 1.2: each epoch carries `position` and an `advisory` statement that the output is advisory), the summary (counts by state, lowest and final score, when the first untrusted epoch came) and the last `$PKSHT` sentence. `session_toml` declares the vessel (`[platform] kind = \"vessel\"`, its speed, acceleration and turn-rate limits, antenna height, whether a heading sensor is on the bus). The excerpt must hold the calibration window; input is capped at 2 MiB and 20,000 epochs, and the reply carries at most 200 degraded or untrusted epoch lines. This is the bounded form of the live command: no socket is opened and nothing is written to a port, and the gate and the telemetry exporters (the long-running process and its `--listen` server) are command-line only. The checks cannot see a spoofer whose fix is consistent with everything on the bus. Advisory only: not type-approved navigation equipment; the operator remains responsible. Evidence tier: MODELLED."
     )]
     fn assess_vessel_stream(
         &self,
@@ -202,7 +202,7 @@ impl KshanaServer {
             "summary": r.summary,
             "first_non_nominal_epochs_jsonl": notable,
             "last_pksht": r.last_pksht,
-            "report_schema": "JSON lines, version 1.1 (docs/MARITIME-TRUST.md)",
+            "report_schema": "JSON lines, version 1.2 (docs/MARITIME-TRUST.md)",
             "notice": ADVISORY,
         }))
     }
