@@ -1,5 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Built-in MAC look-up table entries (ICD Annex C, Table 16) in the compact
+//! Built-in MAC look-up table entries, source: OSNMA SIS ICD Issue 1.1, Annex C,
+//! Table 16 (Technical Data), recorded here in our own compact
 //! specification form read by `maclt::Entry::parse`: slots `NNS` / `NNE` (ADKD
 //! number, self or cross-authentication) or `FLX`, one `|`-separated list per MACK
 //! message of the cycle.

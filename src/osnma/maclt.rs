@@ -132,6 +132,22 @@ mod tests {
     }
 
     #[test]
+    fn user_entries_extend_and_override_the_builtin_set() {
+        let base = MacLookup::default();
+        let builtin_34 = base.get(34).unwrap().clone();
+        // Extends: a new id the built-in set does not have.
+        let t = base.with_entry(200, "00S,00E,04S").unwrap();
+        assert_eq!(t.get(200).unwrap().sequences[0].len(), 3);
+        assert_eq!(t.get(34), Some(&builtin_34));
+        // Overrides: an existing id takes the user's sequence.
+        let t = t.with_entry(34, "00S,12S|00S,00E").unwrap();
+        assert_eq!(t.get(34).unwrap().sequences.len(), 2);
+        assert_ne!(t.get(34), Some(&builtin_34));
+        // A malformed entry is refused and changes nothing.
+        assert!(MacLookup::default().with_entry(34, "FLX").is_none());
+    }
+
+    #[test]
     fn builtin_entries_have_matching_lengths() {
         let t = MacLookup::default();
         assert!(t.get(34).is_some());

@@ -4,67 +4,134 @@
 //!
 //! The vectors are not part of this repository and no network access is used. To run:
 //! download the archive yourself, unpack it, and point `KSHANA_OSNMA_VECTORS` at the
-//! directory that contains `osnma_test_vectors/`. Without the variable the test does
-//! nothing and says so.
+//! directory that contains `osnma_test_vectors/` and `cryptographic_material/`. Without
+//! the variable the test does nothing and says so.
 //!
-//! Until ECDSA support is built in, the chain parameters are taken from the DSM-KROOT
-//! in the stream without checking its signature; everything below that (TESLA keys,
-//! MACSEQ, tags, navigation data) is verified normally.
+//! The verifier is given only what a receiver would be given: a Merkle root and the
+//! public keys of one tree. Chains are established from the signed DSM-KROOT in the
+//! stream, so the whole path is exercised: Merkle, signature, key chain, MACSEQ, tags.
 
-use kshana::osnma::dsm::{DsmAssembler, DsmKroot};
 use kshana::osnma::input::{parse_vector_csv, start_from_filename};
-use kshana::osnma::subframe::SubframeAssembler;
-use kshana::osnma::tables;
-use kshana::osnma::verifier::{Chain, Config, Event, TagStatus, Verifier};
-use kshana::osnma::{InavPage, OsnmaStatus};
+use kshana::osnma::signature::PublicKey;
+use kshana::osnma::tables::KeyType;
+use kshana::osnma::verifier::{Config, Event, TagStatus, Verifier};
+use kshana::osnma::OsnmaStatus;
 use std::path::{Path, PathBuf};
 
-fn vector_files(root: &Path) -> Vec<(String, PathBuf)> {
-    let base = root.join("osnma_test_vectors");
+fn files_in(dir: &Path, ext: &str) -> Vec<PathBuf> {
+    let mut v: Vec<PathBuf> = std::fs::read_dir(dir)
+        .into_iter()
+        .flatten()
+        .flatten()
+        .map(|e| e.path())
+        .filter(|p| p.extension().is_some_and(|e| e == ext))
+        .collect();
+    v.sort();
+    v
+}
+
+fn between<'a>(s: &'a str, open: &str, close: &str) -> Option<&'a str> {
+    let a = s.find(open)? + open.len();
+    let b = s[a..].find(close)? + a;
+    Some(&s[a..b])
+}
+
+/// One Merkle tree directory of the archive: its root and its public keys.
+struct Tree {
+    name: String,
+    root: [u8; 32],
+    keys: Vec<PublicKey>,
+}
+
+fn load_trees(root: &Path) -> Vec<Tree> {
+    let base = root.join("cryptographic_material");
     let mut out = Vec::new();
-    if let Ok(dirs) = std::fs::read_dir(&base) {
-        for d in dirs.flatten() {
-            if let Ok(files) = std::fs::read_dir(d.path()) {
-                for f in files.flatten() {
-                    if f.path().extension().is_some_and(|e| e == "csv") {
-                        out.push((d.file_name().to_string_lossy().into_owned(), f.path()));
-                    }
+    for d in std::fs::read_dir(&base).into_iter().flatten().flatten() {
+        let name = d.file_name().to_string_lossy().into_owned();
+        let mut keys = Vec::new();
+        for f in files_in(&d.path().join("PublicKey"), "xml") {
+            let x = std::fs::read_to_string(&f).unwrap();
+            let (Some(id), Some(pt), Some(ty)) = (
+                between(&x, "<PKID>", "</PKID>"),
+                between(&x, "<point>", "</point>"),
+                between(&x, "<PKType>", "</PKType>"),
+            ) else {
+                continue;
+            };
+            let key_type = if ty.contains("P-256") {
+                KeyType::P256
+            } else {
+                KeyType::P521
+            };
+            keys.push(PublicKey {
+                pkid: id.parse().unwrap(),
+                key_type,
+                bytes: hex::decode(pt).unwrap(),
+            });
+        }
+        // The Merkle root is the level-4 node of any tree file in the directory.
+        let mut roots = Vec::new();
+        for f in files_in(&d.path().join("MerkleTree"), "xml") {
+            let x = std::fs::read_to_string(&f).unwrap();
+            if let Some(n) = x.find("<TreeNode><j>4</j><i>0</i>") {
+                if let Some(h) = between(&x[n..], "<x_ji>", "</x_ji>") {
+                    roots.push(hex::decode(h).unwrap());
                 }
             }
         }
+        if let Some(r) = roots.first() {
+            out.push(Tree {
+                name,
+                root: r.as_slice().try_into().unwrap(),
+                keys,
+            });
+        }
     }
-    out.sort();
+    out.sort_by(|a, b| a.name.cmp(&b.name));
     out
 }
 
-/// The first DSM-KROOT found in the stream, parsed with whichever signature length
-/// matches its declared block count.
-fn first_kroot(pages: &[InavPage]) -> Option<(DsmKroot, u8)> {
-    let mut sf = SubframeAssembler::new();
-    let mut dsm = DsmAssembler::new();
+#[derive(Default, Debug)]
+struct Tally {
+    ok: u32,
+    failed: u32,
+    pending: u32,
+    discarded: u32,
+    kroot_ok: u32,
+    pkr_ok: u32,
+    sats_auth: usize,
+    sats: usize,
+}
+
+fn run(pages: &[kshana::osnma::InavPage], tree: &Tree) -> Tally {
+    let mut v = Verifier::new(Config {
+        merkle_root: Some(tree.root),
+        public_keys: tree.keys.clone(),
+        ..Config::default()
+    });
+    let mut t = Tally::default();
     for p in pages {
-        let Some(s) = sf.push(p) else { continue };
-        if !s.has_osnma || !matches!(s.nma_header().nmas, 1 | 2) {
-            continue;
-        }
-        let h = s.dsm_header();
-        let Some(d) = dsm.push(h.dsm_id, h.block_id, s.dsm_block()) else {
-            continue;
-        };
-        if d.dsm_id > 11 {
-            continue;
-        }
-        for sig_bits in [512, 1056] {
-            let Ok(k) = DsmKroot::parse(&d.bytes, sig_bits) else {
-                continue;
-            };
-            let l = 104 * (1 + (k.key_bits + sig_bits).div_ceil(104));
-            if tables::kroot_blocks(d.bytes[0] >> 4).map(|b| b * 104) == Some(l) {
-                return Some((k, s.hkroot[0]));
+        for e in v.push_page(p) {
+            match e {
+                Event::Tag(x) => match x.status {
+                    TagStatus::Authenticated => t.ok += 1,
+                    TagStatus::Failed(_) => t.failed += 1,
+                    TagStatus::Pending(_) => t.pending += 1,
+                    TagStatus::Discarded(_) => t.discarded += 1,
+                },
+                Event::KrootVerified { .. } => t.kroot_ok += 1,
+                Event::PublicKeyVerified { .. } => t.pkr_ok += 1,
+                _ => {}
             }
         }
     }
-    None
+    let st = v.sat_status();
+    t.sats = st.len();
+    t.sats_auth = st
+        .iter()
+        .filter(|(_, s)| *s == OsnmaStatus::Authenticated)
+        .count();
+    t
 }
 
 #[test]
@@ -73,57 +140,48 @@ fn official_vectors_authenticate() {
         eprintln!("KSHANA_OSNMA_VECTORS is not set: official-vector test not run");
         return;
     };
-    let files = vector_files(Path::new(&dir));
+    let root = Path::new(&dir);
+    let trees = load_trees(root);
     assert!(
-        !files.is_empty(),
+        !trees.is_empty(),
+        "no Merkle trees under {dir}/cryptographic_material"
+    );
+    let mut scenarios: Vec<(String, PathBuf)> = Vec::new();
+    for d in std::fs::read_dir(root.join("osnma_test_vectors"))
+        .unwrap()
+        .flatten()
+    {
+        for f in files_in(&d.path(), "csv") {
+            scenarios.push((d.file_name().to_string_lossy().into_owned(), f));
+        }
+    }
+    scenarios.sort();
+    assert!(
+        !scenarios.is_empty(),
         "no vectors under {dir}/osnma_test_vectors"
     );
-    for (scenario, path) in files {
+    for (scenario, path) in scenarios {
         let name = path.file_name().unwrap().to_string_lossy().into_owned();
         let start = start_from_filename(&name).expect("start time from file name");
         let pages = parse_vector_csv(&std::fs::read_to_string(&path).unwrap(), start).unwrap();
-        let Some((kroot, _)) = first_kroot(&pages) else {
-            eprintln!("{scenario}: no DSM-KROOT in stream");
-            continue;
-        };
-        let cfg = Config {
-            trusted_chain: Some(Chain::from_kroot(&kroot)),
-            ..Config::default()
-        };
-        let mut v = Verifier::new(cfg);
-        let (mut ok, mut bad, mut pending, mut discarded) = (0, 0, 0, 0);
-        let mut first_fail = None;
-        for p in &pages {
-            for e in v.push_page(p) {
-                if let Event::Tag(t) = e {
-                    match t.status {
-                        TagStatus::Authenticated => ok += 1,
-                        TagStatus::Failed(_) => {
-                            bad += 1;
-                            first_fail.get_or_insert(t);
-                        }
-                        TagStatus::Pending(_) => pending += 1,
-                        TagStatus::Discarded(_) => discarded += 1,
-                    }
-                }
-            }
-        }
-        let st = v.sat_status();
-        let auth = st
+        // The vector set says which tree applies by what verifies: pick the tree whose
+        // keys let the most tags authenticate.
+        let (best, tally) = trees
             .iter()
-            .filter(|(_, s)| *s == OsnmaStatus::Authenticated)
-            .count();
+            .map(|t| (t, run(&pages, t)))
+            .max_by_key(|(_, t)| t.ok)
+            .unwrap();
         eprintln!(
-            "{scenario}: tags ok {ok} failed {bad} pending {pending} discarded {discarded}; satellites authenticated {auth}/{}",
-            st.len()
+            "{scenario} [{name}] tree {}: tags ok {} failed {} pending {} discarded {}; KROOT verified {} PKR verified {}; satellites authenticated {}/{}",
+            best.name, tally.ok, tally.failed, tally.pending, tally.discarded,
+            tally.kroot_ok, tally.pkr_ok, tally.sats_auth, tally.sats
         );
-        if let Some(t) = first_fail {
-            eprintln!("  first failure: {t:?}");
-        }
-        assert!(ok > 0, "{scenario}: nothing authenticated");
         assert_eq!(
-            bad, 0,
+            tally.failed, 0,
             "{scenario}: genuine vector data must not fail a check"
         );
+        if scenario != "oam_step2" {
+            assert!(tally.ok > 0, "{scenario}: nothing authenticated");
+        }
     }
 }

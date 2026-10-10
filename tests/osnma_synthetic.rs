@@ -37,7 +37,7 @@ fn make_chain(n: u32) -> Vec<Vec<u8>> {
         .collect::<Vec<u8>>()];
     for i in (0..n).rev() {
         let gst = GST0 + 30 * i - 30;
-        let next = tesla::step(HashFn::Sha256, seq.last().unwrap(), gst, &ALPHA, KEY_BITS).unwrap();
+        let next = tesla::step(HashFn::Sha256, seq.last().unwrap(), gst, &ALPHA, KEY_BITS);
         seq.push(next);
     }
     seq.reverse();
@@ -195,7 +195,23 @@ fn mack_bytes(chain: &[Vec<u8>], gst: u32) -> [u8; 60] {
     out
 }
 
+fn plain_hkroot() -> [u8; 15] {
+    let mut hk = [0u8; 15];
+    hk[0] = nma_byte();
+    hk
+}
+
 fn pages(svid: u8, gst: u32, ws: &[[u8; 16]; 15], mack: Option<&[u8; 60]>) -> Vec<InavPage> {
+    pages_hk(svid, gst, ws, mack, &plain_hkroot())
+}
+
+fn pages_hk(
+    svid: u8,
+    gst: u32,
+    ws: &[[u8; 16]; 15],
+    mack: Option<&[u8; 60]>,
+    hkroot: &[u8; 15],
+) -> Vec<InavPage> {
     (0..15usize)
         .map(|i| {
             let mut b = BitWriter::new();
@@ -210,8 +226,7 @@ fn pages(svid: u8, gst: u32, ws: &[[u8; 16]; 15], mack: Option<&[u8; 60]>) -> Ve
             }
             match mack {
                 Some(m) => {
-                    let hk = if i == 0 { nma_byte() } else { 0 };
-                    b.push(u64::from(hk), 8);
+                    b.push(u64::from(hkroot[i]), 8);
                     b.push(
                         u64::from(u32::from_be_bytes(m[i * 4..i * 4 + 4].try_into().unwrap())),
                         32,
@@ -407,4 +422,240 @@ fn missing_navigation_data_stays_pending_not_failed() {
         .iter()
         .any(|t| t.prnd == PRN_X && t.status == TagStatus::Pending(PendingReason::NoNavData)));
     assert!(!t.iter().any(|t| matches!(t.status, TagStatus::Failed(_))));
+}
+
+// ---- Signed DSM-KROOT: the chain is established from the stream, not injected. ----
+
+use kshana::osnma::signature::PublicKey;
+use kshana::osnma::signature::SigError;
+use kshana::osnma::tables::KeyType;
+use kshana::osnma::verifier::KrootError;
+use p256::ecdsa::{signature::Signer, Signature, SigningKey};
+
+const PKID: u8 = 1;
+
+fn throwaway_key(seed: u8) -> SigningKey {
+    SigningKey::from_slice(&[seed; 32]).unwrap()
+}
+
+fn public_key(sk: &SigningKey) -> PublicKey {
+    PublicKey {
+        pkid: PKID,
+        key_type: KeyType::P256,
+        bytes: sk
+            .verifying_key()
+            .to_encoded_point(true)
+            .as_bytes()
+            .to_vec(),
+    }
+}
+
+/// A DSM-KROOT of 8 blocks (104 bytes) for the test chain, signed with `sk`.
+fn dsm_kroot(chain: &[Vec<u8>], sk: &SigningKey) -> Vec<u8> {
+    let mut d = vec![0u8; 104];
+    d[0] = (2 << 4) | PKID; // NBDK 2 = 8 blocks
+    d[1] = 3 << 6; // CIDKR 3, HF 0 (SHA-256), MF 0 (HMAC-SHA-256)
+    d[2] = (4 << 4) | 9; // KS 4 = 128 bit, TS 9 = 40 bit
+    d[3] = 34; // MACLT
+    d[4] = (WN >> 8) as u8; // reserved nibble 0, then the 12-bit week number
+    d[5] = WN as u8;
+    d[6] = ((GST0 % kshana::osnma::WEEK_S) / 3600) as u8;
+    d[7..13].copy_from_slice(&ALPHA);
+    d[13..29].copy_from_slice(&chain[0]);
+    let mut m = vec![nma_byte()];
+    m.extend_from_slice(&d[1..29]);
+    let sig: Signature = sk.sign(&m);
+    d[29..93].copy_from_slice(&sig.to_bytes());
+    d
+}
+
+fn run_signed(
+    cfg: Config,
+    dsm: &[u8],
+    mut tamper: impl FnMut(u32, u8, &mut Vec<InavPage>),
+) -> (Verifier, Vec<Event>, Vec<InavPage>) {
+    let chain = make_chain(40);
+    let mut v = Verifier::new(cfg);
+    let (mut events, mut all) = (Vec::new(), Vec::new());
+    for n in 0..24u32 {
+        let gst = GST0 + 30 * n;
+        let bid = (n % 8) as usize;
+        let mut hk = plain_hkroot();
+        hk[1] = bid as u8; // DSM id 0, block id n mod 8
+        hk[2..].copy_from_slice(&dsm[bid * 13..bid * 13 + 13]);
+        let mut a = pages_hk(
+            PRNA,
+            gst,
+            &words(PRNA, gst),
+            Some(&mack_bytes(&chain, gst)),
+            &hk,
+        );
+        let mut x = pages(PRN_X, gst, &words(PRN_X, gst), None);
+        tamper(gst, PRNA, &mut a);
+        tamper(gst, PRN_X, &mut x);
+        for p in x.iter().chain(a.iter()) {
+            events.extend(v.push_page(p));
+            all.push(p.clone());
+        }
+    }
+    (v, events, all)
+}
+
+fn signed_cfg(pk: PublicKey) -> Config {
+    Config {
+        public_keys: vec![pk],
+        ..Config::default()
+    }
+}
+
+#[test]
+fn signed_kroot_establishes_the_chain_and_everything_authenticates() {
+    let chain = make_chain(40);
+    let sk = throwaway_key(0x11);
+    let (v, events, _) = run_signed(
+        signed_cfg(public_key(&sk)),
+        &dsm_kroot(&chain, &sk),
+        |_, _, _| {},
+    );
+    assert!(events
+        .iter()
+        .any(|e| matches!(e, Event::KrootVerified { cid: 3, pkid: 1 })));
+    assert!(!tags(&events)
+        .iter()
+        .any(|t| matches!(t.status, TagStatus::Failed(_))));
+    let s: std::collections::BTreeMap<_, _> = v.sat_status().into_iter().collect();
+    assert_eq!(s["E02"], OsnmaStatus::Authenticated);
+    assert_eq!(s["E05"], OsnmaStatus::Authenticated);
+}
+
+#[test]
+fn a_bad_signature_or_wrong_key_authenticates_nothing() {
+    let chain = make_chain(40);
+    let sk = throwaway_key(0x11);
+    let good = dsm_kroot(&chain, &sk);
+
+    // One bit of the signature flipped in transit.
+    let mut bad_sig = good.clone();
+    bad_sig[40] ^= 0x01;
+    let (v, events, _) = run_signed(signed_cfg(public_key(&sk)), &bad_sig, |_, _, _| {});
+    assert!(events.iter().any(|e| matches!(
+        e,
+        Event::KrootRejected(KrootError::Signature(SigError::Invalid))
+    )));
+    assert!(!tags(&events)
+        .iter()
+        .any(|t| t.status == TagStatus::Authenticated));
+    assert_eq!(v.overall(), OsnmaStatus::Unavailable);
+
+    // The root key altered after signing.
+    let mut bad_root = good.clone();
+    bad_root[20] ^= 0x80;
+    let (_, events, _) = run_signed(signed_cfg(public_key(&sk)), &bad_root, |_, _, _| {});
+    assert!(!tags(&events)
+        .iter()
+        .any(|t| t.status == TagStatus::Authenticated));
+
+    // Signed by a key the receiver does not trust.
+    let other = throwaway_key(0x22);
+    let (_, events, _) = run_signed(
+        signed_cfg(public_key(&sk)),
+        &dsm_kroot(&chain, &other),
+        |_, _, _| {},
+    );
+    assert!(events.iter().any(|e| matches!(
+        e,
+        Event::KrootRejected(KrootError::Signature(SigError::Invalid))
+    )));
+    assert!(!tags(&events)
+        .iter()
+        .any(|t| t.status == TagStatus::Authenticated));
+
+    // No key for the named key id at all.
+    let (_, events, _) = run_signed(Config::default(), &good, |_, _, _| {});
+    assert!(events
+        .iter()
+        .any(|e| matches!(e, Event::KrootRejected(KrootError::NoPublicKey))));
+}
+
+fn write_pages(path: &std::path::Path, pages: &[InavPage]) {
+    let mut out = String::from("# synthetic pages\n");
+    for p in pages {
+        out.push_str(&format!(
+            "{} {} {}\n",
+            p.svid,
+            p.gst,
+            hex::encode(p.bytes())
+        ));
+    }
+    std::fs::write(path, out).unwrap();
+}
+
+fn cli(args: &[&str]) -> (i32, serde_json::Value) {
+    let out = std::process::Command::new(env!("CARGO_BIN_EXE_kshana"))
+        .args(["osnma", "verify"])
+        .args(args)
+        .output()
+        .unwrap();
+    let json = serde_json::from_slice(&out.stdout).unwrap_or(serde_json::Value::Null);
+    (out.status.code().unwrap(), json)
+}
+
+#[test]
+fn command_line_reports_status_per_satellite_and_exit_code() {
+    let chain = make_chain(40);
+    let sk = throwaway_key(0x11);
+    let dsm = dsm_kroot(&chain, &sk);
+    let key_arg = format!("{PKID}:p256:{}", hex::encode(public_key(&sk).bytes));
+    let dir = std::env::temp_dir().join(format!("kshana-osnma-cli-{}", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+
+    let (_, _, clean) = run_signed(signed_cfg(public_key(&sk)), &dsm, |_, _, _| {});
+    let f = dir.join("clean.txt");
+    write_pages(&f, &clean);
+    let (code, j) = cli(&[f.to_str().unwrap(), "--public-key", &key_arg, "--json"]);
+    assert_eq!(code, 0);
+    assert_eq!(j["overall"], "authenticated");
+    assert!(j["advisory"]
+        .as_str()
+        .unwrap()
+        .contains("not type-approved navigation equipment"));
+    let sats: Vec<(String, String)> = j["satellites"]
+        .as_array()
+        .unwrap()
+        .iter()
+        .map(|s| {
+            (
+                s["sat"].as_str().unwrap().into(),
+                s["status"].as_str().unwrap().into(),
+            )
+        })
+        .collect();
+    assert!(sats.contains(&("E02".into(), "authenticated".into())));
+    assert!(sats.contains(&("E05".into(), "authenticated".into())));
+    assert!(j["pksos"].as_str().unwrap().starts_with("$PKSOS,A,"));
+
+    // One flipped navigation bit in satellite 5's data: that satellite fails, exit 3.
+    let target = GST0 + 30 * 12;
+    let (_, _, bad) = run_signed(signed_cfg(public_key(&sk)), &dsm, |gst, svid, pgs| {
+        if gst == target && svid == PRN_X {
+            let mut raw = pgs[0].bytes().to_vec();
+            raw[3] ^= 0x10;
+            pgs[0] = InavPage::from_hex(pgs[0].svid, pgs[0].gst, &hex::encode(raw)).unwrap();
+        }
+    });
+    let f = dir.join("bad.txt");
+    write_pages(&f, &bad);
+    let (code, j) = cli(&[f.to_str().unwrap(), "--public-key", &key_arg, "--json"]);
+    assert_eq!(code, 3);
+    assert_eq!(j["overall"], "failed");
+
+    // Without a trusted key nothing can be authenticated.
+    let (code, j) = cli(&[f.to_str().unwrap(), "--json"]);
+    assert_eq!(code, 0);
+    assert_eq!(j["overall"], "unavailable");
+
+    // Usage errors.
+    assert_eq!(cli(&[]).0, 2);
+    assert_eq!(cli(&["/nonexistent/file"]).0, 2);
+    let _ = std::fs::remove_dir_all(&dir);
 }
