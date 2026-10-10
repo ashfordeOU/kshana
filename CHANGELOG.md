@@ -9,6 +9,24 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (validation of the telemetry formats and evidence packs)
+
+- **External checks of the evidence-pack cryptography, the pack verifier and the telemetry
+  wire formats.** The RFC 8032 section 7.1 Ed25519 test vectors (1, 2, 3 and 1024) and the
+  FIPS 180-4 SHA-256 examples run through the pack's own signing, verifying and hashing
+  functions, to exact equality. A verifier written in Python from the normative section of
+  `docs/EVIDENCE-PACKS.md` alone (hashlib and `cryptography`) agrees with the Rust verifier
+  on 71 intact and tampered packs: verdict, failure set, signature verdict and both chain
+  heads. Our Prometheus exposition is read by the official Python client's parser and our
+  OTLP JSON by the official `opentelemetry-proto` message, strictly, and both agree with the
+  state they were made from. CEF and LEEF have no independent open validator and stay
+  modelled. `docs/EVIDENCE-PACKS.md` gained the normative pack format and verification
+  procedure the clean-room verifier was written from; `VerifyReport` gained
+  `signature_valid`. Oracles and fixtures: `scripts/gen_ed25519_rfc8032_ref.py`,
+  `scripts/gen_evidence_pack_ref.py` with `scripts/evidence_verify_cleanroom.py`,
+  `scripts/gen_telemetry_formats_ref.py`; tests `evidence_crypto_reference`,
+  `evidence_pack_reference` and `telemetry_formats_reference`. CI needs no Python.
+
 ### Added
 
 - **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
