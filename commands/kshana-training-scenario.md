@@ -11,6 +11,9 @@ of scripted GNSS events, plus an instructor log saying what was injected and whe
 
 Request: **$ARGUMENTS**
 
+Keep the warning with anything you hand over: the stream is synthetic training data, never for a
+vessel's live navigation systems, and Kshana is advisory, not type-approved navigation equipment.
+
 Do this:
 
 1. Start from an example in `scenarios/training/` (`open-sea-jamming`, `coastal-drag-off`,

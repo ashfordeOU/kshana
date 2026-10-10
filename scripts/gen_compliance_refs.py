@@ -240,7 +240,7 @@ def main():
         dhs_bytes = f.read()
     docs["dhs-rpcf"] = {
         "read_from": "https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf "
-        "(a copy fetched with the Claude Code WebFetch tool; the publisher answers a scripted client with HTTP 403)",
+        f"(a copy fetched over HTTPS on {day}; the publisher answers a scripted client with HTTP 403)",
         "bytes": dhs_bytes,
         "entries": dhs_headings(pdf_text(dhs_bytes)),
     }
@@ -337,7 +337,7 @@ def main():
             entry.update({"status": None, "error": str(e)[:200], "bytes": 0})
         if u.startswith("https://www.dhs.gov/"):
             entry["second_route"] = {
-                "method": "Claude Code WebFetch tool",
+                "method": "a copy of the PDF fetched over HTTPS with a different client",
                 "checked": day,
                 "result": f"returned the PDF ({len(dhs_bytes)} bytes, sha256 {sha(dhs_bytes)[:16]}...) which is the document indexed in headings.json",
             }

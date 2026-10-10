@@ -12,7 +12,8 @@ Rules that apply every time:
 
 - **Text only.** No RF, IQ or waveform is synthesised and nothing is transmitted. The stream is
   for training and testing and must **never** be fed to a vessel's live navigation systems; a
-  marker sentence in it says so. Keep that warning with any file you hand over.
+  marker sentence in it says so. Kshana is advisory, not type-approved navigation equipment.
+  Keep that warning and this statement with any file you hand over.
 - Output is deterministic per seed; give the seed back with the stream.
 - Return the instructor log (what was injected when, with the true track) with the NMEA.
 - Use made-up positions and times. The reply is capped at 2000 NMEA lines; for longer runs or

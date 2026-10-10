@@ -10,9 +10,10 @@ Use the `kshana` MCP server's `create_evidence_pack` and `verify_evidence_pack`.
 
 Rules that apply every time:
 
-- A pack is a **technical record**, not a legal opinion, a finding of fact about any event or a
-  certification. It does not say what caused an event, who was responsible, or that the log
-  shows what the receiver really received. The monitors are **MODELLED**; the output is advisory.
+- A pack is a **technical record**, not a legal opinion, a finding of fact about any event or an
+  approval. It does not say what caused an event, who was responsible, or that the log
+  shows what the receiver really received. The monitors are **MODELLED**; the output is
+  advisory, not type-approved navigation equipment.
 - Never ask for, return or log a signing seed. Without one the tool signs with a throwaway key
   (integrity, not identity). For a key that matters, make the pack with the command line.
 - Verify against the signer's public key obtained by another route, and the full log if held.

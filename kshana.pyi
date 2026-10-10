@@ -287,7 +287,8 @@ def route_exposure(
 def nmea_training(toml: str, seed: Optional[int] = None) -> dict[str, str]:
     """Synthetic bridge NMEA for crew training from a ``nmea-scenario`` TOML. Keys:
     ``nmea``, ``log_json`` (instructor log, ``kshana-nmea-training/1``), ``log_text``.
-    Text only; never for a vessel's live navigation systems. Raises ``ValueError``."""
+    Text only; never for a vessel's live navigation systems.
+    Advisory, not type-approved navigation equipment. Raises ``ValueError``."""
 
 def scenario_kinds() -> list[dict[str, Any]]:
     """The available scenario kinds and their metadata (name, description, required

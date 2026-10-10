@@ -155,6 +155,33 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
   drawing of a run; SP3 (Standard Product 3), CCSDS (Consultative Committee for Space Data
   Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON,
   STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
+- **Vessel GNSS trust** (advisory, not type-approved navigation equipment): `receiver_trust`
+  scores a receiver log described by a scenario; `receiver_trust_replay` scores a bounded NMEA
+  excerpt the way the live command does; `assess_vessel_log` scores a vessel's NMEA log as a
+  batch run. A 0-100 score with its reasons.
+- **Evidence packs**: `evidence_create` and `evidence_verify` make and check a signed technical
+  record of a log window; `evidence_keygen` makes a signing key (Python only, so the private
+  key stays out of a page or an agent conversation); `evidence_attach_timestamp` binds an RFC 3161
+  timestamp token. A record, not a legal opinion.
+- **Training streams**: `nmea_training` writes synthetic bridge NMEA and an instructor log for
+  crew training. Text only; never for a vessel's live navigation systems; advisory, not
+  type-approved navigation equipment.
+- **Interference map**: `interference_map` builds aggregate degraded-navigation maps from
+  public reports; `route_exposure` measures how much of a route falls inside them.
+- **Test bench and compliance mapping**: `bench_export` writes a scenario's vehicle motion and
+  events for a laboratory GNSS simulator (no signal is written); `compliance_report` fills the
+  public-framework mapping from result documents and `compliance_mapping` returns the static
+  tables.
+- **Examples, exports, animation and routes**: `list_examples` and `get_example` (the bundled
+  scenarios), `export_formats`, `export_scenario`, `export_sp3`, `export_omm` and `export_oem`,
+  `animate_scenario` (an animated drawing, a player or frames) and `import_route` (a GeoJSON
+  route into a terrain, gravity or combined scenario).
+- **GNSS IQ lab**: `iq_signals`, `iq_scene`, `iq_scene_broadcast`, `iq_acquire`,
+  `iq_acq_surface`, `iq_info`, `iq_inventory`, `iq_sweep`, `iq_track`, `iq_loop_designs`,
+  `iq_read_epochs`, `iq_monitor`, `iq_frontend`, `iq_test_conditions`, `iq_campaign`,
+  `iq_campaign_report` and `iq_labfit` for recorded and synthetic GNSS IQ.
+- **Core calls**: `run`, `run_full`, `run_typed`, `validate_toml`, `scenario_kinds`,
+  `list_kinds`, `error_kind` and `version`.
 
 ## Architecture
 

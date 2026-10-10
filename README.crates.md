@@ -175,6 +175,21 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
   drawing of a run; SP3 (Standard Product 3), CCSDS (Consultative Committee for Space Data
   Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON,
   STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
+- **Vessel GNSS trust** (`receiver_trust`, including `receiver_trust::live`): a 0-100 score with
+  reasons from a receiver's NMEA, live or from a log; advisory, not type-approved navigation
+  equipment.
+- **Evidence packs** (`evidence`): a signed technical record of a log window, verifiable offline.
+- **Trust telemetry** (`telemetry`): the trust stream as Prometheus metrics, SIEM events and
+  optional OpenTelemetry.
+- **Training streams** (`nmea_synth`): synthetic bridge NMEA with scripted jamming and spoofing
+  and an instructor log. Text only; never for a vessel's live navigation systems.
+- **Interference map** (`interference_map`): aggregate degraded-navigation maps and route
+  exposure.
+- **Test bench and compliance mapping** (`interop::testbench`, `compliance`): a scenario's
+  vehicle motion and events for a laboratory GNSS simulator, and the public-framework mapping
+  filled from result documents.
+- **GNSS IQ lab** (`iq`): scenes, acquisition, tracking, monitors and campaigns on recorded and
+  synthetic IQ.
 
 ## Architecture
 
