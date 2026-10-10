@@ -12,11 +12,11 @@
     "notification_state": "alarm"
   },
   {
-    "t_s": 10.6,
+    "t_s": 10.7,
     "notification_state": "normal"
   },
   {
-    "t_s": 16.1,
+    "t_s": 16.4,
     "notification_state": "warn"
   }
 ]

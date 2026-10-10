@@ -4,11 +4,11 @@
     "notification_state": "absent"
   },
   {
-    "t_s": 1.5,
+    "t_s": 2.2,
     "notification_state": "warn"
   },
   {
-    "t_s": 18.5,
+    "t_s": 18.6,
     "notification_state": "alarm"
   }
 ]
