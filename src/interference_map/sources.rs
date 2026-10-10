@@ -142,7 +142,7 @@ mod tests {
             );
             assert!(!d.coverage_notes.is_empty());
         }
-        assert!(preset("opensky").is_none() && preset("adsbexchange").is_none());
+        assert!(preset("not-a-source").is_none());
     }
 
     #[test]

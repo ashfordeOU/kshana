@@ -13,11 +13,27 @@ fn kshana(args: &[&str]) -> Output {
         .expect("run kshana")
 }
 
-fn scratch(name: &str) -> PathBuf {
+/// A scratch directory that is removed when the test ends, whether it passes or not.
+struct Scratch(PathBuf);
+
+impl std::ops::Deref for Scratch {
+    type Target = PathBuf;
+    fn deref(&self) -> &PathBuf {
+        &self.0
+    }
+}
+
+impl Drop for Scratch {
+    fn drop(&mut self) {
+        let _ = std::fs::remove_dir_all(&self.0);
+    }
+}
+
+fn scratch(name: &str) -> Scratch {
     let d = std::env::temp_dir().join(format!("kshana-imap-{}-{name}", std::process::id()));
     let _ = std::fs::remove_dir_all(&d);
     std::fs::create_dir_all(&d).unwrap();
-    d
+    Scratch(d)
 }
 
 fn p(path: &Path) -> &str {
@@ -49,6 +65,9 @@ fn adsb_fixture() -> String {
     csv
 }
 
+/// The ADS-B day file for the adsb-lol dataset: `<source>-<dataset>-<date>.geojson`.
+const ADSB_LOL_FILE: &str = "adsb-adsb-lol-2026-03-01.geojson";
+
 const ROUTE: &str = r#"{"type":"Feature","properties":{},"geometry":{"type":"LineString","coordinates":[[10.0,50.2],[13.5,50.2]]}}"#;
 
 #[test]
@@ -68,7 +87,7 @@ fn adsb_end_to_end_with_route_exposure() {
     ]);
     assert!(r.status.success(), "{}", String::from_utf8_lossy(&r.stderr));
 
-    let text = std::fs::read_to_string(out.join("adsb-2026-03-01.geojson")).unwrap();
+    let text = std::fs::read_to_string(out.join(ADSB_LOL_FILE)).unwrap();
     let v: serde_json::Value = serde_json::from_str(&text).unwrap();
     let m = &v["kshana_interference_map"];
     assert_eq!(m["data"]["licence"], "ODbL-1.0");
@@ -76,7 +95,7 @@ fn adsb_end_to_end_with_route_exposure() {
         .as_str()
         .unwrap()
         .contains("adsb.lol"));
-    assert_eq!(m["method"]["id"], "kshana-interference-map/adsb/v1");
+    assert_eq!(m["method"]["id"], "kshana-interference-map/adsb/v2");
     assert_eq!(m["date"], "2026-03-01");
     let degraded: Vec<_> = v["features"]
         .as_array()
@@ -164,7 +183,7 @@ fn ais_end_to_end_with_land_polygons() {
         p(&out),
     ]);
     assert!(r.status.success(), "{}", String::from_utf8_lossy(&r.stderr));
-    let text = std::fs::read_to_string(out.join("ais-2026-03-01.geojson")).unwrap();
+    let text = std::fs::read_to_string(out.join("ais-kystverket-2026-03-01.geojson")).unwrap();
     let v: serde_json::Value = serde_json::from_str(&text).unwrap();
     assert_eq!(v["kshana_interference_map"]["data"]["licence"], "NLOD-2.0");
     assert!(v["kshana_interference_map"]["data"]["coverage_notes"][0]
@@ -199,7 +218,7 @@ fn refusals_are_clear() {
     let (c, e) = run(&[]);
     assert_eq!(c, Some(2));
     assert!(e.contains("--dataset is required"), "{e}");
-    let (c, e) = run(&["--dataset", "opensky"]);
+    let (c, e) = run(&["--dataset", "not-a-source"]);
     assert_eq!(c, Some(2));
     assert!(e.contains("unknown dataset"), "{e}");
     let (c, e) = run(&["--dataset", "kystverket"]);
@@ -244,7 +263,7 @@ fn custom_dataset_embeds_what_the_user_supplies() {
     ]);
     assert!(r.status.success());
     let v: serde_json::Value = serde_json::from_str(
-        &std::fs::read_to_string(out.join("adsb-2026-03-01.geojson")).unwrap(),
+        &std::fs::read_to_string(out.join("adsb-custom-2026-03-01.geojson")).unwrap(),
     )
     .unwrap();
     assert_eq!(
@@ -317,7 +336,7 @@ fn adsb_reads_an_extracted_readsb_archive_directory() {
         p(&out),
     ]);
     assert!(r.status.success(), "{}", String::from_utf8_lossy(&r.stderr));
-    let text = std::fs::read_to_string(out.join("adsb-2026-03-01.geojson")).unwrap();
+    let text = std::fs::read_to_string(out.join(ADSB_LOL_FILE)).unwrap();
     let v: serde_json::Value = serde_json::from_str(&text).unwrap();
     let stats = &v["kshana_interference_map"]["method"]["input_stats"];
     assert_eq!(stats["trace_files"], 84);
@@ -344,4 +363,92 @@ fn adsb_reads_an_extracted_readsb_archive_directory() {
         p(&dir.join("o2")),
     ]);
     assert_eq!(r.status.code(), Some(2));
+}
+
+#[test]
+fn two_datasets_of_one_kind_do_not_collide_and_nothing_is_overwritten() {
+    let dir = scratch("collide");
+    let mut csv = String::from("timestamp,vessel_id,lat,lon,sog_kn\n");
+    for v in 0..6 {
+        for k in 0..3 {
+            csv.push_str(&format!(
+                "2026-03-01T10:0{k}:00Z,V{v},{},24.9,11\n",
+                59.6 + 0.01 * v as f64
+            ));
+        }
+    }
+    let input = dir.join("ais.csv");
+    std::fs::write(&input, csv).unwrap();
+    let out = dir.join("out");
+    for ds in ["kystverket", "noaa-marinecadastre"] {
+        let r = kshana(&[
+            "interference-map",
+            "ais",
+            p(&input),
+            "--dataset",
+            ds,
+            "--out",
+            p(&out),
+        ]);
+        assert!(r.status.success(), "{}", String::from_utf8_lossy(&r.stderr));
+    }
+    assert!(out.join("ais-kystverket-2026-03-01.geojson").exists());
+    assert!(out
+        .join("ais-noaa-marinecadastre-2026-03-01.geojson")
+        .exists());
+    let before = std::fs::read(out.join("ais-kystverket-2026-03-01.geojson")).unwrap();
+    // The same dataset and day again: refused, and the first file is untouched.
+    let r = kshana(&[
+        "interference-map",
+        "ais",
+        p(&input),
+        "--dataset",
+        "kystverket",
+        "--out",
+        p(&out),
+    ]);
+    assert_eq!(r.status.code(), Some(2));
+    assert!(String::from_utf8_lossy(&r.stderr).contains("already exists"));
+    assert_eq!(
+        std::fs::read(out.join("ais-kystverket-2026-03-01.geojson")).unwrap(),
+        before
+    );
+}
+
+#[test]
+fn a_non_default_cell_size_is_marked_as_not_pre_registered() {
+    let dir = scratch("celldeg");
+    let input = dir.join("in.csv");
+    std::fs::write(&input, adsb_fixture()).unwrap();
+    let doc = |deg: Option<&str>, out: &str| -> serde_json::Value {
+        let out = dir.join(out);
+        let mut a = vec![
+            "interference-map",
+            "adsb",
+            p(&input),
+            "--dataset",
+            "adsb-lol",
+            "--out",
+            p(&out),
+        ];
+        if let Some(d) = deg {
+            a.extend(["--cell-deg", d]);
+        }
+        let r = kshana(&a);
+        assert!(r.status.success(), "{}", String::from_utf8_lossy(&r.stderr));
+        serde_json::from_str(&std::fs::read_to_string(out.join(ADSB_LOL_FILE)).unwrap()).unwrap()
+    };
+    assert_eq!(
+        doc(None, "a")["kshana_interference_map"]["grid"]["is_preregistered"],
+        true
+    );
+    let v = doc(Some("1.0"), "b");
+    assert_eq!(
+        v["kshana_interference_map"]["grid"]["is_preregistered"],
+        false
+    );
+    assert_eq!(
+        v["kshana_interference_map"]["grid"]["preregistered_cell_deg"],
+        0.5
+    );
 }
