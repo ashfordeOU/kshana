@@ -8,7 +8,7 @@ use std::io::{BufRead, BufReader, Seek, SeekFrom, Write};
 use std::net::{TcpListener, TcpStream, UdpSocket};
 use std::path::PathBuf;
 use std::process::ExitCode;
-use std::sync::mpsc::{self, RecvTimeoutError, Sender};
+use std::sync::mpsc::{self, RecvTimeoutError};
 use std::sync::mpsc::{sync_channel, SyncSender, TrySendError};
 use std::sync::{Arc, Mutex};
 use std::time::{Duration, Instant};
@@ -202,13 +202,25 @@ impl Sink {
     }
 }
 
+/// Lines a reader may be ahead of the engine by. A reader of a stream (stdin, a file, TCP) blocks
+/// when the channel is full, so the kernel's buffers push back on the sender and nothing is lost;
+/// UDP, which cannot push back, drops the datagram and counts it.
+const READ_QUEUE: usize = 8_192;
+
+type Tx = SyncSender<Msg>;
+
 enum Msg {
     Line(Vec<u8>, f64),
+    /// A followed file has been read to its end for the first time: from here it is growing in
+    /// real time.
+    CaughtUp,
+    /// UDP datagrams dropped since the last report.
+    Dropped(u64),
     End,
     Fail(String),
 }
 
-fn read_lines<R: BufRead>(mut r: R, tx: &Sender<Msg>, start: Instant) -> Result<(), String> {
+fn read_lines<R: BufRead>(mut r: R, tx: &Tx, start: Instant) -> Result<(), String> {
     let mut buf = Vec::new();
     loop {
         buf.clear();
@@ -231,7 +243,7 @@ fn read_file(
     path: &PathBuf,
     follow: bool,
     from_end: bool,
-    tx: &Sender<Msg>,
+    tx: &Tx,
     start: Instant,
 ) -> Result<(), String> {
     let open = |from_end: bool| -> Result<(BufReader<File>, u64), String> {
@@ -245,6 +257,7 @@ fn read_file(
     };
     let (mut r, mut pos) = open(from_end)?;
     let mut partial: Vec<u8> = Vec::new();
+    let mut caught_up = false;
     let mut buf = Vec::new();
     loop {
         buf.clear();
@@ -269,8 +282,13 @@ fn read_file(
             }
             return Ok(());
         }
-        // At the end of a file that may still grow: wait, and start over if it was
+        // At the end of a file that may still grow: it is caught up (what was there is read, what
+        // comes is arriving in real time), so say so once, then wait, and start over if it was
         // truncated or replaced by a shorter one.
+        if !caught_up {
+            caught_up = true;
+            let _ = tx.send(Msg::CaughtUp);
+        }
         std::thread::sleep(Duration::from_millis(100));
         if std::fs::metadata(path).is_ok_and(|m| m.len() < pos) {
             (r, pos) = open(false)?;
@@ -279,22 +297,62 @@ fn read_file(
     }
 }
 
-fn read_udp(addr: &str, tx: &Sender<Msg>, start: Instant) -> Result<(), String> {
+/// Longest partial line held across datagrams before it is let go as a line.
+const MAX_PARTIAL: usize = 4_096;
+
+fn read_udp(addr: &str, tx: &Tx, start: Instant) -> Result<(), String> {
+    let host = addr.rsplit_once(':').map_or("", |(h, _)| h);
+    if !(host == "127.0.0.1" || host == "localhost" || host == "[::1]") {
+        eprintln!(
+            "kshana live: warning: {addr} is not a loopback address; anything that can reach it \
+             can send this layer a stream"
+        );
+    }
     let sock = UdpSocket::bind(addr).map_err(|e| format!("cannot bind udp {addr}: {e}"))?;
     eprintln!("kshana live: listening on udp {addr}");
     let mut buf = vec![0u8; 65_536];
+    // A sentence that a datagram boundary split is joined with its other half. A partial line is
+    // held until the rest arrives; one that is followed by a datagram starting a new sentence
+    // (`$` or `!`) is whole as it stands (no terminator was sent), and one that grows past
+    // MAX_PARTIAL is let go.
+    let mut partial: Vec<u8> = Vec::new();
+    let mut dropped = 0u64;
+    let send = |line: Vec<u8>, t: f64, dropped: &mut u64| -> bool {
+        match tx.try_send(Msg::Line(line, t)) {
+            Ok(()) => true,
+            Err(mpsc::TrySendError::Full(_)) => {
+                *dropped += 1;
+                true
+            }
+            Err(mpsc::TrySendError::Disconnected(_)) => false,
+        }
+    };
     loop {
         let (n, _) = sock.recv_from(&mut buf).map_err(|e| e.to_string())?;
         let t = start.elapsed().as_secs_f64();
-        for line in buf[..n].split_inclusive(|b| *b == b'\n') {
-            if tx.send(Msg::Line(line.to_vec(), t)).is_err() {
+        let dg = &buf[..n];
+        if !partial.is_empty() && matches!(dg.first(), Some(b'$') | Some(b'!')) {
+            let whole = std::mem::take(&mut partial);
+            if !send(whole, t, &mut dropped) {
                 return Ok(());
             }
+        }
+        for piece in dg.split_inclusive(|b| *b == b'\n') {
+            partial.extend_from_slice(piece);
+            if partial.ends_with(b"\n") || partial.len() >= MAX_PARTIAL {
+                let whole = std::mem::take(&mut partial);
+                if !send(whole, t, &mut dropped) {
+                    return Ok(());
+                }
+            }
+        }
+        if dropped > 0 {
+            let _ = tx.try_send(Msg::Dropped(std::mem::take(&mut dropped)));
         }
     }
 }
 
-fn spawn_reader(src: Source, tx: Sender<Msg>, start: Instant) {
+fn spawn_reader(src: Source, tx: Tx, start: Instant) {
     std::thread::spawn(move || {
         let r = match &src {
             Source::Stdin => read_lines(BufReader::new(std::io::stdin().lock()), &tx, start),
@@ -311,7 +369,15 @@ fn spawn_reader(src: Source, tx: Sender<Msg>, start: Instant) {
                 }),
             Source::Udp(addr) => read_udp(addr, &tx, start),
         };
+        // A stream that was expected to go on and ended is a fault, not a normal end: a
+        // supervisor should see it. Stdin and a file read to its end are normal ends.
+        let expected_to_go_on = matches!(&src, Source::Tcp(_));
         let _ = tx.send(match r {
+            Ok(()) if expected_to_go_on => Msg::Fail(
+                "the tcp connection was closed by the peer (the layer does not reconnect: run it \
+                 under a supervisor that restarts it)"
+                    .into(),
+            ),
             Ok(()) => Msg::End,
             Err(e) => Msg::Fail(e),
         });
@@ -362,10 +428,11 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
             "--tcp" => source = Source::Tcp(value("--tcp")?),
             "--udp" => {
                 let v = value("--udp")?;
+                // Loopback unless an address is given, like --listen.
                 source = Source::Udp(if v.contains(':') {
                     v
                 } else {
-                    format!("0.0.0.0:{v}")
+                    format!("127.0.0.1:{v}")
                 });
             }
             "--gate" => gate = true,
@@ -401,7 +468,11 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     let mut engine = LiveEngine::new(&scn, gate).map_err(|e| (e, 2))?;
     // A file read to its end is not arriving in real time; neither is anything given --replay.
     let stored = matches!(&source, Source::File { follow: false, .. });
-    engine.set_host_clock(!(replay || stored));
+    // A followed file starts as a replay of what is already in it; the host clock is engaged once
+    // it has been read to its end, because from there on it grows in real time.
+    let follows = matches!(&source, Source::File { follow: true, .. });
+    engine.set_host_clock(!(replay || stored || follows));
+    let mut udp_dropped = 0u64;
 
     // Where things go. The stream (gate) or the JSON lines take stdout unless told otherwise.
     let mut json = match (&json_spec, gate) {
@@ -445,7 +516,7 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     );
 
     let start = Instant::now();
-    let (tx, rx) = mpsc::channel();
+    let (tx, rx) = mpsc::sync_channel(READ_QUEUE);
     spawn_reader(source, tx, start);
     let poll = Duration::from_secs_f64((scn.monitors.live.idle_flush_s / 4.0).clamp(0.01, 0.25));
     let io_err = |e: std::io::Error| (format!("write failed: {e}"), 1u8);
@@ -471,6 +542,11 @@ fn run_inner(args: &[String]) -> Result<(), (String, u8)> {
     loop {
         match rx.recv_timeout(poll) {
             Ok(Msg::Line(l, t)) => emit(engine.feed_line(&l, t))?,
+            Ok(Msg::CaughtUp) => engine.set_host_clock(!replay),
+            Ok(Msg::Dropped(n)) => {
+                udp_dropped += n;
+                eprintln!("kshana live: dropped {n} udp datagram(s) the engine could not take ({udp_dropped} in all)");
+            }
             Ok(Msg::End) | Err(RecvTimeoutError::Disconnected) => {
                 emit(engine.finish())?;
                 if let Some(b) = &tcp {
