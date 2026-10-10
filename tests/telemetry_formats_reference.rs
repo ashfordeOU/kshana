@@ -170,7 +170,7 @@ fn expected_prometheus(
             .collect(),
     );
     let cur = match last.gate.as_deref() {
-        Some(g @ ("off" | "passed" | "withheld")) => g,
+        Some(g) if ["off", "passed", "withheld"].contains(&g) => g,
         _ => "unknown",
     };
     if last.gate.is_some() {
