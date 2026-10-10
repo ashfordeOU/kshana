@@ -515,10 +515,14 @@ jobs:
   mcp-registry:
     needs: [verify, mcp-publish, launchers]
     if: github.event_name == 'push'
+    # A called workflow's jobs cannot hold more than its caller grants, even a job that is skipped
+    # here (the image job), so this carries the same set as mcp-publish above.
     permissions:
       contents: read
       actions: read
+      packages: write
       id-token: write
+      attestations: write
     uses: ./.github/workflows/mcp-publish.yml
     with:
       publish_image: false
