@@ -4,7 +4,7 @@
  "note": "Headings, section numbers, paragraph numbers and list letters only; no body text.",
  "documents": {
   "dhs-rpcf": {
-   "read_from": "https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf (a copy fetched with the Claude Code WebFetch tool; the publisher answers a scripted client with HTTP 403)",
+   "read_from": "https://www.dhs.gov/sites/default/files/2022-05/22_0531_st_resilient_pnt_conformance_framework_v2.0.pdf (a copy fetched over HTTPS on 2026-10-10; the publisher answers a scripted client with HTTP 403)",
    "sha256": "f9e55aa93f9c0c7d1d51a06fbb1cb541504cb631df1ced61349d609ef9463070",
    "bytes": 2045376,
    "entries": [
@@ -491,7 +491,7 @@
   },
   "en16803-1": {
    "read_from": "https://www.evs.ee/en/evs-en-16803-1-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
-   "sha256": "3e27ef87f48c14b4597b0990308237fc2896edbcff07ba2af48f4379f96f07d5",
+   "sha256": "7f28cd77fd4aa9840f76101f9e2f8feb4cd4a5d43521700e48f97ffd3966e248",
    "bytes": 67132,
    "entries": [],
    "catalogue": {
@@ -503,8 +503,8 @@
   },
   "en16803-2": {
    "read_from": "https://www.evs.ee/en/evs-en-16803-2-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
-   "sha256": "18447fda3a7596146ebc0d76e1a922e2f1530e140cc1825b735d6f0209891179",
-   "bytes": 68894,
+   "sha256": "72ac4c80acfe7f99d32cca631e2800a8f579fe359798319ad62bcf05a7c43b30",
+   "bytes": 68898,
    "entries": [],
    "catalogue": {
     "title": "EVS-EN 16803-2:2020 - EVS standard evs.ee | en",
@@ -515,7 +515,7 @@
   },
   "en16803-3": {
    "read_from": "https://www.evs.ee/en/evs-en-16803-3-2020 (publisher's catalogue page; the standard itself is paid and was not read)",
-   "sha256": "c980238fbb6023b5cefed68230f14a2f3a3cfebdb6d887b5054fbe3f7b353c75",
+   "sha256": "d0c4ac898fbe9f31d07520c995504831ad677f5ded0b627992f456497d07fab3",
    "bytes": 67226,
    "entries": [],
    "catalogue": {

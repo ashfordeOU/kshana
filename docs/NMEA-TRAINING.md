@@ -4,7 +4,8 @@ Maritime academies and simulator centres can feed Kshana-generated NMEA 0183 int
 simulator or a chart plotter to train crews to recognise GNSS jamming and spoofing.
 
 > **Training and testing only.** The generated streams are synthetic. They must never be fed
-> to a vessel's live navigation systems. Every stream starts with, and repeats every ten
+> to a vessel's live navigation systems. Kshana is advisory, not type-approved navigation equipment.
+> Every stream starts with, and repeats every ten
 > seconds, a proprietary marker sentence, `$PKSHT,TRAINING,SYNTHETIC,NOT-FOR-NAVIGATION`,
 > which receivers ignore; `--no-marker` removes it for a simulator that rejects unknown
 > sentences. This writes NMEA **text only**: there is no RF, IQ or waveform output, and
