@@ -688,24 +688,34 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 reads back its JSON, instead of guessing the maths. Each of its fifteen tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
-```bash
-cargo install kshana-mcp                          # from crates.io
-docker run --rm -i ghcr.io/ashfordeou/kshana-mcp  # or the container image, no Rust toolchain
-```
+### Install the MCP server
 
-Then register it in your assistant's MCP client configuration:
+> Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.
+> The server runs on your computer; nothing is sent to Ashforde OÜ.
 
-```json
-{
-  "mcpServers": {
-    "kshana": {
-      "command": "/Users/you/.cargo/bin/kshana-mcp",
-      "args": [],
-      "env": {}
-    }
-  }
-}
-```
+Pick any channel. Every link and snippet is generated from one script
+(`scripts/gen_mcp_install.py`) and checked in continuous integration; snippets for Claude Desktop,
+Claude Code, Cursor, VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI and Continue are in
+[`docs/MCP-INSTALL.md`](docs/MCP-INSTALL.md).
+
+<!-- mcp-install:begin -->
+| Channel | Command or button | Requires | Pinned form |
+|---|---|---|---|
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.35.0 |
+| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM1LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.35.0` / `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.35.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.35.0` / `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.35.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.35.0` |
+| npx | `npx -y kshana-mcp@0.35.0` | Node 18+ | `kshana-mcp@0.35.0` |
+| uvx / pipx | `uvx kshana-mcp==0.35.0` · `pipx run kshana-mcp==0.35.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.35.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.35.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.35.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.35.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.35.0` |
+| cargo | `cargo install kshana-mcp --version 0.35.0` | Rust 1.88+ | `kshana-mcp 0.35.0` |
+| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.35.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.35.0 |
+| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.35.0` |
+| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [docs/deploy/mcp-http.md](docs/deploy/mcp-http.md) | your own host | v0.35.0 |
+<!-- mcp-install:end -->
 
 <p><a href="https://glama.ai/mcp/servers/ashfordeOU/kshana"><img src="https://glama.ai/mcp/servers/ashfordeOU/kshana/badges/score.svg" alt="kshana-mcp on Glama, its MCP server quality score"></a></p>
 
@@ -1547,9 +1557,13 @@ afterwards the pipeline checks that each registry really serves the new version
 | [PyPI (Python Package Index)](https://pypi.org/project/kshana/) | `pip install kshana` | abi3 wheels (Linux/macOS/Windows) + sdist (source distribution) |
 | [npm](https://www.npmjs.com/package/kshana) | `npm install kshana` | WebAssembly module + JS wrapper |
 | [ghcr.io](https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp) | `docker run -i ghcr.io/ashfordeou/kshana-mcp` | multi-arch OCI (Open Container Initiative) image — no toolchain needed |
-| official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` |
+| [npm](https://www.npmjs.com/package/kshana-mcp) | `npx -y kshana-mcp@0.35.0` | launcher: downloads the release binary, verifies `SHA256SUMS`, runs it |
+| [PyPI](https://pypi.org/project/kshana-mcp/) | `uvx kshana-mcp==0.35.0` · `pipx run kshana-mcp==0.35.0` | the same launcher for Python |
+| Homebrew · Scoop · winget | `brew install ashfordeOU/tap/kshana-mcp` · `scoop install kshana-mcp` · `winget install AshfordeOU.KshanaMcp` | the `kshana-mcp` binary, generated from each release's `SHA256SUMS` |
+| Claude Desktop | double-click `kshana-mcp-<target>.mcpb` from the release | the extension, with the binary inside |
+| official MCP registry | auto-discovered by MCP clients | `io.github.ashfordeOU/kshana-mcp` (OCI image, npm and PyPI packages) |
 | [JetBrains Marketplace](https://plugins.jetbrains.com/plugin/32181-kshana--pnt-simulator) | IDE → Plugins → search "Kshana" | the **Kshana — PNT simulator** IDE plugin |
-| [GitHub Releases](https://github.com/ashfordeOU/kshana/releases) | download | the `kshana` command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the `kshana-mcp` binary, a CycloneDX **SBOM**, **SLSA** build provenance, an HTML validation summary and a `SHA256SUMS` checksum file |
+| [GitHub Releases](https://github.com/ashfordeOU/kshana/releases) | download | the `kshana` command-line binary for Linux x86-64, macOS (Apple silicon and Intel) and Windows x86-64, the `kshana-mcp` binary for each of those systems and Linux Arm, a `.mcpb` Claude Desktop extension per system, a CycloneDX **SBOM**, **SLSA** build provenance, an HTML validation summary and a `SHA256SUMS` checksum file |
 | [Zenodo](https://doi.org/10.5281/zenodo.20528627) | DOI | a citable archive of every release |
 | [kshana.dev](https://kshana.dev) | open in a browser | Kshana Studio, the in-browser WebAssembly app, rebuilt from each release tag (so the version it shows is the version it runs) |
 
