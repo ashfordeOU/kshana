@@ -45,7 +45,7 @@ pub fn default_weight(m: Monitor) -> f64 {
         Monitor::HeadingCourse => 40.0,
         Monitor::SpeedLog => 40.0,
         Monitor::SeaLevel => 30.0,
-        Monitor::TimeConsistency => 40.0,
+        Monitor::TimeConsistency => 60.0,
         Monitor::Osnma => 70.0,
         Monitor::Raim => 60.0,
         Monitor::Clock => 60.0,
