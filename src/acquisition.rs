@@ -502,6 +502,14 @@ pub fn cn0_m2m4(prompts: &[Cf64], t_coh_s: f64) -> Option<f64> {
     }
     m2 /= n;
     m4 /= n;
+    m2m4_cn0_from_moments(m2, m4, t_coh_s)
+}
+
+/// The M2M4 C/N0 (dB-Hz) from the mean power `m2 = ⟨|P|²⟩` and mean fourth power
+/// `m4 = ⟨|P|⁴⟩` of prompts of coherent time `t_coh_s`: signal power `√(2·m2² − m4)`, noise
+/// power `m2` minus that. `None` when the moments give no positive signal or noise power.
+/// [`cn0_m2m4`] and the tracking channel's streaming estimate share it.
+pub fn m2m4_cn0_from_moments(m2: f64, m4: f64, t_coh_s: f64) -> Option<f64> {
     let d = 2.0 * m2 * m2 - m4;
     if d.is_nan() || d <= 0.0 {
         return None;

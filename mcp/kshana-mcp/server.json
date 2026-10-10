@@ -3,7 +3,7 @@
   "name": "io.github.ashfordeOU/kshana-mcp",
   "title": "Kshana PNT-resilience simulator",
   "description": "Run the validated Kshana PNT-resilience simulator (orbits, frames, GNSS, fusion) from an AI agent.",
-  "version": "0.33.1",
+  "version": "0.34.0",
   "websiteUrl": "https://kshana.dev",
   "repository": {
     "url": "https://github.com/ashfordeOU/kshana",
@@ -13,14 +13,14 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.33.1",
+      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.34.0",
       "transport": {
         "type": "stdio"
       },
       "environmentVariables": [
         {
           "name": "KSHANA_MCP_IQ_DIR",
-          "description": "Folder the GNSS IQ tools (iq_scene, iq_acquire, iq_track, iq_frontend, iq_info) may read and write; every IQ path argument is relative to it. Unset leaves the IQ file tools off; the other tools are unaffected. In a container, mount a volume and point this at it.",
+          "description": "Folder the GNSS IQ tools (iq_scene, iq_acquire, iq_track, iq_frontend, iq_info, iq_campaign, iq_campaign_status) may read and write; every IQ path argument is relative to it. Unset leaves the IQ file tools off; the other tools are unaffected. In a container, mount a volume and point this at it.",
           "isRequired": false,
           "format": "filepath"
         },

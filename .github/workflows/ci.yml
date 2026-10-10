@@ -180,8 +180,15 @@ jobs:
     # which runs the per-scenario work on every core, so each walk takes about as long
     # as its slowest scenarios (leo-ppp-convergence first) instead of the sum.
     #
+    # 2026-10-09, the 0.34.0 cut: the GNSS IQ test suite (tracking engine, campaign runner,
+    # monitors) lengthened the run to 3h51m on 220c18f, and on f3e5a6b the job was cancelled
+    # at the 240 cap (11:21 to 15:22) while `verification_rows_name_a_test_that_exists` was
+    # running. The cap is raised to 330, under GitHub's 360 limit for hosted runners; the
+    # follow-up is to bring the run back toward its ~94 min. No test is skipped, reduced or
+    # ignored.
+    #
     # The measurement and the --fail-under 85 floor below are unchanged.
-    timeout-minutes: 240
+    timeout-minutes: 330
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - uses: dtolnay/rust-toolchain@1.93.0
@@ -350,6 +357,12 @@ jobs:
         run: node web/legacy-urls.test.mjs
       - name: Test the Git LFS pointer guards (site test and port refusal)
         run: node web/tools/lfs-pointer.test.mjs
+      - name: Fetch the v0.32.0 tag for the inline-JSON guard test
+        # The guard's test also checks the shipped v0.32.0 home page; fetch just that tag's
+        # commit. A failed fetch only skips that one check.
+        run: git fetch --no-tags --depth=1 origin tag v0.32.0 || echo "v0.32.0 not fetched; shipped-page check will skip"
+      - name: Test the inline-JSON guard (corrupt page data, unescaped version bumps)
+        run: node web/tools/inline-json.test.mjs
       - name: Test the share-link codec
         run: node web/studio/lib/share.test.mjs
       - name: Test the chart-download helpers

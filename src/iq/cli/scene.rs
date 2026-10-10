@@ -11,6 +11,7 @@
 
 use super::{build_code, Args, Fail};
 use crate::frames::{geodetic_to_ecef, Geodetic};
+use crate::iq::channel::cn0_profile::{Cn0Profile, Cn0ProfileChannel, ProfiledTruth};
 use crate::iq::io::inventory::{write_sidecar, RawSidecar};
 use crate::iq::io::stream::create_raw;
 use crate::iq::io::{Encoding, SampleFormat};
@@ -327,7 +328,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
 
     // Optional propagation channel applied to every satellite.
     let chan = super::channel::ChannelParams::from_args(&a)?;
-    let chan_desc = chan.describe();
+    let mut chan_desc = chan.describe();
+    let mut inner = None;
     if chan.any() {
         let carrier = scene
             .satellites()
@@ -335,11 +337,27 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             .map(|s| s.code.carrier_hz())
             .unwrap_or(spec.center_hz);
         let start_tow = scene.config().start_tow_s;
-        if let Some(ch) =
-            super::channel::build_channel(&chan, carrier, seed, start_tow).map_err(Fail::Usage)?
-        {
-            scene.set_channel(ch);
+        inner =
+            super::channel::build_channel(&chan, carrier, seed, start_tow).map_err(Fail::Usage)?;
+    }
+    // Optional C/N0 profile (time-varying signal strength), applied over the channel.
+    let cn0_profile = match a.get("--cn0-profile") {
+        Some(p) => {
+            let text = std::fs::read_to_string(p).map_err(|e| Fail::Run(format!("{p}: {e}")))?;
+            Some(Cn0Profile::parse(&text).map_err(|e| Fail::Usage(e.to_string()))?)
         }
+        None => None,
+    };
+    match (&cn0_profile, inner) {
+        (Some(prof), inner) => {
+            chan_desc = format!(
+                "{chan_desc}; C/N0 profile ({} segment(s))",
+                prof.segments.len()
+            );
+            scene.set_channel(Box::new(Cn0ProfileChannel::new(prof.clone(), inner)));
+        }
+        (None, Some(ch)) => scene.set_channel(ch),
+        (None, None) => {}
     }
 
     // SigMF output: `--format sigmf`, or an out path ending in a SigMF suffix. The samples
@@ -393,16 +411,23 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
     let truth_file = BufWriter::new(
         File::create(&truth_path).map_err(|e| Fail::Run(format!("{truth_path}: {e}")))?,
     );
-    let summary = match truth_fmt.as_str() {
-        "csv" => generate(scene, &mut iq, &mut CsvTruthWriter::new(truth_file))?,
-        "jsonl" | "jsonlines" => {
-            generate(scene, &mut iq, &mut JsonLinesTruthWriter::new(truth_file))?
-        }
+    let mut truth_writer: Box<dyn TruthSink> = match truth_fmt.as_str() {
+        "csv" => Box::new(CsvTruthWriter::new(truth_file)),
+        "jsonl" | "jsonlines" => Box::new(JsonLinesTruthWriter::new(truth_file)),
         other => {
             return Err(Fail::Usage(format!(
                 "--truth-format must be csv or jsonl (got {other:?})"
             )))
         }
+    };
+    let summary = match cn0_profile {
+        // The truth states the profiled C/N0.
+        Some(prof) => generate(
+            scene,
+            &mut iq,
+            &mut ProfiledTruth::new(prof, truth_writer.as_mut()),
+        )?,
+        None => generate(scene, &mut iq, truth_writer.as_mut())?,
     };
 
     let clipped = iq.clipped();
@@ -424,6 +449,8 @@ pub(crate) fn run(args: &[String]) -> Result<String, Fail> {
             center_hz: Some(spec.center_hz),
             if_hz: (spec.if_hz != 0.0).then_some(spec.if_hz),
             header_bytes: None,
+            channels: None,
+            channel: None,
             datetime: None,
             description: Some(format!("written by kshana iq scene{scale_note}")),
         };
@@ -454,14 +481,24 @@ const INTEGER_RMS_FRACTION: f64 = 0.25;
 /// float formats, which keep the scene's own (noise-normalised) units.
 ///
 /// 8- and 16-bit encodings place the RMS at [`INTEGER_RMS_FRACTION`] of full scale
-/// (127 and 32767). The 2-bit encodings (levels ±1, ±3, thresholds 0 and ±2) place it at
+/// (127 and 32767); the other integer widths do the same against their own decoded full
+/// scale. The 2-bit encodings (levels ±1, ±3, thresholds 0 and ±2) place it at
 /// 2 LSB, so the ±2 thresholds sit at one standard deviation: the near-optimal 2-bit
 /// quantiser for Gaussian input (threshold ≈ 1.0 σ).
 pub(crate) fn integer_target_rms(format: SampleFormat) -> Option<f64> {
     match format.encoding {
         Encoding::I8 => Some(INTEGER_RMS_FRACTION * f64::from(i8::MAX)),
         Encoding::I16Le | Encoding::I16Be => Some(INTEGER_RMS_FRACTION * f64::from(i16::MAX)),
-        Encoding::TwoBit { .. } => Some(2.0),
+        Encoding::TwoBit { .. } | Encoding::TwoBitPerByte { .. } => Some(2.0),
+        // The other integer encodings follow the same rule against their decoded full
+        // scale: ±(2ⁿ − 1) for the offset-binary codes (levels `2c − (2ⁿ − 1)`), −2ⁿ⁻¹…2ⁿ⁻¹ − 1
+        // for the two's-complement ones.
+        Encoding::I4 { .. } => Some(INTEGER_RMS_FRACTION * 7.0),
+        Encoding::U4 { .. } => Some(INTEGER_RMS_FRACTION * 15.0),
+        Encoding::U8 => Some(INTEGER_RMS_FRACTION * 255.0),
+        Encoding::I12 { .. } => Some(INTEGER_RMS_FRACTION * 2047.0),
+        Encoding::U12 { .. } => Some(INTEGER_RMS_FRACTION * 4095.0),
+        Encoding::U16 { .. } => Some(INTEGER_RMS_FRACTION * 65535.0),
         Encoding::F32Le | Encoding::F32Be => None,
     }
 }

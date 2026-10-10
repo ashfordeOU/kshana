@@ -12,6 +12,7 @@ import { fileURLToPath } from "node:url";
 import { join, dirname, posix } from "node:path";
 import assert from "node:assert/strict";
 import { lfsPointers } from "./tools/lfs-pointer.mjs";
+import { inlineJsonProblems } from "./tools/inline-json.mjs";
 
 const WEB = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(WEB);
@@ -126,6 +127,12 @@ const studioScenarioNames = new Set(allStudioTomls.map((rel) => rel.split("/").p
 const bundle = JSON.parse(text("studio/scenarios/index.json"));
 assert.deepEqual(Object.keys(bundle).sort(), studioTomls, "studio/scenarios/index.json bundles exactly the scenario files beside it");
 for (const f of studioTomls) assert.equal(bundle[f], text(`studio/scenarios/${f}`), `index.json's ${f} is the file's text`);
+
+// ---- 4b. The data each page carries inline parses, and none of it shows the signature of an
+// unescaped version-bump regex (the 0.32.0 home page shipped a corrupt `kpage` block that way:
+// see web/tools/inline-json.mjs).
+const inlineProblems = ported.filter((rel) => rel.endsWith(".html") && !rel.startsWith("assets/")).flatMap((rel) => inlineJsonProblems(text(rel), rel));
+assert.deepEqual(inlineProblems, [], `inline JSON is corrupt:\n${inlineProblems.join("\n")}`);
 
 // ---- 5. Every internal link on every page resolves: the file is there, and so is the anchor.
 const idsOf = new Map();
