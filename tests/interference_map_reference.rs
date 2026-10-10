@@ -44,12 +44,12 @@ const AIS_SPEED_TOL: f64 = 1e-9;
 ///
 /// Derivation (from the geometry, fixed before any result was seen). Kshana measures length on a
 /// sphere of radius R = 6371.0088 km; the oracle measures it on the WGS84 ellipsoid. A short arc
-/// of length s along a meridian is s * R / M(lat) times its ellipsoidal length, where M is the
-/// meridional radius of curvature, which runs from 6335.4 km at the equator to 6399.6 km at the
-/// pole; along a parallel the radius is the prime-vertical radius N(lat), 6378.1 km at the equator
-/// down to 6356.8 km at the pole in the limit. The relative difference |R - r| / r is therefore at
-/// most max(|6371.0088 - 6335.4|, |6371.0088 - 6399.6|, |6371.0088 - 6378.1|) / 6335.4 = 0.56%
-/// (0.57% with the polar value). 0.6% is that bound rounded up.
+/// along a meridian has ellipsoidal length s * r, where r is the meridional radius of curvature M,
+/// 6335.4 km at the equator rising to 6399.6 km at the pole; along a parallel r is the prime-vertical
+/// radius N, 6378.1 km at the equator rising to 6399.6 km at the pole; in any other direction r
+/// lies between the two. The relative difference |R - r| / r is therefore at most
+/// |6371.0088 - 6335.4| / 6335.4 = 0.56% (at the equator, along a meridian). 0.6% is that bound
+/// rounded up.
 const ROUTE_REL_TOL: f64 = 0.006;
 /// d2: metres per oracle piece.
 ///
