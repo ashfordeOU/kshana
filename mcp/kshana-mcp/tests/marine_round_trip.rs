@@ -97,6 +97,8 @@ async fn the_new_tools_are_listed_with_their_caveats() {
         assert!(d.contains("not a finding that a framework is met"), "{t}");
         assert!(d.contains("rated or approved by anyone"), "{t}");
     }
+    assert!(desc("trust_telemetry").contains("Nothing is sent, served or written"));
+    assert!(desc("trust_telemetry").contains("Advisory only"));
     assert!(desc("export_test_bench").contains("NO SIGNAL"));
     assert!(desc("attach_evidence_timestamp").contains("does NOT verify the timestamp authority"));
     client.cancel().await.ok();
@@ -768,6 +770,76 @@ async fn compliance_report_fills_the_mapping_and_keeps_the_statement() {
         call(&client, "compliance_report", json!({"runs": many}))
             .await
             .is_err()
+    );
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn trust_telemetry_renders_each_format_and_refuses_bad_input() {
+    let stream = concat!(
+        r#"{"t_s":0.0,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off"}"#,
+        "\n",
+        r#"{"t_s":1.0,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off"}"#,
+        "\n",
+        "not json\n",
+        r#"{"t_s":2.0,"state":"degraded","score":41.0,"deductions":[{"monitor":"cn0-drop","ratio":1.5,"points":30.0}],"alarms":["cn0-drop"],"gate":"off"}"#,
+        "\n",
+    );
+    let client = connect().await;
+    let cef = call(
+        &client,
+        "trust_telemetry",
+        json!({"input": stream, "format": "cef", "host": "ops-gw1"}),
+    )
+    .await
+    .unwrap();
+    assert_eq!(cef[0].lines().count(), 3, "{}", cef[0]);
+    assert!(cef[0].contains("CEF:0|Ashforde OU|Kshana|") && cef[0].contains("dvchost=ops-gw1"));
+    let leef = call(
+        &client,
+        "trust_telemetry",
+        json!({"input": stream, "format": "leef", "syslog_all": true}),
+    )
+    .await
+    .unwrap();
+    assert!(leef[0].contains("LEEF:2.0|") && leef[0].lines().count() == 3);
+    let prom = call(
+        &client,
+        "trust_telemetry",
+        json!({"input": stream, "format": "prometheus"}),
+    )
+    .await
+    .unwrap();
+    assert!(
+        prom[0].contains("kshana_trust_score 41")
+            && prom[0].contains("kshana_trust_input_errors_total 1")
+    );
+    let otlp = call(
+        &client,
+        "trust_telemetry",
+        json!({"input": stream, "format": "otlp", "unix_nano": 1700000000000000000u64}),
+    )
+    .await
+    .unwrap();
+    let v: Value = serde_json::from_str(&otlp[0]).unwrap();
+    assert!(v["resourceMetrics"].is_array());
+    assert!(
+        call(
+            &client,
+            "trust_telemetry",
+            json!({"input": stream, "format": "xml"})
+        )
+        .await
+        .is_err()
+    );
+    assert!(
+        call(
+            &client,
+            "trust_telemetry",
+            json!({"input": "", "format": "cef"})
+        )
+        .await
+        .is_err()
     );
     client.cancel().await.ok();
 }

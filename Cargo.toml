@@ -163,7 +163,7 @@ getrandom = { version = "0.2", features = ["js"] }
 
 [features]
 # Python extension module, built with maturin (`maturin build --features python`).
-python = ["dep:pyo3", "bundled-scenarios"]
+python = ["dep:pyo3", "bundled-scenarios", "otlp"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
 wasm = ["dep:wasm-bindgen", "bundled-scenarios", "otlp"]
 # The bundled reference scenarios (`kshana example`) as a library module,

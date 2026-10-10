@@ -680,3 +680,27 @@ def test_iq_info_and_inventory_describe_a_recording_on_disk(tmp_path):
     assert info["format"] == "cf32_le" and info["n_samples"] == len(scene["samples_i"])
     rows = kshana.iq_inventory(str(tmp_path))
     assert len(rows) == 1 and rows[0]["n_samples"] == info["n_samples"]
+
+
+_TRUST_STREAM = (
+    '{"t_s":0.0,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off"}\n'
+    '{"t_s":1.0,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off"}\n'
+    "not json\n"
+    '{"t_s":2.0,"state":"degraded","score":41.0,"deductions":[{"monitor":"cn0-drop","ratio":1.5,"points":30.0}],"alarms":["cn0-drop"],"gate":"off"}\n'
+)
+
+
+def test_trust_telemetry_formats():
+    cef = kshana.trust_telemetry(_TRUST_STREAM, "cef", "ops-gw1")
+    assert len(cef.splitlines()) == 3  # one event per band change
+    assert "CEF:0|Ashforde OU|Kshana|" in cef and "dvchost=ops-gw1" in cef
+    leef = kshana.trust_telemetry(_TRUST_STREAM, "leef", "ops-gw1", syslog_all=True)
+    assert len(leef.splitlines()) == 3 and "LEEF:2.0|" in leef
+    prom = kshana.trust_telemetry(_TRUST_STREAM, "prometheus")
+    assert "kshana_trust_score 41" in prom and "kshana_trust_input_errors_total 1" in prom
+    otlp = json.loads(kshana.trust_telemetry(_TRUST_STREAM, "otlp", unix_nano=1_700_000_000_000_000_000))
+    assert isinstance(otlp["resourceMetrics"], list)
+    with pytest.raises(ValueError):
+        kshana.trust_telemetry(_TRUST_STREAM, "xml")
+    with pytest.raises(ValueError):
+        kshana.trust_telemetry("", "cef")

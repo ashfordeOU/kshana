@@ -45,6 +45,19 @@ object KshanaCli {
     fun isNmeaLogFile(fileName: String): Boolean =
         listOf(".nmea", ".log", ".txt", ".nma").any { fileName.endsWith(it, ignoreCase = true) }
 
+    /** The text formats `trust-telemetry` can print from a stored result without a network. */
+    enum class TelemetryFormat(val label: String, val args: List<String>) {
+        PROMETHEUS("Prometheus metrics", listOf("--print-metrics")),
+        CEF("Syslog events, CEF", listOf("--print-syslog", "--format", "cef")),
+        LEEF("Syslog events, LEEF", listOf("--print-syslog", "--format", "leef")),
+    }
+
+    /** `<binary> trust-telemetry --result <result.json> <print flags>`: print the telemetry a stored
+     *  `receiver-trust` result would produce. It prints to the console only: no listener is bound
+     *  (a print flag is given), nothing is sent. */
+    fun trustTelemetryCommand(binary: String, resultPath: String, format: TelemetryFormat): List<String> =
+        listOf(binary, "trust-telemetry", "--result", resultPath) + format.args
+
     /** The approved interference-map datasets and the input kind each one is. */
     enum class MapDataset(val key: String, val source: String, val label: String) {
         ADSB_LOL("adsb-lol", "adsb", "adsb-lol (ADS-B aircraft reports)"),

@@ -42,6 +42,7 @@ __all__ = [
     "get_example",
     "compliance_report",
     "compliance_mapping",
+    "trust_telemetry",
     "route_exposure",
     "nmea_training",
     "iq_scene",
@@ -257,6 +258,24 @@ def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report
     carries: one table per framework, or with ``sources=True`` the source documents they cite
     (versions and URLs)."""
+
+def trust_telemetry(
+    input: str,
+    format: str,
+    host: str = "",
+    input_kind: str = "jsonl",
+    expose_position: bool = False,
+    syslog_all: bool = False,
+    unix_nano: int = 0,
+) -> str:
+    """Render a trust stream or a batch result in one telemetry format with the encoders
+    ``kshana trust-telemetry`` uses (no process, socket or clock). ``format`` is ``"prometheus"``,
+    ``"cef"``, ``"leef"`` or ``"otlp"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
+    stream) or ``"result"`` (a ``receiver-trust`` result document); ``host`` names the sender in
+    syslog events (default ``kshana``). ``syslog_all`` gives one event per epoch instead of one
+    per band change; ``expose_position`` adds the receiver-reported position to the metrics;
+    ``unix_nano`` is the export time of the ``"otlp"`` payload. Syslog lines carry no timestamp.
+    Raises ``ValueError`` on an unknown format or an input with no epoch."""
 
 def interference_map(
     source: str,
