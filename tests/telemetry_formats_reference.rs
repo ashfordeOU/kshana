@@ -15,6 +15,11 @@
 //! of the `Registry`, which the test reads through its accessors and never by parsing the
 //! text. CI needs no Python.
 //!
+//! PIN-SCOPE:    the fixed wall-clock inputs this test stamps its registry and OTLP payload with
+//!               (`NOW`, `NOW_NANO`): they make the committed `exposition.prom` and `otlp.json`
+//!               reproducible. They are inputs, not expected results.
+//! PIN-EXCLUDES: every expected value: those are read from the registry, never from a literal.
+//!
 //! The oracles check the **syntax and the values** of the formats. They do not check that the
 //! metric names suit any dashboard, and they say nothing about CEF or LEEF.
 //!
