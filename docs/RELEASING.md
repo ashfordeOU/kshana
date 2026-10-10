@@ -65,8 +65,11 @@ All of it runs inside one run of the Release workflow (`.github/workflows/releas
 - **OpenCPN catalogue: prepared, not submitted.** The release carries the plugin tarball in the catalogue's
   layout and its catalogue metadata XML. Adding it to OpenCPN's catalogue is a pull request the maintainer opens
   by hand: `packaging/opencpn/SUBMITTING.md`.
-- The new `ghcr.io/ashfordeou/kshana-reference-build` package is private when first pushed;
-  make it public so the parity job's anonymous check can read it.
+- The `ghcr.io/ashfordeou/kshana-reference-build` package is private when first pushed. It already
+  exists (created by a release dry run) and the founder sets its visibility to public once, in the
+  package settings (Package settings, Change visibility). After that, every later tag's image inherits
+  it and the parity job's anonymous pull works; the parity check is not relaxed. A brand-new image name
+  would need the same one-time step before its first parity check.
 
 ### Why this order
 
@@ -152,8 +155,15 @@ same tools:
 ## What the pipeline needs from the repository settings
 
 - Secrets: `CARGO_REGISTRY_TOKEN`, `PYPI_API_TOKEN`, `JETBRAINS_MARKETPLACE_TOKEN`. A
-  release tag fails if one is missing. `NPM_TOKEN` is optional once npm trusted publishing
-  is set up (below); until then it is what publishes to npm.
+  release tag fails if one is missing. `NPM_TOKEN` is required for the first publish of each new npm
+  package name, because trusted publishing can only be configured on a package that already exists.
+  The two new names, `signalk-kshana-trust` (`signalk-publish.yml`) and `kshana-mcp` (the npx launcher,
+  `mcp-launchers.yml`), both need a token that can **create new packages**: a classic Automation token, or
+  a granular token with read and write on all packages. A token limited to the existing `kshana`
+  package cannot. Both jobs fail with a clear message when it is missing. Once a package exists,
+  switch it to trusted publishing (below) and the token matters less. `kshana-mcp` on PyPI likewise needs
+  an account-scoped `PYPI_API_TOKEN` or a pending trusted publisher for the new project name
+  (`packaging/mcp/SUBMITTING.md`, section B).
 - Variable: `MCP_REGISTRY_PUBLISH=true` turns on the MCP registry step.
 - Secret: `RELEASE_TAG_TOKEN`, a fine-grained token for this repository with Contents read
   and write, for the Auto-tag workflow. A tag pushed with the workflow's own `GITHUB_TOKEN`
