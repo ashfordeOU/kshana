@@ -152,6 +152,10 @@ fn event_json(e: &Event) -> serde_json::Value {
         } => json!({"kind":"kroot_verified","cid":cid,"pkid":pkid,
             "hash":format!("{hash:?}"),"mac":format!("{mac:?}"),
             "key_bits":key_bits,"tag_bits":tag_bits,"maclt":maclt}),
+        Event::KeyStall {
+            reference,
+            latest_key,
+        } => json!({"kind":"key_stall","reference":reference,"latest_key":latest_key}),
         Event::ChainRevoked { cid } => json!({"kind":"chain_revoked","cid":cid}),
         Event::PublicKeyRevoked { pkid } => json!({"kind":"public_key_revoked","pkid":pkid}),
         Event::KrootRejected(r) => json!({"kind":"kroot_rejected","reason":format!("{r:?}")}),

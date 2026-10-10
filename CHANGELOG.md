@@ -9,6 +9,20 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+## [0.35.0] - 2026-10-10
+
+Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
+output already installed, with the tooling around it: live and gate modes, Signal K and
+OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
+exporters, signed evidence packs, a compliance mapping, a test-bench export, and the same
+capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
+class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Partner). Six are
+**VALIDATED**, each against an independent implementation or published vectors on synthetic inputs
+and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
+for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
+responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
+generated NMEA text is for training.
+
 ### Galileo OSNMA verifier
 
 - **New module `kshana::osnma` and `kshana osnma verify <input>`: an open, pure-Rust
@@ -30,21 +44,12 @@ breaking changes are called out explicitly.
   expire and follow the IODnav in use, honours verified alert messages (whose Merkle
   leaf now includes the random NPK field) and NMA status "don't use", keeps dummy tags
   out of the satellite status, keeps chains by CID with revocation and renewal, checks
-  the KROOT padding hash, and caps UBX frame lengths and TESLA verification work.
-
-## [0.35.0] - 2026-10-10
-
-Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
-output already installed, with the tooling around it: live and gate modes, Signal K and
-OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
-exporters, signed evidence packs, a compliance mapping, a test-bench export, and the same
-capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
-class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Partner). Six are
-**VALIDATED**, each against an independent implementation or published vectors on synthetic inputs
-and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
-for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
-responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
-generated NMEA text is for training. Galileo OSNMA verification is not in this release.
+  the KROOT padding hash, and caps UBX frame lengths and TESLA verification work. A
+  satellite reads authenticated only while the newest ephemeris and clock data it sends
+  is, bit for bit, the data that was authenticated (not merely under the same IODnav),
+  a status or revocation from the unauthenticated NMA header counts only when two
+  satellites agree or a verified KROOT carries it, a replayed older KROOT cannot replace
+  a chain, and a stalled key stream is reported.
 
 ### Added (surfaces)
 
