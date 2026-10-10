@@ -12,7 +12,11 @@ use kshana::receiver_trust::synth::{synth_voyage, VoyageSpec};
 const BIN: &str = env!("CARGO_BIN_EXE_kshana");
 
 fn session(tag: &str) -> PathBuf {
-    let dir = std::env::temp_dir().join(format!("kshana-live-{}-{tag}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let dir =
+        std::env::temp_dir().join(format!("kshana-live-{}-{tag}-{}", std::process::id(), uniq));
     std::fs::create_dir_all(&dir).unwrap();
     let p = dir.join("session.toml");
     std::fs::write(
@@ -90,7 +94,14 @@ fn stdin_gives_one_json_line_per_epoch() {
 
 #[test]
 fn gate_passes_the_stream_with_a_pksht_after_each_cycle_and_json_goes_to_a_file() {
-    let dir = std::env::temp_dir().join(format!("kshana-live-{}-gatejson", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-live-{}-gatejson-{}",
+        std::process::id(),
+        uniq
+    ));
     std::fs::create_dir_all(&dir).unwrap();
     let json = dir.join("out.jsonl");
     let input = text(40.0);
@@ -130,7 +141,14 @@ fn two_outputs_cannot_share_stdout_and_live_needs_a_vessel() {
     assert_eq!(out.status.code(), Some(2));
     assert!(String::from_utf8_lossy(&out.stderr).contains("share stdout"));
 
-    let p = std::env::temp_dir().join(format!("kshana-live-{}-static.toml", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let p = std::env::temp_dir().join(format!(
+        "kshana-live-{}-static.toml-{}",
+        std::process::id(),
+        uniq
+    ));
     std::fs::write(&p, "kind = \"receiver-trust\"\n").unwrap();
     let out = Command::new(BIN)
         .args(["receiver-trust", "live"])
@@ -152,7 +170,14 @@ fn read_json_lines(child: &mut Child, n: usize) -> Vec<serde_json::Value> {
 
 #[test]
 fn a_file_being_appended_is_followed() {
-    let dir = std::env::temp_dir().join(format!("kshana-live-{}-follow", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-live-{}-follow-{}",
+        std::process::id(),
+        uniq
+    ));
     std::fs::create_dir_all(&dir).unwrap();
     let log = dir.join("nmea.log");
     let all = text(40.0);
@@ -358,7 +383,14 @@ fn a_sentence_split_across_udp_datagrams_is_forwarded_whole() {
 
 #[test]
 fn a_followed_file_is_not_judged_against_the_host_clock_while_its_backlog_is_read() {
-    let dir = std::env::temp_dir().join(format!("kshana-live-{}-backlog", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-live-{}-backlog-{}",
+        std::process::id(),
+        uniq
+    ));
     std::fs::create_dir_all(&dir).unwrap();
     let log = dir.join("nmea.log");
     std::fs::write(&log, text(40.0)).unwrap();
