@@ -111,7 +111,48 @@ fn nmea_round_trips_within_tolerance_and_has_valid_checksums() {
         let ve = -so * v[0] + co * v[1];
         let speed_kn = vn.hypot(ve) * 3600.0 / 1852.0;
         assert!((speed_kn - f.speed_kn).abs() <= NMEA_SPEED_TOL_KN + 1e-6);
+        // Course over ground is the direction of the velocity vector; below the writer's
+        // minimum speed there is none.
+        if vn.hypot(ve) >= 0.05 {
+            let want = ve.atan2(vn).to_degrees().rem_euclid(360.0);
+            let got = f.course_deg.expect("a moving sample carries a course");
+            let d = (want - got + 180.0).rem_euclid(360.0) - 180.0;
+            assert!(d.abs() <= NMEA_COURSE_TOL_DEG + 1e-9, "{want} vs {got}");
+        } else {
+            assert!(f.course_deg.is_none());
+        }
     }
+}
+
+#[test]
+fn gnss_ins_heading_is_the_body_yaw_not_the_course_and_the_files_say_so() {
+    let t = traj();
+    let mut worst = 0.0f64;
+    for m in &t.samples {
+        let v = m.v_ecef_m_s;
+        let (sl, cl) = m.lat_deg.to_radians().sin_cos();
+        let (so, co) = m.lon_deg.to_radians().sin_cos();
+        let vn = -sl * co * v[0] - sl * so * v[1] + cl * v[2];
+        let ve = -so * v[0] + co * v[1];
+        if vn.hypot(ve) < 0.5 {
+            continue;
+        }
+        let course = ve.atan2(vn).to_degrees().rem_euclid(360.0);
+        let d = ((m.heading_deg - course + 180.0).rem_euclid(360.0) - 180.0).abs();
+        worst = worst.max(d);
+    }
+    // The documented fact: they differ, by tens of degrees, in the driving profile.
+    assert!(
+        worst > 10.0,
+        "heading never departs from the course: {worst}"
+    );
+    let meta = write_motion_meta(&t);
+    assert!(meta.contains("heading_note") && meta.contains("not the direction of travel"));
+    let doc = std::fs::read_to_string(
+        PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("docs/TEST-BENCH.md"),
+    )
+    .unwrap();
+    assert!(doc.contains("not the direction of travel"));
 }
 
 #[test]
@@ -155,6 +196,34 @@ fn waypoints_refuse_an_irregular_millisecond_grid() {
     t.samples.truncate(3);
     t.samples[1].t_s = 0.0004;
     assert!(write_waypoints(&t).is_err());
+}
+
+#[test]
+fn waypoints_check_every_interval_not_only_the_first() {
+    let mut t = traj();
+    t.samples.truncate(5);
+    // The first interval is a whole number of milliseconds; a later one is not.
+    t.samples[3].t_s += 0.0004;
+    let e = write_waypoints(&t).unwrap_err();
+    assert!(
+        e.contains("not equally spaced") && e.contains("interval 3"),
+        "{e}"
+    );
+}
+
+#[test]
+fn a_dropped_waypoint_file_is_reported_with_its_reason() {
+    let mut t = traj();
+    t.samples.truncate(5);
+    t.samples[3].t_s += 0.0004;
+    let (files, notes) = files_and_notes_of(&t);
+    assert!(!files.iter().any(|f| f.suffix == ".waypoints.txt"));
+    assert_eq!(notes.len(), 1);
+    assert!(notes[0].contains(".waypoints.txt") && notes[0].contains("not equally spaced"));
+    // A regular grid drops nothing and says nothing.
+    let (files, notes) = export_with_notes(&scenario("gnss-ins.toml"), None).unwrap();
+    assert!(files.iter().any(|f| f.suffix == ".waypoints.txt"));
+    assert!(notes.is_empty());
 }
 
 #[test]

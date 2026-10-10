@@ -14,6 +14,8 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana --study <suite.toml>
    or: kshana --validate <scenario.toml>
    or: kshana receiver-trust <scenario.toml>
+   or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
+   or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
    or: kshana iq <scene|acquire|track|sweep|labfit|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
@@ -990,26 +992,11 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
                 i += 1;
             }
             "--epoch" => {
-                let v = &args[i + 1];
-                // YYYY-MM-DDTHH:MM:SS[Z], UTC.
-                let t = v.trim_end_matches('Z');
-                let parsed = (|| {
-                    let (d, tm) = t.split_once('T')?;
-                    let mut dp = d.split('-');
-                    let mut tp = tm.split(':');
-                    Some(kshana::interop::UtcEpoch::from_calendar(
-                        dp.next()?.parse().ok()?,
-                        dp.next()?.parse().ok()?,
-                        dp.next()?.parse().ok()?,
-                        tp.next()?.parse().ok()?,
-                        tp.next()?.parse().ok()?,
-                        tp.next()?.parse().ok()?,
-                    ))
-                })();
-                match parsed {
-                    Some(e) => epoch = Some(e),
-                    None => {
-                        eprintln!("error: --epoch wants YYYY-MM-DDTHH:MM:SS (UTC), got {v}");
+                // YYYY-MM-DDTHH:MM:SS[Z], UTC, every field range-checked.
+                match kshana::interop::UtcEpoch::parse_iso(&args[i + 1]) {
+                    Ok(e) => epoch = Some(e),
+                    Err(e) => {
+                        eprintln!("error: --epoch: {e}");
                         return ExitCode::from(2);
                     }
                 }
@@ -1034,7 +1021,7 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
             return ExitCode::from(2);
         }
     };
-    let files = match kshana::interop::testbench::export(&src, epoch) {
+    let (files, notes) = match kshana::interop::testbench::export_with_notes(&src, epoch) {
         Ok(f) => f,
         Err(e) => {
             eprintln!("error: {e}");
@@ -1050,6 +1037,9 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
         }
         println!("wrote {}", target.display());
     }
+    for n in notes {
+        eprintln!("note: {n}");
+    }
     ExitCode::SUCCESS
 }
 
@@ -1064,12 +1054,14 @@ fn run_compliance_report_cli(args: &[String]) -> ExitCode {
     while i < args.len() {
         match args[i].as_str() {
             "--mapping" => {
+                println!("> {}\n", compliance::STATEMENT);
                 for fw in mapping::Framework::ALL {
                     println!("## {}\n\n{}", fw.title(), mapping::framework_table_md(fw));
                 }
                 return ExitCode::SUCCESS;
             }
             "--sources" => {
+                println!("> {}\n", compliance::STATEMENT);
                 for fw in mapping::Framework::ALL {
                     println!("## {}\n\n{}", fw.title(), mapping::sources_md(fw));
                 }

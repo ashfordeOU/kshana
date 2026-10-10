@@ -4,8 +4,8 @@
 The framework describes resilience levels 0 to 4 built from eight numbered requirements, and an evaluation approach that combines static analysis with dynamic analysis in which test vectors stand in for threats. It has no requirement-identifier scheme of its own, so the references below are its level and requirement numbers and its section numbers. It is outcome-based and does not catalogue threats.
 
 Every row says which Kshana outputs **support evidence for** the requirement and what is
-left over. Nothing here says a framework is met, that a product conforms to it, or that
-anything is certified. Run `kshana compliance-report` on your own result files to see which
+left over. Nothing here says a framework is met or that any product has been rated or
+approved by anyone. Run `kshana compliance-report` on your own result files to see which
 rows your runs actually evidence; see [README.md](README.md).
 
 ## Source documents

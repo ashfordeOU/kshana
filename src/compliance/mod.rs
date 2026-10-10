@@ -12,8 +12,8 @@
 //! ## What the statuses mean
 //!
 //! A status says a run in the set **supports evidence for** a row's capabilities. It is not a
-//! finding that the framework is met, that a product conforms to it, or that any person or
-//! body has certified anything. Every report carries that sentence, and the standing gap of
+//! finding that the framework is met or that any person or body has rated or approved a
+//! product. Every report carries that sentence, and the standing gap of
 //! every row stays in the output even when its status is `evidenced`.
 //!
 //! ## Which kind a result is
@@ -70,8 +70,8 @@ impl Status {
 /// The statement every report carries.
 pub const STATEMENT: &str =
     "A row marked evidenced means a run in this set supports evidence for the capabilities the \
-     row names. It is not a finding that a framework is met, that a product conforms to it, or \
-     that anything is certified. The gap column states what the runs do not show.";
+     row names. It is not a finding that a framework is met, and it does not mean any product \
+     has been rated or approved by anyone. The gap column states what the runs do not show.";
 
 /// What one capability has from the set.
 #[derive(Clone, Debug, Serialize)]
@@ -162,15 +162,31 @@ fn is_receiver_trust(v: &Value) -> bool {
         && v.get("events_evaluable").is_some()
 }
 
+/// The result's `scenario_hash`, when it is a hex string (what the engine writes). Anything
+/// else is not a hash and is not reported as one.
 fn hash_of(v: &Value) -> Option<String> {
     v.get("scenario_hash")
         .and_then(Value::as_str)
+        .filter(|h| (8..=128).contains(&h.len()) && h.chars().all(|c| c.is_ascii_hexdigit()))
         .map(str::to_string)
 }
 
-/// Whether a run carries a capability. A run of one of the capability's kinds counts when its
-/// result is a non-empty JSON object; `run-provenance` counts any run whose result carries a
-/// `scenario_hash`; `receiver-log-trust` additionally needs a log with at least one epoch.
+/// A value that says something: not null, and not an empty string, array or object.
+fn present(v: &Value) -> bool {
+    match v {
+        Value::Null => false,
+        Value::String(s) => !s.is_empty(),
+        Value::Array(a) => !a.is_empty(),
+        Value::Object(o) => !o.is_empty(),
+        _ => true,
+    }
+}
+
+/// Whether a run carries a capability. A run counts only when its kind is one of the
+/// capability's kinds **and** its result carries that kind's required fields
+/// ([`mapping::required_fields`]): a kind label alone is not evidence. `run-provenance` counts
+/// any run whose result carries a hex `scenario_hash`; `receiver-log-trust` additionally needs
+/// a log with at least one epoch.
 fn run_carries(c: &Capability, r: &Run) -> bool {
     let Some(obj) = r.json.as_object() else {
         return false;
@@ -178,22 +194,65 @@ fn run_carries(c: &Capability, r: &Run) -> bool {
     if obj.is_empty() {
         return false;
     }
-    match c.id {
-        "run-provenance" => hash_of(&r.json).is_some(),
-        "receiver-log-trust" => {
-            r.kind == "receiver-trust"
-                && r.json
-                    .pointer("/log/epochs")
-                    .and_then(Value::as_u64)
-                    .unwrap_or(0)
-                    > 0
+    if c.id == "run-provenance" {
+        return hash_of(&r.json).is_some();
+    }
+    if !c.kinds.contains(&r.kind.as_str()) {
+        return false;
+    }
+    let fields_ok = mapping::required_fields(&r.kind)
+        .map(|fs| {
+            fs.iter()
+                .all(|p| r.json.pointer(p).map(present).unwrap_or(false))
+        })
+        .unwrap_or(false);
+    if c.id == "receiver-log-trust" {
+        return fields_ok
+            && r.json
+                .pointer("/log/epochs")
+                .and_then(Value::as_u64)
+                .unwrap_or(0)
+                > 0;
+    }
+    fields_ok
+}
+
+/// Why a receiver-trust result's counts cannot be reported as facts, if they cannot: a count
+/// that is not a non-negative integer, or a detected or agreeing count above its evaluable one.
+fn malformed_counts(r: &Run) -> Option<String> {
+    if r.kind != "receiver-trust" {
+        return None;
+    }
+    let get = |p: &str| -> Result<u64, String> {
+        match r.json.get(p) {
+            Some(v) => v
+                .as_u64()
+                .ok_or_else(|| format!("`{p}` is not a non-negative integer")),
+            None => Err(format!("`{p}` is missing")),
         }
-        _ => c.kinds.contains(&r.kind.as_str()),
+    };
+    let counts = (|| {
+        Ok::<_, String>((
+            get("events_evaluable")?,
+            get("events_detected")?,
+            get("predictions_evaluable")?,
+            get("predictions_agreeing")?,
+        ))
+    })();
+    match counts {
+        Err(e) => Some(e),
+        Ok((ee, ed, _, _)) if ed > ee => Some(format!(
+            "events_detected {ed} exceeds events_evaluable {ee}"
+        )),
+        Ok((_, _, pe, pa)) if pa > pe => Some(format!(
+            "predictions_agreeing {pa} exceeds predictions_evaluable {pe}"
+        )),
+        Ok(_) => None,
     }
 }
 
 fn facts_of(r: &Run) -> Option<ReceiverTrustFacts> {
-    if r.kind != "receiver-trust" || !is_receiver_trust(&r.json) {
+    if r.kind != "receiver-trust" || !is_receiver_trust(&r.json) || malformed_counts(r).is_some() {
         return None;
     }
     let n = |p: &str| r.json.get(p).and_then(Value::as_u64).unwrap_or(0);
@@ -218,7 +277,17 @@ fn facts_of(r: &Run) -> Option<ReceiverTrustFacts> {
 }
 
 /// Fill the mapping from a set of runs. `unrecognised` is carried into the report as given.
-pub fn assess(runs: &[Run], unrecognised: Vec<String>) -> Report {
+pub fn assess(runs: &[Run], mut unrecognised: Vec<String>) -> Report {
+    // A run whose counts are malformed counts for nothing, and the report says why.
+    let (runs, malformed): (Vec<&Run>, Vec<&Run>) =
+        runs.iter().partition(|r| malformed_counts(r).is_none());
+    for r in malformed {
+        unrecognised.push(format!(
+            "{}: receiver-trust counts malformed ({}); excluded",
+            r.label,
+            malformed_counts(r).unwrap_or_default()
+        ));
+    }
     let capabilities: Vec<CapabilityEvidence> = CAPABILITIES
         .iter()
         .map(|c| CapabilityEvidence {
@@ -276,7 +345,7 @@ pub fn assess(runs: &[Run], unrecognised: Vec<String>) -> Report {
             .collect(),
         unrecognised,
         capabilities,
-        receiver_trust: runs.iter().filter_map(facts_of).collect(),
+        receiver_trust: runs.iter().copied().filter_map(facts_of).collect(),
         rows,
     }
 }
@@ -299,17 +368,20 @@ pub fn run_from_text(input: &RunInput<'_>) -> Result<Run, String> {
     let label = input.label;
     let json: Value =
         serde_json::from_str(input.result_json).map_err(|e| format!("{label}: not JSON: {e}"))?;
-    let kind = kind_of(input.scenario_toml, &json).ok_or_else(|| {
-        format!(
-            "{label}: scenario kind not found (no sibling scenario file, not a \
-             receiver-trust result, no top-level `kind`)"
-        )
-    })?;
+    let kind = kind_of(label, input.scenario_toml, &json)?;
     Ok(Run {
         label: label.to_string(),
         kind,
         json,
     })
+}
+
+/// Whether `kind` names a built-in scenario kind or `receiver-trust`.
+fn known_kind(kind: &str) -> bool {
+    kind == "receiver-trust"
+        || crate::api::list_scenario_kinds()
+            .iter()
+            .any(|m| m.name == kind)
 }
 
 /// Fill the mapping from result texts: unusable inputs are listed in the report as not used.
@@ -358,16 +430,56 @@ pub fn load_runs(paths: &[std::path::PathBuf]) -> (Vec<Run>, Vec<String>) {
     (runs, bad)
 }
 
-fn kind_of(scenario_toml: Option<&str>, json: &Value) -> Option<String> {
+/// Find a result's scenario kind: a receiver-trust result by its content, else the sibling
+/// scenario's `kind`, else the result's own top-level `kind`. The kind must be one the engine
+/// knows. When the sibling scenario and the result's own `kind` both exist and differ, the
+/// input is refused rather than guessing which is right. (The result's `scenario_hash` and a
+/// hash of the scenario file are not compared: the engine computes the first over its parsed
+/// scenario and a file hash is over the text, so they are different quantities.)
+fn kind_of(label: &str, scenario_toml: Option<&str>, json: &Value) -> Result<String, String> {
     if is_receiver_trust(json) {
-        return Some("receiver-trust".into());
+        return Ok("receiver-trust".into());
     }
-    if let Some(src) = scenario_toml {
-        if let Ok(k) = crate::api::ScenarioKind::classify(src) {
-            return Some(k.as_str().to_string());
+    let own = json.get("kind").and_then(Value::as_str);
+    let sibling = scenario_toml.and_then(|src| {
+        // `classify` maps an absent or unrecognised kind to `clock`; only trust it when the
+        // file says a kind or says nothing at all.
+        let k = crate::api::ScenarioKind::classify(src).ok()?.as_str();
+        let says = toml::from_str::<toml::Value>(src)
+            .ok()
+            .and_then(|v| v.get("kind").and_then(|k| k.as_str().map(str::to_string)));
+        match says {
+            Some(named) if named != k => None,
+            _ => Some(k.to_string()),
         }
+    });
+    let kind = match (sibling, own) {
+        (Some(s), Some(o)) if s != o => {
+            return Err(format!(
+                "{label}: the sibling scenario says kind `{s}` but the result says `{o}`; not used"
+            ))
+        }
+        (Some(s), _) => s,
+        (None, Some(o)) => o.to_string(),
+        (None, None) => {
+            return Err(format!(
+                "{label}: scenario kind not found (no sibling scenario file, not a \
+                 receiver-trust result, no top-level `kind`)"
+            ))
+        }
+    };
+    if known_kind(&kind) {
+        Ok(kind)
+    } else {
+        Err(format!(
+            "{label}: `{kind}` is not a scenario kind the engine knows; not used"
+        ))
     }
-    json.get("kind").and_then(Value::as_str).map(str::to_string)
+}
+
+/// A Markdown table cell: pipes and line breaks would break the table.
+fn cell(s: &str) -> String {
+    s.replace('|', "\\|").replace(['\r', '\n'], " ")
 }
 
 impl Report {
@@ -391,11 +503,11 @@ impl Report {
             for r in &self.runs {
                 s.push_str(&format!(
                     "| {} | {} | {} |\n",
-                    r.label,
+                    cell(&r.label),
                     r.kind,
                     r.scenario_hash
                         .as_deref()
-                        .map_or("none", |h| &h[..h.len().min(12)])
+                        .map_or("none".to_string(), |h| h.chars().take(12).collect())
                 ));
             }
             s.push('\n');
@@ -403,7 +515,7 @@ impl Report {
         if !self.unrecognised.is_empty() {
             s.push_str("## Inputs not used\n\n");
             for u in &self.unrecognised {
-                s.push_str(&format!("- {u}\n"));
+                s.push_str(&format!("- {}\n", cell(u)));
             }
             s.push('\n');
         }
@@ -412,7 +524,11 @@ impl Report {
             let runs = if c.runs.is_empty() {
                 "none".to_string()
             } else {
-                c.runs.join(", ")
+                c.runs
+                    .iter()
+                    .map(|r| cell(r))
+                    .collect::<Vec<_>>()
+                    .join(", ")
             };
             s.push_str(&format!("| {} | {} |\n", c.name, runs));
         }
@@ -425,8 +541,8 @@ impl Report {
             for f in &self.receiver_trust {
                 s.push_str(&format!(
                     "| {} | {} | {} | {} / {} | {} / {} |\n",
-                    f.run,
-                    f.log_format,
+                    cell(&f.run),
+                    cell(&f.log_format),
                     f.epochs,
                     f.events_detected,
                     f.events_evaluable,

@@ -3,7 +3,7 @@
 //! capability whose output supports evidence for it → the gap.
 //!
 //! Wording rule, enforced by a test: this text says Kshana outputs *support evidence for*
-//! a requirement. It never says a framework is met, certified or conformed to. Requirement
+//! a requirement. It never says a framework is met or that a product has been rated or approved. Requirement
 //! text is paraphrased, never reproduced; the licensed standard (EN 16803) is cited by part
 //! and by the clause numbers that are publicly visible, and nothing else.
 //!
@@ -111,7 +111,7 @@ pub const SOURCES: &[Source] = &[
         title: "Global Navigation Satellite System Outage and Alterations Leading to Communication / Navigation / Surveillance Degradation",
         version: "EASA Safety Information Bulletin SIB 2022-02R4, issued 3 July 2026, corrected 22 July 2026 (informational, not mandatory)",
         url: "https://ad.easa.europa.eu/ad/2022-02R4",
-        checked: "revision 4 read in full; sections are cited by heading because the bulletin does not number its recommendations. Conflict Zone Information Bulletins were not opened",
+        checked: "revision 4 read in full; sections are cited by heading because the bulletin does not number its recommendations. Re-checked 2026-10-10: the bulletin PDF, the EASA AD-tool page (which lists its supersedure as none) and the EASA GNSS page name no later revision and no bulletin numbered 2026-07; a banner naming Revision 2 of SIB 2026-07 was not found, so the question is open and should be checked on the live EASA page. Conflict Zone Information Bulletins were not opened",
     },
     Source {
         framework: Framework::Nis2,
@@ -122,10 +122,24 @@ pub const SOURCES: &[Source] = &[
     },
     Source {
         framework: Framework::En16803,
-        title: "Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS), Parts 1 to 3",
-        version: "EN 16803-1:2020, EN 16803-2:2020, EN 16803-3:2020 (CEN/CLC/JTC 5)",
+        title: "Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 1: Definitions and system engineering procedures for the establishment and assessment of performances",
+        version: "EN 16803-1:2020 (catalogue: valid from 2 October 2020, replacing the 2016 edition)",
+        url: "https://www.evs.ee/en/evs-en-16803-1-2020",
+        checked: "catalogue scope text only; the standard is paid and was not read",
+    },
+    Source {
+        framework: Framework::En16803,
+        title: "Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 2: Assessment of basic performances of GNSS-based positioning terminals",
+        version: "EN 16803-2:2020 (catalogue: valid from 2 October 2020)",
+        url: "https://www.evs.ee/en/evs-en-16803-2-2020",
+        checked: "catalogue scope text only; the standard is paid and was not read",
+    },
+    Source {
+        framework: Framework::En16803,
+        title: "Space - Use of GNSS-based positioning for road Intelligent Transport Systems (ITS) - Part 3: Assessment of security performances of GNSS-based positioning terminals",
+        version: "EN 16803-3:2020 (catalogue: valid from 2 October 2020)",
         url: "https://www.evs.ee/en/evs-en-16803-3-2020",
-        checked: "catalogue scope text only; the standard is paid and was not read. Only Part 3 clause 6 and Annex A are identified by number in public material",
+        checked: "catalogue scope text only; the standard is paid and was not read. The catalogue text names clause 6 (recorded versus simulated signals) and Annex A (a high-level categorisation of attacks) and nothing else by number; the catalogue gives no committee name, so none is stated here",
     },
 ];
 
@@ -216,6 +230,82 @@ pub const CAPABILITIES: &[Capability] = &[
         kinds: &[],
     },
 ];
+
+/// The result fields a run of each kind must carry before it counts as evidence for a
+/// capability. A kind label alone is not evidence: `{"kind": "jamming"}` carries no per-satellite
+/// figure. Each pointer is a JSON pointer (RFC 6901) that must resolve to a non-empty value.
+/// The fields are the ones the engine writes for that kind (checked against bundled
+/// scenarios); a result missing any of them is listed as carrying nothing for the capability.
+pub const KIND_FIELDS: &[(&str, &[&str])] = &[
+    (
+        "receiver-trust",
+        &["/log/epochs", "/monitors_run", "/events_evaluable"],
+    ),
+    ("jamming", &["/fom", "/epochs"]),
+    ("lunar-jamming", &["/fom", "/links"]),
+    (
+        "conflict-resilience",
+        &["/per_vector_survival", "/resilience_ratio"],
+    ),
+    ("spoof", &["/threshold_ns", "/quantum", "/classical"]),
+    ("spoof-detect", &["/decision", "/verdict"]),
+    ("impairment-eval", &["/auc", "/per_class_pd"]),
+    ("integrity", &["/samples_total", "/samples_available"]),
+    ("araim-reference-check", &["/vectors", "/acceptance_met"]),
+    (
+        "lunar-integrity",
+        &["/samples_total", "/samples_available", "/max_hpl_m"],
+    ),
+    ("clock", &["/threshold_ns", "/quantum", "/classical"]),
+    ("inertial", &["/threshold_m", "/quantum", "/classical"]),
+    ("gnss-ins", &["/threshold_m", "/quantum", "/classical"]),
+    ("ins-trn-coast", &["/imu", "/trn"]),
+    ("hybrid", &["/quantum", "/classical"]),
+    ("hybrid-ukf", &["/coast", "/consistency"]),
+    ("fusion", &["/quantum", "/classical"]),
+    ("timetransfer", &["/quantum", "/classical"]),
+    (
+        "quantum-gnss-free-nav",
+        &["/quantum_pos_err_m", "/classical_pos_err_m"],
+    ),
+    (
+        "quantum-time-transfer",
+        &["/quantum_chain_sigma_s", "/protection_level_ns"],
+    ),
+    (
+        "combined-altpnt",
+        &["/free_inertial_drift_m", "/combined_m"],
+    ),
+    (
+        "terrain-nav",
+        &["/free_inertial_drift_m", "/matched_error_m"],
+    ),
+    (
+        "terrain-slam",
+        &["/free_inertial_final_m", "/matched_final_m"],
+    ),
+    (
+        "gravity-map",
+        &["/free_inertial_drift_m", "/map_matched_error_m"],
+    ),
+    ("leo-pass", &["/satellites", "/user"]),
+    ("leo-pvt", &["/joint", "/systems"]),
+    ("leo-pnt-chain", &["/fusion", "/handoffs"]),
+    (
+        "hybrid-optical-rf",
+        &["/optical_availability", "/rf_availability"],
+    ),
+    ("ntn-positioning", &["/cn0_dbhz", "/n_satellites"]),
+    ("campaign", &["/timeline", "/reproducibility"]),
+];
+
+/// The fields a kind must carry, or `None` for a kind the mapping does not use.
+pub fn required_fields(kind: &str) -> Option<&'static [&'static str]> {
+    KIND_FIELDS
+        .iter()
+        .find(|(k, _)| *k == kind)
+        .map(|(_, f)| *f)
+}
 
 /// One row of the mapping.
 #[derive(Clone, Copy, Debug)]
@@ -337,9 +427,9 @@ pub fn rows() -> Vec<Row> {
           &[],
           "Display requirements; no Kshana output speaks to them."),
         row("IMO-401-4.2", ImoShips, "MSC.401(95), 4.2",
-          "Operate in the presence of the normal interference level named in the referenced receiver standard. This is not an anti-jamming or anti-spoofing requirement.",
+          "Operate satisfactorily under normal interference conditions, consistent with resolution A.694(17) (general requirements for shipborne radio equipment) and the typical on-board and external radio environment. This is not an anti-jamming or anti-spoofing requirement.",
           &["jamming-effects", "receiver-log-trust"],
-          "Normal-interference testing is a laboratory measurement on the receiver."),
+          "Normal-interference testing is a laboratory measurement on the receiver; resolution A.694(17) itself was not read."),
 
         // --- EASA ----------------------------------------------------------------------------
         row("EASA-DESC", EasaAviation, "SIB 2022-02R4, Description",

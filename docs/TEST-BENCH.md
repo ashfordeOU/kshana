@@ -24,14 +24,16 @@ outages are the events), and to `jamming` and `gnss-sim` (a stationary receiver 
 scenario's duration; a `jamming` scenario's jammer is one event over the run). Other kinds
 say why they have no vehicle trajectory. `--epoch` is the UTC instant of motion time zero
 (default 2024-01-01T00:00:00Z); the scenarios carry no calendar date of their own for
-vehicle motion. The output is byte-identical for the same scenario and epoch.
+vehicle motion. It must be a real UTC instant, `YYYY-MM-DDTHH:MM:SS` (a trailing `Z` is
+accepted) with the year in 2000 to 2099 and every field in range; anything else is refused.
+The output is byte-identical for the same scenario and epoch.
 
 | File | Content |
 |---|---|
 | `run1.motion.csv` | one row per sample: `time_s`, Earth-fixed `x_m,y_m,z_m`, `vx_m_s,vy_m_s,vz_m_s`, geodetic `lat_deg,lon_deg,h_m`, `heading_deg,pitch_deg,roll_deg`, `utc`, `kshana_row` |
 | `run1.motion.json` | the epoch, frames, units, columns and round-trip tolerances of that CSV |
 | `run1.nmea` | NMEA 0183 `GGA` and `RMC` sentences per sample, with checksums |
-| `run1.waypoints.txt` | a `RESOLUTION: <ms>` line then `longitude,latitude,altitude` rows (written only when the sample step is a whole number of milliseconds) |
+| `run1.waypoints.txt` | a `RESOLUTION: <ms>` line then `longitude,latitude,altitude` rows (written only when every sample interval is the same whole number of milliseconds; when it is left out, the command says why on standard error) |
 | `run1.events.csv` | `label,kind,onset_s,end_s,description` |
 | `run1.events.toml` | the same events as `[[events]]` blocks for a `receiver-trust` scenario |
 
@@ -45,6 +47,19 @@ vehicle motion. The output is byte-identical for the same scenario and epoch.
   positive, `roll_deg` right wing down positive; yaw-pitch-roll (3-2-1) from the local
   north-east-down frame to body axes x forward, y right, z down. A stationary source writes
   zeros. NMEA and the waypoint text carry no attitude.
+- **Heading is the body's yaw, not the direction of travel.** In the `gnss-ins` driving
+  profile the body yaws in square waves while the velocity follows, so heading and the
+  course over ground can differ by tens of degrees (up to about 77 degrees in the bundled
+  `automotive-urban-canyon` scenario). The NMEA `RMC` course is the course over ground, the
+  direction of the velocity vector, so a simulator that reads heading from the motion file
+  and one that reads course from the NMEA file see different angles. The course over ground
+  from the CSV is `atan2(v_east, v_north)` of its velocity rotated to north-east-down.
+- **Height follows the scenario.** For `gnss-ins`, `h_m` is the kind's own tangent-plane
+  stepping of its truth and is not held constant (about 7 m over the 180 s of
+  `automotive-urban-canyon`); it is the scenario's motion, written as it is.
+- **NMEA `GGA` placeholders.** Fix quality (1), satellites used (12) and HDOP (1.0) are
+  written only to make the sentence well formed. They say nothing about the scenario's
+  geometry or any receiver state.
 - **Time:** `time_s` after the epoch, UTC, leap seconds not modelled.
 - **NMEA heights are ellipsoidal.** The `GGA` altitude holds the ellipsoidal height and the
   geoid separation is written as 0.0. A simulator that treats the altitude as height above
