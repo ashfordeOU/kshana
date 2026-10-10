@@ -76,8 +76,11 @@ Per satellite, in the form the receiver-trust monitor consumes:
 
 * `Authenticated` only while the newest verified ephemeris and clock data (ADKD 0 or
   12) of that satellite is recent (within 600 s of the verifier's time by default) and
-  is still the data in use: when the satellite broadcasts another IODnav that has not
-  verified yet, it reads `Unavailable` until it does. Tags of another satellite (cross
+  is still the data in use. The check is on the data, not the IODnav: the verifier keeps
+  the SHA-256 of the authenticated bit string (Word Types 1 to 5 as ADKD 0 covers them)
+  and of the newest such string the satellite sends, and they must be equal. A copied
+  IODnav over other words, or altered Word Type 5 bits (which carry no IODnav), reads
+  `Unavailable` until the new data authenticates. Tags of another satellite (cross
   authentication) count for the satellite whose data they cover.
 * `Failed` when a check on the satellite's data failed within the failure memory (600 s
   by default of the verifier's time), even if later data verifies. A mismatch is charged
@@ -104,6 +107,11 @@ that time. A sub-frame stamped more than three sub-frames past the latest verifi
 is set aside unless its own key proves its time; key and alert messages in it are still
 processed, since they carry their own proof (a signature or the Merkle root).
 
+The clock stands still when OSNMA stops, since only keys move it. A live caller must
+call `set_reference_time` with host time every sub-frame; authentication then expires on
+its own, and `poll_clock` (also run with every sub-frame) returns a `KeyStall` event once
+no key has verified for longer than the authentication window.
+
 What this does not give is freshness. Without a reference time from a source an
 attacker cannot move, a replay of old authentic data under old stamps authenticates
 and the page stamps are only as good as their source: the CLI says so
@@ -125,7 +133,14 @@ tags unchecked (`chain_mismatch`). A second KROOT of a chain in force adds an an
 a KROOT of another chain is kept alongside, so announcing the old chain again after a
 renewal does not undo the new one.
 
-The NMA header's status and CPKS value drive revocation. With NMA status "don't use",
+The NMA header is not authenticated, so what it announces counts only when confirmed:
+when more than one satellite sends the same header in a sub-frame, or when a verified
+KROOT's signed message carries it (the header is part of that message). A single
+satellite's header changes nothing but its own sub-frame's tag checking. A KROOT whose
+time of applicability is not later than that of the chain held for the same id (a replay
+of an older one) is refused (`stale`); a KROOT of the same chain adds an anchor.
+
+The confirmed header's status and CPKS value drive revocation. With NMA status "don't use",
 CPKS "chain revoked" drops the chain the header names and refuses its KROOT from then
 on; CPKS "public key revoked" drops the public key that signed that chain, and every
 chain signed with it. The same CPKS values with status operational mark the transition
