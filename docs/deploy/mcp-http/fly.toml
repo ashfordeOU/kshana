@@ -9,7 +9,7 @@ app = "YOUR-APP"
   image = "ghcr.io/ashfordeou/kshana-mcp:0.35.0"
 
 [experimental]
-  cmd = ["--http", "0.0.0.0:8080", "--allow-remote", "--allowed-host", "YOUR-APP.fly.dev"]
+  cmd = ["--http", "0.0.0.0:8080", "--allow-remote", "--allowed-host", "YOUR-APP.fly.dev", "--max-concurrent", "2"]
 
 [http_service]
   internal_port = 8080
@@ -17,6 +17,10 @@ app = "YOUR-APP"
   auto_stop_machines = "stop"
   auto_start_machines = true
   min_machines_running = 0
+  [http_service.concurrency]
+    type = "requests"
+    soft_limit = 2
+    hard_limit = 4
 
 [[vm]]
   size = "shared-cpu-2x"

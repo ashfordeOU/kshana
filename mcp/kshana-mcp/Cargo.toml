@@ -57,10 +57,12 @@ anyhow = "1"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
 axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
-tower-http = { version = "0.6", default-features = false, features = ["limit", "timeout"] }
-tower = { version = "0.5", default-features = false, features = ["limit", "util"] }
+tower-http = { version = "0.6", default-features = false, features = ["timeout"] }
 tokio-util = "0.7"
+subtle = "2"
 
 [dev-dependencies]
+tower = { version = "0.5", default-features = false, features = ["util"] }
 # The MCP client side, for the in-process (duplex) round-trip integration test.
 rmcp = { version = "2.1", features = ["client"] }
+futures-util = { version = "0.3", default-features = false }

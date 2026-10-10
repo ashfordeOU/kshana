@@ -72,7 +72,7 @@ jobs:
         run: |
           set -euo pipefail
           python -m unittest discover -s tests
-          python -m pip install --quiet build twine
+          python -m pip install --quiet build==1.2.2.post1 twine==6.1.0
           python -m build --outdir ../../../dist/pypi
           python -m twine check ../../../dist/pypi/*
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
@@ -142,7 +142,7 @@ jobs:
         with:
           node-version: "22"
           registry-url: "https://registry.npmjs.org"
-      - run: npm install -g npm@^11.5.1
+      - run: npm install -g npm@11.5.1
       - name: Publish (an already-published version counts as success)
         env:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
