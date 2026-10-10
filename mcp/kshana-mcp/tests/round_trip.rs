@@ -99,6 +99,10 @@ async fn serves_exactly_the_expected_tool_set() {
         "iq_frontend",
         "iq_campaign",
         "iq_campaign_status",
+        "iq_sweep",
+        "iq_monitor",
+        "iq_labfit",
+        "iq_test_conditions",
     ]
     .into_iter()
     .collect();

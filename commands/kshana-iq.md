@@ -30,10 +30,21 @@ Request: **$ARGUMENTS**
      state and C/N0 per channel; per-epoch tables go to files you name, never into the reply.
    - `iq_frontend`: band-pass, notch, blanking, excision, AGC and a quantiser, written as a new
      recording.
-4. **Campaigns.** `iq_campaign` runs the pending cells of a lab-replay campaign (recordings x
+   - `iq_sweep`: replay one recording across several loop designs (a design file, or lists of PLL
+     and DLL bandwidths, spacings and coherent lengths) and compare steady-state jitter and lock
+     per design and PRN. At most 256 (design, PRN) channels per call.
+   - `iq_monitor`: the wideband power and spectral monitors and, with `signal` + `prns`, the
+     per-satellite C/N0 and signal-quality monitors against a learned baseline. The reply holds
+     the series names, up to 200 events and the learned settings; the whole report goes to
+     `json_out`. A monitor event says a measured quantity left its baseline: it does not say why,
+     and it is not an attribution to a source.
+4. **Lab fits and conditions (no files).** `iq_labfit` takes an `iq-labfit` scenario with its
+   logs inline (`text` or `base64`; a `path` is refused) and returns the report; it does not use
+   the work directory. `iq_test_conditions` validates a test-conditions file given as text.
+5. **Campaigns.** `iq_campaign` runs the pending cells of a lab-replay campaign (recordings x
    front-end chains x loop designs, scored against stated test conditions); it resumes on the
    next call. `iq_campaign_status` reports progress.
-5. **Rules.** Paths are relative to the work directory; an output that exists is refused unless
+6. **Rules.** Paths are relative to the work directory; an output that exists is refused unless
    `overwrite`. A call over the sample budget is refused with the numbers that fit; narrow the
    span (`max_seconds`). Jamming or spoofing synthesis is not part of this layer. Report what the
    tool measured, with its evidence tier (MODELLED where it says so).

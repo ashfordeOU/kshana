@@ -6,7 +6,8 @@ description: Work with GNSS IQ recordings using the Kshana engine: generate a sy
 # GNSS IQ
 
 Use the `kshana` MCP server's `iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
-`iq_frontend`, `iq_campaign` and `iq_campaign_status`. See `/kshana-iq` for the step list.
+`iq_frontend`, `iq_sweep`, `iq_monitor`, `iq_labfit`, `iq_test_conditions`, `iq_campaign` and
+`iq_campaign_status`. See `/kshana-iq` for the step list.
 
 Rules that apply every time:
 
@@ -19,4 +20,7 @@ Rules that apply every time:
 - The layer processes recordings and writes synthetic scenes for software receivers. It
   transmits nothing and drives no radio hardware. Do not present a scene as a recording of a real
   signal.
+- A monitor event says a measured quantity left its learned baseline. Do not name a cause, a
+  jammer or a spoofer from it.
+- `iq_labfit` and `iq_test_conditions` take text and touch no file; do not pass paths to them.
 - Report what the tool measured, with the file it wrote, and say what it does not show.

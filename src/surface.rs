@@ -619,6 +619,53 @@ pub fn animate_scenario(
     })
 }
 
+/// Run an `iq-labfit` scenario with its logs inline: the loop-model fit to lab runs, in memory.
+/// A run whose `log` (or its `nav`) names a `path` is refused: logs travel as `text` or
+/// `base64`. Returns the parsed `report` and the `residuals_csv`, `predictions_csv` and
+/// `markdown` renderings.
+pub fn iq_labfit_inline(toml_text: &str, max_bytes: usize) -> Result<Value, String> {
+    cap("scenario", toml_text, max_bytes)?;
+    let v: toml::Value =
+        toml::from_str(toml_text).map_err(|e| format!("iq-labfit scenario: {e}"))?;
+    if let Some(runs) = v.get("runs").and_then(toml::Value::as_array) {
+        for (i, r) in runs.iter().enumerate() {
+            let log = r.get("log");
+            let named = log.and_then(|l| l.get("path")).is_some()
+                || log
+                    .and_then(|l| l.get("nav"))
+                    .and_then(|n| n.get("path"))
+                    .is_some();
+            if named {
+                return Err(format!(
+                    "runs[{i}].log names a file `path`; give the log as `text` or `base64` \
+                     (this surface reads no files)"
+                ));
+            }
+        }
+    }
+    let out = crate::iq::labfit::run_toml(toml_text)?;
+    let report: Value = serde_json::from_str(&out.json).map_err(|e| e.to_string())?;
+    Ok(json!({
+        "report": report,
+        "residuals_csv": out.residuals_csv,
+        "predictions_csv": out.predictions_csv,
+        "markdown": out.markdown,
+    }))
+}
+
+/// Validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON) given as
+/// text, in memory: the resolved conditions with their `hash`. Nothing is read from disk (a
+/// recording path the file names is not opened).
+pub fn iq_test_conditions_inline(text: &str, max_bytes: usize) -> Result<Value, String> {
+    cap("test conditions", text, max_bytes)?;
+    let tc = crate::iq::campaign::TestConditions::parse(text)?;
+    let mut v = serde_json::to_value(&tc).map_err(|e| e.to_string())?;
+    if let Some(m) = v.as_object_mut() {
+        m.insert("hash".into(), tc.hash().into());
+    }
+    Ok(v)
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 
