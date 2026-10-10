@@ -1,15 +1,13 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Smithery (smithery.ai) configuration for the Kshana MCP server: the container image built from
-# mcp/kshana-mcp/Dockerfile, started over stdio. Advisory, not type-approved navigation equipment.
-# The steps to list it are in packaging/mcp/SUBMITTING.md.
-runtime: "container"
-build:
-  dockerfile: "mcp/kshana-mcp/Dockerfile"
-  dockerBuildPath: "."
+# Smithery (smithery.ai) listing for the Kshana MCP server as a LOCAL (stdio) server: Smithery shows
+# the entry and the command a client runs on the user's own computer. There is no build or container
+# section on purpose: nothing is deployed or hosted for this listing, and the server runs where the
+# client runs it. Advisory, not type-approved navigation equipment: the operator remains responsible
+# for navigation. The steps to list it are in packaging/mcp/SUBMITTING.md.
 startCommand:
   type: "stdio"
   configSchema:
     type: "object"
     properties: {}
   commandFunction: |-
-    (config) => ({ "command": "/usr/local/bin/kshana-mcp", "args": [] })
+    (config) => ({ "command": "npx", "args": ["-y", "kshana-mcp@0.35.0"] })

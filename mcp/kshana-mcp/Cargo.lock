@@ -674,11 +674,13 @@ version = "0.35.0"
 dependencies = [
  "anyhow",
  "axum",
+ "futures-util",
  "kshana",
  "rmcp",
  "schemars",
  "serde",
  "serde_json",
+ "subtle",
  "tokio",
  "tokio-util",
  "toml",
@@ -1362,10 +1364,8 @@ dependencies = [
  "pin-project-lite",
  "sync_wrapper",
  "tokio",
- "tokio-util",
  "tower-layer",
  "tower-service",
- "tracing",
 ]
 
 [[package]]
@@ -1378,7 +1378,6 @@ dependencies = [
  "bytes",
  "http",
  "http-body",
- "http-body-util",
  "pin-project-lite",
  "tokio",
  "tower-layer",

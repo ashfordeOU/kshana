@@ -10,9 +10,14 @@
 //! * **No filesystem.** The HTTP server is built with the IQ file tools switched off
 //!   ([`IqConfig::disabled`]); every other tool takes its scenario inline and refuses a
 //!   scenario that names a file, so no tool argument reads or writes a path.
-//! * **Limits.** A request body cap ([`DEFAULT_MAX_BODY_BYTES`]), a per-request time limit
-//!   ([`DEFAULT_REQUEST_TIMEOUT_SECS`]) and a concurrent-request cap
-//!   ([`DEFAULT_MAX_CONCURRENT`]).
+//! * **Limits.** A request body cap ([`DEFAULT_MAX_BODY_BYTES`], `413` over it, declared or
+//!   chunked), a time limit on the *reply* ([`DEFAULT_REQUEST_TIMEOUT_SECS`], `408`) and a cap on
+//!   concurrent work ([`DEFAULT_MAX_CONCURRENT`]): requests beyond it are shed with `503`.
+//!   The timeout bounds how long a caller waits; it cannot stop a run already under way. What
+//!   bounds the *work* is the pool and the budget: every tool call runs on a blocking thread
+//!   inside a pool of `max_concurrent` slots, and a slot is freed only when the run itself ends
+//!   (so calls the caller abandoned cannot accumulate), and [`crate::budget`] refuses a scenario
+//!   that asks for far more than the bundled examples (Monte Carlo runs, grid nodes, epochs).
 //! * **No CORS.** No `Access-Control-*` header is ever sent, and a request that carries an
 //!   `Origin` header is refused unless the origin was named with `--allow-origin`, so a
 //!   web page cannot drive a local server.
@@ -32,8 +37,9 @@ use axum::middleware::{self, Next};
 use axum::response::IntoResponse;
 use rmcp::transport::streamable_http_server::session::never::NeverSessionManager;
 use rmcp::transport::streamable_http_server::{StreamableHttpServerConfig, StreamableHttpService};
-use tower::limit::GlobalConcurrencyLimitLayer;
-use tower_http::limit::RequestBodyLimitLayer;
+use std::sync::Arc;
+use subtle::ConstantTimeEq;
+use tokio::sync::Semaphore;
 use tower_http::timeout::TimeoutLayer;
 
 use crate::iq::IqConfig;
@@ -140,20 +146,21 @@ pub fn parse_addr(s: &str) -> Result<SocketAddr> {
 }
 
 /// The server the HTTP transport serves: IQ file tools off, whatever the environment says.
-pub fn http_server() -> KshanaServer {
+pub fn http_server(max_concurrent: usize) -> KshanaServer {
     KshanaServer::with_iq_config(IqConfig::disabled(
         "the HTTP transport serves no tool that reads or writes a file path; run the stdio \
          server to use the IQ file tools",
     ))
+    .with_work_pool(max_concurrent, true)
 }
 
-/// Compare two byte strings without stopping at the first difference.
+/// Compare the SHA-256 digests of two secrets in constant time. Hashing first makes both
+/// sides the same length, so neither the content nor the length of the token leaks through
+/// timing; `subtle` does the comparison without an early exit.
 fn ct_eq(a: &[u8], b: &[u8]) -> bool {
-    let mut diff = (a.len() ^ b.len()) as u8;
-    for i in 0..a.len().max(b.len()) {
-        diff |= a.get(i).copied().unwrap_or(0) ^ b.get(i).copied().unwrap_or(0);
-    }
-    diff == 0
+    let da = kshana::advanced_report::sha256_hex(a);
+    let db = kshana::advanced_report::sha256_hex(b);
+    da.as_bytes().ct_eq(db.as_bytes()).into()
 }
 
 fn authorised(headers: &HeaderMap, token: &str) -> bool {
@@ -164,16 +171,20 @@ fn authorised(headers: &HeaderMap, token: &str) -> bool {
         .is_some_and(|presented| ct_eq(presented.as_bytes(), token.as_bytes()))
 }
 
-/// Add the guards to `router`: bearer token, `Origin` check, body cap, time limit,
-/// concurrency cap. Layers added last run first, so the cheap refusals come before the
-/// body is read.
+/// Add the guards to `router`, outermost first: the reply time limit (it covers everything
+/// below, so a request that has been admitted cannot wait forever), the concurrency gate (a
+/// full server answers `503` at once instead of queueing), the `Origin` and bearer checks, and
+/// the body cap. The body is read here, up to the cap, so a chunked body over it gets `413`
+/// the same as one that declares its length.
 pub fn harden(router: Router, cfg: &HttpConfig) -> Router {
     let token = cfg.token.clone();
     let origins = cfg.allowed_origins.clone();
     let max_body = cfg.max_body_bytes;
+    let gate = Arc::new(Semaphore::new(cfg.max_concurrent));
     let guard = move |req: Request, next: Next| {
         let token = token.clone();
         let origins = origins.clone();
+        let gate = gate.clone();
         async move {
             if let Some(origin) = req.headers().get(header::ORIGIN) {
                 let ok = origin
@@ -182,21 +193,6 @@ pub fn harden(router: Router, cfg: &HttpConfig) -> Router {
                 if !ok {
                     return (StatusCode::FORBIDDEN, "origin not allowed").into_response();
                 }
-            }
-            // Refuse a declared oversize body before reading any of it; the body-limit layer
-            // below still caps a chunked body that declares nothing.
-            let declared = req
-                .headers()
-                .get(header::CONTENT_LENGTH)
-                .and_then(|v| v.to_str().ok())
-                .and_then(|v| v.parse::<usize>().ok())
-                .or_else(|| {
-                    axum::body::HttpBody::size_hint(req.body())
-                        .upper()
-                        .map(|n| n as usize)
-                });
-            if declared.is_some_and(|n| n > max_body) {
-                return (StatusCode::PAYLOAD_TOO_LARGE, "request body too large").into_response();
             }
             if let Some(token) = token.as_deref().filter(|t| !t.is_empty())
                 && !authorised(req.headers(), token)
@@ -208,17 +204,30 @@ pub fn harden(router: Router, cfg: &HttpConfig) -> Router {
                 );
                 return r;
             }
-            next.run(req).await
+            let Ok(_slot) = gate.try_acquire_owned() else {
+                let mut r = (
+                    StatusCode::SERVICE_UNAVAILABLE,
+                    "server busy; retry shortly",
+                )
+                    .into_response();
+                r.headers_mut()
+                    .insert(header::RETRY_AFTER, header::HeaderValue::from_static("1"));
+                return r;
+            };
+            let (parts, body) = req.into_parts();
+            let Ok(bytes) = axum::body::to_bytes(body, max_body).await else {
+                return (StatusCode::PAYLOAD_TOO_LARGE, "request body too large").into_response();
+            };
+            next.run(Request::from_parts(parts, axum::body::Body::from(bytes)))
+                .await
         }
     };
     router
-        .layer(RequestBodyLimitLayer::new(cfg.max_body_bytes))
+        .layer(middleware::from_fn(guard))
         .layer(TimeoutLayer::with_status_code(
             StatusCode::REQUEST_TIMEOUT,
             cfg.request_timeout,
         ))
-        .layer(GlobalConcurrencyLimitLayer::new(cfg.max_concurrent))
-        .layer(middleware::from_fn(guard))
 }
 
 /// The complete application: the MCP service on [`MCP_PATH`], hardened.
@@ -230,7 +239,13 @@ pub fn app(cfg: &HttpConfig) -> Router {
     mcp.json_response = true;
     mcp.sse_keep_alive = None;
     let service = StreamableHttpService::new(
-        || Ok(http_server()),
+        {
+            // One server value, cloned per request: the clones share the one work pool, which
+            // is what bounds the running work across requests (a fresh server per request
+            // would each bring a fresh, empty pool).
+            let shared = http_server(cfg.max_concurrent);
+            move || Ok(shared.clone())
+        },
         std::sync::Arc::new(NeverSessionManager::default()),
         mcp,
     );
@@ -328,11 +343,12 @@ mod tests {
     }
 
     #[test]
-    fn constant_time_compare_matches_equality() {
+    fn digest_compare_matches_equality_whatever_the_lengths() {
         assert!(ct_eq(b"abc", b"abc"));
         assert!(!ct_eq(b"abc", b"abd"));
         assert!(!ct_eq(b"abc", b"abcd"));
         assert!(!ct_eq(b"", b"a"));
+        assert!(ct_eq(b"", b""));
     }
 
     #[tokio::test]
@@ -348,16 +364,25 @@ mod tests {
 
     #[tokio::test]
     async fn the_http_server_has_the_iq_file_tools_off() {
-        let call = r#"{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"iq_signals","arguments":{}}}"#;
+        // iq_info names a file in the IQ work directory; over HTTP it must refuse and say why.
+        let call = r#"{"jsonrpc":"2.0","id":2,"method":"tools/call","params":{"name":"iq_info","arguments":{"recording":"anything.sigmf-meta"}}}"#;
         let resp = app(&cfg()).oneshot(rpc(call)).await.unwrap();
+        assert_eq!(resp.status(), StatusCode::OK);
         let body = axum::body::to_bytes(resp.into_body(), 1 << 20)
             .await
             .unwrap();
-        let text = String::from_utf8_lossy(&body).to_string();
-        // iq_signals is a catalogue call; the file tools report why they are off.
-        assert!(!text.is_empty());
-        let s = http_server();
-        let dbg = format!("{:?}", s.iq_config_for_test());
+        let v: serde_json::Value = serde_json::from_slice(&body).unwrap();
+        let text = v.to_string();
+        assert!(
+            v.get("error").is_some() || v["result"]["isError"] == true,
+            "iq_info must refuse over HTTP: {text}"
+        );
+        assert!(text.contains("HTTP transport"), "{text}");
+        assert!(
+            !text.contains("anything.sigmf-meta"),
+            "no path echoed: {text}"
+        );
+        let dbg = format!("{:?}", http_server(2).iq_config_for_test());
         assert!(dbg.contains("HTTP transport"), "{dbg}");
     }
 
@@ -413,29 +438,6 @@ mod tests {
     }
 
     #[tokio::test]
-    async fn concurrency_is_capped() {
-        let mut c = cfg();
-        c.max_concurrent = 1;
-        let slow = Router::new().route(
-            "/slow",
-            axum::routing::get(|| async {
-                tokio::time::sleep(Duration::from_millis(300)).await;
-                "ok"
-            }),
-        );
-        let app = harden(slow, &c);
-        let get = || Request::get("/slow").body(Body::empty()).unwrap();
-        let a = app.clone().oneshot(get());
-        let b = app.clone().oneshot(get());
-        let started = std::time::Instant::now();
-        let (ra, rb) = tokio::join!(a, b);
-        assert_eq!(ra.unwrap().status(), StatusCode::OK);
-        assert_eq!(rb.unwrap().status(), StatusCode::OK);
-        // Serialised by the cap: two 300 ms calls take at least ~600 ms.
-        assert!(started.elapsed() >= Duration::from_millis(550));
-    }
-
-    #[tokio::test]
     async fn a_foreign_origin_is_refused_and_no_cors_header_is_sent() {
         let mut req = rpc(INIT);
         req.headers_mut()
@@ -482,5 +484,49 @@ mod tests {
             .insert(header::HOST, "attacker.example".parse().unwrap());
         let r = app(&cfg()).oneshot(req).await.unwrap();
         assert_eq!(r.status(), StatusCode::FORBIDDEN);
+    }
+
+    #[tokio::test]
+    async fn a_chunked_body_over_the_cap_is_413_too() {
+        let mut c = cfg();
+        c.max_body_bytes = 256;
+        let chunks: Vec<Result<axum::body::Bytes, std::io::Error>> = (0..8)
+            .map(|_| Ok(axum::body::Bytes::from(vec![b'x'; 128])))
+            .collect();
+        let req = Request::builder()
+            .method(Method::POST)
+            .uri(MCP_PATH)
+            .header(header::HOST, "127.0.0.1:8080")
+            .header(header::CONTENT_TYPE, "application/json")
+            .header(header::ACCEPT, "application/json, text/event-stream")
+            .body(Body::from_stream(futures_stream(chunks)))
+            .unwrap();
+        let r = app(&c).oneshot(req).await.unwrap();
+        assert_eq!(r.status(), StatusCode::PAYLOAD_TOO_LARGE);
+    }
+
+    fn futures_stream(
+        items: Vec<Result<axum::body::Bytes, std::io::Error>>,
+    ) -> impl futures_util::Stream<Item = Result<axum::body::Bytes, std::io::Error>> {
+        futures_util::stream::iter(items)
+    }
+
+    #[tokio::test]
+    async fn a_full_server_sheds_load_with_503() {
+        let mut c = cfg();
+        c.max_concurrent = 1;
+        let slow = Router::new().route(
+            "/slow",
+            axum::routing::get(|| async {
+                tokio::time::sleep(Duration::from_millis(400)).await;
+                "ok"
+            }),
+        );
+        let app = harden(slow, &c);
+        let get = || Request::get("/slow").body(Body::empty()).unwrap();
+        let (a, b) = tokio::join!(app.clone().oneshot(get()), app.clone().oneshot(get()));
+        let mut codes = [a.unwrap().status(), b.unwrap().status()];
+        codes.sort();
+        assert_eq!(codes, [StatusCode::OK, StatusCode::SERVICE_UNAVAILABLE]);
     }
 }

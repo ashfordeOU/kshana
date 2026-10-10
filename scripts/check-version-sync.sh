@@ -156,7 +156,8 @@ for needle in \
   "packaging/mcp/npm/package.json|\"version\": \"${ver}\"" \
   "packaging/mcp/pypi/pyproject.toml|version = \"${ver}\"" \
   "packaging/mcp/pypi/src/kshana_mcp/__init__.py|\"${ver}\"" \
-  "$SERVER_JSON|\"identifier\": \"kshana-mcp\"" ; do
+  "$SERVER_JSON|\"identifier\": \"kshana-mcp\"" \
+  "smithery.yaml|kshana-mcp@${ver}" ; do
   f="${needle%%|*}"; pat="${needle#*|}"
   if ! grep -qF -- "$pat" "$f"; then
     echo "FAIL: $f is not at ${ver} — missing: ${pat}" >&2

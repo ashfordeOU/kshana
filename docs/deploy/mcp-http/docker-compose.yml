@@ -11,6 +11,8 @@ services:
       - localhost:8080
       - --allowed-host
       - 127.0.0.1:8080
+      - --max-concurrent
+      - "2"
     environment:
       KSHANA_MCP_HTTP_TOKEN: ${KSHANA_MCP_HTTP_TOKEN:?set a long random token}
     ports:
@@ -18,4 +20,8 @@ services:
     read_only: true
     cap_drop: [ALL]
     security_opt: ["no-new-privileges:true"]
+    # Hard limits: the server bounds what it admits, the platform bounds what one call may take.
+    cpus: 2
+    mem_limit: 1g
+    pids_limit: 256
     restart: unless-stopped

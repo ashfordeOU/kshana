@@ -14,7 +14,7 @@ spec:
       annotations:
         autoscaling.knative.dev/maxScale: "3"
     spec:
-      containerConcurrency: 8
+      containerConcurrency: 2
       timeoutSeconds: 120
       containers:
         - image: REGION-docker.pkg.dev/PROJECT/ghcr/ashfordeou/kshana-mcp:0.35.0
@@ -24,6 +24,8 @@ spec:
             - --allow-remote
             - --allowed-host
             - YOUR-SERVICE-HASH.run.app
+            - --max-concurrent
+            - "2"
           ports:
             - containerPort: 8080
           env:

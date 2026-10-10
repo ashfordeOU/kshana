@@ -61,8 +61,13 @@ without a submission.
 
 1. Sign in at https://smithery.ai with the GitHub account that owns `ashfordeOU`.
 2. "New" → "Server" → pick the repository `ashfordeOU/kshana`. Smithery reads `smithery.yaml` at the
-   repository root (already committed: container runtime, `mcp/kshana-mcp/Dockerfile`, build context `.`).
-3. Deploy. Check the tools list shows 38 tools. Add the advisory sentence above to the description.
+   repository root (already committed): a **local (stdio) server** whose command is
+   `npx -y kshana-mcp@<version>`. It has no build or container section.
+3. Publish it as a repository / local listing. **Do not click Deploy and do not choose a hosted
+   option:** nothing of Kshana is hosted, the server runs on the user's own computer, and the listing
+   must keep saying so. Check the tools list shows 38 tools (39 once the telemetry tool lands) and add
+   the advisory sentence above to the description. When the release version changes, the version in
+   `smithery.yaml` changes with it (the version-sync check covers it).
 
 ### Glama (glama.ai)
 
@@ -101,6 +106,19 @@ form is needed once `server.json` is published.
 Windsurf, Zed, Goose, Codex CLI, Gemini CLI and Continue need no listing; their snippets are in
 `docs/MCP-INSTALL.md`. Docker's MCP catalogue and mcp.so accept a pull request or a form with the
 repository URL; reuse the one-line description from `server.json`.
+
+## D2. Signing the Claude Desktop extension (optional, not set up)
+
+The `.mcpb` files are built by `scripts/build_mcpb.py` as plain reproducible zips, and the release's
+`SHA256SUMS` and build attestation cover them (`gh attestation verify kshana-mcp-<target>.mcpb --repo
+ashfordeOU/kshana`). The format also supports an embedded publisher signature, made with the format
+vendor's own tool and a code-signing certificate. That is a founder decision and is **not** wired up:
+
+1. Obtain a code-signing certificate and private key for Ashforde OÜ (a certificate authority account).
+2. Store them as repository secrets `MCPB_SIGNING_CERT` and `MCPB_SIGNING_KEY`.
+3. Ask for the signing step to be added; it will skip with a notice when either secret is missing, like
+   every other founder-gated step, and the build stays reproducible without it (a signature is added after
+   packing, to a copy, never to the reproducible artefact the checksum covers).
 
 ## E. After the first release
 

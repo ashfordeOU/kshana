@@ -138,6 +138,12 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             exe: ".exe"
+          # Linux x86-64: its binary only feeds the Claude Desktop extension (the bare `kshana` and
+          # `kshana-mcp` assets are built in the `release` job), so it is uploaded under another
+          # artifact name and never collected as a release asset.
+          - os: ubuntu-latest
+            target: x86_64-unknown-linux-gnu
+            exe: ""
           # Native Arm Linux (a hosted runner for public repositories), so the binary is built
           # and smoke-run on the architecture it is for. It links the runner's glibc (2.39).
           - os: ubuntu-24.04-arm
@@ -198,8 +204,66 @@ jobs:
           "$PY" scripts/smoke_mcp.py "$mcp" || { echo "::error::$mcp failed its MCP smoke run"; exit 1; }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
-          name: cli-${{ matrix.target }}
+          name: ${{ matrix.target == 'x86_64-unknown-linux-gnu' && format('mcpb-input-{0}', matrix.target) || format('cli-{0}', matrix.target) }}
           path: out
+          if-no-files-found: error
+
+  # The Claude Desktop extensions (.mcpb), one per platform, packed WITHOUT any write permission and
+  # without any third-party packer: scripts/build_mcpb.py writes the zip with the standard library,
+  # validates the manifest against the published MCPB schema, and the result is byte-for-byte
+  # reproducible. The only package installed is `jsonschema`, pinned exactly. The `release` job
+  # downloads the finished bundles; it never runs a package manager for them.
+  mcpb:
+    name: Claude Desktop extensions (.mcpb)
+    needs: [binaries]
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Collect the built kshana-mcp binaries (macOS, Windows, Linux Arm)
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          pattern: cli-*
+          path: inputs
+          merge-multiple: true
+      - name: Collect the Linux x86-64 binary
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcpb-input-x86_64-unknown-linux-gnu
+          path: inputs
+      - name: Pack, validate and smoke-test the extensions
+        env:
+          DRY: ${{ inputs.dry_run }}
+          INPUT_TAG: ${{ inputs.tag }}
+          REF_NAME: ${{ github.ref_name }}
+        run: |
+          set -euo pipefail
+          python3 -m pip install --quiet jsonschema==4.23.0
+          python3 scripts/test_build_mcpb.py
+          if [ "$DRY" = "true" ] && [ -z "$INPUT_TAG" ]; then
+            ver="$(grep -m1 '^version' Cargo.toml | sed -E 's/.*"([^"]+)".*/\1/')"
+          else
+            tag="${INPUT_TAG:-$REF_NAME}"; ver="${tag#v}"
+          fi
+          mkdir -p mcpb-out
+          for t in x86_64-unknown-linux-gnu aarch64-unknown-linux-gnu aarch64-apple-darwin x86_64-apple-darwin x86_64-pc-windows-msvc; do
+            exe=""; case "$t" in *windows*) exe=".exe" ;; esac
+            python3 scripts/build_mcpb.py "$ver" "$t" "inputs/kshana-mcp-$t$exe" mcpb-out
+            python3 scripts/smoke_mcpb.py "mcpb-out/kshana-mcp-$t.mcpb"
+          done
+          # The extension for this runner's own platform also runs its binary end to end.
+          python3 scripts/smoke_mcpb.py mcpb-out/kshana-mcp-x86_64-unknown-linux-gnu.mcpb --run --min-tools 30
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
+        with:
+          name: mcpb-bundles
+          path: mcpb-out/*.mcpb
           if-no-files-found: error
 
   # The OpenCPN plugin package, the Signal K tarball, the Grafana dashboard and the channels
@@ -212,7 +276,7 @@ jobs:
       ref: ${{ inputs.tag || github.ref }}
 
   release:
-    needs: [verify, binaries, artefacts]
+    needs: [verify, binaries, artefacts, mcpb]
     runs-on: ubuntu-latest
     timeout-minutes: 90
     permissions:
@@ -263,22 +327,11 @@ jobs:
           pattern: channel-*
           path: assets
           merge-multiple: true
-      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+      - name: Collect the Claude Desktop extensions (packed in the read-only `mcpb` job)
+        uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
         with:
-          node-version: "22"
-      - name: Build the Claude Desktop extensions (.mcpb), one per platform
-        # The mcpb packer (scripts/build-mcpb.sh) is a build-time tool only (pinned in scripts/build-mcpb.sh); each package holds
-        # the same kshana-mcp binary that is attached on its own, and a manifest with the advisory statement.
-        run: |
-          set -euo pipefail
-          ver="${VERSION}"
-          mkdir -p mcpb-out
-          scripts/build-mcpb.sh "$ver" x86_64-unknown-linux-gnu mcp/kshana-mcp/target/release/kshana-mcp mcpb-out
-          scripts/build-mcpb.sh "$ver" aarch64-unknown-linux-gnu assets/kshana-mcp-aarch64-unknown-linux-gnu mcpb-out
-          scripts/build-mcpb.sh "$ver" aarch64-apple-darwin assets/kshana-mcp-aarch64-apple-darwin mcpb-out
-          scripts/build-mcpb.sh "$ver" x86_64-apple-darwin assets/kshana-mcp-x86_64-apple-darwin mcpb-out
-          scripts/build-mcpb.sh "$ver" x86_64-pc-windows-msvc assets/kshana-mcp-x86_64-pc-windows-msvc.exe mcpb-out
-          cp mcpb-out/*.mcpb assets/
+          name: mcpb-bundles
+          path: assets
       - name: Stage every asset and write SHA256SUMS
         # One directory holding exactly the files the release carries, so the checksum
         # file, the attestation and the upload all name the same set. SHA256SUMS is
@@ -615,9 +668,9 @@ jobs:
       - name: Run both launchers against the staged binary
         run: |
           set -euo pipefail
-          (cd staged && python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 &)
-          sleep 2
-          export KSHANA_MCP_RELEASE_BASE=http://127.0.0.1:8765
+          # The staged directory stands in for the release, read through file:// (the launchers
+          # accept only https:// or file:// as a base).
+          export KSHANA_MCP_RELEASE_BASE="file://$PWD/staged"
           # npm: install the packed tarball into a scratch prefix, as `npx` would.
           npm install --prefix npm-try ./dist/npm/kshana-mcp-*.tgz
           KSHANA_MCP_CACHE_DIR="$PWD/cache-npm" python3 scripts/smoke_mcp.py npm-try/node_modules/.bin/kshana-mcp
@@ -627,12 +680,14 @@ jobs:
           KSHANA_MCP_CACHE_DIR="$PWD/cache-py" python3 scripts/smoke_mcp.py py-try/bin/kshana-mcp
           # A swapped binary is refused.
           mkdir swapped && cp staged/SHA256SUMS swapped/ && printf 'evil' > swapped/kshana-mcp
-          (cd swapped && python3 -m http.server 8766 --bind 127.0.0.1 >/dev/null 2>&1 &)
-          sleep 2
-          if KSHANA_MCP_RELEASE_BASE=http://127.0.0.1:8766 KSHANA_MCP_CACHE_DIR="$PWD/cache-bad" python3 scripts/smoke_mcp.py npm-try/node_modules/.bin/kshana-mcp; then
+          if KSHANA_MCP_RELEASE_BASE="file://$PWD/swapped" KSHANA_MCP_CACHE_DIR="$PWD/cache-bad" python3 scripts/smoke_mcp.py npm-try/node_modules/.bin/kshana-mcp; then
             echo "::error::a swapped binary was run"; exit 1
           fi
-          echo "OK: both launchers run the staged binary; a swapped binary is refused"
+          # A plain http:// base is refused outright.
+          if KSHANA_MCP_RELEASE_BASE=http://127.0.0.1:1 python3 scripts/smoke_mcp.py npm-try/node_modules/.bin/kshana-mcp; then
+            echo "::error::an http:// release base was accepted"; exit 1
+          fi
+          echo "OK: both launchers run the staged binary; a swapped binary and an http:// base are refused"
 
   dry-signalk:
     name: Signal K package check (dry run)
