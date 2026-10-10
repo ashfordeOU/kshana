@@ -15,7 +15,18 @@ access to Kshana): this plugin is the *human*, point-and-click path.
 
 - **Run Kshana Scenario** action on any `.toml` (editor + project-view context menus) —
   runs `kshana <file>` and shows the output in the Kshana tool window.
+- **Assess Receiver Trust** on a `receiver-trust` scenario `.toml` (`kshana receiver-trust`):
+  the trust timeline, with a 0-100 score and reasons for a vessel. Advisory only.
+- **Generate Training NMEA** on a `nmea-scenario` `.toml` (`kshana nmea-scenario`): synthetic
+  bridge NMEA and an instructor log, written next to the scenario. Text only; for training,
+  never for a vessel's live navigation systems.
+- **Build Interference Map** on an ADS-B or AIS `.csv` (project view; asks which approved
+  dataset it is) and **Route Exposure** on a route file (asks for the folder of maps).
+  A degraded cell does not identify interference as the cause; not a forecast.
 - A bottom **Kshana** tool window hosting the run console.
+- Not in the plugin: `kshana receiver-trust live` (a long-running stream process with a gate
+  and an optional TCP listener) and `kshana trust-telemetry` stay on the command line, because an IDE action runs a
+  command to completion and shows its output; see `docs/MARITIME-TRUST.md`.
 - **Settings → Tools → Kshana** to point at the `kshana` binary (blank → resolved from
   `PATH`; install with `cargo install kshana`).
 
@@ -46,6 +57,8 @@ src/main/kotlin/dev/kshana/ide/
   KshanaConsole.kt        per-project output console (project service)
   KshanaToolWindowFactory.kt   the "Kshana" tool window
   RunScenarioAction.kt    the Run-scenario action
+  KshanaRunner.kt         runs one command in the background into the tool window
+  MarineActions.kt        receiver trust, training NMEA, interference map, route exposure
   KshanaConfigurable.kt   Settings → Tools → Kshana
 src/main/resources/META-INF/plugin.xml   plugin descriptor
 src/test/kotlin/.../KshanaCliTest.kt      unit tests
