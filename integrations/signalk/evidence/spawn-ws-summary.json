@@ -1,5 +1,5 @@
 {
-  "delta_values_seen": 7904,
+  "delta_values_seen": 7922,
   "paths": [
     "navigation.gnss.kshana.alarms",
     "navigation.gnss.kshana.band",
@@ -7,7 +7,7 @@
     "navigation.gnss.kshana.reasons",
     "navigation.gnss.kshana.reportedPosition",
     "navigation.gnss.kshana.score",
-    "notifications.navigation.gnss.kshanaTrust"
+    "notifications.navigation.gnss.kshana.trust"
   ],
   "band_sequence": [
     "nominal",
@@ -22,7 +22,7 @@
         "sound"
       ],
       "message": "GNSS fix trust degraded (score 89.7): cn0-spread -10.3. Advisory only; check position by other means.",
-      "id": "0fb109f7-ce4f-4a0e-b7dc-4cd664a14ac5",
+      "id": "d1b8dc36-4d66-43b9-81aa-b429735ecccb",
       "status": {
         "silenced": false,
         "acknowledged": false,
@@ -38,7 +38,7 @@
         "sound"
       ],
       "message": "GNSS fix trust untrusted (score 54.4): cn0-spread -30.0, speed-log -12.8, heading-course -2.8. Advisory only; check position by other means.",
-      "id": "0fb109f7-ce4f-4a0e-b7dc-4cd664a14ac5",
+      "id": "d1b8dc36-4d66-43b9-81aa-b429735ecccb",
       "status": {
         "silenced": false,
         "acknowledged": false,

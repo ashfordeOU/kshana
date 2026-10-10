@@ -4,7 +4,7 @@ import net from 'node:net'
 import fs from 'node:fs'
 import path from 'node:path'
 import { fileURLToPath } from 'node:url'
-import { startRelay } from '../nmea-tcp-relay.mjs'
+import { startRelay, MAX_LINE_BYTES } from '../nmea-tcp-relay.mjs'
 
 const here = path.dirname(fileURLToPath(import.meta.url))
 const stream = fs.readFileSync(path.join(here, 'fixtures', 'gated-excerpt.nmea'))
@@ -82,4 +82,39 @@ test('two consumers get identical streams; a held partial line is not forwarded 
   relay.write(Buffer.from('$GPGGA,partial'))
   relay.end()
   assert.strictEqual((await c).length, 0)
+})
+
+test('input without a newline does not grow the relay buffer without bound; the next whole line still gets through', async () => {
+  const relay = startRelay({ port: 0, waitClients: 1 })
+  const port = await relay.listen()
+  const c = consume(port)
+  await relay.ready()
+  for (let i = 0; i < 40; i++) relay.write(Buffer.alloc(4096, 0x41)) // 160 KB with no newline
+  relay.write(Buffer.from('$GPGGA,ok*00\r\n'))
+  relay.end()
+  const got = (await c).toString()
+  assert.ok(got.length < 2 * MAX_LINE_BYTES, `forwarded ${got.length} bytes`)
+  assert.ok(got.endsWith('$GPGGA,ok*00\r\n'))
+})
+
+test('a consumer that never reads is dropped and does not stall the others', async () => {
+  const relay = startRelay({ port: 0, waitClients: 2, maxQueueBytes: 64 * 1024 })
+  const port = await relay.listen()
+  const slow = net.connect(port, '127.0.0.1')
+  slow.pause()
+  slow.on('error', () => {})
+  const fast = consume(port)
+  await relay.ready()
+  const line = Buffer.from('$GPGGA,' + 'x'.repeat(8000) + '\r\n') // 32 MB in all: more than the kernel's socket buffers hold
+  // in batches, so a reading consumer's queue drains between them (a synchronous burst would queue for everyone)
+  for (let b = 0; b < 80; b++) {
+    for (let i = 0; i < 50; i++) relay.write(line)
+    await new Promise((r) => setTimeout(r, 5))
+  }
+  const clientsLeft = relay.clients.size
+  relay.end()
+  const got = await fast
+  assert.strictEqual(got.length, 80 * 50 * line.length, 'the fast consumer got everything')
+  assert.ok(clientsLeft <= 1, 'the non-reading consumer was dropped')
+  slow.destroy()
 })
