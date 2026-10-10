@@ -1726,6 +1726,42 @@ fn compliance_mapping(sources: bool) -> String {
     crate::surface::compliance_mapping(sources)
 }
 
+/// Render a trust stream or a batch result in one telemetry format with the encoders
+/// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
+/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"jsonl"` (the live per-epoch stream, the
+/// default) or `"result"` (a `receiver-trust` result document); `host` names the sender in
+/// syslog events (default `kshana`). `syslog_all` gives one event per epoch instead of one per
+/// band change; `expose_position` adds the receiver-reported position to the metrics;
+/// `unix_nano` is the export time of the `"otlp"` payload. Syslog lines carry no timestamp.
+/// Returns the text. Raises `ValueError` on an unknown format or an input with no epoch.
+#[pyfunction]
+#[pyo3(signature = (input, format, host="", input_kind="jsonl", expose_position=false, syslog_all=false, unix_nano=0))]
+fn trust_telemetry(
+    input: &str,
+    format: &str,
+    host: &str,
+    input_kind: &str,
+    expose_position: bool,
+    syslog_all: bool,
+    unix_nano: u64,
+) -> PyResult<String> {
+    use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
+    let bad = |e: String| PyValueError::new_err(e);
+    surface::trust_telemetry(
+        input,
+        TelemetryFormat::parse(format).map_err(bad)?,
+        host,
+        TelemetryInput::parse(input_kind).map_err(bad)?,
+        TelemetryOptions {
+            expose_position,
+            syslog_all,
+            unix_nano,
+        },
+        surface::MAX_INPUT_BYTES,
+    )
+    .map_err(bad)
+}
+
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
 /// one or more interference maps (the `geojson` of [`interference_map`]), optionally limited
 /// to `date_from`..`date_to` (`YYYY-MM-DD`). Returns the report as JSON text. Cells not
@@ -1813,6 +1849,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_examples, m)?)?;
     m.add_function(wrap_pyfunction!(get_example, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
+    m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;

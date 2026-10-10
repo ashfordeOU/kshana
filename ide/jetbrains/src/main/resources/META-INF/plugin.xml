@@ -239,5 +239,12 @@
             description="Run kshana kinds: the scenario kinds the engine supports.">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
         </action>
+        <action
+            id="dev.kshana.ide.RenderTrustTelemetry"
+            class="dev.kshana.ide.RenderTrustTelemetryAction"
+            text="Render Trust Telemetry (Kshana)"
+            description="Run kshana trust-telemetry --result on the selected receiver-trust result JSON: Prometheus text or CEF/LEEF syslog events printed to the Kshana window. Nothing is sent or served.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
     </actions>
 </idea-plugin>

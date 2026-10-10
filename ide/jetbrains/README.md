@@ -33,6 +33,9 @@ access to Kshana): this plugin is the *human*, point-and-click path.
   asks for the signer's public key (64 hex digits or a `.pub` file; always pinned, the plugin never
   accepts an unpinned signer) and optionally the full session log. Only a verified result reads as
   verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+- **Render Trust Telemetry** on a `receiver-trust` result `.json` (`kshana trust-telemetry --result`):
+  Prometheus text or CEF/LEEF syslog events printed to the Kshana window. Nothing is sent or served;
+  the running exporters stay on the command line.
 - **Validate Scenario** (`kshana --validate`), **List Scenario Kinds** (Tools menu; `kshana kinds`) and
   **Assess Receiver Stream** (a vessel session `.toml` plus a stored NMEA log you choose; `kshana
   receiver-trust live --file`, scored once with no socket and no gate).

@@ -179,6 +179,31 @@ pub struct ComplianceMappingRequest {
     pub sources: bool,
 }
 
+/// Parameters for [`KshanaServer::trust_telemetry`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct TrustTelemetryRequest {
+    /// The trust stream (JSON lines, one object per epoch: `t_s`, `state`, `score`, `deductions`,
+    /// `alarms`, `gate`) or a `receiver-trust` result document, at most 4 MiB, as text.
+    pub input: String,
+    /// `prometheus`, `cef`, `leef` or `otlp`.
+    pub format: String,
+    /// `jsonl` (default) for the live stream, or `result` for a batch result document.
+    #[serde(default)]
+    pub input_kind: Option<String>,
+    /// The sender's host name in syslog events (default `kshana`).
+    #[serde(default)]
+    pub host: Option<String>,
+    /// One syslog event per epoch instead of one per band change.
+    #[serde(default)]
+    pub syslog_all: bool,
+    /// Add the receiver-reported position to the metrics (off by default).
+    #[serde(default)]
+    pub expose_position: bool,
+    /// Export time of the `otlp` payload, Unix nanoseconds (no clock is read; default 0).
+    #[serde(default)]
+    pub unix_nano: Option<u64>,
+}
+
 /// Parameters for [`KshanaServer::build_interference_map`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct InterferenceMapRequest {
@@ -497,6 +522,30 @@ impl KshanaServer {
         Ok(CallToolResult::success(vec![ContentBlock::text(
             surface::compliance_mapping(r.sources),
         )]))
+    }
+
+    #[tool(
+        description = "Render a GNSS trust stream or a `receiver-trust` result as security telemetry text (`kshana trust-telemetry`, docs/TRUST-TELEMETRY.md), with the same encoders the command line uses: `prometheus` (the exposition of the final state), `cef` or `leef` (one RFC 5424 syslog line per band change, or per epoch with `syslog_all`; no timestamp, because no clock is read) or `otlp` (the OTLP/HTTP JSON metrics payload). `input_kind` is `jsonl` (default) or `result`; a stream line that does not parse is skipped and counted in `kshana_trust_input_errors_total`. Nothing is sent, served or written: the output is text in the reply (the running exporters, which are a process, stay on the command line). The receiver-reported position is left out unless `expose_position` is true. Advisory only: Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and the operator remains responsible. Evidence tier: MODELLED."
+    )]
+    fn trust_telemetry(
+        &self,
+        Parameters(r): Parameters<TrustTelemetryRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let text = surface::trust_telemetry(
+            &r.input,
+            surface::TelemetryFormat::parse(&r.format).map_err(bad)?,
+            r.host.as_deref().unwrap_or(""),
+            surface::TelemetryInput::parse(r.input_kind.as_deref().unwrap_or("jsonl"))
+                .map_err(bad)?,
+            surface::TelemetryOptions {
+                expose_position: r.expose_position,
+                syslog_all: r.syslog_all,
+                unix_nano: r.unix_nano.unwrap_or(0),
+            },
+            MAX_UPLOAD_BYTES,
+        )
+        .map_err(bad)?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(text)]))
     }
 
     #[tool(
