@@ -1,0 +1,371 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marine integrations: the trust score on the bridge · Kshana</title>
+<meta name="description" content="Kshana&#x27;s maritime trust score (MARITIME-TRUST.md) is reachable from software boaters already run: a Signal K server plugin and OpenCPN through gate-mode…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/marine-integrations">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/marine-integrations">
+<meta property="og:title" content="Marine integrations: the trust score on the bridge · Kshana">
+<meta property="og:description" content="Kshana&#x27;s maritime trust score (MARITIME-TRUST.md) is reachable from software boaters already run: a Signal K server plugin and OpenCPN through gate-mode…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Marine integrations: the trust score on the bridge · Kshana">
+<meta name="twitter:description" content="Kshana&#x27;s maritime trust score (MARITIME-TRUST.md) is reachable from software boaters already run: a Signal K server plugin and OpenCPN through gate-mode…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Marine integrations: the trust score on the bridge", "item": "https://kshana.dev/docs/marine-integrations"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.35.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/marine-integrations" aria-current="page">Marine integrations</a><a href="/docs/trust-telemetry">Trust as security telemetry</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Receiver trust and maritime</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/MARINE-INTEGRATIONS.md</code></span></div>
+    <div class="prose"><h1 id="marine-integrations-the-trust-score-on-the-bridge">Marine integrations: the trust score on the bridge</h1>
+<p>Kshana&#39;s maritime trust score (<a href="/docs/maritime-trust"><code>MARITIME-TRUST.md</code></a>) is reachable from software boaters
+already run: a <strong>Signal K</strong> server plugin and <strong>OpenCPN</strong> through gate-mode NMEA over TCP. A reference build
+puts it on a small computer next to the receiver.</p>
+<blockquote>
+<p><strong>Advisory software.</strong> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not
+been assessed against any performance standard. Everything on this page is an aid to the navigator&#39;s
+judgement. The operator stays responsible for the safe navigation of the vessel and for any decision to
+rely on, or to stop relying on, a fix. Nothing here transmits, and nothing here makes a fix more accurate.</p>
+</blockquote>
+<div class="tbl"><table><thead><tr>
+<th>Piece</th>
+<th>Where</th>
+<th>Status in 0.35</th>
+</tr>
+</thead><tbody><tr>
+<td>Signal K plugin</td>
+<td><code>integrations/signalk/</code></td>
+<td>shipped, unit-tested on recorded synthetic output; not published to npm</td>
+</tr>
+<tr>
+<td>OpenCPN via gate-mode NMEA over TCP</td>
+<td><code>integrations/opencpn/</code></td>
+<td>shipped and tested (consumer-side replay); the OpenCPN user interface itself is not driven by any test</td>
+</tr>
+<tr>
+<td>OpenCPN native score-panel plugin</td>
+<td><code>integrations/opencpn/plugin/</code></td>
+<td>built, logic unit-tested, and run inside OpenCPN 5.8.4 under a virtual display (evidence in <code>integrations/opencpn/evidence/</code>); not packaged for the plugin manager; ships only after review</td>
+</tr>
+<tr>
+<td>Reference build</td>
+<td><code>deploy/reference-build/</code></td>
+<td>parts, OS steps, systemd units (dry-run checked), a container option; not tested on a vessel</td>
+</tr>
+</tbody></table></div>
+<p>All of it reads one thing: the output of <code>kshana receiver-trust live</code> (JSON lines, the <code>$PKSHT</code> sentence, the
+gate). The wire formats are in <a href="/docs/maritime-trust"><code>MARITIME-TRUST.md</code></a>. The Signal K plugin keeps its knowledge of
+them in one file, <code>integrations/signalk/lib/adapter.js</code>; a format change is a one-file edit.</p>
+<h2 id="signal-k-plugin">Signal K plugin<a class="anchor" href="#signal-k-plugin" aria-label="Link to this section">#</a></h2>
+<p>No npm dependencies. The plugin itself runs on Node 18 or newer; current <code>signalk-server</code> releases need Node 22 or newer, so in practice
+use 22. Copy or link <code>integrations/signalk/</code> into the server&#39;s <code>node_modules</code>
+(for example <code>~/.signalk/node_modules/signalk-kshana-trust</code>), restart the server and enable <strong>Kshana GNSS trust</strong>
+under Server, Plugin Config.</p>
+<h3 id="where-the-epochs-come-from-source">Where the epochs come from (<code>source</code>)<a class="anchor" href="#where-the-epochs-come-from-source" aria-label="Link to this section">#</a></h3>
+<div class="tbl"><table><thead><tr>
+<th><code>source</code></th>
+<th>What the plugin does</th>
+</tr>
+</thead><tbody><tr>
+<td><code>spawn-signalk-nmea</code> (default)</td>
+<td>Runs <code>kshana receiver-trust live &lt;sessionFile&gt;</code> and writes every raw NMEA 0183 sentence the server receives (the server&#39;s <code>nmea0183</code> event) to its standard input. Restarts it, with back-off, if it exits | <strong>Use it only on a server with a single NMEA source</strong>: it feeds every sentence from every provider, interleaved, so a second GNSS receiver or AIS looks like one receiver whose position jumps and can be scored as spoofing. With more than one source use <code>spawn-args</code> with that receiver&#39;s own <code>--tcp</code> stream, or <code>tcp-pksht</code> from a gate.</td>
+</tr>
+<tr>
+<td><code>spawn-args</code></td>
+<td>Runs <code>kshana receiver-trust live &lt;sessionFile&gt; &lt;inputArgs...&gt;</code>, for example <code>[&quot;--tcp&quot;,&quot;192.0.2.10:10110&quot;]</code> or <code>[&quot;--udp&quot;,&quot;10110&quot;]</code></td>
+</tr>
+<tr>
+<td><code>tcp-json</code></td>
+<td>Connects to a feed of the JSON lines <code>kshana</code> writes (for example from the relay in <code>integrations/opencpn/</code>)</td>
+</tr>
+<tr>
+<td><code>tcp-pksht</code></td>
+<td>Connects to an NMEA stream (such as the gate output of the service or container in the reference build, port 10110) and reads only its <code>$PKSHT</code> sentences</td>
+</tr>
+</tbody></table></div>
+<p>A stream that is already being spoofed when the monitor first connects has no clean baseline (the first
+<code>calibration_s</code> seconds are never scored). Start it before the voyage.</p>
+<h3 id="published-paths">Published paths<a class="anchor" href="#published-paths" aria-label="Link to this section">#</a></h3>
+<p>Every epoch updates (source <code>kshana-trust</code>):</p>
+<div class="tbl"><table><thead><tr>
+<th>Path</th>
+<th>Value</th>
+</tr>
+</thead><tbody><tr>
+<td><code>navigation.gnss.kshana.band</code></td>
+<td><code>calibrating</code>, <code>nominal</code>, <code>degraded</code> or <code>untrusted</code></td>
+</tr>
+<tr>
+<td><code>navigation.gnss.kshana.score</code></td>
+<td>0 to 100, or <code>null</code> while calibrating</td>
+</tr>
+<tr>
+<td><code>navigation.gnss.kshana.reasons</code></td>
+<td><code>[{monitor, points}]</code>, largest first: which checks reduced the score</td>
+</tr>
+<tr>
+<td><code>navigation.gnss.kshana.alarms</code></td>
+<td>the monitors currently over their threshold</td>
+</tr>
+<tr>
+<td><code>navigation.gnss.kshana.gate</code></td>
+<td><code>off</code>, <code>passed</code> or <code>withheld</code> (when a gate is running elsewhere; <code>null</code> from <code>$PKSHT</code> when absent)</td>
+</tr>
+<tr>
+<td><code>navigation.gnss.kshana.reportedPosition</code></td>
+<td><code>{latitude, longitude, altitude}</code>: the position the receiver under test reported at that epoch (JSON schema 1.1 or later; not published when the stream carries none, for example from <code>$PKSHT</code> or an older <code>kshana</code>). <strong>Trust context only</strong>: the plugin never writes <code>navigation.position</code>, so the vessel&#39;s own position path is untouched</td>
+</tr>
+<tr>
+<td><code>notifications.navigation.gnss.kshana.trust</code></td>
+<td>raised when the state changes: <code>{state, method, message}</code></td>
+</tr>
+</tbody></table></div>
+<p>The plugin also sends Signal K metadata for these paths once at start. <code>score</code> is Kshana&#39;s 0 to 100 trust score, a score and not a ratio or a probability, so it carries no SI unit; its metadata gives the range, a description and zones that follow the thresholds below. <code>reasons[].points</code> are score points taken off that 0 to 100 score.</p>
+<p>The notification is <code>normal</code>, <code>alert</code>, <code>warn</code> or <code>alarm</code>. It is cleared by publishing state <code>normal</code>, not <code>null</code>: a consumer that only treats <code>null</code> as cleared should treat <code>normal</code> as cleared too. By default the <strong>degraded</strong> band gives <code>warn</code> and the
+<strong>untrusted</strong> band gives <code>alarm</code>, with <code>method: [&quot;visual&quot;,&quot;sound&quot;]</code>. It is lowered after <code>clearAfterEpochs</code> epochs
+at a better state. If no epoch arrives for <code>staleAfterS</code> seconds it warns that the score is not being updated.
+Calibration never raises a notification. The <code>$PKSHT</code> source carries no <code>alarms</code> list (the sentence has
+the band, score and the top two reasons only).</p>
+<h3 id="configuration-every-threshold">Configuration (every threshold)<a class="anchor" href="#configuration-every-threshold" aria-label="Link to this section">#</a></h3>
+<div class="tbl"><table><thead><tr>
+<th>Key</th>
+<th>Default</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>source</code></td>
+<td><code>spawn-signalk-nmea</code></td>
+<td>see above</td>
+</tr>
+<tr>
+<td><code>command</code></td>
+<td><code>kshana</code></td>
+<td>the executable (spawn modes). <strong>It runs any executable as the server&#39;s user</strong>: only an administrator of the Signal K server should be able to change plugin configuration</td>
+</tr>
+<tr>
+<td><code>sessionFile</code></td>
+<td><code>/etc/kshana/session.toml</code></td>
+<td>the vessel&#39;s limits, thresholds and score weights (spawn modes)</td>
+</tr>
+<tr>
+<td><code>inputArgs</code></td>
+<td><code>[]</code></td>
+<td>arguments added to <code>kshana receiver-trust live &lt;sessionFile&gt;</code> in both spawn modes: the input for <code>spawn-args</code>, extra flags such as <code>--replay</code> (a stored log fed faster than real time) for <code>spawn-signalk-nmea</code>. The plugin refuses <code>--gate</code>, <code>--listen</code>, <code>--json</code> and <code>--pksht</code> (it reads <code>kshana</code>&#39;s JSON on standard output), and for <code>spawn-signalk-nmea</code> also the input flags (<code>--stdin</code>, <code>--file</code>, <code>--tcp</code>, <code>--udp</code>, <code>--follow</code>, <code>--from-end</code>)</td>
+</tr>
+<tr>
+<td><code>host</code>, <code>port</code></td>
+<td><code>127.0.0.1</code>, <code>10111</code></td>
+<td>TCP modes (the gate serves on 10110: set the port for <code>tcp-pksht</code>)</td>
+</tr>
+<tr>
+<td><code>thresholdMode</code></td>
+<td><code>band</code></td>
+<td><code>band</code>: the band Kshana reports, with the edges in the session file. <code>score</code>: the two scores below</td>
+</tr>
+<tr>
+<td><code>warnBelowScore</code></td>
+<td><code>90</code></td>
+<td><code>score</code> mode: below this the state is <code>degradedState</code> (Kshana&#39;s default edge for nominal)</td>
+</tr>
+<tr>
+<td><code>alarmBelowScore</code></td>
+<td><code>55</code></td>
+<td><code>score</code> mode: below this the state is <code>alarm</code> (Kshana&#39;s default edge for degraded)</td>
+</tr>
+<tr>
+<td><code>degradedState</code></td>
+<td><code>warn</code></td>
+<td>state for the degraded band: <code>normal</code>, <code>alert</code> or <code>warn</code></td>
+</tr>
+<tr>
+<td><code>raiseAfterEpochs</code></td>
+<td><code>1</code></td>
+<td>consecutive epochs at a worse state before the notification is raised</td>
+</tr>
+<tr>
+<td><code>clearAfterEpochs</code></td>
+<td><code>10</code></td>
+<td>consecutive epochs at a better state before it is lowered</td>
+</tr>
+<tr>
+<td><code>staleAfterS</code></td>
+<td><code>10</code></td>
+<td>warn when no epoch arrives for this long; <code>0</code> turns it off</td>
+</tr>
+<tr>
+<td><code>method</code></td>
+<td><code>[&quot;visual&quot;,&quot;sound&quot;]</code></td>
+<td>notification methods</td>
+</tr>
+</tbody></table></div>
+<p>The plugin does not gate: it never alters a fix. Marking a fix invalid for a chart system is the gate, below.</p>
+<h3 id="tests">Tests<a class="anchor" href="#tests" aria-label="Link to this section">#</a></h3>
+<pre data-lang="shell"><code class="hljs language-bash"><span class="hljs-built_in">cd</span> integrations/signalk &amp;&amp; npm <span class="hljs-built_in">test</span></code></pre>
+<p><code>node:test</code>, no dependencies, no network beyond <code>127.0.0.1</code>. The tests parse and replay a 66-epoch excerpt of the
+JSON lines and <code>$PKSHT</code> sentences that <code>kshana receiver-trust live</code> wrote for the synthetic Baltic
+demo (made-up data, text only), check agreement between the two formats, the hold and clear behaviour, score mode,
+staleness, and the three input paths against a local feed and a stand-in child process. Those tests do not start a real Signal K server; a separate scripted run does, see below.</p>
+<h3 id="run-in-a-real-signal-k-server">Run in a real Signal K server<a class="anchor" href="#run-in-a-real-signal-k-server" aria-label="Link to this section">#</a></h3>
+<p><code>integrations/signalk/evidence/</code> holds a script that loads the plugin into the pinned <code>signalk-server</code> 2.33.0 package (in a
+private loopback-only network namespace) and records what the server&#39;s own REST and WebSocket APIs show. The trust paths appear,
+the notification goes warn, alarm, normal (after the hold) and warn again when the data stops, and with the real <code>kshana</code> fed by
+the server&#39;s own NMEA input it also published <code>reportedPosition</code>, never <code>navigation.position</code>. One server version, one run, no
+real vessel; limits and reproduction in the evidence README.</p>
+<h2 id="opencpn">OpenCPN<a class="anchor" href="#opencpn" aria-label="Link to this section">#</a></h2>
+<p>OpenCPN reads NMEA from the network, and <code>kshana receiver-trust live --gate</code> can serve the gated stream on a TCP port itself.</p>
+<p><strong>Recommended: the direct connection.</strong></p>
+<pre data-lang="shell"><code class="hljs language-bash">some-nmea-source | kshana receiver-trust live session.toml --gate --listen tcp:10110</code></pre>
+<p>(<code>some-nmea-source</code> is the receiver&#39;s serial port read with <code>stty</code> and <code>cat</code>, a multiplexer, or the <code>--tcp</code>/<code>--udp</code> inputs of
+<code>kshana</code> itself; the reference build&#39;s <code>kshana-gate.service</code> does this under systemd.) <code>--listen tcp:&lt;port&gt;</code> binds the loopback
+address; any number of read-only clients may connect, and one that cannot keep up is dropped without delaying the others.</p>
+<p><strong>Alternative: the relay.</strong> <code>integrations/opencpn/nmea-tcp-relay.mjs</code> is a dependency-free Node fan-out that does the same for
+a <code>kshana</code> without <code>--listen</code>, or serves any other line stream (the container option uses it for the JSON epochs):</p>
+<pre data-lang="shell"><code class="hljs language-bash">some-nmea-source | kshana receiver-trust live session.toml --gate --json trust.jsonl \
+  | node integrations/opencpn/nmea-tcp-relay.mjs --listen 10110</code></pre>
+<p>It forwards bytes unchanged, whole lines only, and drops a client that does not read. Prefer the direct connection: one process
+fewer in the chain.</p>
+<p>In OpenCPN: Options, Connections, Add Connection, <strong>Network</strong>, protocol <strong>TCP</strong>, address <code>127.0.0.1</code>, port <code>10110</code>,
+direction <strong>Input</strong>. While trust is not collapsed the stream is the receiver&#39;s own, plus a <code>$PKSHT</code> sentence per
+cycle. While it is collapsed the forwarded GGA has quality <code>0</code>, RMC status <code>V</code>, and the mode indicators say no
+fix, with checksums recomputed: the equipment sees the receiver itself declare the fix invalid and raises its own
+alarm. The <code>$PKSHT</code> sentences are visible in OpenCPN&#39;s NMEA debug window (Options, Connections, &quot;NMEA debug
+window&quot;). The position fields are left as received.</p>
+<p>Read &quot;Gate mode&quot; in <a href="/docs/maritime-trust"><code>MARITIME-TRUST.md</code></a> before relying on this: it is opt-in, adds latency
+(a cycle is held until its epoch is scored), is a single point in the chain, and can withhold a good fix as well
+as pass a counterfeit one.</p>
+<h3 id="tests-1">Tests<a class="anchor" href="#tests-1" aria-label="Link to this section">#</a></h3>
+<pre data-lang="shell"><code class="hljs language-bash"><span class="hljs-built_in">cd</span> integrations/opencpn &amp;&amp; npm <span class="hljs-built_in">test</span></code></pre>
+<p><code>test/relay.test.mjs</code> replays a recorded excerpt of the synthetic gated stream (186 sentences around the moment
+trust collapses, written by <code>kshana receiver-trust live --gate</code>) through the relay over a real TCP socket and checks
+what a consumer receives: the stream byte for byte under arbitrary chunking; valid checksums on every sentence,
+rewritten ones included; GGA and RMC agreeing, valid and then invalid with no flicker; one <code>$PKSHT</code> per cycle with
+its gate field <code>W</code> exactly where the fix is invalid; two consumers identical; a partial line never forwarded. This
+checks the stream OpenCPN is given, not OpenCPN&#39;s own screen.</p>
+<p>An end-to-end check with the real binary, not part of the default tests (it needs a built <code>kshana</code>):</p>
+<pre data-lang="shell"><code class="hljs language-bash">KSHANA_BIN=target/release/kshana npm run e2e            <span class="hljs-comment"># kshana --gate --listen | TCP consumer; the consumer&#x27;s bytes must equal the gate&#x27;s stdout</span>
+KSHANA_BIN=target/release/kshana npm run e2e -- relay   <span class="hljs-comment"># kshana --gate | relay | TCP consumer</span></code></pre>
+<p>Both run the one-hour synthetic demo and check the fix goes valid, then invalid, with a <code>$PKSHT</code> per epoch.</p>
+<h3 id="native-plugin">Native plugin<a class="anchor" href="#native-plugin" aria-label="Link to this section">#</a></h3>
+<p><code>integrations/opencpn/plugin/</code> is a score panel for OpenCPN (score, band, gate, top reasons, an alert when
+trust becomes untrusted) that reads <code>$PKSHT</code> from OpenCPN&#39;s own NMEA stream, so it needs no connection beyond the
+one above. It is built with CMake against the OpenCPN plugin API header (vendored, with its source commit) and
+wxWidgets; <code>ctest</code> runs the wx-free logic tests and checks that the library exports the entry points OpenCPN looks
+up. It has been run inside OpenCPN 5.8.4 under a virtual display on the synthetic gated stream (OpenCPN handed <code>$PKSHT</code> to the
+plugin, the panel went red, and OpenCPN&#39;s own position froze when the gate engaged; screenshots, log and script in
+<code>integrations/opencpn/evidence/</code>), but not on a real desktop, other versions or platforms, and it is not packaged for OpenCPN&#39;s plugin manager. See the plugin&#39;s
+<span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>README.md</code></span>. It is licensed GPL-3.0-or-later, unlike the rest of the repository
+(<a href="/docs/licensing"><code>LICENSING.md</code></a>).</p>
+<h2 id="reference-build">Reference build<a class="anchor" href="#reference-build" aria-label="Link to this section">#</a></h2>
+<p><span class="not-pushed" title="In the repository branch these docs come from; not yet on GitHub"><code>deploy/reference-build/</code></span>: a generic parts list, OS setup, two systemd units
+(the advisory monitor and the opt-in gate), a container option and the Signal K wiring.
+<code>deploy/reference-build/check-units.sh</code> runs <code>systemd-analyze verify</code> on the units without starting anything.</p>
+<h2 id="limits">Limits<a class="anchor" href="#limits" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>The score is only as good as the checks behind it, which look at a ship&#39;s physics and its other sensors; a
+self-consistent counterfeit with a matching clock is not seen by NMEA-only monitors
+(<a href="/docs/maritime-trust"><code>MARITIME-TRUST.md</code></a>). Absence of an alarm is not evidence of a good fix.</li>
+<li>No figure on this page is a measured detection or false-alarm rate. The tests above check the plumbing on
+synthetic text; they say nothing about how any monitor does against real interference.</li>
+<li>Not type-approved; the operator remains responsible.</li>
+</ul>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/interference-map"><small>Previous</small>Interference map and route exposure</a><a class="next" href="/docs/trust-telemetry"><small>Next</small>Trust as security telemetry</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#signal-k-plugin">Signal K plugin</a><a class="l3" href="#where-the-epochs-come-from-source">Where the epochs come from (source)</a><a class="l3" href="#published-paths">Published paths</a><a class="l3" href="#configuration-every-threshold">Configuration (every threshold)</a><a class="l3" href="#tests">Tests</a><a class="l3" href="#run-in-a-real-signal-k-server">Run in a real Signal K server</a><a class="l2" href="#opencpn">OpenCPN</a><a class="l3" href="#tests-1">Tests</a><a class="l3" href="#native-plugin">Native plugin</a><a class="l2" href="#reference-build">Reference build</a><a class="l2" href="#limits">Limits</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.35.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.35.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.35.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>
