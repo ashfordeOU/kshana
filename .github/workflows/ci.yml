@@ -187,6 +187,9 @@ jobs:
     # follow-up is to bring the run back toward its ~94 min. No test is skipped, reduced or
     # ignored.
     #
+    # 2026-10-09: opt-level 1 for the coverage step only; measured 62 min vs 3h09m on the same
+    # code, line coverage 94.44% vs 94.50%. The 330 cap stays.
+    #
     # The measurement and the --fail-under 85 floor below are unchanged.
     timeout-minutes: 330
     steps:
@@ -228,6 +231,8 @@ jobs:
         # it is not a comment — it comments out the REST OF THE COMMAND. That mistake
         # shipped once here, silently dropping --timeout and --fail-under and leaving
         # an unmatched apostrophe from the word "tarpaulin's". It parsed as valid YAML.
+        env:
+          CARGO_PROFILE_DEV_OPT_LEVEL: "1"
         run: >
           cargo tarpaulin --engine llvm --out Lcov --output-dir coverage
           --exclude-files 'src/*_data.rs'
