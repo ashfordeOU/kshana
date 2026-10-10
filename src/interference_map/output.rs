@@ -5,7 +5,7 @@
 
 use serde_json::{json, Map, Value};
 
-use super::grid::{CellId, Grid};
+use super::grid::{CellId, Grid, PREREGISTERED_CELL_DEG};
 use super::sources::Dataset;
 
 /// Name of the output schema, version 1.
@@ -68,7 +68,12 @@ pub fn to_geojson(day: &DayOut, grid: &Grid, method: Value, dataset: &Dataset) -
             "format_version": FORMAT_VERSION,
             "source_kind": day.source_kind,
             "date": day.date,
-            "grid": { "type": "fixed_lat_lon", "cell_deg": grid.cell_deg },
+            "grid": {
+                "type": "fixed_lat_lon",
+                "cell_deg": grid.cell_deg,
+                "preregistered_cell_deg": PREREGISTERED_CELL_DEG,
+                "is_preregistered": grid.cell_deg == PREREGISTERED_CELL_DEG,
+            },
             "method": method,
             "day": day.day_meta,
             "data": dataset.to_json(),
@@ -79,9 +84,11 @@ pub fn to_geojson(day: &DayOut, grid: &Grid, method: Value, dataset: &Dataset) -
     })
 }
 
-/// File name for a day's output: `<source>-<date>.geojson`.
-pub fn file_name(day: &DayOut) -> String {
-    format!("{}-{}.geojson", day.source_kind, day.date)
+/// File name for a day's output: `<source>-<dataset>-<YYYY-MM-DD>.geojson`, for example
+/// `ais-kystverket-2026-03-01.geojson`. The dataset key is in the name so that two datasets
+/// of the same kind and day cannot overwrite each other.
+pub fn file_name(day: &DayOut, dataset_key: &str) -> String {
+    format!("{}-{}-{}.geojson", day.source_kind, dataset_key, day.date)
 }
 
 #[cfg(test)]
@@ -123,6 +130,10 @@ mod tests {
                 .len(),
             5
         );
-        assert_eq!(file_name(&day), "adsb-2026-03-01.geojson");
+        assert_eq!(
+            file_name(&day, "adsb-lol"),
+            "adsb-adsb-lol-2026-03-01.geojson"
+        );
+        assert_eq!(m["grid"]["is_preregistered"], true);
     }
 }

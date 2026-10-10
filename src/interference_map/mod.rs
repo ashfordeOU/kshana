@@ -86,38 +86,61 @@ impl IdHasher {
     }
 }
 
-/// Minimal CSV reader for the documented input formats: a header row, comma-separated
-/// fields, no quoting. Returns the header names and a row iterator keyed by column index.
-pub(crate) struct CsvTable<'a> {
-    pub header: Vec<&'a str>,
-    pub rows: Vec<Vec<&'a str>>,
-}
+/// Column names of a CSV header row.
+pub(crate) struct Header(Vec<String>);
 
-impl<'a> CsvTable<'a> {
-    pub fn parse(text: &'a str) -> Result<Self, MapError> {
-        let mut lines = text.lines().filter(|l| !l.trim().is_empty());
-        let header: Vec<&str> = lines
-            .next()
-            .ok_or_else(|| MapError::Format("empty input: a header row is required".into()))?
-            .split(',')
-            .map(str::trim)
-            .collect();
-        let rows = lines
-            .map(|l| l.split(',').map(str::trim).collect())
-            .collect();
-        Ok(Self { header, rows })
-    }
-
+impl Header {
     pub fn col(&self, name: &str) -> Option<usize> {
-        self.header
-            .iter()
-            .position(|h| h.eq_ignore_ascii_case(name))
+        self.0.iter().position(|h| h.eq_ignore_ascii_case(name))
     }
 
     pub fn require(&self, name: &str) -> Result<usize, MapError> {
         self.col(name)
             .ok_or_else(|| MapError::Format(format!("missing required column `{name}`")))
     }
+}
+
+/// Stream a documented CSV: a header row, comma-separated fields, no quoting. The header is
+/// handed to `parse_header` once; every later non-blank line is split and given to `on_row`.
+/// Only one line is held at a time, so memory does not depend on the input size.
+pub(crate) fn stream_csv<R: std::io::BufRead, C>(
+    mut reader: R,
+    parse_header: impl FnOnce(&Header) -> Result<C, MapError>,
+    mut on_row: impl FnMut(&C, &[&str]),
+) -> Result<(), MapError> {
+    let mut line = String::new();
+    let mut cols: Option<C> = None;
+    let mut parse_header = Some(parse_header);
+    loop {
+        line.clear();
+        let n = reader
+            .read_line(&mut line)
+            .map_err(|e| MapError::Io(format!("cannot read input: {e}")))?;
+        if n == 0 {
+            break;
+        }
+        let text = line.trim();
+        if text.is_empty() {
+            continue;
+        }
+        match (&cols, parse_header.take()) {
+            (None, Some(ph)) => {
+                let header = Header(text.split(',').map(|h| h.trim().to_string()).collect());
+                cols = Some(ph(&header)?);
+            }
+            (Some(c), _) => {
+                let fields: Vec<&str> = text.split(',').map(str::trim).collect();
+                on_row(c, &fields);
+            }
+            (None, None) => unreachable!("the header closure is taken only with the header"),
+        }
+    }
+    if cols.is_none() {
+        return Err(MapError::Format(
+            "empty input: a header row is required".into(),
+        ));
+    }
+    Ok(())
 }
 
 #[cfg(test)]
@@ -136,11 +159,25 @@ mod tests {
     }
 
     #[test]
-    fn csv_requires_header_and_columns() {
-        assert!(CsvTable::parse("").is_err());
-        let t = CsvTable::parse("a,b\n1,2\n\n3,4\n").unwrap();
-        assert_eq!(t.rows.len(), 2);
-        assert_eq!(t.col("B"), Some(1));
-        assert!(t.require("c").is_err());
+    fn csv_streams_rows_and_requires_a_header() {
+        let run = |text: &str| {
+            let mut rows = Vec::new();
+            let r = stream_csv(
+                text.as_bytes(),
+                |h| {
+                    assert_eq!(h.col("B"), Some(1));
+                    assert!(h.require("c").is_err());
+                    Ok(())
+                },
+                |_, f| rows.push(f.join("|")),
+            );
+            (r, rows)
+        };
+        assert!(stream_csv("".as_bytes(), |_| Ok(()), |_: &(), _| {}).is_err());
+        let (r, rows) = run("a,b\r\n1,2\n\n 3 , 4 \n");
+        assert!(r.is_ok());
+        assert_eq!(rows, ["1|2", "3|4"]);
+        let (r, rows) = run("\n\na,b\n5,6");
+        assert!(r.is_ok() && rows == ["5|6"]);
     }
 }

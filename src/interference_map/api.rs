@@ -15,8 +15,9 @@ use super::sources::{self, Dataset, Kind};
 use super::time::parse_day;
 use super::{IdHasher, MapError};
 
-/// Default grid cell size in degrees.
-pub const DEFAULT_CELL_DEG: f64 = 0.5;
+/// Default grid cell size in degrees: the one the pre-registered methods are defined on.
+/// Any other size works but is not the pre-registered method; the output says so.
+pub const DEFAULT_CELL_DEG: f64 = super::grid::PREREGISTERED_CELL_DEG;
 
 /// Decompression limit for one readsb trace file (bytes).
 pub const MAX_TRACE_BYTES: u64 = 512 * 1024 * 1024;
@@ -24,7 +25,7 @@ pub const MAX_TRACE_BYTES: u64 = 512 * 1024 * 1024;
 /// One day's map: the file name the CLI would use, the UTC date, and the v1 GeoJSON.
 #[derive(Debug, Clone, PartialEq)]
 pub struct DayMap {
-    /// File name the CLI would write: `<source>-<YYYY-MM-DD>.geojson`.
+    /// File name the CLI would write: `<source>-<dataset>-<YYYY-MM-DD>.geojson`.
     pub file_name: String,
     /// UTC date of the reports, `YYYY-MM-DD`.
     pub date: String,
@@ -103,7 +104,7 @@ fn day_maps(
 ) -> Vec<DayMap> {
     days.iter()
         .map(|d| DayMap {
-            file_name: file_name(d),
+            file_name: file_name(d, &ds.key),
             date: d.date.clone(),
             geojson: to_geojson(d, grid, method.clone(), ds),
         })
@@ -253,7 +254,7 @@ mod tests {
         )
         .unwrap();
         assert_eq!(maps.len(), 1);
-        assert_eq!(maps[0].file_name, "adsb-2026-03-01.geojson");
+        assert_eq!(maps[0].file_name, "adsb-adsb-lol-2026-03-01.geojson");
         assert_eq!(maps[0].date, "2026-03-01");
         assert_eq!(
             maps[0].geojson["kshana_interference_map"]["format_version"],
@@ -275,7 +276,7 @@ mod tests {
     #[test]
     fn dataset_rules_are_enforced_here_too() {
         let c = adsb_csv();
-        assert!(adsb_maps_from_csv(&c, &DatasetSpec::Preset("opensky"), 0.5).is_err());
+        assert!(adsb_maps_from_csv(&c, &DatasetSpec::Preset("not-a-source"), 0.5).is_err());
         assert!(adsb_maps_from_csv(&c, &DatasetSpec::Preset("kystverket"), 0.5).is_err());
         assert!(adsb_maps_from_csv(
             &c,
