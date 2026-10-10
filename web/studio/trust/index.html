@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Maritime trust view: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Can the bridge trust this fix? Open a Kshana receiver-trust run for a vessel and see the track coloured by trust band, the score over time, the reasons for each deduction and the gate state. Files stay in your browser. Advisory software.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="trust/trust.css">
+<link rel="modulepreload" href="lib/trust.mjs">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Maritime trust</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap mt">
+  <p class="kicker"><i style="--c:var(--nav)"></i>Maritime trust</p>
+  <h1 id="mt-h">Can the bridge trust this fix?</h1>
+  <p class="lede">Open a <code>kshana receiver-trust</code> run for a vessel. Kshana scores every position fix from 0 to 100 from what the receiver already puts on the bus, and says which checks reduced it. Files you open here are read in this page and never uploaded.</p>
+
+  <p class="mt-advice" role="note"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. The score and the gate are aids to the navigator's judgement. The operator stays responsible for the safe navigation of the vessel and for any decision to rely on, or stop relying on, a fix. A fix with no alarm is not thereby a good fix.</p>
+
+  <section class="card mt-load" aria-labelledby="mt-load-h">
+    <div class="card-head"><h2 id="mt-load-h" class="h3">Open a run</h2>
+      <p class="card-note">Pick a result JSON (<code>session.result.json</code>) or the live JSON lines (<code>--json trust.jsonl</code>). A stream carries no position: add the NMEA log it came from to draw the track. A truth file (<code>t_s,true_lat_deg,true_lon_deg</code>) exists only for synthetic data and adds the true track.</p></div>
+    <div class="mt-drop" id="mt-drop">
+      <label class="mt-file btn-primary">Choose files…<input id="mt-files" type="file" multiple accept=".json,.jsonl,.ndjson,.csv,.nmea,.txt,.log,text/*,application/json"></label>
+      <span class="mt-or">or drop them here</span>
+      <button class="mt-demo" id="mt-demo" type="button">Open the synthetic demo</button>
+    </div>
+    <p class="mt-status" id="mt-status" role="status" aria-live="polite">Nothing open yet.</p>
+    <ul class="mt-notes" id="mt-notes"></ul>
+  </section>
+
+  <div id="mt-run" hidden>
+    <p class="mt-adv" id="mt-adv" role="note"></p>
+    <section class="mt-bar card" aria-label="Time cursor and filters">
+      <button class="mt-play" id="mt-play" type="button" aria-label="Play"><svg aria-hidden="true"><use href="#i-play"/></svg></button>
+      <label class="mt-speed">Speed <select id="mt-speed" aria-label="Replay speed"><option>1</option><option>2</option><option>5</option><option selected>10</option><option>30</option><option>60</option></select>×</label>
+      <input class="mt-slider" id="mt-slider" type="range" min="0" max="0" value="0" step="1" aria-label="Time cursor, in epochs">
+      <output class="mt-readout" id="mt-readout" for="mt-slider"></output>
+      <div class="mt-tools">
+        <button type="button" id="mt-first-ded" class="mt-chip">First deduction</button>
+        <button type="button" id="mt-first-unt" class="mt-chip">First untrusted</button>
+        <label class="mt-chip chk"><input type="checkbox" id="mt-filter"> Only degraded and untrusted</label>
+        <label class="mt-chip chk" id="mt-truth-wrap"><input type="checkbox" id="mt-truth" checked> True track</label>
+      </div>
+      <p class="mt-live" id="mt-live" aria-live="polite" aria-atomic="true"></p>
+    </section>
+
+    <div class="mt-grid">
+      <section class="card mt-track" aria-labelledby="mt-track-h">
+        <div class="card-head"><h3 id="mt-track-h">Receiver-reported track</h3>
+          <p class="card-note" id="mt-track-note"></p></div>
+        <div class="mt-svgbox"><svg id="mt-track-svg" role="img" aria-labelledby="mt-track-h mt-track-desc"></svg></div>
+        <p class="sr" id="mt-track-desc"></p>
+        <ul class="mt-legend" id="mt-legend" aria-label="Legend"></ul>
+        <p class="mt-offset" id="mt-offset" aria-live="off"></p>
+      </section>
+
+      <section class="card mt-time" aria-labelledby="mt-time-h">
+        <div class="card-head"><h3 id="mt-time-h">Score over time</h3>
+          <p class="card-note">Score 0 to 100. Dashed lines are the band edges; the strips underneath are the band and the gate. Drag or click to move the time cursor; the arrow keys step it.</p></div>
+        <div class="mt-svgbox"><svg id="mt-time-svg" tabindex="0" role="slider" aria-label="Score timeline: time cursor" aria-valuemin="0" aria-valuemax="0" aria-valuenow="0"></svg></div>
+        <h4 class="mt-h4">Monitors <small id="mt-strips-note"></small></h4>
+        <div class="mt-svgbox"><svg id="mt-strips-svg" role="img" aria-label="Each monitor's alarm ratio over time"></svg></div>
+      </section>
+
+      <section class="card mt-reasons" aria-labelledby="mt-reasons-h">
+        <div class="card-head"><h3 id="mt-reasons-h">Reasons at the cursor</h3>
+          <p class="card-note" id="mt-reasons-note">Points each check took off this epoch, largest first. Click a check to mark where it was above its onset.</p></div>
+        <div id="mt-reasons"></div>
+      </section>
+
+      <section class="card mt-gate" aria-labelledby="mt-gate-h">
+        <div class="card-head"><h3 id="mt-gate-h">Gate</h3><p class="card-note" id="mt-gate-note"></p></div>
+        <p class="mt-gate-now" id="mt-gate-now"></p>
+        <p class="mt-pksht"><span>Latest <code>$PKSHT</code></span><code id="mt-pksht"></code></p>
+      </section>
+
+      <section class="card mt-set" aria-labelledby="mt-set-h">
+        <div class="card-head"><h3 id="mt-set-h">What the score used</h3><p class="card-note">Read from the run, read-only.</p></div>
+        <div id="mt-set"></div>
+      </section>
+    </div>
+  </div>
+
+  <section class="mt-fine" aria-label="About this view">
+    <h2 class="h3">What this view does and does not show</h2>
+    <ul>
+      <li>The demo is <b>synthetic text</b>: a made-up NMEA log of a ferry on an illustrative Tallinn to Helsinki route, with a made-up position drag-off partway through. It models no radio signal and is not a measurement or a chart.</li>
+      <li>In the demo the receiver reports a <b>valid fix throughout</b> (GGA quality 1, RMC status A). The trust score is what falls. The gap between the reported and the true track is the point of the view.</li>
+      <li>NMEA-only checks cannot see a spoofer that reproduces the whole constellation with a self-consistent position, velocity, heading, power and clock, nor a replay of recorded real signals. A fix with no alarm is not thereby a good fix.</li>
+      <li>Nothing on this page is a measure of how the checks perform on real interference. The score mapping and every weight are fixed before a log is scored, with no learning and nothing fitted to events.</li>
+    </ul>
+  </section>
+</div>
+</main>
+<script type="module" src="trust/trust.js"></script>
+</body>
+</html>

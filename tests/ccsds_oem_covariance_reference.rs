@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Externally validate kshana's CCSDS 502.0 OEM **covariance-block interchange**
-//! against an independent third-party authority: the **oem** library (Brad Sease
-//! <bradsease@gmail.com>, MIT, v0.4.5), the astropy-backed CCSDS 502.0-B
+//! against an independent third-party authority: the **oem** library (MIT, v0.4.5,
+//! <https://pypi.org/project/oem/>), the astropy-backed CCSDS 502.0-B
 //! `OrbitEphemerisMessage` parser (https://pypi.org/project/oem/) — the SAME
 //! independent parser already trusted by the Validated "CCSDS OEM interoperability"
 //! row.

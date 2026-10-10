@@ -93,7 +93,7 @@ fn oracle_kind_stacked_svg_shows_the_status_by_oracle_kind_counts() {
         .iter()
         .filter(|i| i.status == VerificationStatus::PartnerOwned)
         .count();
-    // The Modelled rows split across the three weaker oracle kinds; pin each.
+    // The Modelled rows split across the weaker oracle kinds; pin each.
     let m_ext = m
         .iter()
         .filter(|i| {
@@ -114,6 +114,13 @@ fn oracle_kind_stacked_svg_shows_the_status_by_oracle_kind_counts() {
         })
         .count();
 
+    let m_run = m
+        .iter()
+        .filter(|i| {
+            i.status == VerificationStatus::Modelled && i.oracle_kind == OracleKind::IntegrationRun
+        })
+        .count();
+
     let svg = include_str!("../docs/assets/figures/oracle-kind-stacked.svg");
 
     let want = [
@@ -123,7 +130,7 @@ fn oracle_kind_stacked_svg_shows_the_status_by_oracle_kind_counts() {
         // Caption: the Modelled oracle-kind split.
         format!(
             "Modelled oracle kinds: {m_ext} ExternalDataset, {m_ref} ReferenceImpl, \
-             {m_int} InternalConsistency"
+             {m_int} InternalConsistency, {m_run} IntegrationRun"
         ),
         // Status totals line (greppable tspan idiom).
         format!("<tspan font-weight=\"700\">{validated}</tspan> Validated"),

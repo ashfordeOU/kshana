@@ -1,5 +1,5 @@
 # External-oracle reference for kshana's general (EME2000) CCSDS OEM export.
-# Oracle: the oem library (Brad Sease <bradsease@gmail.com>, MIT) + astropy + numpy.
+# Oracle: the oem library (MIT, https://pypi.org/project/oem/) + astropy + numpy.
 # Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.
 # Consumed by tests/ccsds_oem_interop_reference.rs.
 # See generate_ccsds_oem_interop_reference.py for provenance/scope/findings.

@@ -1,0 +1,778 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Where each capability is reachable · Kshana docs</title>
+<meta name="description" content="Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the cell says N/A and why.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/surfaces">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/surfaces">
+<meta property="og:title" content="Where each capability is reachable · Kshana docs">
+<meta property="og:description" content="Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the cell says N/A and why.">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Where each capability is reachable · Kshana docs">
+<meta name="twitter:description" content="Every capability is available on the surfaces where it makes sense; where one cannot carry a capability, the cell says N/A and why.">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "Where each capability is reachable", "item": "https://kshana.dev/docs/surfaces"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.35.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/trust-telemetry">Trust as security telemetry</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces" aria-current="page">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>APIs and integrations</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/SURFACES.md</code></span></div>
+    <div class="prose"><h1 id="where-each-capability-is-reachable">Where each capability is reachable</h1>
+<p>Every capability is available on the surfaces where it makes sense; where one cannot carry a
+capability, the cell says <strong>N/A</strong> and why. The same engine runs behind every surface: the
+Python, WebAssembly and MCP entry points for the 0.35 capabilities are thin wrappers over
+<code>kshana::surface</code>, which calls the code the command line runs.</p>
+<p class="omitted">A passage naming third-party AI clients is left out here; it is in <a href="https://github.com/ashfordeOU/kshana/blob/main/docs/SURFACES.md">docs/SURFACES.md</a> on GitHub.</p>
+<div class="tbl"><table><thead><tr>
+<th>Capability</th>
+<th>CLI</th>
+<th>Rust</th>
+<th>Python</th>
+<th>WASM</th>
+<th>MCP</th>
+<th>Plugin</th>
+<th>JetBrains</th>
+<th>Notebook</th>
+</tr>
+</thead><tbody><tr>
+<td>Vessel receiver-trust, batch log (0-100 score, reasons)</td>
+<td><code>receiver-trust</code></td>
+<td><code>receiver_trust::assess::assess_vessel_log</code></td>
+<td><code>receiver_trust</code>, <code>assess_vessel_log</code></td>
+<td><code>receiver_trust</code>, <code>assess_vessel_log</code></td>
+<td><code>assess_receiver_log</code>, <code>assess_vessel_log</code></td>
+<td><code>/kshana-assess-receiver</code>, skill <code>vessel-receiver-trust</code></td>
+<td>Assess Receiver Trust</td>
+<td><code>vessel-trust-and-training</code></td>
+</tr>
+<tr>
+<td>Receiver-trust on a bounded stream excerpt (scores, states, reasons; no gate)</td>
+<td><code>receiver-trust live</code></td>
+<td><code>receiver_trust::assess::assess_stream_excerpt</code></td>
+<td><code>receiver_trust_replay</code></td>
+<td><code>receiver_trust_replay</code></td>
+<td><code>assess_vessel_stream</code></td>
+<td>same</td>
+<td>CLI only</td>
+<td><code>vessel-trust-and-training</code></td>
+</tr>
+<tr>
+<td><code>receiver-trust live</code> as a running process (stdin, followed file, TCP, UDP, <code>--gate</code>, <code>--listen</code>)</td>
+<td><code>receiver-trust live</code></td>
+<td><code>receiver_trust::live::LiveEngine</code></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Evidence pack: create (signed, window of a log)</td>
+<td><code>receiver-trust evidence</code></td>
+<td><code>evidence::create_bundle</code>, <code>surface::evidence_create</code></td>
+<td><code>evidence_create</code></td>
+<td><strong>N/A</strong> (signing key)</td>
+<td><code>create_evidence_pack</code></td>
+<td><code>/kshana-evidence-pack</code>, skill <code>evidence-pack</code></td>
+<td>Create Evidence Pack</td>
+<td><code>vessel-trust-and-training</code></td>
+</tr>
+<tr>
+<td>Evidence pack: verify</td>
+<td><code>evidence verify</code></td>
+<td><code>evidence::verify_bundle</code></td>
+<td><code>evidence_verify</code></td>
+<td><code>evidence_verify</code></td>
+<td><code>verify_evidence_pack</code></td>
+<td>same</td>
+<td>Verify Evidence Pack (pinned key only)</td>
+<td><code>vessel-trust-and-training</code></td>
+</tr>
+<tr>
+<td>Trust telemetry (Prometheus, syslog CEF/LEEF, OTLP)</td>
+<td><code>trust-telemetry</code></td>
+<td><code>telemetry</code></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong> (how-to)</td>
+<td><strong>N/A</strong> (how-to)</td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Training NMEA with an instructor log</td>
+<td><code>nmea-scenario</code></td>
+<td><code>nmea_synth::generate_from_toml</code></td>
+<td><code>nmea_training</code></td>
+<td><code>nmea_training</code></td>
+<td><code>generate_training_nmea</code></td>
+<td><code>/kshana-training-scenario</code>, skill <code>training-nmea-scenario</code></td>
+<td>Generate Training NMEA</td>
+<td><code>vessel-trust-and-training</code></td>
+</tr>
+<tr>
+<td>Training NMEA streamed to a TCP or UDP address</td>
+<td><code>nmea-scenario --tcp/--udp</code></td>
+<td><code>nmea_synth::stream</code></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Interference map (ADS-B, AIS)</td>
+<td><code>interference-map adsb|ais</code></td>
+<td><code>interference_map::api</code></td>
+<td><code>interference_map</code></td>
+<td><code>interference_map</code></td>
+<td><code>build_interference_map</code></td>
+<td><code>/kshana-interference-map</code>, skill <code>interference-map-route-exposure</code></td>
+<td>Build Interference Map</td>
+<td><code>interference-map-route-exposure</code></td>
+</tr>
+<tr>
+<td>Route exposure</td>
+<td><code>route-exposure</code></td>
+<td><code>interference_map::api::route_exposure</code></td>
+<td><code>route_exposure</code></td>
+<td><code>route_exposure</code></td>
+<td><code>route_exposure</code></td>
+<td>same</td>
+<td>Route Exposure</td>
+<td><code>interference-map-route-exposure</code></td>
+</tr>
+<tr>
+<td>Signal K plugin and OpenCPN gate feed (<code>docs/MARINE-INTEGRATIONS.md</code>)</td>
+<td><code>integrations/</code>, <code>receiver-trust live --gate --listen</code></td>
+<td><strong>N/A</strong> (processes)</td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td>how-to only: <code>/kshana-marine-integrations</code>, skill <code>marine-integrations</code></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Test-bench export (motion CSV, NMEA, waypoints, events for a laboratory simulator)</td>
+<td><code>bench-export</code></td>
+<td><code>interop::testbench::export_with_notes</code>, <code>surface::bench_export</code></td>
+<td><code>bench_export</code></td>
+<td><code>bench_export</code></td>
+<td><code>export_test_bench</code></td>
+<td><code>/kshana-bench-export</code>, skill <code>test-bench-export</code></td>
+<td>Export Test-Bench Files</td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Compliance mapping from runs (which public-framework rows the runs support evidence for)</td>
+<td><code>compliance-report</code></td>
+<td><code>compliance::assess_texts</code>, <code>surface::compliance_report</code></td>
+<td><code>compliance_report</code></td>
+<td><code>compliance_report</code></td>
+<td><code>compliance_report</code></td>
+<td><code>/kshana-compliance-report</code>, skill <code>compliance-mapping</code></td>
+<td>Build Compliance Report</td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Compliance mapping tables and sources</td>
+<td><code>compliance-report --mapping</code>, <code>--sources</code></td>
+<td><code>compliance::mapping</code>, <code>surface::compliance_mapping</code></td>
+<td><code>compliance_mapping</code></td>
+<td><code>compliance_mapping</code></td>
+<td><code>compliance_mapping</code></td>
+<td>same</td>
+<td>Show Compliance Mapping</td>
+<td><strong>N/A</strong></td>
+</tr>
+<tr>
+<td>Land-polygon download (<code>interference-map fetch-land</code>)</td>
+<td><code>--allow-network</code></td>
+<td>CLI code</td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+<td><strong>N/A</strong></td>
+</tr>
+</tbody></table></div>
+<h2 id="why-the-na-cells-are-na">Why the N/A cells are N/A<a class="anchor" href="#why-the-na-cells-are-na" aria-label="Link to this section">#</a></h2>
+<ul>
+<li><p><strong>Signal K and OpenCPN.</strong> They are consumers of the running live process and of its TCP gate, so
+they are command-line deployments; the plugin carries a how-to command and a skill that point to
+<code>docs/MARINE-INTEGRATIONS.md</code> and call no tool.</p>
+</li>
+<li><p><strong>A running process.</strong> <code>receiver-trust live</code> holds a stream open, can serve the gated stream
+to any number of TCP clients and runs until it is stopped. A Python call, a browser call, an
+MCP tool call and an IDE action each return when they finish and do not hold a socket open
+for others. Python, WASM and MCP carry the bounded form instead: an excerpt scored by the
+same engine, in the live schema (JSON lines 1.2: <code>position</code> and an <code>advisory</code> statement on every
+epoch), with no socket and no gate (the gate marks a fix invalid on a live stream, which only a
+process in the data path can do). Two behaviours belong to the process and are not in the
+excerpt tools: a stream replayed faster than real time through <code>receiver-trust live</code> without
+<code>--replay</code> is scored untrusted (its time disagrees with the host clock; an excerpt is read
+without a host clock), and <code>--udp &lt;port&gt;</code> and <code>--listen tcp:&lt;port&gt;</code> bind the loopback address
+unless an address is given.</p>
+</li>
+<li><p><strong>Trust telemetry.</strong> <code>trust-telemetry</code> serves Prometheus metrics, sends syslog and exports
+OpenTelemetry from a running stream, so it is a process by nature. How-to: pipe the live
+command into it, or replay a result file (<code>kshana trust-telemetry --result session.result.json --print-metrics</code>); see <a href="/docs/trust-telemetry"><code>TRUST-TELEMETRY.md</code></a>. An agent or a notebook that
+wants the per-epoch scores calls the batch or excerpt functions instead.</p>
+</li>
+<li><p><strong>Creating a pack in the browser.</strong> Signing needs a private key, which should not pass
+through a web page; the browser build verifies packs (<code>evidence_verify</code>) and the other
+surfaces create them. The MCP tool never returns or logs the signing seed, and without one it
+signs with a one-time key (integrity, not identity); for a key that matters, use the CLI.
+The same holds for streaming training NMEA to an address: Python, WASM and MCP return the
+generated text, and the CLI sends it.</p>
+</li>
+<li><p><strong>Study suites.</strong> <code>--study &lt;suite.toml&gt;</code> runs a manifest that names sibling scenario files on
+disk. The in-memory surfaces take scenario text, not a folder of files, so they run each member
+as a scenario instead (<code>run</code>, <code>run_scenario</code>, <code>run_all</code>).</p>
+</li>
+<li><p><strong>GNSS IQ in the browser, and recordings that are rewritten.</strong> A recording is gigabytes of
+samples, which a page cannot hold and the MCP protocol must not carry, so WASM has no IQ
+functions and the MCP tools read and write one work directory only (<code>KSHANA_MCP_IQ_DIR</code>, with a
+per-call sample budget). <code>iq extract</code>, <code>convert</code> and <code>decimate</code> exist to rewrite recordings on
+disk and stay command-line only. <code>iq labfit</code> and <code>iq conditions</code> carry text, so MCP takes them
+inline (a log that names a file is refused).</p>
+</li>
+<li><p><strong>The land download.</strong> It is the only command that opens a network connection, it needs the
+system <code>curl</code> and an explicit <code>--allow-network</code>, and it checks a pinned SHA-256. The browser
+has no <code>curl</code>, and an AI agent should not fetch data on a user&#39;s behalf; the other surfaces
+take the land file as text instead (<code>land_geojson</code>).</p>
+</li>
+<li><p><strong>Trace archives and directories.</strong> <code>interference-map adsb</code> on a readsb trace directory reads
+files from disk and is command-line only; the in-memory surfaces take CSV text.</p>
+</li>
+</ul>
+<h2 id="every-command-line-subcommand-and-who-covers-it">Every command-line subcommand, and who covers it<a class="anchor" href="#every-command-line-subcommand-and-who-covers-it" aria-label="Link to this section">#</a></h2>
+<p>One row per subcommand or mode of <code>kshana --help</code>. <strong>yes</strong> names the entry point; <strong>no</strong> is a gap
+with its reason; <strong>N/A</strong> is a surface that cannot carry it for the reason given above or in the
+last column. JetBrains actions run the command line, so a &quot;CLI only&quot; there means no IDE action
+exists yet.</p>
+<div class="tbl"><table><thead><tr>
+<th>Subcommand</th>
+<th>Python</th>
+<th>WASM</th>
+<th>MCP</th>
+<th>Plugin</th>
+<th>JetBrains</th>
+<th>Notebook</th>
+<th>Note</th>
+</tr>
+</thead><tbody><tr>
+<td><code>kshana &lt;scenario.toml&gt;</code> (run, chart, table)</td>
+<td><code>run</code>, <code>run_full</code>, <code>run_typed</code></td>
+<td><code>run</code>, <code>chart_svg</code>, <code>summary</code>, <code>table_csv</code>, <code>run_all</code></td>
+<td><code>run_scenario</code>, <code>report_scenario</code>, <code>export_table_csv</code></td>
+<td><code>/kshana-run</code></td>
+<td>Run Kshana Scenario</td>
+<td><code>quantum-vs-classical-gdop</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--validate &lt;scenario.toml&gt;</code></td>
+<td><code>validate_toml</code></td>
+<td><code>error_kind</code> (a run throws on an invalid scenario)</td>
+<td><code>validate_scenario</code></td>
+<td><code>/kshana-run</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--study &lt;suite.toml&gt;</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>CLI only</td>
+<td></td>
+<td>A suite names sibling scenario files on disk (N/A above); run each member as a scenario</td>
+</tr>
+<tr>
+<td><code>--export-sp3/-omm/-oem</code></td>
+<td><code>export_sp3</code>, <code>export_omm</code>, <code>export_oem</code></td>
+<td><code>export_sp3</code>, <code>export_omm</code>, <code>export_oem</code></td>
+<td><code>export_sp3</code>, <code>export_omm</code>, <code>export_oem</code></td>
+<td><code>/kshana-run</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--export &lt;czml,kml,geojson,stk,sigmf&gt;</code></td>
+<td><code>export_scenario</code>, <code>export_formats</code></td>
+<td><code>export_scenario</code>, <code>export_formats</code></td>
+<td><code>export_interop</code>, <code>list_export_formats</code></td>
+<td><code>/kshana-run</code></td>
+<td>Export Scenario</td>
+<td></td>
+<td>Files come back as text (<code>utf-8</code>) or base64 (the SigMF samples)</td>
+</tr>
+<tr>
+<td><code>--import-route</code></td>
+<td><code>import_route</code></td>
+<td><code>import_route</code></td>
+<td><code>import_route</code></td>
+<td><code>/kshana-import-route</code></td>
+<td>Import Route</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>--animate &lt;svg,html,frames&gt;</code></td>
+<td><code>animate_scenario</code></td>
+<td><code>animate_scenario</code></td>
+<td><code>animate_scenario</code></td>
+<td><code>/kshana-run</code></td>
+<td>Animate Scenario</td>
+<td></td>
+<td>At most 120 frames per call; longer sequences use the CLI</td>
+</tr>
+<tr>
+<td><code>kinds [--json]</code></td>
+<td><code>scenario_kinds</code>, <code>list_kinds</code></td>
+<td><code>list_kinds</code></td>
+<td><code>list_scenario_kinds</code></td>
+<td><code>/kshana-run</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>example [&lt;name&gt;]</code></td>
+<td><code>list_examples</code>, <code>get_example</code></td>
+<td><code>list_examples</code>, <code>get_example</code></td>
+<td><code>list_example_scenarios</code>, <code>get_example_scenario</code></td>
+<td><code>/kshana-run</code></td>
+<td>Insert Example Scenario</td>
+<td></td>
+<td>The <code>python</code> and <code>wasm</code> features compile the example text in (about 0.7 MB)</td>
+</tr>
+<tr>
+<td><code>receiver-trust &lt;scenario.toml&gt;</code> (batch)</td>
+<td><code>receiver_trust</code>, <code>assess_vessel_log</code></td>
+<td><code>receiver_trust</code>, <code>assess_vessel_log</code></td>
+<td><code>assess_receiver_log</code>, <code>assess_vessel_log</code></td>
+<td><code>/kshana-assess-receiver</code></td>
+<td>Assess Receiver Trust</td>
+<td><code>vessel-trust-and-training</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>receiver-trust live</code></td>
+<td>excerpt: <code>receiver_trust_replay</code></td>
+<td>excerpt: <code>receiver_trust_replay</code></td>
+<td>excerpt: <code>assess_vessel_stream</code></td>
+<td>excerpt</td>
+<td>CLI only</td>
+<td></td>
+<td>A running process; the excerpt has no socket and no gate (N/A above)</td>
+</tr>
+<tr>
+<td><code>trust-telemetry</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>how-to</td>
+<td>N/A</td>
+<td></td>
+<td>A process (N/A above)</td>
+</tr>
+<tr>
+<td><code>receiver-trust evidence</code> (create a pack)</td>
+<td><code>evidence_create</code></td>
+<td>N/A</td>
+<td><code>create_evidence_pack</code></td>
+<td><code>/kshana-evidence-pack</code></td>
+<td>Create Evidence Pack</td>
+<td><code>vessel-trust-and-training</code></td>
+<td>No signing key in a browser</td>
+</tr>
+<tr>
+<td><code>evidence verify</code></td>
+<td><code>evidence_verify</code></td>
+<td><code>evidence_verify</code></td>
+<td><code>verify_evidence_pack</code></td>
+<td><code>/kshana-evidence-pack</code></td>
+<td>Verify Evidence Pack (pinned key only)</td>
+<td><code>vessel-trust-and-training</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>evidence keygen</code></td>
+<td><code>evidence_keygen</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>CLI only</td>
+<td></td>
+<td>Python returns the key in memory with a warning; a private key should not pass through a conversation or a page</td>
+</tr>
+<tr>
+<td><code>evidence attach-timestamp</code></td>
+<td><code>evidence_attach_timestamp</code></td>
+<td><code>evidence_attach_timestamp</code></td>
+<td><code>attach_evidence_timestamp</code></td>
+<td><code>/kshana-evidence-pack</code></td>
+<td>Attach Timestamp</td>
+<td></td>
+<td>Token as bytes or base64, updated pack returned in memory; the authority&#39;s signature is not checked (<code>openssl ts -verify</code>)</td>
+</tr>
+<tr>
+<td><code>nmea-scenario &lt;scenario.toml&gt;</code></td>
+<td><code>nmea_training</code></td>
+<td><code>nmea_training</code></td>
+<td><code>generate_training_nmea</code></td>
+<td><code>/kshana-training-scenario</code></td>
+<td>Generate Training NMEA</td>
+<td><code>vessel-trust-and-training</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>nmea-scenario --tcp/--udp</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>CLI only</td>
+<td></td>
+<td>Sends to an address (N/A above)</td>
+</tr>
+<tr>
+<td><code>interference-map adsb|ais</code> (CSV)</td>
+<td><code>interference_map</code></td>
+<td><code>interference_map</code></td>
+<td><code>build_interference_map</code></td>
+<td><code>/kshana-interference-map</code></td>
+<td>Build Interference Map</td>
+<td><code>interference-map-route-exposure</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>interference-map adsb</code> (trace directory)</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>CLI only</td>
+<td></td>
+<td>Reads a directory (N/A above)</td>
+</tr>
+<tr>
+<td><code>interference-map fetch-land</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>CLI only</td>
+<td></td>
+<td>Network access (N/A above)</td>
+</tr>
+<tr>
+<td><code>route-exposure</code></td>
+<td><code>route_exposure</code></td>
+<td><code>route_exposure</code></td>
+<td><code>route_exposure</code></td>
+<td><code>/kshana-interference-map</code></td>
+<td>Route Exposure</td>
+<td><code>interference-map-route-exposure</code></td>
+<td></td>
+</tr>
+<tr>
+<td><code>bench-export</code></td>
+<td><code>bench_export</code></td>
+<td><code>bench_export</code></td>
+<td><code>export_test_bench</code></td>
+<td><code>/kshana-bench-export</code></td>
+<td>Export Test-Bench Files</td>
+<td></td>
+<td>Returns text, writes nothing; no signal</td>
+</tr>
+<tr>
+<td><code>compliance-report</code></td>
+<td><code>compliance_report</code></td>
+<td><code>compliance_report</code></td>
+<td><code>compliance_report</code></td>
+<td><code>/kshana-compliance-report</code></td>
+<td>Build Compliance Report</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>compliance-report --mapping</code>, <code>--sources</code></td>
+<td><code>compliance_mapping</code></td>
+<td><code>compliance_mapping</code></td>
+<td><code>compliance_mapping</code></td>
+<td><code>/kshana-compliance-report</code></td>
+<td>Show Compliance Mapping</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq scene</code></td>
+<td><code>iq_scene</code>, <code>iq_scene_broadcast</code></td>
+<td>N/A</td>
+<td><code>iq_scene</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td>Samples are files</td>
+</tr>
+<tr>
+<td><code>iq acquire</code></td>
+<td><code>iq_acquire</code>, <code>iq_acq_surface</code></td>
+<td>N/A</td>
+<td><code>iq_acquire</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq track</code></td>
+<td><code>iq_track</code>, <code>iq_loop_designs</code></td>
+<td>N/A</td>
+<td><code>iq_track</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq sweep</code></td>
+<td><code>iq_sweep</code></td>
+<td>N/A</td>
+<td><code>iq_sweep</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq labfit</code></td>
+<td><code>iq_labfit</code></td>
+<td>N/A</td>
+<td><code>iq_labfit</code> (logs inline, no files)</td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq frontend</code></td>
+<td><code>iq_frontend</code></td>
+<td>N/A</td>
+<td><code>iq_frontend</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq monitor</code></td>
+<td><code>iq_monitor</code></td>
+<td>N/A</td>
+<td><code>iq_monitor</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq campaign</code>, <code>iq campaign report</code></td>
+<td><code>iq_campaign</code>, <code>iq_campaign_report</code></td>
+<td>N/A</td>
+<td><code>iq_campaign</code>, <code>iq_campaign_status</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq conditions</code></td>
+<td><code>iq_test_conditions</code></td>
+<td>N/A</td>
+<td><code>iq_test_conditions</code> (text, inline)</td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+<tr>
+<td><code>iq inventory</code>, <code>info</code></td>
+<td><code>iq_inventory</code>, <code>iq_info</code></td>
+<td>N/A</td>
+<td><code>iq_info</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td>Inventory of a folder is Python and CLI; the MCP server reads one work directory</td>
+</tr>
+<tr>
+<td><code>iq extract</code>, <code>convert</code>, <code>decimate</code></td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>N/A</td>
+<td>CLI only</td>
+<td></td>
+<td>They rewrite recordings on disk (N/A above)</td>
+</tr>
+<tr>
+<td>the signal list (<code>iq --help</code>)</td>
+<td><code>iq_signals</code></td>
+<td>N/A</td>
+<td><code>iq_signals</code></td>
+<td><code>/kshana-iq</code></td>
+<td>CLI only</td>
+<td></td>
+<td></td>
+</tr>
+</tbody></table></div>
+<h2 id="limits-that-differ-by-surface">Limits that differ by surface<a class="anchor" href="#limits-that-differ-by-surface" aria-label="Link to this section">#</a></h2>
+<div class="tbl"><table><thead><tr>
+<th>Surface</th>
+<th>Input limit</th>
+<th>Files</th>
+</tr>
+</thead><tbody><tr>
+<td>MCP</td>
+<td>4 MiB per text input (2 MiB and 20,000 epochs for a stream excerpt); replies carry at most 2000 NMEA lines, 200 non-nominal epoch lines and 4 MiB of GeoJSON or pack files</td>
+<td>inline content only: a scenario field that names a file is refused; the <code>iq_*</code> tools use one opt-in work directory, with every path confined to it</td>
+</tr>
+<tr>
+<td>Python, Rust</td>
+<td>64 MiB per text input</td>
+<td><code>receiver_trust</code> may name a <code>path</code> the process can read</td>
+</tr>
+<tr>
+<td>WASM</td>
+<td>64 MiB per text input, inside the browser&#39;s own memory</td>
+<td>none: the browser has no file system, nothing is uploaded</td>
+</tr>
+</tbody></table></div>
+<h2 id="evidence-tiers-and-caveats-on-every-surface">Evidence tiers and caveats on every surface<a class="anchor" href="#evidence-tiers-and-caveats-on-every-surface" aria-label="Link to this section">#</a></h2>
+<ul>
+<li>An evidence pack is a <strong>technical record</strong> of what the engine computed from a log under stated
+settings, with every hash and a signature over them. It is not a legal opinion, a finding of
+fact about any event or a certification. A pass of verify says the record is unchanged; with no
+trusted public key it proves only integrity against the key the pack names itself.</li>
+<li>The receiver-trust monitors and the trust score are <strong>MODELLED</strong>: thresholds are stated
+inputs and nothing asserts how they perform against real interference. The output is
+<strong>advisory</strong>; Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and
+the operator remains responsible. A high score is not proof of a genuine fix.</li>
+<li>The interference map is <strong>MODELLED</strong> (pre-registered thresholds, not validated against a
+ground-truth measurement). A degraded cell does not identify interference as the cause; a
+cell not observed is not evidence of a clear route; it describes past reports and is not a
+forecast. It is aggregate only: no identifier is returned.</li>
+<li>Training NMEA is <strong>text only</strong>: no RF, IQ or waveform is synthesised, nothing is transmitted,
+and it is never for a vessel&#39;s live navigation systems.</li>
+</ul>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/agents"><small>Previous</small>Using Kshana from an agent</a><a class="next" href="/docs/jetbrains"><small>Next</small>JetBrains plugin</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#why-the-na-cells-are-na">Why the N/A cells are N/A</a><a class="l2" href="#every-command-line-subcommand-and-who-covers-it">Every command-line subcommand, and who covers it</a><a class="l2" href="#limits-that-differ-by-surface">Limits that differ by surface</a><a class="l2" href="#evidence-tiers-and-caveats-on-every-surface">Evidence tiers and caveats on every surface</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.35.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.35.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.35.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

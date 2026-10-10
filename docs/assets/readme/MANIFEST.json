@@ -3,10 +3,10 @@
   "engine_version": "0.35.0",
   "scenario_kinds": 75,
   "matrix": {
-    "validated": 124,
-    "modelled": 130,
+    "validated": 130,
+    "modelled": 126,
     "partner_owned": 4,
-    "total": 258
+    "total": 260
   },
   "assets": {
     "kshana-mark": {
@@ -202,6 +202,64 @@
       "drawn_from": [
         {
           "source": "export.arxiv.org/api/query (titles, dates, categories, 2026-09-30)"
+        }
+      ]
+    },
+    "trust-timeline": {
+      "files": [
+        "trust-timeline-light.svg",
+        "trust-timeline-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "kshana receiver-trust examples/maritime-trust/session.toml"
+        }
+      ],
+      "input_files": {
+        "examples/maritime-trust/session.toml": "042a29d529e99d3bb61c727d9bc5e265124849b89873a217b709d0f4cbd4040d",
+        "examples/maritime-trust/tallinn-helsinki.nmea": "008462359dbed742a84445c1585aa465827709ff146d92d4f6069901df82efe0",
+        "examples/maritime-trust/tallinn-helsinki.truth.csv": "6c10104f5c4c22351ec6d44d29269306c9eb2129c62dcf4930d79c370efb7871"
+      }
+    },
+    "interference-map": {
+      "files": [
+        "interference-map-light.svg",
+        "interference-map-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "kshana route-exposure examples/interference-map (two sample days, two synthetic routes)"
+        }
+      ],
+      "input_files": {
+        "examples/interference-map/output/adsb-custom-2026-03-01.geojson": "354dbb943b39be904f40525d51c0432233ff7301af28ed70e1157ee4aec3805e",
+        "examples/interference-map/input/route-adsb.geojson": "563bbb1386f74514140ae40a33a3b67496bb943064c377e6ca7a5dc335807980",
+        "examples/interference-map/output/ais-custom-2026-03-01.geojson": "0f870dec322bf70a5a1e79a2242cdefa95ebeda7aea9ea5894d70824aa8bd97b",
+        "examples/interference-map/input/route-ais.geojson": "ab6d8a1fdfe5098d0dbf47a9a3a99acdddc0f63933c7ee15172e421932f0603c"
+      }
+    },
+    "training-track": {
+      "files": [
+        "training-track-light.svg",
+        "training-track-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "kshana nmea-scenario scenarios/training/coastal-drag-off.toml"
+        }
+      ],
+      "input_files": {
+        "scenarios/training/coastal-drag-off.toml": "2e0b44b3e868a170e101485f91ae4334bca036d4f83ba45b305044df433e3e85"
+      }
+    },
+    "evidence-pack": {
+      "files": [
+        "evidence-pack-light.svg",
+        "evidence-pack-dark.svg"
+      ],
+      "drawn_from": [
+        {
+          "source": "docs/EVIDENCE-PACKS.md, section 'What is in a pack': log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig, timestamp.tsr"
         }
       ]
     }

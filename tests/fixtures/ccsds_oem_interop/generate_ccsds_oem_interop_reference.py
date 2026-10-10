@@ -3,7 +3,7 @@
 """Generate external-oracle reference vectors for kshana's general (Earth/EME2000)
 CCSDS OEM export — and an import-direction cross-check on a vendored external OEM.
 
-The oracle is **oem** (Brad Sease <bradsease@gmail.com>, MIT) — an independent,
+The oracle is **oem** (MIT, https://pypi.org/project/oem/) — an independent,
 third-party, astropy-backed implementation of the CCSDS 502.0-B Orbit Ephemeris
 Message standard (https://pypi.org/project/oem/). It is a *completely separate
 codebase* from kshana's `src/oem.rs`: its own KVN tokenizer, its own
@@ -62,7 +62,7 @@ Reproduce (offline, no kshana code involved):
     /tmp/oemvenv/bin/python generate_ccsds_oem_interop_reference.py \
         > ccsds_oem_interop_reference.txt
 
-Generated with the oem library (Brad Sease, MIT) + astropy + numpy.
+Generated with the oem library (MIT, https://pypi.org/project/oem/) + astropy + numpy.
 """
 
 import os
@@ -88,7 +88,7 @@ COMBOS = [
 
 def main():
     print("# External-oracle reference for kshana's general (EME2000) CCSDS OEM export.")
-    print("# Oracle: the oem library (Brad Sease <bradsease@gmail.com>, MIT) + astropy + numpy.")
+    print("# Oracle: the oem library (MIT, https://pypi.org/project/oem/) + astropy + numpy.")
     print("# Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.")
     print("# Consumed by tests/ccsds_oem_interop_reference.rs.")
     print("# See generate_ccsds_oem_interop_reference.py for provenance/scope/findings.")

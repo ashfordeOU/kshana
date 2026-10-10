@@ -27,7 +27,7 @@ test('default (band mode): warn on degraded, alarm on untrusted', () => {
   assert.deepStrictEqual(n.map((v) => v.value.state), ['warn', 'alarm'])
   assert.deepStrictEqual(n[1].value.method, ['visual', 'sound'])
   assert.match(n[1].value.message, /untrusted/)
-  assert.match(n[1].value.message, /Advisory only/)
+  assert.match(n[1].value.message, /Advisory, not type-approved navigation equipment/)
 })
 
 test('raiseAfterEpochs delays the alarm; clearAfterEpochs holds it', () => {

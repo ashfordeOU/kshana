@@ -1,0 +1,481 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>NMEA training streams: kshana nmea-scenario · Kshana docs</title>
+<meta name="description" content="Maritime academies and simulator centres can feed Kshana-generated NMEA 0183 into a bridge simulator or a chart plotter to train crews to recognise GNSS…">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#E8ECF3" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#060A14" media="(prefers-color-scheme: dark)">
+<link rel="apple-touch-icon" href="../assets/brand/apple-touch-icon.png">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' xmlns:xlink='http://www.w3.org/1999/xlink' viewBox='0 0 64 64'%3E%3Cstyle%3E.d%7Bdisplay:none%7D%40media (prefers-color-scheme:dark)%7B.l%7Bdisplay:none%7D.d%7Bdisplay:inline%7D%7D%3C/style%3E%3Cimage class='l' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMFElEQVR42qWbaaxdVRXHf3vf84Y%2BqC1tqS2UFCwUAko1UqMgEhIcMEoc0DgkDkiiET6oERFwilMCipioifBBgyZqFNREFA1OiaLEOiGKRAaFliqTrS2P17737tl%2B4L/rYncP5%2BFNTu65555hr3mt/1rHzazaTOPj9B0K/wV9x/3A8E/r3hT%2Bd4Vj6bk%2BWZNL9vGFB7vkWMj8nzsnmOOucu90sU5r8cnCa0yprTd%2B%2BgIdznKIBrGh8oBQOZZjRkqwZZyVVF94Rnpvl7lHjiEuw7AA0A3gssuoel9Qx9y%2BGyAZKqZTMpMhgqldCxD8gIvjgl2yn5Nqbj9ng88FTh6g1qHgV1xFYOm5vsAkDzhf4WBOlUPFCYUBdhmfdypwSsMMQ8Peo59IBeKAkb4ngMMisRmTYTSxbLUb4GiG/u8KzPEJcf8E7gT2JOf7RhRxA6NCEBM2AWcAfwf2527YLdEWW2EuFJiQmtVRwCKwo%2BJL0numpuQK2uKBGWANcBnwCmAa%2BAHwoJ57wJd1FZVeSqwOhf0SYSNg0iykyxDTVzSq5Ejt%2BT0wC9wNPALM5QTZZcKVK/iAGpN8wQ%2Bk%2B/F7NfCYzh9XNGpkiClJP13HWN/PB64E1gK/B/blaOgaHjunYi2vm2NWDJ0L%2Bh1V8SRFhLHOmZN/2A7co3MwTqzPJFyWWWPgSOB84MvAfcBDhviDaIhOMOe1fUXlS%2BoeCils0P3WaaHH6rwdIniXtmXACcDpwNnan9c5wXj3VEidiD8ReD9wtRxfJ%2BcXSg7TmVrAVZKIIWHQHveSVgcsB46QZAJwB/Bx2ec7K%2Bp/uLTjDN3v%2B8BPEmnHkLcIbAU%2BIgbcZtbga4mbG1AMLaWwsUw5WhKfBh6VROakjlu0qD8l/sMV0uETgVfpXl%2BSeVjizwI%2BDbxODO6Mty8JEcB1hZQ1JMfDAK8f9OBJ4FkiYDuwWwyIqtoD66Xaltj0Gd7kBbdr2wq8BfgF8HP5lNeI%2BJclxOfM8CBt7yoqPsSureSn5XFPkITubiQ4LXMKGSe4Dfgd8FpghWL8Z%2BUzbjO%2BYEhJfUADaBQMrTohyHkdJTvfJoeWS1ZS6VJzUMmxXioP8A3gA8CHgWcCf8lIvpZSH6DDDyQ%2BVBa2TCq9DrjFEB8KdUVkwKiQ47tKhhnzhiuBj8nmNyc%2BI6e9xYjmB%2Bb/pbR3QoRvBH4tJ%2BcKBLskxI4G1hkhqUQ/D7wHeClwvfzNeYmGDMkaswtzSyyKDpXa32zUr5RZpgzJaVifATW8OfY14ALg5cCNcrgfBV4CvMCExhoQ8oRn%2Bga44DIwljNq9XTgD8aju4L6t2p6KslYLwd7HfB64FzgBmlfL8Z/EvigzHEotJf1zqEARqQE9HI%2B9ymu%2B0oqXZNAqZawydQK4LvAK4E3SO0nFAIXtf9H4Fbg4sQUQiFqkTpB1/DEqdSO1IMekdrV6nOXASR8ZpEhk9evlaq/GHgb8HVDfPws6n6fkWlsMDYfKlVtERXuG8RHxzenBMcnmpODxlJvPGEYMJEwJxK/EbgJeB5woTLAkYh3maRpJ/Ar4B2mbmiV88Fnyl/fyPFXaNF/TQDSUIjpXudPaYtET%2Bi/eHykY2MhOT8Sbngh8AVj8yWQ1QHXyiEeYhxiqAGnfkAiYm0yquXeDIdz1WInBzYpAmbkqCa1P2V%2BP0XSPUlFz/HAe0X8qJLeWlzwt/JJp5s116KY9wNzgMiYFVrov43th0rY7LRNSSrLRPihYsyMtuXCB0%2BT5Dcq1l9ptCJUsABrXtuAMxtRLDKv94V8gALgEI8/PACbmxDxE4bwGaG0a8SQFfq9qMTme3KwFwNXZSSfC8fps3%2BqoikHq6VMcD4TKkroT6%2B6flXB2aWLGZnqcFoEr5YDXS7i1%2Buac5TkHAZcAlwhZvUNGw5GePG8O4GV5noy5hBsNUgD5UmZsNPgbiVm%2BYT45TKdNTpvrX6vBp4NXKrzPyQ0Z60Ak1FGKKHSd3DAvdKaDcDfjO8KmQSLrtIMKTnCfQ0gE/0fuT8p5zaSKWwRYDkr1Ods3fMS4Cti2H8UZsOT6EnOCQZbmcEaDrq%2ByxA4MhLstD8polYp7T3axPLOXGND3rS2qI5HybmdITtHnr6X7f9LoMZubfMiZEHnjJNtUdvYMLw3/mqlGB7LZItAR41wXSGERc89YUJYJCp69N6EuciEkbl2ShKOTFgtJqzLSG9CQKkXI9aI%2BFlD4H4xJabAC0Yb5w0TYl0SzS/SNE5CZoiNkTT3n9c2W4gK80J7Wp9J2f6MbHqVGLBTah%2BAfyjZOUsx/GrjX3b9H/jkgtL05j26JQwhkKSuvjItYrVluek/LEjdpyXF74gpF6iiO0XI7j26Lko6DLB/C9BMKVeptemwnaHW%2BEv8f4%2Bkae3KVXA%2BJ03qje2N1RjZJXW/VyDnWwVsbAVerYRmslBs1TpTh8sUdzacerV3XsIIZhW%2BukIOYKNArNRm1QbbLbV8UIzco4bHvI5dJCZMA78B3m7s2Tc008b5TWLu3oQ%2Bt1QG5BgyqxvNFKo9O0Eyb5zWPl27V62qB7TI3VLVOd3zWkFcNwJfVIk7SjI6V%2BlWOTVT/pzQ50r5g2/cLEV0x1rwdCZ/SHsJYxG/IEbMSRP2alvQd9SQWdnv/UqL3we8W7XBcgN0hELuEk3lVNNB6luAb2tCJFW/XhI81pS2roAlBMOAfQpj8XtRWEIkfl7f%2B83zPgW8EHiGurubdF1X0IZeecYK%2BZTawJfLIUIlCKtPsIIHRNQhjbmASMiiCIxmEAzBYx3fl8TyGG1%2BrDD5kJhwsoHBchjGeeoY7S1oy0G%2Bw1e6PVTUbQdwjFlIqU63v8emsps3hC4WGhoxfX5A9f31YsKZuj7NYqdUTl%2BbADWuMFZXhcVzdb79b6cqt/WZerw02mI9dT8gtDnT3Q2S7mWy73OMJkSk6HxBYnclMB1DfYBrTIOm0rxdOf2ogSSViqVcCe4zDOxNeX058Gbgm8AbjY85AniRMARXGLQMrWKoHzD5YY9FLdiqrpBPYnIotL1Lrbac%2BfXJ/iTwVeUP15hw%2Bhx1jHZl5gFKWncAEgsDZnBdQUvu0f5xpjiiQLwrSMMP6OJavxCd47lqjl6hOuOmDEIdEka6EiRWcn6tenxObenD1CVayJhVSLpJNRg%2BNDpHGEZH4h4DnpZp9NRadAfWlhuUzCVFoXDMK3bvlx2ulWmU/EhUzxPkxO40md4QYNaZuv9Eo3G7dOzuwv2KeGdXKXxcwZvnmPCwCDpOTcptJq57Q7gNfaEyYttnzM3rukngXUqjL9X/pylMnq1e5cjUI77ic5wf2LujMJpuJbtb5rBdqM9Gk8KmUxsTA2b8rdnEJugpPD4RcpecYMQdb%2Bbx0ZnrhAWODYrd1ybNu8JUtjNg4lLeztinhuku%2BYT1Ona/St/4jEf539wQhQzSOq91wJt0v8%2BpKzUyzJ0EfqgO8beULO0v2b097mZWbc6NkdVmg2qDDD6BnI5RE%2BRw09C8QwVLEDhSm0HeLJxwE/AzSTgdkwsmdV6QeWxVnmBnhkKuPzB0TK42REXDb0Ss8KmKFrslqQeV2UViOmENG1QAxYLrFs0D9A21xgA1V8kvfaIwO0SNAa4yBucqLyW5Ss8/XewWha8FEevFIGcAkttkTiQjdqHhp6IWXgN8W9iCzzjWkIsCpcSolBfUwk2fAV9ie3ujnn2D8IU4y7%2B/MCwdElWumWFk0kXqLd6q0Jx9L8EXpjPDgHhcwxBCobCx948w916TS2BMxmWaork154a0Y1S6XICrLwgniweEAa/BhIGpsiuYz9jA7qPk3HEDCA2FdaXvGozUGvulqsc%2B9%2BpMrb8XBjx8yHBl7r/7TYe5r2hOzcGWSndvmDySDzhEZtfn5gTdwBw8VCRN5UXK3Ls8qxQeHUt7NykMQIf7xOwcjw9ZbVKoLE6I1KQw5EWJ1psi1kMfrxi/lJcyQ%2BUt1VbWOqsUeSo9t/a%2BwFLH42k0V6wGjJ/EvWpNm1ZzppQIBd8YhK5FgNBwfKV54XEyLO0KpevQ94MZMKqTY1KgULu3HthSzSHmkJtFKFWdtcmV1subzbHfVufELUFNSxOmbgBzfAFUrYG2ruGb%2BsL7hk9Y738BiK3K27ls0kUAAAAASUVORK5CYII='/%3E%3Cimage class='d' width='64' height='64' href='data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAEAAAABACAYAAACqaXHeAAAMDUlEQVR42qWbaaxeVRWGn32%2Bcwc6UNrS0kJJwTIYUKqRGgSREHGMEgc0DokDkmiEH2pERJzilAAiJmoi/NBUEzVKlShaDU6JoERURBSJQBVKKy1Dr5TLHb%2Bz/dF3Xxe7ezi33uTkO/eMe81rvWsdt3fCU/lz%2BvWZc16/Yb/6wEU8m8x5lzkWX9tEa3LRPk3mxS465hPnU9d4c9wVnh0v1mktTbTwElNK6w1/XYYOZzlEhVhfeIEvHEsxIybYMs5Kqsu8I362SzwjxRCXYJgHaHtw2SVUvcuoY2rf9ZAMBdPJmUkfwZTuBfBNj5vDgl20n5Jqaj9lg2cAp/VQa5/xK64gsPjaJsOkBnBNgYMpVfYFJ%2BR72GV435nA6RUz9BV7D34iFogDBvodAVYGYhMmQ5sgJpYehfM5de0ShFuivg/MZ7x21yN61HzPUEw4HtgC/BB4InV9u0hbrIW5OCTmzOpYMeChgi%2BJnxmbkstoSwMsAY4ErgBeA4wDPwH26r0LvqxdhFR95ZzLOKcUYQNg1CykTRDTZZhZcqT2%2Bg6YBO4HHgOmUoJsE%2BHKZXxAiUlNxlTi/fC7GnjKqGvub2CIyUk/XsdQvy8ErgHWAn8CplM0tBWPnVKxmtd1Gb/SAXP6P6jiqYoIQ10zBfwb2AnsMH6iMc/wmRA40HOOAS4Cvg48CDxiiD%2BIBrd3wudSzqZAvMssxBdS2AY4SpI/S4u6B1gKLAPGgPXARkltVAT8BrgjoRF2Ha2YdQrwPuBq4F4d7wp5C87UAq6QRPQJg/Z48OYtsBw4WpLxIvozss/3FtR/jbTjHD3vx8AvImmHkDcvb/9J4MPAXWYNTSlxcz2KocUUNvZhxwHr5IGfBP4pFZ8GNmtRf4n8h8ukw6cAr9OzvibzsMSfB3weeJMY3BpvnxMigGszKauPjvseXj%2Bo4ijwXBGwE5gQAzAquR6YjYiN39EYM7xb2xbgHTKLX8unvEHEvyoinkouA%2BDbgorX7Do2h3HZ7jMlofvNNU0hc3SFxCZ2grcDfwTeCKxQjP8icLbUvo2iiqvkN64tXOB71gkeOEzJzTFa5L5MshJLt0%2BWaeP6QMe%2BA3wU%2BATwHOBvCcmXUuoFOpqexPvCwg6TSq8DbjPE%2B0xdERgwyOT4rpBhhrzhGuDTsvmTIp%2BR0t4c7rFwwh2C0/MqNtYpdP1OTs5lCHZRSBz0BDx8VGN8GfgA8Epgm/zNhZGG9MkakwtzlcXEi10mtb81Km5cJinymQrQRxlfqupzwLeAi4FXA9vlcD8FvBx4kQmNJSDkae9sKuCCS8BYzqjVs5SkzGZSZt%2Bzps%2BV0CGGjwM3AG8GLgBukvZ1YvzngI/JHPtCe0nv7DNgRExAJ%2BfzoOJ6U0ilSxLI1RI2mVoB3Ai8FniL1H5EIXBe%2B38G7gQui0zBZ6IWsRN0i6z3j9GLHpPalVBblwAkmsQifSKvXytVfxnwLuDbhvjwN6/nfUGmscHYvC9UtVlUuKsQHxzflBKcJtKcFDQWe%2BMRw4CRiDmB%2BI3AzcALgEuUAQ5EvEskTbuB3wLv0fsGPcp53yTK36aS46/Qov8eAaQ%2BE9MbXT%2BmLRA9onPh%2BEDHhsAm4GfCDS8BvmJsPgeyOmCrHOJS4xB9CVVqesJd3tTaa4H9CQ6n6v5WDmxUBCyRoxrV/pj5/3BJ91QVPScDHxTxg0J6a3HBP8gnnW3WXIpiTdMzBwiMWaGFPm5s3xfCZqttTFI5TIQvE2OWaFsuzO4sSX6jYv01Rit8AQuw5nU7cG4ligXmdU0mHyADOITjj/bA5kZE/IghfIlQ2iPFkBX6f16JzY/kYC8Drk1IPhWO43f/UkVTClaLmeCaRKjIoT%2Bd6vpVGWcXL2ZgqsNxEbxaDnS5iF%2Bve85XkrMSuBy4SszqKjbsjfDCdfcCR5j7SZiDt9VgCeBMMWG3wd1yzGoi4pfLdI7UdWv1/2rgecBHdP3Hget0ftIgQLlcJWWqD0hrNgD/ML4rCb%2B3hWZIzhFOV4BMdD5wf1TObSBT2CzAclKozyv0zMuBb4hh/1GY9YfQF5gCZqQFZLTIWycVEzgwEmy1PyqiVintPc7E8tbcY0PeuLagjsfKuZ0jO0eevpPtPyxQY0LbrAiZ0zXDaJvXNjQM74y/OkIMD2WyRaCDRrg2E8KC5x4xISwQFTx6Z8JcYMLA3DsmCQcmrBYT1iWkNwKcIAY%2BLFOZkZYEAmfElJACzxltnDVMCHVJML9A0zAKmT40RuLcf1bbZCYqzArtqf2NyvaXyKZXiQG7pfYe%2BJeSnfMUw68z/mXf/4FPzilNrz6jXcQQAlHq2hSmRay2LDf9hzmp%2B7ik%2BAMx5WJVdKcL2d2h%2B4KkfQ/7twDNmHKVUpsO2xmqjb%2BE809ImtauXAHnc9KkztjeUI2RfVL3BwRyvlPAxhbg9UpoRjPFVqkztUamuLvi1Iu98xxGMKnw1WZyABsFQqU2qWbIhNRyrxj5hLpAszp2qZgwDvweeLex56aimTbObxJz90f0ucUyIMWQST1oSabasxMks8ZpTeve/WpV7dEiJ6SqU3rmVkFc24GvqsQdRBldLmMN584A/hrR53L5Q1N5WIzoDrXg8UT%2BEPcShiJ%2BToyYkibs1zan36Ahk7LfXUqLPwS8X7XBcgN0%2BEzuEkzlTNNB6mqAb21CJFa/ThI8wZS2LoMleMOAaYWx8DsvLCEQP6vfGfO%2Bq4GXAM9Wd3eT7msz2tApz1ghn1Ia%2BHIpRCgHYXURVrBHRC2tzAUEQuZFYDADbwge6vh0FMtDtPm5wuQjYsJpBgZLYRgXqmO0P6MtB/mOptDtoaBuD3Fg/GSkMMbmE2Mr8yaX6IyjTDU0Qvq8R/X9NjHhXN0fZ7FjKqe3RkCNy4zVFWHxVJ1vz%2B1W5bY%2BUY/nRlusp%2B56hDZnurte0r1C9n2%2B0YSAFF0kSOy%2BCKajrw9wlWnQWJp3K6cfVJCkXLGUKsGbBAM7U15fCbwd%2BC7wVuNjjgZeKgzBZQYtfa0Y6npMfthjQQu2qCvURDHZZ9reuVZbyvy6aH8U%2BKbyh%2BtNOH2%2BOkb7EvMAOa1bgMR8jxlcl9GSHdo/0RRHZIh3GWk0Pbq41i8E53iBmqNXqc64OYFQ%2B8RESRISyzm/Wj0%2Bpbb0SnWJ5hJm5aNuUgmG95XOEYbRgbingGckGj2lFt3C2vpw31Ug7yelCYcL3ekKQ9EUxmf7ToqGaLISuEVm8DjwYh0fFCC%2Bg8J1Wyh8XMabuwQTHtXLT1ST8nYT1xtjlzb0%2BcKIbZcwt0b3jXJgEGpCUBoKf9tUZt9hmiu5Ya8FupqevTsyo%2BnWjidkDjuF%2Bmw0KWw8tTHSY8bfmk1ogp7OgYmQ%2B%2BQEA%2B54KwdGZ24QFjg0KHZX0oI2M5XtDJi4mK8zptUw3SefsF7Hdqn0De94kv/NDZHJIK3zWge8Tc/7krpSA8PcUeCn6hB/T8nSTGEOeuG42zvhU2NktZk/VwBNLeR0vJoga0xD8x4VLF7gSGkG%2BSThhJuAX0nC8ZicN6nznMxji/IEOzPkU/2BvmNypSEqKn4jYIVHyXFNSFJ7ldkFYlo50g0qgELBdZvmAbqKWmOAmmvllz6bmR2ixABXGINzhWlSV%2Bj5xy/ZrPA1J2LDFKkzAMldMieiETtf8VNBC6/nwFj%2B9kgzk%2BPyLsrgXGEWv9RKd4VzjWlvb9S7b1IIm9E1M5lhaR%2BpcskMA5MuVW/xTmWtLjW212SmM33FHFwFQ/CZwsY%2BP8Dc%2B7U/Y4geRFC2TwxclYa0Q1S6UoBrkxFOEg/wPT6D8T1TZZcxn6GB3QfRtcMKEOoz64q/NRioNXaLqscu9elMqb/ne7y8z3Bl6twu02HuCppTcrC50r0xTB7IByyV2XWpOUHXMwf3BUlT%2BJAyZthAxcuyymyC64lU5ypIm1HeqFA6UpoQKUmhz4cStS9FrIc%2BWTF%2BMR9l%2BsJXqrWsdVIp8lh8bel7gcWOx1NprlgNGB7Cs0pNm1pzJpcI%2BaYyCF2KAL7i%2BHLzwsNoWNplSte%2B3wfTY1QnxSRPpnavvbCmmn3MITWL4Cuf4vien9Muauy31jlxi1DT3ISp68GcJgOqlkBbV/FNXeZ7w6et978oq/I35bE6mwAAAABJRU5ErkJggg=='/%3E%3C/svg%3E">
+<script>try{var t=localStorage.getItem('kshana-theme');if(t==='light'||t==='dark')document.documentElement.setAttribute('data-theme',t)}catch(e){}</script>
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link href="../fonts/noto-sans-devanagari.css" rel="stylesheet">
+<link rel="stylesheet" href="../tokens.css">
+<link rel="stylesheet" href="../theme.css">
+<link rel="stylesheet" href="../site.css">
+<link rel="stylesheet" href="../css/docs.css">
+<link rel="stylesheet" href="../css/light.css">
+<!-- seo:head -->
+<link rel="canonical" href="https://kshana.dev/docs/nmea-training">
+<meta property="og:type" content="website">
+<meta property="og:site_name" content="Kshana">
+<meta property="og:locale" content="en_GB">
+<meta property="og:url" content="https://kshana.dev/docs/nmea-training">
+<meta property="og:title" content="NMEA training streams: kshana nmea-scenario · Kshana docs">
+<meta property="og:description" content="Maritime academies and simulator centres can feed Kshana-generated NMEA 0183 into a bridge simulator or a chart plotter to train crews to recognise GNSS…">
+<meta property="og:image" content="https://kshana.dev/og-card.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="NMEA training streams: kshana nmea-scenario · Kshana docs">
+<meta name="twitter:description" content="Maritime academies and simulator centres can feed Kshana-generated NMEA 0183 into a bridge simulator or a chart plotter to train crews to recognise GNSS…">
+<meta name="twitter:image" content="https://kshana.dev/og-card.png">
+<meta name="twitter:image:alt" content="Kshana, a PNT (positioning, navigation and timing) resilience simulator. 130 of 260 capabilities validated against external oracles.">
+<script type="application/ld+json">{"@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [{"@type": "ListItem", "position": 1, "name": "Home", "item": "https://kshana.dev/"}, {"@type": "ListItem", "position": 2, "name": "Docs", "item": "https://kshana.dev/docs/"}, {"@type": "ListItem", "position": 3, "name": "NMEA training streams: kshana nmea-scenario", "item": "https://kshana.dev/docs/nmea-training"}]}</script>
+<!-- /seo:head -->
+</head>
+<body data-page="docs">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-copy" viewBox="0 0 16 16"><rect x="5" y="5" width="9" height="9" rx="2" fill="none" stroke="currentColor" stroke-width="1.4"/><path d="M11 5V3.5A1.5 1.5 0 0 0 9.5 2h-6A1.5 1.5 0 0 0 2 3.5v6A1.5 1.5 0 0 0 3.5 11H5" fill="none" stroke="currentColor" stroke-width="1.4"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9M8.5 4l4 4-4 4" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-play" viewBox="0 0 12 12"><path d="M3 1.5v9l7.5-4.5Z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 12 12"><path d="M3 1.5h2v9H3zM7 1.5h2v9H7z" fill="currentColor"/></symbol>
+  <symbol id="i-ext" viewBox="0 0 16 16"><path d="M9 3h4v4M13 3 7.5 8.5M12 9.5V13H3V4h3.5" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  <symbol id="i-moon" viewBox="0 0 24 24"><path d="M20 14.5A8 8 0 0 1 9.5 4a8 8 0 1 0 10.5 10.5Z" fill="none" stroke="currentColor" stroke-width="1.8"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></g></symbol>
+  <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-menu" viewBox="0 0 16 16"><path d="M2.5 4.5h11M2.5 8h11M2.5 11.5h11" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to content</a>
+<div class="bg-field" aria-hidden="true"></div>
+<header class="nav" id="nav">
+  <div class="nav-in">
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.35.0</small></a>
+    <nav class="nav-links" id="navLinks" aria-label="Primary">
+      <a href="/missions">Missions</a>
+      <a href="/capabilities">Capabilities</a>
+      <a href="/evidence">Evidence</a>
+      <a href="/evidence#research">Research</a>
+      <a href="/developers">Developers</a>
+      <a href="/docs/" aria-current="page">Docs</a>
+      <a href="/editions">Editions</a>
+    </nav>
+    <div class="nav-right">
+      <button class="k-btn" id="kbtn" type="button" aria-haspopup="dialog" aria-controls="palette"><svg width="14" height="14" aria-hidden="true"><use href="#i-search"/></svg><span class="lbl">Search</span><kbd class="kmod">⌘K</kbd></button>
+      <button class="icon-btn" id="themeBtn" type="button" aria-label="Switch between light and dark theme" title="Switch theme"><svg class="moon" aria-hidden="true"><use href="#i-moon"/></svg><svg class="sun" aria-hidden="true"><use href="#i-sun"/></svg></button>
+      <a class="pill" href="/studio/"><span class="pill-l">Launch&nbsp;</span>Kshana Studio</a>
+      <button class="icon-btn menu-btn" id="menuBtn" type="button" aria-label="Open the menu" aria-expanded="false" aria-controls="navLinks"><svg aria-hidden="true"><use href="#i-menu"/></svg></button>
+    </div>
+  </div>
+</header>
+
+<main id="main">
+<div class="docs docs-page">
+  <aside class="docs-side" aria-label="Documentation">
+    <div class="docs-search"><label class="vh" for="docsQ">Search the docs</label><input id="docsQ" type="search" placeholder="Search the docs" autocomplete="off" aria-keyshortcuts="/" role="combobox" aria-autocomplete="list" aria-expanded="false" aria-controls="docsR"><div class="docs-results" id="docsR" role="listbox" aria-label="Search results"></div><p class="vh" id="docsCount" aria-live="polite"></p></div>
+    <details class="docs-nav-d" open><summary>All docs pages</summary><nav class="docs-nav" aria-label="Docs pages"><div><h2>Get started</h2><a href="/docs/overview">Overview</a><a href="/docs/concepts">Concepts primer</a><a href="/docs/glossary">Glossary</a><a href="/docs/studio">Studio guide</a><a href="/docs/tutorials">Tutorials</a><a href="/docs/tutorial-first-orbit">1 · Your first orbit</a><a href="/docs/tutorial-clock-holdover">2 · Clock holdover</a><a href="/docs/tutorial-quantum-vs-classical">3 · Quantum against classical</a><a href="/docs/example-multi-tool">Worked example: multi-tool pipeline</a></div><div><h2>Scenarios</h2><a href="/docs/scenarios">Scenario kinds</a><a href="/docs/scenario-reference">Scenario reference</a><a href="/docs/schema">Result schema</a><a href="/docs/real-tle-guide">Using real TLEs</a><a href="/docs/campaigns">Campaigns</a></div><div><h2>Outputs and exports</h2><a href="/docs/reports">Run reports</a><a href="/docs/animation">Animation export</a><a href="/docs/interop">Interoperability exports and imports</a></div><div><h2>Validation and evidence</h2><a href="/docs/validation">Validation status</a><a href="/docs/verification-matrix">Verification matrix</a><a href="/docs/capability-reference">Capability reference</a><a href="/docs/modelled-rationale">Why rows stay Modelled</a><a href="/docs/claims-vs-reality">Claims against reality</a><a href="/docs/provenance">Provenance</a><a href="/docs/reproducibility">Reproducibility</a><a href="/docs/capability-map">Capability map</a><a href="/docs/standards">Standards and interoperability</a><a href="/docs/line-coverage">Line coverage</a><a href="/docs/evidence-packs">Evidence packs</a></div><div><h2>Timing</h2><a href="/docs/slot-timing">Slot timing</a><a href="/docs/telecom-timing">Telecom timing</a><a href="/docs/deceived-time">Deceived time</a></div><div><h2>Integrity and interference</h2><a href="/docs/integrity">Integrity and security</a><a href="/docs/spectrum">Spectrum and waterfall</a><a href="/docs/araim-reference">ARAIM reference</a><a href="/docs/compliance">DO-316 / DO-229E map</a><a href="/docs/resilience-crosswalk">Resilience cross-walk</a></div><div><h2>Receiver trust and maritime</h2><a href="/docs/receiver-trust">Receiver trust</a><a href="/docs/maritime-trust">Maritime trust</a><a href="/docs/nmea-training" aria-current="page">NMEA training streams</a><a href="/docs/interference-map">Interference map and route exposure</a><a href="/docs/marine-integrations">Marine integrations</a><a href="/docs/trust-telemetry">Trust as security telemetry</a></div><div><h2>Compliance and test bench</h2><a href="/docs/test-bench">Running a receiver against a scenario</a><a href="/docs/compliance-mapping">Compliance mapping</a><a href="/docs/compliance-dhs-rpcf">US DHS resilient PNT framework</a><a href="/docs/compliance-imo-ships">IMO guidance for ships</a><a href="/docs/compliance-easa-aviation">EASA guidance for aviation</a><a href="/docs/compliance-nis2-art21">EU NIS2, Article 21</a><a href="/docs/compliance-en-16803">EN 16803</a></div><div><h2>Orbits</h2><a href="/docs/sgp4-validation">SGP4 validation</a><a href="/docs/agency-orbit-validation">Force-model validation</a><a href="/docs/solar-system">Solar system and other bodies</a></div><div><h2>Low Earth orbit (LEO) navigation</h2><a href="/docs/leo-pnt">LEO positioning, navigation and timing</a><a href="/docs/leo-signal">LEO signal designs</a><a href="/docs/leo-pass">LEO pass and link budget</a><a href="/docs/leo-navmsg">LEO navigation message</a><a href="/docs/leo-pnt-fusion">Fused MEO and LEO positioning</a><a href="/docs/constellation-design">Constellation design</a></div><div><h2>Quantum sensors</h2><a href="/docs/quantum-models">Quantum-sensor models</a><a href="/docs/quantum-physics">Cold-atom interferometer</a></div><div><h2>APIs and integrations</h2><a href="/docs/python-api">Python API</a><a href="/docs/npm">npm and WebAssembly</a><a href="/docs/rust">Rust crate</a><a href="/docs/mcp">MCP server</a><a href="/docs/agents">Using Kshana from an agent</a><a href="/docs/surfaces">Where each capability is reachable</a><a href="/docs/jetbrains">JetBrains plugin</a><a href="/docs/deployment-targets">Where Kshana runs</a><a href="/docs/architecture">Architecture</a><a href="/docs/positioning">Where Kshana sits</a></div><div><h2>Project</h2><a href="/docs/changelog">Changelog</a><a href="/docs/licensing">Licensing</a><a href="/docs/security">Security</a><a href="/docs/contributing">Contributing</a><a href="/docs/governance">Governance</a><a href="/docs/code-of-conduct">Code of conduct</a></div></nav></details>
+  </aside>
+  <article class="docs-main">
+    <div class="docs-meta"><span>Receiver trust and maritime</span><span class="not-pushed">Not yet on GitHub</span><span>Source: <code>docs/NMEA-TRAINING.md</code></span></div>
+    <div class="prose"><h1 id="nmea-training-streams-kshana-nmea-scenario">NMEA training streams: <code>kshana nmea-scenario</code></h1>
+<p>Maritime academies and simulator centres can feed Kshana-generated NMEA 0183 into a bridge
+simulator or a chart plotter to train crews to recognise GNSS jamming and spoofing.</p>
+<blockquote>
+<p><strong>Training and testing only.</strong> The generated streams are synthetic. They must never be fed
+to a vessel&#39;s live navigation systems. Every stream starts with, and repeats every ten
+seconds, a proprietary marker sentence, <code>$PKSHT,TRAINING,SYNTHETIC,NOT-FOR-NAVIGATION</code>,
+which receivers ignore; <code>--no-marker</code> removes it for a simulator that rejects unknown
+sentences. This writes NMEA <strong>text only</strong>: there is no RF, IQ or waveform output, and
+nothing transmits except the text to the address you name.</p>
+</blockquote>
+<h2 id="use">Use<a class="anchor" href="#use" aria-label="Link to this section">#</a></h2>
+<pre data-lang="shell"><code class="hljs language-bash"><span class="hljs-comment"># write a file (default &lt;name&gt;.nmea) and the instructor log next to it</span>
+kshana nmea-scenario scenarios/training/coastal-drag-off.toml --out drag.nmea
+
+<span class="hljs-comment"># serve over TCP in real time on this machine only (waits for the simulator to connect)</span>
+kshana nmea-scenario scenarios/training/open-sea-jamming.toml --tcp 10110
+
+<span class="hljs-comment"># reachable from the bridge-simulator host: name the address in full</span>
+kshana nmea-scenario scenarios/training/open-sea-jamming.toml --tcp 192.168.1.20:10110
+
+<span class="hljs-comment"># UDP, one sentence per datagram, ten times faster than real time</span>
+kshana nmea-scenario scenarios/training/combined-event.toml --udp 192.168.1.50:10110 --speed 10
+
+<span class="hljs-comment"># UDP broadcast</span>
+kshana nmea-scenario scenarios/training/combined-event.toml --udp 192.168.1.255:10110 --broadcast</code></pre>
+<div class="tbl"><table><thead><tr>
+<th>Option</th>
+<th>Meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>--out &lt;file&gt;</code></td>
+<td>write the stream to a file; with no network output the default is <code>&lt;name&gt;.nmea</code></td>
+</tr>
+<tr>
+<td><code>--instructor-log &lt;prefix&gt;</code></td>
+<td>write <code>&lt;prefix&gt;.instructor.json</code> and <code>&lt;prefix&gt;.instructor.txt</code> (default: next to the file)</td>
+</tr>
+<tr>
+<td><code>--tcp &lt;addr:port&gt;</code> or <code>&lt;port&gt;</code></td>
+<td>TCP server; the run starts when a client has connected (<code>--wait-clients &lt;n&gt;</code>). A bare port listens on <code>127.0.0.1</code> only</td>
+</tr>
+<tr>
+<td><code>--udp &lt;addr:port&gt;</code> or <code>&lt;port&gt;</code></td>
+<td>UDP, one sentence per datagram; <code>--broadcast</code> allows a broadcast address. A bare port sends to <code>127.0.0.1</code></td>
+</tr>
+<tr>
+<td><code>--realtime</code>, <code>--speed &lt;x&gt;</code></td>
+<td>pace the stream; <code>--speed 0</code> is as fast as possible. Network output defaults to real time, files to as fast as possible</td>
+</tr>
+<tr>
+<td><code>--seed &lt;n&gt;</code></td>
+<td>replace the scenario seed</td>
+</tr>
+<tr>
+<td><code>--no-marker</code></td>
+<td>omit the marker sentence</td>
+</tr>
+</tbody></table></div>
+<p><strong>There is no authentication.</strong> A TCP server given a non-local address serves the stream to
+anyone who can reach it, and UDP sends to whatever address you name. A TCP client that does not
+take its data within two seconds is dropped, so one stalled consumer cannot hold the others up.</p>
+<p>The same seed gives the same bytes on one platform, and pacing never changes the bytes. Across
+platforms the generator&#39;s own arithmetic is bit-identical (it uses the portable mathematics
+layer), but satellite positions and look angles come from engine functions that call the host&#39;s
+mathematics library, so in a rare borderline case a rounded elevation, azimuth or C/N0 digit in
+GSV can differ between platforms.</p>
+<h2 id="what-is-written">What is written<a class="anchor" href="#what-is-written" aria-label="Link to this section">#</a></h2>
+<p>Each epoch (1, 2, 5 or 10 per second) carries: <strong>RMC, GGA, GNS</strong> (fix, position, time),
+<strong>GSA</strong> (used satellites and DOP, one per constellation), <strong>GSV</strong> (satellites in view with
+elevation, azimuth and SNR in dB-Hz, one set per constellation, NMEA 4.10 signal ID), <strong>VTG</strong>
+(course and speed over ground), <strong>ZDA</strong> (time and date), <strong>HDT</strong> (gyro heading) and <strong>VBW</strong>
+(water and ground speed from the log). Talker is <code>GN</code> with several constellations, otherwise
+the constellation&#39;s own. Lines end in CRLF and are checksum-valid.</p>
+<p>HDT and VBW stand in for independent sensors (a gyro compass and a Doppler log). <strong>No event
+touches them</strong>, which is deliberate: the gap between what GNSS reports and what the gyro and
+log say is a debrief cue.</p>
+<p>When the fix is lost, GGA quality is 0, RMC status is <code>V</code>, position fields are empty and the
+time fields continue (the receiver&#39;s clock keeps running), as real receivers do.</p>
+<h2 id="the-vessel">The vessel<a class="anchor" href="#the-vessel" aria-label="Link to this section">#</a></h2>
+<p><code>[vessel]</code> and <code>[[waypoint]]</code> give a start position, speed and the points to steer through.
+The vessel is steered towards the next waypoint under a <strong>rate-of-turn limit</strong>
+(<code>max_rot_deg_per_min</code>, default 30), a limit on how fast the rate of turn builds
+(<code>max_rot_accel_deg_per_s2</code>) and a <strong>speed-change limit</strong> (<code>max_accel_kn_per_min</code>). A leg&#39;s
+speed is the waypoint&#39;s <code>speed_kn</code>. <code>[environment]</code> adds a current, so speed over ground
+differs from speed through the water and the heading differs from the course over ground, and
+a magnetic variation. <code>stop_at_end</code> brings the vessel to rest at the last waypoint.</p>
+<h2 id="satellite-geometry">Satellite geometry<a class="anchor" href="#satellite-geometry" aria-label="Link to this section">#</a></h2>
+<p>Satellites come from the engine&#39;s own nominal constellations (GPS slot table, Galileo and
+BeiDou MEO Walker patterns, GLONASS ICD), propagated by <code>constellation::satellite_positions_fixed</code>
+(two-body plus secular J2, Earth rotation) and seen from the vessel with the engine&#39;s WGS-84
+look angles. The visible count, elevations and azimuths in GSV are plausible for the place and
+the time of day. <strong>This is a nominal sky, not an ephemeris for the stream&#39;s date</strong>: PRNs are
+assigned in slot order and each constellation keeps its published slot layout, propagated
+continuously from the GPS slot-table epoch (2016-12-31) under J2, so the layout is intact but its
+orientation is not that of the real sky on the stream&#39;s date. C/N0 follows elevation (a nominal
+zenith level, set in <code>[receiver]</code>), with a fixed per-satellite offset, slow fading and noise. A
+satellite below <code>track_threshold_dbhz</code> has an empty SNR field; one below <code>use_threshold_dbhz</code> is
+tracked but not used. Up to <code>max_used</code> (default 12, the NMEA GGA ceiling) usable satellites are
+used, chosen for geometry (the highest satellite in each 30 degree azimuth sector first). Fewer
+than four usable satellites loses the fix, and it returns after <code>reacquire_s</code> of usable signal.</p>
+<h2 id="events">Events<a class="anchor" href="#events" aria-label="Link to this section">#</a></h2>
+<p>Each <code>[[event]]</code> has a <code>kind</code>, an onset <code>start_s</code>, a <code>duration_s</code> (onset to the start of the
+release), an onset ramp <code>ramp_s</code> and a release ramp <code>recovery_s</code>. Strength rises linearly over
+<code>ramp_s</code>, holds, then falls over <code>recovery_s</code>; <code>0</code> is a step. All the effects scale with that
+strength. Parameters that do not belong to the kind are refused.</p>
+<div class="tbl"><table><thead><tr>
+<th>kind</th>
+<th>parameters</th>
+<th>effect</th>
+</tr>
+</thead><tbody><tr>
+<td><code>jamming</code></td>
+<td><code>cn0_drop_db</code>, <code>spread_db</code> (default 6)</td>
+<td>every satellite&#39;s C/N0 falls by up to <code>cn0_drop_db</code> (per-satellite spread), satellites drop out lowest first, the fix is lost when fewer than four are usable, and recovers after the release and <code>reacquire_s</code></td>
+</tr>
+<tr>
+<td><code>drag-off</code></td>
+<td><code>final_offset_m</code>, one of <code>bearing_deg</code> (true) or <code>relative_bearing_deg</code> (to the course <strong>at onset</strong>, then held), optional <code>max_accel_mps2</code>, <code>counterfeit_cn0_dbhz</code></td>
+<td>the receiver keeps a <strong>valid fix</strong> whose position walks away from the truth; SOG and COG include the drag. The drag follows smoothstep on the ramps, so the false track starts and stops with no velocity step; its peaks are <code>1.5 D/T</code> m/s and <code>6 D/T^2</code> m/s squared for a ramp of <code>T</code> s over <code>D</code> m (both logged), and a scenario that would exceed <code>max_accel_mps2</code> is refused. A step (<code>ramp_s = 0</code>) moves the position without touching the velocity</td>
+</tr>
+<tr>
+<td><code>time-spoof</code></td>
+<td><code>offset_s</code>, <code>counterfeit_cn0_dbhz</code></td>
+<td>RMC, GGA, GNS and ZDA time is moved from true UTC; position stays true</td>
+</tr>
+<tr>
+<td><code>replay-delay</code></td>
+<td><code>delay_s</code>, <code>affect_time</code> (default true), <code>counterfeit_cn0_dbhz</code></td>
+<td>position, velocity (and time) are those of the vessel <code>delay_s</code> ago, with the delay following smoothstep on its ramps and the reported speed scaled by <code>1 - d(delay)/dt</code> while it changes: a simplified, meaconing-style abstraction, not a propagation model</td>
+</tr>
+</tbody></table></div>
+<p><code>counterfeit_cn0_dbhz</code>: while a drag-off, time-spoof or replay-delay is active, every tracked
+satellite shows that single raised level, a classic sign. Leave it out for a subtle event in
+which the genuine C/N0 pattern is kept. While any counterfeit event is active the receiver
+follows the counterfeit signal, so jamming does not drop it; a fix lost to earlier jamming
+returns after <code>reacquire_s</code> on the counterfeit signal (see <code>combined-event</code>). A time change that
+would make reported time stop or run backwards (rate of 1 s per second or more) is refused
+unless it is a step (<code>ramp_s = 0</code>).</p>
+<p>Events may overlap; their effects add (offsets, time changes, delays) or take the strongest
+(jamming). The timeline&#39;s <code>onset</code> is the first epoch at which the event has an effect, one epoch
+after the scripted <code>start_s</code> when the event ramps in.</p>
+<h2 id="the-instructor-log">The instructor log<a class="anchor" href="#the-instructor-log" aria-label="Link to this section">#</a></h2>
+<p>Alongside the stream, <code>&lt;prefix&gt;.instructor.json</code> and <code>&lt;prefix&gt;.instructor.txt</code> give:</p>
+<ul>
+<li>the events as injected, in plain language with every parameter, and their UTC onset;</li>
+<li>a timeline: onset, full effect, recovery begins, recovered, and the receiver&#39;s own
+<code>fix-lost</code> and <code>fix-regained</code>;</li>
+<li>the true track against the reported one at <code>log_interval_s</code> spacing: true and reported
+position, speed and course, position error in metres, time offset, satellites used and
+tracked, mean C/N0, and which events were active;</li>
+<li>the peak speed and acceleration of the true and of the reported track;</li>
+<li>the scenario&#39;s <code>trainer_note</code>.</li>
+</ul>
+<p>Show the log only at the debrief.</p>
+<h3 id="json-fields-schema-kshana-nmea-training1">JSON fields (schema <code>kshana-nmea-training/1</code>)<a class="anchor" href="#json-fields-schema-kshana-nmea-training1" aria-label="Link to this section">#</a></h3>
+<div class="tbl"><table><thead><tr>
+<th>field</th>
+<th>type, unit</th>
+<th>meaning</th>
+</tr>
+</thead><tbody><tr>
+<td><code>schema</code></td>
+<td>string</td>
+<td><code>kshana-nmea-training/1</code></td>
+</tr>
+<tr>
+<td><code>warning</code></td>
+<td>string</td>
+<td>the training-only statement</td>
+</tr>
+<tr>
+<td><code>scenario</code>, <code>description</code>, <code>trainer_note</code></td>
+<td>string</td>
+<td>from the scenario</td>
+</tr>
+<tr>
+<td><code>seed</code></td>
+<td>integer</td>
+<td>seed used</td>
+</tr>
+<tr>
+<td><code>start_utc</code></td>
+<td>ISO 8601 UTC</td>
+<td>start of the run</td>
+</tr>
+<tr>
+<td><code>duration_s</code></td>
+<td>s</td>
+<td>length of the run</td>
+</tr>
+<tr>
+<td><code>summary.true_peak_sog_kn</code>, <code>summary.reported_peak_sog_kn</code></td>
+<td>knots</td>
+<td>highest true and reported speed over ground</td>
+</tr>
+<tr>
+<td><code>summary.true_peak_accel_mps2</code>, <code>summary.reported_peak_accel_mps2</code></td>
+<td>m/s squared</td>
+<td>largest change of velocity per second, true and between consecutive reported fixes</td>
+</tr>
+<tr>
+<td><code>events[]</code></td>
+<td></td>
+<td>one per scripted event</td>
+</tr>
+<tr>
+<td><code>events[].id</code></td>
+<td>integer</td>
+<td>1-based; used by <code>timeline[].event</code> and <code>track[].active_events</code></td>
+</tr>
+<tr>
+<td><code>events[].description</code></td>
+<td>string</td>
+<td>plain-language description with the parameters</td>
+</tr>
+<tr>
+<td><code>events[].start_utc</code></td>
+<td>ISO 8601 UTC</td>
+<td>scripted onset</td>
+</tr>
+<tr>
+<td><code>events[].parameters</code></td>
+<td>object</td>
+<td>the event exactly as written (<code>kind</code>, <code>start_s</code>, <code>duration_s</code>, <code>ramp_s</code>, <code>recovery_s</code>, and the kind&#39;s own parameters; absent ones are omitted)</td>
+</tr>
+<tr>
+<td><code>events[].resolved_bearing_deg</code></td>
+<td>degrees true or null</td>
+<td>drag-off: the direction applied (a relative bearing is resolved at onset)</td>
+</tr>
+<tr>
+<td><code>events[].peak_drag_speed_mps</code>, <code>events[].peak_drag_accel_mps2</code></td>
+<td>m/s, m/s squared or null</td>
+<td>drag-off: peaks the drag adds to the false track</td>
+</tr>
+<tr>
+<td><code>timeline[]</code></td>
+<td></td>
+<td>moments for the debrief, in time order</td>
+</tr>
+<tr>
+<td><code>timeline[].t_s</code>, <code>.utc</code></td>
+<td>s from start, ISO 8601 UTC</td>
+<td>when (true time)</td>
+</tr>
+<tr>
+<td><code>timeline[].event</code></td>
+<td>integer or null</td>
+<td>the event id; null for receiver-state changes</td>
+</tr>
+<tr>
+<td><code>timeline[].what</code></td>
+<td>string</td>
+<td><code>onset</code>, <code>full-effect</code>, <code>recovery-begins</code>, <code>recovered</code> (events); <code>fix-lost</code>, <code>fix-regained</code> (receiver)</td>
+</tr>
+<tr>
+<td><code>timeline[].text</code></td>
+<td>string</td>
+<td>explanation</td>
+</tr>
+<tr>
+<td><code>track[]</code></td>
+<td></td>
+<td>one row per <code>log_interval_s</code></td>
+</tr>
+<tr>
+<td><code>track[].t_s</code>, <code>.utc</code></td>
+<td>s, ISO 8601 UTC</td>
+<td>when (true time)</td>
+</tr>
+<tr>
+<td><code>track[].true_lat_deg</code>, <code>.true_lon_deg</code></td>
+<td>degrees</td>
+<td>true position</td>
+</tr>
+<tr>
+<td><code>track[].true_sog_kn</code>, <code>.true_cog_deg</code>, <code>.true_heading_deg</code></td>
+<td>knots, degrees true</td>
+<td>true speed and course over ground, and gyro heading</td>
+</tr>
+<tr>
+<td><code>track[].fix_valid</code></td>
+<td>boolean</td>
+<td>the receiver reported a fix</td>
+</tr>
+<tr>
+<td><code>track[].reported_lat_deg</code>, <code>.reported_lon_deg</code>, <code>.reported_sog_kn</code>, <code>.reported_cog_deg</code></td>
+<td>degrees, knots, degrees true, or null</td>
+<td>what the receiver reported; null while the fix is lost</td>
+</tr>
+<tr>
+<td><code>track[].position_error_m</code></td>
+<td>m or null</td>
+<td>horizontal distance from true to reported position</td>
+</tr>
+<tr>
+<td><code>track[].time_offset_s</code></td>
+<td>s</td>
+<td>reported UTC minus true UTC</td>
+</tr>
+<tr>
+<td><code>track[].n_used</code>, <code>.n_tracked</code></td>
+<td>integers</td>
+<td>satellites used in the fix, and tracked</td>
+</tr>
+<tr>
+<td><code>track[].mean_cn0_dbhz</code></td>
+<td>dB-Hz or null</td>
+<td>mean C/N0 of the tracked satellites</td>
+</tr>
+<tr>
+<td><code>track[].active_events</code></td>
+<td>integers</td>
+<td>ids of events with an effect at this instant</td>
+</tr>
+</tbody></table></div>
+<p>Adding a field does not change the schema tag. Renaming or removing a field, or changing a
+field&#39;s meaning or unit, bumps the number (<code>/2</code>).</p>
+<h2 id="the-scenario-library">The scenario library<a class="anchor" href="#the-scenario-library" aria-label="Link to this section">#</a></h2>
+<p><code>scenarios/training/</code>, each a few minutes of passage with a trainer note in its TOML:</p>
+<div class="tbl"><table><thead><tr>
+<th>file</th>
+<th>what it shows</th>
+</tr>
+</thead><tbody><tr>
+<td><code>open-sea-jamming.toml</code></td>
+<td>C/N0 falls together, satellites drop out, the fix is lost and returns</td>
+</tr>
+<tr>
+<td><code>coastal-drag-off.toml</code></td>
+<td>a valid, healthy-looking fix drags 1.4 km towards the shore; uniform raised C/N0</td>
+</tr>
+<tr>
+<td><code>port-approach-time-spoof.toml</code></td>
+<td>position correct, UTC drifts 45 s ahead during a slow port approach</td>
+</tr>
+<tr>
+<td><code>combined-event.toml</code></td>
+<td>jamming, then counterfeit takeover with drag-off and time offset, then a replay delay</td>
+</tr>
+</tbody></table></div>
+<p>Positions, dates and tracks are invented; the library carries no real vessel, operator or
+recording. It makes no statement about how any receiver or system would perform against
+interference.</p>
+<h2 id="modelling-choices">Modelling choices<a class="anchor" href="#modelling-choices" aria-label="Link to this section">#</a></h2>
+<p>The generator is a training tool with no external oracle, and its numbers are modelling
+choices, not measurements of any receiver. They are chosen to look like an ordinary receiver
+log: the C/N0 slope of 14 dB from zenith to horizon below the zenith level (default
+47 dB-Hz) and the per-satellite offset of +/-1.5 dB, slow fading of 0.8 dB over 97 s and
+0.5 dB over 31 s, 0.3 dB jitter; the thresholds for tracking (20 dB-Hz) and use (28 dB-Hz); the
+position noise (1.5 m at HDOP 1, correlated over 30 s, vertical twice that); 0.05 degree gyro
+noise and 0.03 kn leeway noise; the 20 s steering time constant and the waypoint arrival radii
+of the vessel model; and the azimuth-sector satellite choice. The defaults live in <code>[receiver]</code>
+and <code>[vessel]</code> and can all be changed in the scenario.</p>
+<h2 id="reading-it-back">Reading it back<a class="anchor" href="#reading-it-back" aria-label="Link to this section">#</a></h2>
+<p><code>kshana receiver-trust</code> can ingest these files (<code>format = &quot;nmea&quot;</code>). The tests check every
+sentence of every library scenario against its own field-count and checksum rules, and run the
+files through that reader, which interprets GGA, RMC and GSV and passes over the other types
+without skipping any. Tests pin a golden excerpt per scenario
+(<code>tests/fixtures/nmea_training/</code>); regenerate with <code>KSHANA_BLESS_GOLDEN=1</code> after an intended change.</p>
+</div>
+    <nav class="docs-pn" aria-label="Previous and next"><a class="prev" href="/docs/maritime-trust"><small>Previous</small>Maritime trust</a><a class="next" href="/docs/interference-map"><small>Next</small>Interference map and route exposure</a></nav>
+  </article>
+  <nav class="docs-toc" aria-label="On this page"><h2>On this page</h2><a class="l2" href="#use">Use</a><a class="l2" href="#what-is-written">What is written</a><a class="l2" href="#the-vessel">The vessel</a><a class="l2" href="#satellite-geometry">Satellite geometry</a><a class="l2" href="#events">Events</a><a class="l2" href="#the-instructor-log">The instructor log</a><a class="l3" href="#json-fields-schema-kshana-nmea-training1">JSON fields (schema kshana-nmea-training/1)</a><a class="l2" href="#the-scenario-library">The scenario library</a><a class="l2" href="#modelling-choices">Modelling choices</a><a class="l2" href="#reading-it-back">Reading it back</a></nav>
+</div>
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div class="foot-brand"><a class="brand" href="/"><span class="brand-mark" aria-hidden="true"></span>kshana</a><p class="kname">Kshana · <span lang="sa" class="dev">क्षण</span> · <em>the precise instant</em></p><p>Open-source PNT (positioning, navigation and timing) resilience simulator. It drives no radio hardware and transmits nothing: its signal-level output is baseband IQ sample files, and its software GNSS receiver is an analysis tool. Not a flight product.</p><div class="foot-by">by Ashforde®</div></div>
+      <div><h2>Product</h2><a href="/studio/">Kshana Studio</a><a href="/missions">Missions</a><a href="/capabilities">Capabilities</a><a href="/evidence">Evidence</a><a href="/evidence#research">Research</a></div>
+      <div><h2>Developers</h2><a href="/developers#install">Install</a><a href="/developers#mcp">MCP server</a><a href="/docs/">Docs</a><a href="https://github.com/ashfordeOU/kshana">GitHub</a></div>
+      <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
+    </div>
+    <div class="foot-bottom">
+      <span>Kshana v0.35.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.35.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="pal" id="palette" role="dialog" aria-modal="true" aria-label="Search pages, sections, scenarios and docs" hidden>
+  <div class="pal-box">
+    <div class="pal-in"><svg aria-hidden="true"><use href="#i-search"/></svg><input id="palInput" type="text" placeholder="Search pages, scenarios, docs and actions…" autocomplete="off" spellcheck="false" aria-controls="palList" aria-label="Search"><kbd>esc</kbd></div>
+    <div class="pal-list" id="palList" role="listbox" aria-label="Results"></div>
+    <div class="pal-foot"><span><kbd>↑</kbd> <kbd>↓</kbd> move</span><span><kbd>↵</kbd> open</span><span class="pal-count" id="palCount"></span></div>
+  </div>
+</div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script>window.KSITE={root:"../",page:"docs",version:"0.35.0",studio:"Kshana Studio"};</script>
+<script src="../site.js" defer></script>
+<script src="docs.js" defer></script>
+</body>
+</html>

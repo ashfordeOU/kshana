@@ -1,5 +1,7 @@
 # Port approach with a time spoof: position stays true, UTC drifts ahead. Synthetic NMEA
 # for bridge-simulator training only.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
 [scenario]
 name = "port-approach-time-spoof"
 description = "Slow port approach; the receiver's UTC runs 45 s ahead while the position stays correct."

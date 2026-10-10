@@ -36,6 +36,12 @@ way if it lives in a checkout.
 
 ## What is in a pack
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/readme/evidence-pack-dark.svg">
+  <source media="(prefers-color-scheme: light)" srcset="assets/readme/evidence-pack-light.svg">
+  <img src="assets/readme/evidence-pack-light.svg" alt="The structure of an evidence pack. A receiver log (NMEA, u-blox UBX, RINEX 3 or an Android log) and a time window go into kshana receiver-trust evidence, which writes seven files: log-slice.bin, config.json, epochs.json, summary.html, manifest.json, manifest.sig and an optional timestamp.tsr. The manifest records the SHA-256 of the whole log and of every file and a hash chain over the files; the signature covers the manifest. kshana evidence verify checks the signature, every file's hash, the chain and that no unlisted file is present, and exits 0 when verified, 1 when something failed and 3 when the signer was not pinned. A pack is a technical record, not a legal opinion." width="100%">
+</picture>
+
 | File | Content |
 |---|---|
 | `log-slice.bin` | the raw receiver-log bytes for the window |
