@@ -192,11 +192,10 @@ fn kshana_and_the_clean_room_verifier_agree_on_every_case() {
             Some("wrong") => Some(hexv(&cases["wrong_public_key"]).try_into().unwrap()),
             _ => None,
         };
-        let full_log = if opts["full_log"].as_bool().unwrap_or(false) {
-            Some(std::fs::read(dir().join(pack["full_log"].as_str().unwrap())).unwrap())
-        } else {
-            None
-        };
+        // Each case names the original log it is checked against, if any.
+        let full_log = opts["full_log"]
+            .as_str()
+            .map(|p| std::fs::read(dir().join(p)).unwrap());
         let r = verify_bundle(
             &files,
             &VerifyOptions {
