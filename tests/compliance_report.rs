@@ -113,6 +113,20 @@ fn wording_rule_holds_in_mapping_report_and_docs() {
         "docs/TEST-BENCH.md".into(),
         std::fs::read_to_string(repo().join("docs/TEST-BENCH.md")).unwrap(),
     ));
+    // The wider documentation that talks about frameworks, standards and evidence packs.
+    for f in [
+        "docs/COMPLIANCE.md",
+        "docs/STANDARDS.md",
+        "docs/RESILIENCE-CROSSWALK.md",
+        "docs/AGENTS.md",
+        "docs/SURFACES.md",
+        "skills/evidence-pack/SKILL.md",
+    ] {
+        texts.push((
+            f.to_string(),
+            std::fs::read_to_string(repo().join(f)).unwrap(),
+        ));
+    }
     let log = std::fs::read_to_string(repo().join("CHANGELOG.md")).unwrap();
     // The CHANGELOG entries for this feature: from the compliance bullet to the end of the
     // bullet on `truth_trajectory` (the last of the group), wherever the release put them.

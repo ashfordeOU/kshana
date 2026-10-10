@@ -14,9 +14,9 @@
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022L2555",
    "checked": "2026-10-10",
    "method": "python urllib, browser-like headers",
-   "status": 200,
+   "status": 202,
    "content_type": "text/html; charset=UTF-8",
-   "bytes": 967473,
+   "bytes": 0,
    "second_route": {
     "method": "EU Publications Office XHTML of the same act, https://publications.europa.eu/resource/celex/32022L2555",
     "checked": "2026-10-10",
@@ -39,7 +39,7 @@
    "content_type": null,
    "bytes": 0,
    "second_route": {
-    "method": "Claude Code WebFetch tool",
+    "method": "a copy of the PDF fetched over HTTPS with a different client",
     "checked": "2026-10-10",
     "result": "returned the PDF (2045376 bytes, sha256 f9e55aa93f9c0c7d...) which is the document indexed in headings.json"
    }
@@ -50,7 +50,7 @@
    "method": "python urllib, browser-like headers",
    "status": 200,
    "content_type": "text/html; charset=utf-8",
-   "bytes": 67128
+   "bytes": 67132
   },
   {
    "url": "https://www.evs.ee/en/evs-en-16803-2-2020",
@@ -58,7 +58,7 @@
    "method": "python urllib, browser-like headers",
    "status": 200,
    "content_type": "text/html; charset=utf-8",
-   "bytes": 68894
+   "bytes": 68898
   },
   {
    "url": "https://www.evs.ee/en/evs-en-16803-3-2020",
@@ -66,7 +66,7 @@
    "method": "python urllib, browser-like headers",
    "status": 200,
    "content_type": "text/html; charset=utf-8",
-   "bytes": 67226
+   "bytes": 67230
   },
   {
    "url": "https://wwwcdn.imo.org/localresources/en/KnowledgeCentre/IndexofIMOResolutions/AssemblyDocuments/A.1046(27).pdf",

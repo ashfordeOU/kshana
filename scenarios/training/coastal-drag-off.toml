@@ -1,5 +1,7 @@
 # Coastal position drag-off: the receiver keeps a valid, healthy-looking fix that walks
 # towards the shore. Synthetic NMEA for bridge-simulator training only.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
 [scenario]
 name = "coastal-drag-off"
 description = "Coastal passage; a counterfeit signal drags the reported position 1.4 km towards the land while the fix stays valid."

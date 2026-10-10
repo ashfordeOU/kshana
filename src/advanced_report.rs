@@ -545,7 +545,7 @@ pub struct CapabilityRow {
     pub role: String,
     /// The oracle class the matrix gives the row, as the variant name of
     /// [`crate::verification::OracleKind`] (`ExternalDataset`, `ReferenceImpl`,
-    /// `InternalConsistency` or `NoneKind`).
+    /// `InternalConsistency`, `IntegrationRun` or `NoneKind`).
     pub oracle_kind: String,
     /// The oracle the row names: the source of its label.
     pub oracle: String,
