@@ -68,9 +68,9 @@ kinematic = 60.0
 raim = 60.0
 clock = 60.0
 position-jump = 60.0
+time-consistency = 60.0
 heading-course = 40.0
 speed-log = 40.0
-time-consistency = 40.0
 solve-failure = 40.0
 sea-level = 30.0
 cn0-spread = 30.0
@@ -83,5 +83,5 @@ jam-ind = 25.0
 # Live mode (kshana receiver-trust live): when a cycle of sentences is complete, and how long
 # the gate holds a withheld fix after the epochs leave the untrusted band.
 [live]
-idle_flush_s = 0.35
+idle_flush_s = 1.5
 gate_release_s = 30.0

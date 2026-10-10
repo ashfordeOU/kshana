@@ -271,6 +271,9 @@ fn ang_diff_deg(a: f64, b: f64) -> f64 {
     (a - b + 540.0).rem_euclid(360.0) - 180.0
 }
 
+/// The time-consistency ratio of an epoch whose time ran backwards: the whole weight.
+pub const REWIND_RATIO: f64 = 1.5;
+
 /// The alarm ratio of a limit-type check: 0 up to `guard` times the limit, 1 at the limit,
 /// rising linearly beyond. Alarms exactly when `x >= limit`.
 fn limit_ratio(x: f64, limit: f64, guard: f64) -> f64 {
@@ -404,10 +407,12 @@ impl MarineMonitors {
 
     /// Process one epoch.
     pub fn push(&mut self, e: &LogEpoch) -> MarineEpoch {
-        let post = e.t_s >= self.cal_s;
-        if post {
+        // An epoch whose time ran backwards is never calibration, whatever its time says.
+        let rewound = e.marine.as_ref().is_some_and(|m| m.time_rewound);
+        if e.t_s >= self.cal_s {
             self.freeze_baseline();
         }
+        let post = e.t_s >= self.cal_s || rewound;
         let mut out = MarineEpoch {
             position: e.fix.map(|f| [f.lat_deg, f.lon_deg]),
             ..MarineEpoch::default()
@@ -467,6 +472,9 @@ impl MarineMonitors {
         }
 
         // ---- time consistency ---------------------------------------------------------
+        if rewound {
+            ratios.insert(Monitor::TimeConsistency, REWIND_RATIO);
+        }
         if let Some(m) = marine {
             if post {
                 if let Some(d) = m.time_step_s {
@@ -476,9 +484,10 @@ impl MarineMonitors {
                     if d < 0.0 {
                         r = r.max(1.0 + d.abs() / cfg.time_step_tol_s);
                     }
-                    ratios.insert(Monitor::TimeConsistency, r);
+                    let slot = ratios.entry(Monitor::TimeConsistency).or_insert(0.0);
+                    *slot = slot.max(r);
                 }
-                if let (Some(a), Some(base)) = (m.arrival_s, self.offset_base_s) {
+                if let (Some(a), Some(base), false) = (m.arrival_s, self.offset_base_s, rewound) {
                     let med = self.off.push_median(e.t_s, a - e.t_s, cfg.smooth_s);
                     let dev = med - base;
                     out.stats.time_offset_dev_s = Some(dev);
@@ -486,7 +495,7 @@ impl MarineMonitors {
                     let slot = ratios.entry(Monitor::TimeConsistency).or_insert(0.0);
                     *slot = slot.max(r);
                 }
-            } else if let Some(a) = m.arrival_s {
+            } else if let (Some(a), false) = (m.arrival_s, rewound) {
                 self.off.push_median(e.t_s, a - e.t_s, cfg.smooth_s);
             }
         }
