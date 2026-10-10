@@ -75,6 +75,9 @@ The vessel keys are rejected under `kind = "static"`. For a vessel the `position
 monitor does not run, because it measures distance from the calibration mean, which is wrong
 on a moving antenna; the result's `monitor_config` records the platform and the limits used.
 
+The synthetic NMEA streams from [`kshana nmea-scenario`](NMEA-TRAINING.md), made for crew
+training, are accepted by the NMEA reader and can be run through this kind like any NMEA log.
+
 ## Monitors
 
 Each monitor needs its data; a monitor whose data is not in the log is not run and not
