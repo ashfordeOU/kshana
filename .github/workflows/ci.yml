@@ -496,11 +496,15 @@ jobs:
       # Pinned to the repo toolchain like every other job. The crate is edition 2024
       # (the rmcp SDK); rmcp 2.x needs >= 1.88 (darling 0.23); 1.93.0 satisfies both.
       - uses: dtolnay/rust-toolchain@1.93.0
+        with:
+          components: rustfmt
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
           # The crate sits outside the root package and has its own lockfile and target
           # dir, so the cache key has to name it or every run is a cold build.
           workspaces: mcp/kshana-mcp
+      - name: Format (the crate is outside the root workspace, so the root `cargo fmt --all` never reaches it)
+        run: cargo fmt --all -- --check
       - name: Test the MCP server (protocol round-trip over an in-memory duplex)
         # tests/round_trip.rs drives the real server with an in-process rmcp client and
         # asserts the served tool set EXACTLY, in both directions — that is the check
