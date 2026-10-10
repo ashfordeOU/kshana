@@ -15,13 +15,15 @@ use super::grid::{haversine_m, CellId, Grid, EARTH_RADIUS_M};
 use super::land::LandMask;
 use super::output::{CellOut, DayOut};
 use super::time::{day_of, parse_timestamp};
-use super::{CsvTable, IdHasher, MapError, PUBLICATION_MIN_DISTINCT};
+use super::{stream_csv, IdHasher, MapError, PUBLICATION_MIN_DISTINCT};
 
-pub const METHOD_ID: &str = "kshana-interference-map/ais/v1";
+/// Identifier of the AIS method version, written into every AIS output file.
+pub const METHOD_ID: &str = "kshana-interference-map/ais/v2";
 
 const KN_PER_MS: f64 = 1.943_844_492;
 
 #[derive(Debug, Clone, PartialEq)]
+/// Pre-registered AIS detector parameters; see the field docs and `docs/INTERFERENCE-MAP.md`.
 pub struct AisParams {
     /// Speed above which a reported speed or an implied speed is implausible (knots).
     pub max_speed_kn: f64,
@@ -47,13 +49,21 @@ pub struct AisParams {
     /// radius coefficient of variation, maximum angular step (degrees), minimum total
     /// winding (degrees), minimum mean speed (knots), maximum gap between reports (seconds).
     pub circle_window: usize,
+    /// Circle detector: reports between successive windows.
     pub circle_stride: usize,
+    /// Circle detector: smallest mean radius that counts (metres).
     pub circle_min_radius_m: f64,
+    /// Circle detector: largest mean radius that counts (metres).
     pub circle_max_radius_m: f64,
+    /// Circle detector: largest radius coefficient of variation.
     pub circle_max_cv: f64,
+    /// Circle detector: largest angular step between consecutive reports (degrees).
     pub circle_max_step_deg: f64,
+    /// Circle detector: smallest net winding around the centroid (degrees).
     pub circle_min_winding_deg: f64,
+    /// Circle detector: smallest mean speed (knots), which excludes anchor swinging.
     pub circle_min_mean_speed_kn: f64,
+    /// Circle detector: largest time gap between consecutive reports in a window (seconds).
     pub circle_max_dt_s: f64,
     /// A detector qualifies in a cell with at least this many flagged vessels ...
     pub min_flagged_vessels: usize,
@@ -62,6 +72,7 @@ pub struct AisParams {
 }
 
 impl AisParams {
+    /// The pre-registered version 2 parameters. Changing a value means a new method version.
     pub const PREREGISTERED_V1: AisParams = AisParams {
         max_speed_kn: 70.0,
         min_speed_reports: 3,
@@ -82,10 +93,11 @@ impl AisParams {
         circle_min_winding_deg: 270.0,
         circle_min_mean_speed_kn: 2.0,
         circle_max_dt_s: 1800.0,
-        min_flagged_vessels: 3,
+        min_flagged_vessels: PUBLICATION_MIN_DISTINCT,
         min_flagged_share: 0.2,
     };
 
+    /// The parameters as the JSON object embedded in output files.
     pub fn to_json(&self) -> Value {
         json!({
             "max_speed_kn": self.max_speed_kn,
@@ -115,15 +127,22 @@ impl AisParams {
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Hash, PartialOrd, Ord)]
+/// The five AIS anomaly detectors.
 pub enum Detector {
+    /// Positions inland of the supplied coastline by more than the buffer.
     OnLand,
+    /// A track that circles at a near-constant radius.
     Circle,
+    /// Consecutive positions implying an implausible speed.
     Jump,
+    /// Reported speeds above the plausible maximum.
     Speed,
+    /// Many distinct vessels at one position in one time window.
     SamePosition,
 }
 
 impl Detector {
+    /// Every detector, in output order.
     pub const ALL: [Detector; 5] = [
         Detector::OnLand,
         Detector::Circle,
@@ -132,6 +151,7 @@ impl Detector {
         Detector::SamePosition,
     ];
 
+    /// The detector's name as written in output files.
     pub fn name(self) -> &'static str {
         match self {
             Detector::OnLand => "on_land",
@@ -144,10 +164,15 @@ impl Detector {
 }
 
 #[derive(Debug, Default, Clone, PartialEq)]
+/// Counters for AIS rows read and rejected.
 pub struct AisReadStats {
+    /// Rows read.
     pub rows: u64,
+    /// Rows aggregated.
     pub used: u64,
+    /// Rows with an unparseable time, position or identifier.
     pub rejected_malformed: u64,
+    /// Rows with a not-available or default position.
     pub rejected_invalid_position: u64,
 }
 
@@ -159,16 +184,19 @@ struct Rep {
     sog: Option<f64>,
 }
 
+/// Aggregates AIS reports per vessel per UTC day, then evaluates the detectors per cell.
 pub struct AisAggregator {
     grid: Grid,
     params: AisParams,
     hasher: IdHasher,
     land: Option<LandMask>,
     days: BTreeMap<String, HashMap<u64, Vec<Rep>>>,
+    /// Counters for rows read and rejected so far.
     pub stats: AisReadStats,
 }
 
 impl AisAggregator {
+    /// An empty aggregator; `land` enables the on-land detector.
     pub fn new(grid: Grid, params: AisParams, hasher: IdHasher, land: Option<LandMask>) -> Self {
         Self {
             grid,
@@ -180,67 +208,95 @@ impl AisAggregator {
         }
     }
 
+    /// Whether the on-land detector has a land mask.
     pub fn land_enabled(&self) -> bool {
         self.land.is_some()
     }
 
-    /// Read the documented CSV: required columns `timestamp, vessel_id, lat, lon`; optional
-    /// `sog_kn` (the AIS "not available" value 102.3 is treated as missing). Other columns
-    /// are ignored.
+    /// Read the documented CSV from text; see [`AisAggregator::read_csv_reader`].
     pub fn read_csv(&mut self, text: &str) -> Result<(), MapError> {
-        let t = CsvTable::parse(text)?;
-        let (c_t, c_id, c_lat, c_lon) = (
-            t.require("timestamp")?,
-            t.require("vessel_id")?,
-            t.require("lat")?,
-            t.require("lon")?,
-        );
-        let c_sog = t.col("sog_kn");
-        for row in &t.rows {
-            self.stats.rows += 1;
-            let get = |c: usize| row.get(c).copied().unwrap_or("");
-            let (Some(ts), Some(lat), Some(lon)) = (
-                parse_timestamp(get(c_t)),
-                get(c_lat).parse::<f64>().ok(),
-                get(c_lon).parse::<f64>().ok(),
-            ) else {
-                self.stats.rejected_malformed += 1;
-                continue;
-            };
-            let id = get(c_id);
-            if id.is_empty() {
-                self.stats.rejected_malformed += 1;
-                continue;
-            }
-            // Not-available sentinels (91, 181) fall outside these ranges; (0, 0) is the
-            // usual default of a transponder without a fix.
-            if !(-90.0..=90.0).contains(&lat)
-                || !(-180.0..=180.0).contains(&lon)
-                || (lat == 0.0 && lon == 0.0)
-            {
-                self.stats.rejected_invalid_position += 1;
-                continue;
-            }
-            let sog = c_sog
-                .and_then(|c| get(c).parse::<f64>().ok())
-                .filter(|s| s.is_finite() && (0.0..102.3).contains(s));
-            let vid = self.hasher.hash(id);
-            self.days
-                .entry(day_of(ts))
-                .or_default()
-                .entry(vid)
-                .or_default()
-                .push(Rep {
-                    t: ts,
-                    lat,
-                    lon,
-                    sog,
-                });
-            self.stats.used += 1;
-        }
-        Ok(())
+        self.read_csv_reader(text.as_bytes())
     }
 
+    /// Read the documented CSV row by row (the text is never held whole; each accepted
+    /// report is kept in a compact form until the day is evaluated): required columns
+    /// `timestamp, vessel_id, lat, lon`; optional `sog_kn` (the AIS "not available" value
+    /// 102.3 is treated as missing). Other columns are ignored.
+    pub fn read_csv_reader<R: std::io::BufRead>(&mut self, reader: R) -> Result<(), MapError> {
+        struct Cols {
+            t: usize,
+            id: usize,
+            lat: usize,
+            lon: usize,
+            sog: Option<usize>,
+        }
+        stream_csv(
+            reader,
+            |h| {
+                Ok(Cols {
+                    t: h.require("timestamp")?,
+                    id: h.require("vessel_id")?,
+                    lat: h.require("lat")?,
+                    lon: h.require("lon")?,
+                    sog: h.col("sog_kn"),
+                })
+            },
+            |c, row| {
+                let get = |k: usize| row.get(k).copied().unwrap_or("");
+                self.add_row(
+                    parse_timestamp(get(c.t)),
+                    get(c.id),
+                    get(c.lat).parse::<f64>().ok(),
+                    get(c.lon).parse::<f64>().ok(),
+                    c.sog.and_then(|k| get(k).parse::<f64>().ok()),
+                );
+            },
+        )
+    }
+
+    fn add_row(
+        &mut self,
+        ts: Option<f64>,
+        id: &str,
+        lat: Option<f64>,
+        lon: Option<f64>,
+        sog: Option<f64>,
+    ) {
+        self.stats.rows += 1;
+        let (Some(ts), Some(lat), Some(lon)) = (ts, lat, lon) else {
+            self.stats.rejected_malformed += 1;
+            return;
+        };
+        if id.is_empty() {
+            self.stats.rejected_malformed += 1;
+            return;
+        }
+        // Not-available sentinels (91, 181) fall outside these ranges; (0, 0) is the usual
+        // default of a transponder without a fix.
+        if !(-90.0..=90.0).contains(&lat)
+            || !(-180.0..=180.0).contains(&lon)
+            || (lat == 0.0 && lon == 0.0)
+        {
+            self.stats.rejected_invalid_position += 1;
+            return;
+        }
+        let sog = sog.filter(|s| s.is_finite() && (0.0..102.3).contains(s));
+        let vid = self.hasher.hash(id);
+        self.days
+            .entry(day_of(ts))
+            .or_default()
+            .entry(vid)
+            .or_default()
+            .push(Rep {
+                t: ts,
+                lat,
+                lon,
+                sog,
+            });
+        self.stats.used += 1;
+    }
+
+    /// Evaluate every day seen, one `DayOut` per UTC day.
     pub fn finish(mut self) -> Vec<DayOut> {
         let days = std::mem::take(&mut self.days);
         days.into_iter()
@@ -360,10 +416,11 @@ impl AisAggregator {
                 if q {
                     qualifying.push(d.name());
                 }
-                // A count of one or two could single out a vessel: reported as null.
+                // Every count below the publication minimum is withheld (null), zero included,
+                // so a null never reads as "none" and no number can single out a vessel.
                 counts.insert(
                     d.name().into(),
-                    if n == 0 || n >= p.min_flagged_vessels {
+                    if n >= PUBLICATION_MIN_DISTINCT {
                         json!(n)
                     } else {
                         Value::Null
@@ -467,6 +524,7 @@ fn circle_fit(p: &AisParams, w: &[Rep]) -> Option<(f64, f64)> {
     (mean_speed >= p.circle_min_mean_speed_kn).then_some((lat0, lon0))
 }
 
+/// Method metadata embedded in every AIS output file.
 pub fn method_json(p: &AisParams, stats: &AisReadStats, land_enabled: bool) -> Value {
     json!({
         "id": METHOD_ID,
@@ -480,7 +538,8 @@ pub fn method_json(p: &AisParams, stats: &AisReadStats, land_enabled: bool) -> V
             "on-land requires a buffer inland of a coastline that is only accurate to about a kilometre",
             "circles must be a consistent direction of travel at more than anchor-swing speed",
             "the AIS 'not available' position and speed values are discarded before any detector runs",
-            "cells with fewer than the minimum distinct vessels are not published; flagged counts of one or two are withheld",
+            "cells with fewer than the minimum distinct vessels are not published; every per-cell count below the minimum is withheld, zero included",
+            "a detector qualifies only if at least the publication minimum of vessels are flagged",
         ],
         "input_stats": {
             "rows": stats.rows,
@@ -614,14 +673,14 @@ mod tests {
     fn jumps_speed_and_same_position() {
         let mut csv = HDR.to_string();
         background(&mut csv, 4);
-        for v in 0..4 {
-            // Alternate between the true position and one 30 km away every minute: four jumps arriving at each end.
+        for v in 0..6 {
+            // Alternate between the true position and one 30 km away every minute: three jumps arriving at each end.
             for k in 0..8u32 {
                 let lon = if k % 2 == 0 { 24.2 } else { 24.7 };
                 csv.push_str(&format!("{},jmp{v},60.2,{lon},20\n", ts(41_000 + k * 60)));
             }
         }
-        for v in 0..4 {
+        for v in 0..6 {
             for k in 0..4u32 {
                 csv.push_str(&format!("{},spd{v},60.3,24.3,95\n", ts(42_000 + k * 60)));
             }
@@ -722,8 +781,38 @@ mod tests {
         assert_eq!(day.cells.len(), 1, "the 4-vessel cell is suppressed");
         let c = &day.cells[0];
         assert!(!c.degraded);
+        // Both a count of 2 and a count of 0 are withheld: null never means "none".
         assert!(c.props["vessels_flagged"]["implausible_speed"].is_null());
-        assert_eq!(c.props["vessels_flagged"]["on_land"], 0);
+        assert!(c.props["vessels_flagged"]["on_land"].is_null());
+    }
+
+    #[test]
+    fn every_count_below_the_minimum_is_withheld_and_the_call_needs_the_minimum() {
+        // 20 vessels in a cell; `n` of them report 99 knots.
+        let run = |n: usize| {
+            let mut csv = HDR.to_string();
+            background(&mut csv, 20 - n);
+            for v in 0..n {
+                for k in 0..4u32 {
+                    csv.push_str(&format!("{},fast{v},60.2,24.2,99\n", ts(50_000 + k * 60)));
+                }
+            }
+            let mut a = agg(None);
+            a.read_csv(&csv).unwrap();
+            let day = a.finish().remove(0);
+            let c = day.cells.into_iter().next().unwrap();
+            (
+                c.degraded,
+                c.props["vessels_flagged"]["implausible_speed"].clone(),
+            )
+        };
+        for n in 0..PUBLICATION_MIN_DISTINCT {
+            let (degraded, count) = run(n);
+            assert!(!degraded && count.is_null(), "n = {n}");
+        }
+        let (degraded, count) = run(PUBLICATION_MIN_DISTINCT);
+        assert!(degraded, "5 of 20 vessels is 25%, over the 20% share");
+        assert_eq!(count, PUBLICATION_MIN_DISTINCT);
     }
 
     #[test]
@@ -770,7 +859,7 @@ mod tests {
             ),
             (0.15, 90.0, 270.0, 2.0)
         );
-        assert_eq!((p.min_flagged_vessels, p.min_flagged_share), (3, 0.2));
-        assert_eq!(METHOD_ID, "kshana-interference-map/ais/v1");
+        assert_eq!((p.min_flagged_vessels, p.min_flagged_share), (5, 0.2));
+        assert_eq!(METHOD_ID, "kshana-interference-map/ais/v2");
     }
 }

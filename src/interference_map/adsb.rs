@@ -13,9 +13,10 @@ use serde_json::{json, Map, Value};
 use super::grid::{CellId, Grid};
 use super::output::{CellOut, DayOut};
 use super::time::{day_of, parse_timestamp};
-use super::{CsvTable, IdHasher, MapError, PUBLICATION_MIN_DISTINCT};
+use super::{stream_csv, IdHasher, MapError, PUBLICATION_MIN_DISTINCT};
 
-pub const METHOD_ID: &str = "kshana-interference-map/adsb/v1";
+/// Identifier of the ADS-B method version, written into every ADS-B output file.
+pub const METHOD_ID: &str = "kshana-interference-map/adsb/v2";
 
 /// Pre-registered parameters. Fixed from the definitions of the NIC and NACp codes and from
 /// the privacy rule, before any data was examined; see the doc for the reasoning.
@@ -26,7 +27,7 @@ pub struct AdsbParams {
     pub min_alt_ft: f64,
     /// A report is low-accuracy if NACp is at or below this (EPU of 185 m or worse).
     pub low_nacp_max: u8,
-    /// ... or if NIC is at or below this (containment radius of 1 NM or worse).
+    /// ... or if NIC is at or below this (containment radius not shown to be better than 0.6 NM).
     pub low_nic_max: u8,
     /// A report is "good" (evidence the aircraft's own equipment can report accuracy) if
     /// NACp is at or above this ...
@@ -42,6 +43,9 @@ pub struct AdsbParams {
     pub affected_report_share: f64,
     /// Minimum sampled aircraft in a cell for a degraded/not-degraded call.
     pub min_aircraft: usize,
+    /// A cell is degraded only if at least this many aircraft are affected, so a call never
+    /// rests on fewer aircraft than the publication minimum.
+    pub min_affected_aircraft: usize,
     /// A cell is degraded when the affected share of sampled aircraft is at least this.
     pub degraded_share: f64,
     /// ... and exceeds the day's background (median cell share) by at least this margin.
@@ -54,6 +58,7 @@ pub struct AdsbParams {
 }
 
 impl AdsbParams {
+    /// The pre-registered version 2 parameters. Changing a value means a new method version.
     pub const PREREGISTERED_V1: AdsbParams = AdsbParams {
         min_alt_ft: 5000.0,
         low_nacp_max: 6,
@@ -64,12 +69,14 @@ impl AdsbParams {
         min_reports_per_aircraft: 3,
         affected_report_share: 0.5,
         min_aircraft: 10,
+        min_affected_aircraft: PUBLICATION_MIN_DISTINCT,
         degraded_share: 0.30,
         background_margin: 0.15,
         day_confound_background: 0.15,
         min_cells_for_background: 5,
     };
 
+    /// The parameters as the JSON object embedded in output files.
     pub fn to_json(&self) -> Value {
         json!({
             "min_alt_ft": self.min_alt_ft,
@@ -81,6 +88,7 @@ impl AdsbParams {
             "min_reports_per_aircraft_in_cell": self.min_reports_per_aircraft,
             "affected_report_share": self.affected_report_share,
             "min_aircraft_sampled": self.min_aircraft,
+            "min_affected_aircraft": self.min_affected_aircraft,
             "degraded_share": self.degraded_share,
             "background_margin": self.background_margin,
             "day_confound_background": self.day_confound_background,
@@ -106,14 +114,21 @@ struct DayAcc {
 /// Counters for rows that were read but not used, written into the output metadata.
 #[derive(Debug, Default, Clone, PartialEq)]
 pub struct AdsbReadStats {
+    /// Rows read (CSV rows or trace entries).
     pub rows: u64,
+    /// Rows that passed every exclusion and were aggregated.
     pub used: u64,
+    /// Rows with an unparseable time, position or identifier.
     pub rejected_malformed: u64,
+    /// Rows on the ground, without an altitude, or below the altitude floor.
     pub excluded_ground_or_low: u64,
+    /// Rows whose source is not ADS-B (for example multilateration).
     pub excluded_non_adsb_source: u64,
+    /// Rows carrying neither NIC nor NACp.
     pub excluded_no_accuracy_field: u64,
     /// readsb trace files read, and files that could not be parsed or decompressed.
     pub trace_files: u64,
+    /// readsb trace files that could not be decompressed or parsed.
     pub trace_files_unreadable: u64,
 }
 
@@ -123,6 +138,7 @@ pub struct AdsbAggregator {
     params: AdsbParams,
     hasher: IdHasher,
     days: BTreeMap<String, DayAcc>,
+    /// Counters for rows read and excluded so far.
     pub stats: AdsbReadStats,
 }
 
@@ -136,6 +152,7 @@ fn parse_u8_field(s: &str) -> Option<u8> {
 }
 
 impl AdsbAggregator {
+    /// An empty aggregator for the given grid, parameters and identifier hasher.
     pub fn new(grid: Grid, params: AdsbParams, hasher: IdHasher) -> Self {
         Self {
             grid,
@@ -146,40 +163,61 @@ impl AdsbAggregator {
         }
     }
 
-    /// Read the documented CSV: required columns `timestamp, aircraft_id, lat, lon,
-    /// alt_baro_ft`; at least one of `nic`, `nacp`; optional `source_type`.
+    /// Read the documented CSV from text; see [`AdsbAggregator::read_csv_reader`].
     pub fn read_csv(&mut self, text: &str) -> Result<(), MapError> {
-        let t = CsvTable::parse(text)?;
-        let (c_t, c_id, c_lat, c_lon, c_alt) = (
-            t.require("timestamp")?,
-            t.require("aircraft_id")?,
-            t.require("lat")?,
-            t.require("lon")?,
-            t.require("alt_baro_ft")?,
-        );
-        let (c_nic, c_nacp, c_src) = (t.col("nic"), t.col("nacp"), t.col("source_type"));
-        if c_nic.is_none() && c_nacp.is_none() {
-            return Err(MapError::Format(
-                "need at least one of columns `nic`, `nacp`".into(),
-            ));
+        self.read_csv_reader(text.as_bytes())
+    }
+
+    /// Read the documented CSV row by row (the input is never held whole in memory):
+    /// required columns `timestamp, aircraft_id, lat, lon, alt_baro_ft`; at least one of
+    /// `nic`, `nacp`; optional `source_type`.
+    pub fn read_csv_reader<R: std::io::BufRead>(&mut self, reader: R) -> Result<(), MapError> {
+        struct Cols {
+            t: usize,
+            id: usize,
+            lat: usize,
+            lon: usize,
+            alt: usize,
+            nic: Option<usize>,
+            nacp: Option<usize>,
+            src: Option<usize>,
         }
-        for row in &t.rows {
-            let get = |c: usize| row.get(c).copied().unwrap_or("");
-            let src = c_src.map(get);
-            let alt = get(c_alt).parse::<f64>().ok();
-            let nic = c_nic.and_then(|c| parse_u8_field(get(c)));
-            let nacp = c_nacp.and_then(|c| parse_u8_field(get(c)));
-            self.add_row(
-                parse_timestamp(get(c_t)),
-                get(c_id),
-                get(c_lat).parse::<f64>().ok(),
-                get(c_lon).parse::<f64>().ok(),
-                alt,
-                (nic, nacp),
-                src,
-            );
-        }
-        Ok(())
+        stream_csv(
+            reader,
+            |h| {
+                let c = Cols {
+                    t: h.require("timestamp")?,
+                    id: h.require("aircraft_id")?,
+                    lat: h.require("lat")?,
+                    lon: h.require("lon")?,
+                    alt: h.require("alt_baro_ft")?,
+                    nic: h.col("nic"),
+                    nacp: h.col("nacp"),
+                    src: h.col("source_type"),
+                };
+                if c.nic.is_none() && c.nacp.is_none() {
+                    return Err(MapError::Format(
+                        "need at least one of columns `nic`, `nacp`".into(),
+                    ));
+                }
+                Ok(c)
+            },
+            |c, row| {
+                let get = |k: usize| row.get(k).copied().unwrap_or("");
+                self.add_row(
+                    parse_timestamp(get(c.t)),
+                    get(c.id),
+                    get(c.lat).parse::<f64>().ok(),
+                    get(c.lon).parse::<f64>().ok(),
+                    get(c.alt).parse::<f64>().ok(),
+                    (
+                        c.nic.and_then(|k| parse_u8_field(get(k))),
+                        c.nacp.and_then(|k| parse_u8_field(get(k))),
+                    ),
+                    c.src.map(get),
+                );
+            },
+        )
     }
 
     /// One input row, from either format: applies the exclusions, counts them, and adds
@@ -302,8 +340,12 @@ impl AdsbAggregator {
         let p = &self.params;
         let low =
             nacp.is_some_and(|v| v <= p.low_nacp_max) || nic.is_some_and(|v| v <= p.low_nic_max);
-        let good =
-            nacp.is_some_and(|v| v >= p.good_nacp_min) && nic.is_some_and(|v| v >= p.good_nic_min);
+        // "Good" is judged on the fields the input has: both when both are present, the one
+        // that is present otherwise. An input with only one of the two columns still
+        // establishes an equipment baseline.
+        let good = (nacp.is_some() || nic.is_some())
+            && nacp.is_none_or(|v| v >= p.good_nacp_min)
+            && nic.is_none_or(|v| v >= p.good_nic_min);
         let aid = self.hasher.hash(id);
         let cell = self.grid.cell_of(lat, lon);
         let day = self.days.entry(day_of(ts)).or_default();
@@ -380,22 +422,44 @@ fn evaluate_day(p: &AdsbParams, date: String, acc: DayAcc) -> DayOut {
         } else {
             0.0
         };
-        let exceeds = share >= p.degraded_share
-            && (!background_evaluated || share - background >= p.background_margin);
+        let meets = s.sampled >= p.min_aircraft
+            && share >= p.degraded_share
+            && s.affected >= p.min_affected_aircraft;
         let (status, degraded) = if s.sampled < p.min_aircraft {
             ("insufficient_sample", false)
-        } else if exceeds && day_confounded {
-            ("withheld_day_confounded", false)
-        } else if exceeds {
-            ("degraded", true)
-        } else {
+        } else if !meets {
             ("not_degraded", false)
+        } else if !background_evaluated {
+            // Too few fully sampled cells to know the day's background: no call either way.
+            ("withheld_no_background", false)
+        } else if share - background < p.background_margin {
+            ("not_degraded", false)
+        } else if day_confounded {
+            ("withheld_day_confounded", false)
+        } else {
+            ("degraded", true)
+        };
+        // Every count below the publication minimum is withheld (null), zero included, so a
+        // null never reads as "none" and no published number can single out an aircraft.
+        let count = |n: usize| {
+            if n >= PUBLICATION_MIN_DISTINCT {
+                json!(n)
+            } else {
+                Value::Null
+            }
         };
         let mut props = Map::new();
-        props.insert("aircraft_observed".into(), json!(s.observed));
-        props.insert("aircraft_sampled".into(), json!(s.sampled));
-        props.insert("aircraft_affected".into(), json!(s.affected));
-        props.insert("affected_share".into(), json!(round4(share)));
+        props.insert("aircraft_observed".into(), count(s.observed));
+        props.insert("aircraft_sampled".into(), count(s.sampled));
+        props.insert("aircraft_affected".into(), count(s.affected));
+        // The share would reveal a withheld affected count, so it needs both counts.
+        let share_out =
+            if s.sampled >= PUBLICATION_MIN_DISTINCT && s.affected >= PUBLICATION_MIN_DISTINCT {
+                json!(round4(share))
+            } else {
+                Value::Null
+            };
+        props.insert("affected_share".into(), share_out);
         out.push(CellOut {
             id: *id,
             status: status.into(),
@@ -443,6 +507,9 @@ pub fn method_json(p: &AdsbParams, stats: &AdsbReadStats) -> Value {
             "an aircraft counts only if it sent good-accuracy reports elsewhere the same day (excludes equipment that never reports accuracy)",
             "the cell share must exceed the day's median cell share by a margin",
             "a day whose median cell share is itself high is marked confounded and no cell is declared degraded",
+            "a cell is declared degraded only if at least the publication minimum of aircraft are affected",
+            "when too few cells are fully sampled to estimate the day's background, no cell is declared degraded",
+            "every per-cell count below the publication minimum is withheld, zero included",
             "cells with fewer than the minimum distinct aircraft are not published",
         ],
         "input_stats": {
@@ -572,6 +639,117 @@ mod tests {
             day.cells.is_empty(),
             "no cell may be published below the minimum"
         );
+    }
+
+    /// `n` aircraft in the cell at (lat, 20.2), the first `hit` of them affected.
+    fn cell_of_aircraft(csv: &mut String, tag: &str, lat: f64, n: usize, hit: usize) {
+        for a in 0..n {
+            let acc = if a < hit { (0, 0) } else { (10, 9) };
+            fly(csv, &format!("{tag}{a}"), (lat, 20.2), 6, acc, 6);
+        }
+    }
+
+    #[test]
+    fn counts_below_the_minimum_are_withheld_even_when_the_cell_is_published() {
+        // 5 aircraft observed, but only one has a baseline and is affected: the cell is
+        // published, its counts are not.
+        let mut csv = HDR.to_string();
+        fly(&mut csv, "one", (33.2, 33.2), 6, (0, 0), 6);
+        for a in 0..4 {
+            fly(&mut csv, &format!("nobase{a}"), (33.2, 33.2), 6, (0, 0), 0);
+        }
+        let mut g = agg();
+        g.read_csv(&csv).unwrap();
+        let day = &g.finish()[0];
+        let cell = day
+            .cells
+            .iter()
+            .find(|c| c.props["aircraft_observed"] == 5)
+            .unwrap();
+        assert!(cell.props["aircraft_sampled"].is_null());
+        assert!(cell.props["aircraft_affected"].is_null());
+        assert!(
+            cell.props["affected_share"].is_null(),
+            "a share would reveal the affected count"
+        );
+        assert_eq!(cell.status, "insufficient_sample");
+    }
+
+    #[test]
+    fn a_degraded_call_needs_the_publication_minimum_of_affected_aircraft() {
+        // Six background cells of 12 clean aircraft; one cell with 4 of 12 affected (33%,
+        // over the 30% share, but under 5 aircraft).
+        let mut csv = HDR.to_string();
+        for cell in 0..6 {
+            cell_of_aircraft(&mut csv, &format!("c{cell}-"), 40.2 + cell as f64, 12, 0);
+        }
+        cell_of_aircraft(&mut csv, "t-", 47.2, 12, 4);
+        let mut g = agg();
+        g.read_csv(&csv).unwrap();
+        let day = &g.finish()[0];
+        let t = day
+            .cells
+            .iter()
+            .find(|c| c.props["aircraft_sampled"] == 12 && c.props["aircraft_affected"].is_null())
+            .unwrap();
+        assert_eq!(t.status, "not_degraded");
+        assert!(!t.degraded);
+        // With 5 affected the same cell is degraded and its counts are published.
+        let mut csv = HDR.to_string();
+        for cell in 0..6 {
+            cell_of_aircraft(&mut csv, &format!("c{cell}-"), 40.2 + cell as f64, 12, 0);
+        }
+        cell_of_aircraft(&mut csv, "t-", 47.2, 12, 5);
+        let mut g = agg();
+        g.read_csv(&csv).unwrap();
+        let day = &g.finish()[0];
+        let t = day.cells.iter().find(|c| c.degraded).unwrap();
+        assert_eq!(t.props["aircraft_affected"], 5);
+    }
+
+    #[test]
+    fn too_few_sampled_cells_withhold_the_call_instead_of_skipping_the_background_check() {
+        // Only two cells have a full sample, so the day's background cannot be estimated.
+        let mut csv = HDR.to_string();
+        cell_of_aircraft(&mut csv, "a-", 40.2, 12, 0);
+        cell_of_aircraft(&mut csv, "b-", 41.2, 12, 8);
+        let mut g = agg();
+        g.read_csv(&csv).unwrap();
+        let day = &g.finish()[0];
+        assert_eq!(day.day_meta["background_evaluated"], false);
+        let b = day
+            .cells
+            .iter()
+            .find(|c| c.props["aircraft_affected"] == 8)
+            .unwrap();
+        assert_eq!(b.status, "withheld_no_background");
+        assert!(day.cells.iter().all(|c| !c.degraded));
+    }
+
+    #[test]
+    fn an_input_with_only_one_accuracy_column_still_works() {
+        for col in ["nic", "nacp"] {
+            let mut csv = format!("timestamp,aircraft_id,lat,lon,alt_baro_ft,{col}\n");
+            for cell in 0..6 {
+                for a in 0..12 {
+                    let id = format!("o{cell}x{a}");
+                    for k in 0..6 {
+                        csv.push_str(&format!("2026-03-01T09:0{k}:00Z,{id},10.1,10.1,30000,11\n"));
+                    }
+                    let v = if cell == 2 && a < 7 { 0 } else { 10 };
+                    for k in 0..4 {
+                        csv.push_str(&format!(
+                            "2026-03-01T10:0{k}:00Z,{id},{},20.2,30000,{v}\n",
+                            40.2 + cell as f64
+                        ));
+                    }
+                }
+            }
+            let mut g = agg();
+            g.read_csv(&csv).unwrap();
+            let day = &g.finish()[0];
+            assert_eq!(day.cells.iter().filter(|c| c.degraded).count(), 1, "{col}");
+        }
     }
 
     #[test]
@@ -787,6 +965,7 @@ mod tests {
             (0.30, 0.15, 0.15)
         );
         assert_eq!(p.min_alt_ft, 5000.0);
-        assert_eq!(METHOD_ID, "kshana-interference-map/adsb/v1");
+        assert_eq!(p.min_affected_aircraft, 5);
+        assert_eq!(METHOD_ID, "kshana-interference-map/adsb/v2");
     }
 }

@@ -27,11 +27,27 @@ pub fn civil_from_days(z: i64) -> (i64, u32, u32) {
     (if m <= 2 { y + 1 } else { y }, m, d)
 }
 
-/// Parse a timestamp to Unix seconds.
+/// Earliest and latest accepted time, Unix seconds (2000-01-01 and 2100-01-01 UTC). Wider
+/// than any real archive, narrow enough that a millisecond epoch (about 1.7e12) or a
+/// stray small number is refused instead of being read as a date far from today.
+const MIN_EPOCH_S: f64 = 946_684_800.0;
+const MAX_EPOCH_S: f64 = 4_102_444_800.0;
+
+fn days_in_month(y: i64, m: u32) -> u32 {
+    match m {
+        1 | 3 | 5 | 7 | 8 | 10 | 12 => 31,
+        4 | 6 | 9 | 11 => 30,
+        _ if (y % 4 == 0 && y % 100 != 0) || y % 400 == 0 => 29,
+        _ => 28,
+    }
+}
+
+/// Parse a timestamp to Unix seconds. Epoch values outside 2000 to 2100 and calendar dates
+/// that do not exist (2026-02-30) are refused.
 pub fn parse_timestamp(s: &str) -> Option<f64> {
     let s = s.trim();
     if let Ok(v) = s.parse::<f64>() {
-        return (v.is_finite() && v > 0.0).then_some(v);
+        return (MIN_EPOCH_S..MAX_EPOCH_S).contains(&v).then_some(v);
     }
     let s = s.strip_suffix('Z').unwrap_or(s);
     let (date, time) = s.split_once(['T', ' '])?;
@@ -39,7 +55,12 @@ pub fn parse_timestamp(s: &str) -> Option<f64> {
     let y: i64 = dp.next()?.parse().ok()?;
     let m: u32 = dp.next()?.parse().ok()?;
     let d: u32 = dp.next()?.parse().ok()?;
-    if dp.next().is_some() || !(1..=12).contains(&m) || !(1..=31).contains(&d) {
+    if dp.next().is_some()
+        || !(2000..2100).contains(&y)
+        || !(1..=12).contains(&m)
+        || d < 1
+        || d > days_in_month(y, m)
+    {
         return None;
     }
     let mut tp = time.split(':');
@@ -77,7 +98,10 @@ mod tests {
         assert_eq!(day_of(t), "2026-03-01");
         assert_eq!(parse_timestamp(&format!("{t}")).unwrap(), t);
         assert_eq!(parse_timestamp("2026-03-01 12:30:15").unwrap(), t);
-        assert_eq!(parse_timestamp("1970-01-02T00:00:00Z").unwrap(), 86_400.0);
+        assert_eq!(
+            parse_timestamp("2000-01-02T00:00:00Z").unwrap(),
+            946_684_800.0 + 86_400.0
+        );
     }
 
     #[test]
