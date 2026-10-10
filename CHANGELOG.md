@@ -9,13 +9,12 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Changed
+## [0.34.1] - 2026-10-10
 
-- **MCP tools accept inline content only.** File-source fields (`csv_path`, `meta_path`,
-  `ephemeris_path`, the kernel, data-folder and EOP-file fields, and a receiver log's `path`)
-  are refused by every tool that takes scenario text, and scenario text and uploads are
-  capped at 4 MiB. A test lists the fields and fails when a scenario type gains one that is
-  not covered.
+### Security
+
+- **MCP server input hardened.** The MCP server's scenario tools now accept inline content only
+  and refuse file-source fields; input size is capped.
 
 ## [0.34.0] - 2026-10-09
 
