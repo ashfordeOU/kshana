@@ -7,6 +7,10 @@
 //
 // Advisory software, not type-approved equipment: the operator stays responsible.
 import net from 'node:net'
+import fs from 'node:fs'
+import { fileURLToPath } from 'node:url'
+
+export const MAX_LINE_BYTES = 65536 // a held partial line longer than this is dropped, as in the Signal K plugin's line splitter
 
 export function startRelay({ port = 10110, host = '127.0.0.1', waitClients = 0, maxQueueBytes = 1 << 20 } = {}) {
   const clients = new Set()
@@ -30,7 +34,11 @@ export function startRelay({ port = 10110, host = '127.0.0.1', waitClients = 0, 
     write(chunk) {
       tail = Buffer.concat([tail, chunk])
       const i = tail.lastIndexOf(0x0a)
-      if (i < 0) return
+      if (i < 0) {
+        // input with no newline must not grow the buffer without bound
+        if (tail.length > MAX_LINE_BYTES) tail = Buffer.alloc(0)
+        return
+      }
       const out = tail.subarray(0, i + 1)
       tail = tail.subarray(i + 1)
       for (const c of clients) {
@@ -46,7 +54,15 @@ export function startRelay({ port = 10110, host = '127.0.0.1', waitClients = 0, 
   }
 }
 
-if (import.meta.url === `file://${process.argv[1]}`) {
+// run as a script only when this file is the entry point (symlinks and paths with special characters resolved)
+const isMain = (() => {
+  try {
+    return process.argv[1] && fs.realpathSync(process.argv[1]) === fs.realpathSync(fileURLToPath(import.meta.url))
+  } catch (e) {
+    return false
+  }
+})()
+if (isMain) {
   const arg = (n, d) => {
     const i = process.argv.indexOf(n)
     return i > 0 ? process.argv[i + 1] : d

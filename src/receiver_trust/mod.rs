@@ -14,6 +14,7 @@
 //! clock-aided bound of [`crate::security`]). Nothing is fitted to the events being
 //! scored: every monitor parameter is an input stated in the scenario.
 
+pub mod assess;
 pub mod ingest;
 pub mod live;
 pub mod maritime;
@@ -88,6 +89,14 @@ pub struct LogEpoch {
     /// and the like, an authentication status); `None` when the log carries none of them.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub marine: Option<MarineObs>,
+    /// `[start, end)` byte offsets into the input the log was read from: the smallest
+    /// contiguous range holding the records that contributed to this epoch, so a caller can
+    /// hash the exact raw slice. `None` where it is not well defined (a live stream, an
+    /// epoch assembled from records far apart). See the readers in [`ingest`] for what each
+    /// format covers. A superset of the epoch's own records where other records lie between
+    /// them (an unrelated NMEA line, say).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub source_span: Option<[usize; 2]>,
 }
 
 /// An OSNMA (Galileo navigation message authentication) status as a receiver reports it.

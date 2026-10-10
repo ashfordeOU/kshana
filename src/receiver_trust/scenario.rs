@@ -402,13 +402,25 @@ fn validate(scn: &ReceiverTrustScenario) -> Result<(), String> {
 pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustResult, String> {
     validate(scn)?;
     let log_bytes = load_source(&scn.log.source, "log")?;
-    let timeline = read_log(scn.log.format, &log_bytes)?;
-
-    // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     let nav_bytes = match &scn.log.nav {
         Some(src) => Some(load_source(src, "log.nav")?),
         None => None,
     };
+    run_receiver_trust_bytes(scn, &log_bytes, nav_bytes.as_deref())
+}
+
+/// Run a `receiver-trust` scenario on log bytes the caller already holds: the scenario's own
+/// `[log]` source is not read (its `format` still says how to read the bytes). `nav` is the
+/// RINEX broadcast navigation file for a `rinex` log.
+pub fn run_receiver_trust_bytes(
+    scn: &ReceiverTrustScenario,
+    log_bytes: &[u8],
+    nav_bytes: Option<&[u8]>,
+) -> Result<ReceiverTrustResult, String> {
+    validate(scn)?;
+    let timeline = read_log(scn.log.format, log_bytes)?;
+
+    // The engine's own fix needs pseudoranges, which only the RINEX observation file has.
     if nav_bytes.is_some() && scn.log.format != LogFormat::Rinex {
         return Err(
             "log.nav applies only to a `rinex` log: the engine fix needs its pseudoranges".into(),
@@ -416,7 +428,7 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
     }
     let engine_inputs = match &nav_bytes {
         Some(nav) => {
-            let obs = crate::rinex_obs::parse_obs(&String::from_utf8_lossy(&log_bytes))?;
+            let obs = crate::rinex_obs::parse_obs(&String::from_utf8_lossy(log_bytes))?;
             let ephs = crate::rinex::parse_nav(&String::from_utf8_lossy(nav))?;
             Some((obs, ephs))
         }
@@ -429,9 +441,9 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
 
     let mut hasher = Sha256::new();
     hasher.update(serde_json::to_string(scn).unwrap_or_default().as_bytes());
-    hasher.update(log_bytes.as_slice());
-    if let Some(nav) = &nav_bytes {
-        hasher.update(nav.as_slice());
+    hasher.update(log_bytes);
+    if let Some(nav) = nav_bytes {
+        hasher.update(nav);
     }
     let scenario_hash = format!("{:x}", hasher.finalize());
 
@@ -574,7 +586,7 @@ pub fn run_receiver_trust(scn: &ReceiverTrustScenario) -> Result<ReceiverTrustRe
         name: scn.name.clone(),
         log: LogSummary {
             format: scn.log.format,
-            sha256: sha256_hex(&log_bytes),
+            sha256: sha256_hex(log_bytes),
             bytes: log_bytes.len(),
             epochs: timeline.epochs.len(),
             duration_s: timeline.epochs.last().map(|e| e.t_s).unwrap_or(0.0),
