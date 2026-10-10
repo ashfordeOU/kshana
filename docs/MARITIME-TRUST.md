@@ -49,6 +49,12 @@ arrives, and a live stream gives the same score as the same text read as a file.
 
 ## What each check catches, and what it cannot
 
+Directions between fixes (the track bearing used by the turn-rate check, the course implied by two
+positions) are the direction of the chord between them, which is the geodesic's **mean azimuth**
+between the fixes, not the forward azimuth at the first fix; the two differ by about half the
+convergence of the meridians between the fixes (0.001 degrees for a 260 m baseline at 59.5 degrees
+latitude).
+
 A counterfeit position has to agree with a ship's physics and with the ship's other sensors. Each
 check compares the fix with one of them. A check is only as independent as its other source: a
 heading from a GNSS compass, or a "speed through the water" derived from GNSS, is not independent
@@ -200,8 +206,8 @@ multiplexer) and pipe or forward it. Direct serial input can come later.
 Each completed epoch writes one JSON line on stdout:
 
 ```json
-{"seq":941,"t_s":940.0,"time":"2025-06-14T08:15:40.000Z","state":"untrusted","score":23.4,
- "deductions":[{"monitor":"heading-course","ratio":2.0,"points":40.0}],
+{"seq":941,"t_s":940.0,"time":"2025-06-14T08:15:40.000Z","state":"degraded","score":60.0,
+ "deductions":[{"monitor":"heading-course","ratio":1.5,"points":40.0}],
  "alarms":["heading-course"],"gate":"off","note":null,
  "position":{"lat_deg":59.8123456,"lon_deg":24.9012345,"height_m":39.4}}
 ```
@@ -241,7 +247,7 @@ The `osnma` monitor takes per-satellite authentication status from an authentica
 through `MarineObs::sat_auth` (a list of `(satellite, status)`, status `Authenticated`, `Failed`
 or `Unavailable`), next to the overall `MarineObs::osnma`. On the NMEA side the same is carried by
 `$PKSOS,<A|F|N>[,<sat>:<A|F|N>...]`, for example `$PKSOS,A,E11:A,E19:F`. Any failure, overall or on
-one satellite, alarms the monitor and costs its whole weight; success is no evidence. Kshana
+one satellite, alarms the monitor and costs its whole weight (it is given the ratio 1.5); success is no evidence. Kshana
 verifies nothing here: the source that does is responsible for the status it reports.
 
 An epoch is complete when the next timed sentence arrives; sentences of slower or unsynchronised
@@ -280,7 +286,7 @@ Every epoch also produces one NMEA 0183 sentence, with a valid checksum, which `
 writes to a file or stdout and which the gate inserts into the forwarded stream:
 
 ```
-$PKSHT,1,080140.25,23.4,U,W,heading-course:40.0/cn0-spread:30.0*29
+$PKSHT,1,080140.25,30.0,U,W,heading-course:40.0/cn0-spread:30.0*2F
 ```
 
 | Field | Meaning |

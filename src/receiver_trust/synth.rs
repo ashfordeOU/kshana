@@ -265,7 +265,8 @@ fn displace(lat: f64, lon: f64, east: f64, north: f64) -> (f64, f64) {
     let m_radius = WGS84_A * (1.0 - WGS84_E2) / (w * w * w);
     (
         lat + (north / m_radius).to_degrees(),
-        lon + (east / (n_radius * phi.cos())).to_degrees(),
+        // Longitude stays in [-180, 180): a track across the antimeridian wraps.
+        (lon + (east / (n_radius * phi.cos())).to_degrees() + 540.0).rem_euclid(360.0) - 180.0,
     )
 }
 
