@@ -9,19 +9,6 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Interference map validation
-
-- **The interference map's decoding semantics and geometry are checked against independent
-  implementations on synthetic inputs.** NIC and NACp code meanings against pyModeS decoding of
-  synthetic ADS-B frames, the AIS not-available values against pyais decoding of synthetic AIVDM
-  sentences, grid cell assignment against shapely, route length per cell state against shapely and
-  GeographicLib, and inland masking against shapely and pyproj, each to a tolerance fixed before the
-  first comparison (`tests/fixtures/interference_map_ref/PREREGISTRATION.md`). This validates how
-  codes and field values are read and the geometry, not that a flagged cell is interference. The
-  land-polygon reader now closes a ring that does not repeat its first vertex, which it used to read
-  without its last edge. The docs state the NACp and NIC low-accuracy thresholds as the bound each
-  code stands for (NACp 6 is a 556 m EPU bound, NIC 5 a 1 NM containment bound).
-
 ## [0.35.0] - 2026-10-10
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
@@ -220,6 +207,19 @@ generated NMEA text is for training. Galileo OSNMA verification is not in this r
 - `fusion::pack::truth_trajectory` exposes the `gnss-ins` driving profile's true state
   history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
   time fields.
+
+### Interference map validation
+
+- **The interference map's decoding semantics and geometry are checked against independent
+  implementations on synthetic inputs.** NIC and NACp code meanings against pyModeS decoding of
+  synthetic ADS-B frames, the AIS not-available values against pyais decoding of synthetic AIVDM
+  sentences, grid cell assignment against shapely, route length per cell state against shapely and
+  GeographicLib, and inland masking against shapely and pyproj, each to a tolerance fixed before the
+  first comparison (`tests/fixtures/interference_map_ref/PREREGISTRATION.md`). This validates how
+  codes and field values are read and the geometry, not that a flagged cell is interference. The
+  land-polygon reader now closes a ring that does not repeat its first vertex, which it used to read
+  without its last edge. The docs state the NACp and NIC low-accuracy thresholds as the bound each
+  code stands for (NACp 6 is a 556 m EPU bound, NIC 5 a 1 NM containment bound).
 
 ### Changed
 
