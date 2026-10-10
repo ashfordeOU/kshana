@@ -12,14 +12,14 @@ breaking changes are called out explicitly.
 ### Added: compliance mapping and test-bench export
 
 - **`docs/compliance/` and `kshana compliance-report`.** A mapping from Kshana outputs to
-  five public resilience frameworks (the US DHS Resilient PNT Conformance Framework v2.0,
-  IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803 by part and
-  public clause number), one table per framework: the reference, what it asks in our
+  five resilience frameworks and standards (the US DHS Resilient PNT Conformance Framework v2.0,
+  IMO guidance for ships, EASA guidance for aviation, NIS2 Article 21, EN 16803, a paid standard
+  cited by part and by the few clause numbers visible in catalogue text), one table per framework: the reference, what it asks in our
   paraphrase, the outputs that support evidence for it, and the gap. Source versions, URLs and
   what was and was not read are recorded. `kshana compliance-report <result.json>...` fills
   the mapping from the runs given and marks each row `evidenced`, `partly-evidenced`,
   `not-evidenced` or `out-of-scope`, as Markdown and JSON, with the gap kept on every row. The
-  wording is "supports evidence for"; nothing is certified. Tests use synthetic runs and fail
+  wording is "supports evidence for"; nothing is rated or approved. Tests use synthetic runs and fail
   when a committed table drifts from the code.
 - **`kshana bench-export <scenario.toml>`.** Writes a `gnss-ins`, `jamming` or `gnss-sim`
   scenario's vehicle motion and events for a laboratory GNSS simulator: a user-motion CSV
@@ -29,6 +29,17 @@ breaking changes are called out explicitly.
   `tests/interop_testbench.rs` and compared within its stated tolerance.
   [`docs/TEST-BENCH.md`](docs/TEST-BENCH.md) gives the method for replaying the export
   through a simulator and scoring the receiver's log with `kshana receiver-trust`.
+- **What counts as evidence.** A result counts for a capability only when it carries the
+  fields its kind writes; a kind label alone counts for nothing. Unknown kinds, a result
+  that disagrees with its sibling scenario, non-hex hashes and malformed receiver-trust
+  counts are listed as not used, with the reason. The report escapes Markdown cells and
+  cannot panic on a non-ASCII hash. `compliance::run_from_text` and `assess_texts` take
+  texts, not paths.
+- **Test-bench export.** `--epoch` is range-checked (`UtcEpoch::parse_iso`); the waypoint
+  file checks every interval and the command says why when it is left out; the docs state
+  that `gnss-ins` heading is the body yaw and not the course, the `GGA` placeholder fields,
+  and the scenario's own height change. `bench-export` and `compliance-report` are in the
+  usage text.
 - `fusion::pack::truth_trajectory` exposes the `gnss-ins` driving profile's true state
   history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
   time fields.

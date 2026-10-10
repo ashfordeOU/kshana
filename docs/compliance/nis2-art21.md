@@ -4,8 +4,8 @@
 Article 21 lists, in paragraph 2 points (a) to (j), the measures essential and important entities take to manage risks to their network and information systems. Most points are organisational. Kshana speaks to the positioning-and-timing dependency of a system: how it behaves when GNSS is interfered with, and how that behaviour is tested and dated.
 
 Every row says which Kshana outputs **support evidence for** the requirement and what is
-left over. Nothing here says a framework is met, that a product conforms to it, or that
-anything is certified. Run `kshana compliance-report` on your own result files to see which
+left over. Nothing here says a framework is met or that any product has been rated or
+approved by anyone. Run `kshana compliance-report` on your own result files to see which
 rows your runs actually evidence; see [README.md](README.md).
 
 ## Source documents
