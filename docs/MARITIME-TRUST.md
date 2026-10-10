@@ -39,8 +39,9 @@ heading_sensor = true      # the stream carries a gyro or compass heading
 | GSV | per-satellite signal strength (dB-Hz) |
 | `$PKSOS,<A/F/N>` | an OSNMA status a receiver reported, translated into this sentence by the adapter that reads the receiver: `A` authenticated, `F` failed, `N` no result |
 
-Epochs the receiver itself flags invalid (GGA
-quality 0 or RMC status `V`) are not used for the position checks: the receiver has already said so.
+Epochs the receiver itself says are not a satellite fix (GGA quality 0, or 6 to 8: estimated, manual,
+simulator; RMC status `V`, or mode `E`, `M`, `S`, `N`) are not used for the position checks and carry
+no evidence either way: the receiver has already said so.
 
 The first `calibration_s` seconds form the baseline and are never scored. Every monitor looks only
 at the current and earlier epochs, so a decision at an epoch does not change when later data
@@ -80,7 +81,9 @@ session): `nominal` at 90 or above, `degraded` at 55 or above, `untrusted` below
 every weight and its reason are in [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md#trust-score-vessel-platform);
 it is deterministic and fixed before a log is scored, with no learning and nothing fitted to events.
 
-Outputs of a batch run: `session.result.json` (with the score model and every epoch's deductions),
+Every vessel output carries the advisory statement: the `advisory` key of the result JSON and of each
+live line, a first `#` comment line of the CSV (readers skip it with their comment option), the `<desc>`
+and a footer of the SVG. Outputs of a batch run: `session.result.json` (with the score model and every epoch's deductions),
 `session.trust.csv` (with `score` and `score_reasons` columns) and `session.trust.svg`, which for a
 vessel is the receiver-reported track coloured by trust band above the score over time.
 
@@ -223,13 +226,14 @@ One JSON object per completed epoch, keys in this order:
 | `gate` | string | `off`, `passed` or `withheld` |
 | `note` | string or null | why no score was produced (for example a declared heading sensor that is absent) |
 | `position` | object or null | *(added in 1.1)* the position the receiver reported at this epoch, `{"lat_deg", "lon_deg", "height_m"}` (height ellipsoidal where the sentence gives the geoid separation, else above mean sea level); null when the receiver gave none, including calibrating epochs without a fix |
+| `advisory` | string | *(added in 1.2)* what this software is and is not: advisory, not type-approved navigation equipment, the operator remains responsible |
 
 Monitor names (kebab-case; 16): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
 `clock`, `solve-failure`, `kinematic`, `heading-course`, `speed-log`, `sea-level`, `cn0-spread`,
 `cn0-rise`, `time-consistency`, `osnma`. New names may be added in later
 versions; consumers should treat an unknown monitor name as a monitor. The `$PKSHT` layout below
-carries a format version in its first field; this JSON schema is version 1.1: 1.1 added `position` at the end, and it changes only by
-adding keys at the end.
+carries a format version in its first field; this JSON schema is version 1.2: 1.1 added `position`, 1.2 `advisory`, each at the end, and it changes
+only by adding keys at the end.
 
 ### Authentication input
 
