@@ -1,5 +1,5 @@
 # External-oracle reference for kshana's CCSDS 502.0 OEM COVARIANCE block.
-# Oracle: the oem library (Brad Sease <bradsease@gmail.com>, MIT, v0.4.5) + numpy.
+# Oracle: the oem library (MIT, v0.4.5, https://github.com/bradsease/oem) + numpy.
 # Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.
 # Consumed by tests/ccsds_oem_covariance_reference.rs.
 # See generate_p5_ccsds_cov_reference.py for provenance/scope/findings.
