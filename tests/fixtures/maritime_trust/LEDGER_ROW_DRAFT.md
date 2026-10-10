@@ -3,7 +3,7 @@
 For the maintainer who applies them to `src/verification.rs` (not edited here). Two rows, because
 only part of the capability can be checked externally.
 
-## Row A: VALIDATED (oracle_kind: the library kind if the enum on the base has one, as the other independent-library rows use; on the base this was written against the enum has ExternalDataset, ReferenceImpl, InternalConsistency and NoneKind only, and ExternalDataset is the independent-library kind there)
+## Row A: VALIDATED (oracle_kind: ReferenceImpl; pynmea2 and GeographicLib are independent reference implementations, not datasets. The oracle-basis entry is separate from oracle_kind and is kept consistent by the maintainer)
 
 requirement: Maritime trust monitors: the arithmetic they rest on (NMEA decoding, geodesic offsets, the kinematic and sensor-residual statistics)
 
