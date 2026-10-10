@@ -267,7 +267,7 @@ jobs:
         with:
           node-version: "22"
       - name: Build the Claude Desktop extensions (.mcpb), one per platform
-        # @anthropic-ai/mcpb is a build-time tool only (pinned in scripts/build-mcpb.sh); each package holds
+        # The mcpb packer (scripts/build-mcpb.sh) is a build-time tool only (pinned in scripts/build-mcpb.sh); each package holds
         # the same kshana-mcp binary that is attached on its own, and a manifest with the advisory statement.
         run: |
           set -euo pipefail
