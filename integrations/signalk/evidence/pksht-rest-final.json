@@ -2,40 +2,111 @@
   "navigation/gnss/kshana/band": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "calibrating, nominal, degraded or untrusted",
+        "displayName": "GNSS trust band"
+      },
       "value": "nominal",
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:56:44.176Z"
+      "timestamp": "2026-10-10T10:55:07.988Z"
     }
   },
   "navigation/gnss/kshana/score": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory only.",
+        "displayName": "GNSS trust score",
+        "displayScale": {
+          "lower": 0,
+          "upper": 100
+        },
+        "zones": [
+          {
+            "lower": 0,
+            "upper": 55,
+            "state": "alarm",
+            "message": "untrusted"
+          },
+          {
+            "lower": 55,
+            "upper": 90,
+            "state": "warn",
+            "message": "degraded"
+          },
+          {
+            "lower": 90,
+            "upper": 100,
+            "state": "nominal",
+            "message": "nominal"
+          }
+        ]
+      },
       "value": 100,
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:56:44.176Z"
+      "timestamp": "2026-10-10T10:55:07.988Z"
     }
   },
   "navigation/gnss/kshana/reasons": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "The checks that lowered the score, largest first: [{monitor, points}]. points are score points taken off the 0-100 score.",
+        "displayName": "GNSS trust deductions"
+      },
       "value": [],
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:56:44.176Z"
+      "timestamp": "2026-10-10T10:55:07.988Z"
     }
   },
   "navigation/gnss/kshana/gate": {
     "status": 200,
     "body": {
+      "meta": {
+        "description": "off, passed or withheld: what a Kshana gate did with the fix (null from $PKSHT without one).",
+        "displayName": "GNSS trust gate"
+      },
       "value": "passed",
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:56:44.176Z"
+      "timestamp": "2026-10-10T10:55:07.988Z"
+    }
+  },
+  "navigation/gnss/kshana/score/meta": {
+    "status": 200,
+    "body": {
+      "description": "Kshana receiver-trust score, 0 (no trust) to 100 (full trust). A score, not a ratio or a probability; null while calibrating. Advisory only.",
+      "displayName": "GNSS trust score",
+      "displayScale": {
+        "lower": 0,
+        "upper": 100
+      },
+      "zones": [
+        {
+          "lower": 0,
+          "upper": 55,
+          "state": "alarm",
+          "message": "untrusted"
+        },
+        {
+          "lower": 55,
+          "upper": 90,
+          "state": "warn",
+          "message": "degraded"
+        },
+        {
+          "lower": 90,
+          "upper": 100,
+          "state": "nominal",
+          "message": "nominal"
+        }
+      ]
     }
   },
   "navigation/gnss/kshana/reportedPosition": {
     "status": 404,
     "body": "<!DOCTYPE html>\n<html lang=\"en\">\n<head>\n<meta charset=\"utf-8\">\n<title>Error</title>\n</head>\n<body>\n<pre>Cannot GET /signalk/v1/api/vessels/self/navigation/gnss/kshana/reportedPosition</pre>\n</body>\n</html>\n"
   },
-  "notifications/navigation/gnss/kshanaTrust": {
+  "notifications/navigation/gnss/kshana/trust": {
     "status": 200,
     "body": {
       "value": {
@@ -45,7 +116,7 @@
           "sound"
         ],
         "message": "No Kshana trust data received; the trust score is not being updated.",
-        "id": "0a5a092f-30cb-40f4-abfb-9c1d5200e7f3",
+        "id": "2b61a74a-9e18-49f2-9a32-924c68d6623b",
         "status": {
           "silenced": false,
           "acknowledged": false,
@@ -55,7 +126,7 @@
         }
       },
       "$source": "kshana-trust",
-      "timestamp": "2026-10-09T19:56:48.255Z"
+      "timestamp": "2026-10-10T10:55:12.075Z"
     }
   },
   "navigation/position": {

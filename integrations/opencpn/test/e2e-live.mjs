@@ -22,6 +22,16 @@ const input = fs.readFileSync(path.join(demo, log))
 const session = path.join(demo, 'session.toml')
 const base = ['receiver-trust', 'live', session, '--gate', '--replay']
 
+const sleep = (ms) => new Promise((r) => setTimeout(r, ms))
+// The gate gives every client a bounded queue and drops one that cannot keep up, so a stored log is fed in modest
+// chunks (still far faster than real time) instead of one burst that no consumer could read in time.
+async function feedPaced(stream) {
+  for (let i = 0; i < input.length; i += 8192) {
+    stream.write(input.subarray(i, i + 8192))
+    await sleep(2)
+  }
+  stream.end()
+}
 const freePort = () =>
   new Promise((res) => {
     const s = net.createServer().listen(0, '127.0.0.1', () => {
@@ -45,7 +55,7 @@ function runStdout(onData) {
     const k = spawn(bin, base, { stdio: ['pipe', 'pipe', 'ignore'] })
     k.stdout.on('data', onData)
     k.on('close', res)
-    k.stdin.end(input)
+    feedPaced(k.stdin)
   })
 }
 
@@ -67,7 +77,7 @@ if (mode === 'relay') {
     k.on('close', () => rej(new Error('kshana exited before listening')))
   })
   const c = await connect(port)
-  k.stdin.end(input)
+  feedPaced(k.stdin)
   await c.done
   const got = Buffer.concat(c.chunks)
   const chunks = []
