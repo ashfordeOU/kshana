@@ -1,0 +1,184 @@
+# HELP kshana_build_info Engine version; constant 1.
+# TYPE kshana_build_info gauge
+kshana_build_info{version="9.9.9-oracle"} 1
+# HELP kshana_trust_score Latest GNSS trust score, 0 (no trust) to 100 (full trust). Absent when the source computes none.
+# TYPE kshana_trust_score gauge
+kshana_trust_score 23.4
+# HELP kshana_trust_band Latest GNSS trust band: 1 for the current band, 0 for the others.
+# TYPE kshana_trust_band gauge
+kshana_trust_band{band="calibrating"} 0
+kshana_trust_band{band="nominal"} 0
+kshana_trust_band{band="degraded"} 0
+kshana_trust_band{band="untrusted"} 1
+kshana_trust_band{band="unknown"} 0
+# HELP kshana_trust_gate Latest gate state of the live stream: 1 for the current state, 0 for the others.
+# TYPE kshana_trust_gate gauge
+kshana_trust_gate{gate="off"} 0
+kshana_trust_gate{gate="passed"} 0
+kshana_trust_gate{gate="withheld"} 1
+kshana_trust_gate{gate="unknown"} 0
+# HELP kshana_trust_position_latitude_degrees Latitude the receiver reported at the latest epoch, degrees.
+# TYPE kshana_trust_position_latitude_degrees gauge
+kshana_trust_position_latitude_degrees 59.8123456
+# HELP kshana_trust_position_longitude_degrees Longitude the receiver reported at the latest epoch, degrees.
+# TYPE kshana_trust_position_longitude_degrees gauge
+kshana_trust_position_longitude_degrees 24.9012345
+# HELP kshana_trust_position_height_meters Height the receiver reported at the latest epoch, metres.
+# TYPE kshana_trust_position_height_meters gauge
+kshana_trust_position_height_meters 39.4
+# HELP kshana_trust_reason_active 1 if the reason was present at the latest epoch, 0 if it was seen earlier but is not now.
+# TYPE kshana_trust_reason_active gauge
+kshana_trust_reason_active{reason="agc"} 0
+kshana_trust_reason_active{reason="back\\slash"} 0
+kshana_trust_reason_active{reason="cn0-drop"} 0
+kshana_trust_reason_active{reason="kinematic"} 1
+kshana_trust_reason_active{reason="line\nfeed"} 0
+kshana_trust_reason_active{reason="other"} 0
+kshana_trust_reason_active{reason="quote\"inside"} 1
+kshana_trust_reason_active{reason="réason ✓"} 0
+kshana_trust_reason_active{reason="synthetic-reason-00"} 0
+kshana_trust_reason_active{reason="synthetic-reason-01"} 0
+kshana_trust_reason_active{reason="synthetic-reason-02"} 0
+kshana_trust_reason_active{reason="synthetic-reason-03"} 0
+kshana_trust_reason_active{reason="synthetic-reason-04"} 0
+kshana_trust_reason_active{reason="synthetic-reason-05"} 0
+kshana_trust_reason_active{reason="synthetic-reason-06"} 0
+kshana_trust_reason_active{reason="synthetic-reason-07"} 0
+kshana_trust_reason_active{reason="synthetic-reason-08"} 0
+kshana_trust_reason_active{reason="synthetic-reason-09"} 0
+kshana_trust_reason_active{reason="synthetic-reason-10"} 0
+kshana_trust_reason_active{reason="synthetic-reason-11"} 0
+kshana_trust_reason_active{reason="synthetic-reason-12"} 0
+kshana_trust_reason_active{reason="synthetic-reason-13"} 0
+kshana_trust_reason_active{reason="synthetic-reason-14"} 0
+kshana_trust_reason_active{reason="synthetic-reason-15"} 0
+kshana_trust_reason_active{reason="synthetic-reason-16"} 0
+kshana_trust_reason_active{reason="synthetic-reason-17"} 0
+kshana_trust_reason_active{reason="synthetic-reason-18"} 0
+kshana_trust_reason_active{reason="synthetic-reason-19"} 0
+kshana_trust_reason_active{reason="synthetic-reason-20"} 0
+kshana_trust_reason_active{reason="synthetic-reason-21"} 0
+kshana_trust_reason_active{reason="synthetic-reason-22"} 0
+kshana_trust_reason_active{reason="synthetic-reason-23"} 0
+kshana_trust_reason_active{reason="synthetic-reason-24"} 0
+kshana_trust_reason_active{reason="synthetic-reason-25"} 0
+kshana_trust_reason_active{reason="synthetic-reason-26"} 0
+kshana_trust_reason_active{reason="synthetic-reason-27"} 0
+kshana_trust_reason_active{reason="synthetic-reason-28"} 0
+kshana_trust_reason_active{reason="synthetic-reason-29"} 0
+kshana_trust_reason_active{reason="synthetic-reason-30"} 0
+kshana_trust_reason_active{reason="synthetic-reason-31"} 0
+kshana_trust_reason_active{reason="synthetic-reason-32"} 0
+kshana_trust_reason_active{reason="synthetic-reason-33"} 0
+kshana_trust_reason_active{reason="synthetic-reason-34"} 0
+kshana_trust_reason_active{reason="synthetic-reason-35"} 0
+kshana_trust_reason_active{reason="synthetic-reason-36"} 0
+kshana_trust_reason_active{reason="synthetic-reason-37"} 0
+kshana_trust_reason_active{reason="synthetic-reason-38"} 0
+kshana_trust_reason_active{reason="synthetic-reason-39"} 0
+kshana_trust_reason_active{reason="synthetic-reason-40"} 0
+kshana_trust_reason_active{reason="synthetic-reason-41"} 0
+kshana_trust_reason_active{reason="synthetic-reason-42"} 0
+kshana_trust_reason_active{reason="synthetic-reason-43"} 0
+kshana_trust_reason_active{reason="synthetic-reason-44"} 0
+kshana_trust_reason_active{reason="synthetic-reason-45"} 0
+kshana_trust_reason_active{reason="synthetic-reason-46"} 0
+kshana_trust_reason_active{reason="synthetic-reason-47"} 0
+kshana_trust_reason_active{reason="synthetic-reason-48"} 0
+kshana_trust_reason_active{reason="synthetic-reason-49"} 0
+kshana_trust_reason_active{reason="synthetic-reason-50"} 0
+kshana_trust_reason_active{reason="synthetic-reason-51"} 0
+kshana_trust_reason_active{reason="synthetic-reason-52"} 0
+kshana_trust_reason_active{reason="synthetic-reason-53"} 0
+kshana_trust_reason_active{reason="synthetic-reason-54"} 0
+kshana_trust_reason_active{reason="synthetic-reason-55"} 0
+kshana_trust_reason_active{reason="synthetic-reason-56"} 0
+# HELP kshana_trust_epochs_total Epochs received, by trust band.
+# TYPE kshana_trust_epochs_total counter
+kshana_trust_epochs_total{band="calibrating"} 3
+kshana_trust_epochs_total{band="nominal"} 5
+kshana_trust_epochs_total{band="degraded"} 73
+kshana_trust_epochs_total{band="untrusted"} 1
+kshana_trust_epochs_total{band="unknown"} 0
+# HELP kshana_trust_reason_epochs_total Epochs in which a reason was present, by reason.
+# TYPE kshana_trust_reason_epochs_total counter
+kshana_trust_reason_epochs_total{reason="agc"} 1
+kshana_trust_reason_epochs_total{reason="back\\slash"} 1
+kshana_trust_reason_epochs_total{reason="cn0-drop"} 2
+kshana_trust_reason_epochs_total{reason="kinematic"} 2
+kshana_trust_reason_epochs_total{reason="line\nfeed"} 1
+kshana_trust_reason_epochs_total{reason="other"} 13
+kshana_trust_reason_epochs_total{reason="quote\"inside"} 2
+kshana_trust_reason_epochs_total{reason="réason ✓"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-00"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-01"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-02"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-03"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-04"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-05"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-06"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-07"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-08"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-09"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-10"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-11"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-12"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-13"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-14"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-15"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-16"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-17"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-18"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-19"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-20"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-21"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-22"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-23"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-24"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-25"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-26"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-27"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-28"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-29"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-30"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-31"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-32"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-33"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-34"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-35"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-36"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-37"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-38"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-39"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-40"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-41"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-42"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-43"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-44"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-45"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-46"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-47"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-48"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-49"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-50"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-51"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-52"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-53"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-54"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-55"} 1
+kshana_trust_reason_epochs_total{reason="synthetic-reason-56"} 1
+# HELP kshana_trust_input_errors_total Input lines that could not be parsed as trust samples.
+# TYPE kshana_trust_input_errors_total counter
+kshana_trust_input_errors_total 2
+# HELP kshana_trust_reason_overflow_total Reason occurrences folded into reason="other" because 64 distinct reasons were already in use.
+# TYPE kshana_trust_reason_overflow_total counter
+kshana_trust_reason_overflow_total 13
+# HELP kshana_trust_syslog_send_failures_total Syslog events not delivered (queue full, collector down or stalled).
+# TYPE kshana_trust_syslog_send_failures_total counter
+kshana_trust_syslog_send_failures_total 0
+# HELP kshana_trust_epoch_offset_seconds Offset of the latest epoch from the start of the log or session, seconds.
+# TYPE kshana_trust_epoch_offset_seconds gauge
+kshana_trust_epoch_offset_seconds 200
+# HELP kshana_trust_last_sample_timestamp_seconds Wall-clock time the latest epoch was received, Unix seconds. Alert on its age to detect a stalled stream.
+# TYPE kshana_trust_last_sample_timestamp_seconds gauge
+kshana_trust_last_sample_timestamp_seconds 1790000000

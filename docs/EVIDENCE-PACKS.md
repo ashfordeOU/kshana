@@ -151,17 +151,20 @@ verifier was told to trust, if any.
    (including `artifacts` entries with every member, and `log.slice`): failure
    `manifest-malformed`. Otherwise, if `format` is not the value above:
    `unsupported-format`.
-3. Signature phase. If the manifest was readable: the *named key* is `signer.public_key`;
-   if it is not 64 lower-case hex digits, failure `public-key-malformed` (no named key);
-   otherwise if `signer.fingerprint` is not the fingerprint of it, failure
-   `public-key-malformed` (the key stays usable). If both a `pin` and a named key exist
-   and differ: failure `public-key-mismatch`. The *check key* is `pin` if given, else the
-   named key. If there is no `manifest.sig`: `signature-missing`. Else if the file is not
-   exactly 128 lower-case hex digits plus one `\n`: `signature-malformed`. Else if there
-   is a check key that is not a valid Ed25519 public key encoding: `public-key-malformed`.
-   Else if there is a check key and the signature does not verify strictly over the bytes
-   of `manifest.json`: `signature-invalid`. (With no check key the signature is not
-   checked and no failure is raised for that.)
+3. Signature phase. This phase is performed whether or not the manifest was readable.
+   If the manifest was readable, the *named key* is `signer.public_key`; if it is not 64
+   lower-case hex digits, failure `public-key-malformed` (no named key); otherwise if
+   `signer.fingerprint` is not the fingerprint of it, failure `public-key-malformed` (the
+   key stays usable). If both a `pin` and a named key exist and differ: failure
+   `public-key-mismatch`. The *check key* is `pin` if one was given, otherwise the named
+   key if there is one; with neither there is no check key (this includes every case
+   where the manifest was not readable and no `pin` was given). If there is no
+   `manifest.sig`: `signature-missing`. Else if the file is not exactly 128 lower-case hex
+   digits plus one `\n`: `signature-malformed`. Else if there is a check key that is not a
+   valid Ed25519 public key encoding: `public-key-malformed`. Else if there is a check key
+   and the signature does not verify strictly over the bytes of `manifest.json` (whatever
+   they are): `signature-invalid`. (With no check key the signature is not checked and no
+   failure is raised for that.)
 4. If the manifest was not readable (step 2 gave `manifest-malformed`): stop here.
 5. Artifacts. If the `artifacts` names are not exactly the four above in order:
    `artifact-list-malformed`. Then for every manifest entry, in order: if the pack has no
