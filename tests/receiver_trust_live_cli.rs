@@ -196,11 +196,10 @@ fn tcp_is_read_until_the_peer_closes() {
         .output()
         .unwrap();
     server.join().unwrap();
-    assert!(
-        out.status.success(),
-        "{}",
-        String::from_utf8_lossy(&out.stderr)
-    );
+    // The peer closing is not a normal end of a stream that should go on: the exit is non-zero
+    // (a supervisor restarts the layer), after everything received has been scored and written.
+    assert_eq!(out.status.code(), Some(1));
+    assert!(String::from_utf8_lossy(&out.stderr).contains("closed by the peer"));
     let v = json_lines(&String::from_utf8(out.stdout).unwrap());
     assert_eq!(v.len(), 31);
     assert_eq!(v[30]["state"], "nominal");
@@ -311,4 +310,74 @@ fn gate_serves_the_stream_to_several_tcp_clients_on_localhost() {
         assert_eq!(fwd, input.lines().collect::<Vec<_>>());
         assert_eq!(got.matches("$PKSHT,").count(), 31);
     }
+}
+
+#[test]
+fn a_sentence_split_across_udp_datagrams_is_forwarded_whole() {
+    let probe = UdpSocket::bind("127.0.0.1:0").unwrap();
+    let port = probe.local_addr().unwrap().port();
+    drop(probe);
+    let mut child = Command::new(BIN)
+        .args(["receiver-trust", "live"])
+        .arg(session("udpsplit"))
+        .args(["--replay", "--gate", "--udp", &port.to_string()])
+        .stdout(Stdio::piped())
+        .stderr(Stdio::piped())
+        .spawn()
+        .unwrap();
+    let mut err = BufReader::new(child.stderr.take().unwrap());
+    let mut l = String::new();
+    while !l.contains("listening on udp") {
+        l.clear();
+        assert!(err.read_line(&mut l).unwrap() > 0, "exited before binding");
+    }
+    let tx = UdpSocket::bind("127.0.0.1:0").unwrap();
+    let dest = format!("127.0.0.1:{port}");
+    let input = text(30.0);
+    // Cut every datagram at a fixed 100 bytes, which lands inside sentences.
+    for chunk in input.as_bytes().chunks(100) {
+        tx.send_to(chunk, &dest).unwrap();
+        std::thread::sleep(std::time::Duration::from_micros(300));
+    }
+    let r = BufReader::new(child.stdout.as_mut().unwrap());
+    let got: Vec<String> = r.lines().take(150).map(|l| l.unwrap()).collect();
+    child.kill().unwrap();
+    child.wait().unwrap();
+    // Every forwarded sentence is a whole input sentence (or a $PKSHT): none is a fragment.
+    let input_lines: std::collections::HashSet<&str> = input.lines().collect();
+    let mut whole = 0;
+    for l in got.iter().filter(|l| !l.starts_with("$PKSHT")) {
+        assert!(
+            input_lines.contains(l.trim_end()),
+            "a fragment was forwarded: {l:?}"
+        );
+        whole += 1;
+    }
+    assert!(whole > 100);
+}
+
+#[test]
+fn a_followed_file_is_not_judged_against_the_host_clock_while_its_backlog_is_read() {
+    let dir = std::env::temp_dir().join(format!("kshana-live-{}-backlog", std::process::id()));
+    std::fs::create_dir_all(&dir).unwrap();
+    let log = dir.join("nmea.log");
+    std::fs::write(&log, text(40.0)).unwrap();
+    // No --replay: the 40 s backlog is read in milliseconds, which must not read as a clock fault.
+    let mut child = Command::new(BIN)
+        .args(["receiver-trust", "live"])
+        .arg(session("backlog"))
+        .args(["--file", log.to_str().unwrap(), "--follow"])
+        .stdout(Stdio::piped())
+        .stderr(Stdio::null())
+        .spawn()
+        .unwrap();
+    let v = read_json_lines(&mut child, 41);
+    child.kill().unwrap();
+    child.wait().unwrap();
+    assert_eq!(v.len(), 41);
+    assert!(
+        v.iter().skip(20).all(|e| e["state"] == "nominal"),
+        "{:?}",
+        v.last()
+    );
 }
