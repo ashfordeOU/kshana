@@ -31,7 +31,7 @@ FROM rust:1.93.0-slim-bookworm@sha256:776861219cd851131c1cec3bbd7cbeb16b99a79404
 WORKDIR /src
 COPY . .
 WORKDIR /src/mcp/kshana-mcp
-RUN cargo build --release && strip target/release/kshana-mcp
+RUN cargo build --release --locked && strip target/release/kshana-mcp
 
 # ---- runtime stage ---------------------------------------------------------------
 # bookworm-slim matches the builder's glibc (2.36), so the dynamically linked binary

@@ -411,7 +411,7 @@ jobs:
           registry-url: "https://registry.npmjs.org"
       - name: Upgrade npm to a version with trusted publishing
         run: |
-          npm install -g npm@^11.5.1
+          npm install -g npm@11.5.1
           npm --version
       - name: Publish
         env:

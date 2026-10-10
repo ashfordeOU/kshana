@@ -108,7 +108,7 @@ jobs:
           cp manifests/homebrew/Formula/kshana-mcp.rb tap/Formula/kshana-mcp.rb
           cd tap
           git config user.name "Ashforde OÜ"
-          git config user.email "ashfordegithub@cbaweja.org"
+          git config user.email "contact@ashforde.org"
           git add Formula/kshana-mcp.rb
           if git diff --cached --quiet; then echo "the tap already has this formula"; exit 0; fi
           git commit -m "kshana-mcp ${VERSION}"
@@ -148,7 +148,7 @@ jobs:
           cp manifests/scoop/bucket/kshana-mcp.json bucket-repo/bucket/kshana-mcp.json
           cd bucket-repo
           git config user.name "Ashforde OÜ"
-          git config user.email "ashfordegithub@cbaweja.org"
+          git config user.email "contact@ashforde.org"
           git add bucket/kshana-mcp.json
           if git diff --cached --quiet; then echo "the bucket already has this manifest"; exit 0; fi
           git commit -m "kshana-mcp ${VERSION}"
@@ -183,11 +183,16 @@ jobs:
           gh repo fork microsoft/winget-pkgs --clone=false || true
           gh repo sync "$me/winget-pkgs" --force
           # The repository is very large: fetch no file contents but the directory we write.
-          git clone --depth 1 --filter=blob:none --sparse "https://x-access-token:${GH_TOKEN}@github.com/$me/winget-pkgs.git" winget
+          # The token goes in an HTTP header set through the environment, never into the clone URL
+          # (which would be stored in .git/config and shown in process listings).
+          auth="$(printf 'x-access-token:%s' "$GH_TOKEN" | base64 -w0)"
+          echo "::add-mask::$auth"
+          export GIT_CONFIG_COUNT=1 GIT_CONFIG_KEY_0="http.https://github.com/.extraheader" GIT_CONFIG_VALUE_0="AUTHORIZATION: basic $auth"
+          git clone --depth 1 --filter=blob:none --sparse "https://github.com/$me/winget-pkgs.git" winget
           cd winget
           git sparse-checkout set manifests/a/AshfordeOU/KshanaMcp
           git config user.name "Ashforde OÜ"
-          git config user.email "ashfordegithub@cbaweja.org"
+          git config user.email "contact@ashforde.org"
           branch="kshana-mcp-${VERSION}"
           git checkout -b "$branch"
           mkdir -p "manifests/a/AshfordeOU/KshanaMcp/${VERSION}"

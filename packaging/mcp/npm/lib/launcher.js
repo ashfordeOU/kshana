@@ -14,6 +14,10 @@ const os = require("node:os");
 const path = require("node:path");
 
 const REPO = "ashfordeOU/kshana";
+/** Largest binary accepted (100 MB) and largest SHA256SUMS (64 KiB). */
+const MAX_BINARY_BYTES = 100 * 1024 * 1024;
+const MAX_SUMS_BYTES = 64 * 1024;
+const DEFAULT_TIMEOUT_MS = 120000;
 
 /** The release asset for a platform, or null. Linux x86-64 keeps its historical bare name. */
 function assetFor(platform, arch, version) {
@@ -48,8 +52,19 @@ function verify(buf, name, sums) {
   if (got !== want) throw new Error(`${name}: sha256 ${got} does not match SHA256SUMS ${want}; refusing to run it`);
 }
 
-function releaseBase(version, env) {
-  return (env.KSHANA_MCP_RELEASE_BASE || `https://github.com/${REPO}/releases/download/v${version}`).replace(/\/+$/, "");
+/**
+ * Where the release files come from: GitHub's release downloads, or KSHANA_MCP_RELEASE_BASE, which
+ * accepts only https:// or file:// (a plain http:// base would let anyone on the network swap both the
+ * binary and its checksum list). The override is announced on stderr every time it is used.
+ */
+function releaseBase(version, env, announce = true) {
+  const override = env.KSHANA_MCP_RELEASE_BASE;
+  if (!override) return `https://github.com/${REPO}/releases/download/v${version}`;
+  if (!/^(https|file):\/\//i.test(override)) {
+    throw new Error(`KSHANA_MCP_RELEASE_BASE must start with https:// or file:// (got ${JSON.stringify(override.split(":")[0] + ":")}); refusing to download`);
+  }
+  if (announce) process.stderr.write(`kshana-mcp: NOTICE: downloading from KSHANA_MCP_RELEASE_BASE=${override} instead of GitHub; checksums still apply, but the checksum list comes from the same place\n`);
+  return override.replace(/\/+$/, "");
 }
 
 function cacheDir(version, env) {
@@ -57,10 +72,44 @@ function cacheDir(version, env) {
   return path.join(root, version);
 }
 
-async function fetchBuffer(url) {
-  const res = await fetch(url, { redirect: "follow" });
+function timeoutMs(env) {
+  const n = Number(env.KSHANA_MCP_FETCH_TIMEOUT_MS);
+  return Number.isFinite(n) && n > 0 ? n : DEFAULT_TIMEOUT_MS;
+}
+
+/** Read a response body, refusing more than `max` bytes (checked as it streams, not after). */
+async function readCapped(res, max, what) {
+  const declared = Number(res.headers && res.headers.get && res.headers.get("content-length"));
+  if (Number.isFinite(declared) && declared > max) throw new Error(`${what}: ${declared} bytes is over the ${max}-byte limit`);
+  const chunks = [];
+  let total = 0;
+  const reader = res.body.getReader();
+  for (;;) {
+    const { done, value } = await reader.read();
+    if (done) break;
+    total += value.length;
+    if (total > max) {
+      try { await reader.cancel(); } catch { /* ignore */ }
+      throw new Error(`${what}: more than the ${max}-byte limit`);
+    }
+    chunks.push(Buffer.from(value));
+  }
+  return Buffer.concat(chunks);
+}
+
+/** GET a file with a time limit and a size cap; https only after any redirect; file:// read from disk. */
+async function fetchBuffer(url, max, env = process.env) {
+  const what = url.split("/").pop();
+  if (/^file:\/\//i.test(url)) {
+    const p = require("node:url").fileURLToPath(url);
+    const size = fs.statSync(p).size;
+    if (size > max) throw new Error(`${what}: ${size} bytes is over the ${max}-byte limit`);
+    return fs.readFileSync(p);
+  }
+  const res = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(timeoutMs(env)) });
   if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
-  return Buffer.from(await res.arrayBuffer());
+  if (res.url && !/^https:\/\//i.test(res.url)) throw new Error(`GET ${url}: redirected to a non-https address; refusing`);
+  return readCapped(res, max, what);
 }
 
 /** The path to a verified binary, downloading it first when it is not cached. */
@@ -70,7 +119,7 @@ async function ensureBinary(version, env = process.env, platform = process.platf
   const dir = cacheDir(version, env);
   const target = path.join(dir, name);
   const base = releaseBase(version, env);
-  const sums = parseSums((await fetchBuffer(`${base}/SHA256SUMS`)).toString("utf8"));
+  const sums = parseSums((await fetchBuffer(`${base}/SHA256SUMS`, MAX_SUMS_BYTES, env)).toString("utf8"));
   if (fs.existsSync(target)) {
     try {
       verify(fs.readFileSync(target), name, sums);   // a cached file is re-checked every run
@@ -81,7 +130,7 @@ async function ensureBinary(version, env = process.env, platform = process.platf
     }
   }
   process.stderr.write(`kshana-mcp: downloading ${name} v${version}\n`);
-  const buf = await fetchBuffer(`${base}/${name}`);
+  const buf = await fetchBuffer(`${base}/${name}`, MAX_BINARY_BYTES, env);
   verify(buf, name, sums);
   fs.mkdirSync(dir, { recursive: true });
   const tmp = `${target}.${process.pid}.tmp`;
@@ -90,4 +139,4 @@ async function ensureBinary(version, env = process.env, platform = process.platf
   return target;
 }
 
-module.exports = { assetFor, parseSums, sha256Hex, verify, releaseBase, cacheDir, ensureBinary };
+module.exports = { assetFor, parseSums, sha256Hex, verify, releaseBase, cacheDir, fetchBuffer, ensureBinary, MAX_BINARY_BYTES, MAX_SUMS_BYTES };
