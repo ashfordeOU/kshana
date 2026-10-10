@@ -140,6 +140,45 @@ pub fn receiver_trust(toml: &str) -> Result<String, JsValue> {
     .to_string())
 }
 
+/// Fill the public-framework mapping from result documents: which rows of five resilience
+/// frameworks and standards (`docs/compliance/`) the runs support evidence for, which they
+/// do not, and the gap each row keeps. `runs_json` is a JSON array of `{label, result,
+/// scenario?}` where `result` is the result JSON text and `scenario` the scenario TOML text
+/// (it names the scenario kind a result does not); at most 64 runs. Returns JSON
+/// `{report, markdown}`. The report carries `statement` verbatim: a status says the runs
+/// support evidence for a row's capabilities, not that a framework is met. Nothing is
+/// uploaded or read from disk.
+#[wasm_bindgen]
+pub fn compliance_report(runs_json: &str) -> Result<String, JsValue> {
+    use crate::surface::{ComplianceRunText, MAX_INPUT_BYTES};
+    let v: serde_json::Value = serde_json::from_str(runs_json)
+        .map_err(|e| JsValue::from_str(&format!("runs_json is not JSON: {e}")))?;
+    let arr = v.as_array().ok_or_else(|| {
+        JsValue::from_str("runs_json must be an array of {label, result, scenario?}")
+    })?;
+    let mut texts = Vec::with_capacity(arr.len());
+    for (i, r) in arr.iter().enumerate() {
+        let field = |k: &str| r.get(k).and_then(|x| x.as_str()).map(str::to_string);
+        texts.push(ComplianceRunText {
+            label: field("label")
+                .ok_or_else(|| JsValue::from_str(&format!("runs[{i}] needs `label`")))?,
+            result_json: field("result")
+                .ok_or_else(|| JsValue::from_str(&format!("runs[{i}] needs `result`")))?,
+            scenario_toml: field("scenario"),
+        });
+    }
+    let out = crate::surface::compliance_report(&texts, MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))?;
+    Ok(serde_json::json!({"report": out.report, "markdown": out.markdown}).to_string())
+}
+
+/// The static public-framework mapping as Markdown, led by the statement every report
+/// carries: the tables (`sources` false) or the source documents they cite (`sources` true).
+#[wasm_bindgen]
+pub fn compliance_mapping(sources: bool) -> String {
+    crate::surface::compliance_mapping(sources)
+}
+
 /// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; formats in
 /// `docs/INTERFERENCE-MAP.md`). `dataset` is an approved preset or `"custom"`, which also
 /// needs `licence`, `licence_url` and `attribution`; pass an empty string for any field

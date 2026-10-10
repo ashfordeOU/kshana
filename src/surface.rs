@@ -314,6 +314,92 @@ pub fn nmea_training(
     })
 }
 
+/// Most runs a surface accepts in one compliance report.
+pub const MAX_COMPLIANCE_RUNS: usize = 64;
+
+/// One run offered to [`compliance_report`]: the result JSON as text, the name to show for
+/// it, and the scenario TOML that produced it when there is one (it names the scenario
+/// kind, which a result does not).
+#[derive(Clone, Debug, Default)]
+pub struct ComplianceRunText {
+    /// Name shown in the report (usually the result's file name).
+    pub label: String,
+    /// The result JSON text.
+    pub result_json: String,
+    /// The scenario TOML text, when there is one.
+    pub scenario_toml: Option<String>,
+}
+
+/// The filled public-framework mapping, as JSON and as Markdown.
+#[derive(Clone, Debug)]
+pub struct ComplianceOutput {
+    /// The report as JSON: `statement`, `engine_version`, `runs`, `unrecognised`,
+    /// `capabilities`, `receiver_trust` and one entry per framework row.
+    pub report: Value,
+    /// The same report as Markdown.
+    pub markdown: String,
+}
+
+/// Fill the public-framework mapping (`docs/compliance/`) from result documents given as
+/// text: which framework rows the runs support evidence for, which they do not, and the gap
+/// each row keeps. Nothing is read from disk. A result that cannot be used is listed in
+/// `unrecognised` and counts for nothing. The report carries
+/// [`crate::compliance::STATEMENT`] verbatim; a status never says a framework is met.
+pub fn compliance_report(
+    runs: &[ComplianceRunText],
+    max_bytes: usize,
+) -> Result<ComplianceOutput, String> {
+    if runs.len() > MAX_COMPLIANCE_RUNS {
+        return Err(format!(
+            "{} runs given; at most {MAX_COMPLIANCE_RUNS} per report",
+            runs.len()
+        ));
+    }
+    let mut total = 0usize;
+    for r in runs {
+        cap("result", &r.result_json, max_bytes)?;
+        total += r.result_json.len();
+        if let Some(t) = &r.scenario_toml {
+            cap("scenario", t, max_bytes)?;
+            total += t.len();
+        }
+    }
+    if total > max_bytes {
+        return Err(format!(
+            "the runs total {total} bytes; the limit for one report is {max_bytes}"
+        ));
+    }
+    let inputs: Vec<crate::compliance::RunInput<'_>> = runs
+        .iter()
+        .map(|r| crate::compliance::RunInput {
+            label: &r.label,
+            result_json: &r.result_json,
+            scenario_toml: r.scenario_toml.as_deref(),
+        })
+        .collect();
+    let rep = crate::compliance::assess_texts(&inputs);
+    Ok(ComplianceOutput {
+        report: json!(rep),
+        markdown: rep.to_markdown(),
+    })
+}
+
+/// The static mapping tables (`sources = false`) or the source documents they cite
+/// (`sources = true`), as Markdown, led by [`crate::compliance::STATEMENT`].
+pub fn compliance_mapping(sources: bool) -> String {
+    use crate::compliance::mapping::{framework_table_md, sources_md, Framework};
+    let mut s = format!("> {}\n\n", crate::compliance::STATEMENT);
+    for fw in Framework::ALL {
+        let body = if sources {
+            sources_md(fw)
+        } else {
+            framework_table_md(fw)
+        };
+        s.push_str(&format!("## {}\n\n{}\n", fw.title(), body));
+    }
+    s
+}
+
 /// A signed evidence pack built in memory, and the key that signed it.
 #[derive(Clone, Debug)]
 pub struct EvidencePack {
@@ -834,5 +920,58 @@ mod tests {
         assert!(a.nmea.contains("\r\n") && a.log_json.contains("kshana-nmea-training/1"));
         assert!(!a.log_text.is_empty());
         assert!(nmea_training("[scenario]", None, MAX_INPUT_BYTES).is_err());
+    }
+
+    #[test]
+    fn compliance_report_fills_the_mapping_from_text() {
+        let result = r#"{"scenario_hash":"0123456789abcdef0123","log":{"format":"nmea","epochs":10},
+            "monitors_run":["cn0"],"events_evaluable":2,"events_detected":2,
+            "predictions_evaluable":1,"predictions_agreeing":1}"#;
+        let out = compliance_report(
+            &[
+                ComplianceRunText {
+                    label: "trust.result.json".into(),
+                    result_json: result.into(),
+                    scenario_toml: None,
+                },
+                ComplianceRunText {
+                    label: "bad.json".into(),
+                    result_json: "not json".into(),
+                    scenario_toml: None,
+                },
+            ],
+            MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        assert_eq!(out.report["statement"], crate::compliance::STATEMENT);
+        assert!(out.markdown.contains(crate::compliance::STATEMENT));
+        assert_eq!(out.report["runs"].as_array().unwrap().len(), 1);
+        assert_eq!(out.report["unrecognised"].as_array().unwrap().len(), 1);
+        assert!(!out.report["rows"].as_array().unwrap().is_empty());
+        // Over the cap is refused, and so is a pile of runs.
+        assert!(compliance_report(
+            &[ComplianceRunText {
+                label: "x".into(),
+                result_json: result.into(),
+                scenario_toml: None
+            }],
+            10
+        )
+        .is_err());
+        let many = vec![ComplianceRunText::default(); MAX_COMPLIANCE_RUNS + 1];
+        assert!(compliance_report(&many, MAX_INPUT_BYTES).is_err());
+        // The static tables and the sources both lead with the statement.
+        for sources in [false, true] {
+            let m = compliance_mapping(sources);
+            assert!(m.starts_with(&format!("> {}", crate::compliance::STATEMENT)));
+            // The one proper noun (the framework's own title and URL) holds a banned stem.
+            let low = m
+                .to_lowercase()
+                .replace("conformance framework", "")
+                .replace("conformance_framework", "");
+            for banned in ["certif", "complies", "compliant", "conform"] {
+                assert!(!low.contains(banned), "{banned}");
+            }
+        }
     }
 }
