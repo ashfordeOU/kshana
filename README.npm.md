@@ -194,6 +194,15 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
   drawing of a run; SP3 (Standard Product 3), CCSDS (Consultative Committee for Space Data
   Systems) orbit messages, CZML (Cesium Language), KML (Keyhole Markup Language), GeoJSON,
   STK (Systems Tool Kit) and SigMF (Signal Metadata Format) files.
+- **On the WebAssembly face**, besides the calls above: `receiver_trust_replay` and
+  `assess_vessel_log` (a vessel's NMEA, advisory, not type-approved navigation equipment),
+  `evidence_verify` and `evidence_attach_timestamp` (check a pack, bind an RFC 3161 timestamp
+  token), `import_route` (a GeoJSON route into a terrain, gravity or combined scenario),
+  `list_examples` and `get_example` (the bundled scenarios), `animate_scenario`,
+  `export_formats` and `export_scenario`, `bench_export` (motion and events for a laboratory
+  GNSS simulator), `compliance_report` and `compliance_mapping`, `interference_map` and
+  `route_exposure`, and `nmea_training` (text only; never for a vessel's live navigation
+  systems).
 
 ## Architecture
 

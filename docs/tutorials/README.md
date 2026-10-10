@@ -23,6 +23,16 @@ New to the project? Read the [concepts primer](../CONCEPTS.md) and the
 | 2 | [Clock holdover: how long can you coast](02-clock-holdover.md) | run a GNSS-denied clock holdover, read the timing figure of merit, and understand the √(q_wf·T) growth law behind it | `clock` | beginner | 20 min |
 | 3 | [Quantum vs classical GNSS resilience](03-quantum-vs-classical.md) | the capstone: a spoofing detector (`spoof`) and a full fused PNT suite (`hybrid`), and how to read security / integrity / dead-reckoning together | `spoof` + `hybrid` | intermediate | 35 min |
 
+## Notebooks
+
+Runnable Jupyter notebooks, on synthetic data only, are in [`notebooks/`](../../notebooks/README.md):
+
+| Notebook | What you learn |
+|---|---|
+| [Vessel trust and training](../../notebooks/vessel-trust-and-training.md) | generate a synthetic bridge NMEA stream with a scripted event, then score it with the vessel trust monitors (advisory, not type-approved navigation equipment) |
+| [Interference map and route exposure](../../notebooks/interference-map-route-exposure.md) | where navigation data has looked degraded, and how much of a route it touches |
+| [Quantum vs classical GDOP](../../notebooks/quantum-vs-classical-gdop.md) | the same constellation geometry with a quantum and a classical sensor, compared by dilution of precision |
+
 ## How to run a tutorial
 
 Every tutorial runs the same scenario three ways; pick whichever fits you. They

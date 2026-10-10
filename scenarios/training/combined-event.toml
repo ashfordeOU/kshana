@@ -1,5 +1,7 @@
 # Combined: jamming, then a counterfeit takeover with a drag-off and a time offset, then a
 # replay delay. Synthetic NMEA for bridge-simulator training only.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
 [scenario]
 name = "combined-event"
 description = "Jam, then spoof: the fix is lost, a counterfeit signal takes over and walks the position off with a time offset, then a replay delay follows."
