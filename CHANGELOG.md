@@ -22,8 +22,9 @@ breaking changes are called out explicitly.
   is not verified, the time requirement, and that Kshana grants no rights under the
   EU's OSNMA ICD IPRs (users rely on the ICD's Annex E authorisation).
   Implemented against the SIS ICD Issue 1.1 and the Receiver Guidelines Issue 1.3.
-  Default tests use synthetic data; an opt-in test reads a locally downloaded copy of
-  the official vectors.
+  Pages are CRC-checked, and a u-blox UBX-RXM-SFRBX byte stream can be read directly
+  (`--format ubx`). Default tests use synthetic data and published primitive known-answer
+  tests; an opt-in test reads a locally downloaded copy of the official vectors.
 
 ### Fixed
 

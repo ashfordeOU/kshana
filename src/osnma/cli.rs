@@ -14,7 +14,9 @@ const USAGE: &str = "usage: kshana osnma verify <input> [options]
 
   <input>                    I/NAV pages: the plain format (see docs/OSNMA.md) or the
                              CSV layout of the published test vectors
-  --format pages|vector-csv  input layout (default: by file content)
+  --format pages|vector-csv|ubx
+                             input layout (default: by file content). ubx is a u-blox
+                             byte stream with UBX-RXM-SFRBX messages (Galileo E1-B)
   --start-gst SECONDS        start time of a vector CSV in GST seconds
                              (default: read from a file name like 16_AUG_2023_GST_05_00_01.csv)
   --merkle-root HEX          trusted Merkle root (64 hex digits) for DSM-PKR checks
@@ -137,6 +139,7 @@ fn event_json(e: &Event) -> serde_json::Value {
             json!({"kind":"key_rejected","gst":gst,"reason":name(reason)})
         }
         Event::TimeRejected { gst_sf } => json!({"kind":"time_rejected","gst":gst_sf}),
+        Event::BadCrc { .. } => json!({"kind":"bad_crc"}),
         Event::Tag(_) => json!(null),
     }
 }
@@ -184,30 +187,52 @@ pub fn run(args: &[String]) -> i32 {
             return 2;
         }
     };
-    let text = match std::fs::read_to_string(&o.input) {
+    let raw = match std::fs::read(&o.input) {
         Ok(t) => t,
         Err(e) => {
             eprintln!("error: cannot read {}: {e}", o.input);
             return 2;
         }
     };
-    let csv = match o.format.as_deref() {
-        Some("vector-csv") => true,
-        Some("pages") => false,
+    let layout = match o.format.as_deref() {
+        Some(f @ ("vector-csv" | "pages" | "ubx")) => f,
         Some(f) => {
             eprintln!("error: unknown format {f}");
             return 2;
         }
-        None => text.trim_start().starts_with("SVID"),
+        None if raw.starts_with(&[0xB5, 0x62]) || std::str::from_utf8(&raw).is_err() => "ubx",
+        None if raw
+            .iter()
+            .skip_while(|b| b.is_ascii_whitespace())
+            .take(4)
+            .eq(b"SVID".iter()) =>
+        {
+            "vector-csv"
+        }
+        None => "pages",
     };
-    let pages = if csv {
-        let Some(start) = o.start_gst.or_else(|| input::start_from_filename(&o.input)) else {
-            eprintln!("error: a vector CSV needs --start-gst or a dated file name");
+    let mut ubx_stats = None;
+    let pages = if layout == "ubx" {
+        let (p, st) = super::ubx::pages_from_ubx(&raw);
+        ubx_stats = Some(st);
+        Ok(p)
+    } else {
+        let Ok(text) = String::from_utf8(raw) else {
+            eprintln!(
+                "error: {} is not text; use --format ubx for a UBX stream",
+                o.input
+            );
             return 2;
         };
-        input::parse_vector_csv(&text, start)
-    } else {
-        input::parse_pages(&text)
+        if layout == "vector-csv" {
+            let Some(start) = o.start_gst.or_else(|| input::start_from_filename(&o.input)) else {
+                eprintln!("error: a vector CSV needs --start-gst or a dated file name");
+                return 2;
+            };
+            input::parse_vector_csv(&text, start)
+        } else {
+            input::parse_pages(&text)
+        }
     };
     let pages = match pages {
         Ok(p) => p,
@@ -275,6 +300,12 @@ pub fn run(args: &[String]) -> i32 {
             "events": grouped_events(&events),
             "tags": tags,
             "pksos": super::pksos_sentence(overall, &sats),
+            "ubx": ubx_stats.as_ref().map(|u| serde_json::json!({
+                "frames": u.frames, "skipped_bytes": u.skipped_bytes,
+                "inav_pages": u.inav_pages, "ignored_sfrbx": u.ignored_sfrbx,
+                "bad_crc": u.bad_crc, "unstamped": u.unstamped,
+                "time_conflicts": u.time_conflicts,
+            })),
         });
         match serde_json::to_string_pretty(&out) {
             Ok(s) => println!("{s}"),
@@ -286,6 +317,12 @@ pub fn run(args: &[String]) -> i32 {
     } else {
         println!("Galileo OSNMA verification\n{ADVISORY}\n");
         println!("input: {} ({} pages)", o.input, pages.len());
+        if let Some(u) = &ubx_stats {
+            println!(
+                "ubx: {} frames; {} I/NAV pages decoded, {} placed in time ({} bad CRC, {} unplaceable, {} time conflicts)",
+                u.frames, u.inav_pages, pages.len(), u.bad_crc, u.unstamped, u.time_conflicts
+            );
+        }
         println!(
             "overall: {}   NMA status: {}",
             status_word(overall),

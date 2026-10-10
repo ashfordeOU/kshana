@@ -74,6 +74,9 @@ pub struct Config {
     pub maclt: MacLookup,
     /// Largest accepted difference between a sub-frame's time and the reference time.
     pub max_time_error_s: Option<u32>,
+    /// Accept pages whose CRC does not match. Off by default: a page that fails its
+    /// CRC is dropped and reported, as the Receiver Guidelines require.
+    pub skip_crc_check: bool,
     /// How long a failed check keeps a satellite at `Failed`, even if later data
     /// verifies: a mismatch is evidence worth remembering. Defaults to 600 s.
     pub failure_memory_s: Option<u32>,
@@ -174,6 +177,11 @@ pub enum Event {
     TimeRejected {
         gst_sf: u32,
     },
+    /// A page was dropped because its CRC did not match.
+    BadCrc {
+        svid: u8,
+        gst: u32,
+    },
     Tag(TagResult),
 }
 
@@ -262,6 +270,12 @@ impl Verifier {
 
     /// Feed one page; returns the events it caused.
     pub fn push_page(&mut self, page: &InavPage) -> Vec<Event> {
+        if !self.cfg.skip_crc_check && !page.crc_ok() {
+            return vec![Event::BadCrc {
+                svid: page.svid,
+                gst: page.gst,
+            }];
+        }
         match self.sf.push(page) {
             Some(sf) => self.on_subframe(sf),
             None => Vec::new(),
