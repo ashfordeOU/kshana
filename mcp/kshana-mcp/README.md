@@ -142,24 +142,48 @@ Not served: study suites (`kshana --study <suite.toml>`), because a suite names 
 scenario files on disk and the scenario tools read no file. Run each member with
 `run_scenario`. (The IQ tools do read and write files, inside their work directory only.)
 
-## Install
+## Install the MCP server
 
-Pick whichever fits — all run the same server over stdio.
+> Advisory, not type-approved navigation equipment: the operator remains responsible for navigation.
+> The server runs on your computer; nothing is sent to Ashforde OÜ.
+
+Pick any channel; all run the same server. Per-client snippets (Claude Desktop, Claude Code, Cursor,
+VS Code, Windsurf, Zed, Goose, Codex CLI, Gemini CLI, Continue) are in
+[docs/MCP-INSTALL.md](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md).
+
+<!-- mcp-install:begin -->
+| Channel | Command or button | Requires | Pinned form |
+|---|---|---|---|
+| Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) | none | `kshana-mcp-<target>.mcpb` of v0.35.0 |
+| Cursor (one click) | [npx (Node)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNS4wIl19) · [Docker](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM1LjAiXX0%3D) | Node, or Docker | `kshana-mcp@0.35.0` / `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| VS Code (one click) | [npx (Node)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) · [Docker](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.35.0%2522%255D%257D) · [Insiders (npx)](https://insiders.vscode.dev/redirect?url=vscode-insiders%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) | Node, or Docker | `kshana-mcp@0.35.0` / `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| Claude Code | `claude mcp add kshana -- npx -y kshana-mcp@0.35.0` · plugin: `/plugin marketplace add ashfordeOU/kshana` then `/plugin install kshana@ashforde` | Node (or Docker) | `kshana-mcp@0.35.0` |
+| npx | `npx -y kshana-mcp@0.35.0` | Node 18+ | `kshana-mcp@0.35.0` |
+| uvx / pipx | `uvx kshana-mcp==0.35.0` · `pipx run kshana-mcp==0.35.0` | Python 3.9+ with uv or pipx | `kshana-mcp==0.35.0` |
+| Docker | `docker run -i --rm ghcr.io/ashfordeou/kshana-mcp:0.35.0` | Docker | `ghcr.io/ashfordeou/kshana-mcp:0.35.0` |
+| Homebrew | `brew install ashfordeOU/tap/kshana-mcp` | brew | formula for v0.35.0 |
+| Scoop | `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket` then `scoop install kshana-mcp` | Scoop (Windows) | manifest for v0.35.0 |
+| winget | `winget install AshfordeOU.KshanaMcp` | winget (Windows) | `--version 0.35.0` |
+| cargo | `cargo install kshana-mcp --version 0.35.0` | Rust 1.88+ | `kshana-mcp 0.35.0` |
+| Prebuilt binary | [the release page](https://github.com/ashfordeOU/kshana/releases/tag/v0.35.0): `kshana-mcp` (Linux x86-64), `kshana-mcp-<target>[.exe]`, checked by `SHA256SUMS` and `gh attestation verify` | none | v0.35.0 |
+| MCP registry | `io.github.ashfordeOU/kshana-mcp` (found by registry-aware clients) | a registry-aware client | `0.35.0` |
+| Remote (streamable HTTP) | `kshana-mcp --http 127.0.0.1:8080`, self-hosted: see [https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md](https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md) | your own host | v0.35.0 |
+<!-- mcp-install:end -->
+
+From a checkout or git (development):
 
 ```sh
-# crates.io (a Rust toolchain builds it from source):
-cargo install kshana-mcp
-
-# Docker / OCI (Open Container Initiative) image — no Rust toolchain needed;
-# published for linux/amd64 and linux/arm64, so Apple silicon runs it natively:
-docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
-
-# From a checkout (development):
 cd mcp/kshana-mcp && cargo install --path .
-
-# Bleeding edge, straight from git:
 cargo install --git https://github.com/AshfordeOU/kshana kshana-mcp
 ```
+
+### HTTP mode (self-hosted)
+
+`kshana-mcp --http 127.0.0.1:8080` serves the same tools over streamable HTTP at `/mcp`. It binds
+loopback only; a non-loopback address needs `--allow-remote` and a bearer token in
+`KSHANA_MCP_HTTP_TOKEN`; the IQ file tools are off; request size, time and concurrency are capped; no
+CORS header is sent. Kshana does not host an endpoint: you self-host it. See
+[docs/deploy/mcp-http.md](https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md).
 
 `cargo install` puts `kshana-mcp` on your `PATH` (typically `~/.cargo/bin/kshana-mcp`).
 The server talks JSON-RPC (JSON remote procedure call) over stdio; logs go to stderr. Building from source needs a Rust
