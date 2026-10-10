@@ -18,8 +18,10 @@
         <b>Build Interference Map</b> (ADS-B or AIS CSV to GeoJSON), <b>Route Exposure</b>,
         <b>Export Test-Bench Files</b> (motion, NMEA and events for a laboratory simulator; no
         signal is written) and <b>Build Compliance Report</b> / <b>Show Compliance Mapping</b>
-        (the public-framework mapping, shown with the engine's own statement) and
-        <b>Verify Evidence Pack</b> (against the signer's public key you supply).
+        (the public-framework mapping, shown with the engine's own statement) <b>Verify Evidence Pack</b> (against the signer's public key you supply),
+        <b>Create Evidence Pack</b> and <b>Attach Timestamp</b> (the signing key and the timestamp
+        token are yours; the plugin never makes or stores a key), <b>Insert Example Scenario</b>,
+        <b>Export Scenario</b>, <b>Animate Scenario</b> and <b>Import Route</b>.
         The long-running <code>receiver-trust live</code> process stays on the command line.
         <br/><br/>
         Scenarios cover SGP4/SDP4 orbits, IAU reference frames, Allan deviations, GNSS
@@ -32,7 +34,9 @@
         <b>0.35.0</b> — new context-menu actions: <b>Assess Receiver Trust</b>,
         <b>Generate Training NMEA</b>, <b>Build Interference Map</b>, <b>Route Exposure</b>,
         <b>Export Test-Bench Files</b>, <b>Build Compliance Report</b> and
-        <b>Verify Evidence Pack</b>, and <i>Tools → Show Compliance Mapping</i>. Each runs the engine's command line and shows its
+        <b>Verify Evidence Pack</b>, <b>Create Evidence Pack</b>, <b>Attach Timestamp</b>,
+        <b>Insert Example Scenario</b>, <b>Export Scenario</b>, <b>Animate Scenario</b> and
+        <b>Import Route</b>, and <i>Tools → Show Compliance Mapping</i>. Each runs the engine's command line and shows its
         output with the caveat that belongs with it; advisory use only. The plugin needs a
         <code>kshana</code> engine 0.35.0 or newer for these actions. Update the engine with
         <code>cargo install kshana</code> and see the release notes at
@@ -153,6 +157,51 @@
             class="dev.kshana.ide.VerifyEvidencePackAction"
             text="Verify Evidence Pack (Kshana)"
             description="Run kshana evidence verify on the selected evidence-pack folder against the signer's public key you supply. Never accepts an unpinned signer.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.InsertExample"
+            class="dev.kshana.ide.InsertExampleAction"
+            text="Insert Example Scenario (Kshana)"
+            description="Run kshana example: list the bundled scenarios and write the one you pick as a new .toml.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.ExportScenario"
+            class="dev.kshana.ide.ExportScenarioAction"
+            text="Export Scenario (Kshana)"
+            description="Run the selected scenario and export it as SP3, OMM, OEM, CZML, KML, GeoJSON, STK or SigMF. Simulated output only.">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.AnimateScenario"
+            class="dev.kshana.ide.AnimateScenarioAction"
+            text="Animate Scenario (Kshana)"
+            description="Run the selected scenario with --animate and open the HTML or SVG animation.">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.ImportRoute"
+            class="dev.kshana.ide.ImportRouteAction"
+            text="Import Route (Kshana)"
+            description="Run a scenario with the selected GeoJSON route (--import-route).">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.CreateEvidencePack"
+            class="dev.kshana.ide.CreateEvidencePackAction"
+            text="Create Evidence Pack (Kshana)"
+            description="Run kshana receiver-trust evidence on the selected session TOML for a time window, signed with a key file you choose. The plugin never makes or stores a key.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.AttachTimestamp"
+            class="dev.kshana.ide.AttachTimestampAction"
+            text="Attach Timestamp (Kshana)"
+            description="Run kshana evidence attach-timestamp: add an RFC 3161 token you obtained to the selected evidence pack. The authority's signature is not checked by Kshana.">
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
         <action
