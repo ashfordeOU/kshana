@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 124,
-    "modelled": 123,
+    "modelled": 130,
     "partner_owned": 4,
-    "total": 251
+    "total": 258
   },
   "rows": [
     {
@@ -5821,6 +5821,125 @@
         "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/lunar_frame_campaign_srif_mpmath_oracle",
         "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/lunar_frame_campaign_srif_mpmath_oracle/NOTICE.md"
       }
+    },
+    {
+      "requirement": "Maritime receiver-trust score on a moving vessel",
+      "capability": "receiver_trust (maritime platform, moving-platform monitors, 0-100 score with reasons and bands) on a synthetic NMEA 0183 voyage: a clean voyage raises no alarm and scores 100 at every scored epoch after the 60 s calibration; a position drag-off falls through the documented bands after its onset and never before; live and gate modes emit one JSON line per epoch. Advisory software: not type-approved equipment.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "self-consistency on synthetic input with known truth (the generator's own track and event onsets); every threshold is stated in the session file; no recording, no external dataset",
+      "module": "receiver_trust (maritime, score, live)",
+      "tests": "tests/receiver_trust_maritime.rs::a_clean_voyage_scores_in_the_top_band_at_every_epoch; tests/receiver_trust_maritime.rs::a_self_consistent_drag_off_is_caught_by_the_gyro_and_never_before_onset; tests/receiver_trust_maritime_demo.rs::the_score_falls_through_the_bands_after_the_drag_off_starts; tests/receiver_trust_live_cli.rs::stdin_gives_one_json_line_per_epoch",
+      "module_links": [
+        {
+          "path": "src/receiver_trust/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/receiver_trust/mod.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Synthetic bridge NMEA 0183 for crew training",
+      "capability": "nmea_synth (kshana nmea-scenario): a full bridge sentence set for a scripted vessel track with instructor event log; every sentence checksum-valid and accepted by the NMEA reader, every sentence type present each epoch, output deterministic per seed and sensitive to it. Text only; nothing is transmitted.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "the reader's strict checksum and sentence checks and byte-determinism across runs; no external dataset",
+      "module": "nmea_synth",
+      "tests": "tests/nmea_training_scenarios.rs::every_sentence_is_checksum_valid_and_the_reader_accepts_it; tests/nmea_training_scenarios.rs::every_sentence_type_is_present_each_epoch; tests/nmea_training_scenarios.rs::deterministic_per_seed_and_sensitive_to_it",
+      "module_links": [
+        {
+          "path": "src/nmea_synth/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/nmea_synth/mod.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Interference-map and route-exposure method",
+      "capability": "interference_map (kshana interference-map, route-exposure): ADS-B accuracy-field degradation and AIS anomaly counts on a hex grid per day from openly licensed inputs, written as GeoJSON, and the share of a route through degraded cells; the committed synthetic samples regenerate byte-for-byte and carry no identifiers. Aircraft accuracy fields drop for reasons other than interference; the documentation says so.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "end-to-end runs on synthetic inputs with known cell contents and the committed regeneration command; no external dataset or real day",
+      "module": "interference_map",
+      "tests": "tests/interference_map_cli.rs::adsb_end_to_end_with_route_exposure; tests/interference_map_cli.rs::ais_end_to_end_with_land_polygons; tests/interference_map_examples.rs::committed_samples_match_the_regeneration_command; tests/interference_map_examples.rs::samples_show_every_state_and_carry_no_identifiers",
+      "module_links": [
+        {
+          "path": "src/interference_map/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/interference_map/mod.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Trust telemetry export formats",
+      "capability": "telemetry (kshana trust-telemetry): GNSS-trust samples exported as Prometheus text, OpenTelemetry OTLP/HTTP JSON (cargo feature otlp) and CEF/LEEF syslog lines over stdout, HTTP, UDP and TCP, with documented metric names; a dead TCP collector neither hangs the run nor goes unnoticed.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "format and delivery checks against a local collector in the test; not validated against a vendor SIEM or the OTLP schema",
+      "module": "telemetry",
+      "tests": "tests/telemetry_cli.rs::metrics_and_cef_from_stdin; tests/telemetry_cli.rs::leef_and_all_epochs; tests/telemetry_cli.rs::http_endpoint_serves_the_stream; tests/telemetry_cli.rs::udp_syslog_reaches_a_local_collector",
+      "module_links": [
+        {
+          "path": "src/telemetry/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/telemetry/mod.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Signed, verifiable evidence packs",
+      "capability": "evidence (kshana receiver-trust evidence, evidence verify): a hash-chained bundle for an event window, signed with Ed25519 and verifiable offline; creation is deterministic, one changed byte in any artifact is reported as that file's hash mismatch only, a re-signed pack is caught by key pinning. A technical record, not a legal opinion.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "tamper and round-trip tests; the signature primitive is ed25519-dalek and no RFC 8032 vector test exists in this tree, so this stays Modelled",
+      "module": "evidence",
+      "tests": "tests/evidence_pack.rs::intact_pack_verifies_and_creation_is_deterministic; tests/evidence_pack.rs::one_changed_byte_in_each_artifact_is_reported_as_that_files_hash_mismatch_only; tests/evidence_pack.rs::a_pack_re_signed_by_someone_else_is_caught_by_pinning; tests/evidence_cli.rs::make_verify_and_tamper",
+      "module_links": [
+        {
+          "path": "src/evidence/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/evidence/mod.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Test-bench export of scenario motion",
+      "capability": "interop::testbench (kshana bench-export): a scenario's vehicle motion and events as a CSV trajectory and NMEA motion for a laboratory GNSS simulator; the CSV round-trips within a stated tolerance, Earth-fixed and geodetic columns agree, the NMEA has valid checksums and corruption is detected, and the heading is the body yaw, not the course. No performance result is claimed.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "round-trip and cross-column consistency on generated trajectories; not run against a vendor simulator",
+      "module": "interop::testbench",
+      "tests": "tests/interop_testbench.rs::motion_csv_round_trips_within_tolerance; tests/interop_testbench.rs::csv_earth_fixed_and_geodetic_columns_agree; tests/interop_testbench.rs::nmea_round_trips_within_tolerance_and_has_valid_checksums; tests/interop_testbench.rs::nmea_corruption_is_detected",
+      "module_links": [
+        {
+          "path": "src/interop/testbench.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/interop/testbench.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
+    },
+    {
+      "requirement": "Compliance mapping to public frameworks",
+      "capability": "compliance (kshana compliance-report): a mapping from Kshana outputs to clauses of public frameworks by number only, filled from the runs given; a result counts for a capability only when it carries the evidence the mapping names, an empty set evidences nothing, and the wording is \"supports evidence for\"; the report is not a finding that any framework is met and not a rating or approval by anyone.",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "the mapping's own consistency rules and the committed tables regenerate from the sources; not a legal assessment and not a rating or approval by anyone",
+      "module": "compliance",
+      "tests": "tests/compliance_report.rs::mapping_is_well_formed; tests/compliance_report.rs::wording_rule_holds_in_mapping_report_and_docs; tests/compliance_report.rs::empty_set_evidences_nothing; tests/compliance_report.rs::statuses_follow_the_runs_present",
+      "module_links": [
+        {
+          "path": "src/compliance/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/compliance/mod.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
     }
   ]
 }
