@@ -1,6 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Inertial navigation: strapdown INS mechanization and the accelerometer error
 //! models (classical and cold-atom) a GNSS-denied coast dead-reckons on.
+use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 pub mod attitude;
 pub mod cai_params;
 /// INS/TRN coasting error model: position error against coast duration, and the coast
@@ -935,9 +936,9 @@ pub fn to_svg(result: &InertialResult) -> String {
     let thr_y = yof(result.threshold_m);
     let axis_y = mt + ph;
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Dead-reckoning position error during GNSS outage</text>", ml));
     svg.push_str(&crate::chart::y_axis(
@@ -949,25 +950,25 @@ pub fn to_svg(result: &InertialResult) -> String {
         "position error (m)",
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/>", ml + pw));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>", ml + pw));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">spec {:.0} m</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec {:.0} m</text>",
         ml + 4.0,
         thr_y - 4.0,
         result.threshold_m
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
         points(c)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"2\" points=\"{}\"/>",
         points(q)
     ));
     svg.push_str(&format!(
@@ -976,14 +977,14 @@ pub fn to_svg(result: &InertialResult) -> String {
         h - 12.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#d2925e\">classical: {}</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical: {}</text>",
         ml + 10.0,
-        result.classical.spec.id
+        crate::chart::esc(&result.classical.spec.id)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#e0bd84\">quantum: {}</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum: {}</text>",
         ml + 10.0,
-        result.quantum.spec.id
+        crate::chart::esc(&result.quantum.spec.id)
     ));
     svg.push_str("</svg>");
     svg

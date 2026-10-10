@@ -5,6 +5,7 @@
 //! of Space Device Engineering, §3.3.1 (carrier frequencies) and §3.3.2.1 (ranging code).
 
 use super::{bipolar, Modulation, SignalCode, SignalError};
+use crate::iq::DataModulation;
 
 /// L1 sub-band base frequency f01 (Hz).
 pub const L1_BASE_HZ: f64 = 1_602_000_000.0;
@@ -54,5 +55,6 @@ pub fn l1of(k: i8) -> Result<SignalCode, SignalError> {
         bipolar(&ranging_code_bits()),
         vec![],
         Modulation::Bpsk,
-    ))
+    )
+    .with_data_modulation(DataModulation::Meander { bit_s: 0.02 }))
 }

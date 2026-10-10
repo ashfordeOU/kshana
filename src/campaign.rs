@@ -57,7 +57,11 @@
 //! JSON (JavaScript Object Notation) documents. Every hash is SHA-256 (Secure Hash
 //! Algorithm 2 with a 256-bit digest), written as lowercase hexadecimal.
 
+use crate::chart::esc;
 use crate::field_schema::{lookup, ProvenanceClass};
+use crate::palette::chart::{
+    AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK, LIME, MAGENTA, MUTED, PANEL,
+};
 use serde::{Deserialize, Serialize};
 use serde_json::{Map, Value};
 use sha2::{Digest, Sha256};
@@ -2454,12 +2458,6 @@ pub fn summary(r: &CampaignResult) -> String {
 // Chart
 // ---------------------------------------------------------------------------
 
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-}
-
 fn fmt_num(v: f64) -> String {
     let a = v.abs();
     if a == 0.0 {
@@ -2483,7 +2481,7 @@ struct Panel<'a> {
     symmetric: bool,
 }
 
-const PALETTE: [&str; 5] = ["#e0bd84", "#46b67e", "#d2925e", "#6e9ad2", "#c9a0dc"];
+const PALETTE: [&str; 5] = [CYAN, LIME, AMBER, BLUE, MAGENTA];
 
 fn polyline(
     values: &[Option<f64>],
@@ -2625,17 +2623,11 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
         let pad = 0.06 * (hi - lo);
         let (lo, hi) = (lo - pad, hi + pad);
         let y = |v: f64| bottom - (v - lo) / (hi - lo) * ph;
-        s.push_str(&crate::chart::panel_axes(
-            ml,
-            ptop,
-            pw,
-            bottom,
-            &esc(p.title),
-        ));
+        s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, p.title));
         for k in 0..=2 {
             let v = lo + (hi - lo) * f64::from(k) / 2.0;
             s.push_str(&format!(
-                "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"#262019\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"#8c8273\">{}</text>",
+                "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"{GRID}\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{}</text>",
                 y(v),
                 ml + pw,
                 y(v),
@@ -2657,10 +2649,10 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
         }
         for c in &p.dashed {
             if let Some(ch) = t.channels.get(*c) {
-                s.push_str(&polyline(&ch.values, x, y, "#b85c5c", true));
+                s.push_str(&polyline(&ch.values, x, y, CORAL, true));
                 if p.symmetric {
                     let neg: Vec<Option<f64>> = ch.values.iter().map(|v| v.map(|v| -v)).collect();
-                    s.push_str(&polyline(&neg, x, y, "#b85c5c", true));
+                    s.push_str(&polyline(&neg, x, y, CORAL, true));
                 }
             }
         }
@@ -2670,7 +2662,7 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
     if let Some(al) = t.channels.get("alarm") {
         let h = 16.0;
         s.push_str(&format!(
-            "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">alarm flags and events</text>",
+            "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">alarm flags and events</text>",
             y0 - 8.0
         ));
         for (i, v) in al.values.iter().enumerate() {
@@ -2683,9 +2675,9 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
                 },
             );
             let color = match v {
-                Some(v) if *v > 0.5 => "#c8553d",
-                Some(_) => "#2f5d46",
-                None => "#1d1a15",
+                Some(v) if *v > 0.5 => CORAL,
+                Some(_) => LIME,
+                None => PANEL,
             };
             s.push_str(&format!(
                 "<rect x=\"{xa:.1}\" y=\"{y0:.1}\" width=\"{:.2}\" height=\"{h:.0}\" fill=\"{color}\"/>",
@@ -2697,7 +2689,7 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
     for e in &t.events {
         let xe = xt(e.t_s);
         s.push_str(&format!(
-            "<line x1=\"{xe:.1}\" y1=\"{panels_top:.0}\" x2=\"{xe:.1}\" y2=\"{:.0}\" stroke=\"#c8553d\" stroke-width=\"1\" stroke-dasharray=\"2 3\"/><text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"#c8553d\">{}</text>",
+            "<line x1=\"{xe:.1}\" y1=\"{panels_top:.0}\" x2=\"{xe:.1}\" y2=\"{:.0}\" stroke=\"{CORAL}\" stroke-width=\"1\" stroke-dasharray=\"2 3\"/><text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{CORAL}\">{}</text>",
             y0 - 8.0,
             xe + 3.0,
             y0 + 4.0,
@@ -2709,7 +2701,7 @@ fn timeline_svg(t: &TimelineOut, top: f64, w: f64) -> (String, f64) {
     for p in t.phases.iter().skip(1) {
         let xb = xt(p.t0_s);
         s.push_str(&format!(
-            "<line x1=\"{xb:.1}\" y1=\"{:.0}\" x2=\"{xb:.1}\" y2=\"{:.0}\" stroke=\"#5a5040\" stroke-dasharray=\"4 3\"/>",
+            "<line x1=\"{xb:.1}\" y1=\"{:.0}\" x2=\"{xb:.1}\" y2=\"{:.0}\" stroke=\"{AXIS}\" stroke-dasharray=\"4 3\"/>",
             panels_top - 36.0,
             y0 - 8.0
         ));
@@ -2748,13 +2740,7 @@ fn sweep_svg(sw: &SweepOut, top: f64, w: f64) -> (String, f64) {
     );
     let ptop = top + 20.0;
     let bottom = ptop + ph;
-    s.push_str(&crate::chart::panel_axes(
-        ml,
-        ptop,
-        pw,
-        bottom,
-        &esc(&caption),
-    ));
+    s.push_str(&crate::chart::panel_axes(ml, ptop, pw, bottom, &caption));
     // Lines along the last axis, one per metric (and per leading-axis value).
     let last = sw.shape.len() - 1;
     let lane = sw.shape[last];
@@ -2840,7 +2826,7 @@ fn mc_svg(mc: &MonteCarloOut, top: f64, w: f64) -> (String, f64) {
     let ml = 80.0_f64;
     let pw = w - ml - 24.0;
     let mut s = format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">Monte Carlo of `{}`: {} seeds from {} (5th, 50th, 95th percentile; bar = bootstrap 95% confidence interval on the mean)</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">Monte Carlo of `{}`: {} seeds from {} (5th, 50th, 95th percentile; bar = bootstrap 95% confidence interval on the mean)</text>",
         top + 14.0,
         esc(&mc.scenario_kind),
         mc.runs,
@@ -2858,7 +2844,7 @@ fn mc_svg(mc: &MonteCarloOut, top: f64, w: f64) -> (String, f64) {
             "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"11\" fill=\"{color}\">{} ({})</text>\
              <line x1=\"{:.1}\" y1=\"{y:.0}\" x2=\"{:.1}\" y2=\"{y:.0}\" stroke=\"{color}\" stroke-width=\"2\"/>\
              <rect x=\"{:.1}\" y=\"{:.0}\" width=\"{:.1}\" height=\"8\" fill=\"{color}\" opacity=\"0.5\"/>\
-             <circle cx=\"{:.1}\" cy=\"{y:.0}\" r=\"3\" fill=\"#ffffff\"/>\
+             <circle cx=\"{:.1}\" cy=\"{y:.0}\" r=\"3\" fill=\"{INK}\"/>\
              <text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\">{}</text><text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" text-anchor=\"end\">{}</text>",
             y + 4.0,
             esc(name),
@@ -2884,7 +2870,7 @@ fn mc_svg(mc: &MonteCarloOut, top: f64, w: f64) -> (String, f64) {
 fn compose_svg(c: &ComposeOut, top: f64, w: f64) -> (String, f64) {
     let ml = 80.0_f64;
     let mut s = format!(
-        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">composed members under shared conditions: {}</text>",
+        "<text x=\"{ml:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">composed members under shared conditions: {}</text>",
         top + 14.0,
         esc(&c
             .shared
@@ -2898,7 +2884,7 @@ fn compose_svg(c: &ComposeOut, top: f64, w: f64) -> (String, f64) {
     let mut y = top + 36.0;
     for (i, n) in names.iter().enumerate() {
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{y:.0}\" font-size=\"11\" fill=\"#8a8172\">{} ({})</text>",
+            "<text x=\"{:.0}\" y=\"{y:.0}\" font-size=\"11\" fill=\"{MUTED}\">{} ({})</text>",
             ml + 200.0 + col * i as f64,
             esc(n),
             esc(&c.metric_units[*n])
@@ -2953,7 +2939,7 @@ pub fn to_svg(r: &CampaignResult) -> String {
     let mut svg = crate::chart::frame_open(
         w,
         h,
-        &esc(&r.title),
+        &r.title,
         &format!(
             "campaign {} | MODELLED composition; every value read from a real run of the named kind",
             &r.scenario_hash[..12]
