@@ -6,10 +6,14 @@
 //! down the TESLA chain to the key that opens the tags of a MACK message, then to the
 //! navigation data each tag covers (ICD chapter 6; Receiver Guidelines chapter 5).
 //!
-//! Time. Every check is relative to the GST of the pages as supplied. The chain proves
-//! that a key belongs to a given slot, not that the slot is the present one, so the
-//! caller must supply pages stamped from a time source that an attacker cannot move,
-//! or set a reference time with [`Verifier::set_reference_time`]. See `docs/OSNMA.md`.
+//! Time. The chain proves that a key belongs to a given slot, not that the slot is the
+//! present one, so the verifier never takes "now" from an unverified page. Its notion of
+//! the present is the later of the reference time given with
+//! [`Verifier::set_reference_time`] and the slot of the latest TESLA key that verified
+//! (a key cannot be known before its slot, so it proves time cannot be earlier). Failure
+//! memory, the validity window of an authentication and the eviction of old data all run
+//! on that time. Without a reference time the page stamps are only as good as their
+//! source: see `docs/OSNMA.md`.
 
 use super::bits::{read_bits, BitWriter};
 use super::dsm::{Dsm, DsmAssembler, DsmKroot, DsmPkr};
@@ -17,19 +21,26 @@ use super::mac::{self, MacError};
 use super::maclt::{MacLookup, Slot};
 use super::merkle::{self, MerkleError};
 use super::navdata::{self, BitString};
-use super::page::InavPage;
+use super::page::{InavPage, GST_LIMIT};
 use super::signature::{self, PublicKey, SigError};
 use super::subframe::{Mack, MackLayout, NmaHeader, Subframe, SubframeAssembler, SUBFRAME_S};
 use super::tables::{HashFn, KeyType, MacFn};
 use super::tesla;
 use super::OsnmaStatus;
 use serde::Serialize;
-use std::collections::BTreeMap;
+use std::collections::{BTreeMap, BTreeSet};
 
 /// Sub-frames of extra delay before the key of an ADKD 12 ("slow MAC") tag is sent.
 const SLOW_MAC_DELAY: u32 = 10;
 /// How many sub-frames of navigation data and pending tags are kept per satellite.
 const HISTORY: u32 = 45;
+/// How far past the latest verified key a sub-frame may be stamped before its own key
+/// has to prove the time.
+const AHEAD_S: u32 = 3 * SUBFRAME_S;
+/// Most sub-frames of navigation data kept, whatever their stamps.
+const HISTORY_CAP: usize = 6000;
+/// Default seconds an authentication of a satellite's ephemeris stays valid.
+const AUTH_WINDOW_S: u32 = 600;
 
 /// Parameters of a TESLA chain, as signed in a DSM-KROOT.
 #[derive(Debug, Clone, PartialEq, Eq)]
@@ -41,6 +52,8 @@ pub struct Chain {
     pub tag_bits: usize,
     pub maclt: u8,
     pub alpha: [u8; 6],
+    /// Key id of the public key that signed this chain's root.
+    pub pkid: u8,
     /// Time of applicability `GST_0`, in GST seconds.
     pub gst0: u32,
     pub root_key: Vec<u8>,
@@ -56,6 +69,7 @@ impl Chain {
             tag_bits: k.tag_bits,
             maclt: k.maclt,
             alpha: k.alpha,
+            pkid: k.pkid,
             gst0: k.gst0(),
             root_key: k.kroot.clone(),
         }
@@ -73,13 +87,30 @@ pub struct Config {
     pub trusted_chain: Option<Chain>,
     pub maclt: MacLookup,
     /// Largest accepted difference between a sub-frame's time and the reference time.
+    /// Must be below one sub-frame (30 s); larger values are cut to 29. It has an effect
+    /// only together with a reference time.
     pub max_time_error_s: Option<u32>,
+    /// Seconds an authentication stays valid, measured from the sub-frame of the
+    /// authenticated data. Defaults to 600 s.
+    pub auth_window_s: Option<u32>,
     /// Accept pages whose CRC does not match. Off by default: a page that fails its
     /// CRC is dropped and reported, as the Receiver Guidelines require.
     pub skip_crc_check: bool,
     /// How long a failed check keeps a satellite at `Failed`, even if later data
     /// verifies: a mismatch is evidence worth remembering. Defaults to 600 s.
     pub failure_memory_s: Option<u32>,
+}
+
+impl Config {
+    /// Reject settings that would silently weaken the checks.
+    pub fn validate(&self) -> Result<(), String> {
+        match self.max_time_error_s {
+            Some(t) if t >= SUBFRAME_S => Err(format!(
+                "the time tolerance must be below one sub-frame ({SUBFRAME_S} s), got {t} s"
+            )),
+            _ => Ok(()),
+        }
+    }
 }
 
 /// Why a tag, key or message was rejected. These mean the data did not check out.
@@ -112,6 +143,8 @@ pub enum PendingReason {
     UnsupportedFunction,
     /// The sub-frame carried NMA status "don't use" or a reserved status.
     ServiceNotUsable,
+    /// The sub-frame names a chain (CID) that is not the one verified.
+    ChainMismatch,
 }
 
 /// Why a tag was set aside without being checked, as the Receiver Guidelines direct.
@@ -164,6 +197,18 @@ pub enum Event {
     KrootVerified {
         cid: u8,
         pkid: u8,
+        hash: HashFn,
+        mac: MacFn,
+        key_bits: usize,
+        tag_bits: usize,
+        maclt: u8,
+    },
+    /// The NMA header announced the end of a chain or key; it is no longer trusted.
+    ChainRevoked {
+        cid: u8,
+    },
+    PublicKeyRevoked {
+        pkid: u8,
     },
     KrootRejected(KrootError),
     KeyVerified {
@@ -190,9 +235,19 @@ pub enum KrootError {
     NoPublicKey,
     Signature(SigError),
     Malformed,
+    /// The chain or the key that signed it was revoked by the NMA header.
+    Revoked,
+    /// A verified alert message has been received; nothing more is accepted.
+    Alert,
+}
+
+struct Revoked {
+    alpha: Option<[u8; 6]>,
+    upto: u32,
 }
 
 struct PendingMack {
+    cid: u8,
     prna: u8,
     gst: u32,
     nmas: u8,
@@ -203,10 +258,36 @@ struct PendingMack {
     slow_done: bool,
 }
 
+/// A verified chain and the keys verified for it.
+struct ChainState {
+    chain: Chain,
+    keys: BTreeMap<u32, Vec<u8>>,
+}
+
+/// What judging one tag produced.
+struct Verdict {
+    status: TagStatus,
+    /// Sub-frame start and IODnav of the data that matched.
+    data: Option<(u32, Option<u16>)>,
+    /// A dummy tag (COP 0) proves the key, not any data: it never counts for a satellite.
+    dummy: bool,
+}
+
+impl Verdict {
+    fn of(status: TagStatus) -> Self {
+        Self {
+            status,
+            data: None,
+            dummy: false,
+        }
+    }
+}
+
 /// Latest verdict per satellite.
 #[derive(Debug, Clone, Copy, Default)]
 struct SatRecord {
-    last_ok: Option<u32>,
+    /// Sub-frame start and IODnav of the newest authenticated ephemeris and clock data.
+    ok: Option<(u32, u16)>,
     last_fail: Option<(u32, FailReason)>,
 }
 
@@ -214,21 +295,33 @@ pub struct Verifier {
     cfg: Config,
     sf: SubframeAssembler,
     dsm: DsmAssembler,
-    chain: Option<Chain>,
+    chains: BTreeMap<u8, ChainState>,
     public_keys: BTreeMap<u8, PublicKey>,
-    keys: BTreeMap<u32, Vec<u8>>,
+    /// Chains revoked by the NMA header, by id: the chain's alpha when it was known
+    /// (any KROOT of that chain stays out, whatever its time of applicability), else the
+    /// announcement time (KROOTs of that id not later than it stay out).
+    revoked_cids: BTreeMap<u8, Revoked>,
+    revoked_pkids: BTreeSet<u8>,
     history: BTreeMap<(u8, u32), [[u8; 16]; 15]>,
+    /// IODnav of the newest ephemeris received per satellite, authenticated or not.
+    cur_iod: BTreeMap<u8, (u32, u16)>,
     pending: Vec<PendingMack>,
     sats: BTreeMap<u8, SatRecord>,
-    held_kroot: Option<(Dsm, u8)>,
+    held_kroot: Option<(Dsm, Vec<u8>)>,
+    /// NMA header bytes seen while each DSM was being assembled: the signed message
+    /// uses the header of one particular sub-frame, which the padding hash identifies.
+    dsm_nma: BTreeMap<u8, Vec<u8>>,
     reference: Option<u32>,
-    latest_gst: u32,
+    /// Slot of the latest TESLA key that verified.
+    latest_key_gst: Option<u32>,
     nmas: u8,
+    nmas_seen: bool,
     alert: bool,
 }
 
 impl Verifier {
-    pub fn new(cfg: Config) -> Self {
+    pub fn new(mut cfg: Config) -> Self {
+        cfg.max_time_error_s = cfg.max_time_error_s.map(|t| t.min(SUBFRAME_S - 1));
         let public_keys = cfg
             .public_keys
             .iter()
@@ -239,16 +332,20 @@ impl Verifier {
             cfg,
             sf: SubframeAssembler::new(),
             dsm: DsmAssembler::new(),
-            chain: None,
+            chains: BTreeMap::new(),
             public_keys,
-            keys: BTreeMap::new(),
+            revoked_cids: BTreeMap::new(),
+            revoked_pkids: BTreeSet::new(),
             history: BTreeMap::new(),
+            cur_iod: BTreeMap::new(),
             pending: Vec::new(),
             sats: BTreeMap::new(),
             held_kroot: None,
+            dsm_nma: BTreeMap::new(),
             reference: None,
-            latest_gst: 0,
+            latest_key_gst: None,
             nmas: 0,
+            nmas_seen: false,
             alert: false,
         };
         if let Some(c) = chain {
@@ -262,14 +359,31 @@ impl Verifier {
         self.reference = Some(gst);
     }
 
+    /// The verifier's present time: the later of the reference time and the slot of the
+    /// latest verified TESLA key. `None` until either exists.
+    pub fn trusted_time(&self) -> Option<u32> {
+        match (self.reference, self.latest_key_gst) {
+            (Some(r), Some(k)) => Some(r.max(k)),
+            (r, k) => r.or(k),
+        }
+    }
+
     fn adopt_chain(&mut self, c: Chain) {
-        self.keys
-            .insert(c.gst0.wrapping_sub(SUBFRAME_S), c.root_key.clone());
-        self.chain = Some(c);
+        let Some(anchor) = c.gst0.checked_sub(SUBFRAME_S) else {
+            return;
+        };
+        let keys = BTreeMap::from([(anchor, c.root_key.clone())]);
+        self.chains.insert(c.cid, ChainState { chain: c, keys });
     }
 
     /// Feed one page; returns the events it caused.
     pub fn push_page(&mut self, page: &InavPage) -> Vec<Event> {
+        if page.gst >= GST_LIMIT {
+            return vec![Event::TimeRejected { gst_sf: page.gst }];
+        }
+        if !page.is_nominal() {
+            return Vec::new();
+        }
         if !self.cfg.skip_crc_check && !page.crc_ok() {
             return vec![Event::BadCrc {
                 svid: page.svid,
@@ -290,39 +404,168 @@ impl Verifier {
                 return ev;
             }
         }
-        self.latest_gst = self.latest_gst.max(sf.gst_sf);
-        let nma = sf.nma_header();
-        if sf.has_osnma {
-            self.nmas = nma.nmas;
-        }
-        self.history.insert((sf.svid, sf.gst_sf), sf.words);
-        let floor = self.latest_gst.saturating_sub(SUBFRAME_S * HISTORY);
-        self.history.retain(|&(_, g), _| g >= floor);
-        self.pending.retain(|p| p.gst >= floor);
-        let newest_old = self.keys.range(..floor).next_back().map(|(g, _)| *g);
-        self.keys
-            .retain(|g, _| *g >= floor || Some(*g) == newest_old);
-
-        if !sf.has_osnma {
+        if self.alert {
             return ev;
         }
-        let usable = matches!(nma.nmas, 1 | 2);
-        let dh = sf.dsm_header();
-        if usable {
-            if let Some(d) = self.dsm.push(dh.dsm_id, dh.block_id, sf.dsm_block()) {
-                self.on_dsm(d, sf.hkroot[0], &mut ev);
+        let nma = sf.nma_header();
+        // A sub-frame stamped well past the latest verified key must prove its time with
+        // its own key: an unverified stamp never moves the verifier's clock. Whatever
+        // cannot is set aside, except the key and alert messages, which carry their own
+        // proof (a signature or the Merkle root) and may be what restores a lost chain.
+        let ahead = self
+            .latest_key_gst
+            .is_some_and(|k| sf.gst_sf > k.saturating_add(AHEAD_S));
+        if ahead && !self.key_proves_time(&sf, nma) {
+            ev.push(Event::TimeRejected { gst_sf: sf.gst_sf });
+            if sf.has_osnma {
+                self.process_dsm(&sf, &mut ev);
             }
-            self.retry_kroot(&mut ev);
-            self.on_mack(&sf, nma, &mut ev);
-        } else {
-            self.note_unusable(&sf, &mut ev);
+            return ev;
         }
+        if sf.has_osnma {
+            self.nmas = nma.nmas;
+            self.nmas_seen = true;
+        }
+        self.history.insert((sf.svid, sf.gst_sf), sf.words);
+        if let Some(iod) = navdata::iodnav(&sf.words) {
+            let newer = self
+                .cur_iod
+                .get(&sf.svid)
+                .is_none_or(|(g, _)| *g <= sf.gst_sf);
+            if newer {
+                self.cur_iod.insert(sf.svid, (sf.gst_sf, iod));
+            }
+        }
+        if sf.has_osnma {
+            self.on_cpks(&sf, nma, &mut ev);
+            // Key and alert messages are processed whatever the NMA status (an alert
+            // is sent while the status is "don't use"); the tags only when it is usable.
+            self.process_dsm(&sf, &mut ev);
+            if matches!(nma.nmas, 1 | 2) {
+                self.on_mack(&sf, nma, &mut ev);
+            } else {
+                self.note(&sf, PendingReason::ServiceNotUsable, &mut ev);
+            }
+        }
+        self.evict();
         ev
     }
 
-    fn note_unusable(&mut self, sf: &Subframe, ev: &mut Vec<Event>) {
-        // The tags of an unusable sub-frame are not looked at, but the sub-frame is
-        // reported so the caller can see why the satellite shows no authentication.
+    fn process_dsm(&mut self, sf: &Subframe, ev: &mut Vec<Event>) {
+        let dh = sf.dsm_header();
+        let seen = self.dsm_nma.entry(dh.dsm_id).or_default();
+        if !seen.contains(&sf.hkroot[0]) && seen.len() < 4 {
+            seen.push(sf.hkroot[0]);
+        }
+        if let Some(d) = self.dsm.push(dh.dsm_id, dh.block_id, sf.dsm_block()) {
+            let nma_bytes = self.dsm_nma.remove(&d.dsm_id).unwrap_or_default();
+            self.on_dsm(d, nma_bytes, ev);
+        }
+        self.retry_kroot(ev);
+    }
+
+    /// Whether the TESLA key in this sub-frame verifies against the chain it names.
+    fn key_proves_time(&self, sf: &Subframe, nma: NmaHeader) -> bool {
+        let Some(cs) = self.chains.get(&nma.cid) else {
+            return false;
+        };
+        if !sf.has_osnma {
+            return false;
+        }
+        let layout = MackLayout {
+            key_bits: cs.chain.key_bits,
+            tag_bits: cs.chain.tag_bits,
+        };
+        let (Some(mack), Some((ag, ak))) = (
+            layout.parse(&sf.mack),
+            cs.keys.range(..sf.gst_sf).next_back(),
+        ) else {
+            return false;
+        };
+        tesla::verify_key(
+            cs.chain.hash,
+            &mack.key,
+            sf.gst_sf,
+            ak,
+            *ag,
+            &cs.chain.alpha,
+        )
+        .is_ok()
+    }
+
+    /// Drop data that has aged out of the history, by verified time.
+    fn evict(&mut self) {
+        if let Some(now) = self.trusted_time() {
+            let floor = now.saturating_sub(SUBFRAME_S * HISTORY);
+            self.history.retain(|&(_, g), _| g >= floor);
+            self.pending.retain(|p| p.gst >= floor);
+            for cs in self.chains.values_mut() {
+                let newest_old = cs.keys.range(..floor).next_back().map(|(g, _)| *g);
+                cs.keys.retain(|g, _| *g >= floor || Some(*g) == newest_old);
+            }
+        }
+        while self.history.len() > HISTORY_CAP {
+            let Some(oldest) = self.history.keys().min_by_key(|(_, g)| *g).copied() else {
+                break;
+            };
+            self.history.remove(&oldest);
+        }
+    }
+
+    /// Chain and public key status from the NMA header. A revocation is announced with
+    /// NMA status "don't use" and the id of the chain being withdrawn; once the
+    /// replacement is in force the same CPKS value goes on with status operational and
+    /// the new chain's id, which must not revoke it. The header is not itself
+    /// authenticated, so a revocation is final within a session: a forged one can only
+    /// take authentication away, never grant it.
+    fn on_cpks(&mut self, sf: &Subframe, nma: NmaHeader, ev: &mut Vec<Event>) {
+        if nma.nmas != 3 {
+            return;
+        }
+        match nma.cpks {
+            3 => {
+                let known = self
+                    .chains
+                    .get(&nma.cid)
+                    .map(|c| (c.chain.alpha, c.chain.gst0));
+                self.revoked_cids.insert(
+                    nma.cid,
+                    Revoked {
+                        alpha: known.map(|(a, _)| a),
+                        upto: known.map_or(sf.gst_sf, |(_, g)| g.max(sf.gst_sf)),
+                    },
+                );
+                if self.chains.remove(&nma.cid).is_some() {
+                    self.pending.retain(|p| p.cid != nma.cid);
+                    ev.push(Event::ChainRevoked { cid: nma.cid });
+                }
+            }
+            5 => {
+                let pkid = self.chains.get(&nma.cid).map(|c| c.chain.pkid);
+                if let Some(pkid) = pkid {
+                    self.public_keys.remove(&pkid);
+                    self.revoked_pkids.insert(pkid);
+                    let dropped: Vec<u8> = self
+                        .chains
+                        .iter()
+                        .filter(|(_, c)| c.chain.pkid == pkid)
+                        .map(|(cid, _)| *cid)
+                        .collect();
+                    for cid in dropped {
+                        self.chains.remove(&cid);
+                        self.pending.retain(|p| p.cid != cid);
+                        ev.push(Event::ChainRevoked { cid });
+                    }
+                    ev.push(Event::PublicKeyRevoked { pkid });
+                }
+            }
+            _ => {}
+        }
+    }
+
+    fn note(&mut self, sf: &Subframe, why: PendingReason, ev: &mut Vec<Event>) {
+        // The tags of such a sub-frame are not looked at, but the sub-frame is reported
+        // so the caller can see why the satellite shows no authentication.
         ev.push(Event::Tag(TagResult {
             prna: sf.svid,
             prnd: sf.svid,
@@ -331,15 +574,15 @@ impl Verifier {
             tag_gst: sf.gst_sf,
             data_gst: None,
             nmas: sf.nma_header().nmas,
-            status: TagStatus::Pending(PendingReason::ServiceNotUsable),
+            status: TagStatus::Pending(why),
         }));
     }
 
-    fn on_dsm(&mut self, d: Dsm, nma_byte: u8, ev: &mut Vec<Event>) {
+    fn on_dsm(&mut self, d: Dsm, nma_bytes: Vec<u8>, ev: &mut Vec<Event>) {
         if d.dsm_id >= 12 {
             self.on_pkr(&d, ev);
         } else {
-            self.try_kroot(d, nma_byte, ev);
+            self.try_kroot(d, nma_bytes, ev);
         }
     }
 
@@ -353,10 +596,19 @@ impl Verifier {
         match merkle::verify_pkr(&pkr, &root) {
             Err(e) => ev.push(Event::PublicKeyRejected(e)),
             Ok(()) if pkr.is_alert() => {
+                // Everything learned so far is suspect: forget the chains and keys, and
+                // accept nothing more until the verifier is restarted.
                 self.alert = true;
+                self.chains.clear();
+                self.public_keys.clear();
+                self.pending.clear();
+                self.held_kroot = None;
                 ev.push(Event::AlertMessage { verified: true });
             }
             Ok(()) => {
+                if self.revoked_pkids.contains(&pkr.npkid) {
+                    return;
+                }
                 if let Some(key_type) = KeyType::from_npkt(pkr.npkt) {
                     self.public_keys.insert(
                         pkr.npkid,
@@ -372,31 +624,75 @@ impl Verifier {
         }
     }
 
-    fn try_kroot(&mut self, d: Dsm, nma_byte: u8, ev: &mut Vec<Event>) {
+    fn try_kroot(&mut self, d: Dsm, nma_bytes: Vec<u8>, ev: &mut Vec<Event>) {
+        if self.alert {
+            ev.push(Event::KrootRejected(KrootError::Alert));
+            return;
+        }
         let pkid = d.bytes[0] & 0x0F;
+        if self.revoked_pkids.contains(&pkid) {
+            ev.push(Event::KrootRejected(KrootError::Revoked));
+            return;
+        }
         let Some(pk) = self.public_keys.get(&pkid).cloned() else {
             ev.push(Event::KrootRejected(KrootError::NoPublicKey));
-            self.held_kroot = Some((d, nma_byte));
+            self.held_kroot = Some((d, nma_bytes));
             return;
         };
         let Ok(k) = DsmKroot::parse(&d.bytes, pk.key_type.signature_bits()) else {
             ev.push(Event::KrootRejected(KrootError::Malformed));
             return;
         };
-        match signature::verify(&pk, &k.signed_message(nma_byte), &k.signature) {
+        // Which NMA header the signed message used is told by the padding hash; only the
+        // candidates it does not rule out are put to the signature check.
+        let candidates: Vec<u8> = nma_bytes
+            .iter()
+            .copied()
+            .filter(|n| k.padding_matches(*n) != Some(false))
+            .collect();
+        if candidates.is_empty() {
+            ev.push(Event::KrootRejected(KrootError::Malformed));
+            return;
+        }
+        let mut result = Err(SigError::Invalid);
+        for n in candidates {
+            result = signature::verify(&pk, &k.signed_message(n), &k.signature);
+            if result.is_ok() {
+                break;
+            }
+        }
+        match result {
             Ok(()) => {
-                ev.push(Event::KrootVerified { cid: k.cidkr, pkid });
+                if self
+                    .revoked_cids
+                    .get(&k.cidkr)
+                    .is_some_and(|r| match r.alpha {
+                        Some(a) => a == k.alpha,
+                        None => k.gst0() <= r.upto,
+                    })
+                {
+                    ev.push(Event::KrootRejected(KrootError::Revoked));
+                    return;
+                }
                 let chain = Chain::from_kroot(&k);
-                match &self.chain {
-                    Some(c) if c.cid == chain.cid && c.alpha == chain.alpha => {
-                        // A floating KROOT of the chain in force is one more anchor.
-                        self.keys
-                            .insert(chain.gst0.wrapping_sub(SUBFRAME_S), chain.root_key);
+                ev.push(Event::KrootVerified {
+                    cid: chain.cid,
+                    pkid,
+                    hash: chain.hash,
+                    mac: chain.mac,
+                    key_bits: chain.key_bits,
+                    tag_bits: chain.tag_bits,
+                    maclt: chain.maclt,
+                });
+                match self.chains.get_mut(&chain.cid) {
+                    Some(cs) if cs.chain.alpha == chain.alpha => {
+                        // A KROOT of the chain in force (possibly for a later time of
+                        // applicability): one more anchor.
+                        if let Some(a) = chain.gst0.checked_sub(SUBFRAME_S) {
+                            cs.keys.insert(a, chain.root_key);
+                        }
                     }
-                    _ => {
-                        self.keys.clear();
-                        self.adopt_chain(chain);
-                    }
+                    _ => self.adopt_chain(chain),
                 }
             }
             Err(e) => ev.push(Event::KrootRejected(KrootError::Signature(e))),
@@ -415,9 +711,15 @@ impl Verifier {
     }
 
     fn on_mack(&mut self, sf: &Subframe, nma: NmaHeader, ev: &mut Vec<Event>) {
-        let Some(chain) = self.chain.clone() else {
+        if self.chains.is_empty() {
+            return;
+        }
+        // Tags belong to the chain the NMA header names; any other is not looked at.
+        let Some(cs) = self.chains.get(&nma.cid) else {
+            self.note(sf, PendingReason::ChainMismatch, ev);
             return;
         };
+        let chain = cs.chain.clone();
         let layout = MackLayout {
             key_bits: chain.key_bits,
             tag_bits: chain.tag_bits,
@@ -434,6 +736,7 @@ impl Verifier {
             .map(|e| e.sequence_at(sf.gst_sf).to_vec())
             .filter(|s| s.len() == layout.tags_per_mack());
         self.pending.push(PendingMack {
+            cid: chain.cid,
             prna: sf.svid,
             gst: sf.gst_sf,
             nmas: nma.nmas,
@@ -443,11 +746,14 @@ impl Verifier {
             fast_done: false,
             slow_done: false,
         });
-        self.process_pending(&chain, ev);
+        self.process_pending(ev);
     }
 
     fn accept_key(&mut self, chain: &Chain, gst: u32, key: &[u8], ev: &mut Vec<Event>) {
-        if let Some(have) = self.keys.get(&gst) {
+        let Some(cs) = self.chains.get_mut(&chain.cid) else {
+            return;
+        };
+        if let Some(have) = cs.keys.get(&gst) {
             if have != key {
                 ev.push(Event::KeyRejected {
                     gst,
@@ -456,7 +762,7 @@ impl Verifier {
             }
             return;
         }
-        let anchor = self
+        let anchor = cs
             .keys
             .range(..gst)
             .next_back()
@@ -466,7 +772,8 @@ impl Verifier {
         };
         match tesla::verify_key(chain.hash, key, gst, &ak, ag, &chain.alpha) {
             Ok(()) => {
-                self.keys.insert(gst, key.to_vec());
+                cs.keys.insert(gst, key.to_vec());
+                self.latest_key_gst = self.latest_key_gst.max(Some(gst));
                 ev.push(Event::KeyVerified { gst });
             }
             Err(_) => ev.push(Event::KeyRejected {
@@ -476,9 +783,15 @@ impl Verifier {
         }
     }
 
-    fn process_pending(&mut self, chain: &Chain, ev: &mut Vec<Event>) {
+    fn process_pending(&mut self, ev: &mut Vec<Event>) {
         let mut pending = std::mem::take(&mut self.pending);
         for p in &mut pending {
+            let Some(cs) = self.chains.get(&p.cid) else {
+                p.fast_done = true;
+                p.slow_done = true;
+                continue;
+            };
+            let chain = cs.chain.clone();
             // The chain's root key (stamped GST_0 - 30) is never a tag key, and a MACK
             // sent before GST_0 - 30 belongs to the previous chain: leave it alone.
             if p.gst + SUBFRAME_S < chain.gst0 {
@@ -486,16 +799,17 @@ impl Verifier {
                 p.slow_done = true;
                 continue;
             }
-            let fast_key = self.keys.get(&(p.gst + SUBFRAME_S)).cloned();
+            let fast_key = cs.keys.get(&(p.gst + SUBFRAME_S)).cloned();
+            let slow_key = cs
+                .keys
+                .get(&(p.gst + SUBFRAME_S * (1 + SLOW_MAC_DELAY)))
+                .cloned();
             if let (Some(k), false) = (fast_key, p.fast_done) {
-                self.run_mack(chain, p, &k, false, ev);
+                self.run_mack(&chain, p, &k, false, ev);
                 p.fast_done = true;
             }
-            let slow_gst = p.gst + SUBFRAME_S * (1 + SLOW_MAC_DELAY);
-            if let (Some(k), true, false) =
-                (self.keys.get(&slow_gst).cloned(), p.fast_done, p.slow_done)
-            {
-                self.run_mack(chain, p, &k, true, ev);
+            if let (Some(k), true, false) = (slow_key, p.fast_done, p.slow_done) {
+                self.run_mack(&chain, p, &k, true, ev);
                 p.slow_done = true;
             }
         }
@@ -515,14 +829,8 @@ impl Verifier {
     ) {
         let Some(slots) = p.slots.clone() else {
             if !slow {
-                self.emit(
-                    ev,
-                    p,
-                    1,
-                    p.prna,
-                    0,
-                    TagStatus::Pending(PendingReason::UnknownMaclt),
-                );
+                let v = Verdict::of(TagStatus::Pending(PendingReason::UnknownMaclt));
+                self.emit(ev, p, 1, p.prna, 0, v);
             }
             return;
         };
@@ -538,8 +846,8 @@ impl Verifier {
             if (adkd == 12) != slow {
                 continue;
             }
-            let status = self.judge(chain, p, key, ctr, tag, prnd, adkd, cop, slot);
-            self.emit(ev, p, ctr, prnd, adkd, status);
+            let v = self.judge(chain, p, key, ctr, tag, prnd, adkd, cop, slot);
+            self.emit(ev, p, ctr, prnd, adkd, v);
         }
     }
 
@@ -585,23 +893,23 @@ impl Verifier {
         adkd: u8,
         cop: u8,
         slot: Slot,
-    ) -> TagStatus {
+    ) -> Verdict {
         let tag0 = ctr == 1;
         let adkd = if tag0 { 0 } else { adkd };
         match slot {
             Slot::Flexible => match p.macseq_ok {
                 Some(true) => {}
-                Some(false) => return TagStatus::Failed(FailReason::MacseqMismatch),
-                None => return TagStatus::Pending(PendingReason::UnsupportedFunction),
+                Some(false) => return Verdict::of(TagStatus::Failed(FailReason::MacseqMismatch)),
+                None => return Verdict::of(TagStatus::Pending(PendingReason::UnsupportedFunction)),
             },
             Slot::Fixed { adkd: want, own } => {
                 if adkd != want || (own && prnd != p.prna) {
-                    return TagStatus::Discarded(DiscardReason::AdkdNotInTable);
+                    return Verdict::of(TagStatus::Discarded(DiscardReason::AdkdNotInTable));
                 }
             }
         }
         if !matches!(adkd, 0 | 4 | 12) || !(1..=36).contains(&prnd) {
-            return TagStatus::Discarded(DiscardReason::ReservedField);
+            return Verdict::of(TagStatus::Discarded(DiscardReason::ReservedField));
         }
         let build = |nav: &BitString| {
             let mut m = BitWriter::new();
@@ -614,7 +922,8 @@ impl Verifier {
             m.push(u64::from(p.nmas), 2);
             for chunk in 0..nav.bits.div_ceil(32) {
                 let n = (nav.bits - chunk * 32).min(32);
-                m.push(read_bits(&nav.bytes, chunk * 32, n).unwrap_or(0), n);
+                // `nav` holds `bits` valid bits, so this read cannot come up short.
+                m.push(read_bits(&nav.bytes, chunk * 32, n).unwrap_or_default(), n);
             }
             m.into_bytes()
         };
@@ -624,9 +933,13 @@ impl Verifier {
         };
         if cop == 0 {
             return match navdata::dummy(adkd).map(|n| matches(&n)) {
-                Some(Ok(true)) => TagStatus::Authenticated,
-                Some(Ok(false)) | None => TagStatus::Failed(FailReason::TagMismatch),
-                Some(Err(_)) => TagStatus::Pending(PendingReason::UnsupportedFunction),
+                Some(Ok(true)) => Verdict {
+                    status: TagStatus::Authenticated,
+                    data: None,
+                    dummy: true,
+                },
+                Some(Ok(false)) | None => Verdict::of(TagStatus::Failed(FailReason::TagMismatch)),
+                Some(Err(_)) => Verdict::of(TagStatus::Pending(PendingReason::UnsupportedFunction)),
             };
         }
         let mut saw_data = false;
@@ -645,16 +958,24 @@ impl Verifier {
             let Some(nav) = nav else { continue };
             saw_data = true;
             match matches(&nav) {
-                Ok(true) => return TagStatus::Authenticated,
+                Ok(true) => {
+                    return Verdict {
+                        status: TagStatus::Authenticated,
+                        data: Some((g, navdata::iodnav(words))),
+                        dummy: false,
+                    }
+                }
                 Ok(false) => {}
-                Err(_) => return TagStatus::Pending(PendingReason::UnsupportedFunction),
+                Err(_) => {
+                    return Verdict::of(TagStatus::Pending(PendingReason::UnsupportedFunction))
+                }
             }
         }
-        if saw_data {
+        Verdict::of(if saw_data {
             TagStatus::Failed(FailReason::TagMismatch)
         } else {
             TagStatus::Pending(PendingReason::NoNavData)
-        }
+        })
     }
 
     fn emit(
@@ -664,18 +985,31 @@ impl Verifier {
         ctr: u8,
         prnd: u8,
         adkd: u8,
-        status: TagStatus,
+        v: Verdict,
     ) {
-        let data_gst =
-            matches!(status, TagStatus::Authenticated).then(|| p.gst.saturating_sub(SUBFRAME_S));
-        let rec = self.sats.entry(prnd).or_default();
-        match status {
-            TagStatus::Authenticated if adkd == 0 || adkd == 12 => {
-                rec.last_ok = rec.last_ok.max(Some(p.gst));
+        match v.status {
+            TagStatus::Authenticated if !v.dummy && (adkd == 0 || adkd == 12) => {
+                if let Some((g, Some(iod))) = v.data {
+                    let rec = self.sats.entry(prnd).or_default();
+                    if rec.ok.is_none_or(|(og, _)| og <= g) {
+                        rec.ok = Some((g, iod));
+                    }
+                }
             }
             TagStatus::Failed(r) => {
-                if rec.last_fail.is_none_or(|(g, _)| g <= p.gst) {
-                    rec.last_fail = Some((p.gst, r));
+                // A MACSEQ failure says the transmitting satellite's tag layout is not
+                // genuine; a mismatch on another satellite's data can come from either
+                // side, so both are marked.
+                let blamed: Vec<u8> = match r {
+                    FailReason::MacseqMismatch => vec![p.prna],
+                    _ if prnd != p.prna => vec![prnd, p.prna],
+                    _ => vec![prnd],
+                };
+                for sat in blamed {
+                    let rec = self.sats.entry(sat).or_default();
+                    if rec.last_fail.is_none_or(|(g, _)| g <= p.gst) {
+                        rec.last_fail = Some((p.gst, r));
+                    }
                 }
             }
             _ => {}
@@ -686,31 +1020,49 @@ impl Verifier {
             adkd,
             ctr,
             tag_gst: p.gst,
-            data_gst,
+            data_gst: v.data.map(|(g, _)| g),
             nmas: p.nmas,
-            status,
+            status: v.status,
         }));
+    }
+
+    fn status_of(&self, prn: u8, r: &SatRecord) -> OsnmaStatus {
+        let unusable = self.alert || (self.nmas_seen && !matches!(self.nmas, 1 | 2));
+        let Some(now) = self.trusted_time() else {
+            return OsnmaStatus::Unavailable;
+        };
+        if unusable {
+            return OsnmaStatus::Unavailable;
+        }
+        let memory = self.cfg.failure_memory_s.unwrap_or(600);
+        if r.last_fail
+            .is_some_and(|(fg, _)| fg.saturating_add(memory) >= now)
+        {
+            return OsnmaStatus::Failed;
+        }
+        let window = self.cfg.auth_window_s.unwrap_or(AUTH_WINDOW_S);
+        match r.ok {
+            // Only while it is recent, and only for the ephemeris still in use: newer,
+            // unauthenticated data of the satellite takes the status away again.
+            Some((g, iod))
+                if now.saturating_sub(g) <= window
+                    && self.cur_iod.get(&prn).is_none_or(|(_, c)| *c == iod) =>
+            {
+                OsnmaStatus::Authenticated
+            }
+            _ => OsnmaStatus::Unavailable,
+        }
     }
 
     /// Per-satellite status in the form the receiver-trust monitor consumes:
     /// `Failed` when a check on the satellite's data failed within the failure memory,
-    /// else `Authenticated` when its ephemeris and clock data has verified, else
-    /// `Unavailable`.
+    /// else `Authenticated` when its ephemeris and clock data verified recently and is
+    /// still the data in use, else `Unavailable`. After a verified alert message or
+    /// with NMA status "don't use" every satellite is `Unavailable`.
     pub fn sat_status(&self) -> Vec<(String, OsnmaStatus)> {
-        let memory = self.cfg.failure_memory_s.unwrap_or(600);
         self.sats
             .iter()
-            .map(|(prn, r)| {
-                let recent_fail = r
-                    .last_fail
-                    .is_some_and(|(fg, _)| fg.saturating_add(memory) >= self.latest_gst);
-                let s = match (r.last_ok, recent_fail) {
-                    (_, true) => OsnmaStatus::Failed,
-                    (Some(_), false) => OsnmaStatus::Authenticated,
-                    _ => OsnmaStatus::Unavailable,
-                };
-                (format!("E{prn:02}"), s)
-            })
+            .map(|(prn, r)| (format!("E{prn:02}"), self.status_of(*prn, r)))
             .collect()
     }
 

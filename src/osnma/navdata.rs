@@ -69,6 +69,12 @@ pub fn adkd0(words: &[[u8; 16]]) -> Option<BitString> {
     collect(words, &ADKD0_PIECES, ADKD0_BITS)
 }
 
+/// The IODnav carried by the Word Type 1 of a sub-frame's words, if it has one.
+pub fn iodnav(words: &[[u8; 16]]) -> Option<u16> {
+    let w = words.iter().find(|w| word_type(w) == 1)?;
+    read_bits(w, 6, 10).map(|v| v as u16)
+}
+
 /// ADKD 4: Word Types 6 and 10.
 pub fn adkd4(words: &[[u8; 16]]) -> Option<BitString> {
     collect(words, &ADKD4_PIECES, ADKD4_BITS)
