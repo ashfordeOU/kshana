@@ -7,8 +7,12 @@
 //! per-subframe assembly. Nothing here transmits or forges data; it only reads.
 
 pub mod bits;
+pub mod dsm;
+pub mod merkle;
 pub mod page;
 pub mod subframe;
+pub mod tables;
+pub mod tesla;
 
 pub use page::{InavPage, PageError, PAGE_BITS};
 pub use subframe::{DsmHeader, MackLayout, NmaHeader, Subframe, SubframeAssembler};
