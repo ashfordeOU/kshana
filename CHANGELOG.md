@@ -193,6 +193,7 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **MCP: `assess_receiver_log` accepts the log as `text` or `base64`; tool input is capped at 4 MiB.**
 - **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
   module the Observatory palette revision left on its own colours while the jammer-Q work
   landed; its `*.chart.svg` (the `jamming`, `maritime-strait-jamming` and other `jamming`
