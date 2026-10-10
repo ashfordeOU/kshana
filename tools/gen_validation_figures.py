@@ -70,6 +70,7 @@ GRID = _D["grid"]  # gridlines
 GREEN = _D["lime"]  # Validated / ExternalDataset
 TAN = _D["amber"]  # Modelled / InternalConsistency
 AMBER = _D["cyan"]  # ReferenceImpl
+BLUE = _D["blue"]  # IntegrationRun (Modelled only)
 SLATE = _D["magenta"]  # Partner / NoneKind
 FAULT = _D["coral"]  # a tolerance or threshold line
 NEUTRAL = _D["ink4"]  # the comparison baseline (classical)
@@ -234,6 +235,7 @@ ORACLE_KINDS = [
     ("ExternalDataset", GREEN),
     ("ReferenceImpl", AMBER),
     ("InternalConsistency", TAN),
+    ("IntegrationRun", BLUE),
     ("NoneKind", SLATE),
 ]
 # Fixed status-row order (matrix JSON status string -> display label).
@@ -327,19 +329,21 @@ def build_oracle_svg(bd, total):
     # Caption: the Modelled oracle-kind split (greppable, pinned by the doc-sync test).
     cap_y = OROW_Y0 + len(STATUS_ROWS) * OROW_STEP + 10
     a(
-        f'  <text x="{OMARGIN}" y="{cap_y}" font-size="14" fill="{SUBTLE}">'
+        f'  <text x="{OMARGIN}" y="{cap_y}" font-size="13" fill="{SUBTLE}">'
         f'Modelled oracle kinds: {modelled["ExternalDataset"]} ExternalDataset, '
         f'{modelled["ReferenceImpl"]} ReferenceImpl, '
-        f'{modelled["InternalConsistency"]} InternalConsistency '
+        f'{modelled["InternalConsistency"]} InternalConsistency, '
+        f'{modelled["IntegrationRun"]} IntegrationRun '
         f'(total {modelled_total} Modelled).</text>'
     )
 
     # Legend: oracle-kind colour key (fixed order → fixed bytes).
     legend_y = cap_y + 36
     swatch = 16
-    slot = (OWIDTH - 2 * OMARGIN) / len(ORACLE_KINDS)
-    for i, (kind, colour) in enumerate(ORACLE_KINDS):
-        sx = OMARGIN + i * slot
+    # Slots are sized to their label (a fixed average glyph width), so five kinds fit the canvas
+    # without the longer labels running into the next swatch; fixed arithmetic, fixed bytes.
+    sx = float(OMARGIN)
+    for kind, colour in ORACLE_KINDS:
         a(
             f'  <rect x="{fmt(sx)}" y="{legend_y - swatch + 3}" width="{swatch}" '
             f'height="{swatch}" fill="{colour}"/>'
@@ -348,6 +352,7 @@ def build_oracle_svg(bd, total):
             f'  <text x="{fmt(sx + swatch + 6)}" y="{fmt(legend_y)}" font-size="13" '
             f'fill="{INK}">{kind}</text>'
         )
+        sx += swatch + 6 + len(kind) * 6.8 + 18
 
     # Status totals line (same idiom as validation-breakdown's legend → greppable).
     totals_y = legend_y + 34

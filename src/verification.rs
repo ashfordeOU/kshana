@@ -23,8 +23,10 @@
 //! * A [`VerificationStatus::Modelled`] row implements published or
 //!   first-principles physics with tests, and its oracle is honestly one of
 //!   external (but loose), a same-codebase [`OracleKind::ReferenceImpl`]
-//!   cross-check, or an [`OracleKind::InternalConsistency`] closed-form / algebraic
-//!   identity. It is a model, not an external validation.
+//!   cross-check, an [`OracleKind::InternalConsistency`] closed-form / algebraic
+//!   identity, or an [`OracleKind::IntegrationRun`] against a real host application
+//!   (which shows the plumbing works and is allowed only on Modelled rows). It is a
+//!   model, not an external validation.
 //! * A [`VerificationStatus::PartnerOwned`] row is a capability Kshana does **not**
 //!   provide (spacecraft-bus, RF-payload, quantum-hardware and flight-PA
 //!   engineering): no module, no test, no oracle, by design.
@@ -61,6 +63,13 @@ pub enum OracleKind {
     /// (e.g. a numeric integral vs its own analytic form). Catches transcription
     /// and coefficient errors; is **not** an external validation.
     InternalConsistency,
+    /// The capability was exercised against a real host application it is written
+    /// for (a server it was loaded into, a program it feeds), and the host accepted the
+    /// input and showed the expected state. Shows that the plumbing works; the host is not
+    /// an oracle for any value the capability carries. Allowed only on
+    /// [`VerificationStatus::Modelled`] rows (`validated_rows_require_an_external_oracle`
+    /// and `integration_run_only_on_modelled_rows`).
+    IntegrationRun,
     /// No oracle — a partner-owned gap with no implementation.
     NoneKind,
 }
@@ -82,6 +91,10 @@ impl OracleKind {
             OracleKind::ExternalDataset => {
                 "a sub-claim is externally checked, but the whole capability composes \
                  modelled pieces, so the capability stays Modelled"
+            }
+            OracleKind::IntegrationRun => {
+                "exercised against a real host application; an integration run is not an \
+                 independent oracle"
             }
             OracleKind::NoneKind => "no oracle",
         }
@@ -2499,6 +2512,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
+        VerificationItem {
+            requirement: "Marine integrations: Signal K plugin, OpenCPN gate stream and score panel, reference build",
+            capability: "The trust score, band, reasons, gate state and receiver-reported position published under navigation.gnss.kshana in a Signal K server with a warn, alarm and normal notification (integrations/signalk); the gated NMEA stream, with the fix marked invalid while trust is collapsed and a PKSHT sentence per cycle, served to OpenCPN over TCP by the gate itself or by a small relay, and a native OpenCPN score panel that reads the PKSHT sentence (integrations/opencpn); and systemd units and a container that run the gate (deploy/reference-build). Where these show output they carry the advisory statement: Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.",
+            module: "receiver_trust (live: the gate, its TCP listener, PKSHT); outside the crate: integrations/signalk (JavaScript), integrations/opencpn (JavaScript relay, C++ native plugin), deploy/reference-build (systemd units, container)",
+            tests: "tests/receiver_trust_live_cli.rs (the gate and its TCP listener, Rust side); integrations/signalk/test/adapter.test.js, integrations/signalk/test/model.test.js and integrations/signalk/test/plugin.test.js (24 Node tests on recorded synthetic output); integrations/opencpn/test/relay.test.mjs (5 Node tests); integrations/opencpn/test/e2e-live.mjs (the real binary to a TCP consumer, run by hand and in CI); integrations/opencpn/plugin/test/pksht_test.cpp and integrations/opencpn/plugin/test/trust_state_test.cpp (C++ checks of the PKSHT parser and the panel state); deploy/reference-build/check-units.sh and deploy/reference-build/test-entrypoint.sh",
+            oracle: "WHAT IS CHECKED, stated narrowly: that these integrations work against the real software they are written for. EVIDENCE is committed at integrations/signalk/evidence/README.md (with its JSON files) and integrations/opencpn/evidence/README.md (with its screenshots and logs), each with the script that reproduces it. (1) Signal K: the plugin loaded into the pinned signalk-server 2.33.0 npm package, in a private loopback-only network namespace, fed synthetic data. The server's own REST and WebSocket interfaces showed the published paths, the score metadata, and a notification that went absent, warn, alarm, normal (after the hold) and warn again when the data stopped. With the real kshana run by the plugin on the NMEA the server itself received, the notification went warn then alarm and the reported position was published; the server's own navigation.position was written by its NMEA provider, never by the plugin. Re-run against live JSON schema 1.2. (2) OpenCPN: the plugin built against the OpenCPN plugin API header and wxWidgets 3.2.4, loaded into the Ubuntu 24.04 package of OpenCPN 5.8.4 under a virtual display; OpenCPN loaded it, ran its initialisation and handed it the PKSHT sentences of the gated stream, and the panel turned red on the untrusted band. In one clean run, OpenCPN's own ship position stopped updating, and its fix indicator dropped, when the gate marked the fix invalid. A second run fed directly by the gate's TCP listener showed delivery to the plugin but not a clean before-and-after. (3) The relay tests replay a recorded excerpt of the gated stream through a real TCP socket and check what a consumer receives (the bytes unchanged, valid checksums on every sentence including the rewritten ones, GGA and RMC agreeing, one PKSHT per cycle with the gate field where the fix is invalid), and the end-to-end script checks that a consumer of the gate's listener receives exactly the bytes the same gate writes to standard output. (4) The PKSHT parsers (JavaScript and C++) are run over sentences recorded from kshana output and reject a wrong checksum, version or a score outside 0 to 100. (5) The systemd units are checked with systemd-analyze verify (systemd 255, binaries stubbed) and with guards for a shell in ExecStart, the restart policy and the sandbox keys; the container entrypoint's argument handling is checked with a stub binary. WHAT IS NOT: there is no external oracle for any value these integrations show. The trust values themselves are the rows above, and an integration run shows only that the plumbing carries them; that is why this row is MODELLED and not VALIDATED (docs/VALIDATION.md). No real vessel, receiver, long run, other version of either host, other operating system or desktop was used; all data are synthetic text and nothing here is a measurement. The notification's sound and visual handling by a real Signal K client, OpenCPN's toolbar button, preferences and stale state, and packaging for the OpenCPN plugin manager were not exercised. The systemd sandbox keys were checked for syntax only, not run under a live systemd, and the container image build and its health check have no committed evidence here. No detection or false-alarm figure is claimed. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.",
+            oracle_kind: IntegrationRun,
+            status: Modelled,
+        },
     ]
 }
 
@@ -3910,6 +3932,29 @@ mod tests {
                 assert_eq!(it.oracle_kind, OracleKind::NoneKind);
             }
         }
+    }
+
+    // ── An integration run is not an oracle: Modelled rows only ──────────────
+    #[test]
+    fn integration_run_only_on_modelled_rows() {
+        let mut n = 0;
+        for it in verification_matrix() {
+            if it.oracle_kind == OracleKind::IntegrationRun {
+                n += 1;
+                assert_eq!(
+                    it.status,
+                    VerificationStatus::Modelled,
+                    "row '{}' carries IntegrationRun but is not Modelled: running against a real \
+                     host is not an independent oracle, so it can never justify Validated",
+                    it.requirement
+                );
+            }
+        }
+        assert!(n >= 1, "the marine integrations row carries IntegrationRun");
+        // and the reason text must say so, so the rationale page never implies otherwise
+        assert!(OracleKind::IntegrationRun
+            .modelled_reason()
+            .contains("not an independent oracle"));
     }
 
     // ── Only partner rows may use the None oracle kind ────────────────────────
