@@ -49,6 +49,12 @@ arrives, and a live stream gives the same score as the same text read as a file.
 
 ## What each check catches, and what it cannot
 
+Directions between fixes (the track bearing used by the turn-rate check, the course implied by two
+positions) are the direction of the chord between them, which is the geodesic's **mean azimuth**
+between the fixes, not the forward azimuth at the first fix; the two differ by about half the
+convergence of the meridians between the fixes (0.001 degrees for a 260 m baseline at 59.5 degrees
+latitude).
+
 A counterfeit position has to agree with a ship's physics and with the ship's other sensors. Each
 check compares the fix with one of them. A check is only as independent as its other source: a
 heading from a GNSS compass, or a "speed through the water" derived from GNSS, is not independent
