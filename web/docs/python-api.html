@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.33.1</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.34.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -185,6 +185,11 @@ adev = np.asarray([p[<span class="hljs-string">&quot;adev&quot;</span>] <span cl
 <td>FFT (fast Fourier transform) acquisition of each PRN (pseudorandom noise code): Doppler, code phase, statistic, threshold</td>
 </tr>
 <tr>
+<td><code>iq_acq_surface</code></td>
+<td><code>(i, q, fs_hz, signal, prn, **options) -&gt; dict</code></td>
+<td>the whole acquisition surface of one PRN (<code>kshana.acq-surface/1</code>): <code>rows[doppler][lag]</code> correlation power, the peak and two fine-Doppler refinements (<code>parabolic</code>, <code>fine_search</code>)</td>
+</tr>
+<tr>
 <td><code>iq_track</code></td>
 <td><code>(i, q, fs_hz, signal, prns, **options) -&gt; dict</code></td>
 <td>acquire, then track each PRN: per-epoch Doppler, code phase, lock indicators, C/N0, prompt correlator</td>
@@ -270,6 +275,21 @@ arrays.</p>
     doppler_step: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">float</span>] = ...,
     pfa: <span class="hljs-built_in">float</span> = ...,
 </span>) -&gt; <span class="hljs-built_in">list</span>[<span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>]]: ...
+
+<span class="hljs-keyword">def</span> <span class="hljs-title function_">iq_acq_surface</span>(<span class="hljs-params">
+    i: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">float</span>],
+    q: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">float</span>],
+    fs_hz: <span class="hljs-built_in">float</span>,
+    signal: <span class="hljs-built_in">str</span>,
+    prn: <span class="hljs-built_in">int</span>,
+    if_hz: <span class="hljs-built_in">float</span> = ...,
+    center_hz: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">float</span>] = ...,
+    coherent: <span class="hljs-built_in">int</span> = ...,
+    noncoherent: <span class="hljs-built_in">int</span> = ...,
+    doppler_max: <span class="hljs-built_in">float</span> = ...,
+    doppler_step: <span class="hljs-type">Optional</span>[<span class="hljs-built_in">float</span>] = ...,
+    pfa: <span class="hljs-built_in">float</span> = ...,
+</span>) -&gt; <span class="hljs-built_in">dict</span>[<span class="hljs-built_in">str</span>, <span class="hljs-type">Any</span>]: ...
 
 <span class="hljs-keyword">def</span> <span class="hljs-title function_">iq_track</span>(<span class="hljs-params">
     i: <span class="hljs-built_in">list</span>[<span class="hljs-built_in">float</span>],
@@ -406,8 +426,8 @@ notebook are planned follow-ons.</li>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.33.1 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.33.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.34.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.34.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -420,7 +440,7 @@ notebook are planned follow-ons.</li>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.33.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.34.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>

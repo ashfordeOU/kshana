@@ -27,6 +27,12 @@
 //! * **Replay.** [`replay`] runs one [`IqSource`](crate::iq::IqSource) once through a bank holding every
 //!   (channel, loop configuration) pair and returns the results per configuration, so many
 //!   loop designs can be compared on one recording.
+//! * **Streaming, lock states and designs.** [`TrackSession`] runs the same channels in
+//!   bounded memory, handing every update to an [`sink::EpochSink`] as it happens
+//!   (CSV/JSON-Lines/binary `kshana.track-epoch/1` writers and a reader, running
+//!   [`sink::Summary`] metrics), under the [`lock`] state machine: pull-in, locked, lost,
+//!   re-acquisition, with a ±1/(2T) false-lock check. [`design`] reads loop designs from
+//!   `kshana.loop-design/1` TOML (`docs/design/LOOP-DESIGN-TOML.md`).
 //!
 //! Honest label: MODELLED. The loop designs, jitter, steady-state error and C/N0
 //! estimators are checked against closed forms (Kaplan & Hegarty; Van Dierendonck;
@@ -37,20 +43,85 @@
 //! navigation-message decoding beyond bit signs.
 
 pub mod cn0;
+pub mod design;
 pub mod discrim;
 pub mod filter;
 
 mod bank;
 mod channel;
+pub mod lock;
+pub mod sink;
 
 pub use bank::{replay, ReplayResult, TrackingBank};
-pub use channel::{Channel, ChannelInit, EpochOutput};
+pub use channel::{Channel, ChannelInit, EpochOutput, MAX_EXTRA_TAPS, MAX_TAP_OFFSET_CHIPS};
+pub use lock::{LockEvent, LockState, SessionChannel, TrackSession};
 
 use self::cn0::BitSyncConfig;
 use self::discrim::{DllDiscriminator, FllDiscriminator, PllDiscriminator};
 use self::filter::LoopFilter;
 use super::Cf64;
 use std::f64::consts::TAU;
+
+/// Samples per chip, when a stream sampled at `fs_hz` is **commensurate** with a code of
+/// `chip_rate_hz`: the ratio lies within 1e-6 (relative) of a multiple of 1/2. The samples then
+/// fall on the same few chip phases in every chip, the early and late correlators see a
+/// staircase instead of the correlation triangle, and the code loop's discriminator has flat
+/// steps (a dead zone). At exactly 2 samples per chip with 0.5-chip spacing the S-curve is a
+/// single step and the DLL dithers bang-bang (≈ 0.09 chip, ≈ 26 m, RMS code error on GPS L1
+/// C/A at 45 dB-Hz against ≈ 0.004 chip at an incommensurate rate); 2.5, 3 and 5 samples per
+/// chip are milder but biased. Evidence: `docs/design/evidence/dll-jitter/`. Real front ends
+/// avoid such rates; a recording made at one should not be used to judge code-loop
+/// performance. Returns `None` for an incommensurate rate.
+pub fn commensurate_samples_per_chip(fs_hz: f64, chip_rate_hz: f64) -> Option<f64> {
+    if !(fs_hz > 0.0 && chip_rate_hz > 0.0) {
+        return None;
+    }
+    let r = fs_hz / chip_rate_hz;
+    let nearest = (2.0 * r).round() / 2.0;
+    (nearest > 0.0 && (r - nearest).abs() <= 1e-6 * r).then_some(r)
+}
+
+/// When the FLL path of an FLL-assisted PLL feeds the loop.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub enum FllAssist {
+    /// Only during pull-in: the FLL pulls the carrier in, hands over to the PLL once the
+    /// channel is phase-locked, and comes back when phase lock is lost (with hysteresis,
+    /// see [`FllGate`]). Left on, a 10 Hz FLL path injects enough frequency noise to break
+    /// phase lock below about 38 dB-Hz (`docs/design/evidence/carrier-lock/`).
+    PullIn(FllGate),
+    /// On at every update.
+    Always,
+}
+
+impl Default for FllAssist {
+    fn default() -> Self {
+        FllAssist::PullIn(FllGate::default())
+    }
+}
+
+/// The hand-over between the FLL and the PLL of [`FllAssist::PullIn`]. The FLL path is
+/// switched off once the smoothed PLI has stayed at or above `off_pli` for `dwell_s`, and
+/// back on once it has stayed below `on_pli` for `dwell_s`. `on_pli < off_pli` and the
+/// dwell keep the gate from chattering around one threshold.
+#[derive(Clone, Copy, Debug, PartialEq)]
+pub struct FllGate {
+    /// Smoothed PLI at or above which the FLL hands over to the PLL.
+    pub off_pli: f64,
+    /// Smoothed PLI below which the FLL comes back.
+    pub on_pli: f64,
+    /// How long (s) either condition must hold.
+    pub dwell_s: f64,
+}
+
+impl Default for FllGate {
+    fn default() -> Self {
+        Self {
+            off_pli: 0.8,
+            on_pli: 0.6,
+            dwell_s: 0.1,
+        }
+    }
+}
 
 /// The carrier loop of a channel.
 #[derive(Clone, Copy, Debug, PartialEq)]
@@ -121,6 +192,11 @@ pub struct LoopConfig {
     /// Early-late correlator spacing `d` (chips); the early and late replicas sit `d/2`
     /// either side of the prompt.
     pub spacing_chips: f64,
+    /// Extra correlator taps: offsets (chips) relative to the prompt, a positive offset
+    /// being early. Each is correlated alongside E/P/L and returned in
+    /// `EpochOutput::extra`; the loops never use them.
+    /// Empty by default.
+    pub extra_taps_chips: Vec<f64>,
     /// Code discriminator.
     pub dll: DllDiscriminator,
     /// Code loop order (1 or 2).
@@ -137,6 +213,8 @@ pub struct LoopConfig {
     pub pll_discriminator: PllDiscriminator,
     /// Carrier-frequency discriminator.
     pub fll_discriminator: FllDiscriminator,
+    /// When the FLL path of an FLL-assisted PLL is used (ignored by the other kinds).
+    pub fll_assist: FllAssist,
     /// Smoothed phase lock indicator above which phase lock is declared.
     pub pli_threshold: f64,
     /// NWPR C/N0 (dB-Hz) at or above which code lock is declared.
@@ -152,13 +230,14 @@ pub struct LoopConfig {
 impl Default for LoopConfig {
     /// A GPS-L1-C/A-like design: 1-period integration, 0.5-chip spacing, carrier-aided
     /// first-order 2 Hz early-minus-late-power DLL, second-order 15 Hz Costas PLL assisted
-    /// by a first-order 10 Hz FLL, PLI threshold 0.8, code lock at 26 dB-Hz, C/N0 over 50
+    /// by a first-order 10 Hz FLL during pull-in, PLI threshold 0.8, code lock at 26 dB-Hz, C/N0 over 50
     /// windows.
     fn default() -> Self {
         Self {
             label: "default".into(),
             coherent_periods: 1,
             spacing_chips: 0.5,
+            extra_taps_chips: Vec::new(),
             dll: DllDiscriminator::EarlyMinusLatePower,
             dll_order: 1,
             dll_bn_hz: 2.0,
@@ -171,6 +250,7 @@ impl Default for LoopConfig {
             },
             pll_discriminator: PllDiscriminator::CostasAtan,
             fll_discriminator: FllDiscriminator::Atan2,
+            fll_assist: FllAssist::default(),
             pli_threshold: 0.8,
             code_lock_cn0_dbhz: 26.0,
             cn0_windows: 50,
@@ -205,6 +285,7 @@ pub struct LoopCore {
     doppler_hz: f64,
     code_rate_hz: f64,
     prev_prompt: Option<Cf64>,
+    fll_enabled: bool,
 }
 
 impl LoopCore {
@@ -238,6 +319,7 @@ impl LoopCore {
             doppler_hz: init_doppler_hz,
             code_rate_hz: 0.0,
             prev_prompt: None,
+            fll_enabled: true,
         };
         s.code_rate_hz = s.base_code_rate();
         Ok(s)
@@ -263,7 +345,7 @@ impl LoopCore {
             Some(prev) => self.cfg.fll_discriminator.discriminate(prev, p, t_s),
             None => 0.0,
         };
-        let fe = if self.cfg.carrier.has_fll() {
+        let fe = if self.cfg.carrier.has_fll() && self.fll_enabled {
             TAU * fll_hz
         } else {
             0.0
@@ -279,6 +361,18 @@ impl LoopCore {
             fll_hz,
             dll_chips,
         }
+    }
+
+    /// Switch the FLL path of an FLL-assisted PLL on or off (the channel does this under
+    /// [`FllAssist::PullIn`]). A core that is never told keeps it on. An FLL-only loop
+    /// ignores it.
+    pub fn set_fll_enabled(&mut self, on: bool) {
+        self.fll_enabled = on || !self.cfg.carrier.has_pll();
+    }
+
+    /// Whether the FLL path feeds the loop.
+    pub fn fll_enabled(&self) -> bool {
+        self.cfg.carrier.has_fll() && self.fll_enabled
     }
 
     /// Carrier Doppler the NCO is set to (Hz, relative to the intermediate frequency).
