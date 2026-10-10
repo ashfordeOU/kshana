@@ -27,8 +27,8 @@ mirror or a catalogue page, the file says so.
 kshana compliance-report spoof-detect.result.json integrity-raim.result.json session.result.json
 ```
 
-writes `compliance-report.compliance.md` and `compliance-report.compliance.json` (`--out
-<base>` changes the name). The inputs are result files from earlier runs: a scenario run
+writes `compliance-report.compliance.md` and `compliance-report.compliance.json`
+(`--out <base>` changes the name). The inputs are result files from earlier runs: a scenario run
 writes `<name>.result.json` beside `<name>.toml`, and `kshana receiver-trust` writes its
 own. The kind of each run is read from the scenario file beside the result, from the content
 of a receiver-trust result, or from a top-level `kind`, and must be a kind the engine knows.
