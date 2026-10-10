@@ -576,12 +576,6 @@ fn rinex_time_system(text: &str, system: char) -> &'static str {
     }
 }
 
-/// Read RINEX 3 observation text. Every `S` code of every satellite at every OK epoch
-/// (flag 0) becomes a [`SatCn0`] with the code as its band (`S1C`), when it lies in the
-/// plausible 10-70 dB-Hz window. Event records (flag != 0) are not data and are passed
-/// over; an epoch with an impossible date is counted as skipped. Labels are the epoch
-/// time in the file's own time system (`2024-09-11T09:12:03.000 GPST`). Returns the
-/// parser's error when the file is not a readable RINEX observation file.
 /// Byte range of each epoch record of a RINEX 3 observation file: from its `>` line to the next
 /// epoch line (or the end of the text). Empty for a file with no such lines (RINEX 2).
 fn rinex_epoch_spans(text: &str) -> Vec<(usize, usize)> {
@@ -599,6 +593,12 @@ fn rinex_epoch_spans(text: &str) -> Vec<(usize, usize)> {
     starts.into_iter().zip(ends).collect()
 }
 
+/// Read RINEX 3 observation text. Every `S` code of every satellite at every OK epoch
+/// (flag 0) becomes a [`SatCn0`] with the code as its band (`S1C`), when it lies in the
+/// plausible 10-70 dB-Hz window. Event records (flag != 0) are not data and are passed
+/// over; an epoch with an impossible date is counted as skipped. Labels are the epoch
+/// time in the file's own time system (`2024-09-11T09:12:03.000 GPST`). Returns the
+/// parser's error when the file is not a readable RINEX observation file.
 pub fn read_rinex(text: &str) -> Result<Timeline, String> {
     let rinex = parse_obs(text)?;
     let ts = rinex_time_system(text, rinex.header.system);
