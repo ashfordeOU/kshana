@@ -367,6 +367,21 @@ impl FftPlan {
             .collect()
     }
 
+    /// [`inverse`](Self::inverse) of an owned `x`, bit for bit, conjugating in place so the
+    /// peak memory is two transforms' worth instead of three.
+    pub(crate) fn inverse_owned(&self, mut x: Vec<(f64, f64)>) -> Vec<(f64, f64)> {
+        for v in &mut x {
+            *v = (v.0, -v.1);
+        }
+        let s = 1.0 / self.n as f64;
+        let mut out = self.forward(&x);
+        drop(x);
+        for v in &mut out {
+            *v = (v.0 * s, -v.1 * s);
+        }
+        out
+    }
+
     /// Transform the `n/stride`-point subsequence `x[offset + j·stride]` into `out`
     /// (whose length is that subsequence length), using factors from `level` on.
     fn rec(
