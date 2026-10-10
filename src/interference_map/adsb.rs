@@ -25,9 +25,9 @@ pub struct AdsbParams {
     /// Reports below this barometric altitude (feet) are ignored: low and surface reports
     /// have legitimate accuracy loss (terrain masking, surface position format).
     pub min_alt_ft: f64,
-    /// A report is low-accuracy if NACp is at or below this (EPU of 185 m or worse).
+    /// A report is low-accuracy if NACp is at or below this (the reported EPU bound is 556 m or larger, or unknown).
     pub low_nacp_max: u8,
-    /// ... or if NIC is at or below this (containment radius not shown to be better than 0.6 NM).
+    /// ... or if NIC is at or below this (the reported containment-radius bound is 1852 m or larger, or unknown).
     pub low_nic_max: u8,
     /// A report is "good" (evidence the aircraft's own equipment can report accuracy) if
     /// NACp is at or above this ...
