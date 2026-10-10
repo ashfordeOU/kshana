@@ -17,7 +17,7 @@ actions that run the CLI), **Notebook** (`notebooks/`).
 | `receiver-trust live` as a running process (stdin, followed file, TCP, UDP, `--gate`, `--listen`) | `receiver-trust live` | `receiver_trust::live::LiveEngine` | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 | Evidence pack: create (signed, window of a log) | `receiver-trust evidence` | `evidence::create_bundle`, `surface::evidence_create` | `evidence_create` | **N/A** (signing key) | `create_evidence_pack` | `/kshana-evidence-pack`, skill `evidence-pack` | Create Evidence Pack | `vessel-trust-and-training` |
 | Evidence pack: verify | `evidence verify` | `evidence::verify_bundle` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | same | Verify Evidence Pack (pinned key only) | `vessel-trust-and-training` |
-| Trust telemetry (Prometheus, syslog CEF/LEEF, OTLP) | `trust-telemetry` | `telemetry` | **N/A** | **N/A** | **N/A** | **N/A** (how-to) | **N/A** (how-to) | **N/A** |
+| Trust telemetry (Prometheus, syslog CEF/LEEF, OTLP) | `trust-telemetry` | `telemetry` | **N/A** | `trust_telemetry` (text out; no socket) | **N/A** | **N/A** (how-to) | **N/A** (how-to) | **N/A** |
 | Training NMEA with an instructor log | `nmea-scenario` | `nmea_synth::generate_from_toml` | `nmea_training` | `nmea_training` | `generate_training_nmea` | `/kshana-training-scenario`, skill `training-nmea-scenario` | Generate Training NMEA | `vessel-trust-and-training` |
 | Training NMEA streamed to a TCP or UDP address | `nmea-scenario --tcp/--udp` | `nmea_synth::stream` | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 | Interference map (ADS-B, AIS) | `interference-map adsb\|ais` | `interference_map::api` | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map`, skill `interference-map-route-exposure` | Build Interference Map | `interference-map-route-exposure` |
@@ -45,7 +45,7 @@ actions that run the CLI), **Notebook** (`notebooks/`).
   `--replay` is scored untrusted (its time disagrees with the host clock; an excerpt is read
   without a host clock), and `--udp <port>` and `--listen tcp:<port>` bind the loopback address
   unless an address is given.
-- **Trust telemetry.** `trust-telemetry` serves Prometheus metrics, sends syslog and exports
+- **Trust telemetry.** WASM carries `trust_telemetry(input, format, host, input_kind, options_json)`: the same encoders, returning Prometheus text, CEF or LEEF syslog lines, or the OTLP JSON payload for a stream or a batch result, with no clock (syslog lines carry the RFC 5424 nil timestamp) and nothing sent. Python and MCP do not carry it yet; the scores themselves are available there from the batch and excerpt functions. The rest of `trust-telemetry` serves Prometheus metrics, sends syslog and exports
   OpenTelemetry from a running stream, so it is a process by nature. How-to: pipe the live
   command into it, or replay a result file (`kshana trust-telemetry --result session.result.json
   --print-metrics`); see [`TRUST-TELEMETRY.md`](TRUST-TELEMETRY.md). An agent or a notebook that
@@ -91,7 +91,7 @@ last column. JetBrains actions run the command line, so an **N/A** there states 
 | `example [<name>]` | `list_examples`, `get_example` | `list_examples`, `get_example` | `list_example_scenarios`, `get_example_scenario` | `/kshana-run` | Insert Example Scenario | | The `python` and `wasm` features compile the example text in (about 0.7 MB) |
 | `receiver-trust <scenario.toml>` (batch) | `receiver_trust`, `assess_vessel_log` | `receiver_trust`, `assess_vessel_log` | `assess_receiver_log`, `assess_vessel_log` | `/kshana-assess-receiver` | Assess Receiver Trust | `vessel-trust-and-training` | |
 | `receiver-trust live` | excerpt: `receiver_trust_replay` | excerpt: `receiver_trust_replay` | excerpt: `assess_vessel_stream` | excerpt | Assess Receiver Stream (a stored log, `--file`) | | A running process; the excerpt has no socket and no gate (N/A above) |
-| `trust-telemetry` | N/A | N/A | N/A | how-to | N/A | | A process (N/A above) |
+| `trust-telemetry` | N/A | `trust_telemetry` | N/A | how-to | N/A | | Running exporters are a process (N/A above); the WASM export renders the same text with no socket |
 | `receiver-trust evidence` (create a pack) | `evidence_create` | N/A | `create_evidence_pack` | `/kshana-evidence-pack` | Create Evidence Pack | `vessel-trust-and-training` | No signing key in a browser |
 | `evidence verify` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | `/kshana-evidence-pack` | Verify Evidence Pack (pinned key only) | `vessel-trust-and-training` | |
 | `evidence keygen` | `evidence_keygen` | N/A | N/A | N/A | **N/A** (a private key is never made or read by the plugin) | | Python returns the key in memory with a warning; a private key should not pass through a conversation or a page |

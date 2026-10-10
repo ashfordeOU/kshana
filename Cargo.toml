@@ -165,7 +165,7 @@ getrandom = { version = "0.2", features = ["js"] }
 # Python extension module, built with maturin (`maturin build --features python`).
 python = ["dep:pyo3", "bundled-scenarios"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
-wasm = ["dep:wasm-bindgen", "bundled-scenarios"]
+wasm = ["dep:wasm-bindgen", "bundled-scenarios", "otlp"]
 # The bundled reference scenarios (`kshana example`) as a library module,
 # `kshana::bundled_scenarios`. Off by default, so the Python wheel and the WebAssembly
 # module do not carry the scenario text unless they ask for it; the `python` and `wasm`

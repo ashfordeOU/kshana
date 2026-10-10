@@ -447,3 +447,40 @@ pub fn evidence_verify(
     .map_err(|e| JsValue::from_str(&e))?;
     Ok(report.to_string())
 }
+
+/// Render a trust stream or a batch result in one telemetry format, with the encoders
+/// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
+/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"result"` (a `receiver-trust` result
+/// document) or `"jsonl"` (the live per-epoch stream); `host` names the sender in syslog
+/// events (empty for `kshana`). `options_json` is `""` or an object with `expose_position`
+/// (bool), `syslog_all` (bool: one event per epoch, not per band change) and `unix_nano`
+/// (number, the time of export for `"otlp"`). Syslog lines carry no timestamp. Returns the
+/// formatted text.
+#[wasm_bindgen]
+pub fn trust_telemetry(
+    input: &str,
+    format: &str,
+    host: &str,
+    input_kind: &str,
+    options_json: &str,
+) -> Result<String, JsValue> {
+    use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
+    let err = |e: String| JsValue::from_str(&e);
+    let mut opts = TelemetryOptions::default();
+    if !options_json.trim().is_empty() {
+        let v: serde_json::Value = serde_json::from_str(options_json)
+            .map_err(|e| err(format!("options_json is not JSON: {e}")))?;
+        opts.expose_position = v["expose_position"].as_bool().unwrap_or(false);
+        opts.syslog_all = v["syslog_all"].as_bool().unwrap_or(false);
+        opts.unix_nano = v["unix_nano"].as_f64().unwrap_or(0.0) as u64;
+    }
+    surface::trust_telemetry(
+        input,
+        TelemetryFormat::parse(format).map_err(err)?,
+        host,
+        TelemetryInput::parse(input_kind).map_err(err)?,
+        opts,
+        surface::MAX_INPUT_BYTES,
+    )
+    .map_err(err)
+}
