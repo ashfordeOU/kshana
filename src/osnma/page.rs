@@ -89,6 +89,19 @@ impl InavPage {
         read_bits(&self.bits, OSNMA_OFFSET, 40).unwrap_or(0)
     }
 
+    /// The 128-bit I/NAV word carried by this page pair: 112 data bits of the even half
+    /// followed by 16 data bits of the odd half, each after the two flag bits. The
+    /// first 6 bits are the word type.
+    pub fn data_word(&self) -> [u8; 16] {
+        let mut w = super::bits::BitWriter::new();
+        w.push(read_bits(&self.bits, 2, 56).unwrap_or(0), 56);
+        w.push(read_bits(&self.bits, 58, 56).unwrap_or(0), 56);
+        w.push(read_bits(&self.bits, ODD_START + 2, 16).unwrap_or(0), 16);
+        let mut out = [0u8; 16];
+        out.copy_from_slice(&w.into_bytes());
+        out
+    }
+
     /// The 8-bit HKROOT section (first byte of the field).
     pub fn hkroot_section(&self) -> u8 {
         (self.osnma_field() >> 32) as u8

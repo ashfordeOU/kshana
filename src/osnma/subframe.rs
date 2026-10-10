@@ -62,6 +62,8 @@ pub struct Subframe {
     pub gst_sf: u32,
     pub hkroot: [u8; HKROOT_BYTES],
     pub mack: [u8; MACK_BYTES],
+    /// The 128-bit I/NAV word of each of the 15 pages, in transmission order.
+    pub words: [[u8; 16]; PAGES_PER_SUBFRAME],
 }
 
 impl Subframe {
@@ -92,6 +94,7 @@ struct Partial {
     gst_sf: u32,
     hk: [Option<u8>; PAGES_PER_SUBFRAME],
     mk: [Option<u32>; PAGES_PER_SUBFRAME],
+    wd: [[u8; 16]; PAGES_PER_SUBFRAME],
 }
 
 impl Partial {
@@ -100,6 +103,7 @@ impl Partial {
             gst_sf,
             hk: [None; PAGES_PER_SUBFRAME],
             mk: [None; PAGES_PER_SUBFRAME],
+            wd: [[0; 16]; PAGES_PER_SUBFRAME],
         }
     }
 
@@ -115,6 +119,7 @@ impl Partial {
             gst_sf: self.gst_sf,
             hkroot,
             mack,
+            words: self.wd,
         })
     }
 }
@@ -141,6 +146,7 @@ impl SubframeAssembler {
         }
         entry.hk[idx] = Some(page.hkroot_section());
         entry.mk[idx] = Some(page.mack_section());
+        entry.wd[idx] = page.data_word();
         let done = entry.finish(page.svid)?;
         self.open.remove(&page.svid);
         Some(done)
