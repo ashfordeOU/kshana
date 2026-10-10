@@ -26,6 +26,9 @@ __all__ = [
     "evidence_verify",
     "interference_map",
     "bench_export",
+    "iq_sweep",
+    "iq_info",
+    "iq_inventory",
     "evidence_attach_timestamp",
     "evidence_keygen",
     "export_sp3",
@@ -426,6 +429,41 @@ def iq_acq_surface(
     ``header`` holds the search, ``doppler_bins_hz``, the ``peak`` and two fine-Doppler
     refinements next to the coarse bin: ``parabolic`` (may be ``None``) and ``fine_search``. Raises
     ``ValueError`` on a bad search."""
+
+def iq_info(path: str, hash: bool = False) -> dict[str, Any]:
+    """Describe one IQ recording without processing it (``kshana iq info``): kind, sample format,
+    rate, centre frequency, samples, duration and data files. ``hash=True`` adds SHA-256
+    digests (reads the whole file). Reads the file; writes nothing."""
+
+def iq_inventory(directory: str, recursive: bool = False, hash: bool = False) -> list[dict[str, Any]]:
+    """List the IQ recordings under ``directory`` and describe each (``kshana iq inventory``): a
+    list of what ``iq_info`` returns. Reads only."""
+
+def iq_sweep(
+    i: list[float],
+    q: list[float],
+    fs_hz: float,
+    signal: str,
+    prns: list[int],
+    if_hz: float = ...,
+    center_hz: Optional[float] = ...,
+    pll_bws: Optional[list[float]] = ...,
+    dll_bws: Optional[list[float]] = ...,
+    spacings: Optional[list[float]] = ...,
+    coherents: Optional[list[int]] = ...,
+    design: Optional[str] = ...,
+    reacquire: Optional[bool] = ...,
+    periods_per_bit: Optional[int] = ...,
+    max_seconds: Optional[float] = ...,
+    threads: int = ...,
+) -> dict[str, Any]:
+    """Replay one recording across several tracking-loop designs (``kshana iq sweep``): every
+    design of ``design`` (a ``kshana.loop-design/1`` TOML's text or path) or the product of
+    ``pll_bws``, ``dll_bws``, ``spacings`` and ``coherents`` on the built-in default. Each PRN is
+    acquired once and every (design, PRN) channel tracks the same samples. Returns ``{"designs":
+    [{design, code, epochs, phase_jitter_deg, code_jitter_chips, phase_lock_frac,
+    code_lock_frac, mean_cn0_dbhz, design_hash}], "warnings": [...]}``; jitter is steady state
+    over the second half of the run. Raises ``ValueError`` if a PRN is not acquired."""
 
 def iq_track(
     i: list[float],
