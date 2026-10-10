@@ -537,6 +537,8 @@ jobs:
           python-version: "3.12"
       - name: Generated MCP install files are current
         run: python3 scripts/gen_mcp_install.py --check
+      - name: Every channel is in the README table, packaging/channels.json and the parity probes
+        run: python3 scripts/gen_channels.py --check
       - name: Install links decode back to their configuration; manifests parse; parity probes
         run: |
           python3 scripts/test_gen_mcp_install.py

@@ -26,7 +26,8 @@ REQUIRED channels (the run fails without them):
   npm        kshana-mcp (the npx launcher) at the version, and PyPI kshana-mcp (the uvx
              launcher), unless PARITY_MCP_LAUNCHERS=false
   GitHub     the release carries every kshana-mcp binary and Claude Desktop extension
-             (.mcpb) the release builds (the names are in scripts/check-release-assets.sh)
+             (.mcpb), the OpenCPN tarball and metadata, the Grafana dashboard and the Signal K
+             tarball (the names are in scripts/check-release-assets.sh)
 
 OPTIONAL channels, required only when switched on (the release job sets the environment):
   npm        the Signal K plugin, when PARITY_SIGNALK_PACKAGE names the package (the release
@@ -59,6 +60,8 @@ GHCR_IMAGE = "ashfordeou/kshana-mcp"
 GHCR_REFERENCE_IMAGE = "ashfordeou/kshana-reference-build"
 MCP_SERVER = "io.github.ashfordeOU%2Fkshana-mcp"
 REPO = "ashfordeOU/kshana"
+SIGNALK_PACKAGE = "signalk-kshana-trust"
+SIGNALK_PROBE = "npm signalk-kshana-trust"
 MCP_BINARIES = (
     "kshana-mcp-aarch64-apple-darwin",
     "kshana-mcp-x86_64-apple-darwin",
@@ -143,10 +146,18 @@ def release_assets(version: str) -> tuple[bool, str]:
     if doc is None:
         return False, f"HTTP {status}"
     names = {a.get("name") for a in doc.get("assets") or []}
-    missing = [n for n in MCP_BINARIES if n not in names]
+    want = list(MCP_BINARIES) + [
+        f"kshana_pi-{version}-1_ubuntu-wx32-24.04-x86_64.tar.gz",
+        f"kshana_pi-{version}-ubuntu-wx32-x86_64-24.04.xml",
+    ]
+    missing = [n for n in want if n not in names]
+    if not any(n.startswith("kshana-grafana-") and n.endswith(".json") for n in names):
+        missing.append("kshana-grafana-*.json")
+    if not any(n.endswith(".tgz") for n in names):
+        missing.append("the Signal K *.tgz")
     if missing:
         return False, "missing " + ", ".join(missing)
-    return True, f"all {len(MCP_BINARIES)} kshana-mcp assets present"
+    return True, f"all {len(want)} named assets, the Grafana dashboard and the Signal K tarball present"
 
 
 def raw_contains(url: str, needle: str) -> tuple[bool, str]:
@@ -243,7 +254,7 @@ def main(argv: list[str]) -> int:
         "PyPI kshana": (lambda: pypi(version), True),
         "ghcr.io kshana-mcp": (lambda: ghcr(version), True),
         "ghcr.io kshana-reference-build": (lambda: ghcr(version, GHCR_REFERENCE_IMAGE), True),
-        "GitHub release kshana-mcp assets": (lambda: release_assets(version), True),
+        "GitHub release assets": (lambda: release_assets(version), True),
         "docs.rs kshana": (lambda: docs_rs(version), False),
         "Homebrew tap kshana-mcp": (lambda: homebrew(version), False),
         "Scoop bucket kshana-mcp": (lambda: scoop(version), False),
@@ -255,7 +266,7 @@ def main(argv: list[str]) -> int:
         checks["PyPI kshana-mcp"] = ((lambda: pypi_mcp(version)), True)
     signalk = os.environ.get("PARITY_SIGNALK_PACKAGE", "").strip()
     if signalk:
-        checks[f"npm {signalk}"] = ((lambda: npm(version, signalk)), True)
+        checks[SIGNALK_PROBE if signalk == SIGNALK_PACKAGE else f"npm {signalk}"] = ((lambda: npm(version, signalk)), True)
     state: dict[str, tuple[bool, str]] = {name: (False, "not checked") for name in checks}
     deadline = time.monotonic() + timeout
     round_no = 0
