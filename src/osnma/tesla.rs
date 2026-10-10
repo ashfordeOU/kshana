@@ -146,6 +146,16 @@ mod tests {
         assert_eq!(ok(&c[5][..15], kgst, &ALPHA), Err(KeyError::BadLength));
     }
 
+    #[test]
+    fn a_key_further_ahead_than_the_step_bound_is_refused_without_the_work() {
+        let c = chain(3, GST0, &ALPHA, 128);
+        let far = GST0 - 30 + SUBFRAME_S * (MAX_STEPS + 1);
+        assert_eq!(
+            verify_key(HashFn::Sha256, &c[1], far, &c[0], GST0 - 30, &ALPHA),
+            Err(KeyError::BadTiming)
+        );
+    }
+
     // FIPS 202 example messages for SHA3-256.
     #[test]
     fn sha3_256_known_answers() {

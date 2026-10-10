@@ -19,3 +19,11 @@ Third-party data:
   J. Parker, F. Dovis et al., NASA and Agenzia Spaziale Italiana, Zenodo,
   doi 10.5281/zenodo.16411687, licensed under CC BY 4.0. Kshana's fixtures are
   derived extracts; no sample file is redistributed (see docs/LUGRE-DATA.md).
+
+Galileo OSNMA:
+  The OSNMA receiver-side verifier (src/osnma, docs/OSNMA.md) implements the
+  algorithms of the Galileo OSNMA Signal-in-Space ICD and Receiver Guidelines, (c)
+  European Union. Kshana grants no rights under the European Union's intellectual
+  property in that interface; users rely on the ICD's own authorisation (its Annex E).
+  See the notice in docs/OSNMA.md. Kshana is not developed by, used by, approved by or
+  endorsed by the European Union, the European Commission or EUSPA.
