@@ -4,6 +4,9 @@
 # here publishes anything.
 name: Marine integrations
 on:
+  # Called by release.yml's dry run, so the dry run exercises these jobs on the branch it runs on.
+  workflow_call:
+  workflow_dispatch:
   push:
     branches: [main]
     paths:
