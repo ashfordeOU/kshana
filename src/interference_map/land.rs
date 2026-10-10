@@ -54,6 +54,12 @@ fn parse_ring(v: &Value) -> Option<Vec<(f64, f64)>> {
             Some((a.first()?.as_f64()?, a.get(1)?.as_f64()?))
         })
         .collect();
+    // GeoJSON rings repeat the first vertex; close one that does not, so its last edge is
+    // not lost.
+    let mut ring = ring;
+    if ring.len() >= 3 && ring.first() != ring.last() {
+        ring.push(ring[0]);
+    }
     (ring.len() >= 4).then_some(ring)
 }
 
@@ -261,6 +267,16 @@ mod tests {
             "within the 2 km buffer of the coast"
         );
         assert!(m.is_inland(50.5, 10.05), "about 3.5 km inland");
+    }
+
+    #[test]
+    fn an_open_ring_is_closed_on_reading() {
+        // The same square without the repeated first vertex: the west edge must still count.
+        let open = r#"{"type":"Polygon","coordinates":[[[0,0],[2,0],[2,2],[0,2]]]}"#;
+        let mut m = LandMask::from_geojson_str(open, 0.0).unwrap();
+        assert!(m.is_inland(1.0, 1.0));
+        assert!(!m.is_inland(1.0, -1.0), "west of the closing edge");
+        assert!(!m.is_inland(1.0, 3.0));
     }
 
     #[test]

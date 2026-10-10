@@ -40,3 +40,28 @@ What is not validated: the (0, 0) rule, which is Kshana's own and is excluded fr
 altitude floor and source-type filter, which act on readsb fields no oracle here decodes;
 the hash, the thresholds and the statistics of the method; and anything about whether a
 flagged cell is interference.
+
+## Clarification recorded before the first comparison run
+
+Written after the oracle fixtures were generated but before any Kshana output was compared with
+them. Checks a3 and a4 read "oracle Rc unavailable" as the oracle's statement that NIC 0 has no
+containment bound. The oracle also returns an unavailable Rc for a NIC above 0 when the supplement
+bits given have no row in its table (for example NIC 9 with supplement 0); such an entry is not a
+statement about containment, carries no bound, and is excluded. The fixture records how many were
+excluded (`nic_combinations_without_a_table_row`). No tolerance changes.
+
+## Fixture defects found by the first comparison run (tolerances unchanged)
+
+The first run of `tests/interference_map_reference.rs` failed two checks. Both were defects in
+the synthetic inputs written by the script, not differences between Kshana and an oracle, and
+both were fixed in the script; no tolerance was changed.
+
+1. Route exposure, case "high latitude zonal": the route lay exactly on a cell edge (60.0 N), so
+   shapely assigned each piece to both neighbouring cells and the oracle length came out doubled
+   (2232 km for 1112 km of route). A route along an edge has no defined cell. The route now runs
+   along 60.25 N, inside a row.
+2. Land masking: the script wrote polygon rings to GeoJSON without repeating the first vertex
+   (shapely closes a ring itself, a GeoJSON file must). Kshana read the open ring as written and
+   missed the closing edge, so 7 of 996 points that a ray crossed that edge were misclassified.
+   The script now writes closed rings. Separately, Kshana's land reader now closes an open ring
+   itself, so a file with that fault is read as shapely reads it.
