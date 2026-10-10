@@ -110,3 +110,62 @@ class RouteExposureAction : KshanaFileAction() {
         )
     }
 }
+
+/** Right-click a scenario `.toml` → "Export Test-Bench Files (Kshana)": writes the motion, NMEA
+ *  and event files for a laboratory simulator next to the scenario. */
+class BenchExportAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isScenarioFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val out = (file.parent?.path ?: ".") + "/bench-" + file.nameWithoutExtension
+        KshanaRunner.run(
+            project,
+            "Exporting test-bench files",
+            KshanaCli.benchExportCommand(binary(), file.path, out),
+            file.parent?.path,
+            KshanaCli.BENCH_NOTICE,
+        )
+    }
+}
+
+/** Right-click a run result `.json` → "Build Compliance Report (Kshana)": fills the public-framework
+ *  mapping from that result. The engine's statement is printed with it, word for word. */
+class ComplianceReportAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isResultFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val out = (file.parent?.path ?: ".") + "/compliance-" + file.nameWithoutExtension
+        KshanaRunner.run(
+            project,
+            "Building compliance report",
+            KshanaCli.complianceReportCommand(binary(), out, listOf(file.path)),
+            file.parent?.path,
+            KshanaCli.COMPLIANCE_STATEMENT,
+        )
+    }
+}
+
+/** Tools menu → "Show Compliance Mapping (Kshana)": the static mapping tables, no run needed. */
+class ComplianceMappingAction : AnAction() {
+    override fun getActionUpdateThread(): ActionUpdateThread = ActionUpdateThread.BGT
+
+    override fun update(e: AnActionEvent) {
+        e.presentation.isEnabledAndVisible = e.project != null
+    }
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val bin = KshanaCli.resolveBinary(KshanaSettings.getInstance().state.binaryPath)
+        KshanaRunner.run(
+            project,
+            "Showing compliance mapping",
+            KshanaCli.complianceMappingCommand(bin),
+            project.basePath,
+            KshanaCli.COMPLIANCE_STATEMENT,
+        )
+    }
+}
