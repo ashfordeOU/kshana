@@ -194,7 +194,10 @@ async fn scene_acquire_track_frontend_round_trip() {
     )
     .await
     .unwrap_err();
-    assert!(big.contains("surface_out") && big.contains("cells"), "{big}");
+    assert!(
+        big.contains("surface_out") && big.contains("cells"),
+        "{big}"
+    );
     assert!(!dir.join("surface3.bin").exists());
     for (det, t) in acq["detections"].as_array().unwrap().iter().zip(truth) {
         let dd = det["doppler_hz"].as_f64().unwrap() - t["doppler_hz"].as_f64().unwrap();
@@ -705,15 +708,32 @@ async fn sweep_and_monitor_run_in_the_work_directory_and_labfit_refuses_log_path
     );
 
     // Labfit: inline only; a log that names a file is refused, with or without a work dir.
-    let named = "[[runs]]\nlabel = \"a\"\n[runs.log]\nformat = \"rinex\"\npath = \"/etc/hostname\"\n";
-    let e = call(&client, "iq_labfit", json!({ "toml": named })).await.unwrap_err();
+    let named =
+        "[[runs]]\nlabel = \"a\"\n[runs.log]\nformat = \"rinex\"\npath = \"/etc/hostname\"\n";
+    let e = call(&client, "iq_labfit", json!({ "toml": named }))
+        .await
+        .unwrap_err();
     assert!(e.contains("path"), "{e}");
-    assert!(call(&client, "iq_labfit", json!({ "toml": "not toml [" })).await.is_err());
+    assert!(
+        call(&client, "iq_labfit", json!({ "toml": "not toml [" }))
+            .await
+            .is_err()
+    );
     // Test conditions: validated inline, hashed, and an invalid file is refused with the reason.
     let tc = "schema = \"kshana.test-conditions/1\"\n[recording]\nid = \"rec\"\npath = \"/etc/hostname\"\n\
               settle_s = 0.5\n[[expected]]\nsignal = \"gps-l1ca\"\nids = [3, 17]\n";
-    let v = call(&client, "iq_test_conditions", json!({ "conditions": tc })).await.unwrap();
+    let v = call(&client, "iq_test_conditions", json!({ "conditions": tc }))
+        .await
+        .unwrap();
     assert_eq!(v["hash"].as_str().unwrap().len(), 64, "{v:#}");
-    assert!(call(&client, "iq_test_conditions", json!({ "conditions": "schema = 1" })).await.is_err());
+    assert!(
+        call(
+            &client,
+            "iq_test_conditions",
+            json!({ "conditions": "schema = 1" })
+        )
+        .await
+        .is_err()
+    );
     client.cancel().await.ok();
 }
