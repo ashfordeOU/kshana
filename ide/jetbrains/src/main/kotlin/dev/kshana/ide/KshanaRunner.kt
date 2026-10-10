@@ -19,6 +19,7 @@ object KshanaRunner {
         workDir: String?,
         notice: String? = null,
         verdict: ((Int) -> String)? = null,
+        afterSuccess: (() -> Unit)? = null,
     ) {
         val console = KshanaConsole.getInstance(project).console
         ToolWindowManager.getInstance(project).getToolWindow("Kshana")?.activate(null)
@@ -47,6 +48,7 @@ object KshanaRunner {
                 if (verdict != null) {
                     console.print(verdict(output.exitCode) + "\n", type)
                 }
+                if (output.exitCode == 0 && afterSuccess != null) afterSuccess()
             }
         }.queue()
     }
