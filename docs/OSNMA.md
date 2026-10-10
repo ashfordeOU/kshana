@@ -4,9 +4,9 @@ A receiver-side verifier for Galileo Open Service Navigation Message Authenticat
 (OSNMA), in pure Rust. It reads I/NAV pages and reports, per satellite and per epoch,
 whether the navigation data is cryptographically authenticated, and why a check failed.
 
-> **Advisory.** The authentication status this module reports is information for
-> monitoring and analysis. It is not a navigation integrity service, and it must not
-> be the sole basis for any navigation or safety decision.
+> **Advisory.** This is analysis and monitoring output and not type-approved navigation
+> equipment. The authentication status reported here is not a navigation integrity
+> service and must not be the sole basis for any navigation or safety decision.
 
 ## NOTICE: intellectual property in the Galileo OSNMA interface
 
