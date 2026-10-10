@@ -1,26 +1,36 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-# Publish the Signal K plugin (integrations/signalk) to npm as its own package.
+# Publish the Signal K plugin (integrations/signalk) to npm as its own package, `signalk-kshana-trust`.
 #
-# OFF BY DEFAULT. Nothing here runs until the founder has approved the package name and
-# its first publish and set BOTH repository variables:
-#   SIGNALK_NPM_PUBLISH = true
-#   SIGNALK_NPM_PACKAGE = <the approved package name>
-# and the name in integrations/signalk/package.json equals SIGNALK_NPM_PACKAGE (checked
-# below), so a rename in a commit cannot publish under a name nobody approved.
-# Called by release.yml after `verify` and `publish`, on a tag push only.
+# ON by default for a tag release: the founder approved the package name and its first publish. The
+# repository variable SIGNALK_NPM_PUBLISH=false switches it off. The publish job fails, with a plain message,
+# when the NPM_TOKEN secret is missing: the first publish of a NEW npm package cannot use trusted publishing
+# (a trusted publisher can be attached only to a package that exists), so it needs the token. Later versions
+# can use trusted publishing with workflow `release.yml`, as for `kshana` (docs/RELEASING.md); the token
+# is then optional, but the check stays so a release never fails halfway on a missing credential.
 #
-# Signal K's app store finds plugins by the `signalk-node-server-plugin` keyword in
-# package.json, which the package carries.
+# The name is fixed here, not read from a variable, and package.json must carry exactly it (checked below):
+# a rename in a commit cannot publish under a name nobody approved.
 #
-# First publish of a NEW npm package cannot use trusted publishing (the package must exist
-# before a trusted publisher can be attached on npmjs.com), so that publish needs NPM_TOKEN;
-# afterwards trusted publishing with workflow `release.yml` works as for `kshana`
-# (docs/RELEASING.md).
+# Called by release.yml, twice:
+#   `signalk`      after `verify` and `publish`, on a tag push: the real publish (the `npm` job).
+#   `dry-signalk`  in a dry run (dry_run=true): checks the package and that the secret is visible, WITHOUT
+#                  printing it, and runs `npm publish --dry-run` on the tarball the release would carry.
+#
+# Signal K's app store finds plugins by the `signalk-node-server-plugin` keyword in package.json, which the
+# package carries.
 name: publish Signal K plugin
 on:
   workflow_call:
+    inputs:
+      dry_run:
+        description: "Check everything and run `npm publish --dry-run`; publish nothing"
+        required: false
+        type: boolean
+        default: false
 permissions:
   contents: read
+env:
+  APPROVED_NAME: signalk-kshana-trust
 jobs:
   gate:
     name: enabled?
@@ -31,14 +41,66 @@ jobs:
     steps:
       - id: g
         env:
-          ON: ${{ vars.SIGNALK_NPM_PUBLISH }}
+          OFF: ${{ vars.SIGNALK_NPM_PUBLISH }}
         run: |
-          if [ "$ON" = "true" ]; then echo "enabled=true" >> "$GITHUB_OUTPUT"
-          else echo "enabled=false" >> "$GITHUB_OUTPUT"; echo "::notice::Signal K npm publish is OFF (repository variable SIGNALK_NPM_PUBLISH is not 'true')"; fi
+          if [ "$OFF" = "false" ]; then
+            echo "enabled=false" >> "$GITHUB_OUTPUT"
+            echo "::notice::Signal K npm publish is OFF (repository variable SIGNALK_NPM_PUBLISH is 'false')"
+          else
+            echo "enabled=true" >> "$GITHUB_OUTPUT"
+          fi
+
+  # Dry run: no publish, no environment. Reads the tarball the artefacts job packed.
+  dry-run:
+    name: dry run (Signal K plugin)
+    needs: gate
+    if: inputs.dry_run && needs.gate.outputs.enabled == 'true'
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: channel-signalk
+          path: signalk-dist
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: The packed package is the approved one and is publishable
+        run: |
+          set -euo pipefail
+          tarball="$(ls ./signalk-dist/*.tgz)"
+          [ "$(printf '%s\n' "$tarball" | wc -l)" -eq 1 ] || { echo "::error::expected one tarball, found: $tarball"; exit 1; }
+          tar xzf "$tarball" -O package/package.json > package.json
+          python3 - <<'PY'
+          import json, os
+          p = json.load(open("package.json"))
+          want = os.environ["APPROVED_NAME"]
+          assert p["name"] == want, f"package name {p['name']!r} != approved {want!r}"
+          assert not p.get("private"), 'package.json has "private": true; npm refuses to publish it'
+          assert "signalk-node-server-plugin" in p.get("keywords", []), "missing the signalk-node-server-plugin keyword"
+          print(f"OK: {p['name']}@{p['version']} is the approved name, public, with the Signal K keyword")
+          PY
+      - name: Is NPM_TOKEN visible to this workflow? (never printed)
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -n "$NPM_TOKEN" ]; then
+            echo "OK: the NPM_TOKEN secret is visible to this workflow (value not printed)"
+          else
+            echo "::warning::NPM_TOKEN is NOT visible to this workflow at repository level. If it is an environment secret on 'npm', the real publish job sees it; otherwise add it before tagging (Settings, Secrets and variables, Actions)."
+          fi
+      - name: npm publish --dry-run (no registry write)
+        run: |
+          set -euo pipefail
+          tarball="$(ls ./signalk-dist/*.tgz)"
+          npm publish "$tarball" --access public --dry-run
+
   npm:
     name: npm (Signal K plugin)
     needs: gate
-    if: needs.gate.outputs.enabled == 'true' && startsWith(github.ref, 'refs/tags/v')
+    if: ${{ !inputs.dry_run && needs.gate.outputs.enabled == 'true' && startsWith(github.ref, 'refs/tags/v') }}
     runs-on: ubuntu-latest
     timeout-minutes: 15
     environment:
@@ -56,19 +118,25 @@ jobs:
       - name: Version sync (tag == manifest == package.json)
         run: ./scripts/check-version-sync.sh
       - name: The package name is the approved one, and the package is publishable
-        env:
-          APPROVED: ${{ vars.SIGNALK_NPM_PACKAGE }}
         run: |
           set -euo pipefail
-          python3 - "$APPROVED" <<'PY'
-          import json, sys
+          python3 - <<'PY'
+          import json, os
           p = json.load(open("integrations/signalk/package.json"))
-          approved = sys.argv[1]
-          assert approved, "repository variable SIGNALK_NPM_PACKAGE is not set"
-          assert p["name"] == approved, f"package.json name {p['name']!r} != approved {approved!r}"
-          assert not p.get("private"), "package.json still has \"private\": true; npm refuses to publish it"
+          want = os.environ["APPROVED_NAME"]
+          assert p["name"] == want, f"package.json name {p['name']!r} != approved {want!r}"
+          assert not p.get("private"), 'package.json still has "private": true; npm refuses to publish it'
           assert "signalk-node-server-plugin" in p.get("keywords", []), "missing the signalk-node-server-plugin keyword"
           PY
+      - name: NPM_TOKEN must be set (the first publish of a new package cannot use trusted publishing)
+        env:
+          NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
+        run: |
+          if [ -z "$NPM_TOKEN" ]; then
+            echo "::error::NPM_TOKEN is not set, so signalk-kshana-trust cannot be published. A new npm package's first publish needs the token (trusted publishing can be attached only after the package exists). Add the NPM_TOKEN secret and re-run this job (Re-run failed jobs); nothing was published."
+            exit 1
+          fi
+          echo "NPM_TOKEN is set (value not printed)"
       - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
         with:
           node-version: "22"
@@ -84,7 +152,7 @@ jobs:
           NPM_TOKEN: ${{ secrets.NPM_TOKEN }}
         run: |
           set +e
-          # The token reaches npm only when set: an empty NODE_AUTH_TOKEN must not stand
+          # The token reaches npm only when set (checked above): an empty NODE_AUTH_TOKEN must not stand
           # in the way of trusted publishing (same as publish.yml).
           if [ -n "$NPM_TOKEN" ]; then export NODE_AUTH_TOKEN="$NPM_TOKEN"; fi
           # Leading ./ is load-bearing: npm reads a bare dir/file.tgz as a GitHub shorthand.

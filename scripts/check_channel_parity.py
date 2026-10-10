@@ -25,7 +25,7 @@ REQUIRED channels (the run fails without them):
 
 OPTIONAL channels, required only when switched on (the release job sets the environment):
   npm        the Signal K plugin, when PARITY_SIGNALK_PACKAGE names the package (the release
-             passes it only when SIGNALK_NPM_PUBLISH is true)
+             passes it unless SIGNALK_NPM_PUBLISH is false)
 
 BEST-EFFORT channels (reported, never fatal):
   docs.rs       builds documentation on its own queue, which can take hours
