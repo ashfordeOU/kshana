@@ -505,6 +505,24 @@ jobs:
       id-token: write
       attestations: write
     uses: ./.github/workflows/mcp-publish.yml
+    with:
+      publish_image: true
+      publish_registry: false
+    secrets: inherit
+
+  # The MCP registry names the npm and PyPI launchers in server.json and checks that they exist, so it is
+  # published after them (and after the image). Inert unless MCP_REGISTRY_PUBLISH is 'true'.
+  mcp-registry:
+    needs: [verify, mcp-publish, launchers]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/mcp-publish.yml
+    with:
+      publish_image: false
+      publish_registry: true
     secrets: inherit
 
   jetbrains:
@@ -533,6 +551,27 @@ jobs:
     permissions:
       contents: read
     uses: ./.github/workflows/marine-integrations.yml
+
+  # Homebrew, Scoop and winget, from the release's SHA256SUMS. Each pushes only when its secret is set and skips
+  # with a notice when it is not.
+  distribution:
+    needs: [verify, release]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+    uses: ./.github/workflows/mcp-distribution.yml
+    secrets: inherit
+
+  dry-distribution:
+    name: MCP distribution manifests (dry run)
+    needs: release
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+    uses: ./.github/workflows/mcp-distribution.yml
+    with:
+      dry_run: true
+    secrets: inherit
 
   dry-launchers:
     name: MCP launchers (dry run)

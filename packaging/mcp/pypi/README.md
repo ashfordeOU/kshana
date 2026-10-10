@@ -1,5 +1,7 @@
 # kshana-mcp (launcher)
 
+<!-- mcp-name: io.github.ashfordeOU/kshana-mcp -->
+
 Runs the [Kshana](https://kshana.dev) MCP server without installing it first:
 
 ```sh

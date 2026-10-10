@@ -20,13 +20,37 @@
 name: publish MCP server
 
 on:
+  # release.yml calls this twice: once for the image (right after crates.io, PyPI and npm), and once for the MCP
+  # registry only AFTER the npm and PyPI launchers are published, because the registry checks that the packages
+  # named in server.json exist.
   workflow_call:
+    inputs:
+      publish_image:
+        description: "Build and push the ghcr image"
+        required: false
+        type: boolean
+        default: true
+      publish_registry:
+        description: "Publish server.json to the MCP registry"
+        required: false
+        type: boolean
+        default: true
   workflow_dispatch:
     inputs:
       version:
         description: "Version to publish (e.g. 0.14.2); defaults to the tag"
         required: false
         type: string
+      publish_image:
+        description: "Build and push the ghcr image"
+        required: false
+        type: boolean
+        default: true
+      publish_registry:
+        description: "Publish server.json to the MCP registry"
+        required: false
+        type: boolean
+        default: true
 
 permissions:
   contents: read
@@ -39,7 +63,7 @@ jobs:
     # about 25 minutes there and the job hit the old 45-minute limit while compiling the
     # last crate (v0.28.0 finished in 27 minutes). 90 leaves room as the engine grows.
     timeout-minutes: 90
-    if: startsWith(github.ref, 'refs/tags/v')
+    if: ${{ startsWith(github.ref, 'refs/tags/v') && inputs.publish_image }}
     environment:
       name: ghcr-image
       url: https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp
@@ -109,8 +133,9 @@ jobs:
     name: MCP registry (OIDC)
     needs: image
     # Inert until the maintainer makes the ghcr package public and sets this repo
-    # variable (Settings → Secrets and variables → Actions → Variables).
-    if: ${{ vars.MCP_REGISTRY_PUBLISH == 'true' }}
+    # variable (Settings → Secrets and variables → Actions → Variables). `image` may be skipped (the
+    # registry-only call from release.yml); a failed image still stops it.
+    if: ${{ !cancelled() && vars.MCP_REGISTRY_PUBLISH == 'true' && inputs.publish_registry && startsWith(github.ref, 'refs/tags/v') && (needs.image.result == 'success' || needs.image.result == 'skipped') }}
     runs-on: ubuntu-latest
     timeout-minutes: 20
     environment:
@@ -139,8 +164,11 @@ jobs:
           V: ${{ steps.meta.outputs.version }}
           IMG: ghcr.io/${{ steps.meta.outputs.owner }}/kshana-mcp:${{ steps.meta.outputs.version }}
         run: |
+          # Every package entry carries the release version; the image entry also names the tagged image.
           jq --arg v "$V" --arg img "$IMG" \
-             '.version = $v | .packages[0].identifier = $img' \
+             '.version = $v
+              | .packages |= map(if .registryType == "oci" then .identifier = $img
+                                 else .version = $v end)' \
              server.json > server.tmp && mv server.tmp server.json
           cat server.json
       - name: Install mcp-publisher (pinned, checksum-verified)
