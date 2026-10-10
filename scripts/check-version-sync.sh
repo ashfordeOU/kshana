@@ -134,6 +134,107 @@ if [ "$notes_ver" != "$ver" ]; then
   fail=1
 fi
 
+# 9. The MCP registry manifest — mcp/kshana-mcp/server.json. mcp-publish.yml re-stamps its
+#    version and image tag from the release tag before publishing, so a stale committed
+#    copy never reached the registry; but the committed file is what a reader of the
+#    repository, and anyone running mcp-publisher by hand, sees, and it sat at 0.31.0
+#    while 0.32.0 shipped. Both strings must name the engine version.
+SERVER_JSON="mcp/kshana-mcp/server.json"
+for needle in \
+  "\"version\": \"${ver}\"" \
+  "\"identifier\": \"ghcr.io/ashfordeou/kshana-mcp:${ver}\""; do
+  if ! grep -qF -- "$needle" "$SERVER_JSON"; then
+    echo "FAIL: $SERVER_JSON is not at ${ver} — missing: ${needle}" >&2
+    fail=1
+  fi
+done
+
+# 10. The README's worked example prints `kshana.version()` (Python) and `version()`
+#     (JavaScript) as the first token of its expected-output comment. Every version
+#     token on those two lines must be the engine's; the holdover numbers beside them
+#     are pinned separately by tests/golden.rs.
+for pat in '^# [0-9]+\.[0-9]+\.[0-9]+ [0-9]' '^// [0-9]+\.[0-9]+\.[0-9]+ [0-9]'; do
+  lines="$(grep -nE "$pat" README.md || true)"
+  if [ -z "$lines" ]; then
+    echo "FAIL: README.md has no example output line matching ${pat}" >&2
+    fail=1
+    continue
+  fi
+  bad="$(printf '%s\n' "$lines" | grep -vE "^[0-9]+:(#|//) ${ver//./\\.} " || true)"
+  if [ -n "$bad" ]; then
+    echo "FAIL: README.md example output does not print version ${ver}:" >&2
+    printf '%s\n' "$bad" | sed 's/^/  /' >&2
+    fail=1
+  fi
+done
+
+# 11. The site's version on every page, its llms.txt and its changelog page.
+#
+#     Check 5 reads only the home page. Every other page carries the same version twice,
+#     in the header brand chip (<small>vX.Y.Z</small>) and in the footer
+#     ("Kshana vX.Y.Z · by Ashforde"), and at 0.32.0 sixty-seven of them still said
+#     v0.31.0 while index.html said v0.32.0. web/llms.txt states "Version X.Y.Z" to every
+#     crawler that reads it, and web/docs/changelog.html must hold the newest released
+#     CHANGELOG.md heading (compared with CHANGELOG.md, not Cargo.toml, so it stays
+#     meaningful between releases).
+#
+#     These pages are written by the site build and ported in by web/tools/port_site.py,
+#     so the fix is a re-port, not a hand-edit. KSHANA_VERSION_SYNC_SITE selects how a
+#     mismatch is reported: "warn" prints WARN lines and does not fail; "strict" fails.
+#     The default is strict since 0.33.0, the release that re-ported the site at its bump
+#     commit (docs/RELEASING.md). Set KSHANA_VERSION_SYNC_SITE=warn to see the issues
+#     without failing, for example while preparing a bump before the re-port.
+#
+#     Not checked, deliberately: "engine vX" / "Engine vX" run-provenance stamps (an
+#     accurate record of the engine a figure was drawn with) and alt text describing an
+#     image.
+SITE_VERSION_MODE="${KSHANA_VERSION_SYNC_SITE:-strict}"
+case "$SITE_VERSION_MODE" in
+  warn|strict) ;;
+  *) echo "FAIL: KSHANA_VERSION_SYNC_SITE must be warn or strict, not '${SITE_VERSION_MODE}'." >&2; exit 1 ;;
+esac
+site_issues=0
+site_issue() {
+  site_issues=$((site_issues + 1))
+  if [ "$SITE_VERSION_MODE" = strict ]; then
+    echo "FAIL: $1" >&2
+    fail=1
+  else
+    echo "WARN: $1" >&2
+  fi
+}
+stale_chip=""
+stale_foot=""
+while IFS= read -r page; do
+  chips="$(grep -oE '<small>v[0-9]+\.[0-9]+\.[0-9]+</small>' "$page" || true)"
+  foots="$(grep -oE 'Kshana v[0-9]+\.[0-9]+\.[0-9]+ · by Ashforde' "$page" || true)"
+  if [ -n "$chips" ] && printf '%s\n' "$chips" | grep -qvF "<small>v${ver}</small>"; then
+    stale_chip="${stale_chip} ${page#web/}"
+  fi
+  if [ -n "$foots" ] && printf '%s\n' "$foots" | grep -qvF "Kshana v${ver} · by Ashforde"; then
+    stale_foot="${stale_foot} ${page#web/}"
+  fi
+done < <(find web -name '*.html' -not -path 'web/assets/*' | LC_ALL=C sort)
+if [ -n "$stale_chip" ]; then
+  site_issue "web/ pages whose header version chip is not v${ver} ($(printf '%s' "$stale_chip" | wc -w | tr -d ' ')):${stale_chip}"
+fi
+if [ -n "$stale_foot" ]; then
+  site_issue "web/ pages whose footer version is not v${ver} ($(printf '%s' "$stale_foot" | wc -w | tr -d ' ')):${stale_foot}"
+fi
+if ! grep -qF "Version ${ver}," web/llms.txt; then
+  site_issue "web/llms.txt does not state 'Version ${ver},': $(grep -oE 'Version [0-9]+\.[0-9]+\.[0-9]+' web/llms.txt | head -1)"
+fi
+newest="$(grep -m1 -oE '^## \[[0-9]+\.[0-9]+\.[0-9]+\]' CHANGELOG.md | sed -E 's/^## \[(.*)\]$/\1/')"
+if [ -z "$newest" ]; then
+  echo "FAIL: CHANGELOG.md has no released '## [X.Y.Z]' heading" >&2
+  fail=1
+elif ! grep -qF "[${newest}]" web/docs/changelog.html; then
+  site_issue "web/docs/changelog.html lacks the newest released CHANGELOG.md heading [${newest}]; newest there: $(grep -oE '\[[0-9]+\.[0-9]+\.[0-9]+\]' web/docs/changelog.html | head -1)"
+fi
+if [ "$site_issues" -gt 0 ] && [ "$SITE_VERSION_MODE" = warn ]; then
+  echo "WARN: ${site_issues} site version issue(s) above are warnings (KSHANA_VERSION_SYNC_SITE=warn); re-port the site from this checkout to clear them." >&2
+fi
+
 # 7. The release TAG against the manifest.
 #
 #    Checks 1-6 compare files in the tree to each other, so a tree that is internally
@@ -182,7 +283,9 @@ echo "OK: every surface this script checks is at v${ver} — root README \"Statu
 and release badge; README.crates.md / README.npm.md / README.pypi.md release badges; \
 mcp/kshana-mcp version and its kshana dependency requirement; JetBrains pluginVersion \
 and the newest Marketplace change-notes entry; \
-web/index.html JSON-LD and version chip, the Studio's channels.json and the port manifest; ${tag_checked}."
+web/index.html JSON-LD and version chip, the Studio's channels.json and the port manifest; \
+mcp/kshana-mcp/server.json version and image tag; the README example output; \
+site chips, footers, llms.txt and changelog page (${SITE_VERSION_MODE}, ${site_issues} issue(s)); ${tag_checked}."
 echo "    Not checked here, and not drifting: crates.io / PyPI / npm read the version out \
 of Cargo.toml at build time; CITATION.cff, codemeta.json and .zenodo.json are pinned to \
 the manifest by tests/citation_metadata_doc_sync.rs."

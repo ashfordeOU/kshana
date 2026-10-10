@@ -83,6 +83,7 @@
 //! Analysis*, NIST SP 1065 (2008); C. Zucca and P. Tavella, *The clock model and its
 //! relationship with the Allan and related variances*, IEEE Trans. UFFC 52(2), 2005.
 
+use crate::palette::chart::{BG, BLUE, CORAL, FONT_MONO, TEXT};
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
@@ -1072,14 +1073,14 @@ fn growth_svg(curve: &[(f64, f64)], guard_ns: f64) -> String {
     format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" viewBox=\"0 0 {w} {h}\" role=\"img\" \
          aria-label=\"Predicted time error against time since the last fix, with the slot \
-         guard\"><rect width=\"{w}\" height=\"{h}\" fill=\"#ffffff\"/>\
-         <line x1=\"{pad}\" y1=\"{gy:.1}\" x2=\"{gx2}\" y2=\"{gy:.1}\" stroke=\"#a3352a\" \
+         guard\"><rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
+         <line x1=\"{pad}\" y1=\"{gy:.1}\" x2=\"{gx2}\" y2=\"{gy:.1}\" stroke=\"{CORAL}\" \
          stroke-dasharray=\"6 4\"/>\
-         <polyline fill=\"none\" stroke=\"#1f5f8b\" stroke-width=\"2\" points=\"{pts}\"/>\
-         <text x=\"{pad}\" y=\"{ty}\" font-size=\"12\" font-family=\"monospace\" \
-         fill=\"#10151c\">time since fix, 0 to {tlabel}</text>\
-         <text x=\"{pad}\" y=\"20\" font-size=\"12\" font-family=\"monospace\" \
-         fill=\"#10151c\">predicted time error (ns); dashed: guard {guard_ns:.1} ns</text>\
+         <polyline fill=\"none\" stroke=\"{BLUE}\" stroke-width=\"2\" points=\"{pts}\"/>\
+         <text x=\"{pad}\" y=\"{ty}\" font-size=\"12\" font-family=\"{FONT_MONO}\" \
+         fill=\"{TEXT}\">time since fix, 0 to {tlabel}</text>\
+         <text x=\"{pad}\" y=\"20\" font-size=\"12\" font-family=\"{FONT_MONO}\" \
+         fill=\"{TEXT}\">predicted time error (ns); dashed: guard {guard_ns:.1} ns</text>\
          </svg>",
         gy = y(guard_ns),
         gx2 = w - pad,

@@ -77,6 +77,7 @@ use crate::clock_state::q_from_allan;
 use crate::detection::chi2_inv_cdf;
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::inertial::{AccelCfg, ImuKind};
+use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, LIME, MUTED, TEXT};
 use crate::scenario::{GnssState, GnssTimeline, TimeCfg};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
@@ -849,32 +850,32 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
     let axis_y = mt + ph;
 
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"24\" font-size=\"15\" font-weight=\"bold\">17-state hybrid UKF — filter self-consistency (modelled)</text>"
     ));
     svg.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"42\" font-size=\"11\" fill=\"#8a8170\">NEES + innovation-whiteness vs 95% \u{03c7}\u{00b2} bands; 1.0 = consistent. Self-consistency, not accuracy.</text>"
+        "<text x=\"{ml:.0}\" y=\"42\" font-size=\"11\" fill=\"{MUTED}\">NEES + innovation-whiteness vs 95% \u{03c7}\u{00b2} bands; 1.0 = consistent. Self-consistency, not accuracy.</text>"
     ));
     // Axis.
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     // The "1.0 = consistent" target line.
     let one_y = yof(1.0);
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{one_y:.1}\" x2=\"{:.0}\" y2=\"{one_y:.1}\" stroke=\"#5ec5b5\" stroke-dasharray=\"6 4\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{one_y:.1}\" x2=\"{:.0}\" y2=\"{one_y:.1}\" stroke=\"{LIME}\" stroke-dasharray=\"6 4\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#5ec5b5\">target 1.0</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{LIME}\">target 1.0</text>",
         ml + 4.0,
         one_y - 4.0
     ));
@@ -892,22 +893,22 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
         let by = yof(*val);
         let bh = axis_y - by;
         let inside = *val >= *lo && *val <= *hi;
-        let fill = if inside { "#e0bd84" } else { "#e5645a" };
+        let fill = if inside { CYAN } else { CORAL };
         svg.push_str(&format!(
             "<rect x=\"{bx:.1}\" y=\"{by:.1}\" width=\"{bw:.1}\" height=\"{bh:.1}\" fill=\"{fill}\"/>"
         ));
         // The χ² band as a vertical whisker.
         let (yl, yh) = (yof(*lo), yof(*hi));
         svg.push_str(&format!(
-            "<line x1=\"{cx:.1}\" y1=\"{yh:.1}\" x2=\"{cx:.1}\" y2=\"{yl:.1}\" stroke=\"#cfc6b4\" stroke-width=\"2\"/>"
+            "<line x1=\"{cx:.1}\" y1=\"{yh:.1}\" x2=\"{cx:.1}\" y2=\"{yl:.1}\" stroke=\"{INK_2}\" stroke-width=\"2\"/>"
         ));
         svg.push_str(&format!(
-            "<line x1=\"{:.1}\" y1=\"{yh:.1}\" x2=\"{:.1}\" y2=\"{yh:.1}\" stroke=\"#cfc6b4\" stroke-width=\"2\"/>",
+            "<line x1=\"{:.1}\" y1=\"{yh:.1}\" x2=\"{:.1}\" y2=\"{yh:.1}\" stroke=\"{INK_2}\" stroke-width=\"2\"/>",
             cx - 8.0,
             cx + 8.0
         ));
         svg.push_str(&format!(
-            "<line x1=\"{:.1}\" y1=\"{yl:.1}\" x2=\"{:.1}\" y2=\"{yl:.1}\" stroke=\"#cfc6b4\" stroke-width=\"2\"/>",
+            "<line x1=\"{:.1}\" y1=\"{yl:.1}\" x2=\"{:.1}\" y2=\"{yl:.1}\" stroke=\"{INK_2}\" stroke-width=\"2\"/>",
             cx - 8.0,
             cx + 8.0
         ));
@@ -916,14 +917,14 @@ pub fn to_svg(result: &HybridUkfResult) -> String {
             axis_y + 18.0
         ));
         svg.push_str(&format!(
-            "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"#cfc6b4\">{val:.2}\u{00d7}</text>",
+            "<text x=\"{cx:.1}\" y=\"{:.1}\" text-anchor=\"middle\" fill=\"{TEXT}\">{val:.2}\u{00d7}</text>",
             by - 6.0
         ));
     }
     let verdict = if cons.consistent {
-        ("CONSISTENT", "#5ec5b5")
+        ("CONSISTENT", LIME)
     } else {
-        ("INCONSISTENT", "#e5645a")
+        ("INCONSISTENT", CORAL)
     };
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-weight=\"bold\" fill=\"{}\">{}</text>",

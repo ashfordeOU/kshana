@@ -9,6 +9,49 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
+  the receiver already outputs, with an opt-in gate.** `kshana receiver-trust` takes a
+  `[platform]` table (`kind = "static"` or `"vessel"`, the vessel's maximum speed, acceleration
+  and turn rate, antenna height above the waterline and an optional heading sensor; every default
+  documented with its reason). For a vessel the static position-jump monitor, which measures
+  distance from the calibration mean and is wrong on a ship under way, is replaced by causal
+  moving-platform monitors: kinematic consistency of the position against the reported speed and
+  course and against the vessel limits, gyro heading against course over ground, speed log against
+  speed over ground, antenna altitude against the stated height above the waterline, C/N0 spread
+  collapsing and rising together against the calibration baseline, and time consistency (against
+  this computer's clock too, in live mode). It also reads a reported authentication status, overall or per satellite
+  (a reported status only: no OSNMA cryptography). Every threshold is stated in a `[maritime]` table before the run. Each epoch then
+  gets a score from 0 to 100 by a deterministic, pre-registered mapping (no learning, nothing fitted
+  to events; weights, band edges and the evidence hold in a `[score]` table), mapped onto the
+  existing trust states, with the monitors that deducted and their points. Static scenarios are
+  unchanged and hash as before. `kshana receiver-trust live <session.toml>` reads stdin, a file
+  being appended, TCP or UDP and writes one JSON line per epoch and a proprietary `$PKSHT`
+  sentence; with `--gate` it passes the stream through unchanged while the fix is trusted and
+  marks the fix invalid (GGA quality 0, RMC and GLL status `V`, GNS and VTG mode `N`) while it is
+  not. The gate is off unless asked for; `--listen tcp:<port>` serves the gated stream to any number of
+  TCP clients (loopback by default, a slow client is dropped rather than blocking the others). This is advisory software, not type-approved navigation
+  equipment (IEC 61108, IEC 61162); the operator remains responsible. `examples/maritime-trust/`
+  is a synthetic Tallinn to Helsinki log, written as text only, with a position drag-off partway
+  through during which the receiver keeps reporting a valid fix; its expected output is pinned by
+  a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
+  consistent with everything on the bus; the guide says so.
+
+### Fixed
+
+- **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale
+  against its own scenario (a data change, not a repaint).** The chart was drawn on
+  2026-06-02 from `scenarios/clock-ensemble.toml`; two days later 67fed19e set the flicker-FM
+  floors in that scenario (quantum `flicker_floor = 1e-16`, CSAC `flicker_floor = 2e-11`)
+  and the figure was never redrawn. It showed the pre-floor run: y axis 0 to 47 ns, CSAC
+  per-run outage p95 of 10.5 to 47.6 ns (mean 25.2 ns), classical holdover 4050 s mean. The scenario as shipped (and as the tutorial and
+  the CLI summary already state) gives y axis 0 to 407 ns, CSAC per-run p95 40.8 to 374.0 ns
+  (mean 167.0 ns), classical holdover 844 s [220 to 2130 s]; the 20 ns spec line sits at the
+  same 20 ns on a roughly nine-times taller axis. The engine is unchanged: today's engine
+  on the June scenario file reproduces the old figure's axis exactly. The figure is not
+  referenced from the README or the docs.
+
 ### Marine integrations (0.35.0, workstream B)
 
 - **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
@@ -27,6 +70,212 @@ breaking changes are called out explicitly.
   the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
 - `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
   only: nothing transmits, and no detection or false-alarm figure is claimed.
+
+## [0.33.1] - 2026-10-08
+
+### Security
+
+- **Chart text and Studio chart adoption hardened.** Text that a scenario carries into a generated chart is now escaped consistently by one shared routine, and the Studio adopts only drawing markup from a chart. The Studio's address parameters, kind-keyed lookups and scenario fetches are restricted to known values. Bundled charts, recorded results and published numbers are unchanged. Upgrading is recommended for anyone who opens scenario files from untrusted sources in the Studio or embeds generated charts in web pages.
+
+## [0.33.0] - 2026-10-08
+
+### Documentation
+
+- **The interference and spoofing scope of the IQ layer, stated accurately.** The 0.31.0 and
+  0.32.0 entries below say the IQ layer adds "no interference or spoofing waveform
+  synthesis". That is true of the IQ layer itself (`iq::scene` generates legitimate GNSS
+  signals only), but it read as a statement about the whole engine, and it is not one:
+  since 0.29.0 the `spectrum` kind's `[iq]` section writes a SigMF snapshot of its analytic
+  model with the configured jammers in it (noise-like jammers bin by bin, tones and chirps
+  as waveforms), and `spoof_capture` sums an authentic and a spoofer replica signal in
+  memory to test loop capture (the composite is never written out). The engine has also
+  carried a software GNSS receiver since 0.20.0 (`sdr`: acquisition and tracking; since
+  0.31.0 also `iq::acq` and `iq::track`). Nothing in Kshana transmits or drives radio
+  hardware. The README status line, `docs/POSITIONING.md`, `docs/SPECTRUM.md` and the IQ
+  design notes now say so; the released entries are left as they were published. No
+  behaviour changes.
+- **Known limitation: commensurate sampling.** At a sample rate that is an integer or
+  half-integer multiple of the chip rate, the samples sit on the same chip phases in every
+  chip, and the code discriminator becomes a staircase. On a synthetic GPS L1 C/A signal at
+  45 dB-Hz with 0.5-chip spacing, 2.046 MHz (2 samples/chip) gives ≈ 0.09 chip (≈ 26 m)
+  RMS code error and a −0.09 chip bias, against ≈ 0.003 chip at an incommensurate rate. The
+  NWPR C/N0 reads ≈ 2.4 dB low there. At 4.092 MHz it depends on the spacing and the code
+  Doppler. At 0.5 chip it is harmless at 1500 Hz Doppler but 2× with a 0.011 chip bias at
+  0 Hz, and at 0.25 or 0.1 chip it is 8–10× the code error. Carrier tracking is unaffected.
+  `docs/design/iq-notes/receiver.md` has the measurements.
+
+### Added
+
+- **GNSS IQ layer on the MCP server (Phase B.1).** `kshana-mcp` gains six tools that drive
+  the `kshana iq` layer from an agent: `iq_signals` (the accepted signal names and the IQ
+  set-up), `iq_info` (describe a recording), `iq_scene` (generate a stated-profile or
+  broadcast-ephemeris scene, with the optional signal-level channel), `iq_acquire` (FFT
+  acquisition, optionally behind front-end stages), `iq_track` (acquire, then the DLL/PLL/FLL
+  bank) and `iq_frontend` (band-pass, notch, blanking, excision, AGC, quantiser). IQ samples
+  never cross the protocol: every tool takes file paths inside one work directory set by
+  `KSHANA_MCP_IQ_DIR` (unset leaves the IQ file tools off and every other tool unaffected),
+  refuses paths that resolve outside it and outputs that already exist unless `overwrite`
+  is set, enforces a per-call sample budget (`KSHANA_MCP_IQ_MAX_SAMPLES`, default 50 000 000)
+  before any work, refuses unknown arguments, and replies with a compact JSON summary
+  (detections, C/N0, lock state, and each file written with its byte count). Per-epoch output
+  goes only to files the caller names. The tools run the same code path as the CLI through a
+  new public seam, `kshana::iq::cli::execute`, which returns the CLI's message instead of
+  printing it (stdout is the MCP JSON-RPC channel); `iq::cli::build_code` and
+  `iq::cli::signal_names` are now public too. Software-only and additive: the IQ layer adds no
+  interference or spoofer synthesis, nothing is ever transmitted, and there are no new
+  dependencies. `server.json` declares the two environment variables. Round-trip tests in `mcp/kshana-mcp/tests/iq_round_trip.rs`
+  generate a short two-satellite scene and check acquisition against the scene's own truth
+  sidecar, tracking lock and C/N0, the front end, SigMF output, the budget, path confinement
+  and the disabled state.
+
+- **The GNSS IQ layer in the validation ledger.** A pre-registered cross-check against
+  gps-sdr-sim (an independent GPS L1 C/A baseband generator, MIT, commit 28ca29a6) is now part
+  of the always-on test suite (`tests/iq_gpssdrsim_cross_generator.rs`). Its committed
+  reference output (`tests/fixtures/iq_gpssdrsim_cross_generator/`: 20 ms of gps-sdr-sim's own
+  8-bit I/Q, its channel listing, and the channel state behind it from a harness linked
+  against the same build) is regenerated by `scripts/gen_iq_gpssdrsim_ref.sh`. Nothing at test
+  time needs network or the external tool. Two ledger rows are added (251 rows: 124 Validated,
+  123 Modelled, 4 Partner):
+  - *GNSS IQ scene signal geometry against an independent baseband generator*: **Validated**.
+    The scene's truth (visible set, pseudorange, code phase, Doppler, look angles) for a
+    broadcast-ephemeris scene matches gps-sdr-sim's channel state on all 11 channels: worst
+    1.6 mm, 5.5e-6 chip, 7.4e-5 Hz, 4e-9 degree, against bars of 0.05 m, 2e-4 chip,
+    0.02 Hz and 1e-4 degree fixed before the run.
+  - *GNSS IQ acquisition on independently generated I/Q samples*: **Modelled, with a
+    finding**. `iq::acq` finds every simulated satellite in gps-sdr-sim's samples within the
+    registered bars (code phase within 0.195 chip, Doppler within 72 Hz). The registered
+    "no other PRN detected" bar fails, though: on gps-sdr-sim's noise-free output the
+    Gaussian-noise threshold is crossed by the other satellites' cross-correlation for all
+    21 absent PRNs. The strict test is kept, ignored with the finding, and a pinned test
+    records it.
+  No engine code or public API changes. The sample I/Q is not compared sample for sample:
+  gps-sdr-sim's integer sine table, gains, zero initial carrier phase and truncated LNAV
+  fields are not quantities a receiver needs to agree on. The comparison is made at the
+  observables a receiver measures.
+
+### Changed
+
+- **`iq track` hands off from a ≈4 ms acquisition by default (behaviour change).** The
+  acquisition that initialises each tracking channel now integrates `ceil(4 ms / T_code)`
+  code periods coherently instead of one, where `T_code` is the code's full period (primary
+  times secondary length for a tiered code, the unit acquisition integrates over). The
+  untiered 1 ms codes (GPS L1 C/A, BeiDou B1I, GLONASS L1OF) now search 4 periods (4 ms), so
+  the default Doppler step `2 / (3 · N · T_code)` is ~167 Hz instead of ~667 Hz. Every code
+  whose full period is already 4 ms or longer keeps 1 period: Galileo E1-B (4 ms), BeiDou
+  B1C (10 ms), and the tiered GPS L5-I/L5-Q, Galileo E5a-I/E5a-Q and E1-C (10 to 100 ms with
+  their overlay codes), and GPS L2C. Every signal therefore integrates at least ~4 ms. A
+  one-period search could hand a channel off up to ~333 Hz off, outside the FLL's pull-in,
+  and it then tracked a false lock ~500 Hz away while reporting a clean track. On a seeded
+  sweep of 180 GPS L1 C/A channels (Doppler across ±5 kHz, 38 to 47 dB-Hz, half with
+  navigation data; `docs/design/evidence/iq-track-acq-default/`, re-runnable) false locks
+  fall from 27 of 180 to 1 of 180 and missed acquisitions from 102 to 11, for ~40 ms more
+  search per PRN on GPS L1 (11 → 52 ms). The one residual false lock is at 38 dB-Hz, 36 Hz
+  off. Every surface agrees: `kshana iq track` and `kshana iq sweep` (`--acq-coherent`),
+  Python `kshana.iq_track` (`acq_coherent=None` is now auto; stub updated) and the MCP
+  `iq_track` tool. Users who relied on the old default can pass `acq_coherent=1`
+  (`--acq-coherent 1`). `kshana iq acquire`'s own `--coherent` default stays 1. New public
+  `iq::acq::auto_coherent_periods` and `iq::acq::AUTO_COHERENT_S`; regression test
+  `tests/iq_cli.rs::track_default_handoff_does_not_false_lock_where_one_period_did`.
+- **Every generated graphic now follows the site's Observatory theme: every chart's bytes
+  change.** This is a deliberate revision of the published figures, colours and fonts only;
+  no plotted value, coordinate or label moved. Every scenario's `*.chart.svg` (and so the
+  Studio's chart exports and the README demo charts), the run report HTML
+  (`*.report.html`), the timeline animation (`--animate`), the scenario-result and study
+  HTML pages, the validation summary and the docs figures and diagrams used the warm-dark
+  July palette (`#0c0b08` ground, `#e0bd84` gold) and a warm-paper report theme. They now
+  take every colour and font from one module, `src/palette.rs`, which mirrors
+  `web/theme.css`: charts are drawn instrument-dark on the Observatory ground (`#060A14`)
+  in the Geist type stack; the report, animation player and result pages follow the
+  viewer's light/dark preference with the Observatory light and dark tokens. The six
+  failure domains keep one colour each (interference coral, spoofing magenta, timing
+  blue, orbits cyan, integrity lime, navigation amber), and the evidence tiers read
+  validated lime, modelled amber, partner magenta. The waterfall ramps keep their
+  perceptual (inferno) ordering, re-anchored at the new ground.
+  - `tests/palette_sync.rs` holds the module to `web/theme.css` in both themes, checks
+    that `docs/assets/palette.json` and `docs/diagrams/mermaid-config.json` (both
+    generated from the module, for the Python figure tools and mermaid-cli) are current,
+    and fails if a hex colour literal appears in `src/` outside the palette.
+  - `tests/published_figures_still_reproduce.rs` gains a third diagnosis, "only colours
+    and fonts moved", so a palette revision is told apart from a moved plotted value.
+    Every re-rendered README chart was checked equal to its predecessor under that
+    normaliser.
+  - `tools/gen_validation_figures.py` reads the palette and now also generates the three
+    README result figures that had no committed generator (`domain-coverage-map`,
+    `scenario-fom`, `sgp4-regime-bars`), with real text elements, from
+    `web/capabilities.json`, the `clock-holdover` result and
+    `tests/fixtures/sgp4_comparison.md`. `tools/gen_readme_assets.py` reads the same
+    palette, which corrects its light-theme drift from the site. The `sgp4-regime-bars`
+    values are the `kshana↔ref` worst-case column of that fixture (7.31e-9, 8.05e-9,
+    8.18e-9 and 4.12e-6 km), unchanged from the Matplotlib figure, and
+    `tests/figures_doc_sync.rs` now fails if the committed figure and the fixture disagree.
+- **`docs/assets/figures/domain-coverage-map` refreshed to current data (a data change, not
+  a repaint).** The figure stated 28 capabilities across 8 domains (11 validated, 17
+  modelled), stale against its own stated source; drawn now by its new generator from
+  `web/capabilities.json`, it reads 46 capabilities across 8 domains (17 validated, 29
+  modelled).
+
+### Fixed
+
+- **CW/narrowband jammer Q is now 1.0, not 1.5.** The textbook value for a tone on the
+  carrier is 1 (a tone keeps the signal's spectral peak, `κ = T_c`, `Q = 1/(R_c κ)`); the
+  old 1.5 made a tone less damaging than broadband noise at equal J/S. Output change:
+  about −1.8 dB effective C/N0 under CW/narrowband jammers at high J/S in the `jamming`,
+  `lunar-jamming` and interop kinds (the bundled `spectrum` example's tone: 17.98 dB-Hz
+  from the table, was 19.74). Broadband Q stays 1.0 (conservative, about 3 dB below the
+  textbook ~2) pending 0.34 review. Set `q_override` to keep the old 1.5.
+
+- **`kshana iq scene` integer output uses the integer range.** With unit-power noise and
+  a writer scale of 1, `ci8`/`ci16` scenes came out as about {-1, 0, 1} and 2-bit scenes
+  had their thresholds at 2.8 sigma. Integer formats are now scaled so the expected
+  per-component RMS is a quarter of full scale (31.75 LSB in ci8, 8191.75 in ci16) or 2 LSB
+  in 2-bit. The scale and the clipped-element count are printed and written to the sidecar.
+  Float output is unchanged.
+- **Eight fixture pins in seven test files no longer fail on macOS from last-bit differences**
+  (part of issue #36). The pins that check the engine still builds an oracle's
+  committed inputs (Jacobians, a state table, launch azimuths) compared bit for bit and
+  failed on macOS arm64 by 2 to a few thousand units in the last place. They now compare
+  within 1e-12 of a scale taken from the fixture; integers, keys and lengths still compare
+  exactly, and a mutation test shows a 1e-6 relative change still fails. The launch-azimuth
+  pin compares `sin az` and the ascending/descending branch instead of the azimuth itself, because
+  `asin` amplifies one ulp of its argument to about 3e-9 rad where an inclination equals a site's
+  colatitude. No oracle tolerance
+  or pre-registered bar changed. Two tests (lunar joint OD, lunar observability) are not
+  covered: on macOS their pre-registered comparisons themselves move, and that is left to a
+  follow-up.
+
+- **`kshana iq track` and `kshana iq sweep` apply the front-end flags.** The usage text
+  advertised `--bandpass`/`--notch`/`--blank`/`--excise`/`--agc`/`--bits` on `track`, but
+  `track` and `sweep` never built the chain: the flags were silently ignored, and a
+  value-less one such as `--notch` swallowed the flag after it. Both commands now parse
+  them as `iq acquire` does and put a fresh front-end chain in front of the acquisition
+  pass and the tracking pass. The output equals running the command on the file
+  `iq frontend` writes for the same flags.
+
+- **IQ scene data is placed per signal.** `kshana iq scene --data` (and `NavData::Seeded`)
+  put 50 bit/s bits on every signal, pilots included, and at the GPS LNAV rate on
+  Galileo and BeiDou. Data now follows each signal's own symbol timing, stated by the new
+  `SpreadingCode::data_modulation()` (`DataModulation`, set by every constructor in
+  `iq::signals`). That is 10 ms on L5-I5, 4 ms on E1-B, 2 ms on BeiDou B1I GEO (D2),
+  and 20 ms bits with a 10 ms meander on GLONASS L1OF. Data is refused on pilots, on
+  GPS L2C as one CM/CL stream, and `NavData::Lnav` on anything but L1 C/A. Custom codes
+  keep the previous 20 ms timing by default. A programmatic `Scene` that asked for
+  `NavData::Lnav` on a non-L1 C/A code, or `NavData::Seeded` on a pilot, used to generate
+  silently and now returns an error on the first read.
+
+- **GLONASS L1OF channels are acquired and tracked on their own FDMA carrier.**
+  `iq::acq::acquire` and the tracking channels mixed every code down from `if_hz` alone.
+  In a multi-channel GLONASS recording, a search for channel +3 therefore found channel
+  0's signal (all channels share one ranging code) and never looked 1.6875 MHz higher.
+  Both now use `SampleSpec::baseband_hz(carrier) = if_hz + (carrier − center_hz)`. The
+  carrier term is zero for any recording centred on the signal's own carrier and is
+  omitted when the centre is unknown, so CDMA processing is unchanged. If you worked
+  around the old behaviour by folding `carrier − center` into the sidecar's `if_hz`,
+  remove that term: the offset is now applied from the carrier and the centre, so
+  leaving it in applies it twice.
+  Known limitation, unchanged here: a GLONASS scene identifies each satellite by its
+  frequency channel `k`, and the `u32` satellite id wraps a negative channel. The truth
+  sidecar writes `k = -7` as `sat_id` 4294967289 (`k + 2^32`). Read it back as `k` with an
+  `i32` cast.
 
 ## [0.32.0] - 2026-10-05
 

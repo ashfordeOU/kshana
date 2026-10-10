@@ -163,7 +163,7 @@
 .card.transport.has-max-btn>.card-head{padding-right:0}
 .card.is-max{position:fixed;inset:12px;z-index:90;overflow:auto;margin:0;grid-column:auto!important;box-shadow:var(--sh-3)}
 body.has-max{overflow:hidden}
-body.has-max::after{content:"";position:fixed;inset:0;background:rgba(5,6,12,.6);z-index:85}
+body.has-max::after{content:"";position:fixed;inset:0;background:rgba(6,10,20,.6);z-index:85}
 .card.is-max .chart-box svg.chart{max-height:calc(100dvh - 190px)}
 .card.is-max .frame-box iframe.frame{height:calc(100dvh - 190px)}
 .card.is-max .orbit-box{height:calc(100dvh - 170px)}
@@ -237,7 +237,7 @@ body.has-max::after{content:"";position:fixed;inset:0;background:rgba(5,6,12,.6)
   .app[data-lib="open"] .lib{transform:none;visibility:visible}
   .lib-close{display:inline-flex!important}
   .app[data-drawer="open"] .edit{position:fixed;top:0;right:0;bottom:0;width:min(400px,92vw);z-index:72;box-shadow:var(--sh-3);overflow-y:auto}
-  .scrim{display:block;position:fixed;inset:0;background:rgba(5,6,12,.45);z-index:71}
+  .scrim{display:block;position:fixed;inset:0;background:rgba(6,10,20,.45);z-index:71}
   .site-links{display:none}
 }
 @media (min-width:1280px){#btn-lib{display:none}}

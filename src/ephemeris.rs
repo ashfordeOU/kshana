@@ -31,10 +31,12 @@
 //! scalars. The data is inlined in the scenario, so the run stays reproducible from
 //! the scenario alone and needs no filesystem (it works in the WASM playground).
 
+use crate::chart::esc;
 use crate::frames::{
     arcsec, ecef_to_geodetic, geodetic_to_ecef, itrf_to_teme, look_angles, teme_to_itrf, Geodetic,
 };
 use crate::orbit::{OrbitCfg, Propagator};
+use crate::palette::chart::{AXIS, BG, CYAN, FONT_SANS, GRID, INK, PANEL, RULE, TITLE};
 use crate::rinex::EpochUtc;
 use crate::timescales::{julian_date, utc_to_tt, utc_to_ut1};
 use serde::{Deserialize, Serialize};
@@ -553,12 +555,6 @@ pub fn run_ephemeris(scn: &EphemerisScenario) -> Result<EphemerisResult, String>
     })
 }
 
-fn esc(s: &str) -> String {
-    s.replace('&', "&amp;")
-        .replace('<', "&lt;")
-        .replace('>', "&gt;")
-}
-
 /// A self-contained ground-track SVG: an equirectangular world map (lon −180..180,
 /// lat −90..90) with the actual continents (Natural Earth 1:110m land) drawn behind
 /// a 30° graticule and the equator, and the sub-satellite track as a polyline broken
@@ -571,7 +567,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     };
     let mut svg = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
-         <rect width=\"{w}\" height=\"{h}\" fill=\"#0c0b08\"/>"
+         <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>"
     );
     // The actual landmasses (Natural Earth 1:110m, simplified) as the map base, each
     // ring filled and outlined in the same equirectangular projection as the track. A
@@ -592,7 +588,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
         }
         d.push('Z');
         svg.push_str(&format!(
-            "<path d=\"{d}\" fill=\"#201a11\" stroke=\"#39301f\" stroke-width=\"0.5\"/>"
+            "<path d=\"{d}\" fill=\"{PANEL}\" stroke=\"{RULE}\" stroke-width=\"0.5\"/>"
         ));
     }
     // Graticule every 30°: 13 meridians (−180..=180) and 7 parallels (−90..=90).
@@ -600,13 +596,13 @@ pub fn to_svg(r: &EphemerisResult) -> String {
         let lon = -180.0 + 30.0 * f64::from(i);
         let (x, _) = proj(lon, 0.0);
         svg.push_str(&format!(
-            "<line x1=\"{x:.1}\" y1=\"0\" x2=\"{x:.1}\" y2=\"{h}\" stroke=\"#262019\" stroke-width=\"1\"/>"
+            "<line x1=\"{x:.1}\" y1=\"0\" x2=\"{x:.1}\" y2=\"{h}\" stroke=\"{GRID}\" stroke-width=\"1\"/>"
         ));
     }
     for i in 0..=6 {
         let lat = -90.0 + 30.0 * f64::from(i);
         let (_, y) = proj(0.0, lat);
-        let col = if lat == 0.0 { "#342c21" } else { "#262019" };
+        let col = if lat == 0.0 { AXIS } else { GRID };
         svg.push_str(&format!(
             "<line x1=\"0\" y1=\"{y:.1}\" x2=\"{w}\" y2=\"{y:.1}\" stroke=\"{col}\" stroke-width=\"1\"/>"
         ));
@@ -617,7 +613,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     let flush = |svg: &mut String, seg: &mut String| {
         if seg.split(' ').filter(|s| !s.is_empty()).count() >= 2 {
             svg.push_str(&format!(
-                "<polyline points=\"{}\" fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"1.8\"/>",
+                "<polyline points=\"{}\" fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"1.8\"/>",
                 seg.trim()
             ));
         }
@@ -636,7 +632,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
     if let Some(s0) = r.samples.first() {
         let (x, y) = proj(s0.lon_deg, s0.lat_deg);
         svg.push_str(&format!(
-            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3.5\" fill=\"#f1ece2\" stroke=\"#0c0b08\" stroke-width=\"0.8\"/>"
+            "<circle cx=\"{x:.1}\" cy=\"{y:.1}\" r=\"3.5\" fill=\"{INK}\" stroke=\"{BG}\" stroke-width=\"0.8\"/>"
         ));
     }
     let title = format!(
@@ -648,7 +644,7 @@ pub fn to_svg(r: &EphemerisResult) -> String {
         r.lat_max_deg.abs().max(r.lat_min_deg.abs()),
     );
     svg.push_str(&format!(
-        "<text x=\"10\" y=\"20\" fill=\"#e6edf3\" font-family=\"sans-serif\" font-size=\"13\">{}</text>",
+        "<text x=\"10\" y=\"20\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",
         esc(&title)
     ));
     svg.push_str("</svg>");

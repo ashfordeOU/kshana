@@ -24,6 +24,7 @@
 use crate::lunar::{surface_los_max_m, R_MOON_M};
 use crate::lunar_service::visible_sat_positions;
 use crate::orbit::{dop, Dop};
+use crate::palette::chart::{AMBER, BG, CORAL, FONT_SANS, INK_2, MUTED, TITLE};
 use serde::{Deserialize, Serialize};
 
 type Vec3 = [f64; 3];
@@ -543,13 +544,13 @@ fn beacon_svg(r: &LunarBeaconReport) -> String {
     let (w, h) = (900.0_f64, 360.0_f64);
     let mut s = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">\
-         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+         font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">\
+         <rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     );
-    s.push_str(
-        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"#e8e0d0\">\
-         Surface-beacon augmentation — PDOP by configuration</text>",
-    );
+    s.push_str(&format!(
+        "<text x=\"24\" y=\"32\" font-size=\"15\" fill=\"{TITLE}\">\
+         Surface-beacon augmentation — PDOP by configuration</text>"
+    ));
     let pdops: Vec<f64> = r
         .rows
         .iter()
@@ -570,21 +571,21 @@ fn beacon_svg(r: &LunarBeaconReport) -> String {
                 let len = (d.pdop / max) * track;
                 s.push_str(&format!(
                     "<rect x=\"{x0:.0}\" y=\"{y:.0}\" width=\"{len:.1}\" height=\"{bar_h:.0}\" \
-                     fill=\"#c9a227\" opacity=\"0.85\"/>\
-                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"#e8e0d0\">PDOP {:.3}</text>",
+                     fill=\"{AMBER}\" opacity=\"0.85\"/>\
+                     <text x=\"{:.0}\" y=\"{:.0}\" fill=\"{TITLE}\">PDOP {:.3}</text>",
                     x0 + len + 10.0,
                     y + bar_h * 0.65,
                     d.pdop
                 ));
             }
             None => s.push_str(&format!(
-                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"#b4553c\">no solution</text>",
+                "<text x=\"{x0:.0}\" y=\"{:.0}\" fill=\"{CORAL}\">no solution</text>",
                 y + bar_h * 0.65
             )),
         }
     }
     s.push_str(&format!(
-        "<text x=\"24\" y=\"{:.0}\" fill=\"#8d8577\">lower is better; \
+        "<text x=\"24\" y=\"{:.0}\" fill=\"{MUTED}\">lower is better; \
          per-beacon sigma_URE {:.3} m, mask {:.1} deg</text></svg>",
         h - 22.0,
         r.sigma_ure_m,
