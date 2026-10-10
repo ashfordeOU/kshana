@@ -190,6 +190,10 @@ pub struct VerifyReport {
     pub failures: Vec<Failure>,
     /// The checks, in order.
     pub checks: Vec<Check>,
+    /// Whether the signature verified over `manifest.json`: `Some(true)` or `Some(false)` when
+    /// it was checked, `None` when it could not be (no usable key, or the signature file is
+    /// absent or malformed).
+    pub signature_valid: Option<bool>,
     /// Fingerprint of the key the manifest names, if it parsed.
     pub signer_fingerprint: Option<String>,
     /// True when the signature was checked against a key the verifier supplied.
@@ -204,6 +208,15 @@ pub struct VerifyReport {
 
 /// Strict lower-case hex of exactly `N` bytes: no whitespace, no upper case, so no byte of
 /// the encoding can change without being noticed.
+/// Strict Ed25519 verification (RFC 8032 pure Ed25519, rejecting a non-canonical S): the
+/// verification step of [`verify_bundle`], exposed so published test vectors can be run
+/// through the same function. `Err` means `public_key` is not a valid public key; `Ok(false)`
+/// means the signature does not verify.
+pub fn verify_detached(public_key: &[u8; 32], msg: &[u8], sig: &[u8; 64]) -> Result<bool, String> {
+    let vk = VerifyingKey::from_bytes(public_key).map_err(|e| e.to_string())?;
+    Ok(vk.verify_strict(msg, &Signature::from_bytes(sig)).is_ok())
+}
+
 fn hex_fixed<const N: usize>(s: &str) -> Result<[u8; N], String> {
     if !s.bytes().all(|b| matches!(b, b'0'..=b'9' | b'a'..=b'f')) {
         return Err("not lower-case hex".into());
@@ -244,6 +257,7 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
         ok: false,
         failures: Vec::new(),
         checks: Vec::new(),
+        signature_valid: None,
         signer_fingerprint: None,
         signer_pinned: opts.expected_public_key.is_some(),
         engine_version: None,
@@ -328,15 +342,17 @@ pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
                 Some(h) => hex_fixed::<64>(h),
                 None => Err("the signature file does not end with a newline".into()),
             },
-            key_bytes.map(|k| VerifyingKey::from_bytes(&k)),
+            key_bytes,
         ) {
             (Err(e), _) => r.failures.push(Failure::SignatureMalformed { detail: e }),
-            (Ok(_), Some(Err(e))) => r.failures.push(Failure::PublicKeyMalformed { detail: e.to_string() }),
-            (Ok(sig), Some(Ok(vk))) => {
-                if vk.verify_strict(mbytes, &Signature::from_bytes(&sig)).is_err() {
+            (Ok(sig), Some(k)) => match verify_detached(&k, mbytes, &sig) {
+                Err(detail) => r.failures.push(Failure::PublicKeyMalformed { detail }),
+                Ok(false) => {
+                    r.signature_valid = Some(false);
                     r.failures.push(Failure::SignatureInvalid);
                 }
-            }
+                Ok(true) => r.signature_valid = Some(true),
+            },
             (Ok(_), None) => r.notes.push(
                 "the signature could not be checked because the manifest names no usable key; supply the signer's key".into(),
             ),
