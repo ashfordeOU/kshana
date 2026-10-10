@@ -7,8 +7,14 @@ not available on a given surface: [`SURFACES.md`](SURFACES.md).
 ## Connect
 
 ```sh
-cargo install kshana-mcp            # or: docker run --rm -i ghcr.io/ashfordeou/kshana-mcp
+npx -y kshana-mcp@0.35.0            # or: uvx kshana-mcp==0.35.0, brew, scoop, winget, cargo, docker
 ```
+
+Every channel, with one-click Cursor and VS Code links and snippets for Claude Desktop, Cursor,
+Windsurf, Zed, Goose, Codex CLI, Gemini CLI and Continue, is in [`MCP-INSTALL.md`](MCP-INSTALL.md).
+`kshana-mcp --http <addr>` serves the same tools over streamable HTTP for a client that wants a URL;
+it is self-hosted, binds loopback by default and serves no file-path tool
+([`deploy/mcp-http.md`](deploy/mcp-http.md)).
 
 Claude Code: `/plugin marketplace add ashfordeOU/kshana`, then `/plugin install kshana@ashforde`.
 Other MCP clients (Cursor, JetBrains AI Assistant, desktop assistants): see

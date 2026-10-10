@@ -521,6 +521,37 @@ jobs:
         # --locked because the crate ships its own Cargo.lock and the publish path
         # builds from it; a resolve that drifts here is not the graph we release.
         run: cargo test --locked
+  # The kshana-mcp distribution channels: generated install links and snippets, the package
+  # manager manifests, the npm and PyPI launchers, the parity probes. Offline unit tests
+  # plus the "generated files are current" check; none publishes anything.
+  mcp-channels:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "20"
+      - uses: actions/setup-python@a26af69be951a213d495a4c3e4e4022e16d87065 # v5
+        with:
+          python-version: "3.12"
+      - name: Generated MCP install files are current
+        run: python3 scripts/gen_mcp_install.py --check
+      - name: Every channel is in the README table, packaging/channels.json and the parity probes
+        run: python3 scripts/gen_channels.py --check
+      - name: Install links decode back to their configuration; manifests parse; parity probes
+        run: |
+          python3 scripts/test_gen_mcp_install.py
+          python3 scripts/test_gen_pkg_manifests.py
+          python3 scripts/test_check_channel_parity.py
+          python3 -m pip install --quiet jsonschema==4.23.0
+          python3 scripts/test_build_mcpb.py
+      - name: npm launcher tests
+        working-directory: packaging/mcp/npm
+        run: npm test
+      - name: PyPI launcher tests
+        working-directory: packaging/mcp/pypi
+        run: PYTHONPATH=src python3 -m unittest discover -s tests -v
   mcp-deny:
     runs-on: ubuntu-latest
     timeout-minutes: 20

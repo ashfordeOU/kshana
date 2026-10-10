@@ -39,6 +39,24 @@ for internal consistency. The scores are advisory: this is not type-approved equ
 responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
 generated NMEA text is for training. Galileo OSNMA verification is not in this release.
 
+### Added (MCP server channels)
+
+- **`kshana-mcp` reaches its users through every channel from the tag.** Prebuilt binaries
+  `kshana-mcp-<target>[.exe]` for macOS (Apple silicon and Intel), Windows x86-64, Linux x86-64
+  and Linux Arm, smoke-run, listed in `SHA256SUMS` and attested; a Claude Desktop extension
+  `kshana-mcp-<target>.mcpb` per system; one-click Cursor and VS Code links, Docker and binary
+  forms, and snippets for Claude Code, Claude Desktop, Cursor, VS Code, Windsurf, Zed, Goose,
+  Codex CLI, Gemini CLI and Continue (`docs/MCP-INSTALL.md`, generated and decode-tested);
+  `npx kshana-mcp` and `uvx kshana-mcp` launchers that verify `SHA256SUMS` before running the
+  binary; Homebrew, Scoop and winget manifests generated from the release checksums; a Smithery
+  file and refreshed registry and Glama entries. A step whose credential is absent is skipped
+  with a notice. Advisory, not type-approved navigation equipment; nothing is sent to Ashforde OÜ.
+- **`kshana-mcp --http <addr>`, streamable HTTP, self-hosted.** Loopback by default; a
+  non-loopback address needs `--allow-remote` and a bearer token in `KSHANA_MCP_HTTP_TOKEN`;
+  no tool reads or writes a path (the IQ file tools are off); request size, time and concurrency
+  limits; no CORS header; Host and Origin checks. Kshana hosts no endpoint
+  (`docs/deploy/mcp-http.md`, with Docker, Fly.io and Cloud Run templates).
+
 ### Added (surfaces)
 
 - **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
