@@ -84,6 +84,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "assess_vessel_log",
         "create_evidence_pack",
         "verify_evidence_pack",
+        "attach_evidence_timestamp",
         "generate_training_nmea",
         "build_interference_map",
         "route_exposure",

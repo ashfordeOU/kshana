@@ -722,6 +722,69 @@ pub struct EvidencePack {
     pub slice: Option<(usize, usize)>,
 }
 
+/// A pack with a timestamp token bound to it.
+#[derive(Clone, Debug)]
+pub struct TimestampedPack {
+    /// The pack's files, now including `timestamp.tsr`.
+    pub files: Files,
+    /// What the verification of the pack with the token noted (for example, that the signer
+    /// is not pinned).
+    pub notes: Vec<String>,
+}
+
+/// Bind an RFC 3161 timestamp token (the raw DER bytes of a `.tsr`) to a pack, in memory
+/// (`kshana evidence attach-timestamp`). The token is stored beside the signed manifest, not
+/// inside it, and must be a timestamp over that manifest; the pack with the token must still
+/// verify or nothing is attached. An existing token is kept unless `replace` is set. This does
+/// NOT verify the timestamp authority's signature or certificate chain: do that with
+/// `openssl ts -verify`. Verify later with `require_timestamp` to insist the token is present.
+pub fn evidence_attach_timestamp(
+    files: &Files,
+    token: &[u8],
+    replace: bool,
+    max_bytes: usize,
+) -> Result<TimestampedPack, String> {
+    let total: usize = files.values().map(Vec::len).sum::<usize>() + token.len();
+    if total > max_bytes {
+        return Err(format!(
+            "the pack and token total {total} bytes; the limit is {max_bytes}"
+        ));
+    }
+    if token.is_empty() {
+        return Err("the timestamp token is empty".into());
+    }
+    let mut files = files.clone();
+    let notes = crate::evidence::attach_timestamp(&mut files, token, replace)?;
+    Ok(TimestampedPack { files, notes })
+}
+
+/// A fresh Ed25519 signing key for evidence packs.
+#[derive(Clone, Debug)]
+pub struct EvidenceKey {
+    /// The private signing-key seed, 64 lower-case hex digits. Secret: keep it out of logs,
+    /// conversations and version control.
+    pub seed_hex: String,
+    /// The public key, 64 lower-case hex digits: give verifiers this, by a route they trust.
+    pub public_key: String,
+    /// The fingerprint of the public key (32 hex digits) that a manifest states.
+    pub fingerprint: String,
+}
+
+/// Generate a signing key (`kshana evidence keygen`), in memory. The seed is returned to the
+/// caller and kept nowhere else; offered on the Python surface only, because a private key
+/// should not pass through a web page or an agent conversation.
+pub fn evidence_keygen() -> EvidenceKey {
+    let seed = zeroize::Zeroizing::new(generate_seed());
+    let public_key = public_key_hex(&seed);
+    let fingerprint =
+        crate::evidence::bundle::fingerprint(&hex::decode(&public_key).unwrap_or_default());
+    EvidenceKey {
+        seed_hex: hex::encode(*seed),
+        public_key,
+        fingerprint,
+    }
+}
+
 /// Parse a 64-hex-digit Ed25519 key or seed.
 pub fn hex32(what: &str, s: &str) -> Result<[u8; 32], String> {
     let s = s.trim();
@@ -1141,6 +1204,30 @@ mod tests {
             "failed"
         );
         assert!(evidence_verify(&p.files, Some("zz"), None, false).is_err());
+        // A timestamp token over the manifest binds, is then required and found, a second
+        // one is refused unless replaced, and one over something else is refused.
+        let digest = <sha2::Sha256 as sha2::Digest>::digest(&p.files["manifest.json"]);
+        let tsr = crate::evidence::tsr::test_token::token(&digest, "20260102030405Z", true);
+        let stamped = evidence_attach_timestamp(&p.files, &tsr, false, MAX_INPUT_BYTES).unwrap();
+        assert!(stamped.files.contains_key("timestamp.tsr"));
+        assert_eq!(
+            evidence_verify(&stamped.files, Some(&p.public_key), None, true).unwrap()["verdict"],
+            "verified"
+        );
+        assert!(evidence_attach_timestamp(&stamped.files, &tsr, false, MAX_INPUT_BYTES).is_err());
+        assert!(evidence_attach_timestamp(&stamped.files, &tsr, true, MAX_INPUT_BYTES).is_ok());
+        let wrong = crate::evidence::tsr::test_token::token(&[0u8; 32], "20260102030405Z", true);
+        assert!(evidence_attach_timestamp(&p.files, &wrong, false, MAX_INPUT_BYTES).is_err());
+        assert!(evidence_attach_timestamp(&p.files, b"", false, MAX_INPUT_BYTES).is_err());
+        assert!(evidence_attach_timestamp(&p.files, &tsr, false, 100).is_err());
+        // Key generation: distinct keys, and the public key matches the seed.
+        let (k1, k2) = (evidence_keygen(), evidence_keygen());
+        assert_ne!(k1.seed_hex, k2.seed_hex);
+        assert_eq!(
+            k1.public_key,
+            public_key_hex(&hex32("seed", &k1.seed_hex).unwrap())
+        );
+        assert_eq!(k1.fingerprint.len(), 32);
         // An empty window is refused; the seed is not part of the files.
         assert!(evidence_create(
             &session,

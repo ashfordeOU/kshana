@@ -603,3 +603,46 @@ def test_scenario_exports_animation_routes_and_examples_in_memory():
     assert "manifest.json" in fr["files"]
     with pytest.raises(ValueError):
         kshana.animate_scenario(clock, "frames", fps=60, duration_s=600.0)
+
+
+def _synthetic_tsr(digest: bytes, gen_time: str = "20260102030405Z") -> bytes:
+    """An unsigned, synthetic RFC 3161 response over `digest` (not a real authority's output)."""
+    def enc(tag, content):
+        n = len(content)
+        head = bytes([tag, n]) if n < 0x80 else bytes([tag, 0x82, n >> 8, n & 0xFF])
+        return head + content
+    sha256 = bytes([0x60, 0x86, 0x48, 0x01, 0x65, 0x03, 0x04, 0x02, 0x01])
+    imprint = enc(0x30, enc(0x30, enc(0x06, sha256)) + enc(0x04, digest))
+    tst = enc(0x30, enc(0x02, b"\x01") + enc(0x06, b"\x2a\x03") + imprint + enc(0x02, b"\x07")
+              + enc(0x18, gen_time.encode()))
+    tst_oid = bytes([0x2a, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x09, 0x10, 0x01, 0x04])
+    signed_oid = bytes([0x2a, 0x86, 0x48, 0x86, 0xF7, 0x0D, 0x01, 0x07, 0x02])
+    encap = enc(0x30, enc(0x06, tst_oid) + enc(0xA0, enc(0x04, tst)))
+    signed = enc(0x30, enc(0x02, b"\x03") + enc(0x31, b"") + encap)
+    ci = enc(0x06, signed_oid) + enc(0xA0, signed)
+    return enc(0x30, enc(0x30, enc(0x02, b"\x00")) + enc(0x30, ci))
+
+
+def test_evidence_timestamp_attaches_in_memory_and_keygen_returns_a_warned_key():
+    import base64, hashlib
+    session, nmea = _excerpt()
+    key = kshana.evidence_keygen()
+    assert len(key["seed_hex"]) == 64 and len(key["public_key"]) == 64
+    assert len(key["fingerprint"]) == 32 and "PRIVATE" in key["warning"]
+    assert kshana.evidence_keygen()["seed_hex"] != key["seed_hex"]
+    pack = kshana.evidence_create(session, nmea, 100.0, 300.0, seed_hex=key["seed_hex"])
+    assert pack["public_key"] == key["public_key"]
+    tsr = _synthetic_tsr(hashlib.sha256(pack["files"]["manifest.json"]).digest())
+    for token in (tsr, base64.b64encode(tsr).decode()):
+        out = kshana.evidence_attach_timestamp(pack["files"], token)
+        assert "timestamp.tsr" in out["files"]
+        v = kshana.evidence_verify(out["files"], pack["public_key"], require_timestamp=True)
+        assert v["verdict"] == "verified"
+    stamped = kshana.evidence_attach_timestamp(pack["files"], tsr)["files"]
+    with pytest.raises(ValueError):
+        kshana.evidence_attach_timestamp(stamped, tsr)
+    assert "timestamp.tsr" in kshana.evidence_attach_timestamp(stamped, tsr, replace=True)["files"]
+    with pytest.raises(ValueError):
+        kshana.evidence_attach_timestamp(pack["files"], _synthetic_tsr(b"\x00" * 32))
+    with pytest.raises(ValueError):
+        kshana.evidence_attach_timestamp(pack["files"], "not base64!!")

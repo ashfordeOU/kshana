@@ -31,10 +31,11 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 | Make a tamper-evident record of what the engine said about a window of a vessel's log, or check one | `create_evidence_pack`, `verify_evidence_pack` | `/kshana-evidence-pack` |
 | I need a scenario's vehicle motion and event times to replay through a laboratory GNSS simulator | `export_test_bench` | `/kshana-bench-export` |
 | Which public-framework requirement rows do these runs support evidence for, and what is the gap? | `compliance_report` (from result text), `compliance_mapping` (the tables, no runs) | `/kshana-compliance-report` |
+| I need a scenario to fly a GeoJSON route (terrain-nav, terrain-slam, gravity-map, combined-altpnt) | `import_route` | `/kshana-import-route` |
 | Where has GNSS looked degraded, and how much of this route is in it? | `build_interference_map`, then `route_exposure` | `/kshana-interference-map` |
-| GNSS IQ recordings (scene, acquire, track, front-end, campaigns) | `iq_signals` first, then the `iq_*` tools | |
+| GNSS IQ recordings (scene, acquire, track, front-end, campaigns) | `iq_signals` first, then the `iq_*` tools | `/kshana-iq` |
 
-The skills `vessel-receiver-trust`, `training-nmea-scenario`, `compliance-mapping`, `test-bench-export` and `interference-map-route-exposure`
+The skills `vessel-receiver-trust`, `training-nmea-scenario`, `compliance-mapping`, `test-bench-export`, `gnss-iq` and `interference-map-route-exposure`
 carry the rules below for agents that load skills.
 
 ## What each tool will not do

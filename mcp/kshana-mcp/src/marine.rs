@@ -107,6 +107,19 @@ pub struct VerifyEvidenceRequest {
     pub require_timestamp: bool,
 }
 
+/// Parameters for [`KshanaServer::attach_evidence_timestamp`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct AttachTimestampRequest {
+    /// The pack's files as a JSON object of file name to content, as `create_evidence_pack`
+    /// returns them under `files`. At most 4 MiB in all.
+    pub files: serde_json::Value,
+    /// The RFC 3161 timestamp token (the bytes of the `.tsr` file) as base64.
+    pub token_base64: String,
+    /// Replace a token the pack already has. Default false.
+    #[serde(default)]
+    pub replace: bool,
+}
+
 /// Parameters for [`KshanaServer::generate_training_nmea`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct TrainingNmeaRequest {
@@ -335,7 +348,7 @@ impl KshanaServer {
                 "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit; narrow the window or use `kshana receiver-trust evidence` on the command line"
             )));
         }
-        // The 16-digit fingerprint the manifest itself states.
+        // The fingerprint the manifest itself states.
         let fingerprint = p
             .files
             .get("manifest.json")
@@ -519,5 +532,31 @@ impl KshanaServer {
         )];
         contents.extend(e.files.into_iter().map(|(_, t)| ContentBlock::text(t)));
         Ok(CallToolResult::success(contents))
+    }
+
+    #[tool(
+        description = "Bind an RFC 3161 timestamp token to an evidence pack (`kshana evidence attach-timestamp`), in memory: `files` is a pack as `create_evidence_pack` returns it, `token_base64` the bytes of the `.tsr` file from a timestamp authority. The token is stored as `timestamp.tsr` beside the signed manifest, not inside it, and the pack with the token must still verify or nothing is attached; an existing token is kept unless `replace` is true. Returns the updated `files` (feed them to `verify_evidence_pack` with `require_timestamp` true to insist the token is present) and the verification notes. This does NOT verify the timestamp authority's signature or certificate chain: say so, and point the user to `openssl ts -verify`. Input and reply are capped at 4 MiB. A timestamp shows a hash existed at a time the authority states; it is not a legal opinion. Evidence tier: MODELLED."
+    )]
+    fn attach_evidence_timestamp(
+        &self,
+        Parameters(r): Parameters<AttachTimestampRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let files = surface::files_from_json(&r.files).map_err(bad)?;
+        let token = kshana::permalink::base64_decode(r.token_base64.trim())
+            .ok_or_else(|| bad("token_base64 is not base64".into()))?;
+        let t = surface::evidence_attach_timestamp(&files, &token, r.replace, MAX_UPLOAD_BYTES)
+            .map_err(bad)?;
+        let out = surface::files_to_json(&t.files);
+        let size = out.to_string().len();
+        if size > MAX_MAP_REPLY_BYTES {
+            return Err(bad(format!(
+                "the pack is {size} bytes, over the {MAX_MAP_REPLY_BYTES}-byte reply limit"
+            )));
+        }
+        reply(serde_json::json!({
+            "files": out,
+            "notes": t.notes,
+            "notice": "The token sits beside the signed manifest, not inside it, and its authority signature was NOT verified (use `openssl ts -verify`). Verify the pack with require_timestamp to insist on it.",
+        }))
     }
 }
