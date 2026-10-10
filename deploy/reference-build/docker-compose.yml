@@ -1,0 +1,23 @@
+# The trust gate as a container: reads the receiver's NMEA from KSHANA_INPUT and serves the gated stream
+# (fix marked invalid while trust is collapsed, plus a $PKSHT per cycle) on 127.0.0.1:10110 of the HOST.
+# OpenCPN connects there (TCP, input); the Signal K plugin uses source "tcp-pksht" with port 10110.
+# Read "Gate mode" in docs/MARITIME-TRUST.md first. Advisory software, not type-approved equipment:
+# the operator stays responsible for navigation.
+services:
+  kshana-gate:
+    build:
+      context: ../..
+      dockerfile: deploy/reference-build/Dockerfile
+    image: kshana-trust-gate:local
+    restart: unless-stopped
+    environment:
+      # a serial-to-network bridge on the host or the boat LAN, for example; see docker-entrypoint.sh for the other forms
+      KSHANA_INPUT: "tcp:192.0.2.10:10110"
+      KSHANA_SESSION: /etc/kshana/session.toml
+    volumes:
+      - ./session.toml:/etc/kshana/session.toml:ro
+      - kshana-data:/var/lib/kshana
+    ports:
+      - "127.0.0.1:10110:10110"
+volumes:
+  kshana-data: {}

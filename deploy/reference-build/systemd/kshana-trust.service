@@ -1,0 +1,56 @@
+# Advisory trust monitor: reads the receiver's NMEA from a serial port and writes one JSON line per epoch to
+# /var/lib/kshana/trust.jsonl (rotate it: see ../logrotate/kshana-trust). It does not alter the NMEA stream. The
+# journal carries only kshana's start-up and error messages, not the epochs, because --json <path> sends them to the file.
+# Advisory software, not type-approved equipment: the operator stays responsible for navigation.
+[Unit]
+Description=Kshana receiver-trust monitor (advisory)
+Documentation=https://github.com/ashfordeOU/kshana/blob/main/docs/MARINE-INTEGRATIONS.md
+After=local-fs.target
+ConditionPathExists=/etc/kshana/session.toml
+
+[Service]
+Type=simple
+User=kshana
+Group=kshana
+SupplementaryGroups=dialout
+# Set the port once; adjust the device and speed to the receiver.
+ExecStartPre=/bin/stty -F /dev/ttyGNSS 115200 raw -echo -hupcl
+StandardInput=file:/dev/ttyGNSS
+ExecStart=/usr/local/bin/kshana receiver-trust live /etc/kshana/session.toml --json /var/lib/kshana/trust.jsonl
+StandardOutput=journal
+StandardError=journal
+# Always: the monitor exits cleanly when its input ends (a serial adapter re-plugged, a closed pipe) and must come back.
+Restart=always
+RestartSec=5
+StateDirectory=kshana
+# No network is needed: the input is a serial port and the output a file.
+PrivateNetwork=yes
+RestrictAddressFamilies=AF_UNIX
+# Sandbox. Nothing here needs more than reading a serial device and writing /var/lib/kshana.
+# ProtectClock= is deliberately absent: the empty CapabilityBoundingSet below already removes CAP_SYS_TIME, and
+# ProtectClock= implies a device allow-list that can block the serial device.
+NoNewPrivileges=yes
+ProtectSystem=strict
+ProtectHome=yes
+PrivateTmp=yes
+PrivateDevices=no
+ProtectKernelTunables=yes
+ProtectKernelModules=yes
+ProtectKernelLogs=yes
+ProtectControlGroups=yes
+ProtectHostname=yes
+ProtectProc=invisible
+ProcSubset=pid
+RestrictNamespaces=yes
+RestrictRealtime=yes
+RestrictSUIDSGID=yes
+LockPersonality=yes
+MemoryDenyWriteExecute=yes
+SystemCallArchitectures=native
+SystemCallFilter=@system-service
+CapabilityBoundingSet=
+RemoveIPC=yes
+UMask=0077
+
+[Install]
+WantedBy=multi-user.target
