@@ -135,6 +135,15 @@ console.log(summary(toml));                     // the one-line result string
 const svg = chart_svg(toml);                    // the same chart the command-line interface (CLI) writes
 ```
 
+```js
+import { list_examples, get_example, export_scenario, animate_scenario } from "kshana";
+
+const names = JSON.parse(list_examples("")).scenarios.map((s) => s.name);   // the bundled scenarios
+const toml = get_example("orbit-gnss-challenged");                           // its TOML, byte for byte
+const czml = JSON.parse(export_scenario(toml, "czml")).files[0].content;      // a CZML file, in memory
+const player = JSON.parse(animate_scenario(toml, "html", 0, NaN, 0)).files;   // {name: html text}
+```
+
 On the WebAssembly face every entry point is a separate call: `run` (the result
 document as a JSON string), `summary`, `chart_svg`, `table_csv` (the scenario's CSV
 (comma-separated values) table as a string, or `undefined` for kinds that publish no table; it throws on an
@@ -151,7 +160,7 @@ Mean-elements Message, and OEM, the Orbit Ephemeris Message â€” the CLI writes â
 scenario and returns `{json, csv, svg, summary}` as a JSON string (the browser has no file
 system, so the log, and any navigation file, must be inline in the scenario as `text` or
 `base64`; a `[platform] kind = "vessel"` table adds the maritime monitors and the 0-100 trust
-score, advisory only), `receiver_trust_replay` (a bounded NMEA excerpt scored the way live mode scores it; no gate), `assess_vessel_log` (a vessel's NMEA log as a batch run), `evidence_verify` (check a signed evidence pack; nothing is uploaded; packs are made with the CLI, Python or MCP), `bench_export` (a scenario's motion and events as text for a laboratory simulator; no signal is written), `compliance_report` and `compliance_mapping` (which public-framework requirement rows result documents support evidence for, with each row's gap; not a finding that a framework is met), and `interference_map` (ADS-B or AIS CSV text to a
+score, advisory only), `export_formats` / `export_scenario` (which interoperability formats a scenario supports, without running it, and one export in memory: `czml`, `kml`, `geojson`, `stk` or `sigmf` as JSON `{format, spec_url, files}`, byte-identical for the same scenario, nothing uploaded), `import_route` (a GeoJSON route written into a waypoint-track scenario, the command line's `--import-route`), `animate_scenario` (the run's time series as an animated SVG, a single HTML player or SVG frames), `list_examples` / `get_example` (the bundled reference scenarios and their TOML), `evidence_attach_timestamp` (bind an RFC 3161 token to an evidence pack in memory; the pack must still verify, and the timestamp authority's signature is not checked), `receiver_trust_replay` (a bounded NMEA excerpt scored the way live mode scores it; no gate), `assess_vessel_log` (a vessel's NMEA log as a batch run), `evidence_verify` (check a signed evidence pack; nothing is uploaded; packs are made with the CLI, Python or MCP), `bench_export` (a scenario's motion and events as text for a laboratory simulator; no signal is written), `compliance_report` and `compliance_mapping` (which public-framework requirement rows result documents support evidence for, with each row's gap; not a finding that a framework is met), and `interference_map` (ADS-B or AIS CSV text to a
 `kshana-interference-map/v1` GeoJSON per UTC day; aggregate only), `route_exposure` (a route's
 share through degraded cells of those maps; not a forecast) and `nmea_training` (synthetic
 bridge NMEA and an instructor log for crew training; text only, never for a vessel's live

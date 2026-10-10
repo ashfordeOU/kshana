@@ -79,6 +79,12 @@ adev = np.asarray([p["adev"] for p in data["quantum"]["adev_curve"]])
 | `iq_track` | `(i, q, fs_hz, signal, prns, **options) -> dict` | acquire, then track each PRN: per-epoch Doppler, code phase, lock indicators, C/N0, prompt correlator |
 | `iq_frontend` | `(i, q, fs_hz, **options) -> dict` | the receiver front-end chain (band-pass, notch, blanking, excision, AGC (automatic gain control), quantiser) over complex samples |
 | `iq_labfit` | `(toml: str) -> dict` | fit the tracking-loop loss-of-lock model to a receiver-trust timeline (an `iq-labfit` scenario) |
+| `iq_loop_designs` | `(toml) -> list[dict]` | parse a `kshana.loop-design/1` file (a path or TOML text) into its resolved designs, each with its `name` and `hash`; `ValueError` on an invalid file |
+| `iq_read_epochs` | `(path) -> dict` | read a binary tracking-epoch file (`kshana.track-epoch/1`, as `kshana iq track --epochs` writes it): the `header` and one dict per epoch in `records` |
+| `iq_monitor` | `(path, signal=None, prns=None, power=False, spectral=False, settings=None, ...) -> dict` | the IQ detection monitors over a recording in one streaming pass (`iq monitor`): `series`, `events`, `spectra` and `notes`; reads a file |
+| `iq_test_conditions` | `(conditions) -> dict` | validate a lab test-condition file (`kshana.test-conditions/1`, TOML or JSON, a path or text) and return it resolved, with its `hash` |
+| `iq_campaign` | `(campaign, out_dir, workers=0, resume=True, max_cells=None, dry_run=False) -> dict` | run a lab-replay campaign (`kshana.campaign/1`) into `out_dir` as `kshana iq campaign` does; finished cells are skipped; returns the cell counts, failures and the `digest` once every cell is done |
+| `iq_campaign_report` | `(out_dir) -> dict` | rebuild a campaign's scorecards, HTML report and digest from its cells: the cell and row counts, the rows failing a bar and the `digest` |
 
 ### GNSS IQ and receiver-trust signatures
 
@@ -248,6 +254,27 @@ def iq_frontend(
 ) -> dict[str, Any]: ...
 
 def iq_labfit(toml: str) -> dict[str, Any]: ...
+def iq_loop_designs(toml: str) -> list[dict[str, Any]]: ...
+def iq_read_epochs(path: str) -> dict[str, Any]: ...
+def iq_monitor(path: str, signal: Optional[str] = ..., prns: Optional[list[int]] = ...,
+               power: bool = ..., spectral: bool = ..., settings: Optional[str] = ...,
+               **options) -> dict[str, Any]: ...
+def iq_test_conditions(conditions: str) -> dict[str, Any]: ...
+def iq_campaign(campaign: str, out_dir: str, workers: int = 0, resume: bool = True,
+                max_cells: Optional[int] = None, dry_run: bool = False) -> dict[str, Any]: ...
+def iq_campaign_report(out_dir: str) -> dict[str, Any]: ...
+```
+
+A lab-replay campaign from Python, then its report (the campaign file and its recordings
+are yours; a finished cell is skipped on the next call; `iq_read_epochs` reads a tracking-epoch file a
+`kshana iq track --epochs` run wrote):
+
+```python
+import kshana
+
+summary = kshana.iq_campaign("lab.campaign.toml", "campaign-out", workers=4)
+report = kshana.iq_campaign_report("campaign-out")
+print(report["digest"])          # None until every cell is done
 ```
 
 `iq_track`'s `acq_coherent` sets how many code periods the hand-off acquisition
