@@ -424,7 +424,7 @@ def test_interference_map_matches_the_committed_synthetic_sample():
     assert len(days) == 1 and days[0]["date"] == "2026-03-01"
     doc = json.loads(days[0]["geojson"])
     assert doc["kshana_interference_map"]["schema"] == "kshana-interference-map/v1"
-    sample = json.loads((root / "output" / "adsb-2026-03-01.geojson").read_text())
+    sample = json.loads((root / "output" / "adsb-custom-2026-03-01.geojson").read_text())
     doc["kshana_interference_map"]["kshana_version"] = "X"
     sample["kshana_interference_map"]["kshana_version"] = "X"
     assert doc == sample
@@ -510,10 +510,14 @@ def test_evidence_pack_round_trip_in_memory():
     again = kshana.evidence_create(session, excerpt, 100.0, 300.0, title="t", created_utc="none", seed_hex=seed)
     assert again["files"] == p["files"]  # reproducible without a creation time
     ok = kshana.evidence_verify(p["files"], p["public_key"], excerpt)
-    assert ok["ok"] and ok["signer_pinned"]
+    assert ok["ok"] and ok["signer_pinned"] and ok["verdict"] == "verified"
+    unpinned = kshana.evidence_verify(p["files"])
+    assert unpinned["verdict"] == "intact-signer-not-pinned" and not unpinned["signer_pinned"]
+    assert "NOT PINNED" in unpinned["message"]
+    assert kshana.evidence_verify(p["files"], p["public_key"], require_timestamp=True)["verdict"] == "failed"
     bad = dict(p["files"])
     bad["epochs.json"] = bad["epochs.json"][:-3] + b"xx\n"
-    assert not kshana.evidence_verify(bad, p["public_key"])["ok"]
+    assert kshana.evidence_verify(bad, p["public_key"])["verdict"] == "failed"
     assert not kshana.evidence_verify(p["files"], "09" * 32)["ok"]
     with pytest.raises(ValueError):
         kshana.evidence_verify(p["files"], "not-a-key")

@@ -486,6 +486,7 @@ dependencies = [
  "serde_json",
  "sha2",
  "toml",
+ "zeroize",
 ]
 
 [[package]]

@@ -135,11 +135,16 @@ def evidence_verify(
     files: dict[str, str | bytes],
     public_key: Optional[str] = None,
     full_log: Optional[str | bytes] = None,
+    require_timestamp: bool = False,
 ) -> dict[str, Any]:
     """Verify an evidence pack: hashes, chain and signature; with ``public_key`` (64 hex digits
     from the signer, by another route) that the signer is the one expected; with ``full_log``
-    that it is the log recorded. Keys: ``ok``, ``failures``, ``checks``, ``signer_fingerprint``,
-    ``signer_pinned``, ``notes``. Raises ``ValueError`` on a malformed key."""
+    that it is the log recorded; with ``require_timestamp`` that a timestamp token is present.
+    Keys: ``ok``, ``failures``, ``checks``, ``signer_fingerprint``, ``signer_pinned``, ``notes``,
+    ``verdict`` and ``message``. ``verdict`` is ``"verified"`` (signer pinned),
+    ``"intact-signer-not-pinned"`` (everything checks but no public key was given, so the
+    signature proves only that the pack is intact against the key it names itself) or
+    ``"failed"``. Raises ``ValueError`` on a malformed key."""
 
 def interference_map(
     source: str,

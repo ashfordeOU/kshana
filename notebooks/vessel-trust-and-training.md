@@ -134,7 +134,8 @@ print("signer public key:", pack["public_key"], "| epochs in window:", pack["epo
 # Keep pack["seed_hex"] private; a throwaway key is fine for a demo. Verify against the public
 # key you trust (obtained from the signer by another route), and against the log you hold.
 report = kshana.evidence_verify(pack["files"], pack["public_key"], excerpt)
-print("verified:", report["ok"], "| signer pinned:", report["signer_pinned"])
+print(report["verdict"], "|", report["message"])
+print("with no key supplied:", kshana.evidence_verify(pack["files"])["verdict"])  # intact, signer not pinned
 tampered = dict(pack["files"]); tampered["epochs.json"] = tampered["epochs.json"].replace(b"nominal", b"NOMINAL", 1)
 print("after editing one file:", kshana.evidence_verify(tampered, pack["public_key"])["ok"])
 assert report["ok"] and not kshana.evidence_verify(tampered, pack["public_key"])["ok"]
