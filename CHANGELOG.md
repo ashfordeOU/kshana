@@ -54,6 +54,33 @@ breaking changes are called out explicitly.
   to a vessel's live navigation systems. A bare `--tcp`/`--udp` port means this machine
   only; the TCP server has no authentication. See `docs/NMEA-TRAINING.md`.
 
+- **`kshana interference-map` and `kshana route-exposure`: a public picture of where
+  aircraft and ships reported degraded navigation data, and how much of a route it touches.**
+  Inputs are local CSV files made from openly licensed ADS-B (adsb.lol, ODbL 1.0) and AIS
+  (NOAA MarineCadastre, Kystverket under NLOD 2.0) data; each output file is one source and
+  one UTC day of GeoJSON carrying the method, its thresholds, the data licence, the
+  attribution and the source's coverage bias. The ADS-B method aggregates NIC and NACp onto
+  a fixed grid and calls a cell degraded from the share of distinct aircraft, with guards for
+  equipment that never reports accuracy, low altitude, and wide-area causes. The AIS method
+  runs five detectors: positions on land (against a user-supplied coastline), circular
+  tracks, implausible jumps, implausible speeds, and many vessels at one position. Thresholds
+  are pre-registered constants of a named method version. Aggregates only: identifiers are
+  hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
+  vessels are not published. A degraded cell is not a finding of interference. The default
+  commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
+  Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
+  matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
+  dependency: `flate2` with its pure-Rust backend, for gzip). Both methods are version 2:
+  a degraded or anomalous call needs at least 5 aircraft or vessels (the publication
+  minimum), every per-cell count below 5 is withheld as `null`, and a day whose background
+  cannot be estimated withholds its calls. Output files are named
+  `<source>-<dataset>-<date>.geojson` and are never overwritten; input is streamed line by
+  line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
+  licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
+
+
+## [0.34.1] - 2026-10-10
+
 ### Changed
 
 - **The jamming chart takes its colours from the palette too.** `src/jamming.rs` was the one
@@ -89,35 +116,6 @@ breaking changes are called out explicitly.
   seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
   inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
   same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
-
-### Interference map
-
-- **`kshana interference-map` and `kshana route-exposure`: a public picture of where
-  aircraft and ships reported degraded navigation data, and how much of a route it touches.**
-  Inputs are local CSV files made from openly licensed ADS-B (adsb.lol, ODbL 1.0) and AIS
-  (NOAA MarineCadastre, Kystverket under NLOD 2.0) data; each output file is one source and
-  one UTC day of GeoJSON carrying the method, its thresholds, the data licence, the
-  attribution and the source's coverage bias. The ADS-B method aggregates NIC and NACp onto
-  a fixed grid and calls a cell degraded from the share of distinct aircraft, with guards for
-  equipment that never reports accuracy, low altitude, and wide-area causes. The AIS method
-  runs five detectors: positions on land (against a user-supplied coastline), circular
-  tracks, implausible jumps, implausible speeds, and many vessels at one position. Thresholds
-  are pre-registered constants of a named method version. Aggregates only: identifiers are
-  hashed in memory and never written, and cells with fewer than 5 distinct aircraft or
-  vessels are not published. A degraded cell is not a finding of interference. The default
-  commands use no network; an opt-in `fetch-land --allow-network` helper downloads Natural
-  Earth land polygons from a commit-pinned address and keeps the file only if its SHA-256
-  matches. ADS-B input is a CSV or the adsb.lol readsb history files directly (new
-  dependency: `flate2` with its pure-Rust backend, for gzip). Both methods are version 2:
-  a degraded or anomalous call needs at least 5 aircraft or vessels (the publication
-  minimum), every per-cell count below 5 is withheld as `null`, and a day whose background
-  cannot be estimated withholds its calls. Output files are named
-  `<source>-<dataset>-<date>.geojson` and are never overwritten; input is streamed line by
-  line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
-  licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
-
-
-## [0.34.1] - 2026-10-10
 
 ### Security
 
