@@ -11,12 +11,18 @@ use super::prometheus::Registry;
 use super::sample::Band;
 use serde_json::{json, Value};
 use std::io::{Read, Write};
-use std::net::TcpStream;
+use std::net::{TcpStream, ToSocketAddrs};
+use std::sync::mpsc::{sync_channel, SyncSender};
+use std::thread::JoinHandle;
 use std::time::Duration;
+
+/// Limit on connecting, writing and reading, each.
+const IO_TIMEOUT: Duration = Duration::from_secs(2);
 
 /// The `ExportMetricsServiceRequest` JSON for the registry's current state at `unix_nano`.
 pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
     let t = unix_nano.to_string();
+    let start = reg.started_unix_nano().unwrap_or(unix_nano).to_string();
     let mut metrics: Vec<Value> = Vec::new();
     if let Some(sc) = reg.score() {
         metrics.push(json!({
@@ -47,6 +53,7 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
         .map(|b| {
             json!({
                 "asInt": reg.epochs_in(*b).to_string(),
+                "startTimeUnixNano": start,
                 "timeUnixNano": t,
                 "attributes": [{"key": "band", "value": {"stringValue": b.label()}}]
             })
@@ -63,6 +70,7 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
         .map(|(r, n)| {
             json!({
                 "asInt": n.to_string(),
+                "startTimeUnixNano": start,
                 "timeUnixNano": t,
                 "attributes": [{"key": "reason", "value": {"stringValue": r}}]
             })
@@ -107,12 +115,27 @@ pub fn parse_endpoint(url: &str) -> Result<(String, String), String> {
 }
 
 /// POST the registry's state to an OTLP/HTTP collector. Returns the HTTP status code.
+/// Connecting, writing and reading each stop after two seconds.
 pub fn export(endpoint: &str, reg: &Registry, unix_nano: u64) -> Result<u16, String> {
     let (hostport, path) = parse_endpoint(endpoint)?;
     let body = build_payload(reg, unix_nano).to_string();
-    let mut s = TcpStream::connect(&hostport).map_err(|e| format!("connect {hostport}: {e}"))?;
-    s.set_read_timeout(Some(Duration::from_secs(5))).ok();
-    s.set_write_timeout(Some(Duration::from_secs(5))).ok();
+    let addrs = hostport
+        .to_socket_addrs()
+        .map_err(|e| format!("resolve {hostport}: {e}"))?;
+    let mut last = format!("no address for {hostport}");
+    let mut stream = None;
+    for a in addrs {
+        match TcpStream::connect_timeout(&a, IO_TIMEOUT) {
+            Ok(s) => {
+                stream = Some(s);
+                break;
+            }
+            Err(e) => last = format!("connect {a}: {e}"),
+        }
+    }
+    let mut s = stream.ok_or(last)?;
+    s.set_read_timeout(Some(IO_TIMEOUT)).ok();
+    s.set_write_timeout(Some(IO_TIMEOUT)).ok();
     write!(
         s,
         "POST {path} HTTP/1.1\r\nHost: {hostport}\r\nContent-Type: application/json\r\nContent-Length: {}\r\nConnection: close\r\n\r\n{body}",
@@ -125,6 +148,49 @@ pub fn export(endpoint: &str, reg: &Registry, unix_nano: u64) -> Result<u16, Str
         .nth(1)
         .and_then(|c| c.parse().ok())
         .ok_or_else(|| "no HTTP status in response".to_string())
+}
+
+/// Exports from a worker thread, so the caller never waits on a collector and never holds a
+/// lock across network I/O: it hands over a clone of the registry.
+pub struct Exporter {
+    tx: Option<SyncSender<(Registry, u64)>>,
+    worker: Option<JoinHandle<()>>,
+}
+
+impl Exporter {
+    /// Validate `endpoint` and start the worker.
+    pub fn start(endpoint: &str) -> Result<Self, String> {
+        parse_endpoint(endpoint)?;
+        let (tx, rx) = sync_channel::<(Registry, u64)>(1);
+        let ep = endpoint.to_string();
+        let worker = std::thread::spawn(move || {
+            for (reg, t) in rx.iter() {
+                if let Err(e) = export(&ep, &reg, t) {
+                    eprintln!("warning: otlp export failed: {e}");
+                }
+            }
+        });
+        Ok(Exporter {
+            tx: Some(tx),
+            worker: Some(worker),
+        })
+    }
+
+    /// Hand over a snapshot; never blocks. If the previous export is still running the
+    /// snapshot is dropped (the next one carries the same cumulative totals).
+    pub fn submit(&self, reg: Registry, unix_nano: u64) {
+        if let Some(t) = &self.tx {
+            let _ = t.try_send((reg, unix_nano));
+        }
+    }
+
+    /// Wait for the export in flight. Bounded by the I/O timeouts.
+    pub fn finish(mut self) {
+        self.tx = None;
+        if let Some(w) = self.worker.take() {
+            let _ = w.join();
+        }
+    }
 }
 
 #[cfg(test)]
@@ -220,5 +286,59 @@ mod tests {
         let req = h.join().unwrap();
         assert!(req.starts_with("POST /v1/metrics HTTP/1.1"));
         assert!(req.contains("kshana.trust.score"));
+    }
+
+    #[test]
+    fn sums_carry_a_start_time() {
+        let mut r = Registry::new("t");
+        r.observe(
+            &TrustSample {
+                t_s: 1.0,
+                time_label: None,
+                score: Some(1.0),
+                band: Band::Nominal,
+                reasons: vec![],
+                gate: None,
+                position: None,
+            },
+            Some(1_700_000_000.0),
+        );
+        let p = build_payload(&r, 1_700_000_100_000_000_000);
+        let m = &p["resourceMetrics"][0]["scopeMetrics"][0]["metrics"];
+        let sum = m
+            .as_array()
+            .unwrap()
+            .iter()
+            .find(|x| x["name"] == "kshana.trust.epochs")
+            .unwrap();
+        assert_eq!(
+            sum["sum"]["dataPoints"][0]["startTimeUnixNano"],
+            "1700000000000000000"
+        );
+    }
+
+    #[test]
+    fn a_collector_that_never_answers_cannot_stall_the_caller() {
+        let l = TcpListener::bind("127.0.0.1:0").unwrap();
+        let addr = l.local_addr().unwrap();
+        let held = std::thread::spawn(move || {
+            let c = l.accept().unwrap();
+            std::thread::sleep(Duration::from_secs(6));
+            drop(c);
+        });
+        let x = Exporter::start(&format!("http://{addr}/v1/metrics")).unwrap();
+        let t0 = std::time::Instant::now();
+        for _ in 0..50 {
+            x.submit(reg(), 1);
+        }
+        assert!(t0.elapsed() < Duration::from_secs(1), "submit blocked");
+        let t1 = std::time::Instant::now();
+        x.finish();
+        assert!(
+            t1.elapsed() < Duration::from_secs(5),
+            "finish took {:?}",
+            t1.elapsed()
+        );
+        drop(held);
     }
 }
