@@ -114,11 +114,21 @@ fn wording_rule_holds_in_mapping_report_and_docs() {
         std::fs::read_to_string(repo().join("docs/TEST-BENCH.md")).unwrap(),
     ));
     let log = std::fs::read_to_string(repo().join("CHANGELOG.md")).unwrap();
-    let h = "### Added: compliance mapping and test-bench export";
-    let at = log.find(h).expect("the CHANGELOG section for this feature");
-    let rest = &log[at + h.len()..];
-    let end = rest.find("\n## ").unwrap_or(rest.len());
-    texts.push(("CHANGELOG section".into(), rest[..end].to_string()));
+    // The CHANGELOG entries for this feature: from the compliance bullet to the end of the
+    // bullet on `truth_trajectory` (the last of the group), wherever the release put them.
+    let first = "- **`docs/compliance/` and `kshana compliance-report`.**";
+    let last = "- `fusion::pack::truth_trajectory`";
+    let at = log
+        .find(first)
+        .expect("the CHANGELOG entry for the compliance mapping");
+    let rest = &log[at..];
+    let end_at = rest
+        .find(last)
+        .expect("the CHANGELOG entry for truth_trajectory");
+    let tail = &rest[end_at..];
+    let end = end_at + tail.find("\n\n").unwrap_or(tail.len());
+    let rest = &rest[..end];
+    texts.push(("CHANGELOG entries".into(), rest.to_string()));
     for (name, t) in &texts {
         assert_no_banned(name, t);
     }
