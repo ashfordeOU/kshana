@@ -100,8 +100,8 @@ Field mapping (event id is `gnss-trust.<band>`):
 | band | `cs1` (label `band`) | `band` |
 | reasons, comma-separated | `cs2` (`reasons`) | `reasons` |
 | previous band | `cs3` (`previousBand`) | `previousBand` |
-| score | `cn1` (`trustScore`), omitted if none | `trustScore` |
-| epoch offset, s | `cn2` (`epochOffsetSeconds`) | `epochOffsetSeconds` |
+| score | `cfp1` (`trustScore`), omitted if none | `trustScore` |
+| epoch offset, s | `cfp2` (`epochOffsetSeconds`) | `epochOffsetSeconds` |
 | log time label | `cs4` (`logTime`) | `logTime` |
 | gate state | `cs5` (`gate`) | `gate` |
 
