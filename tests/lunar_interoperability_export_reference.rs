@@ -1,6 +1,6 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Externally validate kshana's lunar CCSDS OEM **export** against an independent
-//! third-party authority: **oem 0.4.5** (MIT, <https://github.com/bradsease/oem>),
+//! third-party authority: **oem 0.4.5** (MIT, <https://pypi.org/project/oem/>),
 //! the astropy-backed `OrbitEphemerisMessage` parser
 //! (https://pypi.org/project/oem/).
 //!
