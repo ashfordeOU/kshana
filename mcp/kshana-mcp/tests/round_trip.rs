@@ -86,6 +86,8 @@ async fn serves_exactly_the_expected_tool_set() {
         "iq_acquire",
         "iq_track",
         "iq_frontend",
+        "iq_campaign",
+        "iq_campaign_status",
     ]
     .into_iter()
     .collect();
