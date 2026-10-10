@@ -1,0 +1,23 @@
+# Self-hosted kshana-mcp on your own Fly.io account. Kshana does not host this for you.
+#   fly launch --no-deploy --copy-config -c docs/deploy/mcp-http/fly.toml
+#   fly secrets set KSHANA_MCP_HTTP_TOKEN="$(openssl rand -hex 32)"
+#   fly deploy
+# Replace YOUR-APP with your app name; Fly terminates HTTPS in front of the container.
+app = "YOUR-APP"
+
+[build]
+  image = "ghcr.io/ashfordeou/kshana-mcp:0.35.0"
+
+[experimental]
+  cmd = ["--http", "0.0.0.0:8080", "--allow-remote", "--allowed-host", "YOUR-APP.fly.dev"]
+
+[http_service]
+  internal_port = 8080
+  force_https = true
+  auto_stop_machines = "stop"
+  auto_start_machines = true
+  min_machines_running = 0
+
+[[vm]]
+  size = "shared-cpu-2x"
+  memory = "1gb"

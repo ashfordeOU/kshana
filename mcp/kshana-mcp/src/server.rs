@@ -232,6 +232,12 @@ impl KshanaServer {
         Self::with_iq_config(IqConfig::from_env())
     }
 
+    /// The IQ configuration this server was built with (for tests of the HTTP transport).
+    #[doc(hidden)]
+    pub fn iq_config_for_test(&self) -> &IqConfig {
+        &self.iq
+    }
+
     /// Construct the server with an explicit IQ configuration.
     pub fn with_iq_config(iq: IqConfig) -> Self {
         Self {
