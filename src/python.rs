@@ -1212,6 +1212,69 @@ fn evidence_verify<'py>(
     json_to_py(py, &r)
 }
 
+/// Bind an RFC 3161 timestamp token to an evidence pack, in memory (`kshana evidence
+/// attach-timestamp`). `files` is a pack as `evidence_create` returns it; `token` is the raw
+/// bytes of the `.tsr` file, or its base64 text. The token is stored as `timestamp.tsr` beside
+/// the signed manifest, not inside it, and the pack with the token must still verify or
+/// `ValueError` is raised. An existing token is kept unless `replace=True`. This does NOT
+/// verify the timestamp authority's signature or certificate chain: use `openssl ts -verify`.
+/// Returns `{"files": {name: bytes}, "notes": [str]}`; verify later with
+/// `require_timestamp=True` to insist the token is present.
+#[pyfunction]
+#[pyo3(signature = (files, token, replace=false))]
+fn evidence_attach_timestamp<'py>(
+    py: Python<'py>,
+    files: std::collections::BTreeMap<String, TextOrBytes>,
+    token: TextOrBytes,
+    replace: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    use pyo3::types::{PyBytes, PyDict};
+    let files: crate::evidence::Files = files
+        .into_iter()
+        .map(|(k, v)| (k, v.bytes().to_vec()))
+        .collect();
+    let token = match &token {
+        TextOrBytes::Bytes(b) => b.clone(),
+        TextOrBytes::Text(t) => crate::permalink::base64_decode(t.trim())
+            .ok_or_else(|| PyValueError::new_err("token text is not base64"))?,
+    };
+    let t = crate::surface::evidence_attach_timestamp(
+        &files,
+        &token,
+        replace,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let out_files = PyDict::new(py);
+    for (k, v) in &t.files {
+        out_files.set_item(k, PyBytes::new(py, v))?;
+    }
+    let out = PyDict::new(py);
+    out.set_item("files", out_files)?;
+    out.set_item("notes", t.notes)?;
+    Ok(out.into_any())
+}
+
+/// Generate an Ed25519 signing key for evidence packs, in memory (`kshana evidence keygen`).
+/// Returns `{"seed_hex", "public_key", "fingerprint", "warning"}`. **The seed is the private
+/// key**: keep it out of logs, chats and version control, and give verifiers only
+/// `public_key`, by a route they trust. This is offered in Python only, because a private key
+/// should not pass through a web page or an agent conversation. Pass `seed_hex` to
+/// `evidence_create` to sign with it.
+#[pyfunction]
+fn evidence_keygen<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
+    let k = crate::surface::evidence_keygen();
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "seed_hex": k.seed_hex,
+            "public_key": k.public_key,
+            "fingerprint": k.fingerprint,
+            "warning": "seed_hex is the PRIVATE signing key. Keep it secret: never log it, paste it into a chat or commit it. Give verifiers only public_key, by a route they trust.",
+        }),
+    )
+}
+
 /// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; the input
 /// formats are in `docs/INTERFERENCE-MAP.md`). `dataset` is an approved preset
 /// (`adsb-lol`, `noaa-marinecadastre`, `kystverket`) or `"custom"`, which also needs
@@ -1514,6 +1577,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
     m.add_function(wrap_pyfunction!(bench_export, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_attach_timestamp, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_keygen, m)?)?;
     m.add_function(wrap_pyfunction!(export_sp3, m)?)?;
     m.add_function(wrap_pyfunction!(export_omm, m)?)?;
     m.add_function(wrap_pyfunction!(export_oem, m)?)?;
