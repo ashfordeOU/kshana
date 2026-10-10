@@ -1,0 +1,48 @@
+# TEMPORARY proof of the parity gate's expression shape; deleted after one run.
+name: gate-proof
+on:
+  workflow_dispatch:
+  push:
+    branches: [ci/mcp-channels]
+    paths: [.github/workflows/gate-proof.yml]
+permissions:
+  contents: read
+jobs:
+  ok:
+    runs-on: ubuntu-latest
+    steps: [{ run: "true" }]
+  optional-skipped:
+    if: false
+    runs-on: ubuntu-latest
+    steps: [{ run: "true" }]
+  broken:
+    runs-on: ubuntu-latest
+    steps: [{ run: "exit 1" }]
+  after-broken:
+    needs: broken
+    runs-on: ubuntu-latest
+    steps: [{ run: "true" }]
+  # Expected to RUN: required ok, optional skipped.
+  gate-skipped-optional:
+    needs: [ok, optional-skipped]
+    if: >-
+      ${{ !cancelled() && needs.ok.result == 'success'
+      && contains(fromJSON('["success","skipped"]'), needs.optional-skipped.result) }}
+    runs-on: ubuntu-latest
+    steps: [{ run: "echo RAN-AS-EXPECTED" }]
+  # Expected to be SKIPPED: a required job failed.
+  gate-required-failed:
+    needs: [ok, broken, optional-skipped]
+    if: >-
+      ${{ !cancelled() && needs.ok.result == 'success' && needs.broken.result == 'success'
+      && contains(fromJSON('["success","skipped"]'), needs.optional-skipped.result) }}
+    runs-on: ubuntu-latest
+    steps: [{ run: "echo SHOULD-NOT-RUN && exit 1" }]
+  # Expected to be SKIPPED: a required job was skipped because its own upstream failed.
+  gate-required-skipped-by-failure:
+    needs: [ok, after-broken, optional-skipped]
+    if: >-
+      ${{ !cancelled() && needs.ok.result == 'success' && needs.after-broken.result == 'success'
+      && contains(fromJSON('["success","skipped"]'), needs.optional-skipped.result) }}
+    runs-on: ubuntu-latest
+    steps: [{ run: "echo SHOULD-NOT-RUN && exit 1" }]

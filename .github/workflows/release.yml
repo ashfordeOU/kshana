@@ -226,12 +226,12 @@ jobs:
           ref: ${{ inputs.tag || github.ref }}
       - uses: dtolnay/rust-toolchain@1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
-      - run: cargo build --release
+      - run: cargo build --release --locked
       - name: Build the kshana-mcp server binary
         # The MCP server is a standalone, workspace-excluded crate (edition 2024), so it
         # builds from its own manifest into its own target dir. Attached to the release so
         # users can grab a prebuilt server binary without a Rust toolchain.
-        run: cargo build --release --manifest-path mcp/kshana-mcp/Cargo.toml
+        run: cargo build --release --locked --manifest-path mcp/kshana-mcp/Cargo.toml
       - name: Smoke-run the kshana-mcp server (initialize and tools/list over stdio)
         run: python3 scripts/smoke_mcp.py mcp/kshana-mcp/target/release/kshana-mcp
       - name: Generate the CycloneDX SBOM
@@ -709,7 +709,20 @@ jobs:
   parity:
     name: channel parity
     needs: [publish, mcp-publish, reference-image, signalk, launchers, mcp-registry, distribution]
-    if: github.event_name == 'push'
+    # Runs when an optional upstream job was SKIPPED (mcp-registry is off without
+    # MCP_REGISTRY_PUBLISH) but not when any upstream job failed or was skipped because
+    # something before it failed: the jobs every release must pass have to be `success`
+    # and the optional ones `success` or `skipped`.
+    # run recorded in docs/RELEASING.md's history, using this same expression shape.
+    if: >-
+      ${{ !cancelled() && github.event_name == 'push'
+      && needs.publish.result == 'success'
+      && needs.mcp-publish.result == 'success'
+      && needs.reference-image.result == 'success'
+      && needs.launchers.result == 'success'
+      && contains(fromJSON('["success","skipped"]'), needs.signalk.result)
+      && contains(fromJSON('["success","skipped"]'), needs.mcp-registry.result)
+      && contains(fromJSON('["success","skipped"]'), needs.distribution.result) }}
     runs-on: ubuntu-latest
     timeout-minutes: 60
     steps:

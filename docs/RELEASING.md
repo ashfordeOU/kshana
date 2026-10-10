@@ -26,6 +26,11 @@ the new version.
    `KSHANA_VERSION_SYNC_SITE`'s default to `strict` (in `scripts/check-version-sync.sh`),
    so the version chip and footer of every page, `web/llms.txt` and the changelog page
    are enforced from then on instead of only warned about.
+   The same script enforces the Studio recordings' `engine_version`
+   (`web/studio/recorded/index.json`), the `Version X.Y.Z,` line of `web/llms.txt` and the newest heading
+   of `web/docs/changelog.html`, and the kshana-mcp launchers (`packaging/mcp/npm/package.json`,
+   `packaging/mcp/pypi/pyproject.toml` and its `__init__.py`) and the package entries of
+   `mcp/kshana-mcp/server.json`; bump them in the same commit.
 3. Merge to `main` and wait for continuous integration (CI, `ci.yml`) to pass on that
    commit. Tag only a commit that is already green on `main`.
 4. The tag is pushed for you. When CI finishes green on a push to `main`, the Auto-tag
