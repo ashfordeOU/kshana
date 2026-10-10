@@ -486,7 +486,7 @@ def test_receiver_trust_replay_scores_an_excerpt():
 
     session, excerpt = _excerpt()
     r = kshana.receiver_trust_replay(session, excerpt)
-    assert r["schema"] == "1.1" and r["summary"]["untrusted"] > 0
+    assert r["schema"] == "1.2" and "advisory" in r["epochs"][0] and r["summary"]["untrusted"] > 0
     assert r["summary"]["lowest_score"] < 55 and r["epochs"][-1]["state"]
     assert kshana.receiver_trust_replay(session, excerpt.encode())["summary"] == r["summary"]
     with pytest.raises(ValueError):

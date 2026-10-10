@@ -35,8 +35,13 @@ actions that run the CLI), **Notebook** (`notebooks/`).
   to any number of TCP clients and runs until it is stopped. A Python call, a browser call, an
   MCP tool call and an IDE action each return when they finish and do not hold a socket open
   for others. Python, WASM and MCP carry the bounded form instead: an excerpt scored by the
-  same engine, in the live schema, with no socket and no gate (the gate marks a fix invalid on a
-  live stream, which only a process in the data path can do).
+  same engine, in the live schema (JSON lines 1.2: `position` and an `advisory` statement on every
+  epoch), with no socket and no gate (the gate marks a fix invalid on a live stream, which only a
+  process in the data path can do). Two behaviours belong to the process and are not in the
+  excerpt tools: a stream replayed faster than real time through `receiver-trust live` without
+  `--replay` is scored untrusted (its time disagrees with the host clock; an excerpt is read
+  without a host clock), and `--udp <port>` and `--listen tcp:<port>` bind the loopback address
+  unless an address is given.
 - **Trust telemetry.** `trust-telemetry` serves Prometheus metrics, sends syslog and exports
   OpenTelemetry from a running stream, so it is a process by nature. How-to: pipe the live
   command into it, or replay a result file (`kshana trust-telemetry --result session.result.json
