@@ -1,0 +1,80 @@
+# Marine integrations (integrations/ and deploy/reference-build/): Signal K plugin tests, OpenCPN TCP relay
+# tests, the native OpenCPN plugin build check, and the dry-run check of the systemd units. Separate from the
+# Rust CI so it runs in parallel and only when those paths change. No network beyond package installs; nothing
+# here publishes anything.
+name: Marine integrations
+on:
+  push:
+    branches: [main]
+    paths:
+      - "integrations/**"
+      - "deploy/reference-build/**"
+      - ".github/workflows/marine-integrations.yml"
+  pull_request:
+    branches: [main]
+    paths:
+      - "integrations/**"
+      - "deploy/reference-build/**"
+      - ".github/workflows/marine-integrations.yml"
+permissions:
+  contents: read
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}-${{ github.sha }}
+  cancel-in-progress: true
+jobs:
+  node-tests:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      # Node 22: current signalk-server needs it (the plugin and relay themselves run on 18 and newer).
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - run: node --version
+      - name: Documentation links
+        run: node integrations/check-doc-links.mjs
+      - name: Signal K plugin
+        run: npm test
+        working-directory: integrations/signalk
+      - name: OpenCPN TCP relay
+        run: npm test
+        working-directory: integrations/opencpn
+  opencpn-plugin:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - name: Install build dependencies
+        run: sudo apt-get update && sudo apt-get install -y --no-install-recommends cmake g++ libwxgtk3.2-dev
+      - name: Configure, build and test (core tests and the plugin build check)
+        run: |
+          cmake -S integrations/opencpn/plugin -B build-pi -DCMAKE_BUILD_TYPE=Release
+          cmake --build build-pi
+          ctest --test-dir build-pi --output-on-failure
+  systemd-units:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - run: deploy/reference-build/check-units.sh
+      - run: deploy/reference-build/test-entrypoint.sh
+  e2e-live:
+    # The real binary through the real gate: kshana --gate --listen to a TCP consumer, and through the relay.
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
+      - run: cargo build --release --locked --bin kshana
+      - name: Gate to a TCP consumer, direct and through the relay
+        working-directory: integrations/opencpn
+        env:
+          KSHANA_BIN: ${{ github.workspace }}/target/release/kshana
+        run: |
+          npm run e2e
+          npm run e2e -- relay
