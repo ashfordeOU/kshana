@@ -1296,6 +1296,109 @@ fn bench_export<'py>(
     )
 }
 
+/// Export an `orbit` scenario's propagated constellation as SP3-c precise-ephemeris text (the
+/// artifact `--export-sp3` writes). Raises `ValueError` if the scenario is not an orbit kind.
+#[pyfunction]
+fn export_sp3(toml: &str) -> PyResult<String> {
+    crate::api::export_sp3(toml).map_err(PyValueError::new_err)
+}
+
+/// Export a constellation's mean elements as a CCSDS OMM catalogue string (`--export-omm`).
+/// Raises `ValueError` if the scenario cannot produce one.
+#[pyfunction]
+fn export_omm(toml: &str) -> PyResult<String> {
+    crate::api::export_omm(toml).map_err(PyValueError::new_err)
+}
+
+/// Export the velocity-carrying state as a CCSDS OEM 2.0 ephemeris string (`--export-oem`).
+/// Raises `ValueError` if the scenario cannot produce one.
+#[pyfunction]
+fn export_oem(toml: &str) -> PyResult<String> {
+    crate::api::export_oem(toml).map_err(PyValueError::new_err)
+}
+
+/// Which interoperability formats apply to a scenario, without running it: a list of dicts
+/// `{format, applies, reason, spec_url}` for `czml`, `kml`, `geojson`, `stk` and `sigmf`.
+/// Raises `ValueError` on invalid TOML.
+#[pyfunction]
+fn export_formats<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
+    let v = crate::surface::export_formats(toml, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(py, &v)
+}
+
+/// Export a scenario in one interoperability format (`czml`, `kml`, `geojson`, `stk` or
+/// `sigmf`), in memory: nothing is written. Returns `{format, spec_url, files}`; each file is
+/// `{suffix, bytes, sha256, encoding, content}` where `encoding` is `"utf-8"` (the content is
+/// the text) or `"base64"` (a binary file). Times are UTC and the same scenario gives
+/// byte-identical files. Raises `ValueError` with the reason when the format does not apply.
+#[pyfunction]
+fn export_scenario<'py>(py: Python<'py>, toml: &str, format: &str) -> PyResult<Bound<'py, PyAny>> {
+    let e = crate::surface::export_scenario(toml, format, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(py, &e.to_json())
+}
+
+/// Write a GeoJSON route (a `LineString`, or a `Feature` or `FeatureCollection` holding one)
+/// into a scenario of a kind that flies a waypoint track (`terrain-nav`, `terrain-slam`,
+/// `gravity-map`, `combined-altpnt`) and return the new TOML. Raises `ValueError` with the
+/// reason otherwise.
+#[pyfunction]
+fn import_route(toml: &str, geojson: &str) -> PyResult<String> {
+    crate::surface::import_route(toml, geojson, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
+/// Run a scenario and return its time series as an animation: `format` is `"svg"` (one
+/// animated SVG, no script; default), `"html"` (one self-contained player page) or
+/// `"frames"` (numbered static SVG frames and `manifest.json`, at most 120). Options: `fps`
+/// (1 to 60, default 12), `duration_s` (0.5 to 600, default 8), `width` (480 to 3840 px, default
+/// 960). Returns `{summary, files}`: what was drawn, and `{name: text}`. A kind with no
+/// sampled time axis raises `ValueError`. Nothing is written.
+#[pyfunction]
+#[pyo3(signature = (toml, format="svg", fps=None, duration_s=None, width=None))]
+fn animate_scenario<'py>(
+    py: Python<'py>,
+    toml: &str,
+    format: &str,
+    fps: Option<u32>,
+    duration_s: Option<f64>,
+    width: Option<u32>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let a = crate::surface::animate_scenario(
+        toml,
+        Some(format),
+        fps,
+        duration_s,
+        width,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let files: serde_json::Map<String, serde_json::Value> =
+        a.files.into_iter().map(|(k, v)| (k, v.into())).collect();
+    json_to_py(
+        py,
+        &serde_json::json!({"summary": a.summary, "files": files}),
+    )
+}
+
+/// The bundled reference scenarios: `{count, scenarios: [{name, kind, about}]}`; `kind` limits
+/// the list to one scenario kind. Every one runs as it stands. Raises `ValueError` on an
+/// unknown kind.
+#[pyfunction]
+#[pyo3(signature = (kind=None))]
+fn list_examples<'py>(py: Python<'py>, kind: Option<&str>) -> PyResult<Bound<'py, PyAny>> {
+    let v = crate::surface::list_examples(kind).map_err(PyValueError::new_err)?;
+    json_to_py(py, &v)
+}
+
+/// The TOML text of one bundled reference scenario, byte for byte the repository's file.
+/// Raises `ValueError` for an unknown name or one that exists but is not bundled.
+#[pyfunction]
+fn get_example(name: &str) -> PyResult<&'static str> {
+    crate::surface::get_example(name).map_err(PyValueError::new_err)
+}
+
 /// Fill the public-framework mapping from result documents given as text: which rows of
 /// five resilience frameworks and standards (`docs/compliance/`) the runs support evidence
 /// for, which they do not, and the gap each row keeps. `runs` is a list of dicts with
@@ -1411,6 +1514,15 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(interference_map, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
     m.add_function(wrap_pyfunction!(bench_export, m)?)?;
+    m.add_function(wrap_pyfunction!(export_sp3, m)?)?;
+    m.add_function(wrap_pyfunction!(export_omm, m)?)?;
+    m.add_function(wrap_pyfunction!(export_oem, m)?)?;
+    m.add_function(wrap_pyfunction!(export_formats, m)?)?;
+    m.add_function(wrap_pyfunction!(export_scenario, m)?)?;
+    m.add_function(wrap_pyfunction!(import_route, m)?)?;
+    m.add_function(wrap_pyfunction!(animate_scenario, m)?)?;
+    m.add_function(wrap_pyfunction!(list_examples, m)?)?;
+    m.add_function(wrap_pyfunction!(get_example, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;

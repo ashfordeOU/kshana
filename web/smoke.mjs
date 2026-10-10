@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3 } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -241,6 +241,29 @@ if (!comp.report.statement.includes("is not a finding that a framework is met") 
     comp.report.unrecognised.length !== 1 || !comp.markdown.includes(comp.report.statement) ||
     !compliance_mapping(false).startsWith("> " + comp.report.statement)) {
   console.error("wasm compliance_report() or compliance_mapping() lost the statement or the run accounting");
+  process.exit(1);
+}
+
+// Examples, interoperability exports, route import and animation, in memory.
+const examples = JSON.parse(list_examples(""));
+const orbitToml = get_example("orbit-multignss");
+const clockToml = get_example("clock-holdover");
+const czml = JSON.parse(export_scenario(orbitToml, "czml"));
+const anim = JSON.parse(animate_scenario(clockToml, "svg", 0, NaN, 0));
+const moved = import_route(
+  get_example("terrain-nav"),
+  '{"type":"LineString","coordinates":[[10.0,50.0],[10.5,50.0]]}',
+);
+if (examples.count < 50 || JSON.parse(export_formats(clockToml)).length !== 5 ||
+    czml.format !== "czml" || czml.files[0].encoding !== "utf-8" || !export_sp3(orbitToml).startsWith("#") ||
+    !anim.files["animation.svg"].includes("<svg") || !moved.includes("start_lat_deg = 50")) {
+  console.error("wasm examples, exports, route import or animation produced unexpected output");
+  process.exit(1);
+}
+let refused = false;
+try { export_scenario(clockToml, "czml"); } catch (_) { refused = true; }
+if (!refused) {
+  console.error("wasm export_scenario() accepted a format that does not apply");
   process.exit(1);
 }
 
