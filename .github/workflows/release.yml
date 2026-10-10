@@ -704,7 +704,7 @@ jobs:
   # than reading once. docs.rs and the MCP registry are reported but never fatal.
   parity:
     name: channel parity
-    needs: [publish, mcp-publish, reference-image, signalk, launchers]
+    needs: [publish, mcp-publish, reference-image, signalk, launchers, mcp-registry, distribution]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 60
