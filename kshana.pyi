@@ -26,6 +26,15 @@ __all__ = [
     "evidence_verify",
     "interference_map",
     "bench_export",
+    "export_sp3",
+    "export_omm",
+    "export_oem",
+    "export_formats",
+    "export_scenario",
+    "import_route",
+    "animate_scenario",
+    "list_examples",
+    "get_example",
     "compliance_report",
     "compliance_mapping",
     "route_exposure",
@@ -148,6 +157,56 @@ def evidence_verify(
     ``"intact-signer-not-pinned"`` (everything checks but no public key was given, so the
     signature proves only that the pack is intact against the key it names itself) or
     ``"failed"``. Raises ``ValueError`` on a malformed key."""
+
+def export_sp3(toml: str) -> str:
+    """Export an ``orbit`` scenario's propagated constellation as SP3-c text (``--export-sp3``).
+    Raises ``ValueError`` if the scenario is not an orbit kind."""
+
+def export_omm(toml: str) -> str:
+    """Export a constellation's mean elements as a CCSDS OMM catalogue string
+    (``--export-omm``). Raises ``ValueError``."""
+
+def export_oem(toml: str) -> str:
+    """Export the velocity-carrying state as a CCSDS OEM 2.0 ephemeris string
+    (``--export-oem``). Raises ``ValueError``."""
+
+def export_formats(toml: str) -> list[dict[str, Any]]:
+    """Which interoperability formats apply to a scenario, without running it: a list of
+    ``{format, applies, reason, spec_url}`` for ``czml``, ``kml``, ``geojson``, ``stk`` and
+    ``sigmf``. Raises ``ValueError`` on invalid TOML."""
+
+def export_scenario(toml: str, format: str) -> dict[str, Any]:
+    """Export a scenario in one interoperability format (``czml``, ``kml``, ``geojson``, ``stk``
+    or ``sigmf``) in memory. Returns ``{format, spec_url, files}``; each file is ``{suffix,
+    bytes, sha256, encoding, content}`` with ``encoding`` ``"utf-8"`` (the content is the text)
+    or ``"base64"`` (a binary file). Times are UTC; byte-identical for the same scenario.
+    Raises ``ValueError`` with the reason when the format does not apply."""
+
+def import_route(toml: str, geojson: str) -> str:
+    """Write a GeoJSON route (``LineString``, or a ``Feature``/``FeatureCollection`` holding one)
+    into a ``terrain-nav``, ``terrain-slam``, ``gravity-map`` or ``combined-altpnt`` scenario and
+    return the new TOML (``--import-route``). Raises ``ValueError``."""
+
+def animate_scenario(
+    toml: str,
+    format: str = "svg",
+    fps: Optional[int] = None,
+    duration_s: Optional[float] = None,
+    width: Optional[int] = None,
+) -> dict[str, Any]:
+    """Run a scenario and return its time series as an animation: ``format`` ``"svg"`` (one
+    animated SVG, no script), ``"html"`` (a self-contained player) or ``"frames"`` (numbered
+    SVG frames plus ``manifest.json``, at most 120). Returns ``{summary, files}`` with
+    ``files`` as ``{name: text}``. Raises ``ValueError`` (a kind with no sampled time axis is
+    refused). Nothing is written."""
+
+def list_examples(kind: Optional[str] = None) -> dict[str, Any]:
+    """The bundled reference scenarios: ``{count, scenarios: [{name, kind, about}]}``; ``kind``
+    limits it to one scenario kind. Raises ``ValueError`` on an unknown kind."""
+
+def get_example(name: str) -> str:
+    """The TOML text of one bundled reference scenario, byte for byte the repository's file.
+    Raises ``ValueError`` for an unknown or unbundled name."""
 
 def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
     """Export a scenario's vehicle motion and events for a laboratory GNSS simulator
