@@ -120,9 +120,9 @@ jobs:
   # download says what it runs on; the Linux asset keeps its historical bare name
   # `kshana` so existing download links and scripts do not break.
   binaries:
-    name: CLI binary (${{ matrix.target }})
+    name: CLI + MCP binaries (${{ matrix.target }})
     runs-on: ${{ matrix.os }}
-    timeout-minutes: 60
+    timeout-minutes: 90
     strategy:
       fail-fast: false
       matrix:
@@ -138,6 +138,11 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             exe: ".exe"
+          # Native Arm Linux (a hosted runner for public repositories), so the binary is built
+          # and smoke-run on the architecture it is for. It links the runner's glibc (2.39).
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            exe: ""
     defaults:
       run:
         shell: bash
@@ -155,30 +160,42 @@ jobs:
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
           key: ${{ matrix.target }}
+          # The MCP server is a standalone crate with its own lockfile and target directory.
+          workspaces: |
+            .
+            mcp/kshana-mcp
       - name: Build the command-line binary
         run: cargo build --release --locked --bin kshana --target "$TARGET"
-      - name: Stage it under its target-suffixed name
+      - name: Build the kshana-mcp server binary
+        # A workspace-excluded crate (edition 2024), built from its own manifest and lockfile.
+        run: cargo build --release --locked --manifest-path mcp/kshana-mcp/Cargo.toml --target "$TARGET"
+      - name: Stage them under their target-suffixed names
         run: |
           set -euo pipefail
           mkdir -p out
           cp "target/$TARGET/release/kshana$EXE" "out/kshana-$TARGET$EXE"
+          cp "mcp/kshana-mcp/target/$TARGET/release/kshana-mcp$EXE" "out/kshana-mcp-$TARGET$EXE"
           ls -l out
-      - name: Smoke-run it (usage banner, as verify-release does for Linux)
+      - name: Smoke-run them (the CLI's usage banner; the MCP server's initialize and tools/list)
         run: |
           set -uo pipefail
-          bin="out/kshana-$TARGET$EXE"
+          PY="$(command -v python3 || command -v python)"
+          cli="out/kshana-$TARGET$EXE"; mcp="out/kshana-mcp-$TARGET$EXE"
           if [ "$TARGET" = "x86_64-apple-darwin" ] && [ "$(uname -m)" = "arm64" ]; then
-            archs="$(lipo -archs "$bin")"
-            [ "$archs" = "x86_64" ] || { echo "::error::$bin is '$archs', not x86_64"; exit 1; }
+            for bin in "$cli" "$mcp"; do
+              archs="$(lipo -archs "$bin")"
+              [ "$archs" = "x86_64" ] || { echo "::error::$bin is '$archs', not x86_64"; exit 1; }
+            done
             if ! arch -x86_64 /usr/bin/true 2>/dev/null; then
-              echo "::notice::no x86-64 translation on this runner; checked the architecture ($archs) only"
+              echo "::notice::no x86-64 translation on this runner; checked the architecture only"
               exit 0
             fi
           fi
-          out="$("$bin" 2>&1)" || true
+          out="$("$cli" 2>&1)" || true
           printf '%s\n' "$out"
           printf '%s\n' "$out" | grep -q "usage: kshana" \
-            || { echo "::error::$bin did not run / print its usage banner"; exit 1; }
+            || { echo "::error::$cli did not run / print its usage banner"; exit 1; }
+          "$PY" scripts/smoke_mcp.py "$mcp" || { echo "::error::$mcp failed its MCP smoke run"; exit 1; }
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:
           name: cli-${{ matrix.target }}
@@ -215,6 +232,8 @@ jobs:
         # builds from its own manifest into its own target dir. Attached to the release so
         # users can grab a prebuilt server binary without a Rust toolchain.
         run: cargo build --release --manifest-path mcp/kshana-mcp/Cargo.toml
+      - name: Smoke-run the kshana-mcp server (initialize and tools/list over stdio)
+        run: python3 scripts/smoke_mcp.py mcp/kshana-mcp/target/release/kshana-mcp
       - name: Generate the CycloneDX SBOM
         run: ./scripts/gen-sbom.sh > kshana-sbom.cdx.json
       - name: Generate the validation summary
@@ -244,6 +263,22 @@ jobs:
           pattern: channel-*
           path: assets
           merge-multiple: true
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: Build the Claude Desktop extensions (.mcpb), one per platform
+        # @anthropic-ai/mcpb is a build-time tool only (pinned in scripts/build-mcpb.sh); each package holds
+        # the same kshana-mcp binary that is attached on its own, and a manifest with the advisory statement.
+        run: |
+          set -euo pipefail
+          ver="${VERSION}"
+          mkdir -p mcpb-out
+          scripts/build-mcpb.sh "$ver" x86_64-unknown-linux-gnu mcp/kshana-mcp/target/release/kshana-mcp mcpb-out
+          scripts/build-mcpb.sh "$ver" aarch64-unknown-linux-gnu assets/kshana-mcp-aarch64-unknown-linux-gnu mcpb-out
+          scripts/build-mcpb.sh "$ver" aarch64-apple-darwin assets/kshana-mcp-aarch64-apple-darwin mcpb-out
+          scripts/build-mcpb.sh "$ver" x86_64-apple-darwin assets/kshana-mcp-x86_64-apple-darwin mcpb-out
+          scripts/build-mcpb.sh "$ver" x86_64-pc-windows-msvc assets/kshana-mcp-x86_64-pc-windows-msvc.exe mcpb-out
+          cp mcpb-out/*.mcpb assets/
       - name: Stage every asset and write SHA256SUMS
         # One directory holding exactly the files the release carries, so the checksum
         # file, the attestation and the upload all name the same set. SHA256SUMS is
@@ -350,6 +385,10 @@ jobs:
           done
           [ "$n" -ge 12 ] || { echo "::error::verified only $n assets"; exit 1; }
           echo "OK: $n published assets verified"
+      - name: Smoke-run the verified kshana-mcp (initialize and tools/list over stdio)
+        run: |
+          chmod +x verify/kshana-mcp
+          python3 scripts/smoke_mcp.py verify/kshana-mcp
       - name: Smoke-run the verified binary
         # The CLI has no --version flag; run it with no args and assert it executes and
         # prints its usage banner. The documented "no scenario given" exit code is 2, so
@@ -383,6 +422,9 @@ jobs:
           - os: windows-latest
             target: x86_64-pc-windows-msvc
             exe: ".exe"
+          - os: ubuntu-24.04-arm
+            target: aarch64-unknown-linux-gnu
+            exe: ""
     permissions:
       contents: read
     defaults:
@@ -393,18 +435,24 @@ jobs:
       TAG: ${{ inputs.tag || github.ref_name }}
       REPO: ${{ github.repository }}
       ASSET: kshana-${{ matrix.target }}${{ matrix.exe }}
+      ASSET_MCP: kshana-mcp-${{ matrix.target }}${{ matrix.exe }}
     steps:
-      - name: Download the asset and the checksum file
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - name: Download the assets and the checksum file
         run: |
           set -euo pipefail
           mkdir -p verify && cd verify
-          gh release download "$TAG" --repo "$REPO" --clobber --pattern "$ASSET" --pattern SHA256SUMS
+          gh release download "$TAG" --repo "$REPO" --clobber --pattern "$ASSET" --pattern "$ASSET_MCP" --pattern SHA256SUMS
           ls -l
-      - name: Checksum, provenance and a run
+      - name: Checksum, provenance and a run (the CLI, and the MCP server over stdio)
         run: |
           set -euo pipefail
+          PY="$(command -v python3 || command -v python)"
           cd verify
-          python3 - "$ASSET" <<'PY'
+          for name in "$ASSET" "$ASSET_MCP"; do
+            "$PY" - "$name" <<'PY'
           import hashlib, sys
           name = sys.argv[1]
           want = {l.split()[1].lstrip("*"): l.split()[0] for l in open("SHA256SUMS") if l.strip()}
@@ -412,13 +460,17 @@ jobs:
           assert want.get(name) == got, f"{name}: sha256 {got} != SHA256SUMS {want.get(name)}"
           print(f"OK: {name} matches SHA256SUMS")
           PY
-          gh attestation verify "$ASSET" --repo "$REPO"
-          chmod +x "$ASSET"
+            gh attestation verify "$name" --repo "$REPO"
+            chmod +x "$name"
+          done
           out="$("./$ASSET" 2>&1)" || true
           printf '%s\n' "$out"
           printf '%s\n' "$out" | grep -q "usage: kshana" \
             || { echo "::error::$ASSET did not run / print its usage banner"; exit 1; }
           echo "OK: $ASSET runs"
+          cd ..
+          "$PY" scripts/smoke_mcp.py "verify/$ASSET_MCP"
+          echo "OK: $ASSET_MCP runs and lists its tools"
 
   # ---------------------------------------------------------------------------------
   # Publishing. Everything below `needs: verify` (directly or through `publish`), and
@@ -482,6 +534,63 @@ jobs:
       contents: read
     uses: ./.github/workflows/marine-integrations.yml
 
+  dry-launchers:
+    name: MCP launchers (dry run)
+    if: ${{ inputs.dry_run }}
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/mcp-launchers.yml
+    with:
+      dry_run: true
+    secrets: inherit
+
+  # The launchers run for real against the assets this dry run staged: a local server stands in for the
+  # GitHub release, and each launcher must download, verify and run the staged kshana-mcp.
+  dry-launcher-e2e:
+    name: MCP launchers against the staged assets (dry run)
+    needs: [release, dry-launchers]
+    if: ${{ inputs.dry_run }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
+        with:
+          ref: ${{ inputs.tag || github.ref }}
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: dry-run-release-assets
+          path: staged
+      - uses: actions/download-artifact@d3f86a106a0bac45b974a628896c90dbdf5c8093 # v4
+        with:
+          name: mcp-launchers
+          path: dist
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: Run both launchers against the staged binary
+        run: |
+          set -euo pipefail
+          (cd staged && python3 -m http.server 8765 --bind 127.0.0.1 >/dev/null 2>&1 &)
+          sleep 2
+          export KSHANA_MCP_RELEASE_BASE=http://127.0.0.1:8765
+          # npm: install the packed tarball into a scratch prefix, as `npx` would.
+          npm install --prefix npm-try ./dist/npm/kshana-mcp-*.tgz
+          KSHANA_MCP_CACHE_DIR="$PWD/cache-npm" python3 scripts/smoke_mcp.py npm-try/node_modules/.bin/kshana-mcp
+          # PyPI: install the wheel into a venv and run its console script.
+          python3 -m venv py-try
+          py-try/bin/pip install --quiet ./dist/pypi/*.whl
+          KSHANA_MCP_CACHE_DIR="$PWD/cache-py" python3 scripts/smoke_mcp.py py-try/bin/kshana-mcp
+          # A swapped binary is refused.
+          mkdir swapped && cp staged/SHA256SUMS swapped/ && printf 'evil' > swapped/kshana-mcp
+          (cd swapped && python3 -m http.server 8766 --bind 127.0.0.1 >/dev/null 2>&1 &)
+          sleep 2
+          if KSHANA_MCP_RELEASE_BASE=http://127.0.0.1:8766 KSHANA_MCP_CACHE_DIR="$PWD/cache-bad" python3 scripts/smoke_mcp.py npm-try/node_modules/.bin/kshana-mcp; then
+            echo "::error::a swapped binary was run"; exit 1
+          fi
+          echo "OK: both launchers run the staged binary; a swapped binary is refused"
+
   dry-signalk:
     name: Signal K package check (dry run)
     needs: artefacts
@@ -527,6 +636,18 @@ jobs:
     uses: ./.github/workflows/reference-image.yml
     secrets: inherit
 
+  # The `kshana-mcp` launchers (npm: `npx kshana-mcp`; PyPI: `uvx kshana-mcp`). They download the release binary, so
+  # they publish only after the GitHub release exists (`needs: release`).
+  launchers:
+    needs: [verify, publish, release]
+    if: github.event_name == 'push'
+    permissions:
+      contents: read
+      actions: read
+      id-token: write
+    uses: ./.github/workflows/mcp-launchers.yml
+    secrets: inherit
+
   # The Signal K plugin on npm (`signalk-kshana-trust`, approved by the founder): published for real on a
   # tag push. SIGNALK_NPM_PUBLISH=false switches it off; a missing NPM_TOKEN fails it with a clear message.
   signalk:
@@ -544,7 +665,7 @@ jobs:
   # than reading once. docs.rs and the MCP registry are reported but never fatal.
   parity:
     name: channel parity
-    needs: [publish, mcp-publish, reference-image, signalk]
+    needs: [publish, mcp-publish, reference-image, signalk, launchers]
     if: github.event_name == 'push'
     runs-on: ubuntu-latest
     timeout-minutes: 60

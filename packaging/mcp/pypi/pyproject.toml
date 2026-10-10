@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "kshana-mcp"
+version = "0.35.0"
+description = "Launcher for the Kshana MCP server: downloads the prebuilt kshana-mcp binary of the same version from the GitHub release, checks it against SHA256SUMS and runs it. Advisory, not type-approved navigation equipment."
+readme = "README.md"
+requires-python = ">=3.9"
+license = "AGPL-3.0-only"
+license-files = ["LICENSE"]
+keywords = ["mcp", "model-context-protocol", "pnt", "gnss", "navigation", "kshana"]
+classifiers = [
+  "Programming Language :: Python :: 3",
+  "Operating System :: OS Independent",
+  "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://kshana.dev"
+Repository = "https://github.com/ashfordeOU/kshana"
+Issues = "https://github.com/ashfordeOU/kshana/issues"
+
+[project.scripts]
+kshana-mcp = "kshana_mcp.launcher:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
