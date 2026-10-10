@@ -77,3 +77,10 @@ each is listed with its numbers so the changes can be judged.
    They are the same course, so the course and heading comparisons are now circular (difference
    wrapped to [-180, 180)); the tolerance (1e-9 degrees) is unchanged. First-run numbers for this
    family: one violation (epoch 312, 0 against 360), all other 1,085 comparisons exact to 1e-13.
+
+Rulings on these amendments (coordinator, 2026-10-10): the changed inputs, the generator fix and the
+circular angle comparison were accepted; the bearing amendment was accepted only with full
+disclosure, so the original forward-azimuth comparison stays in `t2` as an executable, explicitly
+NON-pre-registered descriptive bound (below 0.01 degrees; the recorded largest difference is
+8.27e-3 degrees), and the documentation (`docs/MARITIME-TRUST.md`, the `en_offset_m` doc comment)
+states that the bearing is the geodesic's mean azimuth.

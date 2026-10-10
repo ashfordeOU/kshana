@@ -258,6 +258,7 @@ fn t2_east_north_offsets_match_the_wgs84_geodesic() {
     let pairs = r["geodesy"].as_array().unwrap();
     assert!(pairs.len() >= 200);
     let (mut lat_min, mut lat_max, mut dist_max) = (f64::MAX, f64::MIN, 0.0_f64);
+    let mut fwd_worst = 0.0_f64;
     for p in pairs {
         let c: Vec<f64> = p["p"]
             .as_array()
@@ -281,10 +282,21 @@ fn t2_east_north_offsets_match_the_wgs84_geodesic() {
         // convergence of the meridians.
         let d = (bearing - p["azi_mean"].as_f64().unwrap() + 540.0).rem_euclid(360.0) - 180.0;
         w.check("bearing", d, 0.0, TOL_BEARING_DEG, &ctx);
+        // Recorded, not pre-registered: the forward azimuth at the first fix, which is NOT the
+        // quantity compared above (amendment 3 in PREREGISTRATION.md). A descriptive bound at the
+        // level of half the convergence of the meridians over these baselines, kept executable so
+        // the record of the original comparison stays true.
+        let d_fwd = (bearing - p["azi1"].as_f64().unwrap() + 540.0).rem_euclid(360.0) - 180.0;
+        assert!(
+            d_fwd.abs() < 0.01,
+            "descriptive: bearing vs forward azimuth {d_fwd} {ctx}"
+        );
+        fwd_worst = fwd_worst.max(d_fwd.abs());
         lat_min = lat_min.min(c[0]);
         lat_max = lat_max.max(c[0]);
         dist_max = dist_max.max(p["s12"].as_f64().unwrap());
     }
+    println!("descriptive: bearing against the forward azimuth at the first fix, largest difference {fwd_worst:e} degrees");
     // The registered scope: -45 to 70 degrees, baselines up to 2 km, across the antimeridian.
     assert!(lat_min < -44.0 && lat_max > 69.0, "{lat_min} {lat_max}");
     assert!(dist_max > 1500.0 && dist_max <= 2000.0, "{dist_max}");
