@@ -25,6 +25,8 @@ __all__ = [
     "evidence_create",
     "evidence_verify",
     "interference_map",
+    "compliance_report",
+    "compliance_mapping",
     "route_exposure",
     "nmea_training",
     "iq_scene",
@@ -145,6 +147,23 @@ def evidence_verify(
     ``"intact-signer-not-pinned"`` (everything checks but no public key was given, so the
     signature proves only that the pack is intact against the key it names itself) or
     ``"failed"``. Raises ``ValueError`` on a malformed key."""
+
+def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
+    """Fill the public-framework mapping (five resilience frameworks and standards, see
+    ``docs/compliance/``) from result documents given as text. ``runs`` is a list of dicts with
+    ``label``, ``result`` (the result JSON text) and optionally ``scenario`` (the scenario TOML
+    text, which names the kind a result does not); at most 64 runs, nothing read from disk.
+    Returns ``{"report": dict, "markdown": str}``. The report has ``statement`` (carry it
+    verbatim wherever the output is shown), ``runs``, ``unrecognised`` (inputs not used, with
+    the reason), ``capabilities``, ``receiver_trust`` and ``rows``: each row has a ``status``
+    of ``evidenced``, ``partly-evidenced``, ``not-evidenced`` or ``out-of-scope`` and keeps its
+    ``gap``. A status says the runs support evidence for the row's capabilities; it is not a
+    finding that a framework is met. Raises ``ValueError``."""
+
+def compliance_mapping(sources: bool = False) -> str:
+    """The static public-framework mapping as Markdown, led by the statement every report
+    carries: one table per framework, or with ``sources=True`` the source documents they cite
+    (versions and URLs)."""
 
 def interference_map(
     source: str,

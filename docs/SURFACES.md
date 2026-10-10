@@ -23,6 +23,8 @@ actions that run the CLI), **Notebook** (`notebooks/`).
 | Interference map (ADS-B, AIS) | `interference-map adsb\|ais` | `interference_map::api` | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map`, skill `interference-map-route-exposure` | Build Interference Map | `interference-map-route-exposure` |
 | Route exposure | `route-exposure` | `interference_map::api::route_exposure` | `route_exposure` | `route_exposure` | `route_exposure` | same | Route Exposure | `interference-map-route-exposure` |
 | Signal K plugin and OpenCPN gate feed (`docs/MARINE-INTEGRATIONS.md`) | `integrations/`, `receiver-trust live --gate --listen` | **N/A** (processes) | **N/A** | **N/A** | **N/A** | how-to only: `/kshana-marine-integrations`, skill `marine-integrations` | **N/A** | **N/A** |
+| Compliance mapping from runs (which public-framework rows the runs support evidence for) | `compliance-report` | `compliance::assess_texts`, `surface::compliance_report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report`, skill `compliance-mapping` | CLI only | **N/A** |
+| Compliance mapping tables and sources | `compliance-report --mapping`, `--sources` | `compliance::mapping`, `surface::compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | same | CLI only | **N/A** |
 | Land-polygon download (`interference-map fetch-land`) | `--allow-network` | CLI code | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 
 ## Why the N/A cells are N/A
