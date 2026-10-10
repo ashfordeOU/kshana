@@ -29,5 +29,17 @@ int main(int argc, char** argv) {
   CHECK(!parse_pksht("$PKSHT,1,082640.00,54.9,U,W,cn0-spread:30.0/speed-log:14.8*58", t));
   CHECK(!parse_pksht("$GPGGA,082640.00,5432.46891,N,01846.38384,E,0,12,1.1,18.1,M,26.5,M,,*5A", t));
   CHECK(!parse_pksht("$PKSHT,1,082640.00,54.8,X,W,*00", t));
+  // out-of-range or non-numeric scores are rejected, the edges are accepted
+  auto mk = [](const std::string& score) {
+    std::string body = "PKSHT,1,080140.25," + score + ",U,W,";
+    unsigned cs = 0;
+    for (char ch : body) cs ^= (unsigned char)ch;
+    char buf[8];
+    std::snprintf(buf, sizeof buf, "%02X", cs);
+    return "$" + body + "*" + buf;
+  };
+  for (const char* bad : {"1e3", "101", "-5", "nan", "abc", "50x"}) CHECK(!parse_pksht(mk(bad), t));
+  CHECK(parse_pksht(mk("0.0"), t) && t.score == 0.0);
+  CHECK(parse_pksht(mk("100.0"), t) && t.score == 100.0);
   std::cout << "pksht ok: " << n << " sentences\n";
 }

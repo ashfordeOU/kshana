@@ -52,7 +52,14 @@ inline bool parse_pksht(const std::string& line, Trust& out) {
   if (gate.size() != 1 || std::string("-PW").find(gate[0]) == std::string::npos) return false;
   t.band = band[0];
   t.gate = gate[0];
-  if (!sc.empty()) { t.has_score = true; t.score = std::atof(sc.c_str()); }
+  if (!sc.empty()) {
+    // the score is 0 to 100 by definition: anything else (1e3, -5, NaN, text) is a malformed sentence, not a value to clamp
+    char* se = nullptr;
+    double v = std::strtod(sc.c_str(), &se);
+    if (*se != '\0' || !(v >= 0.0 && v <= 100.0)) return false;
+    t.has_score = true;
+    t.score = v;
+  }
   if (pos <= body.size()) {
     std::string rs = body.substr(pos);
     size_t p = 0;

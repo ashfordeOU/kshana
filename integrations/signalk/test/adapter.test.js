@@ -68,3 +68,17 @@ test('schema 1.1 position becomes a Signal K position object; absent or malforme
     longitude: 2
   })
 })
+
+test('out-of-range or non-numeric scores are rejected, not clamped', () => {
+  const base = JSON.parse(fx('trust-excerpt.jsonl')[10])
+  for (const bad of [1000, -1, 100.5, 'high']) assert.strictEqual(parseJsonLine(JSON.stringify({ ...base, score: bad })), null, String(bad))
+  assert.ok(parseJsonLine(JSON.stringify({ ...base, score: 0 })))
+  assert.ok(parseJsonLine(JSON.stringify({ ...base, score: 100 })))
+  const mk = (score) => {
+    const body = `PKSHT,1,080140.25,${score},U,W,`
+    return `$${body}*${nmeaChecksum(body)}`
+  }
+  for (const bad of ['1e3', '101', '-5', 'NaN']) assert.strictEqual(parsePksht(mk(bad)), null, bad)
+  assert.strictEqual(parsePksht(mk('100.0')).score, 100)
+  assert.strictEqual(parsePksht(mk('0.0')).score, 0)
+})
