@@ -94,4 +94,7 @@ assert.equal(signalName("galileo-e1"), "Galileo E1");
   assert.ok(SCENARIOS.length >= 139, `${SCENARIOS.length} scenarios`);
   assert.equal(templated, sentences, "every recorded scenario has a kind template");
 }
+// A scenario kind named like something a plain object inherits has no template, and nothing throws.
+for (const k of ["constructor", "__proto__", "toString", "hasOwnProperty", "valueOf"]) assert.doesNotThrow(() => plainMeaning({ kind: k }, `kind = "${k}"\n`), k);
+assert.equal(plainMeaning({ kind: "constructor" }, 'kind = "constructor"\n').generic, true, "it gets the generic sentence, not an inherited function's result");
 console.log("meaning.test.mjs: ok");

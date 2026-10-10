@@ -60,3 +60,15 @@ import { encodeFragment, decodeFragment } from "./share.mjs";
   assert.equal(chooseView("?view=simple", "advanced"), "simple");
 }
 console.log("urlstate.test.mjs: switch round trip ok");
+
+// The address names the screen; the other parameters kept are the documented ones, and nothing else.
+{
+  const before = Object.keys(Object.prototype).length;
+  const s = parseState("?__proto__=x&constructor=y&toString=z&hasOwnProperty=w&embed=1&theme=dark&play=1&unknown=1");
+  assert.deepEqual(s.extra, { embed: "1", theme: "dark", play: "1" });
+  assert.equal(Object.getPrototypeOf(s.extra), Object.prototype);
+  assert.equal(Object.keys(Object.prototype).length, before);
+  assert.equal(({}).embed, undefined);
+  assert.deepEqual(parseState("?scenario=x&__proto__=1").extra, {});
+}
+console.log("urlstate.test.mjs: documented parameters only ok");

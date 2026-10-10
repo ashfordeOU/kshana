@@ -62,6 +62,7 @@ use crate::batch_ls::{gauss_newton, gauss_newton_qr, LsqResult};
 use crate::fusion::ukf::inverse;
 use crate::lunar::mcmf_to_selenographic;
 use crate::lunar_vlbi::{beacon_inertial_position, geometric_delay_s, station_inertial_position};
+use crate::palette::chart::{AXIS, BG, CORAL, FONT_SANS, INK_2, LIME};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -1474,10 +1475,10 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
 
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"20\" font-size=\"15\" font-weight=\"bold\">Lunar joint OD + clock — station 3-D position error (VLBI restores observability)</text>"
@@ -1489,7 +1490,7 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
     // With-VLBI bar.
     let yw = yof(with);
     svg.push_str(&format!(
-        "<rect x=\"{x_with:.1}\" y=\"{yw:.1}\" width=\"{bar_w:.1}\" height=\"{:.1}\" fill=\"#7fbf7f\"/>",
+        "<rect x=\"{x_with:.1}\" y=\"{yw:.1}\" width=\"{bar_w:.1}\" height=\"{:.1}\" fill=\"{LIME}\"/>",
         (base_y - yw).max(0.0)
     ));
     svg.push_str(&format!(
@@ -1501,7 +1502,7 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
     // Without-VLBI bar.
     let ywo = yof(without);
     svg.push_str(&format!(
-        "<rect x=\"{x_without:.1}\" y=\"{ywo:.1}\" width=\"{bar_w:.1}\" height=\"{:.1}\" fill=\"#bf7f7f\"/>",
+        "<rect x=\"{x_without:.1}\" y=\"{ywo:.1}\" width=\"{bar_w:.1}\" height=\"{:.1}\" fill=\"{CORAL}\"/>",
         (base_y - ywo).max(0.0)
     ));
     svg.push_str(&format!(
@@ -1511,7 +1512,7 @@ pub fn lunar_combination_svg(r: &LunarCombinationReport) -> String {
         r.without_vlbi.station_pos_err_m
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{base_y:.0}\" x2=\"{:.0}\" y2=\"{base_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{base_y:.0}\" x2=\"{:.0}\" y2=\"{base_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str(&format!(

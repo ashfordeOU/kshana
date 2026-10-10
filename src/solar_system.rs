@@ -39,6 +39,7 @@ use crate::ephem::{
     Satellite, StandishTable,
 };
 use crate::ephem_provider::{AnalyticSolarSystem, EphemerisProvider};
+use crate::palette::chart::{AMBER, AXIS, CYAN, LIME, MUTED};
 use crate::radiometric::{light_time_solution, shapiro_delay, two_way_range};
 use crate::timescales::TwoPartJd;
 use serde::{Deserialize, Serialize};
@@ -692,7 +693,7 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
         let k = (pw / 2.0) / (extent_au * crate::ephem::AU_M);
         s.push_str(&crate::chart::panel_axes(x0, top, pw, top + pw, caption));
         s.push_str(&format!(
-            "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"4\" fill=\"#e0b050\"/>"
+            "<circle cx=\"{cx:.1}\" cy=\"{cy:.1}\" r=\"4\" fill=\"{AMBER}\"/>"
         ));
         for b in &r.bodies {
             if b.class == crate::body::BodyClass::Moon || b.name == "Sun" {
@@ -711,16 +712,12 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
                 })
                 .collect();
             s.push_str(&format!(
-                "<polygon points=\"{}\" fill=\"none\" stroke=\"#4a3f30\" stroke-width=\"1\"/>",
+                "<polygon points=\"{}\" fill=\"none\" stroke=\"{AXIS}\" stroke-width=\"1\"/>",
                 pts.join(" ")
             ));
             let e = icrf_to_ecliptic(b.position_m);
             let (px, py) = (cx + e[0] * k, cy - e[1] * k);
-            let colour = if b.label == "VALIDATED" {
-                "#7fc97f"
-            } else {
-                "#c79e63"
-            };
+            let colour = if b.label == "VALIDATED" { LIME } else { CYAN };
             s.push_str(&format!(
                 "<circle cx=\"{px:.1}\" cy=\"{py:.1}\" r=\"3.5\" fill=\"{colour}\"/>"
             ));
@@ -736,11 +733,11 @@ pub fn to_svg(r: &SolarSystemReport) -> String {
             }
         }
     }
-    s.push_str(
-        "<text x=\"40\" y=\"510\" font-size=\"10\" fill=\"#8a8172\">green: VALIDATED against \
+    s.push_str(&format!(
+        "<text x=\"40\" y=\"510\" font-size=\"10\" fill=\"{MUTED}\">green: VALIDATED against \
          JPL Horizons · amber: MODELLED · moons are listed in result.json with parent-centred \
-         tracks</text></svg>",
-    );
+         tracks</text></svg>"
+    ));
     s
 }
 

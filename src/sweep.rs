@@ -8,6 +8,7 @@
 //! is deterministic.
 
 use crate::fom::FoMScores;
+use crate::palette::chart::{AMBER, AXIS, BG, BLUE, CYAN, FONT_SANS, INK_2, LIME, MAGENTA};
 use crate::scenario::Scenario;
 use serde::{Deserialize, Serialize};
 
@@ -240,29 +241,32 @@ pub fn to_svg(result: &SweepResult) -> String {
     let axis_y = mt + ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">{} vs {} ({} scale)</text>",
-        ml, result.metric, result.parameter, result.scale
+        ml,
+        crate::chart::esc(&result.metric),
+        crate::chart::esc(&result.parameter),
+        crate::chart::esc(&result.scale)
     ));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, &result.metric));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
         line(&|p| p.classical)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"2\" points=\"{}\"/>",
         line(&|p| p.quantum)
     ));
     // x-axis endpoint labels.
@@ -283,14 +287,14 @@ pub fn to_svg(result: &SweepResult) -> String {
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
         h - 10.0,
-        result.parameter
+        crate::chart::esc(&result.parameter)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#d2925e\">classical</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#e0bd84\">quantum</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum</text>",
         ml + 10.0
     ));
     svg.push_str("</svg>");
@@ -810,21 +814,21 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
     let (w, h) = (820.0_f64, 420.0_f64);
     if result.shape.len() != 1 || result.points.is_empty() {
         let mut svg = String::new();
-        svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"13\" fill=\"#bcb3a3\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"));
+        svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"13\" fill=\"{INK_2}\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"));
         svg.push_str(&format!(
             "<text x=\"40\" y=\"40\" font-size=\"15\" font-weight=\"bold\">{}-D sweep of `{}` — {} nodes</text>",
             result.shape.len(),
-            result.kind,
+            crate::chart::esc(&result.kind),
             result.points.len()
         ));
         svg.push_str(&format!(
             "<text x=\"40\" y=\"66\">axes: {} (shape {:?})</text>",
-            result.keys.join(" × "),
+            crate::chart::esc(&result.keys.join(" × ")),
             result.shape
         ));
         svg.push_str(&format!(
             "<text x=\"40\" y=\"88\">metrics: {} — full grid in JSON</text>",
-            result.metrics.join(", ")
+            crate::chart::esc(&result.metrics.join(", "))
         ));
         svg.push_str("</svg>");
         return svg;
@@ -847,16 +851,17 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
     let xof = |i: usize| ml + (i as f64 / (n - 1) as f64) * pw;
     let yof = |v: f64| mt + ph - (finite(v).min(y_max) / y_max) * ph;
     let axis_y = mt + ph;
-    let palette = ["#e0bd84", "#d2925e", "#46b67e", "#d2b35e", "#6e7a8a"];
+    let palette = [CYAN, AMBER, LIME, MAGENTA, BLUE];
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\"><rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">sweep of `{}` over {}</text>",
-        result.kind, result.keys[0]
+        crate::chart::esc(&result.kind),
+        crate::chart::esc(&result.keys[0])
     ));
     svg.push_str(&crate::chart::y_axis(ml, mt, pw, ph, y_max, "metric"));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/><line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     for (mi, mname) in result.metrics.iter().enumerate() {
@@ -890,7 +895,7 @@ pub fn generic_to_svg(result: &GenericNdSweepResult) -> String {
         "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"middle\">{}</text>",
         ml + pw / 2.0,
         h - 10.0,
-        result.keys[0]
+        crate::chart::esc(&result.keys[0])
     ));
     svg.push_str("</svg>");
     svg

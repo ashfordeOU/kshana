@@ -11,6 +11,8 @@ import { createHash } from "node:crypto";
 import { fileURLToPath } from "node:url";
 import { join, dirname, posix } from "node:path";
 import assert from "node:assert/strict";
+import { lfsPointers } from "./tools/lfs-pointer.mjs";
+import { inlineJsonProblems } from "./tools/inline-json.mjs";
 
 const WEB = dirname(fileURLToPath(import.meta.url));
 const REPO = dirname(WEB);
@@ -43,6 +45,11 @@ for (const rel of VIEWS) {
 const linkDir = (rel, html) => { const b = html.match(/<base\s+href="([^"]*)"/); return b ? posix.normalize(posix.join(posix.dirname(rel), b[1])) : posix.dirname(rel); };
 assert.ok(ported.length > 100, `the manifest lists only ${ported.length} files`);
 assert.ok(pages.length > 20, `only ${pages.length} pages in the manifest`);
+
+// ---- 0. No Git LFS pointer anywhere under web/. A port from a site-source checkout that never
+// ran `git lfs pull` copies ~130-byte pointer files in place of the Studio's WebAssembly
+// package, its recordings and its images, and the manifest SHAs below would still match.
+assert.deepEqual(lfsPointers(WEB), [], "Git LFS pointer files under web/ instead of the files they point to: run `git lfs pull` in the site source and port again");
 
 // ---- 1. The tree is exactly what the port wrote, plus the files web/ owns.
 for (const rel of ported) {
@@ -120,6 +127,12 @@ const studioScenarioNames = new Set(allStudioTomls.map((rel) => rel.split("/").p
 const bundle = JSON.parse(text("studio/scenarios/index.json"));
 assert.deepEqual(Object.keys(bundle).sort(), studioTomls, "studio/scenarios/index.json bundles exactly the scenario files beside it");
 for (const f of studioTomls) assert.equal(bundle[f], text(`studio/scenarios/${f}`), `index.json's ${f} is the file's text`);
+
+// ---- 4b. The data each page carries inline parses, and none of it shows the signature of an
+// unescaped version-bump regex (the 0.32.0 home page shipped a corrupt `kpage` block that way:
+// see web/tools/inline-json.mjs).
+const inlineProblems = ported.filter((rel) => rel.endsWith(".html") && !rel.startsWith("assets/")).flatMap((rel) => inlineJsonProblems(text(rel), rel));
+assert.deepEqual(inlineProblems, [], `inline JSON is corrupt:\n${inlineProblems.join("\n")}`);
 
 // ---- 5. Every internal link on every page resolves: the file is there, and so is the anchor.
 const idsOf = new Map();

@@ -51,16 +51,18 @@ fn render(version: &str, items: &[VerificationItem]) -> String {
     let mut h = String::new();
     h.push_str("<!DOCTYPE html>\n<html lang=\"en\"><head><meta charset=\"utf-8\">\n");
     h.push_str("<title>Kshana validation summary</title>\n<style>\n");
-    h.push_str(
-        "body{font:14px/1.5 -apple-system,Segoe UI,Roboto,sans-serif;color:#1a1a1a;\
-         max-width:64rem;margin:2rem auto;padding:0 1rem}\
-         h1{font-size:1.5rem;margin:0 0 .25rem}.sub{color:#555;margin:0 0 1.5rem}\
-         table{border-collapse:collapse;width:100%}th,td{border:1px solid #ddd;\
-         padding:.5rem .6rem;text-align:left;vertical-align:top}\
-         th{background:#f5f3ee}code{font-size:.85em}.ok{color:#1a7f37;font-weight:600}\
-         footer{margin-top:1.5rem;color:#777;font-size:.85em}\
-         @media print{body{margin:0;max-width:none}a{color:inherit;text-decoration:none}}\n",
-    );
+    h.push_str(&kshana::palette::page_css());
+    h.push_str(&format!(
+        "body{{font:14px/1.5 {};background:var(--bg);color:var(--fg);\
+         max-width:64rem;margin:2rem auto;padding:0 1rem}}\
+         h1{{font-size:1.5rem;margin:0 0 .25rem}}.sub{{color:var(--muted);margin:0 0 1.5rem}}\
+         table{{border-collapse:collapse;width:100%}}th,td{{border:1px solid var(--line);\
+         padding:.5rem .6rem;text-align:left;vertical-align:top}}\
+         th{{background:var(--card)}}code{{font-size:.85em}}.ok{{color:var(--val);font-weight:600}}\
+         footer{{margin-top:1.5rem;color:var(--muted);font-size:.85em}}\
+         @media print{{body{{margin:0;max-width:none}}a{{color:inherit;text-decoration:none}}}}\n",
+        kshana::palette::chart::FONT_SANS
+    ));
     h.push_str("</style></head><body>\n");
     h.push_str(&format!(
         "<h1>Kshana validation summary <span class=\"ok\">{version}</span></h1>\n"

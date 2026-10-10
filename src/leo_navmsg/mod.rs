@@ -29,6 +29,7 @@
 //! the truth trajectory and clock it was fitted to. Orbit determination and orbit
 //! prediction error, which a real ground or on-board segment adds, are not modelled.
 
+use crate::palette::chart::{AMBER, CORAL, CYAN, GRID, MAGENTA, MUTED};
 pub mod codec;
 pub mod elements;
 pub mod fit;
@@ -1503,7 +1504,7 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
     while e <= ymax + 1e-9 {
         let y = yp(10f64.ppowf(e));
         s.push_str(&format!(
-            "<line x1=\"{ml}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"#262019\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"#8c8273\">1e{e:.0}</text>",
+            "<line x1=\"{ml}\" y1=\"{y:.1}\" x2=\"{:.0}\" y2=\"{y:.1}\" stroke=\"{GRID}\"/><text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"11\" fill=\"{MUTED}\">1e{e:.0}</text>",
             ml + pw,
             ml - 6.0,
             y + 4.0
@@ -1512,12 +1513,12 @@ fn to_svg(res: &Resolved, rows: &[TradeRow], doc: &Value) -> String {
     }
     for &x in &xs {
         s.push_str(&format!(
-            "<text x=\"{:.1}\" y=\"{:.0}\" text-anchor=\"middle\" font-size=\"11\" fill=\"#8c8273\">{x:.0}</text>",
+            "<text x=\"{:.1}\" y=\"{:.0}\" text-anchor=\"middle\" font-size=\"11\" fill=\"{MUTED}\">{x:.0}</text>",
             xp(x),
             mt + ph + 16.0
         ));
     }
-    let colours = ["#e0a458", "#6fb1a0", "#b58bd6", "#d86f6f"];
+    let colours = [AMBER, CYAN, MAGENTA, CORAL];
     let mut models: Vec<&str> = Vec::new();
     for r in rows {
         if !models.contains(&r.model.as_str()) {

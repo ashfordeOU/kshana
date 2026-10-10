@@ -23,6 +23,13 @@
 #   tools/render-diagram.sh system-overview        # keep the current PNG width
 #   tools/render-diagram.sh system-overview 3200   # render at a new width
 #
+# THE SVG ITSELF comes from mermaid-cli with the tracked, palette-generated config, on the
+# palette's chart ground (both from src/palette.rs; see tests/palette_sync.rs):
+#   mmdc -c docs/diagrams/mermaid-config.json -b "$(python3 -c 'import json;print(json.load(open("docs/assets/palette.json"))["dark"]["bg"])')" \
+#        -i docs/diagrams/<name>.mmd -o docs/assets/diagrams/<name>.svg
+# The config draws native SVG <text> labels, so every diagram renders here. Install the
+# Geist fonts from tools/readme-fonts first so the layout and the raster use the same face.
+#
 # Requires rsvg-convert (brew install librsvg).
 
 set -euo pipefail
@@ -95,7 +102,10 @@ if [ -z "$WIDTH" ] && [ -f "$PNG" ]; then
 fi
 WIDTH="${WIDTH:-2400}"
 
-rsvg-convert -w "$WIDTH" "$SVG" -o "$PNG"
+# The PNG is opaque on the palette's chart ground (rsvg-convert ignores the SVG's CSS
+# background-color, which browsers honour).
+GROUND="$(python3 -c 'import json,sys;print(json.load(open(sys.argv[1]))["dark"]["bg"])' "$ROOT/docs/assets/palette.json")"
+rsvg-convert -b "$GROUND" -w "$WIDTH" "$SVG" -o "$PNG"
 echo "  rendered $NAME.png at ${WIDTH}px wide"
 
 python3 - "$DIR" "$NAME" <<'PY'

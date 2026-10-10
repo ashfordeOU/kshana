@@ -83,7 +83,7 @@ main:focus{outline:none}
 .map-fig{margin:0;position:relative;min-width:0}
 .map-box{border-radius:14px;overflow:hidden;background:var(--space-2);aspect-ratio:2/1}
 .map-box svg{display:block;width:100%;height:auto}
-.clock{position:absolute;top:8px;right:10px;padding:3px 8px;border-radius:999px;background:rgba(5,6,12,.62);color:var(--space-ink-2);font-family:var(--f-mono);font-size:11px}
+.clock{position:absolute;top:8px;right:10px;padding:3px 8px;border-radius:999px;background:rgba(6,10,20,.62);color:var(--space-ink-2);font-family:var(--f-mono);font-size:11px}
 .clock:empty{display:none}
 .map-fig figcaption{display:flex;flex-wrap:wrap;align-items:center;gap:8px 18px;margin-top:10px;font-size:12px;color:var(--space-ink-3)}
 .ramp-l{display:inline-flex;align-items:center;gap:8px}
@@ -227,7 +227,7 @@ main:focus{outline:none}
 .card.transport.has-max-btn>.card-head{padding-right:0}
 .card.is-max{position:fixed;inset:12px;z-index:90;overflow:auto;margin:0;grid-column:auto!important;box-shadow:var(--sh-3)}
 body.has-max{overflow:hidden}
-body.has-max::after{content:"";position:fixed;inset:0;background:rgba(5,6,12,.6);z-index:85}
+body.has-max::after{content:"";position:fixed;inset:0;background:rgba(6,10,20,.6);z-index:85}
 .card.is-max .chart-box svg.chart{max-height:calc(100dvh - 190px)}
 
 /* the side panel: settings, then three collapsed sections */

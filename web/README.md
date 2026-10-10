@@ -70,7 +70,8 @@ an existing package instead of compiling one. The Pages workflow never uses that
 
 ```sh
 node web/smoke.mjs                 # the WASM bindings (needs web/pkg)
-node web/site.test.mjs             # the ported tree: manifest, version, counts, links
+node web/site.test.mjs             # the ported tree: manifest, version, counts, links, inline JSON
+node web/tools/inline-json.test.mjs  # the guard for corrupt inline page data (an unescaped version bump)
 node web/legacy-urls.test.mjs      # every old kshana.dev address still resolves
 for f in web/studio/lib/*.test.mjs; do node "$f"; done   # the Studio's modules
 ```

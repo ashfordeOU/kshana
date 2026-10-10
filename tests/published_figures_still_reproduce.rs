@@ -76,6 +76,40 @@ fn without_version_stamp(svg: &str) -> String {
     format!("{}Kshana vX.Y.Z{}", &svg[..at], &svg[end..])
 }
 
+/// Replace every colour and font-family value with a placeholder.
+///
+/// A deliberate palette revision (the 0.33 move to the site's Observatory theme) changes
+/// every chart's bytes while every coordinate, label and plotted value stays put. This
+/// normaliser lets the guard say so, and lets the revision prove it: two charts equal
+/// under it differ in paint and type only.
+fn without_paint(svg: &str) -> String {
+    let b = svg.as_bytes();
+    let mut out = String::with_capacity(svg.len());
+    let mut i = 0;
+    while i < b.len() {
+        if b[i] == b'#'
+            && i + 7 <= b.len()
+            && b[i + 1..i + 7].iter().all(u8::is_ascii_hexdigit)
+            && !b.get(i + 7).is_some_and(u8::is_ascii_hexdigit)
+        {
+            out.push_str("#PAINT");
+            i += 7;
+            continue;
+        }
+        if svg[i..].starts_with("font-family=\"") {
+            let start = i + "font-family=\"".len();
+            let end = svg[start..].find('"').map_or(svg.len(), |o| start + o);
+            out.push_str("font-family=\"FONT");
+            i = end;
+            continue;
+        }
+        let c = svg[i..].chars().next().expect("in bounds");
+        out.push(c);
+        i += c.len_utf8();
+    }
+    out
+}
+
 #[test]
 fn every_readme_demo_chart_is_what_the_engine_emits_today() {
     for (toml, chart) in DEMO_CHARTS {
@@ -86,9 +120,15 @@ fn every_readme_demo_chart_is_what_the_engine_emits_today() {
             continue;
         }
         let only_the_stamp = without_version_stamp(&committed) == without_version_stamp(&out.svg);
+        let only_the_paint = without_paint(&without_version_stamp(&committed))
+            == without_paint(&without_version_stamp(&out.svg));
         let diagnosis = if only_the_stamp {
             "ONLY the engine-version stamp in the footer moved — every plotted value is \
              identical. This is the routine release re-render."
+        } else if only_the_paint {
+            "ONLY colours and fonts moved (and perhaps the version stamp) — every coordinate, \
+             label and plotted value is identical. This is a palette revision (src/palette.rs); \
+             re-render if the revision is intended."
         } else {
             "a PLOTTED VALUE moved, not just the version stamp. Work out what changed in \
              the engine and whether it is intended BEFORE re-rendering; this figure is \
@@ -99,6 +139,28 @@ fn every_readme_demo_chart_is_what_the_engine_emits_today() {
              `cargo run -- {toml}` and copy the emitted .chart.svg over {chart}."
         );
     }
+}
+
+#[test]
+fn the_paint_normaliser_hides_colours_and_fonts_and_nothing_else() {
+    let a = "<rect fill=\"#0c0b08\"/><text font-family=\"sans-serif\">1.5</text>";
+    let b = "<rect fill=\"#060A14\"/><text font-family=\"Geist, sans-serif\">1.5</text>";
+    let moved = "<rect fill=\"#060A14\"/><text font-family=\"Geist\">1.6</text>";
+    assert_eq!(
+        without_paint(a),
+        without_paint(b),
+        "a repaint must normalise equal"
+    );
+    assert_ne!(
+        without_paint(a),
+        without_paint(moved),
+        "a moved value must not hide behind a repaint"
+    );
+    assert_eq!(
+        without_paint("x=\"#12\" id=\"#abcdef0\""),
+        "x=\"#12\" id=\"#abcdef0\"",
+        "only whole six-digit colours are paint"
+    );
 }
 
 #[test]

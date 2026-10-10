@@ -70,3 +70,24 @@
   --tim:#6A98FF;
 }
 :root[data-theme="light"]{color-scheme:light}
+/* Observatory mapping of the shared tokens.css names (2026-10-07). Sections built before the
+   Observatory rebuild style themselves with the tokens.css palette: the six failure-domain
+   colours, the dark "space" panels and the series colours drawn on them. Pointing those names at
+   the Observatory values here brings every such section onto this theme without touching its
+   rules, and the Studio (which loads this file too) follows the same way.
+   Instrument-dark: --space* are the dark panels that stay dark in both themes (charts, consoles,
+   terminals); they take the Observatory dark ground, ink and line. Series (--s-*) sit on those
+   panels, so they take the bright (dark-theme) accents in both themes. Domain colours take the
+   accent of their family: interference coral, spoofing magenta, timing blue (--tim, kept),
+   orbits cyan, integrity lime, navigation amber. */
+:root{
+  --space:#060A14; --space-2:#0A1122; --space-3:#0E1730;
+  --space-ink:#EAF0FF; --space-ink-2:#A7B4D2; --space-ink-3:#8190B0; --space-line:rgba(150,175,230,.14);
+  --s-int:#FF6A5C; --s-spf:#F45CCB; --s-tim:#6A98FF; --s-orb:#3DDCF7; --s-itg:#A8EE5E; --s-nav:#FFB547;
+  --int-card:#FF6A5C; --spf-card:#F45CCB; --tim-card:#6A98FF; --orb-card:#3DDCF7; --itg-card:#A8EE5E; --nav-card:#FFB547;
+  --int:var(--coral); --spf:var(--magenta); --orb:var(--cyan); --itg:var(--lime); --nav:var(--amber);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){--int:var(--coral); --spf:var(--magenta); --orb:var(--cyan); --itg:var(--lime); --nav:var(--amber)}
+}
+:root[data-theme="dark"]{--int:var(--coral); --spf:var(--magenta); --orb:var(--cyan); --itg:var(--lime); --nav:var(--amber)}

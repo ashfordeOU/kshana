@@ -5,6 +5,7 @@ use crate::estimator::HoldoverEstimator;
 use crate::inertial::{AccelCfg, AccelModel};
 use crate::kalman::KalmanClock;
 use crate::models::{ClockModel, ErrorModel};
+use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 use crate::run::{PHASE_MEAS_VAR_S2, PROTECTION_K};
 use crate::scenario::{ClockCfg, GnssState, GnssTimeline, TimeCfg};
 use crate::security::{spoof_detection_score, SPOOF_DETECT_K, SPOOF_MONITOR_S};
@@ -549,9 +550,9 @@ pub fn to_svg(result: &HybridResult) -> String {
     let thr_y = yof(1.0);
     let axis_y = mt + ph;
     let mut svg = String::new();
-    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"));
+    svg.push_str(&format!("<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!("<text x=\"{:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Hybrid PNT spec utilization during GNSS outage (1.0 = spec)</text>", ml));
     svg.push_str(&crate::chart::y_axis(
@@ -563,24 +564,24 @@ pub fn to_svg(result: &HybridResult) -> String {
         "spec utilization",
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
-    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"6 4\"/>", ml + pw));
+    svg.push_str(&format!("<line x1=\"{ml:.0}\" y1=\"{thr_y:.1}\" x2=\"{:.0}\" y2=\"{thr_y:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"6 4\"/>", ml + pw));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"#e5645a\">spec (1.0)</text>",
+        "<text x=\"{:.0}\" y=\"{:.1}\" fill=\"{CORAL}\">spec (1.0)</text>",
         ml + 4.0,
         thr_y - 4.0
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#d2925e\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"2\" points=\"{}\"/>",
         points(c)
     ));
     svg.push_str(&format!(
-        "<polyline fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\" points=\"{}\"/>",
+        "<polyline fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"2\" points=\"{}\"/>",
         points(q)
     ));
     svg.push_str(&format!(
@@ -589,11 +590,11 @@ pub fn to_svg(result: &HybridResult) -> String {
         h - 12.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"44\" fill=\"#d2925e\">classical suite</text>",
+        "<text x=\"{:.0}\" y=\"44\" fill=\"{AMBER}\">classical suite</text>",
         ml + 10.0
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.0}\" y=\"60\" fill=\"#e0bd84\">quantum suite</text>",
+        "<text x=\"{:.0}\" y=\"60\" fill=\"{CYAN}\">quantum suite</text>",
         ml + 10.0
     ));
     svg.push_str("</svg>");

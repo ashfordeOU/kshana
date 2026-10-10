@@ -73,6 +73,7 @@ use crate::cr3bp::{
     propagate_cr3bp, Cr3bpState, EARTH_MOON_DIST_KM, EARTH_MOON_MU, SIDEREAL_MONTH_DAYS,
 };
 use crate::intersat_range::{intersat_range_rate_spatial, intersat_range_spatial, SpatialState};
+use crate::palette::chart::{AMBER, AXIS, BG, FONT_SANS, INK_2, INK_4, MAGENTA, MUTED};
 use rand::SeedableRng;
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -1223,16 +1224,16 @@ fn svg(c: &Computed) -> String {
     let mut s = String::new();
     s.push_str(&format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" \
-         font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+         font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     s.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     s.push_str(
         "<text x=\"24\" y=\"24\" font-size=\"15\" font-weight=\"bold\">Cislunar arc-length recovery — an estimator that does not share the Jacobians</text>",
     );
     s.push_str(
-        "<text x=\"24\" y=\"40\" font-size=\"11\" fill=\"#8a8172\">finite-difference batch least squares · measured state recovery error · no analytic Jacobian, no variational STM, no SVD rank tolerance</text>",
+        &format!("<text x=\"24\" y=\"40\" font-size=\"11\" fill=\"{MUTED}\">finite-difference batch least squares · measured state recovery error · no analytic Jacobian, no variational STM, no SVD rank tolerance</text>"),
     );
 
     let log_panel = |s: &mut String,
@@ -1245,14 +1246,14 @@ fn svg(c: &Computed) -> String {
         let (px, py, pw, ph) = (x0, 80.0_f64, 360.0_f64, 290.0_f64);
         let axis_y = py + ph;
         s.push_str(&format!(
-            "<text x=\"{px:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"#8a8172\">{title}</text>",
+            "<text x=\"{px:.0}\" y=\"{:.0}\" font-size=\"12\" fill=\"{MUTED}\">{title}</text>",
             py - 8.0
         ));
         s.push_str(&format!(
-            "<line x1=\"{px:.0}\" y1=\"{py:.0}\" x2=\"{px:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+            "<line x1=\"{px:.0}\" y1=\"{py:.0}\" x2=\"{px:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
         ));
         s.push_str(&format!(
-            "<line x1=\"{px:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+            "<line x1=\"{px:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
             px + pw
         ));
         let finite: Vec<(f64, f64)> = vals
@@ -1278,21 +1279,21 @@ fn svg(c: &Computed) -> String {
         // bound line
         let by = yof(bound);
         s.push_str(&format!(
-            "<line x1=\"{px:.0}\" y1=\"{by:.1}\" x2=\"{:.0}\" y2=\"{by:.1}\" stroke=\"#6b5b34\" stroke-dasharray=\"5 4\"/>",
+            "<line x1=\"{px:.0}\" y1=\"{by:.1}\" x2=\"{:.0}\" y2=\"{by:.1}\" stroke=\"{INK_4}\" stroke-dasharray=\"5 4\"/>",
             px + pw
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"#6b5b34\">bound {bound:.3e}</text>",
+            "<text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">bound {bound:.3e}</text>",
             px + pw,
             by - 4.0
         ));
         if let Some(mk) = marker {
             let mx = xof(mk);
             s.push_str(&format!(
-                "<line x1=\"{mx:.1}\" y1=\"{py:.0}\" x2=\"{mx:.1}\" y2=\"{axis_y:.0}\" stroke=\"#8a5a3a\" stroke-dasharray=\"3 4\"/>"
+                "<line x1=\"{mx:.1}\" y1=\"{py:.0}\" x2=\"{mx:.1}\" y2=\"{axis_y:.0}\" stroke=\"{MAGENTA}\" stroke-dasharray=\"3 4\"/>"
             ));
             s.push_str(&format!(
-                "<text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"#8a5a3a\">{marker_label}</text>",
+                "<text x=\"{:.1}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MAGENTA}\">{marker_label}</text>",
                 mx + 4.0,
                 py + 12.0
             ));
@@ -1308,22 +1309,22 @@ fn svg(c: &Computed) -> String {
         }
         if !path.is_empty() {
             s.push_str(&format!(
-                "<path d=\"{path}\" fill=\"none\" stroke=\"#d9a441\" stroke-width=\"1.6\"/>"
+                "<path d=\"{path}\" fill=\"none\" stroke=\"{AMBER}\" stroke-width=\"1.6\"/>"
             ));
         }
         for &(t, v) in &finite {
             s.push_str(&format!(
-                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"2.2\" fill=\"#d9a441\"/>",
+                "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"2.2\" fill=\"{AMBER}\"/>",
                 xof(t),
                 yof(v)
             ));
         }
         s.push_str(&format!(
-            "<text x=\"{px:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"#6b6355\">0 h</text>",
+            "<text x=\"{px:.0}\" y=\"{:.0}\" font-size=\"10\" fill=\"{MUTED}\">0 h</text>",
             axis_y + 16.0
         ));
         s.push_str(&format!(
-            "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-size=\"10\" fill=\"#6b6355\">{tmax:.2} h</text>",
+            "<text x=\"{:.0}\" y=\"{:.0}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{tmax:.2} h</text>",
             px + pw,
             axis_y + 16.0
         ));

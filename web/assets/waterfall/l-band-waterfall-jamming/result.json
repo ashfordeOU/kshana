@@ -72,7 +72,7 @@
     }
   ],
   "duration_s": 60.0,
-  "engine_version": "0.31.0",
+  "engine_version": "0.33.0",
   "iq": {
     "centre_hz": 1575420000.0,
     "comparison": {
@@ -619,7 +619,7 @@
         "global": {
           "core:datatype": "cf32_le",
           "core:description": "kshana spectrum model snapshot (synthetic)",
-          "core:recorder": "kshana 0.31.0",
+          "core:recorder": "kshana 0.33.0",
           "core:sample_rate": 20480000.0,
           "core:version": "1.0.0"
         }
@@ -896,16 +896,16 @@
       "per_band": [
         {
           "band": "gps-l1ca",
-          "cn0_effective_dbhz": 3.3804574607654065,
+          "cn0_effective_dbhz": 3.3804574607654074,
           "in_band_power_fraction": 0.127875,
           "js_db": 69.10428968714419,
           "js_in_band_db": 60.17214615434635,
-          "q": 17.323736748346366,
+          "q": 17.32373674834637,
           "ssc_db_per_hz": -72.48517209277401
         },
         {
           "band": "galileo-e1",
-          "cn0_effective_dbhz": 4.69395264279136,
+          "cn0_effective_dbhz": 4.693952642791359,
           "in_band_power_fraction": 0.895125,
           "js_db": 67.60428968714419,
           "js_in_band_db": 67.12312655448892,
@@ -956,7 +956,7 @@
       "per_band": [
         {
           "band": "gps-l1ca",
-          "cn0_effective_dbhz": 17.982189480421333,
+          "cn0_effective_dbhz": 17.982189480421336,
           "in_band_power_fraction": 1.0,
           "js_db": 42.10428968714419,
           "js_in_band_db": 42.10428968714419,
@@ -1071,9 +1071,9 @@
     {
       "abs_difference_db": 4.440892098500626e-16,
       "band": "gps-l1ca",
-      "cn0_jamming_kind_q_from_ssc_dbhz": 3.380457460765407,
-      "cn0_jamming_kind_table_q_dbhz": -9.005557880784098,
-      "cn0_spectrum_dbhz": 3.3804574607654065,
+      "cn0_jamming_kind_q_from_ssc_dbhz": 3.380457460765408,
+      "cn0_jamming_kind_table_q_dbhz": -9.0055578807841,
+      "cn0_spectrum_dbhz": 3.3804574607654074,
       "jammer": "chirp privacy device",
       "jamming_kind_table_q": 1.0,
       "js_jamming_kind_db": 69.10428968714419,
@@ -1082,9 +1082,9 @@
     {
       "abs_difference_db": 0.0,
       "band": "galileo-e1",
-      "cn0_jamming_kind_q_from_ssc_dbhz": 4.69395264279136,
+      "cn0_jamming_kind_q_from_ssc_dbhz": 4.693952642791359,
       "cn0_jamming_kind_table_q_dbhz": -7.505557880784104,
-      "cn0_spectrum_dbhz": 4.69395264279136,
+      "cn0_spectrum_dbhz": 4.693952642791359,
       "jammer": "chirp privacy device",
       "jamming_kind_table_q": 1.0,
       "js_jamming_kind_db": 67.60428968714419,
@@ -1093,11 +1093,11 @@
     {
       "abs_difference_db": 0.0,
       "band": "gps-l1ca",
-      "cn0_jamming_kind_q_from_ssc_dbhz": 17.982189480421333,
-      "cn0_jamming_kind_table_q_dbhz": 19.736976476698224,
-      "cn0_spectrum_dbhz": 17.982189480421333,
+      "cn0_jamming_kind_q_from_ssc_dbhz": 17.982189480421336,
+      "cn0_jamming_kind_table_q_dbhz": 17.982189480421336,
+      "cn0_spectrum_dbhz": 17.982189480421336,
       "jammer": "CW tone on L1",
-      "jamming_kind_table_q": 1.5,
+      "jamming_kind_table_q": 1.0,
       "js_jamming_kind_db": 42.10428968714419,
       "js_spectrum_db": 42.10428968714419
     }
@@ -1254,7 +1254,7 @@
           42.1,
           42.1
         ],
-        "min_cn0_dbhz": 3.2328586592106117,
+        "min_cn0_dbhz": 3.232858659210613,
         "min_cn0_t_s": 31.0,
         "name": "gps-l1ca",
         "status": [

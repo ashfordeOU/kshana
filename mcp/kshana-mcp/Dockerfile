@@ -49,7 +49,10 @@ LABEL org.opencontainers.image.licenses="AGPL-3.0-only"
 
 COPY --from=build /src/mcp/kshana-mcp/target/release/kshana-mcp /usr/local/bin/kshana-mcp
 
-# Run as an unprivileged user; the server needs no filesystem or network access.
+# Run as an unprivileged user; the server needs no network access, and touches the
+# filesystem only for the GNSS IQ tools, inside the folder KSHANA_MCP_IQ_DIR names (unset by
+# default, which leaves those tools off). To enable them, mount a volume and point the
+# variable at it: `docker run --rm -i -v "$PWD/iq:/iq" -e KSHANA_MCP_IQ_DIR=/iq ...`.
 RUN useradd --create-home --uid 10001 kshana
 USER kshana
 

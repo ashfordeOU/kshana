@@ -45,6 +45,7 @@ use crate::lunar::{
     mci_to_mcmf, selenographic_to_mcmf, Selenographic, LUNAR_SIGMA_URE_M, MOON_GM_M3_S2, R_MOON_M,
 };
 use crate::orbit::Dop;
+use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 use crate::raim::IntegrityBudget;
 use serde::{Deserialize, Serialize};
 
@@ -2562,10 +2563,10 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
     let yof = |v: f64| mt + ph - (v.min(y_max) / y_max) * ph;
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar service volume — {} sats, {} pts × {} epochs: {:.1}% coverage (PDOP&lt;{:.1})</text>",
@@ -2577,7 +2578,7 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
     ));
     // PDOP threshold line.
     svg.push_str(&format!(
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"4 3\"/>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"4 3\"/>",
         ml,
         yof(r.pdop_threshold),
         ml + pw,
@@ -2589,7 +2590,7 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
         let y = yof(*v);
         let bh = (mt + ph) - y;
         svg.push_str(&format!(
-            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bar_w:.1}\" height=\"{bh:.1}\" fill=\"#e0bd84\"/>"
+            "<rect x=\"{x:.1}\" y=\"{y:.1}\" width=\"{bar_w:.1}\" height=\"{bh:.1}\" fill=\"{CYAN}\"/>"
         ));
         svg.push_str(&format!(
             "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"11\" text-anchor=\"middle\">{} {:.2}</text>",
@@ -2601,10 +2602,10 @@ pub fn lunar_service_svg(r: &LunarServiceReport) -> String {
     }
     let axis_y = mt + ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str("</svg>");

@@ -55,6 +55,9 @@ use crate::leo_link::itu::{
 };
 use crate::leo_link::presets::{self, gnss_meo, BandPreset, SystemPreset};
 use crate::leo_link::{cn0_dbhz, fspl_db, iono, system_noise_temperature_k, RE_EARTH};
+use crate::palette::chart::{
+    AMBER, AXIS, BLUE, CORAL, CYAN, GRID, INK_2, INK_3, INK_4, LIME, MAGENTA, MUTED,
+};
 use serde::{Deserialize, Serialize};
 
 /// Mean Earth radius for the pattern geometry and the Doppler envelope (m), the value the
@@ -3376,9 +3379,7 @@ pub fn summary(r: &LeoPassReport) -> String {
     s
 }
 
-const COLOURS: [&str; 8] = [
-    "#c79e63", "#5b7fa6", "#7fa65b", "#a65b7f", "#5ba6a0", "#d0c060", "#b07050", "#8080d0",
-];
+const COLOURS: [&str; 8] = [CYAN, BLUE, LIME, MAGENTA, INK_2, AMBER, CORAL, INK_3];
 
 /// Two panels over time: C/N0 of every band of the first LEO satellite with the GNSS carriers
 /// in grey, and the Doppler of each LEO satellite's first band.
@@ -3407,8 +3408,8 @@ pub fn to_svg(r: &LeoPassReport) -> String {
     ));
     for v in [30.0, 40.0, 50.0, 60.0, 70.0] {
         s.push_str(&format!(
-            "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"#262019\"/>\
-             <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"#8c8273\">{v:.0}</text>",
+            "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"{GRID}\"/>\
+             <text x=\"{:.0}\" y=\"{:.1}\" text-anchor=\"end\" font-size=\"10\" fill=\"{MUTED}\">{v:.0}</text>",
             y1(v),
             ml + pw,
             y1(v),
@@ -3425,7 +3426,7 @@ pub fn to_svg(r: &LeoPassReport) -> String {
                 .collect();
             if pts.len() > 1 {
                 s.push_str(&format!(
-                    "<polyline fill=\"none\" stroke=\"#6b6458\" stroke-width=\"1\" points=\"{}\"/>",
+                    "<polyline fill=\"none\" stroke=\"{INK_4}\" stroke-width=\"1\" points=\"{}\"/>",
                     pts.join(" ")
                 ));
             }
@@ -3473,7 +3474,7 @@ pub fn to_svg(r: &LeoPassReport) -> String {
         ),
     ));
     s.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{:.1}\" x2=\"{:.0}\" y2=\"{:.1}\" stroke=\"{AXIS}\"/>",
         top2 + ph2 / 2.0,
         ml + pw,
         top2 + ph2 / 2.0
@@ -3494,7 +3495,7 @@ pub fn to_svg(r: &LeoPassReport) -> String {
         }
     }
     s.push_str(&format!(
-        "<text x=\"{ml:.0}\" y=\"505\" font-size=\"10\" fill=\"#8a8172\">time since epoch, 0 to {:.0} s</text></svg>",
+        "<text x=\"{ml:.0}\" y=\"505\" font-size=\"10\" fill=\"{MUTED}\">time since epoch, 0 to {:.0} s</text></svg>",
         r.duration_s
     ));
     s

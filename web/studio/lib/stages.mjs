@@ -6,6 +6,7 @@
 // number drawn is read from that document; the scale a drawing uses (square-root distance,
 // colour ramp) is stated in its labels. Tested in stages.test.mjs against real engine output.
 import { esc, fmt, niceTicks, heat, humanKey, SERIES_COLORS } from "./views.mjs";
+import { own } from "./own.mjs";
 
 const isNum = (x) => typeof x === "number" && Number.isFinite(x);
 const AU_M = 149597870700; // the astronomical unit, exact by definition (IAU 2012 Resolution B2)
@@ -322,8 +323,8 @@ export function chainModel(result) {
   const order = [];
   for (const h of (result && result.handoffs) || []) for (const k of [h.from, h.to]) if (!order.includes(k)) order.push(k);
   return order.map((kind) => ({
-    kind, name: CHAIN_NAME[kind] || kind,
-    items: (CHAIN_ITEMS[kind] || []).map((p) => {
+    kind, name: own(CHAIN_NAME, kind) || kind,
+    items: (own(CHAIN_ITEMS, kind) || []).map((p) => {
       // A negative index is written out, so the page shows the path the value really has.
       const m = p.match(/^(.*)\[-1\](.*)$/);
       if (m) { const arr = get(result, m[1]); return Array.isArray(arr) && arr.length > 1 ? `${m[1]}[${arr.length - 1}]${m[2]}` : null; }

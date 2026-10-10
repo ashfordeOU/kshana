@@ -60,7 +60,7 @@ MATRIX = ROOT / "web" / "data" / "verification-matrix.json"
 STUDIO_DIR = DEFAULT_OUT / "studio"
 
 # --------------------------------------------------------------------------------------
-# Theme: the site's Observatory tokens (kshana-site-next .../src/theme.css), both themes.
+# Theme: the site's Observatory tokens (web/theme.css via docs/assets/palette.json), both themes.
 # --------------------------------------------------------------------------------------
 
 
@@ -75,32 +75,38 @@ def blend(fg: str, bg: str, a: float) -> str:
     return "#%02X%02X%02X" % tuple(round(f[i] * a + b[i] * (1 - a)) for i in range(3))
 
 
-LIGHT = {
-    "name": "light",
-    "bg": "#F2F5FB", "bg2": "#E8EDF7", "bg3": "#DDE4F2", "panel": "#FFFFFF", "panel2": "#F6F8FC",
-    "ink": "#0A1226", "ink2": "#3F4B67", "ink3": "#5A6680", "ink4": "#8C96AD",
-    "cyan": "#066A86", "magenta": "#B8288F", "lime": "#377D0C", "amber": "#7E4B00", "coral": "#C9321F",
-    "modelled": "#7F96CC", "globe_rim": "#6C9BFF", "globe_line": "#6F88C0", "tim": "#1F55F0",
-    "line_rgb": "#122250", "line_a": (0.09, 0.16, 0.28), "dot_a": 0.07,
-    "btn_bg": "#0A1226", "btn_ink": "#FFFFFF",
+# The theme tokens come from docs/assets/palette.json (generated from src/palette.rs and
+# held to web/theme.css by tests/palette_sync.rs); only the README art's own extras
+# (globe, map, ramps, modelled-tier tint) are set here.
+_PAL = json.loads((ROOT / "docs" / "assets" / "palette.json").read_text(encoding="utf-8"))
+_TOKENS = ("bg", "bg2", "bg3", "panel", "panel2", "ink", "ink2", "ink3", "ink4",
+           "cyan", "magenta", "lime", "amber", "coral")
+
+
+def _theme(name: str, extras: dict) -> dict:
+    p = _PAL[name]
+    t = {"name": name, **{k: p[k] for k in _TOKENS}}
+    t.update(tim=p["blue"], line_rgb=p["line_rgb"], line_a=tuple(p["line_alpha"]), btn_bg=p["ink"])
+    t.update(extras)
+    return t
+
+
+LIGHT = _theme("light", {
+    "modelled": "#7F96CC", "globe_rim": "#6C9BFF", "globe_line": "#6F88C0",
+    "dot_a": 0.07, "btn_ink": "#FFFFFF",
     "ocean": "#0B1733", "ocean2": "#16284F", "land": "#6F88C0", "land_back": "#243A66",
     # the site's light waterfall ramp (js/home-waterfall.mjs RAMP_LIGHT)
     "ramp": ["#E3E9F5", "#BFDCD3", "#6CC3A8", "#2A8C8C", "#33508A", "#3A0E5C"],
     "soft_a": 0.10,
-}
-DARK = {
-    "name": "dark",
-    "bg": "#060A14", "bg2": "#0A1122", "bg3": "#0E1730", "panel": "#0D1528", "panel2": "#111B33",
-    "ink": "#EAF0FF", "ink2": "#A7B4D2", "ink3": "#8190B0", "ink4": "#56637F",
-    "cyan": "#3DDCF7", "magenta": "#F45CCB", "lime": "#A8EE5E", "amber": "#FFB547", "coral": "#FF6A5C",
-    "modelled": "#4F6FB0", "globe_rim": "#3F7BFF", "globe_line": "#5A7FD0", "tim": "#6A98FF",
-    "line_rgb": "#96AFE6", "line_a": (0.11, 0.20, 0.32), "dot_a": 0.075,
-    "btn_bg": "#EAF0FF", "btn_ink": "#070B16",
+})
+DARK = _theme("dark", {
+    "modelled": "#4F6FB0", "globe_rim": "#3F7BFF", "globe_line": "#5A7FD0",
+    "dot_a": 0.075, "btn_ink": "#070B16",
     "ocean": "#081229", "ocean2": "#10214A", "land": "#3F63AE", "land_back": "#1A2C57",
     # viridis, the site's dark waterfall ramp (RAMP_DARK)
     "ramp": ["#151C48", "#3B2F7A", "#3B528B", "#21918C", "#5EC962", "#FDE725"],
     "soft_a": 0.14,
-}
+})
 THEMES = (LIGHT, DARK)
 
 

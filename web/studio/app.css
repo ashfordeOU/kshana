@@ -240,7 +240,7 @@ svg.chart{font-family:var(--f-mono);font-size:10.5px}
 .c-mark{fill:none;stroke-width:1.6}
 .c-mark-t{fill:var(--space-ink-2);font-size:10px}
 .c-lost{stroke:rgba(0,0,0,.55);stroke-width:1;stroke-dasharray:2 2}
-.c-land{fill:rgba(106,152,255,.10);stroke:rgba(163,170,194,.72);stroke-width:.7;stroke-linejoin:round} /* coastlines: unstyled they filled black on the dark ground */
+.c-land{fill:rgba(106,152,255,.10);stroke:rgba(167,180,210,.72);stroke-width:.7;stroke-linejoin:round} /* coastlines: unstyled they filled black on the dark ground */
 .c-track{fill:none;stroke:var(--s-orb);stroke-width:1.6;opacity:.75}
 .c-track-vis{fill:none;stroke:var(--s-nav);stroke-width:3}
 .c-diff{fill:rgba(165,139,255,.16);stroke:none}
@@ -357,7 +357,7 @@ svg.chart{font-family:var(--f-mono);font-size:10.5px}
 /* ---------- toast + tour ---------- */
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%);z-index:120;padding:10px 16px;border-radius:999px;background:var(--ink);color:var(--bg);font-size:13px;font-weight:560;box-shadow:var(--sh-3);animation:pop .2s var(--ease)}
 .tour{position:fixed;inset:0;z-index:150}
-.tour-spot{position:fixed;border-radius:14px;box-shadow:0 0 0 9999px rgba(5,6,12,.62);transition:all .3s var(--ease);pointer-events:none}
+.tour-spot{position:fixed;border-radius:14px;box-shadow:0 0 0 9999px rgba(6,10,20,.62);transition:all .3s var(--ease);pointer-events:none}
 .tour-tip{position:fixed;width:min(340px,calc(100vw - 24px));padding:16px 18px;border-radius:18px;background:var(--surface);border:1px solid var(--line-2);box-shadow:var(--sh-3)}
 .tour-tip h3{font:650 17px/1.2 var(--f-display);margin:8px 0 6px}
 .tour-tip p{margin:0;font-size:13.5px;color:var(--ink-2);line-height:1.5}
@@ -480,7 +480,7 @@ body.embed .embed-only a{color:var(--tim);font-weight:600}
 .or-name{fill:var(--space-ink);font-size:11px;paint-order:stroke;stroke:var(--space);stroke-width:3px;stroke-linejoin:round}
 .cov-trail{fill:none;stroke-width:1;opacity:.6}
 .cov-sat{stroke:var(--space);stroke-width:.6}
-.cov-land{fill:none;stroke:rgba(238,240,250,.85)}
+.cov-land{fill:none;stroke:rgba(234,240,255,.85)}
 .h-bar{fill:var(--s-tim)}
 .gj-line{fill:none;stroke-width:1.4}
 .gj-pt{fill:var(--s-nav)}

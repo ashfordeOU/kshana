@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, groupedLibrary, searchScenarios, entryFor, DOMAIN_LINES, DEFAULT_SCENARIO, registerGroup, dirOf } from "./catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, groupedLibrary, searchScenarios, entryFor, DOMAIN_LINES, DEFAULT_SCENARIO, registerGroup, dirOf, scenarioPath } from "./catalog.mjs";
 
 const files = readdirSync(new URL("../scenarios/", import.meta.url)).filter((f) => f.endsWith(".toml")).sort();
 const listed = SCENARIOS.map((s) => s[0]);
@@ -57,4 +57,8 @@ assert.equal(dirOf("extra-one.toml"), "extra/");
 assert.equal(dirOf("jamming-demo.toml"), "");
 assert.equal(entryFor("extra-one.toml").domain, "extra");
 assert.equal(registerGroup(null), 0);
+// A request path is built only for a name in the catalogue.
+assert.equal(scenarioPath("jamming-demo.toml"), "scenarios/jamming-demo.toml");
+assert.equal(scenarioPath("extra-one.toml"), `${dirOf("extra-one.toml")}extra-one.toml`);
+for (const bad of ["../index.html", "//other.example/x.toml", "https://other.example/x.toml", "scenarios/../x", "constructor", "__proto__", "", null, undefined]) assert.equal(scenarioPath(bad), null, String(bad));
 console.log("catalog.test.mjs: all assertions passed");

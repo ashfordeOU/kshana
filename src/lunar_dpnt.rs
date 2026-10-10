@@ -93,6 +93,7 @@
 use crate::clock_specs::{x_clock_s, LunarClock};
 use crate::lunar::{lunar_look_angle, selenographic_to_mcmf, Selenographic, R_MOON_M};
 use crate::lunar_service::{LunarConstellation, LunarSat};
+use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2};
 use crate::sbas::{sbas_protection_level, SbasErrorModel, SbasMode, SbasProtectionLevel, SbasSat};
 use crate::timegeo::C_M_PER_S;
 use rand::SeedableRng;
@@ -1454,10 +1455,10 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
 
     let mut svg = String::new();
     svg.push_str(&format!(
-        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"sans-serif\" font-size=\"12\" fill=\"#bcb3a3\">"
+        "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w:.0}\" height=\"{h:.0}\" font-family=\"{FONT_SANS}\" font-size=\"12\" fill=\"{INK_2}\">"
     ));
     svg.push_str(&format!(
-        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"#0c0b08\"/>"
+        "<rect width=\"{w:.0}\" height=\"{h:.0}\" fill=\"{BG}\"/>"
     ));
     svg.push_str(&format!(
         "<text x=\"{ml:.0}\" y=\"18\" font-size=\"15\" font-weight=\"bold\">Lunar differential PNT — {} sats: corrected error vs baseline (× {:.0} reduction at {:.0} km)</text>",
@@ -1470,14 +1471,14 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
 
     // Uncorrected (standalone) reference line.
     svg.push_str(&format!(
-        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"#e5645a\" stroke-dasharray=\"5 3\"/>",
+        "<line x1=\"{:.1}\" y1=\"{:.1}\" x2=\"{:.1}\" y2=\"{:.1}\" stroke=\"{CORAL}\" stroke-dasharray=\"5 3\"/>",
         ml,
         yof(r.user_error_uncorrected_m),
         ml + pw,
         yof(r.user_error_uncorrected_m)
     ));
     svg.push_str(&format!(
-        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"10\" fill=\"#e5645a\">uncorrected (standalone)</text>",
+        "<text x=\"{:.1}\" y=\"{:.1}\" font-size=\"10\" fill=\"{CORAL}\">uncorrected (standalone)</text>",
         ml + pw - 150.0,
         yof(r.user_error_uncorrected_m) - 4.0
     ));
@@ -1493,11 +1494,11 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
         ));
     }
     svg.push_str(&format!(
-        "<path d=\"{path}\" fill=\"none\" stroke=\"#e0bd84\" stroke-width=\"2\"/>"
+        "<path d=\"{path}\" fill=\"none\" stroke=\"{CYAN}\" stroke-width=\"2\"/>"
     ));
     for (&x, &y) in xs.iter().zip(&ys) {
         svg.push_str(&format!(
-            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"3\" fill=\"#e0bd84\"/>",
+            "<circle cx=\"{:.1}\" cy=\"{:.1}\" r=\"3\" fill=\"{CYAN}\"/>",
             xof(x),
             yof(y)
         ));
@@ -1506,10 +1507,10 @@ pub fn lunar_dpnt_svg(r: &LunarDpntReport) -> String {
     // Axes.
     let axis_y = mt + ph;
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>"
+        "<line x1=\"{ml:.0}\" y1=\"{mt:.0}\" x2=\"{ml:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>"
     ));
     svg.push_str(&format!(
-        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"#342c21\"/>",
+        "<line x1=\"{ml:.0}\" y1=\"{axis_y:.0}\" x2=\"{:.0}\" y2=\"{axis_y:.0}\" stroke=\"{AXIS}\"/>",
         ml + pw
     ));
     svg.push_str(&format!(
