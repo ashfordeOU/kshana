@@ -130,7 +130,11 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
 /// (name, description, required/optional fields) — introspectable without source.
 /// Assess a real receiver log described by a `receiver-trust` scenario (TOML text). The
 /// log must be given inline (`text` or `base64`) or by a path the Python process can
-/// read. Returns the result document, the trust-timeline CSV, the chart and a summary.
+/// read. A `[platform]` table with `kind = "vessel"` selects the maritime monitors and the
+/// 0-100 trust score with its reasons (`docs/MARITIME-TRUST.md`); the output is advisory.
+/// `receiver-trust live` (a long-running stream process with an optional TCP listener) is
+/// command-line only. Returns the result document, the trust-timeline CSV, the chart and a
+/// summary.
 #[pyfunction]
 fn receiver_trust(toml: &str) -> PyResult<PyRunOutput> {
     crate::receiver_trust::scenario::run_toml(toml)
@@ -900,6 +904,227 @@ fn iq_monitor<'py>(
     json_to_py(py, &v)
 }
 
+/// Replay one recording across several tracking-loop designs and report the steady-state
+/// metrics per design and PRN (`kshana iq sweep`), on complex samples. The designs are every
+/// design of `design` (a `kshana.loop-design/1` TOML file's text or path), or the full product
+/// of the `pll_bws`, `dll_bws`, `spacings` (chips) and `coherents` (code periods) lists on the
+/// built-in default (a list left out keeps the default's value). Each PRN is acquired once
+/// (with the first design's acquisition) and every (design, PRN) channel then tracks the same
+/// samples, so each result is exactly that of running the design alone. Returns
+/// `{"designs": [...], "warnings": [...]}`: per design and PRN `design`, `code`, `epochs`,
+/// `phase_jitter_deg`, `code_jitter_chips` (steady state, over the second half of the run),
+/// `phase_lock_frac`, `code_lock_frac`, `mean_cn0_dbhz` and `design_hash`. `reacquire`,
+/// `periods_per_bit`, `max_seconds` and `threads` are as for `iq_track`. Raises `ValueError`
+/// if a PRN is not acquired or a design is invalid.
+#[pyfunction]
+#[pyo3(signature = (i, q, fs_hz, signal, prns, if_hz=0.0, center_hz=None, pll_bws=None, dll_bws=None, spacings=None, coherents=None, design=None, reacquire=None, periods_per_bit=None, max_seconds=None, threads=1))]
+#[allow(clippy::too_many_arguments)]
+fn iq_sweep<'py>(
+    py: Python<'py>,
+    i: Vec<f64>,
+    q: Vec<f64>,
+    fs_hz: f64,
+    signal: String,
+    prns: Vec<i64>,
+    if_hz: f64,
+    center_hz: Option<f64>,
+    pll_bws: Option<Vec<f64>>,
+    dll_bws: Option<Vec<f64>>,
+    spacings: Option<Vec<f64>>,
+    coherents: Option<Vec<usize>>,
+    design: Option<String>,
+    reacquire: Option<bool>,
+    periods_per_bit: Option<usize>,
+    max_seconds: Option<f64>,
+    threads: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::iq::track::design::{Design, DesignFile};
+    use crate::iq::track::sink::{Fanout, Summary};
+    use crate::iq::track::{SessionChannel, TrackSession};
+    let codes = codes_for(&signal, &prns)?;
+    let samples = samples_from(&i, &q)?;
+    let spec = SampleSpec {
+        fs_hz,
+        center_hz: center_hz.unwrap_or_else(|| codes[0].carrier_hz()),
+        if_hz,
+    };
+    let bad = |e: String| PyValueError::new_err(e);
+    // The designs to sweep.
+    let designs: Vec<Design> = match design {
+        Some(d) => {
+            if pll_bws.is_some() || dll_bws.is_some() || spacings.is_some() || coherents.is_some() {
+                return Err(bad(
+                    "pll_bws, dll_bws, spacings and coherents cannot be combined with design: \
+                     the sweep runs every design in the file"
+                        .into(),
+                ));
+            }
+            let text = if std::path::Path::new(&d).is_file() {
+                std::fs::read_to_string(&d).map_err(|e| bad(e.to_string()))?
+            } else {
+                d
+            };
+            DesignFile::parse(&text).map_err(bad)?.designs().to_vec()
+        }
+        None => {
+            let base = Design::builtin_default();
+            let pll = pll_bws
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![15.0]);
+            let dll = dll_bws
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![base.loop_config().dll_bn_hz]);
+            let sp = spacings
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![base.loop_config().spacing_chips]);
+            let coh = coherents
+                .filter(|v| !v.is_empty())
+                .unwrap_or_else(|| vec![base.loop_config().coherent_periods]);
+            let mut out = Vec::new();
+            for &p in &pll {
+                for &d in &dll {
+                    for &s in &sp {
+                        for &c in &coh {
+                            let c = c.max(1);
+                            let dd = base
+                                .with_overrides(&format!(
+                                    "[carrier]\npll_bw_hz = {p:?}\n[code]\nbw_hz = {d:?}\n\
+                                     [integration]\nspacing_chips = {s:?}\ncoherent_periods = {c}\n"
+                                ))
+                                .map_err(bad)?;
+                            out.push(dd.renamed(&format!("pll{p}_dll{d}_sp{s}_coh{c}")));
+                        }
+                    }
+                }
+            }
+            out
+        }
+    };
+    if designs.is_empty() {
+        return Err(bad("no designs to sweep".into()));
+    }
+    if designs.len() * codes.len() > 256 {
+        return Err(bad(format!(
+            "{} (design, PRN) channels; at most 256 per sweep",
+            designs.len() * codes.len()
+        )));
+    }
+    // Acquire each PRN once, with the first design's acquisition.
+    let acq = designs[0].acq_config(codes[0].period_s());
+    let mut inits = Vec::new();
+    for code in &codes {
+        let found = acquire_peak(&samples, &spec, code, &acq).map_err(bad)?;
+        if !found.acquired {
+            return Err(bad(format!(
+                "{}: not acquired (statistic {:.2} < threshold {:.2})",
+                code.name(),
+                found.statistic,
+                found.threshold
+            )));
+        }
+        let arc: std::sync::Arc<dyn SpreadingCode + Send + Sync> =
+            std::sync::Arc::new(code.clone());
+        inits.push(ChannelInit::from_acquisition(
+            arc,
+            &found,
+            &spec,
+            0,
+            periods_per_bit,
+        ));
+    }
+    let n_total = samples.len() as u64;
+    let max_samples = max_seconds.map(|s| (s * fs_hz).round() as u64);
+    let tracked = max_samples.map_or(n_total, |m| m.min(n_total));
+    // One channel per (design, PRN), design-major, all on one pass over the samples.
+    let mut channels = Vec::new();
+    let mut meta = Vec::new();
+    for d in &designs {
+        let d = if reacquire.unwrap_or(false) {
+            d.with_overrides("[lock]\nreacquire = true\n")
+                .map_err(bad)?
+        } else {
+            d.clone()
+        };
+        for (init, code) in inits.iter().zip(&codes) {
+            channels.push(SessionChannel::from_design(init.clone(), &d));
+            meta.push((d.name().to_string(), d.hash().to_string(), code.name()));
+        }
+    }
+    let mut session = TrackSession::new(spec, channels)
+        .map_err(bad)?
+        .with_threads(threads);
+    let mut summary = Summary::new(0.5 * tracked as f64 / fs_hz);
+    let mut src = crate::iq::VecSource::new(spec, samples);
+    {
+        let mut fan = Fanout::new();
+        fan.push(&mut summary);
+        session
+            .run(&mut src, max_samples, &mut fan)
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    }
+    let rows: Vec<serde_json::Value> = meta
+        .iter()
+        .enumerate()
+        .map(|(k, (name, hash, code))| {
+            let c = summary.channels.get(k).cloned().unwrap_or_default();
+            serde_json::json!({
+                "design": name,
+                "code": code,
+                "epochs": c.epochs,
+                "phase_jitter_deg": c.phase_jitter_deg,
+                "code_jitter_chips": c.code_jitter_chips,
+                "phase_lock_frac": c.phase_lock_fraction(),
+                "code_lock_frac": c.code_lock_fraction(),
+                "mean_cn0_dbhz": c.mean_cn0_dbhz,
+                "design_hash": hash,
+            })
+        })
+        .collect();
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "designs": rows,
+            "warnings": crate::iq::cli::sampling_warnings(&spec, &codes),
+        }),
+    )
+}
+
+/// Describe one IQ recording without processing it (`kshana iq info`): kind (raw with sidecar,
+/// SigMF, SigMF collection), sample format, rate, centre frequency, total samples, duration,
+/// data files and their sizes, as a dict. `hash=True` adds each data file's SHA-256 (reads the
+/// whole file). Reads the file at `path`; nothing is written.
+#[pyfunction]
+#[pyo3(signature = (path, hash=false))]
+fn iq_info<'py>(py: Python<'py>, path: &str, hash: bool) -> PyResult<Bound<'py, PyAny>> {
+    let e = crate::iq::io::inventory::inventory_entry(std::path::Path::new(path), hash);
+    let v = serde_json::to_value(&e).map_err(|err| PyValueError::new_err(err.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// List the IQ recordings under `directory` and describe each (`kshana iq inventory`): a list
+/// of the dicts `iq_info` returns, in path order. `recursive=True` descends into
+/// sub-folders; `hash=True` adds SHA-256 digests (reads every data file). Reads only.
+#[pyfunction]
+#[pyo3(signature = (directory, recursive=false, hash=false))]
+fn iq_inventory<'py>(
+    py: Python<'py>,
+    directory: &str,
+    recursive: bool,
+    hash: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    let paths =
+        crate::iq::io::inventory::list_recordings(std::path::Path::new(directory), recursive)
+            .map_err(|e| PyValueError::new_err(e.to_string()))?;
+    let rows: Vec<serde_json::Value> = paths
+        .iter()
+        .map(|p| {
+            serde_json::to_value(crate::iq::io::inventory::inventory_entry(p, hash))
+                .unwrap_or(serde_json::Value::Null)
+        })
+        .collect();
+    json_to_py(py, &serde_json::Value::Array(rows))
+}
+
 /// Fit the tracking-loop loss-of-lock model to a receiver-trust timeline described by an
 /// `iq-labfit` TOML scenario. Returns a dict with the parsed `report`, the `residuals_csv`
 /// and `predictions_csv` tables and the `markdown`. Relative log paths are resolved against
@@ -1057,6 +1282,494 @@ fn iq_frontend<'py>(
     json_to_py(py, &serde_json::json!({ "samples_i": oi, "samples_q": oq }))
 }
 
+/// A text or bytes argument: a Python `str` is taken as UTF-8.
+#[derive(FromPyObject)]
+enum TextOrBytes {
+    Text(String),
+    Bytes(Vec<u8>),
+}
+
+impl TextOrBytes {
+    fn bytes(&self) -> &[u8] {
+        match self {
+            Self::Text(t) => t.as_bytes(),
+            Self::Bytes(b) => b,
+        }
+    }
+}
+
+/// Score a bounded excerpt of a vessel's NMEA 0183 stream the way `kshana receiver-trust
+/// live` scores it. `session_toml` declares the vessel (`[platform] kind = "vessel"`);
+/// `nmea` is the excerpt (`str` or `bytes`, at most 2 MiB and 20,000 epochs, and it must hold
+/// the calibration window). Returns a dict with `schema` (`"1.2"`), `epochs` (one dict per
+/// epoch: `state`, `score`, `deductions`, `alarms`, `position`, `advisory`, ...), `last_pksht` and
+/// `summary` (counts by state, `lowest_score`, `final_score`, `first_untrusted_t_s`). The
+/// bounded form of the live command: no socket is opened and the gate is not applied (both
+/// are command-line only). Advisory only. Raises `ValueError` on an invalid session or
+/// excerpt.
+#[pyfunction]
+fn receiver_trust_replay<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    nmea: TextOrBytes,
+) -> PyResult<Bound<'py, PyAny>> {
+    let r = crate::surface::assess_vessel_excerpt(
+        session_toml,
+        nmea.bytes(),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v = serde_json::to_value(&r).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
+/// "vessel"`, no `[log]` needed) and the log (`str` or `bytes`). Returns the result document
+/// as a dict, the same as `kshana receiver-trust` writes to `result.json`: the score model,
+/// the monitors that ran and every epoch's 0-100 score with its deductions. Advisory only.
+/// Raises `ValueError` on an invalid session or log.
+#[pyfunction]
+fn assess_vessel_log<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    log: TextOrBytes,
+) -> PyResult<Bound<'py, PyAny>> {
+    let j = crate::surface::assess_vessel_log_json(
+        session_toml,
+        log.bytes(),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&j).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// Build a signed evidence pack for a window of a vessel's NMEA log (`kshana receiver-trust
+/// evidence`, in memory). `from_s`/`to_s` are seconds since the log's first epoch.
+/// `seed_hex` is the Ed25519 signing-key seed (64 hex digits); omitted, one is generated
+/// from the operating system's randomness and returned. `created_utc` is RFC 3339 UTC; `None`
+/// is now, `"none"` leaves it out (a reproducible pack). Returns a dict: `files` (name to
+/// `bytes`), `public_key`, `seed_hex` (the seed used: keep it private), `epochs_in_window`
+/// and `slice` (`[start, end]` of the log bytes bundled, or `None` for the whole log). A
+/// pack is a technical record, not a legal opinion. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (session_toml, log, from_s, to_s, title=None, created_utc=None, seed_hex=None))]
+#[allow(clippy::too_many_arguments)]
+fn evidence_create<'py>(
+    py: Python<'py>,
+    session_toml: &str,
+    log: TextOrBytes,
+    from_s: f64,
+    to_s: f64,
+    title: Option<String>,
+    created_utc: Option<String>,
+    seed_hex: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use pyo3::types::{PyBytes, PyDict};
+    let seed = seed_hex
+        .as_deref()
+        .map(|h| crate::surface::hex32("seed_hex", h))
+        .transpose()
+        .map_err(PyValueError::new_err)?;
+    let created = match created_utc.as_deref() {
+        None => Some(crate::surface::now_rfc3339_utc()),
+        Some("none") => None,
+        Some(t) => Some(t.to_string()),
+    };
+    let p = crate::surface::evidence_create(
+        session_toml,
+        log.bytes(),
+        from_s,
+        to_s,
+        title.as_deref(),
+        created.as_deref(),
+        seed,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let files = PyDict::new(py);
+    for (k, v) in &p.files {
+        files.set_item(k, PyBytes::new(py, v))?;
+    }
+    let out = PyDict::new(py);
+    out.set_item("files", files)?;
+    out.set_item("public_key", p.public_key)?;
+    out.set_item("seed_hex", hex::encode(p.seed))?;
+    out.set_item("epochs_in_window", p.epochs_in_window)?;
+    out.set_item("slice", p.slice.map(|(a, b)| vec![a, b]))?;
+    Ok(out.into_any())
+}
+
+/// Verify an evidence pack: `files` maps names to `bytes` (or `str`). Checks every hash, the
+/// chain and the signature; with `public_key` (64 hex digits, obtained from the signer by
+/// another route) also that the signer is the one expected, with `full_log` that the log
+/// you hold is the one recorded, and with `require_timestamp` that a timestamp token is
+/// present. Returns the report as a dict: `ok`, `failures`, `checks`, `signer_fingerprint`,
+/// `signer_pinned`, `notes`, plus `verdict` (`"verified"`, `"intact-signer-not-pinned"` or
+/// `"failed"`) and `message`. Without a public key a pass is only `"intact-signer-not-pinned"`:
+/// the signature proves the pack is intact against the key it names itself, which anyone can
+/// generate. Raises `ValueError` on a malformed key.
+#[pyfunction]
+#[pyo3(signature = (files, public_key=None, full_log=None, require_timestamp=false))]
+fn evidence_verify<'py>(
+    py: Python<'py>,
+    files: std::collections::BTreeMap<String, TextOrBytes>,
+    public_key: Option<String>,
+    full_log: Option<TextOrBytes>,
+    require_timestamp: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    let files: crate::evidence::Files = files
+        .into_iter()
+        .map(|(k, v)| (k, v.bytes().to_vec()))
+        .collect();
+    let r = crate::surface::evidence_verify(
+        &files,
+        public_key.as_deref(),
+        full_log.as_ref().map(TextOrBytes::bytes),
+        require_timestamp,
+    )
+    .map_err(PyValueError::new_err)?;
+    json_to_py(py, &r)
+}
+
+/// Bind an RFC 3161 timestamp token to an evidence pack, in memory (`kshana evidence
+/// attach-timestamp`). `files` is a pack as `evidence_create` returns it; `token` is the raw
+/// bytes of the `.tsr` file, or its base64 text. The token is stored as `timestamp.tsr` beside
+/// the signed manifest, not inside it, and the pack with the token must still verify or
+/// `ValueError` is raised. An existing token is kept unless `replace=True`. This does NOT
+/// verify the timestamp authority's signature or certificate chain: use `openssl ts -verify`.
+/// Returns `{"files": {name: bytes}, "notes": [str]}`; verify later with
+/// `require_timestamp=True` to insist the token is present.
+#[pyfunction]
+#[pyo3(signature = (files, token, replace=false))]
+fn evidence_attach_timestamp<'py>(
+    py: Python<'py>,
+    files: std::collections::BTreeMap<String, TextOrBytes>,
+    token: TextOrBytes,
+    replace: bool,
+) -> PyResult<Bound<'py, PyAny>> {
+    use pyo3::types::{PyBytes, PyDict};
+    let files: crate::evidence::Files = files
+        .into_iter()
+        .map(|(k, v)| (k, v.bytes().to_vec()))
+        .collect();
+    let token = match &token {
+        TextOrBytes::Bytes(b) => b.clone(),
+        TextOrBytes::Text(t) => crate::permalink::base64_decode(t.trim())
+            .ok_or_else(|| PyValueError::new_err("token text is not base64"))?,
+    };
+    let t = crate::surface::evidence_attach_timestamp(
+        &files,
+        &token,
+        replace,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let out_files = PyDict::new(py);
+    for (k, v) in &t.files {
+        out_files.set_item(k, PyBytes::new(py, v))?;
+    }
+    let out = PyDict::new(py);
+    out.set_item("files", out_files)?;
+    out.set_item("notes", t.notes)?;
+    Ok(out.into_any())
+}
+
+/// Generate an Ed25519 signing key for evidence packs, in memory (`kshana evidence keygen`).
+/// Returns `{"seed_hex", "public_key", "fingerprint", "warning"}`. **The seed is the private
+/// key**: keep it out of logs, chats and version control, and give verifiers only
+/// `public_key`, by a route they trust. This is offered in Python only, because a private key
+/// should not pass through a web page or an agent conversation. Pass `seed_hex` to
+/// `evidence_create` to sign with it.
+#[pyfunction]
+fn evidence_keygen<'py>(py: Python<'py>) -> PyResult<Bound<'py, PyAny>> {
+    let k = crate::surface::evidence_keygen();
+    json_to_py(
+        py,
+        &serde_json::json!({
+            "seed_hex": k.seed_hex,
+            "public_key": k.public_key,
+            "fingerprint": k.fingerprint,
+            "warning": "seed_hex is the PRIVATE signing key. Keep it secret: never log it, paste it into a chat or commit it. Give verifiers only public_key, by a route they trust.",
+        }),
+    )
+}
+
+/// Build a GNSS interference map from CSV text (`source` is `"adsb"` or `"ais"`; the input
+/// formats are in `docs/INTERFERENCE-MAP.md`). `dataset` is an approved preset
+/// (`adsb-lol`, `noaa-marinecadastre`, `kystverket`) or `"custom"`, which also needs
+/// `licence`, `licence_url` and `attribution` so the output carries them. `land_geojson`
+/// (AIS only) is an optional land-polygon file. Returns one dict per UTC day with
+/// `file_name`, `date`, `cells_published`, `cells_flagged` and the
+/// `kshana-interference-map/v1` GeoJSON text in `geojson`. Aggregate only: identifiers are
+/// never returned, and a degraded cell does not name interference as the cause. Raises
+/// `ValueError` on bad input.
+#[pyfunction]
+#[pyo3(signature = (source, csv, dataset, cell_deg=None, licence=None, licence_url=None, attribution=None, land_geojson=None))]
+#[allow(clippy::too_many_arguments)]
+fn interference_map<'py>(
+    py: Python<'py>,
+    source: &str,
+    csv: &str,
+    dataset: &str,
+    cell_deg: Option<f64>,
+    licence: Option<String>,
+    licence_url: Option<String>,
+    attribution: Option<String>,
+    land_geojson: Option<String>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{interference_map as build, CustomDataset, MapSource, MAX_INPUT_BYTES};
+    let custom = (licence.is_some() || licence_url.is_some() || attribution.is_some()).then(|| {
+        CustomDataset {
+            licence: licence.unwrap_or_default(),
+            licence_url: licence_url.unwrap_or_default(),
+            attribution: attribution.unwrap_or_default(),
+        }
+    });
+    let days = build(
+        MapSource::parse(source).map_err(PyValueError::new_err)?,
+        csv,
+        dataset,
+        cell_deg,
+        custom.as_ref(),
+        land_geojson.as_deref(),
+        MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v = serde_json::Value::Array(
+        days.into_iter()
+            .map(|d| {
+                serde_json::json!({
+                    "file_name": d.file_name,
+                    "date": d.date,
+                    "cells_published": d.cells_published,
+                    "cells_flagged": d.cells_flagged,
+                    "geojson": d.geojson,
+                })
+            })
+            .collect(),
+    );
+    json_to_py(py, &v)
+}
+
+/// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
+/// (`kshana bench-export`, `docs/TEST-BENCH.md`), in memory: nothing is written to disk.
+/// Applies to the `gnss-ins`, `jamming` and `gnss-sim` kinds; others raise `ValueError` with
+/// the reason. `epoch` is the UTC instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an
+/// optional `Z` (default 2024-01-01T00:00:00Z); the output is byte-identical for the same
+/// scenario and epoch. Returns `{"files": {suffix: text}, "notes": [str], "notice": str}`:
+/// `files` holds `.motion.csv`, `.motion.json`, `.nmea`, `.events.csv`, `.events.toml` and,
+/// when the sample grid is millisecond-regular, `.waypoints.txt`; `notes` says why a file was
+/// left out; keep `notice` with the files. No radio-frequency or baseband signal is written.
+#[pyfunction]
+#[pyo3(signature = (toml, epoch=None))]
+fn bench_export<'py>(
+    py: Python<'py>,
+    toml: &str,
+    epoch: Option<&str>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{BENCH_NOTICE, MAX_INPUT_BYTES};
+    let e = crate::surface::bench_export(toml, epoch, MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    let files: serde_json::Map<String, serde_json::Value> =
+        e.files.into_iter().map(|(k, v)| (k, v.into())).collect();
+    json_to_py(
+        py,
+        &serde_json::json!({"files": files, "notes": e.notes, "notice": BENCH_NOTICE}),
+    )
+}
+
+/// Export an `orbit` scenario's propagated constellation as SP3-c precise-ephemeris text (the
+/// artifact `--export-sp3` writes). Raises `ValueError` if the scenario is not an orbit kind.
+#[pyfunction]
+fn export_sp3(toml: &str) -> PyResult<String> {
+    crate::api::export_sp3(toml).map_err(PyValueError::new_err)
+}
+
+/// Export a constellation's mean elements as a CCSDS OMM catalogue string (`--export-omm`).
+/// Raises `ValueError` if the scenario cannot produce one.
+#[pyfunction]
+fn export_omm(toml: &str) -> PyResult<String> {
+    crate::api::export_omm(toml).map_err(PyValueError::new_err)
+}
+
+/// Export the velocity-carrying state as a CCSDS OEM 2.0 ephemeris string (`--export-oem`).
+/// Raises `ValueError` if the scenario cannot produce one.
+#[pyfunction]
+fn export_oem(toml: &str) -> PyResult<String> {
+    crate::api::export_oem(toml).map_err(PyValueError::new_err)
+}
+
+/// Which interoperability formats apply to a scenario, without running it: a list of dicts
+/// `{format, applies, reason, spec_url}` for `czml`, `kml`, `geojson`, `stk` and `sigmf`.
+/// Raises `ValueError` on invalid TOML.
+#[pyfunction]
+fn export_formats<'py>(py: Python<'py>, toml: &str) -> PyResult<Bound<'py, PyAny>> {
+    let v = crate::surface::export_formats(toml, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(py, &v)
+}
+
+/// Export a scenario in one interoperability format (`czml`, `kml`, `geojson`, `stk` or
+/// `sigmf`), in memory: nothing is written. Returns `{format, spec_url, files}`; each file is
+/// `{suffix, bytes, sha256, encoding, content}` where `encoding` is `"utf-8"` (the content is
+/// the text) or `"base64"` (a binary file). Times are UTC and the same scenario gives
+/// byte-identical files. Raises `ValueError` with the reason when the format does not apply.
+#[pyfunction]
+fn export_scenario<'py>(py: Python<'py>, toml: &str, format: &str) -> PyResult<Bound<'py, PyAny>> {
+    let e = crate::surface::export_scenario(toml, format, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(py, &e.to_json())
+}
+
+/// Write a GeoJSON route (a `LineString`, or a `Feature` or `FeatureCollection` holding one)
+/// into a scenario of a kind that flies a waypoint track (`terrain-nav`, `terrain-slam`,
+/// `gravity-map`, `combined-altpnt`) and return the new TOML. Raises `ValueError` with the
+/// reason otherwise.
+#[pyfunction]
+fn import_route(toml: &str, geojson: &str) -> PyResult<String> {
+    crate::surface::import_route(toml, geojson, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
+/// Run a scenario and return its time series as an animation: `format` is `"svg"` (one
+/// animated SVG, no script; default), `"html"` (one self-contained player page) or
+/// `"frames"` (numbered static SVG frames and `manifest.json`, at most 120). Options: `fps`
+/// (1 to 60, default 12), `duration_s` (0.5 to 600, default 8), `width` (480 to 3840 px, default
+/// 960). Returns `{summary, files}`: what was drawn, and `{name: text}`. A kind with no
+/// sampled time axis raises `ValueError`. Nothing is written.
+#[pyfunction]
+#[pyo3(signature = (toml, format="svg", fps=None, duration_s=None, width=None))]
+fn animate_scenario<'py>(
+    py: Python<'py>,
+    toml: &str,
+    format: &str,
+    fps: Option<u32>,
+    duration_s: Option<f64>,
+    width: Option<u32>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let a = crate::surface::animate_scenario(
+        toml,
+        Some(format),
+        fps,
+        duration_s,
+        width,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let files: serde_json::Map<String, serde_json::Value> =
+        a.files.into_iter().map(|(k, v)| (k, v.into())).collect();
+    json_to_py(
+        py,
+        &serde_json::json!({"summary": a.summary, "files": files}),
+    )
+}
+
+/// The bundled reference scenarios: `{count, scenarios: [{name, kind, about}]}`; `kind` limits
+/// the list to one scenario kind. Every one runs as it stands. Raises `ValueError` on an
+/// unknown kind.
+#[pyfunction]
+#[pyo3(signature = (kind=None))]
+fn list_examples<'py>(py: Python<'py>, kind: Option<&str>) -> PyResult<Bound<'py, PyAny>> {
+    let v = crate::surface::list_examples(kind).map_err(PyValueError::new_err)?;
+    json_to_py(py, &v)
+}
+
+/// The TOML text of one bundled reference scenario, byte for byte the repository's file.
+/// Raises `ValueError` for an unknown name or one that exists but is not bundled.
+#[pyfunction]
+fn get_example(name: &str) -> PyResult<&'static str> {
+    crate::surface::get_example(name).map_err(PyValueError::new_err)
+}
+
+/// Fill the public-framework mapping from result documents given as text: which rows of
+/// five resilience frameworks and standards (`docs/compliance/`) the runs support evidence
+/// for, which they do not, and the gap each row keeps. `runs` is a list of dicts with
+/// `label` (the name to show), `result` (the result JSON text) and optionally `scenario`
+/// (the scenario TOML text, which names the scenario kind a result does not). At most 64
+/// runs; nothing is read from disk. Returns `{"report": dict, "markdown": str}`; the report
+/// carries `statement` verbatim and lists every unusable input in `unrecognised`. A status
+/// says the runs support evidence for a row's capabilities; it is not a finding that a
+/// framework is met. Raises `ValueError` on a missing key or an over-size input.
+#[pyfunction]
+fn compliance_report<'py>(
+    py: Python<'py>,
+    runs: Vec<std::collections::BTreeMap<String, String>>,
+) -> PyResult<Bound<'py, PyAny>> {
+    use crate::surface::{ComplianceRunText, MAX_INPUT_BYTES};
+    let mut texts = Vec::with_capacity(runs.len());
+    for (i, r) in runs.iter().enumerate() {
+        let get = |k: &str| r.get(k).cloned();
+        texts.push(ComplianceRunText {
+            label: get("label")
+                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `label`")))?,
+            result_json: get("result")
+                .ok_or_else(|| PyValueError::new_err(format!("runs[{i}] needs `result`")))?,
+            scenario_toml: get("scenario"),
+        });
+    }
+    let out = crate::surface::compliance_report(&texts, MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({"report": out.report, "markdown": out.markdown}),
+    )
+}
+
+/// The static public-framework mapping as Markdown, led by the statement every report
+/// carries: one table per framework (`sources=False`) or the source documents they cite,
+/// with versions and URLs (`sources=True`).
+#[pyfunction]
+#[pyo3(signature = (sources=false))]
+fn compliance_mapping(sources: bool) -> String {
+    crate::surface::compliance_mapping(sources)
+}
+
+/// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
+/// one or more interference maps (the `geojson` of [`interference_map`]), optionally limited
+/// to `date_from`..`date_to` (`YYYY-MM-DD`). Returns the report as JSON text. Cells not
+/// observed are not evidence of a clear route, and this is not a forecast. Raises
+/// `ValueError` on bad input.
+#[pyfunction]
+#[pyo3(signature = (route, maps, date_from=None, date_to=None))]
+fn route_exposure(
+    route: &str,
+    maps: Vec<String>,
+    date_from: Option<String>,
+    date_to: Option<String>,
+) -> PyResult<String> {
+    let refs: Vec<&str> = maps.iter().map(String::as_str).collect();
+    crate::surface::route_exposure(
+        route,
+        &refs,
+        date_from.as_deref(),
+        date_to.as_deref(),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)
+}
+
+/// Generate synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML.
+/// Returns a dict with `nmea` (CRLF text), `log_json` (the instructor log,
+/// `kshana-nmea-training/1`) and `log_text`. `seed` replaces the scenario's seed. Text
+/// only: it is for training and testing, never for a vessel's live navigation systems.
+/// Raises `ValueError` on an invalid scenario.
+#[pyfunction]
+#[pyo3(signature = (toml, seed=None))]
+fn nmea_training<'py>(
+    py: Python<'py>,
+    toml: &str,
+    seed: Option<u64>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let t = crate::surface::nmea_training(toml, seed, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_to_py(
+        py,
+        &serde_json::json!({"nmea": t.nmea, "log_json": t.log_json, "log_text": t.log_text}),
+    )
+}
+
 /// The GNSS IQ signal names [`iq_scene`], [`iq_acquire`] and [`iq_track`] accept.
 #[pyfunction]
 fn iq_signals() -> Vec<String> {
@@ -1078,6 +1791,30 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(error_kind, m)?)?;
     m.add_function(wrap_pyfunction!(version, m)?)?;
     m.add_function(wrap_pyfunction!(receiver_trust, m)?)?;
+    m.add_function(wrap_pyfunction!(receiver_trust_replay, m)?)?;
+    m.add_function(wrap_pyfunction!(assess_vessel_log, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_create, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_verify, m)?)?;
+    m.add_function(wrap_pyfunction!(interference_map, m)?)?;
+    m.add_function(wrap_pyfunction!(compliance_report, m)?)?;
+    m.add_function(wrap_pyfunction!(bench_export, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_sweep, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_info, m)?)?;
+    m.add_function(wrap_pyfunction!(iq_inventory, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_attach_timestamp, m)?)?;
+    m.add_function(wrap_pyfunction!(evidence_keygen, m)?)?;
+    m.add_function(wrap_pyfunction!(export_sp3, m)?)?;
+    m.add_function(wrap_pyfunction!(export_omm, m)?)?;
+    m.add_function(wrap_pyfunction!(export_oem, m)?)?;
+    m.add_function(wrap_pyfunction!(export_formats, m)?)?;
+    m.add_function(wrap_pyfunction!(export_scenario, m)?)?;
+    m.add_function(wrap_pyfunction!(import_route, m)?)?;
+    m.add_function(wrap_pyfunction!(animate_scenario, m)?)?;
+    m.add_function(wrap_pyfunction!(list_examples, m)?)?;
+    m.add_function(wrap_pyfunction!(get_example, m)?)?;
+    m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
+    m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
+    m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene_broadcast, m)?)?;
     m.add_function(wrap_pyfunction!(iq_acquire, m)?)?;

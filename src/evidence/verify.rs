@@ -212,6 +212,32 @@ fn hex_fixed<const N: usize>(s: &str) -> Result<[u8; N], String> {
     <[u8; N]>::try_from(v.as_slice()).map_err(|_| format!("expected {N} bytes, found {}", v.len()))
 }
 
+/// Bind an RFC 3161 timestamp token to a pack, in memory: the token is stored as
+/// `timestamp.tsr` beside the signed manifest (not inside it). The pack with the token must
+/// still verify, or nothing is attached. An existing token is kept unless `replace` is set.
+/// This does NOT verify the timestamp authority's signature (use `openssl ts -verify`).
+/// Returns the verification notes.
+pub fn attach_timestamp(
+    files: &mut Files,
+    token: &[u8],
+    replace: bool,
+) -> Result<Vec<String>, String> {
+    if files.contains_key("timestamp.tsr") && !replace {
+        return Err("the pack already has a timestamp token; pass --replace to replace it".into());
+    }
+    let mut with = files.clone();
+    with.insert("timestamp.tsr".into(), token.to_vec());
+    let rep = verify_bundle(&with, &VerifyOptions::default());
+    if !rep.ok {
+        return Err(format!(
+            "not attached: the pack with this token does not verify ({})",
+            serde_json::to_string(&rep.failures).unwrap_or_default()
+        ));
+    }
+    *files = with;
+    Ok(rep.notes)
+}
+
 /// Verify a pack. Never panics on malformed input.
 pub fn verify_bundle(files: &Files, opts: &VerifyOptions<'_>) -> VerifyReport {
     let mut r = VerifyReport {
