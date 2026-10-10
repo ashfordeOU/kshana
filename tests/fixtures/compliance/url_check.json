@@ -14,9 +14,9 @@
    "url": "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=CELEX:32022L2555",
    "checked": "2026-10-10",
    "method": "python urllib, browser-like headers",
-   "status": 202,
+   "status": 200,
    "content_type": "text/html; charset=UTF-8",
-   "bytes": 0,
+   "bytes": 967473,
    "second_route": {
     "method": "EU Publications Office XHTML of the same act, https://publications.europa.eu/resource/celex/32022L2555",
     "checked": "2026-10-10",

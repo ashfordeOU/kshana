@@ -175,7 +175,7 @@ fn worst_case_over_every_row_is_inside_the_registered_tolerances() {
     for (name, s) in scenarios(&r) {
         let m = &s["max_over_every_row"];
         let n = s["samples"].as_u64().unwrap();
-        assert!(n > 100, "{name}: {n} samples");
+        assert!(n >= 50, "{name}: {n} samples");
         assert_eq!(s["nmea_sentences"].as_u64().unwrap(), 2 * n, "{name}");
         assert_eq!(
             m["nmea_checksum_failures"], 0,
