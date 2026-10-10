@@ -131,7 +131,7 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
 /// Assess a real receiver log described by a `receiver-trust` scenario (TOML text). The
 /// log must be given inline (`text` or `base64`) or by a path the Python process can
 /// read. A `[platform]` table with `kind = "vessel"` selects the maritime monitors and the
-/// 0-100 trust score with its reasons (`docs/MARITIME-TRUST.md`); the output is advisory.
+/// 0-100 trust score with its reasons (`docs/MARITIME-TRUST.md`); the output is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 /// `receiver-trust live` (a long-running stream process with an optional TCP listener) is
 /// command-line only. Returns the result document, the trust-timeline CSV, the chart and a
 /// summary.
@@ -1305,7 +1305,7 @@ impl TextOrBytes {
 /// epoch: `state`, `score`, `deductions`, `alarms`, `position`, `advisory`, ...), `last_pksht` and
 /// `summary` (counts by state, `lowest_score`, `final_score`, `first_untrusted_t_s`). The
 /// bounded form of the live command: no socket is opened and the gate is not applied (both
-/// are command-line only). Advisory only. Raises `ValueError` on an invalid session or
+/// are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises `ValueError` on an invalid session or
 /// excerpt.
 #[pyfunction]
 fn receiver_trust_replay<'py>(
@@ -1326,7 +1326,7 @@ fn receiver_trust_replay<'py>(
 /// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
 /// "vessel"`, no `[log]` needed) and the log (`str` or `bytes`). Returns the result document
 /// as a dict, the same as `kshana receiver-trust` writes to `result.json`: the score model,
-/// the monitors that ran and every epoch's 0-100 score with its deductions. Advisory only.
+/// the monitors that ran and every epoch's 0-100 score with its deductions. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 /// Raises `ValueError` on an invalid session or log.
 #[pyfunction]
 fn assess_vessel_log<'py>(

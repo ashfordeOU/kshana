@@ -24,7 +24,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
-   or: kshana iq <scene|acquire|track|sweep|labfit|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
    or: kshana --help | --version";

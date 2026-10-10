@@ -25,10 +25,10 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 
 | The question | Tool (MCP) | Slash command |
 |---|---|---|
-| Run or explain a PNT scenario (orbits, GNSS, timing, fusion, lunar, ...) | `list_scenario_kinds`, `list_example_scenarios`, `get_example_scenario`, `validate_scenario`, `run_scenario`, `report_scenario`, `animate_scenario`, `export_*` | `/kshana-run` |
+| Run or explain a PNT scenario (orbits, GNSS, timing, fusion, lunar, ...) | `list_scenario_kinds`, `list_example_scenarios`, `get_example_scenario`, `validate_scenario`, `run_scenario`, `report_scenario`, `animate_scenario`, `export_sp3`, `export_omm`, `export_oem`, `export_interop`, `list_export_formats`, `export_table_csv` | `/kshana-run` |
 | Was this receiver log, or this vessel's NMEA, trustworthy, and when did it stop being? | `assess_receiver_log` (any log format), `assess_vessel_log` (vessel NMEA, batch), `assess_vessel_stream` (bounded excerpt) | `/kshana-assess-receiver` |
 | I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training | `generate_training_nmea` | `/kshana-training-scenario` |
-| Make a tamper-evident record of what the engine said about a window of a vessel's log, or check one | `create_evidence_pack`, `verify_evidence_pack` | `/kshana-evidence-pack` |
+| Make a tamper-evident record of what the engine said about a window of a vessel's log, or check one | `create_evidence_pack`, `verify_evidence_pack`, `attach_evidence_timestamp` | `/kshana-evidence-pack` |
 | I need a scenario's vehicle motion and event times to replay through a laboratory GNSS simulator | `export_test_bench` | `/kshana-bench-export` |
 | Which public-framework requirement rows do these runs support evidence for, and what is the gap? | `compliance_report` (from result text), `compliance_mapping` (the tables, no runs) | `/kshana-compliance-report` |
 | I need a scenario to fly a GeoJSON route (terrain-nav, terrain-slam, gravity-map, combined-altpnt) | `import_route` | `/kshana-import-route` |

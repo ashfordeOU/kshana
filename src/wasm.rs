@@ -395,7 +395,7 @@ pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
 /// `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a JSON object
 /// `{schema, epochs, last_pksht, summary}` (`schema` is `"1.2"`): one report per epoch (`state`, `score`, `advisory`,
 /// `deductions`, `alarms`, ...) and counts by state. The bounded form of the live command: no
-/// socket is opened and the gate is not applied (both are command-line only). Advisory only.
+/// socket is opened and the gate is not applied (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 #[wasm_bindgen]
 pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, JsValue> {
     let r = crate::surface::assess_vessel_excerpt(
@@ -409,7 +409,7 @@ pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, J
 
 /// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
 /// "vessel"`, no `[log]` needed) and the log text. Returns the result document as JSON, the
-/// same as `kshana receiver-trust` writes to `result.json`. Advisory only.
+/// same as `kshana receiver-trust` writes to `result.json`. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 #[wasm_bindgen]
 pub fn assess_vessel_log(session_toml: &str, log: &str) -> Result<String, JsValue> {
     crate::surface::assess_vessel_log_json(
