@@ -19,6 +19,11 @@
     ]]></description>
 
     <change-notes><![CDATA[
+        <b>0.34.1</b> — the plugin itself is unchanged; this release hardens the input
+        handling of the engine's MCP server. Update the engine with
+        <code>cargo install kshana</code> and see the release notes at
+        https://github.com/ashfordeOU/kshana/releases.
+        <br/>
         <b>0.34.0</b> — the plugin itself is unchanged; this release adds the GNSS IQ
         tracking engine, detection monitors and the lab-replay campaign runner to the
         engine's command line and Python API. Update the engine with
