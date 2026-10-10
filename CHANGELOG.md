@@ -9,6 +9,58 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (surfaces)
+
+- **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
+  `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
+  `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing
+  key does not belong in a page). MCP server: `assess_vessel_stream`, `assess_vessel_log`,
+  `create_evidence_pack`, `verify_evidence_pack`, `generate_training_nmea`,
+  `build_interference_map`, `route_exposure`, each with input caps and round-trip tests. Claude
+  Code plugin: slash commands `/kshana-assess-receiver`, `/kshana-training-scenario`,
+  `/kshana-interference-map`, `/kshana-evidence-pack` and the matching skills. JetBrains plugin:
+  Assess Receiver Trust, Generate Training NMEA, Build Interference Map and Route Exposure
+  actions. Notebooks: `vessel-trust-and-training`, `interference-map-route-exposure`. Docs:
+  `docs/AGENTS.md` and `docs/SURFACES.md`, which states, for every cell, why a surface cannot
+  carry a capability (a running process: `receiver-trust live`, its gate and listener, the
+  telemetry exporters, streamed training NMEA; the land download). The in-memory entry points
+  share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
+  modules' own functions.
+
+### Added (evidence packs)
+
+- **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable
+  evidence packs for a GNSS trust event.** A pack bundles the raw log slice and the full
+  log's SHA-256, the configuration with every threshold, the per-epoch results and
+  reasons, the engine version, a hash-chained manifest and a self-contained HTML summary,
+  signed with Ed25519 (a key from `kshana evidence keygen` or your own file; keys are never
+  stored in a pack and `*.evidence-key` is git-ignored). `verify` checks every hash, the
+  chain and the signature and names exactly what fails; with `--pubkey` it pins the signer.
+  An RFC 3161 token can be attached and is read and bound to the manifest (the authority's
+  own signature is not checked by this build; `openssl ts -verify` covers it). The log slice is the
+  window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
+  otherwise the whole log, and the manifest says which.
+  Creation and verification are pure public functions (`kshana::evidence`) that build for
+  `wasm32`. The packs state that they are a technical record, not a legal opinion. The new dependencies are
+  the `ed25519-dalek` tree (BSD-3-Clause and Apache-2.0/MIT, minimal features) and a direct
+  `zeroize` (already in that tree) to wipe key material. See
+  `docs/EVIDENCE-PACKS.md`.
+
+### Added (trust telemetry)
+
+- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
+  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
+  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
+  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
+  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. Delivery runs on worker
+  threads with connect and write time limits, capped reconnect backoff and a
+  `kshana_trust_syslog_send_failures_total` counter, so a dead or stalled collector cannot
+  stall the live assessment or freeze `/metrics`; reason labels are capped at 64 series. No
+  new dependencies.
+  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
+  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
+  in `src/telemetry/sample.rs`.
+
 ### Added
 
 - **Maritime trust: a live 0-100 trust score for a moving vessel's fix, from the NMEA 0183
@@ -38,21 +90,7 @@ breaking changes are called out explicitly.
   a test. Guide: `docs/MARITIME-TRUST.md`. The checks cannot see a spoofer whose fix is
   consistent with everything on the bus; the guide says so.
 
-- **`kshana nmea-scenario`: synthetic bridge NMEA 0183 for crew training in GNSS jamming
-  and spoofing recognition.** From a scenario TOML it writes a file, or streams over TCP
-  or UDP (unicast or broadcast; real time, accelerated or as fast as possible), the full
-  bridge set GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT and VBW for a vessel track with
-  rate-of-turn, acceleration and current limits, with satellite geometry from the engine's
-  own nominal constellations. Scripted events on a timeline: jamming, position drag-off
-  (a valid fix that walks away), time spoof and a replay delay, each with onset and
-  recovery ramps. An instructor log (JSON and text) records what was injected when with the
-  true track against the reported one. A library in `scenarios/training/` (open-sea
-  jamming, coastal drag-off, port-approach time spoof, combined) carries trainer notes.
-  Output is checksum-valid and deterministic per seed; tests pin a golden excerpt per
-  scenario and run every stream through the `receiver-trust` NMEA reader. Text only: no
-  RF, IQ or waveform output; streams are for training and testing and must never be fed
-  to a vessel's live navigation systems. A bare `--tcp`/`--udp` port means this machine
-  only; the TCP server has no authentication. See `docs/NMEA-TRAINING.md`.
+### Interference map
 
 - **`kshana interference-map` and `kshana route-exposure`: a public picture of where
   aircraft and ships reported degraded navigation data, and how much of a route it touches.**
@@ -78,35 +116,51 @@ breaking changes are called out explicitly.
   line; route exposure handles the antimeridian. Tests use synthetic data only. See `docs/INTERFERENCE-MAP.md` and the
   licence review in `docs/data/INTERFERENCE-DATA-SOURCES.md`.
 
-- **`kshana receiver-trust evidence` and `kshana evidence verify`: signed, verifiable
-  evidence packs for a GNSS trust event.** A pack bundles the raw log slice and the full
-  log's SHA-256, the configuration with every threshold, the per-epoch results and
-  reasons, the engine version, a hash-chained manifest and a self-contained HTML summary,
-  signed with Ed25519 (a key from `kshana evidence keygen` or your own file; keys are never
-  stored in a pack and `*.evidence-key` is git-ignored). `verify` checks every hash, the
-  chain and the signature and names exactly what fails; with `--pubkey` it pins the signer.
-  An RFC 3161 token can be attached and is read and bound to the manifest (the authority's
-  own signature is not checked by this build; `openssl ts -verify` covers it). The log slice is the
-  window's exact bytes where the reader reports source spans (NMEA, UBX, RINEX 3, Android),
-  otherwise the whole log, and the manifest says which.
-  Creation and verification are pure public functions (`kshana::evidence`) that build for
-  `wasm32`. The packs state that they are a technical record, not a legal opinion. The new dependencies are
-  the `ed25519-dalek` tree (BSD-3-Clause and Apache-2.0/MIT, minimal features) and a direct
-  `zeroize` (already in that tree) to wipe key material. See
-  `docs/EVIDENCE-PACKS.md`.
+### Added (training streams)
 
-- **`kshana trust-telemetry`: GNSS trust as a security-telemetry source.** Reads the
-  per-epoch trust stream (JSON lines: score 0-100, band, reasons) or a batch
-  `receiver-trust` result and feeds a Prometheus `/metrics` endpoint (localhost by
-  default), syslog events in CEF or LEEF inside an RFC 5424 envelope (UDP or TCP), and,
-  behind the off-by-default `otlp` feature, OTLP/HTTP JSON export. Delivery runs on worker
-  threads with connect and write time limits, capped reconnect backoff and a
-  `kshana_trust_syslog_send_failures_total` counter, so a dead or stalled collector cannot
-  stall the live assessment or freeze `/metrics`; reason labels are capped at 64 series. No
-  new dependencies.
-  A sample Grafana dashboard is in `deploy/grafana/`. Metric names, labels and the
-  CEF/LEEF field mapping are in `docs/TRUST-TELEMETRY.md`. The stream format is isolated
-  in `src/telemetry/sample.rs`.
+- **`kshana nmea-scenario`: synthetic bridge NMEA 0183 for crew training in GNSS jamming
+  and spoofing recognition.** From a scenario TOML it writes a file, or streams over TCP
+  or UDP (unicast or broadcast; real time, accelerated or as fast as possible), the full
+  bridge set GGA, RMC, VTG, GSV, GSA, GNS, ZDA, HDT and VBW for a vessel track with
+  rate-of-turn, acceleration and current limits, with satellite geometry from the engine's
+  own nominal constellations. Scripted events on a timeline: jamming, position drag-off
+  (a valid fix that walks away), time spoof and a replay delay, each with onset and
+  recovery ramps. An instructor log (JSON and text) records what was injected when with the
+  true track against the reported one. A library in `scenarios/training/` (open-sea
+  jamming, coastal drag-off, port-approach time spoof, combined) carries trainer notes.
+  Output is checksum-valid and deterministic per seed; tests pin a golden excerpt per
+  scenario and read every sentence with the `receiver-trust` NMEA reader. Text only: no
+  RF, IQ or waveform output; streams are for training and testing and must never be fed
+  to a vessel's live navigation systems. See `docs/NMEA-TRAINING.md`.
+
+### Marine integrations (0.35.0, workstream B)
+
+- **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
+  (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
+  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
+  a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
+  the config schema). No npm dependencies. Tested on recorded synthetic output.
+- **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a
+  dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) is the optional alternative. Either way OpenCPN
+  sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
+  through a real TCP socket and check what a consumer receives. A native score-panel plugin
+  (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
+  on the untrusted band; it builds, its logic is unit-tested, and it was run inside OpenCPN 5.8.4 under a virtual display (evidence
+  and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
+- **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
+  the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
+- The Signal K plugin accepts the live JSON schema 1.2 (a `position` then an `advisory` key appended; unknown appended keys are ignored), checked on real 1.2 output and against a real signalk-server.
+- Review fixes: the systemd units restart always and run sandboxed (no shell, no network where none is needed), a logrotate
+  snippet, `check-units.sh` fails on any finding; the container runs the gate from environment variables with a health check
+  and digest-pinned base images; Signal K score metadata, the stale notification is replaced when data resumes, child-process
+  errors are kept and kills escalate, unsafe `inputArgs` are refused, and the notification is at
+  `notifications.navigation.gnss.kshana.trust`; the relay caps a held partial line; the `$PKSHT` parsers reject scores outside
+  0 to 100; a documentation link check; a CI workflow (`marine-integrations.yml`) running all of it, including the real binary
+  end to end.
+- `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
+  only: nothing transmits, and no detection or false-alarm figure is claimed.
+
+### Added: compliance mapping and test-bench export
 
 - **`docs/compliance/` and `kshana compliance-report`.** A mapping from Kshana outputs to
   five resilience frameworks and standards (the US DHS Resilient PNT Conformance Framework v2.0,
@@ -118,7 +172,6 @@ breaking changes are called out explicitly.
   `not-evidenced` or `out-of-scope`, as Markdown and JSON, with the gap kept on every row. The
   wording is "supports evidence for"; nothing is rated or approved. Tests use synthetic runs and fail
   when a committed table drifts from the code.
-
 - **`kshana bench-export <scenario.toml>`.** Writes a `gnss-ins`, `jamming` or `gnss-sim`
   scenario's vehicle motion and events for a laboratory GNSS simulator: a user-motion CSV
   with documented frames and a metadata sidecar, NMEA 0183 `GGA`/`RMC`, waypoint text, and the
@@ -127,69 +180,20 @@ breaking changes are called out explicitly.
   `tests/interop_testbench.rs` and compared within its stated tolerance.
   [`docs/TEST-BENCH.md`](docs/TEST-BENCH.md) gives the method for replaying the export
   through a simulator and scoring the receiver's log with `kshana receiver-trust`.
-
 - **What counts as evidence.** A result counts for a capability only when it carries the
   fields its kind writes; a kind label alone counts for nothing. Unknown kinds, a result
   that disagrees with its sibling scenario, non-hex hashes and malformed receiver-trust
   counts are listed as not used, with the reason. The report escapes Markdown cells and
   cannot panic on a non-ASCII hash. `compliance::run_from_text` and `assess_texts` take
   texts, not paths.
-
 - **Test-bench export.** `--epoch` is range-checked (`UtcEpoch::parse_iso`); the waypoint
   file checks every interval and the command says why when it is left out; the docs state
   that `gnss-ins` heading is the body yaw and not the course, the `GGA` placeholder fields,
   and the scenario's own height change. `bench-export` and `compliance-report` are in the
   usage text.
-
 - `fusion::pack::truth_trajectory` exposes the `gnss-ins` driving profile's true state
   history (the same stepping the kind's own truth uses), and `UtcEpoch` gains NMEA date and
   time fields.
-
-- **Signal K plugin** (`integrations/signalk/`, not published to npm): runs or connects to `kshana receiver-trust live`
-  (the server's own NMEA input, custom input arguments, a JSON-lines TCP feed, or the `$PKSHT` sentences of a gate
-  stream), publishes the trust score, band, reasons, alarms and gate state under `navigation.gnss.kshana.*` (including the receiver-reported position as context, never `navigation.position`), and raises
-  a Signal K notification (`warn` on degraded, `alarm` on untrusted, with hold, clear and staleness thresholds, all in
-  the config schema). No npm dependencies. Tested on recorded synthetic output.
-
-- **OpenCPN**: gate-mode NMEA is served directly by `kshana receiver-trust live --gate --listen tcp:10110` (recommended); a
-  dependency-free TCP relay (`integrations/opencpn/nmea-tcp-relay.mjs`) is the optional alternative. Either way OpenCPN
-  sees an invalid fix when trust collapses and `$PKSHT` in its NMEA debug window; tests replay the synthetic gated stream
-  through a real TCP socket and check what a consumer receives. A native score-panel plugin
-  (`integrations/opencpn/plugin/`, plugin API 1.18, CMake) reads `$PKSHT` from OpenCPN's own NMEA stream and alerts
-  on the untrusted band; it builds, its logic is unit-tested, and it was run inside OpenCPN 5.8.4 under a virtual display (evidence
-  and a reproduction script in `integrations/opencpn/evidence/`); it is not packaged for the plugin manager.
-
-- **Reference build** (`deploy/reference-build/`): generic parts list, OS setup, systemd units for the advisory monitor and
-  the opt-in gate (checked with `systemd-analyze verify` by `check-units.sh`), a container option, Signal K wiring.
-
-- The Signal K plugin accepts the live JSON schema 1.2 (a `position` then an `advisory` key appended; unknown appended keys are ignored), checked on real 1.2 output and against a real signalk-server.
-
-- Review fixes: the systemd units restart always and run sandboxed (no shell, no network where none is needed), a logrotate
-  snippet, `check-units.sh` fails on any finding; the container runs the gate from environment variables with a health check
-  and digest-pinned base images; Signal K score metadata, the stale notification is replaced when data resumes, child-process
-  errors are kept and kills escalate, unsafe `inputArgs` are refused, and the notification is at
-  `notifications.navigation.gnss.kshana.trust`; the relay caps a held partial line; the `$PKSHT` parsers reject scores outside
-  0 to 100; a documentation link check; a CI workflow (`marine-integrations.yml`) running all of it, including the real binary
-  end to end.
-
-- `docs/MARINE-INTEGRATIONS.md`. Advisory software, not type-approved equipment; the operator stays responsible. Software
-  only: nothing transmits, and no detection or false-alarm figure is claimed.
-
-- **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
-  `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
-  `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing
-  key does not belong in a page). MCP server: `assess_vessel_stream`, `assess_vessel_log`,
-  `create_evidence_pack`, `verify_evidence_pack`, `generate_training_nmea`,
-  `build_interference_map`, `route_exposure`, each with input caps and round-trip tests. Claude
-  Code plugin: slash commands `/kshana-assess-receiver`, `/kshana-training-scenario`,
-  `/kshana-interference-map`, `/kshana-evidence-pack` and the matching skills. JetBrains plugin:
-  Assess Receiver Trust, Generate Training NMEA, Build Interference Map and Route Exposure
-  actions. Notebooks: `vessel-trust-and-training`, `interference-map-route-exposure`. Docs:
-  `docs/AGENTS.md` and `docs/SURFACES.md`, which states, for every cell, why a surface cannot
-  carry a capability (a running process: `receiver-trust live`, its gate and listener, the
-  telemetry exporters, streamed training NMEA; the land download). The in-memory entry points
-  share `kshana::surface`, which adds only input size caps and JSON shaping to the feature
-  modules' own functions.
 
 ### Changed
 
@@ -227,7 +231,6 @@ breaking changes are called out explicitly.
   seeds of this scenario: quantum 1 and classical 2 flagged); at 64 by 200 the same seed is
   inside the band for both clocks (NIS 0.990 and 1.001). Known follow-up: the fusion kind has the
   same gap (classical integrity 0.80 with a floor); the hybrid kind stays above 0.99.
-
 
 ## [0.34.1] - 2026-10-10
 

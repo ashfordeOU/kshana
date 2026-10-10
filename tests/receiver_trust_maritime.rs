@@ -267,6 +267,8 @@ fn scores(r: &TrustResult) -> Vec<(f64, f64, TrustState)> {
 fn a_clean_voyage_scores_in_the_top_band_at_every_epoch() {
     let r = run_text(&voyage(1500.0, None), &vessel());
     let sc = scores(&r);
+    // PIN-SCOPE:    the number of scored epochs of a 1500 s clean voyage after the 60 s calibration
+    // PIN-EXCLUDES: the scores and bands themselves, asserted in the loop below
     assert_eq!(sc.len(), 1441, "every epoch after the 60 s calibration");
     for (t, s, band) in sc {
         assert_eq!((s, band), (100.0, TrustState::Nominal), "t = {t}");

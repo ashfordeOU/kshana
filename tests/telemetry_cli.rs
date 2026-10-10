@@ -214,7 +214,14 @@ fn octet_counting_needs_tcp_and_usage_errors_exit_2() {
 #[test]
 fn replays_a_batch_result() {
     let src = PathBuf::from(env!("CARGO_MANIFEST_DIR")).join("examples/receiver-trust");
-    let dir = std::env::temp_dir().join(format!("kshana-telemetry-replay-{}", std::process::id()));
+    use std::sync::atomic::{AtomicU64, Ordering};
+    static SEQ: AtomicU64 = AtomicU64::new(0);
+    let uniq = SEQ.fetch_add(1, Ordering::Relaxed);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-telemetry-replay-{}-{}",
+        std::process::id(),
+        uniq
+    ));
     let _ = std::fs::remove_dir_all(&dir);
     std::fs::create_dir_all(&dir).unwrap();
     for f in ["session.toml", "illustrative-jamming.nmea"] {
