@@ -3,7 +3,7 @@
   "name": "io.github.ashfordeOU/kshana-mcp",
   "title": "Kshana PNT-resilience simulator",
   "description": "Validated Kshana PNT simulator: orbits, GNSS, fusion, receiver trust, interference maps.",
-  "version": "0.34.0",
+  "version": "0.34.1",
   "websiteUrl": "https://kshana.dev",
   "repository": {
     "url": "https://github.com/ashfordeOU/kshana",
@@ -13,7 +13,7 @@
   "packages": [
     {
       "registryType": "oci",
-      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.34.0",
+      "identifier": "ghcr.io/ashfordeou/kshana-mcp:0.34.1",
       "transport": {
         "type": "stdio"
       },

@@ -178,10 +178,13 @@ fn base64(bytes: &[u8]) -> String {
 
 use kshana::surface::first_comment_sentence;
 
-/// Refuse a scenario that names a file or folder for the engine to read, and one over the
-/// upload limit: the server runs scenario text from the client and accepts inline content only.
+/// The most bytes of scenario text or uploaded content any tool accepts (4 MiB).
+pub const MAX_INPUT_BYTES: usize = 4 * 1024 * 1024;
+
+/// MCP tools accept inline content only: refuse a scenario that names a file or folder for the
+/// engine to read, and one over the size limit.
 fn inline_only(toml: &str) -> Result<(), McpError> {
-    kshana::surface::reject_file_sources(toml, crate::marine::MAX_UPLOAD_BYTES)
+    kshana::inline_only::reject_file_sources(toml, MAX_INPUT_BYTES)
         .map_err(|e| McpError::invalid_params(e, None))
 }
 

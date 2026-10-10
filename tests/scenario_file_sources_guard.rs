@@ -2,7 +2,7 @@
 //! Pins the inline-only boundary of the surfaces that run scenario text from an untrusted
 //! party (the MCP server).
 //!
-//! `kshana::surface::FILE_SOURCE_KEYS` lists the scenario fields that make the engine read a
+//! `kshana::inline_only::FILE_SOURCE_KEYS` lists the scenario fields that make the engine read a
 //! file or a folder by name. A scenario type that gains such a field and is not added there
 //! would let a caller reach the host's files through a surface that is meant to take inline
 //! content only, so this test reads every Rust source file under `src/`, finds each public
@@ -10,7 +10,7 @@
 //! is explained below as something else (an output, a result path, a schema name, a field
 //! of a command-line-only type).
 
-use kshana::surface::{reject_file_sources, FILE_SOURCE_KEYS, FILE_SOURCE_KEYS_BY_KIND};
+use kshana::inline_only::{reject_file_sources, FILE_SOURCE_KEYS, FILE_SOURCE_KEYS_BY_KIND};
 use std::path::{Path, PathBuf};
 
 /// `(file, field)` pairs that look like a file source and are not one a scenario can set
