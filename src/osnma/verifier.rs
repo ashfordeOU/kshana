@@ -28,6 +28,7 @@ use super::tables::{HashFn, KeyType, MacFn};
 use super::tesla;
 use super::OsnmaStatus;
 use serde::Serialize;
+use sha2::{Digest, Sha256};
 use std::collections::{BTreeMap, BTreeSet};
 
 /// Sub-frames of extra delay before the key of an ADKD 12 ("slow MAC") tag is sent.
@@ -218,6 +219,13 @@ pub enum Event {
         gst: u32,
         reason: FailReason,
     },
+    /// No TESLA key has verified for longer than the authentication window by the
+    /// reference (host) clock: OSNMA has stopped or is being blocked, and nothing new can
+    /// authenticate. Statuses expire on their own.
+    KeyStall {
+        reference: u32,
+        latest_key: u32,
+    },
     /// A sub-frame time lay outside the allowed distance from the reference time.
     TimeRejected {
         gst_sf: u32,
@@ -239,6 +247,8 @@ pub enum KrootError {
     Revoked,
     /// A verified alert message has been received; nothing more is accepted.
     Alert,
+    /// Its time of applicability is earlier than that of the chain held for this id.
+    Stale,
 }
 
 struct Revoked {
@@ -268,7 +278,7 @@ struct ChainState {
 struct Verdict {
     status: TagStatus,
     /// Sub-frame start and IODnav of the data that matched.
-    data: Option<(u32, Option<u16>)>,
+    data: Option<(u32, Option<[u8; 32]>)>,
     /// A dummy tag (COP 0) proves the key, not any data: it never counts for a satellite.
     dummy: bool,
 }
@@ -286,8 +296,9 @@ impl Verdict {
 /// Latest verdict per satellite.
 #[derive(Debug, Clone, Copy, Default)]
 struct SatRecord {
-    /// Sub-frame start and IODnav of the newest authenticated ephemeris and clock data.
-    ok: Option<(u32, u16)>,
+    /// Sub-frame start and SHA-256 of the newest authenticated ephemeris and clock data
+    /// (the bit string ADKD 0 covers).
+    ok: Option<(u32, [u8; 32])>,
     last_fail: Option<(u32, FailReason)>,
 }
 
@@ -303,8 +314,22 @@ pub struct Verifier {
     revoked_cids: BTreeMap<u8, Revoked>,
     revoked_pkids: BTreeSet<u8>,
     history: BTreeMap<(u8, u32), [[u8; 16]; 15]>,
-    /// IODnav of the newest ephemeris received per satellite, authenticated or not.
-    cur_iod: BTreeMap<u8, (u32, u16)>,
+    /// SHA-256 of the newest complete ephemeris and clock data (the ADKD 0 bit string)
+    /// received per satellite, authenticated or not. The status binds to this, not to
+    /// the IODnav, which an attacker can copy and which Word Type 5 does not carry.
+    cur_data: BTreeMap<u8, (u32, [u8; 32])>,
+    /// Which satellites sent each NMA header byte in each sub-frame. The header is not
+    /// authenticated; a status or revocation it announces is acted on only when more than
+    /// one satellite agrees or a verified KROOT carries the same header.
+    votes: BTreeMap<(u32, u8), BTreeSet<u8>>,
+    /// The NMA status agreed that way, if any.
+    nmas_agreed: Option<u8>,
+    /// Sub-frame time of the sub-frame being processed (untrusted; only for bookkeeping).
+    cur_sf_gst: u32,
+    /// The public key a chain id's previous chain was signed with, and when it was
+    /// replaced, so a key revocation announced after the replacement hits the right key.
+    superseded_pk: BTreeMap<u8, (u8, u32)>,
+    stall_warned: bool,
     pending: Vec<PendingMack>,
     sats: BTreeMap<u8, SatRecord>,
     held_kroot: Option<(Dsm, Vec<u8>)>,
@@ -315,7 +340,6 @@ pub struct Verifier {
     /// Slot of the latest TESLA key that verified.
     latest_key_gst: Option<u32>,
     nmas: u8,
-    nmas_seen: bool,
     alert: bool,
 }
 
@@ -337,7 +361,12 @@ impl Verifier {
             revoked_cids: BTreeMap::new(),
             revoked_pkids: BTreeSet::new(),
             history: BTreeMap::new(),
-            cur_iod: BTreeMap::new(),
+            cur_data: BTreeMap::new(),
+            votes: BTreeMap::new(),
+            nmas_agreed: None,
+            cur_sf_gst: 0,
+            superseded_pk: BTreeMap::new(),
+            stall_warned: false,
             pending: Vec::new(),
             sats: BTreeMap::new(),
             held_kroot: None,
@@ -345,7 +374,6 @@ impl Verifier {
             reference: None,
             latest_key_gst: None,
             nmas: 0,
-            nmas_seen: false,
             alert: false,
         };
         if let Some(c) = chain {
@@ -355,8 +383,42 @@ impl Verifier {
     }
 
     /// Tell the verifier the present time from a source the received data cannot move.
+    ///
+    /// The verifier's own clock moves only with verified keys, so it stands still when
+    /// OSNMA stops (jamming, a spoofer that cannot sign). A live caller must therefore
+    /// call this every sub-frame with host time, converted to GST; that is what makes
+    /// authentication expire when the keys stop. [`Verifier::poll_clock`] says when they
+    /// have.
     pub fn set_reference_time(&mut self, gst: u32) {
         self.reference = Some(gst);
+    }
+
+    /// Check the clock against the reference time: when no TESLA key has verified for
+    /// longer than the authentication window, one [`Event::KeyStall`] is returned (and
+    /// again after the keys have come back and stopped again). Called with every
+    /// sub-frame; a host that has fed no pages for a while can call it on its own.
+    pub fn poll_clock(&mut self) -> Vec<Event> {
+        let mut ev = Vec::new();
+        self.check_stall(&mut ev);
+        ev
+    }
+
+    fn check_stall(&mut self, ev: &mut Vec<Event>) {
+        let (Some(r), Some(k)) = (self.reference, self.latest_key_gst) else {
+            return;
+        };
+        let window = self.cfg.auth_window_s.unwrap_or(AUTH_WINDOW_S);
+        if r > k.saturating_add(window) {
+            if !self.stall_warned {
+                self.stall_warned = true;
+                ev.push(Event::KeyStall {
+                    reference: r,
+                    latest_key: k,
+                });
+            }
+        } else {
+            self.stall_warned = false;
+        }
     }
 
     /// The verifier's present time: the later of the reference time and the slot of the
@@ -424,30 +486,36 @@ impl Verifier {
         }
         if sf.has_osnma {
             self.nmas = nma.nmas;
-            self.nmas_seen = true;
         }
+        self.cur_sf_gst = sf.gst_sf;
         self.history.insert((sf.svid, sf.gst_sf), sf.words);
-        if let Some(iod) = navdata::iodnav(&sf.words) {
+        if let Some(nav) = navdata::adkd0(&sf.words) {
             let newer = self
-                .cur_iod
+                .cur_data
                 .get(&sf.svid)
                 .is_none_or(|(g, _)| *g <= sf.gst_sf);
             if newer {
-                self.cur_iod.insert(sf.svid, (sf.gst_sf, iod));
+                let h: [u8; 32] = Sha256::digest(&nav.bytes).into();
+                self.cur_data.insert(sf.svid, (sf.gst_sf, h));
             }
         }
         if sf.has_osnma {
-            self.on_cpks(&sf, nma, &mut ev);
+            self.vote(&sf, nma, &mut ev);
             // Key and alert messages are processed whatever the NMA status (an alert
             // is sent while the status is "don't use"); the tags only when it is usable.
             self.process_dsm(&sf, &mut ev);
             if matches!(nma.nmas, 1 | 2) {
                 self.on_mack(&sf, nma, &mut ev);
             } else {
+                // The tags of such a sub-frame are not looked at, but its key is still
+                // chain material: verifying it keeps the clock moving through a period
+                // of "don't use", and the sub-frames after it within reach.
+                self.accept_key_of(&sf, nma, &mut ev);
                 self.note(&sf, PendingReason::ServiceNotUsable, &mut ev);
             }
         }
         self.evict();
+        self.check_stall(&mut ev);
         ev
     }
 
@@ -512,13 +580,31 @@ impl Verifier {
         }
     }
 
-    /// Chain and public key status from the NMA header. A revocation is announced with
-    /// NMA status "don't use" and the id of the chain being withdrawn; once the
-    /// replacement is in force the same CPKS value goes on with status operational and
-    /// the new chain's id, which must not revoke it. The header is not itself
-    /// authenticated, so a revocation is final within a session: a forged one can only
-    /// take authentication away, never grant it.
-    fn on_cpks(&mut self, sf: &Subframe, nma: NmaHeader, ev: &mut Vec<Event>) {
+    /// Count which satellites send which NMA header in a sub-frame; the first time two
+    /// do, the header counts as agreed.
+    fn vote(&mut self, sf: &Subframe, nma: NmaHeader, ev: &mut Vec<Event>) {
+        let set = self.votes.entry((sf.gst_sf, sf.hkroot[0])).or_default();
+        if set.insert(sf.svid) && set.len() == 2 {
+            self.on_header(nma, sf.gst_sf, ev);
+        }
+        let floor = sf.gst_sf.saturating_sub(4 * SUBFRAME_S);
+        self.votes.retain(|(g, _), _| *g >= floor);
+    }
+
+    /// An NMA header that is confirmed, by more than one satellite or by a verified
+    /// KROOT whose signed message carries it: its status becomes the verifier's, and a
+    /// revocation it announces is carried out.
+    fn on_header(&mut self, nma: NmaHeader, gst: u32, ev: &mut Vec<Event>) {
+        self.nmas_agreed = Some(nma.nmas);
+        self.on_cpks(nma, gst, ev);
+    }
+
+    /// Chain and public key status from a confirmed NMA header. A revocation is
+    /// announced with NMA status "don't use" and the id of the chain being withdrawn;
+    /// once the replacement is in force the same CPKS value goes on with status
+    /// operational and the new chain's id, which must not revoke it. A revocation is
+    /// final within a session: a forged one can only take authentication away.
+    fn on_cpks(&mut self, nma: NmaHeader, gst: u32, ev: &mut Vec<Event>) {
         if nma.nmas != 3 {
             return;
         }
@@ -532,7 +618,7 @@ impl Verifier {
                     nma.cid,
                     Revoked {
                         alpha: known.map(|(a, _)| a),
-                        upto: known.map_or(sf.gst_sf, |(_, g)| g.max(sf.gst_sf)),
+                        upto: known.map_or(gst, |(_, g)| g.max(gst)),
                     },
                 );
                 if self.chains.remove(&nma.cid).is_some() {
@@ -541,7 +627,14 @@ impl Verifier {
                 }
             }
             5 => {
-                let pkid = self.chains.get(&nma.cid).map(|c| c.chain.pkid);
+                // The key being revoked signed the chain the header names. If that chain
+                // was replaced a moment ago (the new KROOT came before the header), the
+                // key is the previous chain's, not the new one's.
+                let recent = |t: u32| gst.saturating_sub(t) <= AUTH_WINDOW_S;
+                let pkid = match self.superseded_pk.get(&nma.cid) {
+                    Some((pk, t)) if recent(*t) => Some(*pk),
+                    _ => self.chains.get(&nma.cid).map(|c| c.chain.pkid),
+                };
                 if let Some(pkid) = pkid {
                     self.public_keys.remove(&pkid);
                     self.revoked_pkids.insert(pkid);
@@ -655,9 +748,11 @@ impl Verifier {
             return;
         }
         let mut result = Err(SigError::Invalid);
+        let mut matched = 0u8;
         for n in candidates {
             result = signature::verify(&pk, &k.signed_message(n), &k.signature);
             if result.is_ok() {
+                matched = n;
                 break;
             }
         }
@@ -684,6 +779,7 @@ impl Verifier {
                     tag_bits: chain.tag_bits,
                     maclt: chain.maclt,
                 });
+                let now = self.cur_sf_gst;
                 match self.chains.get_mut(&chain.cid) {
                     Some(cs) if cs.chain.alpha == chain.alpha => {
                         // A KROOT of the chain in force (possibly for a later time of
@@ -692,7 +788,23 @@ impl Verifier {
                             cs.keys.insert(a, chain.root_key);
                         }
                     }
-                    _ => self.adopt_chain(chain),
+                    Some(cs) if chain.gst0 <= cs.chain.gst0 => {
+                        // A replayed old KROOT, or a conflicting one: the chain with the
+                        // later time of applicability stays.
+                        ev.push(Event::KrootRejected(KrootError::Stale));
+                        return;
+                    }
+                    Some(cs) => {
+                        let old = cs.chain.pkid;
+                        self.superseded_pk.insert(chain.cid, (old, now));
+                        self.adopt_chain(chain);
+                    }
+                    None => self.adopt_chain(chain),
+                }
+                // The signed message carries an NMA header: that is a confirmation.
+                let h = NmaHeader::parse(matched);
+                if h.nmas == 3 {
+                    self.on_header(h, now, ev);
                 }
             }
             Err(e) => ev.push(Event::KrootRejected(KrootError::Signature(e))),
@@ -747,6 +859,21 @@ impl Verifier {
             slow_done: false,
         });
         self.process_pending(ev);
+    }
+
+    /// Verify the TESLA key in a sub-frame whose tags are not to be checked.
+    fn accept_key_of(&mut self, sf: &Subframe, nma: NmaHeader, ev: &mut Vec<Event>) {
+        let Some(cs) = self.chains.get(&nma.cid) else {
+            return;
+        };
+        let chain = cs.chain.clone();
+        let layout = MackLayout {
+            key_bits: chain.key_bits,
+            tag_bits: chain.tag_bits,
+        };
+        if let Some(mack) = layout.parse(&sf.mack) {
+            self.accept_key(&chain, sf.gst_sf, &mack.key, ev);
+        }
     }
 
     fn accept_key(&mut self, chain: &Chain, gst: u32, key: &[u8], ev: &mut Vec<Event>) {
@@ -964,7 +1091,7 @@ impl Verifier {
                 Ok(true) => {
                     return Verdict {
                         status: TagStatus::Authenticated,
-                        data: Some((g, navdata::iodnav(words))),
+                        data: Some((g, (adkd != 4).then(|| Sha256::digest(&nav.bytes).into()))),
                         dummy: false,
                     }
                 }
@@ -992,10 +1119,10 @@ impl Verifier {
     ) {
         match v.status {
             TagStatus::Authenticated if !v.dummy && (adkd == 0 || adkd == 12) => {
-                if let Some((g, Some(iod))) = v.data {
+                if let Some((g, Some(h))) = v.data {
                     let rec = self.sats.entry(prnd).or_default();
                     if rec.ok.is_none_or(|(og, _)| og <= g) {
-                        rec.ok = Some((g, iod));
+                        rec.ok = Some((g, h));
                     }
                 }
             }
@@ -1030,7 +1157,7 @@ impl Verifier {
     }
 
     fn status_of(&self, prn: u8, r: &SatRecord) -> OsnmaStatus {
-        let unusable = self.alert || (self.nmas_seen && !matches!(self.nmas, 1 | 2));
+        let unusable = self.alert || self.nmas_agreed.is_some_and(|n| !matches!(n, 1 | 2));
         let Some(now) = self.trusted_time() else {
             return OsnmaStatus::Unavailable;
         };
@@ -1045,11 +1172,13 @@ impl Verifier {
         }
         let window = self.cfg.auth_window_s.unwrap_or(AUTH_WINDOW_S);
         match r.ok {
-            // Only while it is recent, and only for the ephemeris still in use: newer,
-            // unauthenticated data of the satellite takes the status away again.
-            Some((g, iod))
+            // Only while it is recent, and only while the newest ephemeris and clock data
+            // the satellite sends is the very data that was authenticated: bit for bit,
+            // not just under the same IODnav (a counter anyone can copy, which Word Type 5
+            // does not even carry). Anything else is unauthenticated data in use.
+            Some((g, h))
                 if now.saturating_sub(g) <= window
-                    && self.cur_iod.get(&prn).is_none_or(|(_, c)| *c == iod) =>
+                    && self.cur_data.get(&prn).is_some_and(|(_, c)| *c == h) =>
             {
                 OsnmaStatus::Authenticated
             }
@@ -1080,6 +1209,11 @@ impl Verifier {
         } else {
             OsnmaStatus::Unavailable
         }
+    }
+
+    /// How many sub-frames of navigation data are held for matching against tags.
+    pub fn stored_subframes(&self) -> usize {
+        self.history.len()
     }
 
     /// The most recent NMA status value seen (1 test, 2 operational, 3 don't use).

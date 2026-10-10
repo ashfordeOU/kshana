@@ -217,11 +217,11 @@ fn words(prn: u8, gst: u32) -> [[u8; 16]; 15] {
     words_iod(prn, gst, u64::from(gst / 600 % 1024))
 }
 
-/// As [`words`] with a chosen IODnav. As in broadcast data the IODnav normally holds for
-/// ten minutes while the content of the words (the seed) differs from one sub-frame to
-/// the next.
+/// As [`words`] with a chosen IODnav. As in broadcast data the ephemeris and clock
+/// content of Word Types 1 to 5 holds for as long as the IODnav does (ten minutes);
+/// only the time fields of Word Type 5 move.
 fn words_iod(prn: u8, gst: u32, iod: u64) -> [[u8; 16]; 15] {
-    let seed = prn.wrapping_mul(31).wrapping_add((gst / 30) as u8);
+    let seed = prn.wrapping_mul(31).wrapping_add(iod as u8);
     let mut ws = [[0u8; 16]; 15];
     for (i, wt) in [1u8, 2, 3, 4, 5, 6, 10].iter().enumerate() {
         ws[i] = word(*wt, iod, seed);
@@ -355,6 +355,20 @@ fn drive(
     frame: &mut dyn FnMut(u32, u32) -> Frame,
     tamper: Tamper,
 ) -> Out {
+    drive_with(cfg, nsf, a_first, None, frame, tamper)
+}
+
+/// As [`drive`], with a second OSNMA transmitter (satellite 9) that repeats the header
+/// of `PRNA` from sub-frame `witness_from` on, with a MACK of filler bytes: a second satellite
+/// agreeing on the NMA header, which is what confirms a status or a revocation.
+fn drive_with(
+    cfg: Config,
+    nsf: u32,
+    a_first: bool,
+    witness_from: Option<u32>,
+    frame: &mut dyn FnMut(u32, u32) -> Frame,
+    tamper: Tamper,
+) -> Out {
     let mut v = Verifier::new(cfg);
     let (mut events, mut all) = (Vec::new(), Vec::new());
     for n in 0..nsf {
@@ -364,10 +378,14 @@ fn drive(
         let mut x = pages(PRN_X, gst, &words(PRN_X, gst), None);
         tamper(gst, PRNA, &mut a);
         tamper(gst, PRN_X, &mut x);
+        let w = match witness_from {
+            Some(from) if n >= from => pages_hk(9, gst, &words(9, gst), Some(&[0xA5u8; 60]), &f.hk),
+            _ => Vec::new(),
+        };
         let order: Vec<&InavPage> = if a_first {
-            a.iter().chain(x.iter()).collect()
+            a.iter().chain(x.iter()).chain(w.iter()).collect()
         } else {
-            x.iter().chain(a.iter()).collect()
+            x.iter().chain(a.iter()).chain(w.iter()).collect()
         };
         for p in order {
             events.extend(v.push_page(p));
@@ -876,12 +894,16 @@ impl Signer {
 /// A DSM-KROOT for the chain of `ctx`, signed with `signer`; the signed message uses
 /// `header` as its NMA header.
 fn dsm_kroot(ctx: &Ctx, root: &[u8], signer: &Signer, header: u8) -> Vec<u8> {
+    dsm_kroot_pk(ctx, root, signer, header, PKID)
+}
+
+fn dsm_kroot_pk(ctx: &Ctx, root: &[u8], signer: &Signer, header: u8, pkid: u8) -> Vec<u8> {
     let (blocks, nbdk, sig_len) = match signer {
         Signer::P256(_) => (8usize, 2u8, 64usize),
         Signer::P521(_) => (13, 7, 132),
     };
     let mut d = vec![0u8; blocks * 13];
-    d[0] = (nbdk << 4) | PKID;
+    d[0] = (nbdk << 4) | pkid;
     let hf = if ctx.hash == HashFn::Sha3_256 { 2 } else { 0 };
     let mf = if ctx.mac == MacFn::CmacAes { 1 } else { 0 };
     d[1] = (ctx.cid << 6) | (hf << 2) | mf;
@@ -1286,29 +1308,113 @@ fn a_public_key_from_a_dsm_pkr_then_a_kroot_then_an_alert() {
         .any(|t| t.tag_gst > alert_sf && t.status == TagStatus::Authenticated));
 }
 
-#[test]
-fn nma_status_dont_use_reads_unavailable() {
-    // The last sub-frames carry NMA status 3: tags are not looked at and nothing reads
-    // as authenticated.
-    let ctx = Ctx::std();
-    let chain = ctx.chain(SUBFRAMES + 20);
-    let mut frames = |n: u32, gst: u32| {
+/// Frames whose header carries NMA status "don't use" from sub-frame 12 on.
+fn dont_use_frames<'a>(ctx: &'a Ctx, chain: &'a [Vec<u8>]) -> impl FnMut(u32, u32) -> Frame + 'a {
+    move |n, gst| {
         let mut c = ctx.clone();
         if n >= 12 {
             c.nmas = 3;
         }
         Frame {
             hk: plain_hkroot(c.header(1)),
-            mack: ctx.mack(&chain, gst),
+            mack: ctx.mack(chain, gst),
         }
-    };
-    let o = drive(config(), SUBFRAMES, false, &mut frames, &mut no_tamper());
+    }
+}
+
+#[test]
+fn nma_status_dont_use_needs_a_second_satellite_to_count() {
+    let ctx = Ctx::std();
+    let chain = ctx.chain(SUBFRAMES + 20);
+    // One satellite's header is not authenticated: alone it changes nothing.
+    let o = drive(
+        config(),
+        SUBFRAMES,
+        false,
+        &mut dont_use_frames(&ctx, &chain),
+        &mut no_tamper(),
+    );
     assert!(count_ok(&o.events) > 0, "service was usable at first");
+    assert_eq!(o.v.overall(), OsnmaStatus::Authenticated);
+    // A second satellite saying the same makes it count: nothing reads as authenticated.
+    let o = drive_with(
+        config(),
+        SUBFRAMES,
+        false,
+        Some(12),
+        &mut dont_use_frames(&ctx, &chain),
+        &mut no_tamper(),
+    );
     assert!(tags(&o.events).iter().any(|t| matches!(
         t.status,
         TagStatus::Pending(PendingReason::ServiceNotUsable)
     )));
     assert_eq!(o.v.nma_status(), 3);
+    assert_eq!(o.v.overall(), OsnmaStatus::Unavailable);
+}
+
+#[test]
+fn the_clock_keeps_moving_through_a_period_of_dont_use() {
+    // Keys in sub-frames whose tags are not looked at still verify: the clock does not
+    // stand still, so what follows is not mistaken for far-future data.
+    let ctx = Ctx::std();
+    let chain = ctx.chain(SUBFRAMES + 20);
+    let o = drive(
+        config(),
+        SUBFRAMES,
+        false,
+        &mut dont_use_frames(&ctx, &chain),
+        &mut no_tamper(),
+    );
+    assert!(o.v.trusted_time().unwrap() >= GST0 + 30 * (SUBFRAMES - 2));
+    assert!(!o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::TimeRejected { .. })));
+}
+
+#[test]
+fn a_verified_kroot_carrying_dont_use_confirms_it_alone() {
+    // A single satellite, but its DSM-KROOT is signed over a header with status 3.
+    let ctx = Ctx::std();
+    let chain = ctx.chain(60);
+    let sk = Signer::p256(0x11);
+    let mut dont = ctx.clone();
+    dont.nmas = 3;
+    let dsm = dsm_kroot(&ctx, &chain[0], &sk, dont.header(1));
+    let cfg = || Config {
+        public_keys: vec![sk.public(PKID)],
+        trusted_chain: Some(ctx.trusted(&chain)),
+        ..Config::default()
+    };
+    let frames = |ctx: &Ctx| {
+        let (ctx, chain, dsm) = (ctx.clone(), chain.clone(), dsm.clone());
+        move |n: u32, gst: u32| {
+            let mut c = ctx.clone();
+            let hk = if n >= 12 {
+                c.nmas = 3;
+                dsm_hk(c.header(1), 0, &dsm, (n - 12) as usize % 8)
+            } else {
+                // No key message yet: a filler DSM id, so no empty block 0 is held.
+                let mut hk = plain_hkroot(c.header(1));
+                hk[1] = 0xFF;
+                hk
+            };
+            Frame {
+                hk,
+                mack: ctx.mack(&chain, gst),
+            }
+        }
+    };
+    // Up to the last block the KROOT is incomplete: one satellite's header counts for nothing.
+    let o = drive(cfg(), 19, false, &mut frames(&ctx), &mut no_tamper());
+    assert_eq!(o.v.overall(), OsnmaStatus::Authenticated);
+    // With the KROOT verified, status 3 is confirmed.
+    let o = drive(cfg(), 20, false, &mut frames(&ctx), &mut no_tamper());
+    assert!(o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::KrootVerified { .. })));
     assert_eq!(o.v.overall(), OsnmaStatus::Unavailable);
 }
 
@@ -1358,10 +1464,24 @@ fn a_revoked_chain_is_dropped_and_cannot_come_back() {
             mack: ctx.mack(&chain, gst),
         }
     };
-    let o = drive(
+    // One satellite's revocation header is not enough ...
+    let alone = drive(
         signed_cfg(sk.public(PKID)),
         30,
         false,
+        &mut frames,
+        &mut no_tamper(),
+    );
+    assert!(!alone
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::ChainRevoked { .. })));
+    // ... a second satellite saying the same makes it count.
+    let o = drive_with(
+        signed_cfg(sk.public(PKID)),
+        30,
+        false,
+        Some(12),
         &mut frames,
         &mut no_tamper(),
     );
@@ -1463,6 +1583,192 @@ fn a_new_chain_takes_over_and_the_old_ones_kroot_does_not_undo_it() {
     let s = status(&o.v);
     assert_eq!(s["E02"], OsnmaStatus::Authenticated);
     assert_eq!(s["E05"], OsnmaStatus::Authenticated);
+}
+
+// ------------------------------------------------- binding to the data, clock, KROOT age ---
+
+/// Page `i` of a sub-frame with `edit` applied to the 128-bit word it carries, as a
+/// spoofer would send: the same IODnav, other content.
+fn spoof_words(prn: u8, gst: u32, word_ix: usize, bit: usize) -> Vec<InavPage> {
+    let mut ws = words(prn, gst);
+    ws[word_ix][bit / 8] ^= 0x80 >> (bit % 8);
+    pages(prn, gst, &ws, None)
+}
+
+#[test]
+fn spoofed_data_under_the_same_iodnav_does_not_stay_authenticated() {
+    // Word order in the synthetic sub-frame: 1, 2, 3, 4, 5, 6, 10. Word Type 5 carries
+    // no IODnav at all; words 1 to 4 carry one that is copied here.
+    for (what, word_ix, bit) in [
+        ("word type 5 (health, group delays, ionosphere)", 4, 40),
+        ("word type 2 with the IODnav copied", 1, 40),
+        ("word type 1 with the IODnav copied", 0, 100),
+    ] {
+        let (mut v, _) = run(no_tamper());
+        assert_eq!(status(&v)["E05"], OsnmaStatus::Authenticated);
+        // Sub-frames of satellite 5 within the clock's reach, repeated: OSNMA jammed, so
+        // no tag ever follows them.
+        for n in 0..3u32 {
+            let gst = GST0 + 30 * (SUBFRAMES + n);
+            for p in spoof_words(PRN_X, gst, word_ix, bit) {
+                v.push_page(&p);
+            }
+            assert_eq!(
+                status(&v)["E05"],
+                OsnmaStatus::Unavailable,
+                "{what}, sub-frame {n}"
+            );
+        }
+        assert_eq!(status(&v)["E02"], OsnmaStatus::Authenticated, "{what}");
+    }
+}
+
+#[test]
+fn unchanged_data_stays_authenticated_across_sub_frames() {
+    // The newest sub-frame carries the very data that was authenticated: still good,
+    // so the binding does not flap on ordinary operation.
+    let (mut v, _) = run(no_tamper());
+    let gst = GST0 + 30 * SUBFRAMES;
+    for p in pages(PRN_X, gst, &words(PRN_X, gst), None) {
+        v.push_page(&p);
+    }
+    assert_eq!(status(&v)["E05"], OsnmaStatus::Authenticated);
+}
+
+#[test]
+fn a_far_future_stamp_is_set_aside_and_stores_nothing() {
+    let ctx = Ctx::std();
+    let chain = ctx.chain(SUBFRAMES + 20);
+    let (mut v, _) = run(no_tamper());
+    let (stored, clock) = (v.stored_subframes(), v.trusted_time());
+    let mut ev = Vec::new();
+    for p in spoof_pages(PRN_X, GST0 + 86_400, 2, &ctx, &chain) {
+        ev.extend(v.push_page(&p));
+    }
+    assert!(ev.iter().any(|e| matches!(e, Event::TimeRejected { .. })));
+    assert_eq!(v.stored_subframes(), stored);
+    assert_eq!(v.trusted_time(), clock);
+}
+
+#[test]
+fn a_clock_that_stops_with_the_keys_is_reported() {
+    let (mut v, _) = run(no_tamper());
+    let k = v.trusted_time().unwrap(); // slot of the latest verified key
+                                       // The host clock runs on; no key has verified for longer than the window.
+    assert!(v.poll_clock().is_empty());
+    v.set_reference_time(k + 600);
+    assert!(v.poll_clock().is_empty(), "inside the window");
+    v.set_reference_time(k + 601);
+    let ev = v.poll_clock();
+    assert!(matches!(ev[..], [Event::KeyStall { .. }]));
+    assert!(v.poll_clock().is_empty(), "reported once");
+    // Statuses have expired on their own by then.
+    assert_eq!(v.overall(), OsnmaStatus::Unavailable);
+}
+
+#[test]
+fn an_old_kroot_replayed_for_the_same_chain_id_cannot_replace_the_chain() {
+    // Chain A (id 3) is in force. A genuine, signed KROOT of an older chain that also
+    // carries id 3 (earlier time of applicability, another pattern) is broadcast on a
+    // second DSM id: it is refused, and A keeps authenticating.
+    let a = Ctx::std();
+    let mut old = Ctx::std();
+    old.alpha = [9, 8, 7, 6, 5, 4];
+    old.gst0 = GST0 - 3600;
+    old.seed = 77;
+    let (chain_a, chain_old) = (a.chain(60), old.chain(5));
+    let sk = Signer::p256(0x11);
+    let dsm_a = dsm_kroot(&a, &chain_a[0], &sk, a.header(1));
+    let dsm_old = dsm_kroot(&old, &chain_old[0], &sk, old.header(1));
+    let mut frames = |n: u32, gst: u32| {
+        let hk = if n % 16 < 8 {
+            dsm_hk(a.header(1), 0, &dsm_a, n as usize % 8)
+        } else {
+            dsm_hk(a.header(1), 1, &dsm_old, n as usize % 8)
+        };
+        Frame {
+            hk,
+            mack: a.mack(&chain_a, gst),
+        }
+    };
+    let o = drive(
+        signed_cfg(sk.public(PKID)),
+        40,
+        false,
+        &mut frames,
+        &mut no_tamper(),
+    );
+    assert!(o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::KrootRejected(KrootError::Stale))));
+    assert!(!tags(&o.events)
+        .iter()
+        .any(|t| matches!(t.status, TagStatus::Failed(_))));
+    let s = status(&o.v);
+    assert_eq!(s["E02"], OsnmaStatus::Authenticated);
+    assert_eq!(s["E05"], OsnmaStatus::Authenticated);
+}
+
+#[test]
+fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
+    // Chain A (id 3, key 1, started an hour before the stream) is in force. The
+    // replacement chain (also id 3, key 2, starting with the stream) is announced and
+    // adopted BEFORE the header that says key 1 is revoked arrives. The revocation must
+    // take key 1, not the new chain's key 2.
+    let mut a = Ctx::std();
+    a.gst0 = GST0 - 3600;
+    let mut b = Ctx::std();
+    b.alpha = [9, 8, 7, 6, 5, 4];
+    b.seed = 77;
+    let (chain_a, chain_b) = (a.chain(140), b.chain(60));
+    let (sk1, sk2) = (Signer::p256(0x11), Signer::p256(0x22));
+    let dsm_b = dsm_kroot_pk(&b, &chain_b[0], &sk2, b.header(1), 2);
+    let cfg = Config {
+        public_keys: vec![sk1.public(1), sk2.public(2)],
+        trusted_chain: Some(a.trusted(&chain_a)),
+        ..Config::default()
+    };
+    let mut frames = |n: u32, gst: u32| {
+        // The new chain's KROOT in sub-frames 0 to 7; its tags from sub-frame 8 on.
+        let c = if n < 8 { &a } else { &b };
+        let chain = if n < 8 { &chain_a } else { &chain_b };
+        let hk = if n < 8 {
+            dsm_hk(c.header(1), 1, &dsm_b, n as usize)
+        } else if n >= 14 {
+            // From sub-frame 14: key revocation with "don't use".
+            let mut r = b.clone();
+            r.nmas = 3;
+            plain_hkroot(r.header(5))
+        } else {
+            plain_hkroot(c.header(1))
+        };
+        Frame {
+            hk,
+            mack: c.mack(chain, gst),
+        }
+    };
+    let o = drive_with(cfg, 20, false, Some(14), &mut frames, &mut no_tamper());
+    assert!(o.events.iter().any(|e| matches!(
+        e,
+        Event::KrootVerified {
+            cid: 3,
+            pkid: 2,
+            ..
+        }
+    )));
+    assert!(o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::PublicKeyRevoked { pkid: 1 })));
+    assert!(!o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::PublicKeyRevoked { pkid: 2 })));
+    assert!(!o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::ChainRevoked { .. })));
 }
 
 // ---------------------------------------------------------------- the command line ---
@@ -1754,7 +2060,7 @@ fn the_osnma_sample_files_are_current() {
         assert_eq!(
             &std::fs::read(dir.join(name)).unwrap_or_default(),
             bytes,
-            "{name} is out of date: run examples/osnma/regenerate.sh"
+            "{name} is out of date: regenerate the examples/osnma fixtures with KSHANA_WRITE_OSNMA_EXAMPLES=1 (examples/osnma/regenerate.sh) and commit them"
         );
         if name.ends_with("key.txt") {
             continue;
@@ -1768,7 +2074,7 @@ fn the_osnma_sample_files_are_current() {
         assert_eq!(
             std::fs::read_to_string(&expected).unwrap_or_default(),
             json,
-            "expected output of {name} is out of date: run examples/osnma/regenerate.sh"
+            "expected output of {name} is out of date: regenerate the examples/osnma fixtures with KSHANA_WRITE_OSNMA_EXAMPLES=1 (examples/osnma/regenerate.sh) and commit them"
         );
     }
 }

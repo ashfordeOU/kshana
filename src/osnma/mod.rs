@@ -77,6 +77,10 @@ mod gst_tests {
 
 /// The `$PKSOS` sentence of the receiver-trust monitor: the overall status then each
 /// satellite as `<sat>:<A|F|N>`, with the NMEA checksum.
+///
+/// The monitor reads a status that is reported to it in this form and verifies nothing
+/// itself; the verifier in this module is what produces such a status from I/NAV pages
+/// (see `docs/OSNMA.md`).
 pub fn pksos_sentence(overall: OsnmaStatus, sats: &[(String, OsnmaStatus)]) -> String {
     let mut body = format!("PKSOS,{}", overall.letter());
     for (s, st) in sats {
