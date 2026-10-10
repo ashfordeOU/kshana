@@ -29,10 +29,10 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 28,
-        "aircraft_sampled": 0,
+        "aircraft_sampled": null,
         "cell_i": 220,
         "cell_j": 239,
         "degraded": false,
@@ -69,10 +69,10 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 28,
-        "aircraft_sampled": 0,
+        "aircraft_sampled": null,
         "cell_i": 224,
         "cell_j": 239,
         "degraded": false,
@@ -109,10 +109,10 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 28,
-        "aircraft_sampled": 0,
+        "aircraft_sampled": null,
         "cell_i": 228,
         "cell_j": 239,
         "degraded": false,
@@ -149,8 +149,8 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 12,
         "aircraft_sampled": 12,
         "cell_i": 240,
@@ -189,8 +189,8 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 12,
         "aircraft_sampled": 12,
         "cell_i": 240,
@@ -269,8 +269,8 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 12,
         "aircraft_sampled": 12,
         "cell_i": 240,
@@ -309,8 +309,8 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 12,
         "aircraft_sampled": 12,
         "cell_i": 240,
@@ -349,8 +349,8 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 12,
         "aircraft_sampled": 12,
         "cell_i": 240,
@@ -389,8 +389,8 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 12,
         "aircraft_sampled": 12,
         "cell_i": 240,
@@ -429,10 +429,10 @@
         "type": "Polygon"
       },
       "properties": {
-        "affected_share": 0.0,
-        "aircraft_affected": 0,
+        "affected_share": null,
+        "aircraft_affected": null,
         "aircraft_observed": 7,
-        "aircraft_sampled": 0,
+        "aircraft_sampled": null,
         "cell_i": 242,
         "cell_j": 259,
         "degraded": false,
@@ -463,9 +463,11 @@
     "format_version": 1,
     "grid": {
       "cell_deg": 0.5,
+      "is_preregistered": true,
+      "preregistered_cell_deg": 0.5,
       "type": "fixed_lat_lon"
     },
-    "kshana_version": "0.33.1",
+    "kshana_version": "0.34.0",
     "method": {
       "caveats": [
         "A degraded cell means a high share of aircraft reported low navigation accuracy there that day. It does not identify interference as the cause.",
@@ -479,9 +481,12 @@
         "an aircraft counts only if it sent good-accuracy reports elsewhere the same day (excludes equipment that never reports accuracy)",
         "the cell share must exceed the day's median cell share by a margin",
         "a day whose median cell share is itself high is marked confounded and no cell is declared degraded",
+        "a cell is declared degraded only if at least the publication minimum of aircraft are affected",
+        "when too few cells are fully sampled to estimate the day's background, no cell is declared degraded",
+        "every per-cell count below the publication minimum is withheld, zero included",
         "cells with fewer than the minimum distinct aircraft are not published"
       ],
-      "id": "kshana-interference-map/adsb/v1",
+      "id": "kshana-interference-map/adsb/v2",
       "input_stats": {
         "excluded_ground_or_below_altitude_floor": 0,
         "excluded_no_accuracy_field": 0,
@@ -501,6 +506,7 @@
         "good_nic_min": 7,
         "low_nacp_max": 6,
         "low_nic_max": 5,
+        "min_affected_aircraft": 5,
         "min_aircraft_sampled": 10,
         "min_alt_ft": 5000.0,
         "min_baseline_good_reports": 5,

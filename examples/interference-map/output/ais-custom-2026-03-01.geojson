@@ -35,11 +35,11 @@
         "detectors": [],
         "status": "not_anomalous",
         "vessels_flagged": {
-          "circle": 0,
-          "implausible_jump": 0,
-          "implausible_speed": 0,
-          "on_land": 0,
-          "same_position": 0
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
         },
         "vessels_observed": 8
       },
@@ -83,10 +83,10 @@
         "status": "anomalous",
         "vessels_flagged": {
           "circle": 6,
-          "implausible_jump": 0,
-          "implausible_speed": 0,
-          "on_land": 0,
-          "same_position": 0
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
         },
         "vessels_observed": 6
       },
@@ -127,11 +127,11 @@
         "detectors": [],
         "status": "not_anomalous",
         "vessels_flagged": {
-          "circle": 0,
-          "implausible_jump": 0,
-          "implausible_speed": 0,
-          "on_land": 0,
-          "same_position": 0
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
         },
         "vessels_observed": 8
       },
@@ -172,11 +172,11 @@
         "detectors": [],
         "status": "not_anomalous",
         "vessels_flagged": {
-          "circle": 0,
-          "implausible_jump": 0,
-          "implausible_speed": 0,
-          "on_land": 0,
-          "same_position": 0
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
         },
         "vessels_observed": 8
       },
@@ -219,11 +219,11 @@
         ],
         "status": "anomalous",
         "vessels_flagged": {
-          "circle": 0,
-          "implausible_jump": 0,
-          "implausible_speed": 0,
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
           "on_land": 6,
-          "same_position": 0
+          "same_position": null
         },
         "vessels_observed": 6
       },
@@ -264,11 +264,11 @@
         "detectors": [],
         "status": "not_anomalous",
         "vessels_flagged": {
-          "circle": 0,
-          "implausible_jump": 0,
-          "implausible_speed": 0,
-          "on_land": 0,
-          "same_position": 0
+          "circle": null,
+          "implausible_jump": null,
+          "implausible_speed": null,
+          "on_land": null,
+          "same_position": null
         },
         "vessels_observed": 8
       },
@@ -309,11 +309,11 @@
         "detectors": [],
         "status": "not_anomalous",
         "vessels_flagged": {
-          "circle": 0,
-          "implausible_jump": 0,
+          "circle": null,
+          "implausible_jump": null,
           "implausible_speed": null,
-          "on_land": 0,
-          "same_position": 0
+          "on_land": null,
+          "same_position": null
         },
         "vessels_observed": 6
       },
@@ -340,9 +340,11 @@
     "format_version": 1,
     "grid": {
       "cell_deg": 0.5,
+      "is_preregistered": true,
+      "preregistered_cell_deg": 0.5,
       "type": "fixed_lat_lon"
     },
-    "kshana_version": "0.33.1",
+    "kshana_version": "0.34.0",
     "method": {
       "caveats": [
         "An anomalous cell means vessels reported implausible positions or motion there that day. It does not identify interference as the cause.",
@@ -363,9 +365,10 @@
         "on-land requires a buffer inland of a coastline that is only accurate to about a kilometre",
         "circles must be a consistent direction of travel at more than anchor-swing speed",
         "the AIS 'not available' position and speed values are discarded before any detector runs",
-        "cells with fewer than the minimum distinct vessels are not published; flagged counts of one or two are withheld"
+        "cells with fewer than the minimum distinct vessels are not published; every per-cell count below the minimum is withheld, zero included",
+        "a detector qualifies only if at least the publication minimum of vessels are flagged"
       ],
-      "id": "kshana-interference-map/ais/v1",
+      "id": "kshana-interference-map/ais/v2",
       "input_stats": {
         "rejected_invalid_position": 0,
         "rejected_malformed": 0,
@@ -388,7 +391,7 @@
         "land_buffer_m": 2000.0,
         "max_speed_kn": 70.0,
         "min_flagged_share": 0.2,
-        "min_flagged_vessels": 3,
+        "min_flagged_vessels": 5,
         "min_jumps": 2,
         "min_land_reports": 3,
         "min_speed_reports": 3,

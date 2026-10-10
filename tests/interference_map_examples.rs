@@ -43,6 +43,13 @@ fn committed_samples_match_the_regeneration_command() {
     let r = root();
     let out = std::env::temp_dir().join(format!("kshana-imap-examples-{}", std::process::id()));
     let _ = std::fs::remove_dir_all(&out);
+    struct Cleanup(PathBuf);
+    impl Drop for Cleanup {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+    let _cleanup = Cleanup(out.clone());
     let (adsb_in, ais_in, land) = (
         r.join("input/adsb.csv"),
         r.join("input/ais.csv"),
@@ -65,7 +72,10 @@ fn committed_samples_match_the_regeneration_command() {
     ]);
     run(&b.iter().map(String::as_str).collect::<Vec<_>>());
 
-    for name in ["adsb-2026-03-01.geojson", "ais-2026-03-01.geojson"] {
+    for name in [
+        "adsb-custom-2026-03-01.geojson",
+        "ais-custom-2026-03-01.geojson",
+    ] {
         assert_eq!(
             normalised(&out.join(name)),
             normalised(&r.join("output").join(name)),
@@ -77,14 +87,23 @@ fn committed_samples_match_the_regeneration_command() {
         .map(|e| e.unwrap().file_name().to_string_lossy().into_owned())
         .collect();
     names.sort();
-    assert_eq!(names, ["adsb-2026-03-01.geojson", "ais-2026-03-01.geojson"]);
+    assert_eq!(
+        names,
+        [
+            "adsb-custom-2026-03-01.geojson",
+            "ais-custom-2026-03-01.geojson"
+        ]
+    );
 }
 
 #[test]
 fn samples_show_every_state_and_carry_no_identifiers() {
     let r = root().join("output");
     let mut statuses = std::collections::BTreeSet::new();
-    for name in ["adsb-2026-03-01.geojson", "ais-2026-03-01.geojson"] {
+    for name in [
+        "adsb-custom-2026-03-01.geojson",
+        "ais-custom-2026-03-01.geojson",
+    ] {
         let text = std::fs::read_to_string(r.join(name)).unwrap();
         assert!(!text.contains("SYN-"), "an identifier label reached {name}");
         let v: serde_json::Value = serde_json::from_str(&text).unwrap();

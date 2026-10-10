@@ -110,8 +110,14 @@ checksum so the file can be fetched by hand. Nothing is bundled in the repositor
 ## Output
 
 One GeoJSON file per source per UTC day, in the `--out` directory, named
-`<source>-<YYYY-MM-DD>.geojson` where `<source>` is `adsb` or `ais` and the date is the UTC
-day of the reports (`adsb-2026-03-01.geojson`). The CLI prints one line per file it writes.
+`<source>-<dataset>-<YYYY-MM-DD>.geojson`, where `<source>` is `adsb` or `ais`, `<dataset>`
+is the `--dataset` key (`adsb-lol`, `noaa-marinecadastre`, `kystverket`, or `custom`) and
+the date is the UTC day of the reports: `adsb-adsb-lol-2026-03-01.geojson`,
+`ais-kystverket-2026-03-01.geojson`. The dataset is in the name so two datasets of one kind
+cannot share a file, and **Kshana never overwrites a file**: if any target exists the command
+fails before writing anything. The CLI prints one line per file it writes. A reader can
+recover the three parts with `^(adsb|ais)-(.+)-(\d{4}-\d{2}-\d{2})\.geojson$`; the same
+information is inside the file (`source_kind`, `data.dataset`, `date`).
 Synthetic sample files, one per source, are in `examples/interference-map/output/`, with the
 command that regenerates them, for building and testing a viewer. A top-level `kshana_interference_map`
 member holds the schema name, date, grid, method id and every parameter, the day-level
@@ -120,13 +126,26 @@ with `cell_i`, `cell_j`, `status`, `degraded` and the aggregate counts.
 
 The grid is fixed: square cells of `--cell-deg` degrees (default 0.5) in latitude and
 longitude, indexed from (-90, -180). East-west width shrinks with latitude: about 55 km at
-the equator and about 28 km at 60 degrees for the default.
+the equator and about 28 km at 60 degrees for the default. Latitude 90 belongs to the last
+row and longitude 180 is the same meridian as -180. **The pre-registered methods are defined
+on the 0.5 degree grid.** Another `--cell-deg` runs, but is not the pre-registered method:
+the CLI says so, and the file records `grid.preregistered_cell_deg` and
+`grid.is_preregistered` (false) so a viewer can say it too.
+
+**Withheld counts.** Every per-cell count below the publication minimum (5) is `null`, zero
+included, so `null` never means "none" and no published number can single out an aircraft
+or a vessel. The `status` and `degraded` fields are still given. In ADS-B files
+`aircraft_observed` is always at least 5 for a published cell; `aircraft_sampled` and
+`aircraft_affected` are `null` below 5, and `affected_share` is `null` unless both are at
+least 5 (a share would reveal a withheld count). In AIS files each entry of
+`vessels_flagged` is `null` below 5.
 
 ### Format version and fields
 
 The format is settled as `schema: "kshana-interference-map/v1"`, `format_version: 1`. A
 change that removes or renames a field, or changes what one means, raises the version;
-adding a field does not, so a reader must ignore fields it does not know.
+adding a field does not, so a reader must ignore fields it does not know. A count that is
+`null` is withheld, not zero.
 
 ```
 FeatureCollection
@@ -134,7 +153,7 @@ FeatureCollection
     schema, format_version, kshana_version, notice
     source_kind            "adsb" | "ais"
     date                   "YYYY-MM-DD" (UTC)
-    grid                   { type: "fixed_lat_lon", cell_deg }
+    grid                   { type: "fixed_lat_lon", cell_deg, preregistered_cell_deg, is_preregistered }
     method                 { id, summary, parameters{...}, guards[], input_stats{...}, caveats[] }
     day                    day-level figures (ADS-B: background_evaluated, background_share,
                            day_confounded, cells_published, cells_suppressed_below_min_distinct;
@@ -142,12 +161,13 @@ FeatureCollection
     data                   { dataset, name, licence, licence_url, attribution, coverage_notes[] }
   features[]               Polygon (one closed ring, [lon, lat], counter-clockwise)
     properties             cell_i, cell_j, status, degraded,
-                           ADS-B: aircraft_observed, aircraft_sampled, aircraft_affected, affected_share
+                           ADS-B: aircraft_observed, aircraft_sampled|null, aircraft_affected|null,
+                                  affected_share|null
                            AIS:   vessels_observed, vessels_flagged{detector: n|null}, detectors[]
 ```
 
 `status` values: ADS-B `degraded`, `not_degraded`, `insufficient_sample`,
-`withheld_day_confounded`; AIS `anomalous`, `not_anomalous`. `degraded` is true for
+`withheld_day_confounded`, `withheld_no_background`; AIS `anomalous`, `not_anomalous`. `degraded` is true for
 `degraded` and `anomalous` only. The route-exposure report has its own
 `kshana-route-exposure/v1` schema.
 
@@ -169,13 +189,15 @@ means in a legend. Four states, none of which may be hidden or merged:
 |---|---|---|
 | Degraded (or anomalous for AIS) | a high share of aircraft reported low accuracy, or vessels showed anomalies, that day | `degraded` is true |
 | Clear | observed with enough aircraft or vessels and not flagged | `status` is `not_degraded` or `not_anomalous` |
-| Unassessed | observed but not enough sampled aircraft, or the day was confounded | `status` is `insufficient_sample` or `withheld_day_confounded` |
+| Unassessed | observed but not enough sampled aircraft, the day was confounded, or the day's background could not be estimated | `status` is `insufficient_sample`, `withheld_day_confounded` or `withheld_no_background` |
 | Not observed | too few aircraft or vessels, so the cell was not published | no feature for that cell |
 
 "Not observed" is the absence of a feature: draw it neutrally (no fill, or a hatch), never
 in the colour of "clear". Use a colour scheme that does not rely on red against green alone.
-Cell details on hover or selection show the counts in `properties` as given, and the
-`withheld`/null flagged counts as "withheld (fewer than 3)", not as zero.
+Cell details on hover or selection show the counts in `properties` as given, and every
+`null` count as "withheld (fewer than 5)", never as zero. A viewer should also say when
+`grid.is_preregistered` is false that the file uses a cell size outside the pre-registered
+method.
 
 **Layers.** ADS-B and AIS are separate layers with their own toggles, legends and licence
 lines. Never merge them into one colour field or one count, never draw them as one
@@ -208,7 +230,7 @@ rows per day and source with the four shares (degraded, clear, unassessed, not o
 together, never the degraded share alone, plus the report's `caveats`, and each row's
 `map_licence` and `map_attribution`.
 
-## ADS-B method (`kshana-interference-map/adsb/v1`)
+## ADS-B method (`kshana-interference-map/adsb/v2`)
 
 Each airborne ADS-B report carries two self-assessed navigation quality fields: NIC (the
 containment radius of the position) and NACp (the 95% accuracy bound, EPU). When the
@@ -221,20 +243,30 @@ means a new method version):
 | Parameter | Value |
 |---|---|
 | Altitude floor | barometric altitude of at least 5000 ft |
-| Low-accuracy report | NACp at most 6 (EPU of 185 m or worse) or NIC at most 5 (containment of 1 NM or worse) |
-| Good report | NACp at least 8 and NIC at least 7 |
+| Low-accuracy report | NACp at most 6 (EPU of 185 m or worse) or NIC at most 5 (containment radius not shown to be better than 0.6 NM) |
+| Good report | NACp at least 8 and NIC at least 7; judged on the fields the input has (both when both are present, the one present otherwise) |
 | Equipment baseline | an aircraft counts in a cell only with at least 5 good reports outside that cell the same day |
 | Aircraft sampled in a cell | at least 3 reports in the cell |
 | Aircraft affected in a cell | at least 50% of its in-cell reports are low-accuracy |
 | Minimum sample | at least 10 sampled aircraft |
-| Degraded | affected share of sampled aircraft at least 0.30, and at least 0.15 above the day's median cell share |
+| Degraded | at least 5 affected aircraft, an affected share of sampled aircraft of at least 0.30, and at least 0.15 above the day's median cell share |
 | Confounded day | median cell share (over at least 5 cells with a full sample) at least 0.15: no cell is declared degraded |
+| No background | fewer than 5 cells with a full sample, so the median cannot be estimated: a cell that meets the thresholds is `withheld_no_background`, not degraded |
 | Publication minimum | at least 5 distinct aircraft observed |
 
 These values were set from the definitions of the NIC and NACp codes and from the privacy
 rule before any data was looked at. They were not tuned on real data, and the tests use
 synthetic data only. Cell statuses: `degraded`, `not_degraded`, `insufficient_sample`
-(published but fewer than 10 sampled aircraft), and `withheld_day_confounded`.
+(published but fewer than 10 sampled aircraft), `withheld_day_confounded` and
+`withheld_no_background`.
+
+**Version 2.** Version 1 declared a cell degraded from as few as 3 affected aircraft, fewer
+than the 5-aircraft publication minimum, and skipped the day-background check without saying
+so when fewer than 5 cells were fully sampled. Version 2 requires at least 5 affected
+aircraft and withholds the call (`withheld_no_background`) when the background cannot be
+estimated. Both changes tighten the method (nothing that was not degraded in version 1 is
+degraded in version 2); the reason is that a published call must never rest on fewer
+aircraft than the number below which counts are withheld. Version 1 files were not released.
 
 **Why accuracy fields drop for reasons other than interference, and the guard for each:**
 
@@ -254,22 +286,27 @@ would look the same), and it is conservative in one direction: an aircraft that 
 inside an affected region all day has no baseline and is not counted, so persistent large
 areas are under-reported.
 
-## AIS method (`kshana-interference-map/ais/v1`)
+## AIS method (`kshana-interference-map/ais/v2`)
 
 Per vessel per day, five detectors. A detector **qualifies** in a cell when it flags at
-least 3 distinct vessels making up at least 20% of the vessels observed there; the cell is
+least 5 distinct vessels making up at least 20% of the vessels observed there; the cell is
 `anomalous` if any detector qualifies.
 
 | Detector | Rule (pre-registered) |
 |---|---|
 | `on_land` | at least 3 reports in the cell more than 2000 m inland of the supplied coastline |
 | `circle` | a window of 20 consecutive reports (stride 10, gaps at most 30 min) whose mean radius from the centroid is 500 m to 20 km, radius coefficient of variation at most 0.15, one direction of travel with total winding of at least 270 degrees (steps at most 90 degrees, net at least 80% of total), and mean speed at least 2 kn |
-| `implausible_jump` | at least 2 jumps arriving in the cell: consecutive reports at least 1000 m apart, at most 1 h apart, implying more than 70 kn |
+| `implausible_jump` | at least 2 jumps arriving in the cell: consecutive reports at least 1000 m apart, at most 1 h apart, implying more than 70 kn (the implied speed uses at least 1 s between the reports, so two reports with the same time stamp and positions 1 km or more apart count as a jump) |
 | `implausible_speed` | at least 3 reported speeds above 70 kn in the cell |
 | `same_position` | at least 5 distinct vessels reporting the same position (rounded to 1e-4 degrees, about 11 m) in the same 10-minute window |
 
-Cells with fewer than 5 distinct vessels are not published; a flagged count of one or two
-is reported as `null`.
+Cells with fewer than 5 distinct vessels are not published; every flagged count below 5,
+zero included, is reported as `null`.
+
+**Version 2.** Version 1 qualified a detector from 3 flagged vessels and published counts of
+3 and 4. Version 2 raises the flagged-vessel minimum to 5, the publication minimum, so an
+`anomalous` call never rests on fewer vessels than the number below which counts are
+withheld. This tightens the method and no version 1 file was released.
 
 **Known causes of false positives**, which the share rule and the thresholds reduce but do
 not remove: vessels in rivers, canals and ports close to a coarse coastline (the 2 km
@@ -281,6 +318,11 @@ a kilometre.
 The jump and speed detectors compare reports within one input file; a track split across
 files or days is not stitched.
 
+**Memory.** Input is read line by line and never held whole. ADS-B keeps only per-aircraft
+per-cell counters. AIS keeps each accepted report in a compact record (about 40 bytes) until
+its day is evaluated, so memory grows with the number of AIS reports in the input; split a
+very large AIS input by day.
+
 ## Route exposure
 
 ```
@@ -290,8 +332,11 @@ kshana route-exposure --route route.geojson --map out/ [--map other/] \
 
 `--route` is a GeoJSON LineString (bare, in a Feature, or in a FeatureCollection) or a CSV
 of `lat,lon` lines. `--map` takes map files or directories of them, and may be repeated.
-Waypoints are joined by straight lines in latitude and longitude, so densify long legs. The
-route is split into pieces of about 250 m, each assigned to the cell holding its midpoint.
+Waypoints are joined by straight lines in latitude and longitude, so densify long legs; a
+leg takes the short way round in longitude, so one that crosses the antimeridian (179.5 E to
+179.5 W) crosses it. The route is split into pieces of about 250 m. Each piece is measured
+between its own two end points on a sphere of radius 6371.0088 km (the same path that
+decides which cell it lies in) and assigned to the cell holding its midpoint.
 
 Per day and per source the report gives the route length and four shares that sum to 1:
 `share_degraded`, `share_not_degraded`, `share_unassessed` (cell present but without a
@@ -313,7 +358,8 @@ JSON out, touching no file and no network:
 | `ais_maps_from_csv(csv, &DatasetSpec, cell_deg, Option<&str>)` | AIS CSV text, optional land GeoJSON text | `Vec<DayMap>` |
 | `route_exposure(route_text, &[&str], from, to)` | route text, map GeoJSON texts, optional `YYYY-MM-DD` bounds | `kshana-route-exposure/v1` JSON |
 
-A `DayMap` has `file_name`, `date` and `geojson` (the v1 document). `DatasetSpec` is
+A `DayMap` has `file_name` (`<source>-<dataset>-<date>.geojson`), `date` and `geojson` (the v1
+document). `DatasetSpec` is
 `Preset("adsb-lol" | "noaa-marinecadastre" | "kystverket")` or
 `Custom { licence, licence_url, attribution }`; `DEFAULT_CELL_DEG` is 0.5. Errors are
 `MapError`. The dataset rules (approved presets, licence text required, kind must match)
