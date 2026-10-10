@@ -29,7 +29,9 @@ pub mod verify;
 
 pub use assemble::{build_receiver_trust_pack, PackRequest, PackSummary};
 pub use bundle::{
-    create_bundle, generate_seed, public_key_hex, slice_for_window, EvidenceError, EvidenceInput,
-    Files, Manifest, Window, DISCLAIMER, FORMAT,
+    create_bundle, generate_seed, public_key_hex, sign_detached, slice_for_window, EvidenceError,
+    EvidenceInput, Files, Manifest, Window, DISCLAIMER, FORMAT,
 };
-pub use verify::{attach_timestamp, verify_bundle, Failure, VerifyOptions, VerifyReport};
+pub use verify::{
+    attach_timestamp, verify_bundle, verify_detached, Failure, VerifyOptions, VerifyReport,
+};
