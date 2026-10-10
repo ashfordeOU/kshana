@@ -1,6 +1,6 @@
 {
   "generator": "tools/gen_readme_assets.py",
-  "engine_version": "0.33.1",
+  "engine_version": "0.34.0",
   "scenario_kinds": 75,
   "matrix": {
     "validated": 124,
@@ -227,12 +227,12 @@
     "captured_by": "tools/capture_studio_shots.mjs",
     "record": "studio/SHOTS.json",
     "files": {
-      "studio-advanced-dark.jpg": "770741f48135f356f6d4a0f5c0aa8c66d401cb5b48b38fb00d7e49cc88ed9ba3",
-      "studio-advanced-light.jpg": "b954062e63c890721b37a54dbcd9f0b24224d245d2263048898a66cc4eca6508",
-      "studio-home-dark.jpg": "f36a4dd356be5678d5ce7731dd0f113d6ad25c739f785415336f24216a53938f",
-      "studio-home-light.jpg": "0277669aa7ea37c789c626f39e2a060261532501b5a9195ff861e451d1688e00",
-      "studio-task-dark.jpg": "2cb7740099cd4aacde67b6f0fa98da055a730bf44d9441397b8e702a8f147235",
-      "studio-task-light.jpg": "6ab606087afff2793905b0c36df22ee8990630caf61c9d71d07ec29b99432f4e"
+      "studio-advanced-dark.jpg": "8c48ef41a67c884f4ff3002ed4226fc058f9d103a0e6cc1bd4f5dc28556fdff1",
+      "studio-advanced-light.jpg": "67b98357af48f5c60e5a101d5513c357a7d5f20806daa5806467a52df81bc7c2",
+      "studio-home-dark.jpg": "f75c3774d50a4e684a3b621c76dbc4d740ead6efb2441c925da4c765c7994382",
+      "studio-home-light.jpg": "c0fe8f942ce26cdd5f7b8168121dcf360c1e94c2005f4d0f15cf18ebd4e1dea8",
+      "studio-task-dark.jpg": "1573716010ebe7cf0ffa8cb116705f35b4b647a5ea4735476f0ccaf81e2cd21c",
+      "studio-task-light.jpg": "b577060d77d124d9d80824943cf39606cd14c8a28126830451e96256f3270407"
     }
   },
   "site_screenshots": {
@@ -240,8 +240,8 @@
     "composed_by": "tools/readme_shots.py",
     "record": "site/SHOTS.json",
     "files": {
-      "site-strip-dark.jpg": "7bbb52172a5cd5132cad926766dee8f078ac44c7135eb8e57a421a17c1b97919",
-      "site-strip-light.jpg": "1433c580ab80efa551580aaf8f072226adff42dff3f5edefca08c56f85189863"
+      "site-strip-dark.jpg": "c831da56b69a59106ea60ef7f4becf3fa0ccd148aa411f7d201eb7333f199c84",
+      "site-strip-light.jpg": "9a6a46693f124c9dcd20dbfcb38c42771714dd0b98700881592d172fcefe6629"
     }
   }
 }
