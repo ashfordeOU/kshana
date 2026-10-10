@@ -16,9 +16,10 @@ output already installed, with the tooling around it: live and gate modes, Signa
 OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
 exporters, signed evidence packs, a compliance mapping, a test-bench export, and the same
 capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
-class: everything below is **MODELLED** or checked for internal consistency; none of it adds a
-VALIDATED row, and the verification ledger gains seven MODELLED rows (258 rows: 124 Validated,
-130 Modelled, 4 Partner). The scores are advisory: this is not type-approved equipment and the operator stays
+class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Partner). Six are
+**VALIDATED**, each against an independent implementation or published vectors on synthetic inputs
+and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
+for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
 responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
 generated NMEA text is for training. Galileo OSNMA verification is not in this release.
 
