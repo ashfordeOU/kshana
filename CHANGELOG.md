@@ -9,6 +9,19 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (validation of the CEF events)
+
+- **The telemetry CEF events are read back correctly by two independent open-source parsers.**
+  `pycef` 1.11 and the Logstash CEF codec (`logstash-codec-cef` 6.2.7 in Logstash 8.15.3) parse
+  157 CEF lines (every band change and every epoch of the committed telemetry stream, plus
+  adversarial text containing `=`, backslashes, pipes, line breaks, tabs and multi-byte text)
+  and recover every header field, the severity, the exact extension key set and every value
+  exactly. The Logstash codec also reads four lines whose header text needs escaping, which
+  `pycef` cannot. The bar was registered before either parser was run
+  (`tests/cef_reference.rs`); fixtures in `tests/fixtures/cef/`, oracle scripts
+  `scripts/gen_cef_ref.py` and `scripts/gen_cef_logstash_ref.py`; CI needs neither Python nor
+  Logstash. LEEF has no maintained open parser and stays modelled.
+
 ## [0.35.0] - 2026-10-10
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
