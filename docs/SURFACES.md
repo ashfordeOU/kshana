@@ -16,16 +16,16 @@ actions that run the CLI), **Notebook** (`notebooks/`).
 | Receiver-trust on a bounded stream excerpt (scores, states, reasons; no gate) | `receiver-trust live` | `receiver_trust::assess::assess_stream_excerpt` | `receiver_trust_replay` | `receiver_trust_replay` | `assess_vessel_stream` | same | CLI only | `vessel-trust-and-training` |
 | `receiver-trust live` as a running process (stdin, followed file, TCP, UDP, `--gate`, `--listen`) | `receiver-trust live` | `receiver_trust::live::LiveEngine` | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 | Evidence pack: create (signed, window of a log) | `receiver-trust evidence` | `evidence::create_bundle`, `surface::evidence_create` | `evidence_create` | **N/A** (signing key) | `create_evidence_pack` | `/kshana-evidence-pack`, skill `evidence-pack` | CLI only | `vessel-trust-and-training` |
-| Evidence pack: verify | `evidence verify` | `evidence::verify_bundle` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | same | CLI only | `vessel-trust-and-training` |
+| Evidence pack: verify | `evidence verify` | `evidence::verify_bundle` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | same | Verify Evidence Pack (pinned key only) | `vessel-trust-and-training` |
 | Trust telemetry (Prometheus, syslog CEF/LEEF, OTLP) | `trust-telemetry` | `telemetry` | **N/A** | **N/A** | **N/A** | **N/A** (how-to) | **N/A** (how-to) | **N/A** |
 | Training NMEA with an instructor log | `nmea-scenario` | `nmea_synth::generate_from_toml` | `nmea_training` | `nmea_training` | `generate_training_nmea` | `/kshana-training-scenario`, skill `training-nmea-scenario` | Generate Training NMEA | `vessel-trust-and-training` |
 | Training NMEA streamed to a TCP or UDP address | `nmea-scenario --tcp/--udp` | `nmea_synth::stream` | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 | Interference map (ADS-B, AIS) | `interference-map adsb\|ais` | `interference_map::api` | `interference_map` | `interference_map` | `build_interference_map` | `/kshana-interference-map`, skill `interference-map-route-exposure` | Build Interference Map | `interference-map-route-exposure` |
 | Route exposure | `route-exposure` | `interference_map::api::route_exposure` | `route_exposure` | `route_exposure` | `route_exposure` | same | Route Exposure | `interference-map-route-exposure` |
 | Signal K plugin and OpenCPN gate feed (`docs/MARINE-INTEGRATIONS.md`) | `integrations/`, `receiver-trust live --gate --listen` | **N/A** (processes) | **N/A** | **N/A** | **N/A** | how-to only: `/kshana-marine-integrations`, skill `marine-integrations` | **N/A** | **N/A** |
-| Test-bench export (motion CSV, NMEA, waypoints, events for a laboratory simulator) | `bench-export` | `interop::testbench::export_with_notes`, `surface::bench_export` | `bench_export` | `bench_export` | `export_test_bench` | `/kshana-bench-export`, skill `test-bench-export` | CLI only | **N/A** |
-| Compliance mapping from runs (which public-framework rows the runs support evidence for) | `compliance-report` | `compliance::assess_texts`, `surface::compliance_report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report`, skill `compliance-mapping` | CLI only | **N/A** |
-| Compliance mapping tables and sources | `compliance-report --mapping`, `--sources` | `compliance::mapping`, `surface::compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | same | CLI only | **N/A** |
+| Test-bench export (motion CSV, NMEA, waypoints, events for a laboratory simulator) | `bench-export` | `interop::testbench::export_with_notes`, `surface::bench_export` | `bench_export` | `bench_export` | `export_test_bench` | `/kshana-bench-export`, skill `test-bench-export` | Export Test-Bench Files | **N/A** |
+| Compliance mapping from runs (which public-framework rows the runs support evidence for) | `compliance-report` | `compliance::assess_texts`, `surface::compliance_report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report`, skill `compliance-mapping` | Build Compliance Report | **N/A** |
+| Compliance mapping tables and sources | `compliance-report --mapping`, `--sources` | `compliance::mapping`, `surface::compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | same | Show Compliance Mapping | **N/A** |
 | Land-polygon download (`interference-map fetch-land`) | `--allow-network` | CLI code | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** | **N/A** |
 
 ## Why the N/A cells are N/A
@@ -94,7 +94,7 @@ exists yet.
 | `receiver-trust live` | excerpt: `receiver_trust_replay` | excerpt: `receiver_trust_replay` | excerpt: `assess_vessel_stream` | excerpt | CLI only | | A running process; the excerpt has no socket and no gate (N/A above) |
 | `trust-telemetry` | N/A | N/A | N/A | how-to | N/A | | A process (N/A above) |
 | `receiver-trust evidence` (create a pack) | `evidence_create` | N/A | `create_evidence_pack` | `/kshana-evidence-pack` | CLI only | `vessel-trust-and-training` | No signing key in a browser |
-| `evidence verify` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | `/kshana-evidence-pack` | CLI only | `vessel-trust-and-training` | |
+| `evidence verify` | `evidence_verify` | `evidence_verify` | `verify_evidence_pack` | `/kshana-evidence-pack` | Verify Evidence Pack (pinned key only) | `vessel-trust-and-training` | |
 | `evidence keygen` | `evidence_keygen` | N/A | N/A | N/A | CLI only | | Python returns the key in memory with a warning; a private key should not pass through a conversation or a page |
 | `evidence attach-timestamp` | `evidence_attach_timestamp` | `evidence_attach_timestamp` | `attach_evidence_timestamp` | `/kshana-evidence-pack` | CLI only | | Token as bytes or base64, updated pack returned in memory; the authority's signature is not checked (`openssl ts -verify`) |
 | `nmea-scenario <scenario.toml>` | `nmea_training` | `nmea_training` | `generate_training_nmea` | `/kshana-training-scenario` | Generate Training NMEA | `vessel-trust-and-training` | |
@@ -103,9 +103,9 @@ exists yet.
 | `interference-map adsb` (trace directory) | N/A | N/A | N/A | N/A | CLI only | | Reads a directory (N/A above) |
 | `interference-map fetch-land` | N/A | N/A | N/A | N/A | CLI only | | Network access (N/A above) |
 | `route-exposure` | `route_exposure` | `route_exposure` | `route_exposure` | `/kshana-interference-map` | Route Exposure | `interference-map-route-exposure` | |
-| `bench-export` | `bench_export` | `bench_export` | `export_test_bench` | `/kshana-bench-export` | no action yet | | Returns text, writes nothing; no signal |
-| `compliance-report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report` | no action yet | | |
-| `compliance-report --mapping`, `--sources` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `/kshana-compliance-report` | no action yet | | |
+| `bench-export` | `bench_export` | `bench_export` | `export_test_bench` | `/kshana-bench-export` | Export Test-Bench Files | | Returns text, writes nothing; no signal |
+| `compliance-report` | `compliance_report` | `compliance_report` | `compliance_report` | `/kshana-compliance-report` | Build Compliance Report | | |
+| `compliance-report --mapping`, `--sources` | `compliance_mapping` | `compliance_mapping` | `compliance_mapping` | `/kshana-compliance-report` | Show Compliance Mapping | | |
 | `iq scene` | `iq_scene`, `iq_scene_broadcast` | N/A | `iq_scene` | `/kshana-iq` | CLI only | | Samples are files |
 | `iq acquire` | `iq_acquire`, `iq_acq_surface` | N/A | `iq_acquire` | `/kshana-iq` | CLI only | | |
 | `iq track` | `iq_track`, `iq_loop_designs` | N/A | `iq_track` | `/kshana-iq` | CLI only | | |
