@@ -50,7 +50,25 @@
 //!    exactly (`==`);
 //! 4. the line is a single line (no raw line feed or carriage return).
 //!
-//! If a second open-source parser (the Logstash CEF codec) is run, the same bar applies to it.
+//! # PRE-REGISTERED bar for the second oracle, the Logstash CEF codec
+//!
+//! Registered in the commit that adds `scripts/gen_cef_logstash_ref.py` and the Logstash test
+//! below, before Logstash was run on any line of this corpus. The oracle is `logstash-codec-cef`
+//! 6.2.7 inside Logstash 8.15.3 (tarball SHA-512 pinned in the script), ECS compatibility
+//! disabled. **Disclosure:** the codec's source was read beforehand. It unescapes extension values
+//! by the CEF rules and header fields (backslash-backslash, backslash-pipe), so unlike `pycef` it
+//! can read escaped header fields; it keeps values as strings; and it renames the standard keys to
+//! long names, which the script translates back, applying the same custom-field label substitution
+//! as `pycef`.
+//!
+//! * **Tier 1: the same bar, EXACTLY**, as for `pycef` (header fields, severity, the exact extension
+//!   key set, every value after the codec's own unescape, numbers by `f64` `==`).
+//! * **Tier 2 (header escaping): part of the claim for this oracle only.** For the four header cases,
+//!   `DeviceVersion` equals the version string given EXACTLY (pipe, backslash and equals sign
+//!   recovered by the codec's header unescape), and every other header field and the whole
+//!   extension meet the tier 1 bar.
+//! * The codec tags a line it cannot parse `_cefparsefailure`; that is a failure for a line in
+//!   either tier.
 
 use kshana::telemetry::sample::{parse_live_line, Band, TrustSample};
 use kshana::telemetry::syslog::cef;
@@ -360,17 +378,18 @@ fn expected_extension(c: &Case) -> BTreeMap<String, String> {
     m
 }
 
-#[test]
-fn pycef_reads_every_tier_1_event_as_the_sample_implies() {
-    let reference: Value = serde_json::from_str(&read(&dir().join("reference.json"))).unwrap();
+/// Compare a parser's reference (`reference.json`-shaped) with what the cases of the given tiers
+/// were made from. Returns how many lines were checked and every disagreement.
+fn disagreements(reference_file: &str, tiers: &[u8]) -> (usize, Vec<String>) {
+    let reference: Value = serde_json::from_str(&read(&dir().join(reference_file))).unwrap();
     let cases = corpus();
     let mut bad: Vec<String> = Vec::new();
     let mut checked = 0;
-    for c in cases.iter().filter(|c| c.tier == 1) {
+    for c in cases.iter().filter(|c| tiers.contains(&c.tier)) {
         checked += 1;
         let r = &reference["cases"][c.id.as_str()];
         if r["parsed"] != true {
-            bad.push(format!("{}: pycef did not parse the line", c.id));
+            bad.push(format!("{}: the parser did not parse the line", c.id));
             continue;
         }
         let h = &r["header"];
@@ -387,7 +406,7 @@ fn pycef_reads_every_tier_1_event_as_the_sample_implies() {
         ] {
             if h[k] != want.as_str() {
                 bad.push(format!(
-                    "{}: header {k}: pycef {} expected {want:?}",
+                    "{}: header {k}: parser {} expected {want:?}",
                     c.id, h[k]
                 ));
             }
@@ -401,7 +420,7 @@ fn pycef_reads_every_tier_1_event_as_the_sample_implies() {
         let want = expected_extension(c);
         if got != want {
             bad.push(format!(
-                "{}: extension: pycef+unescape {got:?} expected {want:?}",
+                "{}: extension: parser+unescape {got:?} expected {want:?}",
                 c.id
             ));
             continue;
@@ -420,7 +439,25 @@ fn pycef_reads_every_tier_1_event_as_the_sample_implies() {
             }
         }
     }
+    (checked, bad)
+}
+
+#[test]
+fn pycef_reads_every_tier_1_event_as_the_sample_implies() {
+    let (checked, bad) = disagreements("reference.json", &[1]);
     assert!(checked >= 100);
+    assert!(
+        bad.is_empty(),
+        "{} disagreements:\n{}",
+        bad.len(),
+        bad.join("\n")
+    );
+}
+
+#[test]
+fn the_logstash_cef_codec_reads_every_event_including_escaped_headers_as_the_sample_implies() {
+    let (checked, bad) = disagreements("reference_logstash.json", &[1, 2]);
+    assert!(checked >= 100 + 4);
     assert!(
         bad.is_empty(),
         "{} disagreements:\n{}",
