@@ -9,6 +9,22 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Galileo OSNMA verifier
+
+- **New module `kshana::osnma` and `kshana osnma verify <input>`: an open, pure-Rust
+  receiver-side verifier for Galileo OSNMA.** It reads I/NAV pages and reports, per
+  satellite and epoch, whether the navigation data is authenticated, with a reason for
+  every failure or delay: HKROOT and MACK parsing, DSM-KROOT and DSM-PKR reassembly,
+  Merkle verification of the public key, TESLA key-chain verification, MACSEQ and tag
+  verification for ADKD 0, 4 and 12 including cross-authentication, and a
+  `$PKSOS`-shaped result for the receiver-trust monitor. Output carries an advisory that
+  the status is not a navigation integrity service. `docs/OSNMA.md` states what is and
+  is not verified, the time requirement, and that Kshana grants no rights under the
+  EU's OSNMA ICD IPRs (users rely on the ICD's Annex E authorisation).
+  Implemented against the SIS ICD Issue 1.1 and the Receiver Guidelines Issue 1.3.
+  Default tests use synthetic data; an opt-in test reads a locally downloaded copy of
+  the official vectors.
+
 ### Fixed
 
 - **`docs/assets/clock-ensemble-band.svg` regenerated: the committed figure was stale

@@ -1,6 +1,8 @@
 # Galileo OSNMA receiver-side verifier
 
-Status: in development (0.35.0). The sections below grow as the verifier lands.
+A receiver-side verifier for Galileo Open Service Navigation Message Authentication
+(OSNMA), in pure Rust. It reads I/NAV pages and reports, per satellite and per epoch,
+whether the navigation data is cryptographically authenticated, and why a check failed.
 
 > **Advisory.** The authentication status this module reports is information for
 > monitoring and analysis. It is not a navigation integrity service, and it must not
@@ -33,11 +35,96 @@ Published by the European GNSS Service Centre.
 
 Section and table numbers cited in the code and here refer to those versions.
 
-## Test data
+## What is verified
+
+The chain of trust, from the root down to the data:
+
+1. **Public key (ICD 3.2.2, 6.2).** A DSM-PKR is reassembled from its blocks and its
+   Merkle path is walked to a trusted Merkle root (SHA-256).
+2. **KROOT (ICD 3.2.3, 6.3).** A DSM-KROOT is reassembled; its ECDSA signature
+   (P-256/SHA-256 or P-521/SHA-512) is checked against the public key it names, over
+   the NMA header and the chain parameters.
+3. **TESLA keys (ICD 5.5, 6.4).** Each key in a MACK message is walked back to the
+   KROOT or to an earlier verified key, with the chain's hash function.
+4. **MACSEQ (ICD 4.1.2, 6.6).** The flexible Tag-Info fields are checked against the
+   MACSEQ with the key that opens that MACK.
+5. **Tags (ICD 4.2, 6.7).** Each tag is recomputed (HMAC-SHA-256 or CMAC-AES, truncated
+   to the chain's tag length) over the satellite identities, the sub-frame time, the
+   tag position, the NMA status and the navigation data it covers, and compared.
+   ADKD 0 (ephemeris, clock and status), ADKD 4 (timing parameters) and ADKD 12 (slow
+   MAC, key published ten sub-frames later) are handled, with cross-authentication of
+   satellites that do not themselves carry OSNMA, and dummy tags (COP 0).
+
+A tag that names a reserved value, or whose ADKD does not match the MAC look-up table
+slot, is set aside (the Receiver Guidelines say to discard it) and reported as
+`discarded`, not as a failure.
+
+## Status values
+
+Per tag: `authenticated`, `failed` with a reason (`tag_mismatch`, `macseq_mismatch`,
+`key_chain_mismatch`, `key_conflict`), `pending` with a reason (`no_chain`,
+`awaiting_key`, `no_nav_data`, `unknown_maclt`, `unsupported_function`,
+`service_not_usable`), or `discarded`.
+
+Per satellite, in the form the receiver-trust monitor consumes: `Authenticated`,
+`Failed` (a check on that satellite's data failed within the failure memory, 600 s by
+default, even if later data verifies) or `Unavailable`. The overall value is `Failed`
+if any satellite failed, `Authenticated` if at least one is authenticated and none
+failed, otherwise `Unavailable`. `$PKSOS,<A|F|N>[,<sat>:<A|F|N>...]` is the matching
+sentence; `kshana::osnma::pksos_sentence` builds it.
+
+## What is not verified, or not exercised
+
+* **Time.** Every check is relative to the time stamps of the pages given to the
+  verifier. The key chain shows that a key belongs to a given sub-frame, not that the
+  sub-frame is the present one: an attacker who can move the receiver's clock, or
+  replay old authentic data under old time stamps, defeats freshness. Use time that
+  such an attacker cannot move, or give the verifier one with `set_reference_time` and
+  `max_time_error_s` (`--reference-time`, `--max-time-error` on the CLI), and treat
+  the result accordingly. The Receiver Guidelines give the formal requirement.
+* **Renewal and revocation.** The verifier follows a change of chain or public key
+  as the streams of the published vectors exercise it. It does not implement every
+  case the ICD allows, and a chain renewal replaces the chain in force rather than
+  running two in parallel.
+* **Signal and data quality.** Pages are taken as already CRC-checked. Reed-Solomon
+  recovery of I/NAV words 1 to 4 is not used: data must be received directly.
+* **Not a position integrity service.** Authentication says the data came from the
+  system. It says nothing about the signal it arrived on or the quality of the fix.
+
+## Input
+
+* **Plain page format.** One page pair per line: `<svid> <gst_seconds> <60 hex digits>`,
+  `#` comments allowed. `gst_seconds` is GST in seconds (`week * 604800 + time of
+  week`) at the start of the page; the hex is the 240 bits of the even and odd halves
+  (tails included), most significant bit first.
+* **Test-vector CSV.** The layout of the published vectors (`SVID,NumNavBits,NavBitsHEX`).
+  The start time comes from `--start-gst` or from a dated file name.
+* **UBX-RXM-SFRBX.** Planned: reading Galileo I/NAV words from u-blox receivers,
+  added to `src/receiver_trust/ingest.rs` once agreed with its owner.
+
+## Command line
+
+```text
+kshana osnma verify <input> [--format pages|vector-csv] [--start-gst SECONDS]
+    [--merkle-root HEX] [--public-key ID:TYPE:HEX]
+    [--reference-time SECONDS --max-time-error SECONDS] [--epochs] [--json]
+```
+
+Text output gives the status per satellite and, with `--epochs`, per tag and epoch;
+`--json` gives the same with the tag list. Exit status 3 means a check on some
+satellite's data failed. The advisory above is printed with every result.
+
+## Tests and test data
 
 Test data is synthetic and generated by Kshana's own code and tests. No ICD or
 Guidelines vectors, worked examples or key material are stored in this repository.
+The default tests (`tests/osnma_synthetic.rs` and the unit tests) build a chain, pages
+and tags from the equations and check consistency and that deliberate corruption is
+caught: a flipped navigation bit, a flipped key bit, replayed tags, wrong time stamps,
+a time outside the reference, missing data. Because that data comes from our own
+reading of the ICD, it shows self-consistency, not conformance.
 
-An opt-in test reads a locally downloaded copy of the official test-vector archive
-from a directory named by an environment variable and is skipped when the variable is
-unset. It stores and redistributes nothing, and default test runs use no network.
+Conformance is checked by `tests/osnma_official_vectors.rs`, which is opt-in: it reads a
+copy of the official test-vector archive that you download yourself, from the
+directory named by `KSHANA_OSNMA_VECTORS`, and does nothing when the variable is unset.
+It stores and redistributes nothing, and default test runs use no network.
