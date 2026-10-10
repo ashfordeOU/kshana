@@ -922,8 +922,11 @@ impl Verifier {
             m.push(u64::from(p.nmas), 2);
             for chunk in 0..nav.bits.div_ceil(32) {
                 let n = (nav.bits - chunk * 32).min(32);
-                // `nav` holds `bits` valid bits, so this read cannot come up short.
-                m.push(read_bits(&nav.bytes, chunk * 32, n).unwrap_or_default(), n);
+                // `nav` holds `bits` valid bits, so this read cannot come up short; if
+                // it ever did, tests fail loudly and a release build mismatches (safe).
+                let v = read_bits(&nav.bytes, chunk * 32, n);
+                debug_assert!(v.is_some(), "navigation string shorter than its bit count");
+                m.push(v.unwrap_or_default(), n);
             }
             m.into_bytes()
         };

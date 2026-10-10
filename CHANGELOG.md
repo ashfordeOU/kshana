@@ -25,6 +25,12 @@ breaking changes are called out explicitly.
   Pages are CRC-checked, and a u-blox UBX-RXM-SFRBX byte stream can be read directly
   (`--format ubx`). Default tests use synthetic data and published primitive known-answer
   tests; an opt-in test reads a locally downloaded copy of the official vectors.
+  After independent review the verifier takes its time only from verified TESLA keys
+  (a spoofed far-future sub-frame can no longer erase a failure), lets an authentication
+  expire and follow the IODnav in use, honours verified alert messages (whose Merkle
+  leaf now includes the random NPK field) and NMA status "don't use", keeps dummy tags
+  out of the satellite status, keeps chains by CID with revocation and renewal, checks
+  the KROOT padding hash, and caps UBX frame lengths and TESLA verification work.
 
 ### Fixed
 
