@@ -27,6 +27,10 @@ use super::{LogEpoch, LogFormat, MarineObs, OsnmaStatus, ReportedFix, SatCn0, Ti
 use crate::rinex_obs::parse_obs;
 use std::collections::BTreeMap;
 
+/// Most GSV satellites held while waiting for the first timed sentence; later ones are
+/// dropped, so a stream with no time cannot grow the reader without bound.
+const MAX_PENDING_GSV: usize = 512;
+
 /// Milliseconds in one day.
 const DAY_MS: i64 = 86_400_000;
 /// Milliseconds in one GPS week.
@@ -991,6 +995,8 @@ struct NmeaState {
     arrival: Option<f64>,
     /// Key of the previous timed sentence, in arrival order.
     prev_key: Option<i64>,
+    /// The latest time seen so far, in arrival order.
+    max_key: Option<i64>,
     /// Span of lines read before any timed sentence, for the first epoch.
     pending_span: Option<(usize, usize)>,
 }
@@ -1010,7 +1016,12 @@ impl NmeaState {
         self.prev_key = Some(key);
         let arrival = self.arrival;
         let pending_span = self.pending_span.take();
+        let rewound = self.max_key.is_some_and(|m| key < m);
+        self.max_key = Some(self.max_key.map_or(key, |m| m.max(key)));
         let acc = self.map.entry(key).or_default();
+        if rewound {
+            acc.marine.time_rewound = true;
+        }
         if let Some(sp) = pending_span {
             acc.span = Some(union_span(acc.span, sp));
         }
@@ -1173,7 +1184,8 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
         let band = nmea_band(&sat, sig);
         match st.cur_key {
             Some(k) => st.map.entry(k).or_default().add_cn0(sat, band, snr),
-            None => st.pending.push((sat, band, snr)),
+            None if st.pending.len() < MAX_PENDING_GSV => st.pending.push((sat, band, snr)),
+            None => {}
         }
     }
     Sentence::Used

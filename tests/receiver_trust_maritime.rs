@@ -426,3 +426,23 @@ fn a_per_satellite_authentication_failure_alarms_the_osnma_monitor() {
     });
     assert_eq!(first_alarm(&r, Monitor::Osnma), Some(600.0));
 }
+
+#[test]
+fn a_replay_into_the_calibration_window_is_scored_not_calibration_in_a_file_too() {
+    // 120 s of stream, then the first 25 s again: the receiver's time went back into the
+    // 60 s calibration window.
+    let first = voyage(120.0, None);
+    let replay = voyage(25.0, None);
+    let text = format!("{first}{replay}");
+    let r = run_text(&text, &vessel());
+    let replayed: Vec<_> = r
+        .epochs
+        .iter()
+        .filter(|e| e.t_s < 60.0 && e.alarms.contains(&Monitor::TimeConsistency))
+        .collect();
+    assert!(!replayed.is_empty(), "replayed epochs are flagged");
+    for e in replayed {
+        assert_ne!(e.state, TrustState::Calibrating, "t = {}", e.t_s);
+        assert_eq!(e.state, TrustState::Untrusted, "t = {}", e.t_s);
+    }
+}
