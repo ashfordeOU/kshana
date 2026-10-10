@@ -1,0 +1,1218 @@
+{
+  "cases": [
+    {
+      "expect": "intact",
+      "id": "static_intact_unpinned",
+      "ops": [],
+      "options": {
+        "full_log": null,
+        "pin": null,
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "intact",
+      "id": "static_intact_pinned",
+      "ops": [],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "intact",
+      "id": "whole_intact_pinned",
+      "ops": [],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "whole"
+    },
+    {
+      "expect": "intact",
+      "id": "static_full_log_ok",
+      "ops": [],
+      "options": {
+        "full_log": "log/synthetic.log",
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "intact",
+      "id": "stamped_intact_required",
+      "ops": [],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": true
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_log-slice.bin_first",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "log-slice.bin",
+          "offset": 0,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_log-slice.bin_mid",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "log-slice.bin",
+          "offset": 1300,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_log-slice.bin_last",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "log-slice.bin",
+          "offset": 2599,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_config.json_first",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "config.json",
+          "offset": 0,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_config.json_mid",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "config.json",
+          "offset": 45,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_config.json_last",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "config.json",
+          "offset": 89,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_epochs.json_first",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "epochs.json",
+          "offset": 0,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_epochs.json_mid",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "epochs.json",
+          "offset": 2746,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_epochs.json_last",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "epochs.json",
+          "offset": 5492,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_summary.html_first",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "summary.html",
+          "offset": 0,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_summary.html_mid",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "summary.html",
+          "offset": 4825,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "flip_summary.html_last",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "summary.html",
+          "offset": 9650,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_first_byte",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 0,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_title",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 47,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_artifact_sha",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 1477,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_artifact_link",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 1834,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_chain_head",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 2103,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_public_key",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 927,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_format",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 30,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_window",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 433,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_last_byte",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 2264,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "sig_first",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.sig",
+          "offset": 0,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "sig_mid",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.sig",
+          "offset": 64,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "sig_last_newline",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.sig",
+          "offset": 128,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "sig_case_fold",
+      "ops": [
+        {
+          "bit": 5,
+          "file": "manifest.sig",
+          "offset": 3,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "sig_flip_unpinned",
+      "ops": [
+        {
+          "bit": 1,
+          "file": "manifest.sig",
+          "offset": 3,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": null,
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "truncate_epochs",
+      "ops": [
+        {
+          "file": "epochs.json",
+          "len": 5492,
+          "op": "truncate"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "truncate_summary_to_zero",
+      "ops": [
+        {
+          "file": "summary.html",
+          "len": 0,
+          "op": "truncate"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "truncate_manifest_half",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "len": 1132,
+          "op": "truncate"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "truncate_sig_newline",
+      "ops": [
+        {
+          "file": "manifest.sig",
+          "len": 128,
+          "op": "truncate"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "append_epochs",
+      "ops": [
+        {
+          "file": "epochs.json",
+          "hex": "0a",
+          "op": "append"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "append_sig",
+      "ops": [
+        {
+          "file": "manifest.sig",
+          "hex": "0a",
+          "op": "append"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "remove_epochs",
+      "ops": [
+        {
+          "file": "epochs.json",
+          "op": "remove"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "remove_sig",
+      "ops": [
+        {
+          "file": "manifest.sig",
+          "op": "remove"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "remove_sig_unpinned",
+      "ops": [
+        {
+          "file": "manifest.sig",
+          "op": "remove"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": null,
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "remove_manifest",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "remove"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "rename_epochs",
+      "ops": [
+        {
+          "from": "epochs.json",
+          "op": "rename",
+          "to": "epochs2.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "add_unlisted",
+      "ops": [
+        {
+          "file": "extra.txt",
+          "hex": "6578747261",
+          "op": "add"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "swap_config_epochs",
+      "ops": [
+        {
+          "a": "config.json",
+          "b": "epochs.json",
+          "op": "swap"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "swap_slice_summary",
+      "ops": [
+        {
+          "a": "log-slice.bin",
+          "b": "summary.html",
+          "op": "swap"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_reordered",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/reordered_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_chain_wrong",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/chain_wrong_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_missing_slice",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/missing_slice_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_bad_kind",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/bad_kind_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_format_v2",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/format2_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_uppercase_key",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/uppercase_key_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_slice_end",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/slice_end_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_epoch_count",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/epoch_count_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_negative_bytes",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/negative_bytes_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "manifest_missing_slice_unpinned",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/missing_slice_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": null,
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "rehash_without_key",
+      "ops": [
+        {
+          "file": "epochs.json",
+          "op": "replace",
+          "with": "attacks/epochs_edited.json"
+        },
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/rehash_manifest.json"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "wrong_pin_on_intact",
+      "ops": [],
+      "options": {
+        "full_log": null,
+        "pin": "wrong",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "forged_resigned_pinned",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/forged_manifest.json"
+        },
+        {
+          "file": "manifest.sig",
+          "op": "replace",
+          "with": "attacks/forged_sig.txt"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "intact",
+      "id": "forged_resigned_unpinned",
+      "ops": [
+        {
+          "file": "manifest.json",
+          "op": "replace",
+          "with": "attacks/forged_manifest.json"
+        },
+        {
+          "file": "manifest.sig",
+          "op": "replace",
+          "with": "attacks/forged_sig.txt"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": null,
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "full_log_modified",
+      "ops": [],
+      "options": {
+        "full_log": "log/synthetic_modified.log",
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "slice_bytes_not_from_log",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "log-slice.bin",
+          "offset": 5,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": "log/synthetic.log",
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "stamped_stripped_required",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "remove"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": true
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "intact",
+      "id": "stamped_stripped_not_required",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "remove"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "static_no_token_required",
+      "ops": [],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": true
+      },
+      "pack": "static"
+    },
+    {
+      "expect": "tampered",
+      "id": "token_other_document",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "replace",
+          "with": "attacks/token_other.tsr"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "token_junk",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "replace",
+          "with": "attacks/token_junk.bin"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "intact",
+      "id": "token_sha384_valid",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "replace",
+          "with": "attacks/token_sha384.tsr"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "token_bad_gentime",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "replace",
+          "with": "attacks/token_bad_gentime.tsr"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "token_short_imprint",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "replace",
+          "with": "attacks/token_short_imprint.tsr"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "token_bad_content_type",
+      "ops": [
+        {
+          "file": "timestamp.tsr",
+          "op": "replace",
+          "with": "attacks/token_bad_oid.tsr"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    },
+    {
+      "expect": "tampered",
+      "id": "stamped_manifest_edited_after",
+      "ops": [
+        {
+          "bit": 0,
+          "file": "manifest.json",
+          "offset": 47,
+          "op": "flip"
+        }
+      ],
+      "options": {
+        "full_log": null,
+        "pin": "right",
+        "require_timestamp": false
+      },
+      "pack": "stamped"
+    }
+  ],
+  "packs": {
+    "stamped": {
+      "dir": "packs/stamped",
+      "full_log": "log/synthetic.log",
+      "public_key": "db995fe25169d141cab9bbba92baa01f9f2e1ece7df4cb2ac05190f37fcc1f9d"
+    },
+    "static": {
+      "dir": "packs/static",
+      "full_log": "log/synthetic.log",
+      "public_key": "db995fe25169d141cab9bbba92baa01f9f2e1ece7df4cb2ac05190f37fcc1f9d"
+    },
+    "whole": {
+      "dir": "packs/whole",
+      "full_log": "log/synthetic.log",
+      "public_key": "2152f8d19b791d24453242e15f2eab6cb7cffa7b6a5ed30097960e069881db12"
+    }
+  },
+  "wrong_public_key": "d759793bbc13a2819a827c76adb6fba8a49aee007f49f2d0992d99b825ad2c48"
+}
