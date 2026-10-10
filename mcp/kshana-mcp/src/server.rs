@@ -23,7 +23,7 @@
 //! - `assess_receiver_log`    — assess a real GNSS receiver log for trust.
 //!
 //! The GNSS IQ tools (`iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
-//! `iq_frontend`) live in [`crate::iq`], with their file-path and sample-budget contract.
+//! `iq_frontend`, `iq_campaign`, `iq_campaign_status`) live in [`crate::iq`], with their file-path and sample-budget contract.
 
 use crate::iq::IqConfig;
 use rmcp::handler::server::router::tool::ToolRouter;
@@ -692,8 +692,10 @@ impl ServerHandler for KshanaServer {
                  an orbit scenario (export_oem is the one carrying velocity); export_table_csv \
                  returns the CSV reproducibility table for the kinds that publish one; \
                  assess_receiver_log assesses a real receiver log for trust. The GNSS IQ \
-                 tools (iq_signals first, then iq_info, iq_scene, iq_acquire, iq_track and \
-                 iq_frontend) generate and process signal-level IQ recordings as FILES in a \
+                 tools (iq_signals first, then iq_info, iq_scene, iq_acquire, iq_track, \
+                 iq_frontend, and iq_campaign / iq_campaign_status for lab-replay campaigns \
+                 scored against stated test conditions) generate and process signal-level \
+                 IQ recordings as FILES in a \
                  configured work directory: pass paths relative to it; samples never travel \
                  through the protocol, and replies are compact JSON summaries. Spectrum \
                  and waterfall, solar-system, constellation-design, campaign and the \
