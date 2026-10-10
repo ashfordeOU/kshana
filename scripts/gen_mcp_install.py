@@ -217,7 +217,7 @@ def splice(text: str, block: str) -> str:
 
 def targets(ver: str) -> dict[Path, str]:
     out = {ROOT / "docs" / "MCP-INSTALL.md": install_doc(ver)}
-    for rel, prefix in (("README.md", ""), ("mcp/kshana-mcp/README.md", "../../")):
+    for rel, prefix in (("README.md", ""), ("mcp/kshana-mcp/README.md", f"https://github.com/{REPO}/blob/main/")):
         p = ROOT / rel
         if p.exists() and BEGIN in p.read_text(encoding="utf-8"):
             out[p] = splice(p.read_text(encoding="utf-8"), table(ver, prefix))
