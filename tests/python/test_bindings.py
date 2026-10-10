@@ -567,3 +567,39 @@ def test_bench_export_is_in_memory_text_with_the_no_signal_notice():
         kshana.bench_export(toml, "not a time")
     with pytest.raises(ValueError):
         kshana.bench_export('kind = "orbit"\n')
+
+
+def test_scenario_exports_animation_routes_and_examples_in_memory():
+    ex = kshana.list_examples()
+    assert ex["count"] > 50 and {"name", "kind", "about"} <= set(ex["scenarios"][0])
+    assert all(e["kind"] == "orbit" for e in kshana.list_examples("orbit")["scenarios"])
+    with pytest.raises(ValueError):
+        kshana.list_examples("no-such-kind")
+    clock = kshana.get_example("clock-holdover")
+    orbit = kshana.get_example("orbit-multignss")
+    with pytest.raises(ValueError):
+        kshana.get_example("no-such-example")
+    assert kshana.export_sp3(orbit).startswith("#")
+    with pytest.raises(ValueError):
+        kshana.export_omm(clock)
+    assert "CCSDS_OEM" in kshana.export_oem(orbit) or "CCSDS" in kshana.export_oem(orbit)
+    with pytest.raises(ValueError):
+        kshana.export_sp3(clock)
+    plan = kshana.export_formats(clock)
+    assert [p["format"] for p in plan] == ["czml", "kml", "geojson", "stk", "sigmf"]
+    czml = kshana.export_scenario(orbit, "czml")
+    f = czml["files"][0]
+    assert czml["format"] == "czml" and f["encoding"] == "utf-8" and len(f["sha256"]) == 64
+    assert czml == kshana.export_scenario(orbit, "czml")
+    with pytest.raises(ValueError):
+        kshana.export_scenario(clock, "czml")
+    route = '{"type":"LineString","coordinates":[[10.0,50.0],[10.5,50.0]]}'
+    assert "start_lat_deg = 50" in kshana.import_route(kshana.get_example("terrain-nav"), route)
+    with pytest.raises(ValueError):
+        kshana.import_route(clock, route)
+    a = kshana.animate_scenario(clock)
+    assert list(a["files"]) == ["animation.svg"] and "<svg" in a["files"]["animation.svg"]
+    fr = kshana.animate_scenario(clock, "frames", fps=10, duration_s=3.0)
+    assert "manifest.json" in fr["files"]
+    with pytest.raises(ValueError):
+        kshana.animate_scenario(clock, "frames", fps=60, duration_s=600.0)

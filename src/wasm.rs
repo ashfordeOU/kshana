@@ -140,6 +140,77 @@ pub fn receiver_trust(toml: &str) -> Result<String, JsValue> {
     .to_string())
 }
 
+/// Which interoperability formats apply to a scenario, without running it: a JSON array of
+/// `{format, applies, reason, spec_url}` for `czml`, `kml`, `geojson`, `stk` and `sigmf`.
+#[wasm_bindgen]
+pub fn export_formats(toml: &str) -> Result<String, JsValue> {
+    crate::surface::export_formats(toml, crate::surface::MAX_INPUT_BYTES)
+        .map(|v| v.to_string())
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Export a scenario in one interoperability format (`czml`, `kml`, `geojson`, `stk` or
+/// `sigmf`), in memory. Returns JSON `{format, spec_url, files}`; each file is `{suffix, bytes,
+/// sha256, encoding, content}` with `encoding` `"utf-8"` (the text) or `"base64"` (a binary
+/// file). Times are UTC; the same scenario gives byte-identical files. Nothing is uploaded.
+#[wasm_bindgen]
+pub fn export_scenario(toml: &str, format: &str) -> Result<String, JsValue> {
+    crate::surface::export_scenario(toml, format, crate::surface::MAX_INPUT_BYTES)
+        .map(|e| e.to_json().to_string())
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Write a GeoJSON route into a scenario of a kind that flies a waypoint track and return the
+/// new TOML (the command line's `--import-route`).
+#[wasm_bindgen]
+pub fn import_route(toml: &str, geojson: &str) -> Result<String, JsValue> {
+    crate::surface::import_route(toml, geojson, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// Run a scenario and return its time series as an animation. `format` is `svg`, `html` or
+/// `frames` (empty for `svg`); `fps` 0, `duration_s` NaN and `width` 0 mean the defaults (12,
+/// 8 s, 960 px). Returns JSON `{summary, files: {name: text}}`; a kind with no sampled time
+/// axis throws. Nothing is uploaded or written.
+#[wasm_bindgen]
+pub fn animate_scenario(
+    toml: &str,
+    format: &str,
+    fps: u32,
+    duration_s: f64,
+    width: u32,
+) -> Result<String, JsValue> {
+    let a = crate::surface::animate_scenario(
+        toml,
+        (!format.is_empty()).then_some(format),
+        (fps != 0).then_some(fps),
+        (!duration_s.is_nan()).then_some(duration_s),
+        (width != 0).then_some(width),
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))?;
+    let files: serde_json::Map<String, serde_json::Value> =
+        a.files.into_iter().map(|(k, v)| (k, v.into())).collect();
+    Ok(serde_json::json!({"summary": a.summary, "files": files}).to_string())
+}
+
+/// The bundled reference scenarios as JSON `{count, scenarios: [{name, kind, about}]}`; a
+/// non-empty `kind` limits the list to one scenario kind.
+#[wasm_bindgen]
+pub fn list_examples(kind: &str) -> Result<String, JsValue> {
+    crate::surface::list_examples((!kind.is_empty()).then_some(kind))
+        .map(|v| v.to_string())
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// The TOML text of one bundled reference scenario, byte for byte the repository's file.
+#[wasm_bindgen]
+pub fn get_example(name: &str) -> Result<String, JsValue> {
+    crate::surface::get_example(name)
+        .map(str::to_string)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
 /// Export a scenario's vehicle motion and events for a laboratory GNSS simulator
 /// (`docs/TEST-BENCH.md`), in memory: nothing is uploaded or written. `epoch` is the UTC
 /// instant of motion time zero, `YYYY-MM-DDTHH:MM:SS` with an optional `Z` (empty for the

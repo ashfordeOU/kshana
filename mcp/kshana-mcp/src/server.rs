@@ -176,39 +176,7 @@ fn base64(bytes: &[u8]) -> String {
     out
 }
 
-/// Abbreviations whose full stop does not end a sentence in a scenario header.
-const ABBREVIATIONS: [&str; 5] = ["et al", "e.g", "i.e", "vs", "cf"];
-
-/// The first sentence of a scenario file's header comment: what the example shows.
-///
-/// The header is the first block of `#` lines in the file, which one bundled scenario
-/// carries below its `kind` line rather than above it. A full stop that closes one of the
-/// [`ABBREVIATIONS`] does not end the sentence, so "Liu et al. 2025" stays whole.
-fn first_comment_sentence(toml: &str) -> String {
-    let paragraph = toml
-        .lines()
-        .skip_while(|l| !l.starts_with('#'))
-        .map_while(|l| l.strip_prefix('#'))
-        .map(str::trim)
-        .take_while(|l| !l.is_empty())
-        .collect::<Vec<_>>()
-        .join(" ");
-    let mut from = 0;
-    while let Some(i) = paragraph[from..].find(". ") {
-        let stop = from + i;
-        let before = &paragraph[..stop];
-        let abbreviated = ABBREVIATIONS.iter().any(|a| {
-            before
-                .strip_suffix(a)
-                .is_some_and(|head| !head.ends_with(|c: char| c.is_alphanumeric()))
-        });
-        if !abbreviated {
-            return paragraph[..=stop].to_string();
-        }
-        from = stop + 2;
-    }
-    paragraph
-}
+use kshana::surface::first_comment_sentence;
 
 /// Refuse a scenario that names a file or folder for the engine to read, and one over the
 /// upload limit: the server runs scenario text from the client and accepts inline content only.

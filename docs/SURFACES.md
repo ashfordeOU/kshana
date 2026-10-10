@@ -75,12 +75,12 @@ exists yet.
 | `kshana <scenario.toml>` (run, chart, table) | `run`, `run_full`, `run_typed` | `run`, `chart_svg`, `summary`, `table_csv`, `run_all` | `run_scenario`, `report_scenario`, `export_table_csv` | `/kshana-run` | Run Kshana Scenario | `quantum-vs-classical-gdop` | |
 | `--validate <scenario.toml>` | `validate_toml` | `error_kind` (a run throws on an invalid scenario) | `validate_scenario` | `/kshana-run` | CLI only | | |
 | `--study <suite.toml>` | no | no | no | no | CLI only | | A suite names sibling files on disk; run each member as a scenario |
-| `--export-sp3/-omm/-oem` | no | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `/kshana-run` | CLI only | | Python gap |
-| `--export <czml,kml,geojson,stk,sigmf>` | no | no | `export_interop`, `list_export_formats` | `/kshana-run` | CLI only | | Python and WASM gap |
-| `--import-route` | no | no | `import_route` | no | CLI only | | Python, WASM and plugin gap |
-| `--animate <svg,html,frames>` | no | no | `animate_scenario` | `/kshana-run` | CLI only | | Python and WASM gap (WASM has the static chart) |
+| `--export-sp3/-omm/-oem` | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `export_sp3`, `export_omm`, `export_oem` | `/kshana-run` | CLI only | | |
+| `--export <czml,kml,geojson,stk,sigmf>` | `export_scenario`, `export_formats` | `export_scenario`, `export_formats` | `export_interop`, `list_export_formats` | `/kshana-run` | CLI only | | Files come back as text (`utf-8`) or base64 (the SigMF samples) |
+| `--import-route` | `import_route` | `import_route` | `import_route` | no | CLI only | | Plugin gap |
+| `--animate <svg,html,frames>` | `animate_scenario` | `animate_scenario` | `animate_scenario` | `/kshana-run` | CLI only | | At most 120 frames per call; longer sequences use the CLI |
 | `kinds [--json]` | `scenario_kinds`, `list_kinds` | `list_kinds` | `list_scenario_kinds` | `/kshana-run` | CLI only | | |
-| `example [<name>]` | no | no | `list_example_scenarios`, `get_example_scenario` | `/kshana-run` | CLI only | | Python and WASM gap (the browser Studio carries the examples) |
+| `example [<name>]` | `list_examples`, `get_example` | `list_examples`, `get_example` | `list_example_scenarios`, `get_example_scenario` | `/kshana-run` | CLI only | | The `python` and `wasm` features compile the example text in (about 0.7 MB) |
 | `receiver-trust <scenario.toml>` (batch) | `receiver_trust`, `assess_vessel_log` | `receiver_trust`, `assess_vessel_log` | `assess_receiver_log`, `assess_vessel_log` | `/kshana-assess-receiver` | Assess Receiver Trust | `vessel-trust-and-training` | |
 | `receiver-trust live` | excerpt: `receiver_trust_replay` | excerpt: `receiver_trust_replay` | excerpt: `assess_vessel_stream` | excerpt | CLI only | | A running process; the excerpt has no socket and no gate (N/A above) |
 | `trust-telemetry` | N/A | N/A | N/A | how-to | N/A | | A process (N/A above) |

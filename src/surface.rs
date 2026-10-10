@@ -362,6 +362,263 @@ pub fn bench_export(
     Ok(BenchExport { files, notes })
 }
 
+/// Abbreviations whose full stop does not end a sentence in a scenario header.
+const ABBREVIATIONS: [&str; 5] = ["et al", "e.g", "i.e", "vs", "cf"];
+
+/// The first sentence of a scenario file's header comment: what the example shows.
+///
+/// The header is the first block of `#` lines in the file, which one bundled scenario
+/// carries below its `kind` line rather than above it. A full stop that closes one of the
+/// abbreviations does not end the sentence, so "Liu et al. 2025" stays whole.
+pub fn first_comment_sentence(toml: &str) -> String {
+    let paragraph = toml
+        .lines()
+        .skip_while(|l| !l.starts_with('#'))
+        .map_while(|l| l.strip_prefix('#'))
+        .map(str::trim)
+        .take_while(|l| !l.is_empty())
+        .collect::<Vec<_>>()
+        .join(" ");
+    let mut from = 0;
+    while let Some(i) = paragraph[from..].find(". ") {
+        let stop = from + i;
+        let before = &paragraph[..stop];
+        let abbreviated = ABBREVIATIONS.iter().any(|a| {
+            before
+                .strip_suffix(a)
+                .is_some_and(|head| !head.ends_with(|c: char| c.is_alphanumeric()))
+        });
+        if !abbreviated {
+            return paragraph[..=stop].to_string();
+        }
+        from = stop + 2;
+    }
+    paragraph
+}
+
+/// The detected kind of a scenario, as the name the kind listing uses.
+pub fn scenario_kind_name(toml: &str) -> &'static str {
+    crate::api::ScenarioKind::classify(toml)
+        .map(|k| k.as_str())
+        .unwrap_or("clock")
+}
+
+/// The bundled reference scenarios as JSON: `count` and `scenarios`, each `name`, `kind` and
+/// `about` (the first sentence of the file's header). `kind` limits the list to one kind.
+#[cfg(feature = "bundled-scenarios")]
+pub fn list_examples(kind: Option<&str>) -> Result<Value, String> {
+    let wanted = kind.map(str::trim).filter(|k| !k.is_empty());
+    if let Some(k) = wanted {
+        if !crate::api::list_scenario_kinds()
+            .iter()
+            .any(|m| m.name == k)
+        {
+            return Err(format!(
+                "unknown scenario kind `{k}`; the kind list names every kind"
+            ));
+        }
+    }
+    let scenarios: Vec<Value> = crate::bundled_scenarios::BUNDLED
+        .iter()
+        .map(|(name, toml)| (*name, scenario_kind_name(toml), *toml))
+        .filter(|(_, k, _)| wanted.is_none_or(|w| w == *k))
+        .map(|(name, k, toml)| {
+            json!({"name": name, "kind": k, "about": first_comment_sentence(toml)})
+        })
+        .collect();
+    Ok(json!({"count": scenarios.len(), "scenarios": scenarios}))
+}
+
+/// The TOML text of one bundled reference scenario, byte for byte the file the repository
+/// ships. A scenario that exists in the repository but is not bundled is refused with the
+/// reason.
+#[cfg(feature = "bundled-scenarios")]
+pub fn get_example(name: &str) -> Result<&'static str, String> {
+    let name = name.trim();
+    if let Some(toml) = crate::bundled_scenarios::get(name) {
+        return Ok(toml);
+    }
+    Err(match crate::bundled_scenarios::repo_only_reason(name) {
+        Some(why) => format!("`{name}` is not bundled: it {why}"),
+        None => format!(
+            "no bundled scenario named `{name}`; the example list names the {} that are",
+            crate::bundled_scenarios::BUNDLED.len()
+        ),
+    })
+}
+
+/// Which interoperability formats apply to a scenario, without running it: one entry per
+/// format with `format`, `applies`, `reason` (when it does not) and `spec_url`.
+pub fn export_formats(toml: &str, max_bytes: usize) -> Result<Value, String> {
+    cap("scenario", toml, max_bytes)?;
+    if let Err(e) = toml::from_str::<toml::Value>(toml) {
+        return Err(format!("invalid TOML: {e}"));
+    }
+    Ok(Value::Array(
+        crate::interop::plan(toml)
+            .into_iter()
+            .map(|(format, outcome)| {
+                json!({
+                    "format": format.as_str(),
+                    "applies": outcome.is_ok(),
+                    "reason": outcome.err(),
+                    "spec_url": format.spec_url(),
+                })
+            })
+            .collect(),
+    ))
+}
+
+/// One exported file: its suffix, size, SHA-256, encoding (`utf-8` or `base64`) and content.
+#[derive(Clone, Debug)]
+pub struct ExportedFile {
+    /// What the command line appends to the output name (for example `.czml`, `.G01.e`).
+    pub suffix: String,
+    /// Size of the file in bytes (before any base64 encoding).
+    pub bytes: usize,
+    /// SHA-256 of the file's bytes, hex.
+    pub sha256: String,
+    /// `"utf-8"` (the content is the text) or `"base64"` (a binary file).
+    pub encoding: &'static str,
+    /// The content.
+    pub content: String,
+}
+
+/// An interoperability export held in memory.
+#[derive(Clone, Debug)]
+pub struct ScenarioExport {
+    /// The format exported (`czml`, `kml`, `geojson`, `stk` or `sigmf`).
+    pub format: &'static str,
+    /// The published specification the writer follows.
+    pub spec_url: &'static str,
+    /// The files, in the order the command line writes them.
+    pub files: Vec<ExportedFile>,
+}
+
+impl ScenarioExport {
+    /// The export as JSON: `format`, `spec_url` and `files` (each with its `content`).
+    pub fn to_json(&self) -> Value {
+        json!({
+            "format": self.format,
+            "spec_url": self.spec_url,
+            "files": self.files.iter().map(|f| json!({
+                "suffix": f.suffix, "bytes": f.bytes, "sha256": f.sha256,
+                "encoding": f.encoding, "content": f.content,
+            })).collect::<Vec<_>>(),
+        })
+    }
+}
+
+/// Export a scenario in one interoperability format (`czml`, `kml`, `geojson`, `stk`,
+/// `sigmf`), in memory: nothing is written. Times are UTC and the same scenario gives
+/// byte-identical files. A format that does not apply is refused with the reason.
+pub fn export_scenario(
+    toml: &str,
+    format: &str,
+    max_bytes: usize,
+) -> Result<ScenarioExport, String> {
+    cap("scenario", toml, max_bytes)?;
+    let fmt = crate::interop::Format::parse(format.trim()).map_err(|_| {
+        format!(
+            "unknown export format `{}`; expected one of czml, kml, geojson, stk or sigmf",
+            format.trim()
+        )
+    })?;
+    let files = crate::interop::export(toml, fmt).map_err(|e| format!("{}: {e}", fmt.as_str()))?;
+    Ok(ScenarioExport {
+        format: fmt.as_str(),
+        spec_url: fmt.spec_url(),
+        files: files
+            .into_iter()
+            .map(|f| {
+                let sha256 = crate::advanced_report::sha256_hex(&f.bytes);
+                let bytes = f.bytes.len();
+                let (encoding, content) = match String::from_utf8(f.bytes) {
+                    Ok(t) => ("utf-8", t),
+                    Err(e) => ("base64", crate::permalink::base64_encode(e.as_bytes())),
+                };
+                ExportedFile {
+                    suffix: f.suffix,
+                    bytes,
+                    sha256,
+                    encoding,
+                    content,
+                }
+            })
+            .collect(),
+    })
+}
+
+/// Write a GeoJSON route (a `LineString`, or a `Feature` or `FeatureCollection` holding one)
+/// into a scenario of a kind that flies a waypoint track, and return the new TOML.
+pub fn import_route(toml: &str, geojson: &str, max_bytes: usize) -> Result<String, String> {
+    cap("scenario", toml, max_bytes)?;
+    cap("route", geojson, max_bytes)?;
+    crate::interop::geojson::apply_route(toml, geojson)
+}
+
+/// Most frames a surface returns in one animation.
+pub const MAX_ANIMATION_FRAMES: usize = 120;
+
+/// An animation held in memory: a summary of what was drawn and the files.
+#[derive(Clone, Debug)]
+pub struct AnimationOut {
+    /// What was drawn: time range and unit, chart titles, phases and events, series left out,
+    /// and the file names.
+    pub summary: Value,
+    /// The files as `(name, text)`: one for SVG or HTML; frames plus `manifest.json` otherwise.
+    pub files: Vec<(String, String)>,
+}
+
+/// Run a scenario and return its time series as an animation: `svg` (one animated SVG, no
+/// script), `html` (one self-contained player page) or `frames` (numbered static SVG frames
+/// and `manifest.json`, at most [`MAX_ANIMATION_FRAMES`]). Defaults: 12 fps, 8 s, 960 px.
+/// A kind whose result has no sampled time axis is refused. Pure text; nothing is written.
+pub fn animate_scenario(
+    toml: &str,
+    format: Option<&str>,
+    fps: Option<u32>,
+    duration_s: Option<f64>,
+    width: Option<u32>,
+    max_bytes: usize,
+) -> Result<AnimationOut, String> {
+    use crate::animation::{animate_result, animation_meta, AnimationFormat, AnimationOptions};
+    cap("scenario", toml, max_bytes)?;
+    let format = AnimationFormat::parse(format.unwrap_or("svg"))?;
+    let mut opts = AnimationOptions::default();
+    if let Some(n) = fps {
+        opts.fps = n;
+    }
+    if let Some(d) = duration_s {
+        opts.duration_s = d;
+    }
+    if let Some(w) = width {
+        opts.width = w;
+    }
+    opts.validate()?;
+    if format == AnimationFormat::Frames && opts.frame_count() > MAX_ANIMATION_FRAMES {
+        return Err(format!(
+            "duration_s x fps gives {} frames and at most {MAX_ANIMATION_FRAMES} are returned; \
+             lower fps or duration_s, or write a longer sequence with the command line",
+            opts.frame_count()
+        ));
+    }
+    let kind = scenario_kind_name(toml);
+    let out = crate::api::run_toml(toml).map_err(|e| format!("scenario run failed: {e}"))?;
+    let anim = animate_result(&out.json, Some(kind), format, &opts).map_err(|e| e.to_string())?;
+    let names: Vec<String> = anim.files.iter().map(|f| f.name.clone()).collect();
+    let summary = animation_meta(&out.json, Some(kind), &[format], &opts, &names)
+        .map_err(|e| e.to_string())?;
+    Ok(AnimationOut {
+        summary,
+        files: anim
+            .files
+            .into_iter()
+            .map(|f| (f.name, f.content))
+            .collect(),
+    })
+}
+
 /// Most runs a surface accepts in one compliance report.
 pub const MAX_COMPLIANCE_RUNS: usize = 64;
 
@@ -1048,5 +1305,72 @@ mod tests {
         for banned in ["certif", "complies", "compliant", "conform"] {
             assert!(!low.contains(banned));
         }
+    }
+
+    #[cfg(feature = "bundled-scenarios")]
+    #[test]
+    fn scenario_tools_work_in_memory() {
+        // Examples.
+        let all = list_examples(None).unwrap();
+        assert!(all["count"].as_u64().unwrap() > 50);
+        let orbit = list_examples(Some("orbit")).unwrap();
+        assert!(orbit["scenarios"]
+            .as_array()
+            .unwrap()
+            .iter()
+            .all(|e| e["kind"] == "orbit"));
+        assert!(list_examples(Some("no-such-kind")).is_err());
+        let clock = get_example("clock-holdover").unwrap();
+        assert!(get_example("no-such-example").is_err());
+        // Exports.
+        let plan = export_formats(clock, MAX_INPUT_BYTES).unwrap();
+        assert_eq!(plan.as_array().unwrap().len(), 5);
+        let orbit_toml = get_example("orbit-multignss").unwrap();
+        let czml = export_scenario(orbit_toml, "czml", MAX_INPUT_BYTES).unwrap();
+        assert_eq!(czml.format, "czml");
+        assert_eq!(czml.files[0].encoding, "utf-8");
+        assert_eq!(
+            czml.files[0].sha256,
+            crate::advanced_report::sha256_hex(czml.files[0].content.as_bytes())
+        );
+        assert_eq!(
+            czml.to_json(),
+            export_scenario(orbit_toml, "czml", MAX_INPUT_BYTES)
+                .unwrap()
+                .to_json()
+        );
+        assert!(export_scenario(clock, "czml", MAX_INPUT_BYTES).is_err());
+        assert!(export_scenario(orbit_toml, "nope", MAX_INPUT_BYTES).is_err());
+        assert!(export_scenario(orbit_toml, "czml", 10).is_err());
+        // Route import: a clock scenario takes no route; a track kind does.
+        let route = r#"{"type":"LineString","coordinates":[[10.0,50.0],[10.5,50.0]]}"#;
+        assert!(import_route(clock, route, MAX_INPUT_BYTES).is_err());
+        let moved =
+            import_route(get_example("terrain-nav").unwrap(), route, MAX_INPUT_BYTES).unwrap();
+        assert!(moved.contains("start_lat_deg = 50"));
+        // Animation.
+        let a = animate_scenario(clock, Some("svg"), None, None, None, MAX_INPUT_BYTES).unwrap();
+        assert_eq!(a.files.len(), 1);
+        assert!(a.files[0].1.starts_with("<svg") || a.files[0].1.contains("<svg"));
+        let f = animate_scenario(
+            clock,
+            Some("frames"),
+            Some(10),
+            Some(3.0),
+            None,
+            MAX_INPUT_BYTES,
+        )
+        .unwrap();
+        assert!(f.files.iter().any(|x| x.0 == "manifest.json"));
+        assert!(animate_scenario(
+            clock,
+            Some("frames"),
+            Some(60),
+            Some(600.0),
+            None,
+            MAX_INPUT_BYTES
+        )
+        .is_err());
+        assert!(animate_scenario(clock, Some("gif"), None, None, None, MAX_INPUT_BYTES).is_err());
     }
 }

@@ -162,13 +162,14 @@ getrandom = { version = "0.2", features = ["js"] }
 
 [features]
 # Python extension module, built with maturin (`maturin build --features python`).
-python = ["dep:pyo3"]
+python = ["dep:pyo3", "bundled-scenarios"]
 # WebAssembly module, built with wasm-pack (`wasm-pack build -- --features wasm`).
-wasm = ["dep:wasm-bindgen"]
+wasm = ["dep:wasm-bindgen", "bundled-scenarios"]
 # The bundled reference scenarios (`kshana example`) as a library module,
 # `kshana::bundled_scenarios`. Off by default, so the Python wheel and the WebAssembly
-# module do not carry the scenario text; the MCP (Model Context Protocol) server turns it
-# on to hand an agent a runnable example of every kind.
+# module do not carry the scenario text unless they ask for it; the `python` and `wasm`
+# features and the MCP (Model Context Protocol) server turn it on, so every surface can list
+# and fetch a runnable example of every kind (about 0.7 MB of text).
 bundled-scenarios = []
 # OpenTelemetry OTLP/HTTP export of the GNSS-trust metrics (`kshana trust-telemetry --otlp`).
 # Off by default. Adds no crate: the exporter is plain `std::net` HTTP with a JSON body.
