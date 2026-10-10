@@ -261,6 +261,10 @@ pub struct ReceiverTrustResult {
     pub scenario_hash: String,
     /// The honesty label: what this result is and is not.
     pub label: String,
+    /// For a vessel: what this software is and is not (advisory, not type-approved navigation
+    /// equipment).
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub advisory: Option<&'static str>,
     /// Session name, if given.
     pub name: Option<String>,
     /// What was read.
@@ -583,6 +587,7 @@ pub fn run_receiver_trust_bytes(
     Ok(ReceiverTrustResult {
         scenario_hash,
         label: LABEL.into(),
+        advisory: scn.monitors.platform.is_vessel().then_some(super::ADVISORY),
         name: scn.name.clone(),
         log: LogSummary {
             format: scn.log.format,
@@ -682,7 +687,12 @@ fn opt(v: Option<f64>) -> String {
 /// The per-epoch trust timeline as CSV.
 pub fn to_csv(r: &ReceiverTrustResult) -> String {
     let vessel = r.score_model.is_some();
-    let mut s = String::from(
+    let mut s = String::new();
+    if vessel {
+        // A comment line, which CSV readers skip with their comment option (`#`).
+        s.push_str(&format!("# {}\n", super::ADVISORY));
+    }
+    s.push_str(
         "t_s,state,n_sats,cn0_mean_dbhz,cn0_drop_db,agc,agc_z,jam_ind,position_offset_m,raim_stat,raim_thr,clock_innov_ns,clock_bound_ns,alarms",
     );
     if vessel {
@@ -732,7 +742,7 @@ pub fn to_csv(r: &ReceiverTrustResult) -> String {
 /// with the band edges. Self-contained SVG.
 fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     use super::maritime::en_offset_m;
-    let (w, h) = (760.0_f64, 520.0_f64);
+    let (w, h) = (760.0_f64, 540.0_f64);
     let (x0, x1) = (56.0_f64, w - 16.0);
     let colour = |s: TrustState| match s {
         TrustState::Calibrating => RULE,
@@ -745,8 +755,10 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
         model.map_or((90.0, 55.0), |m| (m.nominal_min, m.degraded_min));
     let mut svg = format!(
         "<svg xmlns=\"http://www.w3.org/2000/svg\" width=\"{w}\" height=\"{h}\" viewBox=\"0 0 {w} {h}\">\
+         <desc>{}</desc>\
          <rect width=\"{w}\" height=\"{h}\" fill=\"{BG}\"/>\
          <text x=\"12\" y=\"22\" fill=\"{TITLE}\" font-family=\"{FONT_SANS}\" font-size=\"13\">{}</text>",
+        esc(super::ADVISORY),
         esc(&r.verdict.chars().take(110).collect::<String>())
     );
 
@@ -910,10 +922,12 @@ fn to_svg_vessel(r: &ReceiverTrustResult) -> String {
     svg.push_str(&format!(
         "<text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">0 s</text>\
          <text x=\"{x1}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\" text-anchor=\"end\">{t_max:.0} s</text>\
-         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal (score at or above {nominal_min:.0}), amber degraded (at or above {degraded_min:.0}), red untrusted, grey calibrating</text></svg>",
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"10\">trust: green nominal (score at or above {nominal_min:.0}), amber degraded (at or above {degraded_min:.0}), red untrusted, grey calibrating</text>\
+         <text x=\"{x0}\" y=\"{}\" fill=\"{MUTED}\" font-family=\"{FONT_SANS}\" font-size=\"9\">Advisory software, not type-approved navigation equipment; the operator remains responsible.</text></svg>",
         band_y + 26.0,
         band_y + 26.0,
-        band_y + 42.0
+        band_y + 42.0,
+        band_y + 56.0
     ));
     svg
 }
