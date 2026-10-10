@@ -22,7 +22,8 @@ them in one file, `integrations/signalk/lib/adapter.js`; a format change is a on
 
 ## Signal K plugin
 
-No npm dependencies; Node 18 or newer. Copy or link `integrations/signalk/` into the server's `node_modules`
+No npm dependencies. The plugin itself runs on Node 18 or newer; current `signalk-server` releases need Node 22 or newer, so in practice
+use 22. Copy or link `integrations/signalk/` into the server's `node_modules`
 (for example `~/.signalk/node_modules/signalk-kshana-trust`), restart the server and enable **Kshana GNSS trust**
 under Server, Plugin Config.
 
@@ -30,7 +31,7 @@ under Server, Plugin Config.
 
 | `source` | What the plugin does |
 |---|---|
-| `spawn-signalk-nmea` (default) | Runs `kshana receiver-trust live <sessionFile>` and writes every raw NMEA 0183 sentence the server receives (the server's `nmea0183` event) to its standard input. Restarts it, with back-off, if it exits |
+| `spawn-signalk-nmea` (default) | Runs `kshana receiver-trust live <sessionFile>` and writes every raw NMEA 0183 sentence the server receives (the server's `nmea0183` event) to its standard input. Restarts it, with back-off, if it exits | **Use it only on a server with a single NMEA source**: it feeds every sentence from every provider, interleaved, so a second GNSS receiver or AIS looks like one receiver whose position jumps and can be scored as spoofing. With more than one source use `spawn-args` with that receiver's own `--tcp` stream, or `tcp-pksht` from a gate. |
 | `spawn-args` | Runs `kshana receiver-trust live <sessionFile> <inputArgs...>`, for example `["--tcp","192.0.2.10:10110"]` or `["--udp","10110"]` |
 | `tcp-json` | Connects to a feed of the JSON lines `kshana` writes (for example from the relay in `integrations/opencpn/`) |
 | `tcp-pksht` | Connects to an NMEA stream (such as the gate output of the service or container in the reference build, port 10110) and reads only its `$PKSHT` sentences |
@@ -50,9 +51,11 @@ Every epoch updates (source `kshana-trust`):
 | `navigation.gnss.kshana.alarms` | the monitors currently over their threshold |
 | `navigation.gnss.kshana.gate` | `off`, `passed` or `withheld` (when a gate is running elsewhere; `null` from `$PKSHT` when absent) |
 | `navigation.gnss.kshana.reportedPosition` | `{latitude, longitude, altitude}`: the position the receiver under test reported at that epoch (JSON schema 1.1 or later; not published when the stream carries none, for example from `$PKSHT` or an older `kshana`). **Trust context only**: the plugin never writes `navigation.position`, so the vessel's own position path is untouched |
-| `notifications.navigation.gnss.kshanaTrust` | raised when the state changes: `{state, method, message}` |
+| `notifications.navigation.gnss.kshana.trust` | raised when the state changes: `{state, method, message}` |
 
-The notification is `normal`, `alert`, `warn` or `alarm`. By default the **degraded** band gives `warn` and the
+The plugin also sends Signal K metadata for these paths once at start. `score` is Kshana's 0 to 100 trust score, a score and not a ratio or a probability, so it carries no SI unit; its metadata gives the range, a description and zones that follow the thresholds below. `reasons[].points` are score points taken off that 0 to 100 score.
+
+The notification is `normal`, `alert`, `warn` or `alarm`. It is cleared by publishing state `normal`, not `null`: a consumer that only treats `null` as cleared should treat `normal` as cleared too. By default the **degraded** band gives `warn` and the
 **untrusted** band gives `alarm`, with `method: ["visual","sound"]`. It is lowered after `clearAfterEpochs` epochs
 at a better state. If no epoch arrives for `staleAfterS` seconds it warns that the score is not being updated.
 Calibration never raises a notification. The `$PKSHT` source carries no `alarms` list (the sentence has
@@ -63,9 +66,9 @@ the band, score and the top two reasons only).
 | Key | Default | Meaning |
 |---|---|---|
 | `source` | `spawn-signalk-nmea` | see above |
-| `command` | `kshana` | the executable (spawn modes) |
+| `command` | `kshana` | the executable (spawn modes). **It runs any executable as the server's user**: only an administrator of the Signal K server should be able to change plugin configuration |
 | `sessionFile` | `/etc/kshana/session.toml` | the vessel's limits, thresholds and score weights (spawn modes) |
-| `inputArgs` | `[]` | extra input arguments (`spawn-args`) |
+| `inputArgs` | `[]` | arguments added to `kshana receiver-trust live <sessionFile>` in both spawn modes: the input for `spawn-args`, extra flags such as `--replay` (a stored log fed faster than real time) for `spawn-signalk-nmea`. The plugin refuses `--gate`, `--listen`, `--json` and `--pksht` (it reads `kshana`'s JSON on standard output), and for `spawn-signalk-nmea` also the input flags (`--stdin`, `--file`, `--tcp`, `--udp`, `--follow`, `--from-end`) |
 | `host`, `port` | `127.0.0.1`, `10111` | TCP modes (the gate serves on 10110: set the port for `tcp-pksht`) |
 | `thresholdMode` | `band` | `band`: the band Kshana reports, with the edges in the session file. `score`: the two scores below |
 | `warnBelowScore` | `90` | `score` mode: below this the state is `degradedState` (Kshana's default edge for nominal) |
@@ -87,9 +90,15 @@ cd integrations/signalk && npm test
 `node:test`, no dependencies, no network beyond `127.0.0.1`. The tests parse and replay a 66-epoch excerpt of the
 JSON lines and `$PKSHT` sentences that `kshana receiver-trust live` wrote for the synthetic Baltic
 demo (made-up data, text only), check agreement between the two formats, the hold and clear behaviour, score mode,
-staleness, and the three input paths against a local feed and a stand-in child process. They do not start a real
-Signal K server; the use of the server's `nmea0183` event and the `handleMessage` and notification conventions
-follows the server's published plugin interface and should be confirmed on first install.
+staleness, and the three input paths against a local feed and a stand-in child process. Those tests do not start a real Signal K server; a separate scripted run does, see below.
+
+### Run in a real Signal K server
+
+`integrations/signalk/evidence/` holds a script that loads the plugin into the pinned `signalk-server` 2.33.0 package (in a
+private loopback-only network namespace) and records what the server's own REST and WebSocket APIs show. The trust paths appear,
+the notification goes warn, alarm, normal (after the hold) and warn again when the data stops, and with the real `kshana` fed by
+the server's own NMEA input it also published `reportedPosition`, never `navigation.position`. One server version, one run, no
+real vessel; limits and reproduction in the evidence README.
 
 ## OpenCPN
 

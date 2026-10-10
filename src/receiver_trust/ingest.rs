@@ -74,6 +74,13 @@ struct Acc {
     jam: Option<f64>,
     fix: Option<ReportedFix>,
     marine: MarineObs,
+    /// Byte range of the input the epoch's records came from.
+    span: Option<(usize, usize)>,
+}
+
+/// The smallest range holding both.
+fn union_span(a: Option<(usize, usize)>, b: (usize, usize)) -> (usize, usize) {
+    a.map_or(b, |(s, e)| (s.min(b.0), e.max(b.1)))
 }
 
 impl Acc {
@@ -125,6 +132,7 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
             jam_ind: a.jam,
             fix: a.fix,
             marine: (a.marine != MarineObs::default()).then_some(a.marine),
+            source_span: a.span.map(|(s, e)| [s, e]),
         })
         .collect()
 }
@@ -492,6 +500,17 @@ pub fn read_ubx(bytes: &[u8]) -> Timeline {
         };
         if !ok {
             skipped += 1;
+        } else if matches!(
+            (class, id),
+            (CLASS_NAV, ID_NAV_PVT)
+                | (CLASS_NAV, ID_NAV_TIMEGPS)
+                | (CLASS_NAV, ID_NAV_SAT)
+                | (CLASS_MON, ID_MON_RF)
+        ) {
+            if let Some(k) = st.cur_key {
+                let acc = st.map.entry(k).or_default();
+                acc.span = Some(union_span(acc.span, (i, frame_end)));
+            }
         }
         i = frame_end;
     }
@@ -559,12 +578,33 @@ fn rinex_time_system(text: &str, system: char) -> &'static str {
 /// over; an epoch with an impossible date is counted as skipped. Labels are the epoch
 /// time in the file's own time system (`2024-09-11T09:12:03.000 GPST`). Returns the
 /// parser's error when the file is not a readable RINEX observation file.
+/// Byte range of each epoch record of a RINEX 3 observation file: from its `>` line to the next
+/// epoch line (or the end of the text). Empty for a file with no such lines (RINEX 2).
+fn rinex_epoch_spans(text: &str) -> Vec<(usize, usize)> {
+    let (mut at, mut in_body) = (0usize, false);
+    let mut starts = Vec::new();
+    for line in text.split_inclusive('\n') {
+        if !in_body {
+            in_body = line.contains("END OF HEADER");
+        } else if line.starts_with('>') {
+            starts.push(at);
+        }
+        at += line.len();
+    }
+    let ends: Vec<usize> = starts.iter().skip(1).copied().chain([text.len()]).collect();
+    starts.into_iter().zip(ends).collect()
+}
+
 pub fn read_rinex(text: &str) -> Result<Timeline, String> {
     let rinex = parse_obs(text)?;
     let ts = rinex_time_system(text, rinex.header.system);
     let mut map: BTreeMap<i64, Acc> = BTreeMap::new();
     let mut skipped = 0usize;
-    for ep in &rinex.epochs {
+    let offsets = rinex_epoch_spans(text);
+    // Only when every epoch record is found by its `>` marker (RINEX 3) is the match with the
+    // parsed epochs trusted; otherwise no span is given.
+    let spans_ok = offsets.len() == rinex.epochs.len();
+    for (idx, ep) in rinex.epochs.iter().enumerate() {
         if ep.flag != 0 {
             continue;
         }
@@ -583,6 +623,9 @@ pub fn read_rinex(text: &str) -> Result<Timeline, String> {
             + (i64::from(t.hour) * 3600 + i64::from(t.minute) * 60) * 1000
             + (t.second * 1000.0).round() as i64;
         let acc = map.entry(key).or_default();
+        if spans_ok {
+            acc.span = Some(union_span(acc.span, offsets[idx]));
+        }
         acc.set_label(
             1,
             format!(
@@ -753,11 +796,14 @@ pub fn read_android(text: &str) -> Result<Timeline, String> {
     let use_utc = utc_i.is_some();
 
     let mut map: BTreeMap<i64, Acc> = BTreeMap::new();
-    let mut fixes: Vec<(i64, ReportedFix)> = Vec::new();
+    let mut fixes: Vec<(i64, ReportedFix, (usize, usize))> = Vec::new();
+    let mut at = 0usize;
     let mut skipped = 0usize;
     let mut raw_rows = 0usize;
-    for line in text.lines() {
-        let line = line.trim();
+    for raw_line in text.split_inclusive('\n') {
+        let span = (at, at + raw_line.len());
+        at += raw_line.len();
+        let line = raw_line.trim();
         if line.starts_with("Raw,") {
             raw_rows += 1;
             let f: Vec<&str> = line.split(',').collect();
@@ -771,6 +817,7 @@ pub fn read_android(text: &str) -> Result<Timeline, String> {
                 continue;
             };
             let acc = map.entry(key).or_default();
+            acc.span = Some(union_span(acc.span, span));
             if use_utc {
                 acc.set_label(1, iso_utc_ms(key));
             }
@@ -787,7 +834,7 @@ pub fn read_android(text: &str) -> Result<Timeline, String> {
             let f: Vec<&str> = line.split(',').collect();
             let parsed = android_fix(&f, lat_i, lon_i, alt_i, fix_t_i);
             match parsed {
-                Some(fx) => fixes.push(fx),
+                Some((t, fx)) => fixes.push((t, fx, span)),
                 None => skipped += 1,
             }
         }
@@ -795,7 +842,7 @@ pub fn read_android(text: &str) -> Result<Timeline, String> {
     // Fixes are placed after all Raw rows are read, since a Fix row may precede the
     // measurements of its own instant in the file.
     if use_utc || raw_rows == 0 {
-        for (t, fix) in fixes {
+        for (t, fix, span) in fixes {
             let nearest = map
                 .range(t - ANDROID_FIX_MERGE_MS..=t + ANDROID_FIX_MERGE_MS)
                 .map(|(k, _)| *k)
@@ -804,6 +851,11 @@ pub fn read_android(text: &str) -> Result<Timeline, String> {
             let acc = map.entry(key).or_default();
             acc.set_label(1, iso_utc_ms(key));
             acc.fix = Some(fix);
+            // A Fix row can sit far from its epoch's Raw rows: it gives the span only of an
+            // epoch that has no Raw rows, so the span stays one contiguous run of rows.
+            if acc.span.is_none() {
+                acc.span = Some(span);
+            }
         }
     }
     Ok(finalize(map, skipped))
@@ -939,6 +991,8 @@ struct NmeaState {
     arrival: Option<f64>,
     /// Key of the previous timed sentence, in arrival order.
     prev_key: Option<i64>,
+    /// Span of lines read before any timed sentence, for the first epoch.
+    pending_span: Option<(usize, usize)>,
 }
 
 impl NmeaState {
@@ -955,7 +1009,11 @@ impl NmeaState {
         let step = self.prev_key.map(|p| key - p).filter(|d| *d != 0);
         self.prev_key = Some(key);
         let arrival = self.arrival;
+        let pending_span = self.pending_span.take();
         let acc = self.map.entry(key).or_default();
+        if let Some(sp) = pending_span {
+            acc.span = Some(union_span(acc.span, sp));
+        }
         if let Some(d) = step {
             acc.marine.time_step_s = Some(d as f64 / 1000.0);
         }
@@ -1258,6 +1316,26 @@ impl NmeaFeed {
     /// Parse one line. `arrival_s` is its arrival on a monotonic clock, kept on the epoch
     /// it opens.
     pub fn feed(&mut self, line: &str, arrival_s: Option<f64>) {
+        self.feed_at(line, arrival_s, None);
+    }
+
+    /// [`Self::feed`] for a line that sits at `span` (start, end bytes) of the input: every
+    /// line read while an epoch is current, or before the first one, counts towards its
+    /// [`LogEpoch::source_span`].
+    pub fn feed_at(&mut self, line: &str, arrival_s: Option<f64>, span: Option<(usize, usize)>) {
+        self.feed_line(line, arrival_s);
+        if let Some(sp) = span {
+            match self.st.cur_key {
+                Some(k) => {
+                    let acc = self.st.map.entry(k).or_default();
+                    acc.span = Some(union_span(acc.span, sp));
+                }
+                None => self.st.pending_span = Some(union_span(self.st.pending_span, sp)),
+            }
+        }
+    }
+
+    fn feed_line(&mut self, line: &str, arrival_s: Option<f64>) {
         self.st.arrival = arrival_s;
         let line = line.trim();
         if line.is_empty() {
@@ -1365,8 +1443,10 @@ impl NmeaFeed {
 /// ignored.
 pub fn read_nmea(text: &str) -> Result<Timeline, String> {
     let mut feed = NmeaFeed::new();
-    for line in text.lines() {
-        feed.feed(line, None);
+    let mut at = 0usize;
+    for line in text.split_inclusive('\n') {
+        feed.feed_at(line, None, Some((at, at + line.len())));
+        at += line.len();
     }
     let skipped = feed.skipped();
     Ok(timeline_from(feed.take_epochs(), skipped))
@@ -1897,8 +1977,81 @@ Status,1,2,3
         for line in text.lines() {
             feed.feed(line, None);
         }
-        assert_eq!(feed.take_epochs(), whole.epochs);
+        // A live feed has no byte offsets; everything else is the same as a whole read.
+        let mut whole_epochs = whole.epochs.clone();
+        whole_epochs.iter_mut().for_each(|e| e.source_span = None);
+        assert_eq!(feed.take_epochs(), whole_epochs);
         assert!(!epochs.is_empty());
+    }
+
+    // ---- source spans ----
+
+    fn slice(text: &[u8], e: &LogEpoch) -> Vec<u8> {
+        let [a, b] = e.source_span.expect("span");
+        text[a..b].to_vec()
+    }
+
+    #[test]
+    fn nmea_spans_partition_the_text_and_reread_to_the_same_epoch() {
+        let text = nmea_text();
+        let tl = read_nmea(&text).unwrap();
+        let spans: Vec<[usize; 2]> = tl.epochs.iter().map(|e| e.source_span.unwrap()).collect();
+        assert_eq!(spans[0][0], 0);
+        assert_eq!(spans.last().unwrap()[1], text.len());
+        assert!(spans.windows(2).all(|w| w[0][1] == w[1][0]), "{spans:?}");
+        // The raw slice of the second epoch, read alone, is that epoch.
+        let again = read_nmea(std::str::from_utf8(&slice(text.as_bytes(), &tl.epochs[1])).unwrap())
+            .unwrap();
+        assert_eq!(again.epochs.len(), 1);
+        assert_eq!(again.epochs[0].cn0, tl.epochs[1].cn0);
+        // A live feed has no offsets to give.
+        let mut feed = NmeaFeed::new();
+        for l in text.lines() {
+            feed.feed(l, Some(0.0));
+        }
+        assert!(feed.take_epochs().iter().all(|e| e.source_span.is_none()));
+    }
+
+    #[test]
+    fn ubx_spans_cover_the_frames_of_each_epoch() {
+        let bytes = ubx_stream();
+        let tl = read_ubx(&bytes);
+        let first = slice(&bytes, &tl.epochs[0]);
+        assert_eq!(&first[..2], &[UBX_SYNC1, UBX_SYNC2]);
+        let again = read_ubx(&first);
+        assert_eq!(again.epochs.len(), 1);
+        assert_eq!(again.epochs[0].cn0, tl.epochs[0].cn0);
+        assert_eq!(again.epochs[0].fix, tl.epochs[0].fix);
+    }
+
+    #[test]
+    fn rinex_spans_start_at_the_epoch_line() {
+        let text = rinex_text();
+        let tl = read_rinex(&text).unwrap();
+        // Two records at one instant merge into one epoch: its span holds both.
+        let marks: Vec<usize> = tl
+            .epochs
+            .iter()
+            .map(|e| {
+                let sl = slice(text.as_bytes(), e);
+                assert_eq!(sl[0], b'>');
+                sl.iter().filter(|b| **b == b'>').count()
+            })
+            .collect();
+        assert_eq!(marks, [1, 2]);
+        assert_eq!(
+            tl.epochs.last().unwrap().source_span.unwrap()[1],
+            text.len()
+        );
+    }
+
+    #[test]
+    fn android_spans_are_the_raw_rows_or_the_fix_row_of_a_fix_only_epoch() {
+        let tl = read_android(ANDROID).unwrap();
+        let e0 = String::from_utf8(slice(ANDROID.as_bytes(), &tl.epochs[0])).unwrap();
+        assert!(e0.starts_with("Raw,") && !e0.contains("Fix,"), "{e0}");
+        let e2 = String::from_utf8(slice(ANDROID.as_bytes(), &tl.epochs[2])).unwrap();
+        assert!(e2.starts_with("Fix,"), "{e2}");
     }
 
     // ---- shared ----
