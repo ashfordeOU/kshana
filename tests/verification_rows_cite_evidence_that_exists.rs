@@ -31,7 +31,7 @@ use std::path::Path;
 use kshana::verification::verification_matrix;
 
 /// Directories a citation may point into. Anything else is prose, not a citation.
-const ROOTS: [&str; 7] = [
+const ROOTS: [&str; 9] = [
     "tests/",
     "src/",
     "examples/",
@@ -39,11 +39,15 @@ const ROOTS: [&str; 7] = [
     "docs/",
     "web/",
     "benches/",
+    // the marine integrations row cites JavaScript, C++ and shell tests and evidence under these
+    "integrations/",
+    "deploy/",
 ];
 
 /// Extensions that denote a committed artefact.
-const EXTS: [&str; 12] = [
+const EXTS: [&str; 16] = [
     ".rs", ".py", ".sh", ".csv", ".json", ".md", ".toml", ".txt", ".c", ".java", ".npt", ".oem",
+    ".js", ".mjs", ".cpp", ".service",
 ];
 
 /// Tokens that LOOK like repo paths but are not, each with the reason it is exempt.
