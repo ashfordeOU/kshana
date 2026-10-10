@@ -148,8 +148,8 @@ sea-level = 30.0
 | Weight (points) | Monitors | Why |
 |---|---|---|
 | 70 | `osnma` | an authentication failure is a statement, not a statistic |
-| 60 | `kinematic`, `raim`, `clock`, `position-jump` | a counterfeit position has to contradict physics or the receiver's own checks; one clear violation leaves the degraded band |
-| 40 | `heading-course`, `speed-log`, `time-consistency`, `solve-failure` | one independent sensor disagreeing is degraded; two at full strength are untrusted |
+| 60 | `kinematic`, `raim`, `clock`, `position-jump`, `time-consistency` | a counterfeit position has to contradict physics or the receiver's own checks, and time cannot run backwards; one clear violation leaves the degraded band |
+| 40 | `heading-course`, `speed-log`, `solve-failure` | one independent sensor disagreeing is degraded; two at full strength are untrusted |
 | 30 | `sea-level`, `cn0-spread`, `cn0-rise`, `cn0-drop` | the signal environment, or a weakly informative check |
 | 25 | `loss-of-lock`, `agc`, `jam-ind` | the environment is hostile; that alone does not show the fix is wrong |
 

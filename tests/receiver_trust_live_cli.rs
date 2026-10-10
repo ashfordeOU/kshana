@@ -72,7 +72,7 @@ fn a_stored_log_fed_in_at_full_speed_trips_the_host_clock_check_unless_replay_is
     // the check is for, and it says so.
     let (out, _) = run_stdin(&[], &text(60.0), "fast");
     let v = json_lines(&out);
-    assert_eq!(v[60]["state"], "degraded");
+    assert_eq!(v[60]["state"], "untrusted");
     assert_eq!(v[60]["deductions"][0]["monitor"], "time-consistency");
 }
 

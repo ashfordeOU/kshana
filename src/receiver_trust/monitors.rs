@@ -701,9 +701,16 @@ pub fn run_monitors(
              before {cal_s} s (log spans {span:.1} s); at least 3 are needed to form the baseline"
         ));
     }
+    // A vessel's epoch whose time ran backwards (a replay, a rewind) is never calibration,
+    // whatever its time says.
+    let is_rewound = |s: &Slot| {
+        cfg.platform.is_vessel()
+            && s.tl
+                .is_some_and(|i| tl.epochs[i].marine.as_ref().is_some_and(|m| m.time_rewound))
+    };
     let cal_tl: Vec<&LogEpoch> = slots
         .iter()
-        .filter(|s| s.t_s < cal_s)
+        .filter(|s| s.t_s < cal_s && !is_rewound(s))
         .filter_map(|s| s.tl.map(|i| &tl.epochs[i]))
         .collect();
 
@@ -825,7 +832,7 @@ pub fn run_monitors(
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
     let mut held: BTreeMap<Monitor, (f64, f64)> = BTreeMap::new();
     for (slot_index, s) in slots.iter().enumerate() {
-        let post = s.t_s >= cal_s;
+        let post = s.t_s >= cal_s || is_rewound(s);
         let mut alarms = BTreeSet::new();
         let mut dec = BTreeSet::new();
         let mut lost_ratio: Option<f64> = None;
