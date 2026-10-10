@@ -10,7 +10,7 @@ use std::path::{Path, PathBuf};
 use super::adsb::{self, AdsbAggregator, AdsbParams};
 use super::ais::{self, AisAggregator, AisParams};
 use super::api;
-use super::grid::Grid;
+use super::grid::{Grid, PREREGISTERED_CELL_DEG};
 use super::land::LandMask;
 use super::output::{file_name, to_geojson};
 use super::route;
@@ -125,14 +125,37 @@ fn write_days(
     ds: &Dataset,
     out: &Path,
 ) -> Result<(), MapError> {
+    use std::io::Write;
+    // Refuse before writing anything: an existing file is never overwritten, so a map made
+    // from one dataset cannot silently replace another's, or an earlier run's.
+    let targets: Vec<PathBuf> = days
+        .iter()
+        .map(|d| out.join(file_name(d, &ds.key)))
+        .collect();
+    if let Some(existing) = targets.iter().find(|p| p.exists()) {
+        return Err(MapError::Io(format!(
+            "{} already exists; Kshana does not overwrite maps. Remove it or choose another --out directory",
+            existing.display()
+        )));
+    }
+    if grid.cell_deg != PREREGISTERED_CELL_DEG {
+        eprintln!(
+            "note: --cell-deg {} is not the pre-registered cell size ({PREREGISTERED_CELL_DEG}); the maps say so",
+            grid.cell_deg
+        );
+    }
     std::fs::create_dir_all(out)
         .map_err(|e| MapError::Io(format!("cannot create {}: {e}", out.display())))?;
-    for d in days {
+    for (d, path) in days.iter().zip(&targets) {
         let doc = to_geojson(d, grid, method.clone(), ds);
-        let path = out.join(file_name(d));
         let text =
             serde_json::to_string_pretty(&doc).map_err(|e| MapError::Format(e.to_string()))?;
-        std::fs::write(&path, text + "\n")
+        let mut f = std::fs::OpenOptions::new()
+            .write(true)
+            .create_new(true)
+            .open(path)
+            .map_err(|e| MapError::Io(format!("cannot create {}: {e}", path.display())))?;
+        f.write_all((text + "\n").as_bytes())
             .map_err(|e| MapError::Io(format!("cannot write {}: {e}", path.display())))?;
         let n_deg = d.cells.iter().filter(|c| c.degraded).count();
         println!(
@@ -224,7 +247,7 @@ fn run_map_inner(args: &[String]) -> Result<(), MapError> {
                 None => None,
             };
             let mut agg = AisAggregator::new(grid, params.clone(), IdHasher::new(), land);
-            agg.read_csv(&read(input)?)?;
+            read_csv_file(|r| agg.read_csv_reader(r), Path::new(input))?;
             let (stats, land_on) = (agg.stats.clone(), agg.land_enabled());
             let days = agg.finish();
             write_days(
@@ -332,6 +355,16 @@ fn fetch_land(out: &str) -> Result<(), MapError> {
     Ok(())
 }
 
+/// Open a CSV file and stream it through `read`, one line at a time.
+fn read_csv_file(
+    read: impl FnOnce(std::io::BufReader<std::fs::File>) -> Result<(), MapError>,
+    path: &Path,
+) -> Result<(), MapError> {
+    let f = std::fs::File::open(path)
+        .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
+    read(std::io::BufReader::new(f))
+}
+
 /// Read ADS-B input from a path: a `.csv` file; a readsb trace file (`.json`, gzip or plain);
 /// or a directory, searched recursively for `trace_full_*` files (an extracted adsb.lol
 /// daily archive). A trace file that cannot be read is counted in the output metadata and
@@ -356,7 +389,7 @@ fn read_adsb_input(agg: &mut AdsbAggregator, path: &Path) -> Result<(), MapError
         .extension()
         .is_some_and(|e| e.eq_ignore_ascii_case("csv"))
     {
-        return agg.read_csv(&read(&path.to_string_lossy())?);
+        return read_csv_file(|r| agg.read_csv_reader(r), path);
     }
     let bytes = std::fs::read(path)
         .map_err(|e| MapError::Io(format!("cannot read {}: {e}", path.display())))?;
@@ -475,12 +508,12 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
     } else {
         println!("route length {:.1} km", rows[0].0.route_km);
         println!(
-            "{:<11} {:<5} {:>9} {:>9} {:>11} {:>13}",
-            "date", "src", "degraded", "clear", "unassessed", "not observed"
+            "{:<11} {:<5} {:>9} {:>12} {:>11} {:>13}",
+            "date", "src", "degraded", "not degraded", "unassessed", "not observed"
         );
         for (e, _) in &rows {
             println!(
-                "{:<11} {:<5} {:>8.1}% {:>8.1}% {:>10.1}% {:>12.1}%",
+                "{:<11} {:<5} {:>8.1}% {:>11.1}% {:>10.1}% {:>12.1}%",
                 e.date,
                 e.source_kind,
                 e.share_degraded * 100.0,
@@ -498,12 +531,28 @@ fn run_route_inner(args: &[String]) -> Result<(), MapError> {
 mod tests {
     use super::*;
 
-    fn scratch(name: &str) -> PathBuf {
+    /// A scratch directory removed when the test ends.
+    struct Scratch(PathBuf);
+
+    impl std::ops::Deref for Scratch {
+        type Target = PathBuf;
+        fn deref(&self) -> &PathBuf {
+            &self.0
+        }
+    }
+
+    impl Drop for Scratch {
+        fn drop(&mut self) {
+            let _ = std::fs::remove_dir_all(&self.0);
+        }
+    }
+
+    fn scratch(name: &str) -> Scratch {
         let d =
             std::env::temp_dir().join(format!("kshana-imap-unit-{}-{name}", std::process::id()));
         let _ = std::fs::remove_dir_all(&d);
         std::fs::create_dir_all(&d).unwrap();
-        d
+        Scratch(d)
     }
 
     #[test]
