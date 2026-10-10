@@ -13,6 +13,13 @@
 //! Samples before the first capture are not described by the metadata and are skipped,
 //! matching [`crate::sigmf::read`].
 //!
+//! **Multi-channel recordings.** A recording with `core:num_channels` = N interleaves its
+//! channels sample by sample (channel 0, channel 1, …, channel N−1, then the next time
+//! instant). The stream reads one channel, channel 0 unless [`SigmfStream::select_channel`]
+//! picks another, and every sample index (captures, annotations, the total) counts time
+//! instants, so a capture at `core:sample_start` = k begins with the k-th sample of each
+//! channel.
+//!
 //! **Multi-file recordings.** [`SigmfStream`] reads several recordings back to back as one
 //! continuous sample stream. Every capture of every file becomes a [`CaptureBoundary`] at
 //! its sample index within the whole stream, and `read` never returns a chunk that
@@ -23,7 +30,7 @@
 //! segments in time, in the order listed**. Each listed stream's `hash` (SHA-512 of its
 //! `.sigmf-meta` file) is checked when present.
 
-use super::format::{Components, Encoding, SampleFormat};
+use super::format::{Components, Encoding, Endian, SampleFormat};
 use super::stream::IqReader;
 use crate::iq::{Cf64, IqError, IqSource, SampleSpec};
 use crate::sigmf::{Annotation, Capture, Meta};
@@ -32,7 +39,9 @@ use std::io::Read;
 
 /// The sample format of a SigMF `core:datatype`. The three types [`crate::sigmf`] reads
 /// are parsed by [`crate::sigmf::DataType::parse`]; this adds `ci16_be`, `cf32_be`, `ri8`,
-/// `ri16_le`, `ri16_be`, `rf32_le` and `rf32_be`. Unsigned and 64-bit types are refused.
+/// `ri16_le`, `ri16_be`, `rf32_le`, `rf32_be` and the unsigned `cu8` and `ru8` (decoded to
+/// the odd levels `2c − 255`, see [`super::format`]). Other unsigned and 64-bit types are
+/// refused.
 pub fn format_from_sigmf(datatype: &str) -> Result<SampleFormat, IqError> {
     use crate::sigmf::DataType;
     if let Ok(dt) = DataType::parse(datatype) {
@@ -44,8 +53,8 @@ pub fn format_from_sigmf(datatype: &str) -> Result<SampleFormat, IqError> {
     }
     let f = SampleFormat::parse(datatype).map_err(|_| {
         IqError::Format(format!(
-            "unsupported SigMF core:datatype {datatype:?}: supported are ci8, ci16_le, ci16_be, \
-             cf32_le, cf32_be and the real ri8, ri16_le, ri16_be, rf32_le, rf32_be"
+            "unsupported SigMF core:datatype {datatype:?}: supported are ci8, cu8, ci16_le, \
+             ci16_be, cf32_le, cf32_be and the real ri8, ru8, ri16_le, ri16_be, rf32_le, rf32_be"
         ))
     })?;
     match sigmf_datatype(f) {
@@ -57,7 +66,7 @@ pub fn format_from_sigmf(datatype: &str) -> Result<SampleFormat, IqError> {
 }
 
 /// The SigMF `core:datatype` of a format, or `None` when SigMF has no name for it
-/// (packed 2-bit, Q-first).
+/// (packed 2- and 4-bit, 2-bit per byte, 12-bit in 16, Q-first).
 pub fn sigmf_datatype(f: SampleFormat) -> Option<&'static str> {
     let complex = match f.components {
         Components::Iq => true,
@@ -71,25 +80,57 @@ pub fn sigmf_datatype(f: SampleFormat) -> Option<&'static str> {
         (Encoding::F32Le, true) => "cf32_le",
         (Encoding::F32Be, true) => "cf32_be",
         (Encoding::I8, false) => "ri8",
+        (Encoding::U8, true) => "cu8",
+        (Encoding::U8, false) => "ru8",
         (Encoding::I16Le, false) => "ri16_le",
         (Encoding::I16Be, false) => "ri16_be",
+        (
+            Encoding::U16 {
+                endian: Endian::Little,
+            },
+            true,
+        ) => "cu16_le",
+        (
+            Encoding::U16 {
+                endian: Endian::Big,
+            },
+            true,
+        ) => "cu16_be",
+        (
+            Encoding::U16 {
+                endian: Endian::Little,
+            },
+            false,
+        ) => "ru16_le",
+        (
+            Encoding::U16 {
+                endian: Endian::Big,
+            },
+            false,
+        ) => "ru16_be",
         (Encoding::F32Le, false) => "rf32_le",
         (Encoding::F32Be, false) => "rf32_be",
-        (Encoding::TwoBit { .. }, _) => return None,
+        (
+            Encoding::TwoBit { .. }
+            | Encoding::TwoBitPerByte { .. }
+            | Encoding::I4 { .. }
+            | Encoding::U4 { .. }
+            | Encoding::I12 { .. }
+            | Encoding::U12 { .. },
+            _,
+        ) => return None,
     })
 }
 
 /// Parse `.sigmf-meta` JSON accepting every data type of [`format_from_sigmf`] (where
-/// [`crate::sigmf::parse_meta`] accepts three). Multi-channel recordings are refused.
+/// [`crate::sigmf::parse_meta`] accepts three). Multi-channel recordings
+/// (`core:num_channels` above one, samples interleaved channel by channel) are accepted;
+/// [`SigmfStream::select_channel`] picks the channel read.
 pub fn parse_meta_any(json: &str) -> Result<(Meta, SampleFormat), IqError> {
     let meta: Meta = serde_json::from_str(json)
         .map_err(|e| IqError::Format(format!("invalid SigMF metadata: {e}")))?;
-    if let Some(ch) = meta.global.num_channels {
-        if ch != 1 {
-            return Err(IqError::Format(format!(
-                "SigMF core:num_channels = {ch}: only single-channel recordings are read"
-            )));
-        }
+    if meta.global.num_channels == Some(0) {
+        return Err(IqError::Format("SigMF core:num_channels = 0".into()));
     }
     let f = format_from_sigmf(&meta.global.datatype)?;
     Ok((meta, f))
@@ -172,6 +213,8 @@ pub struct SigmfStream {
     pos: u64,
     next_boundary: usize,
     chunk_bytes: usize,
+    channels: usize,
+    channel: usize,
 }
 
 impl SigmfStream {
@@ -190,7 +233,19 @@ impl SigmfStream {
         let mut part_starts = Vec::new();
         let mut readers = std::collections::VecDeque::new();
         let mut total = 0u64;
+        let mut channels = None;
         for (i, p) in parts.into_iter().enumerate() {
+            let ch = p.meta.global.num_channels.unwrap_or(1).max(1) as usize;
+            match channels {
+                None => channels = Some(ch),
+                Some(c0) if c0 == ch => {}
+                Some(c0) => {
+                    return Err(IqError::Format(format!(
+                        "{}: core:num_channels {ch} does not match the first recording's {c0}",
+                        p.name
+                    )))
+                }
+            }
             let f = format_from_sigmf(&p.meta.global.datatype)
                 .map_err(|e| IqError::Format(format!("{}: {e}", p.name)))?;
             let rate = p
@@ -218,7 +273,10 @@ impl SigmfStream {
                 }
                 _ => unreachable!(),
             }
-            let n_file = f.samples_in_bytes(p.data_len_bytes);
+            // Sample indices (captures, annotations) count time instants: one sample of
+            // every channel.
+            let n_file = f.samples_in_bytes(p.data_len_bytes) / ch as u64;
+            let frame_bits = (f.bits_per_sample() * ch) as u64;
             let s0 = p.meta.captures.first().map(|c| c.sample_start).unwrap_or(0);
             let mut prev = s0;
             for c in &p.meta.captures {
@@ -231,7 +289,7 @@ impl SigmfStream {
                 }
                 prev = c.sample_start;
             }
-            if s0 * f.bits_per_sample() as u64 % 8 != 0 {
+            if s0 * frame_bits % 8 != 0 {
                 return Err(IqError::Format(format!(
                     "{}: first capture does not start on a byte boundary",
                     p.name
@@ -265,7 +323,7 @@ impl SigmfStream {
                 }
             }
             part_starts.push(total);
-            readers.push_back((p.data, s0 * f.bits_per_sample() as u64 / 8));
+            readers.push_back((p.data, s0 * frame_bits / 8));
             total += n_file - s0;
         }
         let format = format.expect("at least one part");
@@ -290,7 +348,32 @@ impl SigmfStream {
             pos: 0,
             next_boundary: 1,
             chunk_bytes,
+            channels: channels.expect("at least one part"),
+            channel: 0,
         })
+    }
+
+    /// Read channel `channel` (from 0) of a multi-channel recording instead of channel 0.
+    /// Call it before the first read.
+    pub fn select_channel(mut self, channel: usize) -> Result<Self, IqError> {
+        if channel >= self.channels {
+            return Err(IqError::Format(format!(
+                "channel {channel} requested; the recording has {} (channels count from 0)",
+                self.channels
+            )));
+        }
+        if self.pos != 0 || self.current.is_some() {
+            return Err(IqError::Format(
+                "select_channel must be called before reading".into(),
+            ));
+        }
+        self.channel = channel;
+        Ok(self)
+    }
+
+    /// `core:num_channels` (1 when absent) and the channel being read.
+    pub fn channels(&self) -> (usize, usize) {
+        (self.channels, self.channel)
     }
 
     /// Every capture boundary, in stream order (the first is at sample 0).
@@ -369,12 +452,10 @@ impl IqSource for SigmfStream {
                         "SigMF data ends before its first capture".into(),
                     ));
                 }
-                self.current = Some(IqReader::with_chunk_bytes(
-                    data,
-                    self.format,
-                    self.spec,
-                    self.chunk_bytes,
-                ));
+                self.current = Some(
+                    IqReader::with_chunk_bytes(data, self.format, self.spec, self.chunk_bytes)
+                        .with_channels(self.channels, self.channel)?,
+                );
             }
             let r = self.current.as_mut().expect("set above");
             let n = r.read(&mut buf[..limit])?;
@@ -564,7 +645,18 @@ mod tests {
             assert_eq!(format_from_sigmf(dt).unwrap(), f);
             assert_eq!(sigmf_datatype(f), Some(dt));
         }
-        assert!(format_from_sigmf("cu8").is_err());
+        assert_eq!(
+            format_from_sigmf("cu8").unwrap(),
+            SampleFormat::iq(Encoding::U8)
+        );
+        assert_eq!(
+            format_from_sigmf("cu16_le").unwrap(),
+            SampleFormat::iq(Encoding::U16 {
+                endian: Endian::Little
+            })
+        );
+        assert!(format_from_sigmf("cu12r_le").is_err());
+        assert!(format_from_sigmf("ci4_msb").is_err());
         assert!(format_from_sigmf("c2tc_msb").is_err());
         assert!(format_from_sigmf("ci16_le_qi").is_err());
     }

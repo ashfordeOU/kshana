@@ -56,7 +56,7 @@
 <div class="bg-field" aria-hidden="true"></div>
 <header class="nav" id="nav">
   <div class="nav-in">
-    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.33.1</small></a>
+    <a class="brand" href="/" aria-label="Kshana home"><span class="brand-mark" aria-hidden="true"></span><span class="brand-t">kshana</span> <small>v0.34.0</small></a>
     <nav class="nav-links" id="navLinks" aria-label="Primary">
       <a href="/missions">Missions</a>
       <a href="/capabilities">Capabilities</a>
@@ -143,7 +143,8 @@ python3 -m http.server -d web 8000 <span class="hljs-comment"># serve over HTTP 
 an existing package instead of compiling one. The Pages workflow never uses that.</p>
 <h2 id="tests">Tests<a class="anchor" href="#tests" aria-label="Link to this section">#</a></h2>
 <pre data-lang="shell"><code class="hljs language-bash">node web/smoke.mjs                 <span class="hljs-comment"># the WASM bindings (needs web/pkg)</span>
-node web/site.test.mjs             <span class="hljs-comment"># the ported tree: manifest, version, counts, links</span>
+node web/site.test.mjs             <span class="hljs-comment"># the ported tree: manifest, version, counts, links, inline JSON</span>
+node web/tools/inline-json.test.mjs  <span class="hljs-comment"># the guard for corrupt inline page data (an unescaped version bump)</span>
 node web/legacy-urls.test.mjs      <span class="hljs-comment"># every old kshana.dev address still resolves</span>
 <span class="hljs-keyword">for</span> f <span class="hljs-keyword">in</span> web/studio/lib/*.test.mjs; <span class="hljs-keyword">do</span> node <span class="hljs-string">&quot;<span class="hljs-variable">$f</span>&quot;</span>; <span class="hljs-keyword">done</span>   <span class="hljs-comment"># the Studio&#x27;s modules</span></code></pre>
 <p>Each module in <code>studio/lib/</code> is pure logic with a matching <code>*.test.mjs</code>; the Studio&#39;s
@@ -198,8 +199,8 @@ manifest and this file, and publishes the result to GitHub Pages.</p>
       <div><h2>Company</h2><a href="/editions">Editions</a><a href="/editions#pro">Kshana Pro</a><a href="mailto:contact@ashforde.org">contact@ashforde.org</a><a href="https://ashforde.org">ashforde.org</a></div>
     </div>
     <div class="foot-bottom">
-      <span>Kshana v0.33.1 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
-      <span>Every chart is drawn from a recorded run of engine v0.33.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
+      <span>Kshana v0.34.0 · by Ashforde® OÜ · AGPL-3.0, with a commercial licence option</span>
+      <span>Every chart is drawn from a recorded run of engine v0.34.0 and names its scenario, seed and route to reproduce it. Imagery: NASA Visible Earth (Blue Marble, Black Marble), NASA Scientific Visualization Studio (CGI Moon Kit), NASA/JPL (Mars), NASA, JPL and USGS mission mosaics (moons and Pluto); Sun, Mercury, Venus, Jupiter, Saturn, Uranus and Neptune maps: Solar System Scope, Creative Commons Attribution (CC BY) 4.0; Deimos map: Oleg-Pluton, Creative Commons Attribution-ShareAlike (CC BY-SA) 3.0; coastlines: Natural Earth.</span>
     </div>
   </div>
 </footer>
@@ -212,7 +213,7 @@ manifest and this file, and publishes the result to GitHub Pages.</p>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
-<script>window.KSITE={root:"../",page:"docs",version:"0.33.0",studio:"Kshana Studio"};</script>
+<script>window.KSITE={root:"../",page:"docs",version:"0.34.0",studio:"Kshana Studio"};</script>
 <script src="../site.js" defer></script>
 <script src="docs.js" defer></script>
 </body>
