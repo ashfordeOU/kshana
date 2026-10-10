@@ -181,6 +181,16 @@ otlp = []
 # CLI, or the published bindings; the package excludes the test that uses it.
 sgp4 = "2.4"
 
+# Unoptimised curve arithmetic makes an Ed25519 verification take milliseconds, and the
+# evidence tests run thousands of them (every flipped bit of the published test vectors).
+# Optimising just these two crates in the dev and test profiles cuts the test time and
+# changes no result; the release profile is untouched.
+[profile.dev.package.curve25519-dalek]
+opt-level = 3
+
+[profile.dev.package.ed25519-dalek]
+opt-level = 3
+
 [profile.release]
 # Reproducible release builds. A single codegen unit removes the parallel-codegen
 # ordering nondeterminism that otherwise makes the compiled extension differ
