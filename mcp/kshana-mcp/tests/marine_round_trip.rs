@@ -97,6 +97,7 @@ async fn the_new_tools_are_listed_with_their_caveats() {
         assert!(d.contains("not a finding that a framework is met"), "{t}");
         assert!(d.contains("rated or approved by anyone"), "{t}");
     }
+    assert!(desc("export_test_bench").contains("NO SIGNAL"));
     client.cancel().await.ok();
 }
 
@@ -523,6 +524,60 @@ async fn every_scenario_tool_accepts_inline_content_only() {
         let e = call(&client, tool, json!({"toml": big})).await.unwrap_err();
         assert!(e.contains("limit"), "{tool}: {e}");
     }
+    client.cancel().await.ok();
+}
+
+#[tokio::test]
+async fn test_bench_export_returns_text_and_refuses_files_and_bad_epochs() {
+    let client = connect().await;
+    let toml = std::fs::read_to_string(
+        std::path::Path::new(env!("CARGO_MANIFEST_DIR"))
+            .join("../../scenarios/automotive-urban-canyon.toml"),
+    )
+    .unwrap();
+    let out = call(
+        &client,
+        "export_test_bench",
+        json!({"toml": toml, "epoch": "2025-03-01T10:00:00Z"}),
+    )
+    .await
+    .unwrap();
+    let index: Value = serde_json::from_str(&out[0]).unwrap();
+    let files = index["files"].as_array().unwrap();
+    assert!(files.len() >= 5 && out.len() == files.len() + 1);
+    assert!(
+        index["notice"]
+            .as_str()
+            .unwrap()
+            .contains("radio-frequency or baseband signal")
+    );
+    assert!(files.iter().any(|f| f["suffix"] == ".motion.csv"));
+    assert!(out[1].contains("2025-03-01"));
+    // A bad epoch, a file-naming scenario and a kind with no trajectory are refused.
+    assert!(
+        call(
+            &client,
+            "export_test_bench",
+            json!({"toml": toml, "epoch": "2025-13-40"})
+        )
+        .await
+        .is_err()
+    );
+    assert!(
+        call(
+            &client,
+            "export_test_bench",
+            json!({"toml": "kind = \"orbit\"\n"})
+        )
+        .await
+        .is_err()
+    );
+    let with_file = format!("{toml}\n[x]\ncsv_path = \"/etc/passwd\"\n");
+    assert!(
+        call(&client, "export_test_bench", json!({"toml": with_file}))
+            .await
+            .is_err()
+    );
     client.cancel().await.ok();
 }
 

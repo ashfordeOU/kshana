@@ -25,6 +25,7 @@ __all__ = [
     "evidence_create",
     "evidence_verify",
     "interference_map",
+    "bench_export",
     "compliance_report",
     "compliance_mapping",
     "route_exposure",
@@ -147,6 +148,16 @@ def evidence_verify(
     ``"intact-signer-not-pinned"`` (everything checks but no public key was given, so the
     signature proves only that the pack is intact against the key it names itself) or
     ``"failed"``. Raises ``ValueError`` on a malformed key."""
+
+def bench_export(toml: str, epoch: Optional[str] = None) -> dict[str, Any]:
+    """Export a scenario's vehicle motion and events for a laboratory GNSS simulator
+    (``docs/TEST-BENCH.md``), in memory (nothing is written). Applies to ``gnss-ins``, ``jamming``
+    and ``gnss-sim``; other kinds raise ``ValueError`` with the reason. ``epoch`` is the UTC
+    instant of motion time zero (``YYYY-MM-DDTHH:MM:SS``, optional ``Z``; default
+    2024-01-01T00:00:00Z). Returns ``{"files": {suffix: text}, "notes": [...], "notice": str}``
+    (``.motion.csv``, ``.motion.json``, ``.nmea``, ``.events.csv``, ``.events.toml`` and, on a
+    millisecond-regular grid, ``.waypoints.txt``); keep ``notice`` with the files. No
+    radio-frequency or baseband signal is written."""
 
 def compliance_report(runs: list[dict[str, str]]) -> dict[str, Any]:
     """Fill the public-framework mapping (five resilience frameworks and standards, see

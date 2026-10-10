@@ -554,3 +554,16 @@ def test_compliance_report_fills_the_mapping_and_keeps_the_statement():
         kshana.compliance_report([{"result": "{}"}])
     with pytest.raises(ValueError):
         kshana.compliance_report([{"label": f"r{i}", "result": "{}"} for i in range(65)])
+
+
+def test_bench_export_is_in_memory_text_with_the_no_signal_notice():
+    toml = (Path(__file__).resolve().parents[2] / "scenarios" / "automotive-urban-canyon.toml").read_text()
+    a = kshana.bench_export(toml, "2025-03-01T10:00:00Z")
+    assert a == kshana.bench_export(toml, "2025-03-01T10:00:00")
+    assert {".motion.csv", ".motion.json", ".nmea", ".events.csv", ".events.toml"} <= set(a["files"])
+    assert "2025-03-01" in a["files"][".motion.csv"]
+    assert "radio-frequency or baseband signal" in a["notice"]
+    with pytest.raises(ValueError):
+        kshana.bench_export(toml, "not a time")
+    with pytest.raises(ValueError):
+        kshana.bench_export('kind = "orbit"\n')

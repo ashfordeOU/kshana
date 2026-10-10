@@ -24,7 +24,7 @@
 //!
 //! The maritime-trust, training-NMEA, interference-map and compliance-mapping tools
 //! (`assess_vessel_stream`, `generate_training_nmea`, `build_interference_map`,
-//! `route_exposure`, `compliance_report`, `compliance_mapping`) are in
+//! `route_exposure`, `compliance_report`, `compliance_mapping`, `export_test_bench`) are in
 //! [`crate::marine`].
 //!
 //! The GNSS IQ tools (`iq_signals`, `iq_info`, `iq_scene`, `iq_acquire`, `iq_track`,
