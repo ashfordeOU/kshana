@@ -739,3 +739,23 @@ def test_osnma_verify_matches_the_shipped_expected_output(name, overall):
     want = json.loads((root / "expected" / f"{name}.json").read_text())
     r["input"]["path"] = want["input"]["path"] = None
     assert r == want
+
+
+def test_negative_or_oversized_numbers_raise_value_error_not_overflow():
+    page = "00" * 30
+    csv = f"SVID,NumNavBits,NavBitsHEX\n02,240,{page}\n"
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=-1)
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=1000, reference_time=-5)
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=1000, reference_time=5, max_time_error=-1)
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=2**40)
+    with pytest.raises(ValueError):
+        kshana.trust_telemetry(_TRUST_STREAM, "otlp", unix_nano=-1)
+
+
+def test_trust_telemetry_refuses_a_long_host():
+    with pytest.raises(ValueError, match="host"):
+        kshana.trust_telemetry(_TRUST_STREAM, "cef", "h" * 256)

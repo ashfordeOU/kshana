@@ -507,7 +507,15 @@ pub fn osnma_verify(
     reference_time: Option<u32>,
     max_time_error: Option<u32>,
 ) -> Result<String, JsValue> {
-    let bytes = crate::permalink::base64_decode(input_base64.trim())
+    let b64 = input_base64.trim();
+    if b64.len() / 4 * 3 > crate::surface::MAX_INPUT_BYTES {
+        return Err(JsValue::from_str(&format!(
+            "input is about {} bytes, over the {}-byte limit",
+            b64.len() / 4 * 3,
+            crate::surface::MAX_INPUT_BYTES
+        )));
+    }
+    let bytes = crate::permalink::base64_decode(b64)
         .ok_or_else(|| JsValue::from_str("input_base64 is not base64"))?;
     crate::surface::osnma_verify(
         &bytes,
