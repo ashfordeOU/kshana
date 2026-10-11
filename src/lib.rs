@@ -266,6 +266,7 @@ pub mod sdr;
 pub mod security;
 pub mod sgp4;
 pub mod sigmf;
+pub mod skyline;
 pub mod slot_timing;
 pub mod solar_system;
 pub mod sp3;

@@ -1,0 +1,51 @@
+# A ship entering a harbour under a shore jammer, with the quay buildings ahead taking the
+# low satellites in that direction: the `jamming` scenario under the `harbour-approach`
+# skyline preset.
+#
+# The question a pilot or a port authority asks: with the jammer of
+# `maritime-strait-jamming.toml` turned down to 2 W (3 dBW), how many satellites does the
+# ship keep, and how many of them does the harbour itself hide? The vessel heads north into
+# the port: quay buildings stand 8 deg high over 315-045 deg, the breakwater and its light
+# 3 deg over the other landward sectors (below the 5 deg receiver mask, so they hide nothing
+# here), and the sea astern (090-270 deg) is open. Each epoch reports `masked_by_skyline`,
+# the satellites above the mask that the quay hides: 83 satellite-epochs of 3051 over the six
+# hours. Under this jammer they cost no tracking: the satellites the quay hides are low ones
+# whose C/N0 the jammer has already taken, so the same 2473 satellite-epochs track with the
+# skyline or without it. Remove the [skyline] section to compare.
+#
+# The skyline preset is REPRESENTATIVE (provenance in docs/SKYLINE.md and `kshana skyline
+# --preset harbour-approach`): stated dimensions, not a survey of any port. Geometric line of
+# sight only; free-space jammer path as in the strait scenario; a GPS-like 24-satellite Walker
+# shell. MODELLED.
+kind = "jamming"
+seed = 1
+mask_deg = 5.0
+tracking_threshold_dbhz = 25.0
+
+[time]
+step_s = 60.0
+duration_s = 21600.0   # six hours
+
+[receiver]
+lat_deg = 59.80
+lon_deg = 24.90
+alt_m = 0.0
+
+# A GPS-like 24-satellite Walker shell (6 planes x 4), propagated through the SGP4 core.
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# 2 W broadband jammer on a 30 m mast, 30 km due east of the ship (ECEF, metres).
+[jammer]
+position_ecef_m = [2904623.523, 1381438.498, 5489328.347]
+power_dbw = 3.0
+gain_dbi = 0.0
+jammer_type = "broadband"
+bandwidth_mhz = 20.0
+
+[skyline]
+preset = "harbour-approach"
