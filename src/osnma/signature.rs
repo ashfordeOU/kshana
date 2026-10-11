@@ -44,6 +44,10 @@ mod tests {
     use super::*;
 
     // RFC 6979 appendix A.2.5: ECDSA P-256 with SHA-256, message "sample".
+    // PIN-SCOPE:    the published public key x coordinate and the signature (r, s) of RFC 6979
+    //               appendix A.2.5 for the message "sample": a known answer that must verify.
+    // PIN-EXCLUDES: P-521 (checked by a test-made key pair), other messages, and the signing
+    //               side, which this module does not have.
     const UX: &str = "60fed4ba255a9d31c961eb74c6356d68c049b8923b61fa6ce669622e60f29fb6";
     const R: &str = "efd48b2aacb6a8fd1140dd9cd45e81d69d2c877b56aaf991c34d0ea84eaf3716";
     const S: &str = "f7cb1c942d657c41d436c7a1b6e29f65f3e900dbb9aff4064dc4ab2f843acda8";

@@ -335,6 +335,9 @@ mod tests {
             w.push(i, 4);
             w.push(0x3, 4);
         }
+        // PIN-SCOPE:    the 128 bits of a made-up TESLA key field, placed at the end of a MACK, to
+        //               check the key is read from the right offset.
+        // PIN-EXCLUDES: any real key, the tags before it, and the padding after it.
         w.push(0x0102_0304_0506_0708, 64);
         w.push(0x090A_0B0C_0D0E_0F10, 64);
         w.push(0, 480 - w.bit_len());

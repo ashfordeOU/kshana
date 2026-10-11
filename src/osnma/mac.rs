@@ -65,6 +65,8 @@ mod tests {
     // Test cases 1, 2 and 6 of RFC 4231 (HMAC-SHA-256).
     #[test]
     fn rfc4231_known_answers() {
+        // PIN-SCOPE:    the HMAC-SHA-256 outputs for RFC 4231 test cases 1, 2 and 6 (published known answers), checking the crate wiring.
+        // PIN-EXCLUDES: every other key and message length, and the OSNMA tag truncation, which `truncation_keeps_the_leading_bits` covers.
         let f = MacFn::HmacSha256;
         assert_eq!(
             h(f, &[0x0b; 20], b"Hi There"),
@@ -87,6 +89,8 @@ mod tests {
     // Example 1 to 4 of RFC 4493 (AES-128 CMAC).
     #[test]
     fn rfc4493_known_answers() {
+        // PIN-SCOPE:    the AES-128 CMAC outputs for the four examples of RFC 4493 (published known answers), checking the crate wiring.
+        // PIN-EXCLUDES: AES-192 and AES-256 keys (only their acceptance is tested), and any other message length.
         let key = hex::decode("2b7e151628aed2a6abf7158809cf4f3c").unwrap();
         let msg = hex::decode(
             "6bc1bee22e409f96e93d7e117393172aae2d8a571e03ac9c9eb76fac45af8e51\
@@ -103,6 +107,8 @@ mod tests {
     // FIPS 197 appendix C.1: the AES-128 block cipher that CMAC is built on.
     #[test]
     fn fips197_aes128_block() {
+        // PIN-SCOPE:    the AES-128 ciphertext of FIPS 197 appendix C.1 (a published known answer), the block cipher CMAC is built on.
+        // PIN-EXCLUDES: the 192- and 256-bit key schedules, and decryption.
         use aes::cipher::{BlockEncrypt, KeyInit};
         let key = hex::decode("000102030405060708090a0b0c0d0e0f").unwrap();
         let mut block =
