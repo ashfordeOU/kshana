@@ -762,6 +762,7 @@ pub fn trust_telemetry(
 ) -> Result<String, String> {
     use crate::telemetry::{prometheus::Registry, sample, syslog};
     cap("input", input, max_bytes)?;
+    syslog::check_host(host)?;
     let version = env!("CARGO_PKG_VERSION");
     let host = if host.is_empty() { "kshana" } else { host };
     let mut reg = Registry::new(version);
@@ -795,6 +796,13 @@ pub fn trust_telemetry(
             };
             out.push_str(&syslog::rfc5424(s.band, None, host, &payload));
             out.push('\n');
+            // CEF and LEEF fan one input line out to one event per epoch: bound the reply too.
+            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                return Err(format!(
+                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
+                    max_bytes.min(MAX_INPUT_BYTES)
+                ));
+            }
         }
         prev = Some(s.band);
     }
@@ -808,6 +816,68 @@ pub fn trust_telemetry(
         #[cfg(not(feature = "otlp"))]
         TelemetryFormat::Otlp => Err("otlp needs a build with the `otlp` feature".into()),
     }
+}
+
+/// Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+/// `kshana osnma verify` runs, and return the JSON report `--json` prints (its `advisory` field
+/// carries [`crate::osnma::ADVISORY`]). `format` is `pages`, `vector-csv` or `ubx` (empty to pick
+/// by content); `start_gst` is a vector CSV's start in GST seconds (there is no file name to read
+/// it from); `merkle_root_hex` is the trusted Merkle root (64 hex digits, empty for none);
+/// `public_keys` are trusted keys as `ID:TYPE:HEX`; `reference_time` is the present time in GST
+/// seconds from an independent source and `max_time_error` the widest distance of a sub-frame
+/// from it, below 30 (needs a reference time, as on the command line). Without a reference time
+/// freshness is not enforced and the report says so. Nothing is read from or written to disk.
+#[allow(clippy::too_many_arguments)]
+pub fn osnma_verify(
+    input: &[u8],
+    format: &str,
+    start_gst: Option<u32>,
+    merkle_root_hex: &str,
+    public_keys: &[String],
+    reference_time: Option<u32>,
+    max_time_error: Option<u32>,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::osnma::cli::{parse_public_key, verify_report, VerifyParams};
+    use crate::osnma::verifier::Config;
+    cap_len("input", input.len(), max_bytes)?;
+    let merkle_root = match merkle_root_hex.trim() {
+        "" => None,
+        h => {
+            let b = hex::decode(h).map_err(|_| "bad Merkle root hex".to_string())?;
+            Some(
+                <[u8; 32]>::try_from(b.as_slice())
+                    .map_err(|_| "Merkle root must be 32 bytes".to_string())?,
+            )
+        }
+    };
+    let keys = public_keys
+        .iter()
+        .map(|k| parse_public_key(k.trim()))
+        .collect::<Result<Vec<_>, _>>()?;
+    if max_time_error.is_some() && reference_time.is_none() {
+        return Err("--max-time-error has no effect without --reference-time".into());
+    }
+    Config {
+        max_time_error_s: max_time_error,
+        ..Config::default()
+    }
+    .validate()?;
+    let format = match format.trim() {
+        "" => None,
+        f => Some(f),
+    };
+    let params = VerifyParams {
+        label: "(in memory)",
+        format,
+        start_gst,
+        merkle_root,
+        keys,
+        reference: reference_time,
+        max_err: max_time_error,
+    };
+    let (report, _failed) = verify_report(input.to_vec(), &params)?;
+    Ok(report.to_string())
 }
 
 /// A signed evidence pack built in memory, and the key that signed it.

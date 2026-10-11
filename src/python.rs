@@ -1717,6 +1717,60 @@ fn compliance_report<'py>(
     )
 }
 
+/// Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+/// `kshana osnma verify` runs; returns the dict `--json` prints. Advisory: this is analysis and
+/// monitoring output and not type-approved navigation equipment. The authentication status
+/// reported here is not a navigation integrity service and must not be the sole basis for any
+/// navigation or safety decision. `data` is the pages (text, or the published vector CSV) or a
+/// u-blox UBX byte stream, as `bytes` or `str`; `format` is `"pages"`, `"vector-csv"`, `"ubx"` or
+/// `""` (by content); `start_gst` is a vector CSV's start in GST seconds; `merkle_root_hex` is the
+/// trusted Merkle root (64 hex digits, or `""`); `public_keys` are trusted keys as `ID:TYPE:HEX`;
+/// `reference_time` is the present time in GST seconds from an independent source and
+/// `max_time_error` the widest distance of a sub-frame from it (below 30; needs a reference
+/// time). Without a reference time freshness is not enforced and the report says so. Raises
+/// `ValueError` on bad input. Nothing is read from or written to disk.
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+#[pyo3(signature = (data, format="", start_gst=None, merkle_root_hex="", public_keys=None, reference_time=None, max_time_error=None))]
+fn osnma_verify<'py>(
+    py: Python<'py>,
+    data: TextOrBytes,
+    format: &str,
+    start_gst: Option<i64>,
+    merkle_root_hex: &str,
+    public_keys: Option<Vec<String>>,
+    reference_time: Option<i64>,
+    max_time_error: Option<i64>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let to_u32 = |name: &str, v: Option<i64>| -> PyResult<Option<u32>> {
+        v.map(|n| {
+            u32::try_from(n).map_err(|_| {
+                PyValueError::new_err(format!("{name} must be between 0 and 2**32 - 1"))
+            })
+        })
+        .transpose()
+    };
+    let (start_gst, reference_time, max_time_error) = (
+        to_u32("start_gst", start_gst)?,
+        to_u32("reference_time", reference_time)?,
+        to_u32("max_time_error", max_time_error)?,
+    );
+    let out = crate::surface::osnma_verify(
+        data.bytes(),
+        format,
+        start_gst,
+        merkle_root_hex,
+        &public_keys.unwrap_or_default(),
+        reference_time,
+        max_time_error,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&out).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
 /// The static public-framework mapping as Markdown, led by the statement every report
 /// carries: one table per framework (`sources=False`) or the source documents they cite,
 /// with versions and URLs (`sources=True`).
@@ -1743,10 +1797,12 @@ fn trust_telemetry(
     input_kind: &str,
     expose_position: bool,
     syslog_all: bool,
-    unix_nano: u64,
+    unix_nano: i128,
 ) -> PyResult<String> {
     use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
     let bad = |e: String| PyValueError::new_err(e);
+    let unix_nano = u64::try_from(unix_nano)
+        .map_err(|_| PyValueError::new_err("unix_nano must be between 0 and 2**64 - 1"))?;
     surface::trust_telemetry(
         input,
         TelemetryFormat::parse(format).map_err(bad)?,
@@ -1849,6 +1905,7 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_examples, m)?)?;
     m.add_function(wrap_pyfunction!(get_example, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
+    m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
     m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;

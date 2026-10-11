@@ -159,6 +159,22 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
     )
 }
 
+/// Refuse a host name an RFC 5424 HOSTNAME cannot carry: more than 255 characters, or anything but
+/// printable ASCII without spaces. The host is copied into every event, so an unbounded one would
+/// multiply the output. Empty is fine (the default name is used).
+pub fn check_host(host: &str) -> Result<(), String> {
+    if host.len() > 255 {
+        return Err(format!(
+            "host is {} bytes; a syslog host name is at most 255",
+            host.len()
+        ));
+    }
+    if !host.chars().all(|c| c.is_ascii_graphic()) {
+        return Err("host must be printable ASCII without spaces".into());
+    }
+    Ok(())
+}
+
 /// Wrap a payload in an RFC 5424 envelope: facility local0 (16), `app` `kshana`, message id
 /// `GNSSTRUST`. `timestamp` is RFC 3339 UTC, or `None` for the NILVALUE `-`.
 pub fn rfc5424(band: Band, timestamp: Option<&str>, host: &str, payload: &str) -> String {

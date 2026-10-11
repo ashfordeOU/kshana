@@ -704,3 +704,58 @@ def test_trust_telemetry_formats():
         kshana.trust_telemetry(_TRUST_STREAM, "xml")
     with pytest.raises(ValueError):
         kshana.trust_telemetry("", "cef")
+
+
+def test_osnma_verify_reports_like_the_command_line():
+    page = "00" * 30
+    csv = f"SVID,NumNavBits,NavBitsHEX\n02,480,{page}{page}\n03,240,{page}\n"
+    r = kshana.osnma_verify(csv, start_gst=1000)
+    assert r["input"]["pages"] == 3 and r["freshness_enforced"] is False
+    assert "not type-approved navigation equipment" in r["advisory"]
+    assert r["overall"] in ("unavailable", "failed", "authenticated")
+    r2 = kshana.osnma_verify(csv.encode(), format="vector-csv", start_gst=1000, reference_time=1002)
+    assert r2["freshness_enforced"] is True and r2["reference_time"] == 1002
+    with pytest.raises(ValueError, match="without --reference-time"):
+        kshana.osnma_verify(csv, start_gst=1000, max_time_error=10)
+    with pytest.raises(ValueError, match="needs --start-gst"):
+        kshana.osnma_verify(csv, format="vector-csv")
+    with pytest.raises(ValueError, match="p256 or p521"):
+        kshana.osnma_verify(csv, start_gst=1000, public_keys=["7:p384:00"])
+
+
+@pytest.mark.parametrize(
+    "name,overall",
+    [("pages-good.txt", "authenticated"), ("pages-corrupt.txt", "failed"),
+     ("stream-good.ubx", "authenticated"), ("stream-corrupt.ubx", "failed")],
+)
+def test_osnma_verify_matches_the_shipped_expected_output(name, overall):
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[2] / "examples" / "osnma"
+    key = (root / "public-key.txt").read_text().strip()
+    r = kshana.osnma_verify((root / name).read_bytes(), public_keys=[key])
+    assert r["overall"] == overall
+    want = json.loads((root / "expected" / f"{name}.json").read_text())
+    r["input"]["path"] = want["input"]["path"] = None
+    assert r == want
+
+
+def test_negative_or_oversized_numbers_raise_value_error_not_overflow():
+    page = "00" * 30
+    csv = f"SVID,NumNavBits,NavBitsHEX\n02,240,{page}\n"
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=-1)
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=1000, reference_time=-5)
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=1000, reference_time=5, max_time_error=-1)
+    with pytest.raises(ValueError):
+        kshana.osnma_verify(csv, start_gst=2**40)
+    with pytest.raises(ValueError):
+        kshana.trust_telemetry(_TRUST_STREAM, "otlp", unix_nano=-1)
+
+
+def test_trust_telemetry_refuses_a_long_host():
+    with pytest.raises(ValueError, match="host"):
+        kshana.trust_telemetry(_TRUST_STREAM, "cef", "h" * 256)

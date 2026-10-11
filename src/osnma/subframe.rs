@@ -7,10 +7,15 @@ use super::bits::read_bits;
 use super::page::InavPage;
 use std::collections::BTreeMap;
 
+/// Seconds in an I/NAV sub-frame.
 pub const SUBFRAME_S: u32 = 30;
+/// Seconds in an I/NAV page pair.
 pub const PAGE_S: u32 = 2;
+/// Page pairs in one sub-frame.
 pub const PAGES_PER_SUBFRAME: usize = 15;
+/// Bytes of HKROOT in a sub-frame (one per page pair).
 pub const HKROOT_BYTES: usize = 15;
+/// Bytes of MACK in a sub-frame (four per page pair).
 pub const MACK_BYTES: usize = 60;
 
 /// NMA header: the first HKROOT byte (ICD section 3.1).
@@ -18,12 +23,14 @@ pub const MACK_BYTES: usize = 60;
 pub struct NmaHeader {
     /// 1 test, 2 operational, 3 don't use, 0 reserved.
     pub nmas: u8,
+    /// Id of the chain in force (CID, 2 bits).
     pub cid: u8,
     /// 1 nominal, 2 EOC, 3 CREV, 4 NPK, 5 PKREV, 6 NMT, 7 alert; 0 reserved.
     pub cpks: u8,
 }
 
 impl NmaHeader {
+    /// Split the NMA header byte into its fields.
     pub fn parse(byte: u8) -> Self {
         Self {
             nmas: byte >> 6,
@@ -38,10 +45,12 @@ impl NmaHeader {
 pub struct DsmHeader {
     /// 0..=11 DSM-KROOT, 12..=15 DSM-PKR.
     pub dsm_id: u8,
+    /// Block id within the DSM (4 bits).
     pub block_id: u8,
 }
 
 impl DsmHeader {
+    /// Split the DSM header byte into its fields.
     pub fn parse(byte: u8) -> Self {
         Self {
             dsm_id: byte >> 4,
@@ -49,6 +58,7 @@ impl DsmHeader {
         }
     }
 
+    /// Whether the DSM is a DSM-KROOT (ids 0 to 11).
     pub fn is_kroot(self) -> bool {
         self.dsm_id <= 11
     }
@@ -57,10 +67,13 @@ impl DsmHeader {
 /// One completed sub-frame of one satellite.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Subframe {
+    /// Satellite that transmitted the sub-frame.
     pub svid: u8,
     /// GST seconds at the start of the sub-frame (a multiple of 30).
     pub gst_sf: u32,
+    /// The 15 HKROOT bytes of the sub-frame.
     pub hkroot: [u8; HKROOT_BYTES],
+    /// The 60 MACK bytes of the sub-frame.
     pub mack: [u8; MACK_BYTES],
     /// The 128-bit I/NAV word of each of the 15 pages, in transmission order.
     pub words: [[u8; 16]; PAGES_PER_SUBFRAME],
@@ -70,6 +83,7 @@ pub struct Subframe {
 }
 
 impl Subframe {
+    /// The NMA header (first HKROOT byte).
     pub fn nma_header(&self) -> NmaHeader {
         NmaHeader::parse(self.hkroot[0])
     }
@@ -79,6 +93,7 @@ impl Subframe {
         &self.hkroot[2..]
     }
 
+    /// The DSM header (second HKROOT byte).
     pub fn dsm_header(&self) -> DsmHeader {
         DsmHeader::parse(self.hkroot[1])
     }
@@ -137,6 +152,7 @@ impl Partial {
 }
 
 impl SubframeAssembler {
+    /// An assembler with no sub-frames open.
     pub fn new() -> Self {
         Self::default()
     }
@@ -168,7 +184,9 @@ impl SubframeAssembler {
 /// (ICD section 4, Eq. 8). Lengths are in bits.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub struct MackLayout {
+    /// TESLA key length in bits.
     pub key_bits: usize,
+    /// Tag length in bits.
     pub tag_bits: usize,
 }
 
@@ -181,16 +199,22 @@ pub struct TagInfo {
     /// as Galileo constellation-related information, but no ADKD of Table 14 uses it, so
     /// such tags are discarded like any reserved value.
     pub prn_d: u8,
+    /// Authentication Data and Key Delay of the tag (ADKD, ICD 4.2.1.3).
     pub adkd: u8,
+    /// Data cut-off point (COP, ICD 4.2.1.2); 0 marks a dummy tag.
     pub cop: u8,
 }
 
 /// Parsed MACK message.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Mack {
+    /// Tag0, which authenticates the transmitting satellite's own ADKD 0 data and has no Tag-Info.
     pub tag0: u64,
+    /// MAC sequence (MACSEQ, 12 bits) covering the flexible Tag-Info fields.
     pub macseq: u16,
+    /// COP of Tag0.
     pub cop0: u8,
+    /// Tags 1 and up with their Tag-Info.
     pub tags: Vec<TagInfo>,
     /// The TESLA key, `key_bits` long, as bytes (left-aligned).
     pub key: Vec<u8>,
@@ -202,6 +226,7 @@ impl MackLayout {
         (480 - self.key_bits) / (self.tag_bits + 16)
     }
 
+    /// Parse a 480-bit MACK message with this layout.
     pub fn parse(&self, mack: &[u8]) -> Option<Mack> {
         if mack.len() != MACK_BYTES || self.tag_bits == 0 || self.tag_bits > 64 {
             return None;
