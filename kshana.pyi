@@ -42,6 +42,8 @@ __all__ = [
     "get_example",
     "compliance_report",
     "compliance_mapping",
+    "osnma_verify",
+    "trust_telemetry",
     "route_exposure",
     "nmea_training",
     "iq_scene",
@@ -109,7 +111,8 @@ def receiver_trust(toml: str) -> RunOutput:
     """Assess a real receiver log described by a ``receiver-trust`` scenario (TOML text).
 
     A ``[platform]`` table with ``kind = "vessel"`` selects the maritime monitors and the
-    0-100 trust score with its reasons; the output is advisory (docs/MARITIME-TRUST.md).
+    0-100 trust score with its reasons; the output is advisory
+    (docs/MARITIME-TRUST.md). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
     ``receiver-trust live`` (a long-running stream process) is command-line only.
 
     Returns the result document, the per-epoch trust CSV, the chart and a summary.
@@ -124,13 +127,13 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     (``"1.2"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
     ``alarms``, ``position``, ``advisory``, ...), ``last_pksht`` and ``summary`` (counts by state,
     ``lowest_score``, ``final_score``, ``first_untrusted_t_s``). Opens no socket and does not
-    apply the gate (both are command-line only); advisory only. Raises ``ValueError``."""
+    apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
 
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:
     """Assess a vessel's NMEA log as a batch run: the ``result.json`` of
     ``kshana receiver-trust`` (score model, monitors run, every epoch's 0-100 score with its
-    deductions). ``session_toml`` needs no ``[log]`` table. Advisory only. Raises
-    ``ValueError``."""
+    deductions). ``session_toml`` needs no ``[log]`` table. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
+    Raises ``ValueError``."""
 
 def evidence_create(
     session_toml: str,
@@ -256,6 +259,46 @@ def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report
     carries: one table per framework, or with ``sources=True`` the source documents they cite
     (versions and URLs)."""
+
+def osnma_verify(
+    data: bytes | str,
+    format: str = "",
+    start_gst: int | None = None,
+    merkle_root_hex: str = "",
+    public_keys: list[str] | None = None,
+    reference_time: int | None = None,
+    max_time_error: int | None = None,
+) -> dict:
+    """Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+    ``kshana osnma verify`` runs; returns the dict its ``--json`` prints. Advisory: this is
+    analysis and monitoring output and not type-approved navigation equipment. The authentication
+    status reported here is not a navigation integrity service and must not be the sole basis for
+    any navigation or safety decision. ``data`` is the pages (plain text, or the published vector
+    CSV) or a u-blox UBX byte stream; ``format`` is ``"pages"``, ``"vector-csv"``, ``"ubx"`` or
+    ``""`` (by content); ``start_gst`` is a vector CSV's start in GST seconds;
+    ``merkle_root_hex`` is the trusted Merkle root (64 hex digits, or ``""``); ``public_keys`` are
+    trusted keys as ``"ID:TYPE:HEX"``; ``reference_time`` is the present time in GST seconds from
+    an independent source and ``max_time_error`` the widest distance of a sub-frame from it (below
+    30; needs a reference time). Without a reference time freshness is not enforced and the report
+    says so (``freshness_enforced``). Raises ``ValueError``."""
+
+def trust_telemetry(
+    input: str,
+    format: str,
+    host: str = "",
+    input_kind: str = "jsonl",
+    expose_position: bool = False,
+    syslog_all: bool = False,
+    unix_nano: int = 0,
+) -> str:
+    """Render a trust stream or a batch result in one telemetry format with the encoders
+    ``kshana trust-telemetry`` uses (no process, socket or clock). ``format`` is ``"prometheus"``,
+    ``"cef"``, ``"leef"`` or ``"otlp"``; ``input_kind`` is ``"jsonl"`` (the live per-epoch
+    stream) or ``"result"`` (a ``receiver-trust`` result document); ``host`` names the sender in
+    syslog events (default ``kshana``). ``syslog_all`` gives one event per epoch instead of one
+    per band change; ``expose_position`` adds the receiver-reported position to the metrics;
+    ``unix_nano`` is the export time of the ``"otlp"`` payload. Syslog lines carry no timestamp.
+    Raises ``ValueError`` on an unknown format or an input with no epoch."""
 
 def interference_map(
     source: str,

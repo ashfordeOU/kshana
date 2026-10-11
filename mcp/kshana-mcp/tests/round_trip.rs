@@ -88,6 +88,7 @@ async fn serves_exactly_the_expected_tool_set() {
         "generate_training_nmea",
         "build_interference_map",
         "route_exposure",
+        "trust_telemetry",
         "compliance_report",
         "compliance_mapping",
         "export_test_bench",

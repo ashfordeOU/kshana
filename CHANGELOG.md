@@ -87,6 +87,24 @@ generated NMEA text is for training.
 
 ### Added (surfaces)
 
+- **`osnma_verify` on Python and WebAssembly.** The verifier behind `kshana osnma verify` on bytes in
+  memory, returning the JSON `--json` prints (advisory in its `advisory` field; authentication status
+  only, not a navigation integrity service). The same refusals as the command line. Not on MCP: the
+  input is a long raw receiver stream better served by the CLI and Python. `docs/SURFACES.md` and
+  `docs/OSNMA.md` say so.
+
+- **`trust_telemetry` on WebAssembly, Python and MCP, with a plugin command and a JetBrains action.**
+  Renders a trust stream or a `receiver-trust` result as Prometheus text, CEF or LEEF syslog lines or an
+  OTLP JSON payload, with the encoders `kshana trust-telemetry` uses (`kshana::surface::trust_telemetry`);
+  no socket and no clock. Plugin: `/kshana-trust-telemetry` and the `trust-telemetry` skill. JetBrains:
+  Render Trust Telemetry. The `wasm` and `python` features and the MCP server now also enable `otlp`,
+  which adds no crate.
+
+- **Parity sweep.** JetBrains actions Validate Scenario, List Scenario Kinds and Assess Receiver Stream;
+  `kshana --help` now lists `receiver-trust evidence`, `evidence`, `trust-telemetry` and `nmea-scenario`;
+  the notebook `compliance-and-test-bench` (compliance mapping and test-bench export); and every
+  remaining JetBrains "CLI only" cell in `docs/SURFACES.md` is now an explicit N/A with its reason.
+
 - **The 0.35 capabilities on every surface they suit.** Python: `receiver_trust_replay`,
   `assess_vessel_log`, `evidence_create`, `evidence_verify`, `interference_map`,
   `route_exposure`, `nmea_training`. WebAssembly: the same except `evidence_create` (a signing

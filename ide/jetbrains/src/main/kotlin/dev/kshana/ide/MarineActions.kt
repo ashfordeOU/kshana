@@ -216,3 +216,55 @@ class VerifyEvidencePackAction : AnAction() {
         )
     }
 }
+
+/** Right-click a vessel session `.toml` → "Assess Receiver Stream (Kshana)": asks for a stored NMEA log
+ *  and scores it epoch by epoch (`receiver-trust live --file`), the bounded form of the live command.
+ *  The running process (a socket, `--gate`) stays on the command line. */
+class AssessReceiverStreamAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isScenarioFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val log = FileChooser.chooseFile(
+            FileChooserDescriptorFactory.createSingleFileDescriptor().withTitle("NMEA log to score"),
+            project,
+            null,
+        ) ?: return
+        KshanaRunner.run(
+            project,
+            "Scoring receiver stream",
+            KshanaCli.receiverTrustExcerptCommand(binary(), file.path, log.path),
+            file.parent?.path,
+            KshanaCli.ADVISORY_NOTICE,
+        )
+    }
+}
+
+/** Right-click a `receiver-trust` result `.json` → "Render Trust Telemetry (Kshana)": asks for a format
+ *  and prints what `kshana trust-telemetry --result` produces. Console only; nothing is sent or served. */
+class RenderTrustTelemetryAction : KshanaFileAction() {
+    override fun accepts(fileName: String) = KshanaCli.isResultFile(fileName)
+
+    override fun actionPerformed(e: AnActionEvent) {
+        val project = e.project ?: return
+        val file = e.getData(CommonDataKeys.VIRTUAL_FILE) ?: return
+        val formats = KshanaCli.TelemetryFormat.values()
+        val choice = Messages.showChooseDialog(
+            project,
+            "Which telemetry format? It is printed to the Kshana window; nothing is sent.",
+            "Render Trust Telemetry",
+            Messages.getQuestionIcon(),
+            formats.map { it.label }.toTypedArray(),
+            formats[0].label,
+        )
+        if (choice < 0) return
+        KshanaRunner.run(
+            project,
+            "Rendering trust telemetry",
+            KshanaCli.trustTelemetryCommand(binary(), file.path, formats[choice]),
+            file.parent?.path,
+            KshanaCli.ADVISORY_NOTICE,
+        )
+    }
+}

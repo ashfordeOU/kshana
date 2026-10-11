@@ -13,7 +13,7 @@
         (install it with <code>cargo install kshana</code>).
         <br/><br/>
         Also on the context menu: <b>Assess Receiver Trust</b> (a receiver-log scenario, with a
-        0-100 score and reasons for a vessel; advisory), <b>Generate Training NMEA</b>
+        0-100 score and reasons for a vessel), <b>Generate Training NMEA</b>
         (synthetic bridge NMEA with an instructor log; text only, training use),
         <b>Build Interference Map</b> (ADS-B or AIS CSV to GeoJSON), <b>Route Exposure</b>,
         <b>Export Test-Bench Files</b> (motion, NMEA and events for a laboratory simulator; no
@@ -37,7 +37,7 @@
         <b>Verify Evidence Pack</b>, <b>Create Evidence Pack</b>, <b>Attach Timestamp</b>,
         <b>Insert Example Scenario</b>, <b>Export Scenario</b>, <b>Animate Scenario</b> and
         <b>Import Route</b>, and <i>Tools → Show Compliance Mapping</i>. Each runs the engine's command line and shows its
-        output with the caveat that belongs with it; advisory use only. The plugin needs a
+        output with the caveat that belongs with it. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. The plugin needs a
         <code>kshana</code> engine 0.35.0 or newer for these actions. Update the engine with
         <code>cargo install kshana</code> and see the release notes at
         https://github.com/ashfordeOU/kshana/releases.
@@ -116,7 +116,7 @@
             id="dev.kshana.ide.AssessReceiverTrust"
             class="dev.kshana.ide.AssessReceiverTrustAction"
             text="Assess Receiver Trust (Kshana)"
-            description="Run kshana receiver-trust on the selected scenario TOML: a trust timeline, with a 0-100 score and reasons for a vessel. Advisory only.">
+            description="Run kshana receiver-trust on the selected scenario TOML: a trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.">
             <add-to-group group-id="EditorPopupMenu" anchor="last"/>
             <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
@@ -215,6 +215,36 @@
             text="Show Compliance Mapping (Kshana)"
             description="Run kshana compliance-report --mapping: the static public-framework mapping tables.">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.AssessReceiverStream"
+            class="dev.kshana.ide.AssessReceiverStreamAction"
+            text="Assess Receiver Stream (Kshana)"
+            description="Run kshana receiver-trust live --file: score a stored NMEA log epoch by epoch against the selected vessel session TOML. No socket and no gate. Advisory only.">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.ValidateScenario"
+            class="dev.kshana.ide.ValidateScenarioAction"
+            text="Validate Scenario (Kshana)"
+            description="Run kshana --validate on the selected scenario TOML without running it.">
+            <add-to-group group-id="EditorPopupMenu" anchor="last"/>
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.ListScenarioKinds"
+            class="dev.kshana.ide.ListScenarioKindsAction"
+            text="List Scenario Kinds (Kshana)"
+            description="Run kshana kinds: the scenario kinds the engine supports.">
+            <add-to-group group-id="ToolsMenu" anchor="last"/>
+        </action>
+        <action
+            id="dev.kshana.ide.RenderTrustTelemetry"
+            class="dev.kshana.ide.RenderTrustTelemetryAction"
+            text="Render Trust Telemetry (Kshana)"
+            description="Run kshana trust-telemetry --result on the selected receiver-trust result JSON: Prometheus text or CEF/LEEF syslog events printed to the Kshana window. Nothing is sent or served.">
+            <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
         </action>
     </actions>
 </idea-plugin>
