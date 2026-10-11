@@ -69,6 +69,34 @@ or **PARTNER** (a hardware partner owns it).
 > is an analysis tool) and not a flight product. New to the field? Start with the
 > [plain-language primer](docs/CONCEPTS.md) and the [glossary](docs/GLOSSARY.md).
 
+## What's new in 0.35
+
+0.35 turns the receiver-trust work into a toolchain for the bridge of a vessel: score whether a
+navigation fix can be trusted, train crews on it, map where reported positions look degraded, prove
+what the software said, and put the answer where the crew already looks. It is **advisory**: not
+type-approved navigation equipment, and the operator stays responsible. Nothing here transmits, and
+nothing synthesises a jammer or spoofer radio waveform. Each row below states what the ledger
+holds for it ([how a label is earned](#evidence)); a status names only what was checked, and the
+ledger row and the linked page say what was not.
+
+| New in 0.35 | What it does, and why | Ledger status | Read |
+|---|---|---|---|
+| **Maritime trust score** | `kshana receiver-trust` scores a vessel's fix from the NMEA 0183 it already has: a 0-100 score, three bands and the reasons, per epoch, in batch, live or as a gate | arithmetic of the monitors **VALIDATED** (pynmea2, GeographicLib); the score's aggregation **MODELLED** | [Maritime trust](docs/MARITIME-TRUST.md) |
+| **NMEA training streams** | `kshana nmea-scenario` writes synthetic bridge NMEA with scripted jamming, drag-off, time-spoof and replay events and an instructor log, for crew training; text only | stream conformance and decoded values **VALIDATED** (pynmea2); the receiver, sky and event models **MODELLED** | [NMEA training](docs/NMEA-TRAINING.md) |
+| **Interference map and route exposure** | `kshana interference-map` and `route-exposure` turn openly licensed ADS-B and AIS reports into a GeoJSON map per day and the share of a route through degraded cells | how the codes are read and the geometry **VALIDATED** (pyModeS, pyais, shapely, GeographicLib, pyproj); that a cell is interference is **not** checked | [Interference map](docs/INTERFERENCE-MAP.md) |
+| **Trust telemetry** | `kshana trust-telemetry` exports the trust stream as Prometheus text, OpenTelemetry (OTLP/HTTP) and CEF or LEEF syslog events, so a security operations centre sees a navigation fault | Prometheus, OTLP and CEF **VALIDATED** against independent parsers; LEEF **MODELLED** | [Trust telemetry](docs/TRUST-TELEMETRY.md) |
+| **Signed evidence packs** | `kshana receiver-trust evidence` bundles an event window into a hash-chained, Ed25519-signed pack that verifies offline: a technical record, not a legal opinion | integrity, signature and verification **VALIDATED** (RFC 8032 vectors, FIPS 180-4, a clean-room verifier) | [Evidence packs](docs/EVIDENCE-PACKS.md) |
+| **Test-bench export** | `kshana bench-export` writes a scenario's vehicle motion and events as a CSV trajectory and NMEA for a laboratory GNSS simulator; no signal is written | conversions and encodings **VALIDATED** (PROJ, GeographicLib, pynmea2, SciPy) | [Test bench](docs/TEST-BENCH.md) |
+| **Compliance mapping** | `kshana compliance-report` maps run results to clauses of public frameworks, by number only, and says "supports evidence for", never that a framework is met | **MODELLED**: its references are checked to exist, not that each mapping is right | [Compliance mapping](docs/compliance/README.md) |
+| **Signal K, OpenCPN and a reference build** | the score and its reasons on a boat's Signal K server and in an OpenCPN panel, and a pinned image that rebuilds the engine | **MODELLED** (an integration run, not an oracle) | [Marine integrations](docs/MARINE-INTEGRATIONS.md) |
+| **Galileo OSNMA verification** | `kshana osnma verify` checks which satellites' navigation data a receiver can authenticate, from the Galileo signal-in-space specification | **VALIDATED** against the official test vectors; scope stated in the ledger row | [OSNMA](docs/OSNMA.md) |
+| **MCP install channels and self-hosting** | every channel for `kshana-mcp` in one place: prebuilt binaries, the Claude Desktop extension, Cursor and VS Code buttons, `npx`, `uvx`, Homebrew, Scoop, winget, the registries, and an HTTP mode you host | distribution, not a ledger capability | [Install](#install), [MCP install](docs/MCP-INSTALL.md), [HTTP self-host](docs/deploy/mcp-http.md) |
+
+Also new: the Studio's trust, interference, training and tools views ([Kshana Studio](#kshana-studio)),
+the same capabilities in Python, WebAssembly, MCP, the Claude Code plugin and the JetBrains plugin
+([surfaces](docs/SURFACES.md)), and an [AI-agent guide](docs/AGENTS.md). The full list is in the
+[changelog](CHANGELOG.md#0350---2026-10-10).
+
 ## Kshana Studio
 
 Open [kshana.dev/studio](https://kshana.dev/studio/) and the whole engine runs in your
@@ -616,13 +644,13 @@ v0.35.0 from the same tagged commit.
 <!-- channels:begin -->
 | Channel | Install | Guide |
 |---|---|---|
-| Try in the browser | open https://kshana.dev | [Studio guide](docs/studio.html) |
-| Command line (Rust) | `cargo install kshana` | [Command-line usage](docs/rust.html#usage--cli) |
+| Try in the browser | open https://kshana.dev | [Studio guide](https://kshana.dev/docs/studio.html) |
+| Command line (Rust) | `cargo install kshana` | [Command-line usage](https://kshana.dev/docs/rust.html#usage--cli) |
 | Rust library | `cargo add kshana` | [API reference on docs.rs](https://docs.rs/kshana) |
-| Python | `pip install kshana` | [Python API guide](docs/python-api.html) |
-| JavaScript and WebAssembly | `npm install kshana` | [npm and WebAssembly guide](docs/npm.html) |
-| AI assistant (MCP server, cargo) | `cargo install kshana-mcp` | [MCP server guide](docs/mcp.html) |
-| Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server guide: Docker](docs/mcp.html#install) |
+| Python | `pip install kshana` | [Python API guide](https://kshana.dev/docs/python-api.html) |
+| JavaScript and WebAssembly | `npm install kshana` | [npm and WebAssembly guide](https://kshana.dev/docs/npm.html) |
+| AI assistant (MCP server, cargo) | `cargo install kshana-mcp` | [MCP server guide](https://kshana.dev/docs/mcp.html) |
+| Docker image | `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` | [MCP server guide: Docker](https://kshana.dev/docs/mcp.html#install) |
 | Claude Desktop extension | double-click the `.mcpb` for your system: [macOS (Apple silicon)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-apple-darwin.mcpb) · [macOS (Intel)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-apple-darwin.mcpb) · [Windows](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-pc-windows-msvc.mcpb) · [Linux (x86-64)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-x86_64-unknown-linux-gnu.mcpb) · [Linux (Arm)](https://github.com/ashfordeOU/kshana/releases/download/v0.35.0/kshana-mcp-aarch64-unknown-linux-gnu.mcpb) | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Cursor (one click) | [Add to Cursor (npx)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoibnB4IiwiYXJncyI6WyIteSIsImtzaGFuYS1tY3BAMC4zNS4wIl19) · [Add to Cursor (Docker)](https://cursor.com/en/install-mcp?name=kshana&config=eyJjb21tYW5kIjoiZG9ja2VyIiwiYXJncyI6WyJydW4iLCItaSIsIi0tcm0iLCJnaGNyLmlvL2FzaGZvcmRlb3Uva3NoYW5hLW1jcDowLjM1LjAiXX0%3D) · `npx -y kshana-mcp@0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | VS Code (one click) | [Install in VS Code (npx)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522npx%2522%252C%2522args%2522%253A%255B%2522-y%2522%252C%2522kshana-mcp%25400.35.0%2522%255D%257D) · [Install in VS Code (Docker)](https://insiders.vscode.dev/redirect?url=vscode%3Amcp%2Finstall%3F%257B%2522name%2522%253A%2522kshana%2522%252C%2522command%2522%253A%2522docker%2522%252C%2522args%2522%253A%255B%2522run%2522%252C%2522-i%2522%252C%2522--rm%2522%252C%2522ghcr.io%252Fashfordeou%252Fkshana-mcp%253A0.35.0%2522%255D%257D) · `npx -y kshana-mcp@0.35.0` | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
@@ -636,7 +664,7 @@ v0.35.0 from the same tagged commit.
 | Official MCP registry | search io.github.ashfordeOU/kshana-mcp | [Every MCP install snippet](https://github.com/ashfordeOU/kshana/blob/main/docs/MCP-INSTALL.md) |
 | Remote (streamable HTTP), self-hosted | `kshana-mcp --http 127.0.0.1:8080` | [Self-hosting guide](https://github.com/ashfordeOU/kshana/blob/main/docs/deploy/mcp-http.md) |
 | Claude Code plugin marketplace | `/plugin marketplace add ashfordeOU/kshana` | [Using Kshana from an agent](https://github.com/ashfordeOU/kshana/blob/main/docs/AGENTS.md) |
-| JetBrains IDE plugin | Settings → Plugins → Marketplace → search "Kshana" (plugin ID dev.kshana.ide) | [Plugin guide](docs/jetbrains.html) |
+| JetBrains IDE plugin | Settings → Plugins → Marketplace → search "Kshana" (plugin ID dev.kshana.ide) | [Plugin guide](https://kshana.dev/docs/jetbrains.html) |
 | Signal K plugin | `npm install signalk-kshana-trust` | [Signal K plugin guide](https://github.com/ashfordeOU/kshana/blob/main/integrations/signalk/README.md) |
 | OpenCPN plugin | download the plugin tarball from the release | [OpenCPN catalogue submission](https://github.com/ashfordeOU/kshana/blob/main/packaging/opencpn/SUBMITTING.md) |
 | Grafana dashboard | import kshana-grafana-*.json from the release | [Dashboard source](https://github.com/ashfordeOU/kshana/blob/main/deploy/grafana/kshana-gnss-trust.json) |
