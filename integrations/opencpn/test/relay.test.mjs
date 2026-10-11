@@ -97,8 +97,10 @@ test('input without a newline does not grow the relay buffer without bound; the 
   assert.ok(got.endsWith('$GPGGA,ok*00\r\n'))
 })
 
-test('a consumer that never reads is dropped and does not stall the others', async () => {
-  const relay = startRelay({ port: 0, waitClients: 2, maxQueueBytes: 64 * 1024 })
+test('a consumer that never reads is dropped and does not stall the others', { timeout: 30000 }, async () => {
+  // The cap is above one batch (50 x 8 kB), so the reading consumer stays under it even where the kernel's socket buffers
+  // are small (CI runners); the non-reading one passes it once its kernel buffers are full.
+  const relay = startRelay({ port: 0, waitClients: 2, maxQueueBytes: 1 << 20 })
   const port = await relay.listen()
   const slow = net.connect(port, '127.0.0.1')
   slow.pause()
@@ -109,7 +111,10 @@ test('a consumer that never reads is dropped and does not stall the others', asy
   // in batches, so a reading consumer's queue drains between them (a synchronous burst would queue for everyone)
   for (let b = 0; b < 80; b++) {
     for (let i = 0; i < 50; i++) relay.write(line)
-    await new Promise((r) => setTimeout(r, 5))
+    // let the reading consumer drain this batch before the next (bounded wait, so a stall still shows as a failure)
+    for (let w = 0; w < 200 && Math.min(...[...relay.clients].map((c) => c.writableLength)) > 0; w++) {
+      await new Promise((r) => setTimeout(r, 5))
+    }
   }
   const clientsLeft = relay.clients.size
   relay.end()
