@@ -58,7 +58,7 @@ const TABS = [["evidence", "Evidence packs"], ["bench", "Test bench"], ["complia
 function tabs() {
   const bar = $("tl-tabs");
   for (const [id, label] of TABS) {
-    const b = el("button", { type: "button", role: "tab", class: "tl-tab", id: `t-${id}`, "aria-controls": `p-${id}`, "aria-selected": "false", tabindex: "-1" }, label);
+    const b = el("button", { type: "button", role: "tab", class: "tl-tab", id: `t-${id}`, "aria-controls": id, "aria-selected": "false", tabindex: "-1" }, label);
     b.onclick = () => select(id, true);
     bar.append(b);
   }
@@ -72,7 +72,7 @@ function tabs() {
 }
 function select(id, push) {
   if (!TABS.some((t) => t[0] === id)) id = "evidence";
-  for (const [t] of TABS) { const on = t === id; $(`t-${t}`).setAttribute("aria-selected", String(on)); $(`t-${t}`).tabIndex = on ? 0 : -1; $(`p-${t}`).hidden = !on; }
+  for (const [t] of TABS) { const on = t === id; $(`t-${t}`).setAttribute("aria-selected", String(on)); $(`t-${t}`).tabIndex = on ? 0 : -1; $(t).hidden = !on; }
   if (push && location.hash.slice(1) !== id) history.replaceState(null, "", `#${id}`);
 }
 

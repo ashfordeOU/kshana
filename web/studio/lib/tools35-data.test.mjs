@@ -12,6 +12,9 @@ for (const [id, p] of Object.entries(PAGES)) {
   const [path] = p.href.split("#");
   assert.ok(exists(path + "index.html"), `${id}: ${path}index.html exists`);
   assert.ok(p.label.length > 3, id);
+  // a deep link into a page must land on a static id in its HTML (the site's link check reads no JavaScript)
+  const frag = p.href.split("#")[1];
+  if (frag) assert.ok(new RegExp(`\\sid="${frag}"`).test(fs.readFileSync(new URL(path + "index.html", here), "utf8")), `${id}: ${path}index.html has a static id="${frag}"`);
 }
 // Every feature is either run in the browser (a page and what it does there) or says why not, with its command.
 const ids = new Set();
