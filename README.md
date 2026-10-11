@@ -741,7 +741,7 @@ The rendered diagrams (engine flow, module map, distribution) are in [`docs/ARCH
 ## AI assistant
 
 [`kshana-mcp`](mcp/kshana-mcp/) is an MCP server: your assistant runs the actual engine and
-reads back its JSON, instead of guessing the maths. Each of its 38 tools is a thin wrapper
+reads back its JSON, instead of guessing the maths. Each of its 39 tools is a thin wrapper
 over a public function of the `kshana` library, so no simulation logic lives in the server.
 
 ### Install the MCP server
@@ -786,7 +786,7 @@ Per-client set-up is in [`docs/integrations.md`](docs/integrations.md). The serv
 in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 
 <details>
-<summary>The 38 tools</summary>
+<summary>The 39 tools</summary>
 
 <br>
 
@@ -828,6 +828,7 @@ in the official MCP registry as `io.github.ashfordeOU/kshana-mcp`.
 | `generate_training_nmea` | Synthetic bridge NMEA 0183 for crew training from a `nmea-scenario` TOML (jamming, position drag-off, time spoof, replay delay) with the instructor log (`kshana-nmea-training/1`) |
 | `build_interference_map` | A GNSS interference map from ADS-B or AIS position reports as CSV text (at most 4 MiB) |
 | `route_exposure` | The share of a route's length in degraded, not-degraded, unassessed and not-observed cells of one or more interference maps, optionally within a date range |
+| `trust_telemetry` | A trust stream (JSON lines) or `receiver-trust` result rendered as Prometheus text, CEF or LEEF syslog lines or an OTLP JSON payload, with the `kshana trust-telemetry` encoders |
 
 **GNSS IQ (work-directory files; off in HTTP mode)**
 
