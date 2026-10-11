@@ -94,8 +94,8 @@ ledger row and the linked page say what was not.
 
 Also new: the Studio's trust, interference, training and tools views ([Kshana Studio](#kshana-studio)),
 the same capabilities in Python, WebAssembly, MCP, the Claude Code plugin and the JetBrains plugin
-([surfaces](docs/SURFACES.md)), and an [AI-agent guide](docs/AGENTS.md). The full list is in the
-[changelog](CHANGELOG.md#0350---2026-10-10).
+([surfaces](docs/SURFACES.md)), an [AI-agent guide](docs/AGENTS.md), and runnable notebooks on synthetic data: [vessel trust and training](notebooks/vessel-trust-and-training.md), [interference map and route exposure](notebooks/interference-map-route-exposure.md) and [compliance mapping and test bench](notebooks/compliance-and-test-bench.md). The full list is in the
+[changelog](CHANGELOG.md#0350---2026-10-11).
 
 ## Kshana Studio
 
@@ -183,7 +183,7 @@ them and [`docs/SCENARIOS.md`](docs/SCENARIOS.md) documents every field.
 | [Signal K and OpenCPN](docs/MARINE-INTEGRATIONS.md) | the trust score on a boat's Signal K server and in OpenCPN, with a reference build for a small computer next to the receiver (advisory, not type-approved navigation equipment) |
 | [Test-bench export](docs/TEST-BENCH.md) | `kshana bench-export`: a scenario's vehicle motion and events for a laboratory GNSS simulator (no signal is written), and how to score the receiver's log afterwards |
 | [Compliance mapping and report](docs/compliance/README.md) | `kshana compliance-report`: which rows of public resilience frameworks a set of runs supports evidence for, and the gap that is left |
-| [Notebooks](notebooks/README.md) | runnable tutorials: vessel trust and training streams, an interference-map route exposure, quantum against classical GDOP |
+| [Notebooks](notebooks/README.md) | runnable tutorials: vessel trust and training streams, an interference-map route exposure, compliance mapping and the test bench, quantum against classical GDOP |
 | [Galileo OSNMA verifier](docs/OSNMA.md) | which satellites' navigation data a receiver can cryptographically authenticate, and why a check fails; Kshana grants no rights under the EU's OSNMA ICD IPRs (see the NOTICE in the page) |
 
 The export formats in full: SP3 is Standard Product 3; CCSDS OMM and OEM are the Orbit

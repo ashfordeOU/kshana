@@ -9,6 +9,7 @@ notebook has a `.md` mirror (the same cells as Markdown, for review in a diff) n
 |---|---|---|
 | `vessel-trust-and-training.ipynb` | generate a synthetic bridge NMEA training stream with a scripted event, then score it with the vessel trust monitors and read the 0-100 score and its reasons | [`.md`](vessel-trust-and-training.md) |
 | `interference-map-route-exposure.ipynb` | where aircraft and ships reported degraded navigation data, and how much of a route falls inside it | [`.md`](interference-map-route-exposure.md) |
+| `compliance-and-test-bench.ipynb` | which public-framework rows a set of runs supports evidence for, and a scenario's motion exported as text for a laboratory simulator | [`.md`](compliance-and-test-bench.md) |
 | `quantum-vs-classical-gdop.ipynb` | a quantum and a classical sensor in the same constellation geometry, compared by dilution of precision | [`.md`](quantum-vs-classical-gdop.md) |
 
 The training stream and the trust score are advisory, not type-approved navigation equipment;
