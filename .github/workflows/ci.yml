@@ -200,7 +200,7 @@ jobs:
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       - name: Free runner disk space
-        # 2026-10-11, the 0.35.0 cut: the instrumented test binaries (OSNMA, telemetry and the 0.35
+        # At the 0.35.0 cut: the instrumented test binaries (OSNMA, telemetry and the 0.35
         # surfaces added targets) filled the hosted runner's ~14 GB and the linker died with SIGBUS
         # ("Free space left: 0 MB"). Remove preinstalled SDKs this job never uses; nothing in the
         # measurement changes.

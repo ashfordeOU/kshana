@@ -3,7 +3,7 @@
 // Run with `node lib/finder.test.mjs`.
 import { readFileSync, readdirSync } from "node:fs";
 import assert from "node:assert/strict";
-import { fieldIndex, findFields, fieldName, scenarioCount, filterControls } from "./finder.mjs";
+import { synonymsFor, fieldIndex, findFields, fieldName, scenarioCount, filterControls } from "./finder.mjs";
 
 const dir = new URL("../scenarios/", import.meta.url);
 const bundle = Object.fromEntries(readdirSync(dir).filter((f) => f.endsWith(".toml")).map((f) => [f, readFileSync(new URL(f, dir), "utf8")]));
@@ -30,3 +30,23 @@ assert.equal(fieldName("pdop_threshold"), "PDOP threshold");
 assert.deepEqual(filterControls([{ id: "a", label: "Elevation mask (°)", key: "mask_deg" }, { id: "b", label: "Grid step", key: "grid_step_deg" }], "mask"), ["a"]);
 assert.deepEqual(filterControls([{ id: "a", label: "x" }], ""), ["a"]);
 console.log(`finder: ${idx.length} fields indexed; "elevation mask" in ${scenarioCount(mask)} scenarios: ok`);
+
+// The synonym patterns are anchored on every alternative (a code-scanning finding: a pattern that anchored one
+// alternative and left the others open). The anchored form must keep every key the old form matched, and the
+// bypass shapes (a key that merely ends in or contains the fragment) must not match.
+{
+  const oldMask = /(^|_)(elev_)?mask(_deg)?$|elevation_mask|elev_mask/;
+  const hit = (k) => synonymsFor(k).includes("elevation mask");
+  for (const k of ["mask", "mask_deg", "elev_mask", "elev_mask_deg", "gnss_mask_deg", "min_elev_mask", "elevation_mask_deg", "x_elevation_mask", "elev_mask_extra"]) {
+    assert.equal(hit(k), true, k);
+    assert.equal(oldMask.test(k), true, `${k} matched before`);
+  }
+  for (const k of ["unmask", "mask_deg_x", "masked", "maskdeg", "nomask_deg", "amask", "", "elevation", "elev"]) {
+    assert.equal(hit(k), false, k);
+    assert.equal(oldMask.test(k) && !/elevation_mask|elev_mask/.test(k), false, `${k} did not match before`);
+  }
+  // seconds: a key that ends in _s, or contains duration; "_s" in the middle is not a time
+  for (const k of ["t_s", "duration", "step_duration_x", "window_s"]) assert.ok(synonymsFor(k).includes("time"), k);
+  for (const k of ["tracks_start", "x_s_y", "s", "dist"]) assert.ok(!synonymsFor(k).includes("time"), k);
+}
+console.log("finder.test.mjs: anchored synonym checks passed");

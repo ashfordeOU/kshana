@@ -12,7 +12,7 @@
 // A namespace import, not a list of names: an engine package older than a function the page offers (0.35's)
 // then simply lacks it, and dispatch() says so, instead of the whole module failing to load.
 import init, * as kshana from "../pkg/kshana.js";
-import { dispatch, errorMessage, ENGINE_FNS } from "./engine.mjs";
+import { dispatch, errorMessage, ENGINE_FNS, classifyMessage } from "./engine.mjs";
 
 const api = Object.fromEntries(ENGINE_FNS.filter((n) => typeof kshana[n] === "function").map((n) => [n, kshana[n]]));
 
@@ -34,8 +34,13 @@ ready.catch(() => {});
 // Requests are handled one at a time in arrival order; a call that arrives while the
 // engine is still loading waits for it.
 self.addEventListener("message", async (ev) => {
-  const msg = ev.data || {};
-  if ("init" in msg) { gotModule(msg.init); return; }
+  // A dedicated worker hears only its owning page: the event has no source and an empty (or this worker's own)
+  // origin. Anything else is dropped, and so is any message that is not on the allow-list (engine.mjs classifyMessage).
+  if (ev.source || (ev.origin && ev.origin !== self.location.origin)) return;
+  const kind = classifyMessage(ev.data);
+  if (!kind) return;
+  const msg = ev.data;
+  if (kind === "init") { gotModule(msg.init); return; }
   gotModule(undefined); // the first message was a call: no module is coming, so load the engine here
   try {
     await ready;
