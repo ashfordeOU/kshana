@@ -154,8 +154,14 @@ test("a symlink where the cached binary should be is refused and replaced, never
   fs.symlinkSync(victim, path.join(dir, name));         // a link planted in the cache, pointing elsewhere
   const env = { KSHANA_MCP_CACHE_DIR: cache, KSHANA_MCP_RELEASE_BASE: release({ [name]: good, SHA256SUMS: `${L.sha256Hex(good)}  ${name}\n` }) };
   const bin = await L.ensureBinary("0.0.0", env);
-  assert.ok(!fs.lstatSync(bin).isSymbolicLink(), "the link was replaced by a regular file");
-  assert.deepStrictEqual(fs.readFileSync(bin), good);
+  // one descriptor, opened without following links: it fails on a symlink, and the bytes checked are the bytes of that file
+  const fd = fs.openSync(bin, fs.constants.O_RDONLY | fs.constants.O_NOFOLLOW);
+  try {
+    assert.ok(fs.fstatSync(fd).isFile(), "the link was replaced by a regular file");
+    assert.deepStrictEqual(fs.readFileSync(fd), good);
+  } finally {
+    fs.closeSync(fd);
+  }
   assert.strictEqual(fs.readFileSync(victim, "utf8"), "do not touch", "what the link pointed at was never written");
 });
 

@@ -100,7 +100,7 @@ async fn the_new_tools_are_listed_with_their_caveats() {
     assert!(desc("trust_telemetry").contains("Nothing is sent, served or written"));
     assert!(desc("trust_telemetry").contains("Advisory only"));
     assert!(desc("export_test_bench").contains("NO SIGNAL"));
-    assert!(desc("attach_evidence_timestamp").contains("does NOT verify the timestamp authority"));
+    assert!(desc("attach_evidence_timestamp").contains("does NOT check the timestamp authority"));
     client.cancel().await.ok();
 }
 

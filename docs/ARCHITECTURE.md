@@ -431,6 +431,7 @@ not type-approved navigation equipment.
 | `telemetry` | the trust stream as Prometheus metrics, syslog events (CEF or LEEF) and optional OpenTelemetry (`otlp` feature, off by default) | [TRUST-TELEMETRY](TRUST-TELEMETRY.md) |
 | `nmea_synth` | synthetic bridge NMEA 0183 with scripted jamming, drag-off, time spoof and replay events and an instructor log, for crew training (text only) | [NMEA-TRAINING](NMEA-TRAINING.md) |
 | `interference_map` | aggregate degraded-navigation maps from openly licensed aircraft and ship reports, and a route's exposure to them; local files only | [INTERFERENCE-MAP](INTERFERENCE-MAP.md) |
+| `osnma` | a receiver-side verifier for Galileo OSNMA: reads I/NAV pages (plain pages, vector CSV, a UBX stream), checks the signed key, the TESLA chain and the MACs, and reports per satellite whether the navigation data is authenticated; `osnma::cli::verify_report` is the one path the command line, Python and WebAssembly share; authentication status only, not an integrity service | [OSNMA](OSNMA.md) |
 | `compliance` | maps Kshana outputs to public resilience frameworks and fills the mapping from result documents; `run_from_text` and `assess_texts` take texts, not paths | [compliance/](compliance/README.md) |
 | `interop::testbench` | a scenario's vehicle motion and events as a motion CSV, NMEA, waypoint text and events files for a laboratory GNSS simulator; no signal is written | [TEST-BENCH](TEST-BENCH.md) |
 
