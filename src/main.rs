@@ -24,6 +24,7 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
+   or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
@@ -128,6 +129,10 @@ fn main() -> ExitCode {
     // `kshana::iq::io::cli`. Terminal for the same reason as the others.
     if args.get(1).map(String::as_str) == Some("iq") {
         return ExitCode::from(kshana::iq::cli::run(&args[2..]) as u8);
+    }
+    // `kshana osnma verify <input>` checks Galileo OSNMA authentication of I/NAV pages.
+    if args.get(1).map(String::as_str) == Some("osnma") {
+        return ExitCode::from(kshana::osnma::cli::run(&args[2..]) as u8);
     }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;

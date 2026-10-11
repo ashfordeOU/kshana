@@ -29,12 +29,27 @@ pub const FILE_SOURCE_KEYS_BY_KIND: &[(&str, &[&str])] = &[(
     &["eop_finals2000a", "eop_finals2000a_later"],
 )];
 
+/// Scenario kinds that read their data from files on the host even when the scenario names none
+/// (they fall back to a default data directory). They are refused outright on an inline surface,
+/// with a message that names no path and carries no operating-system error text.
+pub const FILE_READING_KINDS: &[&str] = &["lunar-llr-datum"];
+
 /// Tables whose `path` key names a receiver log or its navigation file.
 const FILE_SOURCE_TABLES: &[&str] = &["log", "nav"];
 
 /// Refuse a scenario that names a file or folder, and one over `max_bytes`. A text that is not
 /// valid TOML passes: the engine refuses it with its own message.
 pub fn reject_file_sources(toml_text: &str, max_bytes: usize) -> Result<(), String> {
+    check(toml_text, max_bytes, true)
+}
+
+/// Like [`reject_file_sources`] but without refusing [`FILE_READING_KINDS`]: for a tool that only
+/// classifies or describes a scenario and reads nothing (`validate_scenario`).
+pub fn reject_file_fields(toml_text: &str, max_bytes: usize) -> Result<(), String> {
+    check(toml_text, max_bytes, false)
+}
+
+fn check(toml_text: &str, max_bytes: usize, refuse_file_reading_kinds: bool) -> Result<(), String> {
     if toml_text.len() > max_bytes {
         return Err(format!(
             "scenario is {} bytes, over the {max_bytes}-byte limit",
@@ -44,8 +59,19 @@ pub fn reject_file_sources(toml_text: &str, max_bytes: usize) -> Result<(), Stri
     let Ok(v) = toml_text.parse::<toml::Table>() else {
         return Ok(());
     };
-    fn walk(t: &toml::Table, kind: &str, table_name: &str) -> Result<(), String> {
+    fn walk(
+        t: &toml::Table,
+        kind: &str,
+        table_name: &str,
+        refuse_kinds: bool,
+    ) -> Result<(), String> {
         let kind = t.get("kind").and_then(toml::Value::as_str).unwrap_or(kind);
+        if refuse_kinds && FILE_READING_KINDS.contains(&kind) {
+            return Err(format!(
+                "the scenario kind `{kind}` reads its data from files on the host, so this surface does \
+                 not run it; use the `kshana` command line"
+            ));
+        }
         for (k, v) in t {
             let by_kind = FILE_SOURCE_KEYS_BY_KIND
                 .iter()
@@ -57,11 +83,11 @@ pub fn reject_file_sources(toml_text: &str, max_bytes: usize) -> Result<(), Stri
                 ));
             }
             match v {
-                toml::Value::Table(inner) => walk(inner, kind, k)?,
+                toml::Value::Table(inner) => walk(inner, kind, k, refuse_kinds)?,
                 toml::Value::Array(items) => {
                     for item in items {
                         if let toml::Value::Table(inner) = item {
-                            walk(inner, kind, k)?;
+                            walk(inner, kind, k, refuse_kinds)?;
                         }
                     }
                 }
@@ -70,7 +96,7 @@ pub fn reject_file_sources(toml_text: &str, max_bytes: usize) -> Result<(), Stri
         }
         Ok(())
     }
-    walk(&v, "", "")
+    walk(&v, "", "", refuse_file_reading_kinds)
 }
 
 #[cfg(test)]
@@ -100,6 +126,28 @@ mod tests {
             "kind = \"campaign\"\n[[phases]]\n[phases.scenario]\nplanetary_kernel_path = \"k\""
         )
         .contains("planetary_kernel_path"));
+    }
+
+    #[test]
+    fn a_kind_that_reads_a_default_data_directory_is_refused_generically() {
+        // With no data_dir named, the engine would fall back to a relative default and report the
+        // path and the operating-system error. The surface refuses before it gets there.
+        let e = reject_file_sources("kind = \"lunar-llr-datum\"\nseed = 1", MAX).unwrap_err();
+        assert!(
+            e.contains("lunar-llr-datum") && e.contains("command line"),
+            "{e}"
+        );
+        assert!(
+            !e.contains("tests/") && !e.contains("fixtures") && !e.contains("No such file"),
+            "{e}"
+        );
+        // classifying reads nothing, so validation may still name the kind
+        reject_file_fields("kind = \"lunar-llr-datum\"", MAX).unwrap();
+        assert!(reject_file_sources(
+            "kind = \"campaign\"\n[[phases]]\n[phases.scenario]\nkind = \"lunar-llr-datum\"",
+            MAX
+        )
+        .is_err());
     }
 
     #[test]

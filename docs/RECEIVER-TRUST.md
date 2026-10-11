@@ -116,7 +116,7 @@ needs its data and is listed in `monitors_run` only when it decided:
 | `cn0-spread` | the spread of C/N0 across satellites falls to `cn0_spread_frac` of its calibration median | GSV |
 | `cn0-rise` | C/N0 of the common satellites rose by `cn0_rise_db` on average and `cn0_rise_frac` of them rose | GSV |
 | `time-consistency` | consecutive epoch times step irregularly, run backwards, or leave the host clock | NMEA time; host clock for the last part |
-| `osnma` | the receiver reports an OSNMA authentication failure (a reported status is read; nothing is verified) | `$PKSOS` status sentence |
+| `osnma` | the receiver reports an OSNMA authentication failure (a reported status is read; nothing is verified; to verify OSNMA from the I/NAV pages themselves see [docs/OSNMA.md](OSNMA.md)) | `$PKSOS` status sentence |
 
 An epoch is **untrusted** when RAIM, the clock monitor, a solve failure or a position jump
 alarms, or the C/N0 drop reaches twice its threshold; **degraded** on any other alarm; and
