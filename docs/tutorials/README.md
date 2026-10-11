@@ -31,6 +31,7 @@ Runnable Jupyter notebooks, on synthetic data only, are in [`notebooks/`](../../
 |---|---|
 | [Vessel trust and training](../../notebooks/vessel-trust-and-training.md) | generate a synthetic bridge NMEA stream with a scripted event, then score it with the vessel trust monitors (advisory, not type-approved navigation equipment) |
 | [Interference map and route exposure](../../notebooks/interference-map-route-exposure.md) | where navigation data has looked degraded, and how much of a route it touches |
+| [Compliance mapping and test-bench export](../../notebooks/compliance-and-test-bench.md) | which public-framework rows a set of runs supports evidence for (never that a framework is met), and a scenario's motion and events exported as text for a laboratory GNSS simulator (no signal is written) |
 | [Quantum vs classical GDOP](../../notebooks/quantum-vs-classical-gdop.md) | the same constellation geometry with a quantum and a classical sensor, compared by dilution of precision |
 
 ## How to run a tutorial
