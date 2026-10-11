@@ -209,6 +209,37 @@ pub fn is_visible(station: Geodetic, target_ecef: Vec3, mask_deg: f64) -> bool {
     elevation(station, target_ecef) >= mask_deg.to_radians()
 }
 
+/// [`is_visible`] under an azimuth-dependent skyline (design note item 1): the geodetic
+/// elevation at or above `max(mask_deg, skyline(az))`. An empty skyline is exactly
+/// [`is_visible`], the flat-skyline special case.
+pub fn is_visible_skyline(
+    station: Geodetic,
+    target_ecef: Vec3,
+    mask_deg: f64,
+    sky: &crate::skyline::Skyline,
+) -> bool {
+    skyline_view(station, target_ecef, mask_deg, Some(sky)).0
+}
+
+/// Whether `target_ecef` is visible from `station` under `mask_deg` and an optional
+/// skyline, and whether it is above the mask but hidden by the skyline. With no skyline the
+/// first is exactly [`is_visible`] and the second is `false`.
+pub fn skyline_view(
+    station: Geodetic,
+    target_ecef: Vec3,
+    mask_deg: f64,
+    sky: Option<&crate::skyline::Skyline>,
+) -> (bool, bool) {
+    match sky {
+        Some(sky) if !sky.is_empty() => {
+            let l = look_angles(station, target_ecef);
+            let (az, el) = (l.az_rad.to_degrees(), l.el_rad.to_degrees());
+            (sky.visible(az, el, mask_deg), sky.masked(az, el, mask_deg))
+        }
+        _ => (is_visible(station, target_ecef, mask_deg), false),
+    }
+}
+
 /// Count how many of `targets_ecef` are visible (at or above `mask_deg`) from the
 /// geodetic `station`. The constellation-visibility figure for a ground station,
 /// computed on the WGS-84 ellipsoid rather than a sphere.

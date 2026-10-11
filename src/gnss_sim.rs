@@ -24,7 +24,7 @@
 //! computation; a zero-noise pseudorange reproduces `r_geom + clocks + I + T` to
 //! sub-millimetre.
 
-use crate::frames::{geodetic_to_ecef, is_visible, look_angles, teme_to_ecef, Geodetic, Vec3};
+use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, MAGENTA};
 use crate::portable_math::{Maths, Platform, Portable};
 use crate::scenario::TimeCfg;
@@ -430,6 +430,18 @@ pub struct GnssSimScenario {
     pub alert_limit_h_m: f64,
     #[serde(default = "default_alert_v")]
     pub alert_limit_v_m: f64,
+    /// Optional azimuth-dependent skyline over the `mask_deg` floor (see
+    /// [`crate::skyline`]). Absent, the mask is the flat `mask_deg`, as before.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
+}
+
+impl GnssSimScenario {
+    /// The skyline of the scenario's `[skyline]` section (`None` without one), applied over
+    /// `mask_deg`. An invalid section is an error.
+    pub fn sky(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
 }
 
 /// One satellite's simulated measurement at one epoch.
@@ -464,6 +476,10 @@ pub struct GnssSimEpoch {
     pub n_visible: usize,
     pub raim: Option<RaimEpoch>,
     pub measurements: Vec<SatMeasurement>,
+    /// Satellites above the mask but below the skyline; present only when the scenario has
+    /// a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masked_by_skyline: Option<usize>,
 }
 
 /// Figures of merit for the measurement simulation.
@@ -674,8 +690,21 @@ fn hash_scenario(scn: &GnssSimScenario) -> String {
     hex::encode(h.finalize())
 }
 
-/// Run the measurement-domain GNSS simulation.
+/// Run the measurement-domain GNSS simulation under the scenario's own mask. An
+/// invalid `skyline` section is refused by [`crate::api::run_toml`] (check one with
+/// [`GnssSimScenario::sky`]); called directly, this falls back to the flat `mask_deg`
+/// for it (the scenario then runs as if it had none). [`run_gnss_sim_sky`] takes the skyline
+/// explicitly.
 pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
+    let sky = scn.sky().unwrap_or(None);
+    run_gnss_sim_sky(scn, sky.as_ref())
+}
+
+/// Run the measurement-domain GNSS simulation with an explicit visibility mask.
+pub fn run_gnss_sim_sky(
+    scn: &GnssSimScenario,
+    sky: Option<&crate::skyline::Skyline>,
+) -> GnssSimResult {
     let station = Geodetic {
         lat_rad: scn.receiver.lat_deg.to_radians(),
         lon_rad: scn.receiver.lon_deg.to_radians(),
@@ -736,9 +765,14 @@ pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
         let mut measurements = Vec::new();
         let mut raim_sats: Vec<Vec3> = Vec::new();
         let mut raim_resid: Vec<f64> = Vec::new();
+        let mut masked_by_skyline = 0usize;
         for (prn, _) in sats.iter().enumerate() {
             let sat = sat_ecef_at(prn, t);
-            if !is_visible(station, sat, scn.mask_deg) {
+            let (in_view, masked) = crate::frames::skyline_view(station, sat, scn.mask_deg, sky);
+            if masked {
+                masked_by_skyline += 1;
+            }
+            if !in_view {
                 continue;
             }
             let look = look_angles(station, sat);
@@ -829,6 +863,7 @@ pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
             n_visible,
             raim,
             measurements,
+            masked_by_skyline: sky.map(|_| masked_by_skyline),
         });
     }
 
@@ -1069,6 +1104,7 @@ mod tests {
             p_md: 1e-3,
             alert_limit_h_m: 40.0,
             alert_limit_v_m: 50.0,
+            skyline: None,
         }
     }
 

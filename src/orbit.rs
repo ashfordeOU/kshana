@@ -18,6 +18,7 @@
 //! precise-ephemeris propagator.
 
 use crate::scenario::{ClockCfg, GnssState, GnssTimeline, GnssWindow, TimeCfg};
+use crate::skyline::Skyline;
 use serde::{Deserialize, Serialize};
 
 /// Earth gravitational parameter (m^3/s^2), WGS-84 / EGM-96 GM.
@@ -627,6 +628,89 @@ pub(crate) fn invert4(mut a: [[f64; 4]; 4]) -> Option<[[f64; 4]; 4]> {
     Some(inv)
 }
 
+/// The geometry cofactor matrix `Q = (HᵀH)⁻¹` of the unit-variance least-squares
+/// position-and-clock solution: the one kernel behind [`dop`] and [`dop_cov`] (validated
+/// against gnss_lib_py in `tests/dop_reference.rs`) and the [`crate::geometry`] API.
+///
+/// `los` holds the unit lines of sight from the user to each satellite, in any right-handed
+/// Cartesian frame; `Q`'s position block is in that frame. Each row of the design matrix `H`
+/// is `[-e_x, -e_y, -e_z, c_0 … c_{n-1}]` with a one in the column of the satellite's
+/// receiver-clock term, `clock[i]` (`clock` empty puts every satellite on clock 0). With
+/// `n_clocks = 1` this is the classic four-state solution. Returns the `(3 + n_clocks)`-square
+/// matrix, or `None` with fewer satellites than states or a singular geometry. The normal
+/// matrix is accumulated and inverted (Gauss-Jordan with partial pivoting, the algorithm of
+/// `invert4`) in the same order of operations [`dop`] always used, so its results are
+/// unchanged bit for bit.
+pub fn cofactor_from_los(los: &[Vec3], clock: &[usize], n_clocks: usize) -> Option<Vec<Vec<f64>>> {
+    if n_clocks == 0 || (!clock.is_empty() && clock.len() != los.len()) {
+        return None;
+    }
+    let n = 3 + n_clocks;
+    if los.len() < n {
+        return None;
+    }
+    let mut a = vec![vec![0.0_f64; n]; n];
+    let mut row = vec![0.0_f64; n];
+    for (k, e) in los.iter().enumerate() {
+        let c = clock.get(k).copied().unwrap_or(0);
+        if c >= n_clocks {
+            return None;
+        }
+        row.iter_mut().for_each(|r| *r = 0.0);
+        row[0] = -e[0];
+        row[1] = -e[1];
+        row[2] = -e[2];
+        row[3 + c] = 1.0;
+        for i in 0..n {
+            for j in 0..n {
+                a[i][j] += row[i] * row[j];
+            }
+        }
+    }
+    invert_square(a)
+}
+
+/// Invert a square matrix by Gauss-Jordan elimination with partial pivoting, the algorithm
+/// of `invert4` for any size. `None` if it is singular.
+fn invert_square(mut a: Vec<Vec<f64>>) -> Option<Vec<Vec<f64>>> {
+    let n = a.len();
+    let mut inv = vec![vec![0.0; n]; n];
+    for (i, row) in inv.iter_mut().enumerate() {
+        row[i] = 1.0;
+    }
+    for col in 0..n {
+        let mut piv = col;
+        for r in (col + 1)..n {
+            if a[r][col].abs() > a[piv][col].abs() {
+                piv = r;
+            }
+        }
+        if a[piv][col].abs() < 1e-12 {
+            return None;
+        }
+        a.swap(col, piv);
+        inv.swap(col, piv);
+        let d = a[col][col];
+        for j in 0..n {
+            a[col][j] /= d;
+            inv[col][j] /= d;
+        }
+        for r in 0..n {
+            if r == col {
+                continue;
+            }
+            let f = a[r][col];
+            if f != 0.0 {
+                for j in 0..n {
+                    a[r][j] -= f * a[col][j];
+                    inv[r][j] -= f * inv[col][j];
+                }
+            }
+        }
+    }
+    Some(inv)
+}
+
 /// Dilution-of-precision factors from the geometry of the visible satellites:
 /// geometric, position, horizontal, vertical, and time DOP. Multiply by the
 /// user-equivalent range error (1-sigma) to get the corresponding accuracy.
@@ -646,24 +730,32 @@ pub struct Dop {
 /// usable satellites or a singular (e.g. coplanar) geometry. HDOP/VDOP are taken
 /// in the user's local East-North-Up frame.
 pub fn dop(user: Vec3, sats: &[Vec3]) -> Option<Dop> {
-    let mut a = [[0.0_f64; 4]; 4];
-    let mut used = 0usize;
-    for &s in sats {
-        let Some(e) = los_unit(user, s) else {
-            continue;
-        };
-        let row = [-e[0], -e[1], -e[2], 1.0];
-        for i in 0..4 {
-            for j in 0..4 {
-                a[i][j] += row[i] * row[j];
-            }
-        }
-        used += 1;
+    dop_cov(user, sats).map(|c| c.dop)
+}
+
+/// The DOP factors together with the geometry covariance they reduce from: the unit-variance
+/// cofactor matrix `Q = (HᵀH)⁻¹` of the four-state (position and one clock) solution, in the
+/// frame of the inputs, and its east-north-up position block.
+#[derive(Clone, Debug, PartialEq, Serialize)]
+pub struct DopCov {
+    /// The five DOP factors, exactly as [`dop`] returns them.
+    pub dop: Dop,
+    /// `Q` (4 × 4: x, y, z, clock) in the input frame.
+    pub q: [[f64; 4]; 4],
+    /// The position block of `Q` rotated into the user's east-north-up frame (3 × 3).
+    pub q_enu: [[f64; 3]; 3],
+}
+
+/// [`dop`] with the covariance exposed: `dop` is this function's reduction, so its VALIDATED
+/// scalars are unchanged (and still pinned by `tests/dop_reference.rs`). `None` exactly when
+/// [`dop`] is `None`.
+pub fn dop_cov(user: Vec3, sats: &[Vec3]) -> Option<DopCov> {
+    let los: Vec<Vec3> = sats.iter().filter_map(|&s| los_unit(user, s)).collect();
+    let qv = cofactor_from_los(&los, &[], 1)?;
+    let mut q = [[0.0_f64; 4]; 4];
+    for (i, row) in qv.iter().enumerate() {
+        q[i].copy_from_slice(row);
     }
-    if used < 4 {
-        return None;
-    }
-    let q = invert4(a)?;
     let pdop = (q[0][0] + q[1][1] + q[2][2]).sqrt();
     let tdop = q[3][3].sqrt();
     let gdop = (q[0][0] + q[1][1] + q[2][2] + q[3][3]).sqrt();
@@ -679,12 +771,29 @@ pub fn dop(user: Vec3, sats: &[Vec3]) -> Option<Dop> {
     };
     let hdop = (var_along(east) + var_along(north)).sqrt();
     let vdop = var_along(up).sqrt();
-    Some(Dop {
-        gdop,
-        pdop,
-        hdop,
-        vdop,
-        tdop,
+    let basis = [east, north, up];
+    let mut q_enu = [[0.0_f64; 3]; 3];
+    for (i, a) in basis.iter().enumerate() {
+        for (j, b) in basis.iter().enumerate() {
+            let mut v = 0.0;
+            for k in 0..3 {
+                for l in 0..3 {
+                    v += a[k] * q[k][l] * b[l];
+                }
+            }
+            q_enu[i][j] = v;
+        }
+    }
+    Some(DopCov {
+        dop: Dop {
+            gdop,
+            pdop,
+            hdop,
+            vdop,
+            tdop,
+        },
+        q,
+        q_enu,
     })
 }
 
@@ -917,6 +1026,253 @@ pub fn visible_positions_labeled(
     (positions, out_labels)
 }
 
+/// A ground site for the orbit-sampled kinds (`orbit`, `integrity`): the design note's
+/// `user_site`, the alternative to an orbiting `user`. Elevation and azimuth are then geodetic
+/// (WGS-84, [`crate::frames::look_angles`]), so a skyline applies.
+#[derive(Clone, Copy, Debug, PartialEq, Deserialize, Serialize)]
+#[serde(deny_unknown_fields)]
+pub struct SiteCfg {
+    /// Geodetic latitude (deg).
+    pub lat_deg: f64,
+    /// Longitude (deg east).
+    pub lon_deg: f64,
+    /// Height above the WGS-84 ellipsoid (m).
+    #[serde(default)]
+    pub height_m: f64,
+}
+
+impl SiteCfg {
+    /// The site as a geodetic position, after a range check.
+    pub fn geodetic(&self) -> Result<crate::frames::Geodetic, String> {
+        if !(self.lat_deg.is_finite() && self.lon_deg.is_finite() && self.height_m.is_finite())
+            || self.lat_deg.abs() > 90.0
+        {
+            return Err("user_site: lat_deg must be in [-90, 90] and every field finite".into());
+        }
+        Ok(crate::frames::Geodetic {
+            lat_rad: self.lat_deg.to_radians(),
+            lon_rad: self.lon_deg.to_radians(),
+            alt_m: self.height_m,
+        })
+    }
+}
+
+/// Where the user of an orbit-sampled kind is: an orbit (the 0.35 behaviour, geocentric
+/// elevation, no Earth-fixed azimuth) or a ground site fixed to the rotating Earth.
+#[derive(Clone, Debug)]
+pub enum UserPath {
+    /// An orbiting user.
+    Orbit(Orbit),
+    /// A ground site. The constellation's inertial frame is taken as the true-equator,
+    /// mean-equinox frame the propagators produce, rotated to Earth-fixed by Greenwich mean
+    /// sidereal time ([`crate::frames::teme_to_ecef`]) at `jd0_ut1 + t / 86400`.
+    Site {
+        /// The site.
+        geo: crate::frames::Geodetic,
+        /// Its Earth-fixed position (m).
+        ecef: Vec3,
+        /// UT1 Julian date of `t = 0`.
+        jd0_ut1: f64,
+    },
+}
+
+impl UserPath {
+    /// A ground site whose `t = 0` is the UT1 Julian date `jd0_ut1`.
+    pub fn site(cfg: &SiteCfg, jd0_ut1: f64) -> Result<Self, String> {
+        let geo = cfg.geodetic()?;
+        Ok(UserPath::Site {
+            geo,
+            ecef: crate::frames::geodetic_to_ecef(geo),
+            jd0_ut1,
+        })
+    }
+
+    /// The user's inertial position at `t` (m).
+    pub fn position_eci(&self, t: f64) -> Vec3 {
+        match self {
+            UserPath::Orbit(o) => o.position_eci(t),
+            UserPath::Site { ecef, jd0_ut1, .. } => {
+                let theta = crate::sgp4::gstime(jd0_ut1 + t / 86_400.0);
+                let (sn, c) = theta.sin_cos();
+                [
+                    c * ecef[0] - sn * ecef[1],
+                    sn * ecef[0] + c * ecef[1],
+                    ecef[2],
+                ]
+            }
+        }
+    }
+
+    /// Whether the inertial satellite position `sat` is in view at `t` under `mask_deg` and an
+    /// optional skyline, and whether it is above the mask but hidden by the skyline. For an
+    /// orbiting user with no skyline the first is exactly the 0.35 test
+    /// `!earth_occults && elevation_deg >= mask_deg`.
+    pub fn view(&self, t: f64, sat: Vec3, mask_deg: f64, sky: Option<&Skyline>) -> (bool, bool) {
+        let up = self.position_eci(t);
+        if earth_occults(up, sat) {
+            return (false, false);
+        }
+        match (self, sky) {
+            (UserPath::Orbit(_), None) => (elevation_deg(up, sat) >= mask_deg, false),
+            (UserPath::Orbit(_), Some(sky)) => {
+                let el = elevation_deg(up, sat);
+                let az = || azimuth_deg(up, sat);
+                let vis = sky.visible_lazy(el, mask_deg, az);
+                (vis, !vis && el >= mask_deg)
+            }
+            (UserPath::Site { geo, jd0_ut1, .. }, sky) => {
+                let sat_ecef = crate::frames::teme_to_ecef(sat, jd0_ut1 + t / 86_400.0);
+                let l = crate::frames::look_angles(*geo, sat_ecef);
+                let (az, el) = (l.az_rad.to_degrees(), l.el_rad.to_degrees());
+                match sky {
+                    None => (el >= mask_deg, false),
+                    Some(sky) => (sky.visible(az, el, mask_deg), sky.masked(az, el, mask_deg)),
+                }
+            }
+        }
+    }
+}
+
+/// Azimuth (degrees clockwise from north, in `[0, 360)`) of `sat` as seen from `user`, in the
+/// geocentric east-north-up frame of [`enu_basis`]; zero at the geocentre.
+pub fn azimuth_deg(user: Vec3, sat: Vec3) -> f64 {
+    let Some((east, north, _)) = enu_basis(user) else {
+        return 0.0;
+    };
+    let los = sub(sat, user);
+    crate::skyline::azimuth_from_en(dot(los, east), dot(los, north))
+}
+
+/// The satellites in view of a [`UserPath`] at `t`: their inertial positions, their labels
+/// (when `labels` is given, aligned with `gnss`), and how many were above the mask but hidden
+/// by the skyline.
+#[derive(Clone, Debug, Default, PartialEq)]
+pub struct SkyView {
+    /// Inertial positions of the satellites in view.
+    pub positions: Vec<Vec3>,
+    /// Their labels (empty when none were given).
+    pub labels: Vec<u8>,
+    /// Satellites above the mask but below the skyline.
+    pub masked: usize,
+}
+
+/// The satellites in view of `user` at `t` under `mask_deg` and an optional skyline.
+pub fn sky_view(
+    user: &UserPath,
+    gnss: &[Propagator],
+    labels: Option<&[u8]>,
+    t: f64,
+    mask_deg: f64,
+    sky: Option<&Skyline>,
+) -> SkyView {
+    let mut v = SkyView::default();
+    for (i, g) in gnss.iter().enumerate() {
+        let sp = g.position_eci(t);
+        let (vis, masked) = user.view(t, sp, mask_deg, sky);
+        if vis {
+            v.positions.push(sp);
+            if let Some(l) = labels {
+                v.labels.push(l[i]);
+            }
+        }
+        if masked {
+            v.masked += 1;
+        }
+    }
+    v
+}
+
+/// [`build_timeline`] for a [`UserPath`] under an optional skyline.
+pub fn build_timeline_at(
+    user: &UserPath,
+    gnss: &[Propagator],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    sky: Option<&Skyline>,
+) -> GnssTimeline {
+    let n = (duration_s / step_s).round() as usize;
+    let mut windows = Vec::with_capacity(n + 1);
+    for i in 0..=n {
+        let t = i as f64 * step_s;
+        let state = gnss_state(sky_view(user, gnss, None, t, mask_deg, sky).positions.len());
+        windows.push(GnssWindow {
+            t0: t,
+            t1: t + step_s,
+            state,
+        });
+    }
+    GnssTimeline { windows }
+}
+
+/// [`summarize_dop`] for a [`UserPath`] under an optional skyline.
+pub fn summarize_dop_at(
+    user: &UserPath,
+    gnss: &[Propagator],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    sky: Option<&Skyline>,
+    sigma_uere_m: f64,
+) -> DopSummary {
+    let n = (duration_s / step_s).round() as usize;
+    let mut pdops = Vec::new();
+    for i in 0..=n {
+        let t = i as f64 * step_s;
+        let view = sky_view(user, gnss, None, t, mask_deg, sky);
+        if let Some(d) = dop(user.position_eci(t), &view.positions) {
+            pdops.push(d.pdop);
+        }
+    }
+    let best_pdop = pdops.iter().copied().fold(None, |acc: Option<f64>, p| {
+        Some(acc.map_or(p, |a| a.min(p)))
+    });
+    let median_pdop = median_sorted(pdops.clone());
+    DopSummary {
+        samples_total: n + 1,
+        samples_with_fix: pdops.len(),
+        sigma_uere_m,
+        best_pdop,
+        median_pdop,
+        best_position_sigma_m: best_pdop.map(|p| p * sigma_uere_m),
+        median_position_sigma_m: median_pdop.map(|p| p * sigma_uere_m),
+    }
+}
+
+/// Resolve the user of an orbit-sampled kind from its exclusive `user` / `user_site` fields
+/// and check the `[skyline]` section against it: a skyline needs a ground site, because an
+/// orbiting user has no Earth-fixed azimuth.
+pub fn resolve_user(
+    user: Option<&OrbitCfg>,
+    user_site: Option<&SiteCfg>,
+    skyline: Option<&crate::skyline::SkylineCfg>,
+    jd0_ut1: f64,
+) -> Result<(UserPath, Option<Skyline>), String> {
+    let path = match (user, user_site) {
+        (Some(_), Some(_)) => {
+            return Err(
+                "give the user as `user` (an orbit) or `user_site` (a ground site), not both"
+                    .into(),
+            )
+        }
+        (None, None) => {
+            return Err(
+                "missing the user: give `user` (an orbit) or `user_site` (a ground site)".into(),
+            )
+        }
+        (Some(u), None) => UserPath::Orbit(u.to_orbit()),
+        (None, Some(s)) => UserPath::site(s, jd0_ut1)?,
+    };
+    if skyline.is_some() && matches!(path, UserPath::Orbit(_)) {
+        return Err(
+            "a [skyline] needs a ground site: give `user_site = { lat_deg, lon_deg, height_m }` \
+                    instead of an orbiting `user` (an orbit has no Earth-fixed azimuth)"
+                .into(),
+        );
+    }
+    Ok((path, crate::skyline::resolve(skyline)?))
+}
+
 /// Unit and provenance class for the numeric fields the `orbit` report's `geometry`
 /// block emits — the [`DopSummary`] this module computes.
 ///
@@ -1060,7 +1416,13 @@ pub struct OrbitClockScenario {
     #[serde(default = "default_uere_m")]
     pub sigma_uere_m: f64,
     pub time: TimeCfg,
-    pub user: OrbitCfg,
+    /// The user as an orbit. Exactly one of `user` and `user_site` is given.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub user: Option<OrbitCfg>,
+    /// The user as a ground site (design note item 1): geodetic elevation and azimuth, so a
+    /// `[skyline]` applies. Exactly one of `user` and `user_site` is given.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub user_site: Option<SiteCfg>,
     pub constellation: ConstellationCfg,
     /// Additional constellations combined with `constellation` for multi-GNSS
     /// availability and dilution of precision (e.g. GPS plus Galileo).
@@ -1089,6 +1451,10 @@ pub struct OrbitClockScenario {
     /// export. Works for any constellation (Walker / TLE / RINEX).
     #[serde(default)]
     pub export_oem: bool,
+    /// Optional azimuth-dependent skyline over `mask_deg` (see [`crate::skyline`]); needs a
+    /// `user_site`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 /// Default SP3 start epoch when a scenario does not declare one: J2000 calendar date.
@@ -1102,6 +1468,23 @@ pub(crate) const DEFAULT_SP3_EPOCH: crate::rinex::EpochUtc = crate::rinex::Epoch
 };
 
 impl OrbitClockScenario {
+    /// UT1 Julian date of `t = 0`: the scenario's `epoch`, or the J2000 default the SP3
+    /// export uses.
+    pub fn jd0_ut1(&self) -> f64 {
+        let e = self.epoch.unwrap_or(DEFAULT_SP3_EPOCH);
+        crate::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second)
+    }
+
+    /// The user (an orbit or a ground site) and the skyline, checked against each other.
+    pub fn user_and_sky(&self) -> Result<(UserPath, Option<Skyline>), String> {
+        resolve_user(
+            self.user.as_ref(),
+            self.user_site.as_ref(),
+            self.skyline.as_ref(),
+            self.jd0_ut1(),
+        )
+    }
+
     /// All satellites visible to the user: the primary constellation plus any
     /// additional ones, parsed and combined.
     pub fn all_satellites(&self) -> Result<Vec<Propagator>, String> {
@@ -1725,7 +2108,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 duration_s: 7200.0,
             },
             // User above the GNSS constellation (geostationary altitude).
-            user: OrbitCfg {
+            user: Some(OrbitCfg {
                 altitude_km: 35786.0,
                 inclination_deg: 0.0,
                 raan_deg: 0.0,
@@ -1733,7 +2116,8 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
                 eccentricity: 0.0,
                 argp_deg: 0.0,
                 j2: false,
-            },
+            }),
+            user_site: None,
             // GPS-like Walker constellation (MEO ~20,180 km, 55 deg).
             constellation: ConstellationCfg {
                 altitude_km: 20180.0,
@@ -1749,6 +2133,7 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             clock_quantum: clock("optical", 1e-13, 1e-26, 1e-34),
             clock_classical: clock("csac", 1e-11, 1e-24, 1e-32),
             epoch: None,
+            skyline: None,
             export_sp3: false,
             export_omm: false,
             export_oem: false,
@@ -1795,12 +2180,65 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     }
 
     #[test]
+    fn a_ground_site_turns_with_the_earth_and_sees_geodetic_look_angles() {
+        let site = SiteCfg {
+            lat_deg: 52.0,
+            lon_deg: 5.0,
+            height_m: 45.0,
+        };
+        let jd0 = 2_451_545.0;
+        let user = UserPath::site(&site, jd0).unwrap();
+        let UserPath::Site { ecef, geo, .. } = &user else {
+            panic!("a site")
+        };
+        for t in [0.0, 3600.0, 43_200.0] {
+            let back = crate::frames::teme_to_ecef(user.position_eci(t), jd0 + t / 86_400.0);
+            for k in 0..3 {
+                assert!((back[k] - ecef[k]).abs() < 1e-6, "t {t}");
+            }
+        }
+        // A satellite straight above the site (along the ellipsoid normal) is at 90 deg.
+        let (sl, cl) = geo.lat_rad.sin_cos();
+        let (so, co) = geo.lon_rad.sin_cos();
+        let up = [cl * co, cl * so, sl];
+        let sat_ecef = [0, 1, 2].map(|k| ecef[k] + 2.0e7 * up[k]);
+        let t = 600.0;
+        let theta = crate::sgp4::gstime(jd0 + t / 86_400.0);
+        let (sn, c) = theta.sin_cos();
+        let sat_eci = [
+            c * sat_ecef[0] - sn * sat_ecef[1],
+            sn * sat_ecef[0] + c * sat_ecef[1],
+            sat_ecef[2],
+        ];
+        assert_eq!(user.view(t, sat_eci, 89.9, None), (true, false));
+        // A skyline cannot hide the zenith; refusals of the user fields.
+        let sky = crate::skyline::preset("city-street").unwrap().skyline();
+        assert_eq!(user.view(t, sat_eci, 5.0, Some(&sky)), (true, false));
+        let orbit = OrbitCfg {
+            altitude_km: 500.0,
+            inclination_deg: 0.0,
+            raan_deg: 0.0,
+            u0_deg: 0.0,
+            eccentricity: 0.0,
+            argp_deg: 0.0,
+            j2: false,
+        };
+        let cfg = crate::skyline::SkylineCfg::default();
+        assert!(resolve_user(Some(&orbit), Some(&site), None, jd0).is_err());
+        assert!(resolve_user(None, None, None, jd0).is_err());
+        assert!(resolve_user(Some(&orbit), None, Some(&cfg), jd0)
+            .unwrap_err()
+            .contains("user_site"));
+        assert!(resolve_user(None, Some(&site), Some(&cfg), jd0).is_ok());
+    }
+
+    #[test]
     fn timeline_has_expected_length_and_walker_count() {
         let scn = scenario(6, 4);
         let sats = scn.constellation.satellites().unwrap();
         assert_eq!(sats.len(), 24);
         let tl = build_timeline(
-            &scn.user.to_orbit(),
+            &scn.user.as_ref().unwrap().to_orbit(),
             &sats,
             scn.time.step_s,
             scn.time.duration_s,

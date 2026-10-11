@@ -31,7 +31,7 @@
 //! acquisition (vs. tracking) threshold hysteresis — those are noted in
 //! `docs/CAPABILITY.md` as out of scope.
 
-use crate::frames::{geodetic_to_ecef, is_visible, look_angles, teme_to_ecef, Geodetic, Vec3};
+use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
 use crate::scenario::{GnssState, TimeCfg};
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
@@ -288,6 +288,19 @@ pub struct JammingScenario {
     pub freq_hz: f64,
     #[serde(default = "default_chip_rate")]
     pub chip_rate_hz: f64,
+    /// Optional azimuth-dependent skyline over the `mask_deg` floor (see
+    /// [`crate::skyline`]): a quay, a fjord wall or a crane that hides satellites the
+    /// jammer would otherwise compete with. Absent, the mask is the flat `mask_deg`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
+}
+
+impl JammingScenario {
+    /// The skyline of the scenario's `[skyline]` section (`None` without one), applied over
+    /// `mask_deg`. An invalid section is an error.
+    pub fn sky(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
 }
 
 /// One satellite's link state at one epoch.
@@ -312,6 +325,10 @@ pub struct JammingEpoch {
     pub tracking: usize,
     pub gnss_state: GnssState,
     pub sats: Vec<SatLink>,
+    /// Satellites above the mask but below the skyline; present only when the scenario has
+    /// a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masked_by_skyline: Option<usize>,
 }
 
 /// Figures of merit for a jamming run.
@@ -446,7 +463,21 @@ fn hash_scenario(scn: &JammingScenario) -> String {
 /// Run a jamming scenario: propagate the constellation, and at each epoch score
 /// every visible satellite's effective C/N₀ under the jammer (if any) and its
 /// resulting lock status. Deterministic.
+///
+/// An invalid `skyline` section is refused by [`crate::api::run_toml`] (check one with
+/// [`JammingScenario::sky`]); called directly, this falls back to the flat `mask_deg`
+/// for it (the scenario then runs as if it had none). [`run_jamming_sky`] takes the skyline
+/// explicitly.
 pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
+    let sky = scn.sky().unwrap_or(None);
+    run_jamming_sky(scn, sky.as_ref())
+}
+
+/// Run a jamming scenario with an explicit visibility mask.
+pub fn run_jamming_sky(
+    scn: &JammingScenario,
+    sky: Option<&crate::skyline::Skyline>,
+) -> JammingResult {
     let station = Geodetic {
         lat_rad: scn.receiver.lat_deg.to_radians(),
         lon_rad: scn.receiver.lon_deg.to_radians(),
@@ -475,9 +506,15 @@ pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
         let t = i as f64 * dt;
         let jd = walker_epoch_jd() + t / 86_400.0;
         let mut links = Vec::new();
+        let mut masked_by_skyline = 0usize;
         for (prn, p) in sats.iter().enumerate() {
             let sat_ecef = teme_to_ecef(p.position_eci(t), jd);
-            if !is_visible(station, sat_ecef, scn.mask_deg) {
+            let (in_view, masked) =
+                crate::frames::skyline_view(station, sat_ecef, scn.mask_deg, sky);
+            if masked {
+                masked_by_skyline += 1;
+            }
+            if !in_view {
                 continue;
             }
             let look = look_angles(station, sat_ecef);
@@ -528,6 +565,7 @@ pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
             tracking,
             gnss_state: gnss_state_of(tracking),
             sats: links,
+            masked_by_skyline: sky.map(|_| masked_by_skyline),
         });
     }
 
@@ -745,6 +783,7 @@ mod tests {
             temp_k: DEFAULT_TEMP_K,
             freq_hz: L1_HZ,
             chip_rate_hz: CA_CHIP_RATE_HZ,
+            skyline: None,
         }
     }
 
