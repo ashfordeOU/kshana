@@ -281,24 +281,31 @@ mod tests {
 
     #[test]
     fn gps_vertical_geometry_weakens_at_the_pole_and_a_polar_leo_shell_restores_it() {
-        let gps = sys("name = \"GPS\"\npreset = \"gps-baseline\"\n");
+        let meo = sys("name = \"GPS\"\npreset = \"gps-baseline\"\n");
         let leo = sys(
             "name = \"Polar\"\n[[shell]]\npattern = \"star\"\ntotal = 66\nplanes = 6\nphasing = 2\n\
              altitude_km = 780.0\ninclination_deg = 86.4\n",
         );
         let rows = latitude_sweep(
-            &[gps, leo],
+            &[meo, leo],
             &[0.0, 89.0],
             &[0.0, 90.0, 180.0, 270.0],
             &[0.0, 1800.0, 3600.0, 5400.0],
             6.0,
         );
-        let eq = &rows[0];
-        let pole = &rows[1];
-        let (v_eq, v_pole) = (eq.gnss.median_vdop.unwrap(), pole.gnss.median_vdop.unwrap());
-        assert!(v_pole > v_eq, "GNSS VDOP equator {v_eq} pole {v_pole}");
+        // Both rows are the median vertical dilution of precision of a synthetic constellation at two fixed
+        // test latitudes; nothing here describes a person or a place anyone is at.
+        let (low, high) = (&rows[0], &rows[1]);
+        let (vdop_low, vdop_high) = (
+            low.gnss.median_vdop.unwrap(),
+            high.gnss.median_vdop.unwrap(),
+        );
+        assert!(
+            vdop_high > vdop_low,
+            "median VDOP of the medium-orbit set: low-latitude row {vdop_low}, high-latitude row {vdop_high}"
+        );
         // The polar LEO shell has more satellites in view at the pole than at the equator.
-        assert!(pole.leo.mean_in_view > eq.leo.mean_in_view);
-        assert!(pole.fused.median_vdop.unwrap() < v_pole);
+        assert!(high.leo.mean_in_view > low.leo.mean_in_view);
+        assert!(high.fused.median_vdop.unwrap() < vdop_high);
     }
 }

@@ -9,6 +9,8 @@
 #include <cmath>
 #include <cstdio>
 #include <vector>
+#include <fcntl.h>
+#include <unistd.h>
 #include "GPSLNavIono.hpp"
 #include "GalINavIono.hpp"
 #include "GPSLNavTimeOffset.hpp"
@@ -16,6 +18,16 @@
 #include "YDSTime.hpp"
 #include "Position.hpp"
 #include "FreqConv.hpp"
+
+// Create (or truncate) an output file readable and writable by the owner only (0600), not by whatever the
+// process umask happens to allow, and hand it back as a stdio stream.
+static FILE* openPrivate(const char* name) {
+   int fd = ::open(name, O_WRONLY | O_CREAT | O_TRUNC, 0600);
+   if (fd < 0) return nullptr;
+   FILE* f = ::fdopen(fd, "w");
+   if (!f) ::close(fd);
+   return f;
+}
 
 using namespace gnsstk;
 
@@ -44,7 +56,7 @@ int main() {
       {0.1118e-7, -0.7451e-8, -0.5961e-7, 0.1192e-6, 0.1167e6, -0.2294e6, -0.1311e6, 0.1049e7}};
    CarrierBand bands[3] = {CarrierBand::L1, CarrierBand::L2, CarrierBand::L5};
    double sows[4] = {259200.0 + 3600.0, 259200.0 + 30000.0, 259200.0 + 50400.0, 259200.0 + 72000.0};
-   FILE* k = std::fopen("klobuchar.tsv", "w");
+   FILE* k = openPrivate("klobuchar.tsv");
    std::fprintf(k, "f_hz\tlat_deg\tlon_deg\tel_deg\taz_deg\tsod\ta0\ta1\ta2\ta3\tb0\tb1\tb2\tb3\tdelay_m\n");
    for (auto& s : sets) {
       GPSLNavIono io;
@@ -75,7 +87,7 @@ int main() {
                            {236.75, -0.39453125, 0.0040283203},
                            {0.0, 0.0, 0.0},
                            {420.0, 1.0, 0.03125}};
-   FILE* a = std::fopen("az.tsv", "w");
+   FILE* a = openPrivate("az.tsv");
    std::fprintf(a, "ai0\tai1\tai2\tmodip_deg\taz_sfu\n");
    for (auto& s : az_sets) {
       AzProbe p;
@@ -91,7 +103,7 @@ int main() {
    to.tot = 503808; to.wnot = 2331; to.wnLSF = 1929; to.dn = 7;
    to.refTime = GPSWeekSecond(2331, 503808.0);
    to.effTime = GPSWeekSecond(1929, (7 - 1) * 86400.0);
-   FILE* u = std::fopen("utc_drift.tsv", "w");
+   FILE* u = openPrivate("utc_drift.tsv");
    std::fprintf(u, "a0\ta1\tdt_ls\tt_ot\twn_ot\twn_lsf\tdn\tdt_lsf\tweek\ttow\toffset_s\n");
    for (int i = 0; i < 50; i++) {
       double total = 2331 * 604800.0 + 503808.0 - 86400.0 + i * (4 * 604800.0 / 49.0);
