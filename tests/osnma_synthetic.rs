@@ -19,6 +19,7 @@ use kshana::osnma::{InavPage, OsnmaStatus, WEEK_S};
 use rand::SeedableRng;
 use sha2::{Digest, Sha256};
 use std::collections::BTreeMap;
+use std::sync::atomic::{AtomicU64, Ordering::Relaxed};
 
 const WN: u32 = 1248;
 /// Start of the stream and time of applicability of the first chain (hour aligned).
@@ -30,6 +31,9 @@ const PRNA: u8 = 2; // transmits OSNMA
 const PRN_X: u8 = 5; // does not; authenticated by cross-authentication
 const SUBFRAMES: u32 = 18;
 const PKID: u8 = 1;
+
+/// A directory name component no other call in this process shares.
+static SEQ: AtomicU64 = AtomicU64::new(0);
 
 /// Everything that distinguishes one chain from another.
 #[derive(Clone)]
@@ -1988,7 +1992,11 @@ fn command_line_reports_status_per_satellite_and_exit_code() {
     let sk = Signer::p256(0x11);
     let dsm = dsm_kroot(&ctx, &chain[0], &sk, ctx.header(1));
     let key_arg = format!("{PKID}:p256:{}", hex::encode(sk.public(PKID).bytes));
-    let dir = std::env::temp_dir().join(format!("kshana-osnma-cli-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-osnma-cli-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Relaxed)
+    ));
     std::fs::create_dir_all(&dir).unwrap();
 
     let clean = run_signed(signed_cfg(sk.public(PKID)), &dsm, no_tamper()).pages;
@@ -2130,7 +2138,11 @@ fn a_ubx_stream_authenticates_like_the_page_file() {
     assert_eq!(s["E05"], OsnmaStatus::Authenticated);
 
     // Through the command line, auto-detected as UBX.
-    let dir = std::env::temp_dir().join(format!("kshana-osnma-ubx-{}", std::process::id()));
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-osnma-ubx-{}-{}",
+        std::process::id(),
+        SEQ.fetch_add(1, Relaxed)
+    ));
     std::fs::create_dir_all(&dir).unwrap();
     let f = dir.join("stream.ubx");
     std::fs::write(&f, &bytes).unwrap();
@@ -2219,18 +2231,18 @@ fn cli_from_root(args: &[&str]) -> String {
 /// expected outputs differ from what the command prints for them.
 #[test]
 fn the_osnma_sample_files_are_current() {
-    let dir = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("examples/osnma");
+    let examples = std::path::Path::new(env!("CARGO_MANIFEST_DIR")).join("examples/osnma");
     let write = std::env::var_os("KSHANA_WRITE_OSNMA_EXAMPLES").is_some();
     let (files, key_arg) = samples();
     if write {
-        std::fs::create_dir_all(dir.join("expected")).unwrap();
+        std::fs::create_dir_all(examples.join("expected")).unwrap();
         for (name, bytes) in &files {
-            std::fs::write(dir.join(name), bytes).unwrap();
+            std::fs::write(examples.join(name), bytes).unwrap();
         }
     }
     for (name, bytes) in &files {
         assert_eq!(
-            &std::fs::read(dir.join(name)).unwrap_or_default(),
+            &std::fs::read(examples.join(name)).unwrap_or_default(),
             bytes,
             "{name} is out of date: regenerate the examples/osnma fixtures with KSHANA_WRITE_OSNMA_EXAMPLES=1 (examples/osnma/regenerate.sh) and commit them"
         );
@@ -2239,7 +2251,7 @@ fn the_osnma_sample_files_are_current() {
         }
         let rel = format!("examples/osnma/{name}");
         let json = cli_from_root(&[&rel, "--public-key", &key_arg, "--json"]);
-        let expected = dir.join("expected").join(format!("{name}.json"));
+        let expected = examples.join("expected").join(format!("{name}.json"));
         if write {
             std::fs::write(&expected, &json).unwrap();
         }

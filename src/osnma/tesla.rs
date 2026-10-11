@@ -159,6 +159,9 @@ mod tests {
     // FIPS 202 example messages for SHA3-256.
     #[test]
     fn sha3_256_known_answers() {
+        // PIN-SCOPE:    the SHA3-256 digests of the empty string and of "abc" (FIPS 202 examples).
+        // PIN-EXCLUDES: longer inputs, SHA-256 (covered by the chain tests), and the key
+        //               truncation of the chain step.
         assert_eq!(
             hex::encode(digest(HashFn::Sha3_256, b"")),
             "a7ffc6f8bf1ed76651c14756a061d662f580ff4de43b49fa82d80a4b80f8434a"
