@@ -106,7 +106,7 @@ fn otlp_is_the_metrics_payload() {
     let got = surface(
         TelemetryFormat::Otlp,
         TelemetryOptions {
-            unix_nano: 1_700_000_000_000_000_000,
+            unix_nano: 1_700_000_000 * 1_000_000_000,
             ..Default::default()
         },
     );
