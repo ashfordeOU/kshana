@@ -133,6 +133,7 @@ pub mod frames;
 pub mod frugal;
 pub mod fusion;
 pub mod geolocation;
+pub mod geometry;
 pub mod glonass;
 pub mod gnss_sim;
 pub mod gps_lnav;

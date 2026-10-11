@@ -1862,6 +1862,81 @@ fn nmea_training<'py>(
     )
 }
 
+fn request_text(py: Python<'_>, request: &Bound<'_, PyAny>) -> PyResult<String> {
+    match request.extract::<String>() {
+        Ok(s) => Ok(s),
+        Err(_) => py
+            .import("json")?
+            .call_method1("dumps", (request,))?
+            .extract(),
+    }
+}
+
+fn json_text_to_py<'py>(py: Python<'py>, out: &str) -> PyResult<Bound<'py, PyAny>> {
+    let v: serde_json::Value =
+        serde_json::from_str(out).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
+/// The satellites a site sees under a skyline and their geometry. `request` is JSON or TOML
+/// text, or a dict: `site`, `time_s`, `systems` (preset names or `leo-pvt` system tables)
+/// and/or `satellites` (`az_deg`/`el_deg` or `ecef_m`), `mask_deg`, `skyline`, `clock`
+/// (`"per-system"` or `"common"`), `sigma_uere_m`, `confidence`. Returns a dict: the
+/// satellites with `visible` and `masked`, the DOPs, the ENU cofactor and covariance and the
+/// error ellipses, labelled MODELLED, with the advisory. Raises `ValueError`.
+#[pyfunction]
+fn sky_geometry<'py>(py: Python<'py>, request: &Bound<'py, PyAny>) -> PyResult<Bound<'py, PyAny>> {
+    let text = request_text(py, request)?;
+    let out = crate::surface::sky_geometry(&text, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_text_to_py(py, &out)
+}
+
+/// `n` (1 to 5000) seeded least-squares position errors under independent Gaussian range
+/// errors on the visible set of `request` (as for `sky_geometry`), with their empirical
+/// covariance, RMS and the fraction inside the 95 % ellipse. Raises `ValueError`.
+#[pyfunction]
+#[pyo3(signature = (request, seed=0, n=1000))]
+fn sky_monte_carlo<'py>(
+    py: Python<'py>,
+    request: &Bound<'py, PyAny>,
+    seed: u64,
+    n: usize,
+) -> PyResult<Bound<'py, PyAny>> {
+    let text = request_text(py, request)?;
+    let out = crate::surface::sky_monte_carlo(&text, seed, n, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_text_to_py(py, &out)
+}
+
+/// The named skyline presets with their REPRESENTATIVE label, provenance and the cut every
+/// degree of azimuth.
+#[pyfunction]
+fn skyline_presets(py: Python<'_>) -> PyResult<Bound<'_, PyAny>> {
+    json_text_to_py(py, &crate::surface::skyline_presets())
+}
+
+/// A skyline section (text or dict) reduced to the normalised 360-entry table the engine uses.
+/// Raises `ValueError` on an invalid section.
+#[pyfunction]
+fn skyline_profile<'py>(
+    py: Python<'py>,
+    skyline: &Bound<'py, PyAny>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let text = request_text(py, skyline)?;
+    let out = crate::surface::skyline_profile(&text, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)?;
+    json_text_to_py(py, &out)
+}
+
+/// The skyplot of `request` (as for `sky_geometry`) as static SVG text. Raises `ValueError`.
+#[pyfunction]
+fn skyplot_svg(py: Python<'_>, request: &Bound<'_, PyAny>) -> PyResult<String> {
+    let text = request_text(py, request)?;
+    crate::surface::skyplot_svg(&text, crate::surface::MAX_INPUT_BYTES)
+        .map_err(PyValueError::new_err)
+}
+
 /// The GNSS IQ signal names [`iq_scene`], [`iq_acquire`] and [`iq_track`] accept.
 #[pyfunction]
 fn iq_signals() -> Vec<String> {
@@ -1923,6 +1998,11 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(iq_test_conditions, m)?)?;
     m.add_function(wrap_pyfunction!(iq_campaign, m)?)?;
     m.add_function(wrap_pyfunction!(iq_campaign_report, m)?)?;
+    m.add_function(wrap_pyfunction!(sky_geometry, m)?)?;
+    m.add_function(wrap_pyfunction!(sky_monte_carlo, m)?)?;
+    m.add_function(wrap_pyfunction!(skyline_presets, m)?)?;
+    m.add_function(wrap_pyfunction!(skyline_profile, m)?)?;
+    m.add_function(wrap_pyfunction!(skyplot_svg, m)?)?;
     m.add("__version__", env!("CARGO_PKG_VERSION"))?;
     Ok(())
 }
