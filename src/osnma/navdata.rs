@@ -69,6 +69,11 @@ pub fn adkd0(words: &[[u8; 16]]) -> Option<BitString> {
     collect(words, &ADKD0_PIECES, ADKD0_BITS)
 }
 
+/// Whether any of the words is one of Word Types 1 to 5, the ones ADKD 0 covers.
+pub fn carries_ephemeris_words(words: &[[u8; 16]]) -> bool {
+    words.iter().any(|w| (1..=5).contains(&word_type(w)))
+}
+
 /// The IODnav carried by the Word Type 1 of a sub-frame's words, if it has one.
 pub fn iodnav(words: &[[u8; 16]]) -> Option<u16> {
     let w = words.iter().find(|w| word_type(w) == 1)?;
