@@ -93,7 +93,9 @@ jobs:
         run: ./scripts/check-release-verdict.sh "$GITHUB_SHA"
       # Pinned to rust-toolchain.toml rather than @stable, because check-toolchain.sh
       # asserts the active rustc equals the pinned channel — a floating stable fails it.
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
       - name: Version consistency guard
@@ -128,8 +130,9 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
+          toolchain: 1.93.0
           targets: wasm32-unknown-unknown
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
@@ -205,7 +208,9 @@ jobs:
       attestations: write
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
       - name: Require the registry token
@@ -263,7 +268,9 @@ jobs:
         working-directory: mcp/kshana-mcp
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       - name: Toolchain pin guard
         working-directory: .
         run: ./scripts/check-toolchain.sh

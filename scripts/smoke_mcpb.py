@@ -27,12 +27,21 @@ def check(bundle: Path, run: bool, min_tools: int) -> None:
             names = z.namelist()
             if names != sorted(names):
                 raise SystemExit("FAIL: bundle entries are not sorted")
+            modes = {}
+            root_resolved = root.resolve()
             for info in z.infolist():
                 n = info.filename
-                if n.startswith("/") or ".." in Path(n).parts:
+                dest = (root / n).resolve()
+                # An entry may only land inside the scratch directory (no absolute path, no `..`, no link).
+                if n.startswith("/") or ".." in Path(n).parts or root_resolved not in dest.parents:
                     raise SystemExit(f"FAIL: unsafe entry name {n}")
-            z.extractall(root)
-            modes = {i.filename: (i.external_attr >> 16) & 0o777 for i in z.infolist()}
+                if info.is_dir():
+                    dest.mkdir(parents=True, exist_ok=True)
+                    continue
+                dest.parent.mkdir(parents=True, exist_ok=True)
+                with z.open(info) as src, open(dest, "wb") as out:
+                    out.write(src.read())
+                modes[n] = (info.external_attr >> 16) & 0o777
         m = json.loads((root / "manifest.json").read_text(encoding="utf-8"))
         entry = m["server"]["entry_point"]
         binary = root / entry

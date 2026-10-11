@@ -13,6 +13,7 @@ import hashlib
 import os
 import platform
 import re
+import stat
 import subprocess
 import sys
 import tempfile
@@ -120,8 +121,51 @@ def _get(url: str, max_bytes: int, env=os.environ) -> bytes:
         return data
 
 
+def _read_cached(target: Path) -> bytes | None:
+    """The cached file's bytes, read through ONE open descriptor, or None when there is no cached file.
+
+    The file is opened without following a symbolic link and checked on that same descriptor (a regular
+    file, within the size cap), so the bytes verified are the bytes read: there is no separate "does it
+    exist" check by path that another process could invalidate between the check and the use."""
+    flags = os.O_RDONLY | getattr(os, "O_NOFOLLOW", 0) | getattr(os, "O_BINARY", 0)
+    try:
+        fd = os.open(target, flags)
+    except FileNotFoundError:
+        return None
+    try:
+        st = os.fstat(fd)
+        if not stat.S_ISREG(st.st_mode):
+            raise RuntimeError("cached path is not a regular file")
+        if st.st_size > MAX_BINARY_BYTES:
+            raise RuntimeError(f"cached file is {st.st_size} bytes, over the {MAX_BINARY_BYTES}-byte limit")
+        with os.fdopen(fd, "rb", closefd=False) as fh:
+            return fh.read()
+    finally:
+        os.close(fd)
+
+
+def _install_verified(target: Path, data: bytes) -> None:
+    """Write verified bytes atomically and privately: a fresh file created exclusively (mkstemp), mode 0700
+    (the user running the server is the only one who needs to read or run it), then renamed into place."""
+    fd, tmp = tempfile.mkstemp(dir=target.parent, suffix=".tmp")
+    try:
+        with os.fdopen(fd, "wb") as fh:
+            fh.write(data)
+        os.chmod(tmp, 0o700)
+        os.replace(tmp, target)
+    except BaseException:
+        try:
+            os.unlink(tmp)
+        except OSError:
+            pass
+        raise
+
+
 def ensure_binary(version: str = __version__, env=os.environ, system: str | None = None,
                   machine: str | None = None) -> Path:
+    """The path to a verified binary, downloading it first when it is not cached. The cached file is
+    re-verified on every run from the bytes of a single read; the cache directory is private (0700), so
+    between this check and the server starting only the same user could replace the file."""
     name = asset_for(system or platform.system(), machine or platform.machine())
     if not name:
         raise RuntimeError(f"no prebuilt kshana-mcp for {platform.system()}/{platform.machine()}; "
@@ -129,22 +173,25 @@ def ensure_binary(version: str = __version__, env=os.environ, system: str | None
     base = release_base(version, env)
     target = cache_dir(version, env) / name
     sums = parse_sums(_get(f"{base}/SHA256SUMS", MAX_SUMS_BYTES, env).decode("utf-8"))
-    if target.exists():
-        try:
-            verify(target.read_bytes(), name, sums)   # a cached file is re-checked every run
+    rejected: Exception | None = None
+    try:
+        cached = _read_cached(target)
+        if cached is not None:
+            verify(cached, name, sums)
             return target
-        except RuntimeError as e:
-            print(f"kshana-mcp: cached file rejected ({e}); downloading again", file=sys.stderr)
-            target.unlink()
+    except (RuntimeError, OSError) as e:
+        rejected = e
+    if rejected is not None:
+        print(f"kshana-mcp: cached file rejected ({rejected}); downloading again", file=sys.stderr)
+        try:
+            os.unlink(target)          # removes a symlink itself, never what it points at
+        except FileNotFoundError:
+            pass
     print(f"kshana-mcp: downloading {name} v{version}", file=sys.stderr)
     data = _get(f"{base}/{name}", MAX_BINARY_BYTES, env)
     verify(data, name, sums)
-    target.parent.mkdir(parents=True, exist_ok=True)
-    fd, tmp = tempfile.mkstemp(dir=target.parent, suffix=".tmp")
-    with os.fdopen(fd, "wb") as fh:
-        fh.write(data)
-    os.chmod(tmp, 0o755)
-    os.replace(tmp, target)
+    target.parent.mkdir(parents=True, exist_ok=True, mode=0o700)
+    _install_verified(target, data)
     return target
 
 

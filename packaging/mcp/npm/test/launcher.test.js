@@ -112,3 +112,60 @@ test("a fetch that never answers times out", async () => {
     await assert.rejects(L.fetchBuffer("https://x/y", 1000, { KSHANA_MCP_FETCH_TIMEOUT_MS: "50" }), /aborted by timeout/);
   } finally { clearInterval(keepAlive); globalThis.fetch = real; }
 });
+
+const posix = process.platform !== "win32";
+
+test("a downloaded binary and its cache directory are private (0700)", { skip: !posix }, async () => {
+  const name = L.assetFor(process.platform, process.arch, "0.0.0");
+  if (!name) return;
+  const good = Buffer.from("#!/bin/sh\necho ran\n");
+  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "kshana-mcp-mode-"));
+  const env = { KSHANA_MCP_CACHE_DIR: cache, KSHANA_MCP_RELEASE_BASE: release({ [name]: good, SHA256SUMS: `${L.sha256Hex(good)}  ${name}\n` }) };
+  const bin = await L.ensureBinary("0.0.0", env);
+  assert.strictEqual(fs.statSync(bin).mode & 0o777, 0o700, "binary mode");
+  assert.strictEqual(fs.statSync(path.dirname(bin)).mode & 0o777, 0o700, "cache directory mode");
+  assert.deepStrictEqual(fs.readdirSync(path.dirname(bin)), [name], "no temp file is left behind");
+});
+
+test("a cached file that no longer matches SHA256SUMS is replaced, and one that vanishes is downloaded", async () => {
+  const name = L.assetFor(process.platform, process.arch, "0.0.0");
+  if (!name) return;
+  const good = Buffer.from("#!/bin/sh\necho ran\n");
+  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "kshana-mcp-cache-"));
+  const env = { KSHANA_MCP_CACHE_DIR: cache, KSHANA_MCP_RELEASE_BASE: release({ [name]: good, SHA256SUMS: `${L.sha256Hex(good)}  ${name}\n` }) };
+  const bin = await L.ensureBinary("0.0.0", env);
+  fs.writeFileSync(bin, "tampered");
+  await L.ensureBinary("0.0.0", env);
+  assert.deepStrictEqual(fs.readFileSync(bin), good, "the tampered cache was replaced by the verified download");
+  fs.rmSync(bin);
+  await L.ensureBinary("0.0.0", env);
+  assert.deepStrictEqual(fs.readFileSync(bin), good, "a missing cached file is downloaded");
+});
+
+test("a symlink where the cached binary should be is refused and replaced, never followed", { skip: !posix }, async () => {
+  const name = L.assetFor(process.platform, process.arch, "0.0.0");
+  if (!name) return;
+  const good = Buffer.from("#!/bin/sh\necho ran\n");
+  const cache = fs.mkdtempSync(path.join(os.tmpdir(), "kshana-mcp-link-"));
+  const victim = path.join(cache, "victim");
+  fs.writeFileSync(victim, "do not touch");
+  const dir = path.join(cache, "0.0.0");
+  fs.mkdirSync(dir, { recursive: true });
+  fs.symlinkSync(victim, path.join(dir, name));         // a link planted in the cache, pointing elsewhere
+  const env = { KSHANA_MCP_CACHE_DIR: cache, KSHANA_MCP_RELEASE_BASE: release({ [name]: good, SHA256SUMS: `${L.sha256Hex(good)}  ${name}\n` }) };
+  const bin = await L.ensureBinary("0.0.0", env);
+  assert.ok(!fs.lstatSync(bin).isSymbolicLink(), "the link was replaced by a regular file");
+  assert.deepStrictEqual(fs.readFileSync(bin), good);
+  assert.strictEqual(fs.readFileSync(victim, "utf8"), "do not touch", "what the link pointed at was never written");
+});
+
+test("readCached reads one descriptor: absent is null, a directory or link is an error", { skip: !posix }, () => {
+  const d = fs.mkdtempSync(path.join(os.tmpdir(), "kshana-mcp-rc-"));
+  assert.strictEqual(L.readCached(path.join(d, "nope")), null);
+  fs.mkdirSync(path.join(d, "dir"));
+  assert.throws(() => L.readCached(path.join(d, "dir")));
+  fs.writeFileSync(path.join(d, "f"), "x");
+  fs.symlinkSync(path.join(d, "f"), path.join(d, "l"));
+  assert.throws(() => L.readCached(path.join(d, "l")));
+  assert.deepStrictEqual(L.readCached(path.join(d, "f")), Buffer.from("x"));
+});
