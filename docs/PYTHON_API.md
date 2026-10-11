@@ -343,8 +343,8 @@ guide is [`SCHEMA.md`](SCHEMA.md).
   `scenario_hash`, so the same input yields byte-identical output on the same platform
   (see [`REPRODUCIBILITY.md`](REPRODUCIBILITY.md)).
 - A first-class NumPy return type (`RunOutput` exposing `np.ndarray` time series
-  directly, rather than via `np.asarray(out.data()[...])`) and a published Colab
-  notebook are planned follow-ons.
+  directly, rather than via `np.asarray(out.data()[...])`) is a planned follow-on. Runnable
+  notebooks are in [`notebooks/`](../notebooks/README.md).
 
 ## Not in Python: long-running processes
 
