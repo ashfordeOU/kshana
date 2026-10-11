@@ -5,6 +5,7 @@
   "type": "module",
   "description": "TCP relay and tests for feeding Kshana gate-mode NMEA to OpenCPN. Advisory software, not type-approved equipment.",
   "license": "AGPL-3.0-only",
+  "author": "Ashforde OÜ <contact@ashforde.org>",
   "scripts": {
     "test": "node --test test/relay.test.mjs",
     "e2e": "node test/e2e-live.mjs"
