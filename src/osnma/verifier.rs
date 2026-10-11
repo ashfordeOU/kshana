@@ -612,6 +612,14 @@ impl Verifier {
     /// revocation it announces is carried out.
     fn on_header(&mut self, nma: NmaHeader, gst: u32, ev: &mut Vec<Event>) {
         self.nmas_agreed = Some(nma.nmas);
+        if nma.nmas == 3 {
+            // "Don't use" confirmed: what was authenticated before no longer stands.
+            // Lifting it, forged or genuine, then restores nothing until new tags verify
+            // under operational sub-frames (failures are kept: they are evidence).
+            for r in self.sats.values_mut() {
+                r.ok = None;
+            }
+        }
         if nma.cpks != 5 {
             self.pkrev_done.remove(&nma.cid);
         }

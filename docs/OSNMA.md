@@ -140,8 +140,12 @@ The NMA header is not authenticated, so what it announces counts only when confi
 when more than one satellite sends the same header in a sub-frame, or when a verified
 KROOT's signed message carries it (the header is part of that message). The two are not
 equal. Agreement of more than one satellite protects against a single-satellite anomaly,
-not against a spoofer: one spoofer can fake two satellite ids, and what that buys it is
-only a denial of service (the verifier fails closed). The real confirmation is the
+not against a spoofer: one spoofer can fake two satellite ids. What that buys it is
+denial of service, and nothing more since a confirmed "don't use" clears every
+satellite's authenticated data: lifting it, forged or genuine, restores nothing until
+new tags verify under genuine operational sub-frames. (Before that clearing, a forged
+lift could bring back, for up to the authentication window, data that had already
+authenticated.) The real confirmation is the
 KROOT-signed header, which also lifts a "don't use" again when it carries an operational
 status. A single
 satellite's header changes nothing but its own sub-frame's tag checking. A KROOT whose
@@ -158,7 +162,9 @@ procedure's header is confirmed, and a revocation header repeated every sub-fram
 carried out once. The same CPKS values with status operational mark the transition
 to the replacement and revoke nothing. The header is not itself authenticated, so a
 forged revocation can only take authentication away, and it is final until the verifier
-is restarted.
+is restarted. That finality covers the live key too: a forged public key revocation
+resets the memory of the superseded key and revokes the key in use, and only a restart
+undoes it.
 
 A DSM-PKR with NPKT 4 is the alert message; it is verified through the Merkle tree like
 a key, its random NPK field being part of the leaf. A verified alert clears all chains
