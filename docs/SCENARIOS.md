@@ -102,8 +102,8 @@ Clock holdover vs spec; optional Monte-Carlo ensemble (runs > 1).
 
 GNSS availability + DOP from an orbital constellation (Walker / TLE / RINEX).
 
-- **Required fields:** `seed`, `threshold_ns`, `mask_deg`, `time`, `user`, `constellation`, `clock_quantum`, `clock_classical`
-- **Optional fields:** `sigma_uere_m`, `constellations`, `epoch`, `export_sp3`, `export_omm`, `export_oem`
+- **Required fields:** `seed`, `threshold_ns`, `mask_deg`, `time`, `user|user_site`, `constellation`, `clock_quantum`, `clock_classical`
+- **Optional fields:** `sigma_uere_m`, `constellations`, `epoch`, `export_sp3`, `export_omm`, `export_oem`, `skyline`
 
 ## `ephemeris`
 
@@ -116,8 +116,8 @@ Ephemeris & ground track: propagate one satellite (TLE→SGP4 or analytic orbit)
 
 Snapshot / solution-separation / ARAIM RAIM with HPL/VPL and a Stanford diagram.
 
-- **Required fields:** `mask_deg`, `sigma_uere_m`, `p_fa`, `p_md`, `al_h_m`, `al_v_m`, `time`, `user`, `constellation`
-- **Optional fields:** `sigma_ura_m`, `b_nom_m`, `constellations`, `seed`, `araim_dual`, `p_hmi`
+- **Required fields:** `mask_deg`, `sigma_uere_m`, `p_fa`, `p_md`, `al_h_m`, `al_v_m`, `time`, `user|user_site`, `constellation`
+- **Optional fields:** `sigma_ura_m`, `b_nom_m`, `constellations`, `seed`, `araim_dual`, `p_hmi`, `skyline`
 
 ## `lunar-integrity`
 
@@ -236,14 +236,14 @@ Loosely- and tightly-coupled GNSS/INS error-state EKF.
 Measurement-domain pseudorange simulation (Klobuchar iono, Saastamoinen/Niell tropo) + RAIM.
 
 - **Required fields:** `seed`, `time`, `receiver`, `constellation`
-- **Optional fields:** `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`
+- **Optional fields:** `iono`, `tropo`, `mask_deg`, `noise_sigma_m`, `multipath_m`, `sat_clock_rms_m`, `uere_m`, `p_fa`, `p_md`, `alert_limit_h_m`, `alert_limit_v_m`, `skyline`
 
 ## `jamming`
 
 Link-budget jamming: J/S → effective C/N₀ → loss of lock.
 
 - **Required fields:** `seed`, `time`, `receiver`, `constellation`
-- **Optional fields:** `jammer`, `mask_deg`, `tracking_threshold_dbhz`, `degraded_margin_db`, `signal_power_dbw`, `temp_k`, `freq_hz`, `chip_rate_hz`
+- **Optional fields:** `jammer`, `mask_deg`, `tracking_threshold_dbhz`, `degraded_margin_db`, `signal_power_dbw`, `temp_k`, `freq_hz`, `chip_rate_hz`, `skyline`
 
 ## `spoof`
 
@@ -572,7 +572,7 @@ LEO-PNT signal designs: parameterised low Earth orbit (LEO) positioning, navigat
 LEO pass and link budget, band by band, for LEO-PNT (positioning, navigation and timing from low Earth orbit), system-agnostic: a user (ground, maritime, air or indoor, static or moving) and one or more LEO satellites from a DESIGNED PASS (a circular orbit placed so the user sees one pass of a chosen maximum elevation at a chosen time, sun-synchronous if asked), explicit ELEMENTS, a TLE (two-line element set) through the engine's SGP4, or a WALKER constellation built by the constellation-design code (the highest passes reported). Bands come from a named preset (generic multi-band UHF/L/S/C, generic C band, Xona Pulsar X1/X5, Iridium STL, Starlink as a Doppler-only signal of opportunity, CentiSpace, and an optional Celeste IOD preset marked WORKSHOP) or are written into the scenario; each preset states whether its numbers are PUBLIC (with URL), REPRESENTATIVE or WORKSHOP. Per satellite, band and epoch: elevation, azimuth, range, range rate and range acceleration; free-space path loss; EIRP and the satellite pattern gain (isoflux, Gaussian beam or flat); user antenna gain against elevation (patch, hemispherical or isotropic); gaseous attenuation (ITU-R P.676-10 Annex 2), rain attenuation (ITU-R P.838-3 coefficients and the P.618-14 procedure, from a rain rate and rain height), tropospheric scintillation (ITU-R P.618-14 section 2.4.1), building entry loss for an indoor user (ITU-R P.2109-2), polarisation mismatch, system noise temperature and C/N0 (carrier-to-noise density); Doppler and Doppler rate in closed form from the range rate and range acceleration, each checked against central differences; the first-order ionospheric delay 40.3 STEC/f^2 from a Klobuchar or vertical-TEC slant TEC scaled to the part of the ionosphere below the satellite. Band pairs get the ionosphere-free coefficients, noise amplification and code noise at the pass peak. MEO GNSS satellites (Galileo or GPS presets) are evaluated with the same antenna and noise model from their interface-document received powers, so the LEO bell-shaped pass and the flat GNSS carriers share one plot. An optional [iot] section gives time to first fix, energy per fix and battery life against duty cycle for a stated receiver power budget (MODELLED). Each band pair also gives the slant TEC its geometry-free combination recovers at the peak and that estimate's code-noise sigma (ionosphere sounding). An optional [spoofer] section counterfeits the signals of a claimed position that jumps or is pushed from the true one after an onset and runs two monitors with stated false-alarm and missed-detection probabilities: Doppler and pass-geometry consistency (measured range rates against those predicted from the orbits and an independent prior position and velocity, a generalised least-squares chi-square test over a window, on the GNSS, LEO and all channels) and cross-band consistency (the epoch-to-epoch step of each LEO band pair's model-corrected geometry-free combination), reporting per-epoch statistics and when each monitor detects (MODELLED). VALIDATED components: free-space loss, the P.838-3 coefficients against its Table 5, the P.618-14 rain and scintillation procedures and the P.2109 building entry loss against the ITU-R Study Group 3 validation examples, the IS-GPS-200 L1/L2 group-delay ratio, and the static-user maximum Doppler of a circular orbit against arXiv 2509.19551 Table 1. MODELLED: EIRPs, patterns, the Chapman fraction of TEC below the satellite and the whole pass.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `epoch`, `duration_s`, `step_s`, `user`, `atmosphere`, `ionosphere`, `satellite`, `leo_constellation`, `gnss`, `iono_free_pairs`, `iot`, `spoofer`, `name`, `description`
+- **Optional fields:** `epoch`, `duration_s`, `step_s`, `user`, `atmosphere`, `ionosphere`, `satellite`, `leo_constellation`, `gnss`, `iono_free_pairs`, `iot`, `spoofer`, `name`, `description`, `skyline`
 
 ## `leo-navmsg`
 
@@ -586,7 +586,7 @@ LEO navigation message: the broadcast ephemeris and clock of a low Earth orbit (
 Fused medium-Earth-orbit (MEO) and low-Earth-orbit (LEO) positioning, navigation and timing (PNT) over ANY constellations: each [[system]] is a GNSS preset of the constellation-design kind, a LEO preset (xona-pulsar, iridium-stl, starlink-sop, centispace, generic-c-band, the atomic-zero-clock ephemeris model, or another preset file, each in its own file with its sources marked PUBLIC, WORKSHOP or DERIVED), Walker shells or explicit element sets, with a carrier, a chip rate, a carrier-to-noise density (C/N0) envelope from the elevation mask to the zenith, a signal-in-space range error (SISRE), a Doppler sigma and a clock model (its own receiver clock, so the inter-system bias is estimated, or a known broadcast offset). Four modes. DOPPLER: batch Gauss-Newton positioning from range rate with analytic partials, clock-drift and optional velocity states and an optional height constraint, single- or multi-satellite, the error against window length, the Doppler, Doppler-rate and jerk envelope of each LEO system, and the single-pass along-track and cross-track accuracy against the cross-track offset (the cross-track error grows without bound as the pass goes overhead; a single pass also has a mirror solution across the ground track). A Doppler-only signal of opportunity (starlink-sop) runs here. JOINT: per-epoch weighted least-squares pseudorange fixes from GNSS alone, LEO alone and both, per-measurement sigmas from a delay-lock-loop thermal-noise model at C/N0 plus the SISRE (or a fixed sigma, so a signal model can feed them), the estimated inter-system biases, and PDOP/HDOP/VDOP against the number of LEO satellites added. POLAR: satellites in view and DOP against latitude for GNSS, LEO and both. TIMING: time transfer to Coordinated Universal Time (UTC) from LEO satellites at a known position with a two-state clock filter whose process noise comes from the engine's oscillator classes, against C/N0 and the oscillator, and the IS-GPS-200 system-time-to-UTC expression; with [timing] trace = true every row also reports its time error and predicted sigma at every epoch. VALIDATED: the largest Doppler of an overhead-to-horizon pass against the published Iridium (up to 36 kHz) and Xona Pulsar X1 (32 to 34 kHz) figures. MODELLED: everything else; the DOP is checked against a hand-derived case, the fixes against their covariance, and the Doppler model against the range-acceleration identity.
 
 - **Required fields:** *(none)*
-- **Optional fields:** `mode`, `seed`, `duration_s`, `step_s`, `user`, `dll`, `doppler`, `joint`, `polar`, `timing`, `system`
+- **Optional fields:** `mode`, `seed`, `duration_s`, `step_s`, `user`, `dll`, `doppler`, `joint`, `polar`, `timing`, `system`, `skyline`
 
 ## `leo-ppp`
 
