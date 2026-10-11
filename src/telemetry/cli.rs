@@ -156,6 +156,7 @@ fn run_inner(o: &Opts) -> Result<(), String> {
     }
 
     let host = o.host.clone().unwrap_or_else(|| "kshana".into());
+    syslog::check_host(&host).map_err(|e| format!("--host: {e}"))?;
     let cef = o.cef.unwrap_or(true);
     let fmt = if cef { Format::Cef } else { Format::Leef };
     let failures = reg

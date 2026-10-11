@@ -484,3 +484,48 @@ pub fn trust_telemetry(
     )
     .map_err(err)
 }
+
+/// Check Galileo OSNMA authentication of I/NAV pages, in memory, with the verifier
+/// `kshana osnma verify` runs. Advisory: this is analysis and monitoring output and not
+/// type-approved navigation equipment. The authentication status reported here is not a
+/// navigation integrity service and must not be the sole basis for any navigation or safety
+/// decision. `input_base64` is the pages (plain text or the published vector CSV) or a u-blox
+/// UBX byte stream; `format` is `"pages"`, `"vector-csv"`, `"ubx"` or `""` (by content);
+/// `start_gst` is a vector CSV's start in GST seconds; `merkle_root_hex` is the trusted Merkle
+/// root (64 hex digits, or `""`); `public_keys` are trusted keys as `ID:TYPE:HEX`;
+/// `reference_time` is the present time in GST seconds from an independent source and
+/// `max_time_error` the widest distance of a sub-frame from it (below 30; needs a reference
+/// time). Without a reference time freshness is not enforced and the report says so. Returns
+/// the JSON `kshana osnma verify --json` prints. Nothing is uploaded.
+#[wasm_bindgen]
+pub fn osnma_verify(
+    input_base64: &str,
+    format: &str,
+    start_gst: Option<u32>,
+    merkle_root_hex: &str,
+    public_keys: Vec<String>,
+    reference_time: Option<u32>,
+    max_time_error: Option<u32>,
+) -> Result<String, JsValue> {
+    let b64 = input_base64.trim();
+    if b64.len() / 4 * 3 > crate::surface::MAX_INPUT_BYTES {
+        return Err(JsValue::from_str(&format!(
+            "input is about {} bytes, over the {}-byte limit",
+            b64.len() / 4 * 3,
+            crate::surface::MAX_INPUT_BYTES
+        )));
+    }
+    let bytes = crate::permalink::base64_decode(b64)
+        .ok_or_else(|| JsValue::from_str("input_base64 is not base64"))?;
+    crate::surface::osnma_verify(
+        &bytes,
+        format,
+        start_gst,
+        merkle_root_hex,
+        &public_keys,
+        reference_time,
+        max_time_error,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}

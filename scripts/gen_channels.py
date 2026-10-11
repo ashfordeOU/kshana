@@ -183,7 +183,10 @@ def readme_table(ver: str) -> str:
             how = " · ".join(f"[{l['label']}]({l['url']})" for l in c["links"][:2]) + f" · `{c['command']}`"
         if c["id"] == "mcp-desktop":
             how = "double-click the `.mcpb` for your system: " + " · ".join(f"[{l['label']}]({l['url']})" for l in c["links"])
-        guide = f"[{c['docs_label']}]({c['docs']})" if c["docs"] else ""
+        # A guide on the website is a site-relative path in channels.json (the site prefixes its own root);
+        # in a README it needs the full address, or the link is dead on GitHub, PyPI, crates.io and npm.
+        href = c["docs"] if not c["docs"] or c["docs"].startswith("http") else "https://kshana.dev/" + c["docs"]
+        guide = f"[{c['docs_label']}]({href})" if c["docs"] else ""
         rows.append(f"| {c['name']} | {how} | {guide} |")
     return "\n".join(rows)
 

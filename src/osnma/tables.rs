@@ -15,10 +15,13 @@ pub fn pkr_blocks(nbdp: u8) -> Option<usize> {
 /// Chain hash function (Table 8).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum HashFn {
+    /// SHA-256 (HF 0).
     Sha256,
+    /// SHA3-256 (HF 2).
     Sha3_256,
 }
 
+/// The hash function for an HF value; `None` for a reserved one.
 pub fn hash_fn(hf: u8) -> Option<HashFn> {
     match hf {
         0 => Some(HashFn::Sha256),
@@ -30,10 +33,13 @@ pub fn hash_fn(hf: u8) -> Option<HashFn> {
 /// MAC function (Table 9).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum MacFn {
+    /// HMAC-SHA-256 (MF 0).
     HmacSha256,
+    /// CMAC-AES (MF 1).
     CmacAes,
 }
 
+/// The MAC function for an MF value; `None` for a reserved one.
 pub fn mac_fn(mf: u8) -> Option<MacFn> {
     match mf {
         0 => Some(MacFn::HmacSha256),
@@ -59,11 +65,14 @@ pub fn tag_bits(ts: u8) -> Option<usize> {
 /// in bits (Tables 6 and 15).
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum KeyType {
+    /// ECDSA P-256 with SHA-256.
     P256,
+    /// ECDSA P-521 with SHA-512.
     P521,
 }
 
 impl KeyType {
+    /// The key type for an NPKT value (1 P-256, 3 P-521); `None` for any other.
     pub fn from_npkt(npkt: u8) -> Option<Self> {
         match npkt {
             1 => Some(Self::P256),
@@ -72,6 +81,7 @@ impl KeyType {
         }
     }
 
+    /// Length of the NPK field in bits.
     pub fn npk_bits(self) -> usize {
         match self {
             Self::P256 => 264,
@@ -79,6 +89,7 @@ impl KeyType {
         }
     }
 
+    /// Length of the digital signature in bits.
     pub fn signature_bits(self) -> usize {
         match self {
             Self::P256 => 512,

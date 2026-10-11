@@ -86,9 +86,9 @@ STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md"}
 STUDIO_SKIP_DIRS = {"REVIEW"}
 # The Studio's pages: the Simple view, and the Advanced view (the full dashboard), which has
 # <base href="../"> so it shares the Simple view's engine, worker, modules and data.
-# Since 0.35.0 it also has three views: the maritime trust view, the interference map and the training debrief
-# (each with <base href="../">, noindex, and a demo/ folder of synthetic data its test reads).
-STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html")
+# Since 0.35.0 it also has four views: the maritime trust view, the interference map, the training debrief and
+# the tools page (each with <base href="../">, noindex, and a demo/ or examples/ folder of synthetic data its test reads).
+STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
@@ -115,6 +115,16 @@ def note(msg):
 
 def fail(msg):
     errors.append(msg)
+
+
+def source_revision(folder):
+    """{"revision": <git HEAD of the checkout holding `folder`>, "dirty": <uncommitted changes under it>}, or None."""
+    import subprocess
+    try:
+        run = lambda *c: subprocess.run(["git", "-C", folder, *c], capture_output=True, text=True, check=True).stdout.strip()
+        return {"revision": run("rev-parse", "HEAD"), "dirty": bool(run("status", "--porcelain", "--", "."))}
+    except (OSError, subprocess.CalledProcessError):
+        return None
 
 
 def rb(path):
@@ -323,9 +333,15 @@ def not_found_page(index_text, studio_name):
     return text
 
 
+# Sample data the Studio's views read (0.35.0): synthetic logs, session files and example outputs, among them
+# engine-written HTML (an evidence pack's summary.html). They are data, not pages of the site map.
+SAMPLE_DIRS = ("studio/tools/examples/", "studio/tools/samples/", "studio/trust/demo/", "studio/trust/generic/",
+               "studio/training/demo/", "studio/interference/demo/")
+
+
 def is_page(rel):
-    """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte)."""
-    return rel.endswith(".html") and not rel.startswith("assets/")
+    """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte) or Studio sample data."""
+    return rel.endswith(".html") and not rel.startswith("assets/") and not rel.startswith(SAMPLE_DIRS)
 
 
 def canonical(rel):
@@ -575,6 +591,17 @@ def collect_studio(studio, site, version, summ, out, skip):
                 data = rb(os.path.join(WEB, STUDIO_DATA[rel]))
                 if data != rb(src):
                     stale_data.append(rel)
+            elif fn.endswith(".toml") and rel.startswith(("trust/demo/", "trust/generic/", "interference/demo/", "tools/examples/", "tools/samples/")):
+                data = rb(src)  # a session or example file the view reads, not a scenario
+            elif fn.endswith(".toml") and rel.startswith("training/scenarios/"):
+                # the nmea-scenario library the training view offers: the engine's own files (scenarios/training/)
+                repo_copy = os.path.join(REPO, "scenarios", "training", fn)
+                if not os.path.isfile(repo_copy):
+                    fail(f"Studio training scenario {rel} is not in this checkout's scenarios/training/")
+                    continue
+                data = rb(repo_copy)
+                if data != rb(src):
+                    stale_toml.append(rel)
             elif fn.endswith(".toml"):
                 # A scenario the Studio carries is the engine's scenario of the same name.
                 repo_copy = os.path.join(REPO, "scenarios", fn)
@@ -727,6 +754,10 @@ def main():
                 "web/site.test.mjs checks the tree against it; do not edit a listed file by hand, rerun the port.",
         "version": version,
         "studio": json.loads(out[f"{STUDIO_DIR}/channels.json"])["studio"] if f"{STUDIO_DIR}/channels.json" in out else None,
+        # Which revisions of the site source and of the Studio source this port was made from (git, as found
+        # in the folders given; null outside a git checkout). Not compared by --check: committing the source
+        # afterwards moves them without changing a ported byte.
+        "sources": {"site": source_revision(a.site), "studio": source_revision(a.studio)},
         "files": {rel: sha(out[rel]) for rel in sorted(out)},
     }
     out[MANIFEST] = (json.dumps(manifest, ensure_ascii=False, indent=1) + "\n").encode("utf-8")
@@ -744,6 +775,12 @@ def main():
         old = json.load(open(mpath, encoding="utf-8")).get("files", {})
     stale = sorted(r for r in set(old) | set(RETIRED) if r not in out and os.path.isfile(os.path.join(WEB, r)))
     changed = sorted(r for r in out if not os.path.isfile(os.path.join(WEB, r)) or rb(os.path.join(WEB, r)) != out[r])
+    if a.check and MANIFEST in changed and os.path.isfile(mpath):
+        # the recorded source revisions are informational (see above): everything else in the manifest must match
+        _now, _then = json.loads(out[MANIFEST]), json.load(open(mpath, encoding="utf-8"))
+        _now.pop("sources", None), _then.pop("sources", None)
+        if _now == _then:
+            changed.remove(MANIFEST)
 
     if a.check:
         for r in changed:
