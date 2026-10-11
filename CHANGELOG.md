@@ -363,6 +363,7 @@ generated NMEA text is for training.
 
 - **MCP server input hardened.** The MCP server's scenario tools now accept inline content only
   and refuse file-source fields; input size is capped.
+  Advisory: [GHSA-8wpf-hqg5-6xjr](https://github.com/ashfordeOU/kshana/security/advisories/GHSA-8wpf-hqg5-6xjr).
 
 ## [0.34.0] - 2026-10-09
 
