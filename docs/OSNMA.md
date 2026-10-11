@@ -80,7 +80,10 @@ Per satellite, in the form the receiver-trust monitor consumes:
   the SHA-256 of the authenticated bit string (Word Types 1 to 5 as ADKD 0 covers them)
   and of the newest such string the satellite sends, and they must be equal. A copied
   IODnav over other words, or altered Word Type 5 bits (which carry no IODnav), reads
-  `Unavailable` until the new data authenticates. Tags of another satellite (cross
+  `Unavailable` until the new data authenticates. A sub-frame that carries ephemeris
+  words but no complete set of Word Types 1 to 5 under one IODnav takes the status away
+  in the same way (every genuine E1-B sub-frame carries all five); one with no ephemeris
+  words at all says nothing. Tags of another satellite (cross
   authentication) count for the satellite whose data they cover.
 * `Failed` when a check on the satellite's data failed within the failure memory (600 s
   by default of the verifier's time), even if later data verifies. A mismatch is charged
@@ -135,7 +138,12 @@ renewal does not undo the new one.
 
 The NMA header is not authenticated, so what it announces counts only when confirmed:
 when more than one satellite sends the same header in a sub-frame, or when a verified
-KROOT's signed message carries it (the header is part of that message). A single
+KROOT's signed message carries it (the header is part of that message). The two are not
+equal. Agreement of more than one satellite protects against a single-satellite anomaly,
+not against a spoofer: one spoofer can fake two satellite ids, and what that buys it is
+only a denial of service (the verifier fails closed). The real confirmation is the
+KROOT-signed header, which also lifts a "don't use" again when it carries an operational
+status. A single
 satellite's header changes nothing but its own sub-frame's tag checking. A KROOT whose
 time of applicability is not later than that of the chain held for the same id (a replay
 of an older one) is refused (`stale`); a KROOT of the same chain adds an anchor.
@@ -143,7 +151,11 @@ of an older one) is refused (`stale`); a KROOT of the same chain adds an anchor.
 The confirmed header's status and CPKS value drive revocation. With NMA status "don't use",
 CPKS "chain revoked" drops the chain the header names and refuses its KROOT from then
 on; CPKS "public key revoked" drops the public key that signed that chain, and every
-chain signed with it. The same CPKS values with status operational mark the transition
+chain signed with it. If the replacement chain for that id was adopted before the
+header was confirmed, however long before, the key revoked is the previous chain's, not
+the new one's; that memory is kept until the revocation is carried out or another
+procedure's header is confirmed, and a revocation header repeated every sub-frame is
+carried out once. The same CPKS values with status operational mark the transition
 to the replacement and revoke nothing. The header is not itself authenticated, so a
 forged revocation can only take authentication away, and it is final until the verifier
 is restarted.

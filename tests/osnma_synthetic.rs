@@ -1354,6 +1354,51 @@ fn nma_status_dont_use_needs_a_second_satellite_to_count() {
 }
 
 #[test]
+fn a_verified_kroot_carrying_an_operational_header_ends_dont_use() {
+    // A single OSNMA satellite: "don't use" is confirmed by a KROOT signed over a header
+    // with status 3, and later lifted by one signed over a header with status 2.
+    let ctx = Ctx::std();
+    let chain = ctx.chain(80);
+    let sk = Signer::p256(0x11);
+    let mut dont = ctx.clone();
+    dont.nmas = 3;
+    let dsm_dont = dsm_kroot(&ctx, &chain[0], &sk, dont.header(1));
+    let dsm_ok = dsm_kroot(&ctx, &chain[0], &sk, ctx.header(1));
+    let cfg = Config {
+        public_keys: vec![sk.public(PKID)],
+        trusted_chain: Some(ctx.trusted(&chain)),
+        ..Config::default()
+    };
+    let mut frames = |n: u32, gst: u32| {
+        let mut c = ctx.clone();
+        let hk = if (8..16).contains(&n) {
+            c.nmas = 3;
+            dsm_hk(c.header(1), 0, &dsm_dont, (n - 8) as usize)
+        } else if n >= 16 {
+            dsm_hk(c.header(1), 1, &dsm_ok, (n - 16) as usize % 8)
+        } else {
+            let mut hk = plain_hkroot(c.header(1));
+            hk[1] = 0xFF;
+            hk
+        };
+        Frame {
+            hk,
+            mack: ctx.mack(&chain, gst),
+        }
+    };
+    let o = drive(cfg.clone(), 16, false, &mut frames, &mut no_tamper());
+    assert_eq!(
+        o.v.overall(),
+        OsnmaStatus::Unavailable,
+        "don't use confirmed"
+    );
+    let o = drive(cfg, 36, false, &mut frames, &mut no_tamper());
+    // The second KROOT, over an operational header, lifts it and tags authenticate again.
+    assert_eq!(o.v.nma_status(), 2);
+    assert_eq!(o.v.overall(), OsnmaStatus::Authenticated);
+}
+
+#[test]
 fn the_clock_keeps_moving_through_a_period_of_dont_use() {
     // Keys in sub-frames whose tags are not looked at still verify: the clock does not
     // stand still, so what follows is not mistaken for far-future data.
@@ -1624,6 +1669,39 @@ fn spoofed_data_under_the_same_iodnav_does_not_stay_authenticated() {
 }
 
 #[test]
+fn a_sub_frame_without_a_complete_ephemeris_set_takes_the_status_away() {
+    // Word Type 5 with altered health/group delay/ionosphere bits, and filler (spare
+    // word type 0) in place of words 1 to 4: no complete ADKD 0 string, so nothing to
+    // compare with, and the old authentication must not go on standing.
+    let (mut v, _) = run(no_tamper());
+    assert_eq!(status(&v)["E05"], OsnmaStatus::Authenticated);
+    for n in 0..3u32 {
+        let gst = GST0 + 30 * (SUBFRAMES + n);
+        let mut ws = words(PRN_X, gst);
+        for w in ws.iter_mut().take(4) {
+            *w = [0u8; 16];
+        }
+        ws[4][5] ^= 0x10;
+        for p in pages(PRN_X, gst, &ws, None) {
+            v.push_page(&p);
+        }
+        assert_eq!(status(&v)["E05"], OsnmaStatus::Unavailable, "sub-frame {n}");
+    }
+    assert_eq!(status(&v)["E02"], OsnmaStatus::Authenticated);
+    // A sub-frame with no ephemeris words at all says nothing either way.
+    let (mut v, _) = run(no_tamper());
+    let gst = GST0 + 30 * SUBFRAMES;
+    let mut ws = words(PRN_X, gst);
+    for w in ws.iter_mut().take(5) {
+        *w = [0u8; 16];
+    }
+    for p in pages(PRN_X, gst, &ws, None) {
+        v.push_page(&p);
+    }
+    assert_eq!(status(&v)["E05"], OsnmaStatus::Authenticated);
+}
+
+#[test]
 fn unchanged_data_stays_authenticated_across_sub_frames() {
     // The newest sub-frame carries the very data that was authenticated: still good,
     // so the binding does not flap on ordinary operation.
@@ -1710,8 +1788,9 @@ fn an_old_kroot_replayed_for_the_same_chain_id_cannot_replace_the_chain() {
     assert_eq!(s["E05"], OsnmaStatus::Authenticated);
 }
 
-#[test]
-fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
+/// `revoke_at` is the sub-frame from which the revocation header is sent; the new chain
+/// was adopted at sub-frame 7.
+fn pkrev_after_the_new_kroot(revoke_at: u32) {
     // Chain A (id 3, key 1, started an hour before the stream) is in force. The
     // replacement chain (also id 3, key 2, starting with the stream) is announced and
     // adopted BEFORE the header that says key 1 is revoked arrives. The revocation must
@@ -1721,7 +1800,7 @@ fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
     let mut b = Ctx::std();
     b.alpha = [9, 8, 7, 6, 5, 4];
     b.seed = 77;
-    let (chain_a, chain_b) = (a.chain(140), b.chain(60));
+    let (chain_a, chain_b) = (a.chain(140), b.chain(100));
     let (sk1, sk2) = (Signer::p256(0x11), Signer::p256(0x22));
     let dsm_b = dsm_kroot_pk(&b, &chain_b[0], &sk2, b.header(1), 2);
     let cfg = Config {
@@ -1735,8 +1814,8 @@ fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
         let chain = if n < 8 { &chain_a } else { &chain_b };
         let hk = if n < 8 {
             dsm_hk(c.header(1), 1, &dsm_b, n as usize)
-        } else if n >= 14 {
-            // From sub-frame 14: key revocation with "don't use".
+        } else if n >= revoke_at {
+            // From `revoke_at`: key revocation with "don't use".
             let mut r = b.clone();
             r.nmas = 3;
             plain_hkroot(r.header(5))
@@ -1748,7 +1827,14 @@ fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
             mack: c.mack(chain, gst),
         }
     };
-    let o = drive_with(cfg, 20, false, Some(14), &mut frames, &mut no_tamper());
+    let o = drive_with(
+        cfg,
+        revoke_at + 6,
+        false,
+        Some(revoke_at),
+        &mut frames,
+        &mut no_tamper(),
+    );
     assert!(o.events.iter().any(|e| matches!(
         e,
         Event::KrootVerified {
@@ -1769,6 +1855,56 @@ fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
         .events
         .iter()
         .any(|e| matches!(e, Event::ChainRevoked { .. })));
+}
+
+#[test]
+fn a_key_revocation_hits_the_old_key_even_when_the_new_kroot_came_first() {
+    pkrev_after_the_new_kroot(14);
+}
+
+#[test]
+fn and_however_long_after_the_new_kroot_the_header_comes() {
+    // Well over ten minutes (the sub-frame 7 adoption to sub-frame 60: 26 minutes).
+    pkrev_after_the_new_kroot(60);
+}
+
+#[test]
+fn a_kroot_of_the_same_chain_signed_with_a_newer_key_changes_the_key_named() {
+    // Chain A (key 1) is in force; its KROOT is announced again, signed with key 2. A
+    // later "public key revoked" for the chain now means key 2.
+    let a = Ctx::std();
+    let chain = a.chain(60);
+    let (sk1, sk2) = (Signer::p256(0x11), Signer::p256(0x22));
+    let dsm2 = dsm_kroot_pk(&a, &chain[0], &sk2, a.header(1), 2);
+    let cfg = Config {
+        public_keys: vec![sk1.public(1), sk2.public(2)],
+        trusted_chain: Some(a.trusted(&chain)),
+        ..Config::default()
+    };
+    let mut frames = |n: u32, gst: u32| {
+        let hk = if n < 8 {
+            dsm_hk(a.header(1), 1, &dsm2, n as usize)
+        } else if n >= 14 {
+            let mut r = a.clone();
+            r.nmas = 3;
+            plain_hkroot(r.header(5))
+        } else {
+            plain_hkroot(a.header(1))
+        };
+        Frame {
+            hk,
+            mack: a.mack(&chain, gst),
+        }
+    };
+    let o = drive_with(cfg, 20, false, Some(14), &mut frames, &mut no_tamper());
+    assert!(o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::PublicKeyRevoked { pkid: 2 })));
+    assert!(!o
+        .events
+        .iter()
+        .any(|e| matches!(e, Event::PublicKeyRevoked { pkid: 1 })));
 }
 
 // ---------------------------------------------------------------- the command line ---

@@ -326,9 +326,14 @@ pub struct Verifier {
     nmas_agreed: Option<u8>,
     /// Sub-frame time of the sub-frame being processed (untrusted; only for bookkeeping).
     cur_sf_gst: u32,
-    /// The public key a chain id's previous chain was signed with, and when it was
-    /// replaced, so a key revocation announced after the replacement hits the right key.
-    superseded_pk: BTreeMap<u8, (u8, u32)>,
+    /// The public key a chain id's previous chain was signed with, kept from the
+    /// replacement until a confirmed header announces a revocation (or another
+    /// procedure), so a key revocation announced after the replacement hits the right key.
+    superseded_pk: BTreeMap<u8, u8>,
+    /// Chain ids whose public key revocation has been carried out; the header goes on
+    /// repeating it every sub-frame, and it must not be carried out again against the
+    /// key that replaced the revoked one.
+    pkrev_done: BTreeSet<u8>,
     stall_warned: bool,
     pending: Vec<PendingMack>,
     sats: BTreeMap<u8, SatRecord>,
@@ -366,6 +371,7 @@ impl Verifier {
             nmas_agreed: None,
             cur_sf_gst: 0,
             superseded_pk: BTreeMap::new(),
+            pkrev_done: BTreeSet::new(),
             stall_warned: false,
             pending: Vec::new(),
             sats: BTreeMap::new(),
@@ -489,14 +495,24 @@ impl Verifier {
         }
         self.cur_sf_gst = sf.gst_sf;
         self.history.insert((sf.svid, sf.gst_sf), sf.words);
-        if let Some(nav) = navdata::adkd0(&sf.words) {
-            let newer = self
-                .cur_data
-                .get(&sf.svid)
-                .is_none_or(|(g, _)| *g <= sf.gst_sf);
-            if newer {
-                let h: [u8; 32] = Sha256::digest(&nav.bytes).into();
-                self.cur_data.insert(sf.svid, (sf.gst_sf, h));
+        // The data the satellite is sending now. A sub-frame that carries ephemeris words
+        // but no complete ADKD 0 string (Word Types 1 to 5, one IODnav) cannot be the
+        // authenticated data, so it takes the satellite's status away until a complete,
+        // authenticated set arrives; one without any such words says nothing.
+        let newer = self
+            .cur_data
+            .get(&sf.svid)
+            .is_none_or(|(g, _)| *g <= sf.gst_sf);
+        if newer {
+            match navdata::adkd0(&sf.words) {
+                Some(nav) => {
+                    let h: [u8; 32] = Sha256::digest(&nav.bytes).into();
+                    self.cur_data.insert(sf.svid, (sf.gst_sf, h));
+                }
+                None if navdata::carries_ephemeris_words(&sf.words) => {
+                    self.cur_data.remove(&sf.svid);
+                }
+                None => {}
             }
         }
         if sf.has_osnma {
@@ -596,6 +612,13 @@ impl Verifier {
     /// revocation it announces is carried out.
     fn on_header(&mut self, nma: NmaHeader, gst: u32, ev: &mut Vec<Event>) {
         self.nmas_agreed = Some(nma.nmas);
+        if nma.cpks != 5 {
+            self.pkrev_done.remove(&nma.cid);
+        }
+        if !matches!(nma.cpks, 1 | 5) {
+            // Another procedure has taken over: what was superseded no longer matters.
+            self.superseded_pk.remove(&nma.cid);
+        }
         self.on_cpks(nma, gst, ev);
     }
 
@@ -627,13 +650,15 @@ impl Verifier {
                 }
             }
             5 => {
+                if !self.pkrev_done.insert(nma.cid) {
+                    return;
+                }
                 // The key being revoked signed the chain the header names. If that chain
-                // was replaced a moment ago (the new KROOT came before the header), the
-                // key is the previous chain's, not the new one's.
-                let recent = |t: u32| gst.saturating_sub(t) <= AUTH_WINDOW_S;
-                let pkid = match self.superseded_pk.get(&nma.cid) {
-                    Some((pk, t)) if recent(*t) => Some(*pk),
-                    _ => self.chains.get(&nma.cid).map(|c| c.chain.pkid),
+                // has been replaced since (the new KROOT came before the header, however
+                // long before), the key is the previous chain's, not the new one's.
+                let pkid = match self.superseded_pk.remove(&nma.cid) {
+                    Some(pk) => Some(pk),
+                    None => self.chains.get(&nma.cid).map(|c| c.chain.pkid),
                 };
                 if let Some(pkid) = pkid {
                     self.public_keys.remove(&pkid);
@@ -787,6 +812,8 @@ impl Verifier {
                         if let Some(a) = chain.gst0.checked_sub(SUBFRAME_S) {
                             cs.keys.insert(a, chain.root_key);
                         }
+                        // It may be signed with a newer key: that is the one to name.
+                        cs.chain.pkid = chain.pkid;
                     }
                     Some(cs) if chain.gst0 <= cs.chain.gst0 => {
                         // A replayed old KROOT, or a conflicting one: the chain with the
@@ -796,16 +823,13 @@ impl Verifier {
                     }
                     Some(cs) => {
                         let old = cs.chain.pkid;
-                        self.superseded_pk.insert(chain.cid, (old, now));
+                        self.superseded_pk.insert(chain.cid, old);
                         self.adopt_chain(chain);
                     }
                     None => self.adopt_chain(chain),
                 }
                 // The signed message carries an NMA header: that is a confirmation.
-                let h = NmaHeader::parse(matched);
-                if h.nmas == 3 {
-                    self.on_header(h, now, ev);
-                }
+                self.on_header(NmaHeader::parse(matched), now, ev);
             }
             Err(e) => ev.push(Event::KrootRejected(KrootError::Signature(e))),
         }

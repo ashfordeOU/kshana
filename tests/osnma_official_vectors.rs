@@ -106,6 +106,8 @@ struct Tally {
     key_rejected: u32,
     alert_verified: u32,
     revoked: u32,
+    revoked_cids: Vec<u8>,
+    revoked_pkids: Vec<u8>,
     ok_after_revoke: u32,
     sats_auth: usize,
     sats: usize,
@@ -157,7 +159,14 @@ fn run(pages: &[kshana::osnma::InavPage], tree: &Tree) -> Tally {
                 }
                 Event::PublicKeyVerified { .. } => t.pkr_ok += 1,
                 Event::AlertMessage { verified: true } => t.alert_verified += 1,
-                Event::ChainRevoked { .. } | Event::PublicKeyRevoked { .. } => t.revoked += 1,
+                Event::ChainRevoked { cid } => {
+                    t.revoked += 1;
+                    t.revoked_cids.push(cid);
+                }
+                Event::PublicKeyRevoked { pkid } => {
+                    t.revoked += 1;
+                    t.revoked_pkids.push(pkid);
+                }
                 Event::TimeRejected { .. } => t.time_rejected += 1,
                 Event::BadCrc { .. } => t.bad_crc += 1,
                 Event::KeyRejected { .. } => t.key_rejected += 1,
@@ -192,14 +201,35 @@ struct Expect {
     alert: bool,
     /// Lower bound on revocations announced by the NMA header.
     revoked: u32,
+    /// Exactly which chains and public keys were revoked (the old ones, never the new).
+    revoked_cids: &'static [u8],
+    revoked_pkids: &'static [u8],
 }
 
 // Every official vector uses HMAC-SHA-256, a SHA-256 chain, 128-bit keys and 40-bit
 // tags; the look-up entry is 33 in `configuration_1` and 34 elsewhere. The test checks
 // this, so a change to the vectors or to the parameters the verifier reads shows up.
 const EXPECT: [Expect; 18] = [
-    e("configuration_1", 12_000, &[(3, 1)], End::Service, false, 0),
-    e("configuration_2", 9_900, &[(0, 2)], End::Service, false, 0),
+    e(
+        "configuration_1",
+        12_000,
+        &[(3, 1)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "configuration_2",
+        9_900,
+        &[(0, 2)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
     e(
         "crev_step1",
         6_200,
@@ -207,9 +237,29 @@ const EXPECT: [Expect; 18] = [
         End::Withdrawn,
         false,
         1,
+        &[0],
+        &[],
     ),
-    e("crev_step2", 6_400, &[(1, 7)], End::Service, false, 0),
-    e("crev_step3", 12_900, &[(1, 7)], End::Service, false, 0),
+    e(
+        "crev_step2",
+        6_400,
+        &[(1, 7)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "crev_step3",
+        12_900,
+        &[(1, 7)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
     e(
         "eoc_step1",
         13_200,
@@ -217,6 +267,8 @@ const EXPECT: [Expect; 18] = [
         End::Service,
         false,
         0,
+        &[],
+        &[],
     ),
     e(
         "eoc_step2",
@@ -225,11 +277,49 @@ const EXPECT: [Expect; 18] = [
         End::Service,
         false,
         0,
+        &[],
+        &[],
     ),
-    e("nmt_step1", 13_200, &[(2, 9)], End::Service, false, 0),
-    e("nmt_step2", 13_100, &[(2, 9)], End::Service, false, 0),
-    e("nmt_step3", 12_300, &[(2, 1)], End::Service, false, 0),
-    e("npk_step1", 12_400, &[(1, 7)], End::Service, false, 0),
+    e(
+        "nmt_step1",
+        13_200,
+        &[(2, 9)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "nmt_step2",
+        13_100,
+        &[(2, 9)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "nmt_step3",
+        12_300,
+        &[(2, 1)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "npk_step1",
+        12_400,
+        &[(1, 7)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
     e(
         "npk_step2",
         12_800,
@@ -237,10 +327,30 @@ const EXPECT: [Expect; 18] = [
         End::Service,
         false,
         0,
+        &[],
+        &[],
     ),
-    e("npk_step3", 12_800, &[(1, 8)], End::Service, false, 0),
-    e("oam_step1", 6_200, &[(2, 1)], End::Withdrawn, true, 0),
-    e("oam_step2", 0, &[(2, 1)], End::Withdrawn, true, 0),
+    e(
+        "npk_step3",
+        12_800,
+        &[(1, 8)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "oam_step1",
+        6_200,
+        &[(2, 1)],
+        End::Withdrawn,
+        true,
+        0,
+        &[],
+        &[],
+    ),
+    e("oam_step2", 0, &[(2, 1)], End::Withdrawn, true, 0, &[], &[]),
     e(
         "pkrev_step1",
         6_300,
@@ -248,11 +358,32 @@ const EXPECT: [Expect; 18] = [
         End::Withdrawn,
         false,
         2,
+        &[1],
+        &[8],
     ),
-    e("pkrev_step2", 6_500, &[(2, 9)], End::Service, false, 0),
-    e("pkrev_step3", 11_500, &[(2, 9)], End::Service, false, 0),
+    e(
+        "pkrev_step2",
+        6_500,
+        &[(2, 9)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
+    e(
+        "pkrev_step3",
+        11_500,
+        &[(2, 9)],
+        End::Service,
+        false,
+        0,
+        &[],
+        &[],
+    ),
 ];
 
+#[allow(clippy::too_many_arguments)]
 const fn e(
     scenario: &'static str,
     min_ok: u32,
@@ -260,6 +391,8 @@ const fn e(
     end: End,
     alert: bool,
     revoked: u32,
+    revoked_cids: &'static [u8],
+    revoked_pkids: &'static [u8],
 ) -> Expect {
     Expect {
         scenario,
@@ -268,6 +401,8 @@ const fn e(
         end,
         alert,
         revoked,
+        revoked_cids,
+        revoked_pkids,
     }
 }
 
@@ -354,6 +489,8 @@ fn official_vectors_authenticate() {
         assert_eq!(t.chains, want, "{scenario}: chains verified");
         assert_eq!(t.alert_verified >= 1, x.alert, "{scenario}: alert message");
         assert!(t.revoked >= x.revoked, "{scenario}: revocations");
+        assert_eq!(t.revoked_cids, x.revoked_cids, "{scenario}: chains revoked");
+        assert_eq!(t.revoked_pkids, x.revoked_pkids, "{scenario}: keys revoked");
         match x.end {
             End::Service => {
                 // Authentication is there at the end, and resumed after any change.
