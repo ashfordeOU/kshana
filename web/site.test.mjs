@@ -22,7 +22,9 @@ const sha = (buf) => createHash("sha256").update(buf).digest("hex");
 
 const manifest = JSON.parse(text("PORT-MANIFEST.json"));
 const ported = Object.keys(manifest.files);
-const isPage = (rel) => rel.endsWith(".html") && !rel.startsWith("assets/");
+// Sample data the Studio views read (including engine-written HTML such as an evidence pack's summary.html) is not a page.
+const SAMPLE_DIRS = ["studio/tools/examples/", "studio/tools/samples/", "studio/trust/demo/", "studio/trust/generic/", "studio/training/demo/", "studio/interference/demo/"];
+const isPage = (rel) => rel.endsWith(".html") && !rel.startsWith("assets/") && !SAMPLE_DIRS.some((d) => rel.startsWith(d));
 const NOT_FOUND = "404.html"; // served by GitHub Pages for a missing address; not a page of the site map
 // The pages at addresses that moved (web/tools/legacy-urls.json "paths": the Studio's old
 // /playground/) only forward; they are not pages of the site map.

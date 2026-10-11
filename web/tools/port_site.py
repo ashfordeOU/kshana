@@ -333,9 +333,15 @@ def not_found_page(index_text, studio_name):
     return text
 
 
+# Sample data the Studio's views read (0.35.0): synthetic logs, session files and example outputs, among them
+# engine-written HTML (an evidence pack's summary.html). They are data, not pages of the site map.
+SAMPLE_DIRS = ("studio/tools/examples/", "studio/tools/samples/", "studio/trust/demo/", "studio/trust/generic/",
+               "studio/training/demo/", "studio/interference/demo/")
+
+
 def is_page(rel):
-    """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte)."""
-    return rel.endswith(".html") and not rel.startswith("assets/")
+    """A site page, as opposed to an engine report shipped as an asset (those stay byte-for-byte) or Studio sample data."""
+    return rel.endswith(".html") and not rel.startswith("assets/") and not rel.startswith(SAMPLE_DIRS)
 
 
 def canonical(rel):
@@ -585,6 +591,17 @@ def collect_studio(studio, site, version, summ, out, skip):
                 data = rb(os.path.join(WEB, STUDIO_DATA[rel]))
                 if data != rb(src):
                     stale_data.append(rel)
+            elif fn.endswith(".toml") and rel.startswith(("trust/demo/", "trust/generic/", "interference/demo/", "tools/examples/", "tools/samples/")):
+                data = rb(src)  # a session or example file the view reads, not a scenario
+            elif fn.endswith(".toml") and rel.startswith("training/scenarios/"):
+                # the nmea-scenario library the training view offers: the engine's own files (scenarios/training/)
+                repo_copy = os.path.join(REPO, "scenarios", "training", fn)
+                if not os.path.isfile(repo_copy):
+                    fail(f"Studio training scenario {rel} is not in this checkout's scenarios/training/")
+                    continue
+                data = rb(repo_copy)
+                if data != rb(src):
+                    stale_toml.append(rel)
             elif fn.endswith(".toml"):
                 # A scenario the Studio carries is the engine's scenario of the same name.
                 repo_copy = os.path.join(REPO, "scenarios", fn)
