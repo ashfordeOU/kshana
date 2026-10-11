@@ -851,7 +851,8 @@ async fn trust_telemetry_renders_each_format_and_refuses_bad_input() {
     .await
     .unwrap_err();
     assert!(host_err.contains("host"), "{host_err}");
-    let line = r#"{"t_s":1.0,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off"}"#;
+    let line =
+        r#"{"t_s":1.0,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off"}"#;
     let big = format!("{line}\n").repeat(40_000); // ~3.4 MB in, over 4 MiB of CEF out
     let fan = call(
         &client,
