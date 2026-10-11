@@ -85,6 +85,24 @@ pub struct ListExamplesRequest {
     pub kind: Option<String>,
 }
 
+/// Parameters for [`KshanaServer::sky_geometry`].
+#[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
+pub struct SkyGeometryRequest {
+    /// The request as JSON (or TOML) text: `site` (`{lat_deg, lon_deg, height_m}`), `time_s`,
+    /// `systems` (preset names such as `gps-baseline`, `galileo`, `beidou-meo`, `glonass`,
+    /// `xona-pulsar`) and/or `satellites` (`{id?, system?, az_deg, el_deg}` or `{id?, system?,
+    /// ecef_m}`), `mask_deg`, `skyline` (`preset` or `street_az_deg`, `width_m`,
+    /// `height_left_m`, `height_right_m`, `antenna_m`, `length_m`, `table`, `sectors`,
+    /// `terrain`), `clock` (`per-system` or `common`), `sigma_uere_m`, `confidence`. Omit it to
+    /// describe a skyline preset instead.
+    #[serde(default)]
+    pub request: Option<String>,
+    /// With no `request`: the skyline preset to describe (`city-street`, `harbour-approach`,
+    /// `fjord`, `container-terminal`); an empty string lists them all.
+    #[serde(default)]
+    pub skyline_preset: Option<String>,
+}
+
 /// Parameters for [`KshanaServer::get_example_scenario`].
 #[derive(Debug, serde::Deserialize, schemars::JsonSchema)]
 pub struct ExampleRequest {
@@ -704,6 +722,36 @@ impl KshanaServer {
                 ))
             }
         }
+    }
+
+    #[tool(
+        description = "Sky geometry under an azimuth-dependent skyline (a street canyon, a harbour, a fjord, a container terminal): from a site, a time and constellation presets (or satellites given as azimuth/elevation or ECEF), which satellites are visible and which are hidden by the skyline, GDOP/PDOP/HDOP/VDOP/TDOP from the gnss_lib_py-checked DOP kernel, the east-north-up cofactor and covariance with one receiver clock per system (or one in common), and the horizontal error ellipse at one sigma and at a stated confidence for a stated UERE. With no `request`, describes a REPRESENTATIVE skyline preset with its provenance and its cut every degree (an empty `skyline_preset` lists them). Scenarios of the orbit and integrity (with `user_site`), gnss-sim, jamming, leo-pvt and leo-pass kinds take the same `[skyline]` section through run_scenario. Evidence tier MODELLED: geometry under a stated error model, line of sight only; not a prediction of a receiver's real error and not an integrity bound; preset constellations are a representative sky, not the sky of a date. Carries the advisory: not type-approved navigation equipment. No Monte Carlo over MCP (bulk samples; use the CLI, Python or WASM). Inline only, at most 4 MiB."
+    )]
+    fn sky_geometry(
+        &self,
+        Parameters(r): Parameters<SkyGeometryRequest>,
+    ) -> Result<CallToolResult, McpError> {
+        let out = match (r.request, r.skyline_preset) {
+            (Some(req), None) => kshana::surface::sky_geometry(&req, MAX_INPUT_BYTES),
+            (None, Some(name)) if name.trim().is_empty() => Ok(kshana::surface::skyline_presets()),
+            (None, Some(name)) => kshana::geometry::skyline_presets()
+                .into_iter()
+                .find(|p| p.name == name.trim())
+                .ok_or_else(|| {
+                    format!(
+                        "unknown skyline preset \"{name}\"; known presets: {}",
+                        kshana::skyline::preset_names().join(", ")
+                    )
+                })
+                .and_then(|p| serde_json::to_string_pretty(&p).map_err(|e| e.to_string())),
+            _ => Err(
+                "give exactly one of `request` (a sky-geometry request) or `skyline_preset` \
+                      (a preset name, or an empty string to list them)"
+                    .to_string(),
+            ),
+        }
+        .map_err(|e| McpError::invalid_params(e, None))?;
+        Ok(CallToolResult::success(vec![ContentBlock::text(out)]))
     }
 }
 
