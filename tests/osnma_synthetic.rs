@@ -1419,6 +1419,42 @@ fn the_clock_keeps_moving_through_a_period_of_dont_use() {
 }
 
 #[test]
+fn lifting_a_forged_dont_use_restores_nothing() {
+    // OSNMA jammed after sub-frame 17. Two forged satellites (9 and 10) send "don't
+    // use", then an operational header: each header is agreed by two satellites. The
+    // old authentication must not come back with the lift: only tags verified under
+    // genuine operational sub-frames can restore a satellite.
+    let (mut v, _) = run(no_tamper());
+    assert_eq!(v.overall(), OsnmaStatus::Authenticated);
+    let ctx = Ctx::std();
+    let forged = |v: &mut Verifier, n: u32, nmas: u8| {
+        let gst = GST0 + 30 * n;
+        let mut c = ctx.clone();
+        c.nmas = nmas;
+        for sat in [9u8, 10] {
+            for p in pages_hk(
+                sat,
+                gst,
+                &words(sat, gst),
+                Some(&[0xA5u8; 60]),
+                &plain_hkroot(c.header(1)),
+            ) {
+                v.push_page(&p);
+            }
+        }
+    };
+    forged(&mut v, SUBFRAMES, 3);
+    assert_eq!(v.overall(), OsnmaStatus::Unavailable, "don't use confirmed");
+    forged(&mut v, SUBFRAMES + 1, 2);
+    forged(&mut v, SUBFRAMES + 2, 2);
+    assert_eq!(v.nma_status(), 2);
+    let s = status(&v);
+    assert_ne!(s["E02"], OsnmaStatus::Authenticated);
+    assert_ne!(s["E05"], OsnmaStatus::Authenticated);
+    assert_ne!(v.overall(), OsnmaStatus::Authenticated);
+}
+
+#[test]
 fn a_verified_kroot_carrying_dont_use_confirms_it_alone() {
     // A single satellite, but its DSM-KROOT is signed over a header with status 3.
     let ctx = Ctx::std();
