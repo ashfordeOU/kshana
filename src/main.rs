@@ -16,12 +16,16 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana --validate <scenario.toml>
    or: kshana receiver-trust <scenario.toml>
    or: kshana receiver-trust live <session.toml> [--stdin | --file <path> [--follow] | --tcp <host:port> | --udp <port>] [--gate] (kshana receiver-trust live --help)
+   or: kshana receiver-trust evidence <scenario.toml> --from <t0> --to <t1> --key <keyfile> --out <dir> (kshana evidence --help)
+   or: kshana evidence <keygen|verify|attach-timestamp> ... (kshana evidence --help)
+   or: kshana trust-telemetry [options] (kshana trust-telemetry --help)
+   or: kshana nmea-scenario <scenario.toml> [--out <file.nmea>] [--tcp <addr>|--udp <addr>] (kshana nmea-scenario --help)
    or: kshana interference-map <adsb|ais|fetch-land> ... (kshana interference-map --help)
    or: kshana route-exposure --route <route> --map <map.geojson|dir> [--from <date>] [--to <date>]
    or: kshana bench-export <scenario.toml> [--out <base>] [--epoch <YYYY-MM-DDTHH:MM:SS>]
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
-   or: kshana iq <scene|acquire|track|sweep|labfit|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+   or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
    or: kshana kinds [--json]
    or: kshana example [<name>]
    or: kshana --help | --version";

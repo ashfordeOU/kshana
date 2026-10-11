@@ -103,6 +103,16 @@ print("score first fell at t =", first_bad["t_s"], "s; reasons:", first_bad["ded
 assert r["summary"]["untrusted"] > 0
 ```
 
+```python
+# The same per-epoch results as security telemetry: one syslog (CEF) event per band change, and
+# the Prometheus exposition of the final state. Text only; nothing is sent.
+stream = "\n".join(json.dumps(e) for e in r["epochs"])
+events = kshana.trust_telemetry(stream, "cef", host="bridge-1")
+print(events.splitlines()[-1][:160])
+print(kshana.trust_telemetry(stream, "prometheus").count("kshana_trust_"), "metric lines")
+assert "CEF:0|Ashforde OU|Kshana|" in events
+```
+
 ## Cell 6 — plot the score (optional) (code)
 
 ```python

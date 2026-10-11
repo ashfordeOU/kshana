@@ -16,7 +16,7 @@ access to Kshana): this plugin is the *human*, point-and-click path.
 - **Run Kshana Scenario** action on any `.toml` (editor + project-view context menus) —
   runs `kshana <file>` and shows the output in the Kshana tool window.
 - **Assess Receiver Trust** on a `receiver-trust` scenario `.toml` (`kshana receiver-trust`):
-  the trust timeline, with a 0-100 score and reasons for a vessel. Advisory only.
+  the trust timeline, with a 0-100 score and reasons for a vessel. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 - **Generate Training NMEA** on a `nmea-scenario` `.toml` (`kshana nmea-scenario`): synthetic
   bridge NMEA and an instructor log, written next to the scenario. Text only; for training,
   never for a vessel's live navigation systems.
@@ -33,6 +33,12 @@ access to Kshana): this plugin is the *human*, point-and-click path.
   asks for the signer's public key (64 hex digits or a `.pub` file; always pinned, the plugin never
   accepts an unpinned signer) and optionally the full session log. Only a verified result reads as
   verified; an intact pack with an unpinned signer reads "NOT VERIFIED".
+- **Render Trust Telemetry** on a `receiver-trust` result `.json` (`kshana trust-telemetry --result`):
+  Prometheus text or CEF/LEEF syslog events printed to the Kshana window. Nothing is sent or served;
+  the running exporters stay on the command line.
+- **Validate Scenario** (`kshana --validate`), **List Scenario Kinds** (Tools menu; `kshana kinds`) and
+  **Assess Receiver Stream** (a vessel session `.toml` plus a stored NMEA log you choose; `kshana
+  receiver-trust live --file`, scored once with no socket and no gate).
 - **Insert Example Scenario** (project view folder or Tools menu; `kshana example`): pick a bundled
   scenario and it is written as a new `.toml` (never over a file). **Export Scenario** on a `.toml`
   (SP3, OMM, OEM, CZML, KML, GeoJSON, STK, SigMF; simulated output only), **Animate Scenario** (HTML

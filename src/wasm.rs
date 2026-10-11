@@ -395,7 +395,7 @@ pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
 /// `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a JSON object
 /// `{schema, epochs, last_pksht, summary}` (`schema` is `"1.2"`): one report per epoch (`state`, `score`, `advisory`,
 /// `deductions`, `alarms`, ...) and counts by state. The bounded form of the live command: no
-/// socket is opened and the gate is not applied (both are command-line only). Advisory only.
+/// socket is opened and the gate is not applied (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 #[wasm_bindgen]
 pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, JsValue> {
     let r = crate::surface::assess_vessel_excerpt(
@@ -409,7 +409,7 @@ pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, J
 
 /// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
 /// "vessel"`, no `[log]` needed) and the log text. Returns the result document as JSON, the
-/// same as `kshana receiver-trust` writes to `result.json`. Advisory only.
+/// same as `kshana receiver-trust` writes to `result.json`. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 #[wasm_bindgen]
 pub fn assess_vessel_log(session_toml: &str, log: &str) -> Result<String, JsValue> {
     crate::surface::assess_vessel_log_json(
@@ -446,4 +446,86 @@ pub fn evidence_verify(
     )
     .map_err(|e| JsValue::from_str(&e))?;
     Ok(report.to_string())
+}
+
+/// Render a trust stream or a batch result in one telemetry format, with the encoders
+/// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
+/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"result"` (a `receiver-trust` result
+/// document) or `"jsonl"` (the live per-epoch stream); `host` names the sender in syslog
+/// events (empty for `kshana`). `options_json` is `""` or an object with `expose_position`
+/// (bool), `syslog_all` (bool: one event per epoch, not per band change) and `unix_nano`
+/// (number, the time of export for `"otlp"`). Syslog lines carry no timestamp. Returns the
+/// formatted text.
+#[wasm_bindgen]
+pub fn trust_telemetry(
+    input: &str,
+    format: &str,
+    host: &str,
+    input_kind: &str,
+    options_json: &str,
+) -> Result<String, JsValue> {
+    use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
+    let err = |e: String| JsValue::from_str(&e);
+    let mut opts = TelemetryOptions::default();
+    if !options_json.trim().is_empty() {
+        let v: serde_json::Value = serde_json::from_str(options_json)
+            .map_err(|e| err(format!("options_json is not JSON: {e}")))?;
+        opts.expose_position = v["expose_position"].as_bool().unwrap_or(false);
+        opts.syslog_all = v["syslog_all"].as_bool().unwrap_or(false);
+        opts.unix_nano = v["unix_nano"].as_f64().unwrap_or(0.0) as u64;
+    }
+    surface::trust_telemetry(
+        input,
+        TelemetryFormat::parse(format).map_err(err)?,
+        host,
+        TelemetryInput::parse(input_kind).map_err(err)?,
+        opts,
+        surface::MAX_INPUT_BYTES,
+    )
+    .map_err(err)
+}
+
+/// Check Galileo OSNMA authentication of I/NAV pages, in memory, with the verifier
+/// `kshana osnma verify` runs. Advisory: this is analysis and monitoring output and not
+/// type-approved navigation equipment. The authentication status reported here is not a
+/// navigation integrity service and must not be the sole basis for any navigation or safety
+/// decision. `input_base64` is the pages (plain text or the published vector CSV) or a u-blox
+/// UBX byte stream; `format` is `"pages"`, `"vector-csv"`, `"ubx"` or `""` (by content);
+/// `start_gst` is a vector CSV's start in GST seconds; `merkle_root_hex` is the trusted Merkle
+/// root (64 hex digits, or `""`); `public_keys` are trusted keys as `ID:TYPE:HEX`;
+/// `reference_time` is the present time in GST seconds from an independent source and
+/// `max_time_error` the widest distance of a sub-frame from it (below 30; needs a reference
+/// time). Without a reference time freshness is not enforced and the report says so. Returns
+/// the JSON `kshana osnma verify --json` prints. Nothing is uploaded.
+#[wasm_bindgen]
+pub fn osnma_verify(
+    input_base64: &str,
+    format: &str,
+    start_gst: Option<u32>,
+    merkle_root_hex: &str,
+    public_keys: Vec<String>,
+    reference_time: Option<u32>,
+    max_time_error: Option<u32>,
+) -> Result<String, JsValue> {
+    let b64 = input_base64.trim();
+    if b64.len() / 4 * 3 > crate::surface::MAX_INPUT_BYTES {
+        return Err(JsValue::from_str(&format!(
+            "input is about {} bytes, over the {}-byte limit",
+            b64.len() / 4 * 3,
+            crate::surface::MAX_INPUT_BYTES
+        )));
+    }
+    let bytes = crate::permalink::base64_decode(b64)
+        .ok_or_else(|| JsValue::from_str("input_base64 is not base64"))?;
+    crate::surface::osnma_verify(
+        &bytes,
+        format,
+        start_gst,
+        merkle_root_hex,
+        &public_keys,
+        reference_time,
+        max_time_error,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
 }
