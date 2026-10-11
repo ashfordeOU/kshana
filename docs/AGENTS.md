@@ -36,6 +36,7 @@ engine version, so the run can be repeated. Keep each result's own caveats with 
 | I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training | `generate_training_nmea` | `/kshana-training-scenario` |
 | Show a vessel's trust score in monitoring or SIEM formats (Prometheus, CEF, LEEF, OTLP) | `trust_telemetry` | `/kshana-trust-telemetry` |
 | Make a tamper-evident record of what the engine said about a window of a vessel's log, or check one | `create_evidence_pack`, `verify_evidence_pack`, `attach_evidence_timestamp` | `/kshana-evidence-pack` |
+| Which Galileo satellites' navigation data does this receiver stream authenticate (OSNMA)? | **none: not on MCP.** Use `kshana osnma verify` (CLI), `kshana.osnma_verify` (Python) or `osnma_verify` (WASM, the Studio OSNMA card) | not a slash command |
 | I need a scenario's vehicle motion and event times to replay through a laboratory GNSS simulator | `export_test_bench` | `/kshana-bench-export` |
 | Which public-framework requirement rows do these runs support evidence for, and what is the gap? | `compliance_report` (from result text), `compliance_mapping` (the tables, no runs) | `/kshana-compliance-report` |
 | I need a scenario to fly a GeoJSON route (terrain-nav, terrain-slam, gravity-map, combined-altpnt) | `import_route` | `/kshana-import-route` |
@@ -50,6 +51,7 @@ carry the rules below for agents that load skills.
 - **Read or write files.** Content is inline: inputs are text in the request, capped at 4 MiB, and
   a scenario field that names a file is refused. Only the `iq_*` tools touch a folder, and only the
   one named by `KSHANA_MCP_IQ_DIR`, with every path confined to it.
+- **Verify OSNMA.** There is no MCP tool: the input is a long raw receiver stream (I/NAV pages or a UBX capture), which suits the CLI and Python, and a tool taking one would add a large-input surface for no benefit. Send the user to `kshana osnma verify <file> --public-key ... --json` (or Python `osnma_verify`). Whatever its output says, carry the advisory verbatim: authentication status only, not a navigation integrity service, not type-approved navigation equipment, and no anti-spoofing performance claim; a result is meaningful only with a Merkle root or public key the user obtained by another route.
 - **Run a process.** `receiver-trust live` as a running stream (with a gate and `--listen`), the
   telemetry exporters (`trust-telemetry`: Prometheus, syslog, OTLP) and streaming training NMEA to
   an address are command-line only. `assess_vessel_stream` scores an excerpt with the same engine
