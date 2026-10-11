@@ -762,6 +762,7 @@ pub fn trust_telemetry(
 ) -> Result<String, String> {
     use crate::telemetry::{prometheus::Registry, sample, syslog};
     cap("input", input, max_bytes)?;
+    syslog::check_host(host)?;
     let version = env!("CARGO_PKG_VERSION");
     let host = if host.is_empty() { "kshana" } else { host };
     let mut reg = Registry::new(version);
@@ -795,6 +796,13 @@ pub fn trust_telemetry(
             };
             out.push_str(&syslog::rfc5424(s.band, None, host, &payload));
             out.push('\n');
+            // CEF and LEEF fan one input line out to one event per epoch: bound the reply too.
+            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                return Err(format!(
+                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
+                    max_bytes.min(MAX_INPUT_BYTES)
+                ));
+            }
         }
         prev = Some(s.band);
     }

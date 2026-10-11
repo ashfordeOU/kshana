@@ -92,7 +92,7 @@ fn prometheus_matches_the_command_line_apart_from_clock_gauges() {
     let want = cli(&["--print-metrics", "--host", "ops-gw1"]);
     let keep = |t: &str| -> Vec<String> {
         t.lines()
-            .filter(|l| !l.contains("unix") && !l.contains("timestamp") && !l.contains("age"))
+            .filter(|l| !l.contains("_unix") && !l.contains("timestamp_seconds"))
             .map(str::to_string)
             .collect()
     };
@@ -143,4 +143,51 @@ fn bad_input_is_refused_not_guessed() {
     .contains("limit"));
     assert!(TelemetryFormat::parse("xml").is_err());
     assert!(TelemetryInput::parse("csv").is_err());
+}
+
+#[test]
+fn a_long_or_unprintable_host_is_refused_before_it_is_copied_into_every_event() {
+    let go = |host: &str, max: usize| {
+        trust_telemetry(
+            STREAM,
+            TelemetryFormat::Cef,
+            host,
+            TelemetryInput::Jsonl,
+            TelemetryOptions {
+                syslog_all: true,
+                ..Default::default()
+            },
+            max,
+        )
+    };
+    let long = "h".repeat(100_000);
+    assert!(go(&long, MAX_INPUT_BYTES).unwrap_err().contains("host"));
+    assert!(go(&"h".repeat(256), MAX_INPUT_BYTES).is_err());
+    assert!(go(&"h".repeat(255), MAX_INPUT_BYTES).is_ok());
+    assert!(go("two words", MAX_INPUT_BYTES).is_err());
+    assert!(go("caf\u{e9}", MAX_INPUT_BYTES).is_err());
+    assert!(go("a\nb", MAX_INPUT_BYTES).is_err());
+}
+
+#[test]
+fn the_reply_is_capped_so_a_small_input_cannot_make_a_huge_one() {
+    // One line fans out to one CEF event per epoch with `syslog_all`: the reply, not only the
+    // input, is bounded by the limit the caller gives.
+    let line = r#"{"seq":1,"t_s":1.0,"time":null,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off","note":null}"#;
+    let input = format!("{line}\n").repeat(400);
+    let host = "h".repeat(255);
+    let max = input.len() + 1;
+    let e = trust_telemetry(
+        &input,
+        TelemetryFormat::Cef,
+        &host,
+        TelemetryInput::Jsonl,
+        TelemetryOptions {
+            syslog_all: true,
+            ..Default::default()
+        },
+        max,
+    )
+    .unwrap_err();
+    assert!(e.contains("reply") && e.contains("limit"), "{e}");
 }
