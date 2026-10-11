@@ -26,6 +26,8 @@ const USAGE: &str = "usage: kshana <scenario.toml> [--study-name <s>] [--eop <fi
    or: kshana compliance-report [--out <base>] <result.json>... | --mapping | --sources
    or: kshana osnma verify <pages|vectors.csv|stream.ubx> [--merkle-root <hex>] [--public-key <id:type:hex>] [--reference-time <gst-s>] [--json] (kshana osnma --help)
    or: kshana iq <scene|acquire|track|sweep|labfit|campaign|conditions|frontend|monitor|inventory|info|extract|convert|decimate> ... (kshana iq --help)
+   or: kshana sky <request.json|request.toml> | --site <lat,lon[,h]> --systems <a,b,...> [--time <s>] [--mask <deg>] [--skyline-preset <name>] [--uere <m>] [--monte-carlo <n> --seed <s>] [--svg] (kshana sky --help)
+   or: kshana skyline --preset <name> [--json] | --presets | --profile <skyline.json|toml>
    or: kshana kinds [--json]
    or: kshana example [<name>]
    or: kshana --help | --version";
@@ -133,6 +135,14 @@ fn main() -> ExitCode {
     // `kshana osnma verify <input>` checks Galileo OSNMA authentication of I/NAV pages.
     if args.get(1).map(String::as_str) == Some("osnma") {
         return ExitCode::from(kshana::osnma::cli::run(&args[2..]) as u8);
+    }
+    // `kshana sky` and `kshana skyline` run the sky-geometry functions (docs/SKYLINE.md).
+    // Terminal, JSON (or SVG) to standard output.
+    if args.get(1).map(String::as_str) == Some("sky") {
+        return run_sky_cli(&args[2..]);
+    }
+    if args.get(1).map(String::as_str) == Some("skyline") {
+        return run_skyline_cli(&args[2..]);
     }
     let mut positional: Option<String> = None;
     let mut export_sp3_path: Option<PathBuf> = None;
@@ -1084,6 +1094,225 @@ fn run_bench_export_cli(args: &[String]) -> ExitCode {
         eprintln!("note: {n}");
     }
     ExitCode::SUCCESS
+}
+
+const SKY_USAGE: &str =
+    "usage: kshana sky <request.json|request.toml> [--monte-carlo <n> --seed <s>] [--svg]
+   or: kshana sky --site <lat,lon[,height_m]> --systems <preset,...> [--time <s>] [--mask <deg>]
+                  [--skyline-preset <name>] [--uere <m>] [--clock per-system|common]
+                  [--monte-carlo <n> --seed <s>] [--svg]
+
+Prints the satellites the site sees under the skyline, their DOP, the east-north-up cofactor
+and covariance and the horizontal error ellipse as JSON (sky_geometry); with --monte-carlo,
+n (at most 5000) seeded least-squares errors (sky_monte_carlo); with --svg, the skyplot.
+Systems are engine presets (gps-baseline, galileo, beidou-meo, glonass, xona-pulsar, ...):
+a representative geometry, not the sky of a date at a place. MODELLED; docs/SKYLINE.md.";
+
+const SKYLINE_USAGE: &str = "usage: kshana skyline --preset <name> [--json]
+   or: kshana skyline --presets
+   or: kshana skyline --profile <skyline.json|skyline.toml>
+
+Prints a skyline preset (city-street, harbour-approach, fjord, container-terminal) with its
+provenance and the cut every degree of azimuth, the list of presets, or a skyline section
+reduced to the 360-entry table the engine uses. REPRESENTATIVE presets; docs/SKYLINE.md.";
+
+fn print_or_fail(out: Result<String, String>) -> ExitCode {
+    match out {
+        Ok(text) => {
+            println!("{text}");
+            ExitCode::SUCCESS
+        }
+        Err(e) => {
+            eprintln!("error: {e}");
+            ExitCode::FAILURE
+        }
+    }
+}
+
+/// `kshana sky`: the sky-geometry functions on a request file or on flags.
+fn run_sky_cli(args: &[String]) -> ExitCode {
+    let mut path: Option<PathBuf> = None;
+    let mut req = serde_json::Map::new();
+    let mut mc: Option<usize> = None;
+    let mut seed: u64 = 0;
+    let mut svg = false;
+    let mut i = 0;
+    let usage_err = |e: String| {
+        eprintln!("error: {e}\n{SKY_USAGE}");
+        ExitCode::from(2)
+    };
+    while i < args.len() {
+        let a = args[i].as_str();
+        let val = || args.get(i + 1).cloned().ok_or(format!("{a} needs a value"));
+        let num = |v: Result<String, String>| -> Result<f64, String> {
+            v?.parse::<f64>().map_err(|e| format!("{a}: {e}"))
+        };
+        match a {
+            "--help" | "-h" => {
+                println!("{SKY_USAGE}");
+                return ExitCode::SUCCESS;
+            }
+            "--svg" => svg = true,
+            "--json" => {}
+            "--site" => {
+                let v = match val() {
+                    Ok(v) => v,
+                    Err(e) => return usage_err(e),
+                };
+                let parts: Result<Vec<f64>, _> =
+                    v.split(',').map(|p| p.trim().parse::<f64>()).collect();
+                match parts {
+                    Ok(p) if p.len() == 2 || p.len() == 3 => {
+                        req.insert(
+                            "site".into(),
+                            serde_json::json!({"lat_deg": p[0], "lon_deg": p[1], "height_m": p.get(2).copied().unwrap_or(0.0)}),
+                        );
+                    }
+                    _ => return usage_err(format!("--site takes lat,lon[,height_m], got {v}")),
+                }
+                i += 1;
+            }
+            "--systems" => {
+                let v = match val() {
+                    Ok(v) => v,
+                    Err(e) => return usage_err(e),
+                };
+                let list: Vec<serde_json::Value> = v
+                    .split(',')
+                    .filter(|p| !p.trim().is_empty())
+                    .map(|p| serde_json::Value::String(p.trim().to_string()))
+                    .collect();
+                req.insert("systems".into(), serde_json::Value::Array(list));
+                i += 1;
+            }
+            "--time" | "--mask" | "--uere" => {
+                let key = match a {
+                    "--time" => "time_s",
+                    "--mask" => "mask_deg",
+                    _ => "sigma_uere_m",
+                };
+                match num(val()) {
+                    Ok(x) => {
+                        req.insert(key.into(), serde_json::json!(x));
+                    }
+                    Err(e) => return usage_err(e),
+                }
+                i += 1;
+            }
+            "--skyline-preset" => {
+                match val() {
+                    Ok(v) => {
+                        req.insert("skyline".into(), serde_json::json!({ "preset": v }));
+                    }
+                    Err(e) => return usage_err(e),
+                }
+                i += 1;
+            }
+            "--clock" => {
+                match val() {
+                    Ok(v) => {
+                        req.insert("clock".into(), serde_json::Value::String(v));
+                    }
+                    Err(e) => return usage_err(e),
+                }
+                i += 1;
+            }
+            "--monte-carlo" => {
+                match val().and_then(|v| {
+                    v.parse::<usize>()
+                        .map_err(|e| format!("--monte-carlo: {e}"))
+                }) {
+                    Ok(n) => mc = Some(n),
+                    Err(e) => return usage_err(e),
+                }
+                i += 1;
+            }
+            "--seed" => {
+                match val().and_then(|v| v.parse::<u64>().map_err(|e| format!("--seed: {e}"))) {
+                    Ok(s) => seed = s,
+                    Err(e) => return usage_err(e),
+                }
+                i += 1;
+            }
+            a if a.starts_with("--") => return usage_err(format!("unknown sky option {a}")),
+            a => path = Some(PathBuf::from(a)),
+        }
+        i += 1;
+    }
+    let text = match (path, req.is_empty()) {
+        (Some(p), true) => match std::fs::read_to_string(&p) {
+            Ok(t) => t,
+            Err(e) => {
+                eprintln!("error: cannot read {}: {e}", p.display());
+                return ExitCode::FAILURE;
+            }
+        },
+        (None, false) => serde_json::Value::Object(req).to_string(),
+        (Some(_), false) => return usage_err("give a request file or flags, not both".into()),
+        (None, true) => return usage_err("no request".into()),
+    };
+    let max = kshana::surface::MAX_INPUT_BYTES;
+    print_or_fail(match (mc, svg) {
+        (Some(n), false) => kshana::surface::sky_monte_carlo(&text, seed, n, max),
+        (None, true) => kshana::surface::skyplot_svg(&text, max),
+        (None, false) => kshana::surface::sky_geometry(&text, max),
+        (Some(_), true) => Err("--svg and --monte-carlo are separate outputs; give one".into()),
+    })
+}
+
+/// `kshana skyline`: the skyline presets and profiles.
+fn run_skyline_cli(args: &[String]) -> ExitCode {
+    match args.first().map(String::as_str) {
+        Some("--help" | "-h") => {
+            println!("{SKYLINE_USAGE}");
+            ExitCode::SUCCESS
+        }
+        Some("--presets") => print_or_fail(Ok(kshana::surface::skyline_presets())),
+        Some("--preset") => match args.get(1).filter(|a| !a.starts_with("--")) {
+            Some(name) => print_or_fail(
+                kshana::geometry::skyline_profile(&kshana::skyline::SkylineCfg {
+                    preset: Some(name.clone()),
+                    ..Default::default()
+                })
+                .and_then(|p| {
+                    let info = kshana::skyline::preset(name)?;
+                    serde_json::to_string_pretty(&serde_json::json!({
+                        "name": info.name,
+                        "label": kshana::skyline::PRESET_LABEL,
+                        "description": info.description,
+                        "provenance": info.provenance,
+                        "table": p.table,
+                        "open_fraction": p.open_fraction,
+                    }))
+                    .map_err(|e| e.to_string())
+                }),
+            ),
+            None => {
+                eprintln!("error: --preset needs a name\n{SKYLINE_USAGE}");
+                ExitCode::from(2)
+            }
+        },
+        Some("--profile") => match args.get(1) {
+            Some(p) => match std::fs::read_to_string(p) {
+                Ok(text) => print_or_fail(kshana::surface::skyline_profile(
+                    &text,
+                    kshana::surface::MAX_INPUT_BYTES,
+                )),
+                Err(e) => {
+                    eprintln!("error: cannot read {p}: {e}");
+                    ExitCode::FAILURE
+                }
+            },
+            None => {
+                eprintln!("error: --profile needs a file\n{SKYLINE_USAGE}");
+                ExitCode::from(2)
+            }
+        },
+        _ => {
+            eprintln!("{SKYLINE_USAGE}");
+            ExitCode::from(2)
+        }
+    }
 }
 
 /// `kshana compliance-report [--out <base>] <result.json>...`: write `<base>.compliance.md`
