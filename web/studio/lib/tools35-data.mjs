@@ -108,6 +108,7 @@ export const AI_QUESTIONS = Object.freeze([
   ["I need synthetic NMEA with a jamming, drag-off, time-spoof or replay event for training", "generate_training_nmea"],
   ["Where has GNSS looked degraded, and how much of this route is in it?", "build_interference_map, route_exposure"],
   ["Check or make an evidence pack of a trust event", "verify_evidence_pack, create_evidence_pack"],
+  ["Which Galileo satellites' navigation data does this receiver stream authenticate (OSNMA)?", "none on MCP: use osnma_verify (the OSNMA card here, WebAssembly), kshana osnma verify (CLI) or kshana.osnma_verify (Python)"],
   ["Export a scenario's motion and events for a laboratory simulator", "export_test_bench"],
   ["Which public-framework rows do these runs support evidence for?", "compliance_report, compliance_mapping"],
   ["GNSS IQ recordings (scene, acquire, track, front end, campaigns)", "iq_signals first, then the iq_* tools"],

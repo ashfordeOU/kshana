@@ -22,14 +22,14 @@ Kshana is a deterministic Rust engine for PNT (positioning, navigation and timin
 - JavaScript and WebAssembly: `npm install kshana` (https://www.npmjs.com/package/kshana)
 - AI assistant (MCP server, cargo): `cargo install kshana-mcp` (https://crates.io/crates/kshana-mcp)
 - Docker image: `docker run --rm -i ghcr.io/ashfordeou/kshana-mcp` (https://github.com/ashfordeOU/kshana/pkgs/container/kshana-mcp)
-- Cursor (one click): `npx -y kshana-mcp@0.35.0` (None)
-- VS Code (one click): `npx -y kshana-mcp@0.35.0` (None)
+- Cursor (one click): `npx -y kshana-mcp@0.35.0`
+- VS Code (one click): `npx -y kshana-mcp@0.35.0`
 - npx: `npx -y kshana-mcp@0.35.0` (https://www.npmjs.com/package/kshana-mcp)
 - uvx / pipx: `uvx kshana-mcp==0.35.0` (https://pypi.org/project/kshana-mcp/)
 - Homebrew: `brew install ashfordeOU/tap/kshana-mcp` (https://github.com/ashfordeOU/homebrew-tap)
 - Scoop: `scoop bucket add ashforde https://github.com/ashfordeOU/scoop-bucket && scoop install kshana-mcp` (https://github.com/ashfordeOU/scoop-bucket)
 - winget: `winget install AshfordeOU.KshanaMcp` (https://github.com/microsoft/winget-pkgs)
-- Remote (streamable HTTP), self-hosted: `kshana-mcp --http 127.0.0.1:8080` (None)
+- Remote (streamable HTTP), self-hosted: `kshana-mcp --http 127.0.0.1:8080`
 - Signal K plugin: `npm install signalk-kshana-trust` (https://www.npmjs.com/package/signalk-kshana-trust)
 - Reference-build image: `docker pull ghcr.io/ashfordeou/kshana-reference-build` (https://github.com/ashfordeOU/kshana/pkgs/container/kshana-reference-build)
 - Source code: https://github.com/ashfordeOU/kshana
