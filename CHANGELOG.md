@@ -87,6 +87,12 @@ generated NMEA text is for training.
 
 ### Added (surfaces)
 
+- **`osnma_verify` on Python and WebAssembly.** The verifier behind `kshana osnma verify` on bytes in
+  memory, returning the JSON `--json` prints (advisory in its `advisory` field; authentication status
+  only, not a navigation integrity service). The same refusals as the command line. Not on MCP: the
+  input is a long raw receiver stream better served by the CLI and Python. `docs/SURFACES.md` and
+  `docs/OSNMA.md` say so.
+
 - **`trust_telemetry` on WebAssembly, Python and MCP, with a plugin command and a JetBrains action.**
   Renders a trust stream or a `receiver-trust` result as Prometheus text, CEF or LEEF syslog lines or an
   OTLP JSON payload, with the encoders `kshana trust-telemetry` uses (`kshana::surface::trust_telemetry`);
