@@ -208,7 +208,9 @@ pub struct VerifyParams<'a> {
     pub format: Option<&'a str>,
     /// Start of a vector CSV in GST seconds; `None` reads it from a dated file name.
     pub start_gst: Option<u32>,
+    /// Trusted Merkle root for DSM-PKR checks.
     pub merkle_root: Option<[u8; 32]>,
+    /// Trusted public keys.
     pub keys: Vec<PublicKey>,
     /// Present time in GST seconds from an independent source.
     pub reference: Option<u32>,
