@@ -10,6 +10,20 @@ computation and nothing uploaded. The Studio has two views of one engine: the Si
 (`studio/advanced/index.html`, the full dashboard), which shares the Simple view's
 engine, worker, modules and data through `<base href="../">`.
 
+Since 0.35.0 the Studio has four more views, each its own page with `<base href="../">`,
+no search indexing, and a folder of synthetic samples that its test reads:
+
+- `studio/trust/`: the maritime trust view, a receiver-trust score for a vessel's
+  position stream, with a demo track in `trust/demo/`.
+- `studio/training/`: the crew-training debrief, replaying synthetic NMEA with a
+  jamming, drag-off, time-spoof or replay event (`training/demo/`).
+- `studio/interference/`: the interference map and route exposure
+  (`interference/demo/`).
+- `studio/tools/`: one page of tool cards with examples (`tools/examples/`,
+  `tools/samples/`), including signed evidence packs (`#evidence`), the test-bench
+  export (`#bench`), compliance mapping (`#compliance`), Galileo OSNMA verification
+  (`#osnma`) and the AI assistant channels (`#ai`).
+
 ## Where the files come from
 
 Three kinds of file live here, and they are changed in three different ways.

@@ -93,6 +93,20 @@ computation and nothing uploaded. The Studio has two views of one engine: the Si
 (<code>studio/index.html</code>, the answer first in plain words) and the Advanced view
 (<code>studio/advanced/index.html</code>, the full dashboard), which shares the Simple view&#39;s
 engine, worker, modules and data through <code>&lt;base href=&quot;../&quot;&gt;</code>.</p>
+<p>Since 0.35.0 the Studio has four more views, each its own page with <code>&lt;base href=&quot;../&quot;&gt;</code>,
+no search indexing, and a folder of synthetic samples that its test reads:</p>
+<ul>
+<li><code>studio/trust/</code>: the maritime trust view, a receiver-trust score for a vessel&#39;s
+position stream, with a demo track in <code>trust/demo/</code>.</li>
+<li><code>studio/training/</code>: the crew-training debrief, replaying synthetic NMEA with a
+jamming, drag-off, time-spoof or replay event (<code>training/demo/</code>).</li>
+<li><code>studio/interference/</code>: the interference map and route exposure
+(<code>interference/demo/</code>).</li>
+<li><code>studio/tools/</code>: one page of tool cards with examples (<code>tools/examples/</code>,
+<code>tools/samples/</code>), including signed evidence packs (<code>#evidence</code>), the test-bench
+export (<code>#bench</code>), compliance mapping (<code>#compliance</code>), Galileo OSNMA verification
+(<code>#osnma</code>) and the AI assistant channels (<code>#ai</code>).</li>
+</ul>
 <h2 id="where-the-files-come-from">Where the files come from<a class="anchor" href="#where-the-files-come-from" aria-label="Link to this section">#</a></h2>
 <p>Three kinds of file live here, and they are changed in three different ways.</p>
 <ol>
