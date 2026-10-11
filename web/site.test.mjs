@@ -119,13 +119,17 @@ const studioTomls = readdirSync(join(WEB, "studio/scenarios")).filter((f) => f.e
 assert.ok(studioTomls.length > 40, `the Studio bundles only ${studioTomls.length} scenarios`);
 // Every scenario file anywhere in the Studio is this checkout's scenario of the same name.
 const allStudioTomls = ported.filter((rel) => rel.startsWith("studio/") && rel.endsWith(".toml"));
+// (0.35.0: the session and example files the trust, interference and tools views read are data, not scenarios;
+// the training view's four files are the engine's nmea-scenario library in scenarios/training/.)
+const SAMPLE_TOML_DIRS = ["studio/trust/demo/", "studio/trust/generic/", "studio/interference/demo/", "studio/tools/examples/", "studio/tools/samples/"];
 for (const rel of allStudioTomls) {
+  if (SAMPLE_TOML_DIRS.some((d) => rel.startsWith(d))) continue;
   const f = rel.split("/").pop();
-  const repoCopy = join(REPO, "scenarios", f);
+  const repoCopy = rel.startsWith("studio/training/scenarios/") ? join(REPO, "scenarios", "training", f) : join(REPO, "scenarios", f);
   assert.ok(existsSync(repoCopy), `${rel} is not in scenarios/`);
   assert.ok(bytes(rel).equals(readFileSync(repoCopy)), `${rel} differs from scenarios/${f}: rerun the port`);
 }
-const studioScenarioNames = new Set(allStudioTomls.map((rel) => rel.split("/").pop()));
+const studioScenarioNames = new Set(allStudioTomls.filter((rel) => !SAMPLE_TOML_DIRS.some((d) => rel.startsWith(d)) && !rel.startsWith("studio/training/scenarios/")).map((rel) => rel.split("/").pop()));
 const bundle = JSON.parse(text("studio/scenarios/index.json"));
 assert.deepEqual(Object.keys(bundle).sort(), studioTomls, "studio/scenarios/index.json bundles exactly the scenario files beside it");
 for (const f of studioTomls) assert.equal(bundle[f], text(`studio/scenarios/${f}`), `index.json's ${f} is the file's text`);

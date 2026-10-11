@@ -13,6 +13,7 @@ import { encodeFragment, decodeFragment, patchScalar } from "./lib/share.mjs";
 import { hasDeclaration, sanitizeSvg } from "./lib/svgsafe.mjs";
 import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./lib/chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./lib/hover.mjs";
+import { PAGES } from "./lib/tools35-data.mjs";
 import { knobsForToml, readKnob, patchSectionScalar } from "./lib/guided.mjs";
 import { orbit3dSvg } from "./lib/orbit3d.mjs";
 import { buildFomRows, figureTier } from "./lib/tabs.mjs";
@@ -2095,7 +2096,9 @@ function renderPalette() {
   section("Domains", doms);
   section("Fields", fields);
   section("Panels", views);
+  const pages = Object.values(PAGES).filter((p) => match(`${p.label} page tools open your own files`)).map((p) => ({ t: `Page: ${p.label}`, k: "opens a page", c: "var(--ink-3)", run: () => { location.href = new URL(p.href, document.baseURI).href; } }));
   section("Commands", cmds);
+  section("Pages", pages);
   if (!palItems.length) list.append(h("p", { class: "pal-sec", text: "Nothing matches" }));
   selPal(0);
 }

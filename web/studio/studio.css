@@ -440,10 +440,20 @@ body.embed .embed-only{display:block}
 .vm-pop a{display:flex;align-items:center;gap:10px;min-height:44px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink)}
 .vm-pop a:hover{background:var(--line)}
 .vm-pop svg{width:16px;height:16px}
-@media (max-width:760px){
+@media (max-width:1100px){
   .views-menu{display:block}
-  #trust-link,#imap-link,#train-link{display:none}
+  #trust-link,#imap-link,#train-link,#tools-link{display:none}
   .bar{overflow:visible}
 }
 @media (max-width:430px){.bar{gap:8px;padding:0 10px}.bar-right{gap:4px}}
 @media (max-width:430px){.bar .brand-tag{display:none}}
+
+/* "Open your own files" row on the home screen */
+.more-views{margin:28px 0 8px}
+.more-views h2{font:650 18px/1.2 var(--f-display);margin:0 0 4px}
+.mv-sub{margin:0 0 12px;color:var(--ink-2);font-size:13.5px}
+.mv-grid{list-style:none;margin:0;padding:0;display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:10px}
+.mv-grid a{display:flex;flex-direction:column;gap:3px;min-height:44px;height:100%;padding:12px 14px;border-radius:14px;border:1px solid var(--line-2);background:var(--surface);color:var(--ink)}
+.mv-grid a:hover{background:var(--line)}
+.mv-grid b{font-size:14.5px}
+.mv-grid span{font-size:12.5px;color:var(--ink-2);line-height:1.4}

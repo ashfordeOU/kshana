@@ -3,6 +3,7 @@
 // and lib/geojson-layer.mjs. Files are read with File.text() in this page; nothing is sent anywhere.
 import { WITHHELD, MAX_BYTES, MAX_BYTES_TEXT, MAX_TABLE_ROWS, parseMapFile, parseRouteExposure, groupBySource, stateCounts, stateOf, stateInfo, statusInfo, STATES, KIND_LABEL, KEEP_CAVEATS, safeUrl, pct, cellRows, cellBounds, cellAt, describeMap, cellsForTable, showValue, fmtLat, fmtLon } from "../lib/interference.mjs";
 import { makeView, pathOf } from "../lib/geojson-layer.mjs";
+import { getEngine } from "../lib/engine-page.mjs";
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
@@ -47,6 +48,7 @@ async function openTexts(items, label) {
       const r = parseMapFile(it.text, it.name);
       if (r.error) { notes.push(r.error); continue; }
       r.map.uid = ++uid;
+      r.map.text = it.text; // kept so route exposure can run on the maps that are open
       added.push(r.map);
     }
     maps.push(...added.filter((x) => x.kind));
@@ -356,7 +358,86 @@ function routeCard(r) {
   return art;
 }
 
+// ---------- build maps and route exposure with the engine (in this browser) ----------
+const MAX_CSV = 24 * 1024 * 1024;
+function say(id, msg, err) { const s = $(id); s.textContent = msg; s.classList.toggle("err", !!err); }
+function saveText(name, text) {
+  const a = el("a", { href: URL.createObjectURL(new Blob([text], { type: "application/json" })), download: name });
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+async function engineFor(statusId, fn) {
+  const eng = await getEngine();
+  if (!eng.available) { say(statusId, `The engine could not start here (${eng.error}). Opening map files above still works.`, true); return null; }
+  if (!eng.has(fn)) { say(statusId, `This engine build (version ${eng.version}) has no ${fn}; it predates this page. The command-line equivalent is in the Tools page.`, true); return null; }
+  return eng;
+}
+function syncDataset() {
+  const src = $("im-b-src").value, ds = $("im-b-ds");
+  for (const o of ds.options) { if (o.value === "custom") continue; o.hidden = o.disabled = !((src === "adsb" && o.value === "adsb-lol") || (src === "ais" && o.value !== "adsb-lol")); }
+  if (ds.selectedOptions[0].disabled) ds.value = "custom";
+  $("im-b-lic").hidden = ds.value !== "custom";
+}
+async function buildMaps(csv, csvName, land, label) {
+  const st = "im-b-status";
+  try {
+    if (csv.length > MAX_CSV) { say(st, `${csvName}: larger than 24 MiB; build from an excerpt (the command-line tool takes a whole file).`, true); return; }
+    const src = $("im-b-src").value, ds = $("im-b-ds").value, cellText = $("im-b-cell").value.trim();
+    const cell = cellText === "" ? NaN : Number(cellText);
+    if (cellText !== "" && !(cell > 0 && cell <= 10)) { say(st, "The cell size must be a number of degrees above 0 and at most 10, or empty for 0.5.", true); return; }
+    const custom = ds === "custom";
+    const lic = custom ? [$("im-b-licence").value.trim(), $("im-b-url").value.trim(), $("im-b-attr").value.trim()] : ["", "", ""];
+    if (custom && lic.some((x) => !x)) { say(st, "A custom dataset needs the licence, its URL and the attribution text: they are written into the map file.", true); return; }
+    say(st, "Starting the engine and building…");
+    const eng = await engineFor(st, "interference_map"); if (!eng) return;
+    const res = JSON.parse(await eng.call("interference_map", src, csv, ds, cell, lic[0], lic[1], lic[2], src === "ais" ? land || "" : ""));
+    if (!Array.isArray(res) || !res.length) { say(st, `${csvName}: the engine built no map.`, true); return; }
+    const items = res.map((d) => ({ name: d.file_name, text: typeof d.geojson === "string" ? d.geojson : JSON.stringify(d.geojson) }));
+    await openTexts(items, label || `Built ${res.length} day map${res.length > 1 ? "s" : ""} from ${csvName} with engine ${eng.version}, in this browser.`);
+    const out = el("span", {}, " Save: ", ...items.map((it) => { const b = el("button", { type: "button", class: "im-demo" }, it.name); b.onclick = () => saveText(it.name, it.text); return b; }));
+    say(st, `Built ${res.length} map${res.length > 1 ? "s" : ""} (${res.map((d) => `${d.date}: ${d.cells_published} cells published, ${d.cells_flagged} flagged`).join("; ")}). Aggregate only: a flagged cell does not name interference as the cause.`);
+    $(st).append(out);
+  } catch (e) { say(st, `${csvName}: could not be built (${e && e.message ? e.message : e}).`, true); }
+}
+async function routeHere(route, name) {
+  const st = "im-r-status";
+  try {
+    if (!maps.length) { say(st, "Open or build at least one map first: the route is checked against the maps on this page.", true); return; }
+    if (route.length > MAX_CSV) { say(st, `${name}: larger than 24 MiB.`, true); return; }
+    const from = $("im-r-from").value.trim(), to = $("im-r-to").value.trim();
+    for (const d of [from, to]) if (d && !/^\d{4}-\d{2}-\d{2}$/.test(d)) { say(st, "Dates are YYYY-MM-DD, or empty for no limit.", true); return; }
+    const texts = maps.map((m) => m.text).filter((t) => typeof t === "string");
+    if (!texts.length) { say(st, "The open maps carry no file text to check (they were not opened as files).", true); return; }
+    say(st, "Starting the engine and checking the route…");
+    const eng = await engineFor(st, "route_exposure"); if (!eng) return;
+    const report = await eng.call("route_exposure", route, JSON.stringify(texts), from, to);
+    await openTexts([{ name: "route-exposure.json", text: report }], null);
+    say(st, `Route exposure computed from ${texts.length} map${texts.length > 1 ? "s" : ""} with engine ${eng.version}; the report is shown below.`);
+    const b = el("button", { type: "button", class: "im-demo" }, "Save the report (JSON)"); b.onclick = () => saveText("route-exposure.json", report);
+    $(st).append(" ", b);
+  } catch (e) { say(st, `${name}: could not be checked (${e && e.message ? e.message : e}).`, true); }
+}
+async function fetchText(url) { const r = await fetch(url); if (!r.ok) throw new Error(`${url} did not load`); return r.text(); }
+function wireBuild() {
+  $("im-b-src").addEventListener("change", syncDataset); $("im-b-ds").addEventListener("change", syncDataset); syncDataset();
+  let land = "";
+  $("im-b-land").addEventListener("change", async (e) => { const f = e.target.files[0]; if (!f) return; if (f.size > MAX_CSV) { say("im-b-status", "That land file is larger than 24 MiB.", true); return; } land = await f.text(); say("im-b-status", `Land polygons: ${f.name}.`); });
+  $("im-b-csv").addEventListener("change", async (e) => { const f = e.target.files[0]; e.target.value = ""; if (f) { if (f.size > MAX_CSV) { say("im-b-status", `${f.name}: larger than 24 MiB; build from an excerpt.`, true); return; } buildMaps(await f.text(), f.name, land); } });
+  $("im-b-demo").addEventListener("click", async () => {
+    try {
+      const src = $("im-b-src").value;
+      $("im-b-ds").value = "custom"; syncDataset();
+      $("im-b-licence").value = "CC0-1.0"; $("im-b-url").value = "https://creativecommons.org/publicdomain/zero/1.0/"; $("im-b-attr").value = "Synthetic data generated for Kshana documentation. Not real observations.";
+      const csv = await fetchText(`interference/demo/input/${src}.csv`);
+      const l = src === "ais" ? await fetchText("interference/demo/input/land.geojson") : "";
+      await buildMaps(csv, `${src}.csv (synthetic sample)`, l, `Built from the synthetic ${src === "ais" ? "AIS" : "ADS-B"} sample with the engine, in this browser. Made-up reports; no real aircraft, vessel or day.`);
+    } catch (x) { say("im-b-status", `The sample could not be opened: ${x.message}.`, true); }
+  });
+  $("im-r-file").addEventListener("change", async (e) => { const f = e.target.files[0]; e.target.value = ""; if (f) routeHere(await f.text(), f.name); });
+  $("im-r-demo").addEventListener("click", async () => { try { await routeHere(await fetchText("interference/demo/input/route.csv"), "route.csv (synthetic)"); } catch (x) { say("im-r-status", `The route could not be opened: ${x.message}.`, true); } });
+}
+
 function wire() {
+  wireBuild();
   $("im-files").addEventListener("change", (e) => { openFiles([...e.target.files]); e.target.value = ""; });
   $("im-demo").addEventListener("click", openDemo);
   $("im-clear").addEventListener("click", () => { maps = []; routes = []; render(); $("im-clear").hidden = true; setStatus("Nothing open yet."); setNotes([]); });

@@ -61,6 +61,41 @@
     <ul class="im-notes" id="im-notes"></ul>
   </section>
 
+  <section class="card im-load" aria-labelledby="im-build-h">
+    <div class="card-head"><h2 id="im-build-h" class="h3">Build a map here</h2>
+      <p class="card-note">Run the engine in this browser on a CSV of ADS-B or AIS position reports and get one map file per UTC day, then see it below. Rows and columns are described in the interference-map guide. The data is read in this page and never uploaded; the engine fetches nothing. A dataset preset needs the data you obtained under that dataset's own licence; with <code>custom</code> you state the licence and attribution yourself, and they are written into the file.</p></div>
+    <div class="im-buildrow">
+      <label>Source <select id="im-b-src"><option value="adsb">ADS-B (aircraft)</option><option value="ais">AIS (ships)</option></select></label>
+      <label>Dataset <select id="im-b-ds"><option value="custom">custom (state the licence)</option><option value="adsb-lol">adsb-lol</option><option value="noaa-marinecadastre">noaa-marinecadastre</option><option value="kystverket">kystverket</option></select></label>
+      <label>Cell size, degrees <input id="im-b-cell" type="text" inputmode="decimal" spellcheck="false" placeholder="0.5" aria-label="Cell size in degrees (empty for 0.5)"></label>
+    </div>
+    <div class="im-buildrow" id="im-b-lic">
+      <label>Licence <input id="im-b-licence" type="text" spellcheck="false" autocomplete="off" placeholder="CC0-1.0"></label>
+      <label>Licence URL <input id="im-b-url" type="text" spellcheck="false" autocomplete="off" placeholder="https://…"></label>
+      <label class="im-wide">Attribution <input id="im-b-attr" type="text" spellcheck="false" autocomplete="off"></label>
+    </div>
+    <div class="im-drop">
+      <label class="im-file btn-primary">Choose a CSV…<input id="im-b-csv" type="file" accept=".csv,.txt,text/*"></label>
+      <label class="im-file im-demo">Land polygons (AIS, optional)…<input id="im-b-land" type="file" accept=".geojson,.json"></label>
+      <button class="im-demo" id="im-b-demo" type="button">Build from the synthetic sample</button>
+    </div>
+    <p class="im-status" id="im-b-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card im-load" aria-labelledby="im-route-h">
+    <div class="card-head"><h2 id="im-route-h" class="h3">Route exposure here</h2>
+      <p class="card-note">How much of a planned route lay in degraded cells on each day, from the maps open on this page (opened or built here). Pick a route (a GeoJSON line, or a CSV of <code>lat,lon</code> lines; waypoints are joined by straight lines, so add points on long legs) and, if you like, limit the days. Not a forecast; a cell nobody observed is not evidence of a clear route.</p></div>
+    <div class="im-buildrow">
+      <label>From (YYYY-MM-DD) <input id="im-r-from" type="text" inputmode="numeric" spellcheck="false" placeholder="any"></label>
+      <label>To (YYYY-MM-DD) <input id="im-r-to" type="text" inputmode="numeric" spellcheck="false" placeholder="any"></label>
+    </div>
+    <div class="im-drop">
+      <label class="im-file btn-primary">Choose a route…<input id="im-r-file" type="file" accept=".geojson,.json,.csv,.txt"></label>
+      <button class="im-demo" id="im-r-demo" type="button">Use the synthetic route</button>
+    </div>
+    <p class="im-status" id="im-r-status" role="status" aria-live="polite"></p>
+  </section>
+
   <div id="im-maps"></div>
 
   <section class="im-fine" aria-label="About this page">

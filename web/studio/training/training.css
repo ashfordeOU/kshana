@@ -104,3 +104,9 @@ button.tr-chip:hover,.tr-chip.chk:hover{background:var(--line)}
 @media (max-width:520px){.wrap.tr{padding-left:16px;padding-right:16px}}
 @media (prefers-reduced-motion:reduce){.tr *{transition:none!important;animation:none!important}}
 .tr-cmp th{white-space:normal;overflow-wrap:anywhere;padding-left:6px;padding-right:6px}.tr-cmp td{padding-left:6px;padding-right:6px}
+
+.tr-gen{margin-bottom:16px}
+.tr-genrow{display:flex;flex-wrap:wrap;align-items:end;gap:10px 14px}
+.tr-genrow label{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+.tr-genrow select,.tr-genrow input{min-height:44px;border-radius:10px;border:1px solid var(--line-2);background:var(--surface);padding:0 10px;color:var(--ink)}
+.tr-genout{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
