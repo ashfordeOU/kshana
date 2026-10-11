@@ -21,3 +21,14 @@
 }
 @media (max-width:370px){.bar .pill.view-switch{padding:0 9px;font-size:12px}}
 .pill.view-switch{display:inline-flex!important;align-items:center}
+
+/* Views menu (the 0.35 pages: trust, interference map, training debrief, tools) */
+.adv-views{display:block;position:relative}
+.adv-views summary{list-style:none;width:44px;height:44px;border-radius:999px;border:1px solid var(--line-2);display:grid;place-items:center;cursor:pointer;color:var(--ink)}
+.adv-views summary::-webkit-details-marker{display:none}
+.adv-views summary:hover{background:var(--line)}
+.adv-views summary svg{width:18px;height:18px}
+.adv-views summary .lbl{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);clip-path:inset(50%);white-space:nowrap}
+.adv-views .vm-pop{position:absolute;right:0;top:50px;z-index:60;min-width:260px;padding:6px;border-radius:14px;background:var(--surface);border:1px solid var(--line-2);box-shadow:var(--sh-3,0 8px 28px rgba(0,0,0,.18))}
+.adv-views .vm-pop a{display:flex;align-items:center;min-height:44px;padding:0 12px;border-radius:10px;font-size:14px;font-weight:600;color:var(--ink)}
+.adv-views .vm-pop a:hover{background:var(--line)}

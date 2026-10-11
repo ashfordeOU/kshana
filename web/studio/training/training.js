@@ -3,6 +3,7 @@
 // The file is read with File.text() in this page; nothing is sent anywhere.
 import { parseInstructorLog, errorBand, ERROR_BANDS, kindLabel, whatLabel, MAX_BYTES, MAX_BYTES_TEXT, MAX_MOMENTS_SHOWN, eventShape, nearestRow, stepTimeline, sensorCue, describeRow, paramRows, eventExtraRows, peakFacts } from "../lib/training.mjs";
 import { makeProjection, niceLength } from "../lib/trust.mjs";
+import { getEngine } from "../lib/engine-page.mjs";
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
@@ -340,7 +341,39 @@ function stop() {
   if (log) $("tr-live").textContent = describeRow(log, cur);
 }
 
+// ---------- generate a stream with the engine (in this browser) ----------
+function saveText(name, text) {
+  const a = el("a", { href: URL.createObjectURL(new Blob([text], { type: "text/plain" })), download: name });
+  document.body.append(a); a.click(); a.remove(); setTimeout(() => URL.revokeObjectURL(a.href), 4000);
+}
+function genStatus(msg, err) { const s = $("tr-gen-status"); s.textContent = msg; s.classList.toggle("err", !!err); }
+async function generate() {
+  const out = $("tr-gen-out"); out.replaceChildren();
+  const [name, title] = DEMOS.find(([n]) => n === $("tr-gen-scn").value) || DEMOS[0];
+  const seedText = $("tr-gen-seed").value.trim();
+  if (seedText && !/^\d{1,15}$/.test(seedText)) { genStatus("The seed must be a whole number, or empty to use the scenario's own.", true); return; }
+  genStatus("Starting the engine and generating…");
+  try {
+    const eng = await getEngine();
+    if (!eng.available) { genStatus(`The engine could not start here (${eng.error}). The library scenarios above still open without it.`, true); return; }
+    if (!eng.has("nmea_training")) { genStatus(`This engine build (version ${eng.version}) has no NMEA training generator; it predates this page. The command is kshana nmea-scenario.`, true); return; }
+    const r = await fetch(`training/scenarios/${name}.toml`);
+    if (!r.ok) throw new Error("the scenario file did not load");
+    const res = JSON.parse(await eng.call("nmea_training", await r.text(), seedText ? Number(seedText) : NaN));
+    const lines = res.nmea.split("\n").filter(Boolean).length;
+    genStatus(`Generated "${title}" with engine ${eng.version}: ${lines.toLocaleString()} NMEA sentences. Synthetic: for training and testing only; never feed it to a vessel's live navigation systems.`);
+    const stem = name + (seedText ? "-seed" + seedText : "");
+    const b1 = el("button", { type: "button", class: "tr-demo" }, "Download the NMEA stream"); b1.onclick = () => saveText(stem + ".nmea", res.nmea);
+    const b2 = el("button", { type: "button", class: "tr-demo" }, "Download the instructor log (JSON)"); b2.onclick = () => saveText(stem + ".instructor.json", res.log_json);
+    const b3 = el("button", { type: "button", class: "tr-demo" }, "Download the instructor log (text)"); b3.onclick = () => saveText(stem + ".instructor.txt", res.log_text);
+    const b4 = el("button", { type: "button", class: "btn-primary" }, "Debrief it now"); b4.onclick = async () => { await openText(stem + ".instructor.json", res.log_json, `Generated here by the engine ("${title}"). Synthetic: invented positions and dates.`); $("tr-run").scrollIntoView?.({ block: "start" }); };
+    out.replaceChildren(b4, b1, b2, b3);
+  } catch (e) { genStatus(`Could not generate: ${e && e.message ? e.message : e}.`, true); }
+}
+
 function wire() {
+  $("tr-gen-scn").replaceChildren(...DEMOS.map(([n, t]) => el("option", { value: n }, t)));
+  $("tr-gen-run").addEventListener("click", generate);
   $("tr-demos").replaceChildren(...DEMOS.map(([n, t]) => { const b = el("button", { type: "button", class: "tr-demo" }, t); b.onclick = () => openDemo(n, t); return b; }));
   $("tr-files").addEventListener("change", (e) => { openFile(e.target.files[0]); e.target.value = ""; });
   const drop = $("tr-drop");

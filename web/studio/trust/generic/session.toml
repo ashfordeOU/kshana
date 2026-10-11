@@ -1,0 +1,32 @@
+# Illustrative receiver-trust session: a synthetic NMEA 0183 log (1 Hz, six GPS
+# satellites) with a broadband jammer from 120 s to 240 s that lowers the carrier-to-noise
+# density (C/N0) by 12 dB and costs two satellites. The log is made up to show the
+# format; it is not a measurement. Replace `path` with your own receiver's log.
+#
+# Run it with:   kshana receiver-trust examples/receiver-trust/session.toml
+kind = "receiver-trust"
+name = "Illustrative jamming session (synthetic NMEA)"
+
+[log]
+format = "nmea"
+path = "illustrative-jamming.nmea"
+
+# Every threshold is stated before the run; these are the defaults written out.
+[monitors]
+calibration_s = 60.0
+cn0_drop_db = 6.0
+sats_lost = 4
+position_jump_m = 50.0
+
+# What is known about the session, and what a model predicted for it. The 12 dB here
+# stands in for a `jamming` scenario's link-budget prediction.
+[[events]]
+label = "jammer on"
+kind = "jamming"
+onset_s = 120.0
+end_s = 240.0
+predicted_cn0_drop_db = 12.0
+
+[compare]
+detect_tol_s = 10.0
+cn0_tol_db = 3.0

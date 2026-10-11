@@ -1,12 +1,13 @@
 {
  "engine_version": "0.35.0",
+ "engine_commit": "a71fd06081b28020b36f0abd10e3c9503d279115",
  "source": "native",
  "platform": "linux x64",
- "recorded_utc": "2026-10-10T20:09:07.226Z",
+ "recorded_utc": "2026-10-11T14:54:21.445Z",
  "runs": {
   "celeste-iod-classical-pilot-signals.toml": {
    "file": "celeste-iod-classical-pilot-signals.json.gz",
-   "bytes": 26272,
+   "bytes": 26270,
    "unpacked_bytes": 119143,
    "report": true,
    "animation": false,
@@ -18,8 +19,8 @@
   },
   "celeste-iod-end-to-end.toml": {
    "file": "celeste-iod-end-to-end.json.gz",
-   "bytes": 103963,
-   "unpacked_bytes": 325403,
+   "bytes": 103961,
+   "unpacked_bytes": 325394,
    "report": true,
    "animation": true,
    "animation_reason": "",
@@ -35,7 +36,7 @@
   },
   "celeste-iod-fused-pvt.toml": {
    "file": "celeste-iod-fused-pvt.json.gz",
-   "bytes": 35687,
+   "bytes": 35686,
    "unpacked_bytes": 128079,
    "report": true,
    "animation": true,
@@ -47,7 +48,7 @@
   },
   "leo-navmsg-celeste-iod.toml": {
    "file": "leo-navmsg-celeste-iod.json.gz",
-   "bytes": 16136,
+   "bytes": 16137,
    "unpacked_bytes": 63233,
    "report": true,
    "animation": false,
@@ -59,8 +60,8 @@
   },
   "leo-pass-celeste-iod-multiband.toml": {
    "file": "leo-pass-celeste-iod-multiband.json.gz",
-   "bytes": 170183,
-   "unpacked_bytes": 570918,
+   "bytes": 170177,
+   "unpacked_bytes": 570910,
    "report": true,
    "animation": true,
    "animation_reason": "",

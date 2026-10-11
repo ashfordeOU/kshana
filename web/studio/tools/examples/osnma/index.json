@@ -1,0 +1,26 @@
+{
+  "note": "Synthetic samples made by the Kshana repository's generator; not a recording of any signal. The key is a throwaway.",
+  "public_key": "1:p256:020217e617f0b6443928278f96999e69a23a4f2c152bdf6d6cdf66e5b80282d4ed",
+  "examples": [
+    {
+      "file": "pages-good.txt",
+      "expected": "expected/pages-good.txt.json",
+      "note": "Plain pages, a good chain: two satellites, every tag verifies. Synthetic."
+    },
+    {
+      "file": "pages-corrupt.txt",
+      "expected": "expected/pages-corrupt.txt.json",
+      "note": "The same pages with one flipped bit in one satellite's navigation data: the tag that covers it fails. Synthetic."
+    },
+    {
+      "file": "stream-good.ubx",
+      "expected": "expected/stream-good.ubx.json",
+      "note": "The good data as a u-blox UBX-RXM-SFRBX byte stream. Synthetic."
+    },
+    {
+      "file": "stream-corrupt.ubx",
+      "expected": "expected/stream-corrupt.ubx.json",
+      "note": "The corrupted data as a UBX stream. Synthetic."
+    }
+  ]
+}
