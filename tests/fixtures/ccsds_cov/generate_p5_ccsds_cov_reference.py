@@ -3,7 +3,7 @@
 """Generate an external-oracle reference for kshana's CCSDS 502.0 OEM COVARIANCE
 block interchange.
 
-The oracle is **oem** (MIT, https://github.com/bradsease/oem) — an independent,
+The oracle is **oem** (MIT, https://pypi.org/project/oem/) — an independent,
 third-party, astropy-backed implementation of the CCSDS 502.0-B Orbit Ephemeris
 Message standard (https://pypi.org/project/oem/, version 0.4.5 here). It is a
 *completely separate codebase* from kshana's `src/oem.rs`: its own KVN tokenizer
@@ -53,7 +53,7 @@ Reproduce (offline, no kshana code involved):
     python3 tests/fixtures/ccsds_cov/generate_p5_ccsds_cov_reference.py \
         > tests/fixtures/ccsds_cov/p5_ccsds_cov_reference.txt
 
-Regenerable offline. Generated with the oem library (MIT, https://github.com/bradsease/oem) + numpy.
+Regenerable offline. Generated with the oem library (MIT, https://pypi.org/project/oem/) + numpy.
 """
 
 import os
@@ -123,7 +123,7 @@ def try_parse_text(oem_text):
 
 def main():
     print("# External-oracle reference for kshana's CCSDS 502.0 OEM COVARIANCE block.")
-    print("# Oracle: the oem library (MIT, v0.4.5, https://github.com/bradsease/oem) + numpy.")
+    print("# Oracle: the oem library (MIT, v0.4.5, https://pypi.org/project/oem/) + numpy.")
     print("# Independent CCSDS 502.0-B OEM parser; separate codebase from src/oem.rs.")
     print("# Consumed by tests/ccsds_oem_covariance_reference.rs.")
     print("# See generate_p5_ccsds_cov_reference.py for provenance/scope/findings.")

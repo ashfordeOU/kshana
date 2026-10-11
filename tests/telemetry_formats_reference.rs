@@ -15,6 +15,11 @@
 //! of the `Registry`, which the test reads through its accessors and never by parsing the
 //! text. CI needs no Python.
 //!
+//! PIN-SCOPE:    the fixed wall-clock inputs this test stamps its registry and OTLP payload with
+//!               (`NOW`, `NOW_NANO`): they make the committed `exposition.prom` and `otlp.json`
+//!               reproducible. They are inputs, not expected results.
+//! PIN-EXCLUDES: every expected value: those are read from the registry, never from a literal.
+//!
 //! The oracles check the **syntax and the values** of the formats. They do not check that the
 //! metric names suit any dashboard, and they say nothing about CEF or LEEF.
 //!
@@ -47,6 +52,8 @@ const VERSION: &str = "9.9.9-oracle";
 /// the committed outputs reproducible).
 const NOW: f64 = 1_790_000_000.0;
 /// The time the OTLP payload is stamped with, Unix nanoseconds.
+// PIN-SCOPE:    a fixed Unix-nanosecond timestamp (the registry's clock is injected) so the committed oracle outputs are reproducible
+// PIN-EXCLUDES: the wall clock, which the exporter reads only outside this code
 const NOW_NANO: u64 = 1_790_000_100_000_000_000;
 
 fn dir() -> PathBuf {

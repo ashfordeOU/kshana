@@ -4,6 +4,10 @@
 //! and `otlp.json` (OTLP/HTTP JSON; needs `--features otlp`). It writes no oracle output;
 //! that is `scripts/gen_telemetry_formats_ref.py`'s job.
 //!
+//! PIN-SCOPE:    the fixed wall-clock inputs (`NOW`, `NOW_NANO`) that make the two committed outputs
+//!               reproducible; they are inputs to the generator, not expected results.
+//! PIN-EXCLUDES: everything the generator writes: it is derived from the stream and the registry.
+//!
 //! Run: `cargo run --example gen_telemetry_oracle_inputs --features otlp`
 
 use kshana::telemetry::prometheus::Registry;
@@ -13,6 +17,8 @@ use std::path::Path;
 const VERSION: &str = "9.9.9-oracle";
 const NOW: f64 = 1_790_000_000.0;
 #[cfg(feature = "otlp")]
+// PIN-SCOPE:    a fixed Unix-nanosecond timestamp (the registry's clock is injected) so the committed oracle outputs are reproducible
+// PIN-EXCLUDES: the wall clock, which the exporter reads only outside this code
 const NOW_NANO: u64 = 1_790_000_100_000_000_000;
 
 fn main() {

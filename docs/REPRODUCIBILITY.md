@@ -116,7 +116,7 @@ package, which carries this same SBOM inside its tarball). Platform-conditional
 dependencies for every target are included, since the wheels ship for several
 operating systems and the npm package targets WebAssembly. One document covers
 all three artifacts, so for any single one it is a superset. It currently lists
-86 components; the count is pinned in
+105 components; the count is pinned in
 `tests/fixtures/reproducibility_software_assurance/`. The standalone
 `kshana-mcp` server has its own manifest and is not described by this SBOM.
 
