@@ -163,6 +163,12 @@ The engine has 75 scenario kinds; `kshana kinds` lists them with their fields.
   record of a log window; `evidence_keygen` makes a signing key (Python only, so the private
   key stays out of a page or an agent conversation); `evidence_attach_timestamp` binds an RFC 3161
   timestamp token. A record, not a legal opinion.
+- **OSNMA**: `osnma_verify` reports which satellites' Galileo navigation data an I/NAV page file or
+  a UBX stream authenticates, given a trusted Merkle root or public keys and an optional
+  independent reference time. It authenticates data; it is not a navigation integrity service and
+  makes no anti-spoofing performance claim.
+- **Trust telemetry**: `trust_telemetry` renders a trust stream or result as Prometheus text, CEF
+  or LEEF syslog lines or an OTLP payload; nothing is sent.
 - **Training streams**: `nmea_training` writes synthetic bridge NMEA and an instructor log for
   crew training. Text only; never for a vessel's live navigation systems; advisory, not
   type-approved navigation equipment.
