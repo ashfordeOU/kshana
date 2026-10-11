@@ -20,16 +20,14 @@
   ],
   "author": [
     {
-      "@type": "Person",
-      "givenName": "Chakshu",
-      "familyName": "Baweja",
+      "@type": "Organization",
+      "name": "Ashforde OÜ",
       "email": "contact@ashforde.org"
     }
   ],
   "maintainer": {
-    "@type": "Person",
-    "givenName": "Chakshu",
-    "familyName": "Baweja",
+    "@type": "Organization",
+    "name": "Ashforde OÜ",
     "email": "contact@ashforde.org"
   },
   "developmentStatus": "active",

@@ -9,6 +9,7 @@ description = "Launcher for the Kshana MCP server: downloads the prebuilt kshana
 readme = "README.md"
 requires-python = ">=3.9"
 license = "AGPL-3.0-only"
+authors = [{ name = "Ashforde OÜ", email = "contact@ashforde.org" }]
 license-files = ["LICENSE"]
 keywords = ["mcp", "model-context-protocol", "pnt", "gnss", "navigation", "kshana"]
 classifiers = [

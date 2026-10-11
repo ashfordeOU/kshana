@@ -7,7 +7,7 @@ description = "Open, reproducible PNT-resilience simulator with quantum-sensor p
 # Ashforde OÜ (contact@ashforde.org) for proprietary/closed integration. See
 # LICENSE (AGPL) and LICENSING.md (the dual-licence terms and when each applies).
 license = "AGPL-3.0-only"
-authors = ["Chakshu Baweja <contact@ashforde.org>"]
+authors = ["Ashforde OÜ <contact@ashforde.org>"]
 repository = "https://github.com/ashfordeOU/kshana"
 homepage = "https://kshana.dev"
 documentation = "https://docs.rs/kshana"
