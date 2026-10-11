@@ -154,7 +154,7 @@ let links = 0;
 let studioLinks = 0;
 for (const rel of [...pages, NOT_FOUND, ...MOVED, ...VIEWS]) {
   const dir = linkDir(rel, text(rel));
-  const html = text(rel).replace(/<script\b[\s\S]*?<\/script>/g, " ");
+  const html = text(rel).replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, " ");
   for (const m of html.matchAll(/\s(?:href|src)="([^"]*)"/g)) {
     const raw = m[1].replace(/&amp;/g, "&");
     if (/^([a-z][a-z0-9+.-]*:|\/\/)/i.test(raw) || raw === "") continue; // external, mailto:, data:
@@ -259,7 +259,7 @@ for (const rel of ported) {
       }
     }
     for (const st of body.matchAll(/<style\b[^>]*>([\s\S]*?)<\/style>/gi)) for (const m of st[1].matchAll(CSS_REMOTE)) remote.push(`${rel}: inline style loads ${(m[1] || m[2]).slice(0, 80)}`);
-    for (const sc of body.matchAll(/<script\b(?![^>]*\bsrc=)(?![^>]*application\/(?:ld\+)?json)[^>]*>([\s\S]*?)<\/script>/gi)) for (const m of sc[1].matchAll(JS_REMOTE)) remote.push(`${rel}: inline script loads ${m[1].slice(0, 80)}`);
+    for (const sc of body.matchAll(/<script\b(?![^>]*\bsrc=)(?![^>]*application\/(?:ld\+)?json)[^>]*>([\s\S]*?)<\/script[^>]*>/gi)) for (const m of sc[1].matchAll(JS_REMOTE)) remote.push(`${rel}: inline script loads ${m[1].slice(0, 80)}`);
   } else if (rel.endsWith(".css")) {
     for (const m of body.matchAll(CSS_REMOTE)) remote.push(`${rel}: loads ${(m[1] || m[2]).slice(0, 80)}`);
   } else if (!rel.endsWith(".test.mjs")) {
@@ -326,7 +326,7 @@ assert.ok(nf.includes('<meta name="robots" content="noindex">'), "404.html is no
 assert.ok(!nf.includes("<base "), "404.html uses root-absolute addresses, not <base> (which would re-point its fragment links)");
 assert.ok(!sitemap.includes("404"), "404.html is not in the sitemap");
 assert.ok(!nf.includes("legacy-redirects.js") && !nf.includes('rel="canonical"'), "404.html neither redirects nor claims a canonical address");
-for (const m of nf.replace(/<script\b[\s\S]*?<\/script>/g, (sc) => (sc.includes(" src=") ? sc : " ")).matchAll(/\s(?:href|src)="([^"]*)"/g)) {
+for (const m of nf.replace(/<script\b[\s\S]*?<\/script[^>]*>/gi, (sc) => (sc.includes(" src=") ? sc : " ")).matchAll(/\s(?:href|src)="([^"]*)"/g)) {
   assert.ok(/^(\/|#|[a-z][a-z0-9+.-]*:)/i.test(m[1]), `404.html: relative address ${m[1]} would break below the site root`);
 }
 for (const to of ["/", "/docs/", "/studio/"]) assert.ok(nf.includes(`href="${to}"`), `404.html links to ${to}`);
