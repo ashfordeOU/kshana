@@ -428,6 +428,12 @@ jobs:
         run: node web/studio/lib/abbr.test.mjs
       - name: Test the maritime trust view's logic
         run: node web/studio/lib/trust.test.mjs
+      - name: Test the Studio's tools page logic
+        run: node web/studio/lib/tools35.test.mjs
+      - name: Test the Studio's tools page example data
+        run: node web/studio/lib/tools35-data.test.mjs
+      - name: Test the Studio's zip writer
+        run: node web/studio/lib/zip.test.mjs
       - name: Test the interference map's logic
         run: node web/studio/lib/interference.test.mjs
       - name: Test the GeoJSON layer helpers
