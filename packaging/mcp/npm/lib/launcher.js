@@ -112,7 +112,59 @@ async function fetchBuffer(url, max, env = process.env) {
   return readCapped(res, max, what);
 }
 
-/** The path to a verified binary, downloading it first when it is not cached. */
+/**
+ * The cached file's bytes, read through ONE open descriptor, or null when there is no cached file. The
+ * file is opened without following a symbolic link and checked on that same descriptor (a regular file,
+ * within the size cap), so the bytes verified are the bytes read: there is no separate "does it exist"
+ * check by path that another process could invalidate between the check and the use.
+ */
+function readCached(target) {
+  let fd;
+  try {
+    fd = fs.openSync(target, fs.constants.O_RDONLY | (fs.constants.O_NOFOLLOW || 0));
+  } catch (e) {
+    if (e.code === "ENOENT") return null;
+    throw e;                                            // ELOOP (a symlink) and the rest: rejected by the caller
+  }
+  try {
+    const st = fs.fstatSync(fd);
+    if (!st.isFile()) throw new Error("cached path is not a regular file");
+    if (st.size > MAX_BINARY_BYTES) throw new Error(`cached file is ${st.size} bytes, over the ${MAX_BINARY_BYTES}-byte limit`);
+    return fs.readFileSync(fd);
+  } finally {
+    fs.closeSync(fd);
+  }
+}
+
+/**
+ * Write verified bytes to `target` atomically and privately: a fresh file created exclusively (never
+ * following or reusing an existing name) with mode 0700 (the user running the server is the only one who
+ * needs to read or run it), then renamed into place.
+ */
+function installVerified(target, buf) {
+  const tmp = `${target}.${process.pid}.${crypto.randomBytes(6).toString("hex")}.tmp`;
+  const fd = fs.openSync(tmp, "wx", 0o700);
+  try {
+    fs.writeSync(fd, buf);
+  } catch (e) {
+    fs.closeSync(fd);
+    fs.rmSync(tmp, { force: true });
+    throw e;
+  }
+  fs.closeSync(fd);
+  try {
+    fs.renameSync(tmp, target);
+  } catch (e) {
+    fs.rmSync(tmp, { force: true });
+    throw e;
+  }
+}
+
+/**
+ * The path to a verified binary, downloading it first when it is not cached. The cached file is
+ * re-verified on every run, from the bytes of a single read. The cache directory is private (0700), so
+ * between this check and the server starting only the same user could replace the file.
+ */
 async function ensureBinary(version, env = process.env, platform = process.platform, arch = process.arch) {
   const name = assetFor(platform, arch, version);
   if (!name) throw new Error(`no prebuilt kshana-mcp for ${platform}/${arch}; use the Docker image or cargo install kshana-mcp`);
@@ -120,23 +172,26 @@ async function ensureBinary(version, env = process.env, platform = process.platf
   const target = path.join(dir, name);
   const base = releaseBase(version, env);
   const sums = parseSums((await fetchBuffer(`${base}/SHA256SUMS`, MAX_SUMS_BYTES, env)).toString("utf8"));
-  if (fs.existsSync(target)) {
-    try {
-      verify(fs.readFileSync(target), name, sums);   // a cached file is re-checked every run
+  let rejected = null;
+  try {
+    const cached = readCached(target);
+    if (cached) {
+      verify(cached, name, sums);
       return target;
-    } catch (e) {
-      process.stderr.write(`kshana-mcp: cached file rejected (${e.message}); downloading again\n`);
-      fs.rmSync(target, { force: true });
     }
+  } catch (e) {
+    rejected = e;
+  }
+  if (rejected) {
+    process.stderr.write(`kshana-mcp: cached file rejected (${rejected.message}); downloading again\n`);
+    fs.rmSync(target, { force: true });                 // removes a symlink itself, never what it points at
   }
   process.stderr.write(`kshana-mcp: downloading ${name} v${version}\n`);
   const buf = await fetchBuffer(`${base}/${name}`, MAX_BINARY_BYTES, env);
   verify(buf, name, sums);
-  fs.mkdirSync(dir, { recursive: true });
-  const tmp = `${target}.${process.pid}.tmp`;
-  fs.writeFileSync(tmp, buf, { mode: 0o755 });
-  fs.renameSync(tmp, target);
+  fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
+  installVerified(target, buf);
   return target;
 }
 
-module.exports = { assetFor, parseSums, sha256Hex, verify, releaseBase, cacheDir, fetchBuffer, ensureBinary, MAX_BINARY_BYTES, MAX_SUMS_BYTES };
+module.exports = { assetFor, parseSums, sha256Hex, verify, releaseBase, cacheDir, fetchBuffer, readCached, ensureBinary, MAX_BINARY_BYTES, MAX_SUMS_BYTES };

@@ -42,8 +42,9 @@ jobs:
           # not just the shallow tip (default fetch-depth 1 silently blinds the scan).
           fetch-depth: 0
       # Pinned to the exact version in rust-toolchain.toml for a reproducible build.
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
+          toolchain: 1.93.0
           components: rustfmt, clippy
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Toolchain pin guard
@@ -88,7 +89,9 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - run: cargo package --locked
   msrv:
@@ -112,7 +115,9 @@ jobs:
       RUSTUP_TOOLCHAIN: 1.85.0
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.85.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.85.0
       - name: Assert the compiler in use IS the declared MSRV
         # Grades both halves of what this job claims: that RUSTUP_TOOLCHAIN really did beat
         # rust-toolchain.toml, and that the pin above still equals the rust-version the
@@ -194,8 +199,9 @@ jobs:
     timeout-minutes: 330
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
+          toolchain: 1.93.0
           # The LLVM source-based coverage engine needs llvm-profdata/llvm-cov,
           # shipped by this component.
           components: llvm-tools-preview
@@ -262,7 +268,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Cross-platform reproducibility tests
         run: >
@@ -315,7 +323,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       # The same wasm-pack release the shipped npm package and kshana.dev are built with
       # (publish.yml, pages.yml): an exact version, fetched as a prebuilt binary whose
       # SHA-256 the install action checks against its own manifest.
@@ -457,7 +467,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
+        with:
+          toolchain: 1.93.0
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Build the public crate standalone
         run: cargo build -p kshana
@@ -474,8 +486,9 @@ jobs:
     timeout-minutes: 30
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
+          toolchain: 1.93.0
           targets: wasm32-unknown-unknown
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
       - name: Build the public crate for wasm32-unknown-unknown
@@ -509,8 +522,9 @@ jobs:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
       # Pinned to the repo toolchain like every other job. The crate is edition 2024
       # (the rmcp SDK); rmcp 2.x needs >= 1.88 (darling 0.23); 1.93.0 satisfies both.
-      - uses: dtolnay/rust-toolchain@1.93.0
+      - uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
+          toolchain: 1.93.0
           components: rustfmt
       - uses: Swatinem/rust-cache@6323deb102c322ba6fcbdcafc7e3dddab59af2b6 # v2
         with:
@@ -552,7 +566,13 @@ jobs:
           python3 scripts/test_check_channel_parity.py
           python3 -m pip install --quiet --require-hashes --only-binary=:all: -r packaging/mcp/mcpb/requirements.txt
           python3 scripts/test_build_mcpb.py
-      - name: npm launcher tests
+      - name: npm launcher tests (Node 20)
+        working-directory: packaging/mcp/npm
+        run: npm test
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4
+        with:
+          node-version: "22"
+      - name: npm launcher tests (Node 22)
         working-directory: packaging/mcp/npm
         run: npm test
       - name: PyPI launcher tests
