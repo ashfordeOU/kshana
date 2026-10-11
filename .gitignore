@@ -1,5 +1,6 @@
 /target
 *.result.json
+# the Studio ships recorded example results as site data (listed in web/PORT-MANIFEST.json)
 !web/studio/**/*.result.json
 *.chart.svg
 *.report.html
