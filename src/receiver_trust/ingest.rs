@@ -23,7 +23,9 @@
 //! survive hostile input: truncated buffers, corrupt frames and garbage lines are
 //! skipped and counted in [`Timeline::skipped_records`], never a panic.
 
-use super::{LogEpoch, LogFormat, MarineObs, OsnmaStatus, ReportedFix, SatCn0, Timeline};
+use super::{
+    LogEpoch, LogFormat, MarineObs, OsnmaStatus, ReportedDop, ReportedFix, SatCn0, SatSky, Timeline,
+};
 use crate::rinex_obs::parse_obs;
 use std::collections::BTreeMap;
 
@@ -80,6 +82,8 @@ struct Acc {
     marine: MarineObs,
     /// Byte range of the input the epoch's records came from.
     span: Option<(usize, usize)>,
+    sky: Vec<SatSky>,
+    dop: Option<ReportedDop>,
 }
 
 /// The smallest range holding both.
@@ -111,6 +115,32 @@ impl Acc {
         }
     }
 
+    /// Add one satellite's place in the sky; a repeat of the same satellite at the same epoch
+    /// (another signal of it, a re-sent message) updates the place and is tracked if either
+    /// report is.
+    fn add_sky(&mut self, sat: String, elev_deg: f64, azim_deg: f64, tracked: bool) {
+        if !(elev_deg.is_finite()
+            && azim_deg.is_finite()
+            && (-90.0..=90.0).contains(&elev_deg)
+            && (0.0..=360.0).contains(&azim_deg))
+        {
+            return;
+        }
+        let azim_deg = azim_deg % 360.0;
+        if let Some(s) = self.sky.iter_mut().find(|s| s.sat == sat) {
+            s.elev_deg = elev_deg;
+            s.azim_deg = azim_deg;
+            s.tracked |= tracked;
+        } else {
+            self.sky.push(SatSky {
+                sat,
+                elev_deg,
+                azim_deg,
+                tracked,
+            });
+        }
+    }
+
     fn add_agc(&mut self, v: f64) {
         if v.is_finite() {
             self.agc_sum += v;
@@ -137,6 +167,8 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
             fix: a.fix,
             marine: (a.marine != MarineObs::default()).then_some(a.marine),
             source_span: a.span.map(|(s, e)| [s, e]),
+            sky: a.sky,
+            reported_dop: a.dop,
         })
         .collect()
 }
@@ -384,7 +416,8 @@ impl UbxState {
     }
 
     /// UBX-NAV-SAT: iTOW u4 @0, version @4, numSvs @5, then 12-byte blocks from @8 with
-    /// gnssId @0, svId @1, cno @2 (dB-Hz; 0 = not tracked).
+    /// gnssId @0, svId @1, cno @2 (dB-Hz; 0 = not tracked), elev i1 @3 (degrees, unknown
+    /// outside +/-90) and azim i2 @4 (degrees 0-360, unknown when the elevation is).
     fn nav_sat(&mut self, p: &[u8]) -> bool {
         if p.len() < 8 {
             return false;
@@ -399,10 +432,13 @@ impl UbxState {
                 break;
             };
             let (gnss, sv_id, cno) = (b[0], u32::from(b[1]), b[2]);
-            if cno == 0 {
+            let Some(sat) = ubx_sat(gnss, sv_id) else {
                 continue;
-            }
-            if let Some(sat) = ubx_sat(gnss, sv_id) {
+            };
+            let elev = f64::from(b[3] as i8);
+            let azim = f64::from(i16::from_le_bytes([b[4], b[5]]));
+            acc.add_sky(sat.clone(), elev, azim, cno > 0);
+            if cno > 0 {
                 acc.add_cn0(sat, "L1".to_string(), f64::from(cno));
             }
         }
@@ -989,6 +1025,8 @@ struct NmeaState {
     cur_key: Option<i64>,
     /// GSV satellites `(sat, band, snr)` seen before any timed sentence.
     pending: Vec<(String, String, f64)>,
+    /// GSV sky positions `(sat, elevation, azimuth, tracked)` seen before any timed sentence.
+    pending_sky: Vec<(String, f64, f64, bool)>,
     /// Days since 1970 of day offset 0, once an RMC date is seen.
     base_day: Option<i64>,
     /// Arrival time of the line being parsed (live input), s.
@@ -1033,6 +1071,9 @@ impl NmeaState {
         }
         for (sat, band, snr) in self.pending.drain(..) {
             acc.add_cn0(sat, band, snr);
+        }
+        for (sat, el, az, tr) in self.pending_sky.drain(..) {
+            acc.add_sky(sat, el, az, tr);
         }
         key
     }
@@ -1157,7 +1198,8 @@ fn nmea_rmc(st: &mut NmeaState, f: &[&str]) -> Sentence {
 
 /// GSV: 1 sentence count, 2 sentence number, 3 satellites in view, then groups of
 /// four (number, elevation, azimuth, SNR dB-Hz), and from NMEA 4.10 one trailing
-/// signal ID. An empty SNR means not tracked.
+/// signal ID. An empty SNR means not tracked; the satellite's elevation and azimuth, where
+/// given, are kept either way (for the geometry assessment).
 fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
     if f.len() < 4 {
         return Sentence::Corrupt;
@@ -1179,10 +1221,27 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
         let Some(n) = f.get(base).and_then(|s| s.trim().parse::<u32>().ok()) else {
             continue;
         };
-        let Some(snr) = f.get(base + 3).and_then(|s| s.trim().parse::<f64>().ok()) else {
+        let snr = f.get(base + 3).and_then(|s| s.trim().parse::<f64>().ok());
+        let Some(sat) = nmea_sat(talker, n) else {
             continue;
         };
-        let Some(sat) = nmea_sat(talker, n) else {
+        let el = f.get(base + 1).and_then(|s| num(s));
+        let az = f.get(base + 2).and_then(|s| num(s));
+        if let (Some(el), Some(az)) = (el, az) {
+            let tracked = snr.is_some_and(|v| v > 0.0);
+            match st.cur_key {
+                Some(k) => st
+                    .map
+                    .entry(k)
+                    .or_default()
+                    .add_sky(sat.clone(), el, az, tracked),
+                None if st.pending_sky.len() < MAX_PENDING_GSV => {
+                    st.pending_sky.push((sat.clone(), el, az, tracked))
+                }
+                None => {}
+            }
+        }
+        let Some(snr) = snr else {
             continue;
         };
         let band = nmea_band(&sat, sig);
@@ -1191,6 +1250,47 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
             None if st.pending.len() < MAX_PENDING_GSV => st.pending.push((sat, band, snr)),
             None => {}
         }
+    }
+    Sentence::Used
+}
+
+/// GSA: 1 selection mode, 2 fix mode (1 no fix, 2 2D, 3 3D), 3-14 the satellites used,
+/// 15 PDOP, 16 HDOP, 17 VDOP, and from NMEA 4.10 a trailing system ID. A receiver sends one
+/// per constellation; the satellites used are summed over the epoch and the DOP is the last
+/// one given (NMEA 4.10 repeats the combined DOP in each). Attaches to the most recent timed
+/// sentence's epoch; one before any timed sentence is ignored.
+fn nmea_gsa(st: &mut NmeaState, f: &[&str]) -> Sentence {
+    // A short GSA is ignored, not counted as corrupt: 0.35 did not read GSA at all, and the
+    // count of skipped records is part of every result.
+    if f.len() < 18 {
+        return Sentence::Ignored;
+    }
+    let Some(k) = st.cur_key else {
+        return Sentence::Ignored;
+    };
+    let mode = f[2].trim();
+    let used = f[3..15].iter().filter(|x| !x.trim().is_empty()).count() as u32;
+    let dop = |i: usize| num(f[i]).filter(|v| *v > 0.0);
+    let acc = st.map.entry(k).or_default();
+    let d = acc.dop.get_or_insert(ReportedDop {
+        pdop: None,
+        hdop: None,
+        vdop: None,
+        n_used: 0,
+    });
+    if mode == "1" {
+        // No fix: nothing is used and there is no DOP to report.
+        return Sentence::Used;
+    }
+    d.n_used += used;
+    if let Some(v) = dop(15) {
+        d.pdop = Some(v);
+    }
+    if let Some(v) = dop(16) {
+        d.hdop = Some(v);
+    }
+    if let Some(v) = dop(17) {
+        d.vdop = Some(v);
     }
     Sentence::Used
 }
@@ -1388,6 +1488,7 @@ impl NmeaFeed {
             (_, "GGA") => nmea_gga(st, &f),
             (_, "RMC") => nmea_rmc(st, &f),
             (_, "GSV") => nmea_gsv(st, talker, &f),
+            (_, "GSA") => nmea_gsa(st, &f),
             (_, "VTG") => nmea_vtg(st, &f),
             (_, "HDT") => nmea_heading(st, &f, false),
             (_, "THS") => nmea_heading(st, &f, true),
@@ -1579,6 +1680,30 @@ mod tests {
         assert_eq!(e1.fix, None, "fixType 0 is no fix");
         assert_eq!(e1.agc, Some(1500.0));
         assert_eq!(e1.time_label.as_deref(), Some("2024-09-11T09:12:04.000Z"));
+    }
+
+    #[test]
+    fn ubx_nav_sat_elevation_and_azimuth_go_to_the_sky() {
+        let mut p = sat(1000, &[(0, 5, 42), (0, 9, 0), (2, 11, 38)]);
+        // G05 at 45 deg, azimuth 270; G09 at 12 deg, azimuth 30, not tracked; E11 with an
+        // elevation out of range (-100: unknown), so not in the sky.
+        let (b5, b9, b11) = (8, 20, 32);
+        p[b5 + 3] = 45;
+        p[b5 + 4..b5 + 6].copy_from_slice(&270i16.to_le_bytes());
+        p[b9 + 3] = 12;
+        p[b9 + 4..b9 + 6].copy_from_slice(&30i16.to_le_bytes());
+        p[b11 + 3] = (-100i8) as u8;
+        let tl = read_ubx(&frame(CLASS_NAV, ID_NAV_SAT, &p));
+        let sky: Vec<(&str, f64, f64, bool)> = tl.epochs[0]
+            .sky
+            .iter()
+            .map(|s| (s.sat.as_str(), s.elev_deg, s.azim_deg, s.tracked))
+            .collect();
+        assert_eq!(
+            sky,
+            [("G05", 45.0, 270.0, true), ("G09", 12.0, 30.0, false)]
+        );
+        assert_eq!(tl.epochs[0].cn0.len(), 2, "C/N0 is read as before");
     }
 
     #[test]
@@ -1813,6 +1938,44 @@ Status,1,2,3
             "hello world".to_string(),
         ]
         .join("\r\n")
+    }
+
+    #[test]
+    fn nmea_gsv_sky_and_gsa_dop_are_read_for_the_geometry() {
+        let tl = read_nmea(&nmea_text()).expect("reads");
+        let sky: Vec<(&str, f64, f64, bool)> = tl.epochs[0]
+            .sky
+            .iter()
+            .map(|s| (s.sat.as_str(), s.elev_deg, s.azim_deg, s.tracked))
+            .collect();
+        // PRN 12 is in view at 30 deg, azimuth 200, but has no SNR: listed, not tracked.
+        assert_eq!(
+            sky,
+            [
+                ("G05", 45.0, 120.0, true),
+                ("G12", 30.0, 200.0, false),
+                ("S27", 10.0, 20.0, true),
+                ("R06", 20.0, 100.0, true)
+            ]
+        );
+        assert_eq!(tl.epochs[0].reported_dop, None);
+        let d = tl.epochs[1]
+            .reported_dop
+            .expect("GSA after the second time");
+        assert_eq!(
+            (d.pdop, d.hdop, d.vdop, d.n_used),
+            (Some(1.0), Some(0.9), Some(0.5), 1)
+        );
+        assert_eq!(tl.epochs[1].sky[0].sat, "E11");
+        // A short GSA is ignored, not counted as corrupt (0.35 did not read GSA).
+        let short = [
+            nmea("GPGGA,091203.00,6918.0000,N,01600.0000,E,1,08,0.9,100.0,M,30.0,M,,"),
+            nmea("GPGSA,A,3,05"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&short).expect("reads");
+        assert_eq!(tl.skipped_records, 0);
+        assert_eq!(tl.epochs[0].reported_dop, None);
     }
 
     #[test]

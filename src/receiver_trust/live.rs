@@ -23,6 +23,7 @@ use std::collections::{BTreeMap, VecDeque};
 
 use serde::{Deserialize, Serialize};
 
+use super::geometry::{attribute, Degradation, EpochGeometry, GeometryTracker};
 use super::ingest::NmeaFeed;
 use super::maritime::REWIND_RATIO;
 use super::monitors::{run_monitors, Monitor, TrustState};
@@ -118,6 +119,15 @@ pub struct EpochReport {
     pub position: Option<ReportedPosition>,
     /// What this software is and is not (schema 1.2).
     pub advisory: &'static str,
+    /// The satellite geometry at this epoch (schema 1.3): good, degraded with reasons, or
+    /// unknown when the stream carries no GSV elevations and azimuths and no GSA. Beside the
+    /// score, never part of it.
+    pub geometry: EpochGeometry,
+    /// What the epoch's degradation is attributed to (schema 1.3): `none`, `geometry`,
+    /// `inconsistency` or `geometry-and-inconsistency`.
+    pub degradation: Degradation,
+    /// The deducting monitors the geometry explains (schema 1.3); usually empty.
+    pub explained_by_geometry: Vec<Monitor>,
 }
 
 /// The receiver-reported position of an epoch.
@@ -259,6 +269,8 @@ pub struct LiveEngine {
     withheld: bool,
     /// The time since which epochs have been out of the untrusted band, while withheld.
     clear_since: Option<f64>,
+    /// The geometry of each epoch, in arrival order.
+    geo: GeometryTracker,
 }
 
 impl LiveEngine {
@@ -293,6 +305,7 @@ impl LiveEngine {
             host_clock: true,
             withheld: false,
             clear_since: None,
+            geo: GeometryTracker::new(&cfg.geometry, cfg.score.evidence_hold_s),
         })
     }
 
@@ -356,7 +369,13 @@ impl LiveEngine {
         let mut any_untrusted = false;
         let mut reports = Vec::new();
         for e in epochs {
+            let geometry = self.geo.push(&e);
             let (state, score, deductions, alarms, note) = self.score(e.clone());
+            let active: Vec<(Monitor, bool)> = deductions
+                .iter()
+                .map(|d| (d.monitor, alarms.contains(&d.monitor)))
+                .collect();
+            let (degradation, explained_by_geometry) = attribute(&geometry, &active);
             any_untrusted |= state == TrustState::Untrusted;
             self.seq += 1;
             reports.push((
@@ -376,6 +395,9 @@ impl LiveEngine {
                         height_m: f.height_m,
                     }),
                     advisory: ADVISORY,
+                    geometry,
+                    degradation,
+                    explained_by_geometry,
                 },
                 e.t_s,
             ));
@@ -699,6 +721,9 @@ mod tests {
             note: None,
             position: None,
             advisory: ADVISORY,
+            geometry: EpochGeometry::unknown(),
+            degradation: Degradation::None,
+            explained_by_geometry: Vec::new(),
         };
         let s = r.pksht();
         let body = "PKSHT,1,080140.25,23.4,U,W,heading-course:40.0/cn0-spread:30.0";

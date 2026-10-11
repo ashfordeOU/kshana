@@ -124,6 +124,9 @@ pub fn build_receiver_trust_pack(
         "honesty_label": scenario::LABEL,
         // A vessel's outputs all carry the advisory statement; so does its evidence pack.
         "advisory": result.advisory,
+        // The geometry thresholds and their provenance (0.36); each epoch carries its
+        // geometry and the attribution of its degradation.
+        "geometry_model": result.geometry_model,
     });
     // The window's bytes, where every epoch in it reports its source span; otherwise the
     // whole log is bundled and the manifest says so.

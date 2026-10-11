@@ -110,6 +110,7 @@ fn sample(t_s: f64, score: Option<f64>, band: Band, reasons: &[&str]) -> TrustSa
         reasons: reasons.iter().map(|s| s.to_string()).collect(),
         gate: None,
         position: None,
+        geometry: None,
     }
 }
 

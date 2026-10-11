@@ -11,6 +11,7 @@
 
 use serde::Serialize;
 
+use super::geometry::GeometrySummary;
 use super::live::{parse_live_scenario, EpochReport, LiveEngine};
 use super::monitors::TrustState;
 use super::scenario::{run_receiver_trust_bytes, ReceiverTrustResult};
@@ -52,6 +53,8 @@ pub struct ExcerptSummary {
     pub final_score: Option<f64>,
     /// `t_s` of the first untrusted epoch.
     pub first_untrusted_t_s: Option<f64>,
+    /// Every epoch (calibration included) by geometry status and by attribution (0.36).
+    pub geometry: GeometrySummary,
 }
 
 /// An assessed excerpt, in the live schema.
@@ -128,10 +131,17 @@ pub fn assess_stream_excerpt(
             .iter()
             .find(|e| e.state == TrustState::Untrusted)
             .map(|e| e.t_s),
+        geometry: {
+            let mut g = GeometrySummary::default();
+            for e in &epochs {
+                g.add(e.t_s, &e.geometry, e.degradation);
+            }
+            g
+        },
     };
     let last_pksht = epochs.last().map(EpochReport::pksht);
     Ok(ExcerptAssessment {
-        schema: "1.2",
+        schema: "1.3",
         advisory: super::ADVISORY,
         epochs,
         last_pksht,
@@ -178,11 +188,14 @@ mod tests {
         let text = voyage(240.0, true);
         let ex = assess_stream_excerpt(SESSION, text.as_bytes()).unwrap();
         let batch = assess_vessel_log(SESSION, text.as_bytes()).unwrap();
-        assert_eq!(ex.schema, "1.2");
+        assert_eq!(ex.schema, "1.3");
         assert_eq!(ex.epochs.len(), batch.epochs.len());
         for (l, b) in ex.epochs.iter().zip(&batch.epochs) {
             assert_eq!((l.t_s, l.state), (b.t_s, b.state));
             assert_eq!(l.score, b.score.as_ref().map(|s| s.score));
+            // The live tracker and the batch run see the same geometry.
+            assert_eq!(l.geometry, b.geometry);
+            assert_eq!(l.degradation, b.degradation);
         }
         assert_eq!(ex.summary.calibrating, 30);
         assert_eq!(

@@ -12,6 +12,10 @@
 //! * the batch result of `kshana receiver-trust`, whose per-epoch records carry a trust
 //!   state and the monitors that alarmed but no numeric score ([`from_epoch_trust`]).
 //!   A score is never invented for them: the sample's `score` is `None`.
+//!
+//! Schema 1.3 (0.36) appends the epoch's satellite geometry (`geometry`) and the attribution
+//! of its degradation (`degradation`); a sample carries them as [`GeometrySample`] only when
+//! the source does, so a 0.35 stream renders exactly as it did.
 
 use crate::receiver_trust::monitors::{EpochTrust, TrustState};
 use serde_json::Value;
@@ -80,6 +84,68 @@ pub struct Position {
     pub height_m: f64,
 }
 
+/// Geometry statuses, in the order metrics list them.
+pub const GEOMETRY_STATUSES: [&str; 3] = ["good", "degraded", "unknown"];
+/// Geometry reason codes, in the order metrics list them; any other name is `other`.
+pub const GEOMETRY_REASONS: [&str; 5] = [
+    "few-satellites",
+    "high-pdop",
+    "high-hdop",
+    "sky-blocked",
+    "other",
+];
+/// Attributions of an epoch's degradation, in the order metrics list them; any other value
+/// is `unknown`.
+pub const DEGRADATIONS: [&str; 5] = [
+    "none",
+    "geometry",
+    "inconsistency",
+    "geometry-and-inconsistency",
+    "unknown",
+];
+
+/// The satellite geometry of one epoch and the attribution of its degradation (schema 1.3).
+/// Every label is one of a fixed set, so an input cannot create unbounded label values.
+#[derive(Clone, Debug, PartialEq)]
+pub struct GeometrySample {
+    /// One of [`GEOMETRY_STATUSES`]; a status this build does not know reads `unknown`.
+    pub status: &'static str,
+    /// Reason codes, each one of [`GEOMETRY_REASONS`], without repeats.
+    pub reasons: Vec<&'static str>,
+    /// Position DOP, where the source gives one.
+    pub pdop: Option<f64>,
+    /// One of [`DEGRADATIONS`].
+    pub degradation: &'static str,
+}
+
+fn known(set: &'static [&'static str], v: &str, other: &'static str) -> &'static str {
+    set.iter().copied().find(|k| *k == v).unwrap_or(other)
+}
+
+impl GeometrySample {
+    /// From the fields as the stream names them.
+    pub fn from_names(
+        status: &str,
+        reasons: &[&str],
+        pdop: Option<f64>,
+        degradation: Option<&str>,
+    ) -> Self {
+        let mut rs: Vec<&'static str> = Vec::new();
+        for r in reasons {
+            let k = known(&GEOMETRY_REASONS, r, "other");
+            if !rs.contains(&k) {
+                rs.push(k);
+            }
+        }
+        GeometrySample {
+            status: known(&GEOMETRY_STATUSES, status, "unknown"),
+            reasons: rs,
+            pdop,
+            degradation: degradation.map_or("unknown", |d| known(&DEGRADATIONS, d, "unknown")),
+        }
+    }
+}
+
 /// One epoch of the trust stream, as the sinks see it.
 #[derive(Clone, Debug, PartialEq)]
 pub struct TrustSample {
@@ -97,6 +163,9 @@ pub struct TrustSample {
     pub gate: Option<String>,
     /// The receiver-reported position, where the stream carries one (schema v1.1).
     pub position: Option<Position>,
+    /// The satellite geometry and the attribution of the epoch's degradation, where the
+    /// source carries them (schema 1.3).
+    pub geometry: Option<GeometrySample>,
 }
 
 /// Parse one line of the live stream.
@@ -180,6 +249,42 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
         }
         Some(_) => return Err("`position` is not an object or null".into()),
     };
+    let geometry = match obj.get("geometry") {
+        None | Some(Value::Null) => None,
+        Some(Value::Object(o)) => {
+            let status = o
+                .get("status")
+                .and_then(Value::as_str)
+                .ok_or("`geometry.status` is missing or not a string")?;
+            let reasons: Vec<&str> = match o.get("reasons") {
+                None | Some(Value::Null) => Vec::new(),
+                Some(Value::Array(a)) => a
+                    .iter()
+                    .map(|x| {
+                        x.as_str()
+                            .ok_or("a `geometry.reasons` entry is not a string")
+                    })
+                    .collect::<Result<_, _>>()?,
+                Some(_) => return Err("`geometry.reasons` is not an array".into()),
+            };
+            let pdop = match o.get("pdop") {
+                None | Some(Value::Null) => None,
+                Some(x) => Some(
+                    x.as_f64()
+                        .filter(|p| p.is_finite() && *p >= 0.0)
+                        .ok_or("`geometry.pdop` is not a finite number >= 0")?,
+                ),
+            };
+            let degradation = obj.get("degradation").and_then(Value::as_str);
+            Some(GeometrySample::from_names(
+                status,
+                &reasons,
+                pdop,
+                degradation,
+            ))
+        }
+        Some(_) => return Err("`geometry` is not an object or null".into()),
+    };
     let gate = obj.get("gate").and_then(Value::as_str).map(str::to_string);
     let time_label = ["time", "time_label"]
         .iter()
@@ -193,7 +298,15 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
         reasons,
         gate,
         position,
+        geometry,
     })
+}
+
+fn label_of<T: serde::Serialize>(v: &T) -> String {
+    serde_json::to_value(v)
+        .ok()
+        .and_then(|v| v.as_str().map(str::to_string))
+        .unwrap_or_default()
 }
 
 fn monitor_name(m: &crate::receiver_trust::monitors::Monitor) -> String {
@@ -225,6 +338,8 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
             reasons.push(n);
         }
     }
+    let geo_reasons: Vec<String> = e.geometry.reasons.iter().map(label_of).collect();
+    let geo_reasons: Vec<&str> = geo_reasons.iter().map(String::as_str).collect();
     TrustSample {
         t_s: e.t_s,
         time_label: None,
@@ -233,6 +348,12 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
         reasons,
         gate: None,
         position: None,
+        geometry: Some(GeometrySample::from_names(
+            &label_of(&e.geometry.status),
+            &geo_reasons,
+            e.geometry.pdop,
+            Some(&label_of(&e.degradation)),
+        )),
     }
 }
 
@@ -240,9 +361,25 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
 pub fn from_result_json(json: &str) -> Result<Vec<TrustSample>, String> {
     let v: Value = serde_json::from_str(json).map_err(|e| format!("result is not JSON: {e}"))?;
     let epochs = v.get("epochs").ok_or("result has no `epochs`")?;
+    // A result written before 0.36 has no `geometry` on its epochs: its samples carry none,
+    // rather than the `unknown` the record type defaults to, so it renders as it always did.
+    let has_geometry: Vec<bool> = epochs
+        .as_array()
+        .map(|a| a.iter().map(|e| e.get("geometry").is_some()).collect())
+        .unwrap_or_default();
     let epochs: Vec<EpochTrust> =
         serde_json::from_value(epochs.clone()).map_err(|e| format!("bad `epochs`: {e}"))?;
-    Ok(epochs.iter().map(from_epoch_trust).collect())
+    Ok(epochs
+        .iter()
+        .enumerate()
+        .map(|(i, e)| {
+            let mut s = from_epoch_trust(e);
+            if !has_geometry.get(i).copied().unwrap_or(false) {
+                s.geometry = None;
+            }
+            s
+        })
+        .collect())
 }
 
 #[cfg(test)]
@@ -295,6 +432,31 @@ mod tests {
     }
 
     #[test]
+    fn schema_1_3_line_with_geometry_is_read_and_bounded() {
+        let s = parse_live_line(
+            r#"{"seq":2,"t_s":61.0,"state":"degraded","score":75.0,"deductions":[{"monitor":"loss-of-lock","ratio":1.0,"points":12.5}],"alarms":[],"gate":"off","note":null,"position":null,"advisory":"x","geometry":{"status":"degraded","reasons":["sky-blocked","few-satellites","made-up"],"basis":"sky","n_sats":4,"pdop":7.25,"hdop":5.0,"vdop":5.1,"max_azimuth_gap_deg":200.0,"age_s":0.0},"degradation":"geometry","explained_by_geometry":["loss-of-lock"]}"#,
+        )
+        .unwrap();
+        let g = s.geometry.unwrap();
+        assert_eq!(g.status, "degraded");
+        assert_eq!(g.reasons, ["sky-blocked", "few-satellites", "other"]);
+        assert_eq!((g.pdop, g.degradation), (Some(7.25), "geometry"));
+        // A 1.2 line has none.
+        let s = parse_live_line(r#"{"t_s":1,"state":"nominal"}"#).unwrap();
+        assert_eq!(s.geometry, None);
+        assert!(parse_live_line(r#"{"t_s":1,"state":"nominal","geometry":3}"#).is_err());
+        assert!(
+            parse_live_line(r#"{"t_s":1,"state":"nominal","geometry":{"reasons":[]}}"#).is_err()
+        );
+        let s = parse_live_line(
+            r#"{"t_s":1,"state":"nominal","geometry":{"status":"weird"},"degradation":"odd"}"#,
+        )
+        .unwrap();
+        let g = s.geometry.unwrap();
+        assert_eq!((g.status, g.degradation), ("unknown", "unknown"));
+    }
+
+    #[test]
     fn calibrating_line_has_null_score_and_empty_arrays() {
         let s = parse_live_line(
             r#"{"seq":1,"t_s":0.0,"time":null,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off","note":null}"#,
@@ -333,6 +495,9 @@ mod tests {
             state: TrustState::Degraded,
             marine: None,
             score: None,
+            geometry: crate::receiver_trust::geometry::EpochGeometry::unknown(),
+            degradation: crate::receiver_trust::geometry::Degradation::None,
+            explained_by_geometry: Vec::new(),
         };
         let s = from_epoch_trust(&e);
         assert_eq!(s.score, None);

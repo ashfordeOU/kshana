@@ -205,6 +205,35 @@ fingerprint with one you obtained from the signer by another route.</p>"
         h.push_str("</table>\n");
     }
 
+    // Satellite geometry (0.36), where the epochs carry it.
+    let mut by_geometry: BTreeMap<String, usize> = BTreeMap::new();
+    let mut by_cause: BTreeMap<String, usize> = BTreeMap::new();
+    for e in i.epochs {
+        if let Some(g) = e.get("geometry") {
+            let st = g
+                .get("status")
+                .map(scalar)
+                .unwrap_or_else(|| "unknown".into());
+            *by_geometry.entry(st).or_insert(0) += 1;
+            let cause = e
+                .get("degradation")
+                .map(scalar)
+                .unwrap_or_else(|| "unknown".into());
+            *by_cause.entry(cause).or_insert(0) += 1;
+        }
+    }
+    if !by_geometry.is_empty() {
+        h.push_str("<h3>Satellite geometry, epochs each (beside the score, never part of it; <code>unknown</code> where the log gives no satellite geometry)</h3>\n<table>\n");
+        for (s, n) in &by_geometry {
+            let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
+        }
+        h.push_str("</table>\n<h3>Degradation attributed to, epochs each</h3>\n<table>\n");
+        for (s, n) in &by_cause {
+            let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
+        }
+        h.push_str("</table>\n");
+    }
+
     // Configuration
     h.push_str("<h2>Configuration and thresholds</h2>\n<p>Complete in <code>config.json</code>; the values below are the run's own.</p>\n");
     let mut flat: Vec<(String, String)> = Vec::new();

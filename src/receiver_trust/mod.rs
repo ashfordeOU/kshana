@@ -15,6 +15,7 @@
 //! scored: every monitor parameter is an input stated in the scenario.
 
 pub mod assess;
+pub mod geometry;
 pub mod ingest;
 pub mod live;
 pub mod maritime;
@@ -59,6 +60,34 @@ pub struct SatCn0 {
     pub cn0_dbhz: f64,
 }
 
+/// Where one satellite is in the sky at one epoch, as the receiver reports it (NMEA GSV,
+/// UBX-NAV-SAT). The geometry assessment ([`geometry`]) reads it; no monitor does.
+#[derive(Clone, Debug, PartialEq, Serialize, Deserialize)]
+pub struct SatSky {
+    /// Satellite identifier in RINEX style (`G05`, `E11`).
+    pub sat: String,
+    /// Elevation above the local horizon, degrees.
+    pub elev_deg: f64,
+    /// Azimuth from true north, clockwise, degrees in `[0, 360)`.
+    pub azim_deg: f64,
+    /// Whether the receiver reports a signal for it at this epoch (a GSV SNR, a NAV-SAT
+    /// C/N0 above 0). A satellite listed in view but not tracked has `false`.
+    pub tracked: bool,
+}
+
+/// Dilution of precision and satellites used as the receiver reports them (NMEA GSA).
+#[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
+pub struct ReportedDop {
+    /// Position DOP.
+    pub pdop: Option<f64>,
+    /// Horizontal DOP.
+    pub hdop: Option<f64>,
+    /// Vertical DOP.
+    pub vdop: Option<f64>,
+    /// Satellites listed as used in the fix, summed over the epoch's GSA sentences.
+    pub n_used: u32,
+}
+
 /// A position the receiver itself reported at one epoch.
 #[derive(Clone, Copy, Debug, PartialEq, Serialize, Deserialize)]
 pub struct ReportedFix {
@@ -101,6 +130,13 @@ pub struct LogEpoch {
     /// them (an unrelated NMEA line, say).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub source_span: Option<[usize; 2]>,
+    /// Satellite elevations and azimuths at this epoch, where the log carries them (NMEA
+    /// GSV, UBX-NAV-SAT); empty otherwise.
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub sky: Vec<SatSky>,
+    /// DOP the receiver reported at this epoch (NMEA GSA), where the log carries it.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub reported_dop: Option<ReportedDop>,
 }
 
 /// An OSNMA (Galileo navigation message authentication) status as a receiver reports it.
