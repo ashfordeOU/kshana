@@ -82,10 +82,12 @@ fn anchor_of(page: &InavPage) -> Option<i64> {
 }
 
 impl UbxReader {
+    /// A reader with no bytes buffered.
     pub fn new() -> Self {
         Self::default()
     }
 
+    /// What the reader has seen so far.
     pub fn stats(&self) -> &UbxStats {
         &self.stats
     }

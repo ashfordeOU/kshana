@@ -8,12 +8,16 @@ use super::tables::KeyType;
 /// A public key in force: its id, curve and compressed SEC1 point.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct PublicKey {
+    /// Public key id (PKID) the key is announced under.
     pub pkid: u8,
+    /// The ECDSA curve and hash function of the key.
     pub key_type: KeyType,
+    /// The key as a compressed SEC1 point.
     pub bytes: Vec<u8>,
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Why a signature check failed.
 pub enum SigError {
     /// The key or signature is not a valid encoding.
     Malformed,
