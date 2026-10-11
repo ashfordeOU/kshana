@@ -15,6 +15,7 @@ flowchart LR
         EXT["ExternalDataset<br/>independent authority"]
         REF["ReferenceImpl<br/>sibling code path"]
         INT["InternalConsistency<br/>algebraic identity"]
+        IRN["IntegrationRun<br/>integration run, not an oracle<br/>(Modelled only)"]
         NON["NoneKind<br/>partner gap"]
     end
 
@@ -26,9 +27,10 @@ flowchart LR
     EXT -.-> GUARD
     INT -.-> GUARD
 
-    EXT --> VAL["VALIDATED<br/>130 rows"]
-    REF --> MDL["MODELLED<br/>126 rows"]
+    EXT --> VAL["VALIDATED<br/>132 rows"]
+    REF --> MDL["MODELLED<br/>127 rows"]
     INT --> MDL
+    IRN --> MDL
     NON --> PRT["PARTNER<br/>4 rows"]
     GUARD ==> VAL
 
@@ -43,7 +45,7 @@ flowchart LR
     E2 -.-> EXT
     E3 -.-> EXT
 
-    TOTAL["Total 260 capability rows<br/>web/data/verification-matrix.json"]
+    TOTAL["Total 263 capability rows<br/>web/data/verification-matrix.json"]
     VAL -.-> TOTAL
     MDL -.-> TOTAL
     PRT -.-> TOTAL
