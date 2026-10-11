@@ -8,7 +8,7 @@
 //! forwarding over TLS). Metric names match the Prometheus ones.
 
 use super::prometheus::Registry;
-use super::sample::Band;
+use super::sample::{Band, DEGRADATIONS, GEOMETRY_STATUSES};
 use serde_json::{json, Value};
 use std::io::{Read, Write};
 use std::net::{TcpStream, ToSocketAddrs};
@@ -82,6 +82,69 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
             "description": "Epochs in which a reason was present, by reason.",
             "unit": "1",
             "sum": {"aggregationTemporality": 2, "isMonotonic": true, "dataPoints": reason_points}
+        }));
+    }
+    if reg.geometry_seen() {
+        // Schema 1.3 inputs only: a 0.35 stream exports exactly what it did.
+        let g = reg.geometry();
+        let status_points: Vec<Value> = GEOMETRY_STATUSES
+            .iter()
+            .map(|st| {
+                json!({
+                    "asInt": i64::from(g.is_some_and(|g| g.status == *st)).to_string(),
+                    "timeUnixNano": t,
+                    "attributes": [{"key": "status", "value": {"stringValue": st}}]
+                })
+            })
+            .collect();
+        metrics.push(json!({
+            "name": "kshana.trust.geometry",
+            "description": "1 for the current satellite-geometry status (good, degraded, unknown), 0 for the others.",
+            "unit": "1",
+            "gauge": {"dataPoints": status_points}
+        }));
+        if let Some(p) = g.and_then(|g| g.pdop) {
+            metrics.push(json!({
+                "name": "kshana.trust.geometry.pdop",
+                "description": "Position dilution of precision at the latest epoch.",
+                "unit": "1",
+                "gauge": {"dataPoints": [{"asDouble": p, "timeUnixNano": t}]}
+            }));
+        }
+        let cause_points: Vec<Value> = DEGRADATIONS
+            .iter()
+            .map(|d| {
+                json!({
+                    "asInt": i64::from(g.is_some_and(|g| g.degradation == *d)).to_string(),
+                    "timeUnixNano": t,
+                    "attributes": [{"key": "cause", "value": {"stringValue": d}}]
+                })
+            })
+            .collect();
+        metrics.push(json!({
+            "name": "kshana.trust.degradation",
+            "description": "1 for what the latest epoch's degradation is attributed to, 0 for the others.",
+            "unit": "1",
+            "gauge": {"dataPoints": cause_points}
+        }));
+        let counts = reg.geometry_epochs();
+        let geo_epoch_points: Vec<Value> = GEOMETRY_STATUSES
+            .iter()
+            .zip(counts)
+            .map(|(st, n)| {
+                json!({
+                    "asInt": n.to_string(),
+                    "startTimeUnixNano": start,
+                    "timeUnixNano": t,
+                    "attributes": [{"key": "status", "value": {"stringValue": st}}]
+                })
+            })
+            .collect();
+        metrics.push(json!({
+            "name": "kshana.trust.geometry.epochs",
+            "description": "Epochs received, by satellite-geometry status.",
+            "unit": "1",
+            "sum": {"aggregationTemporality": 2, "isMonotonic": true, "dataPoints": geo_epoch_points}
         }));
     }
     json!({"resourceMetrics": [{
@@ -210,6 +273,7 @@ mod tests {
                 reasons: vec!["agc".into()],
                 gate: None,
                 position: None,
+                geometry: None,
             },
             None,
         );
@@ -302,6 +366,7 @@ mod tests {
                 reasons: vec![],
                 gate: None,
                 position: None,
+                geometry: None,
             },
             Some(1_700_000_000.0),
         );

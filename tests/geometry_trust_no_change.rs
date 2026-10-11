@@ -113,7 +113,10 @@ fn excerpt_hashes() -> Vec<(String, String)> {
         .map(|e| legacy(&e.to_json_line()) + "\n")
         .collect();
     let mut out = vec![
-        ("excerpt document (0.35 view)".to_string(), sha(&legacy(&doc))),
+        (
+            "excerpt document (0.35 view)".to_string(),
+            sha(&legacy(&doc)),
+        ),
         ("live JSON lines (0.35 view)".to_string(), sha(&lines)),
         (
             "last $PKSHT".to_string(),
@@ -148,13 +151,34 @@ fn the_vessel_demo_outputs_are_those_of_0_35_0_apart_from_the_appended_keys() {
     check(
         batch_hashes("examples/maritime-trust"),
         &[
-            ("result.json (0.35 view)", "60cfab46ea66bd8be8d3c8da8c571e35c12b30319839f9430f303ac3dcebd086"),
-            ("trust.csv", "947b30ee91573091af7052d2a12cf2a7191cd27dfa4e664e33b96585af010091"),
-            ("trust.svg", "1c071042d8f799ddd0fd503be7d100366785491426ba87ebf8087ee1b7c01379"),
-            ("summary", "730bbd019993dd51fb0d366363b84dd8a8aec460aa6500f8c92e04381ea197f8"),
-            ("telemetry prometheus of the 0.35 result", "95f5aa3fac4c4d022bccc069c8b51a2b0984230e58b08db295991ee5a95b86d3"),
-            ("telemetry cef of the 0.35 result", "35872b3245ed6e36185398a5c7828a1ccf15a2bd61e6c7124a442f973c5bd0db"),
-            ("telemetry leef of the 0.35 result", "f1527d3e177f54203e1704e863d8f4b9a5d1842bcdf30bc2ea4eda2cfbe6b9ba"),
+            (
+                "result.json (0.35 view)",
+                "60cfab46ea66bd8be8d3c8da8c571e35c12b30319839f9430f303ac3dcebd086",
+            ),
+            (
+                "trust.csv",
+                "947b30ee91573091af7052d2a12cf2a7191cd27dfa4e664e33b96585af010091",
+            ),
+            (
+                "trust.svg",
+                "1c071042d8f799ddd0fd503be7d100366785491426ba87ebf8087ee1b7c01379",
+            ),
+            (
+                "summary",
+                "730bbd019993dd51fb0d366363b84dd8a8aec460aa6500f8c92e04381ea197f8",
+            ),
+            (
+                "telemetry prometheus of the 0.35 result",
+                "95f5aa3fac4c4d022bccc069c8b51a2b0984230e58b08db295991ee5a95b86d3",
+            ),
+            (
+                "telemetry cef of the 0.35 result",
+                "35872b3245ed6e36185398a5c7828a1ccf15a2bd61e6c7124a442f973c5bd0db",
+            ),
+            (
+                "telemetry leef of the 0.35 result",
+                "f1527d3e177f54203e1704e863d8f4b9a5d1842bcdf30bc2ea4eda2cfbe6b9ba",
+            ),
         ],
     );
 }
@@ -166,13 +190,34 @@ fn the_static_example_outputs_are_those_of_0_35_0_apart_from_the_appended_keys()
     check(
         batch_hashes("examples/receiver-trust"),
         &[
-            ("result.json (0.35 view)", "c5917055e9717f24c0f5d80c702cd82b56b7d1a6b2b0c68ef6f0140d5616f494"),
-            ("trust.csv", "761a99ed2563df8643e6e0dcd95ebce2e3c90a3a26c14f10ab22e1779b278231"),
-            ("trust.svg", "670a93618d8cf6b75b5fdea58f6ffc393b44dabad0d4501ba073b67d5fbb34e4"),
-            ("summary", "1822897e5ffd655a4495784b99df2e556dc87d3074d795bafc65688343383fb1"),
-            ("telemetry prometheus of the 0.35 result", "97e0c3459e83826af5f5f38d0c8c49211ba54e3600f3f7c2c65e40db57f83e99"),
-            ("telemetry cef of the 0.35 result", "db703adf972d5912dd29ed0fd7ec60753fadb3f423cb044e347f812d582abdd4"),
-            ("telemetry leef of the 0.35 result", "43e533c9a7328970d7012eb160af293dbb0ca7fabba7f30d7a9f7ce415f0e323"),
+            (
+                "result.json (0.35 view)",
+                "c5917055e9717f24c0f5d80c702cd82b56b7d1a6b2b0c68ef6f0140d5616f494",
+            ),
+            (
+                "trust.csv",
+                "761a99ed2563df8643e6e0dcd95ebce2e3c90a3a26c14f10ab22e1779b278231",
+            ),
+            (
+                "trust.svg",
+                "670a93618d8cf6b75b5fdea58f6ffc393b44dabad0d4501ba073b67d5fbb34e4",
+            ),
+            (
+                "summary",
+                "1822897e5ffd655a4495784b99df2e556dc87d3074d795bafc65688343383fb1",
+            ),
+            (
+                "telemetry prometheus of the 0.35 result",
+                "97e0c3459e83826af5f5f38d0c8c49211ba54e3600f3f7c2c65e40db57f83e99",
+            ),
+            (
+                "telemetry cef of the 0.35 result",
+                "db703adf972d5912dd29ed0fd7ec60753fadb3f423cb044e347f812d582abdd4",
+            ),
+            (
+                "telemetry leef of the 0.35 result",
+                "43e533c9a7328970d7012eb160af293dbb0ca7fabba7f30d7a9f7ce415f0e323",
+            ),
         ],
     );
 }
@@ -184,12 +229,30 @@ fn the_replayed_stream_is_that_of_0_35_0_apart_from_the_appended_keys() {
     check(
         excerpt_hashes(),
         &[
-            ("excerpt document (0.35 view)", "204a54847c4919299f0d7de8b81c351aef0d9fb3ce9d795d9f6164a96a5479f8"),
-            ("live JSON lines (0.35 view)", "0573e84c9cfdf220bfd5f1a576864c2f057d09939e56066b174a8fb342849f57"),
-            ("last $PKSHT", "1e2b8ad6dcff75d99356dde97908090c395f0b730aeb6df5b13ed1fab62853aa"),
-            ("telemetry prometheus of the 0.35 lines", "0e09688fb521e648cb007bd9ac8b00d7f6a606bd4a11527bf2ed1d9ffeda6c87"),
-            ("telemetry cef of the 0.35 lines", "d8019910c91daa2037c3e745d7f0e2e0e2e35a5aeaf09fd9e5b9aa75f887ce66"),
-            ("telemetry leef of the 0.35 lines", "a792d9bc87093b839cc8d8dc4a722bb94ef26478677bac4a884a18934ced630a"),
+            (
+                "excerpt document (0.35 view)",
+                "204a54847c4919299f0d7de8b81c351aef0d9fb3ce9d795d9f6164a96a5479f8",
+            ),
+            (
+                "live JSON lines (0.35 view)",
+                "0573e84c9cfdf220bfd5f1a576864c2f057d09939e56066b174a8fb342849f57",
+            ),
+            (
+                "last $PKSHT",
+                "1e2b8ad6dcff75d99356dde97908090c395f0b730aeb6df5b13ed1fab62853aa",
+            ),
+            (
+                "telemetry prometheus of the 0.35 lines",
+                "0e09688fb521e648cb007bd9ac8b00d7f6a606bd4a11527bf2ed1d9ffeda6c87",
+            ),
+            (
+                "telemetry cef of the 0.35 lines",
+                "d8019910c91daa2037c3e745d7f0e2e0e2e35a5aeaf09fd9e5b9aa75f887ce66",
+            ),
+            (
+                "telemetry leef of the 0.35 lines",
+                "a792d9bc87093b839cc8d8dc4a722bb94ef26478677bac4a884a18934ced630a",
+            ),
         ],
     );
 }

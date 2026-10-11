@@ -13,6 +13,7 @@ use crate::palette::chart::{AMBER, BG, BLUE, CORAL, FONT_SANS, INK, LIME, MUTED,
 use serde::{Deserialize, Serialize};
 use sha2::{Digest, Sha256};
 
+use super::geometry::{GeometryCfg, GeometryModel, GeometrySummary};
 use super::ingest::read_log;
 use super::live::LiveCfg;
 use super::maritime::MaritimeConfig;
@@ -164,6 +165,8 @@ struct RawScenario {
     score: ScoreCfg,
     #[serde(default)]
     live: LiveCfg,
+    #[serde(default)]
+    geometry: GeometryCfg,
 }
 
 impl From<RawScenario> for ReceiverTrustScenario {
@@ -173,6 +176,7 @@ impl From<RawScenario> for ReceiverTrustScenario {
         monitors.maritime = r.maritime;
         monitors.score = r.score;
         monitors.live = r.live;
+        monitors.geometry = r.geometry;
         Self {
             kind: r.kind,
             name: r.name,
@@ -301,6 +305,11 @@ pub struct ReceiverTrustResult {
     pub verdict: String,
     /// The per-epoch trust timeline.
     pub epochs: Vec<EpochTrust>,
+    /// The geometry thresholds the epochs were assessed with, their provenance and what the
+    /// geometry can explain (0.36). The geometry never changes the score.
+    pub geometry_model: GeometryModel,
+    /// Epochs by geometry status and by attribution of their degradation (0.36).
+    pub geometry_summary: GeometrySummary,
 }
 
 /// The pre-registered trust-score mapping a run used, as recorded in its result.
@@ -624,6 +633,17 @@ pub fn run_receiver_trust_bytes(
         predictions_evaluable,
         score_model,
         verdict,
+        geometry_model: GeometryModel::new(
+            &scn.monitors.geometry,
+            scn.monitors.score.evidence_hold_s,
+        ),
+        geometry_summary: {
+            let mut g = GeometrySummary::default();
+            for e in &trust.epochs {
+                g.add(e.t_s, &e.geometry, e.degradation);
+            }
+            g
+        },
         epochs: trust.epochs,
     })
 }

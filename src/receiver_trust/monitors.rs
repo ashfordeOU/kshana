@@ -23,6 +23,7 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
+use super::geometry::{attribute, Degradation, EpochGeometry, GeometryCfg, GeometryTracker};
 use super::live::LiveCfg;
 use super::maritime::{MarineEpoch, MarineMonitors, MaritimeConfig};
 use super::platform::PlatformCfg;
@@ -116,6 +117,10 @@ pub struct MonitorConfig {
     /// Live-mode timing and gate hold, from the scenario's top-level `[live]` table.
     #[serde(skip_deserializing, skip_serializing_if = "LiveCfg::is_default")]
     pub live: LiveCfg,
+    /// When the satellite geometry counts as degraded, from the scenario's top-level
+    /// `[geometry]` table. Never changes a monitor, an alarm or the score.
+    #[serde(skip_deserializing, skip_serializing_if = "GeometryCfg::is_default")]
+    pub geometry: GeometryCfg,
 }
 
 impl Default for MonitorConfig {
@@ -136,6 +141,7 @@ impl Default for MonitorConfig {
             maritime: MaritimeConfig::default(),
             score: ScoreCfg::default(),
             live: LiveCfg::default(),
+            geometry: GeometryCfg::default(),
         }
     }
 }
@@ -147,6 +153,7 @@ impl MonitorConfig {
         self.maritime.validate()?;
         self.score.validate()?;
         self.live.validate()?;
+        self.geometry.validate()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -290,6 +297,17 @@ pub struct EpochTrust {
     pub alarms: Vec<Monitor>,
     /// The epoch's trust verdict.
     pub state: TrustState,
+    /// The satellite geometry at this epoch: good, degraded (with reasons) or unknown. Beside
+    /// the score, never part of it.
+    #[serde(default = "EpochGeometry::unknown")]
+    pub geometry: EpochGeometry,
+    /// What the epoch's degradation is attributed to: geometry, attack-like inconsistency
+    /// (the consistency monitors), both or neither.
+    #[serde(default)]
+    pub degradation: Degradation,
+    /// The active monitors the geometry explains (see [`super::geometry::attribute`]).
+    #[serde(default, skip_serializing_if = "Vec::is_empty")]
+    pub explained_by_geometry: Vec<Monitor>,
 }
 
 /// A contiguous run of one monitor's alarm.
@@ -831,6 +849,7 @@ pub fn run_monitors(
     let mut epochs = Vec::with_capacity(slots.len());
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
     let mut held: BTreeMap<Monitor, (f64, f64)> = BTreeMap::new();
+    let mut geo = GeometryTracker::new(&cfg.geometry, cfg.score.evidence_hold_s);
     for (slot_index, s) in slots.iter().enumerate() {
         let post = s.t_s >= cal_s || is_rewound(s);
         let mut alarms = BTreeSet::new();
@@ -853,6 +872,9 @@ pub fn run_monitors(
             score: None,
             alarms: Vec::new(),
             state: TrustState::Calibrating,
+            geometry: EpochGeometry::unknown(),
+            degradation: Degradation::None,
+            explained_by_geometry: Vec::new(),
         };
         let mut decide = |m: Monitor, alarm: bool, alarms: &mut BTreeSet<Monitor>| {
             if post && run_set.contains(&m) {
@@ -992,6 +1014,22 @@ pub fn run_monitors(
             }
         }
         et.alarms = alarms.into_iter().collect();
+        et.geometry = match s.tl {
+            Some(i) => geo.push(&tl.epochs[i]),
+            None => geo.push(&LogEpoch {
+                t_s: s.t_s,
+                ..LogEpoch::default()
+            }),
+        };
+        let active: Vec<(Monitor, bool)> = match &et.score {
+            Some(sc) => sc
+                .deductions
+                .iter()
+                .map(|d| (d.monitor, et.alarms.contains(&d.monitor)))
+                .collect(),
+            None => et.alarms.iter().map(|m| (*m, true)).collect(),
+        };
+        (et.degradation, et.explained_by_geometry) = attribute(&et.geometry, &active);
         epochs.push(et);
         decided.push(dec);
     }
