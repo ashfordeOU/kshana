@@ -20,15 +20,25 @@
   ],
   "author": [
     {
-      "@type": "Organization",
-      "name": "Ashforde OÜ",
-      "email": "contact@ashforde.org"
+      "@type": "Person",
+      "givenName": "Chakshu",
+      "familyName": "Baweja",
+      "email": "contact@ashforde.org",
+      "affiliation": {
+        "@type": "Organization",
+        "name": "Ashforde OÜ"
+      }
     }
   ],
   "maintainer": {
-    "@type": "Organization",
-    "name": "Ashforde OÜ",
-    "email": "contact@ashforde.org"
+    "@type": "Person",
+    "givenName": "Chakshu",
+    "familyName": "Baweja",
+    "email": "contact@ashforde.org",
+    "affiliation": {
+      "@type": "Organization",
+      "name": "Ashforde OÜ"
+    }
   },
   "developmentStatus": "active",
   "issueTracker": "https://github.com/ashfordeOU/kshana/issues",

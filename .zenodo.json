@@ -4,7 +4,8 @@
   "description": "Open, reproducible PNT-resilience simulator for positioning, navigation and timing (PNT) with quantum-sensor performance models. Quantifies the performance, autonomy, and resilience advantage of quantum clocks, quantum inertial sensors, and optical time transfer over classical PNT, scored against operational figures of merit, with every sensor parameter traceable to a published source. Quantum sensors are driven by published Allan/noise-budget coefficients, not simulated from first principles.",
   "creators": [
     {
-      "name": "Ashforde OÜ"
+      "name": "Baweja, Chakshu",
+      "affiliation": "Ashforde OÜ"
     }
   ],
   "access_right": "open",
