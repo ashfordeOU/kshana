@@ -291,7 +291,7 @@ result, not a failure.
 
 Each step: TDD where there is logic to test; `fmt` + `clippy -D warnings` +
 `cargo test` (main crate) + the xval crate's own build/test; the no-attribution + naming-hygiene
-guards; atomic commit; author `Chakshu Baweja <contact@ashforde.org>`, no trailers.
+guards; atomic commit; author `Ashforde OÜ <contact@ashforde.org>`, no trailers.
 
 1. **Main-crate provider refactor** (§5.1). RED: none (behaviour-preserving). GREEN gate: the
    **entire existing suite passes unchanged**, including `tests/agency_lro.rs` still reporting
