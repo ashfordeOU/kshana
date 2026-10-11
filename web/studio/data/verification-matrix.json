@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 132,
-    "modelled": 127,
+    "modelled": 129,
     "partner_owned": 4,
-    "total": 263
+    "total": 265
   },
   "rows": [
     {
@@ -1210,6 +1210,69 @@
         "path": "tests/fixtures/resilience_diversity",
         "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/resilience_diversity",
         "notice_url": null
+      }
+    },
+    {
+      "requirement": "Azimuth-dependent skyline masks on Earth",
+      "capability": "skyline: an elevation cut that depends on azimuth, the pointwise maximum of a linearly interpolated table wrapped at 360 deg, a street canyon in closed form (cut atan((h - a) / d) with d = (w/2) / abs(sin(az - s)), open ends for a finite length), sharp-edged sectors and a terrain profile reduced with the curvature drop d^2/(2 * 4/3 R); the effective cut max(mask_deg, skyline); four REPRESENTATIVE presets (city-street, harbour-approach, fjord, container-terminal) with stated provenance; an optional [skyline] section in the orbit and integrity kinds (with the ground-site user_site mode: geodetic look angles on the rotating Earth), gnss-sim, jamming, leo-pvt (every mode, including the polar sweep), leo-pass and the nmea-scenario training generator, with per-sample masked_by_skyline counts. Without a section every scenario is byte-identical to 0.35.0",
+      "status": "MODELLED",
+      "oracle_kind": "InternalConsistency",
+      "oracle": "None external yet. The reductions are checked against hand-computed values (internal identities); the absence of a section is checked byte for byte against the outputs of the 0.35.0 release commit (agreement with the engine's own earlier output, which shows backward compatibility and validates nothing). The design note's proposed oracle, Orekit ElevationMask with a TopocentricFrame on committed Earth-fixed states, is to be pre-registered before it is run; the row becomes VALIDATED only if that comparison passes. gnss_lib_py 1.1.0 applies a single elevation mask only (find_visible_sv_posvel, el_mask), so it cannot check an azimuth mask. The presets are REPRESENTATIVE dimensions, not surveys. Line of sight only: no diffraction, reflection, non-line-of-sight reception or partial transparency",
+      "module": "skyline (Skyline, SkylineCfg, PRESETS); orbit (UserPath, SiteCfg, sky_view, build_timeline_at, summarize_dop_at); frames (is_visible_skyline, skyline_view); raim, gnss_sim, jamming, leo_fusion (system, polar), leo_pass, nmea_synth",
+      "tests": "skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam; canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; the_empty_skyline_is_the_scalar_mask_bit_for_bit); orbit::tests::a_ground_site_turns_with_the_earth_and_sees_geodetic_look_angles; tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release, an_empty_skyline_section_is_the_scalar_mask_in_every_wired_kind, one run per wired kind against open sky, misplaced_and_malformed_skylines_are_refused)",
+      "module_links": [
+        {
+          "path": "src/skyline.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/skyline.rs"
+        },
+        {
+          "path": "src/gnss_sim.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/gnss_sim.rs"
+        },
+        {
+          "path": "src/jamming.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/jamming.rs"
+        },
+        {
+          "path": "src/leo_fusion/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/leo_fusion/mod.rs"
+        },
+        {
+          "path": "src/leo_pass.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/leo_pass.rs"
+        },
+        {
+          "path": "src/nmea_synth/mod.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/nmea_synth/mod.rs"
+        }
+      ],
+      "test_links": [
+        {
+          "path": "tests/skyline_scenarios.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/skyline_scenarios.rs"
+        }
+      ],
+      "fixture": null
+    },
+    {
+      "requirement": "Sky geometry functions: visibility, DOP, covariance, error ellipse, Monte Carlo cloud",
+      "capability": "geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` and `kshana skyline`, Python and WASM functions of the same names, MCP `sky_geometry`): from a site, a time and constellation presets (or satellites as azimuth/elevation or ECEF), the satellites visible and masked under a skyline, GDOP/PDOP/HDOP/VDOP/TDOP, the unit-variance cofactor (H^T H)^-1 and the covariance in east-north-up with one receiver clock per system or one in common, the horizontal error ellipse (semi-axes k sigma sqrt(lambda), k = sqrt(-2 ln(1 - p)), orientation 0.5 atan2(2 Q_EN, Q_NN - Q_EE) from north), and n seeded least-squares errors under independent Gaussian range errors with their empirical covariance, RMS and 95 % containment. The cofactor is orbit::cofactor_from_los, the one kernel behind orbit::dop and orbit::dop_cov (dop is dop_cov's reduction): no second DOP implementation",
+      "status": "MODELLED",
+      "oracle_kind": "ReferenceImpl",
+      "oracle": "The single-clock DOP factors rest on the kernel validated against gnss_lib_py 1.0.4 (row 'GNSS geometry / dilution of precision (DOP)'); this row's own checks are internal: sky_geometry reproduces orbit::dop and dop_cov on the same geometry, the ellipse reproduces an analytic 2x2 eigen-decomposition, ECEF and azimuth/elevation inputs agree, and the seeded cloud's RMS and 95 % containment agree with the geometry. The per-system clock states, the ENU covariance and the ellipse are not compared against an external oracle; the design note's candidate (numpy linalg.eigh on committed inputs, standard P2) is the open promotion path. The constellation presets give a representative sky, not a dated one; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound",
+      "module": "geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)",
+      "tests": "geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (the single-clock kernel against gnss_lib_py)",
+      "module_links": [],
+      "test_links": [
+        {
+          "path": "tests/dop_reference.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/dop_reference.rs"
+        }
+      ],
+      "fixture": {
+        "path": "tests/fixtures/dop",
+        "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/dop",
+        "notice_url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/dop/NOTICE"
       }
     },
     {
