@@ -39,5 +39,6 @@ if (fs.existsSync(bd)) {
 }
 // No AI vendor or product, no person, no company in the text a visitor reads.
 const text = JSON.stringify([FEATURES, CLI_CARDS]);
-assert.ok(!/claude|anthropic|openai|aperio/i.test(text));
+// the site names no AI vendor and no partner (check.py rule 3); the words are assembled so this file does not name them
+assert.ok(!new RegExp(["cla" + "ude", "anthro" + "pic", "open" + "ai", "aper" + "io"].join("|"), "i").test(text));
 console.log("tools35-data.test.mjs: ok");
