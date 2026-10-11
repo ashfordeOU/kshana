@@ -71,3 +71,24 @@ fn the_jetbrains_listing_and_readme_carry_the_full_statement() {
         assert!(flat(p).contains(ADVISORY), "{p}");
     }
 }
+
+#[test]
+fn the_osnma_surfaces_carry_the_full_statement() {
+    use kshana::osnma::ADVISORY as OSNMA;
+    let py = flat("src/python.rs");
+    assert!(
+        section(&py, "fn osnma_verify").contains(OSNMA),
+        "src/python.rs"
+    );
+    let w = flat("src/wasm.rs");
+    assert!(
+        section(&w, "pub fn osnma_verify").contains(OSNMA),
+        "src/wasm.rs"
+    );
+    let pyi = flat("kshana.pyi");
+    let i = pyi.find("def osnma_verify(").expect("kshana.pyi");
+    assert!(
+        pyi[i..(i + 2500).min(pyi.len())].contains(OSNMA),
+        "kshana.pyi"
+    );
+}

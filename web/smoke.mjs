@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -282,6 +282,18 @@ if (tCef.trim().split("\n").length !== 3 || !tCef.includes("CEF:0|Ashforde OU|Ks
     !tAll.includes("LEEF:2.0|") || !tProm.includes("kshana_trust_score 41") ||
     !Array.isArray(tOtlp.resourceMetrics) || !tBad) {
   console.error("wasm trust_telemetry() produced unexpected output");
+  process.exit(1);
+}
+
+// OSNMA verification in memory: the same JSON as `kshana osnma verify --json`, advisory included.
+const osnmaPage = "00".repeat(30);
+const osnmaCsv = `SVID,NumNavBits,NavBitsHEX\n02,480,${osnmaPage}${osnmaPage}\n03,240,${osnmaPage}\n`;
+const osnma = JSON.parse(osnma_verify(btoa(osnmaCsv), "vector-csv", 1000, "", [], undefined, undefined));
+let osnmaBad = false;
+try { osnma_verify(btoa(osnmaCsv), "", 1000, "", [], undefined, 10); } catch (_) { osnmaBad = true; }
+if (osnma.input.pages !== 3 || osnma.freshness_enforced !== false ||
+    !osnma.advisory.includes("not type-approved navigation equipment") || !osnmaBad) {
+  console.error("wasm osnma_verify() produced unexpected output");
   process.exit(1);
 }
 

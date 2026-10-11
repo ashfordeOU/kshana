@@ -42,6 +42,7 @@ __all__ = [
     "get_example",
     "compliance_report",
     "compliance_mapping",
+    "osnma_verify",
     "trust_telemetry",
     "route_exposure",
     "nmea_training",
@@ -258,6 +259,28 @@ def compliance_mapping(sources: bool = False) -> str:
     """The static public-framework mapping as Markdown, led by the statement every report
     carries: one table per framework, or with ``sources=True`` the source documents they cite
     (versions and URLs)."""
+
+def osnma_verify(
+    data: bytes | str,
+    format: str = "",
+    start_gst: int | None = None,
+    merkle_root_hex: str = "",
+    public_keys: list[str] | None = None,
+    reference_time: int | None = None,
+    max_time_error: int | None = None,
+) -> dict:
+    """Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+    ``kshana osnma verify`` runs; returns the dict its ``--json`` prints. Advisory: this is
+    analysis and monitoring output and not type-approved navigation equipment. The authentication
+    status reported here is not a navigation integrity service and must not be the sole basis for
+    any navigation or safety decision. ``data`` is the pages (plain text, or the published vector
+    CSV) or a u-blox UBX byte stream; ``format`` is ``"pages"``, ``"vector-csv"``, ``"ubx"`` or
+    ``""`` (by content); ``start_gst`` is a vector CSV's start in GST seconds;
+    ``merkle_root_hex`` is the trusted Merkle root (64 hex digits, or ``""``); ``public_keys`` are
+    trusted keys as ``"ID:TYPE:HEX"``; ``reference_time`` is the present time in GST seconds from
+    an independent source and ``max_time_error`` the widest distance of a sub-frame from it (below
+    30; needs a reference time). Without a reference time freshness is not enforced and the report
+    says so (``freshness_enforced``). Raises ``ValueError``."""
 
 def trust_telemetry(
     input: str,
