@@ -40,10 +40,7 @@
 //! the genuine HPL/VPL an integrity claim rests on — not a self-consistency FoM.
 
 use crate::frames::Vec3;
-use crate::orbit::{
-    enu_basis, invert4, los_unit, visible_positions, visible_positions_labeled, ConstellationCfg,
-    Orbit, OrbitCfg, Propagator,
-};
+use crate::orbit::{enu_basis, invert4, los_unit, ConstellationCfg, Orbit, OrbitCfg, Propagator};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, INK_4, LIME, MAGENTA};
 use crate::scenario::TimeCfg;
 use rand::SeedableRng;
@@ -1519,6 +1516,10 @@ pub struct RaimAvailabilityEpoch {
     pub vpl_m: Option<f64>,
     /// `true` when a fix is possible and `HPL ≤ AL_H` and `VPL ≤ AL_V`.
     pub available: bool,
+    /// Satellites above the mask but below the skyline; present only when the scenario has a
+    /// `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masked_by_skyline: Option<usize>,
 }
 
 /// Unit and provenance class for every numeric field the `integrity` report — a
@@ -1659,6 +1660,7 @@ pub fn raim_availability_epoch(
                 hpl_m: Some(r.hpl_m),
                 vpl_m: Some(r.vpl_m),
                 available,
+                masked_by_skyline: None,
             }
         }
         None => RaimAvailabilityEpoch {
@@ -1667,6 +1669,7 @@ pub fn raim_availability_epoch(
             hpl_m: None,
             vpl_m: None,
             available: false,
+            masked_by_skyline: None,
         },
     }
 }
@@ -1691,6 +1694,31 @@ pub fn constellation_raim_availability(
     cfg: &RaimConfig,
     seed: u64,
 ) -> RaimAvailabilityReport {
+    constellation_raim_availability_at(
+        &crate::orbit::UserPath::Orbit(*user),
+        gnss,
+        step_s,
+        duration_s,
+        mask_deg,
+        None,
+        cfg,
+        seed,
+    )
+}
+
+/// [`constellation_raim_availability`] for a [`crate::orbit::UserPath`] (an orbit or a ground
+/// site) under an optional skyline.
+#[allow(clippy::too_many_arguments)]
+pub fn constellation_raim_availability_at(
+    user: &crate::orbit::UserPath,
+    gnss: &[Propagator],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    sky: Option<&crate::skyline::Skyline>,
+    cfg: &RaimConfig,
+    seed: u64,
+) -> RaimAvailabilityReport {
     let n = (duration_s / step_s).round() as usize;
     let mut epochs = Vec::with_capacity(n + 1);
     let mut available = 0usize;
@@ -1708,8 +1736,12 @@ pub fn constellation_raim_availability(
     for i in 0..=n {
         let t = i as f64 * step_s;
         let user_ecef = user.position_eci(t);
-        let sats = visible_positions(user, gnss, t, mask_deg);
-        let e = raim_availability_epoch(t, user_ecef, &sats, cfg);
+        let view = crate::orbit::sky_view(user, gnss, None, t, mask_deg, sky);
+        let sats = view.positions;
+        let mut e = raim_availability_epoch(t, user_ecef, &sats, cfg);
+        if sky.is_some() {
+            e.masked_by_skyline = Some(view.masked);
+        }
         if e.available {
             available += 1;
         }
@@ -1756,15 +1788,49 @@ pub fn araim_dual_constellation_availability(
     al_h_m: f64,
     al_v_m: f64,
 ) -> RaimAvailabilityReport {
+    araim_dual_constellation_availability_at(
+        &crate::orbit::UserPath::Orbit(*user),
+        gnss,
+        labels,
+        step_s,
+        duration_s,
+        mask_deg,
+        None,
+        sigma_m,
+        priors,
+        budget,
+        al_h_m,
+        al_v_m,
+    )
+}
+
+/// [`araim_dual_constellation_availability`] for a [`crate::orbit::UserPath`] under an
+/// optional skyline.
+#[allow(clippy::too_many_arguments)]
+pub fn araim_dual_constellation_availability_at(
+    user: &crate::orbit::UserPath,
+    gnss: &[Propagator],
+    labels: &[u8],
+    step_s: f64,
+    duration_s: f64,
+    mask_deg: f64,
+    sky: Option<&crate::skyline::Skyline>,
+    sigma_m: f64,
+    priors: DualFaultPriors,
+    budget: IntegrityBudget,
+    al_h_m: f64,
+    al_v_m: f64,
+) -> RaimAvailabilityReport {
     let n = (duration_s / step_s).round() as usize;
     let mut epochs = Vec::with_capacity(n + 1);
     let mut available = 0usize;
     for i in 0..=n {
         let t = i as f64 * step_s;
         let user_ecef = user.position_eci(t);
-        let (sats, vis_labels) = visible_positions_labeled(user, gnss, labels, t, mask_deg);
+        let view = crate::orbit::sky_view(user, gnss, Some(labels), t, mask_deg, sky);
+        let (sats, vis_labels) = (view.positions, view.labels);
         let resid = vec![0.0; sats.len()];
-        let e = match araim_dual_raim(
+        let mut e = match araim_dual_raim(
             user_ecef,
             &sats,
             &vis_labels,
@@ -1779,6 +1845,7 @@ pub fn araim_dual_constellation_availability(
                 hpl_m: Some(r.hpl_m),
                 vpl_m: Some(r.vpl_m),
                 available: r.hpl_m <= al_h_m && r.vpl_m <= al_v_m,
+                masked_by_skyline: None,
             },
             None => RaimAvailabilityEpoch {
                 t_s: t,
@@ -1786,8 +1853,12 @@ pub fn araim_dual_constellation_availability(
                 hpl_m: None,
                 vpl_m: None,
                 available: false,
+                masked_by_skyline: None,
             },
         };
+        if sky.is_some() {
+            e.masked_by_skyline = Some(view.masked);
+        }
         if e.available {
             available += 1;
         }
@@ -1853,8 +1924,13 @@ pub struct IntegrityScenario {
     pub al_v_m: f64,
     /// Time grid.
     pub time: TimeCfg,
-    /// User orbit / location.
-    pub user: OrbitCfg,
+    /// User orbit. Exactly one of `user` and `user_site` is given.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub user: Option<OrbitCfg>,
+    /// User ground site (design note item 1): geodetic elevation and azimuth, so a
+    /// `[skyline]` applies. Exactly one of `user` and `user_site` is given.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub user_site: Option<crate::orbit::SiteCfg>,
     /// Primary GNSS constellation.
     pub constellation: ConstellationCfg,
     /// Additional constellations combined with `constellation` (multi-GNSS).
@@ -1874,6 +1950,10 @@ pub struct IntegrityScenario {
     /// Per-axis integrity-risk budget `P_HMI` for the ARAIM path (default 1e-7/hr).
     #[serde(default = "default_p_hmi")]
     pub p_hmi: f64,
+    /// Optional azimuth-dependent skyline over `mask_deg` (see [`crate::skyline`]); needs a
+    /// `user_site`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 /// Default per-axis integrity-risk budget for the ARAIM path.
@@ -1882,6 +1962,23 @@ fn default_p_hmi() -> f64 {
 }
 
 impl IntegrityScenario {
+    /// The user (an orbit or a ground site) and the skyline, checked against each other. The
+    /// integrity kind has no `epoch`, so `t = 0` is J2000, as for an orbit scenario without
+    /// one.
+    pub fn user_and_sky(
+        &self,
+    ) -> Result<(crate::orbit::UserPath, Option<crate::skyline::Skyline>), String> {
+        let e = crate::orbit::DEFAULT_SP3_EPOCH;
+        let jd0 =
+            crate::timescales::julian_date(e.year, e.month, e.day, e.hour, e.minute, e.second);
+        crate::orbit::resolve_user(
+            self.user.as_ref(),
+            self.user_site.as_ref(),
+            self.skyline.as_ref(),
+            jd0,
+        )
+    }
+
     /// All satellites: the primary constellation plus any additional ones.
     pub fn all_satellites(&self) -> Result<Vec<Propagator>, String> {
         let mut sats = self.constellation.satellites()?;
@@ -1908,7 +2005,7 @@ impl IntegrityScenario {
 
     /// Run the availability evaluation over the configured time grid.
     pub fn run(&self) -> Result<RaimAvailabilityReport, String> {
-        let user = self.user.to_orbit();
+        let (user, sky) = self.user_and_sky()?;
         if self.araim_dual {
             let (sats, labels) = self.all_satellites_labeled()?;
             // Build the ISM from the scenario: σ_URA (the integrity bound) defaults
@@ -1932,13 +2029,14 @@ impl IntegrityScenario {
                 p_hmi_horz: self.p_hmi,
                 p_fa: self.p_fa,
             };
-            return Ok(araim_dual_constellation_availability(
+            return Ok(araim_dual_constellation_availability_at(
                 &user,
                 &sats,
                 &labels,
                 self.time.step_s,
                 self.time.duration_s,
                 self.mask_deg,
+                sky.as_ref(),
                 ism.sigma_ura_m,
                 ism.dual_fault_priors(),
                 budget,
@@ -1954,12 +2052,13 @@ impl IntegrityScenario {
             al_h_m: self.al_h_m,
             al_v_m: self.al_v_m,
         };
-        Ok(constellation_raim_availability(
+        Ok(constellation_raim_availability_at(
             &user,
             &sats,
             self.time.step_s,
             self.time.duration_s,
             self.mask_deg,
+            sky.as_ref(),
             &cfg,
             self.seed,
         ))

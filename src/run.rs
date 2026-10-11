@@ -150,14 +150,15 @@ pub(crate) fn run_clock_probed(
 /// geometry. The user orbit, constellation, and elevation mask produce a
 /// visibility timeline, which then drives the standard clock-holdover run.
 pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> Result<RunResult, String> {
-    let user = scn.user.to_orbit();
+    let (user, sky) = scn.user_and_sky()?;
     let sats = scn.all_satellites()?;
-    let timeline = crate::orbit::build_timeline(
+    let timeline = crate::orbit::build_timeline_at(
         &user,
         &sats,
         scn.time.step_s,
         scn.time.duration_s,
         scn.mask_deg,
+        sky.as_ref(),
     );
     let inner = Scenario {
         seed: scn.seed,
@@ -208,7 +209,11 @@ const MAX_ECI_TRACK: usize = 720;
 /// [`MAX_ECI_TRACK`] points. The magnitude of each sample is an independent
 /// physical fact (e.g. a GPS orbit is ~26,560 km — IS-GPS-200), so it is a
 /// non-circular oracle for the orbit visualisation.
-fn sample_eci_track_km(user: &crate::orbit::Orbit, step_s: f64, duration_s: f64) -> Vec<[f64; 3]> {
+fn sample_eci_track_km(
+    user: &crate::orbit::UserPath,
+    step_s: f64,
+    duration_s: f64,
+) -> Vec<[f64; 3]> {
     let n = (duration_s / step_s).round() as usize;
     // The full grid has n+1 samples (i = 0..=n). Stride by ceil((n+1)/cap) so the
     // decimated track keeps at most MAX_ECI_TRACK points while still spanning the
@@ -387,7 +392,7 @@ q_rw = 1.0e-28
 
         // Engine-internal consistency: the first track sample's magnitude equals
         // |user.position_eci(0)| (in km).
-        let p0 = scn.user.to_orbit().position_eci(0.0);
+        let p0 = scn.user.as_ref().unwrap().to_orbit().position_eci(0.0);
         let r0_km = (p0[0].powi(2) + p0[1].powi(2) + p0[2].powi(2)).sqrt() / 1000.0;
         let first = track[0];
         let track_r0 = (first[0].powi(2) + first[1].powi(2) + first[2].powi(2)).sqrt();

@@ -223,6 +223,29 @@ pub fn enu_at(lat: f64, lon: f64) -> (Vec3, Vec3, Vec3) {
 }
 
 /// Elevation (rad) of `sat` above the local horizon of `user` whose up vector is `up`.
+pub fn azimuth_deg(user: Vec3, up: Vec3, sat: Vec3) -> f64 {
+    let seed = if cross([0.0, 0.0, 1.0], up)
+        .iter()
+        .map(|c| c * c)
+        .sum::<f64>()
+        > 1e-12
+    {
+        [0.0, 0.0, 1.0]
+    } else {
+        [1.0, 0.0, 0.0]
+    };
+    let e = cross(seed, up);
+    let en = norm(e);
+    if en == 0.0 {
+        return 0.0;
+    }
+    let east = scale(e, 1.0 / en);
+    let north = cross(up, east);
+    let d = sub(sat, user);
+    crate::skyline::azimuth_from_en(dot(d, east), dot(d, north))
+}
+
+/// Elevation (rad) of `sat` above the plane normal to `up` at `user` (both ECEF).
 pub fn elevation(user: Vec3, up: Vec3, sat: Vec3) -> f64 {
     let d = sub(sat, user);
     (dot(d, up) / norm(d)).clamp(-1.0, 1.0).asin()

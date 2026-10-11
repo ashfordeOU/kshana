@@ -160,7 +160,7 @@ pub fn latitude_samples(
         for (epoch, sats) in states.iter().enumerate() {
             let vis: Vec<([f64; 3], usize)> = sats
                 .iter()
-                .filter(|(p, k)| elevation(user, up, *p) >= systems[*k].mask_rad)
+                .filter(|(p, k)| systems[*k].admits(user, up, *p, elevation(user, up, *p)))
                 .copied()
                 .collect();
             let mut in_view_by_system = vec![0; systems.len()];
