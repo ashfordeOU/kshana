@@ -841,5 +841,26 @@ async fn trust_telemetry_renders_each_format_and_refuses_bad_input() {
         .await
         .is_err()
     );
+    // A host that would be copied into every event is refused, and the reply is bounded even
+    // with a short host: one small input must not fan out into an unbounded reply.
+    let host_err = call(
+        &client,
+        "trust_telemetry",
+        json!({"input": stream, "format": "cef", "host": "h".repeat(100_000), "syslog_all": true}),
+    )
+    .await
+    .unwrap_err();
+    assert!(host_err.contains("host"), "{host_err}");
+    let line =
+        r#"{"t_s":1.0,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off"}"#;
+    let big = format!("{line}\n").repeat(40_000); // ~3.4 MB in, over 4 MiB of CEF out
+    let fan = call(
+        &client,
+        "trust_telemetry",
+        json!({"input": big, "format": "cef", "host": "h".repeat(255), "syslog_all": true}),
+    )
+    .await
+    .unwrap_err();
+    assert!(fan.contains("reply") && fan.contains("limit"), "{fan}");
     client.cancel().await.ok();
 }

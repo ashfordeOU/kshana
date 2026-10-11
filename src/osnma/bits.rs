@@ -23,6 +23,7 @@ pub struct BitWriter {
 }
 
 impl BitWriter {
+    /// An empty writer.
     pub fn new() -> Self {
         Self::default()
     }
@@ -40,10 +41,12 @@ impl BitWriter {
         }
     }
 
+    /// Number of bits pushed so far.
     pub fn bit_len(&self) -> usize {
         self.len
     }
 
+    /// The bits written, most significant first, right-padded with zero bits to a whole byte.
     pub fn into_bytes(self) -> Vec<u8> {
         self.bytes
     }

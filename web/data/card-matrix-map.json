@@ -187,5 +187,32 @@
     "Unit and provenance declared for every reported quantity",
     "Link-budget report self-description",
     "Hybrid optical/RF report self-description"
+  ],
+  "Receiver-trust score for a vessel": [
+    "Maritime trust monitors: the arithmetic they rest on (NMEA decoding, geodesic offsets, the kinematic and sensor-residual statistics)",
+    "Maritime trust score: the aggregation of the monitors' evidence into a 0-100 score and its three bands"
+  ],
+  "Crew-training NMEA streams": [
+    "NMEA 0183 training-stream conformance and decoded values"
+  ],
+  "Interference map and route exposure": [
+    "Interference map: accuracy-code meanings, AIS not-available values, grid cell assignment, route length per cell state, and inland masking"
+  ],
+  "Trust telemetry for security operations": [
+    "Trust telemetry wire formats: Prometheus text exposition and OpenTelemetry OTLP/HTTP JSON",
+    "Trust telemetry SIEM events: Common Event Format (CEF) over syslog",
+    "Trust telemetry SIEM events: Log Event Extended Format (LEEF) over syslog"
+  ],
+  "Signed evidence packs": [
+    "Evidence pack integrity: signature, hash chain and verification procedure"
+  ],
+  "Test-bench export": [
+    "Test-bench export (kshana bench-export): Earth-fixed, geodetic and local-velocity columns, attitude columns and NMEA 0183 output"
+  ],
+  "Compliance mapping to public frameworks": [
+    "Compliance mapping to public frameworks"
+  ],
+  "Galileo OSNMA verification": [
+    "Galileo OSNMA receiver-side navigation-data authentication"
   ]
 }
