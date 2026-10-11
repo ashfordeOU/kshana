@@ -4,6 +4,7 @@
 use super::bits::read_bits;
 use super::tables::{self, HashFn, KeyType, MacFn};
 
+/// Bytes in one DSM block: 104 bits (ICD 3.2.1).
 pub const BLOCK_BYTES: usize = 13;
 const MAX_BLOCKS: usize = 16;
 
@@ -18,11 +19,14 @@ pub struct DsmAssembler {
 /// A complete DSM, trimmed to its defined length.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Dsm {
+    /// DSM id from the DSM header: 0 to 11 for a DSM-KROOT, 12 to 15 for a DSM-PKR.
     pub dsm_id: u8,
+    /// The reassembled DSM, trimmed to its defined length.
     pub bytes: Vec<u8>,
 }
 
 impl DsmAssembler {
+    /// An assembler holding no blocks.
     pub fn new() -> Self {
         Self::default()
     }
@@ -66,22 +70,39 @@ impl DsmAssembler {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// A DSM-KROOT (ICD 3.2.3, Table 7): the signed root key and the parameters of a TESLA chain.
 pub struct DsmKroot {
+    /// Id of the public key that signed it (PKID, 4 bits).
     pub pkid: u8,
+    /// Id of the chain it carries (CIDKR, 2 bits).
     pub cidkr: u8,
+    /// Hash function code of the chain (HF, Table 8).
     pub hf: u8,
+    /// MAC function code of the chain (MF, Table 9).
     pub mf: u8,
+    /// Key size code (KS, Table 10).
     pub ks: u8,
+    /// Tag size code (TS, Table 11).
     pub ts: u8,
+    /// Id of the MAC look-up table entry (MACLT, Annex C).
     pub maclt: u8,
+    /// Week number of the chain's time of applicability GST_0 (WN_K, 12 bits).
     pub wnk: u16,
+    /// Hour of the week of GST_0 (TOWH_K, 8 bits).
     pub towhk: u8,
+    /// The 48-bit pattern alpha that enters every key derivation of the chain.
     pub alpha: [u8; 6],
+    /// TESLA key length in bits, from KS.
     pub key_bits: usize,
+    /// Tag length in bits, from TS.
     pub tag_bits: usize,
+    /// Chain hash function, from HF.
     pub hash: HashFn,
+    /// MAC function, from MF.
     pub mac: MacFn,
+    /// The root key K_0 of the chain, `key_bits` long, as bytes.
     pub kroot: Vec<u8>,
+    /// The ECDSA digital signature (r then s) over the signed message of ICD Eq. 14.
     pub signature: Vec<u8>,
     /// DSM bytes from the CIDKR byte up to and including KROOT (the body of the signed
     /// message M, Eq. 14, without the leading NMA header byte).
@@ -91,8 +112,11 @@ pub struct DsmKroot {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// Why a DSM could not be parsed.
 pub enum DsmError {
+    /// The message is shorter than its fields need.
     Truncated,
+    /// A field holds a value the ICD reserves; names the field.
     Reserved(&'static str),
 }
 
@@ -177,15 +201,22 @@ impl DsmKroot {
 }
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// A DSM-PKR (ICD 3.2.2, Table 4): a public key, or an alert message, with its Merkle path.
 pub struct DsmPkr {
+    /// Message id: the index of the Merkle leaf (MID, 4 bits).
     pub mid: u8,
+    /// The four intermediate tree nodes of the Merkle path (ITN, 4 x 256 bits).
     pub itn: [[u8; 32]; 4],
+    /// New public key type (NPKT, Table 5); 4 marks the alert message.
     pub npkt: u8,
+    /// New public key id (NPKID); 0 for an alert message.
     pub npkid: u8,
+    /// The new public key (NPK) as a compressed point; for an alert message, its random filler bits.
     pub npk: Vec<u8>,
 }
 
 impl DsmPkr {
+    /// Parse a reassembled DSM-PKR.
     pub fn parse(dsm: &[u8]) -> Result<Self, DsmError> {
         let nbdp = *dsm.first().ok_or(DsmError::Truncated)? >> 4;
         let blocks = tables::pkr_blocks(nbdp).ok_or(DsmError::Reserved("NBDP"))?;
@@ -222,6 +253,7 @@ impl DsmPkr {
         })
     }
 
+    /// Whether this is an OSNMA alert message (NPKT 4).
     pub fn is_alert(&self) -> bool {
         self.npkt == tables::NPKT_ALERT
     }

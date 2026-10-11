@@ -46,21 +46,30 @@ const AUTH_WINDOW_S: u32 = 600;
 /// Parameters of a TESLA chain, as signed in a DSM-KROOT.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Chain {
+    /// Id of the chain (CID).
     pub cid: u8,
+    /// The chain's hash function.
     pub hash: HashFn,
+    /// The chain's MAC function.
     pub mac: MacFn,
+    /// TESLA key length in bits.
     pub key_bits: usize,
+    /// Tag length in bits.
     pub tag_bits: usize,
+    /// Id of the MAC look-up table entry.
     pub maclt: u8,
+    /// The 48-bit pattern alpha of the key derivation.
     pub alpha: [u8; 6],
     /// Key id of the public key that signed this chain's root.
     pub pkid: u8,
     /// Time of applicability `GST_0`, in GST seconds.
     pub gst0: u32,
+    /// The root key K_0, stamped GST_0 - 30.
     pub root_key: Vec<u8>,
 }
 
 impl Chain {
+    /// The chain a verified DSM-KROOT describes.
     pub fn from_kroot(k: &DsmKroot) -> Self {
         Self {
             cid: k.cidkr,
@@ -86,6 +95,7 @@ pub struct Config {
     pub public_keys: Vec<PublicKey>,
     /// A chain verified earlier and kept, so signatures need not be re-checked.
     pub trusted_chain: Option<Chain>,
+    /// The MAC look-up table: the built-in entries plus any added at run time.
     pub maclt: MacLookup,
     /// Largest accepted difference between a sub-frame's time and the reference time.
     /// Must be below one sub-frame (30 s); larger values are cut to 29. It has an effect
@@ -160,10 +170,15 @@ pub enum DiscardReason {
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq, Serialize)]
 #[serde(tag = "state", content = "reason", rename_all = "snake_case")]
+/// The outcome of one tag check.
 pub enum TagStatus {
+    /// Verified against the navigation data it covers.
     Authenticated,
+    /// Checked and did not match: the data or the tag is not genuine.
     Failed(FailReason),
+    /// Could not be decided yet, or at all.
     Pending(PendingReason),
+    /// Set aside without checking, as the Receiver Guidelines direct.
     Discarded(DiscardReason),
 }
 
@@ -174,6 +189,7 @@ pub struct TagResult {
     pub prna: u8,
     /// Satellite whose data the tag covers.
     pub prnd: u8,
+    /// ADKD of the tag (ICD 4.2.1.3).
     pub adkd: u8,
     /// Position of the tag in its MACK message, counted from 1 (Tag0).
     pub ctr: u8,
@@ -181,67 +197,101 @@ pub struct TagResult {
     pub tag_gst: u32,
     /// Sub-frame start of the data that matched, when it authenticated.
     pub data_gst: Option<u32>,
+    /// NMA status in the sub-frame that carried the tag (NMAS, ICD 3.1.1).
     pub nmas: u8,
+    /// The outcome.
     pub status: TagStatus,
 }
 
 /// Things that happened while processing a page.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub enum Event {
+    /// A DSM-PKR verified against the Merkle root and gave a public key.
     PublicKeyVerified {
+        /// Id of the key.
         pkid: u8,
     },
+    /// A DSM-PKR did not verify.
     PublicKeyRejected(MerkleError),
+    /// An OSNMA alert message (a DSM-PKR with NPKT 4) was received.
     AlertMessage {
+        /// Whether it verified against the Merkle root.
         verified: bool,
     },
+    /// A DSM-KROOT's signature verified.
     KrootVerified {
+        /// Id of the chain.
         cid: u8,
+        /// Id of the key that signed it.
         pkid: u8,
+        /// The chain's hash function.
         hash: HashFn,
+        /// The chain's MAC function.
         mac: MacFn,
+        /// TESLA key length in bits.
         key_bits: usize,
+        /// Tag length in bits.
         tag_bits: usize,
+        /// Id of the MAC look-up table entry.
         maclt: u8,
     },
     /// The NMA header announced the end of a chain or key; it is no longer trusted.
     ChainRevoked {
+        /// Id of the revoked chain.
         cid: u8,
     },
+    /// The NMA header announced a public key revocation and it was carried out.
     PublicKeyRevoked {
+        /// Id of the revoked key.
         pkid: u8,
     },
+    /// A DSM-KROOT was refused.
     KrootRejected(KrootError),
+    /// A TESLA key verified against its chain.
     KeyVerified {
+        /// Sub-frame start (GST seconds) of the key's slot.
         gst: u32,
     },
+    /// A TESLA key was refused.
     KeyRejected {
+        /// Sub-frame start (GST seconds) of the key's slot.
         gst: u32,
+        /// Why it was refused.
         reason: FailReason,
     },
     /// No TESLA key has verified for longer than the authentication window by the
     /// reference (host) clock: OSNMA has stopped or is being blocked, and nothing new can
     /// authenticate. Statuses expire on their own.
     KeyStall {
+        /// The reference clock when it was noticed (GST seconds).
         reference: u32,
+        /// Slot of the latest TESLA key that verified (GST seconds).
         latest_key: u32,
     },
     /// A sub-frame time lay outside the allowed distance from the reference time.
     TimeRejected {
+        /// Start of the sub-frame whose time was out of range (GST seconds).
         gst_sf: u32,
     },
     /// A page was dropped because its CRC did not match.
     BadCrc {
+        /// Satellite that sent the page.
         svid: u8,
+        /// Time of the page (GST seconds).
         gst: u32,
     },
+    /// The outcome of one tag.
     Tag(TagResult),
 }
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Why a DSM-KROOT was refused.
 pub enum KrootError {
+    /// No trusted public key has the id the message names.
     NoPublicKey,
+    /// The signature check failed or could not run.
     Signature(SigError),
+    /// The message does not parse, or its padding hash does not match.
     Malformed,
     /// The chain or the key that signed it was revoked by the NMA header.
     Revoked,
@@ -302,6 +352,7 @@ struct SatRecord {
     last_fail: Option<(u32, FailReason)>,
 }
 
+/// Turns a stream of I/NAV pages into per-satellite authentication status, with a reason for every failure or delay.
 pub struct Verifier {
     cfg: Config,
     sf: SubframeAssembler,
@@ -349,6 +400,7 @@ pub struct Verifier {
 }
 
 impl Verifier {
+    /// A verifier that trusts only what `cfg` gives it: a Merkle root, public keys and a chain.
     pub fn new(mut cfg: Config) -> Self {
         cfg.max_time_error_s = cfg.max_time_error_s.map(|t| t.min(SUBFRAME_S - 1));
         let public_keys = cfg
