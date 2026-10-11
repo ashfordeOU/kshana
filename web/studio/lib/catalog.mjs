@@ -209,6 +209,19 @@ export const DEFAULT_SCENARIO = "clock-holdover.toml";
 
 // Folder a scenario's files live under ("" for the bundled set, the group's own folder for an optional group).
 const DIRS = new Map();
+// What may stand in a request path. An optional group's folder ("name/") and its scenario file names come from
+// JSON files; they are checked against these plain patterns before they are used in any address, so no file
+// content can point a request elsewhere (another folder, another origin, a scheme).
+export const isGroupDir = (d) => typeof d === "string" && /^[a-z0-9][a-z0-9-]{0,40}\/$/.test(d);
+export const isScenarioFile = (f) => typeof f === "string" && /^[a-z0-9][a-z0-9._-]{0,100}\.toml$/.test(f);
+// The fixed files a folder holds that the Studio fetches; `dir` is "" (the Studio's own folder) or a checked group folder.
+const GROUP_FILES = new Set(["recorded/index.json", "native/index.json", "areas.json", "index.json"]);
+export function groupFileUrl(dir, tail) {
+  if (!GROUP_FILES.has(tail) || (dir !== "" && !isGroupDir(dir))) return null;
+  if (tail === "areas.json" && dir === "") return "data/areas.json";
+  return `${dir}${tail}`;
+}
+
 export function dirOf(file) {
   return DIRS.get(file) || "";
 }
@@ -218,10 +231,11 @@ export function dirOf(file) {
 // Returns how many entries were added.
 export function registerGroup(group) {
   if (!group || !group.domain || !Array.isArray(group.scenarios)) return 0;
+  if (!isGroupDir(group.dir)) return 0; // a folder name read from a file never becomes a request path unless it is a plain folder here
   if (!DOMAINS.some((d) => d.id === group.domain.id)) DOMAINS.push({ id: group.domain.id, label: String(group.domain.label), color: group.domain.color || "var(--ink-2)" });
   let n = 0;
   for (const s of group.scenarios) {
-    if (!Array.isArray(s) || typeof s[0] !== "string" || SCENARIOS.some((x) => x[0] === s[0])) continue;
+    if (!Array.isArray(s) || !isScenarioFile(s[0]) || SCENARIOS.some((x) => x[0] === s[0])) continue;
     SCENARIOS.push([s[0], group.domain.id, String(s[1]), String(s[2])]);
     DIRS.set(s[0], group.dir || "");
     n++;
@@ -237,7 +251,7 @@ export function domainOf(id) {
 // scenarios/. null for a name that is not in the catalogue, so a name from the address or from
 // saved state can never become a request path.
 export function scenarioPath(file) {
-  if (!entryFor(file)) return null;
+  if (!isScenarioFile(file) || !entryFor(file)) return null;
   const dir = dirOf(file);
   return dir ? `${dir}${file}` : `scenarios/${file}`;
 }

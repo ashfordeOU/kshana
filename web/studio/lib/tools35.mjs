@@ -213,3 +213,14 @@ export function ubxLines(u) {
   for (const [k, w] of lost) if (u[k]) out.push(`${u[k]} ${k === "ignored_sfrbx" || k === "skipped_bytes" ? w : "pages " + w}.`);
   return out;
 }
+
+
+// The address of an example file the Tools page fetches. The folder is one of three fixed ones and the file
+// name comes from that folder's index.json (data read from a file), so it is checked first: a plain name
+// (optionally under expected/), never a path out of the folder, another origin or a scheme.
+export const EXAMPLE_DIRS = Object.freeze({ evidence: "tools/examples/evidence/", compliance: "tools/examples/compliance/", osnma: "tools/examples/osnma/" });
+export function exampleFileUrl(dir, name) {
+  const base = Object.hasOwn(EXAMPLE_DIRS, dir) ? EXAMPLE_DIRS[dir] : null;
+  if (!base || typeof name !== "string" || !/^(?:expected\/)?[A-Za-z0-9][A-Za-z0-9._-]{0,100}$/.test(name) || name.includes("..")) throw new Error(`not an example file name: ${JSON.stringify(String(name).slice(0, 60))}`);
+  return base + name;
+}

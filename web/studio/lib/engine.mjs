@@ -58,6 +58,22 @@ export function errorMessage(e) {
 // Execute one request against an engine API object (the wasm module's exports) and
 // build the reply. Pure and synchronous: the worker and the main-thread fallback both
 // use it, so the two paths cannot disagree about semantics.
+// What the engine worker accepts, as an allow-list (the worker drops anything else): the page's one-time
+// {init: WebAssembly.Module}, or a call {id, fn, args} naming a function this module lists. Plain objects only,
+// no other keys, a short id and a short argument list.
+export function classifyMessage(msg) {
+  if (!msg || typeof msg !== "object" || Array.isArray(msg)) return null;
+  const proto = Object.getPrototypeOf(msg);
+  if (proto !== Object.prototype && proto !== null) return null;
+  const keys = Object.keys(msg);
+  if (keys.length === 1 && keys[0] === "init") return typeof WebAssembly === "object" && msg.init instanceof WebAssembly.Module ? "init" : null;
+  if (!keys.every((k) => k === "id" || k === "fn" || k === "args")) return null;
+  const idOk = (typeof msg.id === "number" && Number.isFinite(msg.id)) || (typeof msg.id === "string" && msg.id.length <= 64);
+  if (!idOk || typeof msg.fn !== "string" || !ENGINE_FNS.includes(msg.fn)) return null;
+  if (msg.args !== undefined && (!Array.isArray(msg.args) || msg.args.length > 16)) return null;
+  return "call";
+}
+
 export function dispatch(api, msg) {
   const id = msg && msg.id;
   const fn = msg && msg.fn;

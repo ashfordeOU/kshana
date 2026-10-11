@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the tools hub helpers (tools35.mjs). Run with `node lib/tools35.test.mjs`.
 import assert from "node:assert/strict";
-import { toBase64, fromBase64, packFilesJson, packProblems, parsePublicKey, verdictView, checkEpoch, benchEntries, scenarioKind, complianceRuns, BENCH_KINDS, FRAMEWORKS, COMPLIANCE_STATUS, complianceView, statusInfo, OSNMA_STATUS, gstParts, gstText, osnmaView, ubxLines } from "./tools35.mjs";
+import { exampleFileUrl, toBase64, fromBase64, packFilesJson, packProblems, parsePublicKey, verdictView, checkEpoch, benchEntries, scenarioKind, complianceRuns, BENCH_KINDS, FRAMEWORKS, COMPLIANCE_STATUS, complianceView, statusInfo, OSNMA_STATUS, gstParts, gstText, osnmaView, ubxLines } from "./tools35.mjs";
 
 const te = (s) => new TextEncoder().encode(s);
 // base64 round trips and matches Node's
@@ -95,3 +95,13 @@ for (const bad of ["2025-02-29T00:00:00", "1999-01-01T00:00:00", "2100-01-01T00:
   assert.deepEqual(Object.keys(OSNMA_STATUS), ["authenticated", "failed", "unavailable", "pending", "discarded"]);
 }
 console.log("tools35.test.mjs: ok");
+
+// Example file names read from an index.json never leave their folder.
+{
+  assert.equal(exampleFileUrl("evidence", "manifest.json"), "tools/examples/evidence/manifest.json");
+  assert.equal(exampleFileUrl("osnma", "expected/pages-good.txt.json"), "tools/examples/osnma/expected/pages-good.txt.json");
+  assert.equal(exampleFileUrl("compliance", "a-b_c.result.json"), "tools/examples/compliance/a-b_c.result.json");
+  for (const bad of ["../x", "a/../b", "/etc/passwd", "https://evil.example/x", "//evil.example/x", "a/b", "expected/../x", "expected/", "", ".hidden", "x y", "x\n", null, undefined, 5, "a".repeat(120), "expected/expected/x"]) assert.throws(() => exampleFileUrl("osnma", bad), /not an example file name/, String(bad));
+  for (const bad of ["__proto__", "constructor", "toString", "elsewhere", undefined]) assert.throws(() => exampleFileUrl(bad, "x.json"), /not an example file name/, String(bad));
+}
+console.log("tools35.test.mjs: example path checks passed");

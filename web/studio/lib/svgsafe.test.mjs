@@ -3,7 +3,7 @@
 // The tree here is a plain stand-in for a parsed XML document; the same functions run on the real
 // one in the browser (checked in a browser by site-next/scratch/port/check_svgsafe.mjs).
 import assert from "node:assert/strict";
-import { hasDeclaration, sanitizeSvg } from "./svgsafe.mjs";
+import { hasDeclaration, parseSvgMarkup, sanitizeSvg, MAX_SVG_BYTES } from "./svgsafe.mjs";
 
 // A stand-in element with the interface sanitizeSvg uses.
 function el(name, attrs = {}, kids = [], text = "") {
@@ -155,3 +155,26 @@ for (const css of [".a{fill:none}", "", ".a{fill:url(#g)}", "@import 'x'", ".a{b
   assert.equal(sanitizeSvg(root), 0);
 }
 console.log("svgsafe.test.mjs: all assertions passed");
+
+// Entity-expansion bombs ("billion laughs", quadratic blow-up, external entities) never reach the parser.
+{
+  let parsed = 0;
+  class Spy { parseFromString(m) { parsed++; return { documentElement: { nodeName: "svg", markup: m } }; } }
+  const lol = '<?xml version="1.0"?><!DOCTYPE lolz [<!ENTITY lol "lol"><!ENTITY lol2 "&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;&lol;"><!ENTITY lol3 "&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;&lol2;">]><svg xmlns="http://www.w3.org/2000/svg"><text>&lol3;</text></svg>';
+  const quad = '<!DOCTYPE s [<!ENTITY a "' + "x".repeat(1000) + '">]><svg><text>' + "&a;".repeat(1000) + "</text></svg>";
+  const ext = '<!DOCTYPE s [<!ENTITY x SYSTEM "file:///etc/passwd">]><svg><text>&x;</text></svg>';
+  const spaced = "<!\n DOCTYPE s []><svg/>", mixed = "<!DoCtYpE s><svg/>", odd = "<!FOO bar><svg/>", cdataLike = "<![ACDATA[x]]><svg/>";
+  for (const bomb of [lol, quad, ext, spaced, mixed, odd, cdataLike]) {
+    assert.equal(hasDeclaration(bomb), true, bomb.slice(0, 40));
+    assert.equal(parseSvgMarkup(bomb, Spy), null, bomb.slice(0, 40));
+  }
+  assert.equal(parsed, 0, "no bomb reached the parser");
+  assert.ok(parseSvgMarkup('<svg xmlns="http://www.w3.org/2000/svg"><!-- fine --><g><![CDATA[x]]></g></svg>', Spy), "plain drawing parses");
+  assert.equal(parsed, 1);
+  for (const bad of [null, undefined, 5, {}, "x".repeat(MAX_SVG_BYTES + 1)]) assert.equal(parseSvgMarkup(bad, Spy), null);
+  assert.equal(parseSvgMarkup("<svg/>", undefined), globalThis.DOMParser ? parseSvgMarkup("<svg/>") : null);
+  class NotSvg { parseFromString() { return { documentElement: { nodeName: "html" } }; } }
+  assert.equal(parseSvgMarkup("<html/>", NotSvg), null);
+  assert.equal(parsed, 1);
+}
+console.log("svgsafe.test.mjs: entity-expansion checks passed");

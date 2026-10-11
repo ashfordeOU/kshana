@@ -9,7 +9,7 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-## [0.35.0] - 2026-10-11
+## [0.35.0] - 2026-10-12
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
 output already installed, with the tooling around it: live and gate modes, Signal K and
