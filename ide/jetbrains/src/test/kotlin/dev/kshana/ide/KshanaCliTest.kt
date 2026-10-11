@@ -195,4 +195,27 @@ class KshanaCliTest {
         assertTrue(KshanaCli.opensslTimestampCheck("/p").startsWith("openssl ts -verify"))
         assertTrue(KshanaCli.EVIDENCE_PACK_NOTICE.contains("never makes, reads or stores"))
     }
+
+    @Test
+    fun validateKindsAndExcerptCommandsUseTheSubcommands() {
+        assertEquals(listOf("kshana", "--validate", "/p/a.toml"), KshanaCli.validateCommand("kshana", "/p/a.toml"))
+        assertEquals(listOf("kshana", "kinds"), KshanaCli.kindsCommand("kshana"))
+        assertEquals(
+            listOf("kshana", "receiver-trust", "live", "/p/s.toml", "--file", "/p/l.nmea"),
+            KshanaCli.receiverTrustExcerptCommand("kshana", "/p/s.toml", "/p/l.nmea"),
+        )
+        assertTrue(KshanaCli.isNmeaLogFile("bridge.NMEA"))
+        assertFalse(KshanaCli.isNmeaLogFile("scenario.toml"))
+    }
+
+    @Test
+    fun trustTelemetryCommandPrintsAndNeverListens() {
+        assertEquals(
+            listOf("kshana", "trust-telemetry", "--result", "/p/r.json", "--print-syslog", "--format", "leef"),
+            KshanaCli.trustTelemetryCommand("kshana", "/p/r.json", KshanaCli.TelemetryFormat.LEEF),
+        )
+        for (f in KshanaCli.TelemetryFormat.values()) {
+            assertTrue(f.args.any { it.startsWith("--print-") })
+        }
+    }
 }

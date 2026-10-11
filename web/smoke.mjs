@@ -2,7 +2,7 @@
 // Headless smoke test for the WebAssembly bindings: load the wasm-pack (--target
 // web) module in Node, run a clock scenario, and assert the JSON parses and the
 // version is non-empty. Run in CI by the `test-wasm-bindings` job after a build.
-import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3 } from "./pkg/kshana.js";
+import init, { run, chart_svg, version, nmea_training, receiver_trust_replay, assess_vessel_log, interference_map, route_exposure, bench_export, compliance_report, compliance_mapping, list_examples, get_example, export_formats, export_scenario, import_route, animate_scenario, export_sp3, trust_telemetry, osnma_verify } from "./pkg/kshana.js";
 import { readFile } from "node:fs/promises";
 
 const SCENARIO = `
@@ -264,6 +264,36 @@ let refused = false;
 try { export_scenario(clockToml, "czml"); } catch (_) { refused = true; }
 if (!refused) {
   console.error("wasm export_scenario() accepted a format that does not apply");
+  process.exit(1);
+}
+
+// Trust telemetry in each export format, from the live stream text: no process, socket or clock.
+const trustStream =
+  '{"t_s":0.0,"state":"calibrating","score":null,"deductions":[],"alarms":[],"gate":"off"}\n' +
+  '{"t_s":1.0,"state":"nominal","score":97.5,"deductions":[],"alarms":[],"gate":"off"}\n' +
+  '{"t_s":2.0,"state":"degraded","score":41.0,"deductions":[{"monitor":"cn0-drop","ratio":1.5,"points":30.0}],"alarms":["cn0-drop"],"gate":"off"}\n';
+const tCef = trust_telemetry(trustStream, "cef", "ops-gw1", "jsonl", "");
+const tAll = trust_telemetry(trustStream, "leef", "ops-gw1", "jsonl", '{"syslog_all":true}');
+const tProm = trust_telemetry(trustStream, "prometheus", "", "jsonl", "");
+const tOtlp = JSON.parse(trust_telemetry(trustStream, "otlp", "", "jsonl", '{"unix_nano":1700000000000000000}'));
+let tBad = false;
+try { trust_telemetry("", "cef", "", "jsonl", ""); } catch (_) { tBad = true; }
+if (tCef.trim().split("\n").length !== 3 || !tCef.includes("CEF:0|Ashforde OU|Kshana|") ||
+    !tAll.includes("LEEF:2.0|") || !tProm.includes("kshana_trust_score 41") ||
+    !Array.isArray(tOtlp.resourceMetrics) || !tBad) {
+  console.error("wasm trust_telemetry() produced unexpected output");
+  process.exit(1);
+}
+
+// OSNMA verification in memory: the same JSON as `kshana osnma verify --json`, advisory included.
+const osnmaPage = "00".repeat(30);
+const osnmaCsv = `SVID,NumNavBits,NavBitsHEX\n02,480,${osnmaPage}${osnmaPage}\n03,240,${osnmaPage}\n`;
+const osnma = JSON.parse(osnma_verify(btoa(osnmaCsv), "vector-csv", 1000, "", [], undefined, undefined));
+let osnmaBad = false;
+try { osnma_verify(btoa(osnmaCsv), "", 1000, "", [], undefined, 10); } catch (_) { osnmaBad = true; }
+if (osnma.input.pages !== 3 || osnma.freshness_enforced !== false ||
+    !osnma.advisory.includes("not type-approved navigation equipment") || !osnmaBad) {
+  console.error("wasm osnma_verify() produced unexpected output");
   process.exit(1);
 }
 

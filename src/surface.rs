@@ -688,6 +688,198 @@ pub fn compliance_mapping(sources: bool) -> String {
     s
 }
 
+/// Output of [`trust_telemetry`].
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TelemetryFormat {
+    /// Prometheus text exposition of the final state.
+    Prometheus,
+    /// One CEF line per syslog event, inside an RFC 5424 envelope.
+    Cef,
+    /// One LEEF 2.0 line per syslog event, inside an RFC 5424 envelope.
+    Leef,
+    /// The OTLP/HTTP JSON metrics payload of the final state (needs the `otlp` feature).
+    Otlp,
+}
+
+impl TelemetryFormat {
+    /// Parse `"prometheus"`, `"cef"`, `"leef"` or `"otlp"`.
+    pub fn parse(s: &str) -> Result<Self, String> {
+        match s {
+            "prometheus" => Ok(Self::Prometheus),
+            "cef" => Ok(Self::Cef),
+            "leef" => Ok(Self::Leef),
+            "otlp" => Ok(Self::Otlp),
+            o => Err(format!(
+                "unknown format `{o}`: use `prometheus`, `cef`, `leef` or `otlp`"
+            )),
+        }
+    }
+}
+
+/// What the input of [`trust_telemetry`] is.
+#[derive(Clone, Copy, Debug, PartialEq, Eq)]
+pub enum TelemetryInput {
+    /// A batch `receiver-trust` result document (`--result`).
+    Result,
+    /// The live per-epoch stream, one JSON object per line.
+    Jsonl,
+}
+
+impl TelemetryInput {
+    /// Parse `"result"` or `"jsonl"`.
+    pub fn parse(s: &str) -> Result<Self, String> {
+        match s {
+            "result" => Ok(Self::Result),
+            "jsonl" => Ok(Self::Jsonl),
+            o => Err(format!("unknown input_kind `{o}`: use `result` or `jsonl`")),
+        }
+    }
+}
+
+/// The `trust-telemetry` options that change the text, as the command line has them.
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct TelemetryOptions {
+    /// `--expose-position`: add the receiver-reported position to the metrics (off by default).
+    pub expose_position: bool,
+    /// `--syslog-all`: one event per epoch instead of one per band change.
+    pub syslog_all: bool,
+    /// Time of export for the OTLP payload, in Unix nanoseconds (no clock is read here; 0 if unknown).
+    pub unix_nano: u64,
+}
+
+/// Render a trust stream or a batch result in one of the telemetry formats, with the same
+/// encoders `kshana trust-telemetry` uses and no process, socket or clock. Syslog lines carry
+/// no timestamp (RFC 5424 nil value) because no wall clock is read; a `jsonl` line that does
+/// not parse is skipped and counted in `kshana_trust_input_errors_total` (Prometheus output).
+/// An input that yields no epoch is an error.
+pub fn trust_telemetry(
+    input: &str,
+    format: TelemetryFormat,
+    host: &str,
+    input_kind: TelemetryInput,
+    opts: TelemetryOptions,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::telemetry::{prometheus::Registry, sample, syslog};
+    cap("input", input, max_bytes)?;
+    syslog::check_host(host)?;
+    let version = env!("CARGO_PKG_VERSION");
+    let host = if host.is_empty() { "kshana" } else { host };
+    let mut reg = Registry::new(version);
+    reg.set_expose_position(opts.expose_position);
+    let mut samples: Vec<sample::TrustSample> = Vec::new();
+    match input_kind {
+        TelemetryInput::Result => samples = sample::from_result_json(input)?,
+        TelemetryInput::Jsonl => {
+            for line in input.lines().filter(|l| !l.trim().is_empty()) {
+                match sample::parse_live_line(line) {
+                    Ok(s) => samples.push(s),
+                    Err(_) => reg.observe_input_error(),
+                }
+            }
+        }
+    }
+    if samples.is_empty() {
+        return Err("the input holds no trust epoch".into());
+    }
+    let mut out = String::new();
+    let mut prev = None;
+    for s in &samples {
+        reg.observe(s, None);
+        if matches!(format, TelemetryFormat::Cef | TelemetryFormat::Leef)
+            && (opts.syslog_all || prev != Some(s.band))
+        {
+            let payload = if format == TelemetryFormat::Cef {
+                syslog::cef(s, prev, host, version)
+            } else {
+                syslog::leef(s, prev, host, version)
+            };
+            out.push_str(&syslog::rfc5424(s.band, None, host, &payload));
+            out.push('\n');
+            // CEF and LEEF fan one input line out to one event per epoch: bound the reply too.
+            if out.len() > max_bytes.min(MAX_INPUT_BYTES) {
+                return Err(format!(
+                    "the reply is over the {}-byte limit; send fewer epochs or leave `syslog_all` off",
+                    max_bytes.min(MAX_INPUT_BYTES)
+                ));
+            }
+        }
+        prev = Some(s.band);
+    }
+    match format {
+        TelemetryFormat::Cef | TelemetryFormat::Leef => Ok(out),
+        TelemetryFormat::Prometheus => Ok(reg.render()),
+        #[cfg(feature = "otlp")]
+        TelemetryFormat::Otlp => {
+            Ok(crate::telemetry::otlp::build_payload(&reg, opts.unix_nano).to_string())
+        }
+        #[cfg(not(feature = "otlp"))]
+        TelemetryFormat::Otlp => Err("otlp needs a build with the `otlp` feature".into()),
+    }
+}
+
+/// Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+/// `kshana osnma verify` runs, and return the JSON report `--json` prints (its `advisory` field
+/// carries [`crate::osnma::ADVISORY`]). `format` is `pages`, `vector-csv` or `ubx` (empty to pick
+/// by content); `start_gst` is a vector CSV's start in GST seconds (there is no file name to read
+/// it from); `merkle_root_hex` is the trusted Merkle root (64 hex digits, empty for none);
+/// `public_keys` are trusted keys as `ID:TYPE:HEX`; `reference_time` is the present time in GST
+/// seconds from an independent source and `max_time_error` the widest distance of a sub-frame
+/// from it, below 30 (needs a reference time, as on the command line). Without a reference time
+/// freshness is not enforced and the report says so. Nothing is read from or written to disk.
+#[allow(clippy::too_many_arguments)]
+pub fn osnma_verify(
+    input: &[u8],
+    format: &str,
+    start_gst: Option<u32>,
+    merkle_root_hex: &str,
+    public_keys: &[String],
+    reference_time: Option<u32>,
+    max_time_error: Option<u32>,
+    max_bytes: usize,
+) -> Result<String, String> {
+    use crate::osnma::cli::{parse_public_key, verify_report, VerifyParams};
+    use crate::osnma::verifier::Config;
+    cap_len("input", input.len(), max_bytes)?;
+    let merkle_root = match merkle_root_hex.trim() {
+        "" => None,
+        h => {
+            let b = hex::decode(h).map_err(|_| "bad Merkle root hex".to_string())?;
+            Some(
+                <[u8; 32]>::try_from(b.as_slice())
+                    .map_err(|_| "Merkle root must be 32 bytes".to_string())?,
+            )
+        }
+    };
+    let keys = public_keys
+        .iter()
+        .map(|k| parse_public_key(k.trim()))
+        .collect::<Result<Vec<_>, _>>()?;
+    if max_time_error.is_some() && reference_time.is_none() {
+        return Err("--max-time-error has no effect without --reference-time".into());
+    }
+    Config {
+        max_time_error_s: max_time_error,
+        ..Config::default()
+    }
+    .validate()?;
+    let format = match format.trim() {
+        "" => None,
+        f => Some(f),
+    };
+    let params = VerifyParams {
+        label: "(in memory)",
+        format,
+        start_gst,
+        merkle_root,
+        keys,
+        reference: reference_time,
+        max_err: max_time_error,
+    };
+    let (report, _failed) = verify_report(input.to_vec(), &params)?;
+    Ok(report.to_string())
+}
+
 /// A signed evidence pack built in memory, and the key that signed it.
 #[derive(Clone, Debug)]
 pub struct EvidencePack {

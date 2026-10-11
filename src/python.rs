@@ -131,7 +131,7 @@ fn run_typed(toml: &str) -> PyResult<PyRunOutput> {
 /// Assess a real receiver log described by a `receiver-trust` scenario (TOML text). The
 /// log must be given inline (`text` or `base64`) or by a path the Python process can
 /// read. A `[platform]` table with `kind = "vessel"` selects the maritime monitors and the
-/// 0-100 trust score with its reasons (`docs/MARITIME-TRUST.md`); the output is advisory.
+/// 0-100 trust score with its reasons (`docs/MARITIME-TRUST.md`); the output is advisory. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 /// `receiver-trust live` (a long-running stream process with an optional TCP listener) is
 /// command-line only. Returns the result document, the trust-timeline CSV, the chart and a
 /// summary.
@@ -1305,7 +1305,7 @@ impl TextOrBytes {
 /// epoch: `state`, `score`, `deductions`, `alarms`, `position`, `advisory`, ...), `last_pksht` and
 /// `summary` (counts by state, `lowest_score`, `final_score`, `first_untrusted_t_s`). The
 /// bounded form of the live command: no socket is opened and the gate is not applied (both
-/// are command-line only). Advisory only. Raises `ValueError` on an invalid session or
+/// are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises `ValueError` on an invalid session or
 /// excerpt.
 #[pyfunction]
 fn receiver_trust_replay<'py>(
@@ -1326,7 +1326,7 @@ fn receiver_trust_replay<'py>(
 /// Assess a vessel's NMEA 0183 log as a batch run: `session_toml` (`[platform] kind =
 /// "vessel"`, no `[log]` needed) and the log (`str` or `bytes`). Returns the result document
 /// as a dict, the same as `kshana receiver-trust` writes to `result.json`: the score model,
-/// the monitors that ran and every epoch's 0-100 score with its deductions. Advisory only.
+/// the monitors that ran and every epoch's 0-100 score with its deductions. Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 /// Raises `ValueError` on an invalid session or log.
 #[pyfunction]
 fn assess_vessel_log<'py>(
@@ -1717,6 +1717,60 @@ fn compliance_report<'py>(
     )
 }
 
+/// Check Galileo OSNMA authentication of I/NAV pages held in memory, with the verifier
+/// `kshana osnma verify` runs; returns the dict `--json` prints. Advisory: this is analysis and
+/// monitoring output and not type-approved navigation equipment. The authentication status
+/// reported here is not a navigation integrity service and must not be the sole basis for any
+/// navigation or safety decision. `data` is the pages (text, or the published vector CSV) or a
+/// u-blox UBX byte stream, as `bytes` or `str`; `format` is `"pages"`, `"vector-csv"`, `"ubx"` or
+/// `""` (by content); `start_gst` is a vector CSV's start in GST seconds; `merkle_root_hex` is the
+/// trusted Merkle root (64 hex digits, or `""`); `public_keys` are trusted keys as `ID:TYPE:HEX`;
+/// `reference_time` is the present time in GST seconds from an independent source and
+/// `max_time_error` the widest distance of a sub-frame from it (below 30; needs a reference
+/// time). Without a reference time freshness is not enforced and the report says so. Raises
+/// `ValueError` on bad input. Nothing is read from or written to disk.
+#[pyfunction]
+#[allow(clippy::too_many_arguments)]
+#[pyo3(signature = (data, format="", start_gst=None, merkle_root_hex="", public_keys=None, reference_time=None, max_time_error=None))]
+fn osnma_verify<'py>(
+    py: Python<'py>,
+    data: TextOrBytes,
+    format: &str,
+    start_gst: Option<i64>,
+    merkle_root_hex: &str,
+    public_keys: Option<Vec<String>>,
+    reference_time: Option<i64>,
+    max_time_error: Option<i64>,
+) -> PyResult<Bound<'py, PyAny>> {
+    let to_u32 = |name: &str, v: Option<i64>| -> PyResult<Option<u32>> {
+        v.map(|n| {
+            u32::try_from(n).map_err(|_| {
+                PyValueError::new_err(format!("{name} must be between 0 and 2**32 - 1"))
+            })
+        })
+        .transpose()
+    };
+    let (start_gst, reference_time, max_time_error) = (
+        to_u32("start_gst", start_gst)?,
+        to_u32("reference_time", reference_time)?,
+        to_u32("max_time_error", max_time_error)?,
+    );
+    let out = crate::surface::osnma_verify(
+        data.bytes(),
+        format,
+        start_gst,
+        merkle_root_hex,
+        &public_keys.unwrap_or_default(),
+        reference_time,
+        max_time_error,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(PyValueError::new_err)?;
+    let v: serde_json::Value =
+        serde_json::from_str(&out).map_err(|e| PyValueError::new_err(e.to_string()))?;
+    json_to_py(py, &v)
+}
+
 /// The static public-framework mapping as Markdown, led by the statement every report
 /// carries: one table per framework (`sources=False`) or the source documents they cite,
 /// with versions and URLs (`sources=True`).
@@ -1724,6 +1778,44 @@ fn compliance_report<'py>(
 #[pyo3(signature = (sources=false))]
 fn compliance_mapping(sources: bool) -> String {
     crate::surface::compliance_mapping(sources)
+}
+
+/// Render a trust stream or a batch result in one telemetry format with the encoders
+/// `kshana trust-telemetry` uses (no process, socket or clock). `format` is `"prometheus"`,
+/// `"cef"`, `"leef"` or `"otlp"`; `input_kind` is `"jsonl"` (the live per-epoch stream, the
+/// default) or `"result"` (a `receiver-trust` result document); `host` names the sender in
+/// syslog events (default `kshana`). `syslog_all` gives one event per epoch instead of one per
+/// band change; `expose_position` adds the receiver-reported position to the metrics;
+/// `unix_nano` is the export time of the `"otlp"` payload. Syslog lines carry no timestamp.
+/// Returns the text. Raises `ValueError` on an unknown format or an input with no epoch.
+#[pyfunction]
+#[pyo3(signature = (input, format, host="", input_kind="jsonl", expose_position=false, syslog_all=false, unix_nano=0))]
+fn trust_telemetry(
+    input: &str,
+    format: &str,
+    host: &str,
+    input_kind: &str,
+    expose_position: bool,
+    syslog_all: bool,
+    unix_nano: i128,
+) -> PyResult<String> {
+    use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
+    let bad = |e: String| PyValueError::new_err(e);
+    let unix_nano = u64::try_from(unix_nano)
+        .map_err(|_| PyValueError::new_err("unix_nano must be between 0 and 2**64 - 1"))?;
+    surface::trust_telemetry(
+        input,
+        TelemetryFormat::parse(format).map_err(bad)?,
+        host,
+        TelemetryInput::parse(input_kind).map_err(bad)?,
+        TelemetryOptions {
+            expose_position,
+            syslog_all,
+            unix_nano,
+        },
+        surface::MAX_INPUT_BYTES,
+    )
+    .map_err(bad)
 }
 
 /// Share of a route (GeoJSON LineString or `lat,lon` CSV text) through degraded cells of
@@ -1813,6 +1905,8 @@ fn kshana(m: &Bound<'_, PyModule>) -> PyResult<()> {
     m.add_function(wrap_pyfunction!(list_examples, m)?)?;
     m.add_function(wrap_pyfunction!(get_example, m)?)?;
     m.add_function(wrap_pyfunction!(compliance_mapping, m)?)?;
+    m.add_function(wrap_pyfunction!(osnma_verify, m)?)?;
+    m.add_function(wrap_pyfunction!(trust_telemetry, m)?)?;
     m.add_function(wrap_pyfunction!(route_exposure, m)?)?;
     m.add_function(wrap_pyfunction!(nmea_training, m)?)?;
     m.add_function(wrap_pyfunction!(iq_scene, m)?)?;

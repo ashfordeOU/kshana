@@ -28,6 +28,36 @@ object KshanaCli {
     fun nmeaScenarioCommand(binary: String, scenarioPath: String): List<String> =
         listOf(binary, "nmea-scenario", scenarioPath)
 
+    /** `<binary> --validate <scenario.toml>`: check a scenario without running it. */
+    fun validateCommand(binary: String, scenarioPath: String): List<String> =
+        listOf(binary, "--validate", scenarioPath)
+
+    /** `<binary> kinds`: the scenario kinds the engine knows, one per line. */
+    fun kindsCommand(binary: String): List<String> = listOf(binary, "kinds")
+
+    /** `<binary> receiver-trust live <session.toml> --file <log>`: score one stored NMEA log, epoch by
+     *  epoch, in the live schema. A plain `--file` is read once and replayed (no follow, no socket, no
+     *  gate), which is the same bounded form the Python, WebAssembly and MCP excerpt tools carry. */
+    fun receiverTrustExcerptCommand(binary: String, sessionPath: String, logPath: String): List<String> =
+        listOf(binary, "receiver-trust", "live", sessionPath, "--file", logPath)
+
+    /** True for the NMEA log a stream excerpt reads (any plain-text capture the user selects). */
+    fun isNmeaLogFile(fileName: String): Boolean =
+        listOf(".nmea", ".log", ".txt", ".nma").any { fileName.endsWith(it, ignoreCase = true) }
+
+    /** The text formats `trust-telemetry` can print from a stored result without a network. */
+    enum class TelemetryFormat(val label: String, val args: List<String>) {
+        PROMETHEUS("Prometheus metrics", listOf("--print-metrics")),
+        CEF("Syslog events, CEF", listOf("--print-syslog", "--format", "cef")),
+        LEEF("Syslog events, LEEF", listOf("--print-syslog", "--format", "leef")),
+    }
+
+    /** `<binary> trust-telemetry --result <result.json> <print flags>`: print the telemetry a stored
+     *  `receiver-trust` result would produce. It prints to the console only: no listener is bound
+     *  (a print flag is given), nothing is sent. */
+    fun trustTelemetryCommand(binary: String, resultPath: String, format: TelemetryFormat): List<String> =
+        listOf(binary, "trust-telemetry", "--result", resultPath) + format.args
+
     /** The approved interference-map datasets and the input kind each one is. */
     enum class MapDataset(val key: String, val source: String, val label: String) {
         ADSB_LOL("adsb-lol", "adsb", "adsb-lol (ADS-B aircraft reports)"),

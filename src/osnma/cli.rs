@@ -199,6 +199,181 @@ struct Counts {
     discarded: u32,
 }
 
+/// What one verification run needs besides the input bytes; the command line and the in-memory
+/// surfaces (Python, WebAssembly) fill the same fields.
+pub struct VerifyParams<'a> {
+    /// Name shown for the input (a path, or `(in memory)`).
+    pub label: &'a str,
+    /// `pages`, `vector-csv` or `ubx`; `None` picks by content.
+    pub format: Option<&'a str>,
+    /// Start of a vector CSV in GST seconds; `None` reads it from a dated file name.
+    pub start_gst: Option<u32>,
+    /// Trusted Merkle root for DSM-PKR checks.
+    pub merkle_root: Option<[u8; 32]>,
+    /// Trusted public keys.
+    pub keys: Vec<PublicKey>,
+    /// Present time in GST seconds from an independent source.
+    pub reference: Option<u32>,
+    /// Largest distance of a sub-frame from the reference time (needs `reference`).
+    pub max_err: Option<u32>,
+}
+
+/// Everything a run produced, before it is written as text or JSON.
+struct Analysis {
+    pages: usize,
+    ubx_stats: Option<super::ubx::UbxStats>,
+    events: Vec<Event>,
+    tags: Vec<TagResult>,
+    sats: Vec<(String, OsnmaStatus)>,
+    overall: OsnmaStatus,
+    nma_status: u8,
+    alert: bool,
+    counts: BTreeMap<u8, Counts>,
+    last_ok: BTreeMap<u8, u32>,
+}
+
+impl Analysis {
+    fn any_failed(&self) -> bool {
+        self.sats.iter().any(|(_, s)| *s == OsnmaStatus::Failed)
+    }
+}
+
+fn analyse(raw: Vec<u8>, p: &VerifyParams) -> Result<Analysis, String> {
+    let layout = match p.format {
+        Some(f @ ("vector-csv" | "pages" | "ubx")) => f,
+        Some(f) => return Err(format!("unknown format {f}")),
+        None if raw.starts_with(&[0xB5, 0x62]) || std::str::from_utf8(&raw).is_err() => "ubx",
+        None if raw
+            .iter()
+            .skip_while(|b| b.is_ascii_whitespace())
+            .take(4)
+            .eq(b"SVID".iter()) =>
+        {
+            "vector-csv"
+        }
+        None => "pages",
+    };
+    let mut ubx_stats = None;
+    let pages = if layout == "ubx" {
+        let (pg, st) = super::ubx::pages_from_ubx(&raw);
+        ubx_stats = Some(st);
+        pg
+    } else {
+        let Ok(text) = String::from_utf8(raw) else {
+            return Err(format!(
+                "{} is not text; use --format ubx for a UBX stream",
+                p.label
+            ));
+        };
+        if layout == "vector-csv" {
+            let Some(start) = p.start_gst.or_else(|| input::start_from_filename(p.label)) else {
+                return Err("a vector CSV needs --start-gst or a dated file name".into());
+            };
+            input::parse_vector_csv(&text, start)?
+        } else {
+            input::parse_pages(&text)?
+        }
+    };
+    if p.max_err.is_some() && p.reference.is_none() {
+        return Err("--max-time-error has no effect without --reference-time".into());
+    }
+    let mut v = Verifier::new(Config {
+        merkle_root: p.merkle_root,
+        public_keys: p.keys.clone(),
+        // A reference time brings a tolerance with it, the widest allowed by default.
+        max_time_error_s: p.reference.map(|_| p.max_err.unwrap_or(29)),
+        ..Config::default()
+    });
+    if let Some(r) = p.reference {
+        v.set_reference_time(r);
+    }
+    let mut events = Vec::new();
+    let mut tags: Vec<TagResult> = Vec::new();
+    for pg in &pages {
+        for e in v.push_page(pg) {
+            match e {
+                Event::Tag(t) => tags.push(t),
+                other => events.push(other),
+            }
+        }
+    }
+    let mut counts: BTreeMap<u8, Counts> = BTreeMap::new();
+    let mut last_ok: BTreeMap<u8, u32> = BTreeMap::new();
+    for t in &tags {
+        let c = counts.entry(t.prnd).or_default();
+        match t.status {
+            TagStatus::Authenticated => {
+                c.authenticated += 1;
+                let e = last_ok.entry(t.prnd).or_insert(0);
+                *e = (*e).max(t.tag_gst);
+            }
+            TagStatus::Failed(_) => c.failed += 1,
+            TagStatus::Pending(_) => c.pending += 1,
+            TagStatus::Discarded(_) => c.discarded += 1,
+        }
+    }
+    Ok(Analysis {
+        pages: pages.len(),
+        ubx_stats,
+        events,
+        tags,
+        sats: v.sat_status(),
+        overall: v.overall(),
+        nma_status: v.nma_status(),
+        alert: v.alert(),
+        counts,
+        last_ok,
+    })
+}
+
+fn report_json(a: &Analysis, p: &VerifyParams) -> serde_json::Value {
+    let sat_json: Vec<_> = a
+        .sats
+        .iter()
+        .map(|(s, st)| {
+            let prn: u8 = s[1..].parse().unwrap_or(0);
+            serde_json::json!({
+                "sat": s,
+                "status": status_word(*st),
+                "tags": a.counts.get(&prn),
+                "last_authenticated_tag_gst": a.last_ok.get(&prn),
+            })
+        })
+        .collect();
+    serde_json::json!({
+        "advisory": ADVISORY,
+        "input": {"path": p.label, "pages": a.pages},
+        "overall": status_word(a.overall),
+        "nma_status": a.nma_status,
+        "alert": a.alert,
+        "freshness_enforced": p.reference.is_some(),
+        "reference_time": p.reference,
+        "satellites": sat_json,
+        "events": grouped_events(&a.events),
+        "tags": a.tags,
+        "pksos": super::pksos_sentence(a.overall, &a.sats),
+        "ubx": a.ubx_stats.as_ref().map(|u| serde_json::json!({
+            "frames": u.frames, "skipped_bytes": u.skipped_bytes,
+            "inav_pages": u.inav_pages, "ignored_sfrbx": u.ignored_sfrbx,
+            "bad_crc": u.bad_crc, "unstamped": u.unstamped,
+            "time_conflicts": u.time_conflicts,
+        })),
+    })
+}
+
+/// The JSON report `kshana osnma verify --json` prints, for input held in memory, and whether
+/// any satellite's data failed a check (the command line's exit status 3). Nothing is read from
+/// or written to disk. The report states the advisory in its `advisory` field.
+pub fn verify_report(raw: Vec<u8>, p: &VerifyParams) -> Result<(serde_json::Value, bool), String> {
+    let a = analyse(raw, p)?;
+    Ok((report_json(&a, p), a.any_failed()))
+}
+
+/// Parse a `ID:TYPE:HEX` trusted public key, as `--public-key` takes it.
+pub fn parse_public_key(s: &str) -> Result<PublicKey, String> {
+    parse_key(s)
+}
+
 /// Run the subcommand; returns the process exit code.
 pub fn run(args: &[String]) -> i32 {
     // The advisory goes first on every path, errors included.
@@ -224,125 +399,24 @@ pub fn run(args: &[String]) -> i32 {
             return 2;
         }
     };
-    let layout = match o.format.as_deref() {
-        Some(f @ ("vector-csv" | "pages" | "ubx")) => f,
-        Some(f) => {
-            eprintln!("{ADVISORY}\n\nerror: unknown format {f}");
-            return 2;
-        }
-        None if raw.starts_with(&[0xB5, 0x62]) || std::str::from_utf8(&raw).is_err() => "ubx",
-        None if raw
-            .iter()
-            .skip_while(|b| b.is_ascii_whitespace())
-            .take(4)
-            .eq(b"SVID".iter()) =>
-        {
-            "vector-csv"
-        }
-        None => "pages",
+    let params = VerifyParams {
+        label: &o.input,
+        format: o.format.as_deref(),
+        start_gst: o.start_gst,
+        merkle_root: o.merkle_root,
+        keys: o.keys.clone(),
+        reference: o.reference,
+        max_err: o.max_err,
     };
-    let mut ubx_stats = None;
-    let pages = if layout == "ubx" {
-        let (p, st) = super::ubx::pages_from_ubx(&raw);
-        ubx_stats = Some(st);
-        Ok(p)
-    } else {
-        let Ok(text) = String::from_utf8(raw) else {
-            eprintln!(
-                "{ADVISORY}\n\nerror: {} is not text; use --format ubx for a UBX stream",
-                o.input
-            );
-            return 2;
-        };
-        if layout == "vector-csv" {
-            let Some(start) = o.start_gst.or_else(|| input::start_from_filename(&o.input)) else {
-                eprintln!(
-                    "{ADVISORY}\n\nerror: a vector CSV needs --start-gst or a dated file name"
-                );
-                return 2;
-            };
-            input::parse_vector_csv(&text, start)
-        } else {
-            input::parse_pages(&text)
-        }
-    };
-    let pages = match pages {
-        Ok(p) => p,
+    let a = match analyse(raw, &params) {
+        Ok(a) => a,
         Err(e) => {
             eprintln!("{ADVISORY}\n\nerror: {e}");
             return 2;
         }
     };
-    let mut v = Verifier::new(Config {
-        merkle_root: o.merkle_root,
-        public_keys: o.keys.clone(),
-        // A reference time brings a tolerance with it, the widest allowed by default.
-        max_time_error_s: o.reference.map(|_| o.max_err.unwrap_or(29)),
-        ..Config::default()
-    });
-    if let Some(r) = o.reference {
-        v.set_reference_time(r);
-    }
-    let mut events = Vec::new();
-    let mut tags: Vec<TagResult> = Vec::new();
-    for p in &pages {
-        for e in v.push_page(p) {
-            match e {
-                Event::Tag(t) => tags.push(t),
-                other => events.push(other),
-            }
-        }
-    }
-    let sats = v.sat_status();
-    let mut counts: BTreeMap<u8, Counts> = BTreeMap::new();
-    let mut last_ok: BTreeMap<u8, u32> = BTreeMap::new();
-    for t in &tags {
-        let c = counts.entry(t.prnd).or_default();
-        match t.status {
-            TagStatus::Authenticated => {
-                c.authenticated += 1;
-                let e = last_ok.entry(t.prnd).or_insert(0);
-                *e = (*e).max(t.tag_gst);
-            }
-            TagStatus::Failed(_) => c.failed += 1,
-            TagStatus::Pending(_) => c.pending += 1,
-            TagStatus::Discarded(_) => c.discarded += 1,
-        }
-    }
-    let overall = v.overall();
     if o.json {
-        let sat_json: Vec<_> = sats
-            .iter()
-            .map(|(s, st)| {
-                let prn: u8 = s[1..].parse().unwrap_or(0);
-                serde_json::json!({
-                    "sat": s,
-                    "status": status_word(*st),
-                    "tags": counts.get(&prn),
-                    "last_authenticated_tag_gst": last_ok.get(&prn),
-                })
-            })
-            .collect();
-        let out = serde_json::json!({
-            "advisory": ADVISORY,
-            "input": {"path": o.input, "pages": pages.len()},
-            "overall": status_word(overall),
-            "nma_status": v.nma_status(),
-            "alert": v.alert(),
-            "freshness_enforced": o.reference.is_some(),
-            "reference_time": o.reference,
-            "satellites": sat_json,
-            "events": grouped_events(&events),
-            "tags": tags,
-            "pksos": super::pksos_sentence(overall, &sats),
-            "ubx": ubx_stats.as_ref().map(|u| serde_json::json!({
-                "frames": u.frames, "skipped_bytes": u.skipped_bytes,
-                "inav_pages": u.inav_pages, "ignored_sfrbx": u.ignored_sfrbx,
-                "bad_crc": u.bad_crc, "unstamped": u.unstamped,
-                "time_conflicts": u.time_conflicts,
-            })),
-        });
-        match serde_json::to_string_pretty(&out) {
+        match serde_json::to_string_pretty(&report_json(&a, &params)) {
             Ok(s) => println!("{s}"),
             Err(e) => {
                 eprintln!("{ADVISORY}\n\nerror: {e}");
@@ -350,20 +424,44 @@ pub fn run(args: &[String]) -> i32 {
             }
         }
     } else {
+        print_text(&a, &o);
+    }
+    if a.any_failed() {
+        3
+    } else {
+        0
+    }
+}
+
+fn print_text(a: &Analysis, o: &Options) {
+    let Analysis {
+        pages,
+        ubx_stats,
+        events,
+        tags,
+        sats,
+        overall,
+        nma_status,
+        alert,
+        counts,
+        last_ok,
+    } = a;
+    let overall = *overall;
+    {
         println!("Galileo OSNMA verification\n{ADVISORY}\n");
-        println!("input: {} ({} pages)", o.input, pages.len());
-        if let Some(u) = &ubx_stats {
+        println!("input: {} ({} pages)", o.input, pages);
+        if let Some(u) = ubx_stats {
             println!(
                 "ubx: {} frames; {} I/NAV pages decoded, {} placed in time ({} bad CRC, {} unplaceable, {} time conflicts)",
-                u.frames, u.inav_pages, pages.len(), u.bad_crc, u.unstamped, u.time_conflicts
+                u.frames, u.inav_pages, pages, u.bad_crc, u.unstamped, u.time_conflicts
             );
         }
         println!(
             "overall: {}   NMA status: {}",
             status_word(overall),
-            v.nma_status()
+            nma_status
         );
-        if v.alert() {
+        if *alert {
             println!("ALERT: a verified OSNMA alert message was received. Stop using OSNMA data; nothing is reported as authenticated.");
         }
         match o.reference {
@@ -383,7 +481,7 @@ pub fn run(args: &[String]) -> i32 {
             }
         }
         let mut kinds: BTreeMap<String, u32> = BTreeMap::new();
-        for e in &events {
+        for e in events {
             let j = event_json(e);
             *kinds
                 .entry(j["kind"].as_str().unwrap_or("?").to_string())
@@ -393,7 +491,7 @@ pub fn run(args: &[String]) -> i32 {
             println!("  {k}: {n}");
         }
         println!("\nsatellite  status          authenticated  failed  pending  discarded  last authenticated");
-        for (s, st) in &sats {
+        for (s, st) in sats {
             let prn: u8 = s[1..].parse().unwrap_or(0);
             let c = counts.get(&prn);
             let last = last_ok
@@ -411,7 +509,7 @@ pub fn run(args: &[String]) -> i32 {
         }
         if o.epochs {
             println!("\nepoch (tag sub-frame)      tx   data  adkd  ctr  result");
-            for t in &tags {
+            for t in tags {
                 println!(
                     "{:<26} E{:02}  E{:02}  {:>4}  {:>3}  {}",
                     input::label(t.tag_gst),
@@ -423,11 +521,6 @@ pub fn run(args: &[String]) -> i32 {
                 );
             }
         }
-        println!("\n{}", super::pksos_sentence(overall, &sats));
-    }
-    if sats.iter().any(|(_, s)| *s == OsnmaStatus::Failed) {
-        3
-    } else {
-        0
+        println!("\n{}", super::pksos_sentence(overall, sats));
     }
 }

@@ -139,14 +139,10 @@ impl InavPage {
         }
         let mut it = line.split_whitespace();
         let (Some(s), Some(t), Some(h), None) = (it.next(), it.next(), it.next(), it.next()) else {
-            return Err(PageError::BadFields(line.to_string()));
+            return Err(PageError::BadFields(echo(line)));
         };
-        let svid = s
-            .parse()
-            .map_err(|_| PageError::BadFields(line.to_string()))?;
-        let gst = t
-            .parse()
-            .map_err(|_| PageError::BadFields(line.to_string()))?;
+        let svid = s.parse().map_err(|_| PageError::BadFields(echo(line)))?;
+        let gst = t.parse().map_err(|_| PageError::BadFields(echo(line)))?;
         Self::from_hex(svid, gst, h).map(Some)
     }
 
@@ -186,6 +182,18 @@ impl InavPage {
     /// Receivers must discard an all-zero OSNMA field (Receiver Guidelines, section 3).
     pub fn has_osnma(&self) -> bool {
         self.osnma_field() != 0
+    }
+}
+
+/// The offending line for an error message: at most 80 characters, so one huge line does not
+/// make an equally huge error.
+fn echo(line: &str) -> String {
+    let mut it = line.chars();
+    let head: String = it.by_ref().take(80).collect();
+    if it.next().is_some() {
+        format!("{head}…")
+    } else {
+        head
     }
 }
 
@@ -264,6 +272,15 @@ mod tests {
         raw[20] ^= 0x01; // a bit inside the covered odd half
         let bad = InavPage::from_hex(2, 0, &hex::encode(raw)).unwrap();
         assert!(!bad.crc_ok());
+    }
+
+    #[test]
+    fn a_malformed_line_is_echoed_in_at_most_eighty_characters() {
+        let line = "x".repeat(8 * 1024 * 1024);
+        let e = InavPage::parse_line(&line).unwrap_err().to_string();
+        assert!(e.chars().count() < 120 && e.ends_with('…'), "{}", e.len());
+        let short = InavPage::parse_line("not a page").unwrap_err().to_string();
+        assert!(short.ends_with("not a page"));
     }
 
     #[test]
