@@ -9,33 +9,21 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
-### Added (validation of the CEF events)
-
-- **The telemetry CEF events are read back correctly by two independent open-source parsers.**
-  `pycef` 1.11 and the Logstash CEF codec (`logstash-codec-cef` 6.2.7 in Logstash 8.15.3) parse
-  157 CEF lines (every band change and every epoch of the committed telemetry stream, plus
-  adversarial text containing `=`, backslashes, pipes, line breaks, tabs and multi-byte text)
-  and recover every header field, the severity, the exact extension key set and every value
-  exactly. The Logstash codec also reads four lines whose header text needs escaping, which
-  `pycef` cannot. The bar was registered before either parser was run
-  (`tests/cef_reference.rs`); fixtures in `tests/fixtures/cef/`, oracle scripts
-  `scripts/gen_cef_ref.py` and `scripts/gen_cef_logstash_ref.py`; CI needs neither Python nor
-  Logstash. LEEF has no maintained open parser and stays modelled. The CEF events now carry the
-  trust score and the epoch offset in the CEF dictionary's floating-point custom fields
-  (`cfp1`, `cfp2`) instead of the integer fields `cn1` and `cn2`, which suited neither value; CEF
-  is new in this release, so nothing that shipped changes.
-
-## [0.35.0] - 2026-10-10
+## [0.35.0] - 2026-10-11
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
 output already installed, with the tooling around it: live and gate modes, Signal K and
 OpenCPN integrations, crew-training NMEA, interference maps with route exposure, telemetry
-exporters, signed evidence packs, a compliance mapping, a test-bench export, and the same
+exporters, signed evidence packs, a compliance mapping, a test-bench export, Galileo OSNMA verification, every install channel of the MCP server, and the same
 capabilities on the Python, WebAssembly, MCP, Claude Code plugin and JetBrains surfaces. Evidence
-class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Partner). Six are
-**VALIDATED**, each against an independent implementation or published vectors on synthetic inputs
-and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
-for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
+class: the ledger gains twelve rows (263 rows: 132 Validated, 127 Modelled, 4 Partner). Eight are
+**VALIDATED**, each against an independent implementation, published vectors or the official test
+vectors, on synthetic or published inputs, and each stating narrowly what is and is not checked:
+the monitors' arithmetic, the training NMEA, the interference-map reading and geometry, the
+Prometheus and OTLP formats, the CEF events, the evidence-pack primitives and verifier, the
+test-bench export, and Galileo OSNMA verification. Four are **MODELLED**: the score's aggregation,
+the LEEF events, the compliance mapping, and the marine integrations (Signal K, OpenCPN and the
+reference build, a new integration-run kind that is not an oracle). The scores are advisory: this is not type-approved equipment and the operator stays
 responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
 generated NMEA text is for training.
 
@@ -319,6 +307,22 @@ generated NMEA text is for training.
   `scripts/gen_evidence_pack_ref.py` with `scripts/evidence_verify_cleanroom.py`,
   `scripts/gen_telemetry_formats_ref.py`; tests `evidence_crypto_reference`,
   `evidence_pack_reference` and `telemetry_formats_reference`. CI needs no Python.
+
+### Added (validation of the CEF events)
+
+- **The telemetry CEF events are read back correctly by two independent open-source parsers.**
+  `pycef` 1.11 and the Logstash CEF codec (`logstash-codec-cef` 6.2.7 in Logstash 8.15.3) parse
+  157 CEF lines (every band change and every epoch of the committed telemetry stream, plus
+  adversarial text containing `=`, backslashes, pipes, line breaks, tabs and multi-byte text)
+  and recover every header field, the severity, the exact extension key set and every value
+  exactly. The Logstash codec also reads four lines whose header text needs escaping, which
+  `pycef` cannot. The bar was registered before either parser was run
+  (`tests/cef_reference.rs`); fixtures in `tests/fixtures/cef/`, oracle scripts
+  `scripts/gen_cef_ref.py` and `scripts/gen_cef_logstash_ref.py`; CI needs neither Python nor
+  Logstash. LEEF has no maintained open parser and stays modelled. The CEF events now carry the
+  trust score and the epoch offset in the CEF dictionary's floating-point custom fields
+  (`cfp1`, `cfp2`) instead of the integer fields `cn1` and `cn2`, which suited neither value; CEF
+  is new in this release, so nothing that shipped changes.
 
 ### Changed
 
