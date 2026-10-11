@@ -32,6 +32,20 @@ elsewhere prints a warning; put it behind your own access control. The endpoint 
 connection at a time with a 2 s read limit, so an idle client can delay a scrape by up to
 that long; it is meant for one scraper, not for the open network.
 
+## From Python, WebAssembly and MCP
+
+The encoders are also available as text-in, text-out calls with no process, socket or clock:
+Python `kshana.trust_telemetry(input, format, host="", input_kind="jsonl", expose_position=False,
+syslog_all=False, unix_nano=0)`, the WebAssembly export `trust_telemetry(input, format, host,
+input_kind, options_json)`, and the MCP tool `trust_telemetry` (plugin command
+`/kshana-trust-telemetry`). `format` is `prometheus`, `cef`, `leef` or `otlp`; `input_kind` is
+`jsonl` (the stream) or `result` (a batch result). They return the same text the command line
+prints (`--print-metrics`, `--print-syslog`), with the same limits: syslog lines carry no
+timestamp, `host` is at most 255 printable ASCII characters without spaces (refused otherwise,
+here and on the command line), and a reply larger than the surface's limit (4 MiB on MCP) is
+refused, because CEF and LEEF with `syslog_all` write one event per epoch. Nothing is sent,
+served or written; the running exporters stay a process on the command line.
+
 ## Delivery never stalls the assessment
 
 Syslog and OpenTelemetry delivery run on their own threads. The ingest loop only hands them

@@ -1736,12 +1736,25 @@ fn osnma_verify<'py>(
     py: Python<'py>,
     data: TextOrBytes,
     format: &str,
-    start_gst: Option<u32>,
+    start_gst: Option<i64>,
     merkle_root_hex: &str,
     public_keys: Option<Vec<String>>,
-    reference_time: Option<u32>,
-    max_time_error: Option<u32>,
+    reference_time: Option<i64>,
+    max_time_error: Option<i64>,
 ) -> PyResult<Bound<'py, PyAny>> {
+    let to_u32 = |name: &str, v: Option<i64>| -> PyResult<Option<u32>> {
+        v.map(|n| {
+            u32::try_from(n).map_err(|_| {
+                PyValueError::new_err(format!("{name} must be between 0 and 2**32 - 1"))
+            })
+        })
+        .transpose()
+    };
+    let (start_gst, reference_time, max_time_error) = (
+        to_u32("start_gst", start_gst)?,
+        to_u32("reference_time", reference_time)?,
+        to_u32("max_time_error", max_time_error)?,
+    );
     let out = crate::surface::osnma_verify(
         data.bytes(),
         format,
@@ -1784,10 +1797,12 @@ fn trust_telemetry(
     input_kind: &str,
     expose_position: bool,
     syslog_all: bool,
-    unix_nano: u64,
+    unix_nano: i128,
 ) -> PyResult<String> {
     use crate::surface::{self, TelemetryFormat, TelemetryInput, TelemetryOptions};
     let bad = |e: String| PyValueError::new_err(e);
+    let unix_nano = u64::try_from(unix_nano)
+        .map_err(|_| PyValueError::new_err("unix_nano must be between 0 and 2**64 - 1"))?;
     surface::trust_telemetry(
         input,
         TelemetryFormat::parse(format).map_err(bad)?,
