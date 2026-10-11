@@ -3,10 +3,10 @@
   "engine_version": "0.35.0",
   "scenario_kinds": 75,
   "matrix": {
-    "validated": 130,
-    "modelled": 126,
+    "validated": 132,
+    "modelled": 127,
     "partner_owned": 4,
-    "total": 260
+    "total": 263
   },
   "assets": {
     "kshana-mark": {
@@ -216,7 +216,7 @@
         }
       ],
       "input_files": {
-        "examples/maritime-trust/session.toml": "042a29d529e99d3bb61c727d9bc5e265124849b89873a217b709d0f4cbd4040d",
+        "examples/maritime-trust/session.toml": "a516c91f43a1a74a3a551dcc5aa1be5974c5d71aca653e55216f1229750045a3",
         "examples/maritime-trust/tallinn-helsinki.nmea": "008462359dbed742a84445c1585aa465827709ff146d92d4f6069901df82efe0",
         "examples/maritime-trust/tallinn-helsinki.truth.csv": "6c10104f5c4c22351ec6d44d29269306c9eb2129c62dcf4930d79c370efb7871"
       }
@@ -249,7 +249,7 @@
         }
       ],
       "input_files": {
-        "scenarios/training/coastal-drag-off.toml": "2e0b44b3e868a170e101485f91ae4334bca036d4f83ba45b305044df433e3e85"
+        "scenarios/training/coastal-drag-off.toml": "4ea0d1c1a0ce2a41800cb78d80d80b3b6db4d5a2f5114484c46adffe177457fa"
       }
     },
     "evidence-pack": {
