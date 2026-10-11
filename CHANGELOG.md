@@ -37,7 +37,35 @@ class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Part
 and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
 for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
 responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
-generated NMEA text is for training. Galileo OSNMA verification is not in this release.
+generated NMEA text is for training.
+
+### Galileo OSNMA verifier
+
+- **New module `kshana::osnma` and `kshana osnma verify <input>`: an open, pure-Rust
+  receiver-side verifier for Galileo OSNMA.** It reads I/NAV pages and reports, per
+  satellite and epoch, whether the navigation data is authenticated, with a reason for
+  every failure or delay: HKROOT and MACK parsing, DSM-KROOT and DSM-PKR reassembly,
+  Merkle verification of the public key, TESLA key-chain verification, MACSEQ and tag
+  verification for ADKD 0, 4 and 12 including cross-authentication, and a
+  `$PKSOS`-shaped result for the receiver-trust monitor. Output carries an advisory that
+  the status is not a navigation integrity service. `docs/OSNMA.md` states what is and
+  is not verified, the time requirement, and that Kshana grants no rights under the
+  EU's OSNMA ICD IPRs (users rely on the ICD's Annex E authorisation).
+  Implemented against the SIS ICD Issue 1.1 and the Receiver Guidelines Issue 1.3.
+  Pages are CRC-checked, and a u-blox UBX-RXM-SFRBX byte stream can be read directly
+  (`--format ubx`). Default tests use synthetic data and published primitive known-answer
+  tests; an opt-in test reads a locally downloaded copy of the official vectors.
+  After independent review the verifier takes its time only from verified TESLA keys
+  (a spoofed far-future sub-frame can no longer erase a failure), lets an authentication
+  expire and follow the IODnav in use, honours verified alert messages (whose Merkle
+  leaf now includes the random NPK field) and NMA status "don't use", keeps dummy tags
+  out of the satellite status, keeps chains by CID with revocation and renewal, checks
+  the KROOT padding hash, and caps UBX frame lengths and TESLA verification work. A
+  satellite reads authenticated only while the newest ephemeris and clock data it sends
+  is, bit for bit, the data that was authenticated (not merely under the same IODnav),
+  a status or revocation from the unauthenticated NMA header counts only when two
+  satellites agree or a verified KROOT carries it, a replayed older KROOT cannot replace
+  a chain, and a stalled key stream is reported.
 
 ### Added (MCP server channels)
 
