@@ -108,6 +108,7 @@ pub mod crpa;
 pub mod cw_dynamics;
 pub mod deepspace_od;
 pub mod detection;
+pub mod dop_error_mc;
 pub mod dro;
 pub mod earth_gnss_lunar;
 pub mod egm2008_data;
