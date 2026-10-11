@@ -134,6 +134,56 @@ class Launcher(unittest.TestCase):
         finally:
             srv.shutdown()
 
+    @unittest.skipIf(os.name == "nt", "POSIX modes and symlinks")
+    def test_downloaded_binary_and_cache_dir_are_private_and_no_temp_file_is_left(self):
+        name = L.asset_for(platform.system(), platform.machine())
+        if not name:
+            self.skipTest("unsupported test host")
+        script = b"#!/bin/sh\necho ran\n"
+        sums = f"{hashlib.sha256(script).hexdigest()}  {name}\n".encode()
+        with tempfile.TemporaryDirectory() as cache:
+            env = {"KSHANA_MCP_CACHE_DIR": cache, "KSHANA_MCP_RELEASE_BASE": release({name: script, "SHA256SUMS": sums})}
+            path = L.ensure_binary("0.0.0", env)
+            self.assertEqual(path.stat().st_mode & 0o777, 0o700)
+            self.assertEqual(path.parent.stat().st_mode & 0o777, 0o700)
+            self.assertEqual(sorted(p.name for p in path.parent.iterdir()), [name])
+
+    @unittest.skipIf(os.name == "nt", "POSIX symlinks")
+    def test_a_tampered_cache_is_replaced_and_a_symlink_is_refused_and_never_followed(self):
+        name = L.asset_for(platform.system(), platform.machine())
+        if not name:
+            self.skipTest("unsupported test host")
+        script = b"#!/bin/sh\necho ran\n"
+        sums = f"{hashlib.sha256(script).hexdigest()}  {name}\n".encode()
+        with tempfile.TemporaryDirectory() as cache:
+            env = {"KSHANA_MCP_CACHE_DIR": cache, "KSHANA_MCP_RELEASE_BASE": release({name: script, "SHA256SUMS": sums})}
+            path = L.ensure_binary("0.0.0", env)
+            path.write_bytes(b"tampered")
+            L.ensure_binary("0.0.0", env)
+            self.assertEqual(path.read_bytes(), script)
+            victim = Path(cache) / "victim"
+            victim.write_text("do not touch")
+            path.unlink()
+            path.symlink_to(victim)
+            again = L.ensure_binary("0.0.0", env)
+            self.assertFalse(again.is_symlink())
+            self.assertEqual(again.read_bytes(), script)
+            self.assertEqual(victim.read_text(), "do not touch")
+
+    @unittest.skipIf(os.name == "nt", "POSIX symlinks")
+    def test_read_cached_uses_one_descriptor(self):
+        with tempfile.TemporaryDirectory() as d:
+            d = Path(d)
+            self.assertIsNone(L._read_cached(d / "nope"))
+            (d / "dir").mkdir()
+            with self.assertRaises((RuntimeError, OSError)):
+                L._read_cached(d / "dir")
+            (d / "f").write_bytes(b"x")
+            (d / "l").symlink_to(d / "f")
+            with self.assertRaises(OSError):
+                L._read_cached(d / "l")
+            self.assertEqual(L._read_cached(d / "f"), b"x")
+
     def test_version_matches_pyproject(self):
         text = (Path(__file__).resolve().parent.parent / "pyproject.toml").read_text()
         self.assertIn(f'version = "{L.__version__}"', text)

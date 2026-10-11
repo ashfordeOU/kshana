@@ -52,10 +52,12 @@ jobs:
           mkdir -p staged
           gh release download "$TAG" --repo "$GITHUB_REPOSITORY" --pattern SHA256SUMS --dir staged
       - name: Generate and check
+        env:
+          VERSION: ${{ steps.v.outputs.version }}
         run: |
           set -euo pipefail
           python3 scripts/test_gen_pkg_manifests.py
-          python3 scripts/gen_pkg_manifests.py "${{ steps.v.outputs.version }}" staged/SHA256SUMS manifests
+          python3 scripts/gen_pkg_manifests.py "$VERSION" staged/SHA256SUMS manifests
           find manifests -type f | sort
       - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4
         with:

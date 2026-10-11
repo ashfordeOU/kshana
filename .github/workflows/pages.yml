@@ -81,8 +81,9 @@ jobs:
         # tag. This run's own ref is main, so name the tag explicitly.
         run: GITHUB_REF_TYPE=tag GITHUB_REF_NAME="$TAG" ./scripts/check-version-sync.sh
       - name: Install Rust (with wasm target)
-        uses: dtolnay/rust-toolchain@1.93.0
+        uses: dtolnay/rust-toolchain@e2a55d2ffb04f378e9626c28d38b36d230d1e12f # master; the toolchain is the `toolchain` input below
         with:
+          toolchain: 1.93.0
           targets: wasm32-unknown-unknown
       - name: Toolchain pin guard
         run: ./scripts/check-toolchain.sh
