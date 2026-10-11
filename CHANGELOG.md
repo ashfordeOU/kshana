@@ -9,6 +9,22 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added (validation of the CEF events)
+
+- **The telemetry CEF events are read back correctly by two independent open-source parsers.**
+  `pycef` 1.11 and the Logstash CEF codec (`logstash-codec-cef` 6.2.7 in Logstash 8.15.3) parse
+  157 CEF lines (every band change and every epoch of the committed telemetry stream, plus
+  adversarial text containing `=`, backslashes, pipes, line breaks, tabs and multi-byte text)
+  and recover every header field, the severity, the exact extension key set and every value
+  exactly. The Logstash codec also reads four lines whose header text needs escaping, which
+  `pycef` cannot. The bar was registered before either parser was run
+  (`tests/cef_reference.rs`); fixtures in `tests/fixtures/cef/`, oracle scripts
+  `scripts/gen_cef_ref.py` and `scripts/gen_cef_logstash_ref.py`; CI needs neither Python nor
+  Logstash. LEEF has no maintained open parser and stays modelled. The CEF events now carry the
+  trust score and the epoch offset in the CEF dictionary's floating-point custom fields
+  (`cfp1`, `cfp2`) instead of the integer fields `cn1` and `cn2`, which suited neither value; CEF
+  is new in this release, so nothing that shipped changes.
+
 ## [0.35.0] - 2026-10-10
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver
@@ -21,7 +37,53 @@ class: the ledger gains nine rows (260 rows: 130 Validated, 126 Modelled, 4 Part
 and each stating narrowly what is and is not checked; the other three are **MODELLED** or checked
 for internal consistency. The scores are advisory: this is not type-approved equipment and the operator stays
 responsible. Nothing here synthesises a jammer or spoofer radio waveform and nothing transmits;
-generated NMEA text is for training. Galileo OSNMA verification is not in this release.
+generated NMEA text is for training.
+
+### Galileo OSNMA verifier
+
+- **New module `kshana::osnma` and `kshana osnma verify <input>`: an open, pure-Rust
+  receiver-side verifier for Galileo OSNMA.** It reads I/NAV pages and reports, per
+  satellite and epoch, whether the navigation data is authenticated, with a reason for
+  every failure or delay: HKROOT and MACK parsing, DSM-KROOT and DSM-PKR reassembly,
+  Merkle verification of the public key, TESLA key-chain verification, MACSEQ and tag
+  verification for ADKD 0, 4 and 12 including cross-authentication, and a
+  `$PKSOS`-shaped result for the receiver-trust monitor. Output carries an advisory that
+  the status is not a navigation integrity service. `docs/OSNMA.md` states what is and
+  is not verified, the time requirement, and that Kshana grants no rights under the
+  EU's OSNMA ICD IPRs (users rely on the ICD's Annex E authorisation).
+  Implemented against the SIS ICD Issue 1.1 and the Receiver Guidelines Issue 1.3.
+  Pages are CRC-checked, and a u-blox UBX-RXM-SFRBX byte stream can be read directly
+  (`--format ubx`). Default tests use synthetic data and published primitive known-answer
+  tests; an opt-in test reads a locally downloaded copy of the official vectors.
+  After independent review the verifier takes its time only from verified TESLA keys
+  (a spoofed far-future sub-frame can no longer erase a failure), lets an authentication
+  expire and follow the IODnav in use, honours verified alert messages (whose Merkle
+  leaf now includes the random NPK field) and NMA status "don't use", keeps dummy tags
+  out of the satellite status, keeps chains by CID with revocation and renewal, checks
+  the KROOT padding hash, and caps UBX frame lengths and TESLA verification work. A
+  satellite reads authenticated only while the newest ephemeris and clock data it sends
+  is, bit for bit, the data that was authenticated (not merely under the same IODnav),
+  a status or revocation from the unauthenticated NMA header counts only when two
+  satellites agree or a verified KROOT carries it, a replayed older KROOT cannot replace
+  a chain, and a stalled key stream is reported.
+
+### Added (MCP server channels)
+
+- **`kshana-mcp` reaches its users through every channel from the tag.** Prebuilt binaries
+  `kshana-mcp-<target>[.exe]` for macOS (Apple silicon and Intel), Windows x86-64, Linux x86-64
+  and Linux Arm, smoke-run, listed in `SHA256SUMS` and attested; a Claude Desktop extension
+  `kshana-mcp-<target>.mcpb` per system; one-click Cursor and VS Code links, Docker and binary
+  forms, and snippets for Claude Code, Claude Desktop, Cursor, VS Code, Windsurf, Zed, Goose,
+  Codex CLI, Gemini CLI and Continue (`docs/MCP-INSTALL.md`, generated and decode-tested);
+  `npx kshana-mcp` and `uvx kshana-mcp` launchers that verify `SHA256SUMS` before running the
+  binary; Homebrew, Scoop and winget manifests generated from the release checksums; a Smithery
+  file and refreshed registry and Glama entries. A step whose credential is absent is skipped
+  with a notice. Advisory, not type-approved navigation equipment; nothing is sent to Ashforde OÜ.
+- **`kshana-mcp --http <addr>`, streamable HTTP, self-hosted.** Loopback by default; a
+  non-loopback address needs `--allow-remote` and a bearer token in `KSHANA_MCP_HTTP_TOKEN`;
+  no tool reads or writes a path (the IQ file tools are off); request size, time and concurrency
+  limits; no CORS header; Host and Origin checks. Kshana hosts no endpoint
+  (`docs/deploy/mcp-http.md`, with Docker, Fly.io and Cloud Run templates).
 
 ### Added (surfaces)
 

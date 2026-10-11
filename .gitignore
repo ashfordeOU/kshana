@@ -105,3 +105,9 @@ __pycache__/
 *.trust.svg
 # Evidence-pack signing keys (`kshana evidence keygen`): never commit a private key.
 *.evidence-key
+
+# kshana-mcp launcher build output
+packaging/mcp/pypi/build/
+packaging/mcp/pypi/dist/
+packaging/mcp/pypi/*.egg-info/
+packaging/mcp/pypi/src/*.egg-info/
