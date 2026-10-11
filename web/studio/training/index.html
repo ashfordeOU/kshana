@@ -59,6 +59,18 @@
     <ul class="tr-notes" id="tr-notes"></ul>
   </section>
 
+  <section class="card tr-gen" aria-labelledby="tr-gen-h">
+    <div class="card-head"><h2 id="tr-gen-h" class="h3">Generate a stream here</h2>
+      <p class="card-note">Run the engine's NMEA training generator in this browser. You get the synthetic NMEA 0183 stream for the exercise and the instructor log, and can debrief it straight away. Nothing is uploaded; streaming to a bridge simulator over TCP or UDP is a command-line feature (see the Tools page).</p></div>
+    <div class="tr-genrow">
+      <label>Scenario <select id="tr-gen-scn" aria-label="Library scenario to generate"></select></label>
+      <label>Seed <input id="tr-gen-seed" type="text" inputmode="numeric" spellcheck="false" placeholder="from the scenario" aria-label="Random seed (optional)"></label>
+      <button type="button" class="tr-demo" id="tr-gen-run">Generate</button>
+    </div>
+    <p class="tr-status" id="tr-gen-status" role="status" aria-live="polite"></p>
+    <div class="tr-genout" id="tr-gen-out"></div>
+  </section>
+
   <div id="tr-run" hidden>
     <p class="tr-warning" id="tr-warning" role="note"></p>
     <section class="card tr-intro" aria-labelledby="tr-name">

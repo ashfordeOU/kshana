@@ -1,0 +1,2198 @@
+[
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": -0.07692307692307693,
+    "cn0_mean_dbhz": 44.76923076923077,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.454997000000006,
+        24.77002766666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 0.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.455077333333335,
+        24.770050666666666
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 1.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45514433333333,
+        24.770107999999997
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 2.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.455222166666665,
+        24.770136666666666
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 3.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.455293166666664,
+        24.77018333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 4.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": -0.15384615384615385,
+    "cn0_mean_dbhz": 44.84615384615385,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45538066666666,
+        24.770222166666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 5.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45545533333334,
+        24.77026916666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 6.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45552316666667,
+        24.77029016666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 7.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.4555975,
+        24.770336166666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 8.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.4556705,
+        24.770391333333336
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 9.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.15384615384615385,
+    "cn0_mean_dbhz": 44.53846153846154,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45574750000001,
+        24.77041433333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 10.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45582383333333,
+        24.770479833333336
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 11.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.455898,
+        24.770503
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 12.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45597683333334,
+        24.77055416666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 13.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456048499999994,
+        24.77060783333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 14.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.0,
+    "cn0_mean_dbhz": 44.69230769230769,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45612883333333,
+        24.770640166666666
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 15.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45620916666667,
+        24.77069333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 16.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456272000000006,
+        24.770732833333334
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 17.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456354,
+        24.7707755
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 18.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45642866666667,
+        24.770810666666662
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 19.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": -0.23076923076923078,
+    "cn0_mean_dbhz": 44.92307692307692,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456508500000005,
+        24.770848833333336
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 20.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456583833333326,
+        24.770902666666665
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 21.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456656499999994,
+        24.770938500000003
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 22.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45673383333333,
+        24.771000000000004
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 23.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.4568075,
+        24.771030333333336
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 24.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.23076923076923078,
+    "cn0_mean_dbhz": 44.46153846153846,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45688583333334,
+        24.771085666666668
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 25.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.456961333333325,
+        24.771127666666665
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 26.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457040000000006,
+        24.771172
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 27.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45712316666666,
+        24.771213666666668
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 28.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457193833333335,
+        24.771259166666663
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 29.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.07692307692307693,
+    "cn0_mean_dbhz": 44.61538461538461,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457264833333326,
+        24.771295666666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 30.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45734383333333,
+        24.771342166666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 31.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457430499999994,
+        24.771392833333334
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 32.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45749583333333,
+        24.771434
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 33.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45758250000001,
+        24.771473333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 34.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.07692307692307693,
+    "cn0_mean_dbhz": 44.61538461538461,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457656,
+        24.771518
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 35.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457726,
+        24.771544333333335
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 36.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45779583333333,
+        24.771595333333334
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 37.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.457879166666665,
+        24.771632833333335
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 38.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45794933333333,
+        24.7716945
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 39.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.5384615384615384,
+    "cn0_mean_dbhz": 44.15384615384615,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45803133333334,
+        24.771722333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 40.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.458098333333325,
+        24.771778
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 41.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45817883333334,
+        24.771826499999996
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 42.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.458255333333334,
+        24.7718665
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 43.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.4583185,
+        24.771922166666666
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 44.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.0,
+    "cn0_mean_dbhz": 44.69230769230769,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45840750000001,
+        24.771961333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 45.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45848250000001,
+        24.772009000000004
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 46.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45855066666666,
+        24.77205816666667
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 47.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45862399999999,
+        24.772106833333336
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 48.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.458709,
+        24.772133
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 49.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": 0.0,
+    "cn0_mean_dbhz": 44.69230769230769,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.4587815,
+        24.772178999999998
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 50.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.458863666666666,
+        24.772221166666668
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 51.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.458935833333335,
+        24.772267166666666
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 52.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.459014833333335,
+        24.772305833333334
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 53.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45908883333333,
+        24.772349500000004
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 54.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": -0.23076923076923078,
+    "cn0_mean_dbhz": 44.92307692307692,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45916633333333,
+        24.772403
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 55.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.459240833333325,
+        24.772447333333336
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 56.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45931900000001,
+        24.772475333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 57.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45939383333333,
+        24.772514333333334
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 58.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": null,
+    "cn0_mean_dbhz": null,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.45947666666666,
+        24.772571000000003
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 0,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 59.0
+  },
+  {
+    "agc": null,
+    "agc_z": null,
+    "alarms": [],
+    "clock_bound_ns": null,
+    "clock_innov_ns": null,
+    "cn0_drop_db": -0.15384615384615385,
+    "cn0_mean_dbhz": 44.84615384615385,
+    "jam_ind": null,
+    "marine": {
+      "position": [
+        59.459548,
+        24.772610333333333
+      ],
+      "ratios": [],
+      "stats": {
+        "cn0_rise_db": null,
+        "cn0_spread_db": null,
+        "hdg_cog_deg": null,
+        "kin_accel_mps2": null,
+        "kin_resid_m": null,
+        "kin_speed_mps": null,
+        "kin_turn_dps": null,
+        "sea_level_m": null,
+        "stw_sog_kn": null,
+        "time_offset_dev_s": null,
+        "time_step_dev_s": null
+      }
+    },
+    "n_sats": 13,
+    "position_offset_m": null,
+    "raim_stat": null,
+    "raim_thr": null,
+    "state": "calibrating",
+    "t_s": 60.0
+  }
+]

@@ -9,10 +9,12 @@
 // 8 MB engine file is downloaded once per visit, not once by the page and again here.
 // If the first message carries no module (an older page), the worker fetches the
 // engine itself, as before.
-import init, { run, run_all, summary, chart_svg, table_csv, export_sp3, export_omm, export_oem } from "../pkg/kshana.js";
-import { dispatch, errorMessage } from "./engine.mjs";
+// A namespace import, not a list of names: an engine package older than a function the page offers (0.35's)
+// then simply lacks it, and dispatch() says so, instead of the whole module failing to load.
+import init, * as kshana from "../pkg/kshana.js";
+import { dispatch, errorMessage, ENGINE_FNS } from "./engine.mjs";
 
-const api = { run, run_all, summary, chart_svg, table_csv, export_sp3, export_omm, export_oem };
+const api = Object.fromEntries(ENGINE_FNS.filter((n) => typeof kshana[n] === "function").map((n) => [n, kshana[n]]));
 
 let gotModule;
 const moduleArrived = new Promise((resolve) => { gotModule = resolve; });

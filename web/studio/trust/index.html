@@ -59,6 +59,34 @@
     <ul class="mt-notes" id="mt-notes"></ul>
   </section>
 
+  <section class="card mt-load" aria-labelledby="mt-score-h">
+    <div class="card-head"><h2 id="mt-score-h" class="h3">Score an NMEA log here</h2>
+      <p class="card-note">Run the engine in this browser on a vessel's NMEA 0183 log and see the result in the view below. The log is read in this page and never uploaded. It must be an excerpt of at most 2 MiB (about 20,000 epochs) and must hold the five-minute calibration window. The settings are the vessel's limits and the score's weights, as in a session file.</p></div>
+    <div class="mt-drop">
+      <label class="mt-file btn-primary">Choose an NMEA log…<input id="mt-nmea" type="file" accept=".nmea,.txt,.log,text/*"></label>
+      <button class="mt-demo" id="mt-score-demo" type="button">Score the synthetic demo log</button>
+    </div>
+    <details class="mt-gloss"><summary>Session settings (TOML)</summary>
+      <textarea id="mt-session" class="mt-toml" rows="10" spellcheck="false" aria-label="Session settings in TOML"></textarea>
+      <p class="mt-notes-line">Starts from the demo's settings: edit the vessel's speed, acceleration and turn-rate limits to match yours. A settings file for your own vessel can be pasted here.</p>
+    </details>
+    <p class="mt-status" id="mt-score-status" role="status" aria-live="polite"></p>
+  </section>
+
+  <section class="card mt-load" aria-labelledby="mt-gen-h">
+    <div class="card-head"><h2 id="mt-gen-h" class="h3">Generic receiver-trust run (not a vessel)</h2>
+      <p class="card-note">For a fixed or unspecified receiver, <code>kshana receiver-trust</code> checks a GNSS log against its own calibration window and says when it stopped looking like itself. It gives states and alarms, not the 0 to 100 vessel score. Run the illustrative example (a made-up log with a jammer from 120 s to 240 s) or your own NMEA log under the same settings. The log is read here and never uploaded.</p></div>
+    <p class="mt-adv" role="note"><b>Advisory software.</b> Not type-approved navigation equipment. An alarm is an observation about the log, not a finding about the cause, and no alarm is not a guarantee that a fix is good.</p>
+    <div class="mt-drop">
+      <button class="mt-demo" id="mt-gen-demo" type="button">Run the illustrative jamming example</button>
+      <label class="mt-file btn-primary">Choose an NMEA log…<input id="mt-gen-file" type="file" accept=".nmea,.txt,.log,text/*"></label>
+    </div>
+    <details class="mt-gloss"><summary>Session settings (TOML, the log is supplied inline)</summary>
+      <textarea id="mt-gen-toml" class="mt-toml" rows="12" spellcheck="false" aria-label="Receiver-trust session settings in TOML"></textarea></details>
+    <p class="mt-status" id="mt-gen-status" role="status" aria-live="polite"></p>
+    <div id="mt-gen-out"></div>
+  </section>
+
   <div id="mt-run" hidden>
     <p class="mt-adv" id="mt-adv" role="note"></p>
     <section class="mt-bar card" aria-label="Time cursor and filters">
