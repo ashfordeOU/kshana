@@ -361,6 +361,7 @@ async function wireAi() {
         if (c.command) a.append(copyRow("command", c.command));
         if (c.pinned) a.append(el("p", { class: "tl-why" }, "Pinned to this release:"), copyRow("pinned command", c.pinned));
         if (c.note) a.append(el("p", { class: "tl-why" }, c.note));
+        if (Array.isArray(c.configs)) c.configs.filter((v) => typeof v === "string").forEach((v, n) => a.append(el("p", { class: "tl-why" }, `Settings example ${n + 1}:`), copyRow(`settings example ${n + 1}`, v)));
         const links = [];
         for (const l of Array.isArray(c.links) ? c.links : []) { const h = l && safe(l.url); if (h) links.push(el("a", { class: "tl-linkbtn", href: h, rel: "noopener noreferrer" }, String(l.label || "Open"))); }
         const reg = c.registry && safe(c.registry); if (reg) links.push(el("a", { href: reg, rel: "noopener noreferrer" }, c.registry_label || "Open"));
