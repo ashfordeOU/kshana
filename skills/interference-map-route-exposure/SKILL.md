@@ -13,7 +13,9 @@ Rules that apply every time:
 - A degraded cell does **not** identify interference as the cause. A cell not observed is **not**
   evidence of a clear route. The result describes past reports and is **not a forecast**. Show
   the file's own `method.caveats` and `notice` with every figure. The method is **MODELLED**
-  (pre-registered thresholds, not validated against a ground-truth interference measurement).
+  (pre-registered thresholds, not validated against a ground-truth interference measurement); only
+  how the accuracy codes are read and the grid and route geometry are **VALIDATED**, against
+  independent libraries on synthetic inputs.
 - Aggregate only: no identifier is returned and cells below 5 distinct aircraft or vessels are
   withheld. ADS-B and AIS maps stay separate; each carries its own licence and attribution, and
   `custom` datasets must state theirs.
