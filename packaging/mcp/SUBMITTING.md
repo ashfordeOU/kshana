@@ -65,7 +65,7 @@ without a submission.
    `npx -y kshana-mcp@<version>`. It has no build or container section.
 3. Publish it as a repository / local listing. **Do not click Deploy and do not choose a hosted
    option:** nothing of Kshana is hosted, the server runs on the user's own computer, and the listing
-   must keep saying so. Check the tools list shows 38 tools (39 once the telemetry tool lands) and add
+   must keep saying so. Check the tools list shows 39 tools and add
    the advisory sentence above to the description. When the release version changes, the version in
    `smithery.yaml` changes with it (the version-sync check covers it).
 

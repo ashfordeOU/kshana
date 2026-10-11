@@ -6,6 +6,7 @@ authors:
   - family-names: Baweja
     given-names: Chakshu
     email: contact@ashforde.org
+    affiliation: "Ashforde OÜ"
 repository-code: "https://github.com/ashfordeOU/kshana"
 url: "https://github.com/ashfordeOU/kshana"
 doi: 10.5281/zenodo.20528627

@@ -21,6 +21,7 @@
     "kshana"
   ],
   "license": "AGPL-3.0-only",
+  "author": "Ashforde OÜ <contact@ashforde.org>",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/ashfordeOU/kshana.git",
