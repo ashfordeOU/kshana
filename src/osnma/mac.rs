@@ -9,6 +9,7 @@ use hmac::{Hmac, Mac};
 use sha2::Sha256;
 
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
+/// Why a MAC could not be computed.
 pub enum MacError {
     /// The key length does not suit the MAC function (CMAC-AES takes 128, 192 or 256 bits).
     BadKey,

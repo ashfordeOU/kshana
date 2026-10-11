@@ -15,12 +15,18 @@ pub enum Slot {
     Flexible,
     /// Fixed ADKD type; `own` is true when the tag covers the transmitting satellite's
     /// own data (self-authentication) rather than another satellite's.
-    Fixed { adkd: u8, own: bool },
+    Fixed {
+        /// The ADKD the slot carries (0, 4 or 12).
+        adkd: u8,
+        /// Whether the tag covers the transmitting satellite's own data.
+        own: bool,
+    },
 }
 
 /// The sequences of one table entry: one per MACK message of the cycle.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct Entry {
+    /// The tag sequences of the entry (ICD Annex C): the slots of each successive MACK message of its repeating cycle.
     pub sequences: Vec<Vec<Slot>>,
 }
 
@@ -84,6 +90,7 @@ impl Default for MacLookup {
 }
 
 impl MacLookup {
+    /// The entry with this id, built in or added at run time.
     pub fn get(&self, maclt: u8) -> Option<&Entry> {
         self.entries.get(&maclt)
     }

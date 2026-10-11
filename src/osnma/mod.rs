@@ -29,8 +29,11 @@ pub use subframe::{DsmHeader, MackLayout, NmaHeader, Subframe, SubframeAssembler
 /// Per-satellite outcome in the form the receiver-trust monitor consumes.
 #[derive(Debug, Clone, Copy, PartialEq, Eq)]
 pub enum OsnmaStatus {
+    /// Verified recently and still the data in use.
     Authenticated,
+    /// A check on the satellite's data failed within the failure memory.
     Failed,
+    /// Nothing is authenticated, or the service is not usable.
     Unavailable,
 }
 
