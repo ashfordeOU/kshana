@@ -101,10 +101,15 @@ async function readCapped(res, max, what) {
 async function fetchBuffer(url, max, env = process.env) {
   const what = url.split("/").pop();
   if (/^file:\/\//i.test(url)) {
-    const p = require("node:url").fileURLToPath(url);
-    const size = fs.statSync(p).size;
-    if (size > max) throw new Error(`${what}: ${size} bytes is over the ${max}-byte limit`);
-    return fs.readFileSync(p);
+    // one descriptor: the size checked is the size of the file read (no stat-then-read by path)
+    const fd = fs.openSync(require("node:url").fileURLToPath(url), fs.constants.O_RDONLY);
+    try {
+      const size = fs.fstatSync(fd).size;
+      if (size > max) throw new Error(`${what}: ${size} bytes is over the ${max}-byte limit`);
+      return fs.readFileSync(fd);
+    } finally {
+      fs.closeSync(fd);
+    }
   }
   const res = await fetch(url, { redirect: "follow", signal: AbortSignal.timeout(timeoutMs(env)) });
   if (!res.ok) throw new Error(`GET ${url}: HTTP ${res.status}`);
