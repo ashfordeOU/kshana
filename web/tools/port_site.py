@@ -42,6 +42,7 @@ removed. The port needs no network.
 import argparse
 import hashlib
 import html
+import html.parser
 import json
 import os
 import re
@@ -96,7 +97,10 @@ TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".t
 DEV_PATH = re.compile(r"/Users/(?!you/)[A-Za-z0-9._-]+/|/home/[a-z][a-z0-9._-]*/(?:Code|code|src|work)/|~/Code/|kshana-wt-[a-z0-9-]+|kshana-site-next")
 # An engine report prints the command it was run with, scenario path included. A recorder
 # that ran the engine on a temporary copy leaves that machine's path in the report.
-REPORT_CMD = re.compile(r"(kshana )(?:/[^\s<>\"'&]+)*/([a-z0-9][a-z0-9-]*\.toml)")
+# One optional group with a single quantifier, so the match is linear in the text: an absolute path (any
+# directories, no whitespace, markup or quote characters) ending in a scenario file name. The earlier form
+# repeated a group whose pieces could themselves contain "/", which let a long path backtrack exponentially.
+REPORT_CMD = re.compile(r"(kshana )/(?:[^\s<>\"'&]*/)?([a-z0-9][a-z0-9-]*\.toml)")
 
 # The first bytes of a Git LFS pointer file. The site source keeps its binaries (the Studio's
 # WebAssembly package, its native recordings, images) in Git LFS; a checkout without
@@ -260,27 +264,79 @@ def localise(rel, text):
 # What makes a browser fetch from another host: a resource tag, a stylesheet url() or @import,
 # a module import, a fetch or a worker. A link a reader clicks (<a href>) is not one, and
 # neither is the canonical link or a social-card address (metadata a crawler reads).
-_TAG = re.compile(r"<(link|script|img|source|iframe|video|audio|embed|object|use|image|track|input)\b[^>]*>", re.I)
-_ATTR = re.compile(r'\b(?:href|src|srcset|data|poster|xlink:href)\s*=\s*"((?:https?:)?//[^"]*)"', re.I)
+_RESOURCE_TAGS = frozenset(("link", "script", "img", "source", "iframe", "video", "audio", "embed", "object", "use", "image", "track", "input"))
+_RESOURCE_ATTRS = ("href", "src", "srcset", "data", "poster", "xlink:href")
+_REMOTE_ADDRESS = re.compile(r"(?:https?:)?//", re.I)
 _CSS = re.compile(r"url\(\s*['\"]?((?:https?:)?//[^)'\"]+)|@import\s+(?:url\()?['\"]?((?:https?:)?//[^'\");]+)", re.I)
 _JS = re.compile(r"(?:\bfrom\s*|\bimport\s*\(\s*|\bfetch\s*\(\s*|\bWorker\s*\(\s*|\bimportScripts\s*\(\s*|\bEventSource\s*\(\s*|\bWebSocket\s*\(\s*)[\"'`]((?:https?:|wss?:)?//[^\"'`]+)", re.I)
-_IMPORTMAP = re.compile(r'<script type="importmap">([\s\S]*?)</script>', re.I)
+
+
+class _InlineBlocks(html.parser.HTMLParser):
+    """The text of every inline <style> and <script> element, with the script's attributes.
+
+    A parser, not a pattern: a closing tag may be `</script >` or carry attributes, a start tag may use
+    single quotes or any case, and none of that is easy to match with a regular expression. The parser
+    reads the page once, in linear time."""
+
+    def __init__(self):
+        super().__init__(convert_charrefs=False)
+        self.blocks = []          # (tag, attrs dict, text)
+        self.requests = []        # addresses on another host that a resource tag asks the browser for
+        self._open = None
+
+    def handle_starttag(self, tag, attrs):
+        values = {k: (v or "") for k, v in attrs}
+        if tag in _RESOURCE_TAGS and not (tag == "link" and values.get("rel", "").lower() == "canonical"):
+            self.requests += [values[a] for a in _RESOURCE_ATTRS if _REMOTE_ADDRESS.match(values.get(a, ""))]
+        if tag in ("style", "script"):
+            self._open = [tag, values, []]
+
+    def handle_startendtag(self, tag, attrs):
+        self.handle_starttag(tag, attrs)
+        if tag in ("style", "script"):
+            self.handle_endtag(tag)
+
+    def handle_data(self, data):
+        if self._open is not None:
+            self._open[2].append(data)
+
+    def handle_endtag(self, tag):
+        if self._open is not None and tag == self._open[0]:
+            self.blocks.append((self._open[0], self._open[1], "".join(self._open[2])))
+            self._open = None
+
+    def close(self):
+        super().close()
+        if self._open is not None:           # an unterminated element still counts, as a browser reads it
+            self.blocks.append((self._open[0], self._open[1], "".join(self._open[2])))
+            self._open = None
+
+
+def read_markup(text):
+    """(inline blocks, resource addresses) of a page, read once by the parser."""
+    parser = _InlineBlocks()
+    parser.feed(text)
+    parser.close()
+    return parser.blocks, parser.requests
+
+
+def inline_blocks(text):
+    return read_markup(text)[0]
 
 
 def third_party_requests(rel, text):
     """Addresses on another host that loading this file would make a browser request."""
     found = []
     if rel.endswith(".html"):
-        for tag in _TAG.finditer(text):
-            if re.search(r'\brel="canonical"', tag.group(0)):
-                continue
-            found += [m.group(1) for m in _ATTR.finditer(tag.group(0))]
-        for im in _IMPORTMAP.finditer(text):
-            found += re.findall(r'"((?:https?:)?//[^"]+)"', im.group(1))
-        for style in re.findall(r"<style\b[^>]*>([\s\S]*?)</style>", text, re.I):
-            found += [a or b for a, b in _CSS.findall(style)]
-        for script in re.findall(r"<script\b(?![^>]*\bsrc=)(?![^>]*application/(?:ld\+)?json)[^>]*>([\s\S]*?)</script>", text, re.I):
-            found += _JS.findall(script)
+        blocks, requests = read_markup(text)
+        found += requests
+        for tag, attrs, body in blocks:
+            if tag == "style":
+                found += [a or b for a, b in _CSS.findall(body)]
+            elif attrs.get("type", "").lower() == "importmap":
+                found += re.findall(r'"((?:https?:)?//[^"]+)"', body)
+            elif "src" not in attrs and attrs.get("type", "").lower() not in ("application/json", "application/ld+json"):
+                found += _JS.findall(body)
     elif rel.endswith(".css"):
         found += [a or b for a, b in _CSS.findall(text)]
     elif rel.endswith((".js", ".mjs")) and not rel.endswith(".test.mjs"):
