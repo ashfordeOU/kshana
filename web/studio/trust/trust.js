@@ -7,7 +7,7 @@ import {
 } from "../lib/trust.mjs";
 
 import { getEngine } from "../lib/engine-page.mjs";
-import { hasDeclaration, sanitizeSvg } from "../lib/svgsafe.mjs";
+import { parseSvgMarkup, sanitizeSvg } from "../lib/svgsafe.mjs";
 
 const $ = (id) => document.getElementById(id);
 const NS = "http://www.w3.org/2000/svg";
@@ -144,9 +144,9 @@ async function genRun(nmea, name, label) {
       t.append(el("tbody", {}, doc.events.map((e) => el("tr", {}, el("td", {}, String(e.label ?? "")), el("td", {}, String(e.onset_s ?? "")), el("td", {}, String(e.outcome ?? "")), el("td", {}, e.first_alarm_s == null ? "none" : String(e.first_alarm_s)), el("td", {}, e.latency_s == null ? "none" : String(e.latency_s))))));
       out.append(el("div", { class: "table-scroll" }, t));
     }
-    if (typeof r.svg === "string" && !hasDeclaration(r.svg)) {
-      const root = new DOMParser().parseFromString(r.svg, "image/svg+xml").documentElement;
-      if (root && root.nodeName === "svg") { sanitizeSvg(root); const box = el("div", { class: "mt-svgbox", role: "img", "aria-label": "The engine's chart of the run: carrier-to-noise density, state and alarms over time" }); box.append(document.importNode(root, true)); out.append(box); }
+    if (typeof r.svg === "string") {
+      const root = parseSvgMarkup(r.svg);
+      if (root) { sanitizeSvg(root); const box = el("div", { class: "mt-svgbox", role: "img", "aria-label": "The engine's chart of the run: carrier-to-noise density, state and alarms over time" }); box.append(document.importNode(root, true)); out.append(box); }
     }
     const b1 = el("button", { type: "button", class: "mt-chip" }, "Download the result (JSON)"); b1.onclick = () => saveAs("receiver-trust.result.json", r.json, "application/json");
     const b2 = el("button", { type: "button", class: "mt-chip" }, "Download the per-epoch table (CSV)"); b2.onclick = () => saveAs("receiver-trust.csv", r.csv, "text/csv");

@@ -95,7 +95,7 @@ ledger row and the linked page say what was not.
 Also new: the Studio's trust, interference, training and tools views ([Kshana Studio](#kshana-studio)),
 the same capabilities in Python, WebAssembly, MCP, the Claude Code plugin and the JetBrains plugin
 ([surfaces](docs/SURFACES.md)), an [AI-agent guide](docs/AGENTS.md), and runnable notebooks on synthetic data: [vessel trust and training](notebooks/vessel-trust-and-training.md), [interference map and route exposure](notebooks/interference-map-route-exposure.md) and [compliance mapping and test bench](notebooks/compliance-and-test-bench.md). The full list is in the
-[changelog](CHANGELOG.md#0350---2026-10-11).
+[changelog](CHANGELOG.md#0350---2026-10-12).
 
 ## Kshana Studio
 

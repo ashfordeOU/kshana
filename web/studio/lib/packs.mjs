@@ -24,6 +24,14 @@ export async function bytesToText(bytes) {
 /// A reader over one fetch function. `load(base, entry)` resolves to the record an index
 /// entry names (or null when the host does not have it); a pack is fetched once and shared
 /// by every entry in it. `index(base)` resolves to the folder's index.json (or null).
+// What may stand in an address built from an index entry. The folder is "recorded/" or "native/" (inside an optional
+// group's folder) and the file and pack names are plain names: an index.json is data read from a file, and no name in
+// it may point a request at another folder, another origin or a scheme.
+const BASE_OK = /^(?:[a-z0-9][a-z0-9-]{0,40}\/)?(?:recorded|native)\/$/;
+const NAME_OK = /^[A-Za-z0-9][A-Za-z0-9._-]{0,120}$/;
+export const isPackBase = (b) => typeof b === "string" && BASE_OK.test(b);
+export const isPackName = (n) => typeof n === "string" && NAME_OK.test(n);
+
 export function createPackReader(fetchFn = (...a) => fetch(...a)) {
   const packs = new Map();
   const indexes = new Map();
@@ -38,11 +46,13 @@ export function createPackReader(fetchFn = (...a) => fetch(...a)) {
   }
   return {
     index(base) {
+      if (!isPackBase(base)) return Promise.resolve(null);
       if (!indexes.has(base)) indexes.set(base, json(`${base}index.json`).catch(() => null));
       return indexes.get(base);
     },
     async load(base, entry) {
-      if (!entry || entry.error || !entry.file) return null;
+      if (!entry || entry.error || !isPackBase(base) || !isPackName(entry.file)) return null;
+      if (entry.pack !== undefined && !isPackName(entry.pack)) return null;
       if (entry.pack) {
         const all = await pack(`${base}${entry.pack}`);
         return all && Object.prototype.hasOwnProperty.call(all, entry.file) ? all[entry.file] : null;

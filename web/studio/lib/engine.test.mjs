@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 // Tests for the off-main-thread engine client (engine.mjs), against a fake worker so they
 // run under plain node with no WebAssembly build. Run with `node web/engine.test.mjs`.
-import { createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, engineHas } from "./engine.mjs";
+import { classifyMessage, createEngineClient, dispatch, isCancelled, busyLabel, ENGINE_FNS, ENGINE_FNS_035, engineHas } from "./engine.mjs";
 import { engineAtLeast, versionParts } from "./engine-page.mjs";
 import assert from "node:assert/strict";
 
@@ -156,3 +156,16 @@ const api = {
 }
 
 console.log("engine.test.mjs: all assertions passed");
+
+// The worker's allow-list: only the owning page's init and well-formed calls get through.
+{
+  assert.equal(classifyMessage({ id: 1, fn: "run", args: ["x"] }), "call");
+  assert.equal(classifyMessage({ id: "a", fn: "version" }), "call");
+  assert.equal(classifyMessage({ id: 1, fn: "osnma_verify", args: [] }), "call");
+  for (const bad of [null, undefined, 5, "run", [], [1], { fn: "run" }, { id: 1 }, { id: 1, fn: "eval" }, { id: 1, fn: "constructor" }, { id: 1, fn: "__proto__" },
+    { id: 1, fn: "run", extra: 1 }, { id: {}, fn: "run" }, { id: NaN, fn: "run" }, { id: "x".repeat(65), fn: "run" }, { id: 1, fn: "run", args: "x" }, { id: 1, fn: "run", args: new Array(17).fill(0) },
+    { init: {} }, { init: "module" }, { init: null }, { init: undefined, id: 1 }, { init: 1, fn: "run", id: 1 }, Object.create({ id: 1, fn: "run" })]) {
+    assert.equal(classifyMessage(bad), null, JSON.stringify(bad));
+  }
+  assert.equal(classifyMessage({ init: new WebAssembly.Module(new Uint8Array([0, 97, 115, 109, 1, 0, 0, 0])) }), "init");
+}

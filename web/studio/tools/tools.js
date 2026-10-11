@@ -5,7 +5,7 @@
 import { getEngine } from "../lib/engine-page.mjs";
 import { PAGES, FEATURES, CLI_CARDS, AI_QUESTIONS, docsHref } from "../lib/tools35-data.mjs";
 import { zip } from "../lib/zip.mjs";
-import { packFilesJson, packProblems, parsePublicKey, verdictView, checkEpoch, benchEntries, scenarioKind, BENCH_KINDS, complianceRuns, MAX_COMPLIANCE_RUNS, toBase64, complianceView, statusInfo, osnmaView, OSNMA_STATUS, gstText, ubxLines } from "../lib/tools35.mjs";
+import { exampleFileUrl, packFilesJson, packProblems, parsePublicKey, verdictView, checkEpoch, benchEntries, scenarioKind, BENCH_KINDS, complianceRuns, MAX_COMPLIANCE_RUNS, toBase64, complianceView, statusInfo, osnmaView, OSNMA_STATUS, gstText, ubxLines } from "../lib/tools35.mjs";
 
 const $ = (id) => document.getElementById(id);
 function el(tag, attrs, ...kids) {
@@ -122,7 +122,7 @@ async function openExamplePack(bad) {
   try {
     const idx = await (await fetch("tools/examples/evidence/index.json")).json();
     const files = [];
-    for (const n of idx.files) files.push({ name: n, path: n, bytes: await fetchBytes("tools/examples/evidence/" + n) });
+    for (const n of idx.files) files.push({ name: n, path: n, bytes: await fetchBytes(exampleFileUrl("evidence", n)) });
     if (bad) { const f = files.find((x) => x.name === idx.tamper); const b = f.bytes.slice(); b[Math.floor(b.length / 2)] ^= 1; f.bytes = b; }
     setPack(files, bad ? "Example pack with one byte of epochs.json changed" : "Synthetic example pack");
     $("ev-key").value = idx.public_key;
@@ -271,7 +271,7 @@ async function showMapping(sources) {
 function wireCompliance() {
   const set = (files, label) => { cmpFiles = files; $("cp-sel").textContent = `${label}: ${files.map((f) => f.name).join(", ")}`; $("cp-out").replaceChildren(); };
   $("cp-files").addEventListener("change", async (e) => { try { set(await readFiles([...e.target.files]), "Chosen"); } catch (x) { fail($("cp-out"), x); } });
-  $("cp-demo").onclick = async () => { try { const idx = await (await fetch("tools/examples/compliance/index.json")).json(); const files = []; for (const n of idx.files) files.push({ name: n, path: n, bytes: await fetchBytes("tools/examples/compliance/" + n) }); set(files, "Synthetic example runs"); $("cp-out").replaceChildren(el("p", { class: "tl-notice" }, idx.note)); } catch (x) { fail($("cp-out"), x); } };
+  $("cp-demo").onclick = async () => { try { const idx = await (await fetch("tools/examples/compliance/index.json")).json(); const files = []; for (const n of idx.files) files.push({ name: n, path: n, bytes: await fetchBytes(exampleFileUrl("compliance", n)) }); set(files, "Synthetic example runs"); $("cp-out").replaceChildren(el("p", { class: "tl-notice" }, idx.note)); } catch (x) { fail($("cp-out"), x); } };
   $("cp-run").onclick = buildCompliance;
   $("cp-map").onclick = () => showMapping(false);
   $("cp-src").onclick = () => showMapping(true);
@@ -321,11 +321,11 @@ function wireOsnma() {
   const pick = async () => { const d = await index(); return d.examples[Number($("os-ex").value)] || d.examples[0]; };
   index().then((d) => $("os-ex").replaceChildren(...d.examples.map((x, n) => el("option", { value: String(n) }, x.file)))).catch(() => { $("os-ex").replaceChildren(el("option", {}, "none in this build")); });
   $("os-demo").onclick = async () => {
-    try { const d = await index(), x = await pick(); setOs(x.file, await fetchBytes("tools/examples/osnma/" + x.file)); $("os-keys").value = `${d.public_key}`; $("os-format").value = ""; $("os-out").replaceChildren(el("p", { class: "tl-notice" }, x.note + " The throwaway public key is filled in; press Verify to run the verifier here, or show the recorded result.")); }
+    try { const d = await index(), x = await pick(); setOs(x.file, await fetchBytes(exampleFileUrl("osnma", x.file))); $("os-keys").value = `${d.public_key}`; $("os-format").value = ""; $("os-out").replaceChildren(el("p", { class: "tl-notice" }, x.note + " The throwaway public key is filled in; press Verify to run the verifier here, or show the recorded result.")); }
     catch (x) { fail($("os-out"), x); }
   };
   $("os-rec").onclick = async () => {
-    try { const x = await pick(); const r = await fetch("tools/examples/osnma/" + x.expected); if (!r.ok) throw new Error("the recorded result did not load"); $("os-out").replaceChildren(el("p", { class: "tl-notice" }, `Recorded result of kshana osnma verify --json for ${x.file}. ${x.note}`), ...renderOsnma(osnmaView(JSON.parse(await r.text())))); }
+    try { const x = await pick(); const r = await fetch(exampleFileUrl("osnma", x.expected)); if (!r.ok) throw new Error("the recorded result did not load"); $("os-out").replaceChildren(el("p", { class: "tl-notice" }, `Recorded result of kshana osnma verify --json for ${x.file}. ${x.note}`), ...renderOsnma(osnmaView(JSON.parse(await r.text())))); }
     catch (x) { fail($("os-out"), x); }
   };
   $("os-run").onclick = runOsnma;

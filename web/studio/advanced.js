@@ -10,7 +10,7 @@
 // through textContent, or through an escaping SVG builder whose markup is parsed as XML
 // (never assigned as HTML).
 import { encodeFragment, decodeFragment, patchScalar } from "./lib/share.mjs";
-import { hasDeclaration, sanitizeSvg } from "./lib/svgsafe.mjs";
+import { parseSvgMarkup, sanitizeSvg } from "./lib/svgsafe.mjs";
 import { chartFilename, fileMeta, svgSize, svgBlob, triggerDownload, svgToPngBlob } from "./lib/chartdl.mjs";
 import { attachChartHover, parsePolylineXs } from "./lib/hover.mjs";
 import { PAGES } from "./lib/tools35-data.mjs";
@@ -26,7 +26,7 @@ const STUDIO_NAME = (document.querySelector("title")?.textContent || "").trim();
 import { clampStep, placeTooltip } from "./lib/tour.mjs";
 import { matrixCounts } from "./lib/counts.mjs";
 import { createEngineClient, isCancelled, busyLabel, errorMessage } from "./lib/engine.mjs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, scenarioPath } from "./lib/catalog.mjs";
+import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, DEFAULT_SCENARIO, entryFor, domainOf, groupedLibrary, searchScenarios, registerGroup, dirOf, isGroupDir, groupFileUrl, scenarioPath } from "./lib/catalog.mjs";
 import { numericFields, stepValue, patchField, isLogScale } from "./lib/params.mjs";
 import * as V from "./lib/views.mjs";
 import * as K from "./lib/kinds.mjs";
@@ -64,10 +64,8 @@ const icon = (id) => {
 // links or declarations) and adopt the element.
 function svgNode(markup) {
   const undrawable = () => h("p", { class: "card-note", text: "This chart could not be drawn." });
-  if (hasDeclaration(markup)) return undrawable();
-  const doc = new DOMParser().parseFromString(markup, "image/svg+xml");
-  const root = doc.documentElement;
-  if (!root || root.nodeName !== "svg") return undrawable();
+  const root = parseSvgMarkup(markup); // refuses any declaration before parsing (lib/svgsafe.mjs)
+  if (!root) return undrawable();
   sanitizeSvg(root);
   return document.importNode(root, true);
 }
@@ -130,10 +128,12 @@ async function compileEngine(url) {
   return WebAssembly.compile(await res.arrayBuffer());
 }
 
+// A same-folder fetch: the address comes from groupFileUrl (a checked folder and a fixed file name), or there is no request.
+const fetchOrNull = (url) => (url ? fetch(url) : Promise.resolve({ ok: false }));
 // The index of recorded runs in a folder ("" or an optional group's folder), fetched once.
 const recIdx = new Map();
 function recordedIndex(dir = "") {
-  if (!recIdx.has(dir)) recIdx.set(dir, fetch(`${dir}recorded/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null));
+  if (!recIdx.has(dir)) recIdx.set(dir, fetchOrNull(groupFileUrl(dir, "recorded/index.json")).then((r) => (r.ok ? r.json() : null)).catch(() => null));
   return recIdx.get(dir);
 }
 async function loadRecorded(file) {
@@ -2692,13 +2692,13 @@ async function main() {
   const getJson = (url) => fetch(url).then((r) => (r.ok ? r.json() : null)).catch(() => null);
   const dirs = [""];
   for (const dir of ((await getJson("groups.json")) || {}).groups || []) {
-    const group = await getJson(`${dir}index.json`);
+    const group = isGroupDir(dir) ? await getJson(groupFileUrl(dir, "index.json")) : null;
     if (group && registerGroup({ ...group, dir })) dirs.push(dir);
   }
   if (dirs.length > 1) { paintDomainFilter(); renderLibrary(); }
   renderStart();
   for (const dir of dirs) {
-    const idx = await fetch(`${dir}native/index.json`).then((r) => (r.ok ? r.json() : null)).catch(() => null);
+    const idx = await fetchOrNull(groupFileUrl(dir, "native/index.json")).then((r) => (r.ok ? r.json() : null)).catch(() => null);
     if (idx) S.nat.set(dir, idx);
   }
   // With no scenario named (or ?start=1) the Studio opens on its start screen; the default

@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 import assert from "node:assert/strict";
 import { readdirSync, readFileSync } from "node:fs";
-import { SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, groupedLibrary, searchScenarios, entryFor, DOMAIN_LINES, DEFAULT_SCENARIO, registerGroup, dirOf, scenarioPath } from "./catalog.mjs";
+import { isGroupDir, isScenarioFile, groupFileUrl, SCENARIOS, DOMAINS, NOT_IN_BROWSER, RECORDED_NATIVELY, groupedLibrary, searchScenarios, entryFor, DOMAIN_LINES, DEFAULT_SCENARIO, registerGroup, dirOf, scenarioPath } from "./catalog.mjs";
 
 const files = readdirSync(new URL("../scenarios/", import.meta.url)).filter((f) => f.endsWith(".toml")).sort();
 const listed = SCENARIOS.map((s) => s[0]);
@@ -62,3 +62,26 @@ assert.equal(scenarioPath("jamming-demo.toml"), "scenarios/jamming-demo.toml");
 assert.equal(scenarioPath("extra-one.toml"), `${dirOf("extra-one.toml")}extra-one.toml`);
 for (const bad of ["../index.html", "//other.example/x.toml", "https://other.example/x.toml", "scenarios/../x", "constructor", "__proto__", "", null, undefined]) assert.equal(scenarioPath(bad), null, String(bad));
 console.log("catalog.test.mjs: all assertions passed");
+
+// File content never becomes a request path: group folders and scenario names are checked first.
+{
+  for (const d of ["celeste/", "extra/", "a1-b2/"]) assert.equal(isGroupDir(d), true, d);
+  for (const d of ["", "celeste", "../", "../celeste/", "/celeste/", "https://example.com/", "//example.com/", "a/b/", "javascript:/", "a\\b/", "Celeste/", "x/ ", 5, null, undefined, "a".repeat(60) + "/"]) assert.equal(isGroupDir(d), false, String(d));
+  for (const f of ["clock-holdover.toml", "a.b-c_d.toml"]) assert.equal(isScenarioFile(f), true, f);
+  for (const f of ["../x.toml", "a/b.toml", "x.toml/../y", "https://x/y.toml", "x.json", ".hidden.toml", "", null, "x.toml\n"]) assert.equal(isScenarioFile(f), false, String(f));
+  assert.equal(groupFileUrl("", "recorded/index.json"), "recorded/index.json");
+  assert.equal(groupFileUrl("", "areas.json"), "data/areas.json");
+  assert.equal(groupFileUrl("celeste/", "areas.json"), "celeste/areas.json");
+  assert.equal(groupFileUrl("celeste/", "native/index.json"), "celeste/native/index.json");
+  assert.equal(groupFileUrl("../", "index.json"), null);
+  assert.equal(groupFileUrl("https://evil.example/", "index.json"), null);
+  assert.equal(groupFileUrl("celeste/", "../../etc/passwd"), null);
+  assert.equal(groupFileUrl("celeste/", "recorded/other.json"), null);
+  const before = SCENARIOS.length;
+  assert.equal(registerGroup({ dir: "../evil/", domain: { id: "evil", label: "Evil" }, scenarios: [["evil.toml", "E", "?"]] }), 0);
+  assert.equal(registerGroup({ dir: "https://evil.example/", domain: { id: "evil2", label: "Evil" }, scenarios: [["evil2.toml", "E", "?"]] }), 0);
+  assert.equal(registerGroup({ dir: "fine/", domain: { id: "fine", label: "Fine" }, scenarios: [["../escape.toml", "E", "?"], ["https://evil.example/x.toml", "E", "?"], ["ok-one.toml", "O", "?"]] }), 1);
+  assert.equal(SCENARIOS.length, before + 1);
+  assert.equal(SCENARIOS.some((s) => s[0].includes("/") || s[0].includes("..")), false);
+}
+console.log("catalog.test.mjs: request-path checks passed");
