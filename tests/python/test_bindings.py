@@ -704,3 +704,20 @@ def test_trust_telemetry_formats():
         kshana.trust_telemetry(_TRUST_STREAM, "xml")
     with pytest.raises(ValueError):
         kshana.trust_telemetry("", "cef")
+
+
+def test_osnma_verify_reports_like_the_command_line():
+    page = "00" * 30
+    csv = f"SVID,NumNavBits,NavBitsHEX\n02,480,{page}{page}\n03,240,{page}\n"
+    r = kshana.osnma_verify(csv, start_gst=1000)
+    assert r["input"]["pages"] == 3 and r["freshness_enforced"] is False
+    assert "not type-approved navigation equipment" in r["advisory"]
+    assert r["overall"] in ("unavailable", "failed", "authenticated")
+    r2 = kshana.osnma_verify(csv.encode(), format="vector-csv", start_gst=1000, reference_time=1002)
+    assert r2["freshness_enforced"] is True and r2["reference_time"] == 1002
+    with pytest.raises(ValueError, match="without --reference-time"):
+        kshana.osnma_verify(csv, start_gst=1000, max_time_error=10)
+    with pytest.raises(ValueError, match="needs --start-gst"):
+        kshana.osnma_verify(csv, format="vector-csv")
+    with pytest.raises(ValueError, match="p256 or p521"):
+        kshana.osnma_verify(csv, start_gst=1000, public_keys=["7:p384:00"])

@@ -15,6 +15,7 @@ fn the_top_level_usage_names_every_subcommand() {
         "receiver-trust evidence",
         "evidence <keygen|verify|attach-timestamp>",
         "trust-telemetry",
+        "osnma verify",
         "nmea-scenario",
         "interference-map",
         "route-exposure",
