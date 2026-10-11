@@ -721,3 +721,21 @@ def test_osnma_verify_reports_like_the_command_line():
         kshana.osnma_verify(csv, format="vector-csv")
     with pytest.raises(ValueError, match="p256 or p521"):
         kshana.osnma_verify(csv, start_gst=1000, public_keys=["7:p384:00"])
+
+
+@pytest.mark.parametrize(
+    "name,overall",
+    [("pages-good.txt", "authenticated"), ("pages-corrupt.txt", "failed"),
+     ("stream-good.ubx", "authenticated"), ("stream-corrupt.ubx", "failed")],
+)
+def test_osnma_verify_matches_the_shipped_expected_output(name, overall):
+    import json
+    from pathlib import Path
+
+    root = Path(__file__).resolve().parents[2] / "examples" / "osnma"
+    key = (root / "public-key.txt").read_text().strip()
+    r = kshana.osnma_verify((root / name).read_bytes(), public_keys=[key])
+    assert r["overall"] == overall
+    want = json.loads((root / "expected" / f"{name}.json").read_text())
+    r["input"]["path"] = want["input"]["path"] = None
+    assert r == want
