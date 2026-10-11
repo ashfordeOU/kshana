@@ -24,10 +24,15 @@ pub const GST_LIMIT: u32 = 4096 * super::WEEK_S;
 const OSNMA_OFFSET: usize = ODD_START + 18;
 
 #[derive(Debug, Clone, PartialEq, Eq)]
+/// Why a page could not be read.
 pub enum PageError {
+    /// The data is not valid hexadecimal.
     BadHex,
+    /// The page time is past the 4096 weeks a Galileo week number can hold.
     BadTime,
+    /// The page has the wrong number of hex digits (the count found).
     BadLength(usize),
+    /// A line of the plain page format has malformed fields.
     BadFields(String),
 }
 
@@ -50,6 +55,7 @@ impl std::error::Error for PageError {}
 /// One nominal I/NAV page pair received from one satellite.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct InavPage {
+    /// Galileo satellite id (SVID) that transmitted the page.
     pub svid: u8,
     /// GST seconds at the start of the page.
     pub gst: u32,
@@ -70,6 +76,7 @@ pub(crate) fn crc24q(bits: impl Iterator<Item = u32>) -> u32 {
 }
 
 impl InavPage {
+    /// Build a page from the 60 hex digits of its 240 even and odd page bits.
     pub fn from_hex(svid: u8, gst: u32, hex_digits: &str) -> Result<Self, PageError> {
         if gst >= GST_LIMIT {
             return Err(PageError::BadTime);

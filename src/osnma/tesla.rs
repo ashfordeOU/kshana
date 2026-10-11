@@ -6,6 +6,7 @@ use super::tables::HashFn;
 use sha2::{Digest, Sha256};
 use sha3::Sha3_256;
 
+/// Seconds in a sub-frame: the spacing of TESLA keys.
 pub const SUBFRAME_S: u32 = 30;
 /// Most one-way steps a single verification may take: bounds the work a forged, far
 /// future key can cause. One day of sub-frames is 2880; a longer gap needs a fresh KROOT.

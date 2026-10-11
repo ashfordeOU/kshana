@@ -5,6 +5,7 @@
 //! number, self or cross-authentication) or `FLX`, one `|`-separated list per MACK
 //! message of the cycle.
 
+/// The built-in table entries as (id, compact slot notation) pairs: ICD Annex C, Table 16, written in Kshana's own notation.
 pub const BUILTIN: &[(u8, &str)] = &[
     (27, "00S,00E,00E,00E,12S,00E|00S,00E,00E,04S,12S,00E"),
     (

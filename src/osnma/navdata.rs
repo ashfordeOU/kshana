@@ -13,7 +13,9 @@ pub const ADKD4_BITS: usize = 141;
 /// A byte buffer holding `bits` valid bits, right-zero-padded.
 #[derive(Debug, Clone, PartialEq, Eq)]
 pub struct BitString {
+    /// The bits, left-aligned, right-padded with zero bits.
     pub bytes: Vec<u8>,
+    /// Number of valid bits in `bytes`.
     pub bits: usize,
 }
 
