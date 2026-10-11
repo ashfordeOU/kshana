@@ -26,9 +26,9 @@ Event log · campaign-jam-spoof-holdover-integrityReal events
 
 Where every trace comes from
 
-Campaign: Engine v0.35.0, build 122cc03 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.35.0, build 01518b3 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.35.0, build 122cc03 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.35.0, build 01518b3 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 The console, the three cards and the log replay one chained run of 6 phases and 18 member runs on its 10 s grid (T+01:16:10 of mission time). The orbits are the 102 satellites of GPS, Galileo, BeiDou and GLONASS from the constellation run, each recovered as a circular two-body orbit from the engine's ground track (worst residual 0.0034°), radii compressed for display. Links are drawn to satellites above the constellation run's 10° mask (25° in the integrity-alarm phase, the campaign's reacquisition mask), dimmed by its jamming and cut in holdover. Earth: NASA Blue Marble and Black Marble. Kshana Studio replays the chained run in your browser; the engine's own report and the command reproduce each run.
 
@@ -166,7 +166,7 @@ NominalJammingSpoofingHoldoverIntegrity alarmRecovery
 
 T+00:00:00 → T+01:16:10 mission time · the chained run, not three runs side by sidePL = protection level · AL = alert limit · INS = inertial navigation system
 
-Engine v0.35.0, build 122cc03 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.35.0, build 01518b3 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 02Capabilities
 
@@ -222,7 +222,7 @@ Integrity
 
 Protection levels (PL) from receiver autonomous integrity monitoring (RAIM) and its advanced form (ARAIM), checked against the alert limit: here, the chained mission's integrity-alarm phase. Hatched bars are epochs where no protection level could be formed.
 
-Engine v0.35.0, build 122cc03 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Engine v0.35.0, build 01518b3 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
 Telecom
 
@@ -438,9 +438,9 @@ A spoofer pushes the clock at 0.1 ns/s. The RF (radio-frequency) detector alarms
 
 The jammer goes to 10 dBW and every satellite is lost. The clock free-runs from the 37.0 ns the spoofer left and crosses its 50 ns guard at T+00:35:40; the inertial error reaches 24.3 km.
 
-Campaign: Engine v0.35.0, build 122cc03 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
+Campaign: Engine v0.35.0, build 01518b3 · campaign-jam-spoof-holdover-integrity.toml · seed 20260928Open in Kshana StudioReportJSONTOML
 
-Orbits: Engine v0.35.0, build 122cc03 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Orbits: Engine v0.35.0, build 01518b3 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Open core, Kshana Pro, custom study
 ## Free for everyone. Pro when the answer has to stand up in a review.
@@ -1021,7 +1021,7 @@ Orbit view
 
 engine v0.35.0t = 0 sReal engine run, replayed
 
-Engine v0.35.0, build 122cc03 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
+Engine v0.35.0, build 01518b3 · constellation-multi-gnss-coverage.toml · deterministic, no seedOpen in Kshana StudioReportJSONTOML
 
 Orbits: re-propagated from the run's own elements and checked against the engine's ground tracks. Planets: NASA imagery.
 
@@ -2393,7 +2393,7 @@ One square per compared vector, coloured by its position error.
 
 oracle · AIAA 2006-6753 verification vectorsHow it was checked
 
-Engine v0.35.0, build 122cc03 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
+Engine v0.35.0, build 01518b3 · tests/sgp4_verification.rs · deterministic, no seedOpen in Kshana Studio: the same propagator, orbit-sgp4-gps.toml · seed 17
 
 171 of 171 RAIM (receiver autonomous integrity monitoring) threshold cases match SciPy inside the band. Seed 7.
 
@@ -2409,7 +2409,7 @@ One square per SciPy case, grouped by kernel.
 
 oracle · SciPyHow it was checked
 
-Engine v0.35.0, build 122cc03 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
+Engine v0.35.0, build 01518b3 · tests/raim_reference.rs · deterministic, no seedOpen in Kshana Studio: the kernel at work, integrity-raim.toml · seed 7
 
 Numerical (Cowell) orbit propagation against Orekit over a 24-hour arc: worst difference 0.08 m in force tiers 1 to 5.
 
@@ -2425,7 +2425,7 @@ Position difference against time, per force tier.
 
 oracle · Orekit 12.2How it was checked
 
-Engine v0.35.0, build 122cc03 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
+Engine v0.35.0, build 01518b3 · tests/numerical_cowell_propagator_reference.rs · deterministic, no seedNo Kshana Studio view: this comparison runs as an engine test.
 
 Orbits · millimetres to metresValidated
 
@@ -2439,7 +2439,7 @@ Each residual on a logarithmic scale from a millimetre to twenty metres.
 
 oracle · ESA precise ephemerides, the lunar orbiter's reconstructed trajectory, Orekit 12.2, AIAA vectorsHow it was checked
 
-Engine v0.35.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 122cc03 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
+Engine v0.35.0 · docs/AGENCY-ORBIT-VALIDATION.md residual tables, with the two propagator checks recomputed at build 01518b3 · deterministic, no seedNo Kshana Studio view: precise orbit determination runs as engine tests.
 
 Clocks · stabilityValidated
 
@@ -2453,7 +2453,7 @@ Four deviations against averaging time, with the published values as rings.
 
 oracle · NIST SP 1065How it was checked
 
-Engine v0.35.0, build 122cc03 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
+Engine v0.35.0, build 01518b3 · tests/allan_nist_sp1065_1000point.rs · deterministic, no seedOpen in Kshana Studio: the estimators on a clock, clock-holdover.toml · seed 42
 
 Holdover prediction on a measured caesium clock record: predicted over measured between 0.84 and 1.03, inside the pre-set factor of 1.5.
 
@@ -2469,7 +2469,7 @@ Measured and predicted time error against coast time, and the ratio window.
 
 oracle · measured caesium recordHow it was checked
 
-Engine v0.35.0, build 122cc03 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
+Engine v0.35.0, build 01518b3 · tests/slot_timing_cs5071a_holdout.rs · deterministic, no seedOpen in Kshana Studio: the same inversion, slot-timing-ocxo-leo.toml · deterministic
 
 02Verification matrix
 
@@ -6570,7 +6570,7 @@ Terminal · kshana v0.35.0 Recorded run
 
 ```
 
-A recorded command-line session, engine v0.35.0 (build 122cc03):
+A recorded command-line session, engine v0.35.0 (build 01518b3):
 
 - $ kshana --version: kshana 0.35.0
 
@@ -9286,7 +9286,7 @@ Every vX.Y.Z tag publishes all channels automatically, in one order — the full
 
 Channel |  Install / get |  Contents |
 
-crates.io |  cargo install kshana · kshana = "0.28" |  Rust library + CLI |
+crates.io |  cargo install kshana · kshana = "0.35" |  Rust library + CLI |
 
 crates.io |  cargo install kshana-mcp |  the MCP server |
 
@@ -10913,6 +10913,16 @@ Title: The kshana.dev site · Kshana docs
 
 web/ is the tree that GitHub Pages serves as https://kshana.dev: the pages (index.html, missions.html, capabilities.html, evidence.html, developers.html, editions.html), the documentation under docs/, and Kshana Studio under studio/ (served at https://kshana.dev/studio/), the app that runs the engine in the browser as WebAssembly (WASM) with no server-side computation and nothing uploaded. The Studio has two views of one engine: the Simple view (studio/index.html, the answer first in plain words) and the Advanced view (studio/advanced/index.html, the full dashboard), which shares the Simple view's engine, worker, modules and data through <base href="../">.
 
+Since 0.35.0 the Studio has four more views, each its own page with <base href="../">, no search indexing, and a folder of synthetic samples that its test reads:
+
+- studio/trust/: the maritime trust view, a receiver-trust score for a vessel's position stream, with a demo track in trust/demo/.
+
+- studio/training/: the crew-training debrief, replaying synthetic NMEA with a jamming, drag-off, time-spoof or replay event (training/demo/).
+
+- studio/interference/: the interference map and route exposure (interference/demo/).
+
+- studio/tools/: one page of tool cards with examples (tools/examples/, tools/samples/), including signed evidence packs (#evidence), the test-bench export (#bench), compliance mapping (#compliance), Galileo OSNMA verification (#osnma) and the AI assistant channels (#ai).
+
 ## Where the files come from#
 
 Three kinds of file live here, and they are changed in three different ways.
@@ -11019,6 +11029,8 @@ Notebook |  What you learn |
 Vessel trust and training |  generate a synthetic bridge NMEA stream with a scripted event, then score it with the vessel trust monitors (advisory, not type-approved navigation equipment) |
 
 Interference map and route exposure |  where navigation data has looked degraded, and how much of a route it touches |
+
+Compliance mapping and test-bench export |  which public-framework rows a set of runs supports evidence for (never that a framework is met), and a scenario's motion and events exported as text for a laboratory GNSS simulator (no signal is written) |
 
 Quantum vs classical GDOP |  the same constellation geometry with a quantum and a classical sensor, compared by dilution of precision |
 
@@ -24504,7 +24516,7 @@ so the figures of merit are data["quantum"]["fom"], never data["figures_of_merit
 
 - Results are reproducible: a scenario carries its seed and the engine records a scenario_hash, so the same input yields byte-identical output on the same platform (see REPRODUCIBILITY.md).
 
-- A first-class NumPy return type (RunOutput exposing np.ndarray time series directly, rather than via np.asarray(out.data()[...])) and a published Colab notebook are planned follow-ons.
+- A first-class NumPy return type (RunOutput exposing np.ndarray time series directly, rather than via np.asarray(out.data()[...])) is a planned follow-on. Runnable notebooks are in notebooks/.
 
 ## Not in Python: long-running processes#
 

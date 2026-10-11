@@ -605,8 +605,8 @@ parse, configuration, <em>and</em> runtime errors. They never raise.</li>
 <code>scenario_hash</code>, so the same input yields byte-identical output on the same platform
 (see <a href="/docs/reproducibility"><code>REPRODUCIBILITY.md</code></a>).</li>
 <li>A first-class NumPy return type (<code>RunOutput</code> exposing <code>np.ndarray</code> time series
-directly, rather than via <code>np.asarray(out.data()[...])</code>) and a published Colab
-notebook are planned follow-ons.</li>
+directly, rather than via <code>np.asarray(out.data()[...])</code>) is a planned follow-on. Runnable
+notebooks are in <a href="https://github.com/ashfordeOU/kshana/blob/main/notebooks/README.md"><code>notebooks/</code></a>.</li>
 </ul>
 <h2 id="not-in-python-long-running-processes">Not in Python: long-running processes<a class="anchor" href="#not-in-python-long-running-processes" aria-label="Link to this section">#</a></h2>
 <p><code>kshana receiver-trust live</code> (a stream process with a gate and an optional <code>--listen</code> TCP

@@ -81,7 +81,7 @@ STUDIO_DATA = {
     "data/standards-matrix-map.json": "data/standards-matrix-map.json",
     "data/verification-matrix.json": "data/verification-matrix.json",
 }
-STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md"}
+STUDIO_SKIP_NAMES = {"selfcheck.mjs", "PARITY.md", "PROGRESS.md", "RERECORD.md"}
 # Folders of review material in a Studio folder (screenshots, gate scripts, their reports).
 STUDIO_SKIP_DIRS = {"REVIEW"}
 # The Studio's pages: the Simple view, and the Advanced view (the full dashboard), which has
