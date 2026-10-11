@@ -163,6 +163,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Galileo OSNMA receiver-side navigation-data authentication",
+            capability: "osnma + `kshana osnma verify`: an open, pure-Rust receiver-side verifier for Galileo OSNMA (SIS ICD Issue 1.1, Receiver Guidelines Issue 1.3) from I/NAV pages or a u-blox UBX-RXM-SFRBX stream: Merkle-tree public keys (DSM-PKR), the ECDSA P-256/P-521 signature of the DSM-KROOT, TESLA key-chain verification (SHA-256 or SHA3-256), MACSEQ and tag verification (HMAC-SHA-256 or CMAC-AES) for ADKD 0, 4 and 12 with cross-authentication, chain end/revocation/renewal, public-key renewal and revocation, and the alert message; per-satellite status Authenticated/Failed/Unavailable with a reason for every failure or delay. Advisory: not type-approved navigation equipment and not a navigation integrity service; no anti-spoofing performance is claimed",
+            module: "osnma (page, subframe, dsm, merkle, signature, tesla, mac, maclt, navdata, verifier, ubx, cli)",
+            tests: "tests/osnma_official_vectors.rs (opt-in, KSHANA_OSNMA_VECTORS: all 18 vector sets, 186,382 tags authenticated, 0 failed, per-set floors, chains announced, ADKD 0/4/12, alert verified, authentication resuming after chain end, chain and key revocation and new public key; offline, vectors not redistributed); tests/osnma_synthetic.rs (the attack suite: spoofed far-future sub-frames, expiry and data binding, alert and don't-use, header confirmation, dummy tags, MACSEQ, key conflict, stale and replayed KROOT, CMAC-AES/SHA3-256/P-521 through the verifier); osnma unit tests (RFC 4231, RFC 4493, FIPS 197, FIPS 202, RFC 6979 and CRC-24Q known answers)",
+            oracle: "The official Galileo OSNMA test vectors published by the European GNSS Service Centre as an annex to the Receiver Guidelines (Test_vectors.zip, sha256 ef9b9afc6ef9e1c57393415cf2a1dc80c4035e7c06123907ea0bb97dd3ccf370): 18 of 18 sets, 186,382 tags authenticated, 0 failed, run offline on 2026-10-10 (evidence record in kshana-pro docs/evidence). Scope: the vectors validate the cryptographic verification (Merkle, KROOT/ECDSA, TESLA chain, MACK tags, ADKD 0/4/12) and its outcomes on the published scenarios; they use only HMAC-SHA-256, a SHA-256 chain, 128-bit keys, 40-bit tags and look-up entries 33 and 34, so CMAC-AES, SHA3-256 chains and other parameters are covered by published primitive known-answer tests and synthetic tests only. The trusted-time, data-binding, expiry and header-confirmation hardening is tested by the synthetic attack tests, not by an external oracle. Not checked: certificate revocation lists, live signals or a live receiver (the UBX word layout is checked on synthetic frames only), SHA3-256 Merkle trees, freshness without an independent time. Not an EU service",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Frequency stability characterisation",
             capability: "Allan/modified/Hadamard deviation + power-law noise ID with χ² CIs",
             module: "allan",
@@ -2591,6 +2600,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/clock_library_lag1_noise_id_allantools.rs",
             source: "allantools 2024.6",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Galileo OSNMA receiver-side navigation-data authentication",
+            basis: Reference,
+            oracle_test: "tests/osnma_official_vectors.rs",
+            source: "The official Galileo OSNMA test vectors published by the European GNSS Service Centre",
             flag: "",
         },
         OracleBasisEntry {
