@@ -54,7 +54,7 @@
 
   <div class="tl-tabs" role="tablist" aria-label="Tools" id="tl-tabs"></div>
 
-  <section class="tl-panel" id="p-evidence" role="tabpanel" aria-labelledby="t-evidence" hidden>
+  <section class="tl-panel" id="evidence" role="tabpanel" aria-labelledby="t-evidence" hidden>
     <div class="card">
       <div class="card-head"><h2 class="h3">Verify an evidence pack</h2>
         <p class="card-note">An evidence pack is a signed technical record of what the engine computed from a receiver log. It is not a legal opinion. Choose the files of a pack (<code>manifest.json</code>, <code>manifest.sig</code>, <code>log-slice.bin</code>, <code>config.json</code>, <code>epochs.json</code>, <code>summary.html</code>, and <code>timestamp.tsr</code> if there is one). Packs are made with the command line, Python or the AI assistant tools: signing needs a private key, which should not pass through a web page.</p></div>
@@ -82,7 +82,7 @@
     </div>
   </section>
 
-  <section class="tl-panel" id="p-bench" role="tabpanel" aria-labelledby="t-bench" hidden>
+  <section class="tl-panel" id="bench" role="tabpanel" aria-labelledby="t-bench" hidden>
     <div class="card">
       <div class="card-head"><h2 class="h3">Export a scenario for a laboratory simulator</h2>
         <p class="card-note">Kshana writes the vehicle motion, the NMEA, the waypoints and the event times. It writes <b>no signal</b>: nothing here synthesises or transmits a radio-frequency or baseband waveform, and an event is a labelled time interval, not a recipe for interference. Run a simulator only where that is authorised.</p></div>
@@ -96,7 +96,7 @@
     </div>
   </section>
 
-  <section class="tl-panel" id="p-compliance" role="tabpanel" aria-labelledby="t-compliance" hidden>
+  <section class="tl-panel" id="compliance" role="tabpanel" aria-labelledby="t-compliance" hidden>
     <div class="card">
       <div class="card-head"><h2 class="h3">Which public-framework rows do your runs support evidence for?</h2>
         <p class="card-note"><b>Kshana outputs support evidence for a requirement. They do not certify a product, show that it complies with a framework, or make it conformant.</b> Kshana is not a conformity-assessment body. Requirement text is paraphrased, never reproduced. Choose result files (<code>*.result.json</code>) and, optionally, the scenario files beside them (<code>*.toml</code>, matched by name).</p></div>
@@ -112,7 +112,7 @@
     </div>
   </section>
 
-  <section class="tl-panel" id="p-osnma" role="tabpanel" aria-labelledby="t-osnma" hidden>
+  <section class="tl-panel" id="osnma" role="tabpanel" aria-labelledby="t-osnma" hidden>
     <div class="card">
       <div class="card-head"><h2 class="h3">Galileo OSNMA: is the navigation data authenticated?</h2>
         <p class="card-note">Load a recorded u-blox <code>UBX-RXM-SFRBX</code> file or a plain I/NAV page file and see, per satellite and per tag, whether the data is cryptographically authenticated and why a check failed. Or open the JSON that <code>kshana osnma verify --json</code> wrote. Synthetic and official-vector samples only.</p></div>
@@ -137,11 +137,11 @@
     </div>
   </section>
 
-  <section class="tl-panel" id="p-cli" role="tabpanel" aria-labelledby="t-cli" hidden>
+  <section class="tl-panel" id="cli" role="tabpanel" aria-labelledby="t-cli" hidden>
     <div class="tl-cards" id="cli-cards"></div>
   </section>
 
-  <section class="tl-panel" id="p-ai" role="tabpanel" aria-labelledby="t-ai" hidden>
+  <section class="tl-panel" id="ai" role="tabpanel" aria-labelledby="t-ai" hidden>
     <div class="card" id="ai-card"></div>
   </section>
 </div>
