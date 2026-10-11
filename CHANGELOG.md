@@ -9,6 +9,36 @@ breaking changes are called out explicitly.
 
 ## [Unreleased]
 
+### Added
+
+- **Azimuth-dependent skyline masks** (`src/skyline.rs`, [`docs/SKYLINE.md`](docs/SKYLINE.md),
+  design note item 1): an elevation cut that depends on azimuth, the pointwise maximum of a table
+  (interpolated, wrapped at 360°), a street canyon in closed form (with optional open ends),
+  sharp-edged sectors and a terrain profile with the Earth's curvature; the effective cut is
+  `max(mask_deg, skyline)`. Four REPRESENTATIVE presets with stated provenance (`city-street`,
+  `harbour-approach`, `fjord`, `container-terminal`), overridable field by field. An optional
+  `[skyline]` section in `gnss-sim`, `jamming`, `leo-pvt` (every mode, the polar sweep included),
+  `leo-pass` and `nmea-scenario` training files, and in `orbit` and `integrity` through a new
+  ground-site user, `user_site = { lat_deg, lon_deg, height_m }` (geodetic look angles on the
+  rotating Earth; an orbiting `user` refuses a skyline). Results gain `skyline { source,
+  open_fraction, provenance }` and per-sample `masked_by_skyline`. Without the section every
+  scenario is byte-identical to 0.35.0, checked against digests from the release commit. Five
+  bundled examples: `orbit-urban-canyon-skyline`, `integrity-harbour-approach`,
+  `gnss-sim-container-terminal-skyline`, `jamming-harbour-approach-skyline`,
+  `leo-pvt-fjord-skyline`. MODELLED.
+- **Sky geometry functions** (`src/geometry.rs`, design note item 2): `sky_geometry` (visible
+  and masked satellites from a site, a time and constellation presets or given satellites; the
+  five DOPs; the ENU cofactor and covariance with one clock per system or one in common; the
+  horizontal error ellipse at one sigma and at a stated confidence), `sky_monte_carlo` (seeded
+  least-squares errors, at most 5000), `skyline_presets`, `skyline_profile` and `skyplot_svg`.
+  `orbit::dop_cov` exposes the covariance behind `orbit::dop`, which is now its reduction (the
+  validated scalars are unchanged). Surfaces: `kshana sky` and `kshana skyline`, Python and WASM
+  functions of the same names, and the MCP tool `sky_geometry` (40 tools). Every result carries
+  the MODELLED label, the error-model statement and the advisory.
+- Ledger: two MODELLED rows, *Azimuth-dependent skyline masks on Earth* and *Sky geometry
+  functions*. No external oracle yet: gnss_lib_py 1.1.0 applies a single elevation mask only; the
+  design note's Orekit `ElevationMask` comparison is the promotion path.
+
 ## [0.35.0] - 2026-10-12
 
 Trusted fix: software that scores the trust of a vessel's navigation fix from the receiver

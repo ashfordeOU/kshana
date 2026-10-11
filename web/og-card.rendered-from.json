@@ -2,5 +2,5 @@
   "note": "Binds web/og-card.png to the exact web/og-card.svg bytes it was rendered from. The card states a count that no test can read out of a PNG, so the SVG's text is pinned to the evidence ledger and this record catches a PNG left behind by an SVG edit. Regenerate both with tools/gen_og_card.py.",
   "png": "og-card.png",
   "svg": "og-card.svg",
-  "svg_sha256": "ca917413670f0be350733bcdb0b5780e4f18497ee88f0f354fc1f5d43dd036b9"
+  "svg_sha256": "2d8c0931475367a66da9d55db1d00b688e326741cd81a7314f7d0019de9f4906"
 }
