@@ -122,9 +122,30 @@ satellite from the point can make the epoch available.
    mean sphere at the stated heights (the DEM sets the horizon only); the per-satellite export site
    of `moonlight-service-volume` is not masked; the horizon is not validated against an external
    figure.
-2. Multipath and receiver hardware are not modelled.
-3. The growth of the ephemeris error over the correction latency is modelled only as the
-   line-of-sight re-projection of a frozen error.
+2. **Multipath and receiver hardware: addressed in 0.36 as an opt-in, with limits.** A `[receiver]`
+   section (`src/lunar_receiver.rs`) adds elevation-dependent multipath `a + b exp(-el / el0)` at the
+   user and the station (the DO-229 functional form; on the Moon every value is ILLUSTRATIVE), the
+   station's multipath optionally first-order Gauss-Markov over epochs, early-minus-late DLL code
+   noise from C/N0, and per-channel inter-channel biases. What remains: antenna phase-centre and
+   group-delay variation are not modelled; no lunar measurement fixes the multipath values; the
+   correction-link budget block does not include the receiver terms.
+3. **Ephemeris-error growth over the latency: addressed in 0.36 as an opt-in, with limits.**
+   `orbit_err_growth_m_per_s` adds a linear growth of the broadcast orbit error with age (range
+   1-sigma `rate x latency / sqrt(3)`), on top of the frozen-error re-projection; linear growth is
+   the first-order term of a propagated state error (checked to 1 % at 600 s against the in-tree
+   two-body propagation). What remains: no public source gives a lunar growth rate (ILLUSTRATIVE);
+   no along-track/radial structure; the correction-link budget block uses the frozen model. The K5
+   addendum (`tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md`, pre-registered alone) runs
+   K5 at 0.001, 0.01 and 0.1 m/s: it fails in every case (369.8 m, 2315 m, 22797 m against a 1.5 m
+   bar), as stated before the run.
+4. **Solution style (filter, height constraint, three satellites): an opt-in in 0.36, with limits.**
+   A `[solution]` section (`src/lunar_solution.rs`) adds a height pseudo-measurement, a
+   three-satellite minimum with it, and a static-user weighted least-squares window over epochs (a
+   shared position, a clock per epoch), which stands in for a filter. What remains: it treats the
+   epochs' errors as independent, so it averages down faster than errors correlated in time would;
+   it is static-user only; there is no dynamic filter, carrier phase or ambiguity resolution; the
+   case trace (`trace_case`) shows the snapshot arithmetic. The published-claims addendum with this
+   mode is `tests/fixtures/lunar_station_published/ADDENDUM-LRS06.md` (pre-registered alone).
 
 ## Comparison against published claims
 
