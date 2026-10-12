@@ -31,6 +31,11 @@
 //! The signal-environment monitors (power drop, jamming indications, C/N0 shape) weigh
 //! less, because on their own they say the environment is hostile, not that the fix is
 //! wrong: no one of them can leave the degraded band alone (several together can).
+//!
+//! The geometry monitor (0.36) is not in this table: its deduction has its own rule, set in
+//! the `[geometry]` table ([`super::geometry::geometry_points`]): nothing unless the geometry
+//! is poor (above its thresholds), then a ramp to a cap that geometry alone cannot take below
+//! the degraded band. It joins the score through [`score_with`].
 
 use std::collections::BTreeMap;
 
@@ -58,7 +63,8 @@ pub fn default_weight(m: Monitor) -> f64 {
         Monitor::LossOfLock => 25.0,
         Monitor::Agc => 25.0,
         Monitor::JamInd => 25.0,
-        Monitor::Geometry => 15.0,
+        // Not weighted in [score]: its deduction is set in [geometry] (`cap_points`).
+        Monitor::Geometry => 0.0,
     }
 }
 
@@ -91,8 +97,9 @@ pub fn default_class(m: Monitor) -> DeductionClass {
     }
 }
 
-/// Every monitor, for listing the effective weights.
-pub const ALL_MONITORS: [Monitor; 17] = [
+/// Every monitor with a weight in `[score]`, for listing the effective weights. The geometry
+/// monitor's deduction is set in `[geometry]` instead (see the module docs).
+pub const ALL_MONITORS: [Monitor; 16] = [
     Monitor::Cn0Drop,
     Monitor::Agc,
     Monitor::JamInd,
@@ -109,7 +116,6 @@ pub const ALL_MONITORS: [Monitor; 17] = [
     Monitor::Cn0Rise,
     Monitor::TimeConsistency,
     Monitor::Osnma,
-    Monitor::Geometry,
 ];
 
 /// The `[score]` table: band edges, the ramp of the mapping and weight overrides.
@@ -160,19 +166,12 @@ impl ScoreCfg {
         *self == ScoreCfg::default()
     }
 
-    /// The weight in force for `m`. The geometry monitor's default is clamped to
-    /// `100 - degraded_min`, so geometry alone never reaches the untrusted band under a
-    /// `[score]` table that raises `degraded_min` without naming the geometry weight (a 0.35
-    /// configuration with `degraded_min` above 85 stays valid); the clamped value is the one
-    /// recorded in `score_model.weights`.
+    /// The weight in force for `m`.
     pub fn weight(&self, m: Monitor) -> f64 {
-        match self.weights.get(&m) {
-            Some(w) => *w,
-            None if m == Monitor::Geometry => {
-                default_weight(m).min((100.0 - self.degraded_min).max(0.0))
-            }
-            None => default_weight(m),
-        }
+        self.weights
+            .get(&m)
+            .copied()
+            .unwrap_or_else(|| default_weight(m))
     }
 
     /// Every monitor's weight in force, for the record of a run.
@@ -220,19 +219,12 @@ impl ScoreCfg {
                 ));
             }
         }
-        // Geometry alone must never reach the untrusted band: at full strength it leaves
-        // 100 - weight, which must stay at or above degraded_min. The default is clamped in
-        // `weight`, so only a weight set in `[score.weights]` can break this.
-        if let Some(&g) = self
-            .weights
-            .get(&Monitor::Geometry)
-            .filter(|g| **g > 100.0 - self.degraded_min)
-        {
-            return Err(format!(
-                "score: the geometry weight ({g}) must be at most 100 - degraded_min ({}), so \
-                 geometry alone cannot reach the untrusted band",
-                100.0 - self.degraded_min
-            ));
+        if self.weights.contains_key(&Monitor::Geometry) {
+            return Err(
+                "score: the geometry deduction is set in [geometry] (cap_points, full_ratio, \
+                 floor), not in [score.weights]"
+                    .into(),
+            );
         }
         Ok(())
     }
@@ -288,6 +280,17 @@ pub fn points(weight: f64, ratio: f64, cfg: &ScoreCfg) -> f64 {
 /// Map monitor ratios to a trust score. Monitors that did not decide are absent from
 /// `ratios` and cost nothing.
 pub fn score_from_ratios(ratios: &BTreeMap<Monitor, f64>, cfg: &ScoreCfg) -> TrustScore {
+    score_with(ratios, cfg, None)
+}
+
+/// [`score_from_ratios`] with one deduction whose points follow their own rule (the geometry
+/// monitor's, [`super::geometry::geometry_points`]); it costs nothing when its points are 0,
+/// so the score is then exactly that of `ratios` alone.
+pub fn score_with(
+    ratios: &BTreeMap<Monitor, f64>,
+    cfg: &ScoreCfg,
+    extra: Option<Deduction>,
+) -> TrustScore {
     let mut deductions: Vec<Deduction> = ratios
         .iter()
         .map(|(m, r)| Deduction {
@@ -296,6 +299,7 @@ pub fn score_from_ratios(ratios: &BTreeMap<Monitor, f64>, cfg: &ScoreCfg) -> Tru
             points: points(cfg.weight(*m), *r, cfg),
             class: Some(default_class(*m)),
         })
+        .chain(extra)
         .filter(|d| d.points > 0.0)
         .collect();
     let total: f64 = deductions.iter().map(|d| d.points).sum();
@@ -402,58 +406,55 @@ mod tests {
     }
 
     #[test]
-    fn a_geometry_weight_that_could_reach_untrusted_is_refused() {
+    fn the_geometry_deduction_is_not_a_score_weight() {
+        // Its rule is in [geometry]; a 0.35 [score] table (no geometry weight) is unchanged.
         let mut cfg = ScoreCfg::default();
-        cfg.weights.insert(Monitor::Geometry, 45.0);
-        assert!(
-            cfg.validate().is_ok(),
-            "45 = 100 - 55 leaves exactly the edge"
-        );
-        cfg.weights.insert(Monitor::Geometry, 46.0);
-        assert!(cfg.validate().unwrap_err().contains("geometry weight"));
-        let mut cfg = ScoreCfg {
-            degraded_min: 85.0,
-            ..ScoreCfg::default()
-        };
-        assert!(cfg.validate().is_ok(), "15 <= 100 - 85");
-        cfg.weights.insert(Monitor::Geometry, 15.0);
-        cfg.degraded_min = 85.5;
-        assert!(cfg.validate().is_err(), "an explicit 15 > 100 - 85.5");
-    }
-
-    #[test]
-    fn a_0_35_score_table_with_a_high_degraded_min_still_validates() {
-        // A [score] table written for 0.35 names no geometry weight; with degraded_min 90 the
-        // default is clamped to 100 - 90 = 10 rather than the table being refused.
+        assert!(!cfg.effective_weights().contains_key(&Monitor::Geometry));
+        cfg.weights.insert(Monitor::Geometry, 10.0);
+        assert!(cfg.validate().unwrap_err().contains("[geometry]"));
         let cfg: ScoreCfg = toml::from_str("nominal_min = 95.0\ndegraded_min = 90.0\n").unwrap();
         assert!(cfg.validate().is_ok());
-        assert_eq!(cfg.weight(Monitor::Geometry), 10.0);
-        assert_eq!(cfg.effective_weights()[&Monitor::Geometry], 10.0);
-        let worst = score_from_ratios(
-            &[(Monitor::Geometry, f64::INFINITY)].into_iter().collect(),
-            &cfg,
-        );
-        assert_eq!((worst.score, worst.band), (90.0, TrustState::Degraded));
-        assert_eq!(ScoreCfg::default().weight(Monitor::Geometry), 15.0);
     }
 
     #[test]
-    fn geometry_alone_reaches_the_degraded_band_and_never_the_untrusted_one() {
-        // Weight 15: 7.5 points at its threshold (still nominal, 92.5), 15 at full strength
-        // (85, degraded), and no more however poor the sky (design note 4.2).
-        assert_eq!(one(Monitor::Geometry, 1.0).score, 92.5);
-        let full = one(Monitor::Geometry, 1.5);
-        assert_eq!((full.score, full.band), (85.0, TrustState::Degraded));
-        let worst = one(Monitor::Geometry, f64::INFINITY);
-        assert_eq!((worst.score, worst.band), (85.0, TrustState::Degraded));
-        assert_eq!(full.deductions[0].class, Some(DeductionClass::Geometry));
+    fn an_extra_deduction_of_zero_points_leaves_the_score_as_it_was() {
+        let cfg = ScoreCfg::default();
+        let r = BTreeMap::from([(Monitor::Kinematic, 0.9), (Monitor::Cn0Drop, 0.7)]);
+        let zero = Deduction {
+            monitor: Monitor::Geometry,
+            ratio: 1.0,
+            points: 0.0,
+            class: Some(DeductionClass::Geometry),
+        };
+        assert_eq!(
+            score_with(&r, &cfg, Some(zero)),
+            score_from_ratios(&r, &cfg)
+        );
+        let some = Deduction {
+            points: 6.0,
+            ..zero_points_geometry()
+        };
+        let s = score_with(&r, &cfg, Some(some));
+        assert_eq!(
+            s.score,
+            ((score_from_ratios(&r, &cfg).score - 6.0) * 10.0).round() / 10.0
+        );
+        assert!(s.deductions.iter().any(|d| d.monitor == Monitor::Geometry));
+    }
+
+    fn zero_points_geometry() -> Deduction {
+        Deduction {
+            monitor: Monitor::Geometry,
+            ratio: 1.2,
+            points: 0.0,
+            class: Some(DeductionClass::Geometry),
+        }
     }
 
     #[test]
     fn any_single_monitor_at_its_threshold_leaves_the_nominal_band() {
-        // Every monitor that raises an alarm; the geometry monitor raises none and is checked
-        // below.
-        for m in ALL_MONITORS.into_iter().filter(|m| *m != Monitor::Geometry) {
+        // Every monitor with a weight raises an alarm at its threshold.
+        for m in ALL_MONITORS {
             let s = one(m, 1.0);
             assert_ne!(
                 s.band,

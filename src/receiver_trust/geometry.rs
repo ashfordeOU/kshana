@@ -12,18 +12,23 @@
 //!   DOP kernel, [`crate::orbit::dop`] (VALIDATED against gnss_lib_py), or the DOP the receiver
 //!   states (NMEA GSA). A log with neither gets `unknown`, said as such: the engine does not
 //!   guess a geometry it was not given;
-//! * a vessel's score gains one monitor, [`super::monitors::Monitor::Geometry`], whose ratio is
-//!   `max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)` ([`geometry_ratio`]) with weight
-//!   15, so geometry alone can move the score from nominal into degraded and never to
-//!   untrusted. It costs nothing when the geometry is good (every ratio under the 0.5 onset)
-//!   and does not run when the geometry is unknown, so a good-geometry log scores as in 0.35;
+//! * every epoch carries a label ([`GeometryLabel`]: `good`, `fair`, `poor`, `unknown`), the
+//!   HDOP, PDOP, VDOP, satellite count and signal loss, and a note that says them in words:
+//!   always reported, never scored;
+//! * a vessel's score gains one monitor, [`super::monitors::Monitor::Geometry`], which deducts
+//!   nothing unless the geometry is poor (its ratio `max(hdop / hdop_max, pdop / pdop_max,
+//!   min_used / n_used)`, [`sky_ratio`], above 1: HDOP above 4, PDOP above 6 or fewer than 5
+//!   satellites), then ramps linearly to `cap_points` (15) at `full_ratio` (1.5), never taking
+//!   the score below `floor` (the degraded band) on its own ([`geometry_points`]; founder
+//!   decision B1, 0.36). Good and fair geometry score exactly as in 0.35, and so does unknown
+//!   geometry (the monitor does not run);
 //! * every deduction carries a class ([`super::score::DeductionClass`]): `geometry`,
 //!   `environment` or `inconsistency`. `loss-of-lock` is `geometry` when every satellite lost
 //!   against the baseline was below `low_elev_deg` at its last report ([`GeometryTracker`]),
 //!   and the geometry deduction is `inconsistency` when the HDOP the receiver states disagrees
-//!   with the one its stated sky gives by more than `reported_vs_derived_tol`: a spoofer could
-//!   fake a poor sky to buy tolerance, so the engine labels and does not forgive, and the
-//!   comparison is the guard.
+//!   with the one its stated sky gives by more than the tolerance: a spoofer could fake a poor
+//!   sky to buy tolerance, so the engine labels and does not forgive, and the comparison is
+//!   the guard. With good or fair geometry the disagreement is reported, not scored.
 //!
 //! The thresholds and where each comes from are in [`GeometryCfg`] and [`PROVENANCE`]; every
 //! run records them in the result's `geometry_model`. They are MODELLED: chosen, not fitted to
@@ -82,6 +87,25 @@ pub struct GeometryCfg {
     /// `sky-blocked` is reported, degrees. Default 180: every tracked satellite in one half
     /// of the horizon. Geometric, informational: it does not enter the ratio.
     pub azimuth_gap_deg: f64,
+    /// HDOP at or below which the geometry is labelled `good` (with `pdop_good` and
+    /// `used_good`). Default 2: half of `hdop_max`. REPRESENTATIVE: the label only, never the
+    /// score.
+    pub hdop_good: f64,
+    /// PDOP at or below which the geometry is labelled `good`. Default 3: half of `pdop_max`.
+    /// REPRESENTATIVE: the label only.
+    pub pdop_good: f64,
+    /// Fewest satellites used for a `good` label. Default 6: one more than `min_used`, so a
+    /// single loss still leaves a redundant measurement. REPRESENTATIVE: the label only.
+    pub used_good: usize,
+    /// Most points the geometry deduction can take. Default 15 (design note, 4.2).
+    pub cap_points: f64,
+    /// Ratio (of the poor thresholds) at which the deduction reaches `cap_points`. Default 1.5,
+    /// the score's own `full_ratio`: HDOP 6, PDOP 9, or 3 satellites.
+    pub full_ratio: f64,
+    /// Lowest score geometry alone can leave. Default: the score's `degraded_min` (55), so
+    /// geometry alone never reaches the untrusted band; a floor below `degraded_min` is refused.
+    /// The cap in force is `min(cap_points, 100 - floor)`.
+    pub floor: Option<f64>,
 }
 
 impl Default for GeometryCfg {
@@ -95,13 +119,19 @@ impl Default for GeometryCfg {
             reported_vs_derived_rel: 0.25,
             low_elev_deg: 15.0,
             azimuth_gap_deg: 180.0,
+            hdop_good: 2.0,
+            pdop_good: 3.0,
+            used_good: 6,
+            cap_points: 15.0,
+            full_ratio: 1.5,
+            floor: None,
         }
     }
 }
 
 /// Where each default of [`GeometryCfg`] comes from, `(key, provenance)`; recorded in every
-/// result's `geometry_model`. The geometry monitor's weight (15) is in the score model.
-pub const PROVENANCE: [(&str, &str); 9] = [
+/// result's `geometry_model`.
+pub const PROVENANCE: [(&str, &str); 12] = [
     (
         "hdop_max",
         "chosen (0.36 geometry design note, 4.2): at sigma_uere_m 1.5 m, HDOP 4 is a 2drms of \
@@ -150,11 +180,28 @@ pub const PROVENANCE: [(&str, &str); 9] = [
          informational, not in the ratio",
     ),
     (
-        "weight",
-        "15 points (score.weights.geometry): geometry alone moves the score from nominal \
-         (>= 90) into degraded and never to untrusted (< 55) (design note, 4.2); the default is \
-         clamped to 100 - degraded_min when [score] raises degraded_min above 85, and a weight \
-         set explicitly above 100 - degraded_min is refused",
+        "hdop_good / pdop_good / used_good",
+        "REPRESENTATIVE engineering choice for the label only (good, fair, poor), never the \
+         score: half of hdop_max and pdop_max (the 0.35 score's onset ratio, 0.5), and one \
+         satellite more than min_used so a single loss still leaves a redundant measurement",
+    ),
+    (
+        "cap_points",
+        "15 points (design note, 4.2): geometry alone moves the score from nominal (>= 90) into \
+         degraded and never to untrusted (< 55); nothing is deducted unless the geometry is \
+         poor (above hdop_max or pdop_max, or below min_used), so good and fair geometry score \
+         as in 0.35 (founder decision B1, 0.36)",
+    ),
+    (
+        "full_ratio",
+        "the score's own full_ratio (1.5): the deduction ramps linearly from 0 at the poor \
+         thresholds to cap_points at 1.5 times them",
+    ),
+    (
+        "floor",
+        "the score's degraded_min unless set: geometry alone never reaches the untrusted band; \
+         the cap in force is min(cap_points, 100 - floor), so a [score] table that raises \
+         degraded_min lowers the cap rather than being refused",
     ),
 ];
 
@@ -200,7 +247,63 @@ impl GeometryCfg {
                 self.azimuth_gap_deg
             ));
         }
+        if !(self.hdop_good.is_finite()
+            && self.hdop_good > 0.0
+            && self.hdop_good <= self.hdop_max
+            && self.pdop_good.is_finite()
+            && self.pdop_good > 0.0
+            && self.pdop_good <= self.pdop_max
+            && self.used_good >= self.min_used)
+        {
+            return Err(format!(
+                "geometry: need 0 < hdop_good <= hdop_max, 0 < pdop_good <= pdop_max and \
+                 used_good >= min_used (got {}, {}, {})",
+                self.hdop_good, self.pdop_good, self.used_good
+            ));
+        }
+        if !(self.cap_points.is_finite() && (0.0..=100.0).contains(&self.cap_points)) {
+            return Err(format!(
+                "geometry: cap_points must be in [0, 100] (got {})",
+                self.cap_points
+            ));
+        }
+        if !(self.full_ratio.is_finite() && self.full_ratio > 1.0) {
+            return Err(format!(
+                "geometry: full_ratio must be finite and > 1 (got {})",
+                self.full_ratio
+            ));
+        }
+        if let Some(f) = self.floor {
+            if !(f.is_finite() && f > 0.0 && f <= 100.0) {
+                return Err(format!("geometry: floor must be in (0, 100] (got {f})"));
+            }
+        }
         Ok(())
+    }
+
+    /// Check against the score's band edge: a floor below `degraded_min` would let geometry
+    /// alone reach the untrusted band.
+    pub fn validate_with(&self, degraded_min: f64) -> Result<(), String> {
+        self.validate()?;
+        match self.floor {
+            Some(f) if f < degraded_min => Err(format!(
+                "geometry: floor ({f}) is below the score's degraded_min ({degraded_min}): \
+                 geometry alone could reach the untrusted band"
+            )),
+            _ => Ok(()),
+        }
+    }
+
+    /// The lowest score geometry alone can leave.
+    pub fn floor_in_force(&self, degraded_min: f64) -> f64 {
+        self.floor.unwrap_or(degraded_min)
+    }
+
+    /// The most points the geometry deduction takes: `min(cap_points, 100 - floor)`.
+    pub fn cap_in_force(&self, degraded_min: f64) -> f64 {
+        self.cap_points
+            .min(100.0 - self.floor_in_force(degraded_min))
+            .max(0.0)
     }
 }
 
@@ -215,6 +318,36 @@ pub enum GeometryStatus {
     /// The log gives no satellite geometry for this epoch (no GSV elevations and azimuths, no
     /// GSA, no NAV-SAT, or none within the hold time): geometry unknown.
     Unknown,
+}
+
+/// The geometry lane's label, always reported and never scored: `good` within the good levels
+/// (`hdop_good`, `pdop_good`, `used_good`), `poor` beyond the thresholds the score deducts at
+/// (`hdop_max`, `pdop_max`, `min_used`), `fair` between, `unknown` when the log gives no
+/// geometry.
+#[derive(Clone, Copy, Debug, Default, PartialEq, Eq, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum GeometryLabel {
+    /// Within every good level.
+    Good,
+    /// Neither good nor poor: not scored.
+    Fair,
+    /// Beyond a threshold: the only label the score deducts for.
+    Poor,
+    /// The log gives no geometry for this epoch.
+    #[default]
+    Unknown,
+}
+
+impl GeometryLabel {
+    /// The label as written in the outputs.
+    pub fn as_str(self) -> &'static str {
+        match self {
+            GeometryLabel::Good => "good",
+            GeometryLabel::Fair => "fair",
+            GeometryLabel::Poor => "poor",
+            GeometryLabel::Unknown => "unknown",
+        }
+    }
 }
 
 /// Why the geometry of an epoch is degraded.
@@ -287,6 +420,10 @@ pub struct EpochGeometry {
     /// `environment`.
     #[serde(default)]
     pub signal_loss: bool,
+    /// `good`, `fair`, `poor` or `unknown` ([`GeometryLabel`]): always reported, never scored;
+    /// the score deducts only for `poor`.
+    #[serde(default)]
+    pub label: GeometryLabel,
 }
 
 impl EpochGeometry {
@@ -312,6 +449,7 @@ impl EpochGeometry {
             ),
             in_view: None,
             signal_loss: false,
+            label: GeometryLabel::Unknown,
         }
     }
 
@@ -321,14 +459,34 @@ impl EpochGeometry {
     }
 }
 
-/// The geometry monitor's ratio for an epoch and whether it is an inconsistency: the
-/// geometry ratio `max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)` and, where the
-/// receiver states an HDOP that disagrees with the derived one, `|stated - derived| / tol` with
-/// `tol = max(reported_vs_derived_tol, reported_vs_derived_rel * derived)`. Returns `(ratio, inconsistency)` where `ratio` is the larger and
-/// `inconsistency` says the disagreement is at or above its tolerance. `None` when the
-/// geometry is unknown (the monitor does not decide). A singular derived geometry with four or
-/// more satellites, or no satellite at all, is given the full ratio 1.5.
+/// The geometry monitor's ratio for an epoch and whether its deduction is an inconsistency:
+/// `(ratio, inconsistency)`, the ratio being [`sky_ratio`] (`max(hdop / hdop_max, pdop /
+/// pdop_max, min_used / n_used)`) and `inconsistency` saying that the HDOP the receiver states
+/// disagrees with the one derived from its stated sky by more than `tol = max(reported_vs_
+/// derived_tol, reported_vs_derived_rel * derived)`. The disagreement does not add to the
+/// ratio: nothing is deducted unless the geometry is poor (founder decision B1, 0.36), and a
+/// poor-geometry deduction whose stated HDOP the sky does not explain is classed
+/// `inconsistency` rather than forgiven as sky. With good or fair geometry the disagreement is
+/// reported (`reported_derived_mismatch` and the note) and not scored. `None` when the
+/// geometry is unknown (the monitor does not decide).
 pub fn geometry_ratio(g: &EpochGeometry, cfg: &GeometryCfg) -> Option<(f64, bool)> {
+    let r = sky_ratio(g, cfg)?;
+    let mismatch = match (g.hdop, g.reported_hdop, g.source) {
+        (Some(d), Some(s), GeometrySource::Derived) => {
+            (d - s).abs()
+                / cfg
+                    .reported_vs_derived_tol
+                    .max(cfg.reported_vs_derived_rel * d)
+        }
+        _ => 0.0,
+    };
+    Some((r, mismatch > 1.0))
+}
+
+/// The geometry's own ratio, `max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)`
+/// (1.5 for a singular derived sky or none at all); above 1 the geometry is poor. `None` when
+/// unknown.
+pub fn sky_ratio(g: &EpochGeometry, cfg: &GeometryCfg) -> Option<f64> {
     if g.status == GeometryStatus::Unknown {
         return None;
     }
@@ -346,16 +504,35 @@ pub fn geometry_ratio(g: &EpochGeometry, cfg: &GeometryCfg) -> Option<(f64, bool
         None if g.source == GeometrySource::Derived && n >= 4 => r = r.max(1.5),
         None => {}
     }
-    let mismatch = match (g.hdop, g.reported_hdop, g.source) {
-        (Some(d), Some(s), GeometrySource::Derived) => {
-            (d - s).abs()
-                / cfg
-                    .reported_vs_derived_tol
-                    .max(cfg.reported_vs_derived_rel * d)
+    Some(r)
+}
+
+/// Points the geometry deduction takes at `ratio` (from [`geometry_ratio`]): nothing up to 1
+/// (the geometry is good or fair), rising linearly
+/// to the cap in force at `full_ratio`, and flat beyond. With every ratio at or below 1 the
+/// score is exactly that of 0.35.
+pub fn geometry_points(ratio: f64, cfg: &GeometryCfg, degraded_min: f64) -> f64 {
+    let cap = cfg.cap_in_force(degraded_min);
+    if !ratio.is_finite() {
+        return if ratio > 0.0 { cap } else { 0.0 };
+    }
+    cap * ((ratio - 1.0) / (cfg.full_ratio - 1.0)).clamp(0.0, 1.0)
+}
+
+/// The label of a known assessment.
+fn label_of(g: &EpochGeometry, cfg: &GeometryCfg) -> GeometryLabel {
+    match sky_ratio(g, cfg) {
+        None => GeometryLabel::Unknown,
+        Some(r) if r > 1.0 => GeometryLabel::Poor,
+        Some(_)
+            if g.hdop.is_none_or(|h| h <= cfg.hdop_good)
+                && g.pdop.is_none_or(|p| p <= cfg.pdop_good)
+                && g.n_used.unwrap_or(0) >= cfg.used_good =>
+        {
+            GeometryLabel::Good
         }
-        _ => 0.0,
-    };
-    Some((r.max(mismatch), mismatch > 1.0))
+        Some(_) => GeometryLabel::Fair,
+    }
 }
 
 fn round_to(x: f64, step: f64) -> f64 {
@@ -403,8 +580,35 @@ fn fmt_dop(x: Option<f64>) -> String {
     x.map_or("none".into(), |v| format!("{v:.3}"))
 }
 
-/// The status, reasons and words of an assessment.
-fn finish(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
+/// The status, reasons, label and words of an assessment. The words always open with the
+/// label and the numbers ("geometry fair: HDOP 1.105, PDOP 1.831, VDOP 1.410, 8 satellites"),
+/// then say why it is poor, or that it is not scored.
+fn finish(g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
+    let mut g = finish_status(g, cfg);
+    g.label = label_of(&g, cfg);
+    let lead = format!(
+        "geometry {}: HDOP {}, PDOP {}, VDOP {}, {} satellites{}",
+        g.label.as_str(),
+        fmt_dop(g.hdop),
+        fmt_dop(g.pdop),
+        fmt_dop(g.vdop),
+        g.n_used.unwrap_or(0),
+        if g.signal_loss { ", signal loss" } else { "" }
+    );
+    let rest = match (g.note.take(), g.label) {
+        (Some(why), _) => why,
+        (None, GeometryLabel::Poor) => "poor: scored".into(),
+        (None, _) => format!(
+            "not scored (the score deducts only above HDOP {}, PDOP {} or below {} satellites)",
+            cfg.hdop_max, cfg.pdop_max, cfg.min_used
+        ),
+    };
+    g.note = Some(format!("{lead}; {rest}"));
+    g
+}
+
+/// The status, reasons and reason words of an assessment.
+fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
     let n = g.n_used.unwrap_or(0);
     let mut reasons = Vec::new();
     if n < cfg.min_used {
@@ -545,6 +749,7 @@ fn from_sky(sky: &[SatSky], age_s: f64, cfg: &GeometryCfg) -> EpochGeometry {
         note: None,
         in_view: Some(listed.len()),
         signal_loss,
+        label: GeometryLabel::Unknown,
     }
 }
 
@@ -566,6 +771,7 @@ fn from_reported(rep: &ReportedDop, age_s: f64) -> EpochGeometry {
         note: None,
         in_view: None,
         signal_loss: false,
+        label: GeometryLabel::Unknown,
     }
 }
 
@@ -681,8 +887,10 @@ pub struct GeometryModel {
     /// How long sky positions and GSA count after they arrive, s (the score's
     /// `evidence_hold_s`).
     pub hold_s: f64,
-    /// The geometry monitor's weight, points.
-    pub weight: f64,
+    /// The most points the geometry deduction takes, `min(cap_points, 100 - floor)`.
+    pub cap_in_force: f64,
+    /// The lowest score geometry alone can leave (`floor`, else the score's `degraded_min`).
+    pub floor_in_force: f64,
     /// Where each default comes from.
     pub provenance: std::collections::BTreeMap<&'static str, &'static str>,
     /// The classes and the rules that assign them, in words.
@@ -690,20 +898,24 @@ pub struct GeometryModel {
 }
 
 /// The deduction classes and their rules, in words, for the record of a run.
-pub const CLASSES: &str = "geometry: the geometry monitor, and loss-of-lock when every \
-satellite lost against the baseline was below low_elev_deg at its last report; environment: \
-cn0-drop, cn0-spread, cn0-rise, agc, jam-ind, loss-of-lock otherwise; inconsistency: every other monitor, and the \
-geometry monitor when the stated HDOP disagrees with the derived one by \
-max(reported_vs_derived_tol, reported_vs_derived_rel x derived HDOP) or more. A geometry class is a statement about the sky, not a finding \
-that no attack occurred.";
+pub const CLASSES: &str = "geometry: the geometry monitor (which deducts only when the \
+geometry is poor), and loss-of-lock when every satellite lost against the baseline was below \
+low_elev_deg at its last report; environment: cn0-drop, cn0-spread, cn0-rise, agc, jam-ind, \
+loss-of-lock otherwise, and the geometry monitor during signal loss (satellites in view not \
+tracked while their geometry is good); inconsistency: every other monitor, and the geometry \
+monitor when the stated HDOP disagrees with the derived one by more than \
+max(reported_vs_derived_tol, reported_vs_derived_rel x derived HDOP). A geometry class is a \
+statement about the sky, not a finding that no attack occurred.";
 
 impl GeometryModel {
-    /// The record of `cfg` held for `hold_s`, the geometry monitor weighing `weight`.
-    pub fn new(cfg: &GeometryCfg, hold_s: f64, weight: f64) -> Self {
+    /// The record of `cfg` held for `hold_s`, under a score whose degraded band starts at
+    /// `degraded_min`.
+    pub fn new(cfg: &GeometryCfg, hold_s: f64, degraded_min: f64) -> Self {
         Self {
             cfg: cfg.clone(),
             hold_s,
-            weight,
+            cap_in_force: cfg.cap_in_force(degraded_min),
+            floor_in_force: cfg.floor_in_force(degraded_min),
             provenance: PROVENANCE.iter().copied().collect(),
             classes: CLASSES,
         }
@@ -727,6 +939,15 @@ pub struct GeometrySummary {
     pub class_inconsistency: usize,
     /// Time of the first epoch with degraded geometry, s.
     pub first_degraded_t_s: Option<f64>,
+    /// Epochs labelled `good`.
+    #[serde(default)]
+    pub label_good: usize,
+    /// Epochs labelled `fair` (not scored).
+    #[serde(default)]
+    pub label_fair: usize,
+    /// Epochs labelled `poor` (the only label the score deducts for).
+    #[serde(default)]
+    pub label_poor: usize,
 }
 
 impl GeometrySummary {
@@ -745,6 +966,12 @@ impl GeometrySummary {
                 self.first_degraded_t_s.get_or_insert(t_s);
             }
             GeometryStatus::Unknown => self.unknown += 1,
+        }
+        match g.label {
+            GeometryLabel::Good => self.label_good += 1,
+            GeometryLabel::Fair => self.label_fair += 1,
+            GeometryLabel::Poor => self.label_poor += 1,
+            GeometryLabel::Unknown => {}
         }
         let (mut geo, mut env, mut inc) = (false, false, false);
         for c in classes {
@@ -842,10 +1069,12 @@ mod tests {
         // Four used: 5/4 = 1.25.
         (g.n_used, g.hdop, g.pdop) = (Some(4), Some(1.0), Some(2.0));
         assert_eq!(geometry_ratio(&g, &cfg), Some((1.25, false)));
-        // A derived HDOP 1.0 against a stated 3.5: mismatch 2.5 / 1.0, an inconsistency.
+        // A derived HDOP 1.0 against a stated 3.5: mismatch 2.5 / 1.0, an inconsistency, but
+        // the sky itself is good (10 / 2.0 / 1.0: ratio 0.5), so it is labelled, not scored.
         g.source = GeometrySource::Derived;
         (g.n_used, g.hdop, g.pdop, g.reported_hdop) = (Some(10), Some(1.0), Some(2.0), Some(3.5));
-        assert_eq!(geometry_ratio(&g, &cfg), Some((2.5, true)));
+        assert_eq!(geometry_ratio(&g, &cfg), Some((0.5, true)));
+        assert_eq!(geometry_points(0.5, &cfg, 55.0), 0.0);
     }
 
     #[test]
@@ -855,7 +1084,13 @@ mod tests {
         let g = tr.push(&epoch(0.0, open_sky()));
         assert_eq!(g.status, GeometryStatus::Good, "{g:?}");
         assert_eq!(g.source, GeometrySource::Derived);
-        assert_eq!((g.n_used, g.note.as_deref()), (Some(8), None));
+        assert_eq!(g.n_used, Some(8));
+        let note = g.note.as_deref().unwrap();
+        assert!(
+            note.starts_with(&format!("geometry {}: HDOP ", g.label.as_str()))
+                && note.contains(", 8 satellites; not scored"),
+            "{note}"
+        );
         assert!(geometry_ratio(&g, &cfg).unwrap().0 < 0.7);
         let east: Vec<SatSky> = open_sky()
             .into_iter()
@@ -865,9 +1100,12 @@ mod tests {
         assert_eq!(g.status, GeometryStatus::Degraded);
         assert!(g.reasons.contains(&GeometryReason::FewSatellites), "{g:?}");
         assert!(g.reasons.contains(&GeometryReason::SkyBlocked), "{g:?}");
+        assert_eq!(g.label, GeometryLabel::Poor);
         let note = g.note.unwrap();
         assert!(
-            note.starts_with("degraded by geometry: 4 satellites, fewer than 5"),
+            note.starts_with("geometry poor: HDOP ")
+                && note
+                    .contains(", 4 satellites; degraded by geometry: 4 satellites, fewer than 5"),
             "{note}"
         );
         assert!(note.ends_with("; not an inconsistency"), "{note}");
@@ -1076,6 +1314,128 @@ mod tests {
             },
         ] {
             assert!(bad.validate().is_err());
+        }
+    }
+
+    /// A reported geometry with the given numbers.
+    fn stated(n: usize, hdop: f64, pdop: f64) -> EpochGeometry {
+        let mut g = EpochGeometry::unknown();
+        (g.status, g.source) = (GeometryStatus::Good, GeometrySource::Reported);
+        (g.n_used, g.hdop, g.pdop) = (Some(n), Some(hdop), Some(pdop));
+        g
+    }
+
+    #[test]
+    fn nothing_is_deducted_up_to_the_poor_thresholds() {
+        let cfg = GeometryCfg::default();
+        // At each threshold exactly: ratio 1, fair, no points.
+        for g in [
+            stated(5, 1.0, 2.0),
+            stated(9, 4.0, 2.0),
+            stated(9, 1.0, 6.0),
+        ] {
+            let r = sky_ratio(&g, &cfg).unwrap();
+            assert_eq!(r, 1.0, "{g:?}");
+            assert_eq!(geometry_points(r, &cfg, 55.0), 0.0);
+            assert_eq!(label_of(&g, &cfg), GeometryLabel::Fair);
+        }
+        // Just beyond each: poor, and points.
+        for g in [
+            stated(4, 1.0, 2.0),
+            stated(9, 4.004, 2.0),
+            stated(9, 1.0, 6.006),
+        ] {
+            let r = sky_ratio(&g, &cfg).unwrap();
+            assert!(r > 1.0, "{g:?}");
+            assert!(geometry_points(r, &cfg, 55.0) > 0.0);
+            assert_eq!(label_of(&g, &cfg), GeometryLabel::Poor);
+        }
+        // GPS-only open sky, 8 satellites: 5 / 8 = 0.625, which the 0.35-onset ramp charged
+        // 1.875 points for; now nothing.
+        let g = stated(8, 1.1, 1.8);
+        assert_eq!(sky_ratio(&g, &cfg), Some(0.625));
+        assert_eq!(geometry_points(0.625, &cfg, 55.0), 0.0);
+        assert_eq!(label_of(&g, &cfg), GeometryLabel::Good);
+    }
+
+    #[test]
+    fn the_deduction_ramps_to_the_cap_and_stays_there() {
+        let cfg = GeometryCfg::default();
+        // Linear from 0 at ratio 1 to cap_points (15) at full_ratio (1.5).
+        assert_eq!(geometry_points(1.25, &cfg, 55.0), 7.5);
+        assert_eq!(geometry_points(1.5, &cfg, 55.0), 15.0);
+        assert_eq!(geometry_points(3.0, &cfg, 55.0), 15.0);
+        assert_eq!(geometry_points(f64::INFINITY, &cfg, 55.0), 15.0);
+        // HDOP 6 is 1.5 times hdop_max: the cap.
+        let r = sky_ratio(&stated(9, 6.0, 2.0), &cfg).unwrap();
+        assert_eq!(geometry_points(r, &cfg, 55.0), 15.0);
+    }
+
+    #[test]
+    fn the_floor_keeps_geometry_alone_out_of_the_untrusted_band() {
+        let cfg = GeometryCfg::default();
+        assert_eq!(
+            (cfg.floor_in_force(55.0), cfg.cap_in_force(55.0)),
+            (55.0, 15.0)
+        );
+        // A [score] table that raises degraded_min to 90 lowers the cap to 10, not refused.
+        assert_eq!(cfg.cap_in_force(90.0), 10.0);
+        assert_eq!(geometry_points(f64::INFINITY, &cfg, 90.0), 10.0);
+        assert!(cfg.validate_with(90.0).is_ok());
+        // A stated floor: the cap is min(cap_points, 100 - floor).
+        let high = GeometryCfg {
+            floor: Some(95.0),
+            ..GeometryCfg::default()
+        };
+        assert_eq!(high.cap_in_force(55.0), 5.0);
+        // A floor below degraded_min would let geometry alone reach untrusted: refused.
+        let low = GeometryCfg {
+            floor: Some(50.0),
+            ..GeometryCfg::default()
+        };
+        assert!(low.validate_with(55.0).unwrap_err().contains("untrusted"));
+        assert!(low.validate_with(50.0).is_ok());
+    }
+
+    #[test]
+    fn the_label_edges_follow_the_good_levels() {
+        let cfg = GeometryCfg::default();
+        assert_eq!(label_of(&stated(6, 2.0, 3.0), &cfg), GeometryLabel::Good);
+        assert_eq!(label_of(&stated(5, 2.0, 3.0), &cfg), GeometryLabel::Fair);
+        assert_eq!(label_of(&stated(6, 2.001, 3.0), &cfg), GeometryLabel::Fair);
+        assert_eq!(label_of(&stated(6, 2.0, 3.001), &cfg), GeometryLabel::Fair);
+        assert_eq!(
+            label_of(&EpochGeometry::unknown(), &cfg),
+            GeometryLabel::Unknown
+        );
+    }
+
+    #[test]
+    fn the_geometry_table_overrides_thresholds_cap_floor_and_label() {
+        let cfg: GeometryCfg = toml::from_str(
+            "hdop_max = 3.0\nhdop_good = 1.5\ncap_points = 10.0\nfull_ratio = 2.0\n\
+             floor = 70.0\nused_good = 8\n",
+        )
+        .unwrap();
+        assert!(cfg.validate_with(55.0).is_ok());
+        let g = stated(9, 3.6, 2.0);
+        let r = sky_ratio(&g, &cfg).unwrap();
+        assert!((r - 1.2).abs() < 1e-12);
+        assert_eq!(label_of(&g, &cfg), GeometryLabel::Poor);
+        // (1.2 - 1) / (2 - 1) of a cap of min(10, 100 - 70) = 10.
+        assert!((geometry_points(r, &cfg, 55.0) - 2.0).abs() < 1e-12);
+        assert_eq!(geometry_points(5.0, &cfg, 55.0), 10.0);
+        assert_eq!(label_of(&stated(9, 1.6, 2.0), &cfg), GeometryLabel::Fair);
+        assert_eq!(label_of(&stated(7, 1.0, 2.0), &cfg), GeometryLabel::Fair);
+        for bad in [
+            "hdop_good = 5.0\n",
+            "used_good = 4\n",
+            "cap_points = 101.0\n",
+            "full_ratio = 1.0\n",
+            "floor = 0.0\n",
+        ] {
+            let c: GeometryCfg = toml::from_str(bad).unwrap();
+            assert!(c.validate().is_err(), "{bad}");
         }
     }
 }

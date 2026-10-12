@@ -23,11 +23,13 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
-use super::geometry::{geometry_ratio, EpochGeometry, GeometryCfg, GeometryTracker};
+use super::geometry::{
+    geometry_points, geometry_ratio, EpochGeometry, GeometryCfg, GeometryTracker,
+};
 use super::live::LiveCfg;
 use super::maritime::{MarineEpoch, MarineMonitors, MaritimeConfig};
 use super::platform::PlatformCfg;
-use super::score::{score_from_ratios, DeductionClass, ScoreCfg, TrustScore};
+use super::score::{default_class, score_with, Deduction, DeductionClass, ScoreCfg, TrustScore};
 use super::{LogEpoch, ReportedFix, Timeline};
 use crate::allan::overlapping_adev;
 use crate::frames::{geodetic_to_ecef, Geodetic};
@@ -154,7 +156,7 @@ impl MonitorConfig {
         self.maritime.validate()?;
         self.score.validate()?;
         self.live.validate()?;
-        self.geometry.validate()?;
+        self.geometry.validate_with(self.score.degraded_min)?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -985,19 +987,21 @@ pub fn run_monitors(
                 if let Some(me) = &et.marine {
                     ratios.extend(me.ratios.iter().copied());
                 }
-                // The geometry monitor decides wherever the geometry is known.
+                // The geometry monitor decides wherever the geometry is known, by its own rule
+                // (nothing unless the geometry is poor, then a ramp to the cap in force). It is
+                // kept out of the ratios: the geometry tracker already holds the sky, holding
+                // its ratio again would double the hold, and it raises no alarm.
                 let geo_ratio = geometry_ratio(&et.geometry, &cfg.geometry);
-                if let Some((r, _)) = geo_ratio {
-                    ratios.insert(Monitor::Geometry, r);
-                }
+                let geo_deduction = geo_ratio.map(|(r, _)| Deduction {
+                    monitor: Monitor::Geometry,
+                    ratio: r,
+                    points: geometry_points(r, &cfg.geometry, cfg.score.degraded_min),
+                    class: Some(default_class(Monitor::Geometry)),
+                });
                 // A source that did not report at this epoch keeps its last statistic for
-                // the stated hold, so slow sentences (GSV) do not blink in and out. Not the
-                // geometry monitor: the geometry tracker already holds the sky, and holding its
-                // ratio again would double the hold and lose the epoch's class.
+                // the stated hold, so slow sentences (GSV) do not blink in and out.
                 for (m, r) in &ratios {
-                    if *m != Monitor::Geometry {
-                        held.insert(*m, (et.t_s, *r));
-                    }
+                    held.insert(*m, (et.t_s, *r));
                 }
                 for (m, (t, r)) in &held {
                     if !ratios.contains_key(m) && et.t_s - t <= cfg.score.evidence_hold_s {
@@ -1005,10 +1009,6 @@ pub fn run_monitors(
                     }
                 }
                 for (m, r) in &ratios {
-                    // The geometry monitor deducts; it raises no alarm (0.36 design note).
-                    if *m == Monitor::Geometry {
-                        continue;
-                    }
                     dec.insert(*m);
                     // The alarm is at the threshold itself, except that the AGC and the jamming
                     // indicator alarm strictly above it, as they do for a static platform.
@@ -1017,7 +1017,7 @@ pub fn run_monitors(
                         alarms.insert(*m);
                     }
                 }
-                let mut sc = score_from_ratios(&ratios, &cfg.score);
+                let mut sc = score_with(&ratios, &cfg.score, geo_deduction);
                 // Classes the geometry decides: a geometry deduction whose stated HDOP the
                 // stated sky does not explain is an inconsistency; a loss of lock to satellites
                 // that were low in the sky is the sky's.
