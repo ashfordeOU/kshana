@@ -200,6 +200,7 @@ pub mod lunar_perturbed;
 pub mod lunar_service;
 pub mod lunar_station;
 pub mod lunar_techniques;
+pub mod lunar_terrain;
 pub mod lunar_time;
 pub mod lunar_time_budget;
 pub mod lunar_time_budget_scenario;

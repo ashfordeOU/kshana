@@ -31,6 +31,18 @@ breaking changes are called out explicitly.
   as prominently as a hit). Every figure is dominated by the four-satellite constellation's
   unpublished element set, which is ILLUSTRATIVE, and says so. `tests/prediction_frozen.rs` guards
   it; `docs/VALIDATION.md` gains a "Pre-registered predictions" section. No ledger row.
+- **Lunar terrain horizon masks** (0.36; the first limitation of the lunar reference-station
+  study): an optional `[terrain]` section on `lunar-station-coverage` (the station and every user
+  point) and `moonlight-service-volume` (every grid point) gives each site an azimuth-dependent
+  horizon in the 0.36 skyline table format, from a stated profile labelled with its source
+  (`station_horizon`, `user_horizon`) and/or a ray march over a polar DEM (`dem_path`) along great
+  circles of the lunar sphere with exact curvature. Vendors a 0.98 MB crop of the public-domain
+  LRO LOLA `LDEM_75S_240M` south-polar DEM, 5 x 5 block-mean resampled to 1200 m
+  (`data/lunar-dem/`, with its NOTICE, SHA-256 and `scripts/make_lola_south_polar_crop.py`), and
+  the repository-only scenario `scenarios/lunar-station-coverage-terrain.toml`. Checked against
+  closed-form horizons (bare sphere, crater in a plateau, rasterised cone); MODELLED, ledger row
+  "Lunar terrain horizon masks from a stated profile or a polar DEM". Without the section every
+  document, units block included, is byte-identical.
 - **Geometry-aware trust** (0.36 geometry design note, section 4). Every `receiver-trust` epoch,
   static or vessel, batch or live, carries its satellite geometry: `good`, `degraded` (reasons
   `few-satellites`, `high-pdop`, `high-hdop`, and informational `sky-blocked`) or `unknown` where
