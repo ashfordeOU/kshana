@@ -193,6 +193,14 @@ pub fn describe(e: &EventCfg, bearing: Option<f64>) -> String {
             },
             e.delay_s.unwrap_or(0.0)
         ),
+        EventKind::NaturalDegradation => format!(
+            "natural degradation: the sky closes behind a stated skyline ({}); satellites \
+             behind it stay listed with no SNR and are not used, the C/N0 of the rest is \
+             unchanged, and nothing is counterfeit",
+            e.skyline
+                .as_ref()
+                .map_or_else(|| "none".to_string(), |k| k.source())
+        ),
     };
     match &e.label {
         Some(l) => format!("{l}: {body} {when}"),

@@ -124,6 +124,13 @@ pub struct MonitorConfig {
     /// classes.
     #[serde(skip_deserializing, skip_serializing_if = "GeometryCfg::is_default")]
     pub geometry: GeometryCfg,
+    /// An optional stated skyline, from the scenario's top-level `[skyline]` section (the
+    /// shape of every other kind's, [`crate::skyline::SkylineCfg`]). With one, each epoch's
+    /// `open_fraction` is set and `sky-blocked` comes from the skyline (a satellite listed
+    /// behind it and not tracked is lost to the sky); without one (the default) the
+    /// azimuth-gap rule decides and every output is as before.
+    #[serde(skip_deserializing, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
 }
 
 impl Default for MonitorConfig {
@@ -145,11 +152,28 @@ impl Default for MonitorConfig {
             score: ScoreCfg::default(),
             live: LiveCfg::default(),
             geometry: GeometryCfg::default(),
+            skyline: None,
         }
     }
 }
 
 impl MonitorConfig {
+    /// The stated skyline built from `[skyline]` (`None` without one); an error for a section
+    /// that does not describe one.
+    pub fn stated_skyline(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
+
+    /// The geometry tracker of a run: the `[geometry]` thresholds held for the score's
+    /// evidence hold, under the stated skyline if any.
+    pub fn geometry_tracker(&self) -> GeometryTracker {
+        GeometryTracker::with_skyline(
+            &self.geometry,
+            self.score.evidence_hold_s,
+            self.stated_skyline().ok().flatten(),
+        )
+    }
+
     /// Reject parameters no monitor can use (non-finite, non-positive, out of range).
     pub fn validate(&self) -> Result<(), String> {
         self.platform.validate()?;
@@ -157,6 +181,7 @@ impl MonitorConfig {
         self.score.validate()?;
         self.live.validate()?;
         self.geometry.validate_with(self.score.degraded_min)?;
+        self.stated_skyline()?;
         let pos = |name: &str, v: f64| -> Result<(), String> {
             if v.is_finite() && v > 0.0 {
                 Ok(())
@@ -852,7 +877,7 @@ pub fn run_monitors(
     let mut epochs = Vec::with_capacity(slots.len());
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
     let mut held: BTreeMap<Monitor, (f64, f64)> = BTreeMap::new();
-    let mut geo = GeometryTracker::new(&cfg.geometry, cfg.score.evidence_hold_s);
+    let mut geo = cfg.geometry_tracker();
     // Satellites with a calibration baseline: a loss of lock is a loss of some of these.
     let baseline_sats: BTreeSet<String> = key_median.keys().map(|(sat, _)| sat.clone()).collect();
     // Whether the satellites lost at the last epoch that reported C/N0 were all low in the sky.
