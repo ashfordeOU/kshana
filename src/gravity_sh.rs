@@ -538,23 +538,24 @@ impl SphericalHarmonicField {
             let wr = (m as f64 + 1.0) * w;
             let (mut rc, mut rs) = (wr * col[0][2], wr * col[0][3]);
             let (mut dc, mut ds) = (0.0, 0.0);
-            for (k, e) in col.iter().enumerate().skip(1) {
-                let n = m + k;
+            let mut np1 = m as f64 + 1.0; // n + 1
+            for (e, &qp) in col[1..].iter().zip(&qpow[m + 1..]) {
                 let (alpha, beta) = (e[0], e[1]);
                 let qn = alpha * t * q1 - beta * q2;
                 q2 = q1;
                 q1 = qn;
-                let w = qpow[n] * qn;
+                let w = qp * qn;
                 ac += w * e[2];
                 as_ += w * e[3];
                 if grad {
+                    np1 += 1.0;
                     let dn = alpha * (q2 + t * d1) - beta * d2;
                     d2 = d1;
                     d1 = dn;
-                    let wr = (n as f64 + 1.0) * w;
+                    let wr = np1 * w;
                     rc += wr * e[2];
                     rs += wr * e[3];
-                    let wd = qpow[n] * dn;
+                    let wd = qp * dn;
                     dc += wd * e[2];
                     ds += wd * e[3];
                 }
