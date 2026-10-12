@@ -20,12 +20,15 @@ breaking changes are called out explicitly.
   `[skyline]` section in `gnss-sim`, `jamming`, `leo-pvt` (every mode, the polar sweep included),
   `leo-pass` and `nmea-scenario` training files, and in `orbit` and `integrity` through a new
   ground-site user, `user_site = { lat_deg, lon_deg, height_m }` (geodetic look angles on the
-  rotating Earth; an orbiting `user` refuses a skyline). Results gain `skyline { source,
+  rotating Earth, with the geodetic up for the ARAIM horizontal and vertical split; an
+  orbiting `user` refuses a skyline). Results gain `skyline { source,
   open_fraction, provenance }` and per-sample `masked_by_skyline`. Without the section every
-  scenario is byte-identical to 0.35.0, checked against digests from the release commit. Five
+  scenario is byte-identical to 0.35.0, checked against digests from the release commit. Six
   bundled examples: `orbit-urban-canyon-skyline`, `integrity-harbour-approach`,
   `gnss-sim-container-terminal-skyline`, `jamming-harbour-approach-skyline`,
-  `leo-pvt-fjord-skyline`. MODELLED.
+  `leo-pvt-fjord-skyline` and the campaign `leo-vertical-autonomous-vehicle-skyline` (the
+  autonomous-vehicle canyon as a flat cut and as a street; the existing campaign is
+  unchanged). MODELLED.
 - **Sky geometry functions** (`src/geometry.rs`, design note item 2): `sky_geometry` (visible
   and masked satellites from a site, a time and constellation presets or given satellites; the
   five DOPs; the ENU cofactor and covariance with one clock per system or one in common; the

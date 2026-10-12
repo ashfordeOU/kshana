@@ -345,6 +345,7 @@ stale.
 | `leo-timing-utc.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
 | `leo-vertical-5g-network-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-asset-tracking-iot.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-autonomous-vehicle-skyline.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-autonomous-vehicle.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-critical-infrastructure-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-polar-arctic.toml` | `campaign` | yes | yes | yes | yes | no [4] |
