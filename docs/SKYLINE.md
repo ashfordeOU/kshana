@@ -8,9 +8,11 @@ and a skyline into the visible set, the dilution of precision (DOP), the geometr
 horizontal error ellipse, a Monte Carlo cloud and a skyplot. The design is
 `docs/design/2026-10-12-geometry-and-skyline-design.md` (items 1 and 2).
 
-Evidence tier: **MODELLED**. A skyline removes line-of-sight satellites and nothing more. The
-presets are REPRESENTATIVE geometries, not surveys. The single-clock DOP arithmetic is the kernel
-validated against gnss_lib_py (`tests/dop_reference.rs`); see [Evidence](#evidence) for the rest.
+Evidence: the masked visibility decision (geodetic look angles, the table mask, the visible set
+and its DOP) is **VALIDATED** against Orekit 12.2 and gnss_lib_py 1.0.4 in a pre-registered
+comparison; the canyon, sector and terrain reductions, the presets and the sky-geometry functions
+are **MODELLED** ([Evidence](#evidence)). A skyline removes line-of-sight satellites and nothing
+more. The presets are REPRESENTATIVE geometries, not surveys.
 
 ## The skyline
 
@@ -184,19 +186,18 @@ operator remains responsible for the navigation of the vessel.*
 
 ## Evidence
 
-Both ledger rows are **MODELLED** (`docs/VERIFICATION-MATRIX.md`):
+Four ledger rows (`docs/VERIFICATION-MATRIX.md`), as the design note scopes them:
 
-- *Azimuth-dependent skyline masks on Earth*: the canyon, table, sector and terrain reductions are
-  checked against hand-computed values; the absence of a section is checked byte for byte against
-  the 0.35.0 outputs (agreement with the engine's own earlier output, which shows backward
-  compatibility and validates nothing). The design note's oracle is Orekit `ElevationMask` with a
-  `TopocentricFrame`, pre-registered; the row becomes VALIDATED only if that comparison passes.
-  gnss_lib_py 1.1.0 applies a single elevation mask only, so it cannot check an azimuth mask.
-- *Sky geometry functions*: the single-clock DOP factors rest on the gnss_lib_py-validated kernel;
-  the functions' own checks (they reproduce `orbit::dop` and `dop_cov`, the ellipse an analytic
-  2 × 2 case, ECEF and azimuth/elevation inputs agree, the seeded cloud's RMS and 95 %
-  containment match the geometry) are internal. The design note's candidate row for the ellipse
-  (numpy `linalg.eigh`, standard P2) is open.
+| Row | Status | Oracle |
+|---|---|---|
+| Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask | **VALIDATED** | Orekit 12.2 (`TopocentricFrame` look angles, `ElevationMask`) with gnss_lib_py 1.0.4 (`get_dop` and the DOP matrix), pre-registered in `xval/orekit-skyline/PREREGISTRATION.md` (commit e4b9d912) before either was run: 1173 look angles at six sites and four epochs, six tables, 142 visible sets; worst elevation 1.3e-13°, azimuth 2.3e-13°, mask 1.1e-12° against 1e-9°; identical visible sets, none in the boundary band; DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9. Scope: table masks, geodetic look angles, the masked set and its common-clock DOP and cofactor. |
+| Street-canyon, sector and terrain reductions to a table | MODELLED | hand-computed values; the comparison above reads their tables as inputs and does not check them |
+| Skyline presets | MODELLED | none: chosen, stated dimensions (checked only against themselves) |
+| Sky geometry functions | MODELLED | the single-clock DOP rests on the validated kernel; the per-system clocks, the ellipse and the Monte Carlo cloud are checked internally; the note's numpy `linalg.eigh` comparison of the ellipse is open |
+
+The absence of a `[skyline]` section is checked byte for byte against the 0.35.0 outputs, which
+shows backward compatibility and validates nothing. gnss_lib_py applies a single elevation mask
+only, so it is the DOP oracle here, not the mask oracle.
 
 What a skyline does not model: diffraction over a wall edge, reflections and non-line-of-sight
 signals a real receiver may still track (they are dropped, not degraded), partial transparency (a

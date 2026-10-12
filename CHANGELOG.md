@@ -35,9 +35,13 @@ breaking changes are called out explicitly.
   validated scalars are unchanged). Surfaces: `kshana sky` and `kshana skyline`, Python and WASM
   functions of the same names, and the MCP tool `sky_geometry` (40 tools). Every result carries
   the MODELLED label, the error-model statement and the advisory.
-- Ledger: two MODELLED rows, *Azimuth-dependent skyline masks on Earth* and *Sky geometry
-  functions*. No external oracle yet: gnss_lib_py 1.1.0 applies a single elevation mask only; the
-  design note's Orekit `ElevationMask` comparison is the promotion path.
+- Ledger: four rows (267 rows: 133 Validated, 130 Modelled, 4 Partner). **VALIDATED**:
+  *Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask*,
+  against Orekit 12.2 (`TopocentricFrame`, `ElevationMask`) and gnss_lib_py 1.0.4 (`get_dop`),
+  pre-registered before either was run (`xval/orekit-skyline/PREREGISTRATION.md`); worst
+  look-angle and mask differences 1.1e-12° against 1e-9°, identical visible sets, DOP 3.3e-13
+  relative. **MODELLED**: the canyon, sector and terrain reductions; the presets; the sky geometry
+  functions (per-system clocks, ellipse, Monte Carlo).
 
 ## [0.35.0] - 2026-10-12
 
