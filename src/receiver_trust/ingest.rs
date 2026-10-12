@@ -1243,6 +1243,7 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
         .ok()
         .filter(|n| (1..=64).contains(n));
     let number = f[2].trim().parse::<u32>().ok();
+    let header_ok = count.is_some() && number.is_some_and(|k| (1..=64).contains(&k));
     if let (Some(n), Some(k)) = (count, number.filter(|k| (1..=64).contains(k))) {
         let sets = match st.cur_key {
             Some(key) => &mut st.map.entry(key).or_default().gsv_sets,
@@ -1263,7 +1264,9 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
         };
         let el = f.get(base + 1).and_then(|s| num(s));
         let az = f.get(base + 2).and_then(|s| num(s));
-        if let (Some(el), Some(az)) = (el, az) {
+        // A satellite of a GSV whose set header does not parse cannot be checked for a
+        // complete set, so it does not join the sky (its C/N0 is read as before).
+        if let (Some(el), Some(az), true) = (el, az, header_ok) {
             let tracked = snr.is_some_and(|v| v > 0.0);
             match st.cur_key {
                 Some(k) => st
@@ -1307,6 +1310,10 @@ fn nmea_gsa(st: &mut NmeaState, f: &[&str]) -> Sentence {
     let mode = f[2].trim();
     let used = f[3..15].iter().filter(|x| !x.trim().is_empty()).count() as u32;
     let dop = |i: usize| num(f[i]).filter(|v| *v > 0.0);
+    if mode == "1" {
+        // No fix (GSA mode 1): nothing is used and there is no DOP to report.
+        return Sentence::Used;
+    }
     let acc = st.map.entry(k).or_default();
     let d = acc.dop.get_or_insert(ReportedDop {
         pdop: None,
@@ -1314,10 +1321,6 @@ fn nmea_gsa(st: &mut NmeaState, f: &[&str]) -> Sentence {
         vdop: None,
         n_used: 0,
     });
-    if mode == "1" {
-        // No fix: nothing is used and there is no DOP to report.
-        return Sentence::Used;
-    }
     d.n_used += used;
     if let Some(v) = dop(15) {
         d.pdop = Some(v);
@@ -2012,6 +2015,22 @@ Status,1,2,3
         let tl = read_nmea(&short).expect("reads");
         assert_eq!(tl.skipped_records, 0);
         assert_eq!(tl.epochs[0].reported_dop, None);
+        // GSA mode 1 (no fix) gives no DOP.
+        let nofix = [
+            nmea("GPGGA,091203.00,6918.0000,N,01600.0000,E,1,08,0.9,100.0,M,30.0,M,,"),
+            nmea("GPGSA,A,1,,,,,,,,,,,,,99.9,99.9,99.9"),
+        ]
+        .join("\n");
+        assert_eq!(read_nmea(&nofix).unwrap().epochs[0].reported_dop, None);
+        // A GSV whose set header does not parse adds no sky (its C/N0 is read as before).
+        let badhdr = [
+            nmea("GPGGA,091203.00,6918.0000,N,01600.0000,E,1,08,0.9,100.0,M,30.0,M,,"),
+            nmea("GPGSV,x,1,01,05,45,120,42"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&badhdr).unwrap();
+        assert!(tl.epochs[0].sky.is_empty());
+        assert_eq!(tl.epochs[0].cn0.len(), 1);
     }
 
     #[test]

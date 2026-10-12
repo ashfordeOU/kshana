@@ -248,6 +248,76 @@ fn a_stated_hdop_the_masked_sky_does_not_explain_is_an_inconsistency() {
 }
 
 #[test]
+fn total_signal_loss_is_the_environment_not_the_sky() {
+    // Every GSV SNR emptied from 600 s: the satellites stay listed in view but nothing is
+    // tracked. The geometry deduction is environment, with a note saying why.
+    let all_lost: String = {
+        let mut out = String::new();
+        let mut t = 0.0;
+        let mut t0: Option<f64> = None;
+        for line in demo().lines() {
+            let body = line.trim_start_matches('$').split('*').next().unwrap();
+            let f: Vec<&str> = body.split(',').collect();
+            if f[0].ends_with("GGA") {
+                let s = f[1];
+                let secs = s[0..2].parse::<f64>().unwrap() * 3600.0
+                    + s[2..4].parse::<f64>().unwrap() * 60.0
+                    + s[4..].parse::<f64>().unwrap();
+                t = secs - *t0.get_or_insert(secs);
+            }
+            if f[0].ends_with("GSV") && t >= 600.0 {
+                let mut g: Vec<String> = f.iter().map(|x| x.to_string()).collect();
+                let mut i = 4;
+                while i + 3 < g.len() {
+                    g[i + 3].clear();
+                    i += 4;
+                }
+                let b = g.join(",");
+                out.push_str(&format!("${b}*{}\n", checksum(&b)));
+            } else {
+                out.push_str(line);
+                out.push('\n');
+            }
+        }
+        out
+    };
+    let r = run(&all_lost);
+    let w = window(&r);
+    assert!(!w.is_empty());
+    for e in &w {
+        assert!(e.geometry.signal_loss, "{:?}", e.geometry);
+        assert!(e
+            .geometry
+            .note
+            .as_deref()
+            .unwrap()
+            .contains("signal environment, not geometry"));
+        assert_eq!(
+            class_of(e, Monitor::Geometry),
+            Some(DeductionClass::Environment),
+            "{e:?}"
+        );
+    }
+}
+
+#[test]
+fn a_drag_off_during_poor_geometry_still_reaches_untrusted_as_an_inconsistency() {
+    // The western sky masked from 600 s and the demo's drag-off from 1500 s.
+    let r = run(&masked(600.0, 0.0));
+    let late: Vec<&EpochTrust> = r.epochs.iter().filter(|e| e.t_s >= 2500.0).collect();
+    assert!(!late.is_empty());
+    assert!(late
+        .iter()
+        .all(|e| e.geometry.status == GeometryStatus::Degraded));
+    assert!(late.iter().any(|e| e.state == TrustState::Untrusted));
+    for e in late.iter().filter(|e| e.state == TrustState::Untrusted) {
+        assert!(deductions(e)
+            .iter()
+            .any(|d| d.class == Some(DeductionClass::Inconsistency)));
+    }
+}
+
+#[test]
 fn the_drag_off_is_inconsistency_with_good_geometry() {
     let r = run(&demo());
     assert_eq!(

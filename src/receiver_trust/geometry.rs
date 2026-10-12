@@ -276,6 +276,15 @@ pub struct EpochGeometry {
     /// The reason in words, for example "degraded by geometry: HDOP 5.200 above 4 (derived
     /// from 7 logged satellites); not an inconsistency". `null` for good geometry.
     pub note: Option<String>,
+    /// Satellites the receiver lists at or above `low_elev_deg`, tracked or not (derived only).
+    #[serde(default)]
+    pub in_view: Option<usize>,
+    /// Satellites are listed in view but not tracked, the sky they make is good, and they are
+    /// not confined to one half of the horizon (or nothing is tracked at all): the loss is the
+    /// signal environment, not the geometry. The geometry deduction is then classed
+    /// `environment`.
+    #[serde(default)]
+    pub signal_loss: bool,
 }
 
 impl EpochGeometry {
@@ -299,6 +308,8 @@ impl EpochGeometry {
                  NAV-SAT) and no DOP (GSA) for this epoch"
                     .into(),
             ),
+            in_view: None,
+            signal_loss: false,
         }
     }
 
@@ -342,7 +353,7 @@ pub fn geometry_ratio(g: &EpochGeometry, cfg: &GeometryCfg) -> Option<(f64, bool
         }
         _ => 0.0,
     };
-    Some((r.max(mismatch), mismatch >= 1.0))
+    Some((r.max(mismatch), mismatch > 1.0))
 }
 
 fn round_to(x: f64, step: f64) -> f64 {
@@ -413,6 +424,37 @@ fn finish(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
         GeometrySource::Derived => format!("derived from {n} logged satellites"),
         _ => format!("as the receiver reports it, {n} satellites used"),
     };
+    g.signal_loss = g.signal_loss && !reasons.is_empty();
+    let mismatch_note = |g: &EpochGeometry| {
+        format!(
+            "the stated HDOP {} disagrees with the HDOP {} derived from the stated sky beyond \
+             the tolerance: classed an inconsistency",
+            fmt_dop(g.reported_hdop),
+            fmt_dop(g.hdop)
+        )
+    };
+    g.note = if g.reported_derived_mismatch {
+        Some(mismatch_note(&g))
+    } else if g.signal_loss {
+        Some(format!(
+            "satellites in view but not tracked ({} of {} at or above {} deg): signal \
+             environment, not geometry",
+            g.in_view.unwrap_or(0).saturating_sub(n),
+            g.in_view.unwrap_or(0),
+            cfg.low_elev_deg
+        ))
+    } else {
+        None
+    };
+    if g.note.is_some() {
+        g.status = if reasons.is_empty() {
+            GeometryStatus::Good
+        } else {
+            GeometryStatus::Degraded
+        };
+        g.reasons = reasons;
+        return g;
+    }
     g.note = (!reasons.is_empty()).then(|| {
         let mut parts = Vec::new();
         if reasons.contains(&GeometryReason::FewSatellites) {
@@ -430,12 +472,10 @@ fn finish(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
                 g.max_azimuth_gap_deg.unwrap_or(0.0)
             ));
         }
-        let tail = if g.reported_derived_mismatch {
-            "; the stated HDOP disagrees with the stated sky, so this is classed an inconsistency"
-        } else {
-            "; not an inconsistency"
-        };
-        format!("degraded by geometry: {} ({from}){tail}", parts.join(", "))
+        format!(
+            "degraded by geometry: {} ({from}); not an inconsistency",
+            parts.join(", ")
+        )
     });
     g.status = if reasons.is_empty() {
         GeometryStatus::Good
@@ -447,12 +487,34 @@ fn finish(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
 }
 
 /// The derived geometry of one epoch's sky.
-fn from_sky(sky: &[SatSky], age_s: f64) -> EpochGeometry {
+fn from_sky(sky: &[SatSky], age_s: f64, cfg: &GeometryCfg) -> EpochGeometry {
     let used: Vec<&SatSky> = sky
         .iter()
         .filter(|s| s.tracked && s.elev_deg >= 0.0)
         .collect();
     let n = used.len();
+    // Listed at or above low_elev_deg, tracked or not: the sky the receiver says it has.
+    let listed: Vec<&SatSky> = sky
+        .iter()
+        .filter(|s| s.elev_deg >= cfg.low_elev_deg)
+        .collect();
+    let untracked: Vec<f64> = listed
+        .iter()
+        .filter(|s| !s.tracked)
+        .map(|s| s.azim_deg)
+        .collect();
+    let in_view_dop = dop_from_sky(
+        &listed
+            .iter()
+            .map(|s| (s.elev_deg, s.azim_deg))
+            .collect::<Vec<_>>(),
+    );
+    let in_view_good = listed.len() >= cfg.min_used
+        && in_view_dop.is_some_and(|d| d.pdop <= cfg.pdop_max && d.hdop <= cfg.hdop_max);
+    // An obstruction on one side leaves its untracked satellites in one half of the horizon;
+    // a loss with nothing tracked, or spread round the sky, is the signal environment.
+    let spread = max_azimuth_gap_deg(&untracked).is_some_and(|g| g < cfg.azimuth_gap_deg);
+    let signal_loss = !untracked.is_empty() && in_view_good && (n == 0 || spread);
     let d = dop_from_sky(
         &used
             .iter()
@@ -479,6 +541,8 @@ fn from_sky(sky: &[SatSky], age_s: f64) -> EpochGeometry {
         reported_hdop: None,
         reported_derived_mismatch: false,
         note: None,
+        in_view: Some(listed.len()),
+        signal_loss,
     }
 }
 
@@ -498,7 +562,20 @@ fn from_reported(rep: &ReportedDop, age_s: f64) -> EpochGeometry {
         reported_hdop: rep.hdop,
         reported_derived_mismatch: false,
         note: None,
+        in_view: None,
+        signal_loss: false,
     }
+}
+
+/// A DOP of 99 or more is the no-fix sentinel receivers send (99.9, 99.99), not a geometry.
+pub const NO_FIX_DOP: f64 = 99.0;
+
+/// Whether a GSA carries a fix: satellites used, and no DOP at the no-fix sentinel.
+fn is_fix(r: &ReportedDop) -> bool {
+    r.n_used > 0
+        && [r.pdop, r.hdop, r.vdop]
+            .iter()
+            .all(|d| d.is_none_or(|v| v < NO_FIX_DOP))
 }
 
 /// Follows a log epoch by epoch and assesses each epoch's geometry from the latest sky
@@ -553,7 +630,7 @@ impl GeometryTracker {
             }
             self.sky = Some((e.t_s, e.sky.clone()));
         }
-        if let Some(r) = e.reported_dop {
+        if let Some(r) = e.reported_dop.filter(is_fix) {
             self.reported = Some((e.t_s, r));
         }
         let fresh = |t0: f64| {
@@ -566,10 +643,10 @@ impl GeometryTracker {
             .as_ref()
             .and_then(|(t0, r)| fresh(*t0).and(r.hdop))
             .or_else(|| e.marine.as_ref().and_then(|m| m.hdop))
-            .filter(|h| h.is_finite() && *h > 0.0);
+            .filter(|h| h.is_finite() && *h > 0.0 && *h < NO_FIX_DOP);
         if let Some((t0, sky)) = &self.sky {
             if let Some(age) = fresh(*t0) {
-                let mut g = from_sky(sky, age);
+                let mut g = from_sky(sky, age, &self.cfg);
                 g.reported_hdop = stated;
                 g.reported_derived_mismatch = match (g.hdop, stated) {
                     (Some(d), Some(s)) => {
@@ -894,6 +971,89 @@ mod tests {
         let d = open(1.0).hdop.unwrap();
         assert!(!open(d + 0.9).reported_derived_mismatch);
         assert!(open(d + 1.1).reported_derived_mismatch);
+    }
+
+    #[test]
+    fn satellites_in_view_but_not_tracked_are_the_signal_not_the_sky() {
+        let cfg = GeometryCfg::default();
+        // Every satellite listed, none tracked (every SNR empty): total signal loss.
+        let mut sky = open_sky();
+        sky.iter_mut().for_each(|s| s.tracked = false);
+        let g = GeometryTracker::new(&cfg, 10.0).push(&epoch(0.0, sky));
+        assert_eq!(
+            (g.n_used, g.in_view),
+            (Some(0), Some(7)),
+            "G07 at 7 deg is below 15"
+        );
+        assert!(g.signal_loss, "{g:?}");
+        assert!(g
+            .note
+            .as_deref()
+            .unwrap()
+            .contains("signal environment, not geometry"));
+        // Half the sky untracked in a spread pattern (every other satellite): signal.
+        let mut sky = open_sky();
+        sky.iter_mut().step_by(2).for_each(|s| s.tracked = false);
+        let g = GeometryTracker::new(&cfg, 10.0).push(&epoch(0.0, sky));
+        assert!(g.signal_loss || g.status == GeometryStatus::Good, "{g:?}");
+        // The western half untracked (a wall): the untracked satellites sit in one half, so
+        // it stays geometry.
+        let mut sky = open_sky();
+        sky.iter_mut()
+            .filter(|s| s.azim_deg > 200.0)
+            .for_each(|s| s.tracked = false);
+        let g = GeometryTracker::new(&cfg, 10.0).push(&epoch(0.0, sky));
+        assert!(!g.signal_loss, "{g:?}");
+    }
+
+    #[test]
+    fn a_mismatch_always_carries_a_note() {
+        let mut e = epoch(0.0, open_sky());
+        e.marine = Some(super::super::MarineObs {
+            hdop: Some(3.5),
+            ..Default::default()
+        });
+        let g = GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e);
+        assert_eq!(g.status, GeometryStatus::Good);
+        assert!(g.reported_derived_mismatch);
+        assert!(g.note.unwrap().contains("classed an inconsistency"));
+    }
+
+    #[test]
+    fn no_fix_sentinels_are_ignored() {
+        // GGA HDOP 99.9 is not a stated HDOP.
+        let mut e = epoch(0.0, open_sky());
+        e.marine = Some(super::super::MarineObs {
+            hdop: Some(99.9),
+            ..Default::default()
+        });
+        let g = GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e);
+        assert_eq!(
+            (g.reported_hdop, g.reported_derived_mismatch),
+            (None, false)
+        );
+        // A GSA with PDOP 99.99 or nothing used is no geometry: unknown, not degraded.
+        for r in [
+            ReportedDop {
+                pdop: Some(99.99),
+                hdop: Some(99.99),
+                vdop: Some(99.99),
+                n_used: 3,
+            },
+            ReportedDop {
+                pdop: None,
+                hdop: None,
+                vdop: None,
+                n_used: 0,
+            },
+        ] {
+            let e = LogEpoch {
+                reported_dop: Some(r),
+                ..LogEpoch::default()
+            };
+            let g = GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e);
+            assert_eq!(g.status, GeometryStatus::Unknown, "{r:?}");
+        }
     }
 
     #[test]

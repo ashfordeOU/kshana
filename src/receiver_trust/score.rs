@@ -213,6 +213,16 @@ impl ScoreCfg {
                 ));
             }
         }
+        // Geometry alone must never reach the untrusted band: at full strength it leaves
+        // 100 - weight, which must stay at or above degraded_min.
+        let g = self.weight(Monitor::Geometry);
+        if g > 100.0 - self.degraded_min {
+            return Err(format!(
+                "score: the geometry weight ({g}) must be at most 100 - degraded_min ({}), so \
+                 geometry alone cannot reach the untrusted band",
+                100.0 - self.degraded_min
+            ));
+        }
         Ok(())
     }
 
@@ -378,6 +388,25 @@ mod tests {
             let s = score_from_ratios(&r, &cfg);
             assert_eq!((s.score, s.band), (100.0, TrustState::Nominal));
         }
+    }
+
+    #[test]
+    fn a_geometry_weight_that_could_reach_untrusted_is_refused() {
+        let mut cfg = ScoreCfg::default();
+        cfg.weights.insert(Monitor::Geometry, 45.0);
+        assert!(
+            cfg.validate().is_ok(),
+            "45 = 100 - 55 leaves exactly the edge"
+        );
+        cfg.weights.insert(Monitor::Geometry, 46.0);
+        assert!(cfg.validate().unwrap_err().contains("geometry weight"));
+        let mut cfg = ScoreCfg {
+            degraded_min: 85.0,
+            ..ScoreCfg::default()
+        };
+        assert!(cfg.validate().is_ok(), "15 <= 100 - 85");
+        cfg.degraded_min = 85.5;
+        assert!(cfg.validate().is_err(), "15 > 100 - 85.5");
     }
 
     #[test]
