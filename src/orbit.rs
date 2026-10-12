@@ -59,6 +59,9 @@ fn normalize(a: Vec3) -> Option<Vec3> {
 
 /// Solve Kepler's equation `M = E - e sin E` for the eccentric anomaly `E` (rad)
 /// by Newton-Raphson. Exact for the circular case (`e = 0` returns `M`).
+///
+/// Legacy solver, kept numerically unchanged because committed outputs depend on it; new code
+/// should use the shared robust solver [`crate::kepler::solve_kepler_markley`].
 pub(crate) fn solve_kepler(mean_anomaly: f64, e: f64) -> f64 {
     if e == 0.0 {
         return mean_anomaly;
