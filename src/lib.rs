@@ -164,6 +164,7 @@ pub mod iq;
 pub mod jamming;
 pub mod jd2;
 pub mod kalman;
+pub mod kepler;
 pub mod lambda;
 pub mod launch;
 pub mod leo_fusion;
