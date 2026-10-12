@@ -3010,7 +3010,9 @@ mod tests {
         // the thing a manuscript previously had to compose by hand from two separate
         // link-budget runs — plus the CSV artifact of the same table, the units block,
         // and the honesty labelling.
-        let src = "kind = \"lunar-jamming\"\n[jammer]\npower_dbw = 10.0\nrange_m = 25000.0\n";
+        // Q = 1 is stated to keep the operating point the band checks below were chosen at
+        // (the broadband table value until 0.36; it is 2 now, see xval/jammer-q/).
+        let src = "kind = \"lunar-jamming\"\n[jammer]\npower_dbw = 10.0\nrange_m = 25000.0\nq_override = 1.0\n";
         assert_eq!(
             ScenarioKind::classify(src).unwrap(),
             ScenarioKind::LunarJamming
