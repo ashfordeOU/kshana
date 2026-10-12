@@ -262,6 +262,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "Tesseral geopotential in the Cowell propagator",
+            capability: "Opt-in EGM2008 tesseral field (to degree/order 70) as the central gravity of the numerical Cowell ForceModel, evaluated in an Earth-fixed frame rotated by the IAU 2000 Earth rotation angle (or the CIO GCRS-to-ITRS chain); default off, so no existing output moves",
+            module: "propagator (Geopotential, EarthFixedFrame), gravity_sh",
+            tests: "tests/cowell_tesseral_orekit_oracle.rs (6 cases x 25 hourly states over 24 h: EGM2008 8x8 and 70x70 on LEO 45 deg, polar 89.9 deg, sun-synchronous 98.2 deg, GTO, and 70x70 with Sun/Moon and SRP; worst |dr| 0.0355 m, |dv| 3.74e-5 m/s; negative controls miss by 6168 m (frozen Earth) and 20871 m (zonal only)); propagator unit tests (zonal-limit identity to 1e-12, CIO frame bit-for-bit against precise_od, Jacobi integral held to 1e-9 over 6 h)",
+            oracle: "Orekit 12.2 (CS GROUP, Apache-2.0) NumericalPropagator/DormandPrince853 with HolmesFeatherstoneAttractionModel over the same coefficients (tools/egm2008_to70.gfc) in a body frame rotated by the same Earth-rotation-angle formula, run as a separate program. Bars pre-registered (f0e0e65, amended before any comparison in 2da899a): |dr| <= 0.5 m and |dv| <= 5e-4 m/s, and both negative controls missing by > 100 m; all met, bars then tightened to 0.1 m and 1e-4 m/s. Not validated: Earth-orientation fidelity (both sides use UT1 = TT without precession-nutation in the Era frame), the Cio frame option (internal check only), degrees above 70",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "Batch & sequential orbit determination",
             capability: "Recover an epoch state [r,v] from ground-station ranges via a Gauss–Newton batch differential corrector and a sequential filter, over a two-body+J2 force model",
             module: "orbit_determination, precise_od (batch_ls::gauss_newton, fusion::ukf)",

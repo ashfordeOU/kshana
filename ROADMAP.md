@@ -100,7 +100,9 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   the IERS (International Earth Rotation and Reference Systems Service) `β = γ = 1` form `a = (μ/c²r³)·{[4μ/r − v²]·r + 4(r·v)·v}`, the leading driver of the
   relativistic perigee advance — validated by its closed-form circular value `3μ²/(c²r³)·r̂`, its
   textbook `≈1.9·10⁻⁹` LEO ratio to two-body, and the conservative signature (it perturbs the orbit
-  but, unlike drag, holds the semi-major axis to under a metre/day). High-degree tesseral gravity,
+  but, unlike drag, holds the semi-major axis to under a metre/day). The tesseral EGM2008 field to
+  degree/order 70 is an opt-in Cowell term (`propagator::Geopotential`), validated against Orekit 12.2
+  (worst 0.036 m over 24 h). Gravity above degree 70,
   the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density, solar limb darkening / the oblate-Earth shadow, the
   Lense–Thirring frame-dragging term, and external GMAT/Orekit cross-validation remain follow-ons.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1 (UTC: Coordinated Universal Time; TAI: International Atomic Time; TT: Terrestrial Time; UT1: Universal Time 1, Earth-rotation time), Julian-date API (application programming interface), IAU-2000 (IAU: International Astronomical Union)
@@ -245,7 +247,7 @@ welcome collaboration: see [Support & professional services](README.md#support--
   against the co-rotating `forces::atmospheric_density` Vallado exponential model +
   `ForceModel::drag` + the new `ForceModel::accel_rv` / velocity-passing RHS), and the
   `propagator::propagate` wiring are delivered (`src/forces.rs`, `src/propagator.rs`); the
-  high-degree tesseral field, the NRLMSISE-00 thermospheric density, solar limb darkening, and
+  tesseral field above degree 70 (degree/order 70 ships as an opt-in term), the NRLMSISE-00 thermospheric density, solar limb darkening, and
   DE-grade ephemeris accuracy remain — to complement the analytic SGP4/SDP4 path.
 - Batch orbit determination is delivered: `src/orbit_determination.rs` recovers an
   orbital state from ground-station ranges via the Gauss–Newton corrector

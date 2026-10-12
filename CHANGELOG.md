@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Opt-in tesseral Earth gravity in the Cowell propagator (RM-09).** `propagator::ForceModel`
+  gains `geopotential: Option<Geopotential>` (`with_geopotential`, `with_egm2008(nmax)`). It
+  evaluates a `SphericalHarmonicField` (bundled EGM2008 to degree/order 70, or any ICGEM `.gfc`) in
+  an Earth-fixed frame reached by the Earth rotation angle (`EarthFixedFrame::Era`) or the CIO
+  GCRS-to-ITRS chain (`EarthFixedFrame::Cio`). Default `None`: no existing output changes.
+  VALIDATED against Orekit 12.2 Holmes–Featherstone over 24 h (6 cases, worst 0.036 m), with the
+  bars pre-registered in `xval/cowell-tesseral-orekit/PREREGISTRATION.md`.
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
