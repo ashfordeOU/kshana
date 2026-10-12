@@ -197,6 +197,7 @@ pub mod lunar_llr_geometry;
 pub mod lunar_od;
 pub mod lunar_orientation;
 pub mod lunar_perturbed;
+pub mod lunar_receiver;
 pub mod lunar_service;
 pub mod lunar_station;
 pub mod lunar_techniques;

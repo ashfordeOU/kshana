@@ -41,7 +41,7 @@ fn growth_absent_or_zero_is_the_frozen_error_run() {
         .get("orbit_err_growth_m_per_s")
         .is_none());
     assert_eq!(flat["note"], kshana::lunar_station::NOTE);
-    let mut zero = doc(&format!("{SMALL}orbit_err_growth_m_per_s = 0.0\n"));
+    let zero = doc(&format!("{SMALL}orbit_err_growth_m_per_s = 0.0\n"));
     assert_eq!(zero["inputs_echo"]["orbit_err_growth_m_per_s"], 0.0);
     assert!(zero["note"]
         .as_str()
@@ -134,4 +134,123 @@ fn linear_growth_is_the_first_order_propagated_error() {
             );
         }
     }
+}
+
+// ── LRS-02: multipath and receiver hardware ───────────────────────────────────
+
+#[test]
+fn receiver_absent_or_silent_is_the_plain_run() {
+    let flat = doc(SMALL);
+    assert!(flat["inputs_echo"].get("receiver").is_none());
+    let silent = doc(&format!(
+        "{SMALL}[receiver]\nmultipath_a_m = 0.0\nmultipath_b_m = 0.0\n"
+    ));
+    assert!(silent["note"].as_str().unwrap().contains("Receiver:"));
+    for k in [
+        "region",
+        "points",
+        "coverage_radius_km",
+        "budget_at_station_and_at_edge",
+    ] {
+        assert_eq!(silent[k], flat[k], "{k} moved with a silent receiver");
+    }
+    let noisy = doc(&format!(
+        "{SMALL}[receiver]\ncn0_dbhz = 35.0\ninter_channel_bias_sigma_m = 0.5\n"
+    ));
+    let p = |v: &Value| v["region"]["corrected_p_3d_m"].as_f64().unwrap();
+    assert!(p(&noisy) > p(&flat));
+    assert!(toml::from_str::<LunarStationCoverageScenario>(&format!(
+        "{SMALL}[receiver]\nbogus = 1\n"
+    ))
+    .is_err());
+}
+
+const ZERO_BASELINE: &str = r#"
+kind = "lunar-station-coverage"
+points = [ { lat_deg = -89.0, lon_deg = 0.0 } ]
+station_lat_deg = -89.0
+survey_sigma_m = 0.0
+orbit_err_m = 0.0
+clock_err_m = 30.0
+noise_m = 0.0
+quantization_bits = 0
+latency_s = 0.0
+t_span_s = 0.0
+n_trials = 400
+"#;
+
+/// At zero baseline with every other term off, the corrected range error is the user's
+/// multipath minus the station's: two independent draws of 1-sigma `a` (with `b = 0`), so its
+/// sample sigma is `sqrt(2) a`.
+#[test]
+fn zero_baseline_multipath_is_the_difference_of_two_receivers() {
+    let s = scn(&format!(
+        "{ZERO_BASELINE}[receiver]\nmultipath_a_m = 0.5\nmultipath_b_m = 0.0\n"
+    ));
+    let mut d = Vec::new();
+    for k in 0..400 {
+        let c = s.trace_case(0, 0, k).unwrap();
+        let e = c.eval.expect("available");
+        assert_eq!(e.receiver_user_m.len(), e.corrected_range_m.len());
+        d.extend(e.corrected_range_m);
+    }
+    let n = d.len() as f64;
+    let sd = (d.iter().map(|v| v * v).sum::<f64>() / n).sqrt();
+    let want = 2f64.sqrt() * 0.5;
+    assert!(
+        (sd / want - 1.0).abs() < 0.06,
+        "sigma {sd} vs {want} over {n}"
+    );
+}
+
+/// The station multipath is first-order Gauss-Markov over epochs: lag-1 correlation
+/// exp(-dt / tau), unit variance.
+#[test]
+fn station_multipath_is_gauss_markov() {
+    let s = scn(&format!(
+        "{SMALL}n_trials = 300\nt_span_s = 86400.0\nt_step_s = 600.0\n[receiver]\nstation_multipath_tau_s = 1200.0\n"
+    )
+    .replace("n_trials = 8\n", "")
+    .replace("t_span_s = 21600.0\nt_step_s = 3600.0\n", ""));
+    let u = s.station_mp_units(144, 8).expect("series");
+    let (mut sxy, mut sxx, mut n) = (0.0, 0.0, 0.0);
+    for i in 0..143 {
+        for k in 0..300 {
+            for sat in 0..8 {
+                sxy += u[i][k][sat] * u[i + 1][k][sat];
+                sxx += u[i][k][sat] * u[i][k][sat];
+                n += 1.0;
+            }
+        }
+    }
+    let rho = sxy / sxx;
+    let want = (-600.0f64 / 1200.0).exp();
+    assert!((rho - want).abs() < 0.01, "lag-1 {rho} vs {want}");
+    assert!((sxx / n - 1.0).abs() < 0.02, "variance {}", sxx / n);
+    let white = scn(&format!("{SMALL}[receiver]\n"))
+        .station_mp_units(6, 8)
+        .unwrap();
+    assert_eq!(white.len(), 6);
+}
+
+/// Inter-channel biases are one constant per channel per trial: with only them on, the user's
+/// receiver error on a satellite is the same at every epoch of a trial.
+#[test]
+fn inter_channel_biases_are_constant_over_a_trial() {
+    let s = scn(&format!(
+        "{ZERO_BASELINE}[receiver]\nmultipath_a_m = 0.0\nmultipath_b_m = 0.0\ninter_channel_bias_sigma_m = 0.4\n"
+    )
+    .replace("t_span_s = 0.0\n", "t_span_s = 7200.0\nt_step_s = 3600.0\n"));
+    let a = s.trace_case(0, 0, 3).unwrap();
+    let b = s.trace_case(0, 1, 3).unwrap();
+    let (ea, eb) = (a.eval.unwrap(), b.eval.unwrap());
+    let mut common = 0;
+    for (ia, sa) in a.used.iter().enumerate() {
+        if let Some(ib) = b.used.iter().position(|x| x == sa) {
+            assert_eq!(ea.receiver_user_m[ia], eb.receiver_user_m[ib]);
+            common += 1;
+        }
+    }
+    assert!(common >= 4);
+    assert!(ea.receiver_user_m.iter().any(|v| *v != 0.0));
 }
