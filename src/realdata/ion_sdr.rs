@@ -25,6 +25,11 @@
 //! (`tests/lugre_acquisition_cell_average_doppler_oracle.rs`): the conjugate of the signal. The
 //! receiver's interface control document says only "IQ interleaved".
 //!
+//! The two's-complement levels are the bare signed integers unless `SdrLayout::mid_rise` is
+//! set, when they come out as `2v + 1` ([`to_mid_rise`]); the LuGRE reader
+//! (`crate::realdata::lugre::parse_iqs_sdrx`) sets it, because the bare integers of that
+//! converter carry a mean of −½ on I and on Q.
+//!
 //! This module reads the subset the LuGRE snapshots use and refuses anything else with a
 //! stated reason: one lane, one stream, complex `IQ` or `QI` samples (or real `IF` samples),
 //! one block spanning the file, whose header and footer bytes are skipped. Samples come out
@@ -324,6 +329,11 @@ pub struct SdrLayout {
     /// `parse_sdrx` sets it false; true reproduces the reading the first D7 registrations used
     /// (see the module documentation).
     pub fill_lsb_first: bool,
+    /// Two's-complement components come out as the mid-rise levels `2v + 1` instead of the
+    /// signed integer `v` (see [`to_mid_rise`]). `parse_sdrx` sets it false, the standard's
+    /// reading of the coding; `crate::realdata::lugre::parse_iqs_sdrx` sets it true for the
+    /// LuGRE converter. Ignored for the other codings, whose levels are already symmetric.
+    pub mid_rise: bool,
     /// Unfilled chunk bits come first in fill order rather than last.
     pub pad_head: bool,
     /// Samples per lump (the stream's rate factor).
@@ -547,6 +557,7 @@ pub fn parse_sdrx(text: &str) -> Result<SdrLayout, String> {
         words_per_chunk,
         little_endian,
         fill_lsb_first: false,
+        mid_rise: false,
         pad_head,
         samples_per_lump: ratefactor,
         header_bytes: header_bytes + offset_bytes,
@@ -632,7 +643,12 @@ pub fn decode(
             } else {
                 slot & ((1u64 << q) - 1)
             };
-            layout.encoding.level(code, q)
+            let v = layout.encoding.level(code, q);
+            if layout.mid_rise && layout.encoding == Encoding::TwosComplement {
+                2.0 * v + 1.0
+            } else {
+                v
+            }
         };
         let g0 = head_pad + (s % per_chunk) * layout.sample_bits();
         let a = component(g0);
@@ -774,6 +790,24 @@ mod tests {
         // = −3, Q = 0x05.
         let s = decode(&l, &[0, 0, 0x05, 0xFD, 0], 0, 1).unwrap();
         assert_eq!((s[0].re, s[0].im), (-3.0, 5.0));
+    }
+
+    #[test]
+    fn the_mid_rise_field_equals_to_mid_rise_and_leaves_other_codings_alone() {
+        let mut l = parse_sdrx(META).unwrap();
+        assert!(!l.mid_rise);
+        let bytes = [0xAAu8, 0xBB, 0x78, 0xF0, 0x1E, 0x80, 0xCC];
+        let mut want = decode(&l, &bytes, 0, 4).unwrap();
+        to_mid_rise(&mut want);
+        l.mid_rise = true;
+        assert_eq!(decode(&l, &bytes, 0, 4).unwrap(), want);
+        assert_eq!((want[0].re, want[0].im, want[3].re), (15.0, -15.0, -15.0));
+        // Offset binary is already symmetric: the field does nothing.
+        let mut ob = parse_sdrx(&META.replace("<encoding>TC</encoding>", "<encoding>OB</encoding>"))
+            .unwrap();
+        let plain = decode(&ob, &bytes, 0, 4).unwrap();
+        ob.mid_rise = true;
+        assert_eq!(decode(&ob, &bytes, 0, 4).unwrap(), plain);
     }
 
     #[test]

@@ -8,7 +8,11 @@ interface control document, independent of Kshana's reader; (2) runs GNSS-SDR on
 with the pinned configuration ``acq_L1.conf.template``; (3) reads the first acquisition dump of
 each run (MAT 7.3, HDF5) and writes ``gnss_sdr_records.json``.
 
-Usage: run_acq.py <LuGRE dir> <output json>     (needs numpy, h5py and gnss-sdr on PATH)
+Usage: run_acq.py [--corrected] <LuGRE dir> <output json>   (needs numpy, h5py, gnss-sdr)
+
+``--corrected`` (``convert(sdrx, corrected=True)``) is the corrected reading registered in
+xval/lugre-reader/PREREGISTRATION.md: I first (the HIGH nibble) and the mid-rise levels 2v + 1.
+Without it the converter is the historic one, so the committed records reproduce.
 """
 import glob
 import json
@@ -48,36 +52,60 @@ def meta(path):
     return vals
 
 
-def convert(sdrx):
-    """Decode the snapshot to int8 I,Q pairs; refuse any layout but the LuGRE one."""
+def convert(sdrx, corrected=False):
+    """Decode the snapshot to I,Q pairs; refuse any layout but the LuGRE one.
+
+    Historic (``corrected`` false): 4-bit only, I in the low nibble, bare integers, int8 to
+    ``<sdrx>.ibyte``. Corrected: I first in fill order (the high nibble of a 4-bit byte, the
+    first byte of an 8-bit pair), levels 2v + 1; 4-bit to int8 ``<sdrx>.mid.ibyte``, 8-bit to
+    little-endian int16 ``<sdrx>.mid.ishort`` (2v + 1 does not fit int8). Returns the file, the
+    sample rate, the header receive time, the sample count and the GNSS-SDR item type."""
     m = meta(sdrx)
     want = {"sizeword": "1", "countwords": "1", "endian": "Little", "quantization": "4",
             "packedbits": "8", "format": "IQ", "encoding": "TC"}
+    if corrected and m.get("quantization") == "8":
+        want.update(quantization="8", packedbits="16")
     for k, v in want.items():
         if m.get(k) != v:
             raise SystemExit(f"{sdrx}: {k}={m.get(k)!r}, this converter reads only {v!r}")
     raw = open(os.path.join(os.path.dirname(sdrx), m["url"]), "rb").read()
     body = np.frombuffer(raw[int(m["sizeheader"]):len(raw) - int(m["sizefooter"])], dtype=np.uint8)
-    # Little-endian byte: the first component (I) in the low nibble, Q in the high nibble;
-    # 4-bit two's complement sign-extended to 8 bits.
-    i = (body & 0x0F).astype(np.int16)
-    q = (body >> 4).astype(np.int16)
+    fs = float(m["freqbase"]) * 1e6
+    rx = struct.unpack("<d", raw[10:18])[0]
+    if want["quantization"] == "8":
+        # Two one-byte words per complex sample: I, then Q, each 8-bit two's complement.
+        n = body.size // 2
+        v = body[:2 * n].view(np.int8).astype(np.int16)
+        out = (2 * v + 1).astype("<i2")
+        dst = sdrx + ".mid.ishort"
+        out.tofile(dst)
+        return dst, fs, rx, n, "ishort"
+    # Historic: the first component (I) in the low nibble, Q in the high nibble; corrected: I in
+    # the high nibble. 4-bit two's complement sign-extended to 8 bits.
+    lo = (body & 0x0F).astype(np.int16)
+    hi = (body >> 4).astype(np.int16)
+    i, q = (hi, lo) if corrected else (lo, hi)
     i[i > 7] -= 16
     q[q > 7] -= 16
+    if corrected:
+        i, q = 2 * i + 1, 2 * q + 1
     out = np.empty(2 * body.size, dtype=np.int8)
     out[0::2] = i
     out[1::2] = q
-    dst = sdrx + ".ibyte"
+    dst = sdrx + (".mid.ibyte" if corrected else ".ibyte")
     out.tofile(dst)
-    fs = float(m["freqbase"]) * 1e6
-    rx = struct.unpack("<d", raw[10:18])[0]
-    return dst, fs, rx, body.size
+    return dst, fs, rx, body.size, "ibyte"
 
 
-def run_prn(ibyte, fs, prn, workdir):
+def run_prn(ibyte, fs, prn, workdir, item_type="ibyte"):
     out = os.path.join(workdir, f"prn{prn}")
     os.makedirs(out, exist_ok=True)
     conf = open(os.path.join(HERE, "acq_L1.conf.template")).read()
+    if item_type == "ishort":
+        # The only change for 16-bit input: the source item type and its adapter.
+        conf = (conf.replace("SignalSource.item_type=ibyte", "SignalSource.item_type=ishort")
+                .replace("DataTypeAdapter.implementation=Ibyte_To_Complex",
+                         "DataTypeAdapter.implementation=Ishort_To_Complex"))
     conf = (conf.replace("${FS}", str(int(fs))).replace("${FILE}", ibyte)
             .replace("${PRN}", str(prn)).replace("${OUT}", out))
     cpath = os.path.join(out, "acq.conf")
@@ -103,7 +131,9 @@ def run_prn(ibyte, fs, prn, workdir):
 
 
 def main():
-    lugre, dst = sys.argv[1], sys.argv[2]
+    args = [a for a in sys.argv[1:] if a != "--corrected"]
+    corrected = "--corrected" in sys.argv[1:]
+    lugre, dst = args[0], args[1]
     version = subprocess.run(["gnss-sdr", "--version"], capture_output=True, text=True)
     records = []
     snaps = sorted(glob.glob(os.path.join(lugre, "L0", "IQS", "IQS_L1_*.sdrx")))
@@ -111,14 +141,14 @@ def main():
         name = os.path.basename(sdrx)
         if "_S_OP" in name or any(x in name for x in EXCLUDED):
             continue
-        ibyte, fs, rx, n = convert(sdrx)
+        ibyte, fs, rx, n, item = convert(sdrx, corrected)
         if rx >= SURFACE_CUT_GPS_S:
             continue
         rel = os.path.relpath(sdrx, lugre)
         print(f"{rel}: {n} samples at {fs} Hz, start {rx}", flush=True)
         with tempfile.TemporaryDirectory() as work:
             for prn in range(1, 33):
-                r = run_prn(ibyte, fs, prn, work)
+                r = run_prn(ibyte, fs, prn, work, item)
                 if r is None:
                     print(f"  PRN {prn}: no dump", flush=True)
                     continue
