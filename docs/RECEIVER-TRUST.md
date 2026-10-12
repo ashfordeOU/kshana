@@ -205,6 +205,10 @@ given, and the geometry monitor does not run.
 | `degraded` | one or more reasons: `few-satellites`, `high-pdop`, `high-hdop`, and (informational, not in the score) `sky-blocked` when every tracked satellite sits in one half of the horizon |
 | `unknown` | the log gives no satellite geometry for this epoch |
 
+The status is descriptive and the label (below) is what matters for the score: `degraded`
+includes the informational `sky-blocked` case, which can come with good or fair DOP, and only a
+`poor` label is scored.
+
 **The label** (always reported, never scored). Every epoch's `geometry.label` is `good` (HDOP
 at most `hdop_good` 2, PDOP at most `pdop_good` 3 and at least `used_good` 6 satellites), `poor`
 (HDOP above `hdop_max` 4, PDOP above `pdop_max` 6 or fewer than `min_used` 5 satellites), `fair`
@@ -222,8 +226,9 @@ score below `floor` (default: the score's `degraded_min`, 55), so geometry alone
 degraded band at most and never the untrusted one: the cap in force is
 `min(cap_points, 100 - floor)`, so a `[score]` table that raises `degraded_min` (a 0.35 one with
 `degraded_min` 90, say) lowers the cap to `100 - degraded_min` rather than being refused, and a
-`floor` set below `degraded_min` is refused. The monitor raises no alarm and is not listed in
-`monitors_run`; it is not a `[score.weights]` entry (setting one is refused), and the cap and floor
+`floor` set below `degraded_min` is refused. The monitor raises no alarm; it is listed last in
+`monitors_run` when it decided at any epoch (a vessel whose log gives the geometry), and is not
+counted in the 0.35 identity; it is not a `[score.weights]` entry (setting one is refused), and the cap and floor
 in force are recorded in `geometry_model.cap_in_force` and `geometry_model.floor_in_force`. A
 poor epoch's note says why, for example "geometry poor: HDOP 5.200, PDOP 7.900, VDOP 4.100, 7
 satellites; degraded by geometry: HDOP 5.200 above 4 (derived from 7 logged satellites); not an
