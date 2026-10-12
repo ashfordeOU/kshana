@@ -71,6 +71,10 @@ breaking changes are called out explicitly.
   walls could pull the cut down to the mask). Property-tested on a 0.1° grid.
 - `sky_geometry` refuses a system table asking for more than 2000 satellites before building it
   (a short request could otherwise exhaust memory), and refuses more than 16 receiver clocks.
+- `Jd2::from_parts` with a fractional day part dropped the fraction in the UTC, TAI, UT1 and
+  Earth-rotation conversions (one hour of day part turned the Earth 15° wrong); the day part is
+  now normalised to an integer. No engine caller was affected: every one passes an integer day,
+  and every shipped output is bit-identical.
 
 ## [0.35.0] - 2026-10-12
 

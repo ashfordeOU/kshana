@@ -31,7 +31,10 @@ impl Jd2 {
         }
     }
 
-    /// Construct from explicit parts, renormalising so `frac ∈ [0, 1)`.
+    /// Construct from explicit parts, renormalising so `day` is an integer and
+    /// `frac ∈ [0, 1)`: a fractional part of `day` is moved into `frac` (the time conversions
+    /// read `day` as the integer day). With an integer `day`, as every engine caller passes,
+    /// the parts are kept bit for bit.
     pub fn from_parts(day: f64, frac: f64) -> Self {
         let mut j = Self { day, frac };
         j.normalize();
@@ -39,6 +42,9 @@ impl Jd2 {
     }
 
     fn normalize(&mut self) {
+        let whole = self.day.floor();
+        self.frac += self.day - whole;
+        self.day = whole;
         let carry = self.frac.floor();
         self.day += carry;
         self.frac -= carry;
@@ -317,5 +323,35 @@ mod tests {
         // On an ordinary day it is the plain sum.
         let d = Jd2::from_utc_calendar(2020, 5, 5, 12, 0, 0.0).unwrap();
         assert!((utc_to_ut1(d, 0.25).diff_seconds(d) - 0.25).abs() < 1e-9);
+    }
+
+    #[test]
+    fn a_fractional_day_part_is_moved_into_the_fraction() {
+        // from_parts used to keep a fractional `day`, which utc_to_tai and the Earth rotation
+        // read as an integer day, dropping the fraction (15 deg of rotation for one hour).
+        for jd in [
+            2_461_199.041_666_666_7,
+            2_460_310.5,
+            2_461_199.25,
+            2_461_199.499,
+            2_461_199.75,
+            2_451_545.0,
+        ] {
+            let split = Jd2::from_parts(jd, 0.0);
+            assert_eq!(split, Jd2::new(jd), "{jd}");
+            assert_eq!(utc_to_tai(split), utc_to_tai(Jd2::new(jd)), "{jd}");
+            assert_eq!(
+                crate::sgp4::teme_to_itrs_matrix(split),
+                crate::sgp4::teme_to_itrs_matrix(Jd2::new(jd)),
+                "{jd}"
+            );
+        }
+        // A split across both parts lands on the same instant, normalised.
+        let j = Jd2::from_parts(2_460_310.5, 0.75);
+        assert_eq!((j.day, j.frac), (2_460_311.0, 0.25));
+        // Integer day parts are untouched bit for bit.
+        let k = Jd2::from_parts(2_433_281.0, 0.5 + 26_157.610_558_16);
+        assert_eq!(k.day.fract(), 0.0);
+        assert_eq!(k.total(), 2_433_281.0 + (0.5 + 26_157.610_558_16));
     }
 }
