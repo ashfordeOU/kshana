@@ -305,10 +305,10 @@ pub struct ReceiverTrustResult {
     pub verdict: String,
     /// The per-epoch trust timeline.
     pub epochs: Vec<EpochTrust>,
-    /// The geometry thresholds the epochs were assessed with, their provenance and what the
-    /// geometry can explain (0.36). The geometry never changes the score.
+    /// The geometry thresholds the epochs were assessed with, the geometry monitor's weight,
+    /// each provenance and the deduction-class rules (0.36).
     pub geometry_model: GeometryModel,
-    /// Epochs by geometry status and by attribution of their degradation (0.36).
+    /// Epochs by geometry status and by deduction class (0.36).
     pub geometry_summary: GeometrySummary,
 }
 
@@ -636,11 +636,18 @@ pub fn run_receiver_trust_bytes(
         geometry_model: GeometryModel::new(
             &scn.monitors.geometry,
             scn.monitors.score.evidence_hold_s,
+            scn.monitors.score.weight(Monitor::Geometry),
         ),
         geometry_summary: {
             let mut g = GeometrySummary::default();
             for e in &trust.epochs {
-                g.add(e.t_s, &e.geometry, e.degradation);
+                g.add(
+                    e.t_s,
+                    &e.geometry,
+                    e.score
+                        .iter()
+                        .flat_map(|s| s.deductions.iter().filter_map(|d| d.class)),
+                );
             }
             g
         },
@@ -688,6 +695,7 @@ fn monitor_name(m: Monitor) -> &'static str {
         Monitor::Cn0Rise => "cn0-rise",
         Monitor::TimeConsistency => "time-consistency",
         Monitor::Osnma => "osnma",
+        Monitor::Geometry => "geometry",
     }
 }
 

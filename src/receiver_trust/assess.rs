@@ -53,7 +53,7 @@ pub struct ExcerptSummary {
     pub final_score: Option<f64>,
     /// `t_s` of the first untrusted epoch.
     pub first_untrusted_t_s: Option<f64>,
-    /// Every epoch (calibration included) by geometry status and by attribution (0.36).
+    /// Every epoch (calibration included) by geometry status and by deduction class (0.36).
     pub geometry: GeometrySummary,
 }
 
@@ -134,7 +134,11 @@ pub fn assess_stream_excerpt(
         geometry: {
             let mut g = GeometrySummary::default();
             for e in &epochs {
-                g.add(e.t_s, &e.geometry, e.degradation);
+                g.add(
+                    e.t_s,
+                    &e.geometry,
+                    e.deductions.iter().filter_map(|d| d.class),
+                );
             }
             g
         },
@@ -193,9 +197,15 @@ mod tests {
         for (l, b) in ex.epochs.iter().zip(&batch.epochs) {
             assert_eq!((l.t_s, l.state), (b.t_s, b.state));
             assert_eq!(l.score, b.score.as_ref().map(|s| s.score));
-            // The live tracker and the batch run see the same geometry.
+            // The live engine and the batch run see the same geometry and classes.
             assert_eq!(l.geometry, b.geometry);
-            assert_eq!(l.degradation, b.degradation);
+            assert_eq!(
+                l.deductions,
+                b.score
+                    .as_ref()
+                    .map(|s| s.deductions.clone())
+                    .unwrap_or_default()
+            );
         }
         assert_eq!(ex.summary.calibrating, 30);
         assert_eq!(

@@ -23,11 +23,11 @@ use std::collections::{BTreeMap, BTreeSet};
 
 use serde::{Deserialize, Serialize};
 
-use super::geometry::{attribute, Degradation, EpochGeometry, GeometryCfg, GeometryTracker};
+use super::geometry::{geometry_ratio, EpochGeometry, GeometryCfg, GeometryTracker};
 use super::live::LiveCfg;
 use super::maritime::{MarineEpoch, MarineMonitors, MaritimeConfig};
 use super::platform::PlatformCfg;
-use super::score::{score_from_ratios, ScoreCfg, TrustScore};
+use super::score::{score_from_ratios, DeductionClass, ScoreCfg, TrustScore};
 use super::{LogEpoch, ReportedFix, Timeline};
 use crate::allan::overlapping_adev;
 use crate::frames::{geodetic_to_ecef, Geodetic};
@@ -118,7 +118,8 @@ pub struct MonitorConfig {
     #[serde(skip_deserializing, skip_serializing_if = "LiveCfg::is_default")]
     pub live: LiveCfg,
     /// When the satellite geometry counts as degraded, from the scenario's top-level
-    /// `[geometry]` table. Never changes a monitor, an alarm or the score.
+    /// `[geometry]` table; drives the vessel score's geometry monitor and the deduction
+    /// classes.
     #[serde(skip_deserializing, skip_serializing_if = "GeometryCfg::is_default")]
     pub geometry: GeometryCfg,
 }
@@ -239,6 +240,11 @@ pub enum Monitor {
     TimeConsistency,
     /// The receiver reports an OSNMA authentication failure.
     Osnma,
+    /// Moving platform: the satellite geometry is poor (HDOP, PDOP or satellites used beyond
+    /// the `[geometry]` thresholds; see [`super::geometry`]). Weight 15: on its own it can
+    /// reach the degraded band, never the untrusted one. It deducts points and is reported in
+    /// the epoch's `geometry`; it raises no alarm and is not listed in `monitors_run`.
+    Geometry,
 }
 
 /// The trust verdict for one epoch.
@@ -297,17 +303,9 @@ pub struct EpochTrust {
     pub alarms: Vec<Monitor>,
     /// The epoch's trust verdict.
     pub state: TrustState,
-    /// The satellite geometry at this epoch: good, degraded (with reasons) or unknown. Beside
-    /// the score, never part of it.
+    /// The satellite geometry at this epoch: good, degraded (with reasons) or unknown (0.36).
     #[serde(default = "EpochGeometry::unknown")]
     pub geometry: EpochGeometry,
-    /// What the epoch's degradation is attributed to: geometry, attack-like inconsistency
-    /// (the consistency monitors), both or neither.
-    #[serde(default)]
-    pub degradation: Degradation,
-    /// The active monitors the geometry explains (see [`super::geometry::attribute`]).
-    #[serde(default, skip_serializing_if = "Vec::is_empty")]
-    pub explained_by_geometry: Vec<Monitor>,
 }
 
 /// A contiguous run of one monitor's alarm.
@@ -850,6 +848,10 @@ pub fn run_monitors(
     let mut decided: Vec<BTreeSet<Monitor>> = Vec::with_capacity(slots.len());
     let mut held: BTreeMap<Monitor, (f64, f64)> = BTreeMap::new();
     let mut geo = GeometryTracker::new(&cfg.geometry, cfg.score.evidence_hold_s);
+    // Satellites with a calibration baseline: a loss of lock is a loss of some of these.
+    let baseline_sats: BTreeSet<String> = key_median.keys().map(|(sat, _)| sat.clone()).collect();
+    // Whether the satellites lost at the last epoch that reported C/N0 were all low in the sky.
+    let mut lost_low = false;
     for (slot_index, s) in slots.iter().enumerate() {
         let post = s.t_s >= cal_s || is_rewound(s);
         let mut alarms = BTreeSet::new();
@@ -872,9 +874,13 @@ pub fn run_monitors(
             score: None,
             alarms: Vec::new(),
             state: TrustState::Calibrating,
-            geometry: EpochGeometry::unknown(),
-            degradation: Degradation::None,
-            explained_by_geometry: Vec::new(),
+            geometry: match s.tl {
+                Some(i) => geo.push(&tl.epochs[i]),
+                None => geo.push(&LogEpoch {
+                    t_s: s.t_s,
+                    ..LogEpoch::default()
+                }),
+            },
         };
         let mut decide = |m: Monitor, alarm: bool, alarms: &mut BTreeSet<Monitor>| {
             if post && run_set.contains(&m) {
@@ -979,6 +985,11 @@ pub fn run_monitors(
                 if let Some(me) = &et.marine {
                     ratios.extend(me.ratios.iter().copied());
                 }
+                // The geometry monitor decides wherever the geometry is known.
+                let geo_ratio = geometry_ratio(&et.geometry, &cfg.geometry);
+                if let Some((r, _)) = geo_ratio {
+                    ratios.insert(Monitor::Geometry, r);
+                }
                 // A source that did not report at this epoch keeps its last statistic for
                 // the stated hold, so slow sentences (GSV) do not blink in and out.
                 for (m, r) in &ratios {
@@ -990,6 +1001,10 @@ pub fn run_monitors(
                     }
                 }
                 for (m, r) in &ratios {
+                    // The geometry monitor deducts; it raises no alarm (0.36 design note).
+                    if *m == Monitor::Geometry {
+                        continue;
+                    }
                     dec.insert(*m);
                     // The alarm is at the threshold itself, except that the AGC and the jamming
                     // indicator alarm strictly above it, as they do for a static platform.
@@ -998,7 +1013,29 @@ pub fn run_monitors(
                         alarms.insert(*m);
                     }
                 }
-                let sc = score_from_ratios(&ratios, &cfg.score);
+                let mut sc = score_from_ratios(&ratios, &cfg.score);
+                // Classes the geometry decides: a geometry deduction whose stated HDOP the
+                // stated sky does not explain is an inconsistency; a loss of lock to satellites
+                // that were low in the sky is the sky's.
+                // Decided where the epoch reports C/N0; held, like the statistic, where not.
+                if let Some(e) = s.tl.map(|i| &tl.epochs[i]).filter(|e| tracks_satellites(e)) {
+                    let now: BTreeSet<&str> = e.cn0.iter().map(|c| c.sat.as_str()).collect();
+                    lost_low = geo.lost_to_the_sky(
+                        baseline_sats
+                            .iter()
+                            .map(String::as_str)
+                            .filter(|b| !now.contains(b)),
+                    );
+                }
+                for d in &mut sc.deductions {
+                    match d.monitor {
+                        Monitor::Geometry if geo_ratio.is_some_and(|(_, inc)| inc) => {
+                            d.class = Some(DeductionClass::Inconsistency)
+                        }
+                        Monitor::LossOfLock if lost_low => d.class = Some(DeductionClass::Geometry),
+                        _ => {}
+                    }
+                }
                 et.state = sc.band;
                 et.score = Some(sc);
             } else {
@@ -1014,22 +1051,6 @@ pub fn run_monitors(
             }
         }
         et.alarms = alarms.into_iter().collect();
-        et.geometry = match s.tl {
-            Some(i) => geo.push(&tl.epochs[i]),
-            None => geo.push(&LogEpoch {
-                t_s: s.t_s,
-                ..LogEpoch::default()
-            }),
-        };
-        let active: Vec<(Monitor, bool)> = match &et.score {
-            Some(sc) => sc
-                .deductions
-                .iter()
-                .map(|d| (d.monitor, et.alarms.contains(&d.monitor)))
-                .collect(),
-            None => et.alarms.iter().map(|m| (*m, true)).collect(),
-        };
-        (et.degradation, et.explained_by_geometry) = attribute(&et.geometry, &active);
         epochs.push(et);
         decided.push(dec);
     }

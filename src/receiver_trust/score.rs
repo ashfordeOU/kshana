@@ -58,11 +58,41 @@ pub fn default_weight(m: Monitor) -> f64 {
         Monitor::LossOfLock => 25.0,
         Monitor::Agc => 25.0,
         Monitor::JamInd => 25.0,
+        Monitor::Geometry => 15.0,
+    }
+}
+
+/// What kind of evidence a deduction is (0.36 geometry design note, 4.2).
+#[derive(Clone, Copy, Debug, PartialEq, Eq, PartialOrd, Ord, Serialize, Deserialize)]
+#[serde(rename_all = "kebab-case")]
+pub enum DeductionClass {
+    /// The sky: the geometry monitor, and a loss of lock to satellites low in the sky.
+    Geometry,
+    /// The signal environment: C/N0 (drop, spread, rise), AGC, jamming indicator, loss of
+    /// lock. Hostile, not shown wrong.
+    Environment,
+    /// Attack-like inconsistency: a fix or a signal that contradicts physics, another sensor
+    /// or the receiver's own checks.
+    Inconsistency,
+}
+
+/// The class a monitor's deduction has unless the geometry says otherwise
+/// (see [`super::geometry`]).
+pub fn default_class(m: Monitor) -> DeductionClass {
+    match m {
+        Monitor::Geometry => DeductionClass::Geometry,
+        Monitor::Cn0Drop
+        | Monitor::Agc
+        | Monitor::JamInd
+        | Monitor::LossOfLock
+        | Monitor::Cn0Spread
+        | Monitor::Cn0Rise => DeductionClass::Environment,
+        _ => DeductionClass::Inconsistency,
     }
 }
 
 /// Every monitor, for listing the effective weights.
-pub const ALL_MONITORS: [Monitor; 16] = [
+pub const ALL_MONITORS: [Monitor; 17] = [
     Monitor::Cn0Drop,
     Monitor::Agc,
     Monitor::JamInd,
@@ -79,6 +109,7 @@ pub const ALL_MONITORS: [Monitor; 16] = [
     Monitor::Cn0Rise,
     Monitor::TimeConsistency,
     Monitor::Osnma,
+    Monitor::Geometry,
 ];
 
 /// The `[score]` table: band edges, the ramp of the mapping and weight overrides.
@@ -86,7 +117,7 @@ pub const ALL_MONITORS: [Monitor; 16] = [
 #[serde(deny_unknown_fields, default)]
 pub struct ScoreCfg {
     /// Score at or above which the epoch is `nominal`. Default 90: a single monitor at its
-    /// threshold removes at least 12.5 points (the lightest weight is 25), so any alarm
+    /// threshold removes at least 12.5 points (the lightest weight of a monitor that alarms is 25), so any alarm
     /// leaves the nominal band.
     pub nominal_min: f64,
     /// Score at or above which the epoch is `degraded`; below it `untrusted`. Default 55:
@@ -206,6 +237,10 @@ pub struct Deduction {
     pub ratio: f64,
     /// Points removed from the score.
     pub points: f64,
+    /// What kind of evidence it is: `geometry`, `environment` or `inconsistency` (0.36; absent
+    /// in records written before).
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub class: Option<DeductionClass>,
 }
 
 /// The trust score of one epoch.
@@ -238,6 +273,7 @@ pub fn score_from_ratios(ratios: &BTreeMap<Monitor, f64>, cfg: &ScoreCfg) -> Tru
             monitor: *m,
             ratio: *r,
             points: points(cfg.weight(*m), *r, cfg),
+            class: Some(default_class(*m)),
         })
         .filter(|d| d.points > 0.0)
         .collect();
@@ -345,8 +381,22 @@ mod tests {
     }
 
     #[test]
+    fn geometry_alone_reaches_the_degraded_band_and_never_the_untrusted_one() {
+        // Weight 15: 7.5 points at its threshold (still nominal, 92.5), 15 at full strength
+        // (85, degraded), and no more however poor the sky (design note 4.2).
+        assert_eq!(one(Monitor::Geometry, 1.0).score, 92.5);
+        let full = one(Monitor::Geometry, 1.5);
+        assert_eq!((full.score, full.band), (85.0, TrustState::Degraded));
+        let worst = one(Monitor::Geometry, f64::INFINITY);
+        assert_eq!((worst.score, worst.band), (85.0, TrustState::Degraded));
+        assert_eq!(full.deductions[0].class, Some(DeductionClass::Geometry));
+    }
+
+    #[test]
     fn any_single_monitor_at_its_threshold_leaves_the_nominal_band() {
-        for m in ALL_MONITORS {
+        // Every monitor that raises an alarm; the geometry monitor raises none and is checked
+        // below.
+        for m in ALL_MONITORS.into_iter().filter(|m| *m != Monitor::Geometry) {
             let s = one(m, 1.0);
             assert_ne!(
                 s.band,
