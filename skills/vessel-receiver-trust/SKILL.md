@@ -19,6 +19,8 @@ Rules that apply every time:
   `geometry` is the sky (a statement about the sky, not a finding that no attack occurred),
   `environment` the signal environment, `inconsistency` attack-like evidence. When the geometry
   status is `unknown` (no GSV or GSA in the log), say "geometry unknown"; do not infer one.
+  Report the geometry `label` (`good`, `fair`, `poor`) as returned: the score deducts for
+  geometry only when it is `poor`; `fair` and `good` cost nothing.
 - **Advisory only**: not type-approved navigation equipment (IEC 61108, IEC 61162); the
   operator is responsible. The monitors are **MODELLED**. A high score is not proof of a
   genuine fix: the checks cannot see a spoofer consistent with every other sensor on the bus.

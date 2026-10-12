@@ -16,22 +16,29 @@ breaking changes are called out explicitly.
   `few-satellites`, `high-pdop`, `high-hdop`, and informational `sky-blocked`) or `unknown` where
   the log gives no satellite geometry, with HDOP, PDOP, VDOP and the satellites used. It is derived
   from the elevations and azimuths the receiver reports (NMEA GSV, UBX NAV-SAT) through the existing
-  `orbit::dop` kernel, or taken from NMEA GSA. A vessel's score gains a `geometry` monitor (weight
-  15: geometry alone reaches the degraded band, never the untrusted one; no alarm), and every
-  deduction a class, `geometry`, `environment` or `inconsistency`, so a poor sky does not read as
-  an attack. `loss-of-lock` is `geometry` when the satellites lost were all below 15 degrees at
-  their last report; the geometry deduction is `inconsistency` when the HDOP the receiver states
-  disagrees with its stated sky by more than max(1.0, 25 % of the derived HDOP), so a forged poor sky cannot buy the label. A new
-  `[geometry]` table states every threshold with its provenance (HDOP 4, PDOP 6, at least 5 used,
+  `orbit::dop` kernel, or taken from NMEA GSA. Every epoch also carries a label, `good`, `fair` or
+  `poor`, always reported and never scored, and a note with the HDOP, PDOP, VDOP, satellite count
+  and signal loss in words. A vessel's score gains a `geometry` monitor that deducts nothing unless
+  the geometry is poor (HDOP above 4, PDOP above 6 or fewer than 5 satellites used), then ramps to
+  a cap of 15 points; geometry alone reaches the degraded band at most, never the untrusted one
+  (no alarm). Every deduction gets a class, `geometry`, `environment` or `inconsistency`, so a
+  poor sky does not read as an attack. `loss-of-lock` is `geometry` when the satellites lost were
+  all below 15 degrees at their last report; a poor-geometry deduction is `inconsistency` when the
+  HDOP the receiver states disagrees with its stated sky by more than max(1.0, 25 % of the derived
+  HDOP), so a forged poor sky cannot buy the label. A new `[geometry]` table states every
+  threshold with its provenance (HDOP 4, PDOP 6, at least 5 used,
   sigma_UERE 1.5 m, an HDOP tolerance of max(1.0, 25 % of the derived HDOP) with the 25 % a
   representative choice for receivers with per-constellation clocks or subset solutions,
   15 degrees; the IEC 61108-1 and GPS SPS figures as cited, to be checked against the standards'
   text). Total signal loss is not labelled as sky: when satellites in view are not tracked and
   the DOP of the satellites in view is good (and the untracked ones are not confined to one half of
   the horizon), the epoch carries `signal_loss` and the geometry deduction is `environment`. A
-  stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1 are read as no fix, not as DOP;
-  a geometry weight set above `100 - degraded_min` is rejected, and the default 15 is clamped to
-  `100 - degraded_min` when a `[score]` table (a 0.35 one included) raises `degraded_min` above 85. MODELLED; advisory software, not type-approved
+  stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1 are read as no fix, not as DOP.
+  The cap (`cap_points` 15), the ramp's end (`full_ratio` 1.5) and the floor (`floor`, default the
+  score's `degraded_min`) are in `[geometry]`, as are the label's good levels (HDOP 2, PDOP 3, 6
+  satellites, representative); the cap in force is `min(cap_points, 100 - floor)`, so a `[score]`
+  table that raises `degraded_min` (a 0.35 one included) lowers the cap instead of being refused,
+  and a floor below `degraded_min` is refused. MODELLED; advisory software, not type-approved
   navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation
   of the vessel.
 - The geometry reaches every surface: the result JSON (`epochs[].geometry`, `class` on every
@@ -57,15 +64,20 @@ breaking changes are called out explicitly.
 
 ### Changed
 
-- With good geometry (every ratio under the score's 0.5 onset) or unknown geometry (the monitor
-  does not run) no score changes: `tests/geometry_trust_no_change.rs` holds both example sessions'
-  outputs to the 0.35.0 bytes once the appended keys are removed. A log with degraded geometry loses
-  up to 15 points it did not lose in 0.35. Intended changes otherwise, all additions: the keys
-  above in the result JSON and evidence packs, `geometry` in `score_model.weights`; the live
+- No score changes unless the geometry is poor; the label is always reported. With good or fair
+  geometry (a GPS-only open sky of 8 satellites included) or unknown geometry (the monitor does not
+  run) every score is as in 0.35: `tests/geometry_trust_no_change.rs` holds both example sessions'
+  outputs and `tests/geometry_corpus_identity.rs` every committed vessel NMEA corpus (also as
+  GPS-only open sky) and the crew-training scenarios to the 0.35.0 bytes once the appended keys are
+  removed; in the two training scenarios whose jamming makes the geometry poor, the poor epochs
+  differ by the geometry deduction alone. A log with poor geometry loses up to 15 points it did not
+  lose in 0.35. Intended changes otherwise, all additions: the keys above in the result JSON and
+  evidence packs (`score_model.weights` is unchanged); the live
   JSON-lines schema goes from 1.2 to 1.3 (`geometry` appended, `class` in each deduction); the
   excerpt summary gains `geometry`; telemetry gains geometry series, fields and the `class` label
   only for inputs that carry them, so a 0.35 stream or result renders byte for byte as before.
-  `geometry` is the 17th monitor name; it is not listed in `monitors_run`.
+  `geometry` is the 17th monitor name; it is not listed in `monitors_run` and has no
+  `[score.weights]` entry (setting one is refused: its deduction is set in `[geometry]`).
 - `tests/fixtures/dop/NOTICE` named gnss_lib_py's licence Apache-2.0; the 1.0.4 release is MIT.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
@@ -87,6 +99,8 @@ breaking changes are called out explicitly.
   OTLP collector), which cover 1.2 streams only today.
 - A two-sided obstruction (a canyon or narrow fjord) reads as signal loss rather than a blocked sky
   until the skyline is integrated.
+- The geometry label (`good`, `fair`, `poor`) in telemetry (Prometheus, OTLP, CEF, LEEF), which
+  carries the geometry status, DOP and signal loss today, and in the Studio's maritime trust view.
 
 ## [0.35.0] - 2026-10-12
 

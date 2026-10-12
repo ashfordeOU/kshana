@@ -172,7 +172,7 @@ sea-level = 30.0
 | 40 | `heading-course`, `speed-log`, `solve-failure` | one independent sensor disagreeing is degraded; two at full strength are untrusted |
 | 30 | `sea-level`, `cn0-spread`, `cn0-rise`, `cn0-drop` | the signal environment, or a weakly informative check |
 | 25 | `loss-of-lock`, `agc`, `jam-ind` | the environment is hostile; that alone does not show the fix is wrong |
-| 15 | `geometry` (0.36) | the sky is poor; geometry alone reaches degraded, never untrusted, and raises no alarm (see "Geometry" below) |
+| up to 15, `[geometry]` | `geometry` (0.36) | not a weight on this ramp: nothing unless the sky is poor, then up to `cap_points` (15); geometry alone reaches degraded, never untrusted, and raises no alarm (see "Geometry" below) |
 
 The band edges follow from the weights: the lightest monitor that alarms costs 12.5 points at its
 threshold, so any alarm leaves the nominal band; no single monitor under 60 points can reach the
@@ -205,31 +205,47 @@ given, and the geometry monitor does not run.
 | `degraded` | one or more reasons: `few-satellites`, `high-pdop`, `high-hdop`, and (informational, not in the score) `sky-blocked` when every tracked satellite sits in one half of the horizon |
 | `unknown` | the log gives no satellite geometry for this epoch |
 
-**The geometry monitor** (vessel score). Its ratio is
-`max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)` and it enters the score's ramp like any
-monitor, with **weight 15**: nothing while every ratio is below the 0.5 onset (so a log with good
-geometry scores exactly as in 0.35), 7.5 points at its threshold (score 92.5, still nominal) and
-15 at 1.5 times it (score 85, degraded). On its own it can reach the degraded band and never the
-untrusted one. It raises no alarm and is not listed in `monitors_run`; its weight is in
-`score_model.weights.geometry` and can be overridden in `[score.weights]`. Each degraded epoch
-carries the reason in words, for example "degraded by geometry: HDOP 5.200 above 4 (derived from 7
-logged satellites); not an inconsistency".
+**The label** (always reported, never scored). Every epoch's `geometry.label` is `good` (HDOP
+at most `hdop_good` 2, PDOP at most `pdop_good` 3 and at least `used_good` 6 satellites), `poor`
+(HDOP above `hdop_max` 4, PDOP above `pdop_max` 6 or fewer than `min_used` 5 satellites), `fair`
+between the two, or `unknown`. The epoch's note always opens with the label and the numbers, for
+example "geometry fair: HDOP 1.105, PDOP 1.831, VDOP 1.410, 8 satellites; not scored (the score
+deducts only above HDOP 4, PDOP 6 or below 5 satellites)", and adds ", signal loss" when it holds.
+
+**The geometry monitor** (vessel score). It deducts **nothing unless the geometry is poor**: its
+ratio is `max(hdop / hdop_max, pdop / pdop_max, min_used / n_used)`, and while that is at most 1
+(good or fair geometry, a GPS-only open sky of 8 satellites included) it costs nothing, so such a
+log scores exactly as in 0.35. Above 1 the deduction ramps linearly to `cap_points` (15) at
+`full_ratio` (1.5 times the thresholds: HDOP 6, PDOP 9, 3 satellites): 7.5 points at ratio 1.25
+(HDOP 5, or 4 satellites), 15 from 1.5 on (score 85, degraded). On its own it can never take the
+score below `floor` (default: the score's `degraded_min`, 55), so geometry alone reaches the
+degraded band at most and never the untrusted one: the cap in force is
+`min(cap_points, 100 - floor)`, so a `[score]` table that raises `degraded_min` (a 0.35 one with
+`degraded_min` 90, say) lowers the cap to `100 - degraded_min` rather than being refused, and a
+`floor` set below `degraded_min` is refused. The monitor raises no alarm and is not listed in
+`monitors_run`; it is not a `[score.weights]` entry (setting one is refused), and the cap and floor
+in force are recorded in `geometry_model.cap_in_force` and `geometry_model.floor_in_force`. A
+poor epoch's note says why, for example "geometry poor: HDOP 5.200, PDOP 7.900, VDOP 4.100, 7
+satellites; degraded by geometry: HDOP 5.200 above 4 (derived from 7 logged satellites); not an
+inconsistency".
 
 **Classes.** Every deduction (`score.deductions[].class`):
 
 | Class | Monitors |
 |---|---|
-| `geometry` | `geometry`; `loss-of-lock` when every satellite lost against the calibration baseline was below `low_elev_deg` at its last report |
-| `environment` | `cn0-drop`, `cn0-spread`, `cn0-rise`, `agc`, `jam-ind`, `loss-of-lock` otherwise |
-| `inconsistency` | `kinematic`, `heading-course`, `speed-log`, `sea-level`, `time-consistency`, `clock`, `raim`, `position-jump`, `osnma`, `solve-failure`; and `geometry` when the stated HDOP disagrees with the stated sky (below) |
+| `geometry` | `geometry` (poor geometry); `loss-of-lock` when every satellite lost against the calibration baseline was below `low_elev_deg` at its last report |
+| `environment` | `cn0-drop`, `cn0-spread`, `cn0-rise`, `agc`, `jam-ind`, `loss-of-lock` otherwise; `geometry` during signal loss (below) |
+| `inconsistency` | `kinematic`, `heading-course`, `speed-log`, `sea-level`, `time-consistency`, `clock`, `raim`, `position-jump`, `osnma`, `solve-failure`; and `geometry` when the geometry is poor and the stated HDOP disagrees with the stated sky (below) |
 
 **The guard against a forged poor sky.** A spoofer could send a thin GSV, or report a high HDOP,
 to buy tolerance. The engine labels and does not forgive: no other check is widened by a poor
 geometry, and the HDOP the receiver states (GSA within the hold, else GGA) is compared with the HDOP
 derived from the sky it states. When they differ by more than
 `max(reported_vs_derived_tol, reported_vs_derived_rel × derived HDOP)` (1.0, or 25 % of the derived
-HDOP, whichever is larger), the epoch carries `reported_derived_mismatch: true` and the geometry
-deduction is classed `inconsistency`. The 25 % is a **REPRESENTATIVE** engineering choice, not a
+HDOP, whichever is larger), the epoch carries `reported_derived_mismatch: true` and, when the
+geometry is poor, its deduction is classed `inconsistency`. With good or fair geometry the
+disagreement is reported (the flag and the note) and not scored: nothing is deducted unless the
+geometry is poor. The 25 % is a **REPRESENTATIVE** engineering choice, not a
 measured or standard figure: a receiver that solves for one clock per constellation, or with a
 subset of the satellites it tracks (an elevation mask, a C/N0 cut, a RAIM exclusion), states an
 HDOP that differs from the single-clock HDOP of every tracked satellite by an amount that grows
@@ -246,11 +262,7 @@ geometry", and the geometry deduction is classed `environment`. Untracked satell
 half of the horizon still read as a blocked sky (a wall, a cliff, a quay). A two-sided obstruction
 (a canyon or a narrow fjord) reads as signal loss until a skyline is configured. The receiver's
 no-fix sentinels are not DOP: a stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1
-give no stated DOP. Geometry alone can never reach the untrusted band: a geometry weight set in
-`[score.weights]` above `100 - degraded_min` is rejected, and when `[score]` raises `degraded_min`
-above 85 without naming the geometry weight (a 0.35 configuration, for example), the default 15 is
-clamped to `100 - degraded_min`; the weight in force is the one recorded in `score_model.weights`
-and `geometry_model.weight`.
+give no stated DOP.
 
 | `[geometry]` key | Default | Provenance |
 |---|---|---|
@@ -262,25 +274,35 @@ and `geometry_model.weight`.
 | `reported_vs_derived_rel` | 0.25 | REPRESENTATIVE engineering choice: the relative part, for receivers with per-constellation clocks or subset solutions |
 | `low_elev_deg` | 15 | design note 4.3: satellites lost below it are lost to the sky; a skyline (0.36 item 1) will extend this |
 | `azimuth_gap_deg` | 180 | geometric, informational: every satellite in one half of the horizon |
-| weight (`score.weights.geometry`) | 15, at most `100 - degraded_min` | design note 4.2: geometry alone reaches degraded, never untrusted; the default is clamped when `degraded_min` is above 85, an explicit weight above the bound is refused |
+| `cap_points` | 15 | design note 4.2: geometry alone moves the score from nominal into degraded and never to untrusted; deducted only when the geometry is poor (founder decision B1, 0.36) |
+| `full_ratio` | 1.5 | the score's own `full_ratio`: the ramp reaches `cap_points` at 1.5 times the poor thresholds |
+| `floor` | the score's `degraded_min` (55) | geometry alone never reaches the untrusted band; the cap in force is `min(cap_points, 100 - floor)`; a floor below `degraded_min` is refused |
+| `hdop_good` | 2 | REPRESENTATIVE, the label only: half of `hdop_max` (the 0.35 score's onset ratio) |
+| `pdop_good` | 3 | REPRESENTATIVE, the label only: half of `pdop_max` |
+| `used_good` | 6 | REPRESENTATIVE, the label only: one more than `min_used`, so a single loss still leaves a redundant measurement |
 
-**What changed in the outputs, and what did not.** Appended keys: `epochs[].geometry` (`status`,
-`reasons`, `source`, `n_used`, `hdop`, `pdop`, `vdop` rounded to 0.001, `open_fraction` (null until a
-skyline is configured), `max_azimuth_gap_deg`, `age_s`, `reported_hdop`,
-`reported_derived_mismatch`, `note`, `in_view` (satellites listed above `low_elev_deg`),
-`signal_loss`), `class` on every deduction, `geometry` in
-`score_model.weights`, and at the end `geometry_model` (thresholds, hold, weight, provenance,
-class rules) and `geometry_summary` (epochs by status and by deduction class).
-`tests/geometry_trust_no_change.rs` holds every output of both example sessions (result JSON, CSV,
-SVG, verdict, replayed live lines, `$PKSHT`, Prometheus, CEF, LEEF) to the bytes of engine 0.35.0
-once those keys are removed: the demo's geometry is good, so no score moves. A log whose geometry is
-degraded loses up to 15 points it did not lose in 0.35; that is the intended change. On the demo the
+**What changed in the outputs, and what did not.** No score changes unless the geometry is poor;
+the label is always reported. Appended keys: `epochs[].geometry` (`status`, `reasons`, `source`,
+`n_used`, `hdop`, `pdop`, `vdop` rounded to 0.001, `open_fraction` (null until a skyline is
+configured), `max_azimuth_gap_deg`, `age_s`, `reported_hdop`, `reported_derived_mismatch`, `note`,
+`in_view` (satellites listed above `low_elev_deg`), `signal_loss`, `label`), `class` on every
+deduction, and at the end `geometry_model` (thresholds, hold, the cap and floor in force,
+provenance, class rules) and `geometry_summary` (epochs by status, by label and by deduction
+class); `score_model.weights` is as in 0.35. Two tests hold this to the bytes of engine 0.35.0
+once those keys are removed. `tests/geometry_trust_no_change.rs` holds every output of both example
+sessions (result JSON, CSV, SVG, verdict, replayed live lines, `$PKSHT`, Prometheus, CEF, LEEF).
+`tests/geometry_corpus_identity.rs` holds the batch result, summary, live lines and `$PKSHT` of
+every committed vessel NMEA corpus (the demo and the maritime reference fixtures, each also as
+GPS-only open sky with 8 satellites, and the crew-training scenarios generated from their seeds);
+in the two training scenarios whose jamming makes the geometry poor, every epoch that is not poor
+is identical and every poor one differs by the geometry deduction alone. A log whose geometry is
+poor loses up to 15 points it did not lose in 0.35; that is the intended change. On the demo the
 drag-off reads `inconsistency`; `tests/geometry_trust.rs` edits the log to mask the western sky
-(geometry deductions, loss of lock `environment` because high satellites went too), to lose only
-satellites below 15° (loss of lock `geometry`), and to state an HDOP the sky does not explain
-(the geometry deduction becomes `inconsistency`). The thresholds are MODELLED: chosen, not fitted to
-any log; nothing here asserts how often natural degradation and attacks are told apart on real
-data.
+(fair: labelled, not scored), to mask it and two eastern satellites (poor: geometry deductions,
+loss of lock `environment` because high satellites went too), to lose only satellites below 15°
+(loss of lock `geometry`), and to state an HDOP the sky does not explain (the poor-geometry
+deduction becomes `inconsistency`). The thresholds are MODELLED: chosen, not fitted to any log;
+nothing here asserts how often natural degradation and attacks are told apart on real data.
 
 ## Stating events and predictions
 
