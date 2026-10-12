@@ -40,7 +40,7 @@ actions that run the CLI), **Notebook** (`notebooks/`), **Studio** (the Kshana S
 Kshana Studio is the web app built on the WebAssembly build, so a Studio view exists where the
 WASM column has an entry point, and where it does not the cell points to a **Command line card** (the
 command to run, with its arguments), never to a result Studio computed. Pages (kshana.dev/studio/, client-side): **Maritime trust**
-(`trust/`), **Training debrief** (`training/`), **Interference map** (`interference/`) and the
+(`trust/`), **Training debrief** (`training/`), **Interference map** (`interference/`), **Geometry** (`geometry/`: a representative skyplot, skyline, DOP, error ellipse and Monte Carlo cloud from the engine; 0.36), **Lunar station** (`lunar/`: the modelled coverage of a lunar reference station from the `lunar-station-coverage` kind; 0.36) and the
 **Tools** page, whose sections are OSNMA (`#osnma`), Evidence packs (`#evidence`), Test-bench
 export (`#bench`), Compliance mapping (`#compliance`), the Command line tab (telemetry card, IQ,
 marine integrations: commands to run) and Use from your AI assistant (`#ai`). A **—** in the Studio column of the subcommand

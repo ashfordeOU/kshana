@@ -89,7 +89,9 @@ STUDIO_SKIP_DIRS = {"REVIEW"}
 # <base href="../"> so it shares the Simple view's engine, worker, modules and data.
 # Since 0.35.0 it also has four views: the maritime trust view, the interference map, the training debrief and
 # the tools page (each with <base href="../">, noindex, and a demo/ or examples/ folder of synthetic data its test reads).
-STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html")
+# 0.36 adds the Geometry view (geometry/: <base href="../">, noindex; no data folder, every number comes from the engine)
+# and the Lunar station view (lunar/: the same; it reads the lunar-station-coverage recording and scenario from recorded/ and scenarios/).
+STUDIO_PAGES = ("index.html", "advanced/index.html", "trust/index.html", "interference/index.html", "training/index.html", "tools/index.html", "geometry/index.html", "lunar/index.html")
 STUDIO_SKIP_RE = re.compile(r"^(tools_.*\.mjs|.*\.d\.ts|\..*)$")
 
 TEXT_EXT = (".html", ".css", ".js", ".mjs", ".json", ".txt", ".xml", ".svg", ".toml", ".md")
