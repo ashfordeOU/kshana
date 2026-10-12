@@ -25,9 +25,12 @@
 //! the regional trend comes from a handful of well-known low-degree coefficients, and the
 //! distinctive *local* features that make gravity-map matching observable are supplied as
 //! synthetic mascons (Gaussian anomalies), the stand-in for the high-degree EGM content
-//! not shipped. Loading a real EGM2008/EIGEN coefficient file, a magnetic-anomaly map, and
-//! terrain-aided SLAM remain follow-ons; so does wiring the benchmark into the global
-//! scenario-engine `kind=` dispatcher with an SVG drift chart. See `docs/CAPABILITY.md`.
+//! not shipped. The benchmark runs as the `gravity-map` scenario kind with an SVG chart
+//! ([`crate::altpnt::terrain::gravity_nav_svg`]), and an ICGEM `.gfc` coefficient loader exists
+//! ([`crate::gravity_sh::SphericalHarmonicField::from_gfc`]) but does not feed this map. A real
+//! EGM2008/EIGEN gravity-anomaly map here, a crustal magnetic-anomaly map (the magnetic channel
+//! is the IGRF-14 main field) and joint map estimation (full SLAM; sequential terrain-referenced
+//! navigation is in [`crate::altpnt::sequential`]) remain follow-ons. See `docs/CAPABILITY.md`.
 
 use crate::inertial::quantum_imu::CaiAccelerometer;
 use crate::mapmatch::{hierarchical_offset_search, map_match_likelihood};
