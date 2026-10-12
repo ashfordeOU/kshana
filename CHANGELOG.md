@@ -11,6 +11,12 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **SP3 precise-clock interpolation** (0.36, WP-07): `Sp3File::clock_s` and `clock_nodes`
+  interpolate the tabulated SP3 satellite clocks linearly between the two bracketing valid nodes
+  (bad-clock sentinel skipped), and `ClockRinex::from_sp3` feeds them to `PreciseProducts`, so
+  the precise chain runs from an SP3 alone. VALIDATED against the IGS final 30 s clocks of
+  2025-02-24 under pre-registered bars: 32 GPS satellites, mid-point RMS 0.121 ns (bar 0.15 ns),
+  95th percentile 0.265 ns (bar 0.30 ns).
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
