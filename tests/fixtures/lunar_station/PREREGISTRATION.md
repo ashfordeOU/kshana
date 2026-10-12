@@ -38,6 +38,12 @@ hiding a wrong formula, which would show at the metre level.
   re-implementing it). That the draws have the stated distributions is checked by the survey
   floor test (`survey_floor_matches_the_survey_transfer_prediction`), not here.
 * Nothing here is a statement about the performance of any real system.
+* (Added after the first run at an independent reviewer's request, to state two limits the
+  table above already implied; no row, tolerance or result was changed.) The link error
+  (`link_err_m`, ageing plus quantization) is taken as an input: the ageing sigmas, the
+  quantization step and the composition of the link error are not recomputed by numpy.
+* The station's visible set is not compared on its own, only through the case status
+  (`station_missing_sat`).
 
 ## Oracle provenance
 
