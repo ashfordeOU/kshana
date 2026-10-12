@@ -87,6 +87,9 @@ pub const MAX_SATELLITES: usize = 2000;
 /// systems in view): an input cap, so a request cannot ask for a thousand-state solution.
 pub const MAX_CLOCKS: usize = 16;
 
+/// Most entries `tle_skipped` lists one by one; beyond it a final entry counts the rest.
+pub const MAX_TLE_SKIPPED: usize = 100;
+
 /// Largest `tle` text one request may carry (4 MiB, the Studio's cap): an input cap.
 pub const MAX_TLE_BYTES: usize = 4 * 1024 * 1024;
 
@@ -279,8 +282,11 @@ pub struct SkyGeometry {
     /// The UTC instant the `tle` satellites were propagated to; absent without `tle`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub epoch_utc: Option<String>,
-    /// Element sets SGP4 could not propagate to that instant (decayed, or past its limits),
-    /// left out with the reason; absent when there are none.
+    /// What of the `tle` text was not used, each with the reason: lines that were not a
+    /// complete element set (a malformed or orphaned line 1 or 2, with its line number), sets
+    /// the parser refused, and sets SGP4 could not propagate to the instant (decayed, or past
+    /// its limits). At most [`MAX_TLE_SKIPPED`] entries, then one counting the rest; absent
+    /// when there are none.
     #[serde(skip_serializing_if = "Vec::is_empty")]
     pub tle_skipped: Vec<String>,
     /// Where the skyline came from (`none`, `preset:<name>`, `preset:<name>+overrides`,
@@ -514,32 +520,75 @@ fn tle_looks(
     }
     let system = req.tle_system.clone().unwrap_or_else(|| "TLE".to_string());
     let mut sets: Vec<(String, crate::sgp4::SgpOrbit)> = Vec::new();
+    // Lines that were not used, each with its line number and why: reported in `tle_skipped`
+    // (the first MAX_TLE_SKIPPED, then a count), never silently dropped.
+    let mut ignored: Vec<String> = Vec::new();
+    let mut n_ignored = 0usize;
+    let mut ignore = |no: usize, why: &str, line: &str| {
+        n_ignored += 1;
+        if ignored.len() < MAX_TLE_SKIPPED {
+            let head: String = line.chars().take(24).collect();
+            ignored.push(format!("line {no}: {why} ({head:?})"));
+        }
+    };
     let mut name: Option<String> = None;
-    let mut pending_l1: Option<&str> = None;
-    for raw in text.lines() {
-        let line = raw.trim();
-        if line.starts_with("1 ") && line.len() >= 63 {
-            pending_l1 = Some(line);
-        } else if line.starts_with("2 ") && line.len() >= 63 {
-            let Some(l1) = pending_l1.take() else {
-                return Err(format!(
-                    "sky: tle: a line 2 without its line 1 ({:?})",
-                    &line[..line.len().min(20)]
-                ));
+    let mut pending_l1: Option<(usize, &str)> = None;
+    for (i, raw) in text.lines().enumerate() {
+        let (no, line) = (i + 1, raw.trim());
+        // An element-set line: "1 " or "2 " and the 69 columns of the format (63 at least
+        // carry every field the propagator reads). Anything shorter that starts like one is
+        // malformed, not a name line.
+        let is_l1 = line.starts_with("1 ");
+        let is_l2 = line.starts_with("2 ");
+        if (is_l1 || is_l2) && line.len() < 63 {
+            if let Some((n1, l1)) = pending_l1.take() {
+                ignore(n1, "line 1 without its line 2", l1);
+            }
+            ignore(no, "malformed element-set line (too short)", line);
+            name = None;
+        } else if is_l1 {
+            if let Some((n1, l1)) = pending_l1.replace((no, line)) {
+                ignore(n1, "line 1 without its line 2", l1);
+            }
+        } else if is_l2 {
+            let Some((n1, l1)) = pending_l1.take() else {
+                ignore(no, "line 2 without its line 1", line);
+                name = None;
+                continue;
             };
-            let orbit =
-                crate::sgp4::SgpOrbit::from_tle(l1, line).map_err(|e| format!("sky: tle: {e}"))?;
-            let id = name
-                .take()
-                .unwrap_or_else(|| format!("{system}-{}", l1.get(2..7).unwrap_or("?").trim()));
-            sets.push((id, orbit));
+            match crate::sgp4::SgpOrbit::from_tle(l1, line) {
+                Ok(orbit) => {
+                    let id = name.take().unwrap_or_else(|| {
+                        format!("{system}-{}", l1.get(2..7).unwrap_or("?").trim())
+                    });
+                    sets.push((id, orbit));
+                }
+                Err(e) => {
+                    ignore(n1, &format!("element set refused: {e}"), l1);
+                    name = None;
+                }
+            }
         } else if !line.is_empty() {
+            if let Some((n1, l1)) = pending_l1.take() {
+                ignore(n1, "line 1 without its line 2", l1);
+            }
             name = Some(line.trim_start_matches("0 ").to_string());
-            pending_l1 = None;
         }
     }
+    if let Some((n1, l1)) = pending_l1 {
+        ignore(n1, "line 1 without its line 2", l1);
+    }
+    if n_ignored > ignored.len() {
+        ignored.push(format!("... and {} more lines", n_ignored - ignored.len()));
+    }
     if sets.is_empty() {
-        return Err("sky: tle holds no complete two-line element set".into());
+        return Err(match ignored.first() {
+            Some(first) => format!(
+                "sky: tle holds no complete two-line element set; {n_ignored} lines ignored, the \
+                 first: {first}"
+            ),
+            None => "sky: tle holds no complete two-line element set".into(),
+        });
     }
     let (jd0, dated) = match &req.epoch {
         Some(e) => (
@@ -558,7 +607,7 @@ fn tle_looks(
     let at = Jd2::new(jd0).add_seconds(t);
     let iso = UtcEpoch::from_jd_utc(jd0).iso(t);
     let m = crate::sgp4::teme_to_itrs_matrix(at);
-    let (mut out, mut below, mut skipped) = (Vec::new(), 0usize, Vec::new());
+    let (mut out, mut below, mut skipped) = (Vec::new(), 0usize, ignored);
     for (id, o) in &sets {
         match o.itrs_state_with(at, &m) {
             Ok((pos, _)) => {
@@ -611,7 +660,9 @@ fn tle_looks(
 }
 
 fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
-    if req.systems.is_none() && req.satellites.is_none() && req.tle.is_none() {
+    // An empty `systems` list is no systems: it adds no presets and no `presets` source.
+    let systems = req.systems.as_ref().filter(|s| !s.is_empty());
+    if systems.is_none() && req.satellites.is_none() && req.tle.is_none() {
         return Err("sky: give `systems` or `tle` (with a `site`), or `satellites`".into());
     }
     if req.tle.is_none() && req.tle_system.is_some() {
@@ -634,7 +685,7 @@ fn looks(req: &SkyRequest) -> Result<(Vec<Look>, usize, Basis), String> {
         }
     }
     let mut all = Vec::new();
-    if let Some(systems) = &req.systems {
+    if let Some(systems) = systems {
         let Some(g) = user else {
             return Err("sky: `systems` needs a `site` (or `user_ecef_m`) to look from".into());
         };
@@ -1684,5 +1735,79 @@ mod tests {
             ..req(1000)
         };
         assert!(sky_geometry(&common).is_ok());
+    }
+
+    #[test]
+    fn an_empty_systems_list_adds_no_presets() {
+        let gps = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        let req = SkyRequest {
+            site: Some(Site {
+                lat_deg: 52.0,
+                lon_deg: 5.0,
+                height_m: 0.0,
+            }),
+            systems: Some(vec![]),
+            tle: Some(gps.into()),
+            epoch: Some("2026-06-07T12:00:00Z".into()),
+            ..Default::default()
+        };
+        assert_eq!(sky_geometry(&req).unwrap().sky_source, "tle-at-epoch");
+        let nothing = SkyRequest {
+            systems: Some(vec![]),
+            ..Default::default()
+        };
+        assert!(sky_geometry(&nothing)
+            .unwrap_err()
+            .contains("give `systems`"));
+    }
+
+    #[test]
+    fn malformed_tle_lines_are_reported_not_dropped() {
+        let gps = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        let first: Vec<&str> = gps.lines().take(6).collect();
+        let text = format!(
+            "1 bad\n2 bad\n{}\n{}\n{}\nORPHAN\n{}\n{}\n{}\n",
+            first[0], first[1], first[2], first[4], first[3], first[5]
+        );
+        let req = SkyRequest {
+            site: Some(Site {
+                lat_deg: 52.0,
+                lon_deg: 5.0,
+                height_m: 0.0,
+            }),
+            tle: Some(text),
+            epoch: Some("2026-06-07T12:00:00Z".into()),
+            ..Default::default()
+        };
+        let g = sky_geometry(&req).unwrap();
+        assert_eq!(
+            g.satellites.len() + g.n_below_horizon,
+            1,
+            "one complete set"
+        );
+        let sk = &g.tle_skipped;
+        assert!(sk[0].starts_with("line 1: malformed"), "{sk:?}");
+        assert!(sk[1].starts_with("line 2: malformed"), "{sk:?}");
+        // Lines 7 to 9 are line 1, a name line, then line 2: the name breaks the pair.
+        assert!(
+            sk[2].starts_with("line 7: line 1 without its line 2"),
+            "{sk:?}"
+        );
+        assert!(
+            sk[3].starts_with("line 9: line 2 without its line 1"),
+            "{sk:?}"
+        );
+        assert_eq!(sk.len(), 4);
+        // The ignored lines do not leak into the names.
+        assert!(g.satellites.iter().all(|l| !l.id.contains("bad")));
+        // Capped: many malformed lines give MAX_TLE_SKIPPED entries and one count.
+        let many = format!("{}{}", "1 bad\n".repeat(250), gps);
+        let g = sky_geometry(&SkyRequest {
+            tle: Some(many),
+            ..req
+        })
+        .unwrap();
+        assert_eq!(g.tle_skipped.len(), MAX_TLE_SKIPPED + 1);
+        assert_eq!(g.tle_skipped.last().unwrap(), "... and 150 more lines");
     }
 }
