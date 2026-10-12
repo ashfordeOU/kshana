@@ -1,6 +1,6 @@
 # Result: the jammer-type Q change, compared as pre-registered
 
-Pre-registration: `xval/jammer-q/PREREGISTRATION.md` (commit 85eeea63), committed before the
+Pre-registration: `xval/jammer-q/PREREGISTRATION.md` (commit ff88da05), committed before the
 changed engine ran on any scenario.
 
 ## Method as run
