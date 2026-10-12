@@ -75,3 +75,11 @@ cargo test --test skyline_orekit_oracle
 
 The inputs are regenerated (only if the engine's presets change) with
 `KSHANA_WRITE_SKYLINE_ORACLE_INPUTS=1 cargo test --test skyline_orekit_oracle -- --ignored`.
+
+## Reproducibility notes (added after the run at review; the protocol above is unchanged)
+
+- The convention probe is `xval/orekit-skyline/ElevationMaskProbe.java`, committed after the
+  fact as it was run. Re-run against Orekit 12.2 and Hipparchus 3.1 it prints 30° at 0°, 25° at
+  5° and 25.294117647059° at 100°, as stated above.
+- gnss_lib_py 1.0.4 requires Python below 3.13; the DOP driver was run with Python 3.12.3 in a
+  virtual environment holding `gnss_lib_py==1.0.4` (`python -I xval/orekit-skyline/gnss_lib_py_dop.py ...`).
