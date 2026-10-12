@@ -559,6 +559,18 @@ The **oracle** is round-trip / field conformance. Because `oem.rs` ships *both* 
 |------------|--------|-----------------------|
 | Lunar interoperability export | `modelled` | `src/lunar_interop.rs` `export_lunar_oem`, `export_lunar_time_metadata`, `parse_lunar_time_metadata`, `export_kif_lunar`, `oem_conformance`, `LunarInteropScenario`. **Oracle: `InternalConsistency`** — deterministic round-trip (CCSDS OEM via `crate::oem::parse_oem`; KIF via `crate::interchange::Envelope::parse`; time metadata via serde_json) plus field-name conformance against published CCSDS OEM + LunaNet/IOAG field semantics. Tests (`lunar_interop::tests`): the exported OEM carries the lunar `REF_FRAME` (`MOON_ME`/`MOON_PA`) and `TIME_SYSTEM` (`LTC`/`TCL`) tokens, `CENTER_NAME = MOON`, the object and well-formed data lines; the lunar-time metadata round-trips (rate/band/reference) and rejects garbage; the KIF envelope serialises and deserialises to an equal value with the MODELLED honesty label present; a deliberately broken OEM (missing `TIME_SYSTEM`) fails `oem_conformance` and is reported missing; the scenario dispatches through `run_toml`. **Honest scope:** the field **names/units** are aligned with **public** standards (CCSDS 502.0-B OEM, IAU WGCCRE 2015 lunar frames, the LunaNet Interoperability Specification / IOAG lunar architecture); the export is **MODELLED** — deterministic round-trip + field-name conformance is the oracle, this is **NOT** a certified interoperability conformance test, the ephemeris is **illustrative, public-source, not affiliated with ESA**, and no TRL, flight heritage or agency endorsement is claimed. |
 
+## Pre-registered predictions
+
+A pre-registered prediction is a MODELLED result frozen before any data exist to score it, with
+the scoring protocol fixed at the same time. It is not a validation and adds no ledger row. Each
+lives in `docs/predictions/`, with its frozen inputs, its result and their SHA-256 hashes, and
+`tests/prediction_frozen.rs` fails if any frozen byte moves; a changed assumption is answered by
+a new, dated prediction beside the old one, never by editing it.
+
+| Prediction | Frozen | Scored against | Status |
+|---|---|---|---|
+| [Lunar reference-station coverage](predictions/lunar-reference-station.md) | c05dac1d, 2026-10-12 | published accuracy, availability, coverage and protection levels of a south-polar lunar differential station, by any party | not yet scored (no published results) |
+
 ## Demonstration representativeness & gaps-to-flight ledger (`src/representativeness.rs`)
 
 A simulation result is only useful as evidence if it states, on its face, what it is anchored to, what it assumes, and what still separates it from a flight system. The representativeness ledger makes that a first-class, machine-checked output: a `Representativeness` record carries the demonstration's external `Anchor`s, its modelled assumptions, its `Gap`s to flight (each with the phase/activity that would close it), and the TRL band it is representative for. It is the per-result companion to the capability-level `verification` matrix.
