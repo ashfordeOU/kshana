@@ -100,6 +100,7 @@ pub mod compliance;
 pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
+pub mod contact_schedule;
 pub mod cr3bp;
 pub mod cross_raim;
 pub mod cross_sensor_integrity;
