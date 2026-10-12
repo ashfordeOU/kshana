@@ -646,6 +646,15 @@ pub struct Dop {
 /// usable satellites or a singular (e.g. coplanar) geometry. HDOP/VDOP are taken
 /// in the user's local East-North-Up frame.
 pub fn dop(user: Vec3, sats: &[Vec3]) -> Option<Dop> {
+    let q = dop_cofactor(user, sats)?;
+    dop_from_cofactor(user, &q)
+}
+
+/// The covariance factor `Q = (HᵀH)⁻¹` behind [`dop`], in the inertial frame of `user` and
+/// `sats` with the clock last (`[x, y, z, c·δt]`): the same rows, the same inversion, so
+/// `σ²·Q` is the least-squares covariance whose traces [`dop`] reports. `None` exactly
+/// where [`dop`] is.
+pub fn dop_cofactor(user: Vec3, sats: &[Vec3]) -> Option<[[f64; 4]; 4]> {
     let mut a = [[0.0_f64; 4]; 4];
     let mut used = 0usize;
     for &s in sats {
@@ -663,7 +672,11 @@ pub fn dop(user: Vec3, sats: &[Vec3]) -> Option<Dop> {
     if used < 4 {
         return None;
     }
-    let q = invert4(a)?;
+    invert4(a)
+}
+
+/// The DOP factors of a cofactor matrix from [`dop_cofactor`] at `user`.
+fn dop_from_cofactor(user: Vec3, q: &[[f64; 4]; 4]) -> Option<Dop> {
     let pdop = (q[0][0] + q[1][1] + q[2][2]).sqrt();
     let tdop = q[3][3].sqrt();
     let gdop = (q[0][0] + q[1][1] + q[2][2] + q[3][3]).sqrt();
