@@ -1365,6 +1365,9 @@ pub fn with_study_meta(json: &str, meta: &crate::report::StudyMeta) -> String {
     format!("{{\n  \"meta\": {},\n{rest}", indented.trim_start())
 }
 
+mod builtins;
+pub use builtins::{append_figure_tiers, BuiltinKind};
+
 /// The contract a scenario pack fulfils: run itself and produce the unified output
 /// envelope, returning a structured [`KshanaError`] on failure.
 pub trait Scenario {
@@ -1393,8 +1396,8 @@ pub trait ExternalPack: Scenario {
 }
 
 // A built-in pack implemented through the `Scenario` trait, as the worked example
-// the dispatcher and any external pack follow. (The other built-ins run inline in
-// `run_toml`; migrating each is a mechanical follow-on.)
+// the dispatcher and any external pack follow. The other migrated built-ins, and their
+// `BuiltinKind` impls (this one's included), live in `api/builtins.rs` (FUT-27).
 impl Scenario for crate::jamming::JammingScenario {
     fn run(&self) -> Result<RunOutput, KshanaError> {
         self.time.validate()?;
@@ -1472,24 +1475,7 @@ fn run_toml_inner(src: &str) -> Result<RunOutput, String> {
 /// without forking core.
 pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutput, String> {
     match kind {
-        ScenarioKind::Inertial => {
-            let scn: crate::inertial::InertialScenario =
-                toml::from_str(src).map_err(|e| format!("invalid inertial scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::inertial::run_inertial(&scn);
-            let summary = format!(
-                "scenario {} | quantum holdover {:.0}s p95 {:.2}m | classical holdover {:.0}s p95 {:.1}m",
-                &r.scenario_hash[..12],
-                r.quantum.fom.holdover_s, r.quantum.fom.pos_p95_m,
-                r.classical.fom.holdover_s, r.classical.fom.pos_p95_m,
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::inertial::UNITS)?,
-                svg: crate::inertial::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Inertial => builtins::run_builtin::<crate::inertial::InertialScenario>(src),
         ScenarioKind::Integrity => {
             let scn: crate::raim::IntegrityScenario =
                 toml::from_str(src).map_err(|e| format!("invalid integrity scenario: {e}"))?;
@@ -1985,34 +1971,8 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 csv: None,
             })
         }
-        ScenarioKind::Jamming => {
-            // Routed through the `Scenario` trait — the extension-point contract.
-            let scn: crate::jamming::JammingScenario =
-                toml::from_str(src).map_err(|e| format!("invalid jamming scenario: {e}"))?;
-            scn.run().map_err(|e| e.to_string())
-        }
-        ScenarioKind::Spoof => {
-            let scn: crate::spoof::SpoofScenario =
-                toml::from_str(src).map_err(|e| format!("invalid spoof scenario: {e}"))?;
-            scn.time.validate()?;
-            let r = crate::spoof::run_spoof(&scn);
-            let det = |c: &crate::spoof::SpoofClock| {
-                c.detect_time_s
-                    .map_or_else(|| "undetected".to_string(), |t| format!("detected {t:.0}s"))
-            };
-            let summary = format!(
-                "scenario {} | spoof {:?} vs {:.3} ns spec (P_fa {:.3}) | quantum security {:.3} (P_md {:.3}, MC {:.3}) {} | classical security {:.3} (P_md {:.3}, MC {:.3}) {}",
-                &r.scenario_hash[..12], scn.attack.resolved_shape(), r.threshold_ns, scn.attack.target_pfa,
-                r.quantum.security_fom, r.quantum.detection.analytic_pmd, r.quantum.detection.mc_pmd, det(&r.quantum),
-                r.classical.security_fom, r.classical.detection.analytic_pmd, r.classical.detection.mc_pmd, det(&r.classical),
-            );
-            Ok(RunOutput {
-                json: json_of_with_units(&r, crate::spoof::UNITS)?,
-                svg: crate::spoof::to_svg(&r),
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Jamming => builtins::run_builtin::<crate::jamming::JammingScenario>(src),
+        ScenarioKind::Spoof => builtins::run_builtin::<crate::spoof::SpoofScenario>(src),
         ScenarioKind::SpoofDetect => {
             let scn: crate::spoof_detect::SpoofDetectScenario =
                 toml::from_str(src).map_err(|e| format!("invalid spoof-detect scenario: {e}"))?;
@@ -2387,29 +2347,9 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 csv: None,
             })
         }
-        ScenarioKind::Passes => {
-            let scn: crate::passes::PassesScenario =
-                toml::from_str(src).map_err(|e| format!("invalid passes scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
-        }
+        ScenarioKind::Passes => builtins::run_builtin::<crate::passes::PassesScenario>(src),
         ScenarioKind::LinkBudget => {
-            let scn: crate::linkbudget::LinkBudgetScenario =
-                toml::from_str(src).map_err(|e| format!("invalid link-budget scenario: {e}"))?;
-            let (json, summary) = scn.run_json()?;
-            let svg = minimal_svg(&summary);
-            Ok(RunOutput {
-                json,
-                svg,
-                summary,
-                csv: None,
-            })
+            builtins::run_builtin::<crate::linkbudget::LinkBudgetScenario>(src)
         }
         ScenarioKind::LunarTimeBudget => {
             let scn: crate::lunar_time_budget_scenario::LunarTimeBudgetScenario =
