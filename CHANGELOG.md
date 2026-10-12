@@ -22,6 +22,15 @@ breaking changes are called out explicitly.
   met; the station corrections missed theirs by double-precision rounding, recorded). MODELLED;
   ledger row "Lunar reference-station coverage and accuracy map". Not affiliated with or
   endorsed by any agency; no statement about the performance of any real system.
+- **Pre-registered prediction: lunar reference-station coverage** (not a validation; MODELLED).
+  [`docs/predictions/lunar-reference-station.md`](docs/predictions/lunar-reference-station.md)
+  freezes, at commit c05dac1d, the `lunar-station-coverage` results under the publicly stated
+  assumptions, with SHA-256 hashes of the inputs and results and a scoring protocol fixed now
+  (factor 2 for accuracies and protection levels, 10 percentage points for availability and
+  coverage; a changed assumption gets a new dated prediction, never an edit; a miss is published
+  as prominently as a hit). Every figure is dominated by the four-satellite constellation's
+  unpublished element set, which is ILLUSTRATIVE, and says so. `tests/prediction_frozen.rs` guards
+  it; `docs/VALIDATION.md` gains a "Pre-registered predictions" section. No ledger row.
 - **Geometry-aware trust** (0.36 geometry design note, section 4). Every `receiver-trust` epoch,
   static or vessel, batch or live, carries its satellite geometry: `good`, `degraded` (reasons
   `few-satellites`, `high-pdop`, `high-hdop`, and informational `sky-blocked`) or `unknown` where
