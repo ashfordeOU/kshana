@@ -136,11 +136,11 @@ pub fn units(parameter: &str, metric: &str) -> Vec<crate::field_schema::FieldUni
 
 /// Unit and provenance class for the fields of an N-D sweep whose unit is not data.
 ///
-/// Only `shape[]`. The other two columns are genuinely open: `points[].coords[]` carries
-/// one value per caller-chosen dotted scenario key and `points[].metrics[]` one per
-/// caller-chosen dotted result path, so their units are whatever those paths are measured
-/// in — resolvable only against the swept pack's own units table, which this pack does
-/// not consult.
+/// Only `shape[]`. The other two columns, `points[].coords[]` (one value per
+/// caller-chosen dotted scenario key) and `points[].metrics[]` (one per caller-chosen
+/// dotted result path), are measured in whatever those paths are measured in, so their
+/// entries are resolved at run time against the swept pack's own units table by
+/// [`generic_units_block`]. This constant is the static part of that block.
 pub const GENERIC_UNITS: &[crate::field_schema::FieldUnit] = {
     use crate::field_schema::{FieldUnit, ProvenanceClass::*};
     &[FieldUnit {
@@ -151,6 +151,171 @@ pub const GENERIC_UNITS: &[crate::field_schema::FieldUnit] = {
                      number of nodes in `points`",
     }]
 };
+
+/// The unit spelling [`crate::field_schema`] reserves for one array column whose rows
+/// carry genuinely different units.
+const MIXED_UNIT: &str = "mixed - see note";
+
+/// A usable `(unit, provenance)` out of one units entry, or `None` when the entry is
+/// malformed (the same test [`crate::field_schema::audit_document`] applies).
+fn usable_entry(entry: &serde_json::Value) -> Option<(&str, crate::field_schema::ProvenanceClass)> {
+    let unit = entry.get("unit")?.as_str().filter(|u| !u.is_empty())?;
+    let prov = crate::field_schema::ProvenanceClass::parse(entry.get("provenance")?.as_str()?)?;
+    Some((unit, prov))
+}
+
+/// Whether a provenance class marks a value the caller can set — the only kind of field
+/// an axis key can be resolved against.
+fn is_settable(p: crate::field_schema::ProvenanceClass) -> bool {
+    use crate::field_schema::ProvenanceClass::*;
+    matches!(p, Input | ModelledInput | Spec | MeasuredOrInput)
+}
+
+/// Resolve one swept scenario key against the swept pack's units table: the unit, and
+/// how it was found (for the note). Two rules, tried in order, both restricted to
+/// entries whose provenance marks a caller-settable value:
+///
+/// 1. **echo** — the document echoes the key at the same path (`threshold_m`);
+/// 2. **field name** — every settable entry whose last segment is the key's last
+///    segment (`accel_classical.bias` → `classical.spec.params.bias` and
+///    `quantum.spec.params.bias`), provided there is at least one and they all agree.
+///
+/// Anything else is unresolved (`None`): no unit is guessed.
+fn resolve_axis_key(
+    units: &serde_json::Map<String, serde_json::Value>,
+    key: &str,
+) -> Option<(String, String)> {
+    if let Some((k, entry)) = crate::field_schema::lookup(units, key) {
+        if let Some((unit, prov)) = usable_entry(entry) {
+            if is_settable(prov) {
+                return Some((unit.to_string(), format!("echoed as `{k}`")));
+            }
+        }
+    }
+    let leaf = key.rsplit('.').next().unwrap_or(key);
+    let mut found: Vec<(&str, &str)> = Vec::new();
+    for (k, entry) in units {
+        let last = k.rsplit('.').next().unwrap_or(k).trim_end_matches("[]");
+        if last != leaf {
+            continue;
+        }
+        if let Some((unit, prov)) = usable_entry(entry) {
+            if is_settable(prov) {
+                found.push((k.as_str(), unit));
+            }
+        }
+    }
+    let unit = found.first()?.1;
+    if found.iter().any(|(_, u)| *u != unit) {
+        return None;
+    }
+    let names: Vec<String> = found.iter().map(|(k, _)| format!("`{k}`")).collect();
+    Some((
+        unit.to_string(),
+        format!("by field name: {}", names.join(", ")),
+    ))
+}
+
+/// The full `units` block of an N-D sweep document: [`GENERIC_UNITS`] plus the two
+/// columns whose units are resolved against `node_units`, the `units` block of the
+/// swept kind's first grid node (see [`run_generic_sweep_with_units`]).
+///
+/// * `points[].coords[]` — every axis key resolved by [`resolve_axis_key`]; provenance
+///   `input`, because each coordinate is a value the sweep set.
+/// * `points[].metrics[]` — every metric path looked up in the swept table with the
+///   same grammar the audit uses ([`crate::field_schema::lookup`]); provenance is the
+///   metrics' shared class, or `computed` when they differ.
+///
+/// The unit is the shared unit when every axis (or every metric) has the same one, and
+/// [`MIXED_UNIT`] otherwise; the note always states the unit of each position, in
+/// order. A column with even one unresolved position gets **no entry**: a partial or
+/// guessed unit would let the audit count the column as described when it is not.
+pub fn generic_units_block(
+    result: &GenericNdSweepResult,
+    node_units: Option<&serde_json::Value>,
+) -> serde_json::Value {
+    use crate::field_schema::ProvenanceClass;
+    use serde_json::Value;
+    let mut block = crate::field_schema::units_block(GENERIC_UNITS);
+    let Some(units) = node_units.and_then(Value::as_object) else {
+        return block;
+    };
+    let Some(out) = block.as_object_mut() else {
+        return block;
+    };
+    let shared = |us: &[String]| -> String {
+        match us.first() {
+            Some(u) if us.iter().all(|x| x == u) => u.clone(),
+            _ => MIXED_UNIT.to_string(),
+        }
+    };
+
+    let axes: Option<Vec<(String, String)>> = result
+        .keys
+        .iter()
+        .map(|k| resolve_axis_key(units, k))
+        .collect();
+    if let Some(axes) = axes.filter(|a| !a.is_empty()) {
+        let us: Vec<String> = axes.iter().map(|(u, _)| u.clone()).collect();
+        let per: Vec<String> = result
+            .keys
+            .iter()
+            .zip(&axes)
+            .map(|(k, (u, how))| format!("`{k}` [{u}] ({how})"))
+            .collect();
+        let mut e = serde_json::Map::new();
+        e.insert("unit".into(), Value::from(shared(&us)));
+        e.insert("provenance".into(), Value::from(ProvenanceClass::Input.as_str()));
+        e.insert(
+            "note".into(),
+            Value::from(format!(
+                "the swept scenario keys' values at this node, one per axis in `keys` \
+                 order; each unit is read from the swept `{}` pack's own units table: {}",
+                result.kind,
+                per.join("; ")
+            )),
+        );
+        out.insert("points[].coords[]".into(), Value::Object(e));
+    }
+
+    let metrics: Option<Vec<(String, ProvenanceClass)>> = result
+        .metrics
+        .iter()
+        .map(|m| {
+            crate::field_schema::lookup(units, m)
+                .and_then(|(_, entry)| usable_entry(entry))
+                .map(|(u, p)| (u.to_string(), p))
+        })
+        .collect();
+    if let Some(ms) = metrics.filter(|m| !m.is_empty()) {
+        let us: Vec<String> = ms.iter().map(|(u, _)| u.clone()).collect();
+        let prov = match ms.first() {
+            Some((_, p)) if ms.iter().all(|(_, q)| q == p) => *p,
+            _ => ProvenanceClass::Computed,
+        };
+        let per: Vec<String> = result
+            .metrics
+            .iter()
+            .zip(&ms)
+            .map(|(m, (u, p))| format!("`{m}` [{u}] ({})", p.as_str()))
+            .collect();
+        let mut e = serde_json::Map::new();
+        e.insert("unit".into(), Value::from(shared(&us)));
+        e.insert("provenance".into(), Value::from(prov.as_str()));
+        e.insert(
+            "note".into(),
+            Value::from(format!(
+                "the recorded result paths at this node, one per entry of `metrics`, \
+                 each read from that node's own `{}` result; unit and provenance from \
+                 that pack's units table: {}",
+                result.kind,
+                per.join("; ")
+            )),
+        );
+        out.insert("points[].metrics[]".into(), Value::Object(e));
+    }
+    block
+}
 
 /// Apply a swept parameter value to a clone of the base scenario.
 fn apply(base: &Scenario, parameter: &str, value: f64) -> Result<Scenario, String> {
@@ -666,7 +831,7 @@ fn eval_node(
     shape: &[usize],
     metrics: &[String],
     flat: usize,
-) -> Result<GenericNdPoint, String> {
+) -> Result<(GenericNdPoint, Option<serde_json::Value>), String> {
     let coords = coords_of(flat, axis_values, shape);
     let mut node = base.clone();
     for (a, &v) in axes.iter().zip(&coords) {
@@ -680,10 +845,38 @@ fn eval_node(
         .iter()
         .map(|m| get_dotted_json(&j, m))
         .collect::<Result<Vec<_>, _>>()?;
-    Ok(GenericNdPoint {
-        coords,
-        metrics: ms,
-    })
+    // Only the first node's `units` block is kept: it is the swept kind's own units
+    // table, which [`generic_units_block`] reads the axis and metric units out of.
+    let units = if flat == 0 {
+        j.get("units").cloned()
+    } else {
+        None
+    };
+    Ok((
+        GenericNdPoint {
+            coords,
+            metrics: ms,
+        },
+        units,
+    ))
+}
+
+/// The points of a grid evaluation and the first node's `units` block.
+type GridEval = (Vec<GenericNdPoint>, Option<serde_json::Value>);
+
+/// Split the node results (in flat order) into the points and node 0's units block.
+fn split_units(nodes: Vec<(GenericNdPoint, Option<serde_json::Value>)>) -> GridEval {
+    let mut units = None;
+    let points = nodes
+        .into_iter()
+        .map(|(p, u)| {
+            if units.is_none() {
+                units = u;
+            }
+            p
+        })
+        .collect();
+    (points, units)
 }
 
 /// Evaluate every grid node, in parallel across OS threads on native targets.
@@ -695,7 +888,7 @@ fn eval_grid(
     shape: &[usize],
     metrics: &[String],
     total: usize,
-) -> Result<Vec<GenericNdPoint>, String> {
+) -> Result<GridEval, String> {
     let nthreads = std::thread::available_parallelism()
         .map(|n| n.get())
         .unwrap_or(1)
@@ -703,10 +896,14 @@ fn eval_grid(
     if nthreads <= 1 || total <= 1 {
         return (0..total)
             .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
-            .collect();
+            .collect::<Result<Vec<_>, _>>()
+            .map(split_units);
     }
     let chunk = total.div_ceil(nthreads);
-    let chunk_results: Vec<Result<Vec<(usize, GenericNdPoint)>, String>> =
+    #[allow(clippy::type_complexity)]
+    let chunk_results: Vec<
+        Result<Vec<(usize, (GenericNdPoint, Option<serde_json::Value>))>, String>,
+    > =
         std::thread::scope(|scope| {
             let handles: Vec<_> = (0..nthreads)
                 .map(|t| {
@@ -730,21 +927,26 @@ fn eval_grid(
                 .collect()
         });
     // Place every node at its exact flat index — order is scheduling-independent.
-    let mut slots: Vec<Option<GenericNdPoint>> = (0..total).map(|_| None).collect();
+    let mut slots: Vec<Option<(GenericNdPoint, Option<serde_json::Value>)>> =
+        (0..total).map(|_| None).collect();
     for chunk in chunk_results {
         for (f, p) in chunk? {
             slots[f] = Some(p);
         }
     }
-    Ok(slots
-        .into_iter()
-        // The worker chunks `[t*chunk, (t+1)*chunk)` for `t in 0..nthreads` (with
-        // `chunk = total.div_ceil(nthreads)`) tile `[0, total)` with no gaps, and every
-        // chunk succeeded above (`chunk?`), so every one of the `total` slots was filled.
-        .map(|p| {
-            p.expect("the chunked workers cover every flat index 0..total, so each slot is Some")
-        })
-        .collect())
+    Ok(split_units(
+        slots
+            .into_iter()
+            // The worker chunks `[t*chunk, (t+1)*chunk)` for `t in 0..nthreads` (with
+            // `chunk = total.div_ceil(nthreads)`) tile `[0, total)` with no gaps, and every
+            // chunk succeeded above (`chunk?`), so every one of the `total` slots was filled.
+            .map(|p| {
+                p.expect(
+                    "the chunked workers cover every flat index 0..total, so each slot is Some",
+                )
+            })
+            .collect(),
+    ))
 }
 
 /// Sequential evaluation for wasm (no OS threads).
@@ -756,10 +958,11 @@ fn eval_grid(
     shape: &[usize],
     metrics: &[String],
     total: usize,
-) -> Result<Vec<GenericNdPoint>, String> {
+) -> Result<GridEval, String> {
     (0..total)
         .map(|f| eval_node(base, axes, axis_values, shape, metrics, f))
-        .collect()
+        .collect::<Result<Vec<_>, _>>()
+        .map(split_units)
 }
 
 /// Run a generic N-D sweep over any scenario kind. Each grid node is the base
@@ -767,6 +970,16 @@ fn eval_grid(
 /// requested metrics are read from the result JSON. Points are row-major (last
 /// axis fastest), parallel on native, deterministic.
 pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepResult, String> {
+    run_generic_sweep_with_units(scn).map(|(r, _)| r)
+}
+
+/// [`run_generic_sweep`], plus the `units` block of the swept kind's first grid node
+/// (`None` when that kind's document carries none). The block is the swept pack's own
+/// units table, which [`generic_units_block`] resolves the axis and metric units from;
+/// the sweep result itself is identical to [`run_generic_sweep`]'s.
+pub fn run_generic_sweep_with_units(
+    scn: &GenericSweepScenario,
+) -> Result<(GenericNdSweepResult, Option<serde_json::Value>), String> {
     if scn.axes.is_empty() {
         return Err("generic sweep needs at least one axis".into());
     }
@@ -788,7 +1001,7 @@ pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepRes
     let axis_values: Vec<Vec<f64>> = scn.axes.iter().map(|a| a.values()).collect();
     let shape: Vec<usize> = axis_values.iter().map(|v| v.len()).collect();
     let total: usize = shape.iter().product();
-    let points = eval_grid(
+    let (points, node_units) = eval_grid(
         &scn.base,
         &scn.axes,
         &axis_values,
@@ -796,15 +1009,18 @@ pub fn run_generic_sweep(scn: &GenericSweepScenario) -> Result<GenericNdSweepRes
         &scn.metrics,
         total,
     )?;
-    Ok(GenericNdSweepResult {
-        schema_version: crate::interchange::SCHEMA_VERSION.into(),
-        engine_version: env!("CARGO_PKG_VERSION").into(),
-        kind,
-        keys: scn.axes.iter().map(|a| a.key.clone()).collect(),
-        metrics: scn.metrics.clone(),
-        shape,
-        points,
-    })
+    Ok((
+        GenericNdSweepResult {
+            schema_version: crate::interchange::SCHEMA_VERSION.into(),
+            engine_version: env!("CARGO_PKG_VERSION").into(),
+            kind,
+            keys: scn.axes.iter().map(|a| a.key.clone()).collect(),
+            metrics: scn.metrics.clone(),
+            shape,
+            points,
+        },
+        node_units,
+    ))
 }
 
 /// Render a generic sweep: a 1-axis sweep is drawn as one line per metric versus
