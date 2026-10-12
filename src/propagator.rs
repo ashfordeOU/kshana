@@ -31,12 +31,15 @@
 //! The force model spans **two-body + the J2..J6 zonal field + the epoch-driven Sun/Moon third
 //! body + solar-radiation pressure + atmospheric drag + the post-Newtonian relativistic
 //! correction** (the cannonball SRP model with a conical umbra+penumbra eclipse, quadratic drag
-//! against the Vallado piecewise-exponential atmosphere, and the Schwarzschild perigee-advance
-//! term). The full high-degree EGM tesseral field (a 200×200 gravity model and its coefficient
-//! loader), the NRLMSISE-00 thermospheric density (the < 5 % drag-density clause), solar limb
-//! darkening, the Lense–Thirring frame-dragging term — and the cross-validation of a 200×200 EGM
-//! 24-hour orbit against an external high-precision propagator (GMAT/Orekit) — remain follow-ons
-//! (see `ROADMAP.md`). The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision*
+//! against the Vallado piecewise-exponential atmosphere, the Schwarzschild perigee-advance term
+//! and the opt-in Lense–Thirring frame-dragging term). A full tesseral field is used for a
+//! central body that carries one ([`Body::gravity`], e.g. Mars); the Earth default has none. The
+//! conservative tiers (two-body → J2–J6 → Sun/Moon → SRP) are VALIDATED against Orekit 12.2
+//! (`tests/numerical_cowell_propagator_reference.rs`, worst 0.08 m over 24 h). The high-degree
+//! EGM tesseral field for Earth in this propagator (a 200×200 gravity model; the d/o 70 EGM2008
+//! field is composed only into [`crate::precise_od`]), the NRLMSISE-00 thermospheric density
+//! (the < 5 % drag-density clause), solar limb darkening, and a GMAT cross-check (and any
+//! external check of the drag tier) remain follow-ons (see `ROADMAP.md`). The third-body/SRP ephemerides are the [`crate::ephem`] *low-precision*
 //! analytical series (~0.005° Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density
 //! is the static exponential model. What is delivered is the integrator + the
 //! two-body/J2/zonal/third-body/SRP/drag/relativity force model + the analytic-truth validation

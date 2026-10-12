@@ -16,9 +16,13 @@
 //! **atmospheric drag** ([`drag_accel`], quadratic drag against the co-rotating atmosphere of
 //! [`atmospheric_density`], the Vallado piecewise-exponential model), and the post-Newtonian
 //! **Schwarzschild relativistic correction** ([`relativistic_accel`], the leading
-//! general-relativistic perigee-advance term).
+//! general-relativistic perigee-advance term), and the opt-in **Lense–Thirring** frame-dragging
+//! term ([`lense_thirring_accel`], IERS Conventions 2010 §10).
 //!
-//! Scope (honest): the gravity field is **zonal only** (no tesseral/sectoral EGM terms); the SRP
+//! Scope (honest): the Earth gravity terms here are **zonal only** (no tesseral/sectoral EGM
+//! terms; a full tesseral field for a non-Earth central body rides
+//! [`crate::body::Body::gravity`] in the propagator, and the EGM2008 tesseral field is composed
+//! only into [`crate::precise_od`]); the SRP
 //! shadow is the geometric dual-disk **conical umbra+penumbra** (no solar limb darkening or
 //! oblate-Earth shadow); and the drag density is the **static piecewise-exponential** model (no
 //! NRLMSISE-00 thermosphere); see `ROADMAP.md`.
