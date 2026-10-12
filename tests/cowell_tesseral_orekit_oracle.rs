@@ -15,8 +15,9 @@
 //! against `precise_od`); degrees above 70.
 //!
 //! PIN-SCOPE:    the 150 Orekit reference states of the committed fixture (6 cases × 25 hourly
-//!               states) and the pre-registered |Δr| ≤ 0.5 m, |Δv| ≤ 5e-4 m/s bars, plus the two
-//!               pre-registered negative controls (frozen Earth, zonal-only model) at > 100 m.
+//!               states) against the pre-registered bars, tightened after the first run to
+//!               |Δr| ≤ 0.1 m and |Δv| ≤ 1e-4 m/s, plus the two pre-registered negative controls
+//!               (frozen Earth, zonal-only model) at > 100 m.
 //! PIN-EXCLUDES: every kshana report and scenario output; Earth-orientation fidelity; any
 //!               field above degree 70; the default (non-tesseral) force model.
 
@@ -27,8 +28,9 @@ use kshana::propagator::{propagate_dopri, ForceModel, Geopotential};
 const REF: &str =
     include_str!("fixtures/cowell_tesseral_orekit_oracle/cowell_tesseral_orekit_oracle.txt");
 
-const POS_BAR_M: f64 = 0.5;
-const VEL_BAR_M_S: f64 = 5.0e-4;
+// Pre-registered 0.5 m / 5e-4 m/s; tightened after the first run (worst 0.0355 m, 3.74e-5 m/s).
+const POS_BAR_M: f64 = 0.1;
+const VEL_BAR_M_S: f64 = 1.0e-4;
 const CONTROL_MIN_MISS_M: f64 = 100.0;
 
 type Vec3 = [f64; 3];
