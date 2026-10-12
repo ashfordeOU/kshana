@@ -43,6 +43,22 @@ intellijPlatform {
         password = providers.environmentVariable("PRIVATE_KEY_PASSWORD")
     }
 
+    // `verifyPlugin` runs the IntelliJ Plugin Verifier against the floor (the since-build) and
+    // the newest release line; KSHANA_VERIFY_IDES (comma-separated `TYPE:VERSION`) overrides it.
+    pluginVerification {
+        ides {
+            val wanted = providers.environmentVariable("KSHANA_VERIFY_IDES").orNull
+            if (wanted.isNullOrBlank()) {
+                create(IntelliJPlatformType.IntellijIdeaCommunity, "2024.3")
+            } else {
+                wanted.split(',').map { it.trim() }.filter { it.isNotEmpty() }.forEach { spec ->
+                    val (type, ver) = spec.split(':', limit = 2)
+                    create(IntelliJPlatformType.fromCode(type), ver)
+                }
+            }
+        }
+    }
+
     // `publishPlugin` reads the Marketplace permanent token from PUBLISH_TOKEN.
     publishing {
         token = providers.environmentVariable("PUBLISH_TOKEN")

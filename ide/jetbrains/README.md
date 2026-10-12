@@ -71,6 +71,16 @@ cd ide/jetbrains
 ./gradlew verifyPlugin   # JetBrains plugin-verifier compatibility check (downloads IDEs)
 ```
 
+`verifyPlugin` checks the since-build, 2024.3, by default. To check other lines, list them as
+`TYPE:VERSION` (each IDE is a download of about 1 GB):
+
+```sh
+KSHANA_VERIFY_IDES="IC:2024.3,IC:2025.2,IU:2026.2.3,IU:263.6259.32" ./gradlew verifyPlugin
+```
+
+The plugin uses no deprecated or scheduled-for-removal platform API on any of those; keep it
+that way (a choice dialog goes through `KshanaChooser`, not `Messages.showChooseDialog`).
+
 Install the built zip via **Settings → Plugins → ⚙ → Install Plugin from Disk…**.
 
 ## Layout
