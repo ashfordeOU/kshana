@@ -181,6 +181,12 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- **D9 round 3 (`utck_bound`) status.** BIPM Circular T 465 came out on 2026-10-12. The
+  pre-registered prospective score is still not run: issue 465 holds about 285 test values,
+  and the stopping rule needs 1000, so about issues 465–468. The run also needs the archived
+  2026-09-30 per-laboratory files, because BIPM has since rewritten 87 of the 113. The ledger
+  row and the test header say so; the test, its bars and its split are unchanged.
+
 - **Docs truth pass (0.36).** Roadmap, capability rows, design-doc status lines and module
   comments brought in line with the code; no output changes. Items already built but still
   listed as open are now marked done: the ITU-T mask checks, the 24 h holdover scenario and
