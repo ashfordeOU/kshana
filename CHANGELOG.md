@@ -58,6 +58,15 @@ breaking changes are called out explicitly.
 
 ### Changed
 
+- JetBrains plugin: no deprecated or scheduled-for-removal platform API. The five choice dialogs use
+  a small `DialogWrapper` with a drop-down in place of the deprecated `Messages.showChooseDialog`;
+  single-file choosers use the `FileChooserDescriptor` constructor in place of the deprecated
+  `FileChooserDescriptorFactory.createSingleFileDescriptor()`; the animation opens with
+  `BrowserUtil.browse(Path)` in place of `browse(File)`, which the 2026.3 platform schedules for
+  removal. Since-build stays 243. The IntelliJ Plugin Verifier reports Compatible with no
+  deprecated or scheduled-for-removal usage against 2024.3 (IC-243.21565.193), 2025.2
+  (IC-252.23892.409), 2026.2.3 (IU-262.10968.63) and 2026.3 EAP (IU-263.6259.32); `verifyPlugin`
+  checks 2024.3 by default and any list given in `KSHANA_VERIFY_IDES`.
 - `gnss_sim::run_gnss_sim` and `jamming::run_jamming` return `Result`: an invalid `[skyline]`
   section is an error when called directly, as it already was through `api::run_toml`, rather
   than a silent fall-back to the flat mask. **Breaking** for Rust callers of these two functions.
