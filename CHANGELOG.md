@@ -133,8 +133,8 @@ breaking changes are called out explicitly.
   covariance* against numpy `linalg.inv` and `linalg.eigh` (standard P2), 270 cases, axes 5.1e-13
   relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
   presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
-- With the geometry-trust, skyline and lunar reference-station rows, the ledger has 273 rows:
-  134 Validated, 135 Modelled, 4 Partner.
+- With the geometry-trust, skyline and lunar reference-station rows, the ledger has 274 rows:
+  134 Validated, 136 Modelled, 4 Partner.
 
 - **Lunar reference station: station time laboratory** (**MODELLED**). An optional `[time_lab]`
   block on `lunar-time-budget` (`src/lunar_time_lab.rs`). It models a station clock (default the
@@ -159,6 +159,18 @@ breaking changes are called out explicitly.
   ILLUSTRATIVE schedule and site. Absent or empty inputs leave the report byte-identical. Examples:
   `scenarios/lunar-station-geodesy-baseline.toml` and `-with-station.toml`. Adds one ledger row,
   labelled MODELLED.
+- **Lunar reference station: comparison against published claims** (**MODELLED**). Every numeric claim
+  in five public sources is listed with its exact wording, page and stated assumptions, and classified
+  as comparable, partly comparable or not comparable (`tests/fixtures/lunar_station_published/CLAIMS.md`;
+  sources with URL, retrieval date, SHA-256 and licence in `tests/fixtures/lunar_station/SOURCES.md`).
+  The partly comparable claims were scored under six one-sided bars pre-registered before the run
+  (`PREREGISTRATION.md`, revision 2, 05bf9a19): 1 of 6 claims within the pre-registered bar
+  (pre-registered 05bf9a19). Coverage is 0.00 against >= 0.95 on both south-polar circles, and the
+  corrected p95 is 280.6 m against <= 1.5 m. The cause is the satellites' orbit elements, which no
+  source publishes: on the ILLUSTRATIVE in-tree elements, four satellites are in common view in 8 % of
+  epochs, at near-singular geometry. The run does not reproduce the claims on those elements and is not
+  evidence that the claims are wrong. Pinned in `tests/lunar_station_published_oracle.rs`. One ledger
+  row, labelled MODELLED with the finding.
 - **Lunar reference station: clock-file data readiness**. `realdata::clk::rinex_clock_series` now
   states the time system of its epochs. It is the `TIME SYSTEM ID` value, or, when that is
   undeclared, the default of the header's satellite system. The result also says whether the system
