@@ -21,7 +21,8 @@ Rules that apply every time:
   `kshana.geometry.label`, a third CEF `cs6` field and LEEF `geoLabel`, with VDOP and satellites
   used; a
   `signal_loss` gauge, since the status stays `degraded` when the signal, not the sky, was lost); suggest alerting on `class="inconsistency"` so a poor sky does not page as an
-  attack.
+  attack. Lead with the geometry label: `poor` is the only label the score deducts for, and the
+  status `degraded` also covers the informational `sky-blocked` case.
 - Carry the caveat: advisory only, not type-approved navigation equipment (IEC 61108,
   IEC 61162), the operator remains responsible; a high score is not proof of a genuine fix.
   Evidence tier: MODELLED.

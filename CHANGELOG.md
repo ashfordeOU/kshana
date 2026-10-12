@@ -85,8 +85,9 @@ breaking changes are called out explicitly.
   JSON-lines schema goes from 1.2 to 1.3 (`geometry` appended, `class` in each deduction); the
   excerpt summary gains `geometry`; telemetry gains geometry series, fields and the `class` label
   only for inputs that carry them, so a 0.35 stream or result renders byte for byte as before.
-  `geometry` is the 17th monitor name; it is not listed in `monitors_run` and has no
-  `[score.weights]` entry (setting one is refused: its deduction is set in `[geometry]`).
+  `geometry` is the 17th monitor name; it is listed last in `monitors_run` when it decided (a
+  vessel whose log gives the geometry; a 0.35 list keeps its order and the summary's monitor count
+  goes up by one) and has no `[score.weights]` entry (setting one is refused: its deduction is set in `[geometry]`).
 - `tests/fixtures/dop/NOTICE` named gnss_lib_py's licence Apache-2.0; the 1.0.4 release is MIT.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
