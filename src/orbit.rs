@@ -1063,15 +1063,20 @@ impl SiteCfg {
 pub enum UserPath {
     /// An orbiting user.
     Orbit(Orbit),
-    /// A ground site. The constellation's inertial frame is taken as the true-equator,
-    /// mean-equinox frame the propagators produce, rotated to Earth-fixed by Greenwich mean
-    /// sidereal time ([`crate::frames::teme_to_ecef`]) at `jd0_ut1 + t / 86400`.
+    /// A ground site. Its geometry is done Earth-fixed at one absolute instant per sample,
+    /// `jd0_ut1 + t / 86400`: every satellite is propagated to that instant (a propagator that
+    /// dates its own data, [`Propagator::own_jd_utc`], is advanced by the time from its own
+    /// epoch to it; a Keplerian orbit counts `t` from `jd0_ut1`), and its true-equator,
+    /// mean-equinox position is rotated to Earth-fixed at it
+    /// ([`crate::frames::teme_to_ecef`]). So the sky is one sky, not each element set at its
+    /// own epoch plus `t` as an orbiting user's samples are. [`UserPath::dated_by`] sets
+    /// `jd0_ut1` from the propagators when the scenario states no epoch.
     Site {
         /// The site.
         geo: crate::frames::Geodetic,
         /// Its Earth-fixed position (m).
         ecef: Vec3,
-        /// UT1 Julian date of `t = 0`.
+        /// UT1 Julian date of `t = 0` for Keplerian satellites and for the inertial track.
         jd0_ut1: f64,
     },
 }
@@ -1087,7 +1092,58 @@ impl UserPath {
         })
     }
 
-    /// The user's inertial position at `t` (m).
+    /// The user's position in the frame its geometry is done in (m): inertial for an orbiting
+    /// user (as [`UserPath::position_eci`]), Earth-fixed for a ground site. Satellite positions
+    /// in the same frame come from [`UserPath::satellite_position`].
+    pub fn position(&self, t: f64) -> Vec3 {
+        match self {
+            UserPath::Orbit(o) => o.position_eci(t),
+            UserPath::Site { ecef, .. } => *ecef,
+        }
+    }
+
+    /// The position of satellite `g` at `t` in the frame of [`UserPath::position`]: its
+    /// inertial position at `t` for an orbiting user (the 0.35 behaviour); for a ground site,
+    /// Earth-fixed at the absolute instant `jd0_ut1 + t / 86400` (see [`UserPath::Site`]). A
+    /// propagation failure stays at the geocentre, which the visibility test rejects.
+    pub fn satellite_position(&self, g: &Propagator, t: f64) -> Vec3 {
+        match self {
+            UserPath::Orbit(_) => g.position_eci(t),
+            UserPath::Site { jd0_ut1, .. } => {
+                let jd = jd0_ut1 + t / 86_400.0;
+                let t_own = match g.own_jd_utc(0.0) {
+                    Some(own0) => (jd0_ut1 - own0) * 86_400.0 + t,
+                    None => t,
+                };
+                crate::frames::teme_to_ecef(g.position_eci(t_own), jd)
+            }
+        }
+    }
+
+    /// Date a ground site's `t = 0` from its satellites when the scenario states no epoch:
+    /// the newest epoch among the propagators that carry one (element sets, broadcast
+    /// ephemerides, SP3), so a catalogue is propagated forward from its freshest set rather
+    /// than to the J2000 default decades away. `stated` keeps the scenario's own epoch; with
+    /// only Keplerian satellites, or for an orbiting user, nothing changes.
+    pub fn dated_by(self, stated: bool, gnss: &[Propagator]) -> Self {
+        match self {
+            UserPath::Site { geo, ecef, jd0_ut1 } if !stated => {
+                let newest = gnss
+                    .iter()
+                    .filter_map(|g| g.own_jd_utc(0.0))
+                    .fold(None, |a: Option<f64>, j| Some(a.map_or(j, |a| a.max(j))));
+                UserPath::Site {
+                    geo,
+                    ecef,
+                    jd0_ut1: newest.unwrap_or(jd0_ut1),
+                }
+            }
+            other => other,
+        }
+    }
+
+    /// The user's inertial position at `t` (m), turned with the Earth from `jd0_ut1` for a
+    /// ground site (the exported track).
     pub fn position_eci(&self, t: f64) -> Vec3 {
         match self {
             UserPath::Orbit(o) => o.position_eci(t),
@@ -1103,15 +1159,16 @@ impl UserPath {
         }
     }
 
-    /// The local east-north-up basis of the user at `t`, each a unit vector in the inertial
-    /// frame. An orbiting user keeps the geocentric basis of [`enu_basis`] (the 0.35
-    /// behaviour); a ground site uses the geodetic one (Up along the WGS-84 ellipsoid normal),
-    /// the frame its look angles and its horizontal and vertical errors are defined in.
+    /// The local east-north-up basis of the user at `t`, each a unit vector in the frame of
+    /// [`UserPath::position`]. An orbiting user keeps the geocentric basis of [`enu_basis`]
+    /// (the 0.35 behaviour); a ground site uses the geodetic one (Up along the WGS-84
+    /// ellipsoid normal), Earth-fixed, the frame its look angles and its horizontal and
+    /// vertical errors are defined in.
     pub fn enu_basis(&self, t: f64) -> Option<(Vec3, Vec3, Vec3)> {
         match self {
             UserPath::Orbit(o) => enu_basis(o.position_eci(t)),
-            UserPath::Site { geo, jd0_ut1, .. } => {
-                let lon = geo.lon_rad + crate::sgp4::gstime(jd0_ut1 + t / 86_400.0);
+            UserPath::Site { geo, .. } => {
+                let lon = geo.lon_rad;
                 let (sl, cl) = geo.lat_rad.sin_cos();
                 let (so, co) = lon.sin_cos();
                 Some((
@@ -1123,12 +1180,13 @@ impl UserPath {
         }
     }
 
-    /// Whether the inertial satellite position `sat` is in view at `t` under `mask_deg` and an
-    /// optional skyline, and whether it is above the mask but hidden by the skyline. For an
-    /// orbiting user with no skyline the first is exactly the 0.35 test
+    /// Whether the satellite at `sat` (in the frame of [`UserPath::position`], from
+    /// [`UserPath::satellite_position`]) is in view at `t` under `mask_deg` and an optional
+    /// skyline, and whether it is above the mask but hidden by the skyline. For an orbiting
+    /// user with no skyline the first is exactly the 0.35 test
     /// `!earth_occults && elevation_deg >= mask_deg`.
     pub fn view(&self, t: f64, sat: Vec3, mask_deg: f64, sky: Option<&Skyline>) -> (bool, bool) {
-        let up = self.position_eci(t);
+        let up = self.position(t);
         if earth_occults(up, sat) {
             return (false, false);
         }
@@ -1140,9 +1198,8 @@ impl UserPath {
                 let vis = sky.visible_lazy(el, mask_deg, az);
                 (vis, !vis && el >= mask_deg)
             }
-            (UserPath::Site { geo, jd0_ut1, .. }, sky) => {
-                let sat_ecef = crate::frames::teme_to_ecef(sat, jd0_ut1 + t / 86_400.0);
-                let l = crate::frames::look_angles(*geo, sat_ecef);
+            (UserPath::Site { geo, .. }, sky) => {
+                let l = crate::frames::look_angles(*geo, sat);
                 let (az, el) = (l.az_rad.to_degrees(), l.el_rad.to_degrees());
                 match sky {
                     None => (el >= mask_deg, false),
@@ -1163,12 +1220,13 @@ pub fn azimuth_deg(user: Vec3, sat: Vec3) -> f64 {
     crate::skyline::azimuth_from_en(dot(los, east), dot(los, north))
 }
 
-/// The satellites in view of a [`UserPath`] at `t`: their inertial positions, their labels
+/// The satellites in view of a [`UserPath`] at `t`: their positions (in the frame of
+/// [`UserPath::position`]: inertial for an orbit, Earth-fixed for a ground site), their labels
 /// (when `labels` is given, aligned with `gnss`), and how many were above the mask but hidden
 /// by the skyline.
 #[derive(Clone, Debug, Default, PartialEq)]
 pub struct SkyView {
-    /// Inertial positions of the satellites in view.
+    /// Positions of the satellites in view, in the frame of [`UserPath::position`].
     pub positions: Vec<Vec3>,
     /// Their labels (empty when none were given).
     pub labels: Vec<u8>,
@@ -1187,7 +1245,7 @@ pub fn sky_view(
 ) -> SkyView {
     let mut v = SkyView::default();
     for (i, g) in gnss.iter().enumerate() {
-        let sp = g.position_eci(t);
+        let sp = user.satellite_position(g, t);
         let (vis, masked) = user.view(t, sp, mask_deg, sky);
         if vis {
             v.positions.push(sp);
@@ -1240,7 +1298,9 @@ pub fn summarize_dop_at(
     for i in 0..=n {
         let t = i as f64 * step_s;
         let view = sky_view(user, gnss, None, t, mask_deg, sky);
-        if let Some(d) = dop(user.position_eci(t), &view.positions) {
+        // PDOP is the trace of the position block, the same in any rotated frame, so the
+        // geocentric-up split inside `dop` does not reach this summary.
+        if let Some(d) = dop(user.position(t), &view.positions) {
             pdops.push(d.pdop);
         }
     }
@@ -1503,6 +1563,17 @@ impl OrbitClockScenario {
             self.skyline.as_ref(),
             self.jd0_ut1(),
         )
+    }
+
+    /// [`OrbitClockScenario::user_and_sky`] with a ground site dated for `gnss`
+    /// ([`UserPath::dated_by`]): the scenario's `epoch` when it states one, else the newest
+    /// propagator epoch.
+    pub fn user_and_sky_for(
+        &self,
+        gnss: &[Propagator],
+    ) -> Result<(UserPath, Option<Skyline>), String> {
+        let (u, s) = self.user_and_sky()?;
+        Ok((u.dated_by(self.epoch.is_some(), gnss), s))
     }
 
     /// All satellites visible to the user: the primary constellation plus any
@@ -2223,17 +2294,11 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
         let up = [cl * co, cl * so, sl];
         let sat_ecef = [0, 1, 2].map(|k| ecef[k] + 2.0e7 * up[k]);
         let t = 600.0;
-        let theta = crate::sgp4::gstime(jd0 + t / 86_400.0);
-        let (sn, c) = theta.sin_cos();
-        let sat_eci = [
-            c * sat_ecef[0] - sn * sat_ecef[1],
-            sn * sat_ecef[0] + c * sat_ecef[1],
-            sat_ecef[2],
-        ];
-        assert_eq!(user.view(t, sat_eci, 89.9, None), (true, false));
+        assert_eq!(user.position(t), *ecef);
+        assert_eq!(user.view(t, sat_ecef, 89.9, None), (true, false));
         // A skyline cannot hide the zenith; refusals of the user fields.
         let sky = crate::skyline::preset("city-street").unwrap().skyline();
-        assert_eq!(user.view(t, sat_eci, 5.0, Some(&sky)), (true, false));
+        assert_eq!(user.view(t, sat_ecef, 5.0, Some(&sky)), (true, false));
         let orbit = OrbitCfg {
             altitude_km: 500.0,
             inclination_deg: 0.0,
@@ -2256,50 +2321,42 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
     fn a_ground_site_splits_horizontal_and_vertical_along_the_geodetic_up() {
         // The reference: the ENU components of a line of sight from the geodetic look angles
         // (frames::look_angles, the WGS-84 ellipsoid normal), compared with the projection
-        // onto the site's inertial basis.
-        let jd0 = 2_451_545.0;
+        // onto the site's basis, both Earth-fixed.
         let user = UserPath::site(
             &SiteCfg {
                 lat_deg: 45.0,
                 lon_deg: -73.0,
                 height_m: 120.0,
             },
-            jd0,
+            2_451_545.0,
         )
         .unwrap();
-        let UserPath::Site { geo, .. } = &user else {
+        let UserPath::Site { geo, ecef, .. } = &user else {
             panic!("a site")
         };
-        for (t, sat) in [
-            (0.0, [1.5e7, -1.9e7, 1.2e7]),
-            (5400.0, [-2.0e7, 4.0e6, 1.8e7]),
-            (40_000.0, [9.0e6, 2.1e7, -3.0e6]),
+        let (e, n, u) = user.enu_basis(0.0).unwrap();
+        for (a, b) in [(e, n), (n, u), (u, e)] {
+            assert!(dot(a, b).abs() < 1e-15);
+        }
+        for sat in [
+            [1.5e7, -1.9e7, 1.2e7],
+            [-2.0e7, 4.0e6, 1.8e7],
+            [9.0e6, 2.1e7, -3.0e6],
         ] {
-            let (e, n, u) = user.enu_basis(t).unwrap();
-            for (a, b) in [(e, n), (n, u), (u, e)] {
-                assert!(dot(a, b).abs() < 1e-15);
-            }
-            let l = crate::frames::look_angles(
-                *geo,
-                crate::frames::teme_to_ecef(sat, jd0 + t / 86_400.0),
-            );
+            let l = crate::frames::look_angles(*geo, sat);
             let (sa, ca) = l.az_rad.sin_cos();
             let (se, ce) = l.el_rad.sin_cos();
             let reference = [l.range_m * ce * sa, l.range_m * ce * ca, l.range_m * se];
-            let d = sub(sat, user.position_eci(t));
+            let d = sub(sat, *ecef);
             let got = [dot(d, e), dot(d, n), dot(d, u)];
             for k in 0..3 {
-                assert!(
-                    (got[k] - reference[k]).abs() < 1e-6 * l.range_m,
-                    "t {t} axis {k}"
-                );
+                assert!((got[k] - reference[k]).abs() < 1e-6 * l.range_m, "axis {k}");
             }
         }
-        // The geodetic up leans from the geocentric radial by the deflection (~0.19 deg at 45 deg),
-        // and an orbiting user keeps the geocentric basis exactly.
-        let (_, _, up) = user.enu_basis(0.0).unwrap();
-        let (_, _, radial) = enu_basis(user.position_eci(0.0)).unwrap();
-        let lean = dot(up, radial).clamp(-1.0, 1.0).acos().to_degrees();
+        // The geodetic up leans from the geocentric radial by the deflection (~0.19 deg at 45
+        // deg), and an orbiting user keeps the geocentric basis exactly.
+        let (_, _, radial) = enu_basis(*ecef).unwrap();
+        let lean = dot(u, radial).clamp(-1.0, 1.0).acos().to_degrees();
         assert!(lean > 0.18 && lean < 0.2, "{lean}");
         let orbit = UserPath::Orbit(
             OrbitCfg {
@@ -2314,6 +2371,52 @@ G01 2023 01 01 00 00 00 4.567890123456D-04 1.136868377216D-12 0.000000000000D+00
             .to_orbit(),
         );
         assert_eq!(orbit.enu_basis(900.0), enu_basis(orbit.position_eci(900.0)));
+        assert_eq!(orbit.position(900.0), orbit.position_eci(900.0));
+    }
+
+    #[test]
+    fn a_ground_site_puts_every_element_set_on_one_instant() {
+        // SGP4 counts `t` from each element set's own epoch, so a ground site advances each
+        // set to the one absolute instant jd0 + t and turns the Earth to that instant; jd0
+        // defaults to the newest set's epoch.
+        let text = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        let sats = crate::tle::parse_propagators(text).unwrap();
+        let site = SiteCfg {
+            lat_deg: 52.0,
+            lon_deg: 5.0,
+            height_m: 45.0,
+        };
+        let j2000 = UserPath::site(&site, 2_451_545.0).unwrap();
+        let newest = sats
+            .iter()
+            .map(|g| g.own_jd_utc(0.0).unwrap())
+            .fold(f64::MIN, f64::max);
+        let UserPath::Site { jd0_ut1, .. } = j2000.clone().dated_by(false, &sats) else {
+            panic!("a site")
+        };
+        assert_eq!(jd0_ut1, newest);
+        let UserPath::Site { jd0_ut1, .. } = j2000.clone().dated_by(true, &sats) else {
+            panic!("a site")
+        };
+        assert_eq!(jd0_ut1, 2_451_545.0, "a stated epoch is kept");
+        let user = j2000.dated_by(false, &sats);
+        for g in &sats {
+            for t in [0.0, 5400.0] {
+                let jd = newest + t / 86_400.0;
+                let t_own = (newest - g.own_jd_utc(0.0).unwrap()) * 86_400.0 + t;
+                let truth = crate::frames::teme_to_ecef(g.position_eci(t_own), jd);
+                assert_eq!(user.satellite_position(g, t), truth);
+            }
+        }
+        // One consistent sky: a full GPS constellation keeps at least four in view all day.
+        for k in 0..=144 {
+            let v = sky_view(&user, &sats, None, k as f64 * 600.0, 5.0, None);
+            assert!(
+                v.positions.len() >= 4,
+                "{} at sample {k}",
+                v.positions.len()
+            );
+        }
     }
 
     #[test]

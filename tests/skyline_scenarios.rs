@@ -379,3 +379,43 @@ fn misplaced_and_malformed_skylines_are_refused() {
     ));
     assert_eq!(ok["skyline"]["source"], "preset:city-street+overrides");
 }
+
+#[test]
+fn a_ground_site_sees_real_element_sets_at_their_own_epochs() {
+    // orbit-real-tle's clocks and grid with a ground site and the repository's Celestrak GPS
+    // element sets (full two-line sets, so SGP4 counts t from each set's own epoch). The site
+    // puts every set on one instant: the scenario's `epoch`, or the newest set's epoch when
+    // it states none, so either way the sky is one consistent sky.
+    let base = read("scenarios/orbit-real-tle.toml");
+    let gps = read("tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+    let start = base.find("tle = \"\"\"").unwrap();
+    let end = start + base[start..].find("\"\"\"\n\n").unwrap() + 4;
+    let real = format!(
+        "{}tle = \"\"\"\n{gps}\"\"\"\n{}",
+        &base[..start],
+        &base[end..]
+    );
+    let site = with_user_site(&real);
+    let dated = format!(
+        "{site}\n[epoch]\nyear = 2026\nmonth = 6\nday = 7\nhour = 0\nminute = 0\nsecond = 0.0\n"
+    );
+    let a = json(&site);
+    let b = json(&dated);
+    let fixes = a["geometry"]["samples_with_fix"].as_u64().unwrap();
+    for v in [&a, &b] {
+        let g = &v["geometry"];
+        assert_eq!(
+            g["samples_with_fix"], g["samples_total"],
+            "a full GPS constellation always gives a fix in the open"
+        );
+        let pdop = g["median_pdop"].as_f64().unwrap();
+        assert!(pdop > 1.0 && pdop < 3.0, "{pdop}");
+        let best = g["best_pdop"].as_f64().unwrap();
+        assert!(best > 1.0, "{best}");
+    }
+    // A stated epoch dates the sky: midnight is not the newest set's 07:21 epoch.
+    assert_ne!(a["geometry"]["median_pdop"], b["geometry"]["median_pdop"]);
+    // Under the city street the same sky loses fixes.
+    let street = json(&with_preset(&site, "city-street"));
+    assert!(street["geometry"]["samples_with_fix"].as_u64().unwrap() < fixes);
+}

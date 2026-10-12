@@ -2047,10 +2047,11 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 toml::from_str(src).map_err(|e| format!("invalid orbit scenario: {e}"))?;
             scn.time.validate()?;
             let r = crate::run::run_orbit_clock(&scn)?;
-            let (user, sky) = scn.user_and_sky()?;
+            let sats = scn.all_satellites()?;
+            let (user, sky) = scn.user_and_sky_for(&sats)?;
             let geometry = crate::orbit::summarize_dop_at(
                 &user,
-                &scn.all_satellites()?,
+                &sats,
                 scn.time.step_s,
                 scn.time.duration_s,
                 scn.mask_deg,
