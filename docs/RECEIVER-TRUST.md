@@ -226,20 +226,25 @@ logged satellites); not an inconsistency".
 **The guard against a forged poor sky.** A spoofer could send a thin GSV, or report a high HDOP,
 to buy tolerance. The engine labels and does not forgive: no other check is widened by a poor
 geometry, and the HDOP the receiver states (GSA within the hold, else GGA) is compared with the HDOP
-derived from the sky it states. When they differ by more than `reported_vs_derived_tol`, the
-epoch carries `reported_derived_mismatch: true` and the geometry deduction is classed
-`inconsistency`. A receiver that leaves tracked satellites out of its solution, or solves for one
-clock per constellation, states an HDOP that differs from the derived one; in poor geometry the
-difference can exceed the tolerance and read as an inconsistency. A deduction classed `geometry` is
+derived from the sky it states. When they differ by more than
+`max(reported_vs_derived_tol, reported_vs_derived_rel × derived HDOP)` (1.0, or 25 % of the derived
+HDOP, whichever is larger), the epoch carries `reported_derived_mismatch: true` and the geometry
+deduction is classed `inconsistency`. The 25 % is a **REPRESENTATIVE** engineering choice, not a
+measured or standard figure: a receiver that solves for one clock per constellation, or with a
+subset of the satellites it tracks (an elevation mask, a C/N0 cut, a RAIM exclusion), states an
+HDOP that differs from the single-clock HDOP of every tracked satellite by an amount that grows
+with the HDOP, so a fixed tolerance alone would read natural poor geometry as an inconsistency. A
+larger difference still reads as one. A deduction classed `geometry` is
 a statement about the sky, not a finding that no attack occurred.
 
 | `[geometry]` key | Default | Provenance |
 |---|---|---|
-| `hdop_max` | 4 | chosen (design note 4.2): at `sigma_uere_m` 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check's `kin_pos_tol_m`; IEC 61108-1 states its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6) |
-| `pdop_max` | 6 | the PDOP availability threshold of `scenarios/polar-arctic-leo-coverage.toml`; GPS SPS Performance Standard, 5th ed. (2020): PDOP ≤ 6 |
+| `hdop_max` | 4 | chosen (design note 4.2): at `sigma_uere_m` 1.5 m, HDOP 4 is a 2drms of 12 m, the kinematic check's `kin_pos_tol_m`. IEC 61108-1 is commonly cited as stating its accuracy requirements for HDOP ≤ 4 (or PDOP ≤ 6): recalled from secondary GNSS receiver literature, no specific secondary source consulted and the standard not read; to be checked against the standard's text |
+| `pdop_max` | 6 | the PDOP availability threshold of `scenarios/polar-arctic-leo-coverage.toml`; GPS SPS Performance Standard, 5th ed. (2020), PDOP ≤ 6, as cited in `tests/constellation_availability_published_spec_oracle.rs`; to be checked against the standard's text |
 | `min_used` | 5 | one more than a fix needs, so a single loss does not end the fix; the fewest with one redundant measurement for RAIM |
 | `sigma_uere_m` | 1.5 | a stated input for the 2drms link of `hdop_max`; set the receiver's own figure |
-| `reported_vs_derived_tol` | 1.0 HDOP | chosen (design note 4.2): a disagreement beyond it is not geometry |
+| `reported_vs_derived_tol` | 1.0 HDOP | chosen (design note 4.2): the absolute part of the tolerance; a disagreement beyond the tolerance is not geometry |
+| `reported_vs_derived_rel` | 0.25 | REPRESENTATIVE engineering choice: the relative part, for receivers with per-constellation clocks or subset solutions |
 | `low_elev_deg` | 15 | design note 4.3: satellites lost below it are lost to the sky; a skyline (0.36 item 1) will extend this |
 | `azimuth_gap_deg` | 180 | geometric, informational: every satellite in one half of the horizon |
 | weight (`score.weights.geometry`) | 15 | design note 4.2: geometry alone reaches degraded, never untrusted |

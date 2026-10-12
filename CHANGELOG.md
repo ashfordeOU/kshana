@@ -23,7 +23,10 @@ breaking changes are called out explicitly.
   their last report; the geometry deduction is `inconsistency` when the HDOP the receiver states
   disagrees with its stated sky by more than 1.0, so a forged poor sky cannot buy the label. A new
   `[geometry]` table states every threshold with its provenance (HDOP 4, PDOP 6, at least 5 used,
-  sigma_UERE 1.5 m, 1.0 HDOP tolerance, 15 degrees). MODELLED; advisory software, not type-approved
+  sigma_UERE 1.5 m, an HDOP tolerance of max(1.0, 25 % of the derived HDOP) with the 25 % a
+  representative choice for receivers with per-constellation clocks or subset solutions,
+  15 degrees; the IEC 61108-1 and GPS SPS figures as cited, to be checked against the standards'
+  text). MODELLED; advisory software, not type-approved
   navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation
   of the vessel.
 - The geometry reaches every surface: the result JSON (`epochs[].geometry`, `class` on every
