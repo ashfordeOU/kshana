@@ -24,7 +24,13 @@
 //!
 //! It also exposes [`solve_kepler_checked`], a Newton solver for Kepler's equation that
 //! **returns `Err` instead of a wrong answer** when it fails to converge within a bounded
-//! iteration count (e.g. the near-perigee high-eccentricity `e = 0.999` case).
+//! iteration count (e.g. the near-perigee high-eccentricity `e = 0.999` case), and
+//! [`solve_kepler_robust`], the shared Markley-starter solver of [`crate::kepler`] that converges
+//! for every `0 ≤ e < 1`.
+//!
+//! Three adaptive drivers are selectable ([`Integrator`]): RK4 step doubling (the default,
+//! [`propagate`]), Dormand–Prince RK5(4) ([`propagate_dopri`]) and Hairer's DOP853
+//! ([`propagate_dop853`]).
 //!
 //! ## Scope (honest)
 //!
@@ -45,7 +51,8 @@
 //! Sun, ~0.3° Moon), not DE/SPK-kernel accuracy, and the drag density is the static exponential
 //! model. What is delivered is the integrator + the
 //! two-body/J2/zonal/tesseral/third-body/SRP/drag/relativity force model + the analytic-truth
-//! validation harness and the convergence-guarded Kepler solver.
+//! validation harness, the three adaptive drivers (step doubling, Dormand–Prince 5(4), DOP853) and
+//! the convergence-guarded and robust Kepler solvers.
 
 use std::sync::Arc;
 
@@ -57,7 +64,9 @@ use crate::forces::{
     two_body_accel_body, zonal_accel, EARTH_ZONALS_J2_J6, MU_EARTH, MU_MOON, MU_SUN,
 };
 use crate::gravity_sh::SphericalHarmonicField;
-use crate::integrator::{integrate, integrate_dopri, rk4_step, Tolerance};
+use crate::integrator::{
+    integrate, integrate_dop853_checked, integrate_dopri, rk4_step, Dop853Error, Tolerance,
+};
 use crate::precession::{julian_centuries_tt, mat_vec, transpose, Mat3};
 use crate::sgp4::Sgp4;
 use crate::timescales::SECONDS_PER_DAY;
@@ -514,6 +523,42 @@ pub fn propagate_dopri(
     )
 }
 
+/// Numerically propagate `(r0, v0)` by `t_end` seconds (either sign) under `model` with the
+/// adaptive **DOP853** driver ([`crate::integrator::integrate_dop853_checked`]), the first step
+/// chosen automatically. Returns the final `(r, v)`, or the reason the run stopped short (the
+/// error carries the last accepted state). A non-finite input is an error.
+pub fn propagate_dop853_checked(
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    model: &ForceModel,
+    tol: &Tolerance,
+) -> Result<(Vec3, Vec3), Dop853Error> {
+    let f = model.rhs();
+    let y0 = vec![r0[0], r0[1], r0[2], v0[0], v0[1], v0[2]];
+    let run = integrate_dop853_checked(&f, 0.0, &y0, t_end, 0.0, tol)?;
+    Ok((
+        [run.y[0], run.y[1], run.y[2]],
+        [run.y[3], run.y[4], run.y[5]],
+    ))
+}
+
+/// [`propagate_dop853_checked`] as a plain `(r, v)`, with the existing propagators' contract for
+/// a non-finite input (returned unchanged, NaN in → NaN out) and a **NaN state** when the
+/// integration stops short of `t_end` (fail closed: never a state at the wrong epoch).
+pub fn propagate_dop853(
+    r0: Vec3,
+    v0: Vec3,
+    t_end: f64,
+    model: &ForceModel,
+    tol: &Tolerance,
+) -> (Vec3, Vec3) {
+    if !state_is_finite(r0, v0, t_end) {
+        return (r0, v0);
+    }
+    propagate_dop853_checked(r0, v0, t_end, model, tol).unwrap_or(([f64::NAN; 3], [f64::NAN; 3]))
+}
+
 /// An inertial (TEME/ECI) state returned by a [`Propagator`], in **SI units** — position in
 /// metres, velocity in metres per second. This is the common currency of the trait, so the
 /// analytic SGP4 (which works in km, km/s) and the numerical propagator (which works in m, m/s)
@@ -565,6 +610,10 @@ pub enum Integrator {
     /// The Dormand–Prince RK5(4) embedded pair ([`propagate_dopri`]) — same result, fewer
     /// function evaluations per step.
     DormandPrince,
+    /// Hairer's DOP853 8(5,3) pair ([`propagate_dop853`]) with automatic initial step: the
+    /// highest-order option, cheapest at tight tolerances. A run that cannot meet the tolerance
+    /// returns a NaN state (fail closed) rather than a short-of-epoch one.
+    Dop853,
 }
 
 /// A first-class numerical propagator: the [`ForceModel`] integrated from an initial inertial
@@ -625,6 +674,9 @@ impl Propagator for NumericalPropagator {
             }
             Integrator::DormandPrince => {
                 propagate_dopri(self.r0, self.v0, t_seconds, &self.model, &self.tol)
+            }
+            Integrator::Dop853 => {
+                propagate_dop853(self.r0, self.v0, t_seconds, &self.model, &self.tol)
             }
         };
         Ok(StateVector { r, v })
@@ -756,8 +808,9 @@ pub struct KeplerNonConvergence {
 /// simple so the guard is meaningful: a near-perigee high-eccentricity case (`e = 0.999`)
 /// where `f'(E) = 1 − e·cos E` collapses toward zero overshoots and fails to converge in a
 /// bounded budget — exactly the case a silent fixed-iteration solver would return garbage
-/// for. (A robust universal starter such as Markley's is a follow-on; this routine's job is
-/// the convergence *guard*.)
+/// for. (This routine's job is the convergence *guard*.) This is a **legacy** solver kept numerically unchanged because
+/// committed outputs depend on it; the robust solver, valid for all `0 ≤ e < 1`, is
+/// [`solve_kepler_robust`] (Markley 1995 starter, [`crate::kepler`]).
 pub fn solve_kepler_checked(
     mean_anomaly: f64,
     e: f64,
@@ -784,6 +837,25 @@ pub fn solve_kepler_checked(
             residual: final_residual,
             iters: max_iter,
         })
+    }
+}
+
+/// Solve Kepler's equation `M = E − e·sin E` for `E` (rad) with the shared robust solver
+/// ([`crate::kepler::solve_kepler_markley`]: Markley's 1995 cubic starter and fifth-order
+/// correction, then Newton polishing to a few ulps), valid for every finite `M` and `0 ≤ e < 1`,
+/// including the near-perigee `e = 0.999` case where [`solve_kepler_checked`] reports
+/// non-convergence. Returns `Err` on invalid input (`e ∉ [0, 1)`, non-finite values; reported
+/// with `iters = 0` and an infinite residual) or non-convergence.
+pub fn solve_kepler_robust(mean_anomaly: f64, e: f64) -> Result<f64, KeplerNonConvergence> {
+    match crate::kepler::solve_kepler_markley(mean_anomaly, e) {
+        Ok(sol) => Ok(sol.ecc_anomaly),
+        Err(crate::kepler::KeplerError::InvalidInput) => Err(KeplerNonConvergence {
+            residual: f64::INFINITY,
+            iters: 0,
+        }),
+        Err(crate::kepler::KeplerError::NonConvergence { residual, iters }) => {
+            Err(KeplerNonConvergence { residual, iters })
+        }
     }
 }
 
@@ -1522,5 +1594,77 @@ mod tests {
         let (rz, _) = propagate_dopri(r0, v0, t_end, &ForceModel::with_zonals_j2_j6(), &tol);
         let sep = norm([r1[0] - rz[0], r1[1] - rz[1], r1[2] - rz[2]]);
         assert!(sep > 10.0, "tesseral vs zonal separation only {sep} m");
+    }
+
+    #[test]
+    fn dop853_propagation_matches_exact_kepler_over_24h() {
+        let (r0, v0) = leo_state();
+        let day = 86_400.0;
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let (r_num, v_num) = propagate_dop853(r0, v0, day, &ForceModel::two_body(), &tol);
+        let (r_exact, v_exact) = kepler_universal(r0, v0, day, MU_EARTH);
+        let err = norm([
+            r_num[0] - r_exact[0],
+            r_num[1] - r_exact[1],
+            r_num[2] - r_exact[2],
+        ]);
+        let verr = norm([
+            v_num[0] - v_exact[0],
+            v_num[1] - v_exact[1],
+            v_num[2] - v_exact[2],
+        ]);
+        assert!(err < 0.1, "DOP853 24h two-body residual {err} m");
+        assert!(verr < 1e-4, "DOP853 24h velocity residual {verr} m/s");
+        // Backward propagation returns to the start.
+        let (rb, _) = propagate_dop853(r_num, v_num, -day, &ForceModel::two_body(), &tol);
+        let back = norm([rb[0] - r0[0], rb[1] - r0[1], rb[2] - r0[2]]);
+        assert!(back < 0.2, "round trip {back} m");
+    }
+
+    #[test]
+    fn numerical_propagator_dop853_selection_agrees_and_default_is_unchanged() {
+        let (r0, v0) = leo_state();
+        let tol = Tolerance {
+            rtol: 1e-12,
+            atol: 1e-9,
+            ..Tolerance::default()
+        };
+        let base = NumericalPropagator::two_body(r0, v0).with_tolerance(tol);
+        assert_eq!(base.integrator, Integrator::StepDoubling);
+        let a = base.state_at(5_400.0).unwrap();
+        let b = base
+            .clone()
+            .with_integrator(Integrator::Dop853)
+            .state_at(5_400.0)
+            .unwrap();
+        let d = norm([a.r[0] - b.r[0], a.r[1] - b.r[1], a.r[2] - b.r[2]]);
+        assert!(d < 0.1, "DOP853 vs step doubling {d} m");
+        // Non-finite input: returned unchanged, as for the other drivers.
+        let (rn, _) = propagate_dop853(
+            [f64::NAN, 0.0, 0.0],
+            v0,
+            60.0,
+            &ForceModel::two_body(),
+            &tol,
+        );
+        assert!(rn[0].is_nan());
+        assert!(
+            propagate_dop853_checked(r0, v0, f64::INFINITY, &ForceModel::two_body(), &tol).is_err()
+        );
+    }
+
+    #[test]
+    fn solve_kepler_robust_converges_where_the_checked_solver_fails() {
+        // The legacy guard's failing case converges with the shared Markley solver.
+        let ea = solve_kepler_robust(0.3, 0.999).expect("robust solver converges");
+        assert!((ea - 0.999 * ea.sin() - 0.3).abs() < 1e-15);
+        // Agrees with the legacy solver where that one converges.
+        let legacy = solve_kepler_checked(1.0, 0.3, 30).unwrap();
+        assert!((solve_kepler_robust(1.0, 0.3).unwrap() - legacy).abs() < 1e-14);
+        assert!(solve_kepler_robust(1.0, 1.0).is_err());
     }
 }
