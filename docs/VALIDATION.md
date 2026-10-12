@@ -308,7 +308,10 @@ Honest scope: the released `ForceModel` defaults integrate the zonal field. The
 high-degree EGM2008 **tesseral** field (`src/gravity_sh.rs`, degree/order 70), the
 solid/ocean/atmospheric **tides** (`src/tides.rs`), and the **Lense–Thirring**
 frame-dragging term are now implemented and composed into the precise
-ephemeris-fitting force model (`src/precise_od.rs` — see below). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric
+ephemeris-fitting force model (`src/precise_od.rs` — see below). The tesseral field is also an
+opt-in term of the Cowell `ForceModel` (`propagator::Geopotential`, default off), validated against
+Orekit 12.2 `HolmesFeatherstoneAttractionModel` to degree/order 70 (6 cases over 24 h, worst
+|Δr| 0.036 m; `tests/cowell_tesseral_orekit_oracle.rs`). The NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric
 density (drag is the static Vallado model), solar limb darkening / the oblate-Earth
 shadow, DE-grade (DE: Development Ephemeris) ephemeris accuracy, an external cross-validation of the
 drag tier, and a GMAT (General Mission Analysis Tool) cross-check remain follow-ons.
