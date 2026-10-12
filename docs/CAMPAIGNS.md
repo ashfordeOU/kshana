@@ -198,6 +198,7 @@ as the command line summarises it:
 | `leo-vertical-5g-network-timing.toml` | chain, 1 phase over 86 400 s | 5G base-station timing: holdover and LEO time |
 | `leo-vertical-asset-tracking-iot.toml` | chain, 3 phases over 1440 s | container tracking with LEO UHF: energy per fix along a journey |
 | `leo-vertical-autonomous-vehicle.toml` | chain, 2 phases over 1500 s | an autonomous vehicle in an urban canyon with a LEO layer |
+| `leo-vertical-autonomous-vehicle-skyline.toml` | chain, 2 phases over 1800 s | the same urban canyon as a flat 35 deg cut-off and as a `city-street` skyline |
 | `leo-vertical-critical-infrastructure-timing.toml` | chain, 2 phases over 87 000 s | critical-infrastructure timing: holdover with LEO time |
 | `leo-vertical-polar-arctic.toml` | chain, 3 phases over 10 800 s | polar and Arctic users with a polar LEO layer |
 | `leo-vertical-rail-maritime.toml` | chain, 3 phases over 2520 s | railway and maritime users with a LEO layer |
