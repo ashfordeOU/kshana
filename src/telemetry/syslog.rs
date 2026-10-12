@@ -146,7 +146,8 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
 ///
 /// Attributes: `cat`, `sev` (1-10, the CEF severity with a floor of 1), `devHost`, `band`,
 /// `previousBand`, `trustScore`, `reasons`, `epochOffsetSeconds`, `logTime`, `gate`; from
-/// schema 1.3 inputs also `geoStatus`, `geoHdop` and `geoClass`.
+/// schema 1.3 inputs also `geoStatus`, `geoHdop`, `geoClass` and, during signal loss,
+/// `geoSignalLoss=1`.
 pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
     let mut a: Vec<String> = vec![
         format!("cat={EVENT_PREFIX}"),
@@ -177,6 +178,9 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
         }
         if !g.classes.is_empty() {
             a.push(format!("geoClass={}", g.classes.join(",")));
+        }
+        if g.signal_loss == Some(true) {
+            a.push("geoSignalLoss=1".into());
         }
     }
     format!(
@@ -441,6 +445,7 @@ mod tests {
             pdop: Some(7.25),
             n_used: Some(4.0),
             classes: vec!["environment", "geometry"],
+            signal_loss: None,
         });
         assert_eq!(
             cef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),
@@ -459,6 +464,16 @@ mod tests {
              trustScore=41.5^reasons=cn0-drop,agc^epochOffsetSeconds=130.5^\
              logTime=2026-01-01T00:02:10Z^gate=withheld^geoStatus=degraded^geoHdop=5.2^\
              geoClass=environment,geometry"
+        );
+        // Signal loss: LEEF says so; CEF carries it only as the environment class in cs6 (no
+        // invented CEF keys), so the CEF line is unchanged.
+        let cef_before = cef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0");
+        s.geometry.as_mut().unwrap().signal_loss = Some(true);
+        assert!(leef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0")
+            .ends_with("^geoClass=environment,geometry^geoSignalLoss=1"));
+        assert_eq!(
+            cef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),
+            cef_before
         );
     }
 

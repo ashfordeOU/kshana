@@ -402,6 +402,18 @@ impl Registry {
                 "kshana_trust_geometry_degraded {}\n",
                 u8::from(g.status == "degraded")
             ));
+            if let Some(loss) = g.signal_loss {
+                header(
+                    o,
+                    "kshana_trust_geometry_signal_loss",
+                    "1 if satellites in view are not tracked while their geometry is good: the signal was lost, not the sky (geometry still reads degraded); absent when unknown.",
+                    "gauge",
+                );
+                o.push_str(&format!(
+                    "kshana_trust_geometry_signal_loss {}\n",
+                    u8::from(loss)
+                ));
+            }
         }
         for (name, help, v) in [
             (
@@ -545,6 +557,30 @@ mod tests {
     }
 
     #[test]
+    fn signal_loss_is_exported_beside_the_degraded_geometry() {
+        let mut r = Registry::new("0.0.0-test");
+        let mut s = sample(1.0, Some(90.0), Band::Degraded, &["geometry"]);
+        s.geometry = Some(GeometrySample {
+            status: "degraded",
+            hdop: None,
+            pdop: None,
+            n_used: Some(0.0),
+            classes: vec!["environment"],
+            signal_loss: Some(true),
+        });
+        r.observe(&s, None);
+        let out = r.render();
+        assert!(out.contains("kshana_trust_geometry_degraded 1\n"));
+        assert!(out.contains(
+            "# TYPE kshana_trust_geometry_signal_loss gauge\nkshana_trust_geometry_signal_loss 1\n"
+        ));
+        s.geometry.as_mut().unwrap().status = "unknown";
+        s.geometry.as_mut().unwrap().signal_loss = None;
+        r.observe(&s, None);
+        assert!(!r.render().contains("kshana_trust_geometry_signal_loss"));
+    }
+
+    #[test]
     fn geometry_series_appear_only_for_a_schema_1_3_input() {
         let mut r = Registry::new("0.0.0-test");
         r.observe(&sample(1.0, Some(100.0), Band::Nominal, &[]), None);
@@ -562,6 +598,7 @@ mod tests {
             pdop: Some(7.25),
             n_used: Some(4.0),
             classes: vec!["environment", "geometry"],
+            signal_loss: None,
         });
         s.reason_class = [
             ("loss-of-lock".to_string(), "environment"),

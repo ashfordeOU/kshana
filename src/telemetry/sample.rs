@@ -103,6 +103,10 @@ pub struct GeometrySample {
     pub n_used: Option<f64>,
     /// The classes of the epoch's deductions, each once, in [`CLASSES`] order.
     pub classes: Vec<&'static str>,
+    /// Satellites in view but not tracked while the in-view DOP is good: the signal was lost,
+    /// not the sky (the status stays `degraded`). `None` when the source does not say, or the
+    /// geometry is unknown.
+    pub signal_loss: Option<bool>,
 }
 
 fn known(set: &'static [&'static str], v: &str) -> Option<&'static str> {
@@ -263,6 +267,11 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                 pdop: f("pdop")?,
                 n_used: f("n_used")?,
                 classes: class_set(reason_class.values().copied()),
+                signal_loss: match o.get("signal_loss") {
+                    None | Some(Value::Null) => None,
+                    Some(Value::Bool(b)) => Some(*b),
+                    Some(_) => return Err("`geometry.signal_loss` is not a boolean".into()),
+                },
             })
         }
         Some(_) => return Err("`geometry` is not an object or null".into()),
@@ -333,6 +342,9 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
         pdop: e.geometry.pdop,
         n_used: e.geometry.n_used.map(|n| n as f64),
         classes: class_set(reason_class.values().copied()),
+        signal_loss: (e.geometry.status
+            != crate::receiver_trust::geometry::GeometryStatus::Unknown)
+            .then_some(e.geometry.signal_loss),
     };
     TrustSample {
         t_s: e.t_s,
@@ -445,6 +457,15 @@ mod tests {
         assert_eq!((s.geometry, s.reason_class.len()), (None, 0));
         assert!(parse_live_line(r#"{"t_s":1,"state":"nominal","geometry":3}"#).is_err());
         assert!(parse_live_line(r#"{"t_s":1,"state":"nominal","geometry":{"hdop":1}}"#).is_err());
+        let s = parse_live_line(
+            r#"{"t_s":1,"state":"degraded","geometry":{"status":"degraded","signal_loss":true}}"#,
+        )
+        .unwrap();
+        assert_eq!(s.geometry.unwrap().signal_loss, Some(true));
+        assert!(parse_live_line(
+            r#"{"t_s":1,"state":"nominal","geometry":{"status":"good","signal_loss":1}}"#
+        )
+        .is_err());
         let s = parse_live_line(r#"{"t_s":1,"state":"nominal","geometry":{"status":"weird"}}"#)
             .unwrap();
         assert_eq!(s.geometry.unwrap().status, "unknown");

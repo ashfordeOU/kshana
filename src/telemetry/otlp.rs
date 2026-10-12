@@ -110,6 +110,14 @@ pub fn build_payload(reg: &Registry, unix_nano: u64) -> Value {
                 "unit": "1",
                 "gauge": {"dataPoints": [{"asInt": i64::from(g.status == "degraded").to_string(), "timeUnixNano": t}]}
             }));
+            if let Some(loss) = g.signal_loss {
+                metrics.push(json!({
+                    "name": "kshana.geometry.signal_loss",
+                    "description": "1 if satellites in view are not tracked while their geometry is good: the signal was lost, not the sky.",
+                    "unit": "1",
+                    "gauge": {"dataPoints": [{"asInt": i64::from(loss).to_string(), "timeUnixNano": t}]}
+                }));
+            }
         }
         for (name, description, v) in [
             (
