@@ -1307,7 +1307,8 @@ impl TextOrBytes {
 /// `last_pksht` and `summary` (counts by state, `lowest_score`, `final_score`,
 /// `first_untrusted_t_s`, and `geometry`: epochs by geometry status and by class). `geometry` is
 /// the satellite geometry (`good`, `degraded` with reasons, or `unknown` when the excerpt has no
-/// GSV or GSA). The
+/// GSV or GSA), with a `label` (`good`, `fair`, `poor`) always reported; the score deducts for
+/// geometry only when it is `poor`. The
 /// bounded form of the live command: no socket is opened and the gate is not applied (both
 /// are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises `ValueError` on an invalid session or
 /// excerpt.

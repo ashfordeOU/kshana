@@ -395,7 +395,9 @@ pub fn nmea_training(toml: &str, seed: f64) -> Result<String, JsValue> {
 /// `session_toml` declares a vessel (`[platform] kind = "vessel"`). Returns a JSON object
 /// `{schema, epochs, last_pksht, summary}` (`schema` is `"1.3"`): one report per epoch (`state`, `score`, `advisory`,
 /// `deductions` with a `class` each, `alarms`, `geometry`, ...) and counts by state, geometry and
-/// class. The geometry is `good`, `degraded` with reasons, or `unknown` without GSV or GSA. The bounded form of the live command: no
+/// class. The geometry is `good`, `degraded` with reasons, or `unknown` without GSV or GSA, with a
+/// `label` (`good`, `fair`, `poor`) always reported; the score deducts for geometry only when it
+/// is `poor`. The bounded form of the live command: no
 /// socket is opened and the gate is not applied (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel.
 #[wasm_bindgen]
 pub fn receiver_trust_replay(session_toml: &str, nmea: &str) -> Result<String, JsValue> {
