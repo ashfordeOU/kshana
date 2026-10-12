@@ -22,15 +22,23 @@ this list says what comes first.
 1. **Timing and holdover evidence for critical infrastructure — first.** This is the
    best-validated domain: the stability estimators (Allan deviation (ADEV), modified
    Allan deviation (MDEV), time deviation (TDEV), maximum time interval error (MTIE)) and
-   the holdover coast-variance inversion are VALIDATED against external oracles. Next:
-   - answer telecom users in their own units — MTIE and TDEV checked against the
+   the holdover coast-variance inversion are VALIDATED against external oracles. Delivered:
+   - telecom users answered in their own units — MTIE and TDEV checked against the
      International Telecommunication Union Telecommunication Standardization Sector
-     (ITU-T) masks, starting with the `telecom-timing` kind
-     ([`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md));
-   - a longer reference holdover scenario that includes ageing and flicker noise, next to
-     the existing pinned two-hour example (which stays unchanged);
-   - ingestion of measured clock data (phase or time-interval-error logs) so a study can
-     run on the user's own clock rather than a representative one;
+     (ITU-T) G.8272 / G.8272.1 / G.8273.2 / G.8271.1 masks in the `telecom-timing` kind
+     (`src/telecom_timing.rs`, estimators checked against allantools in
+     `tests/telecom_timing_reference.rs`; see
+     [`docs/TELECOM-TIMING.md`](docs/TELECOM-TIMING.md)). *(Delivered.)*
+   - a longer reference holdover scenario with ageing, flicker and random-walk frequency
+     noise and temperature (`scenarios/telecom-prtc-holdover-24h.toml`, 24 h), next to the
+     pinned two-hour example (which stays unchanged). *(Delivered.)*
+   - ingestion of measured clock data — time-interval-error logs inline or as CSV
+     (`scenarios/telecom-tie-ingest.toml`), measured-record conditioning and device-card
+     fits (`src/clock_library/`), and measured Allan-deviation ingest in `quantum-trade` —
+     so a study can run on the user's own clock. *(Delivered; RINEX-clock / TimeLab / TICC
+     formats and phase ingest for the `clock` kind itself remain.)*
+
+   Next:
    - a figure-by-figure VALIDATED / MODELLED label in the run output, not only in the
      matrix;
    - a data partner (a timing laboratory, test house or clock vendor) to promote the
@@ -43,7 +51,12 @@ this list says what comes first.
    supported, tested and tiered in the matrix. New work there is driven by a concrete
    user or a published result, and they are not the lead of the public description.
 4. **First-minute experience on every surface** — every registry quickstart and the
-   browser playground should give a first result without fetching extra files.
+   browser playground give a first result without fetching extra files. *(Delivered:
+   `kshana example <name>` runs the bundled scenarios (`src/bundled_scenarios.rs`,
+   `tests/cli_first_run.rs`); the crates.io / PyPI / npm quickstarts are inline and checked
+   by `tests/readme_code_fences_doc_sync.rs`; the playground reads its scenarios from the
+   recorded runs and the scenario bundle served with the page, not from user-supplied files.
+   The Python wheel and the WebAssembly package do not carry the bundled table, by design.)*
 
 ## Shipped (on `main`)
 
@@ -101,8 +114,11 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   relativistic perigee advance — validated by its closed-form circular value `3μ²/(c²r³)·r̂`, its
   textbook `≈1.9·10⁻⁹` LEO ratio to two-body, and the conservative signature (it perturbs the orbit
   but, unlike drag, holds the semi-major axis to under a metre/day). High-degree tesseral gravity,
-  the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density, solar limb darkening / the oblate-Earth shadow, the
-  Lense–Thirring frame-dragging term, and external GMAT/Orekit cross-validation remain follow-ons.
+  the NRLMSISE-00 (NRLMSISE: Naval Research Laboratory Mass Spectrometer and Incoherent Scatter Radar Extended atmosphere model) thermospheric density, solar limb darkening / the oblate-Earth shadow, and a
+  GMAT cross-check remain follow-ons. The **Lense–Thirring** frame-dragging term is delivered
+  (`forces::lense_thirring_accel` / `ForceModel::lense_thirring`, IERS 2010 §10, opt-in), and the
+  conservative force-model tiers are **VALIDATED against Orekit 12.2** (worst 0.08 m over 24 h,
+  `tests/numerical_cowell_propagator_reference.rs`); the drag tier stays characterisation-only.
 - **Time systems** — IERS leap-second UTC/TAI/TT/UT1 (UTC: Coordinated Universal Time; TAI: International Atomic Time; TT: Terrestrial Time; UT1: Universal Time 1, Earth-rotation time), Julian-date API (application programming interface), IAU-2000 (IAU: International Astronomical Union)
   Earth Rotation Angle; GMST-based (GMST: Greenwich mean sidereal time) TEME↔ECEF (TEME: true equator, mean equinox; ECEF: Earth-centred, Earth-fixed) and WGS-84 (WGS: World Geodetic System) geodetic frames.
 - **Inertial** — three-axis strapdown INS (quaternion attitude, NED (north-east-down) mechanization,
@@ -169,7 +185,7 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
 ## P1 — surface and harden (near-term)
 
 - ITRF-precise (ITRF: International Terrestrial Reference Frame) frame reduction toward the GCRS/J2000 (GCRS: Geocentric Celestial Reference System) system on top of the shipped
-  GMST-based TEME↔ECEF. *(In progress — IAU 2006 precession (`src/precession.rs`), both
+  GMST-based TEME↔ECEF. *(Delivered and VALIDATED (see [`docs/CAPABILITY.md`](docs/CAPABILITY.md)) — IAU 2006 precession (`src/precession.rs`), both
   the IAU 2000B and the **full IAU 2000A** (678 luni-solar + 687 planetary terms)
   nutation series and the full TEME→TOD→MOD→GCRS (TOD: true of date; MOD: mean of date) chain (`src/nutation.rs`,
   `teme_to_gcrs`, `nutation_iau2000a` / `nutation_matrix_2000a`, both series validated
@@ -185,11 +201,15 @@ A validated, fully reproducible engine spanning the PNT (positioning, navigation
   **≤ 0.86 m on the ground, ≤ 3.6 m at GNSS orbit**, inside the <10 m target). The
   cross-check is a standalone, workspace-excluded crate so the MPL-2.0 (MPL: Mozilla Public License) / edition-2024
   `anise` dependency never touches the published `kshana` crate or any default CI gate.)*
-- Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020). *(Delivered — `src/jd2.rs` `Jd2`; surfacing it through the time API and propagator epoch handling remains.)*
+- Two-part Julian dates (the single-`f64` JD is ~50 µs near 2020). *(Delivered — `src/jd2.rs` `Jd2`, threaded through SGP4 (`Sgp4::propagate_at`), pass prediction, geometry and Walker designs and validated against SOFA (`tests/jd2_sofa_time_oracle.rs`); threading it through `orbit::Propagator`, the Cowell `ForceModel` epochs and the ephemeris scenario, and unifying it with `timescales::TwoPartJd`, remains.)*
 - Surface the loosely-/tightly-coupled GNSS/INS navigator across more scenario packs.
 - Golden numerics and calibration ensembles for the V&V suite; committed
-  cross-platform golden hashes (reproducibility milestone).
-- Provenance as a first-class, citable asset (`docs/PROVENANCE.md`).
+  cross-platform golden hashes (reproducibility milestone). *(Delivered —
+  `tests/golden.rs`, `tests/golden/`, `tests/cross_platform_golden.rs`,
+  `tests/registry_golden.rs`, `tests/calibration.rs`,
+  `tests/published_figures_still_reproduce.rs`.)*
+- Provenance as a first-class, citable asset. *(Delivered — `docs/PROVENANCE.md`,
+  `CITATION.cff`, `codemeta.json`; a per-release archive DOI is not set up.)*
 
 ## P2 — Quantum physics layer
 
@@ -221,8 +241,12 @@ welcome collaboration: see [Support & professional services](README.md#support--
 ## P3 — interoperability & standards depth
 
 - Additional CCSDS message types (ODM/AEM/TDM (ODM: Orbit Data Message; AEM: Attitude Ephemeris Message)) and SPICE interop.
-- Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain; multi-fault
-  ARAIM.
+- Receiver-domain parity (e.g. gLAB) for the GNSS measurement chain.
+- Multi-fault ARAIM. *(Delivered — `src/araim_reference.rs`, the ARAIM ADD v4.2
+  multiple-hypothesis solution separation with subset determination, VALIDATED against
+  Stanford MAAST (270 cases, worst ΔVPL 2.2e-3 m, `tests/integrity_araim_stanford_oracle.rs`).
+  The uniform-sigma `raim::araim_raim` helper is not ADD-conformant and
+  `solution_separation_raim` has no external oracle.)*
 - Lunar / cislunar integrity (LunaNet). *(In progress — `src/lunar.rs`: the lunar
   ARAIM engine (σ_URE = 30 m, P_sat = 1e-4), the MCI↔MCMF (MCI: Moon-centred inertial; MCMF: Moon-centred, Moon-fixed) cislunar frame reduction
   and selenographic lat/lon/alt, and a south-pole protection-level pass that
