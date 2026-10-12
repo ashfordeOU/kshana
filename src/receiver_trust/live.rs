@@ -23,7 +23,7 @@ use std::collections::{BTreeMap, VecDeque};
 
 use serde::{Deserialize, Serialize};
 
-use super::geometry::{attribute, Degradation, EpochGeometry, GeometryTracker};
+use super::geometry::{EpochGeometry, GeometryTracker};
 use super::ingest::NmeaFeed;
 use super::maritime::REWIND_RATIO;
 use super::monitors::{run_monitors, Monitor, TrustState};
@@ -123,11 +123,6 @@ pub struct EpochReport {
     /// unknown when the stream carries no GSV elevations and azimuths and no GSA. Beside the
     /// score, never part of it.
     pub geometry: EpochGeometry,
-    /// What the epoch's degradation is attributed to (schema 1.3): `none`, `geometry`,
-    /// `inconsistency` or `geometry-and-inconsistency`.
-    pub degradation: Degradation,
-    /// The deducting monitors the geometry explains (schema 1.3); usually empty.
-    pub explained_by_geometry: Vec<Monitor>,
 }
 
 /// The receiver-reported position of an epoch.
@@ -369,13 +364,11 @@ impl LiveEngine {
         let mut any_untrusted = false;
         let mut reports = Vec::new();
         for e in epochs {
-            let geometry = self.geo.push(&e);
-            let (state, score, deductions, alarms, note) = self.score(e.clone());
-            let active: Vec<(Monitor, bool)> = deductions
-                .iter()
-                .map(|d| (d.monitor, alarms.contains(&d.monitor)))
-                .collect();
-            let (degradation, explained_by_geometry) = attribute(&geometry, &active);
+            // The tracker follows every epoch (calibration and rewinds included); a scored
+            // epoch takes the geometry the scoring itself used.
+            let tracked = self.geo.push(&e);
+            let (state, score, deductions, alarms, note, scored_geometry) = self.score(e.clone());
+            let geometry = scored_geometry.unwrap_or(tracked);
             any_untrusted |= state == TrustState::Untrusted;
             self.seq += 1;
             reports.push((
@@ -396,8 +389,6 @@ impl LiveEngine {
                     }),
                     advisory: ADVISORY,
                     geometry,
-                    degradation,
-                    explained_by_geometry,
                 },
                 e.t_s,
             ));
@@ -457,6 +448,7 @@ impl LiveEngine {
         Vec<Deduction>,
         Vec<Monitor>,
         Option<String>,
+        Option<EpochGeometry>,
     ) {
         let cal_s = self.scn.monitors.calibration_s;
         // An epoch whose time ran backwards (a replay, a rewind) is never calibration and
@@ -472,13 +464,21 @@ impl LiveEngine {
                 sc.deductions,
                 vec![Monitor::TimeConsistency],
                 Some("the receiver's time ran backwards: a replay or a clock fault".into()),
+                None,
             );
         }
         if e.t_s < cal_s {
             if self.cal.len() < MAX_CAL_EPOCHS {
                 self.cal.push(e);
             }
-            return (TrustState::Calibrating, None, Vec::new(), Vec::new(), None);
+            return (
+                TrustState::Calibrating,
+                None,
+                Vec::new(),
+                Vec::new(),
+                None,
+                None,
+            );
         }
         let t = e.t_s;
         self.recent.push_back(e);
@@ -504,7 +504,14 @@ impl LiveEngine {
                         .as_ref()
                         .map(|s| (Some(s.score), s.deductions.clone()))
                         .unwrap_or((None, Vec::new()));
-                    (last.state, score, ded, last.alarms.clone(), None)
+                    (
+                        last.state,
+                        score,
+                        ded,
+                        last.alarms.clone(),
+                        None,
+                        Some(last.geometry.clone()),
+                    )
                 }
                 None => (
                     TrustState::Untrusted,
@@ -512,6 +519,7 @@ impl LiveEngine {
                     Vec::new(),
                     Vec::new(),
                     Some("no result for the epoch".into()),
+                    None,
                 ),
             },
             // After calibration an error is a fault in what is being assessed or how it is set
@@ -523,6 +531,7 @@ impl LiveEngine {
                 Vec::new(),
                 Vec::new(),
                 Some(format!("no score could be produced: {msg}")),
+                None,
             ),
         }
     }
@@ -704,16 +713,19 @@ mod tests {
                     monitor: Monitor::HeadingCourse,
                     ratio: 2.0,
                     points: 40.0,
+                    class: None,
                 },
                 Deduction {
                     monitor: Monitor::Cn0Spread,
                     ratio: 1.6,
                     points: 30.0,
+                    class: None,
                 },
                 Deduction {
                     monitor: Monitor::SpeedLog,
                     ratio: 1.0,
                     points: 20.0,
+                    class: None,
                 },
             ],
             alarms: vec![],
@@ -722,8 +734,6 @@ mod tests {
             position: None,
             advisory: ADVISORY,
             geometry: EpochGeometry::unknown(),
-            degradation: Degradation::None,
-            explained_by_geometry: Vec::new(),
         };
         let s = r.pksht();
         let body = "PKSHT,1,080140.25,23.4,U,W,heading-course:40.0/cn0-spread:30.0";

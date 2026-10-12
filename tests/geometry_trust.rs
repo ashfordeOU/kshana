@@ -1,16 +1,19 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Geometry-aware trust on the synthetic vessel demo: a sky masked on one side reads as
-//! degraded by geometry, not as an attack; the same loss of satellites with a power drop, and
-//! the demo's position drag-off, stay attack-like inconsistency; a stream without satellite
-//! geometry says so. The logs are the committed synthetic demo, edited as text here; they
-//! model no radio signal and say nothing about how any receiver does on real data.
+//! Geometry-aware trust on the synthetic vessel demo (0.36 geometry design note, section 4):
+//! a sky masked on one side costs the geometry monitor's points, classed `geometry`; satellites
+//! lost low in the sky make `loss-of-lock` a `geometry` deduction; a stated HDOP that the stated
+//! sky does not explain makes the geometry deduction an `inconsistency`; the demo's drag-off
+//! stays `inconsistency` with good geometry; a stream without satellite geometry says so. The
+//! logs are the committed synthetic demo, edited as text here; they model no radio signal and
+//! say nothing about how any receiver does on real data.
 
 use std::path::Path;
 
 use kshana::receiver_trust::assess::{assess_stream_excerpt, assess_vessel_log};
-use kshana::receiver_trust::geometry::{Degradation, GeometryReason, GeometryStatus};
-use kshana::receiver_trust::monitors::{EpochTrust, Monitor};
+use kshana::receiver_trust::geometry::{GeometryReason, GeometryStatus};
+use kshana::receiver_trust::monitors::{EpochTrust, Monitor, TrustState};
 use kshana::receiver_trust::scenario::ReceiverTrustResult;
+use kshana::receiver_trust::score::{Deduction, DeductionClass};
 
 const DIR: &str = concat!(env!("CARGO_MANIFEST_DIR"), "/examples/maritime-trust");
 
@@ -80,7 +83,7 @@ fn run(log: &str) -> ReceiverTrustResult {
     assess_vessel_log(&session(), log.as_bytes()).unwrap()
 }
 
-/// Epochs from 620 s (the mask from 600 s, plus the evidence hold) to 1400 s, before the
+/// Epochs from 620 s (the edit from 600 s, plus the evidence hold) to 1400 s, before the
 /// demo's drag-off starts at 1500 s.
 fn window(r: &ReceiverTrustResult) -> Vec<&EpochTrust> {
     r.epochs
@@ -89,85 +92,181 @@ fn window(r: &ReceiverTrustResult) -> Vec<&EpochTrust> {
         .collect()
 }
 
+fn deductions(e: &EpochTrust) -> &[Deduction] {
+    &e.score.as_ref().unwrap().deductions
+}
+
+fn class_of(e: &EpochTrust, m: Monitor) -> Option<DeductionClass> {
+    deductions(e)
+        .iter()
+        .find(|d| d.monitor == m)
+        .and_then(|d| d.class)
+}
+
+/// The demo with the satellites `lose` emptied of signal from 600 s and, from 500 s, their
+/// elevation reported as `low_el` when given (a setting satellite).
+fn lose_low(lose: &[&str], low_el: f64) -> String {
+    let mut out = String::new();
+    let mut t = 0.0;
+    let mut t0: Option<f64> = None;
+    for line in demo().lines() {
+        let body = line.trim_start_matches('$').split('*').next().unwrap();
+        let f: Vec<&str> = body.split(',').collect();
+        if f[0].ends_with("GGA") {
+            let s = f[1];
+            let secs = s[0..2].parse::<f64>().unwrap() * 3600.0
+                + s[2..4].parse::<f64>().unwrap() * 60.0
+                + s[4..].parse::<f64>().unwrap();
+            t = secs - *t0.get_or_insert(secs);
+        }
+        if f[0].ends_with("GSV") && t >= 500.0 {
+            let mut g: Vec<String> = f.iter().map(|x| x.to_string()).collect();
+            let mut i = 4;
+            while i + 3 < g.len() {
+                let id = format!("{}{}", &f[0][..2], g[i]);
+                if lose.contains(&id.as_str()) {
+                    g[i + 1] = format!("{low_el:.0}");
+                    if t >= 600.0 {
+                        g[i + 3].clear();
+                    }
+                }
+                i += 4;
+            }
+            let b = g.join(",");
+            out.push_str(&format!("${b}*{}\n", checksum(&b)));
+        } else {
+            out.push_str(line);
+            out.push('\n');
+        }
+    }
+    out
+}
+
 #[test]
-fn a_sky_masked_on_one_side_is_geometry_not_an_attack() {
+fn a_sky_masked_on_one_side_costs_geometry_points_classed_geometry() {
     let r = run(&masked(600.0, 0.0));
     let w = window(&r);
     assert!(!w.is_empty());
     for e in &w {
         assert_eq!(e.geometry.status, GeometryStatus::Degraded, "{e:?}");
-        assert!(
-            e.geometry.reasons.contains(&GeometryReason::SkyBlocked),
-            "{:?}",
-            e.geometry
-        );
-        let ded: Vec<Monitor> = e
-            .score
-            .as_ref()
-            .unwrap()
-            .deductions
-            .iter()
-            .map(|d| d.monitor)
-            .collect();
-        // The lost satellites cost points (the score is unchanged by the geometry) and the
-        // geometry explains them.
-        assert!(ded.contains(&Monitor::LossOfLock), "{ded:?}");
-        assert_eq!(e.degradation, Degradation::Geometry, "{e:?}");
-        assert!(e.explained_by_geometry.contains(&Monitor::LossOfLock));
-    }
-    // Before the mask the geometry is good and nothing is attributed.
-    let before: Vec<&EpochTrust> = r
-        .epochs
-        .iter()
-        .filter(|e| (300.0..600.0).contains(&e.t_s))
-        .collect();
-    assert!(before
-        .iter()
-        .all(|e| e.geometry.status == GeometryStatus::Good && e.degradation == Degradation::None));
-    assert!(r.geometry_summary.attributed_geometry >= w.len());
-}
-
-#[test]
-fn the_same_loss_with_a_power_drop_stays_attack_like() {
-    let r = run(&masked(600.0, 10.0));
-    for e in window(&r) {
-        assert_eq!(e.geometry.status, GeometryStatus::Degraded);
+        assert!(e.geometry.reasons.contains(&GeometryReason::SkyBlocked));
+        assert!(!e.geometry.reported_derived_mismatch);
         assert_eq!(
-            e.degradation,
-            Degradation::GeometryAndInconsistency,
+            class_of(e, Monitor::Geometry),
+            Some(DeductionClass::Geometry),
             "{e:?}"
         );
-        assert!(e.explained_by_geometry.is_empty());
+        // High satellites were lost too, so the loss of lock stays environment (design 4.3).
+        assert_eq!(
+            class_of(e, Monitor::LossOfLock),
+            Some(DeductionClass::Environment)
+        );
+        assert!(
+            deductions(e)
+                .iter()
+                .all(|d| d.class != Some(DeductionClass::Inconsistency)),
+            "{e:?}"
+        );
+        assert!(e
+            .geometry
+            .note
+            .as_deref()
+            .unwrap()
+            .ends_with("not an inconsistency"));
+        assert_ne!(e.state, TrustState::Untrusted);
+        assert!(
+            !e.alarms.contains(&Monitor::Geometry),
+            "the geometry monitor raises no alarm"
+        );
+    }
+    assert!(!r.monitors_run.contains(&Monitor::Geometry));
+    assert!(r.geometry_summary.class_geometry >= w.len());
+    assert_eq!(
+        r.geometry_summary.class_inconsistency,
+        r.epochs
+            .iter()
+            .filter(|e| e.t_s >= 1500.0)
+            .filter(|e| e.score.as_ref().is_some_and(|s| s
+                .deductions
+                .iter()
+                .any(|d| d.class == Some(DeductionClass::Inconsistency))))
+            .count()
+    );
+}
+
+#[test]
+fn satellites_lost_low_in_the_sky_make_loss_of_lock_a_geometry_deduction() {
+    // Five satellites set below 15 deg from 500 s and are lost from 600 s.
+    let lost = ["GP11", "GP22", "GP28", "GA24", "GA31"];
+    let r = run(&lose_low(&lost, 10.0));
+    for e in window(&r) {
+        assert_eq!(
+            class_of(e, Monitor::LossOfLock),
+            Some(DeductionClass::Geometry),
+            "{e:?}"
+        );
+    }
+    // The same satellites lost at their real elevations (21 to 24 deg for three of them)
+    // stay environment.
+    let r = run(&lose_low(&lost, 20.0));
+    for e in window(&r) {
+        assert_eq!(
+            class_of(e, Monitor::LossOfLock),
+            Some(DeductionClass::Environment)
+        );
     }
 }
 
 #[test]
-fn a_reported_hdop_the_masked_sky_does_not_explain_stays_attack_like() {
-    // The same mask, but GGA keeps reporting HDOP 0.9 as if the sky were open: the stream's
-    // own sky does not explain its stated precision, so nothing is put down to geometry.
+fn the_same_mask_with_a_power_drop_is_environment_as_well() {
+    let r = run(&masked(600.0, 10.0));
+    for e in window(&r) {
+        assert_eq!(
+            class_of(e, Monitor::Cn0Drop),
+            Some(DeductionClass::Environment),
+            "{e:?}"
+        );
+        assert_eq!(
+            class_of(e, Monitor::Geometry),
+            Some(DeductionClass::Geometry)
+        );
+    }
+}
+
+#[test]
+fn a_stated_hdop_the_masked_sky_does_not_explain_is_an_inconsistency() {
+    // The same mask, but GGA keeps reporting HDOP 0.9 as if the sky were open: the geometry
+    // deduction is classed inconsistency (the guard against a forged poor sky).
     let r = run(&masked_with(600.0, 0.0, "0.9"));
     for e in window(&r) {
-        assert!(e.geometry.hdop_report_mismatch, "{:?}", e.geometry);
-        assert_eq!(e.degradation, Degradation::GeometryAndInconsistency);
-        assert!(e.explained_by_geometry.is_empty());
+        assert!(e.geometry.reported_derived_mismatch, "{:?}", e.geometry);
+        assert_eq!(
+            class_of(e, Monitor::Geometry),
+            Some(DeductionClass::Inconsistency)
+        );
     }
 }
 
 #[test]
 fn the_drag_off_is_inconsistency_with_good_geometry() {
     let r = run(&demo());
-    assert_eq!(r.geometry_summary.degraded, 0);
-    assert_eq!(r.geometry_summary.unknown, 0);
-    let late: Vec<&EpochTrust> = r.epochs.iter().filter(|e| e.t_s >= 2000.0).collect();
-    assert!(late
-        .iter()
-        .all(|e| e.degradation == Degradation::Inconsistency));
+    assert_eq!(
+        (r.geometry_summary.degraded, r.geometry_summary.unknown),
+        (0, 0)
+    );
+    assert_eq!(r.geometry_summary.class_geometry, 0);
+    for e in r.epochs.iter().filter(|e| e.t_s >= 2000.0) {
+        assert!(deductions(e)
+            .iter()
+            .any(|d| d.class == Some(DeductionClass::Inconsistency)));
+        assert!(deductions(e).iter().all(|d| d.monitor != Monitor::Geometry));
+    }
 }
 
 #[test]
-fn the_score_does_not_move_with_the_geometry() {
-    // The masked log and the same log with the mask's satellites reported at different
-    // azimuths (so the sky is not blocked) lose the same satellites: identical scores.
+fn the_geometry_moves_the_score_only_through_the_geometry_monitor() {
+    // The masked log and the same log with the lost satellites' azimuths spread round the
+    // horizon lose the same satellites: every deduction but the geometry monitor's is the same.
     let masked_log = masked(600.0, 0.0);
     let spread: String = masked_log
         .lines()
@@ -180,7 +279,6 @@ fn the_score_does_not_move_with_the_geometry() {
             let mut i = 4;
             let mut k = 0;
             while i + 3 < g.len() {
-                // Spread the azimuths round the horizon: 0, 90, 180, 270, 45, ...
                 g[i + 2] = format!("{}", (k * 90 + (k / 4) * 45) % 360);
                 k += 1;
                 i += 4;
@@ -191,15 +289,22 @@ fn the_score_does_not_move_with_the_geometry() {
         .collect();
     let a = run(&masked_log);
     let b = run(&spread);
+    let others = |e: &EpochTrust| -> Vec<Deduction> {
+        e.score
+            .as_ref()
+            .map(|s| {
+                s.deductions
+                    .iter()
+                    .filter(|d| d.monitor != Monitor::Geometry)
+                    .copied()
+                    .collect()
+            })
+            .unwrap_or_default()
+    };
     for (x, y) in a.epochs.iter().zip(&b.epochs) {
-        assert_eq!(x.score, y.score);
-        assert_eq!(x.state, y.state);
+        assert_eq!(others(x), others(y));
         assert_eq!(x.alarms, y.alarms);
     }
-    assert!(a
-        .epochs
-        .iter()
-        .any(|e| e.degradation == Degradation::Geometry));
 }
 
 #[test]
@@ -214,25 +319,32 @@ fn a_stream_without_gsv_or_gsa_says_geometry_unknown() {
     assert!(r
         .epochs
         .iter()
-        .all(|e| e.geometry.status == GeometryStatus::Unknown && e.geometry.pdop.is_none()));
+        .all(|e| e.geometry.status == GeometryStatus::Unknown
+            && e.geometry
+                .note
+                .as_deref()
+                .unwrap()
+                .starts_with("geometry unknown")
+            && e.score
+                .as_ref()
+                .is_none_or(|s| s.deductions.iter().all(|d| d.monitor != Monitor::Geometry))));
     let ex = assess_stream_excerpt(&session(), no_sky.as_bytes()).unwrap();
     let line = ex.epochs[0].to_json_line();
     assert!(line.contains(r#""geometry":{"status":"unknown""#), "{line}");
 }
 
 #[test]
-fn live_lines_carry_the_geometry_at_the_end() {
+fn live_lines_carry_the_geometry_and_classes() {
     let ex = assess_stream_excerpt(&session(), masked(600.0, 0.0).as_bytes()).unwrap();
     assert_eq!(ex.schema, "1.3");
     let e = ex.epochs.iter().find(|e| e.t_s == 700.0).unwrap();
     let line = e.to_json_line();
     let adv = line.find("\"advisory\"").unwrap();
-    let geo = line.find("\"geometry\"").unwrap();
-    let deg = line.find("\"degradation\"").unwrap();
-    assert!(adv < geo && geo < deg, "{line}");
+    let geo = line.find("\"geometry\":{").unwrap();
+    assert!(adv < geo, "{line}");
     assert!(
-        line.contains(r#""degradation":"geometry","explained_by_geometry":["loss-of-lock""#),
+        line.contains(r#""monitor":"geometry""#) && line.contains(r#""class":"geometry""#),
         "{line}"
     );
-    assert!(ex.summary.geometry.attributed_geometry > 0);
+    assert!(ex.summary.geometry.class_geometry > 0);
 }

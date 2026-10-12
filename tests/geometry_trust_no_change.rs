@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Geometry-aware trust (0.36) adds a geometry assessment beside the trust score; it does not
-//! change the score. This file proves it on the recorded outputs of the two committed example
-//! sessions: with the keys 0.36 appended removed, every output is byte-identical to what
+//! Geometry-aware trust (0.36) adds a geometry assessment, a geometry monitor in the vessel
+//! score and a class on every deduction. With good geometry (the monitor costs nothing below
+//! its 0.5 onset) or unknown geometry (it does not run), no score changes. This file proves it
+//! on the recorded outputs of the two committed example sessions, whose geometry is good
+//! (vessel demo) or for which no score exists (static example): with the keys 0.36 appended
+//! removed (`score_model.weights.geometry` included), every output is byte-identical to what
 //! engine 0.35.0 wrote (release commit 35c1558d), and the outputs that gained nothing (the
 //! CSV, the SVG, the one-line verdict, the `$PKSHT` sentence, telemetry of a 0.35 input) are
 //! byte-identical as they stand.
@@ -24,15 +27,10 @@ use kshana::surface::{trust_telemetry, TelemetryFormat, TelemetryInput, Telemetr
 
 const ROOT: &str = env!("CARGO_MANIFEST_DIR");
 
-/// Keys added by 0.36 geometry-aware trust, at any depth. `schema` is the version string of
-/// the excerpt document, which moves from 1.2 to 1.3 for them.
-const APPENDED: [&str; 5] = [
-    "geometry",
-    "degradation",
-    "explained_by_geometry",
-    "geometry_model",
-    "geometry_summary",
-];
+/// Keys added by 0.36 geometry-aware trust, at any depth (`geometry` is also the geometry
+/// monitor's entry in `score_model.weights`; `class` is on every deduction). `schema` is the
+/// version string of the excerpt document, which moves from 1.2 to 1.3 for them.
+const APPENDED: [&str; 4] = ["geometry", "geometry_model", "geometry_summary", "class"];
 
 fn strip(v: &mut Value) {
     match v {
