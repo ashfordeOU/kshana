@@ -96,6 +96,7 @@ pub mod cislunar_srif;
 pub mod clock_library;
 pub mod clock_specs;
 pub mod clock_state;
+pub mod compliance;
 pub mod conflict_resilience;
 pub mod conflict_threat_params;
 pub mod constellation;
@@ -223,12 +224,15 @@ pub mod optical_linkbudget;
 pub mod orbit;
 pub mod orbit_determination;
 pub mod orbital_timing;
+pub mod osnma;
 pub mod palette;
 pub mod particle_filter;
 pub mod passes;
 pub mod permalink;
 // Transcendental functions that return the same bits on every platform, for the
 // modules whose output is discrete (an encoded frame) and must not depend on the host.
+pub mod interference_map;
+pub mod nmea_synth;
 mod portable_math;
 pub mod powerlaw;
 pub mod precession;
@@ -274,10 +278,13 @@ pub mod spoof_detect;
 pub mod spoof_monitors;
 pub mod study;
 pub mod suite;
+pub mod surface;
 pub mod sweep;
 pub mod telecom_timing;
 // Comparison helpers shared by the byte-identity guards. Test-only: it exists so those
 // guards can assert the exact pin where it is true and a portable one everywhere else.
+pub mod evidence;
+pub mod telemetry;
 #[cfg(test)]
 mod test_support;
 pub mod tides;

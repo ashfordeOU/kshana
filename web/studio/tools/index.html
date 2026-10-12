@@ -1,0 +1,151 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<!-- Trust and evidence tools: a page of the Studio. Every relative address resolves from the Studio's own folder (like the Advanced view), so it shares the theme, tokens and modules. It reads files the person picks, in the browser: nothing is uploaded and the engine is not needed. -->
+<base href="../">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="robots" content="noindex">
+<title>Kshana Studio</title>
+<meta name="description" content="Verify a signed evidence pack, export a scenario for a laboratory simulator, map a log to public resilience frameworks, check Galileo OSNMA authentication, and find every other Kshana 0.35 feature and how to run it. Everything runs in your browser: nothing is uploaded.">
+<meta name="color-scheme" content="light dark">
+<link rel="icon" href="data:,">
+<link href="../fonts/geist-geist-mono-unbounded.css" rel="stylesheet">
+<link rel="stylesheet" href="tokens.css">
+<link rel="stylesheet" href="theme.css">
+<link rel="stylesheet" href="app.css">
+<link rel="stylesheet" href="studio.css">
+<link rel="stylesheet" href="tools/tools.css">
+<script>
+  // Apply a remembered theme before first paint (per-viewer convenience only).
+  try { const q = new URLSearchParams(location.search).get("theme"); const t = q || localStorage.getItem("kshana-theme"); if (t === "dark" || t === "light") document.documentElement.dataset.theme = t; } catch (e) {}
+</script>
+</head>
+<body>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+  <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
+  <symbol id="i-pause" viewBox="0 0 16 16"><path d="M4 2.5h3v11H4zM9 2.5h3v11H9z" fill="currentColor"/></symbol>
+  <symbol id="i-arrow" viewBox="0 0 16 16"><path d="M3 8h9m0 0L8.5 4.5M12 8l-3.5 3.5" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+</svg>
+<a class="skip" href="#main">Skip to the view</a>
+<header class="bar" id="bar">
+  <a class="brand" href="/" aria-label="Kshana home"><span aria-hidden="true" style="display:inline-block;width:34px;height:34px;flex:none;margin:-5px -3px -5px -5px;background:var(--ink);-webkit-mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat;mask:url(assets/brand/kshana-mark-mask.png) center/contain no-repeat"></span>Kshana <span class="brand-tag">Studio</span></a>
+  <nav class="crumb" aria-label="Where you are"><span>Trust and evidence tools</span></nav>
+  <div class="bar-right">
+    <a class="view-switch" href="./" title="Back to the Studio"><svg class="ic flip" aria-hidden="true"><use href="#i-arrow"/></svg><span class="lbl">Studio</span></a>
+    <button class="icon-btn" id="btn-theme" type="button" aria-label="Switch between light and dark" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg></button>
+  </div>
+</header>
+
+<main id="main" tabindex="-1">
+<div class="wrap tl">
+  <p class="kicker"><i style="--c:var(--itg)"></i>Kshana 0.35 tools</p>
+  <h1 id="tl-h">Trust, evidence and test tools</h1>
+  <p class="lede">The 0.35 features that run in your browser, and where to find the ones that cannot. Files you open here are read in this page and never uploaded; the engine runs on your computer as WebAssembly.</p>
+  <p class="tl-advice" role="note"><b>Advisory software.</b> Kshana is not type-approved navigation equipment (IEC 61108, IEC 61162) and has not been assessed against any performance standard. Its scores, authentication status and exports are aids to judgement and records of what the engine computed. They are not a certification, a legal opinion or a finding of fact about any event.</p>
+  <p class="tl-engine" id="tl-engine" role="status" aria-live="polite">The engine starts when you use a tool.</p>
+
+  <section class="card tl-map" aria-labelledby="tl-map-h">
+    <div class="card-head"><h2 id="tl-map-h" class="h3">Every 0.35 feature, and where it is</h2>
+      <p class="card-note">In this browser where it can run. The rest are command-line or server features, and the reason is stated.</p></div>
+    <div class="table-scroll"><table class="tbl tl-cov" id="tl-cov"><thead><tr><th scope="col">Feature</th><th scope="col">In the Studio</th><th scope="col">Also</th></tr></thead><tbody id="tl-cov-body"></tbody></table></div>
+  </section>
+
+  <div class="tl-tabs" role="tablist" aria-label="Tools" id="tl-tabs"></div>
+
+  <section class="tl-panel" id="evidence" role="tabpanel" aria-labelledby="t-evidence" hidden>
+    <div class="card">
+      <div class="card-head"><h2 class="h3">Verify an evidence pack</h2>
+        <p class="card-note">An evidence pack is a signed technical record of what the engine computed from a receiver log. It is not a legal opinion. Choose the files of a pack (<code>manifest.json</code>, <code>manifest.sig</code>, <code>log-slice.bin</code>, <code>config.json</code>, <code>epochs.json</code>, <code>summary.html</code>, and <code>timestamp.tsr</code> if there is one). Packs are made with the command line, Python or the AI assistant tools: signing needs a private key, which should not pass through a web page.</p></div>
+      <div class="tl-row">
+        <label class="tl-file btn-primary">Choose pack files…<input id="ev-files" type="file" multiple></label>
+        <button type="button" class="tl-btn" id="ev-demo">Open the synthetic example pack</button>
+        <button type="button" class="tl-btn" id="ev-demo-bad">Open it with one byte changed</button>
+      </div>
+      <p class="tl-sel" id="ev-sel">No pack files chosen.</p>
+      <div class="tl-form">
+        <label>The signer's public key (64 hex digits, obtained from the signer by another route)<input id="ev-key" type="text" spellcheck="false" autocomplete="off" placeholder="leave empty to check integrity only"></label>
+        <label class="tl-chk"><input id="ev-ts" type="checkbox"> Require a timestamp token</label>
+        <label class="tl-file2">The full log, to check the pack's slice against it (optional)<input id="ev-log" type="file"></label>
+      </div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="ev-run">Verify the pack</button></div>
+      <div id="ev-out" class="tl-out" aria-live="polite"></div>
+    </div>
+    <div class="card">
+      <div class="card-head"><h3 class="h3">Attach a timestamp token</h3>
+        <p class="card-note">An RFC 3161 token binds a time to <code>manifest.json</code>. Request it with <code>openssl ts -query</code>, send it to your timestamp authority, then attach the reply here. <b>This does not check the authority's signature or certificate chain</b>: run <code>openssl ts -verify</code> for that.</p></div>
+      <div class="tl-row"><label class="tl-file2">Timestamp response (<code>.tsr</code>)<input id="ts-file" type="file"></label>
+        <label class="tl-chk"><input id="ts-replace" type="checkbox"> Replace an existing token</label>
+        <button type="button" class="tl-btn" id="ts-run">Attach to the chosen pack</button></div>
+      <div id="ts-out" class="tl-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="tl-panel" id="bench" role="tabpanel" aria-labelledby="t-bench" hidden>
+    <div class="card">
+      <div class="card-head"><h2 class="h3">Export a scenario for a laboratory simulator</h2>
+        <p class="card-note">Kshana writes the vehicle motion, the NMEA, the waypoints and the event times. It writes <b>no signal</b>: nothing here synthesises or transmits a radio-frequency or baseband waveform, and an event is a labelled time interval, not a recipe for interference. Run a simulator only where that is authorised.</p></div>
+      <div class="tl-form">
+        <label>Scenario (the <code>gnss-ins</code>, <code>jamming</code> and <code>gnss-sim</code> kinds have a vehicle trajectory)<select id="bn-scn"></select></label>
+        <label>UTC instant of motion time zero<input id="bn-epoch" type="text" spellcheck="false" placeholder="2024-01-01T00:00:00Z"></label>
+      </div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="bn-run">Export</button>
+        <label class="tl-file2">or your own scenario file<input id="bn-file" type="file" accept=".toml,text/*"></label></div>
+      <div id="bn-out" class="tl-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="tl-panel" id="compliance" role="tabpanel" aria-labelledby="t-compliance" hidden>
+    <div class="card">
+      <div class="card-head"><h2 class="h3">Which public-framework rows do your runs support evidence for?</h2>
+        <p class="card-note"><b>Kshana outputs support evidence for a requirement. They do not certify a product, show that it complies with a framework, or make it conformant.</b> Kshana is not a conformity-assessment body. Requirement text is paraphrased, never reproduced. Choose result files (<code>*.result.json</code>) and, optionally, the scenario files beside them (<code>*.toml</code>, matched by name).</p></div>
+      <div class="tl-row">
+        <label class="tl-file btn-primary">Choose result files…<input id="cp-files" type="file" multiple></label>
+        <button type="button" class="tl-btn" id="cp-demo">Use the synthetic example runs</button>
+        <button type="button" class="tl-btn" id="cp-map">Show the mapping tables</button>
+        <button type="button" class="tl-btn" id="cp-src">Show the sources they cite</button>
+      </div>
+      <p class="tl-sel" id="cp-sel">No result files chosen.</p>
+      <div class="tl-row"><button type="button" class="btn-primary" id="cp-run">Build the report</button></div>
+      <div id="cp-out" class="tl-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="tl-panel" id="osnma" role="tabpanel" aria-labelledby="t-osnma" hidden>
+    <div class="card">
+      <div class="card-head"><h2 class="h3">Galileo OSNMA: is the navigation data authenticated?</h2>
+        <p class="card-note">Load a recorded u-blox <code>UBX-RXM-SFRBX</code> file or a plain I/NAV page file and see, per satellite and per tag, whether the data is cryptographically authenticated and why a check failed. Or open the JSON that <code>kshana osnma verify --json</code> wrote. Synthetic and official-vector samples only.</p></div>
+      <p class="tl-warn" role="note"><b>Advisory.</b> This is analysis and monitoring output and not type-approved navigation equipment. The authentication status reported here is not a navigation integrity service and must not be the sole basis for any navigation or safety decision. <b>Time:</b> checks are relative to the time stamps in the pages. Authentication says the data came from the system; it says nothing about the signal it arrived on or the quality of the fix.</p>
+      <div class="tl-row">
+        <label class="tl-file btn-primary">Choose a file…<input id="os-file" type="file"></label>
+        <label class="tl-sel2">Synthetic example <select id="os-ex" aria-label="Synthetic OSNMA example"></select></label>
+        <button type="button" class="tl-btn" id="os-demo">Load it</button>
+        <button type="button" class="tl-btn" id="os-rec">Show the recorded result</button>
+      </div>
+      <p class="tl-sel" id="os-sel" role="status" aria-live="polite">Nothing open yet.</p>
+      <div class="tl-form" id="os-opts">
+        <label>Format<select id="os-format"><option value="">Detect from the file</option><option value="pages">Plain pages</option><option value="vector-csv">Test-vector CSV</option><option value="ubx">u-blox UBX (SFRBX)</option></select></label>
+        <label>Start time of a test-vector CSV, GST seconds<input id="os-start" type="text" inputmode="numeric" spellcheck="false"></label>
+        <label>Trusted Merkle root (64 hex digits)<input id="os-root" type="text" spellcheck="false" autocomplete="off"></label>
+        <label>Trusted public keys, one per line as ID:TYPE:HEX<textarea id="os-keys" rows="2" spellcheck="false"></textarea></label>
+        <label>Reference time, GST seconds, from an independent source<input id="os-ref" type="text" inputmode="numeric" spellcheck="false"></label>
+        <label>Largest distance from the reference time, s<input id="os-maxerr" type="text" inputmode="numeric" spellcheck="false"></label>
+      </div>
+      <div class="tl-row"><button type="button" class="btn-primary" id="os-run">Verify</button></div>
+      <div id="os-out" class="tl-out" aria-live="polite"></div>
+    </div>
+  </section>
+
+  <section class="tl-panel" id="cli" role="tabpanel" aria-labelledby="t-cli" hidden>
+    <div class="tl-cards" id="cli-cards"></div>
+  </section>
+
+  <section class="tl-panel" id="ai" role="tabpanel" aria-labelledby="t-ai" hidden>
+    <div class="card" id="ai-card"></div>
+  </section>
+</div>
+</main>
+<script type="module" src="tools/tools.js"></script>
+</body>
+</html>

@@ -1,0 +1,17 @@
+# Installed in the release workflow's `mcpb` job with:
+#   pip install --require-hashes --only-binary=:all: -r packaging/mcp/mcpb/requirements.txt
+# jsonschema validates the manifest against the published schema (scripts/build_mcpb.py). Every package, with
+# its dependencies, is pinned exactly and by hash for Python 3.12 on a Linux x86-64 runner (the job's
+# platform); wheels only. To update: download the new wheels, hash them with `pip hash`, review the diff.
+attrs==25.3.0 \
+    --hash=sha256:427318ce031701fea540783410126f03899a97ffc6f61596ad581ac2e40e3bc3
+jsonschema==4.23.0 \
+    --hash=sha256:fbadb6f8b144a8f8cf9f0b89ba94501d143e50411a1278633f56a7acf7fd5566
+jsonschema-specifications==2025.4.1 \
+    --hash=sha256:4653bffbd6584f7de83a67e0d620ef16900b390ddc7939d56684d6c81e33f1af
+referencing==0.36.2 \
+    --hash=sha256:e8699adbbf8b5c7de96d8ffa0eb5c158b3beafce084968e2ea8bb08c6794dcd0
+rpds-py==0.27.0 \
+    --hash=sha256:5fa01b3d5e3b7d97efab65bd3d88f164e289ec323a8c033c5c38e53ee25c007e
+typing-extensions==4.14.1 \
+    --hash=sha256:d1e1e3b58374dc93031d6eda2420a48ea44a36c2b4766a4fdeb3710755731d76

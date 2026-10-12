@@ -25,7 +25,28 @@ export const ENGINE_FNS = Object.freeze([
   "export_sp3",
   "export_omm",
   "export_oem",
+  // 0.35 (the engine package must be built from 0.35 or later; an older package lacks them and says so)
+  "receiver_trust",
+  "assess_vessel_log",
+  "receiver_trust_replay",
+  "nmea_training",
+  "interference_map",
+  "route_exposure",
+  "bench_export",
+  "compliance_report",
+  "compliance_mapping",
+  "evidence_verify",
+  "evidence_attach_timestamp",
+  "osnma_verify",
+  "trust_telemetry",
+  "list_examples",
+  "get_example",
+  "version",
 ]);
+
+// The functions the 0.35 tools pages call. A page checks engineHas() before offering a button.
+export const ENGINE_FNS_035 = Object.freeze(ENGINE_FNS.slice(ENGINE_FNS.indexOf("receiver_trust")));
+export const engineHas = (api, fn) => !!api && typeof api[fn] === "function";
 
 // Normalise a thrown value to a message. wasm-bindgen throws the engine's error as a
 // plain string; JS failures throw Error objects.
@@ -37,11 +58,31 @@ export function errorMessage(e) {
 // Execute one request against an engine API object (the wasm module's exports) and
 // build the reply. Pure and synchronous: the worker and the main-thread fallback both
 // use it, so the two paths cannot disagree about semantics.
+// What the engine worker accepts, as an allow-list (the worker drops anything else): the page's one-time
+// {init: WebAssembly.Module}, or a call {id, fn, args} naming a function this module lists. Plain objects only,
+// no other keys, a short id and a short argument list.
+export function classifyMessage(msg) {
+  if (!msg || typeof msg !== "object" || Array.isArray(msg)) return null;
+  const proto = Object.getPrototypeOf(msg);
+  if (proto !== Object.prototype && proto !== null) return null;
+  const keys = Object.keys(msg);
+  if (keys.length === 1 && keys[0] === "init") return typeof WebAssembly === "object" && msg.init instanceof WebAssembly.Module ? "init" : null;
+  if (!keys.every((k) => k === "id" || k === "fn" || k === "args")) return null;
+  const idOk = (typeof msg.id === "number" && Number.isFinite(msg.id)) || (typeof msg.id === "string" && msg.id.length <= 64);
+  if (!idOk || typeof msg.fn !== "string" || !ENGINE_FNS.includes(msg.fn)) return null;
+  if (msg.args !== undefined && (!Array.isArray(msg.args) || msg.args.length > 16)) return null;
+  return "call";
+}
+
 export function dispatch(api, msg) {
   const id = msg && msg.id;
   const fn = msg && msg.fn;
-  if (!ENGINE_FNS.includes(fn) || typeof api[fn] !== "function") {
+  if (!ENGINE_FNS.includes(fn)) {
     return { id, ok: false, error: `unknown engine function: ${String(fn)}` };
+  }
+  if (typeof api[fn] !== "function") {
+    // A listed function this engine build does not have: an engine package older than the page.
+    return { id, ok: false, error: `this engine build has no ${String(fn)} (it predates the version this page needs)`, missing: true };
   }
   try {
     const args = Array.isArray(msg.args) ? msg.args : [];

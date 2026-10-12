@@ -65,6 +65,7 @@
   <symbol id="i-search" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7" fill="none" stroke="currentColor" stroke-width="2"/><path d="m20 20-3.5-3.5" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round"/></symbol>
   <symbol id="i-play" viewBox="0 0 16 16"><path d="M4.5 2.8v10.4a.6.6 0 0 0 .9.5l8.1-5.2a.6.6 0 0 0 0-1L5.4 2.3a.6.6 0 0 0-.9.5z" fill="currentColor"/></symbol>
   <symbol id="i-theme" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6.2" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M8 1.8a6.2 6.2 0 0 1 0 12.4z" fill="currentColor"/></symbol>
+  <symbol id="i-views" viewBox="0 0 24 24"><circle cx="6" cy="12" r="1.9" fill="currentColor"/><circle cx="12" cy="12" r="1.9" fill="currentColor"/><circle cx="18" cy="12" r="1.9" fill="currentColor"/></symbol>
   <symbol id="i-history" viewBox="0 0 24 24"><path d="M3 12a9 9 0 1 0 3-6.7L3 8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M3 3v5h5M12 7v5l3 2" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
   <symbol id="i-share" viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></symbol>
   <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 17v5M5 17h14l-2-4V5h1V3H6v2h1v8z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></symbol>
@@ -112,6 +113,8 @@
     <button class="t-btn" id="btn-history" aria-haspopup="dialog" aria-controls="history" title="The runs you made in this session"><svg aria-hidden="true"><use href="#i-history"/></svg><span class="lbl">History</span><span class="count" id="history-count" hidden>0</span></button>
     <button class="t-btn" id="btn-tour" title="A short tour of the Studio"><svg aria-hidden="true"><use href="#i-tour"/></svg><span class="lbl">Tour</span></button>
     <button class="t-btn" id="btn-theme" aria-label="Toggle colour theme" title="Switch between light and dark"><svg aria-hidden="true"><use href="#i-theme"/></svg><span class="lbl">Theme</span></button>
+    <details class="views-menu adv-views" id="adv-views"><summary aria-label="Views: Receiver trust, Interference map, Training debrief, Tools" title="More views"><svg aria-hidden="true"><use href="#i-views"/></svg><span class="lbl">Views</span></summary>
+      <div class="vm-pop"><a href="trust/">Receiver trust</a><a href="interference/">Interference map</a><a href="training/">Training debrief</a><a href="tools/">Tools: evidence, bench, compliance, OSNMA</a></div></details>
     <a class="pill view-switch" id="view-switch" href="./" title="The simple view: the answer first, five settings, details on demand" aria-label="Switch to the Simple view">Simple view</a>
   </div>
 </header>
@@ -456,5 +459,10 @@
 <div class="toast" id="toast" role="status" aria-live="polite" hidden></div>
 
 <script type="module" src="advanced.js"></script>
+<script>
+  (function () { var d = document.getElementById("adv-views"); if (!d) return;
+    document.addEventListener("click", function (e) { if (d.open && !d.contains(e.target)) d.open = false; });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape" && d.open) { d.open = false; var s = d.querySelector("summary"); if (s) s.focus(); } }); })();
+</script>
 </body>
 </html>

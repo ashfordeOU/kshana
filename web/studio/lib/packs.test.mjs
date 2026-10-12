@@ -2,7 +2,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import { gzipSync } from "node:zlib";
-import { isGzip, bytesToText, createPackReader, planPacks } from "./packs.mjs";
+import { isGzip, bytesToText, createPackReader, planPacks, isPackBase, isPackName } from "./packs.mjs";
 
 const bytes = (s) => new TextEncoder().encode(s);
 const gz = (s) => new Uint8Array(gzipSync(Buffer.from(s, "utf8")));
@@ -78,4 +78,22 @@ test("planPacks keeps the order, holds every item once and respects the limit", 
   assert.deepEqual(lop.flat(), ["big", "a", "b"]);
   assert.ok(lop.length <= 2);
   assert.deepEqual(planPacks(items, 7), planPacks(items, 7));
+});
+
+test("names read from an index never leave their folder: no request is made for them", async () => {
+  const h = host({ "recorded/a.json": bytes('{"summary":"A"}') });
+  const r = createPackReader(h.fetchFn);
+  for (const entry of [{ file: "../a.json" }, { file: "a/b.json" }, { file: "https://evil.example/x.json" }, { file: "//evil.example/x" }, { file: "a.json", pack: "../pack.json.gz" },
+    { file: "a.json", pack: "https://evil.example/p.gz" }, { file: "a.json", pack: 5 }, { file: ".hidden" }, { file: "" }, { file: 7 }, { file: "x".repeat(130) }]) {
+    assert.equal(await r.load("recorded/", entry), null, JSON.stringify(entry));
+  }
+  for (const base of ["../", "", "https://evil.example/", "recorded", "a/b/recorded/", "x/native", "recorded/../", null, undefined]) {
+    assert.equal(await r.load(base, { file: "a.json" }), null, String(base));
+    assert.equal(await r.index(base), null, String(base));
+  }
+  assert.deepEqual(h.seen, [], "nothing was requested");
+  assert.equal(isPackBase("celeste/recorded/"), true);
+  assert.equal(isPackBase("native/"), true);
+  assert.equal(isPackName("pack-00.json.gz"), true);
+  assert.deepEqual(await r.load("recorded/", { file: "a.json" }), { summary: "A" });
 });

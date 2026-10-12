@@ -14,7 +14,23 @@ const DROPPED = new Set(["script", "foreignobject", "iframe", "object", "embed",
 const ANIMATING = new Set(["animate", "set", "animatetransform", "animatemotion"]);
 
 // A document-type declaration, or any markup declaration that defines something.
-export const hasDeclaration = (markup) => /<!\s*(doctype|entity|element|attlist|notation)\b/i.test(String(markup));
+export const hasDeclaration = (markup) => /<!\s*(doctype|entity|element|attlist|notation)\b/i.test(String(markup)) || /<!(?!--|\[CDATA\[)/.test(String(markup));
+
+// The largest chart markup the page parses.
+export const MAX_SVG_BYTES = 8 * 1024 * 1024;
+
+// Parse untrusted chart markup into its root <svg> element, or null. A document carrying any declaration
+// (a document type, an entity, an element or attribute list: the way entity-expansion bombs are written) is
+// refused BEFORE it reaches the parser, so no entity is ever defined, let alone expanded; so is anything
+// that is not text, over the size limit, or not an svg root. The result is sanitised (sanitizeSvg) by the
+// caller as it adopts the element. `ParserCtor` is the browser's DOMParser (a stand-in in tests).
+export function parseSvgMarkup(markup, ParserCtor = globalThis.DOMParser) {
+  if (typeof markup !== "string" || markup.length > MAX_SVG_BYTES || typeof ParserCtor !== "function") return null;
+  if (hasDeclaration(markup)) return null;
+  const doc = new ParserCtor().parseFromString(markup, "image/svg+xml");
+  const root = doc && doc.documentElement;
+  return root && root.nodeName === "svg" ? root : null;
+}
 
 // A reference that stays inside the file.
 const localRef = (v) => /^\s*#/.test(v);

@@ -397,6 +397,69 @@
       "summary": "A versioned, self-describing envelope that wraps a scenario result with its kind, schema version, and modelled/validated labels, so a stored artifact stays self-documenting and older envelopes remain forward-compatibly readable.",
       "proof": "versioned envelope \u00b7 round-trip + forward-compatible read verified",
       "run": "lunar-interop-export.toml"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "modelled",
+      "name": "Receiver-trust score for a vessel",
+      "summary": "Scores whether a vessel's navigation fix can be trusted from the NMEA 0183 its receiver and instruments already emit: a 0-100 score, three bands and the reasons behind them, per epoch, in batch, live or as a gate. Monitors compare the fix with the vessel's own motion, heading sensor, speed log and satellite signal levels. Advisory software, not type-approved navigation equipment: the operator stays responsible. The monitors' arithmetic is checked against independent libraries; the score's rule and thresholds are the project's own and stay modelled.",
+      "proof": "monitor arithmetic checked against pynmea2 and GeographicLib"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "validated",
+      "name": "Crew-training NMEA streams",
+      "summary": "Writes synthetic bridge NMEA 0183 for a scripted voyage with instructor-scripted jamming, position drag-off, time-spoof and replay events, with an instructor log, so a crew can see what a degraded fix looks like on their own instruments. Text only, never for a vessel's live navigation systems; nothing is transmitted and no radio signal is made. The sentences and their decoded values are checked; the receiver, sky and event models are modelled.",
+      "proof": "225,227 sentences parsed and decoded by pynmea2"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "validated",
+      "name": "Interference map and route exposure",
+      "summary": "Builds a per-day GeoJSON map of where aircraft (ADS-B) and ships (AIS) reported degraded navigation data, from openly licensed inputs, and the share of a route that passes through degraded cells. A degraded cell is a statement about reported accuracy fields or implausible positions, not a finding of interference, and a cell nobody observed is not evidence of a clear route. Past reports, not a forecast.",
+      "proof": "code meanings and geometry checked against pyModeS, pyais, shapely and GeographicLib"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "validated",
+      "name": "Trust telemetry for security operations",
+      "summary": "Exports the trust stream as Prometheus metrics, OpenTelemetry (OTLP/HTTP) and CEF or LEEF syslog events over stdout, HTTP, UDP or TCP, so a security operations centre sees a navigation fault next to its other alerts. A dead collector neither stalls the assessment nor goes unnoticed. Prometheus, OTLP and CEF are read back by independent parsers; LEEF is checked against its own specification only.",
+      "proof": "Prometheus, OTLP and CEF read back by independent parsers"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "validated",
+      "name": "Signed evidence packs",
+      "summary": "Bundles the window around a trust event into a hash-chained, Ed25519-signed pack that anyone can verify offline: a changed, removed, swapped or added file, a re-signed pack or a wrong pinned key is named. An optional RFC 3161 timestamp token is bound to it. A technical record, not a legal opinion, finding of fact or attestation.",
+      "proof": "RFC 8032 vectors byte for byte; a clean-room verifier agrees on 71 packs"
+    },
+    {
+      "domain": "Interoperability",
+      "group": "Interop",
+      "status": "validated",
+      "name": "Test-bench export",
+      "summary": "Writes a scenario's vehicle motion and events as a CSV trajectory and NMEA 0183 for a laboratory GNSS simulator: Earth-fixed, geodetic and local-velocity columns, attitude and UTC. Motion and events only: no signal is written and no simulator or receiver performance is claimed.",
+      "proof": "conversions and encodings checked against PROJ, GeographicLib, pynmea2 and SciPy"
+    },
+    {
+      "domain": "Maritime trust",
+      "group": "Maritime",
+      "status": "modelled",
+      "name": "Compliance mapping to public frameworks",
+      "summary": "Maps Kshana outputs to the clauses of public frameworks (IMO guidance for ships, EU NIS2 Article 21, EN 16803, the US DHS resilient-PNT framework and EASA aviation guidance) by clause number only, filled from the runs you give it, and says which rows a set of runs supports evidence for, with each row's gap. It is not a finding that any framework is met and not a rating or approval by anyone."
+    },
+    {
+      "domain": "GNSS authentication",
+      "group": "GNSS",
+      "status": "validated",
+      "name": "Galileo OSNMA verification",
+      "summary": "An open, pure-Rust receiver-side verifier for Galileo Open Service Navigation Message Authentication: it checks which satellites' navigation data a receiver can authenticate from I/NAV pages or a u-blox UBX stream, through the public-key, key-chain and tag checks of the signal-in-space specification, and reports authentication per satellite and per time. It authenticates data; it does not claim any anti-spoofing performance.",
+      "proof": "all 18 official test-vector sets: 186,382 tags authenticated, 0 failed"
     }
   ],
   "standards": [
@@ -464,6 +527,31 @@
       "name": "CCSDS 401 / DSN",
       "note": "link equation vs published DESCANSO/JPL Galileo DCT",
       "proof": true
+    },
+    {
+      "name": "IMO GNSS-interference guidance (ships)",
+      "note": "IMO guidance for ships, mapped by clause number",
+      "proof": false
+    },
+    {
+      "name": "EU NIS2, Article 21",
+      "note": "risk-management measures, mapped by clause number",
+      "proof": false
+    },
+    {
+      "name": "EN 16803",
+      "note": "space-based PNT in transport, mapped by clause number",
+      "proof": false
+    },
+    {
+      "name": "US DHS resilient-PNT framework",
+      "note": "resilient-PNT conformance framework, mapped by clause number",
+      "proof": false
+    },
+    {
+      "name": "EASA GNSS-interference guidance (aviation)",
+      "note": "EASA guidance for aviation, mapped by clause number",
+      "proof": false
     }
   ],
   "trust": {

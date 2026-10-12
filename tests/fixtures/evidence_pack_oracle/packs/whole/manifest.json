@@ -1,0 +1,61 @@
+{
+  "format": "kshana-evidence/1",
+  "title": "Whole-log pack",
+  "engine_version": "0.0.0-oracle",
+  "created_utc": "2026-01-02T03:04:05Z",
+  "disclaimer": "This pack is a technical record of what the Kshana engine computed from the stated receiver log with the stated configuration. It is not a legal opinion, not a finding of fact about any event or its cause, and not a certification.",
+  "window": {
+    "from_s": 0.0,
+    "to_s": 59.0
+  },
+  "epochs_in_window": 60,
+  "log": {
+    "format": "nmea",
+    "file_name": "synthetic.log",
+    "full_sha256": "15aba5224d5c0f7f0cbe25fa20a298182c1c042a8322b5f299961d37b4581792",
+    "full_bytes": 5370,
+    "start_label": "2026-01-02T03:04:05Z",
+    "slice": {
+      "kind": "whole-log",
+      "start": 0,
+      "end": 5370,
+      "sha256": "15aba5224d5c0f7f0cbe25fa20a298182c1c042a8322b5f299961d37b4581792"
+    }
+  },
+  "signer": {
+    "algorithm": "ed25519",
+    "public_key": "2152f8d19b791d24453242e15f2eab6cb7cffa7b6a5ed30097960e069881db12",
+    "fingerprint": "3097e2dee2cb4a34b53840cdb705aed7"
+  },
+  "artifacts": [
+    {
+      "name": "log-slice.bin",
+      "role": "raw receiver-log bytes for the window",
+      "bytes": 5370,
+      "sha256": "15aba5224d5c0f7f0cbe25fa20a298182c1c042a8322b5f299961d37b4581792",
+      "link": "b2d93771f43ca925300463f9475a97661a71e83b626abe788f7e4c193c8f8ec9"
+    },
+    {
+      "name": "config.json",
+      "role": "configuration and every threshold",
+      "bytes": 90,
+      "sha256": "11ab110ecf6b8883fd0edfa36ec5d1b188869d9cb08d449a5239a03cdc5c8eec",
+      "link": "67554d823a093c2a65f2b87b033f257afd5b46257d8aed7ba30da02aedb65483"
+    },
+    {
+      "name": "epochs.json",
+      "role": "per-epoch results and reasons",
+      "bytes": 5493,
+      "sha256": "ae6a31019a43b7728c3c547a510be57b3ca3c822f452758a8958e32fbdcfa246",
+      "link": "a607f696a1eb0d932cf9dff5b7d1720888cecae87e2084be398c917f60e6021f"
+    },
+    {
+      "name": "summary.html",
+      "role": "human-readable summary",
+      "bytes": 9654,
+      "sha256": "b175124a8efc5c45d2b0ce0066ed47b9a7d1d56bb6704291be17f5a4d18a2f4b",
+      "link": "b6577441c5ad80187ff592fcba20ed2b24167fc4dd6ea50cf573df6aa7c6762d"
+    }
+  ],
+  "chain_head": "b6577441c5ad80187ff592fcba20ed2b24167fc4dd6ea50cf573df6aa7c6762d"
+}

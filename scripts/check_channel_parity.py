@@ -20,14 +20,27 @@ REQUIRED channels (the run fails without them):
   PyPI       kshana at the version, with the source distribution AND a wheel for each
              of the six platforms the release builds (docs/WHEEL_TAGS.md), so a
              release that lost one platform does not read as complete
-  ghcr.io    the kshana-mcp container image tagged with the version
+  ghcr.io    the kshana-mcp container image tagged with the version, and the
+             kshana-reference-build image (the gate service) tagged with it
+
+  npm        kshana-mcp (the npx launcher) at the version, and PyPI kshana-mcp (the uvx
+             launcher), unless PARITY_MCP_LAUNCHERS=false
+  GitHub     the release carries every kshana-mcp binary and Claude Desktop extension
+             (.mcpb), the OpenCPN tarball and metadata, the Grafana dashboard and the Signal K
+             tarball (the names are in scripts/check-release-assets.sh)
+
+OPTIONAL channels, required only when switched on (the release job sets the environment):
+  npm        the Signal K plugin, when PARITY_SIGNALK_PACKAGE names the package (the release
+             passes it unless SIGNALK_NPM_PUBLISH is false)
 
 BEST-EFFORT channels (reported, never fatal):
   docs.rs       builds documentation on its own queue, which can take hours
   MCP registry  publishing there is opt-in (the MCP_REGISTRY_PUBLISH repository variable)
+  Homebrew tap, Scoop bucket, winget  each needs a founder-created repository and token;
+                a step without its secret skips, so the channel is reported, never fatal
 
-Knobs (environment): PARITY_TIMEOUT_SECONDS (default 2700), PARITY_INTERVAL_SECONDS
-(default 30). A registry that cannot be reached counts as "not yet", never as a pass.
+Knobs (environment): PARITY_MCP_LAUNCHERS (false: skip the two launcher packages), PARITY_TIMEOUT_SECONDS (default 2700), PARITY_INTERVAL_SECONDS
+(default 30), PARITY_SIGNALK_PACKAGE (unset or empty: the Signal K channel is not checked). A registry that cannot be reached counts as "not yet", never as a pass.
 """
 
 from __future__ import annotations
@@ -38,12 +51,29 @@ import re
 import sys
 import time
 import urllib.error
+import urllib.parse
 import urllib.request
 
 # crates.io rejects requests without an identifying User-Agent (its crawler policy).
 USER_AGENT = "kshana-release-parity (https://github.com/ashfordeOU/kshana)"
 GHCR_IMAGE = "ashfordeou/kshana-mcp"
+GHCR_REFERENCE_IMAGE = "ashfordeou/kshana-reference-build"
 MCP_SERVER = "io.github.ashfordeOU%2Fkshana-mcp"
+REPO = "ashfordeOU/kshana"
+SIGNALK_PACKAGE = "signalk-kshana-trust"
+SIGNALK_PROBE = "npm signalk-kshana-trust"
+MCP_BINARIES = (
+    "kshana-mcp-aarch64-apple-darwin",
+    "kshana-mcp-x86_64-apple-darwin",
+    "kshana-mcp-x86_64-pc-windows-msvc.exe",
+    "kshana-mcp-aarch64-unknown-linux-gnu",
+    "kshana-mcp",
+    "kshana-mcp-x86_64-unknown-linux-gnu.mcpb",
+    "kshana-mcp-aarch64-unknown-linux-gnu.mcpb",
+    "kshana-mcp-aarch64-apple-darwin.mcpb",
+    "kshana-mcp-x86_64-apple-darwin.mcpb",
+    "kshana-mcp-x86_64-pc-windows-msvc.mcpb",
+)
 
 # One pattern per platform wheel the release builds (wheels.yml matrix).
 PYPI_WHEELS = {
@@ -90,13 +120,66 @@ def crates(name: str, version: str) -> tuple[bool, str]:
     return True, "served"
 
 
-def npm(version: str) -> tuple[bool, str]:
-    status, doc = fetch_json(f"https://registry.npmjs.org/kshana/{version}")
+def npm(version: str, package: str = "kshana") -> tuple[bool, str]:
+    # A scoped name keeps its "@"; the "/" must be percent-encoded in the registry path.
+    status, doc = fetch_json(
+        f"https://registry.npmjs.org/{urllib.parse.quote(package, safe='@')}/{version}"
+    )
     if doc is None:
         return False, f"HTTP {status}"
     if doc.get("version") != version:
         return False, f"serves {doc.get('version')!r}"
     return True, "served"
+
+
+def pypi_mcp(version: str) -> tuple[bool, str]:
+    status, doc = fetch_json(f"https://pypi.org/pypi/kshana-mcp/{version}/json")
+    if doc is None:
+        return False, f"HTTP {status}"
+    if (doc.get("info") or {}).get("version") != version:
+        return False, f"serves {(doc.get('info') or {}).get('version')!r}"
+    return True, "served"
+
+
+def release_assets(version: str) -> tuple[bool, str]:
+    status, doc = fetch_json(f"https://api.github.com/repos/{REPO}/releases/tags/v{version}")
+    if doc is None:
+        return False, f"HTTP {status}"
+    names = {a.get("name") for a in doc.get("assets") or []}
+    want = list(MCP_BINARIES) + [
+        f"kshana_pi-{version}-1_ubuntu-wx32-24.04-x86_64.tar.gz",
+        f"kshana_pi-{version}-ubuntu-wx32-x86_64-24.04.xml",
+    ]
+    missing = [n for n in want if n not in names]
+    if not any(n.startswith("kshana-grafana-") and n.endswith(".json") for n in names):
+        missing.append("kshana-grafana-*.json")
+    if not any(n.endswith(".tgz") for n in names):
+        missing.append("the Signal K *.tgz")
+    if missing:
+        return False, "missing " + ", ".join(missing)
+    return True, f"all {len(want)} named assets, the Grafana dashboard and the Signal K tarball present"
+
+
+def raw_contains(url: str, needle: str) -> tuple[bool, str]:
+    status, body = fetch(url)
+    if status != 200:
+        return False, f"HTTP {status}"
+    return (needle in body.decode("utf-8", "replace")), ("served" if needle in body.decode("utf-8", "replace") else "serves another version")
+
+
+def homebrew(version: str) -> tuple[bool, str]:
+    return raw_contains("https://raw.githubusercontent.com/ashfordeOU/homebrew-tap/main/Formula/kshana-mcp.rb",
+                        f"/releases/download/v{version}/")
+
+
+def scoop(version: str) -> tuple[bool, str]:
+    return raw_contains("https://raw.githubusercontent.com/ashfordeOU/scoop-bucket/main/bucket/kshana-mcp.json",
+                        f'"version": "{version}"')
+
+
+def winget(version: str) -> tuple[bool, str]:
+    status, _ = fetch(f"https://api.github.com/repos/microsoft/winget-pkgs/contents/manifests/a/AshfordeOU/KshanaMcp/{version}")
+    return (status == 200), ("served" if status == 200 else f"HTTP {status} (review of the winget pull request can take days)")
 
 
 def pypi(version: str) -> tuple[bool, str]:
@@ -118,8 +201,8 @@ def pypi(version: str) -> tuple[bool, str]:
     return True, f"served ({len(files)} files)"
 
 
-def ghcr(version: str) -> tuple[bool, str]:
-    status, body = fetch(f"https://ghcr.io/token?scope=repository:{GHCR_IMAGE}:pull")
+def ghcr(version: str, image: str = GHCR_IMAGE) -> tuple[bool, str]:
+    status, body = fetch(f"https://ghcr.io/token?scope=repository:{image}:pull")
     if status != 200:
         return False, f"token HTTP {status}"
     try:
@@ -135,7 +218,7 @@ def ghcr(version: str) -> tuple[bool, str]:
         ]
     )
     status, _ = fetch(
-        f"https://ghcr.io/v2/{GHCR_IMAGE}/manifests/{version}",
+        f"https://ghcr.io/v2/{image}/manifests/{version}",
         {"Authorization": f"Bearer {token}", "Accept": accept},
     )
     return (status == 200), ("served" if status == 200 else f"HTTP {status}")
@@ -170,9 +253,20 @@ def main(argv: list[str]) -> int:
         "npm kshana": (lambda: npm(version), True),
         "PyPI kshana": (lambda: pypi(version), True),
         "ghcr.io kshana-mcp": (lambda: ghcr(version), True),
+        "ghcr.io kshana-reference-build": (lambda: ghcr(version, GHCR_REFERENCE_IMAGE), True),
+        "GitHub release assets": (lambda: release_assets(version), True),
         "docs.rs kshana": (lambda: docs_rs(version), False),
+        "Homebrew tap kshana-mcp": (lambda: homebrew(version), False),
+        "Scoop bucket kshana-mcp": (lambda: scoop(version), False),
+        "winget AshfordeOU.KshanaMcp": (lambda: winget(version), False),
         "MCP registry kshana-mcp": (lambda: mcp_registry(version), False),
     }
+    if os.environ.get("PARITY_MCP_LAUNCHERS", "").strip().lower() != "false":
+        checks["npm kshana-mcp"] = ((lambda: npm(version, "kshana-mcp")), True)
+        checks["PyPI kshana-mcp"] = ((lambda: pypi_mcp(version)), True)
+    signalk = os.environ.get("PARITY_SIGNALK_PACKAGE", "").strip()
+    if signalk:
+        checks[SIGNALK_PROBE if signalk == SIGNALK_PACKAGE else f"npm {signalk}"] = ((lambda: npm(version, signalk)), True)
     state: dict[str, tuple[bool, str]] = {name: (False, "not checked") for name in checks}
     deadline = time.monotonic() + timeout
     round_no = 0
@@ -184,7 +278,7 @@ def main(argv: list[str]) -> int:
         print(f"-- round {round_no} --")
         for name, (ok, detail) in state.items():
             tag = "required" if checks[name][1] else "best-effort"
-            print(f"  {'OK  ' if ok else 'WAIT'} {name:<26} {detail} [{tag}]")
+            print(f"  {'OK  ' if ok else 'WAIT'} {name:<32} {detail} [{tag}]")
         pending = [n for n, (ok, _) in state.items() if not ok and checks[n][1]]
         optional = [n for n, (ok, _) in state.items() if not ok and not checks[n][1]]
         if not pending and not optional:

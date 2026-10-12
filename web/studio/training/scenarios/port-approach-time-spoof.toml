@@ -1,0 +1,41 @@
+# Port approach with a time spoof: position stays true, UTC drifts ahead. Synthetic NMEA
+# for bridge-simulator training only.
+# Synthetic training data: never feed it to a vessel's live navigation systems.
+# Kshana is advisory, not type-approved navigation equipment.
+[scenario]
+name = "port-approach-time-spoof"
+description = "Slow port approach; the receiver's UTC runs 45 s ahead while the position stays correct."
+trainer_note = "Position, speed and fix status all look right. Compare the RMC/ZDA time with the bridge clock: it creeps ahead at 0.375 s per second, to 45 s, and steps back at release. Time-stamped logs, AIS timing and any time-based authentication would be affected. The GSV levels keep their genuine pattern, so this one is subtle."
+seed = 33
+start_utc = "2026-07-21T22:40:00Z"
+duration_s = 1200
+rate_hz = 1
+
+[vessel]
+lat_deg = 53.55
+lon_deg = 3.30
+speed_kn = 10
+
+[[waypoint]]
+lat_deg = 53.52
+lon_deg = 3.60
+speed_kn = 10
+
+[[waypoint]]
+lat_deg = 53.50
+lon_deg = 3.72
+speed_kn = 6
+
+[[waypoint]]
+lat_deg = 53.46
+lon_deg = 3.78
+speed_kn = 3
+
+[[event]]
+kind = "time-spoof"
+label = "Time creeps ahead"
+start_s = 300
+duration_s = 600
+ramp_s = 120
+recovery_s = 0
+offset_s = 45

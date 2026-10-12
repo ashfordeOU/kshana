@@ -15,7 +15,7 @@
 # lockfile and this crate's Dockerfile through their own entries.
 [package]
 name = "kshana-mcp"
-version = "0.34.1"
+version = "0.35.0"
 edition = "2024"
 # 1.88, three minors above the `kshana` library's 1.85. Three advisories against rmcp
 # < 2.1 (a Streamable-HTTP session-table leak, missing OAuth resource validation, and
@@ -28,6 +28,7 @@ description = "Model Context Protocol (MCP) server exposing the Kshana PNT-resil
 # Dual-licensed: AGPL-3.0-only, or a commercial licence from Ashforde OÜ
 # (contact@ashforde.org). See ../../LICENSE and ../../LICENSING.md.
 license = "AGPL-3.0-only"
+authors = ["Ashforde OÜ <contact@ashforde.org>"]
 repository = "https://github.com/AshfordeOU/kshana"
 homepage = "https://kshana.dev"
 keywords = ["mcp", "pnt", "gnss", "navigation", "ai"]
@@ -46,9 +47,9 @@ path = "src/main.rs"
 # `bundled-scenarios` compiles the reference scenarios into the library, so
 # `list_example_scenarios` / `get_example_scenario` can hand an agent a runnable scenario
 # of a kind: a registry or image install has no `scenarios/` directory to read.
-kshana = { path = "../..", version = "0.34.1", features = ["bundled-scenarios"] }
-rmcp = { version = "2.1", features = ["server", "macros", "transport-io"] }
-tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util"] }
+kshana = { path = "../..", version = "0.35.0", features = ["bundled-scenarios", "otlp"] }
+rmcp = { version = "2.1", features = ["server", "macros", "transport-io", "transport-streamable-http-server"] }
+tokio = { version = "1", features = ["macros", "rt-multi-thread", "io-std", "io-util", "net", "signal", "time"] }
 serde = { version = "1", features = ["derive"] }
 serde_json = "1"
 toml = "0.8"
@@ -56,7 +57,13 @@ schemars = "1"
 anyhow = "1"
 tracing = "0.1"
 tracing-subscriber = { version = "0.3", features = ["env-filter"] }
+axum = { version = "0.8", default-features = false, features = ["http1", "tokio"] }
+tower-http = { version = "0.6", default-features = false, features = ["timeout"] }
+tokio-util = "0.7"
+subtle = "2"
 
 [dev-dependencies]
+tower = { version = "0.5", default-features = false, features = ["util"] }
 # The MCP client side, for the in-process (duplex) round-trip integration test.
 rmcp = { version = "2.1", features = ["client"] }
+futures-util = { version = "0.3", default-features = false }

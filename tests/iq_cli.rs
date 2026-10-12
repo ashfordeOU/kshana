@@ -1160,16 +1160,14 @@ fn track_and_sweep_take_loop_designs_and_stream_their_outputs() {
     );
 }
 
-/// `labfit` runs end to end from a synthetic RINEX scenario and writes its four reports.
-#[test]
-fn labfit_runs_from_a_synthetic_rinex_scenario() {
+/// A synthetic `iq-labfit` scenario (three RINEX runs with their logs inline) as TOML.
+fn synthetic_labfit_toml() -> String {
     use kshana::iq::labfit::schema::{Conditions, FitCfg, LabFitScenario};
     use kshana::iq::labfit::synth::{synthesize_timeline, SynthSpec};
     use kshana::iq::labfit::{model::ModelKind, schema::RunCfg};
     use kshana::receiver_trust::scenario::{FileSource, LogCfg};
     use kshana::receiver_trust::LogFormat;
 
-    let dir = scratch("labfit");
     let sats: Vec<(String, f64)> = [(0usize, 42.0), (1, 45.0), (2, 48.0)]
         .iter()
         .map(|&(i, n)| (format!("G{:02}", i + 3), n))
@@ -1219,8 +1217,15 @@ fn labfit_runs_from_a_synthetic_rinex_scenario() {
         runs,
         ..LabFitScenario::default()
     };
+    toml::to_string(&scenario).unwrap()
+}
+
+/// `labfit` runs end to end from a synthetic RINEX scenario and writes its four reports.
+#[test]
+fn labfit_runs_from_a_synthetic_rinex_scenario() {
+    let dir = scratch("labfit");
     let toml_path = dir.join("labfit.toml");
-    std::fs::write(&toml_path, toml::to_string(&scenario).unwrap()).unwrap();
+    std::fs::write(&toml_path, synthetic_labfit_toml()).unwrap();
 
     assert_eq!(run(&args(&["labfit", &toml_path.display().to_string()])), 0);
     for ext in [
@@ -1782,5 +1787,40 @@ fn acquire_exports_the_acquisition_surface() {
     assert_eq!(
         go("6", &["--surface", &p("s.dat"), "--surface-format", "csv"]),
         0
+    );
+}
+
+/// The surface form of `labfit` takes the logs inline, returns the report in memory, and
+/// refuses a log that names a file.
+#[test]
+fn labfit_inline_returns_the_report_and_refuses_log_paths() {
+    let toml = synthetic_labfit_toml();
+    let v = kshana::surface::iq_labfit_inline(&toml, 64 * 1024 * 1024).unwrap();
+    assert!(v["report"].is_object() && v["markdown"].as_str().unwrap().len() > 100);
+    assert!(v["residuals_csv"].as_str().unwrap().contains(','));
+    assert!(v["predictions_csv"].is_string());
+    // Over the cap is refused.
+    assert!(kshana::surface::iq_labfit_inline(&toml, 100).is_err());
+    // A log that names a file is refused, whether or not the file exists.
+    let mut doc: toml::Value = toml::from_str(&toml).unwrap();
+    let log = doc["runs"][0]["log"].as_table_mut().unwrap();
+    log.remove("text");
+    log.insert("path".into(), "/etc/hostname".into());
+    let named = toml::to_string(&doc).unwrap();
+    let e = kshana::surface::iq_labfit_inline(&named, 64 * 1024 * 1024).unwrap_err();
+    assert!(e.contains("runs[0].log") && e.contains("path"), "{e}");
+    let mut doc2: toml::Value = toml::from_str(&toml).unwrap();
+    let nav = toml::Value::try_from(std::collections::BTreeMap::from([(
+        "path".to_string(),
+        "/etc/hostname".to_string(),
+    )]))
+    .unwrap();
+    doc2["runs"][1]["log"]
+        .as_table_mut()
+        .unwrap()
+        .insert("nav".into(), nav);
+    assert!(
+        kshana::surface::iq_labfit_inline(&toml::to_string(&doc2).unwrap(), 64 * 1024 * 1024)
+            .is_err()
     );
 }
