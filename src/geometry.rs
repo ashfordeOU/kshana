@@ -1564,6 +1564,8 @@ mod tests {
     #[test]
     fn profile_presets_and_skyplot() {
         let p = skyline_profile(&parse_skyline("preset = \"city-street\"\n").unwrap()).unwrap();
+        // PIN-SCOPE:    the profile's length: one entry per whole degree of azimuth.
+        // PIN-EXCLUDES: the entries themselves, checked by value elsewhere.
         assert_eq!(p.table.len(), 360);
         assert!(close(
             p.table[90],

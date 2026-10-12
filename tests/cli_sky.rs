@@ -3,6 +3,7 @@
 //! the command line.
 
 use std::process::Command;
+use std::sync::atomic::{AtomicU64, Ordering};
 
 fn kshana(args: &[&str]) -> (bool, String, String) {
     let out = Command::new(env!("CARGO_BIN_EXE_kshana"))
@@ -18,7 +19,12 @@ fn kshana(args: &[&str]) -> (bool, String, String) {
 
 #[test]
 fn sky_reads_a_toml_request_and_prints_json() {
-    let dir = std::env::temp_dir().join(format!("kshana-cli-sky-{}", std::process::id()));
+    static CALL: AtomicU64 = AtomicU64::new(0);
+    let dir = std::env::temp_dir().join(format!(
+        "kshana-cli-sky-{}-{}",
+        std::process::id(),
+        CALL.fetch_add(1, Ordering::Relaxed)
+    ));
     std::fs::create_dir_all(&dir).unwrap();
     let req = dir.join("request.toml");
     std::fs::write(

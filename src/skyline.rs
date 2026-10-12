@@ -1041,6 +1041,8 @@ mod tests {
         );
         for p in preset_list() {
             assert!(p.provenance.starts_with(PRESET_LABEL), "{}", p.name);
+            // PIN-SCOPE:    the profile's length: one entry per whole degree of azimuth.
+            // PIN-EXCLUDES: the entries themselves, checked by value elsewhere.
             assert_eq!(p.table.len(), 360);
             assert!(p.open_fraction > 0.0 && p.open_fraction < 1.0);
         }
