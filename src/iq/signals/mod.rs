@@ -2,7 +2,7 @@
 //! **Spreading codes for open-service GNSS signals, each checked against its ICD.**
 //!
 //! Every signal here is a [`SignalCode`]: a primary code, an optional secondary
-//! (overlay) code and a chip [`Modulation`] (BPSK, sine-phased BOC or Galileo CBOC),
+//! (overlay) code and a chip [`Modulation`] (BPSK, sine-phased BOC, Galileo CBOC or GPS L1CP TMBOC),
 //! evaluated at a fractional code phase through [`SpreadingCode`]. Constructors live in
 //! one submodule per constellation:
 //!
@@ -11,6 +11,8 @@
 //! | GPS L1 C/A | [`gps::l1ca`] | Gold 1023 (wraps [`crate::sdr::CaCode`]) | - | BPSK(1) |
 //! | GPS L5 I5 / Q5 | [`gps::l5_i5`], [`gps::l5_q5`] | XA/XB 10230 | NH10 / NH20 | BPSK(10) |
 //! | GPS L2C CM / CL | [`gps::l2c_cm`], [`gps::l2c_cl`], [`gps::l2c`] | 10230 / 767250 | - | BPSK, time-multiplexed |
+//! | GPS L1C data (L1CD) | [`gps::l1c_d`] | Weil 10230 | - | BOC(1,1) |
+//! | GPS L1C pilot (L1CP) | [`gps::l1c_p`] | Weil 10230 | L1CO overlay 1800 ([`gps::l1c_o_bits`]) | TMBOC(6,1,4/33) |
 //! | Galileo E1-B / E1-C | [`galileo::e1b`], [`galileo::e1c`] | memory code 4092 | - / CS25 | CBOC(6,1,1/11) |
 //! | Galileo E5a-I / E5a-Q | [`galileo::e5a_i`], [`galileo::e5a_q`] | LFSR 10230 | CS20 / CS100_n | BPSK(10) |
 //! | BeiDou B1C data / pilot | [`beidou::b1c_data`], [`beidou::b1c_pilot`] | Weil 10230 | - / Weil 1800 | BOC(1,1); QMBOC(6,1,4/33) parts |
@@ -31,6 +33,11 @@
 //!   complete Annex C hexadecimal code, for all 50 codes of each component.
 //! * Galileo E1: the memory codes are the ICD's own Annex C tables, committed with their
 //!   provenance and hash (`data/galileo-os-sis-icd/`).
+//! * GPS L1C: the Weil construction with the expansion-sequence insertion reproduces the
+//!   printed initial and final 24 chips of every L1CP and L1CD code, and the L1CO S1
+//!   generator the printed final 11 bits, PRN 1..=63 (IS-GPS-800J Tables 3.2-2, 3.2-3);
+//!   the Legendre sequence equals the printed Table 6.2-1. The TMBOC slot pattern and its
+//!   4/33 BOC(6,1) share follow §3.3 and are checked from the waveform (MODELLED).
 //! * BeiDou B1C: the Weil construction reproduces the printed first and last 24 chips of
 //!   every data, pilot and secondary code (BDS-SIS-ICD-B1C-1.0 Tables 5-2/5-3/5-4).
 //! * BeiDou B1I and GLONASS L1OF: their ICDs print no per-PRN chip table, so the checks
@@ -109,6 +116,25 @@ pub enum Modulation {
         /// True for `α·sc_a + β·sc_b` (E1-B), false for `α·sc_a − β·sc_b` (E1-C).
         plus: bool,
     },
+    /// GPS L1CP TMBOC(6,1,4/33) (IS-GPS-800J §3.3): every spreading symbol is a sine-phased
+    /// BOC(1,1) symbol except those whose index `t` within the primary code satisfies
+    /// `t mod 33` in [`TMBOC_BOC61_SLOTS`] (0, 4, 6 and 29), which are BOC(6,1). The
+    /// subcarrier depends on the chip index, so [`SignalCode`] evaluates it with
+    /// [`Modulation::subcarrier_at`]; [`Modulation::subcarrier`] alone returns the BOC(1,1)
+    /// symbol of the other 29 slots.
+    Tmboc,
+}
+
+/// TMBOC block length in spreading symbols (IS-GPS-800J §3.3: `t = u + 33 v`).
+pub const TMBOC_BLOCK: usize = 33;
+/// The positions `u` within each 33-symbol block that carry a BOC(6,1) symbol on L1CP
+/// (IS-GPS-800J §3.3); all other positions carry BOC(1,1).
+pub const TMBOC_BOC61_SLOTS: [usize; 4] = [0, 4, 6, 29];
+
+/// True when spreading symbol `t` (counted from the start of the primary code) of a TMBOC
+/// signal is a BOC(6,1) symbol.
+pub fn tmboc_is_boc61(t: usize) -> bool {
+    TMBOC_BOC61_SLOTS.contains(&(t % TMBOC_BLOCK))
 }
 
 /// Value of the sine-phased square subcarrier with `n` periods per chip at chip fraction
@@ -139,6 +165,17 @@ impl Modulation {
                     alpha * a - beta * b
                 }
             }
+            Modulation::Tmboc => square_subcarrier(1, frac),
+        }
+    }
+
+    /// The subcarrier value of spreading symbol `chip` (its index within the primary code)
+    /// at chip fraction `frac` in `[0, 1)`. Equal to [`Modulation::subcarrier`] for every
+    /// modulation except [`Modulation::Tmboc`], whose symbol depends on `chip`.
+    pub fn subcarrier_at(&self, chip: usize, frac: f64) -> f64 {
+        match *self {
+            Modulation::Tmboc if tmboc_is_boc61(chip) => square_subcarrier(6, frac),
+            _ => self.subcarrier(frac),
         }
     }
 }
@@ -311,7 +348,7 @@ impl SpreadingCode for SignalCode {
     }
     fn value_at(&self, code_phase_chips: f64) -> f64 {
         let (k, frac) = split_phase(code_phase_chips, self.len_chips());
-        self.chip(k as i64) * self.modulation.subcarrier(frac)
+        self.chip(k as i64) * self.modulation.subcarrier_at(k % self.primary.len(), frac)
     }
 }
 
