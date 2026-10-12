@@ -124,9 +124,12 @@ def receiver_trust_replay(session_toml: str, nmea: str | bytes) -> dict[str, Any
     does (at most 2 MiB and 20,000 epochs; it must hold the calibration window).
 
     ``session_toml`` declares a vessel (``[platform] kind = "vessel"``). Keys: ``schema``
-    (``"1.2"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
-    ``alarms``, ``position``, ``advisory``, ...), ``last_pksht`` and ``summary`` (counts by state,
-    ``lowest_score``, ``final_score``, ``first_untrusted_t_s``). Opens no socket and does not
+    (``"1.3"``), ``epochs`` (one dict per epoch: ``state``, ``score``, ``deductions``,
+    ``alarms``, ``position``, ``advisory``, ``geometry``, ``degradation``,
+    ``explained_by_geometry``, ...), ``last_pksht`` and ``summary`` (counts by state,
+    ``lowest_score``, ``final_score``, ``first_untrusted_t_s``, ``geometry``). ``geometry`` is
+    the satellite geometry (``good``, ``degraded`` with reasons, ``unknown`` without GSV or GSA);
+    it never changes the score. Opens no socket and does not
     apply the gate (both are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises ``ValueError``."""
 
 def assess_vessel_log(session_toml: str, log: str | bytes) -> dict[str, Any]:

@@ -14,6 +14,9 @@ Rules that apply every time:
   connection, or read a clock (syslog lines carry no timestamp). For a running exporter give the
   user the `kshana trust-telemetry` command instead; do not claim the tool delivered anything.
 - The receiver-reported position stays out unless the user asks for `expose_position`.
+- An input with satellite geometry (live schema 1.3, a 0.36 result) adds geometry series and
+  the attribution (`kshana_trust_degradation{cause}`; CEF `cs6`, `flexString1`); suggest
+  alerting on `cause="inconsistency"` so a masked sky does not page as an attack.
 - Carry the caveat: advisory only, not type-approved navigation equipment (IEC 61108,
   IEC 61162), the operator remains responsible; a high score is not proof of a genuine fix.
   Evidence tier: MODELLED.
