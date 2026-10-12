@@ -181,7 +181,7 @@
       "status": "modelled",
       "name": "Lunar denial contour from a measured C/N\u2080 spread",
       "summary": "Per-satellite jammer-to-signal ratio over real lunar slant ranges, with the wanted-signal side kept as a distribution rather than collapsed to a median, so the denial contour carries the uncertainty band the relay geometry actually produces. Two criteria are reported side by side: the power-ratio threshold, and loss of lock computed from tracking-loop dynamics. The orbital capture footprint is swept over transmitter altitude and beamwidth, and where the grid never reaches limb capture the report says so and prints the shortfall.",
-      "proof": "Standoff 49.2 km by power ratio against 27.4 km by loss of lock",
+      "proof": "Standoff 49.2 km by power ratio against 19.4 km by loss of lock",
       "run": "lunar-jamming.toml"
     },
     {
