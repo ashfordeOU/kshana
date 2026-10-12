@@ -30,7 +30,8 @@ breaking changes are called out explicitly.
   the DOP of the satellites in view is good (and the untracked ones are not confined to one half of
   the horizon), the epoch carries `signal_loss` and the geometry deduction is `environment`. A
   stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1 are read as no fix, not as DOP;
-  the geometry weight is rejected above `100 - degraded_min`. MODELLED; advisory software, not type-approved
+  a geometry weight set above `100 - degraded_min` is rejected, and the default 15 is clamped to
+  `100 - degraded_min` when a `[score]` table (a 0.35 one included) raises `degraded_min` above 85. MODELLED; advisory software, not type-approved
   navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation
   of the vessel.
 - The geometry reaches every surface: the result JSON (`epochs[].geometry`, `class` on every
@@ -40,7 +41,10 @@ breaking changes are called out explicitly.
   `trust-telemetry` (Prometheus `kshana_trust_geometry*` and a `class` label on
   `kshana_trust_reason_active`, OTLP `kshana.geometry.*`, CEF custom fields `cs6` (geometry status and
   classes), `cfp3` (HDOP) and `cfp4` (PDOP), checked against both CEF oracle parsers, and LEEF
-  `geoStatus`, `geoHdop`, `geoClass`).
+  `geoStatus`, `geoHdop`, `geoClass`). Signal loss is exported on its own, since the geometry status
+  stays `degraded` while it holds: Prometheus `kshana_trust_geometry_signal_loss`, OTLP
+  `kshana.geometry.signal_loss`, LEEF `geoSignalLoss=1`; in CEF it shows as the `environment` class
+  in `cs6`.
 - `orbit::dop_cofactor`: the covariance factor `(HᵀH)⁻¹` behind `orbit::dop`, factored out of it
   with the same arithmetic.
 - Ledger row "Position error from geometry: RMS error = sigma_UERE x DOP" (**MODELLED**,

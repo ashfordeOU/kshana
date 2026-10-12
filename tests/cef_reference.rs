@@ -320,6 +320,7 @@ fn corpus() -> Vec<Case> {
                 pdop,
                 n_used: Some(6.0),
                 classes: classes.to_vec(),
+                signal_loss: None,
             });
             v.push(Case {
                 id: format!("geometry-{status}-{j}"),
@@ -339,6 +340,7 @@ fn corpus() -> Vec<Case> {
         pdop: Some(0.1 + 0.2),
         n_used: Some(4.0),
         classes: vec!["geometry"],
+        signal_loss: None,
     });
     v.push(Case {
         id: "geometry-float".into(),
