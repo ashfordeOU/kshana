@@ -464,13 +464,11 @@ fn hash_scenario(scn: &JammingScenario) -> String {
 /// every visible satellite's effective C/N₀ under the jammer (if any) and its
 /// resulting lock status. Deterministic.
 ///
-/// An invalid `skyline` section is refused by [`crate::api::run_toml`] (check one with
-/// [`JammingScenario::sky`]); called directly, this falls back to the flat `mask_deg`
-/// for it (the scenario then runs as if it had none). [`run_jamming_sky`] takes the skyline
-/// explicitly.
-pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
-    let sky = scn.sky().unwrap_or(None);
-    run_jamming_sky(scn, sky.as_ref())
+/// An invalid `skyline` section is an error here as in [`crate::api::run_toml`] (never a
+/// silent fall-back to the flat mask). [`run_jamming_sky`] takes the skyline explicitly.
+pub fn run_jamming(scn: &JammingScenario) -> Result<JammingResult, String> {
+    let sky = scn.sky()?;
+    Ok(run_jamming_sky(scn, sky.as_ref()))
 }
 
 /// Run a jamming scenario with an explicit visibility mask.
@@ -811,9 +809,9 @@ mod tests {
         let base = scenario(None);
         let j = jammer_at(&base, 1000.0, 10.0); // 10 W at 1 km
         let scn = scenario(Some(j));
-        let r = run_jamming(&scn);
+        let r = run_jamming(&scn).unwrap();
         // The clean-sky baseline genuinely sees ≥ 4 satellites the whole window.
-        let nom = run_jamming(&base);
+        let nom = run_jamming(&base).unwrap();
         assert!(
             nom.epochs.iter().all(|e| e.visible >= 4),
             "baseline geometry should keep ≥4 visible"
@@ -834,7 +832,7 @@ mod tests {
         let base = scenario(None);
         let j = jammer_at(&base, 100_000.0, 10.0); // 10 W at 100 km
         let scn = scenario(Some(j));
-        let r = run_jamming(&scn);
+        let r = run_jamming(&scn).unwrap();
         // No satellite is LOST (every visible one stays at or above the tracking
         // threshold), so tracking == visible at every epoch — even though they are
         // degraded relative to clean sky.
@@ -855,7 +853,7 @@ mod tests {
     #[test]
     fn no_jammer_is_a_clean_sky_baseline_and_run_is_deterministic() {
         let scn = scenario(None);
-        let r = run_jamming(&scn);
+        let r = run_jamming(&scn).unwrap();
         assert!(!r.jammer_present);
         // With no jammer every visible satellite tracks, so jammed availability
         // equals the nominal ceiling and the mean J/S is undefined.
@@ -868,8 +866,8 @@ mod tests {
             assert!(e.sats.iter().all(|s| s.status == "LOCKED"));
         }
         // Deterministic.
-        let a = serde_json::to_string(&run_jamming(&scn)).unwrap();
-        let b = serde_json::to_string(&run_jamming(&scn)).unwrap();
+        let a = serde_json::to_string(&run_jamming(&scn).unwrap()).unwrap();
+        let b = serde_json::to_string(&run_jamming(&scn).unwrap()).unwrap();
         assert_eq!(a, b);
     }
 
@@ -948,5 +946,16 @@ mod tests {
             "jam 100km = {} W",
             jam(100_000.0)
         );
+    }
+
+    #[test]
+    fn an_invalid_skyline_is_an_error_not_the_flat_mask() {
+        let mut scn = scenario(None);
+        scn.skyline = Some(crate::skyline::SkylineCfg {
+            preset: Some("moon".into()),
+            ..Default::default()
+        });
+        let err = run_jamming(&scn).unwrap_err();
+        assert!(err.contains("unknown skyline preset"), "{err}");
     }
 }
