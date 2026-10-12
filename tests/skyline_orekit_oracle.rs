@@ -1,7 +1,10 @@
 // SPDX-License-Identifier: AGPL-3.0-only
 //! Azimuth-dependent skyline masks against Orekit 12.2 and gnss_lib_py 1.0.4, as pre-registered
 //! in `xval/orekit-skyline/PREREGISTRATION.md` (the inputs, the quantities (a) to (f), the
-//! tolerances and the decision rule were committed before either oracle was run).
+//! tolerances and the decision rule were committed in e4b9d912, before either oracle was run).
+//! Result of the first run: every quantity passed, worst elevation 1.3e-13 deg, azimuth
+//! 2.3e-13 deg and mask 1.1e-12 deg against 1e-9, identical visible sets with none in the
+//! boundary band, DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9.
 //!
 //! The inputs under `tests/fixtures/skyline_orekit_oracle/inputs/` are committed: six geodetic
 //! sites, Earth-fixed satellite positions at four epochs, and six azimuth/elevation tables.
@@ -164,14 +167,12 @@ fn skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered() {
     let out = dir().join("outputs");
     let orekit_path = out.join("orekit.csv");
     let glp_path = out.join("gnss_lib_py_dop.csv");
-    if !orekit_path.exists() || !glp_path.exists() {
-        // Pre-registration state: the oracles have not been run yet.
-        eprintln!(
-            "skyline oracle outputs absent ({}): pre-registered, not yet compared",
-            out.display()
-        );
-        return;
-    }
+    // The outputs are committed: a missing file is a failure, never a skip.
+    assert!(
+        orekit_path.exists() && glp_path.exists(),
+        "the committed oracle outputs are missing from {}",
+        out.display()
+    );
     let inp = inputs();
     let orekit_text = std::fs::read_to_string(&orekit_path).unwrap();
     let header: Vec<&str> = orekit_text.lines().next().unwrap().split(',').collect();

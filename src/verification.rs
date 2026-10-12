@@ -551,11 +551,29 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Modelled (first-principles / published formulae, internally checked)─
         VerificationItem {
-            requirement: "Azimuth-dependent skyline masks on Earth",
-            capability: "skyline: an elevation cut that depends on azimuth, the pointwise maximum of a linearly interpolated table wrapped at 360 deg, a street canyon in closed form (cut atan((h - a) / d) with d = (w/2) / abs(sin(az - s)), open ends for a finite length), sharp-edged sectors and a terrain profile reduced with the curvature drop d^2/(2 * 4/3 R); the effective cut max(mask_deg, skyline); four REPRESENTATIVE presets (city-street, harbour-approach, fjord, container-terminal) with stated provenance; an optional [skyline] section in the orbit and integrity kinds (with the ground-site user_site mode: geodetic look angles on the rotating Earth), gnss-sim, jamming, leo-pvt (every mode, including the polar sweep), leo-pass and the nmea-scenario training generator, with per-sample masked_by_skyline counts. Without a section every scenario is byte-identical to 0.35.0",
-            module: "skyline (Skyline, SkylineCfg, PRESETS); orbit (UserPath, SiteCfg, sky_view, build_timeline_at, summarize_dop_at); frames (is_visible_skyline, skyline_view); raim, gnss_sim, jamming, leo_fusion (system, polar), leo_pass, nmea_synth",
-            tests: "skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam; canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; the_empty_skyline_is_the_scalar_mask_bit_for_bit); orbit::tests::a_ground_site_turns_with_the_earth_and_sees_geodetic_look_angles; tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release, an_empty_skyline_section_is_the_scalar_mask_in_every_wired_kind, one run per wired kind against open sky, misplaced_and_malformed_skylines_are_refused)",
-            oracle: "None external yet. The reductions are checked against hand-computed values (internal identities); the absence of a section is checked byte for byte against the outputs of the 0.35.0 release commit (agreement with the engine's own earlier output, which shows backward compatibility and validates nothing). The design note's proposed oracle, Orekit ElevationMask with a TopocentricFrame on committed Earth-fixed states, is to be pre-registered before it is run; the row becomes VALIDATED only if that comparison passes. gnss_lib_py 1.1.0 applies a single elevation mask only (find_visible_sv_posvel, el_mask), so it cannot check an azimuth mask. The presets are REPRESENTATIVE dimensions, not surveys. Line of sight only: no diffraction, reflection, non-line-of-sight reception or partial transparency",
+            requirement: "Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask",
+            capability: "skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at 360 deg, the visible set el >= max(mask_deg, mask(az)), and the common-clock DOP and ENU-and-clock cofactor matrix of that set (the kernel behind orbit::dop). It is how the [skyline] section decides visibility in the gnss-sim, jamming, leo-pvt, leo-pass and nmea-scenario kinds and, with the ground-site user_site, in orbit and integrity",
+            module: "skyline (Skyline::cut_deg, Skyline::visible); frames (look_angles, is_visible_skyline); orbit (UserPath, sky_view, cofactor_from_los); geometry (sky_geometry)",
+            tests: "tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: 1173 look angles at six sites and four epochs, six mask tables, 142 visible sets; worst |d el| 1.3e-13 deg and |d az| 2.3e-13 deg against 1e-9, worst |d mask| 1.1e-12 deg against 1e-9, visible sets identical with none in the 1e-6 deg boundary band, worst DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9; pre-registered e4b9d912); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)",
+            oracle: "Orekit 12.2 (Apache-2.0): a TopocentricFrame on a WGS-84 OneAxisEllipsoid for the look angles and an ElevationMask per table, run by xval/orekit-skyline/OrekitSkyline.java on committed Earth-fixed states (the propagation is not compared), with gnss_lib_py 1.0.4 (wheel metadata MIT) get_dop for the DOP and the ENU-and-clock DOP matrix of the sets Orekit finds visible. Pre-registered (xval/orekit-skyline/PREREGISTRATION.md, commit e4b9d912) before either oracle was run on the comparison inputs; Orekit's linear-with-wrap interpolation was confirmed beforehand on a synthetic probe. Scope: table masks, geodetic look angles, the masked visible set and its common-clock DOP and cofactor. NOT checked here: the canyon, sector and terrain reductions and the presets (their 360-point tables entered as inputs; rows 'Street-canyon, sector and terrain reductions to a table' and 'Skyline presets'), the per-system clock states and the error ellipse (row 'Sky geometry functions'), and any real obstruction (line of sight only)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Street-canyon, sector and terrain reductions to a table",
+            capability: "skyline: the street canyon in closed form (cut atan((h - a) / d) with d = (w/2) / abs(sin(az - s)), open ends for a finite length), sharp-edged sectors clockwise with wrap, and terrain points reduced to a table with the curvature drop d^2/(2 * 4/3 R); the skyline is their pointwise maximum with any table",
+            module: "skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)",
+            tests: "skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)",
+            oracle: "Internal: the closed forms are checked against hand-computed values (wall-top elevations of a stated street, the open-end condition, the curvature drop of a stated point). No external oracle: the design note scopes these reductions as MODELLED, and Orekit's ElevationMask takes a table, so the comparison of row 'Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask' reads their 360-point tables as inputs and does not check them",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Skyline presets (city street, harbour approach, fjord, container terminal)",
+            capability: "skyline::PRESETS: four REPRESENTATIVE geometries with the design note's stated dimensions and a provenance line each: city-street (a canyon, street 0 deg, 20 m between 30 m walls, antenna 1.5 m), harbour-approach (sectors: open to seaward over 180 deg, quay buildings 8 deg over 90 deg, the breakwater 3 deg), fjord (terrain: walls 600 m above the antenna at 1.5 km either side of a north-south channel, curvature drop applied), container-terminal (sectors: stacks 12 deg over the landward half, crane booms 35 deg and 25 deg over two narrow sectors); overridable field by field",
+            module: "skyline (PRESETS, preset, preset_list)",
+            tests: "skyline::tests (presets_carry_the_note_dimensions_and_provenance)",
+            oracle: "None: chosen and stated dimensions, not a survey of any street, port, fjord or terminal (the aspect ratio of the street is inside the 0.5-2 band of Oke (1988); the fjord is of the order of the west-Norwegian fjords; the stacks use the ISO 668 high-cube height). The test checks the presets against their own stated dimensions, a transcription check, which the validation rule does not count",
             oracle_kind: InternalConsistency,
             status: Modelled,
         },
@@ -2613,6 +2631,13 @@ pub struct OracleBasisEntry {
 pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
     use OracleBasis::*;
     vec![
+        OracleBasisEntry {
+            requirement: "Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask",
+            basis: Library,
+            oracle_test: "tests/skyline_orekit_oracle.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
         OracleBasisEntry {
             requirement: "Power-law noise identification by lag-1 autocorrelation",
             basis: Library,
