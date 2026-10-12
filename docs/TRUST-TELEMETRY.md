@@ -82,6 +82,7 @@ At end of input the sender threads are given their remaining time limits to fini
 | `kshana_trust_last_sample_timestamp_seconds` | gauge | | wall-clock receipt time; alert on its age |
 | `kshana_trust_geometry` | gauge | `status` | satellite geometry at the latest epoch, `good`, `degraded`, `unknown`: 1 for the current one *(schema 1.3 inputs)* |
 | `kshana_trust_geometry_degraded` | gauge | | 1 degraded, 0 good; absent when the geometry is unknown *(1.3)* |
+| `kshana_trust_geometry_signal_loss` | gauge | | 1 when satellites in view are not tracked while their geometry is good (the signal was lost, not the sky; `geometry_degraded` still reads 1), else 0; absent when the geometry is unknown or the input does not say *(1.3)* |
 | `kshana_trust_geometry_hdop`, `..._pdop`, `..._used_satellites` | gauge | | HDOP, PDOP and satellites used at the latest epoch; each absent when none *(1.3)* |
 | `kshana_trust_geometry_epochs_total` | counter | `status` | epochs by geometry status *(1.3)* |
 
@@ -143,6 +144,7 @@ Field mapping (event id is `gnss-trust.<band>`):
 | geometry status, then `;` and the classes of the epoch's deductions, comma-separated (for example `degraded;environment,geometry`) *(1.3 inputs)* | `cs6` (`geometry`) | `geoStatus` (status only) and `geoClass` (classes) |
 | HDOP *(1.3)* | `cfp3` (`geometryHdop`) | `geoHdop` |
 | PDOP *(1.3)* | `cfp4` (`geometryPdop`) | not carried |
+| signal loss: satellites in view not tracked while their geometry is good *(1.3)* | not carried as a field (no CEF dictionary key is free for it): the status reads `degraded` and the geometry deduction's class `environment` in `cs6` | `geoSignalLoss=1`, only while it holds |
 
 In CEF the geometry uses dictionary custom fields only (no invented keys). The 1.3 geometry
 events are part of the VALIDATED CEF row: both oracle parsers read them back as written
@@ -157,7 +159,7 @@ LEEF values have `^` and line breaks replaced by spaces.
 Build with `--features otlp` and pass `--otlp http://host:4318/v1/metrics`. The exporter
 posts OTLP/HTTP JSON (`kshana.trust.score`, `kshana.trust.band`, `kshana.trust.epochs`,
 `kshana.trust.reason.epochs`, and for schema 1.3 inputs `kshana.geometry.status`,
-`kshana.geometry.degraded`, `kshana.geometry.hdop`, `kshana.geometry.pdop` and
+`kshana.geometry.degraded`, `kshana.geometry.signal_loss`, `kshana.geometry.hdop`, `kshana.geometry.pdop` and
 `kshana.geometry.used_satellites`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. `https://` endpoints are refused.

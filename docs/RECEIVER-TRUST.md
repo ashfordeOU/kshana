@@ -246,8 +246,11 @@ geometry", and the geometry deduction is classed `environment`. Untracked satell
 half of the horizon still read as a blocked sky (a wall, a cliff, a quay). A two-sided obstruction
 (a canyon or a narrow fjord) reads as signal loss until a skyline is configured. The receiver's
 no-fix sentinels are not DOP: a stated HDOP or PDOP of 99 or more, GGA quality 0 and GSA mode 1
-give no stated DOP. The configured geometry weight must be at most `100 - degraded_min`, so geometry
-alone can never reach the untrusted band; a configuration that breaks this is rejected.
+give no stated DOP. Geometry alone can never reach the untrusted band: a geometry weight set in
+`[score.weights]` above `100 - degraded_min` is rejected, and when `[score]` raises `degraded_min`
+above 85 without naming the geometry weight (a 0.35 configuration, for example), the default 15 is
+clamped to `100 - degraded_min`; the weight in force is the one recorded in `score_model.weights`
+and `geometry_model.weight`.
 
 | `[geometry]` key | Default | Provenance |
 |---|---|---|
@@ -259,7 +262,7 @@ alone can never reach the untrusted band; a configuration that breaks this is re
 | `reported_vs_derived_rel` | 0.25 | REPRESENTATIVE engineering choice: the relative part, for receivers with per-constellation clocks or subset solutions |
 | `low_elev_deg` | 15 | design note 4.3: satellites lost below it are lost to the sky; a skyline (0.36 item 1) will extend this |
 | `azimuth_gap_deg` | 180 | geometric, informational: every satellite in one half of the horizon |
-| weight (`score.weights.geometry`) | 15 | design note 4.2: geometry alone reaches degraded, never untrusted |
+| weight (`score.weights.geometry`) | 15, at most `100 - degraded_min` | design note 4.2: geometry alone reaches degraded, never untrusted; the default is clamped when `degraded_min` is above 85, an explicit weight above the bound is refused |
 
 **What changed in the outputs, and what did not.** Appended keys: `epochs[].geometry` (`status`,
 `reasons`, `source`, `n_used`, `hdop`, `pdop`, `vdop` rounded to 0.001, `open_fraction` (null until a
