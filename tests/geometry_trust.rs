@@ -262,11 +262,28 @@ fn a_stated_hdop_the_masked_sky_does_not_explain_is_an_inconsistency() {
     let r = run(&masked_with(600.0, 0.0, "0.9", &POOR_EAST));
     for e in window(&r) {
         assert!(e.geometry.reported_derived_mismatch, "{:?}", e.geometry);
+        assert!(e
+            .geometry
+            .note
+            .as_deref()
+            .unwrap()
+            .ends_with("the geometry deduction is classed an inconsistency"));
         assert_eq!(
             class_of(e, Monitor::Geometry),
             Some(DeductionClass::Inconsistency)
         );
     }
+    assert!(r.geometry_summary.hdop_mismatch >= window(&r).len());
+    // The flag is in every live line.
+    let ex = assess_stream_excerpt(
+        &session(),
+        masked_with(600.0, 0.0, "0.9", &POOR_EAST).as_bytes(),
+    )
+    .unwrap();
+    let e = ex.epochs.iter().find(|e| e.t_s == 700.0).unwrap();
+    assert!(e
+        .to_json_line()
+        .contains(r#""reported_derived_mismatch":true"#));
 }
 
 #[test]
@@ -454,6 +471,14 @@ fn a_fair_masked_sky_is_labelled_and_costs_nothing() {
             assert!(e.geometry.reasons.contains(&GeometryReason::SkyBlocked));
             // A stated HDOP of 0.9 disagrees with the sky's 2.87: reported, not scored.
             assert_eq!(e.geometry.reported_derived_mismatch, gga == "0.9");
+            if gga == "0.9" {
+                assert!(e
+                    .geometry
+                    .note
+                    .as_deref()
+                    .unwrap()
+                    .ends_with("reported, not scored (the geometry is not poor)"));
+            }
             assert!(deductions(e).iter().all(|d| d.monitor != Monitor::Geometry));
             let note = e.geometry.note.as_deref().unwrap();
             assert!(note.starts_with("geometry fair: HDOP 2.8"), "{note}");

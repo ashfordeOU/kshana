@@ -48,7 +48,16 @@ breaking changes are called out explicitly.
   `trust-telemetry` (Prometheus `kshana_trust_geometry*` and a `class` label on
   `kshana_trust_reason_active`, OTLP `kshana.geometry.*`, CEF custom fields `cs6` (geometry status and
   classes), `cfp3` (HDOP) and `cfp4` (PDOP), checked against both CEF oracle parsers, and LEEF
-  `geoStatus`, `geoHdop`, `geoClass`). Signal loss is exported on its own, since the geometry status
+  `geoStatus`, `geoHdop`, `geoClass`). The geometry label is exported too, appended after every
+  earlier series and field and only for inputs that carry it: Prometheus
+  `kshana_trust_geometry_label{label}` and `kshana_trust_geometry_vdop`, OTLP
+  `kshana.geometry.label` and `kshana.geometry.vdop`, LEEF `geoLabel`, `geoPdop`, `geoVdop`,
+  `geoUsed`, and CEF a third `cs6` field (the label) and `cn1` (satellites used); the VDOP is not
+  in CEF (the floating-point custom fields are taken). Both CEF oracle parsers read the label
+  cases back as written (amendment 5: 176 lines, 172 parsed by pycef, 176 by Logstash). A stated
+  HDOP that the stated sky does not explain is flagged on every epoch and counted
+  (`geometry_summary.hdop_mismatch`, a line on the evidence summary page), scored only when the
+  geometry is poor. Signal loss is exported on its own, since the geometry status
   stays `degraded` while it holds: Prometheus `kshana_trust_geometry_signal_loss`, OTLP
   `kshana.geometry.signal_loss`, LEEF `geoSignalLoss=1`; in CEF it shows as the `environment` class
   in `cs6`.
@@ -99,8 +108,6 @@ breaking changes are called out explicitly.
   OTLP collector), which cover 1.2 streams only today.
 - A two-sided obstruction (a canyon or narrow fjord) reads as signal loss rather than a blocked sky
   until the skyline is integrated.
-- The geometry label (`good`, `fair`, `poor`) in telemetry (Prometheus, OTLP, CEF, LEEF), which
-  carries the geometry status, DOP and signal loss today, and in the Studio's maritime trust view.
 
 ## [0.35.0] - 2026-10-12
 

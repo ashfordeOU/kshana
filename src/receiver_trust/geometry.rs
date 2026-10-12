@@ -596,6 +596,14 @@ fn finish(g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
         if g.signal_loss { ", signal loss" } else { "" }
     );
     let rest = match (g.note.take(), g.label) {
+        // The flag is never silent: with poor geometry the deduction is an inconsistency; with
+        // good or fair geometry nothing is deducted, and the note says so.
+        (Some(why), GeometryLabel::Poor) if g.reported_derived_mismatch => {
+            format!("{why}: the geometry deduction is classed an inconsistency")
+        }
+        (Some(why), _) if g.reported_derived_mismatch => {
+            format!("{why}: reported, not scored (the geometry is not poor)")
+        }
         (Some(why), _) => why,
         (None, GeometryLabel::Poor) => "poor: scored".into(),
         (None, _) => format!(
@@ -634,7 +642,7 @@ fn finish_status(mut g: EpochGeometry, cfg: &GeometryCfg) -> EpochGeometry {
     let mismatch_note = |g: &EpochGeometry| {
         format!(
             "the stated HDOP {} disagrees with the HDOP {} derived from the stated sky beyond \
-             the tolerance: classed an inconsistency",
+             the tolerance",
             fmt_dop(g.reported_hdop),
             fmt_dop(g.hdop)
         )
@@ -948,6 +956,10 @@ pub struct GeometrySummary {
     /// Epochs labelled `poor` (the only label the score deducts for).
     #[serde(default)]
     pub label_poor: usize,
+    /// Epochs whose stated HDOP the stated sky does not explain (`reported_derived_mismatch`),
+    /// scored or not.
+    #[serde(default)]
+    pub hdop_mismatch: usize,
 }
 
 impl GeometrySummary {
@@ -973,6 +985,7 @@ impl GeometrySummary {
             GeometryLabel::Poor => self.label_poor += 1,
             GeometryLabel::Unknown => {}
         }
+        self.hdop_mismatch += usize::from(g.reported_derived_mismatch);
         let (mut geo, mut env, mut inc) = (false, false, false);
         for c in classes {
             match c {
@@ -1256,7 +1269,10 @@ mod tests {
         let g = GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e);
         assert_eq!(g.status, GeometryStatus::Good);
         assert!(g.reported_derived_mismatch);
-        assert!(g.note.unwrap().contains("classed an inconsistency"));
+        assert!(g
+            .note
+            .unwrap()
+            .ends_with("beyond the tolerance: reported, not scored (the geometry is not poor)"));
     }
 
     #[test]

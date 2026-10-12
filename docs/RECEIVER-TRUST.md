@@ -244,8 +244,13 @@ derived from the sky it states. When they differ by more than
 `max(reported_vs_derived_tol, reported_vs_derived_rel × derived HDOP)` (1.0, or 25 % of the derived
 HDOP, whichever is larger), the epoch carries `reported_derived_mismatch: true` and, when the
 geometry is poor, its deduction is classed `inconsistency`. With good or fair geometry the
-disagreement is reported (the flag and the note) and not scored: nothing is deducted unless the
-geometry is poor. The 25 % is a **REPRESENTATIVE** engineering choice, not a
+disagreement is reported and not scored: nothing is deducted unless the geometry is poor. This is
+a deliberate choice (0.36): "zero unless poor" holds for every epoch, so good and fair geometry
+score exactly as in 0.35, and a forged HDOP is never silent. The flag
+(`reported_derived_mismatch`) is on every epoch of the result and every live line, the note says
+"…beyond the tolerance: reported, not scored (the geometry is not poor)" or "…: the geometry
+deduction is classed an inconsistency", `geometry_summary.hdop_mismatch` counts the epochs, and
+the evidence summary page shows the count, zero included. The 25 % is a **REPRESENTATIVE** engineering choice, not a
 measured or standard figure: a receiver that solves for one clock per constellation, or with a
 subset of the satellites it tracks (an elevation mask, a C/N0 cut, a RAIM exclusion), states an
 HDOP that differs from the single-clock HDOP of every tracked satellite by an amount that grows
@@ -288,7 +293,7 @@ configured), `max_azimuth_gap_deg`, `age_s`, `reported_hdop`, `reported_derived_
 `in_view` (satellites listed above `low_elev_deg`), `signal_loss`, `label`), `class` on every
 deduction, and at the end `geometry_model` (thresholds, hold, the cap and floor in force,
 provenance, class rules) and `geometry_summary` (epochs by status, by label and by deduction
-class); `score_model.weights` is as in 0.35. Two tests hold this to the bytes of engine 0.35.0
+class, and the epochs with a stated-HDOP mismatch); `score_model.weights` is as in 0.35. Two tests hold this to the bytes of engine 0.35.0
 once those keys are removed. `tests/geometry_trust_no_change.rs` holds every output of both example
 sessions (result JSON, CSV, SVG, verdict, replayed live lines, `$PKSHT`, Prometheus, CEF, LEEF).
 `tests/geometry_corpus_identity.rs` holds the batch result, summary, live lines and `$PKSHT` of

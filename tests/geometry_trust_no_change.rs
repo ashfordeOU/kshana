@@ -279,6 +279,14 @@ fn the_replayed_stream_is_that_of_0_35_0_apart_from_the_appended_keys() {
 /// included: a regression pin taken on this branch (not a 0.35 identity), so a change to the
 /// 0.36 series is seen.
 fn telemetry_036_hashes() -> Vec<(String, String)> {
+    telemetry_036()
+        .into_iter()
+        .map(|(n, text)| (n, sha(&text)))
+        .collect()
+}
+
+/// `(name, text)` of the demo's 0.36 telemetry.
+fn telemetry_036() -> Vec<(String, String)> {
     let r = run_receiver_trust(&load("examples/maritime-trust")).unwrap();
     let json = serde_json::to_string_pretty(&r).unwrap();
     let dir = Path::new(ROOT).join("examples/maritime-trust");
@@ -294,11 +302,11 @@ fn telemetry_036_hashes() -> Vec<(String, String)> {
     ] {
         out.push((
             format!("0.36 telemetry {name} of the result"),
-            sha(&telemetry(&json, TelemetryInput::Result, f)),
+            telemetry(&json, TelemetryInput::Result, f),
         ));
         out.push((
             format!("0.36 telemetry {name} of the lines"),
-            sha(&telemetry(&lines, TelemetryInput::Jsonl, f)),
+            telemetry(&lines, TelemetryInput::Jsonl, f),
         ));
     }
     out
@@ -313,28 +321,111 @@ fn the_0_36_telemetry_of_the_vessel_demo_is_pinned() {
         &[
             (
                 "0.36 telemetry prometheus of the result",
-                "e79d328d92077016fdeccbcfaa1e70cab207d7509d67fe3305fe2021931e7dbc",
+                "7262710f866654484e26364dc1e543801d61635b7b39d246a8d8d0177e38a4d2",
             ),
             (
                 "0.36 telemetry prometheus of the lines",
-                "9714c93f47f8b7efae4697290ff5afa0816e32f5462a1ce491ed73f6bdea19cb",
+                "0220791499407a21fbc4245d422935f323ae3637f0ac9f86d2d7e582e84161a8",
             ),
             (
                 "0.36 telemetry cef of the result",
-                "a6d35405d856532b3d4606ed4c44c37cb48d8ce0c118a98a37482bf166fad71a",
+                "7e5f5aa1333c46108582eb0e4756b21c07f9e1a207a698f02711b7eb3f3091bb",
             ),
             (
                 "0.36 telemetry cef of the lines",
-                "73780319cc14859bf823f84d3c4f4b02c19b3ccc280e7112b6414c7831ede560",
+                "fcc032de563d8962688b10f7be95f66f18d033a5e44b92dd1701320024cc82b6",
             ),
             (
                 "0.36 telemetry leef of the result",
-                "776bb3c674efb22f615112726967b30c54d412f900e635e5be4a1b782cd4eb83",
+                "878c204d9affa02050aa905bdcd1f8e287cc0a12284716cf203c72815e0b5220",
             ),
             (
                 "0.36 telemetry leef of the lines",
-                "7bc3ef383458431a6166bc131ddb2f88140aa002db212605947e490b53947d23",
+                "f3252aa5a129a165fd999a5d4bf22ba66bb61900d2d94d77208e9908b2f1d8eb",
             ),
         ],
     );
+}
+
+/// The demo's 0.36 telemetry with the geometry label fields removed (Prometheus
+/// `kshana_trust_geometry_label` and `_vdop`; LEEF `geoLabel`, `geoPdop`, `geoVdop`, `geoUsed`;
+/// CEF the third `cs6` field and `cn1`).
+fn without_label_fields(name: &str, text: &str) -> String {
+    if name.contains("prometheus") {
+        return text
+            .split_inclusive('\n')
+            .filter(|l| {
+                !["kshana_trust_geometry_label", "kshana_trust_geometry_vdop"]
+                    .iter()
+                    .any(|m| l.starts_with(m) || l.contains(&format!(" {m} ")))
+            })
+            .collect();
+    }
+    let sep = if name.contains("leef") { '^' } else { ' ' };
+    text.split_inclusive('\n')
+        .map(|line| {
+            let (body, nl) = line.strip_suffix('\n').map_or((line, ""), |b| (b, "\n"));
+            let kept: Vec<String> = body
+                .split(sep)
+                .filter(|a| {
+                    !["geoLabel=", "geoPdop=", "geoVdop=", "geoUsed="]
+                        .iter()
+                        .any(|k| sep == '^' && a.starts_with(k))
+                        && !(sep == ' '
+                            && (a.starts_with("cn1Label=geometryUsedSatellites")
+                                || a.starts_with("cn1=")))
+                })
+                .map(|a| match a.strip_prefix("cs6=") {
+                    Some(v) if v.matches(';').count() == 2 => {
+                        let f: Vec<&str> = v.split(';').collect();
+                        if f[1].is_empty() {
+                            format!("cs6={}", f[0])
+                        } else {
+                            format!("cs6={};{}", f[0], f[1])
+                        }
+                    }
+                    _ => a.to_string(),
+                })
+                .collect();
+            kept.join(&sep.to_string()) + nl
+        })
+        .collect()
+}
+
+#[test]
+fn the_label_fields_are_appended_to_the_0_36_telemetry_and_nothing_else_moves() {
+    // PIN-SCOPE:    the demo's 0.36 telemetry with the label fields removed equals the output pinned
+    //               before the label existed (commit 6609ea54)
+    // PIN-EXCLUDES: the label fields themselves, pinned above
+    let before_label: [(&str, &str); 6] = [
+        (
+            "0.36 telemetry prometheus of the result",
+            "e79d328d92077016fdeccbcfaa1e70cab207d7509d67fe3305fe2021931e7dbc",
+        ),
+        (
+            "0.36 telemetry prometheus of the lines",
+            "9714c93f47f8b7efae4697290ff5afa0816e32f5462a1ce491ed73f6bdea19cb",
+        ),
+        (
+            "0.36 telemetry cef of the result",
+            "a6d35405d856532b3d4606ed4c44c37cb48d8ce0c118a98a37482bf166fad71a",
+        ),
+        (
+            "0.36 telemetry cef of the lines",
+            "73780319cc14859bf823f84d3c4f4b02c19b3ccc280e7112b6414c7831ede560",
+        ),
+        (
+            "0.36 telemetry leef of the result",
+            "776bb3c674efb22f615112726967b30c54d412f900e635e5be4a1b782cd4eb83",
+        ),
+        (
+            "0.36 telemetry leef of the lines",
+            "7bc3ef383458431a6166bc131ddb2f88140aa002db212605947e490b53947d23",
+        ),
+    ];
+    for ((name, text), (pin_name, pin)) in telemetry_036().iter().zip(before_label) {
+        assert_eq!(name, pin_name);
+        assert_ne!(sha(text), pin, "{name}: the label fields are present");
+        assert_eq!(sha(&without_label_fields(name, text)), pin, "{name}");
+    }
 }
