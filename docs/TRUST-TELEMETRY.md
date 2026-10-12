@@ -88,6 +88,12 @@ At end of input the sender threads are given their remaining time limits to fini
 | `kshana_trust_geometry_label` | gauge | `label` | geometry label at the latest epoch, `good`, `fair`, `poor`, `unknown`: 1 for the current one; never scored (the score deducts only for `poor`); from inputs that carry the label (0.36) |
 | `kshana_trust_geometry_vdop` | gauge | | VDOP at the latest epoch; absent when none *(0.36)* |
 
+**The geometry label is the headline.** Graph and alert on `kshana_trust_geometry_label`
+(OTLP `kshana.geometry.label`, CEF the third `cs6` field, LEEF `geoLabel`): `poor` is the only
+label the score deducts for. The geometry status is descriptive: `degraded` includes the
+informational `sky-blocked` case, which can come with good or fair DOP, so do not page on
+`kshana_trust_geometry_degraded` alone.
+
 From schema 1.3 inputs `kshana_trust_reason_active` also carries a `class` label (`geometry`,
 `environment`, `inconsistency`) on each reason that came with one: the deduction's class at the
 latest epoch. The geometry series come after all the others and only once an input epoch carries
