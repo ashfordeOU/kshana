@@ -53,6 +53,8 @@ const REPO_ONLY: &[&str] = &[
     "leo-navmsg-celeste-iod",
     "leo-pass-celeste-iod-multiband",
     "lunar-llr-datum",
+    "lunar-station-geodesy-baseline",
+    "lunar-station-geodesy-with-station",
     "quantum-pnt-demonstrator.suite",
 ];
 

@@ -4,9 +4,9 @@
   "repo_blob_base": "https://github.com/AshfordeOU/kshana/blob/main/",
   "summary": {
     "validated": 134,
-    "modelled": 135,
+    "modelled": 136,
     "partner_owned": 4,
-    "total": 273
+    "total": 274
   },
   "rows": [
     {
@@ -3895,6 +3895,23 @@
         "url": "https://github.com/AshfordeOU/kshana/blob/main/tests/fixtures/lunar_differential_pnt",
         "notice_url": null
       }
+    },
+    {
+      "requirement": "Lunar reference-station accuracy and coverage against published claims",
+      "capability": "The lunar-station-coverage kind run under the public assumptions of the published material on a lunar differential reference station (four navigation satellites in 24 h frozen elliptical orbits, 10 m 95 % SISE, 0.30 m code noise, 1 s and 600 s correction latency, a sub-decimetre station survey, the published example station site, the 300 km and 600 km south-polar circles) and scored against the sources' numeric claims under six one-sided bars pre-registered before the run: coverage of the whole south pole at sub-metre p95 (K1, K2), sub-metre and decimetre-level corrected p95 (K3, K4), sub-metre kept at 600 s latency (K5), and accuracy kept from 10 km to 500 km baseline (K6)",
+      "status": "MODELLED",
+      "oracle_kind": "ExternalDataset",
+      "oracle": "Reference: the numeric claims of five public sources registered with URL, retrieval date, SHA-256 and licence in tests/fixtures/lunar_station/SOURCES.md (arXiv:2602.08432v3; IOAG Cislunar PNT Workshop 2025 and 2026 slides; UNOOSA ICG WG-B Lunar PNT, June 2024), transcribed with page references in tests/fixtures/lunar_station_published/CLAIMS.md. Bars, cases and inputs were pre-registered in tests/fixtures/lunar_station_published/PREREGISTRATION.md (revision 2, 05bf9a19, committed alone before the run). 0.36 first run, a finding (stays MODELLED): 1 of 6 bars passes. Coverage is 0.00 on both circles against >= 0.95, and the corrected p95 3-D error is 280.6 m (300 km), and 293.0 m at 600 s latency, against <= 1.5 m. The decimetre bar (K4) could not pass at the sources' 0.30 m code noise, which reflects a conflict between the sources rather than a model result. K6 passes (ratio 1.39 against <= 1.5), but as a ratio of two geometry-dominated figures it is evidence about decorrelation in neither direction. Cause: the satellites' elements are not public, and on the ILLUSTRATIVE in-tree elements a user and the station share four satellites above 5 deg in only 8.2 % (300 km) and 6.3 % (600 km) of epochs, at near-singular geometry (uncorrected p95 3.8 km against the sources' < 10 m). The sources' simulations used a filter, a height constraint and three satellites in common view, which the snapshot kind does not model. The comparison therefore neither confirms nor refutes the published 'sub-metre over the whole south pole'. It shows that this model's result depends on orbits that are not published. Not a statement about any real system; not affiliated with or endorsed by any agency",
+      "module": "lunar_station (over lunar_dpnt, lunar_service)",
+      "tests": "tests/lunar_station_published_oracle.rs::recorded_finding_one_of_six_bars_passes (the recorded figures against the registered bars); tests/lunar_station_published_oracle.rs::published_claims_comparison_run (ignored, about 7 s in release: re-runs the six registered cases and asserts the recorded figures)",
+      "module_links": [
+        {
+          "path": "src/lunar_station.rs",
+          "url": "https://github.com/AshfordeOU/kshana/blob/main/src/lunar_station.rs"
+        }
+      ],
+      "test_links": [],
+      "fixture": null
     },
     {
       "requirement": "Lunar ARAIM protection-level kernel",
