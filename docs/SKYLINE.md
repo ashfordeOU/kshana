@@ -190,7 +190,8 @@ taken as UTC and no polar motion, and seen from `site`. `"epoch"` is UTC ISO 860
 A mix joins them with `+`. `epoch_utc` is the instant the element sets were propagated to, and
 `tle_skipped` names what of the text was not used, with the reason: malformed or orphaned
 element-set lines (with their line numbers), sets the parser refused, and sets SGP4 could not
-propagate to that instant (decayed, or past its limits); at most 100 entries, then a count. An
+propagate to that instant (decayed, or past its limits); at most 100 entries in all, then one
+last entry counting the rest. An
 empty `systems` list adds no presets.
 The skyplot states the basis in its footer.
 
