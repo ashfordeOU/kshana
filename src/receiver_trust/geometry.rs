@@ -63,6 +63,13 @@ pub struct GeometryCfg {
     /// or more tracked satellites (with fewer, `few-satellites` already says the sky is
     /// thin).
     pub azimuth_gap_deg: f64,
+    /// Largest difference between the HDOP the receiver reports (GSA, else GGA) and the HDOP
+    /// derived from the sky positions it reports, above which the two disagree. Default 1.0
+    /// (the value of the 0.36 design note, chosen, not a standard's figure). A disagreement is
+    /// not geometry: a stream whose own sky does not explain its stated precision explains
+    /// nothing, so nothing is attributed to geometry at that epoch and it counts as
+    /// inconsistency. This is the guard against a forged poor sky buying the `geometry` label.
+    pub hdop_report_tol: f64,
 }
 
 impl Default for GeometryCfg {
@@ -72,13 +79,14 @@ impl Default for GeometryCfg {
             hdop_max: 4.0,
             min_sats: 5,
             azimuth_gap_deg: 180.0,
+            hdop_report_tol: 1.0,
         }
     }
 }
 
 /// Where each default of [`GeometryCfg`] comes from, `(key, provenance)`; recorded in every
 /// result's `geometry_model`.
-pub const PROVENANCE: [(&str, &str); 4] = [
+pub const PROVENANCE: [(&str, &str); 5] = [
     (
         "pdop_max",
         "GPS SPS Performance Standard, 5th ed. (2020): PDOP availability standard, PDOP <= 6; \
@@ -98,6 +106,12 @@ pub const PROVENANCE: [(&str, &str); 4] = [
         "geometric: every tracked satellite in one half of the horizon (gap >= 180 deg) \
          constrains the horizontal fix from one side only",
     ),
+    (
+        "hdop_report_tol",
+        "chosen in the 0.36 geometry design note (docs/design/2026-10-12-geometry-and-skyline-\
+         design.md, section 4.2): a reported HDOP more than 1.0 from the derived one is raised as \
+         inconsistency, not geometry",
+    ),
 ];
 
 impl GeometryCfg {
@@ -108,7 +122,11 @@ impl GeometryCfg {
 
     /// Reject thresholds that cannot mean anything.
     pub fn validate(&self) -> Result<(), String> {
-        for (name, v) in [("pdop_max", self.pdop_max), ("hdop_max", self.hdop_max)] {
+        for (name, v) in [
+            ("pdop_max", self.pdop_max),
+            ("hdop_max", self.hdop_max),
+            ("hdop_report_tol", self.hdop_report_tol),
+        ] {
             if !(v.is_finite() && v > 0.0) {
                 return Err(format!("geometry: {name} must be finite and > 0 (got {v})"));
             }
@@ -195,6 +213,12 @@ pub struct EpochGeometry {
     /// Age of the sky positions or GSA the assessment used, s (0 when they came with the
     /// epoch).
     pub age_s: Option<f64>,
+    /// The HDOP the receiver reported at this epoch (GSA within the hold, else GGA), where it
+    /// did.
+    pub reported_hdop: Option<f64>,
+    /// The reported HDOP and the one derived from the reported sky differ by more than
+    /// `hdop_report_tol`: the geometry explains nothing at this epoch.
+    pub hdop_report_mismatch: bool,
 }
 
 impl EpochGeometry {
@@ -210,6 +234,8 @@ impl EpochGeometry {
             vdop: None,
             max_azimuth_gap_deg: None,
             age_s: None,
+            reported_hdop: None,
+            hdop_report_mismatch: false,
         }
     }
 
@@ -261,7 +287,8 @@ pub const POWER_MONITORS: [Monitor; 5] = [
 /// that signature, stays attack-like inconsistency whatever the geometry: a poor geometry is
 /// reported beside it, never instead of it.
 pub fn attribute(g: &EpochGeometry, active: &[(Monitor, bool)]) -> (Degradation, Vec<Monitor>) {
-    let masked = g.reasons.contains(&GeometryReason::SkyBlocked);
+    // A stream whose reported precision its own sky does not explain explains nothing.
+    let masked = g.reasons.contains(&GeometryReason::SkyBlocked) && !g.hdop_report_mismatch;
     let power_alarm = active
         .iter()
         .any(|(m, alarmed)| *alarmed && POWER_MONITORS.contains(m));
@@ -274,7 +301,7 @@ pub fn attribute(g: &EpochGeometry, active: &[(Monitor, bool)]) -> (Degradation,
         })
         .map(|(m, _)| *m)
         .collect();
-    let unexplained = active.iter().any(|(m, _)| !explained.contains(m));
+    let unexplained = g.hdop_report_mismatch || active.iter().any(|(m, _)| !explained.contains(m));
     let d = match (g.is_degraded(), unexplained) {
         (false, false) => Degradation::None,
         (true, false) => Degradation::Geometry,
@@ -419,6 +446,8 @@ fn finish(
         vdop,
         max_azimuth_gap_deg: gap,
         age_s: Some(round_to(age_s, 1e-3)),
+        reported_hdop: None,
+        hdop_report_mismatch: false,
     }
 }
 
@@ -456,14 +485,29 @@ impl GeometryTracker {
             let age = e.t_s - t0;
             (0.0..=self.hold_s).contains(&age).then_some(age)
         };
+        // What the receiver says its HDOP is: GSA within the hold, else this epoch's GGA.
+        let reported_hdop = self
+            .reported
+            .as_ref()
+            .and_then(|(t0, r)| fresh(*t0).and(r.hdop))
+            .or_else(|| e.marine.as_ref().and_then(|m| m.hdop))
+            .filter(|h| h.is_finite() && *h > 0.0);
         if let Some((t0, sky)) = &self.sky {
             if let Some(age) = fresh(*t0) {
-                return from_sky(sky, age, &self.cfg);
+                let mut g = from_sky(sky, age, &self.cfg);
+                g.reported_hdop = reported_hdop;
+                g.hdop_report_mismatch = match (g.hdop, reported_hdop) {
+                    (Some(d), Some(r)) => (d - r).abs() > self.cfg.hdop_report_tol,
+                    _ => false,
+                };
+                return g;
             }
         }
         if let Some((t0, r)) = &self.reported {
             if let Some(age) = fresh(*t0) {
-                return from_reported(r, age, &self.cfg);
+                let mut g = from_reported(r, age, &self.cfg);
+                g.reported_hdop = r.hdop;
+                return g;
             }
         }
         EpochGeometry::unknown()
@@ -486,7 +530,9 @@ pub struct GeometryModel {
 }
 
 /// What [`attribute`] can explain, in words, for the record of a run.
-pub const EXPLAINS: &str = "when the tracked satellites leave an azimuth gap of \
+pub const EXPLAINS: &str = "unless the reported HDOP and the HDOP derived from the reported \
+sky differ by more than hdop_report_tol (then nothing is explained and the epoch counts as \
+inconsistency): when the tracked satellites leave an azimuth gap of \
 azimuth_gap_deg or more (sky-blocked) and no signal-power monitor (cn0-drop, agc, jam-ind, \
 cn0-spread, cn0-rise) is at or above its alarm threshold, loss-of-lock and any power monitor \
 below its threshold are attributed to geometry; every other active monitor is attack-like \
@@ -722,6 +768,37 @@ mod tests {
         assert_eq!(
             attribute(&EpochGeometry::unknown(), &[(Monitor::LossOfLock, true)]),
             (Degradation::Inconsistency, vec![])
+        );
+    }
+
+    #[test]
+    fn a_reported_hdop_the_sky_does_not_explain_is_inconsistency() {
+        // Half the open sky (a wall to the west) with GGA saying HDOP 0.9, as before the wall.
+        let east: Vec<SatSky> = open_sky()
+            .into_iter()
+            .filter(|s| s.azim_deg <= 205.0)
+            .collect();
+        let mut e = epoch(0.0, east);
+        e.marine = Some(super::super::MarineObs {
+            hdop: Some(0.9),
+            ..Default::default()
+        });
+        let g = GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e);
+        assert!(g.reasons.contains(&GeometryReason::SkyBlocked));
+        assert_eq!(g.reported_hdop, Some(0.9));
+        assert!(g.hdop_report_mismatch, "{g:?}");
+        assert_eq!(
+            attribute(&g, &[(Monitor::LossOfLock, true)]),
+            (Degradation::GeometryAndInconsistency, vec![])
+        );
+        // With a reported HDOP that agrees, the masked sky explains the loss.
+        let mut e2 = e.clone();
+        e2.marine.as_mut().unwrap().hdop = g.hdop;
+        let g2 = GeometryTracker::new(&GeometryCfg::default(), 10.0).push(&e2);
+        assert!(!g2.hdop_report_mismatch);
+        assert_eq!(
+            attribute(&g2, &[(Monitor::LossOfLock, true)]),
+            (Degradation::Geometry, vec![Monitor::LossOfLock])
         );
     }
 
