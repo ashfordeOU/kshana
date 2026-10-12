@@ -28,8 +28,10 @@ fn checksum(body: &str) -> String {
 
 /// The demo with every GSV satellite at an azimuth of 180 degrees or more reported as not
 /// tracked (SNR emptied) from `from_s` seconds on, and the C/N0 of the rest lowered by
-/// `drop_db`: a wall or a hull to the west, and optionally a power drop as well.
-fn masked(from_s: f64, drop_db: f64) -> String {
+/// `drop_db`: a wall or a hull to the west, and optionally a power drop as well. From then on
+/// GGA reports HDOP `gga_hdop` (a receiver's HDOP rises when half its sky goes; the remaining
+/// sky's HDOP is 2.87).
+fn masked_with(from_s: f64, drop_db: f64, gga_hdop: &str) -> String {
     let mut out = String::new();
     let mut t = 0.0;
     let mut t0: Option<f64> = None;
@@ -43,7 +45,12 @@ fn masked(from_s: f64, drop_db: f64) -> String {
                 + s[4..].parse::<f64>().unwrap();
             t = secs - *t0.get_or_insert(secs);
         }
-        if f[0].ends_with("GSV") && t >= from_s {
+        if f[0].ends_with("GGA") && t >= from_s {
+            let mut g: Vec<String> = f.iter().map(|x| x.to_string()).collect();
+            g[8] = gga_hdop.to_string();
+            let b = g.join(",");
+            out.push_str(&format!("${b}*{}\n", checksum(&b)));
+        } else if f[0].ends_with("GSV") && t >= from_s {
             let mut g: Vec<String> = f.iter().map(|x| x.to_string()).collect();
             let mut i = 4;
             while i + 3 < g.len() {
@@ -63,6 +70,10 @@ fn masked(from_s: f64, drop_db: f64) -> String {
         }
     }
     out
+}
+
+fn masked(from_s: f64, drop_db: f64) -> String {
+    masked_with(from_s, drop_db, "2.9")
 }
 
 fn run(log: &str) -> ReceiverTrustResult {
@@ -126,6 +137,18 @@ fn the_same_loss_with_a_power_drop_stays_attack_like() {
             Degradation::GeometryAndInconsistency,
             "{e:?}"
         );
+        assert!(e.explained_by_geometry.is_empty());
+    }
+}
+
+#[test]
+fn a_reported_hdop_the_masked_sky_does_not_explain_stays_attack_like() {
+    // The same mask, but GGA keeps reporting HDOP 0.9 as if the sky were open: the stream's
+    // own sky does not explain its stated precision, so nothing is put down to geometry.
+    let r = run(&masked_with(600.0, 0.0, "0.9"));
+    for e in window(&r) {
+        assert!(e.geometry.hdop_report_mismatch, "{:?}", e.geometry);
+        assert_eq!(e.degradation, Degradation::GeometryAndInconsistency);
         assert!(e.explained_by_geometry.is_empty());
     }
 }

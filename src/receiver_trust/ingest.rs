@@ -84,6 +84,9 @@ struct Acc {
     span: Option<(usize, usize)>,
     sky: Vec<SatSky>,
     dop: Option<ReportedDop>,
+    /// GSV sets seen for this epoch, by (talker, signal ID): (sentences in the set, bit mask
+    /// of the sentence numbers received). The sky is kept only when every set is complete.
+    gsv_sets: BTreeMap<(String, Option<u8>), (u32, u64)>,
 }
 
 /// The smallest range holding both.
@@ -167,7 +170,17 @@ fn epochs_from(map: BTreeMap<i64, Acc>, first: i64) -> Vec<LogEpoch> {
             fix: a.fix,
             marine: (a.marine != MarineObs::default()).then_some(a.marine),
             source_span: a.span.map(|(s, e)| [s, e]),
-            sky: a.sky,
+            // A partial GSV cycle (the end of an excerpt, a lost sentence) would read as a
+            // thinned sky: it is left out, so the geometry holds the last complete one.
+            sky: if a
+                .gsv_sets
+                .values()
+                .all(|(n, seen)| *n >= 1 && *n <= 64 && *seen == (u64::MAX >> (64 - *n)))
+            {
+                a.sky
+            } else {
+                Vec::new()
+            },
             reported_dop: a.dop,
         })
         .collect()
@@ -1027,6 +1040,8 @@ struct NmeaState {
     pending: Vec<(String, String, f64)>,
     /// GSV sky positions `(sat, elevation, azimuth, tracked)` seen before any timed sentence.
     pending_sky: Vec<(String, f64, f64, bool)>,
+    /// GSV set progress seen before any timed sentence (see `Acc::gsv_sets`).
+    pending_sets: BTreeMap<(String, Option<u8>), (u32, u64)>,
     /// Days since 1970 of day offset 0, once an RMC date is seen.
     base_day: Option<i64>,
     /// Arrival time of the line being parsed (live input), s.
@@ -1074,6 +1089,11 @@ impl NmeaState {
         }
         for (sat, el, az, tr) in self.pending_sky.drain(..) {
             acc.add_sky(sat, el, az, tr);
+        }
+        for (k, (n, seen)) in std::mem::take(&mut self.pending_sets) {
+            let e = acc.gsv_sets.entry(k).or_insert((n, 0));
+            e.0 = n;
+            e.1 |= seen;
         }
         key
     }
@@ -1216,6 +1236,22 @@ fn nmea_gsv(st: &mut NmeaState, talker: &str, f: &[&str]) -> Sentence {
     } else {
         None
     };
+    // Which sentence of which set this is, for the completeness of the epoch's sky.
+    let count = f[1]
+        .trim()
+        .parse::<u32>()
+        .ok()
+        .filter(|n| (1..=64).contains(n));
+    let number = f[2].trim().parse::<u32>().ok();
+    if let (Some(n), Some(k)) = (count, number.filter(|k| (1..=64).contains(k))) {
+        let sets = match st.cur_key {
+            Some(key) => &mut st.map.entry(key).or_default().gsv_sets,
+            None => &mut st.pending_sets,
+        };
+        let e = sets.entry((talker.to_string(), sig)).or_insert((n, 0));
+        e.0 = n;
+        e.1 |= 1u64 << (k - 1);
+    }
     for g in 0..rest / 4 {
         let base = 4 + 4 * g;
         let Some(n) = f.get(base).and_then(|s| s.trim().parse::<u32>().ok()) else {
@@ -1976,6 +2012,29 @@ Status,1,2,3
         let tl = read_nmea(&short).expect("reads");
         assert_eq!(tl.skipped_records, 0);
         assert_eq!(tl.epochs[0].reported_dop, None);
+    }
+
+    #[test]
+    fn a_partial_gsv_set_gives_no_sky() {
+        let gga = |t: &str| {
+            nmea(&format!(
+                "GPGGA,{t},6918.0000,N,01600.0000,E,1,08,0.9,100.0,M,30.0,M,,"
+            ))
+        };
+        let text = [
+            gga("091203.00"),
+            nmea("GPGSV,2,1,05,05,45,120,42,12,30,200,40,13,20,300,38,14,60,30,44"),
+            nmea("GPGSV,2,2,05,15,10,90,35"),
+            gga("091204.00"),
+            // Only the first sentence of the set: the epoch's sky would be thinned.
+            nmea("GPGSV,2,1,05,05,45,120,42,12,30,200,40,13,20,300,38,14,60,30,44"),
+        ]
+        .join("\n");
+        let tl = read_nmea(&text).expect("reads");
+        assert_eq!(tl.epochs[0].sky.len(), 5);
+        assert!(tl.epochs[1].sky.is_empty());
+        // C/N0 is read as it always was.
+        assert_eq!(tl.epochs[1].cn0.len(), 4);
     }
 
     #[test]
