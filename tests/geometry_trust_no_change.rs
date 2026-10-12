@@ -43,6 +43,12 @@ fn strip(v: &mut Value) {
             for k in APPENDED {
                 m.remove(k);
             }
+            if let Some(Value::Array(run)) = m.get_mut("monitors_run") {
+                // `geometry` (0.36) is appended to the list when the geometry monitor decided.
+                if run.last() == Some(&Value::String("geometry".into())) {
+                    run.pop();
+                }
+            }
             if m.contains_key("schema") {
                 m.insert("schema".into(), Value::String("<schema>".into()));
             }
@@ -69,10 +75,34 @@ fn legacy(json: &str) -> String {
 /// The one-line summary with its `scenario <12 hex>` prefix replaced: the scenario hash covers
 /// the resolved (absolute) log path, so it differs between checkouts.
 fn summary_view(r: &kshana::receiver_trust::scenario::ReceiverTrustResult) -> String {
-    let s = summary(r);
+    let s = without_geometry_count(&summary(r), r);
     let hex = &s["scenario ".len().."scenario ".len() + 12];
     assert!(s.starts_with("scenario ") && hex.bytes().all(|b| b.is_ascii_hexdigit()));
     s.replacen(hex, "<scenario_hash>", 1)
+}
+
+/// The 0.35 count in the summary's "| monitors N |": `geometry` (0.36), listed last in
+/// `monitors_run` when it decided, is not counted.
+fn without_geometry_count(
+    s: &str,
+    r: &kshana::receiver_trust::scenario::ReceiverTrustResult,
+) -> String {
+    // By name, so this file also builds on 0.35.0 (no `Monitor::Geometry`) to take the pins.
+    let run = serde_json::to_value(&r.monitors_run).unwrap();
+    if !run
+        .as_array()
+        .unwrap()
+        .contains(&Value::String("geometry".into()))
+    {
+        return s.to_string();
+    }
+    let n = r.monitors_run.len();
+    let (from, to) = (
+        format!("| monitors {n} |"),
+        format!("| monitors {} |", n - 1),
+    );
+    assert!(s.contains(&from), "{s}");
+    s.replacen(&from, &to, 1)
 }
 
 fn sha(s: &str) -> String {

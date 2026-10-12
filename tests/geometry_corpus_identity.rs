@@ -96,6 +96,12 @@ fn strip(v: &mut Value) {
             for k in APPENDED {
                 m.remove(k);
             }
+            if let Some(Value::Array(run)) = m.get_mut("monitors_run") {
+                // `geometry` (0.36) is appended to the list when the geometry monitor decided.
+                if run.last() == Some(&Value::String("geometry".into())) {
+                    run.pop();
+                }
+            }
             for (k, placeholder) in [("schema", "<schema>"), ("scenario_hash", "<scenario_hash>")] {
                 if m.contains_key(k) {
                     m.insert(k.into(), Value::String(placeholder.into()));
@@ -112,6 +118,30 @@ fn legacy(json: &str) -> String {
     let mut v: Value = serde_json::from_str(json).unwrap();
     strip(&mut v);
     serde_json::to_string(&v).unwrap()
+}
+
+/// The 0.35 count in the summary's "| monitors N |": `geometry` (0.36), listed last in
+/// `monitors_run` when it decided, is not counted.
+fn without_geometry_count(
+    s: &str,
+    r: &kshana::receiver_trust::scenario::ReceiverTrustResult,
+) -> String {
+    // By name, so this file also builds on 0.35.0 (no `Monitor::Geometry`) to take the pins.
+    let run = serde_json::to_value(&r.monitors_run).unwrap();
+    if !run
+        .as_array()
+        .unwrap()
+        .contains(&Value::String("geometry".into()))
+    {
+        return s.to_string();
+    }
+    let n = r.monitors_run.len();
+    let (from, to) = (
+        format!("| monitors {n} |"),
+        format!("| monitors {} |", n - 1),
+    );
+    assert!(s.contains(&from), "{s}");
+    s.replacen(&from, &to, 1)
 }
 
 fn sha(s: &str) -> String {
@@ -143,7 +173,7 @@ fn corpus_hashes() -> Vec<(String, String)> {
             let (toml_text, scn) = session_for(&name, &bytes);
             let r = run_receiver_trust(&scn).unwrap();
             let json = legacy(&serde_json::to_string_pretty(&r).unwrap());
-            let s = summary(&r);
+            let s = without_geometry_count(&summary(&r), &r);
             let summary_view = format!("scenario <scenario_hash>{}", &s["scenario ".len() + 12..]);
             // The live path refuses a stream whose time runs backwards (the time-spoof
             // scenario); its refusal is part of what is compared.
@@ -281,6 +311,18 @@ fn the_corpora_are_scored() {
         let r = run_receiver_trust(&scn).unwrap();
         let scored = r.epochs.iter().filter(|e| e.score.is_some()).count();
         assert!(scored >= 50, "{name}: {scored} scored epochs");
+        // The geometry deduction is not a [score] weight: score_model.weights is as in 0.35
+        // (the identity strips every `geometry` key, so it is checked here, unstripped).
+        let v = serde_json::to_value(&r).unwrap();
+        let weights = v["score_model"]["weights"].as_object().unwrap();
+        assert!(!weights.contains_key("geometry"), "{name}");
+        assert_eq!(weights.len(), 16, "{name}");
+        // The geometry monitor decided, so it is listed, last.
+        assert_eq!(
+            v["monitors_run"].as_array().unwrap().last(),
+            Some(&Value::String("geometry".into())),
+            "{name}"
+        );
     }
 }
 
@@ -305,7 +347,7 @@ fn round_1dp(x: f64) -> f64 {
 }
 
 /// `(sha of the epochs that are not poor, sha of the poor ones without the geometry
-/// deduction)`, both in the 0.35 view. A poor epoch's score and band are recomputed from its
+/// deduction)`, both in the 0.35 view, each the whole epoch. A poor epoch's score and band are recomputed from its
 /// other deductions (`round_1dp(clamp(100 - sum))`, bands at 90 and 55): for 0.35, which has
 /// no geometry deduction, that is checked to be the score it wrote.
 fn split_hashes(r: &Value, poor: &[f64]) -> (String, String) {
@@ -320,16 +362,18 @@ fn split_hashes(r: &Value, poor: &[f64]) -> (String, String) {
         }
         let sc = &e["score"];
         let all: Vec<&Value> = sc["deductions"].as_array().unwrap().iter().collect();
-        let others: Vec<&Value> = all
+        let others: Vec<Value> = all
             .iter()
-            .copied()
             .filter(|d| d["monitor"] != "geometry")
+            .map(|d| (*d).clone())
             .collect();
-        let sum = |ds: &[&Value]| -> f64 { ds.iter().map(|d| d["points"].as_f64().unwrap()).sum() };
-        let score = round_1dp(100.0 - sum(&others));
+        let sum = |ds: &mut dyn Iterator<Item = &Value>| -> f64 {
+            ds.map(|d| d["points"].as_f64().unwrap()).sum()
+        };
+        let score = round_1dp(100.0 - sum(&mut others.iter()));
         assert_eq!(
             sc["score"].as_f64().unwrap(),
-            round_1dp(100.0 - sum(&all)),
+            round_1dp(100.0 - sum(&mut all.iter().copied())),
             "t {t}"
         );
         if all.len() == others.len() {
@@ -342,13 +386,13 @@ fn split_hashes(r: &Value, poor: &[f64]) -> (String, String) {
         } else {
             "untrusted"
         };
-        let view = serde_json::json!({
-            "t_s": t,
-            "state": band,
-            "alarms": e["alarms"],
-            "score": score,
-            "deductions": others,
-        });
+        // The whole epoch, with only the score, its band, the state and the geometry deduction
+        // replaced.
+        let mut view = e.clone();
+        view["state"] = Value::String(band.into());
+        view["score"]["score"] = serde_json::json!(score);
+        view["score"]["band"] = Value::String(band.into());
+        view["score"]["deductions"] = Value::Array(others);
         without.push_str(&serde_json::to_string(&view).unwrap());
         without.push('\n');
     }
@@ -372,8 +416,8 @@ fn training_result(name: &str) -> Value {
 #[test]
 fn poor_epochs_differ_from_0_35_0_by_the_geometry_deduction_alone() {
     // PIN-SCOPE:    every batch epoch of the two training scenarios with poor geometry: the
-    //               epochs that are not poor as written, the poor ones without the geometry
-    //               deduction (score and band recomputed from the others)
+    //               epochs that are not poor as written, the poor ones whole with only the
+    //               geometry deduction removed and the score, band and state recomputed
     // PIN-EXCLUDES: the keys in APPENDED, schema string, scenario_hash, key order; the geometry
     //               deduction of a poor epoch, the one intended change
     let poor = poor_epochs();
@@ -433,11 +477,11 @@ const SPLIT_PINS: [(&str, &str, &str); 2] = [
     (
         "combined-event",
         "4f6b8e441306cc6608b61123a6bd1fd393382b2ff577b6458440e9972c434d9c",
-        "85080eb0b5bcb257c3b44bebd3db5ada187a453dfc0a304e8a8713bf2f240efb",
+        "5571b7387ca81bdfddf52d47253c7fd377cb6bc28c8340f3f494778e64e9dbcf",
     ),
     (
         "open-sea-jamming",
         "cf758de503b111c3f2355a2575f37ab09943cbf5a99277f0ca674ab2d0f4fe34",
-        "3ab1a30bfdb2de01a21680d17d11e1792361161e430d886ef5b2155d151c4add",
+        "e1130ae77d942fca684ee8346a833a113ec383ceb9805ba5f7e8f5ba63c22f22",
     ),
 ];

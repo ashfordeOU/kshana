@@ -242,10 +242,11 @@ pub enum Monitor {
     TimeConsistency,
     /// The receiver reports an OSNMA authentication failure.
     Osnma,
-    /// Moving platform: the satellite geometry is poor (HDOP, PDOP or satellites used beyond
-    /// the `[geometry]` thresholds; see [`super::geometry`]). Weight 15: on its own it can
-    /// reach the degraded band, never the untrusted one. It deducts points and is reported in
-    /// the epoch's `geometry`; it raises no alarm and is not listed in `monitors_run`.
+    /// Moving platform: the satellite geometry (HDOP, PDOP and satellites used against the
+    /// `[geometry]` thresholds; see [`super::geometry`]). Deducts nothing unless the geometry is
+    /// poor, then up to `[geometry] cap_points` (15); on its own it can reach the degraded band,
+    /// never the untrusted one. It raises no alarm; it is listed last in `monitors_run` when it
+    /// decided at any epoch (a vessel whose log gives the geometry).
     Geometry,
 }
 
@@ -792,6 +793,8 @@ pub fn run_monitors(
     let has_cn0 = tl.epochs.iter().any(|e| !e.cn0.is_empty());
     let has_jam = tl.epochs.iter().any(|e| e.jam_ind.is_some());
     let mut run_set = BTreeSet::new();
+    // Whether the geometry monitor decided at any epoch (a vessel whose log gives the geometry).
+    let mut geometry_ran = false;
     if has_cn0 && !key_median.is_empty() {
         run_set.insert(Monitor::Cn0Drop);
     }
@@ -992,6 +995,7 @@ pub fn run_monitors(
                 // kept out of the ratios: the geometry tracker already holds the sky, holding
                 // its ratio again would double the hold, and it raises no alarm.
                 let geo_ratio = geometry_ratio(&et.geometry, &cfg.geometry);
+                geometry_ran |= geo_ratio.is_some();
                 let geo_deduction = geo_ratio.map(|(r, _)| Deduction {
                     monitor: Monitor::Geometry,
                     ratio: r,
@@ -1064,6 +1068,11 @@ pub fn run_monitors(
     }
 
     let runs = alarm_runs(&run_set, &epochs, &decided);
+    // Listed after the alarm runs are formed (it raises no alarm), and last: `Geometry` is the
+    // last monitor, so a 0.35 list keeps its order and gains one entry at the end.
+    if geometry_ran {
+        run_set.insert(Monitor::Geometry);
+    }
     let first_alarm_s = epochs
         .iter()
         .find(|e| e.t_s >= cal_s && !e.alarms.is_empty())

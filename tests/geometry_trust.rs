@@ -201,7 +201,15 @@ fn a_poor_masked_sky_costs_geometry_points_classed_geometry() {
             "the geometry monitor raises no alarm"
         );
     }
-    assert!(!r.monitors_run.contains(&Monitor::Geometry));
+    // It decided, so it is listed, and last (a 0.35 list keeps its order).
+    assert_eq!(r.monitors_run.last(), Some(&Monitor::Geometry));
+    assert_eq!(
+        r.monitors_run
+            .iter()
+            .filter(|m| **m == Monitor::Geometry)
+            .count(),
+        1
+    );
     assert!(r.geometry_summary.class_geometry >= w.len());
     assert_eq!(
         r.geometry_summary.class_inconsistency,
@@ -425,6 +433,8 @@ fn a_stream_without_gsv_or_gsa_says_geometry_unknown() {
         .collect();
     let r = run(&no_sky);
     assert_eq!(r.geometry_summary.unknown, r.epochs.len());
+    // The geometry monitor never decided: not listed.
+    assert!(!r.monitors_run.contains(&Monitor::Geometry));
     assert!(r
         .epochs
         .iter()
