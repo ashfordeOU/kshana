@@ -312,6 +312,79 @@ pub struct GravityMapBenchmarkCfg {
     /// [`run_gps_denied_gravity_nav`] (per-seed reproducible; vary it to sweep realisations).
     #[serde(default)]
     pub noise_seed: u64,
+    /// Optional **real reference field** (RM-17). When present the matcher's map and the
+    /// simulated gravimeter both use the gravity anomaly synthesised from a
+    /// spherical-harmonic model instead of `coeffs` + `mascons` (which must then be empty).
+    /// Absent (the default), the synthetic field is used exactly as before.
+    #[serde(default)]
+    pub reference: Option<GravityReferenceCfg>,
+    /// Optional **map-error Monte Carlo** (RM-15): rerun the benchmark over seeded
+    /// realisations of a correlated map error added to the stored map (the gravimeter still
+    /// measures the true field), and report the distribution of the matched error.
+    #[serde(default)]
+    pub map_error_mc: Option<MapErrorMcCfg>,
+}
+
+/// A real spherical-harmonic reference field for the gravity-map benchmark.
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct GravityReferenceCfg {
+    /// `"egm2008"`: the bundled EGM2008 coefficients (to degree 70). `"gfc"`: an ICGEM
+    /// `.gfc` file named by `gfc_path` (any degree; a high-degree model resolves the
+    /// tens-of-kilometre features the bundled one cannot).
+    pub model: String,
+    /// The `.gfc` file to read when `model = "gfc"` (native builds only).
+    #[serde(default)]
+    pub gfc_path: Option<String>,
+    /// Maximum degree used (clamped to the model's own).
+    pub nmax: usize,
+    /// Normal-field ellipsoid the anomaly is taken against: `"wgs84"` (default) or `"grs80"`.
+    #[serde(default = "default_ellipsoid")]
+    pub ellipsoid: String,
+    /// Keep the degree-0 term `1 − GM_ell/GM` (ICGEM's "zero degree term"; default true).
+    #[serde(default = "default_true")]
+    pub zero_degree: bool,
+    /// Node spacing of the regional anomaly grid the navigator samples bilinearly (deg).
+    #[serde(default = "default_reference_step")]
+    pub grid_step_deg: f64,
+}
+
+/// The map-error Monte Carlo settings.
+#[derive(Clone, Debug, Deserialize)]
+#[serde(deny_unknown_fields)]
+pub struct MapErrorMcCfg {
+    /// Number of map-error realisations.
+    pub realisations: usize,
+    /// 1σ of the map error added to the stored map (mGal).
+    pub sigma_mgal: f64,
+    /// Correlation length of the Gaussian map-error correlation function (deg of arc).
+    pub correlation_length_deg: f64,
+    /// Node spacing of the error lattice (deg; default 0.01).
+    #[serde(default = "default_mc_step")]
+    pub grid_step_deg: f64,
+    /// Seed of realisation 0; realisation `k` uses `seed + k` for its map error and
+    /// `noise_seed + k` for its gravimeter noise.
+    #[serde(default)]
+    pub seed: u64,
+    /// Matched-error target the success fraction is counted against (m; default 500).
+    #[serde(default = "default_target_m")]
+    pub target_m: f64,
+}
+
+fn default_ellipsoid() -> String {
+    "wgs84".into()
+}
+fn default_true() -> bool {
+    true
+}
+fn default_reference_step() -> f64 {
+    0.02
+}
+fn default_mc_step() -> f64 {
+    0.01
+}
+fn default_target_m() -> f64 {
+    500.0
 }
 
 fn default_refine_stages() -> usize {
@@ -486,6 +559,13 @@ pub fn run_gravity_map_benchmark(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavR
 /// `docs/CAPABILITY.md`). The reference field here is the low-degree spherical-harmonic trend
 /// plus synthetic mascons validated in this module's unit tests.
 pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNavResult {
+    let model = synthetic_model(cfg);
+    let field = model.sampler_deg();
+    gps_denied_core(cfg, &field, &field, cfg.noise_seed)
+}
+
+/// The synthetic reference field of `cfg`: the low-degree coefficients plus the mascons.
+fn synthetic_model(cfg: &GravityMapBenchmarkCfg) -> GravityAnomalyModel {
     let mut model = GravityAnomalyModel::new(cfg.nmax);
     for c in &cfg.coeffs {
         model.set_coeff(c.n, c.m, c.cbar, c.sbar);
@@ -493,23 +573,26 @@ pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNav
     for m in &cfg.mascons {
         model.add_mascon(*m);
     }
-    let field = model.sampler_deg();
+    model
+}
 
+/// The GPS-denied matcher, with the field the gravimeter measures (`truth`) and the field
+/// the matcher holds (`stored`) given separately so a map error can sit between them. With
+/// the same closure for both, this is exactly the original single-field benchmark.
+fn gps_denied_core(
+    cfg: &GravityMapBenchmarkCfg,
+    truth_field: &dyn Fn(f64, f64) -> f64,
+    stored_field: &dyn Fn(f64, f64) -> f64,
+    noise_seed: u64,
+) -> GravityMapNavResult {
     // Gravimeter white-noise floor; the matching σ additionally budgets the map error.
     let grav = Gravimeter::new(cfg.gravimeter_asd, 0.0);
     let sensor_sigma = grav.measurement_sigma_mgal(cfg.averaging_time_s);
     let sigma_mgal = (sensor_sigma * sensor_sigma + cfg.map_sigma_mgal * cfg.map_sigma_mgal).sqrt();
 
     // The GPS-denied track and the noisy gravimeter samples taken along it.
-    let truth: Vec<(f64, f64)> = (0..cfg.waypoints)
-        .map(|k| {
-            (
-                cfg.start_lat_deg + cfg.step_lat_deg * k as f64,
-                cfg.start_lon_deg + cfg.step_lon_deg * k as f64,
-            )
-        })
-        .collect();
-    let mut rng = ChaCha8Rng::seed_from_u64(cfg.noise_seed);
+    let truth = track(cfg);
+    let mut rng = ChaCha8Rng::seed_from_u64(noise_seed);
     // `Normal::new` (rand_distr 0.4) rejects only a non-finite std_dev; `sensor_sigma`
     // is derived from caller config and could be non-finite, so floor it to a finite,
     // strictly-positive value first.
@@ -525,7 +608,7 @@ pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNav
         .expect("noise_sigma is finite and strictly positive, which Normal::new always accepts");
     let measured: Vec<f64> = truth
         .iter()
-        .map(|&(la, lo)| field(la, lo) + noise.sample(&mut rng))
+        .map(|&(la, lo)| truth_field(la, lo) + noise.sample(&mut rng))
         .collect();
 
     // INS-reported positions carry the true constant drift d.
@@ -539,7 +622,7 @@ pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNav
         let mut like = 1.0;
         for (k, &(la, lo)) in ins.iter().enumerate() {
             like *= map_match_likelihood(
-                &field,
+                stored_field,
                 la - delta[0],
                 lo - delta[1],
                 measured[k],
@@ -571,6 +654,217 @@ pub fn run_gps_denied_gravity_nav(cfg: &GravityMapBenchmarkCfg) -> GravityMapNav
         map_matched_error_m: to_m(cfg.drift_lat_deg - est[0], cfg.drift_lon_deg - est[1]),
         measurement_sigma_mgal: sigma_mgal,
     }
+}
+
+/// The true waypoint track of `cfg`.
+fn track(cfg: &GravityMapBenchmarkCfg) -> Vec<(f64, f64)> {
+    (0..cfg.waypoints)
+        .map(|k| {
+            (
+                cfg.start_lat_deg + cfg.step_lat_deg * k as f64,
+                cfg.start_lon_deg + cfg.step_lon_deg * k as f64,
+            )
+        })
+        .collect()
+}
+
+/// The box (south, north, west, east; deg) every field sample of a run can fall in: the
+/// true and INS-reported tracks widened by the search half-width, one search step and a
+/// 0.05 deg guard.
+fn sample_box(cfg: &GravityMapBenchmarkCfg) -> (f64, f64, f64, f64) {
+    let t = track(cfg);
+    let pad = cfg.search_half_deg.abs() + cfg.search_step_deg.abs() + 0.05;
+    let lats = t.iter().flat_map(|&(la, _)| [la, la + cfg.drift_lat_deg]);
+    let lons = t.iter().flat_map(|&(_, lo)| [lo, lo + cfg.drift_lon_deg]);
+    let (s, n) = lats.fold((f64::MAX, f64::MIN), |(a, b), x| (a.min(x), b.max(x)));
+    let (w, e) = lons.fold((f64::MAX, f64::MIN), |(a, b), x| (a.min(x), b.max(x)));
+    (s - pad, n + pad, w - pad, e + pad)
+}
+
+/// What the real reference field looked like over the run's sampling box.
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct ReferenceFieldSummary {
+    /// Maximum spherical-harmonic degree used.
+    pub reference_nmax: usize,
+    /// Node spacing of the sampled anomaly grid (deg).
+    pub reference_grid_step_deg: f64,
+    /// Mean of the anomaly over the sampling box (mGal).
+    pub reference_anomaly_mean_mgal: f64,
+    /// Standard deviation of the anomaly over the sampling box (mGal): the matchable signal.
+    pub reference_anomaly_std_mgal: f64,
+}
+
+/// The distribution of the matched error over the map-error Monte Carlo.
+#[derive(Clone, Copy, Debug, serde::Serialize)]
+pub struct MapErrorMcSummary {
+    /// Realisations run.
+    pub realisations: usize,
+    /// Map-error 1σ (mGal).
+    pub sigma_mgal: f64,
+    /// Map-error correlation length (deg).
+    pub correlation_length_deg: f64,
+    /// Target the success fraction counts against (m).
+    pub target_m: f64,
+    /// Mean matched error (m).
+    pub matched_error_mean_m: f64,
+    /// Median matched error (m, nearest rank).
+    pub matched_error_p50_m: f64,
+    /// 95th-percentile matched error (m, nearest rank).
+    pub matched_error_p95_m: f64,
+    /// Largest matched error (m).
+    pub matched_error_max_m: f64,
+    /// Fraction of realisations whose matched error is at or under `target_m`.
+    pub fraction_within_target: f64,
+}
+
+/// A full `gravity-map` scenario run: the benchmark result plus the optional reference-field
+/// and map-error summaries.
+#[derive(Clone, Copy, Debug)]
+pub struct GravityMapRun {
+    /// The single-run benchmark result (no map error).
+    pub nav: GravityMapNavResult,
+    /// Present when a real reference field was configured.
+    pub reference: Option<ReferenceFieldSummary>,
+    /// Present when the map-error Monte Carlo was configured.
+    pub map_error_mc: Option<MapErrorMcSummary>,
+}
+
+/// Build the real reference anomaly grid of `r` over `cfg`'s sampling box.
+fn reference_grid(
+    cfg: &GravityMapBenchmarkCfg,
+    r: &GravityReferenceCfg,
+) -> Result<crate::altpnt::maps::GeoGrid, String> {
+    use crate::gravity_sh::{SphericalHarmonicField, GRS80_ELLIPSOID, WGS84_ELLIPSOID};
+    if !cfg.coeffs.is_empty() || !cfg.mascons.is_empty() {
+        return Err("gravity-map: `reference` replaces the synthetic field, so `coeffs` and \
+                    `mascons` must be empty when it is set"
+            .into());
+    }
+    let field = match r.model.as_str() {
+        "egm2008" => SphericalHarmonicField::egm2008_truncated(r.nmax),
+        "gfc" => {
+            let path = r
+                .gfc_path
+                .as_deref()
+                .ok_or("gravity-map: reference model \"gfc\" needs `gfc_path`")?;
+            let text = std::fs::read_to_string(path)
+                .map_err(|e| format!("gravity-map: cannot read gfc_path {path}: {e}"))?;
+            SphericalHarmonicField::from_gfc(&text, r.nmax)?
+        }
+        other => {
+            return Err(format!(
+                "gravity-map: unknown reference model `{other}` (use \"egm2008\" or \"gfc\")"
+            ))
+        }
+    };
+    let ell = match r.ellipsoid.as_str() {
+        "wgs84" => WGS84_ELLIPSOID,
+        "grs80" => GRS80_ELLIPSOID,
+        other => {
+            return Err(format!(
+                "gravity-map: unknown ellipsoid `{other}` (use \"wgs84\" or \"grs80\")"
+            ))
+        }
+    };
+    let (s, n, w, e) = sample_box(cfg);
+    crate::altpnt::maps::GeoGrid::gravity_anomaly_from_sh(
+        &field,
+        &ell,
+        r.zero_degree,
+        s,
+        n,
+        w,
+        e,
+        r.grid_step_deg,
+    )
+}
+
+/// Run a `gravity-map` scenario: the GPS-denied benchmark on the synthetic field, or on a
+/// real spherical-harmonic reference field when `reference` is set, plus the map-error
+/// Monte Carlo when `map_error_mc` is set. With neither set this is exactly
+/// [`run_gps_denied_gravity_nav`].
+pub fn run_gravity_map_scenario(cfg: &GravityMapBenchmarkCfg) -> Result<GravityMapRun, String> {
+    let model = synthetic_model(cfg);
+    let synthetic = model.sampler_deg();
+    let grid = match &cfg.reference {
+        Some(r) => Some((reference_grid(cfg, r)?, r)),
+        None => None,
+    };
+    let grid_sampler = grid.as_ref().map(|(g, _)| g.sampler_deg());
+    let truth: &dyn Fn(f64, f64) -> f64 = match &grid_sampler {
+        Some(s) => s,
+        None => &synthetic,
+    };
+    let nav = gps_denied_core(cfg, truth, truth, cfg.noise_seed);
+    let reference = grid.as_ref().map(|(g, r)| {
+        let (mean, sd) = g.mean_std();
+        ReferenceFieldSummary {
+            reference_nmax: r.nmax,
+            reference_grid_step_deg: r.grid_step_deg,
+            reference_anomaly_mean_mgal: mean,
+            reference_anomaly_std_mgal: sd,
+        }
+    });
+    let map_error_mc = match &cfg.map_error_mc {
+        Some(mc) => Some(map_error_monte_carlo(cfg, mc, truth)?),
+        None => None,
+    };
+    Ok(GravityMapRun {
+        nav,
+        reference,
+        map_error_mc,
+    })
+}
+
+/// The map-error Monte Carlo: for each realisation `k`, a correlated error field
+/// ([`crate::altpnt::maps::correlated_error_field`], seed `mc.seed + k`) is added to the
+/// stored map, the gravimeter still measures the true field (noise seed `noise_seed + k`),
+/// and the matched error is recorded.
+fn map_error_monte_carlo(
+    cfg: &GravityMapBenchmarkCfg,
+    mc: &MapErrorMcCfg,
+    truth: &dyn Fn(f64, f64) -> f64,
+) -> Result<MapErrorMcSummary, String> {
+    if mc.realisations == 0 {
+        return Err("gravity-map: map_error_mc.realisations must be at least 1".into());
+    }
+    if mc.realisations > 10_000 {
+        return Err("gravity-map: map_error_mc.realisations is capped at 10000".into());
+    }
+    let (s, n, w, e) = sample_box(cfg);
+    let mut errs = Vec::with_capacity(mc.realisations);
+    for k in 0..mc.realisations {
+        let err = crate::altpnt::maps::correlated_error_field(
+            s,
+            n,
+            w,
+            e,
+            mc.grid_step_deg,
+            mc.sigma_mgal,
+            mc.correlation_length_deg,
+            mc.seed.wrapping_add(k as u64),
+        )?;
+        let stored = |la: f64, lo: f64| truth(la, lo) + err.value_at(la, lo);
+        let r = gps_denied_core(cfg, truth, &stored, cfg.noise_seed.wrapping_add(k as u64));
+        errs.push(r.map_matched_error_m);
+    }
+    let nf = errs.len() as f64;
+    let mean = errs.iter().sum::<f64>() / nf;
+    let within = errs.iter().filter(|&&x| x <= mc.target_m).count() as f64 / nf;
+    let mut sorted = errs.clone();
+    sorted.sort_by(|a, b| a.total_cmp(b));
+    let rank = |q: f64| sorted[((q * nf).ceil() as usize).clamp(1, sorted.len()) - 1];
+    Ok(MapErrorMcSummary {
+        realisations: mc.realisations,
+        sigma_mgal: mc.sigma_mgal,
+        correlation_length_deg: mc.correlation_length_deg,
+        target_m: mc.target_m,
+        matched_error_mean_m: mean,
+        matched_error_p50_m: rank(0.5),
+        matched_error_p95_m: rank(0.95),
+        matched_error_max_m: sorted[sorted.len() - 1],
+        fraction_within_target: within,
+    })
 }
 
 #[cfg(test)]
@@ -720,6 +1014,8 @@ mod tests {
             refine_stages: 1,
             refine_factor: 8.0,
             noise_seed: 0,
+            reference: None,
+            map_error_mc: None,
         };
         let r = run_gravity_map_benchmark(&cfg);
 

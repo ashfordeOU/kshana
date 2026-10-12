@@ -15,9 +15,11 @@
 //!   <https://peerj.com/articles/cs-3118/>). The fused gravity+magnetic+terrain residual must
 //!   be bounded < 500 m and, in expectation, no worse than the best single channel.
 //!
-//! The real-DEM cross-checks (`real_srtm_tile_*`, `gdal_cross_check`) are `#[ignore]`-gated:
-//! they fetch a ~25 MB SRTM tile via `tools/fetch_srtm_tile.py` and check it against published
-//! geodetic spot-heights / GDAL — run them manually, they are not part of CI.
+//! The real-DEM cross-checks (`real_srtm_tile_*`, `gdal_cross_check`) run in CI on two
+//! committed full-resolution (1-arc-second) crops of the SRTM v3 tiles, against published
+//! geodetic spot-heights and values recorded from GDAL 3.8.4 (pre-registered in
+//! xval/srtm-ungate/PREREGISTRATION.md). Only the live re-run of GDAL on the full ~25 MB
+//! tiles (`gdal_cross_check_live_full_tiles`) stays `#[ignore]`-gated.
 
 use kshana::altpnt::terrain::{
     run_combined_altpnt, run_terrain_nav, CombinedAltPntCfg, DemGrid, TerrainNavCfg, SRTM_VOID,
@@ -128,18 +130,48 @@ fn oracle_c_combined_is_bounded_and_fuses_better_than_each_single_field() {
     );
 }
 
-// ── REAL-DEM cross-checks (ignored; fetch a real tile manually) ──────────────────────────
+// ── REAL-DEM cross-checks on committed full-resolution crops (un-gated) ─────────────────
+//
+// The two crops are verbatim 361 x 361 windows of the 1-arc-second SRTM v3 tiles N36W119
+// and N36W117 (fixtures/terrain/NOTICE.md). Bars pre-registered in
+// xval/srtm-ungate/PREREGISTRATION.md before these tests were first run.
+
+/// Step of a 1-arc-second SRTM grid (deg).
+const ARCSEC: f64 = 1.0 / 3600.0;
+
+fn whitney_crop() -> DemGrid {
+    let bytes = include_bytes!("fixtures/terrain/N36W119_whitney_crop1s.hgt");
+    DemGrid::from_hgt_window(
+        bytes,
+        361,
+        361,
+        36.0 + 1903.0 * ARCSEC,
+        -119.0 + 2368.0 * ARCSEC,
+        ARCSEC,
+    )
+    .expect("Whitney crop parses")
+}
+
+fn badwater_crop() -> DemGrid {
+    let bytes = include_bytes!("fixtures/terrain/N36W117_badwater_crop1s.hgt");
+    DemGrid::from_hgt_window(
+        bytes,
+        361,
+        361,
+        36.0 + 720.0 * ARCSEC,
+        -117.0 + 450.0 * ARCSEC,
+        ARCSEC,
+    )
+    .expect("Badwater crop parses")
+}
 
 /// ORACLE A.2 — Mount Whitney summit 4421 m (NGS/NOAA; 14,505 ft = 4421 m,
-/// <https://en.wikipedia.org/wiki/Mount_Whitney>, lat 36.5786°N lon -118.2920°W). A fetched
-/// SRTM 1" tile sampled there must fall in [4380, 4430] m. Source of truth is the survey, the
-/// DEM is under test ⇒ non-circular. Fetch: `python3 tools/fetch_srtm_tile.py N36 W119`.
+/// <https://en.wikipedia.org/wiki/Mount_Whitney>, lat 36.5786°N lon -118.2920°W). The
+/// committed 1-arc-second crop sampled there must fall in [4380, 4430] m. Source of truth is
+/// the survey, the DEM is under test ⇒ non-circular.
 #[test]
-#[ignore = "needs a real ~25 MB SRTM tile fetched via tools/fetch_srtm_tile.py"]
 fn real_srtm_tile_whitney_in_survey_band() {
-    let bytes = std::fs::read("tools/srtm/N36W119.hgt").expect("fetch N36W119.hgt first");
-    let dem = DemGrid::from_srtm_hgt(&bytes, 3601, 36.0, -119.0).expect("parses");
-    let h = dem.elevation_at(36.5786, -118.2920);
+    let h = whitney_crop().elevation_at(36.5786, -118.2920);
     assert!(
         (4380.0..=4430.0).contains(&h),
         "Whitney sampled {h} m, survey 4421 m"
@@ -147,31 +179,69 @@ fn real_srtm_tile_whitney_in_survey_band() {
 }
 
 /// ORACLE A.2 — Badwater Basin -86 m (lowest in North America,
-/// <https://en.wikipedia.org/wiki/Badwater_Basin>, lat 36.250°N lon -116.825°W). A fetched
-/// tile sampled there must fall in [-95, -70] m.
+/// <https://en.wikipedia.org/wiki/Badwater_Basin>, lat 36.250°N lon -116.825°W). The
+/// committed 1-arc-second crop sampled there must fall in [-95, -70] m.
 #[test]
-#[ignore = "needs a real ~25 MB SRTM tile fetched via tools/fetch_srtm_tile.py"]
 fn real_srtm_tile_badwater_in_survey_band() {
-    let bytes = std::fs::read("tools/srtm/N36W117.hgt").expect("fetch N36W117.hgt first");
-    let dem = DemGrid::from_srtm_hgt(&bytes, 3601, 36.0, -117.0).expect("parses");
-    let h = dem.elevation_at(36.250, -116.825);
+    let h = badwater_crop().elevation_at(36.250, -116.825);
     assert!(
         (-95.0..=-70.0).contains(&h),
         "Badwater sampled {h} m, survey -86 m"
     );
 }
 
-/// ORACLE A.3 — cross-tool check against GDAL's independent reader: our `DemGrid.node` at a
-/// given row/col must equal `gdallocationinfo -valonly` at the same coordinate, validating
-/// indexing + endianness against an independent implementation.
+/// `gdallocationinfo -valonly -wgs84` (GDAL 3.8.4) on the FULL tiles, recorded before the
+/// reader was run: (tile, lon, lat, value in m). GDAL returns the pixel containing the
+/// point, i.e. the nearest arc-second node.
+const GDAL_NEAREST: &[(&str, f64, f64, f64)] = &[
+    ("N36W119", -118.2923, 36.5785, 4414.0),
+    ("N36W119", -118.2920, 36.5786, 4412.0),
+    ("N36W119", -118.3137, 36.5512, 3752.0),
+    ("N36W119", -118.2581, 36.6043, 3385.0),
+    ("N36W117", -116.825, 36.250, -78.0),
+    ("N36W117", -116.8043, 36.2317, -85.0),
+    ("N36W117", -116.8461, 36.2733, -84.0),
+    ("N36W117", -116.7862, 36.2871, 102.0),
+];
+
+/// ORACLE A.3 — cross-tool check against GDAL's independent SRTMHGT reader: the nearest
+/// node read from the committed crop must equal GDAL's value from the full tile exactly,
+/// validating the crop's geo-reference, row order and byte order.
 #[test]
-#[ignore = "needs a real SRTM tile + gdallocationinfo on PATH"]
 fn gdal_cross_check() {
-    // Example only — the harness for an offline GDAL comparison; left as a manual check.
-    let bytes = std::fs::read("tools/srtm/N36W119.hgt").expect("fetch N36W119.hgt first");
-    let dem = DemGrid::from_srtm_hgt(&bytes, 3601, 36.0, -119.0).expect("parses");
-    // Compare a handful of nodes against `gdallocationinfo -valonly -geoloc N36W119.hgt <lon> <lat>`.
-    assert!(dem.node(0, 0).is_finite());
+    let (w, b) = (whitney_crop(), badwater_crop());
+    for &(tile, lon, lat, gdal) in GDAL_NEAREST {
+        let dem = if tile == "N36W119" { &w } else { &b };
+        let ours = dem.nearest_node_at(lat, lon);
+        assert_eq!(ours, gdal, "{tile} at ({lat}, {lon}): ours {ours} m, GDAL {gdal} m");
+    }
+}
+
+/// ORACLE A.3, live: re-run GDAL at test time on a fetched full tile and compare with the
+/// full-tile reader. Needs `python3 tools/fetch_srtm_tile.py N36 W119` (and `N36 W117`)
+/// and `gdallocationinfo` on PATH.
+#[test]
+#[ignore = "needs the full ~25 MB SRTM tiles (tools/fetch_srtm_tile.py) and gdallocationinfo"]
+fn gdal_cross_check_live_full_tiles() {
+    for &(tile, lon, lat, _) in GDAL_NEAREST {
+        let path = format!("tools/srtm/{tile}.hgt");
+        let bytes = std::fs::read(&path).unwrap_or_else(|_| panic!("fetch {path} first"));
+        let (ll_lat, ll_lon) = if tile == "N36W119" {
+            (36.0, -119.0)
+        } else {
+            (36.0, -117.0)
+        };
+        let dem = DemGrid::from_srtm_hgt(&bytes, 3601, ll_lat, ll_lon).expect("parses");
+        let out = std::process::Command::new("gdallocationinfo")
+            .args(["-valonly", "-wgs84", &path, &lon.to_string(), &lat.to_string()])
+            .output()
+            .expect("gdallocationinfo on PATH");
+        let gdal: f64 = String::from_utf8_lossy(&out.stdout)
+            .trim()
+            .parse()
+            .expect("GDAL printed a value");
+        assert_eq!(dem.nearest_node_at(lat, lon), gdal, "{tile} at ({lat}, {lon})");
+    }
 }
 
 /// ORACLE A.4 (CI, no network) — the **committed real-SRTM fixture**.
