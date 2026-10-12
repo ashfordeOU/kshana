@@ -43,6 +43,7 @@ pub mod lugre;
 pub mod raim;
 pub mod rinex;
 pub mod satgrid;
+pub mod scint50;
 pub mod sqm;
 pub mod ubx;
 pub mod yunnan;
