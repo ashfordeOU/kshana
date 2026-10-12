@@ -118,7 +118,7 @@ are untouched too: a comment never changes a scenario hash.
 
 The engine dispatches on the scenario’s `kind`. The table below lists the most
 commonly-used kinds (the eight tutorial domains above plus their nearest neighbours).
-It is **not** the complete set: `src/api.rs::list_scenario_kinds()` returns all **75**
+It is **not** the complete set: `src/api.rs::list_scenario_kinds()` returns all **76**
 built-in kinds. That function (exposed as `list_kinds()` in the Python and WebAssembly (WASM) bindings,
 and as `kshana kinds --json` on the command line) is the authoritative,
 always-current catalogue, and [`SCENARIOS.md`](../SCENARIOS.md) is its generated

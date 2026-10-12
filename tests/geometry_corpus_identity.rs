@@ -8,6 +8,13 @@
 //! the first 30 s of the short logs), as a batch run and as a replayed live stream; with the keys
 //! 0.36 appends removed, every output is byte-identical to what 0.35.0 wrote.
 //!
+//! PIN-SCOPE:    every pin in this file is a SHA-256 taken on 0.35.0 (35c1558d): of each corpus's
+//!               batch result, one-line summary and live JSON lines in the 0.35 view, and of the
+//!               poor epochs' views in the two scenarios whose jamming makes the geometry poor
+//! PIN-EXCLUDES: the keys 0.36 appends (stripped before hashing), the schema string, the
+//!               path-dependent scenario_hash, key order, the trailing `geometry` entry of
+//!               `monitors_run` and its count in the summary
+//!
 //! The pins were taken by running this file on the 0.35.0 release commit (35c1558d), checked
 //! out at a different path, where the removal is a no-op. The scoring was checked to be
 //! non-trivial there: see `the_corpora_are_scored`. The scenario hash covers the resolved
