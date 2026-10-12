@@ -31,3 +31,13 @@ python -I tests/fixtures/high_degree_gravity/generate_high_degree_gravity_refere
 ```
 
 (Java 21; Python venv with numpy 2.3.5 and pyshtools 4.14.1.)
+
+## 24 h orbit reference (for the propagator's tesseral path)
+
+`orekit_orbit_24h_egm2008_200.txt`: Orekit 12.2 `NumericalPropagator` (DormandPrince853, position
+tolerance 1e-6 m) with point mass + `HolmesFeatherstoneAttractionModel` at 200×200 EGM2008, body
+frame = rotation about the inertial z axis by the Earth Rotation Angle with UT1 = TT (no
+precession, nutation or polar motion), epoch 2024-01-01T12:00:00 TT, r0 = (6778136.3, 0, 0) m,
+v0 = (0, 4766, 6008) m/s; inertial states every 600 s for 24 h. Driver `java/Orbit24hDriver.java`,
+generator `generate_orbit_24h_reference.py`. No Kshana comparison is made here: the propagator
+test that consumes it must pre-register its own bar first.
