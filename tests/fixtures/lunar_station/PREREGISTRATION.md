@@ -38,6 +38,12 @@ hiding a wrong formula, which would show at the metre level.
   re-implementing it). That the draws have the stated distributions is checked by the survey
   floor test (`survey_floor_matches_the_survey_transfer_prediction`), not here.
 * Nothing here is a statement about the performance of any real system.
+* (Added after the first run at an independent reviewer's request, to state two limits the
+  table above already implied; no row, tolerance or result was changed.) The link error
+  (`link_err_m`, ageing plus quantization) is taken as an input: the ageing sigmas, the
+  quantization step and the composition of the link error are not recomputed by numpy.
+* The station's visible set is not compared on its own, only through the case status
+  (`station_missing_sat`).
 
 ## Oracle provenance
 
@@ -46,4 +52,26 @@ environment with nothing else installed.
 
 ## First comparison run
 
-(To be filled after the first run, with the numbers, whatever they are.)
+Run once, after this file was committed alone (9caedf97), with numpy 2.5.4 in a fresh virtual
+environment. Nothing was changed after the results were seen: not the tolerances, not the
+script, not the inputs.
+
+| # | Result | Bar | Outcome |
+|---|---|---|---|
+| N1 | identical sets and status in all 20 cases (all 20 available) | identical | met |
+| N2 | worst 3.73e-9 m; 15 of 20 cases above 1e-9 m | 1e-9 m | **missed** |
+| N3 | raw range errors: worst 1.4e-14 m. Corrected range errors: worst 3.73e-9 m, 15 of 20 cases above 1e-9 m (they inherit N2) | 1e-9 m | raw met; corrected **missed** |
+| N4 | worst 1.3e-9 m (corrected), 2.5e-12 m (uncorrected) | 1e-6 m | met |
+| N5 | worst 1.4e-9 m | 1e-6 m | met |
+| N6 | the reported p95 equals numpy's at all 5 points, bit for bit | exactly | met |
+
+**Why N2 missed, checked rather than assumed.** The survey term of a correction is a
+difference of two satellite ranges of about 1e7 m, `|sat - station| - |sat - believed
+station|`, whose last-place unit is 2^-29 m = 1.86e-9 m. Recomputed in 60-digit decimal
+arithmetic, both implementations are within that rounding of the exact value (Rust worst
+2.08e-9 m, numpy worst 2.92e-9 m), and they differ from each other by at most 3.73e-9 m, about
+two such units. The bar of 1e-9 m was set below the double-precision resolution
+of the quantity it was applied to; the formulas agree. This is recorded as a miss and the bar
+is not changed. `tests/lunar_station_numpy_oracle.rs` pins the finding: N1, N4, N5 and N6 at
+their bars, N2 and N3 at what was observed (15 of 20 cases above 1e-9 m, the largest
+3.7252974e-9 m).
