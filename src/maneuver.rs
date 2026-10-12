@@ -466,6 +466,264 @@ pub fn lambert(
 }
 
 // ===========================================================================
+// 4b. Izzo-2015 multi-revolution Lambert branches (M >= 1).
+// ===========================================================================
+
+/// Which of the two `M`-revolution Lambert solutions (Izzo 2015, §3): the **left** branch starts
+/// its Householder iteration from Izzo's left initial guess `x0l`, the **right** branch from
+/// `x0r`. The names and the order follow Izzo's paper and his reference implementation.
+#[derive(Clone, Copy, Debug, PartialEq, Eq, Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum LambertBranch {
+    /// The solution reached from the left initial guess.
+    Left,
+    /// The solution reached from the right initial guess.
+    Right,
+}
+
+/// One solution of Lambert's problem.
+#[derive(Clone, Copy, Debug, PartialEq, Serialize)]
+pub struct LambertSolution {
+    /// Complete revolutions `M` before arrival.
+    pub revs: u32,
+    /// `None` for `M = 0` (unique); the branch for `M >= 1`.
+    pub branch: Option<LambertBranch>,
+    /// Departure velocity (same units as `mu` and the positions imply; m/s in SI).
+    pub v1: Vec3,
+    /// Arrival velocity.
+    pub v2: Vec3,
+}
+
+/// The non-dimensional Lambert geometry of Izzo 2015, §2: `λ`, the tangential unit vectors and
+/// the scale factors. Same construction as [`lambert`].
+struct LambertGeom {
+    ll: f64,
+    ir1: Vec3,
+    ir2: Vec3,
+    it1: Vec3,
+    it2: Vec3,
+    r1n: f64,
+    r2n: f64,
+    c: f64,
+    s: f64,
+}
+
+fn lambert_geom(r1: Vec3, r2: Vec3, prograde: bool) -> Result<LambertGeom, String> {
+    let r1n = norm(r1);
+    let r2n = norm(r2);
+    let c = norm(sub(r2, r1));
+    let s = 0.5 * (r1n + r2n + c);
+    let ir1 = unit(r1);
+    let ir2 = unit(r2);
+    let cross12 = cross(ir1, ir2);
+    let cross_n = norm(cross12);
+    if cross_n < 1e-12 {
+        return Err("collinear endpoints: transfer plane is undefined (≈0°/180°)".into());
+    }
+    let ih = scale(cross12, 1.0 / cross_n);
+    let mut ll = (1.0 - (c / s).min(1.0)).sqrt();
+    let (mut it1, mut it2);
+    if ih[2] < 0.0 {
+        ll = -ll;
+        it1 = cross(ir1, ih);
+        it2 = cross(ir2, ih);
+    } else {
+        it1 = cross(ih, ir1);
+        it2 = cross(ih, ir2);
+    }
+    if !prograde {
+        ll = -ll;
+        it1 = scale(it1, -1.0);
+        it2 = scale(it2, -1.0);
+    }
+    Ok(LambertGeom {
+        ll,
+        ir1,
+        ir2,
+        it1: unit(it1),
+        it2: unit(it2),
+        r1n,
+        r2n,
+        c,
+        s,
+    })
+}
+
+/// Non-dimensional time of flight `T(x)` on the elliptic `M`-revolution family (`|x| < 1`):
+/// `T = [(ψ + Mπ)/√(1 − x²) − x + λy] / (1 − x²)` (Izzo 2015, eq. 18 with the `Mπ` term).
+fn tof_multirev(x: f64, ll: f64, m: u32) -> f64 {
+    let y = compute_y(x, ll);
+    let psi = compute_psi(x, y, ll);
+    let om = 1.0 - x * x;
+    ((psi + m as f64 * PI) / om.sqrt() - x + ll * y) / om
+}
+
+/// Householder (cubic-order) iteration on `T(x) = big_t` along the `M`-revolution family.
+fn householder_multirev(x0: f64, big_t: f64, ll: f64, m: u32) -> f64 {
+    let mut x = x0;
+    for _ in 0..60 {
+        let y = compute_y(x, ll);
+        let tof = tof_multirev(x, ll, m);
+        let fval = tof - big_t;
+        let fp = tof_eq_p(x, y, tof, ll);
+        let fpp = tof_eq_p2(x, y, tof, fp, ll);
+        let fppp = tof_eq_p3(x, y, tof, fp, fpp, ll);
+        let denom = fp * (fp * fp - fval * fpp) + fppp * fval * fval / 6.0;
+        let dx = fval * (fp * fp - fval * fpp / 2.0) / denom;
+        // Keep the iterate inside the ellipse family.
+        let next = (x - dx).clamp(-1.0 + 1e-15, 1.0 - 1e-15);
+        let step = (next - x).abs();
+        x = next;
+        if step < 1e-14 {
+            break;
+        }
+    }
+    x
+}
+
+/// The minimum non-dimensional time of flight `T_min(M)` of the `M`-revolution family and its
+/// `x`: Halley iteration on `dT/dx = 0` from `x = 0.1` (Izzo 2015, §3).
+fn tmin_multirev(ll: f64, m: u32) -> (f64, f64) {
+    if ll.abs() == 1.0 {
+        return (0.0, tof_multirev(0.0, ll, m));
+    }
+    let mut x = 0.1_f64;
+    for _ in 0..60 {
+        let y = compute_y(x, ll);
+        let tof = tof_multirev(x, ll, m);
+        let d1 = tof_eq_p(x, y, tof, ll);
+        let d2 = tof_eq_p2(x, y, tof, d1, ll);
+        let d3 = tof_eq_p3(x, y, tof, d1, d2, ll);
+        let den = 2.0 * d2 * d2 - d1 * d3;
+        if den == 0.0 {
+            break;
+        }
+        let next = (x - 2.0 * d1 * d2 / den).clamp(-1.0 + 1e-15, 1.0 - 1e-15);
+        let step = (next - x).abs();
+        x = next;
+        if step < 1e-14 {
+            break;
+        }
+    }
+    (x, tof_multirev(x, ll, m))
+}
+
+/// Terminal velocities from a converged `x` (Izzo 2015, §2, Algorithm 1 last step).
+fn lambert_velocities(g: &LambertGeom, x: f64, mu: f64) -> (Vec3, Vec3) {
+    let ll = g.ll;
+    let y = compute_y(x, ll);
+    let gamma = (mu * g.s / 2.0).sqrt();
+    let rho = (g.r1n - g.r2n) / g.c;
+    let sigma = (1.0 - rho * rho).sqrt();
+    let vr1 = gamma * ((ll * y - x) - rho * (ll * y + x)) / g.r1n;
+    let vr2 = -gamma * ((ll * y - x) + rho * (ll * y + x)) / g.r2n;
+    let vt1 = gamma * sigma * (y + ll * x) / g.r1n;
+    let vt2 = gamma * sigma * (y + ll * x) / g.r2n;
+    (
+        add(scale(g.ir1, vr1), scale(g.it1, vt1)),
+        add(scale(g.ir2, vr2), scale(g.it2, vt2)),
+    )
+}
+
+/// The largest number of complete revolutions `M <= max_revs` for which a Lambert solution
+/// exists: `floor(T/π)` cropped to `max_revs`, lowered by one when `T` is below that family's
+/// minimum time of flight (Izzo 2015, §3).
+pub fn lambert_max_revs(
+    r1: Vec3,
+    r2: Vec3,
+    tof: f64,
+    mu: f64,
+    prograde: bool,
+    max_revs: u32,
+) -> Result<u32, String> {
+    if tof <= 0.0 {
+        return Err("time of flight must be positive".into());
+    }
+    let g = lambert_geom(r1, r2, prograde)?;
+    let big_t = (2.0 * mu / (g.s * g.s * g.s)).sqrt() * tof;
+    Ok(max_revs_of(&g, big_t, max_revs))
+}
+
+fn max_revs_of(g: &LambertGeom, big_t: f64, max_revs: u32) -> u32 {
+    let ll = g.ll;
+    let mut n = ((big_t / PI).floor() as u32).min(max_revs);
+    let t00 = ll.acos() + ll * (1.0 - ll * ll).sqrt();
+    if n > 0 && big_t < t00 + n as f64 * PI {
+        let (_, t_min) = tmin_multirev(ll, n);
+        if t_min > big_t {
+            n -= 1;
+        }
+    }
+    n
+}
+
+/// Every solution of Lambert's problem with at most `max_revs` complete revolutions, by Izzo's
+/// 2015 method: the single-revolution solution first (exactly [`lambert`]), then for each
+/// `M = 1 ..= Nmax` the left and the right branch. `Nmax` is [`lambert_max_revs`]; with
+/// `max_revs = 0` this is `[lambert(..)]`.
+///
+/// Near a family's minimum time of flight the two branches merge and the root is
+/// ill-conditioned; there the velocities lose digits (see the oracle test's bars).
+pub fn lambert_multirev(
+    r1: Vec3,
+    r2: Vec3,
+    tof: f64,
+    mu: f64,
+    prograde: bool,
+    max_revs: u32,
+) -> Result<Vec<LambertSolution>, String> {
+    let (v1, v2) = lambert(r1, r2, tof, mu, prograde)?;
+    let mut out = vec![LambertSolution {
+        revs: 0,
+        branch: None,
+        v1,
+        v2,
+    }];
+    let g = lambert_geom(r1, r2, prograde)?;
+    let big_t = (2.0 * mu / (g.s * g.s * g.s)).sqrt() * tof;
+    let n = max_revs_of(&g, big_t, max_revs);
+    for m in 1..=n {
+        let mf = m as f64;
+        let kl = ((mf * PI + PI) / (8.0 * big_t)).powf(2.0 / 3.0);
+        let kr = ((8.0 * big_t) / (mf * PI)).powf(2.0 / 3.0);
+        for (branch, k) in [(LambertBranch::Left, kl), (LambertBranch::Right, kr)] {
+            let x = householder_multirev((k - 1.0) / (k + 1.0), big_t, g.ll, m);
+            let (v1, v2) = lambert_velocities(&g, x, mu);
+            out.push(LambertSolution {
+                revs: m,
+                branch: Some(branch),
+                v1,
+                v2,
+            });
+        }
+    }
+    Ok(out)
+}
+
+/// One `M`-revolution Lambert solution on the given branch (`M >= 1`), or an error when no
+/// `M`-revolution transfer exists for this time of flight. For `M = 0` use [`lambert`].
+pub fn lambert_revs(
+    r1: Vec3,
+    r2: Vec3,
+    tof: f64,
+    mu: f64,
+    prograde: bool,
+    revs: u32,
+    branch: LambertBranch,
+) -> Result<(Vec3, Vec3), String> {
+    if revs == 0 {
+        return Err("lambert_revs is for M >= 1; use lambert for M = 0".into());
+    }
+    let all = lambert_multirev(r1, r2, tof, mu, prograde, revs)?;
+    all.iter()
+        .find(|s| s.revs == revs && s.branch == Some(branch))
+        .map(|s| (s.v1, s.v2))
+        .ok_or_else(|| {
+            format!("no {revs}-revolution transfer: the time of flight is below its minimum")
+        })
+}
+
+// ===========================================================================
 // 5. Porkchop sweep over a synthetic coplanar-circular heliocentric system.
 // ===========================================================================
 
