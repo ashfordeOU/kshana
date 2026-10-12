@@ -1,5 +1,5 @@
 # SPDX-License-Identifier: AGPL-3.0-only
-"""Execute the code cells of the 0.35 notebooks on the repository's synthetic data.
+"""Execute the code cells of the 0.35 and 0.36 notebooks on the repository's synthetic data.
 
 Only the notebooks listed here are run (the older one builds a day-long orbit scenario and is
 exercised elsewhere). The cells run from the repository root, so the data helper reads the
@@ -13,7 +13,7 @@ import pytest
 
 REPO = Path(__file__).resolve().parents[2]
 NOTEBOOKS = ["vessel-trust-and-training", "interference-map-route-exposure",
-             "compliance-and-test-bench"]
+             "compliance-and-test-bench", "geometry"]
 
 
 @pytest.mark.parametrize("name", NOTEBOOKS)

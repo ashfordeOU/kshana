@@ -551,6 +551,51 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
         },
         // ── Modelled (first-principles / published formulae, internally checked)─
         VerificationItem {
+            requirement: "Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask",
+            capability: "skyline + frames::look_angles + geometry::sky_geometry: the geodetic (WGS-84) azimuth and elevation of a satellite from a ground site, an azimuth/elevation mask table linearly interpolated in azimuth with wrap at 360 deg, the visible set el >= max(mask_deg, mask(az)), and the common-clock DOP and ENU-and-clock cofactor matrix of that set (the kernel behind orbit::dop). It is how the [skyline] section decides visibility in the gnss-sim, jamming, leo-pvt, leo-pass and nmea-scenario kinds and, with the ground-site user_site, in orbit and integrity",
+            module: "skyline (Skyline::cut_deg, Skyline::visible); frames (look_angles, is_visible_skyline); orbit (UserPath, sky_view, cofactor_from_los); geometry (sky_geometry)",
+            tests: "tests/skyline_orekit_oracle.rs (skyline_masks_agree_with_orekit_and_gnss_lib_py_as_pre_registered: 1173 look angles at six sites and four epochs, six mask tables, 142 visible sets; worst |d el| 1.3e-13 deg and |d az| 2.3e-13 deg against 1e-9, worst |d mask| 1.1e-12 deg against 1e-9, visible sets identical with none in the 1e-6 deg boundary band, worst DOP 3.3e-13 relative and cofactor 6.6e-13 of the matrix scale against 1e-9; pre-registered e4b9d912); skyline::tests (table_interpolates_linearly_between_rows; table_wraps_through_north_without_a_seam); tests/skyline_scenarios.rs (every_wired_scenario_is_byte_identical_to_the_0_35_0_release)",
+            oracle: "Orekit 12.2 (Apache-2.0): a TopocentricFrame on a WGS-84 OneAxisEllipsoid for the look angles and an ElevationMask per table, run by xval/orekit-skyline/OrekitSkyline.java on committed Earth-fixed states (the propagation is not compared), with gnss_lib_py 1.0.4 (wheel metadata MIT) get_dop for the DOP and the ENU-and-clock DOP matrix of the sets Orekit finds visible. Pre-registered (xval/orekit-skyline/PREREGISTRATION.md, commit e4b9d912) before either oracle was run on the comparison inputs; Orekit's linear-with-wrap interpolation was confirmed beforehand on a synthetic probe. Scope: table masks, geodetic look angles, the masked visible set and its common-clock DOP and cofactor. NOT checked here: the canyon, sector and terrain reductions and the presets (their 360-point tables entered as inputs; rows 'Street-canyon, sector and terrain reductions to a table' and 'Skyline presets'), the per-system clock states and the error ellipse (row 'Horizontal error ellipse and per-system cofactor from the geometry covariance'), the GMST rotation of the user_site ground site in orbit/integrity and its dating of each propagator to one instant (Orekit is given Earth-fixed states), and any real obstruction (line of sight only)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Street-canyon, sector and terrain reductions to a table",
+            capability: "skyline: the street canyon in closed form (cut atan((h - a) / d) with d = (w/2) / abs(sin(az - s)), open ends for a finite length), sharp-edged sectors clockwise with wrap, and terrain points reduced to a table with the curvature drop d^2/(2 * 4/3 R); the skyline is their pointwise maximum with any table",
+            module: "skyline (Canyon::cut_deg, Sector::contains, TerrainPoint::elevation_deg, reduce_terrain, SkylineCfg::build)",
+            tests: "skyline::tests (canyon_matches_hand_computed_wall_elevations; terrain_takes_the_curvature_drop; sectors_have_sharp_edges_and_wrap; a_preset_is_overridden_or_added_to_field_by_field; malformed_sections_are_refused)",
+            oracle: "Internal: the closed forms are checked against hand-computed values (wall-top elevations of a stated street, the open-end condition, the curvature drop of a stated point). No external oracle: the design note scopes these reductions as MODELLED, and Orekit's ElevationMask takes a table, so the comparison of row 'Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask' reads their 360-point tables as inputs and does not check them",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Skyline presets (city street, harbour approach, fjord, container terminal)",
+            capability: "skyline::PRESETS: four REPRESENTATIVE geometries with the design note's stated dimensions and a provenance line each: city-street (a canyon, street 0 deg, 20 m between 30 m walls, antenna 1.5 m), harbour-approach (sectors: open to seaward over 180 deg, quay buildings 8 deg over 90 deg, the breakwater 3 deg), fjord (terrain: walls 600 m above the antenna at 1.5 km either side of a north-south channel, curvature drop applied), container-terminal (sectors: stacks 12 deg over the landward half, crane booms 35 deg and 25 deg over two narrow sectors); overridable field by field",
+            module: "skyline (PRESETS, preset, preset_list)",
+            tests: "skyline::tests (presets_carry_the_note_dimensions_and_provenance)",
+            oracle: "None: chosen and stated dimensions, not a survey of any street, port, fjord or terminal (the aspect ratio of the street is inside the 0.5-2 band of Oke (1988); the fjord is of the order of the west-Norwegian fjords; the stacks use the ISO 668 high-cube height). The test checks the presets against their own stated dimensions, a transcription check, which the validation rule does not count",
+            oracle_kind: InternalConsistency,
+            status: Modelled,
+        },
+        VerificationItem {
+            requirement: "Horizontal error ellipse and per-system cofactor from the geometry covariance",
+            capability: "geometry::sky_geometry: the ENU-and-clock cofactor (H^T H)^-1 with one receiver clock in common or one per system (the orbit::cofactor_from_los kernel), and the horizontal error ellipse from its east-north block (semi-axes k sigma sqrt(lambda), k = sqrt(-2 ln(1 - p)), the major axis's azimuth from north)",
+            module: "geometry (sky_geometry, ellipse); orbit (cofactor_from_los)",
+            tests: "tests/ellipse_numpy_oracle.rs (ellipse_and_cofactor_agree_with_numpy_as_pre_registered: 270 cases, the 142 committed visible sets of the skyline comparison under one common clock and under one clock per system; worst axis 5.1e-13 relative and orientation 5.3e-12 deg, none near-circular, cofactor 1.0e-12 of the matrix scale, against 1e-9 and 1e-6 deg; pre-registered 0bbeeaee); geometry::tests (ellipse_of_an_analytic_two_by_two_case)",
+            oracle: "numpy 2.5.4 (BSD-3-Clause), xval/numpy-ellipse/ellipse.py: numpy.linalg.inv of G^T G and numpy.linalg.eigh of its horizontal block on the committed inputs, an independent numerical library performing the inverse and the eigen-decomposition by its own algorithms (standard P2). Pre-registered in xval/numpy-ellipse/PREREGISTRATION.md (commit 0bbeeaee) before the run; the driver's output formatting was corrected once after the pre-registration (a numpy scalar written as np.float64(...)), with no change to the protocol or the tolerances. The validated claim is the linear algebra on those inputs; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
+            requirement: "Sky geometry functions: visibility, DOP, covariance, error ellipse, Monte Carlo cloud",
+            capability: "geometry (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg; CLI `kshana sky` and `kshana skyline`, Python and WASM functions of the same names, MCP `sky_geometry`): from a site, a time and constellation presets (or satellites as azimuth/elevation or ECEF), the satellites visible and masked under a skyline, GDOP/PDOP/HDOP/VDOP/TDOP, the unit-variance cofactor (H^T H)^-1 and the covariance in east-north-up with one receiver clock per system or one in common, the horizontal error ellipse (semi-axes k sigma sqrt(lambda), k = sqrt(-2 ln(1 - p)), orientation 0.5 atan2(2 Q_EN, Q_NN - Q_EE) from north), and n seeded least-squares errors under independent Gaussian range errors with their empirical covariance, RMS and 95 % containment. The cofactor is orbit::cofactor_from_los, the one kernel behind orbit::dop and orbit::dop_cov (dop is dop_cov's reduction): no second DOP implementation",
+            module: "geometry; orbit (cofactor_from_los, dop_cov, dop); surface (sky_geometry, sky_monte_carlo, skyline_presets, skyline_profile, skyplot_svg)",
+            tests: "geometry::tests (ellipse_of_an_analytic_two_by_two_case; sky_geometry_equals_orbit_dop_on_the_same_visible_set; ecef_input_matches_azimuth_elevation_input; one_clock_per_system_adds_a_state_and_costs_geometry; monte_carlo_is_seeded_and_agrees_with_the_geometry; presets_propagate_and_are_seen_from_a_site); tests/dop_reference.rs (the single-clock kernel against gnss_lib_py)",
+            oracle: "The single-clock DOP factors rest on the kernel validated against gnss_lib_py 1.0.4 (row 'GNSS geometry / dilution of precision (DOP)'); this row's own checks are internal: sky_geometry reproduces orbit::dop and dop_cov on the same geometry, the ellipse reproduces an analytic 2x2 eigen-decomposition, ECEF and azimuth/elevation inputs agree, and the seeded cloud's RMS and 95 % containment agree with the geometry. The ENU covariance with one clock per system and the ellipse are VALIDATED in row 'Horizontal error ellipse and per-system cofactor from the geometry covariance' (numpy, P2); what stays MODELLED here is the composition: the preset propagation to a representative sky, the Monte Carlo cloud (checked against the geometry it samples, a self-consistency check) and the surfaces. The constellation presets give a representative sky, not a dated one; the Gaussian error model and the UERE are stated inputs, not a measured accuracy or an integrity bound",
+            oracle_kind: ReferenceImpl,
+            status: Modelled,
+        },
+        VerificationItem {
             requirement: "GNSS-denied clock holdover",
             capability: "Closed-form coast-error growth + holdover-to-threshold; quantum-clock classes",
             module: "holdover",
@@ -2595,6 +2640,20 @@ pub struct OracleBasisEntry {
 pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
     use OracleBasis::*;
     vec![
+        OracleBasisEntry {
+            requirement: "Horizontal error ellipse and per-system cofactor from the geometry covariance",
+            basis: P2NumericalLibrary,
+            oracle_test: "tests/ellipse_numpy_oracle.rs",
+            source: "numpy 2.5.4 (BSD-3-Clause), xval/numpy-ellipse/ellipse.py: numpy.linalg.inv",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "Azimuth-dependent skyline mask: visible set, azimuth and elevation, and DOP under the mask",
+            basis: Library,
+            oracle_test: "tests/skyline_orekit_oracle.rs",
+            source: "Orekit 12.2",
+            flag: "",
+        },
         OracleBasisEntry {
             requirement: "Power-law noise identification by lag-1 autocorrelation",
             basis: Library,
