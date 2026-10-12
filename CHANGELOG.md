@@ -137,6 +137,24 @@ breaking changes are called out explicitly.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
   NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
+- **Result change: broadband and swept jammers now use Q = 2.** The anti-jam equation uses the
+  textbook spread-spectrum adjustment Q for these jammers, where it used 1. Q = 2 is white noise
+  over the main lobe with the in-band signal power normalised; it is pinned in the tests to the
+  closed form from `navsignal`.
+  - **Unchanged:** CW and narrowband jammers (Q = 1), an unrecognised jammer type (Q = 1, the
+    most damaging value), and `q_override`.
+  - **Effect:** where a broadband or swept jammer acts, effective C/N0 rises by up to 3.0103 dB,
+    derived J/S thresholds rise by 3.0103 dB, and free-space denial radii shrink by 0.7071.
+  - **Changed bundled scenarios:** 12 of 144 change, all as pre-registered
+    (`xval/jammer-q/PREREGISTRATION.md`, results in `xval/jammer-q/RESULTS.md`):
+    - `jamming-demo`: C/N0 +3.01 dB;
+    - `jamming-harbour-approach-skyline`: `min_tracking` 6 → 7;
+    - `lunar-jamming`: satellites lost 26 → 0, loss-of-lock standoff median 27.4 → 19.4 km;
+    - `tracking-loop`: loop-dynamics denial radius 75.2 → 53.2 km;
+    - and the campaigns and spectrum cross-checks that contain these.
+  - **Affected consumers:** the `jamming`, `lunar-jamming`, `tracking-loop` and
+    `impairment-eval` kinds, the spectrum kinds' `jamming_kind_cross_check`, the IQ campaign's
+    MODELLED reference curve and the labfit default Q, and interop scene export.
 - JetBrains plugin: no deprecated or scheduled-for-removal platform API. The five choice dialogs use
   a small `DialogWrapper` with a drop-down in place of the deprecated `Messages.showChooseDialog`;
   single-file choosers use the `FileChooserDescriptor` constructor in place of the deprecated
