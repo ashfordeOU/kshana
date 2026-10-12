@@ -343,6 +343,15 @@ pub fn verification_matrix() -> Vec<VerificationItem> {
             status: Validated,
         },
         VerificationItem {
+            requirement: "GLONASS broadcast satellite clock and broadcast-orbit propagation",
+            capability: "The GLONASS broadcast satellite clock bias -tau_n + gamma_n (t - t_b) at a time read on the satellite clock (glonass::GlonassEphemeris::sv_clock_bias_s, the offset corrected for the clock bias by two fixed-point iterations), and the PZ-90 Earth-fixed position of the broadcast state vector propagated by RK4 through the GLONASS ICD equations of motion within +/-15 min of the reference epoch (GlonassEphemeris::position_ecef), from real RINEX 3 GLONASS navigation records. No PZ-90.11 to ITRF transformation is applied (they agree at the centimetre level since 2014; RTKLIB applies none either). Not wired into a scenario output: library function",
+            module: "glonass (GlonassEphemeris::sv_clock_bias_s, position_ecef, parse_glonass_nav)",
+            tests: "tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib (292 cases: the 4 GLONASS records of the real 2013-01-01 IGS MGEX broadcast file x 73 offsets within +/-900 s; clock within 1e-14 s, worst 0 s; position within 0.01 m, worst 1.12e-3 m)",
+            oracle: "RTKLIB v2.4.2-p13 (T. Takasu, BSD-2-Clause, commit 71db0ffa) geph2clk and geph2pos, compiled from C source in a separate harness (xval/rtklib-glonass) that reads the same RINEX file with RTKLIB's own reader, so the parse, the sign of -tau_n, the units and the iteration are compared as well as the clock and the orbit. Pre-registered e099c42a before the function existed and before the harness was built. Both sides evaluate the same clock closed form, so the clock comparison covers the implementation, not the formula. The orbit integrators differ (RTKLIB steps 60 s then the remainder, Kshana equal steps of at most 60 s) and so do the constants (RTKLIB mu 3.9860044e14, Kshana the PZ-90.11 3.986004418e14); the 1.1 mm worst case is that difference, as predicted before the run. Scope: the broadcast ephemeris within its validity interval, not the true orbit or clock (no comparison with precise products)",
+            oracle_kind: ExternalDataset,
+            status: Validated,
+        },
+        VerificationItem {
             requirement: "One Earth-orbit path: SGP4 element sets to the GCRS and ITRS on the IAU 2006/2000A chain with Earth orientation parameters",
             capability: "The propagation and frame path every routed Earth-orbit kind shares: an SGP4 mean element set with a two-part UTC epoch (sgp4::MeanElementSet, read from constellation-design elements by MeanElementSet::from_earth_fixed) propagated by SGP4/SDP4 to TEME (sgp4::SgpOrbit), and the TEME -> ITRS and GCRS -> ITRS rotations of the IAU 2006/2000A chain with UT1 - UTC and polar motion (sgp4::teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop, the zero-parameter forms teme_to_itrs_matrix and gcrs_to_itrs_matrix). TEME is the true equator of date with the mean equinox, reached from the GCRS through the IAU 2006 bias-precession, the IAU 2000B nutation and the equation of the equinoxes",
             module: "sgp4 (MeanElementSet, SgpOrbit, Eop, teme_to_itrs_matrix_eop, gcrs_to_itrs_matrix_eop); jd2 (utc_to_ut1, earth_rotation_angle); nutation (teme_to_gcrs_matrix); cio (gcrs_to_cirs_matrix); frames (polar_motion_matrix)",
@@ -2853,6 +2862,13 @@ pub fn validated_oracle_basis() -> Vec<OracleBasisEntry> {
             basis: Library,
             oracle_test: "tests/jd2_sofa_time_oracle.rs",
             source: "pyerfa 2.0.1.5",
+            flag: "",
+        },
+        OracleBasisEntry {
+            requirement: "GLONASS broadcast satellite clock and broadcast-orbit propagation",
+            basis: Library,
+            oracle_test: "tests/glonass_broadcast_rtklib_oracle.rs::glonass_broadcast_clock_and_orbit_match_rtklib",
+            source: "RTKLIB v2.4.2-p13 (T. Takasu, BSD-2-Clause, commit 71db0ffa)",
             flag: "",
         },
         OracleBasisEntry {

@@ -11,6 +11,14 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **GLONASS broadcast satellite clock** (`GlonassEphemeris::sv_clock_bias_s`): `−τn + γn·(t − tb)`
+  from the RINEX record, at a time read on the satellite clock (two fixed-point iterations, the
+  RTKLIB convention). The parsed `−τn` and `γn` were previously unused. New ledger row
+  "GLONASS broadcast satellite clock and broadcast-orbit propagation", VALIDATED against RTKLIB
+  2.4.2-p13 `geph2clk`/`geph2pos` (pre-registered e099c42a; 292 cases on a real 2013 broadcast
+  file: clock difference 0 s, worst position 1.1 mm against a 1 cm bar). Library function; no
+  scenario output changes. No PZ-90.11 → ITRF transformation is applied, and the module says so.
+
 - **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
   south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
   the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
