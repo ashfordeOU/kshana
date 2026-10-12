@@ -14,6 +14,12 @@
 //!   ([`crate::realdata::ion_sdr`]) describes the same layout; [`IqsHeader::disagreements`]
 //!   lists where the two disagree. On the eleven non-surface L1 batches they agree (the 8-bit batch
 //!   OP5 and the 4 Msps batch OP12 included).
+//!   Read the samples through [`parse_iqs_sdrx`], the corrected LuGRE reading: I in the high
+//!   nibble and the mid-rise levels `2v + 1` (`SdrLayout::mid_rise`), which remove the −½ mean
+//!   the bare two's-complement integers carry on I and Q (pre-registered in
+//!   `xval/lugre-reader/PREREGISTRATION.md`). Search them with the noise-floor-normalised
+//!   decision `acquisition::PcpsResult::acquired_cell_average`: the front end is band-limited,
+//!   so the sample power under-states every cell's noise.
 //! - **RAW** (pseudorange, Doppler, carrier phase and C/N0 per satellite per second), **ACQ**
 //!   (acquisition records: Doppler, code phase, correlator values, C/N0) and **NAV** (the
 //!   onboard least-squares solution) as the ASCII text the handbook describes, one message per
@@ -23,7 +29,7 @@
 //! Times are receiver time in seconds of GPS time since the GPS epoch (1980-01-06). Signal
 //! identifiers: 0 GPS L1 C/A, 1 GPS L5, 2 Galileo E1-B/C, 3 Galileo E5a, 4 Galileo E5b.
 
-use super::ion_sdr::{SampleFormat, SdrLayout};
+use super::ion_sdr::{parse_sdrx, Encoding, SampleFormat, SdrLayout};
 
 /// Signal identifier of GPS L1 C/A in the LuGRE telemetry.
 pub const SIGNAL_GPS_L1CA: u8 = 0;
@@ -32,6 +38,25 @@ pub const SIGNAL_GPS_L1CA: u8 = 0;
 pub const IQS_HEADER_BYTES: usize = 62;
 /// Bytes after the samples: the 24-bit cyclic redundancy check.
 pub const IQS_FOOTER_BYTES: usize = 3;
+
+/// The layout of a LuGRE IQS batch from the text of its `.sdrx` file, read the corrected way:
+/// [`parse_sdrx`] with I in the high nibble (`fill_lsb_first` false) and the mid-rise levels
+/// (`mid_rise` true), so `ion_sdr::decode` returns `2v + 1` for each two's-complement level
+/// `v`, −15 … +15 for the 4-bit batches. Refuses a coding other than two's complement, which no
+/// LuGRE batch uses. The historic reading (bare integers, I in the low nibble) is
+/// [`parse_sdrx`] with `fill_lsb_first` set.
+pub fn parse_iqs_sdrx(text: &str) -> Result<SdrLayout, String> {
+    let mut l = parse_sdrx(text)?;
+    if l.encoding != Encoding::TwosComplement {
+        return Err(format!(
+            "coding {:?}: a LuGRE batch is two's complement",
+            l.encoding
+        ));
+    }
+    l.fill_lsb_first = false;
+    l.mid_rise = true;
+    Ok(l)
+}
 
 /// The payload header of an IQS sample batch.
 #[derive(Clone, Debug, PartialEq)]
@@ -479,11 +504,12 @@ senderId: 0 messageType: RAW rxTime: 1421026678.65449 measures: [ svid: 36 prRaw
             packed_bits: 8,
             align_left: false,
             format: SampleFormat::Iq,
-            encoding: super::super::ion_sdr::Encoding::TwosComplement,
+            encoding: Encoding::TwosComplement,
             word_bytes: 1,
             words_per_chunk: 1,
             little_endian: true,
             fill_lsb_first: false,
+            mid_rise: true,
             pad_head: false,
             samples_per_lump: 1,
             header_bytes: IQS_HEADER_BYTES,
@@ -494,5 +520,41 @@ senderId: 0 messageType: RAW rxTime: 1421026678.65449 measures: [ svid: 36 prRaw
         assert!(d.iter().any(|s| s.starts_with("quantisation")), "{d:?}");
         assert!(d.iter().any(|s| s.starts_with("sample count")), "{d:?}");
         assert!(IqsHeader::parse(b"xIQS").is_err());
+    }
+
+    /// A LuGRE-shaped `.sdrx`: one byte per complex 4-bit sample, two's complement.
+    const SDRX: &str = r#"<?xml version="1.0"?>
+<metadata><lane id="Lane"><block id="B"><chunk id="C"><sizeword>1</sizeword>
+<countwords>1</countwords><endian>Little</endian><padding>None</padding><lump id="L">
+<stream id="S"><ratefactor>1</ratefactor><quantization>4</quantization>
+<packedbits>8</packedbits><alignment>Undefined</alignment><format>IQ</format>
+<encoding>TC</encoding><band id="L1"/></stream></lump></chunk><cycles>0</cycles>
+<sizeheader>62</sizeheader><sizefooter>3</sizefooter></block></lane>
+<system id="System"><freqbase format="MHz">8</freqbase></system>
+<band id="L1"><centerfreq format="MHz">1575.42</centerfreq></band>
+<file id="F"><url>x.bin</url></file></metadata>"#;
+
+    #[test]
+    fn the_corrected_reader_is_high_nibble_i_and_mid_rise() {
+        use crate::realdata::ion_sdr::{decode, to_mid_rise};
+        let l = parse_iqs_sdrx(SDRX).unwrap();
+        assert!(l.mid_rise && !l.fill_lsb_first);
+        // Every byte value once: the corrected levels equal the generic reader's integers
+        // through to_mid_rise, and over all sixteen codes each component sums to zero.
+        let mut bytes = vec![0u8; IQS_HEADER_BYTES];
+        bytes.extend(0..=255u8);
+        bytes.extend([0u8; IQS_FOOTER_BYTES]);
+        let got = decode(&l, &bytes, 0, 256).unwrap();
+        let mut want = decode(&parse_sdrx(SDRX).unwrap(), &bytes, 0, 256).unwrap();
+        to_mid_rise(&mut want);
+        assert_eq!(got, want);
+        assert_eq!(got.iter().map(|s| s.re).sum::<f64>(), 0.0);
+        assert_eq!(got.iter().map(|s| s.im).sum::<f64>(), 0.0);
+        // 0x7F: I in the high nibble, 7 -> 15; Q in the low nibble, -1 -> -1.
+        assert_eq!((got[0x7F].re, got[0x7F].im), (15.0, -1.0));
+        assert!(
+            parse_iqs_sdrx(&SDRX.replace("<encoding>TC</encoding>", "<encoding>OB</encoding>"))
+                .is_err()
+        );
     }
 }
