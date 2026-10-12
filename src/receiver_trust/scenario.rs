@@ -636,7 +636,7 @@ pub fn run_receiver_trust_bytes(
         geometry_model: GeometryModel::new(
             &scn.monitors.geometry,
             scn.monitors.score.evidence_hold_s,
-            scn.monitors.score.weight(Monitor::Geometry),
+            scn.monitors.score.degraded_min,
         ),
         geometry_summary: {
             let mut g = GeometrySummary::default();

@@ -1,20 +1,21 @@
 // SPDX-License-Identifier: AGPL-3.0-only
-//! Geometry-aware trust (0.36) adds a geometry assessment, a geometry monitor in the vessel
-//! score and a class on every deduction. With good geometry (the monitor costs nothing below
-//! its 0.5 onset) or unknown geometry (it does not run), no score changes. This file proves it
-//! on the recorded outputs of the two committed example sessions, whose geometry is good
-//! (vessel demo) or for which no score exists (static example): with the keys 0.36 appended
-//! removed (`score_model.weights.geometry` included), every output is byte-identical to what
-//! engine 0.35.0 wrote (release commit 35c1558d), and the outputs that gained nothing (the
-//! CSV, the SVG, the one-line verdict, the `$PKSHT` sentence, telemetry of a 0.35 input) are
-//! byte-identical as they stand.
+//! Geometry-aware trust (0.36) adds a geometry assessment and label, a geometry monitor in the
+//! vessel score and a class on every deduction. No score changes unless the geometry is poor
+//! (the monitor deducts nothing at or below its thresholds, and does not run when the geometry
+//! is unknown); the label is always reported. This file proves it on the recorded outputs of the
+//! two committed example sessions, whose geometry is good (vessel demo) or for which no score
+//! exists (static example): with the keys 0.36 appended removed, every output is byte-identical
+//! to what engine 0.35.0 wrote (release commit 35c1558d), and the outputs that gained nothing
+//! (the CSV, the SVG, the one-line verdict, the `$PKSHT` sentence, telemetry of a 0.35 input)
+//! are byte-identical as they stand. `tests/geometry_corpus_identity.rs` does the same for every
+//! committed vessel NMEA corpus, GPS-only open sky included.
 //!
 //! The pinned hashes were taken by running this file on the 0.35.0 release commit, checked out
 //! at a different path from this one, where the removal is a no-op. The scenario hash covers the
 //! resolved (absolute) log path, so it is replaced by a placeholder in the result JSON and in the
-//! summary line: the pins hold for any checkout. JSON is compared through `serde_json::Value` (keys sorted), so the
-//! comparison is of content, not of key order; the appended keys are listed in `APPENDED`
-//! and documented in `docs/RECEIVER-TRUST.md` ("Geometry").
+//! summary line: the pins hold for any checkout. JSON is compared through `serde_json::Value`
+//! (keys sorted), so the comparison is of content, not of key order; the appended keys are
+//! listed in `APPENDED` and documented in `docs/RECEIVER-TRUST.md` ("Geometry").
 
 use std::path::Path;
 
