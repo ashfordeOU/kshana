@@ -89,7 +89,12 @@ by `tests/field_units_global.rs`). The region block: `availability`, `coverage_f
 
 ## Pre-registered prediction
 
-*Pending C: the frozen prediction and its scoring protocol (`docs/predictions/`).*
+A pre-registered prediction, frozen at commit `c05dac1d` on the public-sources inputs, with its
+scoring protocol: [`docs/predictions/lunar-reference-station.md`](predictions/lunar-reference-station.md).
+It is a prediction, not a validation, and every figure in it is dominated by the unpublished
+element set of the four-satellite constellation (the elements used are ILLUSTRATIVE): over the
+80 deg S region, availability 8.2 %, corrected p95 3-D 280 m, uncorrected 3.8 km. MODELLED;
+`tests/prediction_frozen.rs` fails if any frozen byte moves.
 
 ## Station time laboratory
 
