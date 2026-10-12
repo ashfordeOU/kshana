@@ -289,3 +289,47 @@ fn every_terrain_field_has_a_unit_and_only_terrain_documents_carry_them() {
         );
     }
 }
+
+// ── independent numpy ray-cast (pre-registered) ───────────────────────────────
+
+/// The pre-registered comparison (tests/fixtures/lunar_terrain/PREREGISTRATION.md, committed
+/// alone in edbb9b02 before the script existed): scripts/gen_lunar_terrain_ref.py, numpy only,
+/// re-computes the horizon at five sites on the vendored crop. Bars B1 to B3: site heights to
+/// 1e-6 m, all 1800 elevations to 1e-6 deg, truncated-ray counts exact. Checks the arithmetic,
+/// not the model.
+#[test]
+fn the_horizon_matches_the_preregistered_numpy_ray_cast() {
+    let r: Value = serde_json::from_str(
+        &std::fs::read_to_string("tests/fixtures/lunar_terrain/reference.json").expect("ref"),
+    )
+    .unwrap();
+    let (dem, echo) = PolarDem::load(DEM).expect("loads");
+    assert_eq!(r["image_sha256"].as_str().unwrap(), echo.image_sha256);
+    let p = HorizonParams {
+        antenna_height_m: r["antenna_height_m"].as_f64().unwrap(),
+        azimuth_step_deg: r["azimuth_step_deg"].as_f64().unwrap(),
+        range_step_m: r["range_step_m"].as_f64().unwrap(),
+        max_range_m: r["max_range_m"].as_f64().unwrap(),
+    };
+    let (mut worst_h, mut worst_el, mut n) = (0.0_f64, 0.0_f64, 0usize);
+    for s in r["sites"].as_array().unwrap() {
+        let (lat, lon) = (s["lat_deg"].as_f64().unwrap(), s["lon_deg"].as_f64().unwrap());
+        let h = horizon_profile(&dem, up_of(lat, lon), &p).expect("horizon");
+        worst_h = worst_h.max((h.site_height_m - s["site_height_m"].as_f64().unwrap()).abs());
+        assert_eq!(
+            h.rays_truncated as u64,
+            s["rays_truncated"].as_u64().unwrap(),
+            "B3 at {lat},{lon}"
+        );
+        let refp = s["profile_deg"].as_array().unwrap();
+        assert_eq!(refp.len(), h.profile.len());
+        for (a, b) in h.profile.iter().zip(refp) {
+            worst_el = worst_el.max((a.1 - b.as_f64().unwrap()).abs());
+            n += 1;
+        }
+    }
+    eprintln!("numpy ray-cast: worst site height {worst_h:e} m, worst elevation {worst_el:e} deg over {n}");
+    assert_eq!(n, 1800);
+    assert!(worst_h <= 1e-6, "B1: {worst_h} m");
+    assert!(worst_el <= 1e-6, "B2: {worst_el} deg");
+}
