@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
+  south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
+  the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
+  a south-polar user grid and a day of epochs, giving per point and over the region the
+  percentile corrected and uncorrected error, availability with reasons, coverage against a
+  stated threshold, protection levels, the coverage radius per azimuth and the correction-link
+  budget. It reduces exactly to `lunar-differential-pnt` at one point, epoch and trial; its
+  arithmetic was re-computed by numpy under a pre-registered bar (positions and percentiles
+  met; the station corrections missed theirs by double-precision rounding, recorded). MODELLED;
+  ledger row "Lunar reference-station coverage and accuracy map". Not affiliated with or
+  endorsed by any agency; no statement about the performance of any real system.
 - **Geometry-aware trust** (0.36 geometry design note, section 4). Every `receiver-trust` epoch,
   static or vessel, batch or live, carries its satellite geometry: `good`, `degraded` (reasons
   `few-satellites`, `high-pdop`, `high-hdop`, and informational `sky-blocked`) or `unknown` where
@@ -113,11 +124,12 @@ breaking changes are called out explicitly.
   covariance* against numpy `linalg.inv` and `linalg.eigh` (standard P2), 270 cases, axes 5.1e-13
   relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
   presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
-- With the geometry-trust and skyline rows, the ledger has 270 rows: 134 Validated, 132 Modelled,
-  4 Partner.
+- With the geometry-trust, skyline and lunar reference-station rows, the ledger has 271 rows:
+  134 Validated, 133 Modelled, 4 Partner.
 
 ### Changed
 
+- README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
 - No score changes unless the geometry is poor; the label is always reported. With good or fair
   geometry (a GPS-only open sky of 8 satellites included) or unknown geometry (the monitor does not
   run) every score is as in 0.35: `tests/geometry_trust_no_change.rs` holds both example sessions'
