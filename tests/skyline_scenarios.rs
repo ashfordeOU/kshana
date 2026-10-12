@@ -81,8 +81,45 @@ fn every_wired_scenario_is_byte_identical_to_the_0_35_0_release() {
         checked += 1;
     }
     assert!(checked >= 40, "only {checked} baseline rows read");
-    assert!(problems.is_empty(), "{}", problems.join("\n"));
+    // The 0.36 jammer-type Q table (broadband and swept 1 -> 2, pre-registered in
+    // xval/jammer-q/) changes these files by design; xval/jammer-q/RESULTS.md lists every
+    // value that moved. Their skyline neutrality stays checked by
+    // an_empty_skyline_section_is_the_scalar_mask_in_every_wired_kind. Every listed file
+    // must still differ (the list cannot go stale) and nothing else may.
+    let changed_by_q: std::collections::BTreeSet<&str> = Q_TABLE_CHANGED.iter().copied().collect();
+    let differing: std::collections::BTreeSet<&str> = problems
+        .iter()
+        .filter_map(|p| p.split(':').next())
+        .collect();
+    let unexpected: Vec<&String> = problems
+        .iter()
+        .filter(|p| !changed_by_q.contains(p.split(':').next().unwrap_or("")))
+        .collect();
+    assert!(
+        unexpected.is_empty(),
+        "{}",
+        unexpected
+            .iter()
+            .map(|s| s.as_str())
+            .collect::<Vec<_>>()
+            .join("\n")
+    );
+    assert_eq!(
+        differing, changed_by_q,
+        "the files the 0.36 Q table changes are no longer exactly these"
+    );
 }
+
+/// The skyline-wired files whose outputs the 0.36 Q table changes (xval/jammer-q/RESULTS.md).
+const Q_TABLE_CHANGED: [&str; 7] = [
+    "campaign-jam-spoof-holdover-integrity.toml",
+    "campaign-shared-jammer-sea-road.toml",
+    "campaign-spectrum-holdover-integrity.toml",
+    "campaign-sweep-jammer-power.toml",
+    "jamming-demo.toml",
+    "leo-vertical-rail-maritime.toml",
+    "maritime-strait-jamming.toml",
+];
 
 /// Remove what an empty `[skyline]` section adds: the `skyline` block, every
 /// `masked_by_skyline` / `epochs_masked_by_skyline` count and their `units` entries.
