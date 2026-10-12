@@ -94,6 +94,7 @@ pub mod cislunar_arc_recovery;
 pub mod cislunar_observability;
 pub mod cislunar_srif;
 pub mod clock_library;
+pub mod clock_log;
 pub mod clock_specs;
 pub mod clock_state;
 pub mod compliance;
