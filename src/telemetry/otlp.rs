@@ -310,6 +310,8 @@ mod tests {
 
     #[test]
     fn the_geometry_label_and_vdop_are_appended_last() {
+        // PIN-SCOPE:    a fixed Unix-nanosecond timestamp passed in, so the payload is deterministic
+        // PIN-EXCLUDES: the wall clock, which the exporter reads only outside this function
         let mut r = Registry::new("9.9.9");
         r.observe(
             &TrustSample {
