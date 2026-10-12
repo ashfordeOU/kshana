@@ -79,8 +79,10 @@ pub const DEFAULT_CONFIDENCE: f64 = 0.95;
 /// not a performance figure.
 pub const MAX_MC_SAMPLES: usize = 5000;
 
-/// Most satellites one request may carry: an input cap. Element sets in `tle` count only when
-/// they are above the horizon.
+/// Most satellites one request may carry: an input cap. `systems` and `satellites` count in
+/// full; element sets in `tle` count only when they are above the site's horizon (a catalogue
+/// of any size within [`MAX_TLE_BYTES`] is accepted, and its sets below the horizon go to
+/// `n_below_horizon`).
 pub const MAX_SATELLITES: usize = 2000;
 
 /// Most receiver clocks one request may estimate (`clock = "per-system"` with that many
@@ -174,7 +176,8 @@ pub struct SkyRequest {
     pub satellites: Option<Vec<SatelliteInput>>,
     /// Two-line element sets as text (a name line before each is optional), propagated by the
     /// engine's SGP4 ([`crate::sgp4::SgpOrbit`]) and seen from `site`. At most
-    /// [`MAX_TLE_BYTES`].
+    /// [`MAX_TLE_BYTES`] of text; any number of sets, of which only those above the horizon count
+    /// toward [`MAX_SATELLITES`] (the rest are counted in `n_below_horizon`).
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub tle: Option<String>,
     /// System label of the `tle` satellites (the clock they share under `per-system`);
@@ -1809,5 +1812,56 @@ mod tests {
         .unwrap();
         assert_eq!(g.tle_skipped.len(), MAX_TLE_SKIPPED + 1);
         assert_eq!(g.tle_skipped.last().unwrap(), "... and 150 more lines");
+    }
+
+    #[test]
+    fn non_ascii_tle_text_is_an_error_or_a_skip_never_a_panic() {
+        // The review's input: an orphan line 2 followed by multi-byte characters, so a byte
+        // index into it is not a character boundary. And a 4-byte emoji variant, and both as
+        // line 1, as a name line and padded to the TLE length.
+        let site = Some(Site {
+            lat_deg: 52.0,
+            lon_deg: 5.0,
+            height_m: 0.0,
+        });
+        let gps = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        let bad: Vec<String> = vec![
+            format!("2 1{}", "é".repeat(40)),
+            format!("1 1{}", "é".repeat(40)),
+            format!("2 1{}", "🛰".repeat(40)),
+            format!("1 {}\n2 {}", "🛰".repeat(70), "é".repeat(70)),
+            format!("{}\n1 {}", "é".repeat(30), "é".repeat(35)),
+        ];
+        for text in &bad {
+            let req = SkyRequest {
+                site,
+                tle: Some(text.clone()),
+                ..Default::default()
+            };
+            let json = serde_json::to_string(&req).unwrap();
+            let caught = std::panic::catch_unwind(|| {
+                (
+                    sky_geometry(&req).is_err(),
+                    sky_monte_carlo(&req, 1, 10).is_err(),
+                    skyplot_svg(&req).is_err(),
+                    crate::surface::sky_geometry(&json, 1 << 20).is_err(),
+                    crate::surface::sky_monte_carlo(&json, 1, 10, 1 << 20).is_err(),
+                    crate::surface::skyplot_svg(&json, 1 << 20).is_err(),
+                )
+            });
+            assert_eq!(
+                caught.expect("no surface may panic"),
+                (true, true, true, true, true, true),
+                "{text:?}"
+            );
+            // With good sets beside it, the bad text is reported and the good sets used.
+            let mixed = SkyRequest {
+                tle: Some(format!("{text}\n{gps}")),
+                ..req
+            };
+            let g = sky_geometry(&mixed).expect("the good sets still run");
+            assert!(!g.tle_skipped.is_empty(), "{text:?}");
+            assert_eq!(g.satellites.len() + g.n_below_horizon, 32);
+        }
     }
 }
