@@ -58,6 +58,10 @@ fn a_0_36_pack_carries_and_shows_the_geometry_and_the_classes() {
     assert!(html.contains("Deductions by class"), "class lane");
     assert!(html.contains("Geometry label, epochs each"), "label lane");
     assert!(
+        html.contains("Stated HDOP the stated sky does not explain"),
+        "the mismatch is never silent"
+    );
+    assert!(
         html.contains("<th>inconsistency</th>"),
         "the drag-off's class"
     );

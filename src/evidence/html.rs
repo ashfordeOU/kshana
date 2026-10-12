@@ -209,6 +209,7 @@ fingerprint with one you obtained from the signer by another route.</p>"
     // geometry lane separate from the inconsistency lane.
     let mut by_geometry: BTreeMap<String, usize> = BTreeMap::new();
     let mut by_label: BTreeMap<String, usize> = BTreeMap::new();
+    let mut mismatch: Option<usize> = None;
     let mut by_class: BTreeMap<String, usize> = BTreeMap::new();
     for e in i.epochs {
         if let Some(g) = e.get("geometry") {
@@ -219,6 +220,9 @@ fingerprint with one you obtained from the signer by another route.</p>"
             *by_geometry.entry(st).or_insert(0) += 1;
             if let Some(l) = g.get("label") {
                 *by_label.entry(scalar(l)).or_insert(0) += 1;
+            }
+            if let Some(m) = g.get("reported_derived_mismatch") {
+                *mismatch.get_or_insert(0) += usize::from(m.as_bool() == Some(true));
             }
         }
         let mut classes: Vec<String> = e
@@ -250,6 +254,14 @@ fingerprint with one you obtained from the signer by another route.</p>"
             let _ = writeln!(h, "<tr><th>{}</th><td>{n}</td></tr>", esc(s));
         }
         h.push_str("</table>\n");
+    }
+    if let Some(n) = mismatch {
+        // Never silent: a stated HDOP the stated sky does not explain is shown even when it
+        // cost nothing (good or fair geometry) and when it is zero.
+        let _ = writeln!(
+            h,
+            "<h3>Stated HDOP the stated sky does not explain (<code>reported_derived_mismatch</code>)</h3>\n<table>\n<tr><th>epochs</th><td>{n}</td></tr>\n</table>\n<p>Classed an inconsistency where the geometry is poor; reported, not scored, otherwise.</p>"
+        );
     }
     if !by_class.is_empty() {
         h.push_str("<h3>Deductions by class, epochs each (geometry: the sky; environment: the signal environment; inconsistency: attack-like evidence)</h3>\n<table>\n");
