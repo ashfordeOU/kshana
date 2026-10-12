@@ -150,8 +150,8 @@ pub(crate) fn run_clock_probed(
 /// geometry. The user orbit, constellation, and elevation mask produce a
 /// visibility timeline, which then drives the standard clock-holdover run.
 pub fn run_orbit_clock(scn: &crate::orbit::OrbitClockScenario) -> Result<RunResult, String> {
-    let (user, sky) = scn.user_and_sky()?;
     let sats = scn.all_satellites()?;
+    let (user, sky) = scn.user_and_sky_for(&sats)?;
     let timeline = crate::orbit::build_timeline_at(
         &user,
         &sats,

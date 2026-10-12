@@ -1761,7 +1761,7 @@ pub fn constellation_raim_availability_at(
     let mut stanford = StanfordDiagram::new(cfg.al_v_m);
     for i in 0..=n {
         let t = i as f64 * step_s;
-        let user_ecef = user.position_eci(t);
+        let user_ecef = user.position(t);
         let view = crate::orbit::sky_view(user, gnss, None, t, mask_deg, sky);
         let sats = view.positions;
         let mut e = raim_availability_epoch(t, user_ecef, &sats, cfg);
@@ -1855,7 +1855,7 @@ pub fn araim_dual_constellation_availability_at(
     let mut available = 0usize;
     for i in 0..=n {
         let t = i as f64 * step_s;
-        let user_ecef = user.position_eci(t);
+        let user_ecef = user.position(t);
         let view = crate::orbit::sky_view(user, gnss, Some(labels), t, mask_deg, sky);
         let (sats, vis_labels) = (view.positions, view.labels);
         let resid = vec![0.0; sats.len()];
@@ -1996,7 +1996,8 @@ fn default_p_hmi() -> f64 {
 impl IntegrityScenario {
     /// The user (an orbit or a ground site) and the skyline, checked against each other. The
     /// integrity kind has no `epoch`, so `t = 0` is J2000, as for an orbit scenario without
-    /// one.
+    /// one; [`Self::run`] then dates a ground site by its satellites
+    /// ([`crate::orbit::UserPath::dated_by`]).
     pub fn user_and_sky(
         &self,
     ) -> Result<(crate::orbit::UserPath, Option<crate::skyline::Skyline>), String> {
@@ -2040,6 +2041,7 @@ impl IntegrityScenario {
         let (user, sky) = self.user_and_sky()?;
         if self.araim_dual {
             let (sats, labels) = self.all_satellites_labeled()?;
+            let user = user.dated_by(false, &sats);
             // Build the ISM from the scenario: σ_URA (the integrity bound) defaults
             // to σ_URE when unset (its floor, URA ≥ URE), and the nominal bias b_nom
             // defaults to 0 (the zero-bias MHSS bound). The protection level is sized
@@ -2077,6 +2079,7 @@ impl IntegrityScenario {
             ));
         }
         let sats = self.all_satellites()?;
+        let user = user.dated_by(false, &sats);
         let cfg = RaimConfig {
             sigma_m: self.sigma_uere_m,
             p_fa: self.p_fa,
