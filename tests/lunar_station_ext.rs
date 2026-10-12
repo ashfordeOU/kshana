@@ -214,11 +214,11 @@ fn station_multipath_is_gauss_markov() {
     .replace("t_span_s = 21600.0\nt_step_s = 3600.0\n", ""));
     let u = s.station_mp_units(144, 8).expect("series");
     let (mut sxy, mut sxx, mut n) = (0.0, 0.0, 0.0);
-    for i in 0..143 {
-        for k in 0..300 {
-            for sat in 0..8 {
-                sxy += u[i][k][sat] * u[i + 1][k][sat];
-                sxx += u[i][k][sat] * u[i][k][sat];
+    for pair in u.windows(2) {
+        for (now, next) in pair[0].iter().zip(&pair[1]) {
+            for (a, b) in now.iter().zip(next) {
+                sxy += a * b;
+                sxx += a * a;
                 n += 1.0;
             }
         }
