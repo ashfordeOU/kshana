@@ -177,6 +177,8 @@ pub const PATH_GATED_CAPABILITIES: &[(&str, &str, &str)] = &[
     ("leo-navmsg", "LEO broadcast-ephemeris fitter and signal-in-space range error versus fit interval and update period", "doc:fit_interval_trade"),
     ("leo-navmsg", "Liu et al. 2025 22-parameter LEO ephemeris model and its fit on real precise orbits", "doc:model_comparison"),
     ("lunar-vlbi", "Lunar geodetic VLBI, kernel path", "planetary_kernel_path"),
+    ("lunar-time-budget", "Lunar station time laboratory: miniRAFS holdover against LTC", "doc:time_lab"),
+    ("lunar-llr-datum", "Lunar reference-station geodesy: added retroreflector and VLBI beacon against the five-array datum", "doc:station_geodesy"),
     ("leo-navmsg", "ATOMIC zero-clock ECEF polynomial and the synthetic five-altitude LEO model comparison", "doc:model_comparison"),
     ("leo-navmsg", "Mid-pass LEO navigation message update with a continuity check at the switch", "doc:midpass_update"),
     ("leo-navmsg", "CRC-24Q frame check for the LEO navigation message", "doc:encode_decode"),

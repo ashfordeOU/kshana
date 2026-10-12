@@ -39,7 +39,7 @@ No new physics:
 
 **Caveat.** A south-polar site sees the Earth low on its horizon or not at all, so neither site is
 ranged continuously. At the site used here, the reflector is skipped at 82 of the 337 archived
-epochs. The beacon has no Earth station above its horizon at 289 of the 673 hourly epochs.
+epochs. For the beacon, 289 of the 673 hourly epochs are epochs at which no station passed both visibility tests (Moon above the station's elevation mask and station above the beacon's horizon).
 Reusing epochs that were scheduled for the five existing arrays is an **ILLUSTRATIVE** schedule,
 not a plan of any station. The beacon's three-station network and its 10 ps delay sigma are the
 ILLUSTRATIVE `lunar-frame-campaign` inputs. The site (latitude −89.0°, longitude 0.0°, height
@@ -81,12 +81,13 @@ beacon delays (beacon sigma_3d 0.25 m). The smallest eigenvalue of `H_after − 
 ## Data readiness: lunar station clock files
 
 `realdata::clk::rinex_clock_series` now states the time system of what it read: `time_system`
-(from the header's `TIME SYSTEM ID`), `time_system_declared` (false when the header is silent
-and the format's GPS default applied) and `record` (`AS` satellite or `AR` receiver/station
+(from the header's `TIME SYSTEM ID`, or, when that is absent, the default of the satellite system
+in `RINEX VERSION / TYPE`: G GPS, R GLO, E GAL, C BDT, J QZS, I IRN, blank GPS),
+`time_system_declared` (true only when every file declared it) and `record` (`AS` satellite or `AR` receiver/station
 clock). It refuses a time system outside the RINEX clock list (GPS, GLO, GAL, BDT, QZS, IRN,
 UTC, TAI) with an error that names it, rather than reading its epochs as GPS time. A lunar time
-scale such as `LTC` is therefore refused today. It also refuses files that declare different
-systems. No conversion between time systems is applied.
+scale such as `LTC` is therefore refused today. It also refuses an undeclared mixed-system (`M`) file
+and files whose time systems differ. No conversion between time systems is applied.
 
 Fixture: `tests/fixtures/lunar_station_clk/station_clock_synthetic.clk` is a **synthetic**
 RINEX 3.04 clock file with three station clock records (see its NOTICE.md).
