@@ -1292,6 +1292,28 @@ fn error_paths_return_the_documented_codes() {
     );
 }
 
+/// A labfit scenario whose `[input] campaign` names a folder that does not exist is a run
+/// error (exit 1) that names the folder, resolved against the scenario file's directory, and
+/// writes nothing.
+#[test]
+fn labfit_on_a_missing_campaign_folder_is_a_run_error() {
+    use kshana::iq::cli::{execute, CommandError};
+    let dir = scratch("labfit-campaign");
+    let toml_path = dir.join("fit.toml");
+    std::fs::write(&toml_path, "[input]\ncampaign = \"no-such-campaign\"\n").unwrap();
+    let toml_arg = toml_path.display().to_string();
+    assert_eq!(run(&args(&["labfit", &toml_arg])), 1);
+    match execute(&args(&["labfit", &toml_arg])) {
+        Err(CommandError::Run(m)) => assert!(
+            m.contains(&dir.join("no-such-campaign").display().to_string()),
+            "{m}"
+        ),
+        other => panic!("expected a run error, got {other:?}"),
+    }
+    let left: Vec<_> = std::fs::read_dir(&dir).unwrap().collect();
+    assert_eq!(left.len(), 1, "only the scenario remains");
+}
+
 // --- helpers mirroring the synthetic scenario in tests/iq_labfit.rs ---
 
 /// A ramp up at `up` dB/s to a 40 dB peak, a hold, and a ramp down at `down` dB/s, onset
@@ -1823,4 +1845,14 @@ fn labfit_inline_returns_the_report_and_refuses_log_paths() {
         kshana::surface::iq_labfit_inline(&toml::to_string(&doc2).unwrap(), 64 * 1024 * 1024)
             .is_err()
     );
+}
+
+/// The surface form of `labfit` reads no files, so a scenario naming a campaign folder is
+/// refused with where campaigns are read instead.
+#[test]
+fn labfit_inline_refuses_a_campaign_folder() {
+    let toml = "[input]\ncampaign = \"out\"\n";
+    let e = kshana::surface::iq_labfit_inline(toml, 64 * 1024 * 1024).unwrap_err();
+    assert!(e.contains("[input] campaign"), "{e}");
+    assert!(e.contains("MCP labfit tool"), "{e}");
 }

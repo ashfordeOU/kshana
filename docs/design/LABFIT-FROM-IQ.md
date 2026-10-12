@@ -339,3 +339,11 @@ coverage of (b) recorded as **NOT MET**, with this section as the reason.
   under each of the two lock models. Each group's coverage must lie in [0.80, 0.98].
 * **(d)** On the bar-(a′) campaign: for each lock model, the median of the §3.2 closed form at
   each lost event's own baseline lies within 1 dB of the median scored `js_at_loss_db`.
+
+### 13.5 Report field names
+
+The §6 list `units[]` is emitted as `fit_units[]`. Every Kshana result document carries a
+top-level `units` block: the unit, provenance class and definition of each numeric field, which
+the field-units contract (`field_schema`) audits. The report carries that block too, and the
+same table is listed in `docs/field-units-schema.json` under `documents`. Each unit's C/N0
+model also gives `delta_eff_db` (§13.2) beside `delta_db`.
