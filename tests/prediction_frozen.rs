@@ -75,9 +75,11 @@ fn close(a: &Value, b: &Value, path: &str, out: &mut Vec<String>) {
 #[test]
 fn the_frozen_predictions_reproduce() {
     for (toml_path, toml_sha, result_path, result_sha) in FROZEN {
-        let src = std::fs::read(toml_path).unwrap_or_else(|e| panic!("{toml_path}: {e}"));
+        let src = std::fs::read(toml_path)
+            .unwrap_or_else(|e| panic!("{toml_path} is missing ({e}): {ADVICE}"));
         assert_eq!(sha(&src), toml_sha, "{toml_path} changed: {ADVICE}");
-        let stored = std::fs::read(result_path).unwrap_or_else(|e| panic!("{result_path}: {e}"));
+        let stored = std::fs::read(result_path)
+            .unwrap_or_else(|e| panic!("{result_path} is missing ({e}): {ADVICE}"));
         assert_eq!(sha(&stored), result_sha, "{result_path} changed: {ADVICE}");
 
         let out = kshana::api::run_toml(std::str::from_utf8(&src).unwrap())
