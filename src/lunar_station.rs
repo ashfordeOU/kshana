@@ -55,7 +55,9 @@ use crate::lunar_dpnt::{
 use crate::lunar_service::{
     south_polar_ring_grid, visible_sat_positions, LunarConstellation, LunarSat, PositionsMcmf,
 };
+use crate::lunar_terrain::{clears_horizon, LunarTerrainCfg, ResolvedTerrain};
 use crate::palette::chart::{AMBER, AXIS, BG, CORAL, CYAN, FONT_SANS, INK, INK_2, INK_3, LIME};
+use crate::skyline::Skyline;
 use rand::{Rng, SeedableRng};
 use rand_chacha::ChaCha8Rng;
 use rand_distr::{Distribution, Normal};
@@ -80,6 +82,18 @@ pub const NOTE: &str = "MODELLED. Under the stated assumptions (constellation, s
      with or endorsed by any agency; no TRL or heritage claim. Omitted: terrain and horizon \
      masking at the pole, multipath, receiver hardware, growth of the ephemeris error over \
      the correction latency beyond the line-of-sight re-projection.";
+
+/// The honesty statement of a run with a `[terrain]` section: [`NOTE`] with the terrain
+/// omission replaced by what the horizon masks do and do not model.
+pub const NOTE_TERRAIN: &str = "MODELLED. Under the stated assumptions (constellation, \
+     signal-in-space error, station survey accuracy, correction latency and link quantization, \
+     each input labelled in the scenario with its public source or as ILLUSTRATIVE), the model \
+     gives these figures. Not a statement about the performance of any real system; not \
+     affiliated with or endorsed by any agency; no TRL or heritage claim. Terrain: a per-site \
+     line-of-sight horizon (a stated profile and/or a ray march over the DEM at its grid \
+     resolution; see terrain.note). Omitted: diffraction and terrain multipath, multipath, \
+     receiver hardware, growth of the ephemeris error over the correction latency beyond the \
+     line-of-sight re-projection.";
 
 const NOISE_SALT: u64 = 0x9E37_79B9_7F4A_7C15;
 const SURVEY_SALT: u64 = 0x5EED_5A1E_0F5E_7A71;
@@ -330,6 +344,12 @@ pub struct LunarStationCoverageScenario {
     /// Seed of every draw.
     #[serde(default = "d_seed")]
     pub seed: u64,
+    /// Per-site terrain horizon masks ([`crate::lunar_terrain`]): a stated profile at the
+    /// station and/or at every user point, and/or a horizon ray-marched over a DEM at each
+    /// site. Absent (the default), every site keeps the flat `mask_deg` and the result is
+    /// byte-identical to a run without the field.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub terrain: Option<LunarTerrainCfg>,
 }
 
 impl Default for LunarStationCoverageScenario {
@@ -358,6 +378,11 @@ pub struct UnavailableReasons {
     pub user_lt4: usize,
     /// A satellite the point uses is not above the mask at the station.
     pub station_missing_sat: usize,
+    /// Fewer than four satellites clear the terrain horizon at the point although at
+    /// least four clear the flat mask (`user_lt4` then counts only the epochs short under
+    /// the flat mask too); only with `[terrain]`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terrain_masked: Option<usize>,
 }
 
 /// One user point's figures.
@@ -396,6 +421,13 @@ pub struct PointFigures {
     pub hpl_below_alert_fraction: f64,
     /// Unavailable epochs by reason.
     pub unavailable: UnavailableReasons,
+    /// The highest terrain horizon at the point (deg); only with `[terrain]`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub horizon_max_deg: Option<f64>,
+    /// Share of the upper hemisphere's solid angle above `max(mask_deg, horizon)` at the
+    /// point; only with `[terrain]`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub sky_open_fraction: Option<f64>,
 }
 
 /// The worst point of the region.
@@ -495,7 +527,32 @@ pub struct LunarStationCoverageReport {
     pub points: Vec<PointFigures>,
     /// The correction-link budget at the station and at the worst point.
     pub budget_at_station_and_at_edge: BudgetPair,
+    /// The terrain horizon masks; only with `[terrain]`.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub terrain: Option<TerrainReport>,
     /// The honesty statement.
+    pub note: &'static str,
+}
+
+/// The terrain horizon masks a run used.
+#[derive(Clone, Debug, Serialize)]
+pub struct TerrainReport {
+    /// `MODELLED`.
+    pub label: &'static str,
+    /// The DEM read, if any.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub dem: Option<crate::lunar_terrain::DemEcho>,
+    /// The reference station's horizon.
+    pub station: crate::lunar_terrain::SiteHorizonEcho,
+    /// The user points' horizon sources (as for the station).
+    pub user_sources: Vec<String>,
+    /// Area-weighted mean over the points of the highest horizon (deg).
+    pub user_horizon_max_deg_mean: f64,
+    /// The highest horizon over every point (deg).
+    pub user_horizon_max_deg_max: f64,
+    /// Area-weighted mean over the points of the open-sky share.
+    pub user_sky_open_fraction_mean: f64,
+    /// What the horizon masks model and omit.
     pub note: &'static str,
 }
 
@@ -582,7 +639,8 @@ pub struct CaseTrace {
     pub link_err_m: Vec<f64>,
     /// Indices of the satellites above the mask at the user.
     pub used: Vec<usize>,
-    /// `available`, `user_lt4` or `station_missing_sat`.
+    /// `available`, `user_lt4`, `station_missing_sat` or (with `[terrain]`)
+    /// `terrain_masked`.
     pub status: &'static str,
     /// The arithmetic, when available.
     pub eval: Option<TrialEval>,
@@ -605,6 +663,23 @@ fn norm(a: Vec3) -> f64 {
 /// Whether `sat` clears `mask_rad` from `observer`, by [`visible_sat_positions`]'s own test.
 fn sees(observer: Vec3, sat: Vec3, mask_rad: f64) -> bool {
     !visible_sat_positions(observer, &[sat], mask_rad).is_empty()
+}
+
+/// [`sees`] at a site with an optional terrain horizon: the flat test, then the horizon
+/// ([`clears_horizon`]). With `None` this is exactly [`sees`].
+fn sees_at(sky: Option<&Skyline>, observer: Vec3, sat: Vec3, mask_rad: f64) -> bool {
+    match sky {
+        None => sees(observer, sat, mask_rad),
+        Some(k) => clears_horizon(k, observer, sat, sees(observer, sat, mask_rad)),
+    }
+}
+
+/// The satellites above the flat mask at `observer` (the count a terrain-masked epoch is
+/// told apart by).
+fn flat_count(observer: Vec3, sats: &[Vec3], mask_rad: f64) -> usize {
+    sats.iter()
+        .filter(|&&s| sees(observer, s, mask_rad))
+        .count()
 }
 
 /// Great-circle distance (km) on the mean lunar sphere and initial bearing (deg).
@@ -777,6 +852,9 @@ impl LunarStationCoverageScenario {
                 }
             }
         }
+        if let Some(t) = &self.terrain {
+            t.validate().map_err(|e| format!("{KIND}: {e}"))?;
+        }
         let work =
             self.user_points().len() as f64 * self.epochs().len() as f64 * self.n_trials as f64;
         if work > MAX_WORK {
@@ -861,9 +939,27 @@ impl LunarStationCoverageScenario {
                 &kep
             }
         };
-        Ok(self.run_with(provider))
+        let terrain = self.resolve_terrain()?;
+        Ok(self.run_with_terrain(provider, terrain.as_ref()))
     }
 
+    /// The terrain masks of the station and every user point (reads `dem_path`); `None`
+    /// without a `[terrain]` section.
+    pub fn resolve_terrain(&self) -> Result<Option<ResolvedTerrain>, String> {
+        let Some(t) = &self.terrain else {
+            return Ok(None);
+        };
+        let users: Vec<(f64, f64)> = self.user_points().iter().map(|p| (p.0, p.1)).collect();
+        t.resolve(
+            (self.station_lat_deg, self.station_lon_deg),
+            &users,
+            self.mask_deg,
+        )
+        .map(Some)
+        .map_err(|e| format!("{KIND}: {e}"))
+    }
+
+    #[allow(clippy::too_many_arguments)]
     fn epoch_geometry(
         &self,
         provider: &dyn PositionsMcmf,
@@ -872,10 +968,14 @@ impl LunarStationCoverageScenario {
         em: &ErrorModelEcho,
         station: Vec3,
         mask: f64,
+        station_sky: Option<&Skyline>,
     ) -> EpochGeometry {
         let sats = provider.positions_mcmf(t);
         let n = sats.len();
-        let station_sees: Vec<bool> = sats.iter().map(|&s| sees(station, s, mask)).collect();
+        let station_sees: Vec<bool> = sats
+            .iter()
+            .map(|&s| sees_at(station_sky, station, s, mask))
+            .collect();
         let latency = self.latency_s;
         let ageing_orbit: Vec<f64> = if latency > 0.0 {
             let aged = provider.positions_mcmf(t + latency);
@@ -1033,17 +1133,24 @@ impl LunarStationCoverageScenario {
         let em = self.error_model();
         let station = self.station_mcmf();
         let mask = self.mask_deg.to_radians();
-        let g = self.epoch_geometry(provider, i, epochs[i], &em, station, mask);
+        let terrain = self.resolve_terrain()?;
+        let station_sky = terrain.as_ref().map(|t| &t.station.skyline);
+        let user_sky = terrain.as_ref().map(|t| &t.users[j].skyline);
+        let g = self.epoch_geometry(provider, i, epochs[i], &em, station, mask, station_sky);
         let user = pts[j].2;
         let up = {
             let n = norm(user);
             [user[0] / n, user[1] / n, user[2] / n]
         };
         let used: Vec<usize> = (0..g.sats.len())
-            .filter(|&s| sees(user, g.sats[s], mask))
+            .filter(|&s| sees_at(user_sky, user, g.sats[s], mask))
             .collect();
         let status = if used.len() < 4 {
-            "user_lt4"
+            if user_sky.is_some() && flat_count(user, &g.sats, mask) >= 4 {
+                "terrain_masked"
+            } else {
+                "user_lt4"
+            }
         } else if used.iter().any(|&s| !g.station_sees[s]) {
             "station_missing_sat"
         } else {
@@ -1073,8 +1180,20 @@ impl LunarStationCoverageScenario {
         })
     }
 
-    /// Run against an explicit constellation provider.
+    /// Run against an explicit constellation provider with the flat `mask_deg` at every
+    /// site (the `[terrain]` section is read by [`Self::run`]; see
+    /// [`Self::run_with_terrain`]).
     pub fn run_with(&self, provider: &dyn PositionsMcmf) -> LunarStationCoverageReport {
+        self.run_with_terrain(provider, None)
+    }
+
+    /// Run against an explicit constellation provider and resolved terrain masks
+    /// ([`Self::resolve_terrain`]); `None` is the flat mask at every site.
+    pub fn run_with_terrain(
+        &self,
+        provider: &dyn PositionsMcmf,
+        terrain: Option<&ResolvedTerrain>,
+    ) -> LunarStationCoverageReport {
         let em = self.error_model();
         let station = self.station_mcmf();
         let mask = self.mask_deg.to_radians();
@@ -1088,7 +1207,17 @@ impl LunarStationCoverageScenario {
         let geo: Vec<EpochGeometry> = epochs
             .iter()
             .enumerate()
-            .map(|(i, &t)| self.epoch_geometry(provider, i, t, &em, station, mask))
+            .map(|(i, &t)| {
+                self.epoch_geometry(
+                    provider,
+                    i,
+                    t,
+                    &em,
+                    station,
+                    mask,
+                    terrain.map(|r| &r.station.skyline),
+                )
+            })
             .collect();
         let n_sats = geo.first().map(|g| g.sats.len()).unwrap_or(0);
         let n_ep = epochs.len();
@@ -1096,6 +1225,7 @@ impl LunarStationCoverageScenario {
 
         let mut points = Vec::with_capacity(pts.len());
         for (j, &(lat, lon, user, weight)) in pts.iter().enumerate() {
+            let user_sky = terrain.map(|r| &r.users[j].skyline);
             let up = {
                 let n = norm(user);
                 [user[0] / n, user[1] / n, user[2] / n]
@@ -1110,13 +1240,19 @@ impl LunarStationCoverageScenario {
             let mut vpl_max: Option<f64> = None;
             let mut covered = 0usize;
             let mut below_alert = 0usize;
-            let mut unavailable = UnavailableReasons::default();
+            let mut unavailable = UnavailableReasons {
+                terrain_masked: terrain.map(|_| 0),
+                ..UnavailableReasons::default()
+            };
             for (i, g) in geo.iter().enumerate() {
                 let used: Vec<usize> = (0..g.sats.len())
-                    .filter(|&s| sees(user, g.sats[s], mask))
+                    .filter(|&s| sees_at(user_sky, user, g.sats[s], mask))
                     .collect();
                 if used.len() < 4 {
-                    unavailable.user_lt4 += 1;
+                    match unavailable.terrain_masked.as_mut() {
+                        Some(n) if flat_count(user, &g.sats, mask) >= 4 => *n += 1,
+                        _ => unavailable.user_lt4 += 1,
+                    }
                     continue;
                 }
                 if used.iter().any(|&s| !g.station_sees[s]) {
@@ -1157,7 +1293,10 @@ impl LunarStationCoverageScenario {
                 }
             }
             let pct = |v: Vec<f64>| (!v.is_empty()).then(|| percentile_linear(&sorted(v), p));
-            let available = n_ep - unavailable.user_lt4 - unavailable.station_missing_sat;
+            let available = n_ep
+                - unavailable.user_lt4
+                - unavailable.station_missing_sat
+                - unavailable.terrain_masked.unwrap_or(0);
             let hpl_sorted = sorted(hpls);
             points.push(PointFigures {
                 lat_deg: lat,
@@ -1177,17 +1316,18 @@ impl LunarStationCoverageScenario {
                 vpl_max_m: vpl_max,
                 hpl_below_alert_fraction: below_alert as f64 / n_ep as f64,
                 unavailable,
+                horizon_max_deg: terrain.map(|r| r.users[j].echo.horizon_max_deg),
+                sky_open_fraction: terrain.map(|r| r.users[j].echo.sky_open_fraction),
             });
         }
 
         let region = region_figures(&points);
         let coverage_radius_km = coverage_radius(&points);
         let t0 = epochs[0];
-        let budget_at = |lat: f64, lon: f64, user: Vec3| -> Option<CorrectionLinkBudget> {
-            let _ = (lat, lon);
+        let budget_at = |sky: Option<&Skyline>, user: Vec3| -> Option<CorrectionLinkBudget> {
             let g = &geo[0];
             let idx: Vec<usize> = (0..g.sats.len())
-                .filter(|&s| sees(user, g.sats[s], mask))
+                .filter(|&s| sees_at(sky, user, g.sats[s], mask))
                 .collect();
             if idx.len() < 4 {
                 return None;
@@ -1204,13 +1344,42 @@ impl LunarStationCoverageScenario {
         };
         let budget_pair = BudgetPair {
             epoch_s: t0,
-            station: budget_at(self.station_lat_deg, self.station_lon_deg, station),
+            station: budget_at(terrain.map(|r| &r.station.skyline), station),
             worst_point: region.worst_point.and_then(|w| {
                 pts.iter()
-                    .find(|p| p.0 == w.lat_deg && p.1 == w.lon_deg)
-                    .and_then(|p| budget_at(p.0, p.1, p.2))
+                    .position(|p| p.0 == w.lat_deg && p.1 == w.lon_deg)
+                    .and_then(|j| budget_at(terrain.map(|r| &r.users[j].skyline), pts[j].2))
             }),
         };
+        let terrain_report = terrain.map(|r| {
+            let wsum: f64 = points.iter().map(|p| p.area_weight).sum();
+            let wmean = |f: &dyn Fn(usize) -> f64| -> f64 {
+                points
+                    .iter()
+                    .enumerate()
+                    .map(|(j, p)| f(j) * p.area_weight)
+                    .sum::<f64>()
+                    / wsum
+            };
+            TerrainReport {
+                label: "MODELLED",
+                dem: r.dem.clone(),
+                station: r.station.echo.clone(),
+                user_sources: r
+                    .users
+                    .first()
+                    .map(|u| u.echo.sources.clone())
+                    .unwrap_or_default(),
+                user_horizon_max_deg_mean: wmean(&|j| r.users[j].echo.horizon_max_deg),
+                user_horizon_max_deg_max: r
+                    .users
+                    .iter()
+                    .map(|u| u.echo.horizon_max_deg)
+                    .fold(f64::NEG_INFINITY, f64::max),
+                user_sky_open_fraction_mean: wmean(&|j| r.users[j].echo.sky_open_fraction),
+                note: crate::lunar_terrain::NOTE,
+            }
+        });
 
         LunarStationCoverageReport {
             kind: KIND,
@@ -1227,7 +1396,12 @@ impl LunarStationCoverageScenario {
             coverage_radius_km,
             points,
             budget_at_station_and_at_edge: budget_pair,
-            note: NOTE,
+            note: if terrain_report.is_some() {
+                NOTE_TERRAIN
+            } else {
+                NOTE
+            },
+            terrain: terrain_report,
         }
     }
 }
