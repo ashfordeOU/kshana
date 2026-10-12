@@ -123,7 +123,7 @@ pub fn assess_vessel_log_json(
 }
 
 /// Score a bounded excerpt of a vessel's NMEA 0183 stream the way live mode scores it:
-/// per-epoch trust state and 0-100 score with reasons (live JSON-lines schema 1.3, with an `advisory` field and the satellite `geometry` and `degradation` attribution on every epoch), the last
+/// per-epoch trust state and 0-100 score with reasons (live JSON-lines schema 1.3, with an `advisory` field and the satellite `geometry` on every epoch and a `class` on every deduction), the last
 /// `$PKSHT` sentence and a summary. The excerpt must hold the calibration window. Bounded to
 /// 2 MiB and 20,000 epochs by the engine, and to `max_bytes` here. The gate, sockets and
 /// the long-running process are command-line only.

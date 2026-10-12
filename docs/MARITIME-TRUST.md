@@ -37,7 +37,7 @@ heading_sensor = true      # the stream carries a gyro or compass heading
 | VHW, VBW | speed through the water (VBW only when its status is `A`) |
 | ZDA | time |
 | GSV | per-satellite signal strength (dB-Hz), elevation and azimuth (for the geometry) |
-| GSA | dilution of precision and satellites used (for the geometry, where GSV gives no sky) |
+| GSA | dilution of precision and satellites used (for the geometry, where GSV gives no sky; and the stated HDOP the guard compares) |
 | `$PKSOS,<A/F/N>` | an OSNMA status a receiver reported, translated into this sentence by the adapter that reads the receiver: `A` authenticated, `F` failed, `N` no result |
 
 Epochs the receiver itself says are not a satellite fix (GGA quality 0, or 6 to 8: estimated, manual,
@@ -134,8 +134,8 @@ Studio yet; the engine side (the data below) is.
   `receiver_trust(toml)` in the WebAssembly package with the log inline): `score_model` (band
   edges, ramp, evidence hold, every weight), `monitors_run`, `states`, and `epochs[]`, each with
   `t_s`, `state`, `alarms`, `score.{score,band,deductions[]}`,
-  `marine.{position:[lat,lon], stats, ratios}`, and from 0.36 `geometry`, `degradation` and
-  `explained_by_geometry`, with `geometry_model` and `geometry_summary` at the top level; or
+  `marine.{position:[lat,lon], stats, ratios}`, and from 0.36 `geometry` and each deduction's
+  `class`, with `geometry_model` and `geometry_summary` at the top level; or
 * the live JSON lines (schema above), one object per epoch, appended as the stream runs. Each
   line carries the receiver-reported `position` (schema 1.1).
 
@@ -162,15 +162,16 @@ no real log has). A view should run the session and read the truth file alongsid
 5. *Gate state*: in a live view, the `gate` of each epoch (`off`, `passed`, `withheld`) as a strip
    under the band strip, and the latest `$PKSHT`. In a batch view, the epochs a gate would have
    withheld are those whose band is untrusted, with the release hold applied.
-6. *Geometry* (0.36): a strip under the band strip coloured by `geometry.status` (green good, amber
-   degraded, grey hatched unknown), and a second strip by `degradation` (`geometry` in a neutral
-   blue, `inconsistency` and `geometry-and-inconsistency` in the band's red or amber), so a masked sky
-   and an attack never share a colour. For the epoch under the cursor: the reasons, `n_sats`, PDOP,
-   HDOP, VDOP, the largest azimuth gap and the age of the sky; the monitors in
-   `explained_by_geometry` marked "explained by geometry" in the reasons panel (they still cost
-   their points: the geometry never changes the score); and `unknown` shown as "geometry unknown:
-   no GSV or GSA in the log", never as good. The thresholds and their provenance from
-   `geometry_model` go beside the score settings.
+6. *Geometry lane* (0.36): a strip under the band strip coloured by `geometry.status` (green good,
+   amber degraded, grey hatched unknown), in a colour family distinct from the inconsistency and
+   environment lanes, with the legend "geometry: the sky, not the signal". Deductions coloured by
+   `class` (geometry, environment, inconsistency) in the reasons panel and the monitor strips, and
+   the per-class epoch counts from `geometry_summary` beside the band counts. For the epoch under
+   the cursor: `geometry.note`, `n_used`, HDOP, PDOP, VDOP, `source`, `age_s`, and a flag when
+   `reported_derived_mismatch` is set (the geometry deduction is then an inconsistency). `unknown`
+   is shown as "geometry unknown: no GSV or GSA in the log", never as good. The `[geometry]`
+   thresholds and their provenance from `geometry_model` go beside the score settings. The
+   advisory note stays.
 7. *Receiver-reported fix*: the demo's receiver reports a valid fix throughout (GGA quality 1, RMC
    status A); say so in the legend, because that is the point of the view.
 
@@ -247,21 +248,19 @@ One JSON object per completed epoch, keys in this order:
 | `time` | string or null | the epoch's time as the stream states it (ISO-8601 UTC with a date once an RMC was seen, else `hh:mm:ss.mmm UTC (date not in log)`) |
 | `state` | string | `calibrating`, `nominal`, `degraded` or `untrusted` |
 | `score` | number or null | 0 to 100, one decimal; null while calibrating or when `note` says why none could be produced |
-| `deductions` | array | `{"monitor": string, "ratio": number, "points": number}`, largest points first; `ratio` is statistic over threshold (alarm at 1 or more); only monitors that cost points are listed |
+| `deductions` | array | `{"monitor": string, "ratio": number, "points": number, "class": string}`, largest points first; `ratio` is statistic over threshold (alarm at 1 or more); only monitors that cost points are listed; `class` *(added in 1.3)* is `geometry`, `environment` or `inconsistency` |
 | `alarms` | array of string | monitors at or above their threshold |
 | `gate` | string | `off`, `passed` or `withheld` |
 | `note` | string or null | why no score was produced (for example a declared heading sensor that is absent) |
 | `position` | object or null | *(added in 1.1)* the position the receiver reported at this epoch, `{"lat_deg", "lon_deg", "height_m"}` (height ellipsoidal where the sentence gives the geoid separation, else above mean sea level); null when the receiver gave none, including calibrating epochs without a fix |
 | `advisory` | string | *(added in 1.2)* what this software is and is not: advisory, not type-approved navigation equipment, the operator remains responsible |
-| `geometry` | object | *(added in 1.3)* the satellite geometry: `status` (`good`, `degraded`, `unknown` when the stream has no GSV elevations and azimuths and no GSA), `reasons` (`few-satellites`, `high-pdop`, `high-hdop`, `sky-blocked`), `basis` (`sky`, `reported`, `none`), `n_sats`, `pdop`, `hdop`, `vdop`, `max_azimuth_gap_deg`, `age_s`, `reported_hdop`, `hdop_report_mismatch` (the stated HDOP disagrees with the stated sky: nothing is put down to geometry); beside the score, never part of it (see [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md#geometry-natural-degradation-apart-from-attack-like-inconsistency)) |
-| `degradation` | string | *(added in 1.3)* what any degradation is attributed to: `none`, `geometry`, `inconsistency` (attack-like: a consistency check the geometry does not explain) or `geometry-and-inconsistency` |
-| `explained_by_geometry` | array of string | *(added in 1.3)* the deducting monitors the geometry explains (a masked sky: `loss-of-lock`, power monitors below threshold); usually empty |
+| `geometry` | object | *(added in 1.3)* the satellite geometry: `status` (`good`, `degraded`, `unknown` when the stream has no GSV elevations and azimuths and no GSA), `reasons` (`few-satellites`, `high-pdop`, `high-hdop`, `sky-blocked`), `source` (`derived`, `reported`, `none`), `n_used`, `hdop`, `pdop`, `vdop`, `open_fraction`, `max_azimuth_gap_deg`, `age_s`, `reported_hdop`, `reported_derived_mismatch`, `note` (see [`RECEIVER-TRUST.md`](RECEIVER-TRUST.md#geometry-natural-degradation-apart-from-attack-like-inconsistency)) |
 
-Monitor names (kebab-case; 16): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
+Monitor names (kebab-case; 17): `cn0-drop`, `agc`, `jam-ind`, `loss-of-lock`, `position-jump`, `raim`,
 `clock`, `solve-failure`, `kinematic`, `heading-course`, `speed-log`, `sea-level`, `cn0-spread`,
-`cn0-rise`, `time-consistency`, `osnma`. New names may be added in later
+`cn0-rise`, `time-consistency`, `osnma`, and from 1.3 `geometry`. New names may be added in later
 versions; consumers should treat an unknown monitor name as a monitor. The `$PKSHT` layout below
-carries a format version in its first field; this JSON schema is version 1.3: 1.1 added `position`, 1.2 `advisory`, 1.3 `geometry`, `degradation` and `explained_by_geometry`, each at the end, and it changes
+carries a format version in its first field; this JSON schema is version 1.3: 1.1 added `position`, 1.2 `advisory`, 1.3 `geometry` at the end and `class` in each deduction, and it changes
 only by adding keys at the end.
 
 ### Authentication input

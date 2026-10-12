@@ -1303,10 +1303,11 @@ impl TextOrBytes {
 /// `nmea` is the excerpt (`str` or `bytes`, at most 2 MiB and 20,000 epochs, and it must hold
 /// the calibration window). Returns a dict with `schema` (`"1.3"`), `epochs` (one dict per
 /// epoch: `state`, `score`, `deductions`, `alarms`, `position`, `advisory`, `geometry`,
-/// `degradation`, `explained_by_geometry`, ...), `last_pksht` and `summary` (counts by state,
-/// `lowest_score`, `final_score`, `first_untrusted_t_s`, and `geometry`: epochs by geometry
-/// status and by attribution). `geometry` is the satellite geometry (`good`, `degraded` with
-/// reasons, or `unknown` when the excerpt has no GSV or GSA); it never changes the score. The
+/// ...; each deduction has a `class`: `geometry`, `environment` or `inconsistency`),
+/// `last_pksht` and `summary` (counts by state, `lowest_score`, `final_score`,
+/// `first_untrusted_t_s`, and `geometry`: epochs by geometry status and by class). `geometry` is
+/// the satellite geometry (`good`, `degraded` with reasons, or `unknown` when the excerpt has no
+/// GSV or GSA). The
 /// bounded form of the live command: no socket is opened and the gate is not applied (both
 /// are command-line only). Advisory software, not type-approved navigation equipment (IEC 61108, IEC 61162): the operator remains responsible for the navigation of the vessel. Raises `ValueError` on an invalid session or
 /// excerpt.

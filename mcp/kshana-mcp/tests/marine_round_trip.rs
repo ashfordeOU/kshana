@@ -135,7 +135,7 @@ async fn vessel_stream_excerpt_is_scored() {
         "JSON lines, version 1.3 (docs/MARITIME-TRUST.md)"
     );
     assert!(first["geometry"]["status"].is_string(), "{first}");
-    assert!(first["degradation"].is_string(), "{first}");
+    assert!(first["deductions"][0]["class"].is_string(), "{first}");
     assert!(v["summary"]["geometry"]["good"].is_u64(), "{v}");
     // A static platform is refused with the reason.
     let e = call(
