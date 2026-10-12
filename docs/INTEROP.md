@@ -297,6 +297,7 @@ stale.
 | `europa-surface-pnt.toml` | `body-pnt` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `fusion-pnt.toml` | `fusion` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `gnss-ins.toml` | `gnss-ins` | yes | yes | yes | no [3] | no [2] |
+| `gnss-sim-container-terminal-skyline.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gnss-sim-raim.toml` | `gnss-sim` | yes | yes | yes | yes | no [2] |
 | `gps-denied-gravity-nav.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
 | `gravity-map-nav.toml` | `gravity-map` | yes | yes | yes | no [3] | no [2] |
@@ -306,8 +307,10 @@ stale.
 | `impairment-eval.toml` | `impairment-eval` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `imu-deadreckoning.toml` | `inertial` | no [1] | no [1] | no [1] | no [1] | no [2] |
 | `ins-trn-coast.toml` | `ins-trn-coast` | no [1] | no [1] | no [1] | no [1] | no [2] |
+| `integrity-harbour-approach.toml` | `integrity` | yes | yes | yes | yes | no [2] |
 | `integrity-raim.toml` | `integrity` | yes | yes | yes | yes | no [2] |
 | `jamming-demo.toml` | `jamming` | yes | yes | yes | yes | no [2] |
+| `jamming-harbour-approach-skyline.toml` | `jamming` | yes | yes | yes | yes | no [2] |
 | `l-band-waterfall-jamming.toml` | `spectrum` | no [1] | no [1] | no [1] | no [1] | yes |
 | `launch-window.toml` | `launch-window` | no [10] | no [10] | no [10] | no [10] | no [2] |
 | `leo-band-trade.toml` | `leo-signal` | no [5] | no [5] | no [5] | no [5] | no [2] |
@@ -333,6 +336,7 @@ stale.
 | `leo-pnt-end-to-end.toml` | `leo-pnt-chain` | yes | yes | yes | yes | no [2] |
 | `leo-pnt-mega-shell.toml` | `constellation-design` | no [8] | no [8] | no [8] | no [8] | no [2] |
 | `leo-ppp-convergence.toml` | `leo-ppp` | no [6] | no [6] | no [6] | no [6] | no [2] |
+| `leo-pvt-fjord-skyline.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
 | `leo-resilience-gnss-jammed-leo-carries.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-resilience-js-margin.toml` | `spectrum` | no [1] | no [1] | no [1] | no [1] | no [12] |
 | `leo-resilience-multiband-diversity.toml` | `campaign` | no [4] | no [4] | no [4] | no [4] | no [4] |
@@ -341,6 +345,7 @@ stale.
 | `leo-timing-utc.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
 | `leo-vertical-5g-network-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-asset-tracking-iot.toml` | `campaign` | yes | yes | yes | yes | no [4] |
+| `leo-vertical-autonomous-vehicle-skyline.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-autonomous-vehicle.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-critical-infrastructure-timing.toml` | `campaign` | yes | yes | yes | yes | no [4] |
 | `leo-vertical-polar-arctic.toml` | `campaign` | yes | yes | yes | yes | no [4] |
@@ -379,6 +384,7 @@ stale.
 | `orbit-real-tle.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-rinex.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `orbit-sgp4-gps.toml` | `orbit` | yes | yes | yes | yes | no [2] |
+| `orbit-urban-canyon-skyline.toml` | `orbit` | yes | yes | yes | yes | no [2] |
 | `passes.toml` | `passes` | yes | yes | yes | yes | no [2] |
 | `polar-arctic-leo-coverage.toml` | `leo-pvt` | no [6] | no [6] | no [6] | no [6] | no [2] |
 | `pvt-abmf.toml` | `pvt` | yes | yes | yes | no [3] | no [2] |

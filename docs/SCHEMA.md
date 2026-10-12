@@ -113,6 +113,15 @@ Every other kind emits its own result shape. A few of the common ones:
   as `untiered`.
 - **spoof**: per-step spoof offset vs the clock's detection bound, plus whether the
   spoof reached the spec before detection (`src/spoof.rs`).
+- **skyline** (`orbit` and `integrity` with `user_site`, `gnss-sim`, `jamming`, `leo-pvt`,
+  `leo-pass`; present only when the scenario has a `[skyline]` section, so a scenario without
+  one is unchanged): a top-level `skyline` object with `source` (string: `preset:<name>`, `preset:<name>+overrides` or
+  `custom`), `open_fraction` (fraction [0,1] of the upper hemisphere's solid angle above
+  `max(mask_deg, skyline)`) and `provenance` (string); per sample `masked_by_skyline` (count of
+  satellites above the mask but behind the skyline: `epochs[]` of `integrity` and `jamming`,
+  `gnss_measurements[]` of `gnss-sim`, `joint.epochs[]` of `leo-pvt`); and for `leo-pass`
+  `satellites[].pass.epochs_masked_by_skyline` (count of epochs). Their units and provenance
+  classes are in the `units` block (`src/skyline.rs` `UNITS`; [`SKYLINE.md`](SKYLINE.md)).
 
 For the precise field set of any kind, read its entry in
 [`field-units-schema.json`](field-units-schema.json) (below), the kind's section of

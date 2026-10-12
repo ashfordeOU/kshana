@@ -1,0 +1,60 @@
+# ARAIM availability for a vessel entering a harbour: the `integrity` kind with a ground-site
+# user (`user_site`) under the `harbour-approach` skyline preset.
+#
+# The question a pilot or a port authority asks: in the last mile into port, the quay
+# buildings ahead and the breakwater either side hide the low satellites in those directions,
+# so do GPS plus Galileo still give dual-constellation ARAIM protection levels inside the
+# alert limits? The vessel heads north into the port: the sea astern (090-270 deg) is open,
+# quay buildings stand 8 deg high over 315-045 deg, and the breakwater and its light 3 deg
+# over the remaining landward sectors, under the 5 deg receiver mask. The site is a generic
+# Baltic port approach (59.45 N, 24.75 E, antenna 15 m above the ellipsoid). Remove the
+# [skyline] section to compare with open water.
+#
+# The ARAIM evaluation is the engine's multiple-hypothesis solution separation over the
+# satellites in view (single-satellite and constellation-wide faults, `araim_dual`), with
+# sigma_URA defaulting to sigma_URE (1 m) and the APV-I alert limits (HAL 40 m, VAL 50 m) as
+# in `araim-gps-galileo.toml`. `user_site` gives geodetic elevation and azimuth; an orbiting
+# `user` refuses a skyline. Each epoch reports `masked_by_skyline`, the satellites above the
+# mask that the harbour hides.
+#
+# The skyline preset is REPRESENTATIVE (provenance in docs/SKYLINE.md and `kshana skyline
+# --preset harbour-approach`): stated dimensions, not a survey of any port. Line of sight only.
+# The constellations are Walker patterns with their public parameters. MODELLED.
+kind = "integrity"
+
+seed = 7
+mask_deg = 5.0
+sigma_uere_m = 1.0   # 1-sigma user-equivalent range error (dual-frequency, smoothed)
+p_fa = 1.0e-5        # allowed false-alarm probability
+p_md = 1.0e-3        # allowed missed-detection probability
+al_h_m = 40.0        # horizontal alert limit (APV-I)
+al_v_m = 50.0        # vertical alert limit (APV-I)
+araim_dual = true
+
+[time]
+step_s = 300.0
+duration_s = 43200.0  # 12 h
+
+[user_site]
+lat_deg = 59.45
+lon_deg = 24.75
+height_m = 15.0
+
+# GPS-like Walker 24/6/1 (IS-GPS-200 / USCG NAVCEN public constellation parameters).
+[constellation]
+altitude_km = 20200.0
+inclination_deg = 55.0
+planes = 6
+sats_per_plane = 4
+phasing_f = 1.0
+
+# Galileo-like Walker 24/3/1 (Galileo OS SDD issue 1.1).
+[[constellations]]
+altitude_km = 23222.0
+inclination_deg = 56.0
+planes = 3
+sats_per_plane = 8
+phasing_f = 1.0
+
+[skyline]
+preset = "harbour-approach"

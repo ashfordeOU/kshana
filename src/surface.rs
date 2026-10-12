@@ -1128,6 +1128,47 @@ pub fn files_from_json(v: &Value) -> Result<Files, String> {
         .collect()
 }
 
+/// `sky_geometry` ([`crate::geometry::sky_geometry`]) on a request given as JSON or TOML text:
+/// the satellites a site sees under a skyline, their DOP, the ENU cofactor and covariance and
+/// the horizontal error ellipse, as JSON. MODELLED; the result carries its label, statement and
+/// the advisory.
+pub fn sky_geometry(request: &str, max_bytes: usize) -> Result<String, String> {
+    cap("sky request", request, max_bytes)?;
+    crate::geometry::sky_geometry_json(request)
+}
+
+/// `sky_monte_carlo` ([`crate::geometry::sky_monte_carlo`]): `n` (at most
+/// [`crate::geometry::MAX_MC_SAMPLES`]) seeded least-squares errors on the visible set of the
+/// request, with their empirical covariance, RMS and 95 % containment, as JSON.
+pub fn sky_monte_carlo(
+    request: &str,
+    seed: u64,
+    n: usize,
+    max_bytes: usize,
+) -> Result<String, String> {
+    cap("sky request", request, max_bytes)?;
+    crate::geometry::sky_monte_carlo_json(request, seed, n)
+}
+
+/// `skyline_presets` ([`crate::geometry::skyline_presets`]): the named presets with their
+/// REPRESENTATIVE label, provenance and 360-entry tables, as JSON.
+pub fn skyline_presets() -> String {
+    crate::geometry::skyline_presets_json()
+}
+
+/// `skyline_profile` ([`crate::geometry::skyline_profile`]): a skyline section given as JSON or
+/// TOML reduced to the normalised 360-entry table the engine uses, as JSON.
+pub fn skyline_profile(skyline: &str, max_bytes: usize) -> Result<String, String> {
+    cap("skyline", skyline, max_bytes)?;
+    crate::geometry::skyline_profile_json(skyline)
+}
+
+/// `skyplot_svg` ([`crate::geometry::skyplot_svg`]): the request's skyplot as static SVG.
+pub fn skyplot_svg(request: &str, max_bytes: usize) -> Result<String, String> {
+    cap("sky request", request, max_bytes)?;
+    crate::geometry::skyplot_svg_text(request)
+}
+
 #[cfg(test)]
 mod tests {
     use super::*;

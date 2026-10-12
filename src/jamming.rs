@@ -31,7 +31,7 @@
 //! acquisition (vs. tracking) threshold hysteresis — those are noted in
 //! `docs/CAPABILITY.md` as out of scope.
 
-use crate::frames::{geodetic_to_ecef, is_visible, look_angles, teme_to_ecef, Geodetic, Vec3};
+use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, FAULT, FONT_SANS, MUTED, OK, TEXT};
 use crate::scenario::{GnssState, TimeCfg};
 use crate::walker::{walker_epoch_jd, WalkerSgp4};
@@ -288,6 +288,19 @@ pub struct JammingScenario {
     pub freq_hz: f64,
     #[serde(default = "default_chip_rate")]
     pub chip_rate_hz: f64,
+    /// Optional azimuth-dependent skyline over the `mask_deg` floor (see
+    /// [`crate::skyline`]): a quay, a fjord wall or a crane that hides satellites the
+    /// jammer would otherwise compete with. Absent, the mask is the flat `mask_deg`.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
+}
+
+impl JammingScenario {
+    /// The skyline of the scenario's `[skyline]` section (`None` without one), applied over
+    /// `mask_deg`. An invalid section is an error.
+    pub fn sky(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
 }
 
 /// One satellite's link state at one epoch.
@@ -312,6 +325,10 @@ pub struct JammingEpoch {
     pub tracking: usize,
     pub gnss_state: GnssState,
     pub sats: Vec<SatLink>,
+    /// Satellites above the mask but below the skyline; present only when the scenario has
+    /// a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masked_by_skyline: Option<usize>,
 }
 
 /// Figures of merit for a jamming run.
@@ -446,7 +463,19 @@ fn hash_scenario(scn: &JammingScenario) -> String {
 /// Run a jamming scenario: propagate the constellation, and at each epoch score
 /// every visible satellite's effective C/N₀ under the jammer (if any) and its
 /// resulting lock status. Deterministic.
-pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
+///
+/// An invalid `skyline` section is an error here as in [`crate::api::run_toml`] (never a
+/// silent fall-back to the flat mask). [`run_jamming_sky`] takes the skyline explicitly.
+pub fn run_jamming(scn: &JammingScenario) -> Result<JammingResult, String> {
+    let sky = scn.sky()?;
+    Ok(run_jamming_sky(scn, sky.as_ref()))
+}
+
+/// Run a jamming scenario with an explicit visibility mask.
+pub fn run_jamming_sky(
+    scn: &JammingScenario,
+    sky: Option<&crate::skyline::Skyline>,
+) -> JammingResult {
     let station = Geodetic {
         lat_rad: scn.receiver.lat_deg.to_radians(),
         lon_rad: scn.receiver.lon_deg.to_radians(),
@@ -475,9 +504,15 @@ pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
         let t = i as f64 * dt;
         let jd = walker_epoch_jd() + t / 86_400.0;
         let mut links = Vec::new();
+        let mut masked_by_skyline = 0usize;
         for (prn, p) in sats.iter().enumerate() {
             let sat_ecef = teme_to_ecef(p.position_eci(t), jd);
-            if !is_visible(station, sat_ecef, scn.mask_deg) {
+            let (in_view, masked) =
+                crate::frames::skyline_view(station, sat_ecef, scn.mask_deg, sky);
+            if masked {
+                masked_by_skyline += 1;
+            }
+            if !in_view {
                 continue;
             }
             let look = look_angles(station, sat_ecef);
@@ -528,6 +563,7 @@ pub fn run_jamming(scn: &JammingScenario) -> JammingResult {
             tracking,
             gnss_state: gnss_state_of(tracking),
             sats: links,
+            masked_by_skyline: sky.map(|_| masked_by_skyline),
         });
     }
 
@@ -745,6 +781,7 @@ mod tests {
             temp_k: DEFAULT_TEMP_K,
             freq_hz: L1_HZ,
             chip_rate_hz: CA_CHIP_RATE_HZ,
+            skyline: None,
         }
     }
 
@@ -772,9 +809,9 @@ mod tests {
         let base = scenario(None);
         let j = jammer_at(&base, 1000.0, 10.0); // 10 W at 1 km
         let scn = scenario(Some(j));
-        let r = run_jamming(&scn);
+        let r = run_jamming(&scn).unwrap();
         // The clean-sky baseline genuinely sees ≥ 4 satellites the whole window.
-        let nom = run_jamming(&base);
+        let nom = run_jamming(&base).unwrap();
         assert!(
             nom.epochs.iter().all(|e| e.visible >= 4),
             "baseline geometry should keep ≥4 visible"
@@ -795,7 +832,7 @@ mod tests {
         let base = scenario(None);
         let j = jammer_at(&base, 100_000.0, 10.0); // 10 W at 100 km
         let scn = scenario(Some(j));
-        let r = run_jamming(&scn);
+        let r = run_jamming(&scn).unwrap();
         // No satellite is LOST (every visible one stays at or above the tracking
         // threshold), so tracking == visible at every epoch — even though they are
         // degraded relative to clean sky.
@@ -816,7 +853,7 @@ mod tests {
     #[test]
     fn no_jammer_is_a_clean_sky_baseline_and_run_is_deterministic() {
         let scn = scenario(None);
-        let r = run_jamming(&scn);
+        let r = run_jamming(&scn).unwrap();
         assert!(!r.jammer_present);
         // With no jammer every visible satellite tracks, so jammed availability
         // equals the nominal ceiling and the mean J/S is undefined.
@@ -829,8 +866,8 @@ mod tests {
             assert!(e.sats.iter().all(|s| s.status == "LOCKED"));
         }
         // Deterministic.
-        let a = serde_json::to_string(&run_jamming(&scn)).unwrap();
-        let b = serde_json::to_string(&run_jamming(&scn)).unwrap();
+        let a = serde_json::to_string(&run_jamming(&scn).unwrap()).unwrap();
+        let b = serde_json::to_string(&run_jamming(&scn).unwrap()).unwrap();
         assert_eq!(a, b);
     }
 
@@ -909,5 +946,16 @@ mod tests {
             "jam 100km = {} W",
             jam(100_000.0)
         );
+    }
+
+    #[test]
+    fn an_invalid_skyline_is_an_error_not_the_flat_mask() {
+        let mut scn = scenario(None);
+        scn.skyline = Some(crate::skyline::SkylineCfg {
+            preset: Some("moon".into()),
+            ..Default::default()
+        });
+        let err = run_jamming(&scn).unwrap_err();
+        assert!(err.contains("unknown skyline preset"), "{err}");
     }
 }

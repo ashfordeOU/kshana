@@ -109,6 +109,7 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
     let dt_ms = (1000.0 / rate).round() as i64;
     let seed = scn.scenario.seed;
     let rc = &scn.receiver;
+    let mask = scn.sky()?;
     let env = &scn.environment;
     let truth = track::generate(scn);
     let n = truth.len();
@@ -264,7 +265,11 @@ pub fn generate(scn: &TrainingScenario) -> Result<Generated, String> {
         for def in &sky.sats {
             let la = look_angles(geo, positions[def.idx]);
             let el = la.el_rad / DEG;
-            if el < rc.elevation_mask_deg {
+            let hidden = match &mask {
+                None => el < rc.elevation_mask_deg,
+                Some(sky) => !sky.visible(la.az_rad / DEG, el, rc.elevation_mask_deg),
+            };
+            if hidden {
                 continue;
             }
             let i = def.idx as u64;
