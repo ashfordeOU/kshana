@@ -51,7 +51,14 @@ impl HatchFilter {
     /// Feed one epoch of satellite `sat` at time `t` (s): code and carrier in metres, `slip`
     /// true when a cycle slip was detected on the carrier. Returns the smoothed code (m) and the
     /// number of epochs it averages.
-    pub fn update(&mut self, sat: &str, t: f64, code_m: f64, phase_m: f64, slip: bool) -> (f64, usize) {
+    pub fn update(
+        &mut self,
+        sat: &str,
+        t: f64,
+        code_m: f64,
+        phase_m: f64,
+        slip: bool,
+    ) -> (f64, usize) {
         let restart = match self.state.get(sat) {
             None => true,
             Some(s) => slip || t - s.last_t > self.max_gap_s || t <= s.last_t,
@@ -105,7 +112,9 @@ mod tests {
         // generator through Box-Muller), constant carrier geometry.
         let mut seed: u64 = 12345;
         let mut uniform = || {
-            seed = seed.wrapping_mul(6364136223846793005).wrapping_add(1442695040888963407);
+            seed = seed
+                .wrapping_mul(6364136223846793005)
+                .wrapping_add(1442695040888963407);
             ((seed >> 11) as f64 + 0.5) / (1u64 << 53) as f64
         };
         let mut f = HatchFilter::new(100, 60.0);
