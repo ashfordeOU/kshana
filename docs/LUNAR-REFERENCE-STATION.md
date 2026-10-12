@@ -30,7 +30,7 @@ or `run_toml` from Python, WebAssembly or the MCP server's `run_scenario` with
 
 ## Coverage and accuracy map (`lunar-station-coverage`)
 
-For a differential reference station at a known south-polar site: per user point on a ring grid
+For a differential reference station at a known south-polar site: at each user point on a ring grid
 from 80° S to the pole and over the region, across a day of epochs and Monte Carlo trials, the
 percentile corrected and uncorrected position error (3-D, horizontal, vertical), availability
 with a reason for every unavailable epoch, coverage against a threshold stated before the run,
