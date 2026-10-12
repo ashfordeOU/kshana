@@ -32,3 +32,19 @@ the change from the recorded LAT600 figure (292.96 m).
 The recorded LAT600 figure is dominated by the four-satellite geometry, so growth at these rates is
 expected to raise it, and K5 is expected to fail in every case. A pass would be reported as
 prominently as a failure.
+
+## Recorded run (2026-10-12)
+
+Run by `tests/lunar_station_published_oracle.rs::k5_growth_addendum_run` (ignored; release build,
+about 2 s), after the commit above. Region corrected p95 3-D error:
+
+| case | `orbit_err_growth_m_per_s` | corrected p95 3-D | change from 292.96 m | K5 (<= 1.5 m) |
+|---|---|---|---|---|
+| LAT600-g0001 | 0.001 | 369.78 m | +76.82 m | fail |
+| LAT600-g001 | 0.01 | 2315.25 m | +2022.29 m | fail |
+| LAT600-g01 | 0.1 | 22796.63 m | +22503.67 m | fail |
+
+K5 fails in every case, as expected before the run. The added error grows linearly with the rate
+(range 1-sigma rate x 600 s / sqrt(3): 0.35 m, 3.5 m and 35 m) and is amplified by the
+four-satellite geometry that already dominates the recorded figure. The recorded comparison and its
+finding (1 of 6 bars passes) are unchanged; the rates are ILLUSTRATIVE.

@@ -238,3 +238,32 @@ fn recorded_finding_one_of_six_bars_passes() {
     // satellites in view on the ILLUSTRATIVE elements.
     assert!(r300.availability < 0.10 && r600.availability < 0.10);
 }
+
+/// The K5 addendum with ephemeris-error growth (LRS-03), pre-registered alone in
+/// tests/fixtures/lunar_station_published/ADDENDUM-LRS03.md (59d88248) before this run. The
+/// recorded comparison above is not edited. Ignored: the full LAT600 grid, three times.
+#[test]
+#[ignore]
+fn k5_growth_addendum_run() {
+    // The recorded figures (ADDENDUM-LRS03.md, "Recorded run").
+    for (name, rate, recorded) in [
+        ("LAT600-g0001", 0.001, 369.778866),
+        ("LAT600-g001", 0.01, 2315.253479),
+        ("LAT600-g01", 0.1, 22796.634114),
+    ] {
+        let r = run(&format!(
+            "latency_s = 600.0\norbit_err_growth_m_per_s = {rate}"
+        ));
+        let p = r.region.corrected_p_3d_m.expect("a corrected figure");
+        println!(
+            "ADDENDUM {name} rate={rate} corrected_p_3d_m={p:.6} change_from_recorded={:.6} K5_pass={}",
+            p - 292.95967178610704,
+            p <= 1.5
+        );
+        assert!(
+            (p - recorded).abs() <= 1e-6 * recorded,
+            "{name}: the addendum figure moved"
+        );
+        assert!(p > 1.5, "{name}: K5 as recorded (fail)");
+    }
+}
