@@ -3,10 +3,10 @@
   "engine_version": "0.35.0",
   "scenario_kinds": 76,
   "matrix": {
-    "validated": 134,
+    "validated": 135,
     "modelled": 136,
     "partner_owned": 4,
-    "total": 274
+    "total": 275
   },
   "assets": {
     "kshana-mark": {
