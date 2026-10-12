@@ -3,10 +3,11 @@
 //! intervals: the first of the two checks of the ledger row (the second, the 0.36 design note's
 //! pre-registered set on the 8 gnss_lib_py geometries, is [`crate::dop_error_mc`]).
 //!
-//! The relation every "accuracy = DOP × σ" figure in the engine leans on (Kaplan and Hegarty,
-//! *Understanding GPS/GNSS*, ch. 7; Misra and Enge, *Global Positioning System*, ch. 6) is
-//! that, for independent zero-mean ranging errors of equal variance σ², the unweighted
-//! least-squares estimate of position and clock has covariance σ²·Q with `Q = (HᵀH)⁻¹`, so
+//! The relation every "accuracy = DOP × σ" figure in the engine leans on (Kaplan and Hegarty
+//! (eds.), *Understanding GPS: Principles and Applications*, 2nd ed., Artech House, 2006,
+//! ch. 7; Misra and Enge, *Global Positioning System*, ch. 6) is that, for independent
+//! zero-mean ranging errors of equal variance σ², the unweighted least-squares
+//! estimate of position and clock has covariance σ²·Q with `Q = (HᵀH)⁻¹`, so
 //! the RMS error along each axis is σ times the matching DOP: `σ·HDOP` horizontally, `σ·VDOP`
 //! vertically, `σ·PDOP` in 3-D, `σ·TDOP` for the clock (as a range) and `σ·GDOP` for all four.
 //!
