@@ -34,15 +34,18 @@ breaking changes are called out explicitly.
   WebAssembly `receiver_trust`, `assess_vessel_log` and `receiver_trust_replay`, the MCP `assess_*`
   tools, evidence packs (`epochs.json`, `config.json`, a geometry lane on the summary page) and
   `trust-telemetry` (Prometheus `kshana_trust_geometry*` and a `class` label on
-  `kshana_trust_reason_active`, OTLP `kshana.geometry.*`, CEF and LEEF `geoStatus`, `geoHdop`,
-  `geoClass`).
+  `kshana_trust_reason_active`, OTLP `kshana.geometry.*`, CEF custom fields `cs6` (geometry status and
+  classes), `cfp3` (HDOP) and `cfp4` (PDOP), checked against both CEF oracle parsers, and LEEF
+  `geoStatus`, `geoHdop`, `geoClass`).
 - `orbit::dop_cofactor`: the covariance factor `(HᵀH)⁻¹` behind `orbit::dop`, factored out of it
   with the same arithmetic.
 - Ledger row "Position error from geometry: RMS error = sigma_UERE x DOP" (**MODELLED**,
   internal consistency): a seeded Monte Carlo of the engine's least-squares fix on the 8
   gnss_lib_py-matched DOP geometries against the covariance factor of the validated DOP kernel,
   with tolerances pre-registered before the first run and two negative controls that fail as
-  required. 264 rows: 132 Validated, 128 Modelled, 4 Partner.
+  required; beside it, an earlier check on four hand-chosen skies with chi-square confidence
+  intervals, reported as run before the pre-registration. 264 rows: 132 Validated, 128 Modelled,
+  4 Partner (the site pages state the new counts after the 0.36 integration re-port).
 
 ### Changed
 
@@ -59,6 +62,16 @@ breaking changes are called out explicitly.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
   NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
+
+### Planned
+
+- The geometry from a stated skyline (0.36 item 1) once it is integrated: `sky-blocked` and
+  `open_fraction` from the skyline where the input gives one (the azimuth gap as the fallback), a
+  natural-degradation (fjord or terminal) event in `nmea-scenario`, and the design note's two
+  masked geometries in the sigma_UERE x DOP row, pre-registered as an addendum.
+- Geometry for RINEX logs with navigation (from the engine's own fix) and Android logs (from the
+  `Status` rows); both read `unknown` today. Geometry in `$PKSHT` (version 1 unchanged in 0.36)
+  and the Signal K and OpenCPN integrations.
 
 ## [0.35.0] - 2026-10-12
 
