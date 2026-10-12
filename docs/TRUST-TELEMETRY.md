@@ -132,13 +132,13 @@ Field mapping (event id is `gnss-trust.<band>`):
 | epoch offset, s | `cfp2` (`epochOffsetSeconds`) | `epochOffsetSeconds` |
 | log time label | `cs4` (`logTime`) | `logTime` |
 | gate state | `cs5` (`gate`) | `gate` |
-| geometry status *(1.3 inputs)* | `geoStatus` | `geoStatus` |
-| HDOP *(1.3)* | `geoHdop` | `geoHdop` |
-| classes of the epoch's deductions, comma-separated *(1.3)* | `geoClass` | `geoClass` |
+| geometry status, then `;` and the classes of the epoch's deductions, comma-separated (for example `degraded;environment,geometry`) *(1.3 inputs)* | `cs6` (`geometry`) | `geoStatus` (status only) and `geoClass` (classes) |
+| HDOP *(1.3)* | `cfp3` (`geometryHdop`) | `geoHdop` |
+| PDOP *(1.3)* | `cfp4` (`geometryPdop`) | not carried |
 
-The three geometry keys are the names of the 0.36 geometry design note; in CEF they are custom
-extension keys, not keys of the CEF dictionary, so a strict CEF consumer may file them as
-unrecognised.
+In CEF the geometry uses dictionary custom fields only (no invented keys). The 1.3 geometry
+events are part of the VALIDATED CEF row: both oracle parsers read them back as written
+(`tests/cef_reference.rs`, amendment registered before either was run on them).
 
 Empty fields are left out (no `cs2=` without reasons). The host name is cut to 255
 characters. CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
