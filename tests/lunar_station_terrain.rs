@@ -109,7 +109,13 @@ fn a_horizon_only_removes_satellites_and_a_wall_removes_everything() {
     ));
     assert_eq!(blind["region"]["availability"], 0.0);
     assert!(blind["budget_at_station_and_at_edge"]["station"].is_null());
-    assert_eq!(blind["note"], kshana::lunar_station::NOTE_TERRAIN);
+    assert_eq!(
+        blind["note"],
+        kshana::lunar_station::note_for(kshana::lunar_station::OptIns {
+            terrain: true,
+            ..Default::default()
+        })
+    );
 }
 
 #[test]
@@ -313,7 +319,10 @@ fn the_horizon_matches_the_preregistered_numpy_ray_cast() {
     };
     let (mut worst_h, mut worst_el, mut n) = (0.0_f64, 0.0_f64, 0usize);
     for s in r["sites"].as_array().unwrap() {
-        let (lat, lon) = (s["lat_deg"].as_f64().unwrap(), s["lon_deg"].as_f64().unwrap());
+        let (lat, lon) = (
+            s["lat_deg"].as_f64().unwrap(),
+            s["lon_deg"].as_f64().unwrap(),
+        );
         let h = horizon_profile(&dem, up_of(lat, lon), &p).expect("horizon");
         worst_h = worst_h.max((h.site_height_m - s["site_height_m"].as_f64().unwrap()).abs());
         assert_eq!(

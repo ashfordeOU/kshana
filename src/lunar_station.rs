@@ -83,21 +83,72 @@ pub const NOTE: &str = "MODELLED. Under the stated assumptions (constellation, s
      masking at the pole, multipath, receiver hardware, growth of the ephemeris error over \
      the correction latency beyond the line-of-sight re-projection.";
 
-/// The honesty statement of a run with a `[terrain]` section: [`NOTE`] with the terrain
-/// omission replaced by what the horizon masks do and do not model.
-pub const NOTE_TERRAIN: &str = "MODELLED. Under the stated assumptions (constellation, \
-     signal-in-space error, station survey accuracy, correction latency and link quantization, \
-     each input labelled in the scenario with its public source or as ILLUSTRATIVE), the model \
-     gives these figures. Not a statement about the performance of any real system; not \
-     affiliated with or endorsed by any agency; no TRL or heritage claim. Terrain: a per-site \
-     line-of-sight horizon (a stated profile and/or a ray march over the DEM at its grid \
-     resolution; see terrain.note). Omitted: diffraction and terrain multipath, multipath, \
-     receiver hardware, growth of the ephemeris error over the correction latency beyond the \
-     line-of-sight re-projection.";
+/// The opt-in models a run switched on, which decide its honesty statement ([`note_for`]).
+#[derive(Clone, Copy, Debug, Default, PartialEq)]
+pub struct OptIns {
+    /// A `[terrain]` section.
+    pub terrain: bool,
+    /// `orbit_err_growth_m_per_s`.
+    pub growth: bool,
+}
+
+/// The honesty statement for a run with the opt-in models `o`: exactly [`NOTE`] with none,
+/// otherwise [`NOTE`]'s statement with each switched-on model named and dropped from the
+/// omissions.
+pub fn note_for(o: OptIns) -> String {
+    if o == OptIns::default() {
+        return NOTE.to_string();
+    }
+    let mut s = String::from(
+        "MODELLED. Under the stated assumptions (constellation, signal-in-space error, station \
+         survey accuracy, correction latency and link quantization, each input labelled in the \
+         scenario with its public source or as ILLUSTRATIVE), the model gives these figures. Not \
+         a statement about the performance of any real system; not affiliated with or endorsed \
+         by any agency; no TRL or heritage claim.",
+    );
+    let mut omitted: Vec<&str> = Vec::new();
+    if o.terrain {
+        s.push_str(
+            " Terrain: a per-site line-of-sight horizon (a stated profile and/or a ray march \
+             over the DEM at its grid resolution; see terrain.note).",
+        );
+        omitted.push("diffraction and terrain multipath");
+    } else {
+        omitted.push("terrain and horizon masking at the pole");
+    }
+    omitted.push("multipath");
+    omitted.push("receiver hardware");
+    if o.growth {
+        s.push_str(
+            " Ephemeris-error growth over the latency: linear at the stated rate \
+             (orbit_err_growth_m_per_s, ILLUSTRATIVE), on top of the line-of-sight re-projection.",
+        );
+    } else {
+        omitted.push(
+            "growth of the ephemeris error over the correction latency beyond the line-of-sight \
+             re-projection",
+        );
+    }
+    s.push_str(" Omitted: ");
+    s.push_str(&omitted.join(", "));
+    s.push('.');
+    s
+}
 
 const NOISE_SALT: u64 = 0x9E37_79B9_7F4A_7C15;
 const SURVEY_SALT: u64 = 0x5EED_5A1E_0F5E_7A71;
 const LINK_SALT: u64 = 0x11AC_0FFE_E0DD_BA11;
+const GROWTH_SALT: u64 = 0x6E0B_17A1_D21F_7E57;
+
+/// The range-domain 1-sigma (m) of the orbit error a correction does not carry because the
+/// broadcast orbit error grew while the correction aged (LRS-03): the error grows by
+/// `g tau` over the latency `tau`, `g` an isotropic vector of 3-D RMS `rate_m_per_s`, so its
+/// projection on a line of sight has 1-sigma `rate_m_per_s tau / sqrt(3)`. Linear growth is
+/// the first-order term of a propagated state error (a velocity error `dv` moves the position
+/// by `dv tau` plus terms of order `(mu / r^3) tau^2`); zero rate is the frozen model.
+pub fn orbit_growth_range_sigma_m(rate_m_per_s: f64, latency_s: f64) -> f64 {
+    rate_m_per_s * latency_s / 3.0_f64.sqrt()
+}
 
 /// The seed of the draws for epoch index `i` and trial index `k`; exactly `seed` for
 /// `(0, 0)`, which is how one epoch and one trial reduce to `lunar-differential-pnt`.
@@ -350,6 +401,13 @@ pub struct LunarStationCoverageScenario {
     /// byte-identical to a run without the field.
     #[serde(default, skip_serializing_if = "Option::is_none")]
     pub terrain: Option<LunarTerrainCfg>,
+    /// Growth rate of the broadcast orbit error with age (m/s, 3-D RMS; LRS-03). A correction
+    /// applied `latency_s` after it was computed misses the growth `g latency_s`, drawn per
+    /// satellite and trial on its own seeded stream ([`orbit_growth_range_sigma_m`]). Absent
+    /// (the default), the frozen-error model alone, byte-identical to a run without it. No
+    /// public source gives a lunar value: ILLUSTRATIVE wherever set.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub orbit_err_growth_m_per_s: Option<f64>,
 }
 
 impl Default for LunarStationCoverageScenario {
@@ -530,8 +588,8 @@ pub struct LunarStationCoverageReport {
     /// The terrain horizon masks; only with `[terrain]`.
     #[serde(skip_serializing_if = "Option::is_none")]
     pub terrain: Option<TerrainReport>,
-    /// The honesty statement.
-    pub note: &'static str,
+    /// The honesty statement ([`note_for`]).
+    pub note: String,
 }
 
 /// The terrain horizon masks a run used.
@@ -810,6 +868,11 @@ impl LunarStationCoverageScenario {
                 return bad(&format!("{name} must be finite and not negative"));
             }
         }
+        if let Some(g) = self.orbit_err_growth_m_per_s {
+            if !(g.is_finite() && g >= 0.0) {
+                return bad("orbit_err_growth_m_per_s must be finite and not negative");
+            }
+        }
         if let Some(s) = self.sise_sigma_m {
             if !(s.is_finite() && s >= 0.0) {
                 return bad("sise_sigma_m must be finite and not negative");
@@ -984,6 +1047,8 @@ impl LunarStationCoverageScenario {
             vec![0.0; n]
         };
         let ageing_clock = correction_ageing_clock_range_sigma_m(latency);
+        let growth =
+            orbit_growth_range_sigma_m(self.orbit_err_growth_m_per_s.unwrap_or(0.0), latency);
         let step = correction_quantization_step_m(
             em.orbit_err_m.abs() + em.clock_err_m.abs(),
             self.quantization_bits,
@@ -1029,6 +1094,16 @@ impl LunarStationCoverageScenario {
                             v += step * (rng.gen::<f64>() - 0.5);
                         }
                         *e = v;
+                    }
+                }
+                if growth > 0.0 {
+                    // A stream of its own, so switching the growth on leaves every other draw
+                    // of the trial unchanged.
+                    let mut rng =
+                        ChaCha8Rng::seed_from_u64(trial_seed(self.seed, i, k) ^ GROWTH_SALT);
+                    let g = Normal::new(0.0, growth).expect("finite positive sigma");
+                    for e in link_err.iter_mut() {
+                        *e += g.sample(&mut rng);
                     }
                 }
                 TrialDraw {
@@ -1396,11 +1471,10 @@ impl LunarStationCoverageScenario {
             coverage_radius_km,
             points,
             budget_at_station_and_at_edge: budget_pair,
-            note: if terrain_report.is_some() {
-                NOTE_TERRAIN
-            } else {
-                NOTE
-            },
+            note: note_for(OptIns {
+                terrain: terrain_report.is_some(),
+                growth: self.orbit_err_growth_m_per_s.is_some(),
+            }),
             terrain: terrain_report,
         }
     }
@@ -1501,6 +1575,24 @@ fn coverage_radius(points: &[PointFigures]) -> Vec<AzimuthRadius> {
             }
         })
         .collect()
+}
+
+/// The units of `r`'s document: [`UNITS`], plus the units of each opt-in model the run
+/// switched on (so a run with none carries exactly [`UNITS`]).
+pub fn units_for(r: &LunarStationCoverageReport) -> Vec<crate::field_schema::FieldUnit> {
+    let mut u: Vec<crate::field_schema::FieldUnit> = UNITS.to_vec();
+    if r.terrain.is_some() {
+        u.extend_from_slice(crate::lunar_terrain::STATION_TERRAIN_UNITS);
+    }
+    if r.inputs_echo.orbit_err_growth_m_per_s.is_some() {
+        u.push(crate::field_schema::FieldUnit {
+            path: "inputs_echo.orbit_err_growth_m_per_s",
+            unit: "m/s",
+            provenance: crate::field_schema::ProvenanceClass::ModelledInput,
+            definition: "3-D RMS growth rate of the broadcast orbit error with age; ILLUSTRATIVE (no public lunar value)",
+        });
+    }
+    u
 }
 
 /// Units and provenance for every numeric field of the result document.
