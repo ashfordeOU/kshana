@@ -24,7 +24,7 @@
 //! computation; a zero-noise pseudorange reproduces `r_geom + clocks + I + T` to
 //! sub-millimetre.
 
-use crate::frames::{geodetic_to_ecef, is_visible, look_angles, teme_to_ecef, Geodetic, Vec3};
+use crate::frames::{geodetic_to_ecef, look_angles, teme_to_ecef, Geodetic, Vec3};
 use crate::palette::chart::{AXIS, BG, CORAL, CYAN, FONT_SANS, INK_2, MAGENTA};
 use crate::portable_math::{Maths, Platform, Portable};
 use crate::scenario::TimeCfg;
@@ -430,6 +430,18 @@ pub struct GnssSimScenario {
     pub alert_limit_h_m: f64,
     #[serde(default = "default_alert_v")]
     pub alert_limit_v_m: f64,
+    /// Optional azimuth-dependent skyline over the `mask_deg` floor (see
+    /// [`crate::skyline`]). Absent, the mask is the flat `mask_deg`, as before.
+    #[serde(default, skip_serializing_if = "Option::is_none")]
+    pub skyline: Option<crate::skyline::SkylineCfg>,
+}
+
+impl GnssSimScenario {
+    /// The skyline of the scenario's `[skyline]` section (`None` without one), applied over
+    /// `mask_deg`. An invalid section is an error.
+    pub fn sky(&self) -> Result<Option<crate::skyline::Skyline>, String> {
+        crate::skyline::resolve(self.skyline.as_ref())
+    }
 }
 
 /// One satellite's simulated measurement at one epoch.
@@ -464,6 +476,10 @@ pub struct GnssSimEpoch {
     pub n_visible: usize,
     pub raim: Option<RaimEpoch>,
     pub measurements: Vec<SatMeasurement>,
+    /// Satellites above the mask but below the skyline; present only when the scenario has
+    /// a `[skyline]` section.
+    #[serde(skip_serializing_if = "Option::is_none")]
+    pub masked_by_skyline: Option<usize>,
 }
 
 /// Figures of merit for the measurement simulation.
@@ -674,8 +690,19 @@ fn hash_scenario(scn: &GnssSimScenario) -> String {
     hex::encode(h.finalize())
 }
 
-/// Run the measurement-domain GNSS simulation.
-pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
+/// Run the measurement-domain GNSS simulation under the scenario's own mask. An
+/// invalid `skyline` section is an error here as in [`crate::api::run_toml`] (never a
+/// silent fall-back to the flat mask). [`run_gnss_sim_sky`] takes the skyline explicitly.
+pub fn run_gnss_sim(scn: &GnssSimScenario) -> Result<GnssSimResult, String> {
+    let sky = scn.sky()?;
+    Ok(run_gnss_sim_sky(scn, sky.as_ref()))
+}
+
+/// Run the measurement-domain GNSS simulation with an explicit visibility mask.
+pub fn run_gnss_sim_sky(
+    scn: &GnssSimScenario,
+    sky: Option<&crate::skyline::Skyline>,
+) -> GnssSimResult {
     let station = Geodetic {
         lat_rad: scn.receiver.lat_deg.to_radians(),
         lon_rad: scn.receiver.lon_deg.to_radians(),
@@ -736,9 +763,14 @@ pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
         let mut measurements = Vec::new();
         let mut raim_sats: Vec<Vec3> = Vec::new();
         let mut raim_resid: Vec<f64> = Vec::new();
+        let mut masked_by_skyline = 0usize;
         for (prn, _) in sats.iter().enumerate() {
             let sat = sat_ecef_at(prn, t);
-            if !is_visible(station, sat, scn.mask_deg) {
+            let (in_view, masked) = crate::frames::skyline_view(station, sat, scn.mask_deg, sky);
+            if masked {
+                masked_by_skyline += 1;
+            }
+            if !in_view {
                 continue;
             }
             let look = look_angles(station, sat);
@@ -829,6 +861,7 @@ pub fn run_gnss_sim(scn: &GnssSimScenario) -> GnssSimResult {
             n_visible,
             raim,
             measurements,
+            masked_by_skyline: sky.map(|_| masked_by_skyline),
         });
     }
 
@@ -1069,6 +1102,7 @@ mod tests {
             p_md: 1e-3,
             alert_limit_h_m: 40.0,
             alert_limit_v_m: 50.0,
+            skyline: None,
         }
     }
 
@@ -1078,7 +1112,7 @@ mod tests {
         // pseudorange equals geometric range + receiver clock − sat clock + iono +
         // tropo exactly. The RAIM residual (observed − fully-modelled prediction)
         // is therefore zero to sub-millimetre at every satellite of every epoch.
-        let r = run_gnss_sim(&sim_scenario(0.0));
+        let r = run_gnss_sim(&sim_scenario(0.0)).unwrap();
         let mut checked = 0;
         for e in &r.gnss_measurements {
             for m in &e.measurements {
@@ -1108,7 +1142,7 @@ mod tests {
 
     #[test]
     fn corrections_are_reported_and_physically_sized() {
-        let r = run_gnss_sim(&sim_scenario(0.0));
+        let r = run_gnss_sim(&sim_scenario(0.0)).unwrap();
         let mut saw = false;
         for e in &r.gnss_measurements {
             for m in &e.measurements {
@@ -1127,7 +1161,7 @@ mod tests {
 
     #[test]
     fn raim_produces_protection_levels_and_run_is_deterministic() {
-        let r = run_gnss_sim(&sim_scenario(1.0));
+        let r = run_gnss_sim(&sim_scenario(1.0)).unwrap();
         let with_raim = r
             .gnss_measurements
             .iter()
@@ -1144,8 +1178,8 @@ mod tests {
             }
         }
         // Deterministic.
-        let a = serde_json::to_string(&run_gnss_sim(&sim_scenario(1.0))).unwrap();
-        let b = serde_json::to_string(&run_gnss_sim(&sim_scenario(1.0))).unwrap();
+        let a = serde_json::to_string(&run_gnss_sim(&sim_scenario(1.0)).unwrap()).unwrap();
+        let b = serde_json::to_string(&run_gnss_sim(&sim_scenario(1.0)).unwrap()).unwrap();
         assert_eq!(a, b);
     }
 
@@ -1154,12 +1188,23 @@ mod tests {
         let mut scn = sim_scenario(0.0);
         scn.iono = None;
         scn.tropo = None;
-        let r = run_gnss_sim(&scn);
+        let r = run_gnss_sim(&scn).unwrap();
         for e in &r.gnss_measurements {
             for m in &e.measurements {
                 assert_eq!(m.iono_correction_m, 0.0);
                 assert_eq!(m.tropo_correction_m, 0.0);
             }
         }
+    }
+
+    #[test]
+    fn an_invalid_skyline_is_an_error_not_the_flat_mask() {
+        let mut scn = sim_scenario(0.0);
+        scn.skyline = Some(crate::skyline::SkylineCfg {
+            preset: Some("moon".into()),
+            ..Default::default()
+        });
+        let err = run_gnss_sim(&scn).unwrap_err();
+        assert!(err.contains("unknown skyline preset"), "{err}");
     }
 }

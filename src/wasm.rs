@@ -532,3 +532,71 @@ pub fn osnma_verify(
     )
     .map_err(|e| JsValue::from_str(&e))
 }
+
+/// The satellites a site sees under a skyline and their geometry (design note item 2).
+/// `request_json` is a JSON (or TOML) object: `site` (`{lat_deg, lon_deg, height_m}`),
+/// `time_s`, `systems` (preset names such as `"gps-baseline"`, `"galileo"`, `"beidou-meo"`,
+/// `"xona-pulsar"`, or `leo-pvt` `[[system]]` objects) and/or `satellites` (`{id?, system?,
+/// az_deg, el_deg}` or `{id?, system?, ecef_m}`), `mask_deg`, `skyline` (`preset`,
+/// `street_az_deg`, `width_m`, `height_left_m`, `height_right_m`, `antenna_m`, `length_m`,
+/// `table`, `sectors`, `terrain`), `clock` (`"per-system"` default, or `"common"`),
+/// `sigma_uere_m` (default 1) and `confidence` (default 0.95). Returns a JSON object: per
+/// satellite `id`, `system`, `az_deg`, `el_deg`, `cut_deg`, `visible`, `masked`; `n_visible`,
+/// `n_masked`, `open_fraction`; `dop` (`gdop`, `pdop`, `hdop`, `vdop`, `tdop`,
+/// `tdop_by_clock`, or null); `states`, `cofactor_enu`, `covariance_enu_m2`; `ellipse_1sigma`
+/// and `ellipse` (`semi_major_m`, `semi_minor_m`, `orientation_deg`, ...); `label`
+/// (MODELLED), `statement` and `advisory`. Throws a JS error on an invalid request.
+#[wasm_bindgen]
+pub fn sky_geometry(request_json: &str) -> Result<String, JsValue> {
+    crate::surface::sky_geometry(request_json, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// `n` (1 to 5000) least-squares position errors under independent Gaussian range errors of
+/// `sigma_uere_m` on the visible set of `request_json` (as for `sky_geometry`), seeded by
+/// `seed` (a non-negative integer; the same request, seed and `n` give the same cloud). Returns
+/// a JSON object: `samples_enu_m` (`[[e, n, u], ...]`), `empirical_covariance_enu_m2`,
+/// `rms_horizontal_m`, `rms_3d_m`, `predicted_rms_horizontal_m` (sigma x HDOP),
+/// `predicted_rms_3d_m`, `fraction_inside_95`, `label`, `statement`, `advisory`. Throws a JS
+/// error on an invalid request, a seed that is not a non-negative integer, or `n` out of range.
+#[wasm_bindgen]
+pub fn sky_monte_carlo(request_json: &str, seed: f64, n: u32) -> Result<String, JsValue> {
+    if !(seed.is_finite() && seed >= 0.0 && seed.fract() == 0.0 && seed <= 9_007_199_254_740_991.0)
+    {
+        return Err(JsValue::from_str("seed must be a non-negative integer"));
+    }
+    crate::surface::sky_monte_carlo(
+        request_json,
+        seed as u64,
+        n as usize,
+        crate::surface::MAX_INPUT_BYTES,
+    )
+    .map_err(|e| JsValue::from_str(&e))
+}
+
+/// The named skyline presets (`city-street`, `harbour-approach`, `fjord`,
+/// `container-terminal`) as a JSON array: `name`, `label` (REPRESENTATIVE), `description`,
+/// `provenance`, `table` (the cut every degree of azimuth from north, 360 numbers) and
+/// `open_fraction`.
+#[wasm_bindgen]
+pub fn skyline_presets() -> String {
+    crate::surface::skyline_presets()
+}
+
+/// A skyline section (`skyline_json`, the `skyline` object of a `sky_geometry` request) reduced
+/// to the normalised table the engine uses: a JSON object with `table` (360 numbers, the cut
+/// every degree of azimuth from north), `open_fraction`, `source` and `provenance`. Throws a
+/// JS error on an invalid section.
+#[wasm_bindgen]
+pub fn skyline_profile(skyline_json: &str) -> Result<String, JsValue> {
+    crate::surface::skyline_profile(skyline_json, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}
+
+/// The skyplot of `request_json` (as for `sky_geometry`) as static SVG markup (no script, no
+/// external reference; every input string escaped). Throws a JS error on an invalid request.
+#[wasm_bindgen]
+pub fn skyplot_svg(request_json: &str) -> Result<String, JsValue> {
+    crate::surface::skyplot_svg(request_json, crate::surface::MAX_INPUT_BYTES)
+        .map_err(|e| JsValue::from_str(&e))
+}

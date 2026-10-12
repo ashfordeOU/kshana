@@ -1,0 +1,196 @@
+# LEO-PNT vertical: the autonomous-vehicle urban canyon, as a flat cut-off and as a street.
+#
+# The `leo-vertical-autonomous-vehicle` urban canyon twice over: once as that campaign's flat
+# 35 deg elevation cut-off (the phase copied unchanged) and once as a street, the
+# `city-street` skyline preset turned to run east along the car's heading
+# (`street_az_deg = 90`) over a 10 deg receiver mask. The street is 20 m between 30 m walls
+# with the antenna 1.5 m up, so the walls rise to 70.7 deg across it and fall to the mask
+# along it. Each phase runs the same `leo-pvt` joint fix (GPS, Galileo and a generic low
+# Earth orbit (LEO) layer of 240 satellites at 1080 km, 53 deg, 0.25 m signal-in-space range
+# error) against the 1.5 m lane-level threshold, and a `leo-pass` run of one LEO pass seen
+# from the car. The existing campaign is not changed, so its outputs stay byte-identical.
+#
+# What the run shows: the flat cut-off keeps 8 GPS and Galileo satellites (mean GNSS-only
+# error 5.8 m); the street keeps 4 to 5 of them, the ones along it or high overhead (mean
+# 7.3 m, no GNSS-only fix at 2 of 90 epochs), and 1 to 4 LEO satellites against 4 to 5. The
+# fused mean error is 2.1 m in both, and the alarm is raised at about 51 % of the flat-cut
+# epochs and 59 % of the street epochs. A single cut-off and a street of the same severity
+# are not interchangeable: the street keeps fewer satellites but along one axis.
+#
+# The skyline preset is REPRESENTATIVE (provenance in docs/SKYLINE.md and `kshana skyline
+# --preset city-street`), not a survey of any Munich street. Line of sight only: no
+# multipath, diffraction or non-line-of-sight reception. MODELLED.
+kind = "campaign"
+title = "Autonomous vehicle in an urban canyon: a flat cut-off and a city-street skyline"
+seed = 20260929
+
+[timeline]
+step_s = 10.0
+
+[[phases]]
+name = "urban-canyon"
+duration_s = 900.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 1.5 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.6
+mask_deg = 35.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 35.0
+[[phases.runs.scenario.system]]
+name = "Generic LEO"
+role = "leo"
+carrier_hz = 1191.795e6
+chip_rate_hz = 10.23e6
+cn0_dbhz = [45.0, 58.0]
+sisre_m = 0.25
+isb_ns = 25.0
+mask_deg = 35.0
+[[phases.runs.scenario.system.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[[phases.runs]]
+series = [
+  { channel = "leo_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+speed_m_s = 14.0
+heading_deg = 90.0
+mask_deg = 35.0
+antenna = "patch"
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L"]
+max_elevation_deg = 80.0
+tca_s = 450.0
+altitude_km = 1080.0
+inclination_deg = 53.0
+[phases.runs.scenario.gnss]
+constellation = "galileo"
+band = "E1"
+
+[[phases]]
+name = "city-street-skyline"
+duration_s = 900.0
+
+[[phases.runs]]
+series = [
+  { channel = "gnss_error_m", unit = "m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_gnss_m" },
+  { channel = "position_error_m", t = "joint.epochs[].t_s", y = "joint.epochs[].error_fused_m" },
+  { channel = "gnss_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_gnss" },
+  { channel = "leo_in_view", unit = "count", t = "joint.epochs[].t_s", y = "joint.epochs[].n_leo" },
+]
+alarms = [{ channel = "position_error_m", compare = "above", threshold = 1.5 }]
+[phases.runs.scenario]
+kind = "leo-pvt"
+mode = "joint"
+seed = 3
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+[[phases.runs.scenario.system]]
+name = "GPS"
+preset = "gps-baseline"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.6
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Galileo"
+preset = "galileo"
+cn0_dbhz = [35.0, 45.0]
+sisre_m = 0.3
+isb_ns = 12.0
+mask_deg = 10.0
+[[phases.runs.scenario.system]]
+name = "Generic LEO"
+role = "leo"
+carrier_hz = 1191.795e6
+chip_rate_hz = 10.23e6
+cn0_dbhz = [45.0, 58.0]
+sisre_m = 0.25
+isb_ns = 25.0
+mask_deg = 10.0
+[phases.runs.scenario.skyline]
+preset = "city-street"
+street_az_deg = 90.0
+[[phases.runs.scenario.system.shell]]
+total = 240
+planes = 12
+phasing = 1
+altitude_km = 1080.0
+inclination_deg = 53.0
+
+[[phases.runs]]
+series = [
+  { channel = "leo_pass_elevation_deg", unit = "deg", t = "satellites[0].series[].t_s", y = "satellites[0].series[].elevation_deg" },
+]
+[phases.runs.scenario]
+kind = "leo-pass"
+epoch = "2026-09-28T08:00:00"
+duration_s = 900.0
+step_s = 10.0
+[phases.runs.scenario.user]
+environment = "ground"
+lat_deg = 48.137
+lon_deg = 11.575
+height_m = 520.0
+speed_m_s = 14.0
+heading_deg = 90.0
+mask_deg = 10.0
+antenna = "patch"
+[phases.runs.scenario.skyline]
+preset = "city-street"
+street_az_deg = 90.0
+[[phases.runs.scenario.satellite]]
+id = "LEO-1"
+system = "generic-leo"
+bands = ["L"]
+max_elevation_deg = 80.0
+tca_s = 450.0
+altitude_km = 1080.0
+inclination_deg = 53.0
+[phases.runs.scenario.gnss]
+constellation = "galileo"
+band = "E1"

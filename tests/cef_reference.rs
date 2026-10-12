@@ -82,7 +82,8 @@
 //! where given, `geometryHdop` and `geometryPdop`; their values equal the original text, and the
 //! two numbers parse back to the original `f64` exactly (`==`). Every earlier case is unchanged.
 //!
-//! # AMENDMENT 2 (0.36, disclosed): the geometry label, registered before either parser ran on it
+//! # AMENDMENT 2 (0.36, disclosed; the CEF row's amendment 5): the geometry label, registered
+//! before either parser ran on it
 //!
 //! Registered in the commit that adds the `geometry-label-*` cases below (appended after every
 //! earlier case), before `pycef` or Logstash was run on any of them. From an input that carries
