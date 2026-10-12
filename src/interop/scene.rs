@@ -447,6 +447,7 @@ pub fn reason_for_kind(kind: ScenarioKind) -> Option<String> {
         | K::LunarLlrDatum
         | K::LunarService
         | K::LunarDpnt
+        | K::LunarStationCoverage
         | K::LunarInterop
         | K::LunarTimeBudget
         | K::CislunarObservability
