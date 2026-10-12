@@ -27,6 +27,10 @@
 //! `peph2pos` does (`preceph.c`); the corrected ECEF result is then rotated into
 //! the shared TEME frame and exposed as a [`crate::orbit::Propagator`].
 //!
+//! The accuracy codes (header `++` exponents, the `%f` bases and each record's
+//! standard-deviation exponents) are read separately by [`parse_sp3_accuracy`] and mapped to a
+//! per-observation position sigma by [`Sp3Accuracy::position_sigma_m`].
+//!
 //! Scope (this stage): the read/write round trip and Lagrange position
 //! interpolation. Clock interpolation and a RINEX/SP3 scenario kind are next. The
 //! bad-value sentinels (positions of exactly 0, clock 999999.999999) are preserved
@@ -628,7 +632,7 @@ impl Sp3Accuracy {
     /// The per-axis position standard deviations (m) of `sat` at epoch index `epoch`,
     /// `pos_vel_base`ⁿ mm; `None` unless the base is positive and all three exponents are present.
     pub fn record_sigma_m(&self, epoch: usize, sat: &str) -> Option<[f64; 3]> {
-        if !(self.pos_vel_base > 0.0) {
+        if self.pos_vel_base.is_nan() || self.pos_vel_base <= 0.0 {
             return None;
         }
         let rec = self.records.get(epoch)?.iter().find(|r| r.sat == sat)?;

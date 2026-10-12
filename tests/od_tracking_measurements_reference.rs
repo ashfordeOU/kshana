@@ -164,11 +164,12 @@ fn dist(a: &[f64], b: &[f64], off: usize) -> f64 {
 
 /// Record a bar miss instead of stopping at the first one, so every number is reported.
 macro_rules! check {
-    ($misses:expr, $cond:expr, $($fmt:tt)*) => {
-        if !$cond {
+    ($misses:expr, $cond:expr, $($fmt:tt)*) => {{
+        let ok: bool = $cond;
+        if !ok {
             $misses.push(format!($($fmt)*));
         }
-    };
+    }};
 }
 
 #[test]
