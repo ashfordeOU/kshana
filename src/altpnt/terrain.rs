@@ -226,6 +226,76 @@ impl DemGrid {
         })
     }
 
+    /// Parse a **rectangular window** cut from an SRTM `.hgt` tile: `n_rows × n_cols`
+    /// samples in the same byte layout as a whole tile (16-bit signed big-endian, row-major,
+    /// north row first, void -32768), with an explicit node `step_deg` and the latitude and
+    /// longitude of the window's **south-west node**. A whole 1-arc-second tile is the case
+    /// `n_rows = n_cols = 3601`, `step = 1/3600`, south-west node on the integer corner, and
+    /// then this agrees with [`Self::from_srtm_hgt`] node for node.
+    ///
+    /// Returns `Err` if the byte length is not `2·n_rows·n_cols`, a side has fewer than two
+    /// samples, or the step is not finite and positive.
+    pub fn from_hgt_window(
+        bytes: &[u8],
+        n_rows: usize,
+        n_cols: usize,
+        sw_lat_deg: f64,
+        sw_lon_deg: f64,
+        step_deg: f64,
+    ) -> Result<Self, String> {
+        if n_rows < 2 || n_cols < 2 {
+            return Err(format!(
+                "an .hgt window needs at least 2 x 2 samples, got {n_rows} x {n_cols}"
+            ));
+        }
+        if !(step_deg.is_finite() && step_deg > 0.0) {
+            return Err(format!("step must be finite and positive, got {step_deg}"));
+        }
+        if bytes.len() != 2 * n_rows * n_cols {
+            return Err(format!(
+                ".hgt window length {} != 2*{n_rows}*{n_cols} = {}",
+                bytes.len(),
+                2 * n_rows * n_cols
+            ));
+        }
+        let mut elev_m = vec![0.0_f64; n_rows * n_cols];
+        for r in 0..n_rows {
+            let stored_i = n_rows - 1 - r;
+            for j in 0..n_cols {
+                let off = 2 * (r * n_cols + j);
+                elev_m[stored_i * n_cols + j] =
+                    i16::from_be_bytes([bytes[off], bytes[off + 1]]) as f64;
+            }
+        }
+        Ok(DemGrid {
+            lat0_deg: sw_lat_deg,
+            lon0_deg: sw_lon_deg,
+            dlat_deg: step_deg,
+            dlon_deg: step_deg,
+            n_lat: n_rows,
+            n_lon: n_cols,
+            elev_m,
+            void_value: Some(SRTM_VOID),
+        })
+    }
+
+    /// The value of the node nearest `(lat, lon)` (deg), edge-clamped, with no
+    /// interpolation: what a pixel-is-area reader such as GDAL's SRTMHGT driver returns for
+    /// the pixel containing the point. NaN on a void node.
+    pub fn nearest_node_at(&self, lat_deg: f64, lon_deg: f64) -> f64 {
+        let idx = |x: f64, x0: f64, dx: f64, n: usize| -> usize {
+            (((x - x0) / dx).round().max(0.0) as usize).min(n - 1)
+        };
+        let i = idx(lat_deg, self.lat0_deg, self.dlat_deg, self.n_lat);
+        let j = idx(lon_deg, self.lon0_deg, self.dlon_deg, self.n_lon);
+        let v = self.node(i, j);
+        if self.is_void(v) {
+            f64::NAN
+        } else {
+            v
+        }
+    }
+
     /// A `Fn(lat_deg, lon_deg) -> elev_m` adapter, matching the field-sampler signature the
     /// map-match likelihood expects.
     pub fn sampler_deg(&self) -> impl Fn(f64, f64) -> f64 + '_ {

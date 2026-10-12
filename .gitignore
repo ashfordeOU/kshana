@@ -115,3 +115,6 @@ packaging/mcp/pypi/build/
 packaging/mcp/pypi/dist/
 packaging/mcp/pypi/*.egg-info/
 packaging/mcp/pypi/src/*.egg-info/
+
+# EMAG2v3 grid fetched at test time by tools/fetch_emag2_tile.py (licence not explicit; never vendored)
+/tools/emag2/
