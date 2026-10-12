@@ -119,8 +119,8 @@ fn nearest(r: &LunarStationCoverageReport, target_km: f64) -> (f64, f64, f64, Op
     (p.lat_deg, p.lon_deg, p.distance_km, p.corrected_p_3d_m)
 }
 
-/// Runs every registered case and prints the figures the pre-registration names. About a
-/// minute per case in a release build; run with
+/// Runs every registered case, prints the figures the pre-registration names and asserts the
+/// recorded ones. About 7 s for all six cases in a release build; run with
 /// `cargo test --release --test lunar_station_published_oracle -- --ignored --nocapture`.
 #[test]
 #[ignore = "runs the six registered cases (about 7 s in release, minutes in debug); the recorded finding is pinned by the fast test"]
