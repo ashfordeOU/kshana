@@ -86,6 +86,8 @@ pub struct Position {
 
 /// Geometry statuses, in the order metrics list them.
 pub const GEOMETRY_STATUSES: [&str; 3] = ["good", "degraded", "unknown"];
+/// Geometry labels (0.36: always reported, never scored), in the order metrics list them.
+pub const GEOMETRY_LABELS: [&str; 4] = ["good", "fair", "poor", "unknown"];
 /// Deduction classes, in the order events list them; any other value is dropped.
 pub const CLASSES: [&str; 3] = ["inconsistency", "environment", "geometry"];
 
@@ -101,6 +103,11 @@ pub struct GeometrySample {
     pub pdop: Option<f64>,
     /// Satellites used, where the source gives a count.
     pub n_used: Option<f64>,
+    /// VDOP, where the source gives one.
+    pub vdop: Option<f64>,
+    /// One of [`GEOMETRY_LABELS`] (a label this build does not know reads `unknown`); `None`
+    /// when the source carries no label (a schema 1.3 stream written before the label).
+    pub label: Option<&'static str>,
     /// The classes of the epoch's deductions, each once, in [`CLASSES`] order.
     pub classes: Vec<&'static str>,
     /// Satellites in view but not tracked while the in-view DOP is good: the signal was lost,
@@ -266,6 +273,12 @@ pub fn parse_live_line(line: &str) -> Result<TrustSample, String> {
                 hdop: f("hdop")?,
                 pdop: f("pdop")?,
                 n_used: f("n_used")?,
+                vdop: f("vdop")?,
+                label: match o.get("label") {
+                    None | Some(Value::Null) => None,
+                    Some(Value::String(l)) => Some(known(&GEOMETRY_LABELS, l).unwrap_or("unknown")),
+                    Some(_) => return Err("`geometry.label` is not a string".into()),
+                },
                 classes: class_set(reason_class.values().copied()),
                 signal_loss: match o.get("signal_loss") {
                     None | Some(Value::Null) => None,
@@ -341,6 +354,8 @@ pub fn from_epoch_trust(e: &EpochTrust) -> TrustSample {
         hdop: e.geometry.hdop,
         pdop: e.geometry.pdop,
         n_used: e.geometry.n_used.map(|n| n as f64),
+        vdop: e.geometry.vdop,
+        label: Some(e.geometry.label.as_str()),
         classes: class_set(reason_class.values().copied()),
         signal_loss: (e.geometry.status
             != crate::receiver_trust::geometry::GeometryStatus::Unknown)
@@ -462,6 +477,21 @@ mod tests {
         )
         .unwrap();
         assert_eq!(s.geometry.unwrap().signal_loss, Some(true));
+        let s = parse_live_line(
+            r#"{"t_s":1,"state":"nominal","geometry":{"status":"good","label":"fair","vdop":1.4}}"#,
+        )
+        .unwrap();
+        let g = s.geometry.unwrap();
+        assert_eq!((g.label, g.vdop), (Some("fair"), Some(1.4)));
+        let s = parse_live_line(
+            r#"{"t_s":1,"state":"nominal","geometry":{"status":"good","label":"odd"}}"#,
+        )
+        .unwrap();
+        assert_eq!(s.geometry.unwrap().label, Some("unknown"));
+        assert!(parse_live_line(
+            r#"{"t_s":1,"state":"nominal","geometry":{"status":"good","label":3}}"#
+        )
+        .is_err());
         assert!(parse_live_line(
             r#"{"t_s":1,"state":"nominal","geometry":{"status":"good","signal_loss":1}}"#
         )

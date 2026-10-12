@@ -81,10 +81,13 @@ fn num(x: f64) -> String {
 /// the previous band, `cfp1` trust score and `cfp2` epoch offset in seconds, `cs4` log time and
 /// `cs5` gate state; from schema 1.3 inputs also `cs6` (label `geometry`: the geometry status,
 /// then `;` and the classes of the deductions, comma-separated, where there are any), `cfp3`
-/// (`geometryHdop`) and `cfp4` (`geometryPdop`): CEF dictionary custom fields, no invented keys.
+/// (`geometryHdop`) and `cfp4` (`geometryPdop`); from inputs that carry the geometry label (0.36)
+/// `cs6` gains a third field, `;` and the label (the classes field then always present, empty
+/// when there are none), and `cn1` (`geometryUsedSatellites`) the satellites used: CEF dictionary
+/// custom fields, no invented keys.
 /// `cfp1` and `cfp2` are the CEF dictionary's floating-point custom fields
-/// (deviceCustomFloatingPoint); the integer fields `cn1` to `cn3` are not used, because the score
-/// and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
+/// (deviceCustomFloatingPoint); the integer field `cn1` carries only the satellites used, because
+/// the score and the offset are not integers. `cfp1` is left out when the source gives no score. `dvchost`
 /// is the sending host.
 pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
     let mut ext = format!(
@@ -118,10 +121,12 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
         // Schema 1.3 only, in CEF dictionary custom fields (cs1 to cs5 are taken): cs6 the
         // geometry status, followed after `;` by the classes of the deductions; cfp3 the HDOP;
         // cfp4 the PDOP.
-        let classes = if g.classes.is_empty() {
-            String::new()
-        } else {
-            format!(";{}", g.classes.join(","))
+        // From inputs that carry the label (0.36), cs6 gains a third field, the label, after
+        // `;` (the classes field then always present, empty when there are none).
+        let classes = match (g.classes.is_empty(), g.label) {
+            (_, Some(l)) => format!(";{};{l}", g.classes.join(",")),
+            (true, None) => String::new(),
+            (false, None) => format!(";{}", g.classes.join(",")),
         };
         ext.push_str(&format!(" cs6Label=geometry cs6={}{classes}", g.status));
         if let Some(h) = g.hdop {
@@ -129,6 +134,14 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
         }
         if let Some(p) = g.pdop {
             ext.push_str(&format!(" cfp4Label=geometryPdop cfp4={}", num(p)));
+        }
+        // From inputs that carry the label (0.36): the satellites used in cn1, appended. The
+        // VDOP is not carried: the four floating-point custom fields are taken.
+        if let (Some(_), Some(n)) = (g.label, g.n_used) {
+            ext.push_str(&format!(
+                " cn1Label=geometryUsedSatellites cn1={}",
+                n as i64
+            ));
         }
     }
     format!(
@@ -147,7 +160,8 @@ pub fn cef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> St
 /// Attributes: `cat`, `sev` (1-10, the CEF severity with a floor of 1), `devHost`, `band`,
 /// `previousBand`, `trustScore`, `reasons`, `epochOffsetSeconds`, `logTime`, `gate`; from
 /// schema 1.3 inputs also `geoStatus`, `geoHdop`, `geoClass` and, during signal loss,
-/// `geoSignalLoss=1`.
+/// `geoSignalLoss=1`; from inputs that carry the geometry label (0.36) also `geoLabel`,
+/// `geoPdop`, `geoVdop` and `geoUsed`.
 pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> String {
     let mut a: Vec<String> = vec![
         format!("cat={EVENT_PREFIX}"),
@@ -181,6 +195,19 @@ pub fn leef(s: &TrustSample, prev: Option<Band>, host: &str, version: &str) -> S
         }
         if g.signal_loss == Some(true) {
             a.push("geoSignalLoss=1".into());
+        }
+        // From inputs that carry the label (0.36), appended.
+        if let Some(l) = g.label {
+            a.push(format!("geoLabel={l}"));
+            for (k, v) in [
+                ("geoPdop", g.pdop),
+                ("geoVdop", g.vdop),
+                ("geoUsed", g.n_used),
+            ] {
+                if let Some(v) = v {
+                    a.push(format!("{k}={}", num(v)));
+                }
+            }
         }
     }
     format!(
@@ -444,6 +471,8 @@ mod tests {
             hdop: Some(5.2),
             pdop: Some(7.25),
             n_used: Some(4.0),
+            vdop: None,
+            label: None,
             classes: vec!["environment", "geometry"],
             signal_loss: None,
         });
@@ -474,6 +503,25 @@ mod tests {
         assert_eq!(
             cef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),
             cef_before
+        );
+        // The label (0.36): a third field in cs6 and the satellites used in cn1, appended.
+        let g = s.geometry.as_mut().unwrap();
+        (g.label, g.vdop) = (Some("poor"), Some(4.1));
+        assert_eq!(
+            cef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0"),
+            cef_before.replace(
+                "cs6=degraded;environment,geometry ",
+                "cs6=degraded;environment,geometry;poor ",
+            ) + " cn1Label=geometryUsedSatellites cn1=4"
+        );
+        s.geometry.as_mut().unwrap().classes.clear();
+        assert!(cef(&s, None, "ops-gw1", "0.35.0").contains(" cs6=degraded;;poor "));
+        s.geometry.as_mut().unwrap().classes = vec!["environment", "geometry"];
+        assert!(
+            leef(&s, Some(Band::Nominal), "ops-gw1", "0.35.0").ends_with(
+                "^geoClass=environment,geometry^geoSignalLoss=1^geoLabel=poor^geoPdop=7.25^\
+             geoVdop=4.1^geoUsed=4"
+            )
         );
     }
 
