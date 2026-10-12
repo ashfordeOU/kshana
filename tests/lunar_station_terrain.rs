@@ -1,0 +1,291 @@
+// SPDX-License-Identifier: AGPL-3.0-only
+//! Terrain horizon masks on the `lunar-station-coverage` kind (src/lunar_terrain.rs).
+//!
+//! * The `[terrain]` section is additive: without it the document is unchanged (the frozen
+//!   prediction and the goldens pin that byte for byte; here the key is checked absent), and
+//!   a stated horizon of zero everywhere under a positive mask gives exactly the flat run's
+//!   figures.
+//! * A horizon can only remove satellites; the epochs it costs are counted as `terrain_masked`.
+//! * The vendored LOLA crop loads (size and SHA-256 checked), is oriented as the source
+//!   (Shackleton and Haworth craters are depressions, the Malapert massif stands high), and
+//!   gives the station a horizon that is pinned here as a disclosed property of the crop.
+
+use kshana::lunar_station::LunarStationCoverageScenario;
+use kshana::lunar_terrain::{horizon_profile, up_of, HorizonParams, PolarDem};
+use serde_json::Value;
+
+const DEM: &str = "data/lunar-dem/lola_ldem_75s_1200m_crop.toml";
+
+const SMALL: &str = r#"
+kind = "lunar-station-coverage"
+points = [
+  { lat_deg = -89.0, lon_deg = 0.0 },
+  { lat_deg = -88.0, lon_deg = 90.0 },
+  { lat_deg = -86.0, lon_deg = 180.0 },
+  { lat_deg = -84.0, lon_deg = 270.0 },
+  { lat_deg = -90.0, lon_deg = 0.0 },
+]
+t_span_s = 21600.0
+t_step_s = 3600.0
+n_trials = 8
+"#;
+
+fn run(src: &str) -> Value {
+    let s: LunarStationCoverageScenario = toml::from_str(src).expect("parses");
+    serde_json::to_value(s.run().expect("runs")).expect("json")
+}
+
+fn strip_terrain(mut v: Value) -> Value {
+    let o = v.as_object_mut().unwrap();
+    o.remove("terrain");
+    o.remove("note");
+    o.get_mut("inputs_echo")
+        .unwrap()
+        .as_object_mut()
+        .unwrap()
+        .remove("terrain");
+    for p in o.get_mut("points").unwrap().as_array_mut().unwrap() {
+        let p = p.as_object_mut().unwrap();
+        p.remove("horizon_max_deg");
+        p.remove("sky_open_fraction");
+        let un = p.get_mut("unavailable").unwrap().as_object_mut().unwrap();
+        un.remove("terrain_masked");
+    }
+    v
+}
+
+#[test]
+fn without_terrain_the_document_has_no_terrain_keys() {
+    let v = run(SMALL);
+    assert!(v.get("terrain").is_none() && v["inputs_echo"].get("terrain").is_none());
+    let text = serde_json::to_string(&v).unwrap();
+    assert!(!text.contains("horizon_max_deg") && !text.contains("sky_open_fraction"));
+    assert_eq!(v["note"], kshana::lunar_station::NOTE);
+}
+
+#[test]
+fn a_zero_horizon_under_a_positive_mask_is_the_flat_run() {
+    let flat = run(SMALL);
+    let zero = run(&format!(
+        "{SMALL}\n[terrain]\nstation_horizon = {{ source = \"test\", table = [[0.0, 0.0]] }}\n\
+         user_horizon = {{ source = \"test\", table = [[0.0, 0.0], [180.0, 0.0]] }}\n"
+    ));
+    assert_eq!(zero["terrain"]["station"]["horizon_max_deg"], 0.0);
+    for p in zero["points"].as_array().unwrap() {
+        assert_eq!(p["unavailable"]["terrain_masked"], 0);
+    }
+    assert_eq!(strip_terrain(zero), strip_terrain(flat));
+}
+
+/// A horizon can only remove satellites from a site's visible set: the epochs it leaves
+/// with fewer than four at a point are counted as `terrain_masked`, and `user_lt4` keeps
+/// its flat meaning. Availability itself is not
+/// monotone: an epoch is also unavailable when the point uses a satellite the station does
+/// not see, and a horizon that hides that satellite from the point can turn the epoch
+/// available (the bundled terrain scenario shows it: region availability 91.9 % flat,
+/// 93.0 % with the DEM).
+#[test]
+fn a_horizon_only_removes_satellites_and_a_wall_removes_everything() {
+    let flat = run(SMALL);
+    let walled = run(&format!(
+        "{SMALL}\n[terrain]\nuser_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 70.0], [90.0, 20.0], [180.0, 70.0], [270.0, 20.0]] }}\n"
+    ));
+    let fp = flat["points"].as_array().unwrap();
+    let wp = walled["points"].as_array().unwrap();
+    let mut more = 0;
+    for (f, w) in fp.iter().zip(wp) {
+        let un = |v: &Value, k: &str| v["unavailable"][k].as_u64().unwrap();
+        // user_lt4 keeps its flat meaning; the epochs the horizon costs are terrain_masked.
+        assert_eq!(un(w, "user_lt4"), un(f, "user_lt4"));
+        assert!(f["unavailable"].get("terrain_masked").is_none());
+        if un(w, "terrain_masked") > 0 {
+            more += 1;
+        }
+        assert!(w["horizon_max_deg"].as_f64().unwrap() >= 70.0 - 1e-9);
+    }
+    assert!(more > 0, "a 70 deg wall should hide satellites");
+    let blind = run(&format!(
+        "{SMALL}\n[terrain]\nstation_horizon = {{ source = \"test\", table = [[0.0, 89.0]] }}\n"
+    ));
+    assert_eq!(blind["region"]["availability"], 0.0);
+    assert!(blind["budget_at_station_and_at_edge"]["station"].is_null());
+    assert_eq!(blind["note"], kshana::lunar_station::NOTE_TERRAIN);
+}
+
+#[test]
+fn bad_terrain_sections_are_refused() {
+    for bad in [
+        "[terrain]\n",
+        "[terrain]\nstation_horizon = { source = \"\", table = [[0.0, 1.0]] }\n",
+        "[terrain]\nstation_horizon = { source = \"x\", table = [[0.0, 95.0]] }\n",
+        "[terrain]\nuser_horizon = { source = \"x\", table = [[10.0, 1.0], [5.0, 1.0]] }\n",
+        "[terrain]\ndem_path = \"no/such/descriptor.toml\"\n",
+        "[terrain]\nunknown = 1\n",
+    ] {
+        let src = format!("{SMALL}\n{bad}");
+        let r = toml::from_str::<LunarStationCoverageScenario>(&src)
+            .map_err(|e| e.to_string())
+            .and_then(|s| s.run().map(|_| ()));
+        assert!(r.is_err(), "accepted: {bad}");
+    }
+}
+
+/// The vendored crop: real LOLA heights, oriented as the source.
+#[test]
+fn the_vendored_crop_loads_and_is_oriented_as_the_source() {
+    let (dem, echo) = PolarDem::load(DEM).expect("loads");
+    assert_eq!((dem.lines, dem.samples), (700, 700));
+    assert_eq!(echo.map_scale_m, 1200.0);
+    let h = |lat: f64, lon: f64| dem.height_at_deg(lat, lon).unwrap();
+    // Crater floors (published centre coordinates) are kilometres below the
+    // surroundings; the Malapert massif stands kilometres above.
+    assert!(
+        h(-89.66, 129.2) < -1500.0,
+        "Shackleton {}",
+        h(-89.66, 129.2)
+    );
+    assert!(h(-87.45, -5.0) < -2000.0, "Haworth {}", h(-87.45, -5.0));
+    assert!(h(-86.0, 0.0) > 3500.0, "Malapert {}", h(-86.0, 0.0));
+    // The mirror image (longitude negated) does not show Shackleton's depression.
+    assert!(h(-89.66, -129.2) > 0.0);
+    // Outside the crop: no value.
+    assert!(dem.height_at_deg(-70.0, 0.0).is_none());
+}
+
+/// The DEM horizon of the default station site (89 S, 0 E), 2 m mast, 1 deg azimuth,
+/// 600 m steps to 150 km: the highest horizon is about 4.0 deg (toward azimuth 171 deg,
+/// across the higher ground near the pole), below the 5 deg mask, so at this site the DEM
+/// does not bind.
+/// PIN-SCOPE:    the ray-marched horizon maximum (to 0.05 deg) and its azimuth at that site
+///               from the vendored crop
+/// PIN-EXCLUDES: any claim about the real horizon at the site finer than the crop's 1.2 km
+#[test]
+fn the_station_site_horizon_from_the_crop() {
+    let (dem, _) = PolarDem::load(DEM).expect("loads");
+    let p = HorizonParams {
+        antenna_height_m: 2.0,
+        azimuth_step_deg: 1.0,
+        range_step_m: 600.0,
+        max_range_m: 150_000.0,
+    };
+    let h = horizon_profile(&dem, up_of(-89.0, 0.0), &p).expect("horizon");
+    assert_eq!(h.profile.len(), 360);
+    let (az, el) = h
+        .profile
+        .iter()
+        .cloned()
+        .fold((0.0, -90.0), |m, v| if v.1 > m.1 { v } else { m });
+    eprintln!(
+        "site height {:.1} m, max horizon {el:.3} deg at az {az}, truncated {}",
+        h.site_height_m, h.rays_truncated
+    );
+    assert_eq!(h.rays_truncated, 0);
+    assert!((el - 4.0).abs() < 0.05, "max horizon {el}");
+    assert_eq!(az, 171.0);
+    assert!(h.profile.iter().all(|v| v.1 < 5.0));
+}
+
+// ── moonlight-service-volume ─────────────────────────────────────────────────
+
+const SV: &str = r#"
+kind = "moonlight-service-volume"
+lat_min_deg = -90.0
+lat_max_deg = -80.0
+lat_step_deg = 5.0
+lon_step_deg = 90.0
+horizon_hours = 6.0
+step_min = 60.0
+"#;
+
+fn run_sv(src: &str) -> Value {
+    let s: kshana::lunar_service::LunarServiceScenario = toml::from_str(src).expect("parses");
+    serde_json::to_value(s.try_run().expect("runs")).expect("json")
+}
+
+#[test]
+fn service_volume_terrain_is_additive_and_only_removes_satellites() {
+    let flat = run_sv(SV);
+    assert!(flat.get("terrain").is_none());
+    let mut zero = run_sv(&format!(
+        "{SV}\n[terrain]\nuser_horizon = {{ source = \"test\", table = [[0.0, 0.0]] }}\n"
+    ));
+    assert_eq!(zero["terrain"]["n_points_outside_dem"], 0);
+    zero.as_object_mut().unwrap().remove("terrain");
+    assert_eq!(
+        zero, flat,
+        "a zero horizon under a 5 deg mask is the flat run"
+    );
+    let walled = run_sv(&format!(
+        "{SV}\n[terrain]\nuser_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 70.0], [90.0, 20.0], [180.0, 70.0], [270.0, 20.0]] }}\n"
+    ));
+    let f = |v: &Value, k: &str| v[k].as_f64().unwrap();
+    assert!(f(&walled, "coverage_pct") < f(&flat, "coverage_pct"));
+    assert!(walled["max_sats"].as_u64() <= flat["max_sats"].as_u64());
+    let station =
+        format!("{SV}\n[terrain]\nstation_horizon = {{ source = \"x\", table = [[0.0, 1.0]] }}\n");
+    let s: kshana::lunar_service::LunarServiceScenario = toml::from_str(&station).unwrap();
+    assert!(s.try_run().unwrap_err().contains("station_horizon"));
+}
+
+/// PIN-SCOPE:    the SHA-256 of the vendored DEM image the run echoes
+/// PIN-EXCLUDES: the horizons themselves
+#[test]
+fn service_volume_dem_points_outside_the_crop_keep_the_flat_mask() {
+    let src = format!(
+        "{SV}\nlat_max_deg = -70.0\n[terrain]\ndem_path = \"{DEM}\"\nmax_range_km = 50.0\n"
+    )
+    .replace("lat_max_deg = -80.0\n", "");
+    let v = run_sv(&src);
+    let t = &v["terrain"];
+    // Rings at -90, -85, -80, -75, -70: the crop reaches about 76.2 S, so -75 and -70
+    // (4 points each) are outside it.
+    assert_eq!(t["n_points_outside_dem"], 8, "{t}");
+    assert_eq!(
+        t["dem"]["image_sha256"],
+        "639eb45c21e3df38cffbcf8048da4f3a92aa150b9aea534e10712be0dad4edab"
+    );
+}
+
+// ── units ─────────────────────────────────────────────────────────────────────
+
+fn audit(src: &str) -> kshana::field_schema::DocumentAudit {
+    let out = kshana::api::run_toml(src).expect("runs");
+    kshana::field_schema::audit_document(&serde_json::from_str(&out.json).unwrap())
+}
+
+/// Every numeric field a terrain document emits (stated horizons and the DEM, both kinds)
+/// has a unit; the terrain units appear only in a document that carries `[terrain]`, so a
+/// flat document's units block is unchanged.
+#[test]
+fn every_terrain_field_has_a_unit_and_only_terrain_documents_carry_them() {
+    let station = format!(
+        "{SMALL}\n[terrain]\ndem_path = \"{DEM}\"\nmax_range_km = 40.0\nrange_step_m = 1200.0\n\
+         station_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 3.0], [180.0, 6.0]] }}\n\
+         user_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 2.0]] }}\n"
+    );
+    let sv = format!(
+        "{SV}\n[terrain]\ndem_path = \"{DEM}\"\nmax_range_km = 40.0\nrange_step_m = 1200.0\n\
+         user_horizon = {{ source = \"ILLUSTRATIVE\", table = [[0.0, 2.0]] }}\n"
+    );
+    for src in [&station, &sv] {
+        let a = audit(src);
+        assert!(a.missing.is_empty(), "missing units: {:?}", a.missing);
+        assert!(
+            a.malformed.is_empty(),
+            "malformed units: {:?}",
+            a.malformed.len()
+        );
+    }
+    for flat in [SMALL, SV] {
+        let out = kshana::api::run_toml(flat).expect("runs");
+        let doc: Value = serde_json::from_str(&out.json).unwrap();
+        assert!(
+            !doc["units"]
+                .as_object()
+                .unwrap()
+                .keys()
+                .any(|k| k.contains("terrain") || k.contains("horizon")),
+            "a flat document's units block must not change"
+        );
+    }
+}
