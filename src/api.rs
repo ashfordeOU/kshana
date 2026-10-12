@@ -367,6 +367,19 @@ fn json_of_with_units<T: serde::Serialize>(
     })
 }
 
+/// [`json_of_with_units`] for a pack whose units block is built at run time (a
+/// [`serde_json::Value`] object) rather than declared as a static table.
+fn json_of_with_units_block<T: serde::Serialize>(
+    v: &T,
+    units: serde_json::Value,
+) -> Result<String, String> {
+    json_of(&Documented {
+        report: v,
+        units,
+        figure_tiers: None,
+    })
+}
+
 /// The wrapper [`json_of_with_units`] serialises: the report's own fields, flattened, and
 /// then one `units` key.
 ///
@@ -2058,7 +2071,7 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
         ScenarioKind::SweepNd => {
             let scn: crate::sweep::GenericSweepScenario =
                 toml::from_str(src).map_err(|e| format!("invalid generic sweep scenario: {e}"))?;
-            let r = crate::sweep::run_generic_sweep(&scn)?;
+            let (r, node_units) = crate::sweep::run_generic_sweep_with_units(&scn)?;
             let summary = format!(
                 "generic sweep of `{}` over [{}] | {} nodes (shape {:?}) | metrics [{}]",
                 r.kind,
@@ -2068,7 +2081,10 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
                 r.metrics.join(", "),
             );
             Ok(RunOutput {
-                json: json_of_with_units(&r, crate::sweep::GENERIC_UNITS)?,
+                json: json_of_with_units_block(
+                    &r,
+                    crate::sweep::generic_units_block(&r, node_units.as_ref()),
+                )?,
                 svg: crate::sweep::generic_to_svg(&r),
                 summary,
                 csv: None,
@@ -2829,6 +2845,47 @@ pub(crate) fn run_builtin_kind(kind: ScenarioKind, src: &str) -> Result<RunOutpu
 #[cfg(test)]
 mod tests {
     use super::*;
+
+    /// FUT-28 additivity. The `sweep-nd` document gained the run-time-resolved
+    /// `points[].coords[]` and `points[].metrics[]` units entries and nothing else:
+    /// strip those two keys back off and the document is byte-identical to the
+    /// serialisation it had before (the report plus the static `shape[]`-only block).
+    #[test]
+    fn sweep_nd_units_entries_are_purely_additive() {
+        let src = std::fs::read_to_string("scenarios/sweep-nd-inertial.toml").unwrap();
+        let scn: crate::sweep::GenericSweepScenario = toml::from_str(&src).unwrap();
+        let r = crate::sweep::run_generic_sweep(&scn).unwrap();
+        let before = json_of_with_units(&r, crate::sweep::GENERIC_UNITS).unwrap();
+        let now = run_toml(&src).unwrap().json;
+        let doc: serde_json::Value = serde_json::from_str(&now).unwrap();
+        let full = doc["units"].clone();
+        // The document is exactly the report plus its units block…
+        assert_eq!(json_of_with_units_block(&r, full.clone()).unwrap(), now);
+        // …and that block is the old one plus exactly two keys.
+        let mut stripped = full.as_object().unwrap().clone();
+        assert!(stripped.remove("points[].coords[]").is_some());
+        assert!(stripped.remove("points[].metrics[]").is_some());
+        assert_eq!(
+            json_of_with_units_block(&r, serde_json::Value::Object(stripped)).unwrap(),
+            before
+        );
+        // The two new entries, as the shipped example resolves them.
+        let c = &full["points[].coords[]"];
+        assert_eq!(c["unit"], "mixed - see note");
+        assert_eq!(c["provenance"], "input");
+        let note = c["note"].as_str().unwrap();
+        assert!(note.contains("`threshold_m` [m] (echoed as `threshold_m`)"), "{note}");
+        assert!(
+            note.contains("`accel_classical.bias` [m/s^2] (by field name: `classical.spec.params.bias`, `quantum.spec.params.bias`)"),
+            "{note}"
+        );
+        let m = &full["points[].metrics[]"];
+        assert_eq!(m["unit"], "mixed - see note");
+        assert_eq!(m["provenance"], "computed");
+        let note = m["note"].as_str().unwrap();
+        assert!(note.contains("`classical.fom.holdover_s` [s] (computed)"), "{note}");
+        assert!(note.contains("`classical.fom.pos_rms_m` [m] (computed)"), "{note}");
+    }
 
     #[test]
     fn scenario_kind_classifies_and_round_trips() {
