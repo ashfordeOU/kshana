@@ -488,10 +488,10 @@ def test_receiver_trust_replay_scores_an_excerpt():
     session, excerpt = _excerpt()
     r = kshana.receiver_trust_replay(session, excerpt)
     assert r["schema"] == "1.3" and "advisory" in r["epochs"][0] and r["summary"]["untrusted"] > 0
-    # Schema 1.3: every epoch carries its satellite geometry and the attribution of any
-    # degradation; the demo's sky is open, so the drag-off reads as inconsistency.
+    # Schema 1.3: every epoch carries its satellite geometry and every deduction a class; the
+    # demo's sky is open, so the drag-off reads as inconsistency.
     assert r["epochs"][-1]["geometry"]["status"] == "good"
-    assert r["epochs"][-1]["degradation"] in ("inconsistency", "none")
+    assert {d["class"] for d in r["epochs"][-1]["deductions"]} <= {"inconsistency", "environment"}
     assert r["summary"]["geometry"]["degraded"] == 0
     assert r["summary"]["lowest_score"] < 55 and r["epochs"][-1]["state"]
     assert kshana.receiver_trust_replay(session, excerpt.encode())["summary"] == r["summary"]

@@ -23,7 +23,7 @@ Input is the live JSON-lines schema v1.1 documented in `docs/MARITIME-TRUST.md`.
 `t_s`; `state` (`calibrating|nominal|degraded|untrusted`, the band); `score` (0-100 or
 null); `time` (the epoch's time as stated); `gate` (`off|passed|withheld`); `position` (`lat_deg`, `lon_deg`, `height_m`, or null); reasons are the
 monitors in `deductions`, then any further ones in `alarms`; from schema 1.3, `geometry`
-(`status`, `reasons`, `pdop`) and `degradation`. Other keys are ignored, since
+(`status`, `hdop`, `pdop`, `n_used`) and each deduction's `class`. Other keys are ignored, since
 the schema only grows by appended keys. A line that does not parse is counted in `kshana_trust_input_errors_total` and
 skipped; scores outside 0-100 are rejected, not clamped, so a format change is noticed.
 The only code that knows this format is `src/telemetry/sample.rs`.
@@ -81,18 +81,18 @@ At end of input the sender threads are given their remaining time limits to fini
 | `kshana_trust_epoch_offset_seconds` | gauge | | latest epoch's offset from stream start |
 | `kshana_trust_last_sample_timestamp_seconds` | gauge | | wall-clock receipt time; alert on its age |
 | `kshana_trust_geometry` | gauge | `status` | satellite geometry at the latest epoch, `good`, `degraded`, `unknown`: 1 for the current one *(schema 1.3 inputs)* |
-| `kshana_trust_geometry_reason_active` | gauge | `reason` | `few-satellites`, `high-pdop`, `high-hdop`, `sky-blocked`, `other`: 1 if present at the latest epoch *(1.3)* |
-| `kshana_trust_geometry_pdop` | gauge | | PDOP at the latest epoch; absent when none *(1.3)* |
-| `kshana_trust_degradation` | gauge | `cause` | `none`, `geometry`, `inconsistency`, `geometry-and-inconsistency`, `unknown`: what the latest epoch's degradation is attributed to *(1.3)* |
+| `kshana_trust_geometry_degraded` | gauge | | 1 degraded, 0 good; absent when the geometry is unknown *(1.3)* |
+| `kshana_trust_geometry_hdop`, `..._pdop`, `..._used_satellites` | gauge | | HDOP, PDOP and satellites used at the latest epoch; each absent when none *(1.3)* |
 | `kshana_trust_geometry_epochs_total` | counter | `status` | epochs by geometry status *(1.3)* |
-| `kshana_trust_degradation_epochs_total` | counter | `cause` | epochs by attribution *(1.3)* |
 
-The geometry series come after all the others and only once an input epoch carries `geometry`
-(live schema 1.3, a result from engine 0.36 or later), so a 0.35 stream or result renders byte for
-byte as before. Their label values are fixed sets: an unknown reason is counted as `other`, an
-unknown status or cause as `unknown`. Alert on `kshana_trust_degradation{cause="inconsistency"}`
-rather than on the band alone to keep a masked sky from paging as an attack; the geometry never
-changes the score (see `docs/RECEIVER-TRUST.md`).
+From schema 1.3 inputs `kshana_trust_reason_active` also carries a `class` label (`geometry`,
+`environment`, `inconsistency`) on each reason that came with one: the deduction's class at the
+latest epoch. The geometry series come after all the others and only once an input epoch carries
+`geometry` (live schema 1.3, a result from engine 0.36 or later), so a 0.35 stream or result renders
+byte for byte as before. Label values are fixed sets (an unknown status reads `unknown`; an unknown
+class is dropped). Alert on `kshana_trust_reason_active{class="inconsistency"}` rather than on the
+band alone, so a poor sky does not page as an attack; a `geometry` class is a statement about the
+sky, not a finding that no attack occurred (see `docs/RECEIVER-TRUST.md`).
 
 Reason names are cut to 128 characters, and at most 64 distinct reasons get their own series; later ones are counted under `reason="other"` and in `kshana_trust_reason_overflow_total`, so a hostile or buggy input cannot create unbounded label cardinality.
 
@@ -132,10 +132,13 @@ Field mapping (event id is `gnss-trust.<band>`):
 | epoch offset, s | `cfp2` (`epochOffsetSeconds`) | `epochOffsetSeconds` |
 | log time label | `cs4` (`logTime`) | `logTime` |
 | gate state | `cs5` (`gate`) | `gate` |
-| geometry status *(1.3 inputs)* | `cs6` (`geometry`) | `geometry` |
-| geometry reasons, comma-separated *(1.3)* | `flexString2` (`geometryReasons`) | `geometryReasons` |
-| attribution of the degradation *(1.3)* | `flexString1` (`degradation`) | `degradation` |
-| PDOP *(1.3)* | `cfp3` (`pdop`) | `pdop` |
+| geometry status *(1.3 inputs)* | `geoStatus` | `geoStatus` |
+| HDOP *(1.3)* | `geoHdop` | `geoHdop` |
+| classes of the epoch's deductions, comma-separated *(1.3)* | `geoClass` | `geoClass` |
+
+The three geometry keys are the names of the 0.36 geometry design note; in CEF they are custom
+extension keys, not keys of the CEF dictionary, so a strict CEF consumer may file them as
+unrecognised.
 
 Empty fields are left out (no `cs2=` without reasons). The host name is cut to 255
 characters. CEF header values escape `\` and `|`; extension values escape `\`, `=` and line breaks.
@@ -145,7 +148,8 @@ LEEF values have `^` and line breaks replaced by spaces.
 
 Build with `--features otlp` and pass `--otlp http://host:4318/v1/metrics`. The exporter
 posts OTLP/HTTP JSON (`kshana.trust.score`, `kshana.trust.band`, `kshana.trust.epochs`,
-`kshana.trust.reason.epochs`, and for schema 1.3 inputs `kshana.trust.geometry`,
-`kshana.trust.geometry.pdop`, `kshana.trust.degradation` and `kshana.trust.geometry.epochs`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
+`kshana.trust.reason.epochs`, and for schema 1.3 inputs `kshana.geometry.status`,
+`kshana.geometry.degraded`, `kshana.geometry.hdop`, `kshana.geometry.pdop` and
+`kshana.geometry.used_satellites`; the cumulative sums carry `startTimeUnixNano`) every `--otlp-every` epochs (default 10) and at end of
 input. It adds no dependency and has no TLS: send to a collector on the same host or a
 trusted segment, which forwards onwards over TLS. `https://` endpoints are refused.
