@@ -50,7 +50,6 @@
 //! paper on 4 of 12; see `tests/lunar_service_volume_orekit_oracle.rs`. This file keeps the
 //! round-1 reading (elements as Moon-centred inertial, two-body), which is unchanged.
 
-use kshana::lunar::{selenographic_to_mcmf, Selenographic};
 use kshana::lunar_ephemeris::LunarEphemeris;
 use kshana::lunar_service::{visible_sat_positions, PositionsMcmf};
 
@@ -79,24 +78,11 @@ const PUBLISHED: [(&str, &str, [f64; 4]); 3] = [
 ];
 
 fn grid() -> Vec<[f64; 3]> {
-    let mut pts = Vec::new();
-    for lat in 80..90 {
-        let lat_deg = -(lat as f64);
-        let n = (360.0 * lat_deg.to_radians().cos()).round() as usize;
-        for k in 0..n {
-            pts.push(selenographic_to_mcmf(Selenographic {
-                lat_rad: lat_deg.to_radians(),
-                lon_rad: (360.0 * k as f64 / n as f64).to_radians(),
-                alt_m: 0.0,
-            }));
-        }
-    }
-    pts.push(selenographic_to_mcmf(Selenographic {
-        lat_rad: -std::f64::consts::FRAC_PI_2,
-        lon_rad: 0.0,
-        alt_m: 0.0,
-    }));
-    pts
+    // The ring rule, now the shared library helper (also the lunar-station-coverage grid).
+    kshana::lunar_service::south_polar_ring_grid(-80.0, 1.0)
+        .iter()
+        .map(|p| p.mcmf)
+        .collect()
 }
 
 /// [availability 5, tolerance 5, availability 20, tolerance 20] in percent: the minimum over

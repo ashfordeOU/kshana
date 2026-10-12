@@ -107,6 +107,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("lunar-attack-surface"),
     bundled!("lunar-beacon"),
     bundled!("lunar-differential-pnt"),
+    bundled!("lunar-station-coverage"),
     bundled!("lunar-frame-campaign"),
     bundled!("lunar-frame-realisation"),
     bundled!("lunar-interop-export"),
