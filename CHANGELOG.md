@@ -113,11 +113,45 @@ breaking changes are called out explicitly.
   covariance* against numpy `linalg.inv` and `linalg.eigh` (standard P2), 270 cases, axes 5.1e-13
   relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
   presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
-- With the geometry-trust and skyline rows, the ledger has 270 rows: 134 Validated, 132 Modelled,
-  4 Partner.
+- With the geometry-trust, skyline and lunar reference-station rows, the ledger has 272 rows:
+  134 Validated, 134 Modelled, 4 Partner.
+
+- **Lunar reference station: station time laboratory** (**MODELLED**). An optional `[time_lab]`
+  block on `lunar-time-budget` (`src/lunar_time_lab.rs`). It models a station clock (default the
+  miniRAFS class, any named class, or a device card fitted to stated stability points) steered to
+  LTC, then free-running or re-steered every N seconds. It emits the time-error curve x(t), the time
+  to 1, 10 and 100 ns (bisection beside the closed form) and the dominant term per horizon, all with
+  units. The steer residual is ILLUSTRATIVE. The LTC rate is not re-derived and keeps its own
+  VALIDATED row. The nanosecond-level target of the public ICG WG-B Lunar PNT material (June 2024)
+  is quoted as a source statement, not a claim. The clock ordering optical < PHM < RAFS < miniRAFS
+  holds from 1 s to 7e5 s, and the test pins the crossing of the PHM and RAFS curves near 7.5e5 s.
+  That crossing is a property of the single-noise-type clock models (pure flicker FM against pure
+  white FM), not a physical result. Without the block, the report, its table and its summary are
+  unchanged. Example: `scenarios/lunar-station-time-lab.toml`. Adds one ledger row, labelled
+  MODELLED.
+- **Lunar reference station: station geodesy** (**MODELLED**). Optional `extra_reflectors` and
+  `extra_beacons` inputs on `lunar-llr-datum` add a `station_geodesy` block. The five-array datum
+  information from the archived laser-ranging slice is combined with what an added retroreflector
+  and an added VLBI beacon at stated sites would contribute. The reflector is ranged at the archived
+  epochs it can see, with their archived weights. The beacon uses the `lunar-frame-campaign`
+  network and schedule, with the stations fixed. The block gives each Helmert 1-sigma before and
+  after, and their ratio. These are Cramer-Rao bounds for a reduced parameter set, on an
+  ILLUSTRATIVE schedule and site. Absent or empty inputs leave the report byte-identical. Examples:
+  `scenarios/lunar-station-geodesy-baseline.toml` and `-with-station.toml`. Adds one ledger row,
+  labelled MODELLED.
+- **Lunar reference station: clock-file data readiness**. `realdata::clk::rinex_clock_series` now
+  states the time system of its epochs. It is the `TIME SYSTEM ID` value, or, when that is
+  undeclared, the default of the header's satellite system. The result also says whether the system
+  was declared. The function refuses an unknown time system (a lunar time scale, for example), an
+  undeclared mixed-system file, and files that disagree, rather than reading them as GPS time. It
+  ships a synthetic station clock fixture. No corrections-file format is defined, because no public
+  one exists.
 
 ### Changed
 
+- `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
+  whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
+  falls back from satellite (`AS`) records to receiver/station (`AR`) records of the requested name.
 - No score changes unless the geometry is poor; the label is always reported. With good or fair
   geometry (a GPS-only open sky of 8 satellites included) or unknown geometry (the monitor does not
   run) every score is as in 0.35: `tests/geometry_trust_no_change.rs` holds both example sessions'

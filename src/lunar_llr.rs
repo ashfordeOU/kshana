@@ -1522,7 +1522,7 @@ const STATION_GEODESY_UNITS: &[(&str, &str, &str, Option<&str>)] = &[
     ("station_geodesy.extra_beacons.mer_y_m", "m", "computed", Some("body-fixed Y of the added beacon")),
     ("station_geodesy.extra_beacons.mer_z_m", "m", "computed", Some("body-fixed Z of the added beacon")),
     ("station_geodesy.extra_beacons.observations", "count", "computed", Some("scheduled baseline delays that cleared both visibility tests")),
-    ("station_geodesy.extra_beacons.epochs_earth_below_horizon", "count", "computed", Some("scheduled epochs with every Earth station below the beacon's horizon")),
+    ("station_geodesy.extra_beacons.epochs_earth_below_horizon", "count", "computed", Some("scheduled epochs at which no station passed both visibility tests (Moon above the station's elevation mask and station above the beacon's horizon)")),
     ("station_geodesy.extra_beacons.sigma_3d_m", "m", "computed", Some("root-sum-square Cramer-Rao bound on the added beacon's three coordinates with the stations fixed; null when rank-deficient")),
     ("station_geodesy.beacon_campaign.stations", "count", "input", Some("Earth stations in the VLBI network")),
     ("station_geodesy.beacon_campaign.epochs", "count", "computed", Some("epochs in the VLBI schedule")),

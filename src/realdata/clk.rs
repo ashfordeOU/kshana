@@ -19,14 +19,20 @@ pub const KNOWN_CLOCK_TIME_SYSTEMS: [&str; 8] =
     ["GPS", "GLO", "GAL", "BDT", "QZS", "IRN", "UTC", "TAI"];
 
 /// The time system of a RINEX clock file: the `TIME SYSTEM ID` header value, and whether the
-/// header stated it. A file that states none is GPS time by the format's default, and is
-/// reported as `("GPS", false)` so the default is visible rather than silent. An unknown value is
-/// an error naming it.
+/// header stated it. A file that states none takes the default of its satellite system, read from
+/// column 41 of `RINEX VERSION / TYPE` (`G` GPS, `R` GLO, `E` GAL, `C` BDT, `J` QZS, `I` IRN; a
+/// blank field, as in RINEX 2 clock files, is GPS), and is reported with `false` so the default
+/// is visible rather than silent. An unknown declared value, a mixed (`M`) file that declares
+/// none, or an unknown satellite-system code is an error naming it.
 pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
+    let mut sat_system: Option<char> = None;
     for line in text.lines() {
         let label = line.get(60..).map(str::trim_end).unwrap_or("");
         if label == "END OF HEADER" {
             break;
+        }
+        if label == "RINEX VERSION / TYPE" {
+            sat_system = Some(line.chars().nth(40).unwrap_or(' '));
         }
         if label == "TIME SYSTEM ID" {
             let id = line[..60].trim().to_string();
@@ -40,7 +46,28 @@ pub fn rinex_clock_time_system(text: &str) -> Result<(String, bool), String> {
             ));
         }
     }
-    Ok(("GPS".to_string(), false))
+    let default = match sat_system.unwrap_or(' ') {
+        'G' | ' ' => "GPS",
+        'R' => "GLO",
+        'E' => "GAL",
+        'C' => "BDT",
+        'J' => "QZS",
+        'I' => "IRN",
+        'M' => {
+            return Err(
+                "RINEX clock file is mixed-system ('M') and declares no TIME SYSTEM ID; \
+                        refusing to guess the time system of its epochs"
+                    .to_string(),
+            )
+        }
+        other => {
+            return Err(format!(
+                "RINEX clock file has satellite system {other:?} and declares no TIME SYSTEM \
+                 ID; refusing to guess the time system of its epochs"
+            ))
+        }
+    };
+    Ok((default.to_string(), false))
 }
 
 /// One clock record gridded from RINEX clock files, with the time system its epochs are in.
@@ -64,14 +91,15 @@ pub struct RinexClockSeries {
 /// `id` names a satellite (e.g. `"G08"`), otherwise the receiver or station (`AR`) record of that
 /// name. A record repeated in two files is kept once.
 ///
-/// The time system is explicit in the result. Every file must declare the same one (a file with
-/// no declaration counts as GPS); an unknown time system, or files that disagree, are refused
-/// with an error rather than read as GPS time.
+/// The time system is explicit in the result. Every file must have the same one (a file with no
+/// declaration takes its satellite system's default, see [`rinex_clock_time_system`]), and it is
+/// reported as declared only when every file declared it; an unknown time system, or files that
+/// disagree, are refused with an error rather than read as GPS time.
 pub fn rinex_clock_series(texts: &[&str], id: &str, tau0: f64) -> Result<RinexClockSeries, String> {
     let mut system: Option<(String, bool)> = None;
     for t in texts {
         let ts = rinex_clock_time_system(t)?;
-        match &system {
+        match &mut system {
             None => system = Some(ts),
             Some((s, _)) if *s != ts.0 => {
                 return Err(format!(
@@ -80,7 +108,8 @@ pub fn rinex_clock_series(texts: &[&str], id: &str, tau0: f64) -> Result<RinexCl
                     ts.0
                 ))
             }
-            Some(_) => {}
+            // Declared only when every file declared it.
+            Some((_, declared)) => *declared = *declared && ts.1,
         }
     }
     let (time_system, declared) = system.unwrap_or_else(|| ("GPS".to_string(), false));
@@ -326,6 +355,61 @@ AS G10  2026 03 01 00 00  0.000000  1   -2.000000000000E-04
 
         let e = rinex_clock_series(&[&gal, CLK], "G08", 30.0).unwrap_err();
         assert!(e.contains("different time systems"), "{e}");
+    }
+
+    fn with_sat_system(c: char) -> String {
+        let mut v: Vec<char> = CLK.chars().collect();
+        v[40] = c;
+        v.into_iter().collect()
+    }
+
+    #[test]
+    fn undeclared_time_system_defaults_from_the_satellite_system() {
+        for (c, want) in [
+            (' ', "GPS"),
+            ('G', "GPS"),
+            ('R', "GLO"),
+            ('E', "GAL"),
+            ('C', "BDT"),
+            ('J', "QZS"),
+            ('I', "IRN"),
+        ] {
+            let t = with_sat_system(c);
+            assert_eq!(
+                rinex_clock_time_system(&t).unwrap(),
+                (want.to_string(), false),
+                "{c:?}"
+            );
+        }
+        // The declaration wins over the satellite-system default.
+        let t = with_time_system("UTC");
+        let mut v: Vec<char> = t.chars().collect();
+        v[40] = 'E';
+        let t: String = v.into_iter().collect();
+        assert_eq!(rinex_clock_time_system(&t).unwrap(), ("UTC".into(), true));
+    }
+
+    #[test]
+    fn undeclared_mixed_file_is_refused() {
+        let e = rinex_clock_time_system(&with_sat_system('M')).unwrap_err();
+        assert!(e.contains("mixed-system"), "{e}");
+        let e = rinex_clock_series(&[&with_sat_system('M')], "G08", 30.0).unwrap_err();
+        assert!(e.contains("mixed-system"), "{e}");
+        // Declared, a mixed file is fine.
+        let mut v: Vec<char> = with_time_system("GPS").chars().collect();
+        v[40] = 'M';
+        let t: String = v.into_iter().collect();
+        assert_eq!(rinex_clock_time_system(&t).unwrap(), ("GPS".into(), true));
+    }
+
+    #[test]
+    fn declared_only_when_every_file_declared() {
+        let gps = with_time_system("GPS");
+        let r = rinex_clock_series(&[&gps, CLK], "G08", 30.0).unwrap();
+        assert_eq!(r.time_system, "GPS");
+        assert!(!r.time_system_declared);
+        let r = rinex_clock_series(&[&gps, &gps], "G08", 30.0).unwrap();
+        assert!(r.time_system_declared);
     }
 
     #[test]
