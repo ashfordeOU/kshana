@@ -302,7 +302,9 @@ fn golden_jamming() {
         // is genuinely platform-dependent (its pre-change value on that host differed
         // from the pinned Linux one, so the two texts differ in trailing float digits).
         // Re-add it with a `zzz_emit_goldens --ignored` run on x86-64 Linux.
-        expect_fnv_canonical: 0x6b7d_2ec5_c92b_4a47,
+        // Re-baselined for the 0.36 Q table (broadband 1 -> 2, xval/jammer-q/): the summary
+        // string is unchanged; every effective C/N0 rises by 3.010287 dB, nothing else moves.
+        expect_fnv_canonical: 0x770f_2bff_f91c_bfcf,
         expect_fnv_raw_linux_x64: None,
     });
 }

@@ -11,6 +11,17 @@ breaking changes are called out explicitly.
 
 ### Added
 
+- **Lunar reference-station study** (0.36, prompted by published material on a planned lunar
+  south-pole reference station; sources in [`docs/LUNAR-REFERENCE-STATION.md`](docs/LUNAR-REFERENCE-STATION.md)):
+  the `lunar-station-coverage` kind, a Monte Carlo sweep of the lunar differential-PNT model over
+  a south-polar user grid and a day of epochs, giving per point and over the region the
+  percentile corrected and uncorrected error, availability with reasons, coverage against a
+  stated threshold, protection levels, the coverage radius per azimuth and the correction-link
+  budget. It reduces exactly to `lunar-differential-pnt` at one point, epoch and trial; its
+  arithmetic was re-computed by numpy under a pre-registered bar (positions and percentiles
+  met; the station corrections missed theirs by double-precision rounding, recorded). MODELLED;
+  ledger row "Lunar reference-station coverage and accuracy map". Not affiliated with or
+  endorsed by any agency; no statement about the performance of any real system.
 - **Geometry-aware trust** (0.36 geometry design note, section 4). Every `receiver-trust` epoch,
   static or vessel, batch or live, carries its satellite geometry: `good`, `degraded` (reasons
   `few-satellites`, `high-pdop`, `high-hdop`, and informational `sky-blocked`) or `unknown` where
@@ -113,11 +124,58 @@ breaking changes are called out explicitly.
   covariance* against numpy `linalg.inv` and `linalg.eigh` (standard P2), 270 cases, axes 5.1e-13
   relative (`xval/numpy-ellipse/`). **MODELLED**: the canyon, sector and terrain reductions; the
   presets; the sky-geometry composition (preset sky, Monte Carlo cloud).
-- With the geometry-trust and skyline rows, the ledger has 270 rows: 134 Validated, 132 Modelled,
-  4 Partner.
+- With the geometry-trust, skyline and lunar reference-station rows, the ledger has 274 rows:
+  134 Validated, 136 Modelled, 4 Partner.
+
+- **Lunar reference station: station time laboratory** (**MODELLED**). An optional `[time_lab]`
+  block on `lunar-time-budget` (`src/lunar_time_lab.rs`). It models a station clock (default the
+  miniRAFS class, any named class, or a device card fitted to stated stability points) steered to
+  LTC, then free-running or re-steered every N seconds. It emits the time-error curve x(t), the time
+  to 1, 10 and 100 ns (bisection beside the closed form) and the dominant term per horizon, all with
+  units. The steer residual is ILLUSTRATIVE. The LTC rate is not re-derived and keeps its own
+  VALIDATED row. The nanosecond-level target of the public ICG WG-B Lunar PNT material (June 2024)
+  is quoted as a source statement, not a claim. The clock ordering optical < PHM < RAFS < miniRAFS
+  holds from 1 s to 7e5 s, and the test pins the crossing of the PHM and RAFS curves near 7.5e5 s.
+  That crossing is a property of the single-noise-type clock models (pure flicker FM against pure
+  white FM), not a physical result. Without the block, the report, its table and its summary are
+  unchanged. Example: `scenarios/lunar-station-time-lab.toml`. Adds one ledger row, labelled
+  MODELLED.
+- **Lunar reference station: station geodesy** (**MODELLED**). Optional `extra_reflectors` and
+  `extra_beacons` inputs on `lunar-llr-datum` add a `station_geodesy` block. The five-array datum
+  information from the archived laser-ranging slice is combined with what an added retroreflector
+  and an added VLBI beacon at stated sites would contribute. The reflector is ranged at the archived
+  epochs it can see, with their archived weights. The beacon uses the `lunar-frame-campaign`
+  network and schedule, with the stations fixed. The block gives each Helmert 1-sigma before and
+  after, and their ratio. These are Cramer-Rao bounds for a reduced parameter set, on an
+  ILLUSTRATIVE schedule and site. Absent or empty inputs leave the report byte-identical. Examples:
+  `scenarios/lunar-station-geodesy-baseline.toml` and `-with-station.toml`. Adds one ledger row,
+  labelled MODELLED.
+- **Lunar reference station: comparison against published claims** (**MODELLED**). Every numeric claim
+  in five public sources is listed with its exact wording, page and stated assumptions, and classified
+  as comparable, partly comparable or not comparable (`tests/fixtures/lunar_station_published/CLAIMS.md`;
+  sources with URL, retrieval date, SHA-256 and licence in `tests/fixtures/lunar_station/SOURCES.md`).
+  The partly comparable claims were scored under six one-sided bars pre-registered before the run
+  (`PREREGISTRATION.md`, revision 2, 05bf9a19): 1 of 6 claims within the pre-registered bar
+  (pre-registered 05bf9a19). Coverage is 0.00 against >= 0.95 on both south-polar circles, and the
+  corrected p95 is 280.6 m against <= 1.5 m. The cause is the satellites' orbit elements, which no
+  source publishes: on the ILLUSTRATIVE in-tree elements, four satellites are in common view in 8 % of
+  epochs, at near-singular geometry. The run does not reproduce the claims on those elements and is not
+  evidence that the claims are wrong. Pinned in `tests/lunar_station_published_oracle.rs`. One ledger
+  row, labelled MODELLED with the finding.
+- **Lunar reference station: clock-file data readiness**. `realdata::clk::rinex_clock_series` now
+  states the time system of its epochs. It is the `TIME SYSTEM ID` value, or, when that is
+  undeclared, the default of the header's satellite system. The result also says whether the system
+  was declared. The function refuses an unknown time system (a lunar time scale, for example), an
+  undeclared mixed-system file, and files that disagree, rather than reading them as GPS time. It
+  ships a synthetic station clock fixture. No corrections-file format is defined, because no public
+  one exists.
 
 ### Changed
 
+- README: the lunar suite row states each piece's evidence tier (it said all were MODELLED).
+- `realdata::clk::rinex_clock_series` returns `RinexClockSeries` (series, gridding log, time system,
+  whether it was declared, record type) instead of a `(PhaseSeries, GriddingLog)` tuple. It now
+  falls back from satellite (`AS`) records to receiver/station (`AR`) records of the requested name.
 - No score changes unless the geometry is poor; the label is always reported. With good or fair
   geometry (a GPS-only open sky of 8 satellites included) or unknown geometry (the monitor does not
   run) every score is as in 0.35: `tests/geometry_trust_no_change.rs` holds both example sessions'
@@ -137,6 +195,24 @@ breaking changes are called out explicitly.
 - The NMEA reader now reads GSA (a short GSA is ignored, not counted as skipped) and keeps GSV
   elevations and azimuths, including for satellites listed without a signal; the UBX reader keeps
   NAV-SAT elevation and azimuth. C/N0 is read exactly as before.
+- **Result change: broadband and swept jammers now use Q = 2.** The anti-jam equation uses the
+  textbook spread-spectrum adjustment Q for these jammers, where it used 1. Q = 2 is white noise
+  over the main lobe with the in-band signal power normalised; it is pinned in the tests to the
+  closed form from `navsignal`.
+  - **Unchanged:** CW and narrowband jammers (Q = 1), an unrecognised jammer type (Q = 1, the
+    most damaging value), and `q_override`.
+  - **Effect:** where a broadband or swept jammer acts, effective C/N0 rises by up to 3.0103 dB,
+    derived J/S thresholds rise by 3.0103 dB, and free-space denial radii shrink by 0.7071.
+  - **Changed bundled scenarios:** 12 of 144 change, all as pre-registered
+    (`xval/jammer-q/PREREGISTRATION.md`, results in `xval/jammer-q/RESULTS.md`):
+    - `jamming-demo`: C/N0 +3.01 dB;
+    - `jamming-harbour-approach-skyline`: `min_tracking` 6 → 7;
+    - `lunar-jamming`: satellites lost 26 → 0, loss-of-lock standoff median 27.4 → 19.4 km;
+    - `tracking-loop`: loop-dynamics denial radius 75.2 → 53.2 km;
+    - and the campaigns and spectrum cross-checks that contain these.
+  - **Affected consumers:** the `jamming`, `lunar-jamming`, `tracking-loop` and
+    `impairment-eval` kinds, the spectrum kinds' `jamming_kind_cross_check`, the IQ campaign's
+    MODELLED reference curve and the labfit default Q, and interop scene export.
 - JetBrains plugin: no deprecated or scheduled-for-removal platform API. The five choice dialogs use
   a small `DialogWrapper` with a drop-down in place of the deprecated `Messages.showChooseDialog`;
   single-file choosers use the `FileChooserDescriptor` constructor in place of the deprecated

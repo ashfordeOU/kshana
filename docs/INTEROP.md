@@ -362,7 +362,11 @@ stale.
 | `lunar-joint-od-clock.toml` | `lunar-joint-od-clock` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-llr-datum.toml` | `lunar-llr-datum` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-relay-constellation.toml` | `constellation-design` | no [8] | no [8] | no [8] | no [8] | no [2] |
+| `lunar-station-coverage-public-sources.toml` | `lunar-station-coverage` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-station-coverage.toml` | `lunar-station-coverage` | no [7] | no [7] | no [7] | no [7] | no [2] |
+| `lunar-station-geodesy-baseline.toml` | `lunar-llr-datum` | no [7] | no [7] | no [7] | no [7] | no [2] |
+| `lunar-station-geodesy-with-station.toml` | `lunar-llr-datum` | no [7] | no [7] | no [7] | no [7] | no [2] |
+| `lunar-station-time-lab.toml` | `lunar-time-budget` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-time-budget.toml` | `lunar-time-budget` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-time-offset.toml` | `lunar-time-offset` | no [7] | no [7] | no [7] | no [7] | no [2] |
 | `lunar-vlbi-fim.toml` | `lunar-vlbi-fim` | no [7] | no [7] | no [7] | no [7] | no [2] |
