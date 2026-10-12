@@ -36,6 +36,7 @@ pub mod hybrid_ukf;
 pub mod pack;
 pub mod tightly_coupled;
 pub mod tightly_coupled17;
+pub mod truth;
 pub mod ukf;
 
 use crate::hybrid::{score_hybrid, HybridResult, HybridSample, HybridScenario, SuiteRun};
