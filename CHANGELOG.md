@@ -39,8 +39,9 @@ breaking changes are called out explicitly.
   least-squares errors, at most 5000), `skyline_presets`, `skyline_profile` and `skyplot_svg`.
   `orbit::dop_cov` exposes the covariance behind `orbit::dop`, which is now its reduction (the
   validated scalars are unchanged). Surfaces: `kshana sky` and `kshana skyline`, Python and WASM
-  functions of the same names, and the MCP tool `sky_geometry` (40 tools). Every result carries
-  the MODELLED label, the error-model statement and the advisory.
+  functions of the same names, and the MCP tool `sky_geometry` (40 tools), and the notebook
+  `notebooks/geometry.ipynb` (with its `.md` mirror; run by `tests/python/test_notebooks.py`).
+  Every result carries the MODELLED label, the error-model statement and the advisory.
 - Ledger: five rows (268 rows: 134 Validated, 130 Modelled, 4 Partner). **VALIDATED**, each in a
   comparison pre-registered before its oracle ran: *Azimuth-dependent skyline mask: visible set,
   azimuth and elevation, and DOP under the mask* against Orekit 12.2 (`TopocentricFrame`,
