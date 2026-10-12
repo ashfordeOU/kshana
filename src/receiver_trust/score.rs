@@ -160,12 +160,19 @@ impl ScoreCfg {
         *self == ScoreCfg::default()
     }
 
-    /// The weight in force for `m`.
+    /// The weight in force for `m`. The geometry monitor's default is clamped to
+    /// `100 - degraded_min`, so geometry alone never reaches the untrusted band under a
+    /// `[score]` table that raises `degraded_min` without naming the geometry weight (a 0.35
+    /// configuration with `degraded_min` above 85 stays valid); the clamped value is the one
+    /// recorded in `score_model.weights`.
     pub fn weight(&self, m: Monitor) -> f64 {
-        self.weights
-            .get(&m)
-            .copied()
-            .unwrap_or_else(|| default_weight(m))
+        match self.weights.get(&m) {
+            Some(w) => *w,
+            None if m == Monitor::Geometry => {
+                default_weight(m).min((100.0 - self.degraded_min).max(0.0))
+            }
+            None => default_weight(m),
+        }
     }
 
     /// Every monitor's weight in force, for the record of a run.
@@ -214,9 +221,13 @@ impl ScoreCfg {
             }
         }
         // Geometry alone must never reach the untrusted band: at full strength it leaves
-        // 100 - weight, which must stay at or above degraded_min.
-        let g = self.weight(Monitor::Geometry);
-        if g > 100.0 - self.degraded_min {
+        // 100 - weight, which must stay at or above degraded_min. The default is clamped in
+        // `weight`, so only a weight set in `[score.weights]` can break this.
+        if let Some(&g) = self
+            .weights
+            .get(&Monitor::Geometry)
+            .filter(|g| **g > 100.0 - self.degraded_min)
+        {
             return Err(format!(
                 "score: the geometry weight ({g}) must be at most 100 - degraded_min ({}), so \
                  geometry alone cannot reach the untrusted band",
@@ -405,8 +416,25 @@ mod tests {
             ..ScoreCfg::default()
         };
         assert!(cfg.validate().is_ok(), "15 <= 100 - 85");
+        cfg.weights.insert(Monitor::Geometry, 15.0);
         cfg.degraded_min = 85.5;
-        assert!(cfg.validate().is_err(), "15 > 100 - 85.5");
+        assert!(cfg.validate().is_err(), "an explicit 15 > 100 - 85.5");
+    }
+
+    #[test]
+    fn a_0_35_score_table_with_a_high_degraded_min_still_validates() {
+        // A [score] table written for 0.35 names no geometry weight; with degraded_min 90 the
+        // default is clamped to 100 - 90 = 10 rather than the table being refused.
+        let cfg: ScoreCfg = toml::from_str("nominal_min = 95.0\ndegraded_min = 90.0\n").unwrap();
+        assert!(cfg.validate().is_ok());
+        assert_eq!(cfg.weight(Monitor::Geometry), 10.0);
+        assert_eq!(cfg.effective_weights()[&Monitor::Geometry], 10.0);
+        let worst = score_from_ratios(
+            &[(Monitor::Geometry, f64::INFINITY)].into_iter().collect(),
+            &cfg,
+        );
+        assert_eq!((worst.score, worst.band), (90.0, TrustState::Degraded));
+        assert_eq!(ScoreCfg::default().weight(Monitor::Geometry), 15.0);
     }
 
     #[test]
