@@ -524,7 +524,8 @@ fn tle_looks(
     let system = req.tle_system.clone().unwrap_or_else(|| "TLE".to_string());
     let mut sets: Vec<(String, crate::sgp4::SgpOrbit)> = Vec::new();
     // Lines that were not used, each with its line number and why: reported in `tle_skipped`
-    // (the first MAX_TLE_SKIPPED, then a count), never silently dropped.
+    // with the propagation failures below (the first MAX_TLE_SKIPPED in all, then one count
+    // last), never silently dropped.
     let mut ignored: Vec<String> = Vec::new();
     let mut n_ignored = 0usize;
     let mut ignore = |no: usize, why: &str, line: &str| {
@@ -581,9 +582,6 @@ fn tle_looks(
     if let Some((n1, l1)) = pending_l1 {
         ignore(n1, "line 1 without its line 2", l1);
     }
-    if n_ignored > ignored.len() {
-        ignored.push(format!("... and {} more lines", n_ignored - ignored.len()));
-    }
     if sets.is_empty() {
         return Err(match ignored.first() {
             Some(first) => format!(
@@ -610,7 +608,7 @@ fn tle_looks(
     let at = Jd2::new(jd0).add_seconds(t);
     let iso = UtcEpoch::from_jd_utc(jd0).iso(t);
     let m = crate::sgp4::teme_to_itrs_matrix(at);
-    let (mut out, mut below, mut skipped) = (Vec::new(), 0usize, ignored);
+    let (mut out, mut below, mut skipped, mut n_skipped) = (Vec::new(), 0usize, ignored, n_ignored);
     for (id, o) in &sets {
         match o.itrs_state_with(at, &m) {
             Ok((pos, _)) => {
@@ -627,8 +625,18 @@ fn tle_looks(
                     mask_deg: req.mask_deg.unwrap_or(DEFAULT_MASK_DEG),
                 });
             }
-            Err(e) => skipped.push(format!("{id}: {e}")),
+            Err(e) => {
+                // Through the same cap as the unused lines, so the count stays last.
+                n_skipped += 1;
+                if skipped.len() < MAX_TLE_SKIPPED {
+                    skipped.push(format!("{id}: {e}"));
+                }
+            }
         }
+    }
+    if n_skipped > skipped.len() {
+        let more = n_skipped - skipped.len();
+        skipped.push(format!("... and {more} more"));
     }
     let n = sets.len();
     let (source, statement) = if dated {
@@ -1811,7 +1819,7 @@ mod tests {
         })
         .unwrap();
         assert_eq!(g.tle_skipped.len(), MAX_TLE_SKIPPED + 1);
-        assert_eq!(g.tle_skipped.last().unwrap(), "... and 150 more lines");
+        assert_eq!(g.tle_skipped.last().unwrap(), "... and 150 more");
     }
 
     #[test]
@@ -1863,5 +1871,38 @@ mod tests {
             assert!(!g.tle_skipped.is_empty(), "{text:?}");
             assert_eq!(g.satellites.len() + g.n_below_horizon, 32);
         }
+    }
+
+    #[test]
+    fn propagation_failures_share_the_cap_and_the_count_stays_last() {
+        let gps = include_str!("../tests/fixtures/celestrak/gps-ops_2026-06-07.txt");
+        // A set SGP4 refuses at the 2026 epoch: a low orbit with a drag term of 0.5 (B*), from
+        // 2024, decays long before.
+        let doomed = "DOOMED\n\
+            1 25544U 98067A   24001.00000000  .00000000  00000-0  50000+0 0  9990\n\
+            2 25544  51.6400 247.4627 0006703 130.5360 325.0288 15.72125391563537";
+        let site = Some(Site {
+            lat_deg: 52.0,
+            lon_deg: 5.0,
+            height_m: 0.0,
+        });
+        let req = |text: String| SkyRequest {
+            site,
+            tle: Some(text),
+            epoch: Some("2026-06-07T12:00:00Z".into()),
+            ..Default::default()
+        };
+        let alone = sky_geometry(&req(format!("{doomed}\n{gps}"))).unwrap();
+        assert!(
+            alone.tle_skipped.iter().any(|e| e.starts_with("DOOMED: ")),
+            "{:?}",
+            alone.tle_skipped
+        );
+        // Past the cap: 120 malformed lines, then the refused set. The count is the last entry
+        // and counts the propagation failure too.
+        let g = sky_geometry(&req(format!("{}{doomed}\n{gps}", "1 bad\n".repeat(120)))).unwrap();
+        assert_eq!(g.tle_skipped.len(), MAX_TLE_SKIPPED + 1);
+        assert_eq!(g.tle_skipped.last().unwrap(), "... and 21 more");
+        assert!(!g.tle_skipped.iter().any(|e| e.starts_with("DOOMED")));
     }
 }
