@@ -75,6 +75,10 @@ jobs:
     # (The prior comment here claimed this job had no build cache; it does — see the
     # Swatinem/rust-cache step below.)
     timeout-minutes: 240
+    # actions: read lets the `prior` step below ask whether CI already ran green on this commit.
+    permissions:
+      contents: read
+      actions: read
     steps:
       - uses: actions/checkout@11d5960a326750d5838078e36cf38b85af677262 # v4
         with:
@@ -100,14 +104,39 @@ jobs:
       # but the run goes on to build and stage; a real release run stops here.
       - continue-on-error: ${{ inputs.dry_run == true }}
         run: ./scripts/check-version-sync.sh
+      # One full suite per release. If the CI workflow already finished green on exactly
+      # this commit (the release pull request's run), and main is an ancestor of it (so
+      # that run's merge ref tested this very tree, and nothing on main is missing from
+      # it), the three long steps below are not repeated. Otherwise they run here.
+      - id: prior
+        if: ${{ !inputs.dry_run }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          sha=$(git rev-parse HEAD)
+          git fetch -q origin main
+          if ! git merge-base --is-ancestor origin/main "$sha"; then
+            echo "main is not an ancestor of $sha: running the full suite here"
+            echo "green=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+          n=$(gh api "repos/${GITHUB_REPOSITORY}/actions/workflows/ci.yml/runs?head_sha=${sha}&status=success" --jq '.total_count')
+          if [ "${n:-0}" -gt 0 ]; then
+            echo "CI is already green on $sha ($n run(s)): not repeating fmt, clippy and the test suite"
+            echo "green=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "no green CI run on $sha: running the full suite here"
+            echo "green=false" >> "$GITHUB_OUTPUT"
+          fi
       # A dry run (workflow_dispatch with dry_run) skips the three long steps below: it
       # builds and checks the release assets and publishes nothing. A real release, tag
-      # push or a re-run for a tag, always runs them.
-      - if: ${{ !inputs.dry_run }}
+      # push or a re-run for a tag, runs them unless CI is already green on this commit.
+      - if: ${{ !inputs.dry_run && steps.prior.outputs.green != 'true' }}
         run: cargo fmt --all -- --check
-      - if: ${{ !inputs.dry_run }}
+      - if: ${{ !inputs.dry_run && steps.prior.outputs.green != 'true' }}
         run: cargo clippy --all-targets -- -D warnings
-      - if: ${{ !inputs.dry_run }}
+      - if: ${{ !inputs.dry_run && steps.prior.outputs.green != 'true' }}
         run: cargo test --all
       - name: A real release run needs a tag
         if: ${{ github.event_name == 'workflow_dispatch' && !inputs.dry_run && inputs.tag == '' }}
