@@ -161,6 +161,7 @@ pub const BUNDLED: &[(&str, &str)] = &[
     bundled!("sweep-clock-stability"),
     bundled!("sweep-nd-inertial"),
     bundled!("telecom-prtc-holdover-24h"),
+    bundled!("telecom-synce-eec"),
     bundled!("telecom-tie-ingest"),
     bundled!("terrain-nav"),
     bundled!("terrain-slam"),
